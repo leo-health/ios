@@ -4,6 +4,7 @@
 target 'Leo' do
 
 pod 'AFNetworking'
+pod 'VBFPopFlatButton'
 
 end
 

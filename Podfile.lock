@@ -21,16 +21,22 @@ PODS:
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
   - Expecta (0.2.4)
+  - pop (1.0.7)
   - Specta (0.5.0)
+  - VBFPopFlatButton (0.0.6):
+    - pop
 
 DEPENDENCIES:
   - AFNetworking
   - Expecta (~> 0.2.4)
   - Specta (~> 0.5)
+  - VBFPopFlatButton
 
 SPEC CHECKSUMS:
   AFNetworking: e1d86c2a96bb5d2e7408da36149806706ee122fe
   Expecta: cfaf1d3e2e194ca704a25e997093d30a1ce70b61
+  pop: 628ffc631644601567ee8bfaaaea493ebd7d0923
   Specta: eb90708ed77569bbda089f8ead10bb99b8e9489e
+  VBFPopFlatButton: 782344da63f104c279a857d806e065117a7e1196
 
 COCOAPODS: 0.36.1
