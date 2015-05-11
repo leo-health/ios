@@ -16,6 +16,8 @@
 		BCE1EC751B00E353007C8D0B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BCE1EC741B00E353007C8D0B /* Images.xcassets */; };
 		BCE1EC781B00E353007C8D0B /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = BCE1EC761B00E353007C8D0B /* LaunchScreen.xib */; };
 		BCE1EC841B00E353007C8D0B /* LeoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE1EC831B00E353007C8D0B /* LeoTests.m */; };
+		BCE1EC901B00E4B6007C8D0B /* LEOFeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE1EC8E1B00E4B6007C8D0B /* LEOFeedViewController.m */; };
+		BCE1EC911B00E4B6007C8D0B /* LEOFeedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BCE1EC8F1B00E4B6007C8D0B /* LEOFeedViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +51,9 @@
 		BCE1EC821B00E353007C8D0B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BCE1EC831B00E353007C8D0B /* LeoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LeoTests.m; sourceTree = "<group>"; };
 		BCE1EC9B1B01199E007C8D0B /* LEOPrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOPrefixHeader.pch; sourceTree = "<group>"; };
+		BCE1EC8D1B00E4B6007C8D0B /* LEOFeedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOFeedViewController.h; sourceTree = "<group>"; };
+		BCE1EC8E1B00E4B6007C8D0B /* LEOFeedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOFeedViewController.m; sourceTree = "<group>"; };
+		BCE1EC8F1B00E4B6007C8D0B /* LEOFeedViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LEOFeedViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +122,9 @@
 				BCE1EC6B1B00E353007C8D0B /* AppDelegate.h */,
 				BCE1EC6C1B00E353007C8D0B /* AppDelegate.m */,
 				BCE1EC6E1B00E353007C8D0B /* ViewController.h */,
+				BCE1EC8D1B00E4B6007C8D0B /* LEOFeedViewController.h */,
+				BCE1EC8E1B00E4B6007C8D0B /* LEOFeedViewController.m */,
+				BCE1EC8F1B00E4B6007C8D0B /* LEOFeedViewController.xib */,
 				BCE1EC6F1B00E353007C8D0B /* ViewController.m */,
 				BCE1EC711B00E353007C8D0B /* Main.storyboard */,
 				BCE1EC741B00E353007C8D0B /* Images.xcassets */,
@@ -238,6 +246,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BCE1EC731B00E353007C8D0B /* Main.storyboard in Resources */,
+				BCE1EC911B00E4B6007C8D0B /* LEOFeedViewController.xib in Resources */,
 				BCE1EC781B00E353007C8D0B /* LaunchScreen.xib in Resources */,
 				BCE1EC751B00E353007C8D0B /* Images.xcassets in Resources */,
 			);
@@ -321,6 +330,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BCE1EC701B00E353007C8D0B /* ViewController.m in Sources */,
+				BCE1EC901B00E4B6007C8D0B /* LEOFeedViewController.m in Sources */,
 				BCE1EC6D1B00E353007C8D0B /* AppDelegate.m in Sources */,
 				BCE1EC6A1B00E353007C8D0B /* main.m in Sources */,
 			);
