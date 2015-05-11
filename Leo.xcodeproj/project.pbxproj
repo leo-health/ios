@@ -20,6 +20,11 @@
 		BCE1ECA41B014613007C8D0B /* LEOConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE1ECA31B014613007C8D0B /* LEOConstants.m */; };
 		BCED00811B0150F4007653D6 /* LEOFeedTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = BCED00801B0150F4007653D6 /* LEOFeedTVC.m */; };
 		BCED00851B015204007653D6 /* LEOCardCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BCED00831B015204007653D6 /* LEOCardCell.m */; };
+		BCE1EC901B00E4B6007C8D0B /* LEOFeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE1EC8E1B00E4B6007C8D0B /* LEOFeedViewController.m */; };
+		BCE1EC911B00E4B6007C8D0B /* LEOFeedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BCE1EC8F1B00E4B6007C8D0B /* LEOFeedViewController.xib */; };
+		BCE1EC941B010336007C8D0B /* LEOCoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE1EC931B010336007C8D0B /* LEOCoreDataManager.m */; };
+		BCE1EC971B0104EC007C8D0B /* LEOCard.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE1EC961B0104EC007C8D0B /* LEOCard.m */; };
+		BCE1EC9A1B0104F8007C8D0B /* LEODataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BCE1EC981B0104F8007C8D0B /* LEODataModel.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +66,14 @@
 		BCED00801B0150F4007653D6 /* LEOFeedTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOFeedTVC.m; sourceTree = "<group>"; };
 		BCED00821B015204007653D6 /* LEOCardCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOCardCell.h; sourceTree = "<group>"; };
 		BCED00831B015204007653D6 /* LEOCardCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOCardCell.m; sourceTree = "<group>"; };
+		BCE1EC8D1B00E4B6007C8D0B /* LEOFeedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOFeedViewController.h; sourceTree = "<group>"; };
+		BCE1EC8E1B00E4B6007C8D0B /* LEOFeedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOFeedViewController.m; sourceTree = "<group>"; };
+		BCE1EC8F1B00E4B6007C8D0B /* LEOFeedViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LEOFeedViewController.xib; sourceTree = "<group>"; };
+		BCE1EC921B010336007C8D0B /* LEOCoreDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOCoreDataManager.h; sourceTree = "<group>"; };
+		BCE1EC931B010336007C8D0B /* LEOCoreDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOCoreDataManager.m; sourceTree = "<group>"; };
+		BCE1EC951B0104EC007C8D0B /* LEOCard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOCard.h; sourceTree = "<group>"; };
+		BCE1EC961B0104EC007C8D0B /* LEOCard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOCard.m; sourceTree = "<group>"; };
+		BCE1EC991B0104F8007C8D0B /* LEODataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = LEODataModel.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +141,16 @@
 			children = (
 				BCE1EC6B1B00E353007C8D0B /* AppDelegate.h */,
 				BCE1EC6C1B00E353007C8D0B /* AppDelegate.m */,
+				BCE1EC6E1B00E353007C8D0B /* ViewController.h */,
+				BCE1EC8D1B00E4B6007C8D0B /* LEOFeedViewController.h */,
+				BCE1EC8E1B00E4B6007C8D0B /* LEOFeedViewController.m */,
+				BCE1EC8F1B00E4B6007C8D0B /* LEOFeedViewController.xib */,
+				BCE1EC921B010336007C8D0B /* LEOCoreDataManager.h */,
+				BCE1EC931B010336007C8D0B /* LEOCoreDataManager.m */,
+				BCE1EC951B0104EC007C8D0B /* LEOCard.h */,
+				BCE1EC961B0104EC007C8D0B /* LEOCard.m */,
+				BCE1EC981B0104F8007C8D0B /* LEODataModel.xcdatamodeld */,
+				BCE1EC6F1B00E353007C8D0B /* ViewController.m */,
 				BCE1EC711B00E353007C8D0B /* Main.storyboard */,
 				BCED00821B015204007653D6 /* LEOCardCell.h */,
 				BCED00831B015204007653D6 /* LEOCardCell.m */,
@@ -358,7 +381,12 @@
 			files = (
 				BCED00811B0150F4007653D6 /* LEOFeedTVC.m in Sources */,
 				BCE1ECA11B01443F007C8D0B /* UIFont+LeoFonts.m in Sources */,
+				BCE1EC701B00E353007C8D0B /* ViewController.m in Sources */,
+				BCE1EC901B00E4B6007C8D0B /* LEOFeedViewController.m in Sources */,
+				BCE1EC941B010336007C8D0B /* LEOCoreDataManager.m in Sources */,
+				BCE1EC9A1B0104F8007C8D0B /* LEODataModel.xcdatamodeld in Sources */,
 				BCE1EC6D1B00E353007C8D0B /* AppDelegate.m in Sources */,
+				BCE1EC971B0104EC007C8D0B /* LEOCard.m in Sources */,
 				BCE1EC6A1B00E353007C8D0B /* main.m in Sources */,
 				BCE1ECA41B014613007C8D0B /* LEOConstants.m in Sources */,
 				BCE1EC9E1B012628007C8D0B /* UIColor+LeoColors.m in Sources */,
@@ -585,6 +613,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		BCE1EC981B0104F8007C8D0B /* LEODataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				BCE1EC991B0104F8007C8D0B /* LEODataModel.xcdatamodel */,
+			);
+			currentVersion = BCE1EC991B0104F8007C8D0B /* LEODataModel.xcdatamodel */;
+			path = LEODataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = BCE1EC5C1B00E353007C8D0B /* Project object */;
 }
