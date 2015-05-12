@@ -1,9 +1,45 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7549" systemVersion="14D136" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
-    <entity name="LeoCard" syncable="YES">
-        <attribute name="buttons" optional="YES" syncable="YES"/>
+    <entity name="Appointment" representedClassName="Appointment" syncable="YES">
+        <attribute name="appointmentDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="appointmentStartTime" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="appointmentStatus" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="athenaAppointmentType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="athenaAppointmentTypeId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="athenaDepartmentId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="athenaId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="athenaPatientId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="athenaProviderId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="bookedByUserId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="duration" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="familyId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="frozenyn" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="leoAppointmentTime" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="leoPatientId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="leoProviderId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="rescheduledAppointmentId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="updatedAt" optional="YES" attributeType="Date" syncable="YES"/>
+    </entity>
+    <entity name="Child" syncable="YES">
+        <attribute name="name" optional="YES" syncable="YES"/>
+    </entity>
+    <entity name="User" syncable="YES">
+        <attribute name="attribute" optional="YES" syncable="YES"/>
+        <attribute name="createdAt" optional="YES" syncable="YES"/>
+        <attribute name="dob" optional="YES" syncable="YES"/>
+        <attribute name="email" optional="YES" syncable="YES"/>
+        <attribute name="firstName" optional="YES" syncable="YES"/>
+        <attribute name="lastName" optional="YES" syncable="YES"/>
+        <attribute name="middleInitial" optional="YES" syncable="YES"/>
+        <attribute name="practiceId" optional="YES" syncable="YES"/>
+        <attribute name="sex" optional="YES" syncable="YES"/>
+        <attribute name="title" optional="YES" syncable="YES"/>
+        <attribute name="updatedAt" optional="YES" syncable="YES"/>
     </entity>
     <elements>
-        <element name="LeoCard" positionX="-63" positionY="-18" width="128" height="60"/>
+        <element name="Appointment" positionX="-63" positionY="-18" width="128" height="330"/>
+        <element name="Child" positionX="-63" positionY="126" width="128" height="60"/>
+        <element name="User" positionX="-54" positionY="135" width="128" height="210"/>
     </elements>
 </model>
