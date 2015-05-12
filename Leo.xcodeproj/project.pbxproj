@@ -11,13 +11,10 @@
 		80A98A7B253FC07906E88FF2 /* libPods-Leo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 35A5E688B99D6A1E2E30A645 /* libPods-Leo.a */; };
 		BCE1EC6A1B00E353007C8D0B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE1EC691B00E353007C8D0B /* main.m */; };
 		BCE1EC6D1B00E353007C8D0B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE1EC6C1B00E353007C8D0B /* AppDelegate.m */; };
-		BCE1EC701B00E353007C8D0B /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE1EC6F1B00E353007C8D0B /* ViewController.m */; };
 		BCE1EC731B00E353007C8D0B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BCE1EC711B00E353007C8D0B /* Main.storyboard */; };
 		BCE1EC751B00E353007C8D0B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BCE1EC741B00E353007C8D0B /* Images.xcassets */; };
 		BCE1EC781B00E353007C8D0B /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = BCE1EC761B00E353007C8D0B /* LaunchScreen.xib */; };
 		BCE1EC841B00E353007C8D0B /* LeoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE1EC831B00E353007C8D0B /* LeoTests.m */; };
-		BCE1EC901B00E4B6007C8D0B /* LEOFeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE1EC8E1B00E4B6007C8D0B /* LEOFeedViewController.m */; };
-		BCE1EC911B00E4B6007C8D0B /* LEOFeedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BCE1EC8F1B00E4B6007C8D0B /* LEOFeedViewController.xib */; };
 		BCE1EC9E1B012628007C8D0B /* UIColor+LeoColors.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE1EC9D1B012628007C8D0B /* UIColor+LeoColors.m */; };
 		BCE1ECA11B01443F007C8D0B /* UIFont+LeoFonts.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE1ECA01B01443F007C8D0B /* UIFont+LeoFonts.m */; };
 		BCE1ECA41B014613007C8D0B /* LEOConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE1ECA31B014613007C8D0B /* LEOConstants.m */; };
@@ -47,17 +44,12 @@
 		BCE1EC691B00E353007C8D0B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		BCE1EC6B1B00E353007C8D0B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		BCE1EC6C1B00E353007C8D0B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		BCE1EC6E1B00E353007C8D0B /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		BCE1EC6F1B00E353007C8D0B /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		BCE1EC721B00E353007C8D0B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BCE1EC741B00E353007C8D0B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		BCE1EC771B00E353007C8D0B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		BCE1EC7D1B00E353007C8D0B /* LeoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LeoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCE1EC821B00E353007C8D0B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BCE1EC831B00E353007C8D0B /* LeoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LeoTests.m; sourceTree = "<group>"; };
-		BCE1EC8D1B00E4B6007C8D0B /* LEOFeedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOFeedViewController.h; sourceTree = "<group>"; };
-		BCE1EC8E1B00E4B6007C8D0B /* LEOFeedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOFeedViewController.m; sourceTree = "<group>"; };
-		BCE1EC8F1B00E4B6007C8D0B /* LEOFeedViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LEOFeedViewController.xib; sourceTree = "<group>"; };
 		BCE1EC9B1B01199E007C8D0B /* LEOPrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOPrefixHeader.pch; sourceTree = "<group>"; };
 		BCE1EC9C1B012628007C8D0B /* UIColor+LeoColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+LeoColors.h"; sourceTree = "<group>"; };
 		BCE1EC9D1B012628007C8D0B /* UIColor+LeoColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+LeoColors.m"; sourceTree = "<group>"; };
@@ -180,11 +172,6 @@
 		BCED00911B015423007653D6 /* For Deletion */ = {
 			isa = PBXGroup;
 			children = (
-				BCE1EC6E1B00E353007C8D0B /* ViewController.h */,
-				BCE1EC6F1B00E353007C8D0B /* ViewController.m */,
-				BCE1EC8D1B00E4B6007C8D0B /* LEOFeedViewController.h */,
-				BCE1EC8E1B00E4B6007C8D0B /* LEOFeedViewController.m */,
-				BCE1EC8F1B00E4B6007C8D0B /* LEOFeedViewController.xib */,
 			);
 			name = "For Deletion";
 			sourceTree = "<group>";
@@ -287,7 +274,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				BCE1EC731B00E353007C8D0B /* Main.storyboard in Resources */,
-				BCE1EC911B00E4B6007C8D0B /* LEOFeedViewController.xib in Resources */,
 				BCE1EC781B00E353007C8D0B /* LaunchScreen.xib in Resources */,
 				BCE1EC751B00E353007C8D0B /* Images.xcassets in Resources */,
 			);
@@ -372,8 +358,6 @@
 			files = (
 				BCED00811B0150F4007653D6 /* LEOFeedTVC.m in Sources */,
 				BCE1ECA11B01443F007C8D0B /* UIFont+LeoFonts.m in Sources */,
-				BCE1EC701B00E353007C8D0B /* ViewController.m in Sources */,
-				BCE1EC901B00E4B6007C8D0B /* LEOFeedViewController.m in Sources */,
 				BCE1EC6D1B00E353007C8D0B /* AppDelegate.m in Sources */,
 				BCE1EC6A1B00E353007C8D0B /* main.m in Sources */,
 				BCE1ECA41B014613007C8D0B /* LEOConstants.m in Sources */,

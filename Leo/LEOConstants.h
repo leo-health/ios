@@ -11,6 +11,6 @@
 @interface LEOConstants : NSObject
 
 //TODO: Placeholder
-extern NSString *const LeoTitleBasicFont;
+extern NSString *const Const1;
 
 @end

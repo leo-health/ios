@@ -11,5 +11,5 @@
 @implementation LEOConstants
 
 //TODO: Placeholder
-NSString *const LeoTitleBasicFont = @"Something goes here";
+NSString *const Const1 = @"Something goes here";
 @end

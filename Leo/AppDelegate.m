@@ -7,7 +7,6 @@
 //
 
 #import "AppDelegate.h"
-#import "LEOFeedViewController.h"
 
 @interface AppDelegate ()
 
