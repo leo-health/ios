@@ -52,11 +52,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     LEOCardCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CardCell" forIndexPath:indexPath];
-    
-    if (!cell) {
-        [tableView registerNib:[UINib nibWithNibName:@"LeoCardCell" bundle:nil] forCellReuseIdentifier:@"CardCell"];
-        cell = [tableView dequeueReusableCellWithIdentifier:@"CardCell"];
-    }
+        
     cell.cardView.layer.borderWidth = 1;
     cell.cardView.layer.borderColor = [UIColor blackColor].CGColor;
     
