@@ -122,6 +122,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		BCA69A371B02AE5500C27B2B /* APIs */ = {
+			isa = PBXGroup;
+			children = (
+				BCA69A341B02AE5100C27B2B /* LEOApiClient.h */,
+				BCA69A351B02AE5100C27B2B /* LEOApiClient.m */,
+			);
+			name = APIs;
+			sourceTree = "<group>";
+		};
 		BCE1EC5B1B00E353007C8D0B = {
 			isa = PBXGroup;
 			children = (
@@ -149,6 +158,7 @@
 				BCE1EC6C1B00E353007C8D0B /* AppDelegate.m */,
 				BCE1EC921B010336007C8D0B /* LEOCoreDataManager.h */,
 				BCE1EC931B010336007C8D0B /* LEOCoreDataManager.m */,
+				BCA69A371B02AE5500C27B2B /* APIs */,
 				BCE1EC951B0104EC007C8D0B /* LEOCard.h */,
 				BCE1EC961B0104EC007C8D0B /* LEOCard.m */,
 				BCE1EC981B0104F8007C8D0B /* LEODataModel.xcdatamodeld */,
@@ -396,6 +406,7 @@
 				BCA69A3B1B038F0C00C27B2B /* User.m in Sources */,
 				BCED00811B0150F4007653D6 /* LEOFeedTVC.m in Sources */,
 				BCED00961B0257E6007653D6 /* Appointment.m in Sources */,
+				BCA69A361B02AE5100C27B2B /* LEOApiClient.m in Sources */,
 				BCE1ECA11B01443F007C8D0B /* UIFont+LeoFonts.m in Sources */,
 				BCE1EC941B010336007C8D0B /* LEOCoreDataManager.m in Sources */,
 				BCE1EC9A1B0104F8007C8D0B /* LEODataModel.xcdatamodeld in Sources */,
