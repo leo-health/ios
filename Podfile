@@ -5,6 +5,7 @@ target 'Leo' do
 
 pod 'AFNetworking'
 pod 'VBFPopFlatButton'
+pod 'OHHTTPStubs'
 
 end
 
@@ -12,6 +13,7 @@ target 'LeoTests' do
 
 pod 'Expecta', '~> 0.2.4'
 pod 'Specta', '~> 0.5'
+pod 'OHHTTPStubs'
 
 end
 
