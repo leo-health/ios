@@ -86,7 +86,8 @@
     
     self.cards = [[NSArray alloc] init];
     self.cards = [self.managedObjectContext executeFetchRequest:request error:nil];
-    
+
+    //FIXME: This does nothing useful right now!
     if ([self.cards count] == 0) {
         for (NSInteger x = 0; x < 100; x++) {
             LEOCard *card = [[LEOCard alloc] init];
