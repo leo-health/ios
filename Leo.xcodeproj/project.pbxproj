@@ -45,7 +45,6 @@
 		68672CCCC55FDBB684C56186 /* Pods-Leo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Leo.release.xcconfig"; path = "Pods/Target Support Files/Pods-Leo/Pods-Leo.release.xcconfig"; sourceTree = "<group>"; };
 		7E5BC0D4370F984698F4E074 /* libPods-LeoTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LeoTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E925C5780DCA1FB4A55B841 /* Pods-LeoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LeoTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LeoTests/Pods-LeoTests.debug.xcconfig"; sourceTree = "<group>"; };
-		BCA69A381B035CEF00C27B2B /* LEOPrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOPrefixHeader.pch; sourceTree = "<group>"; };
 		BCA69A341B02AE5100C27B2B /* LEOApiClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOApiClient.h; path = APIs/LEOApiClient.h; sourceTree = "<group>"; };
 		BCA69A351B02AE5100C27B2B /* LEOApiClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOApiClient.m; path = APIs/LEOApiClient.m; sourceTree = "<group>"; };
 		BCA69A381B035CEF00C27B2B /* LEOPrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOPrefixHeader.pch; sourceTree = "<group>"; };
@@ -154,14 +153,13 @@
 		BCE1EC661B00E353007C8D0B /* Leo */ = {
 			isa = PBXGroup;
 			children = (
+				BCA69A371B02AE5500C27B2B /* APIs */,
 				BCE1EC6B1B00E353007C8D0B /* AppDelegate.h */,
 				BCE1EC6C1B00E353007C8D0B /* AppDelegate.m */,
 				BCE1EC921B010336007C8D0B /* LEOCoreDataManager.h */,
 				BCE1EC931B010336007C8D0B /* LEOCoreDataManager.m */,
-				BCA69A371B02AE5500C27B2B /* APIs */,
 				BCE1EC951B0104EC007C8D0B /* LEOCard.h */,
 				BCE1EC961B0104EC007C8D0B /* LEOCard.m */,
-				BCE1EC981B0104F8007C8D0B /* LEODataModel.xcdatamodeld */,
 				BCE1EC711B00E353007C8D0B /* Main.storyboard */,
 				BCED00821B015204007653D6 /* LEOCardCell.h */,
 				BCED00831B015204007653D6 /* LEOCardCell.m */,
@@ -228,6 +226,7 @@
 		BCED00971B0257EB007653D6 /* Data Model */ = {
 			isa = PBXGroup;
 			children = (
+				BCE1EC981B0104F8007C8D0B /* LEODataModel.xcdatamodeld */,
 				BCED00941B0257E6007653D6 /* Appointment.h */,
 				BCED00951B0257E6007653D6 /* Appointment.m */,
 				BCA69A391B038F0C00C27B2B /* User.h */,
@@ -483,7 +482,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
+					DEBUG,
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;

@@ -10,14 +10,14 @@
 
 @implementation LEOConstants
 
-NSString *const APIBaseURL = @"http://leo-api.herokuapp.com/api/v1";
-NSString *const APIEndpointUser = @"users";
-NSString *const APIEndpointLogin = @"sessions";
-NSString *const APIEndpointResetPassword = @"sessions/password";
-NSString *const APIEndpointAppointment = @"appointments";
-NSString *const APIEndpointConversation = @"conversations";
-NSString *const APIEndpointMessage = @"sessions/password";
-NSString *const APIEndpointInvitation = @"invitations";
+//NSString *const APIBaseURL = @"http://leo-api.herokuapp.com/api/v1";
+//NSString *const APIEndpointUser = @"users";
+//NSString *const APIEndpointLogin = @"sessions";
+//NSString *const APIEndpointResetPassword = @"sessions/password";
+//NSString *const APIEndpointAppointment = @"appointments";
+//NSString *const APIEndpointConversation = @"conversations";
+//NSString *const APIEndpointMessage = @"sessions/password";
+//NSString *const APIEndpointInvitation = @"invitations";
 
 NSString *const APIParamUserFirstName = @"first_name";
 NSString *const APIParamUserMiddleInitial= @"middle_initial";
@@ -30,12 +30,5 @@ NSString *const APIParamUserTitle = @"title";
 NSString *const APIParamUserGender = @"sex";
 NSString *const APIParamUserPractice = @"practice_id";
 NSString *const APIParamUserPrimaryRole = @"primary_role";
-
-NSString *const APIParamFirstName = @"first_name";
-NSString *const APIParamFirstName = @"first_name";
-NSString *const APIParamFirstName = @"first_name";
-NSString *const APIParamFirstName = @"first_name";
-
-
 
 @end

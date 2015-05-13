@@ -10,14 +10,14 @@
 
 @interface LEOConstants : NSObject
 
-extern NSString *const leoAPIBaseURL;
-extern NSString *const apiBaseURL;
-extern NSString *const apiEndpointUser;
-extern NSString *const apiEndpointLogin;
-extern NSString *const apiEndpointResetPassword;
-extern NSString *const apiEndpointAppointment;
-extern NSString *const apiEndpointConversation;
-extern NSString *const apiEndpointMessage;
-extern NSString *const apiEndpointInvitation;
+//extern NSString *const leoAPIBaseURL;
+//extern NSString *const apiBaseURL;
+//extern NSString *const apiEndpointUser;
+//extern NSString *const apiEndpointLogin;
+//extern NSString *const apiEndpointResetPassword;
+//extern NSString *const apiEndpointAppointment;
+//extern NSString *const apiEndpointConversation;
+//extern NSString *const apiEndpointMessage;
+//extern NSString *const apiEndpointInvitation;
 
 @end

@@ -21,25 +21,21 @@
         <attribute name="rescheduledAppointmentId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="updatedAt" optional="YES" attributeType="Date" syncable="YES"/>
     </entity>
-    <entity name="Child" syncable="YES">
-        <attribute name="name" optional="YES" syncable="YES"/>
-    </entity>
     <entity name="User" syncable="YES">
-        <attribute name="attribute" optional="YES" syncable="YES"/>
-        <attribute name="createdAt" optional="YES" syncable="YES"/>
-        <attribute name="dob" optional="YES" syncable="YES"/>
-        <attribute name="email" optional="YES" syncable="YES"/>
-        <attribute name="firstName" optional="YES" syncable="YES"/>
-        <attribute name="lastName" optional="YES" syncable="YES"/>
-        <attribute name="middleInitial" optional="YES" syncable="YES"/>
-        <attribute name="practiceId" optional="YES" syncable="YES"/>
-        <attribute name="sex" optional="YES" syncable="YES"/>
-        <attribute name="title" optional="YES" syncable="YES"/>
-        <attribute name="updatedAt" optional="YES" syncable="YES"/>
+        <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="dob" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="firstName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" optional="YES" syncable="YES"/>
+        <attribute name="lastName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="middleInitial" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="practiceId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="sex" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="updatedAt" optional="YES" attributeType="Date" syncable="YES"/>
     </entity>
     <elements>
         <element name="Appointment" positionX="-63" positionY="-18" width="128" height="330"/>
-        <element name="Child" positionX="-63" positionY="126" width="128" height="60"/>
         <element name="User" positionX="-54" positionY="135" width="128" height="210"/>
     </elements>
 </model>

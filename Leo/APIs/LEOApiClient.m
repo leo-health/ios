@@ -13,11 +13,23 @@
 
 @implementation LEOApiClient
 
+NSString *const APIBaseURL = @"http://leo-api.herokuapp.com/api/v1";
+NSString *const APIEndpointUser = @"users";
+NSString *const APIEndpointLogin = @"sessions";
+NSString *const APIEndpointResetPassword = @"sessions/password";
+NSString *const APIEndpointAppointment = @"appointments";
+NSString *const APIEndpointConversation = @"conversations";
+NSString *const APIEndpointMessage = @"sessions/password";
+NSString *const APIEndpointInvitation = @"invitations";
 NSString *const APIParamUserToken = @"token";
 
-+(void)createUser:(NSDictionary *)userParams withCompletion:(void (^)(NSDictionary *))completionBlock {
++(void)createUserWithUser:(User *)user withCompletion(void (^)(NSDictionary *))completionBlock {
     
-    NSString *createUserURLString = [NSString stringWithFormat:@"%@/%@",apiBaseURL,apiEndpointUser];
+}
+
++(void)createUserWithParams:(NSDictionary *)userParams withCompletion:(void (^)(NSDictionary *))completionBlock {
+    
+    NSString *createUserURLString = [NSString stringWithFormat:@"%@/%@",APIBaseURL,APIEndpointUser];
     
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     
@@ -30,12 +42,8 @@ NSString *const APIParamUserToken = @"token";
         completionBlock(rawResults);
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"Fail: %@",error.localizedDescription);
-        
-        //FIXME: Deal with all sorts of errors.
+        //FIXME: Deal with all sorts of errors. Replace with DLog!
     }];
-    
-    
-
 }
 
 
