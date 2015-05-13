@@ -8,6 +8,7 @@
 
 #import "LEOCoreDataManager.h"
 #import "LEOCard.h"
+#import "LEOAPIClient.h"
 
 @interface LEOCoreDataManager()
 
@@ -97,5 +98,6 @@
         self.cards = [self.managedObjectContext executeFetchRequest:request error:nil];
     }
 }
+
 
 @end

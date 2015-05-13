@@ -10,7 +10,7 @@
 
 @implementation User
 
-- (instancetype)initWithFirstName:(nonnull NSString *)firstName lastName:(nonnull NSString *)lastName dob:(nonnull NSDate *)dob email:(nonnull NSString*)email familyId:(NSInteger)familyId
+- (instancetype)initWithFirstName:(nonnull NSString *)firstName lastName:(nonnull NSString *)lastName dob:(nonnull NSDate *)dob email:(nonnull NSString*)email familyId:(NSNumber *)familyID
 {
     self = [super init];
     if (self) {
@@ -18,7 +18,7 @@
         _lastName = lastName;
         _dateOfBirth = dob;
         _email = email;
-        _familyId = familyId;
+        _familyID = familyID;
     }
     return self;
 }

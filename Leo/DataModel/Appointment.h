@@ -2,7 +2,7 @@
 //  Appointment.h
 //  
 //
-//  Created by Zachary Drossman on 5/12/15.
+//  Created by Zachary Drossman on 5/13/15.
 //
 //
 
@@ -12,24 +12,24 @@
 
 @interface Appointment : NSManagedObject
 
-@property (nonatomic, retain) NSString * appointmentStatus;
 @property (nonatomic, retain) NSString * athenaAppointmentType;
-@property (nonatomic, retain) NSNumber * athenaDepartmentId;
+@property (nonatomic, retain) NSNumber * athenaAppointmentTypeID;
+@property (nonatomic, retain) NSNumber * athenaDepartmentID;
 @property (nonatomic, retain) NSNumber * athenaId;
-@property (nonatomic, retain) NSNumber * athenaAppointmentTypeId;
-@property (nonatomic, retain) NSNumber * leoProviderId;
-@property (nonatomic, retain) NSNumber * athenaProviderId;
-@property (nonatomic, retain) NSNumber * leoPatientId;
-@property (nonatomic, retain) NSNumber * athenaPatientId;
-@property (nonatomic, retain) NSNumber * bookedByUserId;
-@property (nonatomic, retain) NSNumber * rescheduledAppointmentId;
-@property (nonatomic, retain) NSNumber * duration;
-@property (nonatomic, retain) NSDate * appointmentDate;
-@property (nonatomic, retain) NSDate * appointmentStartTime;
-@property (nonatomic, retain) NSNumber * frozenyn;
-@property (nonatomic, retain) NSString * leoAppointmentTime;
-@property (nonatomic, retain) NSNumber * familyId;
+@property (nonatomic, retain) NSNumber * athenaPatientID;
+@property (nonatomic, retain) NSNumber * athenaProviderID;
+@property (nonatomic, retain) NSNumber * bookedByUserID;
 @property (nonatomic, retain) NSDate * createdAt;
+@property (nonatomic, retain) NSDate * date;
+@property (nonatomic, retain) NSNumber * duration;
+@property (nonatomic, retain) NSNumber * familyID;
+@property (nonatomic, retain) NSNumber * frozenyn;
+@property (nonatomic, retain) NSString * leoAppointmentType;
+@property (nonatomic, retain) NSNumber * leoPatientID;
+@property (nonatomic, retain) NSNumber * leoProviderID;
+@property (nonatomic, retain) NSNumber * rescheduledAppointmentID;
+@property (nonatomic, retain) NSDate * startTime;
+@property (nonatomic, retain) NSString * status;
 @property (nonatomic, retain) NSDate * updatedAt;
 
 @end

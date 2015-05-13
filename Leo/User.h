@@ -23,10 +23,11 @@ typedef enum Gender {
 @property (strong, nonatomic, nonnull) NSDate *dateOfBirth;
 @property (nonatomic) Gender gender;
 @property (strong, nonatomic, nonnull) NSString *email;
-@property (strong, nonatomic, nullable) NSString *encrypted_password;
-@property (nonatomic) NSInteger practice_id;
-@property (copy, nonatomic, nullable) NSString *authenticationToken;
-@property (nonatomic) NSInteger familyId;
+@property (strong, nonatomic, nullable) NSString *encrypted_password; //null until creation on the server
+@property (strong, nonatomic, nullable) NSNumber *practiceID; //null until creation on the server
+@property (copy, nonatomic, nullable) NSString *token; //null until login
+@property (strong, nonatomic, nullable) NSNumber *familyID; //null until creation on the server
+@property (strong, nonatomic, nullable) NSNumber *userID; //null until creation on the server
 
 @end
 

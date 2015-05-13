@@ -2,7 +2,7 @@
 //  Appointment.m
 //  
 //
-//  Created by Zachary Drossman on 5/12/15.
+//  Created by Zachary Drossman on 5/13/15.
 //
 //
 
@@ -11,24 +11,24 @@
 
 @implementation Appointment
 
-@dynamic appointmentStatus;
 @dynamic athenaAppointmentType;
-@dynamic athenaDepartmentId;
+@dynamic athenaAppointmentTypeID;
+@dynamic athenaDepartmentID;
 @dynamic athenaId;
-@dynamic athenaAppointmentTypeId;
-@dynamic leoProviderId;
-@dynamic athenaProviderId;
-@dynamic leoPatientId;
-@dynamic athenaPatientId;
-@dynamic bookedByUserId;
-@dynamic rescheduledAppointmentId;
-@dynamic duration;
-@dynamic appointmentDate;
-@dynamic appointmentStartTime;
-@dynamic frozenyn;
-@dynamic leoAppointmentTime;
-@dynamic familyId;
+@dynamic athenaPatientID;
+@dynamic athenaProviderID;
+@dynamic bookedByUserID;
 @dynamic createdAt;
+@dynamic date;
+@dynamic duration;
+@dynamic familyID;
+@dynamic frozenyn;
+@dynamic leoAppointmentType;
+@dynamic leoPatientID;
+@dynamic leoProviderID;
+@dynamic rescheduledAppointmentID;
+@dynamic startTime;
+@dynamic status;
 @dynamic updatedAt;
 
 @end

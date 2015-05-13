@@ -130,6 +130,19 @@
 			name = APIs;
 			sourceTree = "<group>";
 		};
+		BCA69A3D1B039ABC00C27B2B /* Views and Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				BCE1EC951B0104EC007C8D0B /* LEOCard.h */,
+				BCE1EC961B0104EC007C8D0B /* LEOCard.m */,
+				BCED00821B015204007653D6 /* LEOCardCell.h */,
+				BCED00831B015204007653D6 /* LEOCardCell.m */,
+				BCED007F1B0150F4007653D6 /* LEOFeedTVC.h */,
+				BCED00801B0150F4007653D6 /* LEOFeedTVC.m */,
+			);
+			name = "Views and Controllers";
+			sourceTree = "<group>";
+		};
 		BCE1EC5B1B00E353007C8D0B = {
 			isa = PBXGroup;
 			children = (
@@ -153,23 +166,15 @@
 		BCE1EC661B00E353007C8D0B /* Leo */ = {
 			isa = PBXGroup;
 			children = (
-				BCA69A371B02AE5500C27B2B /* APIs */,
-				BCE1EC6B1B00E353007C8D0B /* AppDelegate.h */,
-				BCE1EC6C1B00E353007C8D0B /* AppDelegate.m */,
-				BCE1EC921B010336007C8D0B /* LEOCoreDataManager.h */,
-				BCE1EC931B010336007C8D0B /* LEOCoreDataManager.m */,
-				BCE1EC951B0104EC007C8D0B /* LEOCard.h */,
-				BCE1EC961B0104EC007C8D0B /* LEOCard.m */,
+				BCA69A3D1B039ABC00C27B2B /* Views and Controllers */,
 				BCE1EC711B00E353007C8D0B /* Main.storyboard */,
-				BCED00821B015204007653D6 /* LEOCardCell.h */,
-				BCED00831B015204007653D6 /* LEOCardCell.m */,
-				BCED007F1B0150F4007653D6 /* LEOFeedTVC.h */,
-				BCED00801B0150F4007653D6 /* LEOFeedTVC.m */,
 				BCED00921B01542D007653D6 /* Constants */,
+				BCA69A371B02AE5500C27B2B /* APIs */,
 				BCED00971B0257EB007653D6 /* Data Model */,
 				BCED00911B015423007653D6 /* For Deletion */,
 				BCE1EC741B00E353007C8D0B /* Images.xcassets */,
-				BCE1EC761B00E353007C8D0B /* LaunchScreen.xib */,
+				BCE1EC6B1B00E353007C8D0B /* AppDelegate.h */,
+				BCE1EC6C1B00E353007C8D0B /* AppDelegate.m */,
 				BCE1EC671B00E353007C8D0B /* Supporting Files */,
 			);
 			path = Leo;
@@ -178,6 +183,7 @@
 		BCE1EC671B00E353007C8D0B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				BCE1EC761B00E353007C8D0B /* LaunchScreen.xib */,
 				BCA69A381B035CEF00C27B2B /* LEOPrefixHeader.pch */,
 				BCE1EC681B00E353007C8D0B /* Info.plist */,
 				BCE1EC691B00E353007C8D0B /* main.m */,
@@ -227,6 +233,8 @@
 			isa = PBXGroup;
 			children = (
 				BCE1EC981B0104F8007C8D0B /* LEODataModel.xcdatamodeld */,
+				BCE1EC921B010336007C8D0B /* LEOCoreDataManager.h */,
+				BCE1EC931B010336007C8D0B /* LEOCoreDataManager.m */,
 				BCED00941B0257E6007653D6 /* Appointment.h */,
 				BCED00951B0257E6007653D6 /* Appointment.m */,
 				BCA69A391B038F0C00C27B2B /* User.h */,
