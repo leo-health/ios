@@ -1,0 +1,19 @@
+{
+    "data" : {
+        "user" : {
+            "dob" : "1955-05-14T19:37:14.000Z",
+            "email" : "marilyn@leohealth.com",
+            "family_id" : 62,
+            "first_name" : "Marilyn",
+            "id" : 60,
+            "last_name" : "Drossman",
+            "middle_initial" : "",
+            "practice_id" : null,
+            "primary_role" : "parent",
+            "sex" : null,
+            "title" : "",
+        },
+    },
+
+    "status" : "ok",
+}

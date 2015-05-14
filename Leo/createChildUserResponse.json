@@ -1,19 +1,19 @@
 {
     "data" : {
         "user" : {
-            "dob" : "2015-05-14T19:37:14.000Z",
-            "email" : "zd9@leohealth.com",
+            "dob" : "1982-12-12T19:37:14.000Z",
+            "email" : "zach@leohealth.com",
             "family_id" : 62,
             "first_name" : "Zach",
             "id" : 60,
             "last_name" : "Drossman",
             "middle_initial" : "",
             "practice_id" : null,
-            "primary_role" : "parent",
-            "sex" : null,
+            "primary_role" : "child",
+            "sex" : "male",
             "title" : "",
         },
     },
-
+    
     "status" : "ok",
 }

@@ -45,16 +45,33 @@ NSString *const adminTestKey = @""; //FIXME: REMOVE BEFORE SENDING OFF TO PRODUC
 
 }
 
-- (void)setStubs {
+- (void)setStubWithUser:(User *)user {
+    
+    NSDictionary *userDictionary = [User dictionaryFromUser:user];
+    
     
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         NSLog(@"Request");
         return [request.URL.host isEqualToString:APIHost] && [request.URL.path isEqualToString:[NSString stringWithFormat:@"%@/%@",APICommonPath, APIEndpointUser]];
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        NSString *fixture = OHPathForFile(@"createUserResponse.json", self.class);
+        
+        NSString *fixture;
+        
+        if ([userDictionary[APIParamUserRole] isEqualToString:@"parent"]) {
+            
+            fixture = OHPathForFile(@"createUserResponse.json", self.class);
+            
+        } else {
+            
+            fixture = OHPathForFile(@"createUserResponse.json", self.class);
+
+        }
+        
         OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithFileAtPath:fixture statusCode:200 headers:@{@"Content-Type":@"application/json"}];
         return response;
+        
     }];
+    
 }
 
 - (void)testAPI {

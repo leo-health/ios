@@ -9,7 +9,9 @@
 /* Begin PBXBuildFile section */
 		3AB831E5475A45A2877C8D6C /* libPods-LeoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E5BC0D4370F984698F4E074 /* libPods-LeoTests.a */; };
 		80A98A7B253FC07906E88FF2 /* libPods-Leo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 35A5E688B99D6A1E2E30A645 /* libPods-Leo.a */; };
-		BC472D7C1B0523580081DDC3 /* createUserResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = BC472D7B1B0523580081DDC3 /* createUserResponse.json */; };
+		BC472D7C1B0523580081DDC3 /* createParentUserResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = BC472D7B1B0523580081DDC3 /* createParentUserResponse.json */; };
+		BC472D7F1B0539240081DDC3 /* createChildUserResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = BC472D7E1B0539240081DDC3 /* createChildUserResponse.json */; };
+		BC472D811B0539890081DDC3 /* createAppointmentResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = BC472D801B0539890081DDC3 /* createAppointmentResponse.json */; };
 		BC4D68321B03FE420018DAB5 /* ConversationParticipant.m in Sources */ = {isa = PBXBuildFile; fileRef = BC4D68231B03FE420018DAB5 /* ConversationParticipant.m */; };
 		BC4D68331B03FE420018DAB5 /* Conversation.m in Sources */ = {isa = PBXBuildFile; fileRef = BC4D68251B03FE420018DAB5 /* Conversation.m */; };
 		BC4D68341B03FE420018DAB5 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = BC4D68271B03FE420018DAB5 /* User.m */; };
@@ -61,7 +63,9 @@
 		68672CCCC55FDBB684C56186 /* Pods-Leo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Leo.release.xcconfig"; path = "Pods/Target Support Files/Pods-Leo/Pods-Leo.release.xcconfig"; sourceTree = "<group>"; };
 		7E5BC0D4370F984698F4E074 /* libPods-LeoTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LeoTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E925C5780DCA1FB4A55B841 /* Pods-LeoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LeoTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LeoTests/Pods-LeoTests.debug.xcconfig"; sourceTree = "<group>"; };
-		BC472D7B1B0523580081DDC3 /* createUserResponse.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = createUserResponse.json; sourceTree = "<group>"; };
+		BC472D7B1B0523580081DDC3 /* createParentUserResponse.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = createParentUserResponse.json; sourceTree = "<group>"; };
+		BC472D7E1B0539240081DDC3 /* createChildUserResponse.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = createChildUserResponse.json; sourceTree = "<group>"; };
+		BC472D801B0539890081DDC3 /* createAppointmentResponse.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = createAppointmentResponse.json; sourceTree = "<group>"; };
 		BC4D68221B03FE420018DAB5 /* ConversationParticipant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConversationParticipant.h; path = "Data Model/ConversationParticipant.h"; sourceTree = "<group>"; };
 		BC4D68231B03FE420018DAB5 /* ConversationParticipant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConversationParticipant.m; path = "Data Model/ConversationParticipant.m"; sourceTree = "<group>"; };
 		BC4D68241B03FE420018DAB5 /* Conversation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Conversation.h; path = "Data Model/Conversation.h"; sourceTree = "<group>"; };
@@ -171,7 +175,9 @@
 		BC472D7D1B05235E0081DDC3 /* Stubs */ = {
 			isa = PBXGroup;
 			children = (
-				BC472D7B1B0523580081DDC3 /* createUserResponse.json */,
+				BC472D7B1B0523580081DDC3 /* createParentUserResponse.json */,
+				BC472D7E1B0539240081DDC3 /* createChildUserResponse.json */,
+				BC472D801B0539890081DDC3 /* createAppointmentResponse.json */,
 			);
 			name = Stubs;
 			sourceTree = "<group>";
@@ -429,8 +435,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC472D7F1B0539240081DDC3 /* createChildUserResponse.json in Resources */,
 				BCE1EC731B00E353007C8D0B /* Main.storyboard in Resources */,
-				BC472D7C1B0523580081DDC3 /* createUserResponse.json in Resources */,
+				BC472D811B0539890081DDC3 /* createAppointmentResponse.json in Resources */,
+				BC472D7C1B0523580081DDC3 /* createParentUserResponse.json in Resources */,
 				BCE1EC781B00E353007C8D0B /* LaunchScreen.xib in Resources */,
 				BCE1EC751B00E353007C8D0B /* Images.xcassets in Resources */,
 			);
