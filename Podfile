@@ -6,6 +6,7 @@ target 'Leo' do
 pod 'AFNetworking'
 pod 'VBFPopFlatButton'
 pod 'OHHTTPStubs'
+pod 'SSKeychain'
 
 end
 

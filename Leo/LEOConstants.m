@@ -43,5 +43,7 @@ NSString *const APIParamApptToken = @"access_token"; //TODO: Can Danish change a
 NSString *const APIParamPracticeID = @"practice_id";
 NSString *const APIParamProviderID = @"provider_id";
 NSString *const APIParamConversation = @"conversation";
+NSString *const APIParamCreatedAt = @"created_at";
+NSString *const APIParamUpdatedAt = @"updated_at";
 
 @end

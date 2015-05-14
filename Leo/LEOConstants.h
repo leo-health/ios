@@ -44,4 +44,7 @@ extern NSString *const APIParamPracticeID; // @"practice_id";
 extern NSString *const APIParamProviderID; // @"provider_id";
 extern NSString *const APIParamConversation; //@"conversation";
 
+extern NSString *const APIParamCreatedAt; // = @"created_at";
+extern NSString *const APIParamUpdatedAt; // = @"updated_at";
+
 @end

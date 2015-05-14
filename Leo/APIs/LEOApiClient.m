@@ -15,24 +15,19 @@
 #import "User.h"
 #import "Role.h"
 #import "UserRole.h"
+#import "User+Methods.h"
 
 @implementation LEOApiClient
 
 
 + (void)createUserWithUser:(nonnull User *)user password:(nonnull NSString *)password withCompletion:(void (^)( NSDictionary * __nonnull rawResults))completionBlock {
-    //TODO: Ask Danish to change gender to an integer value in our API?
     
-    NSArray *roles = [user.roles allObjects];
-    UserRole *applicableRole = roles[0]; //FIXME: This is a placeholder for how we're dealing with this logic
-    Role *roleDetail = applicableRole.role; //FIXME: Getting the name of a role should not be inline like this most likely...
-    
-    NSArray *userProperties = @[user.title, user.firstName, user.middleInitial, user.lastName, user.dob, user.gender, user.email, password, user.practiceID, roleDetail.name];
-    NSArray *userKeys = @[APIParamUserTitle, APIParamUserFirstName, APIParamUserMiddleInitial, APIParamUserLastName, APIParamUserDOB, APIParamUserGender, APIParamUserEmail, APIParamUserPassword, APIParamUserPractice, APIParamUserRole];
-    NSDictionary *userParams = [[NSDictionary alloc] initWithObjects:userProperties forKeys:userKeys];
-    
+    NSMutableDictionary *userParams = [[User dictionaryFromUser:user] mutableCopy];
+    userParams[APIParamUserPassword] = password;
     [self createUserWithParams:userParams withCompletion:^(NSDictionary *rawResults) {
-        user.userID = rawResults[APIParamUserID];
-        user.familyID = rawResults[APIParamUserFamilyID];
+        NSDictionary *userDictionary = rawResults[@"data"][@"user"]; //TODO: Make sure I want this here and not defined somewhere else.
+        user.userID = userDictionary[APIParamUserID];
+        user.familyID = userDictionary[APIParamUserFamilyID];
         completionBlock(rawResults);
     }];
 }
@@ -45,7 +40,6 @@
         //TODO: Error terms
         completionBlock(rawResults);
     }];
-
 }
 
 + (void)loginUserWithEmail:(nonnull NSString *)email password:(nonnull NSString *)password completion:(void (^)(NSDictionary * __nonnull rawResults))completionBlock {
@@ -173,6 +167,8 @@
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"Fail: %@",error.localizedDescription);
+        NSLog(@"Fail: %@",error.localizedFailureReason);
+
         //FIXME: Deal with all sorts of errors. Replace with DLog!
     }];
 }
@@ -190,11 +186,11 @@
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"Fail: %@",error.localizedDescription);
+        NSLog(@"Fail: %@",error.localizedFailureReason);
+
         //FIXME: Deal with all sorts of errors. Replace with DLog!
     }];
 }
-
-
 
 
 

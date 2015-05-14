@@ -1,4 +1,4 @@
- //
+//
 //  LEOFeedTVC.m
 //  Leo
 //
@@ -25,6 +25,8 @@
 
 @implementation LEOFeedTVC
 
+NSString *const adminTestKey = @"ucE-sbqoUJ6A-zi2YMdY";
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self tableViewSetup];
@@ -39,6 +41,11 @@
 
 }
 
+- (void)setStubs {
+    
+    
+}
+
 - (void)testAPI {
     
     Role *role = [Role insertEntityWithName:@"parent" resourceID:@1 resourceType:@"na" managedObjectContext:self.coreDataManager.managedObjectContext];
@@ -46,18 +53,36 @@
     NSDate *nowDate = [NSDate date];
     
     NSSet *roleSet = [NSSet setWithObject:userRole];
-    User *user = [User insertEntityWithFirstName:@"Zach" lastName:@"Drossman" dob:nowDate email:@"zd1@leohealth.com" roles:roleSet managedObjectContext:self.coreDataManager.managedObjectContext];
-    user.title = @"Mr.";
-    user.practiceID = @1;
-    user.middleInitial = @"S";
-    user.gender = @"male";
+    User *parentUser = [User insertEntityWithFirstName:@"Zach" lastName:@"Drossman" dob:nowDate email:@"zd7@leohealth.com" roles:roleSet familyID:nil managedObjectContext: self.coreDataManager.managedObjectContext];
+    parentUser.title = @"Mr.";
+    parentUser.practiceID = @1;
+    parentUser.middleInitial = @"S";
+    parentUser.gender = @"male";
     
-    [LEOApiClient createUserWithUser:user password:@"leohealth" withCompletion:^(NSDictionary * __nonnull rawResults) {
+    [LEOApiClient createUserWithUser:parentUser password:@"leohealth" withCompletion:^(NSDictionary * __nonnull rawResults) {
         NSLog(@"%@", rawResults);
-    }];
-    
-    [LEOApiClient loginUserWithEmail:user.email password:@"leohealth" completion:^(NSDictionary * __nonnull rawResults) {
-        NSLog(@"%@", rawResults);
+        
+        [LEOApiClient loginUserWithEmail:parentUser.email password:@"leohealth" completion:^(NSDictionary * __nonnull rawResults) {
+            NSLog(@"%@", rawResults);
+            
+            self.coreDataManager.currentUser = parentUser;
+            Role *childRole = [Role insertEntityWithName:@"child" resourceID:@2 resourceType:@"na" managedObjectContext:self.coreDataManager.managedObjectContext];
+            UserRole *childUserRole = [UserRole insertEntityWithRole:childRole managedObjectContext:self.coreDataManager.managedObjectContext];
+            NSSet *childRoleSet = [NSSet setWithObject:childUserRole];
+            
+            User *childUser = [User insertEntityWithFirstName:@"Rachel" lastName:@"Drossman" dob:[NSDate date] email:@"rd1@leohealth.com" roles:childRoleSet
+                                                     familyID:self.coreDataManager.currentUser.familyID
+                                         managedObjectContext:self.coreDataManager.managedObjectContext];
+            
+            if (self.coreDataManager.currentUser) {
+                [LEOApiClient createUserWithUser:childUser password:@"leohealth" withCompletion:^(NSDictionary * __nonnull rawResults) {
+                    NSLog(@"%@", rawResults);
+                }];
+            } else {
+                NSLog(@"No current user existed from which to attach this child.");
+            }
+            
+        }];
     }];
 }
 
