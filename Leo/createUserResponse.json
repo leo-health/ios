@@ -1,0 +1,19 @@
+{
+    "data" : {
+        "user" : {
+            "dob" : "2015-05-14T19:37:14.000Z",
+            "email" : "zd9@leohealth.com",
+            "family_id" : 62,
+            "first_name" : "Zach",
+            "id" : 60,
+            "last_name" : "Drossman",
+            "middle_initial" : "",
+            "practice_id" : null,
+            "primary_role" : "parent",
+            "sex" : null,
+            "title" : "",
+        },
+    },
+
+    "status" : "ok",
+}

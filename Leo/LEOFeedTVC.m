@@ -16,6 +16,8 @@
 #import "LEOCoreDataManager.h"
 #import "UserRole.h"
 #import "UserRole+Methods.h"
+#import <OHHTTPStubs/OHHTTPStubs.h>
+#import "LEOConstants.h"
 
 @interface LEOFeedTVC ()
 
@@ -25,11 +27,13 @@
 
 @implementation LEOFeedTVC
 
-NSString *const adminTestKey = @"ucE-sbqoUJ6A-zi2YMdY";
+NSString *const adminTestKey = @""; //FIXME: REMOVE BEFORE SENDING OFF TO PRODUCTION!
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self tableViewSetup];
+
+    [self setStubs];
     [self testAPI];
 }
 
@@ -43,7 +47,14 @@ NSString *const adminTestKey = @"ucE-sbqoUJ6A-zi2YMdY";
 
 - (void)setStubs {
     
-    
+    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        NSLog(@"Request");
+        return [request.URL.host isEqualToString:APIHost] && [request.URL.path isEqualToString:[NSString stringWithFormat:@"%@/%@",APICommonPath, APIEndpointUser]];
+    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        NSString *fixture = OHPathForFile(@"createUserResponse.json", self.class);
+        OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithFileAtPath:fixture statusCode:200 headers:@{@"Content-Type":@"application/json"}];
+        return response;
+    }];
 }
 
 - (void)testAPI {
@@ -53,7 +64,7 @@ NSString *const adminTestKey = @"ucE-sbqoUJ6A-zi2YMdY";
     NSDate *nowDate = [NSDate date];
     
     NSSet *roleSet = [NSSet setWithObject:userRole];
-    User *parentUser = [User insertEntityWithFirstName:@"Zach" lastName:@"Drossman" dob:nowDate email:@"zd7@leohealth.com" roles:roleSet familyID:nil managedObjectContext: self.coreDataManager.managedObjectContext];
+    User *parentUser = [User insertEntityWithFirstName:@"Zach" lastName:@"Drossman" dob:nowDate email:@"zd9@leohealth.com" roles:roleSet familyID:nil managedObjectContext: self.coreDataManager.managedObjectContext];
     parentUser.title = @"Mr.";
     parentUser.practiceID = @1;
     parentUser.middleInitial = @"S";

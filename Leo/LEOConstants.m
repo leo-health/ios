@@ -11,6 +11,9 @@
 @implementation LEOConstants
 
 NSString *const APIBaseURL = @"http://leo-api.herokuapp.com/api/v1";
+NSString *const APIHost = @"leo-api.herokuapp.com";
+NSString *const APICommonPath = @"/api/v1";
+
 NSString *const APIEndpointUser = @"users";
 NSString *const APIEndpointLogin = @"sessions";
 NSString *const APIEndpointResetPassword = @"sessions/password";

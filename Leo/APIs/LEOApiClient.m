@@ -181,7 +181,8 @@
     
     [manager POST:urlString parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
         
-        NSDictionary *rawResults = [NSJSONSerialization JSONObjectWithData:responseObject options:0 error:nil];
+        NSError *error;
+        NSDictionary *rawResults = [NSJSONSerialization JSONObjectWithData:responseObject options:0 error:&error];
         completionBlock(rawResults);
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {

@@ -11,6 +11,8 @@
 @interface LEOConstants : NSObject
 
 extern NSString *const APIBaseURL; // @"http://leo-api.herokuapp.com/api/v1";
+extern NSString *const APIHost; // = @"http://leo-api.herokuapp.com";
+extern NSString *const APICommonPath; // = @"/api/v1";
 extern NSString *const APIEndpointUser; // @"users";
 extern NSString *const APIEndpointLogin; // @"sessions";
 extern NSString *const APIEndpointResetPassword; // @"sessions/password";
