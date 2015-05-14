@@ -14,7 +14,7 @@ typedef enum Gender {
     undisclosed
 } Gender;
 
-@interface User : NSObject
+@interface UnmanagedUser : NSObject
 
 @property (copy, nonatomic, nullable) NSString *title;
 @property (copy, nonatomic, nonnull) NSString *firstName;

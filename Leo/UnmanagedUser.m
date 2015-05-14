@@ -6,9 +6,9 @@
 //  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
-#import "User.h"
+#import "UnmanagedUser.h"
 
-@implementation User
+@implementation UnmanagedUser
 
 - (instancetype)initWithFirstName:(nonnull NSString *)firstName lastName:(nonnull NSString *)lastName dob:(nonnull NSDate *)dob email:(nonnull NSString*)email familyId:(NSNumber *)familyID
 {

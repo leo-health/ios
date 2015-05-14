@@ -9,67 +9,30 @@
 #import "LEOApiClient.h"
 #import <AFNetworking.h>
 #import "LEOConstants.h"
-#import "User.h"
 #import "Appointment.h"
+#import "Conversation.h"
+#import "Message.h"
+#import "User.h"
+#import "Role.h"
+#import "UserRole.h"
 
 @implementation LEOApiClient
 
-NSString *const APIBaseURL = @"http://leo-api.herokuapp.com/api/v1";
-NSString *const APIEndpointUser = @"users";
-NSString *const APIEndpointLogin = @"sessions";
-NSString *const APIEndpointResetPassword = @"sessions/password";
-NSString *const APIEndpointAppointment = @"appointments";
-NSString *const APIEndpointConversation = @"conversations";
-NSString *const APIEndpointMessage = @"sessions/password";
-NSString *const APIEndpointInvitation = @"invitations";
 
-NSString *const APIParamUserFirstName = @"first_name";
-NSString *const APIParamUserMiddleInitial= @"middle_initial";
-NSString *const APIParamUserLastName = @"last_name";
-NSString *const APIParamUserEmail = @"email";
-NSString *const APIParamUserPassword = @"password";
-NSString *const APIParamUserDOB = @"dob";
-NSString *const APIParamUserRole = @"role";
-NSString *const APIParamUserTitle = @"title";
-NSString *const APIParamUserGender = @"sex";
-NSString *const APIParamUserPractice = @"practice_id";
-NSString *const APIParamUserPrimaryRole = @"primary_role";
-NSString *const APIParamUserToken = @"token";
-NSString *const APIParamPatientID = @"patient_id";
-NSString *const APIParamUserFamilyID = @"family_id";
-
-NSString *const APIParamApptDate = @"date";
-NSString *const APIParamApptStartTime = @"start_time";
-NSString *const APIParamApptDuration = @"duration";
-NSString *const APIParamApptToken = @"access_token"; //TODO: Can Danish change all tokens to match the same key?
-
-NSString *const APIParamPracticeID = @"practice_id";
-NSString *const APIParamProviderID = @"provider_id";
-
-
-+ (void)createUserWithUser:(nonnull User *)user withCompletion:(nullable void (^)( NSDictionary * __nonnull rawResults))completionBlock
-{
++ (void)createUserWithUser:(nonnull User *)user password:(nonnull NSString *)password withCompletion:(void (^)( NSDictionary * __nonnull rawResults))completionBlock {
     //TODO: Ask Danish to change gender to an integer value in our API?
-    NSString *userGender;
-    switch (user.gender) {
-        case male:
-            userGender = @"male";
-            break;
-            
-        case female:
-            userGender = @"female";
-            break;
-            
-        case undisclosed:
-            userGender = @"undisclosed";
-            break;
-    }
-
-    NSArray *userProperties = @[user.title, user.firstName, user.middleInitial, user.lastName, user.dateOfBirth, userGender, user.email, user.practiceID];
-    NSArray *userKeys = @[APIParamUserTitle, APIParamUserFirstName, APIParamUserMiddleInitial, APIParamUserLastName, APIParamUserDOB, APIParamUserGender, APIParamUserEmail, APIParamUserPractice];
+    
+    NSArray *roles = [user.roles allObjects];
+    UserRole *applicableRole = roles[0]; //FIXME: This is a placeholder for how we're dealing with this logic
+    Role *roleDetail = applicableRole.role; //FIXME: Getting the name of a role should not be inline like this most likely...
+    
+    NSArray *userProperties = @[user.title, user.firstName, user.middleInitial, user.lastName, user.dob, user.gender, user.email, password, user.practiceID, roleDetail.name];
+    NSArray *userKeys = @[APIParamUserTitle, APIParamUserFirstName, APIParamUserMiddleInitial, APIParamUserLastName, APIParamUserDOB, APIParamUserGender, APIParamUserEmail, APIParamUserPassword, APIParamUserPractice, APIParamUserRole];
     NSDictionary *userParams = [[NSDictionary alloc] initWithObjects:userProperties forKeys:userKeys];
     
     [self createUserWithParams:userParams withCompletion:^(NSDictionary *rawResults) {
+        user.userID = rawResults[APIParamUserID];
+        user.familyID = rawResults[APIParamUserFamilyID];
         completionBlock(rawResults);
     }];
 }
@@ -85,7 +48,7 @@ NSString *const APIParamProviderID = @"provider_id";
 
 }
 
-+ (void)loginUserWithEmail:(nonnull NSString *)email password:(nonnull NSString *)password completion:(nullable void (^)(NSDictionary * __nonnull rawResults))completionBlock {
++ (void)loginUserWithEmail:(nonnull NSString *)email password:(nonnull NSString *)password completion:(void (^)(NSDictionary * __nonnull rawResults))completionBlock {
 
     NSString *loginUserURLString = [NSString stringWithFormat:@"%@/%@",APIBaseURL,APIEndpointLogin];
     
@@ -107,8 +70,8 @@ NSString *const APIParamProviderID = @"provider_id";
     }];
 }
 
-+ (void)createAppointmentWithAppointment:(nonnull Appointment *)appointment andUser:(nonnull User *)user withCompletion:(nullable void (^)(NSDictionary  * __nonnull rawResults))completionBlock {
-    NSArray *apptProperties = @[user.token, appointment.familyID, appointment.leoPatientID, appointment.date, appointment.startTime, appointment.duration, appointment.leoProviderID];
++ (void)createAppointmentWithAppointment:(nonnull Appointment *)appointment withCompletion:(void (^)(NSDictionary  * __nonnull rawResults))completionBlock {
+    NSArray *apptProperties = @[[self userToken], appointment.familyID, appointment.leoPatientID, appointment.date, appointment.startTime, appointment.duration, appointment.leoProviderID];
     NSArray *apptKeys = @[APIParamApptToken, APIParamUserFamilyID, APIParamPatientID, APIParamApptDate, APIParamApptStartTime, APIParamApptDuration, APIParamProviderID];
    
     NSDictionary *apptParams = [[NSDictionary alloc] initWithObjects:apptProperties forKeys:apptKeys];
@@ -119,9 +82,14 @@ NSString *const APIParamProviderID = @"provider_id";
     }];
 }
 
++ (NSString *)userToken {
+    //TODO: Complete with actual userToken. Store...somewhere.
+    return @"";
+}
+
 + (void)getAppointmentsForFamilyOfUser:(nonnull User *)user withCompletion:(void (^)(NSDictionary  * __nonnull rawResults))completionBlock {
     
-    NSArray *apptProperties = @[user.token];
+    NSArray *apptProperties = @[];
     NSArray *apptKeys = @[APIParamApptToken];
     
     NSDictionary *apptParams = [[NSDictionary alloc] initWithObjects:apptProperties forKeys:apptKeys];
@@ -132,7 +100,7 @@ NSString *const APIParamProviderID = @"provider_id";
     }];
 }
 
-+ (void)getAppointmentsForFamilyWithParameters:(nonnull NSDictionary *)params withCompletion:(nonnull void (^)(NSDictionary  * __nonnull rawResults))completionBlock {
++ (void)getAppointmentsForFamilyWithParameters:(nonnull NSDictionary *)params withCompletion:(void (^)(NSDictionary  * __nonnull rawResults))completionBlock {
     
     NSString *getAppointmentsURLString = [NSString stringWithFormat:@"%@/%@",APIBaseURL,APIEndpointAppointment];
     
@@ -142,9 +110,9 @@ NSString *const APIParamProviderID = @"provider_id";
     }];
 }
 
-+ (void)getConversationsForFamilyOfUser:(nonnull User *)user withCompletion:(void (^)(NSDictionary  * __nonnull rawResults))completionBlock {
++ (void)getConversationsForCurrentUserWithCompletion:(void (^)(NSDictionary  * __nonnull rawResults))completionBlock {
  
-    NSArray *conversationProperties = @[user.token];
+    NSArray *conversationProperties = @[self.userToken];
     NSArray *conversationKeys = @[APIParamApptToken];
     
     NSDictionary *conversationParams = [[NSDictionary alloc] initWithObjects:conversationProperties forKeys:conversationKeys];
@@ -155,7 +123,7 @@ NSString *const APIParamProviderID = @"provider_id";
     }];
 }
 
-+ (void)getConversationsForFamilyWithParameters:(nonnull NSDictionary *)params withCompletion:(nonnull void (^)(NSDictionary  * __nonnull rawResults))completionBlock {
++ (void)getConversationsForFamilyWithParameters:(nonnull NSDictionary *)params withCompletion:(void (^)(NSDictionary  * __nonnull rawResults))completionBlock {
 
     NSString *getConversationsURLString = [NSString stringWithFormat:@"%@/%@",APIBaseURL,APIEndpointAppointment];
     
@@ -166,7 +134,28 @@ NSString *const APIParamProviderID = @"provider_id";
 
 }
 
-+ (void)createMessageForConversation:(nonnull Conversation *)conversation withContents:(nonnull NSDictionary *)content
++ (void)createMessageForConversation:(nonnull Conversation *)conversation withContents:(NSDictionary *)content withCompletion:(nonnull void (^)(NSDictionary  * __nonnull rawResults))completionBlock {
+   
+    NSArray *conversationProperties = @[conversation];
+    NSArray *conversationKeys = @[APIParamConversation];
+    
+    NSDictionary *conversationParams = [[NSDictionary alloc] initWithObjects:conversationProperties forKeys:conversationKeys];
+    
+    [self createMessageForConversationWithParams:conversationParams withCompletion:^(NSDictionary *rawResults) {
+        //TODO: Error terms
+        completionBlock(rawResults);
+    }];
+}
+
++ (void)createMessageForConversationWithParams:(nonnull NSDictionary *)conversationParams withCompletion:(void (^)(NSDictionary *rawResults))completionBlock {
+    
+    NSString *createMessageForConversationURLString = [NSString stringWithFormat:@"%@/%@",APIBaseURL,APIEndpointAppointment];
+    
+    [self standardPOSTRequestForJSONDictionaryFromAPIWithURL:createMessageForConversationURLString params:conversationParams completion:^(NSDictionary * __nonnull rawResults) {
+        //TODO: Error terms
+        completionBlock(rawResults);
+    }];
+}
 
 //Helper methods
 //TODO: Move these into their own class or as a category on AFNetworking?

@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7549" systemVersion="14D136" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Appointment" representedClassName="Appointment" syncable="YES">
-        <attribute name="athenaAppointmentType" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="athenaAppointmentTypeID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="bookedByUserID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="duration" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="familyID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <attribute name="frozenyn" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="leoAppointmentType" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="leoPatientID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="leoProviderID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
@@ -16,8 +13,87 @@
         <attribute name="startTime" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="status" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="updatedAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <relationship name="users" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="User" inverseName="appointments" inverseEntity="User" syncable="YES"/>
+    </entity>
+    <entity name="Conversation" representedClassName="Conversation" syncable="YES">
+        <attribute name="archived" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="archivedAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="archivedByID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="conversationID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="familyID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="lastMessageCreated" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="updatedAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <relationship name="messages" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Message" inverseName="conversation" inverseEntity="Message" syncable="YES"/>
+        <relationship name="participants" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ConversationParticipant" inverseName="conversations" inverseEntity="ConversationParticipant" syncable="YES"/>
+    </entity>
+    <entity name="ConversationParticipant" representedClassName="ConversationParticipant" syncable="YES">
+        <attribute name="participantID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="participantRole" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="conversations" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Conversation" inverseName="participants" inverseEntity="Conversation" syncable="YES"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="participant" inverseEntity="User" syncable="YES"/>
+    </entity>
+    <entity name="Message" representedClassName="Message" syncable="YES">
+        <attribute name="body" attributeType="String" syncable="YES"/>
+        <attribute name="conversationID" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="createdAt" attributeType="Date" syncable="YES"/>
+        <attribute name="escalatedAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="escalatedByID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="escalatedToID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="messageType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="resolvedApprovedAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="resolvedRequestAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="senderID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="updatedAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <relationship name="conversation" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Conversation" inverseName="messages" inverseEntity="Conversation" syncable="YES"/>
+        <relationship name="readReceipt" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ReadReceipt" inverseName="message" inverseEntity="ReadReceipt" syncable="YES"/>
+    </entity>
+    <entity name="ReadReceipt" representedClassName="ReadReceipt" syncable="YES">
+        <attribute name="createdAt" attributeType="Date" syncable="YES"/>
+        <attribute name="messageID" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="participantID" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="updatedAt" attributeType="Date" syncable="YES"/>
+        <relationship name="message" maxCount="1" deletionRule="Nullify" destinationEntity="Message" inverseName="readReceipt" inverseEntity="Message" syncable="YES"/>
+    </entity>
+    <entity name="Role" representedClassName="Role" syncable="YES">
+        <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="resourceID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="resourceType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="updatedAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <relationship name="userrole" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="UserRole" inverseName="role" inverseEntity="UserRole" syncable="YES"/>
+    </entity>
+    <entity name="User" representedClassName="User" syncable="YES">
+        <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="dob" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="familyID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="firstName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="gender" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lastName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="middleInitial" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="practiceID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="updatedAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="userID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <relationship name="appointments" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Appointment" inverseName="users" inverseEntity="Appointment" syncable="YES"/>
+        <relationship name="participant" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ConversationParticipant" inverseName="user" inverseEntity="ConversationParticipant" syncable="YES"/>
+        <relationship name="roles" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="UserRole" inverseName="user" inverseEntity="UserRole" syncable="YES"/>
+    </entity>
+    <entity name="UserRole" representedClassName="UserRole" syncable="YES">
+        <attribute name="roleID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="userID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <relationship name="role" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Role" inverseName="userrole" inverseEntity="Role" syncable="YES"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="roles" inverseEntity="User" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Appointment" positionX="-63" positionY="-18" width="128" height="270"/>
+        <element name="Appointment" positionX="576" positionY="-753" width="128" height="240"/>
+        <element name="Conversation" positionX="-335" positionY="264" width="128" height="193"/>
+        <element name="ConversationParticipant" positionX="-63" positionY="95" width="128" height="103"/>
+        <element name="Message" positionX="-632" positionY="180" width="128" height="240"/>
+        <element name="ReadReceipt" positionX="-810" positionY="-369" width="128" height="120"/>
+        <element name="Role" positionX="810" positionY="-322" width="128" height="133"/>
+        <element name="User" positionX="295" positionY="-460" width="128" height="268"/>
+        <element name="UserRole" positionX="574" positionY="-240" width="128" height="105"/>
     </elements>
 </model>

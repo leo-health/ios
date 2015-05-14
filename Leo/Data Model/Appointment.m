@@ -7,22 +7,16 @@
 //
 
 #import "Appointment.h"
+#import "User.h"
 
 
 @implementation Appointment
 
-@dynamic athenaAppointmentType;
-@dynamic athenaAppointmentTypeID;
-@dynamic athenaDepartmentID;
-@dynamic athenaId;
-@dynamic athenaPatientID;
-@dynamic athenaProviderID;
 @dynamic bookedByUserID;
 @dynamic createdAt;
 @dynamic date;
 @dynamic duration;
 @dynamic familyID;
-@dynamic frozenyn;
 @dynamic leoAppointmentType;
 @dynamic leoPatientID;
 @dynamic leoProviderID;
@@ -30,5 +24,6 @@
 @dynamic startTime;
 @dynamic status;
 @dynamic updatedAt;
+@dynamic users;
 
 @end

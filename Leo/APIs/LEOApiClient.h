@@ -11,16 +11,18 @@
 @class User;
 @class Appointment;
 
+
 @interface LEOApiClient : NSObject
+NS_ASSUME_NONNULL_BEGIN
 
 //Users
-+ (void)createUserWithUser:(nonnull User *)user withCompletion:(nullable void (^)( NSDictionary * __nonnull rawResults))completionBlock;
-+ (void)loginUserWithEmail:(nonnull NSString *)email password:(nonnull NSString *)password completion:(nullable void (^)(NSDictionary * __nonnull rawResults))completionBlock;
++ (void)createUserWithUser:(nonnull User *)user password:(nonnull NSString *)password withCompletion:(void (^)( NSDictionary * __nonnull rawResults))completionBlock;
++ (void)loginUserWithEmail:(nonnull NSString *)email password:(nonnull NSString *)password completion:(void (^)(NSDictionary * __nonnull rawResults))completionBlock;
 
 
 //Appointments
-+ (void)createAppointmentWithAppointment:(nonnull Appointment *)appointment andUser:(nonnull User *)user withCompletion:(nullable void (^)(NSDictionary  * __nonnull rawResults))completionBlock;
-+ (void)getAppointmentsForFamilyOfUser:(nonnull User *)user withCompletion:(nullable void (^)(NSDictionary  * __nonnull rawResults))completionBlock;
++ (void)createAppointmentWithAppointment:(nonnull Appointment *)appointment withCompletion:(void (^)(NSDictionary  * __nonnull rawResults))completionBlock;
++ (void)getAppointmentsForFamilyOfUser:(nonnull User *)user withCompletion:(void (^)(NSDictionary  * __nonnull rawResults))completionBlock;
 
-
+NS_ASSUME_NONNULL_END
 @end

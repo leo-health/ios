@@ -12,6 +12,6 @@
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) UIViewController *initialViewController;
-
+@property (strong, nonatomic) NSString *userToken;
 @end
 

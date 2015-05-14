@@ -1,4 +1,4 @@
-//
+ //
 //  LEOFeedTVC.m
 //  Leo
 //
@@ -8,8 +8,18 @@
 
 #import "LEOFeedTVC.h"
 #import "LEOCardCell.h"
+#import "LEOApiClient.h"
+#import "User.h"
+#import "User+Methods.h"
+#import "Role.h"
+#import "Role+Methods.h"
+#import "LEOCoreDataManager.h"
+#import "UserRole.h"
+#import "UserRole+Methods.h"
 
 @interface LEOFeedTVC ()
+
+@property (strong, nonatomic) LEOCoreDataManager *coreDataManager;
 
 @end
 
@@ -17,16 +27,47 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self tableViewSetup];
+    [self testAPI];
+}
+
+- (void)tableViewSetup {
+    
     self.tableView.estimatedRowHeight = 180;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
-
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+
+}
+
+- (void)testAPI {
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
+    Role *role = [Role insertEntityWithName:@"parent" resourceID:@1 resourceType:@"na" managedObjectContext:self.coreDataManager.managedObjectContext];
+    UserRole *userRole = [UserRole insertEntityWithRole:role managedObjectContext:self.coreDataManager.managedObjectContext];
+    NSDate *nowDate = [NSDate date];
     
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    NSSet *roleSet = [NSSet setWithObject:userRole];
+    User *user = [User insertEntityWithFirstName:@"Zach" lastName:@"Drossman" dob:nowDate email:@"zd1@leohealth.com" roles:roleSet managedObjectContext:self.coreDataManager.managedObjectContext];
+    user.title = @"Mr.";
+    user.practiceID = @1;
+    user.middleInitial = @"S";
+    user.gender = @"male";
+    
+    [LEOApiClient createUserWithUser:user password:@"leohealth" withCompletion:^(NSDictionary * __nonnull rawResults) {
+        NSLog(@"%@", rawResults);
+    }];
+    
+    [LEOApiClient loginUserWithEmail:user.email password:@"leohealth" completion:^(NSDictionary * __nonnull rawResults) {
+        NSLog(@"%@", rawResults);
+    }];
+}
+
+
+-(LEOCoreDataManager *)coreDataManager {
+    if (!_coreDataManager) {
+        _coreDataManager = [LEOCoreDataManager sharedManager];
+    }
+    
+    return _coreDataManager;
 }
 
 - (void)didReceiveMemoryWarning {

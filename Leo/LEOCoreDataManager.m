@@ -50,7 +50,7 @@
 {
     if (!_managedObjectModel)
     {
-        NSURL *modelURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"LeoDataModel" withExtension:@"momd"];
+        NSURL *modelURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"LEODataModel" withExtension:@"momd"];
         _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
     }
     return _managedObjectModel;
