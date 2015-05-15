@@ -32,8 +32,6 @@ NSString *const adminTestKey = @""; //FIXME: REMOVE BEFORE SENDING OFF TO PRODUC
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self tableViewSetup];
-
-    [self setStubs];
     [self testAPI];
 }
 
@@ -45,35 +43,6 @@ NSString *const adminTestKey = @""; //FIXME: REMOVE BEFORE SENDING OFF TO PRODUC
 
 }
 
-- (void)setStubWithUser:(User *)user {
-    
-    NSDictionary *userDictionary = [User dictionaryFromUser:user];
-    
-    
-    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-        NSLog(@"Request");
-        return [request.URL.host isEqualToString:APIHost] && [request.URL.path isEqualToString:[NSString stringWithFormat:@"%@/%@",APICommonPath, APIEndpointUser]];
-    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        
-        NSString *fixture;
-        
-        if ([userDictionary[APIParamUserRole] isEqualToString:@"parent"]) {
-            
-            fixture = OHPathForFile(@"createUserResponse.json", self.class);
-            
-        } else {
-            
-            fixture = OHPathForFile(@"createUserResponse.json", self.class);
-
-        }
-        
-        OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithFileAtPath:fixture statusCode:200 headers:@{@"Content-Type":@"application/json"}];
-        return response;
-        
-    }];
-    
-}
-
 - (void)testAPI {
     
     Role *role = [Role insertEntityWithName:@"parent" resourceID:@1 resourceType:@"na" managedObjectContext:self.coreDataManager.managedObjectContext];
@@ -81,14 +50,28 @@ NSString *const adminTestKey = @""; //FIXME: REMOVE BEFORE SENDING OFF TO PRODUC
     NSDate *nowDate = [NSDate date];
     
     NSSet *roleSet = [NSSet setWithObject:userRole];
-    User *parentUser = [User insertEntityWithFirstName:@"Zach" lastName:@"Drossman" dob:nowDate email:@"zd9@leohealth.com" roles:roleSet familyID:nil managedObjectContext: self.coreDataManager.managedObjectContext];
-    parentUser.title = @"Mr.";
+    User *parentUser = [User insertEntityWithFirstName:@"Marilyn" lastName:@"Drossman" dob:nowDate email:@"md5@leohealth.com" roles:roleSet familyID:nil managedObjectContext: self.coreDataManager.managedObjectContext];
+    parentUser.title = @"Mrs.";
     parentUser.practiceID = @1;
-    parentUser.middleInitial = @"S";
-    parentUser.gender = @"male";
+    parentUser.middleInitial = @"";
+    parentUser.gender = @"female";
+    
+    __weak id<OHHTTPStubsDescriptor> parentStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        NSLog(@"Request");
+        return [request.URL.host isEqualToString:APIHost] && [request.URL.path isEqualToString:[NSString stringWithFormat:@"%@/%@",APICommonPath, APIEndpointUser]];
+    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        
+        NSString *fixture = fixture = OHPathForFile(@"createParentUserResponse.json", self.class);
+        OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithFileAtPath:fixture statusCode:200 headers:@{@"Content-Type":@"application/json"}];
+        return response;
+        
+    }];
+
     
     [LEOApiClient createUserWithUser:parentUser password:@"leohealth" withCompletion:^(NSDictionary * __nonnull rawResults) {
         NSLog(@"%@", rawResults);
+        
+        [OHHTTPStubs removeStub:parentStub];
         
         [LEOApiClient loginUserWithEmail:parentUser.email password:@"leohealth" completion:^(NSDictionary * __nonnull rawResults) {
             NSLog(@"%@", rawResults);
@@ -98,13 +81,26 @@ NSString *const adminTestKey = @""; //FIXME: REMOVE BEFORE SENDING OFF TO PRODUC
             UserRole *childUserRole = [UserRole insertEntityWithRole:childRole managedObjectContext:self.coreDataManager.managedObjectContext];
             NSSet *childRoleSet = [NSSet setWithObject:childUserRole];
             
-            User *childUser = [User insertEntityWithFirstName:@"Rachel" lastName:@"Drossman" dob:[NSDate date] email:@"rd1@leohealth.com" roles:childRoleSet
+            User *childUser = [User insertEntityWithFirstName:@"Zachary" lastName:@"Drossman" dob:[NSDate date] email:@"zd9@leohealth.com" roles:childRoleSet
                                                      familyID:self.coreDataManager.currentUser.familyID
                                          managedObjectContext:self.coreDataManager.managedObjectContext];
+            
+            __weak id<OHHTTPStubsDescriptor> childStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+                NSLog(@"Request");
+                return [request.URL.host isEqualToString:APIHost] && [request.URL.path isEqualToString:[NSString stringWithFormat:@"%@/%@",APICommonPath, APIEndpointUser]];
+            } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+                
+                NSString *fixture = fixture = OHPathForFile(@"createChildUserResponse.json", self.class);
+                OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithFileAtPath:fixture statusCode:200 headers:@{@"Content-Type":@"application/json"}];
+                return response;
+                
+            }];
+
             
             if (self.coreDataManager.currentUser) {
                 [LEOApiClient createUserWithUser:childUser password:@"leohealth" withCompletion:^(NSDictionary * __nonnull rawResults) {
                     NSLog(@"%@", rawResults);
+                    [OHHTTPStubs removeStub:childStub];
                 }];
             } else {
                 NSLog(@"No current user existed from which to attach this child.");
