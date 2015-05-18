@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3130B48F1B068CE0006ACC80 /* ArrayDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 3130B48E1B068CE0006ACC80 /* ArrayDataSource.m */; };
 		3130B4941B069A58006ACC80 /* LEOCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 3130B4931B069A58006ACC80 /* LEOCard.m */; };
+		31A286811B0A2DB100CBAF1A /* LEOAPIHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 31A286801B0A2DB100CBAF1A /* LEOAPIHelper.m */; };
 		3AB831E5475A45A2877C8D6C /* libPods-LeoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E5BC0D4370F984698F4E074 /* libPods-LeoTests.a */; };
 		80A98A7B253FC07906E88FF2 /* libPods-Leo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 35A5E688B99D6A1E2E30A645 /* libPods-Leo.a */; };
 		BC472D7C1B0523580081DDC3 /* createParentUserResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = BC472D7B1B0523580081DDC3 /* createParentUserResponse.json */; };
@@ -63,6 +64,8 @@
 		3130B48E1B068CE0006ACC80 /* ArrayDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrayDataSource.m; sourceTree = "<group>"; };
 		3130B4921B069A58006ACC80 /* LEOCard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOCard.h; sourceTree = "<group>"; };
 		3130B4931B069A58006ACC80 /* LEOCard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOCard.m; sourceTree = "<group>"; };
+		31A2867F1B0A2DB100CBAF1A /* LEOAPIHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOAPIHelper.h; path = APIs/LEOAPIHelper.h; sourceTree = "<group>"; };
+		31A286801B0A2DB100CBAF1A /* LEOAPIHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOAPIHelper.m; path = APIs/LEOAPIHelper.m; sourceTree = "<group>"; };
 		35A5E688B99D6A1E2E30A645 /* libPods-Leo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Leo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3DBE2EB46C1BD8FF573DB996 /* Pods-Leo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Leo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Leo/Pods-Leo.debug.xcconfig"; sourceTree = "<group>"; };
 		68672CCCC55FDBB684C56186 /* Pods-Leo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Leo.release.xcconfig"; path = "Pods/Target Support Files/Pods-Leo/Pods-Leo.release.xcconfig"; sourceTree = "<group>"; };
@@ -255,6 +258,8 @@
 			children = (
 				BCA69A341B02AE5100C27B2B /* LEOApiClient.h */,
 				BCA69A351B02AE5100C27B2B /* LEOApiClient.m */,
+				31A2867F1B0A2DB100CBAF1A /* LEOAPIHelper.h */,
+				31A286801B0A2DB100CBAF1A /* LEOAPIHelper.m */,
 			);
 			name = APIs;
 			sourceTree = "<group>";
@@ -561,6 +566,7 @@
 				BCE1EC9A1B0104F8007C8D0B /* LEODataModel.xcdatamodeld in Sources */,
 				BC4D68451B04C7560018DAB5 /* ConversationParticipant+Methods.m in Sources */,
 				BC4D68541B04C8160018DAB5 /* Appointment+Methods.m in Sources */,
+				31A286811B0A2DB100CBAF1A /* LEOAPIHelper.m in Sources */,
 				BCE1EC6D1B00E353007C8D0B /* AppDelegate.m in Sources */,
 				BCE1EC6A1B00E353007C8D0B /* main.m in Sources */,
 				BC4D68361B03FE420018DAB5 /* Role.m in Sources */,

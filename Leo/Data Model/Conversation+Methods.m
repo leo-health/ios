@@ -10,4 +10,23 @@
 
 @implementation Conversation (Methods)
 
+//@property (nonatomic, retain) NSNumber * archived;
+//@property (nonatomic, retain) NSDate * archivedAt;
+//@property (nonatomic, retain) NSNumber * archivedByID;
+//@property (nonatomic, retain) NSNumber * conversationID;
+//@property (nonatomic, retain) NSDate * createdAt;
+//@property (nonatomic, retain) NSNumber * familyID;
+//@property (nonatomic, retain) NSDate * lastMessageCreated;
+//@property (nonatomic, retain) NSDate * updatedAt;
+//@property (nonatomic, retain) NSSet *messages;
+//@property (nonatomic, retain) NSSet *participants;
+
++ (Conversation * __nonnull)insertEntityWithFamilyID:(nonnull NSNumber *)familyID managedObjectContext:(nonnull NSManagedObjectContext *)context {
+    
+    Conversation *newConversation = [NSEntityDescription insertNewObjectForEntityForName:@"Conversation" inManagedObjectContext:context];
+    newConversation.familyID = familyID;
+    
+    return newConversation;
+}
+
 @end
