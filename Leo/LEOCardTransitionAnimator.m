@@ -11,7 +11,7 @@
 @implementation LEOCardTransitionAnimator
 
 - (NSTimeInterval)transitionDuration:(id <UIViewControllerContextTransitioning>)transitionContext {
-    return 0.5f;
+    return 0.1f;
 }
 
 - (void)animateTransition:(id <UIViewControllerContextTransitioning>)transitionContext {
@@ -20,17 +20,16 @@
     UIViewController *toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     
     // Set our ending frame. We'll modify this later if we have to
-    CGRect endFrame = CGRectMake(80, 280, 160, 100);
+    CGRect endFrame = CGRectMake(fromViewController.view.frame.origin.x + 20, fromViewController.view.frame.origin.y + 20, fromViewController.view.frame.size.width - 40, fromViewController.view.frame.size.height - 40);
     
     if (self.presenting) {
         fromViewController.view.userInteractionEnabled = NO;
         
         [transitionContext.containerView addSubview:fromViewController.view];
         [transitionContext.containerView addSubview:toViewController.view];
-        
         CGRect startFrame = endFrame;
-        startFrame.origin.x += 320;
-        
+        startFrame.origin.x += fromViewController.view.frame.origin.x + fromViewController.view.frame.size.width/2 - 20;
+        startFrame.size.width -= endFrame.size.width;
         toViewController.view.frame = startFrame;
         
         [UIView animateWithDuration:[self transitionDuration:transitionContext] animations:^{

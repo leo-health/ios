@@ -231,13 +231,17 @@ static NSString * const CardCellIdentifier = @"CardCell";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    LEOSingleAppointmentSchedulerCardVC *singleAppointmentScheduleVC = [[LEOSingleAppointmentSchedulerCardVC alloc] initWithNibName:@"LEOSingleAppointmentSchedulerCardVC" bundle:nil];
-    singleAppointmentScheduleVC.transitioningDelegate = self;
-    singleAppointmentScheduleVC.modalPresentationStyle = UIModalPresentationCustom;
-    [self presentViewController:singleAppointmentScheduleVC animated:YES completion:^{
-        
+    LEOCardCell *cell = (LEOCardCell *)[tableView cellForRowAtIndexPath:indexPath];
+    [UIView animateWithDuration:0.1 animations:^{
+        cell.layer.transform = CATransform3DMakeRotation(M_PI_2,0.0,1.0,0.0); ; //flip halfway
+    } completion:^(BOOL finished) {
+        LEOSingleAppointmentSchedulerCardVC *singleAppointmentScheduleVC = [[LEOSingleAppointmentSchedulerCardVC alloc] initWithNibName:@"LEOSingleAppointmentSchedulerCardVC" bundle:nil];
+        singleAppointmentScheduleVC.transitioningDelegate = self;
+        singleAppointmentScheduleVC.modalPresentationStyle = UIModalPresentationCustom;
+        [self presentViewController:singleAppointmentScheduleVC animated:YES completion:^{
+            
+        }];
     }];
-    
 }
 
 - (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented

@@ -177,8 +177,8 @@
 		3130B4901B068CE7006ACC80 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				3130B48D1B068CE0006ACC80 /* ArrayDataSource.h */,
-				3130B48E1B068CE0006ACC80 /* ArrayDataSource.m */,
+				31920A461B0A8ACC006309C2 /* Data */,
+				BC163B001B054CCF000FB1CE /* Animation */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -186,9 +186,17 @@
 		3130B4911B0693D5006ACC80 /* Stoyboards & Xibs */ = {
 			isa = PBXGroup;
 			children = (
-				BCE1EC711B00E353007C8D0B /* Main.storyboard */,
 			);
 			name = "Stoyboards & Xibs";
+			sourceTree = "<group>";
+		};
+		31920A461B0A8ACC006309C2 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				3130B48D1B068CE0006ACC80 /* ArrayDataSource.h */,
+				3130B48E1B068CE0006ACC80 /* ArrayDataSource.m */,
+			);
+			name = Data;
 			sourceTree = "<group>";
 		};
 		354D27DEC99358EDEA9677D6 /* Pods */ = {
@@ -210,14 +218,6 @@
 				7E5BC0D4370F984698F4E074 /* libPods-LeoTests.a */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		BC163AFF1B054CC4000FB1CE /* Helpers */ = {
-			isa = PBXGroup;
-			children = (
-				BC163B001B054CCF000FB1CE /* Animation */,
-			);
-			name = Helpers;
 			sourceTree = "<group>";
 		};
 		BC163B001B054CCF000FB1CE /* Animation */ = {
@@ -310,8 +310,6 @@
 				BC472D891B0543C30081DDC3 /* LEOSingleAppointmentSchedulerCardVC.xib */,
 				BC163AF91B054B2B000FB1CE /* LEOSingleApptScheduleExpandedCardView.h */,
 				BC163AFA1B054B2B000FB1CE /* LEOSingleApptScheduleExpandedCardView.m */,
-				BCE1EC951B0104EC007C8D0B /* LEOCard.h */,
-				BCE1EC961B0104EC007C8D0B /* LEOCard.m */,
 				BCED00821B015204007653D6 /* LEOCardCell.h */,
 				BCED00831B015204007653D6 /* LEOCardCell.m */,
 				BCED007F1B0150F4007653D6 /* LEOFeedTVC.h */,
@@ -346,10 +344,7 @@
 			isa = PBXGroup;
 			children = (
 				3130B4911B0693D5006ACC80 /* Stoyboards & Xibs */,
-				BCA69A3D1B039ABC00C27B2B /* Views and Controllers */,
 				3130B4901B068CE7006ACC80 /* Helpers */,
-				BC163AFF1B054CC4000FB1CE /* Helpers */,
-				BC472D7D1B05235E0081DDC3 /* Stubs */,
 				BCA69A3D1B039ABC00C27B2B /* Views and Controllers */,
 				BCED00921B01542D007653D6 /* Constants */,
 				BCA69A371B02AE5500C27B2B /* APIs */,
