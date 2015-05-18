@@ -6,7 +6,7 @@
         "athena_appointment_type": null,
         "leo_provider_id": 2,
         "athena_provider_id": null,
-        "leo_patient_id": 2,
+        "leo_patient_id": 65,
         "athena_patient_id": null,
         "booked_by_user_id": 61,
         "rescheduled_appointment_id": null,

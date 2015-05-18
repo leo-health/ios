@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3130B48F1B068CE0006ACC80 /* ArrayDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 3130B48E1B068CE0006ACC80 /* ArrayDataSource.m */; };
 		3130B4941B069A58006ACC80 /* LEOCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 3130B4931B069A58006ACC80 /* LEOCard.m */; };
+		31920A451B0A855F006309C2 /* getMessagesForConversationResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 31920A441B0A855F006309C2 /* getMessagesForConversationResponse.json */; };
 		31A286811B0A2DB100CBAF1A /* LEOAPIHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 31A286801B0A2DB100CBAF1A /* LEOAPIHelper.m */; };
 		31A286841B0A441300CBAF1A /* Appointment.m in Sources */ = {isa = PBXBuildFile; fileRef = 31A286831B0A441300CBAF1A /* Appointment.m */; };
 		3AB831E5475A45A2877C8D6C /* libPods-LeoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E5BC0D4370F984698F4E074 /* libPods-LeoTests.a */; };
@@ -64,6 +65,7 @@
 		3130B48E1B068CE0006ACC80 /* ArrayDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrayDataSource.m; sourceTree = "<group>"; };
 		3130B4921B069A58006ACC80 /* LEOCard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOCard.h; sourceTree = "<group>"; };
 		3130B4931B069A58006ACC80 /* LEOCard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOCard.m; sourceTree = "<group>"; };
+		31920A441B0A855F006309C2 /* getMessagesForConversationResponse.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = getMessagesForConversationResponse.json; sourceTree = "<group>"; };
 		31A2867F1B0A2DB100CBAF1A /* LEOAPIHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOAPIHelper.h; path = APIs/LEOAPIHelper.h; sourceTree = "<group>"; };
 		31A286801B0A2DB100CBAF1A /* LEOAPIHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOAPIHelper.m; path = APIs/LEOAPIHelper.m; sourceTree = "<group>"; };
 		31A286821B0A441300CBAF1A /* Appointment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Appointment.h; path = "Data Model/Appointment.h"; sourceTree = "<group>"; };
@@ -201,6 +203,7 @@
 				BC472D7B1B0523580081DDC3 /* createParentUserResponse.json */,
 				BC472D7E1B0539240081DDC3 /* createChildUserResponse.json */,
 				BC472D801B0539890081DDC3 /* createAppointmentResponse.json */,
+				31920A441B0A855F006309C2 /* getMessagesForConversationResponse.json */,
 			);
 			name = Stubs;
 			sourceTree = "<group>";
@@ -467,6 +470,7 @@
 				BC472D7C1B0523580081DDC3 /* createParentUserResponse.json in Resources */,
 				BCE1EC781B00E353007C8D0B /* LaunchScreen.xib in Resources */,
 				BCE1EC751B00E353007C8D0B /* Images.xcassets in Resources */,
+				31920A451B0A855F006309C2 /* getMessagesForConversationResponse.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
