@@ -10,4 +10,7 @@
 
 @interface Conversation (Methods)
 
++ (Conversation * __nonnull)insertEntityWithFamilyID:(nonnull NSNumber *)familyID conversationID:(nullable NSNumber *)conversationID managedObjectContext:(nonnull NSManagedObjectContext *)context;
+
+
 @end

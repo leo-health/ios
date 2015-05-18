@@ -23,7 +23,7 @@
     }];
 }
 
-+ (void)loginUserWithParameters:(nonnull NSDictionary *)loginParams completion:(void (^)(NSDictionary * __nonnull rawResults))completionBlock {
++ (void)loginUserWithParameters:(nonnull NSDictionary *)loginParams withCompletion:(void (^)(NSDictionary * __nonnull rawResults))completionBlock {
     
     NSString *loginUserURLString = [NSString stringWithFormat:@"%@/%@",APIBaseURL,APIEndpointLogin];
 
@@ -32,6 +32,18 @@
         completionBlock(rawResults);
     }];
 }
+
++ (void)resetPasswordWithParameters:(nonnull NSDictionary *)resetParams withCompletion:(void (^)(NSDictionary * __nonnull rawResults))completionBlock {
+    
+    NSString *resetPasswordString = [NSString stringWithFormat:@"%@/%@",APIBaseURL,APIEndpointResetPassword];
+    
+    [LEOAPIHelper standardPOSTRequestForJSONDictionaryFromAPIWithURL:resetPasswordString params:resetParams completion:^(NSDictionary * __nonnull rawResults) {
+        //TODO: Error terms
+        completionBlock(rawResults);
+    }];
+    
+}
+
 
 + (void)createAppointmentWithParameters:(nonnull NSDictionary *)apptParams withCompletion:(void (^)(NSDictionary *rawResults))completionBlock {
 
@@ -54,25 +66,34 @@
 }
 
 
-+ (void)getConversationsForFamilyWithParameters:(nonnull NSDictionary *)params withCompletion:(void (^)(NSDictionary  * __nonnull rawResults))completionBlock {
++ (void)getConversationsForFamilyWithParameters:(nonnull NSDictionary *)conversationParams withCompletion:(void (^)(NSDictionary  * __nonnull rawResults))completionBlock {
 
-    NSString *getConversationsURLString = [NSString stringWithFormat:@"%@/%@",APIBaseURL,APIEndpointAppointment];
+    NSString *getConversationsURLString = [NSString stringWithFormat:@"%@/%@",APIBaseURL,APIEndpointConversation];
     
-    [LEOAPIHelper standardGETRequestForJSONDictionaryFromAPIWithURL:getConversationsURLString params:params completion:^(NSDictionary * __nonnull rawResults) {
+    [LEOAPIHelper standardGETRequestForJSONDictionaryFromAPIWithURL:getConversationsURLString params:conversationParams completion:^(NSDictionary * __nonnull rawResults) {
         //TODO: Error terms
         completionBlock(rawResults);
     }];
 
 }
 
-+ (void)createMessageForConversationWithParameters:(nonnull NSDictionary *)conversationParams withCompletion:(void (^)(NSDictionary *rawResults))completionBlock {
++ (void)createMessageForConversation:(NSNumber *)conversationID withParameters:(nonnull NSDictionary *)messageParams withCompletion:(void (^)(NSDictionary *rawResults))completionBlock {
     
-    NSString *createMessageForConversationURLString = [NSString stringWithFormat:@"%@/%@",APIBaseURL,APIEndpointAppointment];
+    NSString *createMessageForConversationURLString = [NSString stringWithFormat:@"%@/%@/%@/%@",APIBaseURL,APIEndpointConversation,conversationID, APIEndpointMessage];
     
-    [LEOAPIHelper standardPOSTRequestForJSONDictionaryFromAPIWithURL:createMessageForConversationURLString params:conversationParams completion:^(NSDictionary * __nonnull rawResults) {
+    [LEOAPIHelper standardPOSTRequestForJSONDictionaryFromAPIWithURL:createMessageForConversationURLString params:messageParams completion:^(NSDictionary * __nonnull rawResults) {
         //TODO: Error terms
         completionBlock(rawResults);
     }];
 }
 
++ (void)getMessagesForConversation:(NSNumber *)conversationID withParameters:(nonnull NSDictionary *)messageParams withCompletion:(void (^)(NSDictionary *rawResults))completionBlock {
+
+    NSString *getMessagesForConversationURLString = [NSString stringWithFormat:@"%@/%@/%@/%@",APIBaseURL,APIEndpointConversation,conversationID, APIEndpointMessage];
+    
+    [LEOAPIHelper standardGETRequestForJSONDictionaryFromAPIWithURL:getMessagesForConversationURLString params:messageParams completion:^(NSDictionary * __nonnull rawResults) {
+        //TODO: Error terms
+        completionBlock(rawResults);
+    }];
+}
 @end

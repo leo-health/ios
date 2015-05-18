@@ -19,7 +19,7 @@ NSString *const APIEndpointLogin = @"sessions";
 NSString *const APIEndpointResetPassword = @"sessions/password";
 NSString *const APIEndpointAppointment = @"appointments";
 NSString *const APIEndpointConversation = @"conversations";
-NSString *const APIEndpointMessage = @"sessions/password";
+NSString *const APIEndpointMessage = @"messages";
 NSString *const APIEndpointInvitation = @"invitations";
 
 NSString *const APIParamUserFirstName = @"first_name";
@@ -46,7 +46,13 @@ NSString *const APIParamApptToken = @"access_token"; //TODO: Can Danish change a
 NSString *const APIParamPracticeID = @"practice_id";
 NSString *const APIParamProviderID = @"provider_id";
 NSString *const APIParamConversation = @"conversation";
+NSString *const APIParamConversationID = @"conversation_id";
 NSString *const APIParamCreatedAt = @"created_at";
 NSString *const APIParamUpdatedAt = @"updated_at";
+
+NSString *const APIParamMessageBody = @"body";
+NSString *const APIParamMessageSenderID = @"sender_id";
+
+
 
 @end

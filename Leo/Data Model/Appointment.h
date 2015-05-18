@@ -1,9 +1,9 @@
 //
 //  Appointment.h
-//  
+//  Leo
 //
-//  Created by Zachary Drossman on 5/13/15.
-//
+//  Created by Zachary Drossman on 5/18/15.
+//  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -25,6 +25,7 @@
 @property (nonatomic, retain) NSDate * startTime;
 @property (nonatomic, retain) NSString * status;
 @property (nonatomic, retain) NSDate * updatedAt;
+@property (nonatomic, retain) NSNumber * practiceID;
 @property (nonatomic, retain) NSSet *users;
 @end
 

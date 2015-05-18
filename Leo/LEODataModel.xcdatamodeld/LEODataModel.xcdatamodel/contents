@@ -9,6 +9,7 @@
         <attribute name="leoAppointmentType" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="leoPatientID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="leoProviderID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="practiceID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="rescheduledAppointmentID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="startTime" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="status" optional="YES" attributeType="String" syncable="YES"/>
@@ -35,7 +36,6 @@
     </entity>
     <entity name="Message" representedClassName="Message" syncable="YES">
         <attribute name="body" attributeType="String" syncable="YES"/>
-        <attribute name="conversationID" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="createdAt" attributeType="Date" syncable="YES"/>
         <attribute name="escalatedAt" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="escalatedByID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
@@ -87,10 +87,10 @@
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="roles" inverseEntity="User" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Appointment" positionX="576" positionY="-753" width="128" height="240"/>
+        <element name="Appointment" positionX="576" positionY="-753" width="128" height="255"/>
         <element name="Conversation" positionX="-335" positionY="264" width="128" height="193"/>
         <element name="ConversationParticipant" positionX="-63" positionY="95" width="128" height="103"/>
-        <element name="Message" positionX="-632" positionY="180" width="128" height="240"/>
+        <element name="Message" positionX="-632" positionY="180" width="128" height="225"/>
         <element name="ReadReceipt" positionX="-810" positionY="-369" width="128" height="120"/>
         <element name="Role" positionX="810" positionY="-322" width="128" height="133"/>
         <element name="User" positionX="295" positionY="-460" width="128" height="268"/>

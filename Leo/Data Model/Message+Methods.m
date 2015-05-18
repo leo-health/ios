@@ -24,10 +24,11 @@
 //@property (nonatomic, retain) Conversation *conversation;
 //@property (nonatomic, retain) ReadReceipt *readReceipt;
 
-+ (Message * __nonnull)insertEntityWithBody:(nonnull NSString *)body managedObjectContext:(nonnull NSManagedObjectContext *)context {
++ (Message * __nonnull)insertEntityWithBody:(nonnull NSString *)body senderID:(NSNumber *)senderID managedObjectContext:(nonnull NSManagedObjectContext *)context {
     
     Message *newMessage = [NSEntityDescription insertNewObjectForEntityForName:@"Message" inManagedObjectContext:context];
     newMessage.body = body;
+    newMessage.senderID = senderID;
     
     return newMessage;
 }

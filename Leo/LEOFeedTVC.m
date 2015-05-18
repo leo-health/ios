@@ -7,19 +7,25 @@
 //
 
 #import "LEOFeedTVC.h"
-#import "LEOCardCell.h"
-#import "LEOApiClient.h"
-#import "User.h"
-#import "User+Methods.h"
-#import "Role.h"
-#import "Role+Methods.h"
-#import "LEOCoreDataManager.h"
-#import "UserRole.h"
-#import "UserRole+Methods.h"
+
 #import <OHHTTPStubs/OHHTTPStubs.h>
-#import "LEOConstants.h"
-#import "ArrayDataSource.h"
+#import <NSDate+DateTools.h>
+
 #import "LeoCard.h"
+#import "ArrayDataSource.h"
+#import "LEOCardCell.h"
+
+
+#import "LEOConstants.h"
+#import "LEOApiClient.h"
+#import "LEOCoreDataManager.h"
+
+#import "User+Methods.h"
+#import "Role+Methods.h"
+#import "UserRole+Methods.h"
+#import "Appointment+Methods.h"
+#import "Conversation+Methods.h"
+#import "Message+Methods.h"
 
 @interface LEOFeedTVC ()
 
@@ -73,7 +79,7 @@ static NSString * const CardCellIdentifier = @"CardCell";
     NSDate *nowDate = [NSDate date];
     
     NSSet *roleSet = [NSSet setWithObject:userRole];
-    User *parentUser = [User insertEntityWithFirstName:@"Marilyn" lastName:@"Drossman" dob:nowDate email:@"md5@leohealth.com" roles:roleSet familyID:nil managedObjectContext: self.coreDataManager.managedObjectContext];
+    User *parentUser = [User insertEntityWithFirstName:@"Marilyn" lastName:@"Drossman" dob:nowDate email:@"md10@leohealth.com" roles:roleSet familyID:nil managedObjectContext: self.coreDataManager.managedObjectContext];
     parentUser.title = @"Mrs.";
     parentUser.practiceID = @1;
     parentUser.middleInitial = @"";
@@ -91,21 +97,27 @@ static NSString * const CardCellIdentifier = @"CardCell";
     }];
 
     
-    [LEOApiClient createUserWithUser:parentUser password:@"leohealth" withCompletion:^(NSDictionary * __nonnull rawResults) {
+    [self.coreDataManager resetPasswordWithEmail:@"md10@leohealth.com" withCompletion:^(NSDictionary * __nonnull rawResults) {
+     NSLog(@"RESET PW:%@", rawResults);
+     }];
+    
+    [self.coreDataManager createUserWithUser:parentUser password:@"leohealth" withCompletion:^(NSDictionary * __nonnull rawResults) {
         NSLog(@"%@", rawResults);
         
         [OHHTTPStubs removeStub:parentStub];
         
-        [LEOApiClient loginUserWithEmail:parentUser.email password:@"leohealth" completion:^(NSDictionary * __nonnull rawResults) {
+        [self.coreDataManager loginUserWithEmail:parentUser.email password:@"leohealth" withCompletion:^(NSDictionary * __nonnull rawResults) {
             NSLog(@"%@", rawResults);
             
             self.coreDataManager.currentUser = parentUser;
+            self.coreDataManager.userToken = rawResults[@"data"][@"token"]; //temporary until this is being pulled from the keychain
+            
             Role *childRole = [Role insertEntityWithName:@"child" resourceID:@2 resourceType:@"na" managedObjectContext:self.coreDataManager.managedObjectContext];
             UserRole *childUserRole = [UserRole insertEntityWithRole:childRole managedObjectContext:self.coreDataManager.managedObjectContext];
             NSSet *childRoleSet = [NSSet setWithObject:childUserRole];
             
             User *childUser = [User insertEntityWithFirstName:@"Zachary" lastName:@"Drossman" dob:[NSDate date] email:@"zd9@leohealth.com" roles:childRoleSet
-                                                     familyID:self.coreDataManager.currentUser.familyID
+                                                     familyID:@([self.coreDataManager.currentUser.familyID integerValue] + 1)
                                          managedObjectContext:self.coreDataManager.managedObjectContext];
             
             __weak id<OHHTTPStubsDescriptor> childStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
@@ -118,10 +130,9 @@ static NSString * const CardCellIdentifier = @"CardCell";
                 return response;
                 
             }];
-
             
             if (self.coreDataManager.currentUser) {
-                [LEOApiClient createUserWithUser:childUser password:@"leohealth" withCompletion:^(NSDictionary * __nonnull rawResults) {
+                [self.coreDataManager createUserWithUser:childUser password:@"leohealth" withCompletion:^(NSDictionary * __nonnull rawResults) {
                     NSLog(@"%@", rawResults);
                     [OHHTTPStubs removeStub:childStub];
                 }];
@@ -129,6 +140,37 @@ static NSString * const CardCellIdentifier = @"CardCell";
                 NSLog(@"No current user existed from which to attach this child.");
             }
             
+            NSDate *date = [NSDate dateWithYear:2015 month:12 day:13 hour:2 minute:30 second:0];
+            
+            // NSString *dateOfDay = [NSString stringWithFormat:@"%ld/%ld/%ld",date.month, date.day, date.year];
+            // NSString *timeOfDay = [NSString stringWithFormat:@"%ld:%ld", date.hour, date.minute];
+            
+            Appointment *zachsAppt = [Appointment insertEntityWithDate:date startTime:date duration:@30 appointmentType:@"Standard" patientID:@62 providerID:@2 familyID:@63 managedObjectContext:self.coreDataManager.managedObjectContext];
+            
+            [self.coreDataManager createAppointmentWithAppointment:zachsAppt withCompletion:^(NSDictionary * __nonnull rawResults) {
+                NSLog(@"CREATE APPT: %@", rawResults);
+                
+                [self.coreDataManager getAppointmentsForFamilyOfCurrentUserWithCompletion:^(NSDictionary * __nonnull rawResults) {
+                    NSLog(@"GET APPTS: %@", rawResults);
+                }];
+            }];
+            
+            [self.coreDataManager getConversationsForCurrentUserWithCompletion:^(NSDictionary * __nonnull rawResults) {
+                NSLog(@"GET CONVERSATIONS: %@", rawResults);
+                
+                Conversation *zachConversation = [Conversation insertEntityWithFamilyID:@([self.coreDataManager.currentUser.familyID integerValue] + 1) conversationID:rawResults[@"data"][@"conversation"][0][@"id"] managedObjectContext:self.coreDataManager.managedObjectContext];
+                
+                Message *firstMessage = [Message insertEntityWithBody:@"Hello World!" senderID:self.coreDataManager.currentUser.userID managedObjectContext:self.coreDataManager.managedObjectContext];
+                
+                [self.coreDataManager createMessage:firstMessage forConversation:zachConversation withCompletion:^ void(NSDictionary * __nonnull rawResults) {
+                    
+                    NSLog(@"CREATE MESSAGE: %@", rawResults);
+                    
+                    [self.coreDataManager getMessagesForConversation:zachConversation withCompletion:^ void(NSDictionary * __nonnull rawResults) {
+                        NSLog(@"GET MESSAGES: %@", rawResults);
+                    }];
+                }];
+            }];
         }];
     }];
 }
@@ -148,7 +190,7 @@ static NSString * const CardCellIdentifier = @"CardCell";
 }
 
 #pragma mark - Table view data source
-
+     
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 #warning Potentially incomplete method implementation.
     // Return the number of sections.

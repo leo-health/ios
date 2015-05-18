@@ -23,7 +23,6 @@
 @property (nonatomic, readwrite) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, readwrite) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 @property (nonatomic, readwrite) NSManagedObjectModel *managedObjectModel;
-@property (strong, nonatomic) NSString *userToken;
 
 @end
 
@@ -42,8 +41,8 @@
 #pragma mark - Communcation stack (for APIs)
 
 -(NSString *)userToken {
-    //will eventually pull from the keychain and if not there will ensure the user is logged out, but for now, will come from some temporarily place or be hard coded as necessary.
-    return @"";
+    //will eventually pull from the keychain, but for now, will come from some temporarily place or be hard coded as necessary.
+    return _userToken;
 }
 
 
@@ -59,19 +58,30 @@
     }];
 }
 
-- (void)loginUserWithEmail:(nonnull NSString *)email password:(nonnull NSString *)password completion:(void (^)(NSDictionary * __nonnull rawResults))completionBlock {
+- (void)loginUserWithEmail:(nonnull NSString *)email password:(nonnull NSString *)password withCompletion:(void (^)(NSDictionary * __nonnull rawResults))completionBlock {
     
     NSDictionary *loginParams = @{APIParamUserEmail:email, APIParamUserPassword:password};
     
-    [LEOApiClient loginUserWithParameters:loginParams completion:^(NSDictionary *rawResults) {
+    [LEOApiClient loginUserWithParameters:loginParams withCompletion:^(NSDictionary *rawResults) {
         //TODO: Error terms
         completionBlock(rawResults);
     }];
 }
 
+- (void)resetPasswordWithEmail:(nonnull NSString *)email withCompletion:(void (^)(NSDictionary * __nonnull rawResults))completionBlock {
+    
+    NSDictionary *resetPasswordParams = @{APIParamUserEmail:email};
+    
+    [LEOApiClient resetPasswordWithParameters:resetPasswordParams withCompletion:^(NSDictionary *rawResults) {
+        //TODO: Error terms
+        completionBlock(rawResults);
+    }];
+    
+}
+
 - (void)createAppointmentWithAppointment:(nonnull Appointment *)appointment withCompletion:(void (^)(NSDictionary  * __nonnull rawResults))completionBlock {
-    NSArray *apptProperties = @[[self userToken], appointment.familyID, appointment.leoPatientID, appointment.date, appointment.startTime, appointment.duration, appointment.leoProviderID];
-    NSArray *apptKeys = @[APIParamApptToken, APIParamUserFamilyID, APIParamPatientID, APIParamApptDate, APIParamApptStartTime, APIParamApptDuration, APIParamProviderID];
+    NSArray *apptProperties = @[[self userToken], appointment.leoPatientID, appointment.date, appointment.startTime, appointment.duration, appointment.leoProviderID, appointment.practiceID];
+    NSArray *apptKeys = @[APIParamApptToken, APIParamPatientID, APIParamApptDate, APIParamApptStartTime, APIParamApptDuration, APIParamProviderID, APIParamPracticeID];
     
     NSDictionary *apptParams = [[NSDictionary alloc] initWithObjects:apptProperties forKeys:apptKeys];
     
@@ -81,9 +91,8 @@
     }];
 }
 
-- (void)getAppointmentsForFamilyOfUser:(nonnull User *)user withCompletion:(void (^)(NSDictionary  * __nonnull rawResults))completionBlock {
-    
-    NSArray *apptProperties = @[];
+- (void)getAppointmentsForFamilyOfCurrentUserWithCompletion:(void (^)(NSDictionary  * __nonnull rawResults))completionBlock {
+    NSArray *apptProperties = @[[self userToken]];
     NSArray *apptKeys = @[APIParamApptToken];
     
     NSDictionary *apptParams = [[NSDictionary alloc] initWithObjects:apptProperties forKeys:apptKeys];
@@ -108,18 +117,34 @@
 }
 
 
-- (void)createMessageForConversation:(nonnull Conversation *)conversation withContents:(NSDictionary *)content withCompletion:(nonnull void (^)(NSDictionary  * __nonnull rawResults))completionBlock {
+- (void)createMessage:(Message *)message forConversation:(nonnull Conversation *)conversation withCompletion:(nonnull void (^)(NSDictionary  * __nonnull rawResults))completionBlock {
     
-    NSArray *conversationProperties = @[conversation];
-    NSArray *conversationKeys = @[APIParamConversation];
+    [conversation addMessagesObject:message];
     
-    NSDictionary *conversationParams = [[NSDictionary alloc] initWithObjects:conversationProperties forKeys:conversationKeys];
+    NSArray *messageProperties = @[self.userToken, message.body, message.senderID];
+    NSArray *messageKeys = @[APIParamApptToken, APIParamMessageBody, APIParamMessageSenderID];
     
-    [LEOApiClient createMessageForConversationWithParameters:conversationParams withCompletion:^(NSDictionary *rawResults) {
+    NSDictionary *messageParams = [[NSDictionary alloc] initWithObjects:messageProperties forKeys:messageKeys];
+    
+    [LEOApiClient createMessageForConversation:conversation.conversationID withParameters:messageParams withCompletion:^(NSDictionary * __nonnull rawResults) {
         //TODO: Error terms
         completionBlock(rawResults);
     }];
 }
+
+- (void)getMessagesForConversation:(Conversation *)conversation withCompletion:(nonnull void (^)(NSDictionary  * __nonnull rawResults))completionBlock {
+
+    NSArray *messageProperties = @[self.userToken];
+    NSArray *messageKeys = @[APIParamApptToken];
+    
+    NSDictionary *messageParams = [[NSDictionary alloc] initWithObjects:messageProperties forKeys:messageKeys];
+    
+    [LEOApiClient getMessagesForConversation:conversation.conversationID withParameters:messageParams withCompletion:^(NSDictionary * __nonnull rawResults) {
+        //TODO: Error terms
+        completionBlock(rawResults);
+    }];
+}
+
 
 
 
