@@ -17,7 +17,7 @@
 @property (strong, nonatomic) NSArray *cards;
 @property (strong, nonatomic) User *currentUser;
 
-- (void)prepopulateData;
+- (void)fetchDataWithCompletion:(void (^) (void))completionBlock;
 + (instancetype)sharedManager;
 
 @end

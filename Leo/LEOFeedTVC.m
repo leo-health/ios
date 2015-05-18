@@ -18,30 +18,50 @@
 #import "UserRole+Methods.h"
 #import <OHHTTPStubs/OHHTTPStubs.h>
 #import "LEOConstants.h"
+#import "ArrayDataSource.h"
+#import "LeoCard.h"
 
 @interface LEOFeedTVC ()
 
 @property (strong, nonatomic) LEOCoreDataManager *coreDataManager;
+@property (nonatomic, strong) ArrayDataSource *cardsArrayDataSource;
 
 @end
 
 @implementation LEOFeedTVC
 
-NSString *const adminTestKey = @""; //FIXME: REMOVE BEFORE SENDING OFF TO PRODUCTION!
+static NSString *const adminTestKey = @""; //FIXME: REMOVE BEFORE SENDING OFF TO PRODUCTION!
+static NSString * const CardCellIdentifier = @"CardCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self tableViewSetup];
     [self testAPI];
+    [self.coreDataManager fetchDataWithCompletion:^{
+        [self tableViewSetup];
+    }];
+    
 }
 
 - (void)tableViewSetup {
     
+    void (^configureCell)(LEOCardCell*, LEOCard*) = ^(LEOCardCell* cell, LEOCard* cardView) {
+        cell.cardView.layer.borderWidth = 1;
+        cell.cardView.layer.borderColor = [UIColor blackColor].CGColor;
+
+    };
+    
+    self.cardsArrayDataSource = [[ArrayDataSource alloc] initWithItems:self.coreDataManager.cards
+                                                    cellIdentifier:CardCellIdentifier
+                                                configureCellBlock:configureCell];
+    
+    self.tableView.dataSource = self.cardsArrayDataSource;
+    
     self.tableView.estimatedRowHeight = 180;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-
 }
+
+//Not super concerned about this method as it is only temporary. Will ultimately become a part of tests. DYK (did you know): the vast majority of iOS developers don't test (and most of those don't even know how!) These comments are going to have to go once we get more iOS developers...
 
 - (void)testAPI {
     

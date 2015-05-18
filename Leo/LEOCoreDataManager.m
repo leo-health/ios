@@ -56,10 +56,8 @@
     return _managedObjectModel;
 }
 
-- (NSPersistentStoreCoordinator *)persistentStoreCoordinator
-{
-    if (!_persistentStoreCoordinator)
-    {
+- (NSPersistentStoreCoordinator *)persistentStoreCoordinator {
+    if (!_persistentStoreCoordinator) {
         NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"LEODataModel.sqlite"];
         NSError *error = nil;
         
@@ -75,28 +73,29 @@
 #pragma mark - Application's Documents directory
 
 // Returns the URL to the application's Documents directory.
-- (NSURL *)applicationDocumentsDirectory
-{
+- (NSURL *)applicationDocumentsDirectory {
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
 
 
-- (void)prepopulateData
-{
-    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"LeoCard"];
-    
-    self.cards = [[NSArray alloc] init];
-    self.cards = [self.managedObjectContext executeFetchRequest:request error:nil];
+- (void)fetchDataWithCompletion:(void (^) (void))completionBlock {
 
+    //FIXME: Shouldn't really be pulling users for cards, but it works as a placeholder anyway.
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"User"];
+    self.cards = [[NSArray alloc] init];
+    NSArray *users = [self.managedObjectContext executeFetchRequest:request error:nil];
+    self.cards = users;
+    
+    //FIXME: Safety here
+    completionBlock();
     //FIXME: This does nothing useful right now!
-    if ([self.cards count] == 0) {
-        for (NSInteger x = 0; x < 100; x++) {
-            LEOCard *card = [[LEOCard alloc] init];
-            NSLog(@"%@", card);
-        }
-        
-        self.cards = [self.managedObjectContext executeFetchRequest:request error:nil];
-    }
+//    if ([self.cards count] == 0) {
+//        for (NSInteger x = 0; x < 100; x++) {
+//            LEOCard *card = [[LEOCard alloc] init];
+//            NSLog(@"%@", card);
+//        }
+//        self.cards = [self.managedObjectContext executeFetchRequest:request error:nil];
+//    }
 }
 
 
