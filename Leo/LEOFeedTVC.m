@@ -59,7 +59,10 @@ static NSString * const CardCellIdentifier = @"CardCell";
     self.tableView.estimatedRowHeight = 180;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
 }
+
+
 
 //Not super concerned about this method as it is only temporary. Will ultimately become a part of tests. DYK (did you know): the vast majority of iOS developers don't test (and most of those don't even know how!) These comments are going to have to go once we get more iOS developers...
 

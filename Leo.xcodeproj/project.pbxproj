@@ -105,7 +105,7 @@
 		BC4D68591B04C8560018DAB5 /* Role+Methods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Role+Methods.m"; path = "Data Model/Role+Methods.m"; sourceTree = "<group>"; };
 		BCA69A341B02AE5100C27B2B /* LEOApiClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOApiClient.h; path = APIs/LEOApiClient.h; sourceTree = "<group>"; };
 		BCA69A351B02AE5100C27B2B /* LEOApiClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOApiClient.m; path = APIs/LEOApiClient.m; sourceTree = "<group>"; };
-		BCA69A381B035CEF00C27B2B /* LEOPrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOPrefixHeader.pch; sourceTree = "<group>"; };
+		BCA69A381B035CEF00C27B2B /* Leo-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Leo-Prefix.pch"; path = "../Leo-Prefix.pch"; sourceTree = "<group>"; };
 		BCA69A391B038F0C00C27B2B /* UnmanagedUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnmanagedUser.h; sourceTree = "<group>"; };
 		BCA69A3A1B038F0C00C27B2B /* UnmanagedUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnmanagedUser.m; sourceTree = "<group>"; };
 		BCE1EC641B00E353007C8D0B /* Leo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Leo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -315,7 +315,7 @@
 			isa = PBXGroup;
 			children = (
 				BCE1EC761B00E353007C8D0B /* LaunchScreen.xib */,
-				BCA69A381B035CEF00C27B2B /* LEOPrefixHeader.pch */,
+				BCA69A381B035CEF00C27B2B /* Leo-Prefix.pch */,
 				BCE1EC681B00E353007C8D0B /* Info.plist */,
 				BCE1EC691B00E353007C8D0B /* main.m */,
 			);
@@ -638,6 +638,8 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/Leo-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					DEBUG,
 					"$(inherited)",
@@ -682,6 +684,8 @@
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/Pods/**";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/Leo-Prefix.pch";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -702,7 +706,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = LEOPrefixHeader.pch;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/Leo-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"COCOAPODS=1",
@@ -719,7 +723,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = LEOPrefixHeader.pch;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/Leo-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"COCOAPODS=1",
