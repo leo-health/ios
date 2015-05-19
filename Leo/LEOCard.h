@@ -11,4 +11,10 @@
 
 @interface LEOCard : UIView
 
+@property (strong, nonatomic, nonnull) UIView *headerView;
+@property (strong, nonatomic, nullable) UIView *subheaderView;
+@property (strong, nonatomic, nullable) NSArray *buttonArray;
+@property (strong, nonatomic, nonnull) UIColor *localTintColor;
+@property (strong, nonatomic, nonnull) UIImageView *iconImageView;
+
 @end
