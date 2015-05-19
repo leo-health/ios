@@ -27,6 +27,10 @@
 #import "Conversation+Methods.h"
 #import "Message+Methods.h"
 
+#import "LEOSingleAppointmentSchedulerCardVC.h"
+#import "LEOSingleApptScheduleExpandedCardView.h"
+#import "LEOCardTransitionAnimator.h"
+
 @interface LEOFeedTVC ()
 
 @property (strong, nonatomic) LEOCoreDataManager *coreDataManager;
@@ -41,6 +45,8 @@ static NSString * const CardCellIdentifier = @"CardCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    [self tableViewSetup];
     [self testAPI];
     [self.coreDataManager fetchDataWithCompletion:^{
         [self tableViewSetup];
@@ -95,6 +101,19 @@ static NSString * const CardCellIdentifier = @"CardCell";
         return response;
         
     }];
+    
+    __weak id<OHHTTPStubsDescriptor> createParentUserResponseStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        NSLog(@"Request");
+        return [request.URL.host isEqualToString:APIHost] && [request.URL.path isEqualToString:[NSString stringWithFormat:@"%@/%@",APICommonPath, APIEndpointUser]];
+    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        
+        NSString *fixture = OHPathForFile(@"createParentUserResponse.json", self.class);
+        
+        OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithFileAtPath:fixture statusCode:200 headers:@{@"Content-Type":@"application/json"}];
+        return response;
+    }];
+    
+    
 
     
     [self.coreDataManager resetPasswordWithEmail:@"md10@leohealth.com" withCompletion:^(NSDictionary * __nonnull rawResults) {
@@ -130,7 +149,7 @@ static NSString * const CardCellIdentifier = @"CardCell";
                 return response;
                 
             }];
-            
+
             if (self.coreDataManager.currentUser) {
                 [self.coreDataManager createUserWithUser:childUser password:@"leohealth" withCompletion:^(NSDictionary * __nonnull rawResults) {
                     NSLog(@"%@", rawResults);
@@ -184,10 +203,6 @@ static NSString * const CardCellIdentifier = @"CardCell";
     return _coreDataManager;
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 #pragma mark - Table view data source
      
@@ -214,6 +229,30 @@ static NSString * const CardCellIdentifier = @"CardCell";
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    LEOSingleAppointmentSchedulerCardVC *singleAppointmentScheduleVC = [[LEOSingleAppointmentSchedulerCardVC alloc] initWithNibName:@"LEOSingleAppointmentSchedulerCardVC" bundle:nil];
+    singleAppointmentScheduleVC.transitioningDelegate = self;
+    singleAppointmentScheduleVC.modalPresentationStyle = UIModalPresentationCustom;
+    [self presentViewController:singleAppointmentScheduleVC animated:YES completion:^{
+        
+    }];
+    
+}
+
+- (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented
+                                                                  presentingController:(UIViewController *)presenting
+                                                                      sourceController:(UIViewController *)source {
+    
+    LEOCardTransitionAnimator *animator = [LEOCardTransitionAnimator new];
+    animator.presenting = YES;
+    return animator;
+}
+
+- (id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed {
+    LEOCardTransitionAnimator *animator = [LEOCardTransitionAnimator new];
+    return animator;
+}
 
 /*
 // Override to support conditional editing of the table view.

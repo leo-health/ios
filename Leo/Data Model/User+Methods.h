@@ -12,6 +12,6 @@
 
 + (User * __nonnull)insertEntityWithFirstName:(nonnull NSString *)firstName lastName:(nonnull NSString *)lastName dob:(nonnull NSDate *)dob email:(nonnull NSString*)email roles:(nonnull NSSet *)roles familyID:(nullable NSNumber *)familyID managedObjectContext:(nonnull NSManagedObjectContext *)context;
 
-+ (NSDictionary *)dictionaryFromUser:(nonnull User*)user;
++ (nonnull NSDictionary *)dictionaryFromUser:(nonnull User*)user;
 
 @end
