@@ -54,6 +54,14 @@ static NSString * const CardCellIdentifier = @"CardCell";
     
 }
 
+-(LEOCoreDataManager *)coreDataManager {
+    if (!_coreDataManager) {
+        _coreDataManager = [LEOCoreDataManager sharedManager];
+    }
+    
+    return _coreDataManager;
+}
+
 - (void)tableViewSetup {
     
     void (^configureCell)(LEOCardCell*, LEOCard*) = ^(LEOCardCell* cell, LEOCard* cardView) {
@@ -74,6 +82,38 @@ static NSString * const CardCellIdentifier = @"CardCell";
     
 }
 
+#pragma mark - Table view delegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    LEOCardCell *cell = (LEOCardCell *)[tableView cellForRowAtIndexPath:indexPath];
+    [UIView animateWithDuration:0.1 animations:^{
+        cell.layer.transform = CATransform3DMakeRotation(M_PI_2,0.0,1.0,0.0); ; //flip halfway
+    } completion:^(BOOL finished) {
+        LEOSingleAppointmentSchedulerCardVC *singleAppointmentScheduleVC = [[LEOSingleAppointmentSchedulerCardVC alloc] initWithNibName:@"LEOSingleAppointmentSchedulerCardVC" bundle:nil];
+        singleAppointmentScheduleVC.transitioningDelegate = self;
+        singleAppointmentScheduleVC.modalPresentationStyle = UIModalPresentationCustom;
+        [self presentViewController:singleAppointmentScheduleVC animated:YES completion:^{
+            
+        }];
+    }];
+}
+
+
+#pragma mark - UIViewController Transition Animation Delegate
+- (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented
+                                                                  presentingController:(UIViewController *)presenting
+                                                                      sourceController:(UIViewController *)source {
+    
+    LEOCardTransitionAnimator *animator = [LEOCardTransitionAnimator new];
+    animator.presenting = YES;
+    return animator;
+}
+
+- (id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed {
+    LEOCardTransitionAnimator *animator = [LEOCardTransitionAnimator new];
+    return animator;
+}
 
 
 //Not super concerned about this method as it is only temporary. Will ultimately become a part of tests. DYK (did you know): the vast majority of iOS developers don't test (and most of those don't even know how!) These comments are going to have to go once we get more iOS developers...
@@ -114,11 +154,11 @@ static NSString * const CardCellIdentifier = @"CardCell";
     }];
     
     
-
+    
     
     [self.coreDataManager resetPasswordWithEmail:@"md10@leohealth.com" withCompletion:^(NSDictionary * __nonnull rawResults) {
-     NSLog(@"RESET PW:%@", rawResults);
-     }];
+        NSLog(@"RESET PW:%@", rawResults);
+    }];
     
     [self.coreDataManager createUserWithUser:parentUser password:@"leohealth" withCompletion:^(NSDictionary * __nonnull rawResults) {
         NSLog(@"%@", rawResults);
@@ -149,7 +189,7 @@ static NSString * const CardCellIdentifier = @"CardCell";
                 return response;
                 
             }];
-
+            
             if (self.coreDataManager.currentUser) {
                 [self.coreDataManager createUserWithUser:childUser password:@"leohealth" withCompletion:^(NSDictionary * __nonnull rawResults) {
                     NSLog(@"%@", rawResults);
@@ -195,102 +235,6 @@ static NSString * const CardCellIdentifier = @"CardCell";
 }
 
 
--(LEOCoreDataManager *)coreDataManager {
-    if (!_coreDataManager) {
-        _coreDataManager = [LEOCoreDataManager sharedManager];
-    }
-    
-    return _coreDataManager;
-}
-
-
-#pragma mark - Table view data source
-     
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-#warning Potentially incomplete method implementation.
-    // Return the number of sections.
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete method implementation.
-    // Return the number of rows in the section.
-    return 4;
-}
-
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    LEOCardCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CardCell" forIndexPath:indexPath];
-        
-    cell.cardView.layer.borderWidth = 1;
-    cell.cardView.layer.borderColor = [UIColor blackColor].CGColor;
-    
-    return cell;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    LEOCardCell *cell = (LEOCardCell *)[tableView cellForRowAtIndexPath:indexPath];
-    [UIView animateWithDuration:0.1 animations:^{
-        cell.layer.transform = CATransform3DMakeRotation(M_PI_2,0.0,1.0,0.0); ; //flip halfway
-    } completion:^(BOOL finished) {
-        LEOSingleAppointmentSchedulerCardVC *singleAppointmentScheduleVC = [[LEOSingleAppointmentSchedulerCardVC alloc] initWithNibName:@"LEOSingleAppointmentSchedulerCardVC" bundle:nil];
-        singleAppointmentScheduleVC.transitioningDelegate = self;
-        singleAppointmentScheduleVC.modalPresentationStyle = UIModalPresentationCustom;
-        [self presentViewController:singleAppointmentScheduleVC animated:YES completion:^{
-            
-        }];
-    }];
-}
-
-- (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented
-                                                                  presentingController:(UIViewController *)presenting
-                                                                      sourceController:(UIViewController *)source {
-    
-    LEOCardTransitionAnimator *animator = [LEOCardTransitionAnimator new];
-    animator.presenting = YES;
-    return animator;
-}
-
-- (id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed {
-    LEOCardTransitionAnimator *animator = [LEOCardTransitionAnimator new];
-    return animator;
-}
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 /*
 #pragma mark - Navigation
