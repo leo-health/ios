@@ -17,8 +17,6 @@
 #import "User+Methods.h"
 #import "Card.h"
 
-#import "LEOConversationMiniCardHeaderView.h"
-#import "LEOMiniCardSubheaderView.h"
 #import "UIColor+LeoColors.h"
 #import "UIImage+Extensions.h"
 

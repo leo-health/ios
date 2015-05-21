@@ -7,9 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "LEOMiniCardHeaderView.h"
-#import "LEOMiniCardSubheaderView.h"
-#import "LEOPatientNameView.h"
 #import "LEOSecondaryUserView.h"
 #import "LEOButtonView.h"
 @class Card;
