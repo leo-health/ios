@@ -12,9 +12,13 @@
 
 
 //TODO: Placeholders
-+ (UIColor *) LeoOrangeRed;
-+ (UIColor *) LeoBlue;
-+ (UIColor *) LeoGreen;
-+ (UIColor *) LeoBlack;
++ (UIColor *) leoOrangeRed;
++ (UIColor *) leoBlue;
++ (UIColor *) leoGreen;
++ (UIColor *) leoBlack;
++ (UIColor *) leoWarmHeavyGray;
++ (UIColor *) leoWarmLightGray;
++ (UIColor *) leoBasicGray;
++ (UIColor *) leoWhite;
 
 @end

@@ -7,16 +7,18 @@
 //
 
 #import "LEOCoreDataManager.h"
-#import "LEOCard.h"
 #import "LEOAPIClient.h"
 #import "LEOConstants.h"
 #import "Appointment.h"
 #import "Conversation.h"
 #import "Message.h"
-#import "User.h"
-#import "Role.h"
-#import "UserRole.h"
+#import "Role+Methods.h"
+#import "UserRole+Methods.h"
 #import "User+Methods.h"
+#import "Card.h"
+
+#import "UIColor+LeoColors.h"
+#import "UIImage+Extensions.h"
 
 @interface LEOCoreDataManager()
 
@@ -208,10 +210,35 @@
 - (void)fetchDataWithCompletion:(void (^) (void))completionBlock {
 
     //FIXME: Shouldn't really be pulling users for cards, but it works as a placeholder anyway.
-    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"User"];
-    self.cards = [[NSArray alloc] init];
-    NSArray *users = [self.managedObjectContext executeFetchRequest:request error:nil];
-    self.cards = users;
+    //NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"User"];
+    //self.cards = [[NSArray alloc] init];
+    //NSArray *users = [self.managedObjectContext executeFetchRequest:request error:nil];
+    
+    Role *childRole = [Role insertEntityWithName:@"child" resourceID:@2 resourceType:@"na" managedObjectContext:self.managedObjectContext];
+    UserRole *childUserRole = [UserRole insertEntityWithRole:childRole managedObjectContext:self.managedObjectContext];
+    NSSet *childRoleSet = [NSSet setWithObject:childUserRole];
+    
+    User *childUserOne = [User insertEntityWithFirstName:@"Zachary" lastName:@"Drossman" dob:[NSDate date] email:@"zd9@leohealth.com" roles:childRoleSet
+                                             familyID:@([self.currentUser.familyID integerValue] + 1)
+                                 managedObjectContext:self.managedObjectContext];
+    
+    User *childUserTwo = [User insertEntityWithFirstName:@"Rachel" lastName:@"Drossman" dob:[NSDate date] email:@"rd9@leohealth.com" roles:childRoleSet
+                                                familyID:@([self.currentUser.familyID integerValue] + 1)
+                                    managedObjectContext:self.managedObjectContext];
+    
+    Role *doctorRole = [Role insertEntityWithName:@"doctor" resourceID:@2 resourceType:@"na" managedObjectContext:self.managedObjectContext];
+    UserRole *doctorUserRole = [UserRole insertEntityWithRole:doctorRole managedObjectContext:self.managedObjectContext];
+    NSSet *doctorRoleSet = [NSSet setWithObject:doctorUserRole];
+    
+    User *doctorUser = [User insertEntityWithFirstName:@"Om" lastName:@"Lala" dob:[NSDate date] email:@"om10@leohealth.com" roles:doctorRoleSet familyID:nil
+                                 managedObjectContext:self.managedObjectContext];
+    doctorUser.credentialSuffix = @"MD";
+    doctorUser.title = @"Dr.";
+    Card *cardOne = [[Card alloc] initWithID:@1 state:@"Reply" title:@"Welcome to Leo." body:@"If you have any questions or comments, you can reach us at any time." primaryUser:childUserOne secondaryUser:doctorUser timestamp:[NSDate date] priority:@1 type:CardTypeConversation];
+    
+    Card *cardTwo = [[Card alloc] initWithID:@1 state:@"Ready" title:@"Make your first appointment!" body:@"Tour our facility." primaryUser:childUserTwo secondaryUser:doctorUser timestamp:[NSDate date] priority:@2 type:CardTypeAppointment];
+
+    self.cards = @[cardOne, cardTwo];
     
     //FIXME: Safety here
     completionBlock();

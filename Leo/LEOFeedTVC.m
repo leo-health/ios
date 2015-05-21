@@ -11,10 +11,10 @@
 #import <OHHTTPStubs/OHHTTPStubs.h>
 #import <NSDate+DateTools.h>
 
-#import "LeoCard.h"
+#import "LEOCardView.h"
 #import "ArrayDataSource.h"
 #import "LEOCardCell.h"
-
+#import "Card.h"
 
 #import "LEOConstants.h"
 #import "LEOApiClient.h"
@@ -27,14 +27,16 @@
 #import "Conversation+Methods.h"
 #import "Message+Methods.h"
 
+#import "UIColor+LeoColors.h"
+
 #import "LEOSingleAppointmentSchedulerCardVC.h"
-#import "LEOSingleApptScheduleExpandedCardView.h"
 #import "LEOCardTransitionAnimator.h"
 
 @interface LEOFeedTVC ()
 
 @property (strong, nonatomic) LEOCoreDataManager *coreDataManager;
 @property (nonatomic, strong) ArrayDataSource *cardsArrayDataSource;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 
@@ -45,29 +47,28 @@ static NSString * const CardCellIdentifier = @"CardCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-    [self tableViewSetup];
-    [self testAPI];
+    
+    [self primaryInterfaceSetup];
+//    [self testAPI];
     [self.coreDataManager fetchDataWithCompletion:^{
         [self tableViewSetup];
     }];
     
 }
 
--(LEOCoreDataManager *)coreDataManager {
-    if (!_coreDataManager) {
-        _coreDataManager = [LEOCoreDataManager sharedManager];
-    }
-    
-    return _coreDataManager;
+- (void)primaryInterfaceSetup {
+    self.navigationController.navigationBar.barTintColor = [UIColor leoOrangeRed];
+    self.navigationController.navigationBar.translucent = NO;
 }
 
 - (void)tableViewSetup {
     
-    void (^configureCell)(LEOCardCell*, LEOCard*) = ^(LEOCardCell* cell, LEOCard* cardView) {
-        cell.cardView.layer.borderWidth = 1;
-        cell.cardView.layer.borderColor = [UIColor blackColor].CGColor;
-
+    void (^configureCell)(LEOCardCell*, Card*) = ^(LEOCardCell* cell, Card* card) {
+        
+        LEOCardView *cardView = [[LEOCardView alloc] initWithCard:card];
+        cell.cardView = cardView;
+        [cell.contentView addSubview:cell.cardView];
+        [cell setNeedsUpdateConstraints];
     };
     
     self.cardsArrayDataSource = [[ArrayDataSource alloc] initWithItems:self.coreDataManager.cards
@@ -75,9 +76,12 @@ static NSString * const CardCellIdentifier = @"CardCell";
                                                 configureCellBlock:configureCell];
     
     self.tableView.dataSource = self.cardsArrayDataSource;
-    
+    self.tableView.delegate = self;
+
     self.tableView.estimatedRowHeight = 180;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
+    self.tableView.backgroundColor = [UIColor leoBasicGray];
+    
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
 }
@@ -141,21 +145,7 @@ static NSString * const CardCellIdentifier = @"CardCell";
         return response;
         
     }];
-    
-    __weak id<OHHTTPStubsDescriptor> createParentUserResponseStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-        NSLog(@"Request");
-        return [request.URL.host isEqualToString:APIHost] && [request.URL.path isEqualToString:[NSString stringWithFormat:@"%@/%@",APICommonPath, APIEndpointUser]];
-    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        
-        NSString *fixture = OHPathForFile(@"createParentUserResponse.json", self.class);
-        
-        OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithFileAtPath:fixture statusCode:200 headers:@{@"Content-Type":@"application/json"}];
-        return response;
-    }];
-    
-    
-    
-    
+
     [self.coreDataManager resetPasswordWithEmail:@"md10@leohealth.com" withCompletion:^(NSDictionary * __nonnull rawResults) {
         NSLog(@"RESET PW:%@", rawResults);
     }];
@@ -235,15 +225,12 @@ static NSString * const CardCellIdentifier = @"CardCell";
 }
 
 
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+-(LEOCoreDataManager *)coreDataManager {
+    if (!_coreDataManager) {
+        _coreDataManager = [LEOCoreDataManager sharedManager];
+    }
+    
+    return _coreDataManager;
 }
-*/
 
 @end

@@ -7,7 +7,7 @@
 //
 
 #import "Appointment+Methods.h"
-
+#import "LEOConstants.h"
 
 //@property (nonatomic, retain) NSNumber * bookedByUserID;
 //@property (nonatomic, retain) NSDate * createdAt;
@@ -32,6 +32,20 @@
     newAppointment.familyID = familyID;
     
     return newAppointment;
+}
+
++ (Appointment * __nonnull)insertEntityWithJSONDictionary:(nonnull NSDictionary *)jsonResponse managedObjectContext:(nonnull NSManagedObjectContext *)context {
+    
+    Appointment *newAppointment = [NSEntityDescription insertNewObjectForEntityForName:@"Appointment" inManagedObjectContext:context];
+    newAppointment.date = jsonResponse[APIParamApptDate];
+    newAppointment.startTime = jsonResponse[APIParamApptStartTime];
+    newAppointment.leoAppointmentType = jsonResponse[APIParamApptType];
+    newAppointment.leoPatientID = jsonResponse[APIParamPatientID];
+    newAppointment.leoProviderID = jsonResponse[APIParamProviderID];
+    newAppointment.familyID = jsonResponse[APIParamUserFamilyID];
+    
+    return newAppointment;
+
 }
 
 @end

@@ -7,7 +7,7 @@
 //
 
 #import "Conversation+Methods.h"
-
+#import "LEOConstants.h"
 @implementation Conversation (Methods)
 
 //@property (nonatomic, retain) NSNumber * archived;
@@ -29,5 +29,17 @@
     
     return newConversation;
 }
+
++ (Conversation * __nonnull)insertEntityWithJSONDictionary:(nonnull NSDictionary *)jsonResponse managedObjectContext:(nonnull NSManagedObjectContext *)context {
+    
+    Conversation *newConversation = [NSEntityDescription insertNewObjectForEntityForName:@"Conversation" inManagedObjectContext:context];
+    newConversation.familyID = jsonResponse[APIParamUserFamilyID];
+    newConversation.conversationID = jsonResponse[APIParamConversationID];
+    
+    return newConversation;
+    
+}
+
+
 
 @end

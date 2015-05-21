@@ -65,6 +65,7 @@
     </entity>
     <entity name="User" representedClassName="User" syncable="YES">
         <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="credentialSuffix" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="dob" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="familyID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
@@ -73,6 +74,7 @@
         <attribute name="lastName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="middleInitial" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="practiceID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="suffix" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="updatedAt" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="userID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
@@ -93,7 +95,7 @@
         <element name="Message" positionX="-632" positionY="180" width="128" height="225"/>
         <element name="ReadReceipt" positionX="-810" positionY="-369" width="128" height="120"/>
         <element name="Role" positionX="810" positionY="-322" width="128" height="133"/>
-        <element name="User" positionX="295" positionY="-460" width="128" height="268"/>
+        <element name="User" positionX="295" positionY="-460" width="128" height="300"/>
         <element name="UserRole" positionX="574" positionY="-240" width="128" height="105"/>
     </elements>
 </model>

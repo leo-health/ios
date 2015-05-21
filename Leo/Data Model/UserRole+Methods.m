@@ -9,6 +9,7 @@
 #import "UserRole+Methods.h"
 #import "Role.h"
 #import "Role+Methods.h"
+#import "LEOConstants.h"
 
 @implementation UserRole (Methods)
 
@@ -16,6 +17,14 @@
     
     UserRole *newUserRole = [NSEntityDescription insertNewObjectForEntityForName:@"UserRole" inManagedObjectContext:context];
     newUserRole.role = role;
+    
+    return newUserRole;
+}
+
++ (UserRole * __nonnull)insertEntityWithDictionary:(nonnull NSDictionary *)jsonResponse managedObjectContext:(nonnull NSManagedObjectContext *)context  {
+    
+    UserRole *newUserRole = [NSEntityDescription insertNewObjectForEntityForName:@"UserRole" inManagedObjectContext:context];
+    newUserRole.role = jsonResponse[APIParamUserRole];
     
     return newUserRole;
 }
