@@ -16,15 +16,6 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    
-//    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-//    
-//    self.initialViewController = [[UIViewController alloc] initWithNibName:@"LEOFeedViewController" bundle:nil];
-//    
-//    self.window.rootViewController = self.initialViewController;
-//    
-//    [self.window makeKeyAndVisible];
-    
         
     return YES;
 }
