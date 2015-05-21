@@ -18,7 +18,7 @@ extern NSString *const APIEndpointLogin; // @"sessions";
 extern NSString *const APIEndpointResetPassword; // @"sessions/password";
 extern NSString *const APIEndpointAppointment; // @"appointments";
 extern NSString *const APIEndpointConversation; // @"conversations";
-extern NSString *const APIEndpointMessage; // @"sessions/password";
+extern NSString *const APIEndpointMessage; // @"messages";
 extern NSString *const APIEndpointInvitation; // @"invitations";
 
 extern NSString *const APIParamUserFirstName; // @"first_name";
@@ -45,6 +45,12 @@ extern NSString *const APIParamApptToken; // @"access_token"; //TODO: Can Danish
 extern NSString *const APIParamPracticeID; // @"practice_id";
 extern NSString *const APIParamProviderID; // @"provider_id";
 extern NSString *const APIParamConversation; //@"conversation";
+extern NSString *const APIParamConversationID; // = @"conversation_id";
+
+extern NSString *const APIParamMessageBody; // = @"body";
+extern NSString *const APIParamMessageSenderID; // = @"sender_id";
+
+
 
 extern NSString *const APIParamCreatedAt; // = @"created_at";
 extern NSString *const APIParamUpdatedAt; // = @"updated_at";

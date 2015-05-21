@@ -10,4 +10,6 @@
 
 @interface Message (Methods)
 
++ (Message * __nonnull)insertEntityWithBody:(nonnull NSString *)body senderID:(NSNumber *)senderID managedObjectContext:(nonnull NSManagedObjectContext *)context;
+
 @end

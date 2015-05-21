@@ -14,7 +14,6 @@
 @implementation Message
 
 @dynamic body;
-@dynamic conversationID;
 @dynamic createdAt;
 @dynamic escalatedAt;
 @dynamic escalatedByID;

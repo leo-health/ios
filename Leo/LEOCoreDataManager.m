@@ -9,6 +9,14 @@
 #import "LEOCoreDataManager.h"
 #import "LEOCard.h"
 #import "LEOAPIClient.h"
+#import "LEOConstants.h"
+#import "Appointment.h"
+#import "Conversation.h"
+#import "Message.h"
+#import "User.h"
+#import "Role.h"
+#import "UserRole.h"
+#import "User+Methods.h"
 
 @interface LEOCoreDataManager()
 
@@ -17,6 +25,7 @@
 @property (nonatomic, readwrite) NSManagedObjectModel *managedObjectModel;
 
 @end
+
 @implementation LEOCoreDataManager
 
 + (instancetype)sharedManager
@@ -28,6 +37,124 @@
     });
     return sharedManager;
 }
+
+#pragma mark - Communcation stack (for APIs)
+
+-(NSString *)userToken {
+    //will eventually pull from the keychain, but for now, will come from some temporarily place or be hard coded as necessary.
+    return _userToken;
+}
+
+
+- (void)createUserWithUser:(nonnull User *)user password:(nonnull NSString *)password withCompletion:(void (^)( NSDictionary * __nonnull rawResults))completionBlock {
+    
+    NSMutableDictionary *userParams = [[User dictionaryFromUser:user] mutableCopy];
+    userParams[APIParamUserPassword] = password;
+    [LEOApiClient createUserWithParameters:userParams withCompletion:^(NSDictionary *rawResults) {
+        NSDictionary *userDictionary = rawResults[@"data"][@"user"]; //TODO: Make sure I want this here and not defined somewhere else.
+        user.userID = userDictionary[APIParamUserID];
+        user.familyID = userDictionary[APIParamUserFamilyID];
+        completionBlock(rawResults);
+    }];
+}
+
+- (void)loginUserWithEmail:(nonnull NSString *)email password:(nonnull NSString *)password withCompletion:(void (^)(NSDictionary * __nonnull rawResults))completionBlock {
+    
+    NSDictionary *loginParams = @{APIParamUserEmail:email, APIParamUserPassword:password};
+    
+    [LEOApiClient loginUserWithParameters:loginParams withCompletion:^(NSDictionary *rawResults) {
+        //TODO: Error terms
+        completionBlock(rawResults);
+    }];
+}
+
+- (void)resetPasswordWithEmail:(nonnull NSString *)email withCompletion:(void (^)(NSDictionary * __nonnull rawResults))completionBlock {
+    
+    NSDictionary *resetPasswordParams = @{APIParamUserEmail:email};
+    
+    [LEOApiClient resetPasswordWithParameters:resetPasswordParams withCompletion:^(NSDictionary *rawResults) {
+        //TODO: Error terms
+        completionBlock(rawResults);
+    }];
+    
+}
+
+- (void)createAppointmentWithAppointment:(nonnull Appointment *)appointment withCompletion:(void (^)(NSDictionary  * __nonnull rawResults))completionBlock {
+    NSArray *apptProperties = @[[self userToken], appointment.leoPatientID, appointment.date, appointment.startTime, appointment.duration, appointment.leoProviderID, appointment.practiceID];
+    NSArray *apptKeys = @[APIParamApptToken, APIParamPatientID, APIParamApptDate, APIParamApptStartTime, APIParamApptDuration, APIParamProviderID, APIParamPracticeID];
+    
+    NSDictionary *apptParams = [[NSDictionary alloc] initWithObjects:apptProperties forKeys:apptKeys];
+    
+    [LEOApiClient createAppointmentWithParameters:apptParams withCompletion:^(NSDictionary *rawResults) {
+        //TODO: Error terms
+        completionBlock(rawResults);
+    }];
+}
+
+- (void)getAppointmentsForFamilyOfCurrentUserWithCompletion:(void (^)(NSDictionary  * __nonnull rawResults))completionBlock {
+    NSArray *apptProperties = @[[self userToken]];
+    NSArray *apptKeys = @[APIParamApptToken];
+    
+    NSDictionary *apptParams = [[NSDictionary alloc] initWithObjects:apptProperties forKeys:apptKeys];
+    
+    [LEOApiClient getAppointmentsForFamilyWithParameters:apptParams withCompletion:^(NSDictionary * __nonnull rawResults) {
+        //TODO: Error terms
+        completionBlock(rawResults);
+    }];
+}
+
+- (void)getConversationsForCurrentUserWithCompletion:(void (^)(NSDictionary  * __nonnull rawResults))completionBlock {
+    
+    NSArray *conversationProperties = @[self.userToken];
+    NSArray *conversationKeys = @[APIParamApptToken];
+    
+    NSDictionary *conversationParams = [[NSDictionary alloc] initWithObjects:conversationProperties forKeys:conversationKeys];
+    
+    [LEOApiClient getConversationsForFamilyWithParameters:conversationParams withCompletion:^(NSDictionary * __nonnull rawResults) {
+        //TODO: Error terms
+        completionBlock(rawResults);
+    }];
+}
+
+
+- (void)createMessage:(Message *)message forConversation:(nonnull Conversation *)conversation withCompletion:(nonnull void (^)(NSDictionary  * __nonnull rawResults))completionBlock {
+    
+    [conversation addMessagesObject:message];
+    
+    NSArray *messageProperties = @[self.userToken, message.body, message.senderID];
+    NSArray *messageKeys = @[APIParamApptToken, APIParamMessageBody, APIParamMessageSenderID];
+    
+    NSDictionary *messageParams = [[NSDictionary alloc] initWithObjects:messageProperties forKeys:messageKeys];
+    
+    [LEOApiClient createMessageForConversation:conversation.conversationID withParameters:messageParams withCompletion:^(NSDictionary * __nonnull rawResults) {
+        //TODO: Error terms
+        completionBlock(rawResults);
+    }];
+}
+
+- (void)getMessagesForConversation:(Conversation *)conversation withCompletion:(nonnull void (^)(NSDictionary  * __nonnull rawResults))completionBlock {
+
+    NSArray *messageProperties = @[self.userToken];
+    NSArray *messageKeys = @[APIParamApptToken];
+    
+    NSDictionary *messageParams = [[NSDictionary alloc] initWithObjects:messageProperties forKeys:messageKeys];
+    
+    [LEOApiClient getMessagesForConversation:conversation.conversationID withParameters:messageParams withCompletion:^(NSDictionary * __nonnull rawResults) {
+        //TODO: Error terms
+        completionBlock(rawResults);
+    }];
+}
+
+
+
+
+
+
+
+
+
+
+
 
 #pragma mark - Core Data stack
 

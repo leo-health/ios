@@ -42,7 +42,7 @@
     return newUser;
 }
 
-+ (NSDictionary *)dictionaryFromUser:(nonnull User*)user {
++ (nonnull NSDictionary *)dictionaryFromUser:(nonnull User*)user {
     
     NSMutableDictionary *userDictionary = [[NSMutableDictionary alloc] init];
     
@@ -52,7 +52,7 @@
     userDictionary[APIParamUserMiddleInitial] = user.middleInitial ? user.middleInitial : [NSNull null];
     userDictionary[APIParamUserLastName] = user.lastName ? user.lastName : [NSNull null]; //req?
     userDictionary[APIParamUserDOB] = user.dob ? user.dob : [NSNull null]; //req?
-    userDictionary[APIParamUserEmail] = user.email ? user.email : [NSNull null]; //req?
+    userDictionary[APIParamUserEmail] = user.email ? user.email : [NSNull null];
     userDictionary[APIParamUserGender] = user.gender ? user.gender : [NSNull null];
     userDictionary[APIParamUserPractice] = user.practiceID ? user.practiceID : [NSNull null];
 

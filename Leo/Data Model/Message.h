@@ -14,7 +14,6 @@
 @interface Message : NSManagedObject
 
 @property (nonatomic, retain) NSString * body;
-@property (nonatomic, retain) NSNumber * conversationID;
 @property (nonatomic, retain) NSDate * createdAt;
 @property (nonatomic, retain) NSDate * escalatedAt;
 @property (nonatomic, retain) NSNumber * escalatedByID;

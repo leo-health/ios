@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LEOFeedTVC : UITableViewController
+@interface LEOFeedTVC : UITableViewController <UIViewControllerTransitioningDelegate>
 
 @end
