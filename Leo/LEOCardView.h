@@ -13,7 +13,7 @@
 
 @interface LEOCardView : UIView
 
-@property (nonatomic) NSInteger cardType;
+@property (strong, nonatomic) Card *card;
 @property (strong, nonatomic) UILabel *primaryUserLabel;
 @property (strong, nonatomic) UILabel *titleLabel;
 @property (strong, nonatomic) UILabel *bodyTextLabel;
@@ -22,5 +22,6 @@
 @property (strong, nonatomic) UIImageView *iconImageView;
 
 - (instancetype)initWithCard:(Card *)card;
+- (void)setupSubviews;
 
 @end

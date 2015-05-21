@@ -226,6 +226,11 @@
                                                 familyID:@([self.currentUser.familyID integerValue] + 1)
                                     managedObjectContext:self.managedObjectContext];
     
+    User *childUserThree = [User insertEntityWithFirstName:@"Tracy" lastName:@"Drossman" dob:[NSDate date] email:@"td9@leohealth.com" roles:childRoleSet
+                                                familyID:@([self.currentUser.familyID integerValue] + 1)
+                                    managedObjectContext:self.managedObjectContext];
+
+    
     Role *doctorRole = [Role insertEntityWithName:@"doctor" resourceID:@2 resourceType:@"na" managedObjectContext:self.managedObjectContext];
     UserRole *doctorUserRole = [UserRole insertEntityWithRole:doctorRole managedObjectContext:self.managedObjectContext];
     NSSet *doctorRoleSet = [NSSet setWithObject:doctorUserRole];
@@ -234,11 +239,20 @@
                                  managedObjectContext:self.managedObjectContext];
     doctorUser.credentialSuffix = @"MD";
     doctorUser.title = @"Dr.";
+    
     Card *cardOne = [[Card alloc] initWithID:@1 state:@"Reply" title:@"Welcome to Leo." body:@"If you have any questions or comments, you can reach us at any time." primaryUser:childUserOne secondaryUser:doctorUser timestamp:[NSDate date] priority:@1 type:CardTypeConversation];
     
-    Card *cardTwo = [[Card alloc] initWithID:@1 state:@"Ready" title:@"Make your first appointment!" body:@"Tour our facility." primaryUser:childUserTwo secondaryUser:doctorUser timestamp:[NSDate date] priority:@2 type:CardTypeAppointment];
+    Card *cardTwo = [[Card alloc] initWithID:@2 state:@"Ready" title:@"Schedule Rachel's First Visit" body:@"Take a tour of the practice and meet with our world class physicians." primaryUser:childUserTwo secondaryUser:doctorUser timestamp:[NSDate date] priority:@2 type:CardTypeAppointment];
+    
+    Card *cardThree = [[Card alloc] initWithID:@3 state:@"VisitSummary" title:@"Recent Visit" body:@"Jacob was seen for a sore throat and cough." primaryUser:childUserThree secondaryUser:doctorUser timestamp:[NSDate date] priority:@3 type:CardTypeVisit];
 
-    self.cards = @[cardOne, cardTwo];
+    Card *cardFour = [[Card alloc] initWithID:@1 state:@"Reply" title:@"Welcome to Leo." body:@"If you have any questions or comments, you can reach us at any time." primaryUser:childUserOne secondaryUser:doctorUser timestamp:[NSDate date] priority:@1 type:CardTypeConversation];
+    
+    Card *cardFive = [[Card alloc] initWithID:@2 state:@"Ready" title:@"Schedule Rachel's First Visit" body:@"Take a tour of the practice and meet with our world class physicians." primaryUser:childUserTwo secondaryUser:doctorUser timestamp:[NSDate date] priority:@2 type:CardTypeAppointment];
+    
+    Card *cardSix = [[Card alloc] initWithID:@3 state:@"VisitSummary" title:@"Recent Visit" body:@"Jacob was seen for a sore throat and cough." primaryUser:childUserThree secondaryUser:doctorUser timestamp:[NSDate date] priority:@3 type:CardTypeVisit];
+    
+    self.cards = @[cardOne, cardTwo, cardThree, cardFour, cardFive, cardSix];
     
     //FIXME: Safety here
     completionBlock();

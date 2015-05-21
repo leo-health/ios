@@ -13,9 +13,14 @@
 #import "UIFont+LeoFonts.h"
 #import "LEOConstants.h"
 
+@interface LEOSecondaryUserView ()
+
+@property (nonatomic) BOOL alreadyConstrained;
+
+@end
+
+
 @implementation LEOSecondaryUserView
-
-
 
 - (nonnull instancetype)initWithCardType:(NSInteger)cardType user:(nonnull User *)user timestamp:(nonnull NSDate *)timestamp {
 
@@ -38,7 +43,10 @@
             _timestampLabel.text = timestamp.timeAgoSinceNow;
         } else {
             //FIXME: This only accounts for dates within the past year! And doesn't yet deal with timezones!
-            _timestampLabel.text = [timestamp formattedDateWithFormat:@"'MM' 'dd', T'HH':'mm'Z'"];
+            NSDateFormatter *format = [[NSDateFormatter alloc] init];
+            [format setDateFormat:@"MMM dd',' HH':'mm"];
+            _timestampLabel.text = [format stringFromDate:timestamp];
+ 
         }
         
         [self addSubview:_nameLabel];
@@ -58,6 +66,8 @@
 
 - (void)layoutView {
     
+    
+    if (!self.alreadyConstrained) {
     self.nameLabel.translatesAutoresizingMaskIntoConstraints = NO;
     self.suffixLabel.translatesAutoresizingMaskIntoConstraints = NO;
     self.dividerLabel.translatesAutoresizingMaskIntoConstraints = NO;
@@ -99,8 +109,12 @@
     [self addConstraints:suffixCredentialLabelVerticalConstraints];
     [self addConstraints:dividerLabelVerticalConstraints];
     [self addConstraints:timestampVerticalConstraints];
+        
+        self.alreadyConstrained = YES;
+    }
     
 }
+
 
 - (void)colorView {
     self.nameLabel.textColor = self.cardTintColor;
@@ -109,6 +123,7 @@
     self.timestampLabel.textColor = [UIColor leoWarmHeavyGray];
     self.suffixCredentialLabel.textColor = [UIColor leoWarmHeavyGray];
 }
+
 
 - (void)typefaceView {
     self.nameLabel.font = [UIFont leoBodyBolderFont];

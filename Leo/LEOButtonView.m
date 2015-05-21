@@ -34,13 +34,13 @@
                 
                 [self addSubview:_buttonOne];
                 [self addSubview:_buttonTwo];
-
+                
                 break;
-            
+                
             case 1:
                 _buttonOne = buttonArray[0];
                 [self addSubview:_buttonOne];
-
+                
             default:
                 break;
         }
@@ -54,41 +54,41 @@
 
 - (void)updateConstraints {
     
-if (!self.constraintsAlreadyUpdated) {
-    [self removeConstraints:self.constraints];
-    
-    if (self.buttonTwo) {
-        self.translatesAutoresizingMaskIntoConstraints = NO;
-        self.buttonOne.translatesAutoresizingMaskIntoConstraints = NO;
-        self.buttonTwo.translatesAutoresizingMaskIntoConstraints = NO;
-
-//        self.buttonOne.backgroundColor = [UIColor greenColor]
-        NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(_buttonOne, _buttonTwo);
+    if (!self.constraintsAlreadyUpdated) {
+        [self removeConstraints:self.constraints];
         
-        NSArray *verticalConstraintsForButtonOne = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_buttonOne]|" options:0 metrics:nil views:viewsDictionary];
-        NSArray *verticalConstraintsForButtonTwo = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_buttonTwo]|" options:0 metrics:nil views:viewsDictionary];
-        NSArray *horizontalConstraint = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_buttonOne][_buttonTwo(==_buttonOne)]|" options:0 metrics:nil views:viewsDictionary];
+        if (self.buttonTwo) {
+            self.translatesAutoresizingMaskIntoConstraints = NO;
+            self.buttonOne.translatesAutoresizingMaskIntoConstraints = NO;
+            self.buttonTwo.translatesAutoresizingMaskIntoConstraints = NO;
+            
+            //        self.buttonOne.backgroundColor = [UIColor greenColor]
+            NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(_buttonOne, _buttonTwo);
+            
+            NSArray *verticalConstraintsForButtonOne = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_buttonOne]|" options:0 metrics:nil views:viewsDictionary];
+            NSArray *verticalConstraintsForButtonTwo = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_buttonTwo]|" options:0 metrics:nil views:viewsDictionary];
+            NSArray *horizontalConstraint = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_buttonOne][_buttonTwo(==_buttonOne)]|" options:0 metrics:nil views:viewsDictionary];
+            
+            [self addConstraints:verticalConstraintsForButtonOne];
+            [self addConstraints:verticalConstraintsForButtonTwo];
+            [self addConstraints:horizontalConstraint];
+            
+        }
         
-        [self addConstraints:verticalConstraintsForButtonOne];
-        [self addConstraints:verticalConstraintsForButtonTwo];
-        [self addConstraints:horizontalConstraint];
+        else if (self.buttonOne) {
+            
+            self.buttonOne.translatesAutoresizingMaskIntoConstraints = NO;
+            
+            NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(_buttonOne);
+            
+            NSArray *verticalConstraint = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_buttonOne]|" options:0 metrics:nil views:viewsDictionary];
+            NSArray *horizontalConstraint = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_buttonOne]|" options:0 metrics:nil views:viewsDictionary];
+            
+            [self addConstraints:verticalConstraint];
+            [self addConstraints:horizontalConstraint];
+            
+        }
         
-    }
-    
-    else if (self.buttonOne) {
-        
-        self.buttonOne.translatesAutoresizingMaskIntoConstraints = NO;
-        
-        NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(_buttonOne);
-        
-        NSArray *verticalConstraint = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_buttonOne]|" options:0 metrics:nil views:viewsDictionary];
-        NSArray *horizontalConstraint = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_buttonOne]|" options:0 metrics:nil views:viewsDictionary];
-        
-        [self addConstraints:verticalConstraint];
-        [self addConstraints:horizontalConstraint];
-        
-    }
-    
         self.constraintsAlreadyUpdated = YES;
     }
     [super updateConstraints];
@@ -96,11 +96,11 @@ if (!self.constraintsAlreadyUpdated) {
 
 
 /*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
-}
-*/
+ // Only override drawRect: if you perform custom drawing.
+ // An empty implementation adversely affects performance during animation.
+ - (void)drawRect:(CGRect)rect {
+ // Drawing code
+ }
+ */
 
 @end

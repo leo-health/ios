@@ -25,7 +25,7 @@
 
 - (void)updateConstraints {
     
-   // if (!self.didSetupConstraints) {
+    if (!self.didSetupConstraints) {
         
         [self.contentView removeConstraints:self.contentView.constraints];
         self.cardView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -44,7 +44,8 @@
         [self.contentView addConstraints:@[leadingConstraint,trailingConstraint,topConstraint, bottomConstraint]];
         
         self.didSetupConstraints = YES;
-    //}
+    
+    }
     
     [super updateConstraints];
 }

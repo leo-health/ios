@@ -70,10 +70,16 @@ static NSString * const CardCellIdentifier = @"CardCell";
     
     void (^configureCell)(LEOCardCell*, Card*) = ^(LEOCardCell* cell, Card* card) {
         
-        LEOCardView *cardView = [[LEOCardView alloc] initWithCard:card];
-        cell.cardView = cardView;
+        if (!cell.cardView) {
+            LEOCardView *cardView = [[LEOCardView alloc] initWithCard:card];
+            cell.cardView = cardView;
+        } else {
+            cell.cardView.card = card;
+        }
+        
+        [cell.cardView setupSubviews];
         [cell.contentView addSubview:cell.cardView];
-        [cell setNeedsUpdateConstraints];
+//        [cell setNeedsUpdateConstraints];
     };
     
     self.cardsArrayDataSource = [[ArrayDataSource alloc] initWithItems:self.coreDataManager.cards
