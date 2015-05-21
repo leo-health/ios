@@ -10,6 +10,7 @@
 
 @interface Message (Methods)
 
-+ (Message * __nonnull)insertEntityWithBody:(nonnull NSString *)body senderID:(NSNumber *)senderID managedObjectContext:(nonnull NSManagedObjectContext *)context;
++ (Message * __nonnull)insertEntityWithBody:(nonnull NSString *)body senderID:(nonnull NSNumber *)senderID managedObjectContext:(nonnull NSManagedObjectContext *)context;
++ (Message * __nonnull)insertEntityWithJSONDictionary:(nonnull NSDictionary *)jsonResponse managedObjectContext:(nonnull NSManagedObjectContext *)context;
 
 @end

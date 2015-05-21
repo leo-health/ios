@@ -30,18 +30,20 @@
     return newUser;
 }
 
-+ (User * __nonnull)insertEntityWithDictionary:(nonnull NSDictionary *)userDictionary managedObjectContext:(nonnull NSManagedObjectContext *)context  {
++ (User * __nonnull)insertEntityWithDictionary:(nonnull NSDictionary *)jsonResponse managedObjectContext:(nonnull NSManagedObjectContext *)context  {
     
     User *newUser = [NSEntityDescription insertNewObjectForEntityForName:@"User" inManagedObjectContext:context];
-    newUser.firstName = userDictionary[@"first_name"];
-    newUser.lastName = userDictionary[@"last_name"];
-        newUser.dob = userDictionary[@"dob"];
-    newUser.email = userDictionary[@"email"];
+    newUser.firstName = jsonResponse[APIParamUserFirstName];
+    newUser.lastName = jsonResponse[APIParamUserLastName];
+        newUser.dob = jsonResponse[APIParamUserDOB];
+    newUser.email = jsonResponse[APIParamUserEmail];
+    
     //TODO: Will a newuser dictionary have roles or will this create a complication?
     
     return newUser;
 }
 
+//
 + (nonnull NSDictionary *)dictionaryFromUser:(nonnull User*)user {
     
     NSMutableDictionary *userDictionary = [[NSMutableDictionary alloc] init];

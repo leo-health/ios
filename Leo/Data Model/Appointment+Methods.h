@@ -11,5 +11,6 @@
 @interface Appointment (Methods)
 
 + (Appointment * __nonnull)insertEntityWithDate:(nonnull NSDate *)date startTime:(nonnull NSDate *)startTime duration:(nonnull NSNumber *)duration appointmentType:(nonnull NSString *)leoAppointmentType patientID:(nonnull NSNumber *)leoPatientID providerID:(nonnull NSNumber *)leoProviderID familyID:(nonnull NSNumber *)familyID managedObjectContext:(nonnull NSManagedObjectContext *)context;
++ (Appointment * __nonnull)insertEntityWithJSONDictionary:(nonnull NSDictionary *)jsonResponse managedObjectContext:(nonnull NSManagedObjectContext *)context;
 
 @end
