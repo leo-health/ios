@@ -8,6 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
+typedef enum CardType {
+    CardTypeAppointment,
+    CardTypeConversation,
+    CardTypeToDo,
+    CardTypeOther
+} CardType;
+
 @interface LEOConstants : NSObject
 
 extern NSString *const APIBaseURL; // @"http://leo-api.herokuapp.com/api/v1";
@@ -41,6 +48,7 @@ extern NSString *const APIParamApptDate; // @"date";
 extern NSString *const APIParamApptStartTime; // @"start_time";
 extern NSString *const APIParamApptDuration; // @"duration";
 extern NSString *const APIParamApptToken; // @"access_token"; //TODO: Can Danish change all tokens to match the same key?
+extern NSString *const APIParamApptType; // = @"leo_appointment_type";
 
 extern NSString *const APIParamPracticeID; // @"practice_id";
 extern NSString *const APIParamProviderID; // @"provider_id";
@@ -50,8 +58,15 @@ extern NSString *const APIParamConversationID; // = @"conversation_id";
 extern NSString *const APIParamMessageBody; // = @"body";
 extern NSString *const APIParamMessageSenderID; // = @"sender_id";
 
-
-
+extern NSString *const APIParamCardID; // = @"id";
+extern NSString *const APIParamCardState; // = @"state";
+extern NSString *const APIParamCardTitle; // = @"title";
+extern NSString *const APIParamCardBody; // = @"body";
+extern NSString *const APIParamCardPrimaryUser; // = @"primaryUser";
+extern NSString *const APIParamCardSecondaryUser; // = @"secondaryUser";
+extern NSString *const APIParamCardPriority; // = @"priority";
+extern NSString *const APIParamCardType; // = @"type";
+extern NSString *const APIParamCardTimeStamp; // = @"timestamp"; //FIXME: Is this needed or are we using some existing timestamp?
 extern NSString *const APIParamCreatedAt; // = @"created_at";
 extern NSString *const APIParamUpdatedAt; // = @"updated_at";
 
