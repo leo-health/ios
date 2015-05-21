@@ -11,6 +11,8 @@
 typedef enum CardType {
     CardTypeAppointment,
     CardTypeConversation,
+    CardTypeVisit,
+    CardTypeForm,
     CardTypeToDo,
     CardTypeOther
 } CardType;

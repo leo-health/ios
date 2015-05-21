@@ -13,6 +13,7 @@
 
 @property (strong, nonatomic, nonnull) UILabel *nameLabel;
 @property (strong, nonatomic, nullable) UILabel *suffixLabel;
+@property (strong, nonatomic, nullable) UILabel *suffixCredentialLabel;
 @property (strong, nonatomic, nullable) UILabel *timestampLabel;
 @property (strong, nonatomic, nullable) UILabel *dividerLabel;
 @property (strong, nonatomic, nonnull) UIColor *cardTintColor;

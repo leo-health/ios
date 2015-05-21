@@ -1,9 +1,9 @@
 //
 //  User.m
-//  
+//  Leo
 //
-//  Created by Zachary Drossman on 5/13/15.
-//
+//  Created by Zachary Drossman on 5/20/15.
+//  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
 #import "User.h"
@@ -23,9 +23,11 @@
 @dynamic lastName;
 @dynamic middleInitial;
 @dynamic practiceID;
+@dynamic title;
 @dynamic updatedAt;
 @dynamic userID;
-@dynamic title;
+@dynamic suffix;
+@dynamic credentialSuffix;
 @dynamic appointments;
 @dynamic participant;
 @dynamic roles;

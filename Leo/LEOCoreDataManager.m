@@ -232,9 +232,9 @@
     
     User *doctorUser = [User insertEntityWithFirstName:@"Om" lastName:@"Lala" dob:[NSDate date] email:@"om10@leohealth.com" roles:doctorRoleSet familyID:nil
                                  managedObjectContext:self.managedObjectContext];
-    
-
-    Card *cardOne = [[Card alloc] initWithID:@1 state:@"Reply" title:@"Everybody Dance Now." body:@"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." primaryUser:childUserOne secondaryUser:doctorUser timestamp:[NSDate date] priority:@1 type:CardTypeConversation];
+    doctorUser.credentialSuffix = @"MD";
+    doctorUser.title = @"Dr.";
+    Card *cardOne = [[Card alloc] initWithID:@1 state:@"Reply" title:@"Welcome to Leo." body:@"If you have any questions or comments, you can reach us at any time." primaryUser:childUserOne secondaryUser:doctorUser timestamp:[NSDate date] priority:@1 type:CardTypeConversation];
     
     Card *cardTwo = [[Card alloc] initWithID:@1 state:@"Ready" title:@"Make your first appointment!" body:@"Tour our facility." primaryUser:childUserTwo secondaryUser:doctorUser timestamp:[NSDate date] priority:@2 type:CardTypeAppointment];
 
