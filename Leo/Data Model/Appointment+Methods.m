@@ -9,13 +9,6 @@
 #import "Appointment+Methods.h"
 #import "LEOConstants.h"
 
-//@property (nonatomic, retain) NSNumber * bookedByUserID;
-//@property (nonatomic, retain) NSDate * createdAt;
-//@property (nonatomic, retain) NSNumber * familyID;
-//@property (nonatomic, retain) NSNumber * rescheduledAppointmentID;
-//@property (nonatomic, retain) NSString * status;
-//@property (nonatomic, retain) NSDate * updatedAt;
-//@property (nonatomic, retain) NSSet *users;
 
 @implementation Appointment (Methods)
 
@@ -46,6 +39,30 @@
     
     return newAppointment;
 
+}
+
+- (NSArray *)prepareButtonsForState:(AppointmentState)state {
+    
+    NSMutableArray *buttonArray = [[NSMutableArray alloc] init];
+    
+    switch (state) {
+        case AppointmentStateMake: {
+            UIButton *makeAppointmentButton = [[UIButton alloc] init];
+            [makeAppointmentButton setTitle:@"Make Appointment" forState:UIControlStateNormal];
+            [buttonArray addObject:makeAppointmentButton];
+            break;
+        }
+        case AppointmentStateMade:
+            break;
+            
+        case AppointmentStateCancelled:
+            break;
+            
+        default:
+            break;
+    }
+  
+    return buttonArray;
 }
 
 @end

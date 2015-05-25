@@ -8,6 +8,12 @@
 
 #import "Conversation+Methods.h"
 #import "LEOConstants.h"
+
+typedef enum ConversationState {
+    ConversationStateInitialize,
+    ConversationStateNewMessage,
+    ConversationStateReplied,
+} ConversationState;
 @implementation Conversation (Methods)
 
 //@property (nonatomic, retain) NSNumber * archived;
@@ -40,6 +46,30 @@
     
 }
 
+- (NSArray *)prepareButtonsForState:(ConversationState)state {
+    
+    NSMutableArray *buttonArray = [[NSMutableArray alloc] init];
+    
+    switch (state) {
+        case ConversationStateInitialize: {
+            UIButton *beginConversationButton = [[UIButton alloc] init];
+            [beginConversationButton setTitle:@"Reply" forState:UIControlStateNormal];
+            UIButton *callUsButton = [[UIButton alloc] init];
+            [buttonArray addObjectsFromArray:@[beginConversationButton ,callUsButton]];
+            break;
+        }
+        case ConversationStateNewMessage:
+            break;
+            
+        case ConversationStateReplied:
+            break;
+            
+        default:
+            break;
+    }
+    
+    return buttonArray;
+}
 
 
 @end

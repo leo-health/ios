@@ -21,9 +21,8 @@
 @property (strong, nonatomic, nullable) UILabel *timestampLabel;
 @property (strong, nonatomic, nullable) UILabel *dividerLabel;
 
-@property (nonatomic) NSInteger CardActivity;
-@property (strong, nonatomic, nonnull) User *user;
-@property (strong, nonatomic, nonnull) NSDate *timestamp;
+@property (nonatomic) NSInteger cardFormat;
+
 @property (strong, nonatomic, nonnull) UIColor *cardTintColor; //FIXME: Likely will remove and associate with User at some stage.
 
 @property (nonatomic) BOOL constraintsAlreadyUpdated;
@@ -34,10 +33,12 @@
 
 @implementation LEOSecondaryUserView
 
-- (nonnull instancetype)initWithCardActivity:(CardActivity)CardActivity user:(nonnull User *)user timestamp:(nonnull NSDate *)timestamp {
+- (nonnull instancetype)initWithCardFormat:(CardFormat)cardFormat user:(nonnull User *)user timestamp:(nonnull NSDate *)timestamp {
     
     self = [super init];
     if (self) {
+        
+        self.cardFormat = cardFormat;
         
         _nameLabel = [[UILabel alloc] init];
         _suffixLabel = [[UILabel alloc] init];
@@ -45,19 +46,19 @@
         _dividerLabel = [[UILabel alloc] init];
         _timestampLabel = [[UILabel alloc] init];
         
-        self.nameLabel.text = [NSString stringWithFormat:@"%@ %@ %@",self.user.title, self.user.firstName, self.user.lastName]; //FIXME: Replace with transient property on User class
-        self.suffixLabel.text = self.user.suffix;
-        self.suffixCredentialLabel.text = self.user.credentialSuffix;
+        self.nameLabel.text = [NSString stringWithFormat:@"%@ %@ %@",user.title, user.firstName, user.lastName]; //FIXME: Replace with transient property on User class
+        self.suffixLabel.text = user.suffix;
+        self.suffixCredentialLabel.text = user.credentialSuffix;
         self.dividerLabel.text = @"∙";
         
         
-        if (self.CardActivity == CardActivityConversation) {
-            self.timestampLabel.text = self.timestamp.timeAgoSinceNow;
+        if (self.cardFormat == CardFormatTwoButtonSecondaryOnly) {
+            self.timestampLabel.text = timestamp.timeAgoSinceNow;
         } else {
             //FIXME: This only accounts for dates within the past year! And doesn't yet deal with timezones!
             NSDateFormatter *format = [[NSDateFormatter alloc] init];
             [format setDateFormat:@"MMM dd',' HH':'mm"];
-            self.timestampLabel.text = [format stringFromDate:self.timestamp];
+            self.timestampLabel.text = [format stringFromDate:timestamp];
             
         }
         
@@ -69,7 +70,7 @@
         
         [self colorView];
         [self typefaceView];
-        [self setNeedsUpdateConstraints];
+        //[self setNeedsUpdateConstraints];
         
         
     }
@@ -96,7 +97,7 @@
         NSDictionary *viewsDictionary = @{@"localDividerLabel":localDividerLabel, @"localNameLabel":localNameLabel, @"localTimestampLabel":localTimestampLabel, @"localSuffixCredentialLabel":localSuffixCredentialLabel, @"localSuffixLabel":localSuffixLabel};
         
         NSArray *horizontalLayoutConstraints;
-        if (self.CardActivity == CardActivityConversation) {
+        if (self.cardFormat == CardFormatTwoButtonSecondaryOnly) {
             horizontalLayoutConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[localNameLabel][localSuffixLabel]-(4)-[localSuffixCredentialLabel]-[localDividerLabel]-[localTimestampLabel]" options:0 metrics:nil views:viewsDictionary];
         }
         else {
@@ -105,7 +106,7 @@
         
         NSArray *nameLabelVerticalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[localNameLabel]|" options:0 metrics:nil views:viewsDictionary];
         
-        NSArray *suffixLabelVerticalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[localSuffixLabel]|" options:0 metrics:nil views:viewsDictionary];
+        NSArray *suffixLabelVerticalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[localSuffixLabel]" options:0 metrics:nil views:viewsDictionary];
         
         NSArray *dividerLabelVerticalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[localDividerLabel]|" options:0 metrics:nil views:viewsDictionary];
         

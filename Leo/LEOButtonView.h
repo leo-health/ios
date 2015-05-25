@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LEOConstants.h"
 
 @interface LEOButtonView : UIView
 
 @property (strong, nonatomic, nonnull) NSArray *buttonArray;
 
 - (nonnull instancetype)initWithButtonArray:(nonnull NSArray *)buttonArray;
-
+- (nonnull instancetype)initWithActivity:(CardActivity)activity state:(CardState)state;
 @end

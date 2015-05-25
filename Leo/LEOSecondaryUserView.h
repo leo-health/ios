@@ -13,7 +13,7 @@
 @interface LEOSecondaryUserView : UIView
 
 
-- (nonnull instancetype)initWithCardActivity:(CardActivity)CardActivity user:(nonnull User *)user timestamp:(nonnull NSDate *)timestamp;
+- (nonnull instancetype)initWithCardFormat:(CardFormat)cardFormat user:(nonnull User *)user timestamp:(nonnull NSDate *)timestamp;
 
 - (void)resetConstraints;
 

@@ -17,7 +17,7 @@
 @property (strong, nonatomic) UILabel *primaryUserLabel;
 @property (strong, nonatomic) UILabel *titleLabel;
 @property (strong, nonatomic) UILabel *bodyTextLabel;
-@property (strong, nonatomic) UILabel *secondaryUserView;
+@property (strong, nonatomic) LEOSecondaryUserView *secondaryUserView;
 @property (strong, nonatomic) LEOButtonView *buttonView;
 @property (strong, nonatomic) UIImageView *iconImageView;
 

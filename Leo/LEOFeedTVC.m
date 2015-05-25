@@ -93,7 +93,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     
     self.tableView.estimatedRowHeight = 180;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
-    self.tableView.backgroundColor = [UIColor yellowColor];
+    self.tableView.backgroundColor = [UIColor leoBasicGray];
     
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
@@ -130,26 +130,29 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     
     
     Card *card = self.coreDataManager.cards[indexPath.row];
-    
+        
     NSString *cellIdentifier;
     
     switch (card.format) {
         case CardFormatTwoButtonSecondaryOnly: {
             cellIdentifier = CellIdentifierLEOCardTwoButtonSecondaryOnly;
-            LEOOneButtonPrimaryOnlyCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier
+            LEOTwoButtonSecondaryOnlyCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier
                                                                                 forIndexPath:indexPath];
             cell.cardView.card = card;
-            [cell.cardView setupSubviews];
+            
+//            [cell setNeedsUpdateConstraints];
+//            [cell updateConstraintsIfNeeded];
             return cell;
         }
             
         case CardFormatTwoButtonPrimaryOnly: {
             cellIdentifier = CellIdentifierLEOCardTwoButtonPrimaryOnly;
-            LEOTwoButtonSecondaryOnlyCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier
+            LEOTwoButtonPrimaryOnlyCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier
                                                                                   forIndexPath:indexPath];
             cell.cardView.card = card;
-            [cell.cardView setupSubviews];
 
+//            [cell setNeedsUpdateConstraints];
+//            [cell updateConstraintsIfNeeded];
             return cell;
         }
         case CardFormatTwoButtonSecondaryAndPrimary: {
@@ -157,8 +160,9 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
             LEOTwoButtonPrimaryOnlyCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier
                                                                                 forIndexPath:indexPath];
             cell.cardView.card = card;
-            [cell.cardView setupSubviews];
-
+            
+//            [cell setNeedsUpdateConstraints];
+//            [cell updateConstraintsIfNeeded];
             return cell;
         }
             

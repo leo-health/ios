@@ -18,6 +18,7 @@
 
 - (void)awakeFromNib {
     // Initialization code
+    self.backgroundColor = [UIColor clearColor];
 
 }
 
@@ -32,6 +33,7 @@
     if (!self.didSetupConstraints) {
         
         [self.contentView removeConstraints:self.contentView.constraints];
+        
         self.cardView.translatesAutoresizingMaskIntoConstraints = NO;
         
         NSLayoutConstraint *leadingConstraint = [NSLayoutConstraint constraintWithItem:self.cardView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeading multiplier:1.0 constant:16];
@@ -45,11 +47,26 @@
         [self.contentView addConstraints:@[leadingConstraint,trailingConstraint,topConstraint, bottomConstraint]];
         
         self.didSetupConstraints = YES;
-                
+        
+    
+        [self.contentView setContentCompressionResistancePriority:1 forAxis:UILayoutConstraintAxisVertical];
+        [self.contentView setContentHuggingPriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisVertical];
     }
     
     [super updateConstraints];
 }
+
+//- (void)layoutSubviews
+//{
+//    [super layoutSubviews];
+//    
+//    // (2)
+//    [self.contentView updateConstraintsIfNeeded];
+//    [self.contentView layoutIfNeeded];
+//    
+//    // (3)
+//    self.cardView.bodyTextLabel.preferredMaxLayoutWidth = CGRectGetWidth(self.cardView.bodyTextLabel.frame);
+//}
 
 
 @end

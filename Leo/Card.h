@@ -22,6 +22,7 @@
 @property (strong, nonatomic, nonnull) NSNumber *priority;
 @property (nonatomic) CardActivity activity;
 @property (nonatomic) CardFormat format;
+//@property (strong, nonatomic, nonnull) id activity;
 
 - (nonnull instancetype)initWithID:(nonnull NSNumber *)id state:(CardState)state title:(nonnull NSString *)title body:(nonnull NSString *)body primaryUser:(nonnull User *)primaryUser secondaryUser:(nonnull User *)secondaryUser timestamp:(nonnull NSDate *)timestamp priority:(nonnull NSNumber *)priority activity:(CardActivity)activity;
 
