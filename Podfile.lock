@@ -26,6 +26,7 @@ PODS:
   - pop (1.0.7)
   - Specta (0.5.0)
   - SSKeychain (1.2.3)
+  - UIImage-Resize (1.0.1)
   - VBFPopFlatButton (0.0.6):
     - pop
 
@@ -36,6 +37,7 @@ DEPENDENCIES:
   - OHHTTPStubs
   - Specta (~> 0.5)
   - SSKeychain
+  - UIImage-Resize
   - VBFPopFlatButton
 
 SPEC CHECKSUMS:
@@ -46,6 +48,7 @@ SPEC CHECKSUMS:
   pop: 628ffc631644601567ee8bfaaaea493ebd7d0923
   Specta: eb90708ed77569bbda089f8ead10bb99b8e9489e
   SSKeychain: 3f42991739c6c60a9cf1bbd4dff6c0d3694bcf3d
+  UIImage-Resize: fa776860f10e6900bbaf53a73e494bdceaaccc77
   VBFPopFlatButton: 782344da63f104c279a857d806e065117a7e1196
 
 COCOAPODS: 0.37.1

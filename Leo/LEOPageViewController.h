@@ -8,10 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LEOPageViewController : UIViewController <UIPageViewControllerDataSource, UIPageViewControllerDelegate>
+@interface LEOPageViewController : UIViewController
 
-- (IBAction)startWalkthrough:(id)sender;
 @property (strong, nonatomic) UIPageViewController *pageViewController;
-@property (strong, nonatomic) NSArray *children;
 
 @end

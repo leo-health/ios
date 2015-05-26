@@ -7,6 +7,8 @@
 //
 
 #import "AppDelegate.h"
+#import "UIFont+LeoFonts.h"
+#import "UIColor+LeoColors.h"
 
 @interface AppDelegate ()
 
@@ -16,8 +18,18 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-        
+    
+    [self setupGlobalFormatting];
+    
     return YES;
+}
+
+- (void)setupGlobalFormatting {
+    
+    [self.window setTintColor:[UIColor leoWhite]];
+    NSDictionary *barButtonAppearanceDict = @{NSFontAttributeName : [UIFont leoBodyBolderFont], NSForegroundColorAttributeName: [UIColor leoWhite]};
+    [[UIBarButtonItem appearance] setTitleTextAttributes:barButtonAppearanceDict forState:UIControlStateNormal];
+    
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

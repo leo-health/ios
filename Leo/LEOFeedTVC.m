@@ -28,7 +28,7 @@
 #import "Message+Methods.h"
 
 #import "UIColor+LeoColors.h"
-
+#import "UIImage+Extensions.h"
 #import "LEOSingleAppointmentSchedulerCardVC.h"
 #import "LEOCardTransitionAnimator.h"
 
@@ -57,8 +57,13 @@ static NSString * const CardCellIdentifier = @"CardCell";
 }
 
 - (void)primaryInterfaceSetup {
-    self.navigationController.navigationBar.barTintColor = [UIColor leoOrangeRed];
-    self.navigationController.navigationBar.translucent = NO;
+    //self.navigationController.navigationBar.barTintColor = [UIColor leoOrangeRed];
+    //self.navigationController.navigationBar.translucent = NO;
+    
+    UIImage *whiteHeart = [UIImage imageNamed:@"leoheart" withColor:[UIColor leoBlack]];
+    UIBarButtonItem *leoheartBBI = [[UIBarButtonItem alloc] initWithImage:whiteHeart style:UIBarButtonItemStylePlain target:self action:nil];
+
+
 }
 
 - (void)tableViewSetup {
