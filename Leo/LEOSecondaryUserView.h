@@ -8,17 +8,13 @@
 
 #import <UIKit/UIKit.h>
 @class User;
+#import "LEOConstants.h"
 
 @interface LEOSecondaryUserView : UIView
 
-@property (strong, nonatomic, nonnull) UILabel *nameLabel;
-@property (strong, nonatomic, nullable) UILabel *suffixLabel;
-@property (strong, nonatomic, nullable) UILabel *suffixCredentialLabel;
-@property (strong, nonatomic, nullable) UILabel *timestampLabel;
-@property (strong, nonatomic, nullable) UILabel *dividerLabel;
-@property (strong, nonatomic, nonnull) UIColor *cardTintColor;
-@property (nonatomic) NSInteger cardType;
 
-- (nonnull instancetype)initWithCardType:(NSInteger)cardType user:(nonnull User *)user timestamp:(nonnull NSDate *)timestamp;
+- (nonnull instancetype)initWithCardActivity:(CardActivity)CardActivity user:(nonnull User *)user timestamp:(nonnull NSDate *)timestamp;
+
+- (void)resetConstraints;
 
 @end

@@ -1,28 +1,31 @@
 //
-//  LEOCardCellTableViewCell.m
+//  LEOAppointmentCardCell.m
 //  Leo
 //
-//  Created by Zachary Drossman on 5/11/15.
+//  Created by Zachary Drossman on 5/22/15.
 //  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
-#import "LEOCardCell.h"
-#import "UIColor+LeoColors.h"
+#import "LEOTwoButtonSecondaryOnlyCell.h"
 
-@interface LEOCardCell ()
+@interface LEOTwoButtonSecondaryOnlyCell ()
 
 @property (nonatomic) BOOL didSetupConstraints;
 
 @end
 
-@implementation LEOCardCell
+@implementation LEOTwoButtonSecondaryOnlyCell
 
 - (void)awakeFromNib {
-    self.backgroundColor = [UIColor clearColor];
-    
-//[self setNeedsUpdateConstraints];
+    // Initialization code
+
 }
 
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    [super setSelected:selected animated:animated];
+
+    // Configure the view for the selected state
+}
 
 - (void)updateConstraints {
     
@@ -38,26 +41,15 @@
         NSLayoutConstraint *topConstraint = [NSLayoutConstraint constraintWithItem:self.cardView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1.0 constant:8];
         
         NSLayoutConstraint *bottomConstraint = [NSLayoutConstraint constraintWithItem:self.cardView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-8];
-                
+        
         [self.contentView addConstraints:@[leadingConstraint,trailingConstraint,topConstraint, bottomConstraint]];
         
         self.didSetupConstraints = YES;
-        self.cardView.backgroundColor = [UIColor whiteColor];
-        self.cardView.layer.cornerRadius = 5;
-    
+                
     }
     
     [super updateConstraints];
 }
-
-//- (void)prepareForReuse
-//{
-//    [super prepareForReuse];
-//    [self setNeedsUpdateConstraints];
-//    [self.cardView resetConstraints];
-//    [self.cardView setNeedsUpdateConstraints];
-//}
-
 
 
 @end

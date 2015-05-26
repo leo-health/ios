@@ -52,10 +52,13 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    id item = [self itemAtIndexPath:indexPath];
+    
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:self.cellIdentifier
                                                             forIndexPath:indexPath];
-    id item = [self itemAtIndexPath:indexPath];
+    
     self.configureCellBlock(cell, item);
+   
     return cell;
 }
 

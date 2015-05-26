@@ -32,6 +32,10 @@
 #import "LEOSingleAppointmentSchedulerCardVC.h"
 #import "LEOCardTransitionAnimator.h"
 
+#import "LEOOneButtonPrimaryOnlyCell.h"
+#import "LEOTwoButtonPrimaryOnlyCell.h"
+#import "LEOTwoButtonSecondaryOnlyCell.h"
+
 @interface LEOFeedTVC ()
 
 @property (strong, nonatomic) LEOCoreDataManager *coreDataManager;
@@ -45,11 +49,18 @@
 static NSString *const adminTestKey = @""; //FIXME: REMOVE BEFORE SENDING OFF TO PRODUCTION!
 static NSString * const CardCellIdentifier = @"CardCell";
 
+static NSString *const CellIdentifierLEOCardTwoButtonSecondaryOnly = @"LEOTwoButtonSecondaryOnlyCell";
+static NSString *const CellIdentifierLEOCardTwoButtonSecondaryAndPrimary = @"LEOTwoButtonSecondaryAndPrimaryCell";
+static NSString *const CellIdentifierLEOCardTwoButtonPrimaryOnly = @"LEOTwoButtonPrimaryOnlyCell";
+static NSString *const CellIdentifierLEOCardOneButtonSecondaryOnly = @"LEOOneButtonSecondaryOnlyCell";
+static NSString *const CellIdentifierLEOCardOneButtonSecondaryAndPrimary = @"LEOOneButtonSecondaryAndPrimaryCell";
+static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButtonPrimaryOnlyCell";
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     [self primaryInterfaceSetup];
-//    [self testAPI];
+    //    [self testAPI];
     [self.coreDataManager fetchDataWithCompletion:^{
         [self tableViewSetup];
     }];
@@ -68,30 +79,21 @@ static NSString * const CardCellIdentifier = @"CardCell";
 
 - (void)tableViewSetup {
     
-    void (^configureCell)(LEOCardCell*, Card*) = ^(LEOCardCell* cell, Card* card) {
-        
-        if (!cell.cardView) {
-            LEOCardView *cardView = [[LEOCardView alloc] initWithCard:card];
-            cell.cardView = cardView;
-        } else {
-            cell.cardView.card = card;
-        }
-        
-        [cell.cardView setupSubviews];
-        [cell.contentView addSubview:cell.cardView];
-//        [cell setNeedsUpdateConstraints];
-    };
+    //    void (^configureCell)(LEOCardCell*, Card*) = ^(LEOCardCell* cell, Card* card) {
+    //
+    //        cell.cardView.card = card;
+    //    };
+    //
+    //    self.cardsArrayDataSource = [[ArrayDataSource alloc] initWithItems:self.coreDataManager.cards
+    //                                                    cellIdentifier:CardCellIdentifier
+    //                                                configureCellBlock:configureCell];
     
-    self.cardsArrayDataSource = [[ArrayDataSource alloc] initWithItems:self.coreDataManager.cards
-                                                    cellIdentifier:CardCellIdentifier
-                                                configureCellBlock:configureCell];
-    
-    self.tableView.dataSource = self.cardsArrayDataSource;
+    self.tableView.dataSource = self; //self.cardsArrayDataSource;
     self.tableView.delegate = self;
-
+    
     self.tableView.estimatedRowHeight = 180;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
-    self.tableView.backgroundColor = [UIColor leoBasicGray];
+    self.tableView.backgroundColor = [UIColor yellowColor];
     
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
@@ -100,18 +102,71 @@ static NSString * const CardCellIdentifier = @"CardCell";
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     LEOCardCell *cell = (LEOCardCell *)[tableView cellForRowAtIndexPath:indexPath];
-    [UIView animateWithDuration:0.1 animations:^{
-        cell.layer.transform = CATransform3DMakeRotation(M_PI_2,0.0,1.0,0.0); ; //flip halfway
-    } completion:^(BOOL finished) {
-        LEOSingleAppointmentSchedulerCardVC *singleAppointmentScheduleVC = [[LEOSingleAppointmentSchedulerCardVC alloc] initWithNibName:@"LEOSingleAppointmentSchedulerCardVC" bundle:nil];
-        singleAppointmentScheduleVC.transitioningDelegate = self;
-        singleAppointmentScheduleVC.modalPresentationStyle = UIModalPresentationCustom;
-        [self presentViewController:singleAppointmentScheduleVC animated:YES completion:^{
+    NSLog(@"STOP");
+    
+    //    [UIView animateWithDuration:0.1 animations:^{
+    //        cell.layer.transform = CATransform3DMakeRotation(M_PI_2,0.0,1.0,0.0); ; //flip halfway
+    //    } completion:^(BOOL finished) {
+    //        LEOSingleAppointmentSchedulerCardVC *singleAppointmentScheduleVC = [[LEOSingleAppointmentSchedulerCardVC alloc] initWithNibName:@"LEOSingleAppointmentSchedulerCardVC" bundle:nil];
+    //        singleAppointmentScheduleVC.transitioningDelegate = self;
+    //        singleAppointmentScheduleVC.modalPresentationStyle = UIModalPresentationCustom;
+    //        [self presentViewController:singleAppointmentScheduleVC animated:YES completion:^{
+    //
+    //        }];
+    //    }];
+    
+}
+
+
+#pragma mark UITableViewDataSource
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return self.coreDataManager.cards.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    
+    Card *card = self.coreDataManager.cards[indexPath.row];
+    
+    NSString *cellIdentifier;
+    
+    switch (card.format) {
+        case CardFormatTwoButtonSecondaryOnly: {
+            cellIdentifier = CellIdentifierLEOCardTwoButtonSecondaryOnly;
+            LEOOneButtonPrimaryOnlyCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier
+                                                                                forIndexPath:indexPath];
+            cell.cardView.card = card;
+            [cell.cardView setupSubviews];
+            return cell;
+        }
             
-        }];
-    }];
+        case CardFormatTwoButtonPrimaryOnly: {
+            cellIdentifier = CellIdentifierLEOCardTwoButtonPrimaryOnly;
+            LEOTwoButtonSecondaryOnlyCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier
+                                                                                  forIndexPath:indexPath];
+            cell.cardView.card = card;
+            [cell.cardView setupSubviews];
+
+            return cell;
+        }
+        case CardFormatTwoButtonSecondaryAndPrimary: {
+            cellIdentifier = CellIdentifierLEOCardTwoButtonSecondaryAndPrimary;
+            LEOTwoButtonPrimaryOnlyCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier
+                                                                                forIndexPath:indexPath];
+            cell.cardView.card = card;
+            [cell.cardView setupSubviews];
+
+            return cell;
+        }
+            
+        default:
+            break;
+    }
+    
+    return nil;
 }
 
 
@@ -156,7 +211,7 @@ static NSString * const CardCellIdentifier = @"CardCell";
         return response;
         
     }];
-
+    
     [self.coreDataManager resetPasswordWithEmail:@"md10@leohealth.com" withCompletion:^(NSDictionary * __nonnull rawResults) {
         NSLog(@"RESET PW:%@", rawResults);
     }];
@@ -243,5 +298,6 @@ static NSString * const CardCellIdentifier = @"CardCell";
     
     return _coreDataManager;
 }
+
 
 @end

@@ -62,7 +62,7 @@ NSString *const APIParamCardBody = @"body";
 NSString *const APIParamCardPrimaryUser = @"primaryUser";
 NSString *const APIParamCardSecondaryUser = @"secondaryUser";
 NSString *const APIParamCardPriority = @"priority";
-NSString *const APIParamCardType = @"type";
+NSString *const APIParamCardActivity = @"type";
 NSString *const APIParamCardTimeStamp = @"timestamp";
 
 @end

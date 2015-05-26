@@ -59,7 +59,6 @@
 		BCE1ECA11B01443F007C8D0B /* UIFont+LeoFonts.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE1ECA01B01443F007C8D0B /* UIFont+LeoFonts.m */; };
 		BCE1ECA41B014613007C8D0B /* LEOConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE1ECA31B014613007C8D0B /* LEOConstants.m */; };
 		BCED00811B0150F4007653D6 /* LEOFeedTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = BCED00801B0150F4007653D6 /* LEOFeedTVC.m */; };
-		BCED00851B015204007653D6 /* LEOCardCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BCED00831B015204007653D6 /* LEOCardCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -171,8 +170,6 @@
 		BCE1ECA31B014613007C8D0B /* LEOConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOConstants.m; sourceTree = "<group>"; };
 		BCED007F1B0150F4007653D6 /* LEOFeedTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOFeedTVC.h; sourceTree = "<group>"; };
 		BCED00801B0150F4007653D6 /* LEOFeedTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOFeedTVC.m; sourceTree = "<group>"; };
-		BCED00821B015204007653D6 /* LEOCardCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOCardCell.h; sourceTree = "<group>"; };
-		BCED00831B015204007653D6 /* LEOCardCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOCardCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -199,6 +196,12 @@
 		3101D6DB1B0CE08F00640C10 /* MiniCards */ = {
 			isa = PBXGroup;
 			children = (
+				31FD32A41B0FBB2600361E52 /* LEOTwoButtonSecondaryOnlyCell.h */,
+				31FD32A51B0FBB2600361E52 /* LEOTwoButtonSecondaryOnlyCell.m */,
+				31FD32A81B0FD15300361E52 /* LEOTwoButtonPrimaryOnlyCell.h */,
+				31FD32A91B0FD15300361E52 /* LEOTwoButtonPrimaryOnlyCell.m */,
+				31FD32A11B0FBAE600361E52 /* LEOOneButtonPrimaryOnlyCell.h */,
+				31FD32A21B0FBAE600361E52 /* LEOOneButtonPrimaryOnlyCell.m */,
 				31FEF14F1B0D070400AD14D2 /* LEOCardView.h */,
 				31FEF1501B0D070400AD14D2 /* LEOCardView.m */,
 				31FEF1551B0D09E700AD14D2 /* LEOSecondaryUserView.h */,
@@ -358,8 +361,6 @@
 				31D20ACB1B14C61F00F3351A /* LEOEHRViewController.m */,
 				3101D6DC1B0CE0A200640C10 /* FullCards */,
 				3101D6DB1B0CE08F00640C10 /* MiniCards */,
-				BCED00821B015204007653D6 /* LEOCardCell.h */,
-				BCED00831B015204007653D6 /* LEOCardCell.m */,
 				BCED007F1B0150F4007653D6 /* LEOFeedTVC.h */,
 				BCED00801B0150F4007653D6 /* LEOFeedTVC.m */,
 			);
@@ -660,11 +661,14 @@
 				BC4D68381B03FE420018DAB5 /* UserRole.m in Sources */,
 				31D20AC91B14C2F700F3351A /* LEOPageViewController.m in Sources */,
 				BC4D68371B03FE420018DAB5 /* Message.m in Sources */,
+				31FD32A31B0FBAE600361E52 /* LEOOneButtonPrimaryOnlyCell.m in Sources */,
 				BC4D68421B04C7450018DAB5 /* Conversation+Methods.m in Sources */,
 				BCE1EC941B010336007C8D0B /* LEOCoreDataManager.m in Sources */,
 				BC4D68331B03FE420018DAB5 /* Conversation.m in Sources */,
 				BCE1EC9A1B0104F8007C8D0B /* LEODataModel.xcdatamodeld in Sources */,
 				BC4D68451B04C7560018DAB5 /* ConversationParticipant+Methods.m in Sources */,
+				31FD32A61B0FBB2600361E52 /* LEOTwoButtonSecondaryOnlyCell.m in Sources */,
+				31FD32AA1B0FD15300361E52 /* LEOTwoButtonPrimaryOnlyCell.m in Sources */,
 				31FEF1571B0D09E700AD14D2 /* LEOSecondaryUserView.m in Sources */,
 				31FEF1691B0D85F900AD14D2 /* User.m in Sources */,
 				31FEF15D1B0D0BAE00AD14D2 /* LEOButtonView.m in Sources */,
@@ -682,7 +686,6 @@
 				BCE1ECA41B014613007C8D0B /* LEOConstants.m in Sources */,
 				3130B48F1B068CE0006ACC80 /* ArrayDataSource.m in Sources */,
 				BCE1EC9E1B012628007C8D0B /* UIColor+LeoColors.m in Sources */,
-				BCED00851B015204007653D6 /* LEOCardCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

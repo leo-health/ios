@@ -17,11 +17,15 @@
 @property (strong, nonatomic) UILabel *primaryUserLabel;
 @property (strong, nonatomic) UILabel *titleLabel;
 @property (strong, nonatomic) UILabel *bodyTextLabel;
-@property (strong, nonatomic) LEOSecondaryUserView *secondaryUserView;
+@property (strong, nonatomic) UILabel *secondaryUserView;
 @property (strong, nonatomic) LEOButtonView *buttonView;
 @property (strong, nonatomic) UIImageView *iconImageView;
 
+@property (nonatomic) BOOL constraintsAlreadyUpdated;
+
+
 - (instancetype)initWithCard:(Card *)card;
 - (void)setupSubviews;
+- (void)resetConstraints;
 
 @end

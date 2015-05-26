@@ -94,6 +94,11 @@
     [super updateConstraints];
 }
 
+- (void)resetConstraints {
+    
+    self.constraintsAlreadyUpdated = NO;
+    [self setNeedsUpdateConstraints];
+}
 
 /*
  // Only override drawRect: if you perform custom drawing.
