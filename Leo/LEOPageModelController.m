@@ -21,12 +21,16 @@
 @implementation LEOPageModelController
 
 - (instancetype)init {
+    return nil; //FIXME: There's a more self-documentable way to do this, but this will suffice for now.
+}
+
+- (instancetype)initWithPageData:(NSArray *)pageData {
     self = [super init];
     if (self) {
         // Create the data model.
-        _pageData = @[@"Leo", @"Zachary", @"Rachel", @"Tracy"];
+        _pageData = pageData;
         
-    }
+    }   
     return self;
 }
 
@@ -72,7 +76,7 @@
     return [self viewControllerAtIndex:index storyboard:[UIStoryboard storyboardWithName:@"Main" bundle:nil]];
 }
 
-- (UIViewController *)viewControllerAtIndex:(NSInteger)index storyboard:(UIStoryboard *)storyboard {
+- (UIViewController *)viewControllerAtIndex:(NSUInteger)index storyboard:(UIStoryboard *)storyboard {
     if (([self.pageData count] == 0) || (index >= [self.pageData count])) {
         return nil;
     }
@@ -84,9 +88,52 @@
     // Create a new view controller and pass suitable data.
     LEOEHRViewController *childEHRViewController = [storyboard instantiateViewControllerWithIdentifier:@"EHRViewController"];
     childEHRViewController.childIndex = index;
-    
+    childEHRViewController.childData = self.pageData[index];
     return childEHRViewController;
 }
+
+
+
+- (void)pageViewController:(UIPageViewController *)pageViewController flipToViewController:(UIViewController *)viewController {
+    
+    NSUInteger newIndex;
+    
+    if ([viewController isKindOfClass:[LEOEHRViewController class]]) {
+        newIndex = ((LEOEHRViewController*) viewController).childIndex;
+    }
+    else {
+        newIndex = 0;
+    }
+
+    NSUInteger currentIndex = 0;
+    
+    if ([pageViewController.viewControllers[0] isKindOfClass:[LEOEHRViewController class]]) {
+        currentIndex = ((LEOEHRViewController*) pageViewController.viewControllers[0]).childIndex;
+    }
+    
+    if (currentIndex < newIndex) {
+        [pageViewController setViewControllers:@[viewController] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
+    }
+    else {
+        [pageViewController setViewControllers:@[viewController] direction:UIPageViewControllerNavigationDirectionReverse animated:YES completion:nil];
+    }
+
+}
+
+//- (void)flipToChild:(id)sender {
+//    
+//    NSUInteger index = [self.navigationItem.rightBarButtonItems indexOfObject:sender];
+//    
+//    [self viewControllerAt storyboard:<#(UIStoryboard *)#>]
+//    
+//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//    LEOEHRViewController *childEHRViewController = [storyboard instantiateViewControllerWithIdentifier:@"EHRViewController"];
+//    childEHRViewController.childIndex = index;
+//    
+//    [self.pageViewController setViewControllers:@[childEHRViewController] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
+//    
+//}
+
 
 -(LEOFeedTVC *)feedViewController {
     if (!_feedViewController) {

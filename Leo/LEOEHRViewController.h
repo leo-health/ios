@@ -11,5 +11,7 @@
 @interface LEOEHRViewController : UIViewController
 
 @property (nonatomic) NSInteger childIndex;
+@property (weak, nonatomic) IBOutlet UILabel *childName;
+@property (strong, nonatomic) id childData;
 
 @end

@@ -10,6 +10,7 @@
 
 @interface LEOEHRViewController ()
 
+
 @end
 
 @implementation LEOEHRViewController
@@ -24,6 +25,10 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.childName.text = self.childData;
+}
 /*
 #pragma mark - Navigation
 

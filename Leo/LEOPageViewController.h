@@ -11,5 +11,6 @@
 @interface LEOPageViewController : UIViewController
 
 @property (strong, nonatomic) UIPageViewController *pageViewController;
+@property (nonatomic) NSInteger currentPage;
 
 @end

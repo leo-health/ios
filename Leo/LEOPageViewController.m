@@ -18,7 +18,6 @@
 
 @property (strong, nonatomic) LEOFeedTVC *feedViewController;
 @property (strong, nonatomic) LEOPageModelController *pageModelController;
-
 @end
 
 @implementation LEOPageViewController
@@ -31,9 +30,10 @@
     // Create page view controller
     self.pageViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"PageViewController"];
     self.pageViewController.dataSource = self.pageModelController;
-        
-    UIViewController *startingViewController = [self.pageModelController viewControllerAtIndex:0 storyboard:self.storyboard];
-    NSArray *viewControllers = @[startingViewController];
+    self.pageViewController.delegate = self.pageModelController;
+    
+    self.feedViewController = (LEOFeedTVC *)[self.pageModelController viewControllerAtIndex:0 storyboard:self.storyboard];
+    NSArray *viewControllers = @[self.feedViewController];
     [self.pageViewController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
     
     // Change the size of page view controller
@@ -67,7 +67,7 @@
 -(LEOPageModelController *)pageModelController {
     
     if (!_pageModelController) {
-        _pageModelController = [[LEOPageModelController alloc] init];
+        _pageModelController = [[LEOPageModelController alloc] initWithPageData:@[@"Leo",@"Zachary",@"Rachel",@"Tracy"]];
     }
     return _pageModelController;
 }
@@ -78,42 +78,29 @@
     
     UIImage *heartBBI = [[UIImage imageNamed:@"leoheart"] resizedImageToSize:CGSizeMake(30.0, 30.0)];
 
-    UIBarButtonItem *leoheartBBI = [[UIBarButtonItem alloc] initWithImage:heartBBI style:UIBarButtonItemStylePlain target:self action:@selector(flipToPage:)];
+    UIBarButtonItem *leoheartBBI = [[UIBarButtonItem alloc] initWithImage:heartBBI style:UIBarButtonItemStylePlain target:self action:@selector(flipToFeed)];
     [self.navigationItem setLeftBarButtonItem:leoheartBBI];
-   
-    UIBarButtonItem *childOne = [[UIBarButtonItem alloc] initWithTitle:@"ZACHARY" style:UIBarButtonItemStylePlain target:self action:nil];
-    UIBarButtonItem *childTwo = [[UIBarButtonItem alloc] initWithTitle:@"RACHEL" style:UIBarButtonItemStylePlain target:self action:nil];
-    UIBarButtonItem *childThree = [[UIBarButtonItem alloc] initWithTitle:@"TRACY" style:UIBarButtonItemStylePlain target:self action:nil];
+    
+    UIBarButtonItem *childOne = [[UIBarButtonItem alloc] initWithTitle:@"ZACHARY" style:UIBarButtonItemStylePlain target:self action:@selector(flipToChild:)];
+    UIBarButtonItem *childTwo = [[UIBarButtonItem alloc] initWithTitle:@"RACHEL" style:UIBarButtonItemStylePlain target:self action:@selector(flipToChild:)];
+    UIBarButtonItem *childThree = [[UIBarButtonItem alloc] initWithTitle:@"TRACY" style:UIBarButtonItemStylePlain target:self action:@selector(flipToChild:)];
     
     [self.navigationItem setRightBarButtonItems:@[childThree, childTwo, childOne]];
 }
 
--(IBAction) flipToPage:(id)sender {
+- (void)flipToFeed {
     
-    // Grab the viewControllers at position 4 & 5 - note, your model is responsible for providing these.
-    // Technically, you could have them pre-made and passed in as an array containing the two items...
-    
-    UIViewController *firstViewController = self.pageViewController.viewControllers[0];
-    UIViewController *secondViewController = self.pageViewController.viewControllers[1];
-    
-    //  Set up the array that holds these guys...
-    
-    NSArray *viewControllers = @[firstViewController, secondViewController];
-    
-    //  Now, tell the pageViewContoller to accept these guys and do the forward turn of the page.
-    //  Again, forward is subjective - you could go backward.  Animation is optional but it's
-    //  a nice effect for your audience.
-    
-    [self.pageViewController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:NULL];
-    
-    //  Voila' - c'est fin!
+    [self.pageModelController pageViewController:self.pageViewController flipToViewController:self.feedViewController];
     
 }
 
-- (void)setViewControllers:(NSArray *)viewControllers
-                 direction:(UIPageViewControllerNavigationDirection)direction
-                  animated:(BOOL)animated
-                completion:(void (^)(BOOL finished))completion {
+- (void)flipToChild:(id)sender {
+    
+    NSUInteger index = [self.navigationItem.rightBarButtonItems count] - [self.navigationItem.rightBarButtonItems indexOfObject:sender];
+    
+    UIViewController *viewController = [self.pageModelController viewControllerAtIndex:index storyboard:[UIStoryboard storyboardWithName:@"Main" bundle:nil]];
+    
+    [self.pageModelController pageViewController:self.pageViewController flipToViewController:viewController];
     
 }
 

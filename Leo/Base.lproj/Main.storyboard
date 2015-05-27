@@ -111,8 +111,24 @@
                     <view key="view" contentMode="scaleToFill" id="kvP-Kn-dm8">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="childName" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QsX-70-l1Y">
+                                <rect key="frame" x="259" y="289" width="82" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="QsX-70-l1Y" secondAttribute="centerX" id="6g1-a3-5C0"/>
+                            <constraint firstAttribute="centerY" secondItem="QsX-70-l1Y" secondAttribute="centerY" constant="0.5" id="XB6-kf-qoe"/>
+                            <constraint firstItem="QsX-70-l1Y" firstAttribute="top" secondItem="Idr-Ee-qtB" secondAttribute="bottom" constant="269" id="pcc-ng-AGf"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="childName" destination="QsX-70-l1Y" id="xwg-mK-Svi"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wNg-zU-3a8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
