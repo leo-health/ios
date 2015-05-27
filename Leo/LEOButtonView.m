@@ -35,13 +35,14 @@
         
         [self layoutSubviews];
         [self updateFonts];
-        [self setNeedsUpdateConstraints];
+        [self setNeedsLayout];
 
     }
     
     return self;
 }
 
+//FIXME: Code smell - alloc/init in layoutSubviews instead of initialization. Will be fixed when data comes from object instead of locally being initialized.
 - (void)layoutSubviews {
     switch (self.activity) {
         case CardActivityAppointment: {
@@ -104,7 +105,6 @@
                 case CardStateContinue:
                     self.buttonOne = [[UIButton alloc] init];
                     [self.buttonOne setTitle:@"Review Details" forState:UIControlStateNormal];
-                    
                     [self addSubview:self.buttonOne];
                     
                     break;
@@ -120,37 +120,6 @@
     }
     
     
-}
-
-- (instancetype)initWithButtonArray:(nonnull NSArray *)buttonArray
-{
-    self = [super init];
-    if (self) {
-        
-        
-        switch (buttonArray.count) {
-            case 2:
-                _buttonOne = buttonArray[0];
-                _buttonTwo = buttonArray[1];
-                
-                [self addSubview:_buttonOne];
-                [self addSubview:_buttonTwo];
-                
-                break;
-                
-            case 1:
-                _buttonOne = buttonArray[0];
-                [self addSubview:_buttonOne];
-                
-            default:
-                break;
-        }
-        
-        
-        [self setNeedsUpdateConstraints];
-    }
-    
-    return self;
 }
 
 - (void)updateConstraints {
@@ -197,11 +166,6 @@
     [super updateConstraints];
 }
 
-- (void)resetConstraints {
-    
-    self.constraintsAlreadyUpdated = NO;
-    [self setNeedsUpdateConstraints];
-}
 
 - (void)updateFonts {
     

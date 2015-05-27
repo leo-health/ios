@@ -38,59 +38,36 @@
     self.titleLabel = [[UILabel alloc] init];
     self.bodyTextLabel = [[UILabel alloc] init];
     self.buttonView = [[LEOButtonView alloc] init];
-    self.primaryUserLabel = [[UILabel alloc] init]; //FIXME: may not belong here given it is not used in every cell...
-    
-  }
+
+}
 
 -(void)setupSubviews{
     
-    self.titleLabel.font = [UIFont leoTitleBoldFont];
-    self.titleLabel.textColor = [UIColor leoWarmHeavyGray];
-    self.titleLabel.text = self.card.title;
-
-    self.bodyTextLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    self.bodyTextLabel.numberOfLines = 0;
-    self.bodyTextLabel.font = [UIFont leoBodyBasicFont];
-    self.bodyTextLabel.textColor = [UIColor leoWarmHeavyGray];
-    
-    self.primaryUserLabel.font = [UIFont leoBodyBolderFont];
-    self.primaryUserLabel.textColor = [UIColor leoWarmHeavyGray];
-    
-    
-    UIImage *cardIcon = [UIImage imageNamed:@"SMS-32"]; //FIXME: Will need to vary by card activity
+    UIImage *cardIcon = [UIImage imageNamed:@"SMS-32"]; //FIXME: Will need to vary by card activity; likely should exist within card or activity object.
     self.titleLabel.text = self.card.title;
     self.bodyTextLabel.text = self.card.body;
 
     switch (self.card.format) {
             
-        case CardFormatTwoButtonSecondaryOnly: {
-            
-            //self.iconImageView.image = cardIcon;
+        //FIXME: CODESMELL - alloc/init not in initialization of object. 
+        case CardFormatTwoButtonSecondaryOnly:
             self.secondaryUserView = [[LEOSecondaryUserView alloc] initWithCardFormat:self.card.format user:self.card.secondaryUser timestamp:self.card.timestamp];
             [self addSubview:self.secondaryUserView];
-            
             break;
-        }
             
-        case CardFormatTwoButtonPrimaryOnly: {
-            
-            
-            self.primaryUserLabel.text = [self.card.primaryUser.firstName uppercaseString]; //FIXME: Make this capitalized
+        case CardFormatTwoButtonPrimaryOnly:
+            self.primaryUserLabel = [[UILabel alloc] init];
+            self.primaryUserLabel.text = [self.card.primaryUser.firstName uppercaseString];
             [self addSubview:self.primaryUserLabel];
-
             break;
-            
-        }
-            
-        case CardFormatTwoButtonSecondaryAndPrimary: {
-            self.primaryUserLabel.text = [self.card.primaryUser.firstName uppercaseString]; //FIXME: Make this capitalized
-            self.secondaryUserView = [[LEOSecondaryUserView alloc] initWithCardFormat:self.card.format user:self.card.secondaryUser timestamp:self.card.timestamp];
 
+        case CardFormatTwoButtonSecondaryAndPrimary:
+            self.primaryUserLabel = [[UILabel alloc] init];
+            self.secondaryUserView = [[LEOSecondaryUserView alloc] initWithCardFormat:self.card.format user:self.card.secondaryUser timestamp:self.card.timestamp];
+            self.primaryUserLabel.text = [self.card.primaryUser.firstName uppercaseString];
             [self addSubview:self.primaryUserLabel];
             [self addSubview:self.secondaryUserView];
             break;
-            
-        }
 
         default:
             break;
@@ -101,12 +78,12 @@
 
     self.buttonView = [[LEOButtonView alloc] initWithActivity:self.card.activity state:self.card.state];
 
+    [self updateFormatting];
     [self addSubview:self.iconImageView];
     [self addSubview:self.bodyTextLabel];
     [self addSubview:self.titleLabel];
     [self addSubview:self.buttonView];
 
-    
     self.layer.cornerRadius = 5;
     self.backgroundColor = [UIColor leoWhite];
     
@@ -166,15 +143,15 @@
                 NSArray *horizontalLayoutConstraintsForIconToPrimaryUserLabel = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(15)-[_iconImageView]-(15)-[_primaryUserLabel]" options:0 metrics:nil views:viewsDictionary];
                 NSArray *horizontalLayoutConstraintsForIconToBodyText = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(15)-[_iconImageView]-(15)-[_bodyTextLabel]-(40)-|" options:0 metrics:nil views:viewsDictionary];
                 NSArray *horizontalLayoutConstraintsForButtonView = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_buttonView]|" options:0 metrics:nil views:viewsDictionary];
-                NSArray *verticalLayoutConstraintsForText = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(20)-[_primaryUserLabel][_titleLabel]-(20@1000)-[_bodyTextLabel]-(8@1000)-[_buttonView(==25)]-(10)-|" options:0 metrics:nil views:viewsDictionary];
+                NSArray *verticalLayoutConstraintsForText = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(20)-[_primaryUserLabel][_titleLabel]-(20@1000)-[_bodyTextLabel]-(8@1000)-[_buttonView]-(10)-|" options:0 metrics:nil views:viewsDictionary];
                 NSArray *verticalLayoutConstraintsForImage = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(20)-[_iconImageView]" options:0 metrics:nil views:viewsDictionary];
                 
-                [self.bodyTextLabel setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
-                [self.bodyTextLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
-                [self.primaryUserLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
-                [self.titleLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
-                [self.buttonView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
-                [self.buttonView setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
+                [self.bodyTextLabel setContentHuggingPriority:1000 forAxis:UILayoutConstraintAxisVertical];
+                [self.bodyTextLabel setContentCompressionResistancePriority:1000 forAxis:UILayoutConstraintAxisVertical];
+                [self.primaryUserLabel setContentCompressionResistancePriority:1000 forAxis:UILayoutConstraintAxisVertical];
+                [self.titleLabel setContentCompressionResistancePriority:1000 forAxis:UILayoutConstraintAxisVertical];
+                [self.buttonView setContentCompressionResistancePriority:1000 forAxis:UILayoutConstraintAxisVertical];
+                [self.buttonView setContentHuggingPriority:1000 forAxis:UILayoutConstraintAxisVertical];
 
                 
                 [self addConstraints:horizontalLayoutConstraintsForIconToTitleLabel];
@@ -187,27 +164,27 @@
                 break;
             }
                 
-            case CardFormatTwoButtonSecondaryAndPrimary: {
-                NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(_primaryUserLabel, _titleLabel, _bodyTextLabel, _buttonView, _iconImageView, _secondaryUserView);
-                
-                NSArray *horizontalLayoutConstraintsForIconToTitleLabel = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(15)-[_iconImageView(==32)]-(15)-[_titleLabel]" options:0 metrics:nil views:viewsDictionary];
-                NSArray *horizontalLayoutConstraintsForIconToPrimaryUserLabel = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(15)-[_iconImageView]-(15)-[_primaryUserLabel]" options:0 metrics:nil views:viewsDictionary];
-                NSArray *horizontalLayoutConstraintsForIconToBodyText = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(15)-[_iconImageView]-(15)-[_bodyTextLabel]-(40)-|" options:0 metrics:nil views:viewsDictionary];
-                NSArray *horizontalLayoutConstraintsForIconToSecondaryUserView = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(15)-[_iconImageView]-(15)-[_secondaryUserView]-(40)-|" options:0 metrics:nil views:viewsDictionary];
-                //NSArray *horizontalLayoutConstraintsForButtonView = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_buttonView]|" options:0 metrics:nil views:viewsDictionary];
-                
-                NSArray *verticalLayoutConstraintsForText = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(20)-[_primaryUserLabel][_titleLabel]-(20)-[_bodyTextLabel]-(10)-[_secondaryUserView]-(10)-|" options:0 metrics:nil views:viewsDictionary];
-                NSArray *verticalLayoutConstraintsForImage = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(20)-[_iconImageView]" options:0 metrics:nil views:viewsDictionary];
-                
-                [self addConstraints:horizontalLayoutConstraintsForIconToTitleLabel];
-                [self addConstraints:horizontalLayoutConstraintsForIconToPrimaryUserLabel];
-                [self addConstraints:horizontalLayoutConstraintsForIconToSecondaryUserView];
-                [self addConstraints:horizontalLayoutConstraintsForIconToBodyText];
-                //[self addConstraints:horizontalLayoutConstraintsForButtonView];
-                [self addConstraints:verticalLayoutConstraintsForImage];
-                [self addConstraints:verticalLayoutConstraintsForText];
-                break;
-            }
+//            case CardFormatTwoButtonSecondaryAndPrimary: {
+//                NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(_primaryUserLabel, _titleLabel, _bodyTextLabel, _buttonView, _iconImageView, _secondaryUserView);
+//                
+//                NSArray *horizontalLayoutConstraintsForIconToTitleLabel = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(15)-[_iconImageView(==32)]-(15)-[_titleLabel]" options:0 metrics:nil views:viewsDictionary];
+//                NSArray *horizontalLayoutConstraintsForIconToPrimaryUserLabel = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(15)-[_iconImageView]-(15)-[_primaryUserLabel]" options:0 metrics:nil views:viewsDictionary];
+//                NSArray *horizontalLayoutConstraintsForIconToBodyText = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(15)-[_iconImageView]-(15)-[_bodyTextLabel]-(40)-|" options:0 metrics:nil views:viewsDictionary];
+//                NSArray *horizontalLayoutConstraintsForIconToSecondaryUserView = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(15)-[_iconImageView]-(15)-[_secondaryUserView]-(40)-|" options:0 metrics:nil views:viewsDictionary];
+//                //NSArray *horizontalLayoutConstraintsForButtonView = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_buttonView]|" options:0 metrics:nil views:viewsDictionary];
+//                
+//                NSArray *verticalLayoutConstraintsForText = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(20)-[_primaryUserLabel][_titleLabel]-(20)-[_bodyTextLabel]-(10)-[_secondaryUserView]-(10)-|" options:0 metrics:nil views:viewsDictionary];
+//                NSArray *verticalLayoutConstraintsForImage = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(20)-[_iconImageView]" options:0 metrics:nil views:viewsDictionary];
+//                
+//                [self addConstraints:horizontalLayoutConstraintsForIconToTitleLabel];
+//                [self addConstraints:horizontalLayoutConstraintsForIconToPrimaryUserLabel];
+//                [self addConstraints:horizontalLayoutConstraintsForIconToSecondaryUserView];
+//                [self addConstraints:horizontalLayoutConstraintsForIconToBodyText];
+//                //[self addConstraints:horizontalLayoutConstraintsForButtonView];
+//                [self addConstraints:verticalLayoutConstraintsForImage];
+//                [self addConstraints:verticalLayoutConstraintsForText];
+//                break;
+//            }
                 
             default:
                 break;
@@ -220,32 +197,19 @@
 
 }
 
--(void)updateTypefaces {
+-(void)updateFormatting {
+    self.titleLabel.font = [UIFont leoTitleBoldFont];
+    self.titleLabel.textColor = [UIColor leoWarmHeavyGray];
+    self.titleLabel.text = self.card.title;
     
-}
-
--(void)updateColors {
+    self.bodyTextLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    self.bodyTextLabel.numberOfLines = 0;
+    self.bodyTextLabel.font = [UIFont leoBodyBasicFont];
+    self.bodyTextLabel.textColor = [UIColor leoWarmHeavyGray];
     
+    self.primaryUserLabel.font = [UIFont leoBodyBolderFont];
+    self.primaryUserLabel.textColor = [UIColor leoWarmHeavyGray];
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 @end

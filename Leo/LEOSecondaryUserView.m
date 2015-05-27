@@ -146,9 +146,5 @@
     self.timestampLabel.font = [UIFont leoBodyBasicFont];
 }
 
-- (void)resetConstraints {
-    self.constraintsAlreadyUpdated = NO;
-    [self setNeedsUpdateConstraints];
-}
 
 @end
