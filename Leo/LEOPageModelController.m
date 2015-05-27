@@ -20,10 +20,6 @@
 
 @implementation LEOPageModelController
 
-- (instancetype)init {
-    return nil; //FIXME: There's a more self-documentable way to do this, but this will suffice for now.
-}
-
 - (instancetype)initWithPageData:(NSArray *)pageData {
     self = [super init];
     if (self) {
