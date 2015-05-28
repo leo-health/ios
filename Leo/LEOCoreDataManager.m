@@ -15,8 +15,7 @@
 #import "Role+Methods.h"
 #import "UserRole+Methods.h"
 #import "User+Methods.h"
-#import "Card.h"
-
+#import "LEOCollapsedCardScheduling.h"
 #import "UIColor+LeoColors.h"
 #import "UIImage+Extensions.h"
 
@@ -214,24 +213,24 @@
     //self.cards = [[NSArray alloc] init];
     //NSArray *users = [self.managedObjectContext executeFetchRequest:request error:nil];
     
-    Role *childRole = [Role insertEntityWithName:@"child" resourceID:@2 resourceType:@"na" managedObjectContext:self.managedObjectContext];
+    Role *childRole = [Role insertEntityWithName:@"child" resourceID:@"2" resourceType:@2 managedObjectContext:self.managedObjectContext];
     UserRole *childUserRole = [UserRole insertEntityWithRole:childRole managedObjectContext:self.managedObjectContext];
     NSSet *childRoleSet = [NSSet setWithObject:childUserRole];
     
     User *childUserOne = [User insertEntityWithFirstName:@"Zachary" lastName:@"Drossman" dob:[NSDate date] email:@"zd9@leohealth.com" roles:childRoleSet
-                                             familyID:@([self.currentUser.familyID integerValue] + 1)
+                                             familyID:[@([self.currentUser.familyID integerValue] + 1) stringValue]
                                  managedObjectContext:self.managedObjectContext];
     
     User *childUserTwo = [User insertEntityWithFirstName:@"Rachel" lastName:@"Drossman" dob:[NSDate date] email:@"rd9@leohealth.com" roles:childRoleSet
-                                                familyID:@([self.currentUser.familyID integerValue] + 1)
+                                                familyID:[@([self.currentUser.familyID integerValue] + 1) stringValue]
                                     managedObjectContext:self.managedObjectContext];
     
     User *childUserThree = [User insertEntityWithFirstName:@"Tracy" lastName:@"Drossman" dob:[NSDate date] email:@"td9@leohealth.com" roles:childRoleSet
-                                                familyID:@([self.currentUser.familyID integerValue] + 1)
+                                                familyID:[@([self.currentUser.familyID integerValue] + 1) stringValue]
                                     managedObjectContext:self.managedObjectContext];
 
     
-    Role *doctorRole = [Role insertEntityWithName:@"doctor" resourceID:@2 resourceType:@"na" managedObjectContext:self.managedObjectContext];
+    Role *doctorRole = [Role insertEntityWithName:@"doctor" resourceID:@"2" resourceType:@1 managedObjectContext:self.managedObjectContext];
     UserRole *doctorUserRole = [UserRole insertEntityWithRole:doctorRole managedObjectContext:self.managedObjectContext];
     NSSet *doctorRoleSet = [NSSet setWithObject:doctorUserRole];
     
@@ -240,19 +239,19 @@
     doctorUser.credentialSuffix = @"MD";
     doctorUser.title = @"Dr.";
     
-    Card *cardOne = [[Card alloc] initWithID:@1 state:CardStateNew title:@"Welcome to Leo." body:@"If you have any questions or comments, you can reach us at any time." primaryUser:childUserOne secondaryUser:doctorUser timestamp:[NSDate date] priority:@1 activity:CardActivityConversation];
+    Appointment *appointment = [Appointment insertEntityWithDate:[NSDate dateWithTimeInterval:100000 sinceDate:[NSDate date]] duration:@30 appointmentType:@1 patientID:@"62" providerID:@"10" familyID:@"65" managedObjectContext:self.managedObjectContext];
     
-   Card *cardTwo = [[Card alloc] initWithID:@2 state:CardStateNew title:@"Schedule Rachel's First Visit" body:@"Take a tour of the practice and meet with our world class physicians." primaryUser:childUserTwo secondaryUser:doctorUser timestamp:[NSDate date] priority:@2 activity:CardActivityAppointment];
+    LEOCollapsedCardScheduling *cardOne = [[LEOCollapsedCardScheduling alloc] initWithID:@2 state:AppointmentStateRecommending priority:@1 associatedCardObject:appointment];
     
-    Card *cardThree = [[Card alloc] initWithID:@3 state:CardStateNew title:@"Recent Visit" body:@"Jacob was seen for a sore throat and cough." primaryUser:childUserThree secondaryUser:doctorUser timestamp:[NSDate date] priority:@3 activity:CardActivityVisit];
-//
+   //LEOCollapsedCard *cardTwo = [[LEOCollapsedCard alloc] initWithID:@2 state:CardStateNew title:@"Schedule Rachel's First Visit" body:@"Take a tour of the practice and meet with our world class physicians." primaryUser:childUserTwo secondaryUser:doctorUser timestamp:[NSDate date] priority:@2 activity:CardActivityAppointment];
+  //
 //    Card *cardFour = [[Card alloc] initWithID:@1 state:CardStateNew title:@"Welcome to Leo." body:@"If you have any questions or comments, you can reach us at any time." primaryUser:childUserOne secondaryUser:doctorUser timestamp:[NSDate date] priority:@1 activity:CardActivityConversation];
 //    
 //    Card *cardFive = [[Card alloc] initWithID:@2 state:CardStateNew title:@"Schedule Rachel's First Visit" body:@"Take a tour of the practice and meet with our world class physicians." primaryUser:childUserTwo secondaryUser:doctorUser timestamp:[NSDate date] priority:@2 activity:CardActivityAppointment];
 //    
 //    Card *cardSix = [[Card alloc] initWithID:@3 state:CardStateNew title:@"Recent Visit" body:@"Jacob was seen for a sore throat and cough." primaryUser:childUserThree secondaryUser:doctorUser timestamp:[NSDate date] priority:@3 activity:CardActivityVisit];
     
-    self.cards = @[cardOne, cardTwo]; //, cardTwo, cardThree, cardFour, cardFive, cardSix, cardOne, cardTwo, cardThree, cardFour, cardFive, cardSix];
+    self.cards = @[cardOne]; //, cardTwo, cardThree, cardFour, cardFive, cardSix, cardOne, cardTwo, cardThree, cardFour, cardFive, cardSix];
     
     //FIXME: Safety here
     completionBlock();

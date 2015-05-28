@@ -14,7 +14,7 @@
 #import "LEOCardView.h"
 #import "ArrayDataSource.h"
 #import "LEOCardCell.h"
-#import "Card.h"
+#import "LEOCollapsedCard.h"
 
 #import "LEOConstants.h"
 #import "LEOApiClient.h"
@@ -109,12 +109,12 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     
-    Card *card = self.coreDataManager.cards[indexPath.row];
+    LEOCollapsedCard *card = self.coreDataManager.cards[indexPath.row];
         
     NSString *cellIdentifier;
     
-    switch (card.format) {
-        case CardFormatTwoButtonSecondaryOnly: {
+    switch (card.layout) {
+        case CardLayoutTwoButtonSecondaryOnly: {
             cellIdentifier = CellIdentifierLEOCardTwoButtonSecondaryOnly;
             LEOTwoButtonSecondaryOnlyCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier
                                                                                 forIndexPath:indexPath];
@@ -123,7 +123,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
             return cell;
         }
             
-        case CardFormatTwoButtonPrimaryOnly: {
+        case CardLayoutTwoButtonPrimaryOnly: {
             cellIdentifier = CellIdentifierLEOCardTwoButtonPrimaryOnly;
             LEOTwoButtonPrimaryOnlyCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier
                                                                                   forIndexPath:indexPath];
@@ -131,7 +131,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 
             return cell;
         }
-        case CardFormatTwoButtonSecondaryAndPrimary: {
+        case CardLayoutTwoButtonSecondaryAndPrimary: {
             cellIdentifier = CellIdentifierLEOCardTwoButtonSecondaryAndPrimary;
             LEOTwoButtonPrimaryOnlyCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier
                                                                                 forIndexPath:indexPath];
@@ -168,14 +168,14 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 
 - (void)testAPI {
     
-    Role *role = [Role insertEntityWithName:@"parent" resourceID:@1 resourceType:@"na" managedObjectContext:self.coreDataManager.managedObjectContext];
+    Role *role = [Role insertEntityWithName:@"parent" resourceID:@"1" resourceType:@1 managedObjectContext:self.coreDataManager.managedObjectContext];
     UserRole *userRole = [UserRole insertEntityWithRole:role managedObjectContext:self.coreDataManager.managedObjectContext];
     NSDate *nowDate = [NSDate date];
     
     NSSet *roleSet = [NSSet setWithObject:userRole];
     User *parentUser = [User insertEntityWithFirstName:@"Marilyn" lastName:@"Drossman" dob:nowDate email:@"md10@leohealth.com" roles:roleSet familyID:nil managedObjectContext: self.coreDataManager.managedObjectContext];
     parentUser.title = @"Mrs.";
-    parentUser.practiceID = @1;
+    parentUser.practiceID = @"1";
     parentUser.middleInitial = @"";
     parentUser.gender = @"female";
     
@@ -205,13 +205,12 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
             self.coreDataManager.currentUser = parentUser;
             self.coreDataManager.userToken = rawResults[@"data"][@"token"]; //temporary until this is being pulled from the keychain
             
-            Role *childRole = [Role insertEntityWithName:@"child" resourceID:@2 resourceType:@"na" managedObjectContext:self.coreDataManager.managedObjectContext];
+            Role *childRole = [Role insertEntityWithName:@"child" resourceID:@"2" resourceType:@2 managedObjectContext:self.coreDataManager.managedObjectContext];
             UserRole *childUserRole = [UserRole insertEntityWithRole:childRole managedObjectContext:self.coreDataManager.managedObjectContext];
             NSSet *childRoleSet = [NSSet setWithObject:childUserRole];
             
             User *childUser = [User insertEntityWithFirstName:@"Zachary" lastName:@"Drossman" dob:[NSDate date] email:@"zd9@leohealth.com" roles:childRoleSet
-                                                     familyID:@([self.coreDataManager.currentUser.familyID integerValue] + 1)
-                                         managedObjectContext:self.coreDataManager.managedObjectContext];
+                                                     familyID:[NSString stringWithFormat:@"%@",@([self.coreDataManager.currentUser.familyID integerValue] + 1)] managedObjectContext:self.coreDataManager.managedObjectContext];
             
             __weak id<OHHTTPStubsDescriptor> childStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
                 NSLog(@"Request");
@@ -238,7 +237,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
             // NSString *dateOfDay = [NSString stringWithFormat:@"%ld/%ld/%ld",date.month, date.day, date.year];
             // NSString *timeOfDay = [NSString stringWithFormat:@"%ld:%ld", date.hour, date.minute];
             
-            Appointment *zachsAppt = [Appointment insertEntityWithDate:date startTime:date duration:@30 appointmentType:@"Standard" patientID:@62 providerID:@2 familyID:@63 managedObjectContext:self.coreDataManager.managedObjectContext];
+            Appointment *zachsAppt = [Appointment insertEntityWithDate:date duration:@30 appointmentType:@1 patientID:@"62" providerID:@"2" familyID:@"63" managedObjectContext:self.coreDataManager.managedObjectContext];
             
             [self.coreDataManager createAppointmentWithAppointment:zachsAppt withCompletion:^(NSDictionary * __nonnull rawResults) {
                 NSLog(@"CREATE APPT: %@", rawResults);

@@ -8,11 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "LEOConstants.h"
+@class LEOCollapsedCard;
 
 @interface LEOButtonView : UIView
 
 @property (strong, nonatomic, nonnull) NSArray *buttonArray;
 
-- (nonnull instancetype)initWithButtonArray:(nonnull NSArray *)buttonArray;
-- (nonnull instancetype)initWithActivity:(CardActivity)activity state:(CardState)state;
+- (nonnull instancetype)initWithCard:(nonnull LEOCollapsedCard *)card;
+
 @end

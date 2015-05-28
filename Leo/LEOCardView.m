@@ -7,7 +7,7 @@
 //
 
 #import "LEOCardView.h"
-#import "Card.h"
+#import "LEOCollapsedCard.h"
 #import "User+Methods.h"
 #import <NSDate+DateTools.h>
 #import "Role+Methods.h"
@@ -18,6 +18,13 @@
 #import "UIFont+LeoFonts.h"
 
 @interface LEOCardView ()
+
+@property (strong, nonatomic) UILabel *primaryUserLabel;
+@property (strong, nonatomic) UILabel *titleLabel;
+@property (strong, nonatomic) UILabel *bodyTextLabel;
+@property (strong, nonatomic) LEOSecondaryUserView *secondaryUserView;
+@property (strong, nonatomic) LEOButtonView *buttonView;
+@property (strong, nonatomic) UIImageView *iconImageView;
 
 @end
 
@@ -41,29 +48,30 @@
 
 }
 
+
 -(void)setupSubviews{
     
     UIImage *cardIcon = [UIImage imageNamed:@"SMS-32"]; //FIXME: Will need to vary by card activity; likely should exist within card or activity object.
     self.titleLabel.text = self.card.title;
     self.bodyTextLabel.text = self.card.body;
 
-    switch (self.card.format) {
+    switch (self.card.layout) {
             
         //FIXME: CODESMELL - alloc/init not in initialization of object. 
-        case CardFormatTwoButtonSecondaryOnly:
-            self.secondaryUserView = [[LEOSecondaryUserView alloc] initWithCardFormat:self.card.format user:self.card.secondaryUser timestamp:self.card.timestamp];
+        case CardLayoutTwoButtonSecondaryOnly:
+            self.secondaryUserView = [[LEOSecondaryUserView alloc] initWithCardLayout:self.card.layout user:self.card.secondaryUser timestamp:self.card.timestamp];
             [self addSubview:self.secondaryUserView];
             break;
             
-        case CardFormatTwoButtonPrimaryOnly:
+        case CardLayoutTwoButtonPrimaryOnly:
             self.primaryUserLabel = [[UILabel alloc] init];
             self.primaryUserLabel.text = [self.card.primaryUser.firstName uppercaseString];
             [self addSubview:self.primaryUserLabel];
             break;
 
-        case CardFormatTwoButtonSecondaryAndPrimary:
+        case CardLayoutTwoButtonSecondaryAndPrimary:
             self.primaryUserLabel = [[UILabel alloc] init];
-            self.secondaryUserView = [[LEOSecondaryUserView alloc] initWithCardFormat:self.card.format user:self.card.secondaryUser timestamp:self.card.timestamp];
+            self.secondaryUserView = [[LEOSecondaryUserView alloc] initWithCardLayout:self.card.layout user:self.card.secondaryUser timestamp:self.card.timestamp];
             self.primaryUserLabel.text = [self.card.primaryUser.firstName uppercaseString];
             [self addSubview:self.primaryUserLabel];
             [self addSubview:self.secondaryUserView];
@@ -76,8 +84,7 @@
     
     self.iconImageView.image = cardIcon;
 
-    self.buttonView = [[LEOButtonView alloc] initWithActivity:self.card.activity state:self.card.state];
-
+    self.buttonView = [[LEOButtonView alloc] initWithCard:self.card];
     [self updateFormatting];
     [self addSubview:self.iconImageView];
     [self addSubview:self.bodyTextLabel];
@@ -105,8 +112,8 @@
         self.buttonView.translatesAutoresizingMaskIntoConstraints = NO;
         self.iconImageView.translatesAutoresizingMaskIntoConstraints = NO;
         
-        switch (self.card.format) {
-            case CardFormatTwoButtonSecondaryOnly: {
+        switch (self.card.layout) {
+            case CardLayoutTwoButtonSecondaryOnly: {
                 
                 NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(_titleLabel, _bodyTextLabel, _secondaryUserView, _buttonView, _iconImageView);
                 
@@ -136,7 +143,7 @@
                 break;
             }
                 
-            case CardFormatTwoButtonPrimaryOnly: {
+            case CardLayoutTwoButtonPrimaryOnly: {
                 NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(_primaryUserLabel, _titleLabel, _bodyTextLabel, _buttonView, _iconImageView);
                 
                 NSArray *horizontalLayoutConstraintsForIconToTitleLabel = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(15)-[_iconImageView(==32)]-(15)-[_titleLabel]" options:0 metrics:nil views:viewsDictionary];
@@ -164,7 +171,7 @@
                 break;
             }
                 
-//            case CardFormatTwoButtonSecondaryAndPrimary: {
+//            case CardLayoutTwoButtonSecondaryAndPrimary: {
 //                NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(_primaryUserLabel, _titleLabel, _bodyTextLabel, _buttonView, _iconImageView, _secondaryUserView);
 //                
 //                NSArray *horizontalLayoutConstraintsForIconToTitleLabel = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(15)-[_iconImageView(==32)]-(15)-[_titleLabel]" options:0 metrics:nil views:viewsDictionary];

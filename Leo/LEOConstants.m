@@ -64,5 +64,7 @@ NSString *const APIParamCardSecondaryUser = @"secondaryUser";
 NSString *const APIParamCardPriority = @"priority";
 NSString *const APIParamCardActivity = @"type";
 NSString *const APIParamCardTimeStamp = @"timestamp";
+NSString *const APIParamAssociatedCardObject = @"associatedCardObject";
 
+NSString *const KeypathAppointmentState = @"state";
 @end

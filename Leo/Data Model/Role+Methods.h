@@ -8,9 +8,20 @@
 
 #import "Role.h"
 
+typedef enum RoleType : NSUInteger {
+    RoleTypeChild,
+    RoleTypeParent,
+    RoleTypeCaretaker,
+    RoleTypeDoctor,
+    RoleTypeNursePractitioner,
+    RoleTypeAdministrator
+} RoleType;
+
 @interface Role (Methods)
 
-+ (Role * __nonnull)insertEntityWithName:(nonnull NSString *)name resourceID:(nonnull NSNumber *)resourceID resourceType:(nonnull NSString *)resourceType managedObjectContext:(nonnull NSManagedObjectContext *)context;
++ (Role * __nonnull)insertEntityWithName:(nonnull NSString *)name resourceID:(nonnull NSString *)resourceID resourceType:(nonnull NSNumber *)resourceType managedObjectContext:(nonnull NSManagedObjectContext *)context;
+
+- (RoleType)roleType;
 
 
 @end

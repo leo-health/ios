@@ -12,7 +12,7 @@
 
 @property (nonatomic) BOOL didSetupConstraints;
 
-@property (strong, nonatomic) Card *card;
+@property (strong, nonatomic) LEOCollapsedCard *card;
 @property (strong, nonatomic) UILabel *primaryUserLabel;
 @property (strong, nonatomic) UILabel *titleLabel;
 @property (strong, nonatomic) UILabel *bodyTextLabel;

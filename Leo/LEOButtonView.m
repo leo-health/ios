@@ -9,13 +9,13 @@
 #import "LEOButtonView.h"
 #import "UIColor+LEOColors.h"
 #import "UIFont+LeoFonts.h"
+#import "LEOCollapsedCard.h"
 
 @interface LEOButtonView ()
 
 @property (nonatomic) BOOL constraintsAlreadyUpdated;
 
-@property (nonatomic) CardActivity activity;
-@property (nonatomic) CardState state;
+@property (nonatomic) LEOCollapsedCard *card;
 
 @property (strong, nonatomic) UIButton *buttonOne;
 @property (strong, nonatomic) UIButton *buttonTwo;
@@ -25,13 +25,12 @@
 @implementation LEOButtonView
 
 
-- (nonnull instancetype)initWithActivity:(CardActivity)activity state:(CardState)state {
+- (nonnull instancetype)initWithCard:(nonnull LEOCollapsedCard *)card {
     
     self = [super init];
     if (self) {
         
-        _activity = activity;
-        _state   = state;
+        _card = card;
         
         [self layoutSubviews];
         [self updateFonts];
@@ -44,90 +43,29 @@
 
 //FIXME: Code smell - alloc/init in layoutSubviews instead of initialization. Will be fixed when data comes from object instead of locally being initialized.
 - (void)layoutSubviews {
-    switch (self.activity) {
-        case CardActivityAppointment: {
-            switch (self.state) {
-                case CardStateNew:
-                    self.buttonOne = [UIButton buttonWithType:UIButtonTypeCustom];
-                    [self.buttonOne setTitle:@"MAKE APPOINTMENT" forState:UIControlStateNormal];
+    
+    NSArray *buttonStrings = [self.card stringRepresentationOfActionsAvailableForState];
+    
+    self.buttonOne = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.buttonOne setTitle:buttonStrings[0] forState:UIControlStateNormal];
+    [self addSubview:self.buttonOne];
 
-                    [self addSubview:self.buttonOne];
-                    break;
-                    
-                case CardStateContinue:
-                    self.buttonOne = [[UIButton alloc] init];
-                    [self.buttonOne setTitle:@"Reschedule" forState:UIControlStateNormal];
-                    
-                    self.buttonTwo = [[UIButton alloc] init];
-                    [self.buttonTwo setTitle:@"Cancel" forState:UIControlStateNormal];
-                    
-                    [self addSubview:self.buttonOne];
-                    [self addSubview:self.buttonTwo];
-                    break;
-                    
-                case CardStateCancel:
-                    self.buttonOne = [[UIButton alloc] init];
-                    [self.buttonOne setTitle:@"Dismiss" forState:UIControlStateNormal];
-                    
-                    [self addSubview:self.buttonOne];
-                    break;
-                    
-                default:
-                    break;
-            }
-            
-            break;
-        }
-            
-        case CardActivityConversation: {
-            switch (self.state) {
-                case CardStateNew:
-                    self.buttonOne = [UIButton buttonWithType:UIButtonTypeCustom];
-                    [self.buttonOne setTitle:@"REPLY" forState:UIControlStateNormal];
-                    self.buttonTwo = [UIButton buttonWithType:UIButtonTypeCustom];
-                    [self.buttonTwo setTitle:@"CALL US" forState:UIControlStateNormal];
-                    
-                    [self addSubview:self.buttonOne];
-                    [self addSubview:self.buttonTwo];
-                    break;
-                    
-                default:
-                    break;
-            }
-            
-            break;
-            
-        }
-            
-        case CardActivityVisit: {
-            
-            switch (self.state) {
-                case CardStateContinue:
-                    self.buttonOne = [[UIButton alloc] init];
-                    [self.buttonOne setTitle:@"Review Details" forState:UIControlStateNormal];
-                    [self addSubview:self.buttonOne];
-                    
-                    break;
-                    
-                default:
-                    break;
-            }
-        }
-            
-            
-        default:
-            break;
+    if ([buttonStrings count] == 2) {
+        self.buttonTwo = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.buttonTwo setTitle:buttonStrings[1] forState:UIControlStateNormal];
+        [self addSubview:self.buttonTwo];
     }
-    
-    
 }
 
-- (void)updateConstraints {
+- (void)updateConstraints { //TODO: Do we need a zero button situation? Some minor refactoring here.
+    
     
     if (!self.constraintsAlreadyUpdated) {
         [self removeConstraints:self.constraints];
         
-        if (self.buttonTwo) {
+        NSArray *buttonStrings = [self.card stringRepresentationOfActionsAvailableForState];
+
+        if ([buttonStrings count] == 2) {
             self.buttonOne.translatesAutoresizingMaskIntoConstraints = NO;
             self.buttonTwo.translatesAutoresizingMaskIntoConstraints = NO;
             
@@ -146,7 +84,7 @@
             
         }
         
-        else if (self.buttonOne) {
+        else if ([buttonStrings count] == 1) {
             
             self.buttonOne.translatesAutoresizingMaskIntoConstraints = NO;
             

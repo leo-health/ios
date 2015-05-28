@@ -16,7 +16,7 @@
 
 //TODO: Might be worth creating convenience methods for different roles?
 
-+ (User * __nonnull)insertEntityWithFirstName:(nonnull NSString *)firstName lastName:(nonnull NSString *)lastName dob:(nonnull NSDate *)dob email:(nonnull NSString*)email roles:(nonnull NSSet *)roles familyID:(nullable NSNumber *)familyID managedObjectContext:(nonnull NSManagedObjectContext *)context {
++ (User * __nonnull)insertEntityWithFirstName:(nonnull NSString *)firstName lastName:(nonnull NSString *)lastName dob:(nonnull NSDate *)dob email:(nonnull NSString*)email roles:(nonnull NSSet *)roles familyID:(nullable NSString *)familyID managedObjectContext:(nonnull NSManagedObjectContext *)context {
     
     User *newUser = [NSEntityDescription insertNewObjectForEntityForName:@"User" inManagedObjectContext:context];
     

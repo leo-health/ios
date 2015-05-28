@@ -8,32 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
-typedef enum CardActivity {
-    CardActivityAppointment = 1,
-    CardActivityConversation = 2,
-    CardActivityVisit = 3,
-    CardActivityForm = 4,
-    CardActivityToDo = 5,
-    CardActivityOther = 6,
-} CardActivity;
-
-typedef enum CardFormat {
-    CardFormatTwoButtonSecondaryAndPrimary,
-    CardFormatTwoButtonSecondaryOnly,
-    CardFormatTwoButtonPrimaryOnly,
-    CardFormatOneButtonSecondaryAndPrimary,
-    CardFormatOneButtonSecondaryOnly,
-    CardFormatOneButtonPrimaryOnly,
-    CardFormatUndefined
-} CardFormat;
-
-typedef enum CardState {
-    CardStateNew,
-    CardStateModify,
-    CardStateContinue,
-    CardStateCancel
-} CardState;
-
+typedef enum CardLayout {
+    CardLayoutTwoButtonSecondaryAndPrimary,
+    CardLayoutTwoButtonSecondaryOnly,
+    CardLayoutTwoButtonPrimaryOnly,
+    CardLayoutOneButtonSecondaryAndPrimary,
+    CardLayoutOneButtonSecondaryOnly,
+    CardLayoutOneButtonPrimaryOnly,
+    CardLayoutUndefined
+} CardLayout;
 
 @interface LEOConstants : NSObject
 
@@ -89,5 +72,7 @@ extern NSString *const APIParamCardActivity; // = @"type";
 extern NSString *const APIParamCardTimeStamp; // = @"timestamp"; //FIXME: Is this needed or are we using some existing timestamp?
 extern NSString *const APIParamCreatedAt; // = @"created_at";
 extern NSString *const APIParamUpdatedAt; // = @"updated_at";
+extern NSString *const APIParamAssociatedCardObject; // = @"associatedCardObject";
 
+extern NSString *const KeypathAppointmentState; // = @"state";
 @end

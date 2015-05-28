@@ -9,23 +9,17 @@
 #import <UIKit/UIKit.h>
 #import "LEOSecondaryUserView.h"
 #import "LEOButtonView.h"
-@class Card;
+#import "LEOConstants.h"
+
+@class LEOCollapsedCard;
 
 @interface LEOCardView : UIView
 
-@property (strong, nonatomic) Card *card;
-@property (strong, nonatomic) UILabel *primaryUserLabel;
-@property (strong, nonatomic) UILabel *titleLabel;
-@property (strong, nonatomic) UILabel *bodyTextLabel;
-@property (strong, nonatomic) LEOSecondaryUserView *secondaryUserView;
-@property (strong, nonatomic) LEOButtonView *buttonView;
-@property (strong, nonatomic) UIImageView *iconImageView;
+@property (strong, nonatomic) LEOCollapsedCard *card;
+
 
 @property (nonatomic) BOOL constraintsAlreadyUpdated;
 
-
-- (instancetype)initWithCard:(Card *)card;
 - (void)setupSubviews;
-- (void)resetConstraints;
 
 @end

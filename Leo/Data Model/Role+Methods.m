@@ -10,7 +10,7 @@
 
 @implementation Role (Methods)
 
-+ (Role * __nonnull)insertEntityWithName:(nonnull NSString *)name resourceID:(nonnull NSNumber *)resourceID resourceType:(nonnull NSString *)resourceType managedObjectContext:(nonnull NSManagedObjectContext *)context {
++ (Role * __nonnull)insertEntityWithName:(nonnull NSString *)name resourceID:(nonnull NSString *)resourceID resourceType:(nonnull NSNumber *)resourceType managedObjectContext:(nonnull NSManagedObjectContext *)context {
     
     Role *newRole = [NSEntityDescription insertNewObjectForEntityForName:@"Role" inManagedObjectContext:context];
     
@@ -21,4 +21,9 @@
     return newRole;
 }
 
+- (RoleType)roleType {
+    return [self.resourceType integerValue]; //TODO: Make sure this is the right field to determine the role type
+}
+
 @end
+

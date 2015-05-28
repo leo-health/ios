@@ -27,7 +27,7 @@ typedef enum ConversationState {
 //@property (nonatomic, retain) NSSet *messages;
 //@property (nonatomic, retain) NSSet *participants;
 
-+ (Conversation * __nonnull)insertEntityWithFamilyID:(nonnull NSNumber *)familyID conversationID:(nullable NSNumber *)conversationID managedObjectContext:(nonnull NSManagedObjectContext *)context {
++ (Conversation * __nonnull)insertEntityWithFamilyID:(nonnull NSString *)familyID conversationID:(nullable NSString *)conversationID managedObjectContext:(nonnull NSManagedObjectContext *)context {
     
     Conversation *newConversation = [NSEntityDescription insertNewObjectForEntityForName:@"Conversation" inManagedObjectContext:context];
     newConversation.familyID = familyID;

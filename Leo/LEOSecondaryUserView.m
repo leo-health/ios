@@ -27,13 +27,12 @@
 
 @property (nonatomic) BOOL constraintsAlreadyUpdated;
 
-
 @end
 
 
 @implementation LEOSecondaryUserView
 
-- (nonnull instancetype)initWithCardFormat:(CardFormat)cardFormat user:(nonnull User *)user timestamp:(nonnull NSDate *)timestamp {
+- (nonnull instancetype)initWithCardLayout:(CardLayout)cardFormat user:(nonnull User *)user timestamp:(nonnull NSDate *)timestamp {
     
     self = [super init];
     if (self) {
@@ -52,7 +51,7 @@
         self.dividerLabel.text = @"∙";
         
         
-        if (self.cardFormat == CardFormatTwoButtonSecondaryOnly) {
+        if (self.cardFormat == CardLayoutTwoButtonSecondaryOnly) {
             self.timestampLabel.text = timestamp.timeAgoSinceNow;
         } else {
             //FIXME: This only accounts for dates within the past year! And doesn't yet deal with timezones!
@@ -97,7 +96,7 @@
         NSDictionary *viewsDictionary = @{@"localDividerLabel":localDividerLabel, @"localNameLabel":localNameLabel, @"localTimestampLabel":localTimestampLabel, @"localSuffixCredentialLabel":localSuffixCredentialLabel, @"localSuffixLabel":localSuffixLabel};
         
         NSArray *horizontalLayoutConstraints;
-        if (self.cardFormat == CardFormatTwoButtonSecondaryOnly) {
+        if (self.cardFormat == CardLayoutTwoButtonSecondaryOnly) {
             horizontalLayoutConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[localNameLabel][localSuffixLabel]-(4)-[localSuffixCredentialLabel]-[localDividerLabel]-[localTimestampLabel]" options:0 metrics:nil views:viewsDictionary];
         }
         else {
