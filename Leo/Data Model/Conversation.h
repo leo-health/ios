@@ -1,9 +1,9 @@
 //
 //  Conversation.h
-//  
+//  Leo
 //
-//  Created by Zachary Drossman on 5/13/15.
-//
+//  Created by Zachary Drossman on 5/28/15.
+//  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -15,10 +15,10 @@
 
 @property (nonatomic, retain) NSNumber * archived;
 @property (nonatomic, retain) NSDate * archivedAt;
-@property (nonatomic, retain) NSNumber * archivedByID;
-@property (nonatomic, retain) NSNumber * conversationID;
+@property (nonatomic, retain) NSString * archivedByID;
+@property (nonatomic, retain) NSString * conversationID;
 @property (nonatomic, retain) NSDate * createdAt;
-@property (nonatomic, retain) NSNumber * familyID;
+@property (nonatomic, retain) NSString * familyID;
 @property (nonatomic, retain) NSDate * lastMessageCreated;
 @property (nonatomic, retain) NSDate * updatedAt;
 @property (nonatomic, retain) NSSet *messages;

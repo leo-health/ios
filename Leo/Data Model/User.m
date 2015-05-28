@@ -2,7 +2,7 @@
 //  User.m
 //  Leo
 //
-//  Created by Zachary Drossman on 5/20/15.
+//  Created by Zachary Drossman on 5/28/15.
 //  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
@@ -15,6 +15,7 @@
 @implementation User
 
 @dynamic createdAt;
+@dynamic credentialSuffix;
 @dynamic dob;
 @dynamic email;
 @dynamic familyID;
@@ -23,11 +24,10 @@
 @dynamic lastName;
 @dynamic middleInitial;
 @dynamic practiceID;
+@dynamic suffix;
 @dynamic title;
 @dynamic updatedAt;
 @dynamic userID;
-@dynamic suffix;
-@dynamic credentialSuffix;
 @dynamic appointments;
 @dynamic participant;
 @dynamic roles;

@@ -2,7 +2,7 @@
 //  Appointment.h
 //  Leo
 //
-//  Created by Zachary Drossman on 5/18/15.
+//  Created by Zachary Drossman on 5/28/15.
 //  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
@@ -13,19 +13,19 @@
 
 @interface Appointment : NSManagedObject
 
-@property (nonatomic, retain) NSNumber * bookedByUserID;
+@property (nonatomic, retain) NSString * bookedByUserID;
 @property (nonatomic, retain) NSDate * createdAt;
 @property (nonatomic, retain) NSDate * date;
 @property (nonatomic, retain) NSNumber * duration;
-@property (nonatomic, retain) NSNumber * familyID;
-@property (nonatomic, retain) NSString * leoAppointmentType;
-@property (nonatomic, retain) NSNumber * leoPatientID;
-@property (nonatomic, retain) NSNumber * leoProviderID;
-@property (nonatomic, retain) NSNumber * rescheduledAppointmentID;
+@property (nonatomic, retain) NSString * familyID;
+@property (nonatomic, retain) NSNumber * leoAppointmentType;
+@property (nonatomic, retain) NSString * leoPatientID;
+@property (nonatomic, retain) NSString * leoProviderID;
+@property (nonatomic, retain) NSString * practiceID;
+@property (nonatomic, retain) NSString * rescheduledAppointmentID;
 @property (nonatomic, retain) NSDate * startTime;
-@property (nonatomic, retain) NSString * status;
+@property (nonatomic, retain) NSNumber * state;
 @property (nonatomic, retain) NSDate * updatedAt;
-@property (nonatomic, retain) NSNumber * practiceID;
 @property (nonatomic, retain) NSSet *users;
 @end
 

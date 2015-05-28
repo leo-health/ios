@@ -2,7 +2,7 @@
 //  User.h
 //  Leo
 //
-//  Created by Zachary Drossman on 5/20/15.
+//  Created by Zachary Drossman on 5/28/15.
 //  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
@@ -14,19 +14,19 @@
 @interface User : NSManagedObject
 
 @property (nonatomic, retain) NSDate * createdAt;
+@property (nonatomic, retain) NSString * credentialSuffix;
 @property (nonatomic, retain) NSDate * dob;
 @property (nonatomic, retain) NSString * email;
-@property (nonatomic, retain) NSNumber * familyID;
+@property (nonatomic, retain) NSString * familyID;
 @property (nonatomic, retain) NSString * firstName;
 @property (nonatomic, retain) NSString * gender;
 @property (nonatomic, retain) NSString * lastName;
 @property (nonatomic, retain) NSString * middleInitial;
-@property (nonatomic, retain) NSNumber * practiceID;
+@property (nonatomic, retain) NSString * practiceID;
+@property (nonatomic, retain) NSString * suffix;
 @property (nonatomic, retain) NSString * title;
 @property (nonatomic, retain) NSDate * updatedAt;
-@property (nonatomic, retain) NSNumber * userID;
-@property (nonatomic, retain) NSString * suffix;
-@property (nonatomic, retain) NSString * credentialSuffix;
+@property (nonatomic, retain) NSString * userID;
 @property (nonatomic, retain) NSSet *appointments;
 @property (nonatomic, retain) ConversationParticipant *participant;
 @property (nonatomic, retain) NSSet *roles;
