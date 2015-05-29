@@ -10,4 +10,6 @@
 
 @interface LEOSingleAppointmentSchedulerCardVC : UIViewController
 
+@property (strong, nonatomic) UITableViewCell *collapsedCell;
+
 @end

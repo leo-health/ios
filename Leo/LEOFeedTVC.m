@@ -30,7 +30,7 @@
 #import "UIColor+LeoColors.h"
 #import "UIImage+Extensions.h"
 #import "LEOSingleAppointmentSchedulerCardVC.h"
-#import "LEOCardTransitionAnimator.h"
+#import "LEOTransitioningDelegate.h"
 
 #import "LEOOneButtonPrimaryOnlyCell.h"
 #import "LEOTwoButtonPrimaryOnlyCell.h"
@@ -41,6 +41,7 @@
 @property (strong, nonatomic) LEOCoreDataManager *coreDataManager;
 @property (nonatomic, strong) ArrayDataSource *cardsArrayDataSource;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) LEOTransitioningDelegate *transitionDelegate;
 
 @end
 
@@ -85,17 +86,17 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     LEOCardCell *cell = (LEOCardCell *)[tableView cellForRowAtIndexPath:indexPath];
     NSLog(@"STOP");
     
-    //    [UIView animateWithDuration:0.1 animations:^{
-    //        cell.layer.transform = CATransform3DMakeRotation(M_PI_2,0.0,1.0,0.0); ; //flip halfway
-    //    } completion:^(BOOL finished) {
-    //        LEOSingleAppointmentSchedulerCardVC *singleAppointmentScheduleVC = [[LEOSingleAppointmentSchedulerCardVC alloc] initWithNibName:@"LEOSingleAppointmentSchedulerCardVC" bundle:nil];
-    //        singleAppointmentScheduleVC.transitioningDelegate = self;
-    //        singleAppointmentScheduleVC.modalPresentationStyle = UIModalPresentationCustom;
-    //        [self presentViewController:singleAppointmentScheduleVC animated:YES completion:^{
-    //
-    //        }];
-    //    }];
-    
+        [UIView animateWithDuration:0.2 animations:^{
+            cell.layer.transform = CATransform3DMakeRotation(M_PI_2,0.0,1.0,0.0); ; //flip halfway
+        } completion:^(BOOL finished) {
+            LEOSingleAppointmentSchedulerCardVC *singleAppointmentScheduleVC = [[LEOSingleAppointmentSchedulerCardVC alloc] initWithNibName:@"LEOSingleAppointmentSchedulerCardVC" bundle:nil];
+            self.transitionDelegate = [[LEOTransitioningDelegate alloc] init];
+//            singleAppointmentScheduleVC.transitioningDelegate = self.transitionDelegate;
+            singleAppointmentScheduleVC.modalPresentationStyle = UIModalPresentationFormSheet;
+            [self presentViewController:singleAppointmentScheduleVC animated:YES completion:^{
+                singleAppointmentScheduleVC.collapsedCell = cell;
+            }];
+        }];
 }
 
 
@@ -148,20 +149,6 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 }
 
 
-#pragma mark - UIViewController Transition Animation Delegate
-- (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented
-                                                                  presentingController:(UIViewController *)presenting
-                                                                      sourceController:(UIViewController *)source {
-    
-    LEOCardTransitionAnimator *animator = [LEOCardTransitionAnimator new];
-    animator.presenting = YES;
-    return animator;
-}
-
-- (id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed {
-    LEOCardTransitionAnimator *animator = [LEOCardTransitionAnimator new];
-    return animator;
-}
 
 
 //Not super concerned about this method as it is only temporary. Will ultimately become a part of tests. DYK (did you know): the vast majority of iOS developers don't test (and most of those don't even know how!) These comments are going to have to go once we get more iOS developers...
