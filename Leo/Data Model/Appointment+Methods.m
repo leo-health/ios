@@ -10,21 +10,21 @@
 #import "LEOConstants.h"
 #import "User+Methods.h"
 #import "Role+Methods.h"
-#import "UserRole+Methods.h"
+#import "LEOCoreDataManager.h"
 
 @implementation Appointment (Methods)
 
 
-+ (Appointment * __nonnull)insertEntityWithDate:(nonnull NSDate *)date duration:(nonnull NSNumber *)duration appointmentType:(nonnull NSNumber *)leoAppointmentType patientID:(nonnull NSString *)leoPatientID providerID:(nonnull NSString *)leoProviderID familyID:(nonnull NSString *)familyID managedObjectContext:(nonnull NSManagedObjectContext *)context {
++ (Appointment * __nonnull)insertEntityWithDate:(nonnull NSDate *)date duration:(nonnull NSNumber *)duration appointmentType:(nonnull NSNumber *)leoAppointmentType patient:(nonnull User *)patient provider:(nonnull User *)provider familyID:(nonnull NSString *)familyID bookedByUser:(nonnull User *)bookedByUser managedObjectContext:(nonnull NSManagedObjectContext *)context {
 
     Appointment *newAppointment = [NSEntityDescription insertNewObjectForEntityForName:@"Appointment" inManagedObjectContext:context];
     newAppointment.date = date;
     newAppointment.duration = duration;
     newAppointment.leoAppointmentType = leoAppointmentType;
-    newAppointment.leoPatientID = leoPatientID;
-    newAppointment.leoProviderID = leoProviderID;
+    newAppointment.patient = patient;
+    newAppointment.provider = provider;
     newAppointment.familyID = familyID;
-    
+    newAppointment.bookedByUser = bookedByUser;
     return newAppointment;
 }
 
@@ -33,8 +33,10 @@
     Appointment *newAppointment = [NSEntityDescription insertNewObjectForEntityForName:@"Appointment" inManagedObjectContext:context];
     newAppointment.date = jsonResponse[APIParamApptDate];
     newAppointment.leoAppointmentType = jsonResponse[APIParamApptType];
-    newAppointment.leoPatientID = jsonResponse[APIParamPatientID];
-    newAppointment.leoProviderID = jsonResponse[APIParamProviderID];
+    LEOCoreDataManager *coreDataManager = [LEOCoreDataManager sharedManager];
+    newAppointment.patient = [coreDataManager objectWithObjectID:jsonResponse[APIParamPatientID] objectArray:coreDataManager.users];
+    newAppointment.provider = [coreDataManager objectWithObjectID:jsonResponse[APIParamProviderID] objectArray:coreDataManager.users];
+    newAppointment.bookedByUser = [coreDataManager objectWithObjectID:jsonResponse[APIParamBookedByUserID] objectArray:coreDataManager.users];
     newAppointment.familyID = jsonResponse[APIParamUserFamilyID];
     
     return newAppointment;
@@ -43,20 +45,6 @@
 
 - (AppointmentState)appointmentState {
     return [self.state integerValue];
-}
-
-//FIXME: Refactoring necessary to separate these out into associated classes
-- (nonnull User *)primaryForAppointment {
-    
-    for (User *user in self.users) {
-        for (UserRole *userRole in user.roles) {
-            if (userRole.role.roleType == RoleTypeChild) {
-                return user;
-            }
-        }
-    }
-    
-    return nil; //FIXME: Replace with an exception and shouldn't be nil.
 }
 
 - (nonnull NSString *)stringifiedAppointmentDate {

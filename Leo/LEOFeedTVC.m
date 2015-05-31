@@ -12,7 +12,7 @@
 #import <NSDate+DateTools.h>
 
 #import "LEOCardView.h"
-#import "ArrayDataSource.h"
+#import "FeedDataSource.h"
 #import "LEOCardCell.h"
 #import "LEOCollapsedCard.h"
 
@@ -22,7 +22,6 @@
 
 #import "User+Methods.h"
 #import "Role+Methods.h"
-#import "UserRole+Methods.h"
 #import "Appointment+Methods.h"
 #import "Conversation+Methods.h"
 #import "Message+Methods.h"
@@ -39,7 +38,7 @@
 @interface LEOFeedTVC ()
 
 @property (strong, nonatomic) LEOCoreDataManager *coreDataManager;
-@property (nonatomic, strong) ArrayDataSource *cardsArrayDataSource;
+@property (nonatomic, strong) FeedDataSource *cardsArrayDataSource;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) LEOTransitioningDelegate *transitionDelegate;
 
@@ -155,12 +154,10 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 
 - (void)testAPI {
     
-    Role *role = [Role insertEntityWithName:@"parent" resourceID:@"1" resourceType:@1 managedObjectContext:self.coreDataManager.managedObjectContext];
-    UserRole *userRole = [UserRole insertEntityWithRole:role managedObjectContext:self.coreDataManager.managedObjectContext];
+    Role *parentRole = [Role insertEntityWithName:@"parent" resourceID:@"1" resourceType:@1 managedObjectContext:self.coreDataManager.managedObjectContext];
     NSDate *nowDate = [NSDate date];
     
-    NSSet *roleSet = [NSSet setWithObject:userRole];
-    User *parentUser = [User insertEntityWithFirstName:@"Marilyn" lastName:@"Drossman" dob:nowDate email:@"md10@leohealth.com" roles:roleSet familyID:nil managedObjectContext: self.coreDataManager.managedObjectContext];
+    User *parentUser = [User insertEntityWithFirstName:@"Marilyn" lastName:@"Drossman" dob:nowDate email:@"md10@leohealth.com" role:parentRole familyID:nil managedObjectContext: self.coreDataManager.managedObjectContext];
     parentUser.title = @"Mrs.";
     parentUser.practiceID = @"1";
     parentUser.middleInitial = @"";
@@ -193,11 +190,8 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
             self.coreDataManager.userToken = rawResults[@"data"][@"token"]; //temporary until this is being pulled from the keychain
             
             Role *childRole = [Role insertEntityWithName:@"child" resourceID:@"2" resourceType:@2 managedObjectContext:self.coreDataManager.managedObjectContext];
-            UserRole *childUserRole = [UserRole insertEntityWithRole:childRole managedObjectContext:self.coreDataManager.managedObjectContext];
-            NSSet *childRoleSet = [NSSet setWithObject:childUserRole];
             
-            User *childUser = [User insertEntityWithFirstName:@"Zachary" lastName:@"Drossman" dob:[NSDate date] email:@"zd9@leohealth.com" roles:childRoleSet
-                                                     familyID:[NSString stringWithFormat:@"%@",@([self.coreDataManager.currentUser.familyID integerValue] + 1)] managedObjectContext:self.coreDataManager.managedObjectContext];
+            User *childUser = [User insertEntityWithFirstName:@"Zachary" lastName:@"Drossman" dob:[NSDate date] email:@"zd9@leohealth.com" role:childRole familyID:[NSString stringWithFormat:@"%@",@([self.coreDataManager.currentUser.familyID integerValue] + 1)] managedObjectContext:self.coreDataManager.managedObjectContext];
             
             __weak id<OHHTTPStubsDescriptor> childStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
                 NSLog(@"Request");
@@ -224,7 +218,15 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
             // NSString *dateOfDay = [NSString stringWithFormat:@"%ld/%ld/%ld",date.month, date.day, date.year];
             // NSString *timeOfDay = [NSString stringWithFormat:@"%ld:%ld", date.hour, date.minute];
             
-            Appointment *zachsAppt = [Appointment insertEntityWithDate:date duration:@30 appointmentType:@1 patientID:@"62" providerID:@"2" familyID:@"63" managedObjectContext:self.coreDataManager.managedObjectContext];
+            Role *doctorRole = [Role insertEntityWithName:@"doctor" resourceID:@"2" resourceType:@1 managedObjectContext:self.coreDataManager.managedObjectContext];
+            User *doctorUser = [User insertEntityWithFirstName:@"Om" lastName:@"Lala" dob:[NSDate date] email:@"om10@leohealth.com" role:doctorRole familyID:nil
+                                          managedObjectContext:self.coreDataManager.managedObjectContext];
+            doctorUser.credentialSuffix = @"MD";
+            doctorUser.title = @"Dr.";
+
+            
+            Appointment *zachsAppt = [Appointment insertEntityWithDate:date duration:@30 appointmentType:@1 patient:childUser provider:doctorUser familyID:@"63" bookedByUser:parentUser managedObjectContext:self.coreDataManager.managedObjectContext];
+    
             
             [self.coreDataManager createAppointmentWithAppointment:zachsAppt withCompletion:^(NSDictionary * __nonnull rawResults) {
                 NSLog(@"CREATE APPT: %@", rawResults);
@@ -239,7 +241,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
                 
                 Conversation *zachConversation = [Conversation insertEntityWithFamilyID:@([self.coreDataManager.currentUser.familyID integerValue] + 1) conversationID:rawResults[@"data"][@"conversation"][0][@"id"] managedObjectContext:self.coreDataManager.managedObjectContext];
                 
-                Message *firstMessage = [Message insertEntityWithBody:@"Hello World!" senderID:self.coreDataManager.currentUser.userID managedObjectContext:self.coreDataManager.managedObjectContext];
+                Message *firstMessage = [Message insertEntityWithBody:@"Hello World!" senderID:self.coreDataManager.currentUser.id managedObjectContext:self.coreDataManager.managedObjectContext];
                 
                 [self.coreDataManager createMessage:firstMessage forConversation:zachConversation withCompletion:^ void(NSDictionary * __nonnull rawResults) {
                     

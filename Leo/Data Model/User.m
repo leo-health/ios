@@ -2,14 +2,14 @@
 //  User.m
 //  Leo
 //
-//  Created by Zachary Drossman on 5/28/15.
+//  Created by Zachary Drossman on 5/29/15.
 //  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
 #import "User.h"
 #import "Appointment.h"
 #import "ConversationParticipant.h"
-#import "UserRole.h"
+#import "Role.h"
 
 
 @implementation User
@@ -21,15 +21,17 @@
 @dynamic familyID;
 @dynamic firstName;
 @dynamic gender;
+@dynamic id;
 @dynamic lastName;
 @dynamic middleInitial;
 @dynamic practiceID;
 @dynamic suffix;
 @dynamic title;
 @dynamic updatedAt;
-@dynamic userID;
-@dynamic appointments;
+@dynamic appointmentsToAdminister;
+@dynamic appointmentsToBeAt;
+@dynamic appointmentsToBeSeen;
 @dynamic participant;
-@dynamic roles;
+@dynamic role;
 
 @end

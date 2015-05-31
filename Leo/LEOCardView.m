@@ -11,7 +11,6 @@
 #import "User+Methods.h"
 #import <NSDate+DateTools.h>
 #import "Role+Methods.h"
-#import "UserRole+Methods.h"
 #import "UIImage+Extensions.h"
 #import "LEOConstants.h"
 #import "UIColor+LeoColors.h"

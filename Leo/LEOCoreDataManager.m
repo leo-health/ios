@@ -13,7 +13,6 @@
 #import "Conversation.h"
 #import "Message.h"
 #import "Role+Methods.h"
-#import "UserRole+Methods.h"
 #import "User+Methods.h"
 #import "LEOCollapsedCardScheduling.h"
 #import "UIColor+LeoColors.h"
@@ -24,6 +23,7 @@
 @property (nonatomic, readwrite) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, readwrite) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 @property (nonatomic, readwrite) NSManagedObjectModel *managedObjectModel;
+
 
 @end
 
@@ -53,7 +53,7 @@
     userParams[APIParamUserPassword] = password;
     [LEOApiClient createUserWithParameters:userParams withCompletion:^(NSDictionary *rawResults) {
         NSDictionary *userDictionary = rawResults[@"data"][@"user"]; //TODO: Make sure I want this here and not defined somewhere else.
-        user.userID = userDictionary[APIParamUserID];
+        user.id = userDictionary[APIParamUserID];
         user.familyID = userDictionary[APIParamUserFamilyID];
         completionBlock(rawResults);
     }];
@@ -81,8 +81,8 @@
 }
 
 - (void)createAppointmentWithAppointment:(nonnull Appointment *)appointment withCompletion:(void (^)(NSDictionary  * __nonnull rawResults))completionBlock {
-    NSArray *apptProperties = @[[self userToken], appointment.leoPatientID, appointment.date, appointment.startTime, appointment.duration, appointment.leoProviderID, appointment.practiceID];
-    NSArray *apptKeys = @[APIParamApptToken, APIParamPatientID, APIParamApptDate, APIParamApptStartTime, APIParamApptDuration, APIParamProviderID, APIParamPracticeID];
+    NSArray *apptProperties = @[[self userToken], appointment.patient.id, appointment.date, appointment.duration, appointment.provider.id, appointment.practiceID];
+    NSArray *apptKeys = @[APIParamApptToken, APIParamPatientID, APIParamApptDate, APIParamApptDuration, APIParamProviderID, APIParamPracticeID];
     
     NSDictionary *apptParams = [[NSDictionary alloc] initWithObjects:apptProperties forKeys:apptKeys];
     
@@ -214,32 +214,38 @@
     //NSArray *users = [self.managedObjectContext executeFetchRequest:request error:nil];
     
     Role *childRole = [Role insertEntityWithName:@"child" resourceID:@"2" resourceType:@2 managedObjectContext:self.managedObjectContext];
-    UserRole *childUserRole = [UserRole insertEntityWithRole:childRole managedObjectContext:self.managedObjectContext];
-    NSSet *childRoleSet = [NSSet setWithObject:childUserRole];
     
-    User *childUserOne = [User insertEntityWithFirstName:@"Zachary" lastName:@"Drossman" dob:[NSDate date] email:@"zd9@leohealth.com" roles:childRoleSet
+    User *childUserOne = [User insertEntityWithFirstName:@"Zachary" lastName:@"Drossman" dob:[NSDate date] email:@"zd9@leohealth.com" role:childRole
                                              familyID:[@([self.currentUser.familyID integerValue] + 1) stringValue]
                                  managedObjectContext:self.managedObjectContext];
     
-    User *childUserTwo = [User insertEntityWithFirstName:@"Rachel" lastName:@"Drossman" dob:[NSDate date] email:@"rd9@leohealth.com" roles:childRoleSet
+    User *childUserTwo = [User insertEntityWithFirstName:@"Rachel" lastName:@"Drossman" dob:[NSDate date] email:@"rd9@leohealth.com" role:childRole
                                                 familyID:[@([self.currentUser.familyID integerValue] + 1) stringValue]
                                     managedObjectContext:self.managedObjectContext];
     
-    User *childUserThree = [User insertEntityWithFirstName:@"Tracy" lastName:@"Drossman" dob:[NSDate date] email:@"td9@leohealth.com" roles:childRoleSet
+    User *childUserThree = [User insertEntityWithFirstName:@"Tracy" lastName:@"Drossman" dob:[NSDate date] email:@"td9@leohealth.com" role:childRole
                                                 familyID:[@([self.currentUser.familyID integerValue] + 1) stringValue]
                                     managedObjectContext:self.managedObjectContext];
 
     
     Role *doctorRole = [Role insertEntityWithName:@"doctor" resourceID:@"2" resourceType:@1 managedObjectContext:self.managedObjectContext];
-    UserRole *doctorUserRole = [UserRole insertEntityWithRole:doctorRole managedObjectContext:self.managedObjectContext];
-    NSSet *doctorRoleSet = [NSSet setWithObject:doctorUserRole];
-    
-    User *doctorUser = [User insertEntityWithFirstName:@"Om" lastName:@"Lala" dob:[NSDate date] email:@"om10@leohealth.com" roles:doctorRoleSet familyID:nil
+
+    User *doctorUser = [User insertEntityWithFirstName:@"Om" lastName:@"Lala" dob:[NSDate date] email:@"om10@leohealth.com" role:doctorRole familyID:nil
                                  managedObjectContext:self.managedObjectContext];
+    
     doctorUser.credentialSuffix = @"MD";
     doctorUser.title = @"Dr.";
     
-    Appointment *appointment = [Appointment insertEntityWithDate:[NSDate dateWithTimeInterval:100000 sinceDate:[NSDate date]] duration:@30 appointmentType:@1 patientID:@"62" providerID:@"10" familyID:@"65" managedObjectContext:self.managedObjectContext];
+    Role *parentRole = [Role insertEntityWithName:@"parent" resourceID:@"1" resourceType:@1 managedObjectContext:self.managedObjectContext];
+    NSDate *nowDate = [NSDate date];
+    
+    User *parentUser = [User insertEntityWithFirstName:@"Marilyn" lastName:@"Drossman" dob:nowDate email:@"md10@leohealth.com" role:parentRole familyID:nil managedObjectContext: self.managedObjectContext];
+    parentUser.title = @"Mrs.";
+    parentUser.practiceID = @"1";
+    parentUser.middleInitial = @"";
+    parentUser.gender = @"female";
+    
+    Appointment *appointment = [Appointment insertEntityWithDate:[NSDate dateWithTimeInterval:100000 sinceDate:[NSDate date]] duration:@30 appointmentType:@1 patient:childUserOne provider:doctorUser familyID:@"62" bookedByUser:parentUser managedObjectContext:self.managedObjectContext];
     
     LEOCollapsedCardScheduling *cardOne = [[LEOCollapsedCardScheduling alloc] initWithID:@2 state:AppointmentStateRecommending priority:@1 associatedCardObject:appointment];
     
@@ -263,6 +269,23 @@
 //        }
 //        self.cards = [self.managedObjectContext executeFetchRequest:request error:nil];
 //    }
+}
+
+- (id)objectWithObjectID:(NSString *)objectID objectArray:(NSArray *)objects {
+    
+    for (id object in objects) {
+        
+        SEL selector = NSSelectorFromString(@"id");
+        IMP imp = [object methodForSelector:selector];
+        NSString* (*func)(id, SEL) = (void *)imp;
+        NSString* result = object ? func(object, selector) : nil;
+        
+        if ([result isEqualToString:objectID]) {
+            return object;
+        }
+    }
+    
+    return nil;
 }
 
 

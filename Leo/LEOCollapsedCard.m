@@ -58,20 +58,6 @@
                                  userInfo:nil];
 }
 
-- (nonnull User *)secondaryUser {
-    
-    @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                   reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
-                                 userInfo:nil];
-
-    
-}
-- (nonnull User *)primaryUser {
-    
-    @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                   reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
-                                 userInfo:nil];
-}
 - (nonnull NSDate *)timestamp {
     
     @throw [NSException exceptionWithName:NSInternalInconsistencyException

@@ -89,13 +89,13 @@ static void * XXContext = &XXContext;
             return @"";
             
         case AppointmentStateConfirmingCancelling:
-            return [NSString stringWithFormat:@"%@'s appointment has been cancelled. Click dismiss to remove this card from you feed.",self.appointment.primaryForAppointment.firstName];
+            return [NSString stringWithFormat:@"%@'s appointment has been cancelled. Click dismiss to remove this card from you feed.",self.appointment.patient.firstName];
             
         case AppointmentStateRecommending:
-            return [NSString stringWithFormat:@"Looks like %@ is due for an appointment. We've got you all set. Click here to complete %@'s booking.", self.appointment.primaryForAppointment.firstName, self.appointment.primaryForAppointment.firstName];
+            return [NSString stringWithFormat:@"Looks like %@ is due for an appointment. We've got you all set. Click here to complete %@'s booking.", self.appointment.patient.firstName, self.appointment.patient.firstName];
             
         case AppointmentStateReminding:
-            return [NSString stringWithFormat:@"%@ has an appointment on %@ at %@",self.appointment.primaryForAppointment.firstName, self.appointment.stringifiedAppointmentDate, self.appointment.stringifiedAppointmentTime];
+            return [NSString stringWithFormat:@"%@ has an appointment on %@ at %@",self.appointment.patient.firstName, self.appointment.stringifiedAppointmentDate, self.appointment.stringifiedAppointmentTime];
     }
 }
 
@@ -130,19 +130,17 @@ static void * XXContext = &XXContext;
     }
 }
 
-
-- (nonnull User *)secondaryUser {
-    
-    
-    
+-(nonnull User *)primaryUser {
+    return self.appointment.patient;
 }
 
-- (nonnull User *)primaryUser {
-    
+-(nonnull User *)secondaryUser {
+    return self.appointment.provider;
 }
 
+//FIXME: Not sure what data we actually want for a timestamp.
 - (nonnull NSDate *)timestamp {
-
+    return [NSDate date];
 }
 
 

@@ -9,14 +9,13 @@
 #import "User+Methods.h"
 #import "LEOConstants.h"
 #import "Role.h"
-#import "UserRole.h"
 
 @implementation User (Methods)
 
 
 //TODO: Might be worth creating convenience methods for different roles?
 
-+ (User * __nonnull)insertEntityWithFirstName:(nonnull NSString *)firstName lastName:(nonnull NSString *)lastName dob:(nonnull NSDate *)dob email:(nonnull NSString*)email roles:(nonnull NSSet *)roles familyID:(nullable NSString *)familyID managedObjectContext:(nonnull NSManagedObjectContext *)context {
++ (User * __nonnull)insertEntityWithFirstName:(nonnull NSString *)firstName lastName:(nonnull NSString *)lastName dob:(nonnull NSDate *)dob email:(nonnull NSString*)email role:(nonnull Role *)role familyID:(nullable NSString *)familyID managedObjectContext:(nonnull NSManagedObjectContext *)context {
     
     User *newUser = [NSEntityDescription insertNewObjectForEntityForName:@"User" inManagedObjectContext:context];
     
@@ -24,7 +23,7 @@
     newUser.lastName = lastName;
     newUser.dob  = dob;
     newUser.email = email;
-    newUser.roles = roles;
+    newUser.role = role;
     newUser.familyID = familyID;
     
     return newUser;
@@ -37,7 +36,7 @@
     newUser.lastName = jsonResponse[APIParamUserLastName];
         newUser.dob = jsonResponse[APIParamUserDOB];
     newUser.email = jsonResponse[APIParamUserEmail];
-    
+    newUser.role = jsonResponse[APIParamUserRole];
     //TODO: Will a newuser dictionary have roles or will this create a complication?
     
     return newUser;
@@ -59,20 +58,21 @@
     userDictionary[APIParamUserPractice] = user.practiceID ? user.practiceID : [NSNull null];
 
     userDictionary[APIParamUserFamilyID] = user.familyID ? user.familyID : [NSNull null];
-    userDictionary[APIParamUserID] = user.userID ? user.userID : [NSNull null];
+    userDictionary[APIParamUserID] = user.id ? user.id : [NSNull null];
 
-    //TODO: Decide what best to do with this...currently just excluding, and adding back below as just the string for "primary_role". Feels...crappy.
-    //userDictionary[APIParamUserRole] = user.roles ? user.roles : [NSNull null];
-    
-    NSArray *roles = [user.roles allObjects];
-    UserRole *primaryRole = roles[0]; //FIXME: This is a placeholder for how we're dealing with this logic
-    Role *primaryRoleDetails = primaryRole.role; //FIXME: Getting the name of a role should not be inline like this most likely...
-    
-    userDictionary[APIParamUserRole] = primaryRoleDetails.name;
+    //FIXME: This will not work because it should be the roleID not a pointer to a role.
+    userDictionary[APIParamUserRole] = user.role ? user.role : [NSNull null];
     
     return userDictionary;
 }
 
 
+-(NSString *)usernameFromID:(NSString *)id {
+    return nil;
+}
+
+-(NSString *)userRoleFromID:(NSString *)id {
+    return nil;
+}
 
 @end

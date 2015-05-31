@@ -37,6 +37,7 @@ NSString *const APIParamUserToken = @"token";
 NSString *const APIParamPatientID = @"patient_id";
 NSString *const APIParamUserFamilyID = @"family_id";
 NSString *const APIParamUserID = @"id";
+NSString *const APIParamBookedByUserID = @"booked_by_user_id"; //FIXME: Don't know if this is the correct field name
 
 NSString *const APIParamApptDate = @"date";
 NSString *const APIParamApptStartTime = @"start_time";

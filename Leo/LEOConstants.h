@@ -46,6 +46,7 @@ extern NSString *const APIParamUserToken; // @"token";
 extern NSString *const APIParamPatientID; // @"patient_id";
 extern NSString *const APIParamUserFamilyID; // @"family_id";
 extern NSString *const APIParamUserID; // @"id";
+extern NSString *const APIParamBookedByUserID; // @"booked_by_user_id";
 
 extern NSString *const APIParamApptDate; // @"date";
 extern NSString *const APIParamApptStartTime; // @"start_time";
@@ -73,6 +74,7 @@ extern NSString *const APIParamCardTimeStamp; // = @"timestamp"; //FIXME: Is thi
 extern NSString *const APIParamCreatedAt; // = @"created_at";
 extern NSString *const APIParamUpdatedAt; // = @"updated_at";
 extern NSString *const APIParamAssociatedCardObject; // = @"associatedCardObject";
+
 
 extern NSString *const KeypathAppointmentState; // = @"state";
 @end

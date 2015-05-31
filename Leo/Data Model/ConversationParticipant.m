@@ -2,7 +2,7 @@
 //  ConversationParticipant.m
 //  Leo
 //
-//  Created by Zachary Drossman on 5/28/15.
+//  Created by Zachary Drossman on 5/29/15.
 //  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
@@ -13,9 +13,8 @@
 
 @implementation ConversationParticipant
 
-@dynamic participantID;
 @dynamic participantRole;
 @dynamic conversations;
-@dynamic user;
+@dynamic participant;
 
 @end
