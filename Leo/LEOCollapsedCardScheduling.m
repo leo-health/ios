@@ -57,77 +57,96 @@ static void * XXContext = &XXContext;
 
 - (NSString *)title {
 
+    NSString *titleText;
+
     switch (self.appointment.appointmentState) {
             
         case AppointmentStateBooking:
-            return @"Book an appointment"; //used?
+            titleText = @"Book an appointment"; //used?
+            break;
             
         case AppointmentStateCancelling:
-            return @"Cancel Appointment?";
+            titleText = @"Cancel Appointment?";
+            break;
             
         case AppointmentStateConfirmingCancelling:
-            return @"Confirm Appointment Cancellation";
+            titleText = @"Confirm Appointment Cancellation";
+            break;
             
         case AppointmentStateRecommending:
-            return @"Appointment Recommendation";
+            titleText = @"Appointment Recommendation";
+            break;
             
         case AppointmentStateReminding:
-            return @"Appointment Reminder";
+            titleText = @"Appointment Reminder";
+            break;
     }
-
     
+    return titleText;
 }
 
 - (NSString *)body {
     
+    NSString *bodyText;
+    
     switch (self.appointment.appointmentState) {
             
         case AppointmentStateBooking:
-            return nil;
+            bodyText = nil;
+            break;
             
         case AppointmentStateCancelling:
-            return @"";
+            
+            bodyText = @"";
+            break;
             
         case AppointmentStateConfirmingCancelling:
-            return [NSString stringWithFormat:@"%@'s appointment has been cancelled. Click dismiss to remove this card from you feed.",self.appointment.patient.firstName];
+            bodyText = [NSString stringWithFormat:@"%@'s appointment has been cancelled. Click dismiss to remove this card from you feed.",self.appointment.patient.firstName];
+            break;
             
         case AppointmentStateRecommending:
-            return [NSString stringWithFormat:@"Looks like %@ is due for an appointment. We've got you all set. Click here to complete %@'s booking.", self.appointment.patient.firstName, self.appointment.patient.firstName];
+            bodyText = [NSString stringWithFormat:@"Looks like %@ is due for an appointment. We've got you all set. Click here to complete %@'s booking.", self.appointment.patient.firstName, self.appointment.patient.firstName];
+            break;
             
         case AppointmentStateReminding:
-            return [NSString stringWithFormat:@"%@ has an appointment on %@ at %@",self.appointment.patient.firstName, self.appointment.stringifiedAppointmentDate, self.appointment.stringifiedAppointmentTime];
+            bodyText = [NSString stringWithFormat:@"%@ has an appointment on %@ at %@",self.appointment.patient.firstName, self.appointment.stringifiedAppointmentDate, self.appointment.stringifiedAppointmentTime];
+            break;
     }
+    
+    return bodyText;
 }
 
 - (nonnull NSArray *)stringRepresentationOfActionsAvailableForState {
     
+    NSArray *actionStrings;
+    
     switch (self.appointment.appointmentState) {
         case AppointmentStateBooking:
-            return @[@"Book",@"Cancel"];
+            actionStrings = @[@"Book",@"Cancel"];
             break;
             
         case AppointmentStateCancelling:
-            return @[@"Yes",@"No"];
+            actionStrings = @[@"Yes",@"No"];
             break;
             
             
         case AppointmentStateConfirmingCancelling:
-            return @[@"Dismiss"];
+            actionStrings = @[@"Dismiss"];
             break;
             
             
         case AppointmentStateRecommending:
-            return @[@"Schedule",@"Cancel"];
+            actionStrings = @[@"Schedule",@"Cancel"];
             break;
             
             
         case AppointmentStateReminding:
-            return @[@"Reschedule",@"Cancel"];
+            actionStrings = @[@"Reschedule",@"Cancel"];
             break;
             
-        default:
-            break;
     }
+    
+    return actionStrings;
 }
 
 -(nonnull User *)primaryUser {

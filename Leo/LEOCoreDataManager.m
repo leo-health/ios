@@ -245,7 +245,7 @@
     parentUser.middleInitial = @"";
     parentUser.gender = @"female";
     
-    Appointment *appointment = [Appointment insertEntityWithDate:[NSDate dateWithTimeInterval:100000 sinceDate:[NSDate date]] duration:@30 appointmentType:@1 patient:childUserOne provider:doctorUser familyID:@"62" bookedByUser:parentUser managedObjectContext:self.managedObjectContext];
+    Appointment *appointment = [Appointment insertEntityWithDate:[NSDate dateWithTimeInterval:100000 sinceDate:[NSDate date]] duration:@30 appointmentType:@1 patient:childUserOne provider:doctorUser familyID:@"62" bookedByUser:parentUser state:@(AppointmentStateRecommending) managedObjectContext:self.managedObjectContext];
     
     LEOCollapsedCardScheduling *cardOne = [[LEOCollapsedCardScheduling alloc] initWithID:@2 state:AppointmentStateRecommending priority:@1 associatedCardObject:appointment];
     

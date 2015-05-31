@@ -243,6 +243,10 @@
 		3177B9991B189F2D006AE360 /* Cards */ = {
 			isa = PBXGroup;
 			children = (
+				31FEF1521B0D073600AD14D2 /* LEOCollapsedCard.h */,
+				31FEF1531B0D073600AD14D2 /* LEOCollapsedCard.m */,
+				3177B9961B17A1B7006AE360 /* LEOCollapsedCardScheduling.h */,
+				3177B9971B17A1B7006AE360 /* LEOCollapsedCardScheduling.m */,
 			);
 			name = Cards;
 			sourceTree = "<group>";
@@ -475,10 +479,6 @@
 		BCED00971B0257EB007653D6 /* Data Model */ = {
 			isa = PBXGroup;
 			children = (
-				31FEF1521B0D073600AD14D2 /* LEOCollapsedCard.h */,
-				31FEF1531B0D073600AD14D2 /* LEOCollapsedCard.m */,
-				3177B9961B17A1B7006AE360 /* LEOCollapsedCardScheduling.h */,
-				3177B9971B17A1B7006AE360 /* LEOCollapsedCardScheduling.m */,
 				BCE1EC981B0104F8007C8D0B /* LEODataModel.xcdatamodeld */,
 				BCE1EC921B010336007C8D0B /* LEOCoreDataManager.h */,
 				BCE1EC931B010336007C8D0B /* LEOCoreDataManager.m */,

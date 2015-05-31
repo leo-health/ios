@@ -225,7 +225,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
             doctorUser.title = @"Dr.";
 
             
-            Appointment *zachsAppt = [Appointment insertEntityWithDate:date duration:@30 appointmentType:@1 patient:childUser provider:doctorUser familyID:@"63" bookedByUser:parentUser managedObjectContext:self.coreDataManager.managedObjectContext];
+            Appointment *zachsAppt = [Appointment insertEntityWithDate:date duration:@30 appointmentType:@1 patient:childUser provider:doctorUser familyID:@"63" bookedByUser:parentUser state:@(AppointmentStateRecommending) managedObjectContext:self.coreDataManager.managedObjectContext];
     
             
             [self.coreDataManager createAppointmentWithAppointment:zachsAppt withCompletion:^(NSDictionary * __nonnull rawResults) {

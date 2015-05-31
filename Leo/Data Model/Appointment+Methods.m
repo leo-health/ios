@@ -15,7 +15,7 @@
 @implementation Appointment (Methods)
 
 
-+ (Appointment * __nonnull)insertEntityWithDate:(nonnull NSDate *)date duration:(nonnull NSNumber *)duration appointmentType:(nonnull NSNumber *)leoAppointmentType patient:(nonnull User *)patient provider:(nonnull User *)provider familyID:(nonnull NSString *)familyID bookedByUser:(nonnull User *)bookedByUser managedObjectContext:(nonnull NSManagedObjectContext *)context {
++ (Appointment * __nonnull)insertEntityWithDate:(nonnull NSDate *)date duration:(nonnull NSNumber *)duration appointmentType:(nonnull NSNumber *)leoAppointmentType patient:(nonnull User *)patient provider:(nonnull User *)provider familyID:(nonnull NSString *)familyID bookedByUser:(nonnull User *)bookedByUser state:(NSNumber *)state managedObjectContext:(nonnull NSManagedObjectContext *)context {
 
     Appointment *newAppointment = [NSEntityDescription insertNewObjectForEntityForName:@"Appointment" inManagedObjectContext:context];
     newAppointment.date = date;
@@ -25,6 +25,8 @@
     newAppointment.provider = provider;
     newAppointment.familyID = familyID;
     newAppointment.bookedByUser = bookedByUser;
+    newAppointment.state = state;
+    
     return newAppointment;
 }
 
@@ -38,7 +40,7 @@
     newAppointment.provider = [coreDataManager objectWithObjectID:jsonResponse[APIParamProviderID] objectArray:coreDataManager.users];
     newAppointment.bookedByUser = [coreDataManager objectWithObjectID:jsonResponse[APIParamBookedByUserID] objectArray:coreDataManager.users];
     newAppointment.familyID = jsonResponse[APIParamUserFamilyID];
-    
+    newAppointment.state = jsonResponse[APIParamState];
     return newAppointment;
 
 }

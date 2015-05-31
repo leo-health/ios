@@ -53,6 +53,7 @@ extern NSString *const APIParamApptStartTime; // @"start_time";
 extern NSString *const APIParamApptDuration; // @"duration";
 extern NSString *const APIParamApptToken; // @"access_token"; //TODO: Can Danish change all tokens to match the same key?
 extern NSString *const APIParamApptType; // = @"leo_appointment_type";
+extern NSString *const APIParamState; // = @"state";
 
 extern NSString *const APIParamPracticeID; // @"practice_id";
 extern NSString *const APIParamProviderID; // @"provider_id";
