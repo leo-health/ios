@@ -32,7 +32,19 @@
         
         _card = card;
         
-        [self layoutSubviews];
+        NSArray *buttonStrings = [self.card stringRepresentationOfActionsAvailableForState];
+        
+        self.buttonOne = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.buttonOne setTitle:buttonStrings[0] forState:UIControlStateNormal];
+        [self addSubview:self.buttonOne];
+        
+        if ([buttonStrings count] == 2) {
+            self.buttonTwo = [UIButton buttonWithType:UIButtonTypeCustom];
+            [self.buttonTwo setTitle:buttonStrings[1] forState:UIControlStateNormal];
+            [self addSubview:self.buttonTwo];
+        }
+        
+        //[self layoutSubviews];
         [self updateFonts];
         [self setNeedsLayout];
 
@@ -41,20 +53,18 @@
     return self;
 }
 
+-(CGSize)intrinsicContentSize{
+    return CGSizeMake(UIViewNoIntrinsicMetric,
+                      MAX(_buttonOne.intrinsicContentSize.height, _buttonTwo.intrinsicContentSize.height));
+}
+
 //FIXME: Code smell - alloc/init in layoutSubviews instead of initialization. Will be fixed when data comes from object instead of locally being initialized.
 - (void)layoutSubviews {
-    
-    NSArray *buttonStrings = [self.card stringRepresentationOfActionsAvailableForState];
-    
-    self.buttonOne = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.buttonOne setTitle:buttonStrings[0] forState:UIControlStateNormal];
-    [self addSubview:self.buttonOne];
-
-    if ([buttonStrings count] == 2) {
-        self.buttonTwo = [UIButton buttonWithType:UIButtonTypeCustom];
-        [self.buttonTwo setTitle:buttonStrings[1] forState:UIControlStateNormal];
-        [self addSubview:self.buttonTwo];
-    }
+    /*TODO: Remove the following test code. This is 
+     * for the purpsoe of determining whether the view 
+     * is actually sized correctly.
+     */
+    self.clipsToBounds = YES;
 }
 
 - (void)updateConstraints { //TODO: Do we need a zero button situation? Some minor refactoring here.
