@@ -11,6 +11,8 @@
 @interface LEOSingleAppointmentSchedulerCardVC : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
 @property (strong, nonatomic) UITableViewCell *collapsedCell;
+@property (strong, nonatomic) UIPageViewController *pageViewController;
 
+@property (weak, nonatomic) IBOutlet UIView *containerView;
 
 @end

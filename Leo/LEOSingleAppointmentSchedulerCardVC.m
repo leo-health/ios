@@ -15,12 +15,14 @@
 #import "LEODateCell.h"
 #import "UIColor+LeoColors.h"
 #import "UIFont+LeoFonts.h"
+#import "PageViewDataSource.h"
+#import "TimeCollectionViewController.h"
 
 @interface LEOSingleAppointmentSchedulerCardVC ()
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
-@property (strong, nonatomic) IBOutlet UICollectionView *timeCollectionView;
-@property (strong, nonatomic) IBOutlet UICollectionView *dateCollectionView;
+@property (strong, nonatomic) TimeCollectionViewController *timeCollectionView;
+@property (weak, nonatomic) IBOutlet UICollectionView *dateCollectionView;
 @property (weak, nonatomic) IBOutlet UILabel *monthLabel;
 
 @property (strong, nonatomic) ArrayDataSource *arrayDataSource;
@@ -32,20 +34,23 @@
 
 @property (strong, nonatomic) NSArray *dates;
 
+@property (readonly, strong, nonatomic) PageViewDataSource *pageViewDataSource;
+
 @end
 
 @implementation LEOSingleAppointmentSchedulerCardVC
 
-static NSString * const timeReuseIdentifier = @"TimeCell";
+@synthesize pageViewDataSource = _pageViewDataSource;
+
 static NSString * const dateReuseIdentifier = @"DateCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self setupTimeCollectionView];
     [self setupDateCollectionView];
-//    [self updateConstraints];
+    [self setupPageView];
     [self setupMonthLabel];
+    
     self.coreDataManager = [LEOCoreDataManager sharedManager];
 }
 
@@ -54,46 +59,6 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     
 }
 
-
-//TODO: Not currently being used, remove?
-- (void)updateConstraints {
-    
-    [self.contentView removeConstraints:self.contentView.constraints];
-    [self.timeCollectionView removeConstraints:self.timeCollectionView.constraints];
-    [self.dateCollectionView removeConstraints:self.dateCollectionView.constraints];
-    
-    self.timeCollectionView.translatesAutoresizingMaskIntoConstraints = NO;
-    self.dateCollectionView.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    UICollectionView *timeCollectionView = self.timeCollectionView;
-    UICollectionView *dateCollectionView = self.dateCollectionView;
-    
-    NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(timeCollectionView, dateCollectionView);
-    
-    NSArray *horizontalTableViewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[dateCollectionView]|" options:0 metrics:nil views:viewsDictionary];
-    
-    NSLayoutConstraint *leadingTimeCollectionViewConstraint = [NSLayoutConstraint constraintWithItem:self.timeCollectionView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:15];
-    
-    NSLayoutConstraint *trailingTimeCollectionViewConstraint = [NSLayoutConstraint constraintWithItem:self.timeCollectionView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-15];
-    
-    NSLayoutConstraint *bottomTimeCollectionViewConstraint = [NSLayoutConstraint constraintWithItem:self.timeCollectionView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0];
-    
-    NSLayoutConstraint *topTimeCollectionViewConstraint = [NSLayoutConstraint constraintWithItem:self.timeCollectionView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.dateCollectionView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:15];
-    
-    NSLayoutConstraint *topDateCollectionViewConstraint = [NSLayoutConstraint constraintWithItem:self.dateCollectionView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:35];
-    
-    [self.view addConstraints:@[leadingTimeCollectionViewConstraint, trailingTimeCollectionViewConstraint, topDateCollectionViewConstraint]];
-    [self.contentView addConstraint:bottomTimeCollectionViewConstraint];
-    [self.contentView addConstraint:topTimeCollectionViewConstraint];
-    [self.contentView addConstraints:horizontalTableViewConstraints];
-    
-    NSLayoutConstraint *widthConstraint = [NSLayoutConstraint constraintWithItem:self.dateCollectionView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0];
-    
-    NSLayoutConstraint *heightConstraint = [NSLayoutConstraint constraintWithItem:self.dateCollectionView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:44];
-    
-    [self.dateCollectionView addConstraints:@[heightConstraint]];
-    [self.view addConstraints:@[widthConstraint]];
-}
 
 - (void)setupMonthLabel {
     self.monthLabel.textColor = [UIColor leoWarmHeavyGray];
@@ -112,14 +77,40 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     }
 }
 
-- (void)setupTimeCollectionView {
+
+- (void)setupPageView {
     
-    self.timeCollectionView.dataSource = self;
-    self.timeCollectionView.delegate = self;
-    self.timeCollectionView.backgroundColor = [UIColor clearColor];
+    self.pageViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"PageViewController"];
+
+    self.timeCollectionView = [self.storyboard instantiateViewControllerWithIdentifier:@"TimeCollectionViewController"];
+    self.timeCollectionView.selectedDate = self.selectedDate;
     
-    [self.timeCollectionView registerNib:[UINib nibWithNibName:@"LEOTimeCell" bundle:nil]
-              forCellWithReuseIdentifier:timeReuseIdentifier];
+    NSArray *viewControllers = @[self.timeCollectionView];
+    [self.pageViewController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
+    
+    self.pageViewController.dataSource = self.pageViewDataSource;
+    
+    [self addChildViewController:self.pageViewController];
+    [self.containerView addSubview:self.pageViewController.view];
+    
+    // Set the page view controller's bounds using an inset rect so that self's view is visible around the edges of the pages.
+    //TODO: Override this and make it such that it fits in two or three columns on the screen...
+    CGRect pageViewRect = self.containerView.bounds;
+    self.pageViewController.view.frame = pageViewRect;
+    
+    [self.pageViewController didMoveToParentViewController:self];
+    
+    // Add the page view controller's gesture recognizers to the book view controller's view so that the gestures are started more easily.
+    self.view.gestureRecognizers = self.pageViewController.gestureRecognizers;
+   }
+
+- (PageViewDataSource *)pageViewDataSource {
+    // Return the model controller object, creating it if necessary.
+    // In more complex implementations, the model controller may be passed to the view controller.
+    if (!_pageViewDataSource) {
+        _pageViewDataSource = [[PageViewDataSource alloc] initWithItems:self.dates];
+    }
+    return _pageViewDataSource;
 }
 
 - (void)setupDateCollectionView {
@@ -149,50 +140,20 @@ static NSString * const dateReuseIdentifier = @"DateCell";
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    if (collectionView == self.timeCollectionView) {
 
-    } else {
-        
         self.selectedDate = self.dates[indexPath.row];
-        [self.timeCollectionView reloadData];
+        [self.timeCollectionView.collectionView reloadData];
         [self.dateCollectionView reloadData]; //FIXME: Smelly.
-    }
 }
 
 #pragma mark <UICollectionViewDataSource>
 
--(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    
-    if (collectionView == self.timeCollectionView) {
-        return [[self dates] count];
-    } else {
-        return 1;
-    }
-}
-
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    
-    if (collectionView == self.timeCollectionView) {
-        return [[self availableTimesForDate:self.selectedDate] count];
-    } else {
         return [[self dates] count];
-    }
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    if (collectionView == self.timeCollectionView) {
-        LEOTimeCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:timeReuseIdentifier forIndexPath:indexPath];
-        
-        NSDateFormatter *timeFormat = [[NSDateFormatter alloc] init];
-        timeFormat.dateFormat = @"h':'mm a";
-        
-        cell.timeLabel.text = [[timeFormat stringFromDate:[self availableTimesForDate:self.selectedDate][indexPath.row]] lowercaseString];
-        
-        return cell;
-        
-    } else {
-        
         LEODateCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:dateReuseIdentifier forIndexPath:indexPath];
         
         NSDate *date = self.dates[indexPath.row];
@@ -205,15 +166,13 @@ static NSString * const dateReuseIdentifier = @"DateCell";
         cell.dayOfDateLabel.text = [[weekdayFormatter stringFromDate:date] uppercaseString];
         
        if (date.weekday == self.selectedDate.weekday) {
-           [self.timeCollectionView reloadData]; //FIXME: Feels...smelly.
            cell.selected = YES;
            self.selectedDate = date;
        }
        else {
            cell.selected = NO;
        }
-        return cell;
-    }
+    return cell;
 }
 
 
@@ -268,22 +227,11 @@ static NSString * const dateReuseIdentifier = @"DateCell";
  */
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
-    
-    if (collectionView == self.timeCollectionView) {
-        return CGSizeMake(100.0, 50.0);
-    } else {
         return CGSizeMake(41.0, 41.0);
-    }
 }
 
 -(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-    
-    if (collectionView == self.timeCollectionView) {
-        return UIEdgeInsetsMake(0, 5, 0, 5);
-    } else {
         return UIEdgeInsetsMake(0,0,0,0);
-    }
 }
 
 - (NSArray *)dates {
@@ -308,15 +256,5 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     return _dates;
     
 }
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end
