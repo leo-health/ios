@@ -14,5 +14,6 @@
 
 - (NSDate *)endOfDay;
 - (NSDate *)beginningOfDay;
++ (NSDate *)todayAdjustedForLocalTimeZone;
 
 @end

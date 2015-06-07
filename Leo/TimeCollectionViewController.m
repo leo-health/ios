@@ -11,11 +11,14 @@
 #import <NSDate+DateTools.h>
 #import "LEOTimeCell.h"
 #import "CollectionViewDataSource.h"
+#import "LEOTimeCell+ConfigureCell.h"
 
 @interface TimeCollectionViewController ()
 
 @property (strong, nonatomic) LEOCoreDataManager *coreDataManager;
 @property (strong, nonatomic) CollectionViewDataSource *dataSource;
+
+@property (strong, nonatomic) NSArray *times;
 
 @end
 
@@ -31,19 +34,15 @@ static NSString * const timeReuseIdentifier = @"TimeCell";
 
 - (void)setupTimeCollectionView {
     
-    NSArray *times = [self.coreDataManager availableTimesForDate:self.selectedDate];
+    self.times = [self.coreDataManager availableTimesForDate:self.selectedDate];
    
-    void (^configureCell)(LEOTimeCell *, NSDate*) = ^(LEOTimeCell* cell, NSDate* date) {
-        NSDateFormatter *timeFormat = [[NSDateFormatter alloc] init];
-        timeFormat.dateFormat = @"h':'mm a";
-        
-        cell.timeLabel.text = [[timeFormat stringFromDate:date] lowercaseString];
-    
+    void (^configureCell)(LEOTimeCell *, NSDate*) = ^(LEOTimeCell* cell, NSDate* dateTime) {
+        [cell configureForDateTime:dateTime];
     };
     
-    self.dataSource = [[CollectionViewDataSource alloc] initWithItems:times cellIdentifier:timeReuseIdentifier configureCellBlock:configureCell];
+    self.dataSource = [[CollectionViewDataSource alloc] initWithItems:self.times cellIdentifier:timeReuseIdentifier configureCellBlock:configureCell];
     
-    //repetitive since in the storyboard...
+    //MARK: repetitive since in the storyboard...
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
     [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
     [flowLayout setMinimumInteritemSpacing:5.0f];
@@ -57,6 +56,12 @@ static NSString * const timeReuseIdentifier = @"TimeCell";
 }
 
 
+
+
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    self.selectedDate = self.times[indexPath.row];
+}
+
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
         return CGSizeMake(100.0, 50.0);
 }
@@ -66,6 +71,10 @@ static NSString * const timeReuseIdentifier = @"TimeCell";
         return UIEdgeInsetsMake(0, 5, 0, 5);
 }
 
-
+-(void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row == 0) {
+        cell.selected = YES;
+    }
+}
 
 @end

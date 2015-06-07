@@ -71,52 +71,37 @@
                                                 </connections>
                                             </containerView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" verticalCompressionResistancePriority="751" text="THIS APPOINTMENT IS FOR" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wlU-Ej-Q3d">
-                                                <rect key="frame" x="15" y="199" width="223" height="11"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="752" text="APPOINTMENT" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ueX-3o-Clg">
-                                                <rect key="frame" x="27" y="272" width="121" height="21"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="MAY 13, 5:00pm" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PzE-rb-hvr">
-                                                <rect key="frame" x="27" y="301" width="128" height="44"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="44" id="G2A-LG-loc"/>
-                                                </constraints>
+                                                <rect key="frame" x="15" y="19" width="223" height="11"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fFM-VN-HgC">
-                                                <rect key="frame" x="15" y="214" width="570" height="50"/>
+                                                <rect key="frame" x="15" y="34" width="570" height="50"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="50" id="fDz-xN-eTi"/>
                                                 </constraints>
                                             </view>
-                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mGa-Pm-HKO">
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" scrollEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mGa-Pm-HKO">
                                                 <rect key="frame" x="15" y="269" width="570" height="0.0"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                             </textView>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vr9-GD-sZW" customClass="LEOExpandingListPickerView">
-                                                <rect key="frame" x="15" y="101" width="570" height="85"/>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="85" id="FVT-bZ-raW"/>
-                                                </constraints>
-                                            </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6eZ-ma-yHq" customClass="LEOExpandingListPickerView">
-                                                <rect key="frame" x="15" y="8" width="570" height="85"/>
+                                                <rect key="frame" x="15" y="167" width="570" height="85"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="85" id="bVh-Kn-4go"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vr9-GD-sZW" customClass="LEOExpandingListPickerView">
+                                                <rect key="frame" x="15" y="260" width="570" height="85"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="85" id="FVT-bZ-raW"/>
                                                 </constraints>
                                             </view>
                                         </subviews>
@@ -127,16 +112,14 @@
                                             <constraint firstAttribute="height" constant="800" id="9AW-Zk-m62"/>
                                             <constraint firstItem="Mwn-jP-gpL" firstAttribute="leading" secondItem="hFw-Zh-mZC" secondAttribute="leading" id="9UK-JX-Br0"/>
                                             <constraint firstAttribute="trailing" secondItem="6eZ-ma-yHq" secondAttribute="trailing" constant="15" id="Bdd-R5-NmP"/>
-                                            <constraint firstItem="VpI-TH-GTd" firstAttribute="top" secondItem="PzE-rb-hvr" secondAttribute="bottom" constant="23" id="CoD-Dn-IzO"/>
                                             <constraint firstItem="wlU-Ej-Q3d" firstAttribute="leading" secondItem="hFw-Zh-mZC" secondAttribute="leading" constant="15" id="E6a-RI-Tcu"/>
+                                            <constraint firstItem="VpI-TH-GTd" firstAttribute="top" secondItem="vr9-GD-sZW" secondAttribute="bottom" constant="23" id="E7e-3x-hKn"/>
                                             <constraint firstAttribute="trailing" secondItem="fFM-VN-HgC" secondAttribute="trailing" constant="15" id="FR1-45-snS"/>
+                                            <constraint firstItem="wlU-Ej-Q3d" firstAttribute="top" secondItem="hFw-Zh-mZC" secondAttribute="top" constant="19" id="JqF-l8-wGe"/>
                                             <constraint firstItem="mGa-Pm-HKO" firstAttribute="top" secondItem="fFM-VN-HgC" secondAttribute="bottom" constant="5" id="Jsa-Kf-Nav"/>
                                             <constraint firstAttribute="trailing" secondItem="VpI-TH-GTd" secondAttribute="trailing" id="LmG-JU-fWZ"/>
                                             <constraint firstAttribute="bottom" secondItem="J6K-Vl-Qn9" secondAttribute="bottom" placeholder="YES" id="TAJ-2d-7rx"/>
-                                            <constraint firstItem="PzE-rb-hvr" firstAttribute="leading" secondItem="hFw-Zh-mZC" secondAttribute="leading" constant="27" id="TRj-C8-SiR"/>
                                             <constraint firstItem="fFM-VN-HgC" firstAttribute="top" secondItem="wlU-Ej-Q3d" secondAttribute="bottom" constant="4" id="V7b-ju-Yfr"/>
-                                            <constraint firstItem="PzE-rb-hvr" firstAttribute="top" secondItem="ueX-3o-Clg" secondAttribute="bottom" constant="8" id="VXT-tq-lyv"/>
-                                            <constraint firstItem="ueX-3o-Clg" firstAttribute="leading" secondItem="hFw-Zh-mZC" secondAttribute="leading" constant="27" id="ZqS-yV-fHi"/>
                                             <constraint firstAttribute="trailing" secondItem="Mwn-jP-gpL" secondAttribute="trailing" id="a2o-dg-BOl"/>
                                             <constraint firstItem="vr9-GD-sZW" firstAttribute="leading" secondItem="hFw-Zh-mZC" secondAttribute="leading" constant="15" id="aaj-Gh-YRq"/>
                                             <constraint firstItem="VpI-TH-GTd" firstAttribute="leading" secondItem="hFw-Zh-mZC" secondAttribute="leading" id="afr-GC-mDT"/>
@@ -144,17 +127,21 @@
                                             <constraint firstItem="vr9-GD-sZW" firstAttribute="top" secondItem="6eZ-ma-yHq" secondAttribute="bottom" constant="8" id="fjg-Or-wNC"/>
                                             <constraint firstItem="mGa-Pm-HKO" firstAttribute="leading" secondItem="hFw-Zh-mZC" secondAttribute="leading" constant="15" id="gfG-Hk-EdU"/>
                                             <constraint firstAttribute="trailing" secondItem="J6K-Vl-Qn9" secondAttribute="trailing" id="ggU-Oh-wQN"/>
-                                            <constraint firstItem="ueX-3o-Clg" firstAttribute="top" secondItem="mGa-Pm-HKO" secondAttribute="bottom" constant="3" id="i4D-La-U5z"/>
                                             <constraint firstItem="fFM-VN-HgC" firstAttribute="leading" secondItem="hFw-Zh-mZC" secondAttribute="leading" constant="15" id="ie9-vH-1b5"/>
+                                            <constraint firstItem="6eZ-ma-yHq" firstAttribute="top" secondItem="fFM-VN-HgC" secondAttribute="bottom" constant="83" id="ioV-5d-wcf"/>
                                             <constraint firstItem="J6K-Vl-Qn9" firstAttribute="top" secondItem="7i5-GA-RGN" secondAttribute="bottom" id="jee-J8-7vu"/>
                                             <constraint firstItem="J6K-Vl-Qn9" firstAttribute="leading" secondItem="hFw-Zh-mZC" secondAttribute="leading" id="kta-RH-Qbd"/>
                                             <constraint firstItem="7i5-GA-RGN" firstAttribute="top" secondItem="Mwn-jP-gpL" secondAttribute="bottom" id="lvM-MA-ySF"/>
-                                            <constraint firstItem="wlU-Ej-Q3d" firstAttribute="top" secondItem="vr9-GD-sZW" secondAttribute="bottom" constant="13" id="n1y-5p-9hT"/>
                                             <constraint firstItem="7i5-GA-RGN" firstAttribute="leading" secondItem="hFw-Zh-mZC" secondAttribute="leading" id="nLs-kp-sFB"/>
                                             <constraint firstAttribute="trailing" secondItem="7i5-GA-RGN" secondAttribute="trailing" id="o4J-NA-nIv"/>
                                             <constraint firstItem="Mwn-jP-gpL" firstAttribute="leading" secondItem="hFw-Zh-mZC" secondAttribute="leading" id="sNO-eV-MOI"/>
                                             <constraint firstAttribute="trailing" secondItem="mGa-Pm-HKO" secondAttribute="trailing" constant="15" id="vzv-tH-8jv"/>
                                         </constraints>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="6yv-5e-eTm"/>
+                                            </mask>
+                                        </variation>
                                     </view>
                                 </subviews>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -205,7 +192,6 @@
                         <outlet property="containerView" destination="7i5-GA-RGN" id="hdJ-VS-Bak"/>
                         <outlet property="contentView" destination="hFw-Zh-mZC" id="Y1U-UB-yDk"/>
                         <outlet property="dateCollectionView" destination="Mwn-jP-gpL" id="ju6-im-tQi"/>
-                        <outlet property="fullAppointmentDateLabel" destination="PzE-rb-hvr" id="mOZ-EQ-laE"/>
                         <outlet property="monthLabel" destination="VpI-TH-GTd" id="rKh-33-pee"/>
                         <outlet property="scrollView" destination="AhD-2a-HRm" id="GZt-dN-fBe"/>
                     </connections>

@@ -281,10 +281,23 @@
     
     NSDate *june16atNoon= [NSDate dateWithYear:2015 month:6 day:16 hour:12 minute:0 second:0];
     
-    self.availableTimes = @[june15atEightAM, june15atNineAM, june15atTenAM, june15atTenThirtyAM, june15atElevenAM, june15atOnePM, june15atOneThirtyPM, june15atTwoPM, june15atTwoThirtyPM, june16atElevenAM, june16atNoon];
 
+    NSDate *june6atEightAM = [NSDate dateWithYear:2015 month:6 day:6 hour:8 minute:0 second:0];
     
+    NSDate *june6atNineAM = [NSDate dateWithYear:2015 month:6 day:6 hour:9 minute:0 second:0];
     
+    NSDate *june6atTenAM = [NSDate dateWithYear:2015 month:6 day:6 hour:10 minute:0 second:0];
+    
+    NSDate *june6atTenThirtyAM = [NSDate dateWithYear:2015 month:6 day:6 hour:10 minute:30 second:0];
+    
+    NSDate *june6atElevenAM = [NSDate dateWithYear:2015 month:6 day:6 hour:11 minute:0 second:0];
+    
+    NSDate *june6atOnePM = [NSDate dateWithYear:2015 month:6 day:6 hour:13 minute:0 second:0];
+    
+    NSDate *june6atOneThirtyPM = [NSDate dateWithYear:2015 month:6 day:6 hour:13 minute:30 second:0];
+    
+    self.availableTimes = @[june15atEightAM, june15atNineAM, june15atTenAM, june15atTenThirtyAM, june15atElevenAM, june15atOnePM, june15atOneThirtyPM, june15atTwoPM, june15atTwoThirtyPM, june16atElevenAM, june16atNoon, june6atEightAM, june6atTenAM, june6atTenThirtyAM, june6atElevenAM];
+
     
     
     //FIXME: Safety here

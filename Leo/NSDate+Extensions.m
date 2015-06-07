@@ -12,14 +12,30 @@
 
 - (NSDate *)endOfDay {
     
-    NSDate *modifiedDate = [NSDate dateWithYear:self.year month:self.month day:self.day hour:23 minute:59 second:59];
+    NSDate *modifiedDate = [NSDate dateAdjustedForLocalTimeZone:[NSDate dateWithYear:self.year month:self.month day:self.day hour:23 minute:59 second:59]];
     
     return modifiedDate;
 }
 
 - (NSDate *)beginningOfDay {
-    NSDate *modifiedDate = [NSDate dateWithYear:self.year month:self.month day:self.day hour:0 minute:0 second:0];
+    NSDate *modifiedDate = [NSDate dateAdjustedForLocalTimeZone:[NSDate dateWithYear:self.year month:self.month day:self.day hour:0 minute:0 second:0]];
     
     return modifiedDate;
+}
+
++ (NSDate *)todayAdjustedForLocalTimeZone {
+    
+    NSTimeZone *currentTimeZone = [NSTimeZone localTimeZone];
+    NSInteger currentGMTOffset = [currentTimeZone secondsFromGMTForDate:[NSDate date]];
+    
+    return [[NSDate date] dateByAddingSeconds:currentGMTOffset];
+}
+
++ (NSDate *)dateAdjustedForLocalTimeZone:(NSDate *)date {
+    
+    NSTimeZone *currentTimeZone = [NSTimeZone localTimeZone];
+    NSInteger currentGMTOffset = [currentTimeZone secondsFromGMTForDate:date];
+    
+    return [date dateByAddingSeconds:currentGMTOffset];
 }
 @end
