@@ -20,7 +20,6 @@
 #import "NSDate+Extensions.h"
 #import "LEOButtonView.h"
 #import "CollectionViewDataSource.h"
-#import "CirclePhotoView.h"
 #import "LEODateCell+ConfigureCell.h"
 
 
@@ -71,16 +70,22 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     self.selectedDate = [NSDate todayAdjustedForLocalTimeZone];
     self.coreDataManager = [LEOCoreDataManager sharedManager];
 
-    self.pageViewDataSource = [[PageViewDataSource alloc] initWithItems:self.dates];
 
     [self setupDateCollectionView];
-    [self setupPageView];
     [self setupMonthLabel];
     
 //    [self setupFullAppointmentDateLabel];
 
 }
 
+- (void)baseViewSetup {
+    
+    self.selectedDate = [NSDate todayAdjustedForLocalTimeZone];
+    self.coreDataManager = [LEOCoreDataManager sharedManager];
+    self.pageViewDataSource = [[PageViewDataSource alloc] initWithItems:self.dates];
+
+    
+}
 -(void)viewDidAppear:(BOOL)animated {
     self.dataLoaded = YES;
 }
@@ -108,6 +113,8 @@ static NSString * const dateReuseIdentifier = @"DateCell";
 //}
 
 
+
+
 -(void)setSelectedDate:(NSDate *)selectedDate {
     
     if (self.dataLoaded) {
@@ -122,6 +129,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
             [self setupMonthLabel];
             
             [self.dateCollectionView reloadItemsAtIndexPaths:@[[self indexPathForSelectedDate], indexPathForPriorSelectedDate]];
+
         }
         //        [self setupFullAppointmentDateLabel];
     }
@@ -129,36 +137,46 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     [self setupMonthLabel];
 }
 
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"EmbedSegue"]) {
+        [self baseViewSetup];
+        self.pageViewController = segue.destinationViewController;
+        [self setupPageView];
+    }
+}
+
 - (void)setupPageView {
     
-    self.pageViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"PageViewController"];
     self.pageViewController.dataSource = self.pageViewDataSource;
     self.pageViewController.delegate = self;
     
-    [self fillPageWithTimeContentAndDirection:UIPageViewControllerNavigationDirectionForward];
-    
-    [self addChildViewController:self.pageViewController];
-    [self.containerView addSubview:self.pageViewController.view];
+    [self turnToPage:0 fromPage:0];
     
     // Set the page view controller's bounds using an inset rect so that self's view is visible around the edges of the pages.
     //TODO: Override this and make it such that it fits in two or three columns on the screen *using autolayout*.
     CGRect pageViewRect = self.containerView.bounds;
     self.pageViewController.view.frame = pageViewRect;
     
-    [self.pageViewController didMoveToParentViewController:self];
-    
     //MARK: Should this really be done to bring the gestures forward?
     self.view.gestureRecognizers = self.pageViewController.gestureRecognizers;
 }
 
-- (void)fillPageWithTimeContentAndDirection:(UIPageViewControllerNavigationDirection)direction {
+- (void)turnToPage:(NSInteger)toPage fromPage:(NSInteger )fromPage {
     
-    TimeCollectionViewController *timeCollectionVC = [self.storyboard instantiateViewControllerWithIdentifier:@"TimeCollectionViewController"];
-    timeCollectionVC.selectedDate = self.selectedDate;
+    TimeCollectionViewController *timeCollectionVC = [self.pageViewDataSource viewControllerAtIndex:toPage storyboard:self.storyboard];
     self.timeCollectionVC = timeCollectionVC;
 
-    [self.pageViewController setViewControllers:@[timeCollectionVC] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:^(BOOL finished) {
-    }];
+    UIPageViewControllerNavigationDirection direction;
+    
+    if (fromPage < toPage) {
+        direction = UIPageViewControllerNavigationDirectionForward;
+    } else {
+        direction = UIPageViewControllerNavigationDirectionReverse;
+        
+    }
+
+    [self.pageViewController setViewControllers:@[timeCollectionVC] direction:direction animated:NO completion:nil];
     
 }
 
@@ -185,7 +203,6 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     
 }
 
-
 #pragma mark - IBActions
 
 - (IBAction)cancelTapped:(UIBarButtonItem *)sender {
@@ -206,19 +223,11 @@ static NSString * const dateReuseIdentifier = @"DateCell";
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
     
-    NSInteger indexForDate = [self.selectedDate daysFrom:[self startDate]] + 1;
+    NSInteger indexForCurrentDate = [self.selectedDate daysFrom:[self startDate]];
     self.selectedDate = self.dates[indexPath.row];
     
-    UIPageViewControllerNavigationDirection direction;
-    
-    if (indexPath.row > indexForDate) {
-        direction = UIPageViewControllerNavigationDirectionForward;
-    } else {
-        direction = UIPageViewControllerNavigationDirectionReverse;
-    }
-    
-    if (indexPath.row != indexForDate) {
-        [self fillPageWithTimeContentAndDirection:direction];
+    if (indexPath.row != indexForCurrentDate) {
+        [self turnToPage:indexPath.row fromPage:indexForCurrentDate];
     }
     
     [self.dateCollectionView reloadData];
