@@ -12,23 +12,23 @@
 
 @interface RootViewController ()
 
-@property (readonly, strong, nonatomic) PageViewDataSource *modelController;
+@property (readonly, strong, nonatomic) PageViewDataSource *pageViewDataSource;
 @end
 
 @implementation RootViewController
 
-@synthesize modelController = _modelController;
+@synthesize pageViewDataSource = _pageViewDataSource;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 
     self.pageViewController = [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
 
-    TimeCollectionViewController *startingViewController = [self.modelController viewControllerAtIndex:0 storyboard:self.storyboard];
+    TimeCollectionViewController *startingViewController = [self.pageViewDataSource viewControllerAtIndex:0 storyboard:self.storyboard];
     NSArray *viewControllers = @[startingViewController];
     [self.pageViewController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
 
-    self.pageViewController.dataSource = self.modelController;
+    self.pageViewController.dataSource = self.pageViewDataSource;
 
     [self addChildViewController:self.pageViewController];
     [self.view addSubview:self.pageViewController.view];
@@ -48,13 +48,13 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (PageViewDataSource *)modelController {
+- (PageViewDataSource *)pageViewDataSource {
     // Return the model controller object, creating it if necessary.
     // In more complex implementations, the model controller may be passed to the view controller.
-    if (!_modelController) {
-        _modelController = [[PageViewDataSource alloc] init];
+    if (!_pageViewDataSource) {
+        _pageViewDataSource = [[PageViewDataSource alloc] init];
     }
-    return _modelController;
+    return _pageViewDataSource;
 }
 
 
