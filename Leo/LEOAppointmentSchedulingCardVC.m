@@ -44,16 +44,16 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *cancelButton;
 @property (weak, nonatomic) IBOutlet UIView *contentView;
 @property (weak, nonatomic) IBOutlet UILabel *fullAppointmentDateLabel;
-@property (weak, nonatomic) IBOutlet LEODropDownTableView *visitTypeDropDown;
 @property (weak, nonatomic) IBOutlet UINavigationBar *navBar;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *layoutConstraintForDoctorDropDownBottom;
-@property (weak, nonatomic) IBOutlet LEODropDownTableView *doctorDropDown;
+@property (weak, nonatomic) IBOutlet LEODropDownTableView *doctorDropDownTV;
 
 #pragma mark - Data
 @property (strong, nonatomic) NSDate *selectedDate;
 @property (strong, nonatomic) NSDate *tempSelectedDate;
 @property (strong, nonatomic) NSArray *dates;
 @property (strong, nonatomic) NSLayoutConstraint *containerViewHeightConstraint;
+@property (strong, nonatomic) LEODropDownController *doctorDropDownController;
 
 #pragma mark - Helper classes
 @property (strong, nonatomic) ArrayDataSource *arrayDataSource;
@@ -91,7 +91,7 @@ static NSString * const selectionReuseIdentifier = @"";
     [super updateViewConstraints];
     
     
-    NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(_scrollView, _navBar, _contentView, _dateCollectionView, _containerView, _monthLabel, _doctorDropDown, mainView);
+    NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(_scrollView, _navBar, _contentView, _dateCollectionView, _containerView, _monthLabel, _doctorDropDownTV, mainView);
     
     
 //    [self.view removeConstraints:self.view.constraints];
@@ -137,9 +137,9 @@ static NSString * const selectionReuseIdentifier = @"";
     
     // Third (3) level constraints
     
-    NSLayoutConstraint *constraintForTopOfDoctorDropDown = [NSLayoutConstraint constraintWithItem:self.doctorDropDown attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1.0 constant:0];
+    NSLayoutConstraint *constraintForTopOfDoctorDropDown = [NSLayoutConstraint constraintWithItem:self.doctorDropDownTV attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1.0 constant:0];
 
-    NSLayoutConstraint *constraintForBottomOfDoctorDropDown = [NSLayoutConstraint constraintWithItem:self.doctorDropDown attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.monthLabel attribute:NSLayoutAttributeTop multiplier:1.0 constant:44.0];
+    NSLayoutConstraint *constraintForBottomOfDoctorDropDown = [NSLayoutConstraint constraintWithItem:self.doctorDropDownTV attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.monthLabel attribute:NSLayoutAttributeTop multiplier:1.0 constant:44.0];
     
     NSArray *verticalSubviewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_monthLabel(==44)][_dateCollectionView(==44)][_containerView(==200)]|" options:0 metrics:nil views:viewsDictionary];
     
@@ -210,7 +210,7 @@ static NSString * const selectionReuseIdentifier = @"";
     LEOListItem *doc2 = [[LEOListItem alloc] initWithName:@"Brady Isaacs"];
     LEOListItem *doc3 = [[LEOListItem alloc] initWithName:@"Summer Cece"];
     
-    self.doctorDropDown = [[LEODropDownController alloc] initWithTableView:self.visitTypeDropDown items:@[doc1, doc2, doc3]];
+    self.doctorDropDownController = [[LEODropDownController alloc] initWithTableView:self.doctorDropDownTV items:@[doc1, doc2, doc3]];
     [self.view setNeedsLayout];
 }
 

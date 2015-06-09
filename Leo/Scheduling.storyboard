@@ -37,7 +37,7 @@
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="1000" ambiguous="YES" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VpI-TH-GTd">
                                                 <rect key="frame" x="0.0" y="368" width="600" height="44"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" ambiguous="YES" misplaced="YES" alwaysBounceHorizontal="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Mwn-jP-gpL" userLabel="DateCollection">
@@ -128,7 +128,7 @@
                         <outlet property="containerView" destination="7i5-GA-RGN" id="hdJ-VS-Bak"/>
                         <outlet property="contentView" destination="hFw-Zh-mZC" id="Y1U-UB-yDk"/>
                         <outlet property="dateCollectionView" destination="Mwn-jP-gpL" id="ju6-im-tQi"/>
-                        <outlet property="doctorDropDown" destination="zFT-Sm-nqn" id="exN-PF-mah"/>
+                        <outlet property="doctorDropDownTV" destination="zFT-Sm-nqn" id="DB7-8a-n5E"/>
                         <outlet property="layoutConstraintForDoctorDropDownBottom" destination="P6x-56-52E" id="nnK-rU-VE3"/>
                         <outlet property="monthLabel" destination="VpI-TH-GTd" id="rKh-33-pee"/>
                         <outlet property="scrollView" destination="AhD-2a-HRm" id="GZt-dN-fBe"/>

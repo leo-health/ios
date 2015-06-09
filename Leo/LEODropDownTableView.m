@@ -22,7 +22,7 @@
 }
 - (CGSize)intrinsicContentSize {
     [self layoutIfNeeded]; // force my contentSize to be updated immediately
-    return CGSizeMake(UIViewNoIntrinsicMetric, self.contentSize.height);
+    return CGSizeMake(UIViewNoIntrinsicMetric, [self numberOfRowsInSection:0] * 44);
 }
 
 @end
