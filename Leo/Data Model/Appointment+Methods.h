@@ -9,11 +9,11 @@
 #import "Appointment.h"
 
 typedef enum AppointmentState : NSUInteger {
-    AppointmentStateBooking,
-    AppointmentStateCancelling,
-    AppointmentStateConfirmingCancelling,
-    AppointmentStateRecommending,
-    AppointmentStateReminding
+    AppointmentStateBooking = 0,
+    AppointmentStateCancelling = 1,
+    AppointmentStateConfirmingCancelling = 2,
+    AppointmentStateRecommending = 3,
+    AppointmentStateReminding = 4,
 } AppointmentState;
 
 @interface Appointment (Methods)

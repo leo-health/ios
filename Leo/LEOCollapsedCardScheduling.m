@@ -8,6 +8,8 @@
 
 #import "LEOCollapsedCardScheduling.h"
 #import <NSDate+DateTools.h>
+#import "LEOSingleAppointmentSchedulerCardVC.h"
+
 @interface LEOCollapsedCardScheduling ()
 
 @property (strong, nonatomic) Appointment *appointment;
@@ -41,7 +43,7 @@ static void * XXContext = &XXContext;
             return CardLayoutTwoButtonPrimaryOnly;
             
         case AppointmentStateCancelling:
-            return CardLayoutTwoButtonSecondaryAndPrimary;
+            return CardLayoutTwoButtonPrimaryOnly;
             
         case AppointmentStateConfirmingCancelling:
             return CardLayoutOneButtonSecondaryAndPrimary;
@@ -97,7 +99,7 @@ static void * XXContext = &XXContext;
             
         case AppointmentStateCancelling:
             
-            bodyText = @"";
+            bodyText = @"Are you sure you want to cancel your appointment?";
             break;
             
         case AppointmentStateConfirmingCancelling:
@@ -149,6 +151,75 @@ static void * XXContext = &XXContext;
     return actionStrings;
 }
 
+- (nonnull NSArray *)actionsAvailableForState {
+    
+    NSMutableArray *actions = [[NSMutableArray alloc] init];
+    
+    switch (self.appointment.appointmentState) {
+        case AppointmentStateRecommending: {
+            
+            UIButton *buttonOne = [UIButton buttonWithType:UIButtonTypeCustom];
+            [buttonOne setTitle:[self stringRepresentationOfActionsAvailableForState][0] forState:UIControlStateNormal];
+            [buttonOne addTarget:self action:@selector(schedule) forControlEvents:UIControlEventTouchUpInside];
+            
+            [actions addObject:buttonOne];
+            
+            UIButton *buttonTwo = [UIButton buttonWithType:UIButtonTypeCustom];
+            [buttonTwo setTitle:[self stringRepresentationOfActionsAvailableForState][1] forState:UIControlStateNormal];
+            [buttonTwo addTarget:self action:@selector(cancel) forControlEvents:UIControlEventTouchUpInside];
+            
+            [actions addObject:buttonTwo];
+            
+            break;
+        }
+            
+        case AppointmentStateCancelling: {
+            
+            UIButton *buttonOne = [UIButton buttonWithType:UIButtonTypeCustom];
+            [buttonOne setTitle:[self stringRepresentationOfActionsAvailableForState][0] forState:UIControlStateNormal];
+            [buttonOne addTarget:self action:@selector(schedule) forControlEvents:UIControlEventTouchUpInside];
+            
+            [actions addObject:buttonOne];
+            
+            UIButton *buttonTwo = [UIButton buttonWithType:UIButtonTypeCustom];
+            [buttonTwo setTitle:[self stringRepresentationOfActionsAvailableForState][1] forState:UIControlStateNormal];
+            [buttonTwo addTarget:self action:@selector(cancel) forControlEvents:UIControlEventTouchUpInside];
+            
+            [actions addObject:buttonTwo];
+            
+            break;
+        }
+    
+        default:
+            break;
+    }
+    
+    return actions;
+}
+
+- (void)schedule {
+    
+    //opens up a new scheduling card view, filled out with the recommended dates / times
+    
+    [self.delegate didTapButtonOneOnCard:self withAssociatedObject:self.appointment];
+}
+
+
+- (void)cancel {
+    
+    self.appointment.state = @(AppointmentStateCancelling);
+    [self.delegate didUpdateObjectStateForCard:self];
+    //updates state of the appointment to show a view in which we confirm the user really wants to cancel their appointment
+}
+
+- (void)confirmCancel {
+    //updates state of the appointment to show a view in which we confirm the appointment was cancelled.
+}
+
+- (void)remind {
+    //updates state of the collapsed card to show a few in which we remind user of the upcoming appointment.
+}
+
 -(nonnull User *)primaryUser {
     return self.appointment.patient;
 }
@@ -161,6 +232,7 @@ static void * XXContext = &XXContext;
 - (nonnull NSDate *)timestamp {
     return [NSDate date];
 }
+
 
 
 - (void)observeValueForKeyPath:(NSString *)keyPath

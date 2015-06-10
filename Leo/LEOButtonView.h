@@ -12,8 +12,7 @@
 
 @interface LEOButtonView : UIView
 
-@property (strong, nonatomic, nonnull) NSArray *buttonArray;
 
-- (nonnull instancetype)initWithCard:(nonnull LEOCollapsedCard *)card;
+- (nonnull instancetype)initWithButtons:(nonnull NSArray *)buttons;
 
 @end

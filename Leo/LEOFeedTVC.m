@@ -42,6 +42,8 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) LEOTransitioningDelegate *transitionDelegate;
 
+@property (strong, nonatomic) UITableViewCell *selectedCardCell;
+
 @end
 
 @implementation LEOFeedTVC
@@ -74,7 +76,6 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     self.tableView.estimatedRowHeight = 180;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     self.tableView.backgroundColor = [UIColor leoBasicGray];
-    
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
 }
@@ -83,21 +84,29 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     LEOCardCell *cell = (LEOCardCell *)[tableView cellForRowAtIndexPath:indexPath];
-    NSLog(@"STOP");
-    
-        [UIView animateWithDuration:0.2 animations:^{
-            cell.layer.transform = CATransform3DMakeRotation(M_PI_2,0.0,1.0,0.0); ; //flip halfway
-        } completion:^(BOOL finished) {
-            LEOSingleAppointmentSchedulerCardVC *singleAppointmentScheduleVC = [[LEOSingleAppointmentSchedulerCardVC alloc] initWithNibName:@"LEOSingleAppointmentSchedulerCardVC" bundle:nil];
-            self.transitionDelegate = [[LEOTransitioningDelegate alloc] init];
-//            singleAppointmentScheduleVC.transitioningDelegate = self.transitionDelegate;
-            singleAppointmentScheduleVC.modalPresentationStyle = UIModalPresentationFormSheet;
-            [self presentViewController:singleAppointmentScheduleVC animated:YES completion:^{
-                singleAppointmentScheduleVC.collapsedCell = cell;
-            }];
-        }];
+    self.selectedCardCell = cell;
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+
 }
 
+-(void)didTapButtonOneOnCard:(LEOCollapsedCard *)card withAssociatedObject:(id)appointment {
+    
+    [UIView animateWithDuration:0.2 animations:^{
+        self.selectedCardCell.layer.transform = CATransform3DMakeRotation(M_PI_2,0.0,1.0,0.0); ; //flip halfway
+    } completion:^(BOOL finished) {
+        LEOSingleAppointmentSchedulerCardVC *singleAppointmentScheduleVC = [[LEOSingleAppointmentSchedulerCardVC alloc] initWithNibName:@"LEOSingleAppointmentSchedulerCardVC" bundle:nil];
+        
+        [self presentViewController:singleAppointmentScheduleVC animated:YES completion:^{
+            singleAppointmentScheduleVC.collapsedCell = self.selectedCardCell;
+        }];
+    }];
+}
+
+-(void)didUpdateObjectStateForCard:(LEOCollapsedCard *)card {
+    
+    [self.tableView reloadData];
+    
+}
 
 #pragma mark UITableViewDataSource
 
@@ -110,7 +119,8 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     
     
     LEOCollapsedCard *card = self.coreDataManager.cards[indexPath.row];
-        
+    card.delegate = self;
+    
     NSString *cellIdentifier;
     
     switch (card.layout) {

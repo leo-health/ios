@@ -38,20 +38,27 @@
  */
 
 
+
 -(void)awakeFromNib {
     
     self.iconImageView = [[UIImageView alloc] init];
     self.titleLabel = [[UILabel alloc] init];
     self.bodyTextLabel = [[UILabel alloc] init];
-    self.buttonView = [[LEOButtonView alloc] init];
 
+}
+
+-(void)setCard:(LEOCollapsedCard *)card {
+    
+    _card = card;
+    
+    [self setupSubviews];
+    [self layoutIfNeeded];
 }
 
 
 -(void)setupSubviews{
     
     UIImage *cardIcon = [UIImage imageNamed:@"SMS-32"]; //FIXME: Will need to vary by card activity; likely should exist within card or activity object.
-    [self updateFormatting];
     self.titleLabel.text = self.card.title;
     self.bodyTextLabel.text = self.card.body;
 
@@ -84,7 +91,7 @@
     
     self.iconImageView.image = cardIcon;
 
-    self.buttonView = [[LEOButtonView alloc] initWithCard:self.card];
+    self.buttonView = [[LEOButtonView alloc] initWithButtons:self.card.actionsAvailableForState];
     /*
      * Patrick Belon
      * TODO: This should really be in awakeFromNib
@@ -100,14 +107,14 @@
     self.layer.cornerRadius = 5;
     self.backgroundColor = [UIColor leoWhite];
     
+    [self updateFormatting];
+
 }
 
 -(void)updateConstraints {
 
     if (!self.constraintsAlreadyUpdated) {
-        
-        [self setupSubviews];
-        
+                
         [self removeConstraints:self.constraints];
         self.translatesAutoresizingMaskIntoConstraints = NO;
         self.primaryUserLabel.translatesAutoresizingMaskIntoConstraints = NO;
@@ -125,6 +132,7 @@
                 NSArray *horizontalLayoutConstraintsForTitleLabel = [NSLayoutConstraint
                                                                      constraintsWithVisualFormat:@"H:|[_titleLabel]|"
                                                                      options:0 metrics:nil views:viewsDictionary];
+
                 NSArray *horizontalLayoutConstraintsForIconToTitleLabel = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(15)-[_iconImageView(==32)]-(15)-[_titleLabel]-(40)-|" options:0 metrics:nil views:viewsDictionary];
                 NSArray *horizontalLayoutConstraintsForIconToSecondaryUserView = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(15)-[_iconImageView]-(15)-[_secondaryUserView]-(40)-|" options:0 metrics:nil views:viewsDictionary];
                 NSArray *horizontalLayoutConstraintsForIconToBodyText = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(15)-[_iconImageView]-(15)-[_bodyTextLabel]-(40)-|" options:0 metrics:nil views:viewsDictionary];
@@ -182,7 +190,10 @@
                 [self.titleLabel setContentCompressionResistancePriority:1000 forAxis:UILayoutConstraintAxisVertical];
                 [self.buttonView setContentCompressionResistancePriority:1000 forAxis:UILayoutConstraintAxisVertical];
                 [self.buttonView setContentHuggingPriority:1000 forAxis:UILayoutConstraintAxisVertical];
-
+                
+                
+                [self.primaryUserLabel setContentCompressionResistancePriority:1000 forAxis:UILayoutConstraintAxisHorizontal];
+                
                 [self addConstraints:horizontalLayoutConstraintsForTitleLabel];
                 [self addConstraints:horizontalLayoutConstraintsForIconToTitleLabel];
                 [self addConstraints:horizontalLayoutConstraintsForIconToPrimaryUserLabel];

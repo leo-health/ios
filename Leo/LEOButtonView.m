@@ -19,28 +19,25 @@
 
 @property (strong, nonatomic) UIButton *buttonOne;
 @property (strong, nonatomic) UIButton *buttonTwo;
+@property (strong, nonatomic, nonnull) NSArray *buttons;
 
 @end
 
 @implementation LEOButtonView
 
 
-- (nonnull instancetype)initWithCard:(nonnull LEOCollapsedCard *)card {
+- (nonnull instancetype)initWithButtons:(nonnull NSArray *)buttons {
     
     self = [super init];
     if (self) {
         
-        _card = card;
+        _buttons = buttons;
         
-        NSArray *buttonStrings = [self.card stringRepresentationOfActionsAvailableForState];
-        
-        self.buttonOne = [UIButton buttonWithType:UIButtonTypeCustom];
-        [self.buttonOne setTitle:buttonStrings[0] forState:UIControlStateNormal];
+        self.buttonOne = buttons[0];
         [self addSubview:self.buttonOne];
         
-        if ([buttonStrings count] == 2) {
-            self.buttonTwo = [UIButton buttonWithType:UIButtonTypeCustom];
-            [self.buttonTwo setTitle:buttonStrings[1] forState:UIControlStateNormal];
+        if ([self.buttons count] == 2) {
+            self.buttonTwo = buttons[1];
             [self addSubview:self.buttonTwo];
         }
         
@@ -73,9 +70,7 @@
     if (!self.constraintsAlreadyUpdated) {
         [self removeConstraints:self.constraints];
         
-        NSArray *buttonStrings = [self.card stringRepresentationOfActionsAvailableForState];
-
-        if ([buttonStrings count] == 2) {
+        if ([self.buttons count] == 2) {
             self.buttonOne.translatesAutoresizingMaskIntoConstraints = NO;
             self.buttonTwo.translatesAutoresizingMaskIntoConstraints = NO;
             
@@ -94,7 +89,7 @@
             
         }
         
-        else if ([buttonStrings count] == 1) {
+        else if ([self.buttons count] == 1) {
             
             self.buttonOne.translatesAutoresizingMaskIntoConstraints = NO;
             

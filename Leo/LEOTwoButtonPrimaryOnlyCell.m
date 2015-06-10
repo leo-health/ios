@@ -19,7 +19,7 @@
 - (void)awakeFromNib {
     // Initialization code
     self.backgroundColor = [UIColor clearColor];
-
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

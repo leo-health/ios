@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CardActivityProtocol.h"
 
-@interface LEOFeedTVC : UIViewController <UITableViewDelegate>
+@interface LEOFeedTVC : UIViewController <UITableViewDelegate, UITableViewDataSource, CardActivityProtocol>
 
 @end
