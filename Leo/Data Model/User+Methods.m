@@ -34,7 +34,7 @@
     User *newUser = [NSEntityDescription insertNewObjectForEntityForName:@"User" inManagedObjectContext:context];
     newUser.firstName = jsonResponse[APIParamUserFirstName];
     newUser.lastName = jsonResponse[APIParamUserLastName];
-        newUser.dob = jsonResponse[APIParamUserDOB];
+    newUser.dob = jsonResponse[APIParamUserDOB];
     newUser.email = jsonResponse[APIParamUserEmail];
     newUser.role = jsonResponse[APIParamUserRole];
     //TODO: Will a newuser dictionary have roles or will this create a complication?
@@ -42,7 +42,6 @@
     return newUser;
 }
 
-//
 + (nonnull NSDictionary *)dictionaryFromUser:(nonnull User*)user {
     
     NSMutableDictionary *userDictionary = [[NSMutableDictionary alloc] init];
@@ -56,10 +55,10 @@
     userDictionary[APIParamUserEmail] = user.email ? user.email : [NSNull null];
     userDictionary[APIParamUserGender] = user.gender ? user.gender : [NSNull null];
     userDictionary[APIParamUserPractice] = user.practiceID ? user.practiceID : [NSNull null];
-
+    
     userDictionary[APIParamUserFamilyID] = user.familyID ? user.familyID : [NSNull null];
     userDictionary[APIParamUserID] = user.id ? user.id : [NSNull null];
-
+    
     //FIXME: This will not work because it should be the roleID not a pointer to a role.
     userDictionary[APIParamUserRole] = user.role ? user.role : [NSNull null];
     
