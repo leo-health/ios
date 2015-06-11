@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="ApX-37-yJH">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="ApX-37-yJH">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -70,7 +70,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="childName" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QsX-70-l1Y">
                                 <rect key="frame" x="259" y="289" width="82" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -87,7 +87,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wNg-zU-3a8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1005" y="1714"/>
+            <point key="canvasLocation" x="1005" y="2002"/>
         </scene>
         <!--FeedTVC-->
         <scene sceneID="Bkm-MG-DiH">
@@ -101,8 +101,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="1200"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="170" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="wWt-pD-EnJ">
-                                <rect key="frame" x="0.0" y="64" width="600" height="1136"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="170" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="wWt-pD-EnJ">
+                                <rect key="frame" x="0.0" y="20" width="600" height="1180"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="LEOOneButtonPrimaryOnlyCell" rowHeight="170" id="QFM-Vu-CBg" customClass="LEOOneButtonPrimaryOnlyCell">
@@ -145,27 +145,6 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="cardView" destination="UOq-Te-dHB" id="a8H-u6-4bB"/>
-                                        </connections>
-                                    </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="LEOTwoButtonPrimaryOnlyCell" rowHeight="170" id="XZu-N7-3GN" customClass="LEOTwoButtonPrimaryOnlyCell">
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="XZu-N7-3GN" id="itZ-q0-rhy">
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="K1M-rT-GMs" customClass="LEOCardView">
-                                                    <rect key="frame" x="8" y="8" width="584" height="153"/>
-                                                    <color key="backgroundColor" red="0.26116901100000001" green="0.7116034738" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                </view>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="K1M-rT-GMs" firstAttribute="top" secondItem="itZ-q0-rhy" secondAttribute="topMargin" id="1eO-ZS-GAz"/>
-                                                <constraint firstItem="K1M-rT-GMs" firstAttribute="trailing" secondItem="itZ-q0-rhy" secondAttribute="trailingMargin" id="B4I-HV-HTd"/>
-                                                <constraint firstItem="K1M-rT-GMs" firstAttribute="leading" secondItem="itZ-q0-rhy" secondAttribute="leadingMargin" id="SCZ-Pc-nER"/>
-                                                <constraint firstItem="K1M-rT-GMs" firstAttribute="bottom" secondItem="itZ-q0-rhy" secondAttribute="bottomMargin" id="iQu-Hh-7Da"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="cardView" destination="K1M-rT-GMs" id="yI7-J0-HRB"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="LEOTwoButtonSecondaryAndPrimaryCell" rowHeight="170" id="H86-Ga-oCY" customClass="LEOTwoButtonPrimaryOnlyCell">
@@ -230,6 +209,12 @@
                                         <connections>
                                             <outlet property="cardView" destination="onN-UV-0BR" id="7nw-ne-cuR"/>
                                         </connections>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="LEOTwoButtonPrimaryOnlyCell" rowHeight="170" id="YvQ-66-ka2" userLabel="LEOTwoButtonPrimaryOnlyCell" customClass="LEOTwoButtonPrimaryOnlyCell">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="YvQ-66-ka2" id="d66-lb-EAK">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>

@@ -19,12 +19,27 @@
 
 @property (strong, nonatomic) UIButton *buttonOne;
 @property (strong, nonatomic) UIButton *buttonTwo;
-@property (strong, nonatomic, nonnull) NSArray *buttons;
 
 @end
 
 @implementation LEOButtonView
 
+-(void)awakeFromNib {
+    [self commonInit];
+
+}
+
+-(id)initWithCoder:(NSCoder *)aDecoder {
+    
+    self = [super initWithCoder:aDecoder];
+    
+    if (self) {
+
+    }
+    
+    return self;
+    
+}
 
 - (nonnull instancetype)initWithButtons:(nonnull NSArray *)buttons {
     
@@ -33,21 +48,26 @@
         
         _buttons = buttons;
         
-        self.buttonOne = buttons[0];
-        [self addSubview:self.buttonOne];
+        [self commonInit];
         
-        if ([self.buttons count] == 2) {
-            self.buttonTwo = buttons[1];
-            [self addSubview:self.buttonTwo];
-        }
-        
-        //[self layoutSubviews];
-        [self updateFonts];
-        [self setNeedsLayout];
-
     }
     
     return self;
+}
+
+-(void)commonInit {
+    
+    self.buttonOne = self.buttons[0];
+    [self addSubview:self.buttonOne];
+    
+    if ([self.buttons count] == 2) {
+        self.buttonTwo = self.buttons[1];
+        [self addSubview:self.buttonTwo];
+    }
+    
+    //[self layoutSubviews];
+    [self updateFonts];
+//    [self setNeedsLayout];
 }
 
 -(CGSize)intrinsicContentSize{
@@ -67,20 +87,23 @@
 - (void)updateConstraints { //TODO: Do we need a zero button situation? Some minor refactoring here.
     
     
-    if (!self.constraintsAlreadyUpdated) {
+    if (!self.constraintsAlreadyUpdated && [self.buttons count] > 0) {
         [self removeConstraints:self.constraints];
         
         if ([self.buttons count] == 2) {
-            self.buttonOne.translatesAutoresizingMaskIntoConstraints = NO;
-            self.buttonTwo.translatesAutoresizingMaskIntoConstraints = NO;
+            
+            UIButton *bOne = self.buttons[0];
+            UIButton *bTwo = self.buttons[1];
+            bOne.translatesAutoresizingMaskIntoConstraints = NO;
+            bTwo.translatesAutoresizingMaskIntoConstraints = NO;
             
             //        self.buttonOne.backgroundColor = [UIColor greenColor]
             
-            NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(_buttonOne, _buttonTwo);
+            NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(bOne, bTwo);
             
-            NSArray *verticalConstraintsForButtonOne = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_buttonOne]|" options:0 metrics:nil views:viewsDictionary];
-            NSArray *verticalConstraintsForButtonTwo = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_buttonTwo]|" options:0 metrics:nil views:viewsDictionary];
-            NSArray *horizontalConstraint = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_buttonOne][_buttonTwo(==_buttonOne)]|" options:0 metrics:nil views:viewsDictionary];
+            NSArray *verticalConstraintsForButtonOne = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[bOne]|" options:0 metrics:nil views:viewsDictionary];
+            NSArray *verticalConstraintsForButtonTwo = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[bTwo]|" options:0 metrics:nil views:viewsDictionary];
+            NSArray *horizontalConstraint = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[bOne][bTwo(==bOne)]|" options:0 metrics:nil views:viewsDictionary];
             
             [self.buttonOne setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
             [self addConstraints:verticalConstraintsForButtonOne];

@@ -26,6 +26,7 @@
 
 
 //abstract methods
+- (nonnull UIImage *)icon;
 - (nonnull NSString *)title;
 - (nonnull NSString *)body;
 - (CardLayout)layout;

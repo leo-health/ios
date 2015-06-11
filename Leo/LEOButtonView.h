@@ -12,6 +12,7 @@
 
 @interface LEOButtonView : UIView
 
+@property (strong, nonatomic, nonnull) NSArray *buttons;
 
 - (nonnull instancetype)initWithButtons:(nonnull NSArray *)buttons;
 

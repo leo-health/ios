@@ -158,17 +158,11 @@ static void * XXContext = &XXContext;
     switch (self.appointment.appointmentState) {
         case AppointmentStateRecommending: {
             
-            UIButton *buttonOne = [UIButton buttonWithType:UIButtonTypeCustom];
-            [buttonOne setTitle:[self stringRepresentationOfActionsAvailableForState][0] forState:UIControlStateNormal];
-            [buttonOne addTarget:self action:@selector(schedule) forControlEvents:UIControlEventTouchUpInside];
+            NSString *buttonOneAction = @"schedule";
+            [actions addObject:buttonOneAction];
             
-            [actions addObject:buttonOne];
-            
-            UIButton *buttonTwo = [UIButton buttonWithType:UIButtonTypeCustom];
-            [buttonTwo setTitle:[self stringRepresentationOfActionsAvailableForState][1] forState:UIControlStateNormal];
-            [buttonTwo addTarget:self action:@selector(cancel) forControlEvents:UIControlEventTouchUpInside];
-            
-            [actions addObject:buttonTwo];
+            NSString *buttonTwoAction = @"cancel";
+            [actions addObject:buttonTwoAction];
             
             break;
         }
@@ -202,6 +196,7 @@ static void * XXContext = &XXContext;
     //opens up a new scheduling card view, filled out with the recommended dates / times
     
     [self.delegate didTapButtonOneOnCard:self withAssociatedObject:self.appointment];
+    
 }
 
 
@@ -233,7 +228,9 @@ static void * XXContext = &XXContext;
     return [NSDate date];
 }
 
-
+-(nonnull UIImage *)icon {
+    return [UIImage imageNamed:@"SMS-32"];
+}
 
 - (void)observeValueForKeyPath:(NSString *)keyPath
                       ofObject:(id)object

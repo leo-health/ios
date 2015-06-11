@@ -35,6 +35,8 @@
 #import "LEOTwoButtonPrimaryOnlyCell.h"
 #import "LEOTwoButtonSecondaryOnlyCell.h"
 
+#import "LEOPrimaryOnlyCell+ConfigureForCell.h"
+
 @interface LEOFeedTVC ()
 
 @property (strong, nonatomic) LEOCoreDataManager *coreDataManager;
@@ -78,6 +80,8 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     self.tableView.backgroundColor = [UIColor leoBasicGray];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
+    [self.tableView registerNib:[LEOTwoButtonPrimaryOnlyCell nib] forCellReuseIdentifier:@"LEOTwoButtonPrimaryOnlyCell"];
+    
 }
 
 #pragma mark - Table view delegate
@@ -89,7 +93,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 
 }
 
--(void)didTapButtonOneOnCard:(LEOCollapsedCard *)card withAssociatedObject:(id)appointment {
+-(void)didTapButtonOneOnCell:(LEOCollapsedCard *)card withAssociatedObject:(id)appointment {
     
     [UIView animateWithDuration:0.2 animations:^{
         self.selectedCardCell.layer.transform = CATransform3DMakeRotation(M_PI_2,0.0,1.0,0.0); ; //flip halfway
@@ -137,7 +141,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
             cellIdentifier = CellIdentifierLEOCardTwoButtonPrimaryOnly;
             LEOTwoButtonPrimaryOnlyCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier
                                                                                   forIndexPath:indexPath];
-            cell.cardView.card = card;
+            [cell configureForCard:card];
 
             return cell;
         }
@@ -145,11 +149,9 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
             cellIdentifier = CellIdentifierLEOCardTwoButtonSecondaryAndPrimary;
             LEOTwoButtonPrimaryOnlyCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier
                                                                                 forIndexPath:indexPath];
-            cell.cardView.card = card;
-
             return cell;
         }
-            
+        
         default:
             break;
     }
