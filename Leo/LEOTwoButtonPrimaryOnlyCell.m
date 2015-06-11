@@ -11,10 +11,7 @@
 @implementation LEOTwoButtonPrimaryOnlyCell
 
 - (void)awakeFromNib {
-
-    self.backgroundColor = [UIColor clearColor];
-    self.selectionStyle = UITableViewCellSelectionStyleNone;
-
+    // Initialization code
 }
 
 + (UINib *)nib {

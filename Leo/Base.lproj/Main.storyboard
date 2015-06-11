@@ -109,22 +109,7 @@
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="QFM-Vu-CBg" id="uwH-es-rAy">
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k5w-G6-o6K" customClass="LEOCardView">
-                                                    <rect key="frame" x="8" y="8" width="584" height="153"/>
-                                                    <color key="backgroundColor" red="0.26116901100000001" green="0.7116034738" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                </view>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="k5w-G6-o6K" firstAttribute="bottom" secondItem="uwH-es-rAy" secondAttribute="bottomMargin" id="7vn-t9-fos"/>
-                                                <constraint firstItem="k5w-G6-o6K" firstAttribute="trailing" secondItem="uwH-es-rAy" secondAttribute="trailingMargin" id="Wb2-SP-OPo"/>
-                                                <constraint firstItem="k5w-G6-o6K" firstAttribute="leading" secondItem="uwH-es-rAy" secondAttribute="leadingMargin" id="glI-5K-OtD"/>
-                                                <constraint firstItem="k5w-G6-o6K" firstAttribute="top" secondItem="uwH-es-rAy" secondAttribute="topMargin" id="rZu-Wa-sYh"/>
-                                            </constraints>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="cardView" destination="k5w-G6-o6K" id="jte-qJ-dgR"/>
-                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="LEOTwoButtonSecondaryOnlyCell" rowHeight="170" id="hVw-Rp-MMm" customClass="LEOTwoButtonSecondaryOnlyCell">
                                         <autoresizingMask key="autoresizingMask"/>

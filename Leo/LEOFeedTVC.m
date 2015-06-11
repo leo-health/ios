@@ -31,11 +31,9 @@
 #import "LEOSingleAppointmentSchedulerCardVC.h"
 #import "LEOTransitioningDelegate.h"
 
-#import "LEOOneButtonPrimaryOnlyCell.h"
-#import "LEOTwoButtonPrimaryOnlyCell.h"
 #import "LEOTwoButtonSecondaryOnlyCell.h"
-
 #import "LEOTwoButtonPrimaryOnlyCell+ConfigureForCell.h"
+#import "LEOOneButtonPrimaryOnlyCell+ConfigureForCell.h"
 
 @interface LEOFeedTVC ()
 
@@ -51,7 +49,6 @@
 @implementation LEOFeedTVC
 
 static NSString *const adminTestKey = @""; //FIXME: REMOVE BEFORE SENDING OFF TO PRODUCTION!
-static NSString * const CardCellIdentifier = @"CardCell";
 
 static NSString *const CellIdentifierLEOCardTwoButtonSecondaryOnly = @"LEOTwoButtonSecondaryOnlyCell";
 static NSString *const CellIdentifierLEOCardTwoButtonSecondaryAndPrimary = @"LEOTwoButtonSecondaryAndPrimaryCell";
@@ -80,7 +77,9 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     self.tableView.backgroundColor = [UIColor leoBasicGray];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
-    [self.tableView registerNib:[LEOTwoButtonPrimaryOnlyCell nib] forCellReuseIdentifier:@"LEOTwoButtonPrimaryOnlyCell"];
+    [self.tableView registerNib:[LEOTwoButtonPrimaryOnlyCell nib] forCellReuseIdentifier:CellIdentifierLEOCardTwoButtonPrimaryOnly];
+    
+    [self.tableView registerNib:[LEOOneButtonPrimaryOnlyCell nib] forCellReuseIdentifier:CellIdentifierLEOCardOneButtonPrimaryOnly];
     
 }
 
@@ -99,7 +98,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
         self.selectedCardCell.layer.transform = CATransform3DMakeRotation(M_PI_2,0.0,1.0,0.0); ; //flip halfway
     } completion:^(BOOL finished) {
         
-        if (associatedObject isKindOfClass:[Appointment class]) {
+        if ([associatedObject isKindOfClass:[Appointment class]]) {
             LEOSingleAppointmentSchedulerCardVC *singleAppointmentScheduleVC = [[LEOSingleAppointmentSchedulerCardVC alloc] initWithNibName:@"LEOSingleAppointmentSchedulerCardVC" bundle:nil];
             
             [self presentViewController:singleAppointmentScheduleVC animated:YES completion:^{
@@ -110,9 +109,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 }
 
 -(void)didUpdateObjectStateForCard:(LEOCollapsedCard *)card {
-    
     [self.tableView reloadData];
-    
 }
 
 #pragma mark UITableViewDataSource
@@ -150,8 +147,20 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
         }
         case CardLayoutTwoButtonSecondaryAndPrimary: {
             cellIdentifier = CellIdentifierLEOCardTwoButtonSecondaryAndPrimary;
+            
             LEOTwoButtonPrimaryOnlyCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier
                                                                                 forIndexPath:indexPath];
+            return cell;
+        }
+            
+        case CardLayoutOneButtonPrimaryOnly: {
+            cellIdentifier = CellIdentifierLEOCardOneButtonPrimaryOnly;
+            
+            LEOOneButtonPrimaryOnlyCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+            
+            [cell configureForCard:card];
+
+            
             return cell;
         }
         
