@@ -28,7 +28,6 @@
 @dynamic suffix;
 @dynamic title;
 @dynamic updatedAt;
-@dynamic fullName;
 @dynamic appointmentsToAdminister;
 @dynamic appointmentsToBeAt;
 @dynamic appointmentsToBeSeen;

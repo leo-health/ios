@@ -27,7 +27,6 @@
 @property (nonatomic, retain) NSString * suffix;
 @property (nonatomic, retain) NSString * title;
 @property (nonatomic, retain) NSDate * updatedAt;
-@property (nonatomic, retain) UNKNOWN_TYPE fullName;
 @property (nonatomic, retain) NSSet *appointmentsToAdminister;
 @property (nonatomic, retain) NSSet *appointmentsToBeAt;
 @property (nonatomic, retain) Appointment *appointmentsToBeSeen;
