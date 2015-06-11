@@ -73,4 +73,33 @@
                                  userInfo:nil];
 }
 
+-(nonnull UIImage *)icon {
+    
+    @throw [NSException exceptionWithName:NSInternalInconsistencyException
+                                   reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
+                                 userInfo:nil];
+    
+}
+
+-(nonnull User *)primaryUser {
+    
+    @throw [NSException exceptionWithName:NSInternalInconsistencyException
+                                   reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
+                                 userInfo:nil];
+}
+
+-(nonnull User *)secondaryUser {
+
+@throw [NSException exceptionWithName:NSInternalInconsistencyException
+                               reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
+                             userInfo:nil];
+}
+
+-(nonnull NSArray *)actionsAvailableForState {
+    
+    @throw [NSException exceptionWithName:NSInternalInconsistencyException
+                                   reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
+                                 userInfo:nil];
+
+}
 @end

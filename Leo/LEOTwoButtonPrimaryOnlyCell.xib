@@ -39,7 +39,7 @@
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0ZN-to-xTT">
-                                <rect key="frame" x="17" y="326" width="152" height="44"/>
+                                <rect key="frame" x="0.0" y="326" width="160" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="boV-KS-p22"/>
                                 </constraints>
@@ -48,7 +48,7 @@
                                 </state>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tWE-cc-fNO">
-                                <rect key="frame" x="168" y="326" width="152" height="44"/>
+                                <rect key="frame" x="160" y="326" width="160" height="44"/>
                                 <state key="normal" title="Button">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -64,9 +64,9 @@
                         <constraints>
                             <constraint firstItem="cYX-xN-RbG" firstAttribute="top" secondItem="emf-Vd-I1x" secondAttribute="top" constant="8" id="01Z-0g-SL9"/>
                             <constraint firstItem="tf8-7F-CYc" firstAttribute="leading" secondItem="z9T-I8-Dzm" secondAttribute="leading" id="04U-7P-a8v"/>
-                            <constraint firstItem="tWE-cc-fNO" firstAttribute="leading" secondItem="0ZN-to-xTT" secondAttribute="trailing" constant="-1" id="5DT-Cr-5oR"/>
+                            <constraint firstItem="tWE-cc-fNO" firstAttribute="leading" secondItem="0ZN-to-xTT" secondAttribute="trailing" id="5DT-Cr-5oR"/>
                             <constraint firstItem="0ZN-to-xTT" firstAttribute="top" secondItem="z9T-I8-Dzm" secondAttribute="bottom" id="FG0-BS-wFF"/>
-                            <constraint firstItem="0ZN-to-xTT" firstAttribute="leading" secondItem="emf-Vd-I1x" secondAttribute="leading" constant="17" id="LU2-Qx-fB7"/>
+                            <constraint firstItem="0ZN-to-xTT" firstAttribute="leading" secondItem="emf-Vd-I1x" secondAttribute="leading" id="LU2-Qx-fB7"/>
                             <constraint firstItem="TNa-6x-3GG" firstAttribute="leading" secondItem="cYX-xN-RbG" secondAttribute="trailing" constant="8" id="NLm-yR-5Js"/>
                             <constraint firstItem="TNa-6x-3GG" firstAttribute="top" secondItem="emf-Vd-I1x" secondAttribute="top" constant="8" id="PgZ-Db-j6Z"/>
                             <constraint firstItem="0ZN-to-xTT" firstAttribute="height" secondItem="tWE-cc-fNO" secondAttribute="height" id="Qbi-hL-aj4"/>

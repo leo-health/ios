@@ -31,7 +31,7 @@
 #import "LEOSingleAppointmentSchedulerCardVC.h"
 #import "LEOTransitioningDelegate.h"
 
-#import "LEOTwoButtonSecondaryOnlyCell.h"
+#import "LEOTwoButtonSecondaryOnlyCell+ConfigureForCell.h"
 #import "LEOTwoButtonPrimaryOnlyCell+ConfigureForCell.h"
 #import "LEOOneButtonPrimaryOnlyCell+ConfigureForCell.h"
 
@@ -108,7 +108,12 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     }];
 }
 
+-(void)didTapButtonTwoOnCard:(LEOCollapsedCard *)card withAssociatedObject:(id)associatedObject {
+
+}
+
 -(void)didUpdateObjectStateForCard:(LEOCollapsedCard *)card {
+    //TODO: For now this is fine, but we should be a little more elegant about it and only reload the cell for which the object state changed. We may move to a fetchedResultsController for data to handle that at some point.
     [self.tableView reloadData];
 }
 
@@ -132,8 +137,8 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
             cellIdentifier = CellIdentifierLEOCardTwoButtonSecondaryOnly;
             LEOTwoButtonSecondaryOnlyCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier
                                                                                 forIndexPath:indexPath];
-            cell.cardView.card = card;
-            
+            [cell configureForCard:card];
+
             return cell;
         }
             
@@ -145,6 +150,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 
             return cell;
         }
+            
         case CardLayoutTwoButtonSecondaryAndPrimary: {
             cellIdentifier = CellIdentifierLEOCardTwoButtonSecondaryAndPrimary;
             

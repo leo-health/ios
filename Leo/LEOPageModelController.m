@@ -116,20 +116,6 @@
 
 }
 
-//- (void)flipToChild:(id)sender {
-//    
-//    NSUInteger index = [self.navigationItem.rightBarButtonItems indexOfObject:sender];
-//    
-//    [self viewControllerAt storyboard:<#(UIStoryboard *)#>]
-//    
-//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-//    LEOEHRViewController *childEHRViewController = [storyboard instantiateViewControllerWithIdentifier:@"EHRViewController"];
-//    childEHRViewController.childIndex = index;
-//    
-//    [self.pageViewController setViewControllers:@[childEHRViewController] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
-//    
-//}
-
 
 -(LEOFeedTVC *)feedViewController {
     if (!_feedViewController) {

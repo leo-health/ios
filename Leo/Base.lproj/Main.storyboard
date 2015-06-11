@@ -115,85 +115,25 @@
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hVw-Rp-MMm" id="GoL-YY-0em">
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UOq-Te-dHB" customClass="LEOCardView">
-                                                    <rect key="frame" x="8" y="8" width="584" height="153"/>
-                                                    <color key="backgroundColor" red="0.26116901100000001" green="0.7116034738" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                </view>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="UOq-Te-dHB" firstAttribute="top" secondItem="GoL-YY-0em" secondAttribute="topMargin" id="L6E-IL-Isr"/>
-                                                <constraint firstItem="UOq-Te-dHB" firstAttribute="trailing" secondItem="GoL-YY-0em" secondAttribute="trailingMargin" id="NTQ-qp-LdX"/>
-                                                <constraint firstItem="UOq-Te-dHB" firstAttribute="bottom" secondItem="GoL-YY-0em" secondAttribute="bottomMargin" id="mPh-DD-YJw"/>
-                                                <constraint firstItem="UOq-Te-dHB" firstAttribute="leading" secondItem="GoL-YY-0em" secondAttribute="leadingMargin" id="tLq-VR-uN7"/>
-                                            </constraints>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="cardView" destination="UOq-Te-dHB" id="a8H-u6-4bB"/>
-                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="LEOTwoButtonSecondaryAndPrimaryCell" rowHeight="170" id="H86-Ga-oCY" customClass="LEOTwoButtonPrimaryOnlyCell">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="H86-Ga-oCY" id="JVO-wu-03V">
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XfI-DK-08A" customClass="LEOCardView">
-                                                    <rect key="frame" x="8" y="8" width="584" height="153"/>
-                                                    <color key="backgroundColor" red="0.26116901100000001" green="0.7116034738" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                </view>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="XfI-DK-08A" firstAttribute="trailing" secondItem="JVO-wu-03V" secondAttribute="trailingMargin" id="7dy-2r-JJJ"/>
-                                                <constraint firstItem="XfI-DK-08A" firstAttribute="bottom" secondItem="JVO-wu-03V" secondAttribute="bottomMargin" id="BeE-6R-4zn"/>
-                                                <constraint firstItem="XfI-DK-08A" firstAttribute="leading" secondItem="JVO-wu-03V" secondAttribute="leadingMargin" id="TFg-wt-rs3"/>
-                                                <constraint firstItem="XfI-DK-08A" firstAttribute="top" secondItem="JVO-wu-03V" secondAttribute="topMargin" id="uf2-NY-L8Z"/>
-                                            </constraints>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="cardView" destination="XfI-DK-08A" id="hrO-x1-3PV"/>
-                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="LEOOneButtonSecondaryOnlyCell" rowHeight="170" id="FiK-Nm-RdN" customClass="LEOTwoButtonPrimaryOnlyCell">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="FiK-Nm-RdN" id="bVB-C9-YKZ">
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QKD-ZT-SZS" customClass="LEOCardView">
-                                                    <rect key="frame" x="8" y="8" width="584" height="153"/>
-                                                    <color key="backgroundColor" red="0.26116901100000001" green="0.7116034738" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                </view>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="QKD-ZT-SZS" firstAttribute="leading" secondItem="bVB-C9-YKZ" secondAttribute="leadingMargin" id="aqI-bU-Hr6"/>
-                                                <constraint firstItem="QKD-ZT-SZS" firstAttribute="top" secondItem="bVB-C9-YKZ" secondAttribute="topMargin" id="dEk-Io-BW7"/>
-                                                <constraint firstItem="QKD-ZT-SZS" firstAttribute="bottom" secondItem="bVB-C9-YKZ" secondAttribute="bottomMargin" id="uP9-XN-D7H"/>
-                                                <constraint firstItem="QKD-ZT-SZS" firstAttribute="trailing" secondItem="bVB-C9-YKZ" secondAttribute="trailingMargin" id="vb0-Ri-CR7"/>
-                                            </constraints>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="cardView" destination="QKD-ZT-SZS" id="tgo-gK-l5Z"/>
-                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="LEOOneButtonSecondaryAndPrimaryCell" rowHeight="170" id="Wxo-6a-mbB" customClass="LEOTwoButtonPrimaryOnlyCell">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Wxo-6a-mbB" id="34P-0M-UAw">
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="onN-UV-0BR" customClass="LEOCardView">
-                                                    <rect key="frame" x="8" y="8" width="584" height="153"/>
-                                                    <color key="backgroundColor" red="0.26116901100000001" green="0.7116034738" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                </view>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="onN-UV-0BR" firstAttribute="top" secondItem="34P-0M-UAw" secondAttribute="topMargin" id="CsC-uD-ckj"/>
-                                                <constraint firstItem="onN-UV-0BR" firstAttribute="trailing" secondItem="34P-0M-UAw" secondAttribute="trailingMargin" id="bUj-0O-dca"/>
-                                                <constraint firstItem="onN-UV-0BR" firstAttribute="leading" secondItem="34P-0M-UAw" secondAttribute="leadingMargin" id="mRn-RI-1tr"/>
-                                                <constraint firstItem="onN-UV-0BR" firstAttribute="bottom" secondItem="34P-0M-UAw" secondAttribute="bottomMargin" id="odx-Hh-1wi"/>
-                                            </constraints>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="cardView" destination="onN-UV-0BR" id="7nw-ne-cuR"/>
-                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="LEOTwoButtonPrimaryOnlyCell" rowHeight="170" id="YvQ-66-ka2" userLabel="LEOTwoButtonPrimaryOnlyCell" customClass="LEOTwoButtonPrimaryOnlyCell">
                                         <autoresizingMask key="autoresizingMask"/>

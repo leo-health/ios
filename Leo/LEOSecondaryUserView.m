@@ -24,6 +24,8 @@
 @property (nonatomic) NSInteger cardFormat;
 
 @property (strong, nonatomic, nonnull) UIColor *cardTintColor; //FIXME: Likely will remove and associate with User at some stage.
+@property (strong, nonatomic) User *user;
+@property (strong, nonatomic) NSDate *timeStamp;
 
 @property (nonatomic) BOOL constraintsAlreadyUpdated;
 
@@ -32,47 +34,58 @@
 
 @implementation LEOSecondaryUserView
 
+-(void)awakeFromNib {
+    [self commonInit];
+}
+
+- (void)commonInit {
+    
+    _nameLabel = [[UILabel alloc] init];
+    _suffixLabel = [[UILabel alloc] init];
+    _suffixCredentialLabel = [[UILabel alloc] init];
+    _dividerLabel = [[UILabel alloc] init];
+    _timestampLabel = [[UILabel alloc] init];
+    
+    self.nameLabel.text = [NSString stringWithFormat:@"%@ %@ %@",self.user.title, self.user.firstName, self.user.lastName]; //FIXME: Replace with transient property on User class
+    self.suffixLabel.text = self.user.suffix;
+    self.suffixCredentialLabel.text = self.user.credentialSuffix;
+    self.dividerLabel.text = @"∙";
+    
+    
+    if (self.cardFormat == CardLayoutTwoButtonSecondaryOnly) {
+        self.timestampLabel.text = self.timeStamp.timeAgoSinceNow;
+    } else {
+        //FIXME: This only accounts for dates within the past year! And doesn't yet deal with timezones!
+        NSDateFormatter *format = [[NSDateFormatter alloc] init];
+        [format setDateFormat:@"MMM dd',' HH':'mm"];
+        self.timestampLabel.text = [format stringFromDate:self.timeStamp];
+        
+    }
+    
+    [self addSubview:self.nameLabel];
+    [self addSubview:self.suffixLabel];
+    [self addSubview:self.dividerLabel];
+    [self addSubview:self.timestampLabel];
+    [self addSubview:self.suffixCredentialLabel];
+    
+    [self colorView];
+    [self typefaceView];
+
+    
+}
 - (nonnull instancetype)initWithCardLayout:(CardLayout)cardFormat user:(nonnull User *)user timestamp:(nonnull NSDate *)timestamp {
     
     self = [super init];
     if (self) {
         
-        self.cardFormat = cardFormat;
+        _cardFormat = cardFormat;
+        _user = user;
+        _timeStamp = timestamp;
         
-        _nameLabel = [[UILabel alloc] init];
-        _suffixLabel = [[UILabel alloc] init];
-        _suffixCredentialLabel = [[UILabel alloc] init];
-        _dividerLabel = [[UILabel alloc] init];
-        _timestampLabel = [[UILabel alloc] init];
-        
-        self.nameLabel.text = [NSString stringWithFormat:@"%@ %@ %@",user.title, user.firstName, user.lastName]; //FIXME: Replace with transient property on User class
-        self.suffixLabel.text = user.suffix;
-        self.suffixCredentialLabel.text = user.credentialSuffix;
-        self.dividerLabel.text = @"∙";
-        
-        
-        if (self.cardFormat == CardLayoutTwoButtonSecondaryOnly) {
-            self.timestampLabel.text = timestamp.timeAgoSinceNow;
-        } else {
-            //FIXME: This only accounts for dates within the past year! And doesn't yet deal with timezones!
-            NSDateFormatter *format = [[NSDateFormatter alloc] init];
-            [format setDateFormat:@"MMM dd',' HH':'mm"];
-            self.timestampLabel.text = [format stringFromDate:timestamp];
-            
-        }
-        
-        [self addSubview:self.nameLabel];
-        [self addSubview:self.suffixLabel];
-        [self addSubview:self.dividerLabel];
-        [self addSubview:self.timestampLabel];
-        [self addSubview:self.suffixCredentialLabel];
-        
-        [self colorView];
-        [self typefaceView];
-        //[self setNeedsUpdateConstraints];
-        
+        [self commonInit];
         
     }
+    
     return self;
 }
 

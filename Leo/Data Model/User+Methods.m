@@ -70,7 +70,7 @@
     return nil;
 }
 
--(NSString *)userRoleFromID:(NSString *)id {
+-(NSString *)userroleFromID:(NSString *)id {
     return nil;
 }
 
