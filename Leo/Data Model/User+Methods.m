@@ -74,4 +74,37 @@
     return nil;
 }
 
+-(NSString *)fullName {
+    
+    [self willAccessValueForKey:@"fullName"];
+    
+    NSString *fullName = [@[self.firstName, self.lastName] componentsJoinedByString:@" "];
+    
+    [self didAccessValueForKey:@"fullName"];
+    
+    return fullName;
+}
+
+-(void)setFirstName:(NSString *)firstName {
+    
+    [self willChangeValueForKey:@"firstName"];
+    [self willChangeValueForKey:@"fullName"];
+    
+    [self setPrimitiveValue: firstName forKey:@"firstName"];
+    
+    [self didChangeValueForKey:@"firstName"];
+    [self didChangeValueForKey:@"fullName"];
+}
+
+-(void)setLastName:(NSString *)lastName {
+    
+    [self willChangeValueForKey:@"lastName"];
+    [self willChangeValueForKey:@"fullName"];
+    
+    [self setPrimitiveValue: lastName forKey:@"lastName"];
+    
+    [self didChangeValueForKey:@"lastName"];
+    [self didChangeValueForKey:@"fullName"];
+}
+
 @end

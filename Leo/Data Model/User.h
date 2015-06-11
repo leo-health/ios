@@ -2,7 +2,7 @@
 //  User.h
 //  Leo
 //
-//  Created by Zachary Drossman on 5/29/15.
+//  Created by Zachary Drossman on 6/11/15.
 //  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
@@ -27,6 +27,7 @@
 @property (nonatomic, retain) NSString * suffix;
 @property (nonatomic, retain) NSString * title;
 @property (nonatomic, retain) NSDate * updatedAt;
+@property (nonatomic, retain) UNKNOWN_TYPE fullName;
 @property (nonatomic, retain) NSSet *appointmentsToAdminister;
 @property (nonatomic, retain) NSSet *appointmentsToBeAt;
 @property (nonatomic, retain) Appointment *appointmentsToBeSeen;

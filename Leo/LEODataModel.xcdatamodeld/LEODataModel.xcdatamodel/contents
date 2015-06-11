@@ -59,6 +59,7 @@
         <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="familyID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="firstName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="fullName" optional="YES" syncable="YES"/>
         <attribute name="gender" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="lastName" optional="YES" attributeType="String" syncable="YES"/>
@@ -79,6 +80,6 @@
         <element name="ConversationParticipant" positionX="-738" positionY="-252" width="128" height="88"/>
         <element name="Message" positionX="-29" positionY="153" width="128" height="193"/>
         <element name="Role" positionX="529" positionY="-144" width="128" height="133"/>
-        <element name="User" positionX="-72" positionY="-468" width="171" height="328"/>
+        <element name="User" positionX="-72" positionY="-468" width="171" height="345"/>
     </elements>
 </model>
