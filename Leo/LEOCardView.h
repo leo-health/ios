@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "LEOSecondaryUserView.h"
-#import "LEOButtonView.h"
 #import "LEOConstants.h"
 
 @class LEOCollapsedCard;

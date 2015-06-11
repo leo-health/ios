@@ -11,8 +11,18 @@
 @implementation LEOFeedCell
 
 - (void)awakeFromNib {
-    self.backgroundColor = [UIColor clearColor];
-    self.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+}
+
+-(id)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    
+    if (self) {
+        self.backgroundColor = [UIColor clearColor];
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
+    }
+    
+    return self;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
