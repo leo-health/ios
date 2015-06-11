@@ -20,6 +20,10 @@
 
 @property (strong, nonatomic) NSArray *times;
 
+
+#pragma mark - Properties For State
+@property (nonatomic) BOOL firstPass;
+
 @end
 
 @implementation TimeCollectionViewController
@@ -29,6 +33,7 @@ static NSString * const timeReuseIdentifier = @"TimeCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.coreDataManager = [LEOCoreDataManager sharedManager];
+    self.firstPass = YES;
     [self setupTimeCollectionView];
 }
 
@@ -73,7 +78,7 @@ static NSString * const timeReuseIdentifier = @"TimeCell";
 
 -(void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 0) {
-        cell.selected = YES;
+            cell.selected = YES;
     }
 }
 

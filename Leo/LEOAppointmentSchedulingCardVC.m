@@ -45,8 +45,8 @@
 @property (weak, nonatomic) IBOutlet UIView *contentView;
 @property (weak, nonatomic) IBOutlet UILabel *fullAppointmentDateLabel;
 @property (weak, nonatomic) IBOutlet UINavigationBar *navBar;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *layoutConstraintForDoctorDropDownBottom;
 @property (weak, nonatomic) IBOutlet LEODropDownTableView *doctorDropDownTV;
+@property (weak, nonatomic) IBOutlet LEODropDownTableView *visitDropDownTV;
 
 #pragma mark - Data
 @property (strong, nonatomic) NSDate *selectedDate;
@@ -54,6 +54,7 @@
 @property (strong, nonatomic) NSArray *dates;
 @property (strong, nonatomic) NSLayoutConstraint *containerViewHeightConstraint;
 @property (strong, nonatomic) LEODropDownController *doctorDropDownController;
+@property (strong, nonatomic) LEODropDownController * visitTypeDropDownController;
 
 #pragma mark - Helper classes
 @property (strong, nonatomic) ArrayDataSource *arrayDataSource;
@@ -77,94 +78,6 @@
 //@synthesize pageViewDataSource = _pageViewDataSource;
 
 static NSString * const dateReuseIdentifier = @"DateCell";
-static NSString * const selectionReuseIdentifier = @"";
-
-
--(void)dontupdate {
-    
-    UIView *mainView = self.view;
-    
-    self.view.backgroundColor = [UIColor whiteColor];
-    self.scrollView.backgroundColor = [UIColor blackColor];
-    self.contentView.backgroundColor = [UIColor yellowColor];
-    
-    [super updateViewConstraints];
-    
-    
-    NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(_scrollView, _navBar, _contentView, _dateCollectionView, _containerView, _monthLabel, _doctorDropDownTV, mainView);
-    
-    
-//    [self.view removeConstraints:self.view.constraints];
-    [self.scrollView removeConstraints:self.scrollView.constraints];
-    [self.contentView removeConstraints:self.contentView.constraints];
-    
-//    self.navBar.translatesAutoresizingMaskIntoConstraints = NO;
-//    self.contentView.translatesAutoresizingMaskIntoConstraints = NO;
-//    self.dateCollectionView.translatesAutoresizingMaskIntoConstraints = NO;
-//    self.containerView.translatesAutoresizingMaskIntoConstraints = NO;
-//    self.monthLabel.translatesAutoresizingMaskIntoConstraints = NO;
-//    self.visitTypeDropDown.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    
-    // Top (1) level constraints
-    
-//    NSArray *horizontalScrollViewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_scrollView]|" options:0 metrics:nil views:viewsDictionary];
-//    
-//    NSArray *horizontalNavBarConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_navBar]|" options:0 metrics:nil views:viewsDictionary];
-//    
-//    NSArray *verticalScrollViewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_navBar][_scrollView]|" options:0 metrics:nil views:viewsDictionary];
-//    
-//    
-//    [self.view addConstraints:horizontalNavBarConstraints];
-//    [self.view addConstraints:horizontalScrollViewConstraints];
-//    [self.view addConstraints:verticalScrollViewConstraints];
-    
-    // Second (2) level constraints
-    
-    NSArray *verticalContentViewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_contentView]|" options:0 metrics:nil views:viewsDictionary];
-    
-    NSArray *horizontalContentViewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_contentView]|" options:0 metrics:nil views:viewsDictionary];
-    
-    NSLayoutConstraint *widthOfcontentViewConstraint = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0];
-
-    [self.scrollView addConstraints:verticalContentViewConstraints];
-    [self.scrollView addConstraints:horizontalContentViewConstraints];
-    [self.view addConstraint:widthOfcontentViewConstraint];
-
-    [self.contentView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
-    [self.contentView setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
-
-    
-    // Third (3) level constraints
-    
-    NSLayoutConstraint *constraintForTopOfDoctorDropDown = [NSLayoutConstraint constraintWithItem:self.doctorDropDownTV attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1.0 constant:0];
-
-    NSLayoutConstraint *constraintForBottomOfDoctorDropDown = [NSLayoutConstraint constraintWithItem:self.doctorDropDownTV attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.monthLabel attribute:NSLayoutAttributeTop multiplier:1.0 constant:44.0];
-    
-    NSArray *verticalSubviewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_monthLabel(==44)][_dateCollectionView(==44)][_containerView(==200)]|" options:0 metrics:nil views:viewsDictionary];
-    
-    NSArray *horizontalVisitDropDownConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_visitTypeDropDown]|" options:0 metrics:nil views:viewsDictionary];
-    
-    NSArray *horizontalMonthLabelConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_monthLabel]|" options:0 metrics:nil views:viewsDictionary];
-    
-    NSArray *horizontalDateCollectionViewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_dateCollectionView]|" options:0 metrics:nil views:viewsDictionary];
-    
-    NSArray *horizontalContainerViewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_containerView]|" options:0 metrics:nil views:viewsDictionary];
-    
-    NSArray *horizontalButtonViewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:[_visitTypeDropDown]|" options:0 metrics:nil views:viewsDictionary];
-    
-    NSLayoutConstraint *constraintForWidthOfDateCollectionView = [NSLayoutConstraint constraintWithItem:self.dateCollectionView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0];
-    
-    [self.view addConstraint:constraintForTopOfDoctorDropDown];
-    [self.view addConstraint:constraintForBottomOfDoctorDropDown];
-    [self.contentView addConstraints:verticalSubviewConstraints];
-    
-    [self.contentView addConstraints:horizontalVisitDropDownConstraints];
-    [self.contentView addConstraints:horizontalDateCollectionViewConstraints];
-    [self.contentView addConstraints:horizontalMonthLabelConstraints];
-    [self.contentView addConstraints:horizontalContainerViewConstraints];
-    
-}
 
 //property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 //@property (weak, nonatomic) IBOutlet UICollectionView *dateCollectionView;
@@ -182,8 +95,6 @@ static NSString * const selectionReuseIdentifier = @"";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self baseViewSetup];
-    
     [self prepareForLaunch];
     
     [self setupDateCollectionView];
@@ -192,6 +103,15 @@ static NSString * const selectionReuseIdentifier = @"";
     //    [self setupFullAppointmentDateLabel];
     
 }
+
+
+ /* Zachary Drossman
+  * MARK: I take issue with the fact
+  * that we can only set these things
+  * up in our segue because it gets
+  * called before view did load.
+  * There has to be a better way.
+ */
 
 - (void)baseViewSetup {
     
@@ -211,6 +131,13 @@ static NSString * const selectionReuseIdentifier = @"";
     LEOListItem *doc3 = [[LEOListItem alloc] initWithName:@"Summer Cece"];
     
     self.doctorDropDownController = [[LEODropDownController alloc] initWithTableView:self.doctorDropDownTV items:@[doc1, doc2, doc3]];
+    
+    LEOListItem *visitType1 = [[LEOListItem alloc] initWithName:@"Well"];
+    LEOListItem *visitType2 = [[LEOListItem alloc] initWithName:@"Sick"];
+    LEOListItem *visitType3 = [[LEOListItem alloc] initWithName:@"Follow-up"];
+    
+    self.visitTypeDropDownController = [[LEODropDownController alloc] initWithTableView:self.visitDropDownTV items:@[visitType1, visitType2, visitType3]];
+    
     [self.view setNeedsLayout];
 }
 
@@ -282,7 +209,8 @@ static NSString * const selectionReuseIdentifier = @"";
     self.pageViewController.view.frame = pageViewRect;
     
     //MARK: Should this really be done to bring the gestures forward?
-    self.view.gestureRecognizers = self.pageViewController.gestureRecognizers;
+    //self.view.gestureRecognizers = self.pageViewController.gestureRecognizers;
+    
 }
 
 - (void)turnToPage:(NSInteger)toPage fromPage:(NSInteger )fromPage {
@@ -478,5 +406,99 @@ static NSString * const selectionReuseIdentifier = @"";
     
     return startDate;
 }
+
+
+ /* Zachary Drossman
+  * FIXME: This VFL-based autolayout below is not working as expected,
+  * but the autolayout setup on the storyboard is working just
+  * fine for now
+ */
+
+-(void)dontupdate {
+    
+    UIView *mainView = self.view;
+    
+    self.view.backgroundColor = [UIColor whiteColor];
+    self.scrollView.backgroundColor = [UIColor blackColor];
+    self.contentView.backgroundColor = [UIColor yellowColor];
+    
+    [super updateViewConstraints];
+    
+    
+    NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(_scrollView, _navBar, _contentView, _dateCollectionView, _containerView, _monthLabel, _doctorDropDownTV, mainView);
+    
+    
+    //    [self.view removeConstraints:self.view.constraints];
+    [self.scrollView removeConstraints:self.scrollView.constraints];
+    [self.contentView removeConstraints:self.contentView.constraints];
+    
+    //    self.navBar.translatesAutoresizingMaskIntoConstraints = NO;
+    //    self.contentView.translatesAutoresizingMaskIntoConstraints = NO;
+    //    self.dateCollectionView.translatesAutoresizingMaskIntoConstraints = NO;
+    //    self.containerView.translatesAutoresizingMaskIntoConstraints = NO;
+    //    self.monthLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    //    self.visitTypeDropDown.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    
+    // Top (1) level constraints
+    
+    //    NSArray *horizontalScrollViewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_scrollView]|" options:0 metrics:nil views:viewsDictionary];
+    //
+    //    NSArray *horizontalNavBarConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_navBar]|" options:0 metrics:nil views:viewsDictionary];
+    //
+    //    NSArray *verticalScrollViewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_navBar][_scrollView]|" options:0 metrics:nil views:viewsDictionary];
+    //
+    //
+    //    [self.view addConstraints:horizontalNavBarConstraints];
+    //    [self.view addConstraints:horizontalScrollViewConstraints];
+    //    [self.view addConstraints:verticalScrollViewConstraints];
+    
+    // Second (2) level constraints
+    
+    NSArray *verticalContentViewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_contentView]|" options:0 metrics:nil views:viewsDictionary];
+    
+    NSArray *horizontalContentViewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_contentView]|" options:0 metrics:nil views:viewsDictionary];
+    
+    NSLayoutConstraint *widthOfcontentViewConstraint = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0];
+    
+    [self.scrollView addConstraints:verticalContentViewConstraints];
+    [self.scrollView addConstraints:horizontalContentViewConstraints];
+    [self.view addConstraint:widthOfcontentViewConstraint];
+    
+    [self.contentView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
+    [self.contentView setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
+    
+    
+    // Third (3) level constraints
+    
+    NSLayoutConstraint *constraintForTopOfDoctorDropDown = [NSLayoutConstraint constraintWithItem:self.doctorDropDownTV attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1.0 constant:0];
+    
+    NSLayoutConstraint *constraintForBottomOfDoctorDropDown = [NSLayoutConstraint constraintWithItem:self.doctorDropDownTV attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.monthLabel attribute:NSLayoutAttributeTop multiplier:1.0 constant:44.0];
+    
+    NSArray *verticalSubviewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_monthLabel(==44)][_dateCollectionView(==44)][_containerView(==200)]|" options:0 metrics:nil views:viewsDictionary];
+    
+    NSArray *horizontalVisitDropDownConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_visitTypeDropDown]|" options:0 metrics:nil views:viewsDictionary];
+    
+    NSArray *horizontalMonthLabelConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_monthLabel]|" options:0 metrics:nil views:viewsDictionary];
+    
+    NSArray *horizontalDateCollectionViewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_dateCollectionView]|" options:0 metrics:nil views:viewsDictionary];
+    
+    NSArray *horizontalContainerViewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_containerView]|" options:0 metrics:nil views:viewsDictionary];
+    
+    NSArray *horizontalButtonViewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:[_visitTypeDropDown]|" options:0 metrics:nil views:viewsDictionary];
+    
+    NSLayoutConstraint *constraintForWidthOfDateCollectionView = [NSLayoutConstraint constraintWithItem:self.dateCollectionView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0];
+    
+    [self.view addConstraint:constraintForTopOfDoctorDropDown];
+    [self.view addConstraint:constraintForBottomOfDoctorDropDown];
+    [self.contentView addConstraints:verticalSubviewConstraints];
+    
+    [self.contentView addConstraints:horizontalVisitDropDownConstraints];
+    [self.contentView addConstraints:horizontalDateCollectionViewConstraints];
+    [self.contentView addConstraints:horizontalMonthLabelConstraints];
+    [self.contentView addConstraints:horizontalContainerViewConstraints];
+    
+}
+
 
 @end

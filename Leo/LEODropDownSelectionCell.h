@@ -13,4 +13,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView *checkListImageView;
 @property (weak, nonatomic) IBOutlet UILabel *optionLabel;
 
++ (UINib *)nib;
+
 @end

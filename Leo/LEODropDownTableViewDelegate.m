@@ -9,6 +9,7 @@
 #import "LEODropDownTableViewDelegate.h"
 #import "LEODropDownTableView.h"
 #import "LEOListItem.h"
+#import "LEODropDownSelectionCell.h"
 
 @interface LEODropDownTableViewDelegate ()
 
@@ -52,11 +53,8 @@
     
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     
-    [self deselectAllListItems];
-    
     if (ddTableView.expanded) {
-        cell.selected = NO;
-        
+        [self deselectAllListItems];
         LEOListItem *item = self.items[indexPath.row];
         item.selected = YES;
     }
@@ -67,16 +65,6 @@
         
         [ddTableView invalidateIntrinsicContentSize];
 
-        if (ddTableView.expanded) {
-            cell.selected = YES;
-//            for (NSInteger i = 0; i < [self.items count]; i++) {
-//                LEOListItem *listItem = self.items[i];
-//                if (listItem.selected) {
-//                    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
-//
-//                }
-//            }
-        }
     }];
     
     

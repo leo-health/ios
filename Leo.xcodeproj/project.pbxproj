@@ -61,6 +61,9 @@
 		31F0EA6B1B27430D00E4D83A /* LEODropDownSelectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31F0EA631B27430D00E4D83A /* LEODropDownSelectionCell.m */; };
 		31F0EA6C1B27430D00E4D83A /* LEODropDownSelectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 31F0EA641B27430D00E4D83A /* LEODropDownSelectionCell.xib */; };
 		31F0EA6F1B275D8F00E4D83A /* LEOAppointmentSchedulingCardVC+Layout.m in Sources */ = {isa = PBXBuildFile; fileRef = 31F0EA6E1B275D8F00E4D83A /* LEOAppointmentSchedulingCardVC+Layout.m */; };
+		31FDDE4B1B28887A0009BBC2 /* LEODropDownSelectedCell+ConfigureCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FDDE4A1B28887A0009BBC2 /* LEODropDownSelectedCell+ConfigureCell.m */; };
+		31FDDE4F1B28890C0009BBC2 /* LEODropDownSelectedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FDDE4D1B28890C0009BBC2 /* LEODropDownSelectedCell.m */; };
+		31FDDE501B28890C0009BBC2 /* LEODropDownSelectedCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 31FDDE4E1B28890C0009BBC2 /* LEODropDownSelectedCell.xib */; };
 		31FEF1511B0D070400AD14D2 /* LEOCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FEF1501B0D070400AD14D2 /* LEOCardView.m */; };
 		31FEF1571B0D09E700AD14D2 /* LEOSecondaryUserView.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FEF1561B0D09E700AD14D2 /* LEOSecondaryUserView.m */; };
 		3AB831E5475A45A2877C8D6C /* libPods-LeoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E5BC0D4370F984698F4E074 /* libPods-LeoTests.a */; };
@@ -200,6 +203,11 @@
 		31F0EA641B27430D00E4D83A /* LEODropDownSelectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LEODropDownSelectionCell.xib; sourceTree = "<group>"; };
 		31F0EA6D1B275D8F00E4D83A /* LEOAppointmentSchedulingCardVC+Layout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LEOAppointmentSchedulingCardVC+Layout.h"; sourceTree = "<group>"; };
 		31F0EA6E1B275D8F00E4D83A /* LEOAppointmentSchedulingCardVC+Layout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LEOAppointmentSchedulingCardVC+Layout.m"; sourceTree = "<group>"; };
+		31FDDE491B28887A0009BBC2 /* LEODropDownSelectedCell+ConfigureCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LEODropDownSelectedCell+ConfigureCell.h"; sourceTree = "<group>"; };
+		31FDDE4A1B28887A0009BBC2 /* LEODropDownSelectedCell+ConfigureCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LEODropDownSelectedCell+ConfigureCell.m"; sourceTree = "<group>"; };
+		31FDDE4C1B28890C0009BBC2 /* LEODropDownSelectedCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEODropDownSelectedCell.h; sourceTree = "<group>"; };
+		31FDDE4D1B28890C0009BBC2 /* LEODropDownSelectedCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEODropDownSelectedCell.m; sourceTree = "<group>"; };
+		31FDDE4E1B28890C0009BBC2 /* LEODropDownSelectedCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LEODropDownSelectedCell.xib; sourceTree = "<group>"; };
 		31FEF14F1B0D070400AD14D2 /* LEOCardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOCardView.h; sourceTree = "<group>"; };
 		31FEF1501B0D070400AD14D2 /* LEOCardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOCardView.m; sourceTree = "<group>"; };
 		31FEF1521B0D073600AD14D2 /* LEOCollapsedCard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOCollapsedCard.h; sourceTree = "<group>"; };
@@ -309,22 +317,9 @@
 		3101D6DC1B0CE0A200640C10 /* FullCards */ = {
 			isa = PBXGroup;
 			children = (
-				3182E5561B208F85004DECF8 /* TimeCollectionViewController.h */,
-				3182E5571B208F85004DECF8 /* TimeCollectionViewController.m */,
-				31ECA3331B23C39000BC1D6B /* LEOTimeCell+ConfigureCell.h */,
-				31ECA3341B23C39000BC1D6B /* LEOTimeCell+ConfigureCell.m */,
-				31D62ECD1B1D3ED500B4150A /* LEODateCell.h */,
-				31D62ECE1B1D3ED500B4150A /* LEODateCell.m */,
-				31D62ECF1B1D3ED500B4150A /* LEODateCell.xib */,
-				31D62EC21B1CBA7400B4150A /* LEOTimeCell.h */,
-				31D62EC31B1CBA7400B4150A /* LEOTimeCell.m */,
-				31D62EC41B1CBA7400B4150A /* LEOTimeCell.xib */,
 				BC472D871B0543C30081DDC3 /* LEOAppointmentSchedulingCardVC.h */,
 				BC472D881B0543C30081DDC3 /* LEOAppointmentSchedulingCardVC.m */,
-				31F0EA6D1B275D8F00E4D83A /* LEOAppointmentSchedulingCardVC+Layout.h */,
-				31F0EA6E1B275D8F00E4D83A /* LEOAppointmentSchedulingCardVC+Layout.m */,
-				31ECA3361B23C53500BC1D6B /* LEODateCell+ConfigureCell.h */,
-				31ECA3371B23C53500BC1D6B /* LEODateCell+ConfigureCell.m */,
+				31FDDE441B278FBF0009BBC2 /* AppointmentSchedulingSubviews */,
 			);
 			name = FullCards;
 			sourceTree = "<group>";
@@ -418,13 +413,39 @@
 				31F0EA5D1B27430D00E4D83A /* LEODropDownTableViewDataSource.m */,
 				31F0EA5E1B27430D00E4D83A /* LEODropDownSelectionCell+ConfigureCell.h */,
 				31F0EA5F1B27430D00E4D83A /* LEODropDownSelectionCell+ConfigureCell.m */,
+				31FDDE491B28887A0009BBC2 /* LEODropDownSelectedCell+ConfigureCell.h */,
+				31FDDE4A1B28887A0009BBC2 /* LEODropDownSelectedCell+ConfigureCell.m */,
 				31F0EA601B27430D00E4D83A /* LEOListItem.h */,
 				31F0EA611B27430D00E4D83A /* LEOListItem.m */,
+				31FDDE4C1B28890C0009BBC2 /* LEODropDownSelectedCell.h */,
+				31FDDE4D1B28890C0009BBC2 /* LEODropDownSelectedCell.m */,
+				31FDDE4E1B28890C0009BBC2 /* LEODropDownSelectedCell.xib */,
 				31F0EA621B27430D00E4D83A /* LEODropDownSelectionCell.h */,
 				31F0EA631B27430D00E4D83A /* LEODropDownSelectionCell.m */,
 				31F0EA641B27430D00E4D83A /* LEODropDownSelectionCell.xib */,
 			);
 			name = LEODropDownTableView;
+			sourceTree = "<group>";
+		};
+		31FDDE441B278FBF0009BBC2 /* AppointmentSchedulingSubviews */ = {
+			isa = PBXGroup;
+			children = (
+				3182E5561B208F85004DECF8 /* TimeCollectionViewController.h */,
+				3182E5571B208F85004DECF8 /* TimeCollectionViewController.m */,
+				31ECA3331B23C39000BC1D6B /* LEOTimeCell+ConfigureCell.h */,
+				31ECA3341B23C39000BC1D6B /* LEOTimeCell+ConfigureCell.m */,
+				31D62ECD1B1D3ED500B4150A /* LEODateCell.h */,
+				31D62ECE1B1D3ED500B4150A /* LEODateCell.m */,
+				31D62ECF1B1D3ED500B4150A /* LEODateCell.xib */,
+				31D62EC21B1CBA7400B4150A /* LEOTimeCell.h */,
+				31D62EC31B1CBA7400B4150A /* LEOTimeCell.m */,
+				31D62EC41B1CBA7400B4150A /* LEOTimeCell.xib */,
+				31F0EA6D1B275D8F00E4D83A /* LEOAppointmentSchedulingCardVC+Layout.h */,
+				31F0EA6E1B275D8F00E4D83A /* LEOAppointmentSchedulingCardVC+Layout.m */,
+				31ECA3361B23C53500BC1D6B /* LEODateCell+ConfigureCell.h */,
+				31ECA3371B23C53500BC1D6B /* LEODateCell+ConfigureCell.m */,
+			);
+			name = AppointmentSchedulingSubviews;
 			sourceTree = "<group>";
 		};
 		354D27DEC99358EDEA9677D6 /* Pods */ = {
@@ -737,6 +758,7 @@
 				BCE1EC751B00E353007C8D0B /* Images.xcassets in Resources */,
 				31D62EC61B1CBA7400B4150A /* LEOTimeCell.xib in Resources */,
 				31D62ED11B1D3ED500B4150A /* LEODateCell.xib in Resources */,
+				31FDDE501B28890C0009BBC2 /* LEODropDownSelectedCell.xib in Resources */,
 				31920A451B0A855F006309C2 /* getMessagesForConversationResponse.json in Resources */,
 				31DEDD121B23F12000C9B919 /* JunkToBeDeleted in Resources */,
 				31D20ACE1B150FF300F3351A /* leoheart.png in Resources */,
@@ -871,6 +893,7 @@
 				BC4D685A1B04C8560018DAB5 /* Role+Methods.m in Sources */,
 				3177B9DD1B191929006AE360 /* ConversationParticipant.m in Sources */,
 				BC4D683C1B03FEBD0018DAB5 /* User+Methods.m in Sources */,
+				31FDDE4B1B28887A0009BBC2 /* LEODropDownSelectedCell+ConfigureCell.m in Sources */,
 				BC4D684B1B04C7930018DAB5 /* Message+Methods.m in Sources */,
 				31FDDE681B29E3580009BBC2 /* LEOTwoButtonSecondaryOnlyCell.m in Sources */,
 				3192ACD91B0CC7C5007195F2 /* UIImage+Extensions.m in Sources */,
@@ -883,6 +906,7 @@
 				3130B48F1B068CE0006ACC80 /* ArrayDataSource.m in Sources */,
 				31D62ED01B1D3ED500B4150A /* LEODateCell.m in Sources */,
 				31F0EA691B27430D00E4D83A /* LEODropDownSelectionCell+ConfigureCell.m in Sources */,
+				31FDDE4F1B28890C0009BBC2 /* LEODropDownSelectedCell.m in Sources */,
 				BCE1EC9E1B012628007C8D0B /* UIColor+LeoColors.m in Sources */,
 				31F0EA6B1B27430D00E4D83A /* LEODropDownSelectionCell.m in Sources */,
 				319F335D1B2201F900C1C526 /* CollectionViewLayout.m in Sources */,
