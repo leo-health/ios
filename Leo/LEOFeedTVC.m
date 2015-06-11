@@ -99,7 +99,8 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     } completion:^(BOOL finished) {
         
         if ([associatedObject isKindOfClass:[Appointment class]]) {
-            LEOAppointmentSchedulingCardVC *singleAppointmentScheduleVC = [[LEOAppointmentSchedulingCardVC alloc] initWithNibName:@"LEOSingleAppointmentSchedulerCardVC" bundle:nil];
+            UIStoryboard *schedulingStoryboard = [UIStoryboard storyboardWithName:@"Scheduling" bundle:nil];
+            LEOAppointmentSchedulingCardVC *singleAppointmentScheduleVC = [schedulingStoryboard instantiateInitialViewController];
             //              self.transitionDelegate = [[LEOTransitioningDelegate alloc] init];
             //            singleAppointmentScheduleVC.transitioningDelegate = self.transitionDelegate;
             [self presentViewController:singleAppointmentScheduleVC animated:YES completion:^{

@@ -18,7 +18,6 @@
 #import "PageViewDataSource.h"
 #import "TimeCollectionViewController.h"
 #import "NSDate+Extensions.h"
-#import "LEOButtonView.h"
 #import "CollectionViewDataSource.h"
 #import "LEODateCell+ConfigureCell.h"
 #import "LEODropDownController.h"
@@ -40,7 +39,6 @@
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UICollectionView *dateCollectionView;
 @property (weak, nonatomic) IBOutlet UILabel *monthLabel;
-@property (weak, nonatomic) IBOutlet LEOButtonView *buttonView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *cancelButton;
 @property (weak, nonatomic) IBOutlet UIView *contentView;
 @property (weak, nonatomic) IBOutlet UILabel *fullAppointmentDateLabel;

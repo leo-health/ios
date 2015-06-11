@@ -8,7 +8,7 @@
 
 #import "LEOCollapsedCardScheduling.h"
 #import <NSDate+DateTools.h>
-#import "LEOSingleAppointmentSchedulerCardVC.h"
+#import "LEOAppointmentSchedulingCardVC.h"
 
 @interface LEOCollapsedCardScheduling ()
 
