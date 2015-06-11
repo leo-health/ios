@@ -12,7 +12,6 @@
 
 - (instancetype)initWithPageData:(NSArray *)pageData;
 - (UIViewController *)viewControllerAtIndex:(NSUInteger)index storyboard:(UIStoryboard *)storyboard;
-- (NSInteger)indexOfViewController:(UIViewController *)viewController;
 - (void)pageViewController:(UIPageViewController *)pageViewController flipToViewController:(UIViewController *)viewController;
 
 @end

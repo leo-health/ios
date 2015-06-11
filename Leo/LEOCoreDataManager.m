@@ -316,5 +316,23 @@
     return nil;
 }
 
+- (NSArray *)availableTimesForDate:(NSDate*)date {
+    
+    NSDate *beginningOfDay = [NSDate dateWithYear:date.year month:date.month day:date.day hour:0 minute:0 second:0];
+    
+    NSDate *endOfDay = [NSDate dateWithYear:date.year month:date.month day:date.day hour:23 minute:59 second:59];
+    
+    NSMutableArray *timesForDate = [[NSMutableArray alloc] init];
+    
+    for (NSDate *availableTime in self.availableTimes) {
+        
+        if ( ([beginningOfDay timeIntervalSince1970] < [availableTime timeIntervalSince1970]) && ( [availableTime timeIntervalSince1970] < [endOfDay timeIntervalSince1970])){
+            
+            [timesForDate addObject:availableTime];
+        }
+    }
+    
+    return timesForDate;
+}
 
 @end

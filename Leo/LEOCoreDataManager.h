@@ -26,6 +26,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSArray *users;
 
 - (void)fetchDataWithCompletion:(void (^) (void))completionBlock;
+- (NSArray *)availableTimesForDate:(NSDate*)date;
+
 + (instancetype)sharedManager;
 
 //Users

@@ -32,7 +32,7 @@
 
 
 
-#pragma mark - Page View Controller Data Source
+#pragma mark - <PageViewControllerDataSource>
 
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController {
     
@@ -115,7 +115,6 @@
     }
 
 }
-
 
 -(LEOFeedTVC *)feedViewController {
     if (!_feedViewController) {
