@@ -24,7 +24,7 @@
     self = [super init];
     
     if (self) {
-    _items = items;
+        _items = items;
         [self selectFirstItemIfNoItemAlreadySelected];
     }
     
@@ -51,8 +51,6 @@
     
     LEODropDownTableView *ddTableView = (LEODropDownTableView *)tableView;
     
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    
     if (ddTableView.expanded) {
         [self deselectAllListItems];
         LEOListItem *item = self.items[indexPath.row];
@@ -62,12 +60,8 @@
     ddTableView.expanded = !ddTableView.expanded;
     
     [self reloadSectionForTableView:tableView WithCompletion:^{
-        
         [ddTableView invalidateIntrinsicContentSize];
-
     }];
-    
-    
 }
 
 
@@ -78,10 +72,9 @@
 }
 -(void)reloadSectionForTableView:(UITableView *)tableView WithCompletion:(void (^) (void))completionBlock {
     [tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
-    
     if (completionBlock) {
         completionBlock();
     }
-
+    
 }
 @end
