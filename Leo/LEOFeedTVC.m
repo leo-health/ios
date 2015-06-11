@@ -12,7 +12,7 @@
 #import <NSDate+DateTools.h>
 
 #import "LEOCardView.h"
-#import "FeedDataSource.h"
+#import "ArrayDataSource.h"
 #import "LEOCardCell.h"
 #import "LEOCollapsedCard.h"
 
@@ -38,7 +38,7 @@
 @interface LEOFeedTVC ()
 
 @property (strong, nonatomic) LEOCoreDataManager *coreDataManager;
-@property (nonatomic, strong) FeedDataSource *cardsArrayDataSource;
+@property (nonatomic, strong) ArrayDataSource *cardsArrayDataSource;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) LEOTransitioningDelegate *transitionDelegate;
 
@@ -100,7 +100,8 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
         
         if ([associatedObject isKindOfClass:[Appointment class]]) {
             LEOSingleAppointmentSchedulerCardVC *singleAppointmentScheduleVC = [[LEOSingleAppointmentSchedulerCardVC alloc] initWithNibName:@"LEOSingleAppointmentSchedulerCardVC" bundle:nil];
-            
+            //              self.transitionDelegate = [[LEOTransitioningDelegate alloc] init];
+            //            singleAppointmentScheduleVC.transitioningDelegate = self.transitionDelegate;
             [self presentViewController:singleAppointmentScheduleVC animated:YES completion:^{
                 singleAppointmentScheduleVC.collapsedCell = self.selectedCardCell;
             }];
@@ -119,13 +120,11 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 
 #pragma mark UITableViewDataSource
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.coreDataManager.cards.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     
     LEOCollapsedCard *card = self.coreDataManager.cards[indexPath.row];
     card.delegate = self;

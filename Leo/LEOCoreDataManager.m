@@ -17,7 +17,7 @@
 #import "LEOCollapsedCardScheduling.h"
 #import "UIColor+LeoColors.h"
 #import "UIImage+Extensions.h"
-
+#import <NSDate+DateTools.h>
 @interface LEOCoreDataManager()
 
 @property (nonatomic, readwrite) NSManagedObjectContext *managedObjectContext;
@@ -258,6 +258,34 @@
 //    Card *cardSix = [[Card alloc] initWithID:@3 state:CardStateNew title:@"Recent Visit" body:@"Jacob was seen for a sore throat and cough." primaryUser:childUserThree secondaryUser:doctorUser timestamp:[NSDate date] priority:@3 activity:CardActivityVisit];
     
     self.cards = @[cardOne]; //, cardTwo, cardThree, cardFour, cardFive, cardSix, cardOne, cardTwo, cardThree, cardFour, cardFive, cardSix];
+    
+    NSDate *june15atEightAM = [NSDate dateWithYear:2015 month:6 day:15 hour:8 minute:0 second:0];
+    
+    NSDate *june15atNineAM = [NSDate dateWithYear:2015 month:6 day:15 hour:9 minute:0 second:0];
+    
+    NSDate *june15atTenAM = [NSDate dateWithYear:2015 month:6 day:15 hour:10 minute:0 second:0];
+    
+    NSDate *june15atTenThirtyAM = [NSDate dateWithYear:2015 month:6 day:15 hour:10 minute:30 second:0];
+    
+    NSDate *june15atElevenAM = [NSDate dateWithYear:2015 month:6 day:15 hour:11 minute:0 second:0];
+    
+    NSDate *june15atOnePM = [NSDate dateWithYear:2015 month:6 day:15 hour:13 minute:0 second:0];
+    
+    NSDate *june15atOneThirtyPM = [NSDate dateWithYear:2015 month:6 day:15 hour:13 minute:30 second:0];
+    
+    NSDate *june15atTwoPM = [NSDate dateWithYear:2015 month:6 day:15 hour:14 minute:0 second:0];
+    
+    NSDate *june15atTwoThirtyPM = [NSDate dateWithYear:2015 month:6 day:14 hour:30 minute:0 second:0];
+    
+    NSDate *june16atElevenAM = [NSDate dateWithYear:2015 month:6 day:16 hour:11 minute:0 second:0];
+    
+    NSDate *june16atNoon= [NSDate dateWithYear:2015 month:6 day:16 hour:12 minute:0 second:0];
+    
+    self.availableTimes = @[june15atEightAM, june15atNineAM, june15atTenAM, june15atTenThirtyAM, june15atElevenAM, june15atOnePM, june15atOneThirtyPM, june15atTwoPM, june15atTwoThirtyPM, june16atElevenAM, june16atNoon];
+
+    
+    
+    
     
     //FIXME: Safety here
     completionBlock();

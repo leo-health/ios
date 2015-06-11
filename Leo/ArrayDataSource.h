@@ -12,7 +12,7 @@
 typedef void (^TableViewCellConfigureBlock)(id cell, id item);
 
 
-@interface FeedDataSource : NSObject <UITableViewDataSource>
+@interface ArrayDataSource : NSObject <UITableViewDataSource>
 
 - (id)initWithItems:(NSArray *)items
      cellIdentifier:(NSString *)cellIdentifier

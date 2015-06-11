@@ -35,12 +35,15 @@
     Appointment *newAppointment = [NSEntityDescription insertNewObjectForEntityForName:@"Appointment" inManagedObjectContext:context];
     newAppointment.date = jsonResponse[APIParamApptDate];
     newAppointment.leoAppointmentType = jsonResponse[APIParamApptType];
+    
     LEOCoreDataManager *coreDataManager = [LEOCoreDataManager sharedManager];
+    
     newAppointment.patient = [coreDataManager objectWithObjectID:jsonResponse[APIParamPatientID] objectArray:coreDataManager.users];
     newAppointment.provider = [coreDataManager objectWithObjectID:jsonResponse[APIParamProviderID] objectArray:coreDataManager.users];
     newAppointment.bookedByUser = [coreDataManager objectWithObjectID:jsonResponse[APIParamBookedByUserID] objectArray:coreDataManager.users];
     newAppointment.familyID = jsonResponse[APIParamUserFamilyID];
     newAppointment.state = jsonResponse[APIParamState];
+    
     return newAppointment;
 
 }

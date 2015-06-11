@@ -6,9 +6,9 @@
 //  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
-#import "FeedDataSource.h"
+#import "ArrayDataSource.h"
 
-@interface FeedDataSource ()
+@interface ArrayDataSource ()
 
 @property (nonatomic, strong) NSArray *items;
 @property (nonatomic, copy) NSString *cellIdentifier;
@@ -17,7 +17,7 @@
 @end
 
 
-@implementation FeedDataSource
+@implementation ArrayDataSource
 
 - (id)init
 {
