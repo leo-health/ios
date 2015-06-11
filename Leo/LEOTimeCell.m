@@ -14,8 +14,8 @@
 
 -(void)awakeFromNib {
     
-    self.layer.borderWidth = 1;
-    self.layer.borderColor = [UIColor blackColor].CGColor;
+//    self.layer.borderWidth = 1;
+//    self.layer.borderColor = [UIColor blackColor].CGColor;
     self.timeLabel.textColor = [UIColor leoOrangeRed];
 
     [self setUnselectedFormat];
@@ -37,11 +37,13 @@
 - (void)setUnselectedFormat {
     
     self.timeLabel.font = [UIFont leoBodyBasicFont];
+    self.checkImageView.hidden = YES;
 }
 
 - (void)setSelectedFormat {
     
     self.timeLabel.font = [UIFont leoBodyBolderFont];
+    self.checkImageView.hidden = NO;
 }
 
 

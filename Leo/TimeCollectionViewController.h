@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TimeCollectionViewController : UICollectionViewController
+@interface TimeCollectionViewController : UICollectionViewController <UICollectionViewDelegateFlowLayout>
 
 @property (strong, nonatomic) NSDate *selectedDate;
 
