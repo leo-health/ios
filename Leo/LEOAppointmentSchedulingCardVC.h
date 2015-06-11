@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LEOSingleAppointmentSchedulerCardVC : UIViewController < UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIPageViewControllerDelegate>
+@interface LEOAppointmentSchedulingCardVC : UIViewController < UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIPageViewControllerDelegate>
 
 @property (strong, nonatomic) UITableViewCell *collapsedCell;
 @property (strong, nonatomic) UIPageViewController *pageViewController;

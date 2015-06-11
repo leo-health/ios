@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
-#import "LEOSingleAppointmentSchedulerCardVC.h"
+#import "LEOAppointmentSchedulingCardVC.h"
 #import "LEOCoreDataManager.h"
 #import <NSDate+DateTools.h>
 #import "LEOTimeCell.h"
@@ -21,9 +21,19 @@
 #import "LEOButtonView.h"
 #import "CollectionViewDataSource.h"
 #import "LEODateCell+ConfigureCell.h"
+#import "LEODropDownController.h"
+#import "LEODropDownTableView.h"
+#import "LEOListItem.h"
 
+#import "LEODropDownController.h"
+#import "LEODropDownSelectionCell.h"
+#import "LEODropDownTableViewDataSource.h"
+#import "LEODropDownTableViewDelegate.h"
+#import "LEODropDownSelectionCell+ConfigureCell.h"
+#import "LEOListItem.h"
+#import "LEODropDownTableView.h"
 
-@interface LEOSingleAppointmentSchedulerCardVC ()
+@interface LEOAppointmentSchedulingCardVC ()
 
 #pragma mark - IBOutlets
 
@@ -34,7 +44,10 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *cancelButton;
 @property (weak, nonatomic) IBOutlet UIView *contentView;
 @property (weak, nonatomic) IBOutlet UILabel *fullAppointmentDateLabel;
-
+@property (weak, nonatomic) IBOutlet LEODropDownTableView *visitTypeDropDown;
+@property (weak, nonatomic) IBOutlet UINavigationBar *navBar;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *layoutConstraintForDoctorDropDownBottom;
+@property (weak, nonatomic) IBOutlet LEODropDownTableView *doctorDropDown;
 
 #pragma mark - Data
 @property (strong, nonatomic) NSDate *selectedDate;
@@ -53,29 +66,131 @@
 
 @property (strong, nonatomic) TimeCollectionViewController *timeCollectionVC;
 
+@property (strong, nonatomic) LEODropDownTableViewDataSource *dropDownDataSource;
+@property (strong, nonatomic) LEODropDownTableViewDelegate *dropDownDelegate;
+
+
 @end
 
-@implementation LEOSingleAppointmentSchedulerCardVC
+@implementation LEOAppointmentSchedulingCardVC
 
 //@synthesize pageViewDataSource = _pageViewDataSource;
 
 static NSString * const dateReuseIdentifier = @"DateCell";
+static NSString * const selectionReuseIdentifier = @"";
+
+
+-(void)dontupdate {
+    
+    UIView *mainView = self.view;
+    
+    self.view.backgroundColor = [UIColor whiteColor];
+    self.scrollView.backgroundColor = [UIColor blackColor];
+    self.contentView.backgroundColor = [UIColor yellowColor];
+    
+    [super updateViewConstraints];
+    
+    
+    NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(_scrollView, _navBar, _contentView, _dateCollectionView, _containerView, _monthLabel, _doctorDropDown, mainView);
+    
+    
+//    [self.view removeConstraints:self.view.constraints];
+    [self.scrollView removeConstraints:self.scrollView.constraints];
+    [self.contentView removeConstraints:self.contentView.constraints];
+    
+//    self.navBar.translatesAutoresizingMaskIntoConstraints = NO;
+//    self.contentView.translatesAutoresizingMaskIntoConstraints = NO;
+//    self.dateCollectionView.translatesAutoresizingMaskIntoConstraints = NO;
+//    self.containerView.translatesAutoresizingMaskIntoConstraints = NO;
+//    self.monthLabel.translatesAutoresizingMaskIntoConstraints = NO;
+//    self.visitTypeDropDown.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    
+    // Top (1) level constraints
+    
+//    NSArray *horizontalScrollViewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_scrollView]|" options:0 metrics:nil views:viewsDictionary];
+//    
+//    NSArray *horizontalNavBarConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_navBar]|" options:0 metrics:nil views:viewsDictionary];
+//    
+//    NSArray *verticalScrollViewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_navBar][_scrollView]|" options:0 metrics:nil views:viewsDictionary];
+//    
+//    
+//    [self.view addConstraints:horizontalNavBarConstraints];
+//    [self.view addConstraints:horizontalScrollViewConstraints];
+//    [self.view addConstraints:verticalScrollViewConstraints];
+    
+    // Second (2) level constraints
+    
+    NSArray *verticalContentViewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_contentView]|" options:0 metrics:nil views:viewsDictionary];
+    
+    NSArray *horizontalContentViewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_contentView]|" options:0 metrics:nil views:viewsDictionary];
+    
+    NSLayoutConstraint *widthOfcontentViewConstraint = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0];
+
+    [self.scrollView addConstraints:verticalContentViewConstraints];
+    [self.scrollView addConstraints:horizontalContentViewConstraints];
+    [self.view addConstraint:widthOfcontentViewConstraint];
+
+    [self.contentView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
+    [self.contentView setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
+
+    
+    // Third (3) level constraints
+    
+    NSLayoutConstraint *constraintForTopOfDoctorDropDown = [NSLayoutConstraint constraintWithItem:self.doctorDropDown attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1.0 constant:0];
+
+    NSLayoutConstraint *constraintForBottomOfDoctorDropDown = [NSLayoutConstraint constraintWithItem:self.doctorDropDown attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.monthLabel attribute:NSLayoutAttributeTop multiplier:1.0 constant:44.0];
+    
+    NSArray *verticalSubviewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_monthLabel(==44)][_dateCollectionView(==44)][_containerView(==200)]|" options:0 metrics:nil views:viewsDictionary];
+    
+    NSArray *horizontalVisitDropDownConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_visitTypeDropDown]|" options:0 metrics:nil views:viewsDictionary];
+    
+    NSArray *horizontalMonthLabelConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_monthLabel]|" options:0 metrics:nil views:viewsDictionary];
+    
+    NSArray *horizontalDateCollectionViewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_dateCollectionView]|" options:0 metrics:nil views:viewsDictionary];
+    
+    NSArray *horizontalContainerViewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_containerView]|" options:0 metrics:nil views:viewsDictionary];
+    
+    NSArray *horizontalButtonViewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:[_visitTypeDropDown]|" options:0 metrics:nil views:viewsDictionary];
+    
+    NSLayoutConstraint *constraintForWidthOfDateCollectionView = [NSLayoutConstraint constraintWithItem:self.dateCollectionView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0];
+    
+    [self.view addConstraint:constraintForTopOfDoctorDropDown];
+    [self.view addConstraint:constraintForBottomOfDoctorDropDown];
+    [self.contentView addConstraints:verticalSubviewConstraints];
+    
+    [self.contentView addConstraints:horizontalVisitDropDownConstraints];
+    [self.contentView addConstraints:horizontalDateCollectionViewConstraints];
+    [self.contentView addConstraints:horizontalMonthLabelConstraints];
+    [self.contentView addConstraints:horizontalContainerViewConstraints];
+    
+}
+
+//property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+//@property (weak, nonatomic) IBOutlet UICollectionView *dateCollectionView;
+//@property (weak, nonatomic) IBOutlet UILabel *monthLabel;
+//@property (weak, nonatomic) IBOutlet LEOButtonView *buttonView;
+//@property (weak, nonatomic) IBOutlet UIBarButtonItem *cancelButton;
+//@property (weak, nonatomic) IBOutlet UIView *contentView;
+//@property (weak, nonatomic) IBOutlet UILabel *fullAppointmentDateLabel;
+//@property (weak, nonatomic) IBOutlet LEODropDownTableView *visitTypeDropDown;
+
 
 
 #pragma mark - View Controller Lifecycle
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-    self.selectedDate = [NSDate todayAdjustedForLocalTimeZone];
-    self.coreDataManager = [LEOCoreDataManager sharedManager];
-
-
+    
+    [self baseViewSetup];
+    
+    [self prepareForLaunch];
+    
     [self setupDateCollectionView];
     [self setupMonthLabel];
     
-//    [self setupFullAppointmentDateLabel];
-
+    //    [self setupFullAppointmentDateLabel];
+    
 }
 
 - (void)baseViewSetup {
@@ -83,13 +198,21 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     self.selectedDate = [NSDate todayAdjustedForLocalTimeZone];
     self.coreDataManager = [LEOCoreDataManager sharedManager];
     self.pageViewDataSource = [[PageViewDataSource alloc] initWithItems:self.dates];
-
-    
 }
+
 -(void)viewDidAppear:(BOOL)animated {
     self.dataLoaded = YES;
 }
 
+- (void)prepareForLaunch {
+    
+    LEOListItem *doc1 = [[LEOListItem alloc] initWithName:@"Om Lala"];
+    LEOListItem *doc2 = [[LEOListItem alloc] initWithName:@"Brady Isaacs"];
+    LEOListItem *doc3 = [[LEOListItem alloc] initWithName:@"Summer Cece"];
+    
+    self.doctorDropDown = [[LEODropDownController alloc] initWithTableView:self.visitTypeDropDown items:@[doc1, doc2, doc3]];
+    [self.view setNeedsLayout];
+}
 
 
 #pragma mark - Setup, Getters, Setters
@@ -106,7 +229,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
 //- (void)setupFullAppointmentDateLabel {
 //    self.fullAppointmentDateLabel.textColor = [UIColor leoWarmHeavyGray];
 //    self.fullAppointmentDateLabel.font = [UIFont leoTitleBasicFont];
-//    
+//
 //    NSDateFormatter *fullDateFormatter = [[NSDateFormatter alloc] init];
 //    fullDateFormatter.dateFormat = @"MMMM' 'DDD','hh':'mm";
 //    self.fullAppointmentDateLabel.text = [fullDateFormatter stringFromDate:((TimeCollectionViewController *)self.pageViewController.viewControllers[0]).selectedDate];
@@ -129,7 +252,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
             [self setupMonthLabel];
             
             [self.dateCollectionView reloadItemsAtIndexPaths:@[[self indexPathForSelectedDate], indexPathForPriorSelectedDate]];
-
+            
         }
         //        [self setupFullAppointmentDateLabel];
     }
@@ -166,7 +289,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     
     TimeCollectionViewController *timeCollectionVC = [self.pageViewDataSource viewControllerAtIndex:toPage storyboard:self.storyboard];
     self.timeCollectionVC = timeCollectionVC;
-
+    
     UIPageViewControllerNavigationDirection direction;
     
     if (fromPage < toPage) {
@@ -175,7 +298,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
         direction = UIPageViewControllerNavigationDirectionReverse;
         
     }
-
+    
     [self.pageViewController setViewControllers:@[timeCollectionVC] direction:direction animated:NO completion:nil];
     
 }
@@ -231,7 +354,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     }
     
     [self.dateCollectionView reloadData];
-
+    
 }
 
 -(void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {

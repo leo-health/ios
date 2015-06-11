@@ -18,6 +18,8 @@
 #import "UIColor+LeoColors.h"
 #import "UIImage+Extensions.h"
 #import <NSDate+DateTools.h>
+#import "LEOListItem.h"
+
 @interface LEOCoreDataManager()
 
 @property (nonatomic, readwrite) NSManagedObjectContext *managedObjectContext;
@@ -297,8 +299,6 @@
     NSDate *june6atOneThirtyPM = [NSDate dateWithYear:2015 month:6 day:6 hour:13 minute:30 second:0];
     
     self.availableTimes = @[june15atEightAM, june15atNineAM, june15atTenAM, june15atTenThirtyAM, june15atElevenAM, june15atOnePM, june15atOneThirtyPM, june15atTwoPM, june15atTwoThirtyPM, june16atElevenAM, june16atNoon, june6atEightAM, june6atTenAM, june6atTenThirtyAM, june6atElevenAM];
-
-    
     
     //FIXME: Safety here
     completionBlock();

@@ -28,7 +28,7 @@
 
 #import "UIColor+LeoColors.h"
 #import "UIImage+Extensions.h"
-#import "LEOSingleAppointmentSchedulerCardVC.h"
+#import "LEOAppointmentSchedulingCardVC.h"
 #import "LEOTransitioningDelegate.h"
 
 #import "LEOTwoButtonSecondaryOnlyCell+ConfigureForCell.h"
@@ -99,7 +99,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     } completion:^(BOOL finished) {
         
         if ([associatedObject isKindOfClass:[Appointment class]]) {
-            LEOSingleAppointmentSchedulerCardVC *singleAppointmentScheduleVC = [[LEOSingleAppointmentSchedulerCardVC alloc] initWithNibName:@"LEOSingleAppointmentSchedulerCardVC" bundle:nil];
+            LEOAppointmentSchedulingCardVC *singleAppointmentScheduleVC = [[LEOAppointmentSchedulingCardVC alloc] initWithNibName:@"LEOSingleAppointmentSchedulerCardVC" bundle:nil];
             //              self.transitionDelegate = [[LEOTransitioningDelegate alloc] init];
             //            singleAppointmentScheduleVC.transitioningDelegate = self.transitionDelegate;
             [self presentViewController:singleAppointmentScheduleVC animated:YES completion:^{
