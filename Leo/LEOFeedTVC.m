@@ -35,7 +35,7 @@
 #import "LEOTwoButtonPrimaryOnlyCell.h"
 #import "LEOTwoButtonSecondaryOnlyCell.h"
 
-#import "LEOPrimaryOnlyCell+ConfigureForCell.h"
+#import "LEOTwoButtonPrimaryOnlyCell+ConfigureForCell.h"
 
 @interface LEOFeedTVC ()
 
@@ -93,16 +93,19 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 
 }
 
--(void)didTapButtonOneOnCell:(LEOCollapsedCard *)card withAssociatedObject:(id)appointment {
+-(void)didTapButtonOneOnCard:(LEOCollapsedCard *)card withAssociatedObject:(id)associatedObject {
     
     [UIView animateWithDuration:0.2 animations:^{
         self.selectedCardCell.layer.transform = CATransform3DMakeRotation(M_PI_2,0.0,1.0,0.0); ; //flip halfway
     } completion:^(BOOL finished) {
-        LEOSingleAppointmentSchedulerCardVC *singleAppointmentScheduleVC = [[LEOSingleAppointmentSchedulerCardVC alloc] initWithNibName:@"LEOSingleAppointmentSchedulerCardVC" bundle:nil];
         
-        [self presentViewController:singleAppointmentScheduleVC animated:YES completion:^{
-            singleAppointmentScheduleVC.collapsedCell = self.selectedCardCell;
-        }];
+        if (associatedObject isKindOfClass:[Appointment class]) {
+            LEOSingleAppointmentSchedulerCardVC *singleAppointmentScheduleVC = [[LEOSingleAppointmentSchedulerCardVC alloc] initWithNibName:@"LEOSingleAppointmentSchedulerCardVC" bundle:nil];
+            
+            [self presentViewController:singleAppointmentScheduleVC animated:YES completion:^{
+                singleAppointmentScheduleVC.collapsedCell = self.selectedCardCell;
+            }];
+        }
     }];
 }
 

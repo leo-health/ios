@@ -20,6 +20,12 @@
 
 static void * XXContext = &XXContext;
 
+static NSString *kActionSelectorSchedule = @"schedule";
+static NSString *kActionSelectorCancel = @"cancel";
+static NSString *kActionSelectorConfirmCancelled = @"confirmCancelled";
+static NSString *kActionSelectorUnconfirmCancelled = @"unconfirmCancelled";
+static NSString *kActionSelectorDismiss = @"dismiss";
+
 - (instancetype)initWithAppointment:(Appointment *)appointment
 {
     self = [super init];
@@ -158,10 +164,10 @@ static void * XXContext = &XXContext;
     switch (self.appointment.appointmentState) {
         case AppointmentStateRecommending: {
             
-            NSString *buttonOneAction = @"schedule";
+            NSString *buttonOneAction = kActionSelectorSchedule;
             [actions addObject:buttonOneAction];
             
-            NSString *buttonTwoAction = @"cancel";
+            NSString *buttonTwoAction = kActionSelectorCancel;
             [actions addObject:buttonTwoAction];
             
             break;
@@ -169,21 +175,21 @@ static void * XXContext = &XXContext;
             
         case AppointmentStateCancelling: {
             
-            UIButton *buttonOne = [UIButton buttonWithType:UIButtonTypeCustom];
-            [buttonOne setTitle:[self stringRepresentationOfActionsAvailableForState][0] forState:UIControlStateNormal];
-            [buttonOne addTarget:self action:@selector(schedule) forControlEvents:UIControlEventTouchUpInside];
+            NSString *buttonOneAction = kActionSelectorConfirmCancelled;
+            [actions addObject:buttonOneAction];
             
-            [actions addObject:buttonOne];
-            
-            UIButton *buttonTwo = [UIButton buttonWithType:UIButtonTypeCustom];
-            [buttonTwo setTitle:[self stringRepresentationOfActionsAvailableForState][1] forState:UIControlStateNormal];
-            [buttonTwo addTarget:self action:@selector(cancel) forControlEvents:UIControlEventTouchUpInside];
-            
-            [actions addObject:buttonTwo];
+            NSString *buttonTwoAction = kActionSelectorUnconfirmCancelled;
+            [actions addObject:buttonTwoAction];
             
             break;
         }
     
+        case AppointmentStateConfirmingCancelling: {
+            
+            NSString *buttonOneAction = kActionSelectorDismiss;
+            [actions addObject:buttonOneAction];
+            
+        }
         default:
             break;
     }
@@ -194,11 +200,10 @@ static void * XXContext = &XXContext;
 - (void)schedule {
     
     //opens up a new scheduling card view, filled out with the recommended dates / times
-    
+    self.appointment.state = @(AppointmentStateBooking);
     [self.delegate didTapButtonOneOnCard:self withAssociatedObject:self.appointment];
     
 }
-
 
 - (void)cancel {
     

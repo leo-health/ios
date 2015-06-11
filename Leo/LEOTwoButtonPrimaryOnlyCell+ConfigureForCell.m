@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
-#import "LEOPrimaryOnlyCell+ConfigureForCell.h"
+#import "LEOTwoButtonPrimaryOnlyCell+ConfigureForCell.h"
 #import "LEOCollapsedCard.h"
 #import "LEOButtonView.h"
 #import "UIFont+LeoFonts.h"
