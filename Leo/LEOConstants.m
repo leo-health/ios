@@ -37,11 +37,15 @@ NSString *const APIParamUserToken = @"token";
 NSString *const APIParamPatientID = @"patient_id";
 NSString *const APIParamUserFamilyID = @"family_id";
 NSString *const APIParamUserID = @"id";
+NSString *const APIParamBookedByUserID = @"booked_by_user_id"; //FIXME: Don't know if this is the correct field name
 
 NSString *const APIParamApptDate = @"date";
 NSString *const APIParamApptStartTime = @"start_time";
 NSString *const APIParamApptDuration = @"duration";
 NSString *const APIParamApptToken = @"access_token"; //TODO: Can Danish change all tokens to match the same key?
+NSString *const APIParamApptType = @"leo_appointment_type";
+NSString *const APIParamState = @"state";
+
 
 NSString *const APIParamPracticeID = @"practice_id";
 NSString *const APIParamProviderID = @"provider_id";
@@ -53,6 +57,16 @@ NSString *const APIParamUpdatedAt = @"updated_at";
 NSString *const APIParamMessageBody = @"body";
 NSString *const APIParamMessageSenderID = @"sender_id";
 
+NSString *const APIParamCardID = @"id";
+NSString *const APIParamCardState = @"state";
+NSString *const APIParamCardTitle = @"title";
+NSString *const APIParamCardBody = @"body";
+NSString *const APIParamCardPrimaryUser = @"primaryUser";
+NSString *const APIParamCardSecondaryUser = @"secondaryUser";
+NSString *const APIParamCardPriority = @"priority";
+NSString *const APIParamCardActivity = @"type";
+NSString *const APIParamCardTimeStamp = @"timestamp";
+NSString *const APIParamAssociatedCardObject = @"associatedCardObject";
 
-
+NSString *const KeypathAppointmentState = @"state";
 @end

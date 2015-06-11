@@ -1,9 +1,9 @@
 //
 //  ConversationParticipant.h
-//  
+//  Leo
 //
-//  Created by Zachary Drossman on 5/13/15.
-//
+//  Created by Zachary Drossman on 5/29/15.
+//  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -13,10 +13,9 @@
 
 @interface ConversationParticipant : NSManagedObject
 
-@property (nonatomic, retain) NSNumber * participantID;
-@property (nonatomic, retain) NSString * participantRole;
+@property (nonatomic, retain) NSNumber * participantRole;
 @property (nonatomic, retain) NSSet *conversations;
-@property (nonatomic, retain) User *user;
+@property (nonatomic, retain) User *participant;
 @end
 
 @interface ConversationParticipant (CoreDataGeneratedAccessors)

@@ -7,6 +7,8 @@
 //
 
 #import "AppDelegate.h"
+#import "UIFont+LeoFonts.h"
+#import "UIColor+LeoColors.h"
 
 @interface AppDelegate ()
 
@@ -17,16 +19,17 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-//    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-//    
-//    self.initialViewController = [[UIViewController alloc] initWithNibName:@"LEOFeedViewController" bundle:nil];
-//    
-//    self.window.rootViewController = self.initialViewController;
-//    
-//    [self.window makeKeyAndVisible];
+    [self setupGlobalFormatting];
     
-        
     return YES;
+}
+
+- (void)setupGlobalFormatting {
+    
+    [self.window setTintColor:[UIColor leoWhite]];
+    NSDictionary *barButtonAppearanceDict = @{NSFontAttributeName : [UIFont leoBodyBolderFont], NSForegroundColorAttributeName: [UIColor leoWhite]};
+    [[UIBarButtonItem appearance] setTitleTextAttributes:barButtonAppearanceDict forState:UIControlStateNormal];
+    
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -52,3 +55,39 @@
 }
 
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

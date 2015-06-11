@@ -7,10 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "LEOCard.h"
+#import "LEOCardView.h"
 
 @interface LEOCardCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet LEOCard *cardView;
+@property (weak, nonatomic) IBOutlet LEOCardView *cardView;
+
+- (void)setupSubviews;
 
 @end

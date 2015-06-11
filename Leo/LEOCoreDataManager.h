@@ -18,11 +18,16 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, readonly) NSManagedObjectContext *managedObjectContext;
-@property (strong, nonatomic) NSArray *cards;
+@property (strong, nonatomic) NSArray *cards; //TODO: Maybe make private and method implementation to lazily instantiate somehow...
+@property (strong, nonatomic) NSArray *availableTimes;
 @property (strong, nonatomic) User *currentUser;
 @property (strong, nonatomic) NSString *userToken; //FIXME: To be moved to the .m once pulling from the keychain as it should be
 
+@property (strong, nonatomic) NSArray *users;
+
 - (void)fetchDataWithCompletion:(void (^) (void))completionBlock;
+- (NSArray *)availableTimesForDate:(NSDate*)date;
+
 + (instancetype)sharedManager;
 
 //Users
@@ -38,6 +43,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)getConversationsForCurrentUserWithCompletion:(void (^)(NSDictionary  * __nonnull rawResults))completionBlock;
 - (void)createMessage:(Message *)message forConversation:(nonnull Conversation *)conversation withCompletion:(void (^)(NSDictionary  * __nonnull rawResults))completionBlock;
 - (void)getMessagesForConversation:(Conversation *)conversation withCompletion:(void (^)(NSDictionary  * __nonnull rawResults))completionBlock;
+
+- (id)objectWithObjectID:(NSString *)objectID objectArray:(NSArray *)objects;
 
 NS_ASSUME_NONNULL_END
 @end

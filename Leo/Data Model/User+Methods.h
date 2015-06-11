@@ -10,8 +10,14 @@
 
 @interface User (Methods)
 
-+ (User * __nonnull)insertEntityWithFirstName:(nonnull NSString *)firstName lastName:(nonnull NSString *)lastName dob:(nonnull NSDate *)dob email:(nonnull NSString*)email roles:(nonnull NSSet *)roles familyID:(nullable NSNumber *)familyID managedObjectContext:(nonnull NSManagedObjectContext *)context;
++ (User * __nonnull)insertEntityWithFirstName:(nonnull NSString *)firstName lastName:(nonnull NSString *)lastName dob:(nonnull NSDate *)dob email:(nonnull NSString*)email role:(nonnull Role *)role familyID:(nullable NSString *)familyID managedObjectContext:(nonnull NSManagedObjectContext *)context;
+
++ (User * __nonnull)insertEntityWithDictionary:(nonnull NSDictionary *)jsonResponse managedObjectContext:(nonnull NSManagedObjectContext *)context;
 
 + (nonnull NSDictionary *)dictionaryFromUser:(nonnull User*)user;
+
+
+-(nullable NSString *)usernameFromID:(nonnull NSString *)id;
+-(nullable NSString *)userroleFromID:(nonnull NSString *)id;
 
 @end

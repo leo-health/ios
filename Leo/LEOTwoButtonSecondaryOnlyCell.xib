@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="LEOTwoButtonSecondaryOnlyCell" rowHeight="401" id="Z0A-fc-OCJ" userLabel="LEOTwoButtonSecondaryOnlyCell" customClass="LEOTwoButtonSecondaryOnlyCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="401"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Z0A-fc-OCJ" id="oDz-Dl-Qn3">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yI2-4Q-jFU" userLabel="Body View">
+                        <rect key="frame" x="0.0" y="15" width="320" height="370"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mqx-2Y-7C3">
+                                <rect key="frame" x="56" y="30" width="224" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="LEOTwoButtonPrimaryOnlyCell" translatesAutoresizingMaskIntoConstraints="NO" id="5Df-Lq-uWp" userLabel="Icon Image View">
+                                <rect key="frame" x="8" y="8" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="40" id="Slw-iS-K39"/>
+                                    <constraint firstAttribute="height" constant="40" id="sya-58-Gdk"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JbM-Sy-OZx">
+                                <rect key="frame" x="0.0" y="326" width="160" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="49h-Cz-ffs"/>
+                                </constraints>
+                                <state key="normal" title="Button">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7xY-da-pqy">
+                                <rect key="frame" x="160" y="326" width="160" height="44"/>
+                                <state key="normal" title="Button">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="999" verticalCompressionResistancePriority="1000" text="Body" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X5D-AV-sG6">
+                                <rect key="frame" x="56" y="67" width="224" height="259"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Uwz-vY-VM0" customClass="LEOSecondaryUserView">
+                                <rect key="frame" x="56" y="8" width="224" height="22"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="22" id="L2v-on-OAW"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="5Df-Lq-uWp" firstAttribute="top" secondItem="yI2-4Q-jFU" secondAttribute="top" constant="8" id="0kv-JZ-5so"/>
+                            <constraint firstItem="JbM-Sy-OZx" firstAttribute="leading" secondItem="yI2-4Q-jFU" secondAttribute="leading" id="1fr-9U-x11"/>
+                            <constraint firstItem="JbM-Sy-OZx" firstAttribute="top" secondItem="X5D-AV-sG6" secondAttribute="bottom" id="8e1-KT-PrX"/>
+                            <constraint firstAttribute="trailing" secondItem="7xY-da-pqy" secondAttribute="trailing" id="GI9-eM-5If"/>
+                            <constraint firstAttribute="trailing" secondItem="Uwz-vY-VM0" secondAttribute="trailing" constant="40" id="I26-Vn-MWT"/>
+                            <constraint firstItem="X5D-AV-sG6" firstAttribute="top" secondItem="Mqx-2Y-7C3" secondAttribute="bottom" constant="16" id="IF8-Hz-RzA"/>
+                            <constraint firstItem="Mqx-2Y-7C3" firstAttribute="top" secondItem="Uwz-vY-VM0" secondAttribute="bottom" id="KN8-4T-tzH"/>
+                            <constraint firstItem="5Df-Lq-uWp" firstAttribute="leading" secondItem="yI2-4Q-jFU" secondAttribute="leading" constant="8" id="Rl0-yD-BXz"/>
+                            <constraint firstItem="Mqx-2Y-7C3" firstAttribute="leading" secondItem="X5D-AV-sG6" secondAttribute="leading" id="XnZ-2l-bYW"/>
+                            <constraint firstAttribute="bottom" secondItem="7xY-da-pqy" secondAttribute="bottom" id="Y3Z-gm-uSP"/>
+                            <constraint firstAttribute="trailing" secondItem="Mqx-2Y-7C3" secondAttribute="trailing" constant="40" id="aHy-ns-AoJ"/>
+                            <constraint firstItem="Uwz-vY-VM0" firstAttribute="leading" secondItem="5Df-Lq-uWp" secondAttribute="trailing" constant="8" id="ij8-mR-Q5j"/>
+                            <constraint firstItem="JbM-Sy-OZx" firstAttribute="height" secondItem="7xY-da-pqy" secondAttribute="height" id="mHP-16-Q67"/>
+                            <constraint firstAttribute="trailing" secondItem="X5D-AV-sG6" secondAttribute="trailing" constant="40" id="pYC-qN-pVO"/>
+                            <constraint firstItem="Uwz-vY-VM0" firstAttribute="top" secondItem="5Df-Lq-uWp" secondAttribute="top" id="rYO-0M-wqh"/>
+                            <constraint firstItem="7xY-da-pqy" firstAttribute="leading" secondItem="JbM-Sy-OZx" secondAttribute="trailing" id="rdF-Pu-KMt"/>
+                            <constraint firstItem="JbM-Sy-OZx" firstAttribute="width" secondItem="7xY-da-pqy" secondAttribute="width" id="tYw-H0-Po4"/>
+                            <constraint firstItem="Uwz-vY-VM0" firstAttribute="leading" secondItem="Mqx-2Y-7C3" secondAttribute="leading" id="uRg-E1-lCl"/>
+                            <constraint firstAttribute="bottom" secondItem="JbM-Sy-OZx" secondAttribute="bottom" id="veB-bc-cYi"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="yI2-4Q-jFU" secondAttribute="bottom" constant="15" id="9Ah-AZ-d66"/>
+                    <constraint firstItem="yI2-4Q-jFU" firstAttribute="top" secondItem="oDz-Dl-Qn3" secondAttribute="top" constant="15" id="PHl-52-rC3"/>
+                    <constraint firstAttribute="trailing" secondItem="yI2-4Q-jFU" secondAttribute="trailing" id="SXr-zN-tJn"/>
+                    <constraint firstItem="yI2-4Q-jFU" firstAttribute="leading" secondItem="oDz-Dl-Qn3" secondAttribute="leading" id="z7y-R7-u4R"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="bodyLabel" destination="X5D-AV-sG6" id="skt-29-Oaa"/>
+                <outlet property="buttonOne" destination="JbM-Sy-OZx" id="Cu0-t3-LIc"/>
+                <outlet property="buttonTwo" destination="7xY-da-pqy" id="KnB-cd-R77"/>
+                <outlet property="iconImageView" destination="5Df-Lq-uWp" id="cMW-bq-A6a"/>
+                <outlet property="titleLabel" destination="Mqx-2Y-7C3" id="VGS-b1-JgY"/>
+            </connections>
+            <point key="canvasLocation" x="380" y="416.5"/>
+        </tableViewCell>
+    </objects>
+</document>
