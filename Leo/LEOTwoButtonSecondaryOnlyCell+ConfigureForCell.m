@@ -7,14 +7,14 @@
 //
 
 #import "LEOTwoButtonSecondaryOnlyCell+ConfigureForCell.h"
-#import "LEOCollapsedCard.h"
+#import "LEOCard.h"
 #import "UIFont+LeoFonts.h"
 #import "UIColor+LeoColors.h"
 #import "LEOSecondaryUserView.h"
 
 @implementation LEOTwoButtonSecondaryOnlyCell (ConfigureForCell)
 
-- (void)configureForCard:(LEOCollapsedCard *)card
+- (void)configureForCard:(LEOCard *)card
 {
     self.iconImageView.image = [card icon];
     self.titleLabel.text = [card title];

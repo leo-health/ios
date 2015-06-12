@@ -8,10 +8,10 @@
 
 #import "LEOTwoButtonPrimaryOnlyCell.h"
 
-@class LEOCollapsedCard;
+@class LEOCard;
 
 @interface LEOTwoButtonPrimaryOnlyCell (ConfigureForCell) 
 
-- (void)configureForCard:(LEOCollapsedCard *)card;
+- (void)configureForCard:(LEOCard *)card;
 
 @end

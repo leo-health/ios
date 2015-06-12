@@ -7,11 +7,11 @@
 //
 
 #import "LEOTwoButtonSecondaryOnlyCell.h"
-@class LEOCollapsedCard;
+@class LEOCard;
 
 @interface LEOTwoButtonSecondaryOnlyCell (ConfigureForCell)
 
-- (void)configureForCard:(LEOCollapsedCard *)card;
+- (void)configureForCard:(LEOCard *)card;
 
 
 @end
