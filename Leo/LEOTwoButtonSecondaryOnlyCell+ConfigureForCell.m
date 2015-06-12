@@ -10,6 +10,7 @@
 #import "LEOCollapsedCard.h"
 #import "UIFont+LeoFonts.h"
 #import "UIColor+LeoColors.h"
+#import "LEOSecondaryUserView.h"
 
 @implementation LEOTwoButtonSecondaryOnlyCell (ConfigureForCell)
 
@@ -18,7 +19,10 @@
     self.iconImageView.image = [card icon];
     self.titleLabel.text = [card title];
 
-    self.
+    self.secondaryUserView.user = card.secondaryUser;
+    self.secondaryUserView.timeStamp = card.timestamp;
+    self.secondaryUserView.cardLayout = CardLayoutTwoButtonSecondaryOnly;
+    
     self.bodyLabel.text = [card body];
     [self.buttonOne setTitle:[card stringRepresentationOfActionsAvailableForState][0] forState:UIControlStateNormal];
     [self.buttonOne addTarget:card action:NSSelectorFromString([card actionsAvailableForState][0]) forControlEvents:UIControlEventTouchUpInside];

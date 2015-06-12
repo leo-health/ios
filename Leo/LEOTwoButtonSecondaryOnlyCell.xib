@@ -52,7 +52,7 @@
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Uwz-vY-VM0" customClass="LEOSecondaryUserView">
                                 <rect key="frame" x="56" y="8" width="224" height="22"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="1" green="0.9657717415" blue="0.20286758120000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="22" id="L2v-on-OAW"/>
                                 </constraints>
@@ -62,7 +62,9 @@
                         <constraints>
                             <constraint firstItem="5Df-Lq-uWp" firstAttribute="top" secondItem="yI2-4Q-jFU" secondAttribute="top" constant="8" id="0kv-JZ-5so"/>
                             <constraint firstItem="JbM-Sy-OZx" firstAttribute="leading" secondItem="yI2-4Q-jFU" secondAttribute="leading" id="1fr-9U-x11"/>
+                            <constraint firstItem="Mqx-2Y-7C3" firstAttribute="leading" secondItem="5Df-Lq-uWp" secondAttribute="trailing" constant="8" id="3pI-yq-N3Q"/>
                             <constraint firstItem="JbM-Sy-OZx" firstAttribute="top" secondItem="X5D-AV-sG6" secondAttribute="bottom" id="8e1-KT-PrX"/>
+                            <constraint firstItem="Mqx-2Y-7C3" firstAttribute="top" secondItem="yI2-4Q-jFU" secondAttribute="top" constant="30" id="B3S-Xf-dA0"/>
                             <constraint firstAttribute="trailing" secondItem="7xY-da-pqy" secondAttribute="trailing" id="GI9-eM-5If"/>
                             <constraint firstAttribute="trailing" secondItem="Uwz-vY-VM0" secondAttribute="trailing" constant="40" id="I26-Vn-MWT"/>
                             <constraint firstItem="X5D-AV-sG6" firstAttribute="top" secondItem="Mqx-2Y-7C3" secondAttribute="bottom" constant="16" id="IF8-Hz-RzA"/>
@@ -80,6 +82,12 @@
                             <constraint firstItem="Uwz-vY-VM0" firstAttribute="leading" secondItem="Mqx-2Y-7C3" secondAttribute="leading" id="uRg-E1-lCl"/>
                             <constraint firstAttribute="bottom" secondItem="JbM-Sy-OZx" secondAttribute="bottom" id="veB-bc-cYi"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="uRg-E1-lCl"/>
+                                <exclude reference="KN8-4T-tzH"/>
+                            </mask>
+                        </variation>
                     </view>
                 </subviews>
                 <constraints>
@@ -94,6 +102,7 @@
                 <outlet property="buttonOne" destination="JbM-Sy-OZx" id="Cu0-t3-LIc"/>
                 <outlet property="buttonTwo" destination="7xY-da-pqy" id="KnB-cd-R77"/>
                 <outlet property="iconImageView" destination="5Df-Lq-uWp" id="cMW-bq-A6a"/>
+                <outlet property="secondaryUserView" destination="Uwz-vY-VM0" id="VAc-8g-0x4"/>
                 <outlet property="titleLabel" destination="Mqx-2Y-7C3" id="VGS-b1-JgY"/>
             </connections>
             <point key="canvasLocation" x="380" y="416.5"/>
