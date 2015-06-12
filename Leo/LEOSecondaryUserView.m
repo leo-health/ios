@@ -21,11 +21,9 @@
 @property (strong, nonatomic, nullable) UILabel *timestampLabel;
 @property (strong, nonatomic, nullable) UILabel *dividerLabel;
 
-@property (nonatomic) NSInteger cardFormat;
 
 @property (strong, nonatomic, nonnull) UIColor *cardTintColor; //FIXME: Likely will remove and associate with User at some stage.
-@property (strong, nonatomic) User *user;
-@property (strong, nonatomic) NSDate *timeStamp;
+
 
 @property (nonatomic) BOOL constraintsAlreadyUpdated;
 
@@ -35,10 +33,9 @@
 @implementation LEOSecondaryUserView
 
 -(void)awakeFromNib {
-    [self commonInit];
 }
 
-- (void)commonInit {
+- (void)setupSubviews {
     
     _nameLabel = [[UILabel alloc] init];
     _suffixLabel = [[UILabel alloc] init];
@@ -52,7 +49,7 @@
     self.dividerLabel.text = @"∙";
     
     
-    if (self.cardFormat == CardLayoutTwoButtonSecondaryOnly) {
+    if (self.cardLayout == CardLayoutTwoButtonSecondaryOnly) {
         self.timestampLabel.text = self.timeStamp.timeAgoSinceNow;
     } else {
         //FIXME: This only accounts for dates within the past year! And doesn't yet deal with timezones!
@@ -73,23 +70,35 @@
 
     
 }
-- (nonnull instancetype)initWithCardLayout:(CardLayout)cardFormat user:(nonnull User *)user timestamp:(nonnull NSDate *)timestamp {
+- (nonnull instancetype)initWithCardLayout:(CardLayout)cardLayout user:(nonnull User *)user timestamp:(nonnull NSDate *)timestamp {
     
     self = [super init];
     if (self) {
         
-        _cardFormat = cardFormat;
+        _cardLayout = cardLayout;
         _user = user;
         _timeStamp = timestamp;
-        
-        [self commonInit];
         
     }
     
     return self;
 }
 
+- (void)removeSubviews {
+    
+    [self.nameLabel removeFromSuperview];
+    [self.timestampLabel removeFromSuperview];
+    [self.suffixCredentialLabel removeFromSuperview];
+    [self.nameLabel removeFromSuperview];
+    [self.dividerLabel removeFromSuperview];
+}
+
 - (void)updateConstraints {
+    
+    [super updateConstraints];
+
+    [self removeFromSuperview];
+    [self setupSubviews];
     
     if (!self.constraintsAlreadyUpdated) {
         self.nameLabel.translatesAutoresizingMaskIntoConstraints = NO;
@@ -109,7 +118,7 @@
         NSDictionary *viewsDictionary = @{@"localDividerLabel":localDividerLabel, @"localNameLabel":localNameLabel, @"localTimestampLabel":localTimestampLabel, @"localSuffixCredentialLabel":localSuffixCredentialLabel, @"localSuffixLabel":localSuffixLabel};
         
         NSArray *horizontalLayoutConstraints;
-        if (self.cardFormat == CardLayoutTwoButtonSecondaryOnly) {
+        if (self.cardLayout == CardLayoutTwoButtonSecondaryOnly) {
             horizontalLayoutConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[localNameLabel][localSuffixLabel]-(4)-[localSuffixCredentialLabel]-[localDividerLabel]-[localTimestampLabel]" options:0 metrics:nil views:viewsDictionary];
         }
         else {
@@ -137,7 +146,6 @@
         self.constraintsAlreadyUpdated = YES;
     }
     
-    [super updateConstraints];
     
 }
 

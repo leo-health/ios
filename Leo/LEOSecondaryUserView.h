@@ -12,7 +12,10 @@
 
 @interface LEOSecondaryUserView : UIView
 
+@property (strong, nonatomic, nonnull) User *user;
+@property (strong, nonatomic, nullable) NSDate *timeStamp;
+@property (nonatomic) NSInteger cardLayout;
 
-- (nonnull instancetype)initWithCardLayout:(CardLayout)cardFormat user:(nonnull User *)user timestamp:(nonnull NSDate *)timestamp;
+- (nonnull instancetype)initWithCardLayout:(CardLayout)cardLayout user:(nonnull User *)user timestamp:(nonnull NSDate *)timestamp;
 
 @end
