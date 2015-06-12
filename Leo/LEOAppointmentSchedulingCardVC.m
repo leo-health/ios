@@ -76,18 +76,6 @@
 //@synthesize pageViewDataSource = _pageViewDataSource;
 
 static NSString * const dateReuseIdentifier = @"DateCell";
-
-//property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
-//@property (weak, nonatomic) IBOutlet UICollectionView *dateCollectionView;
-//@property (weak, nonatomic) IBOutlet UILabel *monthLabel;
-//@property (weak, nonatomic) IBOutlet LEOButtonView *buttonView;
-//@property (weak, nonatomic) IBOutlet UIBarButtonItem *cancelButton;
-//@property (weak, nonatomic) IBOutlet UIView *contentView;
-//@property (weak, nonatomic) IBOutlet UILabel *fullAppointmentDateLabel;
-//@property (weak, nonatomic) IBOutlet LEODropDownTableView *visitTypeDropDown;
-
-
-
 #pragma mark - View Controller Lifecycle
 
 - (void)viewDidLoad {
@@ -124,12 +112,15 @@ static NSString * const dateReuseIdentifier = @"DateCell";
 
 - (void)prepareForLaunch {
     
+    
+    //TODO: Remove these and update with data from server.
     LEOListItem *doc1 = [[LEOListItem alloc] initWithName:@"Om Lala"];
     LEOListItem *doc2 = [[LEOListItem alloc] initWithName:@"Brady Isaacs"];
     LEOListItem *doc3 = [[LEOListItem alloc] initWithName:@"Summer Cece"];
     
     self.doctorDropDownController = [[LEODropDownController alloc] initWithTableView:self.doctorDropDownTV items:@[doc1, doc2, doc3]];
     
+    //TODO: Remove these and update with data from server.
     LEOListItem *visitType1 = [[LEOListItem alloc] initWithName:@"Well"];
     LEOListItem *visitType2 = [[LEOListItem alloc] initWithName:@"Sick"];
     LEOListItem *visitType3 = [[LEOListItem alloc] initWithName:@"Follow-up"];
@@ -312,6 +303,8 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     self.tempSelectedDate = ((TimeCollectionViewController *)pendingViewControllers[0]).selectedDate;
 }
 
+
+//TODO: Separate out into multiple smaller methods.
 -(void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray *)previousViewControllers transitionCompleted:(BOOL)completed {
     
     
