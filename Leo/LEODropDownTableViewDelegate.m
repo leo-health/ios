@@ -62,6 +62,8 @@
     [self reloadSectionForTableView:tableView WithCompletion:^{
         [ddTableView invalidateIntrinsicContentSize];
     }];
+    
+    [self.delegate didChooseItemAtIndexPath:indexPath];
 }
 
 

@@ -6,10 +6,10 @@
 //  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
-#import "LEOCollapsedCard.h"
+#import "LEOCard.h"
 #import "LEOConstants.h"
 
-@implementation LEOCollapsedCard
+@implementation LEOCard
 
 #pragma mark - Initializers
 

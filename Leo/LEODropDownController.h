@@ -7,11 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "LEODropDownSelectionProtocol.h"
 
 @class LEODropDownTableView;
 
-@interface LEODropDownController : NSObject
+@interface LEODropDownController : NSObject <LEODropDownSelectionProtocol>
+
+@property (strong, nonatomic) id selectedItem;
 
 - (instancetype)initWithTableView:(LEODropDownTableView *)tableView items:(NSArray *)items;
 
-@end
+@end     

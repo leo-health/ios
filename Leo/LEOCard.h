@@ -11,7 +11,7 @@
 #import "LEOConstants.h"
 #import "CardActivityProtocol.h"
 
-@interface LEOCollapsedCard : NSObject
+@interface LEOCard : NSObject
 
 @property (strong, nonatomic, nonnull) NSNumber *id;
 @property (nonatomic) NSInteger state;

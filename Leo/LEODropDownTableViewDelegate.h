@@ -8,8 +8,12 @@
 
 #import <Foundation/Foundation.h>
 @import UIKit;
+#import "LEODropDownSelectionProtocol.h"
+
 
 @interface LEODropDownTableViewDelegate : NSObject <UITableViewDelegate>
+
+@property (weak, nonatomic) id<LEODropDownSelectionProtocol>delegate;
 
 - (instancetype)initWithItems:(NSArray *)items;
 

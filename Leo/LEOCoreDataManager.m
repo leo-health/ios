@@ -14,7 +14,7 @@
 #import "Message.h"
 #import "Role+Methods.h"
 #import "User+Methods.h"
-#import "LEOCollapsedCardScheduling.h"
+#import "LEOCardScheduling.h"
 #import "UIColor+LeoColors.h"
 #import "UIImage+Extensions.h"
 #import <NSDate+DateTools.h>
@@ -247,9 +247,9 @@
     parentUser.middleInitial = @"";
     parentUser.gender = @"female";
     
-    Appointment *appointment = [Appointment insertEntityWithDate:[NSDate dateWithTimeInterval:100000 sinceDate:[NSDate date]] duration:@30 appointmentType:@1 patient:childUserOne provider:doctorUser familyID:@"62" bookedByUser:parentUser state:@(AppointmentStateRecommending) managedObjectContext:self.managedObjectContext];
+    Appointment *appointment = [Appointment insertEntityWithDate:[NSDate dateWithYear:2015 month:6 day:15 hour:1 minute:0 second:0] duration:@30 appointmentType:@1 patient:childUserOne provider:doctorUser familyID:@"62" bookedByUser:parentUser state:@(AppointmentStateRecommending) managedObjectContext:self.managedObjectContext];
     
-    LEOCollapsedCardScheduling *cardOne = [[LEOCollapsedCardScheduling alloc] initWithID:@2 state:AppointmentStateRecommending priority:@1 associatedCardObject:appointment];
+    LEOCardScheduling *cardOne = [[LEOCardScheduling alloc] initWithID:@2 state:AppointmentStateRecommending priority:@1 associatedCardObject:appointment];
     
    //LEOCollapsedCard *cardTwo = [[LEOCollapsedCard alloc] initWithID:@2 state:CardStateNew title:@"Schedule Rachel's First Visit" body:@"Take a tour of the practice and meet with our world class physicians." primaryUser:childUserTwo secondaryUser:doctorUser timestamp:[NSDate date] priority:@2 activity:CardActivityAppointment];
   //

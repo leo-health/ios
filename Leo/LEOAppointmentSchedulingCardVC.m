@@ -14,23 +14,15 @@
 #import "ArrayDataSource.h"
 #import "LEODateCell.h"
 #import "UIColor+LeoColors.h"
-#import "UIFont+LeoFonts.h"
 #import "PageViewDataSource.h"
-#import "TimeCollectionViewController.h"
 #import "NSDate+Extensions.h"
 #import "CollectionViewDataSource.h"
 #import "LEODateCell+ConfigureCell.h"
 #import "LEODropDownController.h"
 #import "LEODropDownTableView.h"
 #import "LEOListItem.h"
+#import "LEOCardScheduling.h"
 
-#import "LEODropDownController.h"
-#import "LEODropDownSelectionCell.h"
-#import "LEODropDownTableViewDataSource.h"
-#import "LEODropDownTableViewDelegate.h"
-#import "LEODropDownSelectionCell+ConfigureCell.h"
-#import "LEOListItem.h"
-#import "LEODropDownTableView.h"
 
 @interface LEOAppointmentSchedulingCardVC ()
 
@@ -47,6 +39,7 @@
 @property (weak, nonatomic) IBOutlet LEODropDownTableView *visitDropDownTV;
 
 #pragma mark - Data
+@property (strong, nonatomic) Appointment *appointment;
 @property (strong, nonatomic) NSDate *selectedDate;
 @property (strong, nonatomic) NSDate *tempSelectedDate;
 @property (strong, nonatomic) NSArray *dates;
@@ -61,21 +54,16 @@
 @property (strong, nonatomic) PageViewDataSource *pageViewDataSource;
 
 #pragma mark - State
-@property (nonatomic) BOOL dataLoaded;
-
 @property (strong, nonatomic) TimeCollectionViewController *timeCollectionVC;
-
-@property (strong, nonatomic) LEODropDownTableViewDataSource *dropDownDataSource;
-@property (strong, nonatomic) LEODropDownTableViewDelegate *dropDownDelegate;
-
 
 @end
 
 @implementation LEOAppointmentSchedulingCardVC
 
-//@synthesize pageViewDataSource = _pageViewDataSource;
-
 static NSString * const dateReuseIdentifier = @"DateCell";
+
+
+
 #pragma mark - View Controller Lifecycle
 
 - (void)viewDidLoad {
@@ -90,28 +78,14 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     
 }
 
-
- /* Zachary Drossman
-  * MARK: I take issue with the fact
-  * that we can only set these things
-  * up in our segue because it gets
-  * called before view did load.
-  * There has to be a better way.
- */
-
-- (void)baseViewSetup {
-    
-    self.selectedDate = [NSDate todayAdjustedForLocalTimeZone];
-    self.coreDataManager = [LEOCoreDataManager sharedManager];
-    self.pageViewDataSource = [[PageViewDataSource alloc] initWithItems:self.dates];
-}
-
 -(void)viewDidAppear:(BOOL)animated {
-    self.dataLoaded = YES;
+    
+    [super viewDidAppear:animated];
+    [self goToStartingDate]; //FIXME: At some point we need to find a way for this to happen BEFORE the view appears. (Looks like in iOS8, you can't do this in viewWillAppear. Maybe a bug? But if not, we'll have to figure out another solution.)
+
 }
 
 - (void)prepareForLaunch {
-    
     
     //TODO: Remove these and update with data from server.
     LEOListItem *doc1 = [[LEOListItem alloc] initWithName:@"Om Lala"];
@@ -119,7 +93,6 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     LEOListItem *doc3 = [[LEOListItem alloc] initWithName:@"Summer Cece"];
     
     self.doctorDropDownController = [[LEODropDownController alloc] initWithTableView:self.doctorDropDownTV items:@[doc1, doc2, doc3]];
-    
     //TODO: Remove these and update with data from server.
     LEOListItem *visitType1 = [[LEOListItem alloc] initWithName:@"Well"];
     LEOListItem *visitType2 = [[LEOListItem alloc] initWithName:@"Sick"];
@@ -130,96 +103,15 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     [self.view setNeedsLayout];
 }
 
-
-#pragma mark - Setup, Getters, Setters
-
-- (void)setupMonthLabel {
-    self.monthLabel.textColor = [UIColor leoWarmHeavyGray];
-    self.monthLabel.font = [UIFont leoTitleBasicFont];
+- (void)goToStartingDate {
     
-    NSDateFormatter *monthYearFormatter = [[NSDateFormatter alloc] init];
-    monthYearFormatter.dateFormat = @"MMMM' 'YYYY";
-    self.monthLabel.text = [monthYearFormatter stringFromDate:self.selectedDate];
+    NSUInteger pageOfAppointmentDate = floor(self.indexPathOfAppointmentDate.row / 7.0);
+    
+    [self.dateCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:pageOfAppointmentDate * 7 inSection:0] atScrollPosition:UICollectionViewScrollPositionLeft animated:NO];
+    //[self.dateCollectionView selectItemAtIndexPath:self.indexPathOfAppointmentDate animated:NO scrollPosition:UICollectionViewScrollPositionNone];
 }
 
-//- (void)setupFullAppointmentDateLabel {
-//    self.fullAppointmentDateLabel.textColor = [UIColor leoWarmHeavyGray];
-//    self.fullAppointmentDateLabel.font = [UIFont leoTitleBasicFont];
-//
-//    NSDateFormatter *fullDateFormatter = [[NSDateFormatter alloc] init];
-//    fullDateFormatter.dateFormat = @"MMMM' 'DDD','hh':'mm";
-//    self.fullAppointmentDateLabel.text = [fullDateFormatter stringFromDate:((TimeCollectionViewController *)self.pageViewController.viewControllers[0]).selectedDate];
-//}
-
-
-
-
--(void)setSelectedDate:(NSDate *)selectedDate {
-    
-    if (self.dataLoaded) {
-        
-        if (_selectedDate != selectedDate) {
-            
-            NSUInteger indexForPriorSelectedDate = [_selectedDate daysFrom:[self startDate]];
-            NSIndexPath *indexPathForPriorSelectedDate = [NSIndexPath indexPathForRow:indexForPriorSelectedDate inSection:0];
-            
-            _selectedDate = selectedDate;
-            
-            [self setupMonthLabel];
-            
-            [self.dateCollectionView reloadItemsAtIndexPaths:@[[self indexPathForSelectedDate], indexPathForPriorSelectedDate]];
-            
-        }
-        //        [self setupFullAppointmentDateLabel];
-    }
-    _selectedDate = selectedDate;
-    [self setupMonthLabel];
-}
-
-
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"EmbedSegue"]) {
-        [self baseViewSetup];
-        self.pageViewController = segue.destinationViewController;
-        [self setupPageView];
-    }
-}
-
-- (void)setupPageView {
-    
-    self.pageViewController.dataSource = self.pageViewDataSource;
-    self.pageViewController.delegate = self;
-    
-    [self turnToPage:0 fromPage:0];
-    
-    // Set the page view controller's bounds using an inset rect so that self's view is visible around the edges of the pages.
-    //TODO: Override this and make it such that it fits in two or three columns on the screen *using autolayout*.
-    CGRect pageViewRect = self.containerView.bounds;
-    self.pageViewController.view.frame = pageViewRect;
-    
-    //MARK: Should this really be done to bring the gestures forward?
-    //self.view.gestureRecognizers = self.pageViewController.gestureRecognizers;
-    
-}
-
-- (void)turnToPage:(NSInteger)toPage fromPage:(NSInteger )fromPage {
-    
-    TimeCollectionViewController *timeCollectionVC = [self.pageViewDataSource viewControllerAtIndex:toPage storyboard:self.storyboard];
-    self.timeCollectionVC = timeCollectionVC;
-    
-    UIPageViewControllerNavigationDirection direction;
-    
-    if (fromPage < toPage) {
-        direction = UIPageViewControllerNavigationDirectionForward;
-    } else {
-        direction = UIPageViewControllerNavigationDirectionReverse;
-        
-    }
-    
-    [self.pageViewController setViewControllers:@[timeCollectionVC] direction:direction animated:NO completion:nil];
-    
-}
-
+#pragma mark - Lifecycle Helper Methods
 - (void)setupDateCollectionView {
     
     void (^configureCell)(LEODateCell *, NSDate*) = ^(LEODateCell* cell, NSDate* date) {
@@ -243,6 +135,98 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     
 }
 
+- (void)setupMonthLabel {
+    self.monthLabel.textColor = [UIColor leoWarmHeavyGray];
+    self.monthLabel.font = [UIFont leoTitleBasicFont];
+    
+    NSDateFormatter *monthYearFormatter = [[NSDateFormatter alloc] init];
+    monthYearFormatter.dateFormat = @"MMMM' 'YYYY";
+    self.monthLabel.text = [monthYearFormatter stringFromDate:self.appointment.date];
+}
+
+//TODO: Decide whether we're going to have this in the view, and if so, complete it.
+//- (void)setupFullAppointmentDateLabel {
+//    self.fullAppointmentDateLabel.textColor = [UIColor leoWarmHeavyGray];
+//    self.fullAppointmentDateLabel.font = [UIFont leoTitleBasicFont];
+//
+//    NSDateFormatter *fullDateFormatter = [[NSDateFormatter alloc] init];
+//    fullDateFormatter.dateFormat = @"MMMM' 'DDD','hh':'mm";
+//    self.fullAppointmentDateLabel.text = [fullDateFormatter stringFromDate:((TimeCollectionViewController *)self.pageViewController.viewControllers[0]).selectedDate];
+//}
+
+#pragma mark - Setup, Getters, Setters
+
+- (Appointment *)appointment {
+    return self.card.associatedCardObject;
+}
+
+
+
+#pragma mark - Segue and segue helper methods
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"EmbedSegue"]) {
+        [self baseViewSetup];
+        self.pageViewController = segue.destinationViewController;
+        [self setupPageView];
+    }
+}
+
+/* Zachary Drossman
+ * MARK: I take issue with the fact
+ * that we can only set these things
+ * up in our segue because it gets
+ * called before view did load.
+ * There has to be a better way.
+ */
+
+- (void)baseViewSetup {
+    
+    self.coreDataManager = [LEOCoreDataManager sharedManager];
+    self.pageViewDataSource = [[PageViewDataSource alloc] initWithItems:self.dates];
+}
+
+- (void)setupPageView {
+    
+    self.pageViewController.dataSource = self.pageViewDataSource;
+    self.pageViewController.delegate = self;
+    
+    [self turnToPage:[self indexPathOfAppointmentDate].row fromPage:0];
+    
+    // Set the page view controller's bounds using an inset rect so that self's view is visible around the edges of the pages.
+    //TODO: Override this and make it such that it fits in three columns on the screen *using autolayout*.
+    CGRect pageViewRect = self.containerView.bounds;
+    self.pageViewController.view.frame = pageViewRect;
+    
+    //MARK: Should this really be done to bring the gestures forward?
+    //self.view.gestureRecognizers = self.pageViewController.gestureRecognizers;
+    
+}
+
+- (void)turnToPage:(NSInteger)toPage fromPage:(NSInteger )fromPage {
+    
+    TimeCollectionViewController *timeCollectionVC = [self.pageViewDataSource viewControllerAtIndex:toPage storyboard:self.storyboard];
+    self.timeCollectionVC = timeCollectionVC;
+    self.timeCollectionVC.delegate = self;
+    UIPageViewControllerNavigationDirection direction;
+    
+    if (fromPage < toPage) {
+        direction = UIPageViewControllerNavigationDirectionForward;
+    } else {
+        direction = UIPageViewControllerNavigationDirectionReverse;
+        
+    }
+    
+    [self.pageViewController setViewControllers:@[timeCollectionVC] direction:direction animated:NO completion:nil];
+    
+}
+
+
+- (NSIndexPath *)indexPathOfAppointmentDate {
+    
+    NSInteger daysFromBeginningOfDateArray = [[[self appointment] date].beginningOfDay daysFrom:self.dates.firstObject] + 1;
+    return [NSIndexPath indexPathForRow:daysFromBeginningOfDateArray inSection:0];
+}
+
 #pragma mark - IBActions
 
 - (IBAction)cancelTapped:(UIBarButtonItem *)sender {
@@ -256,16 +240,14 @@ static NSString * const dateReuseIdentifier = @"DateCell";
 }
 
 
-
-
 #pragma mark - <UICollectionViewDelegate>
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
     
-    NSInteger indexForCurrentDate = [self.selectedDate daysFrom:[self startDate]];
+    NSInteger indexForCurrentDate = [self.appointment.date daysFrom:[self startDate]];
     self.selectedDate = self.dates[indexPath.row];
-    
+
     if (indexPath.row != indexForCurrentDate) {
         [self turnToPage:indexPath.row fromPage:indexForCurrentDate];
     }
@@ -278,8 +260,9 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     
     NSDate *date = self.dates[indexPath.row];
     
-    if ([date isEarlierThanOrEqualTo:self.selectedDate.endOfDay] && [date isLaterThanOrEqualTo:self.selectedDate.beginningOfDay] ) {
+    if ([date isEarlierThanOrEqualTo:[self appointment].date.endOfDay] && [date isLaterThanOrEqualTo:[self appointment].date.beginningOfDay] ) {
         cell.selected = YES;
+        [collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
     }
 }
 
@@ -310,7 +293,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     
     if (completed) {
         
-        self.selectedDate = self.tempSelectedDate;
+        self.appointment.date = self.tempSelectedDate;
         
         NSArray *visibleIndexPaths = [self.dateCollectionView indexPathsForVisibleItems];
         
@@ -354,9 +337,13 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     
 }
 
+#pragma mark - <TimeSelectionDelegate>
+-(void)didUpdateAppointmentDateTime:(NSDate *)dateTime {
+    self.appointment.date = dateTime;
+}
+
 
 #pragma mark - Helper Date Methods
-
 - (NSArray *)dates {
     
     if (!_dates || [((NSDate *)_dates.firstObject) daysFrom:[self startDate]] != 0) {
@@ -381,7 +368,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
 
 -(NSIndexPath *)indexPathForSelectedDate {
     
-    NSUInteger indexForSelectedDate = [self.selectedDate daysFrom:[self startDate]];
+    NSUInteger indexForSelectedDate = [self.appointment.date daysFrom:[self startDate]];
     NSIndexPath *indexPathForDate = [NSIndexPath indexPathForRow:indexForSelectedDate inSection:0];
     return indexPathForDate;
 }
@@ -399,97 +386,98 @@ static NSString * const dateReuseIdentifier = @"DateCell";
 }
 
 
+
  /* Zachary Drossman
   * FIXME: This VFL-based autolayout below is not working as expected,
   * but the autolayout setup on the storyboard is working just
   * fine for now
  */
 
--(void)dontupdate {
-    
-    UIView *mainView = self.view;
-    
-    self.view.backgroundColor = [UIColor whiteColor];
-    self.scrollView.backgroundColor = [UIColor blackColor];
-    self.contentView.backgroundColor = [UIColor yellowColor];
-    
-    [super updateViewConstraints];
-    
-    
-    NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(_scrollView, _navBar, _contentView, _dateCollectionView, _containerView, _monthLabel, _doctorDropDownTV, mainView);
-    
-    
-    //    [self.view removeConstraints:self.view.constraints];
-    [self.scrollView removeConstraints:self.scrollView.constraints];
-    [self.contentView removeConstraints:self.contentView.constraints];
-    
-    //    self.navBar.translatesAutoresizingMaskIntoConstraints = NO;
-    //    self.contentView.translatesAutoresizingMaskIntoConstraints = NO;
-    //    self.dateCollectionView.translatesAutoresizingMaskIntoConstraints = NO;
-    //    self.containerView.translatesAutoresizingMaskIntoConstraints = NO;
-    //    self.monthLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    //    self.visitTypeDropDown.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    
-    // Top (1) level constraints
-    
-    //    NSArray *horizontalScrollViewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_scrollView]|" options:0 metrics:nil views:viewsDictionary];
-    //
-    //    NSArray *horizontalNavBarConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_navBar]|" options:0 metrics:nil views:viewsDictionary];
-    //
-    //    NSArray *verticalScrollViewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_navBar][_scrollView]|" options:0 metrics:nil views:viewsDictionary];
-    //
-    //
-    //    [self.view addConstraints:horizontalNavBarConstraints];
-    //    [self.view addConstraints:horizontalScrollViewConstraints];
-    //    [self.view addConstraints:verticalScrollViewConstraints];
-    
-    // Second (2) level constraints
-    
-    NSArray *verticalContentViewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_contentView]|" options:0 metrics:nil views:viewsDictionary];
-    
-    NSArray *horizontalContentViewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_contentView]|" options:0 metrics:nil views:viewsDictionary];
-    
-    NSLayoutConstraint *widthOfcontentViewConstraint = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0];
-    
-    [self.scrollView addConstraints:verticalContentViewConstraints];
-    [self.scrollView addConstraints:horizontalContentViewConstraints];
-    [self.view addConstraint:widthOfcontentViewConstraint];
-    
-    [self.contentView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
-    [self.contentView setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
-    
-    
-    // Third (3) level constraints
-    
-    NSLayoutConstraint *constraintForTopOfDoctorDropDown = [NSLayoutConstraint constraintWithItem:self.doctorDropDownTV attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1.0 constant:0];
-    
-    NSLayoutConstraint *constraintForBottomOfDoctorDropDown = [NSLayoutConstraint constraintWithItem:self.doctorDropDownTV attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.monthLabel attribute:NSLayoutAttributeTop multiplier:1.0 constant:44.0];
-    
-    NSArray *verticalSubviewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_monthLabel(==44)][_dateCollectionView(==44)][_containerView(==200)]|" options:0 metrics:nil views:viewsDictionary];
-    
-    NSArray *horizontalVisitDropDownConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_visitTypeDropDown]|" options:0 metrics:nil views:viewsDictionary];
-    
-    NSArray *horizontalMonthLabelConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_monthLabel]|" options:0 metrics:nil views:viewsDictionary];
-    
-    NSArray *horizontalDateCollectionViewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_dateCollectionView]|" options:0 metrics:nil views:viewsDictionary];
-    
-    NSArray *horizontalContainerViewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_containerView]|" options:0 metrics:nil views:viewsDictionary];
-    
-    NSArray *horizontalButtonViewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:[_visitTypeDropDown]|" options:0 metrics:nil views:viewsDictionary];
-    
-    NSLayoutConstraint *constraintForWidthOfDateCollectionView = [NSLayoutConstraint constraintWithItem:self.dateCollectionView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0];
-    
-    [self.view addConstraint:constraintForTopOfDoctorDropDown];
-    [self.view addConstraint:constraintForBottomOfDoctorDropDown];
-    [self.contentView addConstraints:verticalSubviewConstraints];
-    
-    [self.contentView addConstraints:horizontalVisitDropDownConstraints];
-    [self.contentView addConstraints:horizontalDateCollectionViewConstraints];
-    [self.contentView addConstraints:horizontalMonthLabelConstraints];
-    [self.contentView addConstraints:horizontalContainerViewConstraints];
-    
-}
+//-(void)dontupdate {
+//    
+//    UIView *mainView = self.view;
+//    
+//    self.view.backgroundColor = [UIColor whiteColor];
+//    self.scrollView.backgroundColor = [UIColor blackColor];
+//    self.contentView.backgroundColor = [UIColor yellowColor];
+//    
+//    [super updateViewConstraints];
+//    
+//    
+//    NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(_scrollView, _navBar, _contentView, _dateCollectionView, _containerView, _monthLabel, _doctorDropDownTV, mainView);
+//    
+//    
+//    //    [self.view removeConstraints:self.view.constraints];
+//    [self.scrollView removeConstraints:self.scrollView.constraints];
+//    [self.contentView removeConstraints:self.contentView.constraints];
+//    
+//    //    self.navBar.translatesAutoresizingMaskIntoConstraints = NO;
+//    //    self.contentView.translatesAutoresizingMaskIntoConstraints = NO;
+//    //    self.dateCollectionView.translatesAutoresizingMaskIntoConstraints = NO;
+//    //    self.containerView.translatesAutoresizingMaskIntoConstraints = NO;
+//    //    self.monthLabel.translatesAutoresizingMaskIntoConstraints = NO;
+//    //    self.visitTypeDropDown.translatesAutoresizingMaskIntoConstraints = NO;
+//    
+//    
+//    // Top (1) level constraints
+//    
+//    //    NSArray *horizontalScrollViewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_scrollView]|" options:0 metrics:nil views:viewsDictionary];
+//    //
+//    //    NSArray *horizontalNavBarConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_navBar]|" options:0 metrics:nil views:viewsDictionary];
+//    //
+//    //    NSArray *verticalScrollViewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_navBar][_scrollView]|" options:0 metrics:nil views:viewsDictionary];
+//    //
+//    //
+//    //    [self.view addConstraints:horizontalNavBarConstraints];
+//    //    [self.view addConstraints:horizontalScrollViewConstraints];
+//    //    [self.view addConstraints:verticalScrollViewConstraints];
+//    
+//    // Second (2) level constraints
+//    
+//    NSArray *verticalContentViewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_contentView]|" options:0 metrics:nil views:viewsDictionary];
+//    
+//    NSArray *horizontalContentViewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_contentView]|" options:0 metrics:nil views:viewsDictionary];
+//    
+//    NSLayoutConstraint *widthOfcontentViewConstraint = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0];
+//    
+//    [self.scrollView addConstraints:verticalContentViewConstraints];
+//    [self.scrollView addConstraints:horizontalContentViewConstraints];
+//    [self.view addConstraint:widthOfcontentViewConstraint];
+//    
+//    [self.contentView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
+//    [self.contentView setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
+//    
+//    
+//    // Third (3) level constraints
+//    
+//    NSLayoutConstraint *constraintForTopOfDoctorDropDown = [NSLayoutConstraint constraintWithItem:self.doctorDropDownTV attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1.0 constant:0];
+//    
+//    NSLayoutConstraint *constraintForBottomOfDoctorDropDown = [NSLayoutConstraint constraintWithItem:self.doctorDropDownTV attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.monthLabel attribute:NSLayoutAttributeTop multiplier:1.0 constant:44.0];
+//    
+//    NSArray *verticalSubviewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_monthLabel(==44)][_dateCollectionView(==44)][_containerView(==200)]|" options:0 metrics:nil views:viewsDictionary];
+//    
+//    NSArray *horizontalVisitDropDownConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_visitTypeDropDown]|" options:0 metrics:nil views:viewsDictionary];
+//    
+//    NSArray *horizontalMonthLabelConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_monthLabel]|" options:0 metrics:nil views:viewsDictionary];
+//    
+//    NSArray *horizontalDateCollectionViewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_dateCollectionView]|" options:0 metrics:nil views:viewsDictionary];
+//    
+//    NSArray *horizontalContainerViewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_containerView]|" options:0 metrics:nil views:viewsDictionary];
+//    
+//    NSArray *horizontalButtonViewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:[_visitTypeDropDown]|" options:0 metrics:nil views:viewsDictionary];
+//    
+//    NSLayoutConstraint *constraintForWidthOfDateCollectionView = [NSLayoutConstraint constraintWithItem:self.dateCollectionView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0];
+//    
+//    [self.view addConstraint:constraintForTopOfDoctorDropDown];
+//    [self.view addConstraint:constraintForBottomOfDoctorDropDown];
+//    [self.contentView addConstraints:verticalSubviewConstraints];
+//    
+//    [self.contentView addConstraints:horizontalVisitDropDownConstraints];
+//    [self.contentView addConstraints:horizontalDateCollectionViewConstraints];
+//    [self.contentView addConstraints:horizontalMonthLabelConstraints];
+//    [self.contentView addConstraints:horizontalContainerViewConstraints];
+//    
+//}
 
 
 @end

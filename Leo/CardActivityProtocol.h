@@ -8,13 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
-@class LEOCollapsedCard;
+@class LEOCard;
 @class Appointment;
 
 @protocol CardActivityProtocol <NSObject>
 
-- (void) didTapButtonOneOnCard:(LEOCollapsedCard*)card withAssociatedObject:(id)appointment;
+- (void) didTapButtonOneOnCard:(LEOCard*)card withAssociatedObject:(id)appointment;
 - (void) didTapButtonTwoOnCard;
-- (void) didUpdateObjectStateForCard:(LEOCollapsedCard *)card;
+- (void) didUpdateObjectStateForCard:(LEOCard *)card;
 
 @end

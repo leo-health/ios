@@ -14,7 +14,7 @@
 #import "LEOCardView.h"
 #import "ArrayDataSource.h"
 #import "LEOCardCell.h"
-#import "LEOCollapsedCard.h"
+#import "LEOCard.h"
 
 #import "LEOConstants.h"
 #import "LEOApiClient.h"
@@ -93,7 +93,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 
 }
 
--(void)didTapButtonOneOnCard:(LEOCollapsedCard *)card withAssociatedObject:(id)associatedObject {
+-(void)didTapButtonOneOnCard:(LEOCard *)card withAssociatedObject:(id)associatedObject {
     
     [UIView animateWithDuration:0.2 animations:^{
         self.selectedCardCell.layer.transform = CATransform3DMakeRotation(M_PI_2,0.0,1.0,0.0); ; //flip halfway
@@ -102,6 +102,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
         if ([associatedObject isKindOfClass:[Appointment class]]) {
             UIStoryboard *schedulingStoryboard = [UIStoryboard storyboardWithName:@"Scheduling" bundle:nil];
             LEOAppointmentSchedulingCardVC *singleAppointmentScheduleVC = [schedulingStoryboard instantiateInitialViewController];
+            singleAppointmentScheduleVC.card = card;
             //              self.transitionDelegate = [[LEOTransitioningDelegate alloc] init];
             //            singleAppointmentScheduleVC.transitioningDelegate = self.transitionDelegate;
             [self presentViewController:singleAppointmentScheduleVC animated:YES completion:^{
@@ -111,11 +112,11 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     }];
 }
 
--(void)didTapButtonTwoOnCard:(LEOCollapsedCard *)card withAssociatedObject:(id)associatedObject {
+-(void)didTapButtonTwoOnCard:(LEOCard *)card withAssociatedObject:(id)associatedObject {
 
 }
 
--(void)didUpdateObjectStateForCard:(LEOCollapsedCard *)card {
+-(void)didUpdateObjectStateForCard:(LEOCard *)card {
     //TODO: For now this is fine, but we should be a little more elegant about it and only reload the cell for which the object state changed. We may move to a fetchedResultsController for data to handle that at some point.
     [self.tableView reloadData];
 }
@@ -128,7 +129,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    LEOCollapsedCard *card = self.coreDataManager.cards[indexPath.row];
+    LEOCard *card = self.coreDataManager.cards[indexPath.row];
     card.delegate = self;
     
     NSString *cellIdentifier;
