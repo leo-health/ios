@@ -23,6 +23,7 @@
 #import "LEOListItem.h"
 #import "LEOCardScheduling.h"
 
+#import "LEOChildDropDownTableViewController.h"
 
 @interface LEOAppointmentSchedulingCardVC ()
 
@@ -168,6 +169,10 @@ static NSString * const dateReuseIdentifier = @"DateCell";
         [self baseViewSetup];
         self.pageViewController = segue.destinationViewController;
         [self setupPageView];
+    }
+    
+    if([segue.identifier isEqualToString:@"ChildDropDownEmbedSegue"]) {
+        LEOChildDropDownTableViewController *tvc = segue.destinationViewController;
     }
 }
 

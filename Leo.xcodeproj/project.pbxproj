@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		3101D6D71B0CD9D500640C10 /* SMS-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 3101D6D61B0CD9D500640C10 /* SMS-32.png */; };
+		312980001B2CCA19000679DA /* LEOChildDropDownTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31297FFF1B2CCA19000679DA /* LEOChildDropDownTableViewController.m */; };
+		312980041B2CCA3F000679DA /* LEOChildCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 312980021B2CCA3F000679DA /* LEOChildCell.m */; };
+		312980051B2CCA3F000679DA /* LEOChildCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 312980031B2CCA3F000679DA /* LEOChildCell.xib */; };
+		312980081B2CCB22000679DA /* LEOChildCell+ConfigureForCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 312980071B2CCB22000679DA /* LEOChildCell+ConfigureForCell.m */; };
 		314F6A071B2A0D0000799AB4 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 314F6A061B2A0D0000799AB4 /* User.m */; };
 		3177B9981B17A1B7006AE360 /* LEOCardScheduling.m in Sources */ = {isa = PBXBuildFile; fileRef = 3177B9971B17A1B7006AE360 /* LEOCardScheduling.m */; };
 		3177B9D11B191928006AE360 /* Conversation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3177B9D01B191928006AE360 /* Conversation.m */; };
@@ -105,6 +109,13 @@
 		00C21EAFFFDC7EA3B95241D1 /* Pods-LeoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LeoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-LeoTests/Pods-LeoTests.release.xcconfig"; sourceTree = "<group>"; };
 		3101D6D61B0CD9D500640C10 /* SMS-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SMS-32.png"; sourceTree = "<group>"; };
 		31297FFD1B2B7624000679DA /* LEODropDownSelectionProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEODropDownSelectionProtocol.h; sourceTree = "<group>"; };
+		31297FFE1B2CCA19000679DA /* LEOChildDropDownTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOChildDropDownTableViewController.h; sourceTree = "<group>"; };
+		31297FFF1B2CCA19000679DA /* LEOChildDropDownTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOChildDropDownTableViewController.m; sourceTree = "<group>"; };
+		312980011B2CCA3F000679DA /* LEOChildCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOChildCell.h; sourceTree = "<group>"; };
+		312980021B2CCA3F000679DA /* LEOChildCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOChildCell.m; sourceTree = "<group>"; };
+		312980031B2CCA3F000679DA /* LEOChildCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LEOChildCell.xib; sourceTree = "<group>"; };
+		312980061B2CCB22000679DA /* LEOChildCell+ConfigureForCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LEOChildCell+ConfigureForCell.h"; sourceTree = "<group>"; };
+		312980071B2CCB22000679DA /* LEOChildCell+ConfigureForCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LEOChildCell+ConfigureForCell.m"; sourceTree = "<group>"; };
 		3130B48D1B068CE0006ACC80 /* ArrayDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrayDataSource.h; sourceTree = "<group>"; };
 		3130B48E1B068CE0006ACC80 /* ArrayDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrayDataSource.m; sourceTree = "<group>"; };
 		314F6A051B2A0D0000799AB4 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = User.h; path = "Data Model/User.h"; sourceTree = "<group>"; };
@@ -413,6 +424,13 @@
 				31F0EA631B27430D00E4D83A /* LEODropDownSelectionCell.m */,
 				31F0EA641B27430D00E4D83A /* LEODropDownSelectionCell.xib */,
 				31297FFD1B2B7624000679DA /* LEODropDownSelectionProtocol.h */,
+				31297FFE1B2CCA19000679DA /* LEOChildDropDownTableViewController.h */,
+				31297FFF1B2CCA19000679DA /* LEOChildDropDownTableViewController.m */,
+				312980011B2CCA3F000679DA /* LEOChildCell.h */,
+				312980021B2CCA3F000679DA /* LEOChildCell.m */,
+				312980031B2CCA3F000679DA /* LEOChildCell.xib */,
+				312980061B2CCB22000679DA /* LEOChildCell+ConfigureForCell.h */,
+				312980071B2CCB22000679DA /* LEOChildCell+ConfigureForCell.m */,
 			);
 			name = LEODropDownTableView;
 			sourceTree = "<group>";
@@ -737,6 +755,7 @@
 			files = (
 				BC472D7F1B0539240081DDC3 /* createChildUserResponse.json in Resources */,
 				BCE1EC731B00E353007C8D0B /* Main.storyboard in Resources */,
+				312980051B2CCA3F000679DA /* LEOChildCell.xib in Resources */,
 				BC472D811B0539890081DDC3 /* createAppointmentResponse.json in Resources */,
 				BC472D7C1B0523580081DDC3 /* createParentUserResponse.json in Resources */,
 				3101D6D71B0CD9D500640C10 /* SMS-32.png in Resources */,
@@ -873,6 +892,7 @@
 				31A286811B0A2DB100CBAF1A /* LEOAPIHelper.m in Sources */,
 				BCE1EC6D1B00E353007C8D0B /* AppDelegate.m in Sources */,
 				31D20B091B151C5100F3351A /* LEOPageModelController.m in Sources */,
+				312980001B2CCA19000679DA /* LEOChildDropDownTableViewController.m in Sources */,
 				BCE1EC6A1B00E353007C8D0B /* main.m in Sources */,
 				3182E55E1B20C8F5004DECF8 /* NSDate+Extensions.m in Sources */,
 				BC4D685A1B04C8560018DAB5 /* Role+Methods.m in Sources */,
@@ -889,9 +909,11 @@
 				31F0EA661B27430D00E4D83A /* LEODropDownTableView.m in Sources */,
 				31D62ED01B1D3ED500B4150A /* LEODateCell.m in Sources */,
 				31F0EA691B27430D00E4D83A /* LEODropDownSelectionCell+ConfigureCell.m in Sources */,
+				312980041B2CCA3F000679DA /* LEOChildCell.m in Sources */,
 				31FDDE4F1B28890C0009BBC2 /* LEODropDownSelectedCell.m in Sources */,
 				BCE1EC9E1B012628007C8D0B /* UIColor+LeoColors.m in Sources */,
 				31F0EA6B1B27430D00E4D83A /* LEODropDownSelectionCell.m in Sources */,
+				312980081B2CCB22000679DA /* LEOChildCell+ConfigureForCell.m in Sources */,
 				319F335D1B2201F900C1C526 /* CollectionViewLayout.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
