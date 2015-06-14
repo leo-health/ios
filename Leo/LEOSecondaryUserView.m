@@ -15,11 +15,11 @@
 
 @interface LEOSecondaryUserView ()
 
-@property (strong, nonatomic, nonnull) UILabel *nameLabel;
-@property (strong, nonatomic, nullable) UILabel *suffixLabel;
-@property (strong, nonatomic, nullable) UILabel *suffixCredentialLabel;
-@property (strong, nonatomic, nullable) UILabel *timestampLabel;
-@property (strong, nonatomic, nullable) UILabel *dividerLabel;
+@property (weak, nonatomic, nonnull)  UILabel *nameLabel;
+@property (weak, nonatomic, nullable) UILabel *suffixLabel;
+@property (weak, nonatomic, nullable) UILabel *suffixCredentialLabel;
+@property (weak, nonatomic, nullable) UILabel *timestampLabel;
+@property (weak, nonatomic, nullable) UILabel *dividerLabel;
 
 
 @property (strong, nonatomic, nonnull) UIColor *cardTintColor; //FIXME: Likely will remove and associate with User at some stage.
@@ -33,21 +33,31 @@
 @implementation LEOSecondaryUserView
 
 -(void)awakeFromNib {
+    UILabel *nameLabelStrong = [[UILabel alloc] init];
+    _nameLabel = nameLabelStrong;
+    UILabel *suffixLabelStrong = [[UILabel alloc] init];
+    _suffixLabel = suffixLabelStrong;
+    UILabel *suffixCredentialLabel = [[UILabel alloc] init];
+    _suffixCredentialLabel = suffixCredentialLabel;
+    UILabel *dividerLabelStrong = [[UILabel alloc] init];
+    _dividerLabel = dividerLabelStrong;
+    UILabel *timestampLabelStrong = [[UILabel alloc] init];
+    _timestampLabel = timestampLabelStrong;
+    
+    [self addSubview:self.nameLabel];
+    [self addSubview:self.suffixLabel];
+    [self addSubview:self.dividerLabel];
+    [self addSubview:self.timestampLabel];
+    [self addSubview:self.suffixCredentialLabel];
+    
 }
 
 - (void)setupSubviews {
-    
-    _nameLabel = [[UILabel alloc] init];
-    _suffixLabel = [[UILabel alloc] init];
-    _suffixCredentialLabel = [[UILabel alloc] init];
-    _dividerLabel = [[UILabel alloc] init];
-    _timestampLabel = [[UILabel alloc] init];
     
     self.nameLabel.text = [NSString stringWithFormat:@"%@ %@ %@",self.user.title, self.user.firstName, self.user.lastName]; //FIXME: Replace with transient property on User class
     self.suffixLabel.text = self.user.suffix;
     self.suffixCredentialLabel.text = self.user.credentialSuffix;
     self.dividerLabel.text = @"∙";
-    
     
     if (self.cardLayout == CardLayoutTwoButtonSecondaryOnly) {
         self.timestampLabel.text = self.timeStamp.timeAgoSinceNow;
@@ -59,17 +69,10 @@
         
     }
     
-    [self addSubview:self.nameLabel];
-    [self addSubview:self.suffixLabel];
-    [self addSubview:self.dividerLabel];
-    [self addSubview:self.timestampLabel];
-    [self addSubview:self.suffixCredentialLabel];
-    
     [self colorView];
     [self typefaceView];
-
-    
 }
+
 - (nonnull instancetype)initWithCardLayout:(CardLayout)cardLayout user:(nonnull User *)user timestamp:(nonnull NSDate *)timestamp {
     
     self = [super init];
@@ -95,9 +98,6 @@
 
 - (void)updateConstraints {
     
-    [super updateConstraints];
-
-    [self removeFromSuperview];
     [self setupSubviews];
     
     if (!self.constraintsAlreadyUpdated) {
@@ -146,6 +146,7 @@
         self.constraintsAlreadyUpdated = YES;
     }
     
+    [super updateConstraints];
     
 }
 
