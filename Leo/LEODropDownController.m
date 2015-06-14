@@ -26,7 +26,7 @@
 
 static NSString * const selectionReuseIdentifier = @"SelectionCell";
 
-- (instancetype)initWithTableView:(LEODropDownTableView *)tableView items:(NSArray *)items selectedItem:(id)item {
+- (instancetype)initWithTableView:(LEODropDownTableView *)tableView items:(NSArray *)items {
     
     self = [super init];
 
@@ -34,7 +34,6 @@ static NSString * const selectionReuseIdentifier = @"SelectionCell";
         
         _tableView = tableView;
         _items = items;
-        _selectedItem = item;
         [self prepareForLaunch];
     }
     
@@ -59,7 +58,6 @@ static NSString * const selectionReuseIdentifier = @"SelectionCell";
     
     [self.tableView registerNib:[UINib nibWithNibName:@"LEODropDownSelectionCell" bundle:nil] forCellReuseIdentifier:selectionReuseIdentifier];
     
-    self.tableView selectRowAtIndexPath:<#(NSIndexPath *)#> animated:<#(BOOL)#> scrollPosition:<#(UITableViewScrollPosition)#>
 }
 
 -(void)didChooseItemAtIndexPath:(NSIndexPath *)indexPath {
