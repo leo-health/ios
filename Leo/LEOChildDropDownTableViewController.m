@@ -22,7 +22,7 @@ static NSString *childReuseIdentifier = @"ChildCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.tableView.allowsMultipleSelection = YES;
+    self.tableView.allowsMultipleSelection = NO; //TODO: We will allow for multiple selection in next round of work.
     self.tableView.scrollEnabled = NO;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
