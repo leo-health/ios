@@ -28,8 +28,12 @@ static NSString *childReuseIdentifier = @"ChildCell";
     self.tableView.dataSource = self;
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
-    
+    self.tableView.rowHeight = UITableViewAutomaticDimension;
+    self.tableView.estimatedRowHeight = 44;
     [self.tableView registerNib:[LEOChildCell nib] forCellReuseIdentifier:childReuseIdentifier];
+   [self reloadDataWithCompletion:^{
+       [self.tableView invalidateIntrinsicContentSize]; //FIXME: This isn't actually doing anything. Right now the size of the container view is being set in IB based on three children. This will need to change!
+   }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -37,6 +41,11 @@ static NSString *childReuseIdentifier = @"ChildCell";
     // Dispose of any resources that can be recreated.
 }
 
+- (void)reloadDataWithCompletion:( void (^) (void))completionBlock {
+    
+     [self.tableView reloadData];
+    completionBlock();
+}
 #pragma mark - Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -74,6 +83,7 @@ static NSString *childReuseIdentifier = @"ChildCell";
         cell.selected = YES;
     }
 }
+
 
 /*
 // Override to support editing the table view.

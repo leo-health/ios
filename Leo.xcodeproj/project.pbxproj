@@ -20,6 +20,7 @@
 		3177B9DD1B191929006AE360 /* ConversationParticipant.m in Sources */ = {isa = PBXBuildFile; fileRef = 3177B9DC1B191929006AE360 /* ConversationParticipant.m */; };
 		3177B9E01B191929006AE360 /* Appointment.m in Sources */ = {isa = PBXBuildFile; fileRef = 3177B9DF1B191929006AE360 /* Appointment.m */; };
 		3177B9E11B1A8CF3006AE360 /* LEOCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FEF1531B0D073600AD14D2 /* LEOCard.m */; };
+		3178BB9A1B2F14410017B72A /* ResizingContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3178BB991B2F14410017B72A /* ResizingContainerView.m */; };
 		3182E5531B208CC6004DECF8 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3182E54E1B208CC6004DECF8 /* RootViewController.m */; };
 		3182E5551B208CC6004DECF8 /* PageViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 3182E5521B208CC6004DECF8 /* PageViewDataSource.m */; };
 		3182E5581B208F85004DECF8 /* TimeCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3182E5571B208F85004DECF8 /* TimeCollectionViewController.m */; };
@@ -132,6 +133,8 @@
 		3177B9DC1B191929006AE360 /* ConversationParticipant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConversationParticipant.m; path = "Data Model/ConversationParticipant.m"; sourceTree = "<group>"; };
 		3177B9DE1B191929006AE360 /* Appointment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Appointment.h; path = "Data Model/Appointment.h"; sourceTree = "<group>"; };
 		3177B9DF1B191929006AE360 /* Appointment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Appointment.m; path = "Data Model/Appointment.m"; sourceTree = "<group>"; };
+		3178BB981B2F14410017B72A /* ResizingContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResizingContainerView.h; sourceTree = "<group>"; };
+		3178BB991B2F14410017B72A /* ResizingContainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResizingContainerView.m; sourceTree = "<group>"; };
 		3182E54D1B208CC6004DECF8 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		3182E54E1B208CC6004DECF8 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		3182E5511B208CC6004DECF8 /* PageViewDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageViewDataSource.h; sourceTree = "<group>"; };
@@ -403,6 +406,8 @@
 		31F0EA341B2630BF00E4D83A /* LEODropDownTableView */ = {
 			isa = PBXGroup;
 			children = (
+				3178BB981B2F14410017B72A /* ResizingContainerView.h */,
+				3178BB991B2F14410017B72A /* ResizingContainerView.m */,
 				31F0EA561B27430D00E4D83A /* LEODropDownController.h */,
 				31F0EA571B27430D00E4D83A /* LEODropDownController.m */,
 				31F0EA581B27430D00E4D83A /* LEODropDownTableView.h */,
@@ -911,6 +916,7 @@
 				31F0EA691B27430D00E4D83A /* LEODropDownSelectionCell+ConfigureCell.m in Sources */,
 				312980041B2CCA3F000679DA /* LEOChildCell.m in Sources */,
 				31FDDE4F1B28890C0009BBC2 /* LEODropDownSelectedCell.m in Sources */,
+				3178BB9A1B2F14410017B72A /* ResizingContainerView.m in Sources */,
 				BCE1EC9E1B012628007C8D0B /* UIColor+LeoColors.m in Sources */,
 				31F0EA6B1B27430D00E4D83A /* LEODropDownSelectionCell.m in Sources */,
 				312980081B2CCB22000679DA /* LEOChildCell+ConfigureForCell.m in Sources */,
