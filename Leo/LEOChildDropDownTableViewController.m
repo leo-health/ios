@@ -24,9 +24,12 @@ static NSString *childReuseIdentifier = @"ChildCell";
     [super viewDidLoad];
     self.tableView.allowsMultipleSelection = YES;
     self.tableView.scrollEnabled = NO;
-    
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
+    
+    [self.tableView registerNib:[LEOChildCell nib] forCellReuseIdentifier:childReuseIdentifier];
 }
 
 - (void)didReceiveMemoryWarning {

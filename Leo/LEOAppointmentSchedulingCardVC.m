@@ -173,6 +173,8 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     
     if([segue.identifier isEqualToString:@"ChildDropDownEmbedSegue"]) {
         LEOChildDropDownTableViewController *tvc = segue.destinationViewController;
+        tvc.appointment = self.appointment;
+        tvc.children = [self.coreDataManager fetchChildren];
     }
 }
 
