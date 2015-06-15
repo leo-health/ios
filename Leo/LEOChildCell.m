@@ -13,7 +13,7 @@
 @implementation LEOChildCell
 
 - (void)awakeFromNib {
-    // Initialization code
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
 }
 
 + (UINib *)nib {

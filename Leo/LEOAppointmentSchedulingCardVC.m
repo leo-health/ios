@@ -393,7 +393,6 @@ static NSString * const dateReuseIdentifier = @"DateCell";
 }
 
 
-
  /* Zachary Drossman
   * FIXME: This VFL-based autolayout below is not working as expected,
   * but the autolayout setup on the storyboard is working just
