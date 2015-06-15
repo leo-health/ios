@@ -26,11 +26,11 @@
     if (selected) {
         self.checkImageView.hidden = NO;
         self.nameLabel.textColor = [UIColor leoOrangeRed];
-        self.nameLabel.font = [UIFont leoBodyBolderFont];
+        self.nameLabel.font = [UIFont leoTitleBolderFont];
     } else {
         self.checkImageView.hidden = YES;
         self.nameLabel.textColor = [UIColor leoWarmHeavyGray];
-        self.nameLabel.font = [UIFont leoBodyBasicFont];
+        self.nameLabel.font = [UIFont leoTitleBasicFont];
     }
     
 }

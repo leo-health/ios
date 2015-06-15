@@ -16,21 +16,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="1000"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vfx-e9-3m4">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="64"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="64" id="cjf-sy-lP1"/>
-                                </constraints>
-                                <items>
-                                    <navigationItem title="Schedule A Visit" id="9q7-sb-gLb">
-                                        <barButtonItem key="rightBarButtonItem" title="X" style="plain" id="nZt-YB-Jou">
-                                            <connections>
-                                                <action selector="cancelTapped:" destination="wb1-8H-yCb" id="7PM-E9-3M5"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
                             <scrollView multipleTouchEnabled="YES" contentMode="scaleToFill" directionalLockEnabled="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AhD-2a-HRm">
                                 <rect key="frame" x="0.0" y="64" width="600" height="936"/>
                                 <subviews>
@@ -184,6 +169,21 @@
                                     <constraint firstAttribute="bottom" secondItem="hFw-Zh-mZC" secondAttribute="bottom" id="f97-X5-aLq"/>
                                 </constraints>
                             </scrollView>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vfx-e9-3m4">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="64"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="64" id="cjf-sy-lP1"/>
+                                </constraints>
+                                <items>
+                                    <navigationItem title="Schedule A Visit" id="9q7-sb-gLb">
+                                        <barButtonItem key="rightBarButtonItem" title="X" style="plain" id="nZt-YB-Jou">
+                                            <connections>
+                                                <action selector="cancelTapped:" destination="wb1-8H-yCb" id="7PM-E9-3M5"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
