@@ -55,7 +55,7 @@ static NSString *kActionSelectorDismiss = @"dismiss";
             return CardLayoutOneButtonPrimaryOnly;
             
         case AppointmentStateRecommending:
-            return CardLayoutOneButtonPrimaryOnly;
+            return CardLayoutTwoButtonSecondaryOnly;
             
         case AppointmentStateReminding:
             return CardLayoutTwoButtonSecondaryAndPrimary;
@@ -144,7 +144,7 @@ static NSString *kActionSelectorDismiss = @"dismiss";
             
             
         case AppointmentStateRecommending:
-            actionStrings = @[@"Schedule"];
+            actionStrings = @[@"Schedule",@"Cancel"];
             break;
             
             
