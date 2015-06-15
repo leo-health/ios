@@ -25,6 +25,7 @@ static NSString *kActionSelectorCancel = @"cancel";
 static NSString *kActionSelectorConfirmCancelled = @"confirmCancelled";
 static NSString *kActionSelectorUnconfirmCancelled = @"unconfirmCancelled";
 static NSString *kActionSelectorDismiss = @"dismiss";
+static NSString *kActionSelectorBook = @"book";
 
 - (instancetype)initWithAppointment:(Appointment *)appointment
 {
@@ -46,7 +47,7 @@ static NSString *kActionSelectorDismiss = @"dismiss";
     switch (self.appointment.appointmentState) {
             
         case AppointmentStateBooking:
-            return CardLayoutTwoButtonPrimaryOnly;
+            return CardLayoutUndefined;
             
         case AppointmentStateCancelling:
             return CardLayoutTwoButtonPrimaryOnly;
@@ -58,7 +59,7 @@ static NSString *kActionSelectorDismiss = @"dismiss";
             return CardLayoutTwoButtonSecondaryOnly;
             
         case AppointmentStateReminding:
-            return CardLayoutTwoButtonSecondaryAndPrimary;
+            return CardLayoutTwoButtonSecondaryOnly;
             
     }
 }
@@ -70,7 +71,7 @@ static NSString *kActionSelectorDismiss = @"dismiss";
     switch (self.appointment.appointmentState) {
             
         case AppointmentStateBooking:
-            titleText = @"Book an appointment"; //used?
+            titleText = @"Schedule A Visit"; //used?
             break;
             
         case AppointmentStateCancelling:
@@ -130,7 +131,7 @@ static NSString *kActionSelectorDismiss = @"dismiss";
     
     switch (self.appointment.appointmentState) {
         case AppointmentStateBooking:
-            actionStrings = @[@"Book",@"Cancel"];
+            actionStrings = @[@"Book"];
             break;
             
         case AppointmentStateCancelling:
@@ -162,7 +163,27 @@ static NSString *kActionSelectorDismiss = @"dismiss";
     NSMutableArray *actions = [[NSMutableArray alloc] init];
     
     switch (self.appointment.appointmentState) {
+            
+        case AppointmentStateBooking: {
+            
+            NSString *buttonOneAction = kActionSelectorBook;
+            [actions addObject:buttonOneAction];
+            
+            break;
+        }
+            
         case AppointmentStateRecommending: {
+            
+            NSString *buttonOneAction = kActionSelectorSchedule;
+            [actions addObject:buttonOneAction];
+            
+            NSString *buttonTwoAction = kActionSelectorCancel;
+            [actions addObject:buttonTwoAction];
+            
+            break;
+        }
+        
+        case AppointmentStateReminding: {
             
             NSString *buttonOneAction = kActionSelectorSchedule;
             [actions addObject:buttonOneAction];
@@ -195,6 +216,11 @@ static NSString *kActionSelectorDismiss = @"dismiss";
     }
     
     return actions;
+}
+
+- (void)book {
+    self.appointment.state = @(AppointmentStateReminding);
+    [self.delegate didTapButtonOneOnCard:self withAssociatedObject:self.appointment];
 }
 
 - (void)schedule {

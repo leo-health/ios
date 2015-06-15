@@ -67,6 +67,10 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     
 }
 
+-(void)viewWillAppear:(BOOL)animated {
+    [self.tableView reloadData];
+}
+
 - (void)tableViewSetup {
     
     self.tableView.dataSource = self;
@@ -96,13 +100,13 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 -(void)didTapButtonOneOnCard:(LEOCard *)card withAssociatedObject:(id)associatedObject {
     
     [UIView animateWithDuration:0.2 animations:^{
-        self.selectedCardCell.layer.transform = CATransform3DMakeRotation(M_PI_2,0.0,1.0,0.0); ; //flip halfway
+        //self.selectedCardCell.layer.transform = CATransform3DMakeRotation(M_PI_2,0.0,1.0,0.0); ; //flip halfway
     } completion:^(BOOL finished) {
         
         if ([associatedObject isKindOfClass:[Appointment class]]) {
             UIStoryboard *schedulingStoryboard = [UIStoryboard storyboardWithName:@"Scheduling" bundle:nil];
             LEOAppointmentSchedulingCardVC *singleAppointmentScheduleVC = [schedulingStoryboard instantiateInitialViewController];
-            singleAppointmentScheduleVC.card = card;
+            singleAppointmentScheduleVC.card = (LEOCardScheduling *)card;
             //              self.transitionDelegate = [[LEOTransitioningDelegate alloc] init];
             //            singleAppointmentScheduleVC.transitioningDelegate = self.transitionDelegate;
             [self presentViewController:singleAppointmentScheduleVC animated:YES completion:^{
