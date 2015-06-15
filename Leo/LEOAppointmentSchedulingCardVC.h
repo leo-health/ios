@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "TimeCollectionViewController.h"
+#import "LEOCardScheduling.h"
 
 @class LEOCardScheduling;
-@interface LEOAppointmentSchedulingCardVC : UIViewController < UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIPageViewControllerDelegate, TimeSelectionProtocol>
+@interface LEOAppointmentSchedulingCardVC : UIViewController < UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIPageViewControllerDelegate, TimeSelectionProtocol, CardActivityProtocol>
 
 @property (strong, nonatomic) UITableViewCell *collapsedCell;
 @property (strong, nonatomic) UIPageViewController *pageViewController;

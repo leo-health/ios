@@ -38,6 +38,7 @@
 @property (weak, nonatomic) IBOutlet UINavigationBar *navBar;
 @property (weak, nonatomic) IBOutlet LEODropDownTableView *doctorDropDownTV;
 @property (weak, nonatomic) IBOutlet LEODropDownTableView *visitDropDownTV;
+@property (weak, nonatomic) IBOutlet UIButton *bookButton;
 
 #pragma mark - Data
 @property (strong, nonatomic) Appointment *appointment;
@@ -74,6 +75,11 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     
     [self setupDateCollectionView];
     [self setupMonthLabel];
+    
+    self.card.delegate = self;
+    
+    [self.bookButton setTitle:[self.card stringRepresentationOfActionsAvailableForState][0] forState:UIControlStateNormal];
+    [self.bookButton addTarget:self.card action:NSSelectorFromString([self.card actionsAvailableForState][0]) forControlEvents:UIControlEventTouchUpInside];
     
     //    [self setupFullAppointmentDateLabel];
     
@@ -345,8 +351,21 @@ static NSString * const dateReuseIdentifier = @"DateCell";
 }
 
 #pragma mark - <TimeSelectionDelegate>
--(void)didUpdateAppointmentDateTime:(NSDate *)dateTime {
+- (void)didUpdateAppointmentDateTime:(NSDate *)dateTime {
     self.appointment.date = dateTime;
+}
+
+#pragma mark - <CardActivityDelegate>
+-(void)didTapButtonOneOnCard:(LEOCard *)card withAssociatedObject:(id)appointment {
+    
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
+        [UIView animateWithDuration:0.2 animations:^{
+           // self.collapsedCell.layer.transform = CATransform3DMakeRotation(0,0.0,1.0,0.0); ; //flip halfway
+            self.collapsedCell.selected = NO;
+        }];
+    }];
+
+    
 }
 
 
