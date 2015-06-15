@@ -7,10 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "LEOCollapsedCard.h"
+#import "LEOCard.h"
 #import "Appointment+Methods.h"
 
-@interface LEOCollapsedCardScheduling : LEOCollapsedCard
+@interface LEOCardScheduling : LEOCard
 
 
 @end

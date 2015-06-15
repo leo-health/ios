@@ -6,17 +6,17 @@
 //  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
-#import "LEOCollapsedCardScheduling.h"
+#import "LEOCardScheduling.h"
 #import <NSDate+DateTools.h>
 #import "LEOAppointmentSchedulingCardVC.h"
 
-@interface LEOCollapsedCardScheduling ()
+@interface LEOCardScheduling ()
 
 @property (strong, nonatomic) Appointment *appointment;
 
 @end
 
-@implementation LEOCollapsedCardScheduling
+@implementation LEOCardScheduling
 
 static void * XXContext = &XXContext;
 

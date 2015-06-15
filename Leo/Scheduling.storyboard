@@ -34,17 +34,23 @@
                             <scrollView multipleTouchEnabled="YES" contentMode="scaleToFill" directionalLockEnabled="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AhD-2a-HRm">
                                 <rect key="frame" x="0.0" y="64" width="600" height="936"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hFw-Zh-mZC" userLabel="Content View">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="594"/>
+                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hFw-Zh-mZC" userLabel="Content View">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="574"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="PEDIATRICIAN:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UjZ-MG-hJO" userLabel="DocLabel">
-                                                <rect key="frame" x="15" y="20" width="585" height="21"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" misplaced="YES" text="PEDIATRICIAN:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UjZ-MG-hJO" userLabel="DocLabel">
+                                                <rect key="frame" x="15" y="92" width="585" height="21"/>
                                                 <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="15"/>
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="zFT-Sm-nqn" userLabel="DoctorDropDown" customClass="LEODropDownTableView">
-                                                <rect key="frame" x="15" y="41" width="570" height="44"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="THIS APPOINTMENT IS FOR:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q6R-sV-LIq" userLabel="ChildLabel">
+                                                <rect key="frame" x="15" y="8" width="585" height="21"/>
+                                                <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="15"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="zFT-Sm-nqn" userLabel="DoctorDropDown" customClass="LEODropDownTableView">
+                                                <rect key="frame" x="15" y="113" width="570" height="44"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="44" placeholder="YES" id="Xqp-vj-jeI"/>
@@ -58,14 +64,14 @@
                                                     </tableViewCell>
                                                 </prototypes>
                                             </tableView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="VISIT TYPE:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dDn-cz-E7Y" userLabel="VisitTypeLabel">
-                                                <rect key="frame" x="15" y="93" width="585" height="21"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" misplaced="YES" text="VISIT TYPE:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dDn-cz-E7Y" userLabel="VisitTypeLabel">
+                                                <rect key="frame" x="15" y="165" width="585" height="21"/>
                                                 <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="15"/>
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="N7m-cX-OWi" userLabel="VisitTypeDropDown" customClass="LEODropDownTableView">
-                                                <rect key="frame" x="15" y="114" width="570" height="44"/>
+                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="N7m-cX-OWi" userLabel="VisitTypeDropDown" customClass="LEODropDownTableView">
+                                                <rect key="frame" x="15" y="186" width="570" height="44"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="44" placeholder="YES" id="MgP-Zq-BIf"/>
@@ -79,8 +85,8 @@
                                                     </tableViewCell>
                                                 </prototypes>
                                             </tableView>
-                                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" alwaysBounceHorizontal="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Mwn-jP-gpL" userLabel="DateCollection">
-                                                <rect key="frame" x="0.0" y="198" width="600" height="44"/>
+                                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" misplaced="YES" alwaysBounceHorizontal="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Mwn-jP-gpL" userLabel="DateCollection">
+                                                <rect key="frame" x="0.0" y="270" width="600" height="44"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="44" id="64S-QY-E8Y"/>
                                                 </constraints>
@@ -102,8 +108,8 @@
                                                     </collectionViewCell>
                                                 </cells>
                                             </collectionView>
-                                            <containerView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="7i5-GA-RGN">
-                                                <rect key="frame" x="0.0" y="242" width="600" height="300"/>
+                                            <containerView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7i5-GA-RGN">
+                                                <rect key="frame" x="0.0" y="314" width="600" height="300"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="300" id="0Fo-a7-KBk"/>
                                                 </constraints>
@@ -111,19 +117,29 @@
                                                     <segue destination="4yH-1d-aef" kind="embed" identifier="EmbedSegue" id="Cbd-rm-AeP"/>
                                                 </connections>
                                             </containerView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="1000" text="Month Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="84a-ZX-sbg">
-                                                <rect key="frame" x="0.0" y="166" width="600" height="24"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="1000" misplaced="YES" text="Month Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="84a-ZX-sbg">
+                                                <rect key="frame" x="0.0" y="238" width="600" height="24"/>
                                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="17"/>
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <view contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="iPx-tS-tjY">
-                                                <rect key="frame" x="0.0" y="550" width="600" height="44"/>
+                                            <view contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iPx-tS-tjY">
+                                                <rect key="frame" x="0.0" y="622" width="600" height="44"/>
                                                 <color key="backgroundColor" red="1" green="0.9657717415" blue="0.20286758120000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="44" id="dib-zW-aIo"/>
                                                 </constraints>
                                             </view>
+                                            <containerView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0iP-dP-axN" userLabel="ChildContainer" customClass="ResizingContainerView">
+                                                <rect key="frame" x="15" y="25" width="570" height="59"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="132" id="For-J7-1fE"/>
+                                                    <constraint firstAttribute="width" constant="345" id="nPe-Xu-uZZ"/>
+                                                </constraints>
+                                                <connections>
+                                                    <segue destination="eFH-NU-gRe" kind="embed" identifier="ChildDropDownEmbedSegue" id="mRE-gA-DXg"/>
+                                                </connections>
+                                            </containerView>
                                         </subviews>
                                         <constraints>
                                             <constraint firstItem="7i5-GA-RGN" firstAttribute="leading" secondItem="hFw-Zh-mZC" secondAttribute="leading" id="0tL-zV-C5F"/>
@@ -132,6 +148,8 @@
                                             <constraint firstAttribute="trailing" secondItem="zFT-Sm-nqn" secondAttribute="trailing" constant="15" id="A64-gp-KBE"/>
                                             <constraint firstItem="zFT-Sm-nqn" firstAttribute="top" secondItem="UjZ-MG-hJO" secondAttribute="bottom" id="CFB-lu-QUg"/>
                                             <constraint firstAttribute="trailing" secondItem="iPx-tS-tjY" secondAttribute="trailing" id="Dc0-Gb-zwg"/>
+                                            <constraint firstAttribute="trailing" secondItem="Q6R-sV-LIq" secondAttribute="trailing" id="Ek9-i5-NDI"/>
+                                            <constraint firstItem="Q6R-sV-LIq" firstAttribute="leading" secondItem="hFw-Zh-mZC" secondAttribute="leading" constant="15" id="HDr-ec-UNa"/>
                                             <constraint firstItem="84a-ZX-sbg" firstAttribute="leading" secondItem="hFw-Zh-mZC" secondAttribute="leading" id="IB3-S6-BFu"/>
                                             <constraint firstAttribute="trailing" secondItem="dDn-cz-E7Y" secondAttribute="trailing" id="Iic-Ds-kgp"/>
                                             <constraint firstItem="dDn-cz-E7Y" firstAttribute="top" secondItem="zFT-Sm-nqn" secondAttribute="bottom" constant="8" id="LL0-Km-Ycr"/>
@@ -143,15 +161,18 @@
                                             <constraint firstItem="dDn-cz-E7Y" firstAttribute="leading" secondItem="hFw-Zh-mZC" secondAttribute="leading" constant="15" id="a4I-N8-hoS"/>
                                             <constraint firstItem="iPx-tS-tjY" firstAttribute="top" secondItem="7i5-GA-RGN" secondAttribute="bottom" constant="8" id="ccS-VB-wgw"/>
                                             <constraint firstItem="7i5-GA-RGN" firstAttribute="top" secondItem="Mwn-jP-gpL" secondAttribute="bottom" id="eQW-Uu-hEU"/>
-                                            <constraint firstItem="UjZ-MG-hJO" firstAttribute="top" secondItem="hFw-Zh-mZC" secondAttribute="top" constant="20" id="ef9-gH-3OI"/>
                                             <constraint firstItem="Mwn-jP-gpL" firstAttribute="leading" secondItem="hFw-Zh-mZC" secondAttribute="leading" id="iLh-CE-JU5"/>
+                                            <constraint firstItem="0iP-dP-axN" firstAttribute="leading" secondItem="hFw-Zh-mZC" secondAttribute="leading" constant="15" id="j2o-Oe-lBc"/>
+                                            <constraint firstItem="0iP-dP-axN" firstAttribute="top" secondItem="Q6R-sV-LIq" secondAttribute="bottom" constant="8" id="kk5-Yx-dFe"/>
                                             <constraint firstAttribute="trailing" secondItem="7i5-GA-RGN" secondAttribute="trailing" id="rfU-Ie-OUJ"/>
                                             <constraint firstItem="iPx-tS-tjY" firstAttribute="leading" secondItem="hFw-Zh-mZC" secondAttribute="leading" id="sG3-MD-5QQ"/>
                                             <constraint firstItem="N7m-cX-OWi" firstAttribute="leading" secondItem="hFw-Zh-mZC" secondAttribute="leading" constant="15" id="tys-qz-cYt"/>
                                             <constraint firstAttribute="trailing" secondItem="UjZ-MG-hJO" secondAttribute="trailing" id="uYf-5r-MNm"/>
+                                            <constraint firstItem="UjZ-MG-hJO" firstAttribute="top" secondItem="0iP-dP-axN" secondAttribute="bottom" constant="8" id="xXY-lj-hfo"/>
                                             <constraint firstAttribute="trailing" secondItem="N7m-cX-OWi" secondAttribute="trailing" constant="15" id="xx2-um-8Kv"/>
                                             <constraint firstItem="Mwn-jP-gpL" firstAttribute="top" secondItem="84a-ZX-sbg" secondAttribute="bottom" constant="8" id="yDS-au-aqW"/>
                                             <constraint firstAttribute="height" priority="700" constant="500" id="yxR-aW-9cK"/>
+                                            <constraint firstItem="Q6R-sV-LIq" firstAttribute="top" secondItem="hFw-Zh-mZC" secondAttribute="top" constant="8" id="zuC-Se-rnt"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -231,6 +252,32 @@
             </objects>
             <point key="canvasLocation" x="2308" y="659"/>
         </scene>
+        <!--Child Drop Down Table View Controller-->
+        <scene sceneID="Es0-UR-oTn">
+            <objects>
+                <tableViewController id="eFH-NU-gRe" customClass="LEOChildDropDownTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="DDX-G7-NTL">
+                        <rect key="frame" x="0.0" y="0.0" width="570" height="59"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ChildCell" id="NVa-LD-37a" customClass="LEOChildCell">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="NVa-LD-37a" id="cHb-bl-bNb">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="eFH-NU-gRe" id="093-Ww-eeC"/>
+                            <outlet property="delegate" destination="eFH-NU-gRe" id="FqY-q9-yuZ"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1FT-Ti-96l" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1670" y="234.5"/>
+        </scene>
         <!--Page View Controller-->
         <scene sceneID="xUv-Ir-QgA">
             <objects>
@@ -241,6 +288,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="D9i-ku-opl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1679" y="685"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="IgB-Uf-lnw">
+            <objects>
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="n26-1u-5Gz" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="fb8-ts-T0s"/>
+                        <viewControllerLayoutGuide type="bottom" id="F7X-Bn-gym"/>
+                    </layoutGuides>
+                    <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="P4t-af-Tru">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <toolbarItems/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="inl-5c-BHt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
         </scene>
     </scenes>
 </document>

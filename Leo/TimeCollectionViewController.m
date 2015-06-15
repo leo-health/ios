@@ -60,10 +60,14 @@ static NSString * const timeReuseIdentifier = @"TimeCell";
               forCellWithReuseIdentifier:timeReuseIdentifier];
 }
 
-
+-(void)setSelectedDate:(NSDate *)selectedDate {
+    _selectedDate = selectedDate;
+    [self.collectionView reloadData];
+}
 
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    [self.delegate didUpdateAppointmentDateTime:self.times[indexPath.row]];
     self.selectedDate = self.times[indexPath.row];
 }
 
@@ -77,9 +81,18 @@ static NSString * const timeReuseIdentifier = @"TimeCell";
 }
 
 -(void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == 0) {
+    if (self.firstPass) {
+        [collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
             cell.selected = YES;
+    } else {
+        
+        if ([self.selectedDate isEqualToDate:self.times[indexPath.row]]) {
+            [collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
+            cell.selected = YES;
+        }
     }
+    
+    self.firstPass = NO;
 }
 
 @end

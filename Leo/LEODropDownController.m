@@ -20,7 +20,6 @@
 @property (strong, nonatomic) NSArray *items;
 @property (strong, nonatomic) LEODropDownTableViewDataSource *dataSource;
 @property (strong, nonatomic) LEODropDownTableViewDelegate *delegate;
-
 @end
 
 @implementation LEODropDownController
@@ -35,7 +34,6 @@ static NSString * const selectionReuseIdentifier = @"SelectionCell";
         
         _tableView = tableView;
         _items = items;
-        
         [self prepareForLaunch];
     }
     
@@ -47,9 +45,9 @@ static NSString * const selectionReuseIdentifier = @"SelectionCell";
     
     __weak LEODropDownTableView *weakTableView = self.tableView;
     
-    void (^configureCell)(LEODropDownSelectionCell *, LEOListItem *) = ^(LEODropDownSelectionCell* cell, LEOListItem *listItem) {
+    void (^configureCell)(LEODropDownSelectionCell *, id item) = ^(LEODropDownSelectionCell* cell, id item) {
         
-        [cell configureForListItem:listItem withTableView:weakTableView];
+        [cell configureForListItem:item withTableView:weakTableView];
     };
     
     self.dataSource = [[LEODropDownTableViewDataSource alloc] initWithItems:self.items cellIdentifier:selectionReuseIdentifier configureCellBlock:configureCell];
@@ -59,8 +57,10 @@ static NSString * const selectionReuseIdentifier = @"SelectionCell";
     self.tableView.dataSource = self.dataSource;
     
     [self.tableView registerNib:[UINib nibWithNibName:@"LEODropDownSelectionCell" bundle:nil] forCellReuseIdentifier:selectionReuseIdentifier];
+    }
+
+-(void)didChooseItemAtIndexPath:(NSIndexPath *)indexPath {
+    self.selectedItem = self.items[indexPath.row];
 }
-
-
 
 @end

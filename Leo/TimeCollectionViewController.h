@@ -8,8 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol TimeSelectionProtocol <NSObject>
+
+- (void)didUpdateAppointmentDateTime:(NSDate *)dateTime;
+
+@end
+
 @interface TimeCollectionViewController : UICollectionViewController <UICollectionViewDelegateFlowLayout>
 
 @property (strong, nonatomic) NSDate *selectedDate;
+@property (weak, nonatomic) id<TimeSelectionProtocol> delegate;
 
 @end
