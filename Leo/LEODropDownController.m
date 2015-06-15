@@ -57,8 +57,7 @@ static NSString * const selectionReuseIdentifier = @"SelectionCell";
     self.tableView.dataSource = self.dataSource;
     
     [self.tableView registerNib:[UINib nibWithNibName:@"LEODropDownSelectionCell" bundle:nil] forCellReuseIdentifier:selectionReuseIdentifier];
-    
-}
+    }
 
 -(void)didChooseItemAtIndexPath:(NSIndexPath *)indexPath {
     self.selectedItem = self.items[indexPath.row];

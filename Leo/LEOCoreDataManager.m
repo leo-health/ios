@@ -348,4 +348,23 @@
     return timesForDate;
 }
 
+-(NSArray *)fetchChildren {
+    
+    Role *childRole = [Role insertEntityWithName:@"child" resourceID:@"2" resourceType:@2 managedObjectContext:self.managedObjectContext];
+    
+    User *childUserOne = [User insertEntityWithFirstName:@"Zachary" lastName:@"Drossman" dob:[NSDate date] email:@"zd9@leohealth.com" role:childRole
+                                                familyID:[@([self.currentUser.familyID integerValue] + 1) stringValue]
+                                    managedObjectContext:self.managedObjectContext];
+    
+    User *childUserTwo = [User insertEntityWithFirstName:@"Rachel" lastName:@"Drossman" dob:[NSDate date] email:@"rd9@leohealth.com" role:childRole
+                                                familyID:[@([self.currentUser.familyID integerValue] + 1) stringValue]
+                                    managedObjectContext:self.managedObjectContext];
+    
+    User *childUserThree = [User insertEntityWithFirstName:@"Tracy" lastName:@"Drossman" dob:[NSDate date] email:@"td9@leohealth.com" role:childRole
+                                                  familyID:[@([self.currentUser.familyID integerValue] + 1) stringValue]
+                                      managedObjectContext:self.managedObjectContext];
+
+    return @[childUserOne, childUserTwo, childUserThree];
+}
+
 @end
