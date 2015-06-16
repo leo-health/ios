@@ -22,7 +22,7 @@
 #import "LEODropDownTableView.h"
 #import "LEOListItem.h"
 #import "LEOCardScheduling.h"
-
+#import "LEOSectionSeparator.h"
 #import "LEOChildDropDownTableViewController.h"
 
 @interface LEOAppointmentSchedulingCardVC ()
@@ -95,11 +95,16 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     self.providerLabel.textColor = [UIColor leoWarmHeavyGray];
     self.patientLabel.textColor = [UIColor leoWarmHeavyGray];
     self.appointmentTypeLabel.textColor = [UIColor leoWarmHeavyGray];
-    
+
+    [self.view layoutIfNeeded];
     //    [self setupFullAppointmentDateLabel];
     
 }
 
+-(void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    self.providerLabel.layer.frame = CGRectMake(self.providerLabel.frame.origin.x, self.providerLabel.frame.origin.y + 1.0f, self.providerLabel.frame.size.width, 1.0f);
+}
 -(void)viewDidAppear:(BOOL)animated {
     
     [super viewDidAppear:animated];
