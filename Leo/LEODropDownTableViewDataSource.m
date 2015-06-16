@@ -15,41 +15,40 @@
 @property (nonatomic, strong) NSArray *items;
 @property (nonatomic, copy) NSString *cellIdentifier;
 @property (nonatomic, copy) TableViewCellConfigureBlock configureCellBlock;
+@property (strong, nonatomic) id associatedCardObject;
 
 @end
 
 
 @implementation LEODropDownTableViewDataSource
 
-- (id)init
-{
+- (id)init {
     return nil;
 }
 
 - (id)initWithItems:(NSArray *)items
      cellIdentifier:(NSString *)cellIdentifier
  configureCellBlock:(TableViewCellConfigureBlock)configureCellBlock
-{
+associatedCardObject:(id)associatedCardObject {
     self = [super init];
     if (self) {
-        self.items = items;
-        self.cellIdentifier = cellIdentifier;
-        self.configureCellBlock = [configureCellBlock copy];
+        _items = items;
+        _cellIdentifier = cellIdentifier;
+        _configureCellBlock = [configureCellBlock copy];
+        _associatedCardObject = associatedCardObject;
     }
     
     return self;
 }
 
-- (id)itemAtIndexPath:(NSIndexPath *)indexPath
-{
+- (id)itemAtIndexPath:(NSIndexPath *)indexPath {
     return self.items[(NSUInteger) indexPath.row];
 }
 
 
 #pragma mark UITableViewDataSource
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     LEODropDownTableView *ddTableView = (LEODropDownTableView *)tableView;
     
     if (!ddTableView.expanded) {
@@ -59,20 +58,7 @@
     }
 }
 
-- (LEOListItem *)selectedItem {
-    
-    for (LEOListItem *item in self.items) {
-        
-        if (item.selected) {
-            return item;
-        }
-    }
-    
-    return self.items[0];
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     LEODropDownTableView *ddTableView = (LEODropDownTableView *)tableView;
     
@@ -83,10 +69,9 @@
     if (ddTableView.expanded) {
         item = [self itemAtIndexPath:indexPath];
     } else {
-        item = self.selectedItem;
+        item = [self.associatedCardObject valueForKey:@"provider"];
     }
-    
-    
+
     self.configureCellBlock(cell, item);
     
     return cell;

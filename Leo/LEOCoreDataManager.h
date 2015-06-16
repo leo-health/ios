@@ -46,7 +46,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (id)objectWithObjectID:(NSString *)objectID objectArray:(NSArray *)objects;
 
--(NSArray *)fetchChildren;
+- (NSArray *)fetchChildren;
+- (NSArray *)fetchDoctors;
 
 NS_ASSUME_NONNULL_END
 @end

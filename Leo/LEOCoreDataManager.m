@@ -237,6 +237,7 @@
     
     doctorUser.credentialSuffix = @"MD";
     doctorUser.title = @"Dr.";
+    doctorUser.id = @"1";
     
     Role *parentRole = [Role insertEntityWithName:@"parent" resourceID:@"1" resourceType:@1 managedObjectContext:self.managedObjectContext];
     NSDate *nowDate = [NSDate date];
@@ -348,7 +349,7 @@
     return timesForDate;
 }
 
--(NSArray *)fetchChildren {
+- (NSArray *)fetchChildren {
     
     Role *childRole = [Role insertEntityWithName:@"child" resourceID:@"2" resourceType:@2 managedObjectContext:self.managedObjectContext];
     
@@ -367,4 +368,32 @@
     return @[childUserOne, childUserTwo, childUserThree];
 }
 
+- (NSArray *)fetchDoctors {
+    
+    Role *doctorRole = [Role insertEntityWithName:@"doctor" resourceID:@"2" resourceType:@1 managedObjectContext:self.managedObjectContext];
+    
+    User *doctorOne = [User insertEntityWithFirstName:@"Om" lastName:@"Lala" dob:[NSDate date] email:@"om10@leohealth.com" role:doctorRole familyID:nil
+                                  managedObjectContext:self.managedObjectContext];
+    
+    doctorOne.credentialSuffix = @"MD";
+    doctorOne.title = @"Dr.";
+    doctorOne.id = @"1";
+    
+    User *doctorTwo = [User insertEntityWithFirstName:@"Summer" lastName:@"Cece" dob:[NSDate date] email:@"summer10@leohealth.com" role:doctorRole familyID:nil
+                                  managedObjectContext:self.managedObjectContext];
+    
+    doctorTwo.credentialSuffix = @"MD";
+    doctorTwo.title = @"Dr.";
+    doctorTwo.id = @"2";
+    
+    User *doctorThree = [User insertEntityWithFirstName:@"Cristina" lastName:@"Montagne" dob:[NSDate date] email:@"cristina10@leohealth.com" role:doctorRole familyID:nil
+                                  managedObjectContext:self.managedObjectContext];
+    
+    doctorThree.credentialSuffix = @"MD";
+    doctorThree.title = @"Dr.";
+    doctorThree.id = @"3";
+    
+    return @[doctorOne, doctorTwo, doctorThree];
+    
+}
 @end

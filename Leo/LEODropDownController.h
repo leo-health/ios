@@ -11,10 +11,11 @@
 
 @class LEODropDownTableView;
 
-@interface LEODropDownController : NSObject <LEODropDownSelectionProtocol>
+@interface LEODropDownController : NSObject <LEODropDownSelectionProtocol, UITableViewDelegate>
 
 @property (strong, nonatomic) id selectedItem;
+@property (strong, nonatomic) id associatedCardObject;
 
-- (instancetype)initWithTableView:(LEODropDownTableView *)tableView items:(NSArray *)items;
+- (instancetype)initWithTableView:(LEODropDownTableView *)tableView items:(NSArray *)items usingDescriptorKey:(NSString *)descriptorKey associatedCardObject:(id)associatedCardObject;
 
 @end     

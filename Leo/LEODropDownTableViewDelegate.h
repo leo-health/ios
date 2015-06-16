@@ -15,6 +15,6 @@
 
 @property (weak, nonatomic) id<LEODropDownSelectionProtocol>delegate;
 
-- (instancetype)initWithItems:(NSArray *)items;
+- (instancetype)initWithSelectedItemIndex:(NSUInteger)selectedItemIndex;
 
 @end
