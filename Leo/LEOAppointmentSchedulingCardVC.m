@@ -40,6 +40,12 @@
 @property (weak, nonatomic) IBOutlet LEODropDownTableView *visitDropDownTV;
 @property (weak, nonatomic) IBOutlet UIButton *bookButton;
 
+@property (weak, nonatomic) IBOutlet UILabel *patientLabel;
+@property (weak, nonatomic) IBOutlet UILabel *appointmentTypeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *providerLabel;
+
+
+
 #pragma mark - Data
 @property (strong, nonatomic) Appointment *appointment;
 @property (strong, nonatomic) NSDate *selectedDate;
@@ -78,8 +84,17 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     
     self.card.delegate = self;
     
-    [self.bookButton setTitle:[self.card stringRepresentationOfActionsAvailableForState][0] forState:UIControlStateNormal];
+    NSString *buttonTitle = [self.card stringRepresentationOfActionsAvailableForState][0];
+    
+    [self.bookButton setTitle:[buttonTitle uppercaseString] forState:UIControlStateNormal];
     [self.bookButton addTarget:self.card action:NSSelectorFromString([self.card actionsAvailableForState][0]) forControlEvents:UIControlEventTouchUpInside];
+    self.bookButton.backgroundColor = [UIColor leoOrangeRed];
+    [self.bookButton setTitleColor:[UIColor leoWhite] forState:UIControlStateNormal];
+    self.bookButton.titleLabel.font = [UIFont leoBodyBoldFont];
+    
+    self.providerLabel.textColor = [UIColor leoWarmHeavyGray];
+    self.patientLabel.textColor = [UIColor leoWarmHeavyGray];
+    self.appointmentTypeLabel.textColor = [UIColor leoWarmHeavyGray];
     
     //    [self setupFullAppointmentDateLabel];
     

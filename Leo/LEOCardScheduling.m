@@ -131,7 +131,7 @@ static NSString *kActionSelectorBook = @"book";
     
     switch (self.appointment.appointmentState) {
         case AppointmentStateBooking:
-            actionStrings = @[@"Book"];
+            actionStrings = @[@"Confirm Appointment"];
             break;
             
         case AppointmentStateCancelling:

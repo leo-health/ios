@@ -330,8 +330,6 @@
 		3130B4901B068CE7006ACC80 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				3182E55C1B20C8F5004DECF8 /* NSDate+Extensions.h */,
-				3182E55D1B20C8F5004DECF8 /* NSDate+Extensions.m */,
 				3177B99B1B189F6C006AE360 /* Controller */,
 				31920A461B0A8ACC006309C2 /* Model */,
 				BC163B001B054CCF000FB1CE /* View */,
@@ -385,6 +383,8 @@
 		31920A461B0A8ACC006309C2 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				3182E55C1B20C8F5004DECF8 /* NSDate+Extensions.h */,
+				3182E55D1B20C8F5004DECF8 /* NSDate+Extensions.m */,
 				31D7ADE91B21F9A100E8C5EE /* CollectionViewDataSource.h */,
 				31D7ADEA1B21F9A100E8C5EE /* CollectionViewDataSource.m */,
 				319F335B1B2201F900C1C526 /* CollectionViewLayout.h */,

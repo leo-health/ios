@@ -16,10 +16,25 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="1000"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vfx-e9-3m4">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="64"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="64" id="cjf-sy-lP1"/>
+                                </constraints>
+                                <items>
+                                    <navigationItem title="Schedule A Visit" id="9q7-sb-gLb">
+                                        <barButtonItem key="rightBarButtonItem" title="X" style="plain" id="nZt-YB-Jou">
+                                            <connections>
+                                                <action selector="cancelTapped:" destination="wb1-8H-yCb" id="7PM-E9-3M5"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
                             <scrollView multipleTouchEnabled="YES" contentMode="scaleToFill" directionalLockEnabled="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AhD-2a-HRm">
                                 <rect key="frame" x="0.0" y="64" width="600" height="936"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hFw-Zh-mZC" userLabel="Content View">
+                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hFw-Zh-mZC" userLabel="Content View">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="729"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="PEDIATRICIAN:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UjZ-MG-hJO" userLabel="DocLabel">
@@ -118,15 +133,6 @@
                                                     <segue destination="eFH-NU-gRe" kind="embed" identifier="ChildDropDownEmbedSegue" id="mRE-gA-DXg"/>
                                                 </connections>
                                             </containerView>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5a3-88-TT3">
-                                                <rect key="frame" x="282" y="699" width="36" height="30"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="30" id="P6l-X2-WT8"/>
-                                                </constraints>
-                                                <state key="normal" title="Book">
-                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                            </button>
                                         </subviews>
                                         <constraints>
                                             <constraint firstItem="7i5-GA-RGN" firstAttribute="leading" secondItem="hFw-Zh-mZC" secondAttribute="leading" id="0tL-zV-C5F"/>
@@ -142,15 +148,12 @@
                                             <constraint firstAttribute="trailing" secondItem="Mwn-jP-gpL" secondAttribute="trailing" id="MnL-EH-UPh"/>
                                             <constraint firstItem="N7m-cX-OWi" firstAttribute="top" secondItem="dDn-cz-E7Y" secondAttribute="bottom" id="NP4-BR-2U9"/>
                                             <constraint firstItem="zFT-Sm-nqn" firstAttribute="leading" secondItem="hFw-Zh-mZC" secondAttribute="leading" constant="15" id="OzT-7Z-kxI"/>
-                                            <constraint firstItem="7i5-GA-RGN" firstAttribute="bottom" secondItem="5a3-88-TT3" secondAttribute="top" id="UEQ-gd-bmE"/>
                                             <constraint firstAttribute="trailing" secondItem="84a-ZX-sbg" secondAttribute="trailing" id="Wal-qL-WKF"/>
                                             <constraint firstItem="dDn-cz-E7Y" firstAttribute="leading" secondItem="hFw-Zh-mZC" secondAttribute="leading" constant="15" id="a4I-N8-hoS"/>
-                                            <constraint firstAttribute="bottom" secondItem="5a3-88-TT3" secondAttribute="bottom" id="ar4-OD-pWO"/>
                                             <constraint firstItem="7i5-GA-RGN" firstAttribute="top" secondItem="Mwn-jP-gpL" secondAttribute="bottom" id="eQW-Uu-hEU"/>
                                             <constraint firstItem="Mwn-jP-gpL" firstAttribute="leading" secondItem="hFw-Zh-mZC" secondAttribute="leading" id="iLh-CE-JU5"/>
                                             <constraint firstItem="0iP-dP-axN" firstAttribute="leading" secondItem="hFw-Zh-mZC" secondAttribute="leading" constant="15" id="j2o-Oe-lBc"/>
                                             <constraint firstItem="0iP-dP-axN" firstAttribute="top" secondItem="Q6R-sV-LIq" secondAttribute="bottom" constant="8" id="kk5-Yx-dFe"/>
-                                            <constraint firstAttribute="centerX" secondItem="5a3-88-TT3" secondAttribute="centerX" id="rCI-PP-t0d"/>
                                             <constraint firstAttribute="trailing" secondItem="7i5-GA-RGN" secondAttribute="trailing" id="rfU-Ie-OUJ"/>
                                             <constraint firstItem="N7m-cX-OWi" firstAttribute="leading" secondItem="hFw-Zh-mZC" secondAttribute="leading" constant="15" id="tys-qz-cYt"/>
                                             <constraint firstAttribute="trailing" secondItem="UjZ-MG-hJO" secondAttribute="trailing" id="uYf-5r-MNm"/>
@@ -170,25 +173,22 @@
                                     <constraint firstAttribute="bottom" secondItem="hFw-Zh-mZC" secondAttribute="bottom" id="f97-X5-aLq"/>
                                 </constraints>
                             </scrollView>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vfx-e9-3m4">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="64"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5a3-88-TT3">
+                                <rect key="frame" x="0.0" y="956" width="600" height="44"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="64" id="cjf-sy-lP1"/>
+                                    <constraint firstAttribute="height" constant="44" id="P6l-X2-WT8"/>
                                 </constraints>
-                                <items>
-                                    <navigationItem title="Schedule A Visit" id="9q7-sb-gLb">
-                                        <barButtonItem key="rightBarButtonItem" title="X" style="plain" id="nZt-YB-Jou">
-                                            <connections>
-                                                <action selector="cancelTapped:" destination="wb1-8H-yCb" id="7PM-E9-3M5"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
+                                <state key="normal" title="Book">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="5a3-88-TT3" secondAttribute="trailing" id="5Jw-sj-MgP"/>
+                            <constraint firstItem="t2k-no-mlV" firstAttribute="top" secondItem="5a3-88-TT3" secondAttribute="bottom" id="DgF-mA-dc7"/>
                             <constraint firstItem="vfx-e9-3m4" firstAttribute="top" secondItem="Gbc-y6-Zej" secondAttribute="top" id="Fip-v0-fU3"/>
+                            <constraint firstItem="5a3-88-TT3" firstAttribute="leading" secondItem="JNl-Fr-7Ae" secondAttribute="leading" id="IDR-Qk-Ryy"/>
                             <constraint firstItem="vfx-e9-3m4" firstAttribute="trailing" secondItem="JNl-Fr-7Ae" secondAttribute="trailing" id="LjD-pZ-hA7"/>
                             <constraint firstAttribute="width" secondItem="hFw-Zh-mZC" secondAttribute="width" id="MsJ-v6-TJW"/>
                             <constraint firstItem="AhD-2a-HRm" firstAttribute="leading" secondItem="JNl-Fr-7Ae" secondAttribute="leading" id="WCw-W5-Qff"/>
@@ -202,6 +202,7 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="600" height="1000"/>
                     <connections>
+                        <outlet property="appointmentTypeLabel" destination="dDn-cz-E7Y" id="Pft-kC-8Jy"/>
                         <outlet property="bookButton" destination="5a3-88-TT3" id="SVQ-yG-hJf"/>
                         <outlet property="cancelButton" destination="nZt-YB-Jou" id="TDw-a1-IE9"/>
                         <outlet property="containerView" destination="7i5-GA-RGN" id="hdJ-VS-Bak"/>
@@ -210,6 +211,8 @@
                         <outlet property="doctorDropDownTV" destination="zFT-Sm-nqn" id="DB7-8a-n5E"/>
                         <outlet property="monthLabel" destination="84a-ZX-sbg" id="duN-pN-xUa"/>
                         <outlet property="navBar" destination="vfx-e9-3m4" id="lpC-AB-G71"/>
+                        <outlet property="patientLabel" destination="Q6R-sV-LIq" id="lNQ-uC-0pd"/>
+                        <outlet property="providerLabel" destination="UjZ-MG-hJO" id="SGQ-EM-jq4"/>
                         <outlet property="scrollView" destination="AhD-2a-HRm" id="GZt-dN-fBe"/>
                         <outlet property="visitDropDownTV" destination="N7m-cX-OWi" id="KKl-VJ-P45"/>
                     </connections>
@@ -294,7 +297,6 @@
         <!--View Controller-->
         <scene sceneID="IgB-Uf-lnw">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="inl-5c-BHt" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController automaticallyAdjustsScrollViewInsets="NO" id="n26-1u-5Gz" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="fb8-ts-T0s"/>
@@ -307,6 +309,7 @@
                     </view>
                     <toolbarItems/>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="inl-5c-BHt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="242" y="485"/>
         </scene>
