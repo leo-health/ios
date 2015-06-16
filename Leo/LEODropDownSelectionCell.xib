@@ -16,7 +16,6 @@
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SMS-32.png" translatesAutoresizingMaskIntoConstraints="NO" id="seu-Dr-rYW">
                         <rect key="frame" x="8" y="5" width="28" height="32"/>
-                        <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="28" id="8ry-6w-kNu"/>
                             <constraint firstAttribute="height" constant="32" id="jhw-lt-0He"/>
@@ -30,7 +29,7 @@
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="centerY" secondItem="seu-Dr-rYW" secondAttribute="centerY" constant="0.5" id="1bl-6l-m3f"/>
+                    <constraint firstAttribute="centerY" secondItem="seu-Dr-rYW" secondAttribute="centerY" id="1bl-6l-m3f"/>
                     <constraint firstItem="N75-eq-v4o" firstAttribute="leading" secondItem="seu-Dr-rYW" secondAttribute="trailing" constant="8" id="4IK-hx-mtb"/>
                     <constraint firstAttribute="centerY" secondItem="N75-eq-v4o" secondAttribute="centerY" id="HO9-IR-j8x"/>
                     <constraint firstItem="seu-Dr-rYW" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="NsE-dw-1a8"/>

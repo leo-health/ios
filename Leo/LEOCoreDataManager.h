@@ -48,6 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSArray *)fetchChildren;
 - (NSArray *)fetchDoctors;
+- (NSArray *)fetchAppointmentTypes;
 
 NS_ASSUME_NONNULL_END
 @end

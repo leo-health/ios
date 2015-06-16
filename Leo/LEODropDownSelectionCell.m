@@ -13,9 +13,9 @@
 @implementation LEODropDownSelectionCell
 
 - (void)awakeFromNib {
-    self.selectionStyle = UITableViewCellSelectionStyleDefault;
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    self.optionLabel.textColor = [UIColor leoWarmHeavyGray];
+    self.optionLabel.textColor = [UIColor leoOrangeRed];
     self.optionLabel.font = [UIFont leoTitleBasicFont];
     
 }
@@ -40,9 +40,13 @@
 
 - (void)formatSelected {
     self.checkListImageView.hidden = NO;
+    self.optionLabel.textColor = [UIColor leoOrangeRed];
+    self.optionLabel.font = [UIFont leoTitleBolderFont];
 }
 
 - (void)formatUnselected {
     self.checkListImageView.hidden = YES;
+    self.optionLabel.textColor = [UIColor leoWarmHeavyGray];
+    self.optionLabel.font = [UIFont leoTitleBasicFont];
 }
 @end

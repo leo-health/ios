@@ -8,28 +8,27 @@
 
 #import "LEODropDownController.h"
 #import "LEODropDownSelectionCell.h"
-#import "LEODropDownTableViewDataSource.h"
-#import "LEODropDownTableViewDelegate.h"
 #import "LEODropDownSelectionCell+ConfigureCell.h"
-#import "LEOListItem.h"
+#import "LEODropDownSelectedCell.h"
+#import "LEODropDownSelectedCell+ConfigureCell.h"
 #import "LEODropDownTableView.h"
-#import "Appointment.h"
 
 @interface LEODropDownController ()
 
 @property (strong, nonatomic) LEODropDownTableView *tableView;
 @property (strong, nonatomic) NSArray *items;
-@property (strong, nonatomic) LEODropDownTableViewDataSource *dataSource;
 @property (copy, nonatomic) NSString *descriptorKey;
-@property (strong, nonatomic) id associatedCardObjectItem;
+@property (copy, nonatomic) NSString *cardPropertyDescriptor;
+@property (strong, nonatomic) id associatedCardObject;
 
 @end
 
 @implementation LEODropDownController
 
 static NSString * const selectionReuseIdentifier = @"SelectionCell";
+static NSString * const selectedReuseIdentifier = @"SelectedCell";
 
-- (instancetype)initWithTableView:(LEODropDownTableView *)tableView items:(NSArray *)items usingDescriptorKey:(NSString *)descriptorKey associatedCardObject:(id)associatedCardObject {
+- (instancetype)initWithTableView:(LEODropDownTableView *)tableView items:(NSArray *)items usingDescriptorKey:(NSString *)descriptorKey associatedCardObject:(id)associatedCardObject associatedCardObjectPropertyDescriptor:(NSString *)cardPropertyDescriptor {
     
     self = [super init];
     
@@ -39,6 +38,7 @@ static NSString * const selectionReuseIdentifier = @"SelectionCell";
         _items = items;
         _associatedCardObject = associatedCardObject;
         _descriptorKey = descriptorKey;
+        _cardPropertyDescriptor = cardPropertyDescriptor;
         
         [self prepareForLaunch];
     }
@@ -48,69 +48,104 @@ static NSString * const selectionReuseIdentifier = @"SelectionCell";
 
 
 - (void)prepareForLaunch {
-    
-    __weak LEODropDownTableView *weakTableView = self.tableView;
-    
-    void (^configureCell)(LEODropDownSelectionCell *, id item) = ^(LEODropDownSelectionCell* cell, id item) {
-        [cell configureForItem:item withDescriptorKey:self.descriptorKey withTableView:weakTableView];
-    };
-    
-    self.associatedCardObjectItem = [self.associatedCardObject valueForKey:@"provider"];
-    self.dataSource = [[LEODropDownTableViewDataSource alloc] initWithItems:self.items cellIdentifier:selectionReuseIdentifier configureCellBlock:configureCell associatedCardObject:self.associatedCardObject];
-    
+       
     self.tableView.delegate = self;
-    self.tableView.dataSource = self.dataSource;
+    self.tableView.dataSource = self;
     
     [self.tableView registerNib:[UINib nibWithNibName:@"LEODropDownSelectionCell" bundle:nil] forCellReuseIdentifier:selectionReuseIdentifier];
+       [self.tableView registerNib:[UINib nibWithNibName:@"LEODropDownSelectedCell" bundle:nil] forCellReuseIdentifier:selectedReuseIdentifier];
     
 }
 
+#pragma mark - <UITableViewDataSource>
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    LEODropDownTableView *ddTableView = (LEODropDownTableView *)tableView;
+    
+    if (!ddTableView.expanded) {
+        return 1;
+    } else {
+        return [self.items count];
+    }
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    LEODropDownTableView *ddTableView = (LEODropDownTableView *)tableView;
+    
+    if (ddTableView.expanded) {
+        LEODropDownSelectionCell *cell = [tableView dequeueReusableCellWithIdentifier:selectionReuseIdentifier
+                                                                            forIndexPath:indexPath];
+        [cell configureForItem:self.items[indexPath.row] withDescriptorKey:self.descriptorKey];
+        return cell;
+    } else {
+        
+        LEODropDownSelectedCell *cell = [tableView dequeueReusableCellWithIdentifier:selectedReuseIdentifier
+                                                                         forIndexPath:indexPath];
+        [cell configureForItem:[self associatedObjectItem] withDescriptorKey:self.descriptorKey];
+        return cell;
+    }
+    
+    //return nil;
+}
+
+- (id)associatedObjectItem {
+  
+    return [self.associatedCardObject valueForKey:self.cardPropertyDescriptor];
+    
+}
+
+#pragma mark - <UITableViewDelegate>
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     LEODropDownTableView *ddTableView = (LEODropDownTableView *)tableView;
     
-        if (ddTableView.expanded) {
-            NSIndexPath *firstIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-            UITableViewCell *cell = [tableView cellForRowAtIndexPath:firstIndexPath];
-            cell.selected = YES;
-            [self.associatedCardObject setValue:self.items[indexPath.row] forKey:@"provider"];
-        } else {
-            NSIndexPath *itemIndexPath = [NSIndexPath indexPathForRow:[self selectedItemIndex] inSection:0];
-            UITableViewCell *cell = [tableView cellForRowAtIndexPath:itemIndexPath];
-            cell.selected = YES;
-            [tableView selectRowAtIndexPath:itemIndexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
-        }
-    
     ddTableView.expanded = !ddTableView.expanded;
-
-    [self reloadSectionForTableView:tableView WithCompletion:^{
+    
+    UITableViewCell *cell;
+    
+    if (!ddTableView.expanded) {
+        NSIndexPath *firstIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+        cell = [tableView cellForRowAtIndexPath:firstIndexPath];
+        [self.associatedCardObject setValue:self.items[indexPath.row] forKey:self.cardPropertyDescriptor];
+        [tableView reloadData];
         [ddTableView invalidateIntrinsicContentSize];
-    }];
+        
+    } else {
+        NSIndexPath *itemIndexPath = [NSIndexPath indexPathForRow:[self selectedItemIndex] inSection:0];
+        cell = [tableView cellForRowAtIndexPath:itemIndexPath];
+        [tableView reloadData];
+        [ddTableView invalidateIntrinsicContentSize];
+        
+        [tableView selectRowAtIndexPath:itemIndexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+    }
+    
+    cell.selected = YES;
 }
 
 
 //MARK: Doing this using the server-based "id" field given not sure we'll actually have the same objects in memory to compare. (Discussion about caching to happen shortly.)
-
 - (NSUInteger)selectedItemIndex {
     
     for (NSUInteger i = 0; i < [self.items count]; i++) {
         
-        if ([[self.items[i] valueForKey:@"id"] isEqualToString:[[self.associatedCardObject valueForKey:@"provider"] valueForKey:@"id"]]) {
+        if ([[self.items[i] valueForKey:@"id"] isEqualToString:[[self.associatedCardObject valueForKey:self.cardPropertyDescriptor] valueForKey:@"id"]]) {
             return i;
         }
     }
-
+    
     return 0;
-
+    
 }
 
 - (void)reloadSectionForTableView:(UITableView *)tableView WithCompletion:(void (^) (void))completionBlock {
-    [tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
+    [tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
     if (completionBlock) {
         completionBlock();
     }
     
 }
+
 
 
 @end

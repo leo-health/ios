@@ -16,6 +16,13 @@ typedef enum AppointmentState : NSUInteger {
     AppointmentStateReminding = 4,
 } AppointmentState;
 
+//typedef enum AppointmentType : NSUInteger {
+//    AppointmentTypeWell = 0,
+//    AppointmentTypeSick = 1,
+//    AppointmentTypeFollowup = 2,
+//    AppointmentTypeUndefined = 3
+//} AppointmentType;
+
 @interface Appointment (Methods)
 
 + (Appointment * __nonnull)insertEntityWithDate:(nonnull NSDate *)date duration:(nonnull NSNumber *)duration appointmentType:(nonnull NSNumber *)leoAppointmentType patient:(nonnull User *)patient provider:(nonnull User *)provider familyID:(nonnull NSString *)familyID bookedByUser:(nonnull User *)bookedByUser state:(nonnull NSNumber *)state managedObjectContext:(nonnull NSManagedObjectContext *)context;

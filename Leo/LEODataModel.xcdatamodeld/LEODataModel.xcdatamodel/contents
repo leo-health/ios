@@ -6,7 +6,7 @@
         <attribute name="duration" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="familyID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="leoAppointmentType" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="leoAppointmentType" optional="YES" attributeType="Transformable" valueTransformerName="AppointmentType" syncable="YES"/>
         <attribute name="practiceID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="rescheduledAppointmentID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="state" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
