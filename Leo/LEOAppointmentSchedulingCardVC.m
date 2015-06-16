@@ -101,10 +101,6 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     
 }
 
--(void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
-    self.providerLabel.layer.frame = CGRectMake(self.providerLabel.frame.origin.x, self.providerLabel.frame.origin.y + 1.0f, self.providerLabel.frame.size.width, 1.0f);
-}
 -(void)viewDidAppear:(BOOL)animated {
     
     [super viewDidAppear:animated];
@@ -191,8 +187,11 @@ static NSString * const dateReuseIdentifier = @"DateCell";
 
 #pragma mark - Segue and segue helper methods
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    
+    self.coreDataManager = [LEOCoreDataManager sharedManager];
+
     if ([segue.identifier isEqualToString:@"EmbedSegue"]) {
-        [self baseViewSetup];
+        [self baseViewSetup]; //TODO: See 'MARK' above the implementation of this method.
         self.pageViewController = segue.destinationViewController;
         [self setupPageView];
     }
@@ -203,7 +202,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
         tvc.children = [self.coreDataManager fetchChildren];
     }
 }
-
+    
 /* Zachary Drossman
  * MARK: I take issue with the fact
  * that we can only set these things
@@ -214,8 +213,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
 
 - (void)baseViewSetup {
     
-    self.coreDataManager = [LEOCoreDataManager sharedManager];
-    self.pageViewDataSource = [[PageViewDataSource alloc] initWithItems:self.dates];
+        self.pageViewDataSource = [[PageViewDataSource alloc] initWithItems:self.dates];
 }
 
 - (void)setupPageView {
