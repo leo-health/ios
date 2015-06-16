@@ -7,13 +7,11 @@
 //
 
 #import "LEODropDownSelectedCell+ConfigureCell.h"
-#import "LEOListItem.h"
 
 @implementation LEODropDownSelectedCell (ConfigureCell)
 
-- (void)configureForSelectedItem:(LEOListItem *)listItem {
-    self.selectedLabel.text = listItem.name;
+- (void)configureForItem:(id)item withDescriptorKey:(NSString *)descriptorKey {
+    self.selectedLabel.text = [item valueForKey:descriptorKey];
 }
-
 
 @end

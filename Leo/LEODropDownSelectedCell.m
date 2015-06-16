@@ -1,22 +1,27 @@
 //
 //  LEODropDownSelectedCell.m
-//  Leo
+//  
 //
-//  Created by Zachary Drossman on 6/10/15.
-//  Copyright (c) 2015 Leo Health. All rights reserved.
+//  Created by Zachary Drossman on 6/16/15.
+//
 //
 
 #import "LEODropDownSelectedCell.h"
+#import "UIFont+LeoFonts.h"
+#import "UIColor+LeoColors.h"
 
 @implementation LEODropDownSelectedCell
 
 - (void)awakeFromNib {
-    // Initialization code
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    self.selectedLabel.textColor = [UIColor leoOrangeRed];
+    self.selectedLabel.font = [UIFont leoTitleBasicFont];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 

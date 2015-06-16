@@ -12,6 +12,7 @@
 
 @interface LEODropDownSelectedCell (ConfigureCell)
 
-- (void)configureForSelectedItem:(LEOListItem *)listItem;
+- (void)configureForItem:(id)item withDescriptorKey:(NSString *)descriptorKey;
+
 
 @end

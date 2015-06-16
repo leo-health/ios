@@ -85,7 +85,7 @@
                                                     <constraint firstAttribute="height" constant="44" placeholder="YES" id="Xqp-vj-jeI"/>
                                                 </constraints>
                                                 <prototypes>
-                                                    <tableViewCell contentMode="scaleToFill" restorationIdentifier="SelectionCell" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Rew-9n-aKt" customClass="LEODropDownSelectionCell">
+                                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SelectionCell" id="Rew-9n-aKt" customClass="LEODropDownSelectionCell">
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Rew-9n-aKt" id="TWx-8x-sqx">
                                                             <autoresizingMask key="autoresizingMask"/>
@@ -113,7 +113,7 @@
                                                     <constraint firstAttribute="height" constant="44" placeholder="YES" id="MgP-Zq-BIf"/>
                                                 </constraints>
                                                 <prototypes>
-                                                    <tableViewCell contentMode="scaleToFill" restorationIdentifier="SelectionCell" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="tAA-5E-cTi" customClass="LEODropDownSelectionCell">
+                                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="tAA-5E-cTi" customClass="LEODropDownSelectionCell">
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="tAA-5E-cTi" id="qhT-LO-GoW">
                                                             <autoresizingMask key="autoresizingMask"/>

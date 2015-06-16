@@ -10,8 +10,4 @@
 
 @interface LEODropDownSelectedCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet UILabel *selectedLabel;
-
-+ (UINib *)nib;
-
 @end

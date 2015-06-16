@@ -20,7 +20,6 @@
 #import "LEODateCell+ConfigureCell.h"
 #import "LEODropDownController.h"
 #import "LEODropDownTableView.h"
-#import "LEOListItem.h"
 #import "LEOCardScheduling.h"
 #import "LEOSectionSeparator.h"
 #import "LEOChildDropDownTableViewController.h"
@@ -110,13 +109,12 @@ static NSString * const dateReuseIdentifier = @"DateCell";
 
 - (void)prepareForLaunch {
     
-    //TODO: Remove these and update with data from server.
     
-    self.doctorDropDownController = [[LEODropDownController alloc] initWithTableView:self.doctorDropDownTV items:[self.coreDataManager fetchDoctors] usingDescriptorKey:@"fullName" associatedCardObject:self.card.associatedCardObject];
+    self.doctorDropDownController = [[LEODropDownController alloc] initWithTableView:self.doctorDropDownTV items:[self.coreDataManager fetchDoctors] usingDescriptorKey:@"fullName" associatedCardObject:self.card.associatedCardObject associatedCardObjectPropertyDescriptor:@"provider"];
     
-    //TODO: Remove these and update with data from server.
-    
-    //self.visitTypeDropDownController = [[LEODropDownController alloc] initWithTableView:self.visitDropDownTV items:@[visitType1, visitType2, visitType3]];
+    //TODO: Remove hard coded options and move to DataManager.
+    self.visitTypeDropDownController = [[LEODropDownController alloc] initWithTableView:self.visitDropDownTV items:[self.coreDataManager fetchAppointmentTypes] usingDescriptorKey:@"typeDescriptor" associatedCardObject:self.card.associatedCardObject associatedCardObjectPropertyDescriptor:@"leoAppointmentType"];
+
     
     [self.view setNeedsLayout];
 }

@@ -18,7 +18,7 @@
 #import "UIColor+LeoColors.h"
 #import "UIImage+Extensions.h"
 #import <NSDate+DateTools.h>
-#import "LEOListItem.h"
+#import "AppointmentType.h"
 
 @interface LEOCoreDataManager()
 
@@ -248,7 +248,7 @@
     parentUser.middleInitial = @"";
     parentUser.gender = @"female";
     
-    Appointment *appointment = [Appointment insertEntityWithDate:[NSDate dateWithYear:2015 month:6 day:15 hour:1 minute:0 second:0] duration:@30 appointmentType:@1 patient:childUserOne provider:doctorUser familyID:@"62" bookedByUser:parentUser state:@(AppointmentStateRecommending) managedObjectContext:self.managedObjectContext];
+    Appointment *appointment = [Appointment insertEntityWithDate:[NSDate dateWithYear:2015 month:6 day:15 hour:1 minute:0 second:0] duration:@30 appointmentType:[self fetchAppointmentTypes][1] patient:childUserOne provider:doctorUser familyID:@"62" bookedByUser:parentUser state:@(AppointmentStateRecommending) managedObjectContext:self.managedObjectContext];
     
     LEOCardScheduling *cardOne = [[LEOCardScheduling alloc] initWithID:@2 state:AppointmentStateRecommending priority:@1 associatedCardObject:appointment];
     
@@ -395,5 +395,14 @@
     
     return @[doctorOne, doctorTwo, doctorThree];
     
+}
+
+- (NSArray *)fetchAppointmentTypes {
+    
+    AppointmentType *appointmentTypeOne = [[AppointmentType alloc] initWithID:@"1" typeDescriptor:@"Well visit" duration:@15];
+    AppointmentType *appointmentTypeTwo = [[AppointmentType alloc] initWithID:@"2" typeDescriptor:@"Sick visit" duration:@30];
+    AppointmentType *appointmentTypeThree = [[AppointmentType alloc] initWithID:@"3" typeDescriptor:@"Follow-up visit" duration:@30];
+    
+    return @[appointmentTypeOne, appointmentTypeTwo, appointmentTypeThree];
 }
 @end
