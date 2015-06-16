@@ -270,13 +270,17 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     
     
     NSInteger indexForCurrentDate = [self.appointment.date daysFrom:[self startDate]];
-    self.selectedDate = self.dates[indexPath.row];
+    self.selectedDate = self.dates[indexPath.row]; //MARK: Is this being used even?
 
     if (indexPath.row != indexForCurrentDate) {
         [self turnToPage:indexPath.row fromPage:indexForCurrentDate];
     }
     
-    [self.dateCollectionView reloadData];
+    //[self.dateCollectionView reloadData];
+    
+    [collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
+    UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
+    cell.selected = YES;
     
 }
 
