@@ -9,6 +9,7 @@
 #import "LEODropDownSelectionCell+ConfigureCell.h"
 #import "LEOListItem.h"
 #import "LEODropDownTableView.h"
+#import "User+Methods.h"
 
 @interface LEODropDownSelectionCell ()
 
@@ -17,19 +18,8 @@
 
 @implementation LEODropDownSelectionCell (ConfigureCell)
 
-- (void)configureForListItem:(LEOListItem *)listItem withTableView:(LEODropDownTableView *)tableView {
-    
-    self.optionLabel.text = listItem.name;
-
-    if (tableView.expanded) {
-    
-        self.selected = NO;
-        
-        if (listItem.selected) {
-            self.selected = YES;
-        }
-        
-    }
+- (void)configureForItem:(id)item withDescriptorKey:(NSString *)descriptorKey withTableView:(LEODropDownTableView *)tableView {
+    self.optionLabel.text = [item valueForKey:descriptorKey];
 }
 
 @end

@@ -13,6 +13,6 @@
 
 @interface LEODropDownSelectionCell (ConfigureCell)
 
-- (void)configureForListItem:(LEOListItem *)listItem withTableView:(LEODropDownTableView *)tableView;
+- (void)configureForItem:(id)item withDescriptorKey:(NSString *)descriptorKey withTableView:(LEODropDownTableView *)tableView;
 
 @end

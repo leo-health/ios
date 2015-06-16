@@ -78,7 +78,14 @@
     
     [self willAccessValueForKey:@"fullName"];
     
-    NSString *fullName = [@[self.firstName, self.lastName] componentsJoinedByString:@" "];
+    NSArray *nameComponents;
+    
+    if (self.title) {
+        nameComponents = @[self.title, self.firstName, self.lastName];
+    } else {
+        nameComponents = @[self.firstName, self.lastName];
+    }
+    NSString *fullName = [nameComponents componentsJoinedByString:@" "];
     
     [self didAccessValueForKey:@"fullName"];
     
@@ -104,6 +111,17 @@
     [self setPrimitiveValue: lastName forKey:@"lastName"];
     
     [self didChangeValueForKey:@"lastName"];
+    [self didChangeValueForKey:@"fullName"];
+}
+
+-(void)setTitle:(NSString *)title {
+    
+    [self willChangeValueForKey:@"title"];
+    [self willChangeValueForKey:@"fullName"];
+    
+    [self setPrimitiveValue: title forKey:@"title"];
+    
+    [self didChangeValueForKey:@"title"];
     [self didChangeValueForKey:@"fullName"];
 }
 

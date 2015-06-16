@@ -111,17 +111,12 @@ static NSString * const dateReuseIdentifier = @"DateCell";
 - (void)prepareForLaunch {
     
     //TODO: Remove these and update with data from server.
-    LEOListItem *doc1 = [[LEOListItem alloc] initWithName:@"Om Lala"];
-    LEOListItem *doc2 = [[LEOListItem alloc] initWithName:@"Brady Isaacs"];
-    LEOListItem *doc3 = [[LEOListItem alloc] initWithName:@"Summer Cece"];
     
-    self.doctorDropDownController = [[LEODropDownController alloc] initWithTableView:self.doctorDropDownTV items:@[doc1, doc2, doc3]];
+    self.doctorDropDownController = [[LEODropDownController alloc] initWithTableView:self.doctorDropDownTV items:[self.coreDataManager fetchDoctors] usingDescriptorKey:@"fullName" associatedCardObject:self.card.associatedCardObject];
+    
     //TODO: Remove these and update with data from server.
-    LEOListItem *visitType1 = [[LEOListItem alloc] initWithName:@"Well"];
-    LEOListItem *visitType2 = [[LEOListItem alloc] initWithName:@"Sick"];
-    LEOListItem *visitType3 = [[LEOListItem alloc] initWithName:@"Follow-up"];
     
-    self.visitTypeDropDownController = [[LEODropDownController alloc] initWithTableView:self.visitDropDownTV items:@[visitType1, visitType2, visitType3]];
+    //self.visitTypeDropDownController = [[LEODropDownController alloc] initWithTableView:self.visitDropDownTV items:@[visitType1, visitType2, visitType3]];
     
     [self.view setNeedsLayout];
 }
