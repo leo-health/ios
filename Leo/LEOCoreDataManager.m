@@ -32,6 +32,7 @@
 @implementation LEOCoreDataManager
 
 + (instancetype)sharedManager {
+    
     static LEOCoreDataManager *sharedManager = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
