@@ -17,6 +17,7 @@
 @interface TimeCollectionViewController : UICollectionViewController <UICollectionViewDelegateFlowLayout>
 
 @property (strong, nonatomic) NSDate *selectedDate;
+@property (assign, nonatomic) NSDate* dateThatQualifiesTimeCollection;
 @property (weak, nonatomic) id<TimeSelectionProtocol> delegate;
 
 @end
