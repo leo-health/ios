@@ -20,6 +20,7 @@
 @synthesize pageViewDataSource = _pageViewDataSource;
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
 
     self.pageViewController = [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
@@ -43,12 +44,8 @@
     self.view.gestureRecognizers = self.pageViewController.gestureRecognizers;
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 - (PageViewDataSource *)pageViewDataSource {
+    
     // Return the model controller object, creating it if necessary.
     // In more complex implementations, the model controller may be passed to the view controller.
     if (!_pageViewDataSource) {

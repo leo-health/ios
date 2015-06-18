@@ -46,7 +46,6 @@ NSString *const APIParamApptToken = @"access_token"; //TODO: Can Danish change a
 NSString *const APIParamApptType = @"leo_appointment_type";
 NSString *const APIParamState = @"state";
 
-
 NSString *const APIParamPracticeID = @"practice_id";
 NSString *const APIParamProviderID = @"provider_id";
 NSString *const APIParamConversation = @"conversation";
@@ -69,4 +68,6 @@ NSString *const APIParamCardTimeStamp = @"timestamp";
 NSString *const APIParamAssociatedCardObject = @"associatedCardObject";
 
 NSString *const KeypathAppointmentState = @"state";
+
+
 @end

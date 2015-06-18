@@ -18,37 +18,43 @@
 
 @implementation CollectionViewDataSource
 
-- (id)init
-{
+
+
+#pragma mark - Initializers and Intialization Helper Methods
+- (id)init {
+    
     return nil;
 }
 
 - (id)initWithItems:(NSArray *)items
      cellIdentifier:(NSString *)cellIdentifier
- configureCellBlock:(CollectionViewCellConfigureBlock)configureCellBlock
-{
+ configureCellBlock:(CollectionViewCellConfigureBlock)configureCellBlock {
+
     self = [super init];
+    
     if (self) {
         self.items = items;
         self.cellIdentifier = cellIdentifier;
         self.configureCellBlock = [configureCellBlock copy];
     }
+    
     return self;
 }
 
-- (id)itemAtIndexPath:(NSIndexPath *)indexPath
-{
+- (id)itemAtIndexPath:(NSIndexPath *)indexPath {
+
     return self.items[(NSUInteger) indexPath.row];
 }
 
 
-#pragma mark - Collection View Data Source
 
+#pragma mark - <CollectionViewDataSource>
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+ 
     return self.items.count;
 }
 
--(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     id item = [self itemAtIndexPath:indexPath];
     
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:self.cellIdentifier forIndexPath:indexPath];
@@ -57,5 +63,6 @@
     
     return cell;
 }
+
 
 @end

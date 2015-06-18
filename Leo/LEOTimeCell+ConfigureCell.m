@@ -11,10 +11,9 @@
 @implementation LEOTimeCell (ConfigureCell)
 
 - (void)configureForDateTime:(NSDate *)dateTime {
-
-    self.timeLabel.text = [[self.timeFormatter stringFromDate:dateTime] lowercaseString];
-    self.selected = NO;
     
+    self.timeLabel.text = [self.timeFormatter stringFromDate:dateTime];
+    self.selected = NO;
 }
 
 - (NSDateFormatter *)timeFormatter {
@@ -22,7 +21,9 @@
     static NSDateFormatter *timeFormatter;
     if (!timeFormatter) {
         timeFormatter = [[NSDateFormatter alloc] init];
-        timeFormatter.dateFormat = @"h':'mm a";
+        timeFormatter.dateFormat = @"h':'mma";
+        timeFormatter.AMSymbol = @"am";
+        timeFormatter.PMSymbol = @"pm";
     }
     
     

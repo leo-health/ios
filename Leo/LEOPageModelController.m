@@ -21,12 +21,15 @@
 @implementation LEOPageModelController
 
 - (instancetype)initWithPageData:(NSArray *)pageData {
+    
     self = [super init];
+    
     if (self) {
         // Create the data model.
         _pageData = pageData;
         
-    }   
+    }
+    
     return self;
 }
 
@@ -49,10 +52,12 @@
     }
     
     index--;
+    
     return [self viewControllerAtIndex:index storyboard:[UIStoryboard storyboardWithName:@"Main" bundle:nil]];
 }
 
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(UIViewController *)viewController {
+    
     NSInteger index;
     if ([pageViewController.viewControllers[0] isKindOfClass:[LEOEHRViewController class]]) {
         index = ((LEOEHRViewController*) viewController).childIndex;
@@ -69,10 +74,12 @@
     if (index == [self.pageData count]) {
         return nil;
     }
+    
     return [self viewControllerAtIndex:index storyboard:[UIStoryboard storyboardWithName:@"Main" bundle:nil]];
 }
 
 - (UIViewController *)viewControllerAtIndex:(NSUInteger)index storyboard:(UIStoryboard *)storyboard {
+    
     if (([self.pageData count] == 0) || (index >= [self.pageData count])) {
         return nil;
     }
@@ -100,7 +107,7 @@
     else {
         newIndex = 0;
     }
-
+    
     NSUInteger currentIndex = 0;
     
     if ([pageViewController.viewControllers[0] isKindOfClass:[LEOEHRViewController class]]) {
@@ -113,10 +120,10 @@
     else {
         [pageViewController setViewControllers:@[viewController] direction:UIPageViewControllerNavigationDirectionReverse animated:YES completion:nil];
     }
-
 }
 
 -(LEOFeedTVC *)feedViewController {
+    
     if (!_feedViewController) {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         _feedViewController = [storyboard instantiateViewControllerWithIdentifier:@"LEOFeedTVC"];;

@@ -28,6 +28,8 @@
 static NSString * const selectionReuseIdentifier = @"SelectionCell";
 static NSString * const selectedReuseIdentifier = @"SelectedCell";
 
+
+#pragma mark - Designated Initializer and Initializer Helper Methods
 - (instancetype)initWithTableView:(LEODropDownTableView *)tableView items:(NSArray *)items usingDescriptorKey:(NSString *)descriptorKey associatedCardObject:(id)associatedCardObject associatedCardObjectPropertyDescriptor:(NSString *)cardPropertyDescriptor {
     
     self = [super init];
@@ -48,17 +50,17 @@ static NSString * const selectedReuseIdentifier = @"SelectedCell";
 
 
 - (void)prepareForLaunch {
-       
+    
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
     [self.tableView registerNib:[UINib nibWithNibName:@"LEODropDownSelectionCell" bundle:nil] forCellReuseIdentifier:selectionReuseIdentifier];
-       [self.tableView registerNib:[UINib nibWithNibName:@"LEODropDownSelectedCell" bundle:nil] forCellReuseIdentifier:selectedReuseIdentifier];
-    
+    [self.tableView registerNib:[UINib nibWithNibName:@"LEODropDownSelectedCell" bundle:nil] forCellReuseIdentifier:selectedReuseIdentifier];
 }
 
-#pragma mark - <UITableViewDataSource>
 
+
+#pragma mark - <UITableViewDataSource>
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     LEODropDownTableView *ddTableView = (LEODropDownTableView *)tableView;
     
@@ -75,25 +77,24 @@ static NSString * const selectedReuseIdentifier = @"SelectedCell";
     
     if (ddTableView.expanded) {
         LEODropDownSelectionCell *cell = [tableView dequeueReusableCellWithIdentifier:selectionReuseIdentifier
-                                                                            forIndexPath:indexPath];
+                                                                         forIndexPath:indexPath];
         [cell configureForItem:self.items[indexPath.row] withDescriptorKey:self.descriptorKey];
         return cell;
     } else {
         
         LEODropDownSelectedCell *cell = [tableView dequeueReusableCellWithIdentifier:selectedReuseIdentifier
-                                                                         forIndexPath:indexPath];
+                                                                        forIndexPath:indexPath];
         [cell configureForItem:[self associatedObjectItem] withDescriptorKey:self.descriptorKey];
         return cell;
     }
-    
-    //return nil;
 }
 
 - (id)associatedObjectItem {
-  
-    return [self.associatedCardObject valueForKey:self.cardPropertyDescriptor];
     
+    return [self.associatedCardObject valueForKey:self.cardPropertyDescriptor];
 }
+
+
 
 #pragma mark - <UITableViewDelegate>
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -124,6 +125,7 @@ static NSString * const selectedReuseIdentifier = @"SelectedCell";
 }
 
 
+#pragma mark - Other Helper Methods
 //MARK: Doing this using the server-based "id" field given not sure we'll actually have the same objects in memory to compare. (Discussion about caching to happen shortly.)
 - (NSUInteger)selectedItemIndex {
     
@@ -135,7 +137,6 @@ static NSString * const selectedReuseIdentifier = @"SelectedCell";
     }
     
     return 0;
-    
 }
 
 - (void)reloadSectionForTableView:(UITableView *)tableView WithCompletion:(void (^) (void))completionBlock {
@@ -143,7 +144,6 @@ static NSString * const selectedReuseIdentifier = @"SelectedCell";
     if (completionBlock) {
         completionBlock();
     }
-    
 }
 
 

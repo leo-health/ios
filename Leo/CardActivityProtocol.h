@@ -13,8 +13,6 @@
 
 @protocol CardActivityProtocol <NSObject>
 
-- (void) didTapButtonOneOnCard:(LEOCard*)card withAssociatedObject:(id)appointment;
-- (void) didTapButtonTwoOnCard;
 - (void) didUpdateObjectStateForCard:(LEOCard *)card;
 
 @end

@@ -8,11 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol FeedCellProtocol <NSObject>
+@protocol FeedCellProtocol <NSObject> //TODO: Doublecheck if this protocol is still in use.
 
 @optional
-- (void) didTapButtonOneOnCell;
-- (void) didTapButtonTwoOnCell;
+- (void)didTapButtonOneOnCell;
+- (void)didTapButtonTwoOnCell;
 
 @end
 

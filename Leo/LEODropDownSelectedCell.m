@@ -1,6 +1,6 @@
 //
 //  LEODropDownSelectedCell.m
-//  
+//
 //
 //  Created by Zachary Drossman on 6/16/15.
 //
@@ -13,6 +13,7 @@
 @implementation LEODropDownSelectedCell
 
 - (void)awakeFromNib {
+    
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     
     self.selectedLabel.textColor = [UIColor leoOrangeRed];
@@ -20,13 +21,12 @@
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
     
-    // Configure the view for the selected state
+    [super setSelected:selected animated:animated];
 }
 
-+ (UINib *)nib
-{
++ (UINib *)nib {
+    
     return [UINib nibWithNibName:@"SelectedCell" bundle:nil];
 }
 

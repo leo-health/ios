@@ -32,7 +32,8 @@
 
 @implementation LEOSecondaryUserView
 
--(void)awakeFromNib {
+- (void)awakeFromNib {
+    
     UILabel *nameLabelStrong = [[UILabel alloc] init];
     _nameLabel = nameLabelStrong;
     UILabel *suffixLabelStrong = [[UILabel alloc] init];
@@ -49,7 +50,6 @@
     [self addSubview:self.dividerLabel];
     [self addSubview:self.timestampLabel];
     [self addSubview:self.suffixCredentialLabel];
-    
 }
 
 - (void)setupSubviews {
@@ -147,10 +147,10 @@
     }
     
     [super updateConstraints];
-    
 }
 
 - (void)colorView {
+    
     self.nameLabel.textColor = self.cardTintColor;
     self.suffixLabel.textColor = [UIColor leoWarmHeavyGray];
     self.dividerLabel.textColor = [UIColor leoWarmHeavyGray];
@@ -160,6 +160,7 @@
 
 
 - (void)typefaceView {
+    
     self.nameLabel.font = [UIFont leoBodyBolderFont];
     self.suffixLabel.font = [UIFont leoBodyBolderFont];
     self.suffixCredentialLabel.font = [UIFont leoBodyBolderFont];

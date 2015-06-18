@@ -27,18 +27,21 @@ static NSString *kActionSelectorUnconfirmCancelled = @"unconfirmCancelled";
 static NSString *kActionSelectorDismiss = @"dismiss";
 static NSString *kActionSelectorBook = @"book";
 
-- (instancetype)initWithAppointment:(Appointment *)appointment
-{
+- (instancetype)initWithAppointment:(Appointment *)appointment {
+    
     self = [super init];
+    
     if (self) {
         _appointment = appointment;
         
         [appointment addObserver:self forKeyPath:NSStringFromSelector(@selector(appointmentState)) options:NSKeyValueObservingOptionNew context:XXContext];
     }
+    
     return self;
 }
 
 -(Appointment *)appointment {
+    
     return (Appointment *)self.associatedCardObject;
 }
 
@@ -60,7 +63,6 @@ static NSString *kActionSelectorBook = @"book";
             
         case AppointmentStateReminding:
             return CardLayoutTwoButtonSecondaryOnly;
-            
     }
 }
 
@@ -211,6 +213,7 @@ static NSString *kActionSelectorBook = @"book";
             [actions addObject:buttonOneAction];
             
         }
+            
         default:
             break;
     }
@@ -219,16 +222,16 @@ static NSString *kActionSelectorBook = @"book";
 }
 
 - (void)book {
+    
     self.appointment.state = @(AppointmentStateReminding);
-    [self.delegate didTapButtonOneOnCard:self withAssociatedObject:self.appointment];
+    [self.delegate didUpdateObjectStateForCard:self];
 }
 
 - (void)schedule {
     
     //opens up a new scheduling card view, filled out with the recommended dates / times
     self.appointment.state = @(AppointmentStateBooking);
-    [self.delegate didTapButtonOneOnCard:self withAssociatedObject:self.appointment];
-    
+    [self.delegate didUpdateObjectStateForCard:self];
 }
 
 - (void)cancel {
@@ -247,27 +250,31 @@ static NSString *kActionSelectorBook = @"book";
 }
 
 -(nonnull User *)primaryUser {
+    
     return self.appointment.patient;
 }
 
 -(nonnull User *)secondaryUser {
+    
     return self.appointment.provider;
 }
 
 //FIXME: Not sure what data we actually want for a timestamp.
 - (nonnull NSDate *)timestamp {
+    
     return [NSDate date];
 }
 
 -(nonnull UIImage *)icon {
+    
     return [UIImage imageNamed:@"SMS-32"];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath
                       ofObject:(id)object
                         change:(NSDictionary *)change
-                       context:(void *)context
-{
+                       context:(void *)context {
+    
     if (context == XXContext) {
         if ([keyPath isEqualToString:NSStringFromSelector(@selector(appointmentState))]) {
             NSLog(@"Keypath:%@",keyPath);

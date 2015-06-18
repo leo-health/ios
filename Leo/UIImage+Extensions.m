@@ -46,7 +46,7 @@
     
     //return the color-burned image
     return coloredImg;
-    
-    
 }
+
+
 @end

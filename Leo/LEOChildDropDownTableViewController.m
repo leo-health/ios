@@ -20,8 +20,11 @@
 
 static NSString *childReuseIdentifier = @"ChildCell";
 
+#pragma mark - View Controller Lifecycle and VCL Helper Methods
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
+    
     self.tableView.allowsMultipleSelection = NO; //TODO: We will allow for multiple selection in next round of work.
     self.tableView.scrollEnabled = NO;
     self.tableView.delegate = self;
@@ -31,25 +34,23 @@ static NSString *childReuseIdentifier = @"ChildCell";
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     self.tableView.estimatedRowHeight = 44;
     [self.tableView registerNib:[LEOChildCell nib] forCellReuseIdentifier:childReuseIdentifier];
-   [self reloadDataWithCompletion:^{
-       [self.tableView invalidateIntrinsicContentSize]; //FIXME: This isn't actually doing anything. Right now the size of the container view is being set in IB based on three children. This will need to change!
-   }];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    
+    [self reloadDataWithCompletion:^{
+        [self.tableView invalidateIntrinsicContentSize]; //FIXME: This isn't actually doing anything. Right now the size of the container view is being set in IB based on three children. This will need to change!
+    }];
 }
 
 - (void)reloadDataWithCompletion:( void (^) (void))completionBlock {
     
-     [self.tableView reloadData];
+    [self.tableView reloadData];
     completionBlock();
 }
-#pragma mark - Table view data source
 
+
+
+#pragma mark - <UITableViewDataSource>
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-
+    
     // Return the number of rows in the section.
     return [self.children count];
 }
@@ -63,6 +64,8 @@ static NSString *childReuseIdentifier = @"ChildCell";
 }
 
 
+
+#pragma mark - <UITableViewDelegate>
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
@@ -83,42 +86,5 @@ static NSString *childReuseIdentifier = @"ChildCell";
         cell.selected = YES;
     }
 }
-
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
