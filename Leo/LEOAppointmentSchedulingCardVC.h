@@ -20,3 +20,4 @@
 @property (strong, nonatomic) LEOCardScheduling *card;
 
 @end
+

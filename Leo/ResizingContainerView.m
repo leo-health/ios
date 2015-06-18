@@ -11,6 +11,7 @@
 @implementation ResizingContainerView
 
 -(void)addSubview:(UIView *)view {
+    
     view.translatesAutoresizingMaskIntoConstraints = NO;
     
     [super addSubview:view];

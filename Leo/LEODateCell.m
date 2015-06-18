@@ -1,6 +1,6 @@
 //
 //  LEODateCell.m
-//  
+//
 //
 //  Created by Zachary Drossman on 6/1/15.
 //
@@ -25,9 +25,7 @@
     }
     
     [self layoutIfNeeded];
-
 }
-
 
 - (void)setUnselectedFormat {
     
@@ -45,4 +43,5 @@
     self.dayOfDateLabel.font = [UIFont leoBodyBoldFont];
     self.backgroundColor = [UIColor leoWhite];
 }
+
 @end

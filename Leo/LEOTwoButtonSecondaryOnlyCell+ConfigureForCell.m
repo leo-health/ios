@@ -16,9 +16,10 @@
 
 - (void)configureForCard:(LEOCard *)card
 {
+    
     self.iconImageView.image = [card icon];
     self.titleLabel.text = [card title];
-
+    
     self.secondaryUserView.user = card.secondaryUser;
     self.secondaryUserView.timeStamp = card.timestamp;
     self.secondaryUserView.cardLayout = CardLayoutTwoButtonSecondaryOnly;

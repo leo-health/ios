@@ -12,6 +12,7 @@
 @implementation LEOChildCell (ConfigureForCell)
 
 - (void)configureForChild:(User *)child {
+    
     self.nameLabel.text = child.firstName;
 }
 

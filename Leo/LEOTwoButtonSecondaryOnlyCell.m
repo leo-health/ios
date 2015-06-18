@@ -11,16 +11,19 @@
 @implementation LEOTwoButtonSecondaryOnlyCell
 
 - (void)awakeFromNib {
+    
     // Initialization code
 }
 
 + (UINib *)nib {
+    
     return [UINib nibWithNibName:@"LEOTwoButtonSecondaryOnlyCell" bundle:nil];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 

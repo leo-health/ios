@@ -22,7 +22,7 @@
     [self.buttonOne setTitle:[card stringRepresentationOfActionsAvailableForState][0] forState:UIControlStateNormal];
     [self.buttonOne addTarget:card action:NSSelectorFromString([card actionsAvailableForState][0]) forControlEvents:UIControlEventTouchUpInside];
     
-      [self formatSubviews];
+    [self formatSubviews];
 }
 
 - (void)formatSubviews {

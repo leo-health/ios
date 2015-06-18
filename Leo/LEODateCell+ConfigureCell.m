@@ -23,11 +23,12 @@
     
     static NSDateFormatter *weekdayFormatter;
     if (!weekdayFormatter) {
-
+        
         weekdayFormatter = [[NSDateFormatter alloc] init];
-    weekdayFormatter.dateFormat = @"EEE";
+        weekdayFormatter.dateFormat = @"EEE";
     }
-    return weekdayFormatter;
     
+    return weekdayFormatter;
 }
+
 @end

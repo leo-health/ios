@@ -608,8 +608,8 @@
 			isa = PBXGroup;
 			children = (
 				3130B4911B0693D5006ACC80 /* Stoyboards & Xibs */,
-				3130B4901B068CE7006ACC80 /* Helpers */,
 				BCA69A3D1B039ABC00C27B2B /* Views and Controllers */,
+				3130B4901B068CE7006ACC80 /* Helpers */,
 				BCED00921B01542D007653D6 /* Constants */,
 				BCA69A371B02AE5500C27B2B /* APIs */,
 				BCED00971B0257EB007653D6 /* Data Model */,

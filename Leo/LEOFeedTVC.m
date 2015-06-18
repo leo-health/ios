@@ -57,17 +57,21 @@ static NSString *const CellIdentifierLEOCardOneButtonSecondaryOnly = @"LEOOneBut
 static NSString *const CellIdentifierLEOCardOneButtonSecondaryAndPrimary = @"LEOOneButtonSecondaryAndPrimaryCell";
 static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButtonPrimaryOnlyCell";
 
+
+
+#pragma mark - View Controller Lifecycle and VCL Helper Methods
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
     
-    //    [self testAPI];
+    //    [self testAPI]; //TODO: Remove this line once moved what is in this method to a test.
     [self.coreDataManager fetchDataWithCompletion:^{
         [self tableViewSetup];
     }];
-    
 }
 
--(void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated {
+    
     [self.tableView reloadData];
 }
 
@@ -84,50 +88,51 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     [self.tableView registerNib:[LEOTwoButtonPrimaryOnlyCell nib] forCellReuseIdentifier:CellIdentifierLEOCardTwoButtonPrimaryOnly];
     [self.tableView registerNib:[LEOOneButtonPrimaryOnlyCell nib] forCellReuseIdentifier:CellIdentifierLEOCardOneButtonPrimaryOnly];
     [self.tableView registerNib:[LEOTwoButtonSecondaryOnlyCell nib] forCellReuseIdentifier:CellIdentifierLEOCardTwoButtonSecondaryOnly];
-
-    
 }
 
-#pragma mark - Table view delegate
 
+
+#pragma mark - <UITableViewDelegate>
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     LEOCardCell *cell = (LEOCardCell *)[tableView cellForRowAtIndexPath:indexPath];
     self.selectedCardCell = cell;
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
-
+    
 }
 
--(void)didTapButtonOneOnCard:(LEOCard *)card withAssociatedObject:(id)associatedObject {
+- (void)didUpdateObjectStateForCard:(LEOCard *)card {
     
     [UIView animateWithDuration:0.2 animations:^{
-        //self.selectedCardCell.layer.transform = CATransform3DMakeRotation(M_PI_2,0.0,1.0,0.0); ; //flip halfway
+        //self.selectedCardCell.layer.transform = CATransform3DMakeRotation(M_PI_2,0.0,1.0,0.0); ; //flip halfway, TODO: Determine what the appropiate thing is to do with the collapsed card view.
     } completion:^(BOOL finished) {
         
-        if ([associatedObject isKindOfClass:[Appointment class]]) {
-            UIStoryboard *schedulingStoryboard = [UIStoryboard storyboardWithName:@"Scheduling" bundle:nil];
-            LEOAppointmentSchedulingCardVC *singleAppointmentScheduleVC = [schedulingStoryboard instantiateInitialViewController];
-            singleAppointmentScheduleVC.card = (LEOCardScheduling *)card;
-            //              self.transitionDelegate = [[LEOTransitioningDelegate alloc] init];
-            //            singleAppointmentScheduleVC.transitioningDelegate = self.transitionDelegate;
-            [self presentViewController:singleAppointmentScheduleVC animated:YES completion:^{
-                singleAppointmentScheduleVC.collapsedCell = self.selectedCardCell;
-            }];
+        if ([card.associatedCardObject isKindOfClass:[Appointment class]]) {
+            
+            Appointment *appointment = card.associatedCardObject;
+            
+            if (appointment.appointmentState == AppointmentStateBooking) {
+                UIStoryboard *schedulingStoryboard = [UIStoryboard storyboardWithName:@"Scheduling" bundle:nil];
+                LEOAppointmentSchedulingCardVC *singleAppointmentScheduleVC = [schedulingStoryboard instantiateInitialViewController];
+                singleAppointmentScheduleVC.card = (LEOCardScheduling *)card;
+                //              self.transitionDelegate = [[LEOTransitioningDelegate alloc] init];
+                //            singleAppointmentScheduleVC.transitioningDelegate = self.transitionDelegate;
+                [self presentViewController:singleAppointmentScheduleVC animated:YES completion:^{
+                    singleAppointmentScheduleVC.collapsedCell = self.selectedCardCell;
+                }];
+            }
+            else {
+                [self.tableView reloadData]; //TODO: This is not right, but for now it is a placeholder.
+            }
         }
     }];
 }
 
--(void)didTapButtonTwoOnCard:(LEOCard *)card withAssociatedObject:(id)associatedObject {
 
-}
 
--(void)didUpdateObjectStateForCard:(LEOCard *)card {
-    //TODO: For now this is fine, but we should be a little more elegant about it and only reload the cell for which the object state changed. We may move to a fetchedResultsController for data to handle that at some point.
-    [self.tableView reloadData];
-}
-
-#pragma mark UITableViewDataSource
-
+#pragma mark - <UITableViewDataSource>
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    
     return self.coreDataManager.cards.count;
 }
 
@@ -142,18 +147,18 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
         case CardLayoutTwoButtonSecondaryOnly: {
             cellIdentifier = CellIdentifierLEOCardTwoButtonSecondaryOnly;
             LEOTwoButtonSecondaryOnlyCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier
-                                                                                forIndexPath:indexPath];
+                                                                                  forIndexPath:indexPath];
             [cell configureForCard:card];
-
+            
             return cell;
         }
             
         case CardLayoutTwoButtonPrimaryOnly: {
             cellIdentifier = CellIdentifierLEOCardTwoButtonPrimaryOnly;
             LEOTwoButtonPrimaryOnlyCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier
-                                                                                  forIndexPath:indexPath];
+                                                                                forIndexPath:indexPath];
             [cell configureForCard:card];
-
+            
             return cell;
         }
             
@@ -171,11 +176,11 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
             LEOOneButtonPrimaryOnlyCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
             
             [cell configureForCard:card];
-
+            
             
             return cell;
         }
-        
+            
         default:
             break;
     }
@@ -259,10 +264,10 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
                                           managedObjectContext:self.coreDataManager.managedObjectContext];
             doctorUser.credentialSuffix = @"MD";
             doctorUser.title = @"Dr.";
-
+            
             
             Appointment *zachsAppt = [Appointment insertEntityWithDate:date duration:@30 appointmentType:@1 patient:childUser provider:doctorUser familyID:@"63" bookedByUser:parentUser state:@(AppointmentStateRecommending) managedObjectContext:self.coreDataManager.managedObjectContext];
-    
+            
             
             [self.coreDataManager createAppointmentWithAppointment:zachsAppt withCompletion:^(NSDictionary * __nonnull rawResults) {
                 NSLog(@"CREATE APPT: %@", rawResults);
@@ -293,7 +298,8 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 }
 
 
--(LEOCoreDataManager *)coreDataManager {
+- (LEOCoreDataManager *)coreDataManager {
+    
     if (!_coreDataManager) {
         _coreDataManager = [LEOCoreDataManager sharedManager];
     }

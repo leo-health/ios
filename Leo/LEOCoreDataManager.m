@@ -1,6 +1,6 @@
 //
 //  LEOCoreDataManager.m
-//  
+//
 //
 //  Created by Zachary Drossman on 5/11/15.
 //
@@ -31,8 +31,7 @@
 
 @implementation LEOCoreDataManager
 
-+ (instancetype)sharedManager
-{
++ (instancetype)sharedManager {
     static LEOCoreDataManager *sharedManager = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -44,6 +43,7 @@
 #pragma mark - Communcation stack (for APIs)
 
 -(NSString *)userToken {
+    
     //will eventually pull from the keychain, but for now, will come from some temporarily place or be hard coded as necessary.
     return _userToken;
 }
@@ -79,10 +79,10 @@
         //TODO: Error terms
         completionBlock(rawResults);
     }];
-    
 }
 
 - (void)createAppointmentWithAppointment:(nonnull Appointment *)appointment withCompletion:(void (^)(NSDictionary  * __nonnull rawResults))completionBlock {
+    
     NSArray *apptProperties = @[[self userToken], appointment.patient.id, appointment.date, appointment.duration, appointment.provider.id, appointment.practiceID];
     NSArray *apptKeys = @[APIParamApptToken, APIParamPatientID, APIParamApptDate, APIParamApptDuration, APIParamProviderID, APIParamPracticeID];
     
@@ -95,6 +95,7 @@
 }
 
 - (void)getAppointmentsForFamilyOfCurrentUserWithCompletion:(void (^)(NSDictionary  * __nonnull rawResults))completionBlock {
+    
     NSArray *apptProperties = @[[self userToken]];
     NSArray *apptKeys = @[APIParamApptToken];
     
@@ -136,7 +137,7 @@
 }
 
 - (void)getMessagesForConversation:(Conversation *)conversation withCompletion:(nonnull void (^)(NSDictionary  * __nonnull rawResults))completionBlock {
-
+    
     NSArray *messageProperties = @[self.userToken];
     NSArray *messageKeys = @[APIParamApptToken];
     
@@ -150,24 +151,16 @@
 
 
 
-
-
-
-
-
-
-
-
-
 #pragma mark - Core Data stack
 
-- (NSManagedObjectContext *)managedObjectContext
-{
-    if (!_managedObjectContext)
-    {
+- (NSManagedObjectContext *)managedObjectContext {
+
+    if (!_managedObjectContext) {
+
         NSPersistentStoreCoordinator *coordinator = self.persistentStoreCoordinator;
-        if (coordinator)
-        {
+
+        if (coordinator) {
+        
             _managedObjectContext = [[NSManagedObjectContext alloc] init];
             [_managedObjectContext setPersistentStoreCoordinator:coordinator];
         }
@@ -176,18 +169,21 @@
     return _managedObjectContext;
 }
 
-- (NSManagedObjectModel *)managedObjectModel
-{
-    if (!_managedObjectModel)
-    {
+- (NSManagedObjectModel *)managedObjectModel {
+
+    if (!_managedObjectModel) {
+       
         NSURL *modelURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"LEODataModel" withExtension:@"momd"];
         _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
     }
+   
     return _managedObjectModel;
 }
 
 - (NSPersistentStoreCoordinator *)persistentStoreCoordinator {
+    
     if (!_persistentStoreCoordinator) {
+       
         NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"LEODataModel.sqlite"];
         NSError *error = nil;
         
@@ -197,8 +193,11 @@
             abort();
         }
     }
+    
     return _persistentStoreCoordinator;
 }
+
+
 
 #pragma mark - Application's Documents directory
 
@@ -208,8 +207,10 @@
 }
 
 
-- (void)fetchDataWithCompletion:(void (^) (void))completionBlock {
+#pragma mark - Fetching
 
+- (void)fetchDataWithCompletion:(void (^) (void))completionBlock {
+    
     //FIXME: Shouldn't really be pulling users for cards, but it works as a placeholder anyway.
     //NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"User"];
     //self.cards = [[NSArray alloc] init];
@@ -218,22 +219,22 @@
     Role *childRole = [Role insertEntityWithName:@"child" resourceID:@"2" resourceType:@2 managedObjectContext:self.managedObjectContext];
     
     User *childUserOne = [User insertEntityWithFirstName:@"Zachary" lastName:@"Drossman" dob:[NSDate date] email:@"zd9@leohealth.com" role:childRole
-                                             familyID:[@([self.currentUser.familyID integerValue] + 1) stringValue]
-                                 managedObjectContext:self.managedObjectContext];
+                                                familyID:[@([self.currentUser.familyID integerValue] + 1) stringValue]
+                                    managedObjectContext:self.managedObjectContext];
     
     User *childUserTwo = [User insertEntityWithFirstName:@"Rachel" lastName:@"Drossman" dob:[NSDate date] email:@"rd9@leohealth.com" role:childRole
                                                 familyID:[@([self.currentUser.familyID integerValue] + 1) stringValue]
                                     managedObjectContext:self.managedObjectContext];
     
     User *childUserThree = [User insertEntityWithFirstName:@"Tracy" lastName:@"Drossman" dob:[NSDate date] email:@"td9@leohealth.com" role:childRole
-                                                familyID:[@([self.currentUser.familyID integerValue] + 1) stringValue]
-                                    managedObjectContext:self.managedObjectContext];
-
+                                                  familyID:[@([self.currentUser.familyID integerValue] + 1) stringValue]
+                                      managedObjectContext:self.managedObjectContext];
+    
     
     Role *doctorRole = [Role insertEntityWithName:@"doctor" resourceID:@"2" resourceType:@1 managedObjectContext:self.managedObjectContext];
-
+    
     User *doctorUser = [User insertEntityWithFirstName:@"Om" lastName:@"Lala" dob:[NSDate date] email:@"om10@leohealth.com" role:doctorRole familyID:nil
-                                 managedObjectContext:self.managedObjectContext];
+                                  managedObjectContext:self.managedObjectContext];
     
     doctorUser.credentialSuffix = @"MD";
     doctorUser.title = @"Dr.";
@@ -248,69 +249,60 @@
     parentUser.middleInitial = @"";
     parentUser.gender = @"female";
     
-    Appointment *appointment = [Appointment insertEntityWithDate:[NSDate dateWithYear:2015 month:6 day:15 hour:1 minute:0 second:0] duration:@30 appointmentType:[self fetchAppointmentTypes][1] patient:childUserOne provider:doctorUser familyID:@"62" bookedByUser:parentUser state:@(AppointmentStateRecommending) managedObjectContext:self.managedObjectContext];
+    Appointment *appointment = [Appointment insertEntityWithDate:[NSDate dateWithYear:2015 month:6 day:27 hour:1 minute:0 second:0] duration:@30 appointmentType:[self fetchAppointmentTypes][1] patient:childUserOne provider:doctorUser familyID:@"62" bookedByUser:parentUser state:@(AppointmentStateRecommending) managedObjectContext:self.managedObjectContext];
     
     LEOCardScheduling *cardOne = [[LEOCardScheduling alloc] initWithID:@2 state:AppointmentStateRecommending priority:@1 associatedCardObject:appointment];
     
-   //LEOCollapsedCard *cardTwo = [[LEOCollapsedCard alloc] initWithID:@2 state:CardStateNew title:@"Schedule Rachel's First Visit" body:@"Take a tour of the practice and meet with our world class physicians." primaryUser:childUserTwo secondaryUser:doctorUser timestamp:[NSDate date] priority:@2 activity:CardActivityAppointment];
-  //
-//    Card *cardFour = [[Card alloc] initWithID:@1 state:CardStateNew title:@"Welcome to Leo." body:@"If you have any questions or comments, you can reach us at any time." primaryUser:childUserOne secondaryUser:doctorUser timestamp:[NSDate date] priority:@1 activity:CardActivityConversation];
-//    
-//    Card *cardFive = [[Card alloc] initWithID:@2 state:CardStateNew title:@"Schedule Rachel's First Visit" body:@"Take a tour of the practice and meet with our world class physicians." primaryUser:childUserTwo secondaryUser:doctorUser timestamp:[NSDate date] priority:@2 activity:CardActivityAppointment];
-//    
-//    Card *cardSix = [[Card alloc] initWithID:@3 state:CardStateNew title:@"Recent Visit" body:@"Jacob was seen for a sore throat and cough." primaryUser:childUserThree secondaryUser:doctorUser timestamp:[NSDate date] priority:@3 activity:CardActivityVisit];
+    //LEOCollapsedCard *cardTwo = [[LEOCollapsedCard alloc] initWithID:@2 state:CardStateNew title:@"Schedule Rachel's First Visit" body:@"Take a tour of the practice and meet with our world class physicians." primaryUser:childUserTwo secondaryUser:doctorUser timestamp:[NSDate date] priority:@2 activity:CardActivityAppointment];
+    //
+    //    Card *cardFour = [[Card alloc] initWithID:@1 state:CardStateNew title:@"Welcome to Leo." body:@"If you have any questions or comments, you can reach us at any time." primaryUser:childUserOne secondaryUser:doctorUser timestamp:[NSDate date] priority:@1 activity:CardActivityConversation];
+    //
+    //    Card *cardFive = [[Card alloc] initWithID:@2 state:CardStateNew title:@"Schedule Rachel's First Visit" body:@"Take a tour of the practice and meet with our world class physicians." primaryUser:childUserTwo secondaryUser:doctorUser timestamp:[NSDate date] priority:@2 activity:CardActivityAppointment];
+    //
+    //    Card *cardSix = [[Card alloc] initWithID:@3 state:CardStateNew title:@"Recent Visit" body:@"Jacob was seen for a sore throat and cough." primaryUser:childUserThree secondaryUser:doctorUser timestamp:[NSDate date] priority:@3 activity:CardActivityVisit];
     
     self.cards = @[cardOne]; //, cardTwo, cardThree, cardFour, cardFive, cardSix, cardOne, cardTwo, cardThree, cardFour, cardFive, cardSix];
     
-    NSDate *june15atEightAM = [NSDate dateWithYear:2015 month:6 day:15 hour:8 minute:0 second:0];
+    NSDate *june15atEightAM = [NSDate dateWithYear:2015 month:6 day:27 hour:8 minute:0 second:0];
     
-    NSDate *june15atNineAM = [NSDate dateWithYear:2015 month:6 day:15 hour:9 minute:0 second:0];
+    NSDate *june15atNineAM = [NSDate dateWithYear:2015 month:6 day:27 hour:9 minute:0 second:0];
     
-    NSDate *june15atTenAM = [NSDate dateWithYear:2015 month:6 day:15 hour:10 minute:0 second:0];
+    NSDate *june15atTenAM = [NSDate dateWithYear:2015 month:6 day:27 hour:10 minute:0 second:0];
     
-    NSDate *june15atTenThirtyAM = [NSDate dateWithYear:2015 month:6 day:15 hour:10 minute:30 second:0];
+    NSDate *june15atTenThirtyAM = [NSDate dateWithYear:2015 month:6 day:27 hour:10 minute:30 second:0];
     
-    NSDate *june15atElevenAM = [NSDate dateWithYear:2015 month:6 day:15 hour:11 minute:0 second:0];
+    NSDate *june15atElevenAM = [NSDate dateWithYear:2015 month:6 day:27 hour:11 minute:0 second:0];
     
-    NSDate *june15atOnePM = [NSDate dateWithYear:2015 month:6 day:15 hour:13 minute:0 second:0];
+    NSDate *june15atOnePM = [NSDate dateWithYear:2015 month:6 day:27 hour:13 minute:0 second:0];
     
-    NSDate *june15atOneThirtyPM = [NSDate dateWithYear:2015 month:6 day:15 hour:13 minute:30 second:0];
+    NSDate *june15atOneThirtyPM = [NSDate dateWithYear:2015 month:6 day:27 hour:13 minute:30 second:0];
     
-    NSDate *june15atTwoPM = [NSDate dateWithYear:2015 month:6 day:15 hour:14 minute:0 second:0];
+    NSDate *june15atTwoPM = [NSDate dateWithYear:2015 month:6 day:27 hour:14 minute:0 second:0];
     
     NSDate *june15atTwoThirtyPM = [NSDate dateWithYear:2015 month:6 day:14 hour:30 minute:0 second:0];
     
-    NSDate *june16atElevenAM = [NSDate dateWithYear:2015 month:6 day:16 hour:11 minute:0 second:0];
+    NSDate *june16atElevenAM = [NSDate dateWithYear:2015 month:6 day:28 hour:11 minute:0 second:0];
     
-    NSDate *june16atNoon= [NSDate dateWithYear:2015 month:6 day:16 hour:12 minute:0 second:0];
+    NSDate *june16atNoon= [NSDate dateWithYear:2015 month:6 day:28 hour:12 minute:0 second:0];
     
-
-    NSDate *june6atEightAM = [NSDate dateWithYear:2015 month:6 day:6 hour:8 minute:0 second:0];
+    NSDate *june6atEightAM = [NSDate dateWithYear:2015 month:6 day:29 hour:8 minute:0 second:0];
     
-    NSDate *june6atNineAM = [NSDate dateWithYear:2015 month:6 day:6 hour:9 minute:0 second:0];
+    NSDate *june6atNineAM = [NSDate dateWithYear:2015 month:6 day:29 hour:9 minute:0 second:0];
     
-    NSDate *june6atTenAM = [NSDate dateWithYear:2015 month:6 day:6 hour:10 minute:0 second:0];
+    NSDate *june6atTenAM = [NSDate dateWithYear:2015 month:6 day:29 hour:10 minute:0 second:0];
     
-    NSDate *june6atTenThirtyAM = [NSDate dateWithYear:2015 month:6 day:6 hour:10 minute:30 second:0];
+    NSDate *june6atTenThirtyAM = [NSDate dateWithYear:2015 month:6 day:29 hour:10 minute:30 second:0];
     
-    NSDate *june6atElevenAM = [NSDate dateWithYear:2015 month:6 day:6 hour:11 minute:0 second:0];
+    NSDate *june6atElevenAM = [NSDate dateWithYear:2015 month:6 day:29 hour:11 minute:0 second:0];
     
-    NSDate *june6atOnePM = [NSDate dateWithYear:2015 month:6 day:6 hour:13 minute:0 second:0];
+    NSDate *june6atOnePM = [NSDate dateWithYear:2015 month:6 day:29 hour:13 minute:0 second:0];
     
-    NSDate *june6atOneThirtyPM = [NSDate dateWithYear:2015 month:6 day:6 hour:13 minute:30 second:0];
+    NSDate *june6atOneThirtyPM = [NSDate dateWithYear:2015 month:6 day:29 hour:13 minute:30 second:0];
     
     self.availableTimes = @[june15atEightAM, june15atNineAM, june15atTenAM, june15atTenThirtyAM, june15atElevenAM, june15atOnePM, june15atOneThirtyPM, june15atTwoPM, june15atTwoThirtyPM, june16atElevenAM, june16atNoon, june6atEightAM, june6atTenAM, june6atTenThirtyAM, june6atElevenAM];
     
     //FIXME: Safety here
     completionBlock();
-    //FIXME: This does nothing useful right now!
-//    if ([self.cards count] == 0) {
-//        for (NSInteger x = 0; x < 100; x++) {
-//            LEOCard *card = [[LEOCard alloc] init];
-//            NSLog(@"%@", card);
-//        }
-//        self.cards = [self.managedObjectContext executeFetchRequest:request error:nil];
-//    }
 }
 
 - (id)objectWithObjectID:(NSString *)objectID objectArray:(NSArray *)objects {
@@ -364,7 +356,7 @@
     User *childUserThree = [User insertEntityWithFirstName:@"Tracy" lastName:@"Drossman" dob:[NSDate date] email:@"td9@leohealth.com" role:childRole
                                                   familyID:[@([self.currentUser.familyID integerValue] + 1) stringValue]
                                       managedObjectContext:self.managedObjectContext];
-
+    
     return @[childUserOne, childUserTwo, childUserThree];
 }
 
@@ -373,28 +365,27 @@
     Role *doctorRole = [Role insertEntityWithName:@"doctor" resourceID:@"2" resourceType:@1 managedObjectContext:self.managedObjectContext];
     
     User *doctorOne = [User insertEntityWithFirstName:@"Om" lastName:@"Lala" dob:[NSDate date] email:@"om10@leohealth.com" role:doctorRole familyID:nil
-                                  managedObjectContext:self.managedObjectContext];
+                                 managedObjectContext:self.managedObjectContext];
     
     doctorOne.credentialSuffix = @"MD";
     doctorOne.title = @"Dr.";
     doctorOne.id = @"1";
     
     User *doctorTwo = [User insertEntityWithFirstName:@"Summer" lastName:@"Cece" dob:[NSDate date] email:@"summer10@leohealth.com" role:doctorRole familyID:nil
-                                  managedObjectContext:self.managedObjectContext];
+                                 managedObjectContext:self.managedObjectContext];
     
     doctorTwo.credentialSuffix = @"MD";
     doctorTwo.title = @"Dr.";
     doctorTwo.id = @"2";
     
     User *doctorThree = [User insertEntityWithFirstName:@"Cristina" lastName:@"Montagne" dob:[NSDate date] email:@"cristina10@leohealth.com" role:doctorRole familyID:nil
-                                  managedObjectContext:self.managedObjectContext];
+                                   managedObjectContext:self.managedObjectContext];
     
     doctorThree.credentialSuffix = @"MD";
     doctorThree.title = @"Dr.";
     doctorThree.id = @"3";
     
     return @[doctorOne, doctorTwo, doctorThree];
-    
 }
 
 - (NSArray *)fetchAppointmentTypes {

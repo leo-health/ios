@@ -11,6 +11,7 @@
 @implementation LEOSectionSeparator
 
 -(void)awakeFromNib {
+    
     self.backgroundColor = [UIColor leoWarmLightGray];
 }
 

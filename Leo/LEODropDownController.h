@@ -12,7 +12,6 @@
 
 @interface LEODropDownController : NSObject <UITableViewDelegate, UITableViewDataSource>
 
-
 - (instancetype)initWithTableView:(LEODropDownTableView *)tableView items:(NSArray *)items usingDescriptorKey:(NSString *)descriptorKey associatedCardObject:(id)associatedCardObject associatedCardObjectPropertyDescriptor:(NSString *)cardPropertyDescriptor;
 
-@end     
+@end

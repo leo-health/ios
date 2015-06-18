@@ -11,6 +11,7 @@
 @implementation LEODropDownTableView
 
 -(instancetype)init {
+    
     self = [super init];
     
     if (self) {
@@ -19,11 +20,10 @@
     }
     
     return self;
-        
 }
 
-- (instancetype)initWithCoder:(NSCoder *)coder
-{
+- (instancetype)initWithCoder:(NSCoder *)coder {
+    
     self = [super initWithCoder:coder];
     if (self) {
         self.scrollEnabled = NO;
@@ -33,11 +33,12 @@
     }
     return self;
 }
+
 - (CGSize)intrinsicContentSize {
+    
     [self layoutIfNeeded]; // force my contentSize to be updated immediately
     
     return CGSizeMake(UIViewNoIntrinsicMetric, [self numberOfRowsInSection:0] * 44);
-    
 }
 
 @end

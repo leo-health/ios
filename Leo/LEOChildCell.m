@@ -13,16 +13,19 @@
 @implementation LEOChildCell
 
 - (void)awakeFromNib {
+    
     self.selectionStyle = UITableViewCellSelectionStyleNone;
 }
 
 + (UINib *)nib {
+    
     return [UINib nibWithNibName:@"LEOChildCell" bundle:nil];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    
     [super setSelected:selected animated:animated];
-
+    
     if (selected) {
         self.checkImageView.hidden = NO;
         self.nameLabel.textColor = [UIColor leoOrangeRed];
@@ -32,7 +35,6 @@
         self.nameLabel.textColor = [UIColor leoWarmHeavyGray];
         self.nameLabel.font = [UIFont leoTitleBasicFont];
     }
-    
 }
 
 @end

@@ -27,27 +27,33 @@
 @implementation PageViewDataSource
 
 - (instancetype)initWithItems:(NSArray *)items {
+    
     self = [super init];
+    
     if (self) {
         // Create the data model.
         _pageData = items;
     }
+    
     return self;
 }
 
 - (TimeCollectionViewController *)viewControllerAtIndex:(NSUInteger)index storyboard:(UIStoryboard *)storyboard {
+    
     // Return the data view controller for the given index.
     if (([self.pageData count] == 0) || (index >= [self.pageData count])) {
         return nil;
     }
-
+    
     // Create a new view controller and pass suitable data.
     TimeCollectionViewController *collectionViewController = [storyboard instantiateViewControllerWithIdentifier:@"TimeCollectionViewController"];
     collectionViewController.selectedDate = self.pageData[index];
+    
     return collectionViewController;
 }
 
 - (NSUInteger)indexOfViewController:(TimeCollectionViewController *)viewController {
+    
     // Return the index of the given data view controller.
     // For simplicity, this implementation uses a static array of model objects and the view controller stores the model object; you can therefore use the model object to identify the index.
     return [self.pageData indexOfObject:viewController.selectedDate];
@@ -55,19 +61,20 @@
 
 #pragma mark - Page View Controller Data Source
 
-- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController
-{
+- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController {
+    
     NSUInteger index = [self indexOfViewController:(TimeCollectionViewController *)viewController];
     if ((index == 0) || (index == NSNotFound)) {
         return nil;
     }
     
     index--;
+    
     return [self viewControllerAtIndex:index storyboard:viewController.storyboard];
 }
 
-- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(UIViewController *)viewController
-{
+- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(UIViewController *)viewController {
+    
     NSUInteger index = [self indexOfViewController:(TimeCollectionViewController *)viewController];
     if (index == NSNotFound) {
         return nil;
@@ -77,6 +84,7 @@
     if (index == [self.pageData count]) {
         return nil;
     }
+    
     return [self viewControllerAtIndex:index storyboard:viewController.storyboard];
 }
 

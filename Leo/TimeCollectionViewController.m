@@ -30,7 +30,11 @@
 
 static NSString * const timeReuseIdentifier = @"TimeCell";
 
+
+
+#pragma mark - View Controller Lifecycle and VCL Helper Methods
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
     self.coreDataManager = [LEOCoreDataManager sharedManager];
     self.firstPass = YES;
@@ -40,7 +44,7 @@ static NSString * const timeReuseIdentifier = @"TimeCell";
 - (void)setupTimeCollectionView {
     
     self.times = [self.coreDataManager availableTimesForDate:self.selectedDate];
-   
+    
     void (^configureCell)(LEOTimeCell *, NSDate*) = ^(LEOTimeCell* cell, NSDate* dateTime) {
         [cell configureForDateTime:dateTime];
     };
@@ -55,35 +59,31 @@ static NSString * const timeReuseIdentifier = @"TimeCell";
     self.collectionView.collectionViewLayout = flowLayout;
     self.collectionView.backgroundColor = [UIColor clearColor];
     self.collectionView.dataSource = self.dataSource;
-
+    
     [self.collectionView registerNib:[UINib nibWithNibName:@"LEOTimeCell" bundle:nil]
-              forCellWithReuseIdentifier:timeReuseIdentifier];
+          forCellWithReuseIdentifier:timeReuseIdentifier];
 }
 
 -(void)setSelectedDate:(NSDate *)selectedDate {
+    
     _selectedDate = selectedDate;
     [self.collectionView reloadData];
 }
 
 
+
+#pragma mark - <UICollectionViewDelegate>
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    
     [self.delegate didUpdateAppointmentDateTime:self.times[indexPath.row]];
     self.selectedDate = self.times[indexPath.row];
 }
 
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-        return CGSizeMake(100.0, 50.0);
-}
-
--(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-    
-        return UIEdgeInsetsMake(0, 5, 0, 5);
-}
-
 -(void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
+    
     if (self.firstPass) {
         [collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
-            cell.selected = YES;
+        cell.selected = YES;
     } else {
         
         if ([self.selectedDate isEqualToDate:self.times[indexPath.row]]) {
@@ -94,5 +94,19 @@ static NSString * const timeReuseIdentifier = @"TimeCell";
     
     self.firstPass = NO;
 }
+
+
+
+#pragma mark - <UICollectionViewDelegateFlowLayout>
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    return CGSizeMake(100.0, 50.0);
+}
+
+-(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
+    
+    return UIEdgeInsetsMake(0, 5, 0, 5);
+}
+
 
 @end

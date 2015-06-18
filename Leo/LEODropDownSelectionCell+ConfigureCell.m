@@ -16,6 +16,7 @@
 @implementation LEODropDownSelectionCell (ConfigureCell)
 
 - (void)configureForItem:(id)item withDescriptorKey:(NSString *)descriptorKey {
+    
     self.optionLabel.text = [item valueForKey:descriptorKey];
 }
 

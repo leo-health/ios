@@ -19,50 +19,54 @@
 
 @implementation ArrayDataSource
 
-- (id)init
-{
+
+
+#pragma mark - Initializers and Initialization Helper Methods
+- (id)init {
+    
     return nil;
 }
 
 - (id)initWithItems:(NSArray *)items
      cellIdentifier:(NSString *)cellIdentifier
- configureCellBlock:(TableViewCellConfigureBlock)configureCellBlock
-{
+ configureCellBlock:(TableViewCellConfigureBlock)configureCellBlock {
+    
     self = [super init];
+    
     if (self) {
         self.items = items;
         self.cellIdentifier = cellIdentifier;
         self.configureCellBlock = [configureCellBlock copy];
     }
+    
     return self;
 }
 
-- (id)itemAtIndexPath:(NSIndexPath *)indexPath
-{
+- (id)itemAtIndexPath:(NSIndexPath *)indexPath {
+    
     return self.items[(NSUInteger) indexPath.row];
 }
 
 
-#pragma mark UITableViewDataSource
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+#pragma mark - <UITableViewDataSource>
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    
     return self.items.count;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     id item = [self itemAtIndexPath:indexPath];
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:self.cellIdentifier
                                                             forIndexPath:indexPath];
     
     self.configureCellBlock(cell, item);
-   
+    
     return cell;
 }
-
-
 
 
 @end
