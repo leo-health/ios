@@ -447,7 +447,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     
     if (!startDate) {
         
-        startDate = [[NSDate todayAdjustedForLocalTimeZone] dateBySubtractingDays:[NSDate todayAdjustedForLocalTimeZone].weekday - 1];
+        startDate = [[NSDate todayAdjustedForLocalTimeZone].endOfDay dateBySubtractingDays:[NSDate todayAdjustedForLocalTimeZone].weekday - 1];
     }
     
     return startDate;

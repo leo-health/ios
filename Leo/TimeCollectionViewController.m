@@ -65,7 +65,7 @@ static NSString * const timeReuseIdentifier = @"TimeCell";
 }
 
 -(void)setSelectedDate:(NSDate *)selectedDate {
-    
+    NSLog(@"Selected date is  %@",selectedDate);
     _selectedDate = selectedDate;
     [self.collectionView reloadData];
 }
@@ -85,7 +85,6 @@ static NSString * const timeReuseIdentifier = @"TimeCell";
         [collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
         cell.selected = YES;
     } else {
-        
         if ([self.selectedDate isEqualToDate:self.times[indexPath.row]]) {
             [collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
             cell.selected = YES;

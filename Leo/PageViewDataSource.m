@@ -8,6 +8,7 @@
 
 #import "PageViewDataSource.h"
 #import "TimeCollectionViewController.h"
+#import "NSDate+Extensions.h"
 
 /*
  A controller object that manages a simple model -- a collection of month names.
@@ -47,8 +48,10 @@
     
     // Create a new view controller and pass suitable data.
     TimeCollectionViewController *collectionViewController = [storyboard instantiateViewControllerWithIdentifier:@"TimeCollectionViewController"];
-    collectionViewController.selectedDate = self.pageData[index];
-    
+    NSDate *date = (NSDate*)self.pageData[index];
+    collectionViewController.dateThatQualifiesTimeCollection = date;
+    collectionViewController.selectedDate = date;
+
     return collectionViewController;
 }
 
@@ -56,7 +59,8 @@
     
     // Return the index of the given data view controller.
     // For simplicity, this implementation uses a static array of model objects and the view controller stores the model object; you can therefore use the model object to identify the index.
-    return [self.pageData indexOfObject:viewController.selectedDate];
+    NSLog(@"Current index: %lu",[self.pageData indexOfObject:viewController.dateThatQualifiesTimeCollection]);
+    return [self.pageData indexOfObject:viewController.dateThatQualifiesTimeCollection];
 }
 
 #pragma mark - Page View Controller Data Source
@@ -65,6 +69,7 @@
     
     NSUInteger index = [self indexOfViewController:(TimeCollectionViewController *)viewController];
     if ((index == 0) || (index == NSNotFound)) {
+        NSLog(@"Index not found");
         return nil;
     }
     
@@ -77,13 +82,16 @@
     
     NSUInteger index = [self indexOfViewController:(TimeCollectionViewController *)viewController];
     if (index == NSNotFound) {
+        NSLog(@"Index not found");
         return nil;
     }
     
     index++;
     if (index == [self.pageData count]) {
+        NSLog(@"Index %lu == self.pageDataCount %lu",index,(unsigned long)self.pageData.count);
         return nil;
     }
+    //NSLog(@"Returning %@",[self viewControllerAtIndex:index storyboard:viewController.storyboard]);
     
     return [self viewControllerAtIndex:index storyboard:viewController.storyboard];
 }
