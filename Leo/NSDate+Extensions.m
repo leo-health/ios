@@ -12,14 +12,14 @@
 
 - (NSDate *)endOfDay {
     
-    NSDate *modifiedDate = [NSDate dateAdjustedForLocalTimeZone:[NSDate dateWithYear:self.year month:self.month day:self.day hour:23 minute:59 second:59]];
+    NSDate *modifiedDate = [NSDate dateWithYear:self.year month:self.month day:self.day hour:23 minute:59 second:59];
     
     return modifiedDate;
 }
 
 - (NSDate *)beginningOfDay {
     
-    NSDate *modifiedDate = [NSDate dateAdjustedForLocalTimeZone:[NSDate dateWithYear:self.year month:self.month day:self.day hour:0 minute:0 second:0]];
+    NSDate *modifiedDate = [NSDate dateWithYear:self.year month:self.month day:self.day hour:0 minute:0 second:0];
     
     return modifiedDate;
 }
@@ -38,6 +38,34 @@
     NSInteger currentGMTOffset = [currentTimeZone secondsFromGMTForDate:date];
     
     return [date dateByAddingSeconds:currentGMTOffset];
+}
+
+
+//SOURCE: http://stackoverflow.com/a/4739650/1938725
++ (NSInteger)daysBetweenDate:(NSDate*)fromDateTime andDate:(NSDate*)toDateTime {
+    
+    
+    NSDate *fromDate;
+    NSDate *toDate;
+    
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    
+    [calendar rangeOfUnit:NSCalendarUnitDay startDate:&fromDate
+                 interval:NULL forDate:fromDateTime];
+    [calendar rangeOfUnit:NSCalendarUnitDay startDate:&toDate
+                 interval:NULL forDate:toDateTime];
+    
+    NSDateComponents *difference = [calendar components:NSCalendarUnitDay
+                                               fromDate:fromDate toDate:toDate options:0];
+    
+    return [difference day];
+}
+
+- (NSDate *)dateWithoutTime {
+    
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents *components = [calendar components:NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit fromDate:self];
+    return [calendar dateFromComponents:components];
 }
 
 

@@ -18,6 +18,8 @@
 
 @property (strong, nonatomic) NSDate *selectedDate;
 @property (assign, nonatomic) NSDate* dateThatQualifiesTimeCollection;
+@property (strong, nonatomic) NSDate *previousDateOfAvailableTimes;
+@property (strong, nonatomic) NSDate *nextDateOfAvailableTimes;
 @property (weak, nonatomic) id<TimeSelectionProtocol> delegate;
 
 @end

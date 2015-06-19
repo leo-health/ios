@@ -17,5 +17,5 @@
 - (NSUInteger)indexOfViewController:(TimeCollectionViewController *)viewController;
 
 - (id)initWithItems:(NSArray *)items;
-
+- (instancetype)initWithAllItems:(NSArray *)items selectedSubsetOfItems:(NSArray *)selectableItems;
 @end

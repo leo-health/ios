@@ -19,6 +19,7 @@
 #import "UIImage+Extensions.h"
 #import <NSDate+DateTools.h>
 #import "AppointmentType.h"
+#import "NSDate+Extensions.h"
 
 @interface LEOCoreDataManager()
 
@@ -250,7 +251,7 @@
     parentUser.middleInitial = @"";
     parentUser.gender = @"female";
     
-    Appointment *appointment = [Appointment insertEntityWithDate:[NSDate dateWithYear:2015 month:6 day:27 hour:1 minute:0 second:0] duration:@30 appointmentType:[self fetchAppointmentTypes][1] patient:childUserOne provider:doctorUser familyID:@"62" bookedByUser:parentUser state:@(AppointmentStateRecommending) managedObjectContext:self.managedObjectContext];
+    Appointment *appointment = [Appointment insertEntityWithDate:nil appointmentType:[self fetchAppointmentTypes][1] patient:childUserOne provider:doctorUser familyID:@"62" bookedByUser:parentUser state:@(AppointmentStateRecommending) managedObjectContext:self.managedObjectContext];
     
     LEOCardScheduling *cardOne = [[LEOCardScheduling alloc] initWithID:@2 state:AppointmentStateRecommending priority:@1 associatedCardObject:appointment];
     
@@ -264,43 +265,6 @@
     
     self.cards = @[cardOne]; //, cardTwo, cardThree, cardFour, cardFive, cardSix, cardOne, cardTwo, cardThree, cardFour, cardFive, cardSix];
     
-    NSDate *june15atEightAM = [NSDate dateWithYear:2015 month:6 day:27 hour:8 minute:0 second:0];
-    
-    NSDate *june15atNineAM = [NSDate dateWithYear:2015 month:6 day:27 hour:9 minute:0 second:0];
-    
-    NSDate *june15atTenAM = [NSDate dateWithYear:2015 month:6 day:27 hour:10 minute:0 second:0];
-    
-    NSDate *june15atTenThirtyAM = [NSDate dateWithYear:2015 month:6 day:27 hour:10 minute:30 second:0];
-    
-    NSDate *june15atElevenAM = [NSDate dateWithYear:2015 month:6 day:27 hour:11 minute:0 second:0];
-    
-    NSDate *june15atOnePM = [NSDate dateWithYear:2015 month:6 day:27 hour:13 minute:0 second:0];
-    
-    NSDate *june15atOneThirtyPM = [NSDate dateWithYear:2015 month:6 day:27 hour:13 minute:30 second:0];
-    
-    NSDate *june15atTwoPM = [NSDate dateWithYear:2015 month:6 day:27 hour:14 minute:0 second:0];
-    
-    NSDate *june15atTwoThirtyPM = [NSDate dateWithYear:2015 month:6 day:14 hour:30 minute:0 second:0];
-    
-    NSDate *june16atElevenAM = [NSDate dateWithYear:2015 month:6 day:28 hour:11 minute:0 second:0];
-    
-    NSDate *june16atNoon= [NSDate dateWithYear:2015 month:6 day:28 hour:12 minute:0 second:0];
-    
-    NSDate *june6atEightAM = [NSDate dateWithYear:2015 month:6 day:29 hour:8 minute:0 second:0];
-    
-    NSDate *june6atNineAM = [NSDate dateWithYear:2015 month:6 day:29 hour:9 minute:0 second:0];
-    
-    NSDate *june6atTenAM = [NSDate dateWithYear:2015 month:6 day:29 hour:10 minute:0 second:0];
-    
-    NSDate *june6atTenThirtyAM = [NSDate dateWithYear:2015 month:6 day:29 hour:10 minute:30 second:0];
-    
-    NSDate *june6atElevenAM = [NSDate dateWithYear:2015 month:6 day:29 hour:11 minute:0 second:0];
-    
-    NSDate *june6atOnePM = [NSDate dateWithYear:2015 month:6 day:29 hour:13 minute:0 second:0];
-    
-    NSDate *june6atOneThirtyPM = [NSDate dateWithYear:2015 month:6 day:29 hour:13 minute:30 second:0];
-    
-    self.availableTimes = @[june15atEightAM, june15atNineAM, june15atTenAM, june15atTenThirtyAM, june15atElevenAM, june15atOnePM, june15atOneThirtyPM, june15atTwoPM, june15atTwoThirtyPM, june16atElevenAM, june16atNoon, june6atEightAM, june6atTenAM, june6atTenThirtyAM, june6atElevenAM];
     
     //FIXME: Safety here
     completionBlock();
@@ -325,20 +289,20 @@
 
 - (NSArray *)availableTimesForDate:(NSDate*)date {
     
-    NSDate *beginningOfDay = [NSDate dateWithYear:date.year month:date.month day:date.day hour:0 minute:0 second:0];
-    
-    NSDate *endOfDay = [NSDate dateWithYear:date.year month:date.month day:date.day hour:23 minute:59 second:59];
+    NSCalendar *calendar = [NSCalendar calendarWithIdentifier:NSCalendarIdentifierGregorian];
     
     NSMutableArray *timesForDate = [[NSMutableArray alloc] init];
     
-    for (NSDate *availableTime in self.availableTimes) {
+    NSArray *slots = [self fetchSlots];
+    
+    for (NSDate *availableTime in slots) {
         
-        if ( ([beginningOfDay timeIntervalSince1970] < [availableTime timeIntervalSince1970]) && ( [availableTime timeIntervalSince1970] < [endOfDay timeIntervalSince1970])){
-            
+        if ([calendar isDate:availableTime inSameDayAsDate:date]) {
+
             [timesForDate addObject:availableTime];
         }
     }
-    
+
     return timesForDate;
 }
 
@@ -397,4 +361,64 @@
     
     return @[appointmentTypeOne, appointmentTypeTwo, appointmentTypeThree];
 }
+
+- (NSArray *)fetchSlots {
+    
+    NSDate *june15atEightAM = [NSDate dateWithYear:2015 month:6 day:27 hour:8 minute:0 second:0];
+    
+    NSDate *june15atNineAM = [NSDate dateWithYear:2015 month:6 day:27 hour:9 minute:0 second:0];
+    
+    NSDate *june15atTenAM = [NSDate dateWithYear:2015 month:6 day:27 hour:10 minute:0 second:0];
+    
+    NSDate *june15atTenThirtyAM = [NSDate dateWithYear:2015 month:6 day:27 hour:10 minute:30 second:0];
+    
+    NSDate *june15atElevenAM = [NSDate dateWithYear:2015 month:6 day:27 hour:11 minute:0 second:0];
+    
+    NSDate *june15atOnePM = [NSDate dateWithYear:2015 month:6 day:27 hour:13 minute:0 second:0];
+    
+    NSDate *june15atOneThirtyPM = [NSDate dateWithYear:2015 month:6 day:27 hour:13 minute:30 second:0];
+    
+    NSDate *june15atTwoPM = [NSDate dateWithYear:2015 month:6 day:27 hour:14 minute:0 second:0];
+    
+    NSDate *june15atTwoThirtyPM = [NSDate dateWithYear:2015 month:6 day:27 hour:5 minute:0 second:0];
+    
+    NSDate *june16atElevenAM = [NSDate dateWithYear:2015 month:6 day:28 hour:11 minute:0 second:0];
+    
+    NSDate *june16atNoon= [NSDate dateWithYear:2015 month:6 day:28 hour:12 minute:0 second:0];
+    
+    NSDate *june6atEightAM = [NSDate dateWithYear:2015 month:6 day:29 hour:8 minute:0 second:0];
+    
+    NSDate *june6atNineAM = [NSDate dateWithYear:2015 month:6 day:29 hour:9 minute:0 second:0];
+    
+    NSDate *june6atTenAM = [NSDate dateWithYear:2015 month:6 day:29 hour:10 minute:0 second:0];
+    
+    NSDate *june6atTenThirtyAM = [NSDate dateWithYear:2015 month:6 day:29 hour:10 minute:30 second:0];
+    
+    NSDate *june6atElevenAM = [NSDate dateWithYear:2015 month:6 day:29 hour:11 minute:0 second:0];
+    
+    NSDate *june6atOnePM = [NSDate dateWithYear:2015 month:6 day:29 hour:13 minute:0 second:0];
+    
+    NSDate *june6atOneThirtyPM = [NSDate dateWithYear:2015 month:6 day:29 hour:13 minute:30 second:0];
+    
+    return @[june15atEightAM, june15atNineAM, june15atTenAM, june15atTenThirtyAM, june15atElevenAM, june15atOnePM, june15atOneThirtyPM, june15atTwoPM, june15atTwoThirtyPM, june16atElevenAM, june16atNoon, june6atEightAM, june6atTenAM, june6atTenThirtyAM, june6atElevenAM];
+}
+
+- (NSArray *)availableDates {
+    
+    if (!_availableDates) {
+        
+        NSArray *slots = [self fetchSlots];
+        
+        NSMutableArray *datesWithoutTimes = [[NSMutableArray alloc] init];
+        
+        for (NSDate *slot in slots) {
+            [datesWithoutTimes addObject:[slot dateWithoutTime]];
+        }
+        
+        _availableDates = [[datesWithoutTimes valueForKeyPath:@"@distinctUnionOfObjects.self"] sortedArrayUsingSelector:@selector(compare:)];
+    }
+    
+    return _availableDates;
+}
+
 @end

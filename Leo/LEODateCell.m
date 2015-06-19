@@ -18,13 +18,39 @@
 
 -(void)setSelected:(BOOL)selected {
     
-    [self setSelectedFormat];
+    super.selected = selected;
     
     if (!selected) {
         [self setUnselectedFormat];
+    } else {
+        [self setSelectedFormat];
     }
     
     [self layoutIfNeeded];
+}
+
+-(void)setSelectable:(BOOL)selectable {
+    
+    _selectable = selectable;
+    
+    if (!_selectable) {
+        [self setUnselectableFormat];
+    } else {
+        [self setSelectableFormat];
+    }
+    
+}
+
+- (void)setUnselectableFormat {
+    
+    self.userInteractionEnabled = NO;
+    self.dateLabel.textColor = [UIColor leoWhite];
+}
+
+- (void)setSelectableFormat {
+    
+    self.userInteractionEnabled = YES;
+    self.dateLabel.textColor = [UIColor leoWarmHeavyGray];
 }
 
 - (void)setUnselectedFormat {
@@ -33,9 +59,12 @@
     self.dateLabel.textColor = [UIColor leoWarmHeavyGray];
     self.dayOfDateLabel.textColor = [UIColor leoWarmHeavyGray];
     self.backgroundColor = [UIColor leoWarmLightGray];
+    
 }
 
 - (void)setSelectedFormat {
+    
+    [self setSelectableFormat];
     
     self.dateLabel.font = [UIFont leoTitleBolderFont];
     self.dateLabel.textColor = [UIColor leoOrangeRed];
@@ -43,5 +72,6 @@
     self.dayOfDateLabel.font = [UIFont leoBodyBoldFont];
     self.backgroundColor = [UIColor leoWhite];
 }
+
 
 @end

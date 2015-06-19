@@ -13,4 +13,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *dateLabel;
 @property (weak, nonatomic) IBOutlet UILabel *dayOfDateLabel;
 
+@property (nonatomic) BOOL selectable;
+
 @end
