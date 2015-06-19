@@ -22,7 +22,7 @@
     UIViewController *toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     
     toViewController.view.frame = CGRectMake(fromViewController.view.frame.origin.x + 20, fromViewController.view.frame.origin.y + 20, fromViewController.view.frame.size.width - 40, fromViewController.view.frame.size.height - 40);
-    toViewController.view.transform = CGAffineTransformMake(0, 0, 0, 1, 0, 0);
+//    toViewController.view.transform = CGAffineTransformMake(0, 0, 0, 1, 0, 0);
     
     if (self.presenting) {
         fromViewController.view.userInteractionEnabled = NO;
@@ -36,7 +36,7 @@
         
         [UIView animateWithDuration:[self transitionDuration:transitionContext] animations:^{
             fromViewController.view.tintAdjustmentMode = UIViewTintAdjustmentModeDimmed;
-            toViewController.view.transform = CGAffineTransformMake(1, 0, 0, 1, 0, 0);
+//            toViewController.view.transform = CGAffineTransformMake(1, 0, 0, 1, 0, 0);
             
         } completion:^(BOOL finished) {
             [transitionContext completeTransition:YES];

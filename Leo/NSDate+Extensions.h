@@ -15,5 +15,6 @@
 - (NSDate *)endOfDay;
 - (NSDate *)beginningOfDay;
 + (NSDate *)todayAdjustedForLocalTimeZone;
-
++ (NSInteger)daysBetweenDate:(NSDate*)fromDateTime andDate:(NSDate*)toDateTime;
+- (NSDate *)dateWithoutTime;
 @end

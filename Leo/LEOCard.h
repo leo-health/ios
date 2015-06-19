@@ -18,9 +18,11 @@
 @property (strong, nonatomic, nonnull) NSNumber *priority;
 
 @property (strong, nonatomic, nonnull, readonly) id associatedCardObject;
+
 @property (nonatomic, nullable) id<CardActivityProtocol> delegate;
 
 - (nonnull instancetype)initWithID:(nonnull NSNumber *)id state:(NSInteger)state priority:(nonnull NSNumber *)priority associatedCardObject:(nonnull id)associatedCardObject;
+
 - (nonnull instancetype)cardWithDictionary:(nonnull NSDictionary *)jsonResponse;
 
 

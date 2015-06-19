@@ -15,11 +15,10 @@
 @implementation Appointment (Methods)
 
 
-+ (Appointment * __nonnull)insertEntityWithDate:(nonnull NSDate *)date duration:(nonnull NSNumber *)duration appointmentType:(nonnull NSNumber *)leoAppointmentType patient:(nonnull User *)patient provider:(nonnull User *)provider familyID:(nonnull NSString *)familyID bookedByUser:(nonnull User *)bookedByUser state:(nonnull NSNumber *)state managedObjectContext:(nonnull NSManagedObjectContext *)context {
++ (Appointment * __nonnull)insertEntityWithDate:(nullable NSDate *)date appointmentType:(nonnull NSNumber *)leoAppointmentType patient:(nonnull User *)patient provider:(nonnull User *)provider familyID:(nonnull NSString *)familyID bookedByUser:(nonnull User *)bookedByUser state:(nonnull NSNumber *)state managedObjectContext:(nonnull NSManagedObjectContext *)context {
 
     Appointment *newAppointment = [NSEntityDescription insertNewObjectForEntityForName:@"Appointment" inManagedObjectContext:context];
     newAppointment.date = date;
-    newAppointment.duration = duration;
     newAppointment.leoAppointmentType = leoAppointmentType;
     newAppointment.patient = patient;
     newAppointment.provider = provider;

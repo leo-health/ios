@@ -22,18 +22,20 @@
 
 @interface PageViewDataSource ()
 
-@property (readonly, strong, nonatomic) NSArray *pageData;
+@property (readonly, strong, nonatomic) NSArray *availablePages;
+@property (readonly, strong, nonatomic) NSArray *allPages;
 @end
 
 @implementation PageViewDataSource
 
-- (instancetype)initWithItems:(NSArray *)items {
+- (instancetype)initWithAllItems:(NSArray *)items selectedSubsetOfItems:(NSArray *)selectableItems {
     
     self = [super init];
     
     if (self) {
         // Create the data model.
-        _pageData = items;
+        _allPages = items;
+        _availablePages = selectableItems;
     }
     
     return self;
@@ -42,16 +44,15 @@
 - (TimeCollectionViewController *)viewControllerAtIndex:(NSUInteger)index storyboard:(UIStoryboard *)storyboard {
     
     // Return the data view controller for the given index.
-    if (([self.pageData count] == 0) || (index >= [self.pageData count])) {
+    if (([self.availablePages count] == 0) || (index >= [self.allPages count])) {
         return nil;
     }
     
     // Create a new view controller and pass suitable data.
     TimeCollectionViewController *collectionViewController = [storyboard instantiateViewControllerWithIdentifier:@"TimeCollectionViewController"];
-    NSDate *date = (NSDate*)self.pageData[index];
-    collectionViewController.dateThatQualifiesTimeCollection = date;
-    collectionViewController.selectedDate = date;
-
+    collectionViewController.dateThatQualifiesTimeCollection = self.allPages[index];
+    collectionViewController.selectedDate = self.allPages[index];
+    
     return collectionViewController;
 }
 
@@ -59,8 +60,8 @@
     
     // Return the index of the given data view controller.
     // For simplicity, this implementation uses a static array of model objects and the view controller stores the model object; you can therefore use the model object to identify the index.
-    NSLog(@"Current index: %lu",[self.pageData indexOfObject:viewController.dateThatQualifiesTimeCollection]);
-    return [self.pageData indexOfObject:viewController.dateThatQualifiesTimeCollection];
+    NSLog(@"Current index: %lu",[self.allPages indexOfObject:viewController.dateThatQualifiesTimeCollection]);
+    return [self.allPages indexOfObject:viewController.dateThatQualifiesTimeCollection];
 }
 
 #pragma mark - Page View Controller Data Source
@@ -68,32 +69,57 @@
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController {
     
     NSUInteger index = [self indexOfViewController:(TimeCollectionViewController *)viewController];
-    if ((index == 0) || (index == NSNotFound)) {
+    NSUInteger indexOfPageAmongAvailablePages = [self.availablePages indexOfObject:self.allPages[index]];
+    
+    if ((index == 0) || (index == NSNotFound) || (indexOfPageAmongAvailablePages == 0) ||(indexOfPageAmongAvailablePages == NSNotFound)) {
         NSLog(@"Index not found");
         return nil;
     }
     
-    index--;
+    indexOfPageAmongAvailablePages--;
     
-    return [self viewControllerAtIndex:index storyboard:viewController.storyboard];
+    NSDate *date = self.allPages[index];
+    NSDate *priorAvailableDate = self.availablePages[indexOfPageAmongAvailablePages];
+    
+    NSUInteger indexDifference = [NSDate daysBetweenDate:date andDate:priorAvailableDate];
+    NSUInteger priorPage =  indexDifference + index;
+    
+    return [self viewControllerAtIndex:priorPage storyboard:viewController.storyboard];
 }
 
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(UIViewController *)viewController {
     
     NSUInteger index = [self indexOfViewController:(TimeCollectionViewController *)viewController];
-    if (index == NSNotFound) {
+    NSUInteger indexOfPageAmongAvailablePages = [self.availablePages indexOfObject:self.allPages[index]];
+    
+    if (indexOfPageAmongAvailablePages == NSNotFound) {
         NSLog(@"Index not found");
         return nil;
     }
     
-    index++;
-    if (index == [self.pageData count]) {
-        NSLog(@"Index %lu == self.pageDataCount %lu",index,(unsigned long)self.pageData.count);
+    indexOfPageAmongAvailablePages++;
+    
+    if (indexOfPageAmongAvailablePages == [self.availablePages count]) {
+        NSLog(@"Index %lu == self.availablePagesCount %lu",index,(unsigned long)self.availablePages.count);
         return nil;
     }
+    
     //NSLog(@"Returning %@",[self viewControllerAtIndex:index storyboard:viewController.storyboard]);
     
-    return [self viewControllerAtIndex:index storyboard:viewController.storyboard];
+    NSDate *date = self.allPages[index];
+    NSDate *nextAvailableDate = self.availablePages[indexOfPageAmongAvailablePages];
+    
+    NSUInteger indexDifference = [NSDate daysBetweenDate:date andDate:nextAvailableDate];
+    NSUInteger nextPage = indexDifference + index;
+    
+    return [self viewControllerAtIndex:nextPage storyboard:viewController.storyboard];
+}
+
+- (NSUInteger)indexOfallPagesInRelationToAllDates {
+    
+    //this method to determine appropriate index updates for viewController before and after current view controller
+    
+    return 0;
 }
 
 @end

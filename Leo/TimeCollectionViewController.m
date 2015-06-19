@@ -65,8 +65,9 @@ static NSString * const timeReuseIdentifier = @"TimeCell";
 }
 
 -(void)setSelectedDate:(NSDate *)selectedDate {
-    NSLog(@"Selected date is  %@",selectedDate);
+    
     _selectedDate = selectedDate;
+    NSLog(@"Selected date is  %@",selectedDate);
     [self.collectionView reloadData];
 }
 

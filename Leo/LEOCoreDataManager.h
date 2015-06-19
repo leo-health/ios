@@ -19,9 +19,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, readonly) NSManagedObjectContext *managedObjectContext;
 @property (strong, nonatomic) NSArray *cards; //TODO: Maybe make private and method implementation to lazily instantiate somehow...
-@property (strong, nonatomic) NSArray *availableTimes;
 @property (strong, nonatomic) User *currentUser;
 @property (strong, nonatomic) NSString *userToken; //FIXME: To be moved to the .m once pulling from the keychain as it should be
+@property (strong, nonatomic) NSArray *availableDates;
 
 @property (strong, nonatomic) NSArray *users;
 
@@ -49,6 +49,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSArray *)fetchChildren;
 - (NSArray *)fetchDoctors;
 - (NSArray *)fetchAppointmentTypes;
+- (NSArray *)fetchSlots;
+- (NSArray *)fetchAvailableDates;
 
 NS_ASSUME_NONNULL_END
 @end
