@@ -112,7 +112,9 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     self.appointmentLabel.textColor = [UIColor leoWarmHeavyGray];
     self.appointmentDateLabel.textColor = [UIColor leoOrangeRed];
     
-    UINavigationItem *navCarrier = [[UINavigationItem alloc] init];
+    //UINavigationItem *navCarrier = [[UINavigationItem alloc] init];
+    
+    UINavigationItem *navCarrier = _navBar.topItem;
     
     UIImageView *iconImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"SMS-32"]];
     UIBarButtonItem *icon = [[UIBarButtonItem alloc] initWithCustomView:iconImageView];
@@ -121,9 +123,12 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     titleLabel.text = @"Schedule An Appointment";
     titleLabel.font = [UIFont leoTitleBasicFont];
     titleLabel.textColor = [UIColor leoWarmHeavyGray];
+    [titleLabel sizeToFit];
     UIBarButtonItem *title = [[UIBarButtonItem alloc] initWithCustomView:titleLabel];
     
+    
     navCarrier.leftBarButtonItems = @[icon, title];
+    //navCarrier.rightBarButtonItems = @[doneBarButton];
     
     self.navBar.items = @[navCarrier];
     
@@ -224,6 +229,21 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 }
 
+-(void)showDoneBarButtonItem:(BOOL)show{
+    [UIView setAnimationsEnabled:NO];
+    if(show){
+        _cancelButton.title = @"Done";
+    }
+    else{
+        //Patrick
+        //TODO: Set cancel button image or whatever the view will look like
+        // for exiting out of the card
+        _cancelButton.title = @"X";
+    }
+    [UIView setAnimationsEnabled:YES];
+
+}
+
 #pragma mark - Keyboard Notification Methods 
 
 /**
@@ -234,17 +254,19 @@ static NSString * const dateReuseIdentifier = @"DateCell";
 -(void)keyboardWillShow:(NSNotification*)notification{
     CGSize keyboardSize = [self getKeyboardSizeFromKeyboardNotification:notification];
      [self scrollViewToShowIfFirstResponder:_notesView withKeyboardSize:keyboardSize];
+    [self showDoneBarButtonItem:YES];
 }
 
 /**
  *  Resets the content views and scroll indicator insets of the scroll view when the
  *  keyboard will be dismissed.
  *
- *  @param notification <#notification description#>
+ *  @param notification NSNotification for the keyboardWillHide event
  */
 -(void)keyboardWillHide:(NSNotificationCenter*)notification{
     _scrollView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
     _scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 0, 0);
+    [self showDoneBarButtonItem:NO];
 }
 
 /**
@@ -414,14 +436,24 @@ static NSString * const dateReuseIdentifier = @"DateCell";
 
 
 #pragma mark - IBActions
+
+-(void)doneButtonTapped{
+    
+}
+
 - (IBAction)cancelTapped:(UIBarButtonItem *)sender {
     
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
-        [UIView animateWithDuration:0.2 animations:^{
-            self.collapsedCell.layer.transform = CATransform3DMakeRotation(0,0.0,1.0,0.0); ; //flip halfway
-            self.collapsedCell.selected = NO;
+    if(_notesView.isFirstResponder){
+        [_notesView resignFirstResponder];
+    }
+    else{
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
+            [UIView animateWithDuration:0.2 animations:^{
+                self.collapsedCell.layer.transform = CATransform3DMakeRotation(0,0.0,1.0,0.0); ; //flip halfway
+                self.collapsedCell.selected = NO;
+            }];
         }];
-    }];
+    }
 }
 
 - (void)makeUpdatesForChangesToAppointmentDate {
