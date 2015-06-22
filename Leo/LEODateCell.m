@@ -58,6 +58,7 @@
     self.dateLabel.font = [UIFont leoTitleBasicFont];
     self.dateLabel.textColor = [UIColor leoWarmHeavyGray];
     self.dayOfDateLabel.textColor = [UIColor leoWarmHeavyGray];
+    self.dayOfDateLabel.font = [UIFont leoBodyBasicFont];
     self.backgroundColor = [UIColor leoWarmLightGray];
     
 }

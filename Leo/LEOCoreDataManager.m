@@ -399,8 +399,9 @@
     NSDate *june6atOnePM = [NSDate dateWithYear:2015 month:6 day:29 hour:13 minute:0 second:0];
     
     NSDate *june6atOneThirtyPM = [NSDate dateWithYear:2015 month:6 day:29 hour:13 minute:30 second:0];
-    
-    return @[june15atEightAM, june15atNineAM, june15atTenAM, june15atTenThirtyAM, june15atElevenAM, june15atOnePM, june15atOneThirtyPM, june15atTwoPM, june15atTwoThirtyPM, june16atElevenAM, june16atNoon, june6atEightAM, june6atTenAM, june6atTenThirtyAM, june6atElevenAM];
+    NSDate *july10atOneThirtyPM = [NSDate dateWithYear:2015 month:7 day:10 hour:13 minute:30 second:0];
+
+    return @[june15atEightAM, june15atNineAM, june15atTenAM, june15atTenThirtyAM, june15atElevenAM, june15atOnePM, june15atOneThirtyPM, june15atTwoPM, june15atTwoThirtyPM, june16atElevenAM, june16atNoon, june6atEightAM, june6atTenAM, june6atTenThirtyAM, june6atElevenAM, july10atOneThirtyPM];
 }
 
 - (NSArray *)availableDates {
