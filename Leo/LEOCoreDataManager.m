@@ -322,7 +322,7 @@
                                                   familyID:[@([self.currentUser.familyID integerValue] + 1) stringValue]
                                       managedObjectContext:self.managedObjectContext];
     
-    return @[childUserOne, childUserTwo, childUserThree];
+    return @[childUserOne, childUserTwo];
 }
 
 - (NSArray *)fetchDoctors {

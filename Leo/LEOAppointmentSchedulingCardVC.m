@@ -60,6 +60,9 @@
 #pragma mark - State
 @property (strong, nonatomic) TimeCollectionViewController *timeCollectionVC;
 @property (nonatomic) BOOL initialScrollDone;
+@property (nonatomic) BOOL startingContentOffsetX;
+@property (nonatomic) BOOL alreadyTurnedPage;
+
 @end
 
 @implementation LEOAppointmentSchedulingCardVC
@@ -123,14 +126,6 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     [super viewWillAppear:animated];
     [self.dateCollectionView layoutIfNeeded];
     [self goToStartingDate];
-}
-
-//MARK: Not sure we need this anymore. May wish to remove this and the property if `goToStartingDate` is working properly in viewWillAppear (as it appears to be!)
-- (void)viewDidLayoutSubviews {
-    
-    if (!self.initialScrollDone) {
-        self.initialScrollDone = YES;
-    }
 }
 
 - (void)prepareForLaunch {
@@ -197,9 +192,8 @@ static NSString * const dateReuseIdentifier = @"DateCell";
 }
 
 - (void)updateAppointmentDateLabel {
-
+    
     self.appointmentDateLabel.text = [self formatDateTimeForLabel:((TimeCollectionViewController *)self.pageViewController.viewControllers[0]).selectedDate];
-
 }
 
 - (NSString *)formatDateTimeForLabel:(NSDate *)dateTime {
@@ -292,37 +286,28 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     
 }
 
-
-//TODO: TO BE REMOVED
-//collectionViewController.dateThatQualifiesTimeCollection = [[self firstAvailableAppointmentTimeFromDate:self.dates[toPage * 7] toDate:self.dates[toPage * 7 + 7]] endOfDay];
-//collectionViewController.nextDateOfAvailableTimes = [self firstAvailableAppointmentTimeFromDate:[collectionViewController.dateThatQualifiesTimeCollection dateByAddingDays:1] toDate:self.dates.lastObject];
-//if (!self.appointment.date) {
-//    collectionViewController.selectedDate = [self firstAvailableAppointmentTimeFromDate:self.dates[toPage * 7] toDate:self.dates[toPage * 7 + 7]];
-//} else {
-//    collectionViewController.selectedDate = self.appointment.date;
-//}
-
-
 - (NSIndexPath *)indexPathOfAppointmentDate {
     
     NSInteger daysFromBeginningOfDateArray;
     
     if (self.appointment.date) {
-         daysFromBeginningOfDateArray = [[self.appointment.date beginningOfDay] daysFrom:self.dates.firstObject];
+        daysFromBeginningOfDateArray = [[self.appointment.date beginningOfDay] daysFrom:self.dates.firstObject];
     } else {
         daysFromBeginningOfDateArray = [self.coreDataManager.availableDates.firstObject daysFrom:self.dates.firstObject];
     }
+    
     NSLog(@"daysFromBeginningOfDate: %ld",(long)daysFromBeginningOfDateArray);
     return [NSIndexPath indexPathForRow:daysFromBeginningOfDateArray inSection:0];
 }
 
+
 //MARK: Can we remove / condense this and the above into one?
-- (NSIndexPath *)indexPathForSelectedDate {
-    
-    NSUInteger indexForSelectedDate = [self.appointment.date daysFrom:[self startDate]];
-    NSIndexPath *indexPathForDate = [NSIndexPath indexPathForRow:indexForSelectedDate inSection:0];
-    return indexPathForDate;
-}
+//- (NSIndexPath *)indexPathForSelectedDate {
+//    
+//    NSUInteger indexForSelectedDate = [self.appointment.date daysFrom:[self startDate]];
+//    NSIndexPath *indexPathForDate = [NSIndexPath indexPathForRow:indexForSelectedDate inSection:0];
+//    return indexPathForDate;
+//}
 
 - (NSUInteger)pageOfAppointmentDate {
     
@@ -344,28 +329,42 @@ static NSString * const dateReuseIdentifier = @"DateCell";
 
 
 -(void)setSelectedDate:(NSDate *)selectedDate {
-
     self.appointment.date = selectedDate;
     
     [self updateMonthLabel];
     [self updateAppointmentDateLabel];
-    [self turnToPage:[self pageOfAppointmentDate] fromPage:0];
-
 }
+
+- (BOOL)shouldTurnPage {
+ 
+    NSArray *visibleIndexPaths = [[self.dateCollectionView indexPathsForVisibleItems] sortedArrayUsingSelector:@selector(compare:)];
+    
+    if ([visibleIndexPaths containsObject:[self indexPathOfAppointmentDate]]) {
+        return NO;
+    }
+    
+    return YES;
+}
+
 
 #pragma mark - <UICollectionViewDelegate>
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    [self updateCollectionView:collectionView forSelectedCellAtIndexPath:indexPath];
+}
+
+- (void)updateCollectionView:(UICollectionView *)collectionView forSelectedCellAtIndexPath:(NSIndexPath *)indexPath {
     
     NSInteger indexForCurrentDate = [self.appointment.date daysFrom:[self startDate]];
     self.selectedDate = self.dates[indexPath.row]; //MARK: Is this being used even?
     
-    if (indexPath.row != indexForCurrentDate) {
-        [self turnToPage:indexPath.row fromPage:indexForCurrentDate];
-    }
+//    if ([self shouldTurnPage]) {
+        [self turnToPage:[self pageOfAppointmentDate] fromPage:0];
+//    }
     
     [collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
     UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
     cell.selected = YES;
+
 }
 
 -(BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -381,15 +380,21 @@ static NSString * const dateReuseIdentifier = @"DateCell";
 
 - (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
     
+    cell.selected = NO;
+    
     NSDate *date = self.dates[indexPath.row];
     
     NSCalendar *calendar = [NSCalendar calendarWithIdentifier:NSCalendarIdentifierGregorian];
     
     if ([calendar isDate:date inSameDayAsDate:self.appointment.date]) {
-        cell.selected = YES;
-        [collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
-        self.selectedDate = date;
-
+        if (!self.initialScrollDone) {
+            cell.selected = YES;
+            [collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
+            [self updateCollectionView:collectionView forSelectedCellAtIndexPath:indexPath]; //FIXME: This is frustrating that I have to update directly in willDisplay but this method is duplicating what is already done here...
+            self.selectedDate = date;
+        } else {
+            ((LEODateCell *)cell).selectable = YES;
+        }
     } else {
         
         NSArray *availableSlotsForDate = [self.coreDataManager availableTimesForDate:date];
@@ -397,20 +402,46 @@ static NSString * const dateReuseIdentifier = @"DateCell";
         if ([availableSlotsForDate count] > 0) {
             
             ((LEODateCell *)cell).selectable = YES;
+        } else {
             
-//            if (date.weekday == self.appointment.date.weekday) {
-//                cell.selected = YES;
-//                [collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
-//                self.selectedDate = date;
-//            }
-        }
-        else {
             ((LEODateCell *)cell).selectable = NO;
         }
     }
 }
 
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView {
+    [self updateSelectedCellBasedOnScrollViewUpdate:scrollView];
+}
 
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    self.startingContentOffsetX = scrollView.contentOffset.x;
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    [self updateSelectedCellBasedOnScrollViewUpdate:scrollView];
+}
+
+- (void)updateSelectedCellBasedOnScrollViewUpdate:(UIScrollView *)scrollView {
+    
+    if (self.startingContentOffsetX != scrollView.contentOffset.x) {
+        self.initialScrollDone = YES;
+    }
+    
+    NSArray *indexPathsOfVisibleItems = [[self.dateCollectionView indexPathsForVisibleItems] sortedArrayUsingSelector:@selector(compare:)];
+    
+    for (NSIndexPath *indexPath in indexPathsOfVisibleItems) {
+        LEODateCell *cell = (LEODateCell *)[self.dateCollectionView cellForItemAtIndexPath:indexPath];
+        
+        if (cell.selectable) {
+            cell.selected = YES;
+            [self updateCollectionView:self.dateCollectionView forSelectedCellAtIndexPath:indexPath];
+            break;
+        }
+    }
+    
+    
+
+}
 
 #pragma mark - <UICollectionViewDelegateFlowLayout>
 
@@ -437,45 +468,57 @@ static NSString * const dateReuseIdentifier = @"DateCell";
 //TODO: Separate out into multiple smaller methods.
 - (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray *)previousViewControllers transitionCompleted:(BOOL)completed {
     
+    self.alreadyTurnedPage = YES;
+    
     if (completed) {
         
-        self.appointment.date = self.tempSelectedDate;
+        self.selectedDate = self.tempSelectedDate;
         
         NSArray *visibleIndexPaths = [self.dateCollectionView indexPathsForVisibleItems];
         
         NSSortDescriptor *rowDescriptor = [[NSSortDescriptor alloc] initWithKey:@"row" ascending:YES];
         NSArray *sortedRows = [visibleIndexPaths sortedArrayUsingDescriptors:@[rowDescriptor]];
         
-        if (![visibleIndexPaths containsObject:self.indexPathForSelectedDate]) {
-            if (self.indexPathForSelectedDate < (NSIndexPath *)visibleIndexPaths[0]) {
-                [self.dateCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:((NSIndexPath *)sortedRows.firstObject).row - 7 inSection:0] atScrollPosition:UICollectionViewScrollPositionLeft animated:YES];
+        if (![visibleIndexPaths containsObject:[self indexPathOfAppointmentDate]]) {
+            if ([self indexPathOfAppointmentDate] < (NSIndexPath *)visibleIndexPaths[0]) {
                 
-                [self.dateCollectionView layoutIfNeeded];
+                UICollectionViewScrollPosition scrollPosition = UICollectionViewScrollPositionLeft;
+                
+                NSIndexPath *indexPath = [NSIndexPath indexPathForRow:((NSIndexPath *)sortedRows.firstObject).row - 7 inSection:0];
+                
+                [self.dateCollectionView scrollToItemAtIndexPath:indexPath atScrollPosition:scrollPosition animated:YES];
                 
                 CGPoint point = self.dateCollectionView.contentOffset;
                 
-                UIEdgeInsets insets = [self collectionView:self.dateCollectionView layout:self.dateCollectionView.collectionViewLayout insetForSectionAtIndex:self.indexPathForSelectedDate.section];
+                UIEdgeInsets insets = [self collectionView:self.dateCollectionView layout:self.dateCollectionView.collectionViewLayout insetForSectionAtIndex:[self indexPathOfAppointmentDate].section];
                 
                 point.x -= insets.right;
                 self.dateCollectionView.contentOffset = point;
-            }
-            else if (self.indexPathForSelectedDate > (NSIndexPath *)visibleIndexPaths.lastObject) {
-                [self.dateCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:((NSIndexPath *)sortedRows.lastObject).row + 7 inSection:0] atScrollPosition:UICollectionViewScrollPositionRight animated:YES];
-                
                 
                 [self.dateCollectionView layoutIfNeeded];
+            } else if ([self indexPathOfAppointmentDate] > (NSIndexPath *)visibleIndexPaths.lastObject) {
+                
+                UICollectionViewScrollPosition scrollPosition = UICollectionViewScrollPositionRight;
+                
+                NSIndexPath *indexPath = [NSIndexPath indexPathForRow:((NSIndexPath *)sortedRows.lastObject).row + 7 inSection:0];
+                
+                [self.dateCollectionView scrollToItemAtIndexPath:indexPath atScrollPosition:scrollPosition animated:YES];
                 
                 CGPoint point = self.dateCollectionView.contentOffset;
                 
-                UIEdgeInsets insets = [self collectionView:self.dateCollectionView layout:self.dateCollectionView.collectionViewLayout insetForSectionAtIndex:self.indexPathForSelectedDate.section];
+                UIEdgeInsets insets = [self collectionView:self.dateCollectionView layout:self.dateCollectionView.collectionViewLayout insetForSectionAtIndex:[self indexPathOfAppointmentDate].section];
                 
                 point.x += insets.left;
                 self.dateCollectionView.contentOffset = point;
+                
+                [self.dateCollectionView layoutIfNeeded];
             }
         }
         
         [self.dateCollectionView reloadData];
     }
+    
+    self.alreadyTurnedPage = NO;
 }
 
 
@@ -483,7 +526,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
 #pragma mark - <TimeSelectionDelegate>
 - (void)didUpdateAppointmentDateTime:(NSDate *)dateTime {
     
-    self.appointment.date = dateTime;
+    self.selectedDate = dateTime;
     self.appointmentDateLabel.text = [self formatDateTimeForLabel:dateTime];
 }
 
@@ -544,7 +587,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     for (NSInteger i = fromDateIndex; i < toDateIndex; i++) {
         
         NSArray *availableTimes = [self.coreDataManager availableTimesForDate:dateSubarray[i]];
-
+        
         if ([availableTimes count] > 0) {
             return availableTimes[0];
         }
@@ -554,6 +597,46 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     
     //TODO: Need to deal with rare case in which no dates have availability so app doesn't crash here. I really hope we crash for this reason someday though...
 }
+
+
+
+//- (NSUInteger)findIndexForExactDate:(NSDate *)date inArray:(NSArray *)array {
+//    
+//    for (NSInteger i = 0; i < [array count]; i++) {
+//        if ([date isEqualToDate:array[i]]) {
+//            return i;
+//        }
+//    }
+//    
+//    NSUInteger fromDateIndex;
+//    NSUInteger toDateIndex;
+//    
+//    if (fromDate == nil) {
+//        fromDateIndex = 0;
+//    } else {
+//        fromDateIndex = [self findIndexForExactDate:fromDate inArray:self.dates];
+//    }
+//    if (toDate == nil) {
+//        toDateIndex = [self.dates count] - 1;
+//    } else {
+//        toDateIndex = [self findIndexForExactDate:toDate inArray:self.dates];
+//    }
+//    
+//    NSArray *dateSubarray = [self.dates subarrayWithRange:NSMakeRange(fromDateIndex, toDateIndex)];
+//    
+//    for (NSInteger i = fromDateIndex; i < toDateIndex; i++) {
+//        
+//        NSArray *availableTimes = [self.coreDataManager availableTimesForDate:dateSubarray[i]];
+//
+//        if ([availableTimes count] > 0) {
+//            return availableTimes[0];
+//        }
+//    }
+//    
+//    return nil;
+//    
+//    //TODO: Need to deal with rare case in which no dates have availability so app doesn't crash here. I really hope we crash for this reason someday though...
+//}
 
 
 
