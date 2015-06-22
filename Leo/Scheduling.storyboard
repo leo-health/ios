@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="wb1-8H-yCb">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Appointment Scheduling CardVC-->
@@ -87,7 +88,7 @@
                                                     <containerView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="0iP-dP-axN" userLabel="ChildContainer" customClass="ResizingContainerView">
                                                         <rect key="frame" x="0.0" y="52" width="600" height="132"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="132" id="For-J7-1fE"/>
+                                                            <constraint firstAttribute="height" constant="132" placeholder="YES" id="For-J7-1fE"/>
                                                             <constraint firstAttribute="width" constant="345" id="nPe-Xu-uZZ"/>
                                                         </constraints>
                                                         <variation key="default">
@@ -96,7 +97,7 @@
                                                             </mask>
                                                         </variation>
                                                         <connections>
-                                                            <segue destination="eFH-NU-gRe" kind="embed" identifier="ChildDropDownEmbedSegue" id="mRE-gA-DXg"/>
+                                                            <segue destination="sxW-tt-2cW" kind="embed" identifier="ChildDropDownEmbedSegue" id="2CT-I7-6Cd"/>
                                                         </connections>
                                                     </containerView>
                                                 </subviews>
@@ -385,6 +386,39 @@
             </objects>
             <point key="canvasLocation" x="988" y="580"/>
         </scene>
+        <!--Child Drop Down Table View Controller-->
+        <scene sceneID="jF4-g8-Zjw">
+            <objects>
+                <viewController id="sxW-tt-2cW" customClass="LEOChildDropDownTableViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="fHW-J7-vqL"/>
+                        <viewControllerLayoutGuide type="bottom" id="U9L-RH-1f3"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="zSs-3l-hfe">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="132"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="LOB-30-W8l" customClass="TestTableView">
+                                <rect key="frame" x="16" y="20" width="568" height="580"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="LOB-30-W8l" firstAttribute="leading" secondItem="zSs-3l-hfe" secondAttribute="leadingMargin" id="0Ia-xv-vP1"/>
+                            <constraint firstItem="U9L-RH-1f3" firstAttribute="top" secondItem="LOB-30-W8l" secondAttribute="bottom" id="46b-4Z-X1w"/>
+                            <constraint firstItem="LOB-30-W8l" firstAttribute="trailing" secondItem="zSs-3l-hfe" secondAttribute="trailingMargin" id="RvW-1l-wOo"/>
+                            <constraint firstItem="LOB-30-W8l" firstAttribute="top" secondItem="fHW-J7-vqL" secondAttribute="bottom" id="vLQ-SG-qla"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="LOB-30-W8l" id="vkH-q1-jHX"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jyc-et-Zc9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2347" y="254"/>
+        </scene>
         <!--Time Collection View Controller-->
         <scene sceneID="jSD-Sg-8AE">
             <objects>
@@ -420,32 +454,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zyD-pe-sjX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2344" y="580"/>
-        </scene>
-        <!--Child Drop Down Table View Controller-->
-        <scene sceneID="Es0-UR-oTn">
-            <objects>
-                <tableViewController id="eFH-NU-gRe" customClass="LEOChildDropDownTableViewController" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="DDX-G7-NTL">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="132"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ChildCell" id="NVa-LD-37a" customClass="LEOChildCell">
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="NVa-LD-37a" id="cHb-bl-bNb">
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="eFH-NU-gRe" id="093-Ww-eeC"/>
-                            <outlet property="delegate" destination="eFH-NU-gRe" id="FqY-q9-yuZ"/>
-                        </connections>
-                    </tableView>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="1FT-Ti-96l" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1670" y="234.5"/>
         </scene>
         <!--Page View Controller-->
         <scene sceneID="xUv-Ir-QgA">
