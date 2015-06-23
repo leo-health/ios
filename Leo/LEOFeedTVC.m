@@ -35,6 +35,11 @@
 #import "LEOTwoButtonPrimaryOnlyCell+ConfigureForCell.h"
 #import "LEOOneButtonPrimaryOnlyCell+ConfigureForCell.h"
 
+#import <VBFPopFlatButton/VBFPopFlatButton.h>
+#import "UIImageEffects.h"
+
+#import "AppDelegate.h"
+
 @interface LEOFeedTVC ()
 
 @property (strong, nonatomic) LEOCoreDataManager *coreDataManager;
@@ -66,6 +71,8 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     }];
     
 }
+
+
 
 - (void)tableViewSetup {
     

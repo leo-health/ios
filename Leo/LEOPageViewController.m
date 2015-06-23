@@ -9,11 +9,8 @@
 #import "LEOPageViewController.h"
 #import "LEOEHRViewController.h"
 #import "LEOFeedTVC.h"
-#import "UIColor+LeoColors.h"
-#import "UIFont+LeoFonts.h"
-#import "UIImage+Extensions.h"
-#import <UIImage+Resize.h>
 #import "LEOPageModelController.h"
+
 @interface LEOPageViewController ()
 
 @property (strong, nonatomic) LEOFeedTVC *feedViewController;
@@ -50,7 +47,6 @@
     
     [self.pageViewController didMoveToParentViewController:self];
     
-    [self primaryInterfaceSetup];
     // Do any additional setup after loading the view.
     
     
@@ -72,21 +68,7 @@
     return _pageModelController;
 }
 
-- (void)primaryInterfaceSetup {
-    self.navigationController.navigationBar.barTintColor = [UIColor leoOrangeRed];
-    self.navigationController.navigationBar.translucent = NO;
-    
-    UIImage *heartBBI = [[UIImage imageNamed:@"leoheart"] resizedImageToSize:CGSizeMake(30.0, 30.0)];
 
-    UIBarButtonItem *leoheartBBI = [[UIBarButtonItem alloc] initWithImage:heartBBI style:UIBarButtonItemStylePlain target:self action:@selector(flipToFeed)];
-    [self.navigationItem setLeftBarButtonItem:leoheartBBI];
-    
-    UIBarButtonItem *childOne = [[UIBarButtonItem alloc] initWithTitle:@"ZACHARY" style:UIBarButtonItemStylePlain target:self action:@selector(flipToChild:)];
-    UIBarButtonItem *childTwo = [[UIBarButtonItem alloc] initWithTitle:@"RACHEL" style:UIBarButtonItemStylePlain target:self action:@selector(flipToChild:)];
-    UIBarButtonItem *childThree = [[UIBarButtonItem alloc] initWithTitle:@"TRACY" style:UIBarButtonItemStylePlain target:self action:@selector(flipToChild:)];
-    
-    [self.navigationItem setRightBarButtonItems:@[childThree, childTwo, childOne]];
-}
 
 - (void)flipToFeed {
     

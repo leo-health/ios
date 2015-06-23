@@ -17,7 +17,6 @@
 @property (nonatomic, strong) VBFDoubleSegment *secondSegment;
 @property (nonatomic, strong) VBFDoubleSegment *thirdSegment; //Only used for menu button
 @property (nonatomic, strong) CALayer *bckgLayer;
-@property (nonatomic) BOOL animateToStartPosition;
 @end
 
 @implementation VBFPopFlatButton
