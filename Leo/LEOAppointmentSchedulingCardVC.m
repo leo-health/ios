@@ -253,8 +253,6 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     self.pageViewController.dataSource = self.pageViewDataSource;
     self.pageViewController.delegate = self;
     
-    //[self turnToPage:[self pageOfDate:self.appointment.date] fromPage:0];
-    
     // Set the page view controller's bounds using an inset rect so that self's view is visible around the edges of the pages.
     //TODO: Override this and make it such that it fits in three columns on the screen *using autolayout*.
     CGRect pageViewRect = self.containerView.bounds;
@@ -327,7 +325,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     }];
 }
 
-
+//FIXME: Shouldn't be using selectedDate for side effects. Create another method.
 -(void)setSelectedDate:(NSDate *)selectedDate {
     self.appointment.date = selectedDate;
     
@@ -356,7 +354,8 @@ static NSString * const dateReuseIdentifier = @"DateCell";
 - (void)updateCollectionView:(UICollectionView *)collectionView forSelectedCellAtIndexPath:(NSIndexPath *)indexPath {
     
     NSInteger indexForCurrentDate = [self.appointment.date daysFrom:[self startDate]];
-    self.selectedDate = self.dates[indexPath.row]; //MARK: Is this being used even?
+    
+    self.selectedDate = self.dates[indexPath.row];
     
     [collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
     UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
@@ -390,7 +389,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
             cell.selected = YES;
             [collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
             [self updateCollectionView:collectionView forSelectedCellAtIndexPath:indexPath]; //FIXME: This is frustrating that I have to update directly in willDisplay but this method is duplicating what is already done here...
-
+            
             if ([self shouldTurnPage]) {
                 [self turnToPage:[self pageOfDate:self.appointment.date] fromPage:0];
             }
@@ -400,7 +399,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
             ((LEODateCell *)cell).selectable = YES;
         }
     } else {
-        
+
         NSArray *availableSlotsForDate = [self.coreDataManager availableTimesForDate:date];
         
         if ([availableSlotsForDate count] > 0) {
@@ -443,9 +442,6 @@ static NSString * const dateReuseIdentifier = @"DateCell";
             break;
         }
     }
-    
-    
-
 }
 
 #pragma mark - <UICollectionViewDelegateFlowLayout>
@@ -477,29 +473,26 @@ static NSString * const dateReuseIdentifier = @"DateCell";
         
         self.selectedDate = self.tempSelectedDate;
         
-        NSArray *visibleIndexPaths = [self.dateCollectionView indexPathsForVisibleItems];
-        
-        NSSortDescriptor *rowDescriptor = [[NSSortDescriptor alloc] initWithKey:@"row" ascending:YES];
-        NSArray *sortedRows = [visibleIndexPaths sortedArrayUsingDescriptors:@[rowDescriptor]];
+        NSArray *visibleIndexPaths = [[self.dateCollectionView indexPathsForVisibleItems] sortedArrayUsingSelector:@selector(compare:)];
         
         NSIndexPath *indexPathToSelect;
-        NSIndexPath *indexPathToScrollTo;
         NSIndexPath *indexPathOfAppointment = [self indexPathOfDate:self.appointment.date];
+
+        CGPoint point = self.dateCollectionView.contentOffset;
+        UIEdgeInsets insets = [self collectionView:self.dateCollectionView layout:self.dateCollectionView.collectionViewLayout insetForSectionAtIndex:indexPathOfAppointment.section]; //Not using scroll to cell here because for whatever reason, and we should go back and determine why someday, it is leaving an eight cell visible which is messing with everything. Probably due to the very manual sizing of cell layout, but using insets does appear to work as an alternative so I'm not 100% sure what is going on.
 
         if (![visibleIndexPaths containsObject:indexPathOfAppointment]) {
             
             if ( indexPathOfAppointment < (NSIndexPath *)visibleIndexPaths[0]) {
-                
-                indexPathToScrollTo = [NSIndexPath indexPathForRow:((NSIndexPath *)sortedRows.lastObject).row - 7 inSection:0];
-                
+                point.x -= insets.right;
             } else if (indexPathOfAppointment > (NSIndexPath *)visibleIndexPaths.lastObject) {
-                
-                indexPathToScrollTo = [NSIndexPath indexPathForRow:((NSIndexPath *)sortedRows.lastObject).row + 7 inSection:0];
+                point.x += insets.left;
             }
             
-            [self.dateCollectionView scrollToItemAtIndexPath:indexPathToScrollTo atScrollPosition:UICollectionViewScrollPositionRight animated:YES];
-            
-            NSDate *firstAvailableDateInWeek = [self firstAvailableAppointmentTimeFromDate:self.dates[indexPathToScrollTo.row - 6] toDate:self.dates[indexPathToScrollTo.row]];
+            self.dateCollectionView.contentOffset = point;
+
+            NSIndexPath *indexPath = visibleIndexPaths.lastObject;
+            NSDate *firstAvailableDateInWeek = [self firstAvailableAppointmentTimeFromDate:self.dates[indexPath.row + 1] toDate:self.dates[indexPath.row + 7]];
             
             if (firstAvailableDateInWeek != nil) {
                 indexPathToSelect = [self indexPathOfDate:firstAvailableDateInWeek];
@@ -513,6 +506,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
         [self.dateCollectionView selectItemAtIndexPath:indexPathToSelect animated:NO scrollPosition:UICollectionViewScrollPositionNone];
         cell.selected = YES;
         
+        [self.dateCollectionView layoutIfNeeded];
         [self.dateCollectionView reloadData];
     }
 }
