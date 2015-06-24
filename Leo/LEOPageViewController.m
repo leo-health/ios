@@ -23,13 +23,17 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-    // Create the data model
+    [self initializePageViewController];
+}
+
+- (void)initializePageViewController {
     
     // Create page view controller
     self.pageViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"PageViewController"];
     self.pageViewController.dataSource = self.pageModelController;
     self.pageViewController.delegate = self.pageModelController;
     
+    // Create feedViewController and setup initial pageViewController viewController with it
     self.feedViewController = (LEOFeedTVC *)[self.pageModelController viewControllerAtIndex:0 storyboard:self.storyboard];
     NSArray *viewControllers = @[self.feedViewController];
     [self.pageViewController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
@@ -40,43 +44,33 @@
     [self addChildViewController:_pageViewController];
     [self.view addSubview:_pageViewController.view];
     
-    // Set the page view controller's bounds using an inset rect so that self's view is visible around the edges of the pages.
-
-//    CGRect pageViewRect = self.view.bounds;
-//    self.pageViewController.view.frame = pageViewRect;
-
-    
     [self.pageViewController didMoveToParentViewController:self];
-    
-    // Do any additional setup after loading the view.
-    
-    
-    // Add the page view controller's gesture recognizers to the book view controller's view so that the gestures are started more easily.
-    // self.view.gestureRecognizers = self.pageViewController.gestureRecognizers;
-
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
--(LEOPageModelController *)pageModelController {
+- (LEOPageModelController *)pageModelController {
     
     if (!_pageModelController) {
         _pageModelController = [[LEOPageModelController alloc] initWithPageData:@[@"Leo",@"Zachary",@"Rachel",@"Tracy"]];
     }
+    
     return _pageModelController;
 }
 
 
-
+/**
+ *  Pages directly to the feed view.
+ */
 - (void)flipToFeed {
     
     [self.pageModelController pageViewController:self.pageViewController flipToViewController:self.feedViewController];
-    
 }
 
+
+/**
+ *  Pages to associated child view
+ *
+ *  @param sender UIButton associated with touch gesture
+ */
 - (void)flipToChild:(id)sender {
     
     if ([self.navBar.items[0] isKindOfClass:[UINavigationItem class]]) {
@@ -90,14 +84,5 @@
     }
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
