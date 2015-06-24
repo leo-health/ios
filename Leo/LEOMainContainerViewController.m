@@ -31,24 +31,24 @@
 @implementation LEOMainContainerViewController
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
+    
     [self primaryInterfaceSetup];
     [self setupMenuButton];
-    [self setNeedsStatusBarAppearanceUpdate];
-    self.view.backgroundColor = [UIColor leoOrangeRed];
-    // Do any additional setup after loading the view.
-}
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    [self setNeedsStatusBarAppearanceUpdate];
+    
+    //Set background color such that the status bar color matches the color of the navigation bar.
+    self.view.backgroundColor = [UIColor leoOrangeRed];
 }
 
 
 /**
- *  <#Description#>
+ *  Setup navigation bar with leo heart and individual child navigation.
  */
 - (void)primaryInterfaceSetup {
+    
     self.navBar.barTintColor = [UIColor leoOrangeRed];
     self.navBar.translucent = NO;
     
@@ -59,23 +59,37 @@
     UINavigationItem *navCarrier = [[UINavigationItem alloc] init];
     
     navCarrier.leftBarButtonItems = @[leoheartBBI];
+    navCarrier.rightBarButtonItems = [self createBarButtonArrayForNavigationItem];
+    
+    self.navBar.items = @[navCarrier];
+}
+
+/**
+ *  creates UIBarButtonItems out of user's children
+ *
+ *  @return NSArray of UIBarButtonItems for UINavigationItem
+ */
+- (NSArray *)createBarButtonArrayForNavigationItem {
     
     /*  Zachary Drossman
-     *  BarButtonitems are hard coded for the time-being. 
-     *  Must be replaced with alternative implementation that loads from a scrollview or alternative for different number of children.
+     *  BarButtonitems are hard coded for the time-being.
+     *  TODO: Must be replaced with alternative implementation that loads from a scrollview or alternative for different number of children.
      */
     
     UIBarButtonItem *childOne = [[UIBarButtonItem alloc] initWithTitle:@"ZACHARY" style:UIBarButtonItemStylePlain target:self.pageViewController action:@selector(flipToChild:)];
     UIBarButtonItem *childTwo = [[UIBarButtonItem alloc] initWithTitle:@"RACHEL" style:UIBarButtonItemStylePlain target:self.pageViewController action:@selector(flipToChild:)];
     UIBarButtonItem *childThree = [[UIBarButtonItem alloc] initWithTitle:@"TRACY" style:UIBarButtonItemStylePlain target:self.pageViewController action:@selector(flipToChild:)];
     
-    navCarrier.rightBarButtonItems = @[childThree, childTwo, childOne];
-    
-    self.navBar.items = @[navCarrier];
+    return @[childThree, childTwo, childOne];
 }
 
--(UIImage *)blurredSnapshot
-{
+/**
+ *  Create a blurred version of the current view. Does not blur status bar currently.
+ *
+ *  @return the blurred UIImage
+ */
+-(UIImage *)blurredSnapshot {
+    
     self.menuButton.hidden = YES;
     UIGraphicsBeginImageContextWithOptions([UIScreen mainScreen].bounds.size, NO, 0);
     
@@ -91,6 +105,10 @@
     return blurredSnapshotImage;
 }
 
+
+/**
+ *  Initialize VBFPopFlatButton for menu with appropriate values for key properties.
+ */
 - (void)setupMenuButton {
     
     self.menuButton.currentButtonType = buttonAddType;
@@ -102,51 +120,77 @@
     [self.menuButton addTarget:self action:@selector(menuTapped) forControlEvents:UIControlEventTouchUpInside];
 }
 
+/**
+ *  Toggle method for blur and menu animation when `menuButton` is tapped.
+ */
 - (void)menuTapped {
     
     if (!self.menuShowing) {
-        
         [self initializeMenuView];
-        
-        UIImage *blurredView = [self blurredSnapshot];
-        self.blurredImageView = [[UIImageView alloc] initWithFrame:self.view.frame];
-        self.blurredImageView.image = blurredView;
-        [self.view insertSubview:self.blurredImageView belowSubview:self.menuView];
-        [self.menuButton animateToType:buttonCloseType];
-        self.menuButton.roundBackgroundColor = [UIColor clearColor];
-        self.menuButton.tintColor = [UIColor leoOrangeRed];
-        
-        self.blurredImageView.alpha = 0;
-        
-        [UIView animateWithDuration:0.25 animations:^{
-            self.menuView.alpha = 0.6;
-            self.blurredImageView.alpha = 1;
-            [self.menuButton layoutIfNeeded];
-            [self.menuView layoutIfNeeded];
-        }];
-        
+        [self animateMenuLoad];
     } else {
         
-        [self.menuButton animateToType:buttonAddType];
-        self.menuButton.roundBackgroundColor = [UIColor leoOrangeRed];
-        self.menuButton.tintColor = [UIColor leoWhite];
-        self.blurredImageView.alpha = 1;
-        
-        [UIView animateWithDuration:0.25 animations:^{
-            self.blurredImageView.alpha = 0;
-            self.menuView.alpha = 0;
-            [self.menuButton layoutIfNeeded];
-            [self.menuView layoutIfNeeded];
-        } completion:^(BOOL finished) {
-            [self.blurredImageView removeFromSuperview];
+        [self animateMenuDisappearWithCompletion:^{
             [self dismissMenuView];
         }];
     }
     
     self.menuShowing = !self.menuShowing;
-    
 }
 
+
+/**
+ *  Load Main Menu for Leo. Includes blurred background and updated menu button.
+ */
+- (void)animateMenuLoad {
+
+    UIImage *blurredView = [self blurredSnapshot];
+    self.blurredImageView = [[UIImageView alloc] initWithFrame:self.view.frame];
+    self.blurredImageView.image = blurredView;
+    [self.view insertSubview:self.blurredImageView belowSubview:self.menuView];
+    [self.menuButton animateToType:buttonCloseType];
+    self.menuButton.roundBackgroundColor = [UIColor clearColor];
+    self.menuButton.tintColor = [UIColor leoOrangeRed];
+    
+    self.blurredImageView.alpha = 0;
+    
+    [UIView animateWithDuration:0.25 animations:^{
+        self.menuView.alpha = 0.6;
+        self.blurredImageView.alpha = 1;
+        [self.menuButton layoutIfNeeded];
+        [self.menuView layoutIfNeeded];
+    }];
+}
+
+
+/**
+ *  Unload main menu. Includes blurred background and updated menu button.
+ */
+- (void)animateMenuDisappearWithCompletion:(void (^)(void))completionBlock {
+    
+    [self.menuButton animateToType:buttonAddType];
+    self.menuButton.roundBackgroundColor = [UIColor leoOrangeRed];
+    self.menuButton.tintColor = [UIColor leoWhite];
+    self.blurredImageView.alpha = 1;
+    
+    [UIView animateWithDuration:0.25 animations:^{
+        self.blurredImageView.alpha = 0;
+        self.menuView.alpha = 0;
+        [self.menuButton layoutIfNeeded];
+        [self.menuView layoutIfNeeded];
+    } completion:^(BOOL finished) {
+        [self.blurredImageView removeFromSuperview];
+        
+        if (completionBlock) {
+            completionBlock();
+        }
+    }];
+}
+
+
+/**
+ *  Layout and set initial state of main menu.
+ */
 - (void)initializeMenuView {
     
     self.menuView = [[MenuView alloc] init];
@@ -167,7 +211,11 @@
     [self.view layoutIfNeeded];
 }
 
+/**
+ *  Remove menu view from superview and clear it from memory.
+ */
 - (void)dismissMenuView {
+    
     [self.menuView removeFromSuperview];
     self.menuView = nil;
 }
@@ -183,8 +231,7 @@
     }
 }
 
-- (UIStatusBarStyle)preferredStatusBarStyle
-{
+- (UIStatusBarStyle)preferredStatusBarStyle {
     return UIStatusBarStyleLightContent;
 }
 
