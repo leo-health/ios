@@ -234,7 +234,7 @@ static NSString *kActionSelectorDismiss = @"dismiss";
 }
 
 -(nonnull UIImage *)icon {
-    return [UIImage imageNamed:@"SMS-32"];
+    return [UIImage imageNamed:@"CalendarIcon"];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath
