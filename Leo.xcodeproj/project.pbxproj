@@ -45,7 +45,6 @@
 		31D62ED01B1D3ED500B4150A /* LEODateCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D62ECE1B1D3ED500B4150A /* LEODateCell.m */; };
 		31D62ED11B1D3ED500B4150A /* LEODateCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 31D62ECF1B1D3ED500B4150A /* LEODateCell.xib */; };
 		31D7ADEB1B21F9A100E8C5EE /* CollectionViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D7ADEA1B21F9A100E8C5EE /* CollectionViewDataSource.m */; };
-		31DEDD121B23F12000C9B919 /* JunkToBeDeleted in Resources */ = {isa = PBXBuildFile; fileRef = 31DEDD111B23F12000C9B919 /* JunkToBeDeleted */; };
 		31ECA3351B23C39000BC1D6B /* LEOTimeCell+ConfigureCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31ECA3341B23C39000BC1D6B /* LEOTimeCell+ConfigureCell.m */; };
 		31ECA3381B23C53500BC1D6B /* LEODateCell+ConfigureCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31ECA3371B23C53500BC1D6B /* LEODateCell+ConfigureCell.m */; };
 		31F0EA651B27430D00E4D83A /* LEODropDownController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31F0EA571B27430D00E4D83A /* LEODropDownController.m */; };
@@ -176,7 +175,6 @@
 		31D62ECF1B1D3ED500B4150A /* LEODateCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LEODateCell.xib; sourceTree = "<group>"; };
 		31D7ADE91B21F9A100E8C5EE /* CollectionViewDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewDataSource.h; sourceTree = "<group>"; };
 		31D7ADEA1B21F9A100E8C5EE /* CollectionViewDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewDataSource.m; sourceTree = "<group>"; };
-		31DEDD111B23F12000C9B919 /* JunkToBeDeleted */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = JunkToBeDeleted; sourceTree = "<group>"; };
 		31ECA3331B23C39000BC1D6B /* LEOTimeCell+ConfigureCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LEOTimeCell+ConfigureCell.h"; sourceTree = "<group>"; };
 		31ECA3341B23C39000BC1D6B /* LEOTimeCell+ConfigureCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LEOTimeCell+ConfigureCell.m"; sourceTree = "<group>"; };
 		31ECA3361B23C53500BC1D6B /* LEODateCell+ConfigureCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LEODateCell+ConfigureCell.h"; sourceTree = "<group>"; };
@@ -631,7 +629,6 @@
 		BCE1EC671B00E353007C8D0B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				31DEDD111B23F12000C9B919 /* JunkToBeDeleted */,
 				BCE1EC761B00E353007C8D0B /* LaunchScreen.xib */,
 				BCA69A381B035CEF00C27B2B /* Leo-Prefix.pch */,
 				BCE1EC681B00E353007C8D0B /* Info.plist */,
@@ -783,6 +780,7 @@
 				31D62ED11B1D3ED500B4150A /* LEODateCell.xib in Resources */,
 				31920A451B0A855F006309C2 /* getMessagesForConversationResponse.json in Resources */,
 				31DEDD121B23F12000C9B919 /* JunkToBeDeleted in Resources */,
+				31D20ACE1B150FF300F3351A /* leoheart.png in Resources */,
 				31F0EA6C1B27430D00E4D83A /* LEODropDownSelectionCell.xib in Resources */,
 				31D62ECB1B1CEB1400B4150A /* Scheduling.storyboard in Resources */,
 				318EEE0F1B3B3FA3002D1653 /* Assets in Resources */,
