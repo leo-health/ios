@@ -367,12 +367,8 @@
 		3177B99B1B189F6C006AE360 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				31D20B071B151C5100F3351A /* LEOPageModelController.h */,
-				31D20B081B151C5100F3351A /* LEOPageModelController.m */,
 				3182E54D1B208CC6004DECF8 /* RootViewController.h */,
 				3182E54E1B208CC6004DECF8 /* RootViewController.m */,
-				3182E5511B208CC6004DECF8 /* PageViewDataSource.h */,
-				3182E5521B208CC6004DECF8 /* PageViewDataSource.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -382,10 +378,14 @@
 			children = (
 				3182E55C1B20C8F5004DECF8 /* NSDate+Extensions.h */,
 				3182E55D1B20C8F5004DECF8 /* NSDate+Extensions.m */,
+				31D20B071B151C5100F3351A /* LEOPageModelController.h */,
+				31D20B081B151C5100F3351A /* LEOPageModelController.m */,
 				31D7ADE91B21F9A100E8C5EE /* CollectionViewDataSource.h */,
 				31D7ADEA1B21F9A100E8C5EE /* CollectionViewDataSource.m */,
 				319F335B1B2201F900C1C526 /* CollectionViewLayout.h */,
 				319F335C1B2201F900C1C526 /* CollectionViewLayout.m */,
+				3182E5511B208CC6004DECF8 /* PageViewDataSource.h */,
+				3182E5521B208CC6004DECF8 /* PageViewDataSource.m */,
 				3130B48D1B068CE0006ACC80 /* ArrayDataSource.h */,
 				3130B48E1B068CE0006ACC80 /* ArrayDataSource.m */,
 			);

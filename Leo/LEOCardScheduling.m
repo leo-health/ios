@@ -33,8 +33,6 @@ static NSString *kActionSelectorBook = @"book";
     
     if (self) {
         _appointment = appointment;
-        
-        [appointment addObserver:self forKeyPath:NSStringFromSelector(@selector(appointmentState)) options:NSKeyValueObservingOptionNew context:XXContext];
     }
     
     return self;
@@ -67,9 +65,9 @@ static NSString *kActionSelectorBook = @"book";
 }
 
 - (NSString *)title {
-
+    
     NSString *titleText;
-
+    
     switch (self.appointment.appointmentState) {
             
         case AppointmentStateBooking:
@@ -184,7 +182,7 @@ static NSString *kActionSelectorBook = @"book";
             
             break;
         }
-        
+            
         case AppointmentStateReminding: {
             
             NSString *buttonOneAction = kActionSelectorSchedule;
@@ -206,7 +204,7 @@ static NSString *kActionSelectorBook = @"book";
             
             break;
         }
-    
+            
         case AppointmentStateConfirmingCancelling: {
             
             NSString *buttonOneAction = kActionSelectorDismiss;
@@ -270,21 +268,5 @@ static NSString *kActionSelectorBook = @"book";
     return [UIImage imageNamed:@"SMS-32"];
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath
-                      ofObject:(id)object
-                        change:(NSDictionary *)change
-                       context:(void *)context {
-    
-    if (context == XXContext) {
-        if ([keyPath isEqualToString:NSStringFromSelector(@selector(appointmentState))]) {
-            NSLog(@"Keypath:%@",keyPath);
-            NSLog(@"");
-            NSLog(@"Object:%@",object);
-            NSLog(@"");
-            NSLog(@"Change:%@",change);
-            NSLog(@"");
-            NSLog(@"Context:%@",context);
-        }
-    }
-}
+
 @end

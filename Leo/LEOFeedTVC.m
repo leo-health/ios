@@ -232,7 +232,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
             
             Role *childRole = [Role insertEntityWithName:@"child" resourceID:@"2" resourceType:@2 managedObjectContext:self.coreDataManager.managedObjectContext];
             
-            User *childUser = [User insertEntityWithFirstName:@"Zachary" lastName:@"Drossman" dob:[NSDate date] email:@"zd9@leohealth.com" role:childRole familyID:[NSString stringWithFormat:@"%@",@([self.coreDataManager.currentUser.familyID integerValue] + 1)] managedObjectContext:self.coreDataManager.managedObjectContext];
+            User *childUser = [User insertEntityWithFirstName:@"Other" lastName:@"Drossman" dob:[NSDate date] email:@"zd9@leohealth.com" role:childRole familyID:[NSString stringWithFormat:@"%@",@([self.coreDataManager.currentUser.familyID integerValue] + 1)] managedObjectContext:self.coreDataManager.managedObjectContext];
             
             __weak id<OHHTTPStubsDescriptor> childStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
                 NSLog(@"Request");

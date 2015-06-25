@@ -38,7 +38,6 @@
     } else {
         [self setSelectableFormat];
     }
-    
 }
 
 - (void)setUnselectableFormat {

@@ -18,7 +18,6 @@
 #import "NSDate+Extensions.h"
 #import "CollectionViewDataSource.h"
 #import "LEODateCell+ConfigureCell.h"
-#import "LEODropDownController.h"
 #import "LEODropDownTableView.h"
 #import "LEOCardScheduling.h"
 #import "LEOSectionSeparator.h"
@@ -59,9 +58,7 @@
 
 #pragma mark - State
 @property (strong, nonatomic) TimeCollectionViewController *timeCollectionVC;
-@property (nonatomic) BOOL initialScrollDone;
-@property (nonatomic) BOOL startingContentOffsetX;
-@property (nonatomic) BOOL alreadyTurnedPage;
+@property (nonatomic) CGFloat startingContentOffsetX;
 
 @end
 
@@ -78,16 +75,15 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     [super viewDidLoad];
     
     [self prepareForLaunch];
-
-    [self setupDateCollectionView];
     
+    [self setupDateCollectionView];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    
     [super viewWillAppear:animated];
+    
+    //required such that the scrolling to initial selected date happens prior to appearance of collection view
     [self.dateCollectionView layoutIfNeeded];
-//    [self goToStartingDate];
 }
 
 - (void)prepareForLaunch {
@@ -131,21 +127,20 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     self.navBar.items = @[navCarrier];
     
     if (self.appointment.date == nil) {
-        self.selectedDate = [self firstAvailableAppointmentTimeFromDate:nil toDate:nil];
+        self.appointment.date = [self firstAvailableAppointmentTimeFromDate:self.dates.firstObject toDate:self.dates.lastObject];
     }
     
     [self setupMonthLabel];
     [self setupAppointmentDateLabel];
-
-}
-
-- (void)goToStartingDate {
     
-    [self.dateCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow: [self indexPathOfDate:self.appointment.date].row inSection:0] atScrollPosition:UICollectionViewScrollPositionNone animated:NO];
 }
 
 
 #pragma mark - Lifecycle Helper Methods
+
+/**
+ *  Prepares a CollectionView for dates with datasource, delegate, layout, cell nib, and associated properties.
+ */
 - (void)setupDateCollectionView {
     
     void (^configureCell)(LEODateCell *, NSDate*) = ^(LEODateCell* cell, NSDate* date) {
@@ -168,6 +163,9 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     [self.dateCollectionView registerNib:[UINib nibWithNibName:@"LEODateCell" bundle:nil] forCellWithReuseIdentifier:dateReuseIdentifier];
 }
 
+/**
+ *  Formats the month label
+ */
 - (void)setupMonthLabel {
     
     self.monthLabel.textColor = [UIColor leoWarmHeavyGray];
@@ -196,6 +194,14 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     self.appointmentDateLabel.text = [self formatDateTimeForLabel:self.appointment.date];
 }
 
+
+/**
+ *  Turns an NSDate into an NSString with the following format: January 1, 12:30am
+ *
+ *  @param dateTime unformatted NSDate object
+ *
+ *  @return formatted stringified date
+ */
 - (NSString *)formatDateTimeForLabel:(NSDate *)dateTime {
     
     NSDateFormatter *fullDateFormatter = [[NSDateFormatter alloc] init];
@@ -222,12 +228,18 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     
     self.coreDataManager = [LEOCoreDataManager sharedManager];
     
+    /**
+     *  Segue associated with paged TimeCollectionViewController
+     */
     if ([segue.identifier isEqualToString:@"EmbedSegue"]) {
         [self baseViewSetup]; //TODO: See 'MARK' above the implementation of this method.
         self.pageViewController = segue.destinationViewController;
         [self setupPageView];
     }
     
+    /**
+     *  Segue associated with childDropDownTableView
+     */
     if([segue.identifier isEqualToString:@"ChildDropDownEmbedSegue"]) {
         LEOChildDropDownTableViewController *tvc = segue.destinationViewController;
         tvc.appointment = self.appointment;
@@ -235,14 +247,15 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     }
 }
 
+
 /* Zachary Drossman
  * MARK: I take issue with the fact
  * that we can only set these things
  * up in our segue because it gets
  * called before view did load.
- * There has to be a better way.
+ * There has to be a better way or we need
+ * to avoid using container views.
  */
-
 - (void)baseViewSetup {
     
     self.pageViewDataSource = [[PageViewDataSource alloc] initWithAllItems:self.dates selectedSubsetOfItems:self.coreDataManager.availableDates];
@@ -260,16 +273,21 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     
     //MARK: Should this really be done to bring the gestures forward?
     //self.view.gestureRecognizers = self.pageViewController.gestureRecognizers;
-    
-    
 }
 
+
+/**
+ *  Creates a new timeCollectionViewController and pages to it with the appropriate direction
+ *
+ *  @param toPage   the index of the page being scrolled to
+ *  @param fromPage the index of the page being scrolled from
+ */
 - (void)turnToPage:(NSInteger)toPage fromPage:(NSInteger )fromPage {
     
     TimeCollectionViewController *timeCollectionVC = [self.pageViewDataSource viewControllerAtIndex:[self indexPathOfDate:self.appointment.date].row storyboard:self.storyboard];
     
     self.timeCollectionVC = timeCollectionVC;
-
+    
     self.timeCollectionVC.delegate = self;
     UIPageViewControllerNavigationDirection direction;
     
@@ -284,12 +302,19 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     
 }
 
+/**
+ *  Returns the index path of a date relative to the first date available in the dates array
+ *
+ *  @param date date being searched for in array of dates
+ *
+ *  @return indexpath of date
+ */
 - (NSIndexPath *)indexPathOfDate:(NSDate *)date {
     
     NSInteger daysFromBeginningOfDateArray;
     
-    if (self.appointment.date) {
-        daysFromBeginningOfDateArray = [[self.appointment.date beginningOfDay] daysFrom:self.dates.firstObject];
+    if (date) {
+        daysFromBeginningOfDateArray = [[date beginningOfDay] daysFrom:self.dates.firstObject];
     } else {
         daysFromBeginningOfDateArray = [self.coreDataManager.availableDates.firstObject daysFrom:self.dates.firstObject];
     }
@@ -298,14 +323,6 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     return [NSIndexPath indexPathForRow:daysFromBeginningOfDateArray inSection:0];
 }
 
-
-//MARK: Can we remove / condense this and the above into one?
-//- (NSIndexPath *)indexPathForSelectedDate {
-//    
-//    NSUInteger indexForSelectedDate = [self.appointment.date daysFrom:[self startDate]];
-//    NSIndexPath *indexPathForDate = [NSIndexPath indexPathForRow:indexForSelectedDate inSection:0];
-//    return indexPathForDate;
-//}
 
 - (NSUInteger)pageOfDate:(NSDate *)date {
     
@@ -325,16 +342,13 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     }];
 }
 
-//FIXME: Shouldn't be using selectedDate for side effects. Create another method.
--(void)setSelectedDate:(NSDate *)selectedDate {
-    self.appointment.date = selectedDate;
-    
+- (void)makeUpdatesForChangesToAppointmentDate {
     [self updateMonthLabel];
     [self updateAppointmentDateLabel];
 }
 
 - (BOOL)shouldTurnPage {
- 
+    
     NSArray *visibleIndexPaths = [[self.dateCollectionView indexPathsForVisibleItems] sortedArrayUsingSelector:@selector(compare:)];
     
     if ([visibleIndexPaths containsObject:[self indexPathOfDate:self.appointment.date]]) {
@@ -353,16 +367,14 @@ static NSString * const dateReuseIdentifier = @"DateCell";
 
 - (void)updateCollectionView:(UICollectionView *)collectionView forSelectedCellAtIndexPath:(NSIndexPath *)indexPath {
     
-    NSInteger indexForCurrentDate = [self.appointment.date daysFrom:[self startDate]];
-    
-    self.selectedDate = self.dates[indexPath.row];
+    self.appointment.date = self.dates[indexPath.row];
     
     [collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
     UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
     cell.selected = YES;
     
-    [collectionView layoutIfNeeded];
-
+    //[collectionView layoutIfNeeded];
+    
 }
 
 -(BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -384,31 +396,20 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     
     NSCalendar *calendar = [NSCalendar calendarWithIdentifier:NSCalendarIdentifierGregorian];
     
+    //If the cell about to be displayed is showing the same date as the date of the appointment
     if ([calendar isDate:date inSameDayAsDate:self.appointment.date]) {
-        if (!self.initialScrollDone) {
-            cell.selected = YES;
-            [collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
-            [self updateCollectionView:collectionView forSelectedCellAtIndexPath:indexPath]; //FIXME: This is frustrating that I have to update directly in willDisplay but this method is duplicating what is already done here...
-            
-            if ([self shouldTurnPage]) {
-                [self turnToPage:[self pageOfDate:self.appointment.date] fromPage:0];
-            }
-            
-            self.selectedDate = date;
-        } else {
-            ((LEODateCell *)cell).selectable = YES;
+        
+        cell.selected = YES;
+        [collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
+        
+        //MARK: Double check whether the conditional around the turnToPage method call is doing anything.
+        if ([self shouldTurnPage]) {
+            [self turnToPage:[self pageOfDate:self.appointment.date] fromPage:0];
         }
     } else {
-
-        NSArray *availableSlotsForDate = [self.coreDataManager availableTimesForDate:date];
         
-        if ([availableSlotsForDate count] > 0) {
-            
-            ((LEODateCell *)cell).selectable = YES;
-        } else {
-            
-            ((LEODateCell *)cell).selectable = NO;
-        }
+        NSArray *availableSlotsForDate = [self.coreDataManager availableTimesForDate:date];
+        ((LEODateCell *)cell).selectable = [availableSlotsForDate count] > 0 ? YES : NO;
     }
 }
 
@@ -425,10 +426,6 @@ static NSString * const dateReuseIdentifier = @"DateCell";
 }
 
 - (void)updateSelectedCellBasedOnScrollViewUpdate:(UIScrollView *)scrollView {
-    
-    if (self.startingContentOffsetX != scrollView.contentOffset.x) {
-        self.initialScrollDone = YES;
-    }
     
     NSArray *indexPathsOfVisibleItems = [[self.dateCollectionView indexPathsForVisibleItems] sortedArrayUsingSelector:@selector(compare:)];
     
@@ -458,70 +455,50 @@ static NSString * const dateReuseIdentifier = @"DateCell";
 
 
 
-#pragma mark - <UPageViewControllerDelegate>
+#pragma mark - <UPageViewControllerDelegate> + Helper Methods
 
 - (void)pageViewController:(UIPageViewController *)pageViewController willTransitionToViewControllers:(NSArray *)pendingViewControllers {
     
     self.tempSelectedDate = ((TimeCollectionViewController *)pendingViewControllers[0]).selectedDate;
 }
 
-
-//TODO: Separate out into multiple smaller methods.
 - (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray *)previousViewControllers transitionCompleted:(BOOL)completed {
     
     if (completed) {
         
-        self.selectedDate = self.tempSelectedDate;
+        self.appointment.date = self.tempSelectedDate;
+        NSIndexPath *indexPathToSelect = [self indexPathOfDate:self.appointment.date];
         
-        NSArray *visibleIndexPaths = [[self.dateCollectionView indexPathsForVisibleItems] sortedArrayUsingSelector:@selector(compare:)];
-        
-        NSIndexPath *indexPathToSelect;
-        NSIndexPath *indexPathOfAppointment = [self indexPathOfDate:self.appointment.date];
-
-        CGPoint point = self.dateCollectionView.contentOffset;
-        UIEdgeInsets insets = [self collectionView:self.dateCollectionView layout:self.dateCollectionView.collectionViewLayout insetForSectionAtIndex:indexPathOfAppointment.section]; //Not using scroll to cell here because for whatever reason, and we should go back and determine why someday, it is leaving an eight cell visible which is messing with everything. Probably due to the very manual sizing of cell layout, but using insets does appear to work as an alternative so I'm not 100% sure what is going on.
-
-        if (![visibleIndexPaths containsObject:indexPathOfAppointment]) {
-            
-            if ( indexPathOfAppointment < (NSIndexPath *)visibleIndexPaths[0]) {
-                point.x -= insets.right;
-            } else if (indexPathOfAppointment > (NSIndexPath *)visibleIndexPaths.lastObject) {
-                point.x += insets.left;
-            }
-            
-            self.dateCollectionView.contentOffset = point;
-
-            NSIndexPath *indexPath = visibleIndexPaths.lastObject;
-            NSDate *firstAvailableDateInWeek = [self firstAvailableAppointmentTimeFromDate:self.dates[indexPath.row + 1] toDate:self.dates[indexPath.row + 7]];
-            
-            if (firstAvailableDateInWeek != nil) {
-                indexPathToSelect = [self indexPathOfDate:firstAvailableDateInWeek];
-            }
-        }
-        else {
-            indexPathToSelect = [self indexPathOfDate:self.appointment.date];
-        }
-        
-        UICollectionViewCell *cell = [self.dateCollectionView cellForItemAtIndexPath:indexPathToSelect];
-        [self.dateCollectionView selectItemAtIndexPath:indexPathToSelect animated:NO scrollPosition:UICollectionViewScrollPositionNone];
-        cell.selected = YES;
-        
-        [self.dateCollectionView layoutIfNeeded];
-        [self.dateCollectionView reloadData];
+        [self scrollDateCollectionViewToWeekOfAppointmentDate];
+        [self updateCollectionView:self.dateCollectionView forSelectedCellAtIndexPath:indexPathToSelect];
     }
 }
 
-
+- (void) scrollDateCollectionViewToWeekOfAppointmentDate {
+    
+    NSArray *visibleIndexPaths = [[self.dateCollectionView indexPathsForVisibleItems] sortedArrayUsingSelector:@selector(compare:)];
+    
+    NSIndexPath *firstVisibleIndexPath = visibleIndexPaths[0];
+    
+    NSIndexPath *indexPathOfAppointmentWeekBeginning = [self indexPathOfDate:[[self.appointment.date beginningOfDay] beginningOfWeekForStartOfWeek:1]];
+    CGPoint offset = self.dateCollectionView.contentOffset;
+    
+    CGFloat horizontalInsets = [self collectionView:self.dateCollectionView layout:self.dateCollectionView.collectionViewLayout     insetForSectionAtIndex:0].left + [self collectionView:self.dateCollectionView layout:self.dateCollectionView.collectionViewLayout insetForSectionAtIndex:0].right;
+    
+    CGFloat cellWidth = [self collectionView:self.dateCollectionView layout:self.dateCollectionView.collectionViewLayout sizeForItemAtIndexPath:indexPathOfAppointmentWeekBeginning].width;
+    
+    NSInteger numberOfCellsToScroll = indexPathOfAppointmentWeekBeginning.row - firstVisibleIndexPath.row;
+    
+    offset.x += numberOfCellsToScroll * (cellWidth + horizontalInsets);
+    
+    [self.dateCollectionView setContentOffset:offset animated:YES];
+}
 
 #pragma mark - <TimeSelectionDelegate>
 - (void)didUpdateAppointmentDateTime:(NSDate *)dateTime {
-    
-    self.selectedDate = [self firstAvailableAppointmentTimeFromDate:dateTime toDate:dateTime];
-    
-//    self.appointmentDateLabel.text = [self formatDateTimeForLabel:dateTime];
+    self.appointment.date = dateTime;
+    [self makeUpdatesForChangesToAppointmentDate];
 }
-
-
 
 #pragma mark - <CardActivityDelegate>
 - (void)didUpdateObjectStateForCard:(LEOCard *)card {
@@ -533,6 +510,18 @@ static NSString * const dateReuseIdentifier = @"DateCell";
         }];
     }];
 }
+
+//#pragma mark - <DropDownActivityDelegate> 
+//
+//- (void)didSelectItemAtIndex:(NSUInteger)index tableView:(UITableView *)tableView {
+//    
+//    if (tableView == self.doctorDropDownTV) {
+//        self.appointment.provider = [self.coreDataManager fetchDoctors][index];
+//    } else if (tableView == self.visitDropDownTV) {
+//        self.appointment.leoAppointmentType = [self.coreDataManager fetchAppointmentTypes][index];
+//    }
+//    
+//}
 
 #pragma mark - Helper Date Methods
 - (NSArray *)dates {
@@ -557,25 +546,17 @@ static NSString * const dateReuseIdentifier = @"DateCell";
 }
 
 //MARK: Strategically, at scale this may not make sense, but with a few patients, we can probably do this and not engage too many conflicts.
-- (NSDate *)firstAvailableAppointmentTimeFromDate:(NSDate *)fromDate toDate:(NSDate *)toDate {
+- (NSDate *)firstAvailableAppointmentTimeFromDate:(nonnull NSDate *)fromDate toDate:(nonnull NSDate *)toDate {
     
-    NSUInteger fromDateIndex;
-    NSUInteger toDateIndex;
+    NSUInteger fromDateIndex = [self findIndexForExactDate:fromDate inArray:self.dates];
+    NSUInteger toDateIndex = [self findIndexForExactDate:toDate inArray:self.dates];
     
-    if (fromDate == nil) {
-        fromDateIndex = 0;
-    } else {
-        fromDateIndex = [self findIndexForExactDate:fromDate inArray:self.dates];
-    }
-    if (toDate == nil) {
-        toDateIndex = [self.dates count] - 1;
-    } else {
-        toDateIndex = [self findIndexForExactDate:toDate inArray:self.dates];
-    }
+    NSUInteger rangeLength = toDateIndex - fromDateIndex + 1;
+    NSRange dateRange = NSMakeRange(fromDateIndex, rangeLength);
     
-    NSArray *dateSubarray = [self.dates subarrayWithRange:NSMakeRange(fromDateIndex, toDateIndex + 1)]; //MARK: Remind myself why I have to add +1 to this.
+    NSArray *dateSubarray = [self.dates subarrayWithRange:dateRange];
     
-    for (NSInteger i = fromDateIndex; i <= toDateIndex; i++) {
+    for (NSInteger i = 0; i < rangeLength; i++) {
         
         NSArray *availableTimes = [self.coreDataManager availableTimesForDate:dateSubarray[i]];
         
@@ -584,11 +565,10 @@ static NSString * const dateReuseIdentifier = @"DateCell";
         }
     }
     
+    //FIXME: Need to deal with rare case in which no dates have availability so app doesn't crash here. I really hope we crash for this reason someday though...
+    //    ALog(@"No available times for any date in range.");
     return nil;
-    
-    //TODO: Need to deal with rare case in which no dates have availability so app doesn't crash here. I really hope we crash for this reason someday though...
 }
-
 
 - (NSUInteger)findIndexForExactDate:(NSDate *)date inArray:(NSArray *)array {
     
@@ -599,7 +579,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     }
     
     ALog(@"Warning: Couldn't find index for exact date.");
-    return 0; //TODO: Deal with this.
+    return 0; //FIXME: Deal with this.
 }
 
 - (NSDate *)startDate {
@@ -608,10 +588,11 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     
     if (!startDate) {
         
-        startDate = [[NSDate date].beginningOfDay dateBySubtractingDays:[NSDate date].weekday - 1];
+        startDate = [[NSDate date].beginningOfDay beginningOfWeekForStartOfWeek:1];
     }
     
     return startDate;
 }
+
 
 @end

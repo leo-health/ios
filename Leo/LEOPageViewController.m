@@ -43,10 +43,10 @@
     [self.view addSubview:_pageViewController.view];
     
     // Set the page view controller's bounds using an inset rect so that self's view is visible around the edges of the pages.
-
-//    CGRect pageViewRect = self.view.bounds;
-//    self.pageViewController.view.frame = pageViewRect;
-
+    
+    //    CGRect pageViewRect = self.view.bounds;
+    //    self.pageViewController.view.frame = pageViewRect;
+    
     
     [self.pageViewController didMoveToParentViewController:self];
     
@@ -56,7 +56,7 @@
     
     // Add the page view controller's gesture recognizers to the book view controller's view so that the gestures are started more easily.
     // self.view.gestureRecognizers = self.pageViewController.gestureRecognizers;
-
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -77,7 +77,7 @@
     self.navigationController.navigationBar.translucent = NO;
     
     UIImage *heartBBI = [[UIImage imageNamed:@"leoheart"] resizedImageToSize:CGSizeMake(30.0, 30.0)];
-
+    
     UIBarButtonItem *leoheartBBI = [[UIBarButtonItem alloc] initWithImage:heartBBI style:UIBarButtonItemStylePlain target:self action:@selector(flipToFeed)];
     [self.navigationItem setLeftBarButtonItem:leoheartBBI];
     
@@ -105,13 +105,13 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

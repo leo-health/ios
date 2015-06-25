@@ -56,10 +56,13 @@
     return collectionViewController;
 }
 
+
+
 - (NSUInteger)indexOfViewController:(TimeCollectionViewController *)viewController {
     
     // Return the index of the given data view controller.
     // For simplicity, this implementation uses a static array of model objects and the view controller stores the model object; you can therefore use the model object to identify the index.
+    
     NSLog(@"Current index: %lu",[self.allPages indexOfObject:viewController.dateThatQualifiesTimeCollection]);
     return [self.allPages indexOfObject:viewController.dateThatQualifiesTimeCollection];
 }
@@ -113,13 +116,6 @@
     NSUInteger nextPage = indexDifference + index;
     
     return [self viewControllerAtIndex:nextPage storyboard:viewController.storyboard];
-}
-
-- (NSUInteger)indexOfallPagesInRelationToAllDates {
-    
-    //this method to determine appropriate index updates for viewController before and after current view controller
-    
-    return 0;
 }
 
 @end

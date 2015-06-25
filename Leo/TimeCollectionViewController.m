@@ -83,6 +83,7 @@ static NSString * const timeReuseIdentifier = @"TimeCell";
     
     if (self.firstPass) {
         [collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
+        [self.delegate didUpdateAppointmentDateTime:self.times[indexPath.row]];
         cell.selected = YES;
     } else {
         if ([self.selectedDate isEqualToDate:self.times[indexPath.row]]) {
