@@ -9,11 +9,8 @@
 #import "LEOPageViewController.h"
 #import "LEOEHRViewController.h"
 #import "LEOFeedTVC.h"
-#import "UIColor+LeoColors.h"
-#import "UIFont+LeoFonts.h"
-#import "UIImage+Extensions.h"
-#import <UIImage+Resize.h>
 #import "LEOPageModelController.h"
+
 @interface LEOPageViewController ()
 
 @property (strong, nonatomic) LEOFeedTVC *feedViewController;
@@ -50,7 +47,6 @@
     
     [self.pageViewController didMoveToParentViewController:self];
     
-    [self primaryInterfaceSetup];
     // Do any additional setup after loading the view.
     
     

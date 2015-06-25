@@ -49,9 +49,7 @@ typedef NS_ENUM(NSInteger, FlatButtonStyle) {
 @property (nonatomic) CGFloat lineRadius;
 
 @property (nonatomic, strong) UIColor *linesColor __deprecated_msg("Deprecated in favor of the tintColor property.");
-
-
-
+@property (nonatomic) BOOL animateToStartPosition;
 
 //////////////////////////////
 // DESIGNATED INITIALIZER   //

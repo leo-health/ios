@@ -12,6 +12,10 @@
 		312980041B2CCA3F000679DA /* LEOChildCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 312980021B2CCA3F000679DA /* LEOChildCell.m */; };
 		312980051B2CCA3F000679DA /* LEOChildCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 312980031B2CCA3F000679DA /* LEOChildCell.xib */; };
 		312980081B2CCB22000679DA /* LEOChildCell+ConfigureForCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 312980071B2CCB22000679DA /* LEOChildCell+ConfigureForCell.m */; };
+		31197A0C1B39A70C00C773BA /* UIImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 31197A0B1B39A70C00C773BA /* UIImageEffects.m */; };
+		31197A0F1B39B08B00C773BA /* LEOMainContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31197A0E1B39B08B00C773BA /* LEOMainContainerViewController.m */; };
+		31197A121B39D8FD00C773BA /* MenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 31197A111B39D8FD00C773BA /* MenuView.m */; };
+		31197A141B39DA3000C773BA /* MenuView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 31197A131B39DA3000C773BA /* MenuView.xib */; };
 		314F6A071B2A0D0000799AB4 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 314F6A061B2A0D0000799AB4 /* User.m */; };
 		3177B9981B17A1B7006AE360 /* LEOCardScheduling.m in Sources */ = {isa = PBXBuildFile; fileRef = 3177B9971B17A1B7006AE360 /* LEOCardScheduling.m */; };
 		3177B9D11B191928006AE360 /* Conversation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3177B9D01B191928006AE360 /* Conversation.m */; };
@@ -114,6 +118,13 @@
 		312980031B2CCA3F000679DA /* LEOChildCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LEOChildCell.xib; sourceTree = "<group>"; };
 		312980061B2CCB22000679DA /* LEOChildCell+ConfigureForCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LEOChildCell+ConfigureForCell.h"; sourceTree = "<group>"; };
 		312980071B2CCB22000679DA /* LEOChildCell+ConfigureForCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LEOChildCell+ConfigureForCell.m"; sourceTree = "<group>"; };
+		31197A0A1B39A70C00C773BA /* UIImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIImageEffects.h; sourceTree = "<group>"; };
+		31197A0B1B39A70C00C773BA /* UIImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIImageEffects.m; sourceTree = "<group>"; };
+		31197A0D1B39B08B00C773BA /* LEOMainContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOMainContainerViewController.h; sourceTree = "<group>"; };
+		31197A0E1B39B08B00C773BA /* LEOMainContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOMainContainerViewController.m; sourceTree = "<group>"; };
+		31197A101B39D8FD00C773BA /* MenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuView.h; sourceTree = "<group>"; };
+		31197A111B39D8FD00C773BA /* MenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuView.m; sourceTree = "<group>"; };
+		31197A131B39DA3000C773BA /* MenuView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MenuView.xib; sourceTree = "<group>"; };
 		3130B48D1B068CE0006ACC80 /* ArrayDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrayDataSource.h; sourceTree = "<group>"; };
 		3130B48E1B068CE0006ACC80 /* ArrayDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrayDataSource.m; sourceTree = "<group>"; };
 		314F6A051B2A0D0000799AB4 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = User.h; path = "Data Model/User.h"; sourceTree = "<group>"; };
@@ -501,6 +512,8 @@
 		BC163B001B054CCF000FB1CE /* View */ = {
 			isa = PBXGroup;
 			children = (
+				31197A0A1B39A70C00C773BA /* UIImageEffects.h */,
+				31197A0B1B39A70C00C773BA /* UIImageEffects.m */,
 				31CF990F1B17754B00BFAABE /* LEOTransitioningDelegate.h */,
 				31CF99101B17754B00BFAABE /* LEOTransitioningDelegate.m */,
 				3192ACD71B0CC7C5007195F2 /* UIImage+Extensions.h */,
@@ -577,6 +590,11 @@
 			isa = PBXGroup;
 			children = (
 				31BA405E1B30BF6700A11AEE /* Feed */,
+				31197A101B39D8FD00C773BA /* MenuView.h */,
+				31197A111B39D8FD00C773BA /* MenuView.m */,
+				31197A131B39DA3000C773BA /* MenuView.xib */,
+				31197A0D1B39B08B00C773BA /* LEOMainContainerViewController.h */,
+				31197A0E1B39B08B00C773BA /* LEOMainContainerViewController.m */,
 				31F0EA1C1B261A8300E4D83A /* Reusable Subviews */,
 				3177B99A1B189F41006AE360 /* Navigation */,
 				31D20ACA1B14C61F00F3351A /* LEOEHRViewController.h */,
@@ -778,6 +796,8 @@
 				BCE1EC751B00E353007C8D0B /* Images.xcassets in Resources */,
 				31D62EC61B1CBA7400B4150A /* LEOTimeCell.xib in Resources */,
 				31D62ED11B1D3ED500B4150A /* LEODateCell.xib in Resources */,
+				31197A141B39DA3000C773BA /* MenuView.xib in Resources */,
+				31FDDE501B28890C0009BBC2 /* LEODropDownSelectedCell.xib in Resources */,
 				31920A451B0A855F006309C2 /* getMessagesForConversationResponse.json in Resources */,
 				31DEDD121B23F12000C9B919 /* JunkToBeDeleted in Resources */,
 				31D20ACE1B150FF300F3351A /* leoheart.png in Resources */,
@@ -872,6 +892,7 @@
 				31D418AA1B37AB9C008D70F3 /* TestTableView.m in Sources */,
 				31ECA3381B23C53500BC1D6B /* LEODateCell+ConfigureCell.m in Sources */,
 				31F0EA651B27430D00E4D83A /* LEODropDownController.m in Sources */,
+				31197A0F1B39B08B00C773BA /* LEOMainContainerViewController.m in Sources */,
 				BCED00811B0150F4007653D6 /* LEOFeedTVC.m in Sources */,
 				3177B9D41B191929006AE360 /* Role.m in Sources */,
 				BCA69A361B02AE5100C27B2B /* LEOApiClient.m in Sources */,
@@ -881,6 +902,8 @@
 				3182E5531B208CC6004DECF8 /* RootViewController.m in Sources */,
 				BCE1ECA11B01443F007C8D0B /* UIFont+LeoFonts.m in Sources */,
 				3182E5581B208F85004DECF8 /* TimeCollectionViewController.m in Sources */,
+				31F0EA671B27430D00E4D83A /* LEODropDownTableViewDelegate.m in Sources */,
+				31197A121B39D8FD00C773BA /* MenuView.m in Sources */,
 				BC163AFE1B054CBF000FB1CE /* LEOCardTransitionAnimator.m in Sources */,
 				314F6A071B2A0D0000799AB4 /* User.m in Sources */,
 				31FDDE5C1B29CF8C0009BBC2 /* LEOFeedCell.m in Sources */,
@@ -899,6 +922,7 @@
 				3177B9981B17A1B7006AE360 /* LEOCardScheduling.m in Sources */,
 				BC4D68541B04C8160018DAB5 /* Appointment+Methods.m in Sources */,
 				31FDDE591B28DFC10009BBC2 /* LEOTwoButtonPrimaryOnlyCell+ConfigureForCell.m in Sources */,
+				31197A0C1B39A70C00C773BA /* UIImageEffects.m in Sources */,
 				31A286811B0A2DB100CBAF1A /* LEOAPIHelper.m in Sources */,
 				BCE1EC6D1B00E353007C8D0B /* AppDelegate.m in Sources */,
 				31D20B091B151C5100F3351A /* LEOPageModelController.m in Sources */,

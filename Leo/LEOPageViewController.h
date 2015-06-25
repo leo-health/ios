@@ -13,4 +13,7 @@
 @property (strong, nonatomic) UIPageViewController *pageViewController;
 @property (nonatomic) NSInteger currentPage;
 
+- (void)flipToFeed;
+- (void)flipToChild:(id)sender;
+
 @end
