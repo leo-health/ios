@@ -44,6 +44,9 @@
     return self;
 }
 
+/**
+ *  CommonInit is used to provide access to initialization code relevant to any instantiation method (IB or code-based)
+ */
 - (void)commonInit {
     
     [[NSBundle mainBundle] loadNibNamed:NSStringFromClass([self class])
@@ -54,23 +57,49 @@
     
 }
 
+/**
+ *  Loads a SchedulingCardViewController
+ *
+ *  @param sender UIButton that receives tap gesture
+ */
 - (IBAction)scheduleAVisitLabelTapped:(UIButton *)sender {
     [self.view removeFromSuperview];
 }
 
+/**
+ *  Loads a FormCardViewController
+ *
+ *  @param sender UIButton that receives tap gesture
+ */
 - (IBAction)submitAFormLabelTapped:(UIButton *)sender {
     [self.view removeFromSuperview];
 }
 
+/**
+ *  Loads Leo contact information
+ *
+ *  @param sender UIButton that receives tap gesture
+ */
 - (IBAction)contactLeoLabelTapped:(UIButton *)sender {
     [self.view removeFromSuperview];
 }
 
+/**
+ *  Loads SettingsCardViewController
+ *
+ *  @param sender UIButton that receives tap gesture
+ */
 - (IBAction)settingsLabelTapped:(UIButton *)sender {
     [self.view removeFromSuperview];
 }
 
 -(void)addSubview:(UIView *)view {
+    
+    
+    /**
+     *  Zachary Drossman
+     *  Implementation of addSubview to ensure the MenuView is sized according to its subviews
+     */
     
     view.translatesAutoresizingMaskIntoConstraints = NO;
     

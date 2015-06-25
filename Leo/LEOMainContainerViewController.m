@@ -44,6 +44,10 @@
     // Dispose of any resources that can be recreated.
 }
 
+
+/**
+ *  <#Description#>
+ */
 - (void)primaryInterfaceSetup {
     self.navBar.barTintColor = [UIColor leoOrangeRed];
     self.navBar.translucent = NO;
@@ -55,6 +59,11 @@
     UINavigationItem *navCarrier = [[UINavigationItem alloc] init];
     
     navCarrier.leftBarButtonItems = @[leoheartBBI];
+    
+    /*  Zachary Drossman
+     *  BarButtonitems are hard coded for the time-being. 
+     *  Must be replaced with alternative implementation that loads from a scrollview or alternative for different number of children.
+     */
     
     UIBarButtonItem *childOne = [[UIBarButtonItem alloc] initWithTitle:@"ZACHARY" style:UIBarButtonItemStylePlain target:self.pageViewController action:@selector(flipToChild:)];
     UIBarButtonItem *childTwo = [[UIBarButtonItem alloc] initWithTitle:@"RACHEL" style:UIBarButtonItemStylePlain target:self.pageViewController action:@selector(flipToChild:)];
