@@ -170,9 +170,9 @@
     
     if ([segue.identifier isEqualToString:@"PageViewEmbedSegue"]) {
         self.pageViewController = segue.destinationViewController;
+        self.pageViewController.navBar = self.navBar;
     }
 }
-
 
 - (UIStatusBarStyle)preferredStatusBarStyle
 {

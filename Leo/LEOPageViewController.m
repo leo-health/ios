@@ -15,6 +15,7 @@
 
 @property (strong, nonatomic) LEOFeedTVC *feedViewController;
 @property (strong, nonatomic) LEOPageModelController *pageModelController;
+
 @end
 
 @implementation LEOPageViewController
@@ -92,12 +93,15 @@
 
 - (void)flipToChild:(id)sender {
     
-    NSUInteger index = [self.navigationItem.rightBarButtonItems count] - [self.navigationItem.rightBarButtonItems indexOfObject:sender];
-    
-    UIViewController *viewController = [self.pageModelController viewControllerAtIndex:index storyboard:[UIStoryboard storyboardWithName:@"Main" bundle:nil]];
-    
-    [self.pageModelController pageViewController:self.pageViewController flipToViewController:viewController];
-    
+    if ([self.navBar.items[0] isKindOfClass:[UINavigationItem class]]) {
+        UINavigationItem *navItem = self.navBar.items[0];
+        
+        NSUInteger index = [navItem.rightBarButtonItems count] - [navItem.rightBarButtonItems indexOfObject:sender];
+        
+        UIViewController *viewController = [self.pageModelController viewControllerAtIndex:index storyboard:[UIStoryboard storyboardWithName:@"Main" bundle:nil]];
+        
+        [self.pageModelController pageViewController:self.pageViewController flipToViewController:viewController];
+    }
 }
 
 /*
