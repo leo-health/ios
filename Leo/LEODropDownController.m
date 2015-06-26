@@ -79,6 +79,7 @@ static NSString * const selectedReuseIdentifier = @"SelectedCell";
         LEODropDownSelectionCell *cell = [tableView dequeueReusableCellWithIdentifier:selectionReuseIdentifier
                                                                          forIndexPath:indexPath];
         [cell configureForItem:self.items[indexPath.row] withDescriptorKey:self.descriptorKey];
+        
         return cell;
     } else {
         
@@ -122,6 +123,8 @@ static NSString * const selectedReuseIdentifier = @"SelectedCell";
     }
     
     cell.selected = YES;
+    
+//    [self.delegate didSelectItemAtIndex:indexPath.row tableView:ddTableView];
 }
 
 

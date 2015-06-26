@@ -68,5 +68,11 @@
     return [calendar dateFromComponents:components];
 }
 
+- (NSDate *)beginningOfWeekForStartOfWeek:(NSInteger)weekday {
+    
+    NSInteger daysSinceBeginningOfWeek = self.weekday - weekday;
+    
+    return [self dateBySubtractingDays:daysSinceBeginningOfWeek];
+}
 
 @end

@@ -156,13 +156,13 @@
 #pragma mark - Core Data stack
 
 - (NSManagedObjectContext *)managedObjectContext {
-
+    
     if (!_managedObjectContext) {
-
-        NSPersistentStoreCoordinator *coordinator = self.persistentStoreCoordinator;
-
-        if (coordinator) {
         
+        NSPersistentStoreCoordinator *coordinator = self.persistentStoreCoordinator;
+        
+        if (coordinator) {
+            
             _managedObjectContext = [[NSManagedObjectContext alloc] init];
             [_managedObjectContext setPersistentStoreCoordinator:coordinator];
         }
@@ -172,20 +172,20 @@
 }
 
 - (NSManagedObjectModel *)managedObjectModel {
-
+    
     if (!_managedObjectModel) {
-       
+        
         NSURL *modelURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"LEODataModel" withExtension:@"momd"];
         _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
     }
-   
+    
     return _managedObjectModel;
 }
 
 - (NSPersistentStoreCoordinator *)persistentStoreCoordinator {
     
     if (!_persistentStoreCoordinator) {
-       
+        
         NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"LEODataModel.sqlite"];
         NSError *error = nil;
         
@@ -218,21 +218,6 @@
     //self.cards = [[NSArray alloc] init];
     //NSArray *users = [self.managedObjectContext executeFetchRequest:request error:nil];
     
-    Role *childRole = [Role insertEntityWithName:@"child" resourceID:@"2" resourceType:@2 managedObjectContext:self.managedObjectContext];
-    
-    User *childUserOne = [User insertEntityWithFirstName:@"Zachary" lastName:@"Drossman" dob:[NSDate date] email:@"zd9@leohealth.com" role:childRole
-                                                familyID:[@([self.currentUser.familyID integerValue] + 1) stringValue]
-                                    managedObjectContext:self.managedObjectContext];
-    
-    User *childUserTwo = [User insertEntityWithFirstName:@"Rachel" lastName:@"Drossman" dob:[NSDate date] email:@"rd9@leohealth.com" role:childRole
-                                                familyID:[@([self.currentUser.familyID integerValue] + 1) stringValue]
-                                    managedObjectContext:self.managedObjectContext];
-    
-    User *childUserThree = [User insertEntityWithFirstName:@"Tracy" lastName:@"Drossman" dob:[NSDate date] email:@"td9@leohealth.com" role:childRole
-                                                  familyID:[@([self.currentUser.familyID integerValue] + 1) stringValue]
-                                      managedObjectContext:self.managedObjectContext];
-    
-    
     Role *doctorRole = [Role insertEntityWithName:@"doctor" resourceID:@"2" resourceType:@1 managedObjectContext:self.managedObjectContext];
     
     User *doctorUser = [User insertEntityWithFirstName:@"Om" lastName:@"Lala" dob:[NSDate date] email:@"om10@leohealth.com" role:doctorRole familyID:nil
@@ -251,7 +236,7 @@
     parentUser.middleInitial = @"";
     parentUser.gender = @"female";
     
-    Appointment *appointment = [Appointment insertEntityWithDate:nil appointmentType:[self fetchAppointmentTypes][1] patient:childUserOne provider:doctorUser familyID:@"62" bookedByUser:parentUser state:@(AppointmentStateRecommending) managedObjectContext:self.managedObjectContext];
+    Appointment *appointment = [Appointment insertEntityWithDate:nil appointmentType:[self fetchAppointmentTypes][1] patient:[self fetchChildren][0] provider:doctorUser familyID:@"62" bookedByUser:parentUser state:@(AppointmentStateRecommending) managedObjectContext:self.managedObjectContext];
     
     LEOCardScheduling *cardOne = [[LEOCardScheduling alloc] initWithID:@2 state:AppointmentStateRecommending priority:@1 associatedCardObject:appointment];
     
@@ -298,11 +283,11 @@
     for (NSDate *availableTime in slots) {
         
         if ([calendar isDate:availableTime inSameDayAsDate:date]) {
-
+            
             [timesForDate addObject:availableTime];
         }
     }
-
+    
     return timesForDate;
 }
 
@@ -313,15 +298,17 @@
     User *childUserOne = [User insertEntityWithFirstName:@"Zachary" lastName:@"Drossman" dob:[NSDate date] email:@"zd9@leohealth.com" role:childRole
                                                 familyID:[@([self.currentUser.familyID integerValue] + 1) stringValue]
                                     managedObjectContext:self.managedObjectContext];
+    childUserOne.id = @"1";
     
     User *childUserTwo = [User insertEntityWithFirstName:@"Rachel" lastName:@"Drossman" dob:[NSDate date] email:@"rd9@leohealth.com" role:childRole
                                                 familyID:[@([self.currentUser.familyID integerValue] + 1) stringValue]
                                     managedObjectContext:self.managedObjectContext];
     
+    childUserTwo.id = @"2";
     User *childUserThree = [User insertEntityWithFirstName:@"Tracy" lastName:@"Drossman" dob:[NSDate date] email:@"td9@leohealth.com" role:childRole
                                                   familyID:[@([self.currentUser.familyID integerValue] + 1) stringValue]
                                       managedObjectContext:self.managedObjectContext];
-    
+    childUserThree.id = @"3";
     return @[childUserOne, childUserTwo];
 }
 
@@ -399,8 +386,9 @@
     NSDate *june6atOnePM = [NSDate dateWithYear:2015 month:6 day:29 hour:13 minute:0 second:0];
     
     NSDate *june6atOneThirtyPM = [NSDate dateWithYear:2015 month:6 day:29 hour:13 minute:30 second:0];
+    NSDate *july10atOneThirtyPM = [NSDate dateWithYear:2015 month:7 day:10 hour:13 minute:30 second:0];
     
-    return @[june15atEightAM, june15atNineAM, june15atTenAM, june15atTenThirtyAM, june15atElevenAM, june15atOnePM, june15atOneThirtyPM, june15atTwoPM, june15atTwoThirtyPM, june16atElevenAM, june16atNoon, june6atEightAM, june6atTenAM, june6atTenThirtyAM, june6atElevenAM];
+    return @[june15atEightAM, june15atNineAM, june15atTenAM, june15atTenThirtyAM, june15atElevenAM, june15atOnePM, june15atOneThirtyPM, june15atTwoPM, june15atTwoThirtyPM, june16atElevenAM, june16atNoon, june6atEightAM, june6atTenAM, june6atTenThirtyAM, june6atElevenAM, july10atOneThirtyPM];
 }
 
 - (NSArray *)availableDates {

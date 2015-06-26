@@ -9,6 +9,7 @@
 #import "LEOChildDropDownTableViewController.h"
 #import "LEOChildCell+ConfigureForCell.h"
 #import "Appointment.h"
+#import "User.h"
 
 @interface LEOChildDropDownTableViewController ()
 
@@ -35,6 +36,7 @@ static NSString *childReuseIdentifier = @"ChildCell";
     self.tableView.estimatedRowHeight = 44;
     [self.tableView registerNib:[LEOChildCell nib] forCellReuseIdentifier:childReuseIdentifier];
     
+    
     [self reloadDataWithCompletion:^{
         [self.tableView invalidateIntrinsicContentSize]; //FIXME: This isn't actually doing anything. Right now the size of the container view is being set in IB based on three children. This will need to change!
     }];
@@ -45,8 +47,6 @@ static NSString *childReuseIdentifier = @"ChildCell";
     [self.tableView reloadData];
     completionBlock();
 }
-
-
 
 #pragma mark - <UITableViewDataSource>
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -60,9 +60,16 @@ static NSString *childReuseIdentifier = @"ChildCell";
     
     [cell configureForChild:self.children[indexPath.row]];
     
+    User *user = self.children[indexPath.row];
+    
+    //MARK: Using id here appropriate? Normally would use memory address but cannot do it here for some reason right now (temporary Core Data implementation issue? If so, won't be one soon as we're going to remove given caching discussion.)
+    if (user.id == self.appointment.patient.id) {
+        [self.tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+        cell.selected = YES;
+    }
+    
     return cell;
 }
-
 
 
 #pragma mark - <UITableViewDelegate>

@@ -17,4 +17,6 @@
 + (NSDate *)todayAdjustedForLocalTimeZone;
 + (NSInteger)daysBetweenDate:(NSDate*)fromDateTime andDate:(NSDate*)toDateTime;
 - (NSDate *)dateWithoutTime;
+- (NSDate *)beginningOfWeekForStartOfWeek:(NSInteger)weekday;
+
 @end
