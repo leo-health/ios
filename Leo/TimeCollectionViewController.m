@@ -36,21 +36,12 @@ static NSString * const timeReuseIdentifier = @"TimeCell";
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-    self.coreDataManager = [LEOCoreDataManager sharedManager];
     self.firstPass = YES;
     [self setupTimeCollectionView];
 }
 
 - (void)setupTimeCollectionView {
-    
-    self.times = [self.coreDataManager availableTimesForDate:self.selectedDate];
-    
-    void (^configureCell)(LEOTimeCell *, NSDate*) = ^(LEOTimeCell* cell, NSDate* dateTime) {
-        [cell configureForDateTime:dateTime];
-    };
-    
-    self.dataSource = [[CollectionViewDataSource alloc] initWithItems:self.times cellIdentifier:timeReuseIdentifier configureCellBlock:configureCell];
-    
+
     //MARK: repetitive since in the storyboard...
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
     [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
@@ -58,7 +49,6 @@ static NSString * const timeReuseIdentifier = @"TimeCell";
     [flowLayout setMinimumLineSpacing:5.0f];
     self.collectionView.collectionViewLayout = flowLayout;
     self.collectionView.backgroundColor = [UIColor clearColor];
-    self.collectionView.dataSource = self.dataSource;
     
     [self.collectionView registerNib:[UINib nibWithNibName:@"LEOTimeCell" bundle:nil]
           forCellWithReuseIdentifier:timeReuseIdentifier];
@@ -67,10 +57,32 @@ static NSString * const timeReuseIdentifier = @"TimeCell";
 -(void)setSelectedDate:(NSDate *)selectedDate {
     
     _selectedDate = selectedDate;
+    self.times = [self.coreDataManager availableTimesForDate:_selectedDate];
     NSLog(@"Selected date is  %@",selectedDate);
-    [self.collectionView reloadData];
 }
 
+-(LEOCoreDataManager *)coreDataManager {
+    if (!_coreDataManager) {
+            self.coreDataManager = [LEOCoreDataManager sharedManager];
+    }
+    
+    return _coreDataManager;
+}
+
+-(void)setTimes:(NSArray *)times {
+    
+    _times = times;
+    
+    void (^configureCell)(LEOTimeCell *, NSDate*) = ^(LEOTimeCell* cell, NSDate* dateTime) {
+        [cell configureForDateTime:dateTime];
+    };
+    
+    self.dataSource = [[CollectionViewDataSource alloc] initWithItems:_times cellIdentifier:timeReuseIdentifier configureCellBlock:configureCell];
+
+    self.collectionView.dataSource = self.dataSource;
+    [self.collectionView reloadData];
+
+}
 
 #pragma mark - <UICollectionViewDelegate>
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -79,15 +91,17 @@ static NSString * const timeReuseIdentifier = @"TimeCell";
     self.selectedDate = self.times[indexPath.row];
 }
 
+
 -(void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    if (self.firstPass) {
+    if ([self.selectedDate isEqualToDate:self.times[indexPath.row]]) {
         [collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
         [self.delegate didUpdateAppointmentDateTime:self.times[indexPath.row]];
         cell.selected = YES;
     } else {
-        if ([self.selectedDate isEqualToDate:self.times[indexPath.row]]) {
+        if (self.firstPass) {
             [collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
+            [self.delegate didUpdateAppointmentDateTime:self.times[indexPath.row]];
             cell.selected = YES;
         }
     }

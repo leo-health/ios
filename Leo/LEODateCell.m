@@ -63,7 +63,8 @@
 }
 
 - (void)setSelectedFormat {
-    
+
+    self.selectable = YES;
     [self setSelectableFormat];
     
     self.dateLabel.font = [UIFont leoTitleBolderFont];

@@ -319,7 +319,6 @@ static NSString * const dateReuseIdentifier = @"DateCell";
         daysFromBeginningOfDateArray = [self.coreDataManager.availableDates.firstObject daysFrom:self.dates.firstObject];
     }
     
-    NSLog(@"daysFromBeginningOfDate: %ld",(long)daysFromBeginningOfDateArray);
     return [NSIndexPath indexPathForRow:daysFromBeginningOfDateArray inSection:0];
 }
 
@@ -372,9 +371,6 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     [collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
     UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
     cell.selected = YES;
-    
-    //[collectionView layoutIfNeeded];
-    
 }
 
 -(BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -406,6 +402,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
         if ([self shouldTurnPage]) {
             [self turnToPage:[self pageOfDate:self.appointment.date] fromPage:0];
         }
+        
     } else {
         
         NSArray *availableSlotsForDate = [self.coreDataManager availableTimesForDate:date];
@@ -433,7 +430,6 @@ static NSString * const dateReuseIdentifier = @"DateCell";
         LEODateCell *cell = (LEODateCell *)[self.dateCollectionView cellForItemAtIndexPath:indexPath];
         
         if (cell.selectable) {
-            cell.selected = YES;
             [self updateCollectionView:self.dateCollectionView forSelectedCellAtIndexPath:indexPath];
             [self turnToPage:[self pageOfDate:self.appointment.date] fromPage:0];
             break;
@@ -460,6 +456,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
 - (void)pageViewController:(UIPageViewController *)pageViewController willTransitionToViewControllers:(NSArray *)pendingViewControllers {
     
     self.tempSelectedDate = ((TimeCollectionViewController *)pendingViewControllers[0]).selectedDate;
+    NSLog(@"Date to transition to: %@", self.tempSelectedDate);
 }
 
 - (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray *)previousViewControllers transitionCompleted:(BOOL)completed {
@@ -468,9 +465,12 @@ static NSString * const dateReuseIdentifier = @"DateCell";
         
         self.appointment.date = self.tempSelectedDate;
         NSIndexPath *indexPathToSelect = [self indexPathOfDate:self.appointment.date];
-        
         [self scrollDateCollectionViewToWeekOfAppointmentDate];
         [self updateCollectionView:self.dateCollectionView forSelectedCellAtIndexPath:indexPathToSelect];
+        
+    } else {
+        self.appointment.date = [self firstAvailableAppointmentTimeFromDate:self.appointment.date toDate:self.appointment.date];
+        self.timeCollectionVC.selectedDate = self.appointment.date;
     }
 }
 
@@ -545,11 +545,20 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     return _dates;
 }
 
+
 //MARK: Strategically, at scale this may not make sense, but with a few patients, we can probably do this and not engage too many conflicts.
+/**
+ *  Finds the first appointment available within a given range of dates. Input is based on the date portion of the NSDate; time portion is ignored.
+ *
+ *  @param fromDate starting date for range
+ *  @param toDate   ending date for range, inclusive
+ *
+ *  @return NSDate that is the first appointment available in the range
+ */
 - (NSDate *)firstAvailableAppointmentTimeFromDate:(nonnull NSDate *)fromDate toDate:(nonnull NSDate *)toDate {
     
-    NSUInteger fromDateIndex = [self findIndexForExactDate:fromDate inArray:self.dates];
-    NSUInteger toDateIndex = [self findIndexForExactDate:toDate inArray:self.dates];
+    NSUInteger fromDateIndex = [self findIndexForExactDate:[fromDate beginningOfDay] inArray:self.dates];
+    NSUInteger toDateIndex = [self findIndexForExactDate:[toDate beginningOfDay] inArray:self.dates];
     
     NSUInteger rangeLength = toDateIndex - fromDateIndex + 1;
     NSRange dateRange = NSMakeRange(fromDateIndex, rangeLength);
