@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1E7306FB1B3F823800D029CC /* UIScrollView+LEOScrollToVisible.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E7306FA1B3F823800D029CC /* UIScrollView+LEOScrollToVisible.m */; };
 		3101D6D71B0CD9D500640C10 /* SMS-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 3101D6D61B0CD9D500640C10 /* SMS-32.png */; };
 		312980001B2CCA19000679DA /* LEOChildDropDownTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31297FFF1B2CCA19000679DA /* LEOChildDropDownTableViewController.m */; };
 		312980041B2CCA3F000679DA /* LEOChildCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 312980021B2CCA3F000679DA /* LEOChildCell.m */; };
@@ -110,6 +111,8 @@
 
 /* Begin PBXFileReference section */
 		00C21EAFFFDC7EA3B95241D1 /* Pods-LeoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LeoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-LeoTests/Pods-LeoTests.release.xcconfig"; sourceTree = "<group>"; };
+		1E7306F91B3F823800D029CC /* UIScrollView+LEOScrollToVisible.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+LEOScrollToVisible.h"; sourceTree = "<group>"; };
+		1E7306FA1B3F823800D029CC /* UIScrollView+LEOScrollToVisible.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+LEOScrollToVisible.m"; sourceTree = "<group>"; };
 		3101D6D61B0CD9D500640C10 /* SMS-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SMS-32.png"; sourceTree = "<group>"; };
 		31297FFE1B2CCA19000679DA /* LEOChildDropDownTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOChildDropDownTableViewController.h; sourceTree = "<group>"; };
 		31297FFF1B2CCA19000679DA /* LEOChildDropDownTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOChildDropDownTableViewController.m; sourceTree = "<group>"; };
@@ -297,6 +300,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1E7306F71B3F80F600D029CC /* Extenstions */ = {
+			isa = PBXGroup;
+			children = (
+				1E7306F91B3F823800D029CC /* UIScrollView+LEOScrollToVisible.h */,
+				1E7306FA1B3F823800D029CC /* UIScrollView+LEOScrollToVisible.m */,
+			);
+			name = Extenstions;
+			sourceTree = "<group>";
+		};
 		3101D6DB1B0CE08F00640C10 /* MiniCards */ = {
 			isa = PBXGroup;
 			children = (
@@ -589,6 +601,7 @@
 		BCA69A3D1B039ABC00C27B2B /* Views and Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				1E7306F71B3F80F600D029CC /* Extenstions */,
 				31BA405E1B30BF6700A11AEE /* Feed */,
 				31197A101B39D8FD00C773BA /* MenuView.h */,
 				31197A111B39D8FD00C773BA /* MenuView.m */,
@@ -912,6 +925,7 @@
 				BC4D68421B04C7450018DAB5 /* Conversation+Methods.m in Sources */,
 				BCE1EC941B010336007C8D0B /* LEOCoreDataManager.m in Sources */,
 				31ECA3351B23C39000BC1D6B /* LEOTimeCell+ConfigureCell.m in Sources */,
+				1E7306FB1B3F823800D029CC /* UIScrollView+LEOScrollToVisible.m in Sources */,
 				BCE1EC9A1B0104F8007C8D0B /* LEODataModel.xcdatamodeld in Sources */,
 				31BA40561B30A5F900A11AEE /* LEOSectionSeparator.m in Sources */,
 				31FDDE601B29D9120009BBC2 /* LEOOneButtonPrimaryOnlyCell.m in Sources */,
