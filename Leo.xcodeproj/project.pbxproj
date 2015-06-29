@@ -799,7 +799,6 @@
 				31197A141B39DA3000C773BA /* MenuView.xib in Resources */,
 				31FDDE501B28890C0009BBC2 /* LEODropDownSelectedCell.xib in Resources */,
 				31920A451B0A855F006309C2 /* getMessagesForConversationResponse.json in Resources */,
-				31DEDD121B23F12000C9B919 /* JunkToBeDeleted in Resources */,
 				31D20ACE1B150FF300F3351A /* leoheart.png in Resources */,
 				31F0EA6C1B27430D00E4D83A /* LEODropDownSelectionCell.xib in Resources */,
 				31D62ECB1B1CEB1400B4150A /* Scheduling.storyboard in Resources */,
