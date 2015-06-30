@@ -137,13 +137,22 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     }
     
     [self setupAppointmentDateLabel];
-        [self setupMonthLabel];
-        
-        [self configureViewToReceiveKeyboardNotifications];
-        
+    [self setupMonthLabel];
+    
+    [self configureViewToReceiveKeyboardNotifications];
+    
     UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(scrollViewWasTapped:)];
     tapGestureForTextFieldDismissal.cancelsTouchesInView = NO;
     [_scrollView addGestureRecognizer:tapGestureForTextFieldDismissal];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self configureViewToReceiveKeyboardNotifications];
+}
+
+-(void)viewDidDisappear:(BOOL)animated{
+    [self removeKeyboardNotifications];
 }
 
 
@@ -229,6 +238,11 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 }
 
+-(void)removeKeyboardNotifications{
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+}
+
 -(void)showDoneBarButtonItem:(BOOL)show{
     [UIView setAnimationsEnabled:NO];
     if(show){
@@ -241,10 +255,10 @@ static NSString * const dateReuseIdentifier = @"DateCell";
         _cancelButton.title = @"X";
     }
     [UIView setAnimationsEnabled:YES];
-
+    
 }
 
-#pragma mark - Keyboard Notification Methods 
+#pragma mark - Keyboard Notification Methods
 
 /**
  *  Is called whenever a keyboard notification occurs that the keyboard will appear
@@ -253,7 +267,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
  */
 -(void)keyboardWillShow:(NSNotification*)notification{
     CGSize keyboardSize = [self getKeyboardSizeFromKeyboardNotification:notification];
-     [self scrollViewToShowIfFirstResponder:_notesView withKeyboardSize:keyboardSize];
+    [self scrollViewToShowIfFirstResponder:_notesView withKeyboardSize:keyboardSize];
     [self showDoneBarButtonItem:YES];
 }
 
@@ -304,7 +318,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     if ([viewThatShouldBeVisible.superview isEqual:_scrollView] == NO) {
         viewThatShouldBeVisibleRectInScrollView = [self.scrollView convertRect:viewThatShouldBeVisible.frame fromView:viewThatShouldBeVisible.superview];
     }
-
+    
     //Only perform operation if this view is the first responder
     if (viewThatShouldBeVisible.isFirstResponder) {
         scrollViewVisibleFrame = self.scrollView.bounds;
@@ -641,16 +655,16 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     }];
 }
 
-//#pragma mark - <DropDownActivityDelegate> 
+//#pragma mark - <DropDownActivityDelegate>
 //
 //- (void)didSelectItemAtIndex:(NSUInteger)index tableView:(UITableView *)tableView {
-//    
+//
 //    if (tableView == self.doctorDropDownTV) {
 //        self.appointment.provider = [self.coreDataManager fetchDoctors][index];
 //    } else if (tableView == self.visitDropDownTV) {
 //        self.appointment.leoAppointmentType = [self.coreDataManager fetchAppointmentTypes][index];
 //    }
-//    
+//
 //}
 
 #pragma mark - Helper Date Methods
