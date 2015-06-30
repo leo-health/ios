@@ -22,6 +22,7 @@
 #import "LEOCardScheduling.h"
 #import "LEOSectionSeparator.h"
 #import "LEOChildDropDownTableViewController.h"
+#import "UIScrollView+LEOScrollToVisible.h"
 
 @interface LEOAppointmentSchedulingCardVC ()
 
@@ -146,11 +147,11 @@ static NSString * const dateReuseIdentifier = @"DateCell";
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [self configureViewToReceiveKeyboardNotifications];
+    [self.scrollView scrollToViewIfObstructedByKeyboard:self.notesView];
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
-    [self removeKeyboardNotifications];
+    [self.scrollView scrollToViewIfObstructedByKeyboard:nil];
 }
 
 
@@ -231,16 +232,6 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     return formattedDateTime;
 }
 
--(void)configureViewToReceiveKeyboardNotifications{
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
-}
-
--(void)removeKeyboardNotifications{
-    [[NSNotificationCenter defaultCenter]removeObserver:self name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter]removeObserver:self name:UIKeyboardWillHideNotification object:nil];
-}
-
 -(void)showDoneBarButtonItem:(BOOL)show{
     [UIView setAnimationsEnabled:NO];
     if(show){
@@ -255,84 +246,15 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     [UIView setAnimationsEnabled:YES];
 }
 
+#pragma mark UITextViewDelegate
 
-
-#pragma mark - Keyboard Notification Methods
-
-/**
- *  Is called whenever a keyboard notification occurs that the keyboard will appear
- *
- *  @param notification NSNotification for they keyboardWillShow event
- */
--(void)keyboardWillShow:(NSNotification*)notification{
-    CGSize keyboardSize = [self getKeyboardSizeFromKeyboardNotification:notification];
-     [self scrollViewToShowIfFirstResponder:_notesView withKeyboardSize:keyboardSize];
+-(void)textViewDidBeginEditing:(UITextView *)textView{
     [self showDoneBarButtonItem:YES];
 }
 
-/**
- *  Resets the content views and scroll indicator insets of the scroll view when the
- *  keyboard will be dismissed.
- *
- *  @param notification NSNotification for the keyboardWillHide event
- */
--(void)keyboardWillHide:(NSNotificationCenter*)notification{
-    _scrollView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
-    _scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 0, 0);
+-(void)textViewDidEndEditing:(UITextView *)textView{
     [self showDoneBarButtonItem:NO];
 }
-
-
-/**
- *  Extracts the size of the keyboard from the Keyboard NSNotification
- *
- *  @param notification an NSNotification from a keyboard event
- *
- *  @return the CGSize of the keyboard
- */
--(CGSize)getKeyboardSizeFromKeyboardNotification:(NSNotification*)notification{
-    CGRect keyboardFrameScreenCoordinates = ((NSNumber*)[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey]).CGRectValue;
-    CGRect keyboardFrameViewCoordinates = [self.view convertRect:keyboardFrameScreenCoordinates fromView:nil];
-    return keyboardFrameViewCoordinates.size;
-}
-
-/**
- *  Scrolls the scrollView to show the view if it is not visible and is the first responder
- *
- *  @param viewThatShouldBeVisible the view that should be seen if not visible
- *  @param keyboardSize            the size of the keyboard potentially obstructing the view
- */
--(void)scrollViewToShowIfFirstResponder:(UIView*)viewThatShouldBeVisible withKeyboardSize:(CGSize)keyboardSize{
-    //Insets for scroll view content after keyboard abstructs the scroll view
-    UIEdgeInsets scrollViewEdgeInsets = UIEdgeInsetsMake(0, 0, keyboardSize.height, 0);
-    //A frame that represents which portion of the scroll view is visible after keyboard
-    CGRect scrollViewVisibleFrame;
-    //The bottom left point of the the 'viewThatShouldBeVisible'
-    CGPoint bottomPoint;
-    
-    _scrollView.contentInset = scrollViewEdgeInsets;
-    _scrollView.scrollIndicatorInsets = scrollViewEdgeInsets;
-    
-    //Set Rectangle in scroll view coordinate space
-    CGRect viewThatShouldBeVisibleRectInScrollView = viewThatShouldBeVisible.frame;
-    if ([viewThatShouldBeVisible.superview isEqual:_scrollView] == NO) {
-        viewThatShouldBeVisibleRectInScrollView = [self.scrollView convertRect:viewThatShouldBeVisible.frame fromView:viewThatShouldBeVisible.superview];
-    }
-
-    //Only perform operation if this view is the first responder
-    if (viewThatShouldBeVisible.isFirstResponder) {
-        scrollViewVisibleFrame = self.scrollView.bounds;
-        scrollViewVisibleFrame.size.height -= keyboardSize.height;
-        
-        bottomPoint = CGPointMake(viewThatShouldBeVisibleRectInScrollView.origin.x, viewThatShouldBeVisibleRectInScrollView.origin.y + viewThatShouldBeVisibleRectInScrollView.size.height);
-        
-        if (!CGRectContainsPoint(scrollViewVisibleFrame, bottomPoint)) {
-            CGRect textViewRectWithOffset = CGRectInset(viewThatShouldBeVisibleRectInScrollView, 0, -10);
-            [_scrollView scrollRectToVisible:textViewRectWithOffset animated:YES];
-        }
-    }
-}
-
 
 #pragma mark - Setup, Getters, Setters
 
@@ -565,22 +487,12 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     }
 }
 
-#pragma mark - <UITextView>
-
 -(void)scrollViewWasTapped:(UIGestureRecognizer*)gesture{
     if (_notesView.isFirstResponder) {
         [_notesView resignFirstResponder];
     }
 }
 
--(void)textViewDidBeginEditing:(UITextView *)textView{
-    
-}
-
-
--(void)textViewDidEndEditing:(UITextView *)textView{
-    
-}
 
 #pragma mark - <UICollectionViewDelegateFlowLayout>
 

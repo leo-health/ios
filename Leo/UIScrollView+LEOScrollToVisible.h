@@ -11,6 +11,13 @@
 @interface UIScrollView (LEOScrollToVisible)
 
 /**
+ *  Will ensure that if keyboard notifications trigger, the scroll view will always make this view visible.
+ *
+ *  @param view   The view to always be visible. Set to nil to remove automatic scrolling
+ */
+-(void)scrollToViewIfObstructedByKeyboard:(UIView*)view;
+
+/**
  *  Scrolls the scrollView to show the view if it is not visible and is the first responder
  *
  *  @param viewThatShouldBeVisible the view that should be seen if not visible
