@@ -255,7 +255,6 @@ static NSString * const dateReuseIdentifier = @"DateCell";
         _cancelButton.title = @"X";
     }
     [UIView setAnimationsEnabled:YES];
-    
 }
 
 #pragma mark - Keyboard Notification Methods
@@ -282,6 +281,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     _scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 0, 0);
     [self showDoneBarButtonItem:NO];
 }
+
 
 /**
  *  Extracts the size of the keyboard from the Keyboard NSNotification
@@ -576,6 +576,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
 -(void)textViewDidBeginEditing:(UITextView *)textView{
     
 }
+
 
 -(void)textViewDidEndEditing:(UITextView *)textView{
     
