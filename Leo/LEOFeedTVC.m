@@ -32,8 +32,11 @@
 #import "LEOTransitioningDelegate.h"
 
 #import "LEOTwoButtonSecondaryOnlyCell+ConfigureForCell.h"
+#import "LEOOneButtonSecondaryOnlyCell+ConfigureForCell.h"
 #import "LEOTwoButtonPrimaryOnlyCell+ConfigureForCell.h"
 #import "LEOOneButtonPrimaryOnlyCell+ConfigureForCell.h"
+#import "LEOTwoButtonPrimaryAndSecondaryCell+ConfigureForCell.h"
+#import "LEOOneButtonPrimaryAndSecondaryCell+ConfigureForCell.h"
 
 #import <VBFPopFlatButton/VBFPopFlatButton.h>
 #import "UIImageEffects.h"
@@ -56,10 +59,10 @@
 static NSString *const adminTestKey = @""; //FIXME: REMOVE BEFORE SENDING OFF TO PRODUCTION!
 
 static NSString *const CellIdentifierLEOCardTwoButtonSecondaryOnly = @"LEOTwoButtonSecondaryOnlyCell";
-static NSString *const CellIdentifierLEOCardTwoButtonSecondaryAndPrimary = @"LEOTwoButtonSecondaryAndPrimaryCell";
+static NSString *const CellIdentifierLEOCardTwoButtonPrimaryAndSecondary = @"LEOTwoButtonPrimaryAndSecondaryCell";
 static NSString *const CellIdentifierLEOCardTwoButtonPrimaryOnly = @"LEOTwoButtonPrimaryOnlyCell";
 static NSString *const CellIdentifierLEOCardOneButtonSecondaryOnly = @"LEOOneButtonSecondaryOnlyCell";
-static NSString *const CellIdentifierLEOCardOneButtonSecondaryAndPrimary = @"LEOOneButtonSecondaryAndPrimaryCell";
+static NSString *const CellIdentifierLEOCardOneButtonPrimaryAndSecondary = @"LEOOneButtonPrimaryAndSecondaryCell";
 static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButtonPrimaryOnlyCell";
 
 
@@ -95,6 +98,9 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     [self.tableView registerNib:[LEOTwoButtonPrimaryOnlyCell nib] forCellReuseIdentifier:CellIdentifierLEOCardTwoButtonPrimaryOnly];
     [self.tableView registerNib:[LEOOneButtonPrimaryOnlyCell nib] forCellReuseIdentifier:CellIdentifierLEOCardOneButtonPrimaryOnly];
     [self.tableView registerNib:[LEOTwoButtonSecondaryOnlyCell nib] forCellReuseIdentifier:CellIdentifierLEOCardTwoButtonSecondaryOnly];
+    [self.tableView registerNib:[LEOOneButtonSecondaryOnlyCell nib] forCellReuseIdentifier:CellIdentifierLEOCardOneButtonSecondaryOnly];
+    [self.tableView registerNib:[LEOTwoButtonPrimaryAndSecondaryCell nib] forCellReuseIdentifier:CellIdentifierLEOCardTwoButtonPrimaryAndSecondary];
+    [self.tableView registerNib:[LEOOneButtonPrimaryAndSecondaryCell nib] forCellReuseIdentifier:CellIdentifierLEOCardOneButtonPrimaryAndSecondary];
 }
 
 
@@ -135,8 +141,6 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     }];
 }
 
-
-
 #pragma mark - <UITableViewDataSource>
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
@@ -159,6 +163,15 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
             
             return cell;
         }
+           
+        case CardLayoutOneButtonSecondaryOnly: {
+            cellIdentifier = CellIdentifierLEOCardOneButtonSecondaryOnly;
+            LEOOneButtonSecondaryOnlyCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier
+                                                                                forIndexPath:indexPath];
+            [cell configureForCard:card];
+            
+            return cell;
+        }
             
         case CardLayoutTwoButtonPrimaryOnly: {
             cellIdentifier = CellIdentifierLEOCardTwoButtonPrimaryOnly;
@@ -169,30 +182,42 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
             return cell;
         }
             
-        case CardLayoutTwoButtonSecondaryAndPrimary: {
-            cellIdentifier = CellIdentifierLEOCardTwoButtonSecondaryAndPrimary;
-            
-            LEOTwoButtonPrimaryOnlyCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier
-                                                                                forIndexPath:indexPath];
-            return cell;
-        }
-            
         case CardLayoutOneButtonPrimaryOnly: {
             cellIdentifier = CellIdentifierLEOCardOneButtonPrimaryOnly;
+            LEOOneButtonPrimaryOnlyCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier
+                                                                                forIndexPath:indexPath];
+            [cell configureForCard:card];
             
-            LEOOneButtonPrimaryOnlyCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+            return cell;
+        }
+         
+        case CardLayoutTwoButtonPrimaryAndSecondary: {
+            cellIdentifier = CellIdentifierLEOCardTwoButtonPrimaryAndSecondary;
+            
+            LEOTwoButtonPrimaryAndSecondaryCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
             
             [cell configureForCard:card];
             
             
             return cell;
         }
+
+        case CardLayoutOneButtonPrimaryAndSecondary: {
+            cellIdentifier = CellIdentifierLEOCardOneButtonPrimaryAndSecondary;
             
-        default:
-            break;
+            LEOOneButtonPrimaryAndSecondaryCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier
+                                                                                forIndexPath:indexPath];
+            
+            [cell configureForCard:card];
+
+            return cell;
+        }
+            
+        case CardLayoutUndefined: {
+            //TODO: Should deal with this as an error of some sort.
+            return nil;
+        }
     }
-    
-    return nil;
 }
 
 

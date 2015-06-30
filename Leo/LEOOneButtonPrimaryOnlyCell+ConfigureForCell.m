@@ -13,8 +13,7 @@
 
 @implementation LEOOneButtonPrimaryOnlyCell (ConfigureForCell)
 
-- (void)configureForCard:(LEOCard *)card
-{
+- (void)configureForCard:(LEOCard *)card {
     self.iconImageView.image = [card icon];
     self.titleLabel.text = [card title];
     self.primaryUserLabel.text = [card primaryUser].firstName;
@@ -22,22 +21,23 @@
     [self.buttonOne setTitle:[card stringRepresentationOfActionsAvailableForState][0] forState:UIControlStateNormal];
     [self.buttonOne addTarget:card action:NSSelectorFromString([card actionsAvailableForState][0]) forControlEvents:UIControlEventTouchUpInside];
     
-    [self formatSubviews];
+    [self formatSubviewsWithTintColor:card.tintColor];
 }
 
-- (void)formatSubviews {
+- (void)formatSubviewsWithTintColor:(UIColor *)tintColor {
     
-    self.titleLabel.font = [UIFont leoTitleBoldFont];
-    self.titleLabel.textColor = [UIColor leoWarmHeavyGray];
+    self.titleLabel.font = [UIFont leoTitleFont];
+    self.titleLabel.textColor = [UIColor leoGrayTitleText];
     
-    self.primaryUserLabel.font = [UIFont leoBodyBolderFont];
-    self.primaryUserLabel.textColor = [UIColor leoWarmHeavyGray];
+    self.primaryUserLabel.font = [UIFont leoUserFont];
+    self.primaryUserLabel.textColor = tintColor;
     
-    self.bodyLabel.font = [UIFont leoBodyBasicFont];
-    self.bodyLabel.textColor = [UIColor leoWarmHeavyGray];
+    self.bodyLabel.font = [UIFont leoBodyFont];
+    self.bodyLabel.textColor = [UIColor leoGrayBodyText];
     
-    self.buttonOne.titleLabel.font = [UIFont leoBodyBolderFont];
-    [self.buttonOne setTitleColor:[UIColor leoWarmHeavyGray] forState:UIControlStateNormal];
+    self.buttonOne.titleLabel.font = [UIFont leoButtonFont];
+    [self.buttonOne setTitleColor:[UIColor leoGrayButtonText] forState:UIControlStateNormal];
 }
+
 
 @end

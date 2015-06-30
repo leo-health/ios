@@ -15,6 +15,7 @@
 @property (strong, nonatomic, nonnull) User *user;
 @property (strong, nonatomic, nullable) NSDate *timeStamp;
 @property (nonatomic) NSInteger cardLayout;
+@property (strong, nonatomic, nonnull) UIColor *cardColor;
 
 - (nonnull instancetype)initWithCardLayout:(CardLayout)cardLayout user:(nonnull User *)user timestamp:(nonnull NSDate *)timestamp;
 

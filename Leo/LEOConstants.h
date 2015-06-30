@@ -9,10 +9,10 @@
 #import <Foundation/Foundation.h>
 
 typedef enum CardLayout {
-    CardLayoutTwoButtonSecondaryAndPrimary,
+    CardLayoutTwoButtonPrimaryAndSecondary,
     CardLayoutTwoButtonSecondaryOnly,
     CardLayoutTwoButtonPrimaryOnly,
-    CardLayoutOneButtonSecondaryAndPrimary,
+    CardLayoutOneButtonPrimaryAndSecondary,
     CardLayoutOneButtonSecondaryOnly,
     CardLayoutOneButtonPrimaryOnly,
     CardLayoutUndefined

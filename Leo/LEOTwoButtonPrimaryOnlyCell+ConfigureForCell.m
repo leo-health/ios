@@ -14,8 +14,7 @@
 @implementation LEOTwoButtonPrimaryOnlyCell (ConfigureForCell)
 
 
-- (void)configureForCard:(LEOCard *)card
-{
+- (void)configureForCard:(LEOCard *)card {
     
     self.iconImageView.image = [card icon];
     self.titleLabel.text = [card title];
@@ -27,26 +26,27 @@
     [self.buttonTwo setTitle:[card stringRepresentationOfActionsAvailableForState][1] forState:UIControlStateNormal];
     
     [self.buttonTwo addTarget:card action:NSSelectorFromString([card actionsAvailableForState][1]) forControlEvents:UIControlEventTouchUpInside];
-    
-    [self formatSubviews];
+   
+    [self formatSubviewsWithTintColor:card.tintColor];
 }
 
-- (void)formatSubviews {
+- (void)formatSubviewsWithTintColor:(UIColor *)tintColor {
+
+    self.titleLabel.font = [UIFont leoTitleFont];
+    self.titleLabel.textColor = [UIColor leoGrayTitleText];
     
-    self.titleLabel.font = [UIFont leoTitleBoldFont];
-    self.titleLabel.textColor = [UIColor leoWarmHeavyGray];
+    self.primaryUserLabel.font = [UIFont leoUserFont];
+    self.primaryUserLabel.textColor = tintColor;
     
-    self.primaryUserLabel.font = [UIFont leoBodyBolderFont];
-    self.primaryUserLabel.textColor = [UIColor leoWarmHeavyGray];
+    self.bodyLabel.font = [UIFont leoBodyFont];
+    self.bodyLabel.textColor = [UIColor leoGrayBodyText];
     
-    self.bodyLabel.font = [UIFont leoBodyBasicFont];
-    self.bodyLabel.textColor = [UIColor leoWarmHeavyGray];
+    self.buttonOne.titleLabel.font = [UIFont leoButtonFont];
+    [self.buttonOne setTitleColor:[UIColor leoGrayButtonText] forState:UIControlStateNormal];
     
-    self.buttonOne.titleLabel.font = [UIFont leoBodyBolderFont];
-    [self.buttonOne setTitleColor:[UIColor leoWarmHeavyGray] forState:UIControlStateNormal];
-    
-    self.buttonTwo.titleLabel.font = [UIFont leoBodyBolderFont];
-    [self.buttonTwo setTitleColor:[UIColor leoWarmHeavyGray] forState:UIControlStateNormal];
+    self.buttonTwo.titleLabel.font = [UIFont leoButtonFont];
+    [self.buttonTwo setTitleColor:[UIColor leoGrayButtonText] forState:UIControlStateNormal];
 }
+
 
 @end

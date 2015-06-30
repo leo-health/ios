@@ -1,28 +1,30 @@
 //
-//  LEOTwoButtonSecondaryOnlyCell+ConfigureForCell.m
+//  LEOTwoButtonPrimaryAndSecondaryCell+ConfigureForCell.m
 //  Leo
 //
-//  Created by Zachary Drossman on 6/11/15.
+//  Created by Zachary Drossman on 6/30/15.
 //  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
-#import "LEOTwoButtonSecondaryOnlyCell+ConfigureForCell.h"
+#import "LEOTwoButtonPrimaryAndSecondaryCell+ConfigureForCell.h"
 #import "LEOCard.h"
 #import "UIFont+LeoFonts.h"
 #import "UIColor+LeoColors.h"
 #import "LEOSecondaryUserView.h"
 
-@implementation LEOTwoButtonSecondaryOnlyCell (ConfigureForCell)
+@implementation LEOTwoButtonPrimaryAndSecondaryCell (ConfigureForCell)
 
 - (void)configureForCard:(LEOCard *)card {
     
     self.iconImageView.image = [card icon];
     self.titleLabel.text = [card title];
     
+    self.primaryUserLabel.text = [card primaryUser].firstName;
+
     self.secondaryUserView.user = card.secondaryUser;
     self.secondaryUserView.timeStamp = card.timestamp;
     self.secondaryUserView.tintColor = card.tintColor;
-    self.secondaryUserView.cardLayout = CardLayoutTwoButtonSecondaryOnly;
+    self.secondaryUserView.cardLayout = CardLayoutTwoButtonPrimaryAndSecondary;
     self.secondaryUserView.backgroundColor = [UIColor clearColor];
     
     self.bodyLabel.text = [card body];
@@ -36,10 +38,13 @@
 }
 
 - (void)formatSubviewsWithTintColor:(UIColor *)tintColor {
-
+    
     self.titleLabel.font = [UIFont leoTitleFont];
     self.titleLabel.textColor = [UIColor leoGrayTitleText];
-        
+    
+    self.primaryUserLabel.font = [UIFont leoUserFont];
+    self.primaryUserLabel.textColor = tintColor;
+
     self.bodyLabel.font = [UIFont leoBodyFont];
     self.bodyLabel.textColor = [UIColor leoGrayBodyText];
     

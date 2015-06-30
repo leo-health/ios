@@ -21,10 +21,6 @@
 @property (weak, nonatomic, nullable) UILabel *timestampLabel;
 @property (weak, nonatomic, nullable) UILabel *dividerLabel;
 
-
-@property (strong, nonatomic, nonnull) UIColor *cardTintColor; //FIXME: Likely will remove and associate with User at some stage.
-
-
 @property (nonatomic) BOOL constraintsAlreadyUpdated;
 
 @end
@@ -59,7 +55,7 @@
     self.suffixCredentialLabel.text = self.user.credentialSuffix;
     self.dividerLabel.text = @"∙";
     
-    if (self.cardLayout == CardLayoutTwoButtonSecondaryOnly) {
+    if (self.cardLayout == CardLayoutOneButtonSecondaryOnly) {
         self.timestampLabel.text = self.timeStamp.timeAgoSinceNow;
     } else {
         //FIXME: This only accounts for dates within the past year! And doesn't yet deal with timezones!
@@ -107,7 +103,7 @@
         self.timestampLabel.translatesAutoresizingMaskIntoConstraints = NO;
         self.suffixCredentialLabel.translatesAutoresizingMaskIntoConstraints = NO;
         
-        [self removeConstraints:self.constraints];
+        //[self removeConstraints:self.constraints];
         
         UILabel *localNameLabel = self.nameLabel;
         UILabel *localSuffixLabel = self.suffixLabel;
@@ -122,7 +118,7 @@
             horizontalLayoutConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[localNameLabel][localSuffixLabel]-(4)-[localSuffixCredentialLabel]-[localDividerLabel]-[localTimestampLabel]" options:0 metrics:nil views:viewsDictionary];
         }
         else {
-            horizontalLayoutConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[localTimestampLabel]-[localDividerLabel]-[localNameLabel]-[localSuffixLabel]-(4)-[localSuffixCredentialLabel]" options:0 metrics:nil views:viewsDictionary];
+            horizontalLayoutConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[localTimestampLabel]-[localDividerLabel]-[localNameLabel]-(2)-[localSuffixLabel]-(2)-[localSuffixCredentialLabel]" options:0 metrics:nil views:viewsDictionary];
         }
         
         NSArray *nameLabelVerticalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[localNameLabel]|" options:0 metrics:nil views:viewsDictionary];
@@ -151,21 +147,21 @@
 
 - (void)colorView {
     
-    self.nameLabel.textColor = self.cardTintColor;
-    self.suffixLabel.textColor = [UIColor leoWarmHeavyGray];
-    self.dividerLabel.textColor = [UIColor leoWarmHeavyGray];
-    self.timestampLabel.textColor = [UIColor leoWarmHeavyGray];
-    self.suffixCredentialLabel.textColor = [UIColor leoWarmHeavyGray];
+    self.nameLabel.textColor = self.cardColor;
+    self.suffixLabel.textColor = [UIColor leoGrayBodyText];
+    self.dividerLabel.textColor = [UIColor leoGrayBodyText];
+    self.timestampLabel.textColor = [UIColor leoGrayBodyText];
+    self.suffixCredentialLabel.textColor = [UIColor leoGrayBodyText];
 }
 
 
 - (void)typefaceView {
     
-    self.nameLabel.font = [UIFont leoBodyBolderFont];
-    self.suffixLabel.font = [UIFont leoBodyBolderFont];
-    self.suffixCredentialLabel.font = [UIFont leoBodyBolderFont];
-    self.dividerLabel.font = [UIFont leoBodyBoldFont];
-    self.timestampLabel.font = [UIFont leoBodyBasicFont];
+    self.nameLabel.font = [UIFont leoUserFont];
+    self.suffixLabel.font = [UIFont leoUserFont];
+    self.suffixCredentialLabel.font = [UIFont leoUserFont];
+    self.dividerLabel.font = [UIFont leoUserFont];
+    self.timestampLabel.font = [UIFont leoButtonFont];
 }
 
 

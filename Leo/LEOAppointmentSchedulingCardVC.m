@@ -103,7 +103,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     
     [self.bookButton setTitle:[buttonTitle uppercaseString] forState:UIControlStateNormal];
     [self.bookButton addTarget:self.card action:NSSelectorFromString([self.card actionsAvailableForState][0]) forControlEvents:UIControlEventTouchUpInside];
-    self.bookButton.backgroundColor = [UIColor leoOrangeRed];
+    self.bookButton.backgroundColor = self.card.tintColor;
     [self.bookButton setTitleColor:[UIColor leoWhite] forState:UIControlStateNormal];
     self.bookButton.titleLabel.font = [UIFont leoBodyBoldFont];
     
@@ -127,7 +127,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     [titleLabel sizeToFit];
     UIBarButtonItem *title = [[UIBarButtonItem alloc] initWithCustomView:titleLabel];
     
-    
+
     navCarrier.leftBarButtonItems = @[icon, title];
     //navCarrier.rightBarButtonItems = @[doneBarButton];
     
