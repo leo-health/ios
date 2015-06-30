@@ -257,6 +257,8 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     [UIView setAnimationsEnabled:YES];
 }
 
+
+
 #pragma mark - Keyboard Notification Methods
 
 /**
@@ -266,7 +268,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
  */
 -(void)keyboardWillShow:(NSNotification*)notification{
     CGSize keyboardSize = [self getKeyboardSizeFromKeyboardNotification:notification];
-    [self scrollViewToShowIfFirstResponder:_notesView withKeyboardSize:keyboardSize];
+     [self scrollViewToShowIfFirstResponder:_notesView withKeyboardSize:keyboardSize];
     [self showDoneBarButtonItem:YES];
 }
 
