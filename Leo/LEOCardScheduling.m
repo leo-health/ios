@@ -52,16 +52,16 @@ static NSString *kActionSelectorBook = @"book";
             return CardLayoutUndefined;
             
         case AppointmentStateCancelling:
-            return CardLayoutTwoButtonPrimaryOnly;
+            return CardLayoutTwoButtonPrimaryAndSecondary;
             
         case AppointmentStateConfirmingCancelling:
             return CardLayoutOneButtonPrimaryOnly;
             
         case AppointmentStateRecommending:
-            return CardLayoutTwoButtonSecondaryOnly;
+            return CardLayoutOneButtonSecondaryOnly;
             
         case AppointmentStateReminding:
-            return CardLayoutTwoButtonSecondaryOnly;
+            return CardLayoutTwoButtonPrimaryAndSecondary;
     }
 }
 
@@ -72,7 +72,7 @@ static NSString *kActionSelectorBook = @"book";
     switch (self.appointment.appointmentState) {
             
         case AppointmentStateBooking:
-            titleText = @"Schedule A Visit"; //used?
+            titleText = @"Schedule A Visit";
             break;
             
         case AppointmentStateCancelling:
@@ -106,7 +106,6 @@ static NSString *kActionSelectorBook = @"book";
             break;
             
         case AppointmentStateCancelling:
-            
             bodyText = @"Are you sure you want to cancel your appointment?";
             break;
             
@@ -115,7 +114,9 @@ static NSString *kActionSelectorBook = @"book";
             break;
             
         case AppointmentStateRecommending:
-            bodyText = [NSString stringWithFormat:@"Looks like %@ is due for an appointment. We've got you all set. Click here to complete %@'s booking.", self.appointment.patient.firstName, self.appointment.patient.firstName];
+            bodyText = @"Take a tour of the practice and meet our world class physicians.";
+            
+            //bodyText = [NSString stringWithFormat:@"Looks like %@ is due for an appointment. We've got you all set. Click here to complete %@'s booking.", self.appointment.patient.firstName, self.appointment.patient.firstName];
             break;
             
         case AppointmentStateReminding:
@@ -136,26 +137,26 @@ static NSString *kActionSelectorBook = @"book";
     
     switch (self.appointment.appointmentState) {
         case AppointmentStateBooking:
-            actionStrings = @[@"Confirm Appointment"];
+            actionStrings = @[@"SCHEDULE APPOINTMENT"];
             break;
             
         case AppointmentStateCancelling:
-            actionStrings = @[@"Yes",@"No"];
+            actionStrings = @[@"YES",@"NO"];
             break;
             
             
         case AppointmentStateConfirmingCancelling:
-            actionStrings = @[@"Dismiss"];
+            actionStrings = @[@"DISMISS"];
             break;
             
             
         case AppointmentStateRecommending:
-            actionStrings = @[@"Schedule",@"Cancel"];
+            actionStrings = @[@"SCHEDULE A VISIT"];
             break;
             
             
         case AppointmentStateReminding:
-            actionStrings = @[@"Reschedule",@"Cancel"];
+            actionStrings = @[@"RESCHEDULE",@"CANCEL"];
             break;
             
     }
@@ -181,9 +182,6 @@ static NSString *kActionSelectorBook = @"book";
             
             NSString *buttonOneAction = kActionSelectorSchedule;
             [actions addObject:buttonOneAction];
-            
-            NSString *buttonTwoAction = kActionSelectorCancel;
-            [actions addObject:buttonTwoAction];
             
             break;
         }
