@@ -40,6 +40,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *providerLabel;
 @property (weak, nonatomic) IBOutlet UILabel *appointmentLabel;
 @property (weak, nonatomic) IBOutlet UILabel *appointmentDateLabel;
+@property (weak, nonatomic) IBOutlet UITextView *notesView;
 
 #pragma mark - Data
 @property (strong, nonatomic) Appointment *appointment;
@@ -128,12 +129,14 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     
     if (self.appointment.date == nil) {
         self.appointment.date = [self firstAvailableAppointmentTimeFromDate:self.dates.firstObject toDate:self.dates.lastObject];
+
     }
-    
-    [self setupMonthLabel];
     [self setupAppointmentDateLabel];
-    
+    [self setupMonthLabel];
+
+    [self configureViewToReceiveKeyboardNotifications];
 }
+
 
 
 #pragma mark - Lifecycle Helper Methods
@@ -204,8 +207,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
  */
 - (NSString *)formatDateTimeForLabel:(NSDate *)dateTime {
     
-    NSDateFormatter *fullDateFormatter = [[NSDateFormatter alloc] init];
-    fullDateFormatter.dateFormat = @"MMMM' 'd', 'h':'mma";
+    NSDateFormatter *fullDateFormatter = [[NSDateFormatter alloc] init];    fullDateFormatter.dateFormat = @"MMMM' 'd', 'h':'mma";
     [fullDateFormatter setAMSymbol:@"am"];
     [fullDateFormatter setPMSymbol:@"pm"];
     NSString *formattedDateTime = [fullDateFormatter stringFromDate:dateTime];
@@ -213,6 +215,71 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     return formattedDateTime;
 }
 
+-(void)configureViewToReceiveKeyboardNotifications{
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+}
+
+#pragma mark - Keyboard Notification Methods 
+
+/**
+ *  Is called whenever a keyboard notification occurs that the keyboard will appear
+ *
+ *  @param notification NSNotification for they keyboardWillShow event
+ */
+-(void)keyboardWillShow:(NSNotification*)notification{
+    CGSize keyboardSize = [self getKeyboardSizeFromKeyboardNotification:notification];
+     [self scrollViewToShowIfFirstResponder:_notesView withKeyboardSize:keyboardSize];
+}
+
+/**
+ *  Extracts the size of the keyboard from the Keyboard NSNotification
+ *
+ *  @param notification an NSNotification from a keyboard event
+ *
+ *  @return the CGSize of the keyboard
+ */
+-(CGSize)getKeyboardSizeFromKeyboardNotification:(NSNotification*)notification{
+    CGRect keyboardFrameScreenCoordinates = ((NSNumber*)[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey]).CGRectValue;
+    CGRect keyboardFrameViewCoordinates = [self.view convertRect:keyboardFrameScreenCoordinates fromView:nil];
+    return keyboardFrameViewCoordinates.size;
+}
+
+/**
+ *  Scrolls the scrollView to show the view if it is not visible and is the first responder
+ *
+ *  @param viewThatShouldBeVisible the view that should be seen if not visible
+ *  @param keyboardSize            the size of the keyboard potentially obstructing the view
+ */
+-(void)scrollViewToShowIfFirstResponder:(UIView*)viewThatShouldBeVisible withKeyboardSize:(CGSize)keyboardSize{
+    //Insets for scroll view content after keyboard abstructs the scroll view
+    UIEdgeInsets scrollViewEdgeInsets = UIEdgeInsetsMake(0, 0, keyboardSize.height, 0);
+    //A frame that represents which portion of the scroll view is visible after keyboard
+    CGRect scrollViewVisibleFrame;
+    //The bottom left point of the the 'viewThatShouldBeVisible'
+    CGPoint bottomPoint;
+    
+    _scrollView.contentInset = scrollViewEdgeInsets;
+    _scrollView.scrollIndicatorInsets = scrollViewEdgeInsets;
+    
+    //Set Rectangle in scroll view coordinate space
+    CGRect viewThatShouldBeVisibleRectInScrollView = viewThatShouldBeVisible.frame;
+    if ([viewThatShouldBeVisible.superview isEqual:_scrollView] == NO) {
+        viewThatShouldBeVisibleRectInScrollView = [self.scrollView convertRect:viewThatShouldBeVisible.frame fromView:viewThatShouldBeVisible.superview];
+    }
+
+    //Only perform operation if this view is the first responder
+    if (viewThatShouldBeVisible.isFirstResponder) {
+        scrollViewVisibleFrame = self.scrollView.bounds;
+        scrollViewVisibleFrame.size.height -= keyboardSize.height;
+        
+        bottomPoint = CGPointMake(viewThatShouldBeVisibleRectInScrollView.origin.x, viewThatShouldBeVisibleRectInScrollView.origin.y + viewThatShouldBeVisibleRectInScrollView.size.height);
+        
+        if (!CGRectContainsPoint(scrollViewVisibleFrame, bottomPoint)) {
+            CGRect textViewRectWithOffset = CGRectInset(viewThatShouldBeVisibleRectInScrollView, 0, -10);
+            [_scrollView scrollRectToVisible:textViewRectWithOffset animated:YES];
+        }
+    }
+}
 
 
 #pragma mark - Setup, Getters, Setters

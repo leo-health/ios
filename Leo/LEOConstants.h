@@ -78,4 +78,10 @@ extern NSString *const APIParamAssociatedCardObject; // = @"associatedCardObject
 
 
 extern NSString *const KeypathAppointmentState; // = @"state";
+
+/**
+ *  Constants for Keyboard event notifications
+ */
+
+
 @end
