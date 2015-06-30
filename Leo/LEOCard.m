@@ -81,6 +81,13 @@
     
 }
 
+- (nonnull UIColor *)tintColor {
+    
+    @throw [NSException exceptionWithName:NSInternalInconsistencyException
+                                   reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
+                                 userInfo:nil];
+}
+
 -(nonnull User *)primaryUser {
     
     @throw [NSException exceptionWithName:NSInternalInconsistencyException

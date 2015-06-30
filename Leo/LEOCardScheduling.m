@@ -9,6 +9,7 @@
 #import "LEOCardScheduling.h"
 #import <NSDate+DateTools.h>
 #import "LEOAppointmentSchedulingCardVC.h"
+#import "UIColor+LeoColors.h"
 
 @interface LEOCardScheduling ()
 
@@ -123,6 +124,10 @@ static NSString *kActionSelectorBook = @"book";
     }
     
     return bodyText;
+}
+
+-(nonnull UIColor *)tintColor {
+    return [UIColor leoGreen];
 }
 
 - (nonnull NSArray *)stringRepresentationOfActionsAvailableForState {
