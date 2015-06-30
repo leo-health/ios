@@ -20,4 +20,10 @@
 + (UIFont *)leoBodyBoldFont;
 + (UIFont *)leoBodyBolderFont;
 
++ (UIFont *)leoBodyFont;
++ (UIFont *)leoTitleFont;
++ (UIFont *)leoUserFont;
++ (UIFont *)leoButtonFont;
+
+
 @end
