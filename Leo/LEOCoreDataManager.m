@@ -351,44 +351,45 @@
 
 - (NSArray *)fetchSlots {
     
-    NSDate *june15atEightAM = [NSDate dateWithYear:2015 month:6 day:27 hour:8 minute:0 second:0];
+    NSDate *slot1 = [NSDate dateWithYear:2015 month:7 day:11 hour:8 minute:0 second:0];
     
-    NSDate *june15atNineAM = [NSDate dateWithYear:2015 month:6 day:27 hour:9 minute:0 second:0];
+    NSDate *slot2 = [NSDate dateWithYear:2015 month:7 day:11 hour:9 minute:0 second:0];
     
-    NSDate *june15atTenAM = [NSDate dateWithYear:2015 month:6 day:27 hour:10 minute:0 second:0];
+    NSDate *slot3 = [NSDate dateWithYear:2015 month:7 day:13 hour:10 minute:0 second:0];
     
-    NSDate *june15atTenThirtyAM = [NSDate dateWithYear:2015 month:6 day:27 hour:10 minute:30 second:0];
+    NSDate *slot4 = [NSDate dateWithYear:2015 month:7 day:14 hour:10 minute:30 second:0];
     
-    NSDate *june15atElevenAM = [NSDate dateWithYear:2015 month:6 day:27 hour:11 minute:0 second:0];
+    NSDate *slot5 = [NSDate dateWithYear:2015 month:7 day:13 hour:11 minute:0 second:0];
     
-    NSDate *june15atOnePM = [NSDate dateWithYear:2015 month:6 day:27 hour:13 minute:0 second:0];
+    NSDate *slot6 = [NSDate dateWithYear:2015 month:7 day:14 hour:13 minute:0 second:0];
     
-    NSDate *june15atOneThirtyPM = [NSDate dateWithYear:2015 month:6 day:27 hour:13 minute:30 second:0];
+    NSDate *slot7 = [NSDate dateWithYear:2015 month:7 day:16 hour:13 minute:30 second:0];
     
-    NSDate *june15atTwoPM = [NSDate dateWithYear:2015 month:6 day:27 hour:14 minute:0 second:0];
+    NSDate *slot8 = [NSDate dateWithYear:2015 month:7 day:25 hour:14 minute:0 second:0];
     
-    NSDate *june15atTwoThirtyPM = [NSDate dateWithYear:2015 month:6 day:27 hour:5 minute:0 second:0];
+    NSDate *slot9 = [NSDate dateWithYear:2015 month:7 day:25 hour:5 minute:0 second:0];
     
-    NSDate *june16atElevenAM = [NSDate dateWithYear:2015 month:6 day:28 hour:11 minute:0 second:0];
+    NSDate *slot10 = [NSDate dateWithYear:2015 month:7 day:25 hour:11 minute:0 second:0];
     
-    NSDate *june16atNoon= [NSDate dateWithYear:2015 month:6 day:28 hour:12 minute:0 second:0];
+    NSDate *slot11 = [NSDate dateWithYear:2015 month:8 day:15 hour:12 minute:0 second:0];
     
-    NSDate *june6atEightAM = [NSDate dateWithYear:2015 month:6 day:29 hour:8 minute:0 second:0];
+    NSDate *slot12 = [NSDate dateWithYear:2015 month:8 day:5 hour:8 minute:0 second:0];
     
-    NSDate *june6atNineAM = [NSDate dateWithYear:2015 month:6 day:29 hour:9 minute:0 second:0];
+    NSDate *slot13 = [NSDate dateWithYear:2015 month:5 day:5 hour:9 minute:0 second:0];
     
-    NSDate *june6atTenAM = [NSDate dateWithYear:2015 month:6 day:29 hour:10 minute:0 second:0];
+    NSDate *slot14 = [NSDate dateWithYear:2015 month:8 day:5 hour:10 minute:0 second:0];
     
-    NSDate *june6atTenThirtyAM = [NSDate dateWithYear:2015 month:6 day:29 hour:10 minute:30 second:0];
+    NSDate *slot15 = [NSDate dateWithYear:2015 month:8 day:5 hour:10 minute:30 second:0];
     
-    NSDate *june6atElevenAM = [NSDate dateWithYear:2015 month:6 day:29 hour:11 minute:0 second:0];
+    NSDate *slot16 = [NSDate dateWithYear:2015 month:7 day:25 hour:11 minute:0 second:0];
     
-    NSDate *june6atOnePM = [NSDate dateWithYear:2015 month:6 day:29 hour:13 minute:0 second:0];
+    NSDate *slot17 = [NSDate dateWithYear:2015 month:7 day:16 hour:13 minute:0 second:0];
     
-    NSDate *june6atOneThirtyPM = [NSDate dateWithYear:2015 month:6 day:29 hour:13 minute:30 second:0];
-    NSDate *july10atOneThirtyPM = [NSDate dateWithYear:2015 month:7 day:10 hour:13 minute:30 second:0];
+    NSDate *slot18 = [NSDate dateWithYear:2015 month:7 day:16 hour:13 minute:30 second:0];
+
+    NSDate *slot19 = [NSDate dateWithYear:2015 month:7 day:16 hour:13 minute:30 second:0];
     
-    return @[june15atEightAM, june15atNineAM, june15atTenAM, june15atTenThirtyAM, june15atElevenAM, june15atOnePM, june15atOneThirtyPM, june15atTwoPM, june15atTwoThirtyPM, june16atElevenAM, june16atNoon, june6atEightAM, june6atTenAM, june6atTenThirtyAM, june6atElevenAM, july10atOneThirtyPM];
+    return @[slot1, slot2, slot3, slot4, slot5, slot6, slot7, slot8, slot9, slot10, slot11, slot12, slot13, slot14, slot15, slot16, slot17, slot18, slot19];
 }
 
 - (NSArray *)availableDates {
