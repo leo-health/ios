@@ -139,8 +139,6 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     [self setupAppointmentDateLabel];
     [self setupMonthLabel];
     
-    [self configureViewToReceiveKeyboardNotifications];
-    
     UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(scrollViewWasTapped:)];
     tapGestureForTextFieldDismissal.cancelsTouchesInView = NO;
     [_scrollView addGestureRecognizer:tapGestureForTextFieldDismissal];
