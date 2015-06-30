@@ -376,6 +376,7 @@
                         <outlet property="doctorDropDownTV" destination="zFT-Sm-nqn" id="DB7-8a-n5E"/>
                         <outlet property="monthLabel" destination="84a-ZX-sbg" id="duN-pN-xUa"/>
                         <outlet property="navBar" destination="vfx-e9-3m4" id="lpC-AB-G71"/>
+                        <outlet property="notesView" destination="Yrd-Wh-szX" id="JJA-e1-sE6"/>
                         <outlet property="patientLabel" destination="Q6R-sV-LIq" id="lNQ-uC-0pd"/>
                         <outlet property="providerLabel" destination="UjZ-MG-hJO" id="SGQ-EM-jq4"/>
                         <outlet property="scrollView" destination="AhD-2a-HRm" id="GZt-dN-fBe"/>
