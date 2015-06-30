@@ -13,7 +13,8 @@
 #import "LEODropDownController.h"
 
 @class LEOCardScheduling;
-@interface LEOAppointmentSchedulingCardVC : UIViewController < UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIPageViewControllerDelegate, DateTimeSelectionProtocol, CardActivityProtocol>
+
+@interface LEOAppointmentSchedulingCardVC : UIViewController < UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIPageViewControllerDelegate, DateTimeSelectionProtocol, CardActivityProtocol,UITextViewDelegate>
 
 @property (strong, nonatomic) UITableViewCell *collapsedCell;
 @property (strong, nonatomic) UIPageViewController *pageViewController;

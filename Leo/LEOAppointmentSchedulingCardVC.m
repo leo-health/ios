@@ -129,12 +129,16 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     
     if (self.appointment.date == nil) {
         self.appointment.date = [self firstAvailableAppointmentTimeFromDate:self.dates.firstObject toDate:self.dates.lastObject];
-
     }
+    
     [self setupAppointmentDateLabel];
-    [self setupMonthLabel];
-
-    [self configureViewToReceiveKeyboardNotifications];
+        [self setupMonthLabel];
+        
+        [self configureViewToReceiveKeyboardNotifications];
+        
+    UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(scrollViewWasTapped:)];
+    tapGestureForTextFieldDismissal.cancelsTouchesInView = NO;
+    [_scrollView addGestureRecognizer:tapGestureForTextFieldDismissal];
 }
 
 
@@ -217,6 +221,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
 
 -(void)configureViewToReceiveKeyboardNotifications{
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 }
 
 #pragma mark - Keyboard Notification Methods 
@@ -229,6 +234,17 @@ static NSString * const dateReuseIdentifier = @"DateCell";
 -(void)keyboardWillShow:(NSNotification*)notification{
     CGSize keyboardSize = [self getKeyboardSizeFromKeyboardNotification:notification];
      [self scrollViewToShowIfFirstResponder:_notesView withKeyboardSize:keyboardSize];
+}
+
+/**
+ *  Resets the content views and scroll indicator insets of the scroll view when the
+ *  keyboard will be dismissed.
+ *
+ *  @param notification <#notification description#>
+ */
+-(void)keyboardWillHide:(NSNotificationCenter*)notification{
+    _scrollView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
+    _scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 0, 0);
 }
 
 /**
@@ -501,6 +517,22 @@ static NSString * const dateReuseIdentifier = @"DateCell";
             break;
         }
     }
+}
+
+#pragma mark - <UITextView>
+
+-(void)scrollViewWasTapped:(UIGestureRecognizer*)gesture{
+    if (_notesView.isFirstResponder) {
+        [_notesView resignFirstResponder];
+    }
+}
+
+-(void)textViewDidBeginEditing:(UITextView *)textView{
+    
+}
+
+-(void)textViewDidEndEditing:(UITextView *)textView{
+    
 }
 
 #pragma mark - <UICollectionViewDelegateFlowLayout>
