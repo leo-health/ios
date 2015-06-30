@@ -15,10 +15,19 @@
 + (UIColor *) leoOrangeRed;
 + (UIColor *) leoBlue;
 + (UIColor *) leoGreen;
++ (UIColor *) leoPurple;
++ (UIColor *) leoPink;
++ (UIColor *) leoRedBadge;
++ (UIColor *) leoGrayTitleText;
++ (UIColor *) leoGrayBodyText;
++ (UIColor *) leoGrayButtonText;
++ (UIColor *) leoGrayBorder;
++ (UIColor *) leoGrayBackground;
 + (UIColor *) leoBlack;
++ (UIColor *) leoWhite;
+
 + (UIColor *) leoWarmHeavyGray;
 + (UIColor *) leoWarmLightGray;
 + (UIColor *) leoBasicGray;
-+ (UIColor *) leoWhite;
 
 @end
