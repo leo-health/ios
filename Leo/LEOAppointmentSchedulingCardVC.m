@@ -318,7 +318,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     if ([viewThatShouldBeVisible.superview isEqual:_scrollView] == NO) {
         viewThatShouldBeVisibleRectInScrollView = [self.scrollView convertRect:viewThatShouldBeVisible.frame fromView:viewThatShouldBeVisible.superview];
     }
-    
+
     //Only perform operation if this view is the first responder
     if (viewThatShouldBeVisible.isFirstResponder) {
         scrollViewVisibleFrame = self.scrollView.bounds;
