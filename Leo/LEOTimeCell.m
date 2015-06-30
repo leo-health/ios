@@ -21,6 +21,8 @@
 
 -(void)setSelected:(BOOL)selected {
     
+    super.selected = selected;
+    
     [self setSelectedFormat];
     
     if (!selected) {

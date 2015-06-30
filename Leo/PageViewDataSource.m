@@ -63,7 +63,8 @@
     // Return the index of the given data view controller.
     // For simplicity, this implementation uses a static array of model objects and the view controller stores the model object; you can therefore use the model object to identify the index.
     
-    NSLog(@"Current index: %lu",[self.allPages indexOfObject:viewController.dateThatQualifiesTimeCollection]);
+    //NSLog(@"Current index: %lu",[self.allPages indexOfObject:viewController.dateThatQualifiesTimeCollection]);
+
     return [self.allPages indexOfObject:viewController.dateThatQualifiesTimeCollection];
 }
 
@@ -75,7 +76,7 @@
     NSUInteger indexOfPageAmongAvailablePages = [self.availablePages indexOfObject:self.allPages[index]];
     
     if ((index == 0) || (index == NSNotFound) || (indexOfPageAmongAvailablePages == 0) ||(indexOfPageAmongAvailablePages == NSNotFound)) {
-        NSLog(@"Index not found");
+       // NSLog(@"Index of prior page not found");
         return nil;
     }
     
@@ -87,6 +88,7 @@
     NSUInteger indexDifference = [NSDate daysBetweenDate:date andDate:priorAvailableDate];
     NSUInteger priorPage =  indexDifference + index;
     
+    //NSLog(@"Prior page: %lu", (unsigned long)priorPage);
     return [self viewControllerAtIndex:priorPage storyboard:viewController.storyboard];
 }
 
@@ -96,14 +98,14 @@
     NSUInteger indexOfPageAmongAvailablePages = [self.availablePages indexOfObject:self.allPages[index]];
     
     if (indexOfPageAmongAvailablePages == NSNotFound) {
-        NSLog(@"Index not found");
+        //NSLog(@"Index of next page not found");
         return nil;
     }
     
     indexOfPageAmongAvailablePages++;
     
     if (indexOfPageAmongAvailablePages == [self.availablePages count]) {
-        NSLog(@"Index %lu == self.availablePagesCount %lu",index,(unsigned long)self.availablePages.count);
+//        NSLog(@"Index %lu == self.availablePagesCount %lu",index,(unsigned long)self.availablePages.count);
         return nil;
     }
     
@@ -115,6 +117,7 @@
     NSUInteger indexDifference = [NSDate daysBetweenDate:date andDate:nextAvailableDate];
     NSUInteger nextPage = indexDifference + index;
     
+    //NSLog(@"Next page: %lu", (unsigned long)nextPage);
     return [self viewControllerAtIndex:nextPage storyboard:viewController.storyboard];
 }
 

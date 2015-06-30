@@ -63,6 +63,9 @@
 }
 
 - (void)setSelectedFormat {
+
+    self.selectable = YES;
+    [self setSelectableFormat];
     
     [self setSelectableFormat];
     

@@ -898,7 +898,6 @@
 				31FDDE551B28DD2C0009BBC2 /* LEOTwoButtonPrimaryOnlyCell.m in Sources */,
 				3177B9DA1B191929006AE360 /* Message.m in Sources */,
 				31D20ACC1B14C61F00F3351A /* LEOEHRViewController.m in Sources */,
-				3182E5531B208CC6004DECF8 /* RootViewController.m in Sources */,
 				BCE1ECA11B01443F007C8D0B /* UIFont+LeoFonts.m in Sources */,
 				3182E5581B208F85004DECF8 /* TimeCollectionViewController.m in Sources */,
 				31F0EA671B27430D00E4D83A /* LEODropDownTableViewDelegate.m in Sources */,

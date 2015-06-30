@@ -51,7 +51,7 @@
     if (!_pageModelController) {
         _pageModelController = [[LEOPageModelController alloc] initWithPageData:@[@"Leo",@"Zachary",@"Rachel",@"Tracy"]];
     }
-    
+
     return _pageModelController;
 }
 

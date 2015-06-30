@@ -33,7 +33,7 @@
 @implementation LEOSecondaryUserView
 
 -(void)awakeFromNib {
-
+    
     UILabel *nameLabelStrong = [[UILabel alloc] init];
     _nameLabel = nameLabelStrong;
     UILabel *suffixLabelStrong = [[UILabel alloc] init];
