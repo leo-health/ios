@@ -67,6 +67,9 @@ NSString *const APIParamCardActivity = @"type";
 NSString *const APIParamCardTimeStamp = @"timestamp";
 NSString *const APIParamAssociatedCardObject = @"associatedCardObject";
 
+NSString *const APIParamResourceID = @"resourceID";
+NSString *const APIParamResourceType = @"resourceType";
+
 NSString *const KeypathAppointmentState = @"state";
 
 

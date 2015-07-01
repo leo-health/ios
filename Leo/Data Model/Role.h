@@ -11,13 +11,28 @@
 
 @class User;
 
-@interface Role : NSManagedObject
+typedef enum RoleType : NSUInteger {
+    RoleTypeChild,
+    RoleTypeParent,
+    RoleTypeCaretaker,
+    RoleTypeDoctor,
+    RoleTypeNursePractitioner,
+    RoleTypeAdministrator
+} RoleType;
 
-@property (nonatomic, retain) NSDate * createdAt;
-@property (nonatomic, retain) NSString * name;
-@property (nonatomic, retain) NSString * resourceID;
-@property (nonatomic, retain) NSNumber * resourceType;
-@property (nonatomic, retain) NSDate * updatedAt;
-@property (nonatomic, retain) User *user;
+@interface Role : NSObject
+NS_ASSUME_NONNULL_BEGIN
 
+@property (nonatomic, strong) NSDate * createdAt;
+@property (nonatomic, copy) NSString * name;
+@property (nonatomic, copy) NSString * resourceID;
+@property (nonatomic, strong) NSNumber * resourceType;
+@property (nonatomic, strong) NSDate * updatedAt;
+@property (nonatomic, strong) User *user;
+
+- (instancetype)initWithName:(NSString *)name resourceID:(NSString *)resourceID resourceType:(NSNumber *)resourceType;
+- (RoleType)roleType;
+
+
+NS_ASSUME_NONNULL_END
 @end

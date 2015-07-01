@@ -11,20 +11,39 @@
 
 @class User;
 
-@interface Appointment : NSManagedObject
+typedef enum AppointmentState : NSUInteger {
+    AppointmentStateBooking = 0,
+    AppointmentStateCancelling = 1,
+    AppointmentStateConfirmingCancelling = 2,
+    AppointmentStateRecommending = 3,
+    AppointmentStateReminding = 4,
+} AppointmentState;
 
-@property (nonatomic, retain) NSDate * createdAt;
-@property (nonatomic, retain) NSDate * date;
-@property (nonatomic, retain) NSNumber * duration;
-@property (nonatomic, retain) NSString * familyID;
-@property (nonatomic, retain) NSString * id;
-@property (nonatomic, retain) id leoAppointmentType;
-@property (nonatomic, retain) NSString * practiceID;
-@property (nonatomic, retain) NSString * rescheduledAppointmentID;
-@property (nonatomic, retain) NSNumber * state;
-@property (nonatomic, retain) NSDate * updatedAt;
-@property (nonatomic, retain) User *bookedByUser;
-@property (nonatomic, retain) User *patient;
-@property (nonatomic, retain) User *provider;
+@interface Appointment : NSObject
+NS_ASSUME_NONNULL_BEGIN
 
+@property (nonatomic, strong, nullable) NSDate *createdAt;
+@property (nonatomic, strong, nullable) NSDate *date;
+@property (nonatomic, copy) NSString *familyID;
+@property (nonatomic, copy, nullable) NSString *id;
+@property (nonatomic, strong) id leoAppointmentType;
+@property (nonatomic, copy) NSString *practiceID;
+@property (nonatomic, copy, nullable) NSString *rescheduledAppointmentID;
+@property (nonatomic, strong) NSNumber *state;
+@property (nonatomic, strong, nullable) NSDate *updatedAt;
+@property (nonatomic, strong) User *bookedByUser;
+@property (nonatomic, strong) User *patient;
+@property (nonatomic, strong) User *provider;
+
+-(instancetype)initWithDate:(nullable NSDate *)date appointmentType:(NSNumber *)leoAppointmentType patient:(User *)patient provider:(User *)provider familyID:(NSString *)familyID bookedByUser:(User *)bookedByUser state:(NSNumber *)state;
+
+- (instancetype)initWithJSONDictionary:(nonnull NSDictionary *)jsonResponse;
+
+- (AppointmentState)appointmentState;
+
+- (NSString *)stringifiedAppointmentDate;
+- (NSString *)stringifiedAppointmentTime;
+
+
+NS_ASSUME_NONNULL_END
 @end

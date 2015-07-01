@@ -11,39 +11,34 @@
 
 @class Appointment, ConversationParticipant, Role;
 
-@interface User : NSManagedObject
+@interface User : NSObject
+NS_ASSUME_NONNULL_BEGIN
 
-@property (nonatomic, retain) NSDate * createdAt;
-@property (nonatomic, retain) NSString * credentialSuffix;
-@property (nonatomic, retain) NSDate * dob;
-@property (nonatomic, retain) NSString * email;
-@property (nonatomic, retain) NSString * familyID;
-@property (nonatomic, retain) NSString * firstName;
-@property (nonatomic, retain) NSString * gender;
-@property (nonatomic, retain) NSString * id;
-@property (nonatomic, retain) NSString * lastName;
-@property (nonatomic, retain) NSString * middleInitial;
-@property (nonatomic, retain) NSString * practiceID;
-@property (nonatomic, retain) NSString * suffix;
-@property (nonatomic, retain) NSString * title;
-@property (nonatomic, retain) NSDate * updatedAt;
-@property (nonatomic, retain) NSSet *appointmentsToAdminister;
-@property (nonatomic, retain) NSSet *appointmentsToBeAt;
-@property (nonatomic, retain) Appointment *appointmentsToBeSeen;
-@property (nonatomic, retain) ConversationParticipant *participant;
-@property (nonatomic, retain) Role *role;
-@end
+@property (nonatomic, strong, nullable) NSDate * createdAt;
+@property (nonatomic, strong, nullable) NSString * credentialSuffix;
+@property (nonatomic, strong, nullable) NSDate * dob;
+@property (nonatomic, strong, nullable) NSString * email;
+@property (nonatomic, strong, nullable) NSString * familyID;
+@property (nonatomic, strong) NSString * firstName;
+@property (nonatomic, strong) NSString * gender;
+@property (nonatomic, strong, nullable) NSString * id;
+@property (nonatomic, strong) NSString * lastName;
+@property (nonatomic, strong) NSString * middleInitial;
+@property (nonatomic, strong, nullable) NSString * practiceID;
+@property (nonatomic, strong, nullable) NSString * suffix;
+@property (nonatomic, strong, nullable) NSString * title;
+@property (nonatomic, strong, nullable) NSDate * updatedAt;
+@property (nonatomic, strong, nullable) NSArray *appointments;
+@property (nonatomic, strong) Role *role;
 
-@interface User (CoreDataGeneratedAccessors)
+- (instancetype)initWithFirstName:(NSString *)firstName lastName:(NSString *)lastName dob:(nullable NSDate *)dob email:(nullable NSString*)email role:(Role *)role familyID:(nullable NSString *)familyID;
 
-- (void)addAppointmentsToAdministerObject:(Appointment *)value;
-- (void)removeAppointmentsToAdministerObject:(Appointment *)value;
-- (void)addAppointmentsToAdminister:(NSSet *)values;
-- (void)removeAppointmentsToAdminister:(NSSet *)values;
+- (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse;
 
-- (void)addAppointmentsToBeAtObject:(Appointment *)value;
-- (void)removeAppointmentsToBeAtObject:(Appointment *)value;
-- (void)addAppointmentsToBeAt:(NSSet *)values;
-- (void)removeAppointmentsToBeAt:(NSSet *)values;
+- (NSDictionary *)dictionaryFromUser:(User*)user;
 
+-(nullable NSString *)usernameFromID:(NSString *)id;
+-(nullable NSString *)userroleFromID:(NSString *)id;
+
+NS_ASSUME_NONNULL_END
 @end

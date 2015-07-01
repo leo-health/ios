@@ -9,11 +9,13 @@
 #import <Foundation/Foundation.h>
 
 @interface AppointmentType : NSObject
+NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy) NSString *id;
 @property (nonatomic, copy) NSString *typeDescriptor;
-@property (nonatomic, copy) NSNumber *duration;
+@property (nonatomic, strong, nullable) NSNumber *duration;
 
-- (instancetype)initWithID:(NSString *)id typeDescriptor:(NSString *)typeDescriptor duration:(NSNumber *)duration;
+- (instancetype)initWithID:(NSString *)id typeDescriptor:(NSString *)typeDescriptor duration:(nullable NSNumber *)duration;
 
+NS_ASSUME_NONNULL_END
 @end

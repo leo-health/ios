@@ -11,30 +11,29 @@
 
 @class ConversationParticipant, Message;
 
-@interface Conversation : NSManagedObject
+typedef enum ConversationState {
+    ConversationStateInitialize,
+    ConversationStateNewMessage,
+    ConversationStateReplied,
+} ConversationState;
 
-@property (nonatomic, retain) NSNumber * archived;
-@property (nonatomic, retain) NSDate * archivedAt;
-@property (nonatomic, retain) NSString * archivedByID;
-@property (nonatomic, retain) NSString * conversationID;
-@property (nonatomic, retain) NSDate * createdAt;
-@property (nonatomic, retain) NSString * familyID;
-@property (nonatomic, retain) NSDate * lastMessageCreated;
-@property (nonatomic, retain) NSDate * updatedAt;
-@property (nonatomic, retain) NSSet *messages;
-@property (nonatomic, retain) NSSet *participants;
-@end
+@interface Conversation : NSObject
+NS_ASSUME_NONNULL_BEGIN
 
-@interface Conversation (CoreDataGeneratedAccessors)
+@property (nonatomic, strong, nullable) NSNumber * archived;
+@property (nonatomic, strong, nullable) NSDate * archivedAt;
+@property (nonatomic, copy, nullable) NSString * archivedByID;
+@property (nonatomic, copy) NSString * conversationID;
+@property (nonatomic, strong) NSDate * createdAt;
+@property (nonatomic, copy) NSString * familyID;
+@property (nonatomic, strong, nullable) NSDate * lastMessageCreated;
+@property (nonatomic, strong) NSDate * updatedAt;
+@property (nonatomic, strong) NSArray *messages;
+@property (nonatomic, strong) NSArray *participants;
 
-- (void)addMessagesObject:(Message *)value;
-- (void)removeMessagesObject:(Message *)value;
-- (void)addMessages:(NSSet *)values;
-- (void)removeMessages:(NSSet *)values;
+- (instancetype)initWithFamilyID:(NSString *)familyID conversationID:(NSString *)conversationID;
+- (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse;
 
-- (void)addParticipantsObject:(ConversationParticipant *)value;
-- (void)removeParticipantsObject:(ConversationParticipant *)value;
-- (void)addParticipants:(NSSet *)values;
-- (void)removeParticipants:(NSSet *)values;
 
+NS_ASSUME_NONNULL_END
 @end

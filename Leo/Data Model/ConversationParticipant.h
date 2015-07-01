@@ -12,17 +12,12 @@
 @class Conversation, User;
 
 @interface ConversationParticipant : NSManagedObject
+NS_ASSUME_NONNULL_BEGIN
 
-@property (nonatomic, retain) NSNumber * participantRole;
-@property (nonatomic, retain) NSSet *conversations;
-@property (nonatomic, retain) User *participant;
-@end
+@property (nonatomic, strong) NSNumber * participantRole;
+@property (nonatomic, strong) Conversation *conversation;
+@property (nonatomic, strong) User *participant;
 
-@interface ConversationParticipant (CoreDataGeneratedAccessors)
 
-- (void)addConversationsObject:(Conversation *)value;
-- (void)removeConversationsObject:(Conversation *)value;
-- (void)addConversations:(NSSet *)values;
-- (void)removeConversations:(NSSet *)values;
-
+NS_ASSUME_NONNULL_END
 @end

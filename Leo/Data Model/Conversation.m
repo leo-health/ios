@@ -13,15 +13,24 @@
 
 @implementation Conversation
 
-@dynamic archived;
-@dynamic archivedAt;
-@dynamic archivedByID;
-@dynamic conversationID;
-@dynamic createdAt;
-@dynamic familyID;
-@dynamic lastMessageCreated;
-@dynamic updatedAt;
-@dynamic messages;
-@dynamic participants;
+- (instancetype)initWithFamilyID:(NSString *)familyID conversationID:(nullable NSString *)conversationID {
+
+    self = [super init];
+    
+    if (self) {
+        _familyID = familyID;
+        _conversationID = conversationID;
+    }
+    
+    return self;
+}
+
+- (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
+
+    NSString *familyID = jsonResponse[APIParamUserFamilyID];
+    NSString *conversationID = jsonResponse[APIParamConversationID];
+    
+    return [self initWithFamilyID:familyID conversationID:conversationID];
+}
 
 @end

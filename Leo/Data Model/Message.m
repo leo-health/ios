@@ -8,19 +8,28 @@
 
 #import "Message.h"
 #import "Conversation.h"
-
+#import "LEOConstants.h"
 
 @implementation Message
 
-@dynamic body;
-@dynamic createdAt;
-@dynamic escalatedAt;
-@dynamic messageID;
-@dynamic messageType;
-@dynamic resolvedApprovedAt;
-@dynamic resolvedRequestAt;
-@dynamic senderID;
-@dynamic updatedAt;
-@dynamic conversation;
+- (instancetype)initWithBody:(NSString *)body senderID:(NSString *)senderID {
+
+    self = [super init];
+    
+    if (self) {
+        _body = body;
+        _senderID = senderID;
+    }
+    
+    return self;
+}
+
+- (instancetype)initWithJSONDictionary:(nonnull NSDictionary *)jsonResponse {
+
+    NSString *body = jsonResponse[APIParamMessageBody];
+    NSString *senderID = jsonResponse[APIParamMessageSenderID];
+    
+    return [self initWithBody:body senderID:senderID];
+}
 
 @end

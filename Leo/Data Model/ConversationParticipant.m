@@ -13,8 +13,5 @@
 
 @implementation ConversationParticipant
 
-@dynamic participantRole;
-@dynamic conversations;
-@dynamic participant;
 
 @end

@@ -11,17 +11,20 @@
 
 @class Conversation;
 
-@interface Message : NSManagedObject
+@interface Message : NSObject
 
-@property (nonatomic, retain) NSString * body;
-@property (nonatomic, retain) NSDate * createdAt;
-@property (nonatomic, retain) NSDate * escalatedAt;
-@property (nonatomic, retain) NSString * messageID;
-@property (nonatomic, retain) NSNumber * messageType;
-@property (nonatomic, retain) NSDate * resolvedApprovedAt;
-@property (nonatomic, retain) NSDate * resolvedRequestAt;
-@property (nonatomic, retain) NSString * senderID;
-@property (nonatomic, retain) NSDate * updatedAt;
-@property (nonatomic, retain) Conversation *conversation;
+@property (nonatomic, copy) NSString * body;
+@property (nonatomic, strong) NSDate * createdAt;
+@property (nonatomic, strong) NSDate * escalatedAt;
+@property (nonatomic, copy) NSString * messageID;
+@property (nonatomic, strong) NSNumber * messageType;
+@property (nonatomic, strong) NSDate * resolvedApprovedAt;
+@property (nonatomic, strong) NSDate * resolvedRequestAt;
+@property (nonatomic, copy) NSString * senderID;
+@property (nonatomic, strong) NSDate * updatedAt;
+@property (nonatomic, strong) Conversation *conversation;
+
+- (instancetype)initWithBody:(NSString *)body senderID:(NSString *)senderID;
+- (instancetype)initWithJSONDictionary:(nonnull NSDictionary *)jsonResponse;
 
 @end

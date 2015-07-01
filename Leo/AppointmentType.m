@@ -10,7 +10,7 @@
 
 @implementation AppointmentType
 
-- (instancetype)initWithID:(NSString *)id typeDescriptor:(NSString *)typeDescriptor duration:(NSNumber *)duration {
+- (instancetype)initWithID:(NSString *)id typeDescriptor:(NSString *)typeDescriptor duration:(nullable NSNumber *)duration {
     self = [super init];
     if (self) {
         _id = id;
