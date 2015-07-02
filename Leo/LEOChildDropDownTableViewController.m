@@ -9,8 +9,7 @@
 #import "LEOChildDropDownTableViewController.h"
 #import "LEOChildCell+ConfigureForCell.h"
 #import "Appointment.h"
-#import "User.h"
-
+#import "Patient.h"
 @interface LEOChildDropDownTableViewController ()
 
 

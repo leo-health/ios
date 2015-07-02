@@ -7,10 +7,12 @@
 //
 
 #import "AppointmentType.h"
+#import "LEOConstants.h"
 
 @implementation AppointmentType
 
 - (instancetype)initWithID:(NSString *)id typeDescriptor:(NSString *)typeDescriptor duration:(nullable NSNumber *)duration {
+    
     self = [super init];
     if (self) {
         _id = id;
@@ -18,5 +20,15 @@
         _duration = duration;
     }
     return self;
+    
+}
+
+- (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
+    
+    NSString *id = jsonResponse[APIParamID];
+    NSString *typeDescriptor = jsonResponse[APIParamApptType];
+    //TODO: Decide whether to add duration here.
+    
+    return [self initWithID:id typeDescriptor:typeDescriptor duration:nil];
 }
 @end

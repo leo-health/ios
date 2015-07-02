@@ -14,7 +14,7 @@
 @class Conversation;
 @class Message;
 
-@interface LEOCoreDataManager : NSObject
+@interface LEODataManager : NSObject
 NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, readonly) NSManagedObjectContext *managedObjectContext;
@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) NSArray *users;
 
-- (void)fetchDataWithCompletion:(void (^) (void))completionBlock;
+- (void)fetchCardsWithCompletion:(void (^) (void))completionBlock;
 - (NSArray *)availableTimesForDate:(NSDate*)date;
 
 + (instancetype)sharedManager;

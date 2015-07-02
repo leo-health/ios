@@ -6,14 +6,15 @@
 //
 //
 
-#import "LEOCoreDataManager.h"
+#import "LEODataManager.h"
 #import "LEOAPIClient.h"
 #import "LEOConstants.h"
 #import "Appointment.h"
 #import "Conversation.h"
 #import "Message.h"
-#import "Role+Methods.h"
-#import "User+Methods.h"
+#import "Provider.h"
+#import "Patient.h"
+#import "Caretaker.h"
 #import "LEOCardScheduling.h"
 #import "UIColor+LeoColors.h"
 #import "UIImage+Extensions.h"
@@ -21,7 +22,7 @@
 #import "AppointmentType.h"
 #import "NSDate+Extensions.h"
 
-@interface LEOCoreDataManager()
+@interface LEODataManager()
 
 @property (nonatomic, readwrite) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, readwrite) NSPersistentStoreCoordinator *persistentStoreCoordinator;
@@ -30,11 +31,11 @@
 
 @end
 
-@implementation LEOCoreDataManager
+@implementation LEODataManager
 
 + (instancetype)sharedManager {
     
-    static LEOCoreDataManager *sharedManager = nil;
+    static LEODataManager *sharedManager = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharedManager = [[self alloc] init];
@@ -57,8 +58,7 @@
     userParams[APIParamUserPassword] = password;
     [LEOApiClient createUserWithParameters:userParams withCompletion:^(NSDictionary *rawResults) {
         NSDictionary *userDictionary = rawResults[@"data"][@"user"]; //TODO: Make sure I want this here and not defined somewhere else.
-        user.id = userDictionary[APIParamUserID];
-        user.familyID = userDictionary[APIParamUserFamilyID];
+        user.id = userDictionary[APIParamID];
         completionBlock(rawResults);
     }];
 }
@@ -85,8 +85,8 @@
 
 - (void)createAppointmentWithAppointment:(nonnull Appointment *)appointment withCompletion:(void (^)(NSDictionary  * __nonnull rawResults))completionBlock {
     
-    NSArray *apptProperties = @[[self userToken], appointment.patient.id, appointment.date, appointment.duration, appointment.provider.id, appointment.practiceID];
-    NSArray *apptKeys = @[APIParamApptToken, APIParamPatientID, APIParamApptDate, APIParamApptDuration, APIParamProviderID, APIParamPracticeID];
+    NSArray *apptProperties = @[[self userToken], appointment.patient.id, appointment.date, appointment.provider.id];
+    NSArray *apptKeys = @[APIParamApptToken, APIParamPatientID, APIParamApptDate, APIParamProviderID];
     
     NSDictionary *apptParams = [[NSDictionary alloc] initWithObjects:apptProperties forKeys:apptKeys];
     
@@ -125,14 +125,14 @@
 
 - (void)createMessage:(Message *)message forConversation:(nonnull Conversation *)conversation withCompletion:(nonnull void (^)(NSDictionary  * __nonnull rawResults))completionBlock {
     
-    [conversation addMessagesObject:message];
+    [conversation addMessage:message];
     
-    NSArray *messageProperties = @[self.userToken, message.body, message.senderID];
+    NSArray *messageProperties = @[self.userToken, message.body, message.sender.id];
     NSArray *messageKeys = @[APIParamApptToken, APIParamMessageBody, APIParamMessageSenderID];
     
     NSDictionary *messageParams = [[NSDictionary alloc] initWithObjects:messageProperties forKeys:messageKeys];
     
-    [LEOApiClient createMessageForConversation:conversation.conversationID withParameters:messageParams withCompletion:^(NSDictionary * __nonnull rawResults) {
+    [LEOApiClient createMessageForConversation:conversation.id withParameters:messageParams withCompletion:^(NSDictionary * __nonnull rawResults) {
         //TODO: Error terms
         completionBlock(rawResults);
     }];
@@ -145,7 +145,7 @@
     
     NSDictionary *messageParams = [[NSDictionary alloc] initWithObjects:messageProperties forKeys:messageKeys];
     
-    [LEOApiClient getMessagesForConversation:conversation.conversationID withParameters:messageParams withCompletion:^(NSDictionary * __nonnull rawResults) {
+    [LEOApiClient getMessagesForConversation:conversation.id withParameters:messageParams withCompletion:^(NSDictionary * __nonnull rawResults) {
         //TODO: Error terms
         completionBlock(rawResults);
     }];
@@ -211,34 +211,13 @@
 
 #pragma mark - Fetching
 
-- (void)fetchDataWithCompletion:(void (^) (void))completionBlock {
+- (void)fetchCardsWithCompletion:(void (^) (void))completionBlock {
     
-    //FIXME: Shouldn't really be pulling users for cards, but it works as a placeholder anyway.
-    //NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"User"];
-    //self.cards = [[NSArray alloc] init];
-    //NSArray *users = [self.managedObjectContext executeFetchRequest:request error:nil];
+    Caretaker *mom = [[Caretaker alloc] initWithID:@"1" Title:@"Mrs." firstName:@"Marilyn" middleInitial:nil lastName:@"Drossman" suffix:nil email:@"marilyn@leohealth.com" photoURL:nil photo:nil primary:YES relationship:@"mother"];
     
-    Role *doctorRole = [Role insertEntityWithName:@"doctor" resourceID:@"2" resourceType:@1 managedObjectContext:self.managedObjectContext];
+    Appointment *appointment = [[Appointment alloc] initWithID:@"5" date:nil appointmentType:[self fetchAppointmentTypes][1] patient:[self fetchChildren][0] provider:[self fetchDoctors][0] bookedByUser:mom state:@(AppointmentStateRecommending)];
     
-    User *doctorUser = [User insertEntityWithFirstName:@"Om" lastName:@"Lala" dob:[NSDate date] email:@"om10@leohealth.com" role:doctorRole familyID:nil
-                                  managedObjectContext:self.managedObjectContext];
-    
-    doctorUser.credentialSuffix = @"MD";
-    doctorUser.title = @"Dr.";
-    doctorUser.id = @"1";
-    
-    Role *parentRole = [Role insertEntityWithName:@"parent" resourceID:@"1" resourceType:@1 managedObjectContext:self.managedObjectContext];
-    NSDate *nowDate = [NSDate date];
-    
-    User *parentUser = [User insertEntityWithFirstName:@"Marilyn" lastName:@"Drossman" dob:nowDate email:@"md10@leohealth.com" role:parentRole familyID:nil managedObjectContext: self.managedObjectContext];
-    parentUser.title = @"Mrs.";
-    parentUser.practiceID = @"1";
-    parentUser.middleInitial = @"";
-    parentUser.gender = @"female";
-    
-    Appointment *appointment = [Appointment insertEntityWithDate:nil appointmentType:[self fetchAppointmentTypes][1] patient:[self fetchChildren][0] provider:doctorUser familyID:@"62" bookedByUser:parentUser state:@(AppointmentStateRecommending) managedObjectContext:self.managedObjectContext];
-    
-    LEOCardScheduling *cardOne = [[LEOCardScheduling alloc] initWithID:@2 state:AppointmentStateRecommending priority:@1 associatedCardObject:appointment];
+    LEOCardScheduling *cardOne = [[LEOCardScheduling alloc] initWithID:@2 priority:@1 associatedCardObject:appointment];
     
     //LEOCollapsedCard *cardTwo = [[LEOCollapsedCard alloc] initWithID:@2 state:CardStateNew title:@"Schedule Rachel's First Visit" body:@"Take a tour of the practice and meet with our world class physicians." primaryUser:childUserTwo secondaryUser:doctorUser timestamp:[NSDate date] priority:@2 activity:CardActivityAppointment];
     //
@@ -293,51 +272,25 @@
 
 - (NSArray *)fetchChildren {
     
-    Role *childRole = [Role insertEntityWithName:@"child" resourceID:@"2" resourceType:@2 managedObjectContext:self.managedObjectContext];
+    Patient *patient1 = [[Patient alloc] initWithID:@"1" title:nil firstName:@"Zachary" middleInitial:@"S" lastName:@"Drossman" suffix:nil email:@"zach@leohealth.com" photoURL:nil photo:[UIImage imageNamed:@"Avatar-Hayden"] dob:[NSDate dateWithYear:2008 month:1 day:12] gender:@"male" status:@"active"];
     
-    User *childUserOne = [User insertEntityWithFirstName:@"Zachary" lastName:@"Drossman" dob:[NSDate date] email:@"zd9@leohealth.com" role:childRole
-                                                familyID:[@([self.currentUser.familyID integerValue] + 1) stringValue]
-                                    managedObjectContext:self.managedObjectContext];
-    childUserOne.id = @"1";
+    Patient *patient2 = [[Patient alloc] initWithID:@"2" title:nil firstName:@"Rachel" middleInitial:nil lastName:@"Drossman" suffix:@"Jr" email:@"rachel@leohealth.com" photoURL:nil photo:[UIImage imageNamed:@"Avatar-Hayden"] dob:[NSDate dateWithYear:2009 month:6 day:1] gender:@"female" status:@"active"];
     
-    User *childUserTwo = [User insertEntityWithFirstName:@"Rachel" lastName:@"Drossman" dob:[NSDate date] email:@"rd9@leohealth.com" role:childRole
-                                                familyID:[@([self.currentUser.familyID integerValue] + 1) stringValue]
-                                    managedObjectContext:self.managedObjectContext];
+    Patient *patient3 = [[Patient alloc] initWithID:@"3" title:nil firstName:@"Tracy" middleInitial:nil lastName:@"Drossman" suffix:nil email:nil photoURL:nil photo:[UIImage imageNamed:@"Avatar-Emily@1x"] dob:[NSDate dateWithYear:2014 month:10 day:10] gender:@"female" status:@"active"];
+                         
     
-    childUserTwo.id = @"2";
-    User *childUserThree = [User insertEntityWithFirstName:@"Tracy" lastName:@"Drossman" dob:[NSDate date] email:@"td9@leohealth.com" role:childRole
-                                                  familyID:[@([self.currentUser.familyID integerValue] + 1) stringValue]
-                                      managedObjectContext:self.managedObjectContext];
-    childUserThree.id = @"3";
-    return @[childUserOne, childUserTwo];
+    return @[patient1, patient2, patient3];
 }
 
 - (NSArray *)fetchDoctors {
     
-    Role *doctorRole = [Role insertEntityWithName:@"doctor" resourceID:@"2" resourceType:@1 managedObjectContext:self.managedObjectContext];
+    Provider *provider1 = [[Provider alloc] initWithID:@"1" title:@"Dr." firstName:@"Om" middleInitial:nil lastName:@"Lala" suffix:nil email:@"om@leohealth.com" photoURL:nil photo:[UIImage imageNamed:@"Avatar-Hayden"] credentialSuffix:@"MD" specialty:@"na"];
     
-    User *doctorOne = [User insertEntityWithFirstName:@"Om" lastName:@"Lala" dob:[NSDate date] email:@"om10@leohealth.com" role:doctorRole familyID:nil
-                                 managedObjectContext:self.managedObjectContext];
+    Provider *provider2 = [[Provider alloc] initWithID:@"2" title:@"Dr." firstName:@"Summer" middleInitial:@"R" lastName:@"Cece" suffix:@"Sr." email:@"summer@leohealth.com" photoURL:nil photo:[UIImage imageNamed:@"Avatar-Hayden"] credentialSuffix:@"MD" specialty:@"na"];
     
-    doctorOne.credentialSuffix = @"MD";
-    doctorOne.title = @"Dr.";
-    doctorOne.id = @"1";
+    Provider *provider3 = [[Provider alloc] initWithID:@"3" title:@"Dr." firstName:@"Cristina" middleInitial:@"M." lastName:@"Montagne" suffix:nil email:@"cristina@leohealth.com" photoURL:nil photo:[UIImage imageNamed:@"Avatar-Hayden"] credentialSuffix:@"MD" specialty:@"na"];
     
-    User *doctorTwo = [User insertEntityWithFirstName:@"Summer" lastName:@"Cece" dob:[NSDate date] email:@"summer10@leohealth.com" role:doctorRole familyID:nil
-                                 managedObjectContext:self.managedObjectContext];
-    
-    doctorTwo.credentialSuffix = @"MD";
-    doctorTwo.title = @"Dr.";
-    doctorTwo.id = @"2";
-    
-    User *doctorThree = [User insertEntityWithFirstName:@"Cristina" lastName:@"Montagne" dob:[NSDate date] email:@"cristina10@leohealth.com" role:doctorRole familyID:nil
-                                   managedObjectContext:self.managedObjectContext];
-    
-    doctorThree.credentialSuffix = @"MD";
-    doctorThree.title = @"Dr.";
-    doctorThree.id = @"3";
-    
-    return @[doctorOne, doctorTwo, doctorThree];
+    return @[provider1, provider2, provider3];
 }
 
 - (NSArray *)fetchAppointmentTypes {

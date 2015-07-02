@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
+@class Patient;
+@class Provider;
 @class User;
 
 typedef enum AppointmentState : NSUInteger {
@@ -22,22 +24,19 @@ typedef enum AppointmentState : NSUInteger {
 @interface Appointment : NSObject
 NS_ASSUME_NONNULL_BEGIN
 
-@property (nonatomic, strong, nullable) NSDate *createdAt;
 @property (nonatomic, strong, nullable) NSDate *date;
-@property (nonatomic, copy) NSString *familyID;
 @property (nonatomic, copy, nullable) NSString *id;
 @property (nonatomic, strong) id leoAppointmentType;
-@property (nonatomic, copy) NSString *practiceID;
-@property (nonatomic, copy, nullable) NSString *rescheduledAppointmentID;
 @property (nonatomic, strong) NSNumber *state;
-@property (nonatomic, strong, nullable) NSDate *updatedAt;
 @property (nonatomic, strong) User *bookedByUser;
-@property (nonatomic, strong) User *patient;
-@property (nonatomic, strong) User *provider;
+@property (nonatomic, strong) Patient *patient;
+@property (nonatomic, strong) Provider *provider;
 
--(instancetype)initWithDate:(nullable NSDate *)date appointmentType:(NSNumber *)leoAppointmentType patient:(User *)patient provider:(User *)provider familyID:(NSString *)familyID bookedByUser:(User *)bookedByUser state:(NSNumber *)state;
+-(instancetype)initWithID:(nullable NSString *)id date:(nullable NSDate *)date appointmentType:(NSNumber *)leoAppointmentType patient:(Patient *)patient provider:(Provider *)provider bookedByUser:(User *)bookedByUser state:(NSNumber *)state;
 
 - (instancetype)initWithJSONDictionary:(nonnull NSDictionary *)jsonResponse;
+
++ (NSDictionary *)dictionaryFromAppointment:(Appointment *)appointment;
 
 - (AppointmentState)appointmentState;
 

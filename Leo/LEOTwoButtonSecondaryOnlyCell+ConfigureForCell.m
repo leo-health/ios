@@ -19,7 +19,7 @@
     self.iconImageView.image = [card icon];
     self.titleLabel.text = [card title];
     
-    self.secondaryUserView.user = card.secondaryUser;
+    self.secondaryUserView.provider = (Provider *)card.secondaryUser;
     self.secondaryUserView.timeStamp = card.timestamp;
     self.secondaryUserView.tintColor = card.tintColor;
     self.secondaryUserView.cardLayout = CardLayoutTwoButtonSecondaryOnly;

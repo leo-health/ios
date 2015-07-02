@@ -10,6 +10,7 @@
 #import <NSDate+DateTools.h>
 #import "LEOAppointmentSchedulingCardVC.h"
 #import "UIColor+LeoColors.h"
+#import "Patient.h"
 
 @interface LEOCardScheduling ()
 
@@ -255,7 +256,7 @@ static NSString *kActionSelectorBook = @"book";
     return self.appointment.patient;
 }
 
--(nonnull User *)secondaryUser {
+-(nonnull Provider *)secondaryUser {
     
     return self.appointment.provider;
 }

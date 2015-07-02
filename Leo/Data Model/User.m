@@ -8,24 +8,24 @@
 
 #import "User.h"
 #import "Appointment.h"
-#import "ConversationParticipant.h"
-#import "Role.h"
 #import "LEOConstants.h"
 
 
 @implementation User
 
-- (instancetype)initWithFirstName:(NSString *)firstName lastName:(NSString *)lastName dob:(nullable NSDate *)dob email:(nullable NSString*)email role:(Role *)role familyID:(nullable NSString *)familyID {
-    
+- (instancetype)initWithID:(nullable NSString*)id title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email photoURL:(NSURL *)photoURL photo:(nullable UIImage *)photo {
+
     self = [super init];
     
     if (self) {
+        _title = title;
         _firstName = firstName;
+        _middleInitial = middleInitial;
         _lastName = lastName;
-        _dob  = dob;
+        _suffix = suffix;
         _email = email;
-        _role = role;
-        _familyID = familyID;
+        _photoURL = photoURL;
+        _photo = photo;
     }
     
     return self;
@@ -35,44 +35,41 @@
 
     NSString *firstName = jsonResponse[APIParamUserFirstName];
     NSString *lastName = jsonResponse[APIParamUserLastName];
-    NSDate *dob = jsonResponse[APIParamUserDOB];
+    NSString *middleInitial = jsonResponse[APIParamUserMiddleInitial];
+    NSString *title = jsonResponse[APIParamUserTitle];
+    NSString *suffix = jsonResponse[APIParamUserSuffix];
+    NSString *id = jsonResponse[APIParamID];
     NSString *email = jsonResponse[APIParamUserEmail];
-    Role *role = jsonResponse[APIParamUserRole];
-    NSString *familyID = jsonResponse[APIParamUserFamilyID];
+    NSURL *photoURL = [NSURL URLWithString:jsonResponse[APIParamUserPhotoURL]];
+    UIImage *photo = [UIImage imageWithData:[NSData dataWithContentsOfURL:photoURL]];
     
-    return [self initWithFirstName:firstName lastName:lastName dob:dob email:email role:role familyID:familyID];
+    //TODO: May need to protect against nil values...
+    return [self initWithID:id title:title firstName:firstName middleInitial:middleInitial lastName:lastName suffix:suffix email:email photoURL:photoURL photo:photo];
 }
 
-- (NSDictionary *)dictionaryFromUser:(User*)user {
++ (NSDictionary *)dictionaryFromUser:(User *)user {
 
     NSMutableDictionary *userDictionary = [[NSMutableDictionary alloc] init];
     
     //TODO: Remove the ternary operators for variables that MUST be there!
     userDictionary[APIParamUserTitle] = user.title ? user.title : [NSNull null];
-    userDictionary[APIParamUserFirstName] = user.firstName ? user.firstName : [NSNull null]; //req?
+    userDictionary[APIParamUserFirstName] = user.firstName;
     userDictionary[APIParamUserMiddleInitial] = user.middleInitial ? user.middleInitial : [NSNull null];
-    userDictionary[APIParamUserLastName] = user.lastName ? user.lastName : [NSNull null]; //req?
-    userDictionary[APIParamUserDOB] = user.dob ? user.dob : [NSNull null]; //req?
+    userDictionary[APIParamUserLastName] = user.lastName;
+    userDictionary[APIParamUserSuffix] = user.suffix ? user.suffix : [NSNull null];
+    userDictionary[APIParamID] = user.id;
     userDictionary[APIParamUserEmail] = user.email ? user.email : [NSNull null];
-    userDictionary[APIParamUserGender] = user.gender ? user.gender : [NSNull null];
-    userDictionary[APIParamUserPractice] = user.practiceID ? user.practiceID : [NSNull null];
-    
-    userDictionary[APIParamUserFamilyID] = user.familyID ? user.familyID : [NSNull null];
-    userDictionary[APIParamUserID] = user.id ? user.id : [NSNull null];
-    
-    //FIXME: This will not work because it should be the roleID not a pointer to a role.
-    userDictionary[APIParamUserRole] = user.role ? user.role : [NSNull null];
     
     return userDictionary;
 }
 
-
--(NSString *)usernameFromID:(NSString *)id {
-    return nil;
-}
-
--(NSString *)userroleFromID:(NSString *)id {
-    return nil;
++ (NSDictionary *)dictionaryFromUserWithPhoto:(User *)user {
+    
+    NSMutableDictionary *userDictionary = [[User dictionaryFromUser:user] mutableCopy];
+    
+    userDictionary[APIParamUserPhoto] = user.photo ? user.photo : [NSNull null];
+    
+    return userDictionary;
 }
 
 

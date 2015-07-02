@@ -10,6 +10,7 @@
 #import <CoreData/CoreData.h>
 
 @class ConversationParticipant, Message;
+@class Family;
 
 typedef enum ConversationState {
     ConversationStateInitialize,
@@ -20,20 +21,23 @@ typedef enum ConversationState {
 @interface Conversation : NSObject
 NS_ASSUME_NONNULL_BEGIN
 
-@property (nonatomic, strong, nullable) NSNumber * archived;
-@property (nonatomic, strong, nullable) NSDate * archivedAt;
-@property (nonatomic, copy, nullable) NSString * archivedByID;
-@property (nonatomic, copy) NSString * conversationID;
-@property (nonatomic, strong) NSDate * createdAt;
-@property (nonatomic, copy) NSString * familyID;
-@property (nonatomic, strong, nullable) NSDate * lastMessageCreated;
-@property (nonatomic, strong) NSDate * updatedAt;
+@property (nonatomic, copy) NSString * id;
 @property (nonatomic, strong) NSArray *messages;
 @property (nonatomic, strong) NSArray *participants;
 
-- (instancetype)initWithFamilyID:(NSString *)familyID conversationID:(NSString *)conversationID;
+@property (nonatomic, strong, nullable) NSDate * lastMessageCreated;
+
+@property (nonatomic, strong, nullable) NSNumber * archived;
+@property (nonatomic, strong, nullable) NSDate * archivedAt;
+@property (nonatomic, copy, nullable) NSString * archivedByID;
+
+- (instancetype)initWithID:(NSString *)id messages:(NSArray *)messages participants:(NSArray *)participants;
+
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse;
 
++ (NSDictionary *)dictionaryFromConversation:(Conversation *)coversation;
+
+- (void)addMessage:(Message *)message;
 
 NS_ASSUME_NONNULL_END
 @end

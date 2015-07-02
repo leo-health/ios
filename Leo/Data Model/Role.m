@@ -27,20 +27,12 @@
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
     
-    NSMutableDictionary *roleDictionary = [[NSMutableDictionary alloc] init];
+    NSString *resourceName = jsonResponse[APIParamResourceName];
+    NSNumber *resourceType = jsonResponse[APIParamResourceType];
+    NSString *resourceID = jsonResponse[APIParamResourceID];
     
-    roleDictionary[APIParam] = jsonResponse[;
-    userDictionary[APIParamUserPractice] = user.practiceID ? user.practiceID : [NSNull null];
-    
-    userDictionary[APIParamUserFamilyID] = user.familyID ? user.familyID : [NSNull null];
-    userDictionary[APIParamUserID] = user.id ? user.id : [NSNull null];
-    
-    //FIXME: This will not work because it should be the roleID not a pointer to a role.
-    userDictionary[APIParamUserRole] = user.role ? user.role : [NSNull null];
-    
-    return userDictionary;
-
-    
+    //TODO: May need to protect against nil values...
+    return [self initWithName:resourceName resourceID:resourceID resourceType:resourceType];
 }
 
 - (RoleType)roleType {

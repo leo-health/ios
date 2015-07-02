@@ -8,7 +8,7 @@
 
 #import "LEOSecondaryUserView.h"
 #import <NSDate+DateTools.h>
-#import "User.h"
+#import "Provider.h"
 #import "UIColor+LeoColors.h"
 #import "UIFont+LeoFonts.h"
 #import "LEOConstants.h"
@@ -50,9 +50,9 @@
 
 - (void)setupSubviews {
     
-    self.nameLabel.text = [NSString stringWithFormat:@"%@ %@ %@",self.user.title, self.user.firstName, self.user.lastName]; //FIXME: Replace with transient property on User class
-    self.suffixLabel.text = self.user.suffix;
-    self.suffixCredentialLabel.text = self.user.credentialSuffix;
+    self.nameLabel.text = [NSString stringWithFormat:@"%@ %@ %@",self.provider.title, self.provider.firstName, self.provider.lastName]; //FIXME: Replace with transient property on User class
+    self.suffixLabel.text = self.provider.suffix;
+    self.suffixCredentialLabel.text = self.provider.credential;
     self.dividerLabel.text = @"∙";
     
     if (self.cardLayout == CardLayoutOneButtonSecondaryOnly) {
@@ -69,13 +69,13 @@
     [self typefaceView];
 }
 
-- (nonnull instancetype)initWithCardLayout:(CardLayout)cardLayout user:(nonnull User *)user timestamp:(nonnull NSDate *)timestamp {
+- (nonnull instancetype)initWithCardLayout:(CardLayout)cardLayout user:(nonnull Provider *)provider timestamp:(nonnull NSDate *)timestamp {
     
     self = [super init];
     if (self) {
         
         _cardLayout = cardLayout;
-        _user = user;
+        _provider = provider;
         _timeStamp = timestamp;
         
     }

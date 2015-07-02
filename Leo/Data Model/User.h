@@ -14,31 +14,21 @@
 @interface User : NSObject
 NS_ASSUME_NONNULL_BEGIN
 
-@property (nonatomic, strong, nullable) NSDate * createdAt;
-@property (nonatomic, strong, nullable) NSString * credentialSuffix;
-@property (nonatomic, strong, nullable) NSDate * dob;
-@property (nonatomic, strong, nullable) NSString * email;
-@property (nonatomic, strong, nullable) NSString * familyID;
-@property (nonatomic, strong) NSString * firstName;
-@property (nonatomic, strong) NSString * gender;
-@property (nonatomic, strong, nullable) NSString * id;
-@property (nonatomic, strong) NSString * lastName;
-@property (nonatomic, strong) NSString * middleInitial;
-@property (nonatomic, strong, nullable) NSString * practiceID;
-@property (nonatomic, strong, nullable) NSString * suffix;
-@property (nonatomic, strong, nullable) NSString * title;
-@property (nonatomic, strong, nullable) NSDate * updatedAt;
-@property (nonatomic, strong, nullable) NSArray *appointments;
-@property (nonatomic, strong) Role *role;
+@property (nonatomic, copy, nullable) NSString * id;
+@property (nonatomic, copy) NSString * firstName;
+@property (nonatomic, copy) NSString * lastName;
+@property (nonatomic, copy) NSString * middleInitial;
+@property (nonatomic, copy, nullable) NSString * suffix;
+@property (nonatomic, copy, nullable) NSString * title;
+@property (nonatomic, copy, nullable) NSString *email;
+@property (nonatomic, copy, nullable) NSURL *photoURL;
+@property (nonatomic, strong, nullable) UIImage *photo;
 
-- (instancetype)initWithFirstName:(NSString *)firstName lastName:(NSString *)lastName dob:(nullable NSDate *)dob email:(nullable NSString*)email role:(Role *)role familyID:(nullable NSString *)familyID;
+- (instancetype)initWithID:(nullable NSString*)id title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email photoURL:(nullable NSURL *)photoURL photo:(nullable UIImage *)photo NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse;
 
-- (NSDictionary *)dictionaryFromUser:(User*)user;
-
--(nullable NSString *)usernameFromID:(NSString *)id;
--(nullable NSString *)userroleFromID:(NSString *)id;
++ (NSDictionary *)dictionaryFromUser:(User*)user;
 
 NS_ASSUME_NONNULL_END
 @end

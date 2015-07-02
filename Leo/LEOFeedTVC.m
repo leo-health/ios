@@ -18,13 +18,13 @@
 
 #import "LEOConstants.h"
 #import "LEOApiClient.h"
-#import "LEOCoreDataManager.h"
+#import "LEODataManager.h"
 
-#import "User+Methods.h"
-#import "Role+Methods.h"
-#import "Appointment+Methods.h"
-#import "Conversation+Methods.h"
-#import "Message+Methods.h"
+#import "User.h"
+#import "Role.h"
+#import "Appointment.h"
+#import "Conversation.h"
+#import "Message.h"
 
 #import "UIColor+LeoColors.h"
 #import "UIImage+Extensions.h"
@@ -45,7 +45,7 @@
 
 @interface LEOFeedTVC ()
 
-@property (strong, nonatomic) LEOCoreDataManager *coreDataManager;
+@property (strong, nonatomic) LEODataManager *coreDataManager;
 @property (nonatomic, strong) ArrayDataSource *cardsArrayDataSource;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) LEOTransitioningDelegate *transitionDelegate;
@@ -73,7 +73,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     [super viewDidLoad];
     
     //    [self testAPI]; //TODO: Remove this line once moved what is in this method to a test.
-    [self.coreDataManager fetchDataWithCompletion:^{
+    [self.coreDataManager fetchCardsWithCompletion:^{
         [self tableViewSetup];
     }];
 }
@@ -220,10 +220,10 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     }
 }
 
-- (LEOCoreDataManager *)coreDataManager {
+- (LEODataManager *)coreDataManager {
     
     if (!_coreDataManager) {
-        _coreDataManager = [LEOCoreDataManager sharedManager];
+        _coreDataManager = [LEODataManager sharedManager];
     }
     
     return _coreDataManager;

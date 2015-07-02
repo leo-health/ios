@@ -11,6 +11,7 @@
 #import "UIFont+LeoFonts.h"
 #import "UIColor+LeoColors.h"
 #import "LEOSecondaryUserView.h"
+#import "Provider.h"
 
 @implementation LEOOneButtonSecondaryOnlyCell (ConfigureForCell)
 
@@ -19,7 +20,7 @@
     self.iconImageView.image = [card icon];
     self.titleLabel.text = [card title];
     
-    self.secondaryUserView.user = card.secondaryUser;
+    self.secondaryUserView.provider = card.secondaryUser;
     self.secondaryUserView.timeStamp = card.timestamp;
     self.secondaryUserView.cardColor = card.tintColor;
     self.secondaryUserView.cardLayout = CardLayoutOneButtonSecondaryOnly;

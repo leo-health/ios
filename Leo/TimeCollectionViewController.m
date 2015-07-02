@@ -7,7 +7,7 @@
 //
 
 #import "TimeCollectionViewController.h"
-#import "LEOCoreDataManager.h"
+#import "LEODataManager.h"
 #import <NSDate+DateTools.h>
 #import "LEOTimeCell.h"
 #import "CollectionViewDataSource.h"
@@ -15,7 +15,7 @@
 
 @interface TimeCollectionViewController ()
 
-@property (strong, nonatomic) LEOCoreDataManager *coreDataManager;
+@property (strong, nonatomic) LEODataManager *coreDataManager;
 @property (strong, nonatomic) CollectionViewDataSource *dataSource;
 
 @property (strong, nonatomic) NSArray *times;
@@ -61,9 +61,9 @@ static NSString * const timeReuseIdentifier = @"TimeCell";
     NSLog(@"Selected date is  %@",selectedDate);
 }
 
--(LEOCoreDataManager *)coreDataManager {
+-(LEODataManager *)coreDataManager {
     if (!_coreDataManager) {
-            self.coreDataManager = [LEOCoreDataManager sharedManager];
+            self.coreDataManager = [LEODataManager sharedManager];
     }
     
     return _coreDataManager;

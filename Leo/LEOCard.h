@@ -10,18 +10,18 @@
 #import "User.h"
 #import "LEOConstants.h"
 #import "CardActivityProtocol.h"
+#import "Provider.h"
 
 @interface LEOCard : NSObject
 
 @property (strong, nonatomic, nonnull) NSNumber *id;
-@property (nonatomic) NSInteger state;
 @property (strong, nonatomic, nonnull) NSNumber *priority;
 
 @property (strong, nonatomic, nonnull, readonly) id associatedCardObject;
 
 @property (nonatomic, nullable) id<CardActivityProtocol> delegate;
 
-- (nonnull instancetype)initWithID:(nonnull NSNumber *)id state:(NSInteger)state priority:(nonnull NSNumber *)priority associatedCardObject:(nonnull id)associatedCardObject;
+- (nonnull instancetype)initWithID:(nonnull NSNumber *)id priority:(nonnull NSNumber *)priority associatedCardObject:(nonnull id)associatedCardObject;
 
 - (nonnull instancetype)cardWithDictionary:(nonnull NSDictionary *)jsonResponse;
 
@@ -34,7 +34,7 @@
 - (nonnull NSString *)body;
 - (CardLayout)layout;
 - (nonnull NSArray *)stringRepresentationOfActionsAvailableForState;
-- (nonnull User *)secondaryUser;
+- (nonnull Provider *)secondaryUser;
 - (nonnull User *)primaryUser;
 - (nonnull NSDate *)timestamp;
 - (nonnull NSArray *)actionsAvailableForState;

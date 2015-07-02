@@ -21,7 +21,7 @@
     
     self.primaryUserLabel.text = [card primaryUser].firstName;
 
-    self.secondaryUserView.user = card.secondaryUser;
+    self.secondaryUserView.provider = card.secondaryUser;
     self.secondaryUserView.timeStamp = card.timestamp;
     self.secondaryUserView.tintColor = card.tintColor;
     self.secondaryUserView.cardLayout = CardLayoutTwoButtonPrimaryAndSecondary;

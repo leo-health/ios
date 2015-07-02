@@ -7,7 +7,7 @@
 //
 
 #import "LEOAppointmentSchedulingCardVC.h"
-#import "LEOCoreDataManager.h"
+#import "LEODataManager.h"
 #import <NSDate+DateTools.h>
 #import "LEOTimeCell.h"
 #import "UIFont+LeoFonts.h"
@@ -55,7 +55,7 @@
 #pragma mark - Helper classes
 @property (strong, nonatomic) ArrayDataSource *arrayDataSource;
 @property (strong, nonatomic) CollectionViewDataSource *dataSource;
-@property (strong, nonatomic) LEOCoreDataManager *coreDataManager;
+@property (strong, nonatomic) LEODataManager *coreDataManager;
 @property (strong, nonatomic) PageViewDataSource *pageViewDataSource;
 
 #pragma mark - State
@@ -267,7 +267,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
 #pragma mark - Segue and segue helper methods
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
-    self.coreDataManager = [LEOCoreDataManager sharedManager];
+    self.coreDataManager = [LEODataManager sharedManager];
     
     /**
      *  Segue associated with paged TimeCollectionViewController

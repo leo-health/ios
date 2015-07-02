@@ -7,15 +7,14 @@
 //
 
 #import "Appointment.h"
-#import "User.h"
 #import "LEOConstants.h"
-#import "User+Methods.h"
-#import "Role+Methods.h"
-#import "LEOCoreDataManager.h"
+#import "User.h"
+#import "Provider.h"
+#import "Patient.h"
 
 @implementation Appointment
 
--(instancetype)initWithDate:(nullable NSDate *)date appointmentType:(NSNumber *)leoAppointmentType patient:(User *)patient provider:(User *)provider familyID:(NSString *)familyID bookedByUser:(User *)bookedByUser state:(NSNumber *)state {
+-(instancetype)initWithID:(nullable NSString *)id date:(nullable NSDate *)date appointmentType:(NSNumber *)leoAppointmentType patient:(Patient *)patient provider:(Provider *)provider bookedByUser:(User *)bookedByUser state:(NSNumber *)state {
     
     self = [super init];
     
@@ -24,9 +23,9 @@
         _leoAppointmentType = leoAppointmentType;
         _patient = patient;
         _provider = provider;
-        _familyID = familyID;
         _bookedByUser = bookedByUser;
         _state = state;
+        _id = id;
     }
     
     return self;
@@ -35,19 +34,36 @@
 - (instancetype)initWithJSONDictionary:(nonnull NSDictionary *)jsonResponse {
     
     NSDate *date = jsonResponse[APIParamApptDate];
+    Patient *patient = jsonResponse[APIParamPatient];
+    Provider *provider = jsonResponse[APIParamProvider];
+    User *bookedByUser = jsonResponse[APIParamBookedByUser];
+    
+    /**
+     *  Unsure yet whether we're using an AppointmentType object for this or just a description or numeric code.
+     *  TODO: Update from id to appropriate object type when determined.
+     */
     id leoAppointmentType = jsonResponse[APIParamApptType];
-    
-    LEOCoreDataManager *coreDataManager = [LEOCoreDataManager sharedManager];
-    
-    User *patient = [coreDataManager objectWithObjectID:jsonResponse[APIParamPatientID] objectArray:coreDataManager.users];
-    User *provider = [coreDataManager objectWithObjectID:jsonResponse[APIParamProviderID] objectArray:coreDataManager.users];
-    User *bookedByUser = [coreDataManager objectWithObjectID:jsonResponse[APIParamBookedByUserID] objectArray:coreDataManager.users];
-    NSString *familyID = jsonResponse[APIParamUserFamilyID];
     NSNumber *state = jsonResponse[APIParamState];
+    NSString *id = jsonResponse[APIParamID];
     
-    return [self initWithDate:date appointmentType:leoAppointmentType patient:patient provider:provider familyID:familyID bookedByUser:bookedByUser state:state];
+    //TODO: May need to protect against nil values...
+    return [self initWithID:id date:date appointmentType:leoAppointmentType patient:patient provider:provider bookedByUser:bookedByUser state:state];
 }
 
++ (NSDictionary *)dictionaryFromAppointment:(Appointment *)appointment {
+    
+    NSMutableDictionary *appointmentDictionary = [[NSMutableDictionary alloc] init];
+    
+    appointmentDictionary[APIParamID] = appointment.id;
+    appointmentDictionary[APIParamApptDate] = appointment.date;
+    appointmentDictionary[APIParamApptType] = appointment.leoAppointmentType;
+    appointmentDictionary[APIParamState] = appointment.state;
+    appointmentDictionary[APIParamProviderID] = appointment.provider.id;
+    appointmentDictionary[APIParamPatientID] = appointment.patient.id;
+    
+    return appointmentDictionary;
+    
+}
 - (AppointmentState)appointmentState {
     return [self.state integerValue];
 }
