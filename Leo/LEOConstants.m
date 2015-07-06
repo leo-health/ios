@@ -67,6 +67,7 @@ NSString *const APIParamApptDate = @"date";
 NSString *const APIParamApptStartTime = @"start_time";
 NSString *const APIParamApptDuration = @"duration";
 NSString *const APIParamApptToken = @"auth_token"; //TODO: Can Danish change all tokens to match the same key?
+NSString *const APIParamApptNote = @"note";
 NSString *const APIParamApptType = @"leo_appointment_type";
 NSString *const APIParamBookedByUser = @"booked_by_user";
 NSString *const APIParamBookedByUserID = @"booked_by_user_id";

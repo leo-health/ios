@@ -14,7 +14,7 @@
 
 @implementation Appointment
 
--(instancetype)initWithID:(nullable NSString *)id date:(nullable NSDate *)date appointmentType:(NSNumber *)leoAppointmentType patient:(Patient *)patient provider:(Provider *)provider bookedByUser:(User *)bookedByUser state:(NSNumber *)state {
+-(instancetype)initWithID:(nullable NSString *)id date:(nullable NSDate *)date appointmentType:(NSNumber *)leoAppointmentType patient:(Patient *)patient provider:(Provider *)provider bookedByUser:(User *)bookedByUser note:(NSString *)note state:(NSNumber *)state {
     
     self = [super init];
     
@@ -26,6 +26,7 @@
         _bookedByUser = bookedByUser;
         _state = state;
         _id = id;
+        _note = note;
     }
     
     return self;
@@ -45,9 +46,10 @@
     id leoAppointmentType = jsonResponse[APIParamApptType];
     NSNumber *state = jsonResponse[APIParamState];
     NSString *id = jsonResponse[APIParamID];
+    NSString *note = jsonResponse[APIParamApptNote];
     
     //TODO: May need to protect against nil values...
-    return [self initWithID:id date:date appointmentType:leoAppointmentType patient:patient provider:provider bookedByUser:bookedByUser state:state];
+    return [self initWithID:id date:date appointmentType:leoAppointmentType patient:patient provider:provider bookedByUser:bookedByUser note:note state:state];
 }
 
 + (NSDictionary *)dictionaryFromAppointment:(Appointment *)appointment {
@@ -60,6 +62,7 @@
     appointmentDictionary[APIParamState] = appointment.state;
     appointmentDictionary[APIParamProviderID] = appointment.provider.id;
     appointmentDictionary[APIParamPatientID] = appointment.patient.id;
+    appointmentDictionary[APIParamApptNote] = appointment.note;
     
     return appointmentDictionary;
     

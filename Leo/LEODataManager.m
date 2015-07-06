@@ -155,7 +155,7 @@
     
     Caretaker *mom = [[Caretaker alloc] initWithID:@"1" Title:@"Mrs." firstName:@"Marilyn" middleInitial:nil lastName:@"Drossman" suffix:nil email:@"marilyn@leohealth.com" photoURL:nil photo:nil primary:YES relationship:@"mother"];
     
-    Appointment *appointment = [[Appointment alloc] initWithID:@"5" date:nil appointmentType:[self fetchAppointmentTypes][1] patient:[self fetchChildren][0] provider:[self fetchDoctors][0] bookedByUser:mom state:@(AppointmentStateRecommending)];
+    Appointment *appointment = [[Appointment alloc] initWithID:@"5" date:nil appointmentType:[self fetchAppointmentTypes][1] patient:[self fetchChildren][0] provider:[self fetchDoctors][0] bookedByUser:mom note:@"note" state:@(AppointmentStateRecommending)];
     
     LEOCardScheduling *cardOne = [[LEOCardScheduling alloc] initWithID:@2 priority:@1 associatedCardObject:appointment];
     
