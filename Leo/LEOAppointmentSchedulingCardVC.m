@@ -137,6 +137,10 @@ static NSString * const dateReuseIdentifier = @"DateCell";
         self.appointment.date = [self firstAvailableAppointmentTimeFromDate:self.dates.firstObject toDate:self.dates.lastObject];
     }
     
+    if (self.appointment.note != nil) {
+        self.notesView.text = self.appointment.note;
+    }
+    
     [self setupAppointmentDateLabel];
     [self setupMonthLabel];
     
@@ -153,8 +157,6 @@ static NSString * const dateReuseIdentifier = @"DateCell";
 -(void)viewDidDisappear:(BOOL)animated{
     [self.scrollView scrollToViewIfObstructedByKeyboard:nil];
 }
-
-
 
 #pragma mark - Lifecycle Helper Methods
 
@@ -253,6 +255,8 @@ static NSString * const dateReuseIdentifier = @"DateCell";
 }
 
 -(void)textViewDidEndEditing:(UITextView *)textView{
+
+    self.appointment.note = textView.text;
     [self showDoneBarButtonItem:NO];
 }
 
