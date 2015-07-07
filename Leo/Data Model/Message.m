@@ -12,12 +12,12 @@
 
 @implementation Message
 
-- (instancetype)initWithID:(nullable NSString *)id body:(NSString *)body sender:(User *)sender {
+- (instancetype)initWithObjectID:(nullable NSString *)objectID body:(NSString *)body sender:(User *)sender {
     
     self = [super init];
     
     if (self) {
-        _id = id;
+        _objectID = objectID;
         _body = body;
         _sender = sender;
     }
@@ -27,19 +27,19 @@
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
     
-    NSString *id = jsonResponse[APIParamID];
+    NSString *objectID = jsonResponse[APIParamID];
     NSString *body = jsonResponse[APIParamMessageBody];
     User *sender = jsonResponse[APIParamUser];
     
     //TODO: May need to protect against nil values...
-    return [self initWithID:id body:body sender:sender];
+    return [self initWithObjectID:objectID body:body sender:sender];
 }
 
 + (NSDictionary *)dictionaryFromMessage:(Message *)message {
     
     NSMutableDictionary *messageDictionary = [[NSMutableDictionary alloc] init];
     
-    messageDictionary[APIParamID] = message.id ? message.id : [NSNull null];
+    messageDictionary[APIParamID] = message.objectID ? message.objectID : [NSNull null];
     messageDictionary[APIParamMessageBody] = message.body;
     messageDictionary[APIParamUser] = message.sender;
     

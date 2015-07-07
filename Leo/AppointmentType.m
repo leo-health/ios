@@ -11,11 +11,11 @@
 
 @implementation AppointmentType
 
-- (instancetype)initWithID:(NSString *)id typeDescriptor:(NSString *)typeDescriptor duration:(nullable NSNumber *)duration {
+- (instancetype)initWithObjectID:(NSString *)objectID typeDescriptor:(NSString *)typeDescriptor duration:(nullable NSNumber *)duration {
     
     self = [super init];
     if (self) {
-        _id = id;
+        _objectID = objectID;
         _typeDescriptor = typeDescriptor;
         _duration = duration;
     }
@@ -25,10 +25,10 @@
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
     
-    NSString *id = jsonResponse[APIParamID];
+    NSString *objectID = jsonResponse[APIParamID];
     NSString *typeDescriptor = jsonResponse[APIParamApptType];
     //TODO: Decide whether to add duration here.
     
-    return [self initWithID:id typeDescriptor:typeDescriptor duration:nil];
+    return [self initWithObjectID:objectID typeDescriptor:typeDescriptor duration:nil];
 }
 @end

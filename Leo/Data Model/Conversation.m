@@ -13,12 +13,12 @@
 
 @implementation Conversation
 
-- (instancetype)initWithID:(NSString *)id messages:(NSArray *)messages participants:(NSArray *)participants {
+- (instancetype)initWithObjectID:(NSString *)objectID messages:(NSArray *)messages participants:(NSArray *)participants {
 
     self = [super init];
     
     if (self) {
-        _id = id;
+        _objectID = objectID;
         _messages = messages;
         _participants = participants;
     }
@@ -28,7 +28,7 @@
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
 
-//    NSString *id = jsonResponse[APIParamConversationID];
+//    NSString *objectID = jsonResponse[APIParamConversationID];
 //    
 //    NSArray *messageDictionaries = jsonResponse[APIParamMessages];
 //
@@ -53,7 +53,7 @@
 //    NSArray *immutableMessages = [messages copy];
 //    
 //    //TODO: May need to protect against nil values...
-//    return [self initWithID:id messages:immutableMessages];
+//    return [self initWithObjectID:objectID messages:immutableMessages];
     
     return nil;
 }
@@ -62,7 +62,7 @@
     
     NSMutableDictionary *conversationDictionary = [[NSMutableDictionary alloc] init];
     
-    conversationDictionary[APIParamConversationID] = conversation.id ? conversation.id : [NSNull null];
+    conversationDictionary[APIParamConversationID] = conversation.objectID ? conversation.objectID : [NSNull null];
     conversationDictionary[APIParamMessages] = conversation.messages;
     
     return conversationDictionary;

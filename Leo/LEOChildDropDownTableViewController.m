@@ -62,7 +62,7 @@ static NSString *childReuseIdentifier = @"ChildCell";
     User *user = self.children[indexPath.row];
     
     //MARK: Using id here appropriate? Normally would use memory address but cannot do it here for some reason right now (temporary Core Data implementation issue? If so, won't be one soon as we're going to remove given caching discussion.)
-    if (user.id == self.appointment.patient.id) {
+    if (user.objectID == self.appointment.patient.objectID) {
         [self.tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
         cell.selected = YES;
     }

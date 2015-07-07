@@ -21,7 +21,7 @@ typedef enum ConversationState {
 @interface Conversation : NSObject
 NS_ASSUME_NONNULL_BEGIN
 
-@property (nonatomic, copy) NSString * id;
+@property (nonatomic, copy) NSString * objectID;
 @property (nonatomic, strong) NSArray *messages;
 @property (nonatomic, strong) NSArray *participants;
 
@@ -31,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, nullable) NSDate * archivedAt;
 @property (nonatomic, copy, nullable) NSString * archivedByID;
 
-- (instancetype)initWithID:(NSString *)id messages:(NSArray *)messages participants:(NSArray *)participants;
+- (instancetype)initWithObjectID:(NSString *)objectID messages:(NSArray *)messages participants:(NSArray *)participants;
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse;
 

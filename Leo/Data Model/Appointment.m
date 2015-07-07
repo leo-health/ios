@@ -14,7 +14,7 @@
 
 @implementation Appointment
 
--(instancetype)initWithID:(nullable NSString *)id date:(nullable NSDate *)date appointmentType:(NSNumber *)leoAppointmentType patient:(Patient *)patient provider:(Provider *)provider bookedByUser:(User *)bookedByUser note:(NSString *)note state:(NSNumber *)state {
+-(instancetype)initWithObjectID:(nullable NSString *)objectID date:(nullable NSDate *)date appointmentType:(NSNumber *)leoAppointmentType patient:(Patient *)patient provider:(Provider *)provider bookedByUser:(User *)bookedByUser note:(NSString *)note state:(NSNumber *)state {
     
     self = [super init];
     
@@ -25,7 +25,7 @@
         _provider = provider;
         _bookedByUser = bookedByUser;
         _state = state;
-        _id = id;
+        _objectID = objectID;
         _note = note;
     }
     
@@ -45,23 +45,23 @@
      */
     id leoAppointmentType = jsonResponse[APIParamApptType];
     NSNumber *state = jsonResponse[APIParamState];
-    NSString *id = jsonResponse[APIParamID];
+    NSString *objectID = jsonResponse[APIParamID];
     NSString *note = jsonResponse[APIParamApptNote];
     
     //TODO: May need to protect against nil values...
-    return [self initWithID:id date:date appointmentType:leoAppointmentType patient:patient provider:provider bookedByUser:bookedByUser note:note state:state];
+    return [self initWithObjectID:objectID date:date appointmentType:leoAppointmentType patient:patient provider:provider bookedByUser:bookedByUser note:note state:state];
 }
 
 + (NSDictionary *)dictionaryFromAppointment:(Appointment *)appointment {
     
     NSMutableDictionary *appointmentDictionary = [[NSMutableDictionary alloc] init];
     
-    appointmentDictionary[APIParamID] = appointment.id;
+    appointmentDictionary[APIParamID] = appointment.objectID;
     appointmentDictionary[APIParamApptDate] = appointment.date;
     appointmentDictionary[APIParamApptType] = appointment.leoAppointmentType;
     appointmentDictionary[APIParamState] = appointment.state;
-    appointmentDictionary[APIParamProviderID] = appointment.provider.id;
-    appointmentDictionary[APIParamPatientID] = appointment.patient.id;
+    appointmentDictionary[APIParamProviderID] = appointment.provider.objectID;
+    appointmentDictionary[APIParamPatientID] = appointment.patient.objectID;
     appointmentDictionary[APIParamApptNote] = appointment.note;
     
     return appointmentDictionary;

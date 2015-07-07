@@ -11,10 +11,10 @@
 @interface Practice : NSObject
 NS_ASSUME_NONNULL_BEGIN
 
-@property (copy, nonatomic) NSString *id;
+@property (copy, nonatomic) NSString *objectID;
 @property (strong, nonatomic) NSArray *providers;
 
-- (instancetype)initWithID:(NSString *)id providers:(NSArray *)providers;
+- (instancetype)initWithObjectID:(NSString *)id providers:(NSArray *)providers;
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse;
 
 NS_ASSUME_NONNULL_END

@@ -13,12 +13,12 @@
 
 @implementation Family
 
-- (instancetype)initWithID:(NSString *)id caretakers:(NSArray *)caretakers children:(NSArray *)children {
+- (instancetype)initWithObjectID:(NSString *)objectID caretakers:(NSArray *)caretakers children:(NSArray *)children {
 
     self = [super init];
     
     if (self) {
-        _id = id;
+        _objectID = objectID;
         _caretakers = caretakers;
         _children = children;
     }
@@ -28,7 +28,7 @@
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
     
-    NSString *id = jsonResponse[APIParamID];
+    NSString *objectID = jsonResponse[APIParamID];
     
     NSArray *childDictionaries = jsonResponse[APIParamChildren];
     NSMutableArray *children = [[NSMutableArray alloc] init];
@@ -46,7 +46,7 @@
         [caretakers addObject:patient];
     }
     
-    return [self initWithID:id caretakers:[caretakers copy] children:[children copy]];
+    return [self initWithObjectID:objectID caretakers:[caretakers copy] children:[children copy]];
 }
 
 - (void)addChild:(Patient *)child {

@@ -14,7 +14,7 @@
 @interface User : NSObject
 NS_ASSUME_NONNULL_BEGIN
 
-@property (nonatomic, copy, nullable) NSString * id;
+@property (nonatomic, copy, nullable) NSString * objectID;
 @property (nonatomic, copy) NSString * firstName;
 @property (nonatomic, copy) NSString * lastName;
 @property (nonatomic, copy) NSString * middleInitial;
@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy, nullable) NSURL *photoURL;
 @property (nonatomic, strong, nullable) UIImage *photo;
 
-- (instancetype)initWithID:(nullable NSString*)id title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email photoURL:(nullable NSURL *)photoURL photo:(nullable UIImage *)photo NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithObjectID:(nullable NSString*)objectID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email photoURL:(NSURL *)photoURL photo:(nullable UIImage *)photo NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse;
 

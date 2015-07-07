@@ -14,7 +14,7 @@
 @interface Message : NSObject
 NS_ASSUME_NONNULL_BEGIN
 
-@property (nonatomic, copy) NSString *id;
+@property (nonatomic, copy) NSString *objectID;
 @property (nonatomic, copy) NSString *body;
 @property (nonatomic, strong, nullable) NSDate *escalatedAt;
 @property (nonatomic, strong) NSNumber *messageType;
@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, nullable) NSDate *resolvedRequestAt;
 @property (nonatomic, strong) User *sender;
 
-- (instancetype)initWithID:(nullable NSString *)id body:(NSString *)body sender:(User *)sender;
+- (instancetype)initWithObjectID:(nullable NSString *)objectID body:(NSString *)body sender:(User *)sender;
 
 - (instancetype)initWithJSONDictionary:(nonnull NSDictionary *)jsonResponse;
 

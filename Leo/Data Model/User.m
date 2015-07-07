@@ -13,11 +13,12 @@
 
 @implementation User
 
-- (instancetype)initWithID:(nullable NSString*)id title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email photoURL:(NSURL *)photoURL photo:(nullable UIImage *)photo {
+- (instancetype)initWithObjectID:(nullable NSString*)objectID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email photoURL:(NSURL *)photoURL photo:(nullable UIImage *)photo {
 
     self = [super init];
     
     if (self) {
+        _objectID = objectID;
         _title = title;
         _firstName = firstName;
         _middleInitial = middleInitial;
@@ -38,13 +39,13 @@
     NSString *middleInitial = jsonResponse[APIParamUserMiddleInitial];
     NSString *title = jsonResponse[APIParamUserTitle];
     NSString *suffix = jsonResponse[APIParamUserSuffix];
-    NSString *id = jsonResponse[APIParamID];
+    NSString *objectID = jsonResponse[APIParamID];
     NSString *email = jsonResponse[APIParamUserEmail];
     NSURL *photoURL = [NSURL URLWithString:jsonResponse[APIParamUserPhotoURL]];
     UIImage *photo = [UIImage imageWithData:[NSData dataWithContentsOfURL:photoURL]];
     
     //TODO: May need to protect against nil values...
-    return [self initWithID:id title:title firstName:firstName middleInitial:middleInitial lastName:lastName suffix:suffix email:email photoURL:photoURL photo:photo];
+    return [self initWithObjectID:objectID title:title firstName:firstName middleInitial:middleInitial lastName:lastName suffix:suffix email:email photoURL:photoURL photo:photo];
 }
 
 + (NSDictionary *)dictionaryFromUser:(User *)user {
@@ -57,7 +58,7 @@
     userDictionary[APIParamUserMiddleInitial] = user.middleInitial ? user.middleInitial : [NSNull null];
     userDictionary[APIParamUserLastName] = user.lastName;
     userDictionary[APIParamUserSuffix] = user.suffix ? user.suffix : [NSNull null];
-    userDictionary[APIParamID] = user.id;
+    userDictionary[APIParamID] = user.objectID;
     userDictionary[APIParamUserEmail] = user.email ? user.email : [NSNull null];
     
     return userDictionary;

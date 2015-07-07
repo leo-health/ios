@@ -25,7 +25,7 @@ typedef enum AppointmentState : NSUInteger {
 NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong, nullable) NSDate *date;
-@property (nonatomic, copy, nullable) NSString *id;
+@property (nonatomic, copy, nullable) NSString *objectID;
 @property (nonatomic, strong) id leoAppointmentType;
 @property (nonatomic, strong) NSNumber *state;
 @property (nonatomic, strong) User *bookedByUser;
@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) Provider *provider;
 @property (nonatomic, strong) NSString *note;
 
--(instancetype)initWithID:(nullable NSString *)id date:(nullable NSDate *)date appointmentType:(NSNumber *)leoAppointmentType patient:(Patient *)patient provider:(Provider *)provider bookedByUser:(User *)bookedByUser note:(NSString *)note state:(NSNumber *)state;
+-(instancetype)initWithObjectID:(nullable NSString *)objectID date:(nullable NSDate *)date appointmentType:(NSNumber *)leoAppointmentType patient:(Patient *)patient provider:(Provider *)provider bookedByUser:(User *)bookedByUser note:(NSString *)note state:(NSNumber *)state;
 
 - (instancetype)initWithJSONDictionary:(nonnull NSDictionary *)jsonResponse;
 

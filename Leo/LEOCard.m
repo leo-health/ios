@@ -13,11 +13,12 @@
 
 #pragma mark - Initializers
 
-- (nonnull instancetype)initWithID:(nonnull NSNumber *)id priority:(nonnull NSNumber *)priority associatedCardObject:(nonnull id)associatedCardObject {
-
+- (nonnull instancetype)initWithObjectID:(nonnull NSString *)objectID priority:(nonnull NSNumber *)priority associatedCardObject:(nonnull id)associatedCardObject {
+    
     self = [super init];
+    
     if (self) {
-        _id = id;
+        _objectID = objectID;
         _priority = priority;
         _associatedCardObject = associatedCardObject;
     }
@@ -27,7 +28,7 @@
 
 - (nonnull instancetype)cardWithDictionary:(nonnull NSDictionary *)jsonResponse {
    
-    return [self initWithID:jsonResponse[APIParamCardID]
+    return [self initWithObjectID:jsonResponse[APIParamCardID]
             priority:jsonResponse[APIParamCardPriority]
        associatedCardObject:jsonResponse[APIParamAssociatedCardObject]];
 }

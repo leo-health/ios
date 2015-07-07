@@ -134,7 +134,7 @@ static NSString * const selectedReuseIdentifier = @"SelectedCell";
     
     for (NSUInteger i = 0; i < [self.items count]; i++) {
         
-        if ([[self.items[i] valueForKey:@"id"] isEqualToString:[[self.associatedCardObject valueForKey:self.cardPropertyDescriptor] valueForKey:@"id"]]) {
+        if ([[self.items[i] valueForKey:@"objectID"] isEqualToString:[[self.associatedCardObject valueForKey:self.cardPropertyDescriptor] valueForKey:@"objectID"]]) {
             return i;
         }
     }

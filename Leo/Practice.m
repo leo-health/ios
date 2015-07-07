@@ -12,12 +12,12 @@
 
 @implementation Practice
 
-- (instancetype)initWithID:(NSString *)id providers:(NSArray *)providers {
+- (instancetype)initWithObjectID:(NSString *)objectID providers:(NSArray *)providers {
     
     self = [super init];
     
     if (self) {
-        _id = id;
+        _objectID = objectID;
         _providers = providers;
     }
     
@@ -26,7 +26,7 @@
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
     
-    NSString *id = jsonResponse[APIParamID];
+    NSString *objectID = jsonResponse[APIParamID];
     
     NSArray *providerDictionaries = jsonResponse[APIParamProviders];
     
@@ -38,7 +38,7 @@
         [providers addObject:provider];
     }
     
-    return [self initWithID:id providers:[providers copy]];
+    return [self initWithObjectID:objectID providers:[providers copy]];
 }
 
 @end

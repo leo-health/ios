@@ -14,14 +14,14 @@
 
 @interface LEOCard : NSObject
 
-@property (strong, nonatomic, nonnull) NSNumber *id;
+@property (strong, nonatomic, nonnull) NSString *objectID;
 @property (strong, nonatomic, nonnull) NSNumber *priority;
 
 @property (strong, nonatomic, nonnull, readonly) id associatedCardObject;
 
 @property (nonatomic, nullable) id<CardActivityProtocol> delegate;
 
-- (nonnull instancetype)initWithID:(nonnull NSNumber *)id priority:(nonnull NSNumber *)priority associatedCardObject:(nonnull id)associatedCardObject;
+- (nonnull instancetype)initWithObjectID:(nonnull NSString *)objectID priority:(nonnull NSNumber *)priority associatedCardObject:(nonnull id)associatedCardObject;
 
 - (nonnull instancetype)cardWithDictionary:(nonnull NSDictionary *)jsonResponse;
 
