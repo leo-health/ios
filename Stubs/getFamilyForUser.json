@@ -1,0 +1,70 @@
+{
+	"data": [
+		{
+			"patients": [
+				{
+					"id": 10,
+					"first_name":"Eve",
+					"middle_initial": "M",
+					"last_name": "Curie",
+					"role_id": 6,
+					"relationship_display_name": "Child",
+					"family_id": 11,
+					"role_display_name": "Patient",
+					"dob": "01/01/1867",
+					"sex": "f",
+					"email": null,
+					"avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/patients/11.png"
+				},
+				{
+					"id": 11,
+					"first_name":"Irene",
+					"middle_initial": "J",
+					"last_name": "Curie",
+					"role_id": 6,
+					"relationship_display_name": "Child",
+					"family_id": 11,
+					"role_display_name": "Patient",
+					"dob": "01/01/1904",
+					"sex": "f",
+					"email": null,
+					"avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/patients/11.png"
+				}
+			],
+			"guardians": [
+				{
+					"id": 12,
+					"title": "Mr.",
+					"first_name": "Pierre",
+					"middle_initial": "E",
+					"last_name": "Curie",
+					"role_id": 4,
+					"role_display_name": "Guardian",
+					"relationship_display_name": "Father",
+					"family_id": 11,
+					"dob":"11/07/1867",
+					"sex": "m",
+					"email": "pierre@curie.com",
+					"is_primary": true,
+					"avatar_url": null
+				},
+				{
+					"id": 13,
+					"title": "Mrs.",
+					"first_name": "Marie",
+					"middle_initial": "S",
+					"last_name": "Curie",
+					"role_id": 4,
+					"role_display_name": "Guardian",
+					"relationship_display_name": "Mother",
+					"family_id": 11,
+					"dob": "05/15/1859",
+					"sex": "f",
+					"email": "marie@curie.com",
+					"is_primary": false,
+					"avatar_url": null
+				}
+			]
+		}
+	]
+}
