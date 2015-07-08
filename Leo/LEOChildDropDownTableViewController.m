@@ -8,7 +8,7 @@
 
 #import "LEOChildDropDownTableViewController.h"
 #import "LEOChildCell+ConfigureForCell.h"
-#import "Appointment.h"
+#import "PrepAppointment.h"
 #import "Patient.h"
 @interface LEOChildDropDownTableViewController ()
 
@@ -62,7 +62,7 @@ static NSString *childReuseIdentifier = @"ChildCell";
     User *user = self.children[indexPath.row];
     
     //MARK: Using id here appropriate? Normally would use memory address but cannot do it here for some reason right now (temporary Core Data implementation issue? If so, won't be one soon as we're going to remove given caching discussion.)
-    if (user.objectID == self.appointment.patient.objectID) {
+    if ([user.objectID isEqualToString:self.prepAppointment.patient.objectID]) {
         [self.tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
         cell.selected = YES;
     }
@@ -76,7 +76,7 @@ static NSString *childReuseIdentifier = @"ChildCell";
     
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     cell.selected = YES;
-    self.appointment.patient = self.children[indexPath.row];
+    self.prepAppointment.patient = self.children[indexPath.row];
 }
 
 -(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -87,7 +87,7 @@ static NSString *childReuseIdentifier = @"ChildCell";
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    if (self.children[indexPath.row] == self.appointment.patient) {
+    if (self.children[indexPath.row] == self.prepAppointment.patient) {
         [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
         cell.selected = YES;
     }

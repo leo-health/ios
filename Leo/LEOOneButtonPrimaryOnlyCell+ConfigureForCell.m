@@ -16,9 +16,14 @@
 - (void)configureForCard:(LEOCard *)card {
     self.iconImageView.image = [card icon];
     self.titleLabel.text = [card title];
+    
     self.primaryUserLabel.text = [card primaryUser].firstName;
+    
     self.bodyLabel.text = [card body];
+    
+    
     [self.buttonOne setTitle:[card stringRepresentationOfActionsAvailableForState][0] forState:UIControlStateNormal];
+    [self.buttonOne removeTarget:card action:NULL forControlEvents:self.buttonOne.allControlEvents];
     [self.buttonOne addTarget:card action:NSSelectorFromString([card actionsAvailableForState][0]) forControlEvents:UIControlEventTouchUpInside];
     
     [self formatSubviewsWithTintColor:card.tintColor];

@@ -120,7 +120,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
         //self.selectedCardCell.layer.transform = CATransform3DMakeRotation(M_PI_2,0.0,1.0,0.0); ; //flip halfway, TODO: Determine what the appropiate thing is to do with the collapsed card view.
     } completion:^(BOOL finished) {
         
-        if ([card.associatedCardObject isKindOfClass:[Appointment class]]) {
+        if ([card.associatedCardObject isMemberOfClass:[Appointment class]]) {
             
             Appointment *appointment = card.associatedCardObject;
             

@@ -48,7 +48,7 @@
     [self addSubview:self.suffixCredentialLabel];
 }
 
-- (void)setupSubviews {
+- (void)refreshSubviews {
     
     self.nameLabel.text = [NSString stringWithFormat:@"%@ %@ %@",self.provider.title, self.provider.firstName, self.provider.lastName]; //FIXME: Replace with transient property on User class
     self.suffixLabel.text = self.provider.suffix;
@@ -60,7 +60,9 @@
     } else {
         //FIXME: This only accounts for dates within the past year! And doesn't yet deal with timezones!
         NSDateFormatter *format = [[NSDateFormatter alloc] init];
-        [format setDateFormat:@"MMM dd',' HH':'mm"];
+        [format setDateFormat:@"MMMM d',' h':'mma"];
+        format.AMSymbol = @"am";
+        format.PMSymbol = @"pm";
         self.timestampLabel.text = [format stringFromDate:self.timeStamp];
         
     }
@@ -94,7 +96,7 @@
 
 - (void)updateConstraints {
     
-    [self setupSubviews];
+    [self refreshSubviews];
     
     if (!self.constraintsAlreadyUpdated) {
         self.nameLabel.translatesAutoresizingMaskIntoConstraints = NO;

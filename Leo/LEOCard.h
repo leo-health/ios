@@ -17,7 +17,7 @@
 @property (strong, nonatomic, nonnull) NSString *objectID;
 @property (strong, nonatomic, nonnull) NSNumber *priority;
 
-@property (strong, nonatomic, nonnull, readonly) id associatedCardObject;
+@property (strong, nonatomic, nonnull) id associatedCardObject;
 
 @property (nonatomic, nullable) id<CardActivityProtocol> delegate;
 
@@ -38,5 +38,7 @@
 - (nonnull User *)primaryUser;
 - (nonnull NSDate *)timestamp;
 - (nonnull NSArray *)actionsAvailableForState;
+
+- (void)returnToPriorState;
 
 @end

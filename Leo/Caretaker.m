@@ -47,4 +47,31 @@
     
 }
 
+- (id)copy {
+    
+    Caretaker *caretakerCopy = [[Caretaker alloc] init];
+    caretakerCopy.objectID = self.objectID;
+    caretakerCopy.firstName = self.firstName;
+    caretakerCopy.lastName = self.lastName;
+    caretakerCopy.middleInitial = self.middleInitial;
+    caretakerCopy.suffix = self.suffix;
+    caretakerCopy.title = self.title;
+    caretakerCopy.email = self.email;
+    caretakerCopy.photoURL = self.photoURL;
+    caretakerCopy.photo = [self.photo copy];
+    caretakerCopy.relationship = self.relationship;
+    caretakerCopy.primary = self.primary;
+    
+    return caretakerCopy;
+}
+
+-(NSString *)description {
+    
+    NSString *superDesc = [super description];
+    
+    NSString *subDesc = [NSString stringWithFormat:@"\nName: %@ %@",self.firstName, self.lastName];
+    
+    return [superDesc stringByAppendingString:subDesc];
+}
+
 @end

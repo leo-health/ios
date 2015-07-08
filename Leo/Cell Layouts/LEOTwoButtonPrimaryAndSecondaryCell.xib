@@ -17,18 +17,11 @@
                         <rect key="frame" x="8" y="5" width="304" height="390"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1N9-XD-B4e">
-                                <rect key="frame" x="69" y="40" width="219" height="26"/>
+                                <rect key="frame" x="69" y="44" width="219" height="26"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="19"/>
                                 <color key="textColor" red="0.27058823529999998" green="0.27058823529999998" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="LEOTwoButtonPrimaryOnlyCell" translatesAutoresizingMaskIntoConstraints="NO" id="Vz6-xs-T1c" userLabel="Icon Image View">
-                                <rect key="frame" x="16" y="26" width="40" height="40"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="BAb-gp-eof"/>
-                                    <constraint firstAttribute="width" constant="40" id="Nsz-9Q-O1V"/>
-                                </constraints>
-                            </imageView>
                             <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="znc-jV-RuF">
                                 <rect key="frame" x="0.0" y="346" width="152" height="44"/>
                                 <constraints>
@@ -40,8 +33,8 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="999" verticalCompressionResistancePriority="1000" text="Body" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ajq-rV-dli">
-                                <rect key="frame" x="69" y="67" width="219" height="224"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="999" verticalCompressionResistancePriority="999" text="Body" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ajq-rV-dli">
+                                <rect key="frame" x="69" y="71" width="219" height="224"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="16.5"/>
                                 <color key="textColor" red="0.41176470590000003" green="0.41176470590000003" blue="0.41176470590000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -54,11 +47,11 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
-                            <view contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="lYX-GN-tZr" customClass="LEOSecondaryUserView">
-                                <rect key="frame" x="69" y="304" width="219" height="18"/>
+                            <view contentMode="scaleToFill" verticalHuggingPriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="lYX-GN-tZr" customClass="LEOSecondaryUserView">
+                                <rect key="frame" x="69" y="308" width="219" height="14"/>
                                 <color key="backgroundColor" red="1" green="0.9657717415" blue="0.20286758120000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="18" id="Pck-bk-6eL"/>
+                                    <constraint firstAttribute="height" constant="14" id="Pck-bk-6eL"/>
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="Primary User" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cpe-1a-Udo">
@@ -70,6 +63,13 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="LEOTwoButtonPrimaryOnlyCell" translatesAutoresizingMaskIntoConstraints="NO" id="Vz6-xs-T1c" userLabel="Icon Image View">
+                                <rect key="frame" x="16" y="26" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="BAb-gp-eof"/>
+                                    <constraint firstAttribute="width" constant="40" id="Nsz-9Q-O1V"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -81,7 +81,7 @@
                             <constraint firstItem="znc-jV-RuF" firstAttribute="height" secondItem="iAX-4e-LNx" secondAttribute="height" id="Fyv-S1-ubt"/>
                             <constraint firstItem="ajq-rV-dli" firstAttribute="top" secondItem="1N9-XD-B4e" secondAttribute="bottom" constant="1" id="HPV-xZ-eBk"/>
                             <constraint firstItem="cpe-1a-Udo" firstAttribute="leading" secondItem="Vz6-xs-T1c" secondAttribute="trailing" constant="13" id="LgJ-Dy-Kq4"/>
-                            <constraint firstItem="1N9-XD-B4e" firstAttribute="top" secondItem="cpe-1a-Udo" secondAttribute="bottom" id="N6c-DK-qqc"/>
+                            <constraint firstItem="1N9-XD-B4e" firstAttribute="top" secondItem="cpe-1a-Udo" secondAttribute="bottom" constant="4" id="N6c-DK-qqc"/>
                             <constraint firstAttribute="trailing" secondItem="1N9-XD-B4e" secondAttribute="trailing" constant="16" id="Ngy-jw-mpr"/>
                             <constraint firstItem="lYX-GN-tZr" firstAttribute="bottom" secondItem="znc-jV-RuF" secondAttribute="top" constant="-24" id="S2p-MH-qPH"/>
                             <constraint firstItem="Vz6-xs-T1c" firstAttribute="leading" secondItem="yg5-HK-gtP" secondAttribute="leading" constant="16" id="TU4-d9-W4V"/>
@@ -101,6 +101,7 @@
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
+                                <exclude reference="Xqa-QE-Mvu"/>
                                 <exclude reference="7NW-DV-RRy"/>
                                 <exclude reference="yX2-21-hbd"/>
                             </mask>

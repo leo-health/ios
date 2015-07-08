@@ -18,5 +18,5 @@
 @property (strong, nonatomic, nonnull) UIColor *cardColor;
 
 - (nonnull instancetype)initWithCardLayout:(CardLayout)cardLayout user:(nonnull Provider *)provider timestamp:(nonnull NSDate *)timestamp;
-
+- (void)refreshSubviews;
 @end

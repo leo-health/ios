@@ -20,6 +20,10 @@
 
 //@property (weak, nonatomic) id<DropDownActivityProtocol>delegate;
 
-- (instancetype)initWithTableView:(LEODropDownTableView *)tableView items:(NSArray *)items usingDescriptorKey:(NSString *)descriptorKey associatedCardObject:(id)associatedCardObject associatedCardObjectPropertyDescriptor:(NSString *)cardPropertyDescriptor;
+
+
+#pragma mark - Designated Initializer and Initializer Helper Methods
+
+- (instancetype)initWithTableView:(LEODropDownTableView *)tableView items:(NSArray *)items usingDescriptorKey:(NSString *)descriptorKey prepObject:(id)prepObject associatedCardObjectPropertyDescriptor:(NSString *)cardPropertyDescriptor;
 
 @end

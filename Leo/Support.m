@@ -42,4 +42,22 @@
     return userDictionary;
 }
 
+- (id)copy {
+ 
+    Support *supportCopy = [super copy];
+
+    supportCopy.role = self.role;
+    
+    return supportCopy;
+}
+
+-(NSString *)description {
+    
+    NSString *superDesc = [super description];
+    
+    NSString *subDesc = [NSString stringWithFormat:@"\nName: %@ %@",self.firstName, self.lastName];
+    
+    return [superDesc stringByAppendingString:subDesc];
+}
+
 @end

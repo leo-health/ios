@@ -40,7 +40,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="999" verticalCompressionResistancePriority="1000" text="Body" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4O9-0K-RDN">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="999" verticalCompressionResistancePriority="999" text="Body" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4O9-0K-RDN">
                                 <rect key="frame" x="61" y="71" width="227" height="251"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="16.5"/>
                                 <color key="textColor" red="0.41176470588235292" green="0.41176470588235292" blue="0.41176470588235292" alpha="1" colorSpace="calibratedRGB"/>
@@ -71,7 +71,6 @@
                             <constraint firstAttribute="trailing" secondItem="4O9-0K-RDN" secondAttribute="trailing" constant="16" id="lSO-SE-HKD"/>
                             <constraint firstAttribute="trailing" secondItem="MgB-yz-uJz" secondAttribute="trailing" constant="16" id="pei-BR-d2m"/>
                             <constraint firstItem="4O9-0K-RDN" firstAttribute="top" secondItem="MgB-yz-uJz" secondAttribute="bottom" constant="1" id="qdw-HN-Jtr"/>
-                            <constraint firstAttribute="width" constant="304" id="umR-1T-dNp"/>
                             <constraint firstItem="brm-Lo-bJK" firstAttribute="top" secondItem="7W6-IF-I47" secondAttribute="top" constant="26" id="wDg-jx-9Xt"/>
                             <constraint firstAttribute="trailing" secondItem="GnT-tn-Rfj" secondAttribute="trailing" constant="16" id="yZS-UD-J3G"/>
                         </constraints>

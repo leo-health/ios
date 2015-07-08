@@ -45,4 +45,32 @@
     return userDictionary;
 }
 
+-(id)copy {
+    
+
+    Provider *providerCopy = [[Provider alloc] init];
+    providerCopy.objectID = self.objectID;
+    providerCopy.firstName = self.firstName;
+    providerCopy.lastName = self.lastName;
+    providerCopy.middleInitial = self.middleInitial;
+    providerCopy.suffix = self.suffix;
+    providerCopy.title = self.title;
+    providerCopy.email = self.email;
+    providerCopy.photoURL = self.photoURL;
+    providerCopy.photo = [self.photo copy];
+    providerCopy.specialty = self.specialty;
+    providerCopy.credential = self.credential;
+    
+    return providerCopy;
+}
+
+-(NSString *)description {
+    
+    NSString *superDesc = [super description];
+    
+    NSString *subDesc = [NSString stringWithFormat:@"\nName: %@ %@",self.firstName, self.lastName];
+    
+    return [superDesc stringByAppendingString:subDesc];
+}
+
 @end

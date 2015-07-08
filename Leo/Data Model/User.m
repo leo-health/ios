@@ -88,5 +88,10 @@
     return [nameComponents componentsJoinedByString:@" "];
 }
 
+-(NSString *)description {
+    
+    return [NSString stringWithFormat:@"<%@: %p>",[self class],self];
+}
+
 
 @end

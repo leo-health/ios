@@ -65,7 +65,6 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="304" id="2iU-LR-7Fx"/>
                             <constraint firstItem="v4l-1e-9Ni" firstAttribute="leading" secondItem="Nai-e3-1s6" secondAttribute="leading" constant="16" id="3Wh-Sr-smU"/>
                             <constraint firstAttribute="trailing" secondItem="YWC-X3-YJ2" secondAttribute="trailing" constant="16" id="7ld-CX-bEc"/>
                             <constraint firstAttribute="bottom" secondItem="C01-lM-9RA" secondAttribute="bottom" id="9C8-Wx-TcE"/>

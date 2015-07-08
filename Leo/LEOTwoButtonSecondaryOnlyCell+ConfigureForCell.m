@@ -19,20 +19,26 @@
     self.iconImageView.image = [card icon];
     self.titleLabel.text = [card title];
     
-    self.secondaryUserView.provider = (Provider *)card.secondaryUser;
+    self.secondaryUserView.provider = card.secondaryUser;
     self.secondaryUserView.timeStamp = card.timestamp;
     self.secondaryUserView.tintColor = card.tintColor;
-    self.secondaryUserView.cardLayout = CardLayoutTwoButtonSecondaryOnly;
+    self.secondaryUserView.cardLayout = CardLayoutTwoButtonPrimaryAndSecondary;
     self.secondaryUserView.backgroundColor = [UIColor clearColor];
-    
     self.bodyLabel.text = [card body];
+    
+    
     [self.buttonOne setTitle:[card stringRepresentationOfActionsAvailableForState][0] forState:UIControlStateNormal];
+    [self.buttonOne removeTarget:card action:NULL forControlEvents:self.buttonOne.allControlEvents];
     [self.buttonOne addTarget:card action:NSSelectorFromString([card actionsAvailableForState][0]) forControlEvents:UIControlEventTouchUpInside];
     
     [self.buttonTwo setTitle:[card stringRepresentationOfActionsAvailableForState][1] forState:UIControlStateNormal];
-    [self.buttonTwo addTarget:card action:NSSelectorFromString([card actionsAvailableForState][1]) forControlEvents:UIControlEventTouchUpInside];
     
+    [self.buttonTwo removeTarget:card action:NULL forControlEvents:self.buttonTwo.allControlEvents];
+    [self.buttonTwo addTarget:card action:NSSelectorFromString([card actionsAvailableForState][1]) forControlEvents:UIControlEventTouchUpInside];
     [self formatSubviewsWithTintColor:card.tintColor];
+    
+    //FIXME: Should I have access to this method outside of secondaryUserViews
+    [self.secondaryUserView refreshSubviews];
 }
 
 - (void)formatSubviewsWithTintColor:(UIColor *)tintColor {

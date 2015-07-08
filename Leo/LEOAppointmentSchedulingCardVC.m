@@ -23,6 +23,8 @@
 #import "LEOSectionSeparator.h"
 #import "LEOChildDropDownTableViewController.h"
 #import "UIScrollView+LEOScrollToVisible.h"
+#import "PrepAppointment.h"
+#import "LEOCardScheduling.h"
 
 @interface LEOAppointmentSchedulingCardVC ()
 
@@ -44,7 +46,9 @@
 @property (weak, nonatomic) IBOutlet UITextView *notesView;
 
 #pragma mark - Data
+@property (strong, nonatomic) PrepAppointment *prepAppointment;
 @property (strong, nonatomic) Appointment *appointment;
+
 @property (strong, nonatomic) NSDate *selectedDate;
 @property (strong, nonatomic) NSDate *tempSelectedDate;
 @property (strong, nonatomic) NSArray *dates;
@@ -90,10 +94,10 @@ static NSString * const dateReuseIdentifier = @"DateCell";
 
 - (void)prepareForLaunch {
     
-    self.doctorDropDownController = [[LEODropDownController alloc] initWithTableView:self.doctorDropDownTV items:[self.coreDataManager fetchDoctors] usingDescriptorKey:@"fullName" associatedCardObject:self.card.associatedCardObject associatedCardObjectPropertyDescriptor:@"provider"];
+    self.doctorDropDownController = [[LEODropDownController alloc] initWithTableView:self.doctorDropDownTV items:[self.coreDataManager fetchDoctors] usingDescriptorKey:@"fullName" prepObject:self.prepAppointment associatedCardObjectPropertyDescriptor:@"provider"];
     
     //TODO: Remove hard coded options and move to DataManager.
-    self.visitTypeDropDownController = [[LEODropDownController alloc] initWithTableView:self.visitDropDownTV items:[self.coreDataManager fetchAppointmentTypes] usingDescriptorKey:@"typeDescriptor" associatedCardObject:self.card.associatedCardObject associatedCardObjectPropertyDescriptor:@"leoAppointmentType"];
+    self.visitTypeDropDownController = [[LEODropDownController alloc] initWithTableView:self.visitDropDownTV items:[self.coreDataManager fetchAppointmentTypes] usingDescriptorKey:@"typeDescriptor" prepObject:self.prepAppointment associatedCardObjectPropertyDescriptor:@"leoAppointmentType"];
     
     [self.view setNeedsLayout];
     
@@ -102,7 +106,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     NSString *buttonTitle = [self.card stringRepresentationOfActionsAvailableForState][0];
     
     [self.bookButton setTitle:[buttonTitle uppercaseString] forState:UIControlStateNormal];
-    [self.bookButton addTarget:self.card action:NSSelectorFromString([self.card actionsAvailableForState][0]) forControlEvents:UIControlEventTouchUpInside];
+    [self.bookButton addTarget:self action:@selector(updateCard) forControlEvents:UIControlEventTouchUpInside];
     self.bookButton.backgroundColor = self.card.tintColor;
     [self.bookButton setTitleColor:[UIColor leoWhite] forState:UIControlStateNormal];
     self.bookButton.titleLabel.font = [UIFont leoBodyBoldFont];
@@ -112,7 +116,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     self.appointmentTypeLabel.textColor = [UIColor leoWarmHeavyGray];
     self.appointmentLabel.textColor = [UIColor leoWarmHeavyGray];
     self.appointmentDateLabel.textColor = [UIColor leoOrangeRed];
-    
+    self.notesView.delegate = self;
     //UINavigationItem *navCarrier = [[UINavigationItem alloc] init];
     
     UINavigationItem *navCarrier = _navBar.topItem;
@@ -133,12 +137,12 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     
     self.navBar.items = @[navCarrier];
     
-    if (self.appointment.date == nil) {
-        self.appointment.date = [self firstAvailableAppointmentTimeFromDate:self.dates.firstObject toDate:self.dates.lastObject];
+    if (self.prepAppointment.date == nil) {
+        self.prepAppointment.date = [self firstAvailableAppointmentTimeFromDate:self.dates.firstObject toDate:self.dates.lastObject];
     }
     
-    if (self.appointment.note != nil) {
-        self.notesView.text = self.appointment.note;
+    if (self.prepAppointment.note != nil) {
+        self.notesView.text = self.prepAppointment.note;
     }
     
     [self setupAppointmentDateLabel];
@@ -147,6 +151,13 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(scrollViewWasTapped:)];
     tapGestureForTextFieldDismissal.cancelsTouchesInView = NO;
     [_scrollView addGestureRecognizer:tapGestureForTextFieldDismissal];
+}
+
+
+- (void)updateCard {
+    
+    self.card.associatedCardObject = [[Appointment alloc] initWithPrepAppointment:self.prepAppointment];
+    [self.card performSelector:NSSelectorFromString([self.card actionsAvailableForState][0])];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -200,7 +211,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     
     NSDateFormatter *monthYearFormatter = [[NSDateFormatter alloc] init];
     monthYearFormatter.dateFormat = @"MMMM' 'YYYY";
-    self.monthLabel.text = [monthYearFormatter stringFromDate:self.appointment.date];
+    self.monthLabel.text = [monthYearFormatter stringFromDate:self.prepAppointment.date];
 }
 
 - (void)setupAppointmentDateLabel {
@@ -213,7 +224,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
 
 - (void)updateAppointmentDateLabel {
     
-    self.appointmentDateLabel.text = [self formatDateTimeForLabel:self.appointment.date];
+    self.appointmentDateLabel.text = [self formatDateTimeForLabel:[[self prepAppointment] date]];
 }
 
 
@@ -256,14 +267,23 @@ static NSString * const dateReuseIdentifier = @"DateCell";
 
 -(void)textViewDidEndEditing:(UITextView *)textView{
 
-    self.appointment.note = textView.text;
+    self.prepAppointment.note = textView.text;
     [self showDoneBarButtonItem:NO];
 }
 
+
+
 #pragma mark - Setup, Getters, Setters
 
-- (Appointment *)appointment {
-    return self.card.associatedCardObject;
+- (PrepAppointment *)prepAppointment {
+    
+    Appointment *appt = self.card.associatedCardObject;
+    
+    if (!_prepAppointment) {
+        _prepAppointment = [[PrepAppointment alloc] initWithObjectID:appt.objectID date:appt.date appointmentType:appt.leoAppointmentType patient:appt.patient provider:appt.provider bookedByUser:appt.bookedByUser note:appt.note state:appt.state];
+    }
+    
+    return _prepAppointment;
 }
 
 
@@ -287,7 +307,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
      */
     if([segue.identifier isEqualToString:@"ChildDropDownEmbedSegue"]) {
         LEOChildDropDownTableViewController *tvc = segue.destinationViewController;
-        tvc.appointment = self.appointment;
+        tvc.prepAppointment = self.prepAppointment;
         tvc.children = [self.coreDataManager fetchChildren];
     }
 }
@@ -329,7 +349,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
  */
 - (void)turnToPage:(NSInteger)toPage fromPage:(NSInteger )fromPage {
     
-    TimeCollectionViewController *timeCollectionVC = [self.pageViewDataSource viewControllerAtIndex:[self indexPathOfDate:self.appointment.date].row storyboard:self.storyboard];
+    TimeCollectionViewController *timeCollectionVC = [self.pageViewDataSource viewControllerAtIndex:[self indexPathOfDate:self.prepAppointment.date].row storyboard:self.storyboard];
     
     self.timeCollectionVC = timeCollectionVC;
     
@@ -387,6 +407,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
         [_notesView resignFirstResponder];
     }
     else{
+        [self.card returnToPriorState];
         [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
             [UIView animateWithDuration:0.2 animations:^{
                 self.collapsedCell.layer.transform = CATransform3DMakeRotation(0,0.0,1.0,0.0); ; //flip halfway
@@ -405,7 +426,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     
     NSArray *visibleIndexPaths = [[self.dateCollectionView indexPathsForVisibleItems] sortedArrayUsingSelector:@selector(compare:)];
     
-    if ([visibleIndexPaths containsObject:[self indexPathOfDate:self.appointment.date]]) {
+    if ([visibleIndexPaths containsObject:[self indexPathOfDate:self.prepAppointment.date]]) {
         return NO;
     }
     
@@ -416,12 +437,12 @@ static NSString * const dateReuseIdentifier = @"DateCell";
 #pragma mark - <UICollectionViewDelegate>
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     [self updateCollectionView:collectionView forSelectedCellAtIndexPath:indexPath];
-    [self turnToPage:[self pageOfDate:self.appointment.date] fromPage:0];
+    [self turnToPage:[self pageOfDate:self.prepAppointment.date] fromPage:0];
 }
 
 - (void)updateCollectionView:(UICollectionView *)collectionView forSelectedCellAtIndexPath:(NSIndexPath *)indexPath {
     
-    self.appointment.date = self.dates[indexPath.row];
+    self.prepAppointment.date = self.dates[indexPath.row];
     
     [collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
     UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
@@ -448,14 +469,14 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     NSCalendar *calendar = [NSCalendar calendarWithIdentifier:NSCalendarIdentifierGregorian];
     
     //If the cell about to be displayed is showing the same date as the date of the appointment
-    if ([calendar isDate:date inSameDayAsDate:self.appointment.date]) {
+    if ([calendar isDate:date inSameDayAsDate:self.prepAppointment.date]) {
         
         cell.selected = YES;
         [collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
         
         //MARK: Double check whether the conditional around the turnToPage method call is doing anything.
         if ([self shouldTurnPage]) {
-            [self turnToPage:[self pageOfDate:self.appointment.date] fromPage:0];
+            [self turnToPage:[self pageOfDate:self.prepAppointment.date] fromPage:0];
         }
     } else {
         
@@ -485,7 +506,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
         
         if (cell.selectable) {
             [self updateCollectionView:self.dateCollectionView forSelectedCellAtIndexPath:indexPath];
-            [self turnToPage:[self pageOfDate:self.appointment.date] fromPage:0];
+            [self turnToPage:[self pageOfDate:self.prepAppointment.date] fromPage:0];
             break;
         }
     }
@@ -524,14 +545,14 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     
     if (completed) {
         
-        self.appointment.date = self.tempSelectedDate;
-        NSIndexPath *indexPathToSelect = [self indexPathOfDate:self.appointment.date];
+        self.prepAppointment.date = self.tempSelectedDate;
+        NSIndexPath *indexPathToSelect = [self indexPathOfDate:self.prepAppointment.date];
         [self scrollDateCollectionViewToWeekOfAppointmentDate];
         [self updateCollectionView:self.dateCollectionView forSelectedCellAtIndexPath:indexPathToSelect];
         
     } else {
-        self.appointment.date = [self firstAvailableAppointmentTimeFromDate:self.appointment.date toDate:self.appointment.date];
-        self.timeCollectionVC.selectedDate = self.appointment.date;
+        self.prepAppointment.date = [self firstAvailableAppointmentTimeFromDate:self.prepAppointment.date toDate:self.prepAppointment.date];
+        self.timeCollectionVC.selectedDate = self.prepAppointment.date;
     }
 }
 
@@ -541,7 +562,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     
     NSIndexPath *firstVisibleIndexPath = visibleIndexPaths[0];
     
-    NSIndexPath *indexPathOfAppointmentWeekBeginning = [self indexPathOfDate:[[self.appointment.date beginningOfDay] beginningOfWeekForStartOfWeek:1]];
+    NSIndexPath *indexPathOfAppointmentWeekBeginning = [self indexPathOfDate:[[self.prepAppointment.date beginningOfDay] beginningOfWeekForStartOfWeek:1]];
     CGPoint offset = self.dateCollectionView.contentOffset;
     
     CGFloat horizontalInsets = [self collectionView:self.dateCollectionView layout:self.dateCollectionView.collectionViewLayout     insetForSectionAtIndex:0].left + [self collectionView:self.dateCollectionView layout:self.dateCollectionView.collectionViewLayout insetForSectionAtIndex:0].right;
@@ -557,7 +578,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
 
 #pragma mark - <TimeSelectionDelegate>
 - (void)didUpdateAppointmentDateTime:(NSDate *)dateTime {
-    self.appointment.date = dateTime;
+    self.prepAppointment.date = dateTime;
     [self makeUpdatesForChangesToAppointmentDate];
 }
 
@@ -572,17 +593,39 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     }];
 }
 
-//#pragma mark - <DropDownActivityDelegate>
-//
-//- (void)didSelectItemAtIndex:(NSUInteger)index tableView:(UITableView *)tableView {
-//
-//    if (tableView == self.doctorDropDownTV) {
-//        self.appointment.provider = [self.coreDataManager fetchDoctors][index];
-//    } else if (tableView == self.visitDropDownTV) {
-//        self.appointment.leoAppointmentType = [self.coreDataManager fetchAppointmentTypes][index];
-//    }
-//
-//}
+- (void)updateViews:(LEOCardScheduling *)card {
+    
+    Appointment *appointment = card.associatedCardObject;
+    
+    switch (appointment.appointmentState) {
+            
+        case AppointmentStateBooking: {
+            [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
+                [UIView animateWithDuration:0.2 animations:^{
+                    // self.collapsedCell.layer.transform = CATransform3DMakeRotation(0,0.0,1.0,0.0); ; //flip halfway
+                    self.collapsedCell.selected = NO;
+                }];
+            }];
+        }
+            
+        case AppointmentStateCancelling: {
+            
+        }
+            
+        case AppointmentStateConfirmingCancelling: {
+            
+        }
+    
+        case AppointmentStateRecommending: {
+            
+        }
+            
+        case AppointmentStateReminding: {
+            
+        }
+    }
+}
+
 
 #pragma mark - Helper Date Methods
 - (NSArray *)dates {

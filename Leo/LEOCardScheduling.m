@@ -11,6 +11,7 @@
 #import "LEOAppointmentSchedulingCardVC.h"
 #import "UIColor+LeoColors.h"
 #import "Patient.h"
+#import "AppointmentType.h"
 
 @interface LEOCardScheduling ()
 
@@ -121,7 +122,7 @@ static NSString *kActionSelectorBook = @"book";
             break;
             
         case AppointmentStateReminding:
-            bodyText = [NSString stringWithFormat:@"%@ has an appointment on %@ at %@",self.appointment.patient.firstName, self.appointment.stringifiedAppointmentDate, self.appointment.stringifiedAppointmentTime];
+            bodyText = [NSString stringWithFormat:@"%@ has a %@ scheduled for %@ at %@.",self.appointment.patient.firstName, [((AppointmentType *)self.appointment.leoAppointmentType).typeDescriptor lowercaseString], self.appointment.stringifiedAppointmentDate, self.appointment.stringifiedAppointmentTime];
             break;
     }
     
@@ -214,6 +215,7 @@ static NSString *kActionSelectorBook = @"book";
             NSString *buttonOneAction = kActionSelectorDismiss;
             [actions addObject:buttonOneAction];
             
+            break;
         }
             
         default:
@@ -225,6 +227,7 @@ static NSString *kActionSelectorBook = @"book";
 
 - (void)book {
     
+    self.appointment.priorState = self.appointment.state;
     self.appointment.state = @(AppointmentStateReminding);
     [self.delegate didUpdateObjectStateForCard:self];
 }
@@ -232,15 +235,35 @@ static NSString *kActionSelectorBook = @"book";
 - (void)schedule {
     
     //opens up a new scheduling card view, filled out with the recommended dates / times
+    self.appointment.priorState = self.appointment.state;
     self.appointment.state = @(AppointmentStateBooking);
     [self.delegate didUpdateObjectStateForCard:self];
 }
 
 - (void)cancel {
-    
+    self.appointment.priorState = self.appointment.state;
     self.appointment.state = @(AppointmentStateCancelling);
     [self.delegate didUpdateObjectStateForCard:self];
     //updates state of the appointment to show a view in which we confirm the user really wants to cancel their appointment
+}
+
+- (void)confirmCancelled {
+    self.appointment.state = @(AppointmentStateConfirmingCancelling);
+    [self.delegate didUpdateObjectStateForCard:self];
+}
+
+- (void)unconfirmCancelled {
+    
+    [self returnToPriorState];
+    [self.delegate didUpdateObjectStateForCard:self];
+}
+
+- (void)dismiss {
+    [self.delegate didUpdateObjectStateForCard:self];
+}
+
+- (void)returnToPriorState {
+    self.appointment.state = self.appointment.priorState;
 }
 
 - (void)confirmCancel {

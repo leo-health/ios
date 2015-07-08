@@ -49,4 +49,32 @@
     
 }
 
+-(id)copy {
+
+    Patient*patientCopy = [[Patient alloc] init];
+    patientCopy.objectID = self.objectID;
+    patientCopy.firstName = self.firstName;
+    patientCopy.lastName = self.lastName;
+    patientCopy.middleInitial = self.middleInitial;
+    patientCopy.suffix = self.suffix;
+    patientCopy.title = self.title;
+    patientCopy.email = self.email;
+    patientCopy.photoURL = self.photoURL;
+    patientCopy.photo = [self.photo copy];
+    patientCopy.dob = self.dob;
+    patientCopy.gender = self.gender;
+    patientCopy.status = self.status;
+    
+    return patientCopy;
+}
+
+-(NSString *)description {
+    
+    NSString *superDesc = [super description];
+    
+    NSString *subDesc = [NSString stringWithFormat:@"\nName: %@ %@",self.firstName, self.lastName];
+    
+    return [superDesc stringByAppendingString:subDesc];
+}
+
 @end

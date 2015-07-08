@@ -15,11 +15,13 @@
 
 @interface LEODropDownController ()
 
+
+//MARK: Should probably rename associatedCardObject to associatedPrepCardObject?
 @property (strong, nonatomic) LEODropDownTableView *tableView;
 @property (strong, nonatomic) NSArray *items;
 @property (copy, nonatomic) NSString *descriptorKey;
 @property (copy, nonatomic) NSString *cardPropertyDescriptor;
-@property (strong, nonatomic) id associatedCardObject;
+@property (strong, nonatomic) id prepObject;
 
 @end
 
@@ -30,7 +32,7 @@ static NSString * const selectedReuseIdentifier = @"SelectedCell";
 
 
 #pragma mark - Designated Initializer and Initializer Helper Methods
-- (instancetype)initWithTableView:(LEODropDownTableView *)tableView items:(NSArray *)items usingDescriptorKey:(NSString *)descriptorKey associatedCardObject:(id)associatedCardObject associatedCardObjectPropertyDescriptor:(NSString *)cardPropertyDescriptor {
+- (instancetype)initWithTableView:(LEODropDownTableView *)tableView items:(NSArray *)items usingDescriptorKey:(NSString *)descriptorKey prepObject:(id)prepObject associatedCardObjectPropertyDescriptor:(NSString *)cardPropertyDescriptor {
     
     self = [super init];
     
@@ -38,7 +40,7 @@ static NSString * const selectedReuseIdentifier = @"SelectedCell";
         
         _tableView = tableView;
         _items = items;
-        _associatedCardObject = associatedCardObject;
+        _prepObject = prepObject;
         _descriptorKey = descriptorKey;
         _cardPropertyDescriptor = cardPropertyDescriptor;
         
@@ -85,14 +87,14 @@ static NSString * const selectedReuseIdentifier = @"SelectedCell";
         
         LEODropDownSelectedCell *cell = [tableView dequeueReusableCellWithIdentifier:selectedReuseIdentifier
                                                                         forIndexPath:indexPath];
-        [cell configureForItem:[self associatedObjectItem] withDescriptorKey:self.descriptorKey];
+        [cell configureForItem:[self prepObjectItem] withDescriptorKey:self.descriptorKey];
         return cell;
     }
 }
 
-- (id)associatedObjectItem {
+- (id)prepObjectItem {
     
-    return [self.associatedCardObject valueForKey:self.cardPropertyDescriptor];
+    return [self.prepObject valueForKey:self.cardPropertyDescriptor];
 }
 
 
@@ -109,7 +111,7 @@ static NSString * const selectedReuseIdentifier = @"SelectedCell";
     if (!ddTableView.expanded) {
         NSIndexPath *firstIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
         cell = [tableView cellForRowAtIndexPath:firstIndexPath];
-        [self.associatedCardObject setValue:self.items[indexPath.row] forKey:self.cardPropertyDescriptor];
+        [self.prepObject setValue:self.items[indexPath.row] forKey:self.cardPropertyDescriptor];
         [tableView reloadData];
         [ddTableView invalidateIntrinsicContentSize];
         
@@ -134,7 +136,7 @@ static NSString * const selectedReuseIdentifier = @"SelectedCell";
     
     for (NSUInteger i = 0; i < [self.items count]; i++) {
         
-        if ([[self.items[i] valueForKey:@"objectID"] isEqualToString:[[self.associatedCardObject valueForKey:self.cardPropertyDescriptor] valueForKey:@"objectID"]]) {
+        if ([[self.items[i] valueForKey:@"objectID"] isEqualToString:[[self.prepObject valueForKey:self.cardPropertyDescriptor] valueForKey:@"objectID"]]) {
             return i;
         }
     }

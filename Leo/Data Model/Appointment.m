@@ -11,6 +11,7 @@
 #import "User.h"
 #import "Provider.h"
 #import "Patient.h"
+#import "PrepAppointment.h"
 
 @implementation Appointment
 
@@ -43,6 +44,7 @@
      *  Unsure yet whether we're using an AppointmentType object for this or just a description or numeric code.
      *  TODO: Update from id to appropriate object type when determined.
      */
+    
     id leoAppointmentType = jsonResponse[APIParamApptType];
     NSNumber *state = jsonResponse[APIParamState];
     NSString *objectID = jsonResponse[APIParamID];
@@ -50,6 +52,11 @@
     
     //TODO: May need to protect against nil values...
     return [self initWithObjectID:objectID date:date appointmentType:leoAppointmentType patient:patient provider:provider bookedByUser:bookedByUser note:note state:state];
+}
+
+- (instancetype)initWithPrepAppointment:(PrepAppointment *)prepAppointment {
+    
+    return [self initWithObjectID:prepAppointment.objectID date:prepAppointment.date appointmentType:prepAppointment.leoAppointmentType patient:prepAppointment.patient provider:prepAppointment.provider bookedByUser:prepAppointment.bookedByUser note:prepAppointment.note state:prepAppointment.state];
 }
 
 + (NSDictionary *)dictionaryFromAppointment:(Appointment *)appointment {
@@ -71,17 +78,44 @@
     return [self.state integerValue];
 }
 
+- (AppointmentState)priorAppointmentState {
+    return [self.priorState integerValue];
+}
+
 - (nonnull NSString *)stringifiedAppointmentDate {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
-    dateFormatter.dateFormat = @"EEE', 'MMM','DD'";
+    dateFormatter.dateFormat = @"EEEE', 'MMMM' 'd'";
     return [dateFormatter stringFromDate:self.date];
 }
 
 - (nonnull NSString *)stringifiedAppointmentTime {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
-    dateFormatter.dateFormat = @"HH':'MM";
+    dateFormatter.dateFormat = @"h':'mma";
+    dateFormatter.AMSymbol = @"am";
+        dateFormatter.PMSymbol = @"pm";
     return [dateFormatter stringFromDate:self.date];
 }
 
+
+-(id)copy {
+    
+    Appointment *apptCopy = [[Appointment alloc] init];
+    apptCopy.objectID = self.objectID;
+    apptCopy.date = [self.date copy];
+    apptCopy.leoAppointmentType = self.leoAppointmentType;
+    apptCopy.state = self.state;
+    apptCopy.note = self.note;
+    apptCopy.bookedByUser = [self.bookedByUser copy];
+    apptCopy.patient = [self.patient copy];
+    apptCopy.provider = [self.provider copy];
+
+    return apptCopy;
+}
+
+-(NSString *) description {
+    
+    return [NSString stringWithFormat:@"<Appointment: %p>\nid: %@\ndate: %@\nleoAppointmentType: %@\nstate: %@\nnote %@\nbookedByUser: %@\npatient %@\nprovider: %@",
+            self, self.objectID, self.date, self.leoAppointmentType, self.state, self.note, self.bookedByUser, self.patient, self.provider];
+}
 
 @end
