@@ -64,6 +64,9 @@ static NSString *kActionSelectorBook = @"book";
             
         case AppointmentStateReminding:
             return CardLayoutTwoButtonPrimaryAndSecondary;
+            
+        case AppointmentStateCancelled:
+            return CardLayoutUndefined;
     }
 }
 
@@ -82,15 +85,18 @@ static NSString *kActionSelectorBook = @"book";
             break;
             
         case AppointmentStateConfirmingCancelling:
-            titleText = @"Confirm Appointment Cancellation";
+            titleText = @"Appointment Cancelled";
             break;
             
         case AppointmentStateRecommending:
-            titleText = @"Appointment Recommendation";
+            titleText = @"Recommended Appointment";
             break;
             
         case AppointmentStateReminding:
             titleText = @"Appointment Reminder";
+            break;
+            
+        case AppointmentStateCancelled:
             break;
     }
     
@@ -123,6 +129,9 @@ static NSString *kActionSelectorBook = @"book";
             
         case AppointmentStateReminding:
             bodyText = [NSString stringWithFormat:@"%@ has a %@ scheduled for %@ at %@.",self.appointment.patient.firstName, [((AppointmentType *)self.appointment.leoAppointmentType).typeDescriptor lowercaseString], self.appointment.stringifiedAppointmentDate, self.appointment.stringifiedAppointmentTime];
+            break;
+            
+        case AppointmentStateCancelled:
             break;
     }
     
@@ -160,7 +169,9 @@ static NSString *kActionSelectorBook = @"book";
         case AppointmentStateReminding:
             actionStrings = @[@"RESCHEDULE",@"CANCEL"];
             break;
-            
+
+        case AppointmentStateCancelled:
+            break;
     }
     
     return actionStrings;
@@ -218,7 +229,7 @@ static NSString *kActionSelectorBook = @"book";
             break;
         }
             
-        default:
+        case AppointmentStateCancelled:
             break;
     }
     
@@ -259,6 +270,7 @@ static NSString *kActionSelectorBook = @"book";
 }
 
 - (void)dismiss {
+    self.appointment.state = @(AppointmentStateCancelled);
     [self.delegate didUpdateObjectStateForCard:self];
 }
 

@@ -12,6 +12,8 @@
 @class Appointment;
 @class Conversation;
 @class Message;
+@class LEOCard;
+@class Caretaker;
 
 @interface LEODataManager : NSObject
 NS_ASSUME_NONNULL_BEGIN
@@ -48,7 +50,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSArray *)fetchDoctors;
 - (NSArray *)fetchAppointmentTypes;
 - (NSArray *)fetchSlots;
-- (NSArray *)fetchAvailableDates;
+
+- (void)addCard:(LEOCard *)card;
+- (void)removeCard:(LEOCard *)card;
 
 NS_ASSUME_NONNULL_END
 @end

@@ -72,6 +72,12 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     
     [super viewDidLoad];
     
+    // Registering as observer from one object
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(beginSchedulingNewAppointment)
+                                                 name:@"requestToBookNewAppointment"
+                                               object:nil];
+
     //    [self testAPI]; //TODO: Remove this line once moved what is in this method to a test.
     [self.dataManager fetchCardsWithCompletion:^{
         [self tableViewSetup];
@@ -124,21 +130,56 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
             
             Appointment *appointment = card.associatedCardObject;
             
-            if (appointment.appointmentState == AppointmentStateBooking) {
-                UIStoryboard *schedulingStoryboard = [UIStoryboard storyboardWithName:@"Scheduling" bundle:nil];
-                LEOAppointmentSchedulingCardVC *singleAppointmentScheduleVC = [schedulingStoryboard instantiateInitialViewController];
-                singleAppointmentScheduleVC.card = (LEOCardScheduling *)card;
-                //              self.transitionDelegate = [[LEOTransitioningDelegate alloc] init];
-                //            singleAppointmentScheduleVC.transitioningDelegate = self.transitionDelegate;
-                [self presentViewController:singleAppointmentScheduleVC animated:YES completion:^{
-                    singleAppointmentScheduleVC.collapsedCell = self.selectedCardCell;
-                }];
-            }
-            else {
-                [self.tableView reloadData]; //TODO: This is not right, but for now it is a placeholder.
+            switch (appointment.appointmentState) {
+                case AppointmentStateBooking: {
+                    [self loadBookingViewWithCard:card];
+                    break;
+                }
+                    
+                case AppointmentStateCancelled: {
+                    [self removeCardFromFeed:card];
+                    break;
+                }
+
+                default: {
+                    [self.tableView reloadData]; //TODO: This is not right, but for now it is a placeholder.
+                }
             }
         }
     }];
+}
+
+- (void)beginSchedulingNewAppointment {
+
+    Appointment *appointment = [[Appointment alloc] initWithObjectID:nil date:nil appointmentType:[self.dataManager fetchAppointmentTypes][0] patient:[self.dataManager fetchChildren][0] provider:[self.dataManager fetchDoctors][0] bookedByUser:(User *)[self.dataManager currentUser] note:nil state:@(AppointmentStateBooking)];
+    
+    LEOCardScheduling *card = [[LEOCardScheduling alloc] initWithObjectID:@"temp" priority:@999 associatedCardObject:appointment];
+    
+    [self loadBookingViewWithCard:card];
+}
+
+
+- (void)removeCardFromFeed:(LEOCard *)card {
+    
+    [self.tableView beginUpdates];
+    [self.dataManager removeCard:card];
+    NSArray *indexPaths = @[[NSIndexPath indexPathForRow:[card.priority integerValue] inSection:0]];
+    [self.tableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
+    [self.tableView endUpdates];
+}
+
+
+- (void)loadBookingViewWithCard:(LEOCard *)card {
+    
+    UIStoryboard *schedulingStoryboard = [UIStoryboard storyboardWithName:@"Scheduling" bundle:nil];
+    LEOAppointmentSchedulingCardVC *singleAppointmentScheduleVC = [schedulingStoryboard instantiateInitialViewController];
+    singleAppointmentScheduleVC.card = (LEOCardScheduling *)card;
+    //              self.transitionDelegate = [[LEOTransitioningDelegate alloc] init];
+    //            singleAppointmentScheduleVC.transitioningDelegate = self.transitionDelegate;
+    [self presentViewController:singleAppointmentScheduleVC animated:YES completion:^{
+        singleAppointmentScheduleVC.collapsedCell = self.selectedCardCell;
+    }];
+    
 }
 
 #pragma mark - <UITableViewDataSource>
@@ -229,5 +270,8 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     return _dataManager;
 }
 
+-(void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 
 @end

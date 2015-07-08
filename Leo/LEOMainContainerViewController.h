@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MenuView.h"
 
-@interface LEOMainContainerViewController : UIViewController
+@interface LEOMainContainerViewController : UIViewController <MenuActivityProtocol>
 
 @end

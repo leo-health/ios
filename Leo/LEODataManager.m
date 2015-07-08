@@ -48,6 +48,11 @@
     return _userToken;
 }
 
+- (User *)currentUser {
+    
+    //FIXME: This is temporary.
+    return [[Caretaker alloc] initWithObjectID:@"1" Title:@"Mrs." firstName:@"Marilyn" middleInitial:nil lastName:@"Drossman" suffix:nil email:@"marilyn@leohealth.com" photoURL:nil photo:nil primary:YES relationship:@"mother"];
+}
 
 - (void)createUserWithUser:(nonnull User *)user password:(nonnull NSString *)password withCompletion:(void (^)( NSDictionary * __nonnull rawResults))completionBlock {
     
@@ -158,7 +163,7 @@
     
     Appointment *appointment = [[Appointment alloc] initWithObjectID:@"5" date:nil appointmentType:[self fetchAppointmentTypes][1] patient:[self fetchChildren][0] provider:[self fetchDoctors][0] bookedByUser:mom note:@"note" state:@(AppointmentStateRecommending)];
     
-    LEOCardScheduling *cardOne = [[LEOCardScheduling alloc] initWithObjectID:@"2" priority:@1 associatedCardObject:appointment];
+    LEOCardScheduling *cardOne = [[LEOCardScheduling alloc] initWithObjectID:@"2" priority:@0 associatedCardObject:appointment];
     
     //LEOCollapsedCard *cardTwo = [[LEOCollapsedCard alloc] initWithObjectID:@2 state:CardStateNew title:@"Schedule Rachel's First Visit" body:@"Take a tour of the practice and meet with our world class physicians." primaryUser:childUserTwo secondaryUser:doctorUser timestamp:[NSDate date] priority:@2 activity:CardActivityAppointment];
     //
@@ -306,9 +311,20 @@
 
 - (void)addCard:(LEOCard *)card {
     
+    NSMutableArray *mutableCards = [self.cards mutableCopy];
     
+    [mutableCards addObject:card];
     
+    self.cards = [mutableCards copy];
+}
+
+- (void)removeCard:(LEOCard *)card {
     
+    NSMutableArray *mutableCards = [self.cards mutableCopy];
+    
+    [mutableCards removeObject:card];
+    
+    self.cards = [mutableCards copy];
 }
 
 #pragma mark - Application's Documents directory

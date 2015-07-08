@@ -8,6 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol MenuActivityProtocol <NSObject>
+
+- (void)beginBookingNewAppointment;
+- (void)beginUploadingNewForm;
+- (void)loadContactUsView;
+- (void)loadSettingsView;
+- (void)didMakeMenuChoice;
+
+@end
+
 @interface MenuView : UIView
+
+@property (weak, nonatomic) id<MenuActivityProtocol>delegate;
 
 @end
