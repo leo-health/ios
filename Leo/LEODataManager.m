@@ -21,6 +21,7 @@
 #import <NSDate+DateTools.h>
 #import "AppointmentType.h"
 #import "NSDate+Extensions.h"
+#import "LEOCard.h"
 
 @interface LEODataManager()
 
@@ -303,6 +304,12 @@
     return _availableDates;
 }
 
+- (void)addCard:(LEOCard *)card {
+    
+    
+    
+    
+}
 
 #pragma mark - Application's Documents directory
 
