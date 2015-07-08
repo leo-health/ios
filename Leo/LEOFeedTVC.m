@@ -45,7 +45,7 @@
 
 @interface LEOFeedTVC ()
 
-@property (strong, nonatomic) LEODataManager *coreDataManager;
+@property (strong, nonatomic) LEODataManager *dataManager;
 @property (nonatomic, strong) ArrayDataSource *cardsArrayDataSource;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) LEOTransitioningDelegate *transitionDelegate;
@@ -73,7 +73,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     [super viewDidLoad];
     
     //    [self testAPI]; //TODO: Remove this line once moved what is in this method to a test.
-    [self.coreDataManager fetchCardsWithCompletion:^{
+    [self.dataManager fetchCardsWithCompletion:^{
         [self tableViewSetup];
     }];
 }
@@ -144,12 +144,12 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 #pragma mark - <UITableViewDataSource>
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    return self.coreDataManager.cards.count;
+    return self.dataManager.cards.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    LEOCard *card = self.coreDataManager.cards[indexPath.row];
+    LEOCard *card = self.dataManager.cards[indexPath.row];
     card.delegate = self;
     
     NSString *cellIdentifier;
@@ -220,13 +220,13 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     }
 }
 
-- (LEODataManager *)coreDataManager {
+- (LEODataManager *)dataManager {
     
-    if (!_coreDataManager) {
-        _coreDataManager = [LEODataManager sharedManager];
+    if (!_dataManager) {
+        _dataManager = [LEODataManager sharedManager];
     }
     
-    return _coreDataManager;
+    return _dataManager;
 }
 
 

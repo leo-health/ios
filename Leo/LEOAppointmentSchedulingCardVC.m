@@ -59,7 +59,7 @@
 #pragma mark - Helper classes
 @property (strong, nonatomic) ArrayDataSource *arrayDataSource;
 @property (strong, nonatomic) CollectionViewDataSource *dataSource;
-@property (strong, nonatomic) LEODataManager *coreDataManager;
+@property (strong, nonatomic) LEODataManager *dataManager;
 @property (strong, nonatomic) PageViewDataSource *pageViewDataSource;
 
 #pragma mark - State
@@ -94,10 +94,10 @@ static NSString * const dateReuseIdentifier = @"DateCell";
 
 - (void)prepareForLaunch {
     
-    self.doctorDropDownController = [[LEODropDownController alloc] initWithTableView:self.doctorDropDownTV items:[self.coreDataManager fetchDoctors] usingDescriptorKey:@"fullName" prepObject:self.prepAppointment associatedCardObjectPropertyDescriptor:@"provider"];
+    self.doctorDropDownController = [[LEODropDownController alloc] initWithTableView:self.doctorDropDownTV items:[self.dataManager fetchDoctors] usingDescriptorKey:@"fullName" prepObject:self.prepAppointment associatedCardObjectPropertyDescriptor:@"provider"];
     
     //TODO: Remove hard coded options and move to DataManager.
-    self.visitTypeDropDownController = [[LEODropDownController alloc] initWithTableView:self.visitDropDownTV items:[self.coreDataManager fetchAppointmentTypes] usingDescriptorKey:@"typeDescriptor" prepObject:self.prepAppointment associatedCardObjectPropertyDescriptor:@"leoAppointmentType"];
+    self.visitTypeDropDownController = [[LEODropDownController alloc] initWithTableView:self.visitDropDownTV items:[self.dataManager fetchAppointmentTypes] usingDescriptorKey:@"typeDescriptor" prepObject:self.prepAppointment associatedCardObjectPropertyDescriptor:@"leoAppointmentType"];
     
     [self.view setNeedsLayout];
     
@@ -291,7 +291,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
 #pragma mark - Segue and segue helper methods
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
-    self.coreDataManager = [LEODataManager sharedManager];
+    self.dataManager = [LEODataManager sharedManager];
     
     /**
      *  Segue associated with paged TimeCollectionViewController
@@ -308,7 +308,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     if([segue.identifier isEqualToString:@"ChildDropDownEmbedSegue"]) {
         LEOChildDropDownTableViewController *tvc = segue.destinationViewController;
         tvc.prepAppointment = self.prepAppointment;
-        tvc.children = [self.coreDataManager fetchChildren];
+        tvc.children = [self.dataManager fetchChildren];
     }
 }
 
@@ -323,7 +323,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
  */
 - (void)baseViewSetup {
     
-    self.pageViewDataSource = [[PageViewDataSource alloc] initWithAllItems:self.dates selectedSubsetOfItems:self.coreDataManager.availableDates];
+    self.pageViewDataSource = [[PageViewDataSource alloc] initWithAllItems:self.dates selectedSubsetOfItems:self.dataManager.availableDates];
 }
 
 - (void)setupPageView {
@@ -381,7 +381,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     if (date) {
         daysFromBeginningOfDateArray = [[date beginningOfDay] daysFrom:self.dates.firstObject];
     } else {
-        daysFromBeginningOfDateArray = [self.coreDataManager.availableDates.firstObject daysFrom:self.dates.firstObject];
+        daysFromBeginningOfDateArray = [self.dataManager.availableDates.firstObject daysFrom:self.dates.firstObject];
     }
     
     return [NSIndexPath indexPathForRow:daysFromBeginningOfDateArray inSection:0];
@@ -480,7 +480,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
         }
     } else {
         
-        NSArray *availableSlotsForDate = [self.coreDataManager availableTimesForDate:date];
+        NSArray *availableSlotsForDate = [self.dataManager availableTimesForDate:date];
         ((LEODateCell *)cell).selectable = [availableSlotsForDate count] > 0 ? YES : NO;
     }
 }
@@ -671,7 +671,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     
     for (NSInteger i = 0; i < rangeLength; i++) {
         
-        NSArray *availableTimes = [self.coreDataManager availableTimesForDate:dateSubarray[i]];
+        NSArray *availableTimes = [self.dataManager availableTimesForDate:dateSubarray[i]];
         
         if ([availableTimes count] > 0) {
             return availableTimes[0];
