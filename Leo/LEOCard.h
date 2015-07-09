@@ -13,15 +13,16 @@
 #import "Provider.h"
 
 @interface LEOCard : NSObject
-
-@property (strong, nonatomic, nonnull) NSString *objectID;
-@property (strong, nonatomic, nonnull) NSNumber *priority;
+NS_ASSUME_NONNULL_BEGIN
+@property (strong, nonatomic) NSString *objectID;
+@property (strong, nonatomic) NSNumber *priority;
+@property (strong, nonatomic) NSString *type;
 
 @property (strong, nonatomic, nonnull) id associatedCardObject;
 
 @property (nonatomic, nullable) id<CardActivityProtocol> delegate;
 
-- (nonnull instancetype)initWithObjectID:(nonnull NSString *)objectID priority:(nonnull NSNumber *)priority associatedCardObject:(nonnull id)associatedCardObject;
+- (nonnull instancetype)initWithObjectID:(NSString *)objectID priority:(NSNumber *)priority type:(NSString *)type associatedCardObject:(nonnull id)associatedCardObject;
 
 - (nonnull instancetype)cardWithDictionary:(nonnull NSDictionary *)jsonResponse;
 
@@ -41,4 +42,5 @@
 
 - (void)returnToPriorState;
 
+NS_ASSUME_NONNULL_END
 @end
