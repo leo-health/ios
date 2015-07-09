@@ -11,14 +11,13 @@
 
 @implementation Provider
 
--(instancetype)initWithObjectID:(nullable NSString *)objectID practiceID:(NSString *)practiceID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email photoURL:(nullable NSURL *)photoURL photo:(UIImage *)photo credentialSuffixes:(NSArray *)credentials specialties:(NSArray *)specialties {
+-(instancetype)initWithObjectID:(nullable NSString *)objectID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email photoURL:(nullable NSURL *)photoURL photo:(UIImage *)photo credentialSuffixes:(NSArray *)credentials specialties:(NSArray *)specialties {
     
     self = [super initWithObjectID:objectID title:title firstName:firstName middleInitial:middleInitial lastName:lastName suffix:suffix email:email photoURL:photoURL photo:photo];
     
     if (self) {
         _credentials = credentials;
         _specialties = specialties;
-        _practiceID = practiceID;
     }
     
     return self;
@@ -31,7 +30,6 @@
     if (self) {
         _credentials = jsonResponse[APIParamUserCredentialSuffix];
         _specialties = jsonResponse[APIParamUserSpecialty];
-        _practiceID = jsonResponse[APIParamPracticeID];
     }
     
     return self;
@@ -43,7 +41,6 @@
     
     userDictionary[APIParamUserCredentialSuffix] = provider.credentials;
     userDictionary[APIParamUserSpecialty] = provider.specialties;
-    userDictionary[APIParamPracticeID] = provider.practiceID;
     
     return userDictionary;
 }
@@ -53,7 +50,6 @@
 
     Provider *providerCopy = [[Provider alloc] init];
     providerCopy.objectID = self.objectID;
-    providerCopy.practiceID = self.practiceID;
     providerCopy.firstName = self.firstName;
     providerCopy.lastName = self.lastName;
     providerCopy.middleInitial = self.middleInitial;

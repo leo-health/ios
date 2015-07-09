@@ -230,11 +230,11 @@
 
 - (NSArray *)fetchDoctors {
     
-    Provider *provider1 = [[Provider alloc] initWithObjectID:@"1" practiceID:@"0" title:@"Dr." firstName:@"Om" middleInitial:nil lastName:@"Lala" suffix:nil email:@"om@leohealth.com" photoURL:nil photo:[UIImage imageNamed:@"Avatar-Hayden"] credentialSuffixes:@[@"MD"] specialties:@[@"na"]];
+    Provider *provider1 = [[Provider alloc] initWithObjectID:@"1" title:@"Dr." firstName:@"Om" middleInitial:nil lastName:@"Lala" suffix:nil email:@"om@leohealth.com" photoURL:nil photo:[UIImage imageNamed:@"Avatar-Hayden"] credentialSuffixes:@[@"MD"] specialties:@[@"na"]];
     
-    Provider *provider2 = [[Provider alloc] initWithObjectID:@"2" practiceID:@"0" title:@"Dr." firstName:@"Summer" middleInitial:@"R" lastName:@"Cece" suffix:@"Sr." email:@"summer@leohealth.com" photoURL:nil photo:[UIImage imageNamed:@"Avatar-Hayden"] credentialSuffixes:@[@"MD"] specialties:@[@"na"]];
+    Provider *provider2 = [[Provider alloc] initWithObjectID:@"2" title:@"Dr." firstName:@"Summer" middleInitial:@"R" lastName:@"Cece" suffix:@"Sr." email:@"summer@leohealth.com" photoURL:nil photo:[UIImage imageNamed:@"Avatar-Hayden"] credentialSuffixes:@[@"MD"] specialties:@[@"na"]];
     
-    Provider *provider3 = [[Provider alloc] initWithObjectID:@"3" practiceID:@"0" title:@"Dr." firstName:@"Cristina" middleInitial:@"M." lastName:@"Montagne" suffix:nil email:@"cristina@leohealth.com" photoURL:nil photo:[UIImage imageNamed:@"Avatar-Hayden"] credentialSuffixes:@[@"MD"] specialties:@[@"na"]];
+    Provider *provider3 = [[Provider alloc] initWithObjectID:@"3" title:@"Dr." firstName:@"Cristina" middleInitial:@"M." lastName:@"Montagne" suffix:nil email:@"cristina@leohealth.com" photoURL:nil photo:[UIImage imageNamed:@"Avatar-Hayden"] credentialSuffixes:@[@"MD"] specialties:@[@"na"]];
     
     return @[provider1, provider2, provider3];
 }
