@@ -16,8 +16,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSDate * dob;
 @property (nonatomic, copy) NSString *gender;
 @property (nonatomic, copy) NSString *status;
+@property (nonatomic, copy, nullable) NSString *familyID;
 
-- (instancetype)initWithObjectID:(nullable NSString *)objectID title:(nullable NSString *)title firstName:(NSString * __nonnull)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString * __nonnull)lastName suffix:(nullable NSString *)suffix email:(nullable NSString *)email photoURL:(nullable NSURL *)photoURL photo:(nullable UIImage *)photo dob:(NSDate *)dob gender:(NSString *)gender status:(NSString *)status;
+- (instancetype)initWithObjectID:(nullable NSString *)objectID familyID:(NSString *)familyID title:(nullable NSString *)title firstName:(NSString * __nonnull)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString * __nonnull)lastName suffix:(nullable NSString *)suffix email:(nullable NSString *)email photoURL:(nullable NSURL *)photoURL photo:(nullable UIImage *)photo dob:(NSDate *)dob gender:(NSString *)gender status:(NSString *)status;
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse;
 

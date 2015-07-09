@@ -11,11 +11,12 @@
 
 @implementation Patient
 
--(instancetype)initWithObjectID:(nullable NSString *)objectID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(nullable NSString *)email photoURL:(nullable NSURL *)photoURL photo:(nullable UIImage *)photo dob:(NSDate *)dob gender:(NSString *)gender status:(NSString *)status {
+-(instancetype)initWithObjectID:(nullable NSString *)objectID familyID:(NSString *)familyID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(nullable NSString *)email photoURL:(nullable NSURL *)photoURL photo:(nullable UIImage *)photo dob:(NSDate *)dob gender:(NSString *)gender status:(NSString *)status {
     
     self = [super initWithObjectID:objectID title:title firstName:firstName middleInitial:middleInitial lastName:lastName suffix:suffix email:email photoURL:photoURL photo:photo];
     
     if (self) {
+        _familyID = familyID;
         _dob = dob;
         _gender = gender;
         _status = status;
@@ -29,6 +30,7 @@
     self = [super initWithJSONDictionary:jsonResponse];
     
     if (self) {
+        _familyID = jsonResponse[@"family_id"]; //FIXME: Update with constant.
         _dob = jsonResponse[APIParamUserDOB];
         _gender = jsonResponse[APIParamUserGender];
         _status = jsonResponse[APIParamUserStatus];
@@ -41,6 +43,7 @@
     
     NSMutableDictionary *userDictionary = [[super dictionaryFromUser:patient] mutableCopy];
     
+    userDictionary[@"family_id"] = patient.familyID; //FIXME: Update with constant.
     userDictionary[APIParamUserDOB] = patient.dob;
     userDictionary[APIParamUserGender] = patient.gender;
     userDictionary[APIParamUserStatus] = patient.status;
@@ -53,6 +56,7 @@
 
     Patient*patientCopy = [[Patient alloc] init];
     patientCopy.objectID = self.objectID;
+    patientCopy.familyID = self.familyID;
     patientCopy.firstName = self.firstName;
     patientCopy.lastName = self.lastName;
     patientCopy.middleInitial = self.middleInitial;

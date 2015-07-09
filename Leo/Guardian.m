@@ -12,11 +12,12 @@
 @implementation Guardian
 
 
-- (instancetype)initWithObjectID:(nullable NSString *)objectID Title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email photoURL:(nullable NSURL *)photoURL photo:(nullable UIImage *)photo primary:(BOOL)primary relationship:(NSString *)relationship {
+- (instancetype)initWithObjectID:(nullable NSString *)objectID familyID:(NSString *)familyID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email photoURL:(nullable NSURL *)photoURL photo:(nullable UIImage *)photo primary:(BOOL)primary relationship:(NSString *)relationship {
     
     self = [super initWithObjectID:objectID title:title firstName:firstName middleInitial:middleInitial lastName:lastName suffix:suffix email:email photoURL:photoURL photo:photo];
     
     if (self) {
+        _familyID = familyID;
         _primary = primary;
         _relationship = relationship;
     }
@@ -29,6 +30,7 @@
     self = [super initWithJSONDictionary:jsonResponse];
     
     if (self) {
+        _familyID = jsonResponse[@"family_id"] //FIXME: Update with constant.
         _primary = jsonResponse[APIParamUserPrimary];
         _relationship = jsonResponse[APIParamUserRelationship];
     }
@@ -40,6 +42,7 @@
     
     NSMutableDictionary *userDictionary = [[super dictionaryFromUser:guardian] mutableCopy];
     
+    userDictionary[@"family_id"] = guardian.familyID; //FIXME: Update with constant.
     userDictionary[APIParamUserPrimary] = @(guardian.primary);
     userDictionary[APIParamUserRelationship] = guardian.relationship;
     
@@ -51,6 +54,7 @@
     
     Guardian *guardianCopy = [[Guardian alloc] init];
     guardianCopy.objectID = self.objectID;
+    guardianCopy.familyID = self.familyID;
     guardianCopy.firstName = self.firstName;
     guardianCopy.lastName = self.lastName;
     guardianCopy.middleInitial = self.middleInitial;
