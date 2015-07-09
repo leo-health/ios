@@ -43,7 +43,7 @@ static NSString *kActionSelectorBook = @"book";
 
 -(Appointment *)appointment {
     
-    return (Appointment *)self.associatedCardObject;
+    return (Appointment *)self.associatedCardObjects[0]; //FIXME: Update to account for multiple objects at some point...
 }
 
 - (CardLayout)layout {

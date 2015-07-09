@@ -11,10 +11,10 @@
 @interface Provider : User
 NS_ASSUME_NONNULL_BEGIN
 
-@property (copy, nonatomic) NSString *credential;
-@property (copy, nonatomic) NSString *specialty;
+@property (copy, nonatomic) NSArray *credentials;
+@property (copy, nonatomic) NSArray *specialties;
 
--(instancetype)initWithObjectID:(nullable NSString *)objectID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email photoURL:(nullable NSURL *)photoURL photo:(UIImage *)photo credentialSuffix:(NSString *)credential specialty:(NSString *)specialty;
+-(instancetype)initWithObjectID:(nullable NSString *)objectID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email photoURL:(nullable NSURL *)photoURL photo:(UIImage *)photo credentialSuffixes:(NSArray *)credentials specialties:(NSArray *)specialties;
 
 -(instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse;
 

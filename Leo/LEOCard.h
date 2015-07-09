@@ -18,11 +18,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSNumber *priority;
 @property (strong, nonatomic) NSString *type;
 
-@property (strong, nonatomic, nonnull) id associatedCardObject;
+@property (strong, nonatomic, nonnull) NSArray *associatedCardObjects;
 
 @property (nonatomic, nullable) id<CardActivityProtocol> delegate;
 
-- (nonnull instancetype)initWithObjectID:(NSString *)objectID priority:(NSNumber *)priority type:(NSString *)type associatedCardObject:(nonnull id)associatedCardObject;
+- (nonnull instancetype)initWithObjectID:(NSString *)objectID priority:(NSNumber *)priority type:(NSString *)type associatedCardObjects:(nonnull NSArray *)associatedCardObjects;
 
 - (nonnull instancetype)cardWithDictionary:(nonnull NSDictionary *)jsonResponse;
 

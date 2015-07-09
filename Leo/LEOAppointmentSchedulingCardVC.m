@@ -155,8 +155,8 @@ static NSString * const dateReuseIdentifier = @"DateCell";
 
 
 - (void)updateCard {
-    
-    self.card.associatedCardObject = [[Appointment alloc] initWithPrepAppointment:self.prepAppointment];
+    Appointment *appointment = self.card.associatedCardObjects[0];
+     appointment = [[Appointment alloc] initWithPrepAppointment:self.prepAppointment]; //FIXME: Make this a loop to account for changes to multiple objects on a card.
     [self.card performSelector:NSSelectorFromString([self.card actionsAvailableForState][0])];
 }
 
@@ -277,7 +277,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
 
 - (PrepAppointment *)prepAppointment {
     
-    Appointment *appt = self.card.associatedCardObject;
+    Appointment *appt = self.card.associatedCardObjects[0]; //FIXME: Update to deal with array at some point...
     
     if (!_prepAppointment) {
         _prepAppointment = [[PrepAppointment alloc] initWithObjectID:appt.objectID date:appt.date appointmentType:appt.leoAppointmentType patient:appt.patient provider:appt.provider bookedByUser:appt.bookedByUser note:appt.note state:appt.state];
@@ -595,7 +595,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
 
 - (void)updateViews:(LEOCardScheduling *)card {
     
-    Appointment *appointment = card.associatedCardObject;
+    Appointment *appointment = card.associatedCardObjects[0]; //FIXME: Update to deal with array at some point.
     
     switch (appointment.appointmentState) {
             

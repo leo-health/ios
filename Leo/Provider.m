@@ -11,13 +11,13 @@
 
 @implementation Provider
 
--(instancetype)initWithObjectID:(nullable NSString *)objectID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email photoURL:(nullable NSURL *)photoURL photo:(UIImage *)photo credentialSuffix:(NSString *)credential specialty:(NSString *)specialty {
+-(instancetype)initWithObjectID:(nullable NSString *)objectID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email photoURL:(nullable NSURL *)photoURL photo:(UIImage *)photo credentialSuffixes:(NSArray *)credentials specialties:(NSArray *)specialties {
     
     self = [super initWithObjectID:objectID title:title firstName:firstName middleInitial:middleInitial lastName:lastName suffix:suffix email:email photoURL:photoURL photo:photo];
     
     if (self) {
-        _credential = credential;
-        _specialty = specialty;
+        _credentials = credentials;
+        _specialties = specialties;
     }
     
     return self;
@@ -28,8 +28,8 @@
     self = [super initWithJSONDictionary:jsonResponse];
     
     if (self) {
-        _credential = jsonResponse[APIParamUserCredentialSuffix];
-        _specialty = jsonResponse[APIParamUserSpecialty];
+        _credentials = jsonResponse[APIParamUserCredentialSuffix];
+        _specialties = jsonResponse[APIParamUserSpecialty];
     }
     
     return self;
@@ -39,8 +39,8 @@
     
     NSMutableDictionary *userDictionary = [[super dictionaryFromUser:provider] mutableCopy];
     
-    userDictionary[APIParamUserCredentialSuffix] = provider.credential;
-    userDictionary[APIParamUserSpecialty] = provider.specialty;
+    userDictionary[APIParamUserCredentialSuffix] = provider.credentials;
+    userDictionary[APIParamUserSpecialty] = provider.specialties;
     
     return userDictionary;
 }
@@ -58,8 +58,8 @@
     providerCopy.email = self.email;
     providerCopy.photoURL = self.photoURL;
     providerCopy.photo = [self.photo copy];
-    providerCopy.specialty = self.specialty;
-    providerCopy.credential = self.credential;
+    providerCopy.specialties = self.specialties;
+    providerCopy.credentials = self.credentials;
     
     return providerCopy;
 }

@@ -52,7 +52,20 @@
     
     self.nameLabel.text = [NSString stringWithFormat:@"%@ %@ %@",self.provider.title, self.provider.firstName, self.provider.lastName]; //FIXME: Replace with transient property on User class
     self.suffixLabel.text = self.provider.suffix;
-    self.suffixCredentialLabel.text = self.provider.credential;
+    
+    NSString *credentials;
+    
+    for (NSInteger i; i < [self.provider.credentials count]; i++) {
+
+        if (i != 0) {
+            [credentials stringByAppendingString:@" "];
+        }
+        
+        [credentials stringByAppendingString:self.provider.credentials[i]];
+    }
+    
+    self.suffixCredentialLabel.text = credentials;
+    
     self.dividerLabel.text = @"∙";
     
     if (self.cardLayout == CardLayoutOneButtonSecondaryOnly) {

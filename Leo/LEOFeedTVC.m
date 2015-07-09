@@ -126,9 +126,9 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
         //self.selectedCardCell.layer.transform = CATransform3DMakeRotation(M_PI_2,0.0,1.0,0.0); ; //flip halfway, TODO: Determine what the appropiate thing is to do with the collapsed card view.
     } completion:^(BOOL finished) {
         
-        if ([card.associatedCardObject isMemberOfClass:[Appointment class]]) {
+        if ([card.type isEqualToString:@"appointment"]) { //FIXME: should really be an integer / enum with a displayName if desired.
             
-            Appointment *appointment = card.associatedCardObject;
+            Appointment *appointment = card.associatedCardObjects[0]; //FIXME: Make this a loop to account for multiple appointments.
             
             switch (appointment.appointmentState) {
                 case AppointmentStateBooking: {
@@ -153,7 +153,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 
     Appointment *appointment = [[Appointment alloc] initWithObjectID:nil date:nil appointmentType:[self.dataManager fetchAppointmentTypes][0] patient:[self.dataManager fetchChildren][0] provider:[self.dataManager fetchDoctors][0] bookedByUser:(User *)[self.dataManager currentUser] note:nil state:@(AppointmentStateBooking)];
     
-    LEOCardScheduling *card = [[LEOCardScheduling alloc] initWithObjectID:@"temp" priority:@999 associatedCardObject:appointment];
+    LEOCardScheduling *card = [[LEOCardScheduling alloc] initWithObjectID:@"temp" priority:@999 type:@"appointment" associatedCardObjects:@[appointment]];
     
     [self loadBookingViewWithCard:card];
 }
