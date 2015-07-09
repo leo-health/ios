@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse;
 
-+ (NSDictionary *)dictionaryFromUser:(Guardian *)caretaker;
++ (NSDictionary *)dictionaryFromUser:(Guardian *)guardian;
 
 NS_ASSUME_NONNULL_END
 @end
