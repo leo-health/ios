@@ -4,15 +4,13 @@
 			"id": 2,
 			"title" : "Dr.",
 			"first_name": "Om",
-			"middle_initial": "L",
+			"middle_initial": "L.",
 			"last_name": "Lala",
-			"credentials": ["MD", "MBA", "MPH"],
-			"sex": "m",
+			"credentials": ["M.D.", "M.B.A.", "M.P.H."],
 			"role_id": 5,
-			"role_display_name": "Clinical Team",
-			"specialties": ["Pediatrics", "Obesity"],
-			"avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/providers/2.png",
-			"practice_id": 0
+			"role": "provider",
+			"specialties": ["pediatrics", "obesity"],
+			"avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/providers/2.png"
 		},
 		{
 			"id": 1,
@@ -20,13 +18,11 @@
 			"first_name": "Chelsea",
 			"middle_initial": null,
 			"last_name": "Bodnar",
-			"credentials": ["MD"],
-			"sex": "f",
+			"credentials": ["M.D."],
 			"role_id": 5,
-			"role_display_name": "Clinical Team",
-			"specialties": ["Pediatrics", "Gastroenterology"],
-			"avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/providers/1.png",
-			"practice_id": 0
+			"role": "provider",
+			"specialties": ["pediatrics", "gastroenterology"],
+			"avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/providers/1.png"
 		}
 	]
 

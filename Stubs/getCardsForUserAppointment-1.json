@@ -3,28 +3,30 @@
 	"cards": [
 		{
 			"priority": 0,
+			"id": 0,
 			"type": "appointment",
 			"data": [
 				{
 					"id": 111,
 					"duration": 60,
-					"start_timestamp": "2015-02-08T09:00:00.000Z",
+					"start_datetime": "2015-02-08T09:00:00.000Z",
 					"status_id": 3,
-					"status_display_name": "Recommending",
+					"status": "recommendation",
 					"visit_type_id": 0,
-					"visit_type_display_name": "Well Child Visit",
+					"visit_type_name": "Well child visit",
 					"is_multi_child": false,
 					"booked_by": {
 						"id": 13,
 						"title": "Mrs.",
 						"first_name": "Marie",
-						"middle_initial": "S",
+						"middle_initial": "S.",
 						"last_name": "Curie",
 						"role_id": 4,
-						"role_display_name": "Guardian",
-						"relationship_display_name": "Mother",
+						"role": "guardian",
+						"relationship_id": 0,
+						"relationship": "mother",
 						"family_id": 11,
-						"dob":"05/15/1859",
+						"birth_date":"05/15/1859",
 						"sex": "f",
 						"email": "marie@curie.com",
 						"is_primary": false,
@@ -34,30 +36,29 @@
 						"id": 2,
 						"title" : "Dr.",
 						"first_name": "Om",
-						"middle_initial": "L",
+						"middle_initial": "L.",
 						"last_name": "Lala",
-						"credentials": ["MD", "MBA", "MPH"],
-						"sex": "m",
+						"credentials": ["M.D.", "M.B.A.", "M.P.H."],
 						"role_id": 5,
-						"role_display_name": "Clinical Team",
-						"specialties": ["Pediatrics", "Obesity"],
-						"avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/providers/2.png",
-						"practice_id": 0
+						"role": "provider",
+						"specialties": ["pediatrics", "obesity"],
+						"avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/providers/2.png"
 					},
 					"patients": [
 						{
 							"id": 10,
-							"first_name":"Eve",
-							"middle_initial": "M",
+							"first_name": "Eve",
+							"middle_initial": "M.",
 							"last_name": "Curie",
 							"role_id": 6,
-							"relationship_display_name": "Child",
+							"role": "patient",
+							"relationship_id": 2,
+							"relationship": "child",
 							"family_id": 11,
-							"role_display_name": "Patient",
-							"dob": "01/01/1867",
+							"birth_date": "01/01/1867",
 							"sex": "f",
 							"email": null,
-							"avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/patients/11.png"
+							"avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/patients/10.png"
 						}
 					]
 				}
