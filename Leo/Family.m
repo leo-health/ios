@@ -13,13 +13,13 @@
 
 @implementation Family
 
-- (instancetype)initWithObjectID:(NSString *)objectID caretakers:(NSArray *)caretakers children:(NSArray *)children {
+- (instancetype)initWithObjectID:(NSString *)objectID guardians:(NSArray *)guardians children:(NSArray *)children {
 
     self = [super init];
     
     if (self) {
         _objectID = objectID;
-        _caretakers = caretakers;
+        _guardians = guardians;
         _children = children;
     }
     
@@ -38,15 +38,15 @@
         [children addObject:patient];
     }
     
-    NSArray *caretakerDictionaries = jsonResponse[APIParamCaretakers];
-    NSMutableArray *caretakers = [[NSMutableArray alloc] init];
+    NSArray *guardianDictionaries = jsonResponse[APIParamCaretakers];
+    NSMutableArray *guardians = [[NSMutableArray alloc] init];
     
-    for (NSDictionary *caretakerDictionary in caretakerDictionaries) {
-        Patient *patient = [[Patient alloc] initWithJSONDictionary:caretakerDictionary];
-        [caretakers addObject:patient];
+    for (NSDictionary *guardianDictionary in guardianDictionaries) {
+        Patient *patient = [[Patient alloc] initWithJSONDictionary:guardianDictionary];
+        [guardians addObject:patient];
     }
     
-    return [self initWithObjectID:objectID caretakers:[caretakers copy] children:[children copy]];
+    return [self initWithObjectID:objectID guardians:[guardians copy] children:[children copy]];
 }
 
 - (void)addChild:(Patient *)child {
@@ -59,13 +59,13 @@
 }
 
 
-- (void)addCaretaker:(Guardian *)caretaker {
+- (void)addCaretaker:(Guardian *)guardian {
     
-    NSMutableArray *caretakers = [self.caretakers mutableCopy];
+    NSMutableArray *guardians = [self.guardians mutableCopy];
     
-    [caretakers addObject:caretaker];
+    [guardians addObject:guardian];
     
-    self.caretakers = [caretakers copy];
+    self.guardians = [guardians copy];
 }
 
 @end

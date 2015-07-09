@@ -30,7 +30,7 @@
     self = [super initWithJSONDictionary:jsonResponse];
     
     if (self) {
-        _familyID = jsonResponse[@"family_id"] //FIXME: Update with constant.
+        _familyID = jsonResponse[@"family_id"]; //FIXME: Update with constant.
         _primary = jsonResponse[APIParamUserPrimary];
         _relationship = jsonResponse[APIParamUserRelationship];
     }

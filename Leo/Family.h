@@ -15,14 +15,14 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @property (copy, nonatomic) NSString *objectID;
-@property (strong, nonatomic) NSArray *caretakers;
+@property (strong, nonatomic) NSArray *guardians;
 @property (strong, nonatomic) NSArray *children;
 
-- (instancetype)initWithObjectID:(NSString *)id caretakers:(NSArray *)caregivers children:(NSArray *)children;
+- (instancetype)initWithObjectID:(NSString *)id guardians:(NSArray *)caregivers children:(NSArray *)children;
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse;
 
 - (void)addChild:(Patient *)child;
-- (void)addCaretaker:(Guardian *)caretaker;
+- (void)addGuardian:(Guardian *)guardian;
 
 NS_ASSUME_NONNULL_END
 @end
