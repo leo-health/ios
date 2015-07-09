@@ -59,7 +59,7 @@
 }
 
 
-- (void)addCaretaker:(Guardian *)guardian {
+- (void)addGuardian:(Guardian *)guardian {
     
     NSMutableArray *guardians = [self.guardians mutableCopy];
     

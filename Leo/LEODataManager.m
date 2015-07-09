@@ -51,7 +51,7 @@
 - (User *)currentUser {
     
     //FIXME: This is temporary.
-    return [[Guardian alloc] initWithObjectID:@"1" Title:@"Mrs." firstName:@"Marilyn" middleInitial:nil lastName:@"Drossman" suffix:nil email:@"marilyn@leohealth.com" photoURL:nil photo:nil primary:YES relationship:@"mother"];
+    return [[Guardian alloc] initWithObjectID:@"1" familyID:@"10" title:@"Mrs." firstName:@"Marilyn" middleInitial:nil lastName:@"Drossman" suffix:nil email:@"marilyn@leohealth.com" photoURL:nil photo:nil primary:YES relationship:@"mother"];
 }
 
 - (void)createUserWithUser:(nonnull User *)user password:(nonnull NSString *)password withCompletion:(void (^)( NSDictionary * __nonnull rawResults))completionBlock {
@@ -159,7 +159,7 @@
 
 - (void)fetchCardsWithCompletion:(void (^) (void))completionBlock {
     
-    Guardian *mom = [[Guardian alloc] initWithObjectID:@"1" Title:@"Mrs." firstName:@"Marilyn" middleInitial:nil lastName:@"Drossman" suffix:nil email:@"marilyn@leohealth.com" photoURL:nil photo:nil primary:YES relationship:@"mother"];
+    Guardian *mom = [[Guardian alloc] initWithObjectID:@"1" familyID:@"10" title:@"Mrs." firstName:@"Marilyn" middleInitial:nil lastName:@"Drossman" suffix:nil email:@"marilyn@leohealth.com" photoURL:nil photo:nil primary:YES relationship:@"mother"];
     
     Appointment *appointment = [[Appointment alloc] initWithObjectID:@"5" date:nil appointmentType:[self fetchAppointmentTypes][1] patient:[self fetchChildren][0] provider:[self fetchDoctors][0] bookedByUser:mom note:@"note" state:@(AppointmentStateRecommending)];
     
@@ -218,11 +218,11 @@
 
 - (NSArray *)fetchChildren {
     
-    Patient *patient1 = [[Patient alloc] initWithObjectID:@"1" title:nil firstName:@"Zachary" middleInitial:@"S" lastName:@"Drossman" suffix:nil email:@"zach@leohealth.com" photoURL:nil photo:[UIImage imageNamed:@"Avatar-Hayden"] dob:[NSDate dateWithYear:2008 month:1 day:12] gender:@"male" status:@"active"];
+    Patient *patient1 = [[Patient alloc] initWithObjectID:@"1" familyID:@"10" title:nil firstName:@"Zachary" middleInitial:@"S" lastName:@"Drossman" suffix:nil email:@"zach@leohealth.com" photoURL:nil photo:[UIImage imageNamed:@"Avatar-Hayden"] dob:[NSDate dateWithYear:2008 month:1 day:12] gender:@"male" status:@"active"];
     
-    Patient *patient2 = [[Patient alloc] initWithObjectID:@"2" title:nil firstName:@"Rachel" middleInitial:nil lastName:@"Drossman" suffix:@"Jr" email:@"rachel@leohealth.com" photoURL:nil photo:[UIImage imageNamed:@"Avatar-Hayden"] dob:[NSDate dateWithYear:2009 month:6 day:1] gender:@"female" status:@"active"];
+    Patient *patient2 = [[Patient alloc] initWithObjectID:@"2" familyID:@"10" title:nil firstName:@"Rachel" middleInitial:nil lastName:@"Drossman" suffix:@"Jr" email:@"rachel@leohealth.com" photoURL:nil photo:[UIImage imageNamed:@"Avatar-Hayden"] dob:[NSDate dateWithYear:2009 month:6 day:1] gender:@"female" status:@"active"];
     
-    Patient *patient3 = [[Patient alloc] initWithObjectID:@"3" title:nil firstName:@"Tracy" middleInitial:nil lastName:@"Drossman" suffix:nil email:nil photoURL:nil photo:[UIImage imageNamed:@"Avatar-Emily@1x"] dob:[NSDate dateWithYear:2014 month:10 day:10] gender:@"female" status:@"active"];
+    Patient *patient3 = [[Patient alloc] initWithObjectID:@"3" familyID:@"10" title:nil firstName:@"Tracy" middleInitial:nil lastName:@"Drossman" suffix:nil email:nil photoURL:nil photo:[UIImage imageNamed:@"Avatar-Emily@1x"] dob:[NSDate dateWithYear:2014 month:10 day:10] gender:@"female" status:@"active"];
                          
     
     return @[patient1, patient2, patient3];
