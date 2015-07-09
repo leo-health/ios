@@ -25,12 +25,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSArray *messages;
 @property (nonatomic, strong) NSArray *participants;
 
-@property (nonatomic, strong, nullable) NSDate * lastMessageCreated;
-
-@property (nonatomic, strong, nullable) NSNumber * archived;
-@property (nonatomic, strong, nullable) NSDate * archivedAt;
-@property (nonatomic, copy, nullable) NSString * archivedByID;
-
 - (instancetype)initWithObjectID:(NSString *)objectID messages:(NSArray *)messages participants:(NSArray *)participants;
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse;

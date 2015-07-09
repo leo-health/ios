@@ -13,7 +13,7 @@
 @class Conversation;
 @class Message;
 @class LEOCard;
-@class Caretaker;
+@class Guardian;
 
 @interface LEODataManager : NSObject
 NS_ASSUME_NONNULL_BEGIN

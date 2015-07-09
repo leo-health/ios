@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @class Patient;
-@class Caretaker;
+@class Guardian;
 
 @interface Family : NSObject
 NS_ASSUME_NONNULL_BEGIN
@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse;
 
 - (void)addChild:(Patient *)child;
-- (void)addCaretaker:(Caretaker *)caretaker;
+- (void)addCaretaker:(Guardian *)caretaker;
 
 NS_ASSUME_NONNULL_END
 @end

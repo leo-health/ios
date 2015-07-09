@@ -9,7 +9,7 @@
 #import "Family.h"
 #import "LEOConstants.h"
 #import "Patient.h"
-#import "Caretaker.h"
+#import "Guardian.h"
 
 @implementation Family
 
@@ -59,7 +59,7 @@
 }
 
 
-- (void)addCaretaker:(Caretaker *)caretaker {
+- (void)addCaretaker:(Guardian *)caretaker {
     
     NSMutableArray *caretakers = [self.caretakers mutableCopy];
     

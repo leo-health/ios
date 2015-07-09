@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "User.h"
 
-@interface Caretaker : User
+@interface Guardian : User
 NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic) BOOL primary;
@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse;
 
-+ (NSDictionary *)dictionaryFromUser:(Caretaker *)caretaker;
++ (NSDictionary *)dictionaryFromUser:(Guardian *)caretaker;
 
 NS_ASSUME_NONNULL_END
 @end

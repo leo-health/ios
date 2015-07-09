@@ -1,15 +1,15 @@
 //
-//  Caretaker.m
+//  guardian.m
 //  Leo
 //
 //  Created by Zachary Drossman on 7/2/15.
 //  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
-#import "Caretaker.h"
+#import "Guardian.h"
 #import "LEOConstants.h"
 
-@implementation Caretaker
+@implementation Guardian
 
 
 - (instancetype)initWithObjectID:(nullable NSString *)objectID Title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email photoURL:(nullable NSURL *)photoURL photo:(nullable UIImage *)photo primary:(BOOL)primary relationship:(NSString *)relationship {
@@ -36,12 +36,12 @@
     return self;
 }
 
-+ (NSDictionary *)dictionaryFromUser:(Caretaker *)caretaker {
++ (NSDictionary *)dictionaryFromUser:(Guardian *)guardian {
     
-    NSMutableDictionary *userDictionary = [[super dictionaryFromUser:caretaker] mutableCopy];
+    NSMutableDictionary *userDictionary = [[super dictionaryFromUser:guardian] mutableCopy];
     
-    userDictionary[APIParamUserPrimary] = @(caretaker.primary);
-    userDictionary[APIParamUserRelationship] = caretaker.relationship;
+    userDictionary[APIParamUserPrimary] = @(guardian.primary);
+    userDictionary[APIParamUserRelationship] = guardian.relationship;
     
     return userDictionary;
     
@@ -49,20 +49,20 @@
 
 - (id)copy {
     
-    Caretaker *caretakerCopy = [[Caretaker alloc] init];
-    caretakerCopy.objectID = self.objectID;
-    caretakerCopy.firstName = self.firstName;
-    caretakerCopy.lastName = self.lastName;
-    caretakerCopy.middleInitial = self.middleInitial;
-    caretakerCopy.suffix = self.suffix;
-    caretakerCopy.title = self.title;
-    caretakerCopy.email = self.email;
-    caretakerCopy.photoURL = self.photoURL;
-    caretakerCopy.photo = [self.photo copy];
-    caretakerCopy.relationship = self.relationship;
-    caretakerCopy.primary = self.primary;
+    Guardian *guardianCopy = [[Guardian alloc] init];
+    guardianCopy.objectID = self.objectID;
+    guardianCopy.firstName = self.firstName;
+    guardianCopy.lastName = self.lastName;
+    guardianCopy.middleInitial = self.middleInitial;
+    guardianCopy.suffix = self.suffix;
+    guardianCopy.title = self.title;
+    guardianCopy.email = self.email;
+    guardianCopy.photoURL = self.photoURL;
+    guardianCopy.photo = [self.photo copy];
+    guardianCopy.relationship = self.relationship;
+    guardianCopy.primary = self.primary;
     
-    return caretakerCopy;
+    return guardianCopy;
 }
 
 -(NSString *)description {
