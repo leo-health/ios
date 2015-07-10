@@ -1,16 +1,17 @@
 {
 	"data": [
 		{
-			"id": 2,
+			"id": 0,
 			"title" : "Dr.",
 			"first_name": "Om",
 			"middle_initial": "L.",
 			"last_name": "Lala",
+			"suffix": null,
 			"credentials": ["M.D.", "M.B.A.", "M.P.H."],
 			"role_id": 5,
 			"role": "provider",
 			"specialties": ["pediatrics", "obesity"],
-			"avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/providers/2.png"
+			"avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/providers/0.png"
 		},
 		{
 			"id": 1,
@@ -18,6 +19,7 @@
 			"first_name": "Chelsea",
 			"middle_initial": null,
 			"last_name": "Bodnar",
+			"suffix": null,
 			"credentials": ["M.D."],
 			"role_id": 5,
 			"role": "provider",
