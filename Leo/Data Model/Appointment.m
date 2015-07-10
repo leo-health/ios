@@ -12,10 +12,11 @@
 #import "Provider.h"
 #import "Patient.h"
 #import "PrepAppointment.h"
+#import "AppointmentType.h"
 
 @implementation Appointment
 
--(instancetype)initWithObjectID:(nullable NSString *)objectID date:(nullable NSDate *)date appointmentType:(NSNumber *)leoAppointmentType patient:(Patient *)patient provider:(Provider *)provider bookedByUser:(User *)bookedByUser note:(nullable NSString *)note state:(NSNumber *)state {
+-(instancetype)initWithObjectID:(nullable NSString *)objectID date:(nullable NSDate *)date appointmentType:(AppointmentType *)leoAppointmentType patient:(Patient *)patient provider:(Provider *)provider bookedByUser:(User *)bookedByUser note:(nullable NSString *)note state:(NSNumber *)state {
     
     self = [super init];
     
@@ -36,17 +37,13 @@
 - (instancetype)initWithJSONDictionary:(nonnull NSDictionary *)jsonResponse {
     
     NSDate *date = jsonResponse[APIParamApptDate];
-    Patient *patient = jsonResponse[APIParamPatient];
-    Provider *provider = jsonResponse[APIParamProvider];
-    User *bookedByUser = jsonResponse[APIParamBookedByUser];
+    Patient *patient = [[Patient alloc] initWithJSONDictionary:jsonResponse[@"patients"][0]]; //FIXME: Constant
+    Provider *provider = [[Provider alloc] initWithJSONDictionary:jsonResponse[APIParamProvider]];
+    User *bookedByUser = [[User alloc] initWithJSONDictionary:jsonResponse[APIParamBookedByUser] ];
     
-    /**
-     *  Unsure yet whether we're using an AppointmentType object for this or just a description or numeric code.
-     *  TODO: Update from id to appropriate object type when determined.
-     */
-    
-    id leoAppointmentType = jsonResponse[APIParamApptType];
-    NSNumber *state = jsonResponse[APIParamState];
+    AppointmentType *leoAppointmentType = [[AppointmentType alloc] initWithObjectID:jsonResponse[@"visit_type_id"] typeDescriptor:jsonResponse[@"visit_type_display_name"] duration:nil]; //FIXME: Constant
+                                           
+    NSNumber *state = jsonResponse[@"status_id"]; //FIXME: Constant
     NSString *objectID = jsonResponse[APIParamID];
     NSString *note = jsonResponse[APIParamApptNote];
     
@@ -72,8 +69,8 @@
     appointmentDictionary[APIParamApptNote] = appointment.note;
     
     return appointmentDictionary;
-    
 }
+
 - (AppointmentState)appointmentState {
     return [self.state integerValue];
 }

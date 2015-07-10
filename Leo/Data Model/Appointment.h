@@ -13,6 +13,7 @@
 @class Provider;
 @class User;
 @class PrepAppointment;
+@class AppointmentType;
 
 typedef enum AppointmentState : NSUInteger {
     AppointmentStateBooking = 0,
@@ -29,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong, nullable) NSDate *date;
 @property (nonatomic, copy, nullable) NSString *objectID;
-@property (nonatomic, strong) id leoAppointmentType;
+@property (nonatomic, strong) AppointmentType *leoAppointmentType;
 @property (nonatomic, strong) NSNumber *state;
 @property (nonatomic, strong) User *bookedByUser;
 @property (nonatomic, strong) Patient *patient;
@@ -37,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *note;
 @property (nonatomic, strong, nullable) NSNumber *priorState;
 
--(instancetype)initWithObjectID:(nullable NSString *)objectID date:(nullable NSDate *)date appointmentType:(NSNumber *)leoAppointmentType patient:(Patient *)patient provider:(Provider *)provider bookedByUser:(User *)bookedByUser note:(nullable NSString *)note state:(NSNumber *)state;
+-(instancetype)initWithObjectID:(nullable NSString *)objectID date:(nullable NSDate *)date appointmentType:(AppointmentType *)leoAppointmentType patient:(Patient *)patient provider:(Provider *)provider bookedByUser:(User *)bookedByUser note:(nullable NSString *)note state:(NSNumber *)state;
 
 - (instancetype)initWithJSONDictionary:(nonnull NSDictionary *)jsonResponse;
 

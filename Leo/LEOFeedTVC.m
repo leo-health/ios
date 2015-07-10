@@ -51,6 +51,7 @@
 @property (strong, nonatomic) LEOTransitioningDelegate *transitionDelegate;
 
 @property (strong, nonatomic) UITableViewCell *selectedCardCell;
+@property (strong, nonatomic) NSArray *cards;
 
 @end
 
@@ -78,15 +79,30 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
                                                  name:@"requestToBookNewAppointment"
                                                object:nil];
 
-    //    [self testAPI]; //TODO: Remove this line once moved what is in this method to a test.
-    [self.dataManager fetchCardsWithCompletion:^{
-        [self tableViewSetup];
+    
+    __weak id<OHHTTPStubsDescriptor> cardsStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        NSLog(@"Request");
+        BOOL test = [request.URL.host isEqualToString:APIHost] && [request.URL.path isEqualToString:[NSString stringWithFormat:@"%@/%@",APICommonPath, @"cards"]];
+        return test;
+    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        
+        NSString *fixture = fixture = OHPathForFile(@"getCardsForUser.json", self.class);
+        OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithFileAtPath:fixture statusCode:200 headers:@{@"Content-Type":@"application/json"}];
+        return response;
+        
     }];
+    
+    [self tableViewSetup];
+
+    [self.dataManager getCardsWithCompletion:^(NSArray *cards) {
+        self.cards = cards;
+        [self.tableView reloadData];
+    }];
+
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    
-    [self.tableView reloadData];
+        [self.tableView reloadData];
 }
 
 
@@ -154,7 +170,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     Appointment *appointment = [[Appointment alloc] initWithObjectID:nil date:nil appointmentType:[self.dataManager fetchAppointmentTypes][0] patient:[self.dataManager fetchChildren][0] provider:[self.dataManager fetchDoctors][0] bookedByUser:(User *)[self.dataManager currentUser] note:nil state:@(AppointmentStateBooking)];
     
     LEOCardScheduling *card = [[LEOCardScheduling alloc] initWithObjectID:@"temp" priority:@999 type:@"appointment" associatedCardObjects:@[appointment]];
-    
+
     [self loadBookingViewWithCard:card];
 }
 
@@ -185,12 +201,12 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 #pragma mark - <UITableViewDataSource>
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    return self.dataManager.cards.count;
+    return self.cards.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    LEOCard *card = self.dataManager.cards[indexPath.row];
+    LEOCard *card = self.cards[indexPath.row];
     card.delegate = self;
     
     NSString *cellIdentifier;

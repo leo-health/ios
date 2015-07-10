@@ -44,6 +44,7 @@
 
 -(NSString *)userToken {
     
+    _userToken = @"This is a placeholder.";
     //will eventually pull from the keychain, but for now, will come from some temporarily place or be hard coded as necessary.
     return _userToken;
 }
@@ -54,7 +55,7 @@
     return [[Guardian alloc] initWithObjectID:@"1" familyID:@"10" title:@"Mrs." firstName:@"Marilyn" middleInitial:nil lastName:@"Drossman" suffix:nil email:@"marilyn@leohealth.com" photoURL:nil photo:nil primary:YES relationship:@"mother"];
 }
 
-- (void)createUserWithUser:(nonnull User *)user password:(nonnull NSString *)password withCompletion:(void (^)( NSDictionary * __nonnull rawResults))completionBlock {
+- (void)createUserWithUser:(nonnull User *)user password:(nonnull NSString *)password withCompletion:(void (^)( NSDictionary *  rawResults))completionBlock {
     
     NSMutableDictionary *userParams = [[User dictionaryFromUser:user] mutableCopy];
     userParams[APIParamUserPassword] = password;
@@ -65,7 +66,7 @@
     }];
 }
 
-- (void)loginUserWithEmail:(nonnull NSString *)email password:(nonnull NSString *)password withCompletion:(void (^)(NSDictionary * __nonnull rawResults))completionBlock {
+- (void)loginUserWithEmail:(nonnull NSString *)email password:(nonnull NSString *)password withCompletion:(void (^)(NSDictionary *  rawResults))completionBlock {
     
     NSDictionary *loginParams = @{APIParamUserEmail:email, APIParamUserPassword:password};
     
@@ -75,7 +76,7 @@
     }];
 }
 
-- (void)resetPasswordWithEmail:(nonnull NSString *)email withCompletion:(void (^)(NSDictionary * __nonnull rawResults))completionBlock {
+- (void)resetPasswordWithEmail:(nonnull NSString *)email withCompletion:(void (^)(NSDictionary *  rawResults))completionBlock {
     
     NSDictionary *resetPasswordParams = @{APIParamUserEmail:email};
     
@@ -85,7 +86,7 @@
     }];
 }
 
-- (void)createAppointmentWithAppointment:(nonnull Appointment *)appointment withCompletion:(void (^)(NSDictionary  * __nonnull rawResults))completionBlock {
+- (void)createAppointmentWithAppointment:(nonnull Appointment *)appointment withCompletion:(void (^)(NSDictionary  *  rawResults))completionBlock {
     
     NSArray *apptProperties = @[[self userToken], appointment.patient.objectID, appointment.date, appointment.provider.objectID];
     NSArray *apptKeys = @[APIParamApptToken, APIParamPatientID, APIParamApptDate, APIParamProviderID];
@@ -98,34 +99,34 @@
     }];
 }
 
-- (void)getAppointmentsForFamilyOfCurrentUserWithCompletion:(void (^)(NSDictionary  * __nonnull rawResults))completionBlock {
+- (void)getAppointmentsForFamilyOfCurrentUserWithCompletion:(void (^)(NSDictionary  *  rawResults))completionBlock {
     
     NSArray *apptProperties = @[[self userToken]];
     NSArray *apptKeys = @[APIParamApptToken];
     
     NSDictionary *apptParams = [[NSDictionary alloc] initWithObjects:apptProperties forKeys:apptKeys];
     
-    [LEOApiClient getAppointmentsForFamilyWithParameters:apptParams withCompletion:^(NSDictionary * __nonnull rawResults) {
+    [LEOApiClient getAppointmentsForFamilyWithParameters:apptParams withCompletion:^(NSDictionary *  rawResults) {
         //TODO: Error terms
         completionBlock(rawResults);
     }];
 }
 
-- (void)getConversationsForCurrentUserWithCompletion:(void (^)(NSDictionary  * __nonnull rawResults))completionBlock {
+- (void)getConversationsForCurrentUserWithCompletion:(void (^)(NSDictionary  *  rawResults))completionBlock {
     
     NSArray *conversationProperties = @[self.userToken];
     NSArray *conversationKeys = @[APIParamApptToken];
     
     NSDictionary *conversationParams = [[NSDictionary alloc] initWithObjects:conversationProperties forKeys:conversationKeys];
     
-    [LEOApiClient getConversationsForFamilyWithParameters:conversationParams withCompletion:^(NSDictionary * __nonnull rawResults) {
+    [LEOApiClient getConversationsForFamilyWithParameters:conversationParams withCompletion:^(NSDictionary * rawResults) {
         //TODO: Error terms
         completionBlock(rawResults);
     }];
 }
 
 
-- (void)createMessage:(Message *)message forConversation:(nonnull Conversation *)conversation withCompletion:(nonnull void (^)(NSDictionary  * __nonnull rawResults))completionBlock {
+- (void)createMessage:(Message *)message forConversation:(nonnull Conversation *)conversation withCompletion:(void (^)(NSDictionary  *  rawResults))completionBlock {
     
     [conversation addMessage:message];
     
@@ -134,20 +135,20 @@
     
     NSDictionary *messageParams = [[NSDictionary alloc] initWithObjects:messageProperties forKeys:messageKeys];
     
-    [LEOApiClient createMessageForConversation:conversation.objectID withParameters:messageParams withCompletion:^(NSDictionary * __nonnull rawResults) {
+    [LEOApiClient createMessageForConversation:conversation.objectID withParameters:messageParams withCompletion:^(NSDictionary *  rawResults) {
         //TODO: Error terms
         completionBlock(rawResults);
     }];
 }
 
-- (void)getMessagesForConversation:(Conversation *)conversation withCompletion:(nonnull void (^)(NSDictionary  * __nonnull rawResults))completionBlock {
+- (void)getMessagesForConversation:(Conversation *)conversation withCompletion:(nonnull void (^)(NSDictionary  *  rawResults))completionBlock {
     
     NSArray *messageProperties = @[self.userToken];
     NSArray *messageKeys = @[APIParamApptToken];
     
     NSDictionary *messageParams = [[NSDictionary alloc] initWithObjects:messageProperties forKeys:messageKeys];
     
-    [LEOApiClient getMessagesForConversation:conversation.objectID withParameters:messageParams withCompletion:^(NSDictionary * __nonnull rawResults) {
+    [LEOApiClient getMessagesForConversation:conversation.objectID withParameters:messageParams withCompletion:^(NSDictionary *  rawResults) {
         //TODO: Error terms
         completionBlock(rawResults);
     }];
@@ -157,13 +158,38 @@
 
 #pragma mark - Fetching
 
-- (void)fetchCardsWithCompletion:(void (^) (void))completionBlock {
+- (void)getCardsWithCompletion:(void (^)(NSArray *cards))completionBlock {
+
+    NSArray *user = @[[self userToken]];
+    NSArray *userKey = @[APIParamUserToken];
     
-    Guardian *mom = [[Guardian alloc] initWithObjectID:@"1" familyID:@"10" title:@"Mrs." firstName:@"Marilyn" middleInitial:nil lastName:@"Drossman" suffix:nil email:@"marilyn@leohealth.com" photoURL:nil photo:nil primary:YES relationship:@"mother"];
+    NSDictionary *userParams = [[NSDictionary alloc] initWithObjects:user forKeys:userKey];
     
-    Appointment *appointment = [[Appointment alloc] initWithObjectID:@"5" date:nil appointmentType:[self fetchAppointmentTypes][1] patient:[self fetchChildren][0] provider:[self fetchDoctors][0] bookedByUser:mom note:@"note" state:@(AppointmentStateRecommending)];
+    [LEOApiClient getCardsForUser:userParams withCompletion:^(NSDictionary *rawResults) {
+        
+        NSArray *jsonCards = rawResults[@"cards"];
+        
+        NSMutableArray *cards = [[NSMutableArray alloc] init];
+        
+        for (id jsonCard in jsonCards) {
+            
+            NSString *cardType = jsonCard[@"type"];
+            
+            if ([cardType isEqualToString:@"appointment"]) {
+                LEOCardScheduling *card = [[LEOCardScheduling alloc] initWithDictionary:jsonCard];
+                [cards addObject:card];
+            }
+        }
+        
+        //FIXME: Safety here
+        completionBlock(cards);
+    }];
     
-    LEOCardScheduling *cardOne = [[LEOCardScheduling alloc] initWithObjectID:@"2" priority:@0 type:@"appointment" associatedCardObjects:@[appointment]];
+//    Guardian *mom = [[Guardian alloc] initWithObjectID:@"1" familyID:@"10" title:@"Mrs." firstName:@"Marilyn" middleInitial:nil lastName:@"Drossman" suffix:nil email:@"marilyn@leohealth.com" photoURL:nil photo:nil primary:YES relationship:@"mother"];
+//    
+//    Appointment *appointment = [[Appointment alloc] initWithObjectID:@"5" date:nil appointmentType:[self fetchAppointmentTypes][1] patient:[self fetchChildren][0] provider:[self fetchDoctors][0] bookedByUser:mom note:@"note" state:@(AppointmentStateRecommending)];
+//    
+//    LEOCardScheduling *cardOne = [[LEOCardScheduling alloc] initWithObjectID:@"2" priority:@0 type:@"appointment" associatedCardObjects:@[appointment]];
     
     //LEOCollapsedCard *cardTwo = [[LEOCollapsedCard alloc] initWithObjectID:@2 state:CardStateNew title:@"Schedule Rachel's First Visit" body:@"Take a tour of the practice and meet with our world class physicians." primaryUser:childUserTwo secondaryUser:doctorUser timestamp:[NSDate date] priority:@2 activity:CardActivityAppointment];
     //
@@ -173,11 +199,9 @@
     //
     //    Card *cardSix = [[Card alloc] initWithObjectID:@3 state:CardStateNew title:@"Recent Visit" body:@"Jacob was seen for a sore throat and cough." primaryUser:childUserThree secondaryUser:doctorUser timestamp:[NSDate date] priority:@3 activity:CardActivityVisit];
     
-    self.cards = @[cardOne]; //, cardTwo, cardThree, cardFour, cardFive, cardSix, cardOne, cardTwo, cardThree, cardFour, cardFive, cardSix];
+//    NSArray *cards = @[cardOne]; //, cardTwo, cardThree, cardFour, cardFive, cardSix, cardOne, cardTwo, cardThree, cardFour, cardFive, cardSix];
     
-    
-    //FIXME: Safety here
-    completionBlock();
+//    completionBlock(cards);
 }
 
 - (id)objectWithObjectID:(NSString *)objectID objectArray:(NSArray *)objects {

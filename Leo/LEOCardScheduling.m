@@ -41,6 +41,36 @@ static NSString *kActionSelectorBook = @"book";
     return self;
 }
 
+- (instancetype)initWithObjectID:(NSString *)objectID priority:(NSNumber *)priority type:(NSString *)type associatedCardObjects:(NSArray *)associatedObjectDictionaries {
+    
+    self = [super initWithObjectID:objectID priority:priority type:type associatedCardObjects:associatedObjectDictionaries];
+    
+    if (self) {
+        
+        NSMutableArray *appointments = [[NSMutableArray alloc] init];
+        
+        for (NSDictionary *appointmentDictionary in associatedObjectDictionaries) {
+            
+            Appointment *appointment = [[Appointment alloc] initWithJSONDictionary:appointmentDictionary];
+            
+            [appointments addObject:appointment];
+        }
+        
+        self.associatedCardObjects = appointments;
+    }
+
+    return self;
+}
+
+- (instancetype)initWithDictionary:(NSDictionary *)jsonCard {
+
+    return [self initWithObjectID:jsonCard[APIParamCardID]
+                         priority:jsonCard[APIParamCardPriority]
+                             type:jsonCard[APIParamCardType]
+            associatedCardObjects:jsonCard[@"data"]];
+}
+
+
 -(Appointment *)appointment {
     
     return (Appointment *)self.associatedCardObjects[0]; //FIXME: Update to account for multiple objects at some point...

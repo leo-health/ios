@@ -12,5 +12,6 @@
 
 @interface LEOCardScheduling : LEOCard
 
+- (instancetype)initWithDictionary:(NSDictionary *)jsonCard;
 
 @end

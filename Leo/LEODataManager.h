@@ -25,10 +25,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) NSArray *users;
 
-- (void)fetchCardsWithCompletion:(void (^) (void))completionBlock;
+
 - (NSArray *)availableTimesForDate:(NSDate*)date;
 
 + (instancetype)sharedManager;
+
+
+//Cards
+- (void)getCardsWithCompletion:(void (^)(NSArray *cards))completionBlock;
 
 //Users
 - (void)createUserWithUser:(nonnull User *)user password:(nonnull NSString *)password withCompletion:(void (^)( NSDictionary * __nonnull rawResults))completionBlock;

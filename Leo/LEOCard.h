@@ -18,27 +18,26 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSNumber *priority;
 @property (strong, nonatomic) NSString *type;
 
-@property (strong, nonatomic, nonnull) NSArray *associatedCardObjects;
+@property (strong, nonatomic) NSArray *associatedCardObjects;
 
 @property (nonatomic, nullable) id<CardActivityProtocol> delegate;
 
-- (nonnull instancetype)initWithObjectID:(NSString *)objectID priority:(NSNumber *)priority type:(NSString *)type associatedCardObjects:(nonnull NSArray *)associatedCardObjects;
+- (instancetype)initWithObjectID:(NSString *)objectID priority:(NSNumber *)priority type:(NSString *)type associatedCardObjects:(NSArray *)associatedCardObjects;
 
-- (nonnull instancetype)cardWithDictionary:(nonnull NSDictionary *)jsonResponse;
-
+- (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse;
 
 
 //abstract methods
-- (nonnull UIImage *)icon;
-- (nonnull UIColor *)tintColor;
-- (nonnull NSString *)title;
-- (nonnull NSString *)body;
+- (UIImage *)icon;
+- (UIColor *)tintColor;
+- (NSString *)title;
+- (NSString *)body;
 - (CardLayout)layout;
-- (nonnull NSArray *)stringRepresentationOfActionsAvailableForState;
-- (nonnull Provider *)secondaryUser;
-- (nonnull User *)primaryUser;
-- (nonnull NSDate *)timestamp;
-- (nonnull NSArray *)actionsAvailableForState;
+- (NSArray *)stringRepresentationOfActionsAvailableForState;
+- (Provider *)secondaryUser;
+- (User *)primaryUser;
+- (NSDate *)timestamp;
+- (NSArray *)actionsAvailableForState;
 
 - (void)returnToPriorState;
 
