@@ -21,5 +21,9 @@
 @property (weak, nonatomic) IBOutlet UIView *containerView;
 @property (strong, nonatomic) LEOCardScheduling *card;
 
+@property (strong, nonatomic) NSArray *providers;
+@property (strong, nonatomic) NSArray *patients;
+@property (strong, nonatomic) NSArray *visitTypes;
+
 @end
 

@@ -52,9 +52,37 @@
         //TODO: Error terms
         completionBlock(rawResults);
     }];
-    
 }
 
++ (void)getProvidersWithParameters:(NSDictionary *)practiceParams withCompletion:(void (^)(NSDictionary *rawResults))completionBlock {
+    
+    NSString *getProvidersURLString = [NSString stringWithFormat:@"%@/%@",APIBaseURL,@"providers"]; //FIXME: Remove hardcoded string; replace with LEOConstant. This also is definitely not the right URL.
+    
+    [LEOAPIHelper standardGETRequestForJSONDictionaryFromAPIWithURL:getProvidersURLString params:practiceParams completion:^(NSDictionary * rawResults) {
+        //TODO: Error terms
+        completionBlock(rawResults);
+    }];
+}
+
++ (void)getVisitTypesWithCompletion:(void (^)(NSDictionary *rawResults))completionBlock {
+    
+    NSString *getVisitTypesURLString = [NSString stringWithFormat:@"%@/%@",APIBaseURL,@"visitTypes"]; //FIXME: Remove hardcoded string; replace with LEOConstant. This also is definitely not the right URL.
+    
+    [LEOAPIHelper standardGETRequestForJSONDictionaryFromAPIWithURL:getVisitTypesURLString params:@{} completion:^(NSDictionary * rawResults) { //MARK: no parameters I suspect for this endpoint
+        //TODO: Error terms
+        completionBlock(rawResults);
+    }];
+}
+
++ (void)getFamilyWithUserParameters:(NSDictionary *)userParams withCompletion:(void (^)(NSDictionary *rawResults))completionBlock {
+    
+    NSString *getFamilyURLString = [NSString stringWithFormat:@"%@/%@",APIBaseURL,@"family"]; //FIXME: Remove hardcoded string; replace with LEOConstant. This also is definitely not the right URL.
+    
+    [LEOAPIHelper standardGETRequestForJSONDictionaryFromAPIWithURL:getFamilyURLString params:userParams completion:^(NSDictionary * rawResults) { //MARK: no parameters I suspect for this endpoint
+        //TODO: Error terms
+        completionBlock(rawResults);
+    }];
+}
 
 + (void)createAppointmentWithParameters:(NSDictionary *)apptParams withCompletion:(void (^)(NSDictionary *rawResults))completionBlock {
     

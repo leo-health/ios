@@ -11,10 +11,11 @@
 #import "User.h"
 #import "Provider.h"
 #import "Patient.h"
+#import "AppointmentType.h"
 
 @implementation PrepAppointment
 
--(instancetype)initWithObjectID:(nullable NSString *)objectID date:(nullable NSDate *)date appointmentType:(NSNumber *)leoAppointmentType patient:(Patient *)patient provider:(Provider *)provider bookedByUser:(User *)bookedByUser note:(NSString *)note state:(NSNumber *)state {
+- (instancetype)initWithObjectID:(nullable NSString *)objectID date:(nullable NSDate *)date appointmentType:(AppointmentType *)leoAppointmentType patient:(Patient *)patient provider:(Provider *)provider bookedByUser:(User *)bookedByUser note:(NSString *)note state:(NSNumber *)state {
     
     self = [super init];
     
@@ -32,7 +33,7 @@
     return self;
 }
 
-
+//MARK: Not sure this method will ever be used for a prep appointment.
 - (instancetype)initWithJSONDictionary:(nonnull NSDictionary *)jsonResponse {
     
     NSDate *date = jsonResponse[APIParamApptDate];
@@ -40,12 +41,8 @@
     Provider *provider = jsonResponse[APIParamProvider];
     User *bookedByUser = jsonResponse[APIParamBookedByUser];
     
-    /**
-     *  Unsure yet whether we're using an AppointmentType object for this or just a description or numeric code.
-     *  TODO: Update from id to appropriate object type when determined.
-     */
-    
-    id leoAppointmentType = jsonResponse[APIParamApptType];
+    AppointmentType *leoAppointmentType = [[AppointmentType alloc] initWithObjectID:jsonResponse[@"visit_type_id"] typeDescriptor:jsonResponse[@"visit_type_display_name"] duration:nil]; //FIXME: Constant
+
     NSNumber *state = jsonResponse[APIParamState];
     NSString *objectID = jsonResponse[APIParamID];
     NSString *note = jsonResponse[APIParamApptNote];
@@ -54,7 +51,7 @@
     return [self initWithObjectID:objectID date:date appointmentType:leoAppointmentType patient:patient provider:provider bookedByUser:bookedByUser note:note state:state];
 }
 
--(NSString *) description {
+- (NSString *)description {
     
     return [NSString stringWithFormat:@"<Appointment: %p>\nid: %@\ndate: %@\nleoAppointmentType: %@\nstate: %@\nnote %@\nbookedByUser: %@\npatient %@\nprovider: %@",
             self, self.objectID, self.date, self.leoAppointmentType, self.state, self.note, self.bookedByUser, self.patient, self.provider];

@@ -15,6 +15,8 @@
 #import "Provider.h"
 #import "Patient.h"
 #import "Guardian.h"
+#import "Family.h"
+#import "Practice.h"
 #import "LEOCardScheduling.h"
 #import "UIColor+LeoColors.h"
 #import "UIImage+Extensions.h"
@@ -125,7 +127,6 @@
     }];
 }
 
-
 - (void)createMessage:(Message *)message forConversation:(nonnull Conversation *)conversation withCompletion:(void (^)(NSDictionary  *  rawResults))completionBlock {
     
     [conversation addMessage:message];
@@ -167,6 +168,8 @@
     
     [LEOApiClient getCardsForUser:userParams withCompletion:^(NSDictionary *rawResults) {
         
+        //FIXME: Need to change for "data"?
+        
         NSArray *jsonCards = rawResults[@"cards"];
         
         NSMutableArray *cards = [[NSMutableArray alloc] init];
@@ -184,24 +187,63 @@
         //FIXME: Safety here
         completionBlock(cards);
     }];
+}
+
+- (void)getFamilyWithCompletion:(void (^)(Family *family))completionBlock {
     
-//    Guardian *mom = [[Guardian alloc] initWithObjectID:@"1" familyID:@"10" title:@"Mrs." firstName:@"Marilyn" middleInitial:nil lastName:@"Drossman" suffix:nil email:@"marilyn@leohealth.com" photoURL:nil photo:nil primary:YES relationship:@"mother"];
-//    
-//    Appointment *appointment = [[Appointment alloc] initWithObjectID:@"5" date:nil appointmentType:[self fetchAppointmentTypes][1] patient:[self fetchChildren][0] provider:[self fetchDoctors][0] bookedByUser:mom note:@"note" state:@(AppointmentStateRecommending)];
-//    
-//    LEOCardScheduling *cardOne = [[LEOCardScheduling alloc] initWithObjectID:@"2" priority:@0 type:@"appointment" associatedCardObjects:@[appointment]];
+    NSArray *user = @[[self userToken]];
+    NSArray *userKey = @[APIParamUserToken];
     
-    //LEOCollapsedCard *cardTwo = [[LEOCollapsedCard alloc] initWithObjectID:@2 state:CardStateNew title:@"Schedule Rachel's First Visit" body:@"Take a tour of the practice and meet with our world class physicians." primaryUser:childUserTwo secondaryUser:doctorUser timestamp:[NSDate date] priority:@2 activity:CardActivityAppointment];
-    //
-    //    Card *cardFour = [[Card alloc] initWithObjectID:@1 state:CardStateNew title:@"Welcome to Leo." body:@"If you have any questions or comments, you can reach us at any time." primaryUser:childUserOne secondaryUser:doctorUser timestamp:[NSDate date] priority:@1 activity:CardActivityConversation];
-    //
-    //    Card *cardFive = [[Card alloc] initWithObjectID:@2 state:CardStateNew title:@"Schedule Rachel's First Visit" body:@"Take a tour of the practice and meet with our world class physicians." primaryUser:childUserTwo secondaryUser:doctorUser timestamp:[NSDate date] priority:@2 activity:CardActivityAppointment];
-    //
-    //    Card *cardSix = [[Card alloc] initWithObjectID:@3 state:CardStateNew title:@"Recent Visit" body:@"Jacob was seen for a sore throat and cough." primaryUser:childUserThree secondaryUser:doctorUser timestamp:[NSDate date] priority:@3 activity:CardActivityVisit];
+    NSDictionary *userParams = [[NSDictionary alloc] initWithObjects:user forKeys:userKey];
     
-//    NSArray *cards = @[cardOne]; //, cardTwo, cardThree, cardFour, cardFive, cardSix, cardOne, cardTwo, cardThree, cardFour, cardFive, cardSix];
+    [LEOApiClient getFamilyWithUserParameters:userParams withCompletion:^(NSDictionary *rawResults) {
+       
+        NSDictionary *dataDictionary = rawResults[@"data"];
+        
+        Family *family = [[Family alloc] initWithJSONDictionary:dataDictionary]; //FIXME: LeoConstants
+        
+        completionBlock(family);
+        
+    }];
+}
+
+- (void)getProvidersForPractice:(Practice *)practice withCompletion:(void (^)(NSArray *providers))completionBlock {
     
-//    completionBlock(cards);
+    NSArray *practiceValues = @[practice.objectID];
+    NSArray *practiceKey = @[APIParamID];
+    
+    NSDictionary *practiceParams = [[NSDictionary alloc] initWithObjects:practiceValues forKeys:practiceKey];
+
+    [LEOApiClient getProvidersWithParameters:practiceParams withCompletion:^(NSDictionary *rawResults) {
+    
+        NSArray *dataArray = rawResults[@"data"];
+        
+        NSMutableArray *providers = [[NSMutableArray alloc] init];
+
+        for (NSDictionary *providerDictionary in dataArray) {
+            Provider *provider = [[Provider alloc] initWithJSONDictionary:providerDictionary];
+            [providers addObject:provider];
+        }
+        
+        completionBlock(providers);
+    }];
+}
+
+- (void)getVisitTypesWithCompletion:(void (^)(NSArray *visitTypes))completionBlock {
+    
+    [LEOApiClient getVisitTypesWithCompletion:^(NSDictionary *rawResults) {
+        
+        NSArray *dataArray = rawResults[@"data"];
+        
+        NSMutableArray *visitTypes = [[NSMutableArray alloc] init];
+        
+        for (NSDictionary *visitDictionary in dataArray) {
+            AppointmentType *visitType = [[AppointmentType alloc] initWithJSONDictionary:visitDictionary];
+            [visitTypes addObject:visitType];
+        }
+        
+        completionBlock(visitTypes);
+    }];
 }
 
 - (id)objectWithObjectID:(NSString *)objectID objectArray:(NSArray *)objects {
@@ -240,37 +282,37 @@
     return timesForDate;
 }
 
-- (NSArray *)fetchChildren {
-    
-    Patient *patient1 = [[Patient alloc] initWithObjectID:@"1" familyID:@"10" title:nil firstName:@"Zachary" middleInitial:@"S" lastName:@"Drossman" suffix:nil email:@"zach@leohealth.com" photoURL:nil photo:[UIImage imageNamed:@"Avatar-Hayden"] dob:[NSDate dateWithYear:2008 month:1 day:12] gender:@"male" status:@"active"];
-    
-    Patient *patient2 = [[Patient alloc] initWithObjectID:@"2" familyID:@"10" title:nil firstName:@"Rachel" middleInitial:nil lastName:@"Drossman" suffix:@"Jr" email:@"rachel@leohealth.com" photoURL:nil photo:[UIImage imageNamed:@"Avatar-Hayden"] dob:[NSDate dateWithYear:2009 month:6 day:1] gender:@"female" status:@"active"];
-    
-    Patient *patient3 = [[Patient alloc] initWithObjectID:@"3" familyID:@"10" title:nil firstName:@"Tracy" middleInitial:nil lastName:@"Drossman" suffix:nil email:nil photoURL:nil photo:[UIImage imageNamed:@"Avatar-Emily@1x"] dob:[NSDate dateWithYear:2014 month:10 day:10] gender:@"female" status:@"active"];
-                         
-    
-    return @[patient1, patient2, patient3];
-}
+//- (NSArray *)fetchChildren {
+//    
+//    Patient *patient1 = [[Patient alloc] initWithObjectID:@"1" familyID:@"10" title:nil firstName:@"Zachary" middleInitial:@"S" lastName:@"Drossman" suffix:nil email:@"zach@leohealth.com" photoURL:nil photo:[UIImage imageNamed:@"Avatar-Hayden"] dob:[NSDate dateWithYear:2008 month:1 day:12] gender:@"male" status:@"active"];
+//    
+//    Patient *patient2 = [[Patient alloc] initWithObjectID:@"2" familyID:@"10" title:nil firstName:@"Rachel" middleInitial:nil lastName:@"Drossman" suffix:@"Jr" email:@"rachel@leohealth.com" photoURL:nil photo:[UIImage imageNamed:@"Avatar-Hayden"] dob:[NSDate dateWithYear:2009 month:6 day:1] gender:@"female" status:@"active"];
+//    
+//    Patient *patient3 = [[Patient alloc] initWithObjectID:@"3" familyID:@"10" title:nil firstName:@"Tracy" middleInitial:nil lastName:@"Drossman" suffix:nil email:nil photoURL:nil photo:[UIImage imageNamed:@"Avatar-Emily@1x"] dob:[NSDate dateWithYear:2014 month:10 day:10] gender:@"female" status:@"active"];
+//                         
+//    
+//    return @[patient1, patient2, patient3];
+//}
 
-- (NSArray *)fetchDoctors {
-    
-    Provider *provider1 = [[Provider alloc] initWithObjectID:@"1" title:@"Dr." firstName:@"Om" middleInitial:nil lastName:@"Lala" suffix:nil email:@"om@leohealth.com" photoURL:nil photo:[UIImage imageNamed:@"Avatar-Hayden"] credentialSuffixes:@[@"MD"] specialties:@[@"na"]];
-    
-    Provider *provider2 = [[Provider alloc] initWithObjectID:@"2" title:@"Dr." firstName:@"Summer" middleInitial:@"R" lastName:@"Cece" suffix:@"Sr." email:@"summer@leohealth.com" photoURL:nil photo:[UIImage imageNamed:@"Avatar-Hayden"] credentialSuffixes:@[@"MD"] specialties:@[@"na"]];
-    
-    Provider *provider3 = [[Provider alloc] initWithObjectID:@"3" title:@"Dr." firstName:@"Cristina" middleInitial:@"M." lastName:@"Montagne" suffix:nil email:@"cristina@leohealth.com" photoURL:nil photo:[UIImage imageNamed:@"Avatar-Hayden"] credentialSuffixes:@[@"MD"] specialties:@[@"na"]];
-    
-    return @[provider1, provider2, provider3];
-}
-
-- (NSArray *)fetchAppointmentTypes {
-    
-    AppointmentType *appointmentTypeOne = [[AppointmentType alloc] initWithObjectID:@"1" typeDescriptor:@"Well visit" duration:@15];
-    AppointmentType *appointmentTypeTwo = [[AppointmentType alloc] initWithObjectID:@"2" typeDescriptor:@"Sick visit" duration:@30];
-    AppointmentType *appointmentTypeThree = [[AppointmentType alloc] initWithObjectID:@"3" typeDescriptor:@"Follow-up visit" duration:@30];
-    
-    return @[appointmentTypeOne, appointmentTypeTwo, appointmentTypeThree];
-}
+//- (NSArray *)fetchDoctors {
+//    
+//    Provider *provider1 = [[Provider alloc] initWithObjectID:@"1" title:@"Dr." firstName:@"Om" middleInitial:nil lastName:@"Lala" suffix:nil email:@"om@leohealth.com" photoURL:nil photo:[UIImage imageNamed:@"Avatar-Hayden"] credentialSuffixes:@[@"MD"] specialties:@[@"na"]];
+//    
+//    Provider *provider2 = [[Provider alloc] initWithObjectID:@"2" title:@"Dr." firstName:@"Summer" middleInitial:@"R" lastName:@"Cece" suffix:@"Sr." email:@"summer@leohealth.com" photoURL:nil photo:[UIImage imageNamed:@"Avatar-Hayden"] credentialSuffixes:@[@"MD"] specialties:@[@"na"]];
+//    
+//    Provider *provider3 = [[Provider alloc] initWithObjectID:@"3" title:@"Dr." firstName:@"Cristina" middleInitial:@"M." lastName:@"Montagne" suffix:nil email:@"cristina@leohealth.com" photoURL:nil photo:[UIImage imageNamed:@"Avatar-Hayden"] credentialSuffixes:@[@"MD"] specialties:@[@"na"]];
+//    
+//    return @[provider1, provider2, provider3];
+//}
+//
+//- (NSArray *)fetchAppointmentTypes {
+//    
+//    AppointmentType *appointmentTypeOne = [[AppointmentType alloc] initWithObjectID:@"1" typeDescriptor:@"Well visit" duration:@15];
+//    AppointmentType *appointmentTypeTwo = [[AppointmentType alloc] initWithObjectID:@"2" typeDescriptor:@"Sick visit" duration:@30];
+//    AppointmentType *appointmentTypeThree = [[AppointmentType alloc] initWithObjectID:@"3" typeDescriptor:@"Follow-up visit" duration:@30];
+//    
+//    return @[appointmentTypeOne, appointmentTypeTwo, appointmentTypeThree];
+//}
 
 - (NSArray *)fetchSlots {
     

@@ -14,6 +14,9 @@
 @class Message;
 @class LEOCard;
 @class Guardian;
+@class Family;
+@class Provider;
+@class Practice;
 
 @interface LEODataManager : NSObject
 NS_ASSUME_NONNULL_BEGIN
@@ -50,13 +53,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (id)objectWithObjectID:(NSString *)objectID objectArray:(NSArray *)objects;
 
-- (NSArray *)fetchChildren;
-- (NSArray *)fetchDoctors;
-- (NSArray *)fetchAppointmentTypes;
+//- (NSArray *)fetchChildren;
+//- (NSArray *)fetchDoctors;
+//- (NSArray *)fetchAppointmentTypes;
 - (NSArray *)fetchSlots;
 
 - (void)addCard:(LEOCard *)card;
 - (void)removeCard:(LEOCard *)card;
+
+- (void)getFamilyWithCompletion:(void (^)(Family *family))completionBlock;
+- (void)getProvidersForPractice:(Practice *)practice withCompletion:(void (^)(NSArray *providers))completionBlock;
+- (void)getVisitTypesWithCompletion:(void (^)(NSArray *visitTypes))completionBlock;
 
 NS_ASSUME_NONNULL_END
 @end

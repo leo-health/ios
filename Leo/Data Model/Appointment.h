@@ -24,7 +24,6 @@ typedef enum AppointmentState : NSUInteger {
     AppointmentStateCancelled = 5
 } AppointmentState;
 
-
 @interface Appointment : NSObject
 NS_ASSUME_NONNULL_BEGIN
 

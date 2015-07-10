@@ -13,14 +13,13 @@
 
 @implementation Family
 
-- (instancetype)initWithObjectID:(NSString *)objectID guardians:(NSArray *)guardians children:(NSArray *)children {
-
+- (instancetype)initWithObjectID:(NSString *)objectID guardians:(NSArray *)guardians patients:(NSArray *)patients {
     self = [super init];
     
     if (self) {
         _objectID = objectID;
         _guardians = guardians;
-        _children = children;
+        _patients = patients;
     }
     
     return self;
@@ -28,34 +27,35 @@
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
     
-    NSString *objectID = jsonResponse[APIParamID];
+    NSString *objectID = @"TEMP"; // jsonResponse[APIParamID]; FIXME: Add this back in when the id has been added back to family.
     
-    NSArray *childDictionaries = jsonResponse[APIParamChildren];
-    NSMutableArray *children = [[NSMutableArray alloc] init];
+    NSArray *patientDictionaries = jsonResponse[@"patients"]; //FIXME: Use LEOConstants.
     
-    for (NSDictionary *childDictionary in childDictionaries) {
-        Patient *patient = [[Patient alloc] initWithJSONDictionary:childDictionary];
-        [children addObject:patient];
+    NSMutableArray *patients = [[NSMutableArray alloc] init];
+    
+    for (NSDictionary *patientDictionary in patientDictionaries) {
+        Patient *patient = [[Patient alloc] initWithJSONDictionary:patientDictionary];
+        [patients addObject:patient];
     }
     
-    NSArray *guardianDictionaries = jsonResponse[APIParamCaretakers];
+    NSArray *guardianDictionaries = jsonResponse[APIParamCaretakers]; //FIXME: Update name to guardian in LEOConstants file
     NSMutableArray *guardians = [[NSMutableArray alloc] init];
     
     for (NSDictionary *guardianDictionary in guardianDictionaries) {
-        Patient *patient = [[Patient alloc] initWithJSONDictionary:guardianDictionary];
-        [guardians addObject:patient];
+        Guardian *guardian = [[Guardian alloc] initWithJSONDictionary:guardianDictionary];
+        [guardians addObject:guardian];
     }
     
-    return [self initWithObjectID:objectID guardians:[guardians copy] children:[children copy]];
+    return [self initWithObjectID:objectID guardians:[guardians copy] patients:[patients copy]];
 }
 
 - (void)addChild:(Patient *)child {
     
-    NSMutableArray *children = [self.children mutableCopy];
+    NSMutableArray *patient = [self.patients mutableCopy];
     
-    [children addObject:child];
+    [patient addObject:child];
     
-    self.children = [children copy];
+    self.patients = [patient copy];
 }
 
 

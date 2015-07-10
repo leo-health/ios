@@ -29,7 +29,7 @@
 
 //MARK: Should this be abstract?
 
-- (instancetype)cardFromCardDictionary:(NSDictionary *)cardDictionary {
+- (instancetype)initWithJSONDictionary:(NSDictionary *)cardDictionary {
     
     @throw [NSException exceptionWithName:NSInternalInconsistencyException
                                    reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]

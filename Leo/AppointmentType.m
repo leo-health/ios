@@ -19,16 +19,22 @@
         _typeDescriptor = typeDescriptor;
         _duration = duration;
     }
+
     return self;
-    
 }
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
     
     NSString *objectID = jsonResponse[APIParamID];
-    NSString *typeDescriptor = jsonResponse[APIParamApptType];
+    NSString *typeDescriptor = jsonResponse[@"display_name"];
+    NSNumber *duration = jsonResponse[@"duration"]; //Add LEOConstant instead of hardcoding this.
     //TODO: Decide whether to add duration here.
     
-    return [self initWithObjectID:objectID typeDescriptor:typeDescriptor duration:nil];
+    return [self initWithObjectID:objectID typeDescriptor:typeDescriptor duration:duration];
+}
+
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<Appointment: %p> id: %@ descriptor: %@", self, self.objectID, self.typeDescriptor];
 }
 @end

@@ -26,6 +26,8 @@
 #import "PrepAppointment.h"
 #import "LEOCardScheduling.h"
 
+#import "Practice.h"
+
 @interface LEOAppointmentSchedulingCardVC ()
 
 #pragma mark - IBOutlets
@@ -48,6 +50,10 @@
 #pragma mark - Data
 @property (strong, nonatomic) PrepAppointment *prepAppointment;
 @property (strong, nonatomic) Appointment *appointment;
+
+
+
+
 
 @property (strong, nonatomic) NSDate *selectedDate;
 @property (strong, nonatomic) NSDate *tempSelectedDate;
@@ -80,9 +86,12 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     
     [super viewDidLoad];
     
-    [self prepareForLaunch];
+    //FIXME: Needs HUD
     
-    [self setupDateCollectionView];
+//    [self fetchFieldDataWithCompletion:^{
+        [self prepareForLaunch];
+        [self setupDateCollectionView];
+//    }];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -94,10 +103,10 @@ static NSString * const dateReuseIdentifier = @"DateCell";
 
 - (void)prepareForLaunch {
     
-    self.doctorDropDownController = [[LEODropDownController alloc] initWithTableView:self.doctorDropDownTV items:[self.dataManager fetchDoctors] usingDescriptorKey:@"fullName" prepObject:self.prepAppointment associatedCardObjectPropertyDescriptor:@"provider"];
+    self.doctorDropDownController = [[LEODropDownController alloc] initWithTableView:self.doctorDropDownTV items:self.providers usingDescriptorKey:@"fullName" prepObject:self.prepAppointment associatedCardObjectPropertyDescriptor:@"provider"];
     
     //TODO: Remove hard coded options and move to DataManager.
-    self.visitTypeDropDownController = [[LEODropDownController alloc] initWithTableView:self.visitDropDownTV items:[self.dataManager fetchAppointmentTypes] usingDescriptorKey:@"typeDescriptor" prepObject:self.prepAppointment associatedCardObjectPropertyDescriptor:@"leoAppointmentType"];
+    self.visitTypeDropDownController = [[LEODropDownController alloc] initWithTableView:self.visitDropDownTV items:self.visitTypes usingDescriptorKey:@"typeDescriptor" prepObject:self.prepAppointment associatedCardObjectPropertyDescriptor:@"leoAppointmentType"];
     
     [self.view setNeedsLayout];
     
@@ -286,8 +295,6 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     return _prepAppointment;
 }
 
-
-
 #pragma mark - Segue and segue helper methods
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
@@ -308,7 +315,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     if([segue.identifier isEqualToString:@"ChildDropDownEmbedSegue"]) {
         LEOChildDropDownTableViewController *tvc = segue.destinationViewController;
         tvc.prepAppointment = self.prepAppointment;
-        tvc.children = [self.dataManager fetchChildren];
+        tvc.children = self.patients;
     }
 }
 

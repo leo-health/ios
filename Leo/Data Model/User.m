@@ -75,20 +75,20 @@
 
 
 //TODO: Add suffix into fullName
--(NSString *)fullName {
+- (NSString *)fullName {
     
     NSArray *nameComponents;
     
     if (self.title) {
         nameComponents = @[self.title, self.firstName, self.lastName];
     } else {
-        nameComponents = @[self.firstName, self.lastName, self.suffix];
+        nameComponents = @[self.firstName, self.lastName];
     }
     
     return [nameComponents componentsJoinedByString:@" "];
 }
 
--(NSString *)description {
+- (NSString *)description {
     
     return [NSString stringWithFormat:@"<%@: %p>",[self class],self];
 }

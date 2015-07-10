@@ -25,6 +25,8 @@
 #import "Appointment.h"
 #import "Conversation.h"
 #import "Message.h"
+#import "Family.h"
+#import "Practice.h"
 
 #import "UIColor+LeoColors.h"
 #import "UIImage+Extensions.h"
@@ -52,6 +54,9 @@
 
 @property (strong, nonatomic) UITableViewCell *selectedCardCell;
 @property (strong, nonatomic) NSArray *cards;
+@property (strong, nonatomic) Family *family;
+@property (strong, nonatomic) NSArray *providers;
+@property (strong, nonatomic) NSArray *visitTypes;
 
 @end
 
@@ -79,6 +84,16 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
                                                  name:@"requestToBookNewAppointment"
                                                object:nil];
 
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fetchData) name:UIApplicationWillEnterForegroundNotification object:nil];
+    
+    [self setupStubs];
+    
+    [self tableViewSetup];
+}
+
+
+
+- (void)setupStubs {
     
     __weak id<OHHTTPStubsDescriptor> cardsStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         NSLog(@"Request");
@@ -92,20 +107,81 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
         
     }];
     
-    [self tableViewSetup];
-
-    [self.dataManager getCardsWithCompletion:^(NSArray *cards) {
-        self.cards = cards;
-        [self.tableView reloadData];
+    __weak id<OHHTTPStubsDescriptor> providersStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        NSLog(@"Request");
+        BOOL test = [request.URL.host isEqualToString:APIHost] && [request.URL.path isEqualToString:[NSString stringWithFormat:@"%@/%@",APICommonPath, @"providers"]];
+        return test;
+    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        
+        NSString *fixture = fixture = OHPathForFile(@"getProviders.json", self.class);
+        OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithFileAtPath:fixture statusCode:200 headers:@{@"Content-Type":@"application/json"}];
+        return response;
+        
+    }];
+    
+    __weak id<OHHTTPStubsDescriptor> familyStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        NSLog(@"Request");
+        BOOL test = [request.URL.host isEqualToString:APIHost] && [request.URL.path isEqualToString:[NSString stringWithFormat:@"%@/%@",APICommonPath, @"family"]];
+        return test;
+    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        
+        NSString *fixture = fixture = OHPathForFile(@"getFamilyForUser.json", self.class);
+        OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithFileAtPath:fixture statusCode:200 headers:@{@"Content-Type":@"application/json"}];
+        return response;
     }];
 
+    __weak id<OHHTTPStubsDescriptor> visitTypesStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        NSLog(@"Request");
+        BOOL test = [request.URL.host isEqualToString:APIHost] && [request.URL.path isEqualToString:[NSString stringWithFormat:@"%@/%@",APICommonPath, @"visitTypes"]];
+        return test;
+    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        
+        NSString *fixture = fixture = OHPathForFile(@"getVisitTypes.json", self.class);
+        OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithFileAtPath:fixture statusCode:200 headers:@{@"Content-Type":@"application/json"}];
+        return response;
+    }];
+    
+}
+
+- (void)fetchData {
+    
+    dispatch_queue_t queue = dispatch_queue_create("loadingQueue", NULL);
+    
+    dispatch_sync(queue, ^{
+        [self.dataManager getCardsWithCompletion:^(NSArray *cards) {
+            
+            self.cards = cards;
+            
+            dispatch_async(dispatch_get_main_queue() , ^{
+                [self.tableView reloadData];
+            });
+        }];
+    });
+    
+    if (self.family == nil || self.providers == nil || self.visitTypes == nil) {
+        
+    dispatch_sync(queue, ^{
+        [self.dataManager getFamilyWithCompletion:^(Family *family) {
+            self.family = family;
+        }];
+        
+        Practice *practice = [[Practice alloc] initWithObjectID:@"0" providers:@[]]; //FIXME: Should not be hardcoded.
+        
+        [self.dataManager getProvidersForPractice:practice withCompletion:^(NSArray *providers) {
+            self.providers = providers;
+        }];
+        [self.dataManager getVisitTypesWithCompletion:^(NSArray *visitTypes) {
+            self.visitTypes = visitTypes;
+        }];
+    });
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-        [self.tableView reloadData];
+    [self fetchData];
+
+       // [self.tableView reloadData];
 }
-
-
 
 - (void)tableViewSetup {
     
@@ -167,7 +243,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 
 - (void)beginSchedulingNewAppointment {
 
-    Appointment *appointment = [[Appointment alloc] initWithObjectID:nil date:nil appointmentType:[self.dataManager fetchAppointmentTypes][0] patient:[self.dataManager fetchChildren][0] provider:[self.dataManager fetchDoctors][0] bookedByUser:(User *)[self.dataManager currentUser] note:nil state:@(AppointmentStateBooking)];
+    Appointment *appointment = [[Appointment alloc] initWithObjectID:nil date:nil appointmentType:self.visitTypes[0] patient:self.family.patients[0] provider:self.providers[0] bookedByUser:(User *)[self.dataManager currentUser] note:nil state:@(AppointmentStateBooking)];
     
     LEOCardScheduling *card = [[LEOCardScheduling alloc] initWithObjectID:@"temp" priority:@999 type:@"appointment" associatedCardObjects:@[appointment]];
 
@@ -190,6 +266,9 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     UIStoryboard *schedulingStoryboard = [UIStoryboard storyboardWithName:@"Scheduling" bundle:nil];
     LEOAppointmentSchedulingCardVC *singleAppointmentScheduleVC = [schedulingStoryboard instantiateInitialViewController];
     singleAppointmentScheduleVC.card = (LEOCardScheduling *)card;
+    singleAppointmentScheduleVC.providers = self.providers;
+    singleAppointmentScheduleVC.patients = self.family.patients;
+    singleAppointmentScheduleVC.visitTypes = self.visitTypes;
     //              self.transitionDelegate = [[LEOTransitioningDelegate alloc] init];
     //            singleAppointmentScheduleVC.transitioningDelegate = self.transitionDelegate;
     [self presentViewController:singleAppointmentScheduleVC animated:YES completion:^{
