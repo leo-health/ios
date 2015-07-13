@@ -1,5 +1,5 @@
 //
-//  LEOCollapsedCardScheduling.m
+//  LEOCardScheduling.m
 //  Leo
 //
 //  Created by Zachary Drossman on 5/28/15.
@@ -60,7 +60,7 @@ static NSString *kActionSelectorBook = @"book";
     return [self initWithObjectID:jsonCard[APIParamCardID]
                          priority:jsonCard[APIParamCardPriority]
                              type:jsonCard[APIParamCardType]
-            associatedCardObject:jsonCard[@"object"]];
+            associatedCardObject:jsonCard[@"card_data"]];
 }
 
 
