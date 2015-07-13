@@ -179,7 +179,12 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 
 - (void)viewWillAppear:(BOOL)animated {
     
+    //FIXME: So, ultimately, this should be a data fetch, but since we aren't actually pushing anything up to the API at this point and the expectation is we would both push and pull at the same time, we're just going to reload data at the moment and we'll deal with this when the time comes to implement the actual API.
+    
+    if (!self.cards) {
     [self fetchData];
+    }
+    [self.tableView reloadData];
 }
 
 - (void)tableViewSetup {
