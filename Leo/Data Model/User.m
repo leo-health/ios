@@ -45,7 +45,7 @@
         suffix = jsonResponse[APIParamUserSuffix];
     }
 
-    NSString *objectID = jsonResponse[APIParamID];
+    NSString *objectID = [jsonResponse[APIParamID] stringValue];
     NSString *email = jsonResponse[APIParamUserEmail];
     NSURL *photoURL = [NSURL URLWithString:jsonResponse[APIParamUserPhotoURL]];
     UIImage *photo = [UIImage imageWithData:[NSData dataWithContentsOfURL:photoURL]];

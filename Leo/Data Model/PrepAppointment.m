@@ -44,7 +44,7 @@
     AppointmentType *leoAppointmentType = [[AppointmentType alloc] initWithObjectID:jsonResponse[@"visit_type_id"] typeDescriptor:jsonResponse[@"visit_type_display_name"] duration:nil]; //FIXME: Constant
 
     NSNumber *state = jsonResponse[APIParamState];
-    NSString *objectID = jsonResponse[APIParamID];
+    NSString *objectID = [jsonResponse[APIParamID] stringValue];
     NSString *note = jsonResponse[APIParamApptNote];
     
     //TODO: May need to protect against nil values...
