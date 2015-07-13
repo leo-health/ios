@@ -258,10 +258,28 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 - (void)removeCardFromFeed:(LEOCard *)card {
     
     [self.tableView beginUpdates];
-    [self.dataManager removeCard:card];
+    [self removeCard:card];
     NSArray *indexPaths = @[[NSIndexPath indexPathForRow:[card.priority integerValue] inSection:0]];
     [self.tableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
     [self.tableView endUpdates];
+}
+
+- (void)addCard:(LEOCard *)card {
+    
+    NSMutableArray *mutableCards = [self.cards mutableCopy];
+    
+    [mutableCards addObject:card];
+    
+    self.cards = [mutableCards copy];
+}
+
+- (void)removeCard:(LEOCard *)card {
+    
+    NSMutableArray *mutableCards = [self.cards mutableCopy];
+    
+    [mutableCards removeObject:card];
+    
+    self.cards = [mutableCards copy];
 }
 
 

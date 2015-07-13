@@ -203,7 +203,6 @@
         Family *family = [[Family alloc] initWithJSONDictionary:dataDictionary]; //FIXME: LeoConstants
         
         completionBlock(family);
-        
     }];
 }
 
@@ -343,23 +342,7 @@
     return _availableDates;
 }
 
-- (void)addCard:(LEOCard *)card {
-    
-    NSMutableArray *mutableCards = [self.cards mutableCopy];
-    
-    [mutableCards addObject:card];
-    
-    self.cards = [mutableCards copy];
-}
 
-- (void)removeCard:(LEOCard *)card {
-    
-    NSMutableArray *mutableCards = [self.cards mutableCopy];
-    
-    [mutableCards removeObject:card];
-    
-    self.cards = [mutableCards copy];
-}
 
 #pragma mark - Application's Documents directory
 
