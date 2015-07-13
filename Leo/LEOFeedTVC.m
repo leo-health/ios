@@ -178,9 +178,8 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    
     [self fetchData];
-
-       // [self.tableView reloadData];
 }
 
 - (void)tableViewSetup {

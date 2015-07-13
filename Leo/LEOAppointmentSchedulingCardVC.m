@@ -164,8 +164,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
 
 
 - (void)updateCard {
-    Appointment *appointment = self.card.associatedCardObject;
-     appointment = [[Appointment alloc] initWithPrepAppointment:self.prepAppointment]; //FIXME: Make this a loop to account for changes to multiple objects on a card.
+    self.card.associatedCardObject = [[Appointment alloc] initWithPrepAppointment:self.prepAppointment]; //FIXME: Make this a loop to account for changes to multiple objects on a card.
     [self.card performSelector:NSSelectorFromString([self.card actionsAvailableForState][0])];
 }
 

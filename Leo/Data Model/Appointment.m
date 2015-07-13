@@ -46,7 +46,7 @@
                                            
     NSNumber *state = jsonResponse[@"status_id"]; //FIXME: Constant
     NSString *objectID = [jsonResponse[APIParamID] stringValue];
-    NSString *note = jsonResponse[APIParamApptNote];
+    NSString *note = jsonResponse[@"notes"];
     
     //TODO: May need to protect against nil values...
     return [self initWithObjectID:objectID date:date appointmentType:leoAppointmentType patient:patient provider:provider bookedByUser:bookedByUser note:note state:state];
