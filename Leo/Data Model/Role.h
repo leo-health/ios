@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
+
+/// MARK: This class likely will not be used. Will remove in a separate commit at a later time if appropriate.
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 

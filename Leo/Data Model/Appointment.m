@@ -43,7 +43,7 @@
     User *bookedByUser = [[User alloc] initWithJSONDictionary:jsonResponse[APIParamBookedByUser] ];
     
     AppointmentType *leoAppointmentType = [[AppointmentType alloc] initWithJSONDictionary:jsonResponse[@"visit_type"]]; //FIXME: Constant.
-                                           
+    
     NSNumber *state = jsonResponse[@"status_id"]; //FIXME: Constant
     NSString *objectID = [jsonResponse[APIParamID] stringValue];
     NSString *note = jsonResponse[@"notes"];
@@ -90,7 +90,7 @@
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
     dateFormatter.dateFormat = @"h':'mma";
     dateFormatter.AMSymbol = @"am";
-        dateFormatter.PMSymbol = @"pm";
+    dateFormatter.PMSymbol = @"pm";
     return [dateFormatter stringFromDate:self.date];
 }
 
@@ -106,7 +106,7 @@
     apptCopy.bookedByUser = [self.bookedByUser copy];
     apptCopy.patient = [self.patient copy];
     apptCopy.provider = [self.provider copy];
-
+    
     return apptCopy;
 }
 

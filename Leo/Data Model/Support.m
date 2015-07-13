@@ -11,7 +11,7 @@
 
 @implementation Support
 
--(instancetype)initWithObjectID:(nullable NSString *)objectID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email photoURL:(nullable NSURL *)photoURL photo:(UIImage *)photo roleID:(NSString *)roleID roleDisplayName:(NSString *)roleDisplayName {
+- (instancetype)initWithObjectID:(nullable NSString *)objectID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email photoURL:(nullable NSURL *)photoURL photo:(UIImage *)photo roleID:(NSString *)roleID roleDisplayName:(NSString *)roleDisplayName {
 
     self = [super initWithObjectID:objectID title:title firstName:firstName middleInitial:middleInitial lastName:lastName suffix:suffix email:email photoURL:photoURL photo:photo];
     
@@ -25,7 +25,7 @@
 
 
 //FIXME: Update with correct constants.
--(instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
+- (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
     
     self = [super initWithJSONDictionary:jsonResponse];
     
@@ -46,10 +46,9 @@
     userDictionary[APIParamResourceName] = support.roleDisplayName;
     
     return userDictionary;
-    
 }
 
--(id)copy {
+- (id)copy {
     
     Support *supportCopy = [[Support alloc] init];
     supportCopy.objectID = self.objectID;
@@ -67,7 +66,7 @@
     return supportCopy;
 }
 
--(NSString *)description {
+- (NSString *)description {
     
     NSString *superDesc = [super description];
     

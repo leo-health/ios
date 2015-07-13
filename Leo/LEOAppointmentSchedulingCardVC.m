@@ -25,7 +25,6 @@
 #import "UIScrollView+LEOScrollToVisible.h"
 #import "PrepAppointment.h"
 #import "LEOCardScheduling.h"
-
 #import "Practice.h"
 
 @interface LEOAppointmentSchedulingCardVC ()
@@ -50,10 +49,6 @@
 #pragma mark - Data
 @property (strong, nonatomic) PrepAppointment *prepAppointment;
 @property (strong, nonatomic) Appointment *appointment;
-
-
-
-
 
 @property (strong, nonatomic) NSDate *selectedDate;
 @property (strong, nonatomic) NSDate *tempSelectedDate;
@@ -88,10 +83,10 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     
     //FIXME: Needs HUD
     
-//    [self fetchFieldDataWithCompletion:^{
-        [self prepareForLaunch];
-        [self setupDateCollectionView];
-//    }];
+    //    [self fetchFieldDataWithCompletion:^{
+    [self prepareForLaunch];
+    [self setupDateCollectionView];
+    //    }];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -106,7 +101,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     self.doctorDropDownController = [[LEODropDownController alloc] initWithTableView:self.doctorDropDownTV items:self.providers usingDescriptorKey:@"fullName" prepObject:self.prepAppointment associatedCardObjectPropertyDescriptor:@"provider"];
     
     //TODO: Remove hard coded options and move to DataManager.
-    self.visitTypeDropDownController = [[LEODropDownController alloc] initWithTableView:self.visitDropDownTV items:self.visitTypes usingDescriptorKey:@"typeDescriptor" prepObject:self.prepAppointment associatedCardObjectPropertyDescriptor:@"leoAppointmentType"];
+    self.visitTypeDropDownController = [[LEODropDownController alloc] initWithTableView:self.visitDropDownTV items:self.visitTypes usingDescriptorKey:@"type" prepObject:self.prepAppointment associatedCardObjectPropertyDescriptor:@"leoAppointmentType"];
     
     [self.view setNeedsLayout];
     
@@ -140,7 +135,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     [titleLabel sizeToFit];
     UIBarButtonItem *title = [[UIBarButtonItem alloc] initWithCustomView:titleLabel];
     
-
+    
     navCarrier.leftBarButtonItems = @[icon, title];
     //navCarrier.rightBarButtonItems = @[doneBarButton];
     
@@ -165,7 +160,8 @@ static NSString * const dateReuseIdentifier = @"DateCell";
 
 - (void)updateCard {
     self.card.associatedCardObject = [[Appointment alloc] initWithPrepAppointment:self.prepAppointment]; //FIXME: Make this a loop to account for changes to multiple objects on a card.
-    [self.card performSelector:NSSelectorFromString([self.card actionsAvailableForState][0])];
+    
+    [self.card performSelector:NSSelectorFromString([self.card actionsAvailableForState][0])]; //FIXME: Alternative way to do this that won't cause warning.
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -274,7 +270,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
 }
 
 -(void)textViewDidEndEditing:(UITextView *)textView{
-
+    
     self.prepAppointment.note = textView.text;
     [self showDoneBarButtonItem:NO];
 }
@@ -621,7 +617,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
         case AppointmentStateConfirmingCancelling: {
             
         }
-    
+            
         case AppointmentStateRecommending: {
             
         }

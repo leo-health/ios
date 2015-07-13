@@ -41,8 +41,10 @@
     Provider *provider = jsonResponse[APIParamProvider];
     User *bookedByUser = jsonResponse[APIParamBookedByUser];
     
-    AppointmentType *leoAppointmentType = [[AppointmentType alloc] initWithObjectID:jsonResponse[@"visit_type_id"] typeDescriptor:jsonResponse[@"visit_type_display_name"] duration:nil]; //FIXME: Constant
-
+    //FIXME: This should really go looking for the appointment type via ID as opposed to trying to pull it from this JSON response most likely (hence why we get a warning here because that isn't passed as part of the API endpoint.)
+    
+    AppointmentType *leoAppointmentType = [[AppointmentType alloc] initWithObjectID:jsonResponse[@"visit_type_id"] type:jsonResponse[@"visit_type_display_name"] duration:nil typeDescription:nil]; //FIXME: Constant
+    
     NSNumber *state = jsonResponse[APIParamState];
     NSString *objectID = [jsonResponse[APIParamID] stringValue];
     NSString *note = jsonResponse[APIParamApptNote];

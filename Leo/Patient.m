@@ -11,7 +11,7 @@
 
 @implementation Patient
 
--(instancetype)initWithObjectID:(nullable NSString *)objectID familyID:(NSString *)familyID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(nullable NSString *)email photoURL:(nullable NSURL *)photoURL photo:(nullable UIImage *)photo dob:(NSDate *)dob gender:(NSString *)gender status:(NSString *)status {
+- (instancetype)initWithObjectID:(nullable NSString *)objectID familyID:(NSString *)familyID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(nullable NSString *)email photoURL:(nullable NSURL *)photoURL photo:(nullable UIImage *)photo dob:(NSDate *)dob gender:(NSString *)gender status:(NSString *)status {
     
     self = [super initWithObjectID:objectID title:title firstName:firstName middleInitial:middleInitial lastName:lastName suffix:suffix email:email photoURL:photoURL photo:photo];
     
@@ -25,7 +25,7 @@
     return self;
 }
 
--(instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
+- (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
     
     self = [super initWithJSONDictionary:jsonResponse];
     
@@ -49,10 +49,9 @@
     userDictionary[APIParamUserStatus] = patient.status;
 
     return userDictionary;
-    
 }
 
--(id)copy {
+- (id)copy {
 
     Patient*patientCopy = [[Patient alloc] init];
     patientCopy.objectID = self.objectID;
@@ -72,7 +71,7 @@
     return patientCopy;
 }
 
--(NSString *)description {
+- (NSString *)description {
     
     NSString *superDesc = [super description];
     

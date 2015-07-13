@@ -47,7 +47,6 @@
     userDictionary[APIParamUserRelationship] = guardian.relationship;
     
     return userDictionary;
-    
 }
 
 - (id)copy {
@@ -69,7 +68,7 @@
     return guardianCopy;
 }
 
--(NSString *)description {
+- (NSString *)description {
     
     NSString *superDesc = [super description];
     
@@ -77,5 +76,6 @@
     
     return [superDesc stringByAppendingString:subDesc];
 }
+
 
 @end

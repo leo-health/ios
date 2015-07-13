@@ -1,14 +1,14 @@
 //
-//  TestTableView.m
+//  LEOChildDropDownTableView.m
 //  Leo
 //
 //  Created by Zachary Drossman on 6/21/15.
 //  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
-#import "TestTableView.h"
+#import "LEOChildDropDownTableView.h"
 
-@implementation TestTableView
+@implementation LEOChildDropDownTableView
 
 -(instancetype)init {
     

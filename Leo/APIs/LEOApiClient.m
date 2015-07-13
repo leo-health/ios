@@ -45,7 +45,7 @@
 
 
 + (void)getCardsForUser:(NSDictionary *)userParams withCompletion:(void (^)(NSDictionary *rawResults))completionBlock {
-
+    
     NSString *getCardsURLString = [NSString stringWithFormat:@"%@/%@",APIBaseURL,@"cards"]; //FIXME: Remove hardcoded string; replace with LEOConstant.
     
     [LEOAPIHelper standardGETRequestForJSONDictionaryFromAPIWithURL:getCardsURLString params:userParams completion:^(NSDictionary * rawResults) {

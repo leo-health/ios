@@ -160,7 +160,7 @@
 #pragma mark - Fetching
 
 - (void)getCardsWithCompletion:(void (^)(NSArray *cards))completionBlock {
-
+    
     NSArray *user = @[[self userToken]];
     NSArray *userKey = @[APIParamUserToken];
     
@@ -197,7 +197,7 @@
     NSDictionary *userParams = [[NSDictionary alloc] initWithObjects:user forKeys:userKey];
     
     [LEOApiClient getFamilyWithUserParameters:userParams withCompletion:^(NSDictionary *rawResults) {
-       
+        
         NSDictionary *dataDictionary = rawResults[@"data"];
         
         Family *family = [[Family alloc] initWithJSONDictionary:dataDictionary]; //FIXME: LeoConstants
@@ -213,13 +213,13 @@
     NSArray *practiceKey = @[APIParamID];
     
     NSDictionary *practiceParams = [[NSDictionary alloc] initWithObjects:practiceValues forKeys:practiceKey];
-
-    [LEOApiClient getProvidersWithParameters:practiceParams withCompletion:^(NSDictionary *rawResults) {
     
+    [LEOApiClient getProvidersWithParameters:practiceParams withCompletion:^(NSDictionary *rawResults) {
+        
         NSArray *dataArray = rawResults[@"data"];
         
         NSMutableArray *providers = [[NSMutableArray alloc] init];
-
+        
         for (NSDictionary *providerDictionary in dataArray) {
             Provider *provider = [[Provider alloc] initWithJSONDictionary:providerDictionary];
             [providers addObject:provider];
@@ -282,38 +282,6 @@
     return timesForDate;
 }
 
-//- (NSArray *)fetchChildren {
-//    
-//    Patient *patient1 = [[Patient alloc] initWithObjectID:@"1" familyID:@"10" title:nil firstName:@"Zachary" middleInitial:@"S" lastName:@"Drossman" suffix:nil email:@"zach@leohealth.com" photoURL:nil photo:[UIImage imageNamed:@"Avatar-Hayden"] dob:[NSDate dateWithYear:2008 month:1 day:12] gender:@"male" status:@"active"];
-//    
-//    Patient *patient2 = [[Patient alloc] initWithObjectID:@"2" familyID:@"10" title:nil firstName:@"Rachel" middleInitial:nil lastName:@"Drossman" suffix:@"Jr" email:@"rachel@leohealth.com" photoURL:nil photo:[UIImage imageNamed:@"Avatar-Hayden"] dob:[NSDate dateWithYear:2009 month:6 day:1] gender:@"female" status:@"active"];
-//    
-//    Patient *patient3 = [[Patient alloc] initWithObjectID:@"3" familyID:@"10" title:nil firstName:@"Tracy" middleInitial:nil lastName:@"Drossman" suffix:nil email:nil photoURL:nil photo:[UIImage imageNamed:@"Avatar-Emily@1x"] dob:[NSDate dateWithYear:2014 month:10 day:10] gender:@"female" status:@"active"];
-//                         
-//    
-//    return @[patient1, patient2, patient3];
-//}
-
-//- (NSArray *)fetchDoctors {
-//    
-//    Provider *provider1 = [[Provider alloc] initWithObjectID:@"1" title:@"Dr." firstName:@"Om" middleInitial:nil lastName:@"Lala" suffix:nil email:@"om@leohealth.com" photoURL:nil photo:[UIImage imageNamed:@"Avatar-Hayden"] credentialSuffixes:@[@"MD"] specialties:@[@"na"]];
-//    
-//    Provider *provider2 = [[Provider alloc] initWithObjectID:@"2" title:@"Dr." firstName:@"Summer" middleInitial:@"R" lastName:@"Cece" suffix:@"Sr." email:@"summer@leohealth.com" photoURL:nil photo:[UIImage imageNamed:@"Avatar-Hayden"] credentialSuffixes:@[@"MD"] specialties:@[@"na"]];
-//    
-//    Provider *provider3 = [[Provider alloc] initWithObjectID:@"3" title:@"Dr." firstName:@"Cristina" middleInitial:@"M." lastName:@"Montagne" suffix:nil email:@"cristina@leohealth.com" photoURL:nil photo:[UIImage imageNamed:@"Avatar-Hayden"] credentialSuffixes:@[@"MD"] specialties:@[@"na"]];
-//    
-//    return @[provider1, provider2, provider3];
-//}
-//
-//- (NSArray *)fetchAppointmentTypes {
-//    
-//    AppointmentType *appointmentTypeOne = [[AppointmentType alloc] initWithObjectID:@"1" typeDescriptor:@"Well visit" duration:@15];
-//    AppointmentType *appointmentTypeTwo = [[AppointmentType alloc] initWithObjectID:@"2" typeDescriptor:@"Sick visit" duration:@30];
-//    AppointmentType *appointmentTypeThree = [[AppointmentType alloc] initWithObjectID:@"3" typeDescriptor:@"Follow-up visit" duration:@30];
-//    
-//    return @[appointmentTypeOne, appointmentTypeTwo, appointmentTypeThree];
-//}
-
 - (NSArray *)fetchSlots {
     
     NSDate *slot1 = [NSDate dateWithYear:2015 month:7 day:11 hour:8 minute:0 second:0];
@@ -351,7 +319,7 @@
     NSDate *slot17 = [NSDate dateWithYear:2015 month:7 day:16 hour:13 minute:0 second:0];
     
     NSDate *slot18 = [NSDate dateWithYear:2015 month:7 day:16 hour:13 minute:30 second:0];
-
+    
     NSDate *slot19 = [NSDate dateWithYear:2015 month:7 day:16 hour:13 minute:30 second:0];
     
     return @[slot1, slot2, slot3, slot4, slot5, slot6, slot7, slot8, slot9, slot10, slot11, slot12, slot13, slot14, slot15, slot16, slot17, slot18, slot19];
@@ -399,5 +367,6 @@
 - (NSURL *)applicationDocumentsDirectory {
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
+
 
 @end

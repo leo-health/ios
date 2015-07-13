@@ -14,7 +14,7 @@
 @implementation User
 
 - (instancetype)initWithObjectID:(nullable NSString*)objectID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email photoURL:(NSURL *)photoURL photo:(nullable UIImage *)photo {
-
+    
     self = [super init];
     
     if (self) {
@@ -33,7 +33,7 @@
 }
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
-
+    
     NSString *firstName = jsonResponse[APIParamUserFirstName];
     NSString *lastName = jsonResponse[APIParamUserLastName];
     NSString *middleInitial = jsonResponse[APIParamUserMiddleInitial];
@@ -44,7 +44,7 @@
     if (!(jsonResponse[APIParamUserSuffix] == [NSNull null])) {
         suffix = jsonResponse[APIParamUserSuffix];
     }
-
+    
     NSString *objectID = [jsonResponse[APIParamID] stringValue];
     NSString *email = jsonResponse[APIParamUserEmail];
     NSURL *photoURL = [NSURL URLWithString:jsonResponse[APIParamUserPhotoURL]];
@@ -55,7 +55,7 @@
 }
 
 + (NSDictionary *)dictionaryFromUser:(User *)user {
-
+    
     NSMutableDictionary *userDictionary = [[NSMutableDictionary alloc] init];
     
     //TODO: Remove the ternary operators for variables that MUST be there!

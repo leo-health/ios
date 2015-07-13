@@ -14,7 +14,6 @@
 @property (nonatomic) NSInteger currentPage;
 @property (strong, nonatomic) UINavigationBar *navBar;
 
-
 - (void)flipToFeed;
 - (void)flipToChild:(id)sender;
 

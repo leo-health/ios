@@ -151,7 +151,7 @@ static NSString *kActionSelectorBook = @"book";
             break;
             
         case AppointmentStateReminding:
-            bodyText = [NSString stringWithFormat:@"%@ has a %@ scheduled for %@ at %@.",self.appointment.patient.firstName, [((AppointmentType *)self.appointment.leoAppointmentType).typeDescriptor lowercaseString], self.appointment.stringifiedAppointmentDate, self.appointment.stringifiedAppointmentTime];
+            bodyText = [NSString stringWithFormat:@"%@ has a %@ scheduled for %@ at %@.",self.appointment.patient.firstName, [((AppointmentType *)self.appointment.leoAppointmentType).type lowercaseString], self.appointment.stringifiedAppointmentDate, self.appointment.stringifiedAppointmentTime];
             break;
             
         case AppointmentStateCancelled:

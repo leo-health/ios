@@ -41,6 +41,7 @@
     return self;
 }
 
+
 - (TimeCollectionViewController *)viewControllerAtIndex:(NSUInteger)index storyboard:(UIStoryboard *)storyboard {
     
     // Return the data view controller for the given index.
@@ -55,7 +56,6 @@
     
     return collectionViewController;
 }
-
 
 
 - (NSUInteger)indexOfViewController:(TimeCollectionViewController *)viewController {
@@ -120,5 +120,6 @@
     //NSLog(@"Next page: %lu", (unsigned long)nextPage);
     return [self viewControllerAtIndex:nextPage storyboard:viewController.storyboard];
 }
+
 
 @end

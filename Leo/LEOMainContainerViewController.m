@@ -41,7 +41,7 @@
     
     [self primaryInterfaceSetup];
     [self setupMenuButton];
-
+    
     [self setNeedsStatusBarAppearanceUpdate];
     
     self.dataManager = [LEODataManager sharedManager];
@@ -150,7 +150,7 @@
  *  Load Main Menu for Leo. Includes blurred background and updated menu button.
  */
 - (void)animateMenuLoad {
-
+    
     UIImage *blurredView = [self blurredSnapshot];
     self.blurredImageView = [[UIImageView alloc] initWithFrame:self.view.frame];
     self.blurredImageView.image = blurredView;
@@ -204,13 +204,13 @@
     self.menuView.alpha = 0;
     self.menuView.translatesAutoresizingMaskIntoConstraints = NO;
     self.menuView.delegate = self;
-
+    
     [self.view insertSubview:self.menuView belowSubview:self.menuButton];
     
     NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(_menuView);
     
     NSArray *horizontalMenuViewLayoutConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_menuView]|" options:0 metrics:nil views:viewsDictionary];
-
+    
     NSArray *verticalMenuViewLayoutConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_menuView]|" options:0 metrics:nil views:viewsDictionary];
     
     [self.view addConstraints:horizontalMenuViewLayoutConstraints];

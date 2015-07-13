@@ -12,6 +12,8 @@
 
 //TODO: Placeholders, and temporary until switching over to Text Styles for use with Dynamic Type
 
+
+//FIXME: Remove these first six methods and associated places they are used in the code base when we return to updating layout.
 + (UIFont *)leoTitleBasicFont;
 + (UIFont *)leoTitleBoldFont;
 + (UIFont *)leoTitleBolderFont;

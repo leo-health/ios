@@ -1,5 +1,5 @@
 //
-//  LEOCollapsedCardScheduling.h
+//  LEOCardScheduling.h
 //  Leo
 //
 //  Created by Zachary Drossman on 5/28/15.

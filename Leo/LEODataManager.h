@@ -1,6 +1,6 @@
 //
 //  LEOCoreDataManager.h
-//  
+//
 //
 //  Created by Zachary Drossman on 5/11/15.
 //
@@ -45,25 +45,24 @@ NS_ASSUME_NONNULL_BEGIN
 //Appointments
 - (void)createAppointmentWithAppointment:(nonnull Appointment *)appointment withCompletion:(void (^)(NSDictionary  * __nonnull rawResults))completionBlock;
 - (void)getAppointmentsForFamilyOfCurrentUserWithCompletion:(void (^)(NSDictionary  * __nonnull rawResults))completionBlock;
+- (NSArray *)fetchSlots;
+
 
 //Conversations
 - (void)getConversationsForCurrentUserWithCompletion:(void (^)(NSDictionary  * __nonnull rawResults))completionBlock;
 - (void)createMessage:(Message *)message forConversation:(nonnull Conversation *)conversation withCompletion:(void (^)(NSDictionary  * __nonnull rawResults))completionBlock;
 - (void)getMessagesForConversation:(Conversation *)conversation withCompletion:(void (^)(NSDictionary  * __nonnull rawResults))completionBlock;
 
-- (id)objectWithObjectID:(NSString *)objectID objectArray:(NSArray *)objects;
-
-//- (NSArray *)fetchChildren;
-//- (NSArray *)fetchDoctors;
-//- (NSArray *)fetchAppointmentTypes;
-- (NSArray *)fetchSlots;
-
-- (void)addCard:(LEOCard *)card;
-- (void)removeCard:(LEOCard *)card;
-
+//Helper Data
 - (void)getFamilyWithCompletion:(void (^)(Family *family))completionBlock;
 - (void)getProvidersForPractice:(Practice *)practice withCompletion:(void (^)(NSArray *providers))completionBlock;
 - (void)getVisitTypesWithCompletion:(void (^)(NSArray *visitTypes))completionBlock;
+
+//Helper methods
+- (id)objectWithObjectID:(NSString *)objectID objectArray:(NSArray *)objects;
+- (void)addCard:(LEOCard *)card;
+- (void)removeCard:(LEOCard *)card;
+
 
 NS_ASSUME_NONNULL_END
 @end

@@ -26,6 +26,8 @@
 + (UIColor *) leoBlack;
 + (UIColor *) leoWhite;
 
+
+//FIXME: To be removed from here and other places in code once returning to layout updates.
 + (UIColor *) leoWarmHeavyGray;
 + (UIColor *) leoWarmLightGray;
 + (UIColor *) leoBasicGray;

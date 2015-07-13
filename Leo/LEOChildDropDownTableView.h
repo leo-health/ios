@@ -1,5 +1,5 @@
 //
-//  TestTableView.h
+//  LEOChildDropDownTableView.h
 //  Leo
 //
 //  Created by Zachary Drossman on 6/21/15.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TestTableView : UITableView
+@interface LEOChildDropDownTableView : UITableView
 
 @end
