@@ -286,7 +286,7 @@
 		BCE1EC6B1B00E353007C8D0B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Leo/AppDelegate.h; sourceTree = "<group>"; };
 		BCE1EC6C1B00E353007C8D0B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Leo/AppDelegate.m; sourceTree = "<group>"; };
 		BCE1EC721B00E353007C8D0B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		BCE1EC741B00E353007C8D0B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = /Users/zdrossman/Leo/Code/ios/Leo/Images.xcassets; sourceTree = "<absolute>"; };
+		BCE1EC741B00E353007C8D0B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Leo/Images.xcassets; sourceTree = SOURCE_ROOT; };
 		BCE1EC771B00E353007C8D0B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		BCE1EC7D1B00E353007C8D0B /* LeoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LeoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCE1EC821B00E353007C8D0B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
