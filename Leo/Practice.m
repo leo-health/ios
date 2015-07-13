@@ -28,7 +28,7 @@
     
     NSString *objectID = [jsonResponse[APIParamID] stringValue];
     
-    NSArray *providerDictionaries = jsonResponse[APIParamProviders];
+    NSArray *providerDictionaries = jsonResponse[APIParamUserProviders];
     
     NSMutableArray *providers = [[NSMutableArray alloc] init];
     

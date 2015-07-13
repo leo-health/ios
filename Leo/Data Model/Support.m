@@ -11,9 +11,9 @@
 
 @implementation Support
 
-- (instancetype)initWithObjectID:(nullable NSString *)objectID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email photoURL:(nullable NSURL *)photoURL photo:(UIImage *)photo roleID:(NSString *)roleID roleDisplayName:(NSString *)roleDisplayName {
+- (instancetype)initWithObjectID:(nullable NSString *)objectID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email avatarURL:(nullable NSURL *)avatarURL avatar:(UIImage *)avatar roleID:(NSString *)roleID roleDisplayName:(NSString *)roleDisplayName {
 
-    self = [super initWithObjectID:objectID title:title firstName:firstName middleInitial:middleInitial lastName:lastName suffix:suffix email:email photoURL:photoURL photo:photo];
+    self = [super initWithObjectID:objectID title:title firstName:firstName middleInitial:middleInitial lastName:lastName suffix:suffix email:email avatarURL:avatarURL avatar:avatar];
     
     if (self) {
         _roleID = roleID;
@@ -30,8 +30,8 @@
     self = [super initWithJSONDictionary:jsonResponse];
     
     if (self) {
-        _roleID = jsonResponse[APIParamResourceID];
-        _roleDisplayName = jsonResponse[APIParamResourceName];
+        _roleID = jsonResponse[APIParamID];
+        _roleDisplayName = jsonResponse[APIParamRole];
     }
     
     return self;
@@ -42,8 +42,8 @@
     
     NSMutableDictionary *userDictionary = [[super dictionaryFromUser:support] mutableCopy];
     
-    userDictionary[APIParamResourceID] = support.roleID;
-    userDictionary[APIParamResourceName] = support.roleDisplayName;
+    userDictionary[APIParamID] = support.roleID;
+    userDictionary[APIParamRole] = support.roleDisplayName;
     
     return userDictionary;
 }
@@ -58,8 +58,8 @@
     supportCopy.suffix = self.suffix;
     supportCopy.title = self.title;
     supportCopy.email = self.email;
-    supportCopy.photoURL = self.photoURL;
-    supportCopy.photo = [self.photo copy];
+    supportCopy.avatarURL = self.avatarURL;
+    supportCopy.avatar = [self.avatar copy];
     supportCopy.roleID = self.roleID;
     supportCopy.roleDisplayName = self.roleDisplayName;
     

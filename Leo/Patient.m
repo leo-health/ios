@@ -11,9 +11,9 @@
 
 @implementation Patient
 
-- (instancetype)initWithObjectID:(nullable NSString *)objectID familyID:(NSString *)familyID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(nullable NSString *)email photoURL:(nullable NSURL *)photoURL photo:(nullable UIImage *)photo dob:(NSDate *)dob gender:(NSString *)gender status:(NSString *)status {
+- (instancetype)initWithObjectID:(nullable NSString *)objectID familyID:(NSString *)familyID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(nullable NSString *)email avatarURL:(nullable NSURL *)avatarURL avatar:(nullable UIImage *)avatar dob:(NSDate *)dob gender:(NSString *)gender status:(NSString *)status {
     
-    self = [super initWithObjectID:objectID title:title firstName:firstName middleInitial:middleInitial lastName:lastName suffix:suffix email:email photoURL:photoURL photo:photo];
+    self = [super initWithObjectID:objectID title:title firstName:firstName middleInitial:middleInitial lastName:lastName suffix:suffix email:email avatarURL:avatarURL avatar:avatar];
     
     if (self) {
         _familyID = familyID;
@@ -31,8 +31,8 @@
     
     if (self) {
         _familyID = jsonResponse[@"family_id"]; //FIXME: Update with constant.
-        _dob = jsonResponse[APIParamUserDOB];
-        _gender = jsonResponse[APIParamUserGender];
+        _dob = jsonResponse[APIParamUserBirthDate];
+        _gender = jsonResponse[APIParamUserSex];
         _status = jsonResponse[APIParamUserStatus];
     }
     
@@ -43,9 +43,9 @@
     
     NSMutableDictionary *userDictionary = [[super dictionaryFromUser:patient] mutableCopy];
     
-    userDictionary[@"family_id"] = patient.familyID; //FIXME: Update with constant.
-    userDictionary[APIParamUserDOB] = patient.dob;
-    userDictionary[APIParamUserGender] = patient.gender;
+    userDictionary[APIParamFamilyID] = patient.familyID; //FIXME: Update with constant.
+    userDictionary[APIParamUserBirthDate] = patient.dob;
+    userDictionary[APIParamUserSex] = patient.gender;
     userDictionary[APIParamUserStatus] = patient.status;
 
     return userDictionary;
@@ -62,8 +62,8 @@
     patientCopy.suffix = self.suffix;
     patientCopy.title = self.title;
     patientCopy.email = self.email;
-    patientCopy.photoURL = self.photoURL;
-    patientCopy.photo = [self.photo copy];
+    patientCopy.avatarURL = self.avatarURL;
+    patientCopy.avatar = [self.avatar copy];
     patientCopy.dob = self.dob;
     patientCopy.gender = self.gender;
     patientCopy.status = self.status;

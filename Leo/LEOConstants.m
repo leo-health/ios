@@ -22,6 +22,8 @@ NSString *const APIEndpointAppointments = @"appointments";
 NSString *const APIEndpointConversations = @"conversations";
 NSString *const APIEndpointMessages = @"messages";
 NSString *const APIEndpointVisitTypes = @"visits";
+NSString *const APIEndpointLogin = @"login";
+
 
 #pragma mark - Common params
 NSString *const APIParamID = @"id";
@@ -33,6 +35,7 @@ NSString *const APIParamStatus = @"status";
 NSString *const APIParamStatusID = @"status_id";
 NSString *const APIParamName = @"name";
 NSString *const APIParamDescription = @"description";
+NSString *const APIParamToken = @"token";
 
 #pragma mark - Date & time params
 NSString *const APIParamCreatedDateTime = @"created_datetime";
@@ -53,11 +56,17 @@ NSString *const APIParamUserAvatarURL = @"avatar_url";
 
 NSString *const APIParamUserCredentials = @"credentials";
 NSString *const APIParamUserSpecialties = @"specialties";
+NSString *const APIParamUserPrimary = @"primary";
+NSString *const APIParamUserStatus = @"status";
+
 
 NSString *const APIParamUserBirthDate = @"birth_date";
 NSString *const APIParamUserSex = @"sex";
+NSString *const APIParamUserPassword = @"password";
 
 #pragma mark - Common user object references
+NSString *const APIParamUser = @"user";
+NSString *const APIParamUsers = @"users";
 NSString *const APIParamUserProvider = @"provider";
 NSString *const APIParamUserProviders = @"providers";
 NSString *const APIParamUserPatient = @"patient";

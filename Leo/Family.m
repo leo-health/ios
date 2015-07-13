@@ -38,7 +38,7 @@
         [patients addObject:patient];
     }
     
-    NSArray *guardianDictionaries = jsonResponse[APIParamCaretakers]; //FIXME: Update name to guardian in LEOConstants file
+    NSArray *guardianDictionaries = jsonResponse[APIParamUserGuardians]; //FIXME: Update name to guardian in LEOConstants file
     NSMutableArray *guardians = [[NSMutableArray alloc] init];
     
     for (NSDictionary *guardianDictionary in guardianDictionaries) {

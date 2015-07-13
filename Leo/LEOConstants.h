@@ -31,6 +31,7 @@ extern NSString *const APIEndpointAppointments; // @"appointments";
 extern NSString *const APIEndpointConversations; // @"conversations";
 extern NSString *const APIEndpointMessages; // @"messages";
 extern NSString *const APIEndpointVisitTypes; // @"visits";
+extern NSString *const APIEndpointLogin; // @"login";
 
 #pragma mark - Common params
 extern NSString *const APIParamID; // @"id";
@@ -42,6 +43,7 @@ extern NSString *const APIParamStatus; // @"status";
 extern NSString *const APIParamStatusID; // @"status_id";
 extern NSString *const APIParamName; // @"name";
 extern NSString *const APIParamDescription; // @"description";
+extern NSString *const APIParamToken; //@"token";
 
 #pragma mark - Date & time params
 extern NSString *const APIParamCreatedDateTime; // @"created_datetime";
@@ -65,8 +67,15 @@ extern NSString *const APIParamUserSpecialties; // @"specialties";
 
 extern NSString *const APIParamUserBirthDate; // @"birth_date";
 extern NSString *const APIParamUserSex; // @"sex";
+extern NSString *const APIParamUserPassword; // @"password";
+extern NSString *const APIParamUserStatus; // @"status";
+extern NSString *const APIParamUserPrimary; // @"primary";
+
+
 
 #pragma mark - Common user object references
+extern NSString *const APIParamUser; // @"user";
+extern NSString *const APIParamUsers; // @"users";
 extern NSString *const APIParamUserProvider; // @"provider";
 extern NSString *const APIParamUserProviders; // @"providers";
 extern NSString *const APIParamUserPatient; // @"patient";

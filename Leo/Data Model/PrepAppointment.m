@@ -36,10 +36,10 @@
 //MARK: Not sure this method will ever be used for a prep appointment.
 - (instancetype)initWithJSONDictionary:(nonnull NSDictionary *)jsonResponse {
     
-    NSDate *date = jsonResponse[APIParamApptDate];
-    Patient *patient = jsonResponse[APIParamPatient];
-    Provider *provider = jsonResponse[APIParamProvider];
-    User *bookedByUser = jsonResponse[APIParamBookedByUser];
+    NSDate *date = jsonResponse[APIParamAppointmentStartDateTime];
+    Patient *patient = jsonResponse[APIParamUserPatient];
+    Provider *provider = jsonResponse[APIParamUserProvider];
+    User *bookedByUser = jsonResponse[APIParamAppointmentBookedBy];
     
     //FIXME: This should really go looking for the appointment type via ID as opposed to trying to pull it from this JSON response most likely (hence why we get a warning here because that isn't passed as part of the API endpoint.)
     
@@ -47,7 +47,7 @@
     
     NSNumber *state = jsonResponse[APIParamState];
     NSString *objectID = [jsonResponse[APIParamID] stringValue];
-    NSString *note = jsonResponse[APIParamApptNote];
+    NSString *note = jsonResponse[APIParamAppointmentNotes];
     
     //TODO: May need to protect against nil values...
     return [self initWithObjectID:objectID date:date appointmentType:leoAppointmentType patient:patient provider:provider bookedByUser:bookedByUser note:note state:state];

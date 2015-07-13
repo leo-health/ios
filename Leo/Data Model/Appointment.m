@@ -39,8 +39,8 @@
     
     NSDate *date = [NSDate dateFromDateTimeString:jsonResponse[@"start_datetime"]];
     Patient *patient = [[Patient alloc] initWithJSONDictionary:jsonResponse[@"patient"]]; //FIXME: Constant
-    Provider *provider = [[Provider alloc] initWithJSONDictionary:jsonResponse[APIParamProvider]];
-    User *bookedByUser = [[User alloc] initWithJSONDictionary:jsonResponse[APIParamBookedByUser] ];
+    Provider *provider = [[Provider alloc] initWithJSONDictionary:jsonResponse[APIParamUserProvider]];
+    User *bookedByUser = [[User alloc] initWithJSONDictionary:jsonResponse[APIParamAppointmentBookedBy] ];
     
     AppointmentType *leoAppointmentType = [[AppointmentType alloc] initWithJSONDictionary:jsonResponse[@"visit_type"]]; //FIXME: Constant.
     
@@ -62,12 +62,12 @@
     NSMutableDictionary *appointmentDictionary = [[NSMutableDictionary alloc] init];
     
     appointmentDictionary[APIParamID] = appointment.objectID;
-    appointmentDictionary[APIParamApptDate] = appointment.date;
-    appointmentDictionary[APIParamApptType] = appointment.leoAppointmentType;
+    appointmentDictionary[APIParamAppointmentStartDateTime] = appointment.date;
+    appointmentDictionary[APIParamVisitType] = appointment.leoAppointmentType;
     appointmentDictionary[APIParamState] = appointment.state;
-    appointmentDictionary[APIParamProviderID] = appointment.provider.objectID;
-    appointmentDictionary[APIParamPatientID] = appointment.patient.objectID;
-    appointmentDictionary[APIParamApptNote] = appointment.note;
+    appointmentDictionary[APIParamID] = appointment.provider.objectID;
+    appointmentDictionary[APIParamID] = appointment.patient.objectID;
+    appointmentDictionary[APIParamAppointmentNotes] = appointment.note;
     
     return appointmentDictionary;
 }

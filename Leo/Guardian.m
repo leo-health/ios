@@ -12,9 +12,9 @@
 @implementation Guardian
 
 
-- (instancetype)initWithObjectID:(nullable NSString *)objectID familyID:(NSString *)familyID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email photoURL:(nullable NSURL *)photoURL photo:(nullable UIImage *)photo primary:(BOOL)primary relationship:(NSString *)relationship {
+- (instancetype)initWithObjectID:(nullable NSString *)objectID familyID:(NSString *)familyID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email avatarURL:(nullable NSURL *)avatarURL avatar:(nullable UIImage *)avatar primary:(BOOL)primary relationship:(NSString *)relationship {
     
-    self = [super initWithObjectID:objectID title:title firstName:firstName middleInitial:middleInitial lastName:lastName suffix:suffix email:email photoURL:photoURL photo:photo];
+    self = [super initWithObjectID:objectID title:title firstName:firstName middleInitial:middleInitial lastName:lastName suffix:suffix email:email avatarURL:avatarURL avatar:avatar];
     
     if (self) {
         _familyID = familyID;
@@ -32,7 +32,7 @@
     if (self) {
         _familyID = jsonResponse[@"family_id"]; //FIXME: Update with constant.
         _primary = jsonResponse[APIParamUserPrimary];
-        _relationship = jsonResponse[APIParamUserRelationship];
+        _relationship = jsonResponse[APIParamRelationship];
     }
     
     return self;
@@ -44,7 +44,7 @@
     
     userDictionary[@"family_id"] = guardian.familyID; //FIXME: Update with constant.
     userDictionary[APIParamUserPrimary] = @(guardian.primary);
-    userDictionary[APIParamUserRelationship] = guardian.relationship;
+    userDictionary[APIParamRelationship] = guardian.relationship;
     
     return userDictionary;
 }
@@ -60,8 +60,8 @@
     guardianCopy.suffix = self.suffix;
     guardianCopy.title = self.title;
     guardianCopy.email = self.email;
-    guardianCopy.photoURL = self.photoURL;
-    guardianCopy.photo = [self.photo copy];
+    guardianCopy.avatarURL = self.avatarURL;
+    guardianCopy.avatar = [self.avatar copy];
     guardianCopy.relationship = self.relationship;
     guardianCopy.primary = self.primary;
     

@@ -54,13 +54,13 @@
 - (User *)currentUser {
     
     //FIXME: This is temporary.
-    return [[Guardian alloc] initWithObjectID:@"1" familyID:@"10" title:@"Mrs." firstName:@"Marilyn" middleInitial:nil lastName:@"Drossman" suffix:nil email:@"marilyn@leohealth.com" photoURL:nil photo:nil primary:YES relationship:@"mother"];
+    return [[Guardian alloc] initWithObjectID:@"1" familyID:@"10" title:@"Mrs." firstName:@"Marilyn" middleInitial:nil lastName:@"Drossman" suffix:nil email:@"marilyn@leohealth.com" avatarURL:nil avatar:nil primary:YES relationship:@"mother"];
 }
 
 - (void)createUserWithUser:(nonnull User *)user password:(nonnull NSString *)password withCompletion:(void (^)( NSDictionary *  rawResults))completionBlock {
     
     NSMutableDictionary *userParams = [[User dictionaryFromUser:user] mutableCopy];
-    userParams[APIParamUserPassword] = password;
+    userParams[APIParamUser] = password;
     [LEOApiClient createUserWithParameters:userParams withCompletion:^(NSDictionary *rawResults) {
         NSDictionary *userDictionary = rawResults[@"data"][@"user"]; //TODO: Make sure I want this here and not defined somewhere else.
         user.objectID = userDictionary[APIParamID];
@@ -91,7 +91,7 @@
 - (void)createAppointmentWithAppointment:(nonnull Appointment *)appointment withCompletion:(void (^)(NSDictionary  *  rawResults))completionBlock {
     
     NSArray *apptProperties = @[[self userToken], appointment.patient.objectID, appointment.date, appointment.provider.objectID];
-    NSArray *apptKeys = @[APIParamApptToken, APIParamPatientID, APIParamApptDate, APIParamProviderID];
+    NSArray *apptKeys = @[APIParamToken, APIParamID, APIParamAppointmentStartDateTime, APIParamID];
     
     NSDictionary *apptParams = [[NSDictionary alloc] initWithObjects:apptProperties forKeys:apptKeys];
     
@@ -104,7 +104,7 @@
 - (void)getAppointmentsForFamilyOfCurrentUserWithCompletion:(void (^)(NSDictionary  *  rawResults))completionBlock {
     
     NSArray *apptProperties = @[[self userToken]];
-    NSArray *apptKeys = @[APIParamApptToken];
+    NSArray *apptKeys = @[APIParamToken];
     
     NSDictionary *apptParams = [[NSDictionary alloc] initWithObjects:apptProperties forKeys:apptKeys];
     
@@ -117,7 +117,7 @@
 - (void)getConversationsForCurrentUserWithCompletion:(void (^)(NSDictionary  *  rawResults))completionBlock {
     
     NSArray *conversationProperties = @[self.userToken];
-    NSArray *conversationKeys = @[APIParamApptToken];
+    NSArray *conversationKeys = @[APIParamToken];
     
     NSDictionary *conversationParams = [[NSDictionary alloc] initWithObjects:conversationProperties forKeys:conversationKeys];
     
@@ -132,7 +132,7 @@
     [conversation addMessage:message];
     
     NSArray *messageProperties = @[self.userToken, message.body, message.sender.objectID];
-    NSArray *messageKeys = @[APIParamApptToken, APIParamMessageBody, APIParamMessageSenderID];
+    NSArray *messageKeys = @[APIParamToken, APIParamMessageBody, APIParamID];
     
     NSDictionary *messageParams = [[NSDictionary alloc] initWithObjects:messageProperties forKeys:messageKeys];
     
@@ -145,7 +145,7 @@
 - (void)getMessagesForConversation:(Conversation *)conversation withCompletion:(nonnull void (^)(NSDictionary  *  rawResults))completionBlock {
     
     NSArray *messageProperties = @[self.userToken];
-    NSArray *messageKeys = @[APIParamApptToken];
+    NSArray *messageKeys = @[APIParamToken];
     
     NSDictionary *messageParams = [[NSDictionary alloc] initWithObjects:messageProperties forKeys:messageKeys];
     
@@ -162,7 +162,7 @@
 - (void)getCardsWithCompletion:(void (^)(NSArray *cards))completionBlock {
     
     NSArray *user = @[[self userToken]];
-    NSArray *userKey = @[APIParamUserToken];
+    NSArray *userKey = @[APIParamToken];
     
     NSDictionary *userParams = [[NSDictionary alloc] initWithObjects:user forKeys:userKey];
     
@@ -192,7 +192,7 @@
 - (void)getFamilyWithCompletion:(void (^)(Family *family))completionBlock {
     
     NSArray *user = @[[self userToken]];
-    NSArray *userKey = @[APIParamUserToken];
+    NSArray *userKey = @[APIParamToken];
     
     NSDictionary *userParams = [[NSDictionary alloc] initWithObjects:user forKeys:userKey];
     

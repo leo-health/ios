@@ -57,10 +57,10 @@ static NSString *kActionSelectorBook = @"book";
 
 - (instancetype)initWithDictionary:(NSDictionary *)jsonCard {
 
-    return [self initWithObjectID:jsonCard[APIParamCardID]
+    return [self initWithObjectID:jsonCard[APIParamID]
                          priority:jsonCard[APIParamCardPriority]
-                             type:jsonCard[APIParamCardType]
-            associatedCardObject:jsonCard[@"card_data"]];
+                             type:jsonCard[APIParamType]
+            associatedCardObject:jsonCard[APIParamCardData]];
 }
 
 

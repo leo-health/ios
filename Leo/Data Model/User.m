@@ -13,7 +13,7 @@
 
 @implementation User
 
-- (instancetype)initWithObjectID:(nullable NSString*)objectID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email photoURL:(NSURL *)photoURL photo:(nullable UIImage *)photo {
+- (instancetype)initWithObjectID:(nullable NSString*)objectID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email avatarURL:(NSURL *)avatarURL avatar:(nullable UIImage *)avatar {
     
     self = [super init];
     
@@ -25,8 +25,8 @@
         _lastName = lastName;
         _suffix = suffix;
         _email = email;
-        _photoURL = photoURL;
-        _photo = photo;
+        _avatarURL = avatarURL;
+        _avatar = avatar;
     }
     
     return self;
@@ -47,11 +47,18 @@
     
     NSString *objectID = [jsonResponse[APIParamID] stringValue];
     NSString *email = jsonResponse[APIParamUserEmail];
-    NSURL *photoURL = [NSURL URLWithString:jsonResponse[APIParamUserPhotoURL]];
-    UIImage *photo = [UIImage imageWithData:[NSData dataWithContentsOfURL:photoURL]];
+    
+    
+    NSURL *avatarURL;
+    UIImage *avatar;
+    //FIXME: The avatar should not be retrieved every time we get the user most likely.
+    if (!(jsonResponse[APIParamUserAvatarURL] == [NSNull null])) {
+        avatarURL = [NSURL URLWithString:jsonResponse[APIParamUserAvatarURL]];
+        avatar = [UIImage imageWithData:[NSData dataWithContentsOfURL:avatarURL]];
+    }
     
     //TODO: May need to protect against nil values...
-    return [self initWithObjectID:objectID title:title firstName:firstName middleInitial:middleInitial lastName:lastName suffix:suffix email:email photoURL:photoURL photo:photo];
+    return [self initWithObjectID:objectID title:title firstName:firstName middleInitial:middleInitial lastName:lastName suffix:suffix email:email avatarURL:avatarURL avatar:avatar];
 }
 
 + (NSDictionary *)dictionaryFromUser:(User *)user {
@@ -74,7 +81,7 @@
     
     NSMutableDictionary *userDictionary = [[User dictionaryFromUser:user] mutableCopy];
     
-    userDictionary[APIParamUserPhoto] = user.photo ? user.photo : [NSNull null];
+    userDictionary[APIParamUserAvatarURL] = user.avatarURL ? user.avatarURL : [NSNull null];
     
     return userDictionary;
 }

@@ -11,15 +11,13 @@
 #import "LEOConstants.h"
 @implementation Role
 
-- (instancetype)initWithName:(NSString *)name resourceID:(NSString *)resourceID resourceType:(NSNumber *)resourceType {
+- (instancetype)initWithName:(NSString *)name resourceID:(NSString *)resourceID {
 
     self = [super init];
     
     if (self) {
         _name = name;
         _resourceID = resourceID;
-        _resourceType = resourceType;
-        
     }
     
     return self;
@@ -27,12 +25,11 @@
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
     
-    NSString *resourceName = jsonResponse[APIParamResourceName];
-    NSNumber *resourceType = jsonResponse[APIParamResourceType];
-    NSString *resourceID = jsonResponse[APIParamResourceID];
+    NSString *resourceName = jsonResponse[APIParamRole];
+    NSString *resourceID = jsonResponse[APIParamRoleID];
     
     //TODO: May need to protect against nil values...
-    return [self initWithName:resourceName resourceID:resourceID resourceType:resourceType];
+    return [self initWithName:resourceName resourceID:resourceID];
 }
 
 - (RoleType)roleType {
