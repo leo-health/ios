@@ -21,7 +21,8 @@ typedef enum CardLayout {
 @interface LEOConstants : NSObject
 
 #pragma mark - URL & endpoints
-extern NSString *const APIHost; // @"http://leo-api.herokuapp.com";
+extern NSString *const APIBaseUrl; // @"http://leo-api.herokuapp.com/api/v1";
+extern NSString *const APIHost; // @"leo-api.herokuapp.com";
 extern NSString *const APIVersion; // @"/api/v1";
 extern NSString *const APIEndpointUsers; // @"users";
 extern NSString *const APIEndpointSessions; // @"sessions";
