@@ -26,7 +26,7 @@
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
     
     NSString *objectID = jsonResponse[APIParamID];
-    NSString *typeDescriptor = jsonResponse[@"display_name"];
+    NSString *typeDescriptor = jsonResponse[@"name"];
     NSNumber *duration = jsonResponse[@"duration"]; //Add LEOConstant instead of hardcoding this.
     //TODO: Decide whether to add duration here.
     

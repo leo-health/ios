@@ -13,7 +13,7 @@
 
 #pragma mark - Initializers
 
-- (instancetype)initWithObjectID:(NSString *)objectID priority:(NSNumber *)priority type:(NSString *)type associatedCardObjects:(NSArray *)associatedCardObjects {
+- (instancetype)initWithObjectID:(NSString *)objectID priority:(NSNumber *)priority type:(NSString *)type associatedCardObject:(id)associatedCardObject {
     
     self = [super init];
     
@@ -21,7 +21,7 @@
         _objectID = objectID;
         _priority = priority;
         _type = type;
-        _associatedCardObjects = associatedCardObjects;
+        _associatedCardObject = associatedCardObject;
     }
     
     return self;

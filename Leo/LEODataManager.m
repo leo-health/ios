@@ -170,11 +170,11 @@
         
         //FIXME: Need to change for "data"?
         
-        NSArray *jsonCards = rawResults[@"cards"];
+        NSArray *dataArray = rawResults[@"data"];
         
         NSMutableArray *cards = [[NSMutableArray alloc] init];
         
-        for (id jsonCard in jsonCards) {
+        for (id jsonCard in dataArray) {
             
             NSString *cardType = jsonCard[@"type"];
             

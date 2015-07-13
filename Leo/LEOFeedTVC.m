@@ -220,7 +220,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
         
         if ([card.type isEqualToString:@"appointment"]) { //FIXME: should really be an integer / enum with a displayName if desired.
             
-            Appointment *appointment = card.associatedCardObjects[0]; //FIXME: Make this a loop to account for multiple appointments.
+            Appointment *appointment = card.associatedCardObject; //FIXME: Make this a loop to account for multiple appointments.
             
             switch (appointment.appointmentState) {
                 case AppointmentStateBooking: {
@@ -245,7 +245,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 
     Appointment *appointment = [[Appointment alloc] initWithObjectID:nil date:nil appointmentType:self.visitTypes[0] patient:self.family.patients[0] provider:self.providers[0] bookedByUser:(User *)[self.dataManager currentUser] note:nil state:@(AppointmentStateBooking)];
     
-    LEOCardScheduling *card = [[LEOCardScheduling alloc] initWithObjectID:@"temp" priority:@999 type:@"appointment" associatedCardObjects:@[appointment]];
+    LEOCardScheduling *card = [[LEOCardScheduling alloc] initWithObjectID:@"temp" priority:@999 type:@"appointment" associatedCardObject:appointment];
 
     [self loadBookingViewWithCard:card];
 }

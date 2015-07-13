@@ -13,6 +13,7 @@
 #import "Patient.h"
 #import "PrepAppointment.h"
 #import "AppointmentType.h"
+#import "NSDate+Extensions.h"
 
 @implementation Appointment
 
@@ -36,12 +37,12 @@
 
 - (instancetype)initWithJSONDictionary:(nonnull NSDictionary *)jsonResponse {
     
-    NSDate *date = jsonResponse[APIParamApptDate];
-    Patient *patient = [[Patient alloc] initWithJSONDictionary:jsonResponse[@"patients"][0]]; //FIXME: Constant
+    NSDate *date = [NSDate dateFromDateTimeString:jsonResponse[@"start_datetime"]];
+    Patient *patient = [[Patient alloc] initWithJSONDictionary:jsonResponse[@"patient"]]; //FIXME: Constant
     Provider *provider = [[Provider alloc] initWithJSONDictionary:jsonResponse[APIParamProvider]];
     User *bookedByUser = [[User alloc] initWithJSONDictionary:jsonResponse[APIParamBookedByUser] ];
     
-    AppointmentType *leoAppointmentType = [[AppointmentType alloc] initWithObjectID:jsonResponse[@"visit_type_id"] typeDescriptor:jsonResponse[@"visit_type_display_name"] duration:nil]; //FIXME: Constant
+    AppointmentType *leoAppointmentType = [[AppointmentType alloc] initWithJSONDictionary:jsonResponse[@"visit_type"]]; //FIXME: Constant.
                                            
     NSNumber *state = jsonResponse[@"status_id"]; //FIXME: Constant
     NSString *objectID = jsonResponse[APIParamID];

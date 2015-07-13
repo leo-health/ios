@@ -75,4 +75,12 @@
     return [self dateBySubtractingDays:daysSinceBeginningOfWeek];
 }
 
++ (NSDate *)dateFromDateTimeString:(NSString *)dateTimeString {
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-DD'T'HH:mm:ss.SSSZ"];
+    
+    return [dateFormatter dateFromString:dateTimeString];
+}
+
 @end

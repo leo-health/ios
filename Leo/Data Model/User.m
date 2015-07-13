@@ -38,7 +38,13 @@
     NSString *lastName = jsonResponse[APIParamUserLastName];
     NSString *middleInitial = jsonResponse[APIParamUserMiddleInitial];
     NSString *title = jsonResponse[APIParamUserTitle];
-    NSString *suffix = jsonResponse[APIParamUserSuffix];
+    
+    NSString *suffix;
+    
+    if (!(jsonResponse[APIParamUserSuffix] == [NSNull null])) {
+        suffix = jsonResponse[APIParamUserSuffix];
+    }
+
     NSString *objectID = jsonResponse[APIParamID];
     NSString *email = jsonResponse[APIParamUserEmail];
     NSURL *photoURL = [NSURL URLWithString:jsonResponse[APIParamUserPhotoURL]];
