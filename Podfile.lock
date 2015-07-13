@@ -22,6 +22,9 @@ PODS:
     - AFNetworking/NSURLSession
   - DateTools (1.5.0)
   - Expecta (0.2.4)
+  - JSQMessagesViewController (7.1.0):
+    - JSQSystemSoundPlayer (~> 2.0.1)
+  - JSQSystemSoundPlayer (2.0.1)
   - OHHTTPStubs (4.0.1)
   - pop (1.0.7)
   - Specta (0.5.0)
@@ -34,6 +37,7 @@ DEPENDENCIES:
   - AFNetworking
   - DateTools
   - Expecta (~> 0.2.4)
+  - JSQMessagesViewController
   - OHHTTPStubs
   - Specta (~> 0.5)
   - SSKeychain
@@ -44,6 +48,8 @@ SPEC CHECKSUMS:
   AFNetworking: 05edc0ac4c4c8cf57bcf4b84be5b0744b6d8e71e
   DateTools: b93a2c2017747329c6077c7d7e8a75106e23d0d7
   Expecta: cfaf1d3e2e194ca704a25e997093d30a1ce70b61
+  JSQMessagesViewController: ca11f86fa68ca70835f05e169df9244147c1dc40
+  JSQSystemSoundPlayer: c5850e77a4363ffd374cd851154b9af93264ed8d
   OHHTTPStubs: 69b1d48b7dfe838a355fdf48d8592d1042e3d85f
   pop: 628ffc631644601567ee8bfaaaea493ebd7d0923
   Specta: eb90708ed77569bbda089f8ead10bb99b8e9489e
