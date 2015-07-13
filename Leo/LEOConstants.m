@@ -10,96 +10,112 @@
 
 @implementation LEOConstants
 
-#pragma mark - URL & Endpoints
-NSString *const APIBaseURL = @"http://leo-api.herokuapp.com/api/v1";
-NSString *const APIHost = @"leo-api.herokuapp.com";
-NSString *const APICommonPath = @"/api/v1";
-NSString *const APIEndpointUser = @"users";
-NSString *const APIEndpointLogin = @"sessions";
+#pragma mark - URL & endpoints
+NSString *const APIHost = @"http://leo-api.herokuapp.com";
+NSString *const APIVersion = @"/api/v1";
+NSString *const APIEndpointUsers = @"users";
+NSString *const APIEndpointSessions = @"sessions";
+
 NSString *const APIEndpointResetPassword = @"sessions/password";
-NSString *const APIEndpointAppointment = @"appointments";
-NSString *const APIEndpointConversation = @"conversations";
-NSString *const APIEndpointMessage = @"messages";
-NSString *const APIEndpointInvitation = @"invitations";
+NSString *const APIEndpointAppointments = @"appointments";
+NSString *const APIEndpointConversations = @"conversations";
+NSString *const APIEndpointMessages = @"messages";
+NSString *const APIEndpointVisitTypes = @"visits";
 
 #pragma mark - Common params
 NSString *const APIParamID = @"id";
 NSString *const APIParamState = @"state";
+NSString *const APIParamData = @"data";
+NSString *const APIParamType = @"type";
+NSString *const APIParamTypeID = @"type_id";
+NSString *const APIParamStatus = @"status";
+NSString *const APIParamStatusID = @"status_id";
+NSString *const APIParamName = @"name";
+NSString *const APIParamDescription = @"description";
+
+#pragma mark - Date & time params
+NSString *const APIParamCreatedDateTime = @"created_datetime";
+NSString *const APIParamUpdatedDateTime = @"updated_datetime";
+
+#pragma mark - Family
+NSString *const APIParamFamilyID = @"family_id";
 
 #pragma mark - User and user subclass params
-NSString *const APIParamUser = @"first_name";
+
 NSString *const APIParamUserTitle = @"title";
 NSString *const APIParamUserFirstName = @"first_name";
 NSString *const APIParamUserMiddleInitial = @"middle_initial";
 NSString *const APIParamUserLastName = @"last_name";
 NSString *const APIParamUserSuffix = @"suffix";
 NSString *const APIParamUserEmail = @"email";
-NSString *const APIParamUserPassword = @"password";
-NSString *const APIParamUserDOB = @"dob";
-NSString *const APIParamUserGender = @"sex";
-NSString *const APIParamUserToken = @"token";
-NSString *const APIParamUserPhotoURL = @"photo_url";
-NSString *const APIParamUserPhoto = @"photo";
-NSString *const APIParamUserRole = @"role";
-NSString *const APIParamUserSpecialty = @"specialty";
-NSString *const APIParamUserStatus = @"status";
-NSString *const APIParamUserCredentialSuffix = @"credential_suffix";
-NSString *const APIParamUserPrimary = @"primary";
-NSString *const APIParamUserRelationship = @"relationship";
+NSString *const APIParamUserAvatarURL = @"avatar_url";
 
-NSString *const APIParamProviders = @"providers";
-NSString *const APIParamChildren = @"children";
-NSString *const APIParamCaretakers = @"caretakers";
-NSString *const APIParamPatient = @"patient";
-NSString *const APIParamProvider = @"provider";
-NSString *const APIParamPatientID = @"patient_id";
-NSString *const APIParamProviderID = @"provider_id";
+NSString *const APIParamUserCredentials = @"credentials";
+NSString *const APIParamUserSpecialties = @"specialties";
 
+NSString *const APIParamUserBirthDate = @"birth_date";
+NSString *const APIParamUserSex = @"sex";
 
-#pragma mark - Practice params
-NSString *const APIParamPractice = @"practice";
-NSString *const APIParamPracticeID = @"practice_id";
-
-#pragma mark - Appointment params
-NSString *const APIParamAppt = @"appointment";
-NSString *const APIParamApptID = @"appointment_id";
-NSString *const APIParamApptDate = @"date";
-NSString *const APIParamApptStartTime = @"start_time";
-NSString *const APIParamApptDuration = @"duration";
-NSString *const APIParamApptToken = @"auth_token"; //TODO: Can Danish change all tokens to match the same key?
-NSString *const APIParamApptNote = @"note";
-NSString *const APIParamApptType = @"leo_appointment_type";
-NSString *const APIParamBookedByUser = @"booked_by_user";
-NSString *const APIParamBookedByUserID = @"booked_by_user_id";
-
-#pragma mark - Conversation params
-NSString *const APIParamConversation = @"conversation";
-NSString *const APIParamConversationID = @"conversation_id";
-
-
-#pragma mark - Message params
-NSString *const APIParamMessageBody = @"body";
-NSString *const APIParamMessageID = @"message_id";
-NSString *const APIParamMessageSenderID = @"sender_id";
-NSString *const APIParamMessages = @"messages";
-
-#pragma mark - Card params
-NSString *const APIParamCardID = @"card_id";
-NSString *const APIParamCardTitle = @"title";
-NSString *const APIParamCardBody = @"body";
-NSString *const APIParamCardPrimaryUser = @"primary_user";
-NSString *const APIParamCardSecondaryUser = @"secondary_user";
-NSString *const APIParamCardPriority = @"priority";
-NSString *const APIParamCardType = @"type";
-NSString *const APIParamCardTimeStamp = @"timestamp"; //FIXME: Is this needed or are we using some existing timestamp?
-NSString *const APIParamAssociatedCardObject = @"associated_card_object";
+#pragma mark - Common user object references
+NSString *const APIParamUserProvider = @"provider";
+NSString *const APIParamUserProviders = @"providers";
+NSString *const APIParamUserPatient = @"patient";
+NSString *const APIParamUserPatients = @"patients";
+NSString *const APIParamUserParent = @"parent";
+NSString *const APIParamUserParents = @"parents";
+NSString *const APIParamUserGuardian = @"guardian";
+NSString *const APIParamUserGuardians = @"guardians";
 
 #pragma mark - Role params
-NSString *const APIParamResourceID = @"resource_id";
-NSString *const APIParamResourceType = @"resource_type";
-NSString *const APIParamResourceName = @"resource_name";
+NSString *const APIParamRole = @"role";
+NSString *const APIParamRoleID = @"role_id";
 
-#pragma mark - Other
-NSString *const KeypathAppointmentState = @"state";
+#pragma mark - Relationship params
+NSString *const APIParamRelationship = @"relationship";
+NSString *const APIParamRelationshipID = @"relationship_id";
+
+#pragma mark - Conversation & message params
+NSString *const APIParamConversations = @"conversations";
+NSString *const APIParamConversationMessageCount = @"message_count";
+NSString *const APIParamConversationLastEscalatedDateTime = @"last_escalated_datetime";
+
+NSString *const APIParamMessages = @"messages";
+NSString *const APIParamMessageBody = @"body";
+NSString *const APIParamMessageSender = @"sender";
+NSString *const APIParamMessageEscalatedTo = @"escalated_to";
+
+#pragma mark - Payment & Stripe params
+NSString *const APIParamPaymentBalance = @"balance";
+NSString *const APIParamPaymentDueDateTime = @"due_datetime";
+NSString *const APIParamPaymentPaidBy = @"paid_by";
+
+NSString *const APIParamStripe = @"stripe";
+NSString *const APIParamStripeCustomerId = @"customer_id";
+NSString *const APIParamStripeAmountPaid = @"amount_paid";
+NSString *const APIParamStripeSource = @"source";
+NSString *const APIParamStripeSourceObject = @"object";
+NSString *const APIParamStripeSourceBrand = @"brand";
+
+#pragma mark - Forms
+NSString *const APIParamFormSubmittedDateTime = @"submitted_datetime";
+NSString *const APIParamFormSubmittedBy = @"submitted_by";
+NSString *const APIParamFormTitle = @"title";
+NSString *const APIParamFormNotes = @"notes";
+
+#pragma mark - Card params
+NSString *const APIParamCardCount = @"count";
+NSString *const APIParamCardData = @"card_data";
+NSString *const APIParamCardPriority = @"priority";
+
+#pragma mark - Visit type params
+NSString *const APIParamVisitType = @"visit_type";
+NSString *const APIParamVisitDuration = @"duration";
+NSString *const APIParamVisitBody = @"body";
+
+#pragma mark - Appointment params
+NSString *const APIParamAppointment = @"appointment";
+NSString *const APIParamAppointmentStartDateTime = @"start_datetime";
+NSString *const APIParamAppointmentNotes = @"notes";
+NSString *const APIParamAppointmentBookedBy = @"booked_by";
 
 @end
