@@ -30,7 +30,7 @@
 
 #import "UIColor+LeoColors.h"
 #import "UIImage+Extensions.h"
-#import "LEOAppointmentSchedulingCardVC.h"
+#import "LEOCardSchedulingBookingVC.h"
 #import "LEOTransitioningDelegate.h"
 
 #import "LEOTwoButtonSecondaryOnlyCell+ConfigureForCell.h"
@@ -286,7 +286,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 - (void)loadBookingViewWithCard:(LEOCard *)card {
     
     UIStoryboard *schedulingStoryboard = [UIStoryboard storyboardWithName:@"Scheduling" bundle:nil];
-    LEOAppointmentSchedulingCardVC *singleAppointmentScheduleVC = [schedulingStoryboard instantiateInitialViewController];
+    LEOCardSchedulingBookingVC *singleAppointmentScheduleVC = [schedulingStoryboard instantiateInitialViewController];
     singleAppointmentScheduleVC.card = (LEOCardScheduling *)card;
     singleAppointmentScheduleVC.providers = self.providers;
     singleAppointmentScheduleVC.patients = self.family.patients;

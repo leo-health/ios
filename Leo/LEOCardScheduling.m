@@ -8,7 +8,7 @@
 
 #import "LEOCardScheduling.h"
 #import <NSDate+DateTools.h>
-#import "LEOAppointmentSchedulingCardVC.h"
+#import "LEOCardSchedulingBookingVC.h"
 #import "UIColor+LeoColors.h"
 #import "Patient.h"
 #import "AppointmentType.h"

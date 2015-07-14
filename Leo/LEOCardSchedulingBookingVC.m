@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
-#import "LEOAppointmentSchedulingCardVC.h"
+#import "LEOCardSchedulingBookingVC.h"
 #import "LEODataManager.h"
 #import <NSDate+DateTools.h>
 #import "LEOTimeCell.h"
@@ -28,7 +28,7 @@
 #import "Practice.h"
 #import "Appointment.h"
 
-@interface LEOAppointmentSchedulingCardVC ()
+@interface LEOCardSchedulingBookingVC ()
 
 #pragma mark - IBOutlets
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -70,7 +70,7 @@
 
 @end
 
-@implementation LEOAppointmentSchedulingCardVC
+@implementation LEOCardSchedulingBookingVC
 
 static NSString * const dateReuseIdentifier = @"DateCell";
 
