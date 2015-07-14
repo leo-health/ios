@@ -67,7 +67,7 @@
     
     self.dividerLabel.text = @"∙";
     
-    if (self.cardLayout == CardLayoutOneButtonSecondaryOnly) {
+    if (self.cardLayout == CardLayoutOneButtonSecondaryOnly || self.cardLayout == CardLayoutTwoButtonSecondaryOnly) {
         self.timestampLabel.text = self.timeStamp.timeAgoSinceNow;
     } else {
         //FIXME: This only accounts for dates within the past year! And doesn't yet deal with timezones!

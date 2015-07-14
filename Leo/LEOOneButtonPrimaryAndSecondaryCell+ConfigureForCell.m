@@ -24,7 +24,7 @@
     self.secondaryUserView.provider = card.secondaryUser;
     self.secondaryUserView.timeStamp = card.timestamp;
     self.secondaryUserView.cardColor = card.tintColor;
-    self.secondaryUserView.cardLayout = CardLayoutTwoButtonPrimaryAndSecondary;
+    self.secondaryUserView.cardLayout = CardLayoutOneButtonPrimaryAndSecondary;
     self.secondaryUserView.backgroundColor = [UIColor clearColor];
     self.bodyLabel.text = [card body];
     
