@@ -34,8 +34,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString *)body;
 - (CardLayout)layout;
 - (NSArray *)stringRepresentationOfActionsAvailableForState;
-- (Provider *)secondaryUser;
-- (User *)primaryUser;
+- (nullable User *)secondaryUser;
+- (nullable User *)primaryUser;
 - (NSDate *)timestamp;
 - (NSArray *)actionsAvailableForState;
 

@@ -104,14 +104,14 @@
                                  userInfo:nil];
 }
 
-- (User *)primaryUser {
+- (nullable User *)primaryUser {
     
     @throw [NSException exceptionWithName:NSInternalInconsistencyException
                                    reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
                                  userInfo:nil];
 }
 
-- (User *)secondaryUser {
+- (nullable User *)secondaryUser {
     
     @throw [NSException exceptionWithName:NSInternalInconsistencyException
                                    reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
