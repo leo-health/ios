@@ -7,6 +7,7 @@
 //
 
 #import "LEODataManager.h"
+
 #import "LEOAPIClient.h"
 #import "LEOConstants.h"
 #import "Appointment.h"
@@ -18,12 +19,12 @@
 #import "Family.h"
 #import "Practice.h"
 #import "LEOCardScheduling.h"
+#import "LEOCardConversation.h"
 #import "UIColor+LeoColors.h"
 #import "UIImage+Extensions.h"
 #import <NSDate+DateTools.h>
 #import "AppointmentType.h"
 #import "NSDate+Extensions.h"
-#import "LEOCard.h"
 
 @interface LEODataManager()
 
@@ -180,6 +181,11 @@
             
             if ([cardType isEqualToString:@"appointment"]) {
                 LEOCardScheduling *card = [[LEOCardScheduling alloc] initWithDictionary:jsonCard];
+                [cards addObject:card];
+            }
+            
+            if ([cardType isEqualToString:@"conversation"]) {
+                LEOCardConversation *card = [[LEOCardConversation alloc] initWithDictionary:jsonCard];
                 [cards addObject:card];
             }
         }
