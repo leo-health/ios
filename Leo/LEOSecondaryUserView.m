@@ -61,7 +61,8 @@
             credentials = [credentials  stringByAppendingString:self.provider.credentials[i]];
         }
         
-        self.suffixCredentialLabel.text = credentials;
+        NSString *credentialWithoutPeriods = [self.provider.credentials[0] stringByReplacingOccurrencesOfString:@"." withString:@""];
+        self.suffixCredentialLabel.text = credentialWithoutPeriods; //undermines what was done above, but short term solution. see issue #149.
     }
     
     self.dividerLabel.text = @"∙";
