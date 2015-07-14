@@ -28,7 +28,7 @@
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
 
-    NSString *objectID = jsonResponse[APIParamID];
+    NSString  *objectID = jsonResponse[APIParamID];
     
     NSArray *messageDictionaries = jsonResponse[APIParamMessages];
 
