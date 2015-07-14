@@ -76,11 +76,11 @@ static NSString *kActionSelectorCallUs = @"callUs";
     switch (self.conversation.conversationState) {
             
         case ConversationStateClosed:
-            titleText = nil;
+            titleText = @"Chat with Leo";
             break;
             
         case ConversationStateOpen:
-            titleText = nil;
+            titleText = @"Chat with Leo";
             break;
     }
     
