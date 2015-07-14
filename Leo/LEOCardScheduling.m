@@ -12,6 +12,7 @@
 #import "UIColor+LeoColors.h"
 #import "Patient.h"
 #import "AppointmentType.h"
+#import "Appointment.h"
 
 @interface LEOCardScheduling ()
 
@@ -21,25 +22,12 @@
 
 @implementation LEOCardScheduling
 
-static void * XXContext = &XXContext;
-
 static NSString *kActionSelectorSchedule = @"schedule";
 static NSString *kActionSelectorCancel = @"cancel";
 static NSString *kActionSelectorConfirmCancelled = @"confirmCancelled";
 static NSString *kActionSelectorUnconfirmCancelled = @"unconfirmCancelled";
 static NSString *kActionSelectorDismiss = @"dismiss";
 static NSString *kActionSelectorBook = @"book";
-
-- (instancetype)initWithAppointment:(Appointment *)appointment {
-    
-    self = [super init];
-    
-    if (self) {
-        _appointment = appointment;
-    }
-    
-    return self;
-}
 
 - (instancetype)initWithObjectID:(NSString *)objectID priority:(NSNumber *)priority type:(NSString *)type associatedCardObject:(id)associatedCardObjectDictionary {
     
@@ -309,12 +297,12 @@ static NSString *kActionSelectorBook = @"book";
     //updates state of the collapsed card to show a few in which we remind user of the upcoming appointment.
 }
 
--(nonnull User *)primaryUser {
+-(nullable User *)primaryUser {
     
     return self.appointment.patient;
 }
 
--(nonnull Provider *)secondaryUser {
+-(nullable Provider *)secondaryUser {
     
     return self.appointment.provider;
 }

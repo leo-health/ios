@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "LEOCard.h"
-#import "Appointment.h"
 
 @interface LEOCardScheduling : LEOCard
 
