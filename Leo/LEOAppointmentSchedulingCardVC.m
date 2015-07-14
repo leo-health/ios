@@ -26,6 +26,7 @@
 #import "PrepAppointment.h"
 #import "LEOCardScheduling.h"
 #import "Practice.h"
+#import "Appointment.h"
 
 @interface LEOAppointmentSchedulingCardVC ()
 
