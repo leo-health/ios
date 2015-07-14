@@ -37,7 +37,11 @@
     NSString *firstName = jsonResponse[APIParamUserFirstName];
     NSString *lastName = jsonResponse[APIParamUserLastName];
     NSString *middleInitial = jsonResponse[APIParamUserMiddleInitial];
-    NSString *title = jsonResponse[APIParamUserTitle];
+    
+    NSString *title;
+    if (!(jsonResponse[APIParamUserTitle] == [NSNull null])) {
+       title = jsonResponse[APIParamUserTitle];
+    }
     
     NSString *suffix;
     
@@ -47,7 +51,6 @@
     
     NSString *objectID = [jsonResponse[APIParamID] stringValue];
     NSString *email = jsonResponse[APIParamUserEmail];
-    
     
     NSURL *avatarURL;
     UIImage *avatar;
@@ -87,13 +90,17 @@
 }
 
 
-//TODO: Add suffix into fullName
+//TODO: Refactor
 - (NSString *)fullName {
     
     NSArray *nameComponents;
     
-    if (self.title) {
+    if (self.title && self.suffix) {
+        nameComponents = @[self.title, self.firstName, self.lastName, self.suffix];
+    } else if (self.title) {
         nameComponents = @[self.title, self.firstName, self.lastName];
+    } else if (self.suffix) {
+        nameComponents = @[self.firstName, self.lastName, self.suffix];
     } else {
         nameComponents = @[self.firstName, self.lastName];
     }

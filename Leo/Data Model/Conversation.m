@@ -13,14 +13,14 @@
 
 @implementation Conversation
 
-- (instancetype)initWithObjectID:(NSString *)objectID messages:(NSArray *)messages participants:(NSArray *)participants {
+- (instancetype)initWithObjectID:(NSString *)objectID messages:(NSArray *)messages { //participants:(NSArray *)participants {
 
     self = [super init];
     
     if (self) {
         _objectID = objectID;
         _messages = messages;
-        _participants = participants;
+//        _participants = participants;
     }
     
     return self;
@@ -28,19 +28,19 @@
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
 
-//    NSString *objectID = jsonResponse[APIParamConversationID];
-//    
-//    NSArray *messageDictionaries = jsonResponse[APIParamMessages];
-//
-//    NSMutableArray *messages = [[NSMutableArray alloc] init];
-//    
-//    for (NSDictionary *messageDictionary in messageDictionaries) {
-//        Message *message = [[Message alloc] initWithJSONDictionary:messageDictionary];
-//        [messages addObject:message];
-//    }
-//    
-//    NSArray *immutableMessages = [messages copy];
-//    
+    NSString *objectID = jsonResponse[APIParamID];
+    
+    NSArray *messageDictionaries = jsonResponse[APIParamMessages];
+
+    NSMutableArray *messages = [[NSMutableArray alloc] init];
+    
+    for (NSDictionary *messageDictionary in messageDictionaries) {
+        Message *message = [[Message alloc] initWithJSONDictionary:messageDictionary];
+        [messages addObject:message];
+    }
+    
+    NSArray *immutableMessages = [messages copy];
+    
 //    NSArray *participantDictionaries = jsonResponse[APIParamConversationParticipants];
 //    
 //    NSMutableArray *participants = [[NSMutableArray alloc] init];
@@ -49,13 +49,11 @@
 //        Participa *message = [[Message alloc] initWithJSONDictionary:messageDictionary];
 //        [messages addObject:message];
 //    }
-//    
-//    NSArray *immutableMessages = [messages copy];
-//    
-//    //TODO: May need to protect against nil values...
-//    return [self initWithObjectID:objectID messages:immutableMessages];
     
-    return nil;
+//    NSArray *immutableMessages = [messages copy];
+    
+    //TODO: May need to protect against nil values...
+    return [self initWithObjectID:objectID messages:immutableMessages];
 }
 
 + (NSDictionary *)dictionaryFromConversation:(Conversation *)conversation {
@@ -76,5 +74,14 @@
     
     self.messages = [messages copy];
 }
+
+- (ConversationState)conversationState {
+    return [self.state integerValue];
+}
+
+- (ConversationState)priorConversationState {
+    return [self.priorState integerValue];
+}
+
 
 @end

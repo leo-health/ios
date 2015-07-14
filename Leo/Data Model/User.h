@@ -30,5 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSDictionary *)dictionaryFromUser:(User*)user;
 
+- (NSString *)fullName;
+
 NS_ASSUME_NONNULL_END
 @end
