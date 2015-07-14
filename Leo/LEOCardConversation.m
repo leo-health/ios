@@ -13,28 +13,18 @@
 #import "UIColor+LeoColors.h"
 #import "Patient.h"
 #import "Conversation.h"
+#import "Message.h"
 
-
-@interface LEOCardScheduling ()
+@interface LEOCardConversation ()
 
 @property (strong, nonatomic) Conversation *conversation;
 
 @end
 
-@implementation LEOCardScheduling
+@implementation LEOCardConversation
 
-static NSString *kActionSelectorXXX = @"";
-
-- (instancetype)initWithConversation:(Appointment *)conversation {
-    
-    self = [super init];
-    
-    if (self) {
-        _conversation = conversation;
-    }
-    
-    return self;
-}
+static NSString *kActionSelectorReply = @"reply";
+static NSString *kActionSelectorCallUs = @"callUs";
 
 - (instancetype)initWithObjectID:(NSString *)objectID priority:(NSNumber *)priority type:(NSString *)type associatedCardObject:(id)associatedCardObjectDictionary {
     
@@ -68,23 +58,14 @@ static NSString *kActionSelectorXXX = @"";
     
     switch (self.conversation.conversationState) {
             
-        case AppointmentStateBooking:
+        case ConversationStateClosed:
+            return CardLayoutTwoButtonSecondaryOnly;
+            break;
+            
+        case ConversationStateOpen:
             return CardLayoutUndefined;
             
-        case AppointmentStateCancelling:
-            return CardLayoutTwoButtonPrimaryAndSecondary;
-            
-        case AppointmentStateConfirmingCancelling:
-            return CardLayoutOneButtonPrimaryOnly;
-            
-        case AppointmentStateRecommending:
-            return CardLayoutOneButtonSecondaryOnly;
-            
-        case AppointmentStateReminding:
-            return CardLayoutTwoButtonPrimaryAndSecondary;
-            
-        case AppointmentStateCancelled:
-            return CardLayoutUndefined;
+        break;
     }
 }
 
@@ -92,29 +73,14 @@ static NSString *kActionSelectorXXX = @"";
     
     NSString *titleText;
     
-    switch (self.appointment.appointmentState) {
+    switch (self.conversation.conversationState) {
             
-        case AppointmentStateBooking:
-            titleText = @"Schedule A Visit";
+        case ConversationStateClosed:
+            titleText = nil;
             break;
             
-        case AppointmentStateCancelling:
-            titleText = @"Cancel Appointment?";
-            break;
-            
-        case AppointmentStateConfirmingCancelling:
-            titleText = @"Appointment Cancelled";
-            break;
-            
-        case AppointmentStateRecommending:
-            titleText = @"Recommended Appointment";
-            break;
-            
-        case AppointmentStateReminding:
-            titleText = @"Appointment Reminder";
-            break;
-            
-        case AppointmentStateCancelled:
+        case ConversationStateOpen:
+            titleText = nil;
             break;
     }
     
@@ -125,71 +91,40 @@ static NSString *kActionSelectorXXX = @"";
     
     NSString *bodyText;
     
-    switch (self.appointment.appointmentState) {
+    switch (self.conversation.conversationState) {
             
-        case AppointmentStateBooking:
+        case ConversationStateClosed: {
+            Message *message = self.conversation.messages[0];
+            bodyText = message.body;
+            break;
+        }
+        case ConversationStateOpen: {
             bodyText = nil;
             break;
-            
-        case AppointmentStateCancelling:
-            bodyText = @"Are you sure you want to cancel your appointment?";
-            break;
-            
-        case AppointmentStateConfirmingCancelling:
-            bodyText = [NSString stringWithFormat:@"%@'s appointment has been cancelled. Click dismiss to remove this card from you feed.",self.appointment.patient.firstName];
-            break;
-            
-        case AppointmentStateRecommending:
-            bodyText = @"Take a tour of the practice and meet our world class physicians.";
-            
-            //bodyText = [NSString stringWithFormat:@"Looks like %@ is due for an appointment. We've got you all set. Click here to complete %@'s booking.", self.appointment.patient.firstName, self.appointment.patient.firstName];
-            break;
-            
-        case AppointmentStateReminding:
-            bodyText = [NSString stringWithFormat:@"%@ has a %@ scheduled for %@ at %@.",self.appointment.patient.firstName, [((AppointmentType *)self.appointment.leoAppointmentType).type lowercaseString], self.appointment.stringifiedAppointmentDate, self.appointment.stringifiedAppointmentTime];
-            break;
-            
-        case AppointmentStateCancelled:
-            break;
+        }
     }
     
     return bodyText;
 }
 
 -(nonnull UIColor *)tintColor {
-    return [UIColor leoGreen];
+    return [UIColor leoBlue];
 }
 
 - (nonnull NSArray *)stringRepresentationOfActionsAvailableForState {
     
     NSArray *actionStrings;
     
-    switch (self.appointment.appointmentState) {
-        case AppointmentStateBooking:
-            actionStrings = @[@"SCHEDULE APPOINTMENT"];
+    switch (self.conversation.conversationState) {
+        
+        case ConversationStateClosed: {
+            actionStrings = @[@"REPLY", @"CALL US"];
             break;
-            
-        case AppointmentStateCancelling:
-            actionStrings = @[@"YES",@"NO"];
+        }
+        case ConversationStateOpen: {
+            actionStrings = nil;
             break;
-            
-            
-        case AppointmentStateConfirmingCancelling:
-            actionStrings = @[@"DISMISS"];
-            break;
-            
-            
-        case AppointmentStateRecommending:
-            actionStrings = @[@"SCHEDULE A VISIT"];
-            break;
-            
-            
-        case AppointmentStateReminding:
-            actionStrings = @[@"RESCHEDULE",@"CANCEL"];
-            break;
-            
-        case AppointmentStateCancelled:
-            break;
+        }
     }
     
     return actionStrings;
@@ -199,120 +134,58 @@ static NSString *kActionSelectorXXX = @"";
     
     NSMutableArray *actions = [[NSMutableArray alloc] init];
     
-    switch (self.appointment.appointmentState) {
+    switch (self.conversation.conversationState) {
             
-        case AppointmentStateBooking: {
-            
-            NSString *buttonOneAction = kActionSelectorBook;
+        case ConversationStateClosed: {
+
+            NSString *buttonOneAction = kActionSelectorReply;
             [actions addObject:buttonOneAction];
             
-            break;
-        }
-            
-        case AppointmentStateRecommending: {
-            
-            NSString *buttonOneAction = kActionSelectorSchedule;
-            [actions addObject:buttonOneAction];
-            
-            break;
-        }
-            
-        case AppointmentStateReminding: {
-            
-            NSString *buttonOneAction = kActionSelectorSchedule;
-            [actions addObject:buttonOneAction];
-            
-            NSString *buttonTwoAction = kActionSelectorCancel;
+            NSString *buttonTwoAction = kActionSelectorCallUs;
             [actions addObject:buttonTwoAction];
             
             break;
         }
-            
-        case AppointmentStateCancelling: {
-            
-            NSString *buttonOneAction = kActionSelectorConfirmCancelled;
-            [actions addObject:buttonOneAction];
-            
-            NSString *buttonTwoAction = kActionSelectorUnconfirmCancelled;
-            [actions addObject:buttonTwoAction];
-            
+        case ConversationStateOpen: {
             break;
         }
-            
-        case AppointmentStateConfirmingCancelling: {
-            
-            NSString *buttonOneAction = kActionSelectorDismiss;
-            [actions addObject:buttonOneAction];
-            
-            break;
-        }
-            
-        case AppointmentStateCancelled:
-            break;
     }
     
     return actions;
 }
 
-- (void)book {
+- (void)reply {
     
-    self.appointment.priorState = self.appointment.state;
-    self.appointment.state = @(AppointmentStateReminding);
+    self.conversation.priorState = self.conversation.state;
+    self.conversation.state = @(ConversationStateOpen);
     [self.delegate didUpdateObjectStateForCard:self];
 }
 
-- (void)schedule {
+- (void)callUs {
     
-    //opens up a new scheduling card view, filled out with the recommended dates / times
-    self.appointment.priorState = self.appointment.state;
-    self.appointment.state = @(AppointmentStateBooking);
-    [self.delegate didUpdateObjectStateForCard:self];
-}
-
-- (void)cancel {
-    self.appointment.priorState = self.appointment.state;
-    self.appointment.state = @(AppointmentStateCancelling);
-    [self.delegate didUpdateObjectStateForCard:self];
-    //updates state of the appointment to show a view in which we confirm the user really wants to cancel their appointment
-}
-
-- (void)confirmCancelled {
-    self.appointment.state = @(AppointmentStateConfirmingCancelling);
-    [self.delegate didUpdateObjectStateForCard:self];
-}
-
-- (void)unconfirmCancelled {
-    
-    [self returnToPriorState];
     [self.delegate didUpdateObjectStateForCard:self];
 }
 
 - (void)dismiss {
-    self.appointment.state = @(AppointmentStateCancelled);
+    self.conversation.state = @(ConversationStateClosed);
     [self.delegate didUpdateObjectStateForCard:self];
 }
 
 - (void)returnToPriorState {
-    self.appointment.state = self.appointment.priorState;
+    self.conversation.state = self.conversation.priorState;
 }
 
-- (void)confirmCancel {
-    //updates state of the appointment to show a view in which we confirm the appointment was cancelled.
-}
-
-- (void)remind {
-    //updates state of the collapsed card to show a few in which we remind user of the upcoming appointment.
-}
-
--(nonnull User *)primaryUser {
+-(nullable User *)primaryUser {
     
-    return self.appointment.patient;
+    return nil;
 }
 
--(nonnull Provider *)secondaryUser {
+-(nullable User *)secondaryUser {
     
-    return self.appointment.provider;
+    Message *message = self.conversation.messages[0];
+    return message.sender;
 }
+
 
 //FIXME: Not sure what data we actually want for a timestamp.
 - (nonnull NSDate *)timestamp {
@@ -321,7 +194,7 @@ static NSString *kActionSelectorXXX = @"";
 }
 
 -(nonnull UIImage *)icon {
-    return [UIImage imageNamed:@"CalendarIcon"];
+    return [UIImage imageNamed:@"ChatIcon"];
 }
 
 
