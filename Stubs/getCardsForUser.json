@@ -78,6 +78,9 @@
 				"last_escalated_datetime": "2015-02-08T15:00:00.000Z",
 				"status_id": 1,
 				"status": "escalated",
+				"participants": [
+					0, 1, 2, 3
+				],
 				"messages": [
 					{
 						"id": 3,
