@@ -72,14 +72,14 @@
 			"type_id": 1,
 			"card_data": {
 				"id": 0,
-				"message_count": 3,
+				"message_count": 6,
 				"updated_datetime": "2015-07-08T15:00:00.000Z",
 				"created_datetime": "2015-07-08T05:00:00.000Z",
 				"last_escalated_datetime": "2015-07-08T15:00:00.000Z",
 				"status_id": 1,
 				"status": "escalated",
 				"participants": [
-					0, 1, 2, 3
+					3, 4, 6, 7
 				],
 				"messages": [
 					{
