@@ -338,13 +338,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1E7306F71B3F80F600D029CC /* Extenstions */ = {
+		1E7306F71B3F80F600D029CC /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
 				1E7306F91B3F823800D029CC /* UIScrollView+LEOScrollToVisible.h */,
 				1E7306FA1B3F823800D029CC /* UIScrollView+LEOScrollToVisible.m */,
 			);
-			name = Extenstions;
+			name = Extensions;
 			sourceTree = "<group>";
 		};
 		3101D6DB1B0CE08F00640C10 /* MiniCards */ = {
@@ -658,7 +658,7 @@
 		BCA69A3D1B039ABC00C27B2B /* Views and Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				1E7306F71B3F80F600D029CC /* Extenstions */,
+				1E7306F71B3F80F600D029CC /* Extensions */,
 				31BA405E1B30BF6700A11AEE /* Feed */,
 				31197A101B39D8FD00C773BA /* MenuView.h */,
 				31197A111B39D8FD00C773BA /* MenuView.m */,

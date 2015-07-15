@@ -318,14 +318,7 @@
                                     <constraint firstAttribute="height" constant="64" id="cjf-sy-lP1"/>
                                 </constraints>
                                 <items>
-                                    <navigationItem id="9q7-sb-gLb">
-                                        <barButtonItem key="rightBarButtonItem" title="X" style="done" id="nZt-YB-Jou">
-                                            <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                            <connections>
-                                                <action selector="cancelTapped:" destination="wb1-8H-yCb" id="7PM-E9-3M5"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
+                                    <navigationItem id="9q7-sb-gLb"/>
                                 </items>
                             </navigationBar>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="piD-fa-h6m" userLabel="Button View">
@@ -364,15 +357,13 @@
                         <outlet property="appointmentDateLabel" destination="Eb4-xR-kJn" id="RkS-2P-3ZY"/>
                         <outlet property="appointmentLabel" destination="1aB-qh-hoI" id="ej3-OM-Ywx"/>
                         <outlet property="appointmentTypeLabel" destination="dDn-cz-E7Y" id="Pft-kC-8Jy"/>
-                        <outlet property="bodyView" destination="AhD-2a-HRm" id="dlP-OZ-d6L"/>
-                        <outlet property="buttonView" destination="piD-fa-h6m" id="Lgv-Or-8cc"/>
-                        <outlet property="cancelButton" destination="nZt-YB-Jou" id="TDw-a1-IE9"/>
+                        <outlet property="buttonView" destination="piD-fa-h6m" id="giX-Qa-PXc"/>
                         <outlet property="containerView" destination="7i5-GA-RGN" id="hdJ-VS-Bak"/>
                         <outlet property="contentView" destination="hFw-Zh-mZC" id="Y1U-UB-yDk"/>
                         <outlet property="dateCollectionView" destination="Mwn-jP-gpL" id="ju6-im-tQi"/>
                         <outlet property="doctorDropDownTV" destination="zFT-Sm-nqn" id="DB7-8a-n5E"/>
                         <outlet property="monthLabel" destination="84a-ZX-sbg" id="duN-pN-xUa"/>
-                        <outlet property="navBar" destination="vfx-e9-3m4" id="lpC-AB-G71"/>
+                        <outlet property="navBar" destination="vfx-e9-3m4" id="KXH-Tl-aE4"/>
                         <outlet property="notesView" destination="Yrd-Wh-szX" id="JJA-e1-sE6"/>
                         <outlet property="patientLabel" destination="Q6R-sV-LIq" id="lNQ-uC-0pd"/>
                         <outlet property="providerLabel" destination="UjZ-MG-hJO" id="SGQ-EM-jq4"/>

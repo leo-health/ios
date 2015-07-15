@@ -13,10 +13,8 @@
 
 @interface LEOCardExpandedViewController ()
 
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *cancelButton;
-@property (weak, nonatomic) IBOutlet UINavigationBar *navBar;
-@property (weak, nonatomic) IBOutlet UIView *bodyView;
-@property (weak, nonatomic) IBOutlet UIView *buttonView;
+@property (strong, nonatomic) UINavigationBar *navBar;
+@property (strong, nonatomic) UIView *buttonView;
 
 @property (strong, nonatomic) NSDictionary *viewsDictionary;
 @property (nonatomic) BOOL constraintsAlreadyUpdated;
@@ -57,13 +55,13 @@
     UIBarButtonItem *titleBBI = [[UIBarButtonItem alloc] initWithCustomView:titleLabel];
     
     
-    UIButton *dismissButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [dismissButton addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
+    self.dismissButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.dismissButton addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
     //FIXME: Placeholder image for dismiss image
-    [dismissButton setImage:[UIImage imageNamed:@"ToDoIcon"] forState:UIControlStateNormal];
-    [dismissButton sizeToFit];
+    [self.dismissButton setImage:[UIImage imageNamed:@"ToDoIcon"] forState:UIControlStateNormal];
+    [self.dismissButton sizeToFit];
     
-    UIBarButtonItem *dismissBBI = [[UIBarButtonItem alloc] initWithCustomView:dismissButton];
+    UIBarButtonItem *dismissBBI = [[UIBarButtonItem alloc] initWithCustomView:self.dismissButton];
     navCarrier.leftBarButtonItems = @[icon, titleBBI];
     navCarrier.rightBarButtonItems = @[dismissBBI];
     

@@ -38,12 +38,11 @@
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UICollectionView *dateCollectionView;
 @property (weak, nonatomic) IBOutlet UILabel *monthLabel;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *cancelButton;
 @property (weak, nonatomic) IBOutlet UIView *contentView;
 @property (weak, nonatomic) IBOutlet UINavigationBar *navBar;
+@property (weak, nonatomic) IBOutlet UIView *buttonView;
 @property (weak, nonatomic) IBOutlet LEODropDownTableView *doctorDropDownTV;
 @property (weak, nonatomic) IBOutlet LEODropDownTableView *visitDropDownTV;
-@property (weak, nonatomic) IBOutlet UIButton *bookButton;
 @property (weak, nonatomic) IBOutlet UILabel *patientLabel;
 @property (weak, nonatomic) IBOutlet UILabel *appointmentTypeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *providerLabel;
@@ -230,16 +229,19 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     return formattedDateTime;
 }
 
+
+//FIXME: Need to make work with abstract superclass.
 -(void)showDoneBarButtonItem:(BOOL)show{
     [UIView setAnimationsEnabled:NO];
     if(show){
-        _cancelButton.title = @"Done";
+        [self.dismissButton setImage:[UIImage imageNamed:@"CalendarIcon"] forState:UIControlStateNormal];
     }
     else{
         //Patrick
         //TODO: Set cancel button image or whatever the view will look like
         // for exiting out of the card
-        _cancelButton.title = @"X";
+        [self.dismissButton setImage:[UIImage imageNamed:@"ToDoIcon"] forState:UIControlStateNormal];
+
     }
     [UIView setAnimationsEnabled:YES];
 }
@@ -247,12 +249,16 @@ static NSString * const dateReuseIdentifier = @"DateCell";
 #pragma mark UITextViewDelegate
 
 -(void)textViewDidBeginEditing:(UITextView *)textView{
-    [self showDoneBarButtonItem:YES];
+
+    //FIXME: Need to make work with abstract superclass.
+        [self showDoneBarButtonItem:YES];
 }
 
 -(void)textViewDidEndEditing:(UITextView *)textView{
     
     self.prepAppointment.note = textView.text;
+    
+    //FIXME: Need to make work with abstract superclass.
     [self showDoneBarButtonItem:NO];
 }
 
