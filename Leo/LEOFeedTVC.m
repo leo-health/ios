@@ -96,7 +96,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 - (void)setupStubs {
     
     __weak id<OHHTTPStubsDescriptor> cardsStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-        NSLog(@"Request");
+        NSLog(@"Stub request");
         BOOL test = [request.URL.host isEqualToString:APIHost] && [request.URL.path isEqualToString:[NSString stringWithFormat:@"%@/%@",APIVersion, @"cards"]];
         return test;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
@@ -108,7 +108,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     }];
     
     __weak id<OHHTTPStubsDescriptor> providersStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-        NSLog(@"Request");
+        NSLog(@"Stub request");
         BOOL test = [request.URL.host isEqualToString:APIHost] && [request.URL.path isEqualToString:[NSString stringWithFormat:@"%@/%@",APIVersion, @"providers"]];
         return test;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
@@ -120,7 +120,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     }];
     
     __weak id<OHHTTPStubsDescriptor> familyStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-        NSLog(@"Request");
+        NSLog(@"Stub request");
         BOOL test = [request.URL.host isEqualToString:APIHost] && [request.URL.path isEqualToString:[NSString stringWithFormat:@"%@/%@",APIVersion, @"family"]];
         return test;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
@@ -131,7 +131,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     }];
 
     __weak id<OHHTTPStubsDescriptor> visitTypesStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-        NSLog(@"Request");
+        NSLog(@"Stub request");
         BOOL test = [request.URL.host isEqualToString:APIHost] && [request.URL.path isEqualToString:[NSString stringWithFormat:@"%@/%@",APIVersion, @"visitTypes"]];
         return test;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
@@ -182,7 +182,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     //FIXME: So, ultimately, this should be a data fetch, but since we aren't actually pushing anything up to the API at this point and the expectation is we would both push and pull at the same time, we're just going to reload data at the moment and we'll deal with this when the time comes to implement the actual API.
     
     if (!self.cards) {
-    [self fetchData];
+        [self fetchData];
     }
     [self.tableView reloadData];
 }
@@ -192,7 +192,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     
-    self.tableView.estimatedRowHeight = 180;
+    self.tableView.estimatedRowHeight = 100;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     self.tableView.backgroundColor = [UIColor leoBasicGray];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;

@@ -104,7 +104,7 @@
     
     UIImage *snapshotImage = UIGraphicsGetImageFromCurrentImageContext();
     
-    UIImage *blurredSnapshotImage = [UIImageEffects imageByApplyingBlurToImage:snapshotImage withRadius:2 tintColor:nil saturationDeltaFactor:1.0 maskImage:nil];
+    UIImage *blurredSnapshotImage = [UIImageEffects imageByApplyingBlurToImage:snapshotImage withRadius:4 tintColor:nil saturationDeltaFactor:1.0 maskImage:nil];
     
     UIGraphicsEndImageContext();
     
@@ -162,7 +162,7 @@
     self.blurredImageView.alpha = 0;
     
     [UIView animateWithDuration:0.25 animations:^{
-        self.menuView.alpha = 0.6;
+        self.menuView.alpha = 0.8;
         self.blurredImageView.alpha = 1;
         [self.menuButton layoutIfNeeded];
         [self.menuView layoutIfNeeded];

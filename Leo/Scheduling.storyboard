@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView multipleTouchEnabled="YES" contentMode="scaleToFill" directionalLockEnabled="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AhD-2a-HRm">
-                                <rect key="frame" x="0.0" y="64" width="600" height="936"/>
+                                <rect key="frame" x="0.0" y="64" width="600" height="892"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hFw-Zh-mZC" userLabel="Content View">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="988"/>
@@ -312,15 +312,6 @@
                                     <constraint firstAttribute="bottom" secondItem="hFw-Zh-mZC" secondAttribute="bottom" id="f97-X5-aLq"/>
                                 </constraints>
                             </scrollView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5a3-88-TT3">
-                                <rect key="frame" x="0.0" y="956" width="600" height="44"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="P6l-X2-WT8"/>
-                                </constraints>
-                                <state key="normal" title="Book">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
                             <navigationBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vfx-e9-3m4">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="64"/>
                                 <constraints>
@@ -337,21 +328,34 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="piD-fa-h6m" userLabel="Button View">
+                                <rect key="frame" x="0.0" y="956" width="600" height="44"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="gWv-RN-pGp"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="5a3-88-TT3" secondAttribute="trailing" id="5Jw-sj-MgP"/>
-                            <constraint firstItem="t2k-no-mlV" firstAttribute="top" secondItem="5a3-88-TT3" secondAttribute="bottom" id="DgF-mA-dc7"/>
+                            <constraint firstAttribute="trailing" secondItem="piD-fa-h6m" secondAttribute="trailing" id="CIo-Zx-0tI"/>
+                            <constraint firstItem="piD-fa-h6m" firstAttribute="leading" secondItem="JNl-Fr-7Ae" secondAttribute="leading" id="CQC-wy-345"/>
                             <constraint firstItem="vfx-e9-3m4" firstAttribute="top" secondItem="Gbc-y6-Zej" secondAttribute="top" id="Fip-v0-fU3"/>
-                            <constraint firstItem="5a3-88-TT3" firstAttribute="leading" secondItem="JNl-Fr-7Ae" secondAttribute="leading" id="IDR-Qk-Ryy"/>
+                            <constraint firstItem="t2k-no-mlV" firstAttribute="top" secondItem="piD-fa-h6m" secondAttribute="bottom" id="I0a-ah-soV"/>
                             <constraint firstItem="vfx-e9-3m4" firstAttribute="trailing" secondItem="JNl-Fr-7Ae" secondAttribute="trailing" id="LjD-pZ-hA7"/>
                             <constraint firstAttribute="width" secondItem="hFw-Zh-mZC" secondAttribute="width" id="MsJ-v6-TJW"/>
+                            <constraint firstItem="piD-fa-h6m" firstAttribute="top" secondItem="AhD-2a-HRm" secondAttribute="bottom" id="TLn-0H-qDP"/>
                             <constraint firstItem="AhD-2a-HRm" firstAttribute="leading" secondItem="JNl-Fr-7Ae" secondAttribute="leading" id="WCw-W5-Qff"/>
                             <constraint firstItem="vfx-e9-3m4" firstAttribute="leading" secondItem="JNl-Fr-7Ae" secondAttribute="leading" id="Z0g-oE-M6Z"/>
                             <constraint firstAttribute="trailing" secondItem="AhD-2a-HRm" secondAttribute="trailing" id="kKI-N7-Eg0"/>
                             <constraint firstItem="AhD-2a-HRm" firstAttribute="top" secondItem="vfx-e9-3m4" secondAttribute="bottom" id="mCh-WU-X0c"/>
                             <constraint firstItem="t2k-no-mlV" firstAttribute="top" secondItem="AhD-2a-HRm" secondAttribute="bottom" id="zHs-eZ-rqR"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="zHs-eZ-rqR"/>
+                            </mask>
+                        </variation>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
@@ -360,7 +364,8 @@
                         <outlet property="appointmentDateLabel" destination="Eb4-xR-kJn" id="RkS-2P-3ZY"/>
                         <outlet property="appointmentLabel" destination="1aB-qh-hoI" id="ej3-OM-Ywx"/>
                         <outlet property="appointmentTypeLabel" destination="dDn-cz-E7Y" id="Pft-kC-8Jy"/>
-                        <outlet property="bookButton" destination="5a3-88-TT3" id="SVQ-yG-hJf"/>
+                        <outlet property="bodyView" destination="AhD-2a-HRm" id="dlP-OZ-d6L"/>
+                        <outlet property="buttonView" destination="piD-fa-h6m" id="Lgv-Or-8cc"/>
                         <outlet property="cancelButton" destination="nZt-YB-Jou" id="TDw-a1-IE9"/>
                         <outlet property="containerView" destination="7i5-GA-RGN" id="hdJ-VS-Bak"/>
                         <outlet property="contentView" destination="hFw-Zh-mZC" id="Y1U-UB-yDk"/>

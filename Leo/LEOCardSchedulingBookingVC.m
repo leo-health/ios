@@ -7,26 +7,30 @@
 //
 
 #import "LEOCardSchedulingBookingVC.h"
+
 #import "LEODataManager.h"
-#import <NSDate+DateTools.h>
-#import "LEOTimeCell.h"
-#import "UIFont+LeoFonts.h"
+
 #import "ArrayDataSource.h"
 #import "LEODateCell.h"
-#import "UIColor+LeoColors.h"
-#import "PageViewDataSource.h"
-#import "NSDate+Extensions.h"
-#import "CollectionViewDataSource.h"
 #import "LEODateCell+ConfigureCell.h"
+#import "CollectionViewDataSource.h"
+#import "PageViewDataSource.h"
 #import "LEODropDownTableView.h"
-#import "LEOCardScheduling.h"
-#import "LEOSectionSeparator.h"
 #import "LEOChildDropDownTableViewController.h"
+
 #import "UIScrollView+LEOScrollToVisible.h"
-#import "PrepAppointment.h"
-#import "LEOCardScheduling.h"
+
+#import "UIFont+LeoFonts.h"
+#import "UIColor+LeoColors.h"
+
+#import "NSDate+Extensions.h"
+#import <NSDate+DateTools.h>
+
+#import "LEOSectionSeparator.h"
 #import "Practice.h"
 #import "Appointment.h"
+#import "PrepAppointment.h"
+
 
 @interface LEOCardSchedulingBookingVC ()
 
@@ -97,6 +101,10 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     [self.dateCollectionView layoutIfNeeded];
 }
 
+- (UIImage *)iconImage {
+    return [UIImage imageNamed:@"CalendarIcon"];
+}
+
 - (void)prepareForLaunch {
     
     self.doctorDropDownController = [[LEODropDownController alloc] initWithTableView:self.doctorDropDownTV items:self.providers usingDescriptorKey:@"fullName" prepObject:self.prepAppointment associatedCardObjectPropertyDescriptor:@"provider"];
@@ -108,39 +116,12 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     
     self.card.delegate = self;
     
-    NSString *buttonTitle = [self.card stringRepresentationOfActionsAvailableForState][0];
-    
-    [self.bookButton setTitle:[buttonTitle uppercaseString] forState:UIControlStateNormal];
-    [self.bookButton addTarget:self action:@selector(updateCard) forControlEvents:UIControlEventTouchUpInside];
-    self.bookButton.backgroundColor = self.card.tintColor;
-    [self.bookButton setTitleColor:[UIColor leoWhite] forState:UIControlStateNormal];
-    self.bookButton.titleLabel.font = [UIFont leoBodyBoldFont];
-    
     self.providerLabel.textColor = [UIColor leoWarmHeavyGray];
     self.patientLabel.textColor = [UIColor leoWarmHeavyGray];
     self.appointmentTypeLabel.textColor = [UIColor leoWarmHeavyGray];
     self.appointmentLabel.textColor = [UIColor leoWarmHeavyGray];
     self.appointmentDateLabel.textColor = [UIColor leoOrangeRed];
     self.notesView.delegate = self;
-    //UINavigationItem *navCarrier = [[UINavigationItem alloc] init];
-    
-    UINavigationItem *navCarrier = _navBar.topItem;
-    
-    UIImageView *iconImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"SMS-32"]];
-    UIBarButtonItem *icon = [[UIBarButtonItem alloc] initWithCustomView:iconImageView];
-    
-    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 300, 44)];
-    titleLabel.text = @"Schedule An Appointment";
-    titleLabel.font = [UIFont leoTitleBasicFont];
-    titleLabel.textColor = [UIColor leoWarmHeavyGray];
-    [titleLabel sizeToFit];
-    UIBarButtonItem *title = [[UIBarButtonItem alloc] initWithCustomView:titleLabel];
-    
-    
-    navCarrier.leftBarButtonItems = @[icon, title];
-    //navCarrier.rightBarButtonItems = @[doneBarButton];
-    
-    self.navBar.items = @[navCarrier];
     
     if (self.prepAppointment.date == nil) {
         self.prepAppointment.date = [self firstAvailableAppointmentTimeFromDate:self.dates.firstObject toDate:self.dates.lastObject];
@@ -158,8 +139,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     [_scrollView addGestureRecognizer:tapGestureForTextFieldDismissal];
 }
 
-
-- (void)updateCard {
+- (void)button0Tapped {
     self.card.associatedCardObject = [[Appointment alloc] initWithPrepAppointment:self.prepAppointment]; //FIXME: Make this a loop to account for changes to multiple objects on a card.
     
     [self.card performSelector:NSSelectorFromString([self.card actionsAvailableForState][0])]; //FIXME: Alternative way to do this that won't cause warning.
@@ -600,32 +580,13 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     
     Appointment *appointment = card.associatedCardObject; //FIXME: Update to deal with array at some point.
     
-    switch (appointment.appointmentState) {
-            
-        case AppointmentStateBooking: {
-            [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
-                [UIView animateWithDuration:0.2 animations:^{
-                    // self.collapsedCell.layer.transform = CATransform3DMakeRotation(0,0.0,1.0,0.0); ; //flip halfway
-                    self.collapsedCell.selected = NO;
-                }];
+    if (appointment.appointmentState == AppointmentStateBooking) {
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
+            [UIView animateWithDuration:0.2 animations:^{
+                // self.collapsedCell.layer.transform = CATransform3DMakeRotation(0,0.0,1.0,0.0); ; //flip halfway
+                self.collapsedCell.selected = NO;
             }];
-        }
-            
-        case AppointmentStateCancelling: {
-            
-        }
-            
-        case AppointmentStateConfirmingCancelling: {
-            
-        }
-            
-        case AppointmentStateRecommending: {
-            
-        }
-            
-        case AppointmentStateReminding: {
-            
-        }
+        }];
     }
 }
 

@@ -11,15 +11,14 @@
 #import "LEOCardScheduling.h"
 #import "DateTimeSelectionProtocol.h"
 #import "LEODropDownController.h"
+#import "LEOCardExpandedViewController.h"
 
 @class LEOCardScheduling;
 
-@interface LEOCardSchedulingBookingVC : UIViewController < UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIPageViewControllerDelegate, DateTimeSelectionProtocol, CardActivityProtocol,UITextViewDelegate>
+@interface LEOCardSchedulingBookingVC : LEOCardExpandedViewController < UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIPageViewControllerDelegate, DateTimeSelectionProtocol, CardActivityProtocol,UITextViewDelegate>
 
-@property (strong, nonatomic) UITableViewCell *collapsedCell;
 @property (strong, nonatomic) UIPageViewController *pageViewController;
 @property (weak, nonatomic) IBOutlet UIView *containerView;
-@property (strong, nonatomic) LEOCardScheduling *card;
 
 @property (strong, nonatomic) NSArray *providers;
 @property (strong, nonatomic) NSArray *patients;
