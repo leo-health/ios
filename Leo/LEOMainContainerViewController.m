@@ -17,7 +17,7 @@
 #import "MenuView.h"
 
 #import "Appointment.h"
-#import "LEOCardScheduling.h"
+#import "LEOCardAppointment.h"
 #import "LEODataManager.h"
 
 @interface LEOMainContainerViewController ()

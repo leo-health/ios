@@ -1,5 +1,5 @@
 //
-//  LEOCardScheduling.h
+//  LEOCardAppointment.h
 //  Leo
 //
 //  Created by Zachary Drossman on 5/28/15.
@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "LEOCard.h"
 
-@interface LEOCardScheduling : LEOCard
+@interface LEOCardAppointment : LEOCard
 
 - (instancetype)initWithDictionary:(NSDictionary *)jsonCard;
 

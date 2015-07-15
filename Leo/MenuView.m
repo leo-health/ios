@@ -7,7 +7,7 @@
 //
 
 #import "MenuView.h"
-#import "LEOCardScheduling.h"
+#import "LEOCardAppointment.h"
 #import "Appointment.h"
 
 @interface MenuView ()
@@ -61,7 +61,7 @@
 #pragma mark - Menu View Button Animation
 
 /**
- *  Loads a SchedulingCardViewController
+ *  Loads an LEOCardAppointmentBookingVC
  *
  *  @param sender UIButton that receives tap gesture
  */

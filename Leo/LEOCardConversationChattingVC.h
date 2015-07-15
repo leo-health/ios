@@ -1,5 +1,5 @@
 //
-//  LEOCardConversationChattingViewController.h
+//  LEOCardConversationChattingVC.h
 //  Leo
 //
 //  Created by Zachary Drossman on 7/14/15.

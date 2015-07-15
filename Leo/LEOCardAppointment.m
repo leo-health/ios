@@ -1,26 +1,26 @@
 //
-//  LEOCardScheduling.m
+//  LEOCardAppointment.m
 //  Leo
 //
 //  Created by Zachary Drossman on 5/28/15.
 //  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
-#import "LEOCardScheduling.h"
+#import "LEOCardAppointment.h"
 #import <NSDate+DateTools.h>
-#import "LEOCardSchedulingBookingVC.h"
+#import "LEOCardAppointmentBookingVC.h"
 #import "UIColor+LeoColors.h"
 #import "Patient.h"
 #import "AppointmentType.h"
 #import "Appointment.h"
 
-@interface LEOCardScheduling ()
+@interface LEOCardAppointment ()
 
 @property (strong, nonatomic) Appointment *appointment;
 
 @end
 
-@implementation LEOCardScheduling
+@implementation LEOCardAppointment
 
 static NSString *kActionSelectorSchedule = @"schedule";
 static NSString *kActionSelectorCancel = @"cancel";
@@ -256,7 +256,7 @@ static NSString *kActionSelectorBook = @"book";
 
 - (void)schedule {
     
-    //opens up a new scheduling card view, filled out with the recommended dates / times
+    //opens up a new LEOCardAppointmentBookingVC, filled out with the recommended dates / times
     self.appointment.priorState = self.appointment.state;
     self.appointment.state = @(AppointmentStateBooking);
     [self.delegate didUpdateObjectStateForCard:self];

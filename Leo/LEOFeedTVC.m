@@ -30,7 +30,7 @@
 
 #import "UIColor+LeoColors.h"
 #import "UIImage+Extensions.h"
-#import "LEOCardSchedulingBookingVC.h"
+#import "LEOCardAppointmentBookingVC.h"
 #import "LEOTransitioningDelegate.h"
 
 #import "LEOTwoButtonSecondaryOnlyCell+ConfigureForCell.h"
@@ -249,7 +249,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 
     Appointment *appointment = [[Appointment alloc] initWithObjectID:nil date:nil appointmentType:self.visitTypes[0] patient:self.family.patients[0] provider:self.providers[0] bookedByUser:(User *)[self.dataManager currentUser] note:nil state:@(AppointmentStateBooking)];
     
-    LEOCardScheduling *card = [[LEOCardScheduling alloc] initWithObjectID:@"temp" priority:@999 type:@"appointment" associatedCardObject:appointment];
+    LEOCardAppointment *card = [[LEOCardAppointment alloc] initWithObjectID:@"temp" priority:@999 type:@"appointment" associatedCardObject:appointment];
 
     [self loadBookingViewWithCard:card];
 }
@@ -285,16 +285,16 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 
 - (void)loadBookingViewWithCard:(LEOCard *)card {
     
-    UIStoryboard *schedulingStoryboard = [UIStoryboard storyboardWithName:@"Scheduling" bundle:nil];
-    LEOCardSchedulingBookingVC *singleAppointmentScheduleVC = [schedulingStoryboard instantiateInitialViewController];
-    singleAppointmentScheduleVC.card = (LEOCardScheduling *)card;
-    singleAppointmentScheduleVC.providers = self.providers;
-    singleAppointmentScheduleVC.patients = self.family.patients;
-    singleAppointmentScheduleVC.visitTypes = self.visitTypes;
+    UIStoryboard *appointmentStoryboard = [UIStoryboard storyboardWithName:@"Appointment" bundle:nil];
+    LEOCardAppointmentBookingVC *singleAppointmentBookingVC = [appointmentStoryboard instantiateInitialViewController];
+    singleAppointmentBookingVC.card = (LEOCardAppointment *)card;
+    singleAppointmentBookingVC.providers = self.providers;
+    singleAppointmentBookingVC.patients = self.family.patients;
+    singleAppointmentBookingVC.visitTypes = self.visitTypes;
     //              self.transitionDelegate = [[LEOTransitioningDelegate alloc] init];
     //            singleAppointmentScheduleVC.transitioningDelegate = self.transitionDelegate;
-    [self presentViewController:singleAppointmentScheduleVC animated:YES completion:^{
-        singleAppointmentScheduleVC.collapsedCell = self.selectedCardCell;
+    [self presentViewController:singleAppointmentBookingVC animated:YES completion:^{
+        singleAppointmentBookingVC.collapsedCell = self.selectedCardCell;
     }];
     
 }

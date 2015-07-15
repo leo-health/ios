@@ -1,12 +1,12 @@
 //
-//  LEOSingleAppointmentSchedulerCardVC.m
+//  LEOCardAppointmentBookingVC.h
 //  Leo
 //
 //  Created by Zachary Drossman on 5/14/15.
 //  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
-#import "LEOCardSchedulingBookingVC.h"
+#import "LEOCardAppointmentBookingVC.h"
 
 #import "LEODataManager.h"
 
@@ -32,7 +32,7 @@
 #import "PrepAppointment.h"
 
 
-@interface LEOCardSchedulingBookingVC ()
+@interface LEOCardAppointmentBookingVC ()
 
 #pragma mark - IBOutlets
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -74,7 +74,7 @@
 
 @end
 
-@implementation LEOCardSchedulingBookingVC
+@implementation LEOCardAppointmentBookingVC
 
 static NSString * const dateReuseIdentifier = @"DateCell";
 
@@ -576,7 +576,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     }];
 }
 
-- (void)updateViews:(LEOCardScheduling *)card {
+- (void)updateViews:(LEOCardAppointment *)card {
     
     Appointment *appointment = card.associatedCardObject; //FIXME: Update to deal with array at some point.
     

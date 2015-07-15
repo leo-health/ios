@@ -1,5 +1,5 @@
 //
-//  LEOSingleAppointmentSchedulerCardVC.h
+//  LEOCardAppointmentBookingVC.h
 //  Leo
 //
 //  Created by Zachary Drossman on 5/14/15.
@@ -8,14 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "TimeCollectionViewController.h"
-#import "LEOCardScheduling.h"
+#import "LEOCardAppointment.h"
 #import "DateTimeSelectionProtocol.h"
 #import "LEODropDownController.h"
 #import "LEOCardExpandedViewController.h"
 
-@class LEOCardScheduling;
+@class LEOCardAppointment;
 
-@interface LEOCardSchedulingBookingVC : LEOCardExpandedViewController < UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIPageViewControllerDelegate, DateTimeSelectionProtocol, CardActivityProtocol,UITextViewDelegate>
+@interface LEOCardAppointmentBookingVC : LEOCardExpandedViewController < UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIPageViewControllerDelegate, DateTimeSelectionProtocol, CardActivityProtocol,UITextViewDelegate>
 
 @property (strong, nonatomic) UIPageViewController *pageViewController;
 @property (weak, nonatomic) IBOutlet UIView *containerView;

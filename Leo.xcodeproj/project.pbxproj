@@ -15,6 +15,7 @@
 		31197A141B39DA3000C773BA /* MenuView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 31197A131B39DA3000C773BA /* MenuView.xib */; };
 		311CBB391B559C1D0009BD7A /* LEOCardConversationChattingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 311CBB381B559C1D0009BD7A /* LEOCardConversationChattingVC.m */; };
 		311CBB3C1B559D560009BD7A /* LEOCardExpandedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 311CBB3B1B559D560009BD7A /* LEOCardExpandedViewController.m */; };
+		311CBB3E1B56B0F50009BD7A /* Conversation.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 311CBB3D1B56B0F50009BD7A /* Conversation.storyboard */; };
 		3128D4DB1B42DF6500582710 /* LEOOneButtonSecondaryOnlyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3128D4D91B42DF6500582710 /* LEOOneButtonSecondaryOnlyCell.m */; };
 		3128D4DC1B42DF6500582710 /* LEOOneButtonSecondaryOnlyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3128D4DA1B42DF6500582710 /* LEOOneButtonSecondaryOnlyCell.xib */; };
 		3128D4DF1B42E37000582710 /* LEOOneButtonSecondaryOnlyCell+ConfigureForCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3128D4DE1B42E37000582710 /* LEOOneButtonSecondaryOnlyCell+ConfigureForCell.m */; };
@@ -35,7 +36,7 @@
 		312980051B2CCA3F000679DA /* LEOChildCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 312980031B2CCA3F000679DA /* LEOChildCell.xib */; };
 		312980081B2CCB22000679DA /* LEOChildCell+ConfigureForCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 312980071B2CCB22000679DA /* LEOChildCell+ConfigureForCell.m */; };
 		314F6A071B2A0D0000799AB4 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 314F6A061B2A0D0000799AB4 /* User.m */; };
-		3177B9981B17A1B7006AE360 /* LEOCardScheduling.m in Sources */ = {isa = PBXBuildFile; fileRef = 3177B9971B17A1B7006AE360 /* LEOCardScheduling.m */; };
+		3177B9981B17A1B7006AE360 /* LEOCardAppointment.m in Sources */ = {isa = PBXBuildFile; fileRef = 3177B9971B17A1B7006AE360 /* LEOCardAppointment.m */; };
 		3177B9D11B191928006AE360 /* Conversation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3177B9D01B191928006AE360 /* Conversation.m */; };
 		3177B9D41B191929006AE360 /* Role.m in Sources */ = {isa = PBXBuildFile; fileRef = 3177B9D31B191929006AE360 /* Role.m */; };
 		3177B9DA1B191929006AE360 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 3177B9D91B191929006AE360 /* Message.m */; };
@@ -66,7 +67,7 @@
 		31D418AA1B37AB9C008D70F3 /* LEOChildDropDownTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D418A91B37AB9C008D70F3 /* LEOChildDropDownTableView.m */; };
 		31D62EC51B1CBA7400B4150A /* LEOTimeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D62EC31B1CBA7400B4150A /* LEOTimeCell.m */; };
 		31D62EC61B1CBA7400B4150A /* LEOTimeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 31D62EC41B1CBA7400B4150A /* LEOTimeCell.xib */; };
-		31D62ECB1B1CEB1400B4150A /* Scheduling.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 31D62ECA1B1CEB1400B4150A /* Scheduling.storyboard */; };
+		31D62ECB1B1CEB1400B4150A /* Appointment.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 31D62ECA1B1CEB1400B4150A /* Appointment.storyboard */; };
 		31D62ED01B1D3ED500B4150A /* LEODateCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D62ECE1B1D3ED500B4150A /* LEODateCell.m */; };
 		31D62ED11B1D3ED500B4150A /* LEODateCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 31D62ECF1B1D3ED500B4150A /* LEODateCell.xib */; };
 		31D7ADEB1B21F9A100E8C5EE /* CollectionViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D7ADEA1B21F9A100E8C5EE /* CollectionViewDataSource.m */; };
@@ -88,7 +89,7 @@
 		31FDDE681B29E3580009BBC2 /* LEOTwoButtonSecondaryOnlyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FDDE661B29E3580009BBC2 /* LEOTwoButtonSecondaryOnlyCell.m */; };
 		31FDDE691B29E3580009BBC2 /* LEOTwoButtonSecondaryOnlyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 31FDDE671B29E3580009BBC2 /* LEOTwoButtonSecondaryOnlyCell.xib */; };
 		31FDDE6C1B29E38F0009BBC2 /* LEOTwoButtonSecondaryOnlyCell+ConfigureForCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FDDE6B1B29E38F0009BBC2 /* LEOTwoButtonSecondaryOnlyCell+ConfigureForCell.m */; };
-		31FDDE6E1B29EDE00009BBC2 /* LEOCardSchedulingBookingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = BC472D881B0543C30081DDC3 /* LEOCardSchedulingBookingVC.m */; };
+		31FDDE6E1B29EDE00009BBC2 /* LEOCardAppointmentBookingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = BC472D881B0543C30081DDC3 /* LEOCardAppointmentBookingVC.m */; };
 		31FDDE6F1B29EDF70009BBC2 /* ArrayDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 3130B48E1B068CE0006ACC80 /* ArrayDataSource.m */; };
 		31FEF1571B0D09E700AD14D2 /* LEOSecondaryUserView.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FEF1561B0D09E700AD14D2 /* LEOSecondaryUserView.m */; };
 		3AB831E5475A45A2877C8D6C /* libPods-LeoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E5BC0D4370F984698F4E074 /* libPods-LeoTests.a */; };
@@ -139,6 +140,7 @@
 		311CBB381B559C1D0009BD7A /* LEOCardConversationChattingVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOCardConversationChattingVC.m; sourceTree = "<group>"; };
 		311CBB3A1B559D560009BD7A /* LEOCardExpandedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOCardExpandedViewController.h; sourceTree = "<group>"; };
 		311CBB3B1B559D560009BD7A /* LEOCardExpandedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOCardExpandedViewController.m; sourceTree = "<group>"; };
+		311CBB3D1B56B0F50009BD7A /* Conversation.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Conversation.storyboard; sourceTree = "<group>"; };
 		3128D4D81B42DF6500582710 /* LEOOneButtonSecondaryOnlyCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOOneButtonSecondaryOnlyCell.h; sourceTree = "<group>"; };
 		3128D4D91B42DF6500582710 /* LEOOneButtonSecondaryOnlyCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOOneButtonSecondaryOnlyCell.m; sourceTree = "<group>"; };
 		3128D4DA1B42DF6500582710 /* LEOOneButtonSecondaryOnlyCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LEOOneButtonSecondaryOnlyCell.xib; sourceTree = "<group>"; };
@@ -177,8 +179,8 @@
 		3130B48E1B068CE0006ACC80 /* ArrayDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrayDataSource.m; sourceTree = "<group>"; };
 		314F6A051B2A0D0000799AB4 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = User.h; path = "Data Model/User.h"; sourceTree = "<group>"; };
 		314F6A061B2A0D0000799AB4 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = User.m; path = "Data Model/User.m"; sourceTree = "<group>"; };
-		3177B9961B17A1B7006AE360 /* LEOCardScheduling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOCardScheduling.h; sourceTree = "<group>"; };
-		3177B9971B17A1B7006AE360 /* LEOCardScheduling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = LEOCardScheduling.m; sourceTree = "<group>"; };
+		3177B9961B17A1B7006AE360 /* LEOCardAppointment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOCardAppointment.h; sourceTree = "<group>"; };
+		3177B9971B17A1B7006AE360 /* LEOCardAppointment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = LEOCardAppointment.m; sourceTree = "<group>"; };
 		3177B9CF1B191928006AE360 /* Conversation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Conversation.h; path = "Data Model/Conversation.h"; sourceTree = "<group>"; };
 		3177B9D01B191928006AE360 /* Conversation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Conversation.m; path = "Data Model/Conversation.m"; sourceTree = "<group>"; };
 		3177B9D21B191929006AE360 /* Role.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Role.h; path = "Data Model/Role.h"; sourceTree = "<group>"; };
@@ -230,7 +232,7 @@
 		31D62EC21B1CBA7400B4150A /* LEOTimeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOTimeCell.h; sourceTree = "<group>"; };
 		31D62EC31B1CBA7400B4150A /* LEOTimeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOTimeCell.m; sourceTree = "<group>"; };
 		31D62EC41B1CBA7400B4150A /* LEOTimeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LEOTimeCell.xib; sourceTree = "<group>"; };
-		31D62ECA1B1CEB1400B4150A /* Scheduling.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Scheduling.storyboard; sourceTree = "<group>"; };
+		31D62ECA1B1CEB1400B4150A /* Appointment.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Appointment.storyboard; sourceTree = "<group>"; };
 		31D62ECD1B1D3ED500B4150A /* LEODateCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEODateCell.h; sourceTree = "<group>"; };
 		31D62ECE1B1D3ED500B4150A /* LEODateCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEODateCell.m; sourceTree = "<group>"; };
 		31D62ECF1B1D3ED500B4150A /* LEODateCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LEODateCell.xib; sourceTree = "<group>"; };
@@ -284,8 +286,8 @@
 		BC472D7B1B0523580081DDC3 /* createParentUserResponse.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = createParentUserResponse.json; sourceTree = "<group>"; };
 		BC472D7E1B0539240081DDC3 /* createChildUserResponse.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = createChildUserResponse.json; sourceTree = "<group>"; };
 		BC472D801B0539890081DDC3 /* createAppointmentResponse.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = createAppointmentResponse.json; sourceTree = "<group>"; };
-		BC472D871B0543C30081DDC3 /* LEOCardSchedulingBookingVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOCardSchedulingBookingVC.h; sourceTree = "<group>"; };
-		BC472D881B0543C30081DDC3 /* LEOCardSchedulingBookingVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOCardSchedulingBookingVC.m; sourceTree = "<group>"; };
+		BC472D871B0543C30081DDC3 /* LEOCardAppointmentBookingVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOCardAppointmentBookingVC.h; sourceTree = "<group>"; };
+		BC472D881B0543C30081DDC3 /* LEOCardAppointmentBookingVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOCardAppointmentBookingVC.m; sourceTree = "<group>"; };
 		BCA69A341B02AE5100C27B2B /* LEOApiClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOApiClient.h; path = APIs/LEOApiClient.h; sourceTree = "<group>"; };
 		BCA69A351B02AE5100C27B2B /* LEOApiClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOApiClient.m; path = APIs/LEOApiClient.m; sourceTree = "<group>"; };
 		BCA69A381B035CEF00C27B2B /* Leo-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Leo-Prefix.pch"; path = "../Leo-Prefix.pch"; sourceTree = "<group>"; };
@@ -389,8 +391,8 @@
 			children = (
 				311CBB3A1B559D560009BD7A /* LEOCardExpandedViewController.h */,
 				311CBB3B1B559D560009BD7A /* LEOCardExpandedViewController.m */,
-				BC472D871B0543C30081DDC3 /* LEOCardSchedulingBookingVC.h */,
-				BC472D881B0543C30081DDC3 /* LEOCardSchedulingBookingVC.m */,
+				BC472D871B0543C30081DDC3 /* LEOCardAppointmentBookingVC.h */,
+				BC472D881B0543C30081DDC3 /* LEOCardAppointmentBookingVC.m */,
 				311CBB371B559C1D0009BD7A /* LEOCardConversationChattingVC.h */,
 				311CBB381B559C1D0009BD7A /* LEOCardConversationChattingVC.m */,
 				31FDDE441B278FBF0009BBC2 /* AppointmentSchedulingSubviews */,
@@ -412,7 +414,8 @@
 			isa = PBXGroup;
 			children = (
 				BCE1EC711B00E353007C8D0B /* Main.storyboard */,
-				31D62ECA1B1CEB1400B4150A /* Scheduling.storyboard */,
+				31D62ECA1B1CEB1400B4150A /* Appointment.storyboard */,
+				311CBB3D1B56B0F50009BD7A /* Conversation.storyboard */,
 			);
 			name = "Stoyboards & Xibs";
 			sourceTree = "<group>";
@@ -422,8 +425,8 @@
 			children = (
 				31FEF1521B0D073600AD14D2 /* LEOCard.h */,
 				31FEF1531B0D073600AD14D2 /* LEOCard.m */,
-				3177B9961B17A1B7006AE360 /* LEOCardScheduling.h */,
-				3177B9971B17A1B7006AE360 /* LEOCardScheduling.m */,
+				3177B9961B17A1B7006AE360 /* LEOCardAppointment.h */,
+				3177B9971B17A1B7006AE360 /* LEOCardAppointment.m */,
 				310740721B545EFD0098FD40 /* LEOCardConversation.h */,
 				310740731B545EFD0098FD40 /* LEOCardConversation.m */,
 				31FDDE511B28B9230009BBC2 /* CardActivityProtocol.h */,
@@ -849,6 +852,7 @@
 				BC472D7F1B0539240081DDC3 /* createChildUserResponse.json in Resources */,
 				3128D4E71B430F0200582710 /* LEOTwoButtonPrimaryAndSecondaryCell.xib in Resources */,
 				BCE1EC731B00E353007C8D0B /* Main.storyboard in Resources */,
+				311CBB3E1B56B0F50009BD7A /* Conversation.storyboard in Resources */,
 				312980051B2CCA3F000679DA /* LEOChildCell.xib in Resources */,
 				31BA404A1B30885200A11AEE /* LEODropDownSelectedCell.xib in Resources */,
 				BC472D811B0539890081DDC3 /* createAppointmentResponse.json in Resources */,
@@ -869,7 +873,7 @@
 				31920A451B0A855F006309C2 /* getMessagesForConversationResponse.json in Resources */,
 				3128D4DC1B42DF6500582710 /* LEOOneButtonSecondaryOnlyCell.xib in Resources */,
 				31F0EA6C1B27430D00E4D83A /* LEODropDownSelectionCell.xib in Resources */,
-				31D62ECB1B1CEB1400B4150A /* Scheduling.storyboard in Resources */,
+				31D62ECB1B1CEB1400B4150A /* Appointment.storyboard in Resources */,
 				318EEE0F1B3B3FA3002D1653 /* Assets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -952,7 +956,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				31FDDE6F1B29EDF70009BBC2 /* ArrayDataSource.m in Sources */,
-				31FDDE6E1B29EDE00009BBC2 /* LEOCardSchedulingBookingVC.m in Sources */,
+				31FDDE6E1B29EDE00009BBC2 /* LEOCardAppointmentBookingVC.m in Sources */,
 				3177B9E11B1A8CF3006AE360 /* LEOCard.m in Sources */,
 				3182E5551B208CC6004DECF8 /* PageViewDataSource.m in Sources */,
 				311CBB391B559C1D0009BD7A /* LEOCardConversationChattingVC.m in Sources */,
@@ -991,7 +995,7 @@
 				31FDDE601B29D9120009BBC2 /* LEOOneButtonPrimaryOnlyCell.m in Sources */,
 				3128D4E61B430F0200582710 /* LEOTwoButtonPrimaryAndSecondaryCell.m in Sources */,
 				31FEF1571B0D09E700AD14D2 /* LEOSecondaryUserView.m in Sources */,
-				3177B9981B17A1B7006AE360 /* LEOCardScheduling.m in Sources */,
+				3177B9981B17A1B7006AE360 /* LEOCardAppointment.m in Sources */,
 				31FDDE591B28DFC10009BBC2 /* LEOTwoButtonPrimaryOnlyCell+ConfigureForCell.m in Sources */,
 				31197A0C1B39A70C00C773BA /* UIImageEffects.m in Sources */,
 				31A286811B0A2DB100CBAF1A /* LEOAPIHelper.m in Sources */,

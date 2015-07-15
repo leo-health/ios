@@ -18,7 +18,7 @@
 #import "Guardian.h"
 #import "Family.h"
 #import "Practice.h"
-#import "LEOCardScheduling.h"
+#import "LEOCardAppointment.h"
 #import "LEOCardConversation.h"
 #import "UIColor+LeoColors.h"
 #import "UIImage+Extensions.h"
@@ -180,7 +180,7 @@
             NSString *cardType = jsonCard[@"type"];
             
             if ([cardType isEqualToString:@"appointment"]) {
-                LEOCardScheduling *card = [[LEOCardScheduling alloc] initWithDictionary:jsonCard];
+                LEOCardAppointment *card = [[LEOCardAppointment alloc] initWithDictionary:jsonCard];
                 [cards addObject:card];
             }
             
