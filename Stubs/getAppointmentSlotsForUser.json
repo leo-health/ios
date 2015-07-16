@@ -28,37 +28,27 @@
 			},
 			"slots": [
 				{
-					"start_date": "2015-07-04T09:00:00.000Z",
+					"start_date": "2015-12-09T09:00:00.000Z",
 					"start_time": "9:00",
 					"duration": 20
 				},
 				{
-					"start_date": "2015-07-04T09:30:00.000Z",
+					"start_date": "2015-12-09T09:30:00.000Z",
 					"start_time": "9:40",
 					"duration": 20
 				},
 				{
-					"start_date": "2015-07-04T10:00:00.000Z",
-					"start_time": "10:00",
-					"duration": 20
-				},
-				{
-					"start_date": "2015-07-04T09:00:00.000Z",
+					"start_date": "2015-12-09T09:00:00.000Z",
 					"start_time": "9:00",
 					"duration": 30
 				},
 				{
-					"start_date": "2015-07-04T09:30:00.000Z",
+					"start_date": "2015-12-09T09:30:00.000Z",
 					"start_time": "9:30",
 					"duration": 30
-				},
+				}
 				{
-					"start_date": "2015-07-04T10:00:00.000Z",
-					"start_time": "10:00",
-					"duration": 30
-				},
-				{
-					"start_date": "2015-07-04T09:00:00.000Z",
+					"start_date": "2015-12-09T09:00:00.000Z",
 					"start_time": "9:00",
 					"duration": 60
 				}
