@@ -148,7 +148,7 @@
 
     [super updateViewConstraints];
     
-    if (!self.constraintsAlreadyUpdated) {
+    if (!self.constraintsAlreadyUpdated && self.buttonView) {
 
     [self.buttonView removeConstraints:self.buttonView.constraints];
 

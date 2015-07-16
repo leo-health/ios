@@ -9,9 +9,8 @@
 #import <UIKit/UIKit.h>
 
 #import "LEOCardConversation.h"
+#import "LEOCardExpandedViewController.h"
 
-@interface LEOCardConversationChattingVC : UIViewController
-
-@property (strong, nonatomic) LEOCardConversation *card;
+@interface LEOCardConversationChattingVC : LEOCardExpandedViewController
 
 @end

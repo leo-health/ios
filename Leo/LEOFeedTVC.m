@@ -32,6 +32,7 @@
 #import "UIImage+Extensions.h"
 #import "LEOCardAppointmentBookingVC.h"
 #import "LEOTransitioningDelegate.h"
+#import "LEOCardConversationChattingVC.h"
 
 #import "LEOTwoButtonSecondaryOnlyCell+ConfigureForCell.h"
 #import "LEOOneButtonSecondaryOnlyCell+ConfigureForCell.h"
@@ -242,6 +243,28 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
                 }
             }
         }
+        
+        if ([card.type isEqualToString:@"conversation"]) {
+            
+            Conversation *conversation = card.associatedCardObject; //FIXME: Make this a loop to account for multiple appointments.
+
+            switch (conversation.conversationState) {
+                    
+                case ConversationStateClosed: {
+                    [self.tableView reloadData];
+                    break;
+                }
+                case ConversationStateOpen: {
+                    [self loadChattingViewWithCard:card];
+                    break;
+                }
+                default: {
+                    break;
+                }
+                    
+                //FIXME: Need to handle "Call us" somehow
+            }
+        }
     }];
 }
 
@@ -295,6 +318,20 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     //            singleAppointmentScheduleVC.transitioningDelegate = self.transitionDelegate;
     [self presentViewController:singleAppointmentBookingVC animated:YES completion:^{
         singleAppointmentBookingVC.collapsedCell = self.selectedCardCell;
+    }];
+    
+}
+
+- (void)loadChattingViewWithCard:(LEOCard *)card {
+    
+    UIStoryboard *conversationStoryboard = [UIStoryboard storyboardWithName:@"Conversation" bundle:nil];
+    LEOCardConversationChattingVC *conversationChattingVC = [conversationStoryboard instantiateInitialViewController];
+    conversationChattingVC.card = (LEOCardConversation *)card;
+    
+    //              self.transitionDelegate = [[LEOTransitioningDelegate alloc] init];
+    //            singleAppointmentScheduleVC.transitioningDelegate = self.transitionDelegate;
+    [self presentViewController:conversationChattingVC animated:YES completion:^{
+        conversationChattingVC.collapsedCell = self.selectedCardCell;
     }];
     
 }

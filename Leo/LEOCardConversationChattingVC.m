@@ -14,6 +14,8 @@
 
 @interface LEOCardConversationChattingVC ()
 
+@property (weak, nonatomic) IBOutlet UINavigationBar *navBar;
+
 @end
 
 @implementation LEOCardConversationChattingVC
@@ -27,6 +29,11 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+-(UIImage *)iconImage {
+    return [UIImage imageNamed:@"ChatIcon"];
+}
+
 
 /*
 #pragma mark - Navigation
