@@ -1,7 +1,7 @@
 {
 	"data": [
 		{
-			"id": 0,
+			"id": 4,
 			"title" : "Dr.",
 			"first_name": "Om",
 			"middle_initial": "L.",
@@ -11,10 +11,10 @@
 			"role_id": 5,
 			"role": "provider",
 			"specialties": ["pediatrics", "obesity"],
-			"avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/providers/0.png"
+			"avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/providers/4.png"
 		},
 		{
-			"id": 1,
+			"id": 5,
 			"title" : "Dr.",
 			"first_name": "Chelsea",
 			"middle_initial": null,
@@ -24,7 +24,7 @@
 			"role_id": 5,
 			"role": "provider",
 			"specialties": ["pediatrics", "gastroenterology"],
-			"avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/providers/1.png"
+			"avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/providers/5.png"
 		}
 	]
 

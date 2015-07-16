@@ -15,7 +15,7 @@
 				"birth_date": "01/01/1867",
 				"sex": "f",
 				"email": null,
-				"avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/patients/10.png"
+				"avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/patients/0.png"
 			},
 			{
 				"id": 1,
@@ -32,7 +32,7 @@
 				"birth_date": "01/01/1904",
 				"sex": "f",
 				"email": null,
-				"avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/patients/11.png"
+				"avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/patients/1.png"
 			}
 		],
 		"guardians": [
