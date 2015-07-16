@@ -1,0 +1,69 @@
+{
+
+	"data": [
+		{
+			"provider": {
+				"id": 5,
+				"title" : "Dr.",
+				"first_name": "Chelsea",
+				"middle_initial": null,
+				"last_name": "Bodnar",
+				"suffix": null,
+				"credentials": ["M.D."],
+				"role_id": 5,
+				"role": "provider",
+				"specialties": ["pediatrics", "gastroenterology"],
+				"avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/providers/5.png"
+			},
+			"practice": {
+				"id": 0,
+				"name": "Leo - Flatiron",
+				"address_line_1": "33 W 17th Street",
+				"address_line_2": "5th Floor",
+				"city": "New York",
+				"state": "NY",
+				"zip": "10011",
+				"phone": "123-123-1234",
+				"e-mail": "hello@leohealth.com"
+			},
+			"slots": [
+				{
+					"start_date": "2015-07-04T09:00:00.000Z",
+					"start_time": "9:00",
+					"duration": 20
+				},
+				{
+					"start_date": "2015-07-04T09:30:00.000Z",
+					"start_time": "9:40",
+					"duration": 20
+				},
+				{
+					"start_date": "2015-07-04T10:00:00.000Z",
+					"start_time": "10:00",
+					"duration": 20
+				},
+				{
+					"start_date": "2015-07-04T09:00:00.000Z",
+					"start_time": "9:00",
+					"duration": 30
+				},
+				{
+					"start_date": "2015-07-04T09:30:00.000Z",
+					"start_time": "9:30",
+					"duration": 30
+				},
+				{
+					"start_date": "2015-07-04T10:00:00.000Z",
+					"start_time": "10:00",
+					"duration": 30
+				},
+				{
+					"start_date": "2015-07-04T09:00:00.000Z",
+					"start_time": "9:00",
+					"duration": 60
+				}
+			]
+		}
+	]
+
+}
