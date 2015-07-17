@@ -25,7 +25,7 @@ NSString *const APIEndpointVisitTypes = @"visits";
 NSString *const APIEndpointLogin = @"login";
 
 
-#pragma mark - Common params
+#pragma mark - Common
 NSString *const APIParamID = @"id";
 NSString *const APIParamState = @"state";
 NSString *const APIParamData = @"data";
@@ -37,14 +37,26 @@ NSString *const APIParamName = @"name";
 NSString *const APIParamDescription = @"description";
 NSString *const APIParamToken = @"token";
 
-#pragma mark - Date & time params
+#pragma mark - Date & time
 NSString *const APIParamCreatedDateTime = @"created_datetime";
 NSString *const APIParamUpdatedDateTime = @"updated_datetime";
+
+#pragma mark - Practice
+NSString *const APIParamPracticeID = @"practice_id";
+NSString *const APIParamPractice = @"practice";
+NSString *const APIParamLocationAddressLine1 = @"address_line_1";
+NSString *const APIParamLocationAddressLine2 = @"address_line_2";
+NSString *const APIParamLocationCity = @"city";
+NSString *const APIParamLocationState = @"state";
+NSString *const APIParamLocationZip = @"zip";
+NSString *const APIParamPracticePhone = @"phone";
+NSString *const APIParamPracticeEmail = @"email";
+
 
 #pragma mark - Family
 NSString *const APIParamFamilyID = @"family_id";
 
-#pragma mark - User and user subclass params
+#pragma mark - User and user subclass
 
 NSString *const APIParamUserTitle = @"title";
 NSString *const APIParamUserFirstName = @"first_name";
@@ -54,6 +66,7 @@ NSString *const APIParamUserSuffix = @"suffix";
 NSString *const APIParamUserEmail = @"email";
 NSString *const APIParamUserAvatarURL = @"avatar_url";
 
+NSString *const APIParamUserProviderID = @"provider_id";
 NSString *const APIParamUserCredentials = @"credentials";
 NSString *const APIParamUserSpecialties = @"specialties";
 NSString *const APIParamUserPrimary = @"primary";
@@ -76,15 +89,15 @@ NSString *const APIParamUserParents = @"parents";
 NSString *const APIParamUserGuardian = @"guardian";
 NSString *const APIParamUserGuardians = @"guardians";
 
-#pragma mark - Role params
+#pragma mark - Role
 NSString *const APIParamRole = @"role";
 NSString *const APIParamRoleID = @"role_id";
 
-#pragma mark - Relationship params
+#pragma mark - Relationship
 NSString *const APIParamRelationship = @"relationship";
 NSString *const APIParamRelationshipID = @"relationship_id";
 
-#pragma mark - Conversation & message params
+#pragma mark - Conversation & message
 NSString *const APIParamConversations = @"conversations";
 NSString *const APIParamConversationMessageCount = @"message_count";
 NSString *const APIParamConversationLastEscalatedDateTime = @"last_escalated_datetime";
@@ -94,7 +107,7 @@ NSString *const APIParamMessageBody = @"body";
 NSString *const APIParamMessageSender = @"sender";
 NSString *const APIParamMessageEscalatedTo = @"escalated_to";
 
-#pragma mark - Payment & Stripe params
+#pragma mark - Payment & Stripe
 NSString *const APIParamPaymentBalance = @"balance";
 NSString *const APIParamPaymentDueDateTime = @"due_datetime";
 NSString *const APIParamPaymentPaidBy = @"paid_by";
@@ -112,20 +125,25 @@ NSString *const APIParamFormSubmittedBy = @"submitted_by";
 NSString *const APIParamFormTitle = @"title";
 NSString *const APIParamFormNotes = @"notes";
 
-#pragma mark - Card params
+#pragma mark - Card
 NSString *const APIParamCardCount = @"count";
 NSString *const APIParamCardData = @"card_data";
 NSString *const APIParamCardPriority = @"priority";
 
-#pragma mark - Visit type params
+#pragma mark - Visit type
 NSString *const APIParamVisitType = @"visit_type";
 NSString *const APIParamVisitDuration = @"duration";
 NSString *const APIParamVisitBody = @"body";
 
-#pragma mark - Appointment params
+#pragma mark - Appointment
 NSString *const APIParamAppointment = @"appointment";
 NSString *const APIParamAppointmentStartDateTime = @"start_datetime";
 NSString *const APIParamAppointmentNotes = @"notes";
 NSString *const APIParamAppointmentBookedBy = @"booked_by";
+
+#pragma mark - Appointment slot
+NSString *const APIParamSlots = @"slots";
+NSString *const APIParamSlotStartDateTime = @"start_datetime";
+NSString *const APIParamSlotDuration = @"duration";
 
 @end
