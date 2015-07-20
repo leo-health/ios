@@ -468,6 +468,7 @@
     return nil;
 }
 
+//TODO: Refactor this method ideally
 - (NSAttributedString *)collectionView:(JSQMessagesCollectionView *)collectionView attributedTextForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath
 {
     Message *message = [self.messages objectAtIndex:indexPath.item];
@@ -547,6 +548,7 @@
     return [self.messages count];
 }
 
+//TODO: Refactor this method ideally
 - (UICollectionViewCell *)collectionView:(JSQMessagesCollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     /**
@@ -693,10 +695,35 @@
 
 #pragma mark - Responding to collection view tap events
 
+
+//TODO: Refactor this method ideally
 - (void)collectionView:(JSQMessagesCollectionView *)collectionView
                 header:(JSQMessagesLoadEarlierHeaderView *)headerView didTapLoadEarlierMessagesButton:(UIButton *)sender
 {
-    NSLog(@"Load earlier messages!");
+    Conversation *conversation = (Conversation *)self.card.associatedCardObject;
+
+    [self.dataManager getMessagesForConversation:conversation withCompletion:^void(NSArray * messages) {
+        
+        [self addMessages:messages];
+        
+        NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
+        
+        for (NSInteger i = 0; i < [messages count]; i++) {
+            NSIndexPath *indexPath = [NSIndexPath indexPathForItem:i inSection:0];
+            [indexPaths addObject:indexPath];
+        }
+        
+         CGFloat oldOffset = self.collectionView.contentSize.height - self.collectionView.contentOffset.y;
+
+        [UIView setAnimationsEnabled:NO];
+        
+        [collectionView performBatchUpdates:^{
+            [self.collectionView insertItemsAtIndexPaths:indexPaths];
+        } completion:^(BOOL finished) {
+            self.collectionView.contentOffset = CGPointMake(0.0, self.collectionView.contentSize.height - oldOffset);
+            [UIView setAnimationsEnabled:YES];
+        }];
+    }];
 }
 
 - (void)collectionView:(JSQMessagesCollectionView *)collectionView didTapAvatarImageView:(UIImageView *)avatarImageView atIndexPath:(NSIndexPath *)indexPath
@@ -706,19 +733,35 @@
 
 - (void)collectionView:(JSQMessagesCollectionView *)collectionView didTapMessageBubbleAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"Tapped message bubble!");
+    NSLog(@"Tapped message bubble at indexPathSection: %ld Row: %ld!", (long)indexPath.section, (long)indexPath.row);
 }
+
 
 - (void)collectionView:(JSQMessagesCollectionView *)collectionView didTapCellAtIndexPath:(NSIndexPath *)indexPath touchLocation:(CGPoint)touchLocation
 {
     NSLog(@"Tapped cell at %@!", NSStringFromCGPoint(touchLocation));
 }
 
+
+//FIXME: This method probably doesn't belong in this class.
 - (void)addMessage:(Message *)message {
     
     NSMutableArray *mutableMessages = [self.messages mutableCopy];
     
     [mutableMessages addObject:message];
+    
+    self.messages = [mutableMessages copy];
+}
+
+
+//FIXME: This method probably doesn't belong in this class.
+- (void)addMessages:(NSArray *)messages {
+    
+    NSMutableArray *mutableMessages = [self.messages mutableCopy];
+    
+    NSIndexSet *indexes = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0,[messages count])];
+    
+    [mutableMessages insertObjects:messages atIndexes:indexes];
     
     self.messages = [mutableMessages copy];
 }
