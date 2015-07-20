@@ -26,6 +26,6 @@
 + (UIFont *)leoTitleFont;
 + (UIFont *)leoUserFont;
 + (UIFont *)leoButtonFont;
-
++ (UIFont *)leoChatTimestampLabelFont;
 
 @end

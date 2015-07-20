@@ -118,6 +118,10 @@
         return [[Guardian alloc] initWithJSONDictionary:jsonDictionary];
     }
     
+    else if ([jsonDictionary[APIParamRole] isEqualToString:@"customer_service"]) {
+        return [[Support alloc] initWithJSONDictionary:jsonDictionary];
+    }
+    
     return [[User alloc] initWithJSONDictionary:jsonDictionary];
 }
 

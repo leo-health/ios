@@ -63,4 +63,8 @@ NSString *const LeoBodyBoldFont = @"AvenirNext-Bold";
     return [UIFont fontWithName:LeoMediumFont size:12];
 }
 
++ (UIFont *)leoChatTimestampLabelFont {
+    return [UIFont fontWithName:LeoBasicFont size:12];
+}
+
 @end

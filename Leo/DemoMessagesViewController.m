@@ -25,6 +25,9 @@
 #import "UIColor+LeoColors.h"
 #import "Family.h"
 #import "UIFont+LeoFonts.h"
+#import "NSDate+Extensions.h"
+#import "Support.h"
+#import "Guardian.h"
 
 @interface DemoMessagesViewController ()
 
@@ -54,7 +57,7 @@
     [super viewDidLoad];
     
     self.dataManager = [LEODataManager sharedManager];
-
+    
     self.title = @"JSQMessages";
     
     self.inputToolbar.contentView.rightBarButtonItem.hidden = YES;
@@ -63,7 +66,7 @@
     [sendButton setTitle:@"SEND" forState:UIControlStateNormal];
     [sendButton setTitleColor:[UIColor leoWhite] forState:UIControlStateNormal];
     sendButton.titleLabel.font = [UIFont leoBodyBolderFont];
-
+    
     self.inputToolbar.contentView.rightBarButtonItem = sendButton;
     self.inputToolbar.contentView.backgroundColor = [UIColor leoBlue];
     
@@ -95,7 +98,7 @@
         OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithFileAtPath:fixture statusCode:200 headers:@{@"Content-Type":@"application/json"}];
         return response;
     }];
-
+    
     
     [self.dataManager getMessagesForConversation:conversation withCompletion:^void(NSArray * messages) {
         
@@ -106,7 +109,7 @@
     /**
      *  You can set custom avatar sizes
      */
-        self.collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero;
+    self.collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero;
     
     self.showLoadEarlierMessagesHeader = YES;
     
@@ -114,21 +117,21 @@
                                                                               style:UIBarButtonItemStylePlain
                                                                              target:self
                                                                              action:@selector(receiveMessagePressed:)];
-
+    
     /**
      *  Register custom menu actions for cells.
      */
     [JSQMessagesCollectionViewCell registerMenuAction:@selector(customAction:)];
     [UIMenuController sharedMenuController].menuItems = @[ [[UIMenuItem alloc] initWithTitle:@"Custom Action" action:@selector(customAction:)] ];
-
-
+    
+    
     /**
      *  Customize your toolbar buttons
      *
      *  self.inputToolbar.contentView.leftBarButtonItem = custom button or nil to remove
      *  self.inputToolbar.contentView.rightBarButtonItem = custom button or nil to remove
      */
-
+    
     /**
      *  Set a maximum height for the input toolbar
      *
@@ -136,7 +139,7 @@
      */
     
     self.collectionView.collectionViewLayout.messageBubbleFont = [UIFont leoBodyFont];
-
+    
 }
 
 
@@ -160,98 +163,98 @@
 //     *  The following is simply to simulate received messages for the demo.
 //     *  Do not actually do this.
 //     */
-//    
-//    
+//
+//
 //    /**
 //     *  Show the typing indicator to be shown
 //     */
 //    self.showTypingIndicator = !self.showTypingIndicator;
-//    
+//
 //    /**
 //     *  Scroll to actually view the indicator
 //     */
 //    [self scrollToBottomAnimated:YES];
-//    
+//
 //    /**
 //     *  Copy last sent message, this will be the new "received" message
 //     */
 //    JSQMessage *copyMessage = [[self.messages lastObject] copy];
-//    
+//
 //    if (!copyMessage) {
 //        copyMessage = [JSQMessage messageWithSenderId:kJSQDemoAvatarIdJobs
 //                                          displayName:kJSQDemoAvatarDisplayNameJobs
 //                                                 text:@"First received!"];
 //    }
-//    
+//
 //    /**
 //     *  Allow typing indicator to show
 //     */
 //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//        
+//
 //        NSMutableArray *userIds;
 //        NSMutableArray *userNames;
-//        
+//
 //        for (User *user in self.dataManager.users) {
 //            [userIds addObject:user.objectID];
 //            [userNames addObject:user.fullName];
 //        }
 //
 //        [userIds removeObject:self.senderId];
-//        
+//
 //        NSString *randomUserId = userIds[arc4random_uniform((int)[userIds count])];
-//        
+//
 //        Message *newMessage = nil;
 //        id<JSQMessageMediaData> newMediaData = nil;
 //        id newMediaAttachmentCopy = nil;
-//        
+//
 //        if (copyMessage.isMediaMessage) {
 //            /**
 //             *  Last message was a media message
 //             */
 //            id<JSQMessageMediaData> copyMediaData = copyMessage.media;
-//            
+//
 //            if ([copyMediaData isKindOfClass:[JSQPhotoMediaItem class]]) {
 //                JSQPhotoMediaItem *photoItemCopy = [((JSQPhotoMediaItem *)copyMediaData) copy];
 //                photoItemCopy.appliesMediaViewMaskAsOutgoing = NO;
 //                newMediaAttachmentCopy = [UIImage imageWithCGImage:photoItemCopy.image.CGImage];
-//                
+//
 //                /**
 //                 *  Set image to nil to simulate "downloading" the image
 //                 *  and show the placeholder view
 //                 */
 //                photoItemCopy.image = nil;
-//                
+//
 //                newMediaData = photoItemCopy;
 //            }
 //            else if ([copyMediaData isKindOfClass:[JSQLocationMediaItem class]]) {
 //                JSQLocationMediaItem *locationItemCopy = [((JSQLocationMediaItem *)copyMediaData) copy];
 //                locationItemCopy.appliesMediaViewMaskAsOutgoing = NO;
 //                newMediaAttachmentCopy = [locationItemCopy.location copy];
-//                
+//
 //                /**
 //                 *  Set location to nil to simulate "downloading" the location data
 //                 */
 //                locationItemCopy.location = nil;
-//                
+//
 //                newMediaData = locationItemCopy;
 //            }
 //            else if ([copyMediaData isKindOfClass:[JSQVideoMediaItem class]]) {
 //                JSQVideoMediaItem *videoItemCopy = [((JSQVideoMediaItem *)copyMediaData) copy];
 //                videoItemCopy.appliesMediaViewMaskAsOutgoing = NO;
 //                newMediaAttachmentCopy = [videoItemCopy.fileURL copy];
-//                
+//
 //                /**
 //                 *  Reset video item to simulate "downloading" the video
 //                 */
 //                videoItemCopy.fileURL = nil;
 //                videoItemCopy.isReadyToPlay = NO;
-//                
+//
 //                newMediaData = videoItemCopy;
 //            }
 //            else {
 //                NSLog(@"%s error: unrecognized media item", __PRETTY_FUNCTION__);
 //            }
-//            
+//
 //            newMessage = [JSQMessage messageWithSenderId:randomUserId
 //                                             displayName:[self userWithSenderID:randomUserId].fullName
 //                                                   media:newMediaData];
@@ -264,7 +267,7 @@
 //                                             displayName:[self userWithSenderID:randomUserId].fullName
 //                                                    text:copyMessage.text];
 //        }
-//        
+//
 //        /**
 //         *  Upon receiving a message, you should:
 //         *
@@ -275,8 +278,8 @@
 //        [JSQSystemSoundPlayer jsq_playMessageReceivedSound];
 //        [self addMessage:newMessage];
 //        [self finishReceivingMessageAnimated:YES];
-//        
-//        
+//
+//
 //        if (newMessage.isMediaMessage) {
 //            /**
 //             *  Simulate "downloading" media
@@ -289,7 +292,7 @@
 //                 *
 //                 *  Reload the specific item, or simply call `reloadData`
 //                 */
-//                
+//
 //                if ([newMediaData isKindOfClass:[JSQPhotoMediaItem class]]) {
 //                    ((JSQPhotoMediaItem *)newMediaData).image = newMediaAttachmentCopy;
 //                    [self.collectionView reloadData];
@@ -307,10 +310,10 @@
 //                else {
 //                    NSLog(@"%s error: unrecognized media item", __PRETTY_FUNCTION__);
 //                }
-//                
+//
 //            });
 //        }
-//        
+//
 //    });
 //}
 
@@ -356,29 +359,29 @@
 //    if (buttonIndex == actionSheet.cancelButtonIndex) {
 //        return;
 //    }
-//    
+//
 //    switch (buttonIndex) {
 //        case 0:
 //            [self.dataManager addPhotoMediaMessage];
 //            break;
-//            
+//
 //        case 1:
 //        {
 //            __weak UICollectionView *weakView = self.collectionView;
-//            
+//
 //            [self.dataManager addLocationMediaMessageCompletion:^{
 //                [weakView reloadData];
 //            }];
 //        }
 //            break;
-//            
+//
 //        case 2:
 //            [self.demoData addVideoMediaMessage];
 //            break;
 //    }
-//    
+//
 //    [JSQSystemSoundPlayer jsq_playMessageSentSound];
-//    
+//
 //    [self finishSendingMessageAnimated:YES];
 //}
 
@@ -428,13 +431,13 @@
     Message *message = [self.messages objectAtIndex:indexPath.item];
     
     if ([message.senderId isEqualToString:self.senderId]) {
-            return nil;
-        }
+        return nil;
+    }
     
     
     //FIXME:This should be replaced with the actual avatar, but since we don't yet have those...here is a placeholder.
     JSQMessagesAvatarImage *avatarImage = [JSQMessagesAvatarImageFactory avatarImageWithImage:[UIImage imageNamed:@"AvatarEmily"]
-                                                                                   diameter:kJSQMessagesCollectionViewAvatarSizeDefault];
+                                                                                     diameter:kJSQMessagesCollectionViewAvatarSizeDefault];
     return avatarImage;
 }
 
@@ -477,15 +480,61 @@
      *  Don't specify attributes to use the defaults.
      */
     
+    NSMutableAttributedString *concatenatedDisplayNameAndTime = [[NSMutableAttributedString alloc] init];
+
+    if ([message.sender isKindOfClass:[Guardian class]]) {
+        
+        NSString *dateString = [NSString stringWithFormat:@"%@ ∙ ", [NSDate stringifiedTime:message.createdAt]];
+        
+        
+        NSDictionary *attributes = @{NSFontAttributeName : [UIFont leoChatTimestampLabelFont], NSForegroundColorAttributeName : [UIColor leoGrayBodyText]};
+        NSAttributedString *timestampAttributedString = [[NSAttributedString alloc] initWithString:dateString attributes:attributes];
+        
+        [concatenatedDisplayNameAndTime appendAttributedString:timestampAttributedString];
+        
+        attributes = @{NSFontAttributeName : [UIFont leoButtonFont], NSForegroundColorAttributeName : [UIColor leoBlue]};
+        NSAttributedString *senderAttributedString = [[NSAttributedString alloc] initWithString:message.sender.firstName attributes:attributes];
+        
+        [concatenatedDisplayNameAndTime appendAttributedString:senderAttributedString];
+
+    } else {
+        
+        NSDictionary *attributes = @{NSFontAttributeName : [UIFont leoButtonFont], NSForegroundColorAttributeName : [UIColor leoBlue]};
+        NSAttributedString *senderAttributedString = [[NSAttributedString alloc] initWithString:message.senderDisplayName attributes:attributes];
+        
+        [concatenatedDisplayNameAndTime appendAttributedString:senderAttributedString];
+        
+        if ([message.sender isKindOfClass:[Support class]]) {
+            
+            Support *support = (Support *)message.sender;
+            attributes = @{NSFontAttributeName : [UIFont leoButtonFont], NSForegroundColorAttributeName : [UIColor leoGrayBodyText]};
+            NSAttributedString *roleAttributedString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@",support.roleDisplayName] attributes:attributes];
+            [concatenatedDisplayNameAndTime appendAttributedString:roleAttributedString];
+        } else if ([message.sender isKindOfClass:[Provider class]]) {
+            
+            Provider *provider = (Provider *)message.sender;
+            attributes = @{NSFontAttributeName : [UIFont leoButtonFont], NSForegroundColorAttributeName : [UIColor leoGrayBodyText]};
+            NSAttributedString *credentialAttributedString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@",provider.credentials[0]] attributes:attributes];
+            [concatenatedDisplayNameAndTime appendAttributedString:credentialAttributedString];
+        }
+        
+        NSString *dateString = [NSString stringWithFormat:@" ∙ %@", [NSDate stringifiedTime:message.createdAt]];
+        
+        
+        attributes = @{NSFontAttributeName : [UIFont leoChatTimestampLabelFont], NSForegroundColorAttributeName : [UIColor leoGrayBodyText]};
+        NSAttributedString *timestampAttributedString = [[NSAttributedString alloc] initWithString:dateString attributes:attributes];
+        
+        [concatenatedDisplayNameAndTime appendAttributedString:timestampAttributedString];
+    }
     
-    return [[NSAttributedString alloc] initWithString:message.senderDisplayName];
+    return concatenatedDisplayNameAndTime;
 }
 
 - (NSAttributedString *)collectionView:(JSQMessagesCollectionView *)collectionView attributedTextForCellBottomLabelAtIndexPath:(NSIndexPath *)indexPath
 {
     
     /** MARK: Zachary Drossman
-     *  Here's where we will do our first pass of case escalation and de-escalation as well as case opening and closing IF we want to do 
+     *  Here's where we will do our first pass of case escalation and de-escalation as well as case opening and closing IF we want to do
      *  that.
      */
     return nil;
@@ -504,10 +553,6 @@
      *  Override point for customizing cells
      */
     JSQMessagesCollectionViewCell *cell = (JSQMessagesCollectionViewCell *)[super collectionView:collectionView cellForItemAtIndexPath:indexPath];
-    
-    
-    
-
     
     /** MARK: Zachary Drossman
      *  Modify this to include other "family side" senders.
@@ -570,7 +615,7 @@
     if (action == @selector(customAction:)) {
         return YES;
     }
-
+    
     return [super collectionView:collectionView canPerformAction:action forItemAtIndexPath:indexPath withSender:sender];
 }
 
@@ -580,18 +625,18 @@
         [self customAction:sender];
         return;
     }
-
+    
     [super collectionView:collectionView performAction:action forItemAtIndexPath:indexPath withSender:sender];
 }
 
 - (void)customAction:(id)sender
 {
     NSLog(@"Custom action received! Sender: %@", sender);
-
+    
     [[[UIAlertView alloc] initWithTitle:@"Custom Action"
-                               message:nil
-                              delegate:nil
-                     cancelButtonTitle:@"OK"
+                                message:nil
+                               delegate:nil
+                      cancelButtonTitle:@"OK"
                       otherButtonTitles:nil]
      show];
 }
@@ -629,9 +674,6 @@
      *  iOS7-style sender name labels
      */
     JSQMessage *currentMessage = [self.messages objectAtIndex:indexPath.item];
-    if ([[currentMessage senderId] isEqualToString:self.senderId]) {
-        return 0.0f;
-    }
     
     if (indexPath.item - 1 > 0) {
         JSQMessage *previousMessage = [self.messages objectAtIndex:indexPath.item - 1];

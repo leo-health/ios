@@ -83,4 +83,12 @@
     return [dateFormatter dateFromString:dateTimeString];
 }
 
++ (NSString *)stringifiedTime:(NSDate *)date {
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
+    dateFormatter.dateFormat = @"h':'mma";
+    dateFormatter.AMSymbol = @"am";
+    dateFormatter.PMSymbol = @"pm";
+    return [dateFormatter stringFromDate:date];
+}
+
 @end
