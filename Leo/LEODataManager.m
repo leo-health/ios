@@ -55,7 +55,7 @@
 - (User *)currentUser {
     
     //FIXME: This is temporary.
-    return [[Guardian alloc] initWithObjectID:@"1" familyID:@"10" title:@"Mrs." firstName:@"Marilyn" middleInitial:nil lastName:@"Drossman" suffix:nil email:@"marilyn@leohealth.com" avatarURL:nil avatar:nil primary:YES relationship:@"mother"];
+    return [[Guardian alloc] initWithObjectID:@"3" familyID:@"10" title:@"Mrs." firstName:@"Marilyn" middleInitial:nil lastName:@"Drossman" suffix:nil email:@"marilyn@leohealth.com" avatarURL:nil avatar:nil primary:YES relationship:@"mother"];
 }
 
 - (void)createUserWithUser:(nonnull User *)user password:(nonnull NSString *)password withCompletion:(void (^)( NSDictionary *  rawResults))completionBlock {
@@ -63,7 +63,7 @@
     NSMutableDictionary *userParams = [[User dictionaryFromUser:user] mutableCopy];
     userParams[APIParamUser] = password;
     [LEOApiClient createUserWithParameters:userParams withCompletion:^(NSDictionary *rawResults) {
-        NSDictionary *userDictionary = rawResults[@"data"][@"user"]; //TODO: Make sure I want this here and not defined somewhere else.
+        NSDictionary *userDictionary = rawResults[APIParamData][@"user"]; //TODO: Make sure I want this here and not defined somewhere else.
         user.objectID = userDictionary[APIParamID];
         completionBlock(rawResults);
     }];
@@ -115,7 +115,7 @@
     }];
 }
 
-- (void)getConversationsForCurrentUserWithCompletion:(void (^)(NSDictionary  *  rawResults))completionBlock {
+- (void)getConversationsForCurrentUserWithCompletion:(void (^)(Conversation*  conversation))completionBlock {
     
     NSArray *conversationProperties = @[self.userToken];
     NSArray *conversationKeys = @[APIParamToken];
@@ -123,17 +123,54 @@
     NSDictionary *conversationParams = [[NSDictionary alloc] initWithObjects:conversationProperties forKeys:conversationKeys];
     
     [LEOApiClient getConversationsForFamilyWithParameters:conversationParams withCompletion:^(NSDictionary * rawResults) {
+        
+        NSArray *participantArray = rawResults[APIParamData][APIParamConversationParticipants];
+        
+        NSMutableArray *participants = [[NSMutableArray alloc] init];
+        
+        for (NSNumber *participantID in participantArray) {
+            
+            NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
+            NSString *participantIDString = [numberFormatter stringFromNumber:participantID];
+            
+            User *user = [[NSUserDefaults standardUserDefaults] objectForKey:participantIDString];
+            if (user) {
+                [participants addObject:user];
+            } else {
+                //TODO: Return a placeholder most likely as opposed to go looking for the user.
+            }
+        }
+        
+        self.conversationParticipants = [participants copy];
+        
+        Conversation *conversation = [[Conversation alloc] initWithJSONDictionary:rawResults[APIParamData]];
+        
         //TODO: Error terms
-        completionBlock(rawResults);
+        completionBlock(conversation);
     }];
+}
+
+
+//FIXME: Replace with actual implementation
+- (void)getAvatarAtURL:(NSURL *)url withCompletion:(void (^)(UIImage *image))completionBlock {
+    
+    UIImage *image = [UIImage imageNamed:@"AvatarEmily"];
+    completionBlock(image);
 }
 
 - (void)createMessage:(Message *)message forConversation:(nonnull Conversation *)conversation withCompletion:(void (^)(NSDictionary  *  rawResults))completionBlock {
     
     [conversation addMessage:message];
     
-    NSArray *messageProperties = @[self.userToken, message.body, message.sender.objectID];
-    NSArray *messageKeys = @[APIParamToken, APIParamMessageBody, APIParamID];
+    NSArray *messageProperties;
+    
+    if (message.text) {
+        messageProperties = @[self.userToken, message.text, @"text", message.sender.objectID];
+    } else {
+        messageProperties = @[self.userToken,  message.media, @"media", message.sender.objectID];
+    }
+    
+    NSArray *messageKeys = @[APIParamToken, APIParamMessageBody, APIParamTypeID, APIParamID];
     
     NSDictionary *messageParams = [[NSDictionary alloc] initWithObjects:messageProperties forKeys:messageKeys];
     
@@ -143,7 +180,7 @@
     }];
 }
 
-- (void)getMessagesForConversation:(Conversation *)conversation withCompletion:(nonnull void (^)(NSDictionary  *  rawResults))completionBlock {
+- (void)getMessagesForConversation:(Conversation *)conversation withCompletion:(nonnull void (^)(NSArray *messages))completionBlock {
     
     NSArray *messageProperties = @[self.userToken];
     NSArray *messageKeys = @[APIParamToken];
@@ -151,8 +188,20 @@
     NSDictionary *messageParams = [[NSDictionary alloc] initWithObjects:messageProperties forKeys:messageKeys];
     
     [LEOApiClient getMessagesForConversation:conversation.objectID withParameters:messageParams withCompletion:^(NSDictionary *  rawResults) {
+        
+        NSArray *messageDictionaries = rawResults[APIParamData][0][@"messages"]; //remove messages part of this once stub is updated.
+        
+        NSMutableArray *messages = [[NSMutableArray alloc] init];
+        
+        for (NSDictionary *messageDictionary in messageDictionaries) {
+        
+            Message *message = [[Message alloc] initWithJSONDictionary:messageDictionary];
+            
+            [messages addObject:message];
+        }
+        
         //TODO: Error terms
-        completionBlock(rawResults);
+        completionBlock([messages copy]);
     }];
 }
 
@@ -171,7 +220,7 @@
         
         //FIXME: Need to change for "data"?
         
-        NSArray *dataArray = rawResults[@"data"];
+        NSArray *dataArray = rawResults[APIParamData];
         
         NSMutableArray *cards = [[NSMutableArray alloc] init];
         
@@ -204,7 +253,7 @@
     
     [LEOApiClient getFamilyWithUserParameters:userParams withCompletion:^(NSDictionary *rawResults) {
         
-        NSDictionary *dataDictionary = rawResults[@"data"];
+        NSDictionary *dataDictionary = rawResults[APIParamData];
         
         Family *family = [[Family alloc] initWithJSONDictionary:dataDictionary]; //FIXME: LeoConstants
         
@@ -221,7 +270,7 @@
     
     [LEOApiClient getProvidersWithParameters:practiceParams withCompletion:^(NSDictionary *rawResults) {
         
-        NSArray *dataArray = rawResults[@"data"];
+        NSArray *dataArray = rawResults[APIParamData];
         
         NSMutableArray *providers = [[NSMutableArray alloc] init];
         
@@ -238,7 +287,7 @@
     
     [LEOApiClient getVisitTypesWithCompletion:^(NSDictionary *rawResults) {
         
-        NSArray *dataArray = rawResults[@"data"];
+        NSArray *dataArray = rawResults[APIParamData];
         
         NSMutableArray *visitTypes = [[NSMutableArray alloc] init];
         

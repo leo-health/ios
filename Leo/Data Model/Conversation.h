@@ -22,13 +22,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy) NSString * objectID;
 @property (nonatomic, strong) NSArray *messages;
-//@property (nonatomic, strong) NSArray *participants;
+// @property (nonatomic, strong) NSArray *participants;
 @property (nonatomic, strong) NSNumber *state;
 @property (nonatomic, strong) NSNumber *messageCount;
 @property (nonatomic, copy) NSString *status;
 @property (nonatomic, strong, nullable) NSNumber *priorState;
 
-- (instancetype)initWithObjectID:(NSString *)objectID messages:(NSArray *)messages; // participants:(NSArray *)participants;
+- (instancetype)initWithObjectID:(NSString *)objectID messages:(NSArray *)messages; //participants:(NSArray *)participants;
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse;
 

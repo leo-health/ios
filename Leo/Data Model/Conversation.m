@@ -41,17 +41,6 @@
     
     NSArray *immutableMessages = [messages copy];
     
-//    NSArray *participantDictionaries = jsonResponse[APIParamConversationParticipants];
-//    
-//    NSMutableArray *participants = [[NSMutableArray alloc] init];
-//    
-//    for (NSDictionary *participantDictionary in participantDictionaries) {
-//        Participa *message = [[Message alloc] initWithJSONDictionary:messageDictionary];
-//        [messages addObject:message];
-//    }
-    
-//    NSArray *immutableMessages = [messages copy];
-    
     //TODO: May need to protect against nil values...
     return [self initWithObjectID:objectID messages:immutableMessages];
 }

@@ -88,6 +88,7 @@ NSString *const APIParamRelationshipID = @"relationship_id";
 NSString *const APIParamConversations = @"conversations";
 NSString *const APIParamConversationMessageCount = @"message_count";
 NSString *const APIParamConversationLastEscalatedDateTime = @"last_escalated_datetime";
+NSString *const APIParamConversationParticipants = @"participants";
 
 NSString *const APIParamMessages = @"messages";
 NSString *const APIParamMessageBody = @"body";

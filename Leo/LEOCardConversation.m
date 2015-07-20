@@ -95,7 +95,12 @@ static NSString *kActionSelectorCallUs = @"callUs";
             
         case ConversationStateClosed: {
             Message *message = self.conversation.messages[0];
-            bodyText = message.body;
+            
+            if (message.text) {
+                bodyText = message.text;
+            } else {
+                bodyText = [NSString stringWithFormat:@"%@ has sent you a media message.", message.sender];
+            }
             break;
         }
         case ConversationStateOpen: {

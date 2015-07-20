@@ -97,6 +97,7 @@ extern NSString *const APIParamRelationshipID; // @"relationship_id";
 extern NSString *const APIParamConversations; // @"conversations";
 extern NSString *const APIParamConversationMessageCount; // @"message_count";
 extern NSString *const APIParamConversationLastEscalatedDateTime; // @"last_escalated_datetime";
+extern NSString *const APIParamConversationParticipants; // @"participants";
 
 extern NSString *const APIParamMessages; // @"messages";
 extern NSString *const APIParamMessageBody; // @"body";

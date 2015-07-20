@@ -25,9 +25,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) User *currentUser;
 @property (strong, nonatomic) NSString *userToken; //FIXME: To be moved to the .m once pulling from the keychain as it should be
 @property (strong, nonatomic) NSArray *availableDates;
-
+@property (strong, nonatomic) NSMutableArray *messages;
 @property (strong, nonatomic) NSArray *users;
-
+@property (strong, nonatomic) NSArray *avatars;
+@property (nonatomic, strong) NSArray *conversationParticipants;
+@property (strong, nonatomic) Family *family;
 
 - (NSArray *)availableTimesForDate:(NSDate*)date;
 
@@ -49,9 +51,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 //Conversations
-- (void)getConversationsForCurrentUserWithCompletion:(void (^)(NSDictionary  * __nonnull rawResults))completionBlock;
+- (void)getConversationsForCurrentUserWithCompletion:(void (^)(Conversation*  conversation))completionBlock;
 - (void)createMessage:(Message *)message forConversation:(nonnull Conversation *)conversation withCompletion:(void (^)(NSDictionary  * __nonnull rawResults))completionBlock;
-- (void)getMessagesForConversation:(Conversation *)conversation withCompletion:(void (^)(NSDictionary  * __nonnull rawResults))completionBlock;
+- (void)getMessagesForConversation:(Conversation *)conversation withCompletion:(nonnull void (^)(NSArray *messages))completionBlock;
 
 //Helper Data
 - (void)getFamilyWithCompletion:(void (^)(Family *family))completionBlock;
@@ -64,7 +66,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)addCard:(LEOCard *)card;
 - (void)removeCard:(LEOCard *)card;
-
 
 NS_ASSUME_NONNULL_END
 @end

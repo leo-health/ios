@@ -9,7 +9,7 @@
 #import "LEOApiClient.h"
 #import "LEOAPIHelper.h"
 #import "LEOConstants.h"
-
+#import "User.h"
 @implementation LEOApiClient
 
 
@@ -135,5 +135,13 @@
     }];
 }
 
+
+//FIXME: Placeholder for method.
++ (void)getUserWithID:(NSNumber *)userID withCompletion:(void (^)(NSDictionary *rawResults))completionBlock {
+    
+    User *user = [[User alloc] initWithObjectID:@"999" title:@"Mrs." firstName:@"Christina" middleInitial:@"Fuente" lastName:@"Lagos" suffix:@"NP" email:@"christina.lagos@leohealth.com" avatarURL:[NSURL URLWithString:@"http://"] avatar:nil];
+    
+    completionBlock(user);
+}
 
 @end

@@ -33,7 +33,7 @@
 }
 
 - (RoleType)roleType {
-    return [self.resourceType integerValue]; //TODO: Make sure this is the right field to determine the role type
+    return [self.resourceID integerValue]; //TODO: Make sure this is the right field to determine the role type
 }
 
 @end
