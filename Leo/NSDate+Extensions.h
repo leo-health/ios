@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSDate *)beginningOfWeekForStartOfWeek:(NSInteger)weekday;
 + (NSDate *)dateFromDateTimeString:(NSString *)dateTimeString;
 + (NSString *)stringifiedTime:(NSDate *)date;
++ (NSString *)stringifiedDate:(NSDate *)date;
 
 NS_ASSUME_NONNULL_END
 @end

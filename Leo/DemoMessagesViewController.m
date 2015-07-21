@@ -460,9 +460,33 @@
     /** MARK: Zachary Drossman
      *  Check to see if the current cell is on a different day than the prior cell, if so, add the date header.
      */
-    if (indexPath.item % 3 == 0) {
-        Message *message = [self.messages objectAtIndex:indexPath.item];
-        return [[JSQMessagesTimestampFormatter sharedFormatter] attributedTimestampForDate:message.date];
+    
+    Message *message = [self.messages objectAtIndex:indexPath.item];
+
+    NSDictionary *attributes = @{NSFontAttributeName : [UIFont leoChatTimestampLabelFont], NSForegroundColorAttributeName : [UIColor leoGrayBodyText]};
+    
+    //NSString *formattedString = [NSString stringWithFormat: @"-------- %@ --------",[NSDate stringifiedDate:message.date]];
+    NSAttributedString *dateString = [[NSAttributedString alloc] initWithString:[NSDate stringifiedDate:message.date] attributes:attributes];
+
+    attributes = @{NSForegroundColorAttributeName : [UIColor whiteColor], NSStrikethroughStyleAttributeName : [NSNumber numberWithInteger:NSUnderlinePatternSolid | NSUnderlineStyleSingle]};
+    
+    NSAttributedString *lineString = [[NSAttributedString alloc] initWithString:@"strikethrough" attributes:attributes];
+    
+    NSMutableAttributedString *fullString = [[NSMutableAttributedString alloc] init];
+    
+    [fullString appendAttributedString:lineString];
+    [fullString appendAttributedString:dateString];
+    [fullString appendAttributedString:lineString];
+    
+    if (indexPath.row == 0) {
+        return fullString;
+    }
+    
+    Message *priorMessage = [self.messages objectAtIndex:indexPath.row - 1];
+
+    if (!([NSDate daysBetweenDate:message.date andDate:priorMessage.date] == 0)) {
+
+        return fullString;
     }
     
     return nil;
@@ -660,13 +684,23 @@
      *  This logic should be consistent with what you return from `attributedTextForCellTopLabelAtIndexPath:`
      *  The other label height delegate methods should follow similarly
      *
-     *  Show a timestamp for every 3rd message
      */
-    if (indexPath.item % 3 == 0) {
+    
+    Message *message = [self.messages objectAtIndex:indexPath.item];
+    
+    if (indexPath.row == 0) {
+        return kJSQMessagesCollectionViewCellLabelHeightDefault;
+    }
+    
+    Message *priorMessage = [self.messages objectAtIndex:indexPath.row - 1];
+    
+    if (!([NSDate daysBetweenDate:message.date andDate:priorMessage.date] == 0)) {
+        
         return kJSQMessagesCollectionViewCellLabelHeightDefault;
     }
     
     return 0.0f;
+    
 }
 
 - (CGFloat)collectionView:(JSQMessagesCollectionView *)collectionView
