@@ -1,247 +1,263 @@
 {
-	"data": [
-		{
-			"id": 0,
-			"message_count": 7,
-			"updated_datetime": "2015-07-08T08:15:00.000Z",
-			"created_datetime": "2015-07-08T08:05:00.000Z",
-			"last_escalated_datetime": "2015-07-08T08:36:00.000Z",
-			"status_id": 1,
-			"status": "escalated",
-			"participants": [
-					2, 3, 4, 6, 7
-			],
-			"messages": [
-				{
-					"id": 0,
-					"type_id": 0,
-					"type": "text",
-					"body": "Welcome to Leo! Let us know if you have any questions, we are here to help.",
-					"created_datetime": "2015-07-08T08:00:00.000Z",
-					"escalated_datetime": null,
-					"sender": {
-						"id": 6,
-						"title" : null,
-						"first_name": "Benjamin",
-						"middle_initial": null,
-						"last_name": "Siscovick",
-						"suffix": null,
-						"role_id": 3,
-						"role": "customer_service",
-						"avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/customer_service/6.png"
-					},
-					"escalated_to": null,
-					"escalated_by": null
-				},
-				{
-					"id": 1,
-					"type_id": 0,
-					"type": "text",
-					"body": "Eve has a fever! What do I do?",
-					"created_datetime": "2015-07-08T08:05:00.000Z",
-					"escalated_datetime": "2015-07-08T08:06:00.000Z",
-					"sender": {
-						"id": 3,
-						"title": "Mrs.",
-						"first_name": "Marie",
-						"middle_initial": "S.",
-						"last_name": "Curie",
-						"suffix": null,
-						"role_id": 4,
-						"role": "guardian",
-						"relationship_id": 0,
-						"relationship": "mother",
-						"family_id": 1,
-						"email": "marie@curie.com",
-						"avatar_url": null
-					},
-					"escalated_to": {
-						"id": 7,
-						"title" : null,
-						"first_name": "Carol",
-						"middle_initial": null,
-						"last_name": "Kester",
-						"suffix": null,
-						"role_id": 2,
-						"role": "clinical_support",
-						"avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/clinical_support/7.png"
-					},
-					"escalated_by": {
-						"id": 6,
-						"title" : null,
-						"first_name": "Benjamin",
-						"middle_initial": null,
-						"last_name": "Siscovick",
-						"suffix": null,
-						"role_id": 3,
-						"role": "customer_service",
-						"avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/customer_service/6.png"
-					},
-
-				},
-				{
-					"id": 2,
-					"type_id": 0,
-					"type": "text",
-					"body": "Don't worry, we let the doctor know the situation. We recommend that you continue to monitor Eve's symptoms and schedule a sick visit.",
-					"created_datetime": "2015-07-08T08:10:00.000Z",
-					"escalated_datetime": "2015-07-08T08:11:00.000Z",
-					"sender": {
-						"id": 7,
-						"title" : null,
-						"first_name": "Carol",
-						"middle_initial": null,
-						"last_name": "Kester",
-						"suffix": null,
-						"role_id": 2,
-						"role": "clinical_support",
-						"avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/clinical_support/7.png"
-					},
-					"escalated_to": {
-						"id": 4,
-						"title" : "Dr.",
-						"first_name": "Om",
-						"middle_initial": "L.",
-						"last_name": "Lala",
-						"suffix": null,
-						"credentials": ["M.D.", "M.B.A.", "M.P.H."],
-						"role_id": 5,
-						"role": "provider",
-						"specialties": ["pediatrics", "obesity"],
-						"avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/providers/4.png"
-					},
-					"escalated_by": {
-						"id": 6,
-						"title" : null,
-						"first_name": "Benjamin",
-						"middle_initial": null,
-						"last_name": "Siscovick",
-						"suffix": null,
-						"role_id": 3,
-						"role": "customer_service",
-						"avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/customer_service/6.png"
-					},
-
-				},
-				{
-					"id": 3,
-					"type_id": 0,
-					"type": "text",
-					"body": "Ok, I will. Thanks",
-					"created_datetime": "2015-07-08T08:15:00.000Z",
-					"escalated_datetime": null,
-					"sender": {
-						"id": 3,
-						"title": "Mrs.",
-						"first_name": "Marie",
-						"middle_initial": "S.",
-						"last_name": "Curie",
-						"suffix": null,
-						"role_id": 4,
-						"role": "guardian",
-						"relationship_id": 0,
-						"relationship": "mother",
-						"family_id": 1,
-						"email": "marie@curie.com",
-						"avatar_url": null
-					},
-					"escalated_to": null,
-					"escalated_by": null
-				},
-				{
-					"id": 4,
-					"type_id": 0,
-					"type": "text",
-					"body": "I just checked Eve's fever again, it looks like it is down to 99 F",
-					"created_datetime": "2015-07-08T08:25:00.000Z",
-					"escalated_datetime": null,
-					"sender": {
-						"id": 3,
-						"title": "Mrs.",
-						"first_name": "Marie",
-						"middle_initial": "S.",
-						"last_name": "Curie",
-						"suffix": null,
-						"role_id": 4,
-						"role": "guardian",
-						"relationship_id": 0,
-						"relationship": "mother",
-						"family_id": 1,
-						"email": "marie@curie.com",
-						"avatar_url": null
-					},
-					"escalated_to": null,
-					"escalated_by": null
-				},
-				{
-					"id": 5,
-					"type_id": 0,
-					"type": "text",
-					"body": "I checked too, it's down to 98.5 F!",
-					"created_datetime": "2015-07-08T08:26:00.000Z",
-					"escalated_datetime": null,
-					"sender": {
-						"id": 2,
-						"title": "Mr.",
-						"first_name": "Pierre",
-						"middle_initial": "E.",
-						"last_name": "Curie",
-						"suffix": null,
-						"role_id": 4,
-						"role": "guardian",
-						"relationship_id": 1,
-						"relationship": "father",
-						"family_id": 1,
-						"email": "pierre@curie.com",
-						"avatar_url": null
-					},
-					"escalated_to": null,
-					"escalated_by": null
-				},
-				{
-					"id": 6,
-					"type_id": 0,
-					"type": "text",
-					"body": "Thanks for letting us know that your daughter's fever is coming down. As a precaution we are sharing this message with Dr. Lala for his review.",
-					"created_datetime": "2015-07-08T08:35:00.000Z",
-					"escalated_datetime": "2015-07-08T08:36:00.000Z",
-					"sender": {
-						"id": 7,
-						"title" : null,
-						"first_name": "Carol",
-						"middle_initial": null,
-						"last_name": "Kester",
-						"suffix": null,
-						"role_id": 2,
-						"role": "clinical_support",
-						"avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/clinical_support/7.png"
-					},
-					"escalated_to": {
-						"id": 4,
-						"title" : "Dr.",
-						"first_name": "Om",
-						"middle_initial": "L.",
-						"last_name": "Lala",
-						"suffix": null,
-						"credentials": ["M.D.", "M.B.A.", "M.P.H."],
-						"role_id": 5,
-						"role": "provider",
-						"specialties": ["pediatrics", "obesity"],
-						"avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/providers/4.png"
-					},
-					"escalated_by": {
-						"id": 6,
-						"title" : null,
-						"first_name": "Benjamin",
-						"middle_initial": null,
-						"last_name": "Siscovick",
-						"suffix": null,
-						"role_id": 3,
-						"role": "customer_service",
-						"avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/customer_service/6.png"
-					}
-				}
-			]
-		}
-	]
+  "data": [
+    {
+      "id": 0,
+      "message_count": 7,
+      "updated_datetime": "2015-07-08T08:15:00.000Z",
+      "created_datetime": "2015-07-08T08:05:00.000Z",
+      "last_escalated_datetime": "2015-07-08T08:36:00.000Z",
+      "status_id": 1,
+      "status": "escalated",
+      "participants": [
+        2,
+        3,
+        4,
+        6,
+        7
+      ],
+      "messages": [
+        {
+          "id": 0,
+          "type_id": 0,
+          "type": "text",
+          "body": "Welcome to Leo! Let us know if you have any questions, we are here to help.",
+          "created_datetime": "2015-07-08T08:00:00.000Z",
+          "escalated_datetime": null,
+          "sender": {
+            "id": 6,
+            "title": null,
+            "first_name": "Benjamin",
+            "middle_initial": null,
+            "last_name": "Siscovick",
+            "suffix": null,
+            "role_id": 3,
+            "role": "customer_service",
+            "avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/customer_service/6.png"
+          },
+          "escalated_to": null,
+          "escalated_by": null
+        },
+        {
+          "id": 1,
+          "type_id": 0,
+          "type": "text",
+          "body": "Eve has a fever! What do I do?",
+          "created_datetime": "2015-07-08T08:05:00.000Z",
+          "escalated_datetime": "2015-07-08T08:06:00.000Z",
+          "sender": {
+            "id": 3,
+            "title": "Mrs.",
+            "first_name": "Marie",
+            "middle_initial": "S.",
+            "last_name": "Curie",
+            "suffix": null,
+            "role_id": 4,
+            "role": "guardian",
+            "relationship_id": 0,
+            "relationship": "mother",
+            "family_id": 1,
+            "email": "marie@curie.com",
+            "avatar_url": null
+          },
+          "escalated_to": {
+            "id": 7,
+            "title": null,
+            "first_name": "Carol",
+            "middle_initial": null,
+            "last_name": "Kester",
+            "suffix": null,
+            "role_id": 2,
+            "role": "clinical_support",
+            "avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/clinical_support/7.png"
+          },
+          "escalated_by": {
+            "id": 6,
+            "title": null,
+            "first_name": "Benjamin",
+            "middle_initial": null,
+            "last_name": "Siscovick",
+            "suffix": null,
+            "role_id": 3,
+            "role": "customer_service",
+            "avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/customer_service/6.png"
+          }
+        },
+        {
+          "id": 2,
+          "type_id": 0,
+          "type": "text",
+          "body": "Don't worry, we let the doctor know the situation. We recommend that you continue to monitor Eve's symptoms and schedule a sick visit.",
+          "created_datetime": "2015-07-08T08:10:00.000Z",
+          "escalated_datetime": "2015-07-08T08:11:00.000Z",
+          "sender": {
+            "id": 7,
+            "title": null,
+            "first_name": "Carol",
+            "middle_initial": null,
+            "last_name": "Kester",
+            "suffix": null,
+            "role_id": 2,
+            "role": "clinical_support",
+            "avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/clinical_support/7.png"
+          },
+          "escalated_to": {
+            "id": 4,
+            "title": "Dr.",
+            "first_name": "Om",
+            "middle_initial": "L.",
+            "last_name": "Lala",
+            "suffix": null,
+            "credentials": [
+              "M.D.",
+              "M.B.A.",
+              "M.P.H."
+            ],
+            "role_id": 5,
+            "role": "provider",
+            "specialties": [
+              "pediatrics",
+              "obesity"
+            ],
+            "avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/providers/4.png"
+          },
+          "escalated_by": {
+            "id": 6,
+            "title": null,
+            "first_name": "Benjamin",
+            "middle_initial": null,
+            "last_name": "Siscovick",
+            "suffix": null,
+            "role_id": 3,
+            "role": "customer_service",
+            "avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/customer_service/6.png"
+          }
+        },
+        {
+          "id": 3,
+          "type_id": 0,
+          "type": "text",
+          "body": "Ok, I will. Thanks",
+          "created_datetime": "2015-07-08T08:15:00.000Z",
+          "escalated_datetime": null,
+          "sender": {
+            "id": 3,
+            "title": "Mrs.",
+            "first_name": "Marie",
+            "middle_initial": "S.",
+            "last_name": "Curie",
+            "suffix": null,
+            "role_id": 4,
+            "role": "guardian",
+            "relationship_id": 0,
+            "relationship": "mother",
+            "family_id": 1,
+            "email": "marie@curie.com",
+            "avatar_url": null
+          },
+          "escalated_to": null,
+          "escalated_by": null
+        },
+        {
+          "id": 4,
+          "type_id": 0,
+          "type": "text",
+          "body": "I just checked Eve's fever again, it looks like it is down to 99 F",
+          "created_datetime": "2015-07-08T08:25:00.000Z",
+          "escalated_datetime": null,
+          "sender": {
+            "id": 3,
+            "title": "Mrs.",
+            "first_name": "Marie",
+            "middle_initial": "S.",
+            "last_name": "Curie",
+            "suffix": null,
+            "role_id": 4,
+            "role": "guardian",
+            "relationship_id": 0,
+            "relationship": "mother",
+            "family_id": 1,
+            "email": "marie@curie.com",
+            "avatar_url": null
+          },
+          "escalated_to": null,
+          "escalated_by": null
+        },
+        {
+          "id": 5,
+          "type_id": 0,
+          "type": "text",
+          "body": "I checked too, it's down to 98.5 F!",
+          "created_datetime": "2015-07-08T08:26:00.000Z",
+          "escalated_datetime": null,
+          "sender": {
+            "id": 2,
+            "title": "Mr.",
+            "first_name": "Pierre",
+            "middle_initial": "E.",
+            "last_name": "Curie",
+            "suffix": null,
+            "role_id": 4,
+            "role": "guardian",
+            "relationship_id": 1,
+            "relationship": "father",
+            "family_id": 1,
+            "email": "pierre@curie.com",
+            "avatar_url": null
+          },
+          "escalated_to": null,
+          "escalated_by": null
+        },
+        {
+          "id": 6,
+          "type_id": 0,
+          "type": "text",
+          "body": "Thanks for letting us know that your daughter's fever is coming down. As a precaution we are sharing this message with Dr. Lala for his review.",
+          "created_datetime": "2015-07-08T08:35:00.000Z",
+          "escalated_datetime": "2015-07-08T08:36:00.000Z",
+          "sender": {
+            "id": 7,
+            "title": null,
+            "first_name": "Carol",
+            "middle_initial": null,
+            "last_name": "Kester",
+            "suffix": null,
+            "role_id": 2,
+            "role": "clinical_support",
+            "avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/clinical_support/7.png"
+          },
+          "escalated_to": {
+            "id": 4,
+            "title": "Dr.",
+            "first_name": "Om",
+            "middle_initial": "L.",
+            "last_name": "Lala",
+            "suffix": null,
+            "credentials": [
+              "M.D.",
+              "M.B.A.",
+              "M.P.H."
+            ],
+            "role_id": 5,
+            "role": "provider",
+            "specialties": [
+              "pediatrics",
+              "obesity"
+            ],
+            "avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/providers/4.png"
+          },
+          "escalated_by": {
+            "id": 6,
+            "title": null,
+            "first_name": "Benjamin",
+            "middle_initial": null,
+            "last_name": "Siscovick",
+            "suffix": null,
+            "role_id": 3,
+            "role": "customer_service",
+            "avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/customer_service/6.png"
+          }
+        }
+      ]
+    }
+  ]
 }
