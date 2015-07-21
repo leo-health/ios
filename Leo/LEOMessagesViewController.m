@@ -476,12 +476,24 @@
 
     NSDictionary *attributes = @{NSFontAttributeName : [UIFont leoChatTimestampLabelFont], NSForegroundColorAttributeName : [UIColor leoGrayBodyText]};
     
-    //NSString *formattedString = [NSString stringWithFormat: @"-------- %@ --------",[NSDate stringifiedDate:message.date]];
-    NSAttributedString *dateString = [[NSAttributedString alloc] initWithString:[NSDate stringifiedDate:message.date] attributes:attributes];
+    NSString *basicDateString = [NSString stringWithFormat:@"  %@  ", [NSDate stringifiedDate:message.date]];
+    NSAttributedString *dateString = [[NSAttributedString alloc] initWithString:basicDateString attributes:attributes];
 
-    attributes = @{NSForegroundColorAttributeName : [UIColor whiteColor], NSStrikethroughStyleAttributeName : [NSNumber numberWithInteger:NSUnderlinePatternSolid | NSUnderlineStyleSingle]};
+    attributes = @{NSForegroundColorAttributeName : [UIColor whiteColor], NSStrikethroughColorAttributeName: [UIColor leoGrayBodyText], NSStrikethroughStyleAttributeName : [NSNumber numberWithInteger:NSUnderlinePatternSolid | NSUnderlineStyleSingle]};
     
-    NSAttributedString *lineString = [[NSAttributedString alloc] initWithString:@"strikethrough" attributes:attributes];
+    NSUInteger dateLength = [dateString length];
+    NSUInteger fullLengthOfBreak = 60;
+    NSUInteger lengthOfEachLine = floor((fullLengthOfBreak - dateLength) / 2);
+    
+    NSMutableString *stringOfLength = [NSMutableString stringWithCapacity: lengthOfEachLine];
+    
+    for (int i=0; i<lengthOfEachLine; i++) {
+        [stringOfLength appendFormat: @"%C", [@"x" characterAtIndex:0]];
+    }
+    
+    NSString *strikeThroughString = [stringOfLength copy];
+    
+    NSAttributedString *lineString = [[NSAttributedString alloc] initWithString:strikeThroughString attributes:attributes];
     
     NSMutableAttributedString *fullString = [[NSMutableAttributedString alloc] init];
     
@@ -611,6 +623,19 @@
     cell.layer.rasterizationScale = [UIScreen mainScreen].scale;
     cell.layer.shouldRasterize = YES;
     
+    
+    /**
+     *  MARK: Issue #184 - First pass solution without modifying JSQ code itself to deal with hardcoded values. May not work on all devices. Must test.
+     */
+    BOOL isOutgoingMessage = [message.sender isKindOfClass:[Guardian class]];
+    
+    if (isOutgoingMessage) {
+        cell.messageBubbleTopLabel.textInsets = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 10.0f);
+    }
+    else {
+        cell.messageBubbleTopLabel.textInsets = UIEdgeInsetsMake(0.0f, 40.0f, 0.0f, 0.0f);
+    }
+    
     /**
      *  Configure almost *anything* on the cell
      *
@@ -700,14 +725,14 @@
     Message *message = [self.messages objectAtIndex:indexPath.item];
     
     if (indexPath.row == 0) {
-        return kJSQMessagesCollectionViewCellLabelHeightDefault;
+        return 40.0f;
     }
     
     Message *priorMessage = [self.messages objectAtIndex:indexPath.row - 1];
     
     if (!([NSDate daysBetweenDate:message.date andDate:priorMessage.date] == 0)) {
         
-        return kJSQMessagesCollectionViewCellLabelHeightDefault;
+        return 40.0f;
     }
     
     return 0.0f;
