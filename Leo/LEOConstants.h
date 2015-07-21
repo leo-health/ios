@@ -21,6 +21,7 @@ typedef enum CardLayout {
 @interface LEOConstants : NSObject
 
 #pragma mark - URL & endpoints
+
 extern NSString *const APIBaseUrl; // @"http://leo-api.herokuapp.com/api/v1";
 extern NSString *const APIHost; // @"leo-api.herokuapp.com";
 extern NSString *const APIVersion; // @"/api/v1";
@@ -33,7 +34,8 @@ extern NSString *const APIEndpointMessages; // @"messages";
 extern NSString *const APIEndpointVisitTypes; // @"visits";
 extern NSString *const APIEndpointLogin; // @"login";
 
-#pragma mark - Common params
+
+#pragma mark - Common
 extern NSString *const APIParamID; // @"id";
 extern NSString *const APIParamState; // @"state";
 extern NSString *const APIParamData; // @"data";
@@ -43,16 +45,28 @@ extern NSString *const APIParamStatus; // @"status";
 extern NSString *const APIParamStatusID; // @"status_id";
 extern NSString *const APIParamName; // @"name";
 extern NSString *const APIParamDescription; // @"description";
-extern NSString *const APIParamToken; //@"token";
+extern NSString *const APIParamToken; // @"token";
 
-#pragma mark - Date & time params
+#pragma mark - Date & time
 extern NSString *const APIParamCreatedDateTime; // @"created_datetime";
 extern NSString *const APIParamUpdatedDateTime; // @"updated_datetime";
+
+#pragma mark - Practice
+extern NSString *const APIParamPracticeID; // @"practice_id";
+extern NSString *const APIParamPractice; // @"practice";
+extern NSString *const APIParamLocationAddressLine1; // @"address_line_1";
+extern NSString *const APIParamLocationAddressLine2; // @"address_line_2";
+extern NSString *const APIParamLocationCity; // @"city";
+extern NSString *const APIParamLocationState; // @"state";
+extern NSString *const APIParamLocationZip; // @"zip";
+extern NSString *const APIParamPracticePhone; // @"phone";
+extern NSString *const APIParamPracticeEmail; // @"email";
+
 
 #pragma mark - Family
 extern NSString *const APIParamFamilyID; // @"family_id";
 
-#pragma mark - User and user subclass params
+#pragma mark - User and user subclass
 
 extern NSString *const APIParamUserTitle; // @"title";
 extern NSString *const APIParamUserFirstName; // @"first_name";
@@ -62,16 +76,16 @@ extern NSString *const APIParamUserSuffix; // @"suffix";
 extern NSString *const APIParamUserEmail; // @"email";
 extern NSString *const APIParamUserAvatarURL; // @"avatar_url";
 
+extern NSString *const APIParamUserProviderID; // @"provider_id";
 extern NSString *const APIParamUserCredentials; // @"credentials";
 extern NSString *const APIParamUserSpecialties; // @"specialties";
+extern NSString *const APIParamUserPrimary; // @"primary";
+extern NSString *const APIParamUserStatus; // @"status";
+
 
 extern NSString *const APIParamUserBirthDate; // @"birth_date";
 extern NSString *const APIParamUserSex; // @"sex";
 extern NSString *const APIParamUserPassword; // @"password";
-extern NSString *const APIParamUserStatus; // @"status";
-extern NSString *const APIParamUserPrimary; // @"primary";
-
-
 
 #pragma mark - Common user object references
 extern NSString *const APIParamUser; // @"user";
@@ -85,15 +99,15 @@ extern NSString *const APIParamUserParents; // @"parents";
 extern NSString *const APIParamUserGuardian; // @"guardian";
 extern NSString *const APIParamUserGuardians; // @"guardians";
 
-#pragma mark - Role params
+#pragma mark - Role
 extern NSString *const APIParamRole; // @"role";
 extern NSString *const APIParamRoleID; // @"role_id";
 
-#pragma mark - Relationship params
+#pragma mark - Relationship
 extern NSString *const APIParamRelationship; // @"relationship";
 extern NSString *const APIParamRelationshipID; // @"relationship_id";
 
-#pragma mark - Conversation & message params
+#pragma mark - Conversation & message
 extern NSString *const APIParamConversations; // @"conversations";
 extern NSString *const APIParamConversationMessageCount; // @"message_count";
 extern NSString *const APIParamConversationLastEscalatedDateTime; // @"last_escalated_datetime";
@@ -104,7 +118,7 @@ extern NSString *const APIParamMessageBody; // @"body";
 extern NSString *const APIParamMessageSender; // @"sender";
 extern NSString *const APIParamMessageEscalatedTo; // @"escalated_to";
 
-#pragma mark - Payment & Stripe params
+#pragma mark - Payment & Stripe
 extern NSString *const APIParamPaymentBalance; // @"balance";
 extern NSString *const APIParamPaymentDueDateTime; // @"due_datetime";
 extern NSString *const APIParamPaymentPaidBy; // @"paid_by";
@@ -122,25 +136,26 @@ extern NSString *const APIParamFormSubmittedBy; // @"submitted_by";
 extern NSString *const APIParamFormTitle; // @"title";
 extern NSString *const APIParamFormNotes; // @"notes";
 
-#pragma mark - Card params
+#pragma mark - Card
 extern NSString *const APIParamCardCount; // @"count";
 extern NSString *const APIParamCardData; // @"card_data";
 extern NSString *const APIParamCardPriority; // @"priority";
 
-#pragma mark - Visit type params
+#pragma mark - Visit type
 extern NSString *const APIParamVisitType; // @"visit_type";
 extern NSString *const APIParamVisitDuration; // @"duration";
 extern NSString *const APIParamVisitBody; // @"body";
 
-#pragma mark - Appointment params
+#pragma mark - Appointment
 extern NSString *const APIParamAppointment; // @"appointment";
 extern NSString *const APIParamAppointmentStartDateTime; // @"start_datetime";
 extern NSString *const APIParamAppointmentNotes; // @"notes";
 extern NSString *const APIParamAppointmentBookedBy; // @"booked_by";
 
-/**
- *  Constants for Keyboard event notifications
- */
-
+#pragma mark - Appointment slot
+extern NSString *const APIParamSlots; // @"slots";
+extern NSString *const APIParamSlotStartDateTime; // @"start_datetime";
+extern NSString *const APIParamSlotDuration; // @"duration";
 
 @end
+
