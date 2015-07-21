@@ -74,12 +74,16 @@
     self.inputToolbar.contentView.textView.tintColor = [UIColor leoBlue];
     
     /**
-     *  You MUST set your senderId and display name
+     *  senderId, senderDisplayName required by JSQMessagesViewController
      */
     self.senderId = self.dataManager.currentUser.objectID;
     self.senderDisplayName = self.dataManager.currentUser.fullName;
     self.senderFamily = self.dataManager.family.objectID;
     
+    
+    /**
+    *   Bubble factory used to create our underlying image bubbles via JSQ.
+    */
     JSQMessagesBubbleImageFactory *bubbleFactory = [[JSQMessagesBubbleImageFactory alloc] init];
     self.outgoingBubbleImageData = [bubbleFactory outgoingMessagesBubbleImageWithColor:[UIColor leoBlue]];
     self.incomingBubbleImageData = [bubbleFactory incomingMessagesBubbleImageWithColor:[UIColor leoGrayBackground]];
@@ -88,9 +92,12 @@
     /**
      *  Load up our data
      */
-    
     Conversation *conversation = (Conversation *)self.card.associatedCardObject;
     
+    /**
+     *  Temporary stub included to see data when running code
+     *  Placing stub into a variable in case we decide to remove it programatically later.
+     */
     __weak id<OHHTTPStubsDescriptor> messagesStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         NSLog(@"%@/%@/%@",APIEndpointConversations, conversation.objectID, APIEndpointMessages);
         BOOL test = [request.URL.host isEqualToString:APIHost] && [request.URL.path isEqualToString:[NSString stringWithFormat:@"%@/%@/%@/%@",APIVersion, APIEndpointConversations, conversation.objectID, APIEndpointMessages]];
