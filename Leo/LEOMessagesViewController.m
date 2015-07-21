@@ -60,9 +60,8 @@
     
     self.title = @"JSQMessages";
     
-    //self.inputToolbar.contentView.rightBarButtonItem.hidden = YES;
     self.inputToolbar.contentView.leftBarButtonItem = nil;
-    
+
     UIButton *sendButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [sendButton setTitle:@"SEND" forState:UIControlStateNormal];
     [sendButton setTitleColor:[UIColor leoWhite] forState:UIControlStateNormal];
