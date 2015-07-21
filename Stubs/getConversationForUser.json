@@ -2,14 +2,14 @@
 	"data": [
 		{
 			"id": 0,
-			"message_count": 6,
-			"updated_datetime": "2015-07-08T15:00:00.000Z",
-			"created_datetime": "2015-07-08T05:00:00.000Z",
-			"last_escalated_datetime": "2015-07-08T36:00:00.000Z",
+			"message_count": 7,
+			"updated_datetime": "2015-07-08T08:15:00.000Z",
+			"created_datetime": "2015-07-08T08:05:00.000Z",
+			"last_escalated_datetime": "2015-07-08T08:36:00.000Z",
 			"status_id": 1,
 			"status": "escalated",
 			"participants": [
-					3, 4, 6, 7
+					2, 3, 4, 6, 7
 			],
 			"messages": [
 				{
@@ -17,7 +17,7 @@
 					"type_id": 0,
 					"type": "text",
 					"body": "Welcome to Leo! Let us know if you have any questions, we are here to help.",
-					"created_datetime": "2015-07-08T00:00:00.000Z",
+					"created_datetime": "2015-07-08T08:00:00.000Z",
 					"escalated_datetime": null,
 					"sender": {
 						"id": 6,
@@ -38,8 +38,8 @@
 					"type_id": 0,
 					"type": "text",
 					"body": "Eve has a fever! What do I do?",
-					"created_datetime": "2015-07-08T05:00:00.000Z",
-					"escalated_datetime": "2015-07-08T06:00:00.000Z",
+					"created_datetime": "2015-07-08T08:05:00.000Z",
+					"escalated_datetime": "2015-07-08T08:06:00.000Z",
 					"sender": {
 						"id": 3,
 						"title": "Mrs.",
@@ -84,8 +84,8 @@
 					"type_id": 0,
 					"type": "text",
 					"body": "Don't worry, we let the doctor know the situation. We recommend that you continue to monitor Eve's symptoms and schedule a sick visit.",
-					"created_datetime": "2015-07-08T10:00:00.000Z",
-					"escalated_datetime": "2015-07-08T11:00:00.000Z",
+					"created_datetime": "2015-07-08T08:10:00.000Z",
+					"escalated_datetime": "2015-07-08T08:11:00.000Z",
 					"sender": {
 						"id": 7,
 						"title" : null,
@@ -128,7 +128,7 @@
 					"type_id": 0,
 					"type": "text",
 					"body": "Ok, I will. Thanks",
-					"created_datetime": "2015-07-08T15:00:00.000Z",
+					"created_datetime": "2015-07-08T08:15:00.000Z",
 					"escalated_datetime": null,
 					"sender": {
 						"id": 3,
@@ -153,7 +153,7 @@
 					"type_id": 0,
 					"type": "text",
 					"body": "I just checked Eve's fever again, it looks like it is down to 99 F",
-					"created_datetime": "2015-07-08T25:00:00.000Z",
+					"created_datetime": "2015-07-08T08:25:00.000Z",
 					"escalated_datetime": null,
 					"sender": {
 						"id": 3,
@@ -177,9 +177,34 @@
 					"id": 5,
 					"type_id": 0,
 					"type": "text",
+					"body": "I checked too, it's down to 98.5 F!",
+					"created_datetime": "2015-07-08T08:26:00.000Z",
+					"escalated_datetime": null,
+					"sender": {
+						"id": 2,
+						"title": "Mr.",
+						"first_name": "Pierre",
+						"middle_initial": "E.",
+						"last_name": "Curie",
+						"suffix": null,
+						"role_id": 4,
+						"role": "guardian",
+						"relationship_id": 1,
+						"relationship": "father",
+						"family_id": 1,
+						"email": "pierre@curie.com",
+						"avatar_url": null
+					},
+					"escalated_to": null,
+					"escalated_by": null
+				},
+				{
+					"id": 6,
+					"type_id": 0,
+					"type": "text",
 					"body": "Thanks for letting us know that your daughter's fever is coming down. As a precaution we are sharing this message with Dr. Lala for his review.",
-					"created_datetime": "2015-07-08T35:00:00.000Z",
-					"escalated_datetime": "2015-07-08T36:00:00.000Z",
+					"created_datetime": "2015-07-08T08:35:00.000Z",
+					"escalated_datetime": "2015-07-08T08:36:00.000Z",
 					"sender": {
 						"id": 7,
 						"title" : null,
