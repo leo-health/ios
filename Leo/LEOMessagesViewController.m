@@ -16,7 +16,7 @@
 //  Released under an MIT license: http://opensource.org/licenses/MIT
 //
 
-#import "DemoMessagesViewController.h"
+#import "LEOMessagesViewController.h"
 #import <JSQMessagesViewController/JSQMessagesBubbleImageFactory.h>
 #import "User.h"
 #import <OHHTTPStubs/OHHTTPStubs.h>
@@ -29,7 +29,7 @@
 #import "Support.h"
 #import "Guardian.h"
 
-@interface DemoMessagesViewController ()
+@interface LEOMessagesViewController ()
 
 @property (strong, nonatomic) JSQMessagesBubbleImage *outgoingBubbleImageData;
 @property (strong, nonatomic) JSQMessagesBubbleImage *incomingBubbleImageData;
@@ -39,7 +39,7 @@
 
 @end
 
-@implementation DemoMessagesViewController
+@implementation LEOMessagesViewController
 
 #pragma mark - View lifecycle
 
@@ -60,7 +60,8 @@
     
     self.title = @"JSQMessages";
     
-    self.inputToolbar.contentView.rightBarButtonItem.hidden = YES;
+    //self.inputToolbar.contentView.rightBarButtonItem.hidden = YES;
+    self.inputToolbar.contentView.leftBarButtonItem = nil;
     
     UIButton *sendButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [sendButton setTitle:@"SEND" forState:UIControlStateNormal];

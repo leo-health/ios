@@ -23,10 +23,8 @@
 #import "DemoModelData.h"
 #import "LEOCardConversation.h"
 
-@class DemoMessagesViewController;
 
-
-@interface DemoMessagesViewController : JSQMessagesViewController <UIActionSheetDelegate>
+@interface LEOMessagesViewController : JSQMessagesViewController <UIActionSheetDelegate>
 
 @property (strong, nonatomic) LEOCardConversation *card;
 @property (strong, nonatomic) LEODataManager *dataManager;

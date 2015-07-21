@@ -68,10 +68,10 @@
             </objects>
             <point key="canvasLocation" x="334" y="442"/>
         </scene>
-        <!--Demo Messages View Controller-->
+        <!--Messages View Controller-->
         <scene sceneID="Zfi-Q5-jRR">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="W9p-fk-YW4" customClass="DemoMessagesViewController" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="W9p-fk-YW4" customClass="LEOMessagesViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Khb-MR-dJA"/>
                         <viewControllerLayoutGuide type="bottom" id="pym-HB-GMG"/>
