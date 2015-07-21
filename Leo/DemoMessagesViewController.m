@@ -69,6 +69,9 @@
     
     self.inputToolbar.contentView.rightBarButtonItem = sendButton;
     self.inputToolbar.contentView.backgroundColor = [UIColor leoBlue];
+    self.inputToolbar.contentView.textView.layer.borderColor = [UIColor whiteColor].CGColor;
+    self.inputToolbar.contentView.textView.placeHolder = @"Type a message...";
+    self.inputToolbar.contentView.textView.tintColor = [UIColor leoBlue];
     
     /**
      *  You MUST set your senderId and display name
