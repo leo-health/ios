@@ -28,6 +28,7 @@
 #import "NSDate+Extensions.h"
 #import "Support.h"
 #import "Guardian.h"
+#import "LEOMessagesAvatarImageFactory.h"
 
 @interface LEOMessagesViewController ()
 
@@ -447,8 +448,8 @@
     
     
     //FIXME:This should be replaced with the actual avatar, but since we don't yet have those...here is a placeholder.
-    JSQMessagesAvatarImage *avatarImage = [JSQMessagesAvatarImageFactory avatarImageWithImage:[UIImage imageNamed:@"AvatarEmily"]
-                                                                                     diameter:kJSQMessagesCollectionViewAvatarSizeDefault];
+    JSQMessagesAvatarImage *avatarImage = [LEOMessagesAvatarImageFactory avatarImageWithImage:[UIImage imageNamed:@"AvatarEmily"]
+                                                                                     diameter:kJSQMessagesCollectionViewAvatarSizeDefault borderColor:[UIColor leoBlack]];
     return avatarImage;
 }
 
