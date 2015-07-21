@@ -72,6 +72,7 @@
     self.inputToolbar.contentView.textView.layer.borderColor = [UIColor whiteColor].CGColor;
     self.inputToolbar.contentView.textView.placeHolder = @"Type a message...";
     self.inputToolbar.contentView.textView.tintColor = [UIColor leoBlue];
+    self.inputToolbar.layer.borderColor = [UIColor whiteColor].CGColor;
     
     /**
      *  senderId, senderDisplayName required by JSQMessagesViewController
