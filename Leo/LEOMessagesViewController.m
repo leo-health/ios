@@ -448,7 +448,7 @@
     
     
     //FIXME:This should be replaced with the actual avatar, but since we don't yet have those...here is a placeholder.
-    JSQMessagesAvatarImage *avatarImage = [LEOMessagesAvatarImageFactory avatarImageWithImage:[UIImage imageNamed:@"AvatarEmily"]
+    JSQMessagesAvatarImage *avatarImage = [LEOMessagesAvatarImageFactory avatarImageWithImage:[UIImage imageNamed:@"Avatar-Emily"]
                                                                                      diameter:kJSQMessagesCollectionViewAvatarSizeDefault borderColor:[UIColor leoBlack]];
     return avatarImage;
 }

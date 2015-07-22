@@ -31,7 +31,7 @@
 }
 
 -(UIImage *)iconImage {
-    return [UIImage imageNamed:@"ChatIcon"];
+    return [UIImage imageNamed:@"Chat-Icon"];
 }
 
 

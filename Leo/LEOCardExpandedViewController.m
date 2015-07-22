@@ -58,7 +58,7 @@
     self.dismissButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.dismissButton addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
     //FIXME: Placeholder image for dismiss image
-    [self.dismissButton setImage:[UIImage imageNamed:@"ToDoIcon"] forState:UIControlStateNormal];
+    [self.dismissButton setImage:[UIImage imageNamed:@"Cancel-Icon"] forState:UIControlStateNormal];
     [self.dismissButton sizeToFit];
     
     UIBarButtonItem *dismissBBI = [[UIBarButtonItem alloc] initWithCustomView:self.dismissButton];

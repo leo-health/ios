@@ -46,13 +46,13 @@
                                                                                                  font:[UIFont systemFontOfSize:14.0f]
                                                                                              diameter:kJSQMessagesCollectionViewAvatarSizeDefault];
         
-        JSQMessagesAvatarImage *cookImage = [JSQMessagesAvatarImageFactory avatarImageWithImage:[UIImage imageNamed:@"AvatarEmily"]
+        JSQMessagesAvatarImage *cookImage = [JSQMessagesAvatarImageFactory avatarImageWithImage:[UIImage imageNamed:@"Avatar-Emily"]
                                                                                        diameter:kJSQMessagesCollectionViewAvatarSizeDefault];
         
-        JSQMessagesAvatarImage *jobsImage = [JSQMessagesAvatarImageFactory avatarImageWithImage:[UIImage imageNamed:@"AvatarEmily"]
+        JSQMessagesAvatarImage *jobsImage = [JSQMessagesAvatarImageFactory avatarImageWithImage:[UIImage imageNamed:@"Avatar-Emily"]
                                                                                        diameter:kJSQMessagesCollectionViewAvatarSizeDefault];
         
-        JSQMessagesAvatarImage *wozImage = [JSQMessagesAvatarImageFactory avatarImageWithImage:[UIImage imageNamed:@"AvatarEmily"]
+        JSQMessagesAvatarImage *wozImage = [JSQMessagesAvatarImageFactory avatarImageWithImage:[UIImage imageNamed:@"Avatar-Emily"]
                                                                                       diameter:kJSQMessagesCollectionViewAvatarSizeDefault];
         
         self.avatars = @{ kJSQDemoAvatarIdSquires : jsqImage,

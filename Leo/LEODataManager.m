@@ -154,7 +154,7 @@
 //FIXME: Replace with actual implementation
 - (void)getAvatarAtURL:(NSURL *)url withCompletion:(void (^)(UIImage *image))completionBlock {
     
-    UIImage *image = [UIImage imageNamed:@"AvatarEmily"];
+    UIImage *image = [UIImage imageNamed:@"Avatar-Emily"];
     completionBlock(image);
 }
 

@@ -101,7 +101,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
 }
 
 - (UIImage *)iconImage {
-    return [UIImage imageNamed:@"CalendarIcon"];
+    return [UIImage imageNamed:@"Calendar-Icon"];
 }
 
 - (void)prepareForLaunch {
