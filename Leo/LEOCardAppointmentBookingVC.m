@@ -229,37 +229,16 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     return formattedDateTime;
 }
 
-
-//FIXME: Need to make work with abstract superclass.
--(void)showDoneBarButtonItem:(BOOL)show{
-    [UIView setAnimationsEnabled:NO];
-    if(show){
-        [self.dismissButton setImage:[UIImage imageNamed:@"CalendarIcon"] forState:UIControlStateNormal];
-    }
-    else{
-        //Patrick
-        //TODO: Set cancel button image or whatever the view will look like
-        // for exiting out of the card
-        [self.dismissButton setImage:[UIImage imageNamed:@"ToDoIcon"] forState:UIControlStateNormal];
-
-    }
-    [UIView setAnimationsEnabled:YES];
-}
-
 #pragma mark UITextViewDelegate
 
 -(void)textViewDidBeginEditing:(UITextView *)textView{
 
     //FIXME: Need to make work with abstract superclass.
-        [self showDoneBarButtonItem:YES];
 }
 
 -(void)textViewDidEndEditing:(UITextView *)textView{
     
     self.prepAppointment.note = textView.text;
-    
-    //FIXME: Need to make work with abstract superclass.
-    [self showDoneBarButtonItem:NO];
 }
 
 
