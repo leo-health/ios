@@ -8,7 +8,7 @@
 
 #import "User.h"
 
-@interface Provider : User
+@interface Provider : User <NSCoding>
 NS_ASSUME_NONNULL_BEGIN
 
 @property (copy, nonatomic) NSArray *credentials;

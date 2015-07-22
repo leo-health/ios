@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "User.h"
 
-@interface Guardian : User
+@interface Guardian : User <NSCoding>
 NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic) BOOL primary;

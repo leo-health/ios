@@ -8,7 +8,7 @@
 
 #import "User.h"
 
-@interface Support : User
+@interface Support : User <NSCoding>
 NS_ASSUME_NONNULL_BEGIN
 
 @property (copy, nonatomic) NSString *roleDisplayName;

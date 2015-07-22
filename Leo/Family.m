@@ -68,4 +68,21 @@
     self.guardians = [guardians copy];
 }
 
+- (id)initWithCoder:(NSCoder *)decoder {
+    
+    NSString *objectID = [decoder decodeObjectForKey:APIParamPracticeID];
+    NSArray *guardians = [decoder decodeObjectForKey:APIParamUserGuardians];
+    NSArray *patients = [decoder decodeObjectForKey:APIParamUserPatients];
+    
+    return [self initWithObjectID:objectID guardians:guardians patients:patients];
+}
+
+- (void)encodeWithCoder:(NSCoder *)encoder {
+    
+    [encoder encodeObject:self.objectID forKey:APIParamID];
+    [encoder encodeObject:self.guardians forKey:APIParamUserGuardians];
+    [encoder encodeObject:self.patients forKey:APIParamUserPatients];
+}
+
+
 @end

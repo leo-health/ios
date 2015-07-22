@@ -80,4 +80,27 @@
     return [superDesc stringByAppendingString:subDesc];
 }
 
+- (id)initWithCoder:(NSCoder *)decoder {
+    
+    self = [super initWithCoder:decoder];
+    
+    NSString *familyID = [decoder decodeObjectForKey:APIParamFamilyID];
+    NSDate *dob = [decoder decodeObjectForKey:APIParamUserBirthDate];
+    NSString *gender = [decoder decodeObjectForKey:APIParamUserSex];
+    NSString *status = [decoder decodeObjectForKey:APIParamUserStatus];
+    
+    return [self initWithObjectID:self.objectID familyID:familyID title:self.title firstName:self.firstName middleInitial:self.middleInitial lastName:self.lastName suffix:self.suffix email:self.email avatarURL:self.avatarURL avatar:self.avatar dob:dob gender:gender status:status];
+}
+
+- (void)encodeWithCoder:(NSCoder *)encoder {
+    
+    [super encodeWithCoder:encoder];
+    
+    [encoder encodeObject:self.familyID forKey:APIParamFamilyID];
+    [encoder encodeObject:self.dob forKey:APIParamUserBirthDate];
+    [encoder encodeObject:self.gender forKey:APIParamUserSex];
+    [encoder encodeObject:self.status forKey:APIParamUserStatus];
+}
+
+
 @end

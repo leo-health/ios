@@ -73,4 +73,22 @@
     return [superDesc stringByAppendingString:subDesc];
 }
 
+- (id)initWithCoder:(NSCoder *)decoder {
+    
+    self = [super initWithCoder:decoder];
+    
+    NSArray *credentials = [decoder decodeObjectForKey:APIParamUserCredentials];
+    NSArray *specialties = [decoder decodeObjectForKey:APIParamUserSpecialties];
+
+    return [self initWithObjectID:self.objectID title:self.title firstName:self.firstName middleInitial:self.middleInitial lastName:self.lastName suffix:self.suffix email:self.email avatarURL:self.avatarURL avatar:self.avatar credentialSuffixes:credentials specialties:specialties];
+}
+
+- (void)encodeWithCoder:(NSCoder *)encoder {
+    
+    [super encodeWithCoder:encoder];
+    
+    [encoder encodeObject:self.credentials forKey:APIParamUserCredentials];
+    [encoder encodeObject:self.specialties forKey:APIParamUserSpecialties];
+}
+
 @end

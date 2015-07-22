@@ -54,11 +54,11 @@ extern NSString *const APIParamUpdatedDateTime; // @"updated_datetime";
 #pragma mark - Practice
 extern NSString *const APIParamPracticeID; // @"practice_id";
 extern NSString *const APIParamPractice; // @"practice";
-extern NSString *const APIParamLocationAddressLine1; // @"address_line_1";
-extern NSString *const APIParamLocationAddressLine2; // @"address_line_2";
-extern NSString *const APIParamLocationCity; // @"city";
-extern NSString *const APIParamLocationState; // @"state";
-extern NSString *const APIParamLocationZip; // @"zip";
+extern NSString *const APIParamPracticeLocationAddressLine1; // @"address_line_1";
+extern NSString *const APIParamPracticeLocationAddressLine2; // @"address_line_2";
+extern NSString *const APIParamPracticeLocationCity; // @"city";
+extern NSString *const APIParamPracticeLocationState; // @"state";
+extern NSString *const APIParamPracticeLocationZip; // @"zip";
 extern NSString *const APIParamPracticePhone; // @"phone";
 extern NSString *const APIParamPracticeEmail; // @"email";
 
@@ -98,6 +98,8 @@ extern NSString *const APIParamUserParent; // @"parent";
 extern NSString *const APIParamUserParents; // @"parents";
 extern NSString *const APIParamUserGuardian; // @"guardian";
 extern NSString *const APIParamUserGuardians; // @"guardians";
+extern NSString *const APIParamUserSupport; // @"support";
+extern NSString *const APIParamUserSupports; // @"supports";
 
 #pragma mark - Role
 extern NSString *const APIParamRole; // @"role";

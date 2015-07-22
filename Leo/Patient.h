@@ -10,7 +10,7 @@
 #import "User.h"
 @class Family;
 
-@interface Patient : User
+@interface Patient : User <NSCoding>
 NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) NSDate * dob;

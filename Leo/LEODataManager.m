@@ -208,7 +208,6 @@
 
 
 #pragma mark - Fetching
-
 - (void)getCardsWithCompletion:(void (^)(NSArray *cards))completionBlock {
     
     NSArray *user = @[[self userToken]];
@@ -246,6 +245,14 @@
 
 - (void)getFamilyWithCompletion:(void (^)(Family *family))completionBlock {
     
+    NSString *filePath = [[self documentsDirectoryPath] stringByAppendingPathComponent:@"family"];
+    Family *family = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
+    
+    if (family) {
+        completionBlock(family);
+        return;
+    }
+    
     NSArray *user = @[[self userToken]];
     NSArray *userKey = @[APIParamToken];
     
@@ -257,13 +264,16 @@
         
         Family *family = [[Family alloc] initWithJSONDictionary:dataDictionary]; //FIXME: LeoConstants
         
+        NSString *filePath = [[self documentsDirectoryPath] stringByAppendingPathComponent:@"family"];
+        [NSKeyedArchiver archiveRootObject:family toFile:filePath];
+
         completionBlock(family);
     }];
 }
 
-- (void)getProvidersForPractice:(Practice *)practice withCompletion:(void (^)(NSArray *providers))completionBlock {
+- (void)getProvidersForPracticeID:(NSString *)practiceID withCompletion:(void (^)(NSArray *providers))completionBlock {
     
-    NSArray *practiceValues = @[practice.objectID];
+    NSArray *practiceValues = @[practiceID];
     NSArray *practiceKey = @[APIParamID];
     
     NSDictionary *practiceParams = [[NSDictionary alloc] initWithObjects:practiceValues forKeys:practiceKey];
@@ -277,10 +287,50 @@
         for (NSDictionary *providerDictionary in dataArray) {
             Provider *provider = [[Provider alloc] initWithJSONDictionary:providerDictionary];
             [providers addObject:provider];
-        }
+    }
         
         completionBlock(providers);
     }];
+}
+
+//TODO: Update so that it is getting from an endpoint for all practice staff, not just providers.
+- (void)getAllStaffForPracticeID:(NSString *)practiceID withCompletion:(void (^)(NSArray *staff))completionBlock {
+    
+    NSString *filePath = [[self documentsDirectoryPath] stringByAppendingPathComponent:@"staff"];
+    NSMutableArray *staff = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
+    
+    if (staff) {
+        completionBlock(staff);
+        return;
+    }
+    
+    NSArray *practiceValues = @[practiceID];
+    NSArray *practiceKey = @[APIParamID];
+    
+    NSDictionary *practiceParams = [[NSDictionary alloc] initWithObjects:practiceValues forKeys:practiceKey];
+    
+    [LEOApiClient getProvidersWithParameters:practiceParams withCompletion:^(NSDictionary *rawResults) {
+        
+        NSArray *dataArray = rawResults[APIParamData];
+        
+        NSMutableArray *staff = [[NSMutableArray alloc] init];
+        
+        for (NSDictionary *providerDictionary in dataArray) {
+            Provider *provider = [[Provider alloc] initWithJSONDictionary:providerDictionary];
+            [staff addObject:provider];
+            
+            NSString *filePath = [[self documentsDirectoryPath] stringByAppendingPathComponent:@"staff"];
+            BOOL isArchived = [NSKeyedArchiver archiveRootObject:staff toFile:filePath];
+        }
+        
+        completionBlock(staff);
+    }];
+}
+
+- (NSString *)documentsDirectoryPath {
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    return [paths objectAtIndex:0];
 }
 
 - (void)getVisitTypesWithCompletion:(void (^)(NSArray *visitTypes))completionBlock {

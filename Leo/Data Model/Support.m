@@ -75,5 +75,24 @@
     return [superDesc stringByAppendingString:subDesc];
 }
 
+- (id)initWithCoder:(NSCoder *)decoder {
+    
+    self = [super initWithCoder:decoder];
+    
+    NSString *roleDisplayName = [decoder decodeObjectForKey:APIParamRole];
+    NSString *roleID = [decoder decodeObjectForKey:APIParamRoleID];
+
+    return [self initWithObjectID:self.objectID title:self.title firstName:self.firstName middleInitial:self.middleInitial lastName:self.lastName suffix:self.suffix email:self.email avatarURL:self.avatarURL avatar:self.avatar roleID:roleID roleDisplayName:roleDisplayName];
+}
+
+- (void)encodeWithCoder:(NSCoder *)encoder {
+    
+    [super encodeWithCoder:encoder];
+    
+    [encoder encodeObject:self.roleDisplayName forKey:APIParamRole];
+    [encoder encodeObject:self.roleID forKey:APIParamRoleID];
+}
+
+
 
 @end

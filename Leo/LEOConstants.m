@@ -44,14 +44,13 @@ NSString *const APIParamUpdatedDateTime = @"updated_datetime";
 #pragma mark - Practice
 NSString *const APIParamPracticeID = @"practice_id";
 NSString *const APIParamPractice = @"practice";
-NSString *const APIParamLocationAddressLine1 = @"address_line_1";
-NSString *const APIParamLocationAddressLine2 = @"address_line_2";
-NSString *const APIParamLocationCity = @"city";
-NSString *const APIParamLocationState = @"state";
-NSString *const APIParamLocationZip = @"zip";
+NSString *const APIParamPracticeLocationAddressLine1 = @"address_line_1";
+NSString *const APIParamPracticeLocationAddressLine2 = @"address_line_2";
+NSString *const APIParamPracticeLocationCity = @"city";
+NSString *const APIParamPracticeLocationState = @"state";
+NSString *const APIParamPracticeLocationZip = @"zip";
 NSString *const APIParamPracticePhone = @"phone";
 NSString *const APIParamPracticeEmail = @"email";
-
 
 #pragma mark - Family
 NSString *const APIParamFamilyID = @"family_id";
@@ -88,6 +87,8 @@ NSString *const APIParamUserParent = @"parent";
 NSString *const APIParamUserParents = @"parents";
 NSString *const APIParamUserGuardian = @"guardian";
 NSString *const APIParamUserGuardians = @"guardians";
+NSString *const APIParamUserSupport = @"support";
+NSString *const APIParamUserSupports = @"supports";
 
 #pragma mark - Role
 NSString *const APIParamRole = @"role";

@@ -113,5 +113,34 @@
     return [NSString stringWithFormat:@"<%@: %p>",[self class],self];
 }
 
+#pragma mark - NSCoding
+
+- (id)initWithCoder:(NSCoder *)decoder {
+    
+    NSString *firstName = [decoder decodeObjectForKey:APIParamUserFirstName];
+    NSString *lastName = [decoder decodeObjectForKey:APIParamUserLastName];
+    NSString *middleInitial = [decoder decodeObjectForKey:APIParamUserMiddleInitial];
+    NSString *title = [decoder decodeObjectForKey:APIParamUserTitle];
+    NSString *suffix = [decoder decodeObjectForKey:APIParamUserSuffix];
+    NSString *objectID = [decoder decodeObjectForKey:APIParamID];
+    NSString *email = [decoder decodeObjectForKey:APIParamUserEmail];
+    NSURL *avatarURL = [NSURL URLWithString:[decoder decodeObjectForKey:APIParamUserAvatarURL]];
+    UIImage *avatar = [UIImage imageWithData:[decoder decodeObjectForKey:@"Avatar"]];
+    
+    return [self initWithObjectID:objectID title:title firstName:firstName middleInitial:middleInitial lastName:lastName suffix:suffix email:email avatarURL:avatarURL avatar:avatar];
+}
+
+- (void)encodeWithCoder:(NSCoder *)encoder {
+    
+    [encoder encodeObject:self.firstName forKey:APIParamUserFirstName];
+    [encoder encodeObject:self.lastName forKey:APIParamUserLastName];
+    [encoder encodeObject:self.middleInitial forKey:APIParamUserMiddleInitial];
+    [encoder encodeObject:self.title forKey:APIParamUserTitle];
+    [encoder encodeObject:self.suffix forKey:APIParamUserSuffix];
+    [encoder encodeObject:self.objectID forKey:APIParamID];
+    [encoder encodeObject:self.email forKey:APIParamUserEmail];
+    [encoder encodeObject:[self.avatarURL absoluteString] forKey:APIParamUserAvatarURL];
+    [encoder encodeObject:UIImagePNGRepresentation(self.avatar) forKey:@"Avatar"];
+}
 
 @end

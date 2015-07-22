@@ -166,11 +166,10 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
             self.family = family;
         }];
         
-        Practice *practice = [[Practice alloc] initWithObjectID:@"0" providers:@[]]; //FIXME: Should not be hardcoded.
-        
-        [self.dataManager getProvidersForPractice:practice withCompletion:^(NSArray *providers) {
+        [self.dataManager getAllStaffForPracticeID:@"0" withCompletion:^(NSArray *providers) {
             self.providers = providers;
         }];
+        
         [self.dataManager getVisitTypesWithCompletion:^(NSArray *visitTypes) {
             self.visitTypes = visitTypes;
         }];

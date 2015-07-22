@@ -77,5 +77,24 @@
     return [superDesc stringByAppendingString:subDesc];
 }
 
+- (id)initWithCoder:(NSCoder *)decoder {
+    
+    self = [super initWithCoder:decoder];
+    
+    NSString *familyID = [decoder decodeObjectForKey:APIParamFamilyID];
+    BOOL primary = [decoder decodeBoolForKey:APIParamUserPrimary];
+    NSString *relationship = [decoder decodeObjectForKey:APIParamRelationship];
+    
+    return [self initWithObjectID:self.objectID familyID:familyID title:self.title firstName:self.firstName middleInitial:self.middleInitial lastName:self.lastName suffix:self.suffix email:self.email avatarURL:self.avatarURL avatar:self.avatar primary:primary relationship:relationship];
+}
+
+- (void)encodeWithCoder:(NSCoder *)encoder {
+    
+    [super encodeWithCoder:encoder];
+    
+    [encoder encodeObject:self.familyID forKey:APIParamFamilyID];
+    [encoder encodeBool:self.primary forKey:APIParamUserPrimary];
+    [encoder encodeObject:self.relationship forKey:APIParamRelationship];
+}
 
 @end
