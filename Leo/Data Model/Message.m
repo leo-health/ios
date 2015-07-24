@@ -8,7 +8,6 @@
 
 #import "Message.h"
 #import "Conversation.h"
-#import "LEOConstants.h"
 #import "User.h"
 #import "Provider.h"
 #import "Guardian.h"
@@ -19,7 +18,7 @@
 
 @property (copy, nonatomic) NSString *senderId;
 
-- (instancetype)initWithObjectID:(nullable NSString *)objectID sender:(User *)sender escalatedTo:(nullable User *)escalatedTo escalatedBy:(nullable User *)escalatedBy status:(nullable NSString *)status statusID:(nullable NSNumber *)statusID createdAt:(NSDate *)createdAt escalatedAt:(nullable NSDate *)escalatedAt isMediaMessage:(BOOL)isMediaMessage;
+- (instancetype)initWithObjectID:(nullable NSString *)objectID sender:(User *)sender escalatedTo:(nullable User *)escalatedTo escalatedBy:(nullable User *)escalatedBy status:(nullable NSString *)status statusCode:(MessageStatusCode)statusCode createdAt:(NSDate *)createdAt escalatedAt:(nullable NSDate *)escalatedAt isMediaMessage:(BOOL)isMediaMessage;
 
 @end
 
@@ -41,7 +40,7 @@
 
 #pragma mark - Initialization
 
-- (instancetype)initWithObjectID:(nullable NSString *)objectID sender:(User *)sender escalatedTo:(nullable User *)escalatedTo escalatedBy:(nullable User *)escalatedBy status:(nullable NSString *)status statusID:(nullable NSNumber *)statusID createdAt:(NSDate *)createdAt escalatedAt:(nullable NSDate *)escalatedAt isMediaMessage:(BOOL)isMediaMessage {
+- (instancetype)initWithObjectID:(nullable NSString *)objectID sender:(User *)sender escalatedTo:(nullable User *)escalatedTo escalatedBy:(nullable User *)escalatedBy status:(nullable NSString *)status statusCode:(MessageStatusCode)statusCode createdAt:(NSDate *)createdAt escalatedAt:(nullable NSDate *)escalatedAt isMediaMessage:(BOOL)isMediaMessage {
     
     self = [super init];
     
@@ -51,7 +50,7 @@
         _escalatedTo = escalatedTo;
         _escalatedBy = escalatedBy;
         _status = status;
-        _statusID = statusID;
+        _statusCode = statusCode;
         _createdAt = createdAt;
         _escalatedAt = escalatedAt;
         _isMediaMessage = isMediaMessage;
@@ -85,7 +84,7 @@
 //    }
 
     NSString *status = jsonResponse[APIParamStatus];
-    NSNumber *statusID = jsonResponse[APIParamStatusID];
+    MessageStatusCode statusCode = [jsonResponse[APIParamStatusID] integerValue];
     
     NSString *type = jsonResponse[APIParamType];
     
@@ -99,9 +98,9 @@
     //TODO: May need to protect against nil values...
     
     if ([type isEqualToString:@"text"]) {
-        return [[Message alloc] initWithObjectID:objectID text:text sender:sender escalatedTo:escalatedTo escalatedBy:nil status:status statusID:statusID createdAt:createdAt escalatedAt:nil];
+        return [[Message alloc] initWithObjectID:objectID text:text sender:sender escalatedTo:escalatedTo escalatedBy:nil status:status statusCode:statusCode createdAt:createdAt escalatedAt:nil];
     } else {
-        return [[Message alloc] initWithObjectID:objectID media:media sender:sender escalatedTo:escalatedTo escalatedBy:nil status:status statusID:statusID createdAt:createdAt escalatedAt:nil];
+        return [[Message alloc] initWithObjectID:objectID media:media sender:sender escalatedTo:escalatedTo escalatedBy:nil status:status statusCode:statusCode createdAt:createdAt escalatedAt:nil];
         
     }
 }
@@ -141,19 +140,19 @@
     
     messageDictionary[APIParamUser] = message.sender;
     messageDictionary[APIParamCreatedDateTime] = message.createdAt;
-    messageDictionary[APIParamStatusID] = message.statusID;
+    messageDictionary[APIParamStatusID] = [NSNumber numberWithInteger:message.statusCode];
     
     return messageDictionary;
 }
 
-+ (instancetype)messageWithObjectID:(nullable NSString *)objectID text:(NSString *)text sender:(User *)sender escalatedTo:(nullable User *)escalatedTo escalatedBy:(nullable User *)escalatedBy status:(nullable NSString *)status statusID:(nullable NSNumber *)statusID escalatedAt:(nullable NSDate *)escalatedAt {
++ (instancetype)messageWithObjectID:(nullable NSString *)objectID text:(NSString *)text sender:(User *)sender escalatedTo:(nullable User *)escalatedTo escalatedBy:(nullable User *)escalatedBy status:(nullable NSString *)status statusCode:(MessageStatusCode)statusCode escalatedAt:(nullable NSDate *)escalatedAt {
     
-    return [[Message alloc] initWithObjectID:objectID text:(NSString *)text sender:sender escalatedTo:escalatedTo escalatedBy:escalatedBy status:status statusID:statusID createdAt:[NSDate date] escalatedAt:escalatedAt];
+    return [[Message alloc] initWithObjectID:objectID text:(NSString *)text sender:sender escalatedTo:escalatedTo escalatedBy:escalatedBy status:status statusCode:statusCode createdAt:[NSDate date] escalatedAt:escalatedAt];
 }
 
-- (instancetype)initWithObjectID:(nullable NSString *)objectID text:(NSString *)text sender:(User *)sender escalatedTo:(nullable User *)escalatedTo escalatedBy:(nullable User *)escalatedBy status:(nullable NSString *)status statusID:(nullable NSNumber *)statusID createdAt:(NSDate *)createdAt escalatedAt:(nullable NSDate *)escalatedAt {
+- (instancetype)initWithObjectID:(nullable NSString *)objectID text:(NSString *)text sender:(User *)sender escalatedTo:(nullable User *)escalatedTo escalatedBy:(nullable User *)escalatedBy status:(nullable NSString *)status statusCode:(MessageStatusCode)statusCode createdAt:(NSDate *)createdAt escalatedAt:(nullable NSDate *)escalatedAt {
     
-    self = [self initWithObjectID:objectID sender:sender escalatedTo:escalatedTo escalatedBy:escalatedBy status:status statusID:statusID createdAt:createdAt escalatedAt:escalatedAt isMediaMessage:NO];
+    self = [self initWithObjectID:objectID sender:sender escalatedTo:escalatedTo escalatedBy:escalatedBy status:status statusCode:statusCode createdAt:createdAt escalatedAt:escalatedAt isMediaMessage:NO];
     
     if (self) {
         _text = [text copy];
@@ -161,14 +160,14 @@
     return self;
 }
 
-+ (instancetype)messageWithObjectID:(nullable NSString *)objectID media:(id<JSQMessageMediaData>)media sender:(User *)sender escalatedTo:(nullable User *)escalatedTo escalatedBy:(nullable User *)escalatedBy status:(nullable NSString *)status statusID:(nullable NSNumber *)statusID escalatedAt:(nullable NSDate *)escalatedAt {
++ (instancetype)messageWithObjectID:(nullable NSString *)objectID media:(id<JSQMessageMediaData>)media sender:(User *)sender escalatedTo:(nullable User *)escalatedTo escalatedBy:(nullable User *)escalatedBy status:(nullable NSString *)status statusCode:(MessageStatusCode)statusCode escalatedAt:(nullable NSDate *)escalatedAt {
     
-    return [[Message alloc] initWithObjectID:objectID media:media sender:sender escalatedTo:escalatedTo escalatedBy:escalatedBy status:status statusID:statusID createdAt:[NSDate date] escalatedAt:escalatedAt];
+    return [[Message alloc] initWithObjectID:objectID media:media sender:sender escalatedTo:escalatedTo escalatedBy:escalatedBy status:status statusCode:statusCode createdAt:[NSDate date] escalatedAt:escalatedAt];
 }
 
-- (instancetype)initWithObjectID:(nullable NSString *)objectID media:(id<JSQMessageMediaData>)media sender:(User *)sender escalatedTo:(nullable User *)escalatedTo escalatedBy:(nullable User *)escalatedBy status:(nullable NSString *)status statusID:(nullable NSNumber *)statusID createdAt:(NSDate *)createdAt escalatedAt:(nullable NSDate *)escalatedAt {
+- (instancetype)initWithObjectID:(nullable NSString *)objectID media:(id<JSQMessageMediaData>)media sender:(User *)sender escalatedTo:(nullable User *)escalatedTo escalatedBy:(nullable User *)escalatedBy status:(nullable NSString *)status statusCode:(MessageStatusCode)statusCode createdAt:(NSDate *)createdAt escalatedAt:(nullable NSDate *)escalatedAt {
     
-    self = [self initWithObjectID:objectID sender:sender escalatedTo:escalatedTo escalatedBy:escalatedBy status:status statusID:statusID createdAt:createdAt escalatedAt:escalatedAt isMediaMessage:YES];
+    self = [self initWithObjectID:objectID sender:sender escalatedTo:escalatedTo escalatedBy:escalatedBy status:status statusCode:statusCode createdAt:createdAt escalatedAt:escalatedAt isMediaMessage:YES];
     
     if (self) {
         _media = media;
@@ -236,10 +235,10 @@
 - (instancetype)copyWithZone:(NSZone *)zone
 {
     if (self.isMediaMessage) {
-        return [[[self class] allocWithZone:zone] initWithObjectID:self.objectID media:self.media sender:self.sender escalatedTo:self.escalatedTo escalatedBy:self.escalatedBy status:self.status statusID:self.statusID createdAt:self.createdAt escalatedAt:self.escalatedAt];
+        return [[[self class] allocWithZone:zone] initWithObjectID:self.objectID media:self.media sender:self.sender escalatedTo:self.escalatedTo escalatedBy:self.escalatedBy status:self.status statusCode:self.statusCode createdAt:self.createdAt escalatedAt:self.escalatedAt];
     }
     
-    return [[[self class] allocWithZone:zone] initWithObjectID:self.objectID text:self.text sender:self.sender escalatedTo:self.escalatedTo escalatedBy:self.escalatedBy status:self.status statusID:self.statusID createdAt:self.createdAt escalatedAt:self.escalatedAt];
+    return [[[self class] allocWithZone:zone] initWithObjectID:self.objectID text:self.text sender:self.sender escalatedTo:self.escalatedTo escalatedBy:self.escalatedBy status:self.status statusCode:self.statusCode createdAt:self.createdAt escalatedAt:self.escalatedAt];
 }
 
 

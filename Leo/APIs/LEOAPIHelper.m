@@ -11,7 +11,7 @@
 
 @implementation LEOAPIHelper
 
-+ (void)standardGETRequestForJSONDictionaryFromAPIWithURL:(NSString *)urlString params:(NSDictionary *)params completion:(void (^)(NSDictionary * __nonnull rawResults))completionBlock {
++ (void)standardGETRequestForJSONDictionaryFromAPIWithURL:(NSString *)urlString params:(NSDictionary *)params completion:(void (^)(NSDictionary *rawResults))completionBlock {
     
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     
@@ -30,7 +30,28 @@
     }];
 }
 
-+ (void)standardPOSTRequestForJSONDictionaryFromAPIWithURL:(NSString *)urlString params:(NSDictionary *)params completion:(void (^)(NSDictionary * __nonnull rawResults))completionBlock {
++ (void)standardGETRequestForDataFromS3WithURL:(NSString *)urlString params:(NSDictionary *)params completion:(void (^)(NSData *rawResults))completionBlock {
+    
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    
+    manager.responseSerializer = [[AFHTTPResponseSerializer alloc] init];
+    
+    [manager GET:urlString parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
+        
+        completionBlock(responseObject);
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"Fail: %@",error.localizedDescription);
+        NSLog(@"Fail: %@",error.localizedFailureReason);
+        
+        //FIXME: Deal with all sorts of errors. Replace with DLog!
+    }];
+
+    
+}
+
+
++ (void)standardPOSTRequestForJSONDictionaryFromAPIWithURL:(NSString *)urlString params:(NSDictionary *)params completion:(void (^)(NSDictionary *rawResults))completionBlock {
     
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     

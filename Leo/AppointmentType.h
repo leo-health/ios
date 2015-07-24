@@ -14,14 +14,20 @@
 @interface AppointmentType : NSObject
 NS_ASSUME_NONNULL_BEGIN
 
-@property (nonatomic, copy) NSString *objectID;
-@property (nonatomic, copy) NSString *type;
-@property (nonatomic, strong, nullable) NSNumber *duration;
-@property (nonatomic, copy) NSString *typeDescription;
 
-- (instancetype)initWithObjectID:(NSString *)objectID type:(NSString *)type duration:(nullable NSNumber *)duration typeDescription:(NSString *)typeDescription;
+
+
+
+@property (nonatomic, copy) NSString *objectID;
+@property (nonatomic) AppointmentReasonCode reasonCode;
+@property (nonatomic, copy) NSString *name;
+@property (nonatomic, strong) NSNumber *duration;
+@property (nonatomic, copy) NSString *fullDescription;
+
+- (instancetype)initWithObjectID:(NSString *)objectID name:(NSString *)name reasonCode:(AppointmentReasonCode)reasonCode duration:(nullable NSNumber *)duration description:(NSString *)fullDescription;
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse;
+
 
 NS_ASSUME_NONNULL_END
 @end

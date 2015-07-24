@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 @class Provider;
-#import "LEOConstants.h"
 
 @interface LEOSecondaryUserView : UIView
 

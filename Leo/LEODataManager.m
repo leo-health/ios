@@ -9,7 +9,6 @@
 #import "LEODataManager.h"
 
 #import "LEOAPIClient.h"
-#import "LEOConstants.h"
 #import "Appointment.h"
 #import "Conversation.h"
 #import "Message.h"

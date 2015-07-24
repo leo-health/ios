@@ -21,10 +21,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy, nullable) NSString * suffix;
 @property (nonatomic, copy, nullable) NSString * title;
 @property (nonatomic, copy, nullable) NSString *email;
-@property (nonatomic, copy, nullable) NSURL *avatarURL;
+@property (nonatomic, copy, nullable) NSString *avatarURL;
 @property (nonatomic, strong, nullable) UIImage *avatar;
 
-- (instancetype)initWithObjectID:(nullable NSString*)objectID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email avatarURL:(NSURL *)avatarURL avatar:(nullable UIImage *)avatar NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithObjectID:(nullable NSString*)objectID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email avatarURL:(NSString *)avatarURL avatar:(nullable UIImage *)avatar NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse;
 

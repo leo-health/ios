@@ -16,7 +16,6 @@
 #import "LEOCardCell.h"
 #import "LEOCard.h"
 
-#import "LEOConstants.h"
 #import "LEOApiClient.h"
 #import "LEODataManager.h"
 
@@ -222,17 +221,17 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
         //self.selectedCardCell.layer.transform = CATransform3DMakeRotation(M_PI_2,0.0,1.0,0.0); ; //flip halfway, TODO: Determine what the appropiate thing is to do with the collapsed card view.
     } completion:^(BOOL finished) {
         
-        if ([card.type isEqualToString:@"appointment"]) { //FIXME: should really be an integer / enum with a displayName if desired.
+        if (card.type == CardTypeAppointment) { //FIXME: should really be an integer / enum with a displayName if desired.
             
             Appointment *appointment = card.associatedCardObject; //FIXME: Make this a loop to account for multiple appointments.
             
-            switch (appointment.appointmentState) {
-                case AppointmentStateBooking: {
+            switch (appointment.statusCode) {
+                case AppointmentStatusCodeBooking: {
                     [self loadBookingViewWithCard:card];
                     break;
                 }
                     
-                case AppointmentStateCancelled: {
+                case AppointmentStatusCodeCancelled: {
                     [self removeCardFromFeed:card];
                     break;
                 }
@@ -243,17 +242,17 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
             }
         }
         
-        if ([card.type isEqualToString:@"conversation"]) {
+        if (card.type == CardTypeConversation) {
             
             Conversation *conversation = card.associatedCardObject; //FIXME: Make this a loop to account for multiple appointments.
 
-            switch (conversation.conversationState) {
+            switch (conversation.statusCode) {
                     
-                case ConversationStateClosed: {
+                case ConversationStatusCodeClosed: {
                     [self.tableView reloadData];
                     break;
                 }
-                case ConversationStateOpen: {
+                case ConversationStatusCodeOpen: {
                     [self loadChattingViewWithCard:card];
                     break;
                 }
@@ -269,7 +268,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 
 - (void)beginSchedulingNewAppointment {
 
-    Appointment *appointment = [[Appointment alloc] initWithObjectID:nil date:nil appointmentType:self.visitTypes[0] patient:self.family.patients[0] provider:self.providers[0] bookedByUser:(User *)[self.dataManager currentUser] note:nil state:@(AppointmentStateBooking)];
+    Appointment *appointment = [[Appointment alloc] initWithObjectID:nil date:nil appointmentType:self.visitTypes[0] patient:self.family.patients[0] provider:self.providers[0] bookedByUser:(User *)[self.dataManager currentUser] note:nil statusCode:AppointmentStatusCodeBooking];
     
     LEOCardAppointment *card = [[LEOCardAppointment alloc] initWithObjectID:@"temp" priority:@999 type:@"appointment" associatedCardObject:appointment];
 

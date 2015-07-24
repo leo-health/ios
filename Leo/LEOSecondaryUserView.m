@@ -11,7 +11,6 @@
 #import "Provider.h"
 #import "UIColor+LeoColors.h"
 #import "UIFont+LeoFonts.h"
-#import "LEOConstants.h"
 
 @interface LEOSecondaryUserView ()
 

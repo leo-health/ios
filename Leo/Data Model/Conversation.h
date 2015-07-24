@@ -12,11 +12,6 @@
 @class ConversationParticipant, Message;
 @class Family;
 
-typedef enum ConversationState : NSUInteger {
-    ConversationStateClosed = 0,
-    ConversationStateOpen = 1,
-} ConversationState;
-
 @interface Conversation : NSObject
 NS_ASSUME_NONNULL_BEGIN
 
@@ -25,8 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 // @property (nonatomic, strong) NSArray *participants;
 @property (nonatomic, strong) NSNumber *state;
 @property (nonatomic, strong) NSNumber *messageCount;
-@property (nonatomic, copy) NSString *status;
-@property (nonatomic, strong, nullable) NSNumber *priorState;
+@property (nonatomic) ConversationStatusCode statusCode;
+@property (nonatomic) ConversationStatusCode priorStatusCode;
 
 - (instancetype)initWithObjectID:(NSString *)objectID messages:(NSArray *)messages; //participants:(NSArray *)participants;
 
@@ -35,8 +30,6 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSDictionary *)dictionaryFromConversation:(Conversation *)coversation;
 
 - (void)addMessage:(Message *)message;
-
-- (ConversationState)conversationState;
 
 NS_ASSUME_NONNULL_END
 @end

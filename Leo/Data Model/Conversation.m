@@ -8,7 +8,6 @@
 
 #import "Conversation.h"
 #import "Message.h"
-#import "LEOConstants.h"
 #import "User.h"
 
 @implementation Conversation
@@ -20,7 +19,6 @@
     if (self) {
         _objectID = objectID;
         _messages = messages;
-//        _participants = participants;
     }
     
     return self;
@@ -62,14 +60,6 @@
     [messages addObject:message];
     
     self.messages = [messages copy];
-}
-
-- (ConversationState)conversationState {
-    return [self.state integerValue];
-}
-
-- (ConversationState)priorConversationState {
-    return [self.priorState integerValue];
 }
 
 

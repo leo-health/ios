@@ -8,21 +8,32 @@
 
 #import <Foundation/Foundation.h>
 #import "User.h"
-#import "LEOConstants.h"
 #import "CardActivityProtocol.h"
 #import "Provider.h"
+
+typedef enum CardType {
+    
+    CardTypeAppointment = 0,
+    CardTypeConversation = 1,
+    CardTypePayment = 2,
+    CardTypeForm = 3,
+    CardTypeVisitSummary = 4
+    
+} CardType;
+
 
 @interface LEOCard : NSObject
 NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSString *objectID;
 @property (strong, nonatomic) NSNumber *priority;
-@property (strong, nonatomic) NSString *type;
+@property (nonatomic) CardType type;
+@property (strong, nonatomic) NSString *cardTypeDescription;
 
 @property (strong, nonatomic) id associatedCardObject;
 
 @property (nonatomic, nullable) id<CardActivityProtocol> delegate;
 
-- (instancetype)initWithObjectID:(NSString *)objectID priority:(NSNumber *)priority type:(NSString *)type associatedCardObject:(id)associatedCardObject;
+- (instancetype)initWithObjectID:(NSString *)objectID priority:(NSNumber *)priority type:(CardType)type associatedCardObject:(id)associatedCardObject;
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse;
 

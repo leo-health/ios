@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic) NSString *relationship;
 @property (nonatomic, copy, nullable) NSString *familyID;
 
-- (instancetype)initWithObjectID:(nullable NSString *)objectID familyID:(NSString *)familyID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email avatarURL:(nullable NSURL *)avatarURL avatar:(nullable UIImage *)avatar primary:(BOOL)primary relationship:(NSString *)relationship;
+- (instancetype)initWithObjectID:(nullable NSString *)objectID familyID:(NSString *)familyID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email avatarURL:(nullable NSString *)avatarURL avatar:(nullable UIImage *)avatar primary:(BOOL)primary relationship:(nullable NSString *)relationship;
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse;
 

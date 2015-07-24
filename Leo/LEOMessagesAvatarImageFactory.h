@@ -2,7 +2,8 @@
 //  LEOMessagesAvatarImageFactory.h
 //
 //  Originally Created as JSQMessagesAvatarImageFactory.h by Jesse Squires
-//  Modified by Zachary Drossman
+//  Modified for Leo Health by Zachary Drossman
+//
 //  http://www.jessesquires.com
 //
 //

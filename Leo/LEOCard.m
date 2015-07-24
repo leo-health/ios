@@ -7,13 +7,12 @@
 //
 
 #import "LEOCard.h"
-#import "LEOConstants.h"
 
 @implementation LEOCard
 
 #pragma mark - Initializers
 
-- (instancetype)initWithObjectID:(NSString *)objectID priority:(NSNumber *)priority type:(NSString *)type associatedCardObject:(id)associatedCardObject {
+- (instancetype)initWithObjectID:(NSString *)objectID priority:(NSNumber *)priority type:(CardType)type associatedCardObject:(id)associatedCardObject {
     
     self = [super init];
     

@@ -28,7 +28,7 @@
 						"suffix": null,
 						"role_id": 3,
 						"role": "customer_service",
-						"avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/customer_service/6.png"
+						"avatar_url": "https://www.dropbox.com/s/98fb79ukgvg5v99/Avatar-Hayden%402x.png?dl=0"
 					},
 					"escalated_to": null,
 					"escalated_by": null
@@ -64,7 +64,7 @@
 						"suffix": null,
 						"role_id": 2,
 						"role": "clinical_support",
-						"avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/clinical_support/7.png"
+						"avatar_url": "https://www.dropbox.com/s/98fb79ukgvg5v99/Avatar-Hayden%402x.png?dl=0"
 					},
 					"escalated_by": {
 						"id": 6,
@@ -75,7 +75,7 @@
 						"suffix": null,
 						"role_id": 3,
 						"role": "customer_service",
-						"avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/customer_service/6.png"
+						"avatar_url": "https://www.dropbox.com/s/98fb79ukgvg5v99/Avatar-Hayden%402x.png?dl=0"
 					},
 
 				},
@@ -95,7 +95,7 @@
 						"suffix": null,
 						"role_id": 2,
 						"role": "clinical_support",
-						"avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/clinical_support/7.png"
+						"avatar_url": "https://www.dropbox.com/s/98fb79ukgvg5v99/Avatar-Hayden%402x.png?dl=0"
 					},
 					"escalated_to": {
 						"id": 4,
@@ -108,7 +108,7 @@
 						"role_id": 5,
 						"role": "provider",
 						"specialties": ["pediatrics", "obesity"],
-						"avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/providers/4.png"
+						"avatar_url": "https://www.dropbox.com/s/98fb79ukgvg5v99/Avatar-Hayden%402x.png?dl=0"
 					},
 					"escalated_by": {
 						"id": 6,
@@ -119,7 +119,7 @@
 						"suffix": null,
 						"role_id": 3,
 						"role": "customer_service",
-						"avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/customer_service/6.png"
+						"avatar_url": "https://www.dropbox.com/s/98fb79ukgvg5v99/Avatar-Hayden%402x.png?dl=0"
 					},
 
 				},
@@ -191,7 +191,7 @@
 						"role": "provider",
                         "credentials": ["M.D.", "M.B.A.", "M.P.H."],
                         "specialties": ["pediatrics", "obesity"],
-						"avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/clinical_support/7.png"
+						"avatar_url": "https://www.dropbox.com/s/98fb79ukgvg5v99/Avatar-Hayden%402x.png?dl=0"
 					},
 					"escalated_to": {
 						"id": 4,
@@ -204,7 +204,7 @@
 						"role_id": 5,
 						"role": "provider",
 						"specialties": ["pediatrics", "obesity"],
-						"avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/providers/4.png"
+						"avatar_url": "https://www.dropbox.com/s/98fb79ukgvg5v99/Avatar-Hayden%402x.png?dl=0"
 					},
 					"escalated_by": {
 						"id": 6,
@@ -215,7 +215,7 @@
 						"suffix": null,
 						"role_id": 3,
 						"role": "customer_service",
-						"avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/customer_service/6.png"
+						"avatar_url": "https://www.dropbox.com/s/98fb79ukgvg5v99/Avatar-Hayden%402x.png?dl=0"
 					}
 				}
 			]

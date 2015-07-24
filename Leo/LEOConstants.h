@@ -18,6 +18,85 @@ typedef enum CardLayout {
     CardLayoutUndefined
 } CardLayout;
 
+/**
+ *  Description AppointmentStatusCode tracks the status of the appointment
+ *
+ *  @AppointmentStatusCodeReminding              An appointment that is coming up AND of which we are reminding the user. Internal Leo status only.
+ *  @AppointmentStatusCodeFuture                 An upcoming appointment prior to check-in that includes no shows. It is on Leo to cancel appointments from Athena. Athena supported.
+ *  @AppointmentStatusCodeOpen                   A slot that can be deleted. Currently unsupported by iOS app. Athena supported.
+ *  @AppointmentStatusCodeCheckedIn              Patient has checked in at the practice, but has not yet completed their visit. Currently unsupported by iOS app. Athena supported.
+ *  @AppointmentStatusCodeCheckedOut             Patient has completed their visit and left the office. Currently unsupported by iOS app. Athena supported.
+ *  @AppointmentStatusCodeChargeEntered          Completed and has been submitted to billing. Athena supported. Currently unsupported by iOS app.
+ *  @AppointmentStatusCodeCancelled              Cancelled by staff or user. Athena supported.
+ *  @AppointmentStatusCodeBooking                Patient is in process of making appointment. Internal Leo status only for use by iOS app. Not supported on Leo backend.
+ *  @AppointmentStatusCodeCancelling             Patient is in process of cancelling appointment. Internal Leo status only for use on iOS app. Not supported on Leo backend.
+ *  @AppointmentStatusCodeConfirmingCancelling   Patient has cancelled appointment but not yet dismissed card from app. Internal Leo status for use on iOS app. Not supported by Leo backend.
+ *  @AppointmentStatusCodeRecommending           Leo creates appointment object for user without filling out date of appointment. User may decide to make appointment or not. Internal Leo status only.
+ */
+typedef enum AppointmentStatusCode : NSUInteger {
+    AppointmentStatusCodeReminding = 0,
+    AppointmentStatusCodeFuture = 1,
+    AppointmentStatusCodeOpen = 2,
+    AppointmentStatusCodeCheckedIn = 3,
+    AppointmentStatusCodeCheckedOut = 4,
+    AppointmentStatusCodeChargeEntered = 5,
+    AppointmentStatusCodeCancelled = 6,
+    AppointmentStatusCodeBooking = 7,
+    AppointmentStatusCodeCancelling = 8,
+    AppointmentStatusCodeConfirmingCancelling = 9,
+    AppointmentStatusCodeRecommending = 10,
+} AppointmentStatusCode;
+
+/**
+ *  Description MessageStatusCode tracks the status of the message
+ *
+ *  @MessageStatusCodeRead
+ *  @MessageStatusCodeUnread
+ *  @MessageStatusCodeEscalated
+ *  @MessageStatusCodeClosed
+ *  @MessageStatusCodeUndefined
+ *
+ */
+typedef enum MessageStatusCode : NSUInteger {
+    MessageStatusCodeRead = 0,
+    MessageStatusCodeUnread = 1,
+    MessageStatusCodeEscalated = 2,
+    MessageStatusCodeClosed = 3,
+    MessageStatusCodeUndefined = 99,
+} MessageStatusCode;
+
+/**
+ *  Description ConversationStatusCode tracks the status of the conversation
+ *
+ *  @ConversationStatusCodeClosed   
+ *  @ConversationStatusCodeOpen
+ *
+ */
+typedef enum ConversationStatusCode : NSUInteger {
+    ConversationStatusCodeClosed = 0,
+    ConversationStatusCodeOpen = 1,
+} ConversationStatusCode;
+
+/**
+ *  Description AppointmentReason describes the reason for which the patient is making the appointment
+ *
+ *  @AppointmentReasonCheckup       A regular checkup that is typically scheduled every few months up until age 2 and annually thereafter.
+ *  @AppointmentReasonSick          A visit to address new symptoms like cough, cold, ear pain, fever, diarrhea, or rash.
+ *  @AppointmentReasonImmunizations A visit with a nurse to get one or more immunizations.
+ *  @AppointmentTypeFollowup        A visit to follow-up on known conditionss like asthma, sickness, ADHD, or eczema.
+ */
+typedef enum AppointmentReasonCode : NSUInteger {
+    AppointmentReasonCodeCheckup = 0,
+    AppointmentReasonCodeSick = 1,
+    AppointmentReasonCodeImmunization = 2,
+    AppointmentReasonCodeFollowUp = 3,
+} AppointmentReasonCode;
+
+typedef enum MessageTypeCode : NSUInteger {
+    MessageTypeCodeText = 0,
+    MessageTypeCodeImage = 1
+} MessageTypeCode;
+
 @interface LEOConstants : NSObject
 
 #pragma mark - URL & endpoints
@@ -33,7 +112,6 @@ extern NSString *const APIEndpointConversations; // @"conversations";
 extern NSString *const APIEndpointMessages; // @"messages";
 extern NSString *const APIEndpointVisitTypes; // @"visits";
 extern NSString *const APIEndpointLogin; // @"login";
-
 
 #pragma mark - Common
 extern NSString *const APIParamID; // @"id";
@@ -62,7 +140,6 @@ extern NSString *const APIParamPracticeLocationZip; // @"zip";
 extern NSString *const APIParamPracticePhone; // @"phone";
 extern NSString *const APIParamPracticeEmail; // @"email";
 
-
 #pragma mark - Family
 extern NSString *const APIParamFamilyID; // @"family_id";
 
@@ -81,7 +158,6 @@ extern NSString *const APIParamUserCredentials; // @"credentials";
 extern NSString *const APIParamUserSpecialties; // @"specialties";
 extern NSString *const APIParamUserPrimary; // @"primary";
 extern NSString *const APIParamUserStatus; // @"status";
-
 
 extern NSString *const APIParamUserBirthDate; // @"birth_date";
 extern NSString *const APIParamUserSex; // @"sex";

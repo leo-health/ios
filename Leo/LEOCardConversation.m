@@ -26,7 +26,7 @@
 static NSString *kActionSelectorReply = @"reply";
 static NSString *kActionSelectorCallUs = @"callUs";
 
-- (instancetype)initWithObjectID:(NSString *)objectID priority:(NSNumber *)priority type:(NSString *)type associatedCardObject:(id)associatedCardObjectDictionary {
+- (instancetype)initWithObjectID:(NSString *)objectID priority:(NSNumber *)priority type:(CardType)type associatedCardObject:(id)associatedCardObjectDictionary {
     
     self = [super initWithObjectID:objectID priority:priority type:type associatedCardObject:associatedCardObjectDictionary];
     
@@ -44,7 +44,7 @@ static NSString *kActionSelectorCallUs = @"callUs";
     
     return [self initWithObjectID:jsonCard[APIParamID]
                          priority:jsonCard[APIParamCardPriority]
-                             type:jsonCard[APIParamType]
+                             type:[jsonCard[APIParamType] integerValue]
              associatedCardObject:jsonCard[APIParamCardData]];
 }
 
@@ -56,13 +56,13 @@ static NSString *kActionSelectorCallUs = @"callUs";
 
 - (CardLayout)layout {
     
-    switch (self.conversation.conversationState) {
+    switch (self.conversation.statusCode) {
             
-        case ConversationStateClosed:
+        case ConversationStatusCodeClosed:
             return CardLayoutTwoButtonSecondaryOnly;
             break;
             
-        case ConversationStateOpen:
+        case ConversationStatusCodeOpen:
             return CardLayoutUndefined;
             
         break;
@@ -73,13 +73,13 @@ static NSString *kActionSelectorCallUs = @"callUs";
     
     NSString *titleText;
     
-    switch (self.conversation.conversationState) {
+    switch (self.conversation.statusCode) {
             
-        case ConversationStateClosed:
+        case ConversationStatusCodeClosed:
             titleText = @"Chat with Leo";
             break;
             
-        case ConversationStateOpen:
+        case ConversationStatusCodeOpen:
             titleText = @"Chat with Leo";
             break;
     }
@@ -91,9 +91,9 @@ static NSString *kActionSelectorCallUs = @"callUs";
     
     NSString *bodyText;
     
-    switch (self.conversation.conversationState) {
+    switch (self.conversation.statusCode) {
             
-        case ConversationStateClosed: {
+        case ConversationStatusCodeClosed: {
             Message *message = self.conversation.messages[0];
             
             if (message.text) {
@@ -103,7 +103,7 @@ static NSString *kActionSelectorCallUs = @"callUs";
             }
             break;
         }
-        case ConversationStateOpen: {
+        case ConversationStatusCodeOpen: {
             bodyText = nil;
             break;
         }
@@ -120,13 +120,13 @@ static NSString *kActionSelectorCallUs = @"callUs";
     
     NSArray *actionStrings;
     
-    switch (self.conversation.conversationState) {
+    switch (self.conversation.statusCode) {
         
-        case ConversationStateClosed: {
+        case ConversationStatusCodeClosed: {
             actionStrings = @[@"REPLY", @"CALL US"];
             break;
         }
-        case ConversationStateOpen: {
+        case ConversationStatusCodeOpen: {
             actionStrings = nil;
             break;
         }
@@ -139,9 +139,9 @@ static NSString *kActionSelectorCallUs = @"callUs";
     
     NSMutableArray *actions = [[NSMutableArray alloc] init];
     
-    switch (self.conversation.conversationState) {
+    switch (self.conversation.statusCode) {
             
-        case ConversationStateClosed: {
+        case ConversationStatusCodeClosed: {
 
             NSString *buttonOneAction = kActionSelectorReply;
             [actions addObject:buttonOneAction];
@@ -151,7 +151,7 @@ static NSString *kActionSelectorCallUs = @"callUs";
             
             break;
         }
-        case ConversationStateOpen: {
+        case ConversationStatusCodeOpen: {
             break;
         }
     }
@@ -161,8 +161,8 @@ static NSString *kActionSelectorCallUs = @"callUs";
 
 - (void)reply {
     
-    self.conversation.priorState = self.conversation.state;
-    self.conversation.state = @(ConversationStateOpen);
+    self.conversation.priorStatusCode = self.conversation.statusCode;
+    self.conversation.statusCode = ConversationStatusCodeOpen;
     [self.delegate didUpdateObjectStateForCard:self];
 }
 
@@ -172,12 +172,12 @@ static NSString *kActionSelectorCallUs = @"callUs";
 }
 
 - (void)dismiss {
-    self.conversation.state = @(ConversationStateClosed);
+    self.conversation.statusCode = ConversationStatusCodeClosed;
     [self.delegate didUpdateObjectStateForCard:self];
 }
 
 - (void)returnToPriorState {
-    self.conversation.state = self.conversation.priorState;
+    self.conversation.statusCode = self.conversation.priorStatusCode;
 }
 
 -(nullable User *)primaryUser {

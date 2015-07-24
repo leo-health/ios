@@ -91,10 +91,16 @@
     return [dateFormatter stringFromDate:date];
 }
 
-+ (NSString *)stringifiedDate:(NSDate *)date {
++ (NSString *)stringifiedDateWithDot:(NSDate *)date {
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
     dateFormatter.dateFormat = @"EEEE' ∙ 'MMMM', 'd'";
+    return [dateFormatter stringFromDate:date];
+}
+
++ (NSString *)stringifiedDateWithCommas:(NSDate *)date {
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
+    dateFormatter.dateFormat = @"EEEE', 'MMMM' 'd'";
     return [dateFormatter stringFromDate:date];
 }
 

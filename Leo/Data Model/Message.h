@@ -18,8 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy, readonly) NSString *text;
 @property (nonatomic, strong, nullable, readonly) User *escalatedTo;
 @property (nonatomic, strong, nullable, readonly) User *escalatedBy;
+@property (nonatomic) MessageStatusCode statusCode;
 @property (nonatomic, copy, readonly) NSString *status;
-@property (nonatomic, strong, readonly) NSNumber *statusID;
 @property (nonatomic, strong, readonly) User *sender;
 @property (nonatomic, strong, readonly) NSDate *createdAt;
 @property (nonatomic, strong, readonly) NSDate *escalatedAt;
@@ -34,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Initialization
 
 /**
- *  Initializes and returns a message object having the given sender, escalatedTo user, escalatedBy user, status, statusID, current 
+ *  Initializes and returns a message object having the given sender, escalatedTo user, escalatedBy user, status, statusCode, current 
  *  system date (or the date on which the message was created) and escalatedAt date.
  *
  *  @param objectID    The unique identifier for the message.
@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param escalatedTo The unique user who escalated the message.
  *  @param escalatedBy The unique user who the message has been escalated to.
  *  @param status      The status of the message (read, unread, escalated, etc.)
- *  @param statusID    The unique identifier of the status of the message.
+ *  @param statusCode  The unique identifier of the status of the message.
  *  @param escalatedAt The datetime at which the message was escalated, if it was escalated.
  *
  *  @discussion Initializing a `JSQMessage` with this method will set `isMediaMessage` to `NO` and `createdAt` to the current system 
@@ -52,12 +52,12 @@ NS_ASSUME_NONNULL_BEGIN
  *  @return An initialized `Message` object.
  */
 
-+ (instancetype)messageWithObjectID:(nullable NSString *)objectID text:(NSString *)text sender:(User *)sender escalatedTo:(nullable User *)escalatedTo escalatedBy:(nullable User *)escalatedBy status:(nullable NSString *)status statusID:(nullable NSNumber *)statusID escalatedAt:(nullable NSDate *)escalatedAt;
++ (instancetype)messageWithObjectID:(nullable NSString *)objectID text:(NSString *)text sender:(User *)sender escalatedTo:(nullable User *)escalatedTo escalatedBy:(nullable User *)escalatedBy status:(nullable NSString *)status statusCode:(MessageStatusCode)statusCode escalatedAt:(nullable NSDate *)escalatedAt;
 
 
 
 /**
- *  Initializes and returns a `Message` object having the given sender, escalatedTo user, escalatedBy user, status, statusID, current
+ *  Initializes and returns a `Message` object having the given sender, escalatedTo user, escalatedBy user, status, statusCode, current
  *  system date (or the date on which the message was created) and escalatedAt date.
  *
  *  @param objectID    The unique identifier for the message.
@@ -66,7 +66,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param escalatedTo The unique user who escalated the message.
  *  @param escalatedBy The unique user who the message has been escalated to.
  *  @param status      The status of the message (read, unread, escalated, etc.)
- *  @param statusID    The unique identifier of the status of the message.
+ *  @param statusCode  The unique identifier of the status of the message.
  *  @param createdAt   The datetime at which the message was created. This value must not be `nil`.
  *  @param escalatedAt The datetime at which the message was escalated, if it was escalated.
  *
@@ -74,10 +74,10 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return An initialized `Message` object.
  */
-- (instancetype)initWithObjectID:(nullable NSString *)objectID text:(NSString *)text sender:(User *)sender escalatedTo:(nullable User *)escalatedTo escalatedBy:(nullable User *)escalatedBy status:(nullable NSString *)status statusID:(nullable NSNumber *)statusID createdAt:(NSDate *)createdAt escalatedAt:(nullable NSDate *)escalatedAt;
+- (instancetype)initWithObjectID:(nullable NSString *)objectID text:(NSString *)text sender:(User *)sender escalatedTo:(nullable User *)escalatedTo escalatedBy:(nullable User *)escalatedBy status:(nullable NSString *)status statusCode:(MessageStatusCode)statusCode createdAt:(NSDate *)createdAt escalatedAt:(nullable NSDate *)escalatedAt;
 
 /**
- *  Initializes and returns a `Message` object having the given sender, escalatedTo user, escalatedBy user, status, statusID, current
+ *  Initializes and returns a `Message` object having the given sender, escalatedTo user, escalatedBy user, status, statusCode, current
  *  system date (or the date on which the message was created) and escalatedAt date.
  *
  *  @param objectID    The unique identifier for the message.
@@ -86,7 +86,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param escalatedTo The unique user who escalated the message.
  *  @param escalatedBy The unique user who the message has been escalated to.
  *  @param status      The status of the message (read, unread, escalated, etc.)
- *  @param statusID    The unique identifier of the status of the message.
+ *  @param statusCode  The unique identifier of the status of the message.
  *  @param escalatedAt The datetime at which the message was escalated, if it was escalated.
  *
  *  @discussion Initializing a `JSQMessage` with this method will set `isMediaMessage` to `NO` and `createdAt` to the current system
@@ -95,11 +95,11 @@ NS_ASSUME_NONNULL_BEGIN
  *  @return An initialized `Message` object.
  */
 
-+ (instancetype)messageWithObjectID:(nullable NSString *)objectID media:(id<JSQMessageMediaData>)media sender:(User *)sender escalatedTo:(nullable User *)escalatedTo escalatedBy:(nullable User *)escalatedBy status:(nullable NSString *)status statusID:(nullable NSNumber *)statusID escalatedAt:(nullable NSDate *)escalatedAt;
++ (instancetype)messageWithObjectID:(nullable NSString *)objectID media:(id<JSQMessageMediaData>)media sender:(User *)sender escalatedTo:(nullable User *)escalatedTo escalatedBy:(nullable User *)escalatedBy status:(nullable NSString *)status statusCode:(MessageStatusCode)statusCode escalatedAt:(nullable NSDate *)escalatedAt;
 
 
 /**
- *  Initializes and returns a `Message` object having the given sender, escalatedTo user, escalatedBy user, status, statusID, current
+ *  Initializes and returns a `Message` object having the given sender, escalatedTo user, escalatedBy user, status, statusCode, current
  *  system date (or the date on which the message was created) and escalatedAt date.
  *
  *  @param objectID    The unique identifier for the message.
@@ -108,7 +108,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param escalatedTo The unique user who escalated the message.
  *  @param escalatedBy The unique user who the message has been escalated to.
  *  @param status      The status of the message (read, unread, escalated, etc.)
- *  @param statusID    The unique identifier of the status of the message.
+ *  @param statusCod   The unique identifier of the status of the message.
  *  @param createdAt   The datetime at which the message was created. This value must not be `nil`.
  *  @param escalatedAt The datetime at which the message was escalated, if it was escalated.
  *
@@ -116,7 +116,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return An initialized `Message` object.
  */
-- (instancetype)initWithObjectID:(nullable NSString *)objectID media:(id<JSQMessageMediaData>)media sender:(User *)sender escalatedTo:(nullable User *)escalatedTo escalatedBy:(nullable User *)escalatedBy status:(nullable NSString *)status statusID:(nullable NSNumber *)statusID createdAt:(NSDate *)createdAt escalatedAt:(nullable NSDate *)escalatedAt;
+- (instancetype)initWithObjectID:(nullable NSString *)objectID media:(id<JSQMessageMediaData>)media sender:(User *)sender escalatedTo:(nullable User *)escalatedTo escalatedBy:(nullable User *)escalatedBy status:(nullable NSString *)status statusCode:(MessageStatusCode)statusCode createdAt:(NSDate *)createdAt escalatedAt:(nullable NSDate *)escalatedAt;
 
 
 /**

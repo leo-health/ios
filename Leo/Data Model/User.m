@@ -8,12 +8,10 @@
 
 #import "User.h"
 #import "Appointment.h"
-#import "LEOConstants.h"
-
 
 @implementation User
 
-- (instancetype)initWithObjectID:(nullable NSString*)objectID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email avatarURL:(NSURL *)avatarURL avatar:(nullable UIImage *)avatar {
+- (instancetype)initWithObjectID:(nullable NSString*)objectID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email avatarURL:(NSString *)avatarURL avatar:(nullable UIImage *)avatar {
     
     self = [super init];
     
@@ -52,12 +50,11 @@
     NSString *objectID = [jsonResponse[APIParamID] stringValue];
     NSString *email = jsonResponse[APIParamUserEmail];
     
-    NSURL *avatarURL;
+    NSString *avatarURL;
     UIImage *avatar;
     //FIXME: The avatar should not be retrieved every time we get the user most likely.
     if (!(jsonResponse[APIParamUserAvatarURL] == [NSNull null])) {
-        avatarURL = [NSURL URLWithString:jsonResponse[APIParamUserAvatarURL]];
-        avatar = [UIImage imageWithData:[NSData dataWithContentsOfURL:avatarURL]];
+        avatarURL = jsonResponse[APIParamUserAvatarURL];
     }
     
     //TODO: May need to protect against nil values...
@@ -124,7 +121,7 @@
     NSString *suffix = [decoder decodeObjectForKey:APIParamUserSuffix];
     NSString *objectID = [decoder decodeObjectForKey:APIParamID];
     NSString *email = [decoder decodeObjectForKey:APIParamUserEmail];
-    NSURL *avatarURL = [NSURL URLWithString:[decoder decodeObjectForKey:APIParamUserAvatarURL]];
+    NSString *avatarURL = [decoder decodeObjectForKey:APIParamUserAvatarURL];
     UIImage *avatar = [UIImage imageWithData:[decoder decodeObjectForKey:@"Avatar"]];
     
     return [self initWithObjectID:objectID title:title firstName:firstName middleInitial:middleInitial lastName:lastName suffix:suffix email:email avatarURL:avatarURL avatar:avatar];
@@ -139,7 +136,7 @@
     [encoder encodeObject:self.suffix forKey:APIParamUserSuffix];
     [encoder encodeObject:self.objectID forKey:APIParamID];
     [encoder encodeObject:self.email forKey:APIParamUserEmail];
-    [encoder encodeObject:[self.avatarURL absoluteString] forKey:APIParamUserAvatarURL];
+    [encoder encodeObject:self.avatarURL forKey:APIParamUserAvatarURL];
     [encoder encodeObject:UIImagePNGRepresentation(self.avatar) forKey:@"Avatar"];
 }
 

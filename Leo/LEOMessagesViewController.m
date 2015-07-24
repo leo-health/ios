@@ -349,7 +349,7 @@
     
     [JSQSystemSoundPlayer jsq_playMessageSentSound];
     
-    Message *message = [Message messageWithObjectID:nil text:text sender:self.dataManager.currentUser escalatedTo:nil escalatedBy:nil status:nil statusID:nil escalatedAt:nil];
+    Message *message = [Message messageWithObjectID:nil text:text sender:self.dataManager.currentUser escalatedTo:nil escalatedBy:nil status:nil statusCode:MessageStatusCodeUndefined escalatedAt:nil];
     [self addMessage:message];
     
     [self finishSendingMessageAnimated:YES];

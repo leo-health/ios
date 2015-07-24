@@ -7,16 +7,15 @@
 //
 
 #import "Support.h"
-#import "LEOConstants.h"
 
 @implementation Support
 
-- (instancetype)initWithObjectID:(nullable NSString *)objectID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email avatarURL:(nullable NSURL *)avatarURL avatar:(UIImage *)avatar roleID:(NSString *)roleID roleDisplayName:(NSString *)roleDisplayName {
+- (instancetype)initWithObjectID:(nullable NSString *)objectID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email avatarURL:(nullable NSString *)avatarURL avatar:(UIImage *)avatar role:(RoleCode)role roleDisplayName:(NSString *)roleDisplayName {
 
     self = [super initWithObjectID:objectID title:title firstName:firstName middleInitial:middleInitial lastName:lastName suffix:suffix email:email avatarURL:avatarURL avatar:avatar];
     
     if (self) {
-        _roleID = roleID;
+        _role = role;
         _roleDisplayName = roleDisplayName;
     }
     
@@ -30,8 +29,8 @@
     self = [super initWithJSONDictionary:jsonResponse];
     
     if (self) {
-        _roleID = jsonResponse[APIParamID];
-        _roleDisplayName = jsonResponse[APIParamRole];
+        _role = [jsonResponse[APIParamRole] integerValue];
+        _roleDisplayName = jsonResponse[@"role_display_name"];
     }
     
     return self;
@@ -42,8 +41,8 @@
     
     NSMutableDictionary *userDictionary = [[super dictionaryFromUser:support] mutableCopy];
     
-    userDictionary[APIParamID] = support.roleID;
-    userDictionary[APIParamRole] = support.roleDisplayName;
+    userDictionary[APIParamRole] = [NSNumber numberWithInteger:support.role];
+    userDictionary[@"role_display_name"] = support.roleDisplayName;
     
     return userDictionary;
 }
@@ -60,7 +59,7 @@
     supportCopy.email = self.email;
     supportCopy.avatarURL = self.avatarURL;
     supportCopy.avatar = [self.avatar copy];
-    supportCopy.roleID = self.roleID;
+    supportCopy.role = self.role;
     supportCopy.roleDisplayName = self.roleDisplayName;
     
     return supportCopy;
@@ -80,9 +79,9 @@
     self = [super initWithCoder:decoder];
     
     NSString *roleDisplayName = [decoder decodeObjectForKey:APIParamRole];
-    NSString *roleID = [decoder decodeObjectForKey:APIParamRoleID];
+    NSInteger role = [decoder decodeIntegerForKey:APIParamRole];
 
-    return [self initWithObjectID:self.objectID title:self.title firstName:self.firstName middleInitial:self.middleInitial lastName:self.lastName suffix:self.suffix email:self.email avatarURL:self.avatarURL avatar:self.avatar roleID:roleID roleDisplayName:roleDisplayName];
+    return [self initWithObjectID:self.objectID title:self.title firstName:self.firstName middleInitial:self.middleInitial lastName:self.lastName suffix:self.suffix email:self.email avatarURL:self.avatarURL avatar:self.avatar role:role roleDisplayName:roleDisplayName];
 }
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
@@ -90,7 +89,7 @@
     [super encodeWithCoder:encoder];
     
     [encoder encodeObject:self.roleDisplayName forKey:APIParamRole];
-    [encoder encodeObject:self.roleID forKey:APIParamRoleID];
+    [encoder encodeInteger:self.role forKey:APIParamRoleID];
 }
 
 

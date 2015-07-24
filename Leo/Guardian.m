@@ -7,12 +7,11 @@
 //
 
 #import "Guardian.h"
-#import "LEOConstants.h"
 
 @implementation Guardian
 
 
-- (instancetype)initWithObjectID:(nullable NSString *)objectID familyID:(NSString *)familyID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email avatarURL:(nullable NSURL *)avatarURL avatar:(nullable UIImage *)avatar primary:(BOOL)primary relationship:(NSString *)relationship {
+- (instancetype)initWithObjectID:(nullable NSString *)objectID familyID:(NSString *)familyID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email avatarURL:(nullable NSString *)avatarURL avatar:(nullable UIImage *)avatar primary:(BOOL)primary relationship:(nullable NSString *)relationship {
     
     self = [super initWithObjectID:objectID title:title firstName:firstName middleInitial:middleInitial lastName:lastName suffix:suffix email:email avatarURL:avatarURL avatar:avatar];
     
@@ -32,7 +31,10 @@
     if (self) {
         _familyID = jsonResponse[@"family_id"]; //FIXME: Update with constant.
         _primary = jsonResponse[APIParamUserPrimary];
-        _relationship = jsonResponse[APIParamRelationship];
+        
+        if (!(jsonResponse[APIParamRelationship] == [NSNull null])) {
+            _relationship = jsonResponse[APIParamRelationship];
+        }
     }
     
     return self;

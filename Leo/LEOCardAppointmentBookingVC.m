@@ -250,7 +250,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     Appointment *appt = self.card.associatedCardObject; //FIXME: Update to deal with array at some point...
     
     if (!_prepAppointment) {
-        _prepAppointment = [[PrepAppointment alloc] initWithObjectID:appt.objectID date:appt.date appointmentType:appt.leoAppointmentType patient:appt.patient provider:appt.provider bookedByUser:appt.bookedByUser note:appt.note state:appt.state];
+        _prepAppointment = [[PrepAppointment alloc] initWithObjectID:appt.objectID date:appt.date appointmentType:appt.leoAppointmentType patient:appt.patient provider:appt.provider bookedByUser:appt.bookedByUser note:appt.note statusCode:appt.statusCode];
     }
     
     return _prepAppointment;
@@ -565,7 +565,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     
     Appointment *appointment = card.associatedCardObject; //FIXME: Update to deal with array at some point.
     
-    if (appointment.appointmentState == AppointmentStateBooking) {
+    if (appointment.statusCode == AppointmentStatusCodeBooking) {
         [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
             [UIView animateWithDuration:0.2 animations:^{
                 // self.collapsedCell.layer.transform = CATransform3DMakeRotation(0,0.0,1.0,0.0); ; //flip halfway

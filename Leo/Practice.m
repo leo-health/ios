@@ -7,7 +7,6 @@
 //
 
 #import "Practice.h"
-#import "LEOConstants.h"
 #import "Provider.h"
 #import "Support.h"
 

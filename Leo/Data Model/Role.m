@@ -8,7 +8,6 @@
 
 #import "Role.h"
 #import "User.h"
-#import "LEOConstants.h"
 @implementation Role
 
 - (instancetype)initWithName:(NSString *)name resourceID:(NSString *)resourceID {
@@ -33,6 +32,7 @@
 }
 
 - (RoleType)roleType {
+    
     return [self.resourceID integerValue]; //TODO: Make sure this is the right field to determine the role type
 }
 
