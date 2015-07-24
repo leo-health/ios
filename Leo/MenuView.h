@@ -10,10 +10,10 @@
 
 @protocol MenuActivityProtocol <NSObject>
 
-- (void)beginBookingNewAppointment;
-- (void)beginUploadingNewForm;
-- (void)loadContactUsView;
-- (void)loadSettingsView;
+//- (void)beginBookingNewAppointment;
+//- (void)beginUploadingNewForm;
+//- (void)loadContactUsView;
+//- (void)loadSettingsView;
 - (void)didMakeMenuChoice;
 
 @end

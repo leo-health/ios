@@ -28,7 +28,7 @@
     
     NSString *objectID = @"TEMP"; // jsonResponse[APIParamID]; FIXME: Add this back in when the id has been added back to family.
     
-    NSArray *patientDictionaries = jsonResponse[@"patients"]; //FIXME: Use LEOConstants.
+    NSArray *patientDictionaries = jsonResponse[APIParamUserPatients]; //FIXME: Use LEOConstants.
     
     NSMutableArray *patients = [[NSMutableArray alloc] init];
     

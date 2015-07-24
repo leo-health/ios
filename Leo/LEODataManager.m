@@ -62,7 +62,7 @@
     NSMutableDictionary *userParams = [[User dictionaryFromUser:user] mutableCopy];
     userParams[APIParamUser] = password;
     [LEOApiClient createUserWithParameters:userParams withCompletion:^(NSDictionary *rawResults) {
-        NSDictionary *userDictionary = rawResults[APIParamData][@"user"]; //TODO: Make sure I want this here and not defined somewhere else.
+        NSDictionary *userDictionary = rawResults[APIParamData][APIParamUser]; //TODO: Make sure I want this here and not defined somewhere else.
         user.objectID = userDictionary[APIParamID];
         completionBlock(rawResults);
     }];
@@ -188,7 +188,7 @@
     
     [LEOApiClient getMessagesForConversation:conversation.objectID withParameters:messageParams withCompletion:^(NSDictionary *  rawResults) {
         
-        NSArray *messageDictionaries = rawResults[APIParamData][0][@"messages"]; //remove messages part of this once stub is updated.
+        NSArray *messageDictionaries = rawResults[APIParamData][0][APIParamMessages]; //remove messages part of this once stub is updated.
         
         NSMutableArray *messages = [[NSMutableArray alloc] init];
         
@@ -224,7 +224,7 @@
         
         for (id jsonCard in dataArray) {
             
-            NSString *cardType = jsonCard[@"type"];
+            NSString *cardType = jsonCard[APIParamType];
             
             if ([cardType isEqualToString:@"appointment"]) {
                 LEOCardAppointment *card = [[LEOCardAppointment alloc] initWithDictionary:jsonCard];
@@ -270,27 +270,6 @@
     }];
 }
 
-- (void)getProvidersForPracticeID:(NSString *)practiceID withCompletion:(void (^)(NSArray *providers))completionBlock {
-    
-    NSArray *practiceValues = @[practiceID];
-    NSArray *practiceKey = @[APIParamID];
-    
-    NSDictionary *practiceParams = [[NSDictionary alloc] initWithObjects:practiceValues forKeys:practiceKey];
-    
-    [LEOApiClient getProvidersWithParameters:practiceParams withCompletion:^(NSDictionary *rawResults) {
-        
-        NSArray *dataArray = rawResults[APIParamData];
-        
-        NSMutableArray *providers = [[NSMutableArray alloc] init];
-        
-        for (NSDictionary *providerDictionary in dataArray) {
-            Provider *provider = [[Provider alloc] initWithJSONDictionary:providerDictionary];
-            [providers addObject:provider];
-    }
-        
-        completionBlock(providers);
-    }];
-}
 
 //TODO: Update so that it is getting from an endpoint for all practice staff, not just providers.
 - (void)getAllStaffForPracticeID:(NSString *)practiceID withCompletion:(void (^)(NSArray *staff))completionBlock {
@@ -308,7 +287,7 @@
     
     NSDictionary *practiceParams = [[NSDictionary alloc] initWithObjects:practiceValues forKeys:practiceKey];
     
-    [LEOApiClient getProvidersWithParameters:practiceParams withCompletion:^(NSDictionary *rawResults) {
+    [LEOApiClient getAllStaffForPracticeWithParameters:practiceParams withCompletion:^(NSDictionary *rawResults) {
         
         NSArray *dataArray = rawResults[APIParamData];
         
@@ -332,20 +311,20 @@
     return [paths objectAtIndex:0];
 }
 
-- (void)getVisitTypesWithCompletion:(void (^)(NSArray *visitTypes))completionBlock {
+- (void)getAppointmentTypesWithCompletion:(void (^)(NSArray *appointmentTypes))completionBlock {
     
-    [LEOApiClient getVisitTypesWithCompletion:^(NSDictionary *rawResults) {
+    [LEOApiClient getAppointmentTypesWithCompletion:^(NSDictionary *rawResults) {
         
         NSArray *dataArray = rawResults[APIParamData];
         
-        NSMutableArray *visitTypes = [[NSMutableArray alloc] init];
+        NSMutableArray *appointmentTypes = [[NSMutableArray alloc] init];
         
-        for (NSDictionary *visitDictionary in dataArray) {
-            AppointmentType *visitType = [[AppointmentType alloc] initWithJSONDictionary:visitDictionary];
-            [visitTypes addObject:visitType];
+        for (NSDictionary *appointmentTypeDictionary in dataArray) {
+            AppointmentType *appointmentType = [[AppointmentType alloc] initWithJSONDictionary:appointmentTypeDictionary];
+            [appointmentTypes addObject:appointmentType];
         }
         
-        completionBlock(visitTypes);
+        completionBlock(appointmentTypes);
     }];
 }
 

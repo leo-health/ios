@@ -112,7 +112,6 @@
     [self.card returnToPriorState];
     [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
         [UIView animateWithDuration:0.2 animations:^{
-            self.collapsedCell.selected = NO;
         }];
     }];
 }

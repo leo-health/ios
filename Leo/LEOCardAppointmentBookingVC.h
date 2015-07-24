@@ -22,7 +22,7 @@
 
 @property (strong, nonatomic) NSArray *providers;
 @property (strong, nonatomic) NSArray *patients;
-@property (strong, nonatomic) NSArray *visitTypes;
+@property (strong, nonatomic) NSArray *appointmentTypes;
 
 @end
 

@@ -356,6 +356,7 @@
                     <connections>
                         <outlet property="appointmentDateLabel" destination="Eb4-xR-kJn" id="RkS-2P-3ZY"/>
                         <outlet property="appointmentLabel" destination="1aB-qh-hoI" id="ej3-OM-Ywx"/>
+                        <outlet property="appointmentTypeDropDownTV" destination="N7m-cX-OWi" id="8rb-ey-XWW"/>
                         <outlet property="appointmentTypeLabel" destination="dDn-cz-E7Y" id="Pft-kC-8Jy"/>
                         <outlet property="buttonView" destination="piD-fa-h6m" id="giX-Qa-PXc"/>
                         <outlet property="containerView" destination="7i5-GA-RGN" id="hdJ-VS-Bak"/>
@@ -368,7 +369,6 @@
                         <outlet property="patientLabel" destination="Q6R-sV-LIq" id="lNQ-uC-0pd"/>
                         <outlet property="providerLabel" destination="UjZ-MG-hJO" id="SGQ-EM-jq4"/>
                         <outlet property="scrollView" destination="AhD-2a-HRm" id="GZt-dN-fBe"/>
-                        <outlet property="visitDropDownTV" destination="N7m-cX-OWi" id="KKl-VJ-P45"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BrC-ag-Upe" userLabel="First Responder" sceneMemberID="firstResponder"/>

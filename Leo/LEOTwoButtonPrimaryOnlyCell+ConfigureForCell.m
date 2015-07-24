@@ -28,7 +28,6 @@
     [self.buttonOne addTarget:card action:NSSelectorFromString([card actionsAvailableForState][0]) forControlEvents:UIControlEventTouchUpInside];
     
     [self.buttonTwo setTitle:[card stringRepresentationOfActionsAvailableForState][1] forState:UIControlStateNormal];
-    
     [self.buttonTwo removeTarget:card action:NULL forControlEvents:self.buttonTwo.allControlEvents];
     [self.buttonTwo addTarget:card action:NSSelectorFromString([card actionsAvailableForState][1]) forControlEvents:UIControlEventTouchUpInside];
     [self formatSubviewsWithTintColor:card.tintColor];

@@ -13,6 +13,7 @@
 #import "Patient.h"
 #import "AppointmentType.h"
 #import "Appointment.h"
+#import "NSDate+Extensions.h"
 
 @interface LEOCardAppointment ()
 
@@ -144,7 +145,7 @@ static NSString *kActionSelectorBook = @"book";
             break;
             
         case AppointmentStatusCodeReminding:
-            bodyText = [NSString stringWithFormat:@"%@ has a %@ scheduled for %@ at %@.",self.appointment.patient.firstName, [((AppointmentType *)self.appointment.leoAppointmentType).name lowercaseString], self.appointment.stringifiedAppointmentDate, self.appointment.stringifiedAppointmentTime];
+            bodyText = [NSString stringWithFormat:@"%@ has a %@ scheduled for %@ at %@.",self.appointment.patient.firstName, [((AppointmentType *)self.appointment.appointmentType).name lowercaseString], [NSDate stringifiedDateWithCommas:self.appointment.date], [NSDate stringifiedTime:self.appointment.date]];
             break;
             
         case AppointmentStatusCodeCancelled:

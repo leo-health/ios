@@ -29,7 +29,7 @@
     self = [super initWithJSONDictionary:jsonResponse];
     
     if (self) {
-        _familyID = jsonResponse[@"family_id"]; //FIXME: Update with constant.
+        _familyID = jsonResponse[APIParamFamilyID]; //FIXME: Update with constant.
         _primary = jsonResponse[APIParamUserPrimary];
         
         if (!(jsonResponse[APIParamRelationship] == [NSNull null])) {
@@ -44,7 +44,7 @@
     
     NSMutableDictionary *userDictionary = [[super dictionaryFromUser:guardian] mutableCopy];
     
-    userDictionary[@"family_id"] = guardian.familyID; //FIXME: Update with constant.
+    userDictionary[APIParamFamilyID] = guardian.familyID; //FIXME: Update with constant.
     userDictionary[APIParamUserPrimary] = @(guardian.primary);
     userDictionary[APIParamRelationship] = guardian.relationship;
     

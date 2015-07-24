@@ -56,7 +56,7 @@
 @property (strong, nonatomic) NSArray *cards;
 @property (strong, nonatomic) Family *family;
 @property (strong, nonatomic) NSArray *providers;
-@property (strong, nonatomic) NSArray *visitTypes;
+@property (strong, nonatomic) NSArray *appointmentTypes;
 
 @end
 
@@ -130,9 +130,9 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
         return response;
     }];
 
-    __weak id<OHHTTPStubsDescriptor> visitTypesStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+    __weak id<OHHTTPStubsDescriptor> appointmentTypesStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         NSLog(@"Stub request");
-        BOOL test = [request.URL.host isEqualToString:APIHost] && [request.URL.path isEqualToString:[NSString stringWithFormat:@"%@/%@",APIVersion, @"visitTypes"]];
+        BOOL test = [request.URL.host isEqualToString:APIHost] && [request.URL.path isEqualToString:[NSString stringWithFormat:@"%@/%@",APIVersion, @"appointmentTypes"]];
         return test;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         
@@ -158,7 +158,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
         }];
     });
     
-    if (self.family == nil || self.providers == nil || self.visitTypes == nil) {
+    if (self.family == nil || self.providers == nil || self.appointmentTypes == nil) {
         
     dispatch_sync(queue, ^{
         [self.dataManager getFamilyWithCompletion:^(Family *family) {
@@ -169,8 +169,8 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
             self.providers = providers;
         }];
         
-        [self.dataManager getVisitTypesWithCompletion:^(NSArray *visitTypes) {
-            self.visitTypes = visitTypes;
+        [self.dataManager getAppointmentTypesWithCompletion:^(NSArray *appointmentTypes) {
+            self.appointmentTypes = appointmentTypes;
         }];
     });
     }
@@ -268,9 +268,9 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 
 - (void)beginSchedulingNewAppointment {
 
-    Appointment *appointment = [[Appointment alloc] initWithObjectID:nil date:nil appointmentType:self.visitTypes[0] patient:self.family.patients[0] provider:self.providers[0] bookedByUser:(User *)[self.dataManager currentUser] note:nil statusCode:AppointmentStatusCodeBooking];
+    Appointment *appointment = [[Appointment alloc] initWithObjectID:nil date:nil appointmentType:self.appointmentTypes[0] patient:self.family.patients[0] provider:self.providers[0] bookedByUser:(User *)[self.dataManager currentUser] note:nil statusCode:AppointmentStatusCodeBooking];
     
-    LEOCardAppointment *card = [[LEOCardAppointment alloc] initWithObjectID:@"temp" priority:@999 type:@"appointment" associatedCardObject:appointment];
+    LEOCardAppointment *card = [[LEOCardAppointment alloc] initWithObjectID:@"temp" priority:@999 type:CardTypeAppointment associatedCardObject:appointment];
 
     [self loadBookingViewWithCard:card];
 }
@@ -311,11 +311,10 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     singleAppointmentBookingVC.card = (LEOCardAppointment *)card;
     singleAppointmentBookingVC.providers = self.providers;
     singleAppointmentBookingVC.patients = self.family.patients;
-    singleAppointmentBookingVC.visitTypes = self.visitTypes;
+    singleAppointmentBookingVC.appointmentTypes = self.appointmentTypes;
     //              self.transitionDelegate = [[LEOTransitioningDelegate alloc] init];
     //            singleAppointmentScheduleVC.transitioningDelegate = self.transitionDelegate;
     [self presentViewController:singleAppointmentBookingVC animated:YES completion:^{
-        singleAppointmentBookingVC.collapsedCell = self.selectedCardCell;
     }];
     
 }
@@ -329,9 +328,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     //              self.transitionDelegate = [[LEOTransitioningDelegate alloc] init];
     //            singleAppointmentScheduleVC.transitioningDelegate = self.transitionDelegate;
     [self presentViewController:conversationChattingVC animated:YES completion:^{
-        conversationChattingVC.collapsedCell = self.selectedCardCell;
     }];
-    
 }
 
 #pragma mark - <UITableViewDataSource>

@@ -26,9 +26,9 @@
 static NSString *kActionSelectorReply = @"reply";
 static NSString *kActionSelectorCallUs = @"callUs";
 
-- (instancetype)initWithObjectID:(NSString *)objectID priority:(NSNumber *)priority type:(CardType)type associatedCardObject:(id)associatedCardObjectDictionary {
+- (instancetype)initWithObjectID:(NSString *)objectID priority:(NSNumber *)priority associatedCardObject:(id)associatedCardObjectDictionary {
     
-    self = [super initWithObjectID:objectID priority:priority type:type associatedCardObject:associatedCardObjectDictionary];
+    self = [super initWithObjectID:objectID priority:priority type:CardTypeConversation associatedCardObject:associatedCardObjectDictionary];
     
     if (self) {
         
@@ -44,7 +44,6 @@ static NSString *kActionSelectorCallUs = @"callUs";
     
     return [self initWithObjectID:jsonCard[APIParamID]
                          priority:jsonCard[APIParamCardPriority]
-                             type:[jsonCard[APIParamType] integerValue]
              associatedCardObject:jsonCard[APIParamCardData]];
 }
 

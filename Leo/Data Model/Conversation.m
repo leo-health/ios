@@ -12,7 +12,7 @@
 
 @implementation Conversation
 
-- (instancetype)initWithObjectID:(NSString *)objectID messages:(NSArray *)messages { //participants:(NSArray *)participants {
+- (instancetype)initWithObjectID:(NSString *)objectID messages:(NSArray *)messages statusCode:(ConversationStatusCode)statusCode {
 
     self = [super init];
     
@@ -30,6 +30,7 @@
     
     NSArray *messageDictionaries = jsonResponse[APIParamMessages];
 
+
     NSMutableArray *messages = [[NSMutableArray alloc] init];
     
     for (NSDictionary *messageDictionary in messageDictionaries) {
@@ -39,8 +40,10 @@
     
     NSArray *immutableMessages = [messages copy];
     
+    ConversationStatusCode statusCode = [jsonResponse[APIParamState] integerValue];
+
     //TODO: May need to protect against nil values...
-    return [self initWithObjectID:objectID messages:immutableMessages];
+    return [self initWithObjectID:objectID messages:immutableMessages statusCode:statusCode];
 }
 
 + (NSDictionary *)dictionaryFromConversation:(Conversation *)conversation {

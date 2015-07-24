@@ -42,7 +42,7 @@
 @property (weak, nonatomic) IBOutlet UINavigationBar *navBar;
 @property (weak, nonatomic) IBOutlet UIView *buttonView;
 @property (weak, nonatomic) IBOutlet LEODropDownTableView *doctorDropDownTV;
-@property (weak, nonatomic) IBOutlet LEODropDownTableView *visitDropDownTV;
+@property (weak, nonatomic) IBOutlet LEODropDownTableView *appointmentTypeDropDownTV;
 @property (weak, nonatomic) IBOutlet UILabel *patientLabel;
 @property (weak, nonatomic) IBOutlet UILabel *appointmentTypeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *providerLabel;
@@ -59,7 +59,7 @@
 @property (strong, nonatomic) NSArray *dates;
 @property (strong, nonatomic) NSLayoutConstraint *containerViewHeightConstraint;
 @property (strong, nonatomic) LEODropDownController *doctorDropDownController;
-@property (strong, nonatomic) LEODropDownController * visitTypeDropDownController;
+@property (strong, nonatomic) LEODropDownController * appointmentTypeDropDownController;
 
 #pragma mark - Helper classes
 @property (strong, nonatomic) ArrayDataSource *arrayDataSource;
@@ -109,7 +109,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     self.doctorDropDownController = [[LEODropDownController alloc] initWithTableView:self.doctorDropDownTV items:self.providers usingDescriptorKey:@"fullName" prepObject:self.prepAppointment associatedCardObjectPropertyDescriptor:@"provider"];
     
     //TODO: Remove hard coded options and move to DataManager.
-    self.visitTypeDropDownController = [[LEODropDownController alloc] initWithTableView:self.visitDropDownTV items:self.visitTypes usingDescriptorKey:@"type" prepObject:self.prepAppointment associatedCardObjectPropertyDescriptor:@"leoAppointmentType"];
+    self.appointmentTypeDropDownController = [[LEODropDownController alloc] initWithTableView:self.appointmentTypeDropDownTV items:self.appointmentTypes usingDescriptorKey:@"name" prepObject:self.prepAppointment associatedCardObjectPropertyDescriptor:@"appointmentType"];
     
     [self.view setNeedsLayout];
     
@@ -141,7 +141,13 @@ static NSString * const dateReuseIdentifier = @"DateCell";
 - (void)button0Tapped {
     self.card.associatedCardObject = [[Appointment alloc] initWithPrepAppointment:self.prepAppointment]; //FIXME: Make this a loop to account for changes to multiple objects on a card.
     
-    [self.card performSelector:NSSelectorFromString([self.card actionsAvailableForState][0])]; //FIXME: Alternative way to do this that won't cause warning.
+//    [self.card performSelector:NSSelectorFromString([self.card actionsAvailableForState][0])]; //FIXME: Alternative way to do this that won't cause warning.
+    
+    if (!self.card) { return; }
+    SEL selector = NSSelectorFromString([self.card actionsAvailableForState][0]);
+    IMP imp = [self.card methodForSelector:selector];
+    void (*func)(id, SEL) = (void *)imp;
+    func(self.card, selector);
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -250,7 +256,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     Appointment *appt = self.card.associatedCardObject; //FIXME: Update to deal with array at some point...
     
     if (!_prepAppointment) {
-        _prepAppointment = [[PrepAppointment alloc] initWithObjectID:appt.objectID date:appt.date appointmentType:appt.leoAppointmentType patient:appt.patient provider:appt.provider bookedByUser:appt.bookedByUser note:appt.note statusCode:appt.statusCode];
+        _prepAppointment = [[PrepAppointment alloc] initWithObjectID:appt.objectID date:appt.date appointmentType:appt.appointmentType patient:appt.patient provider:appt.provider bookedByUser:appt.bookedByUser note:appt.note statusCode:appt.statusCode];
     }
     
     return _prepAppointment;
@@ -378,8 +384,7 @@ static NSString * const dateReuseIdentifier = @"DateCell";
         [self.card returnToPriorState];
         [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
             [UIView animateWithDuration:0.2 animations:^{
-                self.collapsedCell.layer.transform = CATransform3DMakeRotation(0,0.0,1.0,0.0); ; //flip halfway
-                self.collapsedCell.selected = NO;
+
             }];
         }];
     }
@@ -555,8 +560,6 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     
     [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
         [UIView animateWithDuration:0.2 animations:^{
-            // self.collapsedCell.layer.transform = CATransform3DMakeRotation(0,0.0,1.0,0.0); ; //flip halfway
-            self.collapsedCell.selected = NO;
         }];
     }];
 }
@@ -568,8 +571,6 @@ static NSString * const dateReuseIdentifier = @"DateCell";
     if (appointment.statusCode == AppointmentStatusCodeBooking) {
         [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
             [UIView animateWithDuration:0.2 animations:^{
-                // self.collapsedCell.layer.transform = CATransform3DMakeRotation(0,0.0,1.0,0.0); ; //flip halfway
-                self.collapsedCell.selected = NO;
             }];
         }];
     }

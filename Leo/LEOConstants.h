@@ -110,7 +110,7 @@ extern NSString *const APIEndpointResetPassword; // @"sessions/password";
 extern NSString *const APIEndpointAppointments; // @"appointments";
 extern NSString *const APIEndpointConversations; // @"conversations";
 extern NSString *const APIEndpointMessages; // @"messages";
-extern NSString *const APIEndpointVisitTypes; // @"visits";
+extern NSString *const APIEndpointAppointmentTypes; // @"appointmentTypes";
 extern NSString *const APIEndpointLogin; // @"login";
 
 #pragma mark - Common
@@ -219,10 +219,12 @@ extern NSString *const APIParamCardCount; // @"count";
 extern NSString *const APIParamCardData; // @"card_data";
 extern NSString *const APIParamCardPriority; // @"priority";
 
-#pragma mark - Visit type
-extern NSString *const APIParamVisitType; // @"visit_type";
-extern NSString *const APIParamVisitDuration; // @"duration";
-extern NSString *const APIParamVisitBody; // @"body";
+#pragma mark - Appointment type
+extern NSString *const APIParamAppointmentType; // @"visit_type";
+extern NSString *const APIParamAppointmentTypeID; // @"visit_type_id";
+
+extern NSString *const APIParamAppointmentTypeDuration; // @"duration";
+extern NSString *const APIParamAppointmentTypeBody; // @"body";
 
 #pragma mark - Appointment
 extern NSString *const APIParamAppointment; // @"appointment";

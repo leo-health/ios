@@ -15,7 +15,6 @@
 @interface LEOCardExpandedViewController : UIViewController
 
 @property (strong, nonatomic) LEOCard *card;
-@property (strong, nonatomic) UITableViewCell *collapsedCell;
 @property (strong, nonatomic) UIButton *dismissButton;
 
 - (UIImage *)iconImage;

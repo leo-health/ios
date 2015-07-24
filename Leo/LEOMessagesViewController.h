@@ -20,17 +20,16 @@
 // Import all the things
 #import "Message.h"
 #import "LEODataManager.h"
-#import "DemoModelData.h"
 #import "LEOCardConversation.h"
-
+#import <JSQMessagesViewController/JSQMessages.h>
 
 @interface LEOMessagesViewController : JSQMessagesViewController <UIActionSheetDelegate>
 
 @property (strong, nonatomic) LEOCardConversation *card;
 @property (strong, nonatomic) LEODataManager *dataManager;
 
-- (void)receiveMessagePressed:(UIBarButtonItem *)sender;
-
-- (void)closePressed:(UIBarButtonItem *)sender;
+//- (void)receiveMessagePressed:(UIBarButtonItem *)sender;
+//
+//- (void)closePressed:(UIBarButtonItem *)sender;
 
 @end

@@ -59,8 +59,6 @@
     
     self.dataManager = [LEODataManager sharedManager];
     
-    self.title = @"JSQMessages";
-    
     self.inputToolbar.contentView.leftBarButtonItem = nil;
 
     UIButton *sendButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -477,7 +475,7 @@
 
     NSDictionary *attributes = @{NSFontAttributeName : [UIFont leoChatTimestampLabelFont], NSForegroundColorAttributeName : [UIColor leoGrayBodyText]};
     
-    NSString *basicDateString = [NSString stringWithFormat:@"  %@  ", [NSDate stringifiedDate:message.date]];
+    NSString *basicDateString = [NSString stringWithFormat:@"  %@  ", [NSDate stringifiedDateWithDot:message.createdAt]];
     NSAttributedString *dateString = [[NSAttributedString alloc] initWithString:basicDateString attributes:attributes];
 
     attributes = @{NSForegroundColorAttributeName : [UIColor whiteColor], NSStrikethroughColorAttributeName: [UIColor leoGrayBodyText], NSStrikethroughStyleAttributeName : [NSNumber numberWithInteger:NSUnderlinePatternSolid | NSUnderlineStyleSingle]};

@@ -24,8 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)getCardsForUser:(NSDictionary *)userParams withCompletion:(void (^)(NSDictionary *rawResults))completionBlock;
 
 //Support API
-+ (void)getProvidersWithParameters:(NSDictionary *)practiceParams withCompletion:(void (^)(NSDictionary *rawResults))completionBlock;
-+ (void)getVisitTypesWithCompletion:(void (^)(NSDictionary *rawResults))completionBlock;
++ (void)getAllStaffForPracticeWithParameters:(NSDictionary *)practiceParams withCompletion:(void (^)(NSDictionary *rawResults))completionBlock;
++ (void)getAppointmentTypesWithCompletion:(void (^)(NSDictionary *rawResults))completionBlock;
 + (void)getFamilyWithUserParameters:(NSDictionary *)userParams withCompletion:(void (^)(NSDictionary *rawResults))completionBlock;
 
 //Appointments

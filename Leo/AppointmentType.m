@@ -27,10 +27,10 @@
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
     
     NSString *objectID = [jsonResponse[APIParamID] stringValue];
-    NSString *name = jsonResponse[@"name"];
-    AppointmentReasonCode reasonCode = [jsonResponse[@"reason_code"] integerValue];
-    NSNumber *duration = jsonResponse[@"duration"]; //Add LEOConstant instead of hardcoding this.
-    NSString *fullDescription = jsonResponse[@"description"];
+    NSString *name = jsonResponse[APIParamName];
+    AppointmentReasonCode reasonCode = [jsonResponse[APIParamAppointmentTypeID] integerValue];
+    NSNumber *duration = jsonResponse[APIParamAppointmentTypeDuration]; //Add LEOConstant instead of hardcoding this.
+    NSString *fullDescription = jsonResponse[APIParamAppointmentTypeBody];
     
     return [self initWithObjectID:objectID name:name reasonCode:reasonCode duration:duration description:fullDescription];
 }

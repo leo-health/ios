@@ -29,8 +29,8 @@
     self = [super initWithJSONDictionary:jsonResponse];
     
     if (self) {
-        _role = [jsonResponse[APIParamRole] integerValue];
-        _roleDisplayName = jsonResponse[@"role_display_name"];
+        _role = [jsonResponse[APIParamRoleID] integerValue];
+        _roleDisplayName = jsonResponse[APIParamRole];
     }
     
     return self;
@@ -41,8 +41,8 @@
     
     NSMutableDictionary *userDictionary = [[super dictionaryFromUser:support] mutableCopy];
     
-    userDictionary[APIParamRole] = [NSNumber numberWithInteger:support.role];
-    userDictionary[@"role_display_name"] = support.roleDisplayName;
+    userDictionary[APIParamRoleID] = [NSNumber numberWithInteger:support.role];
+    userDictionary[APIParamRole] = support.roleDisplayName;
     
     return userDictionary;
 }

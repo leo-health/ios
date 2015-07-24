@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong, nullable) NSDate *date;
 @property (nonatomic, copy, nullable) NSString *objectID;
-@property (nonatomic, strong) AppointmentType *leoAppointmentType;
+@property (nonatomic, strong) AppointmentType *appointmentType;
 @property (nonatomic) AppointmentStatusCode statusCode;
 @property (nonatomic) AppointmentStatusCode priorStatusCode;
 @property (nonatomic, strong) User *bookedByUser;
@@ -30,17 +30,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *note;
 
 
--(instancetype)initWithObjectID:(nullable NSString *)objectID date:(nullable NSDate *)date appointmentType:(AppointmentType *)leoAppointmentType patient:(Patient *)patient provider:(Provider *)provider bookedByUser:(User *)bookedByUser note:(nullable NSString *)note statusCode:(AppointmentStatusCode)statusCode;
+-(instancetype)initWithObjectID:(nullable NSString *)objectID date:(nullable NSDate *)date appointmentType:(AppointmentType *)appointmentType patient:(Patient *)patient provider:(Provider *)provider bookedByUser:(User *)bookedByUser note:(nullable NSString *)note statusCode:(AppointmentStatusCode)statusCode;
 
 - (instancetype)initWithJSONDictionary:(nonnull NSDictionary *)jsonResponse;
 
 - (instancetype)initWithPrepAppointment:(PrepAppointment *)prepAppointment;
 
 + (NSDictionary *)dictionaryFromAppointment:(Appointment *)appointment;
-
-- (NSString *)stringifiedAppointmentDate;
-- (NSString *)stringifiedAppointmentTime;
-
 
 NS_ASSUME_NONNULL_END
 @end

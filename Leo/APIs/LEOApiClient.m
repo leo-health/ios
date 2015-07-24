@@ -53,21 +53,21 @@
     }];
 }
 
-+ (void)getProvidersWithParameters:(NSDictionary *)practiceParams withCompletion:(void (^)(NSDictionary *rawResults))completionBlock {
++ (void)getAllStaffForPracticeWithParameters:(NSDictionary *)practiceParams withCompletion:(void (^)(NSDictionary *rawResults))completionBlock {
     
-    NSString *getProvidersURLString = [NSString stringWithFormat:@"%@/%@",APIBaseUrl,@"providers"]; //FIXME: Remove hardcoded string; replace with LEOConstant. This also is definitely not the right URL.
+    NSString *getPracticeStaffURLString = [NSString stringWithFormat:@"%@/%@",APIBaseUrl,@"providers"]; //FIXME: Remove hardcoded string; replace with LEOConstant. This also is definitely not the right URL.
     
-    [LEOAPIHelper standardGETRequestForJSONDictionaryFromAPIWithURL:getProvidersURLString params:practiceParams completion:^(NSDictionary * rawResults) {
+    [LEOAPIHelper standardGETRequestForJSONDictionaryFromAPIWithURL:getPracticeStaffURLString params:practiceParams completion:^(NSDictionary * rawResults) {
         //TODO: Error terms
         completionBlock(rawResults);
     }];
 }
 
-+ (void)getVisitTypesWithCompletion:(void (^)(NSDictionary *rawResults))completionBlock {
++ (void)getAppointmentTypesWithCompletion:(void (^)(NSDictionary *rawResults))completionBlock {
     
-    NSString *getVisitTypesURLString = [NSString stringWithFormat:@"%@/%@",APIBaseUrl,@"visitTypes"]; //FIXME: Remove hardcoded string; replace with LEOConstant. This also is definitely not the right URL.
+    NSString *getAppointmentTypesURLString = [NSString stringWithFormat:@"%@/%@",APIBaseUrl,APIEndpointAppointmentTypes]; //FIXME: Remove hardcoded string; replace with LEOConstant. This also is definitely not the right URL.
     
-    [LEOAPIHelper standardGETRequestForJSONDictionaryFromAPIWithURL:getVisitTypesURLString params:@{} completion:^(NSDictionary * rawResults) { //MARK: no parameters I suspect for this endpoint
+    [LEOAPIHelper standardGETRequestForJSONDictionaryFromAPIWithURL:getAppointmentTypesURLString params:@{} completion:^(NSDictionary * rawResults) { //MARK: no parameters I suspect for this endpoint
         //TODO: Error terms
         completionBlock(rawResults);
     }];
@@ -138,7 +138,7 @@
 //FIXME: Placeholder for method.
 + (void)getUserWithID:(NSNumber *)userID withCompletion:(void (^)(NSDictionary *rawResults))completionBlock {
     
-    User *user = [[User alloc] initWithObjectID:@"999" title:@"Mrs." firstName:@"Christina" middleInitial:@"Fuente" lastName:@"Lagos" suffix:@"NP" email:@"christina.lagos@leohealth.com" avatarURL:[NSURL URLWithString:@"http://"] avatar:nil];
+    User *user = [[User alloc] initWithObjectID:@"999" title:@"Mrs." firstName:@"Christina" middleInitial:@"Fuente" lastName:@"Lagos" suffix:@"NP" email:@"christina.lagos@leohealth.com" avatarURL:@"http://" avatar:nil];
     
     completionBlock(user);
 }

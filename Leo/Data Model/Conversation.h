@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) ConversationStatusCode statusCode;
 @property (nonatomic) ConversationStatusCode priorStatusCode;
 
-- (instancetype)initWithObjectID:(NSString *)objectID messages:(NSArray *)messages; //participants:(NSArray *)participants;
+- (instancetype)initWithObjectID:(NSString *)objectID messages:(NSArray *)messages statusCode:(ConversationStatusCode)statusCode;
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse;
 
