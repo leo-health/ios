@@ -194,7 +194,7 @@
     
     [LEOApiClient getMessagesForConversation:conversation.objectID withParameters:messageParams withCompletion:^(NSDictionary *  rawResults) {
         
-        NSArray *messageDictionaries = rawResults[APIParamData][0][APIParamMessages]; //remove messages part of this once stub is updated.
+        NSArray *messageDictionaries = rawResults[APIParamData]; //remove messages part of this once stub is updated.
         
         NSMutableArray *messages = [[NSMutableArray alloc] init];
         

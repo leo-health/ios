@@ -104,7 +104,7 @@
         return test;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         
-        NSString *fixture = fixture = OHPathForFile(@"../Stubs/getConversationForUser.json", self.class);
+        NSString *fixture = fixture = OHPathForFile(@"../Stubs/getMessagesForUser.json", self.class);
         OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithFileAtPath:fixture statusCode:200 headers:@{@"Content-Type":@"application/json"}];
         return response;
     }];
