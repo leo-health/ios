@@ -10,7 +10,7 @@
         "id": 0,
         "created_datetime": "2015-12-04T10:00:00.000Z",
         "start_datetime": "2015-12-10T08:00:00.000Z",
-        "status_id": 4,
+        "status_id": 0,
         "status": "reminder",
         "appointment_type": {
           "type_id": 0,
@@ -145,7 +145,7 @@
         "id": 3,
         "created_datetime": "2015-01-01T10:00:00.000Z",
         "start_datetime": "2016-01-01T08:00:00.000Z",
-        "status_id": 4,
+        "status_id": 0,
         "status": "reminder",
         "appointment_type": {
           "type_id": 0,
@@ -220,7 +220,7 @@
         "updated_datetime": "2015-02-08T15:00:00.000Z",
         "created_datetime": "2015-02-08T05:00:00.000Z",
         "last_escalated_datetime": "2015-02-08T15:00:00.000Z",
-        "status_id": 1,
+        "status_id": 2,
         "status": "escalated",
         "messages": [
           {
@@ -273,7 +273,7 @@
         "id": 0,
         "created_datetime": "2015-01-01T10:00:00.000Z",
         "start_datetime": "2016-01-01T08:00:00.000Z",
-        "status_id": 4,
+        "status_id": 0,
         "status": "reminder",
         "appointment_type": {
           "type_id": 0,
@@ -348,7 +348,7 @@
         "updated_datetime": "2015-02-08T15:00:00.000Z",
         "created_datetime": "2015-02-08T05:00:00.000Z",
         "last_escalated_datetime": "2015-02-08T15:00:00.000Z",
-        "status_id": 1,
+        "status_id": 2,
         "status": "escalated",
         "messages": [
           {
@@ -401,7 +401,7 @@
         "id": 0,
         "created_datetime": "2015-01-01T10:00:00.000Z",
         "start_datetime": "2016-01-01T08:00:00.000Z",
-        "status_id": 4,
+        "status_id": 0,
         "status": "reminder",
         "appointment_type": {
           "type_id": 0,
@@ -476,7 +476,7 @@
         "updated_datetime": "2015-02-08T15:00:00.000Z",
         "created_datetime": "2015-02-08T05:00:00.000Z",
         "last_escalated_datetime": "2015-02-08T15:00:00.000Z",
-        "status_id": 1,
+        "status_id": 2,
         "status": "escalated",
         "messages": [
           {
@@ -529,7 +529,7 @@
         "id": 0,
         "created_datetime": "2015-01-01T10:00:00.000Z",
         "start_datetime": "2016-01-01T08:00:00.000Z",
-        "status_id": 4,
+        "status_id": 0,
         "status": "reminder",
         "appointment_type": {
           "type_id": 0,
@@ -604,7 +604,7 @@
         "updated_datetime": "2015-02-08T15:00:00.000Z",
         "created_datetime": "2015-02-08T05:00:00.000Z",
         "last_escalated_datetime": "2015-02-08T15:00:00.000Z",
-        "status_id": 1,
+        "status_id": 2,
         "status": "escalated",
         "messages": [
           {
@@ -742,7 +742,7 @@
           "id": 0,
           "created_datetime": "2015-07-04T10:00:00.000Z",
           "start_datetime": "2015-07-10T08:00:00.000Z",
-          "status_id": 4,
+          "status_id": 0,
           "status": "reminder",
           "appointment_type": {
             "type_id": 0,
