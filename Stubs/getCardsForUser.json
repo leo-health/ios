@@ -136,7 +136,7 @@
     },
     {
       "id": 2,
-      "priority": 0,
+      "priority": 2,
       "type": "appointment",
       "type_id": 0,
       "card_data": {
@@ -206,8 +206,8 @@
       }
     },
     {
-      "id": 1,
-      "priority": 1,
+      "id": 3,
+      "priority": 3,
       "type": "conversation",
       "type_id": 1,
       "card_data": {
@@ -261,8 +261,8 @@
       }
     },
     {
-      "id": 0,
-      "priority": 0,
+      "id": 4,
+      "priority": 4,
       "type": "appointment",
       "type_id": 0,
       "card_data": {
@@ -332,8 +332,8 @@
       }
     },
     {
-      "id": 1,
-      "priority": 1,
+      "id": 5,
+      "priority": 5,
       "type": "conversation",
       "type_id": 1,
       "card_data": {
@@ -387,8 +387,8 @@
       }
     },
     {
-      "id": 0,
-      "priority": 0,
+      "id": 6,
+      "priority": 6,
       "type": "appointment",
       "type_id": 0,
       "card_data": {
@@ -458,8 +458,8 @@
       }
     },
     {
-      "id": 1,
-      "priority": 1,
+      "id": 7,
+      "priority": 7,
       "type": "conversation",
       "type_id": 1,
       "card_data": {
@@ -513,8 +513,8 @@
       }
     },
     {
-      "id": 0,
-      "priority": 0,
+      "id": 8,
+      "priority": 8,
       "type": "appointment",
       "type_id": 0,
       "card_data": {
@@ -584,8 +584,8 @@
       }
     },
     {
-      "id": 1,
-      "priority": 1,
+      "id": 9,
+      "priority": 9,
       "type": "conversation",
       "type_id": 1,
       "card_data": {
@@ -639,8 +639,8 @@
       }
     },
     {
-      "id": 2,
-      "priority": 2,
+      "id": 10,
+      "priority": 10,
       "type": "payment",
       "type_id": 2,
       "card_data": {
@@ -677,8 +677,8 @@
       }
     },
     {
-      "id": 3,
-      "priority": 3,
+      "id": 11,
+      "priority": 11,
       "type_id": 3,
       "type": "form",
       "card_data": {
@@ -721,8 +721,8 @@
       }
     },
     {
-      "id": 4,
-      "priority": 4,
+      "id": 12,
+      "priority": 12,
       "type_id": 4,
       "type": "visit",
       "card_data": {

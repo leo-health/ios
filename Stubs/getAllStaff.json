@@ -1,0 +1,64 @@
+{
+  "data": [
+    {
+      "id": 4,
+      "title": "Dr.",
+      "first_name": "Om",
+      "middle_initial": "L.",
+      "last_name": "Lala",
+      "suffix": null,
+      "credentials": [
+        "M.D.",
+        "M.B.A.",
+        "M.P.H."
+      ],
+      "role_id": 5,
+      "role": "provider",
+      "specialties": [
+        "pediatrics",
+        "obesity"
+      ],
+      "avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/providers/4.png"
+    },
+    {
+      "id": 5,
+      "title": "Dr.",
+      "first_name": "Chelsea",
+      "middle_initial": null,
+      "last_name": "Bodnar",
+      "suffix": null,
+      "credentials": [
+        "M.D."
+      ],
+      "role_id": 5,
+      "role": "provider",
+      "specialties": [
+        "pediatrics",
+        "gastroenterology"
+      ],
+      "avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/providers/5.png"
+    },
+    {
+      "id": 6,
+      "title": null,
+      "first_name": "Benjamin",
+      "middle_initial": null,
+      "last_name": "Siscovick",
+      "suffix": null,
+      "role_id": 3,
+      "role": "customer_service",
+      "avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/customer_service/6.png"
+    },
+    {
+      "id": 7,
+      "title": null,
+      "first_name": "Carol",
+      "middle_initial": null,
+      "last_name": "Kester",
+      "suffix": null,
+      "role_id": 2,
+      "role": "clinical_support",
+      "avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/clinical_support/7.png"
+    }
+  ]
+}
