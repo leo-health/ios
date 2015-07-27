@@ -44,7 +44,7 @@ typedef enum AppointmentStatusCode : NSUInteger {
     AppointmentStatusCodeBooking = 7,
     AppointmentStatusCodeCancelling = 8,
     AppointmentStatusCodeConfirmingCancelling = 9,
-    AppointmentStatusCodeRecommending = 10,
+    AppointmentStatusCodeRecommending = 10
 } AppointmentStatusCode;
 
 /**
@@ -64,7 +64,7 @@ typedef enum MessageStatusCode : NSUInteger {
     MessageStatusCodeEscalated = 2,
     MessageStatusCodeClosed = 3,
     MessageStatusCodeOpen   = 4,
-    MessageStatusCodeUndefined = 99,
+    MessageStatusCodeUndefined = 99
 } MessageStatusCode;
 
 /**
@@ -77,8 +77,7 @@ typedef enum MessageStatusCode : NSUInteger {
  */
 typedef enum ConversationStatusCode : NSUInteger {
     ConversationStatusCodeClosed = 0,
-    ConversationStatusCodeOpen = 1,
-    ConversationStatusCodeEscalated = 2,
+    ConversationStatusCodeOpen = 1
 } ConversationStatusCode;
 
 /**
@@ -93,7 +92,7 @@ typedef enum AppointmentTypeCode : NSUInteger {
     AppointmentTypeCodeCheckup = 0,
     AppointmentTypeCodeSick = 1,
     AppointmentTypeCodeImmunization = 2,
-    AppointmentTypeCodeFollowUp = 3,
+    AppointmentTypeCodeFollowUp = 3
 } AppointmentTypeCode;
 
 typedef enum MessageTypeCode : NSUInteger {
