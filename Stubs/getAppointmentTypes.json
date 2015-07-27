@@ -1,6 +1,7 @@
 {
   "data": [
     {
+      "id": 0,
       "type_id": 0,
       "type": "well",
       "name": "well visit",
@@ -9,6 +10,7 @@
       "long_description": "A regular check-up that is typically scheduled every few months up until age 2 and annually thereafter."
     },
     {
+      "id": 1,
       "type_id": 1,
       "type": "sick",
       "name": "sick visit",
@@ -17,6 +19,7 @@
       "long_description": "A visit to address new symptoms like cough, cold, ear pain, fever, diarrhea, or rash."
     },
     {
+      "id": 2,
       "type_id": 2,
       "type": "follow_up",
       "name": "follow up visit",
@@ -25,6 +28,7 @@
       "long_description": "A visit to follow up on a known condition like asthma, ADHD, or eczema."
     },
     {
+      "id": 3,
       "type_id": 3,
       "type": "immunization",
       "name": "immunization visit",
