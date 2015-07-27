@@ -166,32 +166,31 @@
       "escalated_to": null,
       "escalated_by": null
     },
-           {
-           "id": 5,
-           "type_id": 0,
-           "type": "text",
-           "body": "I checked too, it's down to 98.5 F!",
-           "created_datetime": "2015-07-08T08:26:00.000Z",
-           "escalated_datetime": null,
-           "sender": {
-           "id": 2,
-           "title": "Mr.",
-           "first_name": "Pierre",
-           "middle_initial": "E.",
-           "last_name": "Curie",
-           "suffix": null,
-           "role_id": 4,
-           "role": "guardian",
-           "relationship_id": 1,
-           "relationship": "father",
-           "family_id": 1,
-           "email": "pierre@curie.com",
-           "avatar_url": null
-           },
-           "escalated_to": null,
-           "escalated_by": null
-           },
-
+    {
+      "id": 5,
+      "type_id": 0,
+      "type": "text",
+      "body": "I checked too, it's down to 98.5 F!",
+      "created_datetime": "2015-07-08T08:26:00.000Z",
+      "escalated_datetime": null,
+      "sender": {
+        "id": 2,
+        "title": "Mr.",
+        "first_name": "Pierre",
+        "middle_initial": "E.",
+        "last_name": "Curie",
+        "suffix": null,
+        "role_id": 4,
+        "role": "guardian",
+        "relationship_id": 1,
+        "relationship": "father",
+        "family_id": 1,
+        "email": "pierre@curie.com",
+        "avatar_url": null
+      },
+      "escalated_to": null,
+      "escalated_by": null
+    },
     {
       "id": 6,
       "type_id": 0,

@@ -220,7 +220,7 @@
         "updated_datetime": "2015-02-08T15:00:00.000Z",
         "created_datetime": "2015-02-08T05:00:00.000Z",
         "last_escalated_datetime": "2015-02-08T15:00:00.000Z",
-        "status_id": 2,
+        "status_id": 1,
         "status": "escalated",
         "messages": [
           {
@@ -348,7 +348,7 @@
         "updated_datetime": "2015-02-08T15:00:00.000Z",
         "created_datetime": "2015-02-08T05:00:00.000Z",
         "last_escalated_datetime": "2015-02-08T15:00:00.000Z",
-        "status_id": 2,
+        "status_id": 1,
         "status": "escalated",
         "messages": [
           {
@@ -476,7 +476,7 @@
         "updated_datetime": "2015-02-08T15:00:00.000Z",
         "created_datetime": "2015-02-08T05:00:00.000Z",
         "last_escalated_datetime": "2015-02-08T15:00:00.000Z",
-        "status_id": 2,
+        "status_id": 1,
         "status": "escalated",
         "messages": [
           {
@@ -604,7 +604,7 @@
         "updated_datetime": "2015-02-08T15:00:00.000Z",
         "created_datetime": "2015-02-08T05:00:00.000Z",
         "last_escalated_datetime": "2015-02-08T15:00:00.000Z",
-        "status_id": 2,
+        "status_id": 1,
         "status": "escalated",
         "messages": [
           {
