@@ -10,13 +10,15 @@
         "id": 0,
         "created_datetime": "2015-12-04T10:00:00.000Z",
         "start_datetime": "2015-12-10T08:00:00.000Z",
-        "status_id": 4,
+        "status_id": 0,
         "status": "reminder",
-        "visit_type": {
-          "id": 0,
-          "name": "Well child check",
+        "appointment_type": {
+          "type_id": 0,
+          "type": "well",
+          "name": "well visit",
           "duration": 30,
-          "description": "A regular check-up that is typically scheduled every few months up until age 2 and annually thereafter."
+          "short_description": "Regular check-up",
+          "long_description": "A regular check-up that is typically scheduled every few months up until age 2 and annually thereafter."
         },
         "notes": "Is Eve up to date with all of her immunizations?",
         "booked_by": {
@@ -143,13 +145,15 @@
         "id": 3,
         "created_datetime": "2015-01-01T10:00:00.000Z",
         "start_datetime": "2016-01-01T08:00:00.000Z",
-        "status_id": 4,
+        "status_id": 0,
         "status": "reminder",
-        "visit_type": {
-          "id": 0,
-          "name": "Well child check",
+        "appointment_type": {
+          "type_id": 0,
+          "type": "well",
+          "name": "well visit",
           "duration": 30,
-          "description": "A regular check-up that is typically scheduled every few months up until age 2 and annually thereafter."
+          "short_description": "Regular check-up",
+          "long_description": "A regular check-up that is typically scheduled every few months up until age 2 and annually thereafter."
         },
         "notes": "Is Eve up to date with all of her immunizations?",
         "booked_by": {
@@ -269,13 +273,15 @@
         "id": 0,
         "created_datetime": "2015-01-01T10:00:00.000Z",
         "start_datetime": "2016-01-01T08:00:00.000Z",
-        "status_id": 4,
+        "status_id": 0,
         "status": "reminder",
-        "visit_type": {
-          "id": 0,
-          "name": "Well child check",
+        "appointment_type": {
+          "type_id": 0,
+          "type": "well",
+          "name": "well visit",
           "duration": 30,
-          "description": "A regular check-up that is typically scheduled every few months up until age 2 and annually thereafter."
+          "short_description": "Regular check-up",
+          "long_description": "A regular check-up that is typically scheduled every few months up until age 2 and annually thereafter."
         },
         "notes": "Is Eve up to date with all of her immunizations?",
         "booked_by": {
@@ -395,13 +401,15 @@
         "id": 0,
         "created_datetime": "2015-01-01T10:00:00.000Z",
         "start_datetime": "2016-01-01T08:00:00.000Z",
-        "status_id": 4,
+        "status_id": 0,
         "status": "reminder",
-        "visit_type": {
-          "id": 0,
-          "name": "Well child check",
+        "appointment_type": {
+          "type_id": 0,
+          "type": "well",
+          "name": "well visit",
           "duration": 30,
-          "description": "A regular check-up that is typically scheduled every few months up until age 2 and annually thereafter."
+          "short_description": "Regular check-up",
+          "long_description": "A regular check-up that is typically scheduled every few months up until age 2 and annually thereafter."
         },
         "notes": "Is Eve up to date with all of her immunizations?",
         "booked_by": {
@@ -521,13 +529,15 @@
         "id": 0,
         "created_datetime": "2015-01-01T10:00:00.000Z",
         "start_datetime": "2016-01-01T08:00:00.000Z",
-        "status_id": 4,
+        "status_id": 0,
         "status": "reminder",
-        "visit_type": {
-          "id": 0,
-          "name": "Well child check",
+        "appointment_type": {
+          "type_id": 0,
+          "type": "well",
+          "name": "well visit",
           "duration": 30,
-          "description": "A regular check-up that is typically scheduled every few months up until age 2 and annually thereafter."
+          "short_description": "Regular check-up",
+          "long_description": "A regular check-up that is typically scheduled every few months up until age 2 and annually thereafter."
         },
         "notes": "Is Eve up to date with all of her immunizations?",
         "booked_by": {
@@ -732,13 +742,15 @@
           "id": 0,
           "created_datetime": "2015-07-04T10:00:00.000Z",
           "start_datetime": "2015-07-10T08:00:00.000Z",
-          "status_id": 4,
+          "status_id": 0,
           "status": "reminder",
-          "visit_type": {
-            "id": 0,
-            "name": "Well child check",
+          "appointment_type": {
+            "type_id": 0,
+            "type": "well",
+            "name": "well visit",
             "duration": 30,
-            "description": "A regular check-up that is typically scheduled every few months up until age 2 and annually thereafter."
+            "short_description": "Regular check-up",
+            "long_description": "A regular check-up that is typically scheduled every few months up until age 2 and annually thereafter."
           },
           "notes": "Is Eve up to date with all of her immunizations?",
           "booked_by": {

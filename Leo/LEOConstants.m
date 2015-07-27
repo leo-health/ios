@@ -35,6 +35,8 @@ NSString *const APIParamStatus = @"status";
 NSString *const APIParamStatusID = @"status_id";
 NSString *const APIParamName = @"name";
 NSString *const APIParamDescription = @"description";
+NSString *const APIParamShortDescription = @"short_description";
+NSString *const APIParamLongDescription = @"long_description";
 NSString *const APIParamToken = @"token";
 
 #pragma mark - Date & time

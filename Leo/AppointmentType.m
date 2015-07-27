@@ -10,14 +10,14 @@
 
 @implementation AppointmentType
 
-- (instancetype)initWithObjectID:(NSString *)objectID name:(NSString *)name reasonCode:(AppointmentReasonCode)reasonCode duration:(nullable NSNumber *)duration description:(NSString *)fullDescription {
+- (instancetype)initWithObjectID:(NSString *)objectID name:(NSString *)name typeCode:(AppointmentTypeCode)reasonCode duration:(nullable NSNumber *)duration description:(NSString *)fullDescription {
     
     self = [super init];
     if (self) {
         _objectID = objectID;
         _name = name;
         _duration = duration;
-        _reasonCode = reasonCode;
+        _typeCode = typeCode;
         _fullDescription = fullDescription;
     }
     
@@ -28,11 +28,11 @@
     
     NSString *objectID = [jsonResponse[APIParamID] stringValue];
     NSString *name = jsonResponse[APIParamName];
-    AppointmentReasonCode reasonCode = [jsonResponse[APIParamAppointmentTypeID] integerValue];
+    AppointmentTypeCode typeCode = [jsonResponse[APIParamAppointmentTypeID] integerValue];
     NSNumber *duration = jsonResponse[APIParamAppointmentTypeDuration]; //Add LEOConstant instead of hardcoding this.
     NSString *fullDescription = jsonResponse[APIParamAppointmentTypeBody];
     
-    return [self initWithObjectID:objectID name:name reasonCode:reasonCode duration:duration description:fullDescription];
+    return [self initWithObjectID:objectID name:name typeCode:typeCode duration:duration description:fullDescription];
 }
 
 

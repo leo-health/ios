@@ -54,6 +54,7 @@ typedef enum AppointmentStatusCode : NSUInteger {
  *  @MessageStatusCodeUnread
  *  @MessageStatusCodeEscalated
  *  @MessageStatusCodeClosed
+ *  @MessageStatusCodeOpen
  *  @MessageStatusCodeUndefined
  *
  */
@@ -62,6 +63,7 @@ typedef enum MessageStatusCode : NSUInteger {
     MessageStatusCodeUnread = 1,
     MessageStatusCodeEscalated = 2,
     MessageStatusCodeClosed = 3,
+    MessageStatusCodeOpen   = 4,
     MessageStatusCodeUndefined = 99,
 } MessageStatusCode;
 
@@ -70,27 +72,29 @@ typedef enum MessageStatusCode : NSUInteger {
  *
  *  @ConversationStatusCodeClosed   
  *  @ConversationStatusCodeOpen
+ *  @ConversationStatusCodeEscalated
  *
  */
 typedef enum ConversationStatusCode : NSUInteger {
     ConversationStatusCodeClosed = 0,
     ConversationStatusCodeOpen = 1,
+    ConversationStatusCodeEscalated = 2,
 } ConversationStatusCode;
 
 /**
  *  Description AppointmentReason describes the reason for which the patient is making the appointment
  *
- *  @AppointmentReasonCheckup       A regular checkup that is typically scheduled every few months up until age 2 and annually thereafter.
- *  @AppointmentReasonSick          A visit to address new symptoms like cough, cold, ear pain, fever, diarrhea, or rash.
- *  @AppointmentReasonImmunizations A visit with a nurse to get one or more immunizations.
+ *  @AppointmentTypeCheckup       A regular checkup that is typically scheduled every few months up until age 2 and annually thereafter.
+ *  @AppointmentTypeSick          A visit to address new symptoms like cough, cold, ear pain, fever, diarrhea, or rash.
+ *  @AppointmentTypeImmunizations A visit with a nurse to get one or more immunizations.
  *  @AppointmentTypeFollowup        A visit to follow-up on known conditionss like asthma, sickness, ADHD, or eczema.
  */
-typedef enum AppointmentReasonCode : NSUInteger {
-    AppointmentReasonCodeCheckup = 0,
-    AppointmentReasonCodeSick = 1,
-    AppointmentReasonCodeImmunization = 2,
-    AppointmentReasonCodeFollowUp = 3,
-} AppointmentReasonCode;
+typedef enum AppointmentTypeCode : NSUInteger {
+    AppointmentTypeCodeCheckup = 0,
+    AppointmentTypeCodeSick = 1,
+    AppointmentTypeCodeImmunization = 2,
+    AppointmentTypeCodeFollowUp = 3,
+} AppointmentTypeCode;
 
 typedef enum MessageTypeCode : NSUInteger {
     MessageTypeCodeText = 0,
@@ -123,6 +127,9 @@ extern NSString *const APIParamStatus; // @"status";
 extern NSString *const APIParamStatusID; // @"status_id";
 extern NSString *const APIParamName; // @"name";
 extern NSString *const APIParamDescription; // @"description";
+extern NSString *const APIParamShortDescription; // @"short_description";
+extern NSString *const APIParamLongDescription; // @"long_description";
+
 extern NSString *const APIParamToken; // @"token";
 
 #pragma mark - Date & time
