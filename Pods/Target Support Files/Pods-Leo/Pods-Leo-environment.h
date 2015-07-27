@@ -78,6 +78,12 @@
 #define COCOAPODS_VERSION_MINOR_SSKeychain 2
 #define COCOAPODS_VERSION_PATCH_SSKeychain 3
 
+// SocketRocket
+#define COCOAPODS_POD_AVAILABLE_SocketRocket
+#define COCOAPODS_VERSION_MAJOR_SocketRocket 0
+#define COCOAPODS_VERSION_MINOR_SocketRocket 3
+#define COCOAPODS_VERSION_PATCH_SocketRocket 1
+
 // UIImage-Resize
 #define COCOAPODS_POD_AVAILABLE_UIImage_Resize
 #define COCOAPODS_VERSION_MAJOR_UIImage_Resize 1
@@ -89,6 +95,18 @@
 #define COCOAPODS_VERSION_MAJOR_VBFPopFlatButton 0
 #define COCOAPODS_VERSION_MINOR_VBFPopFlatButton 0
 #define COCOAPODS_VERSION_PATCH_VBFPopFlatButton 6
+
+// libPusher
+#define COCOAPODS_POD_AVAILABLE_libPusher
+#define COCOAPODS_VERSION_MAJOR_libPusher 1
+#define COCOAPODS_VERSION_MINOR_libPusher 6
+#define COCOAPODS_VERSION_PATCH_libPusher 0
+
+// libPusher/Core
+#define COCOAPODS_POD_AVAILABLE_libPusher_Core
+#define COCOAPODS_VERSION_MAJOR_libPusher_Core 1
+#define COCOAPODS_VERSION_MINOR_libPusher_Core 6
+#define COCOAPODS_VERSION_PATCH_libPusher_Core 0
 
 // pop
 #define COCOAPODS_POD_AVAILABLE_pop

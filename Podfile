@@ -12,6 +12,10 @@ pod 'SSKeychain' #MIT
 pod 'DateTools' #MIT
 pod 'UIImage-Resize' #MIT
 pod 'JSQMessagesViewController' #MIT
+pod 'libPusher', '~> 1.5' #MIT
+
+
+#Should review dependencies of these pods to ensure that all pods are compliant with their own licenses. e.g. Facebook Pop, etc.
 
 end
 
