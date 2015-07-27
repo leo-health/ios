@@ -16,7 +16,7 @@
         "suffix": null,
         "role_id": 3,
         "role": "customer_service",
-        "avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/customer_service/6.png"
+        "avatar_url": "https://elasticbeanstalk-us-east-1-435800161732.s3.amazonaws.com/user/"
       },
       "escalated_to": null,
       "escalated_by": null
@@ -52,7 +52,7 @@
         "suffix": null,
         "role_id": 2,
         "role": "clinical_support",
-        "avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/clinical_support/7.png"
+        "avatar_url": "https://elasticbeanstalk-us-east-1-435800161732.s3.amazonaws.com/user/"
       },
       "escalated_by": {
         "id": 6,
@@ -63,7 +63,7 @@
         "suffix": null,
         "role_id": 3,
         "role": "customer_service",
-        "avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/customer_service/6.png"
+        "avatar_url": "https://elasticbeanstalk-us-east-1-435800161732.s3.amazonaws.com/user/"
       }
     },
     {
@@ -82,7 +82,7 @@
         "suffix": null,
         "role_id": 2,
         "role": "clinical_support",
-        "avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/clinical_support/7.png"
+        "avatar_url": "https://elasticbeanstalk-us-east-1-435800161732.s3.amazonaws.com/user/"
       },
       "escalated_to": {
         "id": 4,
@@ -102,7 +102,7 @@
           "pediatrics",
           "obesity"
         ],
-        "avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/providers/4.png"
+        "avatar_url": "https://elasticbeanstalk-us-east-1-435800161732.s3.amazonaws.com/user/"
       },
       "escalated_by": {
         "id": 6,
@@ -113,7 +113,7 @@
         "suffix": null,
         "role_id": 3,
         "role": "customer_service",
-        "avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/customer_service/6.png"
+        "avatar_url": "https://elasticbeanstalk-us-east-1-435800161732.s3.amazonaws.com/user/"
       }
     },
     {
@@ -207,7 +207,7 @@
         "suffix": null,
         "role_id": 2,
         "role": "clinical_support",
-        "avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/clinical_support/7.png"
+        "avatar_url": "https://elasticbeanstalk-us-east-1-435800161732.s3.amazonaws.com/user/"
       },
       "escalated_to": {
         "id": 4,
@@ -227,7 +227,7 @@
           "pediatrics",
           "obesity"
         ],
-        "avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/providers/4.png"
+        "avatar_url": "https://elasticbeanstalk-us-east-1-435800161732.s3.amazonaws.com/user/"
       },
       "escalated_by": {
         "id": 6,
@@ -238,7 +238,7 @@
         "suffix": null,
         "role_id": 3,
         "role": "customer_service",
-        "avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/customer_service/6.png"
+        "avatar_url": "https://elasticbeanstalk-us-east-1-435800161732.s3.amazonaws.com/user/"
       }
     }
   ]
