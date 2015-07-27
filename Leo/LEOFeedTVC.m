@@ -101,19 +101,19 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
         return test;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         
-        NSString *fixture = fixture = OHPathForFile(@"getCardsForUser.json", self.class);
+        NSString *fixture = fixture = OHPathForFile(@"../Stubs/getCardsForUser.json", self.class);
         OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithFileAtPath:fixture statusCode:200 headers:@{@"Content-Type":@"application/json"}];
         return response;
         
     }];
     
-    __weak id<OHHTTPStubsDescriptor> providersStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+    __weak id<OHHTTPStubsDescriptor> staffStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         NSLog(@"Stub request");
-        BOOL test = [request.URL.host isEqualToString:APIHost] && [request.URL.path isEqualToString:[NSString stringWithFormat:@"%@/%@",APIVersion, @"providers"]];
+        BOOL test = [request.URL.host isEqualToString:APIHost] && [request.URL.path isEqualToString:[NSString stringWithFormat:@"%@/%@/%@",APIVersion, @"0", @"staff"]];
         return test;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         
-        NSString *fixture = fixture = OHPathForFile(@"getProviders.json", self.class);
+        NSString *fixture = fixture = OHPathForFile(@"../Stubs/getAllStaff.json", self.class);
         OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithFileAtPath:fixture statusCode:200 headers:@{@"Content-Type":@"application/json"}];
         return response;
         
@@ -125,7 +125,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
         return test;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         
-        NSString *fixture = fixture = OHPathForFile(@"getFamilyForUser.json", self.class);
+        NSString *fixture = fixture = OHPathForFile(@"../Stubs/getFamilyForUser.json", self.class);
         OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithFileAtPath:fixture statusCode:200 headers:@{@"Content-Type":@"application/json"}];
         return response;
     }];
@@ -136,7 +136,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
         return test;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         
-        NSString *fixture = fixture = OHPathForFile(@"getVisitTypes.json", self.class);
+        NSString *fixture = fixture = OHPathForFile(@"../Stubs/getVisitTypes.json", self.class);
         OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithFileAtPath:fixture statusCode:200 headers:@{@"Content-Type":@"application/json"}];
         return response;
     }];

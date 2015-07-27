@@ -55,7 +55,7 @@
 
 + (void)getAllStaffForPracticeWithParameters:(NSDictionary *)practiceParams withCompletion:(void (^)(NSDictionary *rawResults))completionBlock {
     
-    NSString *getPracticeStaffURLString = [NSString stringWithFormat:@"%@/%@",APIBaseUrl,@"providers"]; //FIXME: Remove hardcoded string; replace with LEOConstant. This also is definitely not the right URL.
+    NSString *getPracticeStaffURLString = [NSString stringWithFormat:@"%@/%@/%@",APIBaseUrl,practiceParams[APIParamID],@"staff"]; //FIXME: Remove hardcoded string; replace with LEOConstant. This also is definitely not the right URL.
     
     [LEOAPIHelper standardGETRequestForJSONDictionaryFromAPIWithURL:getPracticeStaffURLString params:practiceParams completion:^(NSDictionary * rawResults) {
         //TODO: Error terms

@@ -17,6 +17,7 @@
 #import "Guardian.h"
 #import "Family.h"
 #import "Practice.h"
+#import "Support.h"
 #import "LEOCardAppointment.h"
 #import "LEOCardConversation.h"
 #import "UIColor+LeoColors.h"
@@ -252,10 +253,10 @@
     NSString *filePath = [[self documentsDirectoryPath] stringByAppendingPathComponent:@"family"];
     Family *family = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
     
-    if (family) {
-        completionBlock(family);
-        return;
-    }
+//    if (family) {
+//        completionBlock(family);
+//        return;
+//    }
     
     NSArray *user = @[[self userToken]];
     NSArray *userKey = @[APIParamToken];
@@ -282,10 +283,10 @@
     NSString *filePath = [[self documentsDirectoryPath] stringByAppendingPathComponent:@"staff"];
     NSMutableArray *staff = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
     
-    if (staff) {
-        completionBlock(staff);
-        return;
-    }
+//    if (staff) {
+//        completionBlock(staff);
+//        return;
+//    }
     
     NSArray *practiceValues = @[practiceID];
     NSArray *practiceKey = @[APIParamID];
@@ -301,6 +302,9 @@
         for (NSDictionary *providerDictionary in dataArray) {
             Provider *provider = [[Provider alloc] initWithJSONDictionary:providerDictionary];
             [staff addObject:provider];
+            
+            Support *support = [[Support alloc] initWithJSONDictionary:providerDictionary];
+            [staff addObject:support];
             
             NSString *filePath = [[self documentsDirectoryPath] stringByAppendingPathComponent:@"staff"];
             BOOL isArchived = [NSKeyedArchiver archiveRootObject:staff toFile:filePath];
