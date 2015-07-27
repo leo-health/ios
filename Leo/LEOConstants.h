@@ -127,6 +127,9 @@ extern NSString *const APIParamStatus; // @"status";
 extern NSString *const APIParamStatusID; // @"status_id";
 extern NSString *const APIParamName; // @"name";
 extern NSString *const APIParamDescription; // @"description";
+extern NSString *const APIParamShortDescription; // @"short_description";
+extern NSString *const APIParamLongDescription; // @"long_description";
+
 extern NSString *const APIParamToken; // @"token";
 
 #pragma mark - Date & time
