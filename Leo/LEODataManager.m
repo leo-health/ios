@@ -300,11 +300,15 @@
         NSMutableArray *staff = [[NSMutableArray alloc] init];
         
         for (NSDictionary *providerDictionary in dataArray) {
-            Provider *provider = [[Provider alloc] initWithJSONDictionary:providerDictionary];
-            [staff addObject:provider];
             
-            Support *support = [[Support alloc] initWithJSONDictionary:providerDictionary];
-            [staff addObject:support];
+            if ([providerDictionary[APIParamRole] isEqualToString: @"provider"]) {
+                Provider *provider = [[Provider alloc] initWithJSONDictionary:providerDictionary];
+                [staff addObject:provider];
+            } else {
+                
+                Support *support = [[Support alloc] initWithJSONDictionary:providerDictionary];
+                [staff addObject:support];
+            }
             
             NSString *filePath = [[self documentsDirectoryPath] stringByAppendingPathComponent:@"staff"];
             BOOL isArchived = [NSKeyedArchiver archiveRootObject:staff toFile:filePath];
