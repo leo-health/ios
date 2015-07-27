@@ -10,15 +10,17 @@
 
 @implementation AppointmentType
 
-- (instancetype)initWithObjectID:(NSString *)objectID name:(NSString *)name typeCode:(AppointmentTypeCode)reasonCode duration:(nullable NSNumber *)duration description:(NSString *)fullDescription {
-    
+- (instancetype)initWithObjectID:(NSString *)objectID name:(NSString *)name typeCode:(AppointmentTypeCode)typeCode duration:(nullable NSNumber *)duration longDescription:(NSString *)longDescription shortDescription:(NSString *)shortDescription {
+
     self = [super init];
     if (self) {
         _objectID = objectID;
         _name = name;
         _duration = duration;
         _typeCode = typeCode;
-        _fullDescription = fullDescription;
+        _longDescription = longDescription;
+        _shortDescription = shortDescription;
+        
     }
     
     return self;
@@ -30,14 +32,15 @@
     NSString *name = jsonResponse[APIParamName];
     AppointmentTypeCode typeCode = [jsonResponse[APIParamAppointmentTypeID] integerValue];
     NSNumber *duration = jsonResponse[APIParamAppointmentTypeDuration]; //Add LEOConstant instead of hardcoding this.
-    NSString *fullDescription = jsonResponse[APIParamAppointmentTypeBody];
-    
-    return [self initWithObjectID:objectID name:name typeCode:typeCode duration:duration description:fullDescription];
+    NSString *longDescription = jsonResponse[APIParamAppointmentTypeBody];
+    NSString *shortDescription = jsonResponse[APIParamAppointmentTypeBody];
+
+    return [self initWithObjectID:objectID name:name typeCode:typeCode duration:duration longDescription:longDescription shortDescription:shortDescription];
 }
 
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"<Appointment: %p> id: %@ descriptor: %@", self, self.objectID, self.name];
+    return [NSString stringWithFormat:@"<AppointmentType: %p> id: %lu descriptor: %@", self, (unsigned long)self.typeCode, self.name];
 }
 
 @end

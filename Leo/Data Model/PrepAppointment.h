@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong, nullable) NSDate *date;
 @property (nonatomic, copy, nullable) NSString *objectID;
-@property (nonatomic, strong) id appointmentType;
+@property (nonatomic, strong) AppointmentType *appointmentType;
 @property (nonatomic) AppointmentStatusCode statusCode;
 
 //MARK: Technically a bookedByUser in a prepAppointment should always be the currentuser, right? So we might not need this to be a publicly writeable property.

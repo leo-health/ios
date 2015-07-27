@@ -41,7 +41,7 @@
     User *bookedByUser = jsonResponse[APIParamAppointmentBookedBy];
     //FIXME: This should really go looking for the appointment type via ID as opposed to trying to pull it from this JSON response most likely (hence why we get a warning here because that isn't passed as part of the API endpoint.)
     
-    AppointmentType *appointmentType = [[AppointmentType alloc] initWithObjectID:jsonResponse[APIParamAppointmentTypeID] name:jsonResponse[APIParamAppointmentTypeBody] reasonCode:0 duration:@40 description:@"Whatever"]; //FIXME: Constant
+    AppointmentType *appointmentType = [[AppointmentType alloc] initWithObjectID:@"0" name:jsonResponse[APIParamAppointmentTypeBody] typeCode:AppointmentTypeCodeCheckup duration:@15 longDescription:@"yeah yeah yeah" shortDescription:@"another shorter description"]; //FIXME: Constant
     
     AppointmentStatusCode statusCode = [jsonResponse[APIParamState] integerValue];
     NSString *objectID = [jsonResponse[APIParamID] stringValue];
