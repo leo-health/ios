@@ -53,10 +53,10 @@
 @property (strong, nonatomic) LEOTransitioningDelegate *transitionDelegate;
 
 @property (strong, nonatomic) UITableViewCell *selectedCardCell;
-@property (strong, nonatomic) NSArray *cards;
+@property (retain, nonatomic) NSMutableArray *cards;
 @property (strong, nonatomic) Family *family;
-@property (strong, nonatomic) NSArray *providers;
-@property (strong, nonatomic) NSArray *appointmentTypes;
+@property (copy, nonatomic) NSArray *providers;
+@property (copy, nonatomic) NSArray *appointmentTypes;
 
 @end
 
@@ -150,7 +150,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     dispatch_sync(queue, ^{
         [self.dataManager getCardsWithCompletion:^(NSArray *cards) {
             
-            self.cards = cards;
+            self.cards = [cards mutableCopy];
             
             dispatch_async(dispatch_get_main_queue() , ^{
                 [self.tableView reloadData];
@@ -183,7 +183,6 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     if (!self.cards) {
         [self fetchData];
     }
-    [self.tableView reloadData];
 }
 
 - (void)tableViewSetup {
@@ -279,8 +278,10 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 - (void)removeCardFromFeed:(LEOCard *)card {
     
     [self.tableView beginUpdates];
+    NSUInteger cardRow = [self.cards indexOfObject:card];
     [self removeCard:card];
-    NSArray *indexPaths = @[[NSIndexPath indexPathForRow:[card.priority integerValue] inSection:0]];
+    
+    NSArray *indexPaths = @[[NSIndexPath indexPathForRow:cardRow inSection:0]];
     [self.tableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
     [self.tableView endUpdates];
 }

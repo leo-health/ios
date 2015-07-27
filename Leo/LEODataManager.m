@@ -32,6 +32,11 @@
 
 @implementation LEODataManager
 
+/** Zachary Drossman
+ *  TODO: Determine whether this class can be made a set of class methods instead of instance methods. If it cannot, make a property of the User (one that can log in) and remove singleton abilities so that another user might log in on the same device.
+ *
+ */
+
 + (instancetype)sharedManager {
     
     static LEODataManager *sharedManager = nil;

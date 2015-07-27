@@ -21,7 +21,7 @@ NSString *const APIEndpointResetPassword = @"sessions/password";
 NSString *const APIEndpointAppointments = @"appointments";
 NSString *const APIEndpointConversations = @"conversations";
 NSString *const APIEndpointMessages = @"messages";
-NSString *const APIEndpointAppointmentTypes = @"appointments";
+NSString *const APIEndpointAppointmentTypes = @"appointmentTypes";
 NSString *const APIEndpointLogin = @"login";
 
 
@@ -133,8 +133,8 @@ NSString *const APIParamCardData = @"card_data";
 NSString *const APIParamCardPriority = @"priority";
 
 #pragma mark - Appointment type
-NSString *const APIParamAppointmentType = @"visit_type";
-NSString *const APIParamAppointmentTypeID = @"visit_type_id";
+NSString *const APIParamAppointmentType = @"appointment_type";
+NSString *const APIParamAppointmentTypeID = @"appointment_type_id";
 NSString *const APIParamAppointmentTypeDuration = @"duration";
 NSString *const APIParamAppointmentTypeBody = @"body";
 

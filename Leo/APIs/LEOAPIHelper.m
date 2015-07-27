@@ -13,6 +13,8 @@
 
 + (void)standardGETRequestForJSONDictionaryFromAPIWithURL:(NSString *)urlString params:(NSDictionary *)params completion:(void (^)(NSDictionary *rawResults))completionBlock {
     
+    __block NSString *urlStringBlock = [urlString copy];
+    __block NSDictionary *paramsBlock = params;
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     
     manager.responseSerializer = [[AFHTTPResponseSerializer alloc] init];
@@ -23,6 +25,8 @@
         completionBlock(rawResults);
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"%@",paramsBlock);
+        NSLog(@"%@",urlStringBlock);
         NSLog(@"Fail: %@",error.localizedDescription);
         NSLog(@"Fail: %@",error.localizedFailureReason);
         
