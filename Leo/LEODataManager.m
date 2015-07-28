@@ -157,10 +157,20 @@
 
 
 //FIXME: Replace with actual implementation
-- (void)getAvatarAtURL:(NSURL *)url withCompletion:(void (^)(UIImage *image))completionBlock {
+- (void)getAvatarForUser:(User *)user withCompletion:(void (^)(NSData *imageData))completionBlock {
     
-    UIImage *image = [UIImage imageNamed:@"Avatar-Emily"];
-    completionBlock(image);
+    
+    
+    if (user.avatarURL) {
+        [LEOApiClient getAvatarFromURL:user.avatarURL withCompletion:^(NSData *data) {
+            completionBlock(data);
+        }];
+    } else {
+        
+        NSData *imageData =  UIImagePNGRepresentation([UIImage imageNamed:@"Calendar-Icon"]);
+        completionBlock(imageData);
+        return;
+    }
 }
 
 - (void)createMessage:(Message *)message forConversation:(nonnull Conversation *)conversation withCompletion:(void (^)(NSDictionary  *  rawResults))completionBlock {
@@ -253,10 +263,10 @@
     NSString *filePath = [[self documentsDirectoryPath] stringByAppendingPathComponent:@"family"];
     Family *family = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
     
-//    if (family) {
-//        completionBlock(family);
-//        return;
-//    }
+    if (family) {
+        completionBlock(family);
+        return;
+    }
     
     NSArray *user = @[[self userToken]];
     NSArray *userKey = @[APIParamToken];
@@ -280,13 +290,12 @@
 //TODO: Update so that it is getting from an endpoint for all practice staff, not just providers.
 - (void)getAllStaffForPracticeID:(NSString *)practiceID withCompletion:(void (^)(NSArray *staff))completionBlock {
     
-    NSString *filePath = [[self documentsDirectoryPath] stringByAppendingPathComponent:@"staff"];
-    NSMutableArray *staff = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
+    NSArray *staff = [self unarchiveObjectWithPathComponent:@"staff"];
     
-//    if (staff) {
-//        completionBlock(staff);
-//        return;
-//    }
+    if (staff) {
+        completionBlock(staff);
+        return;
+    }
     
     NSArray *practiceValues = @[practiceID];
     NSArray *practiceKey = @[APIParamID];
@@ -310,12 +319,24 @@
                 [staff addObject:support];
             }
             
-            NSString *filePath = [[self documentsDirectoryPath] stringByAppendingPathComponent:@"staff"];
-            BOOL isArchived = [NSKeyedArchiver archiveRootObject:staff toFile:filePath];
+            [self archiveObject:staff withPathComponent:@"staff"];
         }
         
         completionBlock(staff);
     }];
+}
+
+- (id)unarchiveObjectWithPathComponent:(NSString *)pathComponent {
+    
+    NSString *filePath = [[self documentsDirectoryPath] stringByAppendingPathComponent:pathComponent];
+    
+    return [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
+}
+
+- (void)archiveObject:(id)object withPathComponent:(NSString *)pathComponent {
+    
+    NSString *filePath = [[self documentsDirectoryPath] stringByAppendingPathComponent:pathComponent];
+    BOOL isArchived = [NSKeyedArchiver archiveRootObject:object toFile:filePath];
 }
 
 - (NSString *)documentsDirectoryPath {
@@ -345,7 +366,7 @@
     
     for (id object in objects) {
         
-        SEL selector = NSSelectorFromString(@"id");
+        SEL selector = NSSelectorFromString(@"objectID");
         IMP imp = [object methodForSelector:selector];
         NSString* (*func)(id, SEL) = (void *)imp;
         NSString* result = object ? func(object, selector) : nil;

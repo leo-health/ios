@@ -37,6 +37,7 @@
 
 @property (copy, nonatomic) NSArray *messages;
 @property (copy, nonatomic) NSString *senderFamily;
+@property (copy, nonatomic) NSArray *participants;
 
 @end
 
@@ -446,8 +447,26 @@
     
     
     //FIXME:This should be replaced with the actual avatar, but since we don't yet have those...here is a placeholder.
-    JSQMessagesAvatarImage *avatarImage = [LEOMessagesAvatarImageFactory avatarImageWithImage:[UIImage imageNamed:@"Avatar-Emily"]
-                                                                                     diameter:kJSQMessagesCollectionViewAvatarSizeDefault borderColor:[UIColor leoBlack]];
+//    JSQMessagesAvatarImage *avatarImage = [LEOMessagesAvatarImageFactory avatarImageWithImage:[UIImage imageNamed:@"Avatar-Emily"] diameter:kJSQMessagesCollectionViewAvatarSizeDefault borderColor:[UIColor leoBlack]];
+    
+    NSPredicate *userPredicate = [NSPredicate predicateWithFormat:@"objectID == %@", message.sender.objectID];
+    
+    if (self.participants == nil) {
+        [self.dataManager getAllStaffForPracticeID:@"0" withCompletion:^(NSArray *staff) {
+            self.participants = staff;
+        }];
+    }
+    
+    User *user = [self.dataManager objectWithObjectID:message.sender.objectID objectArray:self.participants];
+    
+    UIImage *userImage = user.avatar;
+    
+    //User *user = [self.participants filteredArrayUsingPredicate:userPredicate][0];
+    
+    NSLog(@"User: %@", user);
+    
+    JSQMessagesAvatarImage *avatarImage = [LEOMessagesAvatarImageFactory avatarImageWithImage:userImage diameter:kJSQMessagesCollectionViewAvatarSizeDefault borderColor:[UIColor leoBlack]];
+    
     return avatarImage;
 }
 

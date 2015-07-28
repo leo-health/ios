@@ -43,6 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)createUserWithUser:(nonnull User *)user password:(nonnull NSString *)password withCompletion:(void (^)( NSDictionary * __nonnull rawResults))completionBlock;
 - (void)loginUserWithEmail:(nonnull NSString *)email password:(nonnull NSString *)password withCompletion:(void (^)(NSDictionary * __nonnull rawResults))completionBlock;
 - (void)resetPasswordWithEmail:(nonnull NSString *)email withCompletion:(void (^)(NSDictionary * __nonnull rawResults))completionBlock;
+- (void)getAvatarForUser:(User *)user withCompletion:(void (^)(NSData *imageData))completionBlock;
 
 //Appointments
 - (void)createAppointmentWithAppointment:(nonnull Appointment *)appointment withCompletion:(void (^)(NSDictionary  * __nonnull rawResults))completionBlock;
@@ -63,6 +64,9 @@ NS_ASSUME_NONNULL_BEGIN
 //Helper methods
 - (id)objectWithObjectID:(NSString *)objectID objectArray:(NSArray *)objects;
 
+
+- (id)unarchiveObjectWithPathComponent:(NSString *)pathComponent;
+- (void)archiveObject:(id)object withPathComponent:(NSString *)pathComponent;
 
 NS_ASSUME_NONNULL_END
 @end

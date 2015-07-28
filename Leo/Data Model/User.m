@@ -51,14 +51,20 @@
     NSString *email = jsonResponse[APIParamUserEmail];
     
     NSString *avatarURL;
-    UIImage *avatar;
-    //FIXME: The avatar should not be retrieved every time we get the user most likely.
+    
+    /**
+     *  If an avatarURL exists, then append the objectID to it, followed by
+     *  @1x.png, @2x.png, or @3x.png based on the scaleFactor.
+     */
     if (!(jsonResponse[APIParamUserAvatarURL] == [NSNull null])) {
-        avatarURL = jsonResponse[APIParamUserAvatarURL];
+        
+        NSInteger scaleFactor = [@([[UIScreen mainScreen] scale]) integerValue];
+        
+        avatarURL = [NSString stringWithFormat:@"%@%@@%ldx.png",jsonResponse[APIParamUserAvatarURL],objectID,(long)scaleFactor];
     }
     
     //TODO: May need to protect against nil values...
-    return [self initWithObjectID:objectID title:title firstName:firstName middleInitial:middleInitial lastName:lastName suffix:suffix email:email avatarURL:avatarURL avatar:avatar];
+    return [self initWithObjectID:objectID title:title firstName:firstName middleInitial:middleInitial lastName:lastName suffix:suffix email:email avatarURL:avatarURL avatar:nil];
 }
 
 + (NSDictionary *)dictionaryFromUser:(User *)user {

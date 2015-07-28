@@ -11,8 +11,12 @@
 
 @class Appointment, ConversationParticipant, Role;
 
+
+
 @interface User : NSObject <NSCoding>
 NS_ASSUME_NONNULL_BEGIN
+
+
 
 @property (nonatomic, copy, nullable) NSString * objectID;
 @property (nonatomic, copy) NSString * firstName;

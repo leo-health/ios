@@ -55,7 +55,7 @@
 @property (strong, nonatomic) UITableViewCell *selectedCardCell;
 @property (retain, nonatomic) NSMutableArray *cards;
 @property (strong, nonatomic) Family *family;
-@property (copy, nonatomic) NSArray *providers;
+@property (copy, nonatomic) NSArray *allStaff;
 @property (copy, nonatomic) NSArray *appointmentTypes;
 
 @end
@@ -158,21 +158,46 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
         }];
     });
     
-    if (self.family == nil || self.providers == nil || self.appointmentTypes == nil) {
+    if (self.family == nil || self.allStaff == nil || self.appointmentTypes == nil) {
         
-    dispatch_sync(queue, ^{
-        [self.dataManager getFamilyWithCompletion:^(Family *family) {
-            self.family = family;
-        }];
+        dispatch_sync(queue, ^{
+            [self.dataManager getFamilyWithCompletion:^(Family *family) {
+                self.family = family;
+                
+                for (User *user in self.family.guardians) {
+                    [self.dataManager getAvatarForUser:user withCompletion:^(NSData * data) {
+                        user.avatar = [UIImage imageWithData:data];
+
+                        [self.dataManager archiveObject:self.family withPathComponent:@"family"];
+
+                    }];
+                }
+            }];
+            
+            [self.dataManager getAllStaffForPracticeID:@"0" withCompletion:^(NSArray *allStaff) {
+                self.allStaff = allStaff;
+                
+                for (User *user in self.allStaff) {
+                    [self.dataManager getAvatarForUser:user withCompletion:^(NSData * data) {
+                        user.avatar = [UIImage imageWithData:data];
+                        
+                        [self.dataManager archiveObject:self.allStaff withPathComponent:@"staff"];
+                    }];
+                }
+            }];
+            
+            [self.dataManager getAppointmentTypesWithCompletion:^(NSArray *appointmentTypes) {
+                self.appointmentTypes = appointmentTypes;
+            }];
+        });
         
-        [self.dataManager getAllStaffForPracticeID:@"0" withCompletion:^(NSArray *providers) {
-            self.providers = providers;
-        }];
+        dispatch_sync(queue, ^{
+            
+            
+            
+        });
         
-        [self.dataManager getAppointmentTypesWithCompletion:^(NSArray *appointmentTypes) {
-            self.appointmentTypes = appointmentTypes;
-        }];
-    });
+
     }
 }
 
@@ -267,7 +292,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 
 - (void)beginSchedulingNewAppointment {
 
-    Appointment *appointment = [[Appointment alloc] initWithObjectID:nil date:nil appointmentType:self.appointmentTypes[0] patient:self.family.patients[0] provider:self.providers[0] bookedByUser:(User *)[self.dataManager currentUser] note:nil statusCode:AppointmentStatusCodeBooking];
+    Appointment *appointment = [[Appointment alloc] initWithObjectID:nil date:nil appointmentType:self.appointmentTypes[0] patient:self.family.patients[0] provider:self.allStaff[0] bookedByUser:(User *)[self.dataManager currentUser] note:nil statusCode:AppointmentStatusCodeBooking];
     
     LEOCardAppointment *card = [[LEOCardAppointment alloc] initWithObjectID:@"temp" priority:@999 type:CardTypeAppointment associatedCardObject:appointment];
 
@@ -310,7 +335,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     UIStoryboard *appointmentStoryboard = [UIStoryboard storyboardWithName:@"Appointment" bundle:nil];
     LEOCardAppointmentBookingVC *singleAppointmentBookingVC = [appointmentStoryboard instantiateInitialViewController];
     singleAppointmentBookingVC.card = (LEOCardAppointment *)card;
-    singleAppointmentBookingVC.providers = self.providers;
+    singleAppointmentBookingVC.providers = self.allStaff;
     singleAppointmentBookingVC.patients = self.family.patients;
     singleAppointmentBookingVC.appointmentTypes = self.appointmentTypes;
     //              self.transitionDelegate = [[LEOTransitioningDelegate alloc] init];

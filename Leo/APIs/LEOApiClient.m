@@ -134,6 +134,17 @@
     }];
 }
 
++ (void)getAvatarFromURL:(NSString *)avatarURL withCompletion:(void (^)(NSData *data))completionBlock {
+    
+    //FIXME: This is a basic implementation. Nil params is an issue as well. What security does s3 support for users only accessing URLs they should have access to?
+    [LEOAPIHelper standardGETRequestForDataFromS3WithURL:avatarURL params:nil completion:^(NSData *data) {
+        //TODO: Error terms
+        completionBlock(data);
+    
+    }];
+}
+
+
 
 //FIXME: Placeholder for method.
 + (void)getUserWithID:(NSNumber *)userID withCompletion:(void (^)(NSDictionary *rawResults))completionBlock {
