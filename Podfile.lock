@@ -29,8 +29,10 @@ PODS:
     - libPusher/Core (= 1.6)
   - libPusher/Core (1.6):
     - SocketRocket (= 0.3.1-beta2)
+  - MBProgressHUD (0.9.1)
   - OHHTTPStubs (4.0.1)
   - pop (1.0.7)
+  - RPFloatingPlaceholders (0.3.1)
   - SocketRocket (0.3.1-beta2)
   - Specta (0.5.0)
   - SSKeychain (1.2.3)
@@ -44,7 +46,9 @@ DEPENDENCIES:
   - Expecta (~> 0.2.4)
   - JSQMessagesViewController
   - libPusher (~> 1.5)
+  - MBProgressHUD
   - OHHTTPStubs
+  - RPFloatingPlaceholders
   - Specta (~> 0.5)
   - SSKeychain
   - UIImage-Resize
@@ -57,8 +61,10 @@ SPEC CHECKSUMS:
   JSQMessagesViewController: ca11f86fa68ca70835f05e169df9244147c1dc40
   JSQSystemSoundPlayer: c5850e77a4363ffd374cd851154b9af93264ed8d
   libPusher: f9367ede8f5141e74adc90ba20536cbc3c7b68e1
+  MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
   OHHTTPStubs: 69b1d48b7dfe838a355fdf48d8592d1042e3d85f
   pop: 628ffc631644601567ee8bfaaaea493ebd7d0923
+  RPFloatingPlaceholders: c96a4a8f5f53a63199920dcf8a354435508b1a10
   SocketRocket: 7284ab9370a06c99aba92b2fe3a32aedd0f9a6fa
   Specta: eb90708ed77569bbda089f8ead10bb99b8e9489e
   SSKeychain: 3f42991739c6c60a9cf1bbd4dff6c0d3694bcf3d
