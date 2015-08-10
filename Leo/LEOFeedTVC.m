@@ -29,7 +29,8 @@
 
 #import "UIColor+LeoColors.h"
 #import "UIImage+Extensions.h"
-#import "LEOCardAppointmentBookingVC.h"
+#import "LEOExpandedCardAppointmentViewController.h"
+#import "LEOCardAppointment.h"
 #import "LEOTransitioningDelegate.h"
 #import "LEOCardConversationChattingVC.h"
 
@@ -44,6 +45,8 @@
 #import "UIImageEffects.h"
 
 #import "AppDelegate.h"
+
+#import <MBProgressHUD/MBProgressHUD.h>
 
 @interface LEOFeedTVC ()
 
@@ -147,12 +150,19 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     
     dispatch_queue_t queue = dispatch_queue_create("loadingQueue", NULL);
     
+    [MBProgressHUD showHUDAddedTo:self.tableView animated:YES];
+
     dispatch_sync(queue, ^{
+        
+        sleep(0.2);
+        
         [self.dataManager getCardsWithCompletion:^(NSArray *cards) {
             
             self.cards = [cards mutableCopy];
             
             dispatch_async(dispatch_get_main_queue() , ^{
+                
+                [MBProgressHUD hideHUDForView:self.tableView animated:YES];
                 [self.tableView reloadData];
             });
         }];
@@ -201,7 +211,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     }
 }
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewDidAppear:(BOOL)animated {
     
     //FIXME: So, ultimately, this should be a data fetch, but since we aren't actually pushing anything up to the API at this point and the expectation is we would both push and pull at the same time, we're just going to reload data at the moment and we'll deal with this when the time comes to implement the actual API.
     
@@ -259,6 +269,19 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
                     [self removeCardFromFeed:card];
                     break;
                 }
+                    
+                case AppointmentStatusCodeCancelling: {
+                    [self.tableView reloadData];
+                    break;
+                }
+                case AppointmentStatusCodeReminding: {
+                    
+                    [self.tableView reloadData];
+
+                    [self dismissViewControllerAnimated:YES completion:^{
+                    }];
+                    break;
+                }
 
                 default: {
                     [self.tableView reloadData]; //TODO: This is not right, but for now it is a placeholder.
@@ -292,7 +315,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 
 - (void)beginSchedulingNewAppointment {
 
-    Appointment *appointment = [[Appointment alloc] initWithObjectID:nil date:nil appointmentType:self.appointmentTypes[0] patient:self.family.patients[0] provider:self.allStaff[0] bookedByUser:(User *)[self.dataManager currentUser] note:nil statusCode:AppointmentStatusCodeBooking];
+    Appointment *appointment = [[Appointment alloc] initWithObjectID:nil date:nil appointmentType:nil patient:nil provider:nil bookedByUser:(User *)[self.dataManager currentUser] note:nil statusCode:AppointmentStatusCodeBooking];
     
     LEOCardAppointment *card = [[LEOCardAppointment alloc] initWithObjectID:@"temp" priority:@999 type:CardTypeAppointment associatedCardObject:appointment];
 
@@ -333,14 +356,12 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 - (void)loadBookingViewWithCard:(LEOCard *)card {
     
     UIStoryboard *appointmentStoryboard = [UIStoryboard storyboardWithName:@"Appointment" bundle:nil];
-    LEOCardAppointmentBookingVC *singleAppointmentBookingVC = [appointmentStoryboard instantiateInitialViewController];
-    singleAppointmentBookingVC.card = (LEOCardAppointment *)card;
-    singleAppointmentBookingVC.providers = self.allStaff;
-    singleAppointmentBookingVC.patients = self.family.patients;
-    singleAppointmentBookingVC.appointmentTypes = self.appointmentTypes;
+    UINavigationController *appointmentNavController = [appointmentStoryboard instantiateInitialViewController];
+    LEOExpandedCardAppointmentViewController *appointmentBookingVC = appointmentNavController.viewControllers.firstObject;
+    appointmentBookingVC.card = (LEOCardAppointment *)card;
     //              self.transitionDelegate = [[LEOTransitioningDelegate alloc] init];
     //            singleAppointmentScheduleVC.transitioningDelegate = self.transitionDelegate;
-    [self presentViewController:singleAppointmentBookingVC animated:YES completion:^{
+    [self presentViewController:appointmentNavController animated:YES completion:^{
     }];
     
 }

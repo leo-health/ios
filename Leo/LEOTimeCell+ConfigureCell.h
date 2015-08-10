@@ -8,8 +8,10 @@
 
 #import "LEOTimeCell.h"
 
+@class Slot;
+
 @interface LEOTimeCell (ConfigureCell)
 
-- (void)configureForDateTime:(NSDate *)dateTime;
+- (void)configureForSlot:(Slot *)slot;
 
 @end

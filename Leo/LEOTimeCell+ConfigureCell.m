@@ -7,27 +7,15 @@
 //
 
 #import "LEOTimeCell+ConfigureCell.h"
+#import "NSDate+Extensions.h"
+#import "Slot.h"
 
 @implementation LEOTimeCell (ConfigureCell)
 
-- (void)configureForDateTime:(NSDate *)dateTime {
+- (void)configureForSlot:(Slot *)slot {
     
-    self.timeLabel.text = [self.timeFormatter stringFromDate:dateTime];
+    self.timeLabel.text = [NSDate stringifiedTime:slot.startDateTime];
     self.selected = NO;
-}
-
-- (NSDateFormatter *)timeFormatter {
-    
-    static NSDateFormatter *timeFormatter;
-    if (!timeFormatter) {
-        timeFormatter = [[NSDateFormatter alloc] init];
-        timeFormatter.dateFormat = @"h':'mma";
-        timeFormatter.AMSymbol = @"am";
-        timeFormatter.PMSymbol = @"pm";
-    }
-    
-    
-    return timeFormatter;
 }
 
 @end

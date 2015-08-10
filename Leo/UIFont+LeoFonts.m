@@ -12,6 +12,7 @@
 
 //TODO: Placeholders, and temporary until switching over to Text Styles for use with Dynamic Type
 
+NSString *const LeoLightFont = @"AvenirNext-UltraLight";
 NSString *const LeoBasicFont = @"AvenirNext-Regular";
 NSString *const LeoMediumFont = @"AvenirNext-Medium";
 NSString *const LeoBoldFont = @"AvenirNext-Bold";
@@ -46,6 +47,9 @@ NSString *const LeoBodyBoldFont = @"AvenirNext-Bold";
 
 
 
++ (UIFont *)leoQuestionFont {
+    return [UIFont fontWithName:LeoMediumFont size:16];
+}
 
 + (UIFont *)leoBodyFont {
     return [UIFont fontWithName:LeoBasicFont size:16.5];
@@ -65,6 +69,14 @@ NSString *const LeoBodyBoldFont = @"AvenirNext-Bold";
 
 + (UIFont *)leoChatTimestampLabelFont {
     return [UIFont fontWithName:LeoBasicFont size:12];
+}
+
++ (UIFont *)leoHeaderFont {
+    return [UIFont fontWithName:LeoBasicFont size:30];
+}
+
++ (UIFont *)leoHeaderLightFont {
+    return [UIFont fontWithName:LeoLightFont size:30];
 }
 
 @end
