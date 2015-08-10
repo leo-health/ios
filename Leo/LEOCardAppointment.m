@@ -134,7 +134,7 @@ static NSString *kActionSelectorBook = @"book";
             break;
             
         case AppointmentStatusCodeConfirmingCancelling:
-            bodyText = [NSString stringWithFormat:@"%@'s appointment has been cancelled. Click dismiss to remove this card from you feed.",self.appointment.patient.firstName];
+            bodyText = [NSString stringWithFormat:@"%@'s appointment has been cancelled. This card will be automatically removed from your feed after some time.",self.appointment.patient.firstName];
             break;
             
         case AppointmentStatusCodeRecommending:
