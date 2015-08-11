@@ -16,6 +16,10 @@
 #import <VBFPopFlatButton/VBFPopFlatButton.h>
 #import "MenuView.h"
 
+#import "Appointment.h"
+#import "LEOCardScheduling.h"
+#import "LEODataManager.h"
+
 @interface LEOMainContainerViewController ()
 
 @property (weak, nonatomic) IBOutlet UINavigationBar *navBar;
@@ -25,6 +29,7 @@
 @property (nonatomic) BOOL menuShowing;
 @property (strong, nonatomic) UIImageView *blurredImageView;
 @property (strong, nonatomic) MenuView *menuView;
+@property (strong, nonatomic) LEODataManager *dataManager;
 
 @end
 
@@ -38,6 +43,8 @@
     [self setupMenuButton];
 
     [self setNeedsStatusBarAppearanceUpdate];
+    
+    self.dataManager = [LEODataManager sharedManager];
     
     //Set background color such that the status bar color matches the color of the navigation bar.
     self.view.backgroundColor = [UIColor leoOrangeRed];
@@ -196,7 +203,8 @@
     self.menuView = [[MenuView alloc] init];
     self.menuView.alpha = 0;
     self.menuView.translatesAutoresizingMaskIntoConstraints = NO;
-    
+    self.menuView.delegate = self;
+
     [self.view insertSubview:self.menuView belowSubview:self.menuButton];
     
     NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(_menuView);
@@ -207,7 +215,6 @@
     
     [self.view addConstraints:horizontalMenuViewLayoutConstraints];
     [self.view addConstraints:verticalMenuViewLayoutConstraints];
-    
     [self.view layoutIfNeeded];
 }
 
@@ -220,7 +227,16 @@
     self.menuView = nil;
 }
 
+-(void)didMakeMenuChoice {
+    
+    [self animateMenuDisappearWithCompletion:^{
+        [self.pageViewController flipToFeed];
+        [self dismissMenuView];
+    }];
+}
+
 #pragma mark - Navigation
+
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {

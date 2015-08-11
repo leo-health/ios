@@ -9,19 +9,25 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class Conversation;
+@class User;
 
-@interface Message : NSManagedObject
+@interface Message : NSObject
+NS_ASSUME_NONNULL_BEGIN
 
-@property (nonatomic, retain) NSString * body;
-@property (nonatomic, retain) NSDate * createdAt;
-@property (nonatomic, retain) NSDate * escalatedAt;
-@property (nonatomic, retain) NSString * messageID;
-@property (nonatomic, retain) NSNumber * messageType;
-@property (nonatomic, retain) NSDate * resolvedApprovedAt;
-@property (nonatomic, retain) NSDate * resolvedRequestAt;
-@property (nonatomic, retain) NSString * senderID;
-@property (nonatomic, retain) NSDate * updatedAt;
-@property (nonatomic, retain) Conversation *conversation;
+@property (nonatomic, copy) NSString *objectID;
+@property (nonatomic, copy) NSString *body;
+@property (nonatomic, strong, nullable) User *escalatedTo;
+@property (nonatomic, strong) NSString *status;
+@property (nonatomic, strong) NSString *statusID;
+@property (nonatomic, strong) User *sender;
+@property (nonatomic, strong) NSDate *createdAt;
 
+
+- (instancetype)initWithObjectID:(nullable NSString *)objectID body:(NSString *)body sender:(User *)sender;
+
+- (instancetype)initWithJSONDictionary:(nonnull NSDictionary *)jsonResponse;
+
++ (NSDictionary *)dictionaryFromMessage:(Message *)message;
+
+NS_ASSUME_NONNULL_END
 @end

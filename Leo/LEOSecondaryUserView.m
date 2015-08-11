@@ -8,7 +8,7 @@
 
 #import "LEOSecondaryUserView.h"
 #import <NSDate+DateTools.h>
-#import "User.h"
+#import "Provider.h"
 #import "UIColor+LeoColors.h"
 #import "UIFont+LeoFonts.h"
 #import "LEOConstants.h"
@@ -20,10 +20,6 @@
 @property (weak, nonatomic, nullable) UILabel *suffixCredentialLabel;
 @property (weak, nonatomic, nullable) UILabel *timestampLabel;
 @property (weak, nonatomic, nullable) UILabel *dividerLabel;
-
-
-@property (strong, nonatomic, nonnull) UIColor *cardTintColor; //FIXME: Likely will remove and associate with User at some stage.
-
 
 @property (nonatomic) BOOL constraintsAlreadyUpdated;
 
@@ -52,19 +48,34 @@
     [self addSubview:self.suffixCredentialLabel];
 }
 
-- (void)setupSubviews {
+- (void)refreshSubviews {
     
-    self.nameLabel.text = [NSString stringWithFormat:@"%@ %@ %@",self.user.title, self.user.firstName, self.user.lastName]; //FIXME: Replace with transient property on User class
-    self.suffixLabel.text = self.user.suffix;
-    self.suffixCredentialLabel.text = self.user.credentialSuffix;
+    self.nameLabel.text = [NSString stringWithFormat:@"%@ %@ %@",self.provider.title, self.provider.firstName, self.provider.lastName]; //FIXME: Replace with transient property on User class
+    self.suffixLabel.text = self.provider.suffix;
+    
+    NSString *credentials;
+    
+    for (NSInteger i; i < [self.provider.credentials count]; i++) {
+
+        if (i != 0) {
+            [credentials stringByAppendingString:@" "];
+        }
+        
+        [credentials stringByAppendingString:self.provider.credentials[i]];
+    }
+    
+    self.suffixCredentialLabel.text = credentials;
+    
     self.dividerLabel.text = @"∙";
     
-    if (self.cardLayout == CardLayoutTwoButtonSecondaryOnly) {
+    if (self.cardLayout == CardLayoutOneButtonSecondaryOnly) {
         self.timestampLabel.text = self.timeStamp.timeAgoSinceNow;
     } else {
         //FIXME: This only accounts for dates within the past year! And doesn't yet deal with timezones!
         NSDateFormatter *format = [[NSDateFormatter alloc] init];
-        [format setDateFormat:@"MMM dd',' HH':'mm"];
+        [format setDateFormat:@"MMMM d',' h':'mma"];
+        format.AMSymbol = @"am";
+        format.PMSymbol = @"pm";
         self.timestampLabel.text = [format stringFromDate:self.timeStamp];
         
     }
@@ -73,13 +84,13 @@
     [self typefaceView];
 }
 
-- (nonnull instancetype)initWithCardLayout:(CardLayout)cardLayout user:(nonnull User *)user timestamp:(nonnull NSDate *)timestamp {
+- (nonnull instancetype)initWithCardLayout:(CardLayout)cardLayout user:(nonnull Provider *)provider timestamp:(nonnull NSDate *)timestamp {
     
     self = [super init];
     if (self) {
         
         _cardLayout = cardLayout;
-        _user = user;
+        _provider = provider;
         _timeStamp = timestamp;
         
     }
@@ -98,7 +109,7 @@
 
 - (void)updateConstraints {
     
-    [self setupSubviews];
+    [self refreshSubviews];
     
     if (!self.constraintsAlreadyUpdated) {
         self.nameLabel.translatesAutoresizingMaskIntoConstraints = NO;
@@ -107,7 +118,7 @@
         self.timestampLabel.translatesAutoresizingMaskIntoConstraints = NO;
         self.suffixCredentialLabel.translatesAutoresizingMaskIntoConstraints = NO;
         
-        [self removeConstraints:self.constraints];
+        //[self removeConstraints:self.constraints];
         
         UILabel *localNameLabel = self.nameLabel;
         UILabel *localSuffixLabel = self.suffixLabel;
@@ -122,7 +133,7 @@
             horizontalLayoutConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[localNameLabel][localSuffixLabel]-(4)-[localSuffixCredentialLabel]-[localDividerLabel]-[localTimestampLabel]" options:0 metrics:nil views:viewsDictionary];
         }
         else {
-            horizontalLayoutConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[localTimestampLabel]-[localDividerLabel]-[localNameLabel]-[localSuffixLabel]-(4)-[localSuffixCredentialLabel]" options:0 metrics:nil views:viewsDictionary];
+            horizontalLayoutConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[localTimestampLabel]-[localDividerLabel]-[localNameLabel]-(2)-[localSuffixLabel]-(2)-[localSuffixCredentialLabel]" options:0 metrics:nil views:viewsDictionary];
         }
         
         NSArray *nameLabelVerticalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[localNameLabel]|" options:0 metrics:nil views:viewsDictionary];
@@ -151,21 +162,21 @@
 
 - (void)colorView {
     
-    self.nameLabel.textColor = self.cardTintColor;
-    self.suffixLabel.textColor = [UIColor leoWarmHeavyGray];
-    self.dividerLabel.textColor = [UIColor leoWarmHeavyGray];
-    self.timestampLabel.textColor = [UIColor leoWarmHeavyGray];
-    self.suffixCredentialLabel.textColor = [UIColor leoWarmHeavyGray];
+    self.nameLabel.textColor = self.cardColor;
+    self.suffixLabel.textColor = [UIColor leoGrayBodyText];
+    self.dividerLabel.textColor = [UIColor leoGrayBodyText];
+    self.timestampLabel.textColor = [UIColor leoGrayBodyText];
+    self.suffixCredentialLabel.textColor = [UIColor leoGrayBodyText];
 }
 
 
 - (void)typefaceView {
     
-    self.nameLabel.font = [UIFont leoBodyBolderFont];
-    self.suffixLabel.font = [UIFont leoBodyBolderFont];
-    self.suffixCredentialLabel.font = [UIFont leoBodyBolderFont];
-    self.dividerLabel.font = [UIFont leoBodyBoldFont];
-    self.timestampLabel.font = [UIFont leoBodyBasicFont];
+    self.nameLabel.font = [UIFont leoUserFont];
+    self.suffixLabel.font = [UIFont leoUserFont];
+    self.suffixCredentialLabel.font = [UIFont leoUserFont];
+    self.dividerLabel.font = [UIFont leoUserFont];
+    self.timestampLabel.font = [UIFont leoButtonFont];
 }
 
 

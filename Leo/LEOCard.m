@@ -13,14 +13,15 @@
 
 #pragma mark - Initializers
 
-- (nonnull instancetype)initWithID:(nonnull NSNumber *)id state:(NSInteger)state priority:(nonnull NSNumber *)priority associatedCardObject:(nonnull id)associatedCardObject {
+- (nonnull instancetype)initWithObjectID:(NSString *)objectID priority:(NSNumber *)priority type:(NSString *)type associatedCardObjects:(nonnull NSArray *)associatedCardObjects {
 
     self = [super init];
+    
     if (self) {
-        _id = id;
-        _state = state;
+        _objectID = objectID;
         _priority = priority;
-        _associatedCardObject = associatedCardObject;
+        _type = type;
+        _associatedCardObjects = associatedCardObjects;
     }
     
     return self;
@@ -28,10 +29,10 @@
 
 - (nonnull instancetype)cardWithDictionary:(nonnull NSDictionary *)jsonResponse {
    
-    return [self initWithID:jsonResponse[APIParamCardID]
-               state:[jsonResponse[APIParamCardState] integerValue]
+    return [self initWithObjectID:jsonResponse[APIParamCardID]
             priority:jsonResponse[APIParamCardPriority]
-       associatedCardObject:jsonResponse[APIParamAssociatedCardObject]];
+            type:jsonResponse[APIParamCardType]
+       associatedCardObjects:jsonResponse[APIParamAssociatedCardObject]];
 }
 
 
@@ -81,6 +82,13 @@
     
 }
 
+- (nonnull UIColor *)tintColor {
+    
+    @throw [NSException exceptionWithName:NSInternalInconsistencyException
+                                   reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
+                                 userInfo:nil];
+}
+
 -(nonnull User *)primaryUser {
     
     @throw [NSException exceptionWithName:NSInternalInconsistencyException
@@ -102,4 +110,11 @@
                                  userInfo:nil];
 
 }
+
+- (void)returnToPriorState {
+    
+    //optional?
+}
+
+
 @end

@@ -7,11 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-@class Appointment;
+@class PrepAppointment;
 
 @interface LEOChildDropDownTableViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (strong, nonatomic) NSArray *children;
-@property (strong, nonatomic) Appointment *appointment;
+@property (strong, nonatomic) PrepAppointment *prepAppointment;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @end

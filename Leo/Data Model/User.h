@@ -11,39 +11,24 @@
 
 @class Appointment, ConversationParticipant, Role;
 
-@interface User : NSManagedObject
+@interface User : NSObject
+NS_ASSUME_NONNULL_BEGIN
 
-@property (nonatomic, retain) NSDate * createdAt;
-@property (nonatomic, retain) NSString * credentialSuffix;
-@property (nonatomic, retain) NSDate * dob;
-@property (nonatomic, retain) NSString * email;
-@property (nonatomic, retain) NSString * familyID;
-@property (nonatomic, retain) NSString * firstName;
-@property (nonatomic, retain) NSString * gender;
-@property (nonatomic, retain) NSString * id;
-@property (nonatomic, retain) NSString * lastName;
-@property (nonatomic, retain) NSString * middleInitial;
-@property (nonatomic, retain) NSString * practiceID;
-@property (nonatomic, retain) NSString * suffix;
-@property (nonatomic, retain) NSString * title;
-@property (nonatomic, retain) NSDate * updatedAt;
-@property (nonatomic, retain) NSSet *appointmentsToAdminister;
-@property (nonatomic, retain) NSSet *appointmentsToBeAt;
-@property (nonatomic, retain) Appointment *appointmentsToBeSeen;
-@property (nonatomic, retain) ConversationParticipant *participant;
-@property (nonatomic, retain) Role *role;
-@end
+@property (nonatomic, copy, nullable) NSString * objectID;
+@property (nonatomic, copy) NSString * firstName;
+@property (nonatomic, copy) NSString * lastName;
+@property (nonatomic, copy) NSString * middleInitial;
+@property (nonatomic, copy, nullable) NSString * suffix;
+@property (nonatomic, copy, nullable) NSString * title;
+@property (nonatomic, copy, nullable) NSString *email;
+@property (nonatomic, copy, nullable) NSURL *photoURL;
+@property (nonatomic, strong, nullable) UIImage *photo;
 
-@interface User (CoreDataGeneratedAccessors)
+- (instancetype)initWithObjectID:(nullable NSString*)objectID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email photoURL:(NSURL *)photoURL photo:(nullable UIImage *)photo NS_DESIGNATED_INITIALIZER;
 
-- (void)addAppointmentsToAdministerObject:(Appointment *)value;
-- (void)removeAppointmentsToAdministerObject:(Appointment *)value;
-- (void)addAppointmentsToAdminister:(NSSet *)values;
-- (void)removeAppointmentsToAdminister:(NSSet *)values;
+- (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse;
 
-- (void)addAppointmentsToBeAtObject:(Appointment *)value;
-- (void)removeAppointmentsToBeAtObject:(Appointment *)value;
-- (void)addAppointmentsToBeAt:(NSSet *)values;
-- (void)removeAppointmentsToBeAt:(NSSet *)values;
++ (NSDictionary *)dictionaryFromUser:(User*)user;
 
+NS_ASSUME_NONNULL_END
 @end

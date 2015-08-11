@@ -14,41 +14,46 @@
 
 @implementation LEOTwoButtonSecondaryOnlyCell (ConfigureForCell)
 
-- (void)configureForCard:(LEOCard *)card
-{
+- (void)configureForCard:(LEOCard *)card {
     
     self.iconImageView.image = [card icon];
     self.titleLabel.text = [card title];
     
-    self.secondaryUserView.user = card.secondaryUser;
+    self.secondaryUserView.provider = card.secondaryUser;
     self.secondaryUserView.timeStamp = card.timestamp;
-    self.secondaryUserView.cardLayout = CardLayoutTwoButtonSecondaryOnly;
-    
+    self.secondaryUserView.tintColor = card.tintColor;
+    self.secondaryUserView.cardLayout = CardLayoutTwoButtonPrimaryAndSecondary;
+    self.secondaryUserView.backgroundColor = [UIColor clearColor];
     self.bodyLabel.text = [card body];
+    
+    
     [self.buttonOne setTitle:[card stringRepresentationOfActionsAvailableForState][0] forState:UIControlStateNormal];
+    [self.buttonOne removeTarget:card action:NULL forControlEvents:self.buttonOne.allControlEvents];
     [self.buttonOne addTarget:card action:NSSelectorFromString([card actionsAvailableForState][0]) forControlEvents:UIControlEventTouchUpInside];
     
     [self.buttonTwo setTitle:[card stringRepresentationOfActionsAvailableForState][1] forState:UIControlStateNormal];
     
+    [self.buttonTwo removeTarget:card action:NULL forControlEvents:self.buttonTwo.allControlEvents];
     [self.buttonTwo addTarget:card action:NSSelectorFromString([card actionsAvailableForState][1]) forControlEvents:UIControlEventTouchUpInside];
+    [self formatSubviewsWithTintColor:card.tintColor];
     
-    [self formatSubviews];
+    //FIXME: Should I have access to this method outside of secondaryUserViews
+    [self.secondaryUserView refreshSubviews];
 }
 
-- (void)formatSubviews {
+- (void)formatSubviewsWithTintColor:(UIColor *)tintColor {
+
+    self.titleLabel.font = [UIFont leoTitleFont];
+    self.titleLabel.textColor = [UIColor leoGrayTitleText];
+        
+    self.bodyLabel.font = [UIFont leoBodyFont];
+    self.bodyLabel.textColor = [UIColor leoGrayBodyText];
     
-    self.titleLabel.font = [UIFont leoTitleBoldFont];
-    self.titleLabel.textColor = [UIColor leoWarmHeavyGray];
+    self.buttonOne.titleLabel.font = [UIFont leoButtonFont];
+    [self.buttonOne setTitleColor:[UIColor leoGrayButtonText] forState:UIControlStateNormal];
     
-    
-    self.bodyLabel.font = [UIFont leoBodyBasicFont];
-    self.bodyLabel.textColor = [UIColor leoWarmHeavyGray];
-    
-    self.buttonOne.titleLabel.font = [UIFont leoBodyBolderFont];
-    [self.buttonOne setTitleColor:[UIColor leoWarmHeavyGray] forState:UIControlStateNormal];
-    
-    self.buttonTwo.titleLabel.font = [UIFont leoBodyBolderFont];
-    [self.buttonTwo setTitleColor:[UIColor leoWarmHeavyGray] forState:UIControlStateNormal];
+    self.buttonTwo.titleLabel.font = [UIFont leoButtonFont];
+    [self.buttonTwo setTitleColor:[UIColor leoGrayButtonText] forState:UIControlStateNormal];
 }
 
 

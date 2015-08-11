@@ -7,6 +7,8 @@
 //
 
 #import "MenuView.h"
+#import "LEOCardScheduling.h"
+#import "Appointment.h"
 
 @interface MenuView ()
 
@@ -57,13 +59,22 @@
     
 }
 
+
+#pragma mark - Menu View Button Animation
+
 /**
  *  Loads a SchedulingCardViewController
  *
  *  @param sender UIButton that receives tap gesture
  */
 - (IBAction)scheduleAVisitLabelTapped:(UIButton *)sender {
-    [self.view removeFromSuperview];
+    
+    // Posting notification from another object
+    [self.delegate didMakeMenuChoice];
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"requestToBookNewAppointment"
+                                                        object:self
+                                                      userInfo:nil];
 }
 
 /**

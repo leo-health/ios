@@ -7,15 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
-@class User;
+@class Provider;
 #import "LEOConstants.h"
 
 @interface LEOSecondaryUserView : UIView
 
-@property (strong, nonatomic, nonnull) User *user;
+@property (strong, nonatomic, nonnull) Provider *provider;
 @property (strong, nonatomic, nullable) NSDate *timeStamp;
 @property (nonatomic) NSInteger cardLayout;
+@property (strong, nonatomic, nonnull) UIColor *cardColor;
 
-- (nonnull instancetype)initWithCardLayout:(CardLayout)cardLayout user:(nonnull User *)user timestamp:(nonnull NSDate *)timestamp;
-
+- (nonnull instancetype)initWithCardLayout:(CardLayout)cardLayout user:(nonnull Provider *)provider timestamp:(nonnull NSDate *)timestamp;
+- (void)refreshSubviews;
 @end

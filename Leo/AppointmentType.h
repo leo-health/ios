@@ -8,12 +8,18 @@
 
 #import <Foundation/Foundation.h>
 
+/**
+ *  Unclear whether this object is going to be used at all at this point.
+ */
 @interface AppointmentType : NSObject
+NS_ASSUME_NONNULL_BEGIN
 
-@property (nonatomic, copy) NSString *id;
+@property (nonatomic, copy) NSString *objectID;
 @property (nonatomic, copy) NSString *typeDescriptor;
-@property (nonatomic, copy) NSNumber *duration;
+@property (nonatomic, strong, nullable) NSNumber *duration;
 
-- (instancetype)initWithID:(NSString *)id typeDescriptor:(NSString *)typeDescriptor duration:(NSNumber *)duration;
+- (instancetype)initWithObjectID:(NSString *)id typeDescriptor:(NSString *)typeDescriptor duration:(nullable NSNumber *)duration;
+- (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse;
 
+NS_ASSUME_NONNULL_END
 @end

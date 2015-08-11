@@ -1,0 +1,28 @@
+{
+	"data": [
+		{
+			"id": 0,
+			"name": "Well child check",
+			"duration": 30,
+			"description": "A regular check-up that is typically scheduled every few months up until age 2 and annually thereafter."
+		},
+		{
+			"id": 1,
+			"name": "Acute care visit",
+			"duration": 20,
+			"description": "A visit to address new symptoms like cough, cold, ear pain, fever, diarrhea, or rash."
+		},
+		{
+			"id": 2,
+			"name": "Follow up visit",
+			"duration": 20,
+			"description": "A visit to follow up on a known condition like asthma, ADHD, or eczema."
+		},
+		{
+			"id": 3,
+			"name": "Immunization visit",
+			"duration": 20,
+			"description": "A visit with a nurse to get one or more immunizations."
+		}
+	]
+}

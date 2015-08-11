@@ -10,18 +10,19 @@
 #import "User.h"
 #import "LEOConstants.h"
 #import "CardActivityProtocol.h"
+#import "Provider.h"
 
 @interface LEOCard : NSObject
+NS_ASSUME_NONNULL_BEGIN
+@property (strong, nonatomic) NSString *objectID;
+@property (strong, nonatomic) NSNumber *priority;
+@property (strong, nonatomic) NSString *type;
 
-@property (strong, nonatomic, nonnull) NSNumber *id;
-@property (nonatomic) NSInteger state;
-@property (strong, nonatomic, nonnull) NSNumber *priority;
-
-@property (strong, nonatomic, nonnull, readonly) id associatedCardObject;
+@property (strong, nonatomic, nonnull) NSArray *associatedCardObjects;
 
 @property (nonatomic, nullable) id<CardActivityProtocol> delegate;
 
-- (nonnull instancetype)initWithID:(nonnull NSNumber *)id state:(NSInteger)state priority:(nonnull NSNumber *)priority associatedCardObject:(nonnull id)associatedCardObject;
+- (nonnull instancetype)initWithObjectID:(NSString *)objectID priority:(NSNumber *)priority type:(NSString *)type associatedCardObjects:(nonnull NSArray *)associatedCardObjects;
 
 - (nonnull instancetype)cardWithDictionary:(nonnull NSDictionary *)jsonResponse;
 
@@ -29,13 +30,17 @@
 
 //abstract methods
 - (nonnull UIImage *)icon;
+- (nonnull UIColor *)tintColor;
 - (nonnull NSString *)title;
 - (nonnull NSString *)body;
 - (CardLayout)layout;
 - (nonnull NSArray *)stringRepresentationOfActionsAvailableForState;
-- (nonnull User *)secondaryUser;
+- (nonnull Provider *)secondaryUser;
 - (nonnull User *)primaryUser;
 - (nonnull NSDate *)timestamp;
 - (nonnull NSArray *)actionsAvailableForState;
 
+- (void)returnToPriorState;
+
+NS_ASSUME_NONNULL_END
 @end

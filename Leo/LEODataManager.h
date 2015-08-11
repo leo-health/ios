@@ -7,17 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
-@import CoreData;
 @class User;
 @class LEOApiClient;
 @class Appointment;
 @class Conversation;
 @class Message;
+@class LEOCard;
+@class Guardian;
 
-@interface LEOCoreDataManager : NSObject
+@interface LEODataManager : NSObject
 NS_ASSUME_NONNULL_BEGIN
 
-@property (nonatomic, readonly) NSManagedObjectContext *managedObjectContext;
 @property (strong, nonatomic) NSArray *cards; //TODO: Maybe make private and method implementation to lazily instantiate somehow...
 @property (strong, nonatomic) User *currentUser;
 @property (strong, nonatomic) NSString *userToken; //FIXME: To be moved to the .m once pulling from the keychain as it should be
@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) NSArray *users;
 
-- (void)fetchDataWithCompletion:(void (^) (void))completionBlock;
+- (void)fetchCardsWithCompletion:(void (^) (void))completionBlock;
 - (NSArray *)availableTimesForDate:(NSDate*)date;
 
 + (instancetype)sharedManager;
@@ -50,7 +50,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSArray *)fetchDoctors;
 - (NSArray *)fetchAppointmentTypes;
 - (NSArray *)fetchSlots;
-- (NSArray *)fetchAvailableDates;
+
+- (void)addCard:(LEOCard *)card;
+- (void)removeCard:(LEOCard *)card;
 
 NS_ASSUME_NONNULL_END
 @end

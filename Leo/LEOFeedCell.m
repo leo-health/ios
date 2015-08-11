@@ -20,6 +20,9 @@
     if (self) {
         self.backgroundColor = [UIColor clearColor];
         self.selectionStyle = UITableViewCellSelectionStyleNone;
+        self.layer.shadowOffset = CGSizeMake(0,1);
+        self.layer.shadowOpacity = 0.3;
+        self.layer.shadowRadius = 1;
     }
     
     return self;

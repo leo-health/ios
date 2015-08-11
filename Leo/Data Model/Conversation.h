@@ -10,31 +10,28 @@
 #import <CoreData/CoreData.h>
 
 @class ConversationParticipant, Message;
+@class Family;
 
-@interface Conversation : NSManagedObject
+typedef enum ConversationState {
+    ConversationStateInitialize,
+    ConversationStateNewMessage,
+    ConversationStateReplied,
+} ConversationState;
 
-@property (nonatomic, retain) NSNumber * archived;
-@property (nonatomic, retain) NSDate * archivedAt;
-@property (nonatomic, retain) NSString * archivedByID;
-@property (nonatomic, retain) NSString * conversationID;
-@property (nonatomic, retain) NSDate * createdAt;
-@property (nonatomic, retain) NSString * familyID;
-@property (nonatomic, retain) NSDate * lastMessageCreated;
-@property (nonatomic, retain) NSDate * updatedAt;
-@property (nonatomic, retain) NSSet *messages;
-@property (nonatomic, retain) NSSet *participants;
-@end
+@interface Conversation : NSObject
+NS_ASSUME_NONNULL_BEGIN
 
-@interface Conversation (CoreDataGeneratedAccessors)
+@property (nonatomic, copy) NSString * objectID;
+@property (nonatomic, strong) NSArray *messages;
+@property (nonatomic, strong) NSArray *participants;
 
-- (void)addMessagesObject:(Message *)value;
-- (void)removeMessagesObject:(Message *)value;
-- (void)addMessages:(NSSet *)values;
-- (void)removeMessages:(NSSet *)values;
+- (instancetype)initWithObjectID:(NSString *)objectID messages:(NSArray *)messages participants:(NSArray *)participants;
 
-- (void)addParticipantsObject:(ConversationParticipant *)value;
-- (void)removeParticipantsObject:(ConversationParticipant *)value;
-- (void)addParticipants:(NSSet *)values;
-- (void)removeParticipants:(NSSet *)values;
+- (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse;
 
++ (NSDictionary *)dictionaryFromConversation:(Conversation *)coversation;
+
+- (void)addMessage:(Message *)message;
+
+NS_ASSUME_NONNULL_END
 @end
