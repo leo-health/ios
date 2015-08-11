@@ -9,14 +9,15 @@
 #import <Foundation/Foundation.h>
 @import UIKit;
 
-typedef void (^TableViewCellConfigureBlock)(id cell, id item);
-
+typedef BOOL (^TableViewCellConfigureBlock)(id cell, id item);
+typedef void (^SelectionCriteriaBlock)(BOOL selected, NSIndexPath *indexPath);
 
 @interface ArrayDataSource : NSObject <UITableViewDataSource>
 
 - (id)initWithItems:(NSArray *)items
      cellIdentifier:(NSString *)cellIdentifier
- configureCellBlock:(TableViewCellConfigureBlock)configureCellBlock;
+ configureCellBlock:(TableViewCellConfigureBlock)configureCellBlock
+selectionCriteriaBlock:(SelectionCriteriaBlock)selectionCriteriaBlock;
 
 - (id)itemAtIndexPath:(NSIndexPath *)indexPath;
 

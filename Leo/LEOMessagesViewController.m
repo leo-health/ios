@@ -465,7 +465,7 @@
     
     NSLog(@"User: %@", user);
     
-    JSQMessagesAvatarImage *avatarImage = [LEOMessagesAvatarImageFactory avatarImageWithImage:userImage diameter:kJSQMessagesCollectionViewAvatarSizeDefault borderColor:[UIColor leoBlack]];
+    JSQMessagesAvatarImage *avatarImage = [LEOMessagesAvatarImageFactory avatarImageWithImage:userImage diameter:kJSQMessagesCollectionViewAvatarSizeDefault borderColor:[UIColor leoBlack]borderWidth:3];
     
     return avatarImage;
 }

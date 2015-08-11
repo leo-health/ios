@@ -59,29 +59,41 @@
     
     self.tableView = [[UITableView alloc] init];
 
-    self.tableView.estimatedRowHeight = 65;
-    self.tableView.rowHeight = UITableViewAutomaticDimension;
-    
+    [self.tableView registerNib:[UINib nibWithNibName:self.reuseIdentifier bundle:nil]  forCellReuseIdentifier:self.reuseIdentifier];
+
     [self.view addSubview:self.tableView];
     
+    self.tableView.separatorInset = UIEdgeInsetsMake(0, 20, 0, 20);
+    self.tableView.estimatedRowHeight = 65;
+    self.tableView.rowHeight = UITableViewAutomaticDimension;
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+
     [MBProgressHUD showHUDAddedTo:self.tableView animated:YES]; //TODO: Create separate class to set these up for all use cases with two methods that support showing and hiding our customized HUD.
 
     [self requestDataWithCompletion:^(id data){
 
-        sleep(1.0); //TODO: Remove once moving away from stubs;
+//        sleep(1.0); //TODO: Remove once moving away from stubs;
         
         self.data = data;
         
-        self.dataSource = [[ArrayDataSource alloc] initWithItems:self.data cellIdentifier:self.reuseIdentifier configureCellBlock:self.configureCellBlock];
+
+        SelectionCriteriaBlock selectionCriteriaBlock = ^(BOOL shouldSelect, NSIndexPath *indexPath) {
+            
+        if (shouldSelect) {
+                UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+                cell.selected = YES;
+                [self.tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+            }
+        };
+        
+        self.dataSource = [[ArrayDataSource alloc] initWithItems:self.data cellIdentifier:self.reuseIdentifier configureCellBlock:self.configureCellBlock selectionCriteriaBlock: selectionCriteriaBlock];
         
         self.tableView.dataSource = self.dataSource;
         self.tableView.delegate = self;
-        
+
         [MBProgressHUD hideHUDForView:self.tableView animated:YES];
         [self.tableView reloadData];
     }];
-    
-    [self.tableView registerNib:[UINib nibWithNibName:self.reuseIdentifier bundle:nil]  forCellReuseIdentifier:self.reuseIdentifier];
 }
 
 - (void)requestDataWithCompletion:(void (^) (id data))completionBlock {

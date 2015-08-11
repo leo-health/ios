@@ -13,6 +13,7 @@
 @property (nonatomic, strong) NSArray *items;
 @property (nonatomic, copy) NSString *cellIdentifier;
 @property (nonatomic, copy) TableViewCellConfigureBlock configureCellBlock;
+@property (nonatomic, copy) SelectionCriteriaBlock selectionCriteriaBlock;
 
 @end
 
@@ -29,14 +30,16 @@
 
 - (id)initWithItems:(NSArray *)items
      cellIdentifier:(NSString *)cellIdentifier
- configureCellBlock:(TableViewCellConfigureBlock)configureCellBlock {
-    
+ configureCellBlock:(TableViewCellConfigureBlock)configureCellBlock
+selectionCriteriaBlock:(SelectionCriteriaBlock)selectionCriteriaBlock {
+
     self = [super init];
     
     if (self) {
         self.items = items;
         self.cellIdentifier = cellIdentifier;
         self.configureCellBlock = [configureCellBlock copy];
+        self.selectionCriteriaBlock = [selectionCriteriaBlock copy];
     }
     
     return self;
@@ -62,8 +65,12 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:self.cellIdentifier
                                                             forIndexPath:indexPath];
+
+    BOOL selected = self.configureCellBlock(cell, item);
     
-    self.configureCellBlock(cell, item);
+    if (self.selectionCriteriaBlock) {
+        self.selectionCriteriaBlock(selected, indexPath);
+    }
     
     return cell;
 }

@@ -62,7 +62,7 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-
+    
     [self setupNotesTextView];
     [self setupExpandedCardView];
     [self formatInitialQuestions];
@@ -133,7 +133,7 @@
 
 
 - (void)formatInitialQuestions {
-
+    
     self.questionCalendarButton.titleLabel.font = [UIFont leoQuestionFont];
     [self.questionCalendarButton setTitleColor:[UIColor leoBlack]
                                       forState:UIControlStateNormal];
@@ -145,7 +145,7 @@
     self.questionStaffButton.titleLabel.font = [UIFont leoQuestionFont];
     [self.questionStaffButton setTitleColor:[UIColor leoBlack]
                                    forState:UIControlStateNormal];
-
+    
     self.questionVisitTypeButton.titleLabel.font = [UIFont leoQuestionFont];
     [self.questionVisitTypeButton setTitleColor:[UIColor leoBlack]
                                        forState:UIControlStateNormal];
@@ -153,7 +153,7 @@
 
 
 - (void)setupNotesTextView {
-
+    
     self.bodyView = self.appointmentView;
     self.notesTextView.delegate = self;
     self.notesTextView.scrollEnabled = NO;
@@ -196,7 +196,7 @@
     NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] init];
     [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:sentenceString
                                                                        attributes:attributedDictionary1]];
-
+    
     [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:variableString
                                                                        attributes:attributedDictionary2]];
     
@@ -254,7 +254,7 @@
     
     /**
      *  Ensures textview length does not exceed character limit imposed.
-     *  
+     *
      *  TODO: Remove magic numbers
      */
     if([text isEqualToString:@" "] && range.location < 600){
@@ -294,16 +294,16 @@
  *  When the button is tapped at the bottom of the expanded appointment flow, the card's appointment object is updated with the prepAppointment and the card's method for the first action when in the the current state is called.
  */
 - (void)button0Tapped {
-
+    
     self.card.associatedCardObject = [[Appointment alloc] initWithPrepAppointment:self.prepAppointment]; //FIXME: Make this a loop to account for changes to multiple objects, e.g. appointments on a card.
     
     [self.card performSelector:NSSelectorFromString([self.card actionsAvailableForState][0])]; //FIXME: Alternative way to do this that won't cause warning.
     
-//    if (!self.card) { return; }
-//    SEL selector = NSSelectorFromString([self.card actionsAvailableForState][0]);
-//    IMP imp = [self.card methodForSelector:selector];
-//    void (*func)(id, SEL) = (void *)imp;
-//    func(self.card, selector);
+    //    if (!self.card) { return; }
+    //    SEL selector = NSSelectorFromString([self.card actionsAvailableForState][0]);
+    //    IMP imp = [self.card methodForSelector:selector];
+    //    void (*func)(id, SEL) = (void *)imp;
+    //    func(self.card, selector);
 }
 
 
@@ -317,6 +317,8 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
     LEOCalendarViewController *calendarVC = segue.destinationViewController;
+    
+    __block BOOL shouldSelect = NO;
     
     if ([segue.identifier isEqualToString:@"CalendarSegue"]) {
         
@@ -334,42 +336,75 @@
         selectionVC.key = @"appointmentType";
         selectionVC.reuseIdentifier = @"AppointmentTypeCell";
         selectionVC.titleText = @"What type of visit is this?";
-
+        
         selectionVC.configureCellBlock = ^(AppointmentTypeCell *cell, AppointmentType *appointmentType) {
+            cell.selectedColor = self.card.tintColor;
+            
             [cell configureForAppointmentType:appointmentType];
+            
+            shouldSelect = NO;
+
+            if ([appointmentType.objectID isEqualToString:self.prepAppointment.appointmentType.objectID]) {
+                shouldSelect = YES;
+            }
+            
+            return shouldSelect;
         };
         
         selectionVC.requestOperation = [[LEOAPIAppointmentTypesOperation alloc] init];
         selectionVC.delegate = self;
         
+        
     } else
         if ([segue.identifier isEqualToString:@"PatientSegue"]) {
-        
-        selectionVC.key = @"patient";
-        selectionVC.reuseIdentifier = @"PatientCell";
-        selectionVC.titleText = @"Who is the visit for?";
+            
+            selectionVC.key = @"patient";
+            selectionVC.reuseIdentifier = @"PatientCell";
+            selectionVC.titleText = @"Who is the visit for?";
+            
+            selectionVC.configureCellBlock = ^(PatientCell *cell, Patient *patient) {
+                
+                cell.selectedColor = self.card.tintColor;
+                
+                shouldSelect = NO;
 
-        selectionVC.configureCellBlock = ^(PatientCell *cell, Patient *patient) {
-            [cell configureForPatient:patient];
-        };
-        
-        selectionVC.requestOperation = [[LEOAPIFamilyOperation alloc] init];
-        selectionVC.delegate = self;
-    } else
-        if ([segue.identifier isEqualToString:@"ProviderSegue"]) {
-        
-        selectionVC.key = @"provider";
-        selectionVC.reuseIdentifier = @"ProviderCell";
-        selectionVC.titleText = @"Who would you like to see?";
-
-        selectionVC.configureCellBlock = ^(ProviderCell *cell, Provider *patient) {
-            [cell configureForProvider:patient];
-        };
-        
-        selectionVC.requestOperation = [[LEOAPIStaffOperation alloc] init];
+                [cell configureForPatient:patient];
+                
+                if ([patient.objectID isEqualToString:self.prepAppointment.patient.objectID]) {
+                    shouldSelect = YES;
+                }
+                
+                return shouldSelect;
+            };
+            
+            selectionVC.requestOperation = [[LEOAPIFamilyOperation alloc] init];
             selectionVC.delegate = self;
-    }
-
+        } else
+            if ([segue.identifier isEqualToString:@"ProviderSegue"]) {
+                
+                selectionVC.key = @"provider";
+                selectionVC.reuseIdentifier = @"ProviderCell";
+                selectionVC.titleText = @"Who would you like to see?";
+                selectionVC.tintColor = self.card.tintColor;
+                selectionVC.configureCellBlock = ^(ProviderCell *cell, Provider *provider) {
+                    
+                    cell.selectedColor = self.card.tintColor;
+                    
+                    shouldSelect = NO;
+                    
+                    if ([provider.objectID isEqualToString:self.prepAppointment.provider.objectID]) {
+                        shouldSelect = YES;
+                    }
+                    
+                    [cell configureForProvider:provider];
+                    
+                    return shouldSelect;
+                };
+                
+                selectionVC.requestOperation = [[LEOAPIStaffOperation alloc] init];
+                selectionVC.delegate = self;
+            }
+    
 }
 
 -(PrepAppointment *)prepAppointment {
@@ -380,15 +415,15 @@
             _prepAppointment = [[PrepAppointment alloc] initWithAppointment:self.appointment];
         }
         
-//        NSDate *startTime = [NSDate dateWithYear:2015 month:8 day:12 hour:0 minute:0 second:0];
-//        
-//        AppointmentType *type = [[AppointmentType alloc] initWithObjectID:@"0" name:@"Well Visit" typeCode:AppointmentTypeCodeCheckup duration:@30 longDescription:@"Long description" shortDescription:@"Short description"];
-//        
-//        Patient *patient = [[Patient alloc] initWithObjectID:@"0" familyID:@"0" title:nil firstName:@"Zach" middleInitial:nil lastName:@"Drossman" suffix:nil email:nil avatarURL:nil avatar:nil dob:[NSDate date] gender:@"Male" status:@"active"];
-//        
-//        Provider *provider = [[Provider alloc] initWithObjectID:@"10" title:@"Dr." firstName:@"Om" middleInitial:nil lastName:@"Lala" suffix:nil email:@"lala@leohealth.com" avatarURL:nil avatar:nil credentialSuffixes:@[@"M.D."] specialties:@[@"pediatrics"]];
-//        
-//        _prepAppointment = [[PrepAppointment alloc] initWithObjectID:@"0" date:startTime appointmentType:type patient:patient provider:provider bookedByUser:provider note:@"blank note" statusCode:AppointmentStatusCodeBooking];
+        //        NSDate *startTime = [NSDate dateWithYear:2015 month:8 day:12 hour:0 minute:0 second:0];
+        //
+        //        AppointmentType *type = [[AppointmentType alloc] initWithObjectID:@"0" name:@"Well Visit" typeCode:AppointmentTypeCodeCheckup duration:@30 longDescription:@"Long description" shortDescription:@"Short description"];
+        //
+        //        Patient *patient = [[Patient alloc] initWithObjectID:@"0" familyID:@"0" title:nil firstName:@"Zach" middleInitial:nil lastName:@"Drossman" suffix:nil email:nil avatarURL:nil avatar:nil dob:[NSDate date] gender:@"Male" status:@"active"];
+        //
+        //        Provider *provider = [[Provider alloc] initWithObjectID:@"10" title:@"Dr." firstName:@"Om" middleInitial:nil lastName:@"Lala" suffix:nil email:@"lala@leohealth.com" avatarURL:nil avatar:nil credentialSuffixes:@[@"M.D."] specialties:@[@"pediatrics"]];
+        //
+        //        _prepAppointment = [[PrepAppointment alloc] initWithObjectID:@"0" date:startTime appointmentType:type patient:patient provider:provider bookedByUser:provider note:@"blank note" statusCode:AppointmentStatusCodeBooking];
         
     }
     
@@ -400,7 +435,7 @@
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     
     /**
-     *  
+     *
      *  Source: http://imagineric.ericd.net/2011/03/10/ios-vertical-aligning-text-in-a-uitextview/
      */
     if (object == self.notesTextView && [keyPath isEqualToString:@"contentSize"]) {

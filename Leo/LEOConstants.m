@@ -138,7 +138,8 @@ NSString *const APIParamCardPriority = @"priority";
 NSString *const APIParamAppointmentType = @"appointment_type";
 NSString *const APIParamAppointmentTypeID = @"appointment_type_id";
 NSString *const APIParamAppointmentTypeDuration = @"duration";
-NSString *const APIParamAppointmentTypeBody = @"body";
+NSString *const APIParamAppointmentTypeLongDescription = @"long_description";
+NSString *const APIParamAppointmentTypeShortDescription = @"short_description";
 
 #pragma mark - Appointment
 NSString *const APIParamAppointment = @"appointment";

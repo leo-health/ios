@@ -14,32 +14,35 @@
 @implementation ProviderCell (ConfigureCell)
 
 - (void)configureForProvider:(Provider *)provider {
-        
-        NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
-        [style setAlignment:NSTextAlignmentLeft];
-        [style setLineBreakMode:NSLineBreakByWordWrapping]; //TODO: May want to do some sort of resizing of the text here such that we don't end up wrapping ever.
-        
-        UIFont *font1 = [UIFont leoBodyBoldFont];
-        UIFont *font2 = [UIFont leoBodyBoldFont];
-        
-        UIColor *color1 = [UIColor leoBlack];
-        UIColor *color2 = [UIColor leoGrayBodyText];
-        
-        NSDictionary *attributedDictionary1 = @{NSForegroundColorAttributeName:color1,
-                                                NSFontAttributeName:font1,
-                                                NSParagraphStyleAttributeName:style};
-        
-        NSDictionary *attributedDictionary2 = @{NSForegroundColorAttributeName:color2,
-                                                NSFontAttributeName:font2,
-                                                NSParagraphStyleAttributeName:style};
-        
-        NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] init];
     
-        [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:provider.fullName
-                                                                           attributes:attributedDictionary1]];
-        
-        [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:provider.credentials[0]
-                                                                           attributes:attributedDictionary2]];
+    NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+    [style setAlignment:NSTextAlignmentLeft];
+    [style setLineBreakMode:NSLineBreakByWordWrapping]; //TODO: May want to do some sort of resizing of the text here such that we don't end up wrapping ever.
+    
+    UIFont *font1 = [UIFont leoBasicSelectionFont];
+    UIFont *font2 = [UIFont leoBodyBoldFont];
+    
+    UIColor *color1 = [UIColor leoBlack];
+    UIColor *color2 = [UIColor leoGrayBodyText];
+    
+    NSDictionary *attributedDictionary1 = @{NSForegroundColorAttributeName:color1,
+                                            NSFontAttributeName:font1,
+                                            NSParagraphStyleAttributeName:style};
+    
+    NSDictionary *attributedDictionary2 = @{NSForegroundColorAttributeName:color2,
+                                            NSFontAttributeName:font2,
+                                            NSParagraphStyleAttributeName:style};
+    
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] init];
+    
+    [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ ", provider.fullName]
+                                                                       attributes:attributedDictionary1]];
+    
+    
+    NSString *credential = [provider.credentials[0] stringByReplacingOccurrencesOfString:@"." withString:@""];  //TODO: This will need to be updated at some point when we decide how we want to handle these.
+    
+    [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:credential
+                                                                       attributes:attributedDictionary2]];
     
     self.fullNameLabel.attributedText = attrString;
 }

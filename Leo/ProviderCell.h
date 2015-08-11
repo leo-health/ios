@@ -13,5 +13,6 @@
 +(UINib *)nib;
 
 @property (weak, nonatomic) IBOutlet UILabel *fullNameLabel;
+@property (strong, nonatomic) UIColor *selectedColor;
 
 @end

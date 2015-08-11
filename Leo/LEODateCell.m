@@ -66,9 +66,7 @@
 
     self.selectable = YES;
     [self setSelectableFormat];
-    
-    [self setSelectableFormat];
-    
+        
     self.dateLabel.font = [UIFont leoTitleBolderFont];
     self.dateLabel.textColor = [UIColor leoOrangeRed];
     self.dayOfDateLabel.textColor = [UIColor leoWarmHeavyGray];

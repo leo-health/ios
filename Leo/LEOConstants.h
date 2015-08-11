@@ -230,7 +230,8 @@ extern NSString *const APIParamAppointmentType; // @"visit_type";
 extern NSString *const APIParamAppointmentTypeID; // @"visit_type_id";
 
 extern NSString *const APIParamAppointmentTypeDuration; // @"duration";
-extern NSString *const APIParamAppointmentTypeBody; // @"body";
+extern NSString *const APIParamAppointmentTypeLongDescription; // @"long_description";
+extern NSString *const APIParamAppointmentTypeShortDescription; // @"short_description";
 
 #pragma mark - Appointment
 extern NSString *const APIParamAppointment; // @"appointment";

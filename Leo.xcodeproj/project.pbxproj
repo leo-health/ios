@@ -70,9 +70,6 @@
 		31F5AA6A1B791B4A00F96D06 /* LEOAppointmentBookingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 31F5AA431B791B4A00F96D06 /* LEOAppointmentBookingView.xib */; };
 		31F5AA6B1B791B4A00F96D06 /* LEOExpandedCardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31F5AA451B791B4A00F96D06 /* LEOExpandedCardViewController.m */; };
 		31F5AA6C1B791B4A00F96D06 /* LEOBasicSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31F5AA471B791B4A00F96D06 /* LEOBasicSelectionViewController.m */; };
-		31F5AA6D1B791B4A00F96D06 /* LEOAppointmentTypeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31F5AA4A1B791B4A00F96D06 /* LEOAppointmentTypeCell.m */; };
-		31F5AA6E1B791B4A00F96D06 /* LEOAppointmentTypeCell+ConfigureCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31F5AA4C1B791B4A00F96D06 /* LEOAppointmentTypeCell+ConfigureCell.m */; };
-		31F5AA6F1B791B4A00F96D06 /* LEOAppointmentTypeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 31F5AA4D1B791B4A00F96D06 /* LEOAppointmentTypeCell.xib */; };
 		31F5AA701B791B4A00F96D06 /* TimeCollectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31F5AA4F1B791B4A00F96D06 /* TimeCollectionController.m */; };
 		31F5AA711B791B4A00F96D06 /* DateCollectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31F5AA511B791B4A00F96D06 /* DateCollectionController.m */; };
 		31F5AA721B791B4B00F96D06 /* LEOCalendarDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 31F5AA531B791B4A00F96D06 /* LEOCalendarDataSource.m */; };
@@ -247,11 +244,6 @@
 		31F5AA461B791B4A00F96D06 /* LEOBasicSelectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOBasicSelectionViewController.h; sourceTree = "<group>"; };
 		31F5AA471B791B4A00F96D06 /* LEOBasicSelectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOBasicSelectionViewController.m; sourceTree = "<group>"; };
 		31F5AA481B791B4A00F96D06 /* SingleSelectionProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingleSelectionProtocol.h; sourceTree = "<group>"; };
-		31F5AA491B791B4A00F96D06 /* LEOAppointmentTypeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOAppointmentTypeCell.h; sourceTree = "<group>"; };
-		31F5AA4A1B791B4A00F96D06 /* LEOAppointmentTypeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOAppointmentTypeCell.m; sourceTree = "<group>"; };
-		31F5AA4B1B791B4A00F96D06 /* LEOAppointmentTypeCell+ConfigureCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LEOAppointmentTypeCell+ConfigureCell.h"; sourceTree = "<group>"; };
-		31F5AA4C1B791B4A00F96D06 /* LEOAppointmentTypeCell+ConfigureCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LEOAppointmentTypeCell+ConfigureCell.m"; sourceTree = "<group>"; };
-		31F5AA4D1B791B4A00F96D06 /* LEOAppointmentTypeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LEOAppointmentTypeCell.xib; sourceTree = "<group>"; };
 		31F5AA4E1B791B4A00F96D06 /* TimeCollectionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeCollectionController.h; sourceTree = "<group>"; };
 		31F5AA4F1B791B4A00F96D06 /* TimeCollectionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimeCollectionController.m; sourceTree = "<group>"; };
 		31F5AA501B791B4A00F96D06 /* DateCollectionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DateCollectionController.h; sourceTree = "<group>"; };
@@ -522,11 +514,6 @@
 				31F5AA411B791B4A00F96D06 /* LEOAPIAppointmentTypesOperation.h */,
 				31F5AA421B791B4A00F96D06 /* LEOAPIAppointmentTypesOperation.m */,
 				31F5AA431B791B4A00F96D06 /* LEOAppointmentBookingView.xib */,
-				31F5AA491B791B4A00F96D06 /* LEOAppointmentTypeCell.h */,
-				31F5AA4A1B791B4A00F96D06 /* LEOAppointmentTypeCell.m */,
-				31F5AA4B1B791B4A00F96D06 /* LEOAppointmentTypeCell+ConfigureCell.h */,
-				31F5AA4C1B791B4A00F96D06 /* LEOAppointmentTypeCell+ConfigureCell.m */,
-				31F5AA4D1B791B4A00F96D06 /* LEOAppointmentTypeCell.xib */,
 				31F5AA4E1B791B4A00F96D06 /* TimeCollectionController.h */,
 				31F5AA4F1B791B4A00F96D06 /* TimeCollectionController.m */,
 				31F5AA501B791B4A00F96D06 /* DateCollectionController.h */,
@@ -872,7 +859,6 @@
 				31FDDE691B29E3580009BBC2 /* LEOTwoButtonSecondaryOnlyCell.xib in Resources */,
 				31FDDE561B28DD2C0009BBC2 /* LEOTwoButtonPrimaryOnlyCell.xib in Resources */,
 				BCE1EC781B00E353007C8D0B /* LaunchScreen.xib in Resources */,
-				31F5AA6F1B791B4A00F96D06 /* LEOAppointmentTypeCell.xib in Resources */,
 				31F5AA6A1B791B4A00F96D06 /* LEOAppointmentBookingView.xib in Resources */,
 				31FDDE611B29D9120009BBC2 /* LEOOneButtonPrimaryOnlyCell.xib in Resources */,
 				31F5AA751B791B4B00F96D06 /* ProviderCell.xib in Resources */,
@@ -976,7 +962,6 @@
 				31ECA3381B23C53500BC1D6B /* LEODateCell+ConfigureCell.m in Sources */,
 				31197A0F1B39B08B00C773BA /* LEOMainContainerViewController.m in Sources */,
 				BCED00811B0150F4007653D6 /* LEOFeedTVC.m in Sources */,
-				31F5AA6D1B791B4A00F96D06 /* LEOAppointmentTypeCell.m in Sources */,
 				3128D4DB1B42DF6500582710 /* LEOOneButtonSecondaryOnlyCell.m in Sources */,
 				3177B9D41B191929006AE360 /* Role.m in Sources */,
 				31F5AA691B791B4A00F96D06 /* LEOAPIAppointmentTypesOperation.m in Sources */,
@@ -1031,7 +1016,6 @@
 				31F5AA761B791B4B00F96D06 /* PatientCell.m in Sources */,
 				31F5AA6B1B791B4A00F96D06 /* LEOExpandedCardViewController.m in Sources */,
 				BCE1ECA41B014613007C8D0B /* LEOConstants.m in Sources */,
-				31F5AA6E1B791B4A00F96D06 /* LEOAppointmentTypeCell+ConfigureCell.m in Sources */,
 				31FDDE641B29DA890009BBC2 /* LEOOneButtonPrimaryOnlyCell+ConfigureForCell.m in Sources */,
 				31D7ADEB1B21F9A100E8C5EE /* CollectionViewDataSource.m in Sources */,
 				3128D52D1B457DC300582710 /* Patient.m in Sources */,

@@ -30,7 +30,7 @@
                                                     <constraint firstAttribute="height" constant="1" id="4Lf-aS-Nvz"/>
                                                 </constraints>
                                             </view>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon-Cancel" translatesAutoresizingMaskIntoConstraints="NO" id="iz0-If-JUz">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Cancel-Icon" translatesAutoresizingMaskIntoConstraints="NO" id="iz0-If-JUz">
                                                 <rect key="frame" x="492" y="18" width="28" height="28"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="28" id="ZuU-yD-aCC"/>
@@ -69,7 +69,7 @@
                                                     <constraint firstAttribute="height" constant="1" id="1jN-aG-xdr"/>
                                                 </constraints>
                                             </view>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon-Cancel" translatesAutoresizingMaskIntoConstraints="NO" id="Iie-wX-vtF">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Cancel-Icon" translatesAutoresizingMaskIntoConstraints="NO" id="Iie-wX-vtF">
                                                 <rect key="frame" x="492" y="18" width="28" height="28"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="28" id="S6L-N0-tSu"/>
@@ -138,7 +138,7 @@
                                                     <constraint firstAttribute="height" constant="1" id="OUf-a5-vk3"/>
                                                 </constraints>
                                             </view>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon-Cancel" translatesAutoresizingMaskIntoConstraints="NO" id="ZcN-CN-xX1">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Cancel-Icon" translatesAutoresizingMaskIntoConstraints="NO" id="ZcN-CN-xX1">
                                                 <rect key="frame" x="492" y="18" width="28" height="28"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="28" id="IuE-hi-M5H"/>
@@ -177,7 +177,7 @@
                                                     <constraint firstAttribute="height" constant="1" id="QwR-nc-1zj"/>
                                                 </constraints>
                                             </view>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon-Cancel" translatesAutoresizingMaskIntoConstraints="NO" id="yYY-cX-gYF">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Cancel-Icon" translatesAutoresizingMaskIntoConstraints="NO" id="yYY-cX-gYF">
                                                 <rect key="frame" x="492" y="18" width="28" height="28"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="28" id="f4k-NJ-BbW"/>
@@ -446,6 +446,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Icon-Cancel" width="17" height="17"/>
+        <image name="Cancel-Icon" width="17" height="17"/>
     </resources>
 </document>

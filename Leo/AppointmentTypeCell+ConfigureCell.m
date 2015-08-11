@@ -12,8 +12,8 @@
 
 - (void)configureForAppointmentType:(AppointmentType *)appointmentType {
     
-    self.nameLabel.text = appointmentType.name;
-    self.descriptionLabel.text = appointmentType.longDescription;
+    self.nameLabel.text = [appointmentType.name capitalizedString];
+    self.descriptionLabel.text = appointmentType.shortDescription;
 }
 
 @end

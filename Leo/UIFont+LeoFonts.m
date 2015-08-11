@@ -59,6 +59,9 @@ NSString *const LeoBodyBoldFont = @"AvenirNext-Bold";
     return [UIFont fontWithName:LeoMediumFont size:19];
 }
 
++ (UIFont *)leoBasicSelectionFont {
+    return [UIFont fontWithName:LeoMediumFont size:15];
+}
 + (UIFont *)leoUserFont {
     return [UIFont fontWithName:LeoBoldFont size:12];
 }

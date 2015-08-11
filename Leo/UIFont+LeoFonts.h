@@ -22,6 +22,7 @@
 + (UIFont *)leoBodyBoldFont;
 + (UIFont *)leoBodyBolderFont;
 
++ (UIFont *)leoBasicSelectionFont;
 + (UIFont *)leoBodyFont;
 + (UIFont *)leoTitleFont;
 + (UIFont *)leoUserFont;

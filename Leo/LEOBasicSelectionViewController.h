@@ -11,7 +11,8 @@
 #import "SingleSelectionProtocol.h"
 
 
-typedef void(^ConfigureCellBlock)(id cell, id data);
+typedef BOOL (^ConfigureCellBlock)(id cell, id data);
+typedef void (^SelectionCriteriaBlock)(BOOL selected, NSIndexPath *indexPath);
 
 @interface LEOBasicSelectionViewController : UIViewController <UITableViewDelegate>
 
@@ -22,5 +23,6 @@ typedef void(^ConfigureCellBlock)(id cell, id data);
 @property (copy, nonatomic) ConfigureCellBlock configureCellBlock;
 @property (strong, nonatomic) LEOAPIOperation *requestOperation;
 @property (strong, nonatomic) id<SingleSelectionProtocol>delegate;
+@property (strong, nonatomic) UIColor *tintColor;
 
 @end

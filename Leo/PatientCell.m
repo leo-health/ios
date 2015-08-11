@@ -7,11 +7,13 @@
 //
 
 #import "PatientCell.h"
+#import "LEOMessagesAvatarImageFactory.h"
 
 @implementation PatientCell
 
 - (void)awakeFromNib {
-    // Initialization code
+    
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
 }
 
 +(UINib *)nib {
@@ -20,9 +22,26 @@
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    
     [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
+    
+    if (selected) {
+        
+        NSMutableAttributedString *patient = [self.fullNameLabel.attributedText mutableCopy];
+        
+        NSRange range = NSMakeRange(0, [patient length]);
+        
+        [patient beginEditing];
+        
+        [patient addAttribute:NSUnderlineStyleAttributeName value:@(2.0) range:range];
+        [patient addAttribute:NSForegroundColorAttributeName value:self.selectedColor range:range];
+        [patient endEditing];
+        
+        self.fullNameLabel.attributedText = patient;
+        
+        [self.avatarImageView setImage:[LEOMessagesAvatarImageFactory circularAvatarImage:[UIImage imageNamed:@"Avatar-Emily"] withDiameter:40 borderColor:self.selectedColor borderWidth:3]];
+         //TODO: Placeholder for what is necessary here for a selected state.
+    }
 }
 
 @end
