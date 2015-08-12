@@ -99,20 +99,20 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="Vmc-M3-hTg" userLabel="Notes View">
-                                        <rect key="frame" x="40" y="206" width="520" height="126"/>
+                                        <rect key="frame" x="36" y="206" width="524" height="126"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ivh-E7-JHD" customClass="LEOSectionSeparator">
-                                                <rect key="frame" x="0.0" y="125" width="520" height="1"/>
+                                                <rect key="frame" x="4" y="125" width="520" height="1"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="nYk-YN-srH"/>
                                                 </constraints>
                                             </view>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="g8Q-EG-t1d" customClass="RPFloatingPlaceholderTextView">
-                                                <rect key="frame" x="0.0" y="0.0" width="520" height="125"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="524" height="125"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="35" id="szC-d5-oRc"/>
+                                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="45" id="szC-d5-oRc"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -124,7 +124,7 @@
                                             <constraint firstItem="g8Q-EG-t1d" firstAttribute="top" secondItem="Vmc-M3-hTg" secondAttribute="top" id="LT3-Ko-qie"/>
                                             <constraint firstAttribute="trailing" secondItem="Ivh-E7-JHD" secondAttribute="trailing" id="PP7-BK-FKM"/>
                                             <constraint firstAttribute="trailing" secondItem="g8Q-EG-t1d" secondAttribute="trailing" id="RP6-Bo-L9M"/>
-                                            <constraint firstItem="Ivh-E7-JHD" firstAttribute="leading" secondItem="Vmc-M3-hTg" secondAttribute="leading" id="Vtb-Cc-xOs"/>
+                                            <constraint firstItem="Ivh-E7-JHD" firstAttribute="leading" secondItem="Vmc-M3-hTg" secondAttribute="leading" constant="4" id="Vtb-Cc-xOs"/>
                                             <constraint firstAttribute="bottom" secondItem="Ivh-E7-JHD" secondAttribute="bottom" id="e75-OU-FkQ"/>
                                         </constraints>
                                     </view>
@@ -224,7 +224,7 @@
                                     <constraint firstItem="1yB-r9-9a5" firstAttribute="top" secondItem="yrV-1X-rnJ" secondAttribute="top" constant="32" id="i3Q-jJ-wwW"/>
                                     <constraint firstItem="mFA-CC-yEL" firstAttribute="top" secondItem="kQj-Hy-0mx" secondAttribute="bottom" constant="18" id="ke5-Ob-mNq"/>
                                     <constraint firstItem="j7q-qh-jKG" firstAttribute="leading" secondItem="yrV-1X-rnJ" secondAttribute="leading" constant="40" id="qmr-Y8-efC"/>
-                                    <constraint firstItem="Vmc-M3-hTg" firstAttribute="leading" secondItem="yrV-1X-rnJ" secondAttribute="leading" constant="40" id="qsb-DT-Snt"/>
+                                    <constraint firstItem="Vmc-M3-hTg" firstAttribute="leading" secondItem="yrV-1X-rnJ" secondAttribute="leading" constant="36" id="qsb-DT-Snt"/>
                                 </constraints>
                             </view>
                         </subviews>

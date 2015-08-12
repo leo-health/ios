@@ -160,9 +160,9 @@
     self.notesTextView.placeholder = @"Add your questions or comments here";
     self.notesTextView.floatingLabelActiveTextColor = [UIColor leoGrayBodyText];
     self.notesTextView.floatingLabelInactiveTextColor = [UIColor leoGrayBodyText];
-    self.notesTextView.font = [UIFont leoBodyBasicFont];
+    self.notesTextView.font = [UIFont leoQuestionFont];
     self.notesTextView.textColor = [UIColor leoGreen];
-    
+    self.notesTextView.tintColor = [UIColor leoGreen];
     self.notesTextViewHeightConstraint.constant = self.notesTextView.contentSize.height;
     [self.view setNeedsUpdateConstraints];
     
