@@ -206,6 +206,7 @@
                         <outlet property="appointmentView" destination="yrV-1X-rnJ" id="DRG-4a-mjf"/>
                         <outlet property="bottomLayoutConstraintForNotesViewSectionSeparator" destination="e75-OU-FkQ" id="f9u-zq-Did"/>
                         <outlet property="notesTextView" destination="g8Q-EG-t1d" id="A2R-6E-hqS"/>
+                        <outlet property="notesTextViewHeightConstraint" destination="szC-d5-oRc" id="gKc-A8-xgs"/>
                         <outlet property="questionCalendarButton" destination="WAV-dk-cm2" id="5SH-ud-Mis"/>
                         <outlet property="questionPatientsButton" destination="iiY-87-4tv" id="1yY-sj-Xpm"/>
                         <outlet property="questionStaffButton" destination="sNb-tC-OVS" id="EZP-Vn-9Y8"/>

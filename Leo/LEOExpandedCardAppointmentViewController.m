@@ -175,8 +175,8 @@
     self.notesTextView.font = [UIFont leoQuestionFont];
     self.notesTextView.textColor = [UIColor leoGreen];
     self.notesTextView.tintColor = [UIColor leoGreen];
-    self.notesTextViewHeightConstraint.constant = self.notesTextView.contentSize.height;
-    [self.view setNeedsUpdateConstraints];
+//    self.notesTextViewHeightConstraint.constant = self.notesTextView.contentSize.height;
+//    [self.view setNeedsUpdateConstraints];
     
     UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(scrollViewWasTapped:)];
     tapGestureForTextFieldDismissal.cancelsTouchesInView = NO;
@@ -220,9 +220,15 @@
 }
 
 
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    
+}
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+
     [self.scrollView scrollToViewIfObstructedByKeyboard:self.notesTextView];
 }
 

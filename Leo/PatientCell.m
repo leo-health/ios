@@ -39,7 +39,7 @@
         
         self.fullNameLabel.attributedText = patient;
         
-        [self.avatarImageView setImage:[LEOMessagesAvatarImageFactory circularAvatarImage:[UIImage imageNamed:@"Avatar-Emily"] withDiameter:40 borderColor:self.selectedColor borderWidth:3]];
+        [self.avatarImageView setImage:[LEOMessagesAvatarImageFactory circularAvatarImage:[UIImage imageNamed:@"Icon-AvatarBorderless"] withDiameter:40 borderColor:self.selectedColor borderWidth:3]];
          //TODO: Placeholder for what is necessary here for a selected state.
     }
 }

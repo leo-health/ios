@@ -137,7 +137,9 @@
     
     [super viewWillAppear:animated];
     [self.view layoutIfNeeded];
+    
     CGFloat percentTitleViewHidden = self.scrollView.contentOffset.y / self.titleView.frame.size.height;
+    
     if (percentTitleViewHidden < 0.5) {
             self.navigationItem.titleView.hidden = YES;
     }
@@ -150,8 +152,16 @@
     /**
      *  Oddly, we must use the hidden property of titleView for it to be hidden upon reverting to this view controller after popping one off the stack that is on top of this. See viewWillAppear for the other half of this logic. We set the alpha to 0 in order to ensure that once the view is no longer hidden, it still hides until one pulls down the navBar.
      */
+    
+    
     self.navigationItem.titleView.alpha = 0;
     self.navigationItem.titleView.hidden = NO;
+
+    CGFloat percentTitleViewHidden = self.scrollView.contentOffset.y / self.titleView.frame.size.height;
+    
+    if (percentTitleViewHidden > 0.5) {
+        self.navigationItem.titleView.alpha = 1;
+    }
 
 }
 
@@ -190,27 +200,35 @@
 
 #pragma mark - Scroll helpers
 - (void)stoppedScrolling {
+    
     CGFloat percentTitleViewHidden = self.scrollView.contentOffset.y / self.titleView.frame.size.height;
     
     if (percentTitleViewHidden < 1.0) {
         if (percentTitleViewHidden > 0.5) {
+            
             [self animateScrollViewTo:self.titleView.frame.size.height withDuration:0.1];
+            [self animateAlphaLevelsOfView:self.titleLabel to:0 withDuration:0.1];
+            [self animateAlphaLevelsOfView:self.navigationItem.titleView to:1 withDuration:0.1];
         } else {
+            
             [self animateScrollViewTo:0 withDuration:0.1];
+            [self animateAlphaLevelsOfView:self.titleLabel to:1 withDuration:0.1];
+            [self animateAlphaLevelsOfView:self.navigationItem.titleView to:0 withDuration:0.1];
         }
     }
+}
+
+- (void)animateAlphaLevelsOfView:(UIView *)view to:(NSUInteger)level withDuration:(NSTimeInterval)duration {
+    
+    [UIView animateWithDuration:duration delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        view.alpha = level;
+    } completion:nil];
 }
 
 - (void)animateScrollViewTo:(CGFloat)y withDuration:(NSTimeInterval)duration {
     
     [UIView animateWithDuration:duration delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
         [self.scrollView setContentOffset:CGPointMake(0.0, y)];
-        
-        if (y != 0) {
-            self.titleLabel.alpha = 1.0;
-            [self.view layoutIfNeeded];
-        }
-        
     } completion:nil];
 }
 
