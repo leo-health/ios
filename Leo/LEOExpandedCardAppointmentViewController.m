@@ -47,6 +47,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *questionStaffButton;
 @property (weak, nonatomic) IBOutlet UIButton *questionCalendarButton;
 
+
+
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomLayoutConstraintForNotesViewSectionSeparator;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *notesTextViewHeightConstraint;
 
@@ -65,12 +67,9 @@
     
     [self setupNotesTextView];
     [self setupExpandedCardView];
-    [self formatInitialQuestions];
+    [self setupButtons];
     [self setupStubs];
-    
-    UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(scrollViewWasTapped:)];
-    tapGestureForTextFieldDismissal.cancelsTouchesInView = NO;
-    [self.scrollView addGestureRecognizer:tapGestureForTextFieldDismissal];
+
 }
 
 
@@ -132,23 +131,36 @@
 }
 
 
-- (void)formatInitialQuestions {
+- (void)setupButtons {
     
-    self.questionCalendarButton.titleLabel.font = [UIFont leoQuestionFont];
-    [self.questionCalendarButton setTitleColor:[UIColor leoBlack]
+    [self.questionCalendarButton setTitle:@"When would you like to come in?" forState:UIControlStateNormal];
+    [self formatSelectionButton:self.questionCalendarButton];
+    
+    [self.questionPatientsButton setTitle:@"Which child needs to be seen?" forState:UIControlStateNormal];
+    [self formatSelectionButton:self.questionPatientsButton];
+
+    [self.questionStaffButton setTitle:@"Who would you like to see?" forState:UIControlStateNormal];
+    [self formatSelectionButton:self.questionStaffButton];
+    
+    [self.questionVisitTypeButton setTitle:@"What are you coming in for?" forState:UIControlStateNormal];
+    [self formatSelectionButton:self.questionVisitTypeButton];
+}
+
+- (void)formatSelectionButton:(UIButton *)button {
+    
+    button.titleLabel.font = [UIFont leoQuestionFont];
+    [button setTitleColor:[UIColor leoBlack]
                                       forState:UIControlStateNormal];
+    [button setImage:[UIImage imageNamed:@"Icon-ForwardArrow"] forState:UIControlStateNormal];
     
-    self.questionPatientsButton.titleLabel.font = [UIFont leoQuestionFont];
-    [self.questionPatientsButton setTitleColor:[UIColor leoBlack]
-                                      forState:UIControlStateNormal];
+    [self.view layoutIfNeeded];
     
-    self.questionStaffButton.titleLabel.font = [UIFont leoQuestionFont];
-    [self.questionStaffButton setTitleColor:[UIColor leoBlack]
-                                   forState:UIControlStateNormal];
+    CGSize size = button.frame.size;
+    CGSize imageSize = button.imageView.image.size;
     
-    self.questionVisitTypeButton.titleLabel.font = [UIFont leoQuestionFont];
-    [self.questionVisitTypeButton setTitleColor:[UIColor leoBlack]
-                                       forState:UIControlStateNormal];
+    [button setImageEdgeInsets:UIEdgeInsetsMake(0, size.width - imageSize.width, 0, 0)];
+    [button setTitleEdgeInsets:UIEdgeInsetsMake(0, -imageSize.width, 0, 0)];
+    button.tintColor = [UIColor leoGreen];
 }
 
 
@@ -166,6 +178,10 @@
     self.notesTextViewHeightConstraint.constant = self.notesTextView.contentSize.height;
     [self.view setNeedsUpdateConstraints];
     
+    UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(scrollViewWasTapped:)];
+    tapGestureForTextFieldDismissal.cancelsTouchesInView = NO;
+    [self.scrollView addGestureRecognizer:tapGestureForTextFieldDismissal];
+
     [self.notesTextView addObserver:self
                          forKeyPath:@"contentSize"
                             options:(NSKeyValueObservingOptionNew)
@@ -217,7 +233,7 @@
 
 - (void)setupExpandedCardView {
     
-    self.expandedFullTitle = @"Schedule a visit with the practice";
+    self.expandedFullTitle = @"Schedule a visit\nwith the practice";
     
     if (self.prepAppointment) {
         [self didUpdateItem:self.prepAppointment.date forKey:@"date"];
@@ -281,9 +297,9 @@
         } else if ([key isEqualToString:@"patient"]) {
             [self updateButton:self.questionPatientsButton withSentenceString:@"This appointment is for " variableString:((Patient *)item).firstName];
         } else if ([key isEqualToString:@"provider"]) {
-            [self updateButton:self.questionStaffButton withSentenceString:@"I would like to be seen by " variableString:((Provider *)item).fullName];
+            [self updateButton:self.questionStaffButton withSentenceString:@"I would like to be seen by\n" variableString:[NSString stringWithFormat:@"%@ %@",((Provider *)item).fullName, ((Provider *)item).credentials[0]]];
         } else if ([key isEqualToString:@"date"]) {
-            [self updateButton:self.questionCalendarButton withSentenceString:@"My visit is at " variableString:[NSDate stringifiedDateTime:((NSDate *)item)]];
+            [self updateButton:self.questionCalendarButton withSentenceString:@"My visit is at\n" variableString:[NSDate stringifiedDateTime:((NSDate *)item)]];
         }
     }
     

@@ -49,9 +49,9 @@
     
     self.navigationItem.titleView = navBarTitleLabel;
     
-    UIBarButtonItem *barBtnItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Icon-Cancel"] style:UIBarButtonItemStylePlain target:self.navigationController action:@selector(popViewControllerAnimated:)];
-    
-    self.navigationItem.leftBarButtonItem = barBtnItem;
+//    UIBarButtonItem *barBtnItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Icon-Cancel"] style:UIBarButtonItemStylePlain target:self.navigationController action:@selector(popViewControllerAnimated:)];
+//    
+//    self.navigationItem.rightBarButtonItem = barBtnItem;
 }
 
 - (void)setupTableView {

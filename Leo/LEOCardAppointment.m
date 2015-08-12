@@ -326,7 +326,7 @@ static NSString *kActionSelectorBook = @"book";
 }
 
 -(nonnull UIImage *)icon {
-    return [UIImage imageNamed:@"Calendar-Icon"];
+    return [UIImage imageNamed:@"Icon-Calendar"];
 }
 
 

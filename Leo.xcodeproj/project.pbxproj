@@ -45,6 +45,7 @@
 		3192ACD91B0CC7C5007195F2 /* UIImage+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3192ACD81B0CC7C5007195F2 /* UIImage+Extensions.m */; };
 		319F335D1B2201F900C1C526 /* CollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 319F335C1B2201F900C1C526 /* CollectionViewLayout.m */; };
 		31A286811B0A2DB100CBAF1A /* LEOAPIHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 31A286801B0A2DB100CBAF1A /* LEOAPIHelper.m */; };
+		31B998C61B7BD4F40055DEEA /* UIFont+LeoFonts.m in Sources */ = {isa = PBXBuildFile; fileRef = 31B998C51B7BD4F40055DEEA /* UIFont+LeoFonts.m */; };
 		31BA404D1B309E3000A11AEE /* AppointmentType.m in Sources */ = {isa = PBXBuildFile; fileRef = 31BA404C1B309E3000A11AEE /* AppointmentType.m */; };
 		31BA40501B30A0AB00A11AEE /* Appointment.m in Sources */ = {isa = PBXBuildFile; fileRef = 31BA404F1B30A0AB00A11AEE /* Appointment.m */; };
 		31BA40561B30A5F900A11AEE /* LEOSectionSeparator.m in Sources */ = {isa = PBXBuildFile; fileRef = 31BA40551B30A5F900A11AEE /* LEOSectionSeparator.m */; };
@@ -109,7 +110,6 @@
 		BCE1EC841B00E353007C8D0B /* LeoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE1EC831B00E353007C8D0B /* LeoTests.m */; };
 		BCE1EC941B010336007C8D0B /* LEODataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE1EC931B010336007C8D0B /* LEODataManager.m */; };
 		BCE1EC9E1B012628007C8D0B /* UIColor+LeoColors.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE1EC9D1B012628007C8D0B /* UIColor+LeoColors.m */; };
-		BCE1ECA11B01443F007C8D0B /* UIFont+LeoFonts.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE1ECA01B01443F007C8D0B /* UIFont+LeoFonts.m */; };
 		BCE1ECA41B014613007C8D0B /* LEOConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE1ECA31B014613007C8D0B /* LEOConstants.m */; };
 		BCED00811B0150F4007653D6 /* LEOFeedTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = BCED00801B0150F4007653D6 /* LEOFeedTVC.m */; };
 /* End PBXBuildFile section */
@@ -196,6 +196,8 @@
 		319F335C1B2201F900C1C526 /* CollectionViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewLayout.m; sourceTree = "<group>"; };
 		31A2867F1B0A2DB100CBAF1A /* LEOAPIHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOAPIHelper.h; path = APIs/LEOAPIHelper.h; sourceTree = "<group>"; };
 		31A286801B0A2DB100CBAF1A /* LEOAPIHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOAPIHelper.m; path = APIs/LEOAPIHelper.m; sourceTree = "<group>"; };
+		31B998C41B7BD4F40055DEEA /* UIFont+LeoFonts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+LeoFonts.h"; sourceTree = "<group>"; };
+		31B998C51B7BD4F40055DEEA /* UIFont+LeoFonts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+LeoFonts.m"; sourceTree = "<group>"; };
 		31BA404B1B309E3000A11AEE /* AppointmentType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppointmentType.h; sourceTree = "<group>"; };
 		31BA404C1B309E3000A11AEE /* AppointmentType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppointmentType.m; sourceTree = "<group>"; };
 		31BA404E1B30A0AB00A11AEE /* Appointment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Appointment.h; path = "Data Model/Appointment.h"; sourceTree = "<group>"; };
@@ -268,6 +270,7 @@
 		31F5AA7C1B791B7700F96D06 /* Slot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Slot.h; sourceTree = "<group>"; };
 		31F5AA7D1B791B7700F96D06 /* Slot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Slot.m; sourceTree = "<group>"; };
 		31F5AA7F1B7920B700F96D06 /* Appointment.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Appointment.storyboard; sourceTree = "<group>"; };
+		31F5AA841B7BA5F000F96D06 /* UIView_Overrides.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIView_Overrides.h; sourceTree = "<group>"; };
 		31FDDE511B28B9230009BBC2 /* CardActivityProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardActivityProtocol.h; sourceTree = "<group>"; };
 		31FDDE521B28DD2C0009BBC2 /* LEOTwoButtonPrimaryOnlyCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOTwoButtonPrimaryOnlyCell.h; sourceTree = "<group>"; };
 		31FDDE531B28DD2C0009BBC2 /* LEOTwoButtonPrimaryOnlyCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOTwoButtonPrimaryOnlyCell.m; sourceTree = "<group>"; };
@@ -317,8 +320,6 @@
 		BCE1EC9B1B01199E007C8D0B /* LEOPrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOPrefixHeader.pch; sourceTree = "<group>"; };
 		BCE1EC9C1B012628007C8D0B /* UIColor+LeoColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+LeoColors.h"; sourceTree = "<group>"; };
 		BCE1EC9D1B012628007C8D0B /* UIColor+LeoColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+LeoColors.m"; sourceTree = "<group>"; };
-		BCE1EC9F1B01443F007C8D0B /* UIFont+LeoFonts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+LeoFonts.h"; sourceTree = "<group>"; };
-		BCE1ECA01B01443F007C8D0B /* UIFont+LeoFonts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+LeoFonts.m"; sourceTree = "<group>"; };
 		BCE1ECA21B014613007C8D0B /* LEOConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = LEOConstants.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		BCE1ECA31B014613007C8D0B /* LEOConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOConstants.m; sourceTree = "<group>"; };
 		BCED007F1B0150F4007653D6 /* LEOFeedTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOFeedTVC.h; sourceTree = "<group>"; };
@@ -490,6 +491,8 @@
 		31F5AA341B791B3800F96D06 /* Expanded Appointment Flow */ = {
 			isa = PBXGroup;
 			children = (
+				31F5AA371B791B4A00F96D06 /* LEOExpandedCardAppointmentViewController.h */,
+				31F5AA381B791B4A00F96D06 /* LEOExpandedCardAppointmentViewController.m */,
 				31ECA3331B23C39000BC1D6B /* LEOTimeCell+ConfigureCell.h */,
 				31ECA3341B23C39000BC1D6B /* LEOTimeCell+ConfigureCell.m */,
 				31D62ECD1B1D3ED500B4150A /* LEODateCell.h */,
@@ -503,8 +506,6 @@
 				31D418AB1B3872C7008D70F3 /* DateTimeSelectionProtocol.h */,
 				31F5AA351B791B4A00F96D06 /* LEOCalendarViewController.h */,
 				31F5AA361B791B4A00F96D06 /* LEOCalendarViewController.m */,
-				31F5AA371B791B4A00F96D06 /* LEOExpandedCardAppointmentViewController.h */,
-				31F5AA381B791B4A00F96D06 /* LEOExpandedCardAppointmentViewController.m */,
 				31F5AA391B791B4A00F96D06 /* LEOAPISlotsOperation.h */,
 				31F5AA3A1B791B4A00F96D06 /* LEOAPISlotsOperation.m */,
 				31F5AA3B1B791B4A00F96D06 /* LEOAPIStaffOperation.h */,
@@ -598,6 +599,7 @@
 		BC163B001B054CCF000FB1CE /* View */ = {
 			isa = PBXGroup;
 			children = (
+				31F5AA841B7BA5F000F96D06 /* UIView_Overrides.h */,
 				31197A0A1B39A70C00C773BA /* UIImageEffects.h */,
 				31197A0B1B39A70C00C773BA /* UIImageEffects.m */,
 				31CF990F1B17754B00BFAABE /* LEOTransitioningDelegate.h */,
@@ -745,10 +747,10 @@
 		BCED00921B01542D007653D6 /* Constants */ = {
 			isa = PBXGroup;
 			children = (
-				BCE1EC9F1B01443F007C8D0B /* UIFont+LeoFonts.h */,
-				BCE1ECA01B01443F007C8D0B /* UIFont+LeoFonts.m */,
 				BCE1EC9C1B012628007C8D0B /* UIColor+LeoColors.h */,
 				BCE1EC9D1B012628007C8D0B /* UIColor+LeoColors.m */,
+				31B998C41B7BD4F40055DEEA /* UIFont+LeoFonts.h */,
+				31B998C51B7BD4F40055DEEA /* UIFont+LeoFonts.m */,
 				BCE1ECA21B014613007C8D0B /* LEOConstants.h */,
 				BCE1ECA31B014613007C8D0B /* LEOConstants.m */,
 			);
@@ -971,8 +973,8 @@
 				31F5AA631B791B4A00F96D06 /* LEOCalendarViewController.m in Sources */,
 				3177B9DA1B191929006AE360 /* Message.m in Sources */,
 				31D20ACC1B14C61F00F3351A /* LEOEHRViewController.m in Sources */,
-				BCE1ECA11B01443F007C8D0B /* UIFont+LeoFonts.m in Sources */,
 				31197A121B39D8FD00C773BA /* MenuView.m in Sources */,
+				31B998C61B7BD4F40055DEEA /* UIFont+LeoFonts.m in Sources */,
 				31F5AA7A1B791B4B00F96D06 /* AppointmentTypeCell+ConfigureCell.m in Sources */,
 				BC163AFE1B054CBF000FB1CE /* LEOCardTransitionAnimator.m in Sources */,
 				31F5AA6C1B791B4A00F96D06 /* LEOBasicSelectionViewController.m in Sources */,

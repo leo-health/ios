@@ -94,9 +94,14 @@
     self.navigationController.navigationBar.shadowImage = [UIImage new];
     self.navigationController.navigationBar.translucent = NO;
     
+    [[UINavigationBar appearance] setBackIndicatorImage:[UIImage imageNamed:@"Icon-BackArrow"]];
+    [[UINavigationBar appearance] setBackIndicatorTransitionMaskImage:[UIImage imageNamed:@"Icon-BackArrow"]];
+    self.navigationController.navigationBar.topItem.title = @"";
+    
+    
     UIButton *dismissButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [dismissButton addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
-    [dismissButton setImage:[UIImage imageNamed:@"Cancel-Icon"] forState:UIControlStateNormal];
+    [dismissButton setImage:[UIImage imageNamed:@"Icon-Cancel"] forState:UIControlStateNormal];
     [dismissButton sizeToFit];
     
     UINavigationItem *navCarrier = [[UINavigationItem alloc] init];
@@ -126,6 +131,28 @@
     self.titleLabel.textColor = [UIColor leoWhite];
     self.titleLabel.numberOfLines = 0;
     self.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+    
+    [super viewWillAppear:animated];
+    [self.view layoutIfNeeded];
+    CGFloat percentTitleViewHidden = self.scrollView.contentOffset.y / self.titleView.frame.size.height;
+    if (percentTitleViewHidden < 0.5) {
+            self.navigationItem.titleView.hidden = YES;
+    }
+}
+
+- (void)viewDidAppear:(BOOL)animated  {
+    
+    [super viewDidAppear:animated];
+    
+    /**
+     *  Oddly, we must use the hidden property of titleView for it to be hidden upon reverting to this view controller after popping one off the stack that is on top of this. See viewWillAppear for the other half of this logic. We set the alpha to 0 in order to ensure that once the view is no longer hidden, it still hides until one pulls down the navBar.
+     */
+    self.navigationItem.titleView.alpha = 0;
+    self.navigationItem.titleView.hidden = NO;
+
 }
 
 #pragma mark - <ScrollViewDelegate>
@@ -178,6 +205,12 @@
     
     [UIView animateWithDuration:duration delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
         [self.scrollView setContentOffset:CGPointMake(0.0, y)];
+        
+        if (y != 0) {
+            self.titleLabel.alpha = 1.0;
+            [self.view layoutIfNeeded];
+        }
+        
     } completion:nil];
 }
 
@@ -250,8 +283,8 @@
     [self.contentView addConstraints:verticalLayoutConstraintsForSubviews];
     
     //FIXME: These need to not be hard coded.
-    NSArray *horizontalLayoutConstraintsForFullTitle = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(40)-[_titleLabel]-(100)-|" options:0 metrics:nil views:viewDictionary];
-    NSArray *verticalLayoutConstraintsForFullTitle = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_titleLabel]-(40)-|" options:0 metrics:nil views:viewDictionary];
+    NSArray *horizontalLayoutConstraintsForFullTitle = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(20)-[_titleLabel]-(100)-|" options:0 metrics:nil views:viewDictionary];
+    NSArray *verticalLayoutConstraintsForFullTitle = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_titleLabel]-(20)-|" options:0 metrics:nil views:viewDictionary];
     
     [self.titleView addConstraints:horizontalLayoutConstraintsForFullTitle];
     [self.titleView addConstraints:verticalLayoutConstraintsForFullTitle];
@@ -330,6 +363,7 @@
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
         [button addTarget:self action:NSSelectorFromString([NSString stringWithFormat:@"button%ldTapped",(long)i]) forControlEvents:UIControlEventTouchUpInside];
         [button setTitle:self.card.stringRepresentationOfActionsAvailableForState[i] forState:UIControlStateNormal];
+        button.titleLabel.font = [UIFont leoButtonFont];
         button.backgroundColor = self.card.tintColor;
         [self.buttonView addSubview:button];
         
