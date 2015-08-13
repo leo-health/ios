@@ -20,6 +20,7 @@
 @property (strong, nonatomic) NSDictionary *slotsDictionary;
 @property (strong, nonatomic) CollectionViewDataSource *dataSource;
 @property (strong, nonatomic) NSDate *chosenDate;
+@property (nonatomic) CGFloat startingContentOffsetX;
 
 @end
 
@@ -38,20 +39,20 @@ NSString *const dateReuseIdentifier = @"DateCell";
         _chosenDate = chosenDate;
         
         [self setupCollectionViewWithDate:chosenDate];
-
+        
     }
     
     return self;
 }
 
 - (void)setupCollectionViewWithDate:(NSDate *)chosenDate {
-
+    
     // Do any additional setup after loading the view, typically from a nib.
     
     [self.collectionView registerNib:[UINib nibWithNibName:@"LEODateCell" bundle:nil] forCellWithReuseIdentifier:dateReuseIdentifier];
-
+    
     void (^configureCell)(LEODateCell *, NSDate*) = ^(LEODateCell* cell, NSDate* date) {
-
+        
         [cell configureForDate:date];
     };
     
@@ -67,23 +68,28 @@ NSString *const dateReuseIdentifier = @"DateCell";
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
     [flowLayout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
     [flowLayout setMinimumInteritemSpacing:10.0f];
-
+    
     self.collectionView.collectionViewLayout = flowLayout;
     
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView {
-    [self updateSelectedCellBasedOnScrollViewUpdate:scrollView];
+    
+    if (scrollView.contentOffset.x != self.startingContentOffsetX) {
+        [self updateSelectedCellBasedOnScrollViewUpdate:scrollView];
+    }
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-    //self.startingContentOffsetX = scrollView.contentOffset.x;
+    self.startingContentOffsetX = scrollView.contentOffset.x;
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    [self updateSelectedCellBasedOnScrollViewUpdate:scrollView];
+    
+    if (scrollView.contentOffset.x != self.startingContentOffsetX) {
+        [self updateSelectedCellBasedOnScrollViewUpdate:scrollView];
+    }
 }
-
 
 /**
  *  Locate the first visible cell that is selectable, and set it as selected.
@@ -113,7 +119,7 @@ NSString *const dateReuseIdentifier = @"DateCell";
 }
 
 -(void)setChosenDate:(NSDate *)chosenDate {
-
+    
     _chosenDate = chosenDate;
     [self.delegate didScrollDateCollectionViewToDate:chosenDate selectable:YES];
 }
@@ -192,14 +198,14 @@ NSString *const dateReuseIdentifier = @"DateCell";
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     /**
-     *  Calculation of the size of each collection view cell taking account of the 10 point minimum between cells (for 
+     *  Calculation of the size of each collection view cell taking account of the 10 point minimum between cells (for
      *  a total of 70 pts.
      */
     return CGSizeMake((collectionView.frame.size.width - 70)/7.0, 55.0);
 }
 
 -(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-
+    
     return UIEdgeInsetsMake(10,5,10,5);
 }
 
