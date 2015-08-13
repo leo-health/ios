@@ -12,6 +12,7 @@
 #import "CollectionViewDataSource.h"
 #import <NSDate+DateTools.h>
 #import "NSDate+Extensions.h"
+#import "UIColor+LeoColors.h"
 
 @interface DateCollectionController ()
 @property (strong, nonatomic) UICollectionView *collectionView;
@@ -50,6 +51,7 @@ NSString *const dateReuseIdentifier = @"DateCell";
     [self.collectionView registerNib:[UINib nibWithNibName:@"LEODateCell" bundle:nil] forCellWithReuseIdentifier:dateReuseIdentifier];
 
     void (^configureCell)(LEODateCell *, NSDate*) = ^(LEODateCell* cell, NSDate* date) {
+
         [cell configureForDate:date];
     };
     
@@ -57,7 +59,7 @@ NSString *const dateReuseIdentifier = @"DateCell";
     
     self.collectionView.dataSource = self.dataSource;
     self.collectionView.delegate = self;
-    self.collectionView.backgroundColor = [UIColor grayColor];
+    self.collectionView.backgroundColor = [UIColor leoGreen];
     self.collectionView.pagingEnabled = YES;
     self.collectionView.showsHorizontalScrollIndicator = NO;
     self.collectionView.showsVerticalScrollIndicator = NO;
@@ -65,7 +67,7 @@ NSString *const dateReuseIdentifier = @"DateCell";
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
     [flowLayout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
     [flowLayout setMinimumInteritemSpacing:10.0f];
-    [flowLayout setMinimumLineSpacing:10.0f];
+
     self.collectionView.collectionViewLayout = flowLayout;
     
 }
@@ -189,11 +191,15 @@ NSString *const dateReuseIdentifier = @"DateCell";
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     
+    /**
+     *  Calculation of the size of each collection view cell taking account of the 10 point minimum between cells (for 
+     *  a total of 70 pts.
+     */
     return CGSizeMake((collectionView.frame.size.width - 70)/7.0, 55.0);
 }
 
 -(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-    
+
     return UIEdgeInsetsMake(10,5,10,5);
 }
 

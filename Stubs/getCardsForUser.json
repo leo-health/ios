@@ -9,7 +9,7 @@
       "card_data": {
         "id": 0,
         "created_datetime": "2015-12-04T10:00:00.000Z",
-        "start_datetime": "2015-12-10T08:00:00.000Z",
+        "start_datetime": "2015-8-10T08:00:00.000Z",
         "status_id": 0,
         "status": "reminder",
         "appointment_type": {

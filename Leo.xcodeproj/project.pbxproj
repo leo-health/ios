@@ -470,6 +470,69 @@
 			name = Model;
 			sourceTree = "<group>";
 		};
+		319FFB3F1B7CEBE600259715 /* API Operations */ = {
+			isa = PBXGroup;
+			children = (
+				31F5AA391B791B4A00F96D06 /* LEOAPISlotsOperation.h */,
+				31F5AA3A1B791B4A00F96D06 /* LEOAPISlotsOperation.m */,
+				31F5AA3B1B791B4A00F96D06 /* LEOAPIStaffOperation.h */,
+				31F5AA3C1B791B4A00F96D06 /* LEOAPIStaffOperation.m */,
+				31F5AA3D1B791B4A00F96D06 /* LEOAPIFamilyOperation.h */,
+				31F5AA3E1B791B4A00F96D06 /* LEOAPIFamilyOperation.m */,
+				31F5AA411B791B4A00F96D06 /* LEOAPIAppointmentTypesOperation.h */,
+				31F5AA421B791B4A00F96D06 /* LEOAPIAppointmentTypesOperation.m */,
+			);
+			name = "API Operations";
+			sourceTree = "<group>";
+		};
+		319FFB401B7CEBF000259715 /* Calendar */ = {
+			isa = PBXGroup;
+			children = (
+				31F5AA351B791B4A00F96D06 /* LEOCalendarViewController.h */,
+				31F5AA361B791B4A00F96D06 /* LEOCalendarViewController.m */,
+				31F5AA4E1B791B4A00F96D06 /* TimeCollectionController.h */,
+				31F5AA4F1B791B4A00F96D06 /* TimeCollectionController.m */,
+				31F5AA501B791B4A00F96D06 /* DateCollectionController.h */,
+				31F5AA511B791B4A00F96D06 /* DateCollectionController.m */,
+				31D62ECD1B1D3ED500B4150A /* LEODateCell.h */,
+				31D62ECE1B1D3ED500B4150A /* LEODateCell.m */,
+				31D62ECF1B1D3ED500B4150A /* LEODateCell.xib */,
+				31ECA3361B23C53500BC1D6B /* LEODateCell+ConfigureCell.h */,
+				31ECA3371B23C53500BC1D6B /* LEODateCell+ConfigureCell.m */,
+				31D62EC21B1CBA7400B4150A /* LEOTimeCell.h */,
+				31D62EC31B1CBA7400B4150A /* LEOTimeCell.m */,
+				31D62EC41B1CBA7400B4150A /* LEOTimeCell.xib */,
+				31ECA3331B23C39000BC1D6B /* LEOTimeCell+ConfigureCell.h */,
+				31ECA3341B23C39000BC1D6B /* LEOTimeCell+ConfigureCell.m */,
+				31D418AB1B3872C7008D70F3 /* DateTimeSelectionProtocol.h */,
+				31F5AA521B791B4A00F96D06 /* LEOCalendarDataSource.h */,
+				31F5AA531B791B4A00F96D06 /* LEOCalendarDataSource.m */,
+			);
+			name = Calendar;
+			sourceTree = "<group>";
+		};
+		319FFB411B7CEC0F00259715 /* Drill Lists */ = {
+			isa = PBXGroup;
+			children = (
+				31F5AA541B791B4A00F96D06 /* ProviderCell.h */,
+				31F5AA551B791B4A00F96D06 /* ProviderCell.m */,
+				31F5AA561B791B4A00F96D06 /* ProviderCell+ConfigureCell.h */,
+				31F5AA571B791B4A00F96D06 /* ProviderCell+ConfigureCell.m */,
+				31F5AA581B791B4A00F96D06 /* ProviderCell.xib */,
+				31F5AA591B791B4A00F96D06 /* PatientCell.h */,
+				31F5AA5A1B791B4A00F96D06 /* PatientCell.m */,
+				31F5AA5B1B791B4A00F96D06 /* PatientCell+ConfigureCell.h */,
+				31F5AA5C1B791B4A00F96D06 /* PatientCell+ConfigureCell.m */,
+				31F5AA5D1B791B4A00F96D06 /* PatientCell.xib */,
+				31F5AA5E1B791B4A00F96D06 /* AppointmentTypeCell.h */,
+				31F5AA5F1B791B4A00F96D06 /* AppointmentTypeCell.m */,
+				31F5AA601B791B4A00F96D06 /* AppointmentTypeCell+ConfigureCell.h */,
+				31F5AA611B791B4A00F96D06 /* AppointmentTypeCell+ConfigureCell.m */,
+				31F5AA621B791B4A00F96D06 /* AppointmentTypeCell.xib */,
+			);
+			name = "Drill Lists";
+			sourceTree = "<group>";
+		};
 		31BA405E1B30BF6700A11AEE /* Feed */ = {
 			isa = PBXGroup;
 			children = (
@@ -493,49 +556,10 @@
 			children = (
 				31F5AA371B791B4A00F96D06 /* LEOExpandedCardAppointmentViewController.h */,
 				31F5AA381B791B4A00F96D06 /* LEOExpandedCardAppointmentViewController.m */,
-				31ECA3331B23C39000BC1D6B /* LEOTimeCell+ConfigureCell.h */,
-				31ECA3341B23C39000BC1D6B /* LEOTimeCell+ConfigureCell.m */,
-				31D62ECD1B1D3ED500B4150A /* LEODateCell.h */,
-				31D62ECE1B1D3ED500B4150A /* LEODateCell.m */,
-				31D62ECF1B1D3ED500B4150A /* LEODateCell.xib */,
-				31D62EC21B1CBA7400B4150A /* LEOTimeCell.h */,
-				31D62EC31B1CBA7400B4150A /* LEOTimeCell.m */,
-				31D62EC41B1CBA7400B4150A /* LEOTimeCell.xib */,
-				31ECA3361B23C53500BC1D6B /* LEODateCell+ConfigureCell.h */,
-				31ECA3371B23C53500BC1D6B /* LEODateCell+ConfigureCell.m */,
-				31D418AB1B3872C7008D70F3 /* DateTimeSelectionProtocol.h */,
-				31F5AA351B791B4A00F96D06 /* LEOCalendarViewController.h */,
-				31F5AA361B791B4A00F96D06 /* LEOCalendarViewController.m */,
-				31F5AA391B791B4A00F96D06 /* LEOAPISlotsOperation.h */,
-				31F5AA3A1B791B4A00F96D06 /* LEOAPISlotsOperation.m */,
-				31F5AA3B1B791B4A00F96D06 /* LEOAPIStaffOperation.h */,
-				31F5AA3C1B791B4A00F96D06 /* LEOAPIStaffOperation.m */,
-				31F5AA3D1B791B4A00F96D06 /* LEOAPIFamilyOperation.h */,
-				31F5AA3E1B791B4A00F96D06 /* LEOAPIFamilyOperation.m */,
-				31F5AA411B791B4A00F96D06 /* LEOAPIAppointmentTypesOperation.h */,
-				31F5AA421B791B4A00F96D06 /* LEOAPIAppointmentTypesOperation.m */,
 				31F5AA431B791B4A00F96D06 /* LEOAppointmentBookingView.xib */,
-				31F5AA4E1B791B4A00F96D06 /* TimeCollectionController.h */,
-				31F5AA4F1B791B4A00F96D06 /* TimeCollectionController.m */,
-				31F5AA501B791B4A00F96D06 /* DateCollectionController.h */,
-				31F5AA511B791B4A00F96D06 /* DateCollectionController.m */,
-				31F5AA521B791B4A00F96D06 /* LEOCalendarDataSource.h */,
-				31F5AA531B791B4A00F96D06 /* LEOCalendarDataSource.m */,
-				31F5AA541B791B4A00F96D06 /* ProviderCell.h */,
-				31F5AA551B791B4A00F96D06 /* ProviderCell.m */,
-				31F5AA561B791B4A00F96D06 /* ProviderCell+ConfigureCell.h */,
-				31F5AA571B791B4A00F96D06 /* ProviderCell+ConfigureCell.m */,
-				31F5AA581B791B4A00F96D06 /* ProviderCell.xib */,
-				31F5AA591B791B4A00F96D06 /* PatientCell.h */,
-				31F5AA5A1B791B4A00F96D06 /* PatientCell.m */,
-				31F5AA5B1B791B4A00F96D06 /* PatientCell+ConfigureCell.h */,
-				31F5AA5C1B791B4A00F96D06 /* PatientCell+ConfigureCell.m */,
-				31F5AA5D1B791B4A00F96D06 /* PatientCell.xib */,
-				31F5AA5E1B791B4A00F96D06 /* AppointmentTypeCell.h */,
-				31F5AA5F1B791B4A00F96D06 /* AppointmentTypeCell.m */,
-				31F5AA601B791B4A00F96D06 /* AppointmentTypeCell+ConfigureCell.h */,
-				31F5AA611B791B4A00F96D06 /* AppointmentTypeCell+ConfigureCell.m */,
-				31F5AA621B791B4A00F96D06 /* AppointmentTypeCell.xib */,
+				319FFB401B7CEBF000259715 /* Calendar */,
+				319FFB3F1B7CEBE600259715 /* API Operations */,
+				319FFB411B7CEC0F00259715 /* Drill Lists */,
 			);
 			name = "Expanded Appointment Flow";
 			sourceTree = "<group>";

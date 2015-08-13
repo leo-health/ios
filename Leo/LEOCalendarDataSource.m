@@ -71,7 +71,7 @@
         
         NSInteger coinFlip = arc4random_uniform(10);
         
-        if (coinFlip < 2) {
+        if (coinFlip < 0) {
             times = 0;
         }
         

@@ -92,6 +92,20 @@
     return [dateFormatter stringFromDate:date];
 }
 
++ (NSString *)stringifiedTimeWithoutTimePeriod:(NSDate *)date {
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
+    dateFormatter.dateFormat = @"h':'mm";
+    return [dateFormatter stringFromDate:date];
+}
+
++ (NSString *)stringifiedTimePeriod:(NSDate *)date {
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
+    dateFormatter.dateFormat = @"a";
+    dateFormatter.AMSymbol = @"AM";
+    dateFormatter.PMSymbol = @"PM";
+    return [dateFormatter stringFromDate:date];
+}
+
 + (NSString *)stringifiedDateWithDot:(NSDate *)date {
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];

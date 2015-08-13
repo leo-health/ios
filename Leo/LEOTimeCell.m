@@ -10,11 +10,15 @@
 #import "UIColor+LeoColors.h"
 #import "UIFont+LeoFonts.h"
 
+@interface LEOTimeCell()
+
+@property (strong, nonatomic) CALayer *bottomBorder;
+
+@end
+
 @implementation LEOTimeCell
 
 -(void)awakeFromNib {
-    
-    self.timeLabel.textColor = [UIColor leoOrangeRed];
     
     [self setUnselectedFormat];
 }
@@ -34,14 +38,45 @@
 
 - (void)setUnselectedFormat {
     
-    self.timeLabel.font = [UIFont leoBodyBasicFont];
+    [self.bottomBorder removeFromSuperlayer];
+    [self updateLabel:self.timeLabel withColor:[UIColor leoGrayBodyText]];
     self.checkImageView.hidden = YES;
 }
 
 - (void)setSelectedFormat {
     
-    self.timeLabel.font = [UIFont leoBodyBolderFont];
+    [self.layer addSublayer:self.bottomBorder];
+    
+    [self updateLabel:self.timeLabel withColor:[UIColor leoGreen]];
     self.checkImageView.hidden = NO;
+}
+
+-(CALayer *)bottomBorder {
+    
+    if (!_bottomBorder) {
+        
+        _bottomBorder = [CALayer layer];
+        _bottomBorder.frame = CGRectMake(0.0f, self.frame.size.height - 3.0f, self.frame.size.width, 3.0f);
+        _bottomBorder.backgroundColor = [UIColor leoGreen].CGColor;
+    }
+    
+    return _bottomBorder;
+    
+}
+
+- (void)updateLabel:(UILabel *)label withColor:(UIColor *)color {
+    
+    NSMutableAttributedString *dateString = [label.attributedText mutableCopy];
+    
+    [dateString beginEditing];
+    
+    [dateString addAttribute:NSForegroundColorAttributeName
+                       value:color
+                       range:NSMakeRange(0, [dateString length])];
+    
+    [dateString endEditing];
+    
+    label.attributedText = dateString;
 }
 
 @end

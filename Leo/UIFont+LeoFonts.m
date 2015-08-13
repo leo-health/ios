@@ -21,6 +21,8 @@ NSString *const LeoBodyBasicFont = @"AvenirNext-Regular";
 NSString *const LeoBodyMediumFont = @"AvenirNext-Medium";
 NSString *const LeoBodyBoldFont = @"AvenirNext-Bold";
 
+NSString *const LEOCondensedFont = @"AvenirNextCondensed-Regular";
+
 + (UIFont *)leoTitleBasicFont {
     return [UIFont fontWithName:LeoBasicFont size:18];
 }
@@ -82,4 +84,7 @@ NSString *const LeoBodyBoldFont = @"AvenirNext-Bold";
     return [UIFont fontWithName:LeoLightFont size:27];
 }
 
++ (UIFont *)leoCondensedTimePeriodFont {
+    return [UIFont fontWithName:LEOCondensedFont size:10];
+}
 @end
