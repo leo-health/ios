@@ -175,8 +175,6 @@
     self.notesTextView.floatingLabelActiveTextColor = [UIColor leoGrayBodyText];
     self.notesTextView.textColor = [UIColor leoGreen];
     self.notesTextView.tintColor = [UIColor leoGreen];
-//    self.notesTextViewHeightConstraint.constant = self.notesTextView.contentSize.height;
-//    [self.view setNeedsUpdateConstraints];
     
     UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(scrollViewWasTapped:)];
     tapGestureForTextFieldDismissal.cancelsTouchesInView = NO;
