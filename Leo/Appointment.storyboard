@@ -323,8 +323,8 @@
                                     <constraint firstAttribute="height" constant="150" id="ukf-tQ-bQz"/>
                                 </constraints>
                             </view>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="sDE-IK-Ok3" userLabel="Time Collection View">
-                                <rect key="frame" x="0.0" y="280" width="600" height="320"/>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="sDE-IK-Ok3" userLabel="Time Collection View">
+                                <rect key="frame" x="0.0" y="280" width="616" height="320"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="J6k-Ur-edZ">
                                     <size key="itemSize" width="50" height="50"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -343,18 +343,27 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dwm-Mn-cZz" userLabel="No Slots Label">
+                                <rect key="frame" x="36" y="290" width="544" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="cC3-c7-XIC" firstAttribute="top" secondItem="vpM-c4-6y1" secondAttribute="bottom" constant="1" id="0zM-Jr-qbI"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="sDE-IK-Ok3" secondAttribute="bottom" id="5of-l5-9xK"/>
                             <constraint firstAttribute="trailing" secondItem="vpM-c4-6y1" secondAttribute="trailing" id="679-qh-1Yb"/>
+                            <constraint firstItem="sDE-IK-Ok3" firstAttribute="top" secondItem="dwm-Mn-cZz" secondAttribute="top" constant="-10" id="Bzv-n7-1Tq"/>
+                            <constraint firstItem="dwm-Mn-cZz" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="20" id="LTj-aw-O0d"/>
                             <constraint firstAttribute="trailing" secondItem="sDE-IK-Ok3" secondAttribute="trailing" id="PWf-RI-KcI"/>
                             <constraint firstItem="vpM-c4-6y1" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="Pi9-GX-nev"/>
                             <constraint firstItem="sDE-IK-Ok3" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="TSf-NN-uFp"/>
                             <constraint firstItem="cC3-c7-XIC" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="fNj-hn-4Cx"/>
                             <constraint firstItem="vpM-c4-6y1" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" id="j1r-TP-7TG"/>
                             <constraint firstItem="sDE-IK-Ok3" firstAttribute="top" secondItem="cC3-c7-XIC" secondAttribute="bottom" constant="10" id="km4-Ac-VUA"/>
+                            <constraint firstAttribute="trailing" secondItem="dwm-Mn-cZz" secondAttribute="trailing" constant="20" id="rPs-3C-w49"/>
                             <constraint firstAttribute="trailing" secondItem="cC3-c7-XIC" secondAttribute="trailing" id="rwI-q2-y88"/>
                         </constraints>
                     </view>
@@ -363,6 +372,7 @@
                         <outlet property="dateCollectionView" destination="cC3-c7-XIC" id="gEi-kp-Jso"/>
                         <outlet property="monthLabel" destination="55l-gL-nq6" id="eN7-Pl-c00"/>
                         <outlet property="monthView" destination="vpM-c4-6y1" id="j1N-0M-Kub"/>
+                        <outlet property="noSlotsLabel" destination="dwm-Mn-cZz" id="nx0-S7-DkK"/>
                         <outlet property="timeCollectionView" destination="sDE-IK-Ok3" id="MtO-bO-hPN"/>
                     </connections>
                 </viewController>

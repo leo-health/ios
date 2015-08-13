@@ -31,6 +31,7 @@
 
 @property (strong, nonatomic) DateCollectionController *dateCollectionController;
 @property (strong, nonatomic) TimeCollectionController *timeCollectionController;
+@property (weak, nonatomic) IBOutlet UILabel *noSlotsLabel;
 
 @end
 
@@ -47,7 +48,11 @@
     self.monthView.backgroundColor = [UIColor leoGreen];
     self.monthLabel.font = [UIFont leoHeaderLightFont];
     self.monthLabel.textColor = [UIColor leoWhite];
-
+    self.noSlotsLabel.text = @"We're all booked up this week!\nCheck out next week for more appointments.";
+    self.noSlotsLabel.textColor = [UIColor leoGrayBodyText];
+    self.noSlotsLabel.font = [UIFont leoBodyFont];
+    self.noSlotsLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    self.noSlotsLabel.numberOfLines = 0;
 }
 
 - (void)requestDataWithCompletion:(void (^) (id data))completionBlock {
@@ -64,10 +69,20 @@
 
 - (void)didScrollDateCollectionViewToDate:(NSDate *)date selectable:(BOOL)selectable {
     
-    self.timeCollectionController = [[TimeCollectionController alloc] initWithCollectionView:self.timeCollectionView slots:self.slotsDictionary[date]];
-    self.timeCollectionController.delegate = self;
+    if (!selectable) {
+        self.timeCollectionView.hidden = YES;
+        self.noSlotsLabel.hidden = NO;
+    } else {
+        
+        self.timeCollectionController = [[TimeCollectionController alloc] initWithCollectionView:self.timeCollectionView slots:self.slotsDictionary[date]];
+        self.timeCollectionController.delegate = self;
+
+        [self.timeCollectionView layoutIfNeeded];
+
+        self.timeCollectionView.hidden = NO;
+        self.noSlotsLabel.hidden = YES;
+    }
     
-    [self.timeCollectionView layoutIfNeeded];
     
     [self updateMonthLabelWithDate:date];
 }
