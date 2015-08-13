@@ -7,13 +7,12 @@
 //
 
 #import "Patient.h"
-#import "LEOConstants.h"
 
 @implementation Patient
 
--(instancetype)initWithObjectID:(nullable NSString *)objectID familyID:(NSString *)familyID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(nullable NSString *)email photoURL:(nullable NSURL *)photoURL photo:(nullable UIImage *)photo dob:(NSDate *)dob gender:(NSString *)gender status:(NSString *)status {
+- (instancetype)initWithObjectID:(nullable NSString *)objectID familyID:(NSString *)familyID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(nullable NSString *)email avatarURL:(nullable NSString *)avatarURL avatar:(nullable UIImage *)avatar dob:(NSDate *)dob gender:(NSString *)gender status:(NSString *)status {
     
-    self = [super initWithObjectID:objectID title:title firstName:firstName middleInitial:middleInitial lastName:lastName suffix:suffix email:email photoURL:photoURL photo:photo];
+    self = [super initWithObjectID:objectID title:title firstName:firstName middleInitial:middleInitial lastName:lastName suffix:suffix email:email avatarURL:avatarURL avatar:avatar];
     
     if (self) {
         _familyID = familyID;
@@ -25,14 +24,14 @@
     return self;
 }
 
--(instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
+- (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
     
     self = [super initWithJSONDictionary:jsonResponse];
     
     if (self) {
-        _familyID = jsonResponse[@"family_id"]; //FIXME: Update with constant.
-        _dob = jsonResponse[APIParamUserDOB];
-        _gender = jsonResponse[APIParamUserGender];
+        _familyID = jsonResponse[APIParamFamilyID]; //FIXME: Update with constant.
+        _dob = jsonResponse[APIParamUserBirthDate];
+        _gender = jsonResponse[APIParamUserSex];
         _status = jsonResponse[APIParamUserStatus];
     }
     
@@ -43,16 +42,15 @@
     
     NSMutableDictionary *userDictionary = [[super dictionaryFromUser:patient] mutableCopy];
     
-    userDictionary[@"family_id"] = patient.familyID; //FIXME: Update with constant.
-    userDictionary[APIParamUserDOB] = patient.dob;
-    userDictionary[APIParamUserGender] = patient.gender;
+    userDictionary[APIParamFamilyID] = patient.familyID; //FIXME: Update with constant.
+    userDictionary[APIParamUserBirthDate] = patient.dob;
+    userDictionary[APIParamUserSex] = patient.gender;
     userDictionary[APIParamUserStatus] = patient.status;
 
     return userDictionary;
-    
 }
 
--(id)copy {
+- (id)copy {
 
     Patient*patientCopy = [[Patient alloc] init];
     patientCopy.objectID = self.objectID;
@@ -63,8 +61,8 @@
     patientCopy.suffix = self.suffix;
     patientCopy.title = self.title;
     patientCopy.email = self.email;
-    patientCopy.photoURL = self.photoURL;
-    patientCopy.photo = [self.photo copy];
+    patientCopy.avatarURL = self.avatarURL;
+    patientCopy.avatar = [self.avatar copy];
     patientCopy.dob = self.dob;
     patientCopy.gender = self.gender;
     patientCopy.status = self.status;
@@ -72,7 +70,7 @@
     return patientCopy;
 }
 
--(NSString *)description {
+- (NSString *)description {
     
     NSString *superDesc = [super description];
     
@@ -80,5 +78,28 @@
     
     return [superDesc stringByAppendingString:subDesc];
 }
+
+- (id)initWithCoder:(NSCoder *)decoder {
+    
+    self = [super initWithCoder:decoder];
+    
+    NSString *familyID = [decoder decodeObjectForKey:APIParamFamilyID];
+    NSDate *dob = [decoder decodeObjectForKey:APIParamUserBirthDate];
+    NSString *gender = [decoder decodeObjectForKey:APIParamUserSex];
+    NSString *status = [decoder decodeObjectForKey:APIParamUserStatus];
+    
+    return [self initWithObjectID:self.objectID familyID:familyID title:self.title firstName:self.firstName middleInitial:self.middleInitial lastName:self.lastName suffix:self.suffix email:self.email avatarURL:self.avatarURL avatar:self.avatar dob:dob gender:gender status:status];
+}
+
+- (void)encodeWithCoder:(NSCoder *)encoder {
+    
+    [super encodeWithCoder:encoder];
+    
+    [encoder encodeObject:self.familyID forKey:APIParamFamilyID];
+    [encoder encodeObject:self.dob forKey:APIParamUserBirthDate];
+    [encoder encodeObject:self.gender forKey:APIParamUserSex];
+    [encoder encodeObject:self.status forKey:APIParamUserStatus];
+}
+
 
 @end

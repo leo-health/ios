@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="d3W-RQ-mFp">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+    </dependencies>
+    <scenes>
+        <!--Card Conversation ChattingVC-->
+        <scene sceneID="fTs-WE-Z6D">
+            <objects>
+                <viewController id="d3W-RQ-mFp" customClass="LEOCardConversationChattingVC" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="665-p9-XE6"/>
+                        <viewControllerLayoutGuide type="bottom" id="dr6-dZ-4BF"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="GEN-AZ-pPM">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xU1-8D-fzZ">
+                                <rect key="frame" x="0.0" y="90" width="600" height="510"/>
+                                <connections>
+                                    <segue destination="W9p-fk-YW4" kind="embed" id="mCw-Fv-V5I"/>
+                                </connections>
+                            </containerView>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aJu-FQ-3JM">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="64"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="64" id="ztI-7i-XTg"/>
+                                </constraints>
+                            </navigationBar>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="In case of emergency, dial 911" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1zY-ir-8Fv" userLabel="Emergency Label">
+                                <rect key="frame" x="0.0" y="64" width="600" height="26"/>
+                                <color key="backgroundColor" red="0.93333333333333335" green="0.98039215686274506" blue="0.99215686274509807" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="26" id="Vcf-gG-Q1n"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="16"/>
+                                <color key="textColor" red="0.24313725490196078" green="0.78431372549019607" blue="0.90196078431372551" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="xU1-8D-fzZ" firstAttribute="top" secondItem="1zY-ir-8Fv" secondAttribute="bottom" id="3qW-hN-vg4"/>
+                            <constraint firstAttribute="trailing" secondItem="aJu-FQ-3JM" secondAttribute="trailing" id="Ban-Ei-m5M"/>
+                            <constraint firstAttribute="trailing" secondItem="xU1-8D-fzZ" secondAttribute="trailing" id="CSe-1W-0uh"/>
+                            <constraint firstAttribute="trailing" secondItem="1zY-ir-8Fv" secondAttribute="trailing" id="Dii-8b-lW3"/>
+                            <constraint firstItem="aJu-FQ-3JM" firstAttribute="leading" secondItem="GEN-AZ-pPM" secondAttribute="leading" id="d13-ll-tVh"/>
+                            <constraint firstItem="1zY-ir-8Fv" firstAttribute="leading" secondItem="GEN-AZ-pPM" secondAttribute="leading" id="lbD-CH-Q7C"/>
+                            <constraint firstItem="xU1-8D-fzZ" firstAttribute="top" secondItem="aJu-FQ-3JM" secondAttribute="bottom" id="pg1-ue-MT0"/>
+                            <constraint firstItem="aJu-FQ-3JM" firstAttribute="top" secondItem="665-p9-XE6" secondAttribute="top" id="qnd-PZ-pyl"/>
+                            <constraint firstItem="xU1-8D-fzZ" firstAttribute="leading" secondItem="GEN-AZ-pPM" secondAttribute="leading" id="taQ-Op-wvN"/>
+                            <constraint firstItem="dr6-dZ-4BF" firstAttribute="top" secondItem="xU1-8D-fzZ" secondAttribute="bottom" id="un4-lF-vGr"/>
+                            <constraint firstItem="1zY-ir-8Fv" firstAttribute="top" secondItem="aJu-FQ-3JM" secondAttribute="bottom" id="zNG-8O-FPD"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="pg1-ue-MT0"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <connections>
+                        <outlet property="navBar" destination="aJu-FQ-3JM" id="hkJ-N5-AhC"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="YMe-Yu-EO8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="334" y="442"/>
+        </scene>
+        <!--Messages View Controller-->
+        <scene sceneID="Zfi-Q5-jRR">
+            <objects>
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="W9p-fk-YW4" customClass="LEOMessagesViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Khb-MR-dJA"/>
+                        <viewControllerLayoutGuide type="bottom" id="pym-HB-GMG"/>
+                    </layoutGuides>
+                    <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="0OG-mX-gXH">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="510"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <toolbarItems/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="anY-I5-W88" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1000" y="620"/>
+        </scene>
+    </scenes>
+</document>

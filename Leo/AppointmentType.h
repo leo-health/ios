@@ -15,11 +15,17 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy) NSString *objectID;
-@property (nonatomic, copy) NSString *typeDescriptor;
-@property (nonatomic, strong, nullable) NSNumber *duration;
+@property (nonatomic) AppointmentTypeCode typeCode;
+@property (nonatomic, copy) NSString *name;
+@property (nonatomic, strong) NSNumber *duration;
+@property (nonatomic, copy) NSString *longDescription;
+@property (nonatomic, copy) NSString *shortDescription;
 
-- (instancetype)initWithObjectID:(NSString *)id typeDescriptor:(NSString *)typeDescriptor duration:(nullable NSNumber *)duration;
+
+- (instancetype)initWithObjectID:(NSString *)objectID name:(NSString *)name typeCode:(AppointmentTypeCode)typeCode duration:(nullable NSNumber *)duration longDescription:(NSString *)longDescription shortDescription:(NSString *)shortDescription;
+
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse;
+ 
 
 NS_ASSUME_NONNULL_END
 @end

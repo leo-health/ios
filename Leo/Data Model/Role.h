@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
+
+/// MARK: This class likely will not be used. Will remove in a separate commit at a later time if appropriate.
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
@@ -26,11 +28,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSDate * createdAt;
 @property (nonatomic, copy) NSString * name;
 @property (nonatomic, copy) NSString * resourceID;
-@property (nonatomic, strong) NSNumber * resourceType;
 @property (nonatomic, strong) NSDate * updatedAt;
 @property (nonatomic, strong) User *user;
 
-- (instancetype)initWithName:(NSString *)name resourceID:(NSString *)resourceID resourceType:(NSNumber *)resourceType;
+- (instancetype)initWithName:(NSString *)name resourceID:(NSString *)resourceID;
 - (RoleType)roleType;
 
 

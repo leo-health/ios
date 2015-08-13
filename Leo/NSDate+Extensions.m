@@ -75,4 +75,34 @@
     return [self dateBySubtractingDays:daysSinceBeginningOfWeek];
 }
 
++ (NSDate *)dateFromDateTimeString:(NSString *)dateTimeString {
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-DD'T'HH:mm:ss.SSSZ"];
+    
+    NSDate *date = [dateFormatter dateFromString:dateTimeString];
+    return date;
+}
+
++ (NSString *)stringifiedTime:(NSDate *)date {
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
+    dateFormatter.dateFormat = @"h':'mma";
+    dateFormatter.AMSymbol = @"am";
+    dateFormatter.PMSymbol = @"pm";
+    return [dateFormatter stringFromDate:date];
+}
+
++ (NSString *)stringifiedDateWithDot:(NSDate *)date {
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
+    dateFormatter.dateFormat = @"EEEE' ∙ 'MMMM', 'd'";
+    return [dateFormatter stringFromDate:date];
+}
+
++ (NSString *)stringifiedDateWithCommas:(NSDate *)date {
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
+    dateFormatter.dateFormat = @"EEEE', 'MMMM' 'd'";
+    return [dateFormatter stringFromDate:date];
+}
+
 @end

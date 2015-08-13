@@ -8,18 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-//@protocol DropDownActivityProtocol <NSObject>
-//
-//- (void)didSelectItemAtIndex:(NSUInteger)index tableView:(UITableView *)tableView;
-//
-//@end
-
 @class LEODropDownTableView;
 
 @interface LEODropDownController : NSObject <UITableViewDelegate, UITableViewDataSource>
-
-//@property (weak, nonatomic) id<DropDownActivityProtocol>delegate;
-
 
 
 #pragma mark - Designated Initializer and Initializer Helper Methods

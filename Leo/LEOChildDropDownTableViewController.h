@@ -14,4 +14,5 @@
 @property (strong, nonatomic) NSArray *children;
 @property (strong, nonatomic) PrepAppointment *prepAppointment;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+
 @end

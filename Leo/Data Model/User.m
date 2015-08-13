@@ -8,13 +8,11 @@
 
 #import "User.h"
 #import "Appointment.h"
-#import "LEOConstants.h"
-
 
 @implementation User
 
-- (instancetype)initWithObjectID:(nullable NSString*)objectID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email photoURL:(NSURL *)photoURL photo:(nullable UIImage *)photo {
-
+- (instancetype)initWithObjectID:(nullable NSString*)objectID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email avatarURL:(NSString *)avatarURL avatar:(nullable UIImage *)avatar {
+    
     self = [super init];
     
     if (self) {
@@ -25,31 +23,52 @@
         _lastName = lastName;
         _suffix = suffix;
         _email = email;
-        _photoURL = photoURL;
-        _photo = photo;
+        _avatarURL = avatarURL;
+        _avatar = avatar;
     }
     
     return self;
 }
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
-
+    
     NSString *firstName = jsonResponse[APIParamUserFirstName];
     NSString *lastName = jsonResponse[APIParamUserLastName];
     NSString *middleInitial = jsonResponse[APIParamUserMiddleInitial];
-    NSString *title = jsonResponse[APIParamUserTitle];
-    NSString *suffix = jsonResponse[APIParamUserSuffix];
-    NSString *objectID = jsonResponse[APIParamID];
+    
+    NSString *title;
+    if (!(jsonResponse[APIParamUserTitle] == [NSNull null])) {
+       title = jsonResponse[APIParamUserTitle];
+    }
+    
+    NSString *suffix;
+    
+    if (!(jsonResponse[APIParamUserSuffix] == [NSNull null])) {
+        suffix = jsonResponse[APIParamUserSuffix];
+    }
+    
+    NSString *objectID = [jsonResponse[APIParamID] stringValue];
     NSString *email = jsonResponse[APIParamUserEmail];
-    NSURL *photoURL = [NSURL URLWithString:jsonResponse[APIParamUserPhotoURL]];
-    UIImage *photo = [UIImage imageWithData:[NSData dataWithContentsOfURL:photoURL]];
+    
+    NSString *avatarURL;
+    
+    /**
+     *  If an avatarURL exists, then append the objectID to it, followed by
+     *  @1x.png, @2x.png, or @3x.png based on the scaleFactor.
+     */
+    if (!(jsonResponse[APIParamUserAvatarURL] == [NSNull null])) {
+        
+        NSInteger scaleFactor = [@([[UIScreen mainScreen] scale]) integerValue];
+        
+        avatarURL = [NSString stringWithFormat:@"%@%@@%ldx.png",jsonResponse[APIParamUserAvatarURL],objectID,(long)scaleFactor];
+    }
     
     //TODO: May need to protect against nil values...
-    return [self initWithObjectID:objectID title:title firstName:firstName middleInitial:middleInitial lastName:lastName suffix:suffix email:email photoURL:photoURL photo:photo];
+    return [self initWithObjectID:objectID title:title firstName:firstName middleInitial:middleInitial lastName:lastName suffix:suffix email:email avatarURL:avatarURL avatar:nil];
 }
 
 + (NSDictionary *)dictionaryFromUser:(User *)user {
-
+    
     NSMutableDictionary *userDictionary = [[NSMutableDictionary alloc] init];
     
     //TODO: Remove the ternary operators for variables that MUST be there!
@@ -68,30 +87,63 @@
     
     NSMutableDictionary *userDictionary = [[User dictionaryFromUser:user] mutableCopy];
     
-    userDictionary[APIParamUserPhoto] = user.photo ? user.photo : [NSNull null];
+    userDictionary[APIParamUserAvatarURL] = user.avatarURL ? user.avatarURL : [NSNull null];
     
     return userDictionary;
 }
 
 
-//TODO: Add suffix into fullName
--(NSString *)fullName {
+//TODO: Refactor
+- (NSString *)fullName {
     
     NSArray *nameComponents;
     
-    if (self.title) {
+    if (self.title && self.suffix) {
+        nameComponents = @[self.title, self.firstName, self.lastName, self.suffix];
+    } else if (self.title) {
         nameComponents = @[self.title, self.firstName, self.lastName];
-    } else {
+    } else if (self.suffix) {
         nameComponents = @[self.firstName, self.lastName, self.suffix];
+    } else {
+        nameComponents = @[self.firstName, self.lastName];
     }
     
     return [nameComponents componentsJoinedByString:@" "];
 }
 
--(NSString *)description {
+- (NSString *)description {
     
     return [NSString stringWithFormat:@"<%@: %p>",[self class],self];
 }
 
+#pragma mark - NSCoding
+
+- (id)initWithCoder:(NSCoder *)decoder {
+    
+    NSString *firstName = [decoder decodeObjectForKey:APIParamUserFirstName];
+    NSString *lastName = [decoder decodeObjectForKey:APIParamUserLastName];
+    NSString *middleInitial = [decoder decodeObjectForKey:APIParamUserMiddleInitial];
+    NSString *title = [decoder decodeObjectForKey:APIParamUserTitle];
+    NSString *suffix = [decoder decodeObjectForKey:APIParamUserSuffix];
+    NSString *objectID = [decoder decodeObjectForKey:APIParamID];
+    NSString *email = [decoder decodeObjectForKey:APIParamUserEmail];
+    NSString *avatarURL = [decoder decodeObjectForKey:APIParamUserAvatarURL];
+    UIImage *avatar = [UIImage imageWithData:[decoder decodeObjectForKey:@"Avatar"]];
+    
+    return [self initWithObjectID:objectID title:title firstName:firstName middleInitial:middleInitial lastName:lastName suffix:suffix email:email avatarURL:avatarURL avatar:avatar];
+}
+
+- (void)encodeWithCoder:(NSCoder *)encoder {
+    
+    [encoder encodeObject:self.firstName forKey:APIParamUserFirstName];
+    [encoder encodeObject:self.lastName forKey:APIParamUserLastName];
+    [encoder encodeObject:self.middleInitial forKey:APIParamUserMiddleInitial];
+    [encoder encodeObject:self.title forKey:APIParamUserTitle];
+    [encoder encodeObject:self.suffix forKey:APIParamUserSuffix];
+    [encoder encodeObject:self.objectID forKey:APIParamID];
+    [encoder encodeObject:self.email forKey:APIParamUserEmail];
+    [encoder encodeObject:self.avatarURL forKey:APIParamUserAvatarURL];
+    [encoder encodeObject:UIImagePNGRepresentation(self.avatar) forKey:@"Avatar"];
+}
 
 @end

@@ -7,24 +7,24 @@
 //
 
 #import "PrepAppointment.h"
-#import "LEOConstants.h"
 #import "User.h"
 #import "Provider.h"
 #import "Patient.h"
+#import "AppointmentType.h"
 
 @implementation PrepAppointment
 
--(instancetype)initWithObjectID:(nullable NSString *)objectID date:(nullable NSDate *)date appointmentType:(NSNumber *)leoAppointmentType patient:(Patient *)patient provider:(Provider *)provider bookedByUser:(User *)bookedByUser note:(NSString *)note state:(NSNumber *)state {
-    
+- (instancetype)initWithObjectID:(nullable NSString *)objectID date:(nullable NSDate *)date appointmentType:(AppointmentType *)appointmentType patient:(Patient *)patient provider:(Provider *)provider bookedByUser:(User *)bookedByUser note:(NSString *)note statusCode:(AppointmentStatusCode)statusCode {
+
     self = [super init];
     
     if (self) {
         _date = date;
-        _leoAppointmentType = leoAppointmentType;
+        _appointmentType = appointmentType;
         _patient = patient;
         _provider = provider;
         _bookedByUser = bookedByUser;
-        _state = state;
+        _statusCode = statusCode;
         _objectID = objectID;
         _note = note;
     }
@@ -32,32 +32,29 @@
     return self;
 }
 
-
+//MARK: Not sure this method will ever be used for a prep appointment.
 - (instancetype)initWithJSONDictionary:(nonnull NSDictionary *)jsonResponse {
     
-    NSDate *date = jsonResponse[APIParamApptDate];
-    Patient *patient = jsonResponse[APIParamPatient];
-    Provider *provider = jsonResponse[APIParamProvider];
-    User *bookedByUser = jsonResponse[APIParamBookedByUser];
+    NSDate *date = jsonResponse[APIParamAppointmentStartDateTime];
+    Patient *patient = jsonResponse[APIParamUserPatient];
+    Provider *provider = jsonResponse[APIParamUserProvider];
+    User *bookedByUser = jsonResponse[APIParamAppointmentBookedBy];
+    //FIXME: This should really go looking for the appointment type via ID as opposed to trying to pull it from this JSON response most likely (hence why we get a warning here because that isn't passed as part of the API endpoint.)
     
-    /**
-     *  Unsure yet whether we're using an AppointmentType object for this or just a description or numeric code.
-     *  TODO: Update from id to appropriate object type when determined.
-     */
+    AppointmentType *appointmentType = [[AppointmentType alloc] initWithObjectID:@"0" name:jsonResponse[APIParamAppointmentTypeBody] typeCode:AppointmentTypeCodeCheckup duration:@15 longDescription:@"yeah yeah yeah" shortDescription:@"another shorter description"]; //FIXME: Constant
     
-    id leoAppointmentType = jsonResponse[APIParamApptType];
-    NSNumber *state = jsonResponse[APIParamState];
-    NSString *objectID = jsonResponse[APIParamID];
-    NSString *note = jsonResponse[APIParamApptNote];
+    AppointmentStatusCode statusCode = [jsonResponse[APIParamState] integerValue];
+    NSString *objectID = [jsonResponse[APIParamID] stringValue];
+    NSString *note = jsonResponse[APIParamAppointmentNotes];
     
     //TODO: May need to protect against nil values...
-    return [self initWithObjectID:objectID date:date appointmentType:leoAppointmentType patient:patient provider:provider bookedByUser:bookedByUser note:note state:state];
+    return [self initWithObjectID:objectID date:date appointmentType:appointmentType patient:patient provider:provider bookedByUser:bookedByUser note:note statusCode:statusCode];
 }
 
--(NSString *) description {
+- (NSString *)description {
     
-    return [NSString stringWithFormat:@"<Appointment: %p>\nid: %@\ndate: %@\nleoAppointmentType: %@\nstate: %@\nnote %@\nbookedByUser: %@\npatient %@\nprovider: %@",
-            self, self.objectID, self.date, self.leoAppointmentType, self.state, self.note, self.bookedByUser, self.patient, self.provider];
+    return [NSString stringWithFormat:@"<Appointment: %p>\nid: %@\ndate: %@\nappointmentType: %@\nstate: %lu\nnote %@\nbookedByUser: %@\npatient %@\nprovider: %@",
+            self, self.objectID, self.date, self.appointmentType, (unsigned long)self.statusCode, self.note, self.bookedByUser, self.patient, self.provider];
 }
 
 @end

@@ -17,7 +17,7 @@
 #import "MenuView.h"
 
 #import "Appointment.h"
-#import "LEOCardScheduling.h"
+#import "LEOCardAppointment.h"
 #import "LEODataManager.h"
 
 @interface LEOMainContainerViewController ()
@@ -41,7 +41,7 @@
     
     [self primaryInterfaceSetup];
     [self setupMenuButton];
-
+    
     [self setNeedsStatusBarAppearanceUpdate];
     
     self.dataManager = [LEODataManager sharedManager];
@@ -104,7 +104,7 @@
     
     UIImage *snapshotImage = UIGraphicsGetImageFromCurrentImageContext();
     
-    UIImage *blurredSnapshotImage = [UIImageEffects imageByApplyingBlurToImage:snapshotImage withRadius:2 tintColor:nil saturationDeltaFactor:1.0 maskImage:nil];
+    UIImage *blurredSnapshotImage = [UIImageEffects imageByApplyingBlurToImage:snapshotImage withRadius:4 tintColor:nil saturationDeltaFactor:1.0 maskImage:nil];
     
     UIGraphicsEndImageContext();
     
@@ -150,7 +150,7 @@
  *  Load Main Menu for Leo. Includes blurred background and updated menu button.
  */
 - (void)animateMenuLoad {
-
+    
     UIImage *blurredView = [self blurredSnapshot];
     self.blurredImageView = [[UIImageView alloc] initWithFrame:self.view.frame];
     self.blurredImageView.image = blurredView;
@@ -162,7 +162,7 @@
     self.blurredImageView.alpha = 0;
     
     [UIView animateWithDuration:0.25 animations:^{
-        self.menuView.alpha = 0.6;
+        self.menuView.alpha = 0.8;
         self.blurredImageView.alpha = 1;
         [self.menuButton layoutIfNeeded];
         [self.menuView layoutIfNeeded];
@@ -204,13 +204,13 @@
     self.menuView.alpha = 0;
     self.menuView.translatesAutoresizingMaskIntoConstraints = NO;
     self.menuView.delegate = self;
-
+    
     [self.view insertSubview:self.menuView belowSubview:self.menuButton];
     
     NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(_menuView);
     
     NSArray *horizontalMenuViewLayoutConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_menuView]|" options:0 metrics:nil views:viewsDictionary];
-
+    
     NSArray *verticalMenuViewLayoutConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_menuView]|" options:0 metrics:nil views:viewsDictionary];
     
     [self.view addConstraints:horizontalMenuViewLayoutConstraints];

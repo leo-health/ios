@@ -18,102 +18,230 @@ typedef enum CardLayout {
     CardLayoutUndefined
 } CardLayout;
 
+/**
+ *  Description AppointmentStatusCode tracks the status of the appointment
+ *
+ *  @AppointmentStatusCodeReminding              An appointment that is coming up AND of which we are reminding the user. Internal Leo status only.
+ *  @AppointmentStatusCodeFuture                 An upcoming appointment prior to check-in that includes no shows. It is on Leo to cancel appointments from Athena. Athena supported.
+ *  @AppointmentStatusCodeOpen                   A slot that can be deleted. Currently unsupported by iOS app. Athena supported.
+ *  @AppointmentStatusCodeCheckedIn              Patient has checked in at the practice, but has not yet completed their visit. Currently unsupported by iOS app. Athena supported.
+ *  @AppointmentStatusCodeCheckedOut             Patient has completed their visit and left the office. Currently unsupported by iOS app. Athena supported.
+ *  @AppointmentStatusCodeChargeEntered          Completed and has been submitted to billing. Athena supported. Currently unsupported by iOS app.
+ *  @AppointmentStatusCodeCancelled              Cancelled by staff or user. Athena supported.
+ *  @AppointmentStatusCodeBooking                Patient is in process of making appointment. Internal Leo status only for use by iOS app. Not supported on Leo backend.
+ *  @AppointmentStatusCodeCancelling             Patient is in process of cancelling appointment. Internal Leo status only for use on iOS app. Not supported on Leo backend.
+ *  @AppointmentStatusCodeConfirmingCancelling   Patient has cancelled appointment but not yet dismissed card from app. Internal Leo status for use on iOS app. Not supported by Leo backend.
+ *  @AppointmentStatusCodeRecommending           Leo creates appointment object for user without filling out date of appointment. User may decide to make appointment or not. Internal Leo status only.
+ */
+typedef enum AppointmentStatusCode : NSUInteger {
+    AppointmentStatusCodeReminding = 0,
+    AppointmentStatusCodeFuture = 1,
+    AppointmentStatusCodeOpen = 2,
+    AppointmentStatusCodeCheckedIn = 3,
+    AppointmentStatusCodeCheckedOut = 4,
+    AppointmentStatusCodeChargeEntered = 5,
+    AppointmentStatusCodeCancelled = 6,
+    AppointmentStatusCodeBooking = 7,
+    AppointmentStatusCodeCancelling = 8,
+    AppointmentStatusCodeConfirmingCancelling = 9,
+    AppointmentStatusCodeRecommending = 10
+} AppointmentStatusCode;
+
+/**
+ *  Description MessageStatusCode tracks the status of the message
+ *
+ *  @MessageStatusCodeRead
+ *  @MessageStatusCodeUnread
+ *  @MessageStatusCodeEscalated
+ *  @MessageStatusCodeClosed
+ *  @MessageStatusCodeOpen
+ *  @MessageStatusCodeUndefined
+ *
+ */
+typedef enum MessageStatusCode : NSUInteger {
+    MessageStatusCodeRead = 0,
+    MessageStatusCodeUnread = 1,
+    MessageStatusCodeEscalated = 2,
+    MessageStatusCodeClosed = 3,
+    MessageStatusCodeOpen   = 4,
+    MessageStatusCodeUndefined = 99
+} MessageStatusCode;
+
+/**
+ *  Description ConversationStatusCode tracks the status of the conversation
+ *
+ *  @ConversationStatusCodeClosed   
+ *  @ConversationStatusCodeOpen
+ *  @ConversationStatusCodeEscalated
+ *
+ */
+typedef enum ConversationStatusCode : NSUInteger {
+    ConversationStatusCodeClosed = 0,
+    ConversationStatusCodeOpen = 1
+} ConversationStatusCode;
+
+/**
+ *  Description AppointmentReason describes the reason for which the patient is making the appointment
+ *
+ *  @AppointmentTypeCheckup       A regular checkup that is typically scheduled every few months up until age 2 and annually thereafter.
+ *  @AppointmentTypeSick          A visit to address new symptoms like cough, cold, ear pain, fever, diarrhea, or rash.
+ *  @AppointmentTypeImmunizations A visit with a nurse to get one or more immunizations.
+ *  @AppointmentTypeFollowup        A visit to follow-up on known conditionss like asthma, sickness, ADHD, or eczema.
+ */
+typedef enum AppointmentTypeCode : NSUInteger {
+    AppointmentTypeCodeCheckup = 0,
+    AppointmentTypeCodeSick = 1,
+    AppointmentTypeCodeImmunization = 2,
+    AppointmentTypeCodeFollowUp = 3
+} AppointmentTypeCode;
+
+typedef enum MessageTypeCode : NSUInteger {
+    MessageTypeCodeText = 0,
+    MessageTypeCodeImage = 1
+} MessageTypeCode;
+
 @interface LEOConstants : NSObject
 
-#pragma mark - URL & Endpoints
-extern NSString *const APIBaseURL; // @"http://leo-api.herokuapp.com/api/v1";
-extern NSString *const APIHost; // = @"http://leo-api.herokuapp.com";
-extern NSString *const APICommonPath; // = @"/api/v1";
-extern NSString *const APIEndpointUser; // @"users";
-extern NSString *const APIEndpointLogin; // @"sessions";
+#pragma mark - URL & endpoints
+
+extern NSString *const APIBaseUrl; // @"http://leo-api.herokuapp.com/api/v1";
+extern NSString *const APIHost; // @"leo-api.herokuapp.com";
+extern NSString *const APIVersion; // @"/api/v1";
+extern NSString *const APIEndpointUsers; // @"users";
+extern NSString *const APIEndpointSessions; // @"sessions";
 extern NSString *const APIEndpointResetPassword; // @"sessions/password";
-extern NSString *const APIEndpointAppointment; // @"appointments";
-extern NSString *const APIEndpointConversation; // @"conversations";
-extern NSString *const APIEndpointMessage; // @"messages";
-extern NSString *const APIEndpointInvitation; // @"invitations";
+extern NSString *const APIEndpointAppointments; // @"appointments";
+extern NSString *const APIEndpointConversations; // @"conversations";
+extern NSString *const APIEndpointMessages; // @"messages";
+extern NSString *const APIEndpointAppointmentTypes; // @"appointmentTypes";
+extern NSString *const APIEndpointLogin; // @"login";
 
-#pragma mark - Common params
+#pragma mark - Common
 extern NSString *const APIParamID; // @"id";
-extern NSString *const APIParamState; // = @"state";
+extern NSString *const APIParamState; // @"state";
+extern NSString *const APIParamData; // @"data";
+extern NSString *const APIParamType; // @"type";
+extern NSString *const APIParamTypeID; // @"type_id";
+extern NSString *const APIParamStatus; // @"status";
+extern NSString *const APIParamStatusID; // @"status_id";
+extern NSString *const APIParamName; // @"name";
+extern NSString *const APIParamDescription; // @"description";
+extern NSString *const APIParamShortDescription; // @"short_description";
+extern NSString *const APIParamLongDescription; // @"long_description";
 
-#pragma mark - User and user subclass params
-extern NSString *const APIParamUser; // @"first_name";
+extern NSString *const APIParamToken; // @"token";
+
+#pragma mark - Date & time
+extern NSString *const APIParamCreatedDateTime; // @"created_datetime";
+extern NSString *const APIParamUpdatedDateTime; // @"updated_datetime";
+
+#pragma mark - Practice
+extern NSString *const APIParamPracticeID; // @"practice_id";
+extern NSString *const APIParamPractice; // @"practice";
+extern NSString *const APIParamPracticeLocationAddressLine1; // @"address_line_1";
+extern NSString *const APIParamPracticeLocationAddressLine2; // @"address_line_2";
+extern NSString *const APIParamPracticeLocationCity; // @"city";
+extern NSString *const APIParamPracticeLocationState; // @"state";
+extern NSString *const APIParamPracticeLocationZip; // @"zip";
+extern NSString *const APIParamPracticePhone; // @"phone";
+extern NSString *const APIParamPracticeEmail; // @"email";
+
+#pragma mark - Family
+extern NSString *const APIParamFamilyID; // @"family_id";
+
+#pragma mark - User and user subclass
+
 extern NSString *const APIParamUserTitle; // @"title";
 extern NSString *const APIParamUserFirstName; // @"first_name";
 extern NSString *const APIParamUserMiddleInitial; // @"middle_initial";
 extern NSString *const APIParamUserLastName; // @"last_name";
-extern NSString *const APIParamUserSuffix; // = @"suffix";
+extern NSString *const APIParamUserSuffix; // @"suffix";
 extern NSString *const APIParamUserEmail; // @"email";
+extern NSString *const APIParamUserAvatarURL; // @"avatar_url";
+
+extern NSString *const APIParamUserProviderID; // @"provider_id";
+extern NSString *const APIParamUserCredentials; // @"credentials";
+extern NSString *const APIParamUserSpecialties; // @"specialties";
+extern NSString *const APIParamUserPrimary; // @"primary";
+extern NSString *const APIParamUserStatus; // @"status";
+
+extern NSString *const APIParamUserBirthDate; // @"birth_date";
+extern NSString *const APIParamUserSex; // @"sex";
 extern NSString *const APIParamUserPassword; // @"password";
-extern NSString *const APIParamUserDOB; // @"dob";
-extern NSString *const APIParamUserGender; // @"sex";
-extern NSString *const APIParamUserToken; // @"token";
-extern NSString *const APIParamUserPhotoURL; // = @"photo_url";
-extern NSString *const APIParamUserPhoto; // = @"photo";
 
-extern NSString *const APIParamUserRole; // = @"role";
-extern NSString *const APIParamUserSpecialty; // = @"specialty";
-extern NSString *const APIParamUserStatus; // = @"status";
-extern NSString *const APIParamUserCredentialSuffix; // = @"credential_suffix";
-extern NSString *const APIParamUserPrimary; // = @"primary";
-extern NSString *const APIParamUserRelationship; // = @"relationship";
+#pragma mark - Common user object references
+extern NSString *const APIParamUser; // @"user";
+extern NSString *const APIParamUsers; // @"users";
+extern NSString *const APIParamUserProvider; // @"provider";
+extern NSString *const APIParamUserProviders; // @"providers";
+extern NSString *const APIParamUserPatient; // @"patient";
+extern NSString *const APIParamUserPatients; // @"patients";
+extern NSString *const APIParamUserParent; // @"parent";
+extern NSString *const APIParamUserParents; // @"parents";
+extern NSString *const APIParamUserGuardian; // @"guardian";
+extern NSString *const APIParamUserGuardians; // @"guardians";
+extern NSString *const APIParamUserSupport; // @"support";
+extern NSString *const APIParamUserSupports; // @"supports";
 
-extern NSString *const APIParamProviders; // = @"providers";
-extern NSString *const APIParamChildren; // = @"children";
-extern NSString *const APIParamCaretakers; // = @"caretakers";
-extern NSString *const APIParamPatient; // = @"patient";
-extern NSString *const APIParamProvider; // = @"provider";
-extern NSString *const APIParamPatientID; // = @"patient_id";
-extern NSString *const APIParamProviderID; // = @"provider_id";
+#pragma mark - Role
+extern NSString *const APIParamRole; // @"role";
+extern NSString *const APIParamRoleID; // @"role_id";
 
-#pragma mark - Practice params
-extern NSString *const APIParamPractice; // @"practice";
-extern NSString *const APIParamPracticeID; // @"practice_id";
+#pragma mark - Relationship
+extern NSString *const APIParamRelationship; // @"relationship";
+extern NSString *const APIParamRelationshipID; // @"relationship_id";
 
-#pragma mark - Appointment params
-extern NSString *const APIParamAppt; // @"appointment";
-extern NSString *const APIParamApptID; // @"appointment_id";
-extern NSString *const APIParamApptDate; // @"date";
-extern NSString *const APIParamApptStartTime; // @"start_time";
-extern NSString *const APIParamApptDuration; // @"duration";
-extern NSString *const APIParamApptToken; // @"auth_token"; //TODO: Can Danish change all tokens to match the same key?
-extern NSString *const APIParamApptType; // = @"leo_appointment_type";
-extern NSString *const APIParamApptNote; // = @"note";
-extern NSString *const APIParamBookedByUser; // @"booked_by_user";
-extern NSString *const APIParamBookedByUserID; // = @"booked_by_user_id";
+#pragma mark - Conversation & message
+extern NSString *const APIParamConversations; // @"conversations";
+extern NSString *const APIParamConversationMessageCount; // @"message_count";
+extern NSString *const APIParamConversationLastEscalatedDateTime; // @"last_escalated_datetime";
+extern NSString *const APIParamConversationParticipants; // @"participants";
 
-#pragma mark - Conversation params
-extern NSString *const APIParamConversation; //@"conversation";
-extern NSString *const APIParamConversationID; // = @"conversation_id";
-extern NSString *const APIParamMessages; // = @"messages";
+extern NSString *const APIParamMessages; // @"messages";
+extern NSString *const APIParamMessageBody; // @"body";
+extern NSString *const APIParamMessageSender; // @"sender";
+extern NSString *const APIParamMessageEscalatedTo; // @"escalated_to";
 
-#pragma mark - Message params
-extern NSString *const APIParamMessageBody; // = @"body";
-extern NSString *const APIParamMessageID; // = @"message_id";
-extern NSString *const APIParamMessageSenderID; // = @"sender_id";
+#pragma mark - Payment & Stripe
+extern NSString *const APIParamPaymentBalance; // @"balance";
+extern NSString *const APIParamPaymentDueDateTime; // @"due_datetime";
+extern NSString *const APIParamPaymentPaidBy; // @"paid_by";
 
-#pragma mark - Card params
-extern NSString *const APIParamCardID; // = @"card_id";
-extern NSString *const APIParamCardTitle; // = @"title";
-extern NSString *const APIParamCardBody; // = @"body";
-extern NSString *const APIParamCardPrimaryUser; // = @"primary_user";
-extern NSString *const APIParamCardSecondaryUser; // = @"secondary_user";
-extern NSString *const APIParamCardPriority; // = @"priority";
-extern NSString *const APIParamCardType; // = @"type";
-extern NSString *const APIParamCardTimeStamp; // = @"timestamp"; //FIXME: Is this needed or are we using some existing timestamp?
-extern NSString *const APIParamAssociatedCardObject; // = @"associatedCardObject";
+extern NSString *const APIParamStripe; // @"stripe";
+extern NSString *const APIParamStripeCustomerId; // @"customer_id";
+extern NSString *const APIParamStripeAmountPaid; // @"amount_paid";
+extern NSString *const APIParamStripeSource; // @"source";
+extern NSString *const APIParamStripeSourceObject; // @"object";
+extern NSString *const APIParamStripeSourceBrand; // @"brand";
 
-#pragma mark - Role params
-extern NSString *const APIParamResourceID; // = @"resource_id";
-extern NSString *const APIParamResourceType; // = @"resource_type";
-extern NSString *const APIParamResourceName; // = @"resource_name";
+#pragma mark - Forms
+extern NSString *const APIParamFormSubmittedDateTime; // @"submitted_datetime";
+extern NSString *const APIParamFormSubmittedBy; // @"submitted_by";
+extern NSString *const APIParamFormTitle; // @"title";
+extern NSString *const APIParamFormNotes; // @"notes";
 
-#pragma mark - Other
-extern NSString *const KeypathAppointmentState; // = @"state";
+#pragma mark - Card
+extern NSString *const APIParamCardCount; // @"count";
+extern NSString *const APIParamCardData; // @"card_data";
+extern NSString *const APIParamCardPriority; // @"priority";
 
-/**
- *  Constants for Keyboard event notifications
- */
+#pragma mark - Appointment type
+extern NSString *const APIParamAppointmentType; // @"visit_type";
+extern NSString *const APIParamAppointmentTypeID; // @"visit_type_id";
 
+extern NSString *const APIParamAppointmentTypeDuration; // @"duration";
+extern NSString *const APIParamAppointmentTypeBody; // @"body";
+
+#pragma mark - Appointment
+extern NSString *const APIParamAppointment; // @"appointment";
+extern NSString *const APIParamAppointmentStartDateTime; // @"start_datetime";
+extern NSString *const APIParamAppointmentNotes; // @"notes";
+extern NSString *const APIParamAppointmentBookedBy; // @"booked_by";
+
+#pragma mark - Appointment slot
+extern NSString *const APIParamSlots; // @"slots";
+extern NSString *const APIParamSlotStartDateTime; // @"start_datetime";
+extern NSString *const APIParamSlotDuration; // @"duration";
 
 @end
+

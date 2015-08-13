@@ -20,16 +20,16 @@
     self.iconImageView.image = [card icon];
     self.titleLabel.text = [card title];
     
-    self.secondaryUserView.provider = card.secondaryUser;
+    self.secondaryUserView.provider = (Provider *)card.secondaryUser;
     self.secondaryUserView.timeStamp = card.timestamp;
-    self.secondaryUserView.tintColor = card.tintColor;
-    self.secondaryUserView.cardLayout = CardLayoutTwoButtonPrimaryAndSecondary;
+    self.secondaryUserView.cardColor = card.tintColor;
+    self.secondaryUserView.cardLayout = CardLayoutOneButtonSecondaryOnly;
     self.secondaryUserView.backgroundColor = [UIColor clearColor];
     self.bodyLabel.text = [card body];
     
     
     [self.buttonOne setTitle:[card stringRepresentationOfActionsAvailableForState][0] forState:UIControlStateNormal];
-    [self.buttonOne removeTarget:card action:NULL forControlEvents:self.buttonOne.allControlEvents];
+    [self.buttonOne removeTarget:nil action:NULL forControlEvents:self.buttonOne.allControlEvents];
     [self.buttonOne addTarget:card action:NSSelectorFromString([card actionsAvailableForState][0]) forControlEvents:UIControlEventTouchUpInside];
     
     [self formatSubviewsWithTintColor:card.tintColor];

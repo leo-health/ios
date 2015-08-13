@@ -10,8 +10,9 @@ pod 'VBFPopFlatButton' #MIT
 pod 'OHHTTPStubs' #MIT
 pod 'SSKeychain' #MIT
 pod 'DateTools' #MIT
-pod 'UIImage-Resize'
-///////
+pod 'UIImage-Resize' #MIT
+pod 'JSQMessagesViewController' #MIT
+
 end
 
 target 'LeoTests' do

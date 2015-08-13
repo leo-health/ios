@@ -7,13 +7,12 @@
 //
 
 #import "Provider.h"
-#import "LEOConstants.h"
 
 @implementation Provider
 
--(instancetype)initWithObjectID:(nullable NSString *)objectID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email photoURL:(nullable NSURL *)photoURL photo:(UIImage *)photo credentialSuffixes:(NSArray *)credentials specialties:(NSArray *)specialties {
+- (instancetype)initWithObjectID:(nullable NSString *)objectID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email avatarURL:(nullable NSString *)avatarURL avatar:(UIImage *)avatar credentialSuffixes:(NSArray *)credentials specialties:(NSArray *)specialties {
     
-    self = [super initWithObjectID:objectID title:title firstName:firstName middleInitial:middleInitial lastName:lastName suffix:suffix email:email photoURL:photoURL photo:photo];
+    self = [super initWithObjectID:objectID title:title firstName:firstName middleInitial:middleInitial lastName:lastName suffix:suffix email:email avatarURL:avatarURL avatar:avatar];
     
     if (self) {
         _credentials = credentials;
@@ -23,13 +22,13 @@
     return self;
 }
 
--(instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
+- (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
     
     self = [super initWithJSONDictionary:jsonResponse];
     
     if (self) {
-        _credentials = jsonResponse[APIParamUserCredentialSuffix];
-        _specialties = jsonResponse[APIParamUserSpecialty];
+        _credentials = jsonResponse[APIParamUserCredentials];
+        _specialties = jsonResponse[APIParamUserSpecialties];
     }
     
     return self;
@@ -39,13 +38,13 @@
     
     NSMutableDictionary *userDictionary = [[super dictionaryFromUser:provider] mutableCopy];
     
-    userDictionary[APIParamUserCredentialSuffix] = provider.credentials;
-    userDictionary[APIParamUserSpecialty] = provider.specialties;
+    userDictionary[APIParamUserCredentials] = provider.credentials;
+    userDictionary[APIParamUserSpecialties] = provider.specialties;
     
     return userDictionary;
 }
 
--(id)copy {
+- (id)copy {
     
 
     Provider *providerCopy = [[Provider alloc] init];
@@ -56,21 +55,39 @@
     providerCopy.suffix = self.suffix;
     providerCopy.title = self.title;
     providerCopy.email = self.email;
-    providerCopy.photoURL = self.photoURL;
-    providerCopy.photo = [self.photo copy];
+    providerCopy.avatarURL = self.avatarURL;
+    providerCopy.avatar = [self.avatar copy];
     providerCopy.specialties = self.specialties;
     providerCopy.credentials = self.credentials;
     
     return providerCopy;
 }
 
--(NSString *)description {
+- (NSString *)description {
     
     NSString *superDesc = [super description];
     
     NSString *subDesc = [NSString stringWithFormat:@"\nName: %@ %@",self.firstName, self.lastName];
     
     return [superDesc stringByAppendingString:subDesc];
+}
+
+- (id)initWithCoder:(NSCoder *)decoder {
+    
+    self = [super initWithCoder:decoder];
+    
+    NSArray *credentials = [decoder decodeObjectForKey:APIParamUserCredentials];
+    NSArray *specialties = [decoder decodeObjectForKey:APIParamUserSpecialties];
+
+    return [self initWithObjectID:self.objectID title:self.title firstName:self.firstName middleInitial:self.middleInitial lastName:self.lastName suffix:self.suffix email:self.email avatarURL:self.avatarURL avatar:self.avatar credentialSuffixes:credentials specialties:specialties];
+}
+
+- (void)encodeWithCoder:(NSCoder *)encoder {
+    
+    [super encodeWithCoder:encoder];
+    
+    [encoder encodeObject:self.credentials forKey:APIParamUserCredentials];
+    [encoder encodeObject:self.specialties forKey:APIParamUserSpecialties];
 }
 
 @end

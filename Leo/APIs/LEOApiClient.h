@@ -16,18 +16,27 @@
 NS_ASSUME_NONNULL_BEGIN
 
 //Users
-+ (void)createUserWithParameters:(nonnull NSDictionary *)userParams withCompletion:(void (^)(NSDictionary *rawResults))completionBlock;
-+ (void)loginUserWithParameters:(nonnull NSDictionary *)loginParams withCompletion:(void (^)(NSDictionary * __nonnull rawResults))completionBlock;
-+ (void)resetPasswordWithParameters:(nonnull NSDictionary *)resetParams withCompletion:(void (^)(NSDictionary * __nonnull rawResults))completionBlock;
++ (void)createUserWithParameters:(NSDictionary *)userParams withCompletion:(void (^)(NSDictionary *rawResults))completionBlock;
++ (void)loginUserWithParameters:(NSDictionary *)loginParams withCompletion:(void (^)(NSDictionary * rawResults))completionBlock;
++ (void)resetPasswordWithParameters:(NSDictionary *)resetParams withCompletion:(void (^)(NSDictionary * rawResults))completionBlock;
++ (void)getAvatarFromURL:(NSString *)avatarURL withCompletion:(void (^)(NSData *data))completionBlock;
+
+//Cards
++ (void)getCardsForUser:(NSDictionary *)userParams withCompletion:(void (^)(NSDictionary *rawResults))completionBlock;
+
+//Support API
++ (void)getAllStaffForPracticeWithParameters:(NSDictionary *)practiceParams withCompletion:(void (^)(NSDictionary *rawResults))completionBlock;
++ (void)getAppointmentTypesWithCompletion:(void (^)(NSDictionary *rawResults))completionBlock;
++ (void)getFamilyWithUserParameters:(NSDictionary *)userParams withCompletion:(void (^)(NSDictionary *rawResults))completionBlock;
 
 //Appointments
-+ (void)createAppointmentWithParameters:(nonnull NSDictionary *)apptParams withCompletion:(void (^)(NSDictionary *rawResults))completionBlock;
-+ (void)getAppointmentsForFamilyWithParameters:(nonnull NSDictionary *)params withCompletion:(void (^)(NSDictionary  * __nonnull rawResults))completionBlock;
++ (void)createAppointmentWithParameters:(NSDictionary *)apptParams withCompletion:(void (^)(NSDictionary *rawResults))completionBlock;
++ (void)getAppointmentsForFamilyWithParameters:(NSDictionary *)params withCompletion:(void (^)(NSDictionary  * rawResults))completionBlock;
 
 //Conversations
-+ (void)createMessageForConversation:(NSString *)conversationID withParameters:(nonnull NSDictionary *)messageParams withCompletion:(void (^)(NSDictionary *rawResults))completionBlock;
-+ (void)getConversationsForFamilyWithParameters:(nonnull NSDictionary *)conversationParams withCompletion:(void (^)(NSDictionary  * __nonnull rawResults))completionBlock;
-+ (void)getMessagesForConversation:(NSString *)conversationID withParameters:(nonnull NSDictionary *)messageParams withCompletion:(void (^)(NSDictionary *rawResults))completionBlock;
++ (void)createMessageForConversation:(NSString *)conversationID withParameters:(NSDictionary *)messageParams withCompletion:(void (^)(NSDictionary *rawResults))completionBlock;
++ (void)getConversationsForFamilyWithParameters:(NSDictionary *)conversationParams withCompletion:(void (^)(NSDictionary  * rawResults))completionBlock;
++ (void)getMessagesForConversation:(NSString *)conversationID withParameters:(NSDictionary *)messageParams withCompletion:(void (^)(NSDictionary *rawResults))completionBlock;
 
 
 NS_ASSUME_NONNULL_END

@@ -7,25 +7,26 @@
 //
 
 #import "Appointment.h"
-#import "LEOConstants.h"
 #import "User.h"
 #import "Provider.h"
 #import "Patient.h"
 #import "PrepAppointment.h"
+#import "AppointmentType.h"
+#import "NSDate+Extensions.h"
 
 @implementation Appointment
 
--(instancetype)initWithObjectID:(nullable NSString *)objectID date:(nullable NSDate *)date appointmentType:(NSNumber *)leoAppointmentType patient:(Patient *)patient provider:(Provider *)provider bookedByUser:(User *)bookedByUser note:(nullable NSString *)note state:(NSNumber *)state {
+-(instancetype)initWithObjectID:(nullable NSString *)objectID date:(nullable NSDate *)date appointmentType:(AppointmentType *)appointmentType patient:(Patient *)patient provider:(Provider *)provider bookedByUser:(User *)bookedByUser note:(nullable NSString *)note statusCode:(AppointmentStatusCode)statusCode {
     
     self = [super init];
     
     if (self) {
         _date = date;
-        _leoAppointmentType = leoAppointmentType;
+        _appointmentType = appointmentType;
         _patient = patient;
         _provider = provider;
         _bookedByUser = bookedByUser;
-        _state = state;
+        _statusCode = statusCode;
         _objectID = objectID;
         _note = note;
     }
@@ -35,28 +36,24 @@
 
 - (instancetype)initWithJSONDictionary:(nonnull NSDictionary *)jsonResponse {
     
-    NSDate *date = jsonResponse[APIParamApptDate];
-    Patient *patient = jsonResponse[APIParamPatient];
-    Provider *provider = jsonResponse[APIParamProvider];
-    User *bookedByUser = jsonResponse[APIParamBookedByUser];
+    NSDate *date = [NSDate dateFromDateTimeString:jsonResponse[APIParamAppointmentStartDateTime]];
+    Patient *patient = [[Patient alloc] initWithJSONDictionary:jsonResponse[APIParamUserPatient]];
+    Provider *provider = [[Provider alloc] initWithJSONDictionary:jsonResponse[APIParamUserProvider]];
+    User *bookedByUser = [[User alloc] initWithJSONDictionary:jsonResponse[APIParamAppointmentBookedBy] ];
     
-    /**
-     *  Unsure yet whether we're using an AppointmentType object for this or just a description or numeric code.
-     *  TODO: Update from id to appropriate object type when determined.
-     */
+    AppointmentType *appointmentType = [[AppointmentType alloc] initWithJSONDictionary:jsonResponse[APIParamAppointmentType]];
     
-    id leoAppointmentType = jsonResponse[APIParamApptType];
-    NSNumber *state = jsonResponse[APIParamState];
-    NSString *objectID = jsonResponse[APIParamID];
-    NSString *note = jsonResponse[APIParamApptNote];
+    AppointmentStatusCode statusCode = [jsonResponse[APIParamState] integerValue]; //FIXME: Constant
+    NSString *objectID = [jsonResponse[APIParamID] stringValue];
+    NSString *note = jsonResponse[APIParamAppointmentNotes];
     
     //TODO: May need to protect against nil values...
-    return [self initWithObjectID:objectID date:date appointmentType:leoAppointmentType patient:patient provider:provider bookedByUser:bookedByUser note:note state:state];
+    return [self initWithObjectID:objectID date:date appointmentType:appointmentType patient:patient provider:provider bookedByUser:bookedByUser note:note statusCode:statusCode];
 }
 
 - (instancetype)initWithPrepAppointment:(PrepAppointment *)prepAppointment {
     
-    return [self initWithObjectID:prepAppointment.objectID date:prepAppointment.date appointmentType:prepAppointment.leoAppointmentType patient:prepAppointment.patient provider:prepAppointment.provider bookedByUser:prepAppointment.bookedByUser note:prepAppointment.note state:prepAppointment.state];
+    return [self initWithObjectID:prepAppointment.objectID date:prepAppointment.date appointmentType:prepAppointment.appointmentType patient:prepAppointment.patient provider:prepAppointment.provider bookedByUser:prepAppointment.bookedByUser note:prepAppointment.note statusCode:prepAppointment.statusCode];
 }
 
 + (NSDictionary *)dictionaryFromAppointment:(Appointment *)appointment {
@@ -64,37 +61,17 @@
     NSMutableDictionary *appointmentDictionary = [[NSMutableDictionary alloc] init];
     
     appointmentDictionary[APIParamID] = appointment.objectID;
-    appointmentDictionary[APIParamApptDate] = appointment.date;
-    appointmentDictionary[APIParamApptType] = appointment.leoAppointmentType;
-    appointmentDictionary[APIParamState] = appointment.state;
-    appointmentDictionary[APIParamProviderID] = appointment.provider.objectID;
-    appointmentDictionary[APIParamPatientID] = appointment.patient.objectID;
-    appointmentDictionary[APIParamApptNote] = appointment.note;
+    appointmentDictionary[APIParamAppointmentStartDateTime] = appointment.date;
+    appointmentDictionary[APIParamAppointmentTypeID] = appointment.appointmentType;
+    appointmentDictionary[APIParamState] = [NSNumber numberWithInteger:appointment.statusCode];
+    appointmentDictionary[APIParamID] = appointment.provider.objectID;
+    appointmentDictionary[APIParamID] = appointment.patient.objectID;
+    appointmentDictionary[APIParamAppointmentNotes] = appointment.note;
     
     return appointmentDictionary;
-    
-}
-- (AppointmentState)appointmentState {
-    return [self.state integerValue];
 }
 
-- (AppointmentState)priorAppointmentState {
-    return [self.priorState integerValue];
-}
 
-- (nonnull NSString *)stringifiedAppointmentDate {
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
-    dateFormatter.dateFormat = @"EEEE', 'MMMM' 'd'";
-    return [dateFormatter stringFromDate:self.date];
-}
-
-- (nonnull NSString *)stringifiedAppointmentTime {
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
-    dateFormatter.dateFormat = @"h':'mma";
-    dateFormatter.AMSymbol = @"am";
-        dateFormatter.PMSymbol = @"pm";
-    return [dateFormatter stringFromDate:self.date];
-}
 
 
 -(id)copy {
@@ -102,20 +79,20 @@
     Appointment *apptCopy = [[Appointment alloc] init];
     apptCopy.objectID = self.objectID;
     apptCopy.date = [self.date copy];
-    apptCopy.leoAppointmentType = self.leoAppointmentType;
-    apptCopy.state = self.state;
+    apptCopy.appointmentType = self.appointmentType;
+    apptCopy.statusCode = self.statusCode;
     apptCopy.note = self.note;
     apptCopy.bookedByUser = [self.bookedByUser copy];
     apptCopy.patient = [self.patient copy];
     apptCopy.provider = [self.provider copy];
-
+    
     return apptCopy;
 }
 
 -(NSString *) description {
     
-    return [NSString stringWithFormat:@"<Appointment: %p>\nid: %@\ndate: %@\nleoAppointmentType: %@\nstate: %@\nnote %@\nbookedByUser: %@\npatient %@\nprovider: %@",
-            self, self.objectID, self.date, self.leoAppointmentType, self.state, self.note, self.bookedByUser, self.patient, self.provider];
+    return [NSString stringWithFormat:@"<Appointment: %p>\nid: %@\ndate: %@\nappointmentType: %@\nstate: %lu\nnote %@\nbookedByUser: %@\npatient %@\nprovider: %@",
+            self, self.objectID, self.date, self.appointmentType, (unsigned long)self.statusCode, self.note, self.bookedByUser, self.patient, self.provider];
 }
 
 @end

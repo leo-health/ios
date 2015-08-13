@@ -16,7 +16,6 @@
 #import "LEOCardCell.h"
 #import "LEOCard.h"
 
-#import "LEOConstants.h"
 #import "LEOApiClient.h"
 #import "LEODataManager.h"
 
@@ -25,11 +24,14 @@
 #import "Appointment.h"
 #import "Conversation.h"
 #import "Message.h"
+#import "Family.h"
+#import "Practice.h"
 
 #import "UIColor+LeoColors.h"
 #import "UIImage+Extensions.h"
-#import "LEOAppointmentSchedulingCardVC.h"
+#import "LEOCardAppointmentBookingVC.h"
 #import "LEOTransitioningDelegate.h"
+#import "LEOCardConversationChattingVC.h"
 
 #import "LEOTwoButtonSecondaryOnlyCell+ConfigureForCell.h"
 #import "LEOOneButtonSecondaryOnlyCell+ConfigureForCell.h"
@@ -51,6 +53,10 @@
 @property (strong, nonatomic) LEOTransitioningDelegate *transitionDelegate;
 
 @property (strong, nonatomic) UITableViewCell *selectedCardCell;
+@property (retain, nonatomic) NSMutableArray *cards;
+@property (strong, nonatomic) Family *family;
+@property (copy, nonatomic) NSArray *allStaff;
+@property (copy, nonatomic) NSArray *appointmentTypes;
 
 @end
 
@@ -78,25 +84,138 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
                                                  name:@"requestToBookNewAppointment"
                                                object:nil];
 
-    //    [self testAPI]; //TODO: Remove this line once moved what is in this method to a test.
-    [self.dataManager fetchCardsWithCompletion:^{
-        [self tableViewSetup];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fetchData) name:UIApplicationWillEnterForegroundNotification object:nil];
+    
+    [self setupStubs];
+    
+    [self tableViewSetup];
+}
+
+
+
+- (void)setupStubs {
+    
+    __weak id<OHHTTPStubsDescriptor> cardsStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        NSLog(@"Stub request");
+        BOOL test = [request.URL.host isEqualToString:APIHost] && [request.URL.path isEqualToString:[NSString stringWithFormat:@"%@/%@",APIVersion, @"cards"]];
+        return test;
+    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        
+        NSString *fixture = fixture = OHPathForFile(@"../Stubs/getCardsForUser.json", self.class);
+        OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithFileAtPath:fixture statusCode:200 headers:@{@"Content-Type":@"application/json"}];
+        return response;
+        
     }];
+    
+    __weak id<OHHTTPStubsDescriptor> staffStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        NSLog(@"Stub request");
+        BOOL test = [request.URL.host isEqualToString:APIHost] && [request.URL.path isEqualToString:[NSString stringWithFormat:@"%@/%@/%@",APIVersion, @"0", @"staff"]];
+        return test;
+    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        
+        NSString *fixture = fixture = OHPathForFile(@"../Stubs/getAllStaff.json", self.class);
+        OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithFileAtPath:fixture statusCode:200 headers:@{@"Content-Type":@"application/json"}];
+        return response;
+        
+    }];
+    
+    __weak id<OHHTTPStubsDescriptor> familyStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        NSLog(@"Stub request");
+        BOOL test = [request.URL.host isEqualToString:APIHost] && [request.URL.path isEqualToString:[NSString stringWithFormat:@"%@/%@",APIVersion, @"family"]];
+        return test;
+    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        
+        NSString *fixture = fixture = OHPathForFile(@"../Stubs/getFamilyForUser.json", self.class);
+        OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithFileAtPath:fixture statusCode:200 headers:@{@"Content-Type":@"application/json"}];
+        return response;
+    }];
+
+    __weak id<OHHTTPStubsDescriptor> appointmentTypesStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        NSLog(@"Stub request");
+        BOOL test = [request.URL.host isEqualToString:APIHost] && [request.URL.path isEqualToString:[NSString stringWithFormat:@"%@/%@",APIVersion, @"appointmentTypes"]];
+        return test;
+    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        
+        NSString *fixture = fixture = OHPathForFile(@"../Stubs/getAppointmentTypes.json", self.class);
+        OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithFileAtPath:fixture statusCode:200 headers:@{@"Content-Type":@"application/json"}];
+        return response;
+    }];
+    
+}
+
+- (void)fetchData {
+    
+    dispatch_queue_t queue = dispatch_queue_create("loadingQueue", NULL);
+    
+    dispatch_sync(queue, ^{
+        [self.dataManager getCardsWithCompletion:^(NSArray *cards) {
+            
+            self.cards = [cards mutableCopy];
+            
+            dispatch_async(dispatch_get_main_queue() , ^{
+                [self.tableView reloadData];
+            });
+        }];
+    });
+    
+    if (self.family == nil || self.allStaff == nil || self.appointmentTypes == nil) {
+        
+        dispatch_sync(queue, ^{
+            [self.dataManager getFamilyWithCompletion:^(Family *family) {
+                self.family = family;
+                
+                for (User *user in self.family.guardians) {
+                    [self.dataManager getAvatarForUser:user withCompletion:^(NSData * data) {
+                        user.avatar = [UIImage imageWithData:data];
+
+                        [self.dataManager archiveObject:self.family withPathComponent:@"family"];
+
+                    }];
+                }
+            }];
+            
+            [self.dataManager getAllStaffForPracticeID:@"0" withCompletion:^(NSArray *allStaff) {
+                self.allStaff = allStaff;
+                
+                for (User *user in self.allStaff) {
+                    [self.dataManager getAvatarForUser:user withCompletion:^(NSData * data) {
+                        user.avatar = [UIImage imageWithData:data];
+                        
+                        [self.dataManager archiveObject:self.allStaff withPathComponent:@"staff"];
+                    }];
+                }
+            }];
+            
+            [self.dataManager getAppointmentTypesWithCompletion:^(NSArray *appointmentTypes) {
+                self.appointmentTypes = appointmentTypes;
+            }];
+        });
+        
+        dispatch_sync(queue, ^{
+            
+            
+            
+        });
+        
+
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     
-    [self.tableView reloadData];
+    //FIXME: So, ultimately, this should be a data fetch, but since we aren't actually pushing anything up to the API at this point and the expectation is we would both push and pull at the same time, we're just going to reload data at the moment and we'll deal with this when the time comes to implement the actual API.
+    
+    if (!self.cards) {
+        [self fetchData];
+    }
 }
-
-
 
 - (void)tableViewSetup {
     
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     
-    self.tableView.estimatedRowHeight = 180;
+    self.tableView.estimatedRowHeight = 100;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     self.tableView.backgroundColor = [UIColor leoBasicGray];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -126,17 +245,17 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
         //self.selectedCardCell.layer.transform = CATransform3DMakeRotation(M_PI_2,0.0,1.0,0.0); ; //flip halfway, TODO: Determine what the appropiate thing is to do with the collapsed card view.
     } completion:^(BOOL finished) {
         
-        if ([card.type isEqualToString:@"appointment"]) { //FIXME: should really be an integer / enum with a displayName if desired.
+        if (card.type == CardTypeAppointment) { //FIXME: should really be an integer / enum with a displayName if desired.
             
-            Appointment *appointment = card.associatedCardObjects[0]; //FIXME: Make this a loop to account for multiple appointments.
+            Appointment *appointment = card.associatedCardObject; //FIXME: Make this a loop to account for multiple appointments.
             
-            switch (appointment.appointmentState) {
-                case AppointmentStateBooking: {
+            switch (appointment.statusCode) {
+                case AppointmentStatusCodeBooking: {
                     [self loadBookingViewWithCard:card];
                     break;
                 }
                     
-                case AppointmentStateCancelled: {
+                case AppointmentStatusCodeCancelled: {
                     [self removeCardFromFeed:card];
                     break;
                 }
@@ -146,15 +265,37 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
                 }
             }
         }
+        
+        if (card.type == CardTypeConversation) {
+            
+            Conversation *conversation = card.associatedCardObject; //FIXME: Make this a loop to account for multiple appointments.
+
+            switch (conversation.statusCode) {
+                    
+                case ConversationStatusCodeClosed: {
+                    [self.tableView reloadData];
+                    break;
+                }
+                case ConversationStatusCodeOpen: {
+                    [self loadChattingViewWithCard:card];
+                    break;
+                }
+                default: {
+                    break;
+                }
+                    
+                //FIXME: Need to handle "Call us" somehow
+            }
+        }
     }];
 }
 
 - (void)beginSchedulingNewAppointment {
 
-    Appointment *appointment = [[Appointment alloc] initWithObjectID:nil date:nil appointmentType:[self.dataManager fetchAppointmentTypes][0] patient:[self.dataManager fetchChildren][0] provider:[self.dataManager fetchDoctors][0] bookedByUser:(User *)[self.dataManager currentUser] note:nil state:@(AppointmentStateBooking)];
+    Appointment *appointment = [[Appointment alloc] initWithObjectID:nil date:nil appointmentType:self.appointmentTypes[0] patient:self.family.patients[0] provider:self.allStaff[0] bookedByUser:(User *)[self.dataManager currentUser] note:nil statusCode:AppointmentStatusCodeBooking];
     
-    LEOCardScheduling *card = [[LEOCardScheduling alloc] initWithObjectID:@"temp" priority:@999 type:@"appointment" associatedCardObjects:@[appointment]];
-    
+    LEOCardAppointment *card = [[LEOCardAppointment alloc] initWithObjectID:@"temp" priority:@999 type:CardTypeAppointment associatedCardObject:appointment];
+
     [self loadBookingViewWithCard:card];
 }
 
@@ -162,35 +303,69 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 - (void)removeCardFromFeed:(LEOCard *)card {
     
     [self.tableView beginUpdates];
-    [self.dataManager removeCard:card];
-    NSArray *indexPaths = @[[NSIndexPath indexPathForRow:[card.priority integerValue] inSection:0]];
+    NSUInteger cardRow = [self.cards indexOfObject:card];
+    [self removeCard:card];
+    
+    NSArray *indexPaths = @[[NSIndexPath indexPathForRow:cardRow inSection:0]];
     [self.tableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
     [self.tableView endUpdates];
+}
+
+- (void)addCard:(LEOCard *)card {
+    
+    NSMutableArray *mutableCards = [self.cards mutableCopy];
+    
+    [mutableCards addObject:card];
+    
+    self.cards = [mutableCards copy];
+}
+
+- (void)removeCard:(LEOCard *)card {
+    
+    NSMutableArray *mutableCards = [self.cards mutableCopy];
+    
+    [mutableCards removeObject:card];
+    
+    self.cards = [mutableCards copy];
 }
 
 
 - (void)loadBookingViewWithCard:(LEOCard *)card {
     
-    UIStoryboard *schedulingStoryboard = [UIStoryboard storyboardWithName:@"Scheduling" bundle:nil];
-    LEOAppointmentSchedulingCardVC *singleAppointmentScheduleVC = [schedulingStoryboard instantiateInitialViewController];
-    singleAppointmentScheduleVC.card = (LEOCardScheduling *)card;
+    UIStoryboard *appointmentStoryboard = [UIStoryboard storyboardWithName:@"Appointment" bundle:nil];
+    LEOCardAppointmentBookingVC *singleAppointmentBookingVC = [appointmentStoryboard instantiateInitialViewController];
+    singleAppointmentBookingVC.card = (LEOCardAppointment *)card;
+    singleAppointmentBookingVC.providers = self.allStaff;
+    singleAppointmentBookingVC.patients = self.family.patients;
+    singleAppointmentBookingVC.appointmentTypes = self.appointmentTypes;
     //              self.transitionDelegate = [[LEOTransitioningDelegate alloc] init];
     //            singleAppointmentScheduleVC.transitioningDelegate = self.transitionDelegate;
-    [self presentViewController:singleAppointmentScheduleVC animated:YES completion:^{
-        singleAppointmentScheduleVC.collapsedCell = self.selectedCardCell;
+    [self presentViewController:singleAppointmentBookingVC animated:YES completion:^{
     }];
     
+}
+
+- (void)loadChattingViewWithCard:(LEOCard *)card {
+    
+    UIStoryboard *conversationStoryboard = [UIStoryboard storyboardWithName:@"Conversation" bundle:nil];
+    LEOCardConversationChattingVC *conversationChattingVC = [conversationStoryboard instantiateInitialViewController];
+    conversationChattingVC.card = (LEOCardConversation *)card;
+    
+    //              self.transitionDelegate = [[LEOTransitioningDelegate alloc] init];
+    //            singleAppointmentScheduleVC.transitioningDelegate = self.transitionDelegate;
+    [self presentViewController:conversationChattingVC animated:YES completion:^{
+    }];
 }
 
 #pragma mark - <UITableViewDataSource>
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    return self.dataManager.cards.count;
+    return self.cards.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    LEOCard *card = self.dataManager.cards[indexPath.row];
+    LEOCard *card = self.cards[indexPath.row];
     card.delegate = self;
     
     NSString *cellIdentifier;

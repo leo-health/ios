@@ -7,7 +7,7 @@
 //
 
 #import "MenuView.h"
-#import "LEOCardScheduling.h"
+#import "LEOCardAppointment.h"
 #import "Appointment.h"
 
 @interface MenuView ()
@@ -35,10 +35,9 @@
     return self;
 }
 
--(id)initWithCoder:(NSCoder *)aDecoder
-{
+-(id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
-
+    
     if(self){
         [self commonInit];
     }
@@ -56,14 +55,13 @@
                                 options:nil];
     
     [self addSubview:self.view];
-    
 }
 
 
 #pragma mark - Menu View Button Animation
 
 /**
- *  Loads a SchedulingCardViewController
+ *  Loads an LEOCardAppointmentBookingVC
  *
  *  @param sender UIButton that receives tap gesture
  */
@@ -71,10 +69,8 @@
     
     // Posting notification from another object
     [self.delegate didMakeMenuChoice];
-
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"requestToBookNewAppointment"
-                                                        object:self
-                                                      userInfo:nil];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"requestToBookNewAppointment" object:self userInfo:nil];
 }
 
 /**
@@ -104,13 +100,12 @@
     [self.view removeFromSuperview];
 }
 
--(void)addSubview:(UIView *)view {
-    
-    
-    /**
-     *  Zachary Drossman
-     *  Implementation of addSubview to ensure the MenuView is sized according to its subviews
-     */
+
+/**
+ *  Zachary Drossman
+ *  Implementation of addSubview to ensure the MenuView is sized according to its subviews
+ */
+- (void)addSubview:(UIView *)view {
     
     view.translatesAutoresizingMaskIntoConstraints = NO;
     
@@ -121,13 +116,5 @@
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[view]|" options:0 metrics:nil views:views]];
 }
 
-
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
-}
-*/
 
 @end

@@ -13,7 +13,7 @@
 UIView *_viewToAlwaysBeVisible;
 CGFloat offset;
 
--(void)scrollToViewIfObstructedByKeyboard:(UIView *)view{
+- (void)scrollToViewIfObstructedByKeyboard:(UIView *)view{
     _viewToAlwaysBeVisible = view;
     if (view == nil) {
         [self removeKeyboardNotifications];
@@ -23,12 +23,12 @@ CGFloat offset;
     }
 }
 
--(void)configureViewToReceiveKeyboardNotifications{
+- (void)configureViewToReceiveKeyboardNotifications{
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 }
 
--(void)removeKeyboardNotifications{
+- (void)removeKeyboardNotifications{
     [[NSNotificationCenter defaultCenter]removeObserver:self name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }
@@ -39,7 +39,7 @@ CGFloat offset;
  *
  *  @param notification NSNotification for they keyboardWillShow event
  */
--(void)keyboardWillShow:(NSNotification*)notification{
+- (void)keyboardWillShow:(NSNotification*)notification{
     CGSize keyboardSize = [self getKeyboardSizeFromKeyboardNotification:notification];
     [self scrollViewToShowIfFirstResponder:_viewToAlwaysBeVisible withKeyboardSize:keyboardSize];
 }
@@ -50,7 +50,7 @@ CGFloat offset;
  *
  *  @param notification NSNotification for the keyboardWillHide event
  */
--(void)keyboardWillHide:(NSNotificationCenter*)notification{
+- (void)keyboardWillHide:(NSNotificationCenter*)notification{
     self.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
     self.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 0, 0);
 }

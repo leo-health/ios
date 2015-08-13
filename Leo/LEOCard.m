@@ -7,34 +7,48 @@
 //
 
 #import "LEOCard.h"
-#import "LEOConstants.h"
 
 @implementation LEOCard
 
 #pragma mark - Initializers
 
-- (nonnull instancetype)initWithObjectID:(NSString *)objectID priority:(NSNumber *)priority type:(NSString *)type associatedCardObjects:(nonnull NSArray *)associatedCardObjects {
-
+- (instancetype)initWithObjectID:(NSString *)objectID priority:(NSNumber *)priority type:(CardType)type associatedCardObject:(id)associatedCardObject {
+    
     self = [super init];
     
     if (self) {
         _objectID = objectID;
         _priority = priority;
         _type = type;
-        _associatedCardObjects = associatedCardObjects;
+        _associatedCardObject = associatedCardObject;
     }
     
     return self;
 }
 
-- (nonnull instancetype)cardWithDictionary:(nonnull NSDictionary *)jsonResponse {
-   
-    return [self initWithObjectID:jsonResponse[APIParamCardID]
-            priority:jsonResponse[APIParamCardPriority]
-            type:jsonResponse[APIParamCardType]
-       associatedCardObjects:jsonResponse[APIParamAssociatedCardObject]];
+//MARK: Should this be abstract?
+
+- (instancetype)initWithJSONDictionary:(NSDictionary *)cardDictionary {
+    
+    @throw [NSException exceptionWithName:NSInternalInconsistencyException
+                                   reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
+                                 userInfo:nil];
 }
 
+
+//+ (NSArray *)cardsFromJSONDictionary:(NSDictionary *)jsonResponse {
+//
+//    NSArray *jsonCards = jsonResponse[@"cards"];
+//
+//    NSMutableArray *cards = [[NSMutableArray alloc] init];
+//
+//    for (NSDictionary *jsonCard in jsonCards) {
+//        LEOCard *card = [self cardFromCardDictionary:jsonCard];
+//        [cards addObject:card];
+//    }
+//
+//    return cards;
+//}
 
 #pragma mark - Abstract methods
 - (CardLayout)layout {
@@ -49,7 +63,7 @@
     @throw [NSException exceptionWithName:NSInternalInconsistencyException
                                    reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
                                  userInfo:nil];
-
+    
 }
 
 - (NSString *)body {
@@ -59,12 +73,12 @@
                                  userInfo:nil];
 }
 
-- (nonnull NSDate *)timestamp {
+- (NSDate *)timestamp {
     
     @throw [NSException exceptionWithName:NSInternalInconsistencyException
                                    reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
                                  userInfo:nil];
-
+    
 }
 
 - (nonnull NSArray *)stringRepresentationOfActionsAvailableForState {
@@ -74,7 +88,7 @@
                                  userInfo:nil];
 }
 
--(nonnull UIImage *)icon {
+- (UIImage *)icon {
     
     @throw [NSException exceptionWithName:NSInternalInconsistencyException
                                    reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
@@ -82,33 +96,33 @@
     
 }
 
-- (nonnull UIColor *)tintColor {
+- (UIColor *)tintColor {
     
     @throw [NSException exceptionWithName:NSInternalInconsistencyException
                                    reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
                                  userInfo:nil];
 }
 
--(nonnull User *)primaryUser {
+- (nullable User *)primaryUser {
     
     @throw [NSException exceptionWithName:NSInternalInconsistencyException
                                    reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
                                  userInfo:nil];
 }
 
--(nonnull User *)secondaryUser {
-
-@throw [NSException exceptionWithName:NSInternalInconsistencyException
-                               reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
-                             userInfo:nil];
-}
-
--(nonnull NSArray *)actionsAvailableForState {
+- (nullable User *)secondaryUser {
     
     @throw [NSException exceptionWithName:NSInternalInconsistencyException
                                    reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
                                  userInfo:nil];
+}
 
+- (NSArray *)actionsAvailableForState {
+    
+    @throw [NSException exceptionWithName:NSInternalInconsistencyException
+                                   reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
+                                 userInfo:nil];
+    
 }
 
 - (void)returnToPriorState {

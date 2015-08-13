@@ -10,7 +10,7 @@
 #import <NSDate+DateTools.h>
 
 @interface NSDate (Extensions)
-
+NS_ASSUME_NONNULL_BEGIN
 
 - (NSDate *)endOfDay;
 - (NSDate *)beginningOfDay;
@@ -18,5 +18,10 @@
 + (NSInteger)daysBetweenDate:(NSDate*)fromDateTime andDate:(NSDate*)toDateTime;
 - (NSDate *)dateWithoutTime;
 - (NSDate *)beginningOfWeekForStartOfWeek:(NSInteger)weekday;
++ (NSDate *)dateFromDateTimeString:(NSString *)dateTimeString;
++ (NSString *)stringifiedTime:(NSDate *)date;
++ (NSString *)stringifiedDateWithDot:(NSDate *)date;
++ (NSString *)stringifiedDateWithCommas:(NSDate *)date;
 
+NS_ASSUME_NONNULL_END
 @end

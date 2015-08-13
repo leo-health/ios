@@ -19,6 +19,4 @@
 - (NSUInteger)indexOfViewController:(TimeCollectionViewController *)viewController;
 
 
-
-
 @end

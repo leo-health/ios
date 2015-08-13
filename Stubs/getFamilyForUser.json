@@ -1,71 +1,71 @@
 {
-	"data": {
-		"patients": [
-			{
-				"id": 0,
-				"title": null,
-				"first_name": "Eve",
-				"middle_initial": "M.",
-				"last_name": "Curie",
-				"role_id": 6,
-				"role": "patient",
-				"relationship_id": 2,
-				"relationship": "child",
-				"family_id": 1,
-				"birth_date": "01/01/1867",
-				"sex": "f",
-				"email": null,
-				"avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/patients/10.png"
-			},
-			{
-				"id": 1,
-				"title": null,
-				"first_name": "Irene",
-				"middle_initial": "J.",
-				"last_name": "Curie",
-				"suffix": null,
-				"role_id": 6,
-				"role": "patient",
-				"relationship_id": 2,
-				"relationship": "child",
-				"family_id": 1,
-				"birth_date": "01/01/1904",
-				"sex": "f",
-				"email": null,
-				"avatar_url": "http://bucket.s3-us-east-1.amazonaws.com/avatars/patients/11.png"
-			}
-		],
-		"guardians": [
-			{
-				"id": 2,
-				"title": "Mr.",
-				"first_name": "Pierre",
-				"middle_initial": "E.",
-				"last_name": "Curie",
-				"suffix": null,
-				"role_id": 4,
-				"role": "guardian",
-				"relationship_id": 1,
-				"relationship": "father",
-				"family_id": 1,
-				"email": "pierre@curie.com",
-				"avatar_url": null
-			},
-			{
-				"id": 3,
-				"title": "Mrs.",
-				"first_name": "Marie",
-				"middle_initial": "S.",
-				"last_name": "Curie",
-				"suffix": null,
-				"role_id": 4,
-				"role": "guardian",
-				"relationship_id": 0,
-				"relationship": "mother",
-				"family_id": 1,
-				"email": "marie@curie.com",
-				"avatar_url": null
-			}
-		]
-	}
+  "data": {
+    "patients": [
+      {
+        "id": 0,
+        "title": null,
+        "first_name": "Eve",
+        "middle_initial": "M.",
+        "last_name": "Curie",
+        "role_id": 6,
+        "role": "patient",
+        "relationship_id": 2,
+        "relationship": "child",
+        "family_id": 1,
+        "birth_date": "01/01/1867",
+        "sex": "f",
+        "email": null,
+        "avatar_url": "https://elasticbeanstalk-us-east-1-435800161732.s3.amazonaws.com/user/"
+      },
+      {
+        "id": 1,
+        "title": null,
+        "first_name": "Irene",
+        "middle_initial": "J.",
+        "last_name": "Curie",
+        "suffix": null,
+        "role_id": 6,
+        "role": "patient",
+        "relationship_id": 2,
+        "relationship": "child",
+        "family_id": 1,
+        "birth_date": "01/01/1904",
+        "sex": "f",
+        "email": null,
+        "avatar_url": "https://elasticbeanstalk-us-east-1-435800161732.s3.amazonaws.com/user/"
+      }
+    ],
+    "guardians": [
+      {
+        "id": 2,
+        "title": "Mr.",
+        "first_name": "Pierre",
+        "middle_initial": "E.",
+        "last_name": "Curie",
+        "suffix": null,
+        "role_id": 4,
+        "role": "guardian",
+        "relationship_id": 1,
+        "relationship": "father",
+        "family_id": 1,
+        "email": "pierre@curie.com",
+        "avatar_url": null
+      },
+      {
+        "id": 3,
+        "title": "Mrs.",
+        "first_name": "Marie",
+        "middle_initial": "S.",
+        "last_name": "Curie",
+        "suffix": null,
+        "role_id": 4,
+        "role": "guardian",
+        "relationship_id": 0,
+        "relationship": "mother",
+        "family_id": 1,
+        "email": "marie@curie.com",
+        "avatar_url": null
+      }
+    ]
+  }
 }
