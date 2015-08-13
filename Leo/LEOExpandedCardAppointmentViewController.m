@@ -9,7 +9,7 @@
 #import "LEOExpandedCardAppointmentViewController.h"
 #import "UIScrollView+LEOScrollToVisible.h"
 #import "LEOCard.h"
-#import <RPFloatingPlaceholders/RPFloatingPlaceholderTextView.h>
+#import <JVFloatLabeledTextField/JVFloatLabeledTextView.h>
 #import "UIFont+LeoFonts.h"
 #import "UIColor+LeoColors.h"
 #import "PrepAppointment.h"
@@ -41,7 +41,7 @@
 @interface LEOExpandedCardAppointmentViewController ()
 
 @property (weak, nonatomic) IBOutlet UIView *appointmentView;
-@property (weak, nonatomic) IBOutlet RPFloatingPlaceholderTextView *notesTextView;
+@property (weak, nonatomic) IBOutlet JVFloatLabeledTextView *notesTextView;
 @property (weak, nonatomic) IBOutlet UIButton *questionVisitTypeButton;
 @property (weak, nonatomic) IBOutlet UIButton *questionPatientsButton;
 @property (weak, nonatomic) IBOutlet UIButton *questionStaffButton;
@@ -169,10 +169,9 @@
     self.bodyView = self.appointmentView;
     self.notesTextView.delegate = self;
     self.notesTextView.scrollEnabled = NO;
-    self.notesTextView.placeholder = @"Add your questions or comments here";
+    self.notesTextView.placeholder = @"Questions / comments";
+    self.notesTextView.floatingLabelFont = [UIFont leoQuestionFont];
     self.notesTextView.floatingLabelActiveTextColor = [UIColor leoGrayBodyText];
-    self.notesTextView.floatingLabelInactiveTextColor = [UIColor leoGrayBodyText];
-    self.notesTextView.font = [UIFont leoQuestionFont];
     self.notesTextView.textColor = [UIColor leoGreen];
     self.notesTextView.tintColor = [UIColor leoGreen];
 //    self.notesTextViewHeightConstraint.constant = self.notesTextView.contentSize.height;
