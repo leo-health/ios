@@ -171,6 +171,7 @@
     self.notesTextView.scrollEnabled = NO;
     self.notesTextView.placeholder = @"Questions / comments";
     self.notesTextView.floatingLabelFont = [UIFont leoQuestionFont];
+    self.notesTextView.placeholderLabel.font = [UIFont leoQuestionFont];
     self.notesTextView.floatingLabelActiveTextColor = [UIColor leoGrayBodyText];
     self.notesTextView.textColor = [UIColor leoGreen];
     self.notesTextView.tintColor = [UIColor leoGreen];
