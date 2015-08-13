@@ -40,7 +40,7 @@
  *
  *  @return An initialized `JSQMessagesAvatarImage` object if created successfully, `nil` otherwise.
  */
-+ (JSQMessagesAvatarImage *)avatarImageWithPlaceholder:(UIImage *)placeholderImage diameter:(NSUInteger)diameter borderColor:(UIColor *)borderColor;
++ (JSQMessagesAvatarImage *)avatarImageWithPlaceholder:(UIImage *)placeholderImage diameter:(NSUInteger)diameter borderColor:(UIColor *)borderColor borderWidth:(NSUInteger)borderWidth;
 
 /**
  *  Creates and returns a `JSQMessagesAvatarImage` object with the specified image that is

@@ -317,13 +317,13 @@
     
     self.card.associatedCardObject = [[Appointment alloc] initWithPrepAppointment:self.prepAppointment]; //FIXME: Make this a loop to account for changes to multiple objects, e.g. appointments on a card.
     
-    [self.card performSelector:NSSelectorFromString([self.card actionsAvailableForState][0])]; //FIXME: Alternative way to do this that won't cause warning.
+    //[self.card performSelector:NSSelectorFromString([self.card actionsAvailableForState][0])]; //FIXME: Alternative way to do this that won't cause warning.
     
-    //    if (!self.card) { return; }
-    //    SEL selector = NSSelectorFromString([self.card actionsAvailableForState][0]);
-    //    IMP imp = [self.card methodForSelector:selector];
-    //    void (*func)(id, SEL) = (void *)imp;
-    //    func(self.card, selector);
+        if (!self.card) { return; }
+        SEL selector = NSSelectorFromString([self.card actionsAvailableForState][0]);
+        IMP imp = [self.card methodForSelector:selector];
+        void (*func)(id, SEL) = (void *)imp;
+        func(self.card, selector);
 }
 
 

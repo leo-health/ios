@@ -1,6 +1,6 @@
 //
-//  ViewController.m
-//  LEOCalendar
+//  LEOCalendarViewController.m
+//  LEO
 //
 //  Created by Zachary Drossman on 7/28/15.
 //  Copyright (c) 2015 Zachary Drossman. All rights reserved.
