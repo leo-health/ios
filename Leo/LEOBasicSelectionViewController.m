@@ -67,19 +67,22 @@
     self.tableView.estimatedRowHeight = 65;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+}
 
-    [MBProgressHUD showHUDAddedTo:self.tableView animated:YES]; //TODO: Create separate class to set these up for all use cases with two methods that support showing and hiding our customized HUD.
-
+-(void)viewDidAppear:(BOOL)animated {
+    
+    [super viewDidAppear:animated];
+    
+    [MBProgressHUD showHUDAddedTo:self.view.window animated:YES]; //TODO: Create separate class to set these up for all use cases with two methods that support showing and hiding our customized HUD.
+    
     [self requestDataWithCompletion:^(id data){
-
-//        sleep(1.0); //TODO: Remove once moving away from stubs;
         
         self.data = data;
         
-
+        
         SelectionCriteriaBlock selectionCriteriaBlock = ^(BOOL shouldSelect, NSIndexPath *indexPath) {
             
-        if (shouldSelect) {
+            if (shouldSelect) {
                 UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
                 cell.selected = YES;
                 [self.tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
@@ -90,12 +93,13 @@
         
         self.tableView.dataSource = self.dataSource;
         self.tableView.delegate = self;
-
-        [MBProgressHUD hideHUDForView:self.tableView animated:YES];
+        
+        [MBProgressHUD hideHUDForView:self.view.window animated:YES];
         [self.tableView reloadData];
     }];
-}
 
+    
+}
 - (void)requestDataWithCompletion:(void (^) (id data))completionBlock {
     
     NSOperationQueue *queue = [[NSOperationQueue alloc] init];

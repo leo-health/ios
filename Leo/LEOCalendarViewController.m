@@ -38,7 +38,9 @@
 @implementation LEOCalendarViewController
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
+    
     [self formatCalendar];
     [self setupCollectionView];
 }
@@ -53,6 +55,7 @@
     self.noSlotsLabel.font = [UIFont leoBodyFont];
     self.noSlotsLabel.lineBreakMode = NSLineBreakByWordWrapping;
     self.noSlotsLabel.numberOfLines = 0;
+    self.noSlotsLabel.hidden = YES;
 }
 
 - (void)requestDataWithCompletion:(void (^) (id data))completionBlock {
@@ -70,6 +73,7 @@
 - (void)didScrollDateCollectionViewToDate:(NSDate *)date selectable:(BOOL)selectable {
     
     if (!selectable) {
+        
         self.timeCollectionView.hidden = YES;
         self.noSlotsLabel.hidden = NO;
     } else {
@@ -90,6 +94,14 @@
 
 - (void)setupCollectionView {
     
+    //FIXME: This is a code smell. These shouldn't be initialized just for the sake of setting up the design. Will come back to this later for speed of first module completion.
+    self.dateCollectionController = [[DateCollectionController alloc] initWithCollectionView:self.dateCollectionView dates:self.slotsDictionary chosenDate:[self initialDate]];
+    self.timeCollectionController = [[TimeCollectionController alloc] initWithCollectionView:self.timeCollectionView slots:self.slotsDictionary[[self initialDate]]];
+    
+    [self updateMonthLabelWithDate:[self initialDate]];
+}
+
+- (NSDate *)initialDate {
     
     NSDate *initialDate;
     
@@ -98,40 +110,44 @@
     } else {
         initialDate = [self firstSlot].startDateTime;
     }
-
-    //FIXME: This is a code smell. These shouldn't be initialized just for the sake of setting up the design. Will come back to this later for speed of first module completion.
-    self.dateCollectionController = [[DateCollectionController alloc] initWithCollectionView:self.dateCollectionView dates:self.slotsDictionary chosenDate:initialDate];
-    self.timeCollectionController = [[TimeCollectionController alloc] initWithCollectionView:self.timeCollectionView slots:self.slotsDictionary[initialDate]];
     
-    [self updateMonthLabelWithDate:initialDate];
+    return initialDate;
+}
 
+- (void)viewDidAppear:(BOOL)animated {
+    
+    [super viewDidAppear:animated];
+    [self loadCollectionViewWithInitialDate];
+}
+
+- (void)loadCollectionViewWithInitialDate {
+    
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
     [self requestDataWithCompletion:^(id data){
         
-//        sleep(1.0);
+                sleep(1.0);
         
         [MBProgressHUD hideHUDForView:self.view animated:YES];
-
+        
         self.slotsDictionary = data;
         
-        self.dateCollectionController = [[DateCollectionController alloc] initWithCollectionView:self.dateCollectionView dates:self.slotsDictionary chosenDate:initialDate];
+        self.dateCollectionController = [[DateCollectionController alloc] initWithCollectionView:self.dateCollectionView dates:self.slotsDictionary chosenDate:[self initialDate]];
         self.dateCollectionController.delegate = self;
         
         
-        self.timeCollectionController = [[TimeCollectionController alloc] initWithCollectionView:self.timeCollectionView slots:self.slotsDictionary[[(NSDate *)initialDate beginningOfDay]]];
+        self.timeCollectionController = [[TimeCollectionController alloc] initWithCollectionView:self.timeCollectionView slots:self.slotsDictionary[[[self initialDate] beginningOfDay]]];
         self.timeCollectionController.delegate = self;
-
+        
         
         //FIXME: Don't love that I have to call this from outside of the DateCollectionController. There has got to be a better way.
         [self.dateCollectionView setContentOffset:[self.dateCollectionController offsetForWeekOfStartingDate] animated:NO];
         
         [self.timeCollectionView layoutIfNeeded];
-
-
+        
+        
     }];
 }
-
 
 - (void)updateMonthLabelWithDate:(NSDate *)date {
     NSDateFormatter *monthYearFormatter = [[NSDateFormatter alloc] init];
