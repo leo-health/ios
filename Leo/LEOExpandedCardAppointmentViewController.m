@@ -48,7 +48,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *questionCalendarButton;
 
 
-
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomLayoutConstraintForNotesViewSectionSeparator;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *notesTextViewHeightConstraint;
 
@@ -65,28 +64,20 @@
     
     [super viewDidLoad];
     
-    [self setupNotesTextView];
-    [self setupExpandedCardView];
+    self.bodyView = self.appointmentView;
+    
     [self setupButtons];
+    [self setupExpandedCardView];
+    [self setupPrepAppointment];
+    [self setupNotesTextView];
     [self setupStubs];
-
 }
+
+
 
 
 //TODO: Remove stub setup here once integrated back into main project.
 - (void)setupStubs {
-    
-    __weak id<OHHTTPStubsDescriptor> cardsStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-        NSLog(@"Stub request");
-        BOOL test = [request.URL.host isEqualToString:APIHost] && [request.URL.path isEqualToString:[NSString stringWithFormat:@"%@/%@",APIVersion, @"cards"]];
-        return test;
-    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        
-        NSString *fixture = fixture = OHPathForFile(@"../Stubs/getCardsForUser.json", self.class);
-        OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithFileAtPath:fixture statusCode:200 headers:@{@"Content-Type":@"application/json"}];
-        return response;
-        
-    }];
     
     __weak id<OHHTTPStubsDescriptor> staffStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         NSLog(@"Stub request");
@@ -131,26 +122,28 @@
 }
 
 
+- (void)setupPrepAppointment {
+    
+    self.prepAppointment = [[PrepAppointment alloc] initWithAppointment:self.appointment];
+    [self.prepAppointment addObserver:self forKeyPath:@"appointmentType" options:0 context:nil];
+    [self.prepAppointment addObserver:self forKeyPath:@"date" options:0 context:nil];
+    [self.prepAppointment addObserver:self forKeyPath:@"provider" options:0 context:nil];
+    
+}
+
 - (void)setupButtons {
     
-    [self.questionCalendarButton setTitle:@"When would you like to come in?" forState:UIControlStateNormal];
-    [self formatSelectionButton:self.questionCalendarButton];
+    [self validateForChoosingSlots];
     
-    [self.questionPatientsButton setTitle:@"Which child needs to be seen?" forState:UIControlStateNormal];
-    [self formatSelectionButton:self.questionPatientsButton];
-
-    [self.questionStaffButton setTitle:@"Who would you like to see?" forState:UIControlStateNormal];
-    [self formatSelectionButton:self.questionStaffButton];
-    
-    [self.questionVisitTypeButton setTitle:@"What are you coming in for?" forState:UIControlStateNormal];
-    [self formatSelectionButton:self.questionVisitTypeButton];
+    [self updateButton:self.questionCalendarButton];
+    [self updateButton:self.questionPatientsButton];
+    [self updateButton:self.questionStaffButton];
+    [self updateButton:self.questionVisitTypeButton];
 }
 
 - (void)formatSelectionButton:(UIButton *)button {
     
-    button.titleLabel.font = [UIFont leoQuestionFont];
-    [button setTitleColor:[UIColor leoBlack]
-                                      forState:UIControlStateNormal];
+    
     [button setImage:[UIImage imageNamed:@"Icon-ForwardArrow"] forState:UIControlStateNormal];
     
     [self.view layoutIfNeeded];
@@ -166,7 +159,6 @@
 
 - (void)setupNotesTextView {
     
-    self.bodyView = self.appointmentView;
     self.notesTextView.delegate = self;
     self.notesTextView.scrollEnabled = NO;
     self.notesTextView.placeholder = @"Questions / comments";
@@ -175,11 +167,13 @@
     self.notesTextView.floatingLabelActiveTextColor = [UIColor leoGrayBodyText];
     self.notesTextView.textColor = [UIColor leoGreen];
     self.notesTextView.tintColor = [UIColor leoGreen];
+    self.notesTextView.text = self.prepAppointment.note;
+    self.notesTextViewHeightConstraint.constant = self.notesTextView.contentSize.height;
     
     UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(scrollViewWasTapped:)];
     tapGestureForTextFieldDismissal.cancelsTouchesInView = NO;
     [self.scrollView addGestureRecognizer:tapGestureForTextFieldDismissal];
-
+    
     [self.notesTextView addObserver:self
                          forKeyPath:@"contentSize"
                             options:(NSKeyValueObservingOptionNew)
@@ -187,50 +181,53 @@
 }
 
 
-- (void)updateButton:(UIButton *)button withSentenceString:(NSString *)sentenceString variableString:(NSString *)variableString {
+- (void)updateButton:(UIButton *)button withBaseString:(NSString *)baseString variableStrings:(NSArray *)variableStrings {
     
     NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
     [style setAlignment:NSTextAlignmentLeft];
     [style setLineBreakMode:NSLineBreakByWordWrapping];
     
-    UIFont *font1 = [UIFont leoQuestionFont];
-    UIFont *font2 = [UIFont leoQuestionFont];
+    UIFont *baseFont = [UIFont leoQuestionFont];
+    UIFont *variableFont = [UIFont leoQuestionFont];
     
-    UIColor *color1 = [UIColor leoBlack];
-    UIColor *color2 = [UIColor leoGreen];
+    UIColor *baseColor = [UIColor leoBlack];
+    UIColor *variableColor = [UIColor leoGreen];
     
-    NSDictionary *attributedDictionary1 = @{NSForegroundColorAttributeName:color1,
-                                            NSFontAttributeName:font1,
-                                            NSParagraphStyleAttributeName:style};
+    NSDictionary *baseDictionary = @{NSForegroundColorAttributeName:baseColor,
+                                     NSFontAttributeName:baseFont,
+                                     NSParagraphStyleAttributeName:style};
     
-    NSDictionary *attributedDictionary2 = @{NSForegroundColorAttributeName:color2,
-                                            NSFontAttributeName:font2,
-                                            NSParagraphStyleAttributeName:style};
+    NSDictionary *variableDictionary = @{NSForegroundColorAttributeName:variableColor,
+                                         NSFontAttributeName:variableFont,
+                                         NSParagraphStyleAttributeName:style};
     
     NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] init];
-    [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:sentenceString
-                                                                       attributes:attributedDictionary1]];
     
-    [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:variableString
-                                                                       attributes:attributedDictionary2]];
+    
+    [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:baseString
+                                                                       attributes:baseDictionary]];
+    
+    for (NSString *varString in variableStrings) {
+        
+        [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:@" "
+                                                                           attributes:baseDictionary]];
+        
+        [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:varString
+                                                                           attributes:variableDictionary]];
+        
+    }
     
     [button setAttributedTitle:attrString forState:UIControlStateNormal];
 }
 
-
--(void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
-    
-}
-
 - (void)viewDidAppear:(BOOL)animated {
+    
     [super viewDidAppear:animated];
-
     [self.scrollView scrollToViewIfObstructedByKeyboard:self.notesTextView];
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
+    
     [self.scrollView scrollToViewIfObstructedByKeyboard:nil];
 }
 
@@ -238,13 +235,6 @@
 - (void)setupExpandedCardView {
     
     self.expandedFullTitle = @"Schedule a visit\nwith the practice";
-    
-    if (self.prepAppointment) {
-        [self didUpdateItem:self.prepAppointment.date forKey:@"date"];
-        [self didUpdateItem:self.prepAppointment.appointmentType forKey:@"appointmentType"];
-        [self didUpdateItem:self.prepAppointment.patient forKey:@"patient"];
-        [self didUpdateItem:self.prepAppointment.provider forKey:@"provider"];
-    }
 }
 
 -(void)setAppointment:(Appointment *)appointment {
@@ -295,23 +285,44 @@
  */
 - (void)didUpdateItem:(nullable id)item forKey:(NSString *)key {
     
-    if (item) {
-        if ([key isEqualToString:@"appointmentType"]) {
-            [self updateButton:self.questionVisitTypeButton withSentenceString:@"I'm scheduling a " variableString:((AppointmentType *)item).name];
-        } else if ([key isEqualToString:@"patient"]) {
-            [self updateButton:self.questionPatientsButton withSentenceString:@"This appointment is for " variableString:((Patient *)item).firstName];
-        } else if ([key isEqualToString:@"provider"]) {
-            [self updateButton:self.questionStaffButton withSentenceString:@"I would like to be seen by\n" variableString:[NSString stringWithFormat:@"%@ %@",((Provider *)item).fullName, ((Provider *)item).credentials[0]]];
-        } else if ([key isEqualToString:@"date"]) {
-            [self updateButton:self.questionCalendarButton withSentenceString:@"My visit is at\n" variableString:[NSDate stringifiedDateTime:((NSDate *)item)]];
-        }
-    }
-    
     [self.prepAppointment setValue:item forKey:key];
 }
 
+- (UIButton *)bookButton {
+    
+    return self.buttons[0];
+}
+
+- (void)validateForChoosingSlots {
+    
+    self.questionCalendarButton.enabled = [self shouldEnableUserToChooseASlot] ? YES : NO;
+    [self updateButton:self.questionCalendarButton];
+}
+
+
 /**
- *  When the button is tapped at the bottom of the expanded appointment flow, the card's appointment object is updated with the prepAppointment and the card's method for the first action when in the the current state is called.
+ *  Determines whether user should be able to choose a slot
+ *
+ *  @return BOOL
+ */
+- (BOOL)shouldEnableUserToChooseASlot {
+    
+    return self.prepAppointment.appointmentType && self.prepAppointment.patient && self.prepAppointment.provider;
+}
+
+/**
+ *  Determines whether user should be able to schedule an appointment
+ *
+ *  @return BOOL
+ */
+- (BOOL)shouldEnableUserToBookAppointment {
+    
+    return self.prepAppointment.appointmentType && self.prepAppointment.patient && self.prepAppointment.provider && self.prepAppointment.date;
+}
+
+/**
+ *  When the button is tapped at the bottom of the expanded appointment flow, the card's appointment object is updated with the prepAppointment and the card's method for the first action
+ *  when in the the current state is called.
  */
 - (void)button0Tapped {
     
@@ -319,11 +330,11 @@
     
     //[self.card performSelector:NSSelectorFromString([self.card actionsAvailableForState][0])]; //FIXME: Alternative way to do this that won't cause warning.
     
-        if (!self.card) { return; }
-        SEL selector = NSSelectorFromString([self.card actionsAvailableForState][0]);
-        IMP imp = [self.card methodForSelector:selector];
-        void (*func)(id, SEL) = (void *)imp;
-        func(self.card, selector);
+    if (!self.card) { return; }
+    SEL selector = NSSelectorFromString([self.card actionsAvailableForState][0]);
+    IMP imp = [self.card methodForSelector:selector];
+    void (*func)(id, SEL) = (void *)imp;
+    func(self.card, selector);
 }
 
 
@@ -363,7 +374,7 @@
             [cell configureForAppointmentType:appointmentType];
             
             shouldSelect = NO;
-
+            
             if ([appointmentType.objectID isEqualToString:self.prepAppointment.appointmentType.objectID]) {
                 shouldSelect = YES;
             }
@@ -387,7 +398,7 @@
                 cell.selectedColor = self.card.tintColor;
                 
                 shouldSelect = NO;
-
+                
                 [cell configureForPatient:patient];
                 
                 if ([patient.objectID isEqualToString:self.prepAppointment.patient.objectID]) {
@@ -427,24 +438,13 @@
     
 }
 
--(PrepAppointment *)prepAppointment {
+- (PrepAppointment *)prepAppointment {
     
     if (!_prepAppointment) {
         
         if (self.appointment) {
             _prepAppointment = [[PrepAppointment alloc] initWithAppointment:self.appointment];
         }
-        
-        //        NSDate *startTime = [NSDate dateWithYear:2015 month:8 day:12 hour:0 minute:0 second:0];
-        //
-        //        AppointmentType *type = [[AppointmentType alloc] initWithObjectID:@"0" name:@"Well Visit" typeCode:AppointmentTypeCodeCheckup duration:@30 longDescription:@"Long description" shortDescription:@"Short description"];
-        //
-        //        Patient *patient = [[Patient alloc] initWithObjectID:@"0" familyID:@"0" title:nil firstName:@"Zach" middleInitial:nil lastName:@"Drossman" suffix:nil email:nil avatarURL:nil avatar:nil dob:[NSDate date] gender:@"Male" status:@"active"];
-        //
-        //        Provider *provider = [[Provider alloc] initWithObjectID:@"10" title:@"Dr." firstName:@"Om" middleInitial:nil lastName:@"Lala" suffix:nil email:@"lala@leohealth.com" avatarURL:nil avatar:nil credentialSuffixes:@[@"M.D."] specialties:@[@"pediatrics"]];
-        //
-        //        _prepAppointment = [[PrepAppointment alloc] initWithObjectID:@"0" date:startTime appointmentType:type patient:patient provider:provider bookedByUser:provider note:@"blank note" statusCode:AppointmentStatusCodeBooking];
-        
     }
     
     return _prepAppointment;
@@ -452,7 +452,7 @@
 
 
 
--(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     
     /**
      *
@@ -466,10 +466,94 @@
         topCorrect = (topCorrect <0.0 ? 0.0 : topCorrect);
         tv.contentOffset = (CGPoint){.x = 0, .y = -topCorrect};
     }
+    
+    
+    /**
+     *  Listen for changes to the prepAppointment and then check if we should enable slot choice functionality and booking functionality
+     */
+    if (object == self.prepAppointment) {
+        
+        if ([keyPath isEqualToString:@"appointmentType"]) {
+            
+            [self bookButton].enabled = [self shouldEnableUserToBookAppointment];
+            [self updateButton:self.questionVisitTypeButton];
+            
+        } else if ([keyPath isEqualToString:@"provider"]) {
+            
+            [self bookButton].enabled = [self shouldEnableUserToBookAppointment];
+            [self updateButton:self.questionStaffButton];
+            
+        } else if ([keyPath isEqualToString:@"patient"]) {
+            
+            [self bookButton].enabled = [self shouldEnableUserToBookAppointment];
+            [self updateButton:self.questionPatientsButton];
+            
+        } else if ([keyPath isEqualToString:@"date"]) {
+
+            [self validateForChoosingSlots];
+            [self bookButton].enabled = [self shouldEnableUserToBookAppointment];
+            [self updateButton:self.questionCalendarButton];
+        }
+    }
+}
+
+- (void)updateButton:(UIButton *)button {
+    
+    if (button == self.questionVisitTypeButton) {
+        
+        if (self.prepAppointment.appointmentType) {
+            [self updateButton:button withBaseString:@"I'm scheduling a" variableStrings:@[self.prepAppointment.appointmentType.name]];
+        } else {
+            [self updateButton:button withBaseString:@"What brings you in today?" variableStrings:nil];
+        }
+        
+    } else if (button == self.questionPatientsButton) {
+        
+        if (self.prepAppointment.patient) {
+            [self updateButton:self.questionPatientsButton withBaseString:@"This appointment is for" variableStrings:@[self.prepAppointment.patient.firstName]];
+        } else {
+            [self updateButton:button withBaseString:@"Who is this appointment for?" variableStrings:nil];
+        }
+        
+    } else if (button == self.questionStaffButton) {
+        
+        if (self.prepAppointment.provider) {
+            [self updateButton:button withBaseString:@"I would like to be seen by\n" variableStrings:@[[NSString stringWithFormat:@"%@ %@",self.prepAppointment.provider.fullName, self.prepAppointment.provider.credentials[0]]]];
+        } else {
+            [self updateButton:button withBaseString:@"Who would you like to see?" variableStrings:nil];
+        }
+        
+    } else if (button == self.questionCalendarButton) {
+        
+        if (self.prepAppointment.date && self.questionCalendarButton.enabled) {
+            [self updateButton:button withBaseString:@"My visit is at\n" variableStrings:@[[NSDate stringifiedDateTime:self.prepAppointment.date]]];
+        } else if (!self.prepAppointment.date && self.questionCalendarButton.enabled) {
+            [self updateButton:button withBaseString:@"When would you like to come in?" variableStrings:nil];
+        } else if (!self.prepAppointment.date && !self.questionCalendarButton.enabled) {
+            [self updateButton:button withBaseString:@"Please select a provider, visit type, and child before selecting an appointment date and time." variableStrings:nil];
+        }
+    }
+    
+    
+    [button setImage:[UIImage imageNamed:@"Icon-ForwardArrow"] forState:UIControlStateNormal];
+    
+    [self.view layoutIfNeeded];
+    
+    CGSize size = button.frame.size;
+    CGSize imageSize = button.imageView.image.size;
+    
+    [button setImageEdgeInsets:UIEdgeInsetsMake(0, size.width - imageSize.width, 0, 0)];
+    [button setTitleEdgeInsets:UIEdgeInsetsMake(0, -imageSize.width, 0, 0)];
+    button.tintColor = [UIColor leoGreen];
 }
 
 -(void)dealloc {
+    
     [self.notesTextView removeObserver:self forKeyPath:@"contentSize"];
+    [self.prepAppointment removeObserver:self forKeyPath:@"appointmentType"];
+    [self.prepAppointment removeObserver:self forKeyPath:@"date"];
+    [self.prepAppointment removeObserver:self forKeyPath:@"provider"];
+    
 }
 
 

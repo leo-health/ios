@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 NS_ASSUME_NONNULL_END
 @end
 
+
 @protocol ExpandedCardDelegate <NSObject>
 NS_ASSUME_NONNULL_BEGIN
 
@@ -40,6 +41,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSString *expandedFullTitle;
 @property (strong, nonatomic) UIView *bodyView;
 @property (strong, nonatomic) UIScrollView *scrollView;
+
+- (NSArray *)buttons;
 
 NS_ASSUME_NONNULL_END
 @end

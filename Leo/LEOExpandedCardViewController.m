@@ -394,6 +394,20 @@
     }
 }
 
+- (NSArray *)buttons {
+    
+    NSMutableArray *buttons = [[NSMutableArray alloc] init];
+    
+    for (UIView *subview in self.buttonView.subviews) {
+        
+        if ([subview isKindOfClass:[UIButton class]]) {
+            
+            [buttons addObject:subview];
+        }
+    }
+    
+    return buttons;
+}
 
 /**
  *  Counts buttons on card based on actionsAvailableForState method in LEOCard object

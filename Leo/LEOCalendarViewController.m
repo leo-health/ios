@@ -172,18 +172,18 @@
     
     NSArray *dates = [[self.slotsDictionary allKeys] sortedArrayUsingSelector:@selector(compare:)];
     
-    Slot *firstOpenSlot;
+    NSArray *openSlots;
     
     for (NSDate *slotDate in dates) {
         
-        firstOpenSlot = self.slotsDictionary[slotDate];
+        openSlots = self.slotsDictionary[slotDate];
         
-        if (firstOpenSlot) {
-            break;
+        if (openSlots) {
+            return openSlots.firstObject;
         }
     }
     
-    return firstOpenSlot;
+    return nil; // Need to deal with this since it would break, even though we'd never have no open slots.
 }
 
 @end

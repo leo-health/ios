@@ -33,6 +33,26 @@
     return self;
 }
 
+/**
+ *  Sets provider and resets the date of the appointment as required for a new appointment date to be chosen
+ *
+ *  @param appointmentType an AppointmentType object
+ */
+-(void)setProvider:(Provider *)provider {
+    _provider = provider;
+    self.date = nil;
+}
+
+/**
+ *  Sets appointmentType and resets the date of the appointment as required for a new appointment date to be chosen
+ *
+ *  @param appointmentType an AppointmentType object
+ */
+-(void)setAppointmentType:(AppointmentType *)appointmentType {
+    _appointmentType = appointmentType;
+    self.date = nil;
+}
+
 //MARK: Not sure this method will ever be used for a prep appointment.
 - (instancetype)initWithJSONDictionary:(nonnull NSDictionary *)jsonResponse {
     
