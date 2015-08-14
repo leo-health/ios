@@ -135,10 +135,10 @@
     
     [self validateForChoosingSlots];
     
-    [self updateButton:self.questionCalendarButton];
-    [self updateButton:self.questionPatientsButton];
-    [self updateButton:self.questionStaffButton];
-    [self updateButton:self.questionVisitTypeButton];
+    [self updateButtonTitle:self.questionCalendarButton];
+    [self updateButtonTitle:self.questionPatientsButton];
+    [self updateButtonTitle:self.questionStaffButton];
+    [self updateButtonTitle:self.questionVisitTypeButton];
 }
 
 - (void)formatSelectionButton:(UIButton *)button {
@@ -288,15 +288,10 @@
     [self.prepAppointment setValue:item forKey:key];
 }
 
-- (UIButton *)bookButton {
-    
-    return self.buttons[0];
-}
-
 - (void)validateForChoosingSlots {
     
     self.questionCalendarButton.enabled = [self shouldEnableUserToChooseASlot] ? YES : NO;
-    [self updateButton:self.questionCalendarButton];
+    [self updateButtonTitle:self.questionCalendarButton];
 }
 
 
@@ -475,29 +470,29 @@
         
         if ([keyPath isEqualToString:@"appointmentType"]) {
             
-            [self bookButton].enabled = [self shouldEnableUserToBookAppointment];
-            [self updateButton:self.questionVisitTypeButton];
+            self.button.enabled = [self shouldEnableUserToBookAppointment];
+            [self updateButtonTitle:self.questionVisitTypeButton];
             
         } else if ([keyPath isEqualToString:@"provider"]) {
             
-            [self bookButton].enabled = [self shouldEnableUserToBookAppointment];
-            [self updateButton:self.questionStaffButton];
+            self.button.enabled = [self shouldEnableUserToBookAppointment];
+            [self updateButtonTitle:self.questionStaffButton];
             
         } else if ([keyPath isEqualToString:@"patient"]) {
             
-            [self bookButton].enabled = [self shouldEnableUserToBookAppointment];
-            [self updateButton:self.questionPatientsButton];
+            self.button.enabled = [self shouldEnableUserToBookAppointment];
+            [self updateButtonTitle:self.questionPatientsButton];
             
         } else if ([keyPath isEqualToString:@"date"]) {
 
             [self validateForChoosingSlots];
-            [self bookButton].enabled = [self shouldEnableUserToBookAppointment];
-            [self updateButton:self.questionCalendarButton];
+            self.button.enabled = [self shouldEnableUserToBookAppointment];
+            [self updateButtonTitle:self.questionCalendarButton];
         }
     }
 }
 
-- (void)updateButton:(UIButton *)button {
+- (void)updateButtonTitle:(UIButton *)button {
     
     if (button == self.questionVisitTypeButton) {
         

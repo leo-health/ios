@@ -18,31 +18,19 @@ NS_ASSUME_NONNULL_END
 @end
 
 
-@protocol ExpandedCardDelegate <NSObject>
-NS_ASSUME_NONNULL_BEGIN
-
-@optional
-- (void)button0Tapped;
-- (void)button1Tapped;
-- (void)button:(UIButton *)button enabled:(BOOL)enabled;
-
-NS_ASSUME_NONNULL_END
-@end
-
 @class LEOCard;
 
 @interface LEOExpandedCardViewController : UIViewController <UIScrollViewDelegate>
 NS_ASSUME_NONNULL_BEGIN
 
 @property (weak, nonatomic) id<ExpandedCardDataSource>dataSource;
-@property (weak, nonatomic) id<ExpandedCardDelegate>delegate;
 
 @property (strong, nonatomic) LEOCard *card;
 @property (strong, nonatomic) NSString *expandedFullTitle;
 @property (strong, nonatomic) UIView *bodyView;
 @property (strong, nonatomic) UIScrollView *scrollView;
 
-- (NSArray *)buttons;
+@property (strong, nonatomic) UIButton *button;
 
 NS_ASSUME_NONNULL_END
 @end
