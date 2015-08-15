@@ -60,6 +60,7 @@
 
 @implementation LEOExpandedCardAppointmentViewController
 
+#pragma mark - View Controller Lifecycle
 - (void)viewDidLoad {
     
     [super viewDidLoad];
@@ -70,13 +71,32 @@
     [self setupExpandedCardView];
     [self setupPrepAppointment];
     [self setupNotesTextView];
-    [self setupStubs];
+    [self setupStubs]; //TODO: Remove stub setup here once API has been brought in with reachability checks.
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    
+    [super viewDidAppear:animated];
+    [self.scrollView scrollToViewIfObstructedByKeyboard:self.notesTextView];
+}
 
+- (void)viewDidDisappear:(BOOL)animated{
+    
+    [self.scrollView scrollToViewIfObstructedByKeyboard:nil];
+}
 
+- (void)dealloc {
+    
+    [self.notesTextView removeObserver:self forKeyPath:@"contentSize"];
+    [self.prepAppointment removeObserver:self forKeyPath:@"appointmentType"];
+    [self.prepAppointment removeObserver:self forKeyPath:@"date"];
+    [self.prepAppointment removeObserver:self forKeyPath:@"provider"];
+    
+}
 
-//TODO: Remove stub setup here once integrated back into main project.
+#pragma mark - VCL Helper Methods
+
+//TODO: Remove stub setup here once API has been brought in with reachability checks.
 - (void)setupStubs {
     
     __weak id<OHHTTPStubsDescriptor> staffStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
@@ -128,7 +148,7 @@
     [self.prepAppointment addObserver:self forKeyPath:@"appointmentType" options:0 context:nil];
     [self.prepAppointment addObserver:self forKeyPath:@"date" options:0 context:nil];
     [self.prepAppointment addObserver:self forKeyPath:@"provider" options:0 context:nil];
-    
+    [self.prepAppointment addObserver:self forKeyPath:@"patient" options:0 context:nil];
 }
 
 - (void)setupButtons {
@@ -139,21 +159,6 @@
     [self updateButtonTitle:self.questionPatientsButton];
     [self updateButtonTitle:self.questionStaffButton];
     [self updateButtonTitle:self.questionVisitTypeButton];
-}
-
-- (void)formatSelectionButton:(UIButton *)button {
-    
-    
-    [button setImage:[UIImage imageNamed:@"Icon-ForwardArrow"] forState:UIControlStateNormal];
-    
-    [self.view layoutIfNeeded];
-    
-    CGSize size = button.frame.size;
-    CGSize imageSize = button.imageView.image.size;
-    
-    [button setImageEdgeInsets:UIEdgeInsetsMake(0, size.width - imageSize.width, 0, 0)];
-    [button setTitleEdgeInsets:UIEdgeInsetsMake(0, -imageSize.width, 0, 0)];
-    button.tintColor = [UIColor leoGreen];
 }
 
 
@@ -180,76 +185,39 @@
                             context:NULL];
 }
 
-
-- (void)updateButton:(UIButton *)button withBaseString:(NSString *)baseString variableStrings:(NSArray *)variableStrings {
-    
-    NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
-    [style setAlignment:NSTextAlignmentLeft];
-    [style setLineBreakMode:NSLineBreakByWordWrapping];
-    
-    UIFont *baseFont = [UIFont leoQuestionFont];
-    UIFont *variableFont = [UIFont leoQuestionFont];
-    
-    UIColor *baseColor = [UIColor leoBlack];
-    UIColor *variableColor = [UIColor leoGreen];
-    
-    NSDictionary *baseDictionary = @{NSForegroundColorAttributeName:baseColor,
-                                     NSFontAttributeName:baseFont,
-                                     NSParagraphStyleAttributeName:style};
-    
-    NSDictionary *variableDictionary = @{NSForegroundColorAttributeName:variableColor,
-                                         NSFontAttributeName:variableFont,
-                                         NSParagraphStyleAttributeName:style};
-    
-    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] init];
-    
-    
-    [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:baseString
-                                                                       attributes:baseDictionary]];
-    
-    for (NSString *varString in variableStrings) {
-        
-        [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:@" "
-                                                                           attributes:baseDictionary]];
-        
-        [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:varString
-                                                                           attributes:variableDictionary]];
-        
-    }
-    
-    [button setAttributedTitle:attrString forState:UIControlStateNormal];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    
-    [super viewDidAppear:animated];
-    [self.scrollView scrollToViewIfObstructedByKeyboard:self.notesTextView];
-}
-
--(void)viewDidDisappear:(BOOL)animated{
-    
-    [self.scrollView scrollToViewIfObstructedByKeyboard:nil];
-}
-
-
+/**
+ *  Sets up the container view.
+ */
 - (void)setupExpandedCardView {
     
     self.expandedFullTitle = @"Schedule a visit\nwith the practice";
 }
 
--(void)setAppointment:(Appointment *)appointment {
+
+#pragma mark - Setters / Getters
+
+/**
+ *  Appointment setter that sets the appointment to the card's associated card object as opposed to a backing store.
+ *
+ *  @param appointment
+ */
+- (void)setAppointment:(Appointment *)appointment {
     self.card.associatedCardObject = appointment;
 }
 
+
+/**
+ *  Appointment getter that uses the card's associated object instead of an ivar as its backing store
+ *
+ *  @return the associated card object (which is an appointment in this case
+ */
 -(Appointment *)appointment {
     return self.card.associatedCardObject;
 }
 
--(void)scrollViewWasTapped:(UIGestureRecognizer*)gesture{
-    if (self.notesTextView.isFirstResponder) {
-        [self.notesTextView resignFirstResponder];
-    }
-}
+
+
+#pragma mark - <TextViewDelegate>
 
 -(void)textViewDidChange:(UITextView *)textView {
     
@@ -258,7 +226,6 @@
         [self.view layoutIfNeeded];
     }];
 }
-
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
     
@@ -277,6 +244,9 @@
 }
 
 
+
+
+#pragma mark - <SingleSelectionProtocol>
 /**
  *  Generic delegate method for returning data from a selection view controller
  *
@@ -288,10 +258,15 @@
     [self.prepAppointment setValue:item forKey:key];
 }
 
+
+#pragma mark - Validation
+
+/**
+ *  Determine whether the calendar button should be enabled
+ */
 - (void)validateForChoosingSlots {
     
     self.questionCalendarButton.enabled = [self shouldEnableUserToChooseASlot] ? YES : NO;
-    [self updateButtonTitle:self.questionCalendarButton];
 }
 
 
@@ -315,11 +290,15 @@
     return self.prepAppointment.appointmentType && self.prepAppointment.patient && self.prepAppointment.provider && self.prepAppointment.date;
 }
 
+
+
+#pragma mark - Actions
+
 /**
  *  When the button is tapped at the bottom of the expanded appointment flow, the card's appointment object is updated with the prepAppointment and the card's method for the first action
  *  when in the the current state is called.
  */
-- (void)button0Tapped {
+- (void)buttonTapped {
     
     self.card.associatedCardObject = [[Appointment alloc] initWithPrepAppointment:self.prepAppointment]; //FIXME: Make this a loop to account for changes to multiple objects, e.g. appointments on a card.
     
@@ -332,10 +311,12 @@
     func(self.card, selector);
 }
 
-
-- (void)button:(UIButton *)button enabled:(BOOL)enabled {
-    //This does nothing yet so not actually implementing at this time.
+-(void)scrollViewWasTapped:(UIGestureRecognizer*)gesture{
+    if (self.notesTextView.isFirstResponder) {
+        [self.notesTextView resignFirstResponder];
+    }
 }
+
 
 #pragma mark - Navigation
 
@@ -380,6 +361,11 @@
         selectionVC.requestOperation = [[LEOAPIAppointmentTypesOperation alloc] init];
         selectionVC.delegate = self;
         
+//        [UIView animateWithDuration:0.25
+//                         animations:^{
+//                             [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+//                             [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight forView:self.navigationController.view cache:NO];
+//                         }];
         
     } else
         if ([segue.identifier isEqualToString:@"PatientSegue"]) {
@@ -446,6 +432,7 @@
 }
 
 
+#pragma mark - KVO
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     
@@ -491,6 +478,49 @@
         }
     }
 }
+
+
+#pragma mark - Drill Button Formatting
+//TODO: This method is not ideal, but it is working for the time-being; would like to replace with something that's actually flexible.
+- (void)updateButton:(UIButton *)button withBaseString:(NSString *)baseString variableStrings:(NSArray *)variableStrings {
+    
+    NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+    [style setAlignment:NSTextAlignmentLeft];
+    [style setLineBreakMode:NSLineBreakByWordWrapping];
+    
+    UIFont *baseFont = [UIFont leoQuestionFont];
+    UIFont *variableFont = [UIFont leoQuestionFont];
+    
+    UIColor *baseColor = [UIColor leoBlack];
+    UIColor *variableColor = [UIColor leoGreen];
+    
+    NSDictionary *baseDictionary = @{NSForegroundColorAttributeName:baseColor,
+                                     NSFontAttributeName:baseFont,
+                                     NSParagraphStyleAttributeName:style};
+    
+    NSDictionary *variableDictionary = @{NSForegroundColorAttributeName:variableColor,
+                                         NSFontAttributeName:variableFont,
+                                         NSParagraphStyleAttributeName:style};
+    
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] init];
+    
+    
+    [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:baseString
+                                                                       attributes:baseDictionary]];
+    
+    for (NSString *varString in variableStrings) {
+        
+        [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:@" "
+                                                                           attributes:baseDictionary]];
+        
+        [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:varString
+                                                                           attributes:variableDictionary]];
+        
+    }
+    
+    [button setAttributedTitle:attrString forState:UIControlStateNormal];
+}
+
 
 - (void)updateButtonTitle:(UIButton *)button {
     
@@ -542,14 +572,6 @@
     button.tintColor = [UIColor leoGreen];
 }
 
--(void)dealloc {
-    
-    [self.notesTextView removeObserver:self forKeyPath:@"contentSize"];
-    [self.prepAppointment removeObserver:self forKeyPath:@"appointmentType"];
-    [self.prepAppointment removeObserver:self forKeyPath:@"date"];
-    [self.prepAppointment removeObserver:self forKeyPath:@"provider"];
-    
-}
 
 
 

@@ -39,11 +39,12 @@ NSString *const dateReuseIdentifier = @"DateCell";
         _chosenDate = chosenDate;
         
         [self setupCollectionViewWithDate:chosenDate];
-        
     }
     
     return self;
 }
+
+
 
 - (void)setupCollectionViewWithDate:(NSDate *)chosenDate {
     

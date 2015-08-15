@@ -36,6 +36,7 @@
     self.titleView.backgroundColor = self.card.tintColor; //TODO: Will ultimately be a gradient of the tintColor with some calculation in a separate image extension class, but for now, this will suffice.
 
     self.contentView.backgroundColor = [UIColor whiteColor];
+    
 }
 
 -(void)setExpandedFullTitle:(NSString *)expandedFullTitle {
@@ -77,9 +78,10 @@
     [self.button setTitle:self.card.stringRepresentationOfActionsAvailableForState[0] forState:UIControlStateNormal];
     self.button.titleLabel.font = [UIFont leoButtonFont];
     self.button.backgroundColor = self.card.tintColor;
-    
-    
     [self.button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    
+    [self.button addObserver:self forKeyPath:@"enabled" options:NSKeyValueObservingOptionNew context:nil];
+
 }
 
 /**
@@ -335,8 +337,30 @@
  */
 - (void)buttonTapped {
     
-    //TODO: assert something here
-
+    //TODO: Assert something here and add to .h or just remove this whole abstract method.
 }
+
+
+- (void)toggleButtonFormat:(BOOL)enabled {
+    
+    if (enabled) {
+        [self.button setBackgroundColor:self.card.tintColor];
+    } else {
+        [self.button setBackgroundColor:[UIColor leoGrayBackground]];
+    }
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    
+    if (object == self.button && [keyPath isEqualToString:@"enabled"] ) {
+        
+    }
+}
+
+- (void)dealloc {
+    
+    [self.button removeObserver:self forKeyPath:@"enabled"];
+}
+
 
 @end

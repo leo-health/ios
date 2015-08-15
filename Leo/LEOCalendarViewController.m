@@ -45,6 +45,7 @@
     [self setupCollectionView];
 }
 
+
 - (void)formatCalendar {
     
     self.monthView.backgroundColor = [UIColor leoGreen];
@@ -143,6 +144,7 @@
         //FIXME: Don't love that I have to call this from outside of the DateCollectionController. There has got to be a better way.
         [self.dateCollectionView setContentOffset:[self.dateCollectionController offsetForWeekOfStartingDate] animated:NO];
         
+
         [self.timeCollectionView layoutIfNeeded];
         
         
@@ -178,7 +180,7 @@
         
         openSlots = self.slotsDictionary[slotDate];
         
-        if (openSlots) {
+        if ([openSlots count] > 0) {
             return openSlots.firstObject;
         }
     }
