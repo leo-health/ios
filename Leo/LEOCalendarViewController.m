@@ -127,27 +127,29 @@
     
     [self requestDataWithCompletion:^(id data){
         
-                sleep(1.0);
-        
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         
-        self.slotsDictionary = data;
         
+        if (self.prepAppointment.date) {
+           
+            NSMutableDictionary *slotsDictionaryWithExistingAppointmentSlot = [data mutableCopy];
+            [slotsDictionaryWithExistingAppointmentSlot setObject:[Slot slotFromExistingAppointment:self.prepAppointment] forKey:[self.prepAppointment.date beginningOfDay]];
+            self.slotsDictionary = [slotsDictionaryWithExistingAppointmentSlot copy];
+        } else {
+            
+            self.slotsDictionary = data;
+        }
+
         self.dateCollectionController = [[DateCollectionController alloc] initWithCollectionView:self.dateCollectionView dates:self.slotsDictionary chosenDate:[self initialDate]];
         self.dateCollectionController.delegate = self;
-        
         
         self.timeCollectionController = [[TimeCollectionController alloc] initWithCollectionView:self.timeCollectionView slots:self.slotsDictionary[[[self initialDate] beginningOfDay]]];
         self.timeCollectionController.delegate = self;
         
-        
         //FIXME: Don't love that I have to call this from outside of the DateCollectionController. There has got to be a better way.
         [self.dateCollectionView setContentOffset:[self.dateCollectionController offsetForWeekOfStartingDate] animated:NO];
         
-
         [self.timeCollectionView layoutIfNeeded];
-        
-        
     }];
 }
 

@@ -15,10 +15,12 @@
 @class PrepAppointment;
 
 @interface LEOCalendarViewController : UIViewController <DateCollectionProtocol, SingleSelectionProtocol, TimeCollectionProtocol>
+NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) PrepAppointment *prepAppointment;
 @property (strong, nonatomic) LEOAPIOperation *requestOperation;
 @property (weak, nonatomic) id<SingleSelectionProtocol>delegate;
 
+NS_ASSUME_NONNULL_END
 @end
 
