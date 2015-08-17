@@ -79,7 +79,7 @@
         self.noSlotsLabel.hidden = NO;
     } else {
         
-        self.timeCollectionController = [[TimeCollectionController alloc] initWithCollectionView:self.timeCollectionView slots:self.slotsDictionary[date]];
+        self.timeCollectionController = [[TimeCollectionController alloc] initWithCollectionView:self.timeCollectionView slots:self.slotsDictionary[date] chosenSlot:[Slot slotFromExistingAppointment:self.prepAppointment]];
         self.timeCollectionController.delegate = self;
 
         [self.timeCollectionView layoutIfNeeded];
@@ -97,7 +97,7 @@
     
     //FIXME: This is a code smell. These shouldn't be initialized just for the sake of setting up the design. Will come back to this later for speed of first module completion.
     self.dateCollectionController = [[DateCollectionController alloc] initWithCollectionView:self.dateCollectionView dates:self.slotsDictionary chosenDate:[self initialDate]];
-    self.timeCollectionController = [[TimeCollectionController alloc] initWithCollectionView:self.timeCollectionView slots:self.slotsDictionary[[self initialDate]]];
+    self.timeCollectionController = [[TimeCollectionController alloc] initWithCollectionView:self.timeCollectionView slots:self.slotsDictionary[[self initialDate]] chosenSlot:nil];
     
     [self updateMonthLabelWithDate:[self initialDate]];
 }
@@ -129,21 +129,74 @@
         
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         
-        
+        //TODO: code that needs refactoring.
         if (self.prepAppointment.date) {
            
             NSMutableDictionary *slotsDictionaryWithExistingAppointmentSlot = [data mutableCopy];
-            [slotsDictionaryWithExistingAppointmentSlot setObject:[Slot slotFromExistingAppointment:self.prepAppointment] forKey:[self.prepAppointment.date beginningOfDay]];
-            self.slotsDictionary = [slotsDictionaryWithExistingAppointmentSlot copy];
-        } else {
+            NSMutableArray *slotsForDateOfExistingAppointment = [slotsDictionaryWithExistingAppointmentSlot[[self.prepAppointment.date beginningOfDay]] mutableCopy];
             
+            Slot *prepSlot = [Slot slotFromExistingAppointment:self.prepAppointment];
+            
+            NSUInteger slotCount = [slotsForDateOfExistingAppointment count];
+            
+            for (NSInteger i = 0; i < slotCount; i++) {
+                
+                Slot *slot = slotsForDateOfExistingAppointment[i];
+                
+                Slot *nextSlot;
+                if (slotCount > 1 && i < slotCount - 1) {
+
+                    nextSlot = slotsForDateOfExistingAppointment[i+1];
+                }
+                
+                NSLog(@"Prep slot date: %@", prepSlot.startDateTime);
+                NSLog(@"slot date: %@", slot.startDateTime);
+                NSLog(@"slot date: %@", nextSlot.startDateTime);
+                
+                if ([prepSlot.startDateTime isEqualToDate:slot.startDateTime]) {
+
+                    break;
+                }
+                
+                
+                if ([prepSlot.startDateTime isLaterThan:slot.startDateTime] && [prepSlot.startDateTime isEarlierThan:nextSlot.startDateTime]) {
+                
+                    [slotsForDateOfExistingAppointment insertObject:prepSlot atIndex:i+1];
+                    break;
+                    
+                } else if ([prepSlot.startDateTime isLaterThan:slot.startDateTime] && !nextSlot) {
+                    
+                    [slotsForDateOfExistingAppointment insertObject:prepSlot atIndex:i+1];
+                    break;
+                    
+                } else if (prepSlot.startDateTime < slot.startDateTime) {
+                    
+                    [slotsForDateOfExistingAppointment insertObject:prepSlot atIndex:0];
+                    break;
+                }
+                
+                if ([slotsForDateOfExistingAppointment count] == 0) {
+                    [slotsForDateOfExistingAppointment insertObject:prepSlot atIndex:0];
+                    break;
+                }
+                
+            }
+            
+            if (slotCount == 0) {
+                [slotsForDateOfExistingAppointment insertObject:prepSlot atIndex:0];
+            }
+            
+            [slotsDictionaryWithExistingAppointmentSlot setObject:slotsForDateOfExistingAppointment forKey:[self.prepAppointment.date beginningOfDay]];
+            self.slotsDictionary = [slotsDictionaryWithExistingAppointmentSlot copy];
+            
+        } else {
             self.slotsDictionary = data;
         }
 
         self.dateCollectionController = [[DateCollectionController alloc] initWithCollectionView:self.dateCollectionView dates:self.slotsDictionary chosenDate:[self initialDate]];
         self.dateCollectionController.delegate = self;
         
-        self.timeCollectionController = [[TimeCollectionController alloc] initWithCollectionView:self.timeCollectionView slots:self.slotsDictionary[[[self initialDate] beginningOfDay]]];
+        self.timeCollectionController = [[TimeCollectionController alloc] initWithCollectionView:self.timeCollectionView slots:self.slotsDictionary[[[self initialDate] beginningOfDay]] chosenSlot:[Slot slotFromExistingAppointment:self.prepAppointment]];
         self.timeCollectionController.delegate = self;
         
         //FIXME: Don't love that I have to call this from outside of the DateCollectionController. There has got to be a better way.

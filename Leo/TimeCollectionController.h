@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (weak, nonatomic) id<TimeCollectionProtocol>delegate;
 
-- (instancetype)initWithCollectionView:(UICollectionView *)collectionView slots:(NSArray *)slots;
+- (instancetype)initWithCollectionView:(UICollectionView *)collectionView slots:(NSOrderedSet *)slots chosenSlot:(nullable Slot *)chosenSlot;
 
 NS_ASSUME_NONNULL_END
 @end

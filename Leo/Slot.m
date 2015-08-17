@@ -45,4 +45,10 @@
     
     return [[Slot alloc] initWithStartDateTime:appointment.date duration:appointment.appointmentType.duration providerID:appointment.provider.objectID practiceID:appointment.practice.objectID];
 }
+
+-(NSString *) description {
+    
+    return [NSString stringWithFormat:@"<Slot: %p> | Date / Time: %@", self, self.startDateTime];
+}
+
 @end
