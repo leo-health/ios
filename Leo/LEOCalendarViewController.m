@@ -129,70 +129,8 @@
         
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         
-        //TODO: code that needs refactoring.
-        if (self.prepAppointment.date) {
-           
-            NSMutableDictionary *slotsDictionaryWithExistingAppointmentSlot = [data mutableCopy];
-            NSMutableArray *slotsForDateOfExistingAppointment = [slotsDictionaryWithExistingAppointmentSlot[[self.prepAppointment.date beginningOfDay]] mutableCopy];
-            
-            Slot *prepSlot = [Slot slotFromExistingAppointment:self.prepAppointment];
-            
-            NSUInteger slotCount = [slotsForDateOfExistingAppointment count];
-            
-            for (NSInteger i = 0; i < slotCount; i++) {
-                
-                Slot *slot = slotsForDateOfExistingAppointment[i];
-                
-                Slot *nextSlot;
-                if (slotCount > 1 && i < slotCount - 1) {
-
-                    nextSlot = slotsForDateOfExistingAppointment[i+1];
-                }
-                
-                NSLog(@"Prep slot date: %@", prepSlot.startDateTime);
-                NSLog(@"slot date: %@", slot.startDateTime);
-                NSLog(@"slot date: %@", nextSlot.startDateTime);
-                
-                if ([prepSlot.startDateTime isEqualToDate:slot.startDateTime]) {
-
-                    break;
-                }
-                
-                
-                if ([prepSlot.startDateTime isLaterThan:slot.startDateTime] && [prepSlot.startDateTime isEarlierThan:nextSlot.startDateTime]) {
-                
-                    [slotsForDateOfExistingAppointment insertObject:prepSlot atIndex:i+1];
-                    break;
-                    
-                } else if ([prepSlot.startDateTime isLaterThan:slot.startDateTime] && !nextSlot) {
-                    
-                    [slotsForDateOfExistingAppointment insertObject:prepSlot atIndex:i+1];
-                    break;
-                    
-                } else if (prepSlot.startDateTime < slot.startDateTime) {
-                    
-                    [slotsForDateOfExistingAppointment insertObject:prepSlot atIndex:0];
-                    break;
-                }
-                
-                if ([slotsForDateOfExistingAppointment count] == 0) {
-                    [slotsForDateOfExistingAppointment insertObject:prepSlot atIndex:0];
-                    break;
-                }
-                
-            }
-            
-            if (slotCount == 0) {
-                [slotsForDateOfExistingAppointment insertObject:prepSlot atIndex:0];
-            }
-            
-            [slotsDictionaryWithExistingAppointmentSlot setObject:slotsForDateOfExistingAppointment forKey:[self.prepAppointment.date beginningOfDay]];
-            self.slotsDictionary = [slotsDictionaryWithExistingAppointmentSlot copy];
-            
-        } else {
-            self.slotsDictionary = data;
-        }
-
+        [self addSlotToSlotData:data];
+        
         self.dateCollectionController = [[DateCollectionController alloc] initWithCollectionView:self.dateCollectionView dates:self.slotsDictionary chosenDate:[self initialDate]];
         self.dateCollectionController.delegate = self;
         
@@ -241,6 +179,49 @@
     }
     
     return nil; // Need to deal with this since it would break, even though we'd never have no open slots.
+}
+
+
+//TODO: code that needs refactoring.
+- (void)addSlotToSlotData:(id)data {
+    
+    if (self.prepAppointment.date) {
+        
+        NSMutableDictionary *slotsDictionaryWithExistingAppointmentSlot = [data mutableCopy];
+        NSMutableArray *slotsForDateOfExistingAppointment = [slotsDictionaryWithExistingAppointmentSlot[[self.prepAppointment.date beginningOfDay]] mutableCopy];
+        
+        Slot *prepSlot = [Slot slotFromExistingAppointment:self.prepAppointment];
+        
+        NSUInteger slotCount = [slotsForDateOfExistingAppointment count];
+        
+        NSArray *sortedSlots;
+        
+        BOOL duplicate = NO;
+        
+        for (NSInteger i = 0; i < slotCount; i++) {
+            
+            Slot *slot = slotsForDateOfExistingAppointment[i];
+            
+            if ([prepSlot.startDateTime isEqualToDate:slot.startDateTime]) {
+                duplicate = YES;
+                break;
+            }
+        }
+        
+        if (!duplicate) {
+            
+            [slotsForDateOfExistingAppointment insertObject:prepSlot atIndex:0];
+        }
+        
+        NSSortDescriptor *datesAscending = [NSSortDescriptor sortDescriptorWithKey:@"startDateTime" ascending:YES];
+        sortedSlots = [slotsForDateOfExistingAppointment sortedArrayUsingDescriptors:@[datesAscending]];
+        
+        [slotsDictionaryWithExistingAppointmentSlot setObject:sortedSlots forKey:[self.prepAppointment.date beginningOfDay]];
+        self.slotsDictionary = [slotsDictionaryWithExistingAppointmentSlot copy];
+        
+    } else {
+        self.slotsDictionary = data;
+    }
 }
 
 @end
