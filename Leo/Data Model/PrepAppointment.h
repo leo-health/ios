@@ -13,6 +13,7 @@
 @class User;
 @class AppointmentType;
 @class Appointment;
+@class Practice;
 
 @interface PrepAppointment : NSObject
 
@@ -28,8 +29,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) Patient *patient;
 @property (nonatomic, strong) Provider *provider;
 @property (nonatomic, strong) NSString *note;
+@property (nonatomic, strong) Practice *practice;
 
-- (instancetype)initWithObjectID:(nullable NSString *)objectID date:(nullable NSDate *)date appointmentType:(AppointmentType *)appointmentType patient:(Patient *)patient provider:(Provider *)provider bookedByUser:(User *)bookedByUser note:(NSString *)note statusCode:(AppointmentStatusCode)statusCode;
+- (instancetype)initWithObjectID:(nullable NSString *)objectID date:(nullable NSDate *)date appointmentType:(AppointmentType *)appointmentType patient:(Patient *)patient provider:(Provider *)provider practice:(Practice *)practice bookedByUser:(User *)bookedByUser note:(NSString *)note statusCode:(AppointmentStatusCode)statusCode;
 
 -(instancetype)initWithAppointment:(Appointment *)appointment;
 

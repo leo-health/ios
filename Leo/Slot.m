@@ -9,7 +9,7 @@
 #import "Slot.h"
 #import "NSDate+Extensions.h"
 #import "LEOConstants.h"
-#import "Appointment.h"
+#import "PrepAppointment.h"
 #import "AppointmentType.h"
 #import "Practice.h"
 #import "Provider.h"
@@ -41,7 +41,7 @@
     return [self initWithStartDateTime:startDateTime duration:duration providerID:providerID practiceID:practiceID];
 }
 
-+ (Slot *)slotFromExistingAppointment:(Appointment *)appointment {
++ (Slot *)slotFromExistingAppointment:(PrepAppointment *)appointment {
     
     return [[Slot alloc] initWithStartDateTime:appointment.date duration:appointment.appointmentType.duration providerID:appointment.provider.objectID practiceID:appointment.practice.objectID];
 }
