@@ -22,7 +22,7 @@ typedef void (^SelectionCriteriaBlock)(BOOL selected, NSIndexPath *indexPath);
 @property (strong, nonatomic) NSString *reuseIdentifier;
 @property (copy, nonatomic) ConfigureCellBlock configureCellBlock;
 @property (strong, nonatomic) LEOAPIOperation *requestOperation;
-@property (strong, nonatomic) id<SingleSelectionProtocol>delegate;
+@property (weak, nonatomic) id<SingleSelectionProtocol>delegate;
 @property (strong, nonatomic) UIColor *tintColor;
 
 @end

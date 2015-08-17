@@ -333,7 +333,7 @@
     if ([segue.identifier isEqualToString:@"CalendarSegue"]) {
         
         calendarVC.delegate = self;
-        calendarVC.prepAppointment = [self prepAppointment];
+        calendarVC.prepAppointment = self.prepAppointment;
         calendarVC.requestOperation = [[LEOAPISlotsOperation alloc] init];
         
         return;
