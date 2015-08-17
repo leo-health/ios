@@ -145,6 +145,8 @@ extern NSString *const APIParamPracticeLocationState; // @"state";
 extern NSString *const APIParamPracticeLocationZip; // @"zip";
 extern NSString *const APIParamPracticePhone; // @"phone";
 extern NSString *const APIParamPracticeEmail; // @"email";
+extern NSString *const APIParamPracticeName; // @"name";
+extern NSString *const APIParamPracticeFax; // @"fax";
 
 #pragma mark - Family
 extern NSString *const APIParamFamilyID; // @"family_id";
@@ -160,6 +162,10 @@ extern NSString *const APIParamUserEmail; // @"email";
 extern NSString *const APIParamUserAvatarURL; // @"avatar_url";
 
 extern NSString *const APIParamUserProviderID; // @"provider_id";
+
+extern NSString *const APIParamUserPatientID; // @"provider_id";
+extern NSString *const APIParamUserBookedByID; // @"booked_by_id";
+
 extern NSString *const APIParamUserCredentials; // @"credentials";
 extern NSString *const APIParamUserSpecialties; // @"specialties";
 extern NSString *const APIParamUserPrimary; // @"primary";
@@ -172,6 +178,8 @@ extern NSString *const APIParamUserPassword; // @"password";
 #pragma mark - Common user object references
 extern NSString *const APIParamUser; // @"user";
 extern NSString *const APIParamUsers; // @"users";
+extern NSString *const APIParamStaffMember; // @"staffMember";
+extern NSString *const APIParamStaff; // @"staff";
 extern NSString *const APIParamUserProvider; // @"provider";
 extern NSString *const APIParamUserProviders; // @"providers";
 extern NSString *const APIParamUserPatient; // @"patient";

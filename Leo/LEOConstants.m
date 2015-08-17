@@ -53,6 +53,8 @@ NSString *const APIParamPracticeLocationState = @"state";
 NSString *const APIParamPracticeLocationZip = @"zip";
 NSString *const APIParamPracticePhone = @"phone";
 NSString *const APIParamPracticeEmail = @"email";
+NSString *const APIParamPracticeName = @"name";
+NSString *const APIParamPracticeFax = @"fax";
 
 #pragma mark - Family
 NSString *const APIParamFamilyID = @"family_id";
@@ -68,6 +70,9 @@ NSString *const APIParamUserEmail = @"email";
 NSString *const APIParamUserAvatarURL = @"avatar_url";
 
 NSString *const APIParamUserProviderID = @"provider_id";
+NSString *const APIParamUserPatientID = @"provider_id";
+NSString *const APIParamUserBookedByID = @"booked_by_id";
+
 NSString *const APIParamUserCredentials = @"credentials";
 NSString *const APIParamUserSpecialties = @"specialties";
 NSString *const APIParamUserPrimary = @"primary";

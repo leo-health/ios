@@ -8,14 +8,20 @@
 
 #import <Foundation/Foundation.h>
 
+@class Appointment;
+
 @interface Slot : NSObject
 
 @property (strong, nonatomic) NSDate *startDateTime;
 @property (strong, nonatomic) NSNumber *duration;
-@property (strong, nonatomic) NSNumber *providerID;
-@property (strong, nonatomic) NSNumber *practiceID;
+@property (strong, nonatomic) NSString *providerID;
+@property (strong, nonatomic) NSString *practiceID;
 
-- (instancetype)initWithStartDateTime:(NSDate *)startDateTime duration:(NSNumber *)duration providerID:(NSNumber *)providerID practiceID:(NSNumber *)practiceID;
+- (instancetype)initWithStartDateTime:(NSDate *)startDateTime duration:(NSNumber *)duration providerID:(NSString *)providerID practiceID:(NSString *)practiceID;
+
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse;
+
+
++ (Slot *)slotFromExistingAppointment:(Appointment *)appointment;
 
 @end
