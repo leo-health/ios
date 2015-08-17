@@ -169,10 +169,13 @@
     self.notesTextView.placeholder = @"Questions / comments";
     self.notesTextView.floatingLabelFont = [UIFont leoQuestionFont];
     self.notesTextView.placeholderLabel.font = [UIFont leoQuestionFont];
+    self.notesTextView.font = [UIFont leoQuestionFont];
     self.notesTextView.floatingLabelActiveTextColor = [UIColor leoGrayBodyText];
     self.notesTextView.textColor = [UIColor leoGreen];
     self.notesTextView.tintColor = [UIColor leoGreen];
     self.notesTextView.text = self.prepAppointment.note;
+    
+    [self.view layoutIfNeeded];
     self.notesTextViewHeightConstraint.constant = self.notesTextView.contentSize.height;
     
     UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(scrollViewWasTapped:)];
