@@ -12,8 +12,6 @@
 
 #pragma mark - URL & endpoints
 
-NSString *const APIBaseUrl = @"http://leo-api.herokuapp.com/api/v1";
-NSString *const APIHost = @"leo-api.herokuapp.com";
 NSString *const APIVersion = @"/api/v1";
 NSString *const APIEndpointUsers = @"users";
 NSString *const APIEndpointSessions = @"sessions";
