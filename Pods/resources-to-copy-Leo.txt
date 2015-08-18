@@ -1,2 +1,0 @@
-/Users/zdrossman/Leo/Code/ios/Pods/DateTools/DateTools/DateTools.bundle
-/Users/zdrossman/Leo/Code/ios/Pods/JSQMessagesViewController/JSQMessagesViewController/Assets/JSQMessagesAssets.bundle

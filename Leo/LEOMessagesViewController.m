@@ -102,7 +102,7 @@
      */
     __weak id<OHHTTPStubsDescriptor> messagesStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         NSLog(@"%@/%@/%@",APIEndpointConversations, conversation.objectID, APIEndpointMessages);
-        BOOL test = [request.URL.host isEqualToString:[Configuration APIEndpoint]] && [request.URL.path isEqualToString:[NSString stringWithFormat:@"%@/%@/%@/%@",APIVersion, APIEndpointConversations, conversation.objectID, APIEndpointMessages]];
+        BOOL test = [request.URL.host isEqualToString:[Configuration APIEndpoint]] && [request.URL.path isEqualToString:[NSString stringWithFormat:@"/%@/%@/%@/%@",[Configuration APIVersion], APIEndpointConversations, conversation.objectID, APIEndpointMessages]];
         return test;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         
