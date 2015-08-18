@@ -546,7 +546,11 @@
     } else if (button == self.questionStaffButton) {
         
         if (self.prepAppointment.provider) {
-            [self updateButton:button withBaseString:@"I would like to be seen by\n" variableStrings:@[[NSString stringWithFormat:@"%@ %@",self.prepAppointment.provider.fullName, self.prepAppointment.provider.credentials[0]]]];
+            
+
+            NSString *credential = [self.prepAppointment.provider.credentials[0] stringByReplacingOccurrencesOfString:@"." withString:@""];  //TODO: This will need to be updated at some point when we decide how we want to handle these.
+
+            [self updateButton:button withBaseString:@"I would like to be seen by\n" variableStrings:@[[NSString stringWithFormat:@"%@ %@",self.prepAppointment.provider.fullName, credential]]];
         } else {
             [self updateButton:button withBaseString:@"Who would you like to see?" variableStrings:nil];
         }
