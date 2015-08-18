@@ -33,7 +33,6 @@
 		3128D5391B4589BE00582710 /* Practice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3128D5381B4589BE00582710 /* Practice.m */; };
 		3128D53F1B4C1C2C00582710 /* PrepAppointment.m in Sources */ = {isa = PBXBuildFile; fileRef = 3128D53E1B4C1C2C00582710 /* PrepAppointment.m */; };
 		312A82571B56EEBE00E1FB38 /* LEOMessagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 312A82541B56EEBE00E1FB38 /* LEOMessagesViewController.m */; };
-		314A405C1B83B16500834BC2 /* BuildConfigurations.plist in Resources */ = {isa = PBXBuildFile; fileRef = 314A405B1B83B16500834BC2 /* BuildConfigurations.plist */; };
 		314A405F1B83B1B400834BC2 /* Configuration.m in Sources */ = {isa = PBXBuildFile; fileRef = 314A405E1B83B1B400834BC2 /* Configuration.m */; };
 		314F6A071B2A0D0000799AB4 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 314F6A061B2A0D0000799AB4 /* User.m */; };
 		3177B9981B17A1B7006AE360 /* LEOCardAppointment.m in Sources */ = {isa = PBXBuildFile; fileRef = 3177B9971B17A1B7006AE360 /* LEOCardAppointment.m */; };
@@ -182,7 +181,6 @@
 		314A40571B838AFC00834BC2 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = xcconfig/Release.xcconfig; sourceTree = "<group>"; };
 		314A40581B838B0800834BC2 /* Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Shared.xcconfig; path = xcconfig/Shared.xcconfig; sourceTree = "<group>"; };
 		314A405A1B83951300834BC2 /* Tests.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Tests.xcconfig; sourceTree = "<group>"; };
-		314A405B1B83B16500834BC2 /* BuildConfigurations.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = BuildConfigurations.plist; sourceTree = "<group>"; };
 		314A405D1B83B1B400834BC2 /* Configuration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Configuration.h; sourceTree = "<group>"; };
 		314A405E1B83B1B400834BC2 /* Configuration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Configuration.m; sourceTree = "<group>"; };
 		314F6A051B2A0D0000799AB4 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = User.h; path = "Data Model/User.h"; sourceTree = "<group>"; };
@@ -436,6 +434,8 @@
 		314A40591B838B0E00834BC2 /* Build Configuration */ = {
 			isa = PBXGroup;
 			children = (
+				314A405D1B83B1B400834BC2 /* Configuration.h */,
+				314A405E1B83B1B400834BC2 /* Configuration.m */,
 				314A40551B838AD000834BC2 /* Application.xcconfig */,
 				314A40561B838AE700834BC2 /* Debug.xcconfig */,
 				314A40571B838AFC00834BC2 /* Release.xcconfig */,
@@ -768,9 +768,6 @@
 				BCE1EC761B00E353007C8D0B /* LaunchScreen.xib */,
 				BCA69A381B035CEF00C27B2B /* Leo-Prefix.pch */,
 				BCE1EC681B00E353007C8D0B /* Info.plist */,
-				314A405B1B83B16500834BC2 /* BuildConfigurations.plist */,
-				314A405D1B83B1B400834BC2 /* Configuration.h */,
-				314A405E1B83B1B400834BC2 /* Configuration.m */,
 				BCE1EC691B00E353007C8D0B /* main.m */,
 			);
 			name = "Supporting Files";
@@ -904,7 +901,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				31F5AA781B791B4B00F96D06 /* PatientCell.xib in Resources */,
-				314A405C1B83B16500834BC2 /* BuildConfigurations.plist in Resources */,
 				3128D4E71B430F0200582710 /* LEOTwoButtonPrimaryAndSecondaryCell.xib in Resources */,
 				BCE1EC731B00E353007C8D0B /* Main.storyboard in Resources */,
 				311CBB3E1B56B0F50009BD7A /* Conversation.storyboard in Resources */,

@@ -15,5 +15,5 @@ GCC_SYMBOLS_PRIVATE_EXTERN = NO
 GCC_PREPROCESSOR_DEFINITIONS = DEBUG=1 $(inherited)
 MTL_ENABLE_DEBUG_INFO = YES
 
-API_URL = leo-api.herokuapp.com
+API_URL = leo-api-env.elasticbeanstalk.com
 API_VERSION = api/v1
