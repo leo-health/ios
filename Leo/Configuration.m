@@ -10,6 +10,7 @@
 #import "Configuration.h"
 
 NSString *const ConfigurationAPIEndpoint = @"ApiURL";
+NSString *const ConfigurationAPIVersion = @"ApiVersion";
 
 @interface Configuration ()
 
@@ -51,6 +52,16 @@ NSString *const ConfigurationAPIEndpoint = @"ApiURL";
     
     if (sharedConfiguration.appSettings) {
         return [sharedConfiguration.appSettings objectForKey:ConfigurationAPIEndpoint];
+    }
+    
+    return nil;
+}
+
++ (NSString *)APIVersion {
+    Configuration *sharedConfiguration = [Configuration sharedConfiguration];
+    
+    if (sharedConfiguration.appSettings) {
+        return [sharedConfiguration.appSettings objectForKey:ConfigurationAPIVersion];
     }
     
     return nil;

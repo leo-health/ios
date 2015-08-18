@@ -104,9 +104,6 @@ typedef enum MessageTypeCode : NSUInteger {
 
 #pragma mark - URL & endpoints
 
-extern NSString *const APIBaseUrl; // @"http://leo-api.herokuapp.com/api/v1";
-extern NSString *const APIHost; // @"leo-api.herokuapp.com";
-extern NSString *const APIVersion; // @"/api/v1";
 extern NSString *const APIEndpointUsers; // @"users";
 extern NSString *const APIEndpointSessions; // @"sessions";
 extern NSString *const APIEndpointResetPassword; // @"sessions/password";
@@ -115,6 +112,7 @@ extern NSString *const APIEndpointConversations; // @"conversations";
 extern NSString *const APIEndpointMessages; // @"messages";
 extern NSString *const APIEndpointAppointmentTypes; // @"appointmentTypes";
 extern NSString *const APIEndpointLogin; // @"login";
+extern NSString *const APIEndpointCards; // @"cards";
 
 #pragma mark - Common
 extern NSString *const APIParamID; // @"id";

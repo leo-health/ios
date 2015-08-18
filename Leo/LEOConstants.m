@@ -21,7 +21,7 @@ NSString *const APIEndpointConversations = @"conversations";
 NSString *const APIEndpointMessages = @"messages";
 NSString *const APIEndpointAppointmentTypes = @"appointmentTypes";
 NSString *const APIEndpointLogin = @"login";
-
+NSString *const APIEndpointCards = @"cards";
 
 #pragma mark - Common
 NSString *const APIParamID = @"id";

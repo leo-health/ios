@@ -1157,7 +1157,7 @@
 		};
 		BCE1EC8B1B00E353007C8D0B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8E925C5780DCA1FB4A55B841 /* Pods-LeoTests.debug.xcconfig */;
+			baseConfigurationReference = 314A405A1B83951300834BC2 /* Tests.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1177,7 +1177,7 @@
 		};
 		BCE1EC8C1B00E353007C8D0B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 00C21EAFFFDC7EA3B95241D1 /* Pods-LeoTests.release.xcconfig */;
+			baseConfigurationReference = 314A405A1B83951300834BC2 /* Tests.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (

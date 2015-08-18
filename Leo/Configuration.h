@@ -16,6 +16,7 @@
 
 #pragma mark -
 + (NSString *)APIEndpoint;
++ (NSString *)APIVersion;
 + (NSString *)APIEndpointWithHTTPSProtocol;
 + (BOOL)isLoggingEnabled;
 

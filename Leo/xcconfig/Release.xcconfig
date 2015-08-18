@@ -13,4 +13,5 @@ VALIDATE_PRODUCT = YES
 ENABLE_NS_ASSERTIONS = NO
 MTL_ENABLE_DEBUG_INFO = NO
 
-API_URL = prod.myserver.com
+API_URL = leo-api.herokuapp.com
+API_VERSION = api/v1

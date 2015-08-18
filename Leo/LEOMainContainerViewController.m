@@ -122,7 +122,6 @@
     self.menuButton.currentButtonStyle = buttonRoundedStyle;
     self.menuButton.tintColor = [UIColor leoWhite];
     self.menuButton.roundBackgroundColor = [UIColor leoOrangeRed];
-    self.menuButton.animateToStartPosition = NO;
     self.menuButton.lineThickness = 1;
     [self.menuButton addTarget:self action:@selector(menuTapped) forControlEvents:UIControlEventTouchUpInside];
 }
