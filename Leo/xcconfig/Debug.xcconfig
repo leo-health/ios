@@ -7,6 +7,7 @@
 //
 
 #include "Shared.xcconfig"
+#include "Pods/Target Support Files/Pods-Leo/Pods-Leo.debug.xcconfig"
 
 ONLY_ACTIVE_ARCH = YES
 GCC_DYNAMIC_NO_PIC = NO
