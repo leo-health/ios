@@ -1,0 +1,13 @@
+//
+//  Debug.xcconfig
+//  Leo
+//
+//  Created by Zachary Drossman on 8/18/15.
+//  Copyright (c) 2015 Leo Health. All rights reserved.
+//
+
+ONLY_ACTIVE_ARCH = YES
+GCC_DYNAMIC_NO_PIC = NO
+GCC_SYMBOLS_PRIVATE_EXTERN = NO
+GCC_PREPROCESSOR_DEFINITIONS = DEBUG=1 $(inherited)
+MTL_ENABLE_DEBUG_INFO = YES
