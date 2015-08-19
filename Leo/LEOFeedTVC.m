@@ -155,9 +155,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     [MBProgressHUD showHUDAddedTo:self.tableView animated:YES];
 
     dispatch_sync(queue, ^{
-        
-        sleep(0.2);
-        
+                
         [self.dataManager getCardsWithCompletion:^(NSArray *cards) {
             
             self.cards = [cards mutableCopy];
@@ -169,48 +167,6 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
             });
         }];
     });
-    
-    if (self.family == nil || self.allStaff == nil || self.appointmentTypes == nil) {
-        
-        dispatch_sync(queue, ^{
-            [self.dataManager getFamilyWithCompletion:^(Family *family) {
-                self.family = family;
-                
-                for (User *user in self.family.guardians) {
-                    [self.dataManager getAvatarForUser:user withCompletion:^(NSData * data) {
-                        user.avatar = [UIImage imageWithData:data];
-
-                        [self.dataManager archiveObject:self.family withPathComponent:@"family"];
-
-                    }];
-                }
-            }];
-            
-            [self.dataManager getAllStaffForPracticeID:@"0" withCompletion:^(NSArray *allStaff) {
-                self.allStaff = allStaff;
-                
-                for (User *user in self.allStaff) {
-                    [self.dataManager getAvatarForUser:user withCompletion:^(NSData * data) {
-                        user.avatar = [UIImage imageWithData:data];
-                        
-                        [self.dataManager archiveObject:self.allStaff withPathComponent:@"staff"];
-                    }];
-                }
-            }];
-            
-            [self.dataManager getAppointmentTypesWithCompletion:^(NSArray *appointmentTypes) {
-                self.appointmentTypes = appointmentTypes;
-            }];
-        });
-        
-        dispatch_sync(queue, ^{
-            
-            
-            
-        });
-        
-
-    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
