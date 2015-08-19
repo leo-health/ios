@@ -1,0 +1,16 @@
+//
+//  TestsShared.xcconfig
+//  Leo
+//
+//  Created by Zachary Drossman on 8/19/15.
+//  Copyright (c) 2015 Leo Health. All rights reserved.
+//
+
+
+BUNDLE_LOADER = $(TEST_HOST)
+LD_RUNPATH_SEARCH_PATHS = $(inherited) @executable_path/Frameworks @loader_path/Frameworks
+INFOPLIST_FILE = LeoTests/Info.plist
+PRODUCT_NAME = $(TARGET_NAME)
+ALWAYS_SEARCH_USER_PATHS = NO
+FRAMEWORK_SEARCH_PATHS = $(SDKROOT)/Developer/Library/Frameworks $(inherited)
+TEST_HOST = $(BUILT_PRODUCTS_DIR)/Leo.app/Leo
