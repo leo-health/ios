@@ -65,6 +65,40 @@
     }];
 }
 
+
++ (void)getSlotsWithParameters:(NSDictionary *)slotParams withCompletion:(void (^)(NSDictionary *rawResults))completionBlock {
+
+    NSString *getSlotsString = [NSString stringWithFormat:@"%@/%@/%@",[Configuration APIEndpointWithHTTPSProtocol],[Configuration APIVersion],APIParamSlots]; //FIXME: This is likely not the right URL.
+    
+    [LEOAPIHelper standardGETRequestForJSONDictionaryFromAPIWithURL:getSlotsString params:slotParams completion:^(NSDictionary * rawResults) {
+        //TODO: Error terms
+        completionBlock(rawResults);
+    }];
+}
+
+//FIXME: Needs to be re-written with params most likely...
++ (void)getPracticesWithCompletion:(void (^)(NSDictionary *rawResults))completionBlock {
+    
+    NSString *getPracticesURLString = [NSString stringWithFormat:@"%@/%@/%@",[Configuration APIEndpointWithHTTPSProtocol],[Configuration APIVersion],@"practices"]; //FIXME: Remove hardcoded string; replace with LEOConstant. This also is definitely not the right URL.
+
+    
+    [LEOAPIHelper standardGETRequestForJSONDictionaryFromAPIWithURL:getPracticesURLString params:nil completion:^(NSDictionary * rawResults) {
+        //TODO: Error terms
+        completionBlock(rawResults);
+    }];
+    
+}
+
++ (void)getPracticeWithParameters:(NSDictionary *)practiceParams withCompletion:(void (^)(NSDictionary *rawResults))completionBlock {
+    
+    NSString *getPracticeURLString = [NSString stringWithFormat:@"%@/%@/%@",[Configuration APIEndpointWithHTTPSProtocol],[Configuration APIVersion],practiceParams[APIParamID]]; //FIXME: Remove hardcoded string; replace with LEOConstant. This also is definitely not the right URL.
+    
+    [LEOAPIHelper standardGETRequestForJSONDictionaryFromAPIWithURL:getPracticeURLString params:practiceParams completion:^(NSDictionary * rawResults) {
+        //TODO: Error terms
+        completionBlock(rawResults);
+    }];
+}
+
 + (void)getAppointmentTypesWithCompletion:(void (^)(NSDictionary *rawResults))completionBlock {
     
     NSString *getAppointmentTypesURLString = [NSString stringWithFormat:@"%@/%@/%@",[Configuration APIEndpointWithHTTPSProtocol],[Configuration APIVersion],APIEndpointAppointmentTypes]; //FIXME: Remove hardcoded string; replace with LEOConstant. This also is definitely not the right URL.
@@ -74,6 +108,17 @@
         completionBlock(rawResults);
     }];
 }
+
++ (void)cancelAppointmentWithParameters:(NSDictionary *)apptParams withCompletion:(void (^)(NSDictionary *rawResults))completionBlock {
+    
+    NSString *cancelAppointmentURLString = [NSString stringWithFormat:@"%@/%@/%@",[Configuration APIEndpointWithHTTPSProtocol],[Configuration APIVersion],APIEndpointAppointments];
+    
+    [LEOAPIHelper standardPOSTRequestForJSONDictionaryFromAPIWithURL:cancelAppointmentURLString params:apptParams completion:^(NSDictionary * rawResults) {
+        //TODO: Error terms
+        completionBlock(rawResults);
+    }];
+}
+
 
 + (void)getFamilyWithUserParameters:(NSDictionary *)userParams withCompletion:(void (^)(NSDictionary *rawResults))completionBlock {
     

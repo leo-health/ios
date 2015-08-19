@@ -48,7 +48,6 @@ NS_ASSUME_NONNULL_BEGIN
 //Appointments
 - (void)createAppointmentWithAppointment:(nonnull Appointment *)appointment withCompletion:(void (^)(NSDictionary  * __nonnull rawResults))completionBlock;
 - (void)getAppointmentsForFamilyOfCurrentUserWithCompletion:(void (^)(NSDictionary  * __nonnull rawResults))completionBlock;
-- (NSArray *)fetchSlots;
 
 
 //Conversations
@@ -59,7 +58,7 @@ NS_ASSUME_NONNULL_BEGIN
 //Helper Data
 - (void)getFamilyWithCompletion:(void (^)(Family *family))completionBlock;
 - (void)getAppointmentTypesWithCompletion:(void (^)(NSArray *appointmentTypes))completionBlock;
-- (void)getAllStaffForPracticeID:(NSString *)practiceID withCompletion:(void (^)(NSArray *staff))completionBlock;
+- (void)getPracticeWithID:(NSString *)practiceID withCompletion:(void (^)(Practice *practice))completionBlock;
 
 //Helper methods
 - (id)objectWithObjectID:(NSString *)objectID objectArray:(NSArray *)objects;

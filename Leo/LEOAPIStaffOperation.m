@@ -9,18 +9,18 @@
 #import "LEOAPIStaffOperation.h"
 #import "LEODataManager.h"
 #import "Provider.h"
-
+#import "Practice.h"
 @implementation LEOAPIStaffOperation
 
 -(void)main {
     
     LEODataManager *dataManager = [LEODataManager sharedManager];
     
-    [dataManager getAllStaffForPracticeID:@"0" withCompletion:^(NSArray * staff) {
+    [dataManager getPracticeWithID:@"0" withCompletion:^(Practice *practice) {
         
         NSPredicate *providerFilter = [NSPredicate predicateWithFormat:@"self isKindOfClass:%@",[Provider class]];
         
-        id data = [staff filteredArrayUsingPredicate:providerFilter];
+        id data = [practice.staff filteredArrayUsingPredicate:providerFilter];
         
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             self.requestBlock(data);
