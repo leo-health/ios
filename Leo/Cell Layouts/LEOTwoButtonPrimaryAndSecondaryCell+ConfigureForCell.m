@@ -19,7 +19,7 @@
     self.iconImageView.image = [card icon];
     self.titleLabel.text = [card title];
     
-    self.primaryUserLabel.text = [card primaryUser].firstName;
+    self.primaryUserLabel.text = [[card primaryUser].firstName uppercaseString];
 
     self.secondaryUserView.provider = card.secondaryUser;
     self.secondaryUserView.timeStamp = card.timestamp;
