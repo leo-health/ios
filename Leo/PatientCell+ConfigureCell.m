@@ -10,6 +10,7 @@
 #import "Patient.h"
 #import "LEOMessagesAvatarImageFactory.h"
 #import "UIColor+LeoColors.h"
+#import "UIFont+LeoFonts.h"
 
 @implementation PatientCell (ConfigureCell)
 
@@ -17,6 +18,8 @@
 - (void)configureForPatient:(Patient *)patient {
     
     self.fullNameLabel.text = patient.fullName;
+    self.fullNameLabel.font = [UIFont leoBasicSelectionFont];
+    self.fullNameLabel.textColor = [UIColor leoBasicGray];
     
     if (patient.avatar) {
         self.avatarImageView.image = [LEOMessagesAvatarImageFactory circularAvatarImage:patient.avatar withDiameter:40 borderColor:[UIColor leoGrayBorder] borderWidth:3];

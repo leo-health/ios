@@ -250,5 +250,8 @@ extern NSString *const APIParamSlots; // @"slots";
 extern NSString *const APIParamSlotStartDateTime; // @"start_datetime";
 extern NSString *const APIParamSlotDuration; // @"duration";
 
+#pragma mark - Magic numbers
+extern CGFloat const selectionLineHeight; // 2.0f;
+
 @end
 

@@ -155,6 +155,8 @@ NSString *const APIParamSlots = @"slots";
 NSString *const APIParamSlotStartDateTime = @"start_datetime";
 NSString *const APIParamSlotDuration = @"duration";
 
+#pragma mark - Magic numbers
+CGFloat const selectionLineHeight = 2.0f;
 
 
 

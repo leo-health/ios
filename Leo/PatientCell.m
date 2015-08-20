@@ -33,7 +33,7 @@
         
         [patient beginEditing];
         
-        [patient addAttribute:NSUnderlineStyleAttributeName value:@(2.0) range:range];
+        [patient addAttribute:NSUnderlineStyleAttributeName value:@(selectionLineHeight) range:range];
         [patient addAttribute:NSForegroundColorAttributeName value:self.selectedColor range:range];
         [patient endEditing];
         

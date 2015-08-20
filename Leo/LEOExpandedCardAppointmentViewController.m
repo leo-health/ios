@@ -101,7 +101,7 @@
     
     __weak id<OHHTTPStubsDescriptor> staffStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         NSLog(@"Stub request");
-        BOOL test = [request.URL.host isEqualToString:[Configuration APIEndpoint]] && [request.URL.path isEqualToString:[NSString stringWithFormat:@"/%@/%@/%@",[Configuration APIVersion], @"0", @"staff"]];
+        BOOL test = [request.URL.path isEqualToString:[NSString stringWithFormat:@"/%@/%@/%@",[Configuration APIVersion], @"0", @"staff"]];
         return test;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         
@@ -115,7 +115,7 @@
     
     __weak id<OHHTTPStubsDescriptor> familyStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         NSLog(@"Stub request");
-        BOOL test = [request.URL.host isEqualToString:[Configuration APIEndpoint]] && [request.URL.path isEqualToString:[NSString stringWithFormat:@"/%@/%@",[Configuration APIVersion], @"family"]];
+        BOOL test = [request.URL.path isEqualToString:[NSString stringWithFormat:@"/%@/%@",[Configuration APIVersion], @"family"]];
         return test;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         
@@ -128,7 +128,7 @@
     
     __weak id<OHHTTPStubsDescriptor> appointmentTypesStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         NSLog(@"Stub request");
-        BOOL test = [request.URL.host isEqualToString:[Configuration APIEndpoint]] && [request.URL.path isEqualToString:[NSString stringWithFormat:@"/%@/%@",[Configuration APIVersion], @"appointmentTypes"]];
+        BOOL test = [request.URL.path isEqualToString:[NSString stringWithFormat:@"/%@/%@",[Configuration APIVersion], @"appointmentTypes"]];
         return test;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         

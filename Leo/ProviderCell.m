@@ -33,7 +33,7 @@
         
         [provider beginEditing];
         
-        [provider addAttribute:NSUnderlineStyleAttributeName value:@(2.0) range:range];
+        [provider addAttribute:NSUnderlineStyleAttributeName value:@(selectionLineHeight) range:range];
         [provider addAttribute:NSForegroundColorAttributeName value:self.selectedColor range:range];
         [provider endEditing];
         

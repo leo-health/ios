@@ -35,7 +35,7 @@
         
         [appointmentType beginEditing];
         
-        [appointmentType addAttribute:NSUnderlineStyleAttributeName value:@(2.0) range:range];
+        [appointmentType addAttribute:NSUnderlineStyleAttributeName value:@(selectionLineHeight) range:range];
         [appointmentType addAttribute:NSForegroundColorAttributeName value:self.selectedColor range:range];
         [appointmentType endEditing];
         

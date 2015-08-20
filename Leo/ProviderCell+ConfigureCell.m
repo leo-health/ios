@@ -22,7 +22,7 @@
     UIFont *font1 = [UIFont leoBasicSelectionFont];
     UIFont *font2 = [UIFont leoBodyBoldFont];
     
-    UIColor *color1 = [UIColor leoBlack];
+    UIColor *color1 = [UIColor leoBasicGray];
     UIColor *color2 = [UIColor leoGrayBodyText];
     
     NSDictionary *attributedDictionary1 = @{NSForegroundColorAttributeName:color1,

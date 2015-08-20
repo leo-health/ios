@@ -43,6 +43,16 @@
     return [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1]; /*#FFF*/
 }
 
++ (UIColor *)leoDarkGray {
+    return [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1]; /*#FFF*/
+
+}
+
++ (UIColor *)leoLightGray {
+    return [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1]; /*#FFF*/
+
+}
+
 + (UIColor *)leoGrayTitleText {
     return [UIColor colorWithRed:87.0/255.0 green:87.0/255.0 blue:87.0/255.0 alpha:1]; /*#*/
 }

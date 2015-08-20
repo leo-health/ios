@@ -79,7 +79,6 @@
         
         self.data = data;
         
-        
         SelectionCriteriaBlock selectionCriteriaBlock = ^(BOOL shouldSelect, NSIndexPath *indexPath) {
             
             if (shouldSelect) {
