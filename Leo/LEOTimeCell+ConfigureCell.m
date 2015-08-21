@@ -37,7 +37,7 @@
     [attributedTime appendAttributedString:formattedTimeString];
 
 
-    UIFont *font2 = [UIFont leoCondensedTimePeriodFont];
+    UIFont *font2 = [UIFont leoCondensedMiniFont];
     UIColor *color2 = [UIColor leoGrayBodyText];
     
     NSDictionary *attributedDictionary2 = @{NSForegroundColorAttributeName:color2,

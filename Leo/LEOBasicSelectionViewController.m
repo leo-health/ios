@@ -33,9 +33,13 @@
     
     [self setupTableView];
     
-    [self setupNavBar];
 }
 
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [self setupNavBar];
+}
 #pragma mark - VCL Helper Methods
 - (void)setupNavBar {
     
@@ -49,9 +53,16 @@
     
     self.navigationItem.titleView = navBarTitleLabel;
     
-//    UIBarButtonItem *barBtnItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Icon-Cancel"] style:UIBarButtonItemStylePlain target:self.navigationController action:@selector(popViewControllerAnimated:)];
-//    
-//    self.navigationItem.rightBarButtonItem = barBtnItem;
+    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [backButton addTarget:self action:@selector(pop) forControlEvents:UIControlEventTouchUpInside];
+    [backButton setImage:[UIImage imageNamed:@"Icon-BackArrow"] forState:UIControlStateNormal];
+    [backButton sizeToFit];
+    [backButton setTintColor:[UIColor leoWhite]];
+    
+    UIBarButtonItem *backBBI = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    
+    self.navigationItem.hidesBackButton = YES;
+    self.navigationItem.leftBarButtonItem = backBBI;
 }
 
 - (void)setupTableView {
@@ -138,6 +149,11 @@
     }
     
     [super updateViewConstraints];
+}
+
+- (void)pop {
+    
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

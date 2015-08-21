@@ -31,6 +31,7 @@
 + (UIFont *)leoQuestionFont;
 + (UIFont *)leoHeaderFont;
 + (UIFont *)leoHeaderLightFont;
-+ (UIFont *)leoCondensedTimePeriodFont;
++ (UIFont *)leoCondensedMiniFont;
++ (UIFont *)leoCondensedBodyFont;
 
 @end

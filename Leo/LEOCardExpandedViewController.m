@@ -59,6 +59,7 @@
     [self.dismissButton addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
     //FIXME: Placeholder image for dismiss image
     [self.dismissButton setImage:[UIImage imageNamed:@"Icon-Cancel"] forState:UIControlStateNormal];
+    self.dismissButton.tintColor = [UIColor leoWhite];
     [self.dismissButton sizeToFit];
     
     UIBarButtonItem *dismissBBI = [[UIBarButtonItem alloc] initWithCustomView:self.dismissButton];

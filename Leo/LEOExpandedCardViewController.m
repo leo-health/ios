@@ -81,7 +81,6 @@
     [self.button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     
     [self.button addObserver:self forKeyPath:@"enabled" options:NSKeyValueObservingOptionNew context:nil];
-
 }
 
 /**
@@ -110,28 +109,21 @@
     [[UINavigationBar appearance] setBackIndicatorImage:[UIImage imageNamed:@"Icon-BackArrow"]];
     [[UINavigationBar appearance] setBackIndicatorTransitionMaskImage:[UIImage imageNamed:@"Icon-BackArrow"]];
     self.navigationController.navigationBar.topItem.title = @"";
-    
-    
+
     UIButton *dismissButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [dismissButton addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
     [dismissButton setImage:[UIImage imageNamed:@"Icon-Cancel"] forState:UIControlStateNormal];
     [dismissButton sizeToFit];
     [dismissButton setTintColor:[UIColor leoWhite]];
     
-    UINavigationItem *navCarrier = [[UINavigationItem alloc] init];
     UIBarButtonItem *dismissBBI = [[UIBarButtonItem alloc] initWithCustomView:dismissButton];
-    navCarrier.rightBarButtonItems = @[dismissBBI];
-    
     self.navigationItem.rightBarButtonItem = dismissBBI;
-    
-    
-    
+
     UILabel *navBarTitleLabel = [[UILabel alloc] init];
     
     //TODO: Remove this line when done prepping this abstract class and have moved over to complete project.
     navBarTitleLabel.text = self.card.title;
     
-    navBarTitleLabel.text = @"Schedule a visit";
     navBarTitleLabel.textColor = [UIColor leoWhite];
     navBarTitleLabel.font = [UIFont leoTitleBoldFont];
     
@@ -330,6 +322,8 @@
         }];
     }];
 }
+
+
 
 
 /**
