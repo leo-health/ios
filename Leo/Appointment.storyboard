@@ -80,17 +80,17 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="Vmc-M3-hTg" userLabel="Notes View">
-                                        <rect key="frame" x="40" y="218" width="520" height="1"/>
+                                        <rect key="frame" x="20" y="218" width="560" height="1"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ivh-E7-JHD" customClass="LEOSectionSeparator">
-                                                <rect key="frame" x="0.0" y="0.0" width="520" height="1"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="560" height="1"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="nYk-YN-srH"/>
                                                 </constraints>
                                             </view>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="g8Q-EG-t1d" customClass="JVFloatLabeledTextView">
-                                                <rect key="frame" x="0.0" y="0.0" width="520" height="0.0"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="560" height="0.0"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -176,7 +176,7 @@
                                     <constraint firstItem="1yB-r9-9a5" firstAttribute="leading" secondItem="yrV-1X-rnJ" secondAttribute="leading" constant="20" id="Jxa-CU-d4R"/>
                                     <constraint firstItem="kQj-Hy-0mx" firstAttribute="top" secondItem="Vmc-M3-hTg" secondAttribute="bottom" constant="54" id="LVt-wS-JB0"/>
                                     <constraint firstItem="Vmc-M3-hTg" firstAttribute="top" secondItem="j7q-qh-jKG" secondAttribute="bottom" constant="29" id="RgS-5S-CHF"/>
-                                    <constraint firstAttribute="trailing" secondItem="Vmc-M3-hTg" secondAttribute="trailing" constant="40" id="Rtq-XF-9y0"/>
+                                    <constraint firstAttribute="trailing" secondItem="Vmc-M3-hTg" secondAttribute="trailing" constant="20" id="Rtq-XF-9y0"/>
                                     <constraint firstAttribute="trailing" secondItem="j7q-qh-jKG" secondAttribute="trailing" constant="20" id="SKg-8M-5GC"/>
                                     <constraint firstAttribute="bottom" secondItem="mFA-CC-yEL" secondAttribute="bottom" constant="6" id="WGp-ro-xpH"/>
                                     <constraint firstAttribute="trailing" secondItem="1yB-r9-9a5" secondAttribute="trailing" constant="20" id="XDO-dr-pvc"/>
@@ -185,7 +185,7 @@
                                     <constraint firstItem="1yB-r9-9a5" firstAttribute="top" secondItem="yrV-1X-rnJ" secondAttribute="top" constant="32" id="i3Q-jJ-wwW"/>
                                     <constraint firstItem="mFA-CC-yEL" firstAttribute="top" secondItem="kQj-Hy-0mx" secondAttribute="bottom" constant="18" id="ke5-Ob-mNq"/>
                                     <constraint firstItem="j7q-qh-jKG" firstAttribute="leading" secondItem="yrV-1X-rnJ" secondAttribute="leading" constant="20" id="qmr-Y8-efC"/>
-                                    <constraint firstItem="Vmc-M3-hTg" firstAttribute="leading" secondItem="yrV-1X-rnJ" secondAttribute="leading" constant="40" id="qsb-DT-Snt"/>
+                                    <constraint firstItem="Vmc-M3-hTg" firstAttribute="leading" secondItem="yrV-1X-rnJ" secondAttribute="leading" constant="20" id="qsb-DT-Snt"/>
                                 </constraints>
                             </view>
                         </subviews>
