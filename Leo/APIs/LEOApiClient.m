@@ -52,18 +52,6 @@
     }];
 }
 
-//+ (void)getAllStaffForPracticeWithParameters:(NSDictionary *)practiceParams withCompletion:(void (^)(NSDictionary *rawResults, NSError *error))completionBlock {
-//    
-//    LEOAPISessionManager *sessionManager = [LEOAPISessionManager sharedClient];
-//
-//    NSString *getPracticeStaffURLString = [NSString stringWithFormat:@"%@/%@",practiceParams[APIParamID],@"staff"]; //FIXME: Remove hardcoded string; replace with LEOConstant. This also is definitely not the right URL.
-//    
-//    [sessionManager standardGETRequestForJSONDictionaryFromAPIWithEndpoint:getPracticeStaffURLString params:practiceParams completion:^(NSDictionary *rawResults, NSError *error) {
-//        completionBlock(rawResults, error);
-//    }];
-//}
-
-
 + (void)getSlotsWithParameters:(NSDictionary *)slotParams withCompletion:(void (^)(NSDictionary *rawResults, NSError *error))completionBlock {
 
     LEOAPISessionManager *sessionManager = [LEOAPISessionManager sharedClient];
@@ -73,7 +61,6 @@
     }];
 }
 
-//FIXME: Needs to be re-written with params most likely...
 + (void)getPracticesWithCompletion:(void (^)(NSDictionary *rawResults, NSError *error))completionBlock {
 
     LEOAPISessionManager *sessionManager = [LEOAPISessionManager sharedClient];
@@ -116,12 +103,10 @@
     }];
 }
 
-
 + (void)getFamilyWithUserParameters:(NSDictionary *)userParams withCompletion:(void (^)(NSDictionary *rawResults, NSError *error))completionBlock {
     
     LEOAPISessionManager *sessionManager = [LEOAPISessionManager sharedClient];
 
-    
     [sessionManager standardGETRequestForJSONDictionaryFromAPIWithEndpoint:APIEndpointFamily params:userParams completion:^(NSDictionary *rawResults, NSError *error) {
         
         if (completionBlock) {
@@ -183,14 +168,5 @@
     }];
 }
 
-
-
-//FIXME: Placeholder for method.
-+ (void)getUserWithID:(NSNumber *)userID withCompletion:(void (^)(NSDictionary *rawResults, NSError *error))completionBlock {
-    
-    User *user = [[User alloc] initWithObjectID:@"999" title:@"Mrs." firstName:@"Christina" middleInitial:@"Fuente" lastName:@"Lagos" suffix:@"NP" email:@"christina.lagos@leohealth.com" avatarURL:@"http://" avatar:nil];
-    
-    completionBlock(user, nil);
-}
 
 @end
