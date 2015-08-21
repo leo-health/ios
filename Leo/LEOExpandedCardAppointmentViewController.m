@@ -159,6 +159,8 @@
     [self updateButtonTitle:self.questionPatientsButton];
     [self updateButtonTitle:self.questionStaffButton];
     [self updateButtonTitle:self.questionVisitTypeButton];
+    [self toggleButtonValidated:[self shouldEnableUserToBookAppointment]];
+
 }
 
 
@@ -460,28 +462,27 @@
         
         if ([keyPath isEqualToString:@"appointmentType"]) {
             
-            self.button.enabled = [self shouldEnableUserToBookAppointment];
+            [self toggleButtonValidated:[self shouldEnableUserToBookAppointment]];
             [self updateButtonTitle:self.questionVisitTypeButton];
             
         } else if ([keyPath isEqualToString:@"provider"]) {
             
-            self.button.enabled = [self shouldEnableUserToBookAppointment];
+            [self toggleButtonValidated:[self shouldEnableUserToBookAppointment]];
             [self updateButtonTitle:self.questionStaffButton];
             
         } else if ([keyPath isEqualToString:@"patient"]) {
             
-            self.button.enabled = [self shouldEnableUserToBookAppointment];
+            [self toggleButtonValidated:[self shouldEnableUserToBookAppointment]];
             [self updateButtonTitle:self.questionPatientsButton];
             
         } else if ([keyPath isEqualToString:@"date"]) {
 
             [self validateForChoosingSlots];
-            self.button.enabled = [self shouldEnableUserToBookAppointment];
+            [self toggleButtonValidated:[self shouldEnableUserToBookAppointment]];
             [self updateButtonTitle:self.questionCalendarButton];
         }
     }
 }
-
 
 #pragma mark - Drill Button Formatting
 //TODO: This method is not ideal, but it is working for the time-being; would like to replace with something that's actually flexible.

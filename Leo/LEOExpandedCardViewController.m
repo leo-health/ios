@@ -18,7 +18,7 @@
 @property (strong, nonatomic) UIView *titleView;
 @property (strong, nonatomic) UIView *contentView;
 @property (nonatomic) BOOL constraintsAlreadyUpdated;
-
+@property (strong, nonatomic) CALayer *buttonLayer;
 @end
 
 @implementation LEOExpandedCardViewController
@@ -332,19 +332,37 @@
  */
 - (void)buttonTapped {
     
-    //TODO: Assert something here and add to .h or just remove this whole abstract method.
+    @throw [NSException exceptionWithName:NSInternalInconsistencyException
+                                   reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
+                                 userInfo:nil];
 }
 
 
-- (void)toggleButtonFormat:(BOOL)enabled {
+- (void)toggleButtonValidated:(BOOL)validated {
     
-    if (enabled) {
+    if (validated) {
         [self.button setBackgroundColor:self.card.tintColor];
+        [self.buttonLayer removeFromSuperlayer];
+        self.button.enabled = YES;
     } else {
         [self.button setBackgroundColor:[UIColor leoGrayBackground]];
+        [self.button.layer addSublayer:self.buttonLayer];
+        self.button.enabled = NO;
     }
 }
 
+-(CALayer *)buttonLayer {
+    
+    if (!_buttonLayer) {
+        
+        _buttonLayer = [CALayer layer];
+        _buttonLayer.frame = CGRectMake(0.0f, 0.0f, self.button.frame.size.width, 1.0);
+        _buttonLayer.borderColor = [UIColor leoBlack].CGColor;
+        _buttonLayer.borderWidth = 1.0;
+    }
+    
+    return _buttonLayer;
+}
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     
     if (object == self.button && [keyPath isEqualToString:@"enabled"] ) {

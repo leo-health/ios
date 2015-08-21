@@ -32,5 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) UIButton *button;
 
+- (void)toggleButtonValidated:(BOOL)validated;
+
 NS_ASSUME_NONNULL_END
 @end
