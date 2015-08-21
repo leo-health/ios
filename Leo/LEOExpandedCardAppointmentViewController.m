@@ -155,7 +155,7 @@
     
     [self validateForChoosingSlots];
     
-    [self updateButtonTitle:self.questionCalendarButton];
+    [self updateAppointmentSlotButton:self.questionCalendarButton];
     [self updateButtonTitle:self.questionPatientsButton];
     [self updateButtonTitle:self.questionStaffButton];
     [self updateButtonTitle:self.questionVisitTypeButton];
@@ -526,6 +526,47 @@
 }
 
 
+- (void)updateAppointmentSlotButton:button {
+    
+    NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+    [style setAlignment:NSTextAlignmentLeft];
+    [style setLineBreakMode:NSLineBreakByWordWrapping];
+    
+    UIFont *baseFont = [UIFont leoQuestionFont];
+    UIFont *variableFont = [UIFont leoQuestionFont];
+    
+    UIColor *baseColor = [UIColor leoBlack];
+    UIColor *variableColor = [UIColor leoGreen];
+    
+    NSDictionary *baseDictionary = @{NSForegroundColorAttributeName:baseColor,
+                                     NSFontAttributeName:baseFont,
+                                     NSParagraphStyleAttributeName:style};
+    
+    NSDictionary *variableDictionary = @{NSForegroundColorAttributeName:variableColor,
+                                         NSFontAttributeName:variableFont,
+                                         NSParagraphStyleAttributeName:style};
+    
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] init];
+    
+    
+    [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:@"My visit is at "
+                                                                       attributes:baseDictionary]];
+    
+    [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:[NSDate stringifiedTime:self.prepAppointment.date]
+                                                                           attributes:variableDictionary]];
+    
+    [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:@" on "
+                                                                       attributes:baseDictionary]];
+    
+    [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:[NSDate stringifiedDateWithCommas:self.prepAppointment.date]
+                                                                       attributes:variableDictionary]];
+    
+    [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:[self dayOfMonthSuffix:self.prepAppointment.date.day]
+                                                                       attributes:variableDictionary]];
+
+    [button setAttributedTitle:attrString forState:UIControlStateNormal];
+}
+
 - (void)updateButtonTitle:(UIButton *)button {
     
     if (button == self.questionVisitTypeButton) {
@@ -559,7 +600,7 @@
     } else if (button == self.questionCalendarButton) {
         
         if (self.prepAppointment.date && self.questionCalendarButton.enabled) {
-            [self updateButton:button withBaseString:@"My visit is at\n" variableStrings:@[[NSDate stringifiedDateTime:self.prepAppointment.date]]];
+            [self updateAppointmentSlotButton:button];
         } else if (!self.prepAppointment.date && self.questionCalendarButton.enabled) {
             [self updateButton:button withBaseString:@"When would you like to come in?" variableStrings:nil];
         } else if (!self.prepAppointment.date && !self.questionCalendarButton.enabled) {
@@ -581,6 +622,26 @@
 }
 
 
-
+/**
+ *  Determines the appropriate suffix to add on to a date when used in a sentence.
+ *  Adapted from http://stackoverflow.com/a/4011232/1938725
+ *
+ *  @param dayOfMonth the numeric day of the month (out of 31, 30, 29, or 28)
+ *
+ *  @return the suffix associated with that date
+ */
+- (NSString *)dayOfMonthSuffix:(NSUInteger)dayOfMonth {
+    
+    if (dayOfMonth >= 11 && dayOfMonth <= 13) {
+        return @"th";
+    }
+    
+    switch (dayOfMonth % 10) {
+        case 1:  return @"st";
+        case 2:  return @"nd";
+        case 3:  return @"rd";
+        default: return @"th";
+    }
+}
 
 @end
