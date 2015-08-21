@@ -116,6 +116,7 @@
     [dismissButton addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
     [dismissButton setImage:[UIImage imageNamed:@"Icon-Cancel"] forState:UIControlStateNormal];
     [dismissButton sizeToFit];
+    [dismissButton setTintColor:[UIColor leoWhite]];
     
     UINavigationItem *navCarrier = [[UINavigationItem alloc] init];
     UIBarButtonItem *dismissBBI = [[UIBarButtonItem alloc] initWithCustomView:dismissButton];
