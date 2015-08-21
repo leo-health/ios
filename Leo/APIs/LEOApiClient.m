@@ -163,13 +163,11 @@
             completionBlock(data, error);
         }
     }];
-
 }
 
 + (LEOAPISessionManager *)leoSessionManager {
     return [LEOAPISessionManager sharedClient];
 }
-
 
 + (LEOS3SessionManager *)s3SessionManager {
     return [LEOS3SessionManager sharedClient];
