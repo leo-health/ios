@@ -20,7 +20,9 @@
     LEOAPISessionManager *sessionManager = [LEOAPISessionManager sharedClient];
     
     [sessionManager standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointUsers params:userParams completion:^(NSDictionary *rawResults, NSError *error) {
-        completionBlock(rawResults, error);
+        if (completionBlock) {
+            completionBlock(rawResults, error);
+        }
     }];
 }
 
@@ -29,7 +31,9 @@
     LEOAPISessionManager *sessionManager = [LEOAPISessionManager sharedClient];
     
     [sessionManager standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointLogin params:loginParams completion:^(NSDictionary *rawResults, NSError *error) {
-        completionBlock(rawResults, error);
+        if (completionBlock) {
+            completionBlock(rawResults, error);
+        }
     }];
 }
 
@@ -38,8 +42,11 @@
     LEOAPISessionManager *sessionManager = [LEOAPISessionManager sharedClient];
     
     [sessionManager standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointResetPassword params:resetParams completion:^(NSDictionary *rawResults, NSError *error) {
-        completionBlock(rawResults, error);
+        if (completionBlock) {
+            completionBlock(rawResults, error);
+        }
     }];
+
 }
 
 
@@ -48,8 +55,11 @@
     LEOAPISessionManager *sessionManager = [LEOAPISessionManager sharedClient];
 
     [sessionManager standardGETRequestForJSONDictionaryFromAPIWithEndpoint:APIEndpointCards params:userParams completion:^(NSDictionary *rawResults, NSError *error) {
-        completionBlock(rawResults, error);
+        if (completionBlock) {
+            completionBlock(rawResults, error);
+        }
     }];
+
 }
 
 + (void)getSlotsWithParameters:(NSDictionary *)slotParams withCompletion:(void (^)(NSDictionary *rawResults, NSError *error))completionBlock {
@@ -57,7 +67,9 @@
     LEOAPISessionManager *sessionManager = [LEOAPISessionManager sharedClient];
 
     [sessionManager standardGETRequestForJSONDictionaryFromAPIWithEndpoint:APIEndpointSlots params:slotParams completion:^(NSDictionary *rawResults, NSError *error) {
-        completionBlock(rawResults, error);
+        if (completionBlock) {
+            completionBlock(rawResults, error);
+        }
     }];
 }
 
@@ -66,7 +78,9 @@
     LEOAPISessionManager *sessionManager = [LEOAPISessionManager sharedClient];
 
     [sessionManager standardGETRequestForJSONDictionaryFromAPIWithEndpoint:APIEndpointPractices params:nil completion:^(NSDictionary *rawResults, NSError *error) {
-        completionBlock(rawResults, error);
+        if (completionBlock) {
+            completionBlock(rawResults, error);
+        }
     }];
     
 }
@@ -78,8 +92,9 @@
     NSString *getPracticeURLString = [NSString stringWithFormat:@"%@/%@",APIEndpointPractices, practiceParams[APIParamID]];
     
     [sessionManager standardGETRequestForJSONDictionaryFromAPIWithEndpoint:getPracticeURLString params:practiceParams completion:^(NSDictionary *rawResults, NSError *error) {
-        //TODO: Error terms
-        completionBlock(rawResults, error);
+        if (completionBlock) {
+            completionBlock(rawResults, error);
+        }
     }];
 }
 
@@ -89,7 +104,9 @@
     
     [sessionManager standardGETRequestForJSONDictionaryFromAPIWithEndpoint:APIEndpointAppointmentTypes params:@{} completion:^(NSDictionary *rawResults, NSError *error) { //MARK: no parameters I suspect for this endpoint
         //TODO: Error terms
-        completionBlock(rawResults, error);
+        if (completionBlock) {
+            completionBlock(rawResults, error);
+        }
     }];
 }
 
@@ -98,8 +115,9 @@
     LEOAPISessionManager *sessionManager = [LEOAPISessionManager sharedClient];
     
     [sessionManager standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointAppointments params:apptParams completion:^(NSDictionary *rawResults, NSError *error) {
-        //TODO: Error terms
-        completionBlock(rawResults, error);
+        if (completionBlock) {
+            completionBlock(rawResults, error);
+        }
     }];
 }
 
@@ -120,8 +138,11 @@
     LEOAPISessionManager *sessionManager = [LEOAPISessionManager sharedClient];
     
     [sessionManager standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointAppointments params:apptParams completion:^(NSDictionary *rawResults, NSError *error) {
-        completionBlock(rawResults, error);
+        if (completionBlock) {
+            completionBlock(rawResults, error);
+        }
     }];
+
 }
 
 + (void)getConversationsForFamilyWithParameters:(NSDictionary *)conversationParams withCompletion:(void (^)(NSDictionary  *rawResults, NSError *error))completionBlock {
@@ -129,8 +150,11 @@
     LEOAPISessionManager *sessionManager = [LEOAPISessionManager sharedClient];
 
     [sessionManager standardGETRequestForJSONDictionaryFromAPIWithEndpoint:APIEndpointConversations params:conversationParams completion:^(NSDictionary *rawResults, NSError *error) {
-        completionBlock(rawResults, error);
+        if (completionBlock) {
+            completionBlock(rawResults, error);
+        }
     }];
+
 }
 
 + (void)createMessageForConversation:(NSString *)conversationID withParameters:(NSDictionary *)messageParams withCompletion:(void (^)(NSDictionary *rawResults, NSError *error))completionBlock {
@@ -140,7 +164,9 @@
     NSString *createMessageForConversationURLString = [NSString stringWithFormat:@"%@/%@/%@",APIEndpointConversations,conversationID, APIEndpointMessages];
     
     [sessionManager standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:createMessageForConversationURLString params:messageParams completion:^(NSDictionary *rawResults, NSError *error) {
-        completionBlock(rawResults, error);
+        if (completionBlock) {
+            completionBlock(rawResults, error);
+        }
     }];
 }
 
@@ -151,8 +177,9 @@
     NSString *getMessagesForConversationURLString = [NSString stringWithFormat:@"%@/%@/%@",APIEndpointConversations,conversationID, APIEndpointMessages];
     
     [sessionManager standardGETRequestForJSONDictionaryFromAPIWithEndpoint:getMessagesForConversationURLString params:messageParams completion:^(NSDictionary *rawResults, NSError *error) {
-        //TODO: Error terms
-        completionBlock(rawResults, error);
+        if (completionBlock) {
+            completionBlock(rawResults, error);
+        }
     }];
 }
 
@@ -162,10 +189,11 @@
 
     //FIXME: This is a basic implementation. Nil params is an issue as well. What security does s3 support for users only accessing URLs they should have access to?
     [sessionManager standardGETRequestForDataFromS3WithURL:avatarURL params:nil completion:^(NSData *data, NSError *error) {
-        //TODO: Error terms
-        completionBlock(data, error);
-    
+        if (completionBlock) {
+            completionBlock(data, error);
+        }
     }];
+
 }
 
 
