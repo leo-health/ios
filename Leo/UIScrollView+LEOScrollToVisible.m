@@ -94,7 +94,7 @@ CGFloat offset;
         bottomPoint = CGPointMake(viewThatShouldBeVisibleRectInScrollView.origin.x, viewThatShouldBeVisibleRectInScrollView.origin.y + viewThatShouldBeVisibleRectInScrollView.size.height);
         
         if (!CGRectContainsPoint(scrollViewVisibleFrame, bottomPoint)) {
-            CGRect textViewRectWithOffset = CGRectInset(viewThatShouldBeVisibleRectInScrollView, 0, -10);
+            CGRect textViewRectWithOffset = CGRectInset(viewThatShouldBeVisibleRectInScrollView, 0, -100);
             [self scrollRectToVisible:textViewRectWithOffset animated:YES];
         }
     }

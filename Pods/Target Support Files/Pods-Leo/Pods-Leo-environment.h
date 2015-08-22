@@ -66,17 +66,35 @@
 #define COCOAPODS_VERSION_MINOR_JSQSystemSoundPlayer 0
 #define COCOAPODS_VERSION_PATCH_JSQSystemSoundPlayer 1
 
+// MBProgressHUD
+#define COCOAPODS_POD_AVAILABLE_MBProgressHUD
+#define COCOAPODS_VERSION_MAJOR_MBProgressHUD 0
+#define COCOAPODS_VERSION_MINOR_MBProgressHUD 9
+#define COCOAPODS_VERSION_PATCH_MBProgressHUD 1
+
 // OHHTTPStubs
 #define COCOAPODS_POD_AVAILABLE_OHHTTPStubs
 #define COCOAPODS_VERSION_MAJOR_OHHTTPStubs 4
 #define COCOAPODS_VERSION_MINOR_OHHTTPStubs 0
 #define COCOAPODS_VERSION_PATCH_OHHTTPStubs 1
 
+// RPFloatingPlaceholders
+#define COCOAPODS_POD_AVAILABLE_RPFloatingPlaceholders
+#define COCOAPODS_VERSION_MAJOR_RPFloatingPlaceholders 0
+#define COCOAPODS_VERSION_MINOR_RPFloatingPlaceholders 3
+#define COCOAPODS_VERSION_PATCH_RPFloatingPlaceholders 1
+
 // SSKeychain
 #define COCOAPODS_POD_AVAILABLE_SSKeychain
 #define COCOAPODS_VERSION_MAJOR_SSKeychain 1
 #define COCOAPODS_VERSION_MINOR_SSKeychain 2
 #define COCOAPODS_VERSION_PATCH_SSKeychain 3
+
+// SocketRocket
+#define COCOAPODS_POD_AVAILABLE_SocketRocket
+#define COCOAPODS_VERSION_MAJOR_SocketRocket 0
+#define COCOAPODS_VERSION_MINOR_SocketRocket 3
+#define COCOAPODS_VERSION_PATCH_SocketRocket 1
 
 // UIImage-Resize
 #define COCOAPODS_POD_AVAILABLE_UIImage_Resize
@@ -89,6 +107,18 @@
 #define COCOAPODS_VERSION_MAJOR_VBFPopFlatButton 0
 #define COCOAPODS_VERSION_MINOR_VBFPopFlatButton 0
 #define COCOAPODS_VERSION_PATCH_VBFPopFlatButton 6
+
+// libPusher
+#define COCOAPODS_POD_AVAILABLE_libPusher
+#define COCOAPODS_VERSION_MAJOR_libPusher 1
+#define COCOAPODS_VERSION_MINOR_libPusher 6
+#define COCOAPODS_VERSION_PATCH_libPusher 0
+
+// libPusher/Core
+#define COCOAPODS_POD_AVAILABLE_libPusher_Core
+#define COCOAPODS_VERSION_MAJOR_libPusher_Core 1
+#define COCOAPODS_VERSION_MINOR_libPusher_Core 6
+#define COCOAPODS_VERSION_PATCH_libPusher_Core 0
 
 // pop
 #define COCOAPODS_POD_AVAILABLE_pop

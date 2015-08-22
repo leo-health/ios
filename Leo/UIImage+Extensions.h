@@ -11,5 +11,6 @@
 @interface UIImage (Extensions)
 
 + (UIImage *)imageNamed:(NSString *)name withColor:(UIColor *)color;
++ (UIImage *)imageWithColor:(UIColor *)color;
 
 @end

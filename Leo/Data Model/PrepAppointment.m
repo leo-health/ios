@@ -11,6 +11,7 @@
 #import "Provider.h"
 #import "Patient.h"
 #import "AppointmentType.h"
+#import "Appointment.h"
 
 @implementation PrepAppointment
 
@@ -56,5 +57,10 @@
     return [NSString stringWithFormat:@"<Appointment: %p>\nid: %@\ndate: %@\nappointmentType: %@\nstate: %lu\nnote %@\nbookedByUser: %@\npatient %@\nprovider: %@",
             self, self.objectID, self.date, self.appointmentType, (unsigned long)self.statusCode, self.note, self.bookedByUser, self.patient, self.provider];
 }
+
+-(instancetype)initWithAppointment:(Appointment *)appointment {
+    
+    return [self initWithObjectID:appointment.objectID date:appointment.date appointmentType:appointment.appointmentType patient:appointment.patient provider:appointment.provider bookedByUser:appointment.bookedByUser note:appointment.note statusCode:appointment.statusCode];
+};
 
 @end

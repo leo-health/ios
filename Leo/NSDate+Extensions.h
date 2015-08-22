@@ -22,6 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString *)stringifiedTime:(NSDate *)date;
 + (NSString *)stringifiedDateWithDot:(NSDate *)date;
 + (NSString *)stringifiedDateWithCommas:(NSDate *)date;
++ (NSString *)stringifiedDateTime:(NSDate *)dateTime;
 
 NS_ASSUME_NONNULL_END
 @end

@@ -61,7 +61,7 @@
 #pragma mark - Menu View Button Animation
 
 /**
- *  Loads an LEOCardAppointmentBookingVC
+ *  Takes user to appointment flow
  *
  *  @param sender UIButton that receives tap gesture
  */

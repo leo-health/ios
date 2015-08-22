@@ -8,7 +8,6 @@
 
 #import "LEOCardAppointment.h"
 #import <NSDate+DateTools.h>
-#import "LEOCardAppointmentBookingVC.h"
 #import "UIColor+LeoColors.h"
 #import "Patient.h"
 #import "AppointmentType.h"
@@ -135,7 +134,7 @@ static NSString *kActionSelectorBook = @"book";
             break;
             
         case AppointmentStatusCodeConfirmingCancelling:
-            bodyText = [NSString stringWithFormat:@"%@'s appointment has been cancelled. Click dismiss to remove this card from you feed.",self.appointment.patient.firstName];
+            bodyText = [NSString stringWithFormat:@"%@'s appointment has been cancelled. This card will be automatically removed from your feed after some time.",self.appointment.patient.firstName];
             break;
             
         case AppointmentStatusCodeRecommending:
@@ -271,7 +270,6 @@ static NSString *kActionSelectorBook = @"book";
 
 - (void)schedule {
     
-    //opens up a new LEOCardAppointmentBookingVC, filled out with the recommended dates / times
     self.appointment.priorStatusCode = self.appointment.statusCode;
     self.appointment.statusCode = AppointmentStatusCodeBooking;
     [self.delegate didUpdateObjectStateForCard:self];
@@ -281,7 +279,6 @@ static NSString *kActionSelectorBook = @"book";
     self.appointment.priorStatusCode = self.appointment.statusCode;
     self.appointment.statusCode = AppointmentStatusCodeCancelling;
     [self.delegate didUpdateObjectStateForCard:self];
-    //updates state of the appointment to show a view in which we confirm the user really wants to cancel their appointment
 }
 
 - (void)confirmCancelled {
