@@ -608,10 +608,9 @@
         
         if (self.prepAppointment.provider) {
             
-            
             NSString *credential = [self.prepAppointment.provider.credentials[0] stringByReplacingOccurrencesOfString:@"." withString:@""];  //TODO: This will need to be updated at some point when we decide how we want to handle these.
             
-            [self updateButton:button withBaseString:@"We will be seen by" variableStrings:@[[NSString stringWithFormat:@"%@ %@",self.prepAppointment.provider.fullName, credential]]];
+            [self updateButton:button withBaseString:@"We will be seen by" variableStrings:@[[NSString stringWithFormat:@"%@ %@",self.prepAppointment.provider.firstAndLastName, credential]]];
         } else {
             [self updateButton:button withBaseString:@"Who would you like to see?" variableStrings:nil];
         }

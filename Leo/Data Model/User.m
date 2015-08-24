@@ -111,6 +111,20 @@
     return [[nameComponents componentsJoinedByString:@" "] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 }
 
+//TODO: Refactor
+- (NSString *)firstAndLastName {
+    
+    NSArray *nameComponents;
+    
+    if (self.suffix) {
+        nameComponents = @[self.title, self.firstName, self.lastName, self.suffix];
+    } else {
+        nameComponents = @[self.firstName, self.lastName];
+    }
+    
+    return [[nameComponents componentsJoinedByString:@" "] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+}
+
 - (NSString *)description {
     
     return [NSString stringWithFormat:@"<%@: %p>",[self class],self];
