@@ -344,7 +344,7 @@
         [self.buttonLayer removeFromSuperlayer];
         self.button.enabled = YES;
     } else {
-        [self.button setBackgroundColor:[UIColor leoGrayStandard]];
+        [self.button setBackgroundColor:[UIColor leoGrayForMessageBubbles]];
         [self.button.layer addSublayer:self.buttonLayer];
         self.button.enabled = NO;
     }

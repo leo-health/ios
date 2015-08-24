@@ -78,6 +78,7 @@
     self.tableView.estimatedRowHeight = 65;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    self.tableView.separatorColor = [UIColor leoGrayForPlaceholdersAndLines];
 }
 
 -(void)viewDidAppear:(BOOL)animated {

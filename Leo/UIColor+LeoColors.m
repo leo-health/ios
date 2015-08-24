@@ -35,10 +35,6 @@
     return [UIColor colorWithRed:244.0/255.0 green:67.0/255.0 blue:54.0/255.0 alpha:1]; /*#*/
 }
 
-+ (UIColor *)leoBlack {
-    return [UIColor colorWithRed:35.0/255.0 green:31.0/255.0 blue:32.0/255.0 alpha:1]; /*#*/
-}
-
 + (UIColor *)leoWhite {
     return [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1]; /*#FFF*/
 }

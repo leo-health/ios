@@ -75,6 +75,7 @@
     self.inputToolbar.contentView.textView.tintColor = [UIColor leoBlue];
     self.inputToolbar.contentView.textView.placeHolderTextColor = [UIColor leoGrayForPlaceholdersAndLines];
     self.inputToolbar.layer.borderColor = [UIColor whiteColor].CGColor;
+    self.inputToolbar.contentView.textView.font = [UIFont leoStandardFont];
     
     /**
      *  senderId, senderDisplayName required by JSQMessagesViewController
@@ -493,12 +494,12 @@
     
     Message *message = [self.messages objectAtIndex:indexPath.item];
 
-    NSDictionary *attributes = @{NSFontAttributeName : [UIFont leoButtonLabelsAndTimeStampsFont], NSForegroundColorAttributeName : [UIColor leoGrayStandard]};
+    NSDictionary *attributes = @{NSFontAttributeName : [UIFont leoButtonLabelsAndTimeStampsFont], NSForegroundColorAttributeName : [UIColor leoGrayForTimeStamps]};
     
     NSString *basicDateString = [NSString stringWithFormat:@"  %@  ", [NSDate stringifiedDateWithDot:message.createdAt]];
     NSAttributedString *dateString = [[NSAttributedString alloc] initWithString:basicDateString attributes:attributes];
 
-    attributes = @{NSForegroundColorAttributeName : [UIColor whiteColor], NSStrikethroughColorAttributeName: [UIColor leoGrayStandard], NSStrikethroughStyleAttributeName : [NSNumber numberWithInteger:NSUnderlinePatternSolid | NSUnderlineStyleSingle]};
+    attributes = @{NSForegroundColorAttributeName : [UIColor whiteColor], NSStrikethroughColorAttributeName: [UIColor leoGrayForTimeStamps], NSStrikethroughStyleAttributeName : [NSNumber numberWithInteger:NSUnderlinePatternSolid | NSUnderlineStyleSingle]};
     
     NSUInteger dateLength = [dateString length];
     NSUInteger fullLengthOfBreak = 60;
@@ -554,7 +555,7 @@
         NSString *dateString = [NSString stringWithFormat:@"%@ ∙ ", [NSDate stringifiedTime:message.createdAt]];
         
         
-        NSDictionary *attributes = @{NSFontAttributeName : [UIFont leoButtonLabelsAndTimeStampsFont], NSForegroundColorAttributeName : [UIColor leoGrayStandard]};
+        NSDictionary *attributes = @{NSFontAttributeName : [UIFont leoButtonLabelsAndTimeStampsFont], NSForegroundColorAttributeName : [UIColor leoGrayForTimeStamps]};
         NSAttributedString *timestampAttributedString = [[NSAttributedString alloc] initWithString:dateString attributes:attributes];
         
         [concatenatedDisplayNameAndTime appendAttributedString:timestampAttributedString];
@@ -574,21 +575,20 @@
         if ([message.sender isKindOfClass:[Support class]]) {
             
             Support *support = (Support *)message.sender;
-            attributes = @{NSFontAttributeName : [UIFont leoFieldAndUserLabelsAndSecondaryButtonsFont], NSForegroundColorAttributeName : [UIColor leoGrayStandard]};
+            attributes = @{NSFontAttributeName : [UIFont leoFieldAndUserLabelsAndSecondaryButtonsFont], NSForegroundColorAttributeName : [UIColor leoGrayForPlaceholdersAndLines]};
             NSAttributedString *roleAttributedString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@",support.roleDisplayName] attributes:attributes];
             [concatenatedDisplayNameAndTime appendAttributedString:roleAttributedString];
         } else if ([message.sender isKindOfClass:[Provider class]]) {
             
             Provider *provider = (Provider *)message.sender;
-            attributes = @{NSFontAttributeName : [UIFont leoFieldAndUserLabelsAndSecondaryButtonsFont], NSForegroundColorAttributeName : [UIColor leoGrayStandard]};
+            attributes = @{NSFontAttributeName : [UIFont leoFieldAndUserLabelsAndSecondaryButtonsFont], NSForegroundColorAttributeName : [UIColor leoGrayForPlaceholdersAndLines]};
             NSAttributedString *credentialAttributedString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@",provider.credentials[0]] attributes:attributes];
             [concatenatedDisplayNameAndTime appendAttributedString:credentialAttributedString];
         }
         
         NSString *dateString = [NSString stringWithFormat:@" ∙ %@", [NSDate stringifiedTime:message.createdAt]];
         
-        
-        attributes = @{NSFontAttributeName : [UIFont leoButtonLabelsAndTimeStampsFont], NSForegroundColorAttributeName : [UIColor leoGrayStandard]};
+        attributes = @{NSFontAttributeName : [UIFont leoButtonLabelsAndTimeStampsFont], NSForegroundColorAttributeName : [UIColor leoGrayForTimeStamps]};
         NSAttributedString *timestampAttributedString = [[NSAttributedString alloc] initWithString:dateString attributes:attributes];
         
         [concatenatedDisplayNameAndTime appendAttributedString:timestampAttributedString];

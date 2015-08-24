@@ -62,14 +62,14 @@
 - (void)setSelectableFormat {
     
     self.userInteractionEnabled = YES;
-    self.dateLabel.textColor = [UIColor leoGrayForTimeStamps];
+    self.dateLabel.textColor = [UIColor leoGrayForTitlesAndHeadings];
 }
 
 - (void)setUnselectedFormat {
     
     [self.bottomBorder removeFromSuperlayer];
     self.dateLabel.font = [UIFont leoAppointmentSlotsAndDateFields];
-    self.dateLabel.textColor = [UIColor leoGrayStandard];
+    self.dateLabel.textColor = [UIColor leoGrayForTitlesAndHeadings];
     self.dayOfDateLabel.textColor = [UIColor leoGrayStandard];
     self.dayOfDateLabel.font = [UIFont leoAppointmentDayLabelAndTimePeriod];
     

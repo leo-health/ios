@@ -20,7 +20,7 @@
 + (UIFont *)leoExpandedCardHeaderFont;
 
 /**
- *  AvenirNext-Regular, Size 17
+ *  AvenirNext-Regular, Size 15
  *
  *  @return UIFont
  */
@@ -48,7 +48,7 @@
 + (UIFont *)leoCollapsedCardTitlesFont;
 
 /**
- *  AvenirNext-DemiBold, Size 12
+ *  AvenirNext-Bold, Size 12
  *
  *  @return UIFont
  */

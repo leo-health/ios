@@ -606,7 +606,7 @@
         } else if (!self.prepAppointment.date && self.questionCalendarButton.enabled) {
             [self updateButton:button withBaseString:@"When would you like to come in?" variableStrings:nil];
         } else if (!self.prepAppointment.date && !self.questionCalendarButton.enabled) {
-            [self updateButton:button withBaseString:@"Please select a provider, visit type, and child before selecting an appointment date and time." variableStrings:nil];
+            [self updateButton:button withBaseString:@"Please complete the fields above before selecting an appointment date and time." variableStrings:nil];
         }
     }
     

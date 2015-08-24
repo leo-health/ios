@@ -16,6 +16,8 @@ NSString *const AvenirNextUltraLight = @"AvenirNext-UltraLight";
 NSString *const AvenirNextRegular = @"AvenirNext-Regular";
 NSString *const AvenirNextMedium = @"AvenirNext-Medium";
 NSString *const AvenirNextDemiBold = @"AvenirNext-DemiBold";
+NSString *const AvenirNextBold = @"AvenirNext-Bold";
+
 NSString *const AvenirNextCondensedRegular = @"AvenirNextCondensed-Regular";
 
 
@@ -29,12 +31,12 @@ NSString *const AvenirNextCondensedRegular = @"AvenirNextCondensed-Regular";
 }
 
 /**
- *  AvenirNext-Regular, Size 17
+ *  AvenirNext-Regular, Size 15
  *
  *  @return UIFont
  */
 + (UIFont *)leoStandardFont {
-    return [UIFont fontWithName:AvenirNextRegular size:17];
+    return [UIFont fontWithName:AvenirNextRegular size:15];
 }
 
 /**
@@ -66,12 +68,12 @@ NSString *const AvenirNextCondensedRegular = @"AvenirNextCondensed-Regular";
 }
 
 /**
- *  AvenirNext-DemiBold, Size 12
+ *  AvenirNext-Bold, Size 12
  *
  *  @return UIFont
  */
 + (UIFont *)leoFieldAndUserLabelsAndSecondaryButtonsFont {
-    return [UIFont fontWithName:AvenirNextDemiBold size:12];
+    return [UIFont fontWithName:AvenirNextBold size:12];
 }
 
 /**
@@ -84,12 +86,12 @@ NSString *const AvenirNextCondensedRegular = @"AvenirNextCondensed-Regular";
 }
 
 /**
- *  AvenirNextCondensed-Regular, Size 10
+ *  AvenirNextCondensed-Regular, Size 12
  *
  *  @return UIFont
  */
 + (UIFont *)leoAppointmentDayLabelAndTimePeriod {
-    return [UIFont fontWithName:AvenirNextCondensedRegular size:10];
+    return [UIFont fontWithName:AvenirNextCondensedRegular size:12];
 }
 
 @end

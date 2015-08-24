@@ -155,7 +155,7 @@
     
     self.nameLabel.textColor = self.cardColor;
     self.dividerLabel.textColor = [UIColor leoGrayStandard];
-    self.timestampLabel.textColor = [UIColor leoGrayStandard];
+    self.timestampLabel.textColor = [UIColor leoGrayForTimeStamps];
     self.suffixCredentialLabel.textColor = [UIColor leoGrayStandard];
 }
 
