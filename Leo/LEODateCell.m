@@ -50,10 +50,10 @@
 - (void)setUnselectableFormat {
     
     self.userInteractionEnabled = NO;
-    self.dateLabel.font = [UIFont leoTitleBoldFont];
+    self.dateLabel.font = [UIFont leoAppointmentSlotsAndDateFields];
     self.dateLabel.textColor = [UIColor leoWhite];
     self.dayOfDateLabel.textColor = [UIColor leoWhite];
-    self.dayOfDateLabel.font = [UIFont leoBodyBasicFont];
+    self.dayOfDateLabel.font = [UIFont leoAppointmentDayLabelAndTimePeriod];
     
     self.dateLabel.alpha = 0.5;
     self.dayOfDateLabel.alpha = 0.5;
@@ -62,16 +62,16 @@
 - (void)setSelectableFormat {
     
     self.userInteractionEnabled = YES;
-    self.dateLabel.textColor = [UIColor leoWarmHeavyGray];
+    self.dateLabel.textColor = [UIColor leoGrayForTimeStamps];
 }
 
 - (void)setUnselectedFormat {
     
     [self.bottomBorder removeFromSuperlayer];
-    self.dateLabel.font = [UIFont leoTitleBoldFont];
-    self.dateLabel.textColor = [UIColor leoGrayBodyText];
-    self.dayOfDateLabel.textColor = [UIColor leoGrayBodyText];
-    self.dayOfDateLabel.font = [UIFont leoBodyBasicFont];
+    self.dateLabel.font = [UIFont leoAppointmentSlotsAndDateFields];
+    self.dateLabel.textColor = [UIColor leoGrayStandard];
+    self.dayOfDateLabel.textColor = [UIColor leoGrayStandard];
+    self.dayOfDateLabel.font = [UIFont leoAppointmentDayLabelAndTimePeriod];
     
     self.dateLabel.alpha = 1.0;
     self.dayOfDateLabel.alpha = 1.0;
@@ -88,9 +88,9 @@
     self.selectable = YES;
     [self setSelectableFormat];
         
-    self.dateLabel.font = [UIFont leoTitleBoldFont];
+    self.dateLabel.font = [UIFont leoAppointmentSlotsAndDateFields];
     self.dateLabel.textColor = [UIColor leoWhite];
-    self.dayOfDateLabel.font = [UIFont leoBodyBoldFont];
+    self.dayOfDateLabel.font = [UIFont leoAppointmentDayLabelAndTimePeriod];
     self.dayOfDateLabel.textColor = [UIColor leoWhite];
     
     self.dateLabel.alpha = 1.0;

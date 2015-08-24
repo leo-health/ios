@@ -39,20 +39,20 @@
 
 - (void)formatSubviewsWithTintColor:(UIColor *)tintColor {
     
-    self.topBorderView.backgroundColor = tintColor;
+    self.borderViewAtTopOfBodyView.backgroundColor = tintColor;
     self.secondaryUserView.cardColor = tintColor;
 }
 
 - (void)setCopyFontAndColor {
     
-    self.titleLabel.font = [UIFont leoTitleFont];
-    self.titleLabel.textColor = [UIColor leoGrayTitleText];
+    self.titleLabel.font = [UIFont leoCollapsedCardTitlesFont];
+    self.titleLabel.textColor = [UIColor leoGrayForTitlesAndHeadings];
     
-    self.bodyLabel.font = [UIFont leoBodyFont];
-    self.bodyLabel.textColor = [UIColor leoGrayBodyText];
+    self.bodyLabel.font = [UIFont leoStandardFont];
+    self.bodyLabel.textColor = [UIColor leoGrayStandard];
     
-    self.buttonOne.titleLabel.font = [UIFont leoButtonFont];
-    [self.buttonOne setTitleColor:[UIColor leoGrayButtonText] forState:UIControlStateNormal];
+    self.buttonOne.titleLabel.font = [UIFont leoButtonLabelsAndTimeStampsFont];
+    [self.buttonOne setTitleColor:[UIColor leoGrayStandard] forState:UIControlStateNormal];
 }
 
 

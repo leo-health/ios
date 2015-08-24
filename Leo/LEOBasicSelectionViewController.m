@@ -47,7 +47,7 @@
     
     navBarTitleLabel.text = self.titleText;
     navBarTitleLabel.textColor = [UIColor leoWhite];
-    navBarTitleLabel.font = [UIFont leoTitleBoldFont];
+    navBarTitleLabel.font = [UIFont leoMenuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
     
     [navBarTitleLabel sizeToFit];
     

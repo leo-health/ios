@@ -169,10 +169,10 @@
     self.notesTextView.delegate = self;
     self.notesTextView.scrollEnabled = NO;
     self.notesTextView.placeholder = @"Questions / comments";
-    self.notesTextView.floatingLabelFont = [UIFont leoQuestionFont];
-    self.notesTextView.placeholderLabel.font = [UIFont leoQuestionFont];
-    self.notesTextView.font = [UIFont leoQuestionFont];
-    self.notesTextView.floatingLabelActiveTextColor = [UIColor leoGrayBodyText];
+    self.notesTextView.floatingLabelFont = [UIFont leoStandardFont];
+    self.notesTextView.placeholderLabel.font = [UIFont leoStandardFont];
+    self.notesTextView.font = [UIFont leoStandardFont];
+    self.notesTextView.floatingLabelActiveTextColor = [UIColor leoGrayStandard];
     self.notesTextView.textColor = [UIColor leoGreen];
     self.notesTextView.tintColor = [UIColor leoGreen];
     self.notesTextView.text = self.prepAppointment.note;
@@ -492,10 +492,10 @@
     [style setAlignment:NSTextAlignmentLeft];
     [style setLineBreakMode:NSLineBreakByWordWrapping];
     
-    UIFont *baseFont = [UIFont leoQuestionFont];
-    UIFont *variableFont = [UIFont leoQuestionFont];
+    UIFont *baseFont = [UIFont leoStandardFont];
+    UIFont *variableFont = [UIFont leoMenuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
     
-    UIColor *baseColor = [UIColor leoBlack];
+    UIColor *baseColor = [UIColor leoGrayStandard];
     UIColor *variableColor = [UIColor leoGreen];
     
     NSDictionary *baseDictionary = @{NSForegroundColorAttributeName:baseColor,
@@ -528,14 +528,15 @@
 
 - (void)updateAppointmentSlotButton:button {
     
+    if (self.prepAppointment.date) {
     NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
     [style setAlignment:NSTextAlignmentLeft];
     [style setLineBreakMode:NSLineBreakByWordWrapping];
     
-    UIFont *baseFont = [UIFont leoQuestionFont];
-    UIFont *variableFont = [UIFont leoQuestionFont];
+    UIFont *baseFont = [UIFont leoStandardFont];
+    UIFont *variableFont = [UIFont leoMenuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
     
-    UIColor *baseColor = [UIColor leoBlack];
+    UIColor *baseColor = [UIColor leoGrayStandard];
     UIColor *variableColor = [UIColor leoGreen];
     
     NSDictionary *baseDictionary = @{NSForegroundColorAttributeName:baseColor,
@@ -565,6 +566,7 @@
                                                                        attributes:variableDictionary]];
 
     [button setAttributedTitle:attrString forState:UIControlStateNormal];
+    }
 }
 
 - (void)updateButtonTitle:(UIButton *)button {

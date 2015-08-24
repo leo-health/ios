@@ -126,12 +126,14 @@
             <connections>
                 <outlet property="bodyLabel" destination="X5D-AV-sG6" id="skt-29-Oaa"/>
                 <outlet property="bodyView" destination="X5D-AV-sG6" id="z7A-SM-NB9"/>
+                <outlet property="borderViewAboveButtons" destination="I3B-Pa-vPN" id="EzW-qJ-57e"/>
+                <outlet property="borderViewAtTopOfBodyView" destination="gNN-y4-XUQ" id="DaV-BZ-0Ub"/>
+                <outlet property="borderViewBetweenButtons" destination="WDg-en-H1V" id="lo3-3X-fB4"/>
                 <outlet property="buttonOne" destination="JbM-Sy-OZx" id="Cu0-t3-LIc"/>
                 <outlet property="buttonTwo" destination="7xY-da-pqy" id="KnB-cd-R77"/>
                 <outlet property="iconImageView" destination="5Df-Lq-uWp" id="cMW-bq-A6a"/>
                 <outlet property="secondaryUserView" destination="Uwz-vY-VM0" id="VAc-8g-0x4"/>
                 <outlet property="titleLabel" destination="Mqx-2Y-7C3" id="VGS-b1-JgY"/>
-                <outlet property="topBorderView" destination="gNN-y4-XUQ" id="LYd-eP-v69"/>
             </connections>
             <point key="canvasLocation" x="380" y="416.5"/>
         </tableViewCell>

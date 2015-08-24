@@ -29,7 +29,7 @@
 - (void)setupGlobalFormatting {
     
     [self.window setTintColor:[UIColor leoWhite]];
-    NSDictionary *barButtonAppearanceDict = @{NSFontAttributeName : [UIFont leoBodyBolderFont], NSForegroundColorAttributeName: [UIColor leoWhite]};
+    NSDictionary *barButtonAppearanceDict = @{NSFontAttributeName : [UIFont leoFieldAndUserLabelsAndSecondaryButtonsFont], NSForegroundColorAttributeName: [UIColor leoWhite]};
     [[UIBarButtonItem appearance] setTitleTextAttributes:barButtonAppearanceDict forState:UIControlStateNormal];
     [self roundCornersOfWindow];
 }

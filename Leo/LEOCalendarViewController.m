@@ -49,11 +49,11 @@
 - (void)formatCalendar {
     
     self.monthView.backgroundColor = [UIColor leoGreen];
-    self.monthLabel.font = [UIFont leoHeaderLightFont];
+    self.monthLabel.font = [UIFont leoExpandedCardHeaderFont];
     self.monthLabel.textColor = [UIColor leoWhite];
     self.noSlotsLabel.text = @"We're all booked up this week!\nCheck out next week for more appointments.";
-    self.noSlotsLabel.textColor = [UIColor leoGrayBodyText];
-    self.noSlotsLabel.font = [UIFont leoBodyFont];
+    self.noSlotsLabel.textColor = [UIColor leoGrayStandard];
+    self.noSlotsLabel.font = [UIFont leoStandardFont];
     self.noSlotsLabel.lineBreakMode = NSLineBreakByWordWrapping;
     self.noSlotsLabel.numberOfLines = 0;
     self.noSlotsLabel.hidden = YES;
@@ -214,6 +214,7 @@
         }
         
         NSSortDescriptor *datesAscending = [NSSortDescriptor sortDescriptorWithKey:@"startDateTime" ascending:YES];
+        
         sortedSlots = [slotsForDateOfExistingAppointment sortedArrayUsingDescriptors:@[datesAscending]];
         
         [slotsDictionaryWithExistingAppointmentSlot setObject:sortedSlots forKey:[self.prepAppointment.date beginningOfDay]];

@@ -18,7 +18,9 @@
 @property (weak, nonatomic) IBOutlet UIButton *buttonOne;
 @property (weak, nonatomic) IBOutlet UIButton *buttonTwo;
 @property (weak, nonatomic) IBOutlet UIView *bodyView;
-@property (weak, nonatomic) IBOutlet UIView *topBorderView;
+@property (weak, nonatomic) IBOutlet UIView *borderViewAtTopOfBodyView;
+@property (weak, nonatomic) IBOutlet UIView *borderViewAboveButtons;
+@property (weak, nonatomic) IBOutlet UIView *borderViewBetweenButtons;
 
 + (UINib *)nib;
 

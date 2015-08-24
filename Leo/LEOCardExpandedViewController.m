@@ -48,8 +48,8 @@
     UIBarButtonItem *icon = [[UIBarButtonItem alloc] initWithCustomView:iconImageView];
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 300, 44)];
     titleLabel.text = self.card.title;
-    titleLabel.font = [UIFont leoTitleFont];
-    titleLabel.textColor = [UIColor leoGrayTitleText];
+    titleLabel.font = [UIFont leoMenuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
+    titleLabel.textColor = [UIColor leoGrayForTitlesAndHeadings];
     [titleLabel sizeToFit];
     
     UIBarButtonItem *titleBBI = [[UIBarButtonItem alloc] initWithCustomView:titleLabel];
@@ -91,7 +91,7 @@
         [self.buttonView addSubview:button];
         
         [button setTitleColor:[UIColor leoWhite] forState:UIControlStateNormal];
-        button.titleLabel.font = [UIFont leoBodyBoldFont];
+        button.titleLabel.font = [UIFont leoButtonLabelsAndTimeStampsFont];
 
         
         [self.viewsDictionary setValue:button forKey:[NSString stringWithFormat:@"button%ld",(long)i]];

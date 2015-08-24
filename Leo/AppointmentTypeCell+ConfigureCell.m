@@ -15,11 +15,11 @@
 - (void)configureForAppointmentType:(AppointmentType *)appointmentType {
     
     self.nameLabel.text = [appointmentType.name capitalizedString];
-    self.nameLabel.textColor = [UIColor leoBasicGray];
-    self.nameLabel.font = [UIFont leoQuestionFont];
+    self.nameLabel.textColor = [UIColor leoGrayForTitlesAndHeadings];
+    self.nameLabel.font = [UIFont leoMenuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
     self.descriptionLabel.text = appointmentType.shortDescription;
-    self.descriptionLabel.textColor = [UIColor leoBasicGray];
-    self.descriptionLabel.font = [UIFont leoQuestionFont];
+    self.descriptionLabel.textColor = [UIColor leoGrayStandard];
+    self.descriptionLabel.font = [UIFont leoStandardFont];
 }
 
 @end

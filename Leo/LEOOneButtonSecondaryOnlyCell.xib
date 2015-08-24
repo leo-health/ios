@@ -110,11 +110,12 @@
             <connections>
                 <outlet property="bodyLabel" destination="bwB-L7-KTZ" id="bC2-cT-4BH"/>
                 <outlet property="bodyView" destination="VTL-Eg-ucF" id="x9c-iz-UHI"/>
+                <outlet property="borderViewAboveButtons" destination="1tT-dO-u1e" id="aGM-mu-dEQ"/>
+                <outlet property="borderViewAtTopOfBodyView" destination="MB1-D4-eYF" id="U9E-4N-d8p"/>
                 <outlet property="buttonOne" destination="teD-zn-kNs" id="4AZ-cT-SS2"/>
                 <outlet property="iconImageView" destination="lyH-Z8-w4T" id="0em-iX-BZu"/>
                 <outlet property="secondaryUserView" destination="WLZ-02-gW7" id="NY3-p4-oTW"/>
                 <outlet property="titleLabel" destination="nZ6-YS-0hN" id="Wwz-FI-bet"/>
-                <outlet property="topBorderView" destination="MB1-D4-eYF" id="GnG-aA-R9B"/>
             </connections>
             <point key="canvasLocation" x="775" y="541"/>
         </tableViewCell>

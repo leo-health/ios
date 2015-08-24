@@ -66,13 +66,14 @@
     UIButton *sendButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [sendButton setTitle:@"SEND" forState:UIControlStateNormal];
     [sendButton setTitleColor:[UIColor leoWhite] forState:UIControlStateNormal];
-    sendButton.titleLabel.font = [UIFont leoBodyBolderFont];
+    sendButton.titleLabel.font = [UIFont leoFieldAndUserLabelsAndSecondaryButtonsFont];
     
     self.inputToolbar.contentView.rightBarButtonItem = sendButton;
     self.inputToolbar.contentView.backgroundColor = [UIColor leoBlue];
     self.inputToolbar.contentView.textView.layer.borderColor = [UIColor whiteColor].CGColor;
     self.inputToolbar.contentView.textView.placeHolder = @"Type a message...";
     self.inputToolbar.contentView.textView.tintColor = [UIColor leoBlue];
+    self.inputToolbar.contentView.textView.placeHolderTextColor = [UIColor leoGrayForPlaceholdersAndLines];
     self.inputToolbar.layer.borderColor = [UIColor whiteColor].CGColor;
     
     /**
@@ -88,7 +89,7 @@
     */
     JSQMessagesBubbleImageFactory *bubbleFactory = [[JSQMessagesBubbleImageFactory alloc] init];
     self.outgoingBubbleImageData = [bubbleFactory outgoingMessagesBubbleImageWithColor:[UIColor leoBlue]];
-    self.incomingBubbleImageData = [bubbleFactory incomingMessagesBubbleImageWithColor:[UIColor leoGrayBackground]];
+    self.incomingBubbleImageData = [bubbleFactory incomingMessagesBubbleImageWithColor:[UIColor leoGrayForMessageBubbles]];
     
     
     /**
@@ -150,7 +151,7 @@
      *  self.inputToolbar.maximumHeight = 150;
      */
     
-    self.collectionView.collectionViewLayout.messageBubbleFont = [UIFont leoBodyFont];
+    self.collectionView.collectionViewLayout.messageBubbleFont = [UIFont leoStandardFont];
     
 }
 
@@ -448,8 +449,7 @@
     
     
     //FIXME:This should be replaced with the actual avatar, but since we don't yet have those...here is a placeholder.
-//    JSQMessagesAvatarImage *avatarImage = [LEOMessagesAvatarImageFactory avatarImageWithImage:[UIImage imageNamed:@"Avatar-Emily"] diameter:kJSQMessagesCollectionViewAvatarSizeDefault borderColor:[UIColor leoBlack]];
-    
+
     NSPredicate *userPredicate = [NSPredicate predicateWithFormat:@"objectID == %@", message.sender.objectID];
     
     if (self.participants == nil) {
@@ -466,7 +466,7 @@
     
     NSLog(@"User: %@", user);
     
-    JSQMessagesAvatarImage *avatarImage = [LEOMessagesAvatarImageFactory avatarImageWithImage:userImage diameter:kJSQMessagesCollectionViewAvatarSizeDefault borderColor:[UIColor leoBlack]borderWidth:3];
+    JSQMessagesAvatarImage *avatarImage = [LEOMessagesAvatarImageFactory avatarImageWithImage:userImage diameter:kJSQMessagesCollectionViewAvatarSizeDefault borderColor:[UIColor leoGrayForPlaceholdersAndLines]borderWidth:3];
     
     return avatarImage;
 }
@@ -493,12 +493,12 @@
     
     Message *message = [self.messages objectAtIndex:indexPath.item];
 
-    NSDictionary *attributes = @{NSFontAttributeName : [UIFont leoChatTimestampLabelFont], NSForegroundColorAttributeName : [UIColor leoGrayBodyText]};
+    NSDictionary *attributes = @{NSFontAttributeName : [UIFont leoButtonLabelsAndTimeStampsFont], NSForegroundColorAttributeName : [UIColor leoGrayStandard]};
     
     NSString *basicDateString = [NSString stringWithFormat:@"  %@  ", [NSDate stringifiedDateWithDot:message.createdAt]];
     NSAttributedString *dateString = [[NSAttributedString alloc] initWithString:basicDateString attributes:attributes];
 
-    attributes = @{NSForegroundColorAttributeName : [UIColor whiteColor], NSStrikethroughColorAttributeName: [UIColor leoGrayBodyText], NSStrikethroughStyleAttributeName : [NSNumber numberWithInteger:NSUnderlinePatternSolid | NSUnderlineStyleSingle]};
+    attributes = @{NSForegroundColorAttributeName : [UIColor whiteColor], NSStrikethroughColorAttributeName: [UIColor leoGrayStandard], NSStrikethroughStyleAttributeName : [NSNumber numberWithInteger:NSUnderlinePatternSolid | NSUnderlineStyleSingle]};
     
     NSUInteger dateLength = [dateString length];
     NSUInteger fullLengthOfBreak = 60;
@@ -554,19 +554,19 @@
         NSString *dateString = [NSString stringWithFormat:@"%@ ∙ ", [NSDate stringifiedTime:message.createdAt]];
         
         
-        NSDictionary *attributes = @{NSFontAttributeName : [UIFont leoChatTimestampLabelFont], NSForegroundColorAttributeName : [UIColor leoGrayBodyText]};
+        NSDictionary *attributes = @{NSFontAttributeName : [UIFont leoButtonLabelsAndTimeStampsFont], NSForegroundColorAttributeName : [UIColor leoGrayStandard]};
         NSAttributedString *timestampAttributedString = [[NSAttributedString alloc] initWithString:dateString attributes:attributes];
         
         [concatenatedDisplayNameAndTime appendAttributedString:timestampAttributedString];
         
-        attributes = @{NSFontAttributeName : [UIFont leoButtonFont], NSForegroundColorAttributeName : [UIColor leoBlue]};
+        attributes = @{NSFontAttributeName : [UIFont leoFieldAndUserLabelsAndSecondaryButtonsFont], NSForegroundColorAttributeName : [UIColor leoBlue]};
         NSAttributedString *senderAttributedString = [[NSAttributedString alloc] initWithString:message.sender.firstName attributes:attributes];
         
         [concatenatedDisplayNameAndTime appendAttributedString:senderAttributedString];
 
     } else {
         
-        NSDictionary *attributes = @{NSFontAttributeName : [UIFont leoButtonFont], NSForegroundColorAttributeName : [UIColor leoBlue]};
+        NSDictionary *attributes = @{NSFontAttributeName : [UIFont leoFieldAndUserLabelsAndSecondaryButtonsFont], NSForegroundColorAttributeName : [UIColor leoBlue]};
         NSAttributedString *senderAttributedString = [[NSAttributedString alloc] initWithString:message.senderDisplayName attributes:attributes];
         
         [concatenatedDisplayNameAndTime appendAttributedString:senderAttributedString];
@@ -574,13 +574,13 @@
         if ([message.sender isKindOfClass:[Support class]]) {
             
             Support *support = (Support *)message.sender;
-            attributes = @{NSFontAttributeName : [UIFont leoButtonFont], NSForegroundColorAttributeName : [UIColor leoGrayBodyText]};
+            attributes = @{NSFontAttributeName : [UIFont leoFieldAndUserLabelsAndSecondaryButtonsFont], NSForegroundColorAttributeName : [UIColor leoGrayStandard]};
             NSAttributedString *roleAttributedString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@",support.roleDisplayName] attributes:attributes];
             [concatenatedDisplayNameAndTime appendAttributedString:roleAttributedString];
         } else if ([message.sender isKindOfClass:[Provider class]]) {
             
             Provider *provider = (Provider *)message.sender;
-            attributes = @{NSFontAttributeName : [UIFont leoButtonFont], NSForegroundColorAttributeName : [UIColor leoGrayBodyText]};
+            attributes = @{NSFontAttributeName : [UIFont leoFieldAndUserLabelsAndSecondaryButtonsFont], NSForegroundColorAttributeName : [UIColor leoGrayStandard]};
             NSAttributedString *credentialAttributedString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@",provider.credentials[0]] attributes:attributes];
             [concatenatedDisplayNameAndTime appendAttributedString:credentialAttributedString];
         }
@@ -588,7 +588,7 @@
         NSString *dateString = [NSString stringWithFormat:@" ∙ %@", [NSDate stringifiedTime:message.createdAt]];
         
         
-        attributes = @{NSFontAttributeName : [UIFont leoChatTimestampLabelFont], NSForegroundColorAttributeName : [UIColor leoGrayBodyText]};
+        attributes = @{NSFontAttributeName : [UIFont leoButtonLabelsAndTimeStampsFont], NSForegroundColorAttributeName : [UIColor leoGrayStandard]};
         NSAttributedString *timestampAttributedString = [[NSAttributedString alloc] initWithString:dateString attributes:attributes];
         
         [concatenatedDisplayNameAndTime appendAttributedString:timestampAttributedString];
@@ -631,7 +631,7 @@
     if ([message.senderId isEqualToString:self.senderId]) {
         cell.textView.backgroundColor = [UIColor leoBlue];
     } else {
-        cell.textView.backgroundColor = [UIColor leoGrayBackground];
+        cell.textView.backgroundColor = [UIColor leoGrayForMessageBubbles];
     }
     
     cell.textView.layer.borderColor = [UIColor clearColor].CGColor;

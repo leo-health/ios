@@ -75,7 +75,7 @@
     [self.view addSubview:self.button];
     [self.button addTarget:self action:@selector(buttonTapped) forControlEvents:UIControlEventTouchUpInside];
     [self.button setTitle:self.card.stringRepresentationOfActionsAvailableForState[0] forState:UIControlStateNormal];
-    self.button.titleLabel.font = [UIFont leoButtonFont];
+    self.button.titleLabel.font = [UIFont leoButtonLabelsAndTimeStampsFont];
     self.button.backgroundColor = self.card.tintColor;
     [self.button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     
@@ -124,7 +124,7 @@
     navBarTitleLabel.text = self.card.title;
     
     navBarTitleLabel.textColor = [UIColor leoWhite];
-    navBarTitleLabel.font = [UIFont leoTitleBoldFont];
+    navBarTitleLabel.font = [UIFont leoMenuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
     
     [navBarTitleLabel sizeToFit]; //MARK: not sure this is useful anymore now that we have added autolayout.
     
@@ -132,7 +132,7 @@
     self.navigationItem.titleView.alpha = 0;
     
     self.titleLabel.text = self.expandedFullTitle;
-    self.titleLabel.font = [UIFont leoHeaderLightFont];
+    self.titleLabel.font = [UIFont leoExpandedCardHeaderFont];
     self.titleLabel.textColor = [UIColor leoWhite];
     self.titleLabel.numberOfLines = 0;
     self.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
@@ -344,7 +344,7 @@
         [self.buttonLayer removeFromSuperlayer];
         self.button.enabled = YES;
     } else {
-        [self.button setBackgroundColor:[UIColor leoGrayBackground]];
+        [self.button setBackgroundColor:[UIColor leoGrayStandard]];
         [self.button.layer addSublayer:self.buttonLayer];
         self.button.enabled = NO;
     }
@@ -356,7 +356,7 @@
         
         _buttonLayer = [CALayer layer];
         _buttonLayer.frame = CGRectMake(0.0f, 0.0f, self.button.frame.size.width, 1.0);
-        _buttonLayer.borderColor = [UIColor leoBlack].CGColor;
+        _buttonLayer.borderColor = [UIColor leoGrayForPlaceholdersAndLines].CGColor;
         _buttonLayer.borderWidth = 1.0;
     }
     
