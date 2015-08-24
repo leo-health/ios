@@ -153,14 +153,18 @@
 
 - (void)setupButtons {
     
-    [self validateForChoosingSlots];
+    self.questionCalendarButton.enabled = NO;
     
-    [self updateAppointmentSlotButton:self.questionCalendarButton];
+    if ([self validateForChoosingSlots]) {
+        self.questionCalendarButton.enabled = YES;
+    }
+    
+    [self updateButtonTitle:self.questionCalendarButton];
     [self updateButtonTitle:self.questionPatientsButton];
     [self updateButtonTitle:self.questionStaffButton];
     [self updateButtonTitle:self.questionVisitTypeButton];
     [self toggleButtonValidated:[self shouldEnableUserToBookAppointment]];
-
+    
 }
 
 
@@ -269,9 +273,9 @@
 /**
  *  Determine whether the calendar button should be enabled
  */
-- (void)validateForChoosingSlots {
+- (BOOL)validateForChoosingSlots {
     
-    self.questionCalendarButton.enabled = [self shouldEnableUserToChooseASlot] ? YES : NO;
+    return [self shouldEnableUserToChooseASlot] ? YES : NO;
 }
 
 
@@ -366,11 +370,11 @@
         selectionVC.requestOperation = [[LEOAPIAppointmentTypesOperation alloc] init];
         selectionVC.delegate = self;
         
-//        [UIView animateWithDuration:0.25
-//                         animations:^{
-//                             [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-//                             [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight forView:self.navigationController.view cache:NO];
-//                         }];
+        //        [UIView animateWithDuration:0.25
+        //                         animations:^{
+        //                             [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+        //                             [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight forView:self.navigationController.view cache:NO];
+        //                         }];
         
     } else
         if ([segue.identifier isEqualToString:@"PatientSegue"]) {
@@ -460,27 +464,33 @@
      */
     if (object == self.prepAppointment) {
         
+        
         if ([keyPath isEqualToString:@"appointmentType"]) {
             
-            [self toggleButtonValidated:[self shouldEnableUserToBookAppointment]];
             [self updateButtonTitle:self.questionVisitTypeButton];
+            [self toggleButtonValidated:[self shouldEnableUserToBookAppointment]];
             
         } else if ([keyPath isEqualToString:@"provider"]) {
             
-            [self toggleButtonValidated:[self shouldEnableUserToBookAppointment]];
             [self updateButtonTitle:self.questionStaffButton];
+            [self toggleButtonValidated:[self shouldEnableUserToBookAppointment]];
             
         } else if ([keyPath isEqualToString:@"patient"]) {
             
-            [self toggleButtonValidated:[self shouldEnableUserToBookAppointment]];
             [self updateButtonTitle:self.questionPatientsButton];
+            [self toggleButtonValidated:[self shouldEnableUserToBookAppointment]];
+            
             
         } else if ([keyPath isEqualToString:@"date"]) {
-
-            [self validateForChoosingSlots];
+            
             [self toggleButtonValidated:[self shouldEnableUserToBookAppointment]];
-            [self updateButtonTitle:self.questionCalendarButton];
         }
+        
+        if ([self validateForChoosingSlots]) {
+            self.questionCalendarButton.enabled = YES;
+            [self updateButtonTitle:self.questionCalendarButton];
+        };
+        
     }
 }
 
@@ -526,47 +536,54 @@
 }
 
 
-- (void)updateAppointmentSlotButton:button {
+- (void)updateAppointmentSlotButton:(UIButton *)button {
     
     if (self.prepAppointment.date) {
-    NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
-    [style setAlignment:NSTextAlignmentLeft];
-    [style setLineBreakMode:NSLineBreakByWordWrapping];
-    
-    UIFont *baseFont = [UIFont leoStandardFont];
-    UIFont *variableFont = [UIFont leoMenuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
-    
-    UIColor *baseColor = [UIColor leoGrayStandard];
-    UIColor *variableColor = [UIColor leoGreen];
-    
-    NSDictionary *baseDictionary = @{NSForegroundColorAttributeName:baseColor,
-                                     NSFontAttributeName:baseFont,
-                                     NSParagraphStyleAttributeName:style};
-    
-    NSDictionary *variableDictionary = @{NSForegroundColorAttributeName:variableColor,
-                                         NSFontAttributeName:variableFont,
+        NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+        [style setAlignment:NSTextAlignmentLeft];
+        [style setLineBreakMode:NSLineBreakByWordWrapping];
+        
+        UIFont *baseFont = [UIFont leoStandardFont];
+        UIFont *variableFont = [UIFont leoMenuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
+        
+        UIColor *baseColor = [UIColor leoGrayStandard];
+        UIColor *variableColor = [UIColor leoGreen];
+        
+        NSDictionary *baseDictionary = @{NSForegroundColorAttributeName:baseColor,
+                                         NSFontAttributeName:baseFont,
                                          NSParagraphStyleAttributeName:style};
-    
-    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] init];
-    
-    
-    [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:@"My visit is at "
-                                                                       attributes:baseDictionary]];
-    
-    [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:[NSDate stringifiedTime:self.prepAppointment.date]
+        
+        NSDictionary *variableDictionary = @{NSForegroundColorAttributeName:variableColor,
+                                             NSFontAttributeName:variableFont,
+                                             NSParagraphStyleAttributeName:style};
+        
+        NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] init];
+        
+        
+        [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:@"My visit is at "
+                                                                           attributes:baseDictionary]];
+        
+        [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:[NSDate stringifiedTime:self.prepAppointment.date]
                                                                            attributes:variableDictionary]];
-    
-    [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:@" on "
-                                                                       attributes:baseDictionary]];
-    
-    [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:[NSDate stringifiedDateWithCommas:self.prepAppointment.date]
-                                                                       attributes:variableDictionary]];
-    
-    [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:[self dayOfMonthSuffix:self.prepAppointment.date.day]
-                                                                       attributes:variableDictionary]];
-
-    [button setAttributedTitle:attrString forState:UIControlStateNormal];
+        
+        [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:@" on "
+                                                                           attributes:baseDictionary]];
+        
+        [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:[NSDate stringifiedDateWithCommas:self.prepAppointment.date]
+                                                                           attributes:variableDictionary]];
+        
+        [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:[self dayOfMonthSuffix:self.prepAppointment.date.day]
+                                                                           attributes:variableDictionary]];
+        
+        [button setAttributedTitle:attrString forState:UIControlStateNormal];
+        
+        button.titleLabel.adjustsFontSizeToFitWidth = YES;
+    } else {
+        
+        [self updateButton:button withBaseString:@"Please complete the fields above\nbefore selecting an appointment date and time." variableStrings:nil];
     }
+    
+    
 }
 
 - (void)updateButtonTitle:(UIButton *)button {
@@ -591,10 +608,10 @@
         
         if (self.prepAppointment.provider) {
             
-
+            
             NSString *credential = [self.prepAppointment.provider.credentials[0] stringByReplacingOccurrencesOfString:@"." withString:@""];  //TODO: This will need to be updated at some point when we decide how we want to handle these.
-
-            [self updateButton:button withBaseString:@"I would like to be seen by\n" variableStrings:@[[NSString stringWithFormat:@"%@ %@",self.prepAppointment.provider.fullName, credential]]];
+            
+            [self updateButton:button withBaseString:@"We will be seen by" variableStrings:@[[NSString stringWithFormat:@"%@ %@",self.prepAppointment.provider.fullName, credential]]];
         } else {
             [self updateButton:button withBaseString:@"Who would you like to see?" variableStrings:nil];
         }
@@ -607,6 +624,7 @@
             [self updateButton:button withBaseString:@"When would you like to come in?" variableStrings:nil];
         } else if (!self.prepAppointment.date && !self.questionCalendarButton.enabled) {
             [self updateButton:button withBaseString:@"Please complete the fields above before selecting an appointment date and time." variableStrings:nil];
+            button.frame = CGRectMake(button.frame.origin.x, button.frame.origin.y, button.frame.size.width, button.titleLabel.frame.size.height);
         }
     }
     
@@ -619,7 +637,7 @@
     CGSize imageSize = button.imageView.image.size;
     
     [button setImageEdgeInsets:UIEdgeInsetsMake(0, size.width - imageSize.width, 0, 0)];
-    [button setTitleEdgeInsets:UIEdgeInsetsMake(0, -imageSize.width, 0, 0)];
+    [button setTitleEdgeInsets:UIEdgeInsetsMake(0, -imageSize.width, 0, 10)];
     button.tintColor = [UIColor leoGreen];
 }
 

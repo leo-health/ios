@@ -108,7 +108,7 @@
         nameComponents = @[self.firstName, self.lastName];
     }
     
-    return [nameComponents componentsJoinedByString:@" "];
+    return [[nameComponents componentsJoinedByString:@" "] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 }
 
 - (NSString *)description {

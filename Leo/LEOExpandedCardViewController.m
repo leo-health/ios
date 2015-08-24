@@ -47,7 +47,8 @@
 - (void)setupSubviews {
     
     self.scrollView = [[UIScrollView alloc] init];
-    self.scrollView.bounces = NO;
+    self.scrollView.bounces = YES;
+    self.view.backgroundColor = self.card.tintColor;
     [self.scrollView setShowsHorizontalScrollIndicator:NO];
     [self.scrollView setShowsVerticalScrollIndicator:NO];
     
