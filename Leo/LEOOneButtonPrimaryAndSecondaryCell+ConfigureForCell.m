@@ -23,7 +23,6 @@
     
     self.secondaryUserView.provider = (Provider *)card.secondaryUser;
     self.secondaryUserView.timeStamp = card.timestamp;
-    self.secondaryUserView.cardColor = card.tintColor;
     self.secondaryUserView.cardLayout = CardLayoutOneButtonPrimaryAndSecondary;
     self.secondaryUserView.backgroundColor = [UIColor clearColor];
     self.bodyLabel.text = [card body];
@@ -33,6 +32,7 @@
     [self.buttonOne addTarget:card action:NSSelectorFromString([card actionsAvailableForState][0]) forControlEvents:UIControlEventTouchUpInside];
     
     [self formatSubviewsWithTintColor:card.tintColor];
+    [self setCopyFontAndColor];
     
     //FIXME: Should I have access to this method outside of secondaryUserViews
     [self.secondaryUserView refreshSubviews];
@@ -40,6 +40,12 @@
 
 
 - (void)formatSubviewsWithTintColor:(UIColor *)tintColor {
+    
+    self.topBorderView.backgroundColor = tintColor;
+    self.secondaryUserView.cardColor = tintColor;
+}
+
+- (void)setCopyFontAndColor {
     
     self.titleLabel.font = [UIFont leoTitleFont];
     self.titleLabel.textColor = [UIColor leoGrayTitleText];
@@ -51,7 +57,7 @@
     self.bodyLabel.textColor = [UIColor leoGrayBodyText];
     
     self.buttonOne.titleLabel.font = [UIFont leoButtonFont];
-    [self.buttonOne setTitleColor:[UIColor leoGrayButtonText] forState:UIControlStateNormal];    
+    [self.buttonOne setTitleColor:[UIColor leoGrayButtonText] forState:UIControlStateNormal];
 }
 
 

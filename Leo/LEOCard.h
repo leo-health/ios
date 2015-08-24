@@ -49,7 +49,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable User *)primaryUser;
 - (NSDate *)timestamp;
 - (NSArray *)actionsAvailableForState;
-
 - (void)returnToPriorState;
 
 NS_ASSUME_NONNULL_END

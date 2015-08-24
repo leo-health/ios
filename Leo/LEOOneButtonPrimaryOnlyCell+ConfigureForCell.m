@@ -27,22 +27,28 @@
     [self.buttonOne addTarget:card action:NSSelectorFromString([card actionsAvailableForState][0]) forControlEvents:UIControlEventTouchUpInside];
     
     [self formatSubviewsWithTintColor:card.tintColor];
+    [self setCopyFontAndColor];
 }
 
 - (void)formatSubviewsWithTintColor:(UIColor *)tintColor {
     
+    self.topBorderView.backgroundColor = tintColor;
+    self.primaryUserLabel.textColor = tintColor;
+}
+
+- (void)setCopyFontAndColor {
+
     self.titleLabel.font = [UIFont leoTitleFont];
     self.titleLabel.textColor = [UIColor leoGrayTitleText];
     
     self.primaryUserLabel.font = [UIFont leoUserFont];
-    self.primaryUserLabel.textColor = tintColor;
     
     self.bodyLabel.font = [UIFont leoBodyFont];
     self.bodyLabel.textColor = [UIColor leoGrayBodyText];
     
     self.buttonOne.titleLabel.font = [UIFont leoButtonFont];
     [self.buttonOne setTitleColor:[UIColor leoGrayButtonText] forState:UIControlStateNormal];
-}
 
+}
 
 @end

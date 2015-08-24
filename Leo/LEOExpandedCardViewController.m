@@ -36,7 +36,6 @@
     self.titleView.backgroundColor = self.card.tintColor; //TODO: Will ultimately be a gradient of the tintColor with some calculation in a separate image extension class, but for now, this will suffice.
 
     self.contentView.backgroundColor = [UIColor whiteColor];
-    
 }
 
 -(void)setExpandedFullTitle:(NSString *)expandedFullTitle {

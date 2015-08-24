@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
     </dependencies>
@@ -16,15 +16,13 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="emf-Vd-I1x" userLabel="Body View">
                         <rect key="frame" x="8" y="5" width="304" height="390"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="Primary User" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TNa-6x-3GG">
-                                <rect key="frame" x="69" y="26" width="195" height="14"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Op6-4g-iS8" userLabel="Top Border View">
+                                <rect key="frame" x="0.0" y="0.0" width="304" height="1"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="14" id="xQr-ZA-rap"/>
+                                    <constraint firstAttribute="height" constant="1" id="OUk-ui-TN9"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="12"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tf8-7F-CYc">
                                 <rect key="frame" x="69" y="44" width="219" height="26"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="19"/>
@@ -38,6 +36,20 @@
                                     <constraint firstAttribute="width" constant="40" id="bn7-a3-F9s"/>
                                 </constraints>
                             </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JAI-jZ-hOm" userLabel="Button Top Border View">
+                                <rect key="frame" x="0.0" y="346" width="304" height="1"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="FtD-SO-Y65"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5zx-8K-FSc" userLabel="Button Middle Border View">
+                                <rect key="frame" x="152" y="346" width="1" height="44"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="1" id="atP-qS-gef"/>
+                                </constraints>
+                            </view>
                             <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0ZN-to-xTT">
                                 <rect key="frame" x="0.0" y="346" width="152" height="44"/>
                                 <constraints>
@@ -63,26 +75,44 @@
                                 <color key="textColor" red="0.41176470588235292" green="0.41176470588235292" blue="0.41176470588235292" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="Primary User" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TNa-6x-3GG">
+                                <rect key="frame" x="69" y="26" width="195" height="14"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="14" id="xQr-ZA-rap"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="12"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="cYX-xN-RbG" firstAttribute="top" secondItem="emf-Vd-I1x" secondAttribute="top" constant="26" id="01Z-0g-SL9"/>
                             <constraint firstItem="tf8-7F-CYc" firstAttribute="leading" secondItem="z9T-I8-Dzm" secondAttribute="leading" id="04U-7P-a8v"/>
                             <constraint firstItem="tWE-cc-fNO" firstAttribute="leading" secondItem="0ZN-to-xTT" secondAttribute="trailing" id="5DT-Cr-5oR"/>
+                            <constraint firstAttribute="centerX" secondItem="5zx-8K-FSc" secondAttribute="centerX" id="BiQ-Jp-kBu"/>
+                            <constraint firstItem="Op6-4g-iS8" firstAttribute="leading" secondItem="emf-Vd-I1x" secondAttribute="leading" id="ETC-K1-jz5"/>
+                            <constraint firstAttribute="trailing" secondItem="JAI-jZ-hOm" secondAttribute="trailing" id="EeI-YM-tWQ"/>
+                            <constraint firstItem="JAI-jZ-hOm" firstAttribute="leading" secondItem="emf-Vd-I1x" secondAttribute="leading" id="EqJ-Wc-Dxg"/>
                             <constraint firstItem="0ZN-to-xTT" firstAttribute="top" secondItem="z9T-I8-Dzm" secondAttribute="bottom" constant="24" id="FG0-BS-wFF"/>
+                            <constraint firstAttribute="trailing" secondItem="Op6-4g-iS8" secondAttribute="trailing" id="Gg8-Xc-1bJ"/>
+                            <constraint firstItem="Op6-4g-iS8" firstAttribute="top" secondItem="emf-Vd-I1x" secondAttribute="top" id="JOR-bg-BTE"/>
                             <constraint firstItem="0ZN-to-xTT" firstAttribute="leading" secondItem="emf-Vd-I1x" secondAttribute="leading" id="LU2-Qx-fB7"/>
                             <constraint firstItem="TNa-6x-3GG" firstAttribute="leading" secondItem="cYX-xN-RbG" secondAttribute="trailing" constant="13" id="NLm-yR-5Js"/>
                             <constraint firstItem="0ZN-to-xTT" firstAttribute="height" secondItem="tWE-cc-fNO" secondAttribute="height" id="Qbi-hL-aj4"/>
                             <constraint firstItem="cYX-xN-RbG" firstAttribute="leading" secondItem="emf-Vd-I1x" secondAttribute="leading" constant="16" id="S51-Ai-VbK"/>
+                            <constraint firstAttribute="bottom" secondItem="5zx-8K-FSc" secondAttribute="bottom" id="She-Gf-0VE"/>
                             <constraint firstAttribute="bottom" secondItem="tWE-cc-fNO" secondAttribute="bottom" id="Z1X-ht-j6D"/>
                             <constraint firstAttribute="trailing" secondItem="tWE-cc-fNO" secondAttribute="trailing" id="cCD-Fs-Mny"/>
                             <constraint firstAttribute="trailing" secondItem="tf8-7F-CYc" secondAttribute="trailing" constant="16" id="cqr-D0-1Ec"/>
                             <constraint firstItem="0ZN-to-xTT" firstAttribute="width" secondItem="tWE-cc-fNO" secondAttribute="width" id="fHs-Np-IF4"/>
                             <constraint firstAttribute="trailing" secondItem="z9T-I8-Dzm" secondAttribute="trailing" constant="16" id="fia-gw-3iC"/>
+                            <constraint firstItem="5zx-8K-FSc" firstAttribute="height" secondItem="0ZN-to-xTT" secondAttribute="height" id="gxR-BR-OCi"/>
                             <constraint firstItem="z9T-I8-Dzm" firstAttribute="top" secondItem="tf8-7F-CYc" secondAttribute="bottom" constant="1" id="iqM-tj-h1M"/>
                             <constraint firstItem="tf8-7F-CYc" firstAttribute="top" secondItem="TNa-6x-3GG" secondAttribute="bottom" constant="4" id="k0z-kW-abJ"/>
                             <constraint firstItem="tf8-7F-CYc" firstAttribute="leading" secondItem="TNa-6x-3GG" secondAttribute="leading" id="lD9-1s-hzD"/>
                             <constraint firstAttribute="trailing" secondItem="TNa-6x-3GG" secondAttribute="trailing" constant="40" id="lbp-kM-cOw"/>
+                            <constraint firstItem="JAI-jZ-hOm" firstAttribute="top" secondItem="0ZN-to-xTT" secondAttribute="top" id="qgY-cI-ED1"/>
                             <constraint firstItem="cYX-xN-RbG" firstAttribute="top" secondItem="TNa-6x-3GG" secondAttribute="top" id="yfj-m0-7DY"/>
                             <constraint firstAttribute="bottom" secondItem="0ZN-to-xTT" secondAttribute="bottom" id="ze9-71-R6Z"/>
                         </constraints>
@@ -97,11 +127,13 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="bodyLabel" destination="z9T-I8-Dzm" id="tiJ-xg-n5c"/>
+                <outlet property="bodyView" destination="emf-Vd-I1x" id="hi1-PQ-7Dl"/>
                 <outlet property="buttonOne" destination="0ZN-to-xTT" id="vuS-08-zoB"/>
                 <outlet property="buttonTwo" destination="tWE-cc-fNO" id="zhV-H8-pdy"/>
                 <outlet property="iconImageView" destination="cYX-xN-RbG" id="51G-88-g5r"/>
                 <outlet property="primaryUserLabel" destination="TNa-6x-3GG" id="Cdv-d4-wbs"/>
                 <outlet property="titleLabel" destination="tf8-7F-CYc" id="s6A-pL-jVK"/>
+                <outlet property="topBorderView" destination="Op6-4g-iS8" id="LXT-wz-xMw"/>
             </connections>
             <point key="canvasLocation" x="533" y="492.5"/>
         </tableViewCell>

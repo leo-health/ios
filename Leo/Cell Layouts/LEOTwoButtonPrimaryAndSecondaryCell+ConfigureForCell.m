@@ -16,6 +16,7 @@
 
 - (void)configureForCard:(LEOCard *)card {
     
+
     self.iconImageView.image = [card icon];
     self.titleLabel.text = [card title];
     
@@ -23,11 +24,9 @@
 
     self.secondaryUserView.provider = card.secondaryUser;
     self.secondaryUserView.timeStamp = card.timestamp;
-    self.secondaryUserView.cardColor = card.tintColor;
     self.secondaryUserView.cardLayout = CardLayoutTwoButtonPrimaryAndSecondary;
     self.secondaryUserView.backgroundColor = [UIColor clearColor];
     self.bodyLabel.text = [card body];
-    
     
     [self.buttonOne setTitle:[card stringRepresentationOfActionsAvailableForState][0] forState:UIControlStateNormal];
     [self.buttonOne removeTarget:nil action:NULL forControlEvents:self.buttonOne.allControlEvents];
@@ -37,20 +36,27 @@
     
     [self.buttonTwo removeTarget:nil action:NULL forControlEvents:self.buttonTwo.allControlEvents];
     [self.buttonTwo addTarget:card action:NSSelectorFromString([card actionsAvailableForState][1]) forControlEvents:UIControlEventTouchUpInside];
+    
     [self formatSubviewsWithTintColor:card.tintColor];
+    [self setCopyFontAndColor];
     
     //FIXME: Should I have access to this method outside of secondaryUserViews
     [self.secondaryUserView refreshSubviews];
-    
 }
 
 - (void)formatSubviewsWithTintColor:(UIColor *)tintColor {
     
+    self.topBorderView.backgroundColor = tintColor;
+    self.primaryUserLabel.textColor = tintColor;
+    self.secondaryUserView.cardColor = tintColor;
+}
+
+- (void)setCopyFontAndColor {
+
     self.titleLabel.font = [UIFont leoTitleFont];
     self.titleLabel.textColor = [UIColor leoGrayTitleText];
     
     self.primaryUserLabel.font = [UIFont leoUserFont];
-    self.primaryUserLabel.textColor = tintColor;
 
     self.bodyLabel.font = [UIFont leoBodyFont];
     self.bodyLabel.textColor = [UIColor leoGrayBodyText];
@@ -61,6 +67,5 @@
     self.buttonTwo.titleLabel.font = [UIFont leoButtonFont];
     [self.buttonTwo setTitleColor:[UIColor leoGrayButtonText] forState:UIControlStateNormal];
 }
-
 
 @end

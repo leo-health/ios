@@ -30,17 +30,23 @@
     [self.buttonTwo setTitle:[card stringRepresentationOfActionsAvailableForState][1] forState:UIControlStateNormal];
     [self.buttonTwo removeTarget:nil action:NULL forControlEvents:self.buttonTwo.allControlEvents];
     [self.buttonTwo addTarget:card action:NSSelectorFromString([card actionsAvailableForState][1]) forControlEvents:UIControlEventTouchUpInside];
-    [self formatSubviewsWithTintColor:card.tintColor];
     
+    [self formatSubviewsWithTintColor:card.tintColor];
+    [self setCopyFontAndColor];
 }
 
 - (void)formatSubviewsWithTintColor:(UIColor *)tintColor {
+    
+    self.topBorderView.backgroundColor = tintColor;
+    self.primaryUserLabel.textColor = tintColor;
+}
 
+- (void)setCopyFontAndColor {
+    
     self.titleLabel.font = [UIFont leoTitleFont];
     self.titleLabel.textColor = [UIColor leoGrayTitleText];
     
     self.primaryUserLabel.font = [UIFont leoUserFont];
-    self.primaryUserLabel.textColor = tintColor;
     
     self.bodyLabel.font = [UIFont leoBodyFont];
     self.bodyLabel.textColor = [UIColor leoGrayBodyText];
