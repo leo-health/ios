@@ -19,7 +19,7 @@
 #import <MBProgressHUD/MBProgressHUD.h>
 #import "UIColor+LeoColors.h"
 #import "UIFont+LeoFonts.h"
-
+#import "LEOApiReachability.h"
 @interface LEOCalendarViewController ()
 
 @property (weak, nonatomic) IBOutlet UICollectionView *dateCollectionView;
@@ -59,12 +59,12 @@
     self.noSlotsLabel.hidden = YES;
 }
 
-- (void)requestDataWithCompletion:(void (^) (id data))completionBlock {
+- (void)requestDataWithCompletion:(void (^) (id data, NSError *error))completionBlock {
     
     NSOperationQueue *queue = [[NSOperationQueue alloc] init];
     
-    self.requestOperation.requestBlock = ^(id data) {
-        completionBlock(data);
+    self.requestOperation.requestBlock = ^(id data, NSError *error) {
+        completionBlock(data, error);
     };
     
     [queue addOperation:self.requestOperation];
@@ -118,14 +118,20 @@
 - (void)viewDidAppear:(BOOL)animated {
     
     [super viewDidAppear:animated];
-    [self loadCollectionViewWithInitialDate];
+    
+    [LEOApiReachability startMonitoringForController:self withContinueBlock:^{
+        [self loadCollectionViewWithInitialDate];
+    } withNoContinueBlock:^{
+        //tbd
+    }];
+
 }
 
 - (void)loadCollectionViewWithInitialDate {
     
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
-    [self requestDataWithCompletion:^(id data){
+    [self requestDataWithCompletion:^(id data, NSError *error){
         
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         

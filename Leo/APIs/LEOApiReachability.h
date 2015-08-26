@@ -10,7 +10,9 @@
 
 @interface LEOApiReachability : NSObject
 
-+ (void)startMonitoring;
++ (void)startMonitoringForController:(UIViewController *)viewController;
++ (void)startMonitoringForController:(UIViewController *)viewController withContinueBlock:(void (^)(void))continueBlock withNoContinueBlock:(void (^) (void))noContinueBlock;
+
 + (void)stopMonitoring;
 
 @end

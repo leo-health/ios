@@ -17,11 +17,11 @@
     
     __block id data;
     
-    [dataManager getAppointmentTypesWithCompletion:^(NSArray * appointmentTypes) {
+    [dataManager getAppointmentTypesWithCompletion:^(NSArray * appointmentTypes, NSError *error) {
         data = appointmentTypes;
         
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            self.requestBlock(data);
+            self.requestBlock(data, error);
         }];
     }];
 }

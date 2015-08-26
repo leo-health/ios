@@ -12,6 +12,7 @@
 #import "UIFont+LeoFonts.h"
 #import "UIColor+LeoColors.h"
 #import <MBProgressHUD/MBProgressHUD.h>
+#import "LEOApiReachability.h"
 
 @interface LEOBasicSelectionViewController ()
 
@@ -30,7 +31,6 @@
     
 
     [super viewDidLoad];
-    
     [self setupTableView];
     
 }
@@ -81,13 +81,37 @@
     self.tableView.separatorColor = [UIColor leoGrayForPlaceholdersAndLines];
 }
 
--(void)viewDidAppear:(BOOL)animated {
+- (void)viewDidAppear:(BOOL)animated {
     
     [super viewDidAppear:animated];
     
+    [LEOApiReachability startMonitoringForController:self withContinueBlock:^{
+        [self requestDataAndUpdateView];
+    } withNoContinueBlock:nil];
+}
+
+- (void)requestDataAndUpdateView {
+    
     [MBProgressHUD showHUDAddedTo:self.view.window animated:YES]; //TODO: Create separate class to set these up for all use cases with two methods that support showing and hiding our customized HUD.
     
-    [self requestDataWithCompletion:^(id data){
+    [self requestDataWithCompletion:^(id data, NSError *error){
+        
+        [MBProgressHUD hideHUDForView:self.view.window animated:YES];
+        
+        if (error) {
+            
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:@"Something went wrong!" preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Okay." style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                [self.navigationController popViewControllerAnimated:YES];
+            }];
+        
+            [alertController addAction:okAction];
+            
+            [self presentViewController:alertController animated:YES completion:nil];
+            
+            return;
+        }
         
         self.data = data;
         
@@ -105,18 +129,16 @@
         self.tableView.dataSource = self.dataSource;
         self.tableView.delegate = self;
         
-        [MBProgressHUD hideHUDForView:self.view.window animated:YES];
         [self.tableView reloadData];
     }];
-
-    
 }
-- (void)requestDataWithCompletion:(void (^) (id data))completionBlock {
+
+- (void)requestDataWithCompletion:(void (^) (id data, NSError *error))completionBlock {
     
     NSOperationQueue *queue = [[NSOperationQueue alloc] init];
     
-    self.requestOperation.requestBlock = ^(id data) {
-        completionBlock(data);
+    self.requestOperation.requestBlock = ^(id data, NSError *error) {
+        completionBlock(data, error);
     };
     
     [queue addOperation:self.requestOperation];

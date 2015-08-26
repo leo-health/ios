@@ -18,7 +18,7 @@
         id data = formattedSlots;
         
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            self.requestBlock(data);
+            self.requestBlock(data, nil);
         }];
 }
 

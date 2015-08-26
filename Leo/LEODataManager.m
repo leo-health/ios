@@ -64,60 +64,60 @@
     return [[Guardian alloc] initWithObjectID:@"3" familyID:@"10" title:@"Mrs." firstName:@"Marilyn" middleInitial:nil lastName:@"Drossman" suffix:nil email:@"marilyn@leohealth.com" avatarURL:nil avatar:nil primary:YES];
 }
 
-- (void)createUserWithUser:(nonnull User *)user password:(nonnull NSString *)password withCompletion:(void (^)( NSDictionary *  rawResults))completionBlock {
+- (void)createUserWithUser:( User *)user password:( NSString *)password withCompletion:(void (^)( NSDictionary *  rawResults, NSError *error))completionBlock {
     
     NSMutableDictionary *userParams = [[User dictionaryFromUser:user] mutableCopy];
     userParams[APIParamUser] = password;
-    [LEOApiClient createUserWithParameters:userParams withCompletion:^(NSDictionary *rawResults) {
+    [LEOApiClient createUserWithParameters:userParams withCompletion:^(NSDictionary *rawResults, NSError *error) {
         NSDictionary *userDictionary = rawResults[APIParamData][APIParamUser]; //TODO: Make sure I want this here and not defined somewhere else.
         user.objectID = userDictionary[APIParamID];
-        completionBlock(rawResults);
+        completionBlock(rawResults, error);
     }];
 }
 
-- (void)loginUserWithEmail:(nonnull NSString *)email password:(nonnull NSString *)password withCompletion:(void (^)(NSDictionary *  rawResults))completionBlock {
+- (void)loginUserWithEmail:( NSString *)email password:( NSString *)password withCompletion:(void (^)(NSDictionary *  rawResults, NSError *error))completionBlock {
     
     NSDictionary *loginParams = @{APIParamUserEmail:email, APIParamUserPassword:password};
     
-    [LEOApiClient loginUserWithParameters:loginParams withCompletion:^(NSDictionary *rawResults) {
+    [LEOApiClient loginUserWithParameters:loginParams withCompletion:^(NSDictionary *rawResults, NSError *error) {
         //TODO: Error terms
-        completionBlock(rawResults);
+        completionBlock(rawResults, error);
     }];
 }
 
-- (void)resetPasswordWithEmail:(nonnull NSString *)email withCompletion:(void (^)(NSDictionary *  rawResults))completionBlock {
+- (void)resetPasswordWithEmail:( NSString *)email withCompletion:(void (^)(NSDictionary *  rawResults, NSError *error))completionBlock {
     
     NSDictionary *resetPasswordParams = @{APIParamUserEmail:email};
     
-    [LEOApiClient resetPasswordWithParameters:resetPasswordParams withCompletion:^(NSDictionary *rawResults) {
+    [LEOApiClient resetPasswordWithParameters:resetPasswordParams withCompletion:^(NSDictionary *rawResults, NSError *error) {
         //TODO: Error terms
-        completionBlock(rawResults);
+        completionBlock(rawResults, error);
     }];
 }
 
-- (void)createAppointmentWithAppointment:(nonnull Appointment *)appointment withCompletion:(void (^)(NSDictionary  *  rawResults))completionBlock {
+- (void)createAppointmentWithAppointment:( Appointment *)appointment withCompletion:(void (^)(NSDictionary  *  rawResults, NSError *error))completionBlock {
     
     NSArray *apptValues = @[[self userToken], appointment.patient.objectID, appointment.date, appointment.provider.objectID];
     NSArray *apptKeys = @[APIParamToken, APIParamID, APIParamAppointmentStartDateTime, APIParamID];
     
     NSDictionary *apptParams = [[NSDictionary alloc] initWithObjects:apptValues forKeys:apptKeys];
     
-    [LEOApiClient createAppointmentWithParameters:apptParams withCompletion:^(NSDictionary *rawResults) {
+    [LEOApiClient createAppointmentWithParameters:apptParams withCompletion:^(NSDictionary *rawResults, NSError *error) {
         //TODO: Error terms
-        completionBlock(rawResults);
+        completionBlock(rawResults, error);
     }];
 }
 
-- (void)getAppointmentsForFamilyOfCurrentUserWithCompletion:(void (^)(NSDictionary  *  rawResults))completionBlock {
+- (void)getAppointmentsForFamilyOfCurrentUserWithCompletion:(void (^)(NSDictionary  *  rawResults, NSError *error))completionBlock {
     
     NSArray *apptValues = @[[self userToken]];
     NSArray *apptKeys = @[APIParamToken];
     
     NSDictionary *apptParams = [[NSDictionary alloc] initWithObjects:apptValues forKeys:apptKeys];
     
-    [LEOApiClient getAppointmentsForFamilyWithParameters:apptParams withCompletion:^(NSDictionary *  rawResults) {
+    [LEOApiClient getAppointmentsForFamilyWithParameters:apptParams withCompletion:^(NSDictionary *  rawResults, NSError *error) {
         //TODO: Error terms
-        completionBlock(rawResults);
+        completionBlock(rawResults, error);
     }];
 }
 
@@ -128,7 +128,7 @@
     
     NSDictionary *conversationParams = [[NSDictionary alloc] initWithObjects:conversationValues forKeys:conversationKeys];
     
-    [LEOApiClient getConversationsForFamilyWithParameters:conversationParams withCompletion:^(NSDictionary * rawResults) {
+    [LEOApiClient getConversationsForFamilyWithParameters:conversationParams withCompletion:^(NSDictionary * rawResults, NSError *error) {
         
         NSArray *participantArray = rawResults[APIParamData][APIParamConversationParticipants];
         
@@ -163,7 +163,7 @@
     
     NSDictionary *slotParams = [[NSDictionary alloc] initWithObjects:slotValues forKeys:slotKeys];
     
-    [LEOApiClient getSlotsWithParameters:slotParams withCompletion:^(NSDictionary * rawResults) {
+    [LEOApiClient getSlotsWithParameters:slotParams withCompletion:^(NSDictionary * rawResults, NSError *error) {
         
         NSArray *slotDictionaries = rawResults[APIParamData];
         
@@ -183,23 +183,23 @@
 
 
 //FIXME: Replace with actual implementation
-- (void)getAvatarForUser:(User *)user withCompletion:(void (^)(NSData *imageData))completionBlock {
+- (void)getAvatarForUser:(User *)user withCompletion:(void (^)(NSData *imageData, NSError *error))completionBlock {
     
     
     
     if (user.avatarURL) {
-        [LEOApiClient getAvatarFromURL:user.avatarURL withCompletion:^(NSData *data) {
-            completionBlock(data);
+        [LEOApiClient getAvatarFromURL:user.avatarURL withCompletion:^(NSData *data, NSError *error) {
+            completionBlock(data, error);
         }];
     } else {
         
         NSData *imageData =  UIImagePNGRepresentation([UIImage imageNamed:@"Icon-Calendar"]);
-        completionBlock(imageData);
+        completionBlock(imageData, nil);
         return;
     }
 }
 
-- (void)createMessage:(Message *)message forConversation:(nonnull Conversation *)conversation withCompletion:(void (^)(NSDictionary  *  rawResults))completionBlock {
+- (void)createMessage:(Message *)message forConversation:( Conversation *)conversation withCompletion:(void (^)(NSDictionary  *  rawResults, NSError *error))completionBlock {
     
     [conversation addMessage:message];
     
@@ -215,20 +215,20 @@
     
     NSDictionary *messageParams = [[NSDictionary alloc] initWithObjects:messageValues forKeys:messageKeys];
     
-    [LEOApiClient createMessageForConversation:conversation.objectID withParameters:messageParams withCompletion:^(NSDictionary *  rawResults) {
+    [LEOApiClient createMessageForConversation:conversation.objectID withParameters:messageParams withCompletion:^(NSDictionary *  rawResults, NSError *error) {
         //TODO: Error terms
-        completionBlock(rawResults);
+        completionBlock(rawResults, error);
     }];
 }
 
-- (void)getMessagesForConversation:(Conversation *)conversation withCompletion:(nonnull void (^)(NSArray *messages))completionBlock {
+- (void)getMessagesForConversation:(Conversation *)conversation withCompletion:( void (^)(NSArray *messages))completionBlock {
     
     NSArray *messageValues = @[self.userToken];
     NSArray *messageKeys = @[APIParamToken];
     
     NSDictionary *messageParams = [[NSDictionary alloc] initWithObjects:messageValues forKeys:messageKeys];
     
-    [LEOApiClient getMessagesForConversation:conversation.objectID withParameters:messageParams withCompletion:^(NSDictionary *  rawResults) {
+    [LEOApiClient getMessagesForConversation:conversation.objectID withParameters:messageParams withCompletion:^(NSDictionary *  rawResults, NSError *error) {
         
         NSArray *messageDictionaries = rawResults[APIParamData]; //remove messages part of this once stub is updated.
         
@@ -256,7 +256,7 @@
     
     NSDictionary *userParams = [[NSDictionary alloc] initWithObjects:user forKeys:userKey];
     
-    [LEOApiClient getCardsForUser:userParams withCompletion:^(NSDictionary *rawResults) {
+    [LEOApiClient getCardsForUser:userParams withCompletion:^(NSDictionary *rawResults, NSError *error) {
         
         //FIXME: Need to change for "data"?
         
@@ -284,7 +284,7 @@
     }];
 }
 
-- (void)getFamilyWithCompletion:(void (^)(Family *family))completionBlock {
+- (void)getFamilyWithCompletion:(void (^)(Family *family, NSError *error))completionBlock {
     
 //    NSString *filePath = [[self documentsDirectoryPath] stringByAppendingPathComponent:@"family"];
 //    Family *family = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
@@ -299,7 +299,7 @@
     
     NSDictionary *userParams = [[NSDictionary alloc] initWithObjects:user forKeys:userKey];
     
-    [LEOApiClient getFamilyWithUserParameters:userParams withCompletion:^(NSDictionary *rawResults) {
+    [LEOApiClient getFamilyWithUserParameters:userParams withCompletion:^(NSDictionary *rawResults, NSError *error) {
         
         NSDictionary *dataDictionary = rawResults[APIParamData];
         
@@ -308,25 +308,25 @@
 //        NSString *filePath = [[self documentsDirectoryPath] stringByAppendingPathComponent:@"family"];
 //        [NSKeyedArchiver archiveRootObject:family toFile:filePath];
 
-        completionBlock(family);
+        completionBlock(family, error);
     }];
 }
 
 
-- (void)getPracticeWithID:(NSString *)practiceID withCompletion:(void (^)(Practice *practice))completionBlock {
+- (void)getPracticeWithID:(NSString *)practiceID withCompletion:(void (^)(Practice *practice, NSError *error))completionBlock {
     
     NSArray *practiceValues = @[practiceID];
     NSArray *practiceKey = @[APIParamID];
     
     NSDictionary *practiceParams = [[NSDictionary alloc] initWithObjects:practiceValues forKeys:practiceKey];
     
-    [LEOApiClient getPracticeWithParameters:practiceParams withCompletion:^(NSDictionary *rawResults) {
+    [LEOApiClient getPracticeWithParameters:practiceParams withCompletion:^(NSDictionary *rawResults, NSError *error) {
         
         NSDictionary *dataArray = rawResults[APIParamData];
         Practice *practice = [[Practice alloc] initWithJSONDictionary:dataArray];
         
         //FIXME: Safety here
-        completionBlock(practice);
+        completionBlock(practice, error);
     }];
 }
 
@@ -349,9 +349,9 @@
     return [paths objectAtIndex:0];
 }
 
-- (void)getAppointmentTypesWithCompletion:(void (^)(NSArray *appointmentTypes))completionBlock {
+- (void)getAppointmentTypesWithCompletion:(void (^)(NSArray *appointmentTypes, NSError *error))completionBlock {
     
-    [LEOApiClient getAppointmentTypesWithCompletion:^(NSDictionary *rawResults) {
+    [LEOApiClient getAppointmentTypesWithCompletion:^(NSDictionary *rawResults, NSError *error) {
         
         NSArray *dataArray = rawResults[APIParamData];
         
@@ -362,7 +362,7 @@
             [appointmentTypes addObject:appointmentType];
         }
         
-        completionBlock(appointmentTypes);
+        completionBlock(appointmentTypes, error);
     }];
 }
 

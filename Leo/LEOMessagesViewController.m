@@ -455,7 +455,7 @@
     NSPredicate *userPredicate = [NSPredicate predicateWithFormat:@"objectID == %@", message.sender.objectID];
     
     if (self.participants == nil) {
-        [self.dataManager getPracticeWithID:@"0" withCompletion:^(Practice * practice) {
+        [self.dataManager getPracticeWithID:@"0" withCompletion:^(Practice * practice, NSError *error) {
             self.participants = practice.staff;
         }];
     }

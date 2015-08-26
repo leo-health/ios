@@ -71,7 +71,7 @@
     [self setupExpandedCardView];
     [self setupPrepAppointment];
     [self setupNotesTextView];
-    [LEOApiReachability startMonitoring];
+    [LEOApiReachability startMonitoringForController:self];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -92,6 +92,8 @@
     [self.prepAppointment removeObserver:self forKeyPath:@"appointmentType"];
     [self.prepAppointment removeObserver:self forKeyPath:@"date"];
     [self.prepAppointment removeObserver:self forKeyPath:@"provider"];
+    [self.prepAppointment removeObserver:self forKeyPath:@"patient"];
+
     
 }
 
@@ -167,6 +169,7 @@
  *  @param appointment
  */
 - (void)setAppointment:(Appointment *)appointment {
+    
     self.card.associatedCardObject = appointment;
 }
 

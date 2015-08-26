@@ -16,12 +16,12 @@
     
     LEODataManager *dataManager = [LEODataManager sharedManager];
         
-    [dataManager getFamilyWithCompletion:^(Family * family) {
+    [dataManager getFamilyWithCompletion:^(Family * family, NSError *error) {
 
         id data = family.patients;
         
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            self.requestBlock(data);
+            self.requestBlock(data, error);
         }];
     }];
 }

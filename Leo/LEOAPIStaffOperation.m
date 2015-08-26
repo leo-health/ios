@@ -16,14 +16,14 @@
     
     LEODataManager *dataManager = [LEODataManager sharedManager];
     
-    [dataManager getPracticeWithID:@"0" withCompletion:^(Practice *practice) {
+    [dataManager getPracticeWithID:@"0" withCompletion:^(Practice *practice, NSError *error) {
         
         NSPredicate *providerFilter = [NSPredicate predicateWithFormat:@"self isKindOfClass:%@",[Provider class]];
         
         id data = [practice.staff filteredArrayUsingPredicate:providerFilter];
         
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            self.requestBlock(data);
+            self.requestBlock(data, error);
         }];
     }];
 }
