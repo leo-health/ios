@@ -9,10 +9,14 @@
 #include "Shared.xcconfig"
 #include "Pods/Target Support Files/Pods-Leo/Pods-Leo.debug.xcconfig"
 
+STUBS_FEATURE = 0
+
+
+//Shared across all debug, so duplicated for the time being. May want to create a SharedDebug configuration file at some point
 ONLY_ACTIVE_ARCH = YES
 GCC_DYNAMIC_NO_PIC = NO
 GCC_SYMBOLS_PRIVATE_EXTERN = NO
-GCC_PREPROCESSOR_DEFINITIONS = DEBUG=1 $(inherited)
+GCC_PREPROCESSOR_DEFINITIONS = DEBUG=1 $(inherited) STUBS_FEATURE=$(STUBS_FEATURE)
 MTL_ENABLE_DEBUG_INFO = YES
 
 API_URL = leo-api-env.elasticbeanstalk.com

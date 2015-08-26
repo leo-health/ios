@@ -10,6 +10,10 @@
 #import "UIFont+LeoFonts.h"
 #import "UIColor+LeoColors.h"
 
+#ifdef STUBS_FEATURE
+#import "LEOStubs.h"
+#endif
+
 @interface AppDelegate ()
 
 @end
@@ -21,6 +25,10 @@
     
     [self setupGlobalFormatting];
     
+#ifdef STUBS_FEATURE
+    [LEOStubs setupStubs];
+#endif
+
     return YES;
 }
 

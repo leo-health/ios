@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		18BA867E436F53B27026FDB3 /* libPods-LeoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E5BC0D4370F984698F4E074 /* libPods-LeoTests.a */; };
 		1E7306FB1B3F823800D029CC /* UIScrollView+LEOScrollToVisible.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E7306FA1B3F823800D029CC /* UIScrollView+LEOScrollToVisible.m */; };
 		310740741B545EFD0098FD40 /* LEOCardConversation.m in Sources */ = {isa = PBXBuildFile; fileRef = 310740731B545EFD0098FD40 /* LEOCardConversation.m */; };
 		31197A0C1B39A70C00C773BA /* UIImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 31197A0B1B39A70C00C773BA /* UIImageEffects.m */; };
@@ -44,6 +45,7 @@
 		318CA7CD1B4EEAA4004E44AD /* Support.m in Sources */ = {isa = PBXBuildFile; fileRef = 318CA7CC1B4EEAA4004E44AD /* Support.m */; };
 		318EEE0F1B3B3FA3002D1653 /* Assets in Resources */ = {isa = PBXBuildFile; fileRef = 318EEE0E1B3B3FA3002D1653 /* Assets */; };
 		3192ACD91B0CC7C5007195F2 /* UIImage+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3192ACD81B0CC7C5007195F2 /* UIImage+Extensions.m */; };
+		3196AAF91B8E01C900B11112 /* LEOStubs.m in Sources */ = {isa = PBXBuildFile; fileRef = 3196AAF81B8E01C900B11112 /* LEOStubs.m */; };
 		319F335D1B2201F900C1C526 /* CollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 319F335C1B2201F900C1C526 /* CollectionViewLayout.m */; };
 		31A286811B0A2DB100CBAF1A /* LEOAPIHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 31A286801B0A2DB100CBAF1A /* LEOAPIHelper.m */; };
 		31B998C61B7BD4F40055DEEA /* UIFont+LeoFonts.m in Sources */ = {isa = PBXBuildFile; fileRef = 31B998C51B7BD4F40055DEEA /* UIFont+LeoFonts.m */; };
@@ -202,6 +204,9 @@
 		318EEE0E1B3B3FA3002D1653 /* Assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Assets; path = ../../../Assets; sourceTree = "<group>"; };
 		3192ACD71B0CC7C5007195F2 /* UIImage+Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Extensions.h"; sourceTree = "<group>"; };
 		3192ACD81B0CC7C5007195F2 /* UIImage+Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Extensions.m"; sourceTree = "<group>"; };
+		3196AAF61B8DFFDD00B11112 /* DebugStubs.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = DebugStubs.xcconfig; path = xcconfig/DebugStubs.xcconfig; sourceTree = "<group>"; };
+		3196AAF71B8E01C900B11112 /* LEOStubs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOStubs.h; sourceTree = "<group>"; };
+		3196AAF81B8E01C900B11112 /* LEOStubs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOStubs.m; sourceTree = "<group>"; };
 		319F335B1B2201F900C1C526 /* CollectionViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewLayout.h; sourceTree = "<group>"; };
 		319F335C1B2201F900C1C526 /* CollectionViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewLayout.m; sourceTree = "<group>"; };
 		31A2867F1B0A2DB100CBAF1A /* LEOAPIHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOAPIHelper.h; path = APIs/LEOAPIHelper.h; sourceTree = "<group>"; };
@@ -338,6 +343,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18BA867E436F53B27026FDB3 /* libPods-LeoTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -452,6 +458,7 @@
 				314A405E1B83B1B400834BC2 /* Configuration.m */,
 				314A40551B838AD000834BC2 /* Application.xcconfig */,
 				314A40561B838AE700834BC2 /* Debug.xcconfig */,
+				3196AAF61B8DFFDD00B11112 /* DebugStubs.xcconfig */,
 				314A40571B838AFC00834BC2 /* Release.xcconfig */,
 				314A40581B838B0800834BC2 /* Shared.xcconfig */,
 				314A405A1B83951300834BC2 /* TestsDebug.xcconfig */,
@@ -806,6 +813,8 @@
 		BCED00971B0257EB007653D6 /* Data Model */ = {
 			isa = PBXGroup;
 			children = (
+				3196AAF71B8E01C900B11112 /* LEOStubs.h */,
+				3196AAF81B8E01C900B11112 /* LEOStubs.m */,
 				BCE1EC921B010336007C8D0B /* LEODataManager.h */,
 				BCE1EC931B010336007C8D0B /* LEODataManager.m */,
 				3177B9991B189F2D006AE360 /* Cards */,
@@ -821,9 +830,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3132BEAA1B84F9D200494727 /* Build configuration list for PBXNativeTarget "LeoTests" */;
 			buildPhases = (
+				C26558818F43BD88EF4763CC /* Check Pods Manifest.lock */,
 				3132BE9E1B84F9D100494727 /* Sources */,
 				3132BE9F1B84F9D100494727 /* Frameworks */,
 				3132BEA01B84F9D100494727 /* Resources */,
+				5611AFAF01C6667A748C8808 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -930,7 +941,37 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		5611AFAF01C6667A748C8808 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LeoTests/Pods-LeoTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		AD74AFBB7A78B2A607F83883 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		C26558818F43BD88EF4763CC /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1042,6 +1083,7 @@
 				BCE1ECA41B014613007C8D0B /* LEOConstants.m in Sources */,
 				31FDDE641B29DA890009BBC2 /* LEOOneButtonPrimaryOnlyCell+ConfigureForCell.m in Sources */,
 				31D7ADEB1B21F9A100E8C5EE /* CollectionViewDataSource.m in Sources */,
+				3196AAF91B8E01C900B11112 /* LEOStubs.m in Sources */,
 				3128D52D1B457DC300582710 /* Patient.m in Sources */,
 				31D62EC51B1CBA7400B4150A /* LEOTimeCell.m in Sources */,
 				31D62ED01B1D3ED500B4150A /* LEODateCell.m in Sources */,
@@ -1136,10 +1178,51 @@
 			};
 			name = Release;
 		};
+		3196AAF31B8DFD6C00B11112 /* Debug Stubs */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
+			buildSettings = {
+				STUBS_FEATURE = 1;
+			};
+			name = "Debug Stubs";
+		};
+		3196AAF41B8DFD6C00B11112 /* Debug Stubs */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3196AAF61B8DFFDD00B11112 /* DebugStubs.xcconfig */;
+			buildSettings = {
+			};
+			name = "Debug Stubs";
+		};
+		3196AAF51B8DFD6C00B11112 /* Debug Stubs */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 314A405A1B83951300834BC2 /* TestsDebug.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = LeoTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Leo.app/Leo";
+			};
+			name = "Debug Stubs";
+		};
 		BCE1EC851B00E353007C8D0B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
+				STUBS_FEATURE = 0;
 			};
 			name = Debug;
 		};
@@ -1147,6 +1230,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
+				STUBS_FEATURE = 0;
 			};
 			name = Release;
 		};
@@ -1171,14 +1255,17 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3132BEAB1B84F9D200494727 /* Debug */,
+				3196AAF51B8DFD6C00B11112 /* Debug Stubs */,
 				3132BEAC1B84F9D200494727 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		BCE1EC5F1B00E353007C8D0B /* Build configuration list for PBXProject "Leo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BCE1EC851B00E353007C8D0B /* Debug */,
+				3196AAF31B8DFD6C00B11112 /* Debug Stubs */,
 				BCE1EC861B00E353007C8D0B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1188,6 +1275,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BCE1EC881B00E353007C8D0B /* Debug */,
+				3196AAF41B8DFD6C00B11112 /* Debug Stubs */,
 				BCE1EC891B00E353007C8D0B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
