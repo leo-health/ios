@@ -148,6 +148,7 @@ extern NSString *const APIParamPracticeFax; // @"fax";
 
 #pragma mark - Family
 extern NSString *const APIParamFamilyID; // @"family_id";
+extern NSString *const APIParamFamily; // @"family";
 
 #pragma mark - User and user subclass
 

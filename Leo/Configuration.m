@@ -68,7 +68,7 @@ NSString *const ConfigurationAPIVersion = @"ApiVersion";
 }
 
 + (NSString *)APIEndpointWithHTTPSProtocol {
-    return [NSString stringWithFormat:@"https://%@",[self APIEndpoint]];
+    return [NSString stringWithFormat:@"http://%@",[self APIEndpoint]];
 }
 
 

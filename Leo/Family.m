@@ -28,7 +28,7 @@
     
     NSString *objectID = @"TEMP"; // jsonResponse[APIParamID]; FIXME: Add this back in when the id has been added back to family.
     
-    NSArray *patientDictionaries = jsonResponse[APIParamUserPatients]; //FIXME: Use LEOConstants.
+    NSArray *patientDictionaries = jsonResponse[APIParamFamily][APIParamUserPatients]; //FIXME: Use LEOConstants.
     
     NSMutableArray *patients = [[NSMutableArray alloc] init];
     
@@ -37,7 +37,7 @@
         [patients addObject:patient];
     }
     
-    NSArray *guardianDictionaries = jsonResponse[APIParamUserGuardians]; //FIXME: Update name to guardian in LEOConstants file
+    NSArray *guardianDictionaries = jsonResponse[APIParamFamily][APIParamUserGuardians]; //FIXME: Update name to guardian in LEOConstants file
     NSMutableArray *guardians = [[NSMutableArray alloc] init];
     
     for (NSDictionary *guardianDictionary in guardianDictionaries) {

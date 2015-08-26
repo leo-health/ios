@@ -95,6 +95,7 @@
 
 #pragma mark - VCL Helper Methods
 
+
 - (void)setupPrepAppointment {
     
     self.prepAppointment = [[PrepAppointment alloc] initWithAppointment:self.appointment];

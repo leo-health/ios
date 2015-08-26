@@ -35,7 +35,7 @@ NSString *const APIParamName = @"name";
 NSString *const APIParamDescription = @"description";
 NSString *const APIParamShortDescription = @"short_description";
 NSString *const APIParamLongDescription = @"long_description";
-NSString *const APIParamToken = @"token";
+NSString *const APIParamToken = @"authentication_token";
 
 #pragma mark - Date & time
 NSString *const APIParamCreatedDateTime = @"created_datetime";
@@ -56,6 +56,7 @@ NSString *const APIParamPracticeFax = @"fax";
 
 #pragma mark - Family
 NSString *const APIParamFamilyID = @"family_id";
+NSString *const APIParamFamily = @"family";
 
 #pragma mark - User and user subclass
 

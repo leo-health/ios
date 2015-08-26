@@ -53,7 +53,7 @@
 
 -(NSString *)userToken {
     
-    _userToken = @"This is a placeholder.";
+    _userToken = @"wuJ1RxWrmydwQqhUDEzw";
     //will eventually pull from the keychain, but for now, will come from some temporarily place or be hard coded as necessary.
     return _userToken;
 }
@@ -61,7 +61,7 @@
 - (User *)currentUser {
     
     //FIXME: This is temporary.
-    return [[Guardian alloc] initWithObjectID:@"3" familyID:@"10" title:@"Mrs." firstName:@"Marilyn" middleInitial:nil lastName:@"Drossman" suffix:nil email:@"marilyn@leohealth.com" avatarURL:nil avatar:nil primary:YES relationship:@"mother"];
+    return [[Guardian alloc] initWithObjectID:@"3" familyID:@"10" title:@"Mrs." firstName:@"Marilyn" middleInitial:nil lastName:@"Drossman" suffix:nil email:@"marilyn@leohealth.com" avatarURL:nil avatar:nil primary:YES];
 }
 
 - (void)createUserWithUser:(nonnull User *)user password:(nonnull NSString *)password withCompletion:(void (^)( NSDictionary *  rawResults))completionBlock {
