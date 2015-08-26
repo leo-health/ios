@@ -60,7 +60,7 @@
         
         NSInteger scaleFactor = [@([[UIScreen mainScreen] scale]) integerValue];
         
-        avatarURL = [NSString stringWithFormat:@"%@%@@%ldx.png",jsonResponse[APIParamUserAvatarURL],objectID,(long)scaleFactor];
+        avatarURL = [NSString stringWithFormat:@"%@%@@%ldx.png",jsonResponse[APIParamUserAvatarURL],@"3",(long)scaleFactor];
     }
     
     //TODO: May need to protect against nil values...

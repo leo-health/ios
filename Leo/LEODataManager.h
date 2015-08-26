@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)createUserWithUser:( User *)user password:( NSString *)password withCompletion:(void (^)( NSDictionary * rawResults, NSError *error))completionBlock;
 - (void)loginUserWithEmail:(NSString *)email password:( NSString *)password withCompletion:(void (^)(NSDictionary * rawResults, NSError *error))completionBlock;
 - (void)resetPasswordWithEmail:(NSString *)email withCompletion:(void (^)(NSDictionary * rawResults, NSError *error))completionBlock;
-- (void)getAvatarForUser:(User *)user withCompletion:(void (^)(NSData *imageData, NSError *error))completionBlock;
+- (void)getAvatarForUser:(User *)user withCompletion:(void (^)(UIImage *rawImage, NSError *error))completionBlock;
 
 //Appointments
 - (void)createAppointmentWithAppointment:( Appointment *)appointment withCompletion:(void (^)(NSDictionary  * rawResults, NSError *error))completionBlock;

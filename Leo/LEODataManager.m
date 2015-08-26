@@ -183,18 +183,17 @@
 
 
 //FIXME: Replace with actual implementation
-- (void)getAvatarForUser:(User *)user withCompletion:(void (^)(NSData *imageData, NSError *error))completionBlock {
+- (void)getAvatarForUser:(User *)user withCompletion:(void (^)(UIImage *rawImage, NSError *error))completionBlock {
     
     
     
     if (user.avatarURL) {
-        [LEOApiClient getAvatarFromURL:user.avatarURL withCompletion:^(NSData *data, NSError *error) {
-            completionBlock(data, error);
+        [LEOApiClient getAvatarFromURL:user.avatarURL withCompletion:^(UIImage *rawImage, NSError *error) {
+            completionBlock(rawImage, error);
         }];
     } else {
         
-        NSData *imageData =  UIImagePNGRepresentation([UIImage imageNamed:@"Icon-Calendar"]);
-        completionBlock(imageData, nil);
+        completionBlock(nil, nil);
         return;
     }
 }

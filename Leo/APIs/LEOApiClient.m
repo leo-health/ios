@@ -155,12 +155,12 @@
     }];
 }
 
-+ (void)getAvatarFromURL:(NSString *)avatarURL withCompletion:(void (^)(NSData *data, NSError *error))completionBlock {
++ (void)getAvatarFromURL:(NSString *)avatarURL withCompletion:(void (^)(UIImage *rawImage, NSError *error))completionBlock {
     
     //FIXME: This is a basic implementation. Nil params is an issue as well. What security does s3 support for users only accessing URLs they should have access to?
-    [[self s3SessionManager] standardGETRequestForDataFromS3WithURL:avatarURL params:nil completion:^(NSData *data, NSError *error) {
+    [[self s3SessionManager] standardGETRequestForDataFromS3WithURL:avatarURL params:nil completion:^(UIImage *rawImage, NSError *error) {
         if (completionBlock) {
-            completionBlock(data, error);
+            completionBlock(rawImage, error);
         }
     }];
 }

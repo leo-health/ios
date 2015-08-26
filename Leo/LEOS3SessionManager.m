@@ -21,13 +21,13 @@
         _sharedClient = [[LEOS3SessionManager alloc] initWithBaseURL:baseURL
                                                  sessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
         
-        _sharedClient.responseSerializer = [AFJSONResponseSerializer serializer];
+        _sharedClient.responseSerializer = [AFImageResponseSerializer serializer];
     });
     
     return _sharedClient;
 }
 
-- (NSURLSessionDataTask *)standardGETRequestForDataFromS3WithURL:(NSString *)urlString params:(NSDictionary *)params completion:(void (^)(NSData *rawData, NSError *error))completionBlock {
+- (NSURLSessionDataTask *)standardGETRequestForDataFromS3WithURL:(NSString *)urlString params:(NSDictionary *)params completion:(void (^)(UIImage *rawImage, NSError *error))completionBlock {
     
     __block NSString *urlStringBlock = [urlString copy];
     __block NSDictionary *paramsBlock = params;
@@ -60,8 +60,8 @@
     return task;
 }
 
-- (NSURLSessionDataTask *)standardPOSTRequestForS3WithURL:(NSString *)urlString params:(NSDictionary *)params completion:(void (^)(NSData *rawData, NSError *error))completionBlock {
-    
+- (NSURLSessionDataTask *)standardPOSTRequestForS3WithURL:(NSString *)urlString params:(NSDictionary *)params completion:(void (^)(NSDictionary *responseDictionary, NSError *error))completionBlock {
+
     NSURLSessionDataTask *task = [self POST:urlString parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
         
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)task.response;

@@ -19,7 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)createUserWithParameters:(NSDictionary *)userParams withCompletion:(void (^)(NSDictionary *rawResults, NSError *error))completionBlock;
 + (void)loginUserWithParameters:(NSDictionary *)loginParams withCompletion:(void (^)(NSDictionary * rawResults, NSError *error))completionBlock;
 + (void)resetPasswordWithParameters:(NSDictionary *)resetParams withCompletion:(void (^)(NSDictionary * rawResults, NSError *error))completionBlock;
-+ (void)getAvatarFromURL:(NSString *)avatarURL withCompletion:(void (^)(NSData *data, NSError *error))completionBlock;
++ (void)getAvatarFromURL:(NSString *)avatarURL withCompletion:(void (^)(UIImage *rawImage, NSError *error))completionBlock;
+
 
 //Cards
 + (void)getCardsForUser:(NSDictionary *)userParams withCompletion:(void (^)(NSDictionary *rawResults, NSError *error))completionBlock;

@@ -12,8 +12,9 @@
 
 + (LEOS3SessionManager *)sharedClient;
 
-- (NSURLSessionDataTask *)standardGETRequestForDataFromS3WithURL:(NSString *)urlString params:(NSDictionary *)params completion:(void (^)(NSData *rawData, NSError *error))completionBlock;
-- (NSURLSessionDataTask *)standardPOSTRequestForS3WithURL:(NSString *)urlString params:(NSDictionary *)params completion:(void (^)(NSData *rawData, NSError *error))completionBlock;
+- (NSURLSessionDataTask *)standardGETRequestForDataFromS3WithURL:(NSString *)urlString params:(NSDictionary *)params completion:(void (^)(UIImage *rawImage, NSError *error))completionBlock;
+
+- (NSURLSessionDataTask *)standardPOSTRequestForS3WithURL:(NSString *)urlString params:(NSDictionary *)params completion:(void (^)(NSDictionary *responseDictionary, NSError *error))completionBlock;
 
 
 @end
