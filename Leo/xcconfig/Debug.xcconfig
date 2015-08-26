@@ -19,5 +19,5 @@ GCC_SYMBOLS_PRIVATE_EXTERN = NO
 GCC_PREPROCESSOR_DEFINITIONS = DEBUG=1 $(inherited) STUBS_FEATURE=$(STUBS_FEATURE)
 MTL_ENABLE_DEBUG_INFO = YES
 
-API_URL = "localhost:3000" //leo-api-env.elasticbeanstalk.com
+API_URL = localhost:3000 //leo-api-env.elasticbeanstalk.com
 API_VERSION = api/v1
