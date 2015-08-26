@@ -6,6 +6,8 @@
 	<string>en</string>
 	<key>AppSettings</key>
 	<dict>
+		<key>S3URL</key>
+		<string>${S3_URL}</string>
 		<key>ApiVersion</key>
 		<string>${API_VERSION}</string>
 		<key>ApiURL</key>

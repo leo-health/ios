@@ -113,6 +113,9 @@ extern NSString *const APIEndpointMessages; // @"messages";
 extern NSString *const APIEndpointAppointmentTypes; // @"appointmentTypes";
 extern NSString *const APIEndpointLogin; // @"login";
 extern NSString *const APIEndpointCards; // @"cards";
+extern NSString *const APIEndpointPractices; // @"practices";
+extern NSString *const APIEndpointSlots; // @"slots";
+extern NSString *const APIEndpointFamily; // @"family";
 
 #pragma mark - Common
 extern NSString *const APIParamID; // @"id";

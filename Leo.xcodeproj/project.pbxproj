@@ -48,7 +48,6 @@
 		3192ACD91B0CC7C5007195F2 /* UIImage+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3192ACD81B0CC7C5007195F2 /* UIImage+Extensions.m */; };
 		3196AAF91B8E01C900B11112 /* LEOStubs.m in Sources */ = {isa = PBXBuildFile; fileRef = 3196AAF81B8E01C900B11112 /* LEOStubs.m */; };
 		319F335D1B2201F900C1C526 /* CollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 319F335C1B2201F900C1C526 /* CollectionViewLayout.m */; };
-		31A286811B0A2DB100CBAF1A /* LEOAPIHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 31A286801B0A2DB100CBAF1A /* LEOAPIHelper.m */; };
 		31B998C61B7BD4F40055DEEA /* UIFont+LeoFonts.m in Sources */ = {isa = PBXBuildFile; fileRef = 31B998C51B7BD4F40055DEEA /* UIFont+LeoFonts.m */; };
 		31BA404D1B309E3000A11AEE /* AppointmentType.m in Sources */ = {isa = PBXBuildFile; fileRef = 31BA404C1B309E3000A11AEE /* AppointmentType.m */; };
 		31BA40501B30A0AB00A11AEE /* Appointment.m in Sources */ = {isa = PBXBuildFile; fileRef = 31BA404F1B30A0AB00A11AEE /* Appointment.m */; };
@@ -63,6 +62,8 @@
 		31D62ED01B1D3ED500B4150A /* LEODateCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D62ECE1B1D3ED500B4150A /* LEODateCell.m */; };
 		31D62ED11B1D3ED500B4150A /* LEODateCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 31D62ECF1B1D3ED500B4150A /* LEODateCell.xib */; };
 		31D7ADEB1B21F9A100E8C5EE /* CollectionViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D7ADEA1B21F9A100E8C5EE /* CollectionViewDataSource.m */; };
+		31E77E071B87647B00C6EDE1 /* LEOAPISessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 31E77E061B87647B00C6EDE1 /* LEOAPISessionManager.m */; };
+		31E77E0A1B87689300C6EDE1 /* LEOS3SessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 31E77E091B87689300C6EDE1 /* LEOS3SessionManager.m */; };
 		31ECA3351B23C39000BC1D6B /* LEOTimeCell+ConfigureCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31ECA3341B23C39000BC1D6B /* LEOTimeCell+ConfigureCell.m */; };
 		31ECA3381B23C53500BC1D6B /* LEODateCell+ConfigureCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31ECA3371B23C53500BC1D6B /* LEODateCell+ConfigureCell.m */; };
 		31F5AA631B791B4A00F96D06 /* LEOCalendarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31F5AA361B791B4A00F96D06 /* LEOCalendarViewController.m */; };
@@ -212,8 +213,6 @@
 		3196AAF81B8E01C900B11112 /* LEOStubs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOStubs.m; sourceTree = "<group>"; };
 		319F335B1B2201F900C1C526 /* CollectionViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewLayout.h; sourceTree = "<group>"; };
 		319F335C1B2201F900C1C526 /* CollectionViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewLayout.m; sourceTree = "<group>"; };
-		31A2867F1B0A2DB100CBAF1A /* LEOAPIHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOAPIHelper.h; path = APIs/LEOAPIHelper.h; sourceTree = "<group>"; };
-		31A286801B0A2DB100CBAF1A /* LEOAPIHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOAPIHelper.m; path = APIs/LEOAPIHelper.m; sourceTree = "<group>"; };
 		31B998C41B7BD4F40055DEEA /* UIFont+LeoFonts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+LeoFonts.h"; sourceTree = "<group>"; };
 		31B998C51B7BD4F40055DEEA /* UIFont+LeoFonts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+LeoFonts.m"; sourceTree = "<group>"; };
 		31BA404B1B309E3000A11AEE /* AppointmentType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppointmentType.h; sourceTree = "<group>"; };
@@ -240,6 +239,10 @@
 		31D62ECF1B1D3ED500B4150A /* LEODateCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LEODateCell.xib; sourceTree = "<group>"; };
 		31D7ADE91B21F9A100E8C5EE /* CollectionViewDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewDataSource.h; sourceTree = "<group>"; };
 		31D7ADEA1B21F9A100E8C5EE /* CollectionViewDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewDataSource.m; sourceTree = "<group>"; };
+		31E77E051B87647B00C6EDE1 /* LEOAPISessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOAPISessionManager.h; sourceTree = "<group>"; };
+		31E77E061B87647B00C6EDE1 /* LEOAPISessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOAPISessionManager.m; sourceTree = "<group>"; };
+		31E77E081B87689300C6EDE1 /* LEOS3SessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOS3SessionManager.h; sourceTree = "<group>"; };
+		31E77E091B87689300C6EDE1 /* LEOS3SessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOS3SessionManager.m; sourceTree = "<group>"; };
 		31ECA3331B23C39000BC1D6B /* LEOTimeCell+ConfigureCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LEOTimeCell+ConfigureCell.h"; sourceTree = "<group>"; };
 		31ECA3341B23C39000BC1D6B /* LEOTimeCell+ConfigureCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LEOTimeCell+ConfigureCell.m"; sourceTree = "<group>"; };
 		31ECA3361B23C53500BC1D6B /* LEODateCell+ConfigureCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LEODateCell+ConfigureCell.h"; sourceTree = "<group>"; };
@@ -724,10 +727,12 @@
 		BCA69A371B02AE5500C27B2B /* API */ = {
 			isa = PBXGroup;
 			children = (
+				31E77E051B87647B00C6EDE1 /* LEOAPISessionManager.h */,
+				31E77E061B87647B00C6EDE1 /* LEOAPISessionManager.m */,
+				31E77E081B87689300C6EDE1 /* LEOS3SessionManager.h */,
+				31E77E091B87689300C6EDE1 /* LEOS3SessionManager.m */,
 				BCA69A341B02AE5100C27B2B /* LEOApiClient.h */,
 				BCA69A351B02AE5100C27B2B /* LEOApiClient.m */,
-				31A2867F1B0A2DB100CBAF1A /* LEOAPIHelper.h */,
-				31A286801B0A2DB100CBAF1A /* LEOAPIHelper.m */,
 				314AC60E1B85274000BF6869 /* LEOApiReachability.h */,
 				314AC60F1B85274000BF6869 /* LEOApiReachability.m */,
 			);
@@ -1054,6 +1059,7 @@
 				3177B9D11B191928006AE360 /* Conversation.m in Sources */,
 				31F5AA711B791B4A00F96D06 /* DateCollectionController.m in Sources */,
 				31FDDE6C1B29E38F0009BBC2 /* LEOTwoButtonSecondaryOnlyCell+ConfigureForCell.m in Sources */,
+				31E77E071B87647B00C6EDE1 /* LEOAPISessionManager.m in Sources */,
 				31BA404D1B309E3000A11AEE /* AppointmentType.m in Sources */,
 				3128D4F21B4313EB00582710 /* LEOOneButtonPrimaryAndSecondaryCell+ConfigureForCell.m in Sources */,
 				31D20AC91B14C2F700F3351A /* LEOPageViewController.m in Sources */,
@@ -1072,7 +1078,6 @@
 				31FDDE591B28DFC10009BBC2 /* LEOTwoButtonPrimaryOnlyCell+ConfigureForCell.m in Sources */,
 				31197A0C1B39A70C00C773BA /* UIImageEffects.m in Sources */,
 				31F5AA771B791B4B00F96D06 /* PatientCell+ConfigureCell.m in Sources */,
-				31A286811B0A2DB100CBAF1A /* LEOAPIHelper.m in Sources */,
 				31F5AA641B791B4A00F96D06 /* LEOExpandedCardAppointmentViewController.m in Sources */,
 				BCE1EC6D1B00E353007C8D0B /* AppDelegate.m in Sources */,
 				31D20B091B151C5100F3351A /* LEOPageModelController.m in Sources */,
@@ -1087,6 +1092,7 @@
 				31F5AA6B1B791B4A00F96D06 /* LEOExpandedCardViewController.m in Sources */,
 				BCE1ECA41B014613007C8D0B /* LEOConstants.m in Sources */,
 				31FDDE641B29DA890009BBC2 /* LEOOneButtonPrimaryOnlyCell+ConfigureForCell.m in Sources */,
+				31E77E0A1B87689300C6EDE1 /* LEOS3SessionManager.m in Sources */,
 				31D7ADEB1B21F9A100E8C5EE /* CollectionViewDataSource.m in Sources */,
 				3196AAF91B8E01C900B11112 /* LEOStubs.m in Sources */,
 				3128D52D1B457DC300582710 /* Patient.m in Sources */,

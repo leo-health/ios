@@ -11,6 +11,8 @@
 
 NSString *const ConfigurationAPIEndpoint = @"ApiURL";
 NSString *const ConfigurationAPIVersion = @"ApiVersion";
+NSString *const ConfigurationS3Endpoint = @"S3URL";
+
 
 @interface Configuration ()
 
@@ -52,6 +54,17 @@ NSString *const ConfigurationAPIVersion = @"ApiVersion";
     
     if (sharedConfiguration.appSettings) {
         return [sharedConfiguration.appSettings objectForKey:ConfigurationAPIEndpoint];
+    }
+    
+    return nil;
+}
+
++ (NSString *)S3Endpoint {
+    
+    Configuration *sharedConfiguration = [Configuration sharedConfiguration];
+    
+    if (sharedConfiguration.appSettings) {
+        return [sharedConfiguration.appSettings objectForKey:ConfigurationS3Endpoint];
     }
     
     return nil;

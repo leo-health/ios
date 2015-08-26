@@ -21,3 +21,4 @@ MTL_ENABLE_DEBUG_INFO = YES
 
 API_URL = localhost:3000 //leo-api-env.elasticbeanstalk.com
 API_VERSION = api/v1
+S3_URL = elasticbeanstalk-us-east-1-435800161732.s3.amazonaws.com
