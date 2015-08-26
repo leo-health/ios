@@ -1182,7 +1182,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
-				STUBS_FEATURE = 1;
 			};
 			name = "Debug Stubs";
 		};
@@ -1222,7 +1221,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
-				STUBS_FEATURE = 0;
 			};
 			name = Debug;
 		};
@@ -1230,7 +1228,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
-				STUBS_FEATURE = 0;
 			};
 			name = Release;
 		};
