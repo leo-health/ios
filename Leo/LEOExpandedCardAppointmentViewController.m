@@ -31,7 +31,7 @@
 #import "LEOAPIStaffOperation.h"
 #import "LEOAPIFamilyOperation.h"
 #import "LEOAPISlotsOperation.h"
-
+#import "LEOApiReachability.h"
 @protocol DataRequestProtocol <NSObject>
 
 - (void)didCompleteDataRequestWithData:(NSArray *)data;
@@ -71,6 +71,7 @@
     [self setupExpandedCardView];
     [self setupPrepAppointment];
     [self setupNotesTextView];
+    [LEOApiReachability startMonitoring];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -81,6 +82,7 @@
 
 - (void)viewDidDisappear:(BOOL)animated{
     
+    [LEOApiReachability stopMonitoring];
     [self.scrollView scrollToViewIfObstructedByKeyboard:nil];
 }
 

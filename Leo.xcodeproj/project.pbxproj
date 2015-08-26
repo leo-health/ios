@@ -35,6 +35,7 @@
 		3128D53F1B4C1C2C00582710 /* PrepAppointment.m in Sources */ = {isa = PBXBuildFile; fileRef = 3128D53E1B4C1C2C00582710 /* PrepAppointment.m */; };
 		312A82571B56EEBE00E1FB38 /* LEOMessagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 312A82541B56EEBE00E1FB38 /* LEOMessagesViewController.m */; };
 		314A405F1B83B1B400834BC2 /* Configuration.m in Sources */ = {isa = PBXBuildFile; fileRef = 314A405E1B83B1B400834BC2 /* Configuration.m */; };
+		314AC6101B85274000BF6869 /* LEOApiReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 314AC60F1B85274000BF6869 /* LEOApiReachability.m */; };
 		314F6A071B2A0D0000799AB4 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 314F6A061B2A0D0000799AB4 /* User.m */; };
 		3177B9981B17A1B7006AE360 /* LEOCardAppointment.m in Sources */ = {isa = PBXBuildFile; fileRef = 3177B9971B17A1B7006AE360 /* LEOCardAppointment.m */; };
 		3177B9D11B191928006AE360 /* Conversation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3177B9D01B191928006AE360 /* Conversation.m */; };
@@ -187,6 +188,8 @@
 		314A405A1B83951300834BC2 /* TestsDebug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = TestsDebug.xcconfig; sourceTree = "<group>"; };
 		314A405D1B83B1B400834BC2 /* Configuration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Configuration.h; sourceTree = "<group>"; };
 		314A405E1B83B1B400834BC2 /* Configuration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Configuration.m; sourceTree = "<group>"; };
+		314AC60E1B85274000BF6869 /* LEOApiReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOApiReachability.h; path = APIs/LEOApiReachability.h; sourceTree = "<group>"; };
+		314AC60F1B85274000BF6869 /* LEOApiReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOApiReachability.m; path = APIs/LEOApiReachability.m; sourceTree = "<group>"; };
 		314F6A051B2A0D0000799AB4 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = User.h; path = "Data Model/User.h"; sourceTree = "<group>"; };
 		314F6A061B2A0D0000799AB4 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = User.m; path = "Data Model/User.m"; sourceTree = "<group>"; };
 		3177B9961B17A1B7006AE360 /* LEOCardAppointment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOCardAppointment.h; sourceTree = "<group>"; };
@@ -718,15 +721,17 @@
 			name = Objects;
 			sourceTree = "<group>";
 		};
-		BCA69A371B02AE5500C27B2B /* APIs */ = {
+		BCA69A371B02AE5500C27B2B /* API */ = {
 			isa = PBXGroup;
 			children = (
 				BCA69A341B02AE5100C27B2B /* LEOApiClient.h */,
 				BCA69A351B02AE5100C27B2B /* LEOApiClient.m */,
 				31A2867F1B0A2DB100CBAF1A /* LEOAPIHelper.h */,
 				31A286801B0A2DB100CBAF1A /* LEOAPIHelper.m */,
+				314AC60E1B85274000BF6869 /* LEOApiReachability.h */,
+				314AC60F1B85274000BF6869 /* LEOApiReachability.m */,
 			);
-			name = APIs;
+			name = API;
 			sourceTree = "<group>";
 		};
 		BCA69A3D1B039ABC00C27B2B /* Views and Controllers */ = {
@@ -776,7 +781,7 @@
 				BCA69A3D1B039ABC00C27B2B /* Views and Controllers */,
 				3130B4901B068CE7006ACC80 /* Helpers */,
 				BCED00921B01542D007653D6 /* Constants */,
-				BCA69A371B02AE5500C27B2B /* APIs */,
+				BCA69A371B02AE5500C27B2B /* API */,
 				BCED00971B0257EB007653D6 /* Data Model */,
 				318EEE0E1B3B3FA3002D1653 /* Assets */,
 				BCE1EC741B00E353007C8D0B /* Images.xcassets */,
@@ -1086,6 +1091,7 @@
 				3196AAF91B8E01C900B11112 /* LEOStubs.m in Sources */,
 				3128D52D1B457DC300582710 /* Patient.m in Sources */,
 				31D62EC51B1CBA7400B4150A /* LEOTimeCell.m in Sources */,
+				314AC6101B85274000BF6869 /* LEOApiReachability.m in Sources */,
 				31D62ED01B1D3ED500B4150A /* LEODateCell.m in Sources */,
 				31F5AA741B791B4B00F96D06 /* ProviderCell+ConfigureCell.m in Sources */,
 				BCE1EC9E1B012628007C8D0B /* UIColor+LeoColors.m in Sources */,
