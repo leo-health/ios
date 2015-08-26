@@ -17,6 +17,7 @@
 @class Family;
 @class Provider;
 @class Practice;
+@class AppointmentType;
 
 @interface LEODataManager : NSObject
 NS_ASSUME_NONNULL_BEGIN
@@ -48,7 +49,8 @@ NS_ASSUME_NONNULL_BEGIN
 //Appointments
 - (void)createAppointmentWithAppointment:( Appointment *)appointment withCompletion:(void (^)(NSDictionary  * rawResults, NSError *error))completionBlock;
 - (void)getAppointmentsForFamilyOfCurrentUserWithCompletion:(void (^)(NSDictionary  * rawResults, NSError *error))completionBlock;
-
+- (void)cancelAppointment:(Appointment *)appointment withCompletion:(void (^)(NSDictionary *rawResults, NSError *error))completionBlock;
+- (void)getSlotsForAppointmentType:(AppointmentType *)appointmentType withProvider:(Provider *)provider withCompletion:(void (^)(NSArray *slots, NSError *error))completionBlock;
 
 //Conversations
 - (void)getConversationsForCurrentUserWithCompletion:(void (^)(Conversation*  conversation))completionBlock;

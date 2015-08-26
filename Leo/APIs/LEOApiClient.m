@@ -63,9 +63,9 @@
     }];
 }
 
-+ (void)getPracticesWithCompletion:(void (^)(NSDictionary *rawResults, NSError *error))completionBlock {
++ (void)getPracticesWithParameters:(NSDictionary *)practiceParameters WithCompletion:(void (^)(NSDictionary *rawResults, NSError *error))completionBlock {
 
-    [[self leoSessionManager] standardGETRequestForJSONDictionaryFromAPIWithEndpoint:APIEndpointPractices params:nil completion:^(NSDictionary *rawResults, NSError *error) {
+    [[self leoSessionManager] standardGETRequestForJSONDictionaryFromAPIWithEndpoint:APIEndpointPractices params:practiceParameters completion:^(NSDictionary *rawResults, NSError *error) {
         if (completionBlock) {
             completionBlock(rawResults, error);
         }
@@ -84,9 +84,10 @@
     }];
 }
 
-+ (void)getAppointmentTypesWithCompletion:(void (^)(NSDictionary *rawResults, NSError *error))completionBlock {
++ (void)getAppointmentTypesWithParameters:(NSDictionary *)appointmentTypeParams withCompletion:(void (^)(NSDictionary *rawResults, NSError *error))completionBlock {
     
-    [[self leoSessionManager] standardGETRequestForJSONDictionaryFromAPIWithEndpoint:APIEndpointAppointmentTypes params:@{} completion:^(NSDictionary *rawResults, NSError *error) { //MARK: no parameters I suspect for this endpoint
+    [[self leoSessionManager] standardGETRequestForJSONDictionaryFromAPIWithEndpoint:APIEndpointAppointmentTypes params:appointmentTypeParams completion:^(NSDictionary *rawResults, NSError *error) { //MARK: no parameters I suspect for this endpoint
+
         //TODO: Error terms
         if (completionBlock) {
             completionBlock(rawResults, error);

@@ -53,7 +53,7 @@
 
 -(NSString *)userToken {
     
-    _userToken = @"wuJ1RxWrmydwQqhUDEzw";
+    _userToken = @"Ey_7phfrx89KLLyNq-yw";
     //will eventually pull from the keychain, but for now, will come from some temporarily place or be hard coded as necessary.
     return _userToken;
 }
@@ -95,16 +95,19 @@
     }];
 }
 
-- (void)createAppointmentWithAppointment:( Appointment *)appointment withCompletion:(void (^)(NSDictionary  *  rawResults, NSError *error))completionBlock {
+- (void)createAppointmentWithAppointment:(Appointment *)appointment withCompletion:(void (^)(NSDictionary *rawResults, NSError *error))completionBlock {
     
-    NSArray *apptValues = @[[self userToken], appointment.patient.objectID, appointment.date, appointment.provider.objectID];
-    NSArray *apptKeys = @[APIParamToken, APIParamID, APIParamAppointmentStartDateTime, APIParamID];
+    NSArray *apptValues = @[[self userToken], appointment.patient.objectID, appointment.date, appointment.provider.objectID, appointment.appointmentType, @(appointment.statusCode), @"tempStatusThatWillBeRemovedWhenAPIHasBeenUpdated", appointment.note, appointment.appointmentType.duration]; //TODO: Remove duration once API has been updated. Remove status once API has been updated.
+    
+    NSArray *apptKeys = @[APIParamToken, APIParamID, APIParamAppointmentStartDateTime, APIParamID, APIParamAppointmentType, APIParamStatusID, APIParamStatus, APIParamAppointmentNotes, APIParamAppointmentTypeDuration];
     
     NSDictionary *apptParams = [[NSDictionary alloc] initWithObjects:apptValues forKeys:apptKeys];
     
     [LEOApiClient createAppointmentWithParameters:apptParams withCompletion:^(NSDictionary *rawResults, NSError *error) {
-        //TODO: Error terms
-        completionBlock(rawResults, error);
+        
+        if (completionBlock) {
+            completionBlock(rawResults, error);
+        }
     }];
 }
 
@@ -119,6 +122,22 @@
         //TODO: Error terms
         completionBlock(rawResults, error);
     }];
+}
+
+- (void)cancelAppointment:(Appointment *)appointment withCompletion:(void (^)(NSDictionary *rawResults, NSError *error))completionBlock {
+    
+    NSArray *apptValues = @[[self userToken], appointment.patient.objectID]; //TODO: Remove duration once API has been updated. Remove status once API has been updated.
+    
+    NSArray *apptKeys = @[APIParamToken, APIParamID];
+    
+    NSDictionary *apptParams = [[NSDictionary alloc] initWithObjects:apptValues forKeys:apptKeys];
+    
+    [LEOApiClient cancelAppointmentWithParameters:apptParams withCompletion:^(NSDictionary *  rawResults, NSError *error) {
+        if (completionBlock) {
+            completionBlock(rawResults, error);
+        }
+    }];
+    
 }
 
 - (void)getConversationsForCurrentUserWithCompletion:(void (^)(Conversation*  conversation))completionBlock {
@@ -156,7 +175,7 @@
     }];
 }
 
-- (void)getSlotsForAppointmentType:(AppointmentType *)appointmentType withProvider:(Provider *)provider withCompletion:(void (^)(NSArray *slots))completionBlock {
+- (void)getSlotsForAppointmentType:(AppointmentType *)appointmentType withProvider:(Provider *)provider withCompletion:(void (^)(NSArray *slots, NSError *error))completionBlock {
     
     NSArray *slotValues = @[appointmentType, provider];
     NSArray *slotKeys = @[APIParamAppointmentType, APIParamUserProvider];
@@ -165,7 +184,7 @@
     
     [LEOApiClient getSlotsWithParameters:slotParams withCompletion:^(NSDictionary * rawResults, NSError *error) {
         
-        NSArray *slotDictionaries = rawResults[APIParamData];
+        NSArray *slotDictionaries = rawResults[APIParamData][APIParamSlots];
         
         NSMutableArray *slots = [[NSMutableArray alloc] init];
         
@@ -175,9 +194,10 @@
             
             [slots addObject:slot];
         }
-
-        //TODO: Error terms
-        completionBlock(slots);
+        
+        if (completionBlock) {
+            completionBlock(slots, error);
+        }
     }];
 }
 
@@ -234,7 +254,7 @@
         NSMutableArray *messages = [[NSMutableArray alloc] init];
         
         for (NSDictionary *messageDictionary in messageDictionaries) {
-        
+            
             Message *message = [[Message alloc] initWithJSONDictionary:messageDictionary];
             
             [messages addObject:message];
@@ -285,13 +305,13 @@
 
 - (void)getFamilyWithCompletion:(void (^)(Family *family, NSError *error))completionBlock {
     
-//    NSString *filePath = [[self documentsDirectoryPath] stringByAppendingPathComponent:@"family"];
-//    Family *family = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
+    //    NSString *filePath = [[self documentsDirectoryPath] stringByAppendingPathComponent:@"family"];
+    //    Family *family = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
     
-//    if (family) {
-//        completionBlock(family);
-//        return;
-//    }
+    //    if (family) {
+    //        completionBlock(family);
+    //        return;
+    //    }
     
     NSArray *user = @[[self userToken]];
     NSArray *userKey = @[APIParamToken];
@@ -304,28 +324,51 @@
         
         Family *family = [[Family alloc] initWithJSONDictionary:dataDictionary]; //FIXME: LeoConstants
         
-//        NSString *filePath = [[self documentsDirectoryPath] stringByAppendingPathComponent:@"family"];
-//        [NSKeyedArchiver archiveRootObject:family toFile:filePath];
-
+        //        NSString *filePath = [[self documentsDirectoryPath] stringByAppendingPathComponent:@"family"];
+        //        [NSKeyedArchiver archiveRootObject:family toFile:filePath];
+        
         completionBlock(family, error);
     }];
 }
 
 
+
 - (void)getPracticeWithID:(NSString *)practiceID withCompletion:(void (^)(Practice *practice, NSError *error))completionBlock {
     
-    NSArray *practiceValues = @[practiceID];
-    NSArray *practiceKey = @[APIParamID];
+    NSArray *practiceValues = @[[self userToken], practiceID];
+    NSArray *practiceKey = @[APIParamToken, APIParamID];
     
     NSDictionary *practiceParams = [[NSDictionary alloc] initWithObjects:practiceValues forKeys:practiceKey];
     
     [LEOApiClient getPracticeWithParameters:practiceParams withCompletion:^(NSDictionary *rawResults, NSError *error) {
         
-        NSDictionary *dataArray = rawResults[APIParamData];
+        NSDictionary *dataArray = rawResults[APIParamData][@"practice"];
         Practice *practice = [[Practice alloc] initWithJSONDictionary:dataArray];
         
         //FIXME: Safety here
         completionBlock(practice, error);
+    }];
+}
+
+- (void)getPracticesWithCompletion:(void (^)(NSArray *practices, NSError *error))completionBlock {
+    
+    NSArray *practiceValues = @[[self userToken]];
+    NSArray *practiceKey = @[APIParamToken];
+    
+    NSDictionary *practiceParams = [[NSDictionary alloc] initWithObjects:practiceValues forKeys:practiceKey];
+    
+    [LEOApiClient getPracticesWithParameters:practiceParams withCompletion:^(NSDictionary *rawResults, NSError *error) {
+        
+        NSDictionary *dataArray = rawResults[APIParamData][@"practices"];
+        
+        NSMutableArray *practices = [[NSMutableArray alloc] init];
+        
+        for (NSDictionary *practiceDictionary in dataArray) {
+            Practice *practice = [[Practice alloc] initWithJSONDictionary:practiceDictionary];
+            [practices addObject:practice];
+        }
+        //FIXME: Safety here
+        completionBlock(practices, error);
     }];
 }
 
@@ -350,9 +393,14 @@
 
 - (void)getAppointmentTypesWithCompletion:(void (^)(NSArray *appointmentTypes, NSError *error))completionBlock {
     
-    [LEOApiClient getAppointmentTypesWithCompletion:^(NSDictionary *rawResults, NSError *error) {
+    NSArray *appointmentTypeParamValues = @[[self userToken]];
+    NSArray *appointmentTypeParamKeys = @[APIParamToken];
+    
+    NSDictionary *appointmentTypeParameters = [[NSDictionary alloc] initWithObjects:appointmentTypeParamValues forKeys:appointmentTypeParamKeys];
+    
+    [LEOApiClient getAppointmentTypesWithParameters:appointmentTypeParameters withCompletion:^(NSDictionary *rawResults, NSError *error) {
         
-        NSArray *dataArray = rawResults[APIParamData];
+        NSArray *dataArray = rawResults[APIParamData][@"appointment_types"];
         
         NSMutableArray *appointmentTypes = [[NSMutableArray alloc] init];
         

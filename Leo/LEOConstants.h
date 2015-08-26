@@ -180,8 +180,7 @@ extern NSString *const APIParamUserPassword; // @"password";
 #pragma mark - Common user object references
 extern NSString *const APIParamUser; // @"user";
 extern NSString *const APIParamUsers; // @"users";
-extern NSString *const APIParamStaffMember; // @"staffMember";
-extern NSString *const APIParamStaff; // @"staff";
+extern NSString *const APIParamUserStaff; // @"staff";
 extern NSString *const APIParamUserProvider; // @"provider";
 extern NSString *const APIParamUserProviders; // @"providers";
 extern NSString *const APIParamUserPatient; // @"patient";

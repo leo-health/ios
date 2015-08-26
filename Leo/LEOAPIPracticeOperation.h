@@ -8,6 +8,6 @@
 
 #import "LEOAPIOperation.h"
 
-@interface LEOAPIStaffOperation : LEOAPIOperation
+@interface LEOAPIPracticeOperation : LEOAPIOperation
 
 @end

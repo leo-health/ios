@@ -28,10 +28,12 @@
 #import <OHHTTPStubs/OHHTTPStubs.h> //TODO: Remove once integrated into main project.
 
 #import "LEOAPIAppointmentTypesOperation.h"
-#import "LEOAPIStaffOperation.h"
+#import "LEOAPIPracticeOperation.h"
 #import "LEOAPIFamilyOperation.h"
 #import "LEOAPISlotsOperation.h"
 #import "LEOApiReachability.h"
+#import <MBProgressHUD.h>
+
 @protocol DataRequestProtocol <NSObject>
 
 - (void)didCompleteDataRequestWithData:(NSArray *)data;
@@ -270,13 +272,30 @@
     
     self.card.associatedCardObject = [[Appointment alloc] initWithPrepAppointment:self.prepAppointment]; //FIXME: Make this a loop to account for changes to multiple objects, e.g. appointments on a card.
     
-    //[self.card performSelector:NSSelectorFromString([self.card actionsAvailableForState][0])]; //FIXME: Alternative way to do this that won't cause warning.
+    [MBProgressHUD showHUDAddedTo:self.view.window animated:YES];
+    [self.dataManager createAppointmentWithAppointment:self.card.associatedCardObject withCompletion:^(NSDictionary * rawResults, NSError * error) {
+        
+        if (!error) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+        
+        [self.card performSelector:NSSelectorFromString([self.card actionsAvailableForState][0])]; //FIXME: Alternative way to do this that won't cause warning.
+        
+#pragma  clang diagnostic pop
+
+        //    MARK: Alternative if the above gives us issues.
+        //    if (!self.card) { return; }
+        //    SEL selector = NSSelectorFromString([self.card actionsAvailableForState][0]);
+        //    IMP imp = [self.card methodForSelector:selector];
+        //    void (*func)(id, SEL) = (void *)imp;
+        //    func(self.card, selector);
+        }
+        
+        [MBProgressHUD hideHUDForView:self.view.window animated:YES];
+    }];
     
-    if (!self.card) { return; }
-    SEL selector = NSSelectorFromString([self.card actionsAvailableForState][0]);
-    IMP imp = [self.card methodForSelector:selector];
-    void (*func)(id, SEL) = (void *)imp;
-    func(self.card, selector);
+    
+
 }
 
 -(void)scrollViewWasTapped:(UIGestureRecognizer*)gesture{
@@ -381,7 +400,7 @@
                     return shouldSelect;
                 };
                 
-                selectionVC.requestOperation = [[LEOAPIStaffOperation alloc] init];
+                selectionVC.requestOperation = [[LEOAPIPracticeOperation alloc] init];
                 selectionVC.delegate = self;
             }
     

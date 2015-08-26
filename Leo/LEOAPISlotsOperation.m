@@ -8,18 +8,39 @@
 
 #import "LEOAPISlotsOperation.h"
 #import "LEOCalendarDataSource.h" //TODO: Replace with data manager when slots are finished being integrated
+#import "LEODataManager.h"
+#import "PrepAppointment.h"
+
+@interface LEOAPISlotsOperation()
+
+@property (strong, nonatomic) PrepAppointment *prepAppointment;
+
+@end
 
 @implementation LEOAPISlotsOperation
 
+-(instancetype)initWithPrepAppointment:(PrepAppointment *)prepAppointment {
+    
+    self = [super init];
+    
+    if (self) {
+        _prepAppointment = prepAppointment;
+    }
+    
+    return self;
+}
+
 -(void)main {
     
-    NSDictionary *formattedSlots = [LEOCalendarDataSource formatSlots:[LEOCalendarDataSource rawDummySlots]];
     
-        id data = formattedSlots;
+    LEODataManager *dataManager = [LEODataManager sharedManager];
+    
+    [dataManager getSlotsForAppointmentType:self.prepAppointment.appointmentType withProvider:self.prepAppointment.provider withCompletion:^(NSArray * slots, NSError *error) {
         
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            self.requestBlock(data, nil);
+            self.requestBlock(slots, error);
         }];
+    }];
 }
 
 @end

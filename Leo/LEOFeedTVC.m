@@ -228,13 +228,17 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 
 - (void)removeCardFromFeed:(LEOCard *)card {
     
-    [self.tableView beginUpdates];
-    NSUInteger cardRow = [self.cards indexOfObject:card];
-    [self removeCard:card];
-    
-    NSArray *indexPaths = @[[NSIndexPath indexPathForRow:cardRow inSection:0]];
-    [self.tableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
-    [self.tableView endUpdates];
+    [self.dataManager cancelAppointment:card.associatedCardObject withCompletion:^(NSDictionary * response, NSError * error) {
+        if (!error) {
+            [self.tableView beginUpdates];
+            NSUInteger cardRow = [self.cards indexOfObject:card];
+            [self removeCard:card];
+            
+            NSArray *indexPaths = @[[NSIndexPath indexPathForRow:cardRow inSection:0]];
+            [self.tableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
+            [self.tableView endUpdates];
+        }
+    }];
 }
 
 - (void)addCard:(LEOCard *)card {

@@ -6,11 +6,11 @@
 //  Copyright (c) 2015 Zachary Drossman. All rights reserved.
 //
 
-#import "LEOAPIStaffOperation.h"
+#import "LEOAPIPracticeOperation.h"
 #import "LEODataManager.h"
 #import "Provider.h"
 #import "Practice.h"
-@implementation LEOAPIStaffOperation
+@implementation LEOAPIPracticeOperation
 
 -(void)main {
     

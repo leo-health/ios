@@ -19,7 +19,7 @@ NSString *const APIEndpointResetPassword = @"sessions/password";
 NSString *const APIEndpointAppointments = @"appointments";
 NSString *const APIEndpointConversations = @"conversations";
 NSString *const APIEndpointMessages = @"messages";
-NSString *const APIEndpointAppointmentTypes = @"appointmentTypes";
+NSString *const APIEndpointAppointmentTypes = @"appointment_types";
 NSString *const APIEndpointLogin = @"login";
 NSString *const APIEndpointCards = @"cards";
 NSString *const APIEndpointPractices = @"practices";
@@ -98,6 +98,7 @@ NSString *const APIParamUserGuardian = @"guardian";
 NSString *const APIParamUserGuardians = @"guardians";
 NSString *const APIParamUserSupport = @"support";
 NSString *const APIParamUserSupports = @"supports";
+NSString *const APIParamUserStaff = @"staff";
 
 #pragma mark - Role
 NSString *const APIParamRole = @"role";

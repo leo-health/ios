@@ -39,13 +39,13 @@ NSString *const RoleProvider = @"Provider";
     
     NSString *objectID = [jsonResponse[APIParamID] stringValue];
     
-    NSArray *staffDictionaries = jsonResponse[APIParamUsers];
+    NSArray *staffDictionaries = jsonResponse[APIParamUserStaff];
 
     NSMutableArray *staff = [[NSMutableArray alloc] init];
     
     for (NSDictionary *staffDictionary in staffDictionaries) {
         
-        NSString *role = jsonResponse[APIParamRole];
+        NSString *role = staffDictionary[APIParamRole];
         
         if ([role isEqualToString:RoleProvider]) {
             Provider *provider = [[Provider alloc] initWithJSONDictionary:staffDictionary];

@@ -69,7 +69,7 @@
 		31F5AA631B791B4A00F96D06 /* LEOCalendarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31F5AA361B791B4A00F96D06 /* LEOCalendarViewController.m */; };
 		31F5AA641B791B4A00F96D06 /* LEOExpandedCardAppointmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31F5AA381B791B4A00F96D06 /* LEOExpandedCardAppointmentViewController.m */; };
 		31F5AA651B791B4A00F96D06 /* LEOAPISlotsOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 31F5AA3A1B791B4A00F96D06 /* LEOAPISlotsOperation.m */; };
-		31F5AA661B791B4A00F96D06 /* LEOAPIStaffOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 31F5AA3C1B791B4A00F96D06 /* LEOAPIStaffOperation.m */; };
+		31F5AA661B791B4A00F96D06 /* LEOAPIPracticeOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 31F5AA3C1B791B4A00F96D06 /* LEOAPIPracticeOperation.m */; };
 		31F5AA671B791B4A00F96D06 /* LEOAPIFamilyOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 31F5AA3E1B791B4A00F96D06 /* LEOAPIFamilyOperation.m */; };
 		31F5AA681B791B4A00F96D06 /* LEOAPIOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 31F5AA401B791B4A00F96D06 /* LEOAPIOperation.m */; };
 		31F5AA691B791B4A00F96D06 /* LEOAPIAppointmentTypesOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 31F5AA421B791B4A00F96D06 /* LEOAPIAppointmentTypesOperation.m */; };
@@ -253,8 +253,8 @@
 		31F5AA381B791B4A00F96D06 /* LEOExpandedCardAppointmentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOExpandedCardAppointmentViewController.m; sourceTree = "<group>"; };
 		31F5AA391B791B4A00F96D06 /* LEOAPISlotsOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOAPISlotsOperation.h; sourceTree = "<group>"; };
 		31F5AA3A1B791B4A00F96D06 /* LEOAPISlotsOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOAPISlotsOperation.m; sourceTree = "<group>"; };
-		31F5AA3B1B791B4A00F96D06 /* LEOAPIStaffOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOAPIStaffOperation.h; sourceTree = "<group>"; };
-		31F5AA3C1B791B4A00F96D06 /* LEOAPIStaffOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOAPIStaffOperation.m; sourceTree = "<group>"; };
+		31F5AA3B1B791B4A00F96D06 /* LEOAPIPracticeOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOAPIPracticeOperation.h; sourceTree = "<group>"; };
+		31F5AA3C1B791B4A00F96D06 /* LEOAPIPracticeOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOAPIPracticeOperation.m; sourceTree = "<group>"; };
 		31F5AA3D1B791B4A00F96D06 /* LEOAPIFamilyOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOAPIFamilyOperation.h; sourceTree = "<group>"; };
 		31F5AA3E1B791B4A00F96D06 /* LEOAPIFamilyOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOAPIFamilyOperation.m; sourceTree = "<group>"; };
 		31F5AA3F1B791B4A00F96D06 /* LEOAPIOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOAPIOperation.h; sourceTree = "<group>"; };
@@ -526,8 +526,8 @@
 			children = (
 				31F5AA391B791B4A00F96D06 /* LEOAPISlotsOperation.h */,
 				31F5AA3A1B791B4A00F96D06 /* LEOAPISlotsOperation.m */,
-				31F5AA3B1B791B4A00F96D06 /* LEOAPIStaffOperation.h */,
-				31F5AA3C1B791B4A00F96D06 /* LEOAPIStaffOperation.m */,
+				31F5AA3B1B791B4A00F96D06 /* LEOAPIPracticeOperation.h */,
+				31F5AA3C1B791B4A00F96D06 /* LEOAPIPracticeOperation.m */,
 				31F5AA3D1B791B4A00F96D06 /* LEOAPIFamilyOperation.h */,
 				31F5AA3E1B791B4A00F96D06 /* LEOAPIFamilyOperation.m */,
 				31F5AA411B791B4A00F96D06 /* LEOAPIAppointmentTypesOperation.h */,
@@ -1025,7 +1025,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				31F5AA661B791B4A00F96D06 /* LEOAPIStaffOperation.m in Sources */,
+				31F5AA661B791B4A00F96D06 /* LEOAPIPracticeOperation.m in Sources */,
 				31FDDE6F1B29EDF70009BBC2 /* ArrayDataSource.m in Sources */,
 				3177B9E11B1A8CF3006AE360 /* LEOCard.m in Sources */,
 				31F5AA731B791B4B00F96D06 /* ProviderCell.m in Sources */,
