@@ -56,9 +56,13 @@
     
     AppointmentStatusCode statusCode = [jsonResponse[APIParamState] integerValue]; //FIXME: Constant
     NSString *objectID = [jsonResponse[APIParamID] stringValue];
-    NSString *note = jsonResponse[APIParamAppointmentNotes];
     
+    NSString *note;
 
+    if (jsonResponse[APIParamAppointmentNotes] != [NSNull null]) {
+    
+        note = jsonResponse[APIParamAppointmentNotes];
+    }
     //FIXME: This shouldn't happen, except for the fact that the backend doesn't yet have a Practice object. Will need to be updated.
     if (!practice) {
         return [self initWithObjectID:objectID date:date appointmentType:appointmentType patient:patient provider:provider practice:practice bookedByUser:bookedByUser note:note statusCode:statusCode];

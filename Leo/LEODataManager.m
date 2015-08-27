@@ -53,7 +53,7 @@
 
 -(NSString *)userToken {
     
-    _userToken = @"ZY6oCf_6A2pztSFtVsyH";
+    _userToken = @"K2rxAYg7ysfUunLCwg2N";
     //will eventually pull from the keychain, but for now, will come from some temporarily place or be hard coded as necessary.
     return _userToken;
 }
@@ -97,7 +97,7 @@
 
 - (void)createAppointmentWithAppointment:(Appointment *)appointment withCompletion:(void (^)(NSDictionary *rawResults, NSError *error))completionBlock {
     
-    NSMutableDictionary *apptParams = [[NSMutableDictionary alloc] initWithDictionary:@{APIParamToken:[self userToken], APIParamUserPatientID:appointment.patient.objectID, APIParamAppointmentStartDateTime : appointment.date, APIParamUserProviderID:appointment.provider.objectID, APIParamAppointmentTypeID:appointment.appointmentType.objectID, APIParamStatusID:@(appointment.statusCode), APIParamStatus:@"This will be removed from the API", APIParamAppointmentTypeDuration:appointment.appointmentType.duration}];
+    NSMutableDictionary *apptParams = [[NSMutableDictionary alloc] initWithDictionary:@{APIParamToken:[self userToken], APIParamUserPatientID:appointment.patient.objectID, APIParamAppointmentStartDateTime : appointment.date, APIParamUserProviderID:appointment.provider.objectID, APIParamAppointmentTypeID:appointment.appointmentType.objectID, APIParamStatusID:@(appointment.statusCode), APIParamStatus:@"f", APIParamAppointmentTypeDuration:appointment.appointmentType.duration}];
     
     if (appointment.note) {
         [apptParams setValue:appointment.note forKey:APIParamAppointmentNotes];

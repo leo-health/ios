@@ -59,6 +59,7 @@
     [super viewDidLoad];
     
     self.bodyView = self.appointmentView;
+    self.card.delegate = self;
     
     [self setupButtons];
     [self setupExpandedCardView];
@@ -182,6 +183,7 @@
 -(void)textViewDidChange:(UITextView *)textView {
     
     [UIView animateWithDuration:0.1 animations:^{
+        self.prepAppointment.note = textView.text;
         [self.view layoutIfNeeded];
     }];
 }
@@ -217,6 +219,11 @@
     [self.prepAppointment setValue:item forKey:key];
 }
 
+
+-(void)didUpdateObjectStateForCard:(LEOCard *)card {
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 
 #pragma mark - Validation
 
@@ -266,7 +273,7 @@
     [MBProgressHUD showHUDAddedTo:self.view.window animated:YES];
     
     if (!self.appointment.objectID) {
-    [self.dataManager createAppointmentWithAppointment:self.card.associatedCardObject withCompletion:^(NSDictionary * rawResults, NSError * error) {
+    [self.dataManager createAppointmentWithAppointment:self.appointment withCompletion:^(NSDictionary * rawResults, NSError * error) {
         
         [MBProgressHUD hideHUDForView:self.view.window animated:YES];
 

@@ -32,8 +32,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSArray *conversationParticipants;
 @property (strong, nonatomic) Family *family;
 
-- (NSArray *)availableTimesForDate:(NSDate*)date;
-
 + (instancetype)sharedManager;
 
 
