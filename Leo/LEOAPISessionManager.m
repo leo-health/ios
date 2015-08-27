@@ -91,4 +91,34 @@
     return task;
 }
 
+- (NSURLSessionDataTask *)standardDELETERequestForJSONDictionaryToAPIWithEndpoint:(NSString *)urlString params:(NSDictionary *)params completion:(void (^)(NSDictionary *rawResults, NSError *error))completionBlock {
+    
+    NSURLSessionDataTask *task = [self DELETE:urlString parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
+        
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)task.response;
+        
+        if (httpResponse.statusCode == 200) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completionBlock(responseObject, nil);
+            });
+        } else {
+            NSLog(@"Received HTTP %ld - %@", (long)httpResponse.statusCode, responseObject);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completionBlock(nil, nil);
+            });
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"Fail: %@",error.localizedDescription);
+        NSLog(@"Fail: %@",error.localizedFailureReason);
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            completionBlock(nil, error);
+        });
+    }];
+    
+    return task;
+}
+
+
 @end

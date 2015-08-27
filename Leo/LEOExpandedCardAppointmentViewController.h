@@ -1,5 +1,5 @@
 //
-//  LEOAppointmentBookingViewController.h
+//  LEOExpandedCardAppointmentViewController.h
 //  LEOCalendar
 //
 //  Created by Zachary Drossman on 8/3/15.

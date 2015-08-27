@@ -35,14 +35,17 @@
     
     NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] init];
     
+    
     [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ ", provider.fullName]
                                                                        attributes:attributedDictionary1]];
     
     
     NSString *credential = [provider.credentials[0] stringByReplacingOccurrencesOfString:@"." withString:@""];  //TODO: This will need to be updated at some point when we decide how we want to handle these.
     
+    if (credential) {
     [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:credential
                                                                        attributes:attributedDictionary2]];
+    }
     
     self.fullNameLabel.attributedText = attrString;
 }

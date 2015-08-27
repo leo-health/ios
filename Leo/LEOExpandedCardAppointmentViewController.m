@@ -1,5 +1,5 @@
 //
-//  LEOAppointmentBookingViewController.m
+//  LEOExpandedCardAppointmentViewController.m
 //  LEOCalendar
 //
 //  Created by Zachary Drossman on 8/3/15.
@@ -24,8 +24,6 @@
 #import "PatientCell+ConfigureCell.h"
 #import "ProviderCell+ConfigureCell.h"
 #import "LEOCalendarViewController.h"
-#import "Configuration.h"
-#import <OHHTTPStubs/OHHTTPStubs.h> //TODO: Remove once integrated into main project.
 
 #import "LEOAPIAppointmentTypesOperation.h"
 #import "LEOAPIPracticeOperation.h"
@@ -34,11 +32,6 @@
 #import "LEOApiReachability.h"
 #import <MBProgressHUD.h>
 
-@protocol DataRequestProtocol <NSObject>
-
-- (void)didCompleteDataRequestWithData:(NSArray *)data;
-
-@end
 
 @interface LEOExpandedCardAppointmentViewController ()
 
@@ -49,9 +42,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *questionStaffButton;
 @property (weak, nonatomic) IBOutlet UIButton *questionCalendarButton;
 
-
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomLayoutConstraintForNotesViewSectionSeparator;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *notesTextViewHeightConstraint;
 
 @property (strong, nonatomic) Appointment *appointment;
 @property (strong, nonatomic) PrepAppointment *prepAppointment;
@@ -142,7 +133,6 @@
     self.notesTextView.text = self.prepAppointment.note;
     
     [self.view layoutIfNeeded];
-    self.notesTextViewHeightConstraint.constant = self.notesTextView.contentSize.height;
     
     UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(scrollViewWasTapped:)];
     tapGestureForTextFieldDismissal.cancelsTouchesInView = NO;
@@ -192,7 +182,6 @@
 -(void)textViewDidChange:(UITextView *)textView {
     
     [UIView animateWithDuration:0.1 animations:^{
-        self.notesTextViewHeightConstraint.constant = self.notesTextView.contentSize.height;
         [self.view layoutIfNeeded];
     }];
 }
@@ -270,17 +259,24 @@
  */
 - (void)buttonTapped {
     
-    self.card.associatedCardObject = [[Appointment alloc] initWithPrepAppointment:self.prepAppointment]; //FIXME: Make this a loop to account for changes to multiple objects, e.g. appointments on a card.
+    self.dataManager = [LEODataManager sharedManager];
+    
+    self.appointment = [[Appointment alloc] initWithPrepAppointment:self.prepAppointment]; //FIXME: Make this a loop to account for changes to multiple objects, e.g. appointments on a card.
     
     [MBProgressHUD showHUDAddedTo:self.view.window animated:YES];
+    
+    if (!self.appointment.objectID) {
     [self.dataManager createAppointmentWithAppointment:self.card.associatedCardObject withCompletion:^(NSDictionary * rawResults, NSError * error) {
         
+        [MBProgressHUD hideHUDForView:self.view.window animated:YES];
+
         if (!error) {
+        
+
+            
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-        
-        [self.card performSelector:NSSelectorFromString([self.card actionsAvailableForState][0])]; //FIXME: Alternative way to do this that won't cause warning.
-        
+            [self.card performSelector:NSSelectorFromString([self.card actionsAvailableForState][0])];
 #pragma  clang diagnostic pop
 
         //    MARK: Alternative if the above gives us issues.
@@ -291,10 +287,9 @@
         //    func(self.card, selector);
         }
         
-        [MBProgressHUD hideHUDForView:self.view.window animated:YES];
     }];
     
-    
+    }
 
 }
 
@@ -318,7 +313,7 @@
         
         calendarVC.delegate = self;
         calendarVC.prepAppointment = self.prepAppointment;
-        calendarVC.requestOperation = [[LEOAPISlotsOperation alloc] init];
+        calendarVC.requestOperation = [[LEOAPISlotsOperation alloc] initWithPrepAppointment:self.prepAppointment];
         
         return;
     }

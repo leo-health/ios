@@ -56,7 +56,10 @@
 
 + (void)getSlotsWithParameters:(NSDictionary *)slotParams withCompletion:(void (^)(NSDictionary *rawResults, NSError *error))completionBlock {
 
-    [[self leoSessionManager] standardGETRequestForJSONDictionaryFromAPIWithEndpoint:APIEndpointSlots params:slotParams completion:^(NSDictionary *rawResults, NSError *error) {
+    //FIXME: Update for actual slots endpoint once changes have been made on backend
+    NSString *slotsEndpointForTestProvider = [NSString stringWithFormat:@"%@/%@/%@",@"provider",@"5",APIEndpointSlots];
+
+    [[self leoSessionManager] standardGETRequestForJSONDictionaryFromAPIWithEndpoint:slotsEndpointForTestProvider params:slotParams completion:^(NSDictionary *rawResults, NSError *error) {
         if (completionBlock) {
             completionBlock(rawResults, error);
         }
@@ -97,7 +100,9 @@
 
 + (void)cancelAppointmentWithParameters:(NSDictionary *)apptParams withCompletion:(void (^)(NSDictionary *rawResults, NSError *error))completionBlock {
     
-    [[self leoSessionManager] standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointAppointments params:apptParams completion:^(NSDictionary *rawResults, NSError *error) {
+    NSString *cancelAppointmentURLString = [NSString stringWithFormat:@"%@/%@",APIEndpointAppointments, apptParams[APIParamID]];
+
+    [[self leoSessionManager] standardDELETERequestForJSONDictionaryToAPIWithEndpoint:cancelAppointmentURLString params:apptParams completion:^(NSDictionary *rawResults, NSError *error) {
         if (completionBlock) {
             completionBlock(rawResults, error);
         }

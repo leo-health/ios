@@ -100,10 +100,11 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 
     dispatch_sync(queue, ^{
                 
-        [self.dataManager getCardsWithCompletion:^(NSArray *cards) {
+        [self.dataManager getCardsWithCompletion:^(NSArray *cards, NSError *error) {
             
-            self.cards = [cards mutableCopy];
-            
+            if (!error) {
+                self.cards = [cards mutableCopy];
+            }
             dispatch_async(dispatch_get_main_queue() , ^{
                 
                 [MBProgressHUD hideHUDForView:self.tableView animated:YES];
@@ -205,7 +206,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
                 case ConversationStatusCodeOpen: {
                     [self loadChattingViewWithCard:card];
                     break;
-                }
+                }   
                 default: {
                     break;
                 }

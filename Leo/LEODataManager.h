@@ -38,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 //Cards
-- (void)getCardsWithCompletion:(void (^)(NSArray *cards))completionBlock;
+- (void)getCardsWithCompletion:(void (^)(NSArray *cards, NSError *error))completionBlock;
 
 //Users
 - (void)createUserWithUser:( User *)user password:( NSString *)password withCompletion:(void (^)( NSDictionary * rawResults, NSError *error))completionBlock;
@@ -50,7 +50,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)createAppointmentWithAppointment:( Appointment *)appointment withCompletion:(void (^)(NSDictionary  * rawResults, NSError *error))completionBlock;
 - (void)getAppointmentsForFamilyOfCurrentUserWithCompletion:(void (^)(NSDictionary  * rawResults, NSError *error))completionBlock;
 - (void)cancelAppointment:(Appointment *)appointment withCompletion:(void (^)(NSDictionary *rawResults, NSError *error))completionBlock;
-- (void)getSlotsForAppointmentType:(AppointmentType *)appointmentType withProvider:(Provider *)provider withCompletion:(void (^)(NSArray *slots, NSError *error))completionBlock;
+- (void)getSlotsForAppointmentType:(AppointmentType *)appointmentType provider:(Provider *)provider startDate:(NSDate *)startDate endDate:(NSDate *)endDate withCompletion:(void (^)(NSArray *slots, NSError *error))completionBlock;
 
 //Conversations
 - (void)getConversationsForCurrentUserWithCompletion:(void (^)(Conversation*  conversation))completionBlock;

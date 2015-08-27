@@ -53,7 +53,7 @@
 
 -(NSString *)userToken {
     
-    _userToken = @"Ey_7phfrx89KLLyNq-yw";
+    _userToken = @"ZY6oCf_6A2pztSFtVsyH";
     //will eventually pull from the keychain, but for now, will come from some temporarily place or be hard coded as necessary.
     return _userToken;
 }
@@ -97,11 +97,11 @@
 
 - (void)createAppointmentWithAppointment:(Appointment *)appointment withCompletion:(void (^)(NSDictionary *rawResults, NSError *error))completionBlock {
     
-    NSArray *apptValues = @[[self userToken], appointment.patient.objectID, appointment.date, appointment.provider.objectID, appointment.appointmentType, @(appointment.statusCode), @"tempStatusThatWillBeRemovedWhenAPIHasBeenUpdated", appointment.note, appointment.appointmentType.duration]; //TODO: Remove duration once API has been updated. Remove status once API has been updated.
+    NSMutableDictionary *apptParams = [[NSMutableDictionary alloc] initWithDictionary:@{APIParamToken:[self userToken], APIParamUserPatientID:appointment.patient.objectID, APIParamAppointmentStartDateTime : appointment.date, APIParamUserProviderID:appointment.provider.objectID, APIParamAppointmentTypeID:appointment.appointmentType.objectID, APIParamStatusID:@(appointment.statusCode), APIParamStatus:@"This will be removed from the API", APIParamAppointmentTypeDuration:appointment.appointmentType.duration}];
     
-    NSArray *apptKeys = @[APIParamToken, APIParamID, APIParamAppointmentStartDateTime, APIParamID, APIParamAppointmentType, APIParamStatusID, APIParamStatus, APIParamAppointmentNotes, APIParamAppointmentTypeDuration];
-    
-    NSDictionary *apptParams = [[NSDictionary alloc] initWithObjects:apptValues forKeys:apptKeys];
+    if (appointment.note) {
+        [apptParams setValue:appointment.note forKey:APIParamAppointmentNotes];
+    }
     
     [LEOApiClient createAppointmentWithParameters:apptParams withCompletion:^(NSDictionary *rawResults, NSError *error) {
         
@@ -126,7 +126,7 @@
 
 - (void)cancelAppointment:(Appointment *)appointment withCompletion:(void (^)(NSDictionary *rawResults, NSError *error))completionBlock {
     
-    NSArray *apptValues = @[[self userToken], appointment.patient.objectID]; //TODO: Remove duration once API has been updated. Remove status once API has been updated.
+    NSArray *apptValues = @[[self userToken], appointment.objectID]; //TODO: Remove duration once API has been updated. Remove status once API has been updated.
     
     NSArray *apptKeys = @[APIParamToken, APIParamID];
     
@@ -175,16 +175,16 @@
     }];
 }
 
-- (void)getSlotsForAppointmentType:(AppointmentType *)appointmentType withProvider:(Provider *)provider withCompletion:(void (^)(NSArray *slots, NSError *error))completionBlock {
+- (void)getSlotsForAppointmentType:(AppointmentType *)appointmentType provider:(Provider *)provider startDate:(NSDate *)startDate endDate:(NSDate *)endDate withCompletion:(void (^)(NSArray *slots, NSError *error))completionBlock {
     
-    NSArray *slotValues = @[appointmentType, provider];
-    NSArray *slotKeys = @[APIParamAppointmentType, APIParamUserProvider];
+    NSArray *slotValues = @[appointmentType.objectID, provider.objectID, [NSDate stringifiedShortDate:startDate], [NSDate stringifiedShortDate:endDate]];
+    NSArray *slotKeys = @[APIParamAppointmentTypeID, APIParamUserProviderID, APIParamStartDate, APIParamEndDate];
     
     NSDictionary *slotParams = [[NSDictionary alloc] initWithObjects:slotValues forKeys:slotKeys];
     
     [LEOApiClient getSlotsWithParameters:slotParams withCompletion:^(NSDictionary * rawResults, NSError *error) {
         
-        NSArray *slotDictionaries = rawResults[APIParamData][APIParamSlots];
+        NSArray *slotDictionaries = rawResults[APIParamData][0][APIParamSlots];
         
         NSMutableArray *slots = [[NSMutableArray alloc] init];
         
@@ -268,7 +268,7 @@
 
 
 #pragma mark - Fetching
-- (void)getCardsWithCompletion:(void (^)(NSArray *cards))completionBlock {
+- (void)getCardsWithCompletion:(void (^)(NSArray *cards, NSError *error))completionBlock {
     
     NSArray *user = @[[self userToken]];
     NSArray *userKey = @[APIParamToken];
@@ -298,8 +298,7 @@
             }
         }
         
-        //FIXME: Safety here
-        completionBlock(cards);
+        completionBlock(cards, error);
     }];
 }
 
@@ -400,7 +399,7 @@
     
     [LEOApiClient getAppointmentTypesWithParameters:appointmentTypeParameters withCompletion:^(NSDictionary *rawResults, NSError *error) {
         
-        NSArray *dataArray = rawResults[APIParamData][@"appointment_types"];
+        NSArray *dataArray = rawResults[APIParamData];
         
         NSMutableArray *appointmentTypes = [[NSMutableArray alloc] init];
         

@@ -40,7 +40,6 @@
                                                                          statusCode:200
                                                                             headers:@{@"Content-Type":@"application/json"}];
         return response;
-        
     }];
     
     __weak id<OHHTTPStubsDescriptor> familyStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
@@ -58,7 +57,7 @@
     
     __weak id<OHHTTPStubsDescriptor> appointmentTypesStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         NSLog(@"Stub request");
-        BOOL test = [request.URL.path isEqualToString:[NSString stringWithFormat:@"/%@/%@",[Configuration APIVersion], @"appointmentTypes"]];
+        BOOL test = [request.URL.path isEqualToString:[NSString stringWithFormat:@"/%@/%@",[Configuration APIVersion], @"appointment_types"]];
         return test;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         

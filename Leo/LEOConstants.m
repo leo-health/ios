@@ -23,7 +23,7 @@ NSString *const APIEndpointAppointmentTypes = @"appointment_types";
 NSString *const APIEndpointLogin = @"login";
 NSString *const APIEndpointCards = @"cards";
 NSString *const APIEndpointPractices = @"practices";
-NSString *const APIEndpointSlots = @"slots";
+NSString *const APIEndpointSlots = @"appointment_slots";
 NSString *const APIEndpointFamily = @"family";
 
 #pragma mark - Common
@@ -72,7 +72,7 @@ NSString *const APIParamUserEmail = @"email";
 NSString *const APIParamUserAvatarURL = @"avatar_url";
 
 NSString *const APIParamUserProviderID = @"provider_id";
-NSString *const APIParamUserPatientID = @"provider_id";
+NSString *const APIParamUserPatientID = @"patient_id";
 NSString *const APIParamUserBookedByID = @"booked_by_id";
 
 NSString *const APIParamUserCredentials = @"credentials";
@@ -159,6 +159,8 @@ NSString *const APIParamAppointmentBookedBy = @"booked_by";
 NSString *const APIParamSlots = @"slots";
 NSString *const APIParamSlotStartDateTime = @"start_datetime";
 NSString *const APIParamSlotDuration = @"duration";
+NSString *const APIParamStartDate = @"start_date";
+NSString *const APIParamEndDate = @"end_date";
 
 #pragma mark - Magic numbers
 CGFloat const selectionLineHeight = 2.0f;

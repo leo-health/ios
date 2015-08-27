@@ -10,7 +10,7 @@
 #import "LEOCalendarDataSource.h" //TODO: Replace with data manager when slots are finished being integrated
 #import "LEODataManager.h"
 #import "PrepAppointment.h"
-
+#import <DateTools.h>
 @interface LEOAPISlotsOperation()
 
 @property (strong, nonatomic) PrepAppointment *prepAppointment;
@@ -35,10 +35,13 @@
     
     LEODataManager *dataManager = [LEODataManager sharedManager];
     
-    [dataManager getSlotsForAppointmentType:self.prepAppointment.appointmentType withProvider:self.prepAppointment.provider withCompletion:^(NSArray * slots, NSError *error) {
+    //FIXME: Remove magic number
+    [dataManager getSlotsForAppointmentType:self.prepAppointment.appointmentType provider:self.prepAppointment.provider startDate:[NSDate date] endDate:[[NSDate date] dateByAddingDays:45] withCompletion:^(NSArray * slots, NSError *error) {
+        
+        id data = [LEOCalendarDataSource formatSlots:slots];
         
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            self.requestBlock(slots, error);
+            self.requestBlock(data, error);
         }];
     }];
 }
