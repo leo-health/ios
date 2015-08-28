@@ -18,6 +18,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *bodyLabel;
 @property (weak, nonatomic) IBOutlet UIButton *buttonOne;
+@property (weak, nonatomic) IBOutlet UIView *bodyView;
+@property (weak, nonatomic) IBOutlet UIView *borderViewAtTopOfBodyView;
+@property (weak, nonatomic) IBOutlet UIView *borderViewAboveButtons;
 
 + (UINib *)nib;
 

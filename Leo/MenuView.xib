@@ -31,7 +31,7 @@
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fGE-Fm-Q7H" userLabel="VisitImageButton">
                     <rect key="frame" x="19" y="19" width="32" height="32"/>
-                    <state key="normal" image="Calendar-Icon"/>
+                    <state key="normal" image="Icon-Calendar"/>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JKh-FE-wAE" userLabel="Submit a Form Button">
                     <rect key="frame" x="70" y="69" width="480" height="36"/>
@@ -46,11 +46,11 @@
                 </button>
                 <button opaque="NO" contentMode="scaleAspectFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xFf-1B-aRN" userLabel="FormImageButton">
                     <rect key="frame" x="19" y="71" width="32" height="32"/>
-                    <state key="normal" image="Forms-Icon"/>
+                    <state key="normal" image="Icon-Form"/>
                 </button>
                 <button opaque="NO" contentMode="scaleAspectFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bVi-7X-26R" userLabel="ContactImageButton">
                     <rect key="frame" x="19" y="123" width="32" height="32"/>
-                    <state key="normal" image="ToDo-Icon"/>
+                    <state key="normal" image="Icon-Contact"/>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0I9-CK-AD7" userLabel="Settings Button">
                     <rect key="frame" x="70" y="173" width="480" height="36"/>
@@ -64,7 +64,7 @@
                 </button>
                 <button opaque="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9PE-45-ZF4" userLabel="SettingsImageButton">
                     <rect key="frame" x="19" y="175" width="32" height="32"/>
-                    <state key="normal" image="Icon-Chat.png"/>
+                    <state key="normal" image="Icon-Settings"/>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GYE-cG-70l" userLabel="Contact Leo Button">
                     <rect key="frame" x="70" y="121" width="480" height="36"/>
@@ -107,9 +107,9 @@
         </view>
     </objects>
     <resources>
-        <image name="Calendar-Icon" width="39" height="40"/>
-        <image name="Forms-Icon" width="39" height="40"/>
-        <image name="Icon-Chat.png" width="39" height="41"/>
-        <image name="ToDo-Icon" width="39" height="40"/>
+        <image name="Icon-Calendar" width="39" height="41"/>
+        <image name="Icon-Contact" width="39" height="40"/>
+        <image name="Icon-Form" width="39" height="40"/>
+        <image name="Icon-Settings" width="39" height="40"/>
     </resources>
 </document>

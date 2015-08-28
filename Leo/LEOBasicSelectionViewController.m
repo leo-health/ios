@@ -33,9 +33,13 @@
     
     [self setupTableView];
     
-    [self setupNavBar];
 }
 
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [self setupNavBar];
+}
 #pragma mark - VCL Helper Methods
 - (void)setupNavBar {
     
@@ -43,15 +47,22 @@
     
     navBarTitleLabel.text = self.titleText;
     navBarTitleLabel.textColor = [UIColor leoWhite];
-    navBarTitleLabel.font = [UIFont leoTitleBoldFont];
+    navBarTitleLabel.font = [UIFont leoMenuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
     
     [navBarTitleLabel sizeToFit];
     
     self.navigationItem.titleView = navBarTitleLabel;
     
-    UIBarButtonItem *barBtnItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Icon-Cancel"] style:UIBarButtonItemStylePlain target:self.navigationController action:@selector(popViewControllerAnimated:)];
+    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [backButton addTarget:self action:@selector(pop) forControlEvents:UIControlEventTouchUpInside];
+    [backButton setImage:[UIImage imageNamed:@"Icon-BackArrow"] forState:UIControlStateNormal];
+    [backButton sizeToFit];
+    [backButton setTintColor:[UIColor leoWhite]];
     
-    self.navigationItem.leftBarButtonItem = barBtnItem;
+    UIBarButtonItem *backBBI = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    
+    self.navigationItem.hidesBackButton = YES;
+    self.navigationItem.leftBarButtonItem = backBBI;
 }
 
 - (void)setupTableView {
@@ -59,31 +70,47 @@
     
     self.tableView = [[UITableView alloc] init];
 
-    self.tableView.estimatedRowHeight = 65;
-    self.tableView.rowHeight = UITableViewAutomaticDimension;
-    
+    [self.tableView registerNib:[UINib nibWithNibName:self.reuseIdentifier bundle:nil]  forCellReuseIdentifier:self.reuseIdentifier];
+
     [self.view addSubview:self.tableView];
     
-    [MBProgressHUD showHUDAddedTo:self.tableView animated:YES]; //TODO: Create separate class to set these up for all use cases with two methods that support showing and hiding our customized HUD.
+    self.tableView.separatorInset = UIEdgeInsetsMake(0, 20, 0, 20);
+    self.tableView.estimatedRowHeight = 65;
+    self.tableView.rowHeight = UITableViewAutomaticDimension;
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    self.tableView.separatorColor = [UIColor leoGrayForPlaceholdersAndLines];
+}
 
+-(void)viewDidAppear:(BOOL)animated {
+    
+    [super viewDidAppear:animated];
+    
+    [MBProgressHUD showHUDAddedTo:self.view.window animated:YES]; //TODO: Create separate class to set these up for all use cases with two methods that support showing and hiding our customized HUD.
+    
     [self requestDataWithCompletion:^(id data){
-
-        sleep(1.0); //TODO: Remove once moving away from stubs;
         
         self.data = data;
         
-        self.dataSource = [[ArrayDataSource alloc] initWithItems:self.data cellIdentifier:self.reuseIdentifier configureCellBlock:self.configureCellBlock];
+        SelectionCriteriaBlock selectionCriteriaBlock = ^(BOOL shouldSelect, NSIndexPath *indexPath) {
+            
+            if (shouldSelect) {
+                UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+                cell.selected = YES;
+                [self.tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+            }
+        };
+        
+        self.dataSource = [[ArrayDataSource alloc] initWithItems:self.data cellIdentifier:self.reuseIdentifier configureCellBlock:self.configureCellBlock selectionCriteriaBlock: selectionCriteriaBlock];
         
         self.tableView.dataSource = self.dataSource;
         self.tableView.delegate = self;
         
-        [MBProgressHUD hideHUDForView:self.tableView animated:YES];
+        [MBProgressHUD hideHUDForView:self.view.window animated:YES];
         [self.tableView reloadData];
     }];
-    
-    [self.tableView registerNib:[UINib nibWithNibName:self.reuseIdentifier bundle:nil]  forCellReuseIdentifier:self.reuseIdentifier];
-}
 
+    
+}
 - (void)requestDataWithCompletion:(void (^) (id data))completionBlock {
     
     NSOperationQueue *queue = [[NSOperationQueue alloc] init];
@@ -93,7 +120,6 @@
     };
     
     [queue addOperation:self.requestOperation];
-    
 }
 
 
@@ -124,6 +150,11 @@
     }
     
     [super updateViewConstraints];
+}
+
+- (void)pop {
+    
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

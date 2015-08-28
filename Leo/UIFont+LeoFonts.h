@@ -10,25 +10,63 @@
 
 @interface UIFont (LeoFonts)
 
-//TODO: Placeholders, and temporary until switching over to Text Styles for use with Dynamic Type
+//TODO: Switch over to Text Styles for use with Dynamic Type at some point!
 
+/**
+ *  AvenirNext-UltraLight, Size 27
+ *
+ *  @return UIFont
+ */
++ (UIFont *)leoExpandedCardHeaderFont;
 
-//FIXME: Remove these first six methods and associated places they are used in the code base when we return to updating layout.
-+ (UIFont *)leoTitleBasicFont;
-+ (UIFont *)leoTitleBoldFont;
-+ (UIFont *)leoTitleBolderFont;
+/**
+ *  AvenirNext-Regular, Size 15
+ *
+ *  @return UIFont
+ */
++ (UIFont *)leoStandardFont;
 
-+ (UIFont *)leoBodyBasicFont;
-+ (UIFont *)leoBodyBoldFont;
-+ (UIFont *)leoBodyBolderFont;
+/**
+ *  AvenirNext-Medium, Size 12
+ *
+ *  @return UIFont
+ */
++ (UIFont *)leoButtonLabelsAndTimeStampsFont;
 
-+ (UIFont *)leoBodyFont;
-+ (UIFont *)leoTitleFont;
-+ (UIFont *)leoUserFont;
-+ (UIFont *)leoButtonFont;
-+ (UIFont *)leoChatTimestampLabelFont;
-+ (UIFont *)leoQuestionFont;
-+ (UIFont *)leoHeaderFont;
-+ (UIFont *)leoHeaderLightFont;
+/**
+ *  AvenirNext-Medium, Size 15
+ *
+ *  @return UIFont
+ */
++ (UIFont *)leoMenuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont;
+
+/**
+ *  AvenirNext-Medium, Size 19
+ *
+ *  @return UIFont
+ */
++ (UIFont *)leoCollapsedCardTitlesFont;
+
+/**
+ *  AvenirNext-Bold, Size 12
+ *
+ *  @return UIFont
+ */
++ (UIFont *)leoFieldAndUserLabelsAndSecondaryButtonsFont;
+
+/**
+ *  AvenirNext-DemiBold, Size 17
+ *
+ *  @return UIFont
+ */
++ (UIFont *)leoAppointmentSlotsAndDateFields;
+
+/**
+ *  AvenirNextCondensed-Regular, Size 10
+ *
+ *  @return UIFont
+ */
++ (UIFont *)leoAppointmentDayLabelAndTimePeriod;
+
 
 @end

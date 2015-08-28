@@ -9,12 +9,14 @@
 #import "LEOApiClient.h"
 #import "LEOAPIHelper.h"
 #import "User.h"
+#import "Configuration.h"
+
 @implementation LEOApiClient
 
 
 + (void)createUserWithParameters:(NSDictionary *)userParams withCompletion:(void (^)(NSDictionary *rawResults))completionBlock {
     
-    NSString *createUserURLString = [NSString stringWithFormat:@"%@/%@",APIBaseUrl,APIEndpointUsers];
+    NSString *createUserURLString = [NSString stringWithFormat:@"%@/%@/%@",[Configuration APIEndpointWithHTTPSProtocol],[Configuration APIVersion],APIEndpointUsers];
     
     [LEOAPIHelper standardPOSTRequestForJSONDictionaryFromAPIWithURL:createUserURLString params:userParams completion:^(NSDictionary * rawResults) {
         //TODO: Error terms
@@ -24,7 +26,7 @@
 
 + (void)loginUserWithParameters:(NSDictionary *)loginParams withCompletion:(void (^)(NSDictionary * rawResults))completionBlock {
     
-    NSString *loginUserURLString = [NSString stringWithFormat:@"%@/%@",APIBaseUrl,APIEndpointLogin];
+    NSString *loginUserURLString = [NSString stringWithFormat:@"%@/%@/%@",[Configuration APIEndpointWithHTTPSProtocol],[Configuration APIVersion],APIEndpointLogin];
     
     [LEOAPIHelper standardPOSTRequestForJSONDictionaryFromAPIWithURL:loginUserURLString params:loginParams completion:^(NSDictionary * rawResults) {
         //TODO: Error terms
@@ -34,7 +36,7 @@
 
 + (void)resetPasswordWithParameters:(NSDictionary *)resetParams withCompletion:(void (^)(NSDictionary * rawResults))completionBlock {
     
-    NSString *resetPasswordString = [NSString stringWithFormat:@"%@/%@",APIBaseUrl,APIEndpointResetPassword];
+    NSString *resetPasswordString = [NSString stringWithFormat:@"%@/%@/%@",[Configuration APIEndpointWithHTTPSProtocol],[Configuration APIVersion],APIEndpointResetPassword];
     
     [LEOAPIHelper standardPOSTRequestForJSONDictionaryFromAPIWithURL:resetPasswordString params:resetParams completion:^(NSDictionary * rawResults) {
         //TODO: Error terms
@@ -45,7 +47,7 @@
 
 + (void)getCardsForUser:(NSDictionary *)userParams withCompletion:(void (^)(NSDictionary *rawResults))completionBlock {
     
-    NSString *getCardsURLString = [NSString stringWithFormat:@"%@/%@",APIBaseUrl,@"cards"]; //FIXME: Remove hardcoded string; replace with LEOConstant.
+    NSString *getCardsURLString = [NSString stringWithFormat:@"%@/%@/%@",[Configuration APIEndpointWithHTTPSProtocol],[Configuration APIVersion],APIEndpointCards]; //FIXME: Remove hardcoded string; replace with LEOConstant.
     
     [LEOAPIHelper standardGETRequestForJSONDictionaryFromAPIWithURL:getCardsURLString params:userParams completion:^(NSDictionary * rawResults) {
         //TODO: Error terms
@@ -55,7 +57,7 @@
 
 + (void)getAllStaffForPracticeWithParameters:(NSDictionary *)practiceParams withCompletion:(void (^)(NSDictionary *rawResults))completionBlock {
     
-    NSString *getPracticeStaffURLString = [NSString stringWithFormat:@"%@/%@/%@",APIBaseUrl,practiceParams[APIParamID],@"staff"]; //FIXME: Remove hardcoded string; replace with LEOConstant. This also is definitely not the right URL.
+    NSString *getPracticeStaffURLString = [NSString stringWithFormat:@"%@/%@/%@/%@",[Configuration APIEndpointWithHTTPSProtocol],[Configuration APIVersion],practiceParams[APIParamID],@"staff"]; //FIXME: Remove hardcoded string; replace with LEOConstant. This also is definitely not the right URL.
     
     [LEOAPIHelper standardGETRequestForJSONDictionaryFromAPIWithURL:getPracticeStaffURLString params:practiceParams completion:^(NSDictionary * rawResults) {
         //TODO: Error terms
@@ -65,7 +67,7 @@
 
 + (void)getAppointmentTypesWithCompletion:(void (^)(NSDictionary *rawResults))completionBlock {
     
-    NSString *getAppointmentTypesURLString = [NSString stringWithFormat:@"%@/%@",APIBaseUrl,APIEndpointAppointmentTypes]; //FIXME: Remove hardcoded string; replace with LEOConstant. This also is definitely not the right URL.
+    NSString *getAppointmentTypesURLString = [NSString stringWithFormat:@"%@/%@/%@",[Configuration APIEndpointWithHTTPSProtocol],[Configuration APIVersion],APIEndpointAppointmentTypes]; //FIXME: Remove hardcoded string; replace with LEOConstant. This also is definitely not the right URL.
     
     [LEOAPIHelper standardGETRequestForJSONDictionaryFromAPIWithURL:getAppointmentTypesURLString params:@{} completion:^(NSDictionary * rawResults) { //MARK: no parameters I suspect for this endpoint
         //TODO: Error terms
@@ -75,7 +77,7 @@
 
 + (void)getFamilyWithUserParameters:(NSDictionary *)userParams withCompletion:(void (^)(NSDictionary *rawResults))completionBlock {
     
-    NSString *getFamilyURLString = [NSString stringWithFormat:@"%@/%@",APIBaseUrl,@"family"]; //FIXME: Remove hardcoded string; replace with LEOConstant. This also is definitely not the right URL.
+    NSString *getFamilyURLString = [NSString stringWithFormat:@"%@/%@/%@",[Configuration APIEndpointWithHTTPSProtocol],[Configuration APIVersion],@"family"]; //FIXME: Remove hardcoded string; replace with LEOConstant. This also is definitely not the right URL.
     
     [LEOAPIHelper standardGETRequestForJSONDictionaryFromAPIWithURL:getFamilyURLString params:userParams completion:^(NSDictionary * rawResults) { //MARK: no parameters I suspect for this endpoint
         //TODO: Error terms
@@ -85,7 +87,7 @@
 
 + (void)createAppointmentWithParameters:(NSDictionary *)apptParams withCompletion:(void (^)(NSDictionary *rawResults))completionBlock {
     
-    NSString *createAppointmentURLString = [NSString stringWithFormat:@"%@/%@",APIBaseUrl,APIEndpointAppointments];
+    NSString *createAppointmentURLString = [NSString stringWithFormat:@"%@/%@/%@",[Configuration APIEndpointWithHTTPSProtocol],[Configuration APIVersion],APIEndpointAppointments];
     
     [LEOAPIHelper standardPOSTRequestForJSONDictionaryFromAPIWithURL:createAppointmentURLString params:apptParams completion:^(NSDictionary * rawResults) {
         //TODO: Error terms
@@ -95,7 +97,7 @@
 
 + (void)getAppointmentsForFamilyWithParameters:(NSDictionary *)params withCompletion:(void (^)(NSDictionary  * rawResults))completionBlock {
     
-    NSString *getAppointmentsURLString = [NSString stringWithFormat:@"%@/%@",APIBaseUrl,APIEndpointAppointments];
+    NSString *getAppointmentsURLString = [NSString stringWithFormat:@"%@/%@/%@",[Configuration APIEndpointWithHTTPSProtocol],[Configuration APIVersion],APIEndpointAppointments];
     
     [LEOAPIHelper standardGETRequestForJSONDictionaryFromAPIWithURL:getAppointmentsURLString params:params completion:^(NSDictionary * rawResults) {
         //TODO: Error terms
@@ -106,7 +108,7 @@
 
 + (void)getConversationsForFamilyWithParameters:(NSDictionary *)conversationParams withCompletion:(void (^)(NSDictionary  * rawResults))completionBlock {
     
-    NSString *getConversationsURLString = [NSString stringWithFormat:@"%@/%@",APIBaseUrl,APIEndpointConversations];
+    NSString *getConversationsURLString = [NSString stringWithFormat:@"%@/%@/%@",[Configuration APIEndpointWithHTTPSProtocol],[Configuration APIVersion],APIEndpointConversations];
     
     [LEOAPIHelper standardGETRequestForJSONDictionaryFromAPIWithURL:getConversationsURLString params:conversationParams completion:^(NSDictionary * rawResults) {
         //TODO: Error terms
@@ -116,7 +118,7 @@
 
 + (void)createMessageForConversation:(NSString *)conversationID withParameters:(NSDictionary *)messageParams withCompletion:(void (^)(NSDictionary *rawResults))completionBlock {
     
-    NSString *createMessageForConversationURLString = [NSString stringWithFormat:@"%@/%@/%@/%@",APIBaseUrl,APIEndpointConversations,conversationID, APIEndpointMessages];
+    NSString *createMessageForConversationURLString = [NSString stringWithFormat:@"%@/%@/%@/%@/%@",[Configuration APIEndpointWithHTTPSProtocol],[Configuration APIVersion],APIEndpointConversations,conversationID, APIEndpointMessages];
     
     [LEOAPIHelper standardPOSTRequestForJSONDictionaryFromAPIWithURL:createMessageForConversationURLString params:messageParams completion:^(NSDictionary * rawResults) {
         //TODO: Error terms
@@ -126,7 +128,7 @@
 
 + (void)getMessagesForConversation:(NSString *)conversationID withParameters:(NSDictionary *)messageParams withCompletion:(void (^)(NSDictionary *rawResults))completionBlock {
     
-    NSString *getMessagesForConversationURLString = [NSString stringWithFormat:@"%@/%@/%@/%@",APIBaseUrl,APIEndpointConversations,conversationID, APIEndpointMessages];
+    NSString *getMessagesForConversationURLString = [NSString stringWithFormat:@"%@/%@/%@/%@/%@",[Configuration APIEndpointWithHTTPSProtocol],[Configuration APIVersion],APIEndpointConversations,conversationID, APIEndpointMessages];
     
     [LEOAPIHelper standardGETRequestForJSONDictionaryFromAPIWithURL:getMessagesForConversationURLString params:messageParams completion:^(NSDictionary * rawResults) {
         //TODO: Error terms

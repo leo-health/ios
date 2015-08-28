@@ -104,9 +104,6 @@ typedef enum MessageTypeCode : NSUInteger {
 
 #pragma mark - URL & endpoints
 
-extern NSString *const APIBaseUrl; // @"http://leo-api.herokuapp.com/api/v1";
-extern NSString *const APIHost; // @"leo-api.herokuapp.com";
-extern NSString *const APIVersion; // @"/api/v1";
 extern NSString *const APIEndpointUsers; // @"users";
 extern NSString *const APIEndpointSessions; // @"sessions";
 extern NSString *const APIEndpointResetPassword; // @"sessions/password";
@@ -115,6 +112,7 @@ extern NSString *const APIEndpointConversations; // @"conversations";
 extern NSString *const APIEndpointMessages; // @"messages";
 extern NSString *const APIEndpointAppointmentTypes; // @"appointmentTypes";
 extern NSString *const APIEndpointLogin; // @"login";
+extern NSString *const APIEndpointCards; // @"cards";
 
 #pragma mark - Common
 extern NSString *const APIParamID; // @"id";
@@ -145,6 +143,8 @@ extern NSString *const APIParamPracticeLocationState; // @"state";
 extern NSString *const APIParamPracticeLocationZip; // @"zip";
 extern NSString *const APIParamPracticePhone; // @"phone";
 extern NSString *const APIParamPracticeEmail; // @"email";
+extern NSString *const APIParamPracticeName; // @"name";
+extern NSString *const APIParamPracticeFax; // @"fax";
 
 #pragma mark - Family
 extern NSString *const APIParamFamilyID; // @"family_id";
@@ -160,6 +160,10 @@ extern NSString *const APIParamUserEmail; // @"email";
 extern NSString *const APIParamUserAvatarURL; // @"avatar_url";
 
 extern NSString *const APIParamUserProviderID; // @"provider_id";
+
+extern NSString *const APIParamUserPatientID; // @"provider_id";
+extern NSString *const APIParamUserBookedByID; // @"booked_by_id";
+
 extern NSString *const APIParamUserCredentials; // @"credentials";
 extern NSString *const APIParamUserSpecialties; // @"specialties";
 extern NSString *const APIParamUserPrimary; // @"primary";
@@ -172,6 +176,8 @@ extern NSString *const APIParamUserPassword; // @"password";
 #pragma mark - Common user object references
 extern NSString *const APIParamUser; // @"user";
 extern NSString *const APIParamUsers; // @"users";
+extern NSString *const APIParamStaffMember; // @"staffMember";
+extern NSString *const APIParamStaff; // @"staff";
 extern NSString *const APIParamUserProvider; // @"provider";
 extern NSString *const APIParamUserProviders; // @"providers";
 extern NSString *const APIParamUserPatient; // @"patient";
@@ -230,7 +236,8 @@ extern NSString *const APIParamAppointmentType; // @"visit_type";
 extern NSString *const APIParamAppointmentTypeID; // @"visit_type_id";
 
 extern NSString *const APIParamAppointmentTypeDuration; // @"duration";
-extern NSString *const APIParamAppointmentTypeBody; // @"body";
+extern NSString *const APIParamAppointmentTypeLongDescription; // @"long_description";
+extern NSString *const APIParamAppointmentTypeShortDescription; // @"short_description";
 
 #pragma mark - Appointment
 extern NSString *const APIParamAppointment; // @"appointment";
@@ -242,6 +249,9 @@ extern NSString *const APIParamAppointmentBookedBy; // @"booked_by";
 extern NSString *const APIParamSlots; // @"slots";
 extern NSString *const APIParamSlotStartDateTime; // @"start_datetime";
 extern NSString *const APIParamSlotDuration; // @"duration";
+
+#pragma mark - Magic numbers
+extern CGFloat const selectionLineHeight; // 2.0f;
 
 @end
 

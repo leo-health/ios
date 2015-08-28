@@ -59,7 +59,7 @@
     self.navBar.barTintColor = [UIColor leoOrangeRed];
     self.navBar.translucent = NO;
     
-    UIImage *heartBBI = [[UIImage imageNamed:@"leoheart"] resizedImageToSize:CGSizeMake(30.0, 30.0)];
+    UIImage *heartBBI = [[UIImage imageNamed:@"Icon-LeoHeart"] resizedImageToSize:CGSizeMake(30.0, 30.0)];
     
     UIBarButtonItem *leoheartBBI = [[UIBarButtonItem alloc] initWithImage:heartBBI style:UIBarButtonItemStylePlain target:self.pageViewController action:@selector(flipToFeed)];
     
@@ -122,7 +122,6 @@
     self.menuButton.currentButtonStyle = buttonRoundedStyle;
     self.menuButton.tintColor = [UIColor leoWhite];
     self.menuButton.roundBackgroundColor = [UIColor leoOrangeRed];
-    self.menuButton.animateToStartPosition = NO;
     self.menuButton.lineThickness = 1;
     [self.menuButton addTarget:self action:@selector(menuTapped) forControlEvents:UIControlEventTouchUpInside];
 }

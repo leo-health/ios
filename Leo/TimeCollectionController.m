@@ -26,7 +26,7 @@
 
 NSString *const timeReuseIdentifier = @"TimeCell";
 
-- (instancetype)initWithCollectionView:(UICollectionView *)collectionView slots:(NSArray *)slots {
+- (instancetype)initWithCollectionView:(UICollectionView *)collectionView slots:(NSOrderedSet *)slots chosenSlot:(nullable Slot *)chosenSlot {
     
     self = [super init];
     
@@ -34,7 +34,7 @@ NSString *const timeReuseIdentifier = @"TimeCell";
         
         _collectionView = collectionView;
         _slots = slots;
-        
+        _chosenSlot = chosenSlot;
         [self setupCollectionView];
     }
     
@@ -49,6 +49,7 @@ NSString *const timeReuseIdentifier = @"TimeCell";
     [self.collectionView registerNib:[UINib nibWithNibName:@"LEOTimeCell" bundle:nil] forCellWithReuseIdentifier:timeReuseIdentifier];
 
     void (^configureCell)(LEOTimeCell *, Slot*) = ^(LEOTimeCell* cell, Slot* slot) {
+
         [cell configureForSlot:slot];
     };
 
@@ -56,7 +57,8 @@ NSString *const timeReuseIdentifier = @"TimeCell";
     
     self.collectionView.dataSource = self.dataSource;
     self.collectionView.delegate = self;
-
+    [self.collectionView setShowsVerticalScrollIndicator:NO];
+    
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
     [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
     [flowLayout setMinimumInteritemSpacing:5.0f];
@@ -91,22 +93,22 @@ NSString *const timeReuseIdentifier = @"TimeCell";
 
 -(void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
     
-//    if (self.chosenSlot == self.slots[indexPath.row] || (indexPath.row == 0 && self.chosenSlot == nil) ) {
-//        [collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
-//        cell.selected = YES;
-//    }
+    if (self.chosenSlot.startDateTime == ((Slot *)self.slots[indexPath.row]).startDateTime) {
+        [collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
+        cell.selected = YES;
+    }
 }
 
 
 #pragma mark - <UICollectionViewDelegateFlowLayout>
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    return CGSizeMake(100.0, 50.0);
+    return CGSizeMake((self.collectionView.frame.size.width - 100) / 3, 50.0);
 }
 
 -(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
     
-    return UIEdgeInsetsMake(0, 5, 0, 5);
+    return UIEdgeInsetsMake(0, 40, 0, 40);
 }
 
 @end

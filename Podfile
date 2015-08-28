@@ -1,5 +1,6 @@
 # Uncomment this line to define a global platform for your project
-# platform :ios, '8.0'
+
+platform :ios, '8.3'
 
 
 #All pods are followed by their license type
@@ -13,7 +14,7 @@ pod 'DateTools' #MIT
 pod 'UIImage-Resize' #MIT
 pod 'JSQMessagesViewController' #MIT
 pod 'libPusher', '~> 1.5' #MIT
-pod 'RPFloatingPlaceholders' #MIT
+pod 'JVFloatLabeledTextField' #MIT
 pod 'MBProgressHUD' #MIT
 
 #Should review dependencies of these pods to ensure that all pods are compliant with their own licenses. e.g. Facebook Pop, etc.

@@ -67,11 +67,11 @@
     
     for (NSDate *slotDate in dates) {
         
-        NSInteger times = arc4random_uniform(5);
+        NSInteger times = arc4random_uniform(25);
         
         NSInteger coinFlip = arc4random_uniform(10);
         
-        if (coinFlip < 2) {
+        if (coinFlip < 6) {
             times = 0;
         }
         
@@ -91,14 +91,17 @@
             
             NSDate *date = [NSDate dateWithYear:slotDate.year month:slotDate.month day:slotDate.day hour:hour minute:minute second:0];
             
-            Slot *slot = [[Slot alloc] initWithStartDateTime:date duration:duration providerID:@0 practiceID:@0];
+            Slot *slot = [[Slot alloc] initWithStartDateTime:date duration:duration providerID:@"0" practiceID:@"0"];
             
             [slots addObject:slot];
         }
     }
     
-    return slots;
+    NSOrderedSet *slotSet = [NSOrderedSet orderedSetWithArray:slots];
+
+    return [slotSet array];
 }
+
 
 
 + (NSDictionary *)dummyData {

@@ -12,7 +12,11 @@
 
 - (void)awakeFromNib {
     
-    // Initialization code
+    self.bodyView.layer.cornerRadius = 2.0;
+    self.bodyView.layer.masksToBounds = YES;
+    
+    [self.bodyView.layer setShouldRasterize:YES];
+    [self.bodyView.layer setRasterizationScale:[UIScreen mainScreen].scale];
 }
 
 + (UINib *)nib {
@@ -26,5 +30,6 @@
     
     // Configure the view for the selected state
 }
+
 
 @end

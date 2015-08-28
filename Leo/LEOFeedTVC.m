@@ -47,6 +47,7 @@
 #import "AppDelegate.h"
 
 #import <MBProgressHUD/MBProgressHUD.h>
+#import "Configuration.h"
 
 @interface LEOFeedTVC ()
 
@@ -100,7 +101,8 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     
     __weak id<OHHTTPStubsDescriptor> cardsStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         NSLog(@"Stub request");
-        BOOL test = [request.URL.host isEqualToString:APIHost] && [request.URL.path isEqualToString:[NSString stringWithFormat:@"%@/%@",APIVersion, @"cards"]];
+        BOOL test = [request.URL.host isEqualToString:[Configuration APIEndpoint]] && [request.URL.path isEqualToString:[NSString stringWithFormat:@"/%@/%@",[Configuration APIVersion], @"cards"]];
+        NSLog(@"%@",[NSString stringWithFormat:@"%@/%@",[Configuration APIVersion], @"cards"]);
         return test;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         
@@ -112,7 +114,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     
     __weak id<OHHTTPStubsDescriptor> staffStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         NSLog(@"Stub request");
-        BOOL test = [request.URL.host isEqualToString:APIHost] && [request.URL.path isEqualToString:[NSString stringWithFormat:@"%@/%@/%@",APIVersion, @"0", @"staff"]];
+        BOOL test = [request.URL.host isEqualToString:[Configuration APIEndpoint]] && [request.URL.path isEqualToString:[NSString stringWithFormat:@"/%@/%@/%@",[Configuration APIVersion], @"0", @"staff"]];
         return test;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         
@@ -124,7 +126,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     
     __weak id<OHHTTPStubsDescriptor> familyStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         NSLog(@"Stub request");
-        BOOL test = [request.URL.host isEqualToString:APIHost] && [request.URL.path isEqualToString:[NSString stringWithFormat:@"%@/%@",APIVersion, @"family"]];
+        BOOL test = [request.URL.host isEqualToString:[Configuration APIEndpoint]] && [request.URL.path isEqualToString:[NSString stringWithFormat:@"/%@/%@",[Configuration APIVersion], @"family"]];
         return test;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         
@@ -135,7 +137,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 
     __weak id<OHHTTPStubsDescriptor> appointmentTypesStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         NSLog(@"Stub request");
-        BOOL test = [request.URL.host isEqualToString:APIHost] && [request.URL.path isEqualToString:[NSString stringWithFormat:@"%@/%@",APIVersion, @"appointmentTypes"]];
+        BOOL test = [request.URL.host isEqualToString:[Configuration APIEndpoint]] && [request.URL.path isEqualToString:[NSString stringWithFormat:@"/%@/%@",[Configuration APIVersion], @"appointmentTypes"]];
         return test;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         
@@ -153,9 +155,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     [MBProgressHUD showHUDAddedTo:self.tableView animated:YES];
 
     dispatch_sync(queue, ^{
-        
-        sleep(0.2);
-        
+                
         [self.dataManager getCardsWithCompletion:^(NSArray *cards) {
             
             self.cards = [cards mutableCopy];
@@ -167,48 +167,6 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
             });
         }];
     });
-    
-    if (self.family == nil || self.allStaff == nil || self.appointmentTypes == nil) {
-        
-        dispatch_sync(queue, ^{
-            [self.dataManager getFamilyWithCompletion:^(Family *family) {
-                self.family = family;
-                
-                for (User *user in self.family.guardians) {
-                    [self.dataManager getAvatarForUser:user withCompletion:^(NSData * data) {
-                        user.avatar = [UIImage imageWithData:data];
-
-                        [self.dataManager archiveObject:self.family withPathComponent:@"family"];
-
-                    }];
-                }
-            }];
-            
-            [self.dataManager getAllStaffForPracticeID:@"0" withCompletion:^(NSArray *allStaff) {
-                self.allStaff = allStaff;
-                
-                for (User *user in self.allStaff) {
-                    [self.dataManager getAvatarForUser:user withCompletion:^(NSData * data) {
-                        user.avatar = [UIImage imageWithData:data];
-                        
-                        [self.dataManager archiveObject:self.allStaff withPathComponent:@"staff"];
-                    }];
-                }
-            }];
-            
-            [self.dataManager getAppointmentTypesWithCompletion:^(NSArray *appointmentTypes) {
-                self.appointmentTypes = appointmentTypes;
-            }];
-        });
-        
-        dispatch_sync(queue, ^{
-            
-            
-            
-        });
-        
-
-    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -227,7 +185,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     
     self.tableView.estimatedRowHeight = 100;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
-    self.tableView.backgroundColor = [UIColor leoBasicGray];
+    self.tableView.backgroundColor = [UIColor leoGrayForMessageBubbles];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     [self.tableView registerNib:[LEOTwoButtonPrimaryOnlyCell nib] forCellReuseIdentifier:CellIdentifierLEOCardTwoButtonPrimaryOnly];

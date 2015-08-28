@@ -29,14 +29,14 @@
 - (void)setupGlobalFormatting {
     
     [self.window setTintColor:[UIColor leoWhite]];
-    NSDictionary *barButtonAppearanceDict = @{NSFontAttributeName : [UIFont leoBodyBolderFont], NSForegroundColorAttributeName: [UIColor leoWhite]};
+    NSDictionary *barButtonAppearanceDict = @{NSFontAttributeName : [UIFont leoFieldAndUserLabelsAndSecondaryButtonsFont], NSForegroundColorAttributeName: [UIColor leoWhite]};
     [[UIBarButtonItem appearance] setTitleTextAttributes:barButtonAppearanceDict forState:UIControlStateNormal];
     [self roundCornersOfWindow];
 }
 
 - (void)roundCornersOfWindow {
     
-    [self.window.layer setCornerRadius:5.0];
+    [self.window.layer setCornerRadius:2.0];
     [self.window.layer setMasksToBounds:YES];
     self.window.layer.opaque = NO;
     [self.window.layer setShouldRasterize:YES];

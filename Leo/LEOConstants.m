@@ -12,8 +12,6 @@
 
 #pragma mark - URL & endpoints
 
-NSString *const APIBaseUrl = @"http://leo-api.herokuapp.com/api/v1";
-NSString *const APIHost = @"leo-api.herokuapp.com";
 NSString *const APIVersion = @"/api/v1";
 NSString *const APIEndpointUsers = @"users";
 NSString *const APIEndpointSessions = @"sessions";
@@ -23,7 +21,7 @@ NSString *const APIEndpointConversations = @"conversations";
 NSString *const APIEndpointMessages = @"messages";
 NSString *const APIEndpointAppointmentTypes = @"appointmentTypes";
 NSString *const APIEndpointLogin = @"login";
-
+NSString *const APIEndpointCards = @"cards";
 
 #pragma mark - Common
 NSString *const APIParamID = @"id";
@@ -53,6 +51,8 @@ NSString *const APIParamPracticeLocationState = @"state";
 NSString *const APIParamPracticeLocationZip = @"zip";
 NSString *const APIParamPracticePhone = @"phone";
 NSString *const APIParamPracticeEmail = @"email";
+NSString *const APIParamPracticeName = @"name";
+NSString *const APIParamPracticeFax = @"fax";
 
 #pragma mark - Family
 NSString *const APIParamFamilyID = @"family_id";
@@ -68,6 +68,9 @@ NSString *const APIParamUserEmail = @"email";
 NSString *const APIParamUserAvatarURL = @"avatar_url";
 
 NSString *const APIParamUserProviderID = @"provider_id";
+NSString *const APIParamUserPatientID = @"provider_id";
+NSString *const APIParamUserBookedByID = @"booked_by_id";
+
 NSString *const APIParamUserCredentials = @"credentials";
 NSString *const APIParamUserSpecialties = @"specialties";
 NSString *const APIParamUserPrimary = @"primary";
@@ -138,7 +141,8 @@ NSString *const APIParamCardPriority = @"priority";
 NSString *const APIParamAppointmentType = @"appointment_type";
 NSString *const APIParamAppointmentTypeID = @"appointment_type_id";
 NSString *const APIParamAppointmentTypeDuration = @"duration";
-NSString *const APIParamAppointmentTypeBody = @"body";
+NSString *const APIParamAppointmentTypeLongDescription = @"long_description";
+NSString *const APIParamAppointmentTypeShortDescription = @"short_description";
 
 #pragma mark - Appointment
 NSString *const APIParamAppointment = @"appointment";
@@ -151,6 +155,8 @@ NSString *const APIParamSlots = @"slots";
 NSString *const APIParamSlotStartDateTime = @"start_datetime";
 NSString *const APIParamSlotDuration = @"duration";
 
+#pragma mark - Magic numbers
+CGFloat const selectionLineHeight = 2.0f;
 
 
 

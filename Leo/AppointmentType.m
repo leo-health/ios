@@ -32,8 +32,8 @@
     NSString *name = jsonResponse[APIParamName];
     AppointmentTypeCode typeCode = [jsonResponse[APIParamAppointmentTypeID] integerValue];
     NSNumber *duration = jsonResponse[APIParamAppointmentTypeDuration]; //Add LEOConstant instead of hardcoding this.
-    NSString *longDescription = jsonResponse[APIParamAppointmentTypeBody];
-    NSString *shortDescription = jsonResponse[APIParamAppointmentTypeBody];
+    NSString *longDescription = jsonResponse[APIParamAppointmentTypeLongDescription];
+    NSString *shortDescription = jsonResponse[APIParamAppointmentTypeShortDescription];
 
     return [self initWithObjectID:objectID name:name typeCode:typeCode duration:duration longDescription:longDescription shortDescription:shortDescription];
 }

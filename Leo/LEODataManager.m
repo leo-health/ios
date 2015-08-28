@@ -167,7 +167,7 @@
         }];
     } else {
         
-        NSData *imageData =  UIImagePNGRepresentation([UIImage imageNamed:@"Calendar-Icon"]);
+        NSData *imageData =  UIImagePNGRepresentation([UIImage imageNamed:@"Icon-Calendar"]);
         completionBlock(imageData);
         return;
     }

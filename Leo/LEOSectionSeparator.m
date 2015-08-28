@@ -12,7 +12,7 @@
 
 -(void)awakeFromNib {
     
-    self.backgroundColor = [UIColor leoWarmLightGray];
+    self.backgroundColor = [UIColor leoGrayForPlaceholdersAndLines];
 }
 
 @end

@@ -35,44 +35,30 @@
     return [UIColor colorWithRed:244.0/255.0 green:67.0/255.0 blue:54.0/255.0 alpha:1]; /*#*/
 }
 
-+ (UIColor *)leoBlack {
-    return [UIColor colorWithRed:35/255.0 green:31/255.0 blue:32/255.0 alpha:1]; /*#*/
-}
-
 + (UIColor *)leoWhite {
     return [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1]; /*#FFF*/
 }
 
-+ (UIColor *)leoGrayTitleText {
-    return [UIColor colorWithRed:87.0/255.0 green:87.0/255.0 blue:87.0/255.0 alpha:1]; /*#*/
++ (UIColor *)leoGrayForTitlesAndHeadings {
+    return [UIColor colorWithRed:74.0/255.0 green:74.0/255.0 blue:74.0/255.0 alpha:1]; /*#4A4A4A*/
+
 }
 
-+ (UIColor *)leoGrayBodyText {
-    return [UIColor colorWithRed:124.0/255.0 green:124.0/255.0 blue:124.0/255.0 alpha:1]; /*#*/
++ (UIColor *)leoGrayStandard{
+    return [UIColor colorWithRed:124.0/255.0 green:124.0/255.0 blue:124.0/255.0 alpha:1]; /*#7C7C7C*/
+
 }
 
-+ (UIColor *)leoGrayButtonText {
-    return [UIColor colorWithRed:113.0/255.0 green:113.0/255.0 blue:113.0/255.0 alpha:1]; /*#*/
++ (UIColor *)leoGrayForPlaceholdersAndLines {
+    return [UIColor colorWithRed:176.0/255.0 green:176.0/255.0 blue:176.0/255.0 alpha:1]; /*#B0B0B0*/
 }
 
-+ (UIColor *)leoGrayBorder {
-    return [UIColor colorWithRed:182.0/255.0 green:182.0/255.0 blue:182.0/255.0 alpha:1]; /*#*/
++ (UIColor *)leoGrayForTimeStamps {
+    return [UIColor colorWithRed:185.0/255.0 green:185.0/255.0 blue:185.0/255.0 alpha:1]; /*#B9B9B9*/
 }
 
-+ (UIColor *)leoGrayBackground {
-    return [UIColor colorWithRed:242.0/255.0 green:242.0/255.0 blue:242.0/255.0 alpha:1]; /*#*/
-}
-
-+ (UIColor *)leoWarmHeavyGray {
-    return [UIColor colorWithRed:144/255.0 green:136/255.0 blue:131/255.0 alpha:1]; /*#8F8783*/
-}
-
-+ (UIColor *)leoWarmLightGray {
-    return [UIColor colorWithRed:222/255.0 green:212/255.0 blue:203/255.0 alpha:1]; /*#DDD3CB*/
-}
-
-+ (UIColor *)leoBasicGray {
-    return [UIColor colorWithRed:241/255.0 green:242/255.0 blue:242/255.0 alpha:1]; /*#F1F1F2*/
++ (UIColor *)leoGrayForMessageBubbles {
+    return [UIColor colorWithRed:227.0/255.0 green:227.0/255.0 blue:227.0/255.0 alpha:1]; /*#E3E3E3*/
 }
 
 

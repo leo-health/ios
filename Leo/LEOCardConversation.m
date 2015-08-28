@@ -198,7 +198,7 @@ static NSString *kActionSelectorCallUs = @"callUs";
 }
 
 -(nonnull UIImage *)icon {
-    return [UIImage imageNamed:@"Chat-Icon"];
+    return [UIImage imageNamed:@"Icon-Chat"];
 }
 
 

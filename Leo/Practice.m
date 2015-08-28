@@ -12,13 +12,15 @@
 
 @implementation Practice
 
-- (instancetype)initWithObjectID:(NSString *)objectID providers:(NSArray *)providers staff:(NSArray *)staff addressLine1:(NSString *)addressLine1 addressLine2:(NSString *)addressLine2 city:(NSString *)city state:(NSString *)state zip:(NSString *)zip phone:(NSString *)phone email:(NSString *)email {
+NSString *const RoleProvider = @"Provider";
+
+- (instancetype)initWithObjectID:(NSString *)objectID name:(NSString *)name staff:(NSArray *)staff addressLine1:(NSString *)addressLine1 addressLine2:(NSString *)addressLine2 city:(NSString *)city state:(NSString *)state zip:(NSString *)zip phone:(NSString *)phone email:(NSString *)email fax:(NSString *)fax {
 
     self = [super init];
     
     if (self) {
         _objectID = objectID;
-        _providers = providers;
+        _name = name;
         _staff = staff;
         _addressLine1 = addressLine1;
         _addressLine2 = addressLine2;
@@ -27,6 +29,7 @@
         _zip = zip;
         _phone = phone;
         _email = email;
+        _fax = fax;
     }
     
     return self;
@@ -36,25 +39,25 @@
     
     NSString *objectID = [jsonResponse[APIParamID] stringValue];
     
-    NSArray *providerDictionaries = jsonResponse[APIParamUserProviders];
+    NSArray *staffDictionaries = jsonResponse[APIParamUsers];
 
-    NSMutableArray *providers = [[NSMutableArray alloc] init];
+    NSMutableArray *staff = [[NSMutableArray alloc] init];
     
-    for (NSDictionary *providerDictionary in providerDictionaries) {
+    for (NSDictionary *staffDictionary in staffDictionaries) {
         
-        Provider *provider = [[Provider alloc] initWithJSONDictionary:providerDictionary];
-        [providers addObject:provider];
+        NSString *role = jsonResponse[APIParamRole];
+        
+        if ([role isEqualToString:RoleProvider]) {
+            Provider *provider = [[Provider alloc] initWithJSONDictionary:staffDictionary];
+            [staff addObject:provider];
+        } else {
+            Support *support = [[Support alloc] initWithJSONDictionary:staffDictionary];
+            [staff addObject:support];
+        }
     }
     
-    NSArray *supportDictionaries = jsonResponse[APIParamUserSupports];
-
-    NSMutableArray *supportStaff = [[NSMutableArray alloc] init];
-
-    for (NSDictionary *supportDictionary in supportDictionaries) {
-        
-        Support *support = [[Support alloc] initWithJSONDictionary:supportDictionary];
-        [supportStaff addObject:support];
-    }
+    NSString *name = jsonResponse[APIParamPracticeName];
+    NSString *fax = jsonResponse[APIParamPracticeFax];
     
     NSString *addressLine1 = jsonResponse[APIParamPracticeLocationAddressLine1];
     NSString *addressLine2 = jsonResponse[APIParamPracticeLocationAddressLine2];
@@ -65,12 +68,13 @@
     NSString *email = jsonResponse[APIParamPracticeEmail];
     
     //FIXME: Need to get APIParams for above to complete this and remove warning.
-    return [self initWithObjectID:objectID providers:[providers copy] staff:supportStaff addressLine1:addressLine1 addressLine2:addressLine2 city:city state:state zip:zip phone:phone email:email];
+    return [self initWithObjectID:objectID name:name staff:[staff copy] addressLine1:addressLine1 addressLine2:addressLine2 city:city state:state zip:zip phone:phone email:email fax:fax];
 }
 
 - (id)initWithCoder:(NSCoder *)decoder {
     
     NSString *objectID = [decoder decodeObjectForKey:APIParamPracticeID];
+    NSString *name = [decoder decodeObjectForKey:APIParamPracticeName];
     NSString *addressLine1 = [decoder decodeObjectForKey:APIParamPracticeLocationAddressLine1];
     NSString *addressLine2 = [decoder decodeObjectForKey:APIParamPracticeLocationAddressLine2];
     NSString *city = [decoder decodeObjectForKey:APIParamPracticeLocationCity];
@@ -78,15 +82,16 @@
     NSString *zip = [decoder decodeObjectForKey:APIParamPracticeLocationZip];
     NSString *phone = [decoder decodeObjectForKey:APIParamPracticePhone];
     NSString *email = [decoder decodeObjectForKey:APIParamPracticeEmail];
-    NSArray *providers = [decoder decodeObjectForKey:APIParamUserProviders];
-    NSArray *supportStaff = [decoder decodeObjectForKey:APIParamUserSupports];
+    NSArray *staff = [decoder decodeObjectForKey:APIParamUsers];
+    NSString *fax = [decoder decodeObjectForKey:APIParamPracticeFax];
     
-    return [self initWithObjectID:objectID providers:providers staff:supportStaff addressLine1:addressLine1 addressLine2:addressLine2 city:city state:state zip:zip phone:phone email:email];
+    return [self initWithObjectID:objectID name:name staff:[staff copy] addressLine1:addressLine1 addressLine2:addressLine2 city:city state:state zip:zip phone:phone email:email fax:fax];
 }
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
      
     [encoder encodeObject:self.objectID forKey:APIParamID];
+    [encoder encodeObject:self.name forKey:APIParamPracticeName];
     [encoder encodeObject:self.addressLine1 forKey:APIParamPracticeLocationAddressLine1];
     [encoder encodeObject:self.addressLine2 forKey:APIParamPracticeLocationAddressLine2];
     [encoder encodeObject:self.city forKey:APIParamPracticeLocationCity];
@@ -94,8 +99,8 @@
     [encoder encodeObject:self.zip forKey:APIParamPracticeLocationZip];
     [encoder encodeObject:self.phone forKey:APIParamPracticePhone];
     [encoder encodeObject:self.email forKey:APIParamPracticeEmail];
-    [encoder encodeObject:self.providers forKey:APIParamUserProviders];
-    [encoder encodeObject:self.staff forKey:APIParamUserSupports];
+    [encoder encodeObject:self.fax forKey:APIParamPracticeFax];
+    [encoder encodeObject:self.staff forKey:APIParamUsers];
 }
 
 @end

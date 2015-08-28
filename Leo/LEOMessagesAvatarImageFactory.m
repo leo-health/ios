@@ -1,6 +1,6 @@
 //
 //  LEOMessagesAvatarImageFactory.m
-//  
+//
 //
 //  Created by Zachary Drossman on 7/21/15.
 //
@@ -14,16 +14,16 @@
 + (UIImage *)jsq_circularImage:(UIImage *)image
                   withDiameter:(NSUInteger)diameter
               highlightedColor:(UIColor *)highlightedColor
-                   borderColor:(UIColor *)borderColor;
-
+                   borderColor:(UIColor *)borderColor
+                   borderWidth:(NSUInteger)borderWidth;
 
 + (UIImage *)jsq_imageWitInitials:(NSString *)initials
                   backgroundColor:(UIColor *)backgroundColor
                         textColor:(UIColor *)textColor
                              font:(UIFont *)font
                          diameter:(NSUInteger)diameter
-                      borderColor:(UIColor *)borderColor;
-
+                      borderColor:(UIColor *)borderColor
+                      borderWidth:(NSUInteger)borderWidth;
 @end
 
 
@@ -32,39 +32,49 @@
 
 #pragma mark - Public
 
-+ (JSQMessagesAvatarImage *)avatarImageWithPlaceholder:(UIImage *)placeholderImage diameter:(NSUInteger)diameter borderColor:(UIColor *)borderColor
++ (JSQMessagesAvatarImage *)avatarImageWithPlaceholder:(UIImage *)placeholderImage diameter:(NSUInteger)diameter borderColor:(UIColor *)borderColor borderWidth:(NSUInteger)borderWidth
 {
     UIImage *circlePlaceholderImage = [LEOMessagesAvatarImageFactory jsq_circularImage:placeholderImage
                                                                           withDiameter:diameter
-                                                                      highlightedColor:nil borderColor:borderColor];
+                                                                      highlightedColor:nil
+                                                                           borderColor:borderColor
+                                                                           borderWidth:borderWidth];
     
     return [JSQMessagesAvatarImage avatarImageWithPlaceholder:circlePlaceholderImage];
 }
 
-+ (JSQMessagesAvatarImage *)avatarImageWithImage:(UIImage *)image diameter:(NSUInteger)diameter borderColor:(UIColor *)borderColor
++ (JSQMessagesAvatarImage *)avatarImageWithImage:(UIImage *)image diameter:(NSUInteger)diameter borderColor:(UIColor *)borderColor borderWidth:(NSUInteger)borderWidth
 {
-    UIImage *avatar = [LEOMessagesAvatarImageFactory circularAvatarImage:image withDiameter:diameter borderColor:borderColor];
-    UIImage *highlightedAvatar = [LEOMessagesAvatarImageFactory circularAvatarHighlightedImage:image withDiameter:diameter borderColor:borderColor];
+    UIImage *avatar = [LEOMessagesAvatarImageFactory circularAvatarImage:image
+                                                            withDiameter:diameter
+                                                             borderColor:borderColor
+                                                             borderWidth:borderWidth];
+    UIImage *highlightedAvatar = [LEOMessagesAvatarImageFactory circularAvatarHighlightedImage:image
+                                                                                  withDiameter:diameter
+                                                                                   borderColor:borderColor
+                                                                                   borderWidth:borderWidth];
     
     return [[JSQMessagesAvatarImage alloc] initWithAvatarImage:avatar
                                               highlightedImage:highlightedAvatar
                                               placeholderImage:avatar];
 }
 
-+ (UIImage *)circularAvatarImage:(UIImage *)image withDiameter:(NSUInteger)diameter borderColor:(UIColor *)borderColor
++ (UIImage *)circularAvatarImage:(UIImage *)image withDiameter:(NSUInteger)diameter borderColor:(UIColor *)borderColor borderWidth:(NSUInteger)borderWidth
 {
     return [LEOMessagesAvatarImageFactory jsq_circularImage:image
                                                withDiameter:diameter
                                            highlightedColor:nil
-                                                borderColor:borderColor];
+                                                borderColor:borderColor
+                                                borderWidth:borderWidth];
 }
 
-+ (UIImage *)circularAvatarHighlightedImage:(UIImage *)image withDiameter:(NSUInteger)diameter borderColor:(UIColor *)borderColor
++ (UIImage *)circularAvatarHighlightedImage:(UIImage *)image withDiameter:(NSUInteger)diameter borderColor:(UIColor *)borderColor borderWidth:(NSUInteger)borderWidth
 {
     return [LEOMessagesAvatarImageFactory jsq_circularImage:image
                                                withDiameter:diameter
                                            highlightedColor:[UIColor colorWithWhite:0.1f alpha:0.3f]
-                                                borderColor:borderColor];
+                                                borderColor:borderColor
+                                                borderWidth:borderWidth];
 }
 
 + (JSQMessagesAvatarImage *)avatarImageWithUserInitials:(NSString *)userInitials
@@ -73,18 +83,22 @@
                                                    font:(UIFont *)font
                                                diameter:(NSUInteger)diameter
                                             borderColor:(UIColor *)borderColor
+                                            borderWidth:(NSUInteger)borderWidth
 {
     UIImage *avatarImage = [LEOMessagesAvatarImageFactory jsq_imageWitInitials:userInitials
                                                                backgroundColor:backgroundColor
                                                                      textColor:textColor
                                                                           font:font
                                                                       diameter:diameter
-                                                                   borderColor:borderColor];
+                                                                   borderColor:borderColor
+                                                                   borderWidth:borderWidth];
     
     UIImage *avatarHighlightedImage = [LEOMessagesAvatarImageFactory jsq_circularImage:avatarImage
                                                                           withDiameter:diameter
                                                                       highlightedColor:[UIColor colorWithWhite:0.1f alpha:0.3f]
-                                                                            borderColor: borderColor];
+                                                                           borderColor: borderColor
+                                                                           borderWidth:borderWidth];
+    
     return [[JSQMessagesAvatarImage alloc] initWithAvatarImage:avatarImage
                                               highlightedImage:avatarHighlightedImage
                                               placeholderImage:avatarImage];
@@ -98,6 +112,7 @@
                              font:(UIFont *)font
                          diameter:(NSUInteger)diameter
                       borderColor:(UIColor *)borderColor
+                      borderWidth:(NSUInteger)borderWidth
 {
     NSParameterAssert(initials != nil);
     NSParameterAssert(backgroundColor != nil);
@@ -136,16 +151,16 @@
     }
     UIGraphicsEndImageContext();
     
-    return [LEOMessagesAvatarImageFactory jsq_circularImage:image withDiameter:diameter highlightedColor:nil borderColor:borderColor];
+    return [LEOMessagesAvatarImageFactory jsq_circularImage:image withDiameter:diameter highlightedColor:nil borderColor:borderColor borderWidth:borderWidth];
 }
 
-+ (UIImage *)jsq_circularImage:(UIImage *)image withDiameter:(NSUInteger)diameter highlightedColor:(UIColor *)highlightedColor borderColor:(UIColor *)borderColor;
++ (UIImage *)jsq_circularImage:(UIImage *)image withDiameter:(NSUInteger)diameter highlightedColor:(UIColor *)highlightedColor borderColor:(UIColor *)borderColor borderWidth:(NSUInteger)borderWidth;
 {
     NSParameterAssert(image != nil);
     NSParameterAssert(diameter > 0);
     
     CGRect frame = CGRectMake(0.0f, 0.0f, diameter, diameter);
-
+    
     UIImage *newImage = nil;
     
     UIGraphicsBeginImageContextWithOptions(frame.size, NO, [UIScreen mainScreen].scale);
@@ -156,7 +171,7 @@
         UIBezierPath *clippingPath = [UIBezierPath bezierPathWithOvalInRect:frame];
         
         [clippingPath addClip];
-
+        
         [image drawInRect:frame];
         
         if (highlightedColor != nil) {
@@ -166,10 +181,10 @@
         
         UIBezierPath *borderPath = [UIBezierPath bezierPathWithOvalInRect:frame];
         [borderColor setStroke];
-        borderPath.lineWidth = 1;
+        borderPath.lineWidth = borderWidth;
         [borderPath stroke];
         CGContextAddPath(context, borderPath.CGPath);
-
+        
         newImage = UIGraphicsGetImageFromCurrentImageContext();
         
     }

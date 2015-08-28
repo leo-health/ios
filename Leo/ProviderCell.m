@@ -11,7 +11,8 @@
 @implementation ProviderCell
 
 - (void)awakeFromNib {
-    // Initialization code
+
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
 }
 
 +(UINib *)nib {
@@ -21,9 +22,23 @@
 
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    
     [super setSelected:selected animated:animated];
 
-    // Configure the view for the selected state
+    if (selected) {
+        
+        NSMutableAttributedString *provider = [self.fullNameLabel.attributedText mutableCopy];
+        
+        NSRange range = NSMakeRange(0, [provider length]);
+        
+        [provider beginEditing];
+        
+        [provider addAttribute:NSUnderlineStyleAttributeName value:@(selectionLineHeight) range:range];
+        [provider addAttribute:NSForegroundColorAttributeName value:self.selectedColor range:range];
+        [provider endEditing];
+        
+        self.fullNameLabel.attributedText = provider;
+    }
 }
 
 @end

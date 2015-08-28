@@ -1,6 +1,6 @@
 //
-//  ViewController.h
-//  LEOCalendar
+//  LEOCalendarViewController.h
+//  LEO
 //
 //  Created by Zachary Drossman on 7/28/15.
 //  Copyright (c) 2015 Zachary Drossman. All rights reserved.
@@ -15,10 +15,12 @@
 @class PrepAppointment;
 
 @interface LEOCalendarViewController : UIViewController <DateCollectionProtocol, SingleSelectionProtocol, TimeCollectionProtocol>
+NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) PrepAppointment *prepAppointment;
 @property (strong, nonatomic) LEOAPIOperation *requestOperation;
 @property (weak, nonatomic) id<SingleSelectionProtocol>delegate;
 
+NS_ASSUME_NONNULL_END
 @end
 

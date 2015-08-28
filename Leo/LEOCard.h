@@ -31,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) id associatedCardObject;
 
-@property (nonatomic, nullable) id<CardActivityProtocol> delegate;
+@property (weak, nonatomic, nullable) id<CardActivityProtocol> delegate;
 
 - (instancetype)initWithObjectID:(NSString *)objectID priority:(NSNumber *)priority type:(CardType)type associatedCardObject:(id)associatedCardObject;
 
@@ -49,7 +49,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable User *)primaryUser;
 - (NSDate *)timestamp;
 - (NSArray *)actionsAvailableForState;
-
 - (void)returnToPriorState;
 
 NS_ASSUME_NONNULL_END

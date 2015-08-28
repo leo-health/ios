@@ -66,6 +66,12 @@
 #define COCOAPODS_VERSION_MINOR_JSQSystemSoundPlayer 0
 #define COCOAPODS_VERSION_PATCH_JSQSystemSoundPlayer 1
 
+// JVFloatLabeledTextField
+#define COCOAPODS_POD_AVAILABLE_JVFloatLabeledTextField
+#define COCOAPODS_VERSION_MAJOR_JVFloatLabeledTextField 1
+#define COCOAPODS_VERSION_MINOR_JVFloatLabeledTextField 1
+#define COCOAPODS_VERSION_PATCH_JVFloatLabeledTextField 0
+
 // MBProgressHUD
 #define COCOAPODS_POD_AVAILABLE_MBProgressHUD
 #define COCOAPODS_VERSION_MAJOR_MBProgressHUD 0
@@ -77,12 +83,6 @@
 #define COCOAPODS_VERSION_MAJOR_OHHTTPStubs 4
 #define COCOAPODS_VERSION_MINOR_OHHTTPStubs 0
 #define COCOAPODS_VERSION_PATCH_OHHTTPStubs 1
-
-// RPFloatingPlaceholders
-#define COCOAPODS_POD_AVAILABLE_RPFloatingPlaceholders
-#define COCOAPODS_VERSION_MAJOR_RPFloatingPlaceholders 0
-#define COCOAPODS_VERSION_MINOR_RPFloatingPlaceholders 3
-#define COCOAPODS_VERSION_PATCH_RPFloatingPlaceholders 1
 
 // SSKeychain
 #define COCOAPODS_POD_AVAILABLE_SSKeychain

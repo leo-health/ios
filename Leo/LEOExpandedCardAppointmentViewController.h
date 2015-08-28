@@ -11,6 +11,6 @@
 #import "LEOBasicSelectionViewController.h"
 #import "LEOCardAppointment.h"
 
-@interface LEOExpandedCardAppointmentViewController : LEOExpandedCardViewController <ExpandedCardDelegate, UIScrollViewDelegate, UITextViewDelegate, SingleSelectionProtocol>
+@interface LEOExpandedCardAppointmentViewController : LEOExpandedCardViewController <UIScrollViewDelegate, UITextViewDelegate, SingleSelectionProtocol>
 
 @end

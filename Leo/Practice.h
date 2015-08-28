@@ -12,8 +12,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @property (copy, nonatomic) NSString *objectID;
-@property (copy, nonatomic, readonly) NSArray *providers;
 @property (copy, nonatomic, readonly) NSArray *staff;
+@property (copy, nonatomic, readonly) NSString *name;
 @property (copy, nonatomic, readonly) NSString *addressLine1;
 @property (copy, nonatomic, readonly) NSString *addressLine2;
 @property (copy, nonatomic, readonly) NSString *city;
@@ -21,10 +21,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, readonly) NSString *zip;
 @property (copy, nonatomic, readonly) NSString *phone;
 @property (copy, nonatomic, readonly) NSString *email;
+@property (copy, nonatomic, readonly) NSString *fax;
 
-//FIXME: Come back and add rest of properties to initializer and then in .m file for initWithJSONDictionary. DOn't need these for right now to get the app in "working" order.
-
-- (instancetype)initWithObjectID:(NSString *)objectID providers:(NSArray *)providers staff:(NSArray *)staff addressLine1:(NSString *)addressLine1 addressLine2:(NSString *)addressLine2 city:(NSString *)city state:(NSString *)state zip:(NSString *)zip phone:(NSString *)phone email:(NSString *)email;
+- (instancetype)initWithObjectID:(NSString *)objectID name:(NSString *)name staff:(NSArray *)staff addressLine1:(NSString *)addressLine1 addressLine2:(NSString *)addressLine2 city:(NSString *)city state:(NSString *)state zip:(NSString *)zip phone:(NSString *)phone email:(NSString *)email fax:(NSString *)fax;
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse;
 

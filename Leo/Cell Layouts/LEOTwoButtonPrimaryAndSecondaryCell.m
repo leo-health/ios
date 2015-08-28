@@ -11,9 +11,14 @@
 @implementation LEOTwoButtonPrimaryAndSecondaryCell
 
 - (void)awakeFromNib {
+   
+    self.bodyView.layer.cornerRadius = 2.0;
+    self.bodyView.layer.masksToBounds = YES;
     
-    // Initialization code
+    [self.bodyView.layer setShouldRasterize:YES];
+    [self.bodyView.layer setRasterizationScale:[UIScreen mainScreen].scale];
 }
+
 
 + (UINib *)nib {
     
@@ -26,6 +31,7 @@
     
     // Configure the view for the selected state
 }
+
 
 
 @end

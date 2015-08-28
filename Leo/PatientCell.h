@@ -15,4 +15,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *fullNameLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
 
+@property (strong, nonatomic) UIColor *selectedColor;
+
 @end

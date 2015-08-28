@@ -18,18 +18,13 @@
 + (UIColor *) leoPurple;
 + (UIColor *) leoPink;
 + (UIColor *) leoRedBadge;
-+ (UIColor *) leoGrayTitleText;
-+ (UIColor *) leoGrayBodyText;
-+ (UIColor *) leoGrayButtonText;
-+ (UIColor *) leoGrayBorder;
-+ (UIColor *) leoGrayBackground;
 + (UIColor *) leoBlack;
 + (UIColor *) leoWhite;
 
-
-//FIXME: To be removed from here and other places in code once returning to layout updates.
-+ (UIColor *) leoWarmHeavyGray;
-+ (UIColor *) leoWarmLightGray;
-+ (UIColor *) leoBasicGray;
++ (UIColor *)leoGrayStandard;
++ (UIColor *)leoGrayForTitlesAndHeadings;
++ (UIColor *)leoGrayForPlaceholdersAndLines;
++ (UIColor *)leoGrayForTimeStamps;
++ (UIColor *)leoGrayForMessageBubbles;
 
 @end

@@ -154,18 +154,18 @@
 - (void)colorView {
     
     self.nameLabel.textColor = self.cardColor;
-    self.dividerLabel.textColor = [UIColor leoGrayBodyText];
-    self.timestampLabel.textColor = [UIColor leoGrayBodyText];
-    self.suffixCredentialLabel.textColor = [UIColor leoGrayBodyText];
+    self.dividerLabel.textColor = [UIColor leoGrayStandard];
+    self.timestampLabel.textColor = [UIColor leoGrayForTimeStamps];
+    self.suffixCredentialLabel.textColor = [UIColor leoGrayStandard];
 }
 
 
 - (void)typefaceView {
     
-    self.nameLabel.font = [UIFont leoUserFont];
-    self.suffixCredentialLabel.font = [UIFont leoUserFont];
-    self.dividerLabel.font = [UIFont leoUserFont];
-    self.timestampLabel.font = [UIFont leoButtonFont];
+    self.nameLabel.font = [UIFont leoFieldAndUserLabelsAndSecondaryButtonsFont];
+    self.suffixCredentialLabel.font = [UIFont leoFieldAndUserLabelsAndSecondaryButtonsFont];
+    self.dividerLabel.font = [UIFont leoFieldAndUserLabelsAndSecondaryButtonsFont];
+    self.timestampLabel.font = [UIFont leoButtonLabelsAndTimeStampsFont];
 }
 
 
