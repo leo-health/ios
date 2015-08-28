@@ -93,7 +93,6 @@
 }
 
 
-//TODO: Refactor
 - (NSString *)fullName {
     
     NSArray *nameComponents;
