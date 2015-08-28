@@ -19,6 +19,8 @@
 
 @implementation LEOAPISlotsOperation
 
+NSInteger const dayRangeForSlots = 45;
+
 -(instancetype)initWithPrepAppointment:(PrepAppointment *)prepAppointment {
     
     self = [super init];
@@ -36,9 +38,9 @@
     LEODataManager *dataManager = [LEODataManager sharedManager];
     
     //FIXME: Remove magic number
-    [dataManager getSlotsForAppointmentType:self.prepAppointment.appointmentType provider:self.prepAppointment.provider startDate:[NSDate date] endDate:[[NSDate date] dateByAddingDays:45] withCompletion:^(NSArray * slots, NSError *error) {
+    [dataManager getSlotsForAppointmentType:self.prepAppointment.appointmentType provider:self.prepAppointment.provider startDate:[NSDate date] endDate:[[NSDate date] dateByAddingDays:dayRangeForSlots] withCompletion:^(NSArray * slots, NSError *error) {
         
-        id data = [LEOCalendarDataSource formatSlots:slots];
+        id data = [LEOCalendarDataSource formatSlots:slots forDaysFromToday:dayRangeForSlots];
         
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             self.requestBlock(data, error);

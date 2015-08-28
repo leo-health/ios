@@ -13,7 +13,8 @@
 + (NSDictionary *)dummyData;
 + (NSDictionary *)slotsInDataSourceFormat;
 
-+ (NSDictionary *)formatSlots:(NSArray *)slots;
++ (NSDictionary *)formatSlots:(NSArray *)slots forDaysFromToday:(NSUInteger)daysFromToday;
+
 + (NSArray *)rawDummySlots;
 
 @end
