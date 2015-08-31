@@ -292,11 +292,28 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     UINavigationController *appointmentNavController = [appointmentStoryboard instantiateInitialViewController];
     LEOExpandedCardAppointmentViewController *appointmentBookingVC = appointmentNavController.viewControllers.firstObject;
     appointmentBookingVC.card = (LEOCardAppointment *)card;
-    //              self.transitionDelegate = [[LEOTransitioningDelegate alloc] init];
-    //            singleAppointmentScheduleVC.transitioningDelegate = self.transitionDelegate;
+                 self.transitionDelegate = [[LEOTransitioningDelegate alloc] init];
+                appointmentBookingVC.transitioningDelegate = self.transitionDelegate;
+                appointmentNavController.modalPresentationStyle = UIModalPresentationCustom;
     [self presentViewController:appointmentNavController animated:YES completion:^{
     }];
     
+    
+    /*
+     UIStoryboard *schedulingStoryboard = [UIStoryboard storyboardWithName:@"Scheduling" bundle:nil];
+     LEOAppointmentSchedulingCardVC *singleAppointmentScheduleVC = [schedulingStoryboard instantiateInitialViewController];
+     singleAppointmentScheduleVC.card = (LEOCardScheduling *)card;
+     -    //              self.transitionDelegate = [[LEOTransitioningDelegate alloc] init];
+     -    //            singleAppointmentScheduleVC.transitioningDelegate = self.transitionDelegate;
+     -    [self presentViewController:singleAppointmentScheduleVC animated:YES completion:^{
+     +                  self.transitionDelegate = [[LEOTransitioningDelegate alloc] init];
+     +                singleAppointmentScheduleVC.transitioningDelegate = self.transitionDelegate;
+     +    singleAppointmentScheduleVC.modalPresentationStyle = UIModalPresentationCustom;
+     +
+     +   [self presentViewController:singleAppointmentScheduleVC animated:YES completion:^{
+     singleAppointmentScheduleVC.collapsedCell = self.selectedCardCell;
+     }];
+     */
 }
 
 - (void)loadChattingViewWithCard:(LEOCard *)card {
