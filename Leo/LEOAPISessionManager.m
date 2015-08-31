@@ -8,6 +8,7 @@
 
 #import "LEOAPISessionManager.h"
 #import "Configuration.h"
+#import "LEOCredentialStore.h"
 
 @implementation LEOAPISessionManager
 
@@ -27,6 +28,22 @@
     });
     
     return _sharedClient;
+}
+
+- (instancetype)initWithBaseURL:(NSURL *)url sessionConfiguration:(NSURLSessionConfiguration *)configuration {
+    
+    self = [super initWithBaseURL:url sessionConfiguration:configuration];
+    
+    if (self) {
+        [self setAuthToken];
+    
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(tokenChanged:)
+                                                 name:@"token-changed"
+                                               object:nil];
+    }
+    
+    return self;
 }
 
 - (NSURLSessionDataTask *)standardGETRequestForJSONDictionaryFromAPIWithEndpoint:(NSString *)urlString params:(NSDictionary *)params completion:(void (^)(NSDictionary *rawResults, NSError *error))completionBlock {
@@ -120,5 +137,15 @@
     return task;
 }
 
+- (void)setAuthToken {
+    LEOCredentialStore *store = [[LEOCredentialStore alloc] init];
+    NSString *authToken = [store authToken];
+    
+    //TODO: Merge in changes from issue #295 here to complete this method!
+}
+
+- (void)tokenChanged:(NSNotification *)notification {
+    [self setAuthToken];
+}
 
 @end
