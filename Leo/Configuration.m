@@ -11,6 +11,8 @@
 
 NSString *const ConfigurationAPIEndpoint = @"ApiURL";
 NSString *const ConfigurationAPIVersion = @"ApiVersion";
+NSString *const ConfigurationS3Endpoint = @"S3URL";
+
 
 @interface Configuration ()
 
@@ -57,6 +59,17 @@ NSString *const ConfigurationAPIVersion = @"ApiVersion";
     return nil;
 }
 
++ (NSString *)S3Endpoint {
+    
+    Configuration *sharedConfiguration = [Configuration sharedConfiguration];
+    
+    if (sharedConfiguration.appSettings) {
+        return [sharedConfiguration.appSettings objectForKey:ConfigurationS3Endpoint];
+    }
+    
+    return nil;
+}
+
 + (NSString *)APIVersion {
     Configuration *sharedConfiguration = [Configuration sharedConfiguration];
     
@@ -68,7 +81,7 @@ NSString *const ConfigurationAPIVersion = @"ApiVersion";
 }
 
 + (NSString *)APIEndpointWithHTTPSProtocol {
-    return [NSString stringWithFormat:@"https://%@",[self APIEndpoint]];
+    return [NSString stringWithFormat:@"http://%@",[self APIEndpoint]];
 }
 
 

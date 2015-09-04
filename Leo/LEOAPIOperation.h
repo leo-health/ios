@@ -10,6 +10,6 @@
 
 @interface LEOAPIOperation : NSOperation
 
-@property (copy, nonatomic) void (^requestBlock)(id data);
+@property (copy, nonatomic) void (^requestBlock)(id data, NSError *error);
 
 @end

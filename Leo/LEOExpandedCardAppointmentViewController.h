@@ -1,5 +1,5 @@
 //
-//  LEOAppointmentBookingViewController.h
+//  LEOExpandedCardAppointmentViewController.h
 //  LEOCalendar
 //
 //  Created by Zachary Drossman on 8/3/15.
@@ -11,6 +11,6 @@
 #import "LEOBasicSelectionViewController.h"
 #import "LEOCardAppointment.h"
 
-@interface LEOExpandedCardAppointmentViewController : LEOExpandedCardViewController <UIScrollViewDelegate, UITextViewDelegate, SingleSelectionProtocol>
+@interface LEOExpandedCardAppointmentViewController : LEOExpandedCardViewController <UIScrollViewDelegate, UITextViewDelegate, SingleSelectionProtocol, CardActivityProtocol>
 
 @end

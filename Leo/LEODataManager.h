@@ -17,6 +17,7 @@
 @class Family;
 @class Provider;
 @class Practice;
+@class AppointmentType;
 
 @interface LEODataManager : NSObject
 NS_ASSUME_NONNULL_BEGIN
@@ -31,35 +32,33 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSArray *conversationParticipants;
 @property (strong, nonatomic) Family *family;
 
-- (NSArray *)availableTimesForDate:(NSDate*)date;
-
 + (instancetype)sharedManager;
 
 
 //Cards
-- (void)getCardsWithCompletion:(void (^)(NSArray *cards))completionBlock;
+- (void)getCardsWithCompletion:(void (^)(NSArray *cards, NSError *error))completionBlock;
 
 //Users
-- (void)createUserWithUser:(nonnull User *)user password:(nonnull NSString *)password withCompletion:(void (^)( NSDictionary * __nonnull rawResults))completionBlock;
-- (void)loginUserWithEmail:(nonnull NSString *)email password:(nonnull NSString *)password withCompletion:(void (^)(NSDictionary * __nonnull rawResults))completionBlock;
-- (void)resetPasswordWithEmail:(nonnull NSString *)email withCompletion:(void (^)(NSDictionary * __nonnull rawResults))completionBlock;
-- (void)getAvatarForUser:(User *)user withCompletion:(void (^)(NSData *imageData))completionBlock;
+- (void)createUserWithUser:( User *)user password:( NSString *)password withCompletion:(void (^)( NSDictionary * rawResults, NSError *error))completionBlock;
+- (void)loginUserWithEmail:(NSString *)email password:( NSString *)password withCompletion:(void (^)(NSDictionary * rawResults, NSError *error))completionBlock;
+- (void)resetPasswordWithEmail:(NSString *)email withCompletion:(void (^)(NSDictionary * rawResults, NSError *error))completionBlock;
+- (void)getAvatarForUser:(User *)user withCompletion:(void (^)(UIImage *rawImage, NSError *error))completionBlock;
 
 //Appointments
-- (void)createAppointmentWithAppointment:(nonnull Appointment *)appointment withCompletion:(void (^)(NSDictionary  * __nonnull rawResults))completionBlock;
-- (void)getAppointmentsForFamilyOfCurrentUserWithCompletion:(void (^)(NSDictionary  * __nonnull rawResults))completionBlock;
-- (NSArray *)fetchSlots;
-
+- (void)createAppointmentWithAppointment:( Appointment *)appointment withCompletion:(void (^)(NSDictionary  * rawResults, NSError *error))completionBlock;
+- (void)getAppointmentsForFamilyOfCurrentUserWithCompletion:(void (^)(NSDictionary  * rawResults, NSError *error))completionBlock;
+- (void)cancelAppointment:(Appointment *)appointment withCompletion:(void (^)(NSDictionary *rawResults, NSError *error))completionBlock;
+- (void)getSlotsForAppointmentType:(AppointmentType *)appointmentType provider:(Provider *)provider startDate:(NSDate *)startDate endDate:(NSDate *)endDate withCompletion:(void (^)(NSArray *slots, NSError *error))completionBlock;
 
 //Conversations
 - (void)getConversationsForCurrentUserWithCompletion:(void (^)(Conversation*  conversation))completionBlock;
-- (void)createMessage:(Message *)message forConversation:(nonnull Conversation *)conversation withCompletion:(void (^)(NSDictionary  * __nonnull rawResults))completionBlock;
-- (void)getMessagesForConversation:(Conversation *)conversation withCompletion:(nonnull void (^)(NSArray *messages))completionBlock;
+- (void)createMessage:(Message *)message forConversation:( Conversation *)conversation withCompletion:(void (^)(NSDictionary  * rawResults, NSError *error))completionBlock;
+- (void)getMessagesForConversation:(Conversation *)conversation withCompletion:( void (^)(NSArray *messages))completionBlock;
 
 //Helper Data
-- (void)getFamilyWithCompletion:(void (^)(Family *family))completionBlock;
-- (void)getAppointmentTypesWithCompletion:(void (^)(NSArray *appointmentTypes))completionBlock;
-- (void)getAllStaffForPracticeID:(NSString *)practiceID withCompletion:(void (^)(NSArray *staff))completionBlock;
+- (void)getFamilyWithCompletion:(void (^)(Family *family, NSError *error))completionBlock;
+- (void)getAppointmentTypesWithCompletion:(void (^)(NSArray *appointmentTypes, NSError *error))completionBlock;
+- (void)getPracticeWithID:(NSString *)practiceID withCompletion:(void (^)(Practice *practice, NSError *error))completionBlock;
 
 //Helper methods
 - (id)objectWithObjectID:(NSString *)objectID objectArray:(NSArray *)objects;

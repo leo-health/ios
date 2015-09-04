@@ -1,5 +1,5 @@
 //
-//  LEOAppointmentBookingViewController.m
+//  LEOExpandedCardAppointmentViewController.m
 //  LEOCalendar
 //
 //  Created by Zachary Drossman on 8/3/15.
@@ -24,19 +24,14 @@
 #import "PatientCell+ConfigureCell.h"
 #import "ProviderCell+ConfigureCell.h"
 #import "LEOCalendarViewController.h"
-#import "Configuration.h"
-#import <OHHTTPStubs/OHHTTPStubs.h> //TODO: Remove once integrated into main project.
 
 #import "LEOAPIAppointmentTypesOperation.h"
-#import "LEOAPIStaffOperation.h"
+#import "LEOAPIPracticeOperation.h"
 #import "LEOAPIFamilyOperation.h"
 #import "LEOAPISlotsOperation.h"
+#import "LEOApiReachability.h"
+#import <MBProgressHUD.h>
 
-@protocol DataRequestProtocol <NSObject>
-
-- (void)didCompleteDataRequestWithData:(NSArray *)data;
-
-@end
 
 @interface LEOExpandedCardAppointmentViewController ()
 
@@ -47,9 +42,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *questionStaffButton;
 @property (weak, nonatomic) IBOutlet UIButton *questionCalendarButton;
 
-
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomLayoutConstraintForNotesViewSectionSeparator;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *notesTextViewHeightConstraint;
 
 @property (strong, nonatomic) Appointment *appointment;
 @property (strong, nonatomic) PrepAppointment *prepAppointment;
@@ -66,11 +59,13 @@
     [super viewDidLoad];
     
     self.bodyView = self.appointmentView;
+    self.card.delegate = self;
     
     [self setupButtons];
     [self setupExpandedCardView];
     [self setupPrepAppointment];
     [self setupNotesTextView];
+    [LEOApiReachability startMonitoringForController:self];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -81,6 +76,7 @@
 
 - (void)viewDidDisappear:(BOOL)animated{
     
+    [LEOApiReachability stopMonitoring];
     [self.scrollView scrollToViewIfObstructedByKeyboard:nil];
 }
 
@@ -90,10 +86,13 @@
     [self.prepAppointment removeObserver:self forKeyPath:@"appointmentType"];
     [self.prepAppointment removeObserver:self forKeyPath:@"date"];
     [self.prepAppointment removeObserver:self forKeyPath:@"provider"];
+    [self.prepAppointment removeObserver:self forKeyPath:@"patient"];
+
     
 }
 
 #pragma mark - VCL Helper Methods
+
 
 - (void)setupPrepAppointment {
     
@@ -135,7 +134,6 @@
     self.notesTextView.text = self.prepAppointment.note;
     
     [self.view layoutIfNeeded];
-    self.notesTextViewHeightConstraint.constant = self.notesTextView.contentSize.height;
     
     UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(scrollViewWasTapped:)];
     tapGestureForTextFieldDismissal.cancelsTouchesInView = NO;
@@ -164,6 +162,7 @@
  *  @param appointment
  */
 - (void)setAppointment:(Appointment *)appointment {
+    
     self.card.associatedCardObject = appointment;
 }
 
@@ -184,7 +183,7 @@
 -(void)textViewDidChange:(UITextView *)textView {
     
     [UIView animateWithDuration:0.1 animations:^{
-        self.notesTextViewHeightConstraint.constant = self.notesTextView.contentSize.height;
+        self.prepAppointment.note = textView.text;
         [self.view layoutIfNeeded];
     }];
 }
@@ -220,6 +219,11 @@
     [self.prepAppointment setValue:item forKey:key];
 }
 
+
+-(void)didUpdateObjectStateForCard:(LEOCard *)card {
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 
 #pragma mark - Validation
 
@@ -262,15 +266,38 @@
  */
 - (void)buttonTapped {
     
-    self.card.associatedCardObject = [[Appointment alloc] initWithPrepAppointment:self.prepAppointment]; //FIXME: Make this a loop to account for changes to multiple objects, e.g. appointments on a card.
+    self.dataManager = [LEODataManager sharedManager];
     
-    //[self.card performSelector:NSSelectorFromString([self.card actionsAvailableForState][0])]; //FIXME: Alternative way to do this that won't cause warning.
+    self.appointment = [[Appointment alloc] initWithPrepAppointment:self.prepAppointment]; //FIXME: Make this a loop to account for changes to multiple objects, e.g. appointments on a card.
     
-    if (!self.card) { return; }
-    SEL selector = NSSelectorFromString([self.card actionsAvailableForState][0]);
-    IMP imp = [self.card methodForSelector:selector];
-    void (*func)(id, SEL) = (void *)imp;
-    func(self.card, selector);
+    [MBProgressHUD showHUDAddedTo:self.view.window animated:YES];
+    
+    if (!self.appointment.objectID) {
+    [self.dataManager createAppointmentWithAppointment:self.appointment withCompletion:^(NSDictionary * rawResults, NSError * error) {
+        
+        [MBProgressHUD hideHUDForView:self.view.window animated:YES];
+
+        if (!error) {
+        
+
+            
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+            [self.card performSelector:NSSelectorFromString([self.card actionsAvailableForState][0])];
+#pragma  clang diagnostic pop
+
+        //    MARK: Alternative if the above gives us issues.
+        //    if (!self.card) { return; }
+        //    SEL selector = NSSelectorFromString([self.card actionsAvailableForState][0]);
+        //    IMP imp = [self.card methodForSelector:selector];
+        //    void (*func)(id, SEL) = (void *)imp;
+        //    func(self.card, selector);
+        }
+        
+    }];
+    
+    }
+
 }
 
 -(void)scrollViewWasTapped:(UIGestureRecognizer*)gesture{
@@ -293,7 +320,7 @@
         
         calendarVC.delegate = self;
         calendarVC.prepAppointment = self.prepAppointment;
-        calendarVC.requestOperation = [[LEOAPISlotsOperation alloc] init];
+        calendarVC.requestOperation = [[LEOAPISlotsOperation alloc] initWithPrepAppointment:self.prepAppointment];
         
         return;
     }
@@ -375,7 +402,7 @@
                     return shouldSelect;
                 };
                 
-                selectionVC.requestOperation = [[LEOAPIStaffOperation alloc] init];
+                selectionVC.requestOperation = [[LEOAPIPracticeOperation alloc] init];
                 selectionVC.delegate = self;
             }
     

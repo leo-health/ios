@@ -89,7 +89,6 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fetchData) name:UIApplicationWillEnterForegroundNotification object:nil];
     
-        
     [self tableViewSetup];
 }
 
@@ -101,10 +100,11 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 
     dispatch_sync(queue, ^{
                 
-        [self.dataManager getCardsWithCompletion:^(NSArray *cards) {
+        [self.dataManager getCardsWithCompletion:^(NSArray *cards, NSError *error) {
             
-            self.cards = [cards mutableCopy];
-            
+            if (!error) {
+                self.cards = [cards mutableCopy];
+            }
             dispatch_async(dispatch_get_main_queue() , ^{
                 
                 [MBProgressHUD hideHUDForView:self.tableView animated:YES];
@@ -118,9 +118,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     
     //FIXME: So, ultimately, this should be a data fetch, but since we aren't actually pushing anything up to the API at this point and the expectation is we would both push and pull at the same time, we're just going to reload data at the moment and we'll deal with this when the time comes to implement the actual API.
     
-    if (!self.cards) {
         [self fetchData];
-    }
 }
 
 - (void)tableViewSetup {
@@ -177,16 +175,29 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
                     [self.tableView reloadData];
                     break;
                 }
+                    
+                case AppointmentStatusCodeConfirmingCancelling: {
+                    [self removeCard:card fromDatabaseWithCompletion:^(NSDictionary *response, NSError *error) {
+                        if (!error) {
+                            
+                            [self.tableView reloadData];
+                        } else {
+                            [card returnToPriorState];
+                        }
+                    }];
+                    break;
+                }
+                    
                 case AppointmentStatusCodeReminding: {
                     
                     [self.tableView reloadData];
-
+                    
                     [self dismissViewControllerAnimated:YES completion:^{
                     }];
                     
                     break;
                 }
-
+                    
                 default: {
                     [self.tableView reloadData]; //TODO: This is not right, but for now it is a placeholder.
                 }
@@ -206,7 +217,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
                 case ConversationStatusCodeOpen: {
                     [self loadChattingViewWithCard:card];
                     break;
-                }
+                }   
                 default: {
                     break;
                 }
@@ -226,6 +237,24 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     [self loadBookingViewWithCard:card];
 }
 
+
+- (void)removeCard:(LEOCard *)card fromDatabaseWithCompletion:(void (^)(NSDictionary *response, NSError *error))completionBlock {
+    
+    NSUInteger cardRow = [self.cards indexOfObject:card];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:cardRow inSection:0];
+    
+    LEOCardCell *cell = (LEOCardCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+    
+    [MBProgressHUD showHUDAddedTo:cell animated:YES];
+    
+    [self.dataManager cancelAppointment:card.associatedCardObject withCompletion:^(NSDictionary * response, NSError * error) {
+        if (completionBlock) {
+            completionBlock(response, error);
+            [MBProgressHUD hideHUDForView:cell animated:YES];
+
+        }
+    }];
+}
 
 - (void)removeCardFromFeed:(LEOCard *)card {
     

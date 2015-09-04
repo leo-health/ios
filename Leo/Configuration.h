@@ -18,6 +18,7 @@
 + (NSString *)APIEndpoint;
 + (NSString *)APIVersion;
 + (NSString *)APIEndpointWithHTTPSProtocol;
++ (NSString *)S3Endpoint;
 + (BOOL)isLoggingEnabled;
 
 @end

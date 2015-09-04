@@ -42,11 +42,11 @@
     return startDate;
 }
 
-+ (NSDictionary *)formatSlots:(NSArray *)slots {
++ (NSDictionary *)formatSlots:(NSArray *)slots forDaysFromToday:(NSUInteger)daysFromToday {
         
     NSMutableDictionary *slotDictionary = [[NSMutableDictionary alloc] init];
     
-    for (NSDate *date in [self fetchDaysFromToday:180]) {
+    for (NSDate *date in [self fetchDaysFromToday:daysFromToday]) {
         
         NSPredicate *filterByDate = [NSPredicate predicateWithFormat:@"(self.startDateTime >= %@) AND (self.startDateTime <= %@)", date, [date endOfDay]];
         NSArray *slotsForDate = [slots filteredArrayUsingPredicate:filterByDate];

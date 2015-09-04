@@ -11,14 +11,13 @@
 @implementation Guardian
 
 
-- (instancetype)initWithObjectID:(nullable NSString *)objectID familyID:(NSString *)familyID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email avatarURL:(nullable NSString *)avatarURL avatar:(nullable UIImage *)avatar primary:(BOOL)primary relationship:(nullable NSString *)relationship {
+- (instancetype)initWithObjectID:(nullable NSString *)objectID familyID:(NSString *)familyID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email avatarURL:(nullable NSString *)avatarURL avatar:(nullable UIImage *)avatar primary:(BOOL)primary {
     
     self = [super initWithObjectID:objectID title:title firstName:firstName middleInitial:middleInitial lastName:lastName suffix:suffix email:email avatarURL:avatarURL avatar:avatar];
     
     if (self) {
         _familyID = familyID;
         _primary = primary;
-        _relationship = relationship;
     }
     
     return self;
@@ -31,10 +30,6 @@
     if (self) {
         _familyID = jsonResponse[APIParamFamilyID]; //FIXME: Update with constant.
         _primary = jsonResponse[APIParamUserPrimary];
-        
-        if (!(jsonResponse[APIParamRelationship] == [NSNull null])) {
-            _relationship = jsonResponse[APIParamRelationship];
-        }
     }
     
     return self;
@@ -46,7 +41,6 @@
     
     userDictionary[APIParamFamilyID] = guardian.familyID; //FIXME: Update with constant.
     userDictionary[APIParamUserPrimary] = @(guardian.primary);
-    userDictionary[APIParamRelationship] = guardian.relationship;
     
     return userDictionary;
 }
@@ -64,7 +58,6 @@
     guardianCopy.email = self.email;
     guardianCopy.avatarURL = self.avatarURL;
     guardianCopy.avatar = [self.avatar copy];
-    guardianCopy.relationship = self.relationship;
     guardianCopy.primary = self.primary;
     
     return guardianCopy;
@@ -85,9 +78,8 @@
     
     NSString *familyID = [decoder decodeObjectForKey:APIParamFamilyID];
     BOOL primary = [decoder decodeBoolForKey:APIParamUserPrimary];
-    NSString *relationship = [decoder decodeObjectForKey:APIParamRelationship];
     
-    return [self initWithObjectID:self.objectID familyID:familyID title:self.title firstName:self.firstName middleInitial:self.middleInitial lastName:self.lastName suffix:self.suffix email:self.email avatarURL:self.avatarURL avatar:self.avatar primary:primary relationship:relationship];
+    return [self initWithObjectID:self.objectID familyID:familyID title:self.title firstName:self.firstName middleInitial:self.middleInitial lastName:self.lastName suffix:self.suffix email:self.email avatarURL:self.avatarURL avatar:self.avatar primary:primary];
 }
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
@@ -96,7 +88,6 @@
     
     [encoder encodeObject:self.familyID forKey:APIParamFamilyID];
     [encoder encodeBool:self.primary forKey:APIParamUserPrimary];
-    [encoder encodeObject:self.relationship forKey:APIParamRelationship];
 }
 
 @end

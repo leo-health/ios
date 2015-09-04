@@ -113,6 +113,9 @@ extern NSString *const APIEndpointMessages; // @"messages";
 extern NSString *const APIEndpointAppointmentTypes; // @"appointmentTypes";
 extern NSString *const APIEndpointLogin; // @"login";
 extern NSString *const APIEndpointCards; // @"cards";
+extern NSString *const APIEndpointPractices; // @"practices";
+extern NSString *const APIEndpointSlots; // @"slots";
+extern NSString *const APIEndpointFamily; // @"family";
 
 #pragma mark - Common
 extern NSString *const APIParamID; // @"id";
@@ -148,6 +151,7 @@ extern NSString *const APIParamPracticeFax; // @"fax";
 
 #pragma mark - Family
 extern NSString *const APIParamFamilyID; // @"family_id";
+extern NSString *const APIParamFamily; // @"family";
 
 #pragma mark - User and user subclass
 
@@ -176,8 +180,7 @@ extern NSString *const APIParamUserPassword; // @"password";
 #pragma mark - Common user object references
 extern NSString *const APIParamUser; // @"user";
 extern NSString *const APIParamUsers; // @"users";
-extern NSString *const APIParamStaffMember; // @"staffMember";
-extern NSString *const APIParamStaff; // @"staff";
+extern NSString *const APIParamUserStaff; // @"staff";
 extern NSString *const APIParamUserProvider; // @"provider";
 extern NSString *const APIParamUserProviders; // @"providers";
 extern NSString *const APIParamUserPatient; // @"patient";
@@ -249,6 +252,8 @@ extern NSString *const APIParamAppointmentBookedBy; // @"booked_by";
 extern NSString *const APIParamSlots; // @"slots";
 extern NSString *const APIParamSlotStartDateTime; // @"start_datetime";
 extern NSString *const APIParamSlotDuration; // @"duration";
+extern NSString *const APIParamStartDate; // @"start_date";
+extern NSString *const APIParamEndDate; // @"end_date";
 
 #pragma mark - Magic numbers
 extern CGFloat const selectionLineHeight; // 2.0f;

@@ -28,6 +28,7 @@
 #import "NSDate+Extensions.h"
 #import "Support.h"
 #import "Guardian.h"
+#import "Practice.h"
 #import "LEOMessagesAvatarImageFactory.h"
 #import "Configuration.h"
 
@@ -454,8 +455,8 @@
     NSPredicate *userPredicate = [NSPredicate predicateWithFormat:@"objectID == %@", message.sender.objectID];
     
     if (self.participants == nil) {
-        [self.dataManager getAllStaffForPracticeID:@"0" withCompletion:^(NSArray *staff) {
-            self.participants = staff;
+        [self.dataManager getPracticeWithID:@"0" withCompletion:^(Practice * practice, NSError *error) {
+            self.participants = practice.staff;
         }];
     }
     

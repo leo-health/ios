@@ -19,9 +19,12 @@ NSString *const APIEndpointResetPassword = @"sessions/password";
 NSString *const APIEndpointAppointments = @"appointments";
 NSString *const APIEndpointConversations = @"conversations";
 NSString *const APIEndpointMessages = @"messages";
-NSString *const APIEndpointAppointmentTypes = @"appointmentTypes";
+NSString *const APIEndpointAppointmentTypes = @"appointment_types";
 NSString *const APIEndpointLogin = @"login";
 NSString *const APIEndpointCards = @"cards";
+NSString *const APIEndpointPractices = @"practices";
+NSString *const APIEndpointSlots = @"appointment_slots";
+NSString *const APIEndpointFamily = @"family";
 
 #pragma mark - Common
 NSString *const APIParamID = @"id";
@@ -35,7 +38,7 @@ NSString *const APIParamName = @"name";
 NSString *const APIParamDescription = @"description";
 NSString *const APIParamShortDescription = @"short_description";
 NSString *const APIParamLongDescription = @"long_description";
-NSString *const APIParamToken = @"token";
+NSString *const APIParamToken = @"authentication_token";
 
 #pragma mark - Date & time
 NSString *const APIParamCreatedDateTime = @"created_datetime";
@@ -56,6 +59,7 @@ NSString *const APIParamPracticeFax = @"fax";
 
 #pragma mark - Family
 NSString *const APIParamFamilyID = @"family_id";
+NSString *const APIParamFamily = @"family";
 
 #pragma mark - User and user subclass
 
@@ -68,7 +72,7 @@ NSString *const APIParamUserEmail = @"email";
 NSString *const APIParamUserAvatarURL = @"avatar_url";
 
 NSString *const APIParamUserProviderID = @"provider_id";
-NSString *const APIParamUserPatientID = @"provider_id";
+NSString *const APIParamUserPatientID = @"patient_id";
 NSString *const APIParamUserBookedByID = @"booked_by_id";
 
 NSString *const APIParamUserCredentials = @"credentials";
@@ -94,6 +98,7 @@ NSString *const APIParamUserGuardian = @"guardian";
 NSString *const APIParamUserGuardians = @"guardians";
 NSString *const APIParamUserSupport = @"support";
 NSString *const APIParamUserSupports = @"supports";
+NSString *const APIParamUserStaff = @"staff";
 
 #pragma mark - Role
 NSString *const APIParamRole = @"role";
@@ -154,6 +159,8 @@ NSString *const APIParamAppointmentBookedBy = @"booked_by";
 NSString *const APIParamSlots = @"slots";
 NSString *const APIParamSlotStartDateTime = @"start_datetime";
 NSString *const APIParamSlotDuration = @"duration";
+NSString *const APIParamStartDate = @"start_date";
+NSString *const APIParamEndDate = @"end_date";
 
 #pragma mark - Magic numbers
 CGFloat const selectionLineHeight = 2.0f;

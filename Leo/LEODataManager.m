@@ -18,6 +18,7 @@
 #import "Family.h"
 #import "Practice.h"
 #import "Support.h"
+#import "Slot.h"
 #import "LEOCardAppointment.h"
 #import "LEOCardConversation.h"
 #import "UIColor+LeoColors.h"
@@ -52,7 +53,7 @@
 
 -(NSString *)userToken {
     
-    _userToken = @"This is a placeholder.";
+    _userToken = @"K2rxAYg7ysfUunLCwg2N";
     //will eventually pull from the keychain, but for now, will come from some temporarily place or be hard coded as necessary.
     return _userToken;
 }
@@ -60,74 +61,93 @@
 - (User *)currentUser {
     
     //FIXME: This is temporary.
-    return [[Guardian alloc] initWithObjectID:@"3" familyID:@"10" title:@"Mrs." firstName:@"Marilyn" middleInitial:nil lastName:@"Drossman" suffix:nil email:@"marilyn@leohealth.com" avatarURL:nil avatar:nil primary:YES relationship:@"mother"];
+    return [[Guardian alloc] initWithObjectID:@"3" familyID:@"10" title:@"Mrs." firstName:@"Marilyn" middleInitial:nil lastName:@"Drossman" suffix:nil email:@"marilyn@leohealth.com" avatarURL:nil avatar:nil primary:YES];
 }
 
-- (void)createUserWithUser:(nonnull User *)user password:(nonnull NSString *)password withCompletion:(void (^)( NSDictionary *  rawResults))completionBlock {
+- (void)createUserWithUser:( User *)user password:( NSString *)password withCompletion:(void (^)( NSDictionary *  rawResults, NSError *error))completionBlock {
     
     NSMutableDictionary *userParams = [[User dictionaryFromUser:user] mutableCopy];
     userParams[APIParamUser] = password;
-    [LEOApiClient createUserWithParameters:userParams withCompletion:^(NSDictionary *rawResults) {
+    [LEOApiClient createUserWithParameters:userParams withCompletion:^(NSDictionary *rawResults, NSError *error) {
         NSDictionary *userDictionary = rawResults[APIParamData][APIParamUser]; //TODO: Make sure I want this here and not defined somewhere else.
         user.objectID = userDictionary[APIParamID];
-        completionBlock(rawResults);
+        completionBlock(rawResults, error);
     }];
 }
 
-- (void)loginUserWithEmail:(nonnull NSString *)email password:(nonnull NSString *)password withCompletion:(void (^)(NSDictionary *  rawResults))completionBlock {
+- (void)loginUserWithEmail:( NSString *)email password:( NSString *)password withCompletion:(void (^)(NSDictionary *  rawResults, NSError *error))completionBlock {
     
     NSDictionary *loginParams = @{APIParamUserEmail:email, APIParamUserPassword:password};
     
-    [LEOApiClient loginUserWithParameters:loginParams withCompletion:^(NSDictionary *rawResults) {
+    [LEOApiClient loginUserWithParameters:loginParams withCompletion:^(NSDictionary *rawResults, NSError *error) {
         //TODO: Error terms
-        completionBlock(rawResults);
+        completionBlock(rawResults, error);
     }];
 }
 
-- (void)resetPasswordWithEmail:(nonnull NSString *)email withCompletion:(void (^)(NSDictionary *  rawResults))completionBlock {
+- (void)resetPasswordWithEmail:( NSString *)email withCompletion:(void (^)(NSDictionary *  rawResults, NSError *error))completionBlock {
     
     NSDictionary *resetPasswordParams = @{APIParamUserEmail:email};
     
-    [LEOApiClient resetPasswordWithParameters:resetPasswordParams withCompletion:^(NSDictionary *rawResults) {
+    [LEOApiClient resetPasswordWithParameters:resetPasswordParams withCompletion:^(NSDictionary *rawResults, NSError *error) {
         //TODO: Error terms
-        completionBlock(rawResults);
+        completionBlock(rawResults, error);
     }];
 }
 
-- (void)createAppointmentWithAppointment:(nonnull Appointment *)appointment withCompletion:(void (^)(NSDictionary  *  rawResults))completionBlock {
+- (void)createAppointmentWithAppointment:(Appointment *)appointment withCompletion:(void (^)(NSDictionary *rawResults, NSError *error))completionBlock {
     
-    NSArray *apptProperties = @[[self userToken], appointment.patient.objectID, appointment.date, appointment.provider.objectID];
-    NSArray *apptKeys = @[APIParamToken, APIParamID, APIParamAppointmentStartDateTime, APIParamID];
+    NSMutableDictionary *apptParams = [[NSMutableDictionary alloc] initWithDictionary:@{APIParamToken:[self userToken], APIParamUserPatientID:appointment.patient.objectID, APIParamAppointmentStartDateTime : appointment.date, APIParamUserProviderID:appointment.provider.objectID, APIParamAppointmentTypeID:appointment.appointmentType.objectID, APIParamStatusID:@(appointment.statusCode), APIParamStatus:@"f", APIParamAppointmentTypeDuration:appointment.appointmentType.duration}];
     
-    NSDictionary *apptParams = [[NSDictionary alloc] initWithObjects:apptProperties forKeys:apptKeys];
+    if (appointment.note) {
+        [apptParams setValue:appointment.note forKey:APIParamAppointmentNotes];
+    }
     
-    [LEOApiClient createAppointmentWithParameters:apptParams withCompletion:^(NSDictionary *rawResults) {
-        //TODO: Error terms
-        completionBlock(rawResults);
+    [LEOApiClient createAppointmentWithParameters:apptParams withCompletion:^(NSDictionary *rawResults, NSError *error) {
+        
+        if (completionBlock) {
+            completionBlock(rawResults, error);
+        }
     }];
 }
 
-- (void)getAppointmentsForFamilyOfCurrentUserWithCompletion:(void (^)(NSDictionary  *  rawResults))completionBlock {
+- (void)getAppointmentsForFamilyOfCurrentUserWithCompletion:(void (^)(NSDictionary  *  rawResults, NSError *error))completionBlock {
     
-    NSArray *apptProperties = @[[self userToken]];
+    NSArray *apptValues = @[[self userToken]];
     NSArray *apptKeys = @[APIParamToken];
     
-    NSDictionary *apptParams = [[NSDictionary alloc] initWithObjects:apptProperties forKeys:apptKeys];
+    NSDictionary *apptParams = [[NSDictionary alloc] initWithObjects:apptValues forKeys:apptKeys];
     
-    [LEOApiClient getAppointmentsForFamilyWithParameters:apptParams withCompletion:^(NSDictionary *  rawResults) {
+    [LEOApiClient getAppointmentsForFamilyWithParameters:apptParams withCompletion:^(NSDictionary *  rawResults, NSError *error) {
         //TODO: Error terms
-        completionBlock(rawResults);
+        completionBlock(rawResults, error);
     }];
+}
+
+- (void)cancelAppointment:(Appointment *)appointment withCompletion:(void (^)(NSDictionary *rawResults, NSError *error))completionBlock {
+    
+    NSArray *apptValues = @[[self userToken], appointment.objectID]; //TODO: Remove duration once API has been updated. Remove status once API has been updated.
+    
+    NSArray *apptKeys = @[APIParamToken, APIParamID];
+    
+    NSDictionary *apptParams = [[NSDictionary alloc] initWithObjects:apptValues forKeys:apptKeys];
+    
+    [LEOApiClient cancelAppointmentWithParameters:apptParams withCompletion:^(NSDictionary *  rawResults, NSError *error) {
+        if (completionBlock) {
+            completionBlock(rawResults, error);
+        }
+    }];
+    
 }
 
 - (void)getConversationsForCurrentUserWithCompletion:(void (^)(Conversation*  conversation))completionBlock {
     
-    NSArray *conversationProperties = @[self.userToken];
+    NSArray *conversationValues = @[self.userToken];
     NSArray *conversationKeys = @[APIParamToken];
     
-    NSDictionary *conversationParams = [[NSDictionary alloc] initWithObjects:conversationProperties forKeys:conversationKeys];
+    NSDictionary *conversationParams = [[NSDictionary alloc] initWithObjects:conversationValues forKeys:conversationKeys];
     
-    [LEOApiClient getConversationsForFamilyWithParameters:conversationParams withCompletion:^(NSDictionary * rawResults) {
+    [LEOApiClient getConversationsForFamilyWithParameters:conversationParams withCompletion:^(NSDictionary * rawResults, NSError *error) {
         
         NSArray *participantArray = rawResults[APIParamData][APIParamConversationParticipants];
         
@@ -155,61 +175,86 @@
     }];
 }
 
+- (void)getSlotsForAppointmentType:(AppointmentType *)appointmentType provider:(Provider *)provider startDate:(NSDate *)startDate endDate:(NSDate *)endDate withCompletion:(void (^)(NSArray *slots, NSError *error))completionBlock {
+    
+    NSArray *slotValues = @[appointmentType.objectID, provider.objectID, [NSDate stringifiedShortDate:startDate], [NSDate stringifiedShortDate:endDate]];
+    NSArray *slotKeys = @[APIParamAppointmentTypeID, APIParamUserProviderID, APIParamStartDate, APIParamEndDate];
+    
+    NSDictionary *slotParams = [[NSDictionary alloc] initWithObjects:slotValues forKeys:slotKeys];
+    
+    [LEOApiClient getSlotsWithParameters:slotParams withCompletion:^(NSDictionary * rawResults, NSError *error) {
+        
+        NSArray *slotDictionaries = rawResults[APIParamData][0][APIParamSlots];
+        
+        NSMutableArray *slots = [[NSMutableArray alloc] init];
+        
+        for (NSDictionary *slotDictionary in slotDictionaries) {
+            
+            Slot *slot = [[Slot alloc] initWithJSONDictionary:slotDictionary];
+            
+            [slots addObject:slot];
+        }
+        
+        if (completionBlock) {
+            completionBlock(slots, error);
+        }
+    }];
+}
+
 
 //FIXME: Replace with actual implementation
-- (void)getAvatarForUser:(User *)user withCompletion:(void (^)(NSData *imageData))completionBlock {
+- (void)getAvatarForUser:(User *)user withCompletion:(void (^)(UIImage *rawImage, NSError *error))completionBlock {
     
     
     
     if (user.avatarURL) {
-        [LEOApiClient getAvatarFromURL:user.avatarURL withCompletion:^(NSData *data) {
-            completionBlock(data);
+        [LEOApiClient getAvatarFromURL:user.avatarURL withCompletion:^(UIImage *rawImage, NSError *error) {
+            completionBlock(rawImage, error);
         }];
     } else {
         
-        NSData *imageData =  UIImagePNGRepresentation([UIImage imageNamed:@"Icon-Calendar"]);
-        completionBlock(imageData);
+        completionBlock(nil, nil);
         return;
     }
 }
 
-- (void)createMessage:(Message *)message forConversation:(nonnull Conversation *)conversation withCompletion:(void (^)(NSDictionary  *  rawResults))completionBlock {
+- (void)createMessage:(Message *)message forConversation:( Conversation *)conversation withCompletion:(void (^)(NSDictionary  *  rawResults, NSError *error))completionBlock {
     
     [conversation addMessage:message];
     
-    NSArray *messageProperties;
+    NSArray *messageValues;
     
     if (message.text) {
-        messageProperties = @[self.userToken, message.text, @"text", message.sender.objectID];
+        messageValues = @[self.userToken, message.text, @"text", message.sender.objectID];
     } else {
-        messageProperties = @[self.userToken,  message.media, @"media", message.sender.objectID];
+        messageValues = @[self.userToken,  message.media, @"media", message.sender.objectID];
     }
     
     NSArray *messageKeys = @[APIParamToken, APIParamMessageBody, APIParamTypeID, APIParamID];
     
-    NSDictionary *messageParams = [[NSDictionary alloc] initWithObjects:messageProperties forKeys:messageKeys];
+    NSDictionary *messageParams = [[NSDictionary alloc] initWithObjects:messageValues forKeys:messageKeys];
     
-    [LEOApiClient createMessageForConversation:conversation.objectID withParameters:messageParams withCompletion:^(NSDictionary *  rawResults) {
+    [LEOApiClient createMessageForConversation:conversation.objectID withParameters:messageParams withCompletion:^(NSDictionary *  rawResults, NSError *error) {
         //TODO: Error terms
-        completionBlock(rawResults);
+        completionBlock(rawResults, error);
     }];
 }
 
-- (void)getMessagesForConversation:(Conversation *)conversation withCompletion:(nonnull void (^)(NSArray *messages))completionBlock {
+- (void)getMessagesForConversation:(Conversation *)conversation withCompletion:( void (^)(NSArray *messages))completionBlock {
     
-    NSArray *messageProperties = @[self.userToken];
+    NSArray *messageValues = @[self.userToken];
     NSArray *messageKeys = @[APIParamToken];
     
-    NSDictionary *messageParams = [[NSDictionary alloc] initWithObjects:messageProperties forKeys:messageKeys];
+    NSDictionary *messageParams = [[NSDictionary alloc] initWithObjects:messageValues forKeys:messageKeys];
     
-    [LEOApiClient getMessagesForConversation:conversation.objectID withParameters:messageParams withCompletion:^(NSDictionary *  rawResults) {
+    [LEOApiClient getMessagesForConversation:conversation.objectID withParameters:messageParams withCompletion:^(NSDictionary *  rawResults, NSError *error) {
         
         NSArray *messageDictionaries = rawResults[APIParamData]; //remove messages part of this once stub is updated.
         
         NSMutableArray *messages = [[NSMutableArray alloc] init];
         
         for (NSDictionary *messageDictionary in messageDictionaries) {
-        
+            
             Message *message = [[Message alloc] initWithJSONDictionary:messageDictionary];
             
             [messages addObject:message];
@@ -223,14 +268,14 @@
 
 
 #pragma mark - Fetching
-- (void)getCardsWithCompletion:(void (^)(NSArray *cards))completionBlock {
+- (void)getCardsWithCompletion:(void (^)(NSArray *cards, NSError *error))completionBlock {
     
     NSArray *user = @[[self userToken]];
     NSArray *userKey = @[APIParamToken];
     
     NSDictionary *userParams = [[NSDictionary alloc] initWithObjects:user forKeys:userKey];
     
-    [LEOApiClient getCardsForUser:userParams withCompletion:^(NSDictionary *rawResults) {
+    [LEOApiClient getCardsForUser:userParams withCompletion:^(NSDictionary *rawResults, NSError *error) {
         
         //FIXME: Need to change for "data"?
         
@@ -253,76 +298,76 @@
             }
         }
         
-        //FIXME: Safety here
-        completionBlock(cards);
+        completionBlock(cards, error);
     }];
 }
 
-- (void)getFamilyWithCompletion:(void (^)(Family *family))completionBlock {
+- (void)getFamilyWithCompletion:(void (^)(Family *family, NSError *error))completionBlock {
     
-    NSString *filePath = [[self documentsDirectoryPath] stringByAppendingPathComponent:@"family"];
-    Family *family = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
+    //    NSString *filePath = [[self documentsDirectoryPath] stringByAppendingPathComponent:@"family"];
+    //    Family *family = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
     
-    if (family) {
-        completionBlock(family);
-        return;
-    }
+    //    if (family) {
+    //        completionBlock(family);
+    //        return;
+    //    }
     
     NSArray *user = @[[self userToken]];
     NSArray *userKey = @[APIParamToken];
     
     NSDictionary *userParams = [[NSDictionary alloc] initWithObjects:user forKeys:userKey];
     
-    [LEOApiClient getFamilyWithUserParameters:userParams withCompletion:^(NSDictionary *rawResults) {
+    [LEOApiClient getFamilyWithUserParameters:userParams withCompletion:^(NSDictionary *rawResults, NSError *error) {
         
         NSDictionary *dataDictionary = rawResults[APIParamData];
         
         Family *family = [[Family alloc] initWithJSONDictionary:dataDictionary]; //FIXME: LeoConstants
         
-        NSString *filePath = [[self documentsDirectoryPath] stringByAppendingPathComponent:@"family"];
-        [NSKeyedArchiver archiveRootObject:family toFile:filePath];
-
-        completionBlock(family);
+        //        NSString *filePath = [[self documentsDirectoryPath] stringByAppendingPathComponent:@"family"];
+        //        [NSKeyedArchiver archiveRootObject:family toFile:filePath];
+        
+        completionBlock(family, error);
     }];
 }
 
 
-//TODO: Update so that it is getting from an endpoint for all practice staff, not just providers.
-- (void)getAllStaffForPracticeID:(NSString *)practiceID withCompletion:(void (^)(NSArray *staff))completionBlock {
+
+- (void)getPracticeWithID:(NSString *)practiceID withCompletion:(void (^)(Practice *practice, NSError *error))completionBlock {
     
-    NSArray *staff = [self unarchiveObjectWithPathComponent:@"staff"];
-    
-    if (staff) {
-        completionBlock(staff);
-        return;
-    }
-    
-    NSArray *practiceValues = @[practiceID];
-    NSArray *practiceKey = @[APIParamID];
+    NSArray *practiceValues = @[[self userToken], practiceID];
+    NSArray *practiceKey = @[APIParamToken, APIParamID];
     
     NSDictionary *practiceParams = [[NSDictionary alloc] initWithObjects:practiceValues forKeys:practiceKey];
     
-    [LEOApiClient getAllStaffForPracticeWithParameters:practiceParams withCompletion:^(NSDictionary *rawResults) {
+    [LEOApiClient getPracticeWithParameters:practiceParams withCompletion:^(NSDictionary *rawResults, NSError *error) {
         
-        NSArray *dataArray = rawResults[APIParamData];
+        NSDictionary *dataArray = rawResults[APIParamData][@"practice"];
+        Practice *practice = [[Practice alloc] initWithJSONDictionary:dataArray];
         
-        NSMutableArray *staff = [[NSMutableArray alloc] init];
+        //FIXME: Safety here
+        completionBlock(practice, error);
+    }];
+}
+
+- (void)getPracticesWithCompletion:(void (^)(NSArray *practices, NSError *error))completionBlock {
+    
+    NSArray *practiceValues = @[[self userToken]];
+    NSArray *practiceKey = @[APIParamToken];
+    
+    NSDictionary *practiceParams = [[NSDictionary alloc] initWithObjects:practiceValues forKeys:practiceKey];
+    
+    [LEOApiClient getPracticesWithParameters:practiceParams withCompletion:^(NSDictionary *rawResults, NSError *error) {
         
-        for (NSDictionary *providerDictionary in dataArray) {
-            
-            if ([providerDictionary[APIParamRole] isEqualToString: @"provider"]) {
-                Provider *provider = [[Provider alloc] initWithJSONDictionary:providerDictionary];
-                [staff addObject:provider];
-            } else {
-                
-                Support *support = [[Support alloc] initWithJSONDictionary:providerDictionary];
-                [staff addObject:support];
-            }
-            
-            [self archiveObject:staff withPathComponent:@"staff"];
+        NSDictionary *dataArray = rawResults[APIParamData][@"practices"];
+        
+        NSMutableArray *practices = [[NSMutableArray alloc] init];
+        
+        for (NSDictionary *practiceDictionary in dataArray) {
+            Practice *practice = [[Practice alloc] initWithJSONDictionary:practiceDictionary];
+            [practices addObject:practice];
         }
-        
-        completionBlock(staff);
+        //FIXME: Safety here
+        completionBlock(practices, error);
     }];
 }
 
@@ -345,9 +390,14 @@
     return [paths objectAtIndex:0];
 }
 
-- (void)getAppointmentTypesWithCompletion:(void (^)(NSArray *appointmentTypes))completionBlock {
+- (void)getAppointmentTypesWithCompletion:(void (^)(NSArray *appointmentTypes, NSError *error))completionBlock {
     
-    [LEOApiClient getAppointmentTypesWithCompletion:^(NSDictionary *rawResults) {
+    NSArray *appointmentTypeParamValues = @[[self userToken]];
+    NSArray *appointmentTypeParamKeys = @[APIParamToken];
+    
+    NSDictionary *appointmentTypeParameters = [[NSDictionary alloc] initWithObjects:appointmentTypeParamValues forKeys:appointmentTypeParamKeys];
+    
+    [LEOApiClient getAppointmentTypesWithParameters:appointmentTypeParameters withCompletion:^(NSDictionary *rawResults, NSError *error) {
         
         NSArray *dataArray = rawResults[APIParamData];
         
@@ -358,7 +408,7 @@
             [appointmentTypes addObject:appointmentType];
         }
         
-        completionBlock(appointmentTypes);
+        completionBlock(appointmentTypes, error);
     }];
 }
 
@@ -379,85 +429,7 @@
     return nil;
 }
 
-- (NSArray *)availableTimesForDate:(NSDate*)date {
-    
-    NSCalendar *calendar = [NSCalendar calendarWithIdentifier:NSCalendarIdentifierGregorian];
-    
-    NSMutableArray *timesForDate = [[NSMutableArray alloc] init];
-    
-    NSArray *slots = [self fetchSlots];
-    
-    for (NSDate *availableTime in slots) {
-        
-        if ([calendar isDate:availableTime inSameDayAsDate:date]) {
-            
-            [timesForDate addObject:availableTime];
-        }
-    }
-    
-    return timesForDate;
-}
 
-- (NSArray *)fetchSlots {
-    
-    NSDate *slot1 = [NSDate dateWithYear:2015 month:7 day:11 hour:8 minute:0 second:0];
-    
-    NSDate *slot2 = [NSDate dateWithYear:2015 month:7 day:11 hour:9 minute:0 second:0];
-    
-    NSDate *slot3 = [NSDate dateWithYear:2015 month:7 day:13 hour:10 minute:0 second:0];
-    
-    NSDate *slot4 = [NSDate dateWithYear:2015 month:7 day:14 hour:10 minute:30 second:0];
-    
-    NSDate *slot5 = [NSDate dateWithYear:2015 month:7 day:13 hour:11 minute:0 second:0];
-    
-    NSDate *slot6 = [NSDate dateWithYear:2015 month:7 day:14 hour:13 minute:0 second:0];
-    
-    NSDate *slot7 = [NSDate dateWithYear:2015 month:7 day:16 hour:13 minute:30 second:0];
-    
-    NSDate *slot8 = [NSDate dateWithYear:2015 month:7 day:25 hour:14 minute:0 second:0];
-    
-    NSDate *slot9 = [NSDate dateWithYear:2015 month:7 day:25 hour:5 minute:0 second:0];
-    
-    NSDate *slot10 = [NSDate dateWithYear:2015 month:7 day:25 hour:11 minute:0 second:0];
-    
-    NSDate *slot11 = [NSDate dateWithYear:2015 month:8 day:15 hour:12 minute:0 second:0];
-    
-    NSDate *slot12 = [NSDate dateWithYear:2015 month:8 day:5 hour:8 minute:0 second:0];
-    
-    NSDate *slot13 = [NSDate dateWithYear:2015 month:5 day:5 hour:9 minute:0 second:0];
-    
-    NSDate *slot14 = [NSDate dateWithYear:2015 month:8 day:5 hour:10 minute:0 second:0];
-    
-    NSDate *slot15 = [NSDate dateWithYear:2015 month:8 day:5 hour:10 minute:30 second:0];
-    
-    NSDate *slot16 = [NSDate dateWithYear:2015 month:7 day:25 hour:11 minute:0 second:0];
-    
-    NSDate *slot17 = [NSDate dateWithYear:2015 month:7 day:16 hour:13 minute:0 second:0];
-    
-    NSDate *slot18 = [NSDate dateWithYear:2015 month:7 day:16 hour:13 minute:30 second:0];
-    
-    NSDate *slot19 = [NSDate dateWithYear:2015 month:7 day:16 hour:13 minute:30 second:0];
-    
-    return @[slot1, slot2, slot3, slot4, slot5, slot6, slot7, slot8, slot9, slot10, slot11, slot12, slot13, slot14, slot15, slot16, slot17, slot18, slot19];
-}
-
-- (NSArray *)availableDates {
-    
-    if (!_availableDates) {
-        
-        NSArray *slots = [self fetchSlots];
-        
-        NSMutableArray *datesWithoutTimes = [[NSMutableArray alloc] init];
-        
-        for (NSDate *slot in slots) {
-            [datesWithoutTimes addObject:[slot dateWithoutTime]];
-        }
-        
-        _availableDates = [[datesWithoutTimes valueForKeyPath:@"@distinctUnionOfObjects.self"] sortedArrayUsingSelector:@selector(compare:)];
-    }
-    
-    return _availableDates;
-}
 
 
 

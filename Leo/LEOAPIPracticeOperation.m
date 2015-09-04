@@ -6,24 +6,24 @@
 //  Copyright (c) 2015 Zachary Drossman. All rights reserved.
 //
 
-#import "LEOAPIStaffOperation.h"
+#import "LEOAPIPracticeOperation.h"
 #import "LEODataManager.h"
 #import "Provider.h"
-
-@implementation LEOAPIStaffOperation
+#import "Practice.h"
+@implementation LEOAPIPracticeOperation
 
 -(void)main {
     
     LEODataManager *dataManager = [LEODataManager sharedManager];
     
-    [dataManager getAllStaffForPracticeID:@"0" withCompletion:^(NSArray * staff) {
+    [dataManager getPracticeWithID:@"0" withCompletion:^(Practice *practice, NSError *error) {
         
         NSPredicate *providerFilter = [NSPredicate predicateWithFormat:@"self isKindOfClass:%@",[Provider class]];
         
-        id data = [staff filteredArrayUsingPredicate:providerFilter];
+        id data = [practice.staff filteredArrayUsingPredicate:providerFilter];
         
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            self.requestBlock(data);
+            self.requestBlock(data, error);
         }];
     }];
 }

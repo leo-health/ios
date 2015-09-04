@@ -11,6 +11,7 @@
 #import "LEOMessagesAvatarImageFactory.h"
 #import "UIColor+LeoColors.h"
 #import "UIFont+LeoFonts.h"
+#import "LEODataManager.h"
 
 @implementation PatientCell (ConfigureCell)
 
@@ -25,8 +26,32 @@
         self.avatarImageView.image = [LEOMessagesAvatarImageFactory circularAvatarImage:patient.avatar withDiameter:40 borderColor:[UIColor leoGrayForPlaceholdersAndLines] borderWidth:3];
         //This should really pull from the patient avatar image. But since we haven't set that up yet. This is a placeholder.
     } else {
+
         self.avatarImageView.image = [LEOMessagesAvatarImageFactory circularAvatarImage:[UIImage imageNamed:@"Icon-AvatarBorderless"] withDiameter:40 borderColor:[UIColor leoGrayForPlaceholdersAndLines] borderWidth:3];
-        //FIXME: Update with appropriate placeholder image.
+
+        if (patient.avatarURL) {
+            
+            LEODataManager *dataManager = [LEODataManager sharedManager];
+            
+            [dataManager getAvatarForUser:patient withCompletion:^(UIImage * rawImage, NSError * error) {
+                
+                if (!error) {
+                  
+                    UIImage *avatar;
+                    if (!self.selected) {
+                   
+                        avatar = [LEOMessagesAvatarImageFactory circularAvatarImage:rawImage withDiameter:40 borderColor:[UIColor leoGrayForPlaceholdersAndLines] borderWidth:3];
+                    } else {
+                        avatar = [LEOMessagesAvatarImageFactory circularAvatarImage:rawImage withDiameter:40 borderColor:[UIColor leoGreen] borderWidth:3];
+                    }
+                    
+                    self.avatarImageView.image = avatar;
+                    
+                } else {
+                    //deal with an error?
+                }
+            }];
+        }
     }
 }
 
