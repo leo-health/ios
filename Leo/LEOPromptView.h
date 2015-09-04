@@ -21,5 +21,6 @@
 @property (strong, nonatomic) LEOValidatedFloatLabeledTextField *textField;
 @property (strong, nonatomic) UIButton *invisibleButton;
 @property (nonatomic) BOOL forwardArrowVisible;
+@property (strong, nonatomic) UIColor *featureColor;
 
 @end
