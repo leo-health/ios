@@ -46,6 +46,7 @@
 		3138FC4B1B9A19A8000FE22C /* InsurancePlanCell+ConfigureCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3138FC481B9A19A8000FE22C /* InsurancePlanCell+ConfigureCell.m */; };
 		3138FC4E1B9A1A2E000FE22C /* LEOPromptView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3138FC4D1B9A1A2E000FE22C /* LEOPromptView.m */; };
 		3138FC511B9A1A9B000FE22C /* LEOAPIInsuranceOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3138FC501B9A1A9B000FE22C /* LEOAPIInsuranceOperation.m */; };
+		3138FC541B9A1AF1000FE22C /* LEOValidationsHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3138FC531B9A1AF1000FE22C /* LEOValidationsHelper.m */; };
 		314A405F1B83B1B400834BC2 /* Configuration.m in Sources */ = {isa = PBXBuildFile; fileRef = 314A405E1B83B1B400834BC2 /* Configuration.m */; };
 		314AC6101B85274000BF6869 /* LEOApiReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 314AC60F1B85274000BF6869 /* LEOApiReachability.m */; };
 		314BC36F1B94C817000A50D8 /* LEOCredentialStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 314BC36E1B94C817000A50D8 /* LEOCredentialStore.m */; };
@@ -221,6 +222,8 @@
 		3138FC4D1B9A1A2E000FE22C /* LEOPromptView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOPromptView.m; sourceTree = "<group>"; };
 		3138FC4F1B9A1A9B000FE22C /* LEOAPIInsuranceOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOAPIInsuranceOperation.h; sourceTree = "<group>"; };
 		3138FC501B9A1A9B000FE22C /* LEOAPIInsuranceOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOAPIInsuranceOperation.m; sourceTree = "<group>"; };
+		3138FC521B9A1AF1000FE22C /* LEOValidationsHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOValidationsHelper.h; sourceTree = "<group>"; };
+		3138FC531B9A1AF1000FE22C /* LEOValidationsHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOValidationsHelper.m; sourceTree = "<group>"; };
 		314A40551B838AD000834BC2 /* Application.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Application.xcconfig; path = xcconfig/Application.xcconfig; sourceTree = "<group>"; };
 		314A40561B838AE700834BC2 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = xcconfig/Debug.xcconfig; sourceTree = "<group>"; };
 		314A40571B838AFC00834BC2 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = xcconfig/Release.xcconfig; sourceTree = "<group>"; };
@@ -567,6 +570,8 @@
 		3177B99B1B189F6C006AE360 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				3138FC521B9A1AF1000FE22C /* LEOValidationsHelper.h */,
+				3138FC531B9A1AF1000FE22C /* LEOValidationsHelper.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -1204,6 +1209,7 @@
 				319F335D1B2201F900C1C526 /* CollectionViewLayout.m in Sources */,
 				3138FC351B9A1294000FE22C /* LEOScrollableContainerView.m in Sources */,
 				31BA40501B30A0AB00A11AEE /* Appointment.m in Sources */,
+				3138FC541B9A1AF1000FE22C /* LEOValidationsHelper.m in Sources */,
 				31F5AA701B791B4A00F96D06 /* TimeCollectionController.m in Sources */,
 				3128D5361B4588A300582710 /* Provider.m in Sources */,
 				31F5AA721B791B4B00F96D06 /* LEOCalendarDataSource.m in Sources */,
