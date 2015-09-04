@@ -9,6 +9,16 @@
 #import "LEOInitialViewController.h"
 #import "UIImage+Extensions.h"
 
+NSString *const kLoginSegue = @"LoginSegue";
+NSString *const kSignUpSegue = @"SignUpSegue";
+
+@interface LEOInitialViewController()
+
+@property (weak, nonatomic) IBOutlet UIButton *signUpButton;
+@property (weak, nonatomic) IBOutlet UIButton *loginButton;
+
+@end
+
 @implementation LEOInitialViewController
 
 -(void)viewDidLoad {
@@ -19,4 +29,13 @@
     
     self.navigationController.navigationBarHidden = YES;
 }
+
+- (IBAction)loginTapped:(UIButton *)sender {
+    [self performSegueWithIdentifier:kLoginSegue sender:sender];
+}
+
+- (IBAction)signUpTapped:(UIButton *)sender {
+    [self performSegueWithIdentifier:kSignUpSegue sender:sender];
+}
+
 @end
