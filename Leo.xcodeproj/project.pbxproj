@@ -47,6 +47,7 @@
 		3138FC4E1B9A1A2E000FE22C /* LEOPromptView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3138FC4D1B9A1A2E000FE22C /* LEOPromptView.m */; };
 		3138FC511B9A1A9B000FE22C /* LEOAPIInsuranceOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3138FC501B9A1A9B000FE22C /* LEOAPIInsuranceOperation.m */; };
 		3138FC541B9A1AF1000FE22C /* LEOValidationsHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3138FC531B9A1AF1000FE22C /* LEOValidationsHelper.m */; };
+		3138FC571B9A1B7D000FE22C /* LEOSignUpUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3138FC561B9A1B7D000FE22C /* LEOSignUpUserViewController.m */; };
 		314A405F1B83B1B400834BC2 /* Configuration.m in Sources */ = {isa = PBXBuildFile; fileRef = 314A405E1B83B1B400834BC2 /* Configuration.m */; };
 		314AC6101B85274000BF6869 /* LEOApiReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 314AC60F1B85274000BF6869 /* LEOApiReachability.m */; };
 		314BC36F1B94C817000A50D8 /* LEOCredentialStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 314BC36E1B94C817000A50D8 /* LEOCredentialStore.m */; };
@@ -224,6 +225,8 @@
 		3138FC501B9A1A9B000FE22C /* LEOAPIInsuranceOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOAPIInsuranceOperation.m; sourceTree = "<group>"; };
 		3138FC521B9A1AF1000FE22C /* LEOValidationsHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOValidationsHelper.h; sourceTree = "<group>"; };
 		3138FC531B9A1AF1000FE22C /* LEOValidationsHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOValidationsHelper.m; sourceTree = "<group>"; };
+		3138FC551B9A1B7D000FE22C /* LEOSignUpUserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOSignUpUserViewController.h; path = "Onboarding+Signup/LEOSignUpUserViewController.h"; sourceTree = "<group>"; };
+		3138FC561B9A1B7D000FE22C /* LEOSignUpUserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOSignUpUserViewController.m; path = "Onboarding+Signup/LEOSignUpUserViewController.m"; sourceTree = "<group>"; };
 		314A40551B838AD000834BC2 /* Application.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Application.xcconfig; path = xcconfig/Application.xcconfig; sourceTree = "<group>"; };
 		314A40561B838AE700834BC2 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = xcconfig/Debug.xcconfig; sourceTree = "<group>"; };
 		314A40571B838AFC00834BC2 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = xcconfig/Release.xcconfig; sourceTree = "<group>"; };
@@ -540,6 +543,8 @@
 				3138FC461B9A19A8000FE22C /* InsurancePlanCell.xib */,
 				3138FC471B9A19A8000FE22C /* InsurancePlanCell+ConfigureCell.h */,
 				3138FC481B9A19A8000FE22C /* InsurancePlanCell+ConfigureCell.m */,
+				3138FC551B9A1B7D000FE22C /* LEOSignUpUserViewController.h */,
+				3138FC561B9A1B7D000FE22C /* LEOSignUpUserViewController.m */,
 			);
 			name = "Onboarding & Signup";
 			sourceTree = "<group>";
@@ -1194,6 +1199,7 @@
 				BCE1ECA41B014613007C8D0B /* LEOConstants.m in Sources */,
 				31FDDE641B29DA890009BBC2 /* LEOOneButtonPrimaryOnlyCell+ConfigureForCell.m in Sources */,
 				31E77E0A1B87689300C6EDE1 /* LEOS3SessionManager.m in Sources */,
+				3138FC571B9A1B7D000FE22C /* LEOSignUpUserViewController.m in Sources */,
 				31D7ADEB1B21F9A100E8C5EE /* CollectionViewDataSource.m in Sources */,
 				3196AAF91B8E01C900B11112 /* LEOStubs.m in Sources */,
 				3128D52D1B457DC300582710 /* Patient.m in Sources */,
