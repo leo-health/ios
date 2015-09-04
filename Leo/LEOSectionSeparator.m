@@ -10,9 +10,33 @@
 #import "UIColor+LeoColors.h"
 @implementation LEOSectionSeparator
 
--(void)awakeFromNib {
-    
+//- (void)awakeFromNib {
+//    
+//}
+
+- (instancetype)initWithCoder:(NSCoder *)coder
+{
+    self = [super initWithCoder:coder];
+    if (self) {
+        [self setup];
+    }
+    return self;
+}
+
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self setup];
+    }
+    return self;
+}
+
+- (void)setup {
     self.backgroundColor = [UIColor leoGrayForPlaceholdersAndLines];
+}
+-(CGSize)intrinsicContentSize {
+    return CGSizeMake(self.frame.size.width, 1.0);
 }
 
 @end
