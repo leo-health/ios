@@ -14,6 +14,10 @@
 #import "UIImage+Extensions.h"
 #import "LEODataManager.h"
 
+#import "LEOForgotPasswordViewController.h"
+
+NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
+
 @interface LEOLoginViewController ()
 
 @property (weak, nonatomic) IBOutlet LEOScrollableContainerView *scrollableContainerView;
@@ -169,15 +173,20 @@
     return self.loginView;
 }
 
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+
+    
+    if ([segue.identifier isEqualToString:kForgotPasswordSegue]) {
+
+        LEOForgotPasswordViewController *forgotPasswordVC = segue.destinationViewController;
+        forgotPasswordVC.email = self.emailTextField.text;
+    }
 }
-*/
+
 
 - (void)pop {
     
@@ -214,7 +223,9 @@
 
 - (IBAction)forgotPasswordTapped:(UIButton *)sender {
 
+    [self performSegueWithIdentifier:kForgotPasswordSegue sender:sender];
 }
+
 
 - (BOOL)isModal {
     return self.presentingViewController.presentedViewController == self
