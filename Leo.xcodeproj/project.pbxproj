@@ -39,6 +39,10 @@
 		314BC36F1B94C817000A50D8 /* LEOCredentialStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 314BC36E1B94C817000A50D8 /* LEOCredentialStore.m */; };
 		314BC3721B94CB2B000A50D8 /* SessionUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 314BC3711B94CB2B000A50D8 /* SessionUser.m */; };
 		314F6A071B2A0D0000799AB4 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 314F6A061B2A0D0000799AB4 /* User.m */; };
+		3153C5EA1B949D90000A22B4 /* LEOInitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3153C5E91B949D90000A22B4 /* LEOInitialViewController.m */; };
+		3153C5EC1B94A0B3000A22B4 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3153C5EB1B94A0B3000A22B4 /* Login.storyboard */; };
+		315900DD1B98F557006BCE1D /* Insurer.m in Sources */ = {isa = PBXBuildFile; fileRef = 315900DC1B98F557006BCE1D /* Insurer.m */; };
+		315900E01B98F57D006BCE1D /* InsurancePlan.m in Sources */ = {isa = PBXBuildFile; fileRef = 315900DF1B98F57D006BCE1D /* InsurancePlan.m */; };
 		3177B9981B17A1B7006AE360 /* LEOCardAppointment.m in Sources */ = {isa = PBXBuildFile; fileRef = 3177B9971B17A1B7006AE360 /* LEOCardAppointment.m */; };
 		3177B9D11B191928006AE360 /* Conversation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3177B9D01B191928006AE360 /* Conversation.m */; };
 		3177B9D41B191929006AE360 /* Role.m in Sources */ = {isa = PBXBuildFile; fileRef = 3177B9D31B191929006AE360 /* Role.m */; };
@@ -199,6 +203,13 @@
 		314BC3711B94CB2B000A50D8 /* SessionUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SessionUser.m; path = "Data Model/SessionUser.m"; sourceTree = "<group>"; };
 		314F6A051B2A0D0000799AB4 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = User.h; path = "Data Model/User.h"; sourceTree = "<group>"; };
 		314F6A061B2A0D0000799AB4 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = User.m; path = "Data Model/User.m"; sourceTree = "<group>"; };
+		3153C5E81B949D90000A22B4 /* LEOInitialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOInitialViewController.h; path = "Onboarding+Signup/LEOInitialViewController.h"; sourceTree = "<group>"; };
+		3153C5E91B949D90000A22B4 /* LEOInitialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOInitialViewController.m; path = "Onboarding+Signup/LEOInitialViewController.m"; sourceTree = "<group>"; };
+		3153C5EB1B94A0B3000A22B4 /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Login.storyboard; path = Storyboards/Login.storyboard; sourceTree = "<group>"; };
+		315900DB1B98F557006BCE1D /* Insurer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Insurer.h; sourceTree = "<group>"; };
+		315900DC1B98F557006BCE1D /* Insurer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Insurer.m; sourceTree = "<group>"; };
+		315900DE1B98F57D006BCE1D /* InsurancePlan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InsurancePlan.h; sourceTree = "<group>"; };
+		315900DF1B98F57D006BCE1D /* InsurancePlan.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsurancePlan.m; sourceTree = "<group>"; };
 		3177B9961B17A1B7006AE360 /* LEOCardAppointment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOCardAppointment.h; sourceTree = "<group>"; };
 		3177B9971B17A1B7006AE360 /* LEOCardAppointment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = LEOCardAppointment.m; sourceTree = "<group>"; };
 		3177B9CF1B191928006AE360 /* Conversation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Conversation.h; path = "Data Model/Conversation.h"; sourceTree = "<group>"; };
@@ -440,6 +451,7 @@
 		3130B4911B0693D5006ACC80 /* Stoyboards & Xibs */ = {
 			isa = PBXGroup;
 			children = (
+				3153C5EB1B94A0B3000A22B4 /* Login.storyboard */,
 				BCE1EC711B00E353007C8D0B /* Main.storyboard */,
 				31F5AA7F1B7920B700F96D06 /* Appointment.storyboard */,
 				311CBB3D1B56B0F50009BD7A /* Conversation.storyboard */,
@@ -478,6 +490,15 @@
 				3132BEAE1B84FA1300494727 /* TestsShared.xcconfig */,
 			);
 			name = "Build Configuration";
+			sourceTree = "<group>";
+		};
+		3153C5E71B949D59000A22B4 /* Onboarding & Signup */ = {
+			isa = PBXGroup;
+			children = (
+				3153C5E81B949D90000A22B4 /* LEOInitialViewController.h */,
+				3153C5E91B949D90000A22B4 /* LEOInitialViewController.m */,
+			);
+			name = "Onboarding & Signup";
 			sourceTree = "<group>";
 		};
 		3177B9991B189F2D006AE360 /* Cards */ = {
@@ -698,6 +719,10 @@
 		BC4D685B1B04DAF10018DAB5 /* Objects */ = {
 			isa = PBXGroup;
 			children = (
+				315900DB1B98F557006BCE1D /* Insurer.h */,
+				315900DC1B98F557006BCE1D /* Insurer.m */,
+				315900DE1B98F57D006BCE1D /* InsurancePlan.h */,
+				315900DF1B98F57D006BCE1D /* InsurancePlan.m */,
 				31BA404E1B30A0AB00A11AEE /* Appointment.h */,
 				31BA404F1B30A0AB00A11AEE /* Appointment.m */,
 				3128D53D1B4C1C2C00582710 /* PrepAppointment.h */,
@@ -750,6 +775,7 @@
 		BCA69A3D1B039ABC00C27B2B /* Views and Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				3153C5E71B949D59000A22B4 /* Onboarding & Signup */,
 				31F5AA821B794BD200F96D06 /* Generic */,
 				31F5AA341B791B3800F96D06 /* Expanded Appointment Flow */,
 				312A82521B56EE9700E1FB38 /* Expanded Conversation Flow */,
@@ -937,6 +963,7 @@
 			files = (
 				31F5AA781B791B4B00F96D06 /* PatientCell.xib in Resources */,
 				3128D4E71B430F0200582710 /* LEOTwoButtonPrimaryAndSecondaryCell.xib in Resources */,
+				3153C5EC1B94A0B3000A22B4 /* Login.storyboard in Resources */,
 				BCE1EC731B00E353007C8D0B /* Main.storyboard in Resources */,
 				311CBB3E1B56B0F50009BD7A /* Conversation.storyboard in Resources */,
 				3128D4EC1B43135F00582710 /* LEOOneButtonPrimaryAndSecondaryCell.xib in Resources */,
@@ -1046,6 +1073,7 @@
 				31ECA3381B23C53500BC1D6B /* LEODateCell+ConfigureCell.m in Sources */,
 				31197A0F1B39B08B00C773BA /* LEOMainContainerViewController.m in Sources */,
 				BCED00811B0150F4007653D6 /* LEOFeedTVC.m in Sources */,
+				315900DD1B98F557006BCE1D /* Insurer.m in Sources */,
 				3128D4DB1B42DF6500582710 /* LEOOneButtonSecondaryOnlyCell.m in Sources */,
 				3177B9D41B191929006AE360 /* Role.m in Sources */,
 				31F5AA691B791B4A00F96D06 /* LEOAPIAppointmentTypesOperation.m in Sources */,
@@ -1105,6 +1133,7 @@
 				BCE1ECA41B014613007C8D0B /* LEOConstants.m in Sources */,
 				31FDDE641B29DA890009BBC2 /* LEOOneButtonPrimaryOnlyCell+ConfigureForCell.m in Sources */,
 				31E77E0A1B87689300C6EDE1 /* LEOS3SessionManager.m in Sources */,
+				315900E01B98F57D006BCE1D /* InsurancePlan.m in Sources */,
 				31D7ADEB1B21F9A100E8C5EE /* CollectionViewDataSource.m in Sources */,
 				3196AAF91B8E01C900B11112 /* LEOStubs.m in Sources */,
 				3128D52D1B457DC300582710 /* Patient.m in Sources */,
@@ -1121,6 +1150,7 @@
 				3128D5361B4588A300582710 /* Provider.m in Sources */,
 				31F5AA721B791B4B00F96D06 /* LEOCalendarDataSource.m in Sources */,
 				3128D4DF1B42E37000582710 /* LEOOneButtonSecondaryOnlyCell+ConfigureForCell.m in Sources */,
+				3153C5EA1B949D90000A22B4 /* LEOInitialViewController.m in Sources */,
 				3128D5331B45808F00582710 /* Guardian.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

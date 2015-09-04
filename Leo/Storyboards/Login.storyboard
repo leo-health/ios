@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="QX5-MW-9Mb">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <scenes>
+        <!--Initial View Controller-->
+        <scene sceneID="6iy-fi-9PR">
+            <objects>
+                <viewController id="Es9-cq-M3k" customClass="LEOInitialViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="NZq-kE-4Np"/>
+                        <viewControllerLayoutGuide type="bottom" id="0ha-2B-Gou"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="ygY-lD-AHs">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Background-Initial" translatesAutoresizingMaskIntoConstraints="NO" id="Te1-k3-Rzd">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5DX-2V-emV">
+                                <rect key="frame" x="305" y="522" width="251" height="46"/>
+                                <color key="backgroundColor" red="0.93333333330000001" green="0.98039215690000003" blue="0.99215686270000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="46" id="ITh-uH-uPR"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="12"/>
+                                <state key="normal" title="LOG IN">
+                                    <color key="titleColor" red="0.22352941176470589" green="0.22352941176470589" blue="0.22352941176470589" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="4"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Our mission is to make children's healthcare a more humane experience." lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="akX-Gi-Lc3">
+                                <rect key="frame" x="44" y="408" width="512" height="46"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="16.5"/>
+                                <color key="textColor" red="0.93333333330000001" green="0.98039215690000003" blue="0.99215686270000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon-Logo" translatesAutoresizingMaskIntoConstraints="NO" id="HnD-90-bF7">
+                                <rect key="frame" x="44" y="298" width="204" height="85"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iaz-pc-hP6">
+                                <rect key="frame" x="44" y="522" width="252" height="46"/>
+                                <color key="backgroundColor" red="0.98431372549019602" green="0.27843137254901962" blue="0.19607843137254902" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="46" id="4Wo-iR-OgR"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="12"/>
+                                <state key="normal" title="SIGN UP WITH LEO">
+                                    <color key="titleColor" red="0.93333333330000001" green="0.98039215690000003" blue="0.99215686270000003" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="4"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="akX-Gi-Lc3" firstAttribute="top" secondItem="HnD-90-bF7" secondAttribute="bottom" constant="25" id="6sE-sV-Sso"/>
+                            <constraint firstItem="Te1-k3-Rzd" firstAttribute="leading" secondItem="ygY-lD-AHs" secondAttribute="leading" id="IPR-uQ-WSj"/>
+                            <constraint firstItem="Te1-k3-Rzd" firstAttribute="top" secondItem="NZq-kE-4Np" secondAttribute="top" constant="-20" id="Im8-NV-zQE"/>
+                            <constraint firstItem="0ha-2B-Gou" firstAttribute="top" secondItem="Te1-k3-Rzd" secondAttribute="bottom" id="PBV-pv-yUu"/>
+                            <constraint firstAttribute="trailing" secondItem="Te1-k3-Rzd" secondAttribute="trailing" id="SOb-NP-Z2l"/>
+                            <constraint firstItem="5DX-2V-emV" firstAttribute="leading" secondItem="Iaz-pc-hP6" secondAttribute="trailing" constant="9" id="Tvc-6T-HKb"/>
+                            <constraint firstItem="Iaz-pc-hP6" firstAttribute="width" secondItem="5DX-2V-emV" secondAttribute="width" id="Xm1-t5-dcN"/>
+                            <constraint firstItem="0ha-2B-Gou" firstAttribute="top" secondItem="Iaz-pc-hP6" secondAttribute="bottom" constant="32" id="dFB-Fk-Tbg"/>
+                            <constraint firstItem="akX-Gi-Lc3" firstAttribute="leading" secondItem="Iaz-pc-hP6" secondAttribute="leading" id="ifT-mz-ikv"/>
+                            <constraint firstItem="0ha-2B-Gou" firstAttribute="top" secondItem="5DX-2V-emV" secondAttribute="bottom" constant="32" id="mEz-uX-QKK"/>
+                            <constraint firstItem="akX-Gi-Lc3" firstAttribute="trailing" secondItem="5DX-2V-emV" secondAttribute="trailing" id="pOc-66-gyu"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="5DX-2V-emV" secondAttribute="trailing" constant="28" id="rPa-yr-obD"/>
+                            <constraint firstItem="HnD-90-bF7" firstAttribute="leading" secondItem="akX-Gi-Lc3" secondAttribute="leading" id="xYO-9Z-gHN"/>
+                            <constraint firstItem="Iaz-pc-hP6" firstAttribute="leading" secondItem="ygY-lD-AHs" secondAttribute="leadingMargin" constant="28" id="yTT-H2-FBS"/>
+                            <constraint firstItem="Iaz-pc-hP6" firstAttribute="top" secondItem="akX-Gi-Lc3" secondAttribute="bottom" constant="68" id="yfy-zg-wTk"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="iVY-hK-SBN"/>
+                    <nil key="simulatedTopBarMetrics"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JJt-lv-JC7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2390" y="730"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="asL-ze-4gf">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="QX5-MW-9Mb" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="lul-oS-W34">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Es9-cq-M3k" kind="relationship" relationship="rootViewController" id="Rw5-og-qqn"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="F0B-4X-Dum" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1578" y="730"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="Background-Initial" width="750" height="1334"/>
+        <image name="Icon-Logo" width="204" height="85"/>
+    </resources>
+</document>
