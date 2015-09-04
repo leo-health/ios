@@ -39,6 +39,7 @@
 		3138FC351B9A1294000FE22C /* LEOScrollableContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3138FC341B9A1294000FE22C /* LEOScrollableContainerView.m */; };
 		3138FC3A1B9A145B000FE22C /* LEOForgotPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3138FC391B9A145B000FE22C /* LEOForgotPasswordViewController.m */; };
 		3138FC3D1B9A1747000FE22C /* LEOEnrollmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3138FC3C1B9A1747000FE22C /* LEOEnrollmentViewController.m */; };
+		3138FC401B9A1878000FE22C /* Insurer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3138FC3F1B9A1878000FE22C /* Insurer.m */; };
 		314A405F1B83B1B400834BC2 /* Configuration.m in Sources */ = {isa = PBXBuildFile; fileRef = 314A405E1B83B1B400834BC2 /* Configuration.m */; };
 		314AC6101B85274000BF6869 /* LEOApiReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 314AC60F1B85274000BF6869 /* LEOApiReachability.m */; };
 		314BC36F1B94C817000A50D8 /* LEOCredentialStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 314BC36E1B94C817000A50D8 /* LEOCredentialStore.m */; };
@@ -201,6 +202,8 @@
 		3138FC391B9A145B000FE22C /* LEOForgotPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOForgotPasswordViewController.m; path = "Onboarding+Signup/LEOForgotPasswordViewController.m"; sourceTree = "<group>"; };
 		3138FC3B1B9A1747000FE22C /* LEOEnrollmentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOEnrollmentViewController.h; path = "Onboarding+Signup/LEOEnrollmentViewController.h"; sourceTree = "<group>"; };
 		3138FC3C1B9A1747000FE22C /* LEOEnrollmentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOEnrollmentViewController.m; path = "Onboarding+Signup/LEOEnrollmentViewController.m"; sourceTree = "<group>"; };
+		3138FC3E1B9A1878000FE22C /* Insurer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Insurer.h; sourceTree = "<group>"; };
+		3138FC3F1B9A1878000FE22C /* Insurer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Insurer.m; sourceTree = "<group>"; };
 		314A40551B838AD000834BC2 /* Application.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Application.xcconfig; path = xcconfig/Application.xcconfig; sourceTree = "<group>"; };
 		314A40561B838AE700834BC2 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = xcconfig/Debug.xcconfig; sourceTree = "<group>"; };
 		314A40571B838AFC00834BC2 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = xcconfig/Release.xcconfig; sourceTree = "<group>"; };
@@ -740,34 +743,36 @@
 			children = (
 				31BA404E1B30A0AB00A11AEE /* Appointment.h */,
 				31BA404F1B30A0AB00A11AEE /* Appointment.m */,
-				3128D53D1B4C1C2C00582710 /* PrepAppointment.h */,
-				3128D53E1B4C1C2C00582710 /* PrepAppointment.m */,
 				31BA404B1B309E3000A11AEE /* AppointmentType.h */,
 				31BA404C1B309E3000A11AEE /* AppointmentType.m */,
-				314F6A051B2A0D0000799AB4 /* User.h */,
-				314F6A061B2A0D0000799AB4 /* User.m */,
+				3177B9CF1B191928006AE360 /* Conversation.h */,
+				3177B9D01B191928006AE360 /* Conversation.m */,
+				3128D52E1B457E4700582710 /* Family.h */,
+				3128D52F1B457E4700582710 /* Family.m */,
 				3128D5311B45808F00582710 /* Guardian.h */,
 				3128D5321B45808F00582710 /* Guardian.m */,
+				3138FC3E1B9A1878000FE22C /* Insurer.h */,
+				3138FC3F1B9A1878000FE22C /* Insurer.m */,
+				3177B9D81B191929006AE360 /* Message.h */,
+				3177B9D91B191929006AE360 /* Message.m */,
 				3128D52B1B457DC300582710 /* Patient.h */,
 				3128D52C1B457DC300582710 /* Patient.m */,
+				3128D5371B4589BE00582710 /* Practice.h */,
+				3128D5381B4589BE00582710 /* Practice.m */,
+				3128D53D1B4C1C2C00582710 /* PrepAppointment.h */,
+				3128D53E1B4C1C2C00582710 /* PrepAppointment.m */,
 				3128D5341B4588A300582710 /* Provider.h */,
 				3128D5351B4588A300582710 /* Provider.m */,
+				3177B9D21B191929006AE360 /* Role.h */,
+				3177B9D31B191929006AE360 /* Role.m */,
 				314BC3701B94CB2B000A50D8 /* SessionUser.h */,
 				314BC3711B94CB2B000A50D8 /* SessionUser.m */,
 				31F5AA7C1B791B7700F96D06 /* Slot.h */,
 				31F5AA7D1B791B7700F96D06 /* Slot.m */,
 				318CA7CB1B4EEAA4004E44AD /* Support.h */,
 				318CA7CC1B4EEAA4004E44AD /* Support.m */,
-				3128D5371B4589BE00582710 /* Practice.h */,
-				3128D5381B4589BE00582710 /* Practice.m */,
-				3128D52E1B457E4700582710 /* Family.h */,
-				3128D52F1B457E4700582710 /* Family.m */,
-				3177B9D81B191929006AE360 /* Message.h */,
-				3177B9D91B191929006AE360 /* Message.m */,
-				3177B9D21B191929006AE360 /* Role.h */,
-				3177B9D31B191929006AE360 /* Role.m */,
-				3177B9CF1B191928006AE360 /* Conversation.h */,
-				3177B9D01B191928006AE360 /* Conversation.m */,
+				314F6A051B2A0D0000799AB4 /* User.h */,
+				314F6A061B2A0D0000799AB4 /* User.m */,
 			);
 			name = Objects;
 			sourceTree = "<group>";
@@ -1115,6 +1120,7 @@
 				31FDDE6C1B29E38F0009BBC2 /* LEOTwoButtonSecondaryOnlyCell+ConfigureForCell.m in Sources */,
 				31E77E071B87647B00C6EDE1 /* LEOAPISessionManager.m in Sources */,
 				31BA404D1B309E3000A11AEE /* AppointmentType.m in Sources */,
+				3138FC401B9A1878000FE22C /* Insurer.m in Sources */,
 				3128D4F21B4313EB00582710 /* LEOOneButtonPrimaryAndSecondaryCell+ConfigureForCell.m in Sources */,
 				31D20AC91B14C2F700F3351A /* LEOPageViewController.m in Sources */,
 				3128D53F1B4C1C2C00582710 /* PrepAppointment.m in Sources */,
