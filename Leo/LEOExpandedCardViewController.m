@@ -11,6 +11,7 @@
 #import "UIImage+Extensions.h"
 #import "UIFont+LeoFonts.h"
 #import "UIColor+LeoColors.h"
+#import "LEOFeedTVC.h"
 
 @interface LEOExpandedCardViewController ()
 
@@ -19,6 +20,8 @@
 @property (strong, nonatomic) UIView *contentView;
 @property (nonatomic) BOOL constraintsAlreadyUpdated;
 @property (strong, nonatomic) CALayer *buttonLayer;
+@property (strong, nonatomic) NSArray *horizontalBodyViewConstraints;
+
 @end
 
 @implementation LEOExpandedCardViewController
@@ -32,6 +35,7 @@
     [self setupButton];
     [self setupNavBar];
     
+    self.view.clipsToBounds = YES;
     self.scrollView.delegate = self;
     self.titleView.backgroundColor = self.card.tintColor; //TODO: Will ultimately be a gradient of the tintColor with some calculation in a separate image extension class, but for now, this will suffice.
 
@@ -248,9 +252,25 @@
         self.constraintsAlreadyUpdated = YES;
     }
 
+    [self updateHorizontalBodyConstraints];
     [super updateViewConstraints];
 }
 
+
+- (void)updateHorizontalBodyConstraints {
+    
+    NSDictionary *viewDictionary = NSDictionaryOfVariableBindings(_titleView, _button, _bodyView, _scrollView, _contentView, _titleLabel);
+
+    [self.contentView removeConstraints:self.horizontalBodyViewConstraints];
+    
+    CGFloat screenWidth = self.view.frame.size.width;
+    
+    self.horizontalBodyViewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_bodyView(w)]|" options:0 metrics:@{@"w" : @(screenWidth)} views:viewDictionary];
+
+    [self.contentView addConstraints:self.horizontalBodyViewConstraints];
+    
+    
+}
 
 /**
  *  Supports constraining of all views on screen except buttons
@@ -295,9 +315,9 @@
     CGFloat screenWidth = self.view.frame.size.width;
     
     NSArray *horizontalTitleViewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_titleView(w)]" options:0 metrics:@{@"w" : @(screenWidth)} views:viewDictionary];
-    NSArray *horizontalBodyViewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_bodyView(w)]|" options:0 metrics:@{@"w" : @(screenWidth)} views:viewDictionary];
+    self.horizontalBodyViewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_bodyView(w)]|" options:0 metrics:@{@"w" : @(screenWidth)} views:viewDictionary];
     
-    [self.contentView addConstraints:horizontalBodyViewConstraints];
+    [self.contentView addConstraints:self.horizontalBodyViewConstraints];
     [self.contentView addConstraints:horizontalTitleViewConstraints];
     [self.contentView addConstraints:verticalLayoutConstraintsForSubviews];
     
@@ -316,10 +336,11 @@
 
 
 - (void)dismiss {
+    
     [self.card returnToPriorState];
+    
     [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
-        [UIView animateWithDuration:0.2 animations:^{
-        }];
+        [self.delegate takeResponsibilityForCard:self.card];
     }];
 }
 

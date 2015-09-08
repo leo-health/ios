@@ -21,6 +21,8 @@
     UIViewController *fromViewController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     UIViewController *toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     
+    UIView *toView = toViewController.view;
+    UIView *fromView = fromViewController.view;
     
     /**
      * The view we are animating to will be a card, 
@@ -33,10 +35,10 @@
      * real view at the end of the animation
      */
     if (self.presenting) {
-        UIView *toView = toViewController.view;
-
-        fromViewController.view.userInteractionEnabled = NO;
-        toViewController.view.userInteractionEnabled = YES;
+        
+        
+        fromView.userInteractionEnabled = NO;
+        toView.userInteractionEnabled = YES;
         
         
         /**
@@ -85,11 +87,15 @@
          *  Capture snapshot view. Animate this for efficieny. This is so we 
          *  dont have to animate the entire view hierarchy.
          */
-        UIView *snapshotView = [toViewController.view snapshotViewAfterScreenUpdates:YES];
+        __block UIView *snapshotView = [toView snapshotViewAfterScreenUpdates:YES];
         snapshotView.center = toView.center;
-        snapshotView.frame = CGRectOffset(snapshotView.frame, 0, fromViewController.view.frame.size.height);
+        snapshotView.frame = CGRectOffset(snapshotView.frame, 0, fromView.frame.size.height);
         [transitionContext.containerView insertSubview:snapshotView aboveSubview:toView];
 
+        __block UIView *fromSnapShotView = [fromView snapshotViewAfterScreenUpdates:YES];
+        fromSnapShotView.center = fromView.center;
+        fromSnapShotView.frame = CGRectOffset(fromSnapShotView.frame, 0, 0);
+        [transitionContext.containerView insertSubview:fromSnapShotView belowSubview:toView];
         /**
          Per comment at top of this method. Comment this to see the crash. 
          */
@@ -101,17 +107,19 @@
         //Hide final layout
         toView.hidden = YES;
         
-        [UIView animateWithDuration:[self transitionDuration:transitionContext]
+        [UIView animateWithDuration:0.6
                               delay:0.0 usingSpringWithDamping:0.8
               initialSpringVelocity:0.5
                             options:0
                          animations:^{
+                             fromSnapShotView.frame = fromView.frame;
                              snapshotView.frame = toView.frame;
-                         
                          }
                          completion:^(BOOL finished) {
                              toView.hidden = NO;
                              [snapshotView removeFromSuperview];
+                             [fromView removeFromSuperview];
+                             snapshotView = nil;
                             [transitionContext completeTransition:YES];
                          }
          ];
@@ -119,10 +127,10 @@
     }
     else {
         toViewController.view.userInteractionEnabled = YES;
-        UIView *snapshot = [fromViewController.view snapshotViewAfterScreenUpdates:YES];
+        __block UIView *snapshot = [fromView snapshotViewAfterScreenUpdates:YES];
         [transitionContext.containerView addSubview:snapshot];
-        fromViewController.view.hidden = YES;
-        snapshot.center = fromViewController.view.center;
+        fromView.hidden = YES;
+        snapshot.center = fromView.center;
         
         [UIView animateWithDuration:[self transitionDuration:transitionContext] animations:^{
             toViewController.view.tintAdjustmentMode = UIViewTintAdjustmentModeAutomatic;
@@ -130,6 +138,8 @@
             snapshot.frame = CGRectOffset(snapshot.frame, 0, offset);
             
         } completion:^(BOOL finished) {
+            snapshot = nil;
+            
             [[UIApplication sharedApplication].keyWindow addSubview:toViewController.view];
             [transitionContext completeTransition:YES];
         }];

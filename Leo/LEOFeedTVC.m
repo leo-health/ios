@@ -15,7 +15,6 @@
 #import "LEOCardCell.h"
 #import "LEOCard.h"
 
-#import "LEOApiClient.h"
 #import "LEODataManager.h"
 
 #import "User.h"
@@ -116,8 +115,6 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 
 - (void)viewDidAppear:(BOOL)animated {
     
-    //FIXME: So, ultimately, this should be a data fetch, but since we aren't actually pushing anything up to the API at this point and the expectation is we would both push and pull at the same time, we're just going to reload data at the moment and we'll deal with this when the time comes to implement the actual API.
-    
         [self fetchData];
 }
 
@@ -147,6 +144,11 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     LEOCardCell *cell = (LEOCardCell *)[tableView cellForRowAtIndexPath:indexPath];
     self.selectedCardCell = cell;
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    
+}
+
+-(void)takeResponsibilityForCard:(LEOCard *)card {
+    card.delegate = self;
     
 }
 
@@ -191,9 +193,6 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
                 case AppointmentStatusCodeReminding: {
                     
                     [self.tableView reloadData];
-                    
-                    [self dismissViewControllerAnimated:YES completion:^{
-                    }];
                     
                     break;
                 }
@@ -291,6 +290,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     UIStoryboard *appointmentStoryboard = [UIStoryboard storyboardWithName:@"Appointment" bundle:nil];
     UINavigationController *appointmentNavController = [appointmentStoryboard instantiateInitialViewController];
     LEOExpandedCardAppointmentViewController *appointmentBookingVC = appointmentNavController.viewControllers.firstObject;
+    appointmentBookingVC.delegate = self;
     appointmentBookingVC.card = (LEOCardAppointment *)card;
                  self.transitionDelegate = [[LEOTransitioningDelegate alloc] init];
                 appointmentNavController.transitioningDelegate = self.transitionDelegate;
@@ -298,6 +298,8 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     [self presentViewController:appointmentNavController animated:YES completion:^{
     }];
 }
+
+
 
 - (void)loadChattingViewWithCard:(LEOCard *)card {
     
