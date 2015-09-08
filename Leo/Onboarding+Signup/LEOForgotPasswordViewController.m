@@ -13,6 +13,7 @@
 #import "UIScrollView+LEOScrollToVisible.h"
 #import "UIImage+Extensions.h"
 #import "LEODataManager.h"
+#import "LEOValidationsHelper.h"
 
 @interface LEOForgotPasswordViewController ()
 
@@ -47,15 +48,6 @@
     _email = email;
     self.emailTextField.text = email;
 }
-
-- (BOOL)validateEmail: (NSString *) candidate {
-    
-    NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
-    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
-    
-    return [emailTest evaluateWithObject:candidate];
-}
-
 
 - (void)setupResponseLabel {
 
@@ -111,7 +103,7 @@
     if (textField == self.emailTextField) {
         
         if (!self.emailTextField.valid) {
-            self.emailTextField.valid = [self validateEmail:mutableText.string];
+            self.emailTextField.valid = [LEOValidationsHelper validateEmail:mutableText.string];
         }
     }
     
@@ -177,7 +169,7 @@
 - (IBAction)submitTapped:(UIButton *)sender {
     
     
-    BOOL validEmail = [self validateEmail:self.emailTextField.text];
+    BOOL validEmail = [LEOValidationsHelper validateEmail:self.emailTextField.text];
     
     self.emailTextField.valid = validEmail;
     
@@ -188,7 +180,7 @@
         [dataManager resetPasswordWithEmail:self.emailTextField.text withCompletion:^(NSDictionary * response, NSError * error) {
 
             self.resetResponseLabel.hidden = NO;
-            self.resetResponseLabel.text = @"A link to reset your password has been sent to your email address.";
+            self.resetResponseLabel.text = @"If you have an account with us, a link to reset your password will be sent to your e-mail address soon.";
         }];
     }
 }

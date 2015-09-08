@@ -13,6 +13,7 @@
 #import "UIScrollView+LEOScrollToVisible.h"
 #import "UIImage+Extensions.h"
 #import "LEODataManager.h"
+#import "LEOValidationsHelper.h"
 
 @interface LEOEnrollmentViewController ()
 
@@ -112,34 +113,19 @@
     if (textField == self.emailTextField) {
         
         if (!self.emailTextField.valid) {
-            self.emailTextField.valid = [self validateEmail:mutableText.string];
+            self.emailTextField.valid = [LEOValidationsHelper validateEmail:mutableText.string];
         }
     }
     
     if (textField == self.passwordTextField) {
         
         if (!self.passwordTextField.valid) {
-            self.passwordTextField.valid = [self validatePassword:mutableText.string];
+            self.passwordTextField.valid = [LEOValidationsHelper validateNonZeroLength:mutableText.string];
         }
     }
     
     return YES;
 }
-
-- (BOOL)validatePassword:(NSString *)candidate {
-    
-    return candidate.length > 0;
-}
-
-- (BOOL)validateEmail: (NSString *) candidate {
-    
-    NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
-    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
-    
-    return [emailTest evaluateWithObject:candidate];
-}
-
-
 
 #pragma mark - <LEOScrollableContainerViewDelegate>
 
@@ -175,8 +161,8 @@
 
 - (BOOL)validatePage {
     
-    BOOL validEmail = [self validateEmail:self.emailTextField.text];
-    BOOL validPassword = [self validatePassword:self.passwordTextField.text];
+    BOOL validEmail = [LEOValidationsHelper validateEmail:self.emailTextField.text];
+    BOOL validPassword = [LEOValidationsHelper validateNonZeroLength:self.passwordTextField.text];
     
     self.emailTextField.valid = validEmail;
     self.passwordTextField.valid = validPassword;

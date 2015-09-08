@@ -13,4 +13,6 @@
 + (BOOL)phoneNumberTextField:(UITextField *)textField shouldUpdateCharacters:(NSString *)string inRange:(NSRange)range;
 + (BOOL)validatePhoneNumberWithFormatting:(NSString *)candidate;
 + (BOOL)validateNonZeroLength:(NSString *)candidate;
++ (BOOL)validateEmail: (NSString *) candidate;
+
 @end

@@ -72,5 +72,12 @@
     return candidate.length > 0;
 }
 
++ (BOOL)validateEmail: (NSString *) candidate {
+    
+    NSString *emailRegex = @"\\A\\s*([^@\\s]{1,64})@((?:[-\\p{L}\\d]+\\.)+\\p{L}{2,})\\s*\\z";
+    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
+    
+    return [emailTest evaluateWithObject:candidate];
+}
 
 @end
