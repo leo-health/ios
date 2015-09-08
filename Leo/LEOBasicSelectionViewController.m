@@ -92,11 +92,11 @@
 
 - (void)requestDataAndUpdateView {
     
-    [MBProgressHUD showHUDAddedTo:self.view.window animated:YES]; //TODO: Create separate class to set these up for all use cases with two methods that support showing and hiding our customized HUD.
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES]; //TODO: Create separate class to set these up for all use cases with two methods that support showing and hiding our customized HUD.
     
     [self requestDataWithCompletion:^(id data, NSError *error){
         
-        [MBProgressHUD hideHUDForView:self.view.window animated:YES];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
         
         if (error) {
             
