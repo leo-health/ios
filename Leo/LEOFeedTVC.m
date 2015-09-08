@@ -293,7 +293,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     LEOExpandedCardAppointmentViewController *appointmentBookingVC = appointmentNavController.viewControllers.firstObject;
     appointmentBookingVC.card = (LEOCardAppointment *)card;
                  self.transitionDelegate = [[LEOTransitioningDelegate alloc] init];
-                appointmentBookingVC.transitioningDelegate = self.transitionDelegate;
+                appointmentNavController.transitioningDelegate = self.transitionDelegate;
                 appointmentNavController.modalPresentationStyle = UIModalPresentationCustom;
     [self presentViewController:appointmentNavController animated:YES completion:^{
     }];

@@ -95,7 +95,7 @@
          */
         UIView *blackOverlayWindow = [[UIView alloc]initWithFrame:[UIApplication sharedApplication].keyWindow.frame];
         blackOverlayWindow.hidden = NO;
-        blackOverlayWindow.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.6];
+        blackOverlayWindow.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.6];
         [transitionContext.containerView insertSubview:blackOverlayWindow belowSubview:toView];
         
         //Hide final layout

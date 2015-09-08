@@ -51,7 +51,7 @@
     self.view.backgroundColor = self.card.tintColor;
     [self.scrollView setShowsHorizontalScrollIndicator:NO];
     [self.scrollView setShowsVerticalScrollIndicator:NO];
-    
+
     self.contentView = [[UIView alloc] init];
     
     self.titleView = [[UIView alloc] init];
