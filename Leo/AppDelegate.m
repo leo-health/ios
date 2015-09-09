@@ -11,7 +11,7 @@
 #import "UIFont+LeoFonts.h"
 #import "UIColor+LeoColors.h"
 
-#if STUBS_FEATURE
+#if STUBS_FLAG
 #import "LEOStubs.h"
 #endif
 
@@ -26,7 +26,7 @@
     
     [self setupGlobalFormatting];
     
-#if STUBS_FEATURE
+#if STUBS_FLAG
     [LEOStubs setupStubs];
 #endif
 
