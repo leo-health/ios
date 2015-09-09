@@ -1,6 +1,11 @@
 # Xcode
 #
+
+## Build generated
 build/
+DerivedData
+
+## Various settings
 *.pbxuser
 !default.pbxuser
 *.mode1v3
@@ -10,13 +15,16 @@ build/
 *.perspectivev3
 !default.perspectivev3
 xcuserdata
+
+## Other
 *.xccheckout
 *.moved-aside
-DerivedData
-Docs
+*.xcuserstate
+*.xcscmblueprint
+
+## Docs
 *.hmap
 *.ipa
-*.xcuserstate
 
 # CocoaPods
 #
