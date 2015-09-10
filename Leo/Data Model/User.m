@@ -67,6 +67,35 @@
     return [self initWithObjectID:objectID title:title firstName:firstName middleInitial:middleInitial lastName:lastName suffix:suffix email:email avatarURL:avatarURL avatar:nil];
 }
 
+- (void)updateWithJSONDictionary:(NSDictionary *)jsonResponse {
+    
+    self.firstName = jsonResponse[APIParamUserFirstName];
+    self.lastName = jsonResponse[APIParamUserLastName];
+    self.middleInitial = jsonResponse[APIParamUserMiddleInitial];
+    
+    if (!(jsonResponse[APIParamUserTitle] == [NSNull null])) {
+        self.title = jsonResponse[APIParamUserTitle];
+    }
+    
+    if (!(jsonResponse[APIParamUserSuffix] == [NSNull null])) {
+        self.suffix = jsonResponse[APIParamUserSuffix];
+    }
+    
+    self.objectID = [jsonResponse[APIParamID] stringValue];
+    self.email = jsonResponse[APIParamUserEmail];
+    
+    /**
+     *  If an avatarURL exists, then append the objectID to it, followed by
+     *  @1x.png, @2x.png, or @3x.png based on the scaleFactor.
+     */
+    if (!(jsonResponse[APIParamUserAvatarURL] == [NSNull null])) {
+        
+        NSInteger scaleFactor = [@([[UIScreen mainScreen] scale]) integerValue];
+        
+        self.avatarURL = [NSString stringWithFormat:@"%@%@@%ldx.png",jsonResponse[APIParamUserAvatarURL],self.objectID,(long)scaleFactor];
+    }
+}
+
 + (NSDictionary *)dictionaryFromUser:(User *)user {
     
     NSMutableDictionary *userDictionary = [[NSMutableDictionary alloc] init];

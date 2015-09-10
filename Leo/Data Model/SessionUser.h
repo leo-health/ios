@@ -6,10 +6,20 @@
 //  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
+@class LEOCredentialStore;
+
 #import <Foundation/Foundation.h>
-#import "User.h"
+#import "Guardian.h"
+#import "LEODataManager.h"
 
-@interface SessionUser : User
+@interface SessionUser : Guardian
 
+@property (strong, nonatomic) LEODataManager *dataManager;
+@property (strong, nonatomic) LEOCredentialStore *credentialStore;
+
++ (instancetype)currentUser;
++ (instancetype)newUserWithJSONDictionary:(NSDictionary *)jsonDictionary;
+
+- (void)updateWithJSONDictionary:(NSDictionary *)jsonResponse;
 
 @end

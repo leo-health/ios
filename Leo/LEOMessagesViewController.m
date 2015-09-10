@@ -31,6 +31,7 @@
 #import "Practice.h"
 #import "LEOMessagesAvatarImageFactory.h"
 #import "Configuration.h"
+#import "SessionUser.h"
 
 @interface LEOMessagesViewController ()
 
@@ -79,12 +80,11 @@
     self.inputToolbar.contentView.textView.font = [UIFont leoStandardFont];
     
     /**
-     *  senderId, senderDisplayName required by JSQMessagesViewController
+     *  senderId, senderDisplayName required by JSQMessagesViewController, and senderFamily required by LEO.
      */
-    self.senderId = self.dataManager.currentUser.objectID;
-    self.senderDisplayName = self.dataManager.currentUser.fullName;
-    self.senderFamily = self.dataManager.family.objectID;
-    
+    self.senderId = [SessionUser currentUser].objectID;
+    self.senderDisplayName = [SessionUser currentUser].fullName;
+    self.senderFamily = [SessionUser currentUser].familyID;
     
     /**
     *   Bubble factory used to create our underlying image bubbles via JSQ.
@@ -352,7 +352,7 @@
     
     [JSQSystemSoundPlayer jsq_playMessageSentSound];
     
-    Message *message = [Message messageWithObjectID:nil text:text sender:self.dataManager.currentUser escalatedTo:nil escalatedBy:nil status:nil statusCode:MessageStatusCodeUndefined escalatedAt:nil];
+    Message *message = [Message messageWithObjectID:nil text:text sender:[SessionUser currentUser] escalatedTo:nil escalatedBy:nil status:nil statusCode:MessageStatusCodeUndefined escalatedAt:nil];
     [self addMessage:message];
     
     [self finishSendingMessageAnimated:YES];

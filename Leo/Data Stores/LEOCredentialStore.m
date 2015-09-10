@@ -14,6 +14,18 @@
 
 @implementation LEOCredentialStore
 
+- (instancetype)initWithAuthToken:(NSString *)authToken {
+    
+    self = [super init];
+    
+    if (self) {
+        
+        [self setAuthToken:authToken];
+    }
+    
+    return self;
+}
+
 - (void)clearSavedCredentials {
     [self setAuthToken:nil];
 }
@@ -40,5 +52,7 @@
 - (NSString *)secureValueForKey:(NSString *)key {
     return [SSKeychain passwordForService:SERVICE_NAME account:key];
 }
+
+
 
 @end

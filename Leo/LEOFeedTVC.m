@@ -24,6 +24,7 @@
 #import "Message.h"
 #import "Family.h"
 #import "Practice.h"
+#import "SessionUser.h"
 
 #import "UIColor+LeoColors.h"
 #import "UIImage+Extensions.h"
@@ -229,7 +230,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 
 - (void)beginSchedulingNewAppointment {
 
-    Appointment *appointment = [[Appointment alloc] initWithObjectID:nil date:nil appointmentType:nil patient:nil provider:nil bookedByUser:(User *)[self.dataManager currentUser] note:nil statusCode:AppointmentStatusCodeBooking];
+    Appointment *appointment = [[Appointment alloc] initWithObjectID:nil date:nil appointmentType:nil patient:nil provider:nil bookedByUser:[SessionUser currentUser] note:nil statusCode:AppointmentStatusCodeBooking];
     
     LEOCardAppointment *card = [[LEOCardAppointment alloc] initWithObjectID:@"temp" priority:@999 type:CardTypeAppointment associatedCardObject:appointment];
 

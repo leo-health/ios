@@ -28,11 +28,17 @@
     self = [super initWithJSONDictionary:jsonResponse];
     
     if (self) {
-        _familyID = jsonResponse[APIParamFamilyID]; //FIXME: Update with constant.
-        _primary = jsonResponse[APIParamUserPrimary];
+        
+        [self updateWithJSONDictionary:jsonResponse];
     }
     
     return self;
+}
+
+- (void)updateWithJSONDictionary:(NSDictionary *)jsonResponse {
+    
+    _familyID = jsonResponse[APIParamFamilyID]; //FIXME: Update with constant.
+    _primary = jsonResponse[APIParamUserPrimary];
 }
 
 + (NSDictionary *)dictionaryFromUser:(Guardian *)guardian {

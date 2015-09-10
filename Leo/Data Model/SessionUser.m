@@ -11,24 +11,71 @@
 
 @interface SessionUser()
 
-@property (strong, nonatomic) LEOCredentialStore *credentialStore;
-
 @end
 
 @implementation SessionUser
 
-- (BOOL)isLoggedIn {
++ (instancetype)currentUser {
     
-    return [self.credentialStore authToken] != nil;
+    return [SessionUser newUserWithJSONDictionary:nil];
 }
 
--(LEOCredentialStore *)credentialStore {
++ (instancetype)newUserWithJSONDictionary:(NSDictionary *)jsonDictionary {
     
-    if (!_credentialStore) {
-       _credentialStore = [[LEOCredentialStore alloc] init];
+    static SessionUser *currentUser = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        currentUser = [[self alloc] initWithJSONDictionary:jsonDictionary];
+    });
+    return currentUser;
+}
+
+
+- (BOOL)isLoggedIn {
+    
+    return [[self credentialStore] authToken] != nil;
+}
+
+- (LEOCredentialStore *)credentialStore {
+    
+    return [[LEOCredentialStore alloc] init];;
+}
+
+-(instancetype)init {
+    return nil;
+}
+
+- (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
+   self = [super initWithJSONDictionary:jsonResponse[APIParamUser]];
+    
+    if (self) {
+        NSString *authToken = jsonResponse[@"authentication_token"];
+        
+        if (authToken) {
+            [self setAuthToken:authToken];
+        }
     }
     
-    return _credentialStore;
+    return self;
+}
+
+- (void)updateWithJSONDictionary:(NSDictionary *)jsonResponse {
+    
+    [super updateWithJSONDictionary:jsonResponse[APIParamUser]];
+    
+    NSString *authToken = jsonResponse[@"authentication_token"];
+    
+    if (authToken) {
+        [self setAuthToken:authToken];
+    }
+}
+
+
+- (void)setAuthToken:(NSString *)authToken {
+    LEOCredentialStore *store = [[LEOCredentialStore alloc] init];
+    store.authToken = authToken;
+    
+    //TODO: Merge in changes from issue #295 here to complete this method!
 }
 
 @end

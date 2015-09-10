@@ -92,7 +92,7 @@
         } else {
             NSLog(@"Received HTTP %ld - %@", (long)httpResponse.statusCode, responseObject);
             dispatch_async(dispatch_get_main_queue(), ^{
-                completionBlock(nil, nil);
+                completionBlock(responseObject, nil);
             });
         }
         

@@ -19,6 +19,7 @@
 #import "Practice.h"
 #import "Support.h"
 #import "Slot.h"
+#import "SessionUser.h"
 #import "LEOCardAppointment.h"
 #import "LEOCardConversation.h"
 #import "UIColor+LeoColors.h"
@@ -26,6 +27,9 @@
 #import <NSDate+DateTools.h>
 #import "AppointmentType.h"
 #import "NSDate+Extensions.h"
+#import "LEOCredentialStore.h"
+
+#import "AppDelegate.h"
 
 @interface LEODataManager()
 
@@ -52,16 +56,19 @@
 #pragma mark - Communcation stack (for APIs)
 
 -(NSString *)userToken {
-    
-    _userToken = @"K2rxAYg7ysfUunLCwg2N";
-    //will eventually pull from the keychain, but for now, will come from some temporarily place or be hard coded as necessary.
-    return _userToken;
+
+    /**
+     *  This will be moved into the APIClient eventually, per issue #295. Check out the changes that have been made on that branch already!
+     */
+    return [SessionUser currentUser].credentialStore.authToken;
+//    _userToken = @"K2rxAYg7ysfUunLCwg2N";
+//    //will eventually pull from the keychain, but for now, will come from some temporarily place or be hard coded as necessary.
+//    return _userToken;
 }
 
 - (User *)currentUser {
     
-    //FIXME: This is temporary.
-    return [[Guardian alloc] initWithObjectID:@"3" familyID:@"10" title:@"Mrs." firstName:@"Marilyn" middleInitial:nil lastName:@"Drossman" suffix:nil email:@"marilyn@leohealth.com" avatarURL:nil avatar:nil primary:YES];
+    return [SessionUser currentUser];
 }
 
 - (void)createUserWithUser:( User *)user password:( NSString *)password withCompletion:(void (^)( NSDictionary *  rawResults, NSError *error))completionBlock {
@@ -75,13 +82,22 @@
     }];
 }
 
-- (void)loginUserWithEmail:( NSString *)email password:( NSString *)password withCompletion:(void (^)(NSDictionary *  rawResults, NSError *error))completionBlock {
+- (void)loginUserWithEmail:( NSString *)email password:( NSString *)password withCompletion:(void (^)(SessionUser *user, NSError *error))completionBlock {
     
     NSDictionary *loginParams = @{APIParamUserEmail:email, APIParamUserPassword:password};
     
     [LEOApiClient loginUserWithParameters:loginParams withCompletion:^(NSDictionary *rawResults, NSError *error) {
-        //TODO: Error terms
-        completionBlock(rawResults, error);
+         
+        if (!error) {
+            LEOCredentialStore *credentialStore = [[LEOCredentialStore alloc] init];
+            [credentialStore clearSavedCredentials];
+
+            [SessionUser newUserWithJSONDictionary:rawResults[APIParamData][@"session"]];
+            
+            completionBlock([SessionUser currentUser], nil);
+        } else {
+            completionBlock(nil, error);
+        }
     }];
 }
 

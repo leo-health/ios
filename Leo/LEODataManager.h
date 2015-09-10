@@ -18,13 +18,12 @@
 @class Provider;
 @class Practice;
 @class AppointmentType;
+@class SessionUser;
 
 @interface LEODataManager : NSObject
 NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) NSArray *cards; //TODO: Maybe make private and method implementation to lazily instantiate somehow...
-@property (strong, nonatomic) User *currentUser;
-@property (strong, nonatomic) NSString *userToken; //FIXME: To be moved to the .m once pulling from the keychain as it should be
 @property (strong, nonatomic) NSArray *availableDates;
 @property (strong, nonatomic) NSMutableArray *messages;
 @property (strong, nonatomic) NSArray *users;
@@ -40,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 //Users
 - (void)createUserWithUser:( User *)user password:( NSString *)password withCompletion:(void (^)( NSDictionary * rawResults, NSError *error))completionBlock;
-- (void)loginUserWithEmail:(NSString *)email password:( NSString *)password withCompletion:(void (^)(NSDictionary * rawResults, NSError *error))completionBlock;
+- (void)loginUserWithEmail:( NSString *)email password:( NSString *)password withCompletion:(void (^)(SessionUser *user, NSError *error))completionBlock;
 - (void)resetPasswordWithEmail:(NSString *)email withCompletion:(void (^)(NSDictionary * rawResults, NSError *error))completionBlock;
 - (void)getAvatarForUser:(User *)user withCompletion:(void (^)(UIImage *rawImage, NSError *error))completionBlock;
 

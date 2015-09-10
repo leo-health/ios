@@ -34,7 +34,6 @@
 }
 
 
-
 - (void)setupGlobalFormatting {
     
     [self.window setTintColor:[UIColor leoWhite]];
