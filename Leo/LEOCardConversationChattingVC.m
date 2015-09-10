@@ -8,9 +8,10 @@
 
 #import "LEOCardConversationChattingVC.h"
 
-#import "LEODataManager.h"
 #import "UIColor+LeoColors.h"
+#import "LEOMessagesViewController.h"
 
+NSString *const kMessagesViewControllerSegue = @"MessagesViewControllerSegue";
 
 @interface LEOCardConversationChattingVC ()
 
@@ -30,19 +31,25 @@
     // Dispose of any resources that can be recreated.
 }
 
--(UIImage *)iconImage {
+- (UIImage *)iconImage {
     return [UIImage imageNamed:@"Icon-Chat"];
 }
 
 
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    
+    if ([segue.identifier isEqualToString:kMessagesViewControllerSegue]) {
+        LEOMessagesViewController *messagesVC = segue.destinationViewController;
+        messagesVC.card = (LEOCardConversation *)self.card;
+    }
+    
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
 }
-*/
+
 
 @end

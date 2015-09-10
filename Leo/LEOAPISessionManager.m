@@ -56,11 +56,12 @@
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)task.response;
         
         if (httpResponse.statusCode == 200) {
+            //NSLog(@"Received HTTP %ld - %@", (long)httpResponse.statusCode, responseObject);
             dispatch_async(dispatch_get_main_queue(), ^{
                 completionBlock(responseObject, nil);
             });
         } else {
-            NSLog(@"Received HTTP %ld - %@", (long)httpResponse.statusCode, responseObject);
+            //NSLog(@"Received HTTP %ld - %@", (long)httpResponse.statusCode, responseObject);
             dispatch_async(dispatch_get_main_queue(), ^{
                 completionBlock(nil, nil);
             });
@@ -85,7 +86,8 @@
         
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)task.response;
 
-        if (httpResponse.statusCode == 200) {
+        if (httpResponse.statusCode == 201) {
+            NSLog(@"Received HTTP %ld - %@", (long)httpResponse.statusCode, responseObject);
             dispatch_async(dispatch_get_main_queue(), ^{
                 completionBlock(responseObject, nil);
             });

@@ -24,6 +24,9 @@
 
 @implementation Message
 
+NSString *const kText = @"text";
+NSString *const kImage = @"image";
+
 #pragma mark - <JSQMessageDataProtocol>
 
 -(NSString *)senderId {
@@ -86,10 +89,8 @@
     NSString *status = jsonResponse[APIParamStatus];
     MessageStatusCode statusCode = [jsonResponse[APIParamStatusID] integerValue];
     
-    NSString *type = jsonResponse[APIParamType];
-    
     //MARK: Decide if I need to bring this in even since it is only being used for introspection and not kept around afterward.
-    NSNumber *typeID = jsonResponse[APIParamTypeID];
+    MessageTypeCode typeCode = [self convertTypeToTypeCode:jsonResponse[APIParamType]];
     
     //    NSDate *escalatedAt = jsonResponse[APIParamMessageEscalatedDateTime];
     
@@ -97,13 +98,30 @@
     
     //TODO: May need to protect against nil values...
     
-    if ([type isEqualToString:@"text"]) {
-        return [[Message alloc] initWithObjectID:objectID text:text sender:sender escalatedTo:escalatedTo escalatedBy:nil status:status statusCode:statusCode createdAt:createdAt escalatedAt:nil];
-    } else {
-        return [[Message alloc] initWithObjectID:objectID media:media sender:sender escalatedTo:escalatedTo escalatedBy:nil status:status statusCode:statusCode createdAt:createdAt escalatedAt:nil];
-        
+    switch (typeCode) {
+        case MessageTypeCodeText:
+            return [[Message alloc] initWithObjectID:objectID text:text sender:sender escalatedTo:escalatedTo escalatedBy:nil status:status statusCode:statusCode createdAt:createdAt escalatedAt:nil];
+            
+        case MessageTypeCodeImage:
+             return [[Message alloc] initWithObjectID:objectID media:media sender:sender escalatedTo:escalatedTo escalatedBy:nil status:status statusCode:statusCode createdAt:createdAt escalatedAt:nil];
+            
+        case MessageTypeCodeUndefined:
+    
+            return nil;
     }
 }
+
+- (MessageTypeCode)convertTypeToTypeCode:(NSString *)type {
+    
+    if ([type isEqualToString:kText]) {
+        return MessageTypeCodeText;
+    } else if ([type isEqualToString:kImage]) {
+        return MessageTypeCodeImage;
+    }
+    
+    return MessageTypeCodeUndefined;
+}
+
 
 
 //FIXME: This should not really be a part of the Message class. Let's figure out where this goes.

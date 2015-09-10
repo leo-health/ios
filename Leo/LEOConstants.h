@@ -9,13 +9,13 @@
 #import <Foundation/Foundation.h>
 
 typedef enum CardLayout {
-    CardLayoutTwoButtonPrimaryAndSecondary,
-    CardLayoutTwoButtonSecondaryOnly,
-    CardLayoutTwoButtonPrimaryOnly,
-    CardLayoutOneButtonPrimaryAndSecondary,
-    CardLayoutOneButtonSecondaryOnly,
-    CardLayoutOneButtonPrimaryOnly,
-    CardLayoutUndefined
+    CardLayoutTwoButtonPrimaryAndSecondary = 0,
+    CardLayoutTwoButtonSecondaryOnly = 1,
+    CardLayoutTwoButtonPrimaryOnly = 2,
+    CardLayoutOneButtonPrimaryAndSecondary = 3,
+    CardLayoutOneButtonSecondaryOnly = 4,
+    CardLayoutOneButtonPrimaryOnly = 5,
+    CardLayoutUndefined = 99
 } CardLayout;
 
 /**
@@ -44,7 +44,8 @@ typedef enum AppointmentStatusCode : NSUInteger {
     AppointmentStatusCodeBooking = 7,
     AppointmentStatusCodeCancelling = 8,
     AppointmentStatusCodeConfirmingCancelling = 9,
-    AppointmentStatusCodeRecommending = 10
+    AppointmentStatusCodeRecommending = 10,
+    AppointmentStatusCodeUndefined = 99,
 } AppointmentStatusCode;
 
 /**
@@ -77,7 +78,8 @@ typedef enum MessageStatusCode : NSUInteger {
  */
 typedef enum ConversationStatusCode : NSUInteger {
     ConversationStatusCodeClosed = 0,
-    ConversationStatusCodeOpen = 1
+    ConversationStatusCodeOpen = 1,
+    ConversationStatusCodeUndefined = 99
 } ConversationStatusCode;
 
 /**
@@ -92,13 +94,25 @@ typedef enum AppointmentTypeCode : NSUInteger {
     AppointmentTypeCodeCheckup = 0,
     AppointmentTypeCodeSick = 1,
     AppointmentTypeCodeImmunization = 2,
-    AppointmentTypeCodeFollowUp = 3
+    AppointmentTypeCodeFollowUp = 3,
+    AppointmentTypeCodeUndefined = 99
 } AppointmentTypeCode;
 
 typedef enum MessageTypeCode : NSUInteger {
     MessageTypeCodeText = 0,
-    MessageTypeCodeImage = 1
+    MessageTypeCodeImage = 1,
+    MessageTypeCodeUndefined = 99
 } MessageTypeCode;
+
+typedef enum RoleCode : NSUInteger {
+    RoleCodeProvider = 0,
+    RoleCodeNursePractitioner = 1,
+    RoleCodeCustomerService = 2,
+    RoleCodeBilling = 3,
+    RoleCodeGuardian = 4,
+    RoleCodePatient = 5,
+    RoleCodeUndefined = 99,
+} RoleCode;
 
 @interface LEOConstants : NSObject
 

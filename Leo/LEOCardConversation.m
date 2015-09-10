@@ -59,13 +59,13 @@ static NSString *kActionSelectorCallUs = @"callUs";
             
         case ConversationStatusCodeClosed:
             return CardLayoutTwoButtonSecondaryOnly;
-            break;
             
         case ConversationStatusCodeOpen:
             return CardLayoutUndefined;
-            
-        break;
-    }
+        
+        case ConversationStatusCodeUndefined:
+            return CardLayoutUndefined;
+        }
 }
 
 - (NSString *)title {
@@ -93,12 +93,12 @@ static NSString *kActionSelectorCallUs = @"callUs";
     switch (self.conversation.statusCode) {
             
         case ConversationStatusCodeClosed: {
-            Message *message = self.conversation.messages[0];
+            Message *message = self.conversation.messages.lastObject;
             
             if (message.text) {
                 bodyText = message.text;
             } else {
-                bodyText = [NSString stringWithFormat:@"%@ has sent you a media message.", message.sender];
+                bodyText = [NSString stringWithFormat:@"%@ has sent you a media message.", message.sender.fullName];
             }
             break;
         }

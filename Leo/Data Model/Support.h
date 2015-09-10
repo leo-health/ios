@@ -8,12 +8,6 @@
 
 #import "User.h"
 
-typedef enum RoleCode : NSUInteger {
-    RoleCodeClinicalSupport = 0,
-    RoleCodeCustomerService = 1,
-    RoleCodeBilling = 2
-} RoleCode;
-
 @interface Support : User <NSCoding>
 NS_ASSUME_NONNULL_BEGIN
 

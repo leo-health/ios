@@ -20,6 +20,4 @@
 + (instancetype)currentUser;
 + (instancetype)newUserWithJSONDictionary:(NSDictionary *)jsonDictionary;
 
-- (void)updateWithJSONDictionary:(NSDictionary *)jsonResponse;
-
 @end

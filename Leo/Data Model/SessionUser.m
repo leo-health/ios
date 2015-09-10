@@ -20,6 +20,8 @@
     return [SessionUser newUserWithJSONDictionary:nil];
 }
 
+
+//FIXME: This doesn't *really* work without further code given you could void the authToken and then it would say you weren't logged in, but not have reset the SessionUser. Need to send a notification that "resets" this singleton. It will suffice for the time-being until we are logging in multiple users on the same phone.
 + (instancetype)newUserWithJSONDictionary:(NSDictionary *)jsonDictionary {
     
     static SessionUser *currentUser = nil;
@@ -57,17 +59,6 @@
     }
     
     return self;
-}
-
-- (void)updateWithJSONDictionary:(NSDictionary *)jsonResponse {
-    
-    [super updateWithJSONDictionary:jsonResponse[APIParamUser]];
-    
-    NSString *authToken = jsonResponse[@"authentication_token"];
-    
-    if (authToken) {
-        [self setAuthToken:authToken];
-    }
 }
 
 

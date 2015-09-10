@@ -19,7 +19,7 @@
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xU1-8D-fzZ">
                                 <rect key="frame" x="0.0" y="90" width="600" height="510"/>
                                 <connections>
-                                    <segue destination="W9p-fk-YW4" kind="embed" id="mCw-Fv-V5I"/>
+                                    <segue destination="W9p-fk-YW4" kind="embed" identifier="MessagesViewControllerSegue" id="mCw-Fv-V5I"/>
                                 </connections>
                             </containerView>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aJu-FQ-3JM">

@@ -51,7 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 //Conversations
 - (void)getConversationsForCurrentUserWithCompletion:(void (^)(Conversation*  conversation))completionBlock;
-- (void)createMessage:(Message *)message forConversation:( Conversation *)conversation withCompletion:(void (^)(NSDictionary  * rawResults, NSError *error))completionBlock;
+- (void)createMessage:(Message *)message forConversation:( Conversation *)conversation withCompletion:(void (^)(Message  *  message, NSError *error))completionBlock;
 - (void)getMessagesForConversation:(Conversation *)conversation withCompletion:( void (^)(NSArray *messages))completionBlock;
 
 //Helper Data

@@ -41,8 +41,8 @@ NSString *const APIParamLongDescription = @"long_description";
 NSString *const APIParamToken = @"authentication_token";
 
 #pragma mark - Date & time
-NSString *const APIParamCreatedDateTime = @"created_datetime";
-NSString *const APIParamUpdatedDateTime = @"updated_datetime";
+NSString *const APIParamCreatedDateTime = @"created_at";
+NSString *const APIParamUpdatedDateTime = @"updated_at";
 
 #pragma mark - Practice
 NSString *const APIParamPracticeID = @"practice_id";
@@ -117,6 +117,7 @@ NSString *const APIParamConversationParticipants = @"participants";
 NSString *const APIParamMessages = @"messages";
 NSString *const APIParamMessageBody = @"body";
 NSString *const APIParamMessageSender = @"sender";
+
 NSString *const APIParamMessageEscalatedTo = @"escalated_to";
 
 #pragma mark - Payment & Stripe

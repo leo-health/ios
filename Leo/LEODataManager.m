@@ -55,15 +55,12 @@
 
 #pragma mark - Communcation stack (for APIs)
 
+/**
+ *  This will be moved into the APIClient eventually, per issue #295. Check out the changes that have been made on that branch already!
+ */
 -(NSString *)userToken {
-
-    /**
-     *  This will be moved into the APIClient eventually, per issue #295. Check out the changes that have been made on that branch already!
-     */
+    
     return [SessionUser currentUser].credentialStore.authToken;
-//    _userToken = @"K2rxAYg7ysfUunLCwg2N";
-//    //will eventually pull from the keychain, but for now, will come from some temporarily place or be hard coded as necessary.
-//    return _userToken;
 }
 
 - (User *)currentUser {
@@ -221,8 +218,6 @@
 //FIXME: Replace with actual implementation
 - (void)getAvatarForUser:(User *)user withCompletion:(void (^)(UIImage *rawImage, NSError *error))completionBlock {
     
-    
-    
     if (user.avatarURL) {
         [LEOApiClient getAvatarFromURL:user.avatarURL withCompletion:^(UIImage *rawImage, NSError *error) {
             completionBlock(rawImage, error);
@@ -234,25 +229,25 @@
     }
 }
 
-- (void)createMessage:(Message *)message forConversation:( Conversation *)conversation withCompletion:(void (^)(NSDictionary  *  rawResults, NSError *error))completionBlock {
-    
-    [conversation addMessage:message];
-    
+- (void)createMessage:(Message *)message forConversation:( Conversation *)conversation withCompletion:(void (^)(Message  *  message, NSError *error))completionBlock {
+        
     NSArray *messageValues;
     
     if (message.text) {
-        messageValues = @[self.userToken, message.text, @"text", message.sender.objectID];
+        messageValues = @[self.userToken, message.text, @"text"];
     } else {
-        messageValues = @[self.userToken,  message.media, @"media", message.sender.objectID];
+        messageValues = @[self.userToken,  message.media, @"media"];
     }
     
-    NSArray *messageKeys = @[APIParamToken, APIParamMessageBody, APIParamTypeID, APIParamID];
+    NSArray *messageKeys = @[APIParamToken, APIParamMessageBody, @"message_type"];
     
     NSDictionary *messageParams = [[NSDictionary alloc] initWithObjects:messageValues forKeys:messageKeys];
     
     [LEOApiClient createMessageForConversation:conversation.objectID withParameters:messageParams withCompletion:^(NSDictionary *  rawResults, NSError *error) {
         //TODO: Error terms
-        completionBlock(rawResults, error);
+        
+        Message *message = [[Message alloc] initWithJSONDictionary:rawResults[APIParamData]];
+        completionBlock(message, error);
     }];
 }
 

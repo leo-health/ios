@@ -38,9 +38,9 @@
 @property (strong, nonatomic) JSQMessagesBubbleImage *outgoingBubbleImageData;
 @property (strong, nonatomic) JSQMessagesBubbleImage *incomingBubbleImageData;
 
-@property (copy, nonatomic) NSArray *messages;
 @property (copy, nonatomic) NSString *senderFamily;
-@property (copy, nonatomic) NSArray *participants;
+@property (strong, nonatomic) UIButton *sendButton;
+@property (nonatomic) NSInteger pageCount;
 
 @end
 
@@ -61,16 +61,89 @@
 {
     [super viewDidLoad];
     
+    [self setupInputToolbar];
+    [self setupStubs];
+    [self setupCollectionViewFormatting];
+    [self setupBubbles];
+    [self setupRequiredJSQProperties];
+    [self setupCustomMenuActions];
+    
+    [self.collectionView reloadData];
+    self.dataManager = [LEODataManager sharedManager];
+}
+
+/**
+ *  Register custom menu actions for cells.
+ */
+- (void)setupCustomMenuActions {
+    
+    [JSQMessagesCollectionViewCell registerMenuAction:@selector(customAction:)];
+    [UIMenuController sharedMenuController].menuItems = @[ [[UIMenuItem alloc] initWithTitle:@"Custom Action" action:@selector(customAction:)] ];
+}
+
+/**
+ *  senderId, senderDisplayName required by JSQMessagesViewController, and senderFamily required by LEO.
+ */
+- (void)setupRequiredJSQProperties {
+    
+    self.senderId = [SessionUser currentUser].objectID;
+    self.senderDisplayName = [SessionUser currentUser].fullName;
+    self.senderFamily = [SessionUser currentUser].familyID;
+}
+
+/**
+ *   Use a bubble factory used to create our underlying image bubbles via JSQ.
+ */
+- (void)setupBubbles {
+    
+    JSQMessagesBubbleImageFactory *bubbleFactory = [[JSQMessagesBubbleImageFactory alloc] init];
+    self.outgoingBubbleImageData = [bubbleFactory outgoingMessagesBubbleImageWithColor:[UIColor leoBlue]];
+    self.incomingBubbleImageData = [bubbleFactory incomingMessagesBubbleImageWithColor:[UIColor leoGrayForMessageBubbles]];
+}
+
+/**
+ *  Choose avatar sizing, setup messageBubble font, and load earlier messages header
+ */
+- (void)setupCollectionViewFormatting {
+    
+    
+    self.collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero;
+    self.collectionView.collectionViewLayout.incomingAvatarViewSize = CGSizeZero;
+    self.showLoadEarlierMessagesHeader = YES;
+    self.collectionView.collectionViewLayout.messageBubbleFont = [UIFont leoStandardFont];
+}
+
+
+/**
+ *  Load up our data
+ */
+- (void)loadData {
+    
     self.dataManager = [LEODataManager sharedManager];
     
-    self.inputToolbar.contentView.leftBarButtonItem = nil;
+    [self.dataManager getMessagesForConversation:[self conversation] withCompletion:^void(NSArray * messages) {
+        
+        [[self conversation] addMessages:messages];
+        [self.collectionView reloadData];
+    }];
+}
 
+/**
+ *  Customize input toolbar
+ */
+- (void)setupInputToolbar {
+    
+    self.inputToolbar.contentView.leftBarButtonItem = nil;
+    
     UIButton *sendButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [sendButton setTitle:@"SEND" forState:UIControlStateNormal];
     [sendButton setTitleColor:[UIColor leoWhite] forState:UIControlStateNormal];
+    [sendButton setTitleColor:[UIColor leoGrayForPlaceholdersAndLines] forState:UIControlStateDisabled];
     sendButton.titleLabel.font = [UIFont leoFieldAndUserLabelsAndSecondaryButtonsFont];
     
-    self.inputToolbar.contentView.rightBarButtonItem = sendButton;
+    self.sendButton = sendButton;
+    
+    self.inputToolbar.contentView.rightBarButtonItem = self.sendButton;
     self.inputToolbar.contentView.backgroundColor = [UIColor leoBlue];
     self.inputToolbar.contentView.textView.layer.borderColor = [UIColor whiteColor].CGColor;
     self.inputToolbar.contentView.textView.placeHolder = @"Type a message...";
@@ -78,67 +151,6 @@
     self.inputToolbar.contentView.textView.placeHolderTextColor = [UIColor leoGrayForPlaceholdersAndLines];
     self.inputToolbar.layer.borderColor = [UIColor whiteColor].CGColor;
     self.inputToolbar.contentView.textView.font = [UIFont leoStandardFont];
-    
-    /**
-     *  senderId, senderDisplayName required by JSQMessagesViewController, and senderFamily required by LEO.
-     */
-    self.senderId = [SessionUser currentUser].objectID;
-    self.senderDisplayName = [SessionUser currentUser].fullName;
-    self.senderFamily = [SessionUser currentUser].familyID;
-    
-    /**
-    *   Bubble factory used to create our underlying image bubbles via JSQ.
-    */
-    JSQMessagesBubbleImageFactory *bubbleFactory = [[JSQMessagesBubbleImageFactory alloc] init];
-    self.outgoingBubbleImageData = [bubbleFactory outgoingMessagesBubbleImageWithColor:[UIColor leoBlue]];
-    self.incomingBubbleImageData = [bubbleFactory incomingMessagesBubbleImageWithColor:[UIColor leoGrayForMessageBubbles]];
-    
-    
-    /**
-     *  Load up our data
-     */
-    Conversation *conversation = (Conversation *)self.card.associatedCardObject;
-    
-    /**
-     *  Temporary stub included to see data when running code
-     *  Placing stub into a variable in case we decide to remove it programatically later.
-     */
-    __weak id<OHHTTPStubsDescriptor> messagesStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-        NSLog(@"%@/%@/%@",APIEndpointConversations, conversation.objectID, APIEndpointMessages);
-        BOOL test = [request.URL.host isEqualToString:[Configuration APIEndpoint]] && [request.URL.path isEqualToString:[NSString stringWithFormat:@"/%@/%@/%@/%@",[Configuration APIVersion], APIEndpointConversations, conversation.objectID, APIEndpointMessages]];
-        return test;
-    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        
-        NSString *fixture = fixture = OHPathForFile(@"../Stubs/getMessagesForUser.json", self.class);
-        OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithFileAtPath:fixture statusCode:200 headers:@{@"Content-Type":@"application/json"}];
-        return response;
-    }];
-    
-    
-    [self.dataManager getMessagesForConversation:conversation withCompletion:^void(NSArray * messages) {
-        
-        self.messages = messages;
-        [self.collectionView reloadData];
-    }];
-    
-    /**
-     *  You can set custom avatar sizes
-     */
-    self.collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero;
-    
-    self.showLoadEarlierMessagesHeader = YES;
-    
-//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage jsq_defaultTypingIndicatorImage]
-//                                                                              style:UIBarButtonItemStylePlain
-//                                                                             target:self
-//                                                                             action:@selector(receiveMessagePressed:)];
-    
-    /**
-     *  Register custom menu actions for cells.
-     */
-    [JSQMessagesCollectionViewCell registerMenuAction:@selector(customAction:)];
-    [UIMenuController sharedMenuController].menuItems = @[ [[UIMenuItem alloc] initWithTitle:@"Custom Action" action:@selector(customAction:)] ];
-    
     
     /**
      *  Customize your toolbar buttons
@@ -152,210 +164,62 @@
      *
      *  self.inputToolbar.maximumHeight = 150;
      */
-    
-    self.collectionView.collectionViewLayout.messageBubbleFont = [UIFont leoStandardFont];
-    
 }
 
 
-//#pragma mark - Testing
-//
-//- (void)pushMainViewController
-//{
-//    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-//    UINavigationController *nc = [sb instantiateInitialViewController];
-//    [self.navigationController pushViewController:nc.topViewController animated:YES];
-//}
-
-
-#pragma mark - Actions
-
-//- (void)receiveMessagePressed:(UIBarButtonItem *)sender
-//{
-//    /**
-//     *  DEMO ONLY
-//     *
-//     *  The following is simply to simulate received messages for the demo.
-//     *  Do not actually do this.
-//     */
-//
-//
-//    /**
-//     *  Show the typing indicator to be shown
-//     */
-//    self.showTypingIndicator = !self.showTypingIndicator;
-//
-//    /**
-//     *  Scroll to actually view the indicator
-//     */
-//    [self scrollToBottomAnimated:YES];
-//
-//    /**
-//     *  Copy last sent message, this will be the new "received" message
-//     */
-//    JSQMessage *copyMessage = [[self.messages lastObject] copy];
-//
-//    if (!copyMessage) {
-//        copyMessage = [JSQMessage messageWithSenderId:kJSQDemoAvatarIdJobs
-//                                          displayName:kJSQDemoAvatarDisplayNameJobs
-//                                                 text:@"First received!"];
-//    }
-//
-//    /**
-//     *  Allow typing indicator to show
-//     */
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//
-//        NSMutableArray *userIds;
-//        NSMutableArray *userNames;
-//
-//        for (User *user in self.dataManager.users) {
-//            [userIds addObject:user.objectID];
-//            [userNames addObject:user.fullName];
-//        }
-//
-//        [userIds removeObject:self.senderId];
-//
-//        NSString *randomUserId = userIds[arc4random_uniform((int)[userIds count])];
-//
-//        Message *newMessage = nil;
-//        id<JSQMessageMediaData> newMediaData = nil;
-//        id newMediaAttachmentCopy = nil;
-//
-//        if (copyMessage.isMediaMessage) {
-//            /**
-//             *  Last message was a media message
-//             */
-//            id<JSQMessageMediaData> copyMediaData = copyMessage.media;
-//
-//            if ([copyMediaData isKindOfClass:[JSQPhotoMediaItem class]]) {
-//                JSQPhotoMediaItem *photoItemCopy = [((JSQPhotoMediaItem *)copyMediaData) copy];
-//                photoItemCopy.appliesMediaViewMaskAsOutgoing = NO;
-//                newMediaAttachmentCopy = [UIImage imageWithCGImage:photoItemCopy.image.CGImage];
-//
-//                /**
-//                 *  Set image to nil to simulate "downloading" the image
-//                 *  and show the placeholder view
-//                 */
-//                photoItemCopy.image = nil;
-//
-//                newMediaData = photoItemCopy;
-//            }
-//            else if ([copyMediaData isKindOfClass:[JSQLocationMediaItem class]]) {
-//                JSQLocationMediaItem *locationItemCopy = [((JSQLocationMediaItem *)copyMediaData) copy];
-//                locationItemCopy.appliesMediaViewMaskAsOutgoing = NO;
-//                newMediaAttachmentCopy = [locationItemCopy.location copy];
-//
-//                /**
-//                 *  Set location to nil to simulate "downloading" the location data
-//                 */
-//                locationItemCopy.location = nil;
-//
-//                newMediaData = locationItemCopy;
-//            }
-//            else if ([copyMediaData isKindOfClass:[JSQVideoMediaItem class]]) {
-//                JSQVideoMediaItem *videoItemCopy = [((JSQVideoMediaItem *)copyMediaData) copy];
-//                videoItemCopy.appliesMediaViewMaskAsOutgoing = NO;
-//                newMediaAttachmentCopy = [videoItemCopy.fileURL copy];
-//
-//                /**
-//                 *  Reset video item to simulate "downloading" the video
-//                 */
-//                videoItemCopy.fileURL = nil;
-//                videoItemCopy.isReadyToPlay = NO;
-//
-//                newMediaData = videoItemCopy;
-//            }
-//            else {
-//                NSLog(@"%s error: unrecognized media item", __PRETTY_FUNCTION__);
-//            }
-//
-//            newMessage = [JSQMessage messageWithSenderId:randomUserId
-//                                             displayName:[self userWithSenderID:randomUserId].fullName
-//                                                   media:newMediaData];
-//        }
-//        else {
-//            /**
-//             *  Last message was a text message
-//             */
-//            newMessage = [JSQMessage messageWithSenderId:randomUserId
-//                                             displayName:[self userWithSenderID:randomUserId].fullName
-//                                                    text:copyMessage.text];
-//        }
-//
-//        /**
-//         *  Upon receiving a message, you should:
-//         *
-//         *  1. Play sound (optional)
-//         *  2. Add new id<JSQMessageData> object to your data source
-//         *  3. Call `finishReceivingMessage`
-//         */
-//        [JSQSystemSoundPlayer jsq_playMessageReceivedSound];
-//        [self addMessage:newMessage];
-//        [self finishReceivingMessageAnimated:YES];
-//
-//
-//        if (newMessage.isMediaMessage) {
-//            /**
-//             *  Simulate "downloading" media
-//             */
-//            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//                /**
-//                 *  Media is "finished downloading", re-display visible cells
-//                 *
-//                 *  If media cell is not visible, the next time it is dequeued the view controller will display its new attachment data
-//                 *
-//                 *  Reload the specific item, or simply call `reloadData`
-//                 */
-//
-//                if ([newMediaData isKindOfClass:[JSQPhotoMediaItem class]]) {
-//                    ((JSQPhotoMediaItem *)newMediaData).image = newMediaAttachmentCopy;
-//                    [self.collectionView reloadData];
-//                }
-//                else if ([newMediaData isKindOfClass:[JSQLocationMediaItem class]]) {
-//                    [((JSQLocationMediaItem *)newMediaData)setLocation:newMediaAttachmentCopy withCompletionHandler:^{
-//                        [self.collectionView reloadData];
-//                    }];
-//                }
-//                else if ([newMediaData isKindOfClass:[JSQVideoMediaItem class]]) {
-//                    ((JSQVideoMediaItem *)newMediaData).fileURL = newMediaAttachmentCopy;
-//                    ((JSQVideoMediaItem *)newMediaData).isReadyToPlay = YES;
-//                    [self.collectionView reloadData];
-//                }
-//                else {
-//                    NSLog(@"%s error: unrecognized media item", __PRETTY_FUNCTION__);
-//                }
-//
-//            });
-//        }
-//
-//    });
-//}
-
+#pragma mark - Testing
+/**
+ *  Temporary stub included to see data when running code
+ *  Placing stub into a variable in case we decide to remove it programatically later.
+ */
+- (void)setupStubs {
+    
+    
+    __weak id<OHHTTPStubsDescriptor> messagesStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        NSLog(@"%@/%@/%@",APIEndpointConversations, [self conversation].objectID, APIEndpointMessages);
+        BOOL test = [request.URL.host isEqualToString:[Configuration APIEndpoint]] && [request.URL.path isEqualToString:[NSString stringWithFormat:@"/%@/%@/%@/%@",[Configuration APIVersion], APIEndpointConversations, [self conversation].objectID, APIEndpointMessages]];
+        return test;
+    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        
+        NSString *fixture = fixture = OHPathForFile(@"../Stubs/getMessagesForUser.json", self.class);
+        OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithFileAtPath:fixture statusCode:200 headers:@{@"Content-Type":@"application/json"}];
+        return response;
+    }];
+}
 
 
 #pragma mark - JSQMessagesViewController method overrides
 
+/**
+ *  Sending a message. Your implementation of this method should do *at least* the following:
+ *
+ *  1. Play sound (optional)
+ *  2. Add new id<JSQMessageData> object to your data source MARK: Currently not using this protocol-driven id. Will come back to determine if necessary.
+ *  3. Call `finishSendingMessage`
+ */
 - (void)didPressSendButton:(UIButton *)button
            withMessageText:(NSString *)text
                   senderId:(NSString *)senderId
          senderDisplayName:(NSString *)senderDisplayName
                       date:(NSDate *)date
 {
-    /**
-     *  Sending a message. Your implementation of this method should do *at least* the following:
-     *
-     *  1. Play sound (optional)
-     *  2. Add new id<JSQMessageData> object to your data source
-     *  3. Call `finishSendingMessage`
-     */
+    self.inputToolbar.contentView.textView.backgroundColor = [UIColor leoGrayForPlaceholdersAndLines];
+    self.inputToolbar.contentView.textView.textColor = [UIColor whiteColor];
+    
+    self.sendButton.enabled = NO;
     
     [JSQSystemSoundPlayer jsq_playMessageSentSound];
     
     Message *message = [Message messageWithObjectID:nil text:text sender:[SessionUser currentUser] escalatedTo:nil escalatedBy:nil status:nil statusCode:MessageStatusCodeUndefined escalatedAt:nil];
-    [self addMessage:message];
     
-    [self finishSendingMessageAnimated:YES];
+    [self sendMessage:message withCompletion:^{
+        [[self conversation] addMessage:message];
+        [self finishSendingMessageAnimated:YES];
+        
+        self.inputToolbar.contentView.textView.backgroundColor = [UIColor whiteColor];
+        self.inputToolbar.contentView.textView.textColor = [UIColor leoGrayForPlaceholdersAndLines];
+
+    }];
 }
 
 - (void)didPressAccessoryButton:(UIButton *)sender
@@ -369,44 +233,11 @@
     [sheet showFromToolbar:self.inputToolbar];
 }
 
-//- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
-//{
-//    if (buttonIndex == actionSheet.cancelButtonIndex) {
-//        return;
-//    }
-//
-//    switch (buttonIndex) {
-//        case 0:
-//            [self.dataManager addPhotoMediaMessage];
-//            break;
-//
-//        case 1:
-//        {
-//            __weak UICollectionView *weakView = self.collectionView;
-//
-//            [self.dataManager addLocationMediaMessageCompletion:^{
-//                [weakView reloadData];
-//            }];
-//        }
-//            break;
-//
-//        case 2:
-//            [self.demoData addVideoMediaMessage];
-//            break;
-//    }
-//
-//    [JSQSystemSoundPlayer jsq_playMessageSentSound];
-//
-//    [self finishSendingMessageAnimated:YES];
-//}
-
-
-
-#pragma mark - JSQMessages CollectionView DataSource
+#pragma mark - JSQMessages Collection View DataSource
 
 - (id<JSQMessageData>)collectionView:(JSQMessagesCollectionView *)collectionView messageDataForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return [self.messages objectAtIndex:indexPath.item];
+    return [[self conversation].messages objectAtIndex:indexPath.item];
 }
 
 - (id<JSQMessageBubbleImageDataSource>)collectionView:(JSQMessagesCollectionView *)collectionView messageBubbleImageDataForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -423,15 +254,6 @@
 
 - (id<JSQMessageAvatarImageDataSource>)collectionView:(JSQMessagesCollectionView *)collectionView avatarImageDataForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    /**
-     *  Return `nil` here if you do not want avatars.
-     *  If you do return `nil`, be sure to do the following in `viewDidLoad`:
-     *
-     *  self.collectionView.collectionViewLayout.incomingAvatarViewSize = CGSizeZero;
-     *  self.collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero;
-     *
-     *  It is possible to have only outgoing avatars or only incoming avatars, too.
-     */
     
     /**
      *  Return your previously created avatar image data objects.
@@ -443,7 +265,10 @@
      *
      *  Override the defaults in `viewDidLoad`
      */
-    Message *message = [self.messages objectAtIndex:indexPath.item];
+    
+    return nil;
+    
+    Message *message = [[self conversation].messages objectAtIndex:indexPath.item];
     
     if ([message.senderId isEqualToString:self.senderId]) {
         return nil;
@@ -451,20 +276,17 @@
     
     
     //FIXME:This should be replaced with the actual avatar, but since we don't yet have those...here is a placeholder.
-
+    
     NSPredicate *userPredicate = [NSPredicate predicateWithFormat:@"objectID == %@", message.sender.objectID];
     
-    if (self.participants == nil) {
-        [self.dataManager getPracticeWithID:@"0" withCompletion:^(Practice * practice, NSError *error) {
-            self.participants = practice.staff;
-        }];
-    }
     
-    User *user = [self.dataManager objectWithObjectID:message.sender.objectID objectArray:self.participants];
+    //    User *user = [self.dataManager objectWithObjectID:message.sender.objectID objectArray:[self conversation].participants];
+    
+    
+    
+    User *user = [[self conversation].participants filteredArrayUsingPredicate:userPredicate][0];
     
     UIImage *userImage = user.avatar;
-    
-    //User *user = [self.participants filteredArrayUsingPredicate:userPredicate][0];
     
     NSLog(@"User: %@", user);
     
@@ -473,6 +295,11 @@
     return avatarImage;
 }
 
+
+- (Conversation *)conversation {
+    
+    return (Conversation *)self.card.associatedCardObject;
+}
 
 - (User *)userWithSenderID:(NSString *)senderID {
     
@@ -493,13 +320,14 @@
      *  Check to see if the current cell is on a different day than the prior cell, if so, add the date header.
      */
     
-    Message *message = [self.messages objectAtIndex:indexPath.item];
-
+    
+    Message *message = [[self conversation].messages objectAtIndex:indexPath.item];
+    
     NSDictionary *attributes = @{NSFontAttributeName : [UIFont leoButtonLabelsAndTimeStampsFont], NSForegroundColorAttributeName : [UIColor leoGrayForTimeStamps]};
     
     NSString *basicDateString = [NSString stringWithFormat:@"  %@  ", [NSDate stringifiedDateWithDot:message.createdAt]];
     NSAttributedString *dateString = [[NSAttributedString alloc] initWithString:basicDateString attributes:attributes];
-
+    
     attributes = @{NSForegroundColorAttributeName : [UIColor whiteColor], NSStrikethroughColorAttributeName: [UIColor leoGrayForTimeStamps], NSStrikethroughStyleAttributeName : [NSNumber numberWithInteger:NSUnderlinePatternSolid | NSUnderlineStyleSingle]};
     
     NSUInteger dateLength = [dateString length];
@@ -526,10 +354,10 @@
         return fullString;
     }
     
-    Message *priorMessage = [self.messages objectAtIndex:indexPath.row - 1];
-
+    Message *priorMessage = [[self conversation].messages objectAtIndex:indexPath.row - 1];
+    
     if (!([NSDate daysBetweenDate:message.date andDate:priorMessage.date] == 0)) {
-
+        
         return fullString;
     }
     
@@ -539,7 +367,7 @@
 //TODO: Refactor this method ideally
 - (NSAttributedString *)collectionView:(JSQMessagesCollectionView *)collectionView attributedTextForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath
 {
-    Message *message = [self.messages objectAtIndex:indexPath.item];
+    Message *message = [[self conversation].messages objectAtIndex:indexPath.item];
     
     /**
      *  iOS7-style sender name labels
@@ -550,7 +378,7 @@
      */
     
     NSMutableAttributedString *concatenatedDisplayNameAndTime = [[NSMutableAttributedString alloc] init];
-
+    
     if ([message.sender isKindOfClass:[Guardian class]]) {
         
         NSString *dateString = [NSString stringWithFormat:@"%@ ∙ ", [NSDate stringifiedTime:message.createdAt]];
@@ -565,7 +393,7 @@
         NSAttributedString *senderAttributedString = [[NSAttributedString alloc] initWithString:message.sender.firstName attributes:attributes];
         
         [concatenatedDisplayNameAndTime appendAttributedString:senderAttributedString];
-
+        
     } else {
         
         NSDictionary *attributes = @{NSFontAttributeName : [UIFont leoFieldAndUserLabelsAndSecondaryButtonsFont], NSForegroundColorAttributeName : [UIColor leoBlue]};
@@ -598,21 +426,23 @@
     return concatenatedDisplayNameAndTime;
 }
 
+/** MARK: Zachary Drossman
+ *  Here's where we will do our first pass of case escalation and de-escalation as well as case opening and closing IF we want to do
+ *  that.
+ */
 - (NSAttributedString *)collectionView:(JSQMessagesCollectionView *)collectionView attributedTextForCellBottomLabelAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    /** MARK: Zachary Drossman
-     *  Here's where we will do our first pass of case escalation and de-escalation as well as case opening and closing IF we want to do
-     *  that.
-     */
+    
     return nil;
 }
+
 
 #pragma mark - UICollectionView DataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return [self.messages count];
+    return [[self conversation].messages count];
 }
 
 //TODO: Refactor this method ideally
@@ -627,7 +457,7 @@
      *  Modify this to include other "family side" senders.
      */
     
-    Message *message = self.messages[indexPath.item];
+    Message *message = [self conversation].messages[indexPath.item];
     
     if ([message.senderId isEqualToString:self.senderId]) {
         cell.textView.backgroundColor = [UIColor leoBlue];
@@ -742,13 +572,13 @@
      *
      */
     
-    Message *message = [self.messages objectAtIndex:indexPath.item];
+    Message *message = [[self conversation].messages objectAtIndex:indexPath.item];
     
     if (indexPath.row == 0) {
         return 40.0f;
     }
     
-    Message *priorMessage = [self.messages objectAtIndex:indexPath.row - 1];
+    Message *priorMessage = [[self conversation].messages objectAtIndex:indexPath.row - 1];
     
     if (!([NSDate daysBetweenDate:message.date andDate:priorMessage.date] == 0)) {
         
@@ -765,10 +595,10 @@
     /**
      *  iOS7-style sender name labels
      */
-    JSQMessage *currentMessage = [self.messages objectAtIndex:indexPath.item];
+    JSQMessage *currentMessage = [[self conversation].messages objectAtIndex:indexPath.item];
     
     if (indexPath.item - 1 > 0) {
-        JSQMessage *previousMessage = [self.messages objectAtIndex:indexPath.item - 1];
+        JSQMessage *previousMessage = [[self conversation].messages objectAtIndex:indexPath.item - 1];
         if ([[previousMessage senderId] isEqualToString:[currentMessage senderId]]) {
             return 0.0f;
         }
@@ -790,11 +620,9 @@
 - (void)collectionView:(JSQMessagesCollectionView *)collectionView
                 header:(JSQMessagesLoadEarlierHeaderView *)headerView didTapLoadEarlierMessagesButton:(UIButton *)sender
 {
-    Conversation *conversation = (Conversation *)self.card.associatedCardObject;
-
-    [self.dataManager getMessagesForConversation:conversation withCompletion:^void(NSArray * messages) {
+    [self.dataManager getMessagesForConversation:[self conversation] withCompletion:^void(NSArray * messages) {
         
-        [self addMessages:messages];
+        [[self conversation] addMessages:messages];
         
         NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
         
@@ -803,8 +631,8 @@
             [indexPaths addObject:indexPath];
         }
         
-         CGFloat oldOffset = self.collectionView.contentSize.height - self.collectionView.contentOffset.y;
-
+        CGFloat oldOffset = self.collectionView.contentSize.height - self.collectionView.contentOffset.y;
+        
         [UIView setAnimationsEnabled:NO];
         
         [collectionView performBatchUpdates:^{
@@ -832,28 +660,19 @@
     NSLog(@"Tapped cell at %@!", NSStringFromCGPoint(touchLocation));
 }
 
-
-//FIXME: This method probably doesn't belong in this class.
-- (void)addMessage:(Message *)message {
+- (void)sendMessage:(Message *)message withCompletion:(void (^) (void))completionBlock {
     
-    NSMutableArray *mutableMessages = [self.messages mutableCopy];
     
-    [mutableMessages addObject:message];
-    
-    self.messages = [mutableMessages copy];
+    [self.dataManager createMessage:message forConversation:[self conversation] withCompletion:^(Message * message, NSError * error) {
+        
+        if (!error) {
+            
+            if (completionBlock) {
+                completionBlock();
+            }
+        }
+    }];
 }
 
-
-//FIXME: This method probably doesn't belong in this class.
-- (void)addMessages:(NSArray *)messages {
-    
-    NSMutableArray *mutableMessages = [self.messages mutableCopy];
-    
-    NSIndexSet *indexes = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0,[messages count])];
-    
-    [mutableMessages insertObjects:messages atIndexes:indexes];
-    
-    self.messages = [mutableMessages copy];
-}
 
 @end

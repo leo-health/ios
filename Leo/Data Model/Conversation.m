@@ -8,17 +8,20 @@
 
 #import "Conversation.h"
 #import "Message.h"
-#import "User.h"
+#import "Guardian.h"
+#import "Provider.h"
+#import "Support.h"
 
 @implementation Conversation
 
-- (instancetype)initWithObjectID:(NSString *)objectID messages:(NSArray *)messages statusCode:(ConversationStatusCode)statusCode {
+- (instancetype)initWithObjectID:(NSString *)objectID messages:(NSArray *)messages participants:(NSArray *)participants statusCode:(ConversationStatusCode)statusCode {
 
     self = [super init];
     
     if (self) {
         _objectID = objectID;
         _messages = messages;
+        _participants = participants;
     }
     
     return self;
@@ -30,7 +33,6 @@
     
     NSArray *messageDictionaries = jsonResponse[APIParamMessages];
 
-
     NSMutableArray *messages = [[NSMutableArray alloc] init];
     
     for (NSDictionary *messageDictionary in messageDictionaries) {
@@ -40,10 +42,43 @@
     
     NSArray *immutableMessages = [messages copy];
     
+    
+    NSArray *staffDictionaries = jsonResponse[APIParamUserStaff];
+    NSArray *guardianDictionaries = jsonResponse[APIParamUsers][APIParamUserGuardians];
+    
+    NSMutableArray *participants = [[NSMutableArray alloc] init];
+    
+    for (NSDictionary *staffDictionary in staffDictionaries) {
+        
+        NSUInteger roleID = [jsonResponse[APIParamRoleID] integerValue];
+        
+        switch (roleID) {
+            case RoleCodeProvider: {
+                
+                Provider *provider = [[Provider alloc] initWithJSONDictionary:staffDictionary];
+                [participants addObject:provider];
+                break;
+            }
+                
+            default: {
+                
+                Support *support = [[Support alloc] initWithJSONDictionary:staffDictionary];
+                [participants addObject:support];
+                break;
+            }
+        }
+    }
+    
+    for (NSDictionary *guardianDictionary in guardianDictionaries) {
+        
+        Guardian *guardian = [[Guardian alloc] initWithJSONDictionary:guardianDictionary];
+        [participants addObject:guardian];
+    }
+
     ConversationStatusCode statusCode = [jsonResponse[APIParamState] integerValue];
 
     //TODO: May need to protect against nil values...
-    return [self initWithObjectID:objectID messages:immutableMessages statusCode:statusCode];
+    return [self initWithObjectID:objectID messages:immutableMessages participants:participants statusCode:statusCode];
 }
 
 + (NSDictionary *)dictionaryFromConversation:(Conversation *)conversation {
@@ -58,12 +93,23 @@
 
 - (void)addMessage:(Message *)message {
     
-    NSMutableArray *messages = [self.messages mutableCopy];
+    NSMutableArray *mutableMessages = [self.messages mutableCopy];
     
-    [messages addObject:message];
+    [mutableMessages addObject:message];
     
-    self.messages = [messages copy];
+    self.messages = [mutableMessages copy];
 }
 
+
+- (void)addMessages:(NSArray *)messages {
+    
+    NSMutableArray *mutableMessages = [self.messages mutableCopy];
+    
+    NSIndexSet *indexes = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0,[messages count])];
+    
+    [mutableMessages addObjectsFromArray:messages];
+    
+    self.messages = [mutableMessages copy];
+}
 
 @end
