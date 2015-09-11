@@ -75,7 +75,7 @@
         [participants addObject:guardian];
     }
 
-    ConversationStatusCode statusCode = [jsonResponse[APIParamState] integerValue];
+    ConversationStatusCode statusCode = ConversationStatusCodeReadMessages; //[jsonResponse[APIParamState] integerValue];
 
     //TODO: May need to protect against nil values...
     return [self initWithObjectID:objectID messages:immutableMessages participants:participants statusCode:statusCode];
@@ -91,6 +91,14 @@
     return conversationDictionary;
 }
 
+-(void)setState:(NSNumber *)state {
+    _state = state;
+    
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:@"Conversation-ChangedStated"
+     object:self];
+}
+
 - (void)addMessage:(Message *)message {
     
     NSMutableArray *mutableMessages = [self.messages mutableCopy];
@@ -98,6 +106,10 @@
     [mutableMessages addObject:message];
     
     self.messages = [mutableMessages copy];
+    
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:@"Conversation-AddedMessage"
+     object:self];
 }
 
 
@@ -110,6 +122,17 @@
     [mutableMessages addObjectsFromArray:messages];
     
     self.messages = [mutableMessages copy];
+    
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:@"Conversation-AddedMessages"
+     object:self];
+}
+
+- (void)addMessageFromJSON:(NSDictionary *)messageDictionary {
+
+    Message *message = [[Message alloc] initWithJSONDictionary:messageDictionary];
+    
+    [self addMessage:message];
 }
 
 @end

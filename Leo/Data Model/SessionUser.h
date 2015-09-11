@@ -6,11 +6,10 @@
 //  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
-@class LEOCredentialStore;
-
 #import <Foundation/Foundation.h>
 #import "Guardian.h"
 #import "LEODataManager.h"
+#import "LEOCredentialStore.h"
 
 @interface SessionUser : Guardian
 

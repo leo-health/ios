@@ -79,6 +79,8 @@ typedef enum MessageStatusCode : NSUInteger {
 typedef enum ConversationStatusCode : NSUInteger {
     ConversationStatusCodeClosed = 0,
     ConversationStatusCodeOpen = 1,
+    ConversationStatusCodeNewMessages = 2,
+    ConversationStatusCodeReadMessages = 3,
     ConversationStatusCodeUndefined = 99
 } ConversationStatusCode;
 

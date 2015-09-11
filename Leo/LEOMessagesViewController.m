@@ -32,6 +32,7 @@
 #import "LEOMessagesAvatarImageFactory.h"
 #import "Configuration.h"
 #import "SessionUser.h"
+#import "LEOPusherHelper.h"
 
 @interface LEOMessagesViewController ()
 
@@ -67,6 +68,7 @@
     [self setupBubbles];
     [self setupRequiredJSQProperties];
     [self setupCustomMenuActions];
+    [self setupPusher];
     
     [self.collectionView reloadData];
     self.dataManager = [LEODataManager sharedManager];
@@ -166,6 +168,20 @@
      */
 }
 
+- (void)setupPusher {
+    
+    NSString *channelString = [NSString stringWithFormat:@"%@%@",@"newMessage",[SessionUser currentUser].email];
+    NSString *event = @"new_message";
+    
+    LEOPusherHelper *pusherHelper = [LEOPusherHelper sharedPusher];
+    [pusherHelper connectToPusherChannel:channelString withEvent:event withCompletion:^(NSDictionary *channelData) {
+        
+        Message *message = [[Message alloc] initWithJSONDictionary:channelData];
+        [[self conversation] addMessage:message];
+        [self finishReceivingMessageAnimated:YES];
+        
+    }];
+}
 
 #pragma mark - Testing
 /**
@@ -203,9 +219,6 @@
          senderDisplayName:(NSString *)senderDisplayName
                       date:(NSDate *)date
 {
-    self.inputToolbar.contentView.textView.backgroundColor = [UIColor leoGrayForPlaceholdersAndLines];
-    self.inputToolbar.contentView.textView.textColor = [UIColor whiteColor];
-    
     self.sendButton.enabled = NO;
     
     [JSQSystemSoundPlayer jsq_playMessageSentSound];
@@ -215,10 +228,6 @@
     [self sendMessage:message withCompletion:^{
         [[self conversation] addMessage:message];
         [self finishSendingMessageAnimated:YES];
-        
-        self.inputToolbar.contentView.textView.backgroundColor = [UIColor whiteColor];
-        self.inputToolbar.contentView.textView.textColor = [UIColor leoGrayForPlaceholdersAndLines];
-
     }];
 }
 
