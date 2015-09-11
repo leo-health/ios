@@ -305,8 +305,15 @@
     
     NSLog(@"User: %@", user);
     
-    JSQMessagesAvatarImage *avatarImage = [LEOMessagesAvatarImageFactory avatarImageWithImage:userImage diameter:kJSQMessagesCollectionViewAvatarSizeDefault borderColor:[UIColor leoGrayForPlaceholdersAndLines]borderWidth:2];
-
+    JSQMessagesAvatarImage *avatarImage;
+    
+    if (user.avatar) {
+    
+        avatarImage = [LEOMessagesAvatarImageFactory avatarImageWithImage:userImage diameter:kJSQMessagesCollectionViewAvatarSizeDefault borderColor:[UIColor leoGrayForPlaceholdersAndLines]borderWidth:2];
+    } else {
+        avatarImage = [LEOMessagesAvatarImageFactory avatarImageWithUserInitials:user.initials backgroundColor:[UIColor leoBlue] textColor:[UIColor whiteColor] font:[UIFont leoChatBubbleInitials] diameter:20 borderColor:[UIColor leoGrayForPlaceholdersAndLines] borderWidth:2];
+    }
+    
     return avatarImage;
 }
 

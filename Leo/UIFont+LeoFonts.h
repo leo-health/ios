@@ -62,11 +62,18 @@
 + (UIFont *)leoAppointmentSlotsAndDateFields;
 
 /**
- *  AvenirNextCondensed-Regular, Size 10
+ *  AvenirNextCondensed-Regular, Size 12
  *
  *  @return UIFont
  */
 + (UIFont *)leoAppointmentDayLabelAndTimePeriod;
+
+/**
+ *  AvenirNextCondensed-Regular, Size 10
+ *
+ *  @return UIFont
+ */
++ (UIFont *)leoChatBubbleInitials;
 
 
 @end

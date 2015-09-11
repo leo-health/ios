@@ -94,4 +94,13 @@ NSString *const AvenirNextCondensedRegular = @"AvenirNextCondensed-Regular";
     return [UIFont fontWithName:AvenirNextCondensedRegular size:12];
 }
 
+/**
+ *  AvenirNextCondensed-Regular, Size 10
+ *
+ *  @return UIFont
+ */
++ (UIFont *)leoChatBubbleInitials {
+    return [UIFont fontWithName:AvenirNextCondensedRegular size:10];
+}
+
 @end
