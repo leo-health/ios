@@ -42,7 +42,6 @@
     
     NSArray *immutableMessages = [messages copy];
     
-    
     NSArray *staffDictionaries = jsonResponse[APIParamUserStaff];
     NSArray *guardianDictionaries = jsonResponse[APIParamUsers][APIParamUserGuardians];
     
@@ -91,14 +90,6 @@
     return conversationDictionary;
 }
 
--(void)setState:(NSNumber *)state {
-    _state = state;
-    
-    [[NSNotificationCenter defaultCenter]
-     postNotificationName:@"Conversation-ChangedStated"
-     object:self];
-}
-
 - (void)addMessage:(Message *)message {
     
     NSMutableArray *mutableMessages = [self.messages mutableCopy];
@@ -117,8 +108,6 @@
     
     NSMutableArray *mutableMessages = [self.messages mutableCopy];
     
-    NSIndexSet *indexes = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0,[messages count])];
-    
     [mutableMessages addObjectsFromArray:messages];
     
     self.messages = [mutableMessages copy];
@@ -131,7 +120,6 @@
 - (void)addMessageFromJSON:(NSDictionary *)messageDictionary {
 
     Message *message = [[Message alloc] initWithJSONDictionary:messageDictionary];
-    
     [self addMessage:message];
 }
 

@@ -23,8 +23,8 @@
 #import "Conversation.h"
 #import "Message.h"
 #import "UIColor+LeoColors.h"
-#import "Family.h"
 #import "UIFont+LeoFonts.h"
+#import "Family.h"
 #import "NSDate+Extensions.h"
 #import "Support.h"
 #import "Guardian.h"
@@ -69,9 +69,19 @@
     [self setupRequiredJSQProperties];
     [self setupCustomMenuActions];
     [self setupPusher];
-    
+    [self constructNotifications];
     [self.collectionView reloadData];
     self.dataManager = [LEODataManager sharedManager];
+}
+
+
+/**
+ *  Construct all notifications
+ *
+ */
+- (void)constructNotifications {
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationReceived:) name:@"Conversation-AddedMessage" object:nil];
 }
 
 /**
@@ -110,7 +120,6 @@
     
     
     self.collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero;
-    self.collectionView.collectionViewLayout.incomingAvatarViewSize = CGSizeZero;
     self.showLoadEarlierMessagesHeader = YES;
     self.collectionView.collectionViewLayout.messageBubbleFont = [UIFont leoStandardFont];
 }
@@ -176,11 +185,15 @@
     LEOPusherHelper *pusherHelper = [LEOPusherHelper sharedPusher];
     [pusherHelper connectToPusherChannel:channelString withEvent:event withCompletion:^(NSDictionary *channelData) {
         
-        Message *message = [[Message alloc] initWithJSONDictionary:channelData];
-        [[self conversation] addMessage:message];
-        [self finishReceivingMessageAnimated:YES];
-        
+        [[self conversation] addMessageFromJSON:channelData];
     }];
+}
+
+- (void)notificationReceived:(NSNotification *)notification {
+    
+    if ([notification.name isEqualToString: @"Conversation-AddedMessage"]) {
+        [self finishReceivingMessageAnimated:YES];
+    }
 }
 
 #pragma mark - Testing
@@ -275,8 +288,6 @@
      *  Override the defaults in `viewDidLoad`
      */
     
-    return nil;
-    
     Message *message = [[self conversation].messages objectAtIndex:indexPath.item];
     
     if ([message.senderId isEqualToString:self.senderId]) {
@@ -288,19 +299,14 @@
     
     NSPredicate *userPredicate = [NSPredicate predicateWithFormat:@"objectID == %@", message.sender.objectID];
     
-    
-    //    User *user = [self.dataManager objectWithObjectID:message.sender.objectID objectArray:[self conversation].participants];
-    
-    
-    
     User *user = [[self conversation].participants filteredArrayUsingPredicate:userPredicate][0];
     
     UIImage *userImage = user.avatar;
     
     NSLog(@"User: %@", user);
     
-    JSQMessagesAvatarImage *avatarImage = [LEOMessagesAvatarImageFactory avatarImageWithImage:userImage diameter:kJSQMessagesCollectionViewAvatarSizeDefault borderColor:[UIColor leoGrayForPlaceholdersAndLines]borderWidth:3];
-    
+    JSQMessagesAvatarImage *avatarImage = [LEOMessagesAvatarImageFactory avatarImageWithImage:userImage diameter:kJSQMessagesCollectionViewAvatarSizeDefault borderColor:[UIColor leoGrayForPlaceholdersAndLines]borderWidth:2];
+
     return avatarImage;
 }
 
@@ -681,6 +687,11 @@
             }
         }
     }];
+}
+
+-(void)dealloc {
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 

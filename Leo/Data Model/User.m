@@ -94,6 +94,17 @@
     return userDictionary;
 }
 
+- (NSString *)initials {
+
+    NSString *_initials;
+    
+    NSString *firstInitial = [[self.firstName substringToIndex:1] capitalizedString];
+    NSString *lastInitial = [[self.lastName substringToIndex:1] capitalizedString];
+    
+    _initials = [NSString stringWithFormat:@"%@%@", firstInitial, lastInitial];
+    
+    return _initials;
+}
 
 - (NSString *)fullName {
     

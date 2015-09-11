@@ -127,7 +127,6 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     return nil; //Not loving this implementation since it technically *could* break...
 }
 
-
 - (void)fetchData {
     
     dispatch_queue_t queue = dispatch_queue_create("loadingQueue", NULL);
