@@ -6,24 +6,18 @@
 //  Copyright (c) 2015 Zachary Drossman. All rights reserved.
 //
 
+@class LEOFeedTVC;
+
 #import <UIKit/UIKit.h>
 #import "CardActivityProtocol.h"
-
-@protocol ExpandedCardDataSource <NSObject>
-NS_ASSUME_NONNULL_BEGIN
-
-- (UIView *)setupBodyView;
-
-NS_ASSUME_NONNULL_END
-@end
-
+#import "ExpandedCardViewProtocol.h"
 
 @class LEOCard;
 
-@interface LEOExpandedCardViewController : UIViewController <UIScrollViewDelegate>
+@interface LEOExpandedCardViewController : UIViewController <UIScrollViewDelegate, ExpandedCardViewProtocol>
 NS_ASSUME_NONNULL_BEGIN
 
-@property (weak, nonatomic) id<ExpandedCardDataSource>dataSource;
+@property (weak, nonatomic) id<ExpandedCardViewProtocol>delegate;
 
 @property (strong, nonatomic) LEOCard *card;
 @property (strong, nonatomic) NSString *expandedFullTitle;

@@ -32,7 +32,6 @@
 #import "LEOApiReachability.h"
 #import <MBProgressHUD.h>
 
-
 @interface LEOExpandedCardAppointmentViewController ()
 
 @property (weak, nonatomic) IBOutlet UIView *appointmentView;
@@ -41,7 +40,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *questionPatientsButton;
 @property (weak, nonatomic) IBOutlet UIButton *questionStaffButton;
 @property (weak, nonatomic) IBOutlet UIButton *questionCalendarButton;
-
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomLayoutConstraintForNotesViewSectionSeparator;
 
 @property (strong, nonatomic) Appointment *appointment;
@@ -222,7 +220,9 @@
 
 -(void)didUpdateObjectStateForCard:(LEOCard *)card {
     
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:^{
+        [self.delegate takeResponsibilityForCard:card];
+    }];
 }
 
 #pragma mark - Validation

@@ -227,6 +227,7 @@
 		3138FC531B9A1AF1000FE22C /* LEOValidationsHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOValidationsHelper.m; sourceTree = "<group>"; };
 		3138FC551B9A1B7D000FE22C /* LEOSignUpUserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOSignUpUserViewController.h; path = "Onboarding+Signup/LEOSignUpUserViewController.h"; sourceTree = "<group>"; };
 		3138FC561B9A1B7D000FE22C /* LEOSignUpUserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOSignUpUserViewController.m; path = "Onboarding+Signup/LEOSignUpUserViewController.m"; sourceTree = "<group>"; };
+		3138FC5B1B9F87E5000FE22C /* ExpandedCardViewProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExpandedCardViewProtocol.h; sourceTree = "<group>"; };
 		314A40551B838AD000834BC2 /* Application.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Application.xcconfig; path = xcconfig/Application.xcconfig; sourceTree = "<group>"; };
 		314A40561B838AE700834BC2 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = xcconfig/Debug.xcconfig; sourceTree = "<group>"; };
 		314A40571B838AFC00834BC2 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = xcconfig/Release.xcconfig; sourceTree = "<group>"; };
@@ -707,6 +708,7 @@
 				3138FC311B9A1169000FE22C /* LEOValidatedFloatLabeledTextField.m */,
 				31F5AA441B791B4A00F96D06 /* LEOExpandedCardViewController.h */,
 				31F5AA451B791B4A00F96D06 /* LEOExpandedCardViewController.m */,
+				3138FC5B1B9F87E5000FE22C /* ExpandedCardViewProtocol.h */,
 				31F5AA461B791B4A00F96D06 /* LEOBasicSelectionViewController.h */,
 				31F5AA471B791B4A00F96D06 /* LEOBasicSelectionViewController.m */,
 				31F5AA481B791B4A00F96D06 /* SingleSelectionProtocol.h */,
