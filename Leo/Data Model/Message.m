@@ -68,7 +68,7 @@ NSString *const kImage = @"image";
 //FIXME: LeoConstants missing some of these hence they have been commented out for the time-being.
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
     
-    NSString *objectID = [jsonResponse[APIParamID] stringValue];
+        NSString *objectID = [jsonResponse[APIParamID] stringValue];
     NSString *text = jsonResponse[APIParamMessageBody];
     
     //FIXME: In order for this to work, need a helper to convert the URL to a media message

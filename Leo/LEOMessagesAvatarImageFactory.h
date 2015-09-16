@@ -37,6 +37,8 @@
  *
  *  @param placeholderImage An image object that represents a placeholder avatar image. This value must not be `nil`.
  *  @param diameter         An integer value specifying the diameter size of the avatar in points. This value must be greater than `0`.
+ *  @param borderColor The color of the border of the circle. This value must not be `nil`.
+ *  @param borderWidth The width of the border of the circle. This value must be greater than or equal to `0`.
  *
  *  @return An initialized `JSQMessagesAvatarImage` object if created successfully, `nil` otherwise.
  */
@@ -50,6 +52,8 @@
  *
  *  @param image    An image object that represents an avatar image. This value must not be `nil`.
  *  @param diameter An integer value specifying the diameter size of the avatar in points. This value must be greater than `0`.
+ *  @param borderColor The color of the border of the circle. This value must not be `nil`.
+ *  @param borderWidth The width of the border of the circle. This value must be greater than or equal to `0`.
  *
  *  @return An initialized `JSQMessagesAvatarImage` object if created successfully, `nil` otherwise.
  */
@@ -60,6 +64,8 @@
  *
  *  @param image    The image to crop. This value must not be `nil`.
  *  @param diameter An integer value specifying the diameter size of the image in points. This value must be greater than `0`.
+ *  @param borderColor The color of the border of the circle. This value must not be `nil`.
+ *  @param borderWidth The width of the border of the circle. This value must be greater than or equal to `0`.
  *
  *  @return A new image object if successful, `nil` otherwise.
  */
@@ -71,10 +77,28 @@
  *
  *  @param image    The image to crop. This value must not be `nil`.
  *  @param diameter An integer value specifying the diameter size of the image in points. This value must be greater than `0`.
+ *  @param borderColor The color of the border of the circle. This value must not be `nil`.
+ *  @param borderWidth The width of the border of the circle. This value must be greater than or equal to `0`.
  *
  *  @return A new image object if successful, `nil` otherwise.
  */
 + (UIImage *)circularAvatarHighlightedImage:(UIImage *)image withDiameter:(NSUInteger)diameter borderColor:(UIColor *)borderColor borderWidth:(NSUInteger)borderWidth;
+
+
+/**
+ *  Returns a circular UIImage with the diameter and background color specified, inside of which is the user's initials with specified text color and font.
+ *
+ *  @param userInitials    The initials of the user. This value must not be `nil`.
+ *  @param diameter An integer value specifying the diameter size of the image in points. This value must be greater than `0`.
+ *  @param backgroundColor The color of the background of the circle. This value must not be `nil`.
+ *  @param font The font for the initials. This value must not be `nil`.
+ *  @param textColor The color of the initials. This value must not be `nil`.
+ *  @param borderColor The color of the border of the circle. This value must not be `nil`.
+ *  @param borderWidth The width of the border of the circle. This value must be greater than or equal to `0`.
+ *
+ *  @return A new image object if successful, `nil` otherwise.
+ */
++ (UIImage *)circularAvatarWithInitials:(NSString *)userInitials withDiameter:(NSUInteger)diameter backgroundColor:(UIColor *)backgroundColor font:(UIFont *)font textColor:(UIColor *)textColor borderColor:(UIColor *)borderColor borderWidth:(NSUInteger)borderWidth;
 
 /**
  *  Creates and returns a `JSQMessagesAvatarImage` object with a circular shape that displays the specified userInitials
@@ -85,6 +109,8 @@
  *  @param textColor       The color of the text of the userInitials. This value must not be `nil`.
  *  @param font            The font applied to userInitials. This value must not be `nil`.
  *  @param diameter        The diameter of the avatar image. This value must be greater than `0`.
+ *  @param borderColor The color of the border of the circle. This value must not be `nil`.
+ *  @param borderWidth The width of the border of the circle. This value must be greater than or equal to `0`.
  *
  *  @return An initialized `JSQMessagesAvatarImage` object if created successfully, `nil` otherwise.
  *

@@ -103,7 +103,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     NSString *event = @"new_message";
     
     LEOPusherHelper *pusherHelper = [LEOPusherHelper sharedPusher];
-    [pusherHelper connectToPusherChannel:channelString withEvent:event withCompletion:^(NSDictionary *channelData) {
+    [pusherHelper connectToPusherChannel:channelString withEvent:event sender:self withCompletion:^(NSDictionary *channelData) {
         
         [conversation addMessageFromJSON:channelData];
     }];

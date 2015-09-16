@@ -28,15 +28,17 @@
 }
 
 
-- (void)connectToPusherChannel:(NSString *)channel withEvent:(NSString *)event withCompletion:(void (^)(NSDictionary *channelData))completionBlock {
+- (void)connectToPusherChannel:(NSString *)channel withEvent:(NSString *)event sender:(id)sender withCompletion:(void (^)(NSDictionary *channelData))completionBlock {
     
+    __block id blockSender = sender;
     self.client = [PTPusher pusherWithKey:@"218006d766a6d76e8672" delegate:self encrypted:YES];
     
     PTPusherChannel *chatChannel = [self.client subscribeToChannelNamed:channel];
     
     [chatChannel bindToEventNamed:event handleWithBlock:^(PTPusherEvent *channelEvent) {
 
-        NSString *message = [channelEvent.data objectForKey:@"text"];
+        NSString *message = [channelEvent.data objectForKey:@"body"];
+        NSLog(@"pusher activated by: %@", blockSender);
         NSLog(@"message received: %@", message);
         
         if (completionBlock) {

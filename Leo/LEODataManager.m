@@ -150,7 +150,6 @@
             completionBlock(rawResults, error);
         }
     }];
-    
 }
 
 - (void)getConversationsForCurrentUserWithCompletion:(void (^)(Conversation*  conversation))completionBlock {
@@ -239,7 +238,7 @@
         messageValues = @[self.userToken,  message.media, @"media"];
     }
     
-    NSArray *messageKeys = @[APIParamToken, APIParamMessageBody, @"message_type"];
+    NSArray *messageKeys = @[APIParamToken, APIParamMessageBody, APIParamType];
     
     NSDictionary *messageParams = [[NSDictionary alloc] initWithObjects:messageValues forKeys:messageKeys];
     

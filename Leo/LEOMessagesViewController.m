@@ -33,6 +33,7 @@
 #import "Configuration.h"
 #import "SessionUser.h"
 #import "LEOPusherHelper.h"
+#import <UIImageView+AFNetworking.h>
 
 @interface LEOMessagesViewController ()
 
@@ -42,6 +43,7 @@
 @property (copy, nonatomic) NSString *senderFamily;
 @property (strong, nonatomic) UIButton *sendButton;
 @property (nonatomic) NSInteger pageCount;
+@property (strong, nonatomic) NSMutableDictionary *avatarDictionary;
 
 @end
 
@@ -63,7 +65,7 @@
     [super viewDidLoad];
     
     [self setupInputToolbar];
-    [self setupStubs];
+//    [self setupStubs];
     [self setupCollectionViewFormatting];
     [self setupBubbles];
     [self setupRequiredJSQProperties];
@@ -93,6 +95,10 @@
     [UIMenuController sharedMenuController].menuItems = @[ [[UIMenuItem alloc] initWithTitle:@"Custom Action" action:@selector(customAction:)] ];
 }
 
+- (void)addParticipantIfNeeded:(User *)user {
+    
+    
+}
 /**
  *  senderId, senderDisplayName required by JSQMessagesViewController, and senderFamily required by LEO.
  */
@@ -118,7 +124,6 @@
  */
 - (void)setupCollectionViewFormatting {
     
-    
     self.collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero;
     self.showLoadEarlierMessagesHeader = YES;
     self.collectionView.collectionViewLayout.messageBubbleFont = [UIFont leoStandardFont];
@@ -128,16 +133,16 @@
 /**
  *  Load up our data
  */
-- (void)loadData {
-    
-    self.dataManager = [LEODataManager sharedManager];
-    
-    [self.dataManager getMessagesForConversation:[self conversation] withCompletion:^void(NSArray * messages) {
-        
-        [[self conversation] addMessages:messages];
-        [self.collectionView reloadData];
-    }];
-}
+//- (void)loadData {
+//    
+//    self.dataManager = [LEODataManager sharedManager];
+//    
+//    [self.dataManager getMessagesForConversation:[self conversation] withCompletion:^void(NSArray * messages) {
+//        
+//        [[self conversation] addMessages:messages];
+//        [self.collectionView reloadData];
+//    }];
+//}
 
 /**
  *  Customize input toolbar
@@ -183,7 +188,7 @@
     NSString *event = @"new_message";
     
     LEOPusherHelper *pusherHelper = [LEOPusherHelper sharedPusher];
-    [pusherHelper connectToPusherChannel:channelString withEvent:event withCompletion:^(NSDictionary *channelData) {
+    [pusherHelper connectToPusherChannel:channelString withEvent:event sender:self withCompletion:^(NSDictionary *channelData) {
         
         [[self conversation] addMessageFromJSON:channelData];
     }];
@@ -239,7 +244,6 @@
     Message *message = [Message messageWithObjectID:nil text:text sender:[SessionUser currentUser] escalatedTo:nil escalatedBy:nil status:nil statusCode:MessageStatusCodeUndefined escalatedAt:nil];
     
     [self sendMessage:message withCompletion:^{
-        [[self conversation] addMessage:message];
         [self finishSendingMessageAnimated:YES];
     }];
 }
@@ -289,35 +293,87 @@
      */
     
     Message *message = [[self conversation].messages objectAtIndex:indexPath.item];
-    
-    if ([message.senderId isEqualToString:self.senderId]) {
-        return nil;
-    }
-    
-    
-    //FIXME:This should be replaced with the actual avatar, but since we don't yet have those...here is a placeholder.
-    
-    NSPredicate *userPredicate = [NSPredicate predicateWithFormat:@"objectID == %@", message.sender.objectID];
-    
-    User *user = [[self conversation].participants filteredArrayUsingPredicate:userPredicate][0];
-    
-    UIImage *userImage = user.avatar;
-    
-    NSLog(@"User: %@", user);
-    
-    JSQMessagesAvatarImage *avatarImage;
-    
-    if (user.avatar) {
-    
-        avatarImage = [LEOMessagesAvatarImageFactory avatarImageWithImage:userImage diameter:kJSQMessagesCollectionViewAvatarSizeDefault borderColor:[UIColor leoGrayForPlaceholdersAndLines]borderWidth:2];
-    } else {
-        avatarImage = [LEOMessagesAvatarImageFactory avatarImageWithUserInitials:user.initials backgroundColor:[UIColor leoBlue] textColor:[UIColor whiteColor] font:[UIFont leoChatBubbleInitials] diameter:20 borderColor:[UIColor leoGrayForPlaceholdersAndLines] borderWidth:2];
-    }
+
+    JSQMessagesAvatarImage *avatarImage = [self avatarForUser:message.sender withCompletion:^{
+        [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
+    }];
     
     return avatarImage;
 }
 
 
+-(NSMutableDictionary *)avatarDictionary {
+    
+    if (!_avatarDictionary) {
+        _avatarDictionary = [[NSMutableDictionary alloc] init];
+    }
+    
+    return _avatarDictionary;
+}
+
+- (JSQMessagesAvatarImage *)avatarForUser:(User *)user withCompletion:(void (^) (void))completion {
+    
+    __block JSQMessagesAvatarImage *combinedImages = [self.avatarDictionary objectForKey:user.objectID];
+    
+    if (combinedImages) {
+        return combinedImages;
+    }
+    
+    
+    UIImage *placeholderImage = [LEOMessagesAvatarImageFactory circularAvatarImage:[UIImage imageNamed:@"Icon-AvatarBorderless"] withDiameter:20.0 borderColor:[UIColor leoGrayForPlaceholdersAndLines] borderWidth:2];
+    
+    combinedImages = [JSQMessagesAvatarImage avatarImageWithPlaceholder:placeholderImage];
+    
+    __block UIImage *avatarImage;
+    __block UIImage *avatarHighlightedImage;
+    
+    [self.dataManager getAvatarForUser:user withCompletion:^(UIImage *image, NSError * error) {
+        
+        if (!error) {
+            avatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:image withDiameter:kJSQMessagesCollectionViewAvatarSizeDefault borderColor:[UIColor leoGrayForPlaceholdersAndLines] borderWidth:2];
+            avatarHighlightedImage = [LEOMessagesAvatarImageFactory circularAvatarHighlightedImage:image withDiameter:kJSQMessagesCollectionViewAvatarSizeDefault borderColor:[UIColor leoGrayForPlaceholdersAndLines] borderWidth:2];
+            
+            combinedImages.avatarImage = avatarImage;
+            combinedImages.avatarHighlightedImage = avatarHighlightedImage;
+            
+            [self.avatarDictionary setObject:combinedImages forKey:user.objectID];
+            
+            completion();
+        }
+    }];
+    
+    return combinedImages;
+    
+//   UIImage *avatarImage =  [LEOMessagesAvatarImageFactory circularAvatarImage:<#(UIImage *)#> withDiameter:<#(NSUInteger)#> borderColor:<#(UIColor *)#> borderWidth:<#(NSUInteger)#>
+//    
+//    
+//                            
+//                            UIImage *avatarImage = [LEOMessagesAvatarImageFactory circularImageWithUserInitials:user.initials backgroundColor:[UIColor leoBlue] textColor:[UIColor whiteColor] font:[UIFont leoChatBubbleInitials] diameter:20 borderColor:[UIColor leoGrayForPlaceholdersAndLines] borderWidth:2];
+//                            
+//                            JSQMessagesAvatarImage *avatarImage = [JSQMessagesAvatarImage alloc] initWithAvatarImage:<#(UIImage *)#> highlightedImage:<#(UIImage *)#> placeholderImage:<#(UIImage *)#>
+//                            
+//                            if ([message.senderId isEqualToString:self.senderId]) {
+//                                return nil;
+//                            }
+//                            
+//                            NSPredicate *userPredicate = [NSPredicate predicateWithFormat:@"objectID == %@", message.sender.objectID];
+//                            
+//                            NSArray *users = [[self conversation].participants filteredArrayUsingPredicate:userPredicate];
+//                            
+//                            User *user;
+//                            if (![users count] == 0) {
+//                                
+//                            }
+//                            
+//                            
+//                            
+//                            
+//                            avatarImage = [LEOMessagesAvatarImageFactory avatarImageWithImage:userImage diameter:kJSQMessagesCollectionViewAvatarSizeDefault borderColor:[UIColor leoGrayForPlaceholdersAndLines]borderWidth:2];
+//                            }
+//                            
+//
+//    
+}
 - (Conversation *)conversation {
     
     return (Conversation *)self.card.associatedCardObject;
