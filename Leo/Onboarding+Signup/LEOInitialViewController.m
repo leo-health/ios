@@ -25,8 +25,10 @@ NSString *const kSignUpSegue = @"SignUpSegue";
     
     [super viewDidLoad];
     
-    
-    
+    #if AUTOLOGIN_FLAG
+    [self loginTapped:nil];
+    #endif
+
     self.navigationController.navigationBarHidden = YES;
 }
 

@@ -44,6 +44,10 @@ NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
     self.scrollableContainerView.delegate = self;
     
     [self.scrollableContainerView reloadContainerView];
+    
+    #if AUTOLOGIN_FLAG
+    [self autologin];
+    #endif
     // Do any additional setup after loading the view.
 }
 
@@ -219,4 +223,14 @@ NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
     || [self.tabBarController.presentingViewController isKindOfClass:[UITabBarController class]];
 }
 
+#if AUTOLOGIN_FLAG
+- (void)autologin {
+    
+    self.emailTextField.text = @"marie3@curie.com";
+    self.passwordTextField.text = @"mariemarie";
+    
+    [self continueTapped:nil];
+}
+
+#endif
 @end
