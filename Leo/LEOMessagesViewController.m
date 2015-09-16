@@ -244,6 +244,7 @@
     Message *message = [Message messageWithObjectID:nil text:text sender:[SessionUser currentUser] escalatedTo:nil escalatedBy:nil status:nil statusCode:MessageStatusCodeUndefined escalatedAt:nil];
     
     [self sendMessage:message withCompletion:^{
+        [[self conversation] addMessage:message];
         [self finishSendingMessageAnimated:YES];
     }];
 }
