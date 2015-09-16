@@ -40,23 +40,6 @@
         fromView.userInteractionEnabled = NO;
         toView.userInteractionEnabled = YES;
         
-        
-        /**
-         The following code is ideal because it creates a window level 
-         above the status bar. However, after the toView is dismissed we 
-         get a very intersting applicatoin crash. 
-         to see this behavior uncomment the following lines and then comment the lines below 
-         the comment 'comment this'
-         */
-//        UIWindow *blackOverlayWindow = [[UIWindow alloc]initWithFrame:[UIApplication sharedApplication].keyWindow.frame];
-//        blackOverlayWindow.hidden = NO;
-//        blackOverlayWindow.windowLevel = UIWindowLevelAlert;
-//        blackOverlayWindow.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.6];
-//
-//        [transitionContext.containerView addSubview:blackOverlayWindow];
-//        [blackOverlayWindow addSubview:toView];
-        
-        
         [transitionContext.containerView addSubview:toView];
         
         /**
