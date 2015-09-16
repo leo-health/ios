@@ -45,6 +45,9 @@
 @property (nonatomic) NSInteger pageCount;
 @property (strong, nonatomic) NSMutableDictionary *avatarDictionary;
 
+@property (nonatomic) NSInteger offset;
+@property (nonatomic) NSInteger nextPage;
+
 @end
 
 @implementation LEOMessagesViewController
@@ -65,8 +68,7 @@
     [super viewDidLoad];
     
     [self setupInputToolbar];
-//    [self setupStubs];
-    [self setupCollectionViewFormatting];
+        [self setupCollectionViewFormatting];
     [self setupBubbles];
     [self setupRequiredJSQProperties];
     [self setupCustomMenuActions];
@@ -76,6 +78,16 @@
     self.dataManager = [LEODataManager sharedManager];
 }
 
+-(NSInteger)nextPage {
+    
+    if (!_nextPage) {
+        _nextPage = 2;
+    } else {
+        _nextPage ++;
+    }
+    
+    return _nextPage;
+}
 
 /**
  *  Construct all notifications
@@ -191,6 +203,7 @@
     [pusherHelper connectToPusherChannel:channelString withEvent:event sender:self withCompletion:^(NSDictionary *channelData) {
         
         [[self conversation] addMessageFromJSON:channelData];
+        self.offset ++;
     }];
 }
 
@@ -211,7 +224,7 @@
     
     __weak id<OHHTTPStubsDescriptor> messagesStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         NSLog(@"%@/%@/%@",APIEndpointConversations, [self conversation].objectID, APIEndpointMessages);
-        BOOL test = [request.URL.host isEqualToString:[Configuration APIEndpoint]] && [request.URL.path isEqualToString:[NSString stringWithFormat:@"/%@/%@/%@/%@",[Configuration APIVersion], APIEndpointConversations, [self conversation].objectID, APIEndpointMessages]];
+        BOOL test = [request.URL.host isEqualToString:[Configuration APIEndpoint]] && [request.URL.path isEqualToString:[NSString stringWithFormat:@"/%@/%@/%@/%@",[Configuration APIVersion], APIEndpointConversations, [self conversation].objectID, APIEndpointMessages]] && [request.HTTPMethod isEqualToString:@"GET"];
         return test;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         
@@ -245,6 +258,7 @@
     
     [self sendMessage:message withCompletion:^{
         [[self conversation] addMessage:message];
+        self.offset ++;
         [self finishSendingMessageAnimated:YES];
     }];
 }
@@ -344,37 +358,8 @@
     }];
     
     return combinedImages;
-    
-//   UIImage *avatarImage =  [LEOMessagesAvatarImageFactory circularAvatarImage:<#(UIImage *)#> withDiameter:<#(NSUInteger)#> borderColor:<#(UIColor *)#> borderWidth:<#(NSUInteger)#>
-//    
-//    
-//                            
-//                            UIImage *avatarImage = [LEOMessagesAvatarImageFactory circularImageWithUserInitials:user.initials backgroundColor:[UIColor leoBlue] textColor:[UIColor whiteColor] font:[UIFont leoChatBubbleInitials] diameter:20 borderColor:[UIColor leoGrayForPlaceholdersAndLines] borderWidth:2];
-//                            
-//                            JSQMessagesAvatarImage *avatarImage = [JSQMessagesAvatarImage alloc] initWithAvatarImage:<#(UIImage *)#> highlightedImage:<#(UIImage *)#> placeholderImage:<#(UIImage *)#>
-//                            
-//                            if ([message.senderId isEqualToString:self.senderId]) {
-//                                return nil;
-//                            }
-//                            
-//                            NSPredicate *userPredicate = [NSPredicate predicateWithFormat:@"objectID == %@", message.sender.objectID];
-//                            
-//                            NSArray *users = [[self conversation].participants filteredArrayUsingPredicate:userPredicate];
-//                            
-//                            User *user;
-//                            if (![users count] == 0) {
-//                                
-//                            }
-//                            
-//                            
-//                            
-//                            
-//                            avatarImage = [LEOMessagesAvatarImageFactory avatarImageWithImage:userImage diameter:kJSQMessagesCollectionViewAvatarSizeDefault borderColor:[UIColor leoGrayForPlaceholdersAndLines]borderWidth:2];
-//                            }
-//                            
-//
-//    
 }
+
 - (Conversation *)conversation {
     
     return (Conversation *)self.card.associatedCardObject;
@@ -503,6 +488,8 @@
     }
     
     return concatenatedDisplayNameAndTime;
+    
+    return nil;
 }
 
 /** MARK: Zachary Drossman
@@ -652,18 +639,18 @@
      */
     
     Message *message = [[self conversation].messages objectAtIndex:indexPath.item];
-    
+
     if (indexPath.row == 0) {
-        return 40.0f;
+        return 0.0f;
     }
-    
+
     Message *priorMessage = [[self conversation].messages objectAtIndex:indexPath.row - 1];
     
     if (!([NSDate daysBetweenDate:message.date andDate:priorMessage.date] == 0)) {
         
         return 40.0f;
     }
-    
+
     return 0.0f;
     
 }
@@ -699,9 +686,7 @@
 - (void)collectionView:(JSQMessagesCollectionView *)collectionView
                 header:(JSQMessagesLoadEarlierHeaderView *)headerView didTapLoadEarlierMessagesButton:(UIButton *)sender
 {
-    [self.dataManager getMessagesForConversation:[self conversation] withCompletion:^void(NSArray * messages) {
-        
-        [[self conversation] addMessages:messages];
+    [self.dataManager getMessagesForConversation:[self conversation] page:self.nextPage offset:self.offset withCompletion:^void(NSArray * messages) {
         
         NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
         
@@ -709,6 +694,8 @@
             NSIndexPath *indexPath = [NSIndexPath indexPathForItem:i inSection:0];
             [indexPaths addObject:indexPath];
         }
+        
+        [[self conversation] addMessages:messages];
         
         CGFloat oldOffset = self.collectionView.contentSize.height - self.collectionView.contentOffset.y;
         

@@ -133,7 +133,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     
     [MBProgressHUD showHUDAddedTo:self.tableView animated:YES];
 
-    dispatch_sync(queue, ^{
+    dispatch_async(queue, ^{
                 
         [self.dataManager getCardsWithCompletion:^(NSArray *cards, NSError *error) {
             

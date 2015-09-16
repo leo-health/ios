@@ -33,14 +33,15 @@
     
     NSArray *messageDictionaries = jsonResponse[APIParamMessages];
 
-    NSMutableArray *messages = [[NSMutableArray alloc] init];
+    NSMutableArray *mutableMessages = [[NSMutableArray alloc] init];
     
     for (NSDictionary *messageDictionary in messageDictionaries) {
         Message *message = [[Message alloc] initWithJSONDictionary:messageDictionary];
-        [messages addObject:message];
+        [mutableMessages addObject:message];
     }
     
-    NSArray *immutableMessages = [messages copy];
+    NSSortDescriptor *timeSort = [[NSSortDescriptor alloc] initWithKey:@"createdAt" ascending:YES];
+    NSArray *sortedMessages = [mutableMessages sortedArrayUsingDescriptors:@[timeSort]];
     
     NSArray *staffDictionaries = jsonResponse[APIParamUserStaff];
     NSArray *guardianDictionaries = jsonResponse[APIParamUsers][APIParamUserGuardians];
@@ -77,7 +78,7 @@
     ConversationStatusCode statusCode = ConversationStatusCodeReadMessages; //[jsonResponse[APIParamState] integerValue];
 
     //TODO: May need to protect against nil values...
-    return [self initWithObjectID:objectID messages:immutableMessages participants:participants statusCode:statusCode];
+    return [self initWithObjectID:objectID messages:sortedMessages participants:participants statusCode:statusCode];
 }
 
 + (NSDictionary *)dictionaryFromConversation:(Conversation *)conversation {
@@ -96,7 +97,10 @@
     
     [mutableMessages addObject:message];
     
-    self.messages = [mutableMessages copy];
+    NSSortDescriptor *timeSort = [[NSSortDescriptor alloc] initWithKey:@"createdAt" ascending:YES];
+    NSArray *sortedMessages = [mutableMessages sortedArrayUsingDescriptors:@[timeSort]];
+    
+    self.messages = sortedMessages;
     
     [[NSNotificationCenter defaultCenter]
      postNotificationName:@"Conversation-AddedMessage"
@@ -110,7 +114,10 @@
     
     [mutableMessages addObjectsFromArray:messages];
     
-    self.messages = [mutableMessages copy];
+    NSSortDescriptor *timeSort = [[NSSortDescriptor alloc] initWithKey:@"createdAt" ascending:YES];
+    NSArray *sortedMessages = [mutableMessages sortedArrayUsingDescriptors:@[timeSort]];
+    
+    self.messages = sortedMessages;
     
     [[NSNotificationCenter defaultCenter]
      postNotificationName:@"Conversation-AddedMessages"

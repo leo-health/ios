@@ -52,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
 //Conversations
 - (void)getConversationsForCurrentUserWithCompletion:(void (^)(Conversation*  conversation))completionBlock;
 - (void)createMessage:(Message *)message forConversation:( Conversation *)conversation withCompletion:(void (^)(Message  *  message, NSError *error))completionBlock;
-- (void)getMessagesForConversation:(Conversation *)conversation withCompletion:( void (^)(NSArray *messages))completionBlock;
+- (void)getMessagesForConversation:(Conversation *)conversation page:(NSInteger)page offset:(NSInteger)offset withCompletion:( void (^)(NSArray *messages))completionBlock;
 
 //Helper Data
 - (void)getFamilyWithCompletion:(void (^)(Family *family, NSError *error))completionBlock;
