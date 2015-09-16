@@ -7,6 +7,7 @@
 //
 
 #import "LEOCardTransitionAnimator.h"
+#import "UIColor+LeoColors.h"
 
 @implementation LEOCardTransitionAnimator
 
@@ -82,10 +83,10 @@
         /**
          Per comment at top of this method. Comment this to see the crash. 
          */
-        UIView *blackOverlayWindow = [[UIView alloc]initWithFrame:[UIApplication sharedApplication].keyWindow.frame];
-        blackOverlayWindow.hidden = NO;
-        blackOverlayWindow.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.6];
-        [transitionContext.containerView insertSubview:blackOverlayWindow belowSubview:toView];
+        UIView *darkGrayOverlayWindow = [[UIView alloc]initWithFrame:[UIApplication sharedApplication].keyWindow.frame];
+        darkGrayOverlayWindow.hidden = NO;
+        darkGrayOverlayWindow.backgroundColor = [[UIColor leoGrayForTitlesAndHeadings] colorWithAlphaComponent:0.6];
+        [transitionContext.containerView insertSubview:darkGrayOverlayWindow belowSubview:toView];
         
         //Hide final layout
         toView.hidden = YES;
