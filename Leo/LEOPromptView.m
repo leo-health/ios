@@ -67,13 +67,18 @@
     
     self.forwardPromptImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Icon-ForwardArrow"]];
     [self addSubview:self.forwardPromptImageView];
-    self.forwardPromptImageView.tintColor = [self.delegate featureColor];
 }
 
 //- (void)setupInvisibleButton {
 //    self.invisibleButton = [[UIButton alloc] init];
 //    [self addSubview:self.invisibleButton];
 //}
+
+-(void)setFeatureColor:(UIColor *)featureColor {
+    
+    _featureColor = featureColor;
+    self.forwardPromptImageView.tintColor = featureColor;
+}
 
 - (void)setupTextField {
     self.textField = [[LEOValidatedFloatLabeledTextField alloc] init];
