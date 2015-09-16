@@ -108,16 +108,14 @@
     
     NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(_forwardPromptImageView, _textField, _sectionSeparator);
     
-    NSArray *constraintVerticalTextField = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_textField][_sectionSeparator]|" options:0 metrics:nil views:viewsDictionary];
+    NSArray *constraintVerticalTextField = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_textField][_sectionSeparator(==1)]|" options:0 metrics:nil views:viewsDictionary];
     NSArray *constraintHorizontalTextField = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_textField]|" options:0 metrics:nil views:viewsDictionary];
     NSArray *constraintHorizontalSectionSeparator = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_sectionSeparator]|" options:0 metrics:nil views:viewsDictionary];
     
-    NSLayoutConstraint *constraintHeightSectionSeparator = [NSLayoutConstraint constraintWithItem:self.sectionSeparator attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:1];
     
     [self addConstraints:constraintHorizontalTextField];
     [self addConstraints:constraintVerticalTextField];
     [self addConstraints:constraintHorizontalSectionSeparator];
-    [self addConstraint:constraintHeightSectionSeparator];
     
 //    NSLayoutConstraint *constraintBottomInvisibleButton = [NSLayoutConstraint constraintWithItem:self.invisibleButton attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.textField attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0];
 //    NSLayoutConstraint *constraintTopInvisibleButton = [NSLayoutConstraint constraintWithItem:self.invisibleButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.textField attribute:NSLayoutAttributeTop multiplier:1.0 constant:0];
