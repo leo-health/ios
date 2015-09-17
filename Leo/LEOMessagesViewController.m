@@ -116,7 +116,6 @@
     [navBarTitleLabel sizeToFit]; //MARK: not sure this is useful anymore now that we have added autolayout.
     
     self.navigationItem.titleView = navBarTitleLabel;
-    self.navigationItem.titleView.alpha = 0;
 }
 
 /**
