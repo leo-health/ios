@@ -441,7 +441,28 @@
     attributes = @{NSForegroundColorAttributeName : [UIColor whiteColor], NSStrikethroughColorAttributeName: [UIColor leoGrayForTimeStamps], NSStrikethroughStyleAttributeName : [NSNumber numberWithInteger:NSUnderlinePatternSolid | NSUnderlineStyleSingle]};
     
     NSUInteger dateLength = [dateString length];
-    NSUInteger fullLengthOfBreak = 60;
+    
+    NSUInteger fullLengthOfBreak;
+    
+    NSInteger screenHeight = [@([UIScreen mainScreen].bounds.size.height) integerValue];
+    switch (screenHeight) {
+        case 568:
+            fullLengthOfBreak = 44;
+            break;
+            
+        case 667:
+            fullLengthOfBreak = 52;
+            break;
+        
+        case 736:
+            fullLengthOfBreak = 58;
+            break;
+        
+        default:
+            fullLengthOfBreak = 44;
+            break;
+    }
+    
     NSUInteger lengthOfEachLine = floor((fullLengthOfBreak - dateLength) / 2);
     
     NSMutableString *stringOfLength = [NSMutableString stringWithCapacity: lengthOfEachLine];
