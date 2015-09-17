@@ -137,6 +137,8 @@
 - (void)setupCollectionViewFormatting {
     
     self.collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero;
+    //self.collectionView.collectionViewLayout.incomingAvatarViewSize = CGSizeZero;
+
     self.showLoadEarlierMessagesHeader = YES;
     self.collectionView.collectionViewLayout.messageBubbleFont = [UIFont leoStandardFont];
 }
@@ -308,6 +310,10 @@
      */
     
     Message *message = [[self conversation].messages objectAtIndex:indexPath.item];
+
+    if ([message.sender isKindOfClass:[Guardian class]]) {
+        return nil;
+    }
 
     JSQMessagesAvatarImage *avatarImage = [self avatarForUser:message.sender withCompletion:^{
         [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
@@ -499,7 +505,6 @@
 - (NSAttributedString *)collectionView:(JSQMessagesCollectionView *)collectionView attributedTextForCellBottomLabelAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    
     return nil;
 }
 
@@ -538,7 +543,6 @@
     
     cell.layer.rasterizationScale = [UIScreen mainScreen].scale;
     cell.layer.shouldRasterize = YES;
-    
     
     /**
      *  MARK: Issue #184 - First pass solution without modifying JSQ code itself to deal with hardcoded values. May not work on all devices. Must test.
@@ -641,7 +645,7 @@
     Message *message = [[self conversation].messages objectAtIndex:indexPath.item];
 
     if (indexPath.row == 0) {
-        return 0.0f;
+        return 40.0f;
     }
 
     Message *priorMessage = [[self conversation].messages objectAtIndex:indexPath.row - 1];
@@ -652,7 +656,6 @@
     }
 
     return 0.0f;
-    
 }
 
 - (CGFloat)collectionView:(JSQMessagesCollectionView *)collectionView
@@ -688,6 +691,11 @@
 {
     [self.dataManager getMessagesForConversation:[self conversation] page:self.nextPage offset:self.offset withCompletion:^void(NSArray * messages) {
         
+        if ([messages count] == 0) {
+            self.showLoadEarlierMessagesHeader = NO;
+            return;
+        }
+        
         NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
         
         for (NSInteger i = 0; i < [messages count]; i++) {
@@ -700,6 +708,7 @@
         CGFloat oldOffset = self.collectionView.contentSize.height - self.collectionView.contentOffset.y;
         
         [UIView setAnimationsEnabled:NO];
+        
         
         [collectionView performBatchUpdates:^{
             [self.collectionView insertItemsAtIndexPaths:indexPaths];
