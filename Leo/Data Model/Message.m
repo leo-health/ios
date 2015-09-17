@@ -12,6 +12,8 @@
 #import "Provider.h"
 #import "Guardian.h"
 #import "Support.h"
+#import "Patient.h"
+
 #import "NSDate+Extensions.h"
 
 @interface Message()
@@ -30,6 +32,11 @@ NSString *const kImage = @"image";
 #pragma mark - <JSQMessageDataProtocol>
 
 -(NSString *)senderId {
+    
+    if ([self.sender isKindOfClass:[Guardian class]]) {
+        return [NSString stringWithFormat:@"%@F",((Guardian *)self.sender).familyID] ;
+    }
+    
     return self.sender.objectID;
 }
 
@@ -127,16 +134,16 @@ NSString *const kImage = @"image";
 //FIXME: This should not really be a part of the Message class. Let's figure out where this goes.
 - (User *)initializeWithJSONDictionary:(NSDictionary *)jsonDictionary {
     
-    if ([jsonDictionary[APIParamRole] isEqualToString:@"provider"]) {
+    if ([jsonDictionary[APIParamRoleID] isEqual: @(RoleCodeProvider)]) {
         return [[Provider alloc] initWithJSONDictionary:jsonDictionary];
     }
     
-    else if ([jsonDictionary[APIParamRole] isEqualToString:@"guardian"]) {
+    else if ([jsonDictionary[APIParamRoleID]  isEqual: @(RoleCodeGuardian)]) {
         return [[Guardian alloc] initWithJSONDictionary:jsonDictionary];
     }
     
-    else if ([jsonDictionary[APIParamRole] isEqualToString:@"customer_service"]) {
-        return [[Support alloc] initWithJSONDictionary:jsonDictionary];
+    else if ([jsonDictionary[APIParamRole]  isEqual: @(RoleCodePatient)]) {
+        return [[Patient alloc] initWithJSONDictionary:jsonDictionary];
     }
     
     return [[User alloc] initWithJSONDictionary:jsonDictionary];

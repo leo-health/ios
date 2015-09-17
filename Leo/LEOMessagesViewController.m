@@ -34,6 +34,9 @@
 #import "SessionUser.h"
 #import "LEOPusherHelper.h"
 #import <UIImageView+AFNetworking.h>
+#import "UIImage+Extensions.h"
+#import "LEODataManager.h"
+#import "LEOCardConversation.h"
 
 @interface LEOMessagesViewController ()
 
@@ -42,11 +45,12 @@
 
 @property (copy, nonatomic) NSString *senderFamily;
 @property (strong, nonatomic) UIButton *sendButton;
-@property (nonatomic) NSInteger pageCount;
 @property (strong, nonatomic) NSMutableDictionary *avatarDictionary;
 
 @property (nonatomic) NSInteger offset;
 @property (nonatomic) NSInteger nextPage;
+
+@property (strong, nonatomic) LEODataManager *dataManager;
 
 @end
 
@@ -63,30 +67,56 @@
  *  Customize your layout.
  *  Look at the properties on `JSQMessagesCollectionViewFlowLayout` to see what is possible.
  */
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.dataManager = [LEODataManager sharedManager];
+
+    [self setupNavigationBar];
     [self setupInputToolbar];
-        [self setupCollectionViewFormatting];
+    [self setupCollectionViewFormatting];
     [self setupBubbles];
     [self setupRequiredJSQProperties];
     [self setupCustomMenuActions];
     [self setupPusher];
     [self constructNotifications];
-    [self.collectionView reloadData];
-    self.dataManager = [LEODataManager sharedManager];
 }
 
--(NSInteger)nextPage {
+/**
+ *  Setup the navigation bar with its appropriate color, title, and dismissal button
+ */
+- (void)setupNavigationBar {
     
-    if (!_nextPage) {
-        _nextPage = 2;
-    } else {
-        _nextPage ++;
-    }
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:self.card.tintColor]
+                                                  forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.shadowImage = [UIImage new];
+    self.navigationController.navigationBar.translucent = NO;
     
-    return _nextPage;
+    [[UINavigationBar appearance] setBackIndicatorImage:[UIImage imageNamed:@"Icon-BackArrow"]];
+    [[UINavigationBar appearance] setBackIndicatorTransitionMaskImage:[UIImage imageNamed:@"Icon-BackArrow"]];
+    self.navigationController.navigationBar.topItem.title = @"";
+    
+    UIButton *dismissButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [dismissButton addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
+    [dismissButton setImage:[UIImage imageNamed:@"Icon-Cancel"] forState:UIControlStateNormal];
+    [dismissButton sizeToFit];
+    [dismissButton setTintColor:[UIColor leoWhite]];
+    
+    UIBarButtonItem *dismissBBI = [[UIBarButtonItem alloc] initWithCustomView:dismissButton];
+    self.navigationItem.rightBarButtonItem = dismissBBI;
+    
+    UILabel *navBarTitleLabel = [[UILabel alloc] init];
+    
+    //TODO: Remove this line when done prepping this abstract class and have moved over to complete project.
+    navBarTitleLabel.text = self.card.title;
+    
+    navBarTitleLabel.textColor = [UIColor leoWhite];
+    navBarTitleLabel.font = [UIFont leoMenuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
+    
+    [navBarTitleLabel sizeToFit]; //MARK: not sure this is useful anymore now that we have added autolayout.
+    
+    self.navigationItem.titleView = navBarTitleLabel;
+    self.navigationItem.titleView.alpha = 0;
 }
 
 /**
@@ -107,16 +137,12 @@
     [UIMenuController sharedMenuController].menuItems = @[ [[UIMenuItem alloc] initWithTitle:@"Custom Action" action:@selector(customAction:)] ];
 }
 
-- (void)addParticipantIfNeeded:(User *)user {
-    
-    
-}
 /**
  *  senderId, senderDisplayName required by JSQMessagesViewController, and senderFamily required by LEO.
  */
 - (void)setupRequiredJSQProperties {
     
-    self.senderId = [SessionUser currentUser].objectID;
+    self.senderId = [NSString stringWithFormat:@"%@F",[SessionUser currentUser].familyID];
     self.senderDisplayName = [SessionUser currentUser].fullName;
     self.senderFamily = [SessionUser currentUser].familyID;
 }
@@ -138,25 +164,10 @@
     
     self.collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero;
     //self.collectionView.collectionViewLayout.incomingAvatarViewSize = CGSizeZero;
-
+    
     self.showLoadEarlierMessagesHeader = YES;
     self.collectionView.collectionViewLayout.messageBubbleFont = [UIFont leoStandardFont];
 }
-
-
-/**
- *  Load up our data
- */
-//- (void)loadData {
-//    
-//    self.dataManager = [LEODataManager sharedManager];
-//    
-//    [self.dataManager getMessagesForConversation:[self conversation] withCompletion:^void(NSArray * messages) {
-//        
-//        [[self conversation] addMessages:messages];
-//        [self.collectionView reloadData];
-//    }];
-//}
 
 /**
  *  Customize input toolbar
@@ -181,19 +192,6 @@
     self.inputToolbar.contentView.textView.placeHolderTextColor = [UIColor leoGrayForPlaceholdersAndLines];
     self.inputToolbar.layer.borderColor = [UIColor whiteColor].CGColor;
     self.inputToolbar.contentView.textView.font = [UIFont leoStandardFont];
-    
-    /**
-     *  Customize your toolbar buttons
-     *
-     *  self.inputToolbar.contentView.leftBarButtonItem = custom button or nil to remove
-     *  self.inputToolbar.contentView.rightBarButtonItem = custom button or nil to remove
-     */
-    
-    /**
-     *  Set a maximum height for the input toolbar
-     *
-     *  self.inputToolbar.maximumHeight = 150;
-     */
 }
 
 - (void)setupPusher {
@@ -212,7 +210,15 @@
 - (void)notificationReceived:(NSNotification *)notification {
     
     if ([notification.name isEqualToString: @"Conversation-AddedMessage"]) {
-        [self finishReceivingMessageAnimated:YES];
+        Conversation *conversation = (Conversation *)notification.object;
+        Message *newMessage = conversation.messages.lastObject;
+        
+        //MARK  Could also use the senderID to complete this conditional. For discussion as to which is preferred here.
+        if ([self isFamilyMessage:newMessage]) {
+            [self finishSendingMessageAnimated:YES];
+        } else {
+            [self finishReceivingMessageAnimated:YES];
+        }
     }
 }
 
@@ -310,11 +316,11 @@
      */
     
     Message *message = [[self conversation].messages objectAtIndex:indexPath.item];
-
-    if ([message.sender isKindOfClass:[Guardian class]]) {
+    
+    if ([self isFamilyMessage:message]) {
         return nil;
     }
-
+    
     JSQMessagesAvatarImage *avatarImage = [self avatarForUser:message.sender withCompletion:^{
         [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
     }];
@@ -449,7 +455,7 @@
     
     NSMutableAttributedString *concatenatedDisplayNameAndTime = [[NSMutableAttributedString alloc] init];
     
-    if ([message.sender isKindOfClass:[Guardian class]]) {
+    if ([self isFamilyMessage:message]) {
         
         NSString *dateString = [NSString stringWithFormat:@"%@ ∙ ", [NSDate stringifiedTime:message.createdAt]];
         
@@ -527,15 +533,18 @@
     /** MARK: Zachary Drossman
      *  Modify this to include other "family side" senders.
      */
-    
     Message *message = [self conversation].messages[indexPath.item];
     
-    if ([message.senderId isEqualToString:self.senderId]) {
+    //MARK:  Could also use the senderID to complete this conditional. For discussion as to which is preferred here.
+    if ([self isFamilyMessage:message]) {
         cell.textView.backgroundColor = [UIColor leoBlue];
     } else {
         cell.textView.backgroundColor = [UIColor leoGrayForMessageBubbles];
     }
     
+    /**
+     *  This is of course a temporary solution for the first 6 - 12 months until we go back and optimize code for graphics performance.
+     */
     cell.textView.layer.borderColor = [UIColor clearColor].CGColor;
     cell.textView.layer.borderWidth = 0.6;
     cell.textView.layer.cornerRadius = 10;
@@ -547,9 +556,8 @@
     /**
      *  MARK: Issue #184 - First pass solution without modifying JSQ code itself to deal with hardcoded values. May not work on all devices. Must test.
      */
-    BOOL isOutgoingMessage = [message.sender isKindOfClass:[Guardian class]];
     
-    if (isOutgoingMessage) {
+    if ([self isFamilyMessage:message]) {
         cell.messageBubbleTopLabel.textInsets = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 10.0f);
     }
     else {
@@ -570,9 +578,10 @@
      *  Instead, override the properties you want on `self.collectionView.collectionViewLayout` from `viewDidLoad`
      */
     
+    //MARK: Could also use the senderID to complete this conditional. For discussion as to which is preferred here.
     if (!message.isMediaMessage) {
-        
-        if ([message.senderId isEqualToString:self.senderId]) {
+    
+        if ([self isFamilyMessage:message]) {
             cell.textView.textColor = [UIColor whiteColor];
         }
         else {
@@ -586,44 +595,9 @@
     return cell;
 }
 
-
-
-#pragma mark - UICollectionView Delegate
-
-#pragma mark - Custom menu items
-
-- (BOOL)collectionView:(UICollectionView *)collectionView canPerformAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender
-{
-    if (action == @selector(customAction:)) {
-        return YES;
-    }
-    
-    return [super collectionView:collectionView canPerformAction:action forItemAtIndexPath:indexPath withSender:sender];
+- (BOOL)isFamilyMessage:(Message *)message {
+    return [message.senderId isEqualToString:self.senderId];
 }
-
-- (void)collectionView:(UICollectionView *)collectionView performAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender
-{
-    if (action == @selector(customAction:)) {
-        [self customAction:sender];
-        return;
-    }
-    
-    [super collectionView:collectionView performAction:action forItemAtIndexPath:indexPath withSender:sender];
-}
-
-- (void)customAction:(id)sender
-{
-    NSLog(@"Custom action received! Sender: %@", sender);
-    
-    [[[UIAlertView alloc] initWithTitle:@"Custom Action"
-                                message:nil
-                               delegate:nil
-                      cancelButtonTitle:@"OK"
-                      otherButtonTitles:nil]
-     show];
-}
-
-
 
 #pragma mark - JSQMessages collection view flow layout delegate
 
@@ -643,18 +617,18 @@
      */
     
     Message *message = [[self conversation].messages objectAtIndex:indexPath.item];
-
+    
     if (indexPath.row == 0) {
         return 40.0f;
     }
-
+    
     Message *priorMessage = [[self conversation].messages objectAtIndex:indexPath.row - 1];
     
     if (!([NSDate daysBetweenDate:message.date andDate:priorMessage.date] == 0)) {
         
         return 40.0f;
     }
-
+    
     return 0.0f;
 }
 
@@ -664,11 +638,11 @@
     /**
      *  iOS7-style sender name labels
      */
-    JSQMessage *currentMessage = [[self conversation].messages objectAtIndex:indexPath.item];
+    Message *currentMessage = [[self conversation].messages objectAtIndex:indexPath.item];
     
     if (indexPath.item - 1 > 0) {
-        JSQMessage *previousMessage = [[self conversation].messages objectAtIndex:indexPath.item - 1];
-        if ([[previousMessage senderId] isEqualToString:[currentMessage senderId]]) {
+        Message *previousMessage = [[self conversation].messages objectAtIndex:indexPath.item - 1];
+        if ([previousMessage.sender.objectID isEqualToString:currentMessage.sender.objectID]) {
             return 0.0f;
         }
     }
@@ -684,13 +658,14 @@
 
 #pragma mark - Responding to collection view tap events
 
-
-//TODO: Refactor this method ideally
 - (void)collectionView:(JSQMessagesCollectionView *)collectionView
                 header:(JSQMessagesLoadEarlierHeaderView *)headerView didTapLoadEarlierMessagesButton:(UIButton *)sender
 {
     [self.dataManager getMessagesForConversation:[self conversation] page:self.nextPage offset:self.offset withCompletion:^void(NSArray * messages) {
         
+        /**
+         *  Remove the message if there are no more messages to show. Currently, this is suboptimal as it requires the user to press the button an extra time and make an extra API call. But this is a quick and easy first pass option.
+         */
         if ([messages count] == 0) {
             self.showLoadEarlierMessagesHeader = NO;
             return;
@@ -698,43 +673,42 @@
         
         NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
         
+        /**
+         *  Collect the indexpaths into which we will insert the new messages.
+         */
         for (NSInteger i = 0; i < [messages count]; i++) {
             NSIndexPath *indexPath = [NSIndexPath indexPathForItem:i inSection:0];
             [indexPaths addObject:indexPath];
         }
         
+        /**
+         *  Add the messages to the conversation object itself
+         */
         [[self conversation] addMessages:messages];
         
+        /**
+         *  Using the method as described here to avoid flicker: http://stackoverflow.com/a/26401767/1938725
+         */
         CGFloat oldOffset = self.collectionView.contentSize.height - self.collectionView.contentOffset.y;
         
-        [UIView setAnimationsEnabled:NO];
-        
+        [CATransaction begin];
+        [CATransaction setDisableActions:YES];
         
         [collectionView performBatchUpdates:^{
             [self.collectionView insertItemsAtIndexPaths:indexPaths];
         } completion:^(BOOL finished) {
             self.collectionView.contentOffset = CGPointMake(0.0, self.collectionView.contentSize.height - oldOffset);
-            [UIView setAnimationsEnabled:YES];
+            [CATransaction commit];
         }];
     }];
 }
 
-- (void)collectionView:(JSQMessagesCollectionView *)collectionView didTapAvatarImageView:(UIImageView *)avatarImageView atIndexPath:(NSIndexPath *)indexPath
-{
-    NSLog(@"Tapped avatar!");
-}
-
-- (void)collectionView:(JSQMessagesCollectionView *)collectionView didTapMessageBubbleAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSLog(@"Tapped message bubble at indexPathSection: %ld Row: %ld!", (long)indexPath.section, (long)indexPath.row);
-}
-
-
-- (void)collectionView:(JSQMessagesCollectionView *)collectionView didTapCellAtIndexPath:(NSIndexPath *)indexPath touchLocation:(CGPoint)touchLocation
-{
-    NSLog(@"Tapped cell at %@!", NSStringFromCGPoint(touchLocation));
-}
-
+/**
+ *  Convenience method to send a message for this conversation
+ *
+ *  @param message         the message you wish to send
+ *  @param completionBlock a block for activity once the message has posted
+ */
 - (void)sendMessage:(Message *)message withCompletion:(void (^) (void))completionBlock {
     
     
@@ -749,10 +723,38 @@
     }];
 }
 
+/**
+ *  Remove ourselves as an observer.
+ */
 -(void)dealloc {
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+/**
+ *  Return to prior screen by dismissing the LEOMessagesViewController.
+ */
+- (void)dismiss {
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
 
+    }];
+}
+
+/**
+ *  Helper method to provide information on the next page to load if the `Load Earlier Messages` button is tapped.
+ *
+ *  Note: Page numbers start at 1, which is why the first page to load is page 2.
+ *
+ *  @return NSInteger the page number of the next page to load if the `Load Earlier Messages` button is tapped.
+ */
+-(NSInteger)nextPage {
+    
+    if (!_nextPage) {
+        _nextPage = 2;
+    } else {
+        _nextPage ++;
+    }
+    
+    return _nextPage;
+}
 @end
