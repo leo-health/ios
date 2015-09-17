@@ -341,8 +341,9 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     LEOCardConversationChattingVC *conversationChattingVC = [conversationStoryboard instantiateInitialViewController];
     conversationChattingVC.card = (LEOCardConversation *)card;
     
-    //              self.transitionDelegate = [[LEOTransitioningDelegate alloc] init];
-    //            singleAppointmentScheduleVC.transitioningDelegate = self.transitionDelegate;
+    self.transitionDelegate = [[LEOTransitioningDelegate alloc] init];
+    conversationChattingVC.transitioningDelegate = self.transitionDelegate;
+    conversationChattingVC.modalPresentationStyle = UIModalPresentationCustom;
     [self presentViewController:conversationChattingVC animated:YES completion:^{
     }];
 }
