@@ -30,9 +30,10 @@
 #import "UIColor+LeoColors.h"
 #import "UIImage+Extensions.h"
 #import "LEOExpandedCardAppointmentViewController.h"
+#import "LEOMessagesViewController.h"
+
 #import "LEOCardAppointment.h"
 #import "LEOTransitioningDelegate.h"
-#import "LEOCardConversationChattingVC.h"
 
 #import "LEOTwoButtonSecondaryOnlyCell+ConfigureForCell.h"
 #import "LEOOneButtonSecondaryOnlyCell+ConfigureForCell.h"
@@ -339,8 +340,8 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     
     UIStoryboard *conversationStoryboard = [UIStoryboard storyboardWithName:@"Conversation" bundle:nil];
     UINavigationController *conversationNavController = [conversationStoryboard instantiateInitialViewController];
-    LEOCardConversationChattingVC *conversationChattingVC = conversationNavController.viewControllers.firstObject;
-    conversationChattingVC.card = (LEOCardConversation *)card;
+    LEOMessagesViewController *messagesVC = conversationNavController.viewControllers.firstObject;
+    messagesVC.card = (LEOCardConversation *)card;
     
     self.transitionDelegate = [[LEOTransitioningDelegate alloc] init];
     conversationNavController.transitioningDelegate = self.transitionDelegate;

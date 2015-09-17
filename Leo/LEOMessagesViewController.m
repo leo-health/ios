@@ -71,7 +71,7 @@
     [super viewDidLoad];
     
     self.dataManager = [LEODataManager sharedManager];
-
+    
     [self setupNavigationBar];
     [self setup911Bar];
     [self setupInputToolbar];
@@ -108,26 +108,23 @@
     
     UILabel *navBarTitleLabel = [[UILabel alloc] init];
     
-    //TODO: Remove this line when done prepping this abstract class and have moved over to complete project.
     navBarTitleLabel.text = self.card.title;
-    
     navBarTitleLabel.textColor = [UIColor leoWhite];
     navBarTitleLabel.font = [UIFont leoMenuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
-    
-    [navBarTitleLabel sizeToFit]; //MARK: not sure this is useful anymore now that we have added autolayout.
+    [navBarTitleLabel sizeToFit];
     
     self.navigationItem.titleView = navBarTitleLabel;
-
+    
 }
 
 - (void)setup911Bar {
     
     UILabel *emergencyBar = [UILabel new];
-
+    
     emergencyBar.text = @"In case of emergency, dial 911";
     emergencyBar.textAlignment = NSTextAlignmentCenter;
     emergencyBar.font = [UIFont leoMenuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
-    emergencyBar.backgroundColor = [UIColor colorWithRed:229.0/255.0 green:248.0/255.0 blue:253.0/255.0 alpha:1.0];
+    emergencyBar.backgroundColor = [UIColor leoLightBlue];
     emergencyBar.textColor = [UIColor leoBlue];
     [emergencyBar sizeToFit];
     
@@ -247,7 +244,6 @@
         Conversation *conversation = (Conversation *)notification.object;
         Message *newMessage = conversation.messages.lastObject;
         
-        //MARK  Could also use the senderID to complete this conditional. For discussion as to which is preferred here.
         if ([self isFamilyMessage:newMessage]) {
             [self finishSendingMessageAnimated:YES];
         } else {
@@ -262,7 +258,6 @@
  *  Placing stub into a variable in case we decide to remove it programatically later.
  */
 - (void)setupStubs {
-    
     
     __weak id<OHHTTPStubsDescriptor> messagesStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         NSLog(@"%@/%@/%@",APIEndpointConversations, [self conversation].objectID, APIEndpointMessages);
@@ -419,75 +414,72 @@
 
 - (NSAttributedString *)collectionView:(JSQMessagesCollectionView *)collectionView attributedTextForCellTopLabelAtIndexPath:(NSIndexPath *)indexPath
 {
-    /**
-     *  This logic should be consistent with what you return from `heightForCellTopLabelAtIndexPath:`
-     *  The other label text delegate methods should follow a similar pattern.
-     *
-     *  Show a timestamp for every 3rd message
-     */
-    
-    /** MARK: Zachary Drossman
-     *  Check to see if the current cell is on a different day than the prior cell, if so, add the date header.
-     */
-    
     
     Message *message = [[self conversation].messages objectAtIndex:indexPath.item];
+    Message *priorMessage;
     
-    NSDictionary *attributes = @{NSFontAttributeName : [UIFont leoButtonLabelsAndTimeStampsFont], NSForegroundColorAttributeName : [UIColor leoGrayForTimeStamps]};
+    if (indexPath.row > 0) {
+        priorMessage = [[self conversation].messages objectAtIndex:indexPath.row - 1];
+    }
     
-    NSString *basicDateString = [NSString stringWithFormat:@"  %@  ", [NSDate stringifiedDateWithDot:message.createdAt]];
-    NSAttributedString *dateString = [[NSAttributedString alloc] initWithString:basicDateString attributes:attributes];
-    
-    attributes = @{NSForegroundColorAttributeName : [UIColor whiteColor], NSStrikethroughColorAttributeName: [UIColor leoGrayForTimeStamps], NSStrikethroughStyleAttributeName : [NSNumber numberWithInteger:NSUnderlinePatternSolid | NSUnderlineStyleSingle]};
-    
-    NSUInteger dateLength = [dateString length];
-    
-    NSUInteger fullLengthOfBreak;
-    
-    NSInteger screenHeight = [@([UIScreen mainScreen].bounds.size.height) integerValue];
-    switch (screenHeight) {
-        case 568:
-            fullLengthOfBreak = 44;
-            break;
-            
-        case 667:
-            fullLengthOfBreak = 52;
-            break;
+    /**
+     *  Check to see if the current cell is on a different day than the prior cell, if so, add the date header.
+     */
+    if (!([NSDate daysBetweenDate:message.date andDate:priorMessage.date] == 0) || indexPath.row == 0) {
         
-        case 736:
-            fullLengthOfBreak = 58;
-            break;
         
-        default:
-            fullLengthOfBreak = 44;
-            break;
-    }
-    
-    NSUInteger lengthOfEachLine = floor((fullLengthOfBreak - dateLength) / 2);
-    
-    NSMutableString *stringOfLength = [NSMutableString stringWithCapacity: lengthOfEachLine];
-    
-    for (int i=0; i<lengthOfEachLine; i++) {
-        [stringOfLength appendFormat: @"%C", [@"x" characterAtIndex:0]];
-    }
-    
-    NSString *strikeThroughString = [stringOfLength copy];
-    
-    NSAttributedString *lineString = [[NSAttributedString alloc] initWithString:strikeThroughString attributes:attributes];
-    
-    NSMutableAttributedString *fullString = [[NSMutableAttributedString alloc] init];
-    
-    [fullString appendAttributedString:lineString];
-    [fullString appendAttributedString:dateString];
-    [fullString appendAttributedString:lineString];
-    
-    if (indexPath.row == 0) {
-        return fullString;
-    }
-    
-    Message *priorMessage = [[self conversation].messages objectAtIndex:indexPath.row - 1];
-    
-    if (!([NSDate daysBetweenDate:message.date andDate:priorMessage.date] == 0)) {
+        NSDictionary *attributes = @{NSFontAttributeName : [UIFont leoButtonLabelsAndTimeStampsFont], NSForegroundColorAttributeName : [UIColor leoGrayForTimeStamps]};
+        
+        NSString *basicDateString = [NSString stringWithFormat:@"  %@  ", [NSDate stringifiedDateWithDot:message.createdAt]];
+        NSAttributedString *dateString = [[NSAttributedString alloc] initWithString:basicDateString attributes:attributes];
+        
+        attributes = @{NSForegroundColorAttributeName : [UIColor whiteColor], NSStrikethroughColorAttributeName: [UIColor leoGrayForTimeStamps], NSStrikethroughStyleAttributeName : [NSNumber numberWithInteger:NSUnderlinePatternSolid | NSUnderlineStyleSingle]};
+        
+        NSUInteger dateLength = [dateString length];
+        
+        NSUInteger fullLengthOfBreak;
+        
+        NSInteger screenHeight = [@([UIScreen mainScreen].bounds.size.height) integerValue];
+        switch (screenHeight) {
+            case 568:
+                fullLengthOfBreak = 44;
+                break;
+                
+            case 667:
+                fullLengthOfBreak = 52;
+                break;
+                
+            case 736:
+                fullLengthOfBreak = 58;
+                break;
+                
+            default:
+                fullLengthOfBreak = 44;
+                break;
+        }
+        
+        NSUInteger lengthOfEachLine = floor((fullLengthOfBreak - dateLength) / 2);
+        
+        NSMutableString *stringOfLength = [NSMutableString stringWithCapacity: lengthOfEachLine];
+        
+        for (int i=0; i<lengthOfEachLine; i++) {
+            [stringOfLength appendFormat: @"%C", [@"x" characterAtIndex:0]];
+        }
+        
+        NSString *strikeThroughString = [stringOfLength copy];
+        
+        NSAttributedString *lineString = [[NSAttributedString alloc] initWithString:strikeThroughString attributes:attributes];
+        
+        NSMutableAttributedString *fullString = [[NSMutableAttributedString alloc] init];
+        
+        [fullString appendAttributedString:lineString];
+        [fullString appendAttributedString:dateString];
+        [fullString appendAttributedString:lineString];
+        
+        if (indexPath.row == 0) {
+            return fullString;
+        }
+        
         
         return fullString;
     }
@@ -585,12 +577,8 @@
      */
     JSQMessagesCollectionViewCell *cell = (JSQMessagesCollectionViewCell *)[super collectionView:collectionView cellForItemAtIndexPath:indexPath];
     
-    /** MARK: Zachary Drossman
-     *  Modify this to include other "family side" senders.
-     */
     Message *message = [self conversation].messages[indexPath.item];
     
-    //MARK:  Could also use the senderID to complete this conditional. For discussion as to which is preferred here.
     if ([self isFamilyMessage:message]) {
         cell.textView.backgroundColor = [UIColor leoBlue];
     } else {
@@ -633,9 +621,8 @@
      *  Instead, override the properties you want on `self.collectionView.collectionViewLayout` from `viewDidLoad`
      */
     
-    //MARK: Could also use the senderID to complete this conditional. For discussion as to which is preferred here.
     if (!message.isMediaMessage) {
-    
+        
         if ([self isFamilyMessage:message]) {
             cell.textView.textColor = [UIColor whiteColor];
         }
@@ -791,7 +778,7 @@
  */
 - (void)dismiss {
     [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
-
+        
     }];
 }
 
