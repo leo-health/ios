@@ -73,6 +73,7 @@
     self.dataManager = [LEODataManager sharedManager];
 
     [self setupNavigationBar];
+    [self setup911Bar];
     [self setupInputToolbar];
     [self setupCollectionViewFormatting];
     [self setupBubbles];
@@ -116,6 +117,40 @@
     [navBarTitleLabel sizeToFit]; //MARK: not sure this is useful anymore now that we have added autolayout.
     
     self.navigationItem.titleView = navBarTitleLabel;
+
+}
+
+- (void)setup911Bar {
+    
+    UILabel *emergencyBar = [UILabel new];
+
+    emergencyBar.text = @"In case of emergency, dial 911";
+    emergencyBar.textAlignment = NSTextAlignmentCenter;
+    emergencyBar.font = [UIFont leoMenuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
+    emergencyBar.backgroundColor = [UIColor colorWithRed:229.0/255.0 green:248.0/255.0 blue:253.0/255.0 alpha:1.0];
+    emergencyBar.textColor = [UIColor leoBlue];
+    [emergencyBar sizeToFit];
+    
+    emergencyBar.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    self.topContentAdditionalInset = emergencyBar.frame.size.height;
+    
+    [self.view addSubview:emergencyBar];
+    
+    NSDictionary *views = NSDictionaryOfVariableBindings(emergencyBar);
+    
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[emergencyBar]|"
+                                                                      options:0
+                                                                      metrics:nil
+                                                                        views:views]];
+    
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:emergencyBar
+                                                          attribute:NSLayoutAttributeTop
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.topLayoutGuide
+                                                          attribute:NSLayoutAttributeBottom
+                                                         multiplier:1.0
+                                                           constant:0.0]];
 }
 
 /**
