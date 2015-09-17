@@ -338,13 +338,15 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 - (void)loadChattingViewWithCard:(LEOCard *)card {
     
     UIStoryboard *conversationStoryboard = [UIStoryboard storyboardWithName:@"Conversation" bundle:nil];
-    LEOCardConversationChattingVC *conversationChattingVC = [conversationStoryboard instantiateInitialViewController];
+    UINavigationController *conversationNavController = [conversationStoryboard instantiateInitialViewController];
+    LEOCardConversationChattingVC *conversationChattingVC = conversationNavController.viewControllers.firstObject;
     conversationChattingVC.card = (LEOCardConversation *)card;
     
     self.transitionDelegate = [[LEOTransitioningDelegate alloc] init];
-    conversationChattingVC.transitioningDelegate = self.transitionDelegate;
-    conversationChattingVC.modalPresentationStyle = UIModalPresentationCustom;
-    [self presentViewController:conversationChattingVC animated:YES completion:^{
+    conversationNavController.transitioningDelegate = self.transitionDelegate;
+    conversationNavController.modalPresentationStyle = UIModalPresentationCustom;
+    [self presentViewController:conversationNavController animated:YES completion:^{
+        
     }];
 }
 
