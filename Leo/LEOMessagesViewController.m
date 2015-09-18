@@ -80,8 +80,9 @@
 #if STUBS_FLAG
     [self setupStubs];
 #endif
+    
     [self setupNavigationBar];
-    [self setup911Bar];
+    [self setupEmergencyBar];
     [self setupInputToolbar];
     [self setupCollectionViewFormatting];
     [self setupBubbles];
@@ -131,7 +132,7 @@
     self.navigationItem.titleView = navBarTitleLabel;
 }
 
-- (void)setup911Bar {
+- (void)setupEmergencyBar {
     
     UILabel *emergencyBar = [UILabel new];
     
