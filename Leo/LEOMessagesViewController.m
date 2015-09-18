@@ -592,16 +592,6 @@
     return nil;
 }
 
-/** MARK: Zachary Drossman
- *  Here's where we will do our first pass of case escalation and de-escalation as well as case opening and closing IF we want to do
- *  that.
- */
-- (NSAttributedString *)collectionView:(JSQMessagesCollectionView *)collectionView attributedTextForCellBottomLabelAtIndexPath:(NSIndexPath *)indexPath
-{
-    
-    return nil;
-}
-
 
 #pragma mark - UICollectionView DataSource
 
