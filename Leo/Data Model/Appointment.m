@@ -81,19 +81,22 @@
     
     NSMutableDictionary *appointmentDictionary = [[NSMutableDictionary alloc] init];
     
+    if (appointment.objectID) {
     appointmentDictionary[APIParamID] = appointment.objectID;
+    }
+    
     appointmentDictionary[APIParamAppointmentStartDateTime] = appointment.date;
     appointmentDictionary[APIParamAppointmentTypeID] = appointment.appointmentType;
     appointmentDictionary[APIParamState] = [NSNumber numberWithInteger:appointment.statusCode];
     appointmentDictionary[APIParamUserProviderID] = appointment.provider.objectID;
     appointmentDictionary[APIParamUserPatientID] = appointment.patient.objectID;
-    appointmentDictionary[APIParamAppointmentNotes] = appointment.note;
+    
+    if (appointment.note) {
+        appointmentDictionary[APIParamAppointmentNotes] = appointment.note;
+    }
 
     return appointmentDictionary;
 }
-
-
-
 
 -(id)copy {
     

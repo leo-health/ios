@@ -41,12 +41,43 @@
     return [self initWithStartDateTime:startDateTime duration:duration providerID:providerID practiceID:practiceID];
 }
 
++ (NSDictionary *)slotsRequestDictionaryFromPrepAppointment:(PrepAppointment *)prepAppointment {
+    
+    NSDate *now = [[NSDate date] dateByAddingMinutes:30];
+    NSDate *twelveWeeksFromTheBeginningOfThisWeek = [[[NSDate date] beginningOfWeekForStartOfWeek:1] dateByAddingDays:84];
+    
+    NSDictionary *slotRequestParameters = @{
+                                 APIParamAppointmentTypeID : prepAppointment.appointmentType.objectID,
+                                 APIParamUserProviderID : prepAppointment.provider.objectID,
+                                 APIParamStartDate : [NSDate stringifiedShortDate:now],
+                                 APIParamEndDate: [NSDate stringifiedShortDate:twelveWeeksFromTheBeginningOfThisWeek]
+                                 };
+
+    return slotRequestParameters;
+}
+
 + (Slot *)slotFromExistingAppointment:(PrepAppointment *)appointment {
     
     return [[Slot alloc] initWithStartDateTime:appointment.date duration:appointment.appointmentType.duration providerID:appointment.provider.objectID practiceID:appointment.practice.objectID];
 }
 
--(NSString *) description {
++ (NSArray *)slotsFromRawJSON:(NSDictionary *)rawJSON {
+    
+    NSArray *slotDictionaries = rawJSON[APIParamData][0][APIParamSlots];
+    
+    NSMutableArray *slots = [[NSMutableArray alloc] init];
+    
+    for (NSDictionary *slotDictionary in slotDictionaries) {
+        
+        Slot *slot = [[Slot alloc] initWithJSONDictionary:slotDictionary];
+        
+        [slots addObject:slot];
+    }
+    
+    return slots;
+}
+
+- (NSString *) description {
     
     return [NSString stringWithFormat:@"<Slot: %p> | Date / Time: %@", self, self.startDateTime];
 }

@@ -9,6 +9,7 @@
 #import "LEOAPISessionManager.h"
 #import "Configuration.h"
 #import "LEOCredentialStore.h"
+#import "SessionUser.h"
 
 @implementation LEOAPISessionManager
 
@@ -30,28 +31,27 @@
     return _sharedClient;
 }
 
-- (instancetype)initWithBaseURL:(NSURL *)url sessionConfiguration:(NSURLSessionConfiguration *)configuration {
-    
-    self = [super initWithBaseURL:url sessionConfiguration:configuration];
-    
-    if (self) {
-        [self setAuthToken];
-    
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(tokenChanged:)
-                                                 name:@"token-changed"
-                                               object:nil];
-    }
-    
-    return self;
-}
+//- (instancetype)initWithBaseURL:(NSURL *)url sessionConfiguration:(NSURLSessionConfiguration *)configuration {
+//    
+//    self = [super initWithBaseURL:url sessionConfiguration:configuration];
+//    
+//    if (self) {
+//
+//    }
+//    
+//    return self;
+//}
 
 - (NSURLSessionDataTask *)standardGETRequestForJSONDictionaryFromAPIWithEndpoint:(NSString *)urlString params:(NSDictionary *)params completion:(void (^)(NSDictionary *rawResults, NSError *error))completionBlock {
     
     __block NSString *urlStringBlock = [urlString copy];
     __block NSDictionary *paramsBlock = params;
     
-    NSURLSessionDataTask *task = [self GET:urlString parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
+    if (!params) {
+        params = [[NSDictionary alloc] init];
+    }
+    
+    NSURLSessionDataTask *task = [self GET:urlString parameters:[self authenticatedParamsWithParams:params] success:^(NSURLSessionDataTask *task, id responseObject) {
         
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)task.response;
         
@@ -82,7 +82,7 @@
 
 - (NSURLSessionDataTask *)standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:(NSString *)urlString params:(NSDictionary *)params completion:(void (^)(NSDictionary *rawResults, NSError *error))completionBlock {
     
-    NSURLSessionDataTask *task = [self POST:urlString parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
+    NSURLSessionDataTask *task = [self POST:urlString parameters:[self authenticatedParamsWithParams:params] success:^(NSURLSessionDataTask *task, id responseObject) {
         
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)task.response;
 
@@ -110,9 +110,40 @@
     return task;
 }
 
+- (NSURLSessionDataTask *)unauthenticatedPOSTRequestForJSONDictionaryToAPIWithEndpoint:(NSString *)urlString params:(NSDictionary *)params completion:(void (^)(NSDictionary *rawResults, NSError *error))completionBlock {
+    
+    NSURLSessionDataTask *task = [self POST:urlString parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
+        
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)task.response;
+        
+        if (httpResponse.statusCode == 200) {
+            NSLog(@"Received HTTP %ld - %@", (long)httpResponse.statusCode, responseObject);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completionBlock(responseObject, nil);
+            });
+        } else {
+            NSLog(@"Received HTTP %ld - %@", (long)httpResponse.statusCode, responseObject);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completionBlock(responseObject, nil);
+            });
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"Fail: %@",error.localizedDescription);
+        NSLog(@"Fail: %@",error.localizedFailureReason);
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            completionBlock(nil, error);
+        });
+    }];
+    
+    return task;
+}
+
+
 - (NSURLSessionDataTask *)standardDELETERequestForJSONDictionaryToAPIWithEndpoint:(NSString *)urlString params:(NSDictionary *)params completion:(void (^)(NSDictionary *rawResults, NSError *error))completionBlock {
     
-    NSURLSessionDataTask *task = [self DELETE:urlString parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
+    NSURLSessionDataTask *task = [self DELETE:urlString parameters:[self authenticatedParamsWithParams:params] success:^(NSURLSessionDataTask *task, id responseObject) {
         
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)task.response;
         
@@ -139,15 +170,22 @@
     return task;
 }
 
-- (void)setAuthToken {
-    LEOCredentialStore *store = [[LEOCredentialStore alloc] init];
-    NSString *authToken = [store authToken];
+- (NSMutableDictionary *)authenticatedParamsWithParams:(NSDictionary *)params {
     
-    //TODO: Merge in changes from issue #295 here to complete this method!
+    NSMutableDictionary *authenticatedParams = [params mutableCopy];
+    
+    [authenticatedParams setValue:[self authToken] forKey:APIParamToken];
+    
+    return authenticatedParams;
 }
 
-- (void)tokenChanged:(NSNotification *)notification {
-    [self setAuthToken];
+
+//FIXME: To be updated with the actual user token via keychain at some point.
+- (NSString *)authToken {
+    return [[SessionUser currentUser].credentialStore authToken];;
 }
 
+-(void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 @end

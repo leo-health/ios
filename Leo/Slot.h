@@ -21,7 +21,8 @@
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse;
 
-
 + (Slot *)slotFromExistingAppointment:(PrepAppointment *)appointment;
++ (NSArray *)slotsFromRawJSON:(NSDictionary *)rawJSON;
++ (NSDictionary *)slotsRequestDictionaryFromPrepAppointment:(PrepAppointment *)prepAppointment;
 
 @end

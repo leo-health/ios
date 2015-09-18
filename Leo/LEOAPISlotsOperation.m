@@ -8,7 +8,7 @@
 
 #import "LEOAPISlotsOperation.h"
 #import "LEOCalendarDataSource.h" //TODO: Replace with data manager when slots are finished being integrated
-#import "LEODataManager.h"
+#import "LEOAppointmentService.h"
 #import "PrepAppointment.h"
 #import <DateTools.h>
 @interface LEOAPISlotsOperation()
@@ -34,11 +34,9 @@ NSInteger const dayRangeForSlots = 45;
 
 -(void)main {
     
-    
-    LEODataManager *dataManager = [LEODataManager sharedManager];
-    
-    //FIXME: Remove magic number
-    [dataManager getSlotsForAppointmentType:self.prepAppointment.appointmentType provider:self.prepAppointment.provider startDate:[NSDate date] endDate:[[NSDate date] dateByAddingDays:dayRangeForSlots] withCompletion:^(NSArray * slots, NSError *error) {
+    LEOAppointmentService *appointmentService = [[LEOAppointmentService alloc] init];
+
+    [appointmentService getSlotsForPrepAppointment:self.prepAppointment withCompletion:^(NSArray *slots, NSError *error) {
         
         id data = [LEOCalendarDataSource formatSlots:slots forDaysFromToday:dayRangeForSlots];
         

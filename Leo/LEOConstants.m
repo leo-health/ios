@@ -10,6 +10,10 @@
 
 @implementation LEOConstants
 
+
+#pragma mark - Temp constants
+NSString *const kUserToken = @"";
+
 #pragma mark - URL & endpoints
 
 NSString *const APIVersion = @"/api/v1";

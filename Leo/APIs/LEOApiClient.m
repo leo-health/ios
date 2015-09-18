@@ -10,14 +10,13 @@
 #import "LEOAPISessionManager.h"
 #import "LEOS3SessionManager.h"
 #import "User.h"
-#import "Configuration.h"
 
 @implementation LEOApiClient
 
 
 + (void)createUserWithParameters:(NSDictionary *)userParams withCompletion:(void (^)(NSDictionary *rawResults, NSError *error))completionBlock {
     
-    [[self leoSessionManager] standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointUsers params:userParams completion:^(NSDictionary *rawResults, NSError *error) {
+    [[self leoSessionManager] unauthenticatedPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointUsers params:userParams completion:^(NSDictionary *rawResults, NSError *error) {
         if (completionBlock) {
             completionBlock(rawResults, error);
         }
@@ -26,7 +25,7 @@
 
 + (void)loginUserWithParameters:(NSDictionary *)loginParams withCompletion:(void (^)(NSDictionary *rawResults, NSError *error))completionBlock {
     
-    [[self leoSessionManager] standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointLogin params:loginParams completion:^(NSDictionary *rawResults, NSError *error) {
+    [[self leoSessionManager] unauthenticatedPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointLogin params:loginParams completion:^(NSDictionary *rawResults, NSError *error) {
         if (completionBlock) {
             completionBlock(rawResults, error);
         }
@@ -54,17 +53,7 @@
 
 }
 
-+ (void)getSlotsWithParameters:(NSDictionary *)slotParams withCompletion:(void (^)(NSDictionary *rawResults, NSError *error))completionBlock {
 
-    //FIXME: Update for actual slots endpoint once changes have been made on backend
-    NSString *slotsEndpointForTestProvider = [NSString stringWithFormat:@"%@/%@/%@",@"provider",@"5",APIEndpointSlots];
-
-    [[self leoSessionManager] standardGETRequestForJSONDictionaryFromAPIWithEndpoint:slotsEndpointForTestProvider params:slotParams completion:^(NSDictionary *rawResults, NSError *error) {
-        if (completionBlock) {
-            completionBlock(rawResults, error);
-        }
-    }];
-}
 
 + (void)getPracticesWithParameters:(NSDictionary *)practiceParameters WithCompletion:(void (^)(NSDictionary *rawResults, NSError *error))completionBlock {
 
@@ -98,16 +87,6 @@
     }];
 }
 
-+ (void)cancelAppointmentWithParameters:(NSDictionary *)apptParams withCompletion:(void (^)(NSDictionary *rawResults, NSError *error))completionBlock {
-    
-    NSString *cancelAppointmentURLString = [NSString stringWithFormat:@"%@/%@",APIEndpointAppointments, apptParams[APIParamID]];
-
-    [[self leoSessionManager] standardDELETERequestForJSONDictionaryToAPIWithEndpoint:cancelAppointmentURLString params:apptParams completion:^(NSDictionary *rawResults, NSError *error) {
-        if (completionBlock) {
-            completionBlock(rawResults, error);
-        }
-    }];
-}
 
 + (void)getFamilyWithUserParameters:(NSDictionary *)userParams withCompletion:(void (^)(NSDictionary *rawResults, NSError *error))completionBlock {
 
@@ -119,15 +98,7 @@
     }];
 }
 
-+ (void)createAppointmentWithParameters:(NSDictionary *)apptParams withCompletion:(void (^)(NSDictionary *rawResults, NSError *error))completionBlock {
-    
-    [[self leoSessionManager] standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointAppointments params:apptParams completion:^(NSDictionary *rawResults, NSError *error) {
-        if (completionBlock) {
-            completionBlock(rawResults, error);
-        }
-    }];
 
-}
 
 + (void)getConversationsForFamilyWithParameters:(NSDictionary *)conversationParams withCompletion:(void (^)(NSDictionary  *rawResults, NSError *error))completionBlock {
 
@@ -170,6 +141,7 @@
         }
     }];
 }
+
 
 + (LEOAPISessionManager *)leoSessionManager {
     return [LEOAPISessionManager sharedClient];

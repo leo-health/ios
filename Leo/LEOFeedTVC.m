@@ -17,6 +17,7 @@
 #import "LEOCardConversation.h"
 
 #import "LEODataManager.h"
+#import "LEOAppointmentService.h"
 
 #import "User.h"
 #import "Role.h"
@@ -54,6 +55,8 @@
 @interface LEOFeedTVC ()
 
 @property (strong, nonatomic) LEODataManager *dataManager;
+@property (strong, nonatomic) LEOAppointmentService *appointmentService;
+
 @property (nonatomic, strong) ArrayDataSource *cardsArrayDataSource;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) LEOTransitioningDelegate *transitionDelegate;
@@ -75,7 +78,6 @@ static NSString *const CellIdentifierLEOCardTwoButtonPrimaryOnly = @"LEOTwoButto
 static NSString *const CellIdentifierLEOCardOneButtonSecondaryOnly = @"LEOOneButtonSecondaryOnlyCell";
 static NSString *const CellIdentifierLEOCardOneButtonPrimaryAndSecondary = @"LEOOneButtonPrimaryAndSecondaryCell";
 static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButtonPrimaryOnlyCell";
-
 
 
 #pragma mark - View Controller Lifecycle and VCL Helper Methods
@@ -281,7 +283,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     
     [MBProgressHUD showHUDAddedTo:cell animated:YES];
     
-    [self.dataManager cancelAppointment:card.associatedCardObject withCompletion:^(NSDictionary * response, NSError * error) {
+    [self.appointmentService cancelAppointment:card.associatedCardObject withCompletion:^(NSDictionary * response, NSError * error) {
         if (completionBlock) {
             completionBlock(response, error);
             [MBProgressHUD hideHUDForView:cell animated:YES];
@@ -437,6 +439,15 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     }
     
     return _dataManager;
+}
+
+-(LEOAppointmentService *)appointmentService {
+    
+    if (!_appointmentService) {
+        _appointmentService = [[LEOAppointmentService alloc] init];
+    }
+    
+    return _appointmentService;
 }
 
 -(void)dealloc {

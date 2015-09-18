@@ -24,7 +24,7 @@
 #import "PatientCell+ConfigureCell.h"
 #import "ProviderCell+ConfigureCell.h"
 #import "LEOCalendarViewController.h"
-
+#import "LEOAppointmentService.h"
 #import "LEOAPIAppointmentTypesOperation.h"
 #import "LEOAPIPracticeOperation.h"
 #import "LEOAPIFamilyOperation.h"
@@ -46,6 +46,7 @@
 @property (strong, nonatomic) PrepAppointment *prepAppointment;
 
 @property (strong, nonatomic) LEODataManager *dataManager;
+@property (strong, nonatomic) LEOAppointmentService *appointmentService;
 
 @end
 
@@ -257,6 +258,14 @@
 }
 
 
+- (LEOAppointmentService *)appointmentService {
+    
+    if (!_appointmentService) {
+        _appointmentService = [[LEOAppointmentService alloc] init];
+    }
+    
+    return _appointmentService;
+}
 
 #pragma mark - Actions
 
@@ -273,7 +282,8 @@
     [MBProgressHUD showHUDAddedTo:self.view.window animated:YES];
     
     if (!self.appointment.objectID) {
-    [self.dataManager createAppointmentWithAppointment:self.appointment withCompletion:^(NSDictionary * rawResults, NSError * error) {
+        
+    [self.appointmentService createAppointmentWithAppointment:self.appointment withCompletion:^(NSDictionary * rawResults, NSError * error) {
         
         [MBProgressHUD hideHUDForView:self.view.window animated:YES];
 
