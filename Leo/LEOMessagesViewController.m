@@ -447,12 +447,6 @@
     return (Conversation *)self.card.associatedCardObject;
 }
 
-- (User *)userWithSenderID:(NSString *)senderID {
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K = %@", @"senderID", senderID];
-    return [self.dataManager.users filteredArrayUsingPredicate:predicate][0];
-}
-
 - (NSAttributedString *)collectionView:(JSQMessagesCollectionView *)collectionView attributedTextForCellTopLabelAtIndexPath:(NSIndexPath *)indexPath
 {
     
