@@ -38,6 +38,10 @@
 #import "LEODataManager.h"
 #import "LEOCardConversation.h"
 
+#if STUBS_FLAG
+#import "LEOStubs.h"
+#endif
+
 @interface LEOMessagesViewController ()
 
 @property (strong, nonatomic) JSQMessagesBubbleImage *outgoingBubbleImageData;
@@ -73,6 +77,9 @@
     
     self.dataManager = [LEODataManager sharedManager];
     
+#if STUBS_FLAG
+    [self setupStubs];
+#endif
     [self setupNavigationBar];
     [self setup911Bar];
     [self setupInputToolbar];
@@ -83,6 +90,13 @@
     [self setupPusher];
     [self constructNotifications];
 }
+
+#if STUBS_FLAG
+- (void)setupStubs {
+    
+    [LEOStubs setupConversationStubWithID:[SessionUser currentUser].familyID];
+}
+#endif
 
 /**
  *  Setup the navigation bar with its appropriate color, title, and dismissal button
@@ -258,16 +272,7 @@
  */
 - (void)setupStubs {
     
-    __weak id<OHHTTPStubsDescriptor> messagesStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-        NSLog(@"%@/%@/%@",APIEndpointConversations, [self conversation].objectID, APIEndpointMessages);
-        BOOL test = [request.URL.host isEqualToString:[Configuration APIEndpoint]] && [request.URL.path isEqualToString:[NSString stringWithFormat:@"/%@/%@/%@/%@",[Configuration APIVersion], APIEndpointConversations, [self conversation].objectID, APIEndpointMessages]] && [request.HTTPMethod isEqualToString:@"GET"];
-        return test;
-    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        
-        NSString *fixture = fixture = OHPathForFile(@"../Stubs/getMessagesForUser.json", self.class);
-        OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithFileAtPath:fixture statusCode:200 headers:@{@"Content-Type":@"application/json"}];
-        return response;
-    }];
+
 }
 
 
@@ -385,6 +390,7 @@
     }
     
     JSQMessagesAvatarImage *avatarImage = [self avatarForUser:message.sender withCompletion:^{
+        [self.collectionView.collectionViewLayout invalidateLayoutWithContext:[JSQMessagesCollectionViewFlowLayoutInvalidationContext context]];
         [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
     }];
     
@@ -620,7 +626,7 @@
     }
     
     /**
-     *  This is of course a temporary solution for the first 6 - 12 months until we go back and optimize code for graphics performance.
+     *  MARK: This is of course a temporary solution for the first 6 - 12 months until we go back and optimize code for graphics performance.
      */
     cell.textView.layer.borderColor = [UIColor clearColor].CGColor;
     cell.textView.layer.borderWidth = 0.6;

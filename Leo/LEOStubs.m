@@ -12,6 +12,19 @@
 
 @implementation LEOStubs
 
++ (void)setupConversationStubWithID:(NSString *)conversationID {
+    
+    __weak id<OHHTTPStubsDescriptor> messagesStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        NSLog(@"%@/%@/%@",APIEndpointConversations, conversationID, APIEndpointMessages);
+        BOOL test = [request.URL.host isEqualToString:[Configuration APIEndpoint]] && [request.URL.path isEqualToString:[NSString stringWithFormat:@"/%@/%@/%@/%@",[Configuration APIVersion], APIEndpointConversations, conversationID, APIEndpointMessages]] && [request.HTTPMethod isEqualToString:@"GET"];
+        return test;
+    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        
+        NSString *fixture = fixture = OHPathForFile(@"../Stubs/getMessagesForUser.json", self.class);
+        OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithFileAtPath:fixture statusCode:200 headers:@{@"Content-Type":@"application/json"}];
+        return response;
+    }];
+}
 
 + (void)setupStubs {
     
@@ -68,6 +81,5 @@
         return response;
     }];
 }
-
 
 @end
