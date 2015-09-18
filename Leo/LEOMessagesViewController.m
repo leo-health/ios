@@ -87,7 +87,6 @@
     [self setupCollectionViewFormatting];
     [self setupBubbles];
     [self setupRequiredJSQProperties];
-    [self setupCustomMenuActions];
     [self setupPusher];
     [self constructNotifications];
 }
@@ -175,15 +174,6 @@
 }
 
 /**
- *  Register custom menu actions for cells.
- */
-- (void)setupCustomMenuActions {
-    
-    [JSQMessagesCollectionViewCell registerMenuAction:@selector(customAction:)];
-    [UIMenuController sharedMenuController].menuItems = @[ [[UIMenuItem alloc] initWithTitle:@"Custom Action" action:@selector(customAction:)] ];
-}
-
-/**
  *  senderId, senderDisplayName required by JSQMessagesViewController, and senderFamily required by LEO.
  */
 - (void)setupRequiredJSQProperties {
@@ -255,6 +245,7 @@
 - (void)notificationReceived:(NSNotification *)notification {
     
     if ([notification.name isEqualToString: @"Conversation-AddedMessage"]) {
+        
         Conversation *conversation = (Conversation *)notification.object;
         Message *newMessage = conversation.messages.lastObject;
         
