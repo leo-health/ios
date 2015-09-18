@@ -51,6 +51,7 @@
 @property (nonatomic) NSInteger nextPage;
 
 @property (strong, nonatomic) LEODataManager *dataManager;
+@property (strong, nonatomic) UIActivityIndicatorView *sendingIndicator;
 
 @end
 
@@ -114,7 +115,6 @@
     [navBarTitleLabel sizeToFit];
     
     self.navigationItem.titleView = navBarTitleLabel;
-    
 }
 
 - (void)setup911Bar {
@@ -210,7 +210,6 @@
     UIButton *sendButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [sendButton setTitle:@"SEND" forState:UIControlStateNormal];
     [sendButton setTitleColor:[UIColor leoWhite] forState:UIControlStateNormal];
-    [sendButton setTitleColor:[UIColor leoGrayForPlaceholdersAndLines] forState:UIControlStateDisabled];
     sendButton.titleLabel.font = [UIFont leoFieldAndUserLabelsAndSecondaryButtonsFont];
     
     self.sendButton = sendButton;
@@ -287,7 +286,10 @@
          senderDisplayName:(NSString *)senderDisplayName
                       date:(NSDate *)date
 {
-    self.sendButton.enabled = NO;
+    button.hidden = YES;
+
+    [self.sendingIndicator startAnimating];
+
     
     [JSQSystemSoundPlayer jsq_playMessageSentSound];
     
@@ -297,7 +299,39 @@
         [[self conversation] addMessage:message];
         self.offset ++;
         [self finishSendingMessageAnimated:YES];
+        [self.sendingIndicator stopAnimating];
+        button.hidden = NO;
+
     }];
+}
+
+- (UIActivityIndicatorView *)sendingIndicator {
+    
+    if (!_sendingIndicator) {
+        
+        _sendingIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+        
+        [self.view addSubview:_sendingIndicator];
+        
+        _sendingIndicator.translatesAutoresizingMaskIntoConstraints = NO;
+        
+        NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(_sendingIndicator);
+        
+        
+        //FIXME: These constraints should not include constants, but for a first pass it works well enough across all three phone sizes.
+        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_sendingIndicator]-(24)-|"
+                                                                          options:0
+                                                                          metrics:nil
+                                                                            views:viewsDictionary]];
+        
+        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_sendingIndicator]-(12)-|"
+                                                                          options:0
+                                                                          metrics:nil
+                                                                            views:viewsDictionary]];
+        [_sendingIndicator hidesWhenStopped];
+    }
+    
+    return _sendingIndicator;
 }
 
 - (void)didPressAccessoryButton:(UIButton *)sender
