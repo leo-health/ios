@@ -266,16 +266,6 @@
     }
 }
 
-#pragma mark - Testing
-/**
- *  Temporary stub included to see data when running code
- *  Placing stub into a variable in case we decide to remove it programatically later.
- */
-- (void)setupStubs {
-    
-
-}
-
 
 #pragma mark - JSQMessagesViewController method overrides
 
