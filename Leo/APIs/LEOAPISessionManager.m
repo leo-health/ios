@@ -31,17 +31,6 @@
     return _sharedClient;
 }
 
-//- (instancetype)initWithBaseURL:(NSURL *)url sessionConfiguration:(NSURLSessionConfiguration *)configuration {
-//    
-//    self = [super initWithBaseURL:url sessionConfiguration:configuration];
-//    
-//    if (self) {
-//
-//    }
-//    
-//    return self;
-//}
-
 - (NSURLSessionDataTask *)standardGETRequestForJSONDictionaryFromAPIWithEndpoint:(NSString *)urlString params:(NSDictionary *)params completion:(void (^)(NSDictionary *rawResults, NSError *error))completionBlock {
     
     __block NSString *urlStringBlock = [urlString copy];
@@ -110,6 +99,37 @@
     return task;
 }
 
+
+- (NSURLSessionDataTask *)standardPUTRequestForJSONDictionaryToAPIWithEndpoint:(NSString *)urlString params:(NSDictionary *)params completion:(void (^)(NSDictionary *rawResults, NSError *error))completionBlock {
+    
+    NSURLSessionDataTask *task = [self PUT:urlString parameters:[self authenticatedParamsWithParams:params] success:^(NSURLSessionDataTask *task, id responseObject) {
+        
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)task.response;
+        
+        if (httpResponse.statusCode == 200) {
+            NSLog(@"Received HTTP %ld - %@", (long)httpResponse.statusCode, responseObject);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completionBlock(responseObject, nil);
+            });
+        } else {
+            NSLog(@"Received HTTP %ld - %@", (long)httpResponse.statusCode, responseObject);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completionBlock(responseObject, nil);
+            });
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"Fail: %@",error.localizedDescription);
+        NSLog(@"Fail: %@",error.localizedFailureReason);
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            completionBlock(nil, error);
+        });
+    }];
+    
+    return task;
+}
+
 - (NSURLSessionDataTask *)unauthenticatedPOSTRequestForJSONDictionaryToAPIWithEndpoint:(NSString *)urlString params:(NSDictionary *)params completion:(void (^)(NSDictionary *rawResults, NSError *error))completionBlock {
     
     NSURLSessionDataTask *task = [self POST:urlString parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
@@ -139,7 +159,7 @@
     
     return task;
 }
-
+    
 
 - (NSURLSessionDataTask *)standardDELETERequestForJSONDictionaryToAPIWithEndpoint:(NSString *)urlString params:(NSDictionary *)params completion:(void (^)(NSDictionary *rawResults, NSError *error))completionBlock {
     

@@ -69,8 +69,6 @@
 
 @implementation LEOFeedTVC
 
-static NSString *const adminTestKey = @""; //FIXME: REMOVE BEFORE SENDING OFF TO PRODUCTION!
-
 static NSString *const CellIdentifierLEOCardTwoButtonSecondaryOnly = @"LEOTwoButtonSecondaryOnlyCell";
 static NSString *const CellIdentifierLEOCardTwoButtonPrimaryAndSecondary = @"LEOTwoButtonPrimaryAndSecondaryCell";
 static NSString *const CellIdentifierLEOCardTwoButtonPrimaryOnly = @"LEOTwoButtonPrimaryOnlyCell";
@@ -90,7 +88,8 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
                                                  name:@"requestToBookNewAppointment"
                                                object:nil];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fetchData) name:UIApplicationWillEnterForegroundNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fetchData) name:UIApplicationWillEnterForegroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationReceived:) name:@"Card-Updated" object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationReceived:) name:@"Conversation-AddedMessage" object:nil];
     
@@ -111,10 +110,15 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     }];
 }
 
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self fetchDataForCard:nil];
+}
+
 - (void)notificationReceived:(NSNotification *)notification {
     
-    if ([notification.name isEqualToString: @"Conversation-AddedMessage"]) {
-        [self.tableView reloadData];
+    if ([notification.name isEqualToString: @"Conversation-AddedMessage"] || [notification.name isEqualToString: @"Card-Updated"]) {
+        [self fetchDataForCard:notification.object];
     }
 }
 
@@ -130,6 +134,10 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 }
 
 - (void)fetchData {
+    [self fetchDataForCard:nil];
+}
+
+- (void)fetchDataForCard:(LEOCard *)card {
     
     dispatch_queue_t queue = dispatch_queue_create("loadingQueue", NULL);
     
@@ -150,11 +158,6 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
             });
         }];
     });
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    
-        [self fetchData];
 }
 
 - (void)tableViewSetup {
@@ -185,7 +188,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 
 -(void)takeResponsibilityForCard:(LEOCard *)card {
     card.delegate = self;
-    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"Card-Updated" object:nil]; //TODO: This method does not reflect the fact that an update has taken place. Consider naming differently, or moving this to a method that fits the bill?
 }
 
 - (void)didUpdateObjectStateForCard:(LEOCard *)card {
@@ -194,11 +197,12 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
         
     } completion:^(BOOL finished) {
         
-        if (card.type == CardTypeAppointment) { //FIXME: should really be an integer / enum with a displayName if desired.
+        if (card.type == CardTypeAppointment) {
             
             Appointment *appointment = card.associatedCardObject; //FIXME: Make this a loop to account for multiple appointments.
             
             switch (appointment.statusCode) {
+                case AppointmentStatusCodeNew:
                 case AppointmentStatusCodeBooking:
                 case AppointmentStatusCodeFuture: {
                     [self loadBookingViewWithCard:card];
@@ -267,10 +271,10 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 
 - (void)beginSchedulingNewAppointment {
 
-    Appointment *appointment = [[Appointment alloc] initWithObjectID:nil date:nil appointmentType:nil patient:nil provider:nil bookedByUser:[SessionUser currentUser] note:nil statusCode:AppointmentStatusCodeFuture];
+    Appointment *appointment = [[Appointment alloc] initWithObjectID:nil date:nil appointmentType:nil patient:nil provider:nil bookedByUser:[SessionUser currentUser] note:nil statusCode:AppointmentStatusCodeNew];
     
     LEOCardAppointment *card = [[LEOCardAppointment alloc] initWithObjectID:@"temp" priority:@999 type:CardTypeAppointment associatedCardObject:appointment];
-
+    
     [self loadBookingViewWithCard:card];
 }
 

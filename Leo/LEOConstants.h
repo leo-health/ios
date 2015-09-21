@@ -45,6 +45,7 @@ typedef enum AppointmentStatusCode : NSUInteger {
     AppointmentStatusCodeCancelling = 8,
     AppointmentStatusCodeConfirmingCancelling = 9,
     AppointmentStatusCodeRecommending = 10,
+    AppointmentStatusCodeNew = 11,
     AppointmentStatusCodeUndefined = 99,
 } AppointmentStatusCode;
 

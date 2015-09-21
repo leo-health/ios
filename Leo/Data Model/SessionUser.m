@@ -43,6 +43,7 @@
     return [[LEOCredentialStore alloc] init];;
 }
 
+//TODO: Add an assertion to warn programmer here.
 -(instancetype)init {
     return nil;
 }
