@@ -12,7 +12,6 @@
 #import "UIColor+LeoColors.h"
 #import "UIScrollView+LEOScrollToVisible.h"
 #import "UIImage+Extensions.h"
-#import "LEODataManager.h"
 #import "LEOValidationsHelper.h"
 
 @interface LEOEnrollmentViewController ()

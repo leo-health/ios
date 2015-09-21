@@ -8,7 +8,6 @@
 
 #import "LEOBasicSelectionViewController.h"
 #import "ArrayDataSource.h"
-#import "LEODataManager.h"
 #import "UIFont+LeoFonts.h"
 #import "UIColor+LeoColors.h"
 #import <MBProgressHUD/MBProgressHUD.h>

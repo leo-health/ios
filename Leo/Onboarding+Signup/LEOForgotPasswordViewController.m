@@ -12,7 +12,7 @@
 #import "UIColor+LeoColors.h"
 #import "UIScrollView+LEOScrollToVisible.h"
 #import "UIImage+Extensions.h"
-#import "LEODataManager.h"
+#import "LEOUserService.h"
 #import "LEOValidationsHelper.h"
 
 @interface LEOForgotPasswordViewController ()
@@ -175,9 +175,9 @@
     
     if (validEmail) {
     
-        LEODataManager *dataManager = [LEODataManager sharedManager];
+        LEOUserService *userService = [[LEOUserService alloc] init];
         
-        [dataManager resetPasswordWithEmail:self.emailTextField.text withCompletion:^(NSDictionary * response, NSError * error) {
+        [userService resetPasswordWithEmail:self.emailTextField.text withCompletion:^(NSDictionary * response, NSError * error) {
 
             self.resetResponseLabel.hidden = NO;
             self.resetResponseLabel.text = @"If you have an account with us, a link to reset your password will be sent to your e-mail address soon.";

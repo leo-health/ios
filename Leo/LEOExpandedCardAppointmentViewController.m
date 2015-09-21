@@ -19,7 +19,6 @@
 #import "Patient.h"
 #import "NSDate+Extensions.h"
 #import "LEOBasicSelectionViewController.h"
-#import "LEODataManager.h"
 #import "AppointmentTypeCell+ConfigureCell.h"
 #import "PatientCell+ConfigureCell.h"
 #import "ProviderCell+ConfigureCell.h"
@@ -45,7 +44,6 @@
 @property (strong, nonatomic) Appointment *appointment;
 @property (strong, nonatomic) PrepAppointment *prepAppointment;
 
-@property (strong, nonatomic) LEODataManager *dataManager;
 @property (strong, nonatomic) LEOAppointmentService *appointmentService;
 
 @end
@@ -274,9 +272,7 @@
  *  when in the the current state is called.
  */
 - (void)buttonTapped {
-    
-    self.dataManager = [LEODataManager sharedManager];
-    
+        
     self.appointment = [[Appointment alloc] initWithPrepAppointment:self.prepAppointment]; //FIXME: Make this a loop to account for changes to multiple objects, e.g. appointments on a card.
     
     [MBProgressHUD showHUDAddedTo:self.view.window animated:YES];

@@ -35,30 +35,30 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 //Cards
-- (void)getCardsWithCompletion:(void (^)(NSArray *cards, NSError *error))completionBlock;
+//- (void)getCardsWithCompletion:(void (^)(NSArray *cards, NSError *error))completionBlock;
 
 //Users
-- (void)createUserWithUser:( User *)user password:( NSString *)password withCompletion:(void (^)( NSDictionary * rawResults, NSError *error))completionBlock;
-- (void)loginUserWithEmail:( NSString *)email password:( NSString *)password withCompletion:(void (^)(SessionUser *user, NSError *error))completionBlock;
-- (void)resetPasswordWithEmail:(NSString *)email withCompletion:(void (^)(NSDictionary * rawResults, NSError *error))completionBlock;
-- (void)getAvatarForUser:(User *)user withCompletion:(void (^)(UIImage *rawImage, NSError *error))completionBlock;
+//- (void)createUserWithUser:( User *)user password:( NSString *)password withCompletion:(void (^)( NSDictionary * rawResults, NSError *error))completionBlock;
+//- (void)loginUserWithEmail:( NSString *)email password:( NSString *)password withCompletion:(void (^)(SessionUser *user, NSError *error))completionBlock;
+//- (void)resetPasswordWithEmail:(NSString *)email withCompletion:(void (^)(NSDictionary * rawResults, NSError *error))completionBlock;
+//- (void)getAvatarForUser:(User *)user withCompletion:(void (^)(UIImage *rawImage, NSError *error))completionBlock;
 
 //Conversations
-- (void)getConversationsForCurrentUserWithCompletion:(void (^)(Conversation*  conversation))completionBlock;
-- (void)createMessage:(Message *)message forConversation:( Conversation *)conversation withCompletion:(void (^)(Message  *  message, NSError *error))completionBlock;
-- (void)getMessagesForConversation:(Conversation *)conversation page:(NSInteger)page offset:(NSInteger)offset withCompletion:( void (^)(NSArray *messages))completionBlock;
+//- (void)getConversationsForCurrentUserWithCompletion:(void (^)(Conversation*  conversation))completionBlock;
+//- (void)createMessage:(Message *)message forConversation:( Conversation *)conversation withCompletion:(void (^)(Message  *  message, NSError *error))completionBlock;
+//- (void)getMessagesForConversation:(Conversation *)conversation page:(NSInteger)page offset:(NSInteger)offset withCompletion:( void (^)(NSArray *messages))completionBlock;
 
 //Helper Data
-- (void)getFamilyWithCompletion:(void (^)(Family *family, NSError *error))completionBlock;
-- (void)getAppointmentTypesWithCompletion:(void (^)(NSArray *appointmentTypes, NSError *error))completionBlock;
-- (void)getPracticeWithID:(NSString *)practiceID withCompletion:(void (^)(Practice *practice, NSError *error))completionBlock;
+//- (void)getFamilyWithCompletion:(void (^)(Family *family, NSError *error))completionBlock;
+//- (void)getAppointmentTypesWithCompletion:(void (^)(NSArray *appointmentTypes, NSError *error))completionBlock;
+//- (void)getPracticeWithID:(NSString *)practiceID withCompletion:(void (^)(Practice *practice, NSError *error))completionBlock;
 
 //Helper methods
-- (id)objectWithObjectID:(NSString *)objectID objectArray:(NSArray *)objects;
+//- (id)objectWithObjectID:(NSString *)objectID objectArray:(NSArray *)objects;
 
 
-- (id)unarchiveObjectWithPathComponent:(NSString *)pathComponent;
-- (void)archiveObject:(id)object withPathComponent:(NSString *)pathComponent;
+//- (id)unarchiveObjectWithPathComponent:(NSString *)pathComponent;
+//- (void)archiveObject:(id)object withPathComponent:(NSString *)pathComponent;
 
 NS_ASSUME_NONNULL_END
 @end

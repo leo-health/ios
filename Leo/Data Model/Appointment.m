@@ -86,7 +86,7 @@
     }
     
     appointmentDictionary[APIParamAppointmentStartDateTime] = appointment.date;
-    appointmentDictionary[APIParamAppointmentTypeID] = appointment.appointmentType;
+    appointmentDictionary[APIParamAppointmentTypeID] = appointment.appointmentType.objectID;
     appointmentDictionary[APIParamState] = [NSNumber numberWithInteger:appointment.statusCode];
     appointmentDictionary[APIParamUserProviderID] = appointment.provider.objectID;
     appointmentDictionary[APIParamUserPatientID] = appointment.patient.objectID;

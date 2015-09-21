@@ -7,16 +7,16 @@
 //
 
 #import "LEOAPIPracticeOperation.h"
-#import "LEODataManager.h"
+#import "LEOHelperService.h"
 #import "Provider.h"
 #import "Practice.h"
 @implementation LEOAPIPracticeOperation
 
 -(void)main {
     
-    LEODataManager *dataManager = [LEODataManager sharedManager];
+    LEOHelperService *helperService = [[LEOHelperService alloc] init];
     
-    [dataManager getPracticeWithID:@"0" withCompletion:^(Practice *practice, NSError *error) {
+    [helperService getPracticeWithID:@"0" withCompletion:^(Practice *practice, NSError *error) {
         
         NSPredicate *providerFilter = [NSPredicate predicateWithFormat:@"self isKindOfClass:%@",[Provider class]];
         

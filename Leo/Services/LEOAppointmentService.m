@@ -62,12 +62,22 @@
     NSString *slotsEndpointForTestProvider = [NSString stringWithFormat:@"%@",APIEndpointSlots];
     
     NSURLSessionTask *task = [[LEOAppointmentService leoSessionManager] standardGETRequestForJSONDictionaryFromAPIWithEndpoint:slotsEndpointForTestProvider params:slotParams completion:^(NSDictionary *rawResults, NSError *error) {
-        if (completionBlock) {
-            
-            
-            completionBlock(slots, error);
-        }
-    }];
+        
+                NSArray *slotDictionaries = rawResults[APIParamData][0][APIParamSlots];
+                
+                NSMutableArray *slots = [[NSMutableArray alloc] init];
+                
+                for (NSDictionary *slotDictionary in slotDictionaries) {
+                    
+                    Slot *slot = [[Slot alloc] initWithJSONDictionary:slotDictionary];
+                    
+                    [slots addObject:slot];
+                }
+                
+                if (completionBlock) {
+                    completionBlock(slots, error);
+                }
+            }];
     
     return task;
 }

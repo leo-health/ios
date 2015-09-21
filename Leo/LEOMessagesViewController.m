@@ -35,8 +35,9 @@
 #import "LEOPusherHelper.h"
 #import <UIImageView+AFNetworking.h>
 #import "UIImage+Extensions.h"
-#import "LEODataManager.h"
 #import "LEOCardConversation.h"
+#import "LEOUserService.h"
+#import "LEOMessageService.h"
 
 #if STUBS_FLAG
 #import "LEOStubs.h"
@@ -54,7 +55,6 @@
 @property (nonatomic) NSInteger offset;
 @property (nonatomic) NSInteger nextPage;
 
-@property (strong, nonatomic) LEODataManager *dataManager;
 @property (strong, nonatomic) UIActivityIndicatorView *sendingIndicator;
 
 @end
@@ -74,8 +74,6 @@
  */
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    self.dataManager = [LEODataManager sharedManager];
     
 #if STUBS_FLAG
     [self setupStubs];
@@ -405,7 +403,9 @@
     __block UIImage *avatarImage;
     __block UIImage *avatarHighlightedImage;
     
-    [self.dataManager getAvatarForUser:user withCompletion:^(UIImage *image, NSError * error) {
+    LEOUserService *userService = [[LEOUserService alloc] init];
+    
+    [userService getAvatarForUser:user withCompletion:^(UIImage *image, NSError * error) {
         
         if (!error) {
             avatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:image withDiameter:kJSQMessagesCollectionViewAvatarSizeDefault borderColor:[UIColor leoGrayForPlaceholdersAndLines] borderWidth:2];
@@ -709,7 +709,10 @@
 - (void)collectionView:(JSQMessagesCollectionView *)collectionView
                 header:(JSQMessagesLoadEarlierHeaderView *)headerView didTapLoadEarlierMessagesButton:(UIButton *)sender
 {
-    [self.dataManager getMessagesForConversation:[self conversation] page:self.nextPage offset:self.offset withCompletion:^void(NSArray * messages) {
+    
+    LEOMessageService *messageService = [[LEOMessageService alloc] init];
+    
+    [messageService getMessagesForConversation:[self conversation] page:self.nextPage offset:self.offset withCompletion:^void(NSArray * messages) {
         
         /**
          *  Remove the message if there are no more messages to show. Currently, this is suboptimal as it requires the user to press the button an extra time and make an extra API call. But this is a quick and easy first pass option.
@@ -759,8 +762,9 @@
  */
 - (void)sendMessage:(Message *)message withCompletion:(void (^) (void))completionBlock {
     
+    LEOMessageService *messageService = [[LEOMessageService alloc] init];
     
-    [self.dataManager createMessage:message forConversation:[self conversation] withCompletion:^(Message * message, NSError * error) {
+    [messageService createMessage:message forConversation:[self conversation] withCompletion:^(Message * message, NSError * error) {
         
         if (!error) {
             

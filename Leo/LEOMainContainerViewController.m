@@ -18,7 +18,6 @@
 
 #import "Appointment.h"
 #import "LEOCardAppointment.h"
-#import "LEODataManager.h"
 
 @interface LEOMainContainerViewController ()
 
@@ -29,7 +28,6 @@
 @property (nonatomic) BOOL menuShowing;
 @property (strong, nonatomic) UIImageView *blurredImageView;
 @property (strong, nonatomic) MenuView *menuView;
-@property (strong, nonatomic) LEODataManager *dataManager;
 
 @end
 
@@ -43,8 +41,6 @@
     [self setupMenuButton];
     
     [self setNeedsStatusBarAppearanceUpdate];
-    
-    self.dataManager = [LEODataManager sharedManager];
     
     //Set background color such that the status bar color matches the color of the navigation bar.
     self.view.backgroundColor = [UIColor leoOrangeRed];
