@@ -12,6 +12,8 @@
 #import "AppointmentType.h"
 #import "Family.h"
 #import "Practice.h"
+#import "InsurancePlan.h"
+#import "Insurer.h"
 
 @implementation LEOHelperService
 
@@ -87,6 +89,26 @@
     }];
     
     return task;
+}
+
+- (NSURLSessionTask *)getInsurersAndPlansWithCompletion:(void (^)(NSArray *insurersAndPlans, NSError *error))completionBlock {
+    
+    NSURLSessionTask *task = [[LEOHelperService leoSessionManager] standardGETRequestForJSONDictionaryFromAPIWithEndpoint:APIEndpointInsurers params:nil completion:^(NSDictionary *rawResults, NSError *error) {
+        
+        NSDictionary *insurerDictionaries = rawResults[APIParamData][APIParamInsurers];
+        
+        NSMutableArray *insurersAndPlans = [[NSMutableArray alloc] init];
+        
+        for (NSDictionary *insurerDictionary in insurerDictionaries) {
+            Insurer *insurer = [[Insurer alloc] initWithJSONDictionary:insurerDictionary];
+            [insurersAndPlans addObject:insurer];
+        }
+        //FIXME: Safety here
+        completionBlock(insurersAndPlans, error);
+    }];
+    
+    return task;
+    
 }
 
 + (LEOAPISessionManager *)leoSessionManager {

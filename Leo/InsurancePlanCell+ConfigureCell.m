@@ -10,7 +10,6 @@
 #import "InsurancePlan.h"
 #import "UIColor+LeoColors.h"
 #import "UIFont+LeoFonts.h"
-#import "Insurer.h"
 
 @implementation InsurancePlanCell (ConfigureCell)
 
@@ -37,7 +36,7 @@
     NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] init];
     
     
-    [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ ", plan.insurer.name]
+    [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ ", plan.insurerName]
                                                                        attributes:attributedDictionary1]];
     
     [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:plan.name

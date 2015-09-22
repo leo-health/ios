@@ -16,5 +16,6 @@
 - (NSURLSessionTask *)getPracticeWithID:(NSString *)practiceID withCompletion:(void (^)(Practice *practice, NSError *error))completionBlock;
 - (NSURLSessionTask *)getFamilyWithCompletion:(void (^)(Family *family, NSError *error))completionBlock;
 - (NSURLSessionTask *)getAppointmentTypesWithCompletion:(void (^)(NSArray *appointmentTypes, NSError *error))completionBlock;
+- (NSURLSessionTask *)getInsurersAndPlansWithCompletion:(void (^)(NSArray *insurersAndPlans, NSError *error))completionBlock;
 
 @end
