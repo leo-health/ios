@@ -13,11 +13,13 @@
 @interface InsurancePlan : NSObject
 
 @property (strong, nonatomic) NSString *objectID;
-@property (strong, nonatomic) Insurer *insurer;
+@property (strong, nonatomic) NSString *insurerID;
+@property (strong, nonatomic) NSString *insurerName;
 @property (strong, nonatomic) NSString *name;
+@property (strong, nonatomic) NSArray *plans;
 @property (nonatomic) BOOL supported;
 
-- (instancetype)initWithObjectID:(NSString *)objectID insurer:(Insurer *)insurer name:(NSString *)name supported:(BOOL)supported;
-- (instancetype)initWithJSONDictionary:(NSDictionary *)jsonDictionary;
+- (instancetype)initSupportedPlanWithJSONDictionary:(NSDictionary *)jsonDictionary;
+- (instancetype)initWithObjectID:(NSString *)objectID insurerID:(NSString *)insurerID insurerName:(NSString *)insurerName name:(NSString *)name;
 
 @end

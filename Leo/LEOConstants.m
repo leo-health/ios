@@ -30,6 +30,7 @@ NSString *const APIEndpointPractices = @"practices";
 NSString *const APIEndpointPractice = @"practice";
 NSString *const APIEndpointSlots = @"appointment_slots";
 NSString *const APIEndpointFamily = @"family";
+NSString *const APIEndpointInsurers = @"insurers";
 
 #pragma mark - Common
 NSString *const APIParamID = @"id";
@@ -167,6 +168,19 @@ NSString *const APIParamSlotStartDateTime = @"start_datetime";
 NSString *const APIParamSlotDuration = @"duration";
 NSString *const APIParamStartDate = @"start_date";
 NSString *const APIParamEndDate = @"end_date";
+
+#pragma mark - Insurer
+NSString *const APIParamInsurerID = @"insurer_id";
+NSString *const APIParamInsurers = @"insurers";
+NSString *const APIParamPhone = @"phone";
+NSString *const APIParamFax = @"fax";
+NSString *const APIParamInsurerName = @"insurer_name";
+
+
+#pragma mark - Insurance Plan
+NSString *const APIParamInsurancePlans = @"insurance_plans";
+NSString *const APIParamPlanName = @"plan_name";
+NSString *const APIParamPlanSupported = @"supported"; //Ironically, this param is not yet supported by the API.
 
 #pragma mark - Magic numbers
 CGFloat const selectionLineHeight = 2.0f;

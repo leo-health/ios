@@ -7,16 +7,18 @@
 //
 
 #import "Insurer.h"
+#import "InsurancePlan.h"
 
 @implementation Insurer
 
-- (instancetype)initWithObjectID:(NSString *)objectID name:(NSString *)name {
+- (instancetype)initWithObjectID:(NSString *)objectID name:(NSString *)name plans:(NSArray *)plans {
     
     self = [super init];
     
     if (self) {
         _name = name;
         _objectID = objectID;
+        _plans = plans;
     }
     
     return self;
@@ -25,9 +27,18 @@
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonDictionary {
 
     NSString *objectID = [jsonDictionary[APIParamID] stringValue];
-    NSString *name = jsonDictionary[APIParamName];
+    NSString *name = jsonDictionary[APIParamInsurerName];
     
-    return [self initWithObjectID:objectID name:name];
+    NSMutableArray *mutablePlans = [[NSMutableArray alloc] init];
+    
+    for (NSDictionary *planDictionary in jsonDictionary[APIParamInsurancePlans]) {
+        
+        [planDictionary setValue:self.name forKey:APIParamInsurerName];
+        InsurancePlan *plan = [[InsurancePlan alloc] initSupportedPlanWithJSONDictionary:planDictionary];
+        [mutablePlans addObject:plan];
+    }
+
+    return [self initWithObjectID:objectID name:name plans:[mutablePlans copy]];
 }
 
 @end

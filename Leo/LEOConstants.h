@@ -137,6 +137,7 @@ extern NSString *const APIEndpointPractice; // @"practice";
 
 extern NSString *const APIEndpointSlots; // @"slots";
 extern NSString *const APIEndpointFamily; // @"family";
+extern NSString *const APIEndpointInsurers; // @"insurers";
 
 #pragma mark - Common
 extern NSString *const APIParamID; // @"id";
@@ -275,6 +276,20 @@ extern NSString *const APIParamSlotStartDateTime; // @"start_datetime";
 extern NSString *const APIParamSlotDuration; // @"duration";
 extern NSString *const APIParamStartDate; // @"start_date";
 extern NSString *const APIParamEndDate; // @"end_date";
+
+#pragma mark - Insurer
+extern NSString *const APIParamInsurerID; // @"insurer_id";
+extern NSString *const APIParamInsurers; // @"insurers";
+extern NSString *const APIParamPhone; // @"phone";
+extern NSString *const APIParamFax; // @"fax";
+extern NSString *const APIParamInsurerName; // @"insurer_name";
+
+
+#pragma mark - Insurance Plan
+extern NSString *const APIParamInsurancePlans; // @"insurance_plans";
+extern NSString *const APIParamPlanName; // @"plan_name";
+extern NSString *const APIParamPlanSupported; // @"supported"; //Ironically, this param is not yet supported by the API.
+
 
 #pragma mark - Magic numbers
 extern CGFloat const selectionLineHeight; // 2.0f;

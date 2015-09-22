@@ -12,8 +12,10 @@
 
 @property (strong, nonatomic) NSString *name;
 @property (strong, nonatomic) NSString *objectID;
+@property (strong, nonatomic) NSString *phone;
+@property (strong, nonatomic) NSString *fax;
+@property (strong, nonatomic) NSArray *plans;
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonDictionary;
-- (instancetype)initWithObjectID:(NSString *)objectID name:(NSString *)name;
 
 @end
