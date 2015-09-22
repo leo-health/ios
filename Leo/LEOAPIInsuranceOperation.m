@@ -9,27 +9,35 @@
 #import "LEOAPIInsuranceOperation.h"
 #import <OHHTTPStubs.h>
 #import "InsurancePlan.h"
+#import "Insurer.h"
 #import "LEOHelperService.h"
 @implementation LEOAPIInsuranceOperation
 
 
 -(void)main {
     
-    InsurancePlan *plan = [[InsurancePlan alloc] initWithObjectID:@"1" insurerID:@"0" insurerName:@"Aetna" name:@"PPO"];
-    
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        self.requestBlock(@[plan], nil);
-    }];
-    
-//    TODO:Replace the above with this once the endpoint no longer requires an auth token.
-//    LEOHelperService *helperService = [[LEOHelperService alloc] init];
+//    InsurancePlan *plan = [[InsurancePlan alloc] initWithObjectID:@"1" insurerID:@"0" insurerName:@"Aetna" name:@"PPO"];
 //    
-//    [helperService getInsurersAndPlansWithCompletion:^(NSArray *insurersAndPlans, NSError *error) {
-//        
-//        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-//            self.requestBlock(insurersAndPlans, nil);
-//        }];
+//    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+//        self.requestBlock(@[plan], nil);
 //    }];
+//    
+//    TODO:Replace the above with this once the endpoint no longer requires an auth token.
+    LEOHelperService *helperService = [[LEOHelperService alloc] init];
+    
+    [helperService getInsurersAndPlansWithCompletion:^(NSArray *insurersAndPlans, NSError *error) {
+        
+        NSMutableArray *insurancePlans = [NSMutableArray new];
+        
+        for (Insurer *insurer in insurersAndPlans) {
+            
+            [insurancePlans addObjectsFromArray:insurer.plans];
+        }
+        
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            self.requestBlock(insurancePlans, nil);
+        }];
+    }];
 }
 
 @end

@@ -16,7 +16,7 @@
 @property (strong, nonatomic) NSString *insurerID;
 @property (strong, nonatomic) NSString *insurerName;
 @property (strong, nonatomic) NSString *name;
-@property (strong, nonatomic) NSArray *plans;
+
 @property (nonatomic) BOOL supported;
 
 - (instancetype)initSupportedPlanWithJSONDictionary:(NSDictionary *)jsonDictionary;

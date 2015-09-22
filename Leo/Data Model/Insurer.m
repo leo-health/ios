@@ -33,8 +33,9 @@
     
     for (NSDictionary *planDictionary in jsonDictionary[APIParamInsurancePlans]) {
         
-        [planDictionary setValue:self.name forKey:APIParamInsurerName];
-        InsurancePlan *plan = [[InsurancePlan alloc] initSupportedPlanWithJSONDictionary:planDictionary];
+        NSMutableDictionary *mutablePlanDictionary = [planDictionary mutableCopy];
+        [mutablePlanDictionary setValue:name forKey:APIParamInsurerName];
+        InsurancePlan *plan = [[InsurancePlan alloc] initSupportedPlanWithJSONDictionary:mutablePlanDictionary];
         [mutablePlans addObject:plan];
     }
 

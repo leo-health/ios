@@ -93,7 +93,7 @@
 
 - (NSURLSessionTask *)getInsurersAndPlansWithCompletion:(void (^)(NSArray *insurersAndPlans, NSError *error))completionBlock {
     
-    NSURLSessionTask *task = [[LEOHelperService leoSessionManager] standardGETRequestForJSONDictionaryFromAPIWithEndpoint:APIEndpointInsurers params:nil completion:^(NSDictionary *rawResults, NSError *error) {
+    NSURLSessionTask *task = [[LEOHelperService leoSessionManager] unauthenticatedGETRequestForJSONDictionaryFromAPIWithEndpoint:APIEndpointInsurers params:nil completion:^(NSDictionary *rawResults, NSError *error) {
         
         NSDictionary *insurerDictionaries = rawResults[APIParamData][APIParamInsurers];
         
