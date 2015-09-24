@@ -59,12 +59,18 @@
                 [participants addObject:provider];
                 break;
             }
-                
-            default: {
-                
+            
+            case RoleCodeBilling:
+            case RoleCodeCustomerService:
+            case RoleCodeNursePractitioner: {
                 Support *support = [[Support alloc] initWithJSONDictionary:staffDictionary];
                 [participants addObject:support];
                 break;
+            }
+                
+            default: {
+                
+                //do not add these users.
             }
         }
     }
