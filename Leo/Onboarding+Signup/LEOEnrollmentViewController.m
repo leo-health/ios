@@ -46,10 +46,25 @@
     [self.scrollableContainerView reloadContainerView];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [self setupNavigationBar];
+}
+
 /**
  *  Should be possible to remove this when we have a cleaner implementation of the LEOScrollableContainerView(Controller)
  */
 - (void)setupNavigationBar {
+    
+    self.navigationController.navigationBarHidden = YES;
+
+//    UINavigationBar *navigationBar = self.navigationController.navigationBar;
+//    
+//    [navigationBar setBackgroundImage:[UIImage imageWithColor:[UIColor clearColor]]
+//                       forBarPosition:UIBarPositionAny
+//                           barMetrics:UIBarMetricsDefault];
+//    [navigationBar setShadowImage:[UIImage new]];
     
     [self.fakeNavigationBar setBackgroundImage:[UIImage imageWithColor:[UIColor leoWhite]]
                                 forBarPosition:UIBarPositionAny
@@ -85,6 +100,10 @@
     self.passwordTextField.validationPlaceholder = @"Must have a password";
     self.passwordTextField.secureTextEntry = YES;
     [self.passwordTextField sizeToFit];
+}
+
+- (BOOL)accountForNavigationBar {
+    return NO;
 }
 
 - (void)setupContinueButton {
@@ -173,6 +192,12 @@
     return NO;
 }
 
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    
+    if ([segue.identifier isEqualToString:@"ContinueSegue"]) {
+        self.fakeNavigationBar.items = nil;
+    }
+}
 - (void)pop {
     
     [self.navigationController popViewControllerAnimated:YES];

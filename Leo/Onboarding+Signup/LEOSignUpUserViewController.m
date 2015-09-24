@@ -34,7 +34,6 @@
 @property (weak, nonatomic) IBOutlet LEOPromptView *insurerPromptView;
 
 @property (weak, nonatomic) IBOutlet UIButton *continueButton;
-@property (weak, nonatomic) IBOutlet UINavigationBar *fakeNavigationBar;
 
 @end
 
@@ -44,7 +43,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
- 
+    
     [self setupScrollableContainerView];
     [self setupNavigationBar];
     [self setupFirstNameField];
@@ -65,12 +64,9 @@
  */
 - (void)setupNavigationBar {
     
-    [self.fakeNavigationBar setBackgroundImage:[UIImage imageWithColor:[UIColor leoWhite]]
-                                forBarPosition:UIBarPositionAny
-                                    barMetrics:UIBarMetricsDefault];
-    
-    [self.fakeNavigationBar setShadowImage:[UIImage new]];
-    
+    self.navigationController.navigationBarHidden = NO;
+    self.navigationController.navigationBar.translucent = YES;
+
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [backButton addTarget:self action:@selector(pop) forControlEvents:UIControlEventTouchUpInside];
     [backButton setImage:[UIImage imageNamed:@"Icon-BackArrow"] forState:UIControlStateNormal];
@@ -81,7 +77,7 @@
     
     UINavigationItem *item = [[UINavigationItem alloc] init];
     item.leftBarButtonItem = backBBI;
-    [self.fakeNavigationBar pushNavigationItem:item animated:NO];
+    self.navigationItem.leftBarButtonItem = backBBI;
 }
 
 - (void)setupFirstNameField {
@@ -115,23 +111,20 @@
     self.insurerPromptView.textField.standardPlaceholder = @"insurer";
     self.insurerPromptView.textField.validationPlaceholder = @"choose an insurer";
     self.insurerPromptView.textField.enabled = NO;
-
+    
     [self.insurerPromptView.textField sizeToFit];
     
     self.insurerPromptView.delegate = self;
 }
 
 - (void)setupContinueButton {
-    // self.continueButton.enabled = NO;
     
     self.continueButton.layer.borderColor = [UIColor leoOrangeRed].CGColor;
     self.continueButton.layer.borderWidth = 1.0;
     
-    // [self.continueButton setTitleColor:[UIColor leoGrayForPlaceholdersAndLines] forState:UIControlStateDisabled];
     self.continueButton.titleLabel.font = [UIFont leoButtonLabelsAndTimeStampsFont];
     [self.continueButton setTitleColor:[UIColor leoWhite] forState:UIControlStateNormal];
     [self.continueButton setBackgroundImage:[UIImage imageWithColor:[UIColor leoOrangeRed]] forState:UIControlStateNormal];
-    //[self.continueButton setBackgroundImage:[UIImage imageWithColor:[UIColor leoWhite]] forState:UIControlStateDisabled];
 }
 
 
@@ -206,7 +199,7 @@
 }
 
 - (BOOL)scrollable {
-    return NO;
+    return YES;
 }
 
 - (BOOL)initialStateExpanded {
@@ -221,7 +214,9 @@
     return self.userDetailsView;
 }
 
-
+-(BOOL)accountForNavigationBar {
+    return YES;
+}
 #pragma mark - Navigation & Helper Methods
 
 - (IBAction)continueTapped:(UIButton *)sender {
@@ -253,30 +248,32 @@
 - (void)pop {
     
     [self.navigationController popViewControllerAnimated:YES];
-    self.navigationController.navigationBar.hidden = YES;
+    self.navigationController.navigationBarHidden = YES;
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
     __block BOOL shouldSelect = NO;
-
-    if ([segue.identifier isEqualToString:@"PlanSegue"]) {
     
+    if ([segue.identifier isEqualToString:@"PlanSegue"]) {
+        
         LEOBasicSelectionViewController *selectionVC = segue.destinationViewController;
         
         selectionVC.key = @"name";
         selectionVC.reuseIdentifier = @"InsurancePlanCell";
         selectionVC.titleText = @"Who is the visit for?";
+        selectionVC.tintColor = [UIColor leoWhite];
+        selectionVC.navBarShadowLine = [UIColor leoOrangeRed];
         
-        selectionVC.configureCellBlock = ^(InsurancePlanCell *cell, InsurancePlan *insurer) {
+        selectionVC.configureCellBlock = ^(InsurancePlanCell *cell, InsurancePlan *plan) {
             
             cell.selectedColor = [UIColor leoOrangeRed];
             
             shouldSelect = NO;
             
-            [cell configureForPlan:insurer];
+            [cell configureForPlan:plan];
             
-            if ([insurer.objectID isEqualToString:self.insurerPromptView.textField.text]) {
+            if ([plan.objectID isEqualToString:self.insurerPromptView.textField.text]) {
                 shouldSelect = YES;
             }
             

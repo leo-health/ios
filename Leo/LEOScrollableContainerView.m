@@ -21,7 +21,10 @@
 @property (strong, nonatomic) UIView *contentView;
 @property (nonatomic) BOOL constraintsAlreadyUpdated;
 @property (strong, nonatomic) CALayer *buttonLayer;
+@property (nonatomic) NSInteger navBarHeight;
+@property (nonatomic) CGFloat scrollFiller;
 @end
+
 
 @implementation LEOScrollableContainerView
 
@@ -44,12 +47,22 @@
 - (void)reloadContainerView {
    
     [self setupScrollView];
+    [self accountForNavigationBar];
     [self setupTitleView];
     [self setupCollapsedTitleLabel];
     [self setupBodyView];
     [self layoutIfNeeded];
 }
 
+
+- (void)accountForNavigationBar {
+    
+    self.navBarHeight = 0;
+    
+    if ([self.delegate accountForNavigationBar]) {
+        self.navBarHeight = -98;
+    }
+}
 
 - (void)initializeSubviews {
     
@@ -79,11 +92,13 @@
     self.scrollView.bounces = YES;
     self.scrollView.delegate = self;
     self.scrollView.scrollEnabled = [self.delegate scrollable];
+    self.scrollFiller = 0.0;
+    
     [self.scrollView setShowsHorizontalScrollIndicator:NO];
     [self.scrollView setShowsVerticalScrollIndicator:NO];
     
     if (![self.delegate initialStateExpanded]) {
-        self.scrollView.contentOffset = CGPointMake(0, 150);
+        self.scrollView.contentOffset = CGPointMake(0, 165);
     }
     
     UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(scrollViewWasTapped:)];
@@ -194,13 +209,13 @@
         if (percentTitleViewHidden > 0.5) {
             
             [self animateScrollViewTo:self.titleView.frame.size.height withDuration:0.1];
-            [self animateAlphaLevelsOfView:self.expandedTitleLabel to:0 withDuration:0.1];
-            [self animateAlphaLevelsOfView:self.collapsedTitleLabel to:1 withDuration:0.1];
+//            [self animateAlphaLevelsOfView:self.expandedTitleLabel to:0 withDuration:0.1];
+//            [self animateAlphaLevelsOfView:self.collapsedTitleLabel to:1 withDuration:0.1];
         } else {
             
-            [self animateScrollViewTo:0 withDuration:0.1];
-            [self animateAlphaLevelsOfView:self.expandedTitleLabel to:1 withDuration:0.1];
-            [self animateAlphaLevelsOfView:self.collapsedTitleLabel to:0 withDuration:0.1];
+            [self animateScrollViewTo:self.navBarHeight withDuration:0.1];
+//            [self animateAlphaLevelsOfView:self.expandedTitleLabel to:1 withDuration:0.1];
+//            [self animateAlphaLevelsOfView:self.collapsedTitleLabel to:0 withDuration:0.1];
         }
     }
 }
@@ -208,6 +223,7 @@
 - (void)animateAlphaLevelsOfView:(UIView *)view to:(NSUInteger)level withDuration:(NSTimeInterval)duration {
     
     [UIView animateWithDuration:duration delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        [self layoutIfNeeded];
         view.alpha = level;
     } completion:nil];
 }
@@ -215,7 +231,8 @@
 - (void)animateScrollViewTo:(CGFloat)y withDuration:(NSTimeInterval)duration {
     
     [UIView animateWithDuration:duration delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-        [self.scrollView setContentOffset:CGPointMake(0.0, y)];
+        [self layoutIfNeeded];
+        [self.scrollView setContentOffset:CGPointMake(0.0, y) animated:NO];
     } completion:nil];
 }
 
@@ -254,7 +271,7 @@
     
     
     //TODO: Remove magic number.
-    CGFloat titleHeight = 150.0;
+    CGFloat titleHeight = 165.0;
     
     //TODO: Need to figure out how to set this via calculation. Based on research so far, the bodyView, which we would like to use to help with the calculation has a frame that is set at 600 x 536, which obviously isn't yet taking into account the constraints on it.
     CGFloat contentViewRemainder = 0; //[self sizeRemainder];
@@ -271,8 +288,12 @@
     NSArray *horizontalLayoutConstraintsForContentView = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_contentView]|" options:0 metrics:nil views:viewDictionary];
     [self.scrollView addConstraints:verticalLayoutConstraintsForContentView];
     [self.scrollView addConstraints:horizontalLayoutConstraintsForContentView];
+
+    if (self.scrollView.scrollEnabled) {
+        self.scrollFiller = self.window.frame.size.height - self.contentView.frame.size.height + 216.0;
+    }
     
-    NSArray *verticalLayoutConstraintsForSubviews = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_titleView(titleHeight)][_bodyView]|" options:0 metrics:@{@"titleHeight" : @(titleHeight), @"contentViewRemainder" : @(contentViewRemainder)} views:viewDictionary];
+    NSArray *verticalLayoutConstraintsForSubviews = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(navBarHeight)-[_titleView(titleHeight)][_bodyView]-(scrollFiller)-|" options:0 metrics:@{@"titleHeight" : @(titleHeight), @"contentViewRemainder" : @(contentViewRemainder), @"navBarHeight":@(self.navBarHeight), @"scrollFiller":@(self.scrollFiller)} views:viewDictionary];
     
     CGFloat screenWidth = self.frame.size.width;
     

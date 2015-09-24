@@ -53,9 +53,11 @@ NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
 
 - (void)setupNavigationBar {
     
+    self.navigationController.navigationBarHidden = YES;
+    
     [self.fakeNavigationBar setBackgroundImage:[UIImage imageWithColor:[UIColor leoWhite]]
-                       forBarPosition:UIBarPositionAny
-                           barMetrics:UIBarMetricsDefault];
+                                forBarPosition:UIBarPositionAny
+                                    barMetrics:UIBarMetricsDefault];
     
     [self.fakeNavigationBar setShadowImage:[UIImage new]];
     
@@ -69,7 +71,6 @@ NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
     
     UINavigationItem *item = [[UINavigationItem alloc] init];
     item.leftBarButtonItem = backBBI;
-//    item.hidesBackButton = YES;
     [self.fakeNavigationBar pushNavigationItem:item animated:NO];
 }
 
@@ -77,8 +78,7 @@ NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
-//    self.navigationController.navigationBar.hidden = NO;
-
+    [self setupNavigationBar];
 }
 - (void)setupEmailTextField {
     
@@ -163,6 +163,10 @@ NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
     return self.loginView;
 }
 
+-(BOOL)accountForNavigationBar {
+    return NO;
+}
+
 
 #pragma mark - Navigation
 
@@ -174,6 +178,7 @@ NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
 
         LEOForgotPasswordViewController *forgotPasswordVC = segue.destinationViewController;
         forgotPasswordVC.email = self.emailTextField.text;
+        self.fakeNavigationBar.items = nil;
     }
 }
 

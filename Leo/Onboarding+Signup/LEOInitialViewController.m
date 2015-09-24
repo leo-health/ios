@@ -21,6 +21,7 @@ NSString *const kSignUpSegue = @"SignUpSegue";
 
 @implementation LEOInitialViewController
 
+
 -(void)viewDidLoad {
     
     [super viewDidLoad];
@@ -30,6 +31,12 @@ NSString *const kSignUpSegue = @"SignUpSegue";
     #endif
 
     self.navigationController.navigationBarHidden = YES;
+    UINavigationBar *navigationBar = self.navigationController.navigationBar;
+    
+    [navigationBar setBackgroundImage:[UIImage imageWithColor:[UIColor clearColor]]
+                       forBarPosition:UIBarPositionAny
+                           barMetrics:UIBarMetricsDefault];
+    [navigationBar setShadowImage:[UIImage new]];
 }
 
 - (IBAction)loginTapped:(UIButton *)sender {

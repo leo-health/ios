@@ -15,7 +15,7 @@
 
 @interface LEOExpandedCardViewController ()
 
-@property (strong, nonatomic) UILabel *titleLabel;
+@property (strong, nonatomic) UILabel *expandedTitleLabel;
 @property (strong, nonatomic) UIView *titleView;
 @property (strong, nonatomic) UIView *contentView;
 @property (nonatomic) BOOL constraintsAlreadyUpdated;
@@ -45,7 +45,7 @@
 -(void)setExpandedFullTitle:(NSString *)expandedFullTitle {
     _expandedFullTitle = expandedFullTitle;
     
-    self.titleLabel.text = _expandedFullTitle;
+    self.expandedTitleLabel.text = _expandedFullTitle;
 }
 
 - (void)setupSubviews {
@@ -59,7 +59,7 @@
     self.contentView = [[UIView alloc] init];
     
     self.titleView = [[UIView alloc] init];
-    self.titleLabel = [[UILabel alloc] init];
+    self.expandedTitleLabel = [[UILabel alloc] init];
     
     [self.view addSubview:self.scrollView];
     
@@ -67,7 +67,7 @@
     
     [self.contentView addSubview:self.titleView];
     
-    [self.titleView addSubview:self.titleLabel];
+    [self.titleView addSubview:self.expandedTitleLabel];
 }
 
 
@@ -136,11 +136,11 @@
     self.navigationItem.titleView = navBarTitleLabel;
     self.navigationItem.titleView.alpha = 0;
     
-    self.titleLabel.text = self.expandedFullTitle;
-    self.titleLabel.font = [UIFont leoExpandedCardHeaderFont];
-    self.titleLabel.textColor = [UIColor leoWhite];
-    self.titleLabel.numberOfLines = 0;
-    self.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    self.expandedTitleLabel.text = self.expandedFullTitle;
+    self.expandedTitleLabel.font = [UIFont leoExpandedCardHeaderFont];
+    self.expandedTitleLabel.textColor = [UIColor leoWhite];
+    self.expandedTitleLabel.numberOfLines = 0;
+    self.expandedTitleLabel.lineBreakMode = NSLineBreakByWordWrapping;
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -182,7 +182,7 @@
         CGFloat percentTitleViewHidden = scrollView.contentOffset.y / self.titleView.frame.size.height;
         
         if (percentTitleViewHidden < 1) {
-            self.titleLabel.alpha = 1 - percentTitleViewHidden * 2; //FIXME: Magic number
+            self.expandedTitleLabel.alpha = 1 - percentTitleViewHidden * 2; //FIXME: Magic number
             self.navigationItem.titleView.alpha = percentTitleViewHidden;
         }
     }
@@ -215,12 +215,12 @@
         if (percentTitleViewHidden > 0.5) {
             
             [self animateScrollViewTo:self.titleView.frame.size.height withDuration:0.1];
-            [self animateAlphaLevelsOfView:self.titleLabel to:0 withDuration:0.1];
+            [self animateAlphaLevelsOfView:self.expandedTitleLabel to:0 withDuration:0.1];
             [self animateAlphaLevelsOfView:self.navigationItem.titleView to:1 withDuration:0.1];
         } else {
             
             [self animateScrollViewTo:0 withDuration:0.1];
-            [self animateAlphaLevelsOfView:self.titleLabel to:1 withDuration:0.1];
+            [self animateAlphaLevelsOfView:self.expandedTitleLabel to:1 withDuration:0.1];
             [self animateAlphaLevelsOfView:self.navigationItem.titleView to:0 withDuration:0.1];
         }
     }
@@ -259,7 +259,7 @@
 
 - (void)updateHorizontalBodyConstraints {
     
-    NSDictionary *viewDictionary = NSDictionaryOfVariableBindings(_titleView, _button, _bodyView, _scrollView, _contentView, _titleLabel);
+    NSDictionary *viewDictionary = NSDictionaryOfVariableBindings(_titleView, _button, _bodyView, _scrollView, _contentView, _expandedTitleLabel);
 
     [self.contentView removeConstraints:self.horizontalBodyViewConstraints];
     
@@ -287,7 +287,7 @@
     self.button.translatesAutoresizingMaskIntoConstraints = NO;
     self.bodyView.translatesAutoresizingMaskIntoConstraints = NO;
     self.titleView.translatesAutoresizingMaskIntoConstraints = NO;
-    self.titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    self.expandedTitleLabel.translatesAutoresizingMaskIntoConstraints = NO;
     
     //TODO: Remove magic number.
     CGFloat titleHeight = 150.0;
@@ -295,7 +295,7 @@
     //TODO: Need to figure out how to set this via calculation. Based on research so far, the bodyView, which we would like to use to help with the calculation has a frame that is set at 600 x 536, which obviously isn't yet taking into account the constraints on it.
     CGFloat contentViewRemainder = 200;
     
-    NSDictionary *viewDictionary = NSDictionaryOfVariableBindings(_titleView, _button, _bodyView, _scrollView, _contentView, _titleLabel);
+    NSDictionary *viewDictionary = NSDictionaryOfVariableBindings(_titleView, _button, _bodyView, _scrollView, _contentView, _expandedTitleLabel);
     
     NSArray *verticalLayoutConstraintsForScrollView = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_scrollView][_button(==44)]|" options:0 metrics:nil views:viewDictionary];
     NSArray *horizontalLayoutConstraintsForScrollView = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_scrollView]|" options:0 metrics:nil views:viewDictionary];
@@ -322,14 +322,14 @@
     [self.contentView addConstraints:verticalLayoutConstraintsForSubviews];
     
     //FIXME: These need to not be hard coded.
-    NSArray *horizontalLayoutConstraintsForFullTitle = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(20)-[_titleLabel]-(100)-|" options:0 metrics:nil views:viewDictionary];
-    NSArray *verticalLayoutConstraintsForFullTitle = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_titleLabel]-(20)-|" options:0 metrics:nil views:viewDictionary];
+    NSArray *horizontalLayoutConstraintsForFullTitle = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(20)-[_expandedTitleLabel]-(100)-|" options:0 metrics:nil views:viewDictionary];
+    NSArray *verticalLayoutConstraintsForFullTitle = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_expandedTitleLabel]-(20)-|" options:0 metrics:nil views:viewDictionary];
     
     [self.titleView addConstraints:horizontalLayoutConstraintsForFullTitle];
     [self.titleView addConstraints:verticalLayoutConstraintsForFullTitle];
     
-    [self.contentView setContentHuggingPriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisVertical];
-    [self.contentView setContentCompressionResistancePriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisVertical];
+//    [self.contentView setContentHuggingPriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisVertical];
+//    [self.contentView setContentCompressionResistancePriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisVertical];
 }
 
 
