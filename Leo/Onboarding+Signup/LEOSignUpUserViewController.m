@@ -290,7 +290,7 @@
 
 -(void)didUpdateItem:(id)item forKey:(NSString *)key {
     
-    NSString *insurancePlanString = [NSString stringWithFormat:@"%@ %@",((InsurancePlan *)item).insurer.name,((InsurancePlan *)item).name];
+    NSString *insurancePlanString = [NSString stringWithFormat:@"%@ %@",((InsurancePlan *)item).insurerName,((InsurancePlan *)item).name];
     self.insurerPromptView.textField.text = insurancePlanString;
     //TODO: Complete user object here.
 }

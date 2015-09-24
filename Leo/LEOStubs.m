@@ -80,6 +80,22 @@
                                                                             headers:@{@"Content-Type":@"application/json"}];
         return response;
     }];
+    
+    //TODO: Add this stub once there is data I can pull from the server.
+    //    __weak id<OHHTTPStubsDescriptor> insurerStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+    //        NSLog(@"Stub request");
+    //        BOOL test = [request.URL.path isEqualToString:[NSString stringWithFormat:@"/%@/%@",[Configuration APIVersion], @"insurers"]];
+    //        return test;
+    //    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+    //
+    //        NSString *fixture = fixture = OHPathForFile(@"../Stubs/getInsurers.json", self.class);
+    //        OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithFileAtPath:fixture
+    //                                                                         statusCode:200
+    //                                                                            headers:@{@"Content-Type":@"application/json"}];
+    //        return response;
+    //        
+    //    }];
+    //
 }
 
 @end

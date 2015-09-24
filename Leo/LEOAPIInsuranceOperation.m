@@ -10,33 +10,33 @@
 #import <OHHTTPStubs.h>
 #import "InsurancePlan.h"
 #import "Insurer.h"
-
+#import "LEOHelperService.h"
 @implementation LEOAPIInsuranceOperation
 
 
 -(void)main {
     
-//    __weak id<OHHTTPStubsDescriptor> insurerStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-//        NSLog(@"Stub request");
-//        BOOL test = [request.URL.path isEqualToString:[NSString stringWithFormat:@"/%@/%@",[Configuration APIVersion], @"insurers"]];
-//        return test;
-//    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-//        
-//        NSString *fixture = fixture = OHPathForFile(@"../Stubs/getInsurers.json", self.class);
-//        OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithFileAtPath:fixture
-//                                                                         statusCode:200
-//                                                                            headers:@{@"Content-Type":@"application/json"}];
-//        return response;
-//        
+//    InsurancePlan *plan = [[InsurancePlan alloc] initWithObjectID:@"1" insurerID:@"0" insurerName:@"Aetna" name:@"PPO"];
+//    
+//    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+//        self.requestBlock(@[plan], nil);
 //    }];
-//
+//    
+//    TODO:Replace the above with this once the endpoint no longer requires an auth token.
+    LEOHelperService *helperService = [[LEOHelperService alloc] init];
     
-    Insurer *insurer = [[Insurer alloc] initWithObjectID:@"1" name:@"Aetna"];
-    
-    InsurancePlan *plan = [[InsurancePlan alloc] initWithObjectID:@"1" insurer:insurer name:@"PPO" supported:YES];
-    
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        self.requestBlock(@[plan], nil);
+    [helperService getInsurersAndPlansWithCompletion:^(NSArray *insurersAndPlans, NSError *error) {
+        
+        NSMutableArray *insurancePlans = [NSMutableArray new];
+        
+        for (Insurer *insurer in insurersAndPlans) {
+            
+            [insurancePlans addObjectsFromArray:insurer.plans];
+        }
+        
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            self.requestBlock(insurancePlans, nil);
+        }];
     }];
 }
 
