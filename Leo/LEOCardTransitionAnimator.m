@@ -54,7 +54,7 @@
         NSDictionary *views = NSDictionaryOfVariableBindings(toView);
         
         NSArray *horizontalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"|-(w)-[toView]-(w)-|" options:0 metrics:metrics views:views];
-        NSArray *verticalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(sHeight)-[toView]-40-|" options:0 metrics:metrics views:views];
+        NSArray *verticalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(sHeight)-[toView]-(sHeight)-|" options:0 metrics:metrics views:views];
         
         [transitionContext.containerView addConstraints:horizontalConstraints];
         [transitionContext.containerView addConstraints:verticalConstraints];

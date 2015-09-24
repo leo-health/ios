@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+@class SessionUser;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) UIViewController *initialViewController;
-@property (strong, nonatomic) NSString *userToken;
+//@property (strong, nonatomic) SessionUser *sessionUser;
 @end
 

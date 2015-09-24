@@ -14,6 +14,7 @@
 #import "ArrayDataSource.h"
 #import "LEOCardCell.h"
 #import "LEOCard.h"
+#import "LEOCardConversation.h"
 
 #import "LEODataManager.h"
 
@@ -24,13 +25,15 @@
 #import "Message.h"
 #import "Family.h"
 #import "Practice.h"
+#import "SessionUser.h"
 
 #import "UIColor+LeoColors.h"
 #import "UIImage+Extensions.h"
 #import "LEOExpandedCardAppointmentViewController.h"
+#import "LEOMessagesViewController.h"
+
 #import "LEOCardAppointment.h"
 #import "LEOTransitioningDelegate.h"
-#import "LEOCardConversationChattingVC.h"
 
 #import "LEOTwoButtonSecondaryOnlyCell+ConfigureForCell.h"
 #import "LEOOneButtonSecondaryOnlyCell+ConfigureForCell.h"
@@ -46,6 +49,7 @@
 
 #import <MBProgressHUD/MBProgressHUD.h>
 #import "Configuration.h"
+#import "LEOPusherHelper.h"
 
 @interface LEOFeedTVC ()
 
@@ -54,7 +58,6 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) LEOTransitioningDelegate *transitionDelegate;
 
-@property (strong, nonatomic) UITableViewCell *selectedCardCell;
 @property (retain, nonatomic) NSMutableArray *cards;
 @property (strong, nonatomic) Family *family;
 @property (copy, nonatomic) NSArray *allStaff;
@@ -88,7 +91,41 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fetchData) name:UIApplicationWillEnterForegroundNotification object:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationReceived:) name:@"Conversation-AddedMessage" object:nil];
+    
     [self tableViewSetup];
+    [self pushNewMessageToConversation:[self conversation].associatedCardObject];
+}
+
+//MARK: Most likely doesn't belong in this class; no longer tied to it except for completion block which can be passed in.
+- (void)pushNewMessageToConversation:(Conversation *)conversation {
+    
+    NSString *channelString = [NSString stringWithFormat:@"%@%@",@"newMessage",[SessionUser currentUser].email];
+    NSString *event = @"new_message";
+    
+    LEOPusherHelper *pusherHelper = [LEOPusherHelper sharedPusher];
+    [pusherHelper connectToPusherChannel:channelString withEvent:event sender:self withCompletion:^(NSDictionary *channelData) {
+        
+        [conversation addMessageFromJSON:channelData];
+    }];
+}
+
+- (void)notificationReceived:(NSNotification *)notification {
+    
+    if ([notification.name isEqualToString: @"Conversation-AddedMessage"]) {
+        [self.tableView reloadData];
+    }
+}
+
+- (LEOCardConversation *)conversation {
+    
+    for (LEOCard *card in self.cards) {
+        
+        if ([card isKindOfClass:[LEOCardConversation class]]) {
+            return (LEOCardConversation *)card;
+        }
+    }
+    return nil; //Not loving this implementation since it technically *could* break...
 }
 
 - (void)fetchData {
@@ -97,7 +134,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     
     [MBProgressHUD showHUDAddedTo:self.tableView animated:YES];
 
-    dispatch_sync(queue, ^{
+    dispatch_async(queue, ^{
                 
         [self.dataManager getCardsWithCompletion:^(NSArray *cards, NSError *error) {
             
@@ -141,10 +178,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 #pragma mark - <UITableViewDelegate>
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    LEOCardCell *cell = (LEOCardCell *)[tableView cellForRowAtIndexPath:indexPath];
-    self.selectedCardCell = cell;
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
-    
 }
 
 -(void)takeResponsibilityForCard:(LEOCard *)card {
@@ -155,7 +189,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 - (void)didUpdateObjectStateForCard:(LEOCard *)card {
     
     [UIView animateWithDuration:0.2 animations:^{
-        //self.selectedCardCell.layer.transform = CATransform3DMakeRotation(M_PI_2,0.0,1.0,0.0); ; //flip halfway, TODO: Determine what the appropiate thing is to do with the collapsed card view.
+        
     } completion:^(BOOL finished) {
         
         if (card.type == CardTypeAppointment) { //FIXME: should really be an integer / enum with a displayName if desired.
@@ -216,7 +250,8 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
                 case ConversationStatusCodeOpen: {
                     [self loadChattingViewWithCard:card];
                     break;
-                }   
+                }
+                    
                 default: {
                     break;
                 }
@@ -229,7 +264,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 
 - (void)beginSchedulingNewAppointment {
 
-    Appointment *appointment = [[Appointment alloc] initWithObjectID:nil date:nil appointmentType:nil patient:nil provider:nil bookedByUser:(User *)[self.dataManager currentUser] note:nil statusCode:AppointmentStatusCodeBooking];
+    Appointment *appointment = [[Appointment alloc] initWithObjectID:nil date:nil appointmentType:nil patient:nil provider:nil bookedByUser:[SessionUser currentUser] note:nil statusCode:AppointmentStatusCodeBooking];
     
     LEOCardAppointment *card = [[LEOCardAppointment alloc] initWithObjectID:@"temp" priority:@999 type:CardTypeAppointment associatedCardObject:appointment];
 
@@ -304,12 +339,15 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 - (void)loadChattingViewWithCard:(LEOCard *)card {
     
     UIStoryboard *conversationStoryboard = [UIStoryboard storyboardWithName:@"Conversation" bundle:nil];
-    LEOCardConversationChattingVC *conversationChattingVC = [conversationStoryboard instantiateInitialViewController];
-    conversationChattingVC.card = (LEOCardConversation *)card;
+    UINavigationController *conversationNavController = [conversationStoryboard instantiateInitialViewController];
+    LEOMessagesViewController *messagesVC = conversationNavController.viewControllers.firstObject;
+    messagesVC.card = (LEOCardConversation *)card;
     
-    //              self.transitionDelegate = [[LEOTransitioningDelegate alloc] init];
-    //            singleAppointmentScheduleVC.transitioningDelegate = self.transitionDelegate;
-    [self presentViewController:conversationChattingVC animated:YES completion:^{
+    self.transitionDelegate = [[LEOTransitioningDelegate alloc] init];
+    conversationNavController.transitioningDelegate = self.transitionDelegate;
+    conversationNavController.modalPresentationStyle = UIModalPresentationCustom;
+    [self presentViewController:conversationNavController animated:YES completion:^{
+        
     }];
 }
 

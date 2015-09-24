@@ -77,6 +77,17 @@
                                                 borderWidth:borderWidth];
 }
 
++ (UIImage *)circularAvatarWithInitials:(NSString *)userInitials withDiameter:(NSUInteger)diameter backgroundColor:(UIColor *)backgroundColor font:(UIFont *)font textColor:(UIColor *)textColor borderColor:(UIColor *)borderColor borderWidth:(NSUInteger)borderWidth
+{
+    return [LEOMessagesAvatarImageFactory jsq_imageWitInitials:userInitials
+                                                               backgroundColor:backgroundColor
+                                                                     textColor:textColor
+                                                                          font:font
+                                                                      diameter:diameter
+                                                                   borderColor:borderColor
+                                                                   borderWidth:borderWidth];
+}
+
 + (JSQMessagesAvatarImage *)avatarImageWithUserInitials:(NSString *)userInitials
                                         backgroundColor:(UIColor *)backgroundColor
                                               textColor:(UIColor *)textColor
@@ -118,6 +129,8 @@
     NSParameterAssert(backgroundColor != nil);
     NSParameterAssert(textColor != nil);
     NSParameterAssert(font != nil);
+    NSParameterAssert(borderColor != nil);
+    NSParameterAssert(borderWidth >= 0);
     NSParameterAssert(diameter > 0);
     
     CGRect frame = CGRectMake(0.0f, 0.0f, diameter, diameter);
@@ -158,6 +171,8 @@
 {
     NSParameterAssert(image != nil);
     NSParameterAssert(diameter > 0);
+    NSParameterAssert(borderColor != nil);
+    NSParameterAssert(borderWidth >= 0);
     
     CGRect frame = CGRectMake(0.0f, 0.0f, diameter, diameter);
     

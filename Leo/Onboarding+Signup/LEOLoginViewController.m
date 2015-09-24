@@ -195,7 +195,7 @@ NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
        
         LEODataManager *dataManager = [LEODataManager sharedManager];
         
-        [dataManager loginUserWithEmail:self.emailTextField.text password:self.passwordTextField.text withCompletion:^(NSDictionary * response, NSError * error) {
+        [dataManager loginUserWithEmail:self.emailTextField.text password:self.passwordTextField.text withCompletion:^(SessionUser * user, NSError * error) {
             
             if (!error) {
                 

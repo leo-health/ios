@@ -17,6 +17,6 @@ GCC_SYMBOLS_PRIVATE_EXTERN = NO
 GCC_PREPROCESSOR_DEFINITIONS = DEBUG=1 $(inherited) STUBS_FLAG=0 AUTOLOGIN_FLAG=1
 MTL_ENABLE_DEBUG_INFO = YES
 
-API_URL = leo-api.elasticbeanstalk.com //localhost:3000
+API_URL = leo-api.elasticbeanstalk.com //localhost:3000 //
 API_VERSION = api/v1
 S3_URL = elasticbeanstalk-us-east-1-435800161732.s3.amazonaws.com

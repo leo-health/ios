@@ -7,9 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "User.h"
+#import "Guardian.h"
+#import "LEODataManager.h"
+#import "LEOCredentialStore.h"
 
-@interface SessionUser : User
+@interface SessionUser : Guardian
 
+@property (strong, nonatomic) LEODataManager *dataManager;
+@property (strong, nonatomic) LEOCredentialStore *credentialStore;
+
++ (instancetype)currentUser;
++ (instancetype)newUserWithJSONDictionary:(NSDictionary *)jsonDictionary;
 
 @end

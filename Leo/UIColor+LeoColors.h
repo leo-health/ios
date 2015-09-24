@@ -20,6 +20,7 @@
 + (UIColor *) leoRedBadge;
 + (UIColor *) leoBlack;
 + (UIColor *) leoWhite;
++ (UIColor *) leoLightBlue;
 
 + (UIColor *)leoGrayStandard;
 + (UIColor *)leoGrayForTitlesAndHeadings;

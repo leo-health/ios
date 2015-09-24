@@ -12,6 +12,8 @@
 #import "Provider.h"
 #import "Guardian.h"
 #import "Support.h"
+#import "Patient.h"
+
 #import "NSDate+Extensions.h"
 
 @interface Message()
@@ -24,9 +26,17 @@
 
 @implementation Message
 
+NSString *const kText = @"text";
+NSString *const kImage = @"image";
+
 #pragma mark - <JSQMessageDataProtocol>
 
 -(NSString *)senderId {
+    
+    if ([self.sender isKindOfClass:[Guardian class]]) {
+        return [NSString stringWithFormat:@"%@F",((Guardian *)self.sender).familyID] ;
+    }
+    
     return self.sender.objectID;
 }
 
@@ -65,7 +75,7 @@
 //FIXME: LeoConstants missing some of these hence they have been commented out for the time-being.
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
     
-    NSString *objectID = [jsonResponse[APIParamID] stringValue];
+        NSString *objectID = [jsonResponse[APIParamID] stringValue];
     NSString *text = jsonResponse[APIParamMessageBody];
     
     //FIXME: In order for this to work, need a helper to convert the URL to a media message
@@ -86,10 +96,8 @@
     NSString *status = jsonResponse[APIParamStatus];
     MessageStatusCode statusCode = [jsonResponse[APIParamStatusID] integerValue];
     
-    NSString *type = jsonResponse[APIParamType];
-    
     //MARK: Decide if I need to bring this in even since it is only being used for introspection and not kept around afterward.
-    NSNumber *typeID = jsonResponse[APIParamTypeID];
+    MessageTypeCode typeCode = [self convertTypeToTypeCode:jsonResponse[APIParamType]];
     
     //    NSDate *escalatedAt = jsonResponse[APIParamMessageEscalatedDateTime];
     
@@ -97,28 +105,45 @@
     
     //TODO: May need to protect against nil values...
     
-    if ([type isEqualToString:@"text"]) {
-        return [[Message alloc] initWithObjectID:objectID text:text sender:sender escalatedTo:escalatedTo escalatedBy:nil status:status statusCode:statusCode createdAt:createdAt escalatedAt:nil];
-    } else {
-        return [[Message alloc] initWithObjectID:objectID media:media sender:sender escalatedTo:escalatedTo escalatedBy:nil status:status statusCode:statusCode createdAt:createdAt escalatedAt:nil];
-        
+    switch (typeCode) {
+        case MessageTypeCodeText:
+            return [[Message alloc] initWithObjectID:objectID text:text sender:sender escalatedTo:escalatedTo escalatedBy:nil status:status statusCode:statusCode createdAt:createdAt escalatedAt:nil];
+            
+        case MessageTypeCodeImage:
+             return [[Message alloc] initWithObjectID:objectID media:media sender:sender escalatedTo:escalatedTo escalatedBy:nil status:status statusCode:statusCode createdAt:createdAt escalatedAt:nil];
+            
+        case MessageTypeCodeUndefined:
+    
+            return nil;
     }
 }
+
+- (MessageTypeCode)convertTypeToTypeCode:(NSString *)type {
+    
+    if ([type isEqualToString:kText]) {
+        return MessageTypeCodeText;
+    } else if ([type isEqualToString:kImage]) {
+        return MessageTypeCodeImage;
+    }
+    
+    return MessageTypeCodeUndefined;
+}
+
 
 
 //FIXME: This should not really be a part of the Message class. Let's figure out where this goes.
 - (User *)initializeWithJSONDictionary:(NSDictionary *)jsonDictionary {
     
-    if ([jsonDictionary[APIParamRole] isEqualToString:@"provider"]) {
+    if ([jsonDictionary[APIParamRoleID] isEqual: @(RoleCodeProvider)]) {
         return [[Provider alloc] initWithJSONDictionary:jsonDictionary];
     }
     
-    else if ([jsonDictionary[APIParamRole] isEqualToString:@"guardian"]) {
+    else if ([jsonDictionary[APIParamRoleID]  isEqual: @(RoleCodeGuardian)]) {
         return [[Guardian alloc] initWithJSONDictionary:jsonDictionary];
     }
     
-    else if ([jsonDictionary[APIParamRole] isEqualToString:@"customer_service"]) {
-        return [[Support alloc] initWithJSONDictionary:jsonDictionary];
+    else if ([jsonDictionary[APIParamRole]  isEqual: @(RoleCodePatient)]) {
+        return [[Patient alloc] initWithJSONDictionary:jsonDictionary];
     }
     
     return [[User alloc] initWithJSONDictionary:jsonDictionary];
@@ -240,6 +265,7 @@
     
     return [[[self class] allocWithZone:zone] initWithObjectID:self.objectID text:self.text sender:self.sender escalatedTo:self.escalatedTo escalatedBy:self.escalatedBy status:self.status statusCode:self.statusCode createdAt:self.createdAt escalatedAt:self.escalatedAt];
 }
+
 
 
 

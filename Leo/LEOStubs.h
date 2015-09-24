@@ -11,5 +11,6 @@
 @interface LEOStubs : NSObject
 
 + (void)setupStubs;
++ (void)setupConversationStubWithID:(NSString *)conversationID;
 
 @end

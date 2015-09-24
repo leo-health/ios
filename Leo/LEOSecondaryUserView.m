@@ -14,10 +14,10 @@
 
 @interface LEOSecondaryUserView ()
 
-@property (weak, nonatomic, nonnull)  UILabel *nameLabel;
-@property (weak, nonatomic, nullable) UILabel *suffixCredentialLabel;
-@property (weak, nonatomic, nullable) UILabel *timestampLabel;
-@property (weak, nonatomic, nullable) UILabel *dividerLabel;
+@property (strong, nonatomic)  UILabel *nameLabel;
+@property (strong, nonatomic) UILabel *suffixCredentialLabel;
+@property (strong, nonatomic) UILabel *timestampLabel;
+@property (strong, nonatomic) UILabel *dividerLabel;
 
 @property (nonatomic) BOOL constraintsAlreadyUpdated;
 
@@ -28,14 +28,10 @@
 
 -(void)awakeFromNib {
     
-    UILabel *nameLabelStrong = [[UILabel alloc] init];
-    _nameLabel = nameLabelStrong;
-    UILabel *suffixCredentialLabel = [[UILabel alloc] init];
-    _suffixCredentialLabel = suffixCredentialLabel;
-    UILabel *dividerLabelStrong = [[UILabel alloc] init];
-    _dividerLabel = dividerLabelStrong;
-    UILabel *timestampLabelStrong = [[UILabel alloc] init];
-    _timestampLabel = timestampLabelStrong;
+    self.nameLabel = [[UILabel alloc] init];
+    self.suffixCredentialLabel = [[UILabel alloc] init];
+    self.dividerLabel = [[UILabel alloc] init];
+    self.timestampLabel = [[UILabel alloc] init];
     
     [self addSubview:self.nameLabel];
     [self addSubview:self.dividerLabel];

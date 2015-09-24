@@ -58,32 +58,27 @@ static NSString *kActionSelectorCallUs = @"callUs";
     switch (self.conversation.statusCode) {
             
         case ConversationStatusCodeClosed:
-            return CardLayoutTwoButtonSecondaryOnly;
-            break;
-            
         case ConversationStatusCodeOpen:
-            return CardLayoutUndefined;
-            
-        break;
+        case ConversationStatusCodeNewMessages:
+        case ConversationStatusCodeReadMessages:
+        case ConversationStatusCodeUndefined:
+            return CardLayoutTwoButtonSecondaryOnly;
     }
 }
 
 - (NSString *)title {
     
-    NSString *titleText;
-    
     switch (self.conversation.statusCode) {
             
         case ConversationStatusCodeClosed:
-            titleText = @"Chat with Leo";
-            break;
-            
         case ConversationStatusCodeOpen:
-            titleText = @"Chat with Leo";
-            break;
+        case ConversationStatusCodeReadMessages:
+        case ConversationStatusCodeUndefined:
+            return @"Chat with Leo";
+            
+        case ConversationStatusCodeNewMessages:
+            return  @"You have new messages";
     }
-    
-    return titleText;
 }
 
 - (NSString *)body {
@@ -92,19 +87,18 @@ static NSString *kActionSelectorCallUs = @"callUs";
     
     switch (self.conversation.statusCode) {
             
-        case ConversationStatusCodeClosed: {
-            Message *message = self.conversation.messages[0];
+        case ConversationStatusCodeClosed:
+        case ConversationStatusCodeOpen:
+        case ConversationStatusCodeNewMessages:
+        case ConversationStatusCodeReadMessages:
+        case ConversationStatusCodeUndefined: {
+            Message *message = self.conversation.messages.lastObject;
             
             if (message.text) {
                 bodyText = message.text;
             } else {
-                bodyText = [NSString stringWithFormat:@"%@ has sent you a media message.", message.sender];
+                bodyText = [NSString stringWithFormat:@"%@ has sent you a media message.", message.sender.fullName];
             }
-            break;
-        }
-        case ConversationStatusCodeOpen: {
-            bodyText = nil;
-            break;
         }
     }
     
@@ -117,21 +111,15 @@ static NSString *kActionSelectorCallUs = @"callUs";
 
 - (nonnull NSArray *)stringRepresentationOfActionsAvailableForState {
     
-    NSArray *actionStrings;
-    
     switch (self.conversation.statusCode) {
         
-        case ConversationStatusCodeClosed: {
-            actionStrings = @[@"REPLY", @"CALL US"];
-            break;
-        }
-        case ConversationStatusCodeOpen: {
-            actionStrings = nil;
-            break;
-        }
+        case ConversationStatusCodeClosed:
+        case ConversationStatusCodeOpen:
+        case ConversationStatusCodeNewMessages:
+        case ConversationStatusCodeReadMessages:
+        case ConversationStatusCodeUndefined:
+            return @[@"REPLY", @"CALL US"];
     }
-    
-    return actionStrings;
 }
 
 - (nonnull NSArray *)actionsAvailableForState {
@@ -140,7 +128,11 @@ static NSString *kActionSelectorCallUs = @"callUs";
     
     switch (self.conversation.statusCode) {
             
-        case ConversationStatusCodeClosed: {
+        case ConversationStatusCodeClosed:
+        case ConversationStatusCodeOpen:
+        case ConversationStatusCodeNewMessages:
+        case ConversationStatusCodeReadMessages:
+        case ConversationStatusCodeUndefined: {
 
             NSString *buttonOneAction = kActionSelectorReply;
             [actions addObject:buttonOneAction];
@@ -148,9 +140,6 @@ static NSString *kActionSelectorCallUs = @"callUs";
             NSString *buttonTwoAction = kActionSelectorCallUs;
             [actions addObject:buttonTwoAction];
             
-            break;
-        }
-        case ConversationStatusCodeOpen: {
             break;
         }
     }

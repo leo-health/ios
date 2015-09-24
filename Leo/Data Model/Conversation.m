@@ -8,17 +8,20 @@
 
 #import "Conversation.h"
 #import "Message.h"
-#import "User.h"
+#import "Guardian.h"
+#import "Provider.h"
+#import "Support.h"
 
 @implementation Conversation
 
-- (instancetype)initWithObjectID:(NSString *)objectID messages:(NSArray *)messages statusCode:(ConversationStatusCode)statusCode {
+- (instancetype)initWithObjectID:(NSString *)objectID messages:(NSArray *)messages participants:(NSArray *)participants statusCode:(ConversationStatusCode)statusCode {
 
     self = [super init];
     
     if (self) {
         _objectID = objectID;
         _messages = messages;
+        _participants = participants;
     }
     
     return self;
@@ -30,20 +33,58 @@
     
     NSArray *messageDictionaries = jsonResponse[APIParamMessages];
 
-
-    NSMutableArray *messages = [[NSMutableArray alloc] init];
+    NSMutableArray *mutableMessages = [[NSMutableArray alloc] init];
     
     for (NSDictionary *messageDictionary in messageDictionaries) {
         Message *message = [[Message alloc] initWithJSONDictionary:messageDictionary];
-        [messages addObject:message];
+        [mutableMessages addObject:message];
     }
     
-    NSArray *immutableMessages = [messages copy];
+    NSSortDescriptor *timeSort = [[NSSortDescriptor alloc] initWithKey:@"createdAt" ascending:YES];
+    NSArray *sortedMessages = [mutableMessages sortedArrayUsingDescriptors:@[timeSort]];
     
-    ConversationStatusCode statusCode = [jsonResponse[APIParamState] integerValue];
+    NSArray *staffDictionaries = jsonResponse[APIParamUserStaff];
+    NSArray *guardianDictionaries = jsonResponse[APIParamUsers][APIParamUserGuardians];
+    
+    NSMutableArray *participants = [[NSMutableArray alloc] init];
+    
+    for (NSDictionary *staffDictionary in staffDictionaries) {
+        
+        NSUInteger roleID = [jsonResponse[APIParamRoleID] integerValue];
+        
+        switch (roleID) {
+            case RoleCodeProvider: {
+                
+                Provider *provider = [[Provider alloc] initWithJSONDictionary:staffDictionary];
+                [participants addObject:provider];
+                break;
+            }
+            
+            case RoleCodeBilling:
+            case RoleCodeCustomerService:
+            case RoleCodeNursePractitioner: {
+                Support *support = [[Support alloc] initWithJSONDictionary:staffDictionary];
+                [participants addObject:support];
+                break;
+            }
+                
+            default: {
+                
+                //do not add these users.
+            }
+        }
+    }
+    
+    for (NSDictionary *guardianDictionary in guardianDictionaries) {
+        
+        Guardian *guardian = [[Guardian alloc] initWithJSONDictionary:guardianDictionary];
+        [participants addObject:guardian];
+    }
+
+    ConversationStatusCode statusCode = ConversationStatusCodeReadMessages; //[jsonResponse[APIParamState] integerValue];
 
     //TODO: May need to protect against nil values...
-    return [self initWithObjectID:objectID messages:immutableMessages statusCode:statusCode];
+    return [self initWithObjectID:objectID messages:sortedMessages participants:participants statusCode:statusCode];
 }
 
 + (NSDictionary *)dictionaryFromConversation:(Conversation *)conversation {
@@ -58,12 +99,41 @@
 
 - (void)addMessage:(Message *)message {
     
-    NSMutableArray *messages = [self.messages mutableCopy];
+    NSMutableArray *mutableMessages = [self.messages mutableCopy];
     
-    [messages addObject:message];
+    [mutableMessages addObject:message];
     
-    self.messages = [messages copy];
+    NSSortDescriptor *timeSort = [[NSSortDescriptor alloc] initWithKey:@"createdAt" ascending:YES];
+    NSArray *sortedMessages = [mutableMessages sortedArrayUsingDescriptors:@[timeSort]];
+    
+    self.messages = sortedMessages;
+    
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:@"Conversation-AddedMessage"
+     object:self];
 }
 
+
+- (void)addMessages:(NSArray *)messages {
+    
+    NSMutableArray *mutableMessages = [self.messages mutableCopy];
+    
+    [mutableMessages addObjectsFromArray:messages];
+    
+    NSSortDescriptor *timeSort = [[NSSortDescriptor alloc] initWithKey:@"createdAt" ascending:YES];
+    NSArray *sortedMessages = [mutableMessages sortedArrayUsingDescriptors:@[timeSort]];
+    
+    self.messages = sortedMessages;
+    
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:@"Conversation-AddedMessages"
+     object:self];
+}
+
+- (void)addMessageFromJSON:(NSDictionary *)messageDictionary {
+
+    Message *message = [[Message alloc] initWithJSONDictionary:messageDictionary];
+    [self addMessage:message];
+}
 
 @end

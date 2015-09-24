@@ -19,6 +19,7 @@
 #import "Practice.h"
 #import "Support.h"
 #import "Slot.h"
+#import "SessionUser.h"
 #import "LEOCardAppointment.h"
 #import "LEOCardConversation.h"
 #import "UIColor+LeoColors.h"
@@ -26,6 +27,9 @@
 #import <NSDate+DateTools.h>
 #import "AppointmentType.h"
 #import "NSDate+Extensions.h"
+#import "LEOCredentialStore.h"
+
+#import "AppDelegate.h"
 
 @interface LEODataManager()
 
@@ -51,17 +55,17 @@
 
 #pragma mark - Communcation stack (for APIs)
 
+/**
+ *  This will be moved into the APIClient eventually, per issue #295. Check out the changes that have been made on that branch already!
+ */
 -(NSString *)userToken {
     
-    _userToken = @"K2rxAYg7ysfUunLCwg2N";
-    //will eventually pull from the keychain, but for now, will come from some temporarily place or be hard coded as necessary.
-    return _userToken;
+    return [SessionUser currentUser].credentialStore.authToken;
 }
 
 - (User *)currentUser {
     
-    //FIXME: This is temporary.
-    return [[Guardian alloc] initWithObjectID:@"3" familyID:@"10" title:@"Mrs." firstName:@"Marilyn" middleInitial:nil lastName:@"Drossman" suffix:nil email:@"marilyn@leohealth.com" avatarURL:nil avatar:nil primary:YES];
+    return [SessionUser currentUser];
 }
 
 - (void)createUserWithUser:( User *)user password:( NSString *)password withCompletion:(void (^)( NSDictionary *  rawResults, NSError *error))completionBlock {
@@ -75,13 +79,22 @@
     }];
 }
 
-- (void)loginUserWithEmail:( NSString *)email password:( NSString *)password withCompletion:(void (^)(NSDictionary *  rawResults, NSError *error))completionBlock {
+- (void)loginUserWithEmail:( NSString *)email password:( NSString *)password withCompletion:(void (^)(SessionUser *user, NSError *error))completionBlock {
     
     NSDictionary *loginParams = @{APIParamUserEmail:email, APIParamUserPassword:password};
     
     [LEOApiClient loginUserWithParameters:loginParams withCompletion:^(NSDictionary *rawResults, NSError *error) {
-        //TODO: Error terms
-        completionBlock(rawResults, error);
+         
+        if (!error) {
+            LEOCredentialStore *credentialStore = [[LEOCredentialStore alloc] init];
+            [credentialStore clearSavedCredentials];
+
+            [SessionUser newUserWithJSONDictionary:rawResults[APIParamData][@"session"]];
+            
+            completionBlock([SessionUser currentUser], nil);
+        } else {
+            completionBlock(nil, error);
+        }
     }];
 }
 
@@ -137,7 +150,6 @@
             completionBlock(rawResults, error);
         }
     }];
-    
 }
 
 - (void)getConversationsForCurrentUserWithCompletion:(void (^)(Conversation*  conversation))completionBlock {
@@ -205,8 +217,6 @@
 //FIXME: Replace with actual implementation
 - (void)getAvatarForUser:(User *)user withCompletion:(void (^)(UIImage *rawImage, NSError *error))completionBlock {
     
-    
-    
     if (user.avatarURL) {
         [LEOApiClient getAvatarFromURL:user.avatarURL withCompletion:^(UIImage *rawImage, NSError *error) {
             completionBlock(rawImage, error);
@@ -218,53 +228,59 @@
     }
 }
 
-- (void)createMessage:(Message *)message forConversation:( Conversation *)conversation withCompletion:(void (^)(NSDictionary  *  rawResults, NSError *error))completionBlock {
-    
-    [conversation addMessage:message];
-    
+- (void)createMessage:(Message *)message forConversation:( Conversation *)conversation withCompletion:(void (^)(Message  *  message, NSError *error))completionBlock {
+        
     NSArray *messageValues;
     
     if (message.text) {
-        messageValues = @[self.userToken, message.text, @"text", message.sender.objectID];
+        messageValues = @[self.userToken, message.text, @"text"];
     } else {
-        messageValues = @[self.userToken,  message.media, @"media", message.sender.objectID];
+        messageValues = @[self.userToken,  message.media, @"media"];
     }
     
-    NSArray *messageKeys = @[APIParamToken, APIParamMessageBody, APIParamTypeID, APIParamID];
+    NSArray *messageKeys = @[APIParamToken, APIParamMessageBody, APIParamType];
     
     NSDictionary *messageParams = [[NSDictionary alloc] initWithObjects:messageValues forKeys:messageKeys];
     
     [LEOApiClient createMessageForConversation:conversation.objectID withParameters:messageParams withCompletion:^(NSDictionary *  rawResults, NSError *error) {
         //TODO: Error terms
-        completionBlock(rawResults, error);
+        
+        Message *message = [[Message alloc] initWithJSONDictionary:rawResults[APIParamData]];
+        completionBlock(message, error);
     }];
 }
 
-- (void)getMessagesForConversation:(Conversation *)conversation withCompletion:( void (^)(NSArray *messages))completionBlock {
-    
-    NSArray *messageValues = @[self.userToken];
-    NSArray *messageKeys = @[APIParamToken];
+- (void)getMessagesForConversation:(Conversation *)conversation page:(NSInteger)page offset:(NSInteger)offset withCompletion:( void (^)(NSArray *messages))completionBlock {
+
+    NSArray *messageValues = @[self.userToken, @(page), @(offset)];
+    NSArray *messageKeys = @[APIParamToken, @"page", @"offset"];
     
     NSDictionary *messageParams = [[NSDictionary alloc] initWithObjects:messageValues forKeys:messageKeys];
     
     [LEOApiClient getMessagesForConversation:conversation.objectID withParameters:messageParams withCompletion:^(NSDictionary *  rawResults, NSError *error) {
         
-        NSArray *messageDictionaries = rawResults[APIParamData]; //remove messages part of this once stub is updated.
-        
-        NSMutableArray *messages = [[NSMutableArray alloc] init];
-        
-        for (NSDictionary *messageDictionary in messageDictionaries) {
+        if (!error) {
+            NSArray *messageDictionaries = rawResults[APIParamData];
             
-            Message *message = [[Message alloc] initWithJSONDictionary:messageDictionary];
+            NSMutableArray *mutableMessages = [[NSMutableArray alloc] init];
             
-            [messages addObject:message];
+            for (NSDictionary *messageDictionary in messageDictionaries) {
+                
+                Message *message = [[Message alloc] initWithJSONDictionary:messageDictionary];
+                
+                [mutableMessages addObject:message];
+            }
+            
+            NSArray *immutableMessages = [mutableMessages copy];
+            
+            completionBlock(immutableMessages);
+        } else {
+            
+            //TODO: Obviously all of our API calls should return errors, and all should be more descriptive / useful than this. That said, we are already handling user messaging at the API level via UIAlertControllers, so this can take a backseat. For now.
+            NSLog(@"Error!");
         }
-        
-        //TODO: Error terms
-        completionBlock([messages copy]);
     }];
 }
-
 
 
 #pragma mark - Fetching

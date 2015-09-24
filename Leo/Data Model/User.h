@@ -36,6 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSString *)fullName;
 - (NSString *)firstAndLastName;
+- (NSString *)initials;
 
 NS_ASSUME_NONNULL_END
 @end

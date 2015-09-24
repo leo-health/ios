@@ -60,6 +60,7 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
 @property (assign, nonatomic) BOOL jsq_isObserving;
 
 @property (strong, nonatomic) NSIndexPath *selectedIndexPathForMenu;
+@property (nonatomic) BOOL firstLayout;
 
 - (void)jsq_configureMessagesViewController;
 
@@ -228,13 +229,23 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
     [self.collectionView.collectionViewLayout invalidateLayout];
 
     if (self.automaticallyScrollsToMostRecentMessage) {
+
+        self.firstLayout = YES;
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self scrollToBottomAnimated:NO];
+            self.firstLayout = NO;
             [self.collectionView.collectionViewLayout invalidateLayoutWithContext:[JSQMessagesCollectionViewFlowLayoutInvalidationContext context]];
         });
     }
-
+    
     [self jsq_updateKeyboardTriggerPoint];
+}
+
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    if (self.firstLayout && self.automaticallyScrollsToMostRecentMessage) {
+        [self scrollToBottomAnimated:NO];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
