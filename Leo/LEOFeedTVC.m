@@ -16,7 +16,8 @@
 #import "LEOCard.h"
 #import "LEOCardConversation.h"
 
-#import "LEODataManager.h"
+#import "LEOCardService.h"
+#import "LEOAppointmentService.h"
 
 #import "User.h"
 #import "Role.h"
@@ -53,7 +54,8 @@
 
 @interface LEOFeedTVC ()
 
-@property (strong, nonatomic) LEODataManager *dataManager;
+@property (strong, nonatomic) LEOAppointmentService *appointmentService;
+
 @property (nonatomic, strong) ArrayDataSource *cardsArrayDataSource;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) LEOTransitioningDelegate *transitionDelegate;
@@ -75,7 +77,6 @@ static NSString *const CellIdentifierLEOCardTwoButtonPrimaryOnly = @"LEOTwoButto
 static NSString *const CellIdentifierLEOCardOneButtonSecondaryOnly = @"LEOOneButtonSecondaryOnlyCell";
 static NSString *const CellIdentifierLEOCardOneButtonPrimaryAndSecondary = @"LEOOneButtonPrimaryAndSecondaryCell";
 static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButtonPrimaryOnlyCell";
-
 
 
 #pragma mark - View Controller Lifecycle and VCL Helper Methods
@@ -135,8 +136,9 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     [MBProgressHUD showHUDAddedTo:self.tableView animated:YES];
 
     dispatch_async(queue, ^{
-                
-        [self.dataManager getCardsWithCompletion:^(NSArray *cards, NSError *error) {
+        
+        LEOCardService *cardService = [[LEOCardService alloc] init];
+        [cardService getCardsWithCompletion:^(NSArray *cards, NSError *error) {
             
             if (!error) {
                 self.cards = [cards mutableCopy];
@@ -197,7 +199,8 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
             Appointment *appointment = card.associatedCardObject; //FIXME: Make this a loop to account for multiple appointments.
             
             switch (appointment.statusCode) {
-                case AppointmentStatusCodeBooking: {
+                case AppointmentStatusCodeBooking:
+                case AppointmentStatusCodeFuture: {
                     [self loadBookingViewWithCard:card];
                     break;
                 }
@@ -264,7 +267,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 
 - (void)beginSchedulingNewAppointment {
 
-    Appointment *appointment = [[Appointment alloc] initWithObjectID:nil date:nil appointmentType:nil patient:nil provider:nil bookedByUser:[SessionUser currentUser] note:nil statusCode:AppointmentStatusCodeBooking];
+    Appointment *appointment = [[Appointment alloc] initWithObjectID:nil date:nil appointmentType:nil patient:nil provider:nil bookedByUser:[SessionUser currentUser] note:nil statusCode:AppointmentStatusCodeFuture];
     
     LEOCardAppointment *card = [[LEOCardAppointment alloc] initWithObjectID:@"temp" priority:@999 type:CardTypeAppointment associatedCardObject:appointment];
 
@@ -281,7 +284,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     
     [MBProgressHUD showHUDAddedTo:cell animated:YES];
     
-    [self.dataManager cancelAppointment:card.associatedCardObject withCompletion:^(NSDictionary * response, NSError * error) {
+    [self.appointmentService cancelAppointment:card.associatedCardObject withCompletion:^(NSDictionary * response, NSError * error) {
         if (completionBlock) {
             completionBlock(response, error);
             [MBProgressHUD hideHUDForView:cell animated:YES];
@@ -430,13 +433,13 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     }
 }
 
-- (LEODataManager *)dataManager {
+-(LEOAppointmentService *)appointmentService {
     
-    if (!_dataManager) {
-        _dataManager = [LEODataManager sharedManager];
+    if (!_appointmentService) {
+        _appointmentService = [[LEOAppointmentService alloc] init];
     }
     
-    return _dataManager;
+    return _appointmentService;
 }
 
 -(void)dealloc {

@@ -12,7 +12,7 @@
 #import "UIColor+LeoColors.h"
 #import "UIScrollView+LEOScrollToVisible.h"
 #import "UIImage+Extensions.h"
-#import "LEODataManager.h"
+#import "LEOUserService.h"
 #import "LEOValidationsHelper.h"
 #import "LEOForgotPasswordViewController.h"
 
@@ -192,10 +192,10 @@ NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
     self.passwordTextField.valid = validPassword;
     
     if (validEmail && validPassword) {
-       
-        LEODataManager *dataManager = [LEODataManager sharedManager];
         
-        [dataManager loginUserWithEmail:self.emailTextField.text password:self.passwordTextField.text withCompletion:^(SessionUser * user, NSError * error) {
+        LEOUserService *userService = [[LEOUserService alloc] init];
+        
+        [userService loginUserWithEmail:self.emailTextField.text password:self.passwordTextField.text withCompletion:^(SessionUser * user, NSError * error) {
             
             if (!error) {
                 

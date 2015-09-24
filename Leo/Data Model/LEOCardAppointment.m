@@ -61,6 +61,8 @@ static NSString *kActionSelectorBook = @"book";
     switch (self.appointment.statusCode) {
             
         case AppointmentStatusCodeBooking:
+        case AppointmentStatusCodeFuture:
+
             return CardLayoutUndefined;
             
         case AppointmentStatusCodeCancelling:
@@ -90,6 +92,8 @@ static NSString *kActionSelectorBook = @"book";
     switch (self.appointment.statusCode) {
             
         case AppointmentStatusCodeBooking:
+        case AppointmentStatusCodeFuture:
+
             titleText = @"Schedule A Visit";
             break;
             
@@ -126,6 +130,8 @@ static NSString *kActionSelectorBook = @"book";
     switch (self.appointment.statusCode) {
             
         case AppointmentStatusCodeBooking:
+        case AppointmentStatusCodeFuture:
+
             bodyText = nil;
             break;
             
@@ -167,6 +173,8 @@ static NSString *kActionSelectorBook = @"book";
     
     switch (self.appointment.statusCode) {
         case AppointmentStatusCodeBooking:
+        case AppointmentStatusCodeFuture:
+
             actionStrings = @[@"SCHEDULE APPOINTMENT"];
             break;
             
@@ -205,8 +213,9 @@ static NSString *kActionSelectorBook = @"book";
     
     switch (self.appointment.statusCode) {
             
-        case AppointmentStatusCodeBooking: {
-            
+        case AppointmentStatusCodeBooking:
+        case AppointmentStatusCodeFuture: {
+    
             NSString *buttonOneAction = kActionSelectorBook;
             [actions addObject:buttonOneAction];
             
@@ -271,7 +280,7 @@ static NSString *kActionSelectorBook = @"book";
 - (void)schedule {
     
     self.appointment.priorStatusCode = self.appointment.statusCode;
-    self.appointment.statusCode = AppointmentStatusCodeBooking;
+    self.appointment.statusCode = AppointmentStatusCodeFuture;
     [self.delegate didUpdateObjectStateForCard:self];
 }
 

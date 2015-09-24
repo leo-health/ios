@@ -122,7 +122,7 @@
 + (NSString *)stringifiedShortDate:(NSDate *)date {
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
-    dateFormatter.dateFormat = @"dd/MM/YYYY";
+    dateFormatter.dateFormat = @"MM/dd/YYYY";
     return [dateFormatter stringFromDate:date];
 }
 /**

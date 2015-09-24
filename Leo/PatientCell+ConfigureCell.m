@@ -11,7 +11,7 @@
 #import "LEOMessagesAvatarImageFactory.h"
 #import "UIColor+LeoColors.h"
 #import "UIFont+LeoFonts.h"
-#import "LEODataManager.h"
+#import "LEOUserService.h"
 
 @implementation PatientCell (ConfigureCell)
 
@@ -31,9 +31,8 @@
 
         if (patient.avatarURL) {
             
-            LEODataManager *dataManager = [LEODataManager sharedManager];
-            
-            [dataManager getAvatarForUser:patient withCompletion:^(UIImage * rawImage, NSError * error) {
+            LEOUserService *userService = [[LEOUserService alloc] init];
+            [userService getAvatarForUser:patient withCompletion:^(UIImage * rawImage, NSError * error) {
                 
                 if (!error) {
                   

@@ -118,6 +118,9 @@ typedef enum RoleCode : NSUInteger {
 
 @interface LEOConstants : NSObject
 
+#pragma mark - Temp constants
+extern NSString *const kUserToken; // @"";
+
 #pragma mark - URL & endpoints
 
 extern NSString *const APIEndpointUsers; // @"users";
@@ -130,12 +133,14 @@ extern NSString *const APIEndpointAppointmentTypes; // @"appointmentTypes";
 extern NSString *const APIEndpointLogin; // @"login";
 extern NSString *const APIEndpointCards; // @"cards";
 extern NSString *const APIEndpointPractices; // @"practices";
+extern NSString *const APIEndpointPractice; // @"practice";
+
 extern NSString *const APIEndpointSlots; // @"slots";
 extern NSString *const APIEndpointFamily; // @"family";
 
 #pragma mark - Common
 extern NSString *const APIParamID; // @"id";
-extern NSString *const APIParamState; // @"state";
+extern NSString *const APIParamState; // @"appointment_status_id";
 extern NSString *const APIParamData; // @"data";
 extern NSString *const APIParamType; // @"type";
 extern NSString *const APIParamTypeID; // @"type_id";

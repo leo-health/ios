@@ -8,15 +8,15 @@
 
 #import "LEOAPIFamilyOperation.h"
 #import "Family.h"
-#import "LEODataManager.h"
+#import "LEOHelperService.h"
 
 @implementation LEOAPIFamilyOperation
 
 -(void)main {
     
-    LEODataManager *dataManager = [LEODataManager sharedManager];
-        
-    [dataManager getFamilyWithCompletion:^(Family * family, NSError *error) {
+    LEOHelperService *helperService = [[LEOHelperService alloc] init];
+    
+    [helperService getFamilyWithCompletion:^(Family * family, NSError *error) {
 
         id data = family.patients;
         

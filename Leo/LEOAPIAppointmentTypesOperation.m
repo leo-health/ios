@@ -7,17 +7,17 @@
 //
 
 #import "LEOAPIAppointmentTypesOperation.h"
-#import "LEODataManager.h"
+#import "LEOHelperService.h"
 
 @implementation LEOAPIAppointmentTypesOperation
 
 -(void)main {
     
-    LEODataManager *dataManager = [LEODataManager sharedManager];
+    LEOHelperService *helperService = [[LEOHelperService alloc] init];
     
     __block id data;
     
-    [dataManager getAppointmentTypesWithCompletion:^(NSArray * appointmentTypes, NSError *error) {
+    [helperService getAppointmentTypesWithCompletion:^(NSArray * appointmentTypes, NSError *error) {
         data = appointmentTypes;
         
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
