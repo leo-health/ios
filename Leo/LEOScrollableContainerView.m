@@ -38,10 +38,22 @@
     if (self) {
         
         [self initializeSubviews];
-        [self reloadContainerView];
     }
     
     return self;
+}
+
+-(instancetype)initWithFrame:(CGRect)frame {
+    
+    self = [super initWithFrame:frame];
+    
+    if (self) {
+        
+        [self initializeSubviews];
+    }
+    
+    return self;
+
 }
 
 - (void)reloadContainerView {
@@ -51,7 +63,7 @@
     [self setupTitleView];
     [self setupCollapsedTitleLabel];
     [self setupBodyView];
-    [self layoutIfNeeded];
+    [self updateScrollViewConstraints];
 }
 
 
@@ -111,22 +123,19 @@
     [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
 }
 
--(void)setBodyView:(UIView *)bodyView {
-    
-    //TODO: This feels bad...let's come back and review at some point.
-    [_bodyView removeFromSuperview];
-    _bodyView = bodyView;
-    [self.contentView addSubview:bodyView];
-    
-//    [self layoutIfNeeded];
-}
-
 /**
  *  Setter for the body view
  *
  *  @param bodyView The body of the expandedCardView
  *  @note  Assumes the body view has been set by a subclass of this abstract class. If this class is not subclassed, the lack of bodyView will cause constraints to fail.
  */
+-(void)setBodyView:(UIView *)bodyView {
+    
+    //TODO: This feels bad...let's come back and review at some point.
+    [_bodyView removeFromSuperview];
+    _bodyView = bodyView;
+    [self.contentView addSubview:bodyView];
+}
 
 - (void)setupTitleView {
 
@@ -165,7 +174,7 @@
     
     CGFloat percentTitleViewHidden = self.scrollView.contentOffset.y / self.titleView.frame.size.height;
     
-    if (percentTitleViewHidden < 0.5) {
+    if (percentTitleViewHidden < 0.5 || self.titleView.frame.size.height == 0) {
         return YES;
     }
     
@@ -184,21 +193,21 @@
     }
 }
 
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    if (scrollView == self.scrollView) {
-        [self stoppedScrolling];
-    }
-}
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-    
-    if (scrollView == self.scrollView) {
-        
-        if (!decelerate) {
-            [self stoppedScrolling];
-        }
-    }
-}
+//- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+//    if (scrollView == self.scrollView) {
+//        [self stoppedScrolling];
+//    }
+//}
+//
+//- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+//    
+//    if (scrollView == self.scrollView) {
+//        
+//        if (!decelerate) {
+//            [self stoppedScrolling];
+//        }
+//    }
+//}
 
 #pragma mark - Scroll helpers
 - (void)stoppedScrolling {
@@ -239,19 +248,6 @@
 #pragma mark - Constraints
 
 
--(void)layoutSubviews {
-    
-   if (self.bodyView) {
-        
-        [self updateScrollViewConstraints];
-        
-        self.constraintsAlreadyUpdated = YES;
-    }
-    
-    [super layoutSubviews];
-}
-
-
 /**
  *  Supports constraining of all views on screen except buttons
  */
@@ -286,6 +282,15 @@
     
     NSArray *verticalLayoutConstraintsForContentView = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_contentView]|" options:0 metrics:nil views:viewDictionary];
     NSArray *horizontalLayoutConstraintsForContentView = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_contentView]|" options:0 metrics:nil views:viewDictionary];
+    
+//    NSLayoutConstraint *topLayoutConstraintsForContentViewWithView = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1.0 constant:0];
+//    
+//    
+//    NSLayoutConstraint *bottomLayoutConstraintsForContentViewWithView = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0];
+//    
+//    [self addConstraint:topLayoutConstraintsForContentViewWithView];
+//    [self addConstraint:bottomLayoutConstraintsForContentViewWithView];
+    
     [self.scrollView addConstraints:verticalLayoutConstraintsForContentView];
     [self.scrollView addConstraints:horizontalLayoutConstraintsForContentView];
 
@@ -293,7 +298,9 @@
         self.scrollFiller = self.window.frame.size.height - self.contentView.frame.size.height + 216.0;
     }
     
-    NSArray *verticalLayoutConstraintsForSubviews = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(navBarHeight)-[_titleView(titleHeight)][_bodyView]-(scrollFiller)-|" options:0 metrics:@{@"titleHeight" : @(titleHeight), @"contentViewRemainder" : @(contentViewRemainder), @"navBarHeight":@(self.navBarHeight), @"scrollFiller":@(self.scrollFiller)} views:viewDictionary];
+   // NSArray *verticalLayoutConstraintsForSubviews = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(navBarHeight)-[_titleView(titleHeight)][_bodyView]-(scrollFiller)-|" options:0 metrics:@{@"titleHeight" : @(titleHeight), @"contentViewRemainder" : @(contentViewRemainder), @"navBarHeight":@(self.navBarHeight), @"scrollFiller":@(self.scrollFiller)} views:viewDictionary];
+    
+     NSArray *verticalLayoutConstraintsForSubviews = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_titleView(titleHeight)][_bodyView]-|" options:0 metrics:@{@"titleHeight" : @(titleHeight), @"contentViewRemainder" : @(contentViewRemainder)} views:viewDictionary];
     
     CGFloat screenWidth = self.frame.size.width;
     
@@ -318,8 +325,8 @@
     [self addConstraints:horizontalLayoutConstraintsForCollapsedTitle];
     [self addConstraints:verticalLayoutConstraintsForCollapsedTitle];
     
-    [self.contentView setContentHuggingPriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisVertical];
-    [self.contentView setContentCompressionResistancePriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisVertical];
+    [self.contentView setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisVertical];
+    [self.contentView setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisVertical];
 }
 
 @end

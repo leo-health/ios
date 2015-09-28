@@ -57,7 +57,7 @@
     
     self.bodyView = self.appointmentView;
     self.card.delegate = self;
-    
+        
     [self setupButtons];
     [self setupExpandedCardView];
     [self setupPrepAppointment];
@@ -201,7 +201,15 @@
     return YES;
 }
 
-
+//- (void)textFieldDidBeginEditing:(UITextField *)sender
+//{
+//    self.keyboardHelper.activeField = sender;
+//}   
+//
+//- (void)textFieldDidEndEditing:(UITextField *)sender
+//{
+//    self.keyboardHelper.activeField = nil;
+//}
 
 
 #pragma mark - <SingleSelectionProtocol>

@@ -68,7 +68,6 @@ CGFloat offset;
     return keyboardFrameViewCoordinates.size;
 }
 
-
 -(void)scrollViewToShowIfFirstResponder:(UIView*)viewThatShouldBeVisible withKeyboardSize:(CGSize)keyboardSize{
     //Insets for scroll view content after keyboard abstructs the scroll view
     UIEdgeInsets scrollViewEdgeInsets = UIEdgeInsetsMake(0, 0, keyboardSize.height, 0);

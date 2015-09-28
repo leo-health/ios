@@ -15,6 +15,7 @@
 #import "UIImage+Extensions.h"
 
 #import "LEOPromptView.h"
+#import "LEOApiReachability.h"
 
 #import "LEOBasicSelectionViewController.h"
 #import "InsurancePlanCell+ConfigureCell.h"
@@ -25,7 +26,7 @@
 
 @interface LEOSignUpUserViewController ()
 
-@property (weak, nonatomic) IBOutlet LEOScrollableContainerView *scrollableContainerView;
+@property (strong, nonatomic) LEOScrollableContainerView *scrollableContainerView;
 @property (weak, nonatomic) IBOutlet UIView *userDetailsView;
 
 @property (weak, nonatomic) IBOutlet LEOValidatedFloatLabeledTextField *firstNameTextField;
@@ -53,8 +54,30 @@
     [self setupContinueButton];
 }
 
-- (void)setupScrollableContainerView {
+
+- (void)viewDidAppear:(BOOL)animated {
     
+    [super viewDidAppear:animated];
+    [self.scrollableContainerView.scrollView scrollToViewIfObstructedByKeyboard:self.phoneNumberTextField];
+}
+
+- (void)viewDidDisappear:(BOOL)animated{
+    
+    [LEOApiReachability stopMonitoring];
+    [self.scrollableContainerView.scrollView scrollToViewIfObstructedByKeyboard:nil];
+}
+
+
+- (void)setupScrollableContainerView {
+    self.scrollableContainerView = [[LEOScrollableContainerView alloc] init];
+    [self.scrollableContainerView removeConstraints:self.scrollableContainerView.constraints];
+    self.scrollableContainerView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.view addSubview:self.scrollableContainerView];
+    
+    NSDictionary *bindings = NSDictionaryOfVariableBindings(_scrollableContainerView);
+    
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_scrollableContainerView]|" options:0 metrics:nil views:bindings]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_scrollableContainerView]|" options:0 metrics:nil views:bindings]];
     self.scrollableContainerView.delegate = self;
     [self.scrollableContainerView reloadContainerView];
 }
@@ -195,7 +218,7 @@
 #pragma mark - <LEOScrollableContainerViewDelegate>
 
 - (NSString *)collapsedTitleViewContent {
-    return @"";
+    return @"My Info";
 }
 
 - (BOOL)scrollable {

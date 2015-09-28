@@ -293,7 +293,7 @@
     CGFloat titleHeight = 150.0;
     
     //TODO: Need to figure out how to set this via calculation. Based on research so far, the bodyView, which we would like to use to help with the calculation has a frame that is set at 600 x 536, which obviously isn't yet taking into account the constraints on it.
-    CGFloat contentViewRemainder = 200;
+    CGFloat contentViewRemainder = 0;
     
     NSDictionary *viewDictionary = NSDictionaryOfVariableBindings(_titleView, _button, _bodyView, _scrollView, _contentView, _expandedTitleLabel);
     
