@@ -9,7 +9,7 @@
 #import "LEOExpandedCardAppointmentViewController.h"
 #import "UIScrollView+LEOScrollToVisible.h"
 #import "LEOCard.h"
-#import <JVFloatLabeledTextField/JVFloatLabeledTextView.h>
+#import "JVFloatLabeledTextView.h"
 #import "UIFont+LeoFonts.h"
 #import "UIColor+LeoColors.h"
 #import "PrepAppointment.h"
