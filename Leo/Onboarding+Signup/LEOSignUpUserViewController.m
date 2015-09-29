@@ -27,8 +27,7 @@
 @interface LEOSignUpUserViewController ()
 
 @property (strong, nonatomic) LEOSignUpUserView *signUpUserView;
-@property (weak, nonatomic) IBOutlet UIButton *continueButton;
-@property (strong, nonatomic) IBOutlet StickyView *stickyView;
+@property (weak, nonatomic) IBOutlet StickyView *stickyView;
 
 @end
 
@@ -170,6 +169,10 @@
     //TODO: This doesn't quite work just yet. This implementation will not manage the scenario in which a user presses the continue button with an invalid number. In that case, the number will continue to say it is invalid, even when it is valid. Must come back to this in another commit.
     if (textField == [self phoneNumberTextField]) {
         
+        if (![self phoneNumberTextField].valid) {
+            [self phoneNumberTextField].valid = [LEOValidationsHelper validatePhoneNumberWithFormatting:mutableText.string];
+        }
+        
         return [LEOValidationsHelper phoneNumberTextField:textField shouldUpdateCharacters:string inRange:range];
     }
     
@@ -201,11 +204,6 @@
         [self performSegueWithIdentifier:@"PlanSegue" sender:nil];
     }
 }
-
-- (UIColor *)featureColor {
-    return [UIColor leoOrangeRed];
-}
-
 
 
 #pragma mark - Navigation & Helper Methods

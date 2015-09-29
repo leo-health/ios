@@ -115,7 +115,7 @@ NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
     if (textField == self.passwordTextField) {
         
         if (!self.passwordTextField.valid) {
-            self.passwordTextField.valid = [LEOValidationsHelper validateNonZeroLength:mutableText.string];
+            self.passwordTextField.valid = [LEOValidationsHelper validatePhoneNumberWithFormatting:mutableText.string];
         }
     }
     
@@ -192,7 +192,7 @@ NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
 - (IBAction)continueTapped:(UIButton *)sender {
     
     BOOL validEmail = [LEOValidationsHelper validateEmail:self.emailTextField.text];
-    BOOL validPassword = [LEOValidationsHelper validateNonZeroLength:self.passwordTextField.text];
+    BOOL validPassword = [LEOValidationsHelper validatePassword:self.passwordTextField.text];
     
     self.emailTextField.valid = validEmail;
     self.passwordTextField.valid = validPassword;

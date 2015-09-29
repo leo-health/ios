@@ -97,7 +97,7 @@
     
     self.passwordTextField.delegate = self;
     self.passwordTextField.standardPlaceholder = @"password";
-    self.passwordTextField.validationPlaceholder = @"Must have a password";
+    self.passwordTextField.validationPlaceholder = @"Passwords must be at least 8 characters";
     self.passwordTextField.secureTextEntry = YES;
     [self.passwordTextField sizeToFit];
 }
@@ -138,7 +138,7 @@
     if (textField == self.passwordTextField) {
         
         if (!self.passwordTextField.valid) {
-            self.passwordTextField.valid = [LEOValidationsHelper validateNonZeroLength:mutableText.string];
+            self.passwordTextField.valid = [LEOValidationsHelper validatePassword:mutableText.string];
         }
     }
     
@@ -180,7 +180,7 @@
 - (BOOL)validatePage {
     
     BOOL validEmail = [LEOValidationsHelper validateEmail:self.emailTextField.text];
-    BOOL validPassword = [LEOValidationsHelper validateNonZeroLength:self.passwordTextField.text];
+    BOOL validPassword = [LEOValidationsHelper validatePassword:self.passwordTextField.text];
     
     self.emailTextField.valid = validEmail;
     self.passwordTextField.valid = validPassword;

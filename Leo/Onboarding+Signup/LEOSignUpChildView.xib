@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LEOSignUpChildView">
+            <connections>
+                <outlet property="avatarButton" destination="xHX-B3-gG2" id="eNM-Y9-QCl"/>
+                <outlet property="birthDatePromptView" destination="akX-b1-of0" id="hSa-Wr-vqZ"/>
+                <outlet property="firstNamePromptView" destination="xzJ-EK-S70" id="gOE-jG-4cW"/>
+                <outlet property="genderPromptView" destination="wXO-Yh-mXH" id="s8f-JN-naC"/>
+                <outlet property="lastNamePromptView" destination="IsI-Id-xlv" id="bfQ-vR-SXI"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="572"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xHX-B3-gG2" userLabel="Avatar Button">
+                    <rect key="frame" x="0.0" y="31" width="67" height="67"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="67" id="T0A-Bs-hjl"/>
+                        <constraint firstAttribute="height" constant="67" id="n6Q-qC-81X"/>
+                    </constraints>
+                    <state key="normal" backgroundImage="Icon-Camera">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                </button>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xzJ-EK-S70" userLabel="First Name Prompt View" customClass="LEOPromptView">
+                    <rect key="frame" x="0.0" y="118" width="600" height="22"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="22" id="Qte-Eu-r3o"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IsI-Id-xlv" userLabel="Last Name Prompt View" customClass="LEOPromptView">
+                    <rect key="frame" x="0.0" y="181" width="600" height="22"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="22" id="XW6-2g-Um1"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="akX-b1-of0" userLabel="Birthdate Prompt View" customClass="LEOPromptView">
+                    <rect key="frame" x="0.0" y="244" width="600" height="22"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="22" id="RPa-dS-Mvp"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wXO-Yh-mXH" userLabel="Gender Prompt View" customClass="LEOPromptView">
+                    <rect key="frame" x="0.0" y="307" width="600" height="265"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="xzJ-EK-S70" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="08h-hy-80S"/>
+                <constraint firstItem="xHX-B3-gG2" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="31" id="1yk-uG-T3g"/>
+                <constraint firstAttribute="trailing" secondItem="akX-b1-of0" secondAttribute="trailing" id="4SX-HW-VsK"/>
+                <constraint firstAttribute="trailing" secondItem="xzJ-EK-S70" secondAttribute="trailing" id="4eX-zf-4dL"/>
+                <constraint firstAttribute="trailing" secondItem="wXO-Yh-mXH" secondAttribute="trailing" id="FUv-ku-wO1"/>
+                <constraint firstItem="IsI-Id-xlv" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="I9o-Z4-Zh0"/>
+                <constraint firstItem="wXO-Yh-mXH" firstAttribute="top" secondItem="akX-b1-of0" secondAttribute="bottom" constant="41" id="J9z-Rr-Q5M"/>
+                <constraint firstItem="akX-b1-of0" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="LfB-qr-EjF"/>
+                <constraint firstItem="akX-b1-of0" firstAttribute="top" secondItem="IsI-Id-xlv" secondAttribute="bottom" constant="41" id="PnA-NS-UuF"/>
+                <constraint firstAttribute="trailing" secondItem="IsI-Id-xlv" secondAttribute="trailing" id="QMI-CO-Tei"/>
+                <constraint firstItem="xHX-B3-gG2" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="UHS-oA-m0J"/>
+                <constraint firstItem="IsI-Id-xlv" firstAttribute="top" secondItem="xzJ-EK-S70" secondAttribute="bottom" constant="41" id="VfL-qV-fV0"/>
+                <constraint firstAttribute="bottom" secondItem="wXO-Yh-mXH" secondAttribute="bottom" id="a2x-FA-tp9"/>
+                <constraint firstItem="wXO-Yh-mXH" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="gdz-g4-uFK"/>
+                <constraint firstItem="xzJ-EK-S70" firstAttribute="top" secondItem="xHX-B3-gG2" secondAttribute="bottom" constant="20" id="jWv-di-Djs"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="891" y="659"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="Icon-Camera" width="70" height="70"/>
+    </resources>
+</document>

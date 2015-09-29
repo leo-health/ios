@@ -407,11 +407,33 @@
                     <connections>
                         <outlet property="stickyView" destination="kk4-lU-IoG" id="1Wr-oN-812"/>
                         <segue destination="8gR-Xk-Blh" kind="show" identifier="PlanSegue" id="Fce-Cf-4wI"/>
+                        <segue destination="AEw-ey-6Xy" kind="show" identifier="ContinueSegue" id="dZW-Uc-UoS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7ya-WN-aEz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2332" y="2191"/>
+        </scene>
+        <!--Leo Sign Up Child View Controller-->
+        <scene sceneID="ulU-aS-31n">
+            <objects>
+                <viewController id="AEw-ey-6Xy" customClass="LeoSignUpChildViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="4jw-4q-cds"/>
+                        <viewControllerLayoutGuide type="bottom" id="TBK-A7-y2P"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="CIH-ez-DXV" customClass="StickyView">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="stickyView" destination="CIH-ez-DXV" id="jIN-Uh-8xV"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CIU-96-7e9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2332" y="2981"/>
         </scene>
         <!--Basic Selection View Controller-->
         <scene sceneID="NRv-RX-fae">

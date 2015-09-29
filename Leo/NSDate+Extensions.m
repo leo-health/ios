@@ -84,6 +84,13 @@
     return date;
 }
 
++ (NSDate *)dateFromShortDate:(NSString *)dateString {
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"MM/dd/yyyy"];
+    
+    return [dateFormatter dateFromString:dateString];
+}
+
 + (NSString *)stringifiedTime:(NSDate *)date {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
     dateFormatter.dateFormat = @"h':'mma";

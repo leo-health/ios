@@ -7,9 +7,12 @@
 //
 
 #import "LEOValidationsHelper.h"
+#import "NSDate+Extensions.h"
 
 @implementation LEOValidationsHelper
 
+
+//MARK: This method may belong elsewhere.
 + (BOOL)phoneNumberTextField:(UITextField *)textField shouldUpdateCharacters:(NSString *)string inRange:(NSRange)range {
     
     NSString *newString = [textField.text stringByReplacingCharactersInRange:range withString:string];
@@ -68,9 +71,6 @@
     return [phoneTest evaluateWithObject:candidate];
 }
 
-+ (BOOL)validateNonZeroLength:(NSString *)candidate {
-    return candidate.length > 0;
-}
 
 + (BOOL)validateEmail: (NSString *) candidate {
     
@@ -78,6 +78,53 @@
     NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
     
     return [emailTest evaluateWithObject:candidate];
+}
+
++ (BOOL)validateFirstName:(NSString *)candidate {
+    return [self isValidAlphaOnly:candidate] && [self isValidNonZeroLength:candidate] ? YES : NO;
+}
+
++ (BOOL)validateLastName:(NSString *)candidate {
+    return [self isValidAlphaOnly:candidate] && [self isValidNonZeroLength:candidate] ? YES : NO;
+}
+
++ (BOOL)validateBirthdate:(NSString *)candidate {
+    return [self isValidShortDate:candidate];
+}
+
++ (BOOL)validateGender:(NSString *)candidate {
+    return [self isValidNonZeroLength:candidate];
+}
+
++ (BOOL)validateInsurer:(NSString *)candidate {
+    return [self isValidNonZeroLength:candidate];
+}
+
++ (BOOL)validatePassword:(NSString *)candidate {
+    return candidate.length > 7;
+}
+
+#pragma mark - Internal
++ (BOOL)isValidNonZeroLength:(NSString *)candidate {
+    return candidate.length > 0;
+}
+
++ (BOOL)isValidAlphaOnly:(NSString *)candidate {
+    NSString *alphaRegex = @"^[a-zA-Z]*$";
+    NSPredicate *alphaOnlyTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", alphaRegex];
+    
+    return [alphaOnlyTest evaluateWithObject:candidate];
+};
+
++ (BOOL)isValidShortDate:(NSString *)candidate {
+    
+    id date = [NSDate dateFromShortDate:candidate];
+    
+    if ([date isKindOfClass:[NSDate class]] && date != nil) {
+        return YES;
+    }
+    
+    return NO;
 }
 
 @end

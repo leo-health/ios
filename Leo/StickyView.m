@@ -154,7 +154,6 @@ IB_DESIGNABLE
     if (!expanded) {
         self.collapsedTitleLabel.alpha = 1;
         self.expandedTitleLabel.alpha = 0;
-        self.scrollView.contentOffset = CGPointMake(0.0, self.titleView.bounds.size.height);
     } else {
         self.collapsedTitleLabel.alpha = 0;
         self.expandedTitleLabel.alpha = 1;
@@ -178,10 +177,6 @@ IB_DESIGNABLE
     UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(scrollViewWasTapped:)];
     tapGestureForTextFieldDismissal.cancelsTouchesInView = NO;
     [self.scrollView addGestureRecognizer:tapGestureForTextFieldDismissal];
-}
-
-- (void)testingCode {
-    
 }
 
 - (void)initializeSubviews {
@@ -298,18 +293,18 @@ IB_DESIGNABLE
     
     NSArray *verticalLayoutConstraintsForSubviews = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_titleView(titleHeight)][_bodyView]-(20)-[_continueButton(==54)]-(20)-|" options:0 metrics:@{@"titleHeight":@(expandedTitleViewHeight)} views:viewDictionary];
 
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.bodyView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeading multiplier:1.0 constant:20]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.bodyView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-20]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.bodyView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeading multiplier:1.0 constant:30]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.bodyView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-30]];
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.titleView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0]];
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.titleView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.continueButton attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeading multiplier:1.0 constant:20]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.continueButton attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-20]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.continueButton attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeading multiplier:1.0 constant:30]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.continueButton attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-30]];
     
     [self.contentView addConstraints:verticalLayoutConstraintsForSubviews];
     
     //FIXME: These need to not be hard coded.
-    NSArray *horizontalLayoutConstraintsForExpandedTitle = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(29)-[_expandedTitleLabel]-(100)-|" options:0 metrics:nil views:viewDictionary];
-    NSArray *verticalLayoutConstraintsForExpandedTitle = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_expandedTitleLabel]-(20)-|" options:0 metrics:nil views:viewDictionary];
+    NSArray *horizontalLayoutConstraintsForExpandedTitle = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(30)-[_expandedTitleLabel]-(100)-|" options:0 metrics:nil views:viewDictionary];
+    NSArray *verticalLayoutConstraintsForExpandedTitle = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_expandedTitleLabel]|" options:0 metrics:nil views:viewDictionary];
     
     [self.titleView addConstraints:horizontalLayoutConstraintsForExpandedTitle];
     [self.titleView addConstraints:verticalLayoutConstraintsForExpandedTitle];

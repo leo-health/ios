@@ -12,7 +12,12 @@
 
 + (BOOL)phoneNumberTextField:(UITextField *)textField shouldUpdateCharacters:(NSString *)string inRange:(NSRange)range;
 + (BOOL)validatePhoneNumberWithFormatting:(NSString *)candidate;
-+ (BOOL)validateNonZeroLength:(NSString *)candidate;
-+ (BOOL)validateEmail: (NSString *) candidate;
++ (BOOL)validateEmail:(NSString *) candidate;
++ (BOOL)validateFirstName:(NSString *)candidate;
++ (BOOL)validateLastName:(NSString *)candidate;
++ (BOOL)validateBirthdate:(NSString *)candidate;
++ (BOOL)validateGender:(NSString *)candidate;
++ (BOOL)validateInsurer:(NSString *)candidate;
++ (BOOL)validatePassword:(NSString *)candidate;
 
 @end

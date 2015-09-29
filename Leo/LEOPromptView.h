@@ -13,9 +13,9 @@
 @protocol LEOPromptDelegate <NSObject>
 
 - (void)respondToPrompt:(id)sender;
-- (UIColor *)featureColor;
 
 @end
+
 @interface LEOPromptView : UIView <UIGestureRecognizerDelegate>
 
 @property (weak, nonatomic) id<LEOPromptDelegate>delegate;
