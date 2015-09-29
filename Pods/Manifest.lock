@@ -1,4 +1,5 @@
 PODS:
+  - ActionSheetPicker-3.0 (2.0.1)
   - AFNetworking (2.5.4):
     - AFNetworking/NSURLConnection (= 2.5.4)
     - AFNetworking/NSURLSession (= 2.5.4)
@@ -41,6 +42,7 @@ PODS:
     - pop
 
 DEPENDENCIES:
+  - ActionSheetPicker-3.0 (~> 2.0.1)
   - AFNetworking
   - DateTools
   - Expecta (~> 0.2.4)
@@ -55,6 +57,7 @@ DEPENDENCIES:
   - VBFPopFlatButton
 
 SPEC CHECKSUMS:
+  ActionSheetPicker-3.0: eeb47e64b7af3e09a50e1ce5dfee9c8c957490c6
   AFNetworking: 05edc0ac4c4c8cf57bcf4b84be5b0744b6d8e71e
   DateTools: b93a2c2017747329c6077c7d7e8a75106e23d0d7
   Expecta: cfaf1d3e2e194ca704a25e997093d30a1ce70b61
