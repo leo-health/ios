@@ -8,16 +8,15 @@
 
 #import "LEOPromptView.h"
 #import "LEOValidatedFloatLabeledTextField.h"
-#import "LEOSectionSeparator.h"
 
 @interface LEOPromptView()
 
 @property (strong, nonatomic) UIImageView *forwardPromptImageView;
-@property (strong, nonatomic) LEOSectionSeparator *sectionSeparator;
 @property (strong, nonatomic) UITapGestureRecognizer *tapGesture;
 
 @end
 
+IB_DESIGNABLE
 @implementation LEOPromptView
 
 -(id)initWithCoder:(NSCoder *)aDecoder {
@@ -52,6 +51,8 @@
     [self setupTextField];
     [self setupSectionSeparator];
     [self setupTapGesture];
+    [self setupForwardArrow];
+    [self setupConstraints];
 }
 
 - (void)setupTapGesture {
@@ -74,12 +75,6 @@
 //    [self addSubview:self.invisibleButton];
 //}
 
--(void)setFeatureColor:(UIColor *)featureColor {
-    
-    _featureColor = featureColor;
-    self.forwardPromptImageView.tintColor = featureColor;
-}
-
 - (void)setupTextField {
     self.textField = [[LEOValidatedFloatLabeledTextField alloc] init];
     [self addSubview:self.textField];
@@ -90,15 +85,17 @@
     [self addSubview:self.sectionSeparator];
 }
 
+- (void)setupForwardArrow {
+    self.forwardArrowVisible = NO;
+}
 
 -(void)setForwardArrowVisible:(BOOL)forwardArrowVisible {
     
     _forwardArrowVisible = forwardArrowVisible;
-    self.forwardPromptImageView.hidden = forwardArrowVisible;
+    self.forwardPromptImageView.hidden = !forwardArrowVisible;
 }
 
--(void)layoutSubviews {
-    
+- (void)setupConstraints {
     [self removeConstraints:self.constraints];
     
     self.forwardPromptImageView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -142,4 +139,6 @@
     
     [self.delegate respondToPrompt:gesture.delegate];
 }
+
+
 @end

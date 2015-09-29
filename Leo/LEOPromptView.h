@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "LEOValidatedFloatLabeledTextField.h"
+#import "LEOSectionSeparator.h"
 
 @protocol LEOPromptDelegate <NSObject>
 
@@ -21,6 +22,6 @@
 @property (strong, nonatomic) LEOValidatedFloatLabeledTextField *textField;
 @property (strong, nonatomic) UIButton *invisibleButton;
 @property (nonatomic) BOOL forwardArrowVisible;
-@property (strong, nonatomic) UIColor *featureColor;
+@property (strong, nonatomic) LEOSectionSeparator *sectionSeparator;
 
 @end

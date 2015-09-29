@@ -80,6 +80,7 @@ NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
     [super viewWillAppear:animated];
     [self setupNavigationBar];
 }
+
 - (void)setupEmailTextField {
     
     self.emailTextField.delegate = self;
