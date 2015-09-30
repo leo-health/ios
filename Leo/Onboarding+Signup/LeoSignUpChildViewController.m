@@ -78,7 +78,7 @@
     [[self birthDateTextField] sizeToFit];
     
     [self birthDateTextField].enabled = NO;
-    self.signUpChildView.birthDatePromptView.forwardArrowVisible = YES;
+    self.signUpChildView.birthDatePromptView.accessoryImageViewVisible = YES;
     self.signUpChildView.birthDatePromptView.delegate = self;
 }
 
@@ -90,7 +90,8 @@
     [[self genderTextField] sizeToFit];
     
     [self genderTextField].enabled = NO;
-    self.signUpChildView.genderPromptView.forwardArrowVisible = YES;
+    self.signUpChildView.genderPromptView.accessoryImageViewVisible = YES;
+    self.signUpChildView.genderPromptView.accessoryImage = [UIImage imageNamed:@"Icon-Forms"];
     self.signUpChildView.genderPromptView.delegate = self;
 }
 

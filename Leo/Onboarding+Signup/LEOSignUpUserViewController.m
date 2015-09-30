@@ -103,7 +103,7 @@ NSString *const kPlanSegue = @"PlanSegue";
     [self insurerTextField].enabled = NO;
     [[self insurerTextField] sizeToFit];
     
-    self.signUpUserView.insurerPromptView.forwardArrowVisible = YES;
+    self.signUpUserView.insurerPromptView.accessoryImageViewVisible = YES;
     self.signUpUserView.insurerPromptView.delegate = self;
 }
 

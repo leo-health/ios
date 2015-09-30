@@ -11,8 +11,9 @@
 
 @interface LEOPromptView()
 
-@property (strong, nonatomic) UIImageView *forwardPromptImageView;
+@property (strong, nonatomic) UIImageView *accessoryImageView;
 @property (strong, nonatomic) UITapGestureRecognizer *tapGesture;
+@property (strong, nonatomic) LEOSectionSeparator *sectionSeparator;
 
 @end
 
@@ -47,11 +48,9 @@ IB_DESIGNABLE
 - (void)localCommonInit {
     
     [self setupImageView];
-//    [self setupInvisibleButton];
     [self setupTextField];
     [self setupSectionSeparator];
     [self setupTapGesture];
-    [self setupForwardArrow];
     [self setupConstraints];
 }
 
@@ -66,15 +65,17 @@ IB_DESIGNABLE
 
 - (void)setupImageView {
     
-    self.forwardPromptImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Icon-ForwardArrow"]];
-    [self addSubview:self.forwardPromptImageView];
+    self.accessoryImageView = [[UIImageView alloc] init];
+    self.accessoryImageView.image = [UIImage imageNamed:@"Icon-ForwardArrow"];
+    self.accessoryImageViewVisible = NO;
+    [self addSubview:self.accessoryImageView];
 }
 
-//- (void)setupInvisibleButton {
-//    self.invisibleButton = [[UIButton alloc] init];
-//    [self addSubview:self.invisibleButton];
-//}
+-(void)setAccessoryImage:(UIImage *)accessoryImage {
 
+    _accessoryImage = accessoryImage;
+    self.accessoryImageView.image = accessoryImage;
+}
 - (void)setupTextField {
     self.textField = [[LEOValidatedFloatLabeledTextField alloc] init];
     [self addSubview:self.textField];
@@ -85,25 +86,23 @@ IB_DESIGNABLE
     [self addSubview:self.sectionSeparator];
 }
 
-- (void)setupForwardArrow {
-    self.forwardArrowVisible = NO;
+- (void)setupImageViewVisibility {
+    self.accessoryImageViewVisible = NO;
 }
 
--(void)setForwardArrowVisible:(BOOL)forwardArrowVisible {
-    
-    _forwardArrowVisible = forwardArrowVisible;
-    self.forwardPromptImageView.hidden = !forwardArrowVisible;
+-(void)setAccessoryImageViewVisible:(BOOL)accessoryImageViewVisible {
+    _accessoryImageViewVisible = accessoryImageViewVisible;
+    self.accessoryImageView.hidden = !accessoryImageViewVisible;
 }
 
 - (void)setupConstraints {
     [self removeConstraints:self.constraints];
     
-    self.forwardPromptImageView.translatesAutoresizingMaskIntoConstraints = NO;
-    self.invisibleButton.translatesAutoresizingMaskIntoConstraints = NO;
+    self.accessoryImageView.translatesAutoresizingMaskIntoConstraints = NO;
     self.textField.translatesAutoresizingMaskIntoConstraints = NO;
     self.sectionSeparator.translatesAutoresizingMaskIntoConstraints = NO;
     
-    NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(_forwardPromptImageView, _textField, _sectionSeparator);
+    NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(_accessoryImageView, _textField, _sectionSeparator);
     
     NSArray *constraintVerticalTextField = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_textField][_sectionSeparator(==1)]|" options:0 metrics:nil views:viewsDictionary];
     NSArray *constraintHorizontalTextField = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_textField]|" options:0 metrics:nil views:viewsDictionary];
@@ -114,17 +113,10 @@ IB_DESIGNABLE
     [self addConstraints:constraintVerticalTextField];
     [self addConstraints:constraintHorizontalSectionSeparator];
     
-//    NSLayoutConstraint *constraintBottomInvisibleButton = [NSLayoutConstraint constraintWithItem:self.invisibleButton attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.textField attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0];
-//    NSLayoutConstraint *constraintTopInvisibleButton = [NSLayoutConstraint constraintWithItem:self.invisibleButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.textField attribute:NSLayoutAttributeTop multiplier:1.0 constant:0];
-//    NSLayoutConstraint *constraintLeadingInvisibleButton = [NSLayoutConstraint constraintWithItem:self.invisibleButton attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.textField attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0];
-//    NSLayoutConstraint *constraintTrailingInvisibleButton = [NSLayoutConstraint constraintWithItem:self.invisibleButton attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.textField attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0];
-//    
-//    [self addConstraints:@[constraintBottomInvisibleButton, constraintTopInvisibleButton, constraintLeadingInvisibleButton, constraintTrailingInvisibleButton]];
-//    
-    NSLayoutConstraint *constraintVerticalAlignmentForwardImageView = [NSLayoutConstraint constraintWithItem:self.forwardPromptImageView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0];
-    NSLayoutConstraint *constraintTrailingForwardImageView = [NSLayoutConstraint constraintWithItem:self.forwardPromptImageView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0];
+    NSLayoutConstraint *constraintVerticalAlignmentPromptImageView = [NSLayoutConstraint constraintWithItem:self.accessoryImageView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0];
+    NSLayoutConstraint *constraintTrailingPromptImageView = [NSLayoutConstraint constraintWithItem:self.accessoryImageView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0];
     
-    [self addConstraints:@[constraintVerticalAlignmentForwardImageView,constraintTrailingForwardImageView]];
+    [self addConstraints:@[constraintVerticalAlignmentPromptImageView,constraintTrailingPromptImageView]];
 }
 
 - (NSString *)validationPlaceholder {

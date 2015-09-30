@@ -11,8 +11,6 @@
 @implementation LEOSignUpChildView
 
 IB_DESIGNABLE
-
-
 #pragma mark - Initialization
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder
@@ -64,7 +62,6 @@ IB_DESIGNABLE
                                         attribute:attribute
                                        multiplier:1.0
                                          constant:0.0];
-}
-
+}    
 
 @end
