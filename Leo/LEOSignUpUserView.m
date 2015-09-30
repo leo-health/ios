@@ -11,6 +11,10 @@
 @implementation LEOSignUpUserView
 
 IB_DESIGNABLE
+
+
+#pragma mark - Initialization
+
 - (instancetype)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder:aDecoder];
@@ -33,6 +37,8 @@ IB_DESIGNABLE
     return self;
 }
 
+
+#pragma mark - Autolayout
 
 - (void)setupConstraints {
     

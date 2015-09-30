@@ -11,6 +11,6 @@
 #import "SingleSelectionProtocol.h"
 #import "StickyView.h"
 
-@interface LEOSignUpUserViewController : UIViewController <UITextFieldDelegate, UIScrollViewDelegate, LEOPromptDelegate, SingleSelectionProtocol, StickyViewDelegate>
+@interface LEOSignUpUserViewController : UIViewController <UITextFieldDelegate, LEOPromptDelegate, SingleSelectionProtocol, StickyViewDelegate>
 
 @end

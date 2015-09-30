@@ -12,7 +12,7 @@
 @implementation LEOValidationsHelper
 
 
-//MARK: This method may belong elsewhere.
+//MARK: This method belongs elsewhere.
 + (BOOL)phoneNumberTextField:(UITextField *)textField shouldUpdateCharacters:(NSString *)string inRange:(NSRange)range {
     
     NSString *newString = [textField.text stringByReplacingCharactersInRange:range withString:string];
@@ -63,7 +63,7 @@
     return NO;
 }
 
-+ (BOOL)validatePhoneNumberWithFormatting:(NSString *)candidate {
++ (BOOL)isValidPhoneNumberWithFormatting:(NSString *)candidate {
     
     NSString *phoneRegex =@"1?[ ]?[(][1-9][0-9]{2}[)][ ][1-9][0-9]{2}[-][0-9]{4}";
     NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", phoneRegex];
@@ -72,7 +72,7 @@
 }
 
 
-+ (BOOL)validateEmail: (NSString *) candidate {
++ (BOOL)isValidEmail:(NSString *) candidate {
     
     NSString *emailRegex = @"\\A\\s*([^@\\s]{1,64})@((?:[-\\p{L}\\d]+\\.)+\\p{L}{2,})\\s*\\z";
     NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
@@ -80,27 +80,27 @@
     return [emailTest evaluateWithObject:candidate];
 }
 
-+ (BOOL)validateFirstName:(NSString *)candidate {
++ (BOOL)isValidFirstName:(NSString *)candidate {
     return [self isValidAlphaOnly:candidate] && [self isValidNonZeroLength:candidate] ? YES : NO;
 }
 
-+ (BOOL)validateLastName:(NSString *)candidate {
++ (BOOL)isValidLastName:(NSString *)candidate {
     return [self isValidAlphaOnly:candidate] && [self isValidNonZeroLength:candidate] ? YES : NO;
 }
 
-+ (BOOL)validateBirthdate:(NSString *)candidate {
++ (BOOL)isValidBirthDate:(NSString *)candidate {
     return [self isValidShortDate:candidate];
 }
 
-+ (BOOL)validateGender:(NSString *)candidate {
++ (BOOL)isValidGender:(NSString *)candidate {
     return [self isValidNonZeroLength:candidate];
 }
 
-+ (BOOL)validateInsurer:(NSString *)candidate {
++ (BOOL)isValidInsurer:(NSString *)candidate {
     return [self isValidNonZeroLength:candidate];
 }
 
-+ (BOOL)validatePassword:(NSString *)candidate {
++ (BOOL)isValidPassword:(NSString *)candidate {
     return candidate.length > 7;
 }
 

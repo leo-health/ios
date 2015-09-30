@@ -1,12 +1,12 @@
 //
-//  LeoSignUpChildViewController.m
+//  LEOSignUpChildViewController.m
 //  Leo
 //
 //  Created by Zachary Drossman on 9/29/15.
 //  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
-#import "LeoSignUpChildViewController.h"
+#import "LEOSignUpChildViewController.h"
 
 #import "LEOValidatedFloatLabeledTextField.h"
 #import "UIFont+LeoFonts.h"
@@ -21,15 +21,16 @@
 #import <NSDate+DateTools.h>
 #import "NSDate+Extensions.h"
 #import "LEOValidationsHelper.h"
+#import "LEOMessagesAvatarImageFactory.h"
 
-@interface LeoSignUpChildViewController ()
+@interface LEOSignUpChildViewController ()
 
 @property (strong, nonatomic) LEOSignUpChildView *signUpChildView;
 @property (weak, nonatomic) IBOutlet StickyView *stickyView;
 
 @end
 
-@implementation LeoSignUpChildViewController
+@implementation LEOSignUpChildViewController
 
 #pragma mark - View Controller Lifecycle & Helpers
 
@@ -41,6 +42,8 @@
     [self setupFirstNameField];
     [self setupLastNameField];
     [self setupBirthDateField];
+    [self setupAvatarButton];
+    [self setupAvatarValidationLabel];
     [self setupGenderField];
 }
 
@@ -91,6 +94,46 @@
     self.signUpChildView.genderPromptView.delegate = self;
 }
 
+- (void)setupAvatarValidationLabel {
+    self.signUpChildView.avatarValidationLabel.font = [UIFont leoMenuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
+    self.signUpChildView.avatarValidationLabel.textColor = [UIColor leoOrangeRed];
+    self.signUpChildView.avatarValidationLabel.text = @"";
+}
+- (void)setupAvatarButton {
+    
+    [[self avatarButton] addTarget:self action:@selector(presentPhotoPicker:) forControlEvents:UIControlEventTouchUpInside];
+}
+
+
+#pragma mark - <UIImagePickerViewControllerDelegate>
+
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+
+    UIImage *originalImage = info[UIImagePickerControllerOriginalImage];
+    RSKImageCropViewController *imageCropVC = [[RSKImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeCircle];
+    imageCropVC.delegate = self;
+
+    [self.navigationController pushViewController:imageCropVC animated:NO];
+
+    [self dismissViewControllerAnimated:NO completion:^{
+        self.signUpChildView.avatarValidationLabel.text = @"";
+    }];
+}
+
+
+#pragma mark - <RSKImageCropViewControllerDelegate>
+
+- (void)imageCropViewControllerDidCancelCrop:(RSKImageCropViewController *)controller
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)imageCropViewController:(RSKImageCropViewController *)controller didCropImage:(UIImage *)croppedImage usingCropRect:(CGRect)cropRect
+{
+    UIImage *avatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:croppedImage withDiameter:67 borderColor:[UIColor leoOrangeRed] borderWidth:1.0];
+    [[self avatarButton] setImage:avatarImage forState:UIControlStateNormal];
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 
 #pragma mark - <StickyViewDelegate>
@@ -144,6 +187,8 @@
 
 -(void)respondToPrompt:(id)sender {
     
+    [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
+    
     if (sender == self.signUpChildView.birthDatePromptView) {
         [self selectADate:sender];
     }
@@ -180,9 +225,12 @@
         selectedIndex = 1;
     }
     
-    AbstractActionSheetPicker *actionSheetPicker = [[ActionSheetStringPicker alloc] initWithTitle:nil rows:@[@"Female",@"Male"] initialSelection:selectedIndex target:self successAction:@selector(genderWasSelected:element:) cancelAction:nil origin:sender];
-    actionSheetPicker.hideCancel = YES;
-    [actionSheetPicker showActionSheetPicker];
+    AbstractActionSheetPicker *picker = [[ActionSheetStringPicker alloc] initWithTitle:nil rows:@[@"Female",@"Male"] initialSelection:selectedIndex target:self successAction:@selector(genderWasSelected:element:) cancelAction:nil origin:sender];
+    picker.hideCancel = YES;
+    picker.pickerBackgroundColor = [UIColor blackColor];
+    picker.pickerTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor],
+                                    NSFontAttributeName:[UIFont leoStandardFont],};
+    [picker showActionSheetPicker];
 }
 
 - (void)dateWasSelected:(NSDate *)selectedDate element:(id)element {
@@ -209,6 +257,21 @@
 }
 
 
+- (void)presentPhotoPicker:(id)sender {
+    
+    UIImagePickerController *pickerController = [[UIImagePickerController alloc] init];
+    pickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    pickerController.delegate = self;
+    
+    [self presentViewController:pickerController animated:YES completion:nil];
+}
+
+- (void)pop {
+    
+    [self.navigationController popViewControllerAnimated:YES];
+    self.navigationController.navigationBarHidden = YES;
+}
+
 #pragma mark - Validation
 
 - (BOOL)validatePage {
@@ -217,13 +280,18 @@
     BOOL validLastName = [LEOValidationsHelper validateLastName:[self lastNameTextField].text];
     BOOL validBirthDate = [LEOValidationsHelper validateBirthdate:[self birthDateTextField].text];
     BOOL validGender = [LEOValidationsHelper validateGender:[self genderTextField].text];
+    BOOL validAvatar = self.signUpChildView.avatarButton.imageView.image ? YES : NO;
     
     [self firstNameTextField].valid = validFirstName;
     [self lastNameTextField].valid = validLastName;
     [self birthDateTextField].valid = validBirthDate;
     [self genderTextField].valid = validGender;
     
-    if (validFirstName && validLastName && validBirthDate && validGender) {
+    if (!validAvatar) {
+        self.signUpChildView.avatarValidationLabel.text = @"please tap the camera to add a photo of your child";
+    }
+    
+    if (validFirstName && validLastName && validBirthDate && validGender && validAvatar) {
         return YES;
     }
     
@@ -273,10 +341,10 @@
     return self.signUpChildView.genderPromptView.textField;
 }
 
-
-- (void)pop {
-    
-    [self.navigationController popViewControllerAnimated:YES];
-    self.navigationController.navigationBarHidden = YES;
+- (UIButton *)avatarButton {
+    return self.signUpChildView.avatarButton;
 }
+
+
+
 @end

@@ -16,5 +16,6 @@
 @property (weak, nonatomic) IBOutlet LEOPromptView *lastNamePromptView;
 @property (weak, nonatomic) IBOutlet LEOPromptView *birthDatePromptView;
 @property (weak, nonatomic) IBOutlet LEOPromptView *genderPromptView;
+@property (weak, nonatomic) IBOutlet UILabel *avatarValidationLabel;
 
 @end

@@ -11,6 +11,8 @@
 @implementation LEOSignUpChildView
 
 IB_DESIGNABLE
+
+#pragma mark - Initialization
 - (instancetype)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder:aDecoder];
@@ -33,7 +35,9 @@ IB_DESIGNABLE
     return self;
 }
 
-//MARK: We should move this to a category if
+
+#pragma mark - Autolayout
+
 - (void)setupConstraints {
     
     NSBundle *mainBundle = [NSBundle mainBundle];
@@ -50,8 +54,7 @@ IB_DESIGNABLE
     [self addConstraint:[self pin:loadedSubview attribute:NSLayoutAttributeRight]];
 }
 
-- (NSLayoutConstraint *)pin:(id)item attribute:(NSLayoutAttribute)attribute
-{
+- (NSLayoutConstraint *)pin:(id)item attribute:(NSLayoutAttribute)attribute {
     return [NSLayoutConstraint constraintWithItem:self
                                         attribute:attribute
                                         relatedBy:NSLayoutRelationEqual

@@ -414,10 +414,10 @@
             </objects>
             <point key="canvasLocation" x="2332" y="2191"/>
         </scene>
-        <!--Leo Sign Up Child View Controller-->
+        <!--Sign Up Child View Controller-->
         <scene sceneID="ulU-aS-31n">
             <objects>
-                <viewController id="AEw-ey-6Xy" customClass="LeoSignUpChildViewController" sceneMemberID="viewController">
+                <viewController id="AEw-ey-6Xy" customClass="LEOSignUpChildViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="4jw-4q-cds"/>
                         <viewControllerLayoutGuide type="bottom" id="TBK-A7-y2P"/>
