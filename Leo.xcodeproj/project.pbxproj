@@ -49,6 +49,11 @@
 		314BC36F1B94C817000A50D8 /* LEOCredentialStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 314BC36E1B94C817000A50D8 /* LEOCredentialStore.m */; };
 		3153C5EA1B949D90000A22B4 /* LEOInitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3153C5E91B949D90000A22B4 /* LEOInitialViewController.m */; };
 		3153C5EC1B94A0B3000A22B4 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3153C5EB1B94A0B3000A22B4 /* Login.storyboard */; };
+		3155888D1BBC314D0038E381 /* LEOReviewAndAddChildView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3155888A1BBC314D0038E381 /* LEOReviewAndAddChildView.m */; };
+		3155888E1BBC314D0038E381 /* LEOReviewAddChildViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3155888C1BBC314D0038E381 /* LEOReviewAddChildViewController.m */; };
+		315588901BBC32110038E381 /* LEOReviewAndAddChildView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3155888F1BBC32110038E381 /* LEOReviewAndAddChildView.xib */; };
+		315588941BBC34E40038E381 /* LEOPromptViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 315588921BBC34E40038E381 /* LEOPromptViewCell.m */; };
+		315588951BBC34E40038E381 /* LEOPromptViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 315588931BBC34E40038E381 /* LEOPromptViewCell.xib */; };
 		315E12B01BB9B2B8001023F1 /* StickyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 315E12AC1BB9B2B8001023F1 /* StickyView.m */; };
 		315E12B51BB9BDA6001023F1 /* LEOSignUpUserView.m in Sources */ = {isa = PBXBuildFile; fileRef = 315E12B41BB9BDA6001023F1 /* LEOSignUpUserView.m */; };
 		315E12B71BB9BDBD001023F1 /* LEOSignUpUserView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 315E12B61BB9BDBD001023F1 /* LEOSignUpUserView.xib */; };
@@ -245,6 +250,14 @@
 		3153C5E81B949D90000A22B4 /* LEOInitialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOInitialViewController.h; path = "Onboarding+Signup/LEOInitialViewController.h"; sourceTree = "<group>"; };
 		3153C5E91B949D90000A22B4 /* LEOInitialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOInitialViewController.m; path = "Onboarding+Signup/LEOInitialViewController.m"; sourceTree = "<group>"; };
 		3153C5EB1B94A0B3000A22B4 /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Login.storyboard; path = Storyboards/Login.storyboard; sourceTree = "<group>"; };
+		315588891BBC314D0038E381 /* LEOReviewAndAddChildView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOReviewAndAddChildView.h; path = "Onboarding+Signup/LEOReviewAndAddChildView.h"; sourceTree = "<group>"; };
+		3155888A1BBC314D0038E381 /* LEOReviewAndAddChildView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOReviewAndAddChildView.m; path = "Onboarding+Signup/LEOReviewAndAddChildView.m"; sourceTree = "<group>"; };
+		3155888B1BBC314D0038E381 /* LEOReviewAddChildViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOReviewAddChildViewController.h; path = "Onboarding+Signup/LEOReviewAddChildViewController.h"; sourceTree = "<group>"; };
+		3155888C1BBC314D0038E381 /* LEOReviewAddChildViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOReviewAddChildViewController.m; path = "Onboarding+Signup/LEOReviewAddChildViewController.m"; sourceTree = "<group>"; };
+		3155888F1BBC32110038E381 /* LEOReviewAndAddChildView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LEOReviewAndAddChildView.xib; path = "Onboarding+Signup/LEOReviewAndAddChildView.xib"; sourceTree = "<group>"; };
+		315588911BBC34E40038E381 /* LEOPromptViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOPromptViewCell.h; sourceTree = "<group>"; };
+		315588921BBC34E40038E381 /* LEOPromptViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOPromptViewCell.m; sourceTree = "<group>"; };
+		315588931BBC34E40038E381 /* LEOPromptViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LEOPromptViewCell.xib; sourceTree = "<group>"; };
 		315E12AB1BB9B2B8001023F1 /* StickyView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StickyView.h; sourceTree = "<group>"; };
 		315E12AC1BB9B2B8001023F1 /* StickyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StickyView.m; sourceTree = "<group>"; };
 		315E12B31BB9BDA6001023F1 /* LEOSignUpUserView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOSignUpUserView.h; sourceTree = "<group>"; };
@@ -615,6 +628,14 @@
 				31BF23401BBAEA0A005856E5 /* LEOSignUpChildView.h */,
 				31BF23411BBAEA0A005856E5 /* LEOSignUpChildView.m */,
 				31BF23421BBAEA0A005856E5 /* LEOSignUpChildView.xib */,
+				3155888B1BBC314D0038E381 /* LEOReviewAddChildViewController.h */,
+				3155888C1BBC314D0038E381 /* LEOReviewAddChildViewController.m */,
+				315588891BBC314D0038E381 /* LEOReviewAndAddChildView.h */,
+				3155888A1BBC314D0038E381 /* LEOReviewAndAddChildView.m */,
+				3155888F1BBC32110038E381 /* LEOReviewAndAddChildView.xib */,
+				315588911BBC34E40038E381 /* LEOPromptViewCell.h */,
+				315588921BBC34E40038E381 /* LEOPromptViewCell.m */,
+				315588931BBC34E40038E381 /* LEOPromptViewCell.xib */,
 			);
 			name = "Onboarding & Signup";
 			sourceTree = "<group>";
@@ -1091,10 +1112,12 @@
 			files = (
 				31F5AA781B791B4B00F96D06 /* PatientCell.xib in Resources */,
 				3128D4E71B430F0200582710 /* LEOTwoButtonPrimaryAndSecondaryCell.xib in Resources */,
+				315588901BBC32110038E381 /* LEOReviewAndAddChildView.xib in Resources */,
 				3153C5EC1B94A0B3000A22B4 /* Login.storyboard in Resources */,
 				BCE1EC731B00E353007C8D0B /* Main.storyboard in Resources */,
 				311CBB3E1B56B0F50009BD7A /* Conversation.storyboard in Resources */,
 				3128D4EC1B43135F00582710 /* LEOOneButtonPrimaryAndSecondaryCell.xib in Resources */,
+				315588951BBC34E40038E381 /* LEOPromptViewCell.xib in Resources */,
 				315E12B71BB9BDBD001023F1 /* LEOSignUpUserView.xib in Resources */,
 				31FDDE691B29E3580009BBC2 /* LEOTwoButtonSecondaryOnlyCell.xib in Resources */,
 				31FDDE561B28DD2C0009BBC2 /* LEOTwoButtonPrimaryOnlyCell.xib in Resources */,
@@ -1223,6 +1246,7 @@
 				31B998C61B7BD4F40055DEEA /* UIFont+LeoFonts.m in Sources */,
 				3138FC4B1B9A19A8000FE22C /* InsurancePlanCell+ConfigureCell.m in Sources */,
 				31F5AA7A1B791B4B00F96D06 /* AppointmentTypeCell+ConfigureCell.m in Sources */,
+				3155888E1BBC314D0038E381 /* LEOReviewAddChildViewController.m in Sources */,
 				31CC12E61BB062C40099AB60 /* Practice.m in Sources */,
 				319FB4BE1BBA379E00EFF7B9 /* JVFloatLabeledTextField.m in Sources */,
 				BC163AFE1B054CBF000FB1CE /* LEOCardTransitionAnimator.m in Sources */,
@@ -1230,6 +1254,7 @@
 				310740741B545EFD0098FD40 /* LEOCardConversation.m in Sources */,
 				3128D4EB1B43135F00582710 /* LEOOneButtonPrimaryAndSecondaryCell.m in Sources */,
 				31FDDE5C1B29CF8C0009BBC2 /* LEOFeedCell.m in Sources */,
+				3155888D1BBC314D0038E381 /* LEOReviewAndAddChildView.m in Sources */,
 				31F5AA671B791B4A00F96D06 /* LEOAPIFamilyOperation.m in Sources */,
 				31CC12E31BB062C40099AB60 /* User.m in Sources */,
 				31CC12EA1BB062C40099AB60 /* Role.m in Sources */,
@@ -1275,6 +1300,7 @@
 				3182E55E1B20C8F5004DECF8 /* NSDate+Extensions.m in Sources */,
 				3128D4EF1B4313D000582710 /* LEOTwoButtonPrimaryAndSecondaryCell+ConfigureForCell.m in Sources */,
 				31FDDE681B29E3580009BBC2 /* LEOTwoButtonSecondaryOnlyCell.m in Sources */,
+				315588941BBC34E40038E381 /* LEOPromptViewCell.m in Sources */,
 				3192ACD91B0CC7C5007195F2 /* UIImage+Extensions.m in Sources */,
 				31CC12ED1BB062E90099AB60 /* LEOS3SessionManager.m in Sources */,
 				31CC12E41BB062C40099AB60 /* AppointmentType.m in Sources */,
