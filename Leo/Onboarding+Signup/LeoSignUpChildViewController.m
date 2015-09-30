@@ -276,10 +276,10 @@
 
 - (BOOL)validatePage {
     
-    BOOL validFirstName = [LEOValidationsHelper validateFirstName:[self firstNameTextField].text];
-    BOOL validLastName = [LEOValidationsHelper validateLastName:[self lastNameTextField].text];
-    BOOL validBirthDate = [LEOValidationsHelper validateBirthdate:[self birthDateTextField].text];
-    BOOL validGender = [LEOValidationsHelper validateGender:[self genderTextField].text];
+    BOOL validFirstName = [LEOValidationsHelper isValidFirstName:[self firstNameTextField].text];
+    BOOL validLastName = [LEOValidationsHelper isValidLastName:[self lastNameTextField].text];
+    BOOL validBirthDate = [LEOValidationsHelper isValidBirthDate:[self birthDateTextField].text];
+    BOOL validGender = [LEOValidationsHelper isValidGender:[self genderTextField].text];
     BOOL validAvatar = self.signUpChildView.avatarButton.imageView.image ? YES : NO;
     
     [self firstNameTextField].valid = validFirstName;
@@ -308,14 +308,14 @@
     if (textField == [self firstNameTextField]) {
         
         if (![self firstNameTextField].valid) {
-            self.firstNameTextField.valid = [LEOValidationsHelper validateFirstName:mutableText.string];
+            self.firstNameTextField.valid = [LEOValidationsHelper isValidFirstName:mutableText.string];
         }
     }
     
     if (textField == self.lastNameTextField) {
         
         if (![self lastNameTextField].valid) {
-            self.lastNameTextField.valid = [LEOValidationsHelper validateLastName:mutableText.string];
+            self.lastNameTextField.valid = [LEOValidationsHelper isValidLastName:mutableText.string];
         }
     }
         

@@ -98,7 +98,7 @@
     if (textField == self.emailTextField) {
         
         if (!self.emailTextField.valid) {
-            self.emailTextField.valid = [LEOValidationsHelper validateEmail:mutableText.string];
+            self.emailTextField.valid = [LEOValidationsHelper isValidEmail:mutableText.string];
         }
     }
     
@@ -167,7 +167,7 @@
 - (IBAction)submitTapped:(UIButton *)sender {
     
     
-    BOOL validEmail = [LEOValidationsHelper validateEmail:self.emailTextField.text];
+    BOOL validEmail = [LEOValidationsHelper isValidEmail:self.emailTextField.text];
     
     self.emailTextField.valid = validEmail;
     
