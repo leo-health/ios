@@ -19,8 +19,8 @@ typedef enum Gender : NSUInteger {
 } Gender;
 
 typedef enum PatientStatusCode : NSUInteger {
-    PatientStatusInactive = 0,
-    PatientStatusActive = 1
+    PatientStatusInactive = 1,
+    PatientStatusActive = 2
 } PatientStatusCode;
 
 @property (nonatomic, strong) NSDate * dob;
@@ -28,7 +28,9 @@ typedef enum PatientStatusCode : NSUInteger {
 @property (nonatomic, copy) NSString *status;
 @property (nonatomic, copy, nullable) NSString *familyID;
 
-- (instancetype)initWithObjectID:(nullable NSString *)objectID familyID:(NSString *)familyID title:(nullable NSString *)title firstName:(NSString * __nonnull)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString * __nonnull)lastName suffix:(nullable NSString *)suffix email:(nullable NSString *)email avatarURL:(nullable NSString *)avatarURL avatar:(nullable UIImage *)avatar dob:(NSDate *)dob gender:(NSString *)gender status:(NSString *)status;
+- (instancetype)initWithObjectID:(nullable NSString *)objectID familyID:(nullable NSString *)familyID title:(nullable NSString *)title firstName:(NSString * __nonnull)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString * __nonnull)lastName suffix:(nullable NSString *)suffix email:(nullable NSString *)email avatarURL:(nullable NSString *)avatarURL avatar:(nullable UIImage *)avatar dob:(NSDate *)dob gender:(NSString *)gender status:(NSString *)status;
+
+- (instancetype)initWithTitle:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(nullable NSString *)email avatar:(nullable UIImage *)avatar dob:(NSDate *)dob gender:(NSString *)gender status:(NSString *)status;
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse;
 
