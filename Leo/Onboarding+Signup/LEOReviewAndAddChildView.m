@@ -8,6 +8,12 @@
 
 #import "LEOReviewAndAddChildView.h"
 
+@interface LEOReviewAndAddChildView ()
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *heightConstraintForTableView;
+
+@end
+
 @implementation LEOReviewAndAddChildView
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder
@@ -15,18 +21,22 @@
     self = [super initWithCoder:aDecoder];
     
     if (self) {
-        [self setupConstraints];
+        [self setupConstraintsWithCellCount:0];
+        [self setupTableView];
+
     }
     
     return self;
 }
 
--(instancetype)init {
+-(instancetype)initWithCellCount:(NSInteger)cellCount {
     
     self = [super init];
     
     if (self) {
-        [self setupConstraints];
+        
+        [self setupConstraintsWithCellCount:cellCount];
+        [self setupTableView];
     }
     
     return self;
@@ -35,7 +45,7 @@
 
 #pragma mark - Autolayout
 
-- (void)setupConstraints {
+- (void)setupConstraintsWithCellCount:(NSInteger)cellCount {
     
     NSBundle *mainBundle = [NSBundle mainBundle];
     NSArray *loadedViews = [mainBundle loadNibNamed:@"LEOReviewAndAddChildView" owner:self options:nil];
@@ -49,6 +59,8 @@
     [self addConstraint:[self pin:loadedSubview attribute:NSLayoutAttributeLeft]];
     [self addConstraint:[self pin:loadedSubview attribute:NSLayoutAttributeBottom]];
     [self addConstraint:[self pin:loadedSubview attribute:NSLayoutAttributeRight]];
+    
+    self.heightConstraintForTableView.constant = cellCount * 68;
 }
 
 - (NSLayoutConstraint *)pin:(id)item attribute:(NSLayoutAttribute)attribute {
@@ -61,4 +73,9 @@
                                          constant:0.0];
 }
 
+- (void)setupTableView {
+    
+    self.tableView.scrollEnabled = NO;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+}
 @end

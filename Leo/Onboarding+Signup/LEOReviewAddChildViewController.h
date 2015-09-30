@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "StickyView.h"
+#import "LEOPromptView.h"
 
-@interface LEOReviewAddChildViewController : UIViewController
+@interface LEOReviewAddChildViewController : UIViewController <UITextFieldDelegate, UIScrollViewDelegate, LEOPromptDelegate, StickyViewDelegate, UITableViewDelegate>
 
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) NSArray *childData;
 
 @end

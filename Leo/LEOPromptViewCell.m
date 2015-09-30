@@ -11,7 +11,13 @@
 @implementation LEOPromptViewCell
 
 - (void)awakeFromNib {
-    // Initialization code
+    
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
+}
+
++(UINib *)nib {
+    
+    return [UINib nibWithNibName:@"PatientCell" bundle:nil];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

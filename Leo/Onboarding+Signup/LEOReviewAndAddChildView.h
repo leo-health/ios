@@ -10,4 +10,8 @@
 
 @interface LEOReviewAndAddChildView : UIView
 
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+
+-(instancetype)initWithCellCount:(NSInteger)cellCount;
+
 @end
