@@ -31,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) id associatedCardObject;
 
-@property (weak, nonatomic, nullable) id<CardActivityProtocol> delegate;
+@property (weak, nonatomic) id<CardActivityProtocol> delegate;
 
 - (instancetype)initWithObjectID:(NSString *)objectID priority:(NSNumber *)priority type:(CardType)type associatedCardObject:(id)associatedCardObject;
 

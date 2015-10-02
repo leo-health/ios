@@ -22,7 +22,6 @@
 
 @property (weak, nonatomic) IBOutlet LEOValidatedFloatLabeledTextField *emailTextField;
 @property (weak, nonatomic) IBOutlet UIButton *submitButton;
-@property (weak, nonatomic) IBOutlet UINavigationBar *fakeNavigationBar;
 @property (weak, nonatomic) IBOutlet UILabel *resetResponseLabel;
 
 @end
@@ -58,11 +57,8 @@
 
 - (void)setupNavigationBar {
     
-    [self.fakeNavigationBar setBackgroundImage:[UIImage imageWithColor:[UIColor leoWhite]]
-                                forBarPosition:UIBarPositionAny
-                                    barMetrics:UIBarMetricsDefault];
-    
-    [self.fakeNavigationBar setShadowImage:[UIImage new]];
+    self.navigationController.navigationBarHidden = NO;
+    self.navigationController.navigationBar.translucent = YES;
     
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [backButton addTarget:self action:@selector(pop) forControlEvents:UIControlEventTouchUpInside];
@@ -74,8 +70,7 @@
     
     UINavigationItem *item = [[UINavigationItem alloc] init];
     item.leftBarButtonItem = backBBI;
-    //    item.hidesBackButton = YES;
-    [self.fakeNavigationBar pushNavigationItem:item animated:NO];
+    self.navigationItem.leftBarButtonItem = backBBI;
 }
 
 
@@ -103,7 +98,7 @@
     if (textField == self.emailTextField) {
         
         if (!self.emailTextField.valid) {
-            self.emailTextField.valid = [LEOValidationsHelper validateEmail:mutableText.string];
+            self.emailTextField.valid = [LEOValidationsHelper isValidEmail:mutableText.string];
         }
     }
     
@@ -149,6 +144,9 @@
     return self.forgotPasswordView;
 }
 
+-(BOOL)accountForNavigationBar {
+    return YES;
+}
 /*
  #pragma mark - Navigation
  
@@ -169,7 +167,7 @@
 - (IBAction)submitTapped:(UIButton *)sender {
     
     
-    BOOL validEmail = [LEOValidationsHelper validateEmail:self.emailTextField.text];
+    BOOL validEmail = [LEOValidationsHelper isValidEmail:self.emailTextField.text];
     
     self.emailTextField.valid = validEmail;
     

@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "LEOScrollableContainerView.h"
 #import "LEOPromptView.h"
 #import "SingleSelectionProtocol.h"
+#import "StickyView.h"
 
-@interface LEOSignUpUserViewController : UIViewController <LEOScrollableContainerViewDelegate, UITextFieldDelegate, UIScrollViewDelegate, LEOPromptDelegate, SingleSelectionProtocol>
+@interface LEOSignUpUserViewController : UIViewController <UITextFieldDelegate, LEOPromptDelegate, SingleSelectionProtocol, StickyViewDelegate>
 
 @end

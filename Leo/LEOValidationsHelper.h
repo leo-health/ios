@@ -11,8 +11,13 @@
 @interface LEOValidationsHelper : NSObject
 
 + (BOOL)phoneNumberTextField:(UITextField *)textField shouldUpdateCharacters:(NSString *)string inRange:(NSRange)range;
-+ (BOOL)validatePhoneNumberWithFormatting:(NSString *)candidate;
-+ (BOOL)validateNonZeroLength:(NSString *)candidate;
-+ (BOOL)validateEmail: (NSString *) candidate;
++ (BOOL)isValidPhoneNumberWithFormatting:(NSString *)candidate;
++ (BOOL)isValidEmail:(NSString *) candidate;
++ (BOOL)isValidFirstName:(NSString *)candidate;
++ (BOOL)isValidLastName:(NSString *)candidate;
++ (BOOL)isValidBirthDate:(NSString *)candidate;
++ (BOOL)isValidGender:(NSString *)candidate;
++ (BOOL)isValidInsurer:(NSString *)candidate;
++ (BOOL)isValidPassword:(NSString *)candidate;
 
 @end

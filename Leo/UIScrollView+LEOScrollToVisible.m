@@ -12,9 +12,11 @@
 @implementation UIScrollView (LEOScrollToVisible)
 UIView *_viewToAlwaysBeVisible;
 CGFloat offset;
+CGSize originalSize;
 
 - (void)scrollToViewIfObstructedByKeyboard:(UIView *)view{
     _viewToAlwaysBeVisible = view;
+    
     if (view == nil) {
         [self removeKeyboardNotifications];
     }
@@ -68,7 +70,6 @@ CGFloat offset;
     return keyboardFrameViewCoordinates.size;
 }
 
-
 -(void)scrollViewToShowIfFirstResponder:(UIView*)viewThatShouldBeVisible withKeyboardSize:(CGSize)keyboardSize{
     //Insets for scroll view content after keyboard abstructs the scroll view
     UIEdgeInsets scrollViewEdgeInsets = UIEdgeInsetsMake(0, 0, keyboardSize.height, 0);
@@ -81,7 +82,11 @@ CGFloat offset;
     self.scrollIndicatorInsets = scrollViewEdgeInsets;
     
     //Set Rectangle in scroll view coordinate space
-    CGRect viewThatShouldBeVisibleRectInScrollView = viewThatShouldBeVisible.frame;
+    
+    CGRect originalFrame = viewThatShouldBeVisible.frame;
+    CGRect expandedViewThatShouldBeVisibleRectInScrollView = CGRectMake(originalFrame.origin.x, originalFrame.origin.y, originalFrame.size.width, originalFrame.size.height + 150);
+    
+    CGRect viewThatShouldBeVisibleRectInScrollView = expandedViewThatShouldBeVisibleRectInScrollView;
     if ([viewThatShouldBeVisible.superview isEqual:self] == NO) {
         viewThatShouldBeVisibleRectInScrollView = [self convertRect:viewThatShouldBeVisible.frame fromView:viewThatShouldBeVisible.superview];
     }
@@ -94,6 +99,11 @@ CGFloat offset;
         bottomPoint = CGPointMake(viewThatShouldBeVisibleRectInScrollView.origin.x, viewThatShouldBeVisibleRectInScrollView.origin.y + viewThatShouldBeVisibleRectInScrollView.size.height);
         
         if (!CGRectContainsPoint(scrollViewVisibleFrame, bottomPoint)) {
+            
+//            if (self.contentSize.height < 700) {
+//                self.contentSize = CGSizeMake(self.contentSize.width, 700);
+//            }
+            
             CGRect textViewRectWithOffset = CGRectInset(viewThatShouldBeVisibleRectInScrollView, 0, -100);
             [self scrollRectToVisible:textViewRectWithOffset animated:YES];
         }

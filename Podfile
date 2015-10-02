@@ -14,8 +14,10 @@ pod 'DateTools' #MIT
 pod 'UIImage-Resize' #MIT
 pod 'JSQMessagesViewController' #MIT
 pod 'libPusher', '~> 1.5' #MIT
-pod 'JVFloatLabeledTextField' #MIT
 pod 'MBProgressHUD' #MIT
+pod 'TPKeyboardAvoiding' #MIT
+pod 'ActionSheetPicker-3.0', '~> 2.0.1' #BSD
+pod 'RSKImageCropper' #MIT
 
 #Should review dependencies of these pods to ensure that all pods are compliant with their own licenses. e.g. Facebook Pop, etc.
 

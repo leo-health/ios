@@ -24,5 +24,6 @@ typedef void (^SelectionCriteriaBlock)(BOOL selected, NSIndexPath *indexPath);
 @property (strong, nonatomic) LEOAPIOperation *requestOperation;
 @property (weak, nonatomic) id<SingleSelectionProtocol>delegate;
 @property (strong, nonatomic) UIColor *tintColor;
+@property (strong, nonatomic) UIColor *navBarShadowLine;
 
 @end

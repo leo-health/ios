@@ -12,6 +12,7 @@
 #import "UIColor+LeoColors.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 #import "LEOApiReachability.h"
+#import "UIImage+Extensions.h"
 
 @interface LEOBasicSelectionViewController ()
 
@@ -151,6 +152,13 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+
+-(void)setNavBarShadowLine:(UIColor *)navBarShadowLine {
+
+    _navBarShadowLine = navBarShadowLine;
+    
+    [self.navigationController.navigationBar setShadowImage:[UIImage imageWithColor:self.navBarShadowLine]];
+}
 
 #pragma mark - Autolayout Constraints
 -(void)updateViewConstraints {

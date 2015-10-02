@@ -53,9 +53,11 @@ NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
 
 - (void)setupNavigationBar {
     
+    self.navigationController.navigationBarHidden = YES;
+    
     [self.fakeNavigationBar setBackgroundImage:[UIImage imageWithColor:[UIColor leoWhite]]
-                       forBarPosition:UIBarPositionAny
-                           barMetrics:UIBarMetricsDefault];
+                                forBarPosition:UIBarPositionAny
+                                    barMetrics:UIBarMetricsDefault];
     
     [self.fakeNavigationBar setShadowImage:[UIImage new]];
     
@@ -69,7 +71,6 @@ NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
     
     UINavigationItem *item = [[UINavigationItem alloc] init];
     item.leftBarButtonItem = backBBI;
-//    item.hidesBackButton = YES;
     [self.fakeNavigationBar pushNavigationItem:item animated:NO];
 }
 
@@ -77,9 +78,9 @@ NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
-//    self.navigationController.navigationBar.hidden = NO;
-
+    [self setupNavigationBar];
 }
+
 - (void)setupEmailTextField {
     
     self.emailTextField.delegate = self;
@@ -107,14 +108,14 @@ NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
     if (textField == self.emailTextField) {
         
         if (!self.emailTextField.valid) {
-            self.emailTextField.valid = [LEOValidationsHelper validateEmail:mutableText.string];
+            self.emailTextField.valid = [LEOValidationsHelper isValidEmail:mutableText.string];
         }
     }
     
     if (textField == self.passwordTextField) {
         
         if (!self.passwordTextField.valid) {
-            self.passwordTextField.valid = [LEOValidationsHelper validateNonZeroLength:mutableText.string];
+            self.passwordTextField.valid = [LEOValidationsHelper isValidPhoneNumberWithFormatting:mutableText.string];
         }
     }
     
@@ -163,6 +164,10 @@ NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
     return self.loginView;
 }
 
+-(BOOL)accountForNavigationBar {
+    return NO;
+}
+
 
 #pragma mark - Navigation
 
@@ -174,6 +179,7 @@ NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
 
         LEOForgotPasswordViewController *forgotPasswordVC = segue.destinationViewController;
         forgotPasswordVC.email = self.emailTextField.text;
+        self.fakeNavigationBar.items = nil;
     }
 }
 
@@ -185,8 +191,8 @@ NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
 
 - (IBAction)continueTapped:(UIButton *)sender {
     
-    BOOL validEmail = [LEOValidationsHelper validateEmail:self.emailTextField.text];
-    BOOL validPassword = [LEOValidationsHelper validateNonZeroLength:self.passwordTextField.text];
+    BOOL validEmail = [LEOValidationsHelper isValidEmail:self.emailTextField.text];
+    BOOL validPassword = [LEOValidationsHelper isValidPassword:self.passwordTextField.text];
     
     self.emailTextField.valid = validEmail;
     self.passwordTextField.valid = validPassword;

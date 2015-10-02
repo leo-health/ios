@@ -11,10 +11,10 @@
 #import "LEOValidatedFloatLabeledTextField.h"
 #import "UIFont+LeoFonts.h"
 #import "UIColor+LeoColors.h"
-#import "UIScrollView+LEOScrollToVisible.h"
 #import "UIImage+Extensions.h"
 
 #import "LEOPromptView.h"
+#import "LEOApiReachability.h"
 
 #import "LEOBasicSelectionViewController.h"
 #import "InsurancePlanCell+ConfigureCell.h"
@@ -22,191 +22,96 @@
 #import "Insurer.h"
 #import "LEOAPIInsuranceOperation.h"
 #import "LEOValidationsHelper.h"
+#import "LEOSignUpUserView.h"
 
 @interface LEOSignUpUserViewController ()
 
-@property (weak, nonatomic) IBOutlet LEOScrollableContainerView *scrollableContainerView;
-@property (weak, nonatomic) IBOutlet UIView *userDetailsView;
-
-@property (weak, nonatomic) IBOutlet LEOValidatedFloatLabeledTextField *firstNameTextField;
-@property (weak, nonatomic) IBOutlet LEOValidatedFloatLabeledTextField *lastNameTextField;
-@property (weak, nonatomic) IBOutlet LEOValidatedFloatLabeledTextField *phoneNumberTextField;
-@property (weak, nonatomic) IBOutlet LEOPromptView *insurerPromptView;
-
-@property (weak, nonatomic) IBOutlet UIButton *continueButton;
-@property (weak, nonatomic) IBOutlet UINavigationBar *fakeNavigationBar;
+@property (strong, nonatomic) LEOSignUpUserView *signUpUserView;
+@property (weak, nonatomic) IBOutlet StickyView *stickyView;
 
 @end
 
 @implementation LEOSignUpUserViewController
 
+NSString *const kContinueSegue = @"ContinueSegue";
+NSString *const kPlanSegue = @"PlanSegue";
+
 #pragma mark - View Controller Lifecycle & Helper Methods
 
 - (void)viewDidLoad {
     [super viewDidLoad];
- 
-    [self setupScrollableContainerView];
-    [self setupNavigationBar];
+    
+    [self setupStickyView];
     [self setupFirstNameField];
     [self setupLastNameField];
     [self setupPhoneNumberField];
     [self setupInsurerPromptView];
-    [self setupContinueButton];
 }
 
-- (void)setupScrollableContainerView {
+- (void)setupStickyView {
     
-    self.scrollableContainerView.delegate = self;
-    [self.scrollableContainerView reloadContainerView];
+    self.stickyView.delegate = self;
+    self.stickyView.tintColor = [UIColor leoOrangeRed];
+    [self.stickyView reloadViews];
 }
 
-/**
- *  Should be possible to remove this when we have a cleaner implementation of the LEOScrollableContainerView(Controller)
- */
-- (void)setupNavigationBar {
+- (LEOSignUpUserView *)signUpUserView {
     
-    [self.fakeNavigationBar setBackgroundImage:[UIImage imageWithColor:[UIColor leoWhite]]
-                                forBarPosition:UIBarPositionAny
-                                    barMetrics:UIBarMetricsDefault];
+    if (!_signUpUserView) {
+        _signUpUserView = [[LEOSignUpUserView alloc] init];
+        _signUpUserView.tintColor = [UIColor leoOrangeRed];
+    }
     
-    [self.fakeNavigationBar setShadowImage:[UIImage new]];
+    return _signUpUserView;
+}
+
+- (void)viewDidDisappear:(BOOL)animated{
     
-    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [backButton addTarget:self action:@selector(pop) forControlEvents:UIControlEventTouchUpInside];
-    [backButton setImage:[UIImage imageNamed:@"Icon-BackArrow"] forState:UIControlStateNormal];
-    [backButton sizeToFit];
-    [backButton setTintColor:[UIColor leoOrangeRed]];
-    
-    UIBarButtonItem *backBBI = [[UIBarButtonItem alloc] initWithCustomView:backButton];
-    
-    UINavigationItem *item = [[UINavigationItem alloc] init];
-    item.leftBarButtonItem = backBBI;
-    [self.fakeNavigationBar pushNavigationItem:item animated:NO];
+    [LEOApiReachability stopMonitoring];
 }
 
 - (void)setupFirstNameField {
     
-    self.firstNameTextField.delegate = self;
-    self.firstNameTextField.standardPlaceholder = @"first name";
-    self.firstNameTextField.validationPlaceholder = @"please enter your first name";
-    [self.firstNameTextField sizeToFit];
+    [self firstNameTextField].delegate = self;
+    [self firstNameTextField].standardPlaceholder = @"first name";
+    [self firstNameTextField].validationPlaceholder = @"please enter your first name";
+    [[self firstNameTextField] sizeToFit];
 }
 
 - (void)setupLastNameField {
     
-    self.lastNameTextField.delegate = self;
-    self.lastNameTextField.standardPlaceholder = @"last name";
-    self.lastNameTextField.validationPlaceholder = @"please enter your last name";
-    [self.lastNameTextField sizeToFit];
+    [self lastNameTextField].delegate = self;
+    [self lastNameTextField].standardPlaceholder = @"last name";
+    [self lastNameTextField].validationPlaceholder = @"please enter your last name";
+    [[self lastNameTextField] sizeToFit];
 }
 
 - (void)setupPhoneNumberField {
     
-    self.phoneNumberTextField.delegate = self;
-    self.phoneNumberTextField.standardPlaceholder = @"phone number";
-    self.phoneNumberTextField.validationPlaceholder = @"invalid phone number";
-    self.phoneNumberTextField.keyboardType = UIKeyboardTypeNamePhonePad;
-    [self.phoneNumberTextField sizeToFit];
+    [self phoneNumberTextField].delegate = self;
+    [self phoneNumberTextField].standardPlaceholder = @"phone number";
+    [self phoneNumberTextField].validationPlaceholder = @"invalid phone number";
+    [self phoneNumberTextField].keyboardType = UIKeyboardTypeNamePhonePad;
+    [[self phoneNumberTextField] sizeToFit];
 }
 
 - (void)setupInsurerPromptView {
     
-    self.insurerPromptView.textField.delegate = self;
-    self.insurerPromptView.textField.standardPlaceholder = @"insurer";
-    self.insurerPromptView.textField.validationPlaceholder = @"choose an insurer";
-    self.insurerPromptView.textField.enabled = NO;
-
-    [self.insurerPromptView.textField sizeToFit];
+    [self insurerTextField].delegate = self;
+    [self insurerTextField].standardPlaceholder = @"insurer";
+    [self insurerTextField].validationPlaceholder = @"choose an insurer";
+    [self insurerTextField].enabled = NO;
+    [[self insurerTextField] sizeToFit];
     
-    self.insurerPromptView.delegate = self;
-}
-
-- (void)setupContinueButton {
-    // self.continueButton.enabled = NO;
-    
-    self.continueButton.layer.borderColor = [UIColor leoOrangeRed].CGColor;
-    self.continueButton.layer.borderWidth = 1.0;
-    
-    // [self.continueButton setTitleColor:[UIColor leoGrayForPlaceholdersAndLines] forState:UIControlStateDisabled];
-    self.continueButton.titleLabel.font = [UIFont leoButtonLabelsAndTimeStampsFont];
-    [self.continueButton setTitleColor:[UIColor leoWhite] forState:UIControlStateNormal];
-    [self.continueButton setBackgroundImage:[UIImage imageWithColor:[UIColor leoOrangeRed]] forState:UIControlStateNormal];
-    //[self.continueButton setBackgroundImage:[UIImage imageWithColor:[UIColor leoWhite]] forState:UIControlStateDisabled];
+    self.signUpUserView.insurerPromptView.accessoryImageViewVisible = YES;
+    self.signUpUserView.insurerPromptView.delegate = self;
 }
 
 
-#pragma mark - Prompt Validation
-
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    
-    NSMutableAttributedString *mutableText = [[NSMutableAttributedString alloc] initWithString:textField.text];
-    
-    [mutableText replaceCharactersInRange:range withString:string];
-    
-    if (textField == self.firstNameTextField) {
-        
-        if (!self.firstNameTextField.valid) {
-            self.firstNameTextField.valid = [self validateFirstName:mutableText.string];
-        }
-    }
-    
-    if (textField == self.lastNameTextField) {
-        
-        if (!self.lastNameTextField.valid) {
-            self.lastNameTextField.valid = [self validateLastName:mutableText.string];
-        }
-    }
-    
-    if (textField == self.phoneNumberTextField) {
-        
-        return [LEOValidationsHelper phoneNumberTextField:textField shouldUpdateCharacters:string inRange:range];
-    }
-    
-    if (!self.phoneNumberTextField.valid) {
-        self.phoneNumberTextField.valid = [LEOValidationsHelper validatePhoneNumberWithFormatting:mutableText.string];
-    }
-    
-    return YES;
-}
-
-- (BOOL)validateFirstName:(NSString *)candidate {
-    
-    return candidate.length > 0;
-}
-
-- (BOOL)validateLastName:(NSString *)candidate {
-    
-    return candidate.length > 0;
-}
-
-
-- (BOOL)validateInsurer:(NSString *)candidate {
-    
-    return candidate.length > 0;
-}
-
-#pragma mark - <LEOPromptDelegate>
-
-- (void)respondToPrompt:(id)sender {
-    
-    if (sender == self.insurerPromptView) {
-        
-        [self performSegueWithIdentifier:@"PlanSegue" sender:nil];
-    }
-}
-
-- (UIColor *)featureColor {
-    return [UIColor leoOrangeRed];
-}
-
-#pragma mark - <LEOScrollableContainerViewDelegate>
-
-- (NSString *)collapsedTitleViewContent {
-    return @"";
-}
+#pragma mark - <StickyViewDelegate>
 
 - (BOOL)scrollable {
-    return NO;
+    return YES;
 }
 
 - (BOOL)initialStateExpanded {
@@ -217,66 +122,72 @@
     return @"Tell us about yourself";
 }
 
-- (UIView *)bodyView {
-    return self.userDetailsView;
+
+- (NSString *)collapsedTitleViewContent {
+    return @"My Info";
+}
+
+- (UIView *)stickyViewBody{
+    return self.signUpUserView;
+}
+
+- (UIImage *)expandedGradientImage {
+    
+    return [UIImage imageWithColor:[UIColor leoWhite]];
+}
+
+- (UIImage *)collapsedGradientImage {
+    return [UIImage imageWithColor:[UIColor leoWhite]];
+}
+
+-(UIViewController *)associatedViewController {
+    return self;
+}
+
+
+#pragma mark - <LEOPromptDelegate>
+
+- (void)respondToPrompt:(id)sender {
+    
+    if (sender == self.signUpUserView.insurerPromptView) {
+        
+        [self performSegueWithIdentifier:kPlanSegue sender:nil];
+    }
 }
 
 
 #pragma mark - Navigation & Helper Methods
 
-- (IBAction)continueTapped:(UIButton *)sender {
+- (void)continueTapped:(UIButton *)sender {
     
     if ([self validatePage]) {
-        [self performSegueWithIdentifier:@"ContinueSegue" sender:sender];
+        [self performSegueWithIdentifier:kContinueSegue sender:sender];
     }
 }
 
-- (BOOL)validatePage {
-    
-    BOOL validFirstName = [self validateFirstName:self.firstNameTextField.text];
-    BOOL validLastName = [self validateLastName:self.lastNameTextField.text];
-    BOOL validPhoneNumber = [LEOValidationsHelper validatePhoneNumberWithFormatting:self.phoneNumberTextField.text];
-    BOOL validInsurer = [self validateInsurer:self.insurerPromptView.textField.text];
-    
-    self.firstNameTextField.valid = validFirstName;
-    self.lastNameTextField.valid = validLastName;
-    self.phoneNumberTextField.valid = validPhoneNumber;
-    self.insurerPromptView.textField.valid = validInsurer;
-    
-    if (validFirstName && validLastName && validPhoneNumber && validInsurer) {
-        return YES;
-    }
-    
-    return NO;
-}
-
-- (void)pop {
-    
-    [self.navigationController popViewControllerAnimated:YES];
-    self.navigationController.navigationBar.hidden = YES;
-}
-
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
     __block BOOL shouldSelect = NO;
-
-    if ([segue.identifier isEqualToString:@"PlanSegue"]) {
     
+    if ([segue.identifier isEqualToString:kPlanSegue]) {
+        
         LEOBasicSelectionViewController *selectionVC = segue.destinationViewController;
         
         selectionVC.key = @"name";
         selectionVC.reuseIdentifier = @"InsurancePlanCell";
         selectionVC.titleText = @"Who is the visit for?";
+        selectionVC.tintColor = [UIColor leoWhite];
+        selectionVC.navBarShadowLine = [UIColor leoOrangeRed];
         
-        selectionVC.configureCellBlock = ^(InsurancePlanCell *cell, InsurancePlan *insurer) {
+        selectionVC.configureCellBlock = ^(InsurancePlanCell *cell, InsurancePlan *plan) {
             
             cell.selectedColor = [UIColor leoOrangeRed];
             
             shouldSelect = NO;
             
-            [cell configureForPlan:insurer];
+            [cell configureForPlan:plan];
             
-            if ([insurer.objectID isEqualToString:self.insurerPromptView.textField.text]) {
+            if ([plan.objectID isEqualToString:[self insurerTextField].text]) {
                 shouldSelect = YES;
             }
             
@@ -288,11 +199,117 @@
     }
 }
 
+- (void)pop {
+    
+    [self.navigationController popViewControllerAnimated:YES];
+    self.navigationController.navigationBarHidden = YES;
+}
+
+
+#pragma mark - Validation
+
+- (BOOL)validatePage {
+    
+    BOOL validFirstName = [LEOValidationsHelper isValidFirstName:[self firstNameTextField].text];
+    BOOL validLastName = [LEOValidationsHelper isValidLastName:[self lastNameTextField].text];
+    BOOL validPhoneNumber = [LEOValidationsHelper isValidPhoneNumberWithFormatting:[self phoneNumberTextField].text];
+    BOOL validInsurer = [LEOValidationsHelper isValidInsurer:[self insurerTextField].text];
+    
+    [self firstNameTextField].valid = validFirstName;
+    [self lastNameTextField].valid = validLastName;
+    [self phoneNumberTextField].valid = validPhoneNumber;
+    [self insurerTextField].valid = validInsurer;
+    
+    if (validFirstName && validLastName && validPhoneNumber && validInsurer) {
+        return YES;
+    }
+    
+    return NO;
+}
+
+
+#pragma mark - <UITextFieldDelegate>
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    
+    NSMutableAttributedString *mutableText = [[NSMutableAttributedString alloc] initWithString:textField.text];
+    
+    [mutableText replaceCharactersInRange:range withString:string];
+    
+    if (textField == [self firstNameTextField]) {
+        
+        if (![self firstNameTextField].valid) {
+            self.firstNameTextField.valid = [LEOValidationsHelper isValidFirstName:mutableText.string];
+        }
+    }
+    
+    if (textField == self.lastNameTextField) {
+        
+        if (![self lastNameTextField].valid) {
+            self.lastNameTextField.valid = [LEOValidationsHelper isValidLastName:mutableText.string];
+        }
+    }
+    
+    if (textField == [self phoneNumberTextField]) {
+        
+        if (![self phoneNumberTextField].valid) {
+            [self phoneNumberTextField].valid = [LEOValidationsHelper isValidPhoneNumberWithFormatting:mutableText.string];
+        }
+        
+        return [LEOValidationsHelper phoneNumberTextField:textField shouldUpdateCharacters:string inRange:range];
+    }
+    
+    return YES;
+}
+
+
+#pragma mark - <SingleSelectionProtocol>
+
 -(void)didUpdateItem:(id)item forKey:(NSString *)key {
     
     NSString *insurancePlanString = [NSString stringWithFormat:@"%@ %@",((InsurancePlan *)item).insurerName,((InsurancePlan *)item).name];
-    self.insurerPromptView.textField.text = insurancePlanString;
-    //TODO: Complete user object here.
+    [self insurerTextField].text = insurancePlanString;
+    
+    BOOL validInsurer = [LEOValidationsHelper isValidInsurer:[self insurerTextField].text];
+    [self insurerTextField].valid = validInsurer;
+}
+
+
+#pragma mark - Shorthand Helpers
+
+- (LEOValidatedFloatLabeledTextField *)firstNameTextField {
+    return self.signUpUserView.firstNamePromptView.textField;
+}
+
+- (LEOValidatedFloatLabeledTextField *)lastNameTextField {
+    return self.signUpUserView.lastNamePromptView.textField;
+}
+
+- (LEOValidatedFloatLabeledTextField *)phoneNumberTextField {
+    return self.signUpUserView.phoneNumberPromptView.textField;
+}
+
+- (LEOValidatedFloatLabeledTextField *)insurerTextField {
+    return self.signUpUserView.insurerPromptView.textField;
+}
+
+
+#pragma mark - Debugging
+
+//FIXME: Remove eventually once we determine the issue causing ambiguity in this layout.
+- (void)viewWillLayoutSubviews {
+    
+    if (self.stickyView.delegate) {
+        for (UIView *aView in [self.view subviews]) {
+            if ([aView hasAmbiguousLayout]) {
+                NSLog(@"View Frame %@", NSStringFromCGRect(aView.frame));
+                NSLog(@"%@", [aView class]);
+                NSLog(@"%@", [aView constraintsAffectingLayoutForAxis:1]);
+                NSLog(@"%@", [aView constraintsAffectingLayoutForAxis:0]);
+                
+                [aView exerciseAmbiguityInLayout];
+            }
+        }
+    }
 }
 
 @end

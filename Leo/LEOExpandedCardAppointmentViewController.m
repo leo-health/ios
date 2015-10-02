@@ -9,7 +9,7 @@
 #import "LEOExpandedCardAppointmentViewController.h"
 #import "UIScrollView+LEOScrollToVisible.h"
 #import "LEOCard.h"
-#import <JVFloatLabeledTextField/JVFloatLabeledTextView.h>
+#import "JVFloatLabeledTextView.h"
 #import "UIFont+LeoFonts.h"
 #import "UIColor+LeoColors.h"
 #import "PrepAppointment.h"
@@ -57,7 +57,7 @@
     
     self.bodyView = self.appointmentView;
     self.card.delegate = self;
-    
+        
     [self setupButtons];
     [self setupExpandedCardView];
     [self setupPrepAppointment];
@@ -201,7 +201,15 @@
     return YES;
 }
 
-
+//- (void)textFieldDidBeginEditing:(UITextField *)sender
+//{
+//    self.keyboardHelper.activeField = sender;
+//}   
+//
+//- (void)textFieldDidEndEditing:(UITextField *)sender
+//{
+//    self.keyboardHelper.activeField = nil;
+//}
 
 
 #pragma mark - <SingleSelectionProtocol>

@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)initialStateExpanded;
 - (NSString *)expandedTitleViewContent;
 - (NSString *)collapsedTitleViewContent;
+- (BOOL)accountForNavigationBar;
 - (UIView *)bodyView;
 
 NS_ASSUME_NONNULL_END

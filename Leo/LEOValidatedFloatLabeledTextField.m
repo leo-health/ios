@@ -12,6 +12,7 @@
 
 @implementation LEOValidatedFloatLabeledTextField
 
+IB_DESIGNABLE
 - (id)initWithCoder:(NSCoder *)aDecoder {
     
     self = [super initWithCoder:aDecoder];
@@ -76,5 +77,6 @@
     
     self.attributedPlaceholder = mutablePlaceholder;
 }
+
 
 @end

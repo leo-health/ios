@@ -46,10 +46,25 @@
     [self.scrollableContainerView reloadContainerView];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [self setupNavigationBar];
+}
+
 /**
  *  Should be possible to remove this when we have a cleaner implementation of the LEOScrollableContainerView(Controller)
  */
 - (void)setupNavigationBar {
+    
+    self.navigationController.navigationBarHidden = YES;
+
+//    UINavigationBar *navigationBar = self.navigationController.navigationBar;
+//    
+//    [navigationBar setBackgroundImage:[UIImage imageWithColor:[UIColor clearColor]]
+//                       forBarPosition:UIBarPositionAny
+//                           barMetrics:UIBarMetricsDefault];
+//    [navigationBar setShadowImage:[UIImage new]];
     
     [self.fakeNavigationBar setBackgroundImage:[UIImage imageWithColor:[UIColor leoWhite]]
                                 forBarPosition:UIBarPositionAny
@@ -82,9 +97,13 @@
     
     self.passwordTextField.delegate = self;
     self.passwordTextField.standardPlaceholder = @"password";
-    self.passwordTextField.validationPlaceholder = @"Must have a password";
+    self.passwordTextField.validationPlaceholder = @"Passwords must be at least 8 characters";
     self.passwordTextField.secureTextEntry = YES;
     [self.passwordTextField sizeToFit];
+}
+
+- (BOOL)accountForNavigationBar {
+    return NO;
 }
 
 - (void)setupContinueButton {
@@ -112,14 +131,14 @@
     if (textField == self.emailTextField) {
         
         if (!self.emailTextField.valid) {
-            self.emailTextField.valid = [LEOValidationsHelper validateEmail:mutableText.string];
+            self.emailTextField.valid = [LEOValidationsHelper isValidEmail:mutableText.string];
         }
     }
     
     if (textField == self.passwordTextField) {
         
         if (!self.passwordTextField.valid) {
-            self.passwordTextField.valid = [LEOValidationsHelper validateNonZeroLength:mutableText.string];
+            self.passwordTextField.valid = [LEOValidationsHelper isValidPassword:mutableText.string];
         }
     }
     
@@ -160,8 +179,8 @@
 
 - (BOOL)validatePage {
     
-    BOOL validEmail = [LEOValidationsHelper validateEmail:self.emailTextField.text];
-    BOOL validPassword = [LEOValidationsHelper validateNonZeroLength:self.passwordTextField.text];
+    BOOL validEmail = [LEOValidationsHelper isValidEmail:self.emailTextField.text];
+    BOOL validPassword = [LEOValidationsHelper isValidPassword:self.passwordTextField.text];
     
     self.emailTextField.valid = validEmail;
     self.passwordTextField.valid = validPassword;
@@ -173,6 +192,12 @@
     return NO;
 }
 
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    
+    if ([segue.identifier isEqualToString:@"ContinueSegue"]) {
+        self.fakeNavigationBar.items = nil;
+    }
+}
 - (void)pop {
     
     [self.navigationController popViewControllerAnimated:YES];
