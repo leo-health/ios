@@ -24,6 +24,10 @@
 #import "LEOValidationsHelper.h"
 #import "LEOSignUpUserView.h"
 
+#import "LEOManagePatientsViewController.h"
+
+#import "Guardian.h"
+
 @interface LEOSignUpUserViewController ()
 
 @property (strong, nonatomic) LEOSignUpUserView *signUpUserView;
@@ -33,8 +37,7 @@
 
 @implementation LEOSignUpUserViewController
 
-NSString *const kContinueSegue = @"ContinueSegue";
-NSString *const kPlanSegue = @"PlanSegue";
+
 
 #pragma mark - View Controller Lifecycle & Helper Methods
 
@@ -76,6 +79,8 @@ NSString *const kPlanSegue = @"PlanSegue";
     [self firstNameTextField].standardPlaceholder = @"first name";
     [self firstNameTextField].validationPlaceholder = @"please enter your first name";
     [[self firstNameTextField] sizeToFit];
+    
+    [self firstNameTextField].text = [self guardian].firstName;
 }
 
 - (void)setupLastNameField {
@@ -84,6 +89,8 @@ NSString *const kPlanSegue = @"PlanSegue";
     [self lastNameTextField].standardPlaceholder = @"last name";
     [self lastNameTextField].validationPlaceholder = @"please enter your last name";
     [[self lastNameTextField] sizeToFit];
+    
+    [self lastNameTextField].text = [self guardian].lastName;
 }
 
 - (void)setupPhoneNumberField {
@@ -91,8 +98,10 @@ NSString *const kPlanSegue = @"PlanSegue";
     [self phoneNumberTextField].delegate = self;
     [self phoneNumberTextField].standardPlaceholder = @"phone number";
     [self phoneNumberTextField].validationPlaceholder = @"invalid phone number";
-    [self phoneNumberTextField].keyboardType = UIKeyboardTypeNamePhonePad;
+    [self phoneNumberTextField].keyboardType = UIKeyboardTypePhonePad;
     [[self phoneNumberTextField] sizeToFit];
+    
+    [self phoneNumberTextField].text = [self guardian].phoneNumber;
 }
 
 - (void)setupInsurerPromptView {
@@ -103,10 +112,22 @@ NSString *const kPlanSegue = @"PlanSegue";
     [self insurerTextField].enabled = NO;
     [[self insurerTextField] sizeToFit];
     
+    if ([self guardian].insurancePlan) {
+        [self insurerTextField].text = [NSString stringWithFormat:@"%@ %@",[self guardian].insurancePlan.insurerName, [self guardian].insurancePlan.name];
+    }
+    
     self.signUpUserView.insurerPromptView.accessoryImageViewVisible = YES;
     self.signUpUserView.insurerPromptView.delegate = self;
 }
 
+- (Family *)family {
+    
+    if (!_family) {
+        _family = [[Family alloc] init];
+    }
+    
+    return _family;
+}
 
 #pragma mark - <StickyViewDelegate>
 
@@ -161,8 +182,21 @@ NSString *const kPlanSegue = @"PlanSegue";
 - (void)continueTapped:(UIButton *)sender {
     
     if ([self validatePage]) {
+        [self addOnboardingData];
         [self performSegueWithIdentifier:kContinueSegue sender:sender];
     }
+}
+
+- (void)addOnboardingData {
+
+    self.guardian.firstName = [self firstNameTextField].text;
+    self.guardian.lastName = [self lastNameTextField].text;
+
+    //InsurancePlan onboarding data provided as part of the delegate method upon return from the BasicSelectionViewController. Not in love with this implementation but it will suffice for the time-being.
+
+    self.guardian.phoneNumber = [self phoneNumberTextField].text;
+
+    [self.family addGuardian:self.guardian];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -196,6 +230,14 @@ NSString *const kPlanSegue = @"PlanSegue";
         
         selectionVC.requestOperation = [[LEOAPIInsuranceOperation alloc] init];
         selectionVC.delegate = self;
+    }
+    
+    if ([segue.identifier isEqualToString:kContinueSegue]) {
+        
+        LEOManagePatientsViewController *manageChildrenVC = segue.destinationViewController;
+        
+        manageChildrenVC.family = self.family;
+        manageChildrenVC.enrollmentToken = self.enrollmentToken;
     }
 }
 
@@ -269,8 +311,7 @@ NSString *const kPlanSegue = @"PlanSegue";
     NSString *insurancePlanString = [NSString stringWithFormat:@"%@ %@",((InsurancePlan *)item).insurerName,((InsurancePlan *)item).name];
     [self insurerTextField].text = insurancePlanString;
     
-    BOOL validInsurer = [LEOValidationsHelper isValidInsurer:[self insurerTextField].text];
-    [self insurerTextField].valid = validInsurer;
+    self.guardian.insurancePlan = (InsurancePlan *)item;
 }
 
 
@@ -291,7 +332,6 @@ NSString *const kPlanSegue = @"PlanSegue";
 - (LEOValidatedFloatLabeledTextField *)insurerTextField {
     return self.signUpUserView.insurerPromptView.textField;
 }
-
 
 #pragma mark - Debugging
 

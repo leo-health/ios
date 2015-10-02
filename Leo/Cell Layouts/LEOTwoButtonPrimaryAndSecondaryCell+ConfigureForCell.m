@@ -22,7 +22,7 @@
     
     self.primaryUserLabel.text = [[card primaryUser].firstName uppercaseString];
 
-    self.secondaryUserView.provider = card.secondaryUser;
+    self.secondaryUserView.provider = (Provider *)card.secondaryUser;
     self.secondaryUserView.timeStamp = card.timestamp;
     self.secondaryUserView.cardLayout = CardLayoutTwoButtonPrimaryAndSecondary;
     self.secondaryUserView.backgroundColor = [UIColor clearColor];

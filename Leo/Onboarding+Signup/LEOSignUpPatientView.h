@@ -1,5 +1,5 @@
 //
-//  LEOSignUpChildView.h
+//  LEOSignUpPatientView.h
 //  Leo
 //
 //  Created by Zachary Drossman on 9/29/15.
@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "LEOPromptView.h"
 
-@interface LEOSignUpChildView : UIView
+@interface LEOSignUpPatientView : UIView
 
 @property (weak, nonatomic) IBOutlet UIButton *avatarButton;
 @property (weak, nonatomic) IBOutlet LEOPromptView *firstNamePromptView;

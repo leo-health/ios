@@ -31,6 +31,7 @@ NSString *const APIEndpointPractice = @"practice";
 NSString *const APIEndpointSlots = @"appointment_slots";
 NSString *const APIEndpointFamily = @"family";
 NSString *const APIEndpointInsurers = @"insurers";
+NSString *const APIEndpointEnrollment = @"enrollments";
 
 #pragma mark - Common
 NSString *const APIParamID = @"id";
@@ -85,7 +86,7 @@ NSString *const APIParamUserCredentials = @"credentials";
 NSString *const APIParamUserSpecialties = @"specialties";
 NSString *const APIParamUserPrimary = @"primary";
 NSString *const APIParamUserStatus = @"status";
-
+NSString *const APIParamUserInsurancePlan = @"insurancePlan";
 
 NSString *const APIParamUserBirthDate = @"birth_date";
 NSString *const APIParamUserSex = @"sex";
@@ -185,6 +186,9 @@ NSString *const APIParamPlanSupported = @"supported"; //Ironically, this param i
 #pragma mark - Magic numbers
 CGFloat const selectionLineHeight = 2.0f;
 
+#pragma mark - Segues
+NSString *const kContinueSegue = @"ContinueSegue";
+NSString *const kPlanSegue = @"PlanSegue";
 
 
 @end

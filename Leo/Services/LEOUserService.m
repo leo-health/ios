@@ -9,29 +9,45 @@
 #import "LEOUserService.h"
 
 #import "User.h"
+#import "Guardian.h"
+
 #import "LEOAPISessionManager.h"
 #import "LEOS3SessionManager.h"
 #import "SessionUser.h"
 
 @implementation LEOUserService
 
-- (void)createUserWithUser:(User *)user password:(NSString *)password withCompletion:(void (^)(NSDictionary *  rawResults, NSError *error))completionBlock {
+//- (void)createUserWithUser:(User *)user password:(NSString *)password withCompletion:(void (^)(NSDictionary *  rawResults, NSError *error))completionBlock {
+//    
+//    NSMutableDictionary *enrollmentParams = [[User dictionaryFromUser:user] mutableCopy];
+//
+//    [[LEOUserService leoSessionManager] unauthenticatedPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointUsers params:userParams completion:^(NSDictionary *rawResults, NSError *error) {
+//        NSDictionary *userDictionary = rawResults[APIParamData][APIParamUser];
+//        user.objectID = userDictionary[APIParamID];
+//        completionBlock(user, error);
+//    }];
+//}
+
+- (void)enrollUser:(User *)user password:(NSString *)password withCompletion:(void (^) (User *user, NSString *enrollmentToken, NSError *error))completionBlock {
+
+    NSMutableDictionary *enrollmentParams = [[User dictionaryFromUser:user] mutableCopy];
+    enrollmentParams[APIParamUserPassword] = password;
     
-    NSMutableDictionary *userParams = [[User dictionaryFromUser:user] mutableCopy];
-    userParams[APIParamUser] = password;
-    
-    [[LEOUserService leoSessionManager] unauthenticatedPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointUsers params:userParams completion:^(NSDictionary *rawResults, NSError *error) {
-        NSDictionary *userDictionary = rawResults[APIParamData][APIParamUser]; //TODO: Make sure I want this here and not defined somewhere else.
+    [[LEOUserService leoSessionManager] unauthenticatedPOSTRequestForJSONDictionaryToAPIWithEndpoint:@"enrollments/current" params:enrollmentParams completion:^(NSDictionary *rawResults, NSError *error) {
+        NSDictionary *userDictionary = rawResults[APIParamData][APIParamUser];
         user.objectID = userDictionary[APIParamID];
-        completionBlock(rawResults, error);
+        completionBlock(user, enrollmentToken, error);
     }];
+    
 }
+
+- (void)editAttributesOfUser:(User *)user withCompletion:(void (^ (User *user, NSString *enrollmentToken)))
 
 - (void)loginUserWithEmail:(NSString *)email password:(NSString *)password withCompletion:(void (^)(SessionUser *user, NSError *error))completionBlock {
     
     NSDictionary *loginParams = @{APIParamUserEmail:email, APIParamUserPassword:password};
     
-    [[LEOUserService leoSessionManager] unauthenticatedPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointLogin params:loginParams completion:^(NSDictionary *rawResults, NSError *error) {
+    [[LEOUserService leoSessionManager] standardPUTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointLogin params:loginParams completion:^(NSDictionary *rawResults, NSError *error) {
         
         if (!error) {
             

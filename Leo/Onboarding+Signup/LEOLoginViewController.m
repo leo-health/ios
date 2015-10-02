@@ -15,6 +15,7 @@
 #import "LEOUserService.h"
 #import "LEOValidationsHelper.h"
 #import "LEOForgotPasswordViewController.h"
+#import "UIViewController+Extensions.h"
 
 NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
 
@@ -223,11 +224,7 @@ NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
 }
 
 
-- (BOOL)isModal {
-    return self.presentingViewController.presentedViewController == self
-    || (self.navigationController != nil && self.navigationController.presentingViewController.presentedViewController == self.navigationController)
-    || [self.tabBarController.presentingViewController isKindOfClass:[UITabBarController class]];
-}
+
 
 #if AUTOLOGIN_FLAG
 - (void)autologin {

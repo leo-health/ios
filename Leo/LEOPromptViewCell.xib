@@ -14,11 +14,8 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="z9E-TC-ZN1" customClass="LEOPromptView">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="68"/>
+                        <rect key="frame" x="0.0" y="-8" width="320" height="68"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="68" id="YK9-hG-kMh"/>
-                        </constraints>
                     </view>
                 </subviews>
                 <constraints>
@@ -30,6 +27,7 @@
             <connections>
                 <outlet property="promptView" destination="z9E-TC-ZN1" id="eBk-Ad-PRb"/>
             </connections>
+            <point key="canvasLocation" x="418" y="451.5"/>
         </tableViewCell>
     </objects>
 </document>

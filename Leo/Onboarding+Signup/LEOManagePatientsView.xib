@@ -4,7 +4,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LEOReviewAndAddChildView">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LEOManagePatientsView">
             <connections>
                 <outlet property="heightConstraintForTableView" destination="0jd-UA-eUb" id="vLN-Pq-0ze"/>
                 <outlet property="tableView" destination="fET-bS-EvM" id="57t-OI-bfe"/>

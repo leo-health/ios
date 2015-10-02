@@ -13,6 +13,9 @@
 #import "UIScrollView+LEOScrollToVisible.h"
 #import "UIImage+Extensions.h"
 #import "LEOValidationsHelper.h"
+#import "Guardian.h"
+#import "LEOSignUpUserViewController.h"
+#import "LEOUserService.h"
 
 @interface LEOEnrollmentViewController ()
 
@@ -23,6 +26,9 @@
 @property (weak, nonatomic) IBOutlet LEOValidatedFloatLabeledTextField *passwordTextField;
 @property (weak, nonatomic) IBOutlet UIButton *continueButton;
 @property (weak, nonatomic) IBOutlet UINavigationBar *fakeNavigationBar;
+
+@property (strong, nonatomic) Guardian *guardian;
+@property (strong, nonatomic) NSString *enrollmentToken;
 
 @end
 
@@ -173,8 +179,34 @@
 - (IBAction)continueTapped:(UIButton *)sender {
     
     if ([self validatePage]) {
-        [self performSegueWithIdentifier:@"ContinueSegue" sender:sender];
+        
+        [self addOnboardingData];
+
+        LEOUserService *userService = [[LEOUserService alloc] init];
+//        [userService enrollUser:self.guardian enrollmentToken:nil password:[self passwordTextField].text withCompletion:^(User *user, NSString *enrollmentToken, NSError *error) {
+//            
+//            if (!error) {
+        
+                self.enrollmentToken = @"TEMP";
+                [self performSegueWithIdentifier:@"ContinueSegue" sender:sender];
+//            }
+//        }];
     }
+}
+
+- (void)addOnboardingData {
+    
+    self.guardian.email = [self emailTextField].text;
+    
+}
+
+- (Guardian *)guardian {
+    
+    if (!_guardian) {
+        _guardian = [[Guardian alloc] init];
+    }
+    
+    return _guardian;
 }
 
 - (BOOL)validatePage {
@@ -192,10 +224,15 @@
     return NO;
 }
 
+
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
     if ([segue.identifier isEqualToString:@"ContinueSegue"]) {
         self.fakeNavigationBar.items = nil;
+        
+        LEOSignUpUserViewController *signUpUserVC = segue.destinationViewController;
+        signUpUserVC.guardian = self.guardian;
+        signUpUserVC.enrollmentToken = self.enrollmentToken;
     }
 }
 - (void)pop {

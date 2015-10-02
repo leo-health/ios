@@ -117,6 +117,12 @@ typedef enum RoleCode : NSUInteger {
     RoleCodeUndefined = 99,
 } RoleCode;
 
+typedef enum ManagementMode : NSUInteger {
+    
+    ManagementModeCreate = 1,
+    ManagementModeEdit = 2
+} ManagementMode;
+
 @interface LEOConstants : NSObject
 
 #pragma mark - Temp constants
@@ -195,6 +201,7 @@ extern NSString *const APIParamUserCredentials; // @"credentials";
 extern NSString *const APIParamUserSpecialties; // @"specialties";
 extern NSString *const APIParamUserPrimary; // @"primary";
 extern NSString *const APIParamUserStatus; // @"status";
+extern NSString *const APIParamUserInsurancePlan; // @"insurancePlan";
 
 extern NSString *const APIParamUserBirthDate; // @"birth_date";
 extern NSString *const APIParamUserSex; // @"sex";
@@ -291,6 +298,8 @@ extern NSString *const APIParamInsurancePlans; // @"insurance_plans";
 extern NSString *const APIParamPlanName; // @"plan_name";
 extern NSString *const APIParamPlanSupported; // @"supported"; //Ironically, this param is not yet supported by the API.
 
+extern NSString *const kContinueSegue; // = @"ContinueSegue";
+extern NSString *const kPlanSegue; // @"PlanSegue";
 
 #pragma mark - Magic numbers
 extern CGFloat const selectionLineHeight; // 2.0f;

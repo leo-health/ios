@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)addMessage:(Message *)message;
 - (void)addMessages:(NSArray *)messages;
 - (void)addMessageFromJSON:(NSDictionary *)messageDictionary;
-- (void)addMessagesFromJSON:(NSArray *)messagesArray;
+//- (void)addMessagesFromJSON:(NSArray *)messagesArray;
 
 NS_ASSUME_NONNULL_END
 @end

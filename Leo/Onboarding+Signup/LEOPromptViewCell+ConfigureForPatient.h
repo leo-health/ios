@@ -12,5 +12,6 @@
 @interface LEOPromptViewCell (ConfigureForPatient)
 
 - (void)configureForPatient:(Patient *)patient;
+- (void)configureForNewPatient;
 
 @end

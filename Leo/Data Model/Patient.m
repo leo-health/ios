@@ -106,5 +106,35 @@
     [encoder encodeObject:self.status forKey:APIParamUserStatus];
 }
 
+//MARK: This is both super helpful and super dangerous. We *need* this function for ensuring that we don't add the same patient to a family twice, but at the same time, it can only be used if we have enough information to properly distinguish patient. Meaning, if a parent names it's triplets with the exact same names, we will not be able to capture more than one of them in our product. Down the line we can make this more robust, by capturing data such as social security number, etc. etc. For now, I've added it here, but I'm trying to avoid using it as much as possible. I would love to make a custom compiler warning appear if a user of the Patient model object goes to use this so it is clear that they have to use it a certain way, but that is probably less than ideal in the long run and we should find a better solution. (When we build out a persistence layer on the front-end, we'll *need* this sort of thing to ensure non-duplication, even if just a backend validation.)
+
+- (BOOL)isEqualToPatient:(Patient *)patient {
+    if (!patient) {
+        return NO;
+    }
+    
+    BOOL haveEqualNames = (!self.fullName && !patient.fullName) || [self.fullName isEqualToString:patient.fullName];
+    BOOL haveEqualBirthdays = (!self.dob && !patient.dob) || [self.dob isEqualToDate:patient.dob];
+    
+    return haveEqualNames && haveEqualBirthdays;
+}
+
+#pragma mark - NSObject
+
+- (BOOL)isEqual:(id)object {
+    if (self == object) {
+        return YES;
+    }
+    
+    if (![object isKindOfClass:[Patient class]]) {
+        return NO;
+    }
+    
+    return [self isEqualToPatient:(Patient *)object];
+}
+
+- (NSUInteger)hash {
+    return [self.fullName hash] ^ [self.dob hash];
+}
 
 @end

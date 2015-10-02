@@ -162,8 +162,8 @@
                                                     <constraint firstAttribute="height" constant="1" id="Fbf-Hj-5Ym"/>
                                                 </constraints>
                                             </view>
-                                            <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zio-vd-vWV">
-                                                <rect key="frame" x="240" y="96" width="121" height="484"/>
+                                            <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zio-vd-vWV">
+                                                <rect key="frame" x="240" y="96" width="121" height="29"/>
                                                 <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="12"/>
                                                 <state key="normal" title="FORGOT PASSWORD">
                                                     <color key="titleColor" red="0.22352941179999999" green="0.22352941179999999" blue="0.22352941179999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -214,8 +214,8 @@
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Th0-dZ-bG7">
                                 <rect key="frame" x="0.0" y="20" width="600" height="44"/>
                             </navigationBar>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nwv-FJ-f2R">
-                                <rect key="frame" x="30" y="620" width="540" height="54"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nwv-FJ-f2R">
+                                <rect key="frame" x="30" y="165" width="540" height="54"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="54" id="zXT-b4-yE9"/>
                                 </constraints>
@@ -407,39 +407,38 @@
                     <connections>
                         <outlet property="stickyView" destination="kk4-lU-IoG" id="1Wr-oN-812"/>
                         <segue destination="8gR-Xk-Blh" kind="show" identifier="PlanSegue" id="Fce-Cf-4wI"/>
-                        <segue destination="AEw-ey-6Xy" kind="show" identifier="ContinueSegue" id="dZW-Uc-UoS"/>
+                        <segue destination="fMS-6E-llE" kind="show" identifier="ContinueSegue" id="XCG-E9-bUS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7ya-WN-aEz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2332" y="2191"/>
         </scene>
-        <!--Sign Up Child View Controller-->
-        <scene sceneID="ulU-aS-31n">
+        <!--Sign Up Patient View Controller-->
+        <scene sceneID="3BN-pe-nX0">
             <objects>
-                <viewController id="AEw-ey-6Xy" customClass="LEOSignUpChildViewController" sceneMemberID="viewController">
+                <viewController id="w6v-NG-N8f" customClass="LEOSignUpPatientViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="4jw-4q-cds"/>
-                        <viewControllerLayoutGuide type="bottom" id="TBK-A7-y2P"/>
+                        <viewControllerLayoutGuide type="top" id="6WO-qk-8Y8"/>
+                        <viewControllerLayoutGuide type="bottom" id="aeg-Gw-sIf"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="CIH-ez-DXV" customClass="StickyView">
+                    <view key="view" contentMode="scaleToFill" id="6sf-lt-bTG" customClass="StickyView">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <connections>
-                        <outlet property="stickyView" destination="CIH-ez-DXV" id="jIN-Uh-8xV"/>
-                        <segue destination="fMS-6E-llE" kind="show" identifier="ContinueSegue" id="Ccs-4A-fDD"/>
+                        <outlet property="stickyView" destination="6sf-lt-bTG" id="AhW-q4-EvT"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="CIU-96-7e9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="SAI-JF-TPV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2332" y="2981"/>
+            <point key="canvasLocation" x="3033" y="2949"/>
         </scene>
-        <!--Review Add Child View Controller-->
+        <!--Manage Patients View Controller-->
         <scene sceneID="d2r-CA-xyJ">
             <objects>
-                <viewController id="fMS-6E-llE" customClass="LEOReviewAddChildViewController" sceneMemberID="viewController">
+                <viewController id="fMS-6E-llE" customClass="LEOManagePatientsViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="5hU-Kn-oWV"/>
                         <viewControllerLayoutGuide type="bottom" id="X48-Ta-5ud"/>
@@ -451,11 +450,12 @@
                     </view>
                     <connections>
                         <outlet property="stickyView" destination="mrN-tH-5PR" id="Pin-2v-4n3"/>
+                        <segue destination="w6v-NG-N8f" kind="show" identifier="SignUpPatientSegue" id="VqK-QW-gNa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="c9g-Yv-v8z" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2329" y="3701"/>
+            <point key="canvasLocation" x="2332" y="2949"/>
         </scene>
         <!--Basic Selection View Controller-->
         <scene sceneID="NRv-RX-fae">
@@ -493,20 +493,20 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d9p-CN-Jmd" userLabel="Body View">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                         <subviews>
-                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xHe-EH-cAa" userLabel="Email Text Field" customClass="LEOValidatedFloatLabeledTextField">
-                                                <rect key="frame" x="30" y="0.0" width="540" height="538"/>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xHe-EH-cAa" userLabel="Email Text Field" customClass="LEOValidatedFloatLabeledTextField">
+                                                <rect key="frame" x="30" y="0.0" width="540" height="535"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                                             </textField>
-                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LDw-BD-Qn8" userLabel="Separator View" customClass="LEOSectionSeparator">
-                                                <rect key="frame" x="30" y="538" width="540" height="1"/>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LDw-BD-Qn8" userLabel="Separator View" customClass="LEOSectionSeparator">
+                                                <rect key="frame" x="30" y="535" width="540" height="1"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="VaK-4s-DoS"/>
                                                 </constraints>
                                             </view>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Response label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zQm-BC-lWS" userLabel="Response Label">
-                                                <rect key="frame" x="30" y="579" width="540" height="21"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Response label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zQm-BC-lWS" userLabel="Response Label">
+                                                <rect key="frame" x="30" y="576" width="540" height="24"/>
                                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="17"/>
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -535,8 +535,8 @@
                                     <constraint firstAttribute="bottom" secondItem="d9p-CN-Jmd" secondAttribute="bottom" id="y0V-vZ-XyS"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vhK-bc-8wo" userLabel="SUBMIT">
-                                <rect key="frame" x="46" y="629" width="508" height="54"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vhK-bc-8wo" userLabel="SUBMIT">
+                                <rect key="frame" x="30" y="629" width="540" height="54"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="54" id="pGC-KF-IaH"/>
                                 </constraints>

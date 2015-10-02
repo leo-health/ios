@@ -56,11 +56,17 @@ IB_DESIGNABLE
 
 - (void)setupTapGesture {
     
-    UITapGestureRecognizer *singleFingerTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(promptTapped:)];
-    [self addGestureRecognizer:singleFingerTap];
-    singleFingerTap.numberOfTapsRequired = 1;
-    singleFingerTap.numberOfTouchesRequired = 1;
-    singleFingerTap.delegate = self;
+    self.tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(promptTapped:)];
+    [self addGestureRecognizer:self.tapGesture];
+    self.tapGesture.numberOfTapsRequired = 1;
+    self.tapGesture.numberOfTouchesRequired = 1;
+    self.tapGesture.delegate = self;
+}
+
+-(void)setTapGestureEnabled:(BOOL)tapGestureEnabled {
+
+    _tapGestureEnabled = tapGestureEnabled;
+    self.tapGesture.enabled = _tapGestureEnabled ? YES : NO;
 }
 
 - (void)setupImageView {
@@ -104,7 +110,7 @@ IB_DESIGNABLE
     
     NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(_accessoryImageView, _textField, _sectionSeparator);
     
-    NSArray *constraintVerticalTextField = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_textField][_sectionSeparator(==1)]|" options:0 metrics:nil views:viewsDictionary];
+    NSArray *constraintVerticalTextField = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_textField]-(3)-[_sectionSeparator(==1)]|" options:0 metrics:nil views:viewsDictionary];
     NSArray *constraintHorizontalTextField = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_textField]|" options:0 metrics:nil views:viewsDictionary];
     NSArray *constraintHorizontalSectionSeparator = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_sectionSeparator]|" options:0 metrics:nil views:viewsDictionary];
     

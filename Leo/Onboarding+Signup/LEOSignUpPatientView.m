@@ -1,42 +1,35 @@
 //
-//  LEOReviewAndAddChildView.m
+//  LEOSignUpPatientView.m
 //  Leo
 //
-//  Created by Zachary Drossman on 9/30/15.
+//  Created by Zachary Drossman on 9/29/15.
 //  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
-#import "LEOReviewAndAddChildView.h"
+#import "LEOSignUpPatientView.h"
 
-@interface LEOReviewAndAddChildView ()
+@implementation LEOSignUpPatientView
 
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *heightConstraintForTableView;
-
-@end
-
-@implementation LEOReviewAndAddChildView
+IB_DESIGNABLE
+#pragma mark - Initialization
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder:aDecoder];
     
     if (self) {
-        [self setupConstraintsWithCellCount:0];
-        [self setupTableView];
-
+        [self setupConstraints];
     }
     
     return self;
 }
 
--(instancetype)initWithCellCount:(NSInteger)cellCount {
+-(instancetype)init {
     
     self = [super init];
     
     if (self) {
-        
-        [self setupConstraintsWithCellCount:cellCount];
-        [self setupTableView];
+        [self setupConstraints];
     }
     
     return self;
@@ -45,11 +38,11 @@
 
 #pragma mark - Autolayout
 
-- (void)setupConstraintsWithCellCount:(NSInteger)cellCount {
+- (void)setupConstraints {
     
     NSBundle *mainBundle = [NSBundle mainBundle];
-    NSArray *loadedViews = [mainBundle loadNibNamed:@"LEOReviewAndAddChildView" owner:self options:nil];
-    LEOReviewAndAddChildView *loadedSubview = [loadedViews firstObject];
+    NSArray *loadedViews = [mainBundle loadNibNamed:@"LEOSignUpPatientView" owner:self options:nil];
+    LEOSignUpPatientView *loadedSubview = [loadedViews firstObject];
     
     [self addSubview:loadedSubview];
     
@@ -59,8 +52,6 @@
     [self addConstraint:[self pin:loadedSubview attribute:NSLayoutAttributeLeft]];
     [self addConstraint:[self pin:loadedSubview attribute:NSLayoutAttributeBottom]];
     [self addConstraint:[self pin:loadedSubview attribute:NSLayoutAttributeRight]];
-    
-    self.heightConstraintForTableView.constant = cellCount * 68;
 }
 
 - (NSLayoutConstraint *)pin:(id)item attribute:(NSLayoutAttribute)attribute {
@@ -71,11 +62,7 @@
                                         attribute:attribute
                                        multiplier:1.0
                                          constant:0.0];
-}
+}    
 
-- (void)setupTableView {
-    
-    self.tableView.scrollEnabled = NO;
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-}
+
 @end

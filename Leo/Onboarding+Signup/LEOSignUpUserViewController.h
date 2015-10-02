@@ -10,7 +10,13 @@
 #import "LEOPromptView.h"
 #import "SingleSelectionProtocol.h"
 #import "StickyView.h"
+#import "Family.h"
 
 @interface LEOSignUpUserViewController : UIViewController <UITextFieldDelegate, LEOPromptDelegate, SingleSelectionProtocol, StickyViewDelegate>
+
+@property (strong, nonatomic) Family *family;
+@property (strong, nonatomic) Guardian *guardian;
+@property (copy, nonatomic) NSString *enrollmentToken;
+@property (strong, nonatomic) NSArray *insurancePlans;
 
 @end

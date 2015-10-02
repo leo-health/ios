@@ -12,7 +12,14 @@
 
 @implementation Family
 
-- (instancetype)initWithObjectID:(NSString *)objectID guardians:(NSArray *)guardians patients:(NSArray *)patients {
+-(instancetype)init {
+    
+    NSArray *guardians = [[NSArray alloc] init];
+    NSArray *patients = [[NSArray alloc] init];
+    return [self initWithObjectID:nil guardians:guardians patients:patients];
+}
+
+- (instancetype)initWithObjectID:(nullable NSString *)objectID guardians:(NSArray *)guardians patients:(NSArray *)patients {
     self = [super init];
     
     if (self) {
@@ -26,7 +33,7 @@
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
     
-    NSString *objectID = @"TEMP"; // jsonResponse[APIParamID]; FIXME: Add this back in when the id has been added back to family.
+    NSString *objectID = jsonResponse[APIParamID];
     
     NSArray *patientDictionaries = jsonResponse[APIParamFamily][APIParamUserPatients]; //FIXME: Use LEOConstants.
     
@@ -48,13 +55,13 @@
     return [self initWithObjectID:objectID guardians:[guardians copy] patients:[patients copy]];
 }
 
-- (void)addChild:(Patient *)child {
+- (void)addPatient:(Patient *)patient {
     
-    NSMutableArray *patient = [self.patients mutableCopy];
+    NSMutableArray *mutablePatients = [self.patients mutableCopy];
     
-    [patient addObject:child];
+    [mutablePatients addObject:patient];
     
-    self.patients = [patient copy];
+    self.patients = [mutablePatients copy];
 }
 
 
