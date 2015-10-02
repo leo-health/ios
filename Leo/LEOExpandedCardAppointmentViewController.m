@@ -275,10 +275,12 @@
         
     self.appointment = [[Appointment alloc] initWithPrepAppointment:self.prepAppointment]; //FIXME: Make this a loop to account for changes to multiple objects, e.g. appointments on a card.
     
+    self.appointment.statusCode = AppointmentStatusCodeFuture;
+    
     [MBProgressHUD showHUDAddedTo:self.view.window animated:YES];
     
     if (!self.appointment.objectID) {
-        
+    
     [self.appointmentService createAppointmentWithAppointment:self.appointment withCompletion:^(NSDictionary * rawResults, NSError * error) {
         
         [MBProgressHUD hideHUDForView:self.view.window animated:YES];
@@ -302,8 +304,28 @@
         
     }];
     
+    } else {
+        
+        [self.appointmentService rescheduleAppointmentWithAppointment:self.appointment withCompletion:^(NSDictionary *rawResults, NSError *error) {
+            
+            [MBProgressHUD hideHUDForView:self.view.window animated:YES];
+            
+            if (!error) {
+                
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+                [self.card performSelector:NSSelectorFromString([self.card actionsAvailableForState][0])];
+#pragma  clang diagnostic pop
+                
+                //    MARK: Alternative if the above gives us issues.
+                //    if (!self.card) { return; }
+                //    SEL selector = NSSelectorFromString([self.card actionsAvailableForState][0]);
+                //    IMP imp = [self.card methodForSelector:selector];
+                //    void (*func)(id, SEL) = (void *)imp;
+                //    func(self.card, selector);
+            }
+        }];
     }
-
 }
 
 -(void)scrollViewWasTapped:(UIGestureRecognizer*)gesture{
