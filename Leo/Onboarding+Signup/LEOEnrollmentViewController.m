@@ -65,13 +65,6 @@
     
     self.navigationController.navigationBarHidden = YES;
 
-//    UINavigationBar *navigationBar = self.navigationController.navigationBar;
-//    
-//    [navigationBar setBackgroundImage:[UIImage imageWithColor:[UIColor clearColor]]
-//                       forBarPosition:UIBarPositionAny
-//                           barMetrics:UIBarMetricsDefault];
-//    [navigationBar setShadowImage:[UIImage new]];
-    
     [self.fakeNavigationBar setBackgroundImage:[UIImage imageWithColor:[UIColor leoWhite]]
                                 forBarPosition:UIBarPositionAny
                                     barMetrics:UIBarMetricsDefault];
@@ -113,16 +106,13 @@
 }
 
 - (void)setupContinueButton {
-    // self.continueButton.enabled = NO;
     
     self.continueButton.layer.borderColor = [UIColor leoOrangeRed].CGColor;
     self.continueButton.layer.borderWidth = 1.0;
     
-    // [self.continueButton setTitleColor:[UIColor leoGrayForPlaceholdersAndLines] forState:UIControlStateDisabled];
     self.continueButton.titleLabel.font = [UIFont leoButtonLabelsAndTimeStampsFont];
     [self.continueButton setTitleColor:[UIColor leoWhite] forState:UIControlStateNormal];
     [self.continueButton setBackgroundImage:[UIImage imageWithColor:[UIColor leoOrangeRed]] forState:UIControlStateNormal];
-    //[self.continueButton setBackgroundImage:[UIImage imageWithColor:[UIColor leoWhite]] forState:UIControlStateDisabled];
 }
 
 
@@ -134,18 +124,14 @@
     
     [mutableText replaceCharactersInRange:range withString:string];
     
-    if (textField == self.emailTextField) {
+    if (textField == self.emailTextField && !self.emailTextField.valid) {
         
-        if (!self.emailTextField.valid) {
-            self.emailTextField.valid = [LEOValidationsHelper isValidEmail:mutableText.string];
-        }
+        self.emailTextField.valid = [LEOValidationsHelper isValidEmail:mutableText.string];
     }
     
-    if (textField == self.passwordTextField) {
+    if (textField == self.passwordTextField && !self.passwordTextField.valid) {
         
-        if (!self.passwordTextField.valid) {
-            self.passwordTextField.valid = [LEOValidationsHelper isValidPassword:mutableText.string];
-        }
+        self.passwordTextField.valid = [LEOValidationsHelper isValidPassword:mutableText.string];
     }
     
     return YES;
@@ -217,11 +203,7 @@
     self.emailTextField.valid = validEmail;
     self.passwordTextField.valid = validPassword;
     
-    if (validEmail && validPassword) {
-        return YES;
-    }
-    
-    return NO;
+    return validEmail && validPassword;
 }
 
 

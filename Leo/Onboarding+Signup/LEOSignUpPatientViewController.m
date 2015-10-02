@@ -64,7 +64,7 @@
     [self firstNameTextField].standardPlaceholder = @"first name";
     [self firstNameTextField].validationPlaceholder = @"please enter a valid first name";
     [[self firstNameTextField] sizeToFit];
-    
+
     [self firstNameTextField].text = self.patient.firstName;
 }
 
@@ -74,7 +74,7 @@
     [self lastNameTextField].standardPlaceholder = @"last name";
     [self lastNameTextField].validationPlaceholder = @"please enter a valid last name";
     [[self lastNameTextField] sizeToFit];
-    
+
     [self lastNameTextField].text = self.patient.lastName;
 }
 
@@ -84,11 +84,11 @@
     [self birthDateTextField].standardPlaceholder = @"birth date";
     [self birthDateTextField].validationPlaceholder = @"please add your child's birth date";
     [[self birthDateTextField] sizeToFit];
-    
+
     [self birthDateTextField].enabled = NO;
     self.signUpPatientView.birthDatePromptView.accessoryImageViewVisible = YES;
     self.signUpPatientView.birthDatePromptView.delegate = self;
-    
+
     [self birthDateTextField].text = [NSDate stringifiedShortDate:self.patient.dob];
 }
 
@@ -98,12 +98,12 @@
     [self genderTextField].standardPlaceholder = @"gender";
     [self genderTextField].validationPlaceholder = @"please provide us with your child's gender";
     [[self genderTextField] sizeToFit];
-    
+
     [self genderTextField].enabled = NO;
     self.signUpPatientView.genderPromptView.accessoryImageViewVisible = YES;
     self.signUpPatientView.genderPromptView.accessoryImage = [UIImage imageNamed:@"Icon-Forms"];
     self.signUpPatientView.genderPromptView.delegate = self;
-    
+
     [self genderTextField].text = self.patient.gender;
 }
 
@@ -113,10 +113,11 @@
     self.signUpPatientView.avatarValidationLabel.text = @"";
 }
 - (void)setupAvatarButton {
-    
+
     [[self avatarButton] addTarget:self action:@selector(presentPhotoPicker:) forControlEvents:UIControlEventTouchUpInside];
-    
+
     if (self.patient.avatar) {
+
         [self updateButtonWithImage:self.patient.avatar];
     }
 }
@@ -133,6 +134,7 @@
     [self.navigationController pushViewController:imageCropVC animated:NO];
 
     [self dismissViewControllerAnimated:NO completion:^{
+
         self.signUpPatientView.avatarValidationLabel.text = @"";
     }];
 }
@@ -197,6 +199,7 @@
 - (LEOSignUpPatientView *)signUpPatientView {
     
     if (!_signUpPatientView) {
+        
         _signUpPatientView = [[LEOSignUpPatientView alloc] init];
         _signUpPatientView.tintColor = [UIColor leoOrangeRed];
     }
@@ -212,10 +215,12 @@
     [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
     
     if (sender == self.signUpPatientView.birthDatePromptView) {
+        
         [self selectADate:sender];
     }
     
     if (sender == self.signUpPatientView.genderPromptView) {
+        
         [self selectAGender:sender];
     }
 }
@@ -244,6 +249,7 @@
     NSInteger selectedIndex = 0;
     
     if ([[self genderTextField].text isEqualToString:@"Male"]) {
+        
         selectedIndex = 1;
     }
     
@@ -256,26 +262,22 @@
 }
 
 - (void)dateWasSelected:(NSDate *)selectedDate element:(id)element {
+    
     [self birthDateTextField].text = [NSDate stringifiedShortDate:selectedDate];
 }
 
 - (void)genderWasSelected:(NSNumber *)selectedGender element:(id)element {
 
-    if ([selectedGender isEqualToNumber:@0]) {
-        [self genderTextField].text = @"Female";
-    } else {
-        [self genderTextField].text = @"Male";
-    };
+   [self genderTextField].text = ([selectedGender isEqualToNumber:@0]) ? @"Female" : @"Male";
 }
-
 
 #pragma mark - Navigation
 
 - (void)continueTapped:(UIButton *)sender {
     
     if ([self validatePage]) {
-        [self addOnboardingData];
         
+        [self addOnboardingData];
         [self.navigationController popViewControllerAnimated:YES];
     }
 }
@@ -288,6 +290,7 @@
     self.patient.dob = [NSDate dateFromShortDate:[self birthDateTextField].text];
     
     if (self.managementMode == ManagementModeCreate) {
+        
         [self.family addPatient:self.patient];
     }
 }
@@ -295,6 +298,7 @@
 -(Patient *)patient {
     
     if (!_patient) {
+        
         _patient = [[Patient alloc] init];
     }
     
@@ -333,14 +337,11 @@
     [self genderTextField].valid = validGender;
     
     if (!validAvatar) {
+        
         self.signUpPatientView.avatarValidationLabel.text = @"please tap the camera to add a photo of your child";
     }
     
-    if (validFirstName && validLastName && validBirthDate && validGender && validAvatar) {
-        return YES;
-    }
-    
-    return NO;
+    return validAvatar && validFirstName && validLastName && validBirthDate && validGender;
 }
 
 #pragma mark - <UITextFieldDelegate>
@@ -350,18 +351,14 @@
     
     [mutableText replaceCharactersInRange:range withString:string];
     
-    if (textField == [self firstNameTextField]) {
+    if (textField == [self firstNameTextField] && ![self firstNameTextField].valid) {
         
-        if (![self firstNameTextField].valid) {
-            self.firstNameTextField.valid = [LEOValidationsHelper isValidFirstName:mutableText.string];
-        }
+        self.firstNameTextField.valid = [LEOValidationsHelper isValidFirstName:mutableText.string];
     }
     
-    if (textField == self.lastNameTextField) {
-        
-        if (![self lastNameTextField].valid) {
-            self.lastNameTextField.valid = [LEOValidationsHelper isValidLastName:mutableText.string];
-        }
+    if (textField == self.lastNameTextField && ![self lastNameTextField].valid) {
+     
+        self.lastNameTextField.valid = [LEOValidationsHelper isValidLastName:mutableText.string];
     }
         
     return YES;

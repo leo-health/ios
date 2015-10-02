@@ -106,18 +106,14 @@ NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
     
     [mutableText replaceCharactersInRange:range withString:string];
     
-    if (textField == self.emailTextField) {
+    if (textField == self.emailTextField && !self.emailTextField.valid) {
         
-        if (!self.emailTextField.valid) {
             self.emailTextField.valid = [LEOValidationsHelper isValidEmail:mutableText.string];
-        }
     }
     
-    if (textField == self.passwordTextField) {
+    if (textField == self.passwordTextField && !self.passwordTextField.valid) {
         
-        if (!self.passwordTextField.valid) {
             self.passwordTextField.valid = [LEOValidationsHelper isValidPhoneNumberWithFormatting:mutableText.string];
-        }
     }
     
     return YES;

@@ -262,11 +262,7 @@
     [self phoneNumberTextField].valid = validPhoneNumber;
     [self insurerTextField].valid = validInsurer;
     
-    if (validFirstName && validLastName && validPhoneNumber && validInsurer) {
-        return YES;
-    }
-    
-    return NO;
+    return validFirstName && validLastName && validPhoneNumber && validInsurer;
 }
 
 
@@ -277,18 +273,14 @@
     
     [mutableText replaceCharactersInRange:range withString:string];
     
-    if (textField == [self firstNameTextField]) {
-        
-        if (![self firstNameTextField].valid) {
-            self.firstNameTextField.valid = [LEOValidationsHelper isValidFirstName:mutableText.string];
-        }
+    if (textField == [self firstNameTextField] && ![self firstNameTextField].valid) {
+
+        self.firstNameTextField.valid = [LEOValidationsHelper isValidFirstName:mutableText.string];
     }
     
-    if (textField == self.lastNameTextField) {
+    if (textField == self.lastNameTextField && ![self lastNameTextField].valid) {
         
-        if (![self lastNameTextField].valid) {
             self.lastNameTextField.valid = [LEOValidationsHelper isValidLastName:mutableText.string];
-        }
     }
     
     if (textField == [self phoneNumberTextField]) {
