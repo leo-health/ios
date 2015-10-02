@@ -306,14 +306,11 @@
     
     } else {
         
-        
         [self.appointmentService rescheduleAppointmentWithAppointment:self.appointment withCompletion:^(NSDictionary *rawResults, NSError *error) {
             
             [MBProgressHUD hideHUDForView:self.view.window animated:YES];
             
             if (!error) {
-                
-                
                 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
