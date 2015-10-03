@@ -10,6 +10,7 @@
 
 #import "User.h"
 #import "Guardian.h"
+#import "Patient.h"
 
 #import "LEOAPISessionManager.h"
 #import "LEOS3SessionManager.h"
@@ -17,31 +18,104 @@
 
 @implementation LEOUserService
 
-//- (void)createUserWithUser:(User *)user password:(NSString *)password withCompletion:(void (^)(NSDictionary *  rawResults, NSError *error))completionBlock {
-//    
-//    NSMutableDictionary *enrollmentParams = [[User dictionaryFromUser:user] mutableCopy];
-//
-//    [[LEOUserService leoSessionManager] unauthenticatedPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointUsers params:userParams completion:^(NSDictionary *rawResults, NSError *error) {
-//        NSDictionary *userDictionary = rawResults[APIParamData][APIParamUser];
-//        user.objectID = userDictionary[APIParamID];
-//        completionBlock(user, error);
-//    }];
-//}
-
-- (void)enrollUser:(User *)user password:(NSString *)password withCompletion:(void (^) (User *user, NSString *enrollmentToken, NSError *error))completionBlock {
-
-    NSMutableDictionary *enrollmentParams = [[User dictionaryFromUser:user] mutableCopy];
-    enrollmentParams[APIParamUserPassword] = password;
+- (void)createUserWithCompletion:(void (^)(BOOL success, NSError *error))completionBlock {
     
-    [[LEOUserService leoSessionManager] unauthenticatedPOSTRequestForJSONDictionaryToAPIWithEndpoint:@"enrollments/current" params:enrollmentParams completion:^(NSDictionary *rawResults, NSError *error) {
-        NSDictionary *userDictionary = rawResults[APIParamData][APIParamUser];
-        user.objectID = userDictionary[APIParamID];
-        completionBlock(user, enrollmentToken, error);
+    [[LEOUserService leoSessionManager] standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointUsers params:nil completion:^(NSDictionary *rawResults, NSError *error) {
+        
+        if (!error) {
+            
+            LEOCredentialStore *credentialStore = [[LEOCredentialStore alloc] init];
+            [credentialStore clearSavedCredentials];
+            
+            [SessionUser newUserWithJSONDictionary:rawResults[APIParamData][@"session"]];
+            completionBlock(YES, nil);
+        } else {
+            
+            completionBlock(NO, error);
+        }
     }];
-    
 }
 
-- (void)editAttributesOfUser:(User *)user withCompletion:(void (^ (User *user, NSString *enrollmentToken)))
+- (void)createPatientWithCompletion:(void (^)(BOOL success, NSError *error))completionBlock {
+    
+    [[LEOUserService leoSessionManager] standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointPatientEnrollments params:nil completion:^(NSDictionary *rawResults, NSError *error) {
+        
+        if (!error) {
+            
+            completionBlock(YES, nil);
+        } else {
+            
+            completionBlock(NO, error);
+        }
+    }];
+}
+
+- (void)enrollUser:(Guardian *)guardian password:(NSString *)password withCompletion:(void (^) (BOOL success, NSError *error))completionBlock {
+    
+    NSMutableDictionary *enrollmentParams = [[User dictionaryFromUser:guardian] mutableCopy];
+    enrollmentParams[APIParamUserPassword] = password;
+    
+    [[LEOUserService leoSessionManager] unauthenticatedPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointUserEnrollments params:enrollmentParams completion:^(NSDictionary *rawResults, NSError *error) {
+        
+        if (!error) {
+            
+            LEOCredentialStore *credentialStore = [[LEOCredentialStore alloc] init];
+            [credentialStore clearSavedCredentials];
+            
+            [SessionUser newUserWithJSONDictionary:rawResults[APIParamData][APIParamUserEnrollment]];
+            
+            completionBlock(YES, nil);
+        } else {
+            
+            completionBlock(NO, error);
+        }
+    }];
+}
+
+- (void)enrollPatient:(Patient *)patient withCompletion:(void (^) (BOOL success, NSError *error))completionBlock {
+    
+    NSMutableDictionary *enrollmentParams = [[Patient dictionaryFromUser:patient] mutableCopy];
+    
+    [[LEOUserService leoSessionManager] standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointPatientEnrollments params:enrollmentParams completion:^(NSDictionary *rawResults, NSError *error) {
+        
+        if (!error) {
+            
+            completionBlock(YES, nil);
+            
+        } else {
+            
+            completionBlock(NO, error);
+        }
+    }];
+}
+
+- (void)updateEnrollmentOfPatient:(Patient *)patient  withCompletion:(void (^) (BOOL success, NSError *error))completionBlock {
+    
+    NSDictionary *patientDictionary = [Patient dictionaryFromUser:patient];
+    
+    [[LEOUserService leoSessionManager] standardPUTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointPatientEnrollments params:patientDictionary completion:^(NSDictionary *rawResults, NSError *error) {
+        
+        if (!error) {
+            completionBlock(YES, nil);
+        } else {
+            completionBlock (NO, error);
+        }
+    }];
+}
+
+- (void)updateEnrollmentOfUser:(Guardian *)guardian withCompletion:(void (^) (BOOL success, NSError *error))completionBlock {
+    
+    NSDictionary *guardianDictionary = [Guardian dictionaryFromUser:guardian];
+    
+    [[LEOUserService leoSessionManager] standardPUTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointUserEnrollments params:guardianDictionary completion:^(NSDictionary *rawResults, NSError *error) {
+        
+        if (!error) {
+            completionBlock(YES, nil);
+        } else {
+            completionBlock (NO, error);
+        }
+    }];
+}
 
 - (void)loginUserWithEmail:(NSString *)email password:(NSString *)password withCompletion:(void (^)(SessionUser *user, NSError *error))completionBlock {
     
@@ -95,6 +169,18 @@
         completionBlock(nil, nil);
         return;
     }
+}
+
+- (void)postAvatarForUser:(User *)user withCompletion:(void (^)(BOOL success, NSError *error))completionBlock {
+    
+    NSData *avatarData = UIImagePNGRepresentation(user.avatar);
+    NSDictionary *avatarParams = @{@"avatar":avatarData};
+    
+    [[LEOUserService leoSessionManager] standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointUserEnrollments params:avatarParams completion:^(NSDictionary *rawResults, NSError *error) {
+        
+        //MARK: If we want to use more ternary operators, we can do a lot of this in this class.
+        !error ? completionBlock ? completionBlock(YES, nil) : completionBlock(NO, error) : nil;
+    }];
 }
 
 + (LEOAPISessionManager *)leoSessionManager {

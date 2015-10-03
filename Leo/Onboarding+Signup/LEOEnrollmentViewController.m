@@ -28,7 +28,6 @@
 @property (weak, nonatomic) IBOutlet UINavigationBar *fakeNavigationBar;
 
 @property (strong, nonatomic) Guardian *guardian;
-@property (strong, nonatomic) NSString *enrollmentToken;
 
 @end
 
@@ -169,14 +168,12 @@
         [self addOnboardingData];
 
         LEOUserService *userService = [[LEOUserService alloc] init];
-//        [userService enrollUser:self.guardian enrollmentToken:nil password:[self passwordTextField].text withCompletion:^(User *user, NSString *enrollmentToken, NSError *error) {
-//            
-//            if (!error) {
-        
-                self.enrollmentToken = @"TEMP";
-                [self performSegueWithIdentifier:@"ContinueSegue" sender:sender];
-//            }
-//        }];
+        [userService enrollUser:self.guardian password:[self passwordTextField].text withCompletion:^(BOOL success, NSError *error) {
+            
+            if (!error) {
+                [self performSegueWithIdentifier:kContinueSegue sender:sender];
+            }
+        }];
     }
 }
 
@@ -206,7 +203,6 @@
     return validEmail && validPassword;
 }
 
-
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
     if ([segue.identifier isEqualToString:@"ContinueSegue"]) {
@@ -214,9 +210,9 @@
         
         LEOSignUpUserViewController *signUpUserVC = segue.destinationViewController;
         signUpUserVC.guardian = self.guardian;
-        signUpUserVC.enrollmentToken = self.enrollmentToken;
     }
 }
+
 - (void)pop {
     
     [self.navigationController popViewControllerAnimated:YES];

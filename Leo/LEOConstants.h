@@ -131,6 +131,7 @@ extern NSString *const kUserToken; // @"";
 #pragma mark - URL & endpoints
 
 extern NSString *const APIEndpointUsers; // @"users";
+extern NSString *const APIEndpointPatients; // @"patients";
 extern NSString *const APIEndpointSessions; // @"sessions";
 extern NSString *const APIEndpointResetPassword; // @"sessions/password";
 extern NSString *const APIEndpointAppointments; // @"appointments";
@@ -145,6 +146,8 @@ extern NSString *const APIEndpointPractice; // @"practice";
 extern NSString *const APIEndpointSlots; // @"slots";
 extern NSString *const APIEndpointFamily; // @"family";
 extern NSString *const APIEndpointInsurers; // @"insurers";
+extern NSString *const APIEndpointUserEnrollments; // = @"enrollments";
+extern NSString *const APIEndpointPatientEnrollments; // = @"patient_enrollments";
 
 #pragma mark - Common
 extern NSString *const APIParamID; // @"id";
@@ -183,7 +186,7 @@ extern NSString *const APIParamFamilyID; // @"family_id";
 extern NSString *const APIParamFamily; // @"family";
 
 #pragma mark - User and user subclass
-
+extern NSString *const APIParamUserEnrollment; // = @"enrollment";
 extern NSString *const APIParamUserTitle; // @"title";
 extern NSString *const APIParamUserFirstName; // @"first_name";
 extern NSString *const APIParamUserMiddleInitial; // @"middle_initial";

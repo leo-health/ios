@@ -18,6 +18,7 @@ NSString *const kUserToken = @"";
 
 NSString *const APIVersion = @"/api/v1";
 NSString *const APIEndpointUsers = @"users";
+NSString *const APIEndpointPatients = @"patients";
 NSString *const APIEndpointSessions = @"sessions";
 NSString *const APIEndpointResetPassword = @"sessions/password";
 NSString *const APIEndpointAppointments = @"appointments";
@@ -31,7 +32,8 @@ NSString *const APIEndpointPractice = @"practice";
 NSString *const APIEndpointSlots = @"appointment_slots";
 NSString *const APIEndpointFamily = @"family";
 NSString *const APIEndpointInsurers = @"insurers";
-NSString *const APIEndpointEnrollment = @"enrollments";
+NSString *const APIEndpointUserEnrollments = @"enrollments";
+NSString *const APIEndpointPatientEnrollments = @"patient_enrollments";
 
 #pragma mark - Common
 NSString *const APIParamID = @"id";
@@ -70,6 +72,7 @@ NSString *const APIParamFamily = @"family";
 
 #pragma mark - User and user subclass
 
+NSString *const APIParamUserEnrollment = @"enrollment";
 NSString *const APIParamUserTitle = @"title";
 NSString *const APIParamUserFirstName = @"first_name";
 NSString *const APIParamUserMiddleInitial = @"middle_initial";

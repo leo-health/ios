@@ -27,6 +27,7 @@
 #import "LEOManagePatientsViewController.h"
 
 #import "Guardian.h"
+#import "LEOUserService.h"
 
 @interface LEOSignUpUserViewController ()
 
@@ -183,7 +184,15 @@
     
     if ([self validatePage]) {
         [self addOnboardingData];
-        [self performSegueWithIdentifier:kContinueSegue sender:sender];
+        
+        LEOUserService *userService  = [[LEOUserService alloc] init];
+        
+        [userService updateEnrollmentOfUser:self.guardian withCompletion:^(BOOL success, NSError *error) {
+            
+            if (!error) {
+                [self performSegueWithIdentifier:kContinueSegue sender:sender];
+            }
+        }];
     }
 }
 

@@ -49,10 +49,10 @@
     
     NSMutableDictionary *userDictionary = [[super dictionaryFromUser:guardian] mutableCopy];
     
-    userDictionary[APIParamFamilyID] = guardian.familyID;
-    userDictionary[APIParamUserPrimary] = @(guardian.primary);
-    userDictionary[APIParamPhone] = guardian.phoneNumber;
-    userDictionary[APIParamUserInsurancePlan] = guardian.insurancePlan; //FIXME: This should probably break since insurancePlan is a custom object.
+    userDictionary[APIParamFamilyID] = guardian.familyID ?: [NSNull null];
+    userDictionary[APIParamUserPrimary] = @(guardian.primary) ?: [NSNull null];
+    userDictionary[APIParamPhone] = guardian.phoneNumber ?: [NSNull null];
+    userDictionary[APIParamUserInsurancePlan] = guardian.insurancePlan ?: [NSNull null]; //FIXME: This should probably break since insurancePlan is a custom object.
     
     return userDictionary;
 }
