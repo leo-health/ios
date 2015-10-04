@@ -16,6 +16,9 @@
 		31197A141B39DA3000C773BA /* MenuView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 31197A131B39DA3000C773BA /* MenuView.xib */; };
 		311CBB3E1B56B0F50009BD7A /* Conversation.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 311CBB3D1B56B0F50009BD7A /* Conversation.storyboard */; };
 		3124182C1BBEE1B300E18176 /* UIViewController+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3124182B1BBEE1B300E18176 /* UIViewController+Extensions.m */; };
+		3124187F1BC0634E00E18176 /* LEOLoginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3124187E1BC0634E00E18176 /* LEOLoginView.xib */; };
+		312418851BC0638200E18176 /* LEOLoginView.m in Sources */ = {isa = PBXBuildFile; fileRef = 312418841BC0638200E18176 /* LEOLoginView.m */; };
+		312418881BC066E200E18176 /* LEOLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 312418871BC066E200E18176 /* LEOLoginViewController.m */; };
 		31254B771BAC99C500E8E150 /* LEOAppointmentService.m in Sources */ = {isa = PBXBuildFile; fileRef = 31254B731BAC99C500E8E150 /* LEOAppointmentService.m */; };
 		31254B781BAC99C500E8E150 /* LEOHelperService.m in Sources */ = {isa = PBXBuildFile; fileRef = 31254B751BAC99C500E8E150 /* LEOHelperService.m */; };
 		31254B7D1BB050CD00E8E150 /* LEOUserService.m in Sources */ = {isa = PBXBuildFile; fileRef = 31254B7C1BB050CD00E8E150 /* LEOUserService.m */; };
@@ -33,7 +36,6 @@
 		3128D4F21B4313EB00582710 /* LEOOneButtonPrimaryAndSecondaryCell+ConfigureForCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3128D4F11B4313EB00582710 /* LEOOneButtonPrimaryAndSecondaryCell+ConfigureForCell.m */; };
 		312A82571B56EEBE00E1FB38 /* LEOMessagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 312A82541B56EEBE00E1FB38 /* LEOMessagesViewController.m */; };
 		312F35451BA212B700F64DAA /* LEOPusherHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 312F35441BA212B700F64DAA /* LEOPusherHelper.m */; };
-		3138FC2C1B99FC28000FE22C /* LEOLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3138FC2B1B99FC28000FE22C /* LEOLoginViewController.m */; };
 		3138FC321B9A1169000FE22C /* LEOValidatedFloatLabeledTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 3138FC311B9A1169000FE22C /* LEOValidatedFloatLabeledTextField.m */; };
 		3138FC351B9A1294000FE22C /* LEOScrollableContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3138FC341B9A1294000FE22C /* LEOScrollableContainerView.m */; };
 		3138FC3A1B9A145B000FE22C /* LEOForgotPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3138FC391B9A145B000FE22C /* LEOForgotPasswordViewController.m */; };
@@ -179,6 +181,11 @@
 		311CBB3D1B56B0F50009BD7A /* Conversation.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Conversation.storyboard; sourceTree = "<group>"; };
 		3124182A1BBEE1B300E18176 /* UIViewController+Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIViewController+Extensions.h"; path = "Helpers/UIViewController+Extensions.h"; sourceTree = "<group>"; };
 		3124182B1BBEE1B300E18176 /* UIViewController+Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIViewController+Extensions.m"; path = "Helpers/UIViewController+Extensions.m"; sourceTree = "<group>"; };
+		3124187E1BC0634E00E18176 /* LEOLoginView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LEOLoginView.xib; sourceTree = "<group>"; };
+		312418831BC0638200E18176 /* LEOLoginView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOLoginView.h; path = "Onboarding+Signup/LEOLoginView.h"; sourceTree = "<group>"; };
+		312418841BC0638200E18176 /* LEOLoginView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOLoginView.m; path = "Onboarding+Signup/LEOLoginView.m"; sourceTree = "<group>"; };
+		312418861BC066E200E18176 /* LEOLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOLoginViewController.h; path = "Onboarding+Signup/LEOLoginViewController.h"; sourceTree = "<group>"; };
+		312418871BC066E200E18176 /* LEOLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOLoginViewController.m; path = "Onboarding+Signup/LEOLoginViewController.m"; sourceTree = "<group>"; };
 		31254B721BAC99C500E8E150 /* LEOAppointmentService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOAppointmentService.h; path = Services/LEOAppointmentService.h; sourceTree = "<group>"; };
 		31254B731BAC99C500E8E150 /* LEOAppointmentService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOAppointmentService.m; path = Services/LEOAppointmentService.m; sourceTree = "<group>"; };
 		31254B741BAC99C500E8E150 /* LEOHelperService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOHelperService.h; path = Services/LEOHelperService.h; sourceTree = "<group>"; };
@@ -216,8 +223,6 @@
 		3132BEA51B84F9D200494727 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3132BEAD1B84FA0600494727 /* TestsRelease.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = TestsRelease.xcconfig; path = xcconfig/TestsRelease.xcconfig; sourceTree = "<group>"; };
 		3132BEAE1B84FA1300494727 /* TestsShared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = TestsShared.xcconfig; path = xcconfig/TestsShared.xcconfig; sourceTree = "<group>"; };
-		3138FC2A1B99FC28000FE22C /* LEOLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOLoginViewController.h; path = "Onboarding+Signup/LEOLoginViewController.h"; sourceTree = "<group>"; };
-		3138FC2B1B99FC28000FE22C /* LEOLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOLoginViewController.m; path = "Onboarding+Signup/LEOLoginViewController.m"; sourceTree = "<group>"; };
 		3138FC301B9A1169000FE22C /* LEOValidatedFloatLabeledTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOValidatedFloatLabeledTextField.h; sourceTree = "<group>"; };
 		3138FC311B9A1169000FE22C /* LEOValidatedFloatLabeledTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOValidatedFloatLabeledTextField.m; sourceTree = "<group>"; };
 		3138FC331B9A1294000FE22C /* LEOScrollableContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOScrollableContainerView.h; sourceTree = "<group>"; };
@@ -755,8 +760,11 @@
 		31B9CF2A1BBC60CC0002480C /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				3138FC2A1B99FC28000FE22C /* LEOLoginViewController.h */,
-				3138FC2B1B99FC28000FE22C /* LEOLoginViewController.m */,
+				312418861BC066E200E18176 /* LEOLoginViewController.h */,
+				312418871BC066E200E18176 /* LEOLoginViewController.m */,
+				3124187E1BC0634E00E18176 /* LEOLoginView.xib */,
+				312418831BC0638200E18176 /* LEOLoginView.h */,
+				312418841BC0638200E18176 /* LEOLoginView.m */,
 				3138FC381B9A145B000FE22C /* LEOForgotPasswordViewController.h */,
 				3138FC391B9A145B000FE22C /* LEOForgotPasswordViewController.m */,
 			);
@@ -1176,6 +1184,7 @@
 				3128D4EC1B43135F00582710 /* LEOOneButtonPrimaryAndSecondaryCell.xib in Resources */,
 				315588951BBC34E40038E381 /* LEOPromptViewCell.xib in Resources */,
 				315E12B71BB9BDBD001023F1 /* LEOSignUpUserView.xib in Resources */,
+				3124187F1BC0634E00E18176 /* LEOLoginView.xib in Resources */,
 				31FDDE691B29E3580009BBC2 /* LEOTwoButtonSecondaryOnlyCell.xib in Resources */,
 				31FDDE561B28DD2C0009BBC2 /* LEOTwoButtonPrimaryOnlyCell.xib in Resources */,
 				31B9CF351BBC7A0F0002480C /* LEOManagePatientsView.xib in Resources */,
@@ -1290,7 +1299,6 @@
 				31254B781BAC99C500E8E150 /* LEOHelperService.m in Sources */,
 				31197A0F1B39B08B00C773BA /* LEOMainContainerViewController.m in Sources */,
 				BCED00811B0150F4007653D6 /* LEOFeedTVC.m in Sources */,
-				3138FC2C1B99FC28000FE22C /* LEOLoginViewController.m in Sources */,
 				3128D4DB1B42DF6500582710 /* LEOOneButtonSecondaryOnlyCell.m in Sources */,
 				31254B7D1BB050CD00E8E150 /* LEOUserService.m in Sources */,
 				31CC12DF1BB062C40099AB60 /* Insurer.m in Sources */,
@@ -1308,6 +1316,7 @@
 				31CC12E61BB062C40099AB60 /* Practice.m in Sources */,
 				319FB4BE1BBA379E00EFF7B9 /* JVFloatLabeledTextField.m in Sources */,
 				BC163AFE1B054CBF000FB1CE /* LEOCardTransitionAnimator.m in Sources */,
+				312418851BC0638200E18176 /* LEOLoginView.m in Sources */,
 				31F5AA6C1B791B4A00F96D06 /* LEOBasicSelectionViewController.m in Sources */,
 				310740741B545EFD0098FD40 /* LEOCardConversation.m in Sources */,
 				3124182C1BBEE1B300E18176 /* UIViewController+Extensions.m in Sources */,
@@ -1363,6 +1372,7 @@
 				315588941BBC34E40038E381 /* LEOPromptViewCell.m in Sources */,
 				3192ACD91B0CC7C5007195F2 /* UIImage+Extensions.m in Sources */,
 				31CC12ED1BB062E90099AB60 /* LEOS3SessionManager.m in Sources */,
+				312418881BC066E200E18176 /* LEOLoginViewController.m in Sources */,
 				31CC12E41BB062C40099AB60 /* AppointmentType.m in Sources */,
 				31F5AA761B791B4B00F96D06 /* PatientCell.m in Sources */,
 				31F5AA6B1B791B4A00F96D06 /* LEOExpandedCardViewController.m in Sources */,

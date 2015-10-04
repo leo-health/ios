@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "LEOScrollableContainerView.h"
+#import "LEOPromptView.h"
+#import "StickyView.h"
 
-@interface LEOLoginViewController : UIViewController <LEOScrollableContainerViewDelegate, UITextFieldDelegate, UIScrollViewDelegate>
+@interface LEOLoginViewController : UIViewController <StickyViewDelegate, LEOPromptDelegate, UITextFieldDelegate, UIScrollViewDelegate>
 
 @end

@@ -32,7 +32,7 @@
 @interface LEOSignUpUserViewController ()
 
 @property (strong, nonatomic) LEOSignUpUserView *signUpUserView;
-@property (weak, nonatomic) IBOutlet StickyView *stickyView;
+@property (strong, nonatomic) StickyView *stickyView;
 
 @end
 
@@ -50,6 +50,11 @@
     [self setupLastNameField];
     [self setupPhoneNumberField];
     [self setupInsurerPromptView];
+}
+
+
+-(StickyView *)view {
+    return (StickyView *)self.view;
 }
 
 - (void)setupStickyView {
