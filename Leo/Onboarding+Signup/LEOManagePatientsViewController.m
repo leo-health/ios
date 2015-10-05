@@ -18,6 +18,7 @@
 #import "LEOSignUpPatientViewController.h"
 #import "Family.h"
 #import "UIViewController+Extensions.h"
+#import "LEOReviewOnboardingViewController.h"
 
 @interface LEOManagePatientsViewController ()
 
@@ -164,26 +165,25 @@ NSString *const kSignUpPatientSegue = @"SignUpPatientSegue";
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    //MARK: Not sure I love the idea of the sender being the indexpath as opposed to the object in the row. Food for thought, but not right now.
     [self performSegueWithIdentifier:kSignUpPatientSegue sender:indexPath];
 }
 
 -(void)continueTapped:(UIButton * __nonnull)sender {
     
-    
-    if ([self isModal]) {
-        [self dismissViewControllerAnimated:self completion:nil];
-    } else {
-        UIStoryboard *feedStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        UIViewController *initialVC = [feedStoryboard instantiateInitialViewController];
-        [self presentViewController:initialVC animated:NO completion:nil];
-    }
+    [self performSegueWithIdentifier:kContinueSegue sender:sender];
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
-    NSIndexPath *senderIndexPath = (NSIndexPath *)sender;
+    NSInteger patientIndex = 0;
+    NSIndexPath *senderIndexPath;
     
-    NSInteger patientIndex = [self tableView:[self tableView] currentRowForIndexPath:senderIndexPath];
+    //MARK: At some point just go back and remind myself why the sender is an NSIndexPath when choosing a UITableViewCell.
+    if ([sender isKindOfClass:[NSIndexPath class]]) {
+        senderIndexPath = (NSIndexPath *)sender;
+        patientIndex = [self tableView:[self tableView] currentRowForIndexPath:senderIndexPath];
+    }
     
     if ([segue.identifier isEqualToString:kSignUpPatientSegue]) {
         
@@ -198,6 +198,12 @@ NSString *const kSignUpPatientSegue = @"SignUpPatientSegue";
         }
         
         signUpPatientVC.delegate = self;
+    }
+    
+    if ([segue.identifier isEqualToString:kContinueSegue]) {
+        
+        LEOReviewOnboardingViewController *reviewOnboardingVC = segue.destinationViewController;
+        reviewOnboardingVC.family = self.family;
     }
 }
 

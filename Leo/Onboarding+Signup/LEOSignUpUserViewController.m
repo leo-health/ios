@@ -53,7 +53,7 @@
 }
 
 
--(StickyView *)view {
+-(StickyView *)stickyView {
     return (StickyView *)self.view;
 }
 
@@ -190,27 +190,31 @@
     if ([self validatePage]) {
         [self addOnboardingData];
         
-        LEOUserService *userService  = [[LEOUserService alloc] init];
-        
-        [userService updateEnrollmentOfUser:self.guardian withCompletion:^(BOOL success, NSError *error) {
-            
-            if (!error) {
+        switch (self.managementMode) {
+            case ManagementModeCreate:
                 [self performSegueWithIdentifier:kContinueSegue sender:sender];
-            }
-        }];
+                break;
+                
+            case ManagementModeEdit:
+                [self pop];
+                break;
+        }
     }
 }
 
 - (void)addOnboardingData {
-
+    
     self.guardian.firstName = [self firstNameTextField].text;
     self.guardian.lastName = [self lastNameTextField].text;
-
+    
     //InsurancePlan onboarding data provided as part of the delegate method upon return from the BasicSelectionViewController. Not in love with this implementation but it will suffice for the time-being.
 
     self.guardian.phoneNumber = [self phoneNumberTextField].text;
 
+    
+    if (self.managementMode == ManagementModeCreate) {
     [self.family addGuardian:self.guardian];
+    }
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {

@@ -118,7 +118,9 @@
 
 + (BOOL)isValidShortDate:(NSString *)candidate {
     
-    return ([candidate isKindOfClass:[NSDate class]] && candidate != nil) ? YES : NO;
+    NSDate *date = [NSDate dateFromShortDate:candidate];
+    
+    return ([date isKindOfClass:[NSDate class]] && date != nil) ? YES : NO;
 }
 
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "LEOSignUpPatientView.h"
+#import "UIView+Extensions.h"
 
 @implementation LEOSignUpPatientView
 
@@ -54,15 +55,7 @@ IB_DESIGNABLE
     [self addConstraint:[self pin:loadedSubview attribute:NSLayoutAttributeRight]];
 }
 
-- (NSLayoutConstraint *)pin:(id)item attribute:(NSLayoutAttribute)attribute {
-    return [NSLayoutConstraint constraintWithItem:self
-                                        attribute:attribute
-                                        relatedBy:NSLayoutRelationEqual
-                                           toItem:item
-                                        attribute:attribute
-                                       multiplier:1.0
-                                         constant:0.0];
-}    
+
 
 
 @end

@@ -210,6 +210,7 @@
         
         LEOSignUpUserViewController *signUpUserVC = segue.destinationViewController;
         signUpUserVC.guardian = self.guardian;
+        signUpUserVC.managementMode = ManagementModeCreate;
     }
 }
 

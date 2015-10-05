@@ -29,7 +29,6 @@
 @interface LEOSignUpPatientViewController ()
 
 @property (strong, nonatomic) LEOSignUpPatientView *signUpPatientView;
-@property (weak, nonatomic) IBOutlet StickyView *stickyView;
 @property (nonatomic) BOOL isNewFamily;
 @end
 
@@ -56,6 +55,10 @@
     self.stickyView.delegate = self;
     self.stickyView.tintColor = [UIColor leoOrangeRed];
     [self.stickyView reloadViews];
+}
+
+-(StickyView *)stickyView {
+    return (StickyView *)self.view;
 }
 
 - (void)setupFirstNameField {

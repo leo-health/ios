@@ -1,28 +1,33 @@
 //
-//  LEOPromptViewCell.m
+//  ReviewChildCell.m
 //  Leo
 //
-//  Created by Zachary Drossman on 9/30/15.
+//  Created by Zachary Drossman on 10/5/15.
 //  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
-#import "LEOPromptViewCell.h"
+#import "ReviewPatientCell.h"
 
-@implementation LEOPromptViewCell
+@interface ReviewPatientCell ()
+
+
+
+@end
+@implementation ReviewPatientCell
 
 - (void)awakeFromNib {
     
     self.selectionStyle = UITableViewCellSelectionStyleNone;
 }
 
-+(UINib *)nib {
++ (UINib *)nib {
     
-    return [UINib nibWithNibName:@"LEOPromptViewCell" bundle:nil];
+    return [UINib nibWithNibName:@"ReviewPatientCell" bundle:nil];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 

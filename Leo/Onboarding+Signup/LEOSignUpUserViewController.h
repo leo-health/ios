@@ -19,4 +19,6 @@
 @property (copy, nonatomic) NSString *enrollmentToken;
 @property (strong, nonatomic) NSArray *insurancePlans;
 
+@property (nonatomic) ManagementMode managementMode;
+
 @end
