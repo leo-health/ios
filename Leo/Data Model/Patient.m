@@ -47,10 +47,10 @@
     
     NSMutableDictionary *userDictionary = [[super dictionaryFromUser:patient] mutableCopy];
     
-    userDictionary[APIParamFamilyID] = patient.familyID; //FIXME: Update with constant.
+    userDictionary[APIParamFamilyID] = patient.familyID ?: [NSNull null]; //FIXME: Update with constant.
     userDictionary[APIParamUserBirthDate] = patient.dob;
     userDictionary[APIParamUserSex] = patient.gender;
-    userDictionary[APIParamUserStatus] = patient.status;
+    userDictionary[APIParamUserStatus] = patient.status ?: [NSNull null];
 
     return userDictionary;
 }
@@ -117,6 +117,19 @@
     BOOL haveEqualBirthdays = (!self.dob && !patient.dob) || [self.dob isEqualToDate:patient.dob];
     
     return haveEqualNames && haveEqualBirthdays;
+}
+
+-(void)setGender:(NSString * __nonnull)gender {
+    
+    _gender = gender;
+    
+    if ([gender isEqualToString:@"Male"]) {
+        _gender = @"M";
+    }
+    
+    if ([gender isEqualToString:@"Female"]) {
+        _gender = @"F";
+    }
 }
 
 #pragma mark - NSObject

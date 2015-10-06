@@ -14,7 +14,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" image="Avatar-Jacob@3x.png" translatesAutoresizingMaskIntoConstraints="NO" id="319-YW-UPg">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="319-YW-UPg">
                         <rect key="frame" x="80" y="8" width="36" height="36"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="36" id="ZKE-Gb-gCF"/>
@@ -63,7 +63,4 @@
             </connections>
         </tableViewCell>
     </objects>
-    <resources>
-        <image name="Avatar-Jacob@3x.png" width="141" height="141"/>
-    </resources>
 </document>

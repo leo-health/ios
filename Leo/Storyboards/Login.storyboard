@@ -297,7 +297,7 @@
                         <viewControllerLayoutGuide type="bottom" id="7My-qY-Hps"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Srx-sQ-KTk" customClass="StickyView">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -336,7 +336,7 @@
                         <viewControllerLayoutGuide type="bottom" id="wrg-ea-3Qh"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="xNx-1e-DYz" customClass="StickyView">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -377,24 +377,34 @@
                         <viewControllerLayoutGuide type="bottom" id="9dz-Rx-7pj"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="fgE-OV-Jrj">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="0Gz-5v-agx">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                                <rect key="frame" x="0.0" y="20" width="600" height="580"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1GF-lC-Lqx">
+                                <rect key="frame" x="0.0" y="20" width="600" height="44"/>
+                                <items>
+                                    <navigationItem title="Title" id="sVh-ud-ack"/>
+                                </items>
+                            </navigationBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="0Gz-5v-agx" firstAttribute="leading" secondItem="fgE-OV-Jrj" secondAttribute="leading" id="4Uh-EF-dwC"/>
+                            <constraint firstAttribute="trailing" secondItem="1GF-lC-Lqx" secondAttribute="trailing" id="CPq-98-UCy"/>
                             <constraint firstItem="0Gz-5v-agx" firstAttribute="top" secondItem="7Yq-0A-4sK" secondAttribute="bottom" id="CzO-N4-Xmp"/>
+                            <constraint firstItem="1GF-lC-Lqx" firstAttribute="top" secondItem="7Yq-0A-4sK" secondAttribute="top" id="KqU-3g-ftp"/>
                             <constraint firstAttribute="trailing" secondItem="0Gz-5v-agx" secondAttribute="trailing" id="aNs-l1-zWA"/>
                             <constraint firstItem="9dz-Rx-7pj" firstAttribute="top" secondItem="0Gz-5v-agx" secondAttribute="bottom" id="r4T-XO-J1q"/>
+                            <constraint firstItem="1GF-lC-Lqx" firstAttribute="leading" secondItem="fgE-OV-Jrj" secondAttribute="leading" id="rTh-26-Tcb"/>
                         </constraints>
                     </view>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                    <nil key="simulatedTopBarMetrics"/>
                     <connections>
+                        <outlet property="navigationBar" destination="1GF-lC-Lqx" id="c4a-Z2-Ijb"/>
                         <outlet property="tableView" destination="0Gz-5v-agx" id="eAu-Wq-37u"/>
                         <segue destination="XQ7-vY-bbt" kind="show" identifier="ReviewUserSegue" id="2cY-pS-BrR"/>
                         <segue destination="zmb-AH-3IW" kind="show" identifier="ReviewPatientSegue" id="GgB-6b-cnM"/>
@@ -431,7 +441,7 @@
                         <viewControllerLayoutGuide type="bottom" id="VIX-zc-Z4T"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="rZ5-2y-WlK">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>

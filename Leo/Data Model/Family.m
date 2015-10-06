@@ -55,6 +55,33 @@
     return [self initWithObjectID:objectID guardians:[guardians copy] patients:[patients copy]];
 }
 
++ (NSDictionary *)dictionaryWithPrimaryUserAndInsuranceOnlyFromFamily:(Family *)family {
+    
+    NSMutableDictionary *familyDictionary = [[NSMutableDictionary alloc] init];
+    NSMutableArray *patientsArray = [[NSMutableArray alloc] init];
+    
+    for (Guardian *guardian in family.guardians) {
+        
+        if (guardian.primary) {
+            NSDictionary *guardianDictionary = [Guardian dictionaryFromUser:guardian];
+            [familyDictionary setObject:guardianDictionary forKey:APIParamUserGuardian];
+            
+            NSDictionary *insurancePlanDictionary = [InsurancePlan dictionaryFromInsurancePlan:guardian.insurancePlan];
+            [familyDictionary setObject:insurancePlanDictionary forKey:APIParamInsurancePlan];
+        }
+    }
+    
+    for (Patient *patient in family.patients) {
+        
+        NSDictionary *patientDictionary = [Patient dictionaryFromUser:patient];
+        [patientsArray addObject:patientDictionary];
+    }
+    
+    [familyDictionary setObject:patientsArray forKey:APIParamUserPatients];
+    
+    return [familyDictionary copy];
+}
+
 - (void)addPatient:(Patient *)patient {
     
     NSMutableArray *mutablePatients = [self.patients mutableCopy];

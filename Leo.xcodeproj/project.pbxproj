@@ -74,6 +74,8 @@
 		31905D0A1BC2E6A000243F01 /* ReviewUserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 31905D081BC2E6A000243F01 /* ReviewUserCell.xib */; };
 		31905D0D1BC2E7D600243F01 /* ReviewUserCell+ConfigureForCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31905D0C1BC2E7D600243F01 /* ReviewUserCell+ConfigureForCell.m */; };
 		31905D101BC2F8D400243F01 /* UIView+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 31905D0F1BC2F8D400243F01 /* UIView+Extensions.m */; };
+		31905D191BC37DE100243F01 /* LEOButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31905D171BC37DE100243F01 /* LEOButtonCell.m */; };
+		31905D1A1BC37DE100243F01 /* LEOButtonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 31905D181BC37DE100243F01 /* LEOButtonCell.xib */; };
 		3192ACD91B0CC7C5007195F2 /* UIImage+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3192ACD81B0CC7C5007195F2 /* UIImage+Extensions.m */; };
 		3196AAF91B8E01C900B11112 /* LEOStubs.m in Sources */ = {isa = PBXBuildFile; fileRef = 3196AAF81B8E01C900B11112 /* LEOStubs.m */; };
 		319F335D1B2201F900C1C526 /* CollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 319F335C1B2201F900C1C526 /* CollectionViewLayout.m */; };
@@ -306,6 +308,9 @@
 		31905D0C1BC2E7D600243F01 /* ReviewUserCell+ConfigureForCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "ReviewUserCell+ConfigureForCell.m"; path = "Onboarding+Signup/ReviewUserCell+ConfigureForCell.m"; sourceTree = "<group>"; };
 		31905D0E1BC2F8D400243F01 /* UIView+Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+Extensions.h"; path = "Helpers/UIView+Extensions.h"; sourceTree = "<group>"; };
 		31905D0F1BC2F8D400243F01 /* UIView+Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+Extensions.m"; path = "Helpers/UIView+Extensions.m"; sourceTree = "<group>"; };
+		31905D161BC37DE100243F01 /* LEOButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOButtonCell.h; sourceTree = "<group>"; };
+		31905D171BC37DE100243F01 /* LEOButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOButtonCell.m; sourceTree = "<group>"; };
+		31905D181BC37DE100243F01 /* LEOButtonCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LEOButtonCell.xib; sourceTree = "<group>"; };
 		3192ACD71B0CC7C5007195F2 /* UIImage+Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Extensions.h"; sourceTree = "<group>"; };
 		3192ACD81B0CC7C5007195F2 /* UIImage+Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Extensions.m"; sourceTree = "<group>"; };
 		3196AAF61B8DFFDD00B11112 /* DebugStubs.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = DebugStubs.xcconfig; path = xcconfig/DebugStubs.xcconfig; sourceTree = "<group>"; };
@@ -434,7 +439,6 @@
 		31F5AA611B791B4A00F96D06 /* AppointmentTypeCell+ConfigureCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AppointmentTypeCell+ConfigureCell.m"; sourceTree = "<group>"; };
 		31F5AA621B791B4A00F96D06 /* AppointmentTypeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AppointmentTypeCell.xib; sourceTree = "<group>"; };
 		31F5AA7F1B7920B700F96D06 /* Appointment.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Appointment.storyboard; sourceTree = "<group>"; };
-		31F5AA841B7BA5F000F96D06 /* UIView_Overrides.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIView_Overrides.h; sourceTree = "<group>"; };
 		31FDDE521B28DD2C0009BBC2 /* LEOTwoButtonPrimaryOnlyCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOTwoButtonPrimaryOnlyCell.h; sourceTree = "<group>"; };
 		31FDDE531B28DD2C0009BBC2 /* LEOTwoButtonPrimaryOnlyCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOTwoButtonPrimaryOnlyCell.m; sourceTree = "<group>"; };
 		31FDDE541B28DD2C0009BBC2 /* LEOTwoButtonPrimaryOnlyCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LEOTwoButtonPrimaryOnlyCell.xib; sourceTree = "<group>"; };
@@ -971,7 +975,6 @@
 			children = (
 				31905D0E1BC2F8D400243F01 /* UIView+Extensions.h */,
 				31905D0F1BC2F8D400243F01 /* UIView+Extensions.m */,
-				31F5AA841B7BA5F000F96D06 /* UIView_Overrides.h */,
 				31197A0A1B39A70C00C773BA /* UIImageEffects.h */,
 				31197A0B1B39A70C00C773BA /* UIImageEffects.m */,
 				31CF990F1B17754B00BFAABE /* LEOTransitioningDelegate.h */,
@@ -1044,6 +1047,9 @@
 		BCA69A3D1B039ABC00C27B2B /* Views and Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				31905D161BC37DE100243F01 /* LEOButtonCell.h */,
+				31905D171BC37DE100243F01 /* LEOButtonCell.m */,
+				31905D181BC37DE100243F01 /* LEOButtonCell.xib */,
 				31B9CF2B1BBC60E80002480C /* Starter */,
 				31B9CF2A1BBC60CC0002480C /* Login */,
 				3153C5E71B949D59000A22B4 /* Onboarding & Signup */,
@@ -1245,6 +1251,7 @@
 				31FDDE691B29E3580009BBC2 /* LEOTwoButtonSecondaryOnlyCell.xib in Resources */,
 				31905D021BC2D76100243F01 /* LEOBasicHeaderCell.xib in Resources */,
 				31FDDE561B28DD2C0009BBC2 /* LEOTwoButtonPrimaryOnlyCell.xib in Resources */,
+				31905D1A1BC37DE100243F01 /* LEOButtonCell.xib in Resources */,
 				31B9CF351BBC7A0F0002480C /* LEOManagePatientsView.xib in Resources */,
 				BCE1EC781B00E353007C8D0B /* LaunchScreen.xib in Resources */,
 				31F5AA6A1B791B4A00F96D06 /* LEOAppointmentBookingView.xib in Resources */,
@@ -1415,6 +1422,7 @@
 				3128D4E61B430F0200582710 /* LEOTwoButtonPrimaryAndSecondaryCell.m in Sources */,
 				31FEF1571B0D09E700AD14D2 /* LEOSecondaryUserView.m in Sources */,
 				3177B9981B17A1B7006AE360 /* LEOCardAppointment.m in Sources */,
+				31905D191BC37DE100243F01 /* LEOButtonCell.m in Sources */,
 				31254B801BB0576500E8E150 /* LEOMessageService.m in Sources */,
 				31CC12E11BB062C40099AB60 /* SessionUser.m in Sources */,
 				31F5AA791B791B4B00F96D06 /* AppointmentTypeCell.m in Sources */,

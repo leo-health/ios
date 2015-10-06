@@ -57,6 +57,11 @@
     [self setupNavigationBar];
 }
 
+-(void)viewDidAppear:(BOOL)animated {
+
+    [self testData];
+}
+
 /**
  *  Should be possible to remove this when we have a cleaner implementation of the LEOScrollableContainerView(Controller)
  */
@@ -180,7 +185,7 @@
 - (void)addOnboardingData {
     
     self.guardian.email = [self emailTextField].text;
-    
+    self.guardian.primary = YES;
 }
 
 - (Guardian *)guardian {
@@ -219,4 +224,10 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+
+- (void)testData {
+    
+    [self emailTextField].text = @"sally.carmichael@gmail.com";
+    [self passwordTextField].text = @"sallycarmichael";
+}
 @end

@@ -11,6 +11,7 @@
 #import "User.h"
 #import "Guardian.h"
 #import "Patient.h"
+#import "Family.h"
 
 #import "LEOAPISessionManager.h"
 #import "LEOS3SessionManager.h"
@@ -18,17 +19,23 @@
 
 @implementation LEOUserService
 
-- (void)createUserWithCompletion:(void (^)(BOOL success, NSError *error))completionBlock {
+- (void)createUserWithFamily:(Family *)family withCompletion:(void (^)(BOOL success, NSError *error))completionBlock {
+
+    NSDictionary *familyDictionary = [Family dictionaryWithPrimaryUserAndInsuranceOnlyFromFamily:family];
+
+    NSLog(@"Began upload of family");
     
-    [[LEOUserService leoSessionManager] standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointUsers params:nil completion:^(NSDictionary *rawResults, NSError *error) {
+    [[LEOUserService leoSessionManager] standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointUsers params:familyDictionary completion:^(NSDictionary *rawResults, NSError *error) {
         
         if (!error) {
             
             LEOCredentialStore *credentialStore = [[LEOCredentialStore alloc] init];
             [credentialStore clearSavedCredentials];
             
-            [SessionUser newUserWithJSONDictionary:rawResults[APIParamData][@"session"]];
+            [[SessionUser currentUser].credentialStore setAuthToken:rawResults[APIParamData][APIParamToken]];
             completionBlock(YES, nil);
+            NSLog(@"Finished successful upload of family");
+
         } else {
             
             completionBlock(NO, error);

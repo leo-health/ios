@@ -182,6 +182,8 @@ NSString *const APIParamInsurerName = @"insurer_name";
 
 
 #pragma mark - Insurance Plan
+NSString *const APIParamInsurancePlan = @"insurance_plan";
+NSString *const APIParamInsurancePlanID = @"insurance_plan_id";
 NSString *const APIParamInsurancePlans = @"insurance_plans";
 NSString *const APIParamPlanName = @"plan_name";
 NSString *const APIParamPlanSupported = @"supported"; //Ironically, this param is not yet supported by the API.

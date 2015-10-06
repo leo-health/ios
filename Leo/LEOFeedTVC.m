@@ -143,6 +143,8 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     
     [MBProgressHUD showHUDAddedTo:self.tableView animated:YES];
 
+    NSLog(@"Initial session user: %@",[SessionUser currentUser].description);
+    
     dispatch_async(queue, ^{
         
         LEOCardService *cardService = [[LEOCardService alloc] init];
@@ -155,6 +157,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
                 
                 [MBProgressHUD hideHUDForView:self.tableView animated:YES];
                 [self.tableView reloadData];
+                NSLog(@"Final session user: %@",[SessionUser currentUser].description);
             });
         }];
     });

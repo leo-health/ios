@@ -50,8 +50,14 @@
     [self setupLastNameField];
     [self setupPhoneNumberField];
     [self setupInsurerPromptView];
+    
 }
 
+-(void)viewDidAppear:(BOOL)animated {
+    
+    [self testData];
+
+}
 
 -(StickyView *)stickyView {
     return (StickyView *)self.view;
@@ -360,6 +366,21 @@
             }
         }
     }
+}
+
+- (void)testData {
+    [self firstNameTextField].text = @"Sally";
+    [self lastNameTextField].text = @"Carmichael";
+    [self insurerTextField].text = @"Aetna PPO";
+    [self phoneNumberTextField].text = @"(555) 555-5555";
+    
+    Guardian *guardian1 = [[Guardian alloc] initWithObjectID:nil title:@"Mrs" firstName:@"Sally" middleInitial:nil lastName:@"Carmichael" suffix:nil email:@"sally.carmichael@gmail.com" avatarURL:nil avatar:nil];
+    
+    InsurancePlan *insurancePlan = [[InsurancePlan alloc] initWithObjectID:nil insurerID:@"1" insurerName:@"Aetna" name:@"PPO"];
+    
+    guardian1.insurancePlan = insurancePlan;
+    
+    self.family.guardians = @[guardian1];
 }
 
 @end

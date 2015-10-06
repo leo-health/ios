@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy, nullable) NSString * objectID;
 @property (nonatomic, copy) NSString * firstName;
 @property (nonatomic, copy) NSString * lastName;
-@property (nonatomic, copy) NSString * middleInitial;
+@property (nonatomic, copy, nullable) NSString * middleInitial;
 @property (nonatomic, copy, nullable) NSString * suffix;
 @property (nonatomic, copy, nullable) NSString * title;
 @property (nonatomic, copy, nullable) NSString *email;

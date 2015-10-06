@@ -289,6 +289,7 @@ extern NSString *const APIParamStartDate; // @"start_date";
 extern NSString *const APIParamEndDate; // @"end_date";
 
 #pragma mark - Insurer
+extern NSString *const APIParamInsurancePlanID; // @"insurance_plan_id";
 extern NSString *const APIParamInsurerID; // @"insurer_id";
 extern NSString *const APIParamInsurers; // @"insurers";
 extern NSString *const APIParamPhone; // @"phone";
@@ -297,6 +298,7 @@ extern NSString *const APIParamInsurerName; // @"insurer_name";
 
 
 #pragma mark - Insurance Plan
+extern NSString *const APIParamInsurancePlan; // @"insurance_plan";
 extern NSString *const APIParamInsurancePlans; // @"insurance_plans";
 extern NSString *const APIParamPlanName; // @"plan_name";
 extern NSString *const APIParamPlanSupported; // @"supported"; //Ironically, this param is not yet supported by the API.

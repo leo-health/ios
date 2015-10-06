@@ -84,5 +84,15 @@
     return [self initWithObjectID:objectID insurerID:insurerID insurerName:insurerName name:name supported:supported];
 }
 
++ (NSDictionary *)dictionaryFromInsurancePlan:(InsurancePlan *)insurancePlan {
+    
+    NSMutableDictionary *insurancePlanDictionary = [[NSMutableDictionary alloc] init];
+    
+    insurancePlanDictionary[APIParamName] = insurancePlan.name;
+    insurancePlanDictionary[APIParamInsurerID] = insurancePlan.insurerID;
+    insurancePlanDictionary[APIParamID] = insurancePlan.objectID;
+
+    return insurancePlanDictionary;
+}
 
 @end

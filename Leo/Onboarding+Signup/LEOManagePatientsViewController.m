@@ -51,6 +51,16 @@ NSString *const kSignUpPatientSegue = @"SignUpPatientSegue";
     [self setupTableView];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    
+    [super viewDidAppear:animated];
+    
+    [self testData];
+    [[self tableView] reloadData];
+    self.managePatientsView.cellCount = [self.family.patients count] + 1;
+
+}
+
 - (void)setupStickyView {
     
     self.stickyView.delegate = self;
@@ -241,25 +251,26 @@ NSString *const kSignUpPatientSegue = @"SignUpPatientSegue";
     self.navigationController.navigationBarHidden = YES;
 }
 
+- (void)testData {
+    
+    Patient *patient = [[Patient alloc] initWithTitle:nil firstName:@"Zachary" middleInitial:@"S" lastName:@"Drossman" suffix:nil email:nil avatar:[UIImage imageNamed:@"Avatar-Emily"] dob:[NSDate date] gender:@"M" status:[@(PatientStatusInactive) stringValue]];
+    
+    Patient *patient2 = [[Patient alloc] initWithTitle:nil firstName:@"Zachary" middleInitial:@"S" lastName:@"Drossman" suffix:nil email:nil avatar:[UIImage imageNamed:@"Avatar-Emily"] dob:[NSDate date] gender:@"M" status:[@(PatientStatusInactive) stringValue]];
+    
+    Patient *patient3 = [[Patient alloc] initWithTitle:nil firstName:@"Zachary" middleInitial:@"S" lastName:@"Drossman" suffix:nil email:nil avatar:[UIImage imageNamed:@"Avatar-Emily"] dob:[NSDate date] gender:@"M" status:[@(PatientStatusInactive) stringValue]];
+    
+    Patient *patient4 = [[Patient alloc] initWithTitle:nil firstName:@"Zachary" middleInitial:@"S" lastName:@"Drossman" suffix:nil email:nil avatar:[UIImage imageNamed:@"Avatar-Emily"] dob:[NSDate date] gender:@"M" status:[@(PatientStatusInactive) stringValue]];
+    
+    Patient *patient5 = [[Patient alloc] initWithTitle:nil firstName:@"Zachary" middleInitial:@"S" lastName:@"Drossman" suffix:nil email:nil avatar:[UIImage imageNamed:@"Avatar-Emily"] dob:[NSDate date] gender:@"M" status:[@(PatientStatusInactive) stringValue]];
+    
+//    Patient *patient6 = [[Patient alloc] initWithTitle:nil firstName:@"Zachary" middleInitial:@"S" lastName:@"Drossman" suffix:nil email:nil avatar:[UIImage imageNamed:@"Avatar-Emily"] dob:[NSDate date] gender:@"M" status:[@(PatientStatusInactive) stringValue]];
+//    
+//    Patient *patient7 = [[Patient alloc] initWithTitle:nil firstName:@"Zachary" middleInitial:@"S" lastName:@"Drossman" suffix:nil email:nil avatar:[UIImage imageNamed:@"Avatar-Emily"] dob:[NSDate date] gender:@"M" status:[@(PatientStatusInactive) stringValue]];
+//    
+//    Patient *patient8 = [[Patient alloc] initWithTitle:nil firstName:@"Zachary" middleInitial:@"S" lastName:@"Drossman" suffix:nil email:nil avatar:[UIImage imageNamed:@"Avatar-Emily"] dob:[NSDate date] gender:@"M" status:[@(PatientStatusInactive) stringValue]];
+    
+    self.family.patients = @[patient, patient2, patient3, patient4, patient5]; //, patient6, patient7, patient8];
+}
 
 
-//-(NSArray *)childData {
-//
-//    if (!_childData) {
-//
-//        _childData = [[NSMutableArray alloc] init];
-//
-//        Patient *patient = [[Patient alloc] initWithTitle:nil firstName:@"Zachary" middleInitial:@"S" lastName:@"Drossman" suffix:nil email:nil avatar:[UIImage imageNamed:@"background-original"] dob:[NSDate date] gender:@"Male" status:[@(PatientStatusInactive) stringValue]];
-//
-//        Patient *patient2 = [[Patient alloc] initWithTitle:nil firstName:@"Zachary" middleInitial:@"S" lastName:@"Drossman" suffix:nil email:nil avatar:[UIImage imageNamed:@"background-original"] dob:[NSDate date] gender:@"Male" status:[@(PatientStatusInactive) stringValue]];
-//
-//        Patient *patient3 = [[Patient alloc] initWithTitle:nil firstName:@"Zachary" middleInitial:@"S" lastName:@"Drossman" suffix:nil email:nil avatar:[UIImage imageNamed:@"background-original"] dob:[NSDate date] gender:@"Male" status:[@(PatientStatusInactive) stringValue]];
-//
-//        Patient *patient4 = [[Patient alloc] initWithTitle:nil firstName:@"Zachary" middleInitial:@"S" lastName:@"Drossman" suffix:nil email:nil avatar:[UIImage imageNamed:@"background-original"] dob:[NSDate date] gender:@"Male" status:[@(PatientStatusInactive) stringValue]];
-//
-//        _childData = @[patient, patient2, patient3, patient4];
-//    }
-//
-//    return _childData;
-//}
 @end

@@ -21,6 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithObjectID:(nullable NSString *)objectID guardians:(NSArray *)guardians patients:(NSArray *)patients;
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse;
 
++ (NSDictionary *)dictionaryWithPrimaryUserAndInsuranceOnlyFromFamily:(Family *)family;
+
 - (void)addPatient:(Patient *)patient;
 - (void)addGuardian:(Guardian *)guardian;
 
