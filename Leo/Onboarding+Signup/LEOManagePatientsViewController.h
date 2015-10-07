@@ -17,6 +17,5 @@
 
 @property (strong, nonatomic) Family *family;
 @property (copy, nonatomic) NSString *enrollmentToken;
-@property (nonatomic) ManagementMode;
 
 @end

@@ -16,7 +16,7 @@
 
 @implementation PrepAppointment
 
-- (instancetype)initWithObjectID:(nullable NSString *)objectID date:(nullable NSDate *)date appointmentType:(AppointmentType *)appointmentType patient:(Patient *)patient provider:(Provider *)provider practice:(Practice *)practice bookedByUser:(User *)bookedByUser note:(NSString *)note statusCode:(AppointmentStatusCode)statusCode {
+- (instancetype)initWithObjectID:(nullable NSString *)objectID date:(nullable NSDate *)date appointmentType:(AppointmentType *)appointmentType patient:(Patient *)patient provider:(Provider *)provider practiceID:(NSString *)practiceID bookedByUser:(User *)bookedByUser note:(NSString *)note statusCode:(AppointmentStatusCode)statusCode {
 
     self = [super init];
     
@@ -25,7 +25,7 @@
         _appointmentType = appointmentType;
         _patient = patient;
         _provider = provider;
-        _practice = practice;
+        _practiceID = practiceID;
         _bookedByUser = bookedByUser;
         _statusCode = statusCode;
         _objectID = objectID;
@@ -61,7 +61,7 @@
     NSDate *date = jsonResponse[APIParamAppointmentStartDateTime];
     Patient *patient = jsonResponse[APIParamUserPatient];
     Provider *provider = jsonResponse[APIParamUserProvider];
-    Practice *practice = jsonResponse[APIParamPractice];
+//    Practice *practice = jsonResponse[APIParamPractice];
     User *bookedByUser = jsonResponse[APIParamAppointmentBookedBy];
     //FIXME: This should really go looking for the appointment type via ID as opposed to trying to pull it from this JSON response most likely (hence why we get a warning here because that isn't passed as part of the API endpoint.)
     
@@ -71,8 +71,8 @@
     NSString *objectID = [jsonResponse[APIParamID] stringValue];
     NSString *note = jsonResponse[APIParamAppointmentNotes];
     
-    //TODO: May need to protect against nil values...
-    return [self initWithObjectID:objectID date:date appointmentType:appointmentType patient:patient provider:provider practice:practice bookedByUser:bookedByUser note:note statusCode:statusCode];
+    //TODO: Come back and replace practiceID with actual practiceID
+    return [self initWithObjectID:objectID date:date appointmentType:appointmentType  patient:patient provider:provider practiceID:@"0" bookedByUser:bookedByUser note:note statusCode:statusCode];
 }
 
 - (NSString *)description {
@@ -83,7 +83,15 @@
 
 -(instancetype)initWithAppointment:(Appointment *)appointment {
     
-    return [self initWithObjectID:appointment.objectID date:appointment.date appointmentType:appointment.appointmentType patient:appointment.patient provider:appointment.provider practice:appointment.practice bookedByUser:appointment.bookedByUser note:appointment.note statusCode:appointment.statusCode];
+    return [self initWithObjectID:appointment.objectID
+                             date:appointment.date
+                  appointmentType:appointment.appointmentType
+                          patient:appointment.patient
+                         provider:appointment.provider
+                       practiceID:appointment.practiceID
+                     bookedByUser:appointment.bookedByUser
+                             note:appointment.note
+                       statusCode:appointment.statusCode];
 };
 
 @end

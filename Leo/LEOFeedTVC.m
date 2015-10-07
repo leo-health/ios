@@ -10,9 +10,7 @@
 
 #import <NSDate+DateTools.h>
 
-#import "LEOCardView.h"
 #import "ArrayDataSource.h"
-#import "LEOCardCell.h"
 #import "LEOCard.h"
 #import "LEOCardConversation.h"
 
@@ -88,7 +86,6 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
                                                  name:@"requestToBookNewAppointment"
                                                object:nil];
 
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fetchData) name:UIApplicationWillEnterForegroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationReceived:) name:@"Card-Updated" object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationReceived:) name:@"Conversation-AddedMessage" object:nil];
@@ -142,8 +139,6 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     dispatch_queue_t queue = dispatch_queue_create("loadingQueue", NULL);
     
     [MBProgressHUD showHUDAddedTo:self.tableView animated:YES];
-
-    NSLog(@"Initial session user: %@",[SessionUser currentUser].description);
     
     dispatch_async(queue, ^{
         
@@ -157,7 +152,6 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
                 
                 [MBProgressHUD hideHUDForView:self.tableView animated:YES];
                 [self.tableView reloadData];
-                NSLog(@"Final session user: %@",[SessionUser currentUser].description);
             });
         }];
     });
@@ -274,7 +268,15 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 
 - (void)beginSchedulingNewAppointment {
 
-    Appointment *appointment = [[Appointment alloc] initWithObjectID:nil date:nil appointmentType:nil patient:nil provider:nil bookedByUser:[SessionUser currentUser] note:nil statusCode:AppointmentStatusCodeNew];
+    Appointment *appointment = [[Appointment alloc] initWithObjectID:nil
+                                                              date:nil
+                                                   appointmentType:nil
+                                                           patient:nil
+                                                          provider:nil
+                                                        practiceID:@"0"
+                                                      bookedByUser:[SessionUser currentUser]
+                                                              note:nil
+                                                        statusCode:AppointmentStatusCodeNew];
     
     LEOCardAppointment *card = [[LEOCardAppointment alloc] initWithObjectID:@"temp" priority:@999 type:CardTypeAppointment associatedCardObject:appointment];
     
@@ -284,18 +286,11 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 
 - (void)removeCard:(LEOCard *)card fromDatabaseWithCompletion:(void (^)(NSDictionary *response, NSError *error))completionBlock {
     
-    NSUInteger cardRow = [self.cards indexOfObject:card];
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:cardRow inSection:0];
-    
-    LEOCardCell *cell = (LEOCardCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-    
-    [MBProgressHUD showHUDAddedTo:cell animated:YES];
+    //TODO: Include the progress hud while waiting for deletion.
     
     [self.appointmentService cancelAppointment:card.associatedCardObject withCompletion:^(NSDictionary * response, NSError * error) {
         if (completionBlock) {
             completionBlock(response, error);
-            [MBProgressHUD hideHUDForView:cell animated:YES];
-
         }
     }];
 }

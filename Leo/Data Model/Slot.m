@@ -58,7 +58,7 @@
 
 + (Slot *)slotFromExistingAppointment:(PrepAppointment *)appointment {
     
-    return [[Slot alloc] initWithStartDateTime:appointment.date duration:appointment.appointmentType.duration providerID:appointment.provider.objectID practiceID:appointment.practice.objectID];
+    return [[Slot alloc] initWithStartDateTime:appointment.date duration:appointment.appointmentType.duration providerID:appointment.provider.objectID practiceID:appointment.practiceID];
 }
 
 + (NSArray *)slotsFromRawJSON:(NSDictionary *)rawJSON {

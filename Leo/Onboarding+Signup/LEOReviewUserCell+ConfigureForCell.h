@@ -1,5 +1,5 @@
 //
-//  ReviewUserCell+ConfigureForCell.h
+//  LEOReviewUserCell+ConfigureForCell.h
 //  Leo
 //
 //  Created by Zachary Drossman on 10/5/15.
@@ -8,9 +8,9 @@
 
 @class Guardian;
 
-#import "ReviewUserCell.h"
+#import "LEOReviewUserCell.h"
 
-@interface ReviewUserCell (ConfigureForCell)
+@interface LEOReviewUserCell (ConfigureForCell)
 
 - (void)configureForGuardian:(Guardian *)guardian;
 

@@ -1,19 +1,19 @@
 //
-//  ReviewPatientCell+ConfigureForCell.m
+//  LEOReviewPatientCell+ConfigureForCell.m
 //  Leo
 //
 //  Created by Zachary Drossman on 10/5/15.
 //  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
-#import "ReviewPatientCell+ConfigureForCell.h"
+#import "LEOReviewPatientCell+ConfigureForCell.h"
 #import "Patient.h"
 #import "NSDate+Extensions.h"
 #import "UIFont+LeoFonts.h"
 #import "UIColor+LeoColors.h"
 #import "LEOMessagesAvatarImageFactory.h"
 
-@implementation ReviewPatientCell (ConfigureForCell)
+@implementation LEOReviewPatientCell (ConfigureForCell)
 
 
 /**

@@ -385,7 +385,10 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1GF-lC-Lqx">
-                                <rect key="frame" x="0.0" y="20" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="20" width="600" height="64"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="64" id="mEa-tJ-Ea4"/>
+                                </constraints>
                                 <items>
                                     <navigationItem title="Title" id="sVh-ud-ack"/>
                                 </items>

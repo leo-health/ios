@@ -228,7 +228,7 @@ NSString *const kSignUpPatientSegue = @"SignUpPatientSegue";
     NSInteger sumSections = 0;
     
     for (NSInteger i = 0; i < indexPath.section; i++) {
-        int rowsInSection = [tableView numberOfRowsInSection:i];
+        NSInteger rowsInSection = [tableView numberOfRowsInSection:i];
         sumSections += rowsInSection;
     }
     

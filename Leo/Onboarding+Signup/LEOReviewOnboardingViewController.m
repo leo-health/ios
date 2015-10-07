@@ -11,8 +11,8 @@
 #import "LEOUserService.h"
 
 #import "LEOBasicHeaderCell+ConfigureForCell.h"
-#import "ReviewPatientCell+ConfigureForCell.h"
-#import "ReviewUserCell+ConfigureForCell.h"
+#import "LEOReviewPatientCell+ConfigureForCell.h"
+#import "LEOReviewUserCell+ConfigureForCell.h"
 #import "LEOButtonCell.h"
 
 #import "SessionUser.h"
@@ -30,6 +30,8 @@
 #import "UIFont+LeoFonts.h"
 #import "UIView+Extensions.h"
 
+#import "LEOStyleHelper.h"
+
 #import "UIImage+Extensions.h"
 
 typedef enum TableViewSection {
@@ -44,10 +46,16 @@ typedef enum TableViewSection {
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UINavigationBar *navigationBar;
+@property (strong, nonatomic) UILabel *navTitleLabel;
+@property (strong, nonatomic) CAShapeLayer *pathLayer;
+@property (nonatomic) BOOL breakerPreviouslyDrawn;
 
 @end
 
 @implementation LEOReviewOnboardingViewController
+
+
+#pragma mark - Constants
 
 NSString *const kHeaderCellReuseIdentifier = @"LEOBasicHeaderCell";
 NSString *const kReviewUserCellReuseIdentifer = @"ReviewUserCell";
@@ -55,46 +63,38 @@ NSString *const kReviewPatientCellReuseIdentifer = @"ReviewPatientCell";
 NSString *const kButtonCellReuseIdentifier = @"ButtonCell";
 NSString *const kReviewUserSegue = @"ReviewUserSegue";
 NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
+CGFloat const heightOfNoReturnConstant = 0.4;
+CGFloat const speedForTitleViewAlphaChangeConstant = 4.0;
+
+
+#pragma mark - View Controller Lifecycle and Helper Methods
 
 - (void)viewDidLoad {
     
     [super viewDidLoad];
     
     [self setupNavigationBar];
-    
+    [self setupBreaker];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     
     [self setupTableView];
-
+    
     [self.tableView reloadData];
 }
 
 - (void)setupNavigationBar {
-
-    self.navigationController.navigationBarHidden = YES;
     
-    [self.navigationBar setBackgroundImage:[UIImage imageWithColor:[UIColor leoWhite]]
-                                forBarPosition:UIBarPositionAny
-                                    barMetrics:UIBarMetricsDefault];
+    [LEOStyleHelper styleNavigationBarForOnboarding];
     
-    [self.navigationBar setShadowImage:[UIImage new]];
+    self.navTitleLabel = [[UILabel alloc] init];
+    self.navTitleLabel.text = @"Check yo' self";
     
-    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [backButton addTarget:self action:@selector(pop) forControlEvents:UIControlEventTouchUpInside];
-    [backButton setImage:[UIImage imageNamed:@"Icon-BackArrow"] forState:UIControlStateNormal];
-    [backButton sizeToFit];
-    [backButton setTintColor:[UIColor leoOrangeRed]];
-    
-    UIBarButtonItem *backBBI = [[UIBarButtonItem alloc] initWithCustomView:backButton];
-    
-    UILabel *navTitleLabel = [[UILabel alloc] init];
-    navTitleLabel.text = @"Check yo' self";
-    [navTitleLabel sizeToFit];
+    [LEOStyleHelper styleLabelForNavigationHeaderForOnboarding:self.navTitleLabel];
     
     UINavigationItem *item = [[UINavigationItem alloc] init];
-    item.titleView = navTitleLabel;
+    item.titleView = self.navTitleLabel;
     [self.navigationBar pushNavigationItem:item animated:NO];
 }
 
@@ -111,9 +111,9 @@ NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
     
     [self.tableView registerNib:[LEOBasicHeaderCell nib]
          forCellReuseIdentifier:kHeaderCellReuseIdentifier];
-    [self.tableView registerNib:[ReviewPatientCell nib]
+    [self.tableView registerNib:[LEOReviewPatientCell nib]
          forCellReuseIdentifier:kReviewPatientCellReuseIdentifer];
-    [self.tableView registerNib:[ReviewUserCell nib]
+    [self.tableView registerNib:[LEOReviewUserCell nib]
          forCellReuseIdentifier:kReviewUserCellReuseIdentifer];
     [self.tableView registerNib:[LEOButtonCell nib] forCellReuseIdentifier:kButtonCellReuseIdentifier];
 }
@@ -123,22 +123,27 @@ NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
+    NSInteger rows = 0;
+    
     switch (section) {
         case TableViewSectionTitle:
-            return 1;
-        
+            rows = 1;
+            break;
+            
         case TableViewSectionGuardians:
-            return 1;
+            rows = 1;
+            break;
             
         case TableViewSectionPatients:
-            return [self.family.patients count];
+            rows = [self.family.patients count];
+            break;
             
         case TableViewSectionButton:
-            return 1;
-            
-        default:
-            return 0;
+            rows = 1;
+            break;
     }
+    
+    return rows;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -150,7 +155,7 @@ NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
     switch (indexPath.section) {
             
         case TableViewSectionTitle: {
-
+            
             LEOBasicHeaderCell *basicHeaderCell = [tableView dequeueReusableCellWithIdentifier:kHeaderCellReuseIdentifier];
             
             [basicHeaderCell configureWithTitle:@"Finally, please confirm your information"];
@@ -160,7 +165,7 @@ NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
             
         case TableViewSectionGuardians: {
             
-            ReviewUserCell *reviewUserCell = [tableView dequeueReusableCellWithIdentifier:kReviewUserCellReuseIdentifer];
+            LEOReviewUserCell *reviewUserCell = [tableView dequeueReusableCellWithIdentifier:kReviewUserCellReuseIdentifer];
             
             Guardian *guardian = self.family.guardians[indexPath.row];
             
@@ -171,7 +176,7 @@ NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
             
         case TableViewSectionPatients: {
             
-            ReviewPatientCell *reviewPatientCell = [tableView dequeueReusableCellWithIdentifier:kReviewPatientCellReuseIdentifer];
+            LEOReviewPatientCell *reviewPatientCell = [tableView dequeueReusableCellWithIdentifier:kReviewPatientCellReuseIdentifer];
             
             Patient *patient = self.family.patients[indexPath.row];
             
@@ -179,20 +184,20 @@ NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
             
             return reviewPatientCell;
         }
-        
+            
         case TableViewSectionButton: {
             
             LEOButtonCell *buttonCell = [tableView dequeueReusableCellWithIdentifier:kButtonCellReuseIdentifier];
             
             [buttonCell.button addTarget:self action:@selector(continueTapped:) forControlEvents:UIControlEventTouchUpInside];
-
+            
             return buttonCell;
         }
-            
-        default:
-            return nil;
     }
+    
+    return nil;
 }
+
 
 #pragma mark - <UITableViewDelegate>
 
@@ -203,64 +208,43 @@ NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
             
             Guardian *guardian = self.family.guardians[indexPath.row];
             [self performSegueWithIdentifier:kReviewUserSegue sender:guardian];
-            
-        }
             break;
-        
+        }
+            
         case TableViewSectionPatients: {
             
             Patient *patient = self.family.patients[indexPath.row];
             [self performSegueWithIdentifier:kReviewPatientSegue sender:patient];
-        }
             break;
+        }
             
         case TableViewSectionTitle:
         case TableViewSectionButton:
-        default:
             break;
     }
+    
 }
 
-//- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-//    
-//    if (section == TableViewSectionPatients) {
-//        
-//        UIView *footerView = [[UIView alloc] init];
-//        
-//        UIButton *continueButton = [UIButton buttonWithType:UIButtonTypeCustom];
-//        
-//        [continueButton setTitleColor:[UIColor leoWhite] forState:UIControlStateNormal];
-//        [continueButton setTitle:@"SUBSCRIBE TO LEO" forState:UIControlStateNormal];
-//        
-//        continueButton.titleLabel.font = [UIFont leoButtonLabelsAndTimeStampsFont];
-//        continueButton.backgroundColor = [UIColor leoOrangeRed];
-//        
-//        [continueButton addTarget:self action:@selector(continueTapped:) forControlEvents:UIControlEventTouchUpInside];
-//        
-//        NSDictionary *bindings = NSDictionaryOfVariableBindings(continueButton);
-//        
-//        
-//        continueButton.translatesAutoresizingMaskIntoConstraints = NO;
-//        
-//        [footerView addSubview:continueButton];
-//        
-//        [footerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(40)-[continueButton(==54)]|" options:0 metrics:nil views:bindings]];
-//        [footerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(30)-[continueButton]-(30)-|" options:0 metrics:nil views:bindings]];
-//        
-//        return footerView;
-//    }
-//    
-//    return nil;
-//}
-//
-//- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-//    
-//    if (section == TableViewSectionPatients) {
-//        return 94.0;
-//    }
-//    
-//    return 0.0;
-//}
+- (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {
+    
+    view.tintColor = [UIColor leoWhite];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    switch (section) {
+        case TableViewSectionTitle:
+            return 20.0;
+            break;
+            
+        case TableViewSectionPatients:
+        case TableViewSectionGuardians:
+        case TableViewSectionButton:
+            return 0.0;
+            break;
+    }
+    
+    return 0.0;
+}
 
 #pragma mark - Navigation
 
@@ -290,7 +274,7 @@ NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
     [userService createUserWithFamily:self.family withCompletion:^(BOOL success, NSError *error) {
         
         if (!error) {
-                        
+            
             if ([self isModal]) {
                 [self dismissViewControllerAnimated:self completion:nil];
             } else {
@@ -303,101 +287,139 @@ NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
     
 }
 
+
+#pragma mark - <UIScrollViewDelegate> & Helper Methods
+
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
     
-//    if (scrollView == self.tableView) {
-    
-//        CGFloat navBarHeight = self.navigationController.navigationBar.frame.size.height;
-//        LEOBasicHeaderCell *headerCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
-//        CGFloat heightOfHeaderCell = headerCell.frame.size.height;
-//        CGFloat heightOfHeaderCellExcludingOverlapWithNavBar = heightOfHeaderCell - navBarHeight;
-//        CGFloat percentHeaderCellHidden = (self.tableView.contentOffset.y - navBarHeight) / heightOfHeaderCellExcludingOverlapWithNavBar;
-//        
-//        if (percentHeaderCellHidden < 1) {
-//            headerCell.headerLabel.alpha = 1 - percentHeaderCellHidden * 3; //FIXME: Magic number
-//        }
-//        
-//        if (scrollView.contentOffset.y >= navBarHeight) {
-//            if (self.collapsedGradientImageView.hidden == YES) {
-//                [self drawBorders:YES];
-//            }
-//            self.collapsedGradientImageView.hidden = NO;
-//            
-//        } else {
-//            
-//            
-//            if (self.collapsedGradientImageView.hidden == NO) {
-//                [self drawBorders:NO];
-//            }
-//            
-//            self.collapsedGradientImageView.hidden = YES;
+    if (scrollView == self.tableView) {
+        
+        LEOBasicHeaderCell *headerCell = (LEOBasicHeaderCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+        CGFloat percentHeaderCellHidden = [self tableViewVerticalContentOffset] / [self heightOfHeaderCellExcludingOverlapWithNavBar];
+        
+        if (percentHeaderCellHidden < 1) {
+            headerCell.headerLabel.alpha = 1 - percentHeaderCellHidden * speedForTitleViewAlphaChangeConstant;
+            self.navTitleLabel.alpha = percentHeaderCellHidden;
         }
-//    }
-//}
+        if ([self tableViewVerticalContentOffset] >= [self heightOfHeaderCellExcludingOverlapWithNavBar]) {
+            
+            if (!self.breakerPreviouslyDrawn) {
+                
+                [self fadeBreaker:YES];
+                self.breakerPreviouslyDrawn = YES;
+            }
+            
+        } else {
+            
+            self.breakerPreviouslyDrawn = NO;
+            [self fadeBreaker:NO];
+        }
+    }
+}
+
+- (void)fadeBreaker:(BOOL)shouldFade {
+    
+    if (shouldFade) {
+        
+        CABasicAnimation *fadeAnimation = [CABasicAnimation animationWithKeyPath:@"breakerFade"];
+        fadeAnimation.duration = 0.3;
+        fadeAnimation.fromValue = (id)[UIColor clearColor].CGColor;
+        fadeAnimation.toValue = (id)[UIColor leoOrangeRed].CGColor;
+        
+        self.pathLayer.strokeColor = [UIColor leoOrangeRed].CGColor;
+        [self.pathLayer addAnimation:fadeAnimation forKey:@"breakerFade"];
+        
+    } else {
+        
+        CABasicAnimation *fadeAnimation = [CABasicAnimation animationWithKeyPath:@"breakerFade"];
+        fadeAnimation.duration = 0.3;
+        fadeAnimation.fromValue = (id)[UIColor leoOrangeRed].CGColor;
+        fadeAnimation.toValue = (id)[UIColor clearColor].CGColor;
+        
+        self.pathLayer.strokeColor = [UIColor clearColor].CGColor;
+        [self.pathLayer addAnimation:fadeAnimation forKey:@"breakerFade"];
+    }
+}
+
+- (void)setupBreaker {
+    
+    [self.navigationBar layoutIfNeeded];
+    
+    CGRect viewRect = self.navigationBar.bounds;
+    
+    CGPoint beginningOfLine = CGPointMake(viewRect.origin.x, viewRect.origin.y + viewRect.size.height);
+    CGPoint endOfLine = CGPointMake(viewRect.origin.x + viewRect.size.width, viewRect.origin.y + viewRect.size.height);
+    
+    UIBezierPath *path = [UIBezierPath bezierPath];
+    [path moveToPoint:beginningOfLine];
+    [path addLineToPoint:endOfLine];
+    
+    self.pathLayer = [CAShapeLayer layer];
+    self.pathLayer.frame = self.view.bounds;
+    self.pathLayer.path = path.CGPath;
+    self.pathLayer.strokeColor = [UIColor clearColor].CGColor;
+    self.pathLayer.lineWidth = 1.0f;
+    self.pathLayer.lineJoin = kCALineJoinBevel;
+    
+    [self.view.layer addSublayer:self.pathLayer];
+}
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
     
     
     if (scrollView == self.tableView) {
         
-    if (!decelerate) {
-        NSLog(@"DidEndDragging!");
-        [self snapTable];
-    }
+        if (!decelerate) {
+            [self scrollView:scrollView snapWithNavigationTitleLabel:self.navTitleLabel];
+        }
     }
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     
     if (scrollView == self.tableView) {
-        NSLog(@"DidEndDecelerating!");
-        [self snapTable];
+        [self scrollView:scrollView snapWithNavigationTitleLabel:self.navTitleLabel];
     }
 }
 
-- (void)snapTable {
+- (void)scrollView:(UIScrollView *)scrollView snapWithNavigationTitleLabel:(UILabel *)label {
     
-    CGFloat navBarHeight = self.navigationController.navigationBar.frame.size.height;
-    CGFloat heightOfHeaderCell = [self.tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]].size.height;
-    CGFloat heightOfHeaderCellExcludingOverlapWithNavBar = heightOfHeaderCell - navBarHeight;
-    CGFloat centerOfHeaderCellExcludingOverlapWithNavBar = heightOfHeaderCellExcludingOverlapWithNavBar / 2 + navBarHeight;
-    
-    NSIndexPath *pathForCenterCell = [self.tableView indexPathForRowAtPoint:CGPointMake(CGRectGetMidX(self.tableView.bounds), centerOfHeaderCellExcludingOverlapWithNavBar)];
-    
-    if (pathForCenterCell.row > 0 && self.tableView.contentOffset.y < heightOfHeaderCell) {
-        
-        self.tableView.contentOffset = CGPointMake(0.0, heightOfHeaderCellExcludingOverlapWithNavBar);
-        
-        [UIView animateWithDuration:0.2 animations:^{
-            [self.tableView layoutIfNeeded];
-        }];
+    if ([self tableViewVerticalContentOffset] > [self heightOfNoReturn] & scrollView.contentOffset.y < [self heightOfHeaderCell]) {
         
         
-    } else if (pathForCenterCell.row == 0) {
+        [UIView animateWithDuration:0.1 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+            
+            [scrollView layoutIfNeeded];
+            label.alpha = 1;
+            scrollView.contentOffset = CGPointMake(0.0, [ self heightOfHeaderCellExcludingOverlapWithNavBar]);
+        } completion:nil];
         
-        self.tableView.contentOffset = CGPointMake(0.0, 0.0);
         
-        [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-            [self.tableView layoutIfNeeded];
+    } else if ([self tableViewVerticalContentOffset] < [self heightOfNoReturn]) {
+        
+        
+        [UIView animateWithDuration:0.1 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+            
+            [scrollView layoutIfNeeded];
+            label.alpha = 0;
+            scrollView.contentOffset = CGPointMake(0.0, 0.0);
         } completion:nil];
     }
 }
+
+
+#pragma mark - Layout
 
 - (CGSize)preferredContentSize
 {
     // Force the table view to calculate its height
     [self.tableView layoutIfNeeded];
     
-    CGFloat totalHeightOfTableViewContentArea = self.tableView.contentSize.height + self.tableView.contentInset.bottom;
-    CGFloat navBarHeight = self.navigationController.navigationBar.frame.size.height;
-    CGFloat heightOfHeaderCellExcludingOverlapWithNavBar = [self.tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]].size.height - navBarHeight;
+    CGFloat heightWeWouldLikeTheTableViewContentAreaToBe = [self heightOfTableViewFrame] + [self heightOfHeaderCellExcludingOverlapWithNavBar];
 
-    CGFloat heightOfTableViewFrame = self.tableView.frame.size.height;
-    CGFloat heightWeWouldLikeTheTableViewContentAreaToBe = heightOfTableViewFrame + heightOfHeaderCellExcludingOverlapWithNavBar;
-    
-    if (totalHeightOfTableViewContentArea > heightOfTableViewFrame && totalHeightOfTableViewContentArea < heightWeWouldLikeTheTableViewContentAreaToBe) {
+    if ([self totalHeightOfTableViewContentArea] > [self heightOfTableViewFrame] && [self totalHeightOfTableViewContentArea] < heightWeWouldLikeTheTableViewContentAreaToBe) {
         
-        CGFloat bottomInsetWeNeedToGetToHeightWeWouldLikeTheTableViewContentAreaToBe = heightWeWouldLikeTheTableViewContentAreaToBe - totalHeightOfTableViewContentArea;
+        CGFloat bottomInsetWeNeedToGetToHeightWeWouldLikeTheTableViewContentAreaToBe = heightWeWouldLikeTheTableViewContentAreaToBe - [self totalHeightOfTableViewContentArea];
         self.tableView.contentInset = UIEdgeInsetsMake(0, 0, bottomInsetWeNeedToGetToHeightWeWouldLikeTheTableViewContentAreaToBe, 0);
     }
     
@@ -406,5 +428,36 @@ NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
     return self.tableView.contentSize;
 }
 
+
+#pragma mark - Shorthand Helpers
+
+- (CGFloat)heightOfTableViewFrame {
+    return self.tableView.frame.size.height;
+}
+
+- (CGFloat)totalHeightOfTableViewContentArea {
+    return self.tableView.contentSize.height + self.tableView.contentInset.bottom;
+}
+
+- (CGFloat)heightOfNoReturn {
+    return [self heightOfHeaderCell] * heightOfNoReturnConstant;
+}
+
+- (CGFloat)heightOfHeaderCellExcludingOverlapWithNavBar {
+    
+    return [self heightOfHeaderCell] - [self navBarHeight];
+}
+
+- (CGFloat)heightOfHeaderCell {
+    return [self.tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]].size.height;
+}
+
+- (CGFloat)navBarHeight {
+    return self.navigationController.navigationBar.frame.size.height;
+}
+
+- (CGFloat)tableViewVerticalContentOffset {
+    return self.tableView.contentOffset.y;
+}
 
 @end

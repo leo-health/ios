@@ -1,17 +1,17 @@
 //
-//  ReviewUserCell+ConfigureForCell.m
+//  LEOReviewUserCell+ConfigureForCell.m
 //  Leo
 //
 //  Created by Zachary Drossman on 10/5/15.
 //  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
-#import "ReviewUserCell+ConfigureForCell.h"
+#import "LEOReviewUserCell+ConfigureForCell.h"
 #import "Guardian.h"
 #import "UIFont+LeoFonts.h"
 #import "UIColor+LeoColors.h"
 
-@implementation ReviewUserCell (ConfigureForCell)
+@implementation LEOReviewUserCell (ConfigureForCell)
 
 
 - (void)configureForGuardian:(Guardian *)guardian {

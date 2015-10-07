@@ -139,19 +139,6 @@ NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
     return YES;
 }
 
-//- (void)setupContinueButton {
-//    // self.continueButton.enabled = NO;
-//    
-//    self.continueButton.layer.borderColor = [UIColor leoOrangeRed].CGColor;
-//    self.continueButton.layer.borderWidth = 1.0;
-//    
-//    // [self.continueButton setTitleColor:[UIColor leoGrayForPlaceholdersAndLines] forState:UIControlStateDisabled];
-//    self.continueButton.titleLabel.font = [UIFont leoButtonLabelsAndTimeStampsFont];
-//    [self.continueButton setTitleColor:[UIColor leoWhite] forState:UIControlStateNormal];
-//    [self.continueButton setBackgroundImage:[UIImage imageWithColor:[UIColor leoOrangeRed]] forState:UIControlStateNormal];
-//    //[self.continueButton setBackgroundImage:[UIImage imageWithColor:[UIColor leoWhite]] forState:UIControlStateDisabled];
-//}
-
 #pragma mark - <StickyViewDelegate>
 
 - (BOOL)scrollable {

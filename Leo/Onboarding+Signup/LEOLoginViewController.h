@@ -10,6 +10,6 @@
 #import "LEOPromptView.h"
 #import "StickyView.h"
 
-@interface LEOLoginViewController : UIViewController <StickyViewDelegate, LEOPromptDelegate, UITextFieldDelegate, UIScrollViewDelegate>
+@interface LEOLoginViewController : UIViewController <StickyViewDelegate, UITextFieldDelegate, UIScrollViewDelegate>
 
 @end

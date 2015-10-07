@@ -14,7 +14,7 @@
 
 @class LEOCard;
 
-@interface LEOExpandedCardViewController : UIViewController <UIScrollViewDelegate, ExpandedCardViewProtocol>
+@interface LEOExpandedCardViewController : UIViewController <UIScrollViewDelegate>
 NS_ASSUME_NONNULL_BEGIN
 
 @property (weak, nonatomic) id<ExpandedCardViewProtocol>delegate;
