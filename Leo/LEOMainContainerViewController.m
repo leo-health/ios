@@ -62,7 +62,8 @@
     UINavigationItem *navCarrier = [[UINavigationItem alloc] init];
     
     navCarrier.leftBarButtonItems = @[leoheartBBI];
-    navCarrier.rightBarButtonItems = [self createBarButtonArrayForNavigationItem];
+    navCarrier.rightBarButtonItems = @[];
+//    navCarrier.rightBarButtonItems = [self createBarButtonArrayForNavigationItem];
     
     self.navBar.items = @[navCarrier];
 }

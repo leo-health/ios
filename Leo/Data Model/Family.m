@@ -32,9 +32,9 @@
 }
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
-    
-    NSString *objectID = jsonResponse[APIParamID];
-    
+
+    NSString *objectID = jsonResponse[APIParamFamily][APIParamID];
+
     NSArray *patientDictionaries = jsonResponse[APIParamFamily][APIParamUserPatients]; //FIXME: Use LEOConstants.
     
     NSMutableArray *patients = [[NSMutableArray alloc] init];

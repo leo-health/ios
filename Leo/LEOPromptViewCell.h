@@ -13,4 +13,6 @@
 
 @property (weak, nonatomic) IBOutlet LEOPromptView *promptView;
 
++(UINib *)nib;
+
 @end

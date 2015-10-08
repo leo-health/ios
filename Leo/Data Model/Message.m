@@ -26,8 +26,8 @@
 
 @implementation Message
 
-NSString *const kText = @"text";
-NSString *const kImage = @"image";
+static NSString *const kText = @"text";
+static NSString *const kImage = @"image";
 
 #pragma mark - <JSQMessageDataProtocol>
 

@@ -9,9 +9,9 @@
 
 #import "Configuration.h"
 
-NSString *const ConfigurationAPIEndpoint = @"ApiURL";
-NSString *const ConfigurationAPIVersion = @"ApiVersion";
-NSString *const ConfigurationS3Endpoint = @"S3URL";
+static NSString *const ConfigurationAPIEndpoint = @"ApiURL";
+static NSString *const ConfigurationAPIVersion = @"ApiVersion";
+static NSString *const ConfigurationS3Endpoint = @"S3URL";
 
 
 @interface Configuration ()

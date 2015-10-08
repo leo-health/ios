@@ -30,6 +30,7 @@
 #import "UIImage+Extensions.h"
 #import "LEOExpandedCardAppointmentViewController.h"
 #import "LEOMessagesViewController.h"
+#import "LEOSettingsViewController.h"
 
 #import "LEOCardAppointment.h"
 #import "LEOTransitioningDelegate.h"
@@ -74,6 +75,11 @@ static NSString *const CellIdentifierLEOCardOneButtonSecondaryOnly = @"LEOOneBut
 static NSString *const CellIdentifierLEOCardOneButtonPrimaryAndSecondary = @"LEOOneButtonPrimaryAndSecondaryCell";
 static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButtonPrimaryOnlyCell";
 
+static NSString *const kNotificationBookAppointment = @"requestToBookNewAppointment";
+static NSString *const kNotificationManageSettings = @"requestToManageSettings";
+static NSString *const kNotificationCardUpdated = @"Card-Updated";
+static NSString *const kNotificationConversationAddedMessage = @"Conversation-AddedMessage";
+
 
 #pragma mark - View Controller Lifecycle and VCL Helper Methods
 - (void)viewDidLoad {
@@ -82,14 +88,16 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     
     // Registering as observer from one object
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(beginSchedulingNewAppointment)
-                                                 name:@"requestToBookNewAppointment"
+                                             selector:@selector(notificationReceived:)
+                                                 name:kNotificationBookAppointment
                                                object:nil];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationReceived:) name:@"Card-Updated" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationReceived:) name:kNotificationCardUpdated object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationReceived:) name:@"Conversation-AddedMessage" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationReceived:) name:kNotificationConversationAddedMessage object:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationReceived:) name:kNotificationManageSettings object:nil];
+
     [self tableViewSetup];
     [self pushNewMessageToConversation:[self conversation].associatedCardObject];
 }
@@ -114,8 +122,16 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 
 - (void)notificationReceived:(NSNotification *)notification {
     
-    if ([notification.name isEqualToString: @"Conversation-AddedMessage"] || [notification.name isEqualToString: @"Card-Updated"]) {
+    if ([notification.name isEqualToString:kNotificationConversationAddedMessage] || [notification.name isEqualToString: @"Card-Updated"]) {
         [self fetchDataForCard:notification.object];
+    }
+    
+    if ([notification.name isEqualToString:kNotificationBookAppointment]) {
+        [self beginSchedulingNewAppointment];
+    }
+    
+    if ([notification.name isEqualToString:kNotificationManageSettings]) {
+        [self loadSettings];
     }
 }
 
@@ -281,6 +297,16 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     LEOCardAppointment *card = [[LEOCardAppointment alloc] initWithObjectID:@"temp" priority:@999 type:CardTypeAppointment associatedCardObject:appointment];
     
     [self loadBookingViewWithCard:card];
+}
+
+- (void)loadSettings {
+    
+    UIStoryboard *settingsStoryboard = [UIStoryboard storyboardWithName:kStoryboardSettings bundle:nil];
+    UINavigationController *settingsNavController = [settingsStoryboard instantiateInitialViewController];
+    LEOSettingsViewController *settingsVC = settingsNavController.viewControllers.firstObject;
+    settingsVC.family = self.family;
+    
+    [self.navigationController pushViewController:settingsNavController animated:YES];
 }
 
 

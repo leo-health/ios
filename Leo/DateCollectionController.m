@@ -26,7 +26,7 @@
 
 @implementation DateCollectionController
 
-NSString *const dateReuseIdentifier = @"DateCell";
+static NSString *const dateReuseIdentifier = @"DateCell";
 
 - (instancetype)initWithCollectionView:(UICollectionView *)collectionView dates:(NSDictionary *)slotsDictionary chosenDate:(NSDate *)chosenDate {
     

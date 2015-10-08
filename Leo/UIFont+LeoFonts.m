@@ -12,13 +12,13 @@
 
 //TODO: Placeholders, and temporary until switching over to Text Styles for use with Dynamic Type
 
-NSString *const AvenirNextUltraLight = @"AvenirNext-UltraLight";
-NSString *const AvenirNextRegular = @"AvenirNext-Regular";
-NSString *const AvenirNextMedium = @"AvenirNext-Medium";
-NSString *const AvenirNextDemiBold = @"AvenirNext-DemiBold";
-NSString *const AvenirNextBold = @"AvenirNext-Bold";
+static NSString *const AvenirNextUltraLight = @"AvenirNext-UltraLight";
+static NSString *const AvenirNextRegular = @"AvenirNext-Regular";
+static NSString *const AvenirNextMedium = @"AvenirNext-Medium";
+static NSString *const AvenirNextDemiBold = @"AvenirNext-DemiBold";
+static NSString *const AvenirNextBold = @"AvenirNext-Bold";
 
-NSString *const AvenirNextCondensedRegular = @"AvenirNextCondensed-Regular";
+static NSString *const AvenirNextCondensedRegular = @"AvenirNextCondensed-Regular";
 
 
 /**

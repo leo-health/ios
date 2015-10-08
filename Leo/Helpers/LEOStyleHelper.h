@@ -13,5 +13,6 @@
 #pragma mark - Onboarding & Login
 + (void)styleNavigationBarForOnboarding;
 + (void)styleLabelForNavigationHeaderForOnboarding:(UILabel *)label;
++ (void)styleLabelForNavigationHeaderForSettings:(UILabel *)label;
 
 @end

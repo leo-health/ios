@@ -29,9 +29,16 @@
 
 + (void)styleLabelForNavigationHeaderForOnboarding:(UILabel *)label {
     
-    label.text = @"Check yo' self";
     label.font = [UIFont leoMenuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
     label.textColor = [UIColor leoOrangeRed];
+    
+    [label sizeToFit];
+}
+
++ (void)styleLabelForNavigationHeaderForSettings:(UILabel *)label {
+    
+    label.font = [UIFont leoMenuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
+    label.textColor = [UIColor leoWhite];
     
     [label sizeToFit];
 }

@@ -18,7 +18,7 @@
 #import "UIViewController+Extensions.h"
 #import "LEOLoginView.h"
 
-NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
+static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
 
 @interface LEOLoginViewController ()
 
@@ -30,6 +30,7 @@ NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
 @end
 
 @implementation LEOLoginViewController
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];

@@ -22,6 +22,9 @@
 
 @end
 
+static NSString *const kNotificationBookAppointment = @"requestToBookNewAppointment";
+static NSString *const kNotificationManageSettings = @"requestToManageSettings";
+
 
 @implementation MenuView
 
@@ -70,7 +73,7 @@
     // Posting notification from another object
     [self.delegate didMakeMenuChoice];
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"requestToBookNewAppointment" object:self userInfo:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationBookAppointment object:self userInfo:nil];
 }
 
 /**
@@ -97,7 +100,10 @@
  *  @param sender UIButton that receives tap gesture
  */
 - (IBAction)settingsLabelTapped:(UIButton *)sender {
-    [self.view removeFromSuperview];
+    
+    [self.delegate didMakeMenuChoice];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationManageSettings object:self userInfo:nil];
 }
 
 

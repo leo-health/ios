@@ -20,9 +20,8 @@
 #import "UIViewController+Extensions.h"
 #import "LEOReviewOnboardingViewController.h"
 
-@interface LEOManagePatientsViewController ()
-
-@end
+static NSString *const kSignUpPatientSegue = @"SignUpPatientSegue";
+static NSString *const kPromptViewCellReuseIdentifier = @"LEOPromptViewCell";
 
 @interface LEOManagePatientsViewController ()
 
@@ -33,8 +32,6 @@
 @end
 
 @implementation LEOManagePatientsViewController
-
-NSString *const kSignUpPatientSegue = @"SignUpPatientSegue";
 
 #pragma mark - View Controller Lifecycle and Helpers
 
@@ -70,7 +67,7 @@ NSString *const kSignUpPatientSegue = @"SignUpPatientSegue";
 
 - (void)setupTableView {
     
-    [self.tableView registerNib:[UINib nibWithNibName:@"LEOPromptViewCell" bundle:nil]  forCellReuseIdentifier:@"LEOPromptViewCell"];
+    [self.tableView registerNib:[LEOPromptViewCell nib]  forCellReuseIdentifier:kPromptViewCellReuseIdentifier];
     
     [self tableView].dataSource = self;
     [self tableView].delegate = self;
@@ -102,7 +99,7 @@ NSString *const kSignUpPatientSegue = @"SignUpPatientSegue";
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    LEOPromptViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LEOPromptViewCell"
+    LEOPromptViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kPromptViewCellReuseIdentifier
                                                               forIndexPath:indexPath];
     
     if (indexPath.section == 0) {
@@ -181,7 +178,7 @@ NSString *const kSignUpPatientSegue = @"SignUpPatientSegue";
 
 -(void)continueTapped:(UIButton * __nonnull)sender {
     
-    [self performSegueWithIdentifier:kContinueSegue sender:sender];
+    [self performSegueWithIdentifier:kSegueContinue sender:sender];
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -210,7 +207,7 @@ NSString *const kSignUpPatientSegue = @"SignUpPatientSegue";
         signUpPatientVC.delegate = self;
     }
     
-    if ([segue.identifier isEqualToString:kContinueSegue]) {
+    if ([segue.identifier isEqualToString:kSegueContinue]) {
         
         LEOReviewOnboardingViewController *reviewOnboardingVC = segue.destinationViewController;
         reviewOnboardingVC.family = self.family;

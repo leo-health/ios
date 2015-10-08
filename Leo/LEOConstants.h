@@ -303,11 +303,17 @@ extern NSString *const APIParamInsurancePlans; // @"insurance_plans";
 extern NSString *const APIParamPlanName; // @"plan_name";
 extern NSString *const APIParamPlanSupported; // @"supported"; //Ironically, this param is not yet supported by the API.
 
-extern NSString *const kContinueSegue; // = @"ContinueSegue";
-extern NSString *const kPlanSegue; // @"PlanSegue";
+extern NSString *const kSegueContinue; // @"ContinueSegue";
+extern NSString *const kSeguePlan; // @"PlanSegue";
 
 #pragma mark - Magic numbers
 extern CGFloat const selectionLineHeight; // 2.0f;
 
+#pragma mark - Storyboards
+extern NSString *const kStoryboardSettings; // @"Settings";
+extern NSString *const kStoryboardLogin; // @"Login";
+extern NSString *const kStoryboardFeed; // @"Main";
+extern NSString *const kStoryboardConversation; // @"Conversation";
+extern NSString *const kStoryboardAppointment; // @"Appointment";
 @end
 
