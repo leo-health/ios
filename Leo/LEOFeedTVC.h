@@ -9,7 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "CardActivityProtocol.h"
 #import "ExpandedCardViewProtocol.h"
+#import "MenuView.h"
 
-@interface LEOFeedTVC : UIViewController <UITableViewDelegate, UITableViewDataSource, CardActivityProtocol, ExpandedCardViewProtocol>
+@interface LEOFeedTVC : UIViewController <UITableViewDelegate, UITableViewDataSource, CardActivityProtocol, ExpandedCardViewProtocol, MenuActivityProtocol>
 
 @end
