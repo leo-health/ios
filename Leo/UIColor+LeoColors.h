@@ -18,7 +18,6 @@
 + (UIColor *) leoPurple;
 + (UIColor *) leoPink;
 + (UIColor *) leoRedBadge;
-+ (UIColor *) leoBlack;
 + (UIColor *) leoWhite;
 + (UIColor *) leoLightBlue;
 

@@ -81,11 +81,11 @@
 }
 
 + (BOOL)isValidFirstName:(NSString *)candidate {
-    return [self isValidAlphaOnly:candidate] && [self isValidNonZeroLength:candidate] ? YES : NO;
+    return [self isValidNonZeroLength:candidate] ? YES : NO;
 }
 
 + (BOOL)isValidLastName:(NSString *)candidate {
-    return [self isValidAlphaOnly:candidate] && [self isValidNonZeroLength:candidate] ? YES : NO;
+    return [self isValidNonZeroLength:candidate] ? YES : NO;
 }
 
 + (BOOL)isValidBirthDate:(NSString *)candidate {
@@ -118,13 +118,9 @@
 
 + (BOOL)isValidShortDate:(NSString *)candidate {
     
-    id date = [NSDate dateFromShortDate:candidate];
+    NSDate *date = [NSDate dateFromShortDate:candidate];
     
-    if ([date isKindOfClass:[NSDate class]] && date != nil) {
-        return YES;
-    }
-    
-    return NO;
+    return ([date isKindOfClass:[NSDate class]] && date != nil) ? YES : NO;
 }
 
 @end

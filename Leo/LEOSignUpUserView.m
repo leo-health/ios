@@ -21,6 +21,8 @@ IB_DESIGNABLE
     
     if (self) {
         [self setupConstraints];
+        [self commonInit];
+
     }
     
     return self;
@@ -32,11 +34,16 @@ IB_DESIGNABLE
     
     if (self) {
         [self setupConstraints];
+        [self commonInit];
     }
     
     return self;
 }
 
+- (void)commonInit {
+    
+    //To be created
+}
 
 #pragma mark - Autolayout
 

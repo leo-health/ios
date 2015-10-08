@@ -21,5 +21,6 @@
 
 - (instancetype)initSupportedPlanWithJSONDictionary:(NSDictionary *)jsonDictionary;
 - (instancetype)initWithObjectID:(NSString *)objectID insurerID:(NSString *)insurerID insurerName:(NSString *)insurerName name:(NSString *)name;
++ (NSDictionary *)dictionaryFromInsurancePlan:(InsurancePlan *)insurancePlan;
 
 @end

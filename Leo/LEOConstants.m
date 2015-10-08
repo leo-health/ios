@@ -18,6 +18,7 @@ NSString *const kUserToken = @"";
 
 NSString *const APIVersion = @"/api/v1";
 NSString *const APIEndpointUsers = @"users";
+NSString *const APIEndpointPatients = @"patients";
 NSString *const APIEndpointSessions = @"sessions";
 NSString *const APIEndpointResetPassword = @"sessions/password";
 NSString *const APIEndpointAppointments = @"appointments";
@@ -31,6 +32,8 @@ NSString *const APIEndpointPractice = @"practice";
 NSString *const APIEndpointSlots = @"appointment_slots";
 NSString *const APIEndpointFamily = @"family";
 NSString *const APIEndpointInsurers = @"insurers";
+NSString *const APIEndpointUserEnrollments = @"enrollments";
+NSString *const APIEndpointPatientEnrollments = @"patient_enrollments";
 
 #pragma mark - Common
 NSString *const APIParamID = @"id";
@@ -69,6 +72,7 @@ NSString *const APIParamFamily = @"family";
 
 #pragma mark - User and user subclass
 
+NSString *const APIParamUserEnrollment = @"enrollment";
 NSString *const APIParamUserTitle = @"title";
 NSString *const APIParamUserFirstName = @"first_name";
 NSString *const APIParamUserMiddleInitial = @"middle_initial";
@@ -85,7 +89,7 @@ NSString *const APIParamUserCredentials = @"credentials";
 NSString *const APIParamUserSpecialties = @"specialties";
 NSString *const APIParamUserPrimary = @"primary";
 NSString *const APIParamUserStatus = @"status";
-
+NSString *const APIParamUserInsurancePlan = @"insurancePlan";
 
 NSString *const APIParamUserBirthDate = @"birth_date";
 NSString *const APIParamUserSex = @"sex";
@@ -178,6 +182,8 @@ NSString *const APIParamInsurerName = @"insurer_name";
 
 
 #pragma mark - Insurance Plan
+NSString *const APIParamInsurancePlan = @"insurance_plan";
+NSString *const APIParamInsurancePlanID = @"insurance_plan_id";
 NSString *const APIParamInsurancePlans = @"insurance_plans";
 NSString *const APIParamPlanName = @"plan_name";
 NSString *const APIParamPlanSupported = @"supported"; //Ironically, this param is not yet supported by the API.
@@ -185,6 +191,9 @@ NSString *const APIParamPlanSupported = @"supported"; //Ironically, this param i
 #pragma mark - Magic numbers
 CGFloat const selectionLineHeight = 2.0f;
 
+#pragma mark - Segues
+NSString *const kContinueSegue = @"ContinueSegue";
+NSString *const kPlanSegue = @"PlanSegue";
 
 
 @end

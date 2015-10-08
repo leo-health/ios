@@ -24,17 +24,21 @@
 #import "LEOValidationsHelper.h"
 #import "LEOSignUpUserView.h"
 
+#import "LEOManagePatientsViewController.h"
+
+#import "Guardian.h"
+#import "LEOUserService.h"
+
 @interface LEOSignUpUserViewController ()
 
 @property (strong, nonatomic) LEOSignUpUserView *signUpUserView;
-@property (weak, nonatomic) IBOutlet StickyView *stickyView;
+@property (strong, nonatomic) StickyView *stickyView;
 
 @end
 
 @implementation LEOSignUpUserViewController
 
-NSString *const kContinueSegue = @"ContinueSegue";
-NSString *const kPlanSegue = @"PlanSegue";
+
 
 #pragma mark - View Controller Lifecycle & Helper Methods
 
@@ -46,6 +50,17 @@ NSString *const kPlanSegue = @"PlanSegue";
     [self setupLastNameField];
     [self setupPhoneNumberField];
     [self setupInsurerPromptView];
+    
+}
+
+-(void)viewDidAppear:(BOOL)animated {
+    
+//    [self testData];
+
+}
+
+-(StickyView *)stickyView {
+    return (StickyView *)self.view;
 }
 
 - (void)setupStickyView {
@@ -76,6 +91,8 @@ NSString *const kPlanSegue = @"PlanSegue";
     [self firstNameTextField].standardPlaceholder = @"first name";
     [self firstNameTextField].validationPlaceholder = @"please enter your first name";
     [[self firstNameTextField] sizeToFit];
+    
+    [self firstNameTextField].text = [self guardian].firstName;
 }
 
 - (void)setupLastNameField {
@@ -84,6 +101,8 @@ NSString *const kPlanSegue = @"PlanSegue";
     [self lastNameTextField].standardPlaceholder = @"last name";
     [self lastNameTextField].validationPlaceholder = @"please enter your last name";
     [[self lastNameTextField] sizeToFit];
+    
+    [self lastNameTextField].text = [self guardian].lastName;
 }
 
 - (void)setupPhoneNumberField {
@@ -91,8 +110,10 @@ NSString *const kPlanSegue = @"PlanSegue";
     [self phoneNumberTextField].delegate = self;
     [self phoneNumberTextField].standardPlaceholder = @"phone number";
     [self phoneNumberTextField].validationPlaceholder = @"invalid phone number";
-    [self phoneNumberTextField].keyboardType = UIKeyboardTypeNamePhonePad;
+    [self phoneNumberTextField].keyboardType = UIKeyboardTypePhonePad;
     [[self phoneNumberTextField] sizeToFit];
+    
+    [self phoneNumberTextField].text = [self guardian].phoneNumber;
 }
 
 - (void)setupInsurerPromptView {
@@ -103,10 +124,22 @@ NSString *const kPlanSegue = @"PlanSegue";
     [self insurerTextField].enabled = NO;
     [[self insurerTextField] sizeToFit];
     
+    if ([self guardian].insurancePlan) {
+        [self insurerTextField].text = [NSString stringWithFormat:@"%@ %@",[self guardian].insurancePlan.insurerName, [self guardian].insurancePlan.name];
+    }
+    
     self.signUpUserView.insurerPromptView.accessoryImageViewVisible = YES;
     self.signUpUserView.insurerPromptView.delegate = self;
 }
 
+- (Family *)family {
+    
+    if (!_family) {
+        _family = [[Family alloc] init];
+    }
+    
+    return _family;
+}
 
 #pragma mark - <StickyViewDelegate>
 
@@ -161,7 +194,32 @@ NSString *const kPlanSegue = @"PlanSegue";
 - (void)continueTapped:(UIButton *)sender {
     
     if ([self validatePage]) {
-        [self performSegueWithIdentifier:kContinueSegue sender:sender];
+        [self addOnboardingData];
+        
+        switch (self.managementMode) {
+            case ManagementModeCreate:
+                [self performSegueWithIdentifier:kContinueSegue sender:sender];
+                break;
+                
+            case ManagementModeEdit:
+                [self pop];
+                break;
+        }
+    }
+}
+
+- (void)addOnboardingData {
+    
+    self.guardian.firstName = [self firstNameTextField].text;
+    self.guardian.lastName = [self lastNameTextField].text;
+    
+    //InsurancePlan onboarding data provided as part of the delegate method upon return from the BasicSelectionViewController. Not in love with this implementation but it will suffice for the time-being.
+
+    self.guardian.phoneNumber = [self phoneNumberTextField].text;
+
+    
+    if (self.managementMode == ManagementModeCreate) {
+    [self.family addGuardian:self.guardian];
     }
 }
 
@@ -197,6 +255,14 @@ NSString *const kPlanSegue = @"PlanSegue";
         selectionVC.requestOperation = [[LEOAPIInsuranceOperation alloc] init];
         selectionVC.delegate = self;
     }
+    
+    if ([segue.identifier isEqualToString:kContinueSegue]) {
+        
+        LEOManagePatientsViewController *manageChildrenVC = segue.destinationViewController;
+        
+        manageChildrenVC.family = self.family;
+        manageChildrenVC.enrollmentToken = self.enrollmentToken;
+    }
 }
 
 - (void)pop {
@@ -220,11 +286,7 @@ NSString *const kPlanSegue = @"PlanSegue";
     [self phoneNumberTextField].valid = validPhoneNumber;
     [self insurerTextField].valid = validInsurer;
     
-    if (validFirstName && validLastName && validPhoneNumber && validInsurer) {
-        return YES;
-    }
-    
-    return NO;
+    return validFirstName && validLastName && validPhoneNumber && validInsurer;
 }
 
 
@@ -235,18 +297,14 @@ NSString *const kPlanSegue = @"PlanSegue";
     
     [mutableText replaceCharactersInRange:range withString:string];
     
-    if (textField == [self firstNameTextField]) {
-        
-        if (![self firstNameTextField].valid) {
-            self.firstNameTextField.valid = [LEOValidationsHelper isValidFirstName:mutableText.string];
-        }
+    if (textField == [self firstNameTextField] && ![self firstNameTextField].valid) {
+
+        self.firstNameTextField.valid = [LEOValidationsHelper isValidFirstName:mutableText.string];
     }
     
-    if (textField == self.lastNameTextField) {
+    if (textField == self.lastNameTextField && ![self lastNameTextField].valid) {
         
-        if (![self lastNameTextField].valid) {
             self.lastNameTextField.valid = [LEOValidationsHelper isValidLastName:mutableText.string];
-        }
     }
     
     if (textField == [self phoneNumberTextField]) {
@@ -269,8 +327,7 @@ NSString *const kPlanSegue = @"PlanSegue";
     NSString *insurancePlanString = [NSString stringWithFormat:@"%@ %@",((InsurancePlan *)item).insurerName,((InsurancePlan *)item).name];
     [self insurerTextField].text = insurancePlanString;
     
-    BOOL validInsurer = [LEOValidationsHelper isValidInsurer:[self insurerTextField].text];
-    [self insurerTextField].valid = validInsurer;
+    self.guardian.insurancePlan = (InsurancePlan *)item;
 }
 
 
@@ -292,7 +349,6 @@ NSString *const kPlanSegue = @"PlanSegue";
     return self.signUpUserView.insurerPromptView.textField;
 }
 
-
 #pragma mark - Debugging
 
 //FIXME: Remove eventually once we determine the issue causing ambiguity in this layout.
@@ -310,6 +366,21 @@ NSString *const kPlanSegue = @"PlanSegue";
             }
         }
     }
+}
+
+- (void)testData {
+    [self firstNameTextField].text = @"Sally";
+    [self lastNameTextField].text = @"Carmichael";
+    [self insurerTextField].text = @"Aetna PPO";
+    [self phoneNumberTextField].text = @"(555) 555-5555";
+    
+    Guardian *guardian1 = [[Guardian alloc] initWithObjectID:nil title:@"Mrs" firstName:@"Sally" middleInitial:nil lastName:@"Carmichael" suffix:nil email:@"sally.carmichael@gmail.com" avatarURL:nil avatar:nil];
+    
+    InsurancePlan *insurancePlan = [[InsurancePlan alloc] initWithObjectID:nil insurerID:@"1" insurerName:@"Aetna" name:@"PPO"];
+    
+    guardian1.insurancePlan = insurancePlan;
+    
+    self.family.guardians = @[guardian1];
 }
 
 @end

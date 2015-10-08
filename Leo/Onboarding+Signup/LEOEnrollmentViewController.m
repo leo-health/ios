@@ -13,6 +13,9 @@
 #import "UIScrollView+LEOScrollToVisible.h"
 #import "UIImage+Extensions.h"
 #import "LEOValidationsHelper.h"
+#import "Guardian.h"
+#import "LEOSignUpUserViewController.h"
+#import "LEOUserService.h"
 
 @interface LEOEnrollmentViewController ()
 
@@ -23,6 +26,8 @@
 @property (weak, nonatomic) IBOutlet LEOValidatedFloatLabeledTextField *passwordTextField;
 @property (weak, nonatomic) IBOutlet UIButton *continueButton;
 @property (weak, nonatomic) IBOutlet UINavigationBar *fakeNavigationBar;
+
+@property (strong, nonatomic) Guardian *guardian;
 
 @end
 
@@ -52,6 +57,11 @@
     [self setupNavigationBar];
 }
 
+-(void)viewDidAppear:(BOOL)animated {
+
+    [self testData];
+}
+
 /**
  *  Should be possible to remove this when we have a cleaner implementation of the LEOScrollableContainerView(Controller)
  */
@@ -59,13 +69,6 @@
     
     self.navigationController.navigationBarHidden = YES;
 
-//    UINavigationBar *navigationBar = self.navigationController.navigationBar;
-//    
-//    [navigationBar setBackgroundImage:[UIImage imageWithColor:[UIColor clearColor]]
-//                       forBarPosition:UIBarPositionAny
-//                           barMetrics:UIBarMetricsDefault];
-//    [navigationBar setShadowImage:[UIImage new]];
-    
     [self.fakeNavigationBar setBackgroundImage:[UIImage imageWithColor:[UIColor leoWhite]]
                                 forBarPosition:UIBarPositionAny
                                     barMetrics:UIBarMetricsDefault];
@@ -107,16 +110,13 @@
 }
 
 - (void)setupContinueButton {
-    // self.continueButton.enabled = NO;
     
     self.continueButton.layer.borderColor = [UIColor leoOrangeRed].CGColor;
     self.continueButton.layer.borderWidth = 1.0;
     
-    // [self.continueButton setTitleColor:[UIColor leoGrayForPlaceholdersAndLines] forState:UIControlStateDisabled];
     self.continueButton.titleLabel.font = [UIFont leoButtonLabelsAndTimeStampsFont];
     [self.continueButton setTitleColor:[UIColor leoWhite] forState:UIControlStateNormal];
     [self.continueButton setBackgroundImage:[UIImage imageWithColor:[UIColor leoOrangeRed]] forState:UIControlStateNormal];
-    //[self.continueButton setBackgroundImage:[UIImage imageWithColor:[UIColor leoWhite]] forState:UIControlStateDisabled];
 }
 
 
@@ -128,18 +128,14 @@
     
     [mutableText replaceCharactersInRange:range withString:string];
     
-    if (textField == self.emailTextField) {
+    if (textField == self.emailTextField && !self.emailTextField.valid) {
         
-        if (!self.emailTextField.valid) {
-            self.emailTextField.valid = [LEOValidationsHelper isValidEmail:mutableText.string];
-        }
+        self.emailTextField.valid = [LEOValidationsHelper isValidEmail:mutableText.string];
     }
     
-    if (textField == self.passwordTextField) {
+    if (textField == self.passwordTextField && !self.passwordTextField.valid) {
         
-        if (!self.passwordTextField.valid) {
-            self.passwordTextField.valid = [LEOValidationsHelper isValidPassword:mutableText.string];
-        }
+        self.passwordTextField.valid = [LEOValidationsHelper isValidPassword:mutableText.string];
     }
     
     return YES;
@@ -173,8 +169,32 @@
 - (IBAction)continueTapped:(UIButton *)sender {
     
     if ([self validatePage]) {
-        [self performSegueWithIdentifier:@"ContinueSegue" sender:sender];
+        
+        [self addOnboardingData];
+
+        LEOUserService *userService = [[LEOUserService alloc] init];
+        [userService enrollUser:self.guardian password:[self passwordTextField].text withCompletion:^(BOOL success, NSError *error) {
+            
+            if (!error) {
+                [self performSegueWithIdentifier:kContinueSegue sender:sender];
+            }
+        }];
     }
+}
+
+- (void)addOnboardingData {
+    
+    self.guardian.email = [self emailTextField].text;
+    self.guardian.primary = YES;
+}
+
+- (Guardian *)guardian {
+    
+    if (!_guardian) {
+        _guardian = [[Guardian alloc] init];
+    }
+    
+    return _guardian;
 }
 
 - (BOOL)validatePage {
@@ -185,22 +205,29 @@
     self.emailTextField.valid = validEmail;
     self.passwordTextField.valid = validPassword;
     
-    if (validEmail && validPassword) {
-        return YES;
-    }
-    
-    return NO;
+    return validEmail && validPassword;
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
     if ([segue.identifier isEqualToString:@"ContinueSegue"]) {
         self.fakeNavigationBar.items = nil;
+        
+        LEOSignUpUserViewController *signUpUserVC = segue.destinationViewController;
+        signUpUserVC.guardian = self.guardian;
+        signUpUserVC.managementMode = ManagementModeCreate;
     }
 }
+
 - (void)pop {
     
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+
+- (void)testData {
+    
+    [self emailTextField].text = @"sally.carmichael@gmail.com";
+    [self passwordTextField].text = @"sallycarmichael";
+}
 @end

@@ -26,7 +26,7 @@
 
 NSString *const timeReuseIdentifier = @"TimeCell";
 
-- (instancetype)initWithCollectionView:(UICollectionView *)collectionView slots:(NSOrderedSet *)slots chosenSlot:(nullable Slot *)chosenSlot {
+- (instancetype)initWithCollectionView:(UICollectionView *)collectionView slots:(NSArray *)slots chosenSlot:(nullable Slot *)chosenSlot {
     
     self = [super init];
     

@@ -113,7 +113,11 @@ IB_DESIGNABLE
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     
     //TODO: While this works just fine, the warning should be silenced, or an alternative method used.
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wundeclared-selector"
     [backButton addTarget:self.associatedViewController action:@selector(pop) forControlEvents:UIControlEventTouchUpInside];
+#pragma clang diagnostic pop
+    
     [backButton setImage:[UIImage imageNamed:@"Icon-BackArrow"] forState:UIControlStateNormal];
     [backButton sizeToFit];
 //    [backButton setTintColor:[UIColor leoOrangeRed]];

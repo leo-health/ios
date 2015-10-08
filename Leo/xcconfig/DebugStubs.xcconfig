@@ -8,7 +8,7 @@
 
 
 #include "Shared.xcconfig"
-#include "Pods/Target Support Files/Pods-Leo/Pods-Leo.debug.xcconfig"
+#include "Pods/Target Support Files/Pods-Leo/Pods-Leo.debug stubs.xcconfig"
 
 
 //Shared across all debug, so duplicated for the time being. May want to create a SharedDebug configuration file at some point

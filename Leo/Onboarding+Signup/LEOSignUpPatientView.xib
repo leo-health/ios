@@ -4,7 +4,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LEOSignUpChildView">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LEOSignUpPatientView">
             <connections>
                 <outlet property="avatarButton" destination="xHX-B3-gG2" id="eNM-Y9-QCl"/>
                 <outlet property="avatarValidationLabel" destination="uZR-9M-9bv" id="jqg-zW-unN"/>

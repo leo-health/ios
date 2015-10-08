@@ -21,18 +21,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong, nullable) NSDate *date;
 @property (nonatomic, copy, nullable) NSString *objectID;
-@property (nonatomic, strong) AppointmentType *appointmentType;
+@property (nonatomic, strong, nullable) AppointmentType *appointmentType;
 @property (nonatomic) AppointmentStatusCode statusCode;
 @property (nonatomic) AppointmentStatusCode priorStatusCode;
 @property (nonatomic, strong) User *bookedByUser;
-@property (nonatomic, strong) Patient *patient;
-@property (nonatomic, strong) Provider *provider;
-@property (nonatomic, strong) NSString *note;
-@property (nonatomic, strong) Practice *practice;
+@property (nonatomic, strong, nullable) Patient *patient;
+@property (nonatomic, strong, nullable) Provider *provider;
+@property (nonatomic, strong, nullable) NSString *note;
+@property (copy, nonatomic, nullable) NSString *practiceID;
 
--(instancetype)initWithObjectID:(nullable NSString *)objectID date:(NSDate *)date appointmentType:(AppointmentType *)appointmentType patient:(Patient *)patient provider:(Provider *)provider practice:(Practice *)practice bookedByUser:(User *)bookedByUser note:(nullable NSString *)note statusCode:(AppointmentStatusCode)statusCode;
-
--(instancetype)initWithObjectID:(nullable NSString *)objectID date:(NSDate *)date appointmentType:(AppointmentType *)appointmentType patient:(Patient *)patient provider:(Provider *)provider bookedByUser:(User *)bookedByUser note:(nullable NSString *)note statusCode:(AppointmentStatusCode)statusCode;
+-(instancetype)initWithObjectID:(nullable NSString *)objectID date:(nullable NSDate *)date appointmentType:(nullable AppointmentType *)appointmentType patient:(nullable Patient *)patient provider:(nullable Provider *)provider practiceID:(nullable NSString *)practiceID bookedByUser:(User *)bookedByUser note:(nullable NSString *)note statusCode:(AppointmentStatusCode)statusCode;
 
 - (instancetype)initWithJSONDictionary:(nonnull NSDictionary *)jsonResponse;
 

@@ -1,12 +1,12 @@
 //
-//  LEOSignUpChildViewController.m
+//  LEOSignUpPatientViewController.m
 //  Leo
 //
 //  Created by Zachary Drossman on 9/29/15.
 //  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
-#import "LEOSignUpChildViewController.h"
+#import "LEOSignUpPatientViewController.h"
 
 #import "LEOValidatedFloatLabeledTextField.h"
 #import "UIFont+LeoFonts.h"
@@ -16,21 +16,24 @@
 #import "LEOApiReachability.h"
 
 #import "LEOValidationsHelper.h"
-#import "LEOSignUpChildView.h"
+#import "LEOSignUpPatientView.h"
 #import <ActionSheetPicker-3.0/ActionSheetPicker.h>
 #import <NSDate+DateTools.h>
 #import "NSDate+Extensions.h"
 #import "LEOValidationsHelper.h"
 #import "LEOMessagesAvatarImageFactory.h"
 
-@interface LEOSignUpChildViewController ()
+#import "Family.h"
+#import "Patient.h"
 
-@property (strong, nonatomic) LEOSignUpChildView *signUpChildView;
-@property (weak, nonatomic) IBOutlet StickyView *stickyView;
+@interface LEOSignUpPatientViewController ()
 
+@property (strong, nonatomic) LEOSignUpPatientView *signUpPatientView;
+@property (nonatomic) BOOL isNewFamily;
 @end
 
-@implementation LEOSignUpChildViewController
+@implementation LEOSignUpPatientViewController
+
 
 #pragma mark - View Controller Lifecycle & Helpers
 
@@ -54,12 +57,18 @@
     [self.stickyView reloadViews];
 }
 
+-(StickyView *)stickyView {
+    return (StickyView *)self.view;
+}
+
 - (void)setupFirstNameField {
     
     [self firstNameTextField].delegate = self;
     [self firstNameTextField].standardPlaceholder = @"first name";
     [self firstNameTextField].validationPlaceholder = @"please enter a valid first name";
     [[self firstNameTextField] sizeToFit];
+
+    [self firstNameTextField].text = self.patient.firstName;
 }
 
 - (void)setupLastNameField {
@@ -68,6 +77,8 @@
     [self lastNameTextField].standardPlaceholder = @"last name";
     [self lastNameTextField].validationPlaceholder = @"please enter a valid last name";
     [[self lastNameTextField] sizeToFit];
+
+    [self lastNameTextField].text = self.patient.lastName;
 }
 
 - (void)setupBirthDateField {
@@ -76,10 +87,12 @@
     [self birthDateTextField].standardPlaceholder = @"birth date";
     [self birthDateTextField].validationPlaceholder = @"please add your child's birth date";
     [[self birthDateTextField] sizeToFit];
-    
+
     [self birthDateTextField].enabled = NO;
-    self.signUpChildView.birthDatePromptView.accessoryImageViewVisible = YES;
-    self.signUpChildView.birthDatePromptView.delegate = self;
+    self.signUpPatientView.birthDatePromptView.accessoryImageViewVisible = YES;
+    self.signUpPatientView.birthDatePromptView.delegate = self;
+
+    [self birthDateTextField].text = [NSDate stringifiedShortDate:self.patient.dob];
 }
 
 - (void)setupGenderField {
@@ -88,21 +101,28 @@
     [self genderTextField].standardPlaceholder = @"gender";
     [self genderTextField].validationPlaceholder = @"please provide us with your child's gender";
     [[self genderTextField] sizeToFit];
-    
+
     [self genderTextField].enabled = NO;
-    self.signUpChildView.genderPromptView.accessoryImageViewVisible = YES;
-    self.signUpChildView.genderPromptView.accessoryImage = [UIImage imageNamed:@"Icon-Forms"];
-    self.signUpChildView.genderPromptView.delegate = self;
+    self.signUpPatientView.genderPromptView.accessoryImageViewVisible = YES;
+    self.signUpPatientView.genderPromptView.accessoryImage = [UIImage imageNamed:@"Icon-Forms"];
+    self.signUpPatientView.genderPromptView.delegate = self;
+
+    [self genderTextField].text = self.patient.gender;
 }
 
 - (void)setupAvatarValidationLabel {
-    self.signUpChildView.avatarValidationLabel.font = [UIFont leoMenuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
-    self.signUpChildView.avatarValidationLabel.textColor = [UIColor leoOrangeRed];
-    self.signUpChildView.avatarValidationLabel.text = @"";
+    self.signUpPatientView.avatarValidationLabel.font = [UIFont leoMenuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
+    self.signUpPatientView.avatarValidationLabel.textColor = [UIColor leoOrangeRed];
+    self.signUpPatientView.avatarValidationLabel.text = @"";
 }
 - (void)setupAvatarButton {
-    
+
     [[self avatarButton] addTarget:self action:@selector(presentPhotoPicker:) forControlEvents:UIControlEventTouchUpInside];
+
+    if (self.patient.avatar) {
+
+        [self updateButtonWithImage:self.patient.avatar];
+    }
 }
 
 
@@ -117,7 +137,8 @@
     [self.navigationController pushViewController:imageCropVC animated:NO];
 
     [self dismissViewControllerAnimated:NO completion:^{
-        self.signUpChildView.avatarValidationLabel.text = @"";
+
+        self.signUpPatientView.avatarValidationLabel.text = @"";
     }];
 }
 
@@ -131,11 +152,16 @@
 
 - (void)imageCropViewController:(RSKImageCropViewController *)controller didCropImage:(UIImage *)croppedImage usingCropRect:(CGRect)cropRect
 {
-    UIImage *avatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:croppedImage withDiameter:67 borderColor:[UIColor leoOrangeRed] borderWidth:1.0];
-    [[self avatarButton] setImage:avatarImage forState:UIControlStateNormal];
+    [self updateButtonWithImage:croppedImage];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (void)updateButtonWithImage:(UIImage *)avatarImage {
+    
+    UIImage *circularAvatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:avatarImage withDiameter:67 borderColor:[UIColor leoOrangeRed] borderWidth:1.0];
+    [[self avatarButton] setImage:circularAvatarImage forState:UIControlStateNormal];
+    self.patient.avatar = avatarImage;
+}
 
 #pragma mark - <StickyViewDelegate>
 
@@ -157,7 +183,7 @@
 }
 
 - (UIView *)stickyViewBody{
-    return self.signUpChildView;
+    return self.signUpPatientView;
 }
 
 - (UIImage *)expandedGradientImage {
@@ -173,14 +199,15 @@
     return self;
 }
 
-- (LEOSignUpChildView *)signUpChildView {
+- (LEOSignUpPatientView *)signUpPatientView {
     
-    if (!_signUpChildView) {
-        _signUpChildView = [[LEOSignUpChildView alloc] init];
-        _signUpChildView.tintColor = [UIColor leoOrangeRed];
+    if (!_signUpPatientView) {
+        
+        _signUpPatientView = [[LEOSignUpPatientView alloc] init];
+        _signUpPatientView.tintColor = [UIColor leoOrangeRed];
     }
     
-    return _signUpChildView;
+    return _signUpPatientView;
 }
 
 
@@ -190,11 +217,13 @@
     
     [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
     
-    if (sender == self.signUpChildView.birthDatePromptView) {
+    if (sender == self.signUpPatientView.birthDatePromptView) {
+        
         [self selectADate:sender];
     }
     
-    if (sender == self.signUpChildView.genderPromptView) {
+    if (sender == self.signUpPatientView.genderPromptView) {
+        
         [self selectAGender:sender];
     }
 }
@@ -223,6 +252,7 @@
     NSInteger selectedIndex = 0;
     
     if ([[self genderTextField].text isEqualToString:@"Male"]) {
+        
         selectedIndex = 1;
     }
     
@@ -235,26 +265,47 @@
 }
 
 - (void)dateWasSelected:(NSDate *)selectedDate element:(id)element {
+    
     [self birthDateTextField].text = [NSDate stringifiedShortDate:selectedDate];
 }
 
 - (void)genderWasSelected:(NSNumber *)selectedGender element:(id)element {
 
-    if ([selectedGender isEqualToNumber:@0]) {
-        [self genderTextField].text = @"Female";
-    } else {
-        [self genderTextField].text = @"Male";
-    };
+   [self genderTextField].text = ([selectedGender isEqualToNumber:@0]) ? @"Female" : @"Male";
 }
-
 
 #pragma mark - Navigation
 
 - (void)continueTapped:(UIButton *)sender {
     
     if ([self validatePage]) {
-        [self performSegueWithIdentifier:@"ContinueSegue" sender:sender];
+        
+        [self addOnboardingData];
+        [self.navigationController popViewControllerAnimated:YES];
     }
+}
+
+- (void)addOnboardingData {
+
+    self.patient.firstName = [self firstNameTextField].text;
+    self.patient.lastName = [self lastNameTextField].text;
+    self.patient.gender = [self genderTextField].text;
+    self.patient.dob = [NSDate dateFromShortDate:[self birthDateTextField].text];
+    
+    if (self.managementMode == ManagementModeCreate) {
+        
+        [self.family addPatient:self.patient];
+    }
+}
+
+-(Patient *)patient {
+    
+    if (!_patient) {
+        
+        _patient = [[Patient alloc] init];
+    }
+    
+    return _patient;
 }
 
 
@@ -281,7 +332,7 @@
     BOOL validLastName = [LEOValidationsHelper isValidLastName:[self lastNameTextField].text];
     BOOL validBirthDate = [LEOValidationsHelper isValidBirthDate:[self birthDateTextField].text];
     BOOL validGender = [LEOValidationsHelper isValidGender:[self genderTextField].text];
-    BOOL validAvatar = self.signUpChildView.avatarButton.imageView.image ? YES : NO;
+    BOOL validAvatar = self.signUpPatientView.avatarButton.imageView.image ? YES : NO;
     
     [self firstNameTextField].valid = validFirstName;
     [self lastNameTextField].valid = validLastName;
@@ -289,14 +340,11 @@
     [self genderTextField].valid = validGender;
     
     if (!validAvatar) {
-        self.signUpChildView.avatarValidationLabel.text = @"please tap the camera to add a photo of your child";
+        
+        self.signUpPatientView.avatarValidationLabel.text = @"please tap the camera to add a photo of your child";
     }
     
-    if (validFirstName && validLastName && validBirthDate && validGender && validAvatar) {
-        return YES;
-    }
-    
-    return NO;
+    return validAvatar && validFirstName && validLastName && validBirthDate && validGender;
 }
 
 #pragma mark - <UITextFieldDelegate>
@@ -306,18 +354,14 @@
     
     [mutableText replaceCharactersInRange:range withString:string];
     
-    if (textField == [self firstNameTextField]) {
+    if (textField == [self firstNameTextField] && ![self firstNameTextField].valid) {
         
-        if (![self firstNameTextField].valid) {
-            self.firstNameTextField.valid = [LEOValidationsHelper isValidFirstName:mutableText.string];
-        }
+        self.firstNameTextField.valid = [LEOValidationsHelper isValidFirstName:mutableText.string];
     }
     
-    if (textField == self.lastNameTextField) {
-        
-        if (![self lastNameTextField].valid) {
-            self.lastNameTextField.valid = [LEOValidationsHelper isValidLastName:mutableText.string];
-        }
+    if (textField == self.lastNameTextField && ![self lastNameTextField].valid) {
+     
+        self.lastNameTextField.valid = [LEOValidationsHelper isValidLastName:mutableText.string];
     }
         
     return YES;
@@ -327,23 +371,23 @@
 #pragma mark - Shorthand Helpers
 
 - (LEOValidatedFloatLabeledTextField *)firstNameTextField {
-    return self.signUpChildView.firstNamePromptView.textField;
+    return self.signUpPatientView.firstNamePromptView.textField;
 }
 
 - (LEOValidatedFloatLabeledTextField *)lastNameTextField {
-    return self.signUpChildView.lastNamePromptView.textField;
+    return self.signUpPatientView.lastNamePromptView.textField;
 }
 
 - (LEOValidatedFloatLabeledTextField *)birthDateTextField {
-    return self.signUpChildView.birthDatePromptView.textField;
+    return self.signUpPatientView.birthDatePromptView.textField;
 }
 
 - (LEOValidatedFloatLabeledTextField *)genderTextField {
-    return self.signUpChildView.genderPromptView.textField;
+    return self.signUpPatientView.genderPromptView.textField;
 }
 
 - (UIButton *)avatarButton {
-    return self.signUpChildView.avatarButton;
+    return self.signUpPatientView.avatarButton;
 }
 
 

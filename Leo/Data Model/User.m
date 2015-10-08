@@ -74,13 +74,13 @@
     NSMutableDictionary *userDictionary = [[NSMutableDictionary alloc] init];
     
     //TODO: Remove the ternary operators for variables that MUST be there!
-    userDictionary[APIParamUserTitle] = user.title ? user.title : [NSNull null];
-    userDictionary[APIParamUserFirstName] = user.firstName;
-    userDictionary[APIParamUserMiddleInitial] = user.middleInitial ? user.middleInitial : [NSNull null];
-    userDictionary[APIParamUserLastName] = user.lastName;
-    userDictionary[APIParamUserSuffix] = user.suffix ? user.suffix : [NSNull null];
-    userDictionary[APIParamID] = user.objectID;
-    userDictionary[APIParamUserEmail] = user.email ? user.email : [NSNull null];
+    userDictionary[APIParamUserTitle] = user.title ?: [NSNull null];
+    userDictionary[APIParamUserFirstName] = user.firstName ?: [NSNull null];
+    userDictionary[APIParamUserMiddleInitial] = user.middleInitial ?: [NSNull null];
+    userDictionary[APIParamUserLastName] = user.lastName ?: [NSNull null];
+    userDictionary[APIParamUserSuffix] = user.suffix ?: [NSNull null];
+    userDictionary[APIParamID] = user.objectID ?: [NSNull null];
+    userDictionary[APIParamUserEmail] = user.email ?: [NSNull null];
     
     return userDictionary;
 }
@@ -89,7 +89,7 @@
     
     NSMutableDictionary *userDictionary = [[User dictionaryFromUser:user] mutableCopy];
     
-    userDictionary[APIParamUserAvatarURL] = user.avatarURL ? user.avatarURL : [NSNull null];
+    userDictionary[APIParamUserAvatarURL] = user.avatarURL ?: [NSNull null];
     
     return userDictionary;
 }

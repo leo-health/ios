@@ -12,9 +12,12 @@
 
 @implementation LEOStubs
 
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-variable"
 + (void)setupConversationStubWithID:(NSString *)conversationID {
     
-    __weak id<OHHTTPStubsDescriptor> messagesStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+    __weak id<OHHTTPStubsDescriptor> messagesuStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         NSLog(@"%@/%@/%@",APIEndpointConversations, conversationID, APIEndpointMessages);
         BOOL test = [request.URL.host isEqualToString:[Configuration APIEndpoint]] && [request.URL.path isEqualToString:[NSString stringWithFormat:@"/%@/%@/%@/%@",[Configuration APIVersion], APIEndpointConversations, conversationID, APIEndpointMessages]] && [request.HTTPMethod isEqualToString:@"GET"];
         return test;
@@ -97,5 +100,6 @@
     //    }];
     //
 }
+#pragma clang diagnostic pop
 
 @end

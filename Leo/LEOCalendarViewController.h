@@ -14,7 +14,7 @@
 @class LEOAPIOperation;
 @class PrepAppointment;
 
-@interface LEOCalendarViewController : UIViewController <DateCollectionProtocol, SingleSelectionProtocol, TimeCollectionProtocol>
+@interface LEOCalendarViewController : UIViewController <DateCollectionProtocol, TimeCollectionProtocol>
 NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) PrepAppointment *prepAppointment;

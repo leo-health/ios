@@ -11,14 +11,10 @@
 
 @interface Configuration : NSObject
 
-#pragma mark -
-+ (NSString *)configuration;
-
-#pragma mark -
 + (NSString *)APIEndpoint;
 + (NSString *)APIVersion;
 + (NSString *)APIEndpointWithHTTPSProtocol;
 + (NSString *)S3Endpoint;
-+ (BOOL)isLoggingEnabled;
+//+ (BOOL)isLoggingEnabled;
 
 @end

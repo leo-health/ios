@@ -11,7 +11,6 @@
 @interface LEOCalendarDataSource : NSObject
 
 + (NSDictionary *)dummyData;
-+ (NSDictionary *)slotsInDataSourceFormat;
 
 + (NSDictionary *)formatSlots:(NSArray *)slots forDaysFromToday:(NSUInteger)daysFromToday;
 

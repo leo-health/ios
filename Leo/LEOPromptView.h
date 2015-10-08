@@ -22,5 +22,6 @@
 @property (strong, nonatomic) LEOValidatedFloatLabeledTextField *textField;
 @property (nonatomic) BOOL accessoryImageViewVisible;
 @property (strong, nonatomic) UIImage *accessoryImage;
+@property (nonatomic) BOOL tapGestureEnabled;
 
 @end

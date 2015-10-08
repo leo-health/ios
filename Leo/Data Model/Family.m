@@ -12,7 +12,14 @@
 
 @implementation Family
 
-- (instancetype)initWithObjectID:(NSString *)objectID guardians:(NSArray *)guardians patients:(NSArray *)patients {
+-(instancetype)init {
+    
+    NSArray *guardians = [[NSArray alloc] init];
+    NSArray *patients = [[NSArray alloc] init];
+    return [self initWithObjectID:nil guardians:guardians patients:patients];
+}
+
+- (instancetype)initWithObjectID:(nullable NSString *)objectID guardians:(NSArray *)guardians patients:(NSArray *)patients {
     self = [super init];
     
     if (self) {
@@ -26,7 +33,7 @@
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
     
-    NSString *objectID = @"TEMP"; // jsonResponse[APIParamID]; FIXME: Add this back in when the id has been added back to family.
+    NSString *objectID = jsonResponse[APIParamID];
     
     NSArray *patientDictionaries = jsonResponse[APIParamFamily][APIParamUserPatients]; //FIXME: Use LEOConstants.
     
@@ -48,13 +55,40 @@
     return [self initWithObjectID:objectID guardians:[guardians copy] patients:[patients copy]];
 }
 
-- (void)addChild:(Patient *)child {
++ (NSDictionary *)dictionaryWithPrimaryUserAndInsuranceOnlyFromFamily:(Family *)family {
     
-    NSMutableArray *patient = [self.patients mutableCopy];
+    NSMutableDictionary *familyDictionary = [[NSMutableDictionary alloc] init];
+    NSMutableArray *patientsArray = [[NSMutableArray alloc] init];
     
-    [patient addObject:child];
+    for (Guardian *guardian in family.guardians) {
+        
+        if (guardian.primary) {
+            NSDictionary *guardianDictionary = [Guardian dictionaryFromUser:guardian];
+            [familyDictionary setObject:guardianDictionary forKey:APIParamUserGuardian];
+            
+            NSDictionary *insurancePlanDictionary = [InsurancePlan dictionaryFromInsurancePlan:guardian.insurancePlan];
+            [familyDictionary setObject:insurancePlanDictionary forKey:APIParamInsurancePlan];
+        }
+    }
     
-    self.patients = [patient copy];
+    for (Patient *patient in family.patients) {
+        
+        NSDictionary *patientDictionary = [Patient dictionaryFromUser:patient];
+        [patientsArray addObject:patientDictionary];
+    }
+    
+    [familyDictionary setObject:patientsArray forKey:APIParamUserPatients];
+    
+    return [familyDictionary copy];
+}
+
+- (void)addPatient:(Patient *)patient {
+    
+    NSMutableArray *mutablePatients = [self.patients mutableCopy];
+    
+    [mutablePatients addObject:patient];
+    
+    self.patients = [mutablePatients copy];
 }
 
 

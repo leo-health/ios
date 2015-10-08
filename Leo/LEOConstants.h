@@ -117,6 +117,12 @@ typedef enum RoleCode : NSUInteger {
     RoleCodeUndefined = 99,
 } RoleCode;
 
+typedef enum ManagementMode : NSUInteger {
+    
+    ManagementModeCreate = 1,
+    ManagementModeEdit = 2
+} ManagementMode;
+
 @interface LEOConstants : NSObject
 
 #pragma mark - Temp constants
@@ -125,6 +131,7 @@ extern NSString *const kUserToken; // @"";
 #pragma mark - URL & endpoints
 
 extern NSString *const APIEndpointUsers; // @"users";
+extern NSString *const APIEndpointPatients; // @"patients";
 extern NSString *const APIEndpointSessions; // @"sessions";
 extern NSString *const APIEndpointResetPassword; // @"sessions/password";
 extern NSString *const APIEndpointAppointments; // @"appointments";
@@ -139,6 +146,8 @@ extern NSString *const APIEndpointPractice; // @"practice";
 extern NSString *const APIEndpointSlots; // @"slots";
 extern NSString *const APIEndpointFamily; // @"family";
 extern NSString *const APIEndpointInsurers; // @"insurers";
+extern NSString *const APIEndpointUserEnrollments; // = @"enrollments";
+extern NSString *const APIEndpointPatientEnrollments; // = @"patient_enrollments";
 
 #pragma mark - Common
 extern NSString *const APIParamID; // @"id";
@@ -177,7 +186,7 @@ extern NSString *const APIParamFamilyID; // @"family_id";
 extern NSString *const APIParamFamily; // @"family";
 
 #pragma mark - User and user subclass
-
+extern NSString *const APIParamUserEnrollment; // = @"enrollment";
 extern NSString *const APIParamUserTitle; // @"title";
 extern NSString *const APIParamUserFirstName; // @"first_name";
 extern NSString *const APIParamUserMiddleInitial; // @"middle_initial";
@@ -195,6 +204,7 @@ extern NSString *const APIParamUserCredentials; // @"credentials";
 extern NSString *const APIParamUserSpecialties; // @"specialties";
 extern NSString *const APIParamUserPrimary; // @"primary";
 extern NSString *const APIParamUserStatus; // @"status";
+extern NSString *const APIParamUserInsurancePlan; // @"insurancePlan";
 
 extern NSString *const APIParamUserBirthDate; // @"birth_date";
 extern NSString *const APIParamUserSex; // @"sex";
@@ -279,6 +289,7 @@ extern NSString *const APIParamStartDate; // @"start_date";
 extern NSString *const APIParamEndDate; // @"end_date";
 
 #pragma mark - Insurer
+extern NSString *const APIParamInsurancePlanID; // @"insurance_plan_id";
 extern NSString *const APIParamInsurerID; // @"insurer_id";
 extern NSString *const APIParamInsurers; // @"insurers";
 extern NSString *const APIParamPhone; // @"phone";
@@ -287,10 +298,13 @@ extern NSString *const APIParamInsurerName; // @"insurer_name";
 
 
 #pragma mark - Insurance Plan
+extern NSString *const APIParamInsurancePlan; // @"insurance_plan";
 extern NSString *const APIParamInsurancePlans; // @"insurance_plans";
 extern NSString *const APIParamPlanName; // @"plan_name";
 extern NSString *const APIParamPlanSupported; // @"supported"; //Ironically, this param is not yet supported by the API.
 
+extern NSString *const kContinueSegue; // = @"ContinueSegue";
+extern NSString *const kPlanSegue; // @"PlanSegue";
 
 #pragma mark - Magic numbers
 extern CGFloat const selectionLineHeight; // 2.0f;
