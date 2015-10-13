@@ -43,7 +43,7 @@ typedef enum AccountSettings {
 static NSString *const kPromptViewCellReuseIdentifier = @"LEOPromptViewCell";
 static NSString *const kChangeEmailSegue = @"ChangeEmailSegue";
 static NSString *const kChangePasswordSegue = @"ChangePasswordSegue";
-static NSString *const kInviteGuardianSegue = @"InviteGuardianSegue";
+static NSString *const kInviteGuardianSegue = @"InviteSegue";
 static NSString *const kUpdatePatientSegue = @"UpdatePatientSegue";
 
 - (void)viewDidLoad {
@@ -54,11 +54,13 @@ static NSString *const kUpdatePatientSegue = @"UpdatePatientSegue";
 
 }
 
--(void)viewDidAppear:(BOOL)animated {
+- (void)viewDidAppear:(BOOL)animated {
 
 }
 
 - (void)setupNavigationBar {
+    
+    self.navigationController.navigationBarHidden = NO;
     
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[UIColor leoOrangeRed]]
                                 forBarPosition:UIBarPositionAny
@@ -90,13 +92,13 @@ static NSString *const kUpdatePatientSegue = @"UpdatePatientSegue";
     self.tableView.dataSource = self;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
-    self.tableView.estimatedRowHeight = 100.0;
+    self.tableView.estimatedRowHeight = 68.0;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     
     self.tableView.alwaysBounceVertical = NO;
     
     UIEdgeInsets tableViewInsets = self.tableView.contentInset;
-    tableViewInsets.top += 33.0;
+    tableViewInsets.top += 38.5;
     self.tableView.contentInset = tableViewInsets;
     
     [self.tableView registerNib:[LEOPromptViewCell nib]
@@ -190,7 +192,7 @@ static NSString *const kUpdatePatientSegue = @"UpdatePatientSegue";
     return cell;
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     switch (indexPath.section) {
             
@@ -211,11 +213,19 @@ static NSString *const kUpdatePatientSegue = @"UpdatePatientSegue";
                     break;
             }
             
+            break;
+            
         case SettingsSectionPatients:
             
             [self performSegueWithIdentifier:kUpdatePatientSegue sender:indexPath];
             break;
     }
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    
+
+    
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
@@ -230,6 +240,12 @@ static NSString *const kUpdatePatientSegue = @"UpdatePatientSegue";
     }
     
     return nil;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+
+    //TODO: Remove magic number
+    return 32.5;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
@@ -253,7 +269,7 @@ static NSString *const kUpdatePatientSegue = @"UpdatePatientSegue";
 
 - (void)pop {
     
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 @end
