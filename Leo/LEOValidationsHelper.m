@@ -104,6 +104,18 @@
     return candidate.length > 7;
 }
 
++ (BOOL)isValidPassword:(NSString *)candidate matching:(NSString *)otherCandidate {
+    
+    if (candidate.length > 7) {
+        
+        if ([candidate isEqualToString:otherCandidate]) {
+            return YES;
+        }
+    }
+    
+    return NO;
+}
+
 #pragma mark - Internal
 + (BOOL)isValidNonZeroLength:(NSString *)candidate {
     return candidate.length > 0;

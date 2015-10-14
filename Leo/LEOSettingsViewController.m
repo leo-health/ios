@@ -42,7 +42,7 @@ typedef enum AccountSettings {
 
 static NSString *const kPromptViewCellReuseIdentifier = @"LEOPromptViewCell";
 static NSString *const kChangeEmailSegue = @"UpdateEmailSegue";
-static NSString *const kChangePasswordSegue = @"ChangePasswordSegue";
+static NSString *const kChangePasswordSegue = @"UpdatePasswordSegue";
 static NSString *const kInviteGuardianSegue = @"InviteSegue";
 static NSString *const kUpdatePatientSegue = @"UpdatePatientSegue";
 
