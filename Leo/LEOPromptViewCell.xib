@@ -19,7 +19,7 @@
                     </view>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="z9E-TC-ZN1" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="40" id="KcC-ll-Ora"/>
+                    <constraint firstItem="z9E-TC-ZN1" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="KcC-ll-Ora"/>
                     <constraint firstAttribute="trailing" secondItem="z9E-TC-ZN1" secondAttribute="trailing" constant="30" id="Lbf-dv-AQH"/>
                     <constraint firstItem="z9E-TC-ZN1" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="30" id="Wla-OU-zXI"/>
                     <constraint firstAttribute="bottom" secondItem="z9E-TC-ZN1" secondAttribute="bottom" id="yJK-aT-Yut"/>

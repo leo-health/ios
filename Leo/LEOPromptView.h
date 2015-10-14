@@ -23,5 +23,6 @@
 @property (nonatomic) BOOL accessoryImageViewVisible;
 @property (strong, nonatomic) UIImage *accessoryImage;
 @property (nonatomic) BOOL tapGestureEnabled;
+@property (nonatomic) BOOL valid;
 
 @end
