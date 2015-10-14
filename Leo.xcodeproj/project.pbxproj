@@ -16,6 +16,9 @@
 		3115F1EE1BC5AF4D001BDF6A /* TestsDebug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 3115F1ED1BC5AF4D001BDF6A /* TestsDebug.xcconfig */; };
 		3115F1F81BC71669001BDF6A /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3115F1F71BC71669001BDF6A /* Settings.storyboard */; };
 		3115F1FC1BC71683001BDF6A /* LEOSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3115F1FB1BC71683001BDF6A /* LEOSettingsViewController.m */; };
+		3115F1FF1BC80E7D001BDF6A /* LEOInviteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3115F1FE1BC80E7D001BDF6A /* LEOInviteViewController.m */; };
+		3115F2021BC848F8001BDF6A /* LEOInviteView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3115F2011BC848F8001BDF6A /* LEOInviteView.m */; };
+		3115F2061BC84935001BDF6A /* LEOInviteView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3115F2051BC84934001BDF6A /* LEOInviteView.xib */; };
 		31197A0C1B39A70C00C773BA /* UIImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 31197A0B1B39A70C00C773BA /* UIImageEffects.m */; };
 		31197A121B39D8FD00C773BA /* MenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 31197A111B39D8FD00C773BA /* MenuView.m */; };
 		31197A141B39DA3000C773BA /* MenuView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 31197A131B39DA3000C773BA /* MenuView.xib */; };
@@ -197,6 +200,11 @@
 		3115F1F71BC71669001BDF6A /* Settings.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
 		3115F1FA1BC71683001BDF6A /* LEOSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOSettingsViewController.h; sourceTree = "<group>"; };
 		3115F1FB1BC71683001BDF6A /* LEOSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOSettingsViewController.m; sourceTree = "<group>"; };
+		3115F1FD1BC80E7D001BDF6A /* LEOInviteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOInviteViewController.h; path = "Onboarding+Signup/LEOInviteViewController.h"; sourceTree = "<group>"; };
+		3115F1FE1BC80E7D001BDF6A /* LEOInviteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOInviteViewController.m; path = "Onboarding+Signup/LEOInviteViewController.m"; sourceTree = "<group>"; };
+		3115F2001BC848F8001BDF6A /* LEOInviteView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOInviteView.h; sourceTree = "<group>"; };
+		3115F2011BC848F8001BDF6A /* LEOInviteView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOInviteView.m; sourceTree = "<group>"; };
+		3115F2051BC84934001BDF6A /* LEOInviteView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LEOInviteView.xib; path = "Onboarding+Signup/LEOInviteView.xib"; sourceTree = "<group>"; };
 		31197A0A1B39A70C00C773BA /* UIImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIImageEffects.h; sourceTree = "<group>"; };
 		31197A0B1B39A70C00C773BA /* UIImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIImageEffects.m; sourceTree = "<group>"; };
 		31197A101B39D8FD00C773BA /* MenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuView.h; sourceTree = "<group>"; };
@@ -582,6 +590,11 @@
 			children = (
 				3115F1FA1BC71683001BDF6A /* LEOSettingsViewController.h */,
 				3115F1FB1BC71683001BDF6A /* LEOSettingsViewController.m */,
+				3115F1FD1BC80E7D001BDF6A /* LEOInviteViewController.h */,
+				3115F1FE1BC80E7D001BDF6A /* LEOInviteViewController.m */,
+				3115F2001BC848F8001BDF6A /* LEOInviteView.h */,
+				3115F2011BC848F8001BDF6A /* LEOInviteView.m */,
+				3115F2051BC84934001BDF6A /* LEOInviteView.xib */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -1287,6 +1300,7 @@
 				BCE1EC781B00E353007C8D0B /* LaunchScreen.xib in Resources */,
 				31F5AA6A1B791B4A00F96D06 /* LEOAppointmentBookingView.xib in Resources */,
 				3168997C1BC4858400B4C1EB /* LEOButtonCell.xib in Resources */,
+				3115F2061BC84935001BDF6A /* LEOInviteView.xib in Resources */,
 				31FDDE611B29D9120009BBC2 /* LEOOneButtonPrimaryOnlyCell.xib in Resources */,
 				31F5AA751B791B4B00F96D06 /* ProviderCell.xib in Resources */,
 				31C01D911B66B8E000F9EAED /* Stubs in Resources */,
@@ -1401,12 +1415,14 @@
 				31254B7D1BB050CD00E8E150 /* LEOUserService.m in Sources */,
 				31CC12DF1BB062C40099AB60 /* Insurer.m in Sources */,
 				31F5AA691B791B4A00F96D06 /* LEOAPIAppointmentTypesOperation.m in Sources */,
+				3115F2021BC848F8001BDF6A /* LEOInviteView.m in Sources */,
 				31264E861B5EBB1A00D292CF /* LEOMessagesAvatarImageFactory.m in Sources */,
 				3115F1EA1BC59BCC001BDF6A /* UIView+Extensions.m in Sources */,
 				31FDDE551B28DD2C0009BBC2 /* LEOTwoButtonPrimaryOnlyCell.m in Sources */,
 				3168997D1BC4858400B4C1EB /* LEOReviewPatientCell.m in Sources */,
 				31BF23431BBAEA0A005856E5 /* LEOSignUpPatientView.m in Sources */,
 				31F5AA631B791B4A00F96D06 /* LEOCalendarViewController.m in Sources */,
+				3115F1FF1BC80E7D001BDF6A /* LEOInviteViewController.m in Sources */,
 				31D20ACC1B14C61F00F3351A /* LEOEHRViewController.m in Sources */,
 				31197A121B39D8FD00C773BA /* MenuView.m in Sources */,
 				31B998C61B7BD4F40055DEEA /* UIFont+LeoFonts.m in Sources */,
