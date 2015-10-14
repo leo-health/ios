@@ -39,7 +39,7 @@
 
 - (void)setupNavigationBar {
     
-    self.navigationItem.title = @"Invite a Parent";
+    self.navigationItem.title = @"Update Email";
     
     [LEOStyleHelper styleCustomBackButtonForViewController:self];
 }
