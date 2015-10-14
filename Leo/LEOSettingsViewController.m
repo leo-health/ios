@@ -40,47 +40,37 @@ typedef enum AccountSettings {
 
 @implementation LEOSettingsViewController
 
-static NSString *const kPromptViewCellReuseIdentifier = @"LEOPromptViewCell";
 static NSString *const kChangeEmailSegue = @"UpdateEmailSegue";
 static NSString *const kChangePasswordSegue = @"UpdatePasswordSegue";
 static NSString *const kInviteGuardianSegue = @"InviteSegue";
 static NSString *const kUpdatePatientSegue = @"UpdatePatientSegue";
+
+
+#pragma mark - View Controller Lifecycle and Helper Methods
 
 - (void)viewDidLoad {
     
     [super viewDidLoad];
     [self setupTableView];
     [self setupNavigationBar];
-
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-
+    
 }
 
 - (void)setupNavigationBar {
     
     self.navigationController.navigationBarHidden = NO;
-    
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[UIColor leoOrangeRed]]
-                                forBarPosition:UIBarPositionAny
-                                    barMetrics:UIBarMetricsDefault];
-    
-    [self.navigationController.navigationBar setShadowImage:[UIImage new]];
-    
-    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [backButton addTarget:self action:@selector(pop) forControlEvents:UIControlEventTouchUpInside];
-    [backButton setImage:[UIImage imageNamed:@"Icon-BackArrow"] forState:UIControlStateNormal];
-    [backButton sizeToFit];
-    [backButton setTintColor:[UIColor leoWhite]];
-    
-    UIBarButtonItem *backBBI = [[UIBarButtonItem alloc] initWithCustomView:backButton];
-    
-    self.navigationItem.leftBarButtonItem = backBBI;
-    
+
+    [LEOStyleHelper styleNavigationBarForSettings];
+
     UILabel *navTitleLabel = [[UILabel alloc] init];
     navTitleLabel.text = @"Settings";
     
+    self.view.tintColor = [UIColor whiteColor];
+    [LEOStyleHelper styleCustomBackButtonForViewController:self];
     [LEOStyleHelper styleLabelForNavigationHeaderForSettings:navTitleLabel];
     
     self.navigationItem.titleView = navTitleLabel;
@@ -103,8 +93,10 @@ static NSString *const kUpdatePatientSegue = @"UpdatePatientSegue";
     
     [self.tableView registerNib:[LEOPromptViewCell nib]
          forCellReuseIdentifier:kPromptViewCellReuseIdentifier];
-   
 }
+
+
+#pragma mark - <UITableViewDataSource>
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
@@ -125,6 +117,7 @@ static NSString *const kUpdatePatientSegue = @"UpdatePatientSegue";
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    
     return 2;
 }
 
@@ -222,19 +215,16 @@ static NSString *const kUpdatePatientSegue = @"UpdatePatientSegue";
     }
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    
 
-    
-}
+#pragma mark - <UITableViewDelegate>
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     
     switch (section) {
-
+            
         case SettingsSectionAccounts:
             return @"Account";
-
+            
         case SettingsSectionPatients:
             return @"Children";
     }
@@ -243,13 +233,13 @@ static NSString *const kUpdatePatientSegue = @"UpdatePatientSegue";
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-
+    
     //TODO: Remove magic number
     return 32.5;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-
+    
     //TODO: Remove magic number
     return 68.0;
 }
@@ -267,9 +257,20 @@ static NSString *const kUpdatePatientSegue = @"UpdatePatientSegue";
     view.tintColor = [UIColor leoWhite];
 }
 
+
+#pragma mark - Navigation
+
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    
+    //TODO: Method to be completed when we update with passing of data.
+    
+}
+
 - (void)pop {
     
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
+
 
 @end

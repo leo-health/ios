@@ -25,7 +25,6 @@
 #import "LEOStyleHelper.h"
 
 static NSString *const kSignUpPatientSegue = @"SignUpPatientSegue";
-static NSString *const kPromptViewCellReuseIdentifier = @"LEOPromptViewCell";
 
 typedef enum TableViewSection {
     

@@ -207,6 +207,7 @@ NSString *const kHeaderCellReuseIdentifier = @"LEOBasicHeaderCell";
 NSString *const kReviewUserCellReuseIdentifer = @"ReviewUserCell";
 NSString *const kReviewPatientCellReuseIdentifer = @"ReviewPatientCell";
 NSString *const kButtonCellReuseIdentifier = @"ButtonCell";
+NSString *const kPromptViewCellReuseIdentifier = @"LEOPromptViewCell";
 
 #pragma mark - Constants
 

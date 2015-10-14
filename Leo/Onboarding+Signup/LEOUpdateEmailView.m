@@ -80,13 +80,13 @@ IB_DESIGNABLE
 
 #pragma mark - Accessors
 
--(void)setEmail:(NSString *)email {
+- (void)setEmail:(NSString *)email {
     
     _email = email;
     
     if (self.hasBeenValidatedAtLeastOnce) {
-
-    self.emailAddressPromptView.valid  = [LEOValidationsHelper isValidEmail:_email];
+        
+        self.emailAddressPromptView.valid  = [LEOValidationsHelper isValidEmail:_email];
     }
 }
 
@@ -96,7 +96,7 @@ IB_DESIGNABLE
 - (BOOL)isValidEmail {
     
     self.hasBeenValidatedAtLeastOnce = YES;
-
+    
     self.email = self.emailAddressPromptView.textField.text;
     
     return [LEOValidationsHelper isValidEmail:self.email];

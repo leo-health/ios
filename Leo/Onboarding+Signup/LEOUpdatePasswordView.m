@@ -39,7 +39,7 @@ IB_DESIGNABLE
     return self;
 }
 
--(instancetype)init {
+- (instancetype)init {
     
     self = [super init];
     
@@ -53,7 +53,7 @@ IB_DESIGNABLE
 - (void)commonInit {
     
     [self setupConstraints];
-
+    
     [self setupCurrentPasswordField];
     [self setupNewPasswordField];
     [self setupRetypePasswordField];
@@ -78,14 +78,14 @@ IB_DESIGNABLE
 }
 
 - (void)setupRetypePasswordField {
-
+    
     self.retypePasswordPromptView.textField.delegate = self;
     self.retypePasswordPromptView.textField.standardPlaceholder = @"retype password";
     self.retypePasswordPromptView.textField.validationPlaceholder = @"passwords must match";
     self.retypePasswordPromptView.textField.secureTextEntry = YES;
     [self.retypePasswordPromptView.textField sizeToFit];
-    
 }
+
 
 #pragma mark - Autolayout
 
@@ -108,7 +108,7 @@ IB_DESIGNABLE
 
 #pragma mark - Accessors
 
--(void)setUpdatedPassword:(NSString *)password {
+- (void)setUpdatedPassword:(NSString *)password {
     
     _updatedPassword = password;
     
@@ -148,6 +148,7 @@ IB_DESIGNABLE
     
     self.currentPasswordPromptView.valid = NO;
 }
+
 
 #pragma mark - <UITextFieldDelegate>
 

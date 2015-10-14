@@ -321,7 +321,7 @@ extern NSString *const kHeaderCellReuseIdentifier; // @"LEOBasicHeaderCell";
 extern NSString *const kReviewUserCellReuseIdentifer; // @"ReviewUserCell";
 extern NSString *const kReviewPatientCellReuseIdentifer; // @"ReviewPatientCell";
 extern NSString *const kButtonCellReuseIdentifier; // @"ButtonCell";
-
+extern NSString *const kPromptViewCellReuseIdentifier; // @"LEOPromptViewCell";
 #pragma mark - Constants
 
 extern CGFloat const heightOfNoReturnConstant; // 0.4;
