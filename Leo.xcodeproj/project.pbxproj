@@ -19,6 +19,9 @@
 		3115F1FF1BC80E7D001BDF6A /* LEOInviteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3115F1FE1BC80E7D001BDF6A /* LEOInviteViewController.m */; };
 		3115F2021BC848F8001BDF6A /* LEOInviteView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3115F2011BC848F8001BDF6A /* LEOInviteView.m */; };
 		3115F2061BC84935001BDF6A /* LEOInviteView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3115F2051BC84934001BDF6A /* LEOInviteView.xib */; };
+		3115F21A1BCEA316001BDF6A /* LEOUpdateEmailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3115F2161BCEA316001BDF6A /* LEOUpdateEmailView.m */; };
+		3115F21B1BCEA316001BDF6A /* LEOUpdateEmailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3115F2171BCEA316001BDF6A /* LEOUpdateEmailView.xib */; };
+		3115F21C1BCEA316001BDF6A /* LEOUpdateEmailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3115F2191BCEA316001BDF6A /* LEOUpdateEmailViewController.m */; };
 		31197A0C1B39A70C00C773BA /* UIImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 31197A0B1B39A70C00C773BA /* UIImageEffects.m */; };
 		31197A121B39D8FD00C773BA /* MenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 31197A111B39D8FD00C773BA /* MenuView.m */; };
 		31197A141B39DA3000C773BA /* MenuView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 31197A131B39DA3000C773BA /* MenuView.xib */; };
@@ -205,6 +208,11 @@
 		3115F2001BC848F8001BDF6A /* LEOInviteView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOInviteView.h; sourceTree = "<group>"; };
 		3115F2011BC848F8001BDF6A /* LEOInviteView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOInviteView.m; sourceTree = "<group>"; };
 		3115F2051BC84934001BDF6A /* LEOInviteView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LEOInviteView.xib; path = "Onboarding+Signup/LEOInviteView.xib"; sourceTree = "<group>"; };
+		3115F2151BCEA316001BDF6A /* LEOUpdateEmailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOUpdateEmailView.h; path = "Onboarding+Signup/LEOUpdateEmailView.h"; sourceTree = "<group>"; };
+		3115F2161BCEA316001BDF6A /* LEOUpdateEmailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOUpdateEmailView.m; path = "Onboarding+Signup/LEOUpdateEmailView.m"; sourceTree = "<group>"; };
+		3115F2171BCEA316001BDF6A /* LEOUpdateEmailView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LEOUpdateEmailView.xib; path = "Onboarding+Signup/LEOUpdateEmailView.xib"; sourceTree = "<group>"; };
+		3115F2181BCEA316001BDF6A /* LEOUpdateEmailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOUpdateEmailViewController.h; path = "Onboarding+Signup/LEOUpdateEmailViewController.h"; sourceTree = "<group>"; };
+		3115F2191BCEA316001BDF6A /* LEOUpdateEmailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOUpdateEmailViewController.m; path = "Onboarding+Signup/LEOUpdateEmailViewController.m"; sourceTree = "<group>"; };
 		31197A0A1B39A70C00C773BA /* UIImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIImageEffects.h; sourceTree = "<group>"; };
 		31197A0B1B39A70C00C773BA /* UIImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIImageEffects.m; sourceTree = "<group>"; };
 		31197A101B39D8FD00C773BA /* MenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuView.h; sourceTree = "<group>"; };
@@ -590,13 +598,34 @@
 			children = (
 				3115F1FA1BC71683001BDF6A /* LEOSettingsViewController.h */,
 				3115F1FB1BC71683001BDF6A /* LEOSettingsViewController.m */,
+				3115F21D1BCEA31E001BDF6A /* Update Email */,
+				3115F21E1BCEA326001BDF6A /* Invite Parent */,
+			);
+			name = Settings;
+			sourceTree = "<group>";
+		};
+		3115F21D1BCEA31E001BDF6A /* Update Email */ = {
+			isa = PBXGroup;
+			children = (
+				3115F2151BCEA316001BDF6A /* LEOUpdateEmailView.h */,
+				3115F2161BCEA316001BDF6A /* LEOUpdateEmailView.m */,
+				3115F2171BCEA316001BDF6A /* LEOUpdateEmailView.xib */,
+				3115F2181BCEA316001BDF6A /* LEOUpdateEmailViewController.h */,
+				3115F2191BCEA316001BDF6A /* LEOUpdateEmailViewController.m */,
+			);
+			name = "Update Email";
+			sourceTree = "<group>";
+		};
+		3115F21E1BCEA326001BDF6A /* Invite Parent */ = {
+			isa = PBXGroup;
+			children = (
 				3115F1FD1BC80E7D001BDF6A /* LEOInviteViewController.h */,
 				3115F1FE1BC80E7D001BDF6A /* LEOInviteViewController.m */,
 				3115F2001BC848F8001BDF6A /* LEOInviteView.h */,
 				3115F2011BC848F8001BDF6A /* LEOInviteView.m */,
 				3115F2051BC84934001BDF6A /* LEOInviteView.xib */,
 			);
-			name = Settings;
+			name = "Invite Parent";
 			sourceTree = "<group>";
 		};
 		31254B791BAC99CF00E8E150 /* Services */ = {
@@ -1289,6 +1318,7 @@
 				316899791BC4858400B4C1EB /* LEOBasicHeaderCell.xib in Resources */,
 				3115F1EE1BC5AF4D001BDF6A /* TestsDebug.xcconfig in Resources */,
 				311CBB3E1B56B0F50009BD7A /* Conversation.storyboard in Resources */,
+				3115F21B1BCEA316001BDF6A /* LEOUpdateEmailView.xib in Resources */,
 				3128D4EC1B43135F00582710 /* LEOOneButtonPrimaryAndSecondaryCell.xib in Resources */,
 				315588951BBC34E40038E381 /* LEOPromptViewCell.xib in Resources */,
 				315E12B71BB9BDBD001023F1 /* LEOSignUpUserView.xib in Resources */,
@@ -1431,6 +1461,7 @@
 				3155888E1BBC314D0038E381 /* LEOManagePatientsViewController.m in Sources */,
 				31CC12E61BB062C40099AB60 /* Practice.m in Sources */,
 				319FB4BE1BBA379E00EFF7B9 /* JVFloatLabeledTextField.m in Sources */,
+				3115F21A1BCEA316001BDF6A /* LEOUpdateEmailView.m in Sources */,
 				BC163AFE1B054CBF000FB1CE /* LEOCardTransitionAnimator.m in Sources */,
 				312418851BC0638200E18176 /* LEOLoginView.m in Sources */,
 				31F5AA6C1B791B4A00F96D06 /* LEOBasicSelectionViewController.m in Sources */,
@@ -1499,6 +1530,7 @@
 				BCE1ECA41B014613007C8D0B /* LEOConstants.m in Sources */,
 				31FDDE641B29DA890009BBC2 /* LEOOneButtonPrimaryOnlyCell+ConfigureForCell.m in Sources */,
 				3138FC571B9A1B7D000FE22C /* LEOSignUpUserViewController.m in Sources */,
+				3115F21C1BCEA316001BDF6A /* LEOUpdateEmailViewController.m in Sources */,
 				31D7ADEB1B21F9A100E8C5EE /* CollectionViewDataSource.m in Sources */,
 				3196AAF91B8E01C900B11112 /* LEOStubs.m in Sources */,
 				3168996A1BC4851200B4C1EB /* LEOReviewUserCell+ConfigureForCell.m in Sources */,
