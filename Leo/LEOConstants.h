@@ -315,5 +315,17 @@ extern NSString *const kStoryboardLogin; // @"Login";
 extern NSString *const kStoryboardFeed; // @"Main";
 extern NSString *const kStoryboardConversation; // @"Conversation";
 extern NSString *const kStoryboardAppointment; // @"Appointment";
+
+#pragma mark - Cell Reuse Identifiers
+extern NSString *const kHeaderCellReuseIdentifier; // @"LEOBasicHeaderCell";
+extern NSString *const kReviewUserCellReuseIdentifer; // @"ReviewUserCell";
+extern NSString *const kReviewPatientCellReuseIdentifer; // @"ReviewPatientCell";
+extern NSString *const kButtonCellReuseIdentifier; // @"ButtonCell";
+
+#pragma mark - Constants
+
+extern CGFloat const heightOfNoReturnConstant; // 0.4;
+extern CGFloat const speedForTitleViewAlphaChangeConstant; // 4.0;
+
 @end
 

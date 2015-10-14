@@ -15,6 +15,8 @@
 
 #pragma mark - Onboarding & Login
 
++ (UIColor *)styleTintColorForOnboardingView;
+
 + (void)styleNavigationBarForOnboarding;
 + (void)styleNavigationBarForSettings;
 

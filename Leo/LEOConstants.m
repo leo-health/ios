@@ -202,4 +202,16 @@ NSString *const kStoryboardFeed = @"Main";
 NSString *const kStoryboardConversation = @"Conversation";
 NSString *const kStoryboardAppointment = @"Appointment";
 
+#pragma mark - Cell Reuse Identifiers 
+NSString *const kHeaderCellReuseIdentifier = @"LEOBasicHeaderCell";
+NSString *const kReviewUserCellReuseIdentifer = @"ReviewUserCell";
+NSString *const kReviewPatientCellReuseIdentifer = @"ReviewPatientCell";
+NSString *const kButtonCellReuseIdentifier = @"ButtonCell";
+
+#pragma mark - Constants
+
+CGFloat const heightOfNoReturnConstant = 0.4;
+CGFloat const speedForTitleViewAlphaChangeConstant = 4.0;
+
+
 @end

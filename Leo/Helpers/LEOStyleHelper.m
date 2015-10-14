@@ -14,6 +14,10 @@
 
 @implementation LEOStyleHelper
 
++ (UIColor *)styleTintColorForOnboardingView {
+    return [UIColor leoOrangeRed];
+}
+
 + (void)styleNavigationBarForOnboarding {
     
     
@@ -93,6 +97,7 @@
     UIBarButtonItem *backBBI = [[UIBarButtonItem alloc] initWithCustomView:backButton];
     
     sender.navigationItem.leftBarButtonItem = backBBI;
+    sender.navigationController.navigationBarHidden = NO;
 }
 
 /**

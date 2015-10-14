@@ -57,14 +57,8 @@ typedef enum TableViewSection {
 
 #pragma mark - Constants
 
-static NSString *const kHeaderCellReuseIdentifier = @"LEOBasicHeaderCell";
-static NSString *const kReviewUserCellReuseIdentifer = @"ReviewUserCell";
-static NSString *const kReviewPatientCellReuseIdentifer = @"ReviewPatientCell";
-static NSString *const kButtonCellReuseIdentifier = @"ButtonCell";
 static NSString *const kReviewUserSegue = @"ReviewUserSegue";
 static NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
-static CGFloat const heightOfNoReturnConstant = 0.4;
-static CGFloat const speedForTitleViewAlphaChangeConstant = 4.0;
 
 
 #pragma mark - View Controller Lifecycle and Helper Methods

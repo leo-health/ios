@@ -7,27 +7,43 @@
 //
 
 #import "LEOManagePatientsViewController.h"
-#import "LEOManagePatientsView.h"
-#import "LEOValidatedFloatLabeledTextField.h"
+
 #import "UIFont+LeoFonts.h"
 #import "UIColor+LeoColors.h"
 #import "UIImage+Extensions.h"
-#import "ArrayDataSource.h"
-#import "LEOPromptViewCell+ConfigureForPatient.h"
-#import "Patient.h"
-#import "LEOSignUpPatientViewController.h"
-#import "Family.h"
 #import "UIViewController+Extensions.h"
+
+#import "LEOPromptViewCell+ConfigureForPatient.h"
+#import "LEOBasicHeaderCell+ConfigureForCell.h"
+#import "LEOReviewPatientCell+ConfigureForCell.h"
+#import "LEOButtonCell.h"
+
+#import "Patient.h"
+#import "Family.h"
+
 #import "LEOReviewOnboardingViewController.h"
+#import "LEOStyleHelper.h"
 
 static NSString *const kSignUpPatientSegue = @"SignUpPatientSegue";
 static NSString *const kPromptViewCellReuseIdentifier = @"LEOPromptViewCell";
 
+typedef enum TableViewSection {
+    
+    TableViewSectionTitle = 0,
+    TableViewSectionPatients = 1,
+    TableViewSectionAddPatient = 2,
+    TableViewSectionButton = 3
+    
+} TableViewSection;
+
 @interface LEOManagePatientsViewController ()
 
-@property (strong, nonatomic) LEOManagePatientsView *managePatientsView;
-@property (weak, nonatomic) IBOutlet StickyView *stickyView;
-@property (strong, nonatomic) ArrayDataSource *dataSource;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+
+@property (weak, nonatomic) IBOutlet UINavigationBar *navigationBar;
+@property (strong, nonatomic) UILabel *navTitleLabel;
+@property (strong, nonatomic) CAShapeLayer *pathLayer;
+@property (nonatomic) BOOL breakerPreviouslyDrawn;
 
 @end
 
@@ -38,142 +54,153 @@ static NSString *const kPromptViewCellReuseIdentifier = @"LEOPromptViewCell";
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-    [self setupStickyView];
+
+    self.view.tintColor = [LEOStyleHelper styleTintColorForOnboardingView];
+    
+    [self setupBreaker];
+    [self setupNavigationBar];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
     
-    [self setupTableView];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    
-    [super viewDidAppear:animated];
-    
     [self testData];
-    [[self tableView] reloadData];
-    self.managePatientsView.cellCount = [self.family.patients count] + 1;
 
+    [self setupTableView];
+    [self.tableView reloadData];
 }
 
-- (void)setupStickyView {
+- (void)setupNavigationBar {
     
-    self.stickyView.delegate = self;
-    self.stickyView.tintColor = [UIColor leoOrangeRed];
-    [self.stickyView reloadViews];
+    [LEOStyleHelper styleNavigationBarForOnboarding];
+    self.navTitleLabel = [[UILabel alloc] init];
+    self.navTitleLabel.text = @"Review children";
+    
+    [LEOStyleHelper styleLabelForNavigationHeaderForOnboarding:self.navTitleLabel];
+    
+    UINavigationItem *item = [[UINavigationItem alloc] init];
+    item.titleView = self.navTitleLabel;
+    [self.navigationBar pushNavigationItem:item animated:NO];
+    
+    [LEOStyleHelper styleCustomBackButtonForViewController:self navigationItem:item];
 }
+
 
 - (void)setupTableView {
     
-    [self.tableView registerNib:[LEOPromptViewCell nib]  forCellReuseIdentifier:kPromptViewCellReuseIdentifier];
+    self.tableView.dataSource = self;
+    self.tableView.delegate = self;
+
+    [self.tableView registerNib:[LEOBasicHeaderCell nib]
+         forCellReuseIdentifier:kHeaderCellReuseIdentifier];
+    [self.tableView registerNib:[LEOPromptViewCell nib]
+         forCellReuseIdentifier:kPromptViewCellReuseIdentifier];
+    [self.tableView registerNib:[LEOButtonCell nib] forCellReuseIdentifier:kButtonCellReuseIdentifier];
     
-    [self tableView].dataSource = self;
-    [self tableView].delegate = self;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
-    [[self tableView] reloadData];
-    self.managePatientsView.cellCount = [self.family.patients count] + 1;
+    self.tableView.estimatedRowHeight = 100.0;
+    self.tableView.rowHeight = UITableViewAutomaticDimension;
+    
+    self.tableView.alwaysBounceVertical = NO;
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
+    return 4;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
     switch (section) {
-        case 0:
-            return [self.family.patients count];
-            break;
             
-        case 1:
+        case TableViewSectionTitle:
             return 1;
-            break;
             
-        default:
-            return 0;
-            break;
+        case TableViewSectionPatients:
+            return [self.family.patients count];
+            
+        case TableViewSectionAddPatient:
+            return 1;
+            
+        case TableViewSectionButton:
+            return 1;
     }
+    
+    return 0;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    LEOPromptViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kPromptViewCellReuseIdentifier
-                                                              forIndexPath:indexPath];
-    
-    if (indexPath.section == 0) {
-        Patient *patient = self.family.patients[indexPath.row];
-        [cell configureForPatient:patient];
+    switch (indexPath.section) {
+            
+        case TableViewSectionTitle: {
+
+            LEOBasicHeaderCell *basicHeaderCell = [tableView dequeueReusableCellWithIdentifier:kHeaderCellReuseIdentifier];
+            
+            [basicHeaderCell configureWithTitle:@"Review or add more children"];
+            
+            return basicHeaderCell;
+        }
+            
+        case TableViewSectionPatients: {
+            
+            Patient *patient = self.family.patients[indexPath.row];
+
+            LEOPromptViewCell *cell = [tableView
+                                       dequeueReusableCellWithIdentifier:kPromptViewCellReuseIdentifier
+                                       forIndexPath:indexPath];
+
+            [cell configureForPatient:patient];
+            
+            return cell;
+        }
+            
+        case TableViewSectionAddPatient: {
+            
+            LEOPromptViewCell *cell = [tableView
+                                       dequeueReusableCellWithIdentifier:kPromptViewCellReuseIdentifier
+                                       forIndexPath:indexPath];
+
+            [cell configureForNewPatient];
+
+            return cell;
+        }
+            
+        case TableViewSectionButton: {
+            
+            LEOButtonCell *buttonCell = [tableView dequeueReusableCellWithIdentifier:kButtonCellReuseIdentifier];
+            
+            [buttonCell.button addTarget:self action:@selector(continueTapped:) forControlEvents:UIControlEventTouchUpInside];
+            
+            return buttonCell;
+        }
     }
     
-    if (indexPath.section == 1) {
-        [cell configureForNewPatient];
-    }
-    
-    return cell;
-}
-
-
-#pragma mark - <StickyViewDelegate>
-
-- (BOOL)scrollable {
-    return YES;
-}
-
-- (BOOL)initialStateExpanded {
-    return YES;
-}
-
-- (NSString *)expandedTitleViewContent {
-    return @"Add or review your children's details";
-}
-
-
-- (NSString *)collapsedTitleViewContent {
-    return @" ";
-}
-
-- (UIView *)stickyViewBody{
-    return self.managePatientsView;
-}
-
-- (UIImage *)expandedGradientImage {
-    
-    return [UIImage imageWithColor:[UIColor leoWhite]];
-}
-
-- (UIImage *)collapsedGradientImage {
-    return [UIImage imageWithColor:[UIColor leoWhite]];
-}
-
--(UIViewController *)associatedViewController {
-    return self;
-}
-
--(LEOManagePatientsView *)managePatientsView {
-    
-    if (!_managePatientsView) {
-        _managePatientsView = [[LEOManagePatientsView alloc] initWithCellCount:([self.family.patients count] + 1)];
-        _managePatientsView.tintColor = [UIColor leoOrangeRed];
-    }
-    
-    return _managePatientsView;
-}
-
-
-- (UITableView *)tableView {
-    return self.managePatientsView.tableView;
-}
-
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 68;
+    return nil;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    //MARK: Not sure I love the idea of the sender being the indexpath as opposed to the object in the row. Food for thought, but not right now.
-    [self performSegueWithIdentifier:kSignUpPatientSegue sender:indexPath];
+    switch (indexPath.section) {
+        case TableViewSectionPatients: {
+            
+            Patient *patient = self.family.patients[indexPath.row];
+            [self performSegueWithIdentifier:kSignUpPatientSegue sender:patient];
+            break;
+        }
+            
+        case TableViewSectionAddPatient: {
+            
+            [self performSegueWithIdentifier:kSignUpPatientSegue sender:nil];
+            break;
+        }
+            
+        case TableViewSectionTitle:
+        case TableViewSectionButton:
+            break;
+    }
+
 }
 
 -(void)continueTapped:(UIButton * __nonnull)sender {
@@ -183,22 +210,13 @@ static NSString *const kPromptViewCellReuseIdentifier = @"LEOPromptViewCell";
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
-    NSInteger patientIndex = 0;
-    NSIndexPath *senderIndexPath;
-    
-    //MARK: At some point just go back and remind myself why the sender is an NSIndexPath when choosing a UITableViewCell.
-    if ([sender isKindOfClass:[NSIndexPath class]]) {
-        senderIndexPath = (NSIndexPath *)sender;
-        patientIndex = [self tableView:[self tableView] currentRowForIndexPath:senderIndexPath];
-    }
-    
     if ([segue.identifier isEqualToString:kSignUpPatientSegue]) {
         
         LEOSignUpPatientViewController *signUpPatientVC = segue.destinationViewController;
         signUpPatientVC.family = self.family;
-        signUpPatientVC.patient = [self.family.patients count] > patientIndex ? self.family.patients[patientIndex] : nil;
+        signUpPatientVC.patient = (Patient *)sender;
         
-        if ([self isExistingPatientAtIndexPath:senderIndexPath]) {
+        if (sender) {
             signUpPatientVC.managementMode = ManagementModeEdit;
         } else {
             signUpPatientVC.managementMode = ManagementModeCreate;
@@ -212,12 +230,6 @@ static NSString *const kPromptViewCellReuseIdentifier = @"LEOPromptViewCell";
         LEOReviewOnboardingViewController *reviewOnboardingVC = segue.destinationViewController;
         reviewOnboardingVC.family = self.family;
     }
-}
-
-
-- (BOOL)isExistingPatientAtIndexPath:(NSIndexPath *)indexPath {
-    
-    return indexPath.section == 0 ? YES : NO;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView currentRowForIndexPath:(NSIndexPath *)indexPath {
@@ -235,10 +247,8 @@ static NSString *const kPromptViewCellReuseIdentifier = @"LEOPromptViewCell";
 - (void)addPatient:(Patient *)patient {
     
     [self.family addPatient:patient];
-    [[self tableView] reloadData];
+    [self.tableView reloadData];
 }
-
-
 
 #pragma mark - Navigation
 
@@ -247,6 +257,182 @@ static NSString *const kPromptViewCellReuseIdentifier = @"LEOPromptViewCell";
     [self.navigationController popViewControllerAnimated:YES];
     self.navigationController.navigationBarHidden = YES;
 }
+
+
+#pragma mark - <UIScrollViewDelegate> & Helper Methods
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    
+    if (scrollView == self.tableView) {
+        
+        LEOBasicHeaderCell *headerCell = (LEOBasicHeaderCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+        CGFloat percentHeaderCellHidden = [self tableViewVerticalContentOffset] / [self heightOfHeaderCellExcludingOverlapWithNavBar];
+        
+        if (percentHeaderCellHidden < 1) {
+            headerCell.headerLabel.alpha = 1 - percentHeaderCellHidden * speedForTitleViewAlphaChangeConstant;
+            self.navTitleLabel.alpha = percentHeaderCellHidden;
+        }
+        
+        if ([self tableViewVerticalContentOffset] >= [self heightOfHeaderCellExcludingOverlapWithNavBar]) {
+            
+            if (!self.breakerPreviouslyDrawn) {
+                
+                [self fadeBreaker:YES];
+                self.breakerPreviouslyDrawn = YES;
+            }
+            
+        } else {
+            
+            self.breakerPreviouslyDrawn = NO;
+            [self fadeBreaker:NO];
+        }
+    }
+}
+
+- (void)fadeBreaker:(BOOL)shouldFade {
+    
+    if (shouldFade) {
+        
+        CABasicAnimation *fadeAnimation = [CABasicAnimation animationWithKeyPath:@"breakerFade"];
+        fadeAnimation.duration = 0.3;
+        fadeAnimation.fromValue = (id)[UIColor clearColor].CGColor;
+        fadeAnimation.toValue = (id)[UIColor leoOrangeRed].CGColor;
+        
+        self.pathLayer.strokeColor = [UIColor leoOrangeRed].CGColor;
+        [self.pathLayer addAnimation:fadeAnimation forKey:@"breakerFade"];
+        
+    } else {
+        
+        CABasicAnimation *fadeAnimation = [CABasicAnimation animationWithKeyPath:@"breakerFade"];
+        fadeAnimation.duration = 0.3;
+        fadeAnimation.fromValue = (id)[UIColor leoOrangeRed].CGColor;
+        fadeAnimation.toValue = (id)[UIColor clearColor].CGColor;
+        
+        self.pathLayer.strokeColor = [UIColor clearColor].CGColor;
+        [self.pathLayer addAnimation:fadeAnimation forKey:@"breakerFade"];
+    }
+}
+
+- (void)setupBreaker {
+    
+    [self.navigationBar layoutIfNeeded];
+    
+    CGRect viewRect = self.navigationBar.bounds;
+    
+    CGPoint beginningOfLine = CGPointMake(viewRect.origin.x, viewRect.origin.y + viewRect.size.height);
+    CGPoint endOfLine = CGPointMake(viewRect.origin.x + viewRect.size.width, viewRect.origin.y + viewRect.size.height);
+    
+    UIBezierPath *path = [UIBezierPath bezierPath];
+    [path moveToPoint:beginningOfLine];
+    [path addLineToPoint:endOfLine];
+    
+    self.pathLayer = [CAShapeLayer layer];
+    self.pathLayer.frame = self.view.bounds;
+    self.pathLayer.path = path.CGPath;
+    self.pathLayer.strokeColor = [UIColor clearColor].CGColor;
+    self.pathLayer.lineWidth = 1.0f;
+    self.pathLayer.lineJoin = kCALineJoinBevel;
+    
+    [self.view.layer addSublayer:self.pathLayer];
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    
+    
+    if (scrollView == self.tableView) {
+        
+        if (!decelerate) {
+            [self scrollView:scrollView snapWithNavigationTitleLabel:self.navTitleLabel];
+        }
+    }
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    
+    if (scrollView == self.tableView) {
+        [self scrollView:scrollView snapWithNavigationTitleLabel:self.navTitleLabel];
+    }
+}
+
+- (void)scrollView:(UIScrollView *)scrollView snapWithNavigationTitleLabel:(UILabel *)label {
+    
+    if ([self tableViewVerticalContentOffset] > [self heightOfNoReturn] & scrollView.contentOffset.y < [self heightOfHeaderCell]) {
+        
+        
+        [UIView animateWithDuration:0.1 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+            
+            [scrollView layoutIfNeeded];
+            label.alpha = 1;
+            scrollView.contentOffset = CGPointMake(0.0, [ self heightOfHeaderCellExcludingOverlapWithNavBar]);
+        } completion:nil];
+        
+        
+    } else if ([self tableViewVerticalContentOffset] < [self heightOfNoReturn]) {
+        
+        
+        [UIView animateWithDuration:0.1 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+            
+            [scrollView layoutIfNeeded];
+            label.alpha = 0;
+            scrollView.contentOffset = CGPointMake(0.0, 0.0);
+        } completion:nil];
+    }
+}
+
+
+#pragma mark - Layout
+
+- (CGSize)preferredContentSize
+{
+    // Force the table view to calculate its height
+    [self.tableView layoutIfNeeded];
+    
+    CGFloat heightWeWouldLikeTheTableViewContentAreaToBe = [self heightOfTableViewFrame] + [self heightOfHeaderCellExcludingOverlapWithNavBar];
+    
+    if ([self totalHeightOfTableViewContentArea] > [self heightOfTableViewFrame] && [self totalHeightOfTableViewContentArea] < heightWeWouldLikeTheTableViewContentAreaToBe) {
+        
+        CGFloat bottomInsetWeNeedToGetToHeightWeWouldLikeTheTableViewContentAreaToBe = heightWeWouldLikeTheTableViewContentAreaToBe - [self totalHeightOfTableViewContentArea];
+        self.tableView.contentInset = UIEdgeInsetsMake(0, 0, bottomInsetWeNeedToGetToHeightWeWouldLikeTheTableViewContentAreaToBe, 0);
+    }
+    
+    [self.tableView layoutIfNeeded];
+    
+    return self.tableView.contentSize;
+}
+
+
+#pragma mark - Shorthand Helpers
+
+- (CGFloat)heightOfTableViewFrame {
+    return self.tableView.frame.size.height;
+}
+
+- (CGFloat)totalHeightOfTableViewContentArea {
+    return self.tableView.contentSize.height + self.tableView.contentInset.bottom;
+}
+
+- (CGFloat)heightOfNoReturn {
+    return [self heightOfHeaderCell] * heightOfNoReturnConstant;
+}
+
+- (CGFloat)heightOfHeaderCellExcludingOverlapWithNavBar {
+    
+    return [self heightOfHeaderCell] - [self navBarHeight];
+}
+
+- (CGFloat)heightOfHeaderCell {
+    return [self.tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]].size.height;
+}
+
+- (CGFloat)navBarHeight {
+    return self.navigationController.navigationBar.frame.size.height;
+}
+
+- (CGFloat)tableViewVerticalContentOffset {
+    return self.tableView.contentOffset.y;
+}
+
+#pragma mark - Test Data
 
 - (void)testData {
     
