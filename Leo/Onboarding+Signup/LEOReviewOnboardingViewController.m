@@ -262,22 +262,49 @@ static NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
 
 - (void)continueTapped:(UIButton *)sender {
     
+    NSArray *patients = [self.family.patients copy];
+    self.family.patients = @[];
+
     LEOUserService *userService = [[LEOUserService alloc] init];
+    [userService createGuardian:self.family.guardians[0] withCompletion:^(Guardian *guardian, NSError *error) {
     
-    [userService createUserWithFamily:self.family withCompletion:^(BOOL success, NSError *error) {
+        //The guardian that is created should technically take the place of the original, given it will have an id and family_id.
+        self.family.guardians = @[guardian];
         
         if (!error) {
             
-            if ([self isModal]) {
-                [self dismissViewControllerAnimated:self completion:nil];
-            } else {
-                UIStoryboard *feedStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                UIViewController *initialVC = [feedStoryboard instantiateInitialViewController];
-                [self presentViewController:initialVC animated:NO completion:nil];
-            }
+            __block NSInteger counter = 0;
+            
+            [patients enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+               
+                [userService createPatient:obj withCompletion:^(Patient *patient, NSError *error) {
+                    
+                    if (!error) {
+                        
+                        [self.family addPatient:patient];
+                        
+                        counter++;
+                        
+                        [userService postAvatarForUser:patient withCompletion:^(BOOL success, NSError *error) {
+                            NSLog(@"Avatar upload occured successfully? %@", success ? @"YES" : @"NO");
+                        }];
+                        
+                        if (counter == [patients count]) {
+                            
+                            if ([self isModal]) {
+                                [self dismissViewControllerAnimated:self completion:nil];
+                            } else {
+                                UIStoryboard *feedStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                                UIViewController *initialVC = [feedStoryboard instantiateInitialViewController];
+                                [self presentViewController:initialVC animated:NO completion:nil];
+                            }
+                        }
+                        
+                    }
+                }];
+            }];
         }
     }];
-    
 }
 
 

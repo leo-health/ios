@@ -18,14 +18,11 @@
 #import "SessionUser.h"
 
 @implementation LEOUserService
-
-- (void)createUserWithFamily:(Family *)family withCompletion:(void (^)(BOOL success, NSError *error))completionBlock {
-
-    NSDictionary *familyDictionary = [Family dictionaryWithPrimaryUserAndInsuranceOnlyFromFamily:family];
-
-    NSLog(@"Began upload of family");
+- (void)createGuardian:(Guardian *)newGuardian withCompletion:(void (^)(Guardian *guardian, NSError *error))completionBlock {
     
-    [[LEOUserService leoSessionManager] standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointUsers params:familyDictionary completion:^(NSDictionary *rawResults, NSError *error) {
+    NSDictionary *guardianDictionary = [Guardian dictionaryFromUser:newGuardian];
+    
+    [[LEOUserService leoSessionManager] standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:@"users" params:guardianDictionary completion:^(NSDictionary *rawResults, NSError *error) {
         
         if (!error) {
             
@@ -33,26 +30,42 @@
             [credentialStore clearSavedCredentials];
             
             [[SessionUser currentUser].credentialStore setAuthToken:rawResults[APIParamData][APIParamToken]];
-            completionBlock(YES, nil);
-            NSLog(@"Finished successful upload of family");
-
+            
+            
+            //FIXME: This makes it clear we should have a rethink on the SessionUser class (and/or add methods to it)...
+            [SessionUser currentUser].familyID = rawResults[APIParamData][APIParamUser][APIParamFamilyID];
+            [SessionUser currentUser].objectID = rawResults[APIParamData][APIParamUser][APIParamID];
+            
+            Guardian *guardian = [[Guardian alloc] initWithJSONDictionary:rawResults[APIParamData][APIParamUser]];
+            
+            if (completionBlock) {
+                
+                completionBlock (guardian, nil);
+            }
         } else {
             
-            completionBlock(NO, error);
+            if (completionBlock) {
+                
+                completionBlock (nil, error);
+            }
         }
     }];
 }
 
-- (void)createPatientWithCompletion:(void (^)(BOOL success, NSError *error))completionBlock {
+- (void)createPatient:(Patient *)newPatient withCompletion:(void (^)(Patient * patient, NSError *error))completionBlock {
     
-    [[LEOUserService leoSessionManager] standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointPatientEnrollments params:nil completion:^(NSDictionary *rawResults, NSError *error) {
+    NSDictionary *patientDictionary = [Patient dictionaryFromUser:newPatient];
+    
+    [[LEOUserService leoSessionManager] standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointPatients params:patientDictionary completion:^(NSDictionary *rawResults, NSError *error) {
         
         if (!error) {
+            Patient *patient = [[Patient alloc] initWithJSONDictionary:rawResults[APIParamData][APIParamUserPatient]];
+            patient.avatar = newPatient.avatar;
             
-            completionBlock(YES, nil);
+            completionBlock(patient, nil);
         } else {
             
-            completionBlock(NO, error);
+            completionBlock(nil, error);
         }
     }];
 }
@@ -180,10 +193,11 @@
 
 - (void)postAvatarForUser:(User *)user withCompletion:(void (^)(BOOL success, NSError *error))completionBlock {
     
-    NSData *avatarData = UIImagePNGRepresentation(user.avatar);
-    NSDictionary *avatarParams = @{@"avatar":avatarData};
+    NSString *avatarData = [UIImagePNGRepresentation(user.avatar) base64EncodedStringWithOptions:0];
     
-    [[LEOUserService leoSessionManager] standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointUserEnrollments params:avatarParams completion:^(NSDictionary *rawResults, NSError *error) {
+    NSDictionary *avatarParams = @{@"avatar":avatarData, @"patient_id":@([user.objectID integerValue]) };
+    
+    [[LEOUserService leoSessionManager] standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointAvatars params:avatarParams completion:^(NSDictionary *rawResults, NSError *error) {
         
         //MARK: If we want to use more ternary operators, we can do a lot of this in this class.
         !error ? completionBlock ? completionBlock(YES, nil) : completionBlock(NO, error) : nil;

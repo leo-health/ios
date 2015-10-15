@@ -70,7 +70,5 @@
     //TODO: Merge in changes from issue #295 here to complete this method!
 }
 
--(NSString *)description {
-    return [[self credentialStore] authToken];
-}
+
 @end

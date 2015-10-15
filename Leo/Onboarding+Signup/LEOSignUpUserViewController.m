@@ -352,21 +352,21 @@
 #pragma mark - Debugging
 
 //FIXME: Remove eventually once we determine the issue causing ambiguity in this layout.
-- (void)viewWillLayoutSubviews {
-    
-    if (self.stickyView.delegate) {
-        for (UIView *aView in [self.view subviews]) {
-            if ([aView hasAmbiguousLayout]) {
-                NSLog(@"View Frame %@", NSStringFromCGRect(aView.frame));
-                NSLog(@"%@", [aView class]);
-                NSLog(@"%@", [aView constraintsAffectingLayoutForAxis:1]);
-                NSLog(@"%@", [aView constraintsAffectingLayoutForAxis:0]);
-                
-                [aView exerciseAmbiguityInLayout];
-            }
-        }
-    }
-}
+//- (void)viewWillLayoutSubviews {
+//    
+//    if (self.stickyView.delegate) {
+//        for (UIView *aView in [self.view subviews]) {
+//            if ([aView hasAmbiguousLayout]) {
+//                NSLog(@"View Frame %@", NSStringFromCGRect(aView.frame));
+//                NSLog(@"%@", [aView class]);
+//                NSLog(@"%@", [aView constraintsAffectingLayoutForAxis:1]);
+//                NSLog(@"%@", [aView constraintsAffectingLayoutForAxis:0]);
+//                
+//                [aView exerciseAmbiguityInLayout];
+//            }
+//        }
+//    }
+//}
 
 - (void)testData {
     [self firstNameTextField].text = @"Sally";
