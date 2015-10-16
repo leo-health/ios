@@ -260,6 +260,17 @@ static NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
     }
 }
 
+- (void)navigateToFeed {
+    
+    if ([self isModal]) {
+        [self dismissViewControllerAnimated:self completion:nil];
+    } else {
+        UIStoryboard *feedStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        UIViewController *initialVC = [feedStoryboard instantiateInitialViewController];
+        [self presentViewController:initialVC animated:NO completion:nil];
+    }
+}
+
 - (void)continueTapped:(UIButton *)sender {
     
     NSArray *patients = [self.family.patients copy];
@@ -273,40 +284,45 @@ static NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
         
         if (!error) {
             
-            __block NSInteger counter = 0;
-            
-            [patients enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-               
-                [userService createPatient:obj withCompletion:^(Patient *patient, NSError *error) {
-                    
-                    if (!error) {
-                        
-                        [self.family addPatient:patient];
-                        
-                        counter++;
-                        
-                        [userService postAvatarForUser:patient withCompletion:^(BOOL success, NSError *error) {
-                            NSLog(@"Avatar upload occured successfully? %@", success ? @"YES" : @"NO");
-                        }];
-                        
-                        if (counter == [patients count]) {
-                            
-                            if ([self isModal]) {
-                                [self dismissViewControllerAnimated:self completion:nil];
-                            } else {
-                                UIStoryboard *feedStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                                UIViewController *initialVC = [feedStoryboard instantiateInitialViewController];
-                                [self presentViewController:initialVC animated:NO completion:nil];
-                            }
-                        }
-                        
-                    }
-                }];
+            [self createPatients:patients withCompletion:^(BOOL success) {
+                [self navigateToFeed];
             }];
         }
     }];
 }
 
+- (void)createPatients:(NSArray *)patients withCompletion:( void (^) (BOOL success))completionBlock {
+    
+    __block NSInteger counter = 0;
+
+    LEOUserService *userService = [[LEOUserService alloc] init];
+
+    [patients enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        
+        [userService createPatient:obj withCompletion:^(Patient *patient, NSError *error) {
+            
+            if (!error) {
+                
+                [self.family addPatient:patient];
+                
+                counter++;
+                
+                [userService postAvatarForUser:patient withCompletion:^(BOOL success, NSError *error) {
+                    
+                    if (!error) {
+                        
+                        //FIXME: Currently this will never happen because post avatar comes back with a 422.
+                        NSLog(@"Avatar upload occured successfully!");
+                    }
+                }];
+                
+                if (counter == [patients count]) {
+                    completionBlock(YES);
+                }
+            }
+        }];
+    }];
+}
 
 #pragma mark - <UIScrollViewDelegate> & Helper Methods
 

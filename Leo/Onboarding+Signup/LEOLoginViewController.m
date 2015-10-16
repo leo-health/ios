@@ -220,6 +220,15 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
                     UIViewController *initialVC = [feedStoryboard instantiateInitialViewController];
                     [self presentViewController:initialVC animated:NO completion:nil];
                 }
+            } else {
+                
+                UIAlertController *loginAlert = [UIAlertController alertControllerWithTitle:@"Invalid login" message:@"Looks like your email or password isn't one we recognize. Try entering them again, or reset your password." preferredStyle:UIAlertControllerStyleAlert];
+                
+                UIAlertAction *continueAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil];
+                
+                [loginAlert addAction:continueAction];
+                
+                [self presentViewController:loginAlert animated:YES completion:nil];
             }
         }];
     }

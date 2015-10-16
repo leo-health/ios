@@ -19,6 +19,9 @@
                 <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cEU-9q-euv" userLabel="Email Prompt View" customClass="LEOPromptView">
                     <rect key="frame" x="0.0" y="40" width="600" height="0.0"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="48" id="iog-EG-YgB"/>
+                    </constraints>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fyJ-c7-8hR">
                     <rect key="frame" x="0.0" y="571" width="600" height="29"/>
@@ -31,16 +34,19 @@
                 <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Pc8-E8-SZi" userLabel="Password Prompt View" customClass="LEOPromptView">
                     <rect key="frame" x="0.0" y="80" width="600" height="441"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="48" id="J4g-Og-YST"/>
+                    </constraints>
                 </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="cEU-9q-euv" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="40" id="4wU-eq-Xtw"/>
+                <constraint firstItem="cEU-9q-euv" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="4wU-eq-Xtw"/>
                 <constraint firstItem="Pc8-E8-SZi" firstAttribute="trailing" secondItem="fyJ-c7-8hR" secondAttribute="trailing" id="HTT-bL-fbZ"/>
                 <constraint firstItem="fyJ-c7-8hR" firstAttribute="top" secondItem="Pc8-E8-SZi" secondAttribute="bottom" constant="50" id="KNu-NX-x5l"/>
                 <constraint firstItem="cEU-9q-euv" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="NOO-dh-IsL"/>
                 <constraint firstItem="Pc8-E8-SZi" firstAttribute="leading" secondItem="fyJ-c7-8hR" secondAttribute="leading" id="Ss1-bd-MDr"/>
-                <constraint firstItem="Pc8-E8-SZi" firstAttribute="top" secondItem="cEU-9q-euv" secondAttribute="bottom" constant="40" id="Vme-kH-8zF"/>
+                <constraint firstItem="Pc8-E8-SZi" firstAttribute="top" secondItem="cEU-9q-euv" secondAttribute="bottom" id="Vme-kH-8zF"/>
                 <constraint firstItem="Pc8-E8-SZi" firstAttribute="trailing" secondItem="cEU-9q-euv" secondAttribute="trailing" id="XLA-6o-MQj"/>
                 <constraint firstAttribute="bottom" secondItem="fyJ-c7-8hR" secondAttribute="bottom" id="ZjP-FL-XSD"/>
                 <constraint firstItem="Pc8-E8-SZi" firstAttribute="leading" secondItem="cEU-9q-euv" secondAttribute="leading" id="dMY-gY-EcI"/>
