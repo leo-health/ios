@@ -123,6 +123,11 @@ typedef enum ManagementMode : NSUInteger {
     ManagementModeEdit = 2
 } ManagementMode;
 
+typedef NS_ENUM(NSUInteger, Feature) {
+    FeatureOnboarding = 0,
+    FeatureSettings = 1,
+};
+
 @interface LEOConstants : NSObject
 
 #pragma mark - Temp constants

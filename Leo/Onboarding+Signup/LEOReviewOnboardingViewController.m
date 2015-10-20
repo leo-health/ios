@@ -45,8 +45,6 @@ typedef enum TableViewSection {
 @interface LEOReviewOnboardingViewController ()
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (weak, nonatomic) IBOutlet UINavigationBar *navigationBar;
-@property (strong, nonatomic) UILabel *navTitleLabel;
 @property (strong, nonatomic) CAShapeLayer *pathLayer;
 @property (nonatomic) BOOL breakerPreviouslyDrawn;
 
@@ -75,22 +73,43 @@ static NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
     
     [self setupTableView];
     [self.tableView reloadData];
+    
+    self.navigationItem.titleView.hidden = YES;
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    
+    [self toggleNavigationBarTitleView];
+
 }
 
 - (void)setupNavigationBar {
     
-    [LEOStyleHelper styleNavigationBarForOnboarding];
+    self.view.tintColor = [LEOStyleHelper tintColorForFeature:FeatureOnboarding];
     
-    self.navTitleLabel = [[UILabel alloc] init];
-    self.navTitleLabel.text = @"Check yo' self";
+    [LEOStyleHelper styleNavigationBarForFeature:FeatureOnboarding];
+    UILabel *navTitleLabel = [[UILabel alloc] init];
+    navTitleLabel.text = @"Check yo' self";
     
-    [LEOStyleHelper styleLabelForNavigationHeaderForOnboarding:self.navTitleLabel];
+    [LEOStyleHelper styleLabel:navTitleLabel forFeature:FeatureOnboarding];
     
-    UINavigationItem *item = [[UINavigationItem alloc] init];
-    item.titleView = self.navTitleLabel;
-    [self.navigationBar pushNavigationItem:item animated:NO];
+    self.navigationItem.titleView = navTitleLabel;
+    
+    [self.navigationItem setHidesBackButton:YES];
 }
 
+- (void)toggleNavigationBarTitleView {
+    
+    if (self.tableView.contentOffset.y == 0) {
+        
+        self.navigationItem.titleView.alpha = 0;
+        self.navigationItem.titleView.hidden = NO;
+        
+    } else {
+        self.navigationItem.titleView.alpha = 1;
+        self.navigationItem.titleView.hidden = NO;
+    }
+}
 - (void)setupTableView {
     
     self.tableView.delegate = self;
@@ -239,6 +258,22 @@ static NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
     return 0.0;
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    switch (indexPath.section) {
+        case TableViewSectionTitle:
+            return 130.0;
+            
+        case TableViewSectionGuardians:
+        case TableViewSectionPatients:
+        case TableViewSectionButton:
+            return UITableViewAutomaticDimension;
+    }
+    
+    return UITableViewAutomaticDimension;
+}
+
+
 #pragma mark - Navigation
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -262,23 +297,19 @@ static NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
 
 - (void)navigateToFeed {
     
-    if ([self isModal]) {
-        [self dismissViewControllerAnimated:self completion:nil];
-    } else {
-        UIStoryboard *feedStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        UIViewController *initialVC = [feedStoryboard instantiateInitialViewController];
-        [self presentViewController:initialVC animated:NO completion:nil];
-    }
+    UIStoryboard *feedStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UIViewController *initialVC = [feedStoryboard instantiateInitialViewController];
+    [self presentViewController:initialVC animated:NO completion:nil];
 }
 
 - (void)continueTapped:(UIButton *)sender {
     
     NSArray *patients = [self.family.patients copy];
     self.family.patients = @[];
-
+    
     LEOUserService *userService = [[LEOUserService alloc] init];
     [userService createGuardian:self.family.guardians[0] withCompletion:^(Guardian *guardian, NSError *error) {
-    
+        
         //The guardian that is created should technically take the place of the original, given it will have an id and family_id.
         self.family.guardians = @[guardian];
         
@@ -294,9 +325,9 @@ static NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
 - (void)createPatients:(NSArray *)patients withCompletion:( void (^) (BOOL success))completionBlock {
     
     __block NSInteger counter = 0;
-
+    
     LEOUserService *userService = [[LEOUserService alloc] init];
-
+    
     [patients enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         
         [userService createPatient:obj withCompletion:^(Patient *patient, NSError *error) {
@@ -335,7 +366,7 @@ static NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
         
         if (percentHeaderCellHidden < 1) {
             headerCell.headerLabel.alpha = 1 - percentHeaderCellHidden * speedForTitleViewAlphaChangeConstant;
-            self.navTitleLabel.alpha = percentHeaderCellHidden;
+            self.navigationItem.titleView.alpha = percentHeaderCellHidden;
         }
         if ([self tableViewVerticalContentOffset] >= [self heightOfHeaderCellExcludingOverlapWithNavBar]) {
             
@@ -379,12 +410,10 @@ static NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
 
 - (void)setupBreaker {
     
-    [self.navigationBar layoutIfNeeded];
+    CGRect viewRect = self.navigationController.navigationBar.bounds;
     
-    CGRect viewRect = self.navigationBar.bounds;
-    
-    CGPoint beginningOfLine = CGPointMake(viewRect.origin.x, viewRect.origin.y + viewRect.size.height);
-    CGPoint endOfLine = CGPointMake(viewRect.origin.x + viewRect.size.width, viewRect.origin.y + viewRect.size.height);
+    CGPoint beginningOfLine = CGPointMake(viewRect.origin.x, 0.0);
+    CGPoint endOfLine = CGPointMake(viewRect.origin.x + viewRect.size.width, 0.0);
     
     UIBezierPath *path = [UIBezierPath bezierPath];
     [path moveToPoint:beginningOfLine];
@@ -406,7 +435,7 @@ static NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
     if (scrollView == self.tableView) {
         
         if (!decelerate) {
-            [self scrollView:scrollView snapWithNavigationTitleLabel:self.navTitleLabel];
+            [self navigationTitleViewSnapsForScrollView:scrollView];
         }
     }
 }
@@ -414,11 +443,11 @@ static NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     
     if (scrollView == self.tableView) {
-        [self scrollView:scrollView snapWithNavigationTitleLabel:self.navTitleLabel];
+        [self navigationTitleViewSnapsForScrollView:scrollView];
     }
 }
 
-- (void)scrollView:(UIScrollView *)scrollView snapWithNavigationTitleLabel:(UILabel *)label {
+- (void)navigationTitleViewSnapsForScrollView:(UIScrollView *)scrollView {
     
     if ([self tableViewVerticalContentOffset] > [self heightOfNoReturn] & scrollView.contentOffset.y < [self heightOfHeaderCell]) {
         
@@ -426,7 +455,7 @@ static NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
         [UIView animateWithDuration:0.1 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
             
             [scrollView layoutIfNeeded];
-            label.alpha = 1;
+            self.navigationItem.titleView.alpha = 1;
             scrollView.contentOffset = CGPointMake(0.0, [ self heightOfHeaderCellExcludingOverlapWithNavBar]);
         } completion:nil];
         
@@ -437,7 +466,7 @@ static NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
         [UIView animateWithDuration:0.1 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
             
             [scrollView layoutIfNeeded];
-            label.alpha = 0;
+            self.navigationItem.titleView.alpha = 0;
             scrollView.contentOffset = CGPointMake(0.0, 0.0);
         } completion:nil];
     }
@@ -452,7 +481,7 @@ static NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
     [self.tableView layoutIfNeeded];
     
     CGFloat heightWeWouldLikeTheTableViewContentAreaToBe = [self heightOfTableViewFrame] + [self heightOfHeaderCellExcludingOverlapWithNavBar];
-
+    
     if ([self totalHeightOfTableViewContentArea] > [self heightOfTableViewFrame] && [self totalHeightOfTableViewContentArea] < heightWeWouldLikeTheTableViewContentAreaToBe) {
         
         CGFloat bottomInsetWeNeedToGetToHeightWeWouldLikeTheTableViewContentAreaToBe = heightWeWouldLikeTheTableViewContentAreaToBe - [self totalHeightOfTableViewContentArea];

@@ -16,23 +16,23 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cEU-9q-euv" userLabel="Email Prompt View" customClass="LEOPromptView">
-                    <rect key="frame" x="0.0" y="40" width="600" height="0.0"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cEU-9q-euv" userLabel="Email Prompt View" customClass="LEOPromptView">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="48"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="48" id="iog-EG-YgB"/>
                     </constraints>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fyJ-c7-8hR">
-                    <rect key="frame" x="0.0" y="571" width="600" height="29"/>
+                <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fyJ-c7-8hR">
+                    <rect key="frame" x="0.0" y="146" width="600" height="454"/>
                     <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="12"/>
                     <state key="normal" title="FORGOT PASSWORD">
                         <color key="titleColor" red="0.22352941179999999" green="0.22352941179999999" blue="0.22352941179999999" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                 </button>
-                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Pc8-E8-SZi" userLabel="Password Prompt View" customClass="LEOPromptView">
-                    <rect key="frame" x="0.0" y="80" width="600" height="441"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pc8-E8-SZi" userLabel="Password Prompt View" customClass="LEOPromptView">
+                    <rect key="frame" x="0.0" y="48" width="600" height="48"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="48" id="J4g-Og-YST"/>

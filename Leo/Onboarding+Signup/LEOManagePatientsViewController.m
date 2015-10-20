@@ -8,12 +8,13 @@
 
 #import "LEOManagePatientsViewController.h"
 
+//TODO: Remove these from this class when possible!
 #import "UIFont+LeoFonts.h"
 #import "UIColor+LeoColors.h"
 #import "UIImage+Extensions.h"
 #import "UIViewController+Extensions.h"
 
-#import "LEOPromptViewCell+ConfigureForPatient.h"
+#import "LEOPromptViewCell+ConfigureForCell.h"
 #import "LEOBasicHeaderCell+ConfigureForCell.h"
 #import "LEOReviewPatientCell+ConfigureForCell.h"
 #import "LEOButtonCell.h"
@@ -39,7 +40,6 @@ typedef enum TableViewSection {
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
-@property (weak, nonatomic) IBOutlet UINavigationBar *navigationBar;
 @property (strong, nonatomic) UILabel *navTitleLabel;
 @property (strong, nonatomic) CAShapeLayer *pathLayer;
 @property (nonatomic) BOOL breakerPreviouslyDrawn;
@@ -54,7 +54,7 @@ typedef enum TableViewSection {
     
     [super viewDidLoad];
 
-    self.view.tintColor = [LEOStyleHelper styleTintColorForOnboardingView];
+    self.view.tintColor = [LEOStyleHelper tintColorForFeature:FeatureOnboarding];
     
     [self setupBreaker];
     [self setupNavigationBar];
@@ -68,23 +68,28 @@ typedef enum TableViewSection {
 
     [self setupTableView];
     [self.tableView reloadData];
+    
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    
+    self.navigationItem.titleView.alpha = 0;
+    self.navigationItem.titleView.hidden = NO;
 }
 
 - (void)setupNavigationBar {
     
-    [LEOStyleHelper styleNavigationBarForOnboarding];
+    [LEOStyleHelper styleNavigationBarForFeature:FeatureOnboarding];
+
     self.navTitleLabel = [[UILabel alloc] init];
     self.navTitleLabel.text = @"Review children";
     
-    [LEOStyleHelper styleLabelForNavigationHeaderForOnboarding:self.navTitleLabel];
-    
-    UINavigationItem *item = [[UINavigationItem alloc] init];
-    item.titleView = self.navTitleLabel;
-    [self.navigationBar pushNavigationItem:item animated:NO];
-    
-    [LEOStyleHelper styleCustomBackButtonForViewController:self navigationItem:item];
-}
+    [LEOStyleHelper styleLabel:self.navTitleLabel forFeature:FeatureOnboarding];
 
+    self.navigationItem.titleView = self.navTitleLabel;
+    self.navigationItem.titleView.hidden = YES;
+     [LEOStyleHelper styleBackButtonForViewController:self];
+}
 
 - (void)setupTableView {
     
@@ -199,7 +204,21 @@ typedef enum TableViewSection {
         case TableViewSectionButton:
             break;
     }
+}
 
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    switch (indexPath.section) {
+        case TableViewSectionTitle:
+            return 130.0;
+            
+        case TableViewSectionAddPatient:
+        case TableViewSectionPatients:
+        case TableViewSectionButton:
+            return UITableViewAutomaticDimension;
+    }
+    
+    return UITableViewAutomaticDimension;
 }
 
 -(void)continueTapped:(UIButton * __nonnull)sender {
@@ -220,6 +239,8 @@ typedef enum TableViewSection {
         } else {
             signUpPatientVC.managementMode = ManagementModeCreate;
         }
+        
+        signUpPatientVC.view.tintColor = [LEOStyleHelper tintColorForFeature:FeatureOnboarding];
         
         signUpPatientVC.delegate = self;
     }
@@ -254,7 +275,6 @@ typedef enum TableViewSection {
 - (void)pop {
     
     [self.navigationController popViewControllerAnimated:YES];
-    self.navigationController.navigationBarHidden = YES;
 }
 
 
@@ -265,14 +285,14 @@ typedef enum TableViewSection {
     if (scrollView == self.tableView) {
         
         LEOBasicHeaderCell *headerCell = (LEOBasicHeaderCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
-        CGFloat percentHeaderCellHidden = [self tableViewVerticalContentOffset] / [self heightOfHeaderCellExcludingOverlapWithNavBar];
+        CGFloat percentHeaderCellHidden = [self tableViewVerticalContentOffset] / [self heightOfHeaderCell];
         
         if (percentHeaderCellHidden < 1) {
             headerCell.headerLabel.alpha = 1 - percentHeaderCellHidden * speedForTitleViewAlphaChangeConstant;
             self.navTitleLabel.alpha = percentHeaderCellHidden;
         }
         
-        if ([self tableViewVerticalContentOffset] >= [self heightOfHeaderCellExcludingOverlapWithNavBar]) {
+        if ([self tableViewVerticalContentOffset] >= [self heightOfHeaderCell]) {
             
             if (!self.breakerPreviouslyDrawn) {
                 
@@ -314,12 +334,11 @@ typedef enum TableViewSection {
 
 - (void)setupBreaker {
     
-    [self.navigationBar layoutIfNeeded];
     
-    CGRect viewRect = self.navigationBar.bounds;
+    CGRect viewRect = self.navigationController.navigationBar.bounds;
     
-    CGPoint beginningOfLine = CGPointMake(viewRect.origin.x, viewRect.origin.y + viewRect.size.height);
-    CGPoint endOfLine = CGPointMake(viewRect.origin.x + viewRect.size.width, viewRect.origin.y + viewRect.size.height);
+    CGPoint beginningOfLine = CGPointMake(viewRect.origin.x, 0.0f);
+    CGPoint endOfLine = CGPointMake(viewRect.origin.x + viewRect.size.width, 0.0f);
     
     UIBezierPath *path = [UIBezierPath bezierPath];
     [path moveToPoint:beginningOfLine];
@@ -362,7 +381,7 @@ typedef enum TableViewSection {
             
             [scrollView layoutIfNeeded];
             label.alpha = 1;
-            scrollView.contentOffset = CGPointMake(0.0, [ self heightOfHeaderCellExcludingOverlapWithNavBar]);
+            scrollView.contentOffset = CGPointMake(0.0, [ self heightOfHeaderCell]);
         } completion:nil];
         
         
@@ -386,7 +405,7 @@ typedef enum TableViewSection {
     // Force the table view to calculate its height
     [self.tableView layoutIfNeeded];
     
-    CGFloat heightWeWouldLikeTheTableViewContentAreaToBe = [self heightOfTableViewFrame] + [self heightOfHeaderCellExcludingOverlapWithNavBar];
+    CGFloat heightWeWouldLikeTheTableViewContentAreaToBe = [self heightOfTableViewFrame] + [self heightOfHeaderCell];
     
     if ([self totalHeightOfTableViewContentArea] > [self heightOfTableViewFrame] && [self totalHeightOfTableViewContentArea] < heightWeWouldLikeTheTableViewContentAreaToBe) {
         

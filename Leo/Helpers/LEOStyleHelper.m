@@ -14,16 +14,20 @@
 
 @implementation LEOStyleHelper
 
-+ (UIColor *)styleTintColorForOnboardingView {
-    return [UIColor leoOrangeRed];
++ (void)styleSettingsViewController:(UIViewController *)viewController {
+    
+    viewController.view.tintColor = [self tintColorForFeature:FeatureSettings];
+    
+    [self styleNavigationBarForFeature:FeatureSettings];
+    [self styleBackButtonForViewController:viewController];
 }
 
-+ (void)styleNavigationBarForOnboarding {
++ (void)styleNavigationBarForFeature:(Feature)feature {
     
     
     [UINavigationBar appearance].backItem.hidesBackButton = YES;
     
-    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageWithColor:[UIColor leoWhite]]
+    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageWithColor:[self backgroundColorForFeature:feature]]
                                       forBarPosition:UIBarPositionAny
                                           barMetrics:UIBarMetricsDefault];
     
@@ -32,99 +36,116 @@
     [[UINavigationBar appearance] setShadowImage:[UIImage new]];
 }
 
-+ (void)styleNavigationBarForSettings {
-    
-    [UINavigationBar appearance].backItem.hidesBackButton = YES;
-    
-    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageWithColor:[UIColor leoOrangeRed]]
-                                      forBarPosition:UIBarPositionAny
-                                          barMetrics:UIBarMetricsDefault];
-    
-    [UINavigationBar appearance].translucent = NO;
-    
-    [[UINavigationBar appearance] setShadowImage:[UIImage new]];
-    
-    NSDictionary *titleTextAttributesDictionary = @{NSFontAttributeName : [UIFont leoMenuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont], NSForegroundColorAttributeName: [UIColor leoWhite]};
-    
-    [[UINavigationBar appearance] setTitleTextAttributes:titleTextAttributesDictionary];
-    
-    [[UIBarButtonItem appearance]
-     setBackButtonBackgroundImage:[UIImage imageNamed:@"Icon-BackArrow"]
-     forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-}
-
-+ (void)styleLabelForNavigationHeaderForOnboarding:(UILabel *)label {
++ (void)styleLabel:(UILabel *)label forFeature:(Feature)feature {
     
     label.font = [UIFont leoMenuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
-    label.textColor = [UIColor leoOrangeRed];
+    label.textColor = [self tintColorForFeature:feature];
     
     [label sizeToFit];
 }
 
-+ (void)stylePromptTextView:(LEOPromptTextView *)promptTextView {
++ (void)stylePromptTextView:(LEOPromptTextView *)promptTextView forFeature:(Feature)feature {
     
     promptTextView.textColor = [UIColor leoGrayStandard];
     promptTextView.font = [UIFont leoStandardFont];
     
     promptTextView.floatingLabelActiveTextColor = [UIColor leoGrayStandard];
-    promptTextView.tintColor = [UIColor leoOrangeRed];
+    promptTextView.tintColor = [self tintColorForFeature:feature];
 }
 
-+ (void)styleLabelForNavigationHeaderForSettings:(UILabel *)label {
-    
-    label.font = [UIFont leoMenuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
-    label.textColor = [UIColor leoWhite];
-    
-    [label sizeToFit];
-}
-
-
-+ (void)styleCustomBackButtonForViewController:(UIViewController *)sender {
++ (void)styleBackButtonForViewController:(UIViewController *)viewController {
     
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundeclared-selector"
-//MARK: Determine whether we're cool with doing this here
-    [backButton addTarget:sender action:@selector(pop) forControlEvents:UIControlEventTouchUpInside];
+    //MARK: Determine whether we're cool with doing this here
+    [backButton addTarget:viewController action:@selector(pop) forControlEvents:UIControlEventTouchUpInside];
 #pragma clang diagnostic pop
     
     [backButton setImage:[UIImage imageNamed:@"Icon-BackArrow"] forState:UIControlStateNormal];
     [backButton sizeToFit];
     
-    [backButton setTintColor:sender.view.tintColor];
+    [backButton setTintColor:viewController.view.tintColor];
     
     UIBarButtonItem *backBBI = [[UIBarButtonItem alloc] initWithCustomView:backButton];
     
-    sender.navigationItem.leftBarButtonItem = backBBI;
-    sender.navigationController.navigationBarHidden = NO;
+    viewController.navigationItem.leftBarButtonItem = backBBI;
 }
 
-/**
- *  For use with a view controller that is not using the navigation controller's navigation item but a custom UINavigationBar
- *
- *  @param sender         UIViewController sending the message
- *  @param navigationItem Custom UINavigationItem on UIViewController
- */
-+ (void)styleCustomBackButtonForViewController:(UIViewController *)sender navigationItem:(UINavigationItem *)navigationItem {
+///**
+// *  For use with a view controller that is not using the navigation controller's navigation item but a custom UINavigationBar
+// *
+// *  @param sender         UIViewController sending the message
+// *  @param navigationItem Custom UINavigationItem on UIViewController
+// */
+//+ (void)styleBackButtonForViewController:(UIViewController *)sender navigationItem:(UINavigationItem *)navigationItem {
+//    
+//    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+//    
+//    [backButton addTarget:sender action:@selector(pop) forControlEvents:UIControlEventTouchUpInside];
+//    [backButton setImage:[UIImage imageNamed:@"Icon-BackArrow"] forState:UIControlStateNormal];
+//    [backButton sizeToFit];
+//    
+//    [backButton setTintColor:sender.view.tintColor];
+//    
+//    UIBarButtonItem *backBBI = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+//    
+//    navigationItem.leftBarButtonItem = backBBI;
+//}
+
++ (void)styleButton:(UIButton *)button forFeature:(Feature)feature {
     
-    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.layer.borderColor = [LEOStyleHelper tintColorForFeature:feature].CGColor;
+    button.layer.borderWidth = 1.0;
     
-    [backButton addTarget:sender action:@selector(pop) forControlEvents:UIControlEventTouchUpInside];
-    [backButton setImage:[UIImage imageNamed:@"Icon-BackArrow"] forState:UIControlStateNormal];
-    [backButton sizeToFit];
-    
-    [backButton setTintColor:sender.view.tintColor];
-    
-    UIBarButtonItem *backBBI = [[UIBarButtonItem alloc] initWithCustomView:backButton];
-    
-    navigationItem.leftBarButtonItem = backBBI;
+    button.titleLabel.font = [UIFont leoButtonLabelsAndTimeStampsFont];
+    [button setTitleColor:[self tintColorForFeature:feature] forState:UIControlStateNormal];
+    [button setBackgroundImage:[UIImage imageWithColor:[self backgroundColorForFeature:feature]] forState:UIControlStateNormal];
 }
 
-+ (void)styleViewForSettings:(UIView *)view {
+
++ (UIColor *)tintColorForFeature:(Feature)feature {
     
-    view.tintColor = [UIColor leoWhite];
+    switch (feature) {
+        case FeatureOnboarding:
+            return [UIColor leoOrangeRed];
+            
+        case FeatureSettings:
+            return [UIColor leoWhite];
+    }
 }
 
++ (UIColor *)backgroundColorForFeature:(Feature)feature {
+    
+    switch (feature) {
+        case FeatureOnboarding:
+            return [UIColor leoWhite];
+            
+        case FeatureSettings:
+            return [UIColor leoOrangeRed];
+    }
+}
+
+//+ (void)styleNavigationBarForFeature:(Feature)feature {
+//    
+//    [UINavigationBar appearance].backItem.hidesBackButton = YES;
+//    
+//    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageWithColor:[self backgroundColorForFeature:feature]]
+//                                      forBarPosition:UIBarPositionAny
+//                                          barMetrics:UIBarMetricsDefault];
+//    
+//    [UINavigationBar appearance].translucent = NO;
+//    
+//    [[UINavigationBar appearance] setShadowImage:[UIImage new]];
+//    
+//    NSDictionary *titleTextAttributesDictionary = @{NSFontAttributeName : [UIFont leoMenuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont], NSForegroundColorAttributeName: [UIColor leoWhite]};
+//    
+//    [[UINavigationBar appearance] setTitleTextAttributes:titleTextAttributesDictionary];
+//    
+//    [[UIBarButtonItem appearance]
+//     setBackButtonBackgroundImage:[UIImage imageNamed:@"Icon-BackArrow"]
+//     forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+//}
 
 @end

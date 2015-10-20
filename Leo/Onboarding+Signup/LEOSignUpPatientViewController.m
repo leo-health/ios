@@ -25,11 +25,12 @@
 
 #import "Family.h"
 #import "Patient.h"
+#import "LEOStyleHelper.h"
 
 @interface LEOSignUpPatientViewController ()
 
 @property (strong, nonatomic) LEOSignUpPatientView *signUpPatientView;
-@property (nonatomic) BOOL isNewFamily;
+
 @end
 
 @implementation LEOSignUpPatientViewController
@@ -41,7 +42,8 @@
     
     [super viewDidLoad];
     
-    [self setupStickyView];
+    [self setupNavigationBar];
+    [self setupSignUpPatientView];
     [self setupFirstNameField];
     [self setupLastNameField];
     [self setupBirthDateField];
@@ -50,15 +52,45 @@
     [self setupGenderField];
 }
 
-- (void)setupStickyView {
+-(void)viewWillAppear:(BOOL)animated {
     
-    self.stickyView.delegate = self;
-    self.stickyView.tintColor = [UIColor leoOrangeRed];
-    [self.stickyView reloadViews];
+    [super viewWillAppear:animated];
+    
+    [self setupContinueButton];
 }
 
--(StickyView *)stickyView {
-    return (StickyView *)self.view;
+- (void)setupNavigationBar {
+    
+    self.view.tintColor = [LEOStyleHelper tintColorForFeature:self.feature];
+    
+    [LEOStyleHelper styleNavigationBarForFeature:self.feature];
+    
+    UILabel *navTitleLabel = [[UILabel alloc] init];
+    
+    if (self.managementMode == ManagementModeEdit) {
+        navTitleLabel.text = self.patient.fullName;
+    } else {
+        navTitleLabel.text = @"Add Child Details";
+    }
+    
+    [LEOStyleHelper styleLabel:navTitleLabel forFeature:self.feature];
+    
+    self.navigationItem.titleView = navTitleLabel;
+    
+    [LEOStyleHelper styleBackButtonForViewController:self];
+}
+
+- (void)setupSignUpPatientView {
+    
+    [self.view addSubview:self.signUpPatientView];
+    
+    [self.view removeConstraints:self.view.constraints];
+    self.signUpPatientView.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    NSDictionary *bindings = NSDictionaryOfVariableBindings(_signUpPatientView);
+    
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_signUpPatientView]|" options:0 metrics:nil views:bindings]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_signUpPatientView]|" options:0 metrics:nil views:bindings]];
 }
 
 - (void)setupFirstNameField {
@@ -125,6 +157,15 @@
     }
 }
 
+- (void)setupContinueButton {
+    
+    [LEOStyleHelper styleButton:self.signUpPatientView.updateButton forFeature:self.feature];
+    
+    [self.signUpPatientView.updateButton setTitle:@"CONTINUE" forState:UIControlStateNormal];
+    
+    [self.signUpPatientView.updateButton addTarget:self action:@selector(continueTapped:) forControlEvents:UIControlEventTouchUpInside];
+}
+
 
 #pragma mark - <UIImagePickerViewControllerDelegate>
 
@@ -133,7 +174,16 @@
     UIImage *originalImage = info[UIImagePickerControllerOriginalImage];
     RSKImageCropViewController *imageCropVC = [[RSKImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeCircle];
     imageCropVC.delegate = self;
-
+    imageCropVC.moveAndScaleLabel.font = [UIFont leoStandardFont];
+    imageCropVC.moveAndScaleLabel.textColor = [UIColor leoOrangeRed];
+    imageCropVC.maskLayerColor = [UIColor leoWhite];
+    [imageCropVC.cancelButton setTitleColor:[UIColor leoOrangeRed] forState:UIControlStateNormal];
+    [imageCropVC.chooseButton setTitleColor:[UIColor leoOrangeRed] forState:UIControlStateNormal];
+    imageCropVC.cancelButton.titleLabel.font = [UIFont leoStandardFont];
+    imageCropVC.chooseButton.titleLabel.font = [UIFont leoStandardFont];
+    imageCropVC.avoidEmptySpaceAroundImage = YES;
+    imageCropVC.view.backgroundColor = [UIColor leoWhite];
+    
     [self.navigationController pushViewController:imageCropVC animated:NO];
 
     [self dismissViewControllerAnimated:NO completion:^{
@@ -163,48 +213,11 @@
     self.patient.avatar = avatarImage;
 }
 
-#pragma mark - <StickyViewDelegate>
-
-- (BOOL)scrollable {
-    return YES;
-}
-
-- (BOOL)initialStateExpanded {
-    return YES;
-}
-
-- (NSString *)expandedTitleViewContent {
-    return @"Now, tell us about your child";
-}
-
-
-- (NSString *)collapsedTitleViewContent {
-    return @" ";
-}
-
-- (UIView *)stickyViewBody{
-    return self.signUpPatientView;
-}
-
-- (UIImage *)expandedGradientImage {
-    
-    return [UIImage imageWithColor:[UIColor leoWhite]];
-}
-
-- (UIImage *)collapsedGradientImage {
-    return [UIImage imageWithColor:[UIColor leoWhite]];
-}
-
--(UIViewController *)associatedViewController {
-    return self;
-}
-
 - (LEOSignUpPatientView *)signUpPatientView {
     
     if (!_signUpPatientView) {
         
         _signUpPatientView = [[LEOSignUpPatientView alloc] init];
-        _signUpPatientView.tintColor = [UIColor leoOrangeRed];
     }
     
     return _signUpPatientView;
@@ -226,6 +239,25 @@
         
         [self selectAGender:sender];
     }
+}
+
+
+- (void)navigationController:(UINavigationController *)navigationController
+      willShowViewController:(UIViewController *)viewController
+                    animated:(BOOL)animated {
+    
+    viewController.view.tintColor = [LEOStyleHelper tintColorForFeature:self.feature];
+    
+    [LEOStyleHelper styleNavigationBarForFeature:FeatureSettings];
+    
+    UILabel *navTitleLabel = [[UILabel alloc] init];
+    navTitleLabel.text = @"Photos";
+   
+    [LEOStyleHelper styleLabel:navTitleLabel forFeature:self.feature];
+    
+    viewController.navigationItem.titleView = navTitleLabel;
+    
+    [viewController.navigationItem setHidesBackButton:YES];
 }
 
 
@@ -321,7 +353,6 @@
 - (void)pop {
     
     [self.navigationController popViewControllerAnimated:YES];
-    self.navigationController.navigationBarHidden = YES;
 }
 
 #pragma mark - Validation

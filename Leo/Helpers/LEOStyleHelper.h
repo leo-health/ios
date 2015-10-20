@@ -15,19 +15,13 @@
 
 #pragma mark - Onboarding & Login
 
-+ (UIColor *)styleTintColorForOnboardingView;
++ (void)styleSettingsViewController:(UIViewController *)viewController;
 
-+ (void)styleNavigationBarForOnboarding;
-+ (void)styleNavigationBarForSettings;
-
-+ (void)styleLabelForNavigationHeaderForOnboarding:(UILabel *)label;
-+ (void)styleLabelForNavigationHeaderForSettings:(UILabel *)label;
-
-+ (void)stylePromptTextView:(LEOPromptTextView *)promptTextView;
-
-+ (void)styleCustomBackButtonForViewController:(UIViewController *)sender;
-+ (void)styleCustomBackButtonForViewController:(UIViewController *)sender navigationItem:(UINavigationItem *)navigationItem;
-
-+ (void)styleViewForSettings:(UIView *)view;
-
++ (void)styleNavigationBarForFeature:(Feature)feature;
++ (void)styleLabel:(UILabel *)label forFeature:(Feature)feature;
++ (void)stylePromptTextView:(LEOPromptTextView *)promptTextView forFeature:(Feature)feature;
++ (void)styleBackButtonForViewController:(UIViewController *)sender;
+//+ (void)styleBackButtonForViewController:(UIViewController *)sender navigationItem:(UINavigationItem *)navigationItem;
++ (void)styleButton:(UIButton *)button forFeature:(Feature)feature;
++ (UIColor *)tintColorForFeature:(Feature)feature;
 @end

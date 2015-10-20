@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
-#import "LEOPromptViewCell+ConfigureForPatient.h"
+#import "LEOPromptViewCell+ConfigureForCell.h"
 #import "LEOPromptView.h"
 #import "UIColor+LeoColors.h"
 #import "UIFont+LeoFonts.h"

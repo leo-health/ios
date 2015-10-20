@@ -101,7 +101,7 @@
                         <viewControllerLayoutGuide type="top" id="jO7-Gl-1yl"/>
                         <viewControllerLayoutGuide type="bottom" id="hqs-fv-PtN"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="CHJ-ba-gh9" customClass="StickyView">
+                    <view key="view" contentMode="scaleToFill" id="CHJ-ba-gh9">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

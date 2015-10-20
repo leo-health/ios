@@ -8,13 +8,15 @@
 
 #import "LEOSettingsViewController.h"
 #import "Family.h"
-#import "LEOPromptViewCell+ConfigureForPatient.h"
+#import "LEOPromptViewCell+ConfigureForCell.h"
 #import "SessionUser.h"
 #import "LEOPromptView.h"
 #import "UIColor+LeoColors.h"
 #import "UIFont+LeoFonts.h"
 #import "UIImage+Extensions.h"
 #import "LEOStyleHelper.h"
+
+#import "LEOSignUpPatientViewController.h"
 
 typedef enum SettingsSection {
     
@@ -40,10 +42,10 @@ typedef enum AccountSettings {
 
 @implementation LEOSettingsViewController
 
-static NSString *const kChangeEmailSegue = @"UpdateEmailSegue";
-static NSString *const kChangePasswordSegue = @"UpdatePasswordSegue";
-static NSString *const kInviteGuardianSegue = @"InviteSegue";
-static NSString *const kUpdatePatientSegue = @"UpdatePatientSegue";
+static NSString *const kSegueChangeEmail = @"UpdateEmailSegue";
+static NSString *const kSegueChangePassword = @"UpdatePasswordSegue";
+static NSString *const kSegueInviteGuardian = @"InviteSegue";
+static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
 
 
 #pragma mark - View Controller Lifecycle and Helper Methods
@@ -64,14 +66,14 @@ static NSString *const kUpdatePatientSegue = @"UpdatePatientSegue";
     
     self.navigationController.navigationBarHidden = NO;
 
-    [LEOStyleHelper styleNavigationBarForSettings];
+    [LEOStyleHelper styleNavigationBarForFeature:FeatureSettings];
 
     UILabel *navTitleLabel = [[UILabel alloc] init];
     navTitleLabel.text = @"Settings";
     
     self.view.tintColor = [UIColor whiteColor];
-    [LEOStyleHelper styleCustomBackButtonForViewController:self];
-    [LEOStyleHelper styleLabelForNavigationHeaderForSettings:navTitleLabel];
+    [LEOStyleHelper styleBackButtonForViewController:self];
+    [LEOStyleHelper styleLabel:navTitleLabel forFeature:FeatureSettings];
     
     self.navigationItem.titleView = navTitleLabel;
 }
@@ -194,15 +196,15 @@ static NSString *const kUpdatePatientSegue = @"UpdatePatientSegue";
             switch (indexPath.row) {
                     
                 case AccountSettingsEmail:
-                    [self performSegueWithIdentifier:kChangeEmailSegue sender:indexPath];
+                    [self performSegueWithIdentifier:kSegueChangeEmail sender:indexPath];
                     break;
                     
                 case AccountSettingsPassword:
-                    [self performSegueWithIdentifier:kChangePasswordSegue sender:indexPath];
+                    [self performSegueWithIdentifier:kSegueChangePassword sender:indexPath];
                     break;
                     
                 case AccountSettingsInvite:
-                    [self performSegueWithIdentifier:kInviteGuardianSegue sender:indexPath];
+                    [self performSegueWithIdentifier:kSegueInviteGuardian sender:indexPath];
                     break;
             }
             
@@ -210,7 +212,7 @@ static NSString *const kUpdatePatientSegue = @"UpdatePatientSegue";
             
         case SettingsSectionPatients:
             
-            [self performSegueWithIdentifier:kUpdatePatientSegue sender:indexPath];
+            [self performSegueWithIdentifier:kSegueUpdatePatient sender:indexPath];
             break;
     }
 }
@@ -263,8 +265,12 @@ static NSString *const kUpdatePatientSegue = @"UpdatePatientSegue";
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
-    //TODO: Method to be completed when we update with passing of data.
-    
+
+    if ([segue.identifier isEqualToString:kSegueUpdatePatient]) {
+        
+        LEOSignUpPatientViewController *signUpPatientVC = segue.destinationViewController;
+        signUpPatientVC.feature = FeatureSettings;
+    }
 }
 
 - (void)pop {

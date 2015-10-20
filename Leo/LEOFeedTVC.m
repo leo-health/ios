@@ -98,7 +98,9 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
 #pragma mark - View Controller Lifecycle and VCL Helper Methods
 - (void)viewDidLoad {
     
-    [LEOStyleHelper styleNavigationBarForSettings];
+    
+    //TODO: Add one for feed
+    [LEOStyleHelper styleNavigationBarForFeature:FeatureSettings];
     
     [super viewDidLoad];
     

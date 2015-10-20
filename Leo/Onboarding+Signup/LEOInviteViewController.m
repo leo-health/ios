@@ -30,7 +30,7 @@
 
 - (void)setupView {
     
-    [LEOStyleHelper styleViewForSettings:self.view];
+    [LEOStyleHelper styleSettingsViewController:self];
     
     UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(viewWasTapped)];
     tapGestureForTextFieldDismissal.cancelsTouchesInView = NO;
@@ -49,9 +49,18 @@
 
 - (void)setupNavigationBar {
     
-    self.navigationItem.title = @"Invite a Parent";
+    self.view.tintColor = [LEOStyleHelper tintColorForFeature:FeatureSettings];
     
-    [LEOStyleHelper styleCustomBackButtonForViewController:self];
+    [LEOStyleHelper styleNavigationBarForFeature:FeatureSettings];
+    
+    UILabel *navTitleLabel = [[UILabel alloc] init];
+    navTitleLabel.text = @"Invite a Parent";
+    
+    [LEOStyleHelper styleLabel:navTitleLabel forFeature:FeatureSettings];
+    
+    self.navigationItem.titleView = navTitleLabel;
+    
+    [LEOStyleHelper styleBackButtonForViewController:self];
 }
 
 - (void)sendInvitationsTapped {

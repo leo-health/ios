@@ -29,7 +29,7 @@
 
 - (void)setupView {
     
-    [LEOStyleHelper styleViewForSettings:self.view];
+    [LEOStyleHelper tintColorForFeature:FeatureSettings];
     
     UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(viewWasTapped)];
     tapGestureForTextFieldDismissal.cancelsTouchesInView = NO;
@@ -48,9 +48,18 @@
 
 - (void)setupNavigationBar {
     
-    self.navigationItem.title = @"Update Email";
+    self.view.tintColor = [LEOStyleHelper tintColorForFeature:FeatureSettings];
     
-    [LEOStyleHelper styleCustomBackButtonForViewController:self];
+    [LEOStyleHelper styleNavigationBarForFeature:FeatureSettings];
+    
+    UILabel *navTitleLabel = [[UILabel alloc] init];
+    navTitleLabel.text = @"Update Email";
+    
+    [LEOStyleHelper styleLabel:navTitleLabel forFeature:FeatureSettings];
+    
+    self.navigationItem.titleView = navTitleLabel;
+    
+    [LEOStyleHelper styleBackButtonForViewController:self];
 }
 
 - (void)updateEmailTapped {

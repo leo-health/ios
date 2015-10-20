@@ -46,7 +46,7 @@
     UILabel *navBarTitleLabel = [[UILabel alloc] init];
     
     navBarTitleLabel.text = self.titleText;
-    navBarTitleLabel.textColor = [UIColor leoWhite];
+    navBarTitleLabel.textColor = self.navBarShadowLine;
     navBarTitleLabel.font = [UIFont leoMenuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
     
     [navBarTitleLabel sizeToFit];
@@ -57,7 +57,7 @@
     [backButton addTarget:self action:@selector(pop) forControlEvents:UIControlEventTouchUpInside];
     [backButton setImage:[UIImage imageNamed:@"Icon-BackArrow"] forState:UIControlStateNormal];
     [backButton sizeToFit];
-    [backButton setTintColor:[UIColor leoWhite]];
+    [backButton setTintColor:self.navBarShadowLine];
     
     UIBarButtonItem *backBBI = [[UIBarButtonItem alloc] initWithCustomView:backButton];
     

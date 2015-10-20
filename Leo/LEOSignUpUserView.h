@@ -15,6 +15,7 @@
 @property (weak, nonatomic) IBOutlet LEOPromptView *lastNamePromptView;
 @property (weak, nonatomic) IBOutlet LEOPromptView *phoneNumberPromptView;
 @property (weak, nonatomic) IBOutlet LEOPromptView *insurerPromptView;
+@property (weak, nonatomic) IBOutlet UIButton *continueButton;
 
 
 @end

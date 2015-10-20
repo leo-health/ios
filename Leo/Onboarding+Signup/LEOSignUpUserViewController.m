@@ -8,11 +8,14 @@
 
 #import "LEOSignUpUserViewController.h"
 
-#import "LEOValidatedFloatLabeledTextField.h"
-#import "UIFont+LeoFonts.h"
-#import "UIColor+LeoColors.h"
 #import "UIImage+Extensions.h"
 
+
+//TODO: Eventually remove these and the code related to them from this VC!
+#import "UIFont+LeoFonts.h"
+#import "UIColor+LeoColors.h"
+
+#import "LEOSignUpUserView.h"
 #import "LEOPromptView.h"
 #import "LEOApiReachability.h"
 
@@ -21,18 +24,20 @@
 #import "InsurancePlan.h"
 #import "Insurer.h"
 #import "LEOAPIInsuranceOperation.h"
+
 #import "LEOValidationsHelper.h"
-#import "LEOSignUpUserView.h"
+#import "LEOPromptView.h"
 
 #import "LEOManagePatientsViewController.h"
 
 #import "Guardian.h"
 #import "LEOUserService.h"
+#import "LEOStyleHelper.h"
+#import "UIView+Extensions.h"
 
 @interface LEOSignUpUserViewController ()
 
 @property (strong, nonatomic) LEOSignUpUserView *signUpUserView;
-@property (strong, nonatomic) StickyView *stickyView;
 
 @end
 
@@ -45,11 +50,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self setupStickyView];
+    [LEOStyleHelper tintColorForFeature:FeatureOnboarding];
+
+    [self setupNavigationBar];
     [self setupFirstNameField];
     [self setupLastNameField];
     [self setupPhoneNumberField];
     [self setupInsurerPromptView];
+    [self setupButton];
     
 }
 
@@ -59,30 +67,16 @@
 
 }
 
--(StickyView *)stickyView {
-    return (StickyView *)self.view;
-}
-
-- (void)setupStickyView {
-    
-    self.stickyView.delegate = self;
-    self.stickyView.tintColor = [UIColor leoOrangeRed];
-    [self.stickyView reloadViews];
-}
-
-- (LEOSignUpUserView *)signUpUserView {
-    
-    if (!_signUpUserView) {
-        _signUpUserView = [[LEOSignUpUserView alloc] init];
-        _signUpUserView.tintColor = [UIColor leoOrangeRed];
-    }
-    
-    return _signUpUserView;
-}
-
 - (void)viewDidDisappear:(BOOL)animated{
     
     [LEOApiReachability stopMonitoring];
+}
+
+- (void)setupNavigationBar {
+    
+    self.view.tintColor = [LEOStyleHelper tintColorForFeature:FeatureOnboarding];
+    [LEOStyleHelper styleNavigationBarForFeature:FeatureOnboarding];
+    [LEOStyleHelper styleBackButtonForViewController:self];
 }
 
 - (void)setupFirstNameField {
@@ -132,6 +126,13 @@
     self.signUpUserView.insurerPromptView.delegate = self;
 }
 
+- (void)setupButton {
+    
+    [LEOStyleHelper styleButton:[self continueButton] forFeature:FeatureOnboarding];
+
+    [[self continueButton] addTarget:self action:@selector(continueTapped:) forControlEvents:UIControlEventTouchUpInside];
+}
+
 - (Family *)family {
     
     if (!_family) {
@@ -141,42 +142,14 @@
     return _family;
 }
 
-#pragma mark - <StickyViewDelegate>
-
-- (BOOL)scrollable {
-    return YES;
-}
-
-- (BOOL)initialStateExpanded {
-    return YES;
-}
-
-- (NSString *)expandedTitleViewContent {
-    return @"Tell us about yourself";
-}
-
-
-- (NSString *)collapsedTitleViewContent {
-    return @"My Info";
-}
-
-- (UIView *)stickyViewBody{
-    return self.signUpUserView;
-}
-
-- (UIImage *)expandedGradientImage {
+-(LEOSignUpUserView *)signUpUserView {
     
-    return [UIImage imageWithColor:[UIColor leoWhite]];
-}
+    if (!_signUpUserView) {
+        _signUpUserView = [[LEOSignUpUserView alloc] init];
+    }
 
-- (UIImage *)collapsedGradientImage {
-    return [UIImage imageWithColor:[UIColor leoWhite]];
+    return _signUpUserView;
 }
-
--(UIViewController *)associatedViewController {
-    return self;
-}
-
 
 #pragma mark - <LEOPromptDelegate>
 
@@ -233,8 +206,8 @@
         
         selectionVC.key = @"name";
         selectionVC.reuseIdentifier = @"InsurancePlanCell";
-        selectionVC.titleText = @"Who is the visit for?";
-        selectionVC.tintColor = [UIColor leoWhite];
+        selectionVC.titleText = @"Who is your insurer?";
+        selectionVC.tintColor = [UIColor leoOrangeRed];
         selectionVC.navBarShadowLine = [UIColor leoOrangeRed];
         
         selectionVC.configureCellBlock = ^(InsurancePlanCell *cell, InsurancePlan *plan) {
@@ -268,7 +241,6 @@
 - (void)pop {
     
     [self.navigationController popViewControllerAnimated:YES];
-    self.navigationController.navigationBarHidden = YES;
 }
 
 
@@ -349,6 +321,10 @@
     return self.signUpUserView.insurerPromptView.textField;
 }
 
+- (UIButton *)continueButton {
+    return self.signUpUserView.continueButton;
+}
+
 #pragma mark - Debugging
 
 //FIXME: Remove eventually once we determine the issue causing ambiguity in this layout.
@@ -367,6 +343,7 @@
 //        }
 //    }
 //}
+
 
 - (void)testData {
     [self firstNameTextField].text = @"Sally";
