@@ -66,8 +66,6 @@ IB_DESIGNABLE
     
     self.tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(promptTapped:)];
     [self addGestureRecognizer:self.tapGesture];
-    self.tapGesture.numberOfTapsRequired = 1;
-    self.tapGesture.numberOfTouchesRequired = 1;
     self.tapGesture.delegate = self;
 }
 
