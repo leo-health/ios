@@ -54,12 +54,18 @@ IB_DESIGNABLE
     [self setupConstraints];
 }
 
+-(BOOL)valid {
+    return self.textField.valid;
+}
+
+-(void)setValid:(BOOL)valid {
+    self.textField.valid = valid;
+}
+
 - (void)setupTapGesture {
     
     self.tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(promptTapped:)];
     [self addGestureRecognizer:self.tapGesture];
-    self.tapGesture.numberOfTapsRequired = 1;
-    self.tapGesture.numberOfTouchesRequired = 1;
     self.tapGesture.delegate = self;
 }
 
@@ -110,16 +116,17 @@ IB_DESIGNABLE
     
     NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(_accessoryImageView, _textField, _sectionSeparator);
     
-    NSArray *constraintVerticalTextField = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_textField]-(3)-[_sectionSeparator(==1)]|" options:0 metrics:nil views:viewsDictionary];
+    NSLog(@"%f", self.textField.intrinsicContentSize.height);
+    
+    NSArray *constraintVerticalTextField = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(25)-[_textField(>=40)]-(3)-[_sectionSeparator(==1)]|" options:0 metrics:nil views:viewsDictionary];
     NSArray *constraintHorizontalTextField = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_textField]|" options:0 metrics:nil views:viewsDictionary];
     NSArray *constraintHorizontalSectionSeparator = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_sectionSeparator]|" options:0 metrics:nil views:viewsDictionary];
-    
     
     [self addConstraints:constraintHorizontalTextField];
     [self addConstraints:constraintVerticalTextField];
     [self addConstraints:constraintHorizontalSectionSeparator];
     
-    NSLayoutConstraint *constraintVerticalAlignmentPromptImageView = [NSLayoutConstraint constraintWithItem:self.accessoryImageView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0];
+    NSLayoutConstraint *constraintVerticalAlignmentPromptImageView = [NSLayoutConstraint constraintWithItem:self.accessoryImageView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.textField attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0];
     NSLayoutConstraint *constraintTrailingPromptImageView = [NSLayoutConstraint constraintWithItem:self.accessoryImageView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0];
     
     [self addConstraints:@[constraintVerticalAlignmentPromptImageView,constraintTrailingPromptImageView]];
@@ -136,6 +143,10 @@ IB_DESIGNABLE
 - (void)promptTapped:(UITapGestureRecognizer *)gesture {
     
     [self.delegate respondToPrompt:gesture.delegate];
+}
+
+-(CGSize)intrinsicContentSize {
+    return CGSizeMake(UIViewNoIntrinsicMetric, 68.0);
 }
 
 

@@ -184,7 +184,7 @@
     
     if (sender == self.signUpUserView.insurerPromptView) {
         
-        [self performSegueWithIdentifier:kPlanSegue sender:nil];
+        [self performSegueWithIdentifier:kSeguePlan sender:nil];
     }
 }
 
@@ -198,7 +198,7 @@
         
         switch (self.managementMode) {
             case ManagementModeCreate:
-                [self performSegueWithIdentifier:kContinueSegue sender:sender];
+                [self performSegueWithIdentifier:kSegueContinue sender:sender];
                 break;
                 
             case ManagementModeEdit:
@@ -227,7 +227,7 @@
     
     __block BOOL shouldSelect = NO;
     
-    if ([segue.identifier isEqualToString:kPlanSegue]) {
+    if ([segue.identifier isEqualToString:kSeguePlan]) {
         
         LEOBasicSelectionViewController *selectionVC = segue.destinationViewController;
         
@@ -256,7 +256,7 @@
         selectionVC.delegate = self;
     }
     
-    if ([segue.identifier isEqualToString:kContinueSegue]) {
+    if ([segue.identifier isEqualToString:kSegueContinue]) {
         
         LEOManagePatientsViewController *manageChildrenVC = segue.destinationViewController;
         

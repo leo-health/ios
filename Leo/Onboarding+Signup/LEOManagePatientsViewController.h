@@ -7,13 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "StickyView.h"
 #import "LEOPromptView.h"
 #import "LEOSignUpPatientViewController.h"
 
 @class Family;
 
-@interface LEOManagePatientsViewController : UIViewController <UITextFieldDelegate, UIScrollViewDelegate, StickyViewDelegate, UITableViewDelegate, UITableViewDataSource, SignUpPatientProtocol>
+@interface LEOManagePatientsViewController : UIViewController <UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource, SignUpPatientProtocol>
 
 @property (strong, nonatomic) Family *family;
 @property (copy, nonatomic) NSString *enrollmentToken;

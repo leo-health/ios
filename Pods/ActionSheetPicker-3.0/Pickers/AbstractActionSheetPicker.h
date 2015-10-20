@@ -55,11 +55,8 @@ typedef NS_ENUM(NSInteger, TapAction)
 typedef void (^ActionBlock)(void);
 
 static NSString *const kButtonValue   = @"buttonValue";
-
 static NSString *const kButtonTitle   = @"buttonTitle";
-
 static NSString *const kActionType    = @"buttonAction";
-
 static NSString *const kActionTarget  = @"buttonActionTarget";
 
 @interface AbstractActionSheetPicker : NSObject<UIPopoverControllerDelegate>

@@ -24,7 +24,7 @@
 
 @implementation TimeCollectionController
 
-NSString *const timeReuseIdentifier = @"TimeCell";
+static NSString *const timeReuseIdentifier = @"TimeCell";
 
 - (instancetype)initWithCollectionView:(UICollectionView *)collectionView slots:(NSArray *)slots chosenSlot:(nullable Slot *)chosenSlot {
     

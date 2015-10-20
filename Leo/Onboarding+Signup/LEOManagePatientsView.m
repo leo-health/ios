@@ -16,19 +16,6 @@
 
 @implementation LEOManagePatientsView
 
-//- (instancetype)initWithCoder:(NSCoder *)aDecoder
-//{
-//    self = [super initWithCoder:aDecoder];
-//    
-//    if (self) {
-//        [self setupConstraints];
-//        [self setupTableView];
-//
-//    }
-//    
-//    return self;
-//}
-
 -(instancetype)initWithCellCount:(NSInteger)cellCount {
     
     self = [super init];

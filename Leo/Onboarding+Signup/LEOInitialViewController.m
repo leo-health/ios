@@ -9,8 +9,8 @@
 #import "LEOInitialViewController.h"
 #import "UIImage+Extensions.h"
 
-NSString *const kLoginSegue = @"LoginSegue";
-NSString *const kSignUpSegue = @"SignUpSegue";
+static NSString *const kLoginSegue = @"LoginSegue";
+static NSString *const kSignUpSegue = @"SignUpSegue";
 
 @interface LEOInitialViewController()
 

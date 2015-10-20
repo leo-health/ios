@@ -192,8 +192,27 @@ NSString *const APIParamPlanSupported = @"supported"; //Ironically, this param i
 CGFloat const selectionLineHeight = 2.0f;
 
 #pragma mark - Segues
-NSString *const kContinueSegue = @"ContinueSegue";
-NSString *const kPlanSegue = @"PlanSegue";
+NSString *const kSegueContinue = @"ContinueSegue";
+NSString *const kSeguePlan = @"PlanSegue";
+
+#pragma mark - Storyboards
+NSString *const kStoryboardSettings = @"Settings";
+NSString *const kStoryboardLogin = @"Login";
+NSString *const kStoryboardFeed = @"Main";
+NSString *const kStoryboardConversation = @"Conversation";
+NSString *const kStoryboardAppointment = @"Appointment";
+
+#pragma mark - Cell Reuse Identifiers 
+NSString *const kHeaderCellReuseIdentifier = @"LEOBasicHeaderCell";
+NSString *const kReviewUserCellReuseIdentifer = @"ReviewUserCell";
+NSString *const kReviewPatientCellReuseIdentifer = @"ReviewPatientCell";
+NSString *const kButtonCellReuseIdentifier = @"ButtonCell";
+NSString *const kPromptViewCellReuseIdentifier = @"LEOPromptViewCell";
+
+#pragma mark - Constants
+
+CGFloat const heightOfNoReturnConstant = 0.4;
+CGFloat const speedForTitleViewAlphaChangeConstant = 4.0;
 
 
 @end

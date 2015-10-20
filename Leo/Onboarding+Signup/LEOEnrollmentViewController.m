@@ -176,7 +176,7 @@
         [userService enrollUser:self.guardian password:[self passwordTextField].text withCompletion:^(BOOL success, NSError *error) {
             
             if (!error) {
-                [self performSegueWithIdentifier:kContinueSegue sender:sender];
+                [self performSegueWithIdentifier:kSegueContinue sender:sender];
             }
         }];
     }

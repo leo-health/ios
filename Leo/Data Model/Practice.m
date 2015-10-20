@@ -12,7 +12,8 @@
 
 @implementation Practice
 
-NSString *const RoleProvider = @"clinical";
+//TODO: Having this and using it in Practice is a code smell. Return to this and determine whether a change to the model might be ideal.
+static NSString *const RoleProvider = @"clinical";
 
 - (instancetype)initWithObjectID:(NSString *)objectID name:(NSString *)name staff:(NSArray *)staff addressLine1:(NSString *)addressLine1 addressLine2:(NSString *)addressLine2 city:(NSString *)city state:(NSString *)state zip:(NSString *)zip phone:(NSString *)phone email:(NSString *)email fax:(NSString *)fax {
 

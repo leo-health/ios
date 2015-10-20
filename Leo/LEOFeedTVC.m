@@ -30,6 +30,7 @@
 #import "UIImage+Extensions.h"
 #import "LEOExpandedCardAppointmentViewController.h"
 #import "LEOMessagesViewController.h"
+#import "LEOSettingsViewController.h"
 
 #import "LEOCardAppointment.h"
 #import "LEOTransitioningDelegate.h"
@@ -49,6 +50,13 @@
 #import <MBProgressHUD/MBProgressHUD.h>
 #import "Configuration.h"
 #import "LEOPusherHelper.h"
+#import "MenuView.h"
+
+#import <UIImage+Resize.h>
+#import "UIImageEffects.h"
+#import <VBFPopFlatButton/VBFPopFlatButton.h>
+
+#import "LEOStyleHelper.h"
 
 @interface LEOFeedTVC ()
 
@@ -63,6 +71,13 @@
 @property (copy, nonatomic) NSArray *allStaff;
 @property (copy, nonatomic) NSArray *appointmentTypes;
 
+@property (weak, nonatomic) IBOutlet VBFPopFlatButton *menuButton;
+
+@property (nonatomic) BOOL menuShowing;
+@property (strong, nonatomic) UIImageView *blurredImageView;
+@property (strong, nonatomic) MenuView *menuView;
+@property (weak, nonatomic) IBOutlet UINavigationBar *navigationBar;
+
 @end
 
 @implementation LEOFeedTVC
@@ -74,24 +89,83 @@ static NSString *const CellIdentifierLEOCardOneButtonSecondaryOnly = @"LEOOneBut
 static NSString *const CellIdentifierLEOCardOneButtonPrimaryAndSecondary = @"LEOOneButtonPrimaryAndSecondaryCell";
 static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButtonPrimaryOnlyCell";
 
+static NSString *const kNotificationBookAppointment = @"requestToBookNewAppointment";
+static NSString *const kNotificationManageSettings = @"requestToManageSettings";
+static NSString *const kNotificationCardUpdated = @"Card-Updated";
+static NSString *const kNotificationConversationAddedMessage = @"Conversation-AddedMessage";
+
 
 #pragma mark - View Controller Lifecycle and VCL Helper Methods
 - (void)viewDidLoad {
     
+    [LEOStyleHelper styleNavigationBarForSettings];
+    
     [super viewDidLoad];
     
-    // Registering as observer from one object
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(beginSchedulingNewAppointment)
-                                                 name:@"requestToBookNewAppointment"
-                                               object:nil];
+    self.view.backgroundColor = [UIColor leoOrangeRed];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationReceived:) name:@"Card-Updated" object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationReceived:) name:@"Conversation-AddedMessage" object:nil];
-    
-    [self tableViewSetup];
+    [self setupNavigationBar];
+    [self setupNotifications];
+    [self setupTableView];
+    [self setupMenuButton];
+    [self setNeedsStatusBarAppearanceUpdate];
+
     [self pushNewMessageToConversation:[self conversation].associatedCardObject];
+
+    
+    //Set background color such that the status bar color matches the color of the navigation bar.
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+    
+    [super viewWillAppear:animated];
+    
+    self.navigationController.navigationBarHidden = YES;
+}
+
+
+/**
+ *  Setup navigation bar
+ */
+- (void)setupNavigationBar {
+    
+    self.navigationBar.barTintColor = [UIColor leoOrangeRed];
+    self.navigationBar.translucent = NO;
+    
+    UIImage *heartBBI = [[UIImage imageNamed:@"Icon-LeoHeart"] resizedImageToSize:CGSizeMake(30.0, 30.0)];
+    
+    UIBarButtonItem *leoheartBBI = [[UIBarButtonItem alloc] initWithImage:heartBBI style:UIBarButtonItemStylePlain target:self action:nil];
+
+    self.navigationBar.topItem.title = @"";
+    
+    UINavigationItem *item = [[UINavigationItem alloc] init];
+    
+    item.leftBarButtonItem = leoheartBBI;
+    
+    self.navigationBar.items = @[item];
+}
+
+- (void)setupNotifications {
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(notificationReceived:)
+                                                 name:kNotificationBookAppointment
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(notificationReceived:)
+                                                 name:kNotificationCardUpdated
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(notificationReceived:)
+                                                 name:kNotificationConversationAddedMessage
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(notificationReceived:)
+                                                 name:kNotificationManageSettings
+                                               object:nil];
 }
 
 //MARK: Most likely doesn't belong in this class; no longer tied to it except for completion block which can be passed in.
@@ -101,21 +175,35 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     NSString *event = @"new_message";
     
     LEOPusherHelper *pusherHelper = [LEOPusherHelper sharedPusher];
-    [pusherHelper connectToPusherChannel:channelString withEvent:event sender:self withCompletion:^(NSDictionary *channelData) {
-        
-        [conversation addMessageFromJSON:channelData];
-    }];
+    
+    [pusherHelper connectToPusherChannel:channelString
+                               withEvent:event
+                                  sender:self
+                          withCompletion:^(NSDictionary *channelData) {
+                              
+                              [conversation addMessageFromJSON:channelData];
+                          }];
 }
 
 -(void)viewDidAppear:(BOOL)animated {
+    
     [super viewDidAppear:animated];
+    
     [self fetchDataForCard:nil];
 }
 
 - (void)notificationReceived:(NSNotification *)notification {
     
-    if ([notification.name isEqualToString: @"Conversation-AddedMessage"] || [notification.name isEqualToString: @"Card-Updated"]) {
+    if ([notification.name isEqualToString:kNotificationConversationAddedMessage] || [notification.name isEqualToString: @"Card-Updated"]) {
         [self fetchDataForCard:notification.object];
+    }
+    
+    if ([notification.name isEqualToString:kNotificationBookAppointment]) {
+        [self beginSchedulingNewAppointment];
+    }
+    
+    if ([notification.name isEqualToString:kNotificationManageSettings]) {
+        [self loadSettings];
     }
 }
 
@@ -157,7 +245,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     });
 }
 
-- (void)tableViewSetup {
+- (void)setupTableView {
     
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
@@ -167,12 +255,27 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     self.tableView.backgroundColor = [UIColor leoGrayForMessageBubbles];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
-    [self.tableView registerNib:[LEOTwoButtonPrimaryOnlyCell nib] forCellReuseIdentifier:CellIdentifierLEOCardTwoButtonPrimaryOnly];
-    [self.tableView registerNib:[LEOOneButtonPrimaryOnlyCell nib] forCellReuseIdentifier:CellIdentifierLEOCardOneButtonPrimaryOnly];
-    [self.tableView registerNib:[LEOTwoButtonSecondaryOnlyCell nib] forCellReuseIdentifier:CellIdentifierLEOCardTwoButtonSecondaryOnly];
-    [self.tableView registerNib:[LEOOneButtonSecondaryOnlyCell nib] forCellReuseIdentifier:CellIdentifierLEOCardOneButtonSecondaryOnly];
-    [self.tableView registerNib:[LEOTwoButtonPrimaryAndSecondaryCell nib] forCellReuseIdentifier:CellIdentifierLEOCardTwoButtonPrimaryAndSecondary];
-    [self.tableView registerNib:[LEOOneButtonPrimaryAndSecondaryCell nib] forCellReuseIdentifier:CellIdentifierLEOCardOneButtonPrimaryAndSecondary];
+    UIEdgeInsets insets = self.tableView.contentInset;
+    insets.top += 24;
+    self.tableView.contentInset = insets;
+    
+    [self.tableView registerNib:[LEOTwoButtonPrimaryOnlyCell nib]
+         forCellReuseIdentifier:CellIdentifierLEOCardTwoButtonPrimaryOnly];
+    
+    [self.tableView registerNib:[LEOOneButtonPrimaryOnlyCell nib]
+         forCellReuseIdentifier:CellIdentifierLEOCardOneButtonPrimaryOnly];
+    
+    [self.tableView registerNib:[LEOTwoButtonSecondaryOnlyCell nib]
+         forCellReuseIdentifier:CellIdentifierLEOCardTwoButtonSecondaryOnly];
+    
+    [self.tableView registerNib:[LEOOneButtonSecondaryOnlyCell nib]
+         forCellReuseIdentifier:CellIdentifierLEOCardOneButtonSecondaryOnly];
+    
+    [self.tableView registerNib:[LEOTwoButtonPrimaryAndSecondaryCell nib]
+         forCellReuseIdentifier:CellIdentifierLEOCardTwoButtonPrimaryAndSecondary];
+    
+    [self.tableView registerNib:[LEOOneButtonPrimaryAndSecondaryCell nib]
+         forCellReuseIdentifier:CellIdentifierLEOCardOneButtonPrimaryAndSecondary];
 }
 
 
@@ -217,14 +320,15 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
                 }
                     
                 case AppointmentStatusCodeConfirmingCancelling: {
-                    [self removeCard:card fromDatabaseWithCompletion:^(NSDictionary *response, NSError *error) {
-                        if (!error) {
-                            
-                            [self.tableView reloadData];
-                        } else {
-                            [card returnToPriorState];
-                        }
-                    }];
+                    [self removeCard:card
+          fromDatabaseWithCompletion:^(NSDictionary *response, NSError *error) {
+              if (!error) {
+                  
+                  [self.tableView reloadData];
+              } else {
+                  [card returnToPriorState];
+              }
+          }];
                     break;
                 }
                     
@@ -244,7 +348,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
         if (card.type == CardTypeConversation) {
             
             Conversation *conversation = card.associatedCardObject; //FIXME: Make this a loop to account for multiple appointments.
-
+            
             switch (conversation.statusCode) {
                     
                 case ConversationStatusCodeClosed: {
@@ -260,27 +364,41 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
                     break;
                 }
                     
-                //FIXME: Need to handle "Call us" somehow
+                    //FIXME: Need to handle "Call us" somehow
             }
         }
     }];
 }
 
 - (void)beginSchedulingNewAppointment {
-
-    Appointment *appointment = [[Appointment alloc] initWithObjectID:nil
-                                                              date:nil
-                                                   appointmentType:nil
-                                                           patient:nil
-                                                          provider:nil
-                                                        practiceID:@"0"
-                                                      bookedByUser:[SessionUser currentUser]
-                                                              note:nil
-                                                        statusCode:AppointmentStatusCodeNew];
     
-    LEOCardAppointment *card = [[LEOCardAppointment alloc] initWithObjectID:@"temp" priority:@999 type:CardTypeAppointment associatedCardObject:appointment];
+    Appointment *appointment = [[Appointment alloc] initWithObjectID:nil
+                                                                date:nil
+                                                     appointmentType:nil
+                                                             patient:nil
+                                                            provider:nil
+                                                          practiceID:@"0"
+                                                        bookedByUser:[SessionUser currentUser]
+                                                                note:nil
+                                                          statusCode:AppointmentStatusCodeNew];
+    
+    LEOCardAppointment *card = [[LEOCardAppointment alloc] initWithObjectID:@"temp"
+                                                                   priority:@999
+                                                                       type:CardTypeAppointment
+                                                       associatedCardObject:appointment];
     
     [self loadBookingViewWithCard:card];
+}
+
+- (void)loadSettings {
+    
+    UIStoryboard *settingsStoryboard = [UIStoryboard storyboardWithName:kStoryboardSettings
+                                                                 bundle:nil];
+    
+    LEOSettingsViewController *settingsVC = [settingsStoryboard instantiateInitialViewController];
+    settingsVC.family = self.family;
+    
+    [self.navigationController pushViewController:settingsVC animated:YES];
 }
 
 
@@ -288,11 +406,13 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     
     //TODO: Include the progress hud while waiting for deletion.
     
-    [self.appointmentService cancelAppointment:card.associatedCardObject withCompletion:^(NSDictionary * response, NSError * error) {
-        if (completionBlock) {
-            completionBlock(response, error);
-        }
-    }];
+    [self.appointmentService cancelAppointment:card.associatedCardObject
+                                withCompletion:^(NSDictionary * response, NSError * error) {
+                                    
+                                    if (completionBlock) {
+                                        completionBlock(response, error);
+                                    }
+                                }];
 }
 
 - (void)removeCardFromFeed:(LEOCard *)card {
@@ -301,8 +421,12 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     NSUInteger cardRow = [self.cards indexOfObject:card];
     [self removeCard:card];
     
-    NSArray *indexPaths = @[[NSIndexPath indexPathForRow:cardRow inSection:0]];
-    [self.tableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
+    NSArray *indexPaths = @[[NSIndexPath indexPathForRow:cardRow
+                                               inSection:0]];
+    
+    [self.tableView deleteRowsAtIndexPaths:indexPaths
+                          withRowAnimation:UITableViewRowAnimationFade];
+    
     [self.tableView endUpdates];
 }
 
@@ -327,14 +451,17 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 
 - (void)loadBookingViewWithCard:(LEOCard *)card {
     
-    UIStoryboard *appointmentStoryboard = [UIStoryboard storyboardWithName:@"Appointment" bundle:nil];
+    UIStoryboard *appointmentStoryboard = [UIStoryboard storyboardWithName:@"Appointment"
+                                                                    bundle:nil];
+    
     UINavigationController *appointmentNavController = [appointmentStoryboard instantiateInitialViewController];
     LEOExpandedCardAppointmentViewController *appointmentBookingVC = appointmentNavController.viewControllers.firstObject;
     appointmentBookingVC.delegate = self;
+    
     appointmentBookingVC.card = (LEOCardAppointment *)card;
-                 self.transitionDelegate = [[LEOTransitioningDelegate alloc] init];
-                appointmentNavController.transitioningDelegate = self.transitionDelegate;
-                appointmentNavController.modalPresentationStyle = UIModalPresentationCustom;
+    self.transitionDelegate = [[LEOTransitioningDelegate alloc] init];
+    appointmentNavController.transitioningDelegate = self.transitionDelegate;
+    appointmentNavController.modalPresentationStyle = UIModalPresentationCustom;
     [self presentViewController:appointmentNavController animated:YES completion:^{
     }];
 }
@@ -378,11 +505,11 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
             
             return cell;
         }
-           
+            
         case CardLayoutOneButtonSecondaryOnly: {
             cellIdentifier = CellIdentifierLEOCardOneButtonSecondaryOnly;
             LEOOneButtonSecondaryOnlyCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier
-                                                                                forIndexPath:indexPath];
+                                                                                  forIndexPath:indexPath];
             [cell configureForCard:card];
             
             return cell;
@@ -405,7 +532,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
             
             return cell;
         }
-         
+            
         case CardLayoutTwoButtonPrimaryAndSecondary: {
             cellIdentifier = CellIdentifierLEOCardTwoButtonPrimaryAndSecondary;
             
@@ -416,15 +543,15 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
             
             return cell;
         }
-
+            
         case CardLayoutOneButtonPrimaryAndSecondary: {
             cellIdentifier = CellIdentifierLEOCardOneButtonPrimaryAndSecondary;
             
             LEOOneButtonPrimaryAndSecondaryCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier
-                                                                                forIndexPath:indexPath];
+                                                                                        forIndexPath:indexPath];
             
             [cell configureForCard:card];
-
+            
             return cell;
         }
             
@@ -442,6 +569,162 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
     }
     
     return _appointmentService;
+}
+
+
+/**
+ *  Create a blurred version of the current view. Does not blur status bar currently.
+ *
+ *  @return the blurred UIImage
+ */
+-(UIImage *)blurredSnapshot {
+    
+    self.menuButton.hidden = YES;
+    UIGraphicsBeginImageContextWithOptions([UIScreen mainScreen].bounds.size, NO, 0);
+    
+    [self.view.window.layer renderInContext:UIGraphicsGetCurrentContext()];
+    
+    //    [self.view drawViewHierarchyInRect:[UIScreen mainScreen].bounds afterScreenUpdates:YES];
+    
+    UIImage *snapshotImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+    UIImage *blurredSnapshotImage = [UIImageEffects imageByApplyingBlurToImage:snapshotImage withRadius:4 tintColor:nil saturationDeltaFactor:1.0 maskImage:nil];
+    
+    UIGraphicsEndImageContext();
+    
+    self.menuButton.hidden = NO;
+    return blurredSnapshotImage;
+}
+
+
+/**
+ *  Initialize VBFPopFlatButton for menu with appropriate values for key properties.
+ */
+- (void)setupMenuButton {
+    
+    self.menuButton.currentButtonType = buttonAddType;
+    self.menuButton.currentButtonStyle = buttonRoundedStyle;
+    self.menuButton.tintColor = [UIColor leoWhite];
+    self.menuButton.roundBackgroundColor = [UIColor leoOrangeRed];
+    self.menuButton.lineThickness = 1;
+    [self.menuButton addTarget:self action:@selector(menuTapped) forControlEvents:UIControlEventTouchUpInside];
+}
+
+/**
+ *  Toggle method for blur and menu animation when `menuButton` is tapped.
+ */
+- (void)menuTapped {
+    
+    if (!self.menuShowing) {
+        
+        [self initializeMenuView];
+        [self animateMenuLoad];
+    } else {
+        
+        [self animateMenuDisappearWithCompletion:^{
+            [self dismissMenuView];
+        }];
+    }
+    
+    self.menuShowing = !self.menuShowing;
+}
+
+
+/**
+ *  Load Main Menu for Leo. Includes blurred background and updated menu button.
+ */
+- (void)animateMenuLoad {
+    
+    UIImage *blurredView = [self blurredSnapshot];
+    self.blurredImageView = [[UIImageView alloc] initWithFrame:self.view.frame];
+    self.blurredImageView.image = blurredView;
+    [self.view insertSubview:self.blurredImageView
+                belowSubview:self.menuView];
+    [self.menuButton animateToType:buttonCloseType];
+    self.menuButton.roundBackgroundColor = [UIColor clearColor];
+    self.menuButton.tintColor = [UIColor leoOrangeRed];
+    
+    self.blurredImageView.alpha = 0;
+    
+    [UIView animateWithDuration:0.25 animations:^{
+        
+        self.menuView.alpha = 0.8;
+        self.blurredImageView.alpha = 1;
+        [self.menuButton layoutIfNeeded];
+        [self.menuView layoutIfNeeded];
+    }];
+}
+
+
+/**
+ *  Unload main menu. Includes blurred background and updated menu button.
+ */
+- (void)animateMenuDisappearWithCompletion:(void (^)(void))completionBlock {
+    
+    [self.menuButton animateToType:buttonAddType];
+    self.menuButton.roundBackgroundColor = [UIColor leoOrangeRed];
+    self.menuButton.tintColor = [UIColor leoWhite];
+    self.blurredImageView.alpha = 1;
+    
+    [UIView animateWithDuration:0.25 animations:^{
+        
+        self.blurredImageView.alpha = 0;
+        self.menuView.alpha = 0;
+        [self.menuButton layoutIfNeeded];
+        [self.menuView layoutIfNeeded];
+        
+    } completion:^(BOOL finished) {
+        
+        [self.blurredImageView removeFromSuperview];
+        
+        if (completionBlock) {
+            completionBlock();
+        }
+    }];
+}
+
+
+/**
+ *  Layout and set initial state of main menu.
+ */
+- (void)initializeMenuView {
+    
+    self.menuView = [[MenuView alloc] init];
+    self.menuView.alpha = 0;
+    self.menuView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.menuView.delegate = self;
+    
+    [self.view insertSubview:self.menuView belowSubview:self.menuButton];
+    
+    NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(_menuView);
+    
+    NSArray *horizontalMenuViewLayoutConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_menuView]|" options:0 metrics:nil views:viewsDictionary];
+    
+    NSArray *verticalMenuViewLayoutConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_menuView]|" options:0 metrics:nil views:viewsDictionary];
+    
+    [self.view addConstraints:horizontalMenuViewLayoutConstraints];
+    [self.view addConstraints:verticalMenuViewLayoutConstraints];
+    [self.view layoutIfNeeded];
+}
+
+/**
+ *  Remove menu view from superview and clear it from memory.
+ */
+- (void)dismissMenuView {
+    
+    [self.menuView removeFromSuperview];
+    self.menuView = nil;
+}
+
+-(void)didMakeMenuChoice {
+    
+    [self animateMenuDisappearWithCompletion:^{
+        [self dismissMenuView];
+    }];
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
 }
 
 -(void)dealloc {
