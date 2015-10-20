@@ -137,6 +137,36 @@
     }];
 }
 
+- (void)updateUser:(Guardian *)guardian withCompletion:(void (^) (BOOL success, NSError *error))completionBlock {
+ 
+    NSDictionary *guardianDictionary = [Guardian dictionaryFromUser:guardian];
+    
+    [[LEOUserService leoSessionManager] standardPUTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointUsers params:guardianDictionary completion:^(NSDictionary *rawResults, NSError *error) {
+        
+        if (!error) {
+            completionBlock(YES, nil);
+        } else {
+            completionBlock (NO, error);
+        }
+    }];
+}
+
+- (void)updatePatient:(Patient *)patient withCompletion:(void (^) (BOOL success, NSError *error))completionBlock {
+    
+    NSDictionary *patientDictionary = [Patient dictionaryFromUser:patient];
+    
+    NSString *updatePatientEndpoint = [NSString stringWithFormat:@"%@/%@", APIEndpointPatients, patient.objectID];
+    
+    [[LEOUserService leoSessionManager] standardPUTRequestForJSONDictionaryToAPIWithEndpoint:updatePatientEndpoint params:patientDictionary completion:^(NSDictionary *rawResults, NSError *error) {
+        
+        if (!error) {
+            completionBlock(YES, nil);
+        } else {
+            completionBlock (NO, error);
+        }
+    }];
+}
+
 - (void)loginUserWithEmail:(NSString *)email password:(NSString *)password withCompletion:(void (^)(SessionUser *user, NSError *error))completionBlock {
     
     NSDictionary *loginParams = @{APIParamUserEmail:email, APIParamUserPassword:password};
@@ -148,7 +178,7 @@
             LEOCredentialStore *credentialStore = [[LEOCredentialStore alloc] init];
             [credentialStore clearSavedCredentials];
             
-            [SessionUser newUserWithJSONDictionary:rawResults[APIParamData][@"session"]];
+            [SessionUser newUserWithJSONDictionary:rawResults[APIParamData]];
             
             if (completionBlock) {
                 completionBlock([SessionUser currentUser], nil);
@@ -204,6 +234,27 @@
     }];
 }
 
+- (void)inviteUser:(User *)user withCompletion:(void (^) (BOOL success, NSError *error))completionBlock {
+    
+    NSDictionary *userDictionary = [User dictionaryFromUser:user];
+    
+    NSString *inviteEndpoint = [NSString stringWithFormat:@"%@/%@", APIEndpointUserEnrollments, APIEndpointInvite];
+    
+    [[LEOUserService leoSessionManager] standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:inviteEndpoint params:userDictionary completion:^(NSDictionary *rawResults, NSError *error) {
+       
+        if (!error) {
+            
+            if (completionBlock) {
+                completionBlock (YES, nil);
+            }
+        } else {
+            
+            if (completionBlock) {
+                completionBlock(NO, error);
+            }
+        }
+    }];
+}
 + (LEOAPISessionManager *)leoSessionManager {
     return [LEOAPISessionManager sharedClient];
 }

@@ -52,7 +52,7 @@
    self = [super initWithJSONDictionary:jsonResponse[APIParamUser]];
     
     if (self) {
-        NSString *authToken = jsonResponse[@"authentication_token"];
+        NSString *authToken = jsonResponse[@"session"][@"authentication_token"];
         
         if (authToken) {
             [self setAuthToken:authToken];

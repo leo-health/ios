@@ -154,6 +154,7 @@ extern NSString *const APIEndpointInsurers; // @"insurers";
 extern NSString *const APIEndpointUserEnrollments; // = @"enrollments";
 extern NSString *const APIEndpointPatientEnrollments; // = @"patient_enrollments";
 extern NSString *const APIEndpointAvatars; // @"avatars";
+extern NSString *const APIEndpointInvite; // @"invite";
 
 #pragma mark - Common
 extern NSString *const APIParamID; // @"id";

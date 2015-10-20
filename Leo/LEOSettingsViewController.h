@@ -9,8 +9,9 @@
 @class Family;
 
 #import <UIKit/UIKit.h>
+#import "LEOSignUpPatientViewController.h"
 
-@interface LEOSettingsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface LEOSettingsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, SignUpPatientProtocol>
 
 @property (strong, nonatomic) Family *family;
 

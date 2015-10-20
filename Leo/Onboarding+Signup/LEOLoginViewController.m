@@ -17,6 +17,8 @@
 #import "LEOForgotPasswordViewController.h"
 #import "UIViewController+Extensions.h"
 #import "LEOLoginView.h"
+#import "LEOHelperService.h"
+#import "LEOFeedTVC.h"
 
 static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
 
@@ -187,7 +189,6 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
         
         LEOForgotPasswordViewController *forgotPasswordVC = segue.destinationViewController;
         forgotPasswordVC.email = self.emailTextField.text;
-        self.fakeNavigationBar.items = nil;
     }
 }
 
@@ -200,7 +201,7 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
 - (void)continueTapped:(UIButton *)sender {
     
     BOOL validEmail = [LEOValidationsHelper isValidEmail:[self emailTextField].text];
-    BOOL validPassword = [LEOValidationsHelper isValidPassword:    [self passwordTextField].text];
+    BOOL validPassword = [LEOValidationsHelper isValidPassword:[self passwordTextField].text];
     
     [self emailTextField].valid = validEmail;
     [self passwordTextField].valid = validPassword;
@@ -209,31 +210,43 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
         
         LEOUserService *userService = [[LEOUserService alloc] init];
         
-        [userService loginUserWithEmail:[self emailTextField].text password:    [self passwordTextField].text withCompletion:^(SessionUser * user, NSError * error) {
-            
-            if (!error) {
-                
-                    UIStoryboard *feedStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                    UIViewController *initialVC = [feedStoryboard instantiateInitialViewController];
-                    [self presentViewController:initialVC animated:NO completion:nil];
-
-            } else {
-                
-                UIAlertController *loginAlert = [UIAlertController alertControllerWithTitle:@"Invalid login" message:@"Looks like your email or password isn't one we recognize. Try entering them again, or reset your password." preferredStyle:UIAlertControllerStyleAlert];
-                
-                UIAlertAction *continueAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil];
-                
-                [loginAlert addAction:continueAction];
-                
-                [self presentViewController:loginAlert animated:YES completion:nil];
-            }
-        }];
+        [userService loginUserWithEmail:[self emailTextField].text
+                               password:[self passwordTextField].text
+                         withCompletion:^(SessionUser * user, NSError * error) {
+                             
+                             if (!error) {
+                                 
+                                 LEOHelperService *helperService = [[LEOHelperService alloc] init];
+                                 [helperService getFamilyWithCompletion:^(Family *family, NSError *error) {
+                                     
+                                     if (!error) {
+                                         
+                                         UIStoryboard *feedStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                                         UINavigationController *initialVC = [feedStoryboard instantiateInitialViewController];
+                                         LEOFeedTVC *feedTVC = initialVC.viewControllers[0];
+                                         feedTVC.family = family;
+                                         
+                                         [self presentViewController:initialVC animated:NO completion:nil];
+                                     }
+                                 }];
+                             } else {
+                                 
+                                 UIAlertController *loginAlert = [UIAlertController alertControllerWithTitle:@"Invalid login" message:@"Looks like your email or password isn't one we recognize. Try entering them again, or reset your password." preferredStyle:UIAlertControllerStyleAlert];
+                                 
+                                 UIAlertAction *continueAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil];
+                                 
+                                 [loginAlert addAction:continueAction];
+                                 
+                                 [self presentViewController:loginAlert animated:YES completion:nil];
+                             }
+                         }];
     }
 }
 
 - (void)forgotPasswordTapped:(UIButton *)sender {
     
-    [self performSegueWithIdentifier:kForgotPasswordSegue sender:sender];
+    [self performSegueWithIdentifier:kForgotPasswordSegue
+                              sender:sender];
 }
 
 

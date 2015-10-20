@@ -32,6 +32,8 @@
 
 #import "LEOStyleHelper.h"
 
+#import "LEOFeedTVC.h"
+
 #import "UIImage+Extensions.h"
 
 typedef enum TableViewSection {
@@ -298,7 +300,10 @@ static NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
 - (void)navigateToFeed {
     
     UIStoryboard *feedStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    UIViewController *initialVC = [feedStoryboard instantiateInitialViewController];
+    LEOFeedTVC *initialVC = [feedStoryboard instantiateInitialViewController];
+    initialVC.family = self.family;
+    
+    
     [self presentViewController:initialVC animated:NO completion:nil];
 }
 

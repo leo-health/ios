@@ -35,6 +35,7 @@ NSString *const APIEndpointInsurers = @"insurers";
 NSString *const APIEndpointUserEnrollments = @"enrollments";
 NSString *const APIEndpointPatientEnrollments = @"patient_enrollments";
 NSString *const APIEndpointAvatars = @"avatars";
+NSString *const APIEndpointInvite = @"invite";
 
 #pragma mark - Common
 NSString *const APIParamID = @"id";

@@ -10,6 +10,8 @@
 #import "LEOStyleHelper.h"
 #import "LEOValidationsHelper.h"
 #import "LEOInviteView.h"
+#import "LEOUserService.h"
+#import "User.h"    
 
 @interface LEOInviteViewController ()
 
@@ -67,7 +69,18 @@
     
     if ([self.inviteView isValidInvite]) {
         
-        NSLog(@"Invite sent!");
+        User *configUser = [[User alloc] init];
+        configUser.firstName = self.inviteView.firstName;
+        configUser.lastName = self.inviteView.lastName;
+        configUser.email = self.inviteView.email;
+        
+        LEOUserService *userService = [[LEOUserService alloc] init];
+        [userService inviteUser:configUser withCompletion:^(BOOL success, NSError *error) {
+        
+            if (success) {
+            NSLog(@"Invite sent!");
+            }
+        }];
     }
 }
 

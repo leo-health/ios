@@ -26,6 +26,7 @@
 #import "Family.h"
 #import "Patient.h"
 #import "LEOStyleHelper.h"
+#import "LEOUserService.h"
 
 @interface LEOSignUpPatientViewController ()
 
@@ -308,26 +309,76 @@
 
 #pragma mark - Navigation
 
+//TODO: Refactor this method
 - (void)continueTapped:(UIButton *)sender {
     
     if ([self validatePage]) {
         
-        [self addOnboardingData];
-        [self.navigationController popViewControllerAnimated:YES];
+        self.patient.firstName = [self firstNameTextField].text;
+        self.patient.lastName = [self lastNameTextField].text;
+        self.patient.gender = [self genderTextField].text;
+        self.patient.dob = [NSDate dateFromShortDate:[self birthDateTextField].text];
+        
+        switch (self.feature) {
+            case FeatureSettings: {
+            
+                LEOUserService *userService = [[LEOUserService alloc] init];
+
+                switch (self.managementMode) {
+                    case ManagementModeCreate: {
+                        
+                        [userService createPatient:self.patient withCompletion:^(Patient *patient, NSError *error) {
+                            
+                            if (!error) {
+                                
+                                self.patient.objectID = patient.objectID;
+                                [self finishLocalUpdate];
+                            }
+                        }];
+
+                        break;
+                    }
+                    case ManagementModeEdit: {
+                        
+                        [userService updatePatient:self.patient withCompletion:^(BOOL success, NSError *error) {
+                            
+                            if (!error) {
+                                [self.navigationController popViewControllerAnimated:YES];
+                            }
+                        }];
+                        
+                        break;
+                    }
+                        
+                }
+                
+                break;
+            }
+                
+            case FeatureOnboarding: {
+                
+                switch (self.managementMode) {
+                    case ManagementModeCreate:
+
+                        [self finishLocalUpdate];
+                        break;
+                        
+                    case ManagementModeEdit:
+                        
+                        [self.navigationController popViewControllerAnimated:YES];
+                        break;
+                }
+                
+                break;
+            }
+        }
     }
 }
 
-- (void)addOnboardingData {
-
-    self.patient.firstName = [self firstNameTextField].text;
-    self.patient.lastName = [self lastNameTextField].text;
-    self.patient.gender = [self genderTextField].text;
-    self.patient.dob = [NSDate dateFromShortDate:[self birthDateTextField].text];
+- (void)finishLocalUpdate {
     
-    if (self.managementMode == ManagementModeCreate) {
-        
-        [self.family addPatient:self.patient];
-    }
+    [self.family addPatient:self.patient];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 -(Patient *)patient {
