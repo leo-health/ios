@@ -212,10 +212,17 @@
     
     if (user.avatarURL) {
         
+        NSString *endpoint = [NSString stringWithFormat:@"/uploads/avatar/avatar/%@/%@",user.objectID,user.avatarURL];
+        
         //FIXME: This is a basic implementation. Nil params is an issue as well. What security does s3 support for users only accessing URLs they should have access to?
-        [[LEOUserService s3SessionManager] standardGETRequestForDataFromS3WithURL:user.avatarURL params:nil completion:^(UIImage *rawImage, NSError *error) {
+        [[LEOUserService leoSessionManager] unauthenticatedGETRequestForJSONDictionaryFromAPIWithEndpoint:endpoint params:nil completion:^(NSDictionary *rawResults, NSError *error) {
+            
+            NSData *imageData = [[NSData alloc] initWithBase64EncodedString:rawResults[@"imageString"] options:0];
+            
+            UIImage *avatarImage = [UIImage imageWithData:imageData];
+            
             if (completionBlock) {
-                completionBlock(rawImage, error);
+                completionBlock(avatarImage, error);
             }
         }];
         
@@ -234,8 +241,21 @@
     
     [[LEOUserService leoSessionManager] standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointAvatars params:avatarParams completion:^(NSDictionary *rawResults, NSError *error) {
         
-        //MARK: If we want to use more ternary operators, we can do a lot of this in this class.
-        !error ? completionBlock ? completionBlock(YES, nil) : completionBlock(NO, error) : nil;
+        if (!error) {
+            
+            if (completionBlock) {
+                
+                //The extra "avatar" is not a mistake; that is how it is provided by the backend. Should be updated eventually.
+                user.avatarURL = rawResults[APIParamData][@"avatar"][@"avatar"][@"url"];
+                completionBlock(YES, nil);
+            }
+        } else {
+            
+            if (completionBlock) {
+                
+                completionBlock (NO, error);
+            }
+        }
     }];
 }
 

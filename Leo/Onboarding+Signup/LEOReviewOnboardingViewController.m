@@ -347,9 +347,9 @@ static NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
                     
                     if (!error) {
                         
-                        //FIXME: Currently this will never happen because post avatar comes back with a 422.
                         NSLog(@"Avatar upload occured successfully!");
                     }
+                    
                 }];
                 
                 if (counter == [patients count]) {
