@@ -50,7 +50,7 @@
                         <constraint firstAttribute="height" constant="48" id="J4g-Og-YST"/>
                     </constraints>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fyJ-c7-8hR">
+                <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fyJ-c7-8hR">
                     <rect key="frame" x="0.0" y="276" width="600" height="29"/>
                     <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="12"/>
                     <state key="normal" title="FORGOT PASSWORD">
@@ -91,6 +91,12 @@
                 <constraint firstItem="cEU-9q-euv" firstAttribute="trailing" secondItem="20z-wZ-AEU" secondAttribute="trailing" id="pkd-Vz-Ebq"/>
                 <constraint firstItem="20z-wZ-AEU" firstAttribute="top" secondItem="57S-fV-Bvw" secondAttribute="top" id="uFt-CA-c25"/>
             </constraints>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="AZs-xM-UHg"/>
+                    <exclude reference="ZhB-BA-Chf"/>
+                </mask>
+            </variation>
         </view>
     </objects>
 </document>

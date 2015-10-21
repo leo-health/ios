@@ -212,17 +212,11 @@
     
     if (user.avatarURL) {
         
-        NSString *endpoint = [NSString stringWithFormat:@"/uploads/avatar/avatar/%@/%@",user.objectID,user.avatarURL];
-        
         //FIXME: This is a basic implementation. Nil params is an issue as well. What security does s3 support for users only accessing URLs they should have access to?
-        [[LEOUserService leoSessionManager] unauthenticatedGETRequestForJSONDictionaryFromAPIWithEndpoint:endpoint params:nil completion:^(NSDictionary *rawResults, NSError *error) {
-            
-            NSData *imageData = [[NSData alloc] initWithBase64EncodedString:rawResults[@"imageString"] options:0];
-            
-            UIImage *avatarImage = [UIImage imageWithData:imageData];
+        [[LEOUserService leoSessionManager] unauthenticatedImageGETRequestForJSONDictionaryFromAPIWithEndpoint:user.avatarURL params:nil completion:^(UIImage *rawImage, NSError *error) {
             
             if (completionBlock) {
-                completionBlock(avatarImage, error);
+                completionBlock(rawImage, error);
             }
         }];
         
@@ -247,13 +241,13 @@
                 
                 //The extra "avatar" is not a mistake; that is how it is provided by the backend. Should be updated eventually.
                 user.avatarURL = rawResults[APIParamData][@"avatar"][@"avatar"][@"url"];
-                completionBlock(YES, nil);
+                completionBlock(nil, nil);
             }
         } else {
             
             if (completionBlock) {
                 
-                completionBlock (NO, error);
+                completionBlock (nil, error);
             }
         }
     }];
