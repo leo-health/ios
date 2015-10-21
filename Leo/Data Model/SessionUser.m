@@ -33,6 +33,7 @@
 }
 
 
+
 - (BOOL)isLoggedIn {
     
     return [[self credentialStore] authToken] != nil;
@@ -43,16 +44,18 @@
     return [[LEOCredentialStore alloc] init];;
 }
 
+
 //TODO: Add an assertion to warn programmer here.
 -(instancetype)init {
     return nil;
 }
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
+    
    self = [super initWithJSONDictionary:jsonResponse[APIParamUser]];
     
     if (self) {
-        NSString *authToken = jsonResponse[@"session"][@"authentication_token"];
+        NSString *authToken = jsonResponse[APIParamSession][APIParamToken];
         
         if (authToken) {
             [self setAuthToken:authToken];

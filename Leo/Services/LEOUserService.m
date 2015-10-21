@@ -18,6 +18,7 @@
 #import "SessionUser.h"
 
 @implementation LEOUserService
+
 - (void)createGuardian:(Guardian *)newGuardian withCompletion:(void (^)(Guardian *guardian, NSError *error))completionBlock {
     
     NSDictionary *guardianDictionary = [Guardian dictionaryFromUser:newGuardian];
@@ -35,6 +36,10 @@
             //FIXME: This makes it clear we should have a rethink on the SessionUser class (and/or add methods to it)...
             [SessionUser currentUser].familyID = rawResults[APIParamData][APIParamUser][APIParamFamilyID];
             [SessionUser currentUser].objectID = rawResults[APIParamData][APIParamUser][APIParamID];
+            [SessionUser currentUser].firstName = rawResults[APIParamData][APIParamUser][APIParamUserFirstName];
+            [SessionUser currentUser].lastName = rawResults[APIParamData][APIParamUser][APIParamUserLastName];
+            [SessionUser currentUser].phoneNumber = rawResults[APIParamData][APIParamUser][APIParamPhone];
+            [SessionUser currentUser].insurancePlan = rawResults[APIParamData][APIParamUser][APIParamUserLastName];
             
             Guardian *guardian = [[Guardian alloc] initWithJSONDictionary:rawResults[APIParamData][APIParamUser]];
             
@@ -82,7 +87,7 @@
             LEOCredentialStore *credentialStore = [[LEOCredentialStore alloc] init];
             [credentialStore clearSavedCredentials];
             
-            [SessionUser newUserWithJSONDictionary:rawResults[APIParamData][APIParamUserEnrollment]];
+            [SessionUser newUserWithJSONDictionary:rawResults[APIParamData]];
             
             completionBlock(YES, nil);
         } else {

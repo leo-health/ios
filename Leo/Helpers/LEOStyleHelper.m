@@ -98,10 +98,10 @@
     
     button.layer.borderColor = [LEOStyleHelper tintColorForFeature:feature].CGColor;
     button.layer.borderWidth = 1.0;
-    
+
     button.titleLabel.font = [UIFont leoButtonLabelsAndTimeStampsFont];
-    [button setTitleColor:[self tintColorForFeature:feature] forState:UIControlStateNormal];
-    [button setBackgroundImage:[UIImage imageWithColor:[self backgroundColorForFeature:feature]] forState:UIControlStateNormal];
+    [button setTitleColor:[self backgroundColorForFeature:feature] forState:UIControlStateNormal];
+    [button setBackgroundImage:[UIImage imageWithColor:[self tintColorForFeature:feature]] forState:UIControlStateNormal];
 }
 
 

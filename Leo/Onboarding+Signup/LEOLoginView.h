@@ -14,5 +14,6 @@
 @property (weak, nonatomic) IBOutlet LEOPromptView *emailPromptView;
 @property (weak, nonatomic) IBOutlet LEOPromptView *passwordPromptView;
 @property (weak, nonatomic) IBOutlet UIButton *forgotPasswordButton;
+@property (weak, nonatomic) IBOutlet UIButton *continueButton;
 
 @end

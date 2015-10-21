@@ -9,9 +9,11 @@
                 <outlet property="contentView" destination="xO0-oj-ief" id="Ykt-Ji-oUA"/>
                 <outlet property="continueButton" destination="OHH-Dr-SMq" id="ucm-jm-czg"/>
                 <outlet property="firstNamePromptView" destination="J57-X8-tBs" id="HT5-f0-qZs"/>
+                <outlet property="headerView" destination="Kqv-nk-d3w" id="RaP-19-Ix4"/>
                 <outlet property="insurerPromptView" destination="j53-Ik-BrP" id="lYb-Lq-bg3"/>
                 <outlet property="lastNamePromptView" destination="6ao-k5-q96" id="aRo-1U-3Wv"/>
                 <outlet property="phoneNumberPromptView" destination="CN3-Ay-D6c" id="Z1W-nf-eHT"/>
+                <outlet property="scrollView" destination="HgP-xD-hRj" id="bD4-IX-R7f"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>

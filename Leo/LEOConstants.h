@@ -170,6 +170,7 @@ extern NSString *const APIParamShortDescription; // @"short_description";
 extern NSString *const APIParamLongDescription; // @"long_description";
 
 extern NSString *const APIParamToken; // @"token";
+extern NSString *const APIParamSession; // = @"session";
 
 #pragma mark - Date & time
 extern NSString *const APIParamCreatedDateTime; // @"created_datetime";

@@ -52,6 +52,7 @@ NSString *const APIParamDescription = @"description";
 NSString *const APIParamShortDescription = @"short_description";
 NSString *const APIParamLongDescription = @"long_description";
 NSString *const APIParamToken = @"authentication_token";
+NSString *const APIParamSession = @"session";
 
 #pragma mark - Date & time
 NSString *const APIParamCreatedDateTime = @"created_at";

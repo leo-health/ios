@@ -46,7 +46,7 @@
 
 -(void)viewDidAppear:(BOOL)animated {
 
-    [self testData];
+//    [self testData];
 }
 
 - (void)setupNavigationBar {

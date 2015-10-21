@@ -11,7 +11,7 @@
 #import "SingleSelectionProtocol.h"
 #import "Family.h"
 
-@interface LEOSignUpUserViewController : UIViewController <UITextFieldDelegate, LEOPromptDelegate, SingleSelectionProtocol>
+@interface LEOSignUpUserViewController : UIViewController <UITextFieldDelegate, LEOPromptDelegate, SingleSelectionProtocol, UIScrollViewDelegate>
 
 @property (strong, nonatomic) Family *family;
 @property (strong, nonatomic) Guardian *guardian;

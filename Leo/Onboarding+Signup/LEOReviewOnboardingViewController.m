@@ -300,9 +300,9 @@ static NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
 - (void)navigateToFeed {
     
     UIStoryboard *feedStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    LEOFeedTVC *initialVC = [feedStoryboard instantiateInitialViewController];
-    initialVC.family = self.family;
-    
+    UINavigationController *initialVC = [feedStoryboard instantiateInitialViewController];
+    LEOFeedTVC *feedTVC = initialVC.viewControllers[0];
+    feedTVC.family = self.family;
     
     [self presentViewController:initialVC animated:NO completion:nil];
 }

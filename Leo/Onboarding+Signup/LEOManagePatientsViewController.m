@@ -64,7 +64,7 @@ typedef enum TableViewSection {
     
     [super viewWillAppear:animated];
     
-    [self testData];
+//    [self testData];
 
     [self setupTableView];
     [self.tableView reloadData];

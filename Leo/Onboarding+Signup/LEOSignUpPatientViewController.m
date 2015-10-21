@@ -43,6 +43,7 @@
     
     [super viewDidLoad];
     
+    [self setupView];
     [self setupNavigationBar];
     [self setupSignUpPatientView];
     [self setupFirstNameField];
@@ -58,6 +59,18 @@
     [super viewWillAppear:animated];
     
     [self setupContinueButton];
+}
+
+- (void)setupView {
+    
+    UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(viewWasTapped)];
+    tapGestureForTextFieldDismissal.cancelsTouchesInView = NO;
+    [self.view addGestureRecognizer:tapGestureForTextFieldDismissal];
+}
+
+- (void)viewWasTapped {
+    
+    [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
 }
 
 - (void)setupNavigationBar {
@@ -80,6 +93,7 @@
     
     [LEOStyleHelper styleBackButtonForViewController:self];
 }
+
 
 - (void)setupSignUpPatientView {
     
@@ -249,7 +263,7 @@
     
     viewController.view.tintColor = [LEOStyleHelper tintColorForFeature:self.feature];
     
-    [LEOStyleHelper styleNavigationBarForFeature:FeatureSettings];
+    [LEOStyleHelper styleNavigationBarForFeature:self.feature];
     
     UILabel *navTitleLabel = [[UILabel alloc] init];
     navTitleLabel.text = @"Photos";
