@@ -27,8 +27,9 @@ end
 
 target 'LeoTests' do
 
-pod 'Expecta', '~> 0.2.4' #MIT
-pod 'Specta', '~> 0.5' #MIT
+pod 'Expecta' #MIT
+pod 'Specta', :git => 'https://github.com/specta/specta.git', :commit => 'c07c003cfe3a41fa510567e2e0a9fd7f5ae3b098' #MIT
+
 pod 'OHHTTPStubs' #MIT
 
 end

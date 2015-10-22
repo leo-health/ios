@@ -1660,7 +1660,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3196AAF61B8DFFDD00B11112 /* DebugStubs.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Zachary Drossman (C7TN5PHTLC)";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 			};
 			name = "Debug Stubs";
 		};
@@ -1707,7 +1708,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40561B838AE700834BC2 /* Debug.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Zachary Drossman (C7TN5PHTLC)";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 			};
 			name = Debug;
 		};
@@ -1715,7 +1717,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40571B838AFC00834BC2 /* Release.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: LEO HEALTH, INC. (4Q3R8E5P59)";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 			};
 			name = Release;
 		};

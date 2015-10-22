@@ -34,6 +34,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self setupCreateAccountView];
     [self setupNavigationBar];
     [self setupEmailTextField];
     [self setupPasswordTextField];
@@ -44,9 +45,19 @@
     [super viewWillAppear:animated];
 }
 
--(void)viewDidAppear:(BOOL)animated {
+- (void)setupCreateAccountView {
+    
+    UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(viewWasTapped)];
+    tapGestureForTextFieldDismissal.cancelsTouchesInView = NO;
+    [self.view addGestureRecognizer:tapGestureForTextFieldDismissal];
+    
+//    self.createAccountView.scrollView.delegate = self;
+}
 
-//    [self testData];
+
+- (void)viewWasTapped {
+    
+    [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
 }
 
 - (void)setupNavigationBar {

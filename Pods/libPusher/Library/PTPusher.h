@@ -87,6 +87,13 @@ extern NSString *const PTPusherErrorUnderlyingEventKey;
 @property (nonatomic, weak) id<PTPusherDelegate> delegate;
 
 /** Specifies the delay between reconnection attempts. Defaults to 5 seconds.
+ *
+ * If the client disconnects for an unknown reason, the client will attempt to automatically
+ * reconnect after this delay has elapsed.
+ *
+ * PTPusher will not automatically reconnect if `disconnect` is called explicitly and it
+ * will also handle reconnection differently if disconnection happens with a known error code,
+ * as per the Pusher protocol documentation.
  */
 @property (nonatomic, assign) NSTimeInterval reconnectDelay;
 
@@ -137,7 +144,7 @@ extern NSString *const PTPusherErrorUnderlyingEventKey;
  @param delegate    The delegate for this instance
  @param isEncrypted If yes, a secure connection over SSL will be established.
  */
-+ (id)pusherWithKey:(NSString *)key delegate:(id<PTPusherDelegate>)delegate encrypted:(BOOL)isEncrypted;
++ (instancetype)pusherWithKey:(NSString *)key delegate:(id<PTPusherDelegate>)delegate encrypted:(BOOL)isEncrypted;
 
 /** Returns a new PTPusher instance with a connection configured with the given key and allows to set different cluster
 
@@ -147,7 +154,7 @@ extern NSString *const PTPusherErrorUnderlyingEventKey;
  @param cluster     If set, connects to the provided cluster
  */
 
-+ (id)pusherWithKey:(NSString *)key delegate:(id<PTPusherDelegate>)delegate encrypted:(BOOL)isEncrypted cluster:(NSString *) cluster;
++ (instancetype)pusherWithKey:(NSString *)key delegate:(id<PTPusherDelegate>)delegate encrypted:(BOOL)isEncrypted cluster:(NSString *) cluster;
 
 /** Returns a new PTPusher instance with an connection configured with the given key.
  
@@ -157,7 +164,7 @@ extern NSString *const PTPusherErrorUnderlyingEventKey;
  @param key       Your application's API key. It can be found in the API Access section of your application within the Pusher user dashboard.
  @param delegate  The delegate for this instance
  */
-+ (id)pusherWithKey:(NSString *)key delegate:(id<PTPusherDelegate>)delegate;
++ (instancetype)pusherWithKey:(NSString *)key delegate:(id<PTPusherDelegate>)delegate;
 
 ///------------------------------------------------------------------------------------/
 /// @name Managing the connection
@@ -171,7 +178,8 @@ extern NSString *const PTPusherErrorUnderlyingEventKey;
 
 /** Disconnects from the Pusher server.
  
- If already disconnected, this method does nothing.
+ If already disconnected, this method does nothing. PTPusher will not attempt to 
+ reconnect if you call this method. To reconnect, you must call `connect` again.
  */
 - (void)disconnect;
 

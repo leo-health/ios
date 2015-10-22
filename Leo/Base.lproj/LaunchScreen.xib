@@ -11,14 +11,14 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Splash-Logo" translatesAutoresizingMaskIntoConstraints="NO" id="8RP-IK-hR2">
-                    <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
+                    <rect key="frame" x="0.0" y="-3" width="480" height="486"/>
                 </imageView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="8RP-IK-hR2" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="8lO-Ws-6ha"/>
-                <constraint firstItem="8RP-IK-hR2" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="AWk-V0-fK0"/>
-                <constraint firstAttribute="bottom" secondItem="8RP-IK-hR2" secondAttribute="bottom" id="NKO-dH-MfY"/>
+                <constraint firstItem="8RP-IK-hR2" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="-3" id="AWk-V0-fK0"/>
+                <constraint firstAttribute="bottom" secondItem="8RP-IK-hR2" secondAttribute="bottom" constant="-3" id="NKO-dH-MfY"/>
                 <constraint firstAttribute="trailing" secondItem="8RP-IK-hR2" secondAttribute="trailing" id="gHf-5i-F21"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>

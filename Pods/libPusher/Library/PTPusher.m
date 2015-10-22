@@ -51,6 +51,7 @@ NSURL *PTPusherConnectionURL(NSString *host, NSString *key, NSString *clientID, 
 
 @interface PTPusher ()
 @property (nonatomic, strong, readwrite) PTPusherConnection *connection;
+@property (nonatomic, assign) PTPusherAutoReconnectMode autoReconnectMode;
 @end
 
 #pragma mark -
@@ -92,17 +93,17 @@ NSURL *PTPusherConnectionURL(NSString *host, NSString *key, NSString *clientID, 
   return self;
 }
 
-+ (id)pusherWithKey:(NSString *)key delegate:(id<PTPusherDelegate>)delegate
++ (instancetype)pusherWithKey:(NSString *)key delegate:(id<PTPusherDelegate>)delegate
 {
   return [self pusherWithKey:key delegate:delegate encrypted:YES];
 }
 
-+ (id)pusherWithKey:(NSString *)key delegate:(id<PTPusherDelegate>)delegate encrypted:(BOOL)isEncrypted
++ (instancetype)pusherWithKey:(NSString *)key delegate:(id<PTPusherDelegate>)delegate encrypted:(BOOL)isEncrypted
 {
   return [self pusherWithKey:(NSString *)key delegate:(id<PTPusherDelegate>)delegate encrypted:(BOOL)isEncrypted cluster:(NSString *) nil];
 }
 
-+ (id)pusherWithKey:(NSString *)key delegate:(id<PTPusherDelegate>)delegate encrypted:(BOOL)isEncrypted cluster:(NSString *) cluster
++ (instancetype)pusherWithKey:(NSString *)key delegate:(id<PTPusherDelegate>)delegate encrypted:(BOOL)isEncrypted cluster:(NSString *) cluster
 {
     NSString * hostURL;
     if ([cluster length] == 0) {
@@ -134,11 +135,14 @@ NSURL *PTPusherConnectionURL(NSString *host, NSString *key, NSString *clientID, 
 - (void)connect
 {
   _numberOfReconnectAttempts = 0;
+  self.autoReconnectMode = PTPusherAutoReconnectModeReconnectWithConfiguredDelay;
   [self.connection connect];
 }
 
 - (void)disconnect
 {
+  // we do not want to reconnect if a user explicitly disconnects
+  self.autoReconnectMode = PTPusherAutoReconnectModeNoReconnect;
   [self.connection disconnect];
 }
 
@@ -353,7 +357,7 @@ NSURL *PTPusherConnectionURL(NSString *host, NSString *key, NSString *clientID, 
     }
   }
   else {
-    [self handleDisconnection:connection error:error reconnectMode:PTPusherAutoReconnectModeReconnectWithConfiguredDelay];
+    [self handleDisconnection:connection error:error reconnectMode:self.autoReconnectMode];
   }
 }
 
