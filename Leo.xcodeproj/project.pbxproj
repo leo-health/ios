@@ -87,7 +87,7 @@
 		3177B9981B17A1B7006AE360 /* LEOCardAppointment.m in Sources */ = {isa = PBXBuildFile; fileRef = 3177B9971B17A1B7006AE360 /* LEOCardAppointment.m */; };
 		3177B9E11B1A8CF3006AE360 /* LEOCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FEF1531B0D073600AD14D2 /* LEOCard.m */; };
 		3182E55E1B20C8F5004DECF8 /* NSDate+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3182E55D1B20C8F5004DECF8 /* NSDate+Extensions.m */; };
-		318EEE0F1B3B3FA3002D1653 /* Assets in Resources */ = {isa = PBXBuildFile; fileRef = 318EEE0E1B3B3FA3002D1653 /* Assets */; };
+		318EEE0F1B3B3FA3002D1653 /* Assets-iOS in Resources */ = {isa = PBXBuildFile; fileRef = 318EEE0E1B3B3FA3002D1653 /* Assets-iOS */; };
 		3192ACD91B0CC7C5007195F2 /* UIImage+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3192ACD81B0CC7C5007195F2 /* UIImage+Extensions.m */; };
 		3196AAF91B8E01C900B11112 /* LEOStubs.m in Sources */ = {isa = PBXBuildFile; fileRef = 3196AAF81B8E01C900B11112 /* LEOStubs.m */; };
 		319F335D1B2201F900C1C526 /* CollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 319F335C1B2201F900C1C526 /* CollectionViewLayout.m */; };
@@ -337,7 +337,7 @@
 		3177B9971B17A1B7006AE360 /* LEOCardAppointment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = LEOCardAppointment.m; path = "Data Model/LEOCardAppointment.m"; sourceTree = "<group>"; };
 		3182E55C1B20C8F5004DECF8 /* NSDate+Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Extensions.h"; sourceTree = "<group>"; };
 		3182E55D1B20C8F5004DECF8 /* NSDate+Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Extensions.m"; sourceTree = "<group>"; };
-		318EEE0E1B3B3FA3002D1653 /* Assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Assets; path = ../../../Assets; sourceTree = "<group>"; };
+		318EEE0E1B3B3FA3002D1653 /* Assets-iOS */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "Assets-iOS"; path = "../../../../Dropbox/Deliverables/Assets-iOS"; sourceTree = "<group>"; };
 		3192ACD71B0CC7C5007195F2 /* UIImage+Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Extensions.h"; sourceTree = "<group>"; };
 		3192ACD81B0CC7C5007195F2 /* UIImage+Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Extensions.m"; sourceTree = "<group>"; };
 		3196AAF61B8DFFDD00B11112 /* DebugStubs.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = DebugStubs.xcconfig; path = xcconfig/DebugStubs.xcconfig; sourceTree = "<group>"; };
@@ -1185,7 +1185,7 @@
 				31254B791BAC99CF00E8E150 /* Services */,
 				31254B7A1BACB86100E8E150 /* Operations */,
 				BCED00971B0257EB007653D6 /* Data Model */,
-				318EEE0E1B3B3FA3002D1653 /* Assets */,
+				318EEE0E1B3B3FA3002D1653 /* Assets-iOS */,
 				BCE1EC741B00E353007C8D0B /* Images.xcassets */,
 				BCE1EC671B00E353007C8D0B /* Supporting Files */,
 			);
@@ -1287,7 +1287,7 @@
 					};
 					BCE1EC631B00E353007C8D0B = {
 						CreatedOnToolsVersion = 6.3.1;
-						DevelopmentTeam = 95W78EL8E2;
+						DevelopmentTeam = 4Q3R8E5P59;
 					};
 				};
 			};
@@ -1357,7 +1357,7 @@
 				31197A141B39DA3000C773BA /* MenuView.xib in Resources */,
 				3115F1EC1BC5AEAF001BDF6A /* TestsShared.xcconfig in Resources */,
 				3128D4DC1B42DF6500582710 /* LEOOneButtonSecondaryOnlyCell.xib in Resources */,
-				318EEE0F1B3B3FA3002D1653 /* Assets in Resources */,
+				318EEE0F1B3B3FA3002D1653 /* Assets-iOS in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1660,6 +1660,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3196AAF61B8DFFDD00B11112 /* DebugStubs.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 			};
 			name = "Debug Stubs";
 		};
@@ -1706,6 +1707,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40561B838AE700834BC2 /* Debug.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 			};
 			name = Debug;
 		};
@@ -1713,6 +1715,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40571B838AFC00834BC2 /* Release.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 			};
 			name = Release;
 		};
