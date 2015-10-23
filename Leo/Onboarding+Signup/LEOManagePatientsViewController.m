@@ -53,7 +53,7 @@ typedef enum TableViewSection {
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-
+    
     self.view.tintColor = [LEOStyleHelper tintColorForFeature:FeatureOnboarding];
     
     [self setupBreaker];
@@ -64,8 +64,8 @@ typedef enum TableViewSection {
     
     [super viewWillAppear:animated];
     
-//    [self testData];
-
+    //    [self testData];
+    
     [self setupTableView];
     [self.tableView reloadData];
     
@@ -80,22 +80,22 @@ typedef enum TableViewSection {
 - (void)setupNavigationBar {
     
     [LEOStyleHelper styleNavigationBarForFeature:FeatureOnboarding];
-
+    
     self.navTitleLabel = [[UILabel alloc] init];
     self.navTitleLabel.text = @"Review children";
     
     [LEOStyleHelper styleLabel:self.navTitleLabel forFeature:FeatureOnboarding];
-
+    
     self.navigationItem.titleView = self.navTitleLabel;
     self.navigationItem.titleView.hidden = YES;
-     [LEOStyleHelper styleBackButtonForViewController:self];
+    [LEOStyleHelper styleBackButtonForViewController:self];
 }
 
 - (void)setupTableView {
     
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
-
+    
     [self.tableView registerNib:[LEOBasicHeaderCell nib]
          forCellReuseIdentifier:kHeaderCellReuseIdentifier];
     [self.tableView registerNib:[LEOPromptViewCell nib]
@@ -139,7 +139,7 @@ typedef enum TableViewSection {
     switch (indexPath.section) {
             
         case TableViewSectionTitle: {
-
+            
             LEOBasicHeaderCell *basicHeaderCell = [tableView dequeueReusableCellWithIdentifier:kHeaderCellReuseIdentifier];
             
             [basicHeaderCell configureWithTitle:@"Review or add more children"];
@@ -150,11 +150,11 @@ typedef enum TableViewSection {
         case TableViewSectionPatients: {
             
             Patient *patient = self.family.patients[indexPath.row];
-
+            
             LEOPromptViewCell *cell = [tableView
                                        dequeueReusableCellWithIdentifier:kPromptViewCellReuseIdentifier
                                        forIndexPath:indexPath];
-
+            
             [cell configureForPatient:patient];
             
             return cell;
@@ -165,9 +165,9 @@ typedef enum TableViewSection {
             LEOPromptViewCell *cell = [tableView
                                        dequeueReusableCellWithIdentifier:kPromptViewCellReuseIdentifier
                                        forIndexPath:indexPath];
-
+            
             [cell configureForNewPatient];
-
+            
             return cell;
         }
             
@@ -284,12 +284,10 @@ typedef enum TableViewSection {
     
     if (scrollView == self.tableView) {
         
-        LEOBasicHeaderCell *headerCell = (LEOBasicHeaderCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
-        CGFloat percentHeaderCellHidden = [self tableViewVerticalContentOffset] / [self heightOfHeaderCell];
         
-        if (percentHeaderCellHidden < 1) {
-            headerCell.headerLabel.alpha = 1 - percentHeaderCellHidden * speedForTitleViewAlphaChangeConstant;
-            self.navTitleLabel.alpha = percentHeaderCellHidden;
+        if ([self percentHeaderCellHidden] < 1) {
+            [self headerCell].headerLabel.alpha = 1 - [self percentHeaderCellHidden] * speedForTitleViewAlphaChangeConstant;
+            self.navTitleLabel.alpha = [self percentHeaderCellHidden];
         }
         
         if ([self tableViewVerticalContentOffset] >= [self heightOfHeaderCell]) {
@@ -308,28 +306,35 @@ typedef enum TableViewSection {
     }
 }
 
+- (CGFloat)percentHeaderCellHidden {
+    
+    return MIN([self tableViewVerticalContentOffset] / [self heightOfHeaderCellExcludingOverlapWithNavBar], 1.0);
+}
+
 - (void)fadeBreaker:(BOOL)shouldFade {
+    
+    CABasicAnimation *fadeAnimation = [CABasicAnimation animationWithKeyPath:@"breakerFade"];
+    fadeAnimation.duration = 0.3;
     
     if (shouldFade) {
         
-        CABasicAnimation *fadeAnimation = [CABasicAnimation animationWithKeyPath:@"breakerFade"];
-        fadeAnimation.duration = 0.3;
-        fadeAnimation.fromValue = (id)[UIColor clearColor].CGColor;
-        fadeAnimation.toValue = (id)[UIColor leoOrangeRed].CGColor;
-        
-        self.pathLayer.strokeColor = [UIColor leoOrangeRed].CGColor;
-        [self.pathLayer addAnimation:fadeAnimation forKey:@"breakerFade"];
+        [self fadeAnimation:fadeAnimation fromColor:[UIColor clearColor] toColor:[UIColor leoOrangeRed] withStrokeColor:[UIColor leoOrangeRed]];
         
     } else {
         
-        CABasicAnimation *fadeAnimation = [CABasicAnimation animationWithKeyPath:@"breakerFade"];
-        fadeAnimation.duration = 0.3;
-        fadeAnimation.fromValue = (id)[UIColor leoOrangeRed].CGColor;
-        fadeAnimation.toValue = (id)[UIColor clearColor].CGColor;
-        
-        self.pathLayer.strokeColor = [UIColor clearColor].CGColor;
-        [self.pathLayer addAnimation:fadeAnimation forKey:@"breakerFade"];
+        [self fadeAnimation:fadeAnimation fromColor:[UIColor clearColor] toColor:[UIColor leoOrangeRed] withStrokeColor:[UIColor leoOrangeRed]];
     }
+    
+    [self.pathLayer addAnimation:fadeAnimation forKey:@"breakerFade"];
+    
+}
+
+- (void)fadeAnimation:(CABasicAnimation *)fadeAnimation fromColor:(UIColor *)fromColor toColor:(UIColor *)toColor withStrokeColor:(UIColor *)strokeColor {
+    
+    fadeAnimation.fromValue = (id)fromColor.CGColor;
+    fadeAnimation.toValue = (id)toColor.CGColor;
+    
+    self.pathLayer.strokeColor = strokeColor.CGColor;
 }
 
 - (void)setupBreaker {
@@ -450,6 +455,11 @@ typedef enum TableViewSection {
     return self.tableView.contentOffset.y;
 }
 
+- (LEOBasicHeaderCell *)headerCell {
+    
+    return (LEOBasicHeaderCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+}
+
 #pragma mark - Test Data
 
 - (void)testData {
@@ -464,11 +474,11 @@ typedef enum TableViewSection {
     
     Patient *patient5 = [[Patient alloc] initWithTitle:nil firstName:@"Zachary" middleInitial:@"S" lastName:@"Drossman" suffix:nil email:nil avatar:[UIImage imageNamed:@"Avatar-Emily"] dob:[NSDate date] gender:@"M" status:[@(PatientStatusInactive) stringValue]];
     
-//    Patient *patient6 = [[Patient alloc] initWithTitle:nil firstName:@"Zachary" middleInitial:@"S" lastName:@"Drossman" suffix:nil email:nil avatar:[UIImage imageNamed:@"Avatar-Emily"] dob:[NSDate date] gender:@"M" status:[@(PatientStatusInactive) stringValue]];
-//    
-//    Patient *patient7 = [[Patient alloc] initWithTitle:nil firstName:@"Zachary" middleInitial:@"S" lastName:@"Drossman" suffix:nil email:nil avatar:[UIImage imageNamed:@"Avatar-Emily"] dob:[NSDate date] gender:@"M" status:[@(PatientStatusInactive) stringValue]];
-//    
-//    Patient *patient8 = [[Patient alloc] initWithTitle:nil firstName:@"Zachary" middleInitial:@"S" lastName:@"Drossman" suffix:nil email:nil avatar:[UIImage imageNamed:@"Avatar-Emily"] dob:[NSDate date] gender:@"M" status:[@(PatientStatusInactive) stringValue]];
+    //    Patient *patient6 = [[Patient alloc] initWithTitle:nil firstName:@"Zachary" middleInitial:@"S" lastName:@"Drossman" suffix:nil email:nil avatar:[UIImage imageNamed:@"Avatar-Emily"] dob:[NSDate date] gender:@"M" status:[@(PatientStatusInactive) stringValue]];
+    //
+    //    Patient *patient7 = [[Patient alloc] initWithTitle:nil firstName:@"Zachary" middleInitial:@"S" lastName:@"Drossman" suffix:nil email:nil avatar:[UIImage imageNamed:@"Avatar-Emily"] dob:[NSDate date] gender:@"M" status:[@(PatientStatusInactive) stringValue]];
+    //
+    //    Patient *patient8 = [[Patient alloc] initWithTitle:nil firstName:@"Zachary" middleInitial:@"S" lastName:@"Drossman" suffix:nil email:nil avatar:[UIImage imageNamed:@"Avatar-Emily"] dob:[NSDate date] gender:@"M" status:[@(PatientStatusInactive) stringValue]];
     
     self.family.patients = @[patient, patient2, patient3, patient4, patient5]; //, patient6, patient7, patient8];
 }

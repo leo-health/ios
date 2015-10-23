@@ -82,7 +82,7 @@ static NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
 - (void)viewDidAppear:(BOOL)animated {
     
     [self toggleNavigationBarTitleView];
-
+    
 }
 
 - (void)setupNavigationBar {
@@ -102,16 +102,10 @@ static NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
 
 - (void)toggleNavigationBarTitleView {
     
-    if (self.tableView.contentOffset.y == 0) {
-        
-        self.navigationItem.titleView.alpha = 0;
-        self.navigationItem.titleView.hidden = NO;
-        
-    } else {
-        self.navigationItem.titleView.alpha = 1;
-        self.navigationItem.titleView.hidden = NO;
-    }
+    self.navigationItem.titleView.hidden = NO;
+    self.navigationItem.titleView.alpha = self.tableView.contentOffset.y == 0 ? 0:1;
 }
+
 - (void)setupTableView {
     
     self.tableView.delegate = self;
@@ -366,13 +360,9 @@ static NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
     
     if (scrollView == self.tableView) {
         
-        LEOBasicHeaderCell *headerCell = (LEOBasicHeaderCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
-        CGFloat percentHeaderCellHidden = [self tableViewVerticalContentOffset] / [self heightOfHeaderCellExcludingOverlapWithNavBar];
+        [self headerCell].headerLabel.alpha = 1 - [self percentHeaderCellHidden] * speedForTitleViewAlphaChangeConstant;
+        self.navigationItem.titleView.alpha = [self percentHeaderCellHidden];
         
-        if (percentHeaderCellHidden < 1) {
-            headerCell.headerLabel.alpha = 1 - percentHeaderCellHidden * speedForTitleViewAlphaChangeConstant;
-            self.navigationItem.titleView.alpha = percentHeaderCellHidden;
-        }
         if ([self tableViewVerticalContentOffset] >= [self heightOfHeaderCellExcludingOverlapWithNavBar]) {
             
             if (!self.breakerPreviouslyDrawn) {
@@ -389,28 +379,39 @@ static NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
     }
 }
 
+- (CGFloat)percentHeaderCellHidden {
+    
+    return MIN([self tableViewVerticalContentOffset] / [self heightOfHeaderCellExcludingOverlapWithNavBar], 1.0);
+}
+
+- (LEOBasicHeaderCell *)headerCell {
+    return (LEOBasicHeaderCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+}
+
 - (void)fadeBreaker:(BOOL)shouldFade {
+    
+    CABasicAnimation *fadeAnimation = [CABasicAnimation animationWithKeyPath:@"breakerFade"];
+    fadeAnimation.duration = 0.3;
     
     if (shouldFade) {
         
-        CABasicAnimation *fadeAnimation = [CABasicAnimation animationWithKeyPath:@"breakerFade"];
-        fadeAnimation.duration = 0.3;
-        fadeAnimation.fromValue = (id)[UIColor clearColor].CGColor;
-        fadeAnimation.toValue = (id)[UIColor leoOrangeRed].CGColor;
-        
-        self.pathLayer.strokeColor = [UIColor leoOrangeRed].CGColor;
-        [self.pathLayer addAnimation:fadeAnimation forKey:@"breakerFade"];
+        [self fadeAnimation:fadeAnimation fromColor:[UIColor clearColor] toColor:[UIColor leoOrangeRed] withStrokeColor:[UIColor leoOrangeRed]];
         
     } else {
         
-        CABasicAnimation *fadeAnimation = [CABasicAnimation animationWithKeyPath:@"breakerFade"];
-        fadeAnimation.duration = 0.3;
-        fadeAnimation.fromValue = (id)[UIColor leoOrangeRed].CGColor;
-        fadeAnimation.toValue = (id)[UIColor clearColor].CGColor;
-        
-        self.pathLayer.strokeColor = [UIColor clearColor].CGColor;
-        [self.pathLayer addAnimation:fadeAnimation forKey:@"breakerFade"];
+        [self fadeAnimation:fadeAnimation fromColor:[UIColor clearColor] toColor:[UIColor leoOrangeRed] withStrokeColor:[UIColor leoOrangeRed]];
     }
+    
+    [self.pathLayer addAnimation:fadeAnimation forKey:@"breakerFade"];
+    
+}
+
+- (void)fadeAnimation:(CABasicAnimation *)fadeAnimation fromColor:(UIColor *)fromColor toColor:(UIColor *)toColor withStrokeColor:(UIColor *)strokeColor {
+    
+    fadeAnimation.fromValue = (id)fromColor.CGColor;
+    fadeAnimation.toValue = (id)toColor.CGColor;
+    
+    self.pathLayer.strokeColor = strokeColor.CGColor;
 }
 
 - (void)setupBreaker {

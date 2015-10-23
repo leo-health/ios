@@ -51,7 +51,7 @@
     tapGestureForTextFieldDismissal.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:tapGestureForTextFieldDismissal];
     
-//    self.createAccountView.scrollView.delegate = self;
+    //    self.createAccountView.scrollView.delegate = self;
 }
 
 
@@ -119,7 +119,7 @@
     if ([self validatePage]) {
         
         [self addOnboardingData];
-
+        
         LEOUserService *userService = [[LEOUserService alloc] init];
         [userService enrollUser:self.guardian password:[self passwordPromptView].textField.text withCompletion:^(BOOL success, NSError *error) {
             

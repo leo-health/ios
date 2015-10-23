@@ -54,7 +54,7 @@
     [super viewDidLoad];
     
     [LEOStyleHelper tintColorForFeature:FeatureOnboarding];
-
+    
     [self setupSignUpUserView];
     [self setupBreaker];
     [self setupNavigationBar];
@@ -63,7 +63,7 @@
     [self setupPhoneNumberField];
     [self setupInsurerPromptView];
     [self setupButton];
-
+    
     
 }
 
@@ -109,7 +109,7 @@
     [LEOStyleHelper styleNavigationBarForFeature:FeatureOnboarding];
     
     UILabel *navTitleLabel = [[UILabel alloc] init];
-//    navTitleLabel.text = @"About Me";
+    //    navTitleLabel.text = @"About Me";
     
     [LEOStyleHelper styleLabel:navTitleLabel forFeature:FeatureOnboarding];
     
@@ -119,15 +119,8 @@
 
 - (void)toggleNavigationBarTitleView {
     
-    if ([self scrollView].contentOffset.y == 0) {
-        
-        self.navigationItem.titleView.alpha = 0;
-        self.navigationItem.titleView.hidden = NO;
-        
-    } else {
-        self.navigationItem.titleView.alpha = 1;
-        self.navigationItem.titleView.hidden = NO;
-    }
+    self.navigationItem.titleView.hidden = NO;
+    self.navigationItem.titleView.alpha = (self.scrollView.contentOffset.y == 0) ? 0:1;
 }
 
 - (void)setupFirstNameField {
@@ -180,7 +173,7 @@
 - (void)setupButton {
     
     [LEOStyleHelper styleButton:[self continueButton] forFeature:FeatureOnboarding];
-
+    
     [[self continueButton] addTarget:self action:@selector(continueTapped:) forControlEvents:UIControlEventTouchUpInside];
 }
 
@@ -198,7 +191,7 @@
     if (!_signUpUserView) {
         _signUpUserView = [[LEOSignUpUserView alloc] init];
     }
-
+    
     return _signUpUserView;
 }
 
@@ -238,12 +231,12 @@
     self.guardian.lastName = [self lastNameTextField].text;
     
     //InsurancePlan onboarding data provided as part of the delegate method upon return from the BasicSelectionViewController. Not in love with this implementation but it will suffice for the time-being.
-
+    
     self.guardian.phoneNumber = [self phoneNumberTextField].text;
-
+    
     
     if (self.managementMode == ManagementModeCreate) {
-    [self.family addGuardian:self.guardian];
+        [self.family addGuardian:self.guardian];
     }
 }
 
@@ -321,13 +314,13 @@
     [mutableText replaceCharactersInRange:range withString:string];
     
     if (textField == [self firstNameTextField] && ![self firstNameTextField].valid) {
-
+        
         self.firstNameTextField.valid = [LEOValidationsHelper isValidFirstName:mutableText.string];
     }
     
     if (textField == self.lastNameTextField && ![self lastNameTextField].valid) {
         
-            self.lastNameTextField.valid = [LEOValidationsHelper isValidLastName:mutableText.string];
+        self.lastNameTextField.valid = [LEOValidationsHelper isValidLastName:mutableText.string];
     }
     
     if (textField == [self phoneNumberTextField]) {
@@ -400,12 +393,8 @@
     
     if (scrollView == [self scrollView]) {
         
-        CGFloat percentHeaderViewHidden = [self scrollViewVerticalContentOffset] / [self heightOfHeaderView];
-        
-        if (percentHeaderViewHidden < 1) {
-            [self headerView].alpha = 1 - percentHeaderViewHidden * speedForTitleViewAlphaChangeConstant;
-            self.navigationItem.titleView.alpha = percentHeaderViewHidden;
-        }
+        [self headerView].alpha = 1 - [self percentHeaderViewHidden] * speedForTitleViewAlphaChangeConstant;
+        self.navigationItem.titleView.alpha = [self percentHeaderViewHidden];
         
         if ([self scrollViewVerticalContentOffset] >= [self heightOfHeaderView]) {
             
@@ -423,28 +412,35 @@
     }
 }
 
+- (CGFloat)percentHeaderViewHidden {
+    
+    return MIN([self scrollViewVerticalContentOffset] / [self heightOfHeaderView], 1.0);
+}
+
 - (void)fadeBreaker:(BOOL)shouldFade {
+    
+    CABasicAnimation *fadeAnimation = [CABasicAnimation animationWithKeyPath:@"breakerFade"];
+    fadeAnimation.duration = 0.3;
     
     if (shouldFade) {
         
-        CABasicAnimation *fadeAnimation = [CABasicAnimation animationWithKeyPath:@"breakerFade"];
-        fadeAnimation.duration = 0.3;
-        fadeAnimation.fromValue = (id)[UIColor clearColor].CGColor;
-        fadeAnimation.toValue = (id)[UIColor leoOrangeRed].CGColor;
-        
-        self.pathLayer.strokeColor = [UIColor leoOrangeRed].CGColor;
-        [self.pathLayer addAnimation:fadeAnimation forKey:@"breakerFade"];
+        [self fadeAnimation:fadeAnimation fromColor:[UIColor clearColor] toColor:[UIColor leoOrangeRed] withStrokeColor:[UIColor leoOrangeRed]];
         
     } else {
         
-        CABasicAnimation *fadeAnimation = [CABasicAnimation animationWithKeyPath:@"breakerFade"];
-        fadeAnimation.duration = 0.3;
-        fadeAnimation.fromValue = (id)[UIColor leoOrangeRed].CGColor;
-        fadeAnimation.toValue = (id)[UIColor clearColor].CGColor;
-        
-        self.pathLayer.strokeColor = [UIColor clearColor].CGColor;
-        [self.pathLayer addAnimation:fadeAnimation forKey:@"breakerFade"];
+        [self fadeAnimation:fadeAnimation fromColor:[UIColor clearColor] toColor:[UIColor leoOrangeRed] withStrokeColor:[UIColor leoOrangeRed]];
     }
+    
+    [self.pathLayer addAnimation:fadeAnimation forKey:@"breakerFade"];
+    
+}
+
+- (void)fadeAnimation:(CABasicAnimation *)fadeAnimation fromColor:(UIColor *)fromColor toColor:(UIColor *)toColor withStrokeColor:(UIColor *)strokeColor {
+    
+    fadeAnimation.fromValue = (id)fromColor.CGColor;
+    fadeAnimation.toValue = (id)toColor.CGColor;
+    
+    self.pathLayer.strokeColor = strokeColor.CGColor;
 }
 
 - (void)setupBreaker {
