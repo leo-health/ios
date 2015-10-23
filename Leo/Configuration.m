@@ -81,7 +81,7 @@ static NSString *const ConfigurationS3Endpoint = @"S3URL";
 }
 
 + (NSString *)APIEndpointWithHTTPSProtocol {
-    return [NSString stringWithFormat:@"http://%@",[self APIEndpoint]];
+    return [NSString stringWithFormat:@"https://%@",[self APIEndpoint]];
 }
 
 

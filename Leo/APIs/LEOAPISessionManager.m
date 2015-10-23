@@ -26,6 +26,16 @@
                                          sessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
 
         _sharedClient.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+        AFSecurityPolicy *securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeCertificate];
+        securityPolicy.validatesDomainName = NO;
+        securityPolicy.allowInvalidCertificates = YES;
+
+        NSString *certificatePath = [[NSBundle mainBundle] pathForResource:@"*.leoforkids.com" ofType:@"cer"];
+        NSData *certificateData = [[NSData alloc] initWithContentsOfFile:certificatePath];
+        securityPolicy.pinnedCertificates = @[certificateData];
+        _sharedClient.securityPolicy = securityPolicy;
+
     });
     
     return _sharedClient;
