@@ -47,13 +47,14 @@ platform :ios do
     gym(
      scheme: "Leo",
      workspace: "Leo.xcworkspace",
-     # output_directory: "../",
-     # output_name: "Leo.ipa",
+     output_directory: "../",
+     output_name: "Leo.ipa",
      include_symbols: true,
      clean: true
      )
 
     pilot(
+      ipa: "../"
       skip_submission: true
     )
 
