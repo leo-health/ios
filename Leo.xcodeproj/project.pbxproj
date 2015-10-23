@@ -1653,7 +1653,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 4;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = "Debug Stubs";
@@ -1698,7 +1698,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 4;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1707,7 +1707,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 4;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

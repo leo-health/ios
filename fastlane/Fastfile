@@ -54,7 +54,7 @@ platform :ios do
      )
 
     pilot(
-      ipa: "../"
+      ipa: "../Leo.ipa",
       skip_submission: true
     )
 
