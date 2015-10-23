@@ -22,13 +22,15 @@ default_platform :ios
 
 
 platform :ios do
-  before_all do
-    # ENV["SLACK_URL"] = "https://hooks.slack.com/services/..."
-    cocoapods
-    
-    # increment_build_number
 
-    # xctool # run the tests of your app
+  before_all do
+
+     ENV["SLACK_URL"] = "https://hooks.slack.com/services/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"
+    
+    #cocoapods
+    
+    increment_build_number
+
   end
 
   desc "Runs all the tests"
@@ -36,12 +38,42 @@ platform :ios do
     snapshot
   end
 
+
+  desc "Bump the version, and submit a new **Wikipedia Alpha** Build to Apple TestFlight"
+  lane :alpha do
+    # snapshot
+    sigh
+
+    gym(
+     scheme: "Leo",
+     workspace: "Leo.xcworkspace",
+     # output_directory: "../",
+     # output_name: "Leo.ipa",
+     include_symbols: true,
+     clean: true
+     )
+
+    pilot(
+      skip_submission: true
+    )
+
+  end
+
   desc "Submit a new Beta Build to Apple TestFlight"
   desc "This will also make sure the profile is up to date"
   lane :beta do
-    snapshot
+    #snapshot
     sigh
-    gym # Build your app - more options available
+    
+    gym(
+     scheme: "Leo",
+     workspace: "Leo.xcworkspace",
+     output_directory: "../",
+     output_name: "Leo.ipa",
+     include_symbols: true,
+     clean: true,
+     )
+
     pilot
 
     # sh "your_script.sh"
