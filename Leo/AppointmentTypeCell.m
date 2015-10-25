@@ -23,9 +23,11 @@
 }
 
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+- (void)setSelected:(BOOL)selected
+           animated:(BOOL)animated {
     
-    [super setSelected:selected animated:animated];
+    [super setSelected:selected
+              animated:animated];
     
     if (selected) {
         
@@ -35,8 +37,14 @@
         
         [appointmentType beginEditing];
         
-        [appointmentType addAttribute:NSUnderlineStyleAttributeName value:@(selectionLineHeight) range:range];
-        [appointmentType addAttribute:NSForegroundColorAttributeName value:self.selectedColor range:range];
+        [appointmentType addAttribute:NSUnderlineStyleAttributeName
+                                value:@(selectionLineHeight)
+                                range:range];
+        
+        [appointmentType addAttribute:NSForegroundColorAttributeName
+                                value:self.selectedColor
+                                range:range];
+        
         [appointmentType endEditing];
         
         self.nameLabel.attributedText = appointmentType;

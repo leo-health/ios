@@ -68,7 +68,9 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
     _animateEvenIfNotFirstResponder = NO;
     _floatingLabelShowAnimationDuration = kFloatingLabelShowAnimationDuration;
     _floatingLabelHideAnimationDuration = kFloatingLabelHideAnimationDuration;
-    [self setFloatingLabelText:self.placeholder];
+    
+    //FIXME: Use of self here?
+    self.floatingLabelText = self.placeholder;
 
     _adjustsClearButtonRect = YES;
     _isFloatingLabelFontDefault = YES;
@@ -124,7 +126,8 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
     }
     _floatingLabel.font = _floatingLabelFont ? _floatingLabelFont : [self defaultFloatingLabelFont];
     _isFloatingLabelFontDefault = floatingLabelFont == nil;
-    [self setFloatingLabelText:self.placeholder];
+    
+    self.floatingLabelText = self.placeholder;
     [self invalidateIntrinsicContentSize];
 }
 

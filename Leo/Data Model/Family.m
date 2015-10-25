@@ -64,10 +64,11 @@
         
         if (guardian.primary) {
             NSDictionary *guardianDictionary = [Guardian dictionaryFromUser:guardian];
-            [familyDictionary setObject:guardianDictionary forKey:APIParamUserGuardian];
+            familyDictionary[APIParamUserGuardian] = guardianDictionary;
             
             NSDictionary *insurancePlanDictionary = [InsurancePlan dictionaryFromInsurancePlan:guardian.insurancePlan];
-            [familyDictionary setObject:insurancePlanDictionary forKey:APIParamInsurancePlan];
+            
+            familyDictionary[APIParamInsurancePlan] = insurancePlanDictionary  ;
         }
     }
     
@@ -77,7 +78,7 @@
         [patientsArray addObject:patientDictionary];
     }
     
-    [familyDictionary setObject:patientsArray forKey:APIParamUserPatients];
+    familyDictionary[APIParamUserPatients] = patientsArray;
     
     return [familyDictionary copy];
 }
@@ -107,14 +108,21 @@
     NSArray *guardians = [decoder decodeObjectForKey:APIParamUserGuardians];
     NSArray *patients = [decoder decodeObjectForKey:APIParamUserPatients];
     
-    return [self initWithObjectID:objectID guardians:guardians patients:patients];
+    return [self initWithObjectID:objectID
+                        guardians:guardians
+                         patients:patients];
 }
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
     
-    [encoder encodeObject:self.objectID forKey:APIParamID];
-    [encoder encodeObject:self.guardians forKey:APIParamUserGuardians];
-    [encoder encodeObject:self.patients forKey:APIParamUserPatients];
+    [encoder encodeObject:self.objectID
+                   forKey:APIParamID];
+    
+    [encoder encodeObject:self.guardians
+                   forKey:APIParamUserGuardians];
+    
+    [encoder encodeObject:self.patients
+                   forKey:APIParamUserPatients];
 }
 
 

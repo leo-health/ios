@@ -53,8 +53,8 @@
     self.scrollView = [[UIScrollView alloc] init];
     self.scrollView.bounces = YES;
     self.view.backgroundColor = self.card.tintColor;
-    [self.scrollView setShowsHorizontalScrollIndicator:NO];
-    [self.scrollView setShowsVerticalScrollIndicator:NO];
+    self.scrollView.showsHorizontalScrollIndicator = NO;
+    self.scrollView.showsVerticalScrollIndicator = NO;
     
     self.contentView = [[UIView alloc] init];
     
@@ -78,13 +78,25 @@
     
     self.button = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.view addSubview:self.button];
-    [self.button addTarget:self action:@selector(buttonTapped) forControlEvents:UIControlEventTouchUpInside];
-    [self.button setTitle:self.card.stringRepresentationOfActionsAvailableForState[0] forState:UIControlStateNormal];
-    self.button.titleLabel.font = [UIFont leoButtonLabelsAndTimeStampsFont];
-    self.button.backgroundColor = self.card.tintColor;
-    [self.button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+
+    [self.button addTarget:self
+                    action:@selector(buttonTapped)
+          forControlEvents:UIControlEventTouchUpInside];
+
+    [self.button setTitle:self.card.stringRepresentationOfActionsAvailableForState[0]
+                 forState:UIControlStateNormal];
     
-    [self.button addObserver:self forKeyPath:@"enabled" options:NSKeyValueObservingOptionNew context:nil];
+    self.button.titleLabel.font = [UIFont leoButtonLabelsAndTimeStampsFont];
+    
+    self.button.backgroundColor = self.card.tintColor;
+    
+    [self.button setTitleColor:[UIColor whiteColor]
+                      forState:UIControlStateNormal];
+    
+    [self.button addObserver:self
+                  forKeyPath:@"enabled"
+                     options:NSKeyValueObservingOptionNew
+                     context:nil];
 }
 
 /**
@@ -107,6 +119,7 @@
     
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:self.card.tintColor]
                                                   forBarMetrics:UIBarMetricsDefault];
+    
     self.navigationController.navigationBar.shadowImage = [UIImage new];
     self.navigationController.navigationBar.translucent = NO;
     
@@ -115,19 +128,24 @@
     self.navigationController.navigationBar.topItem.title = @"";
     
     UIButton *dismissButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [dismissButton addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
-    [dismissButton setImage:[UIImage imageNamed:@"Icon-Cancel"] forState:UIControlStateNormal];
+    
+    [dismissButton addTarget:self
+                      action:@selector(dismiss)
+            forControlEvents:UIControlEventTouchUpInside];
+    
+    [dismissButton setImage:[UIImage imageNamed:@"Icon-Cancel"]
+                   forState:UIControlStateNormal];
     [dismissButton sizeToFit];
-    [dismissButton setTintColor:[UIColor leoWhite]];
+    
+    dismissButton.tintColor = [UIColor leoWhite];
     
     UIBarButtonItem *dismissBBI = [[UIBarButtonItem alloc] initWithCustomView:dismissButton];
+    
     self.navigationItem.rightBarButtonItem = dismissBBI;
     
     UILabel *navBarTitleLabel = [[UILabel alloc] init];
     
-    //TODO: Remove this line when done prepping this abstract class and have moved over to complete project.
     navBarTitleLabel.text = self.card.title;
-    
     navBarTitleLabel.textColor = [UIColor leoWhite];
     navBarTitleLabel.font = [UIFont leoMenuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
     

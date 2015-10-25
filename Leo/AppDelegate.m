@@ -36,19 +36,20 @@
 
 - (void)setupGlobalFormatting {
     
-    [self.window setTintColor:[UIColor leoWhite]];
+    self.window.tintColor = [UIColor leoWhite];
     NSDictionary *barButtonAppearanceDict = @{NSFontAttributeName : [UIFont leoFieldAndUserLabelsAndSecondaryButtonsFont], NSForegroundColorAttributeName: [UIColor leoWhite]};
-    [[UIBarButtonItem appearance] setTitleTextAttributes:barButtonAppearanceDict forState:UIControlStateNormal];
+    [[UIBarButtonItem appearance] setTitleTextAttributes:barButtonAppearanceDict
+                                                forState:UIControlStateNormal];
     [self roundCornersOfWindow];
 }
 
 - (void)roundCornersOfWindow {
     
-    [self.window.layer setCornerRadius:2.0];
-    [self.window.layer setMasksToBounds:YES];
+    self.window.layer.cornerRadius = 2.0;
+    self.window.layer.masksToBounds = YES;
     self.window.layer.opaque = NO;
-    [self.window.layer setShouldRasterize:YES];
-    [self.window.layer setRasterizationScale:[UIScreen mainScreen].scale];
+    self.window.layer.shouldRasterize = YES;
+    self.window.layer.rasterizationScale = [UIScreen mainScreen].scale;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
