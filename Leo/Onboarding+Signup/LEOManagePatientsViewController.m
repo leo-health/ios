@@ -27,14 +27,12 @@
 
 static NSString *const kSignUpPatientSegue = @"SignUpPatientSegue";
 
-typedef enum TableViewSection {
-    
+typedef NS_ENUM(NSUInteger, TableViewSection) {
     TableViewSectionTitle = 0,
     TableViewSectionPatients = 1,
     TableViewSectionAddPatient = 2,
     TableViewSectionButton = 3
-    
-} TableViewSection;
+};
 
 @interface LEOManagePatientsViewController ()
 

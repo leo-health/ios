@@ -36,14 +36,15 @@
 
 #import "UIImage+Extensions.h"
 
-typedef enum TableViewSection {
+typedef NS_ENUM(NSUInteger, TableViewSection) {
     
     TableViewSectionTitle = 0,
     TableViewSectionGuardians = 1,
     TableViewSectionPatients = 2,
     TableViewSectionButton = 3
     
-} TableViewSection;
+};
+
 @interface LEOReviewOnboardingViewController ()
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;

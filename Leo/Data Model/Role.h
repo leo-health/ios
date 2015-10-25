@@ -13,14 +13,14 @@
 
 @class User;
 
-typedef enum RoleType : NSUInteger {
+typedef NS_ENUM(NSUInteger, RoleType) {
     RoleTypeChild,
     RoleTypeParent,
     RoleTypeCaretaker,
     RoleTypeDoctor,
     RoleTypeNursePractitioner,
     RoleTypeAdministrator
-} RoleType;
+};
 
 @interface Role : NSObject
 NS_ASSUME_NONNULL_BEGIN
