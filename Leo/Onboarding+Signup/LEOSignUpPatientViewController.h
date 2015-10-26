@@ -15,19 +15,16 @@
 @end
 
 #import <UIKit/UIKit.h>
-#import "StickyView.h"
 #import "LEOPromptView.h"
 #import <RSKImageCropper/RSKImageCropper.h>
 
-
-
-
-@interface LEOSignUpPatientViewController : UIViewController <UITextFieldDelegate, UIScrollViewDelegate, LEOPromptDelegate, StickyViewDelegate, UIPickerViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, RSKImageCropViewControllerDelegate>
+@interface LEOSignUpPatientViewController : UIViewController <UITextFieldDelegate, UIScrollViewDelegate, LEOPromptDelegate, UIPickerViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, RSKImageCropViewControllerDelegate>
 
 @property (weak, nonatomic) id<SignUpPatientProtocol>delegate;
 @property (strong, nonatomic) Family *family;
 @property (strong, nonatomic) Patient *patient;
 @property (copy, nonatomic) NSString *enrollmentToken;
 @property (nonatomic) ManagementMode managementMode;
+@property (nonatomic) Feature feature;
 
 @end

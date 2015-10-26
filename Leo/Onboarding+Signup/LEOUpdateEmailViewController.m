@@ -9,6 +9,8 @@
 #import "LEOUpdateEmailViewController.h"
 #import "LEOStyleHelper.h"
 #import "LEOUpdateEmailView.h"
+#import "LEOUserService.h"
+#import "SessionUser.h"
 
 @interface LEOUpdateEmailViewController ()
 
@@ -29,7 +31,16 @@
 
 - (void)setupView {
     
-    [LEOStyleHelper styleViewForSettings:self.view];
+    [LEOStyleHelper tintColorForFeature:FeatureSettings];
+    
+    UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(viewWasTapped)];
+    tapGestureForTextFieldDismissal.cancelsTouchesInView = NO;
+    [self.view addGestureRecognizer:tapGestureForTextFieldDismissal];
+}
+
+- (void)viewWasTapped {
+    
+    [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
 }
 
 - (void)setupButton {
@@ -39,16 +50,37 @@
 
 - (void)setupNavigationBar {
     
-    self.navigationItem.title = @"Update Email";
+    self.view.tintColor = [LEOStyleHelper tintColorForFeature:FeatureSettings];
     
-    [LEOStyleHelper styleCustomBackButtonForViewController:self];
+    [LEOStyleHelper styleNavigationBarForFeature:FeatureSettings];
+    
+    UILabel *navTitleLabel = [[UILabel alloc] init];
+    navTitleLabel.text = @"Update Email";
+    
+    [LEOStyleHelper styleLabel:navTitleLabel forFeature:FeatureSettings];
+    
+    self.navigationItem.titleView = navTitleLabel;
+    
+    [LEOStyleHelper styleBackButtonForViewController:self];
 }
 
 - (void)updateEmailTapped {
     
     if ([self.updateEmailView isValidEmail]) {
         
-        NSLog(@"Email updated!");
+        LEOUserService *userService = [[LEOUserService alloc] init];
+        
+        Guardian *sessionGuardian = [SessionUser currentUser];
+        
+        Guardian *prepGuardian = [[Guardian alloc] initWithObjectID:sessionGuardian.objectID familyID:sessionGuardian.familyID title:sessionGuardian.title firstName:sessionGuardian.firstName middleInitial:sessionGuardian.middleInitial lastName:sessionGuardian.lastName suffix:sessionGuardian.suffix email:sessionGuardian.email avatarURL:sessionGuardian.avatarURL avatar:sessionGuardian.avatar phoneNumber:sessionGuardian.phoneNumber insurancePlan:sessionGuardian.insurancePlan primary:sessionGuardian.primary];
+        
+        [userService updateUser:prepGuardian withCompletion:^(BOOL success, NSError *error) {
+            
+            if (!error) {
+            [SessionUser currentUser].email = self.updateEmailView.email;
+            NSLog(@"Email updated!");
+            }
+        }];
     }
 }
 

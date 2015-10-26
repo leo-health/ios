@@ -9,6 +9,7 @@
 #import "MenuView.h"
 #import "LEOCardAppointment.h"
 #import "Appointment.h"
+#import "UIColor+LeoColors.h"
 
 @interface MenuView ()
 
@@ -58,8 +59,27 @@ static NSString *const kNotificationManageSettings = @"requestToManageSettings";
                                 options:nil];
     
     [self addSubview:self.view];
+    
+    [self setupButtons];
 }
 
+- (void)setupButtons {
+    
+    [self.scheduleAVisitLabelButton setImage:[UIImage imageNamed:@"Menu-Scheduling"] forState:UIControlStateNormal];
+    [self.submitAFormLabelButton setImage:[UIImage imageNamed:@"Menu-Forms"] forState:UIControlStateNormal];
+    [self.contactLeoLabelButton setImage:[UIImage imageNamed:@"Menu-Chat"] forState:UIControlStateNormal];
+    [self.settingsLabelButton setImage:[UIImage imageNamed:@"Menu-Settings"] forState:UIControlStateNormal];
+    
+    [self.scheduleAVisitLabelButton setTitleColor:[UIColor leoGrayForTitlesAndHeadings] forState:UIControlStateNormal];
+    [self.submitAFormLabelButton setTitleColor:[UIColor leoGrayForTitlesAndHeadings] forState:UIControlStateNormal];
+    [self.contactLeoLabelButton setTitleColor:[UIColor leoGrayForTitlesAndHeadings] forState:UIControlStateNormal];
+    [self.settingsLabelButton setTitleColor:[UIColor leoGrayForTitlesAndHeadings] forState:UIControlStateNormal];
+    
+    self.scheduleAVisitLabelButton.tintColor = [UIColor leoGreen];
+    self.submitAFormLabelButton.tintColor = [UIColor leoPurple];
+    self.contactLeoLabelButton.tintColor = [UIColor leoBlue];
+    self.settingsLabelButton.tintColor = [UIColor leoGrayForTimeStamps];
+}
 
 #pragma mark - Menu View Button Animation
 

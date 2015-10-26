@@ -8,7 +8,7 @@
 
 #import "LEOSettingsViewController.h"
 #import "Family.h"
-#import "LEOPromptViewCell+ConfigureForPatient.h"
+#import "LEOPromptViewCell+ConfigureForCell.h"
 #import "SessionUser.h"
 #import "LEOPromptView.h"
 #import "UIColor+LeoColors.h"
@@ -16,10 +16,17 @@
 #import "UIImage+Extensions.h"
 #import "LEOStyleHelper.h"
 
+#import "LEOUpdateEmailViewController.h"
+#import "LEOUpdatePasswordViewController.h"
+#import "LEOInviteViewController.h"
+
+#import "Patient.h"
+
 typedef enum SettingsSection {
     
     SettingsSectionAccounts = 0,
     SettingsSectionPatients = 1,
+    SettingsSectionAddPatient = 2,
     
 } SettingsSection;
 
@@ -40,10 +47,10 @@ typedef enum AccountSettings {
 
 @implementation LEOSettingsViewController
 
-static NSString *const kChangeEmailSegue = @"UpdateEmailSegue";
-static NSString *const kChangePasswordSegue = @"UpdatePasswordSegue";
-static NSString *const kInviteGuardianSegue = @"InviteSegue";
-static NSString *const kUpdatePatientSegue = @"UpdatePatientSegue";
+static NSString *const kSegueChangeEmail = @"UpdateEmailSegue";
+static NSString *const kSegueChangePassword = @"UpdatePasswordSegue";
+static NSString *const kSegueInviteGuardian = @"InviteSegue";
+static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
 
 
 #pragma mark - View Controller Lifecycle and Helper Methods
@@ -53,25 +60,27 @@ static NSString *const kUpdatePatientSegue = @"UpdatePatientSegue";
     [super viewDidLoad];
     [self setupTableView];
     [self setupNavigationBar];
-    
 }
 
-- (void)viewDidAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated {
     
+    [super viewWillAppear:animated];
+    
+    [self.tableView reloadData];
 }
 
 - (void)setupNavigationBar {
     
     self.navigationController.navigationBarHidden = NO;
 
-    [LEOStyleHelper styleNavigationBarForSettings];
+    [LEOStyleHelper styleNavigationBarForFeature:FeatureSettings];
 
     UILabel *navTitleLabel = [[UILabel alloc] init];
     navTitleLabel.text = @"Settings";
     
     self.view.tintColor = [UIColor whiteColor];
-    [LEOStyleHelper styleCustomBackButtonForViewController:self];
-    [LEOStyleHelper styleLabelForNavigationHeaderForSettings:navTitleLabel];
+    [LEOStyleHelper styleBackButtonForViewController:self];
+    [LEOStyleHelper styleLabel:navTitleLabel forFeature:FeatureSettings];
     
     self.navigationItem.titleView = navTitleLabel;
 }
@@ -84,6 +93,8 @@ static NSString *const kUpdatePatientSegue = @"UpdatePatientSegue";
     
     self.tableView.estimatedRowHeight = 68.0;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
+    
+    self.tableView.backgroundColor = [UIColor clearColor];
     
     self.tableView.alwaysBounceVertical = NO;
     
@@ -108,7 +119,11 @@ static NSString *const kUpdatePatientSegue = @"UpdatePatientSegue";
             break;
             
         case SettingsSectionPatients:
-            rows = [self.family.patients count] + 1;
+            rows = [self.family.patients count];
+            break;
+            
+        case SettingsSectionAddPatient:
+            rows = 1;
             break;
             
     }
@@ -118,7 +133,7 @@ static NSString *const kUpdatePatientSegue = @"UpdatePatientSegue";
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     
-    return 2;
+    return 3;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -134,13 +149,13 @@ static NSString *const kUpdatePatientSegue = @"UpdatePatientSegue";
                 case AccountSettingsEmail: {
                     
                     cell.promptView.textField.text = [SessionUser currentUser].email;
-                    cell.promptView.accessoryImageViewVisible = YES;
-                    cell.promptView.accessoryImage = [UIImage imageNamed:@"Icon-ForwardArrow"];
+                    cell.promptView.accessoryImageViewVisible = NO;
                     cell.promptView.tintColor = [UIColor leoOrangeRed];
                     cell.promptView.textField.enabled = NO;
                     cell.promptView.textField.textColor = [UIColor leoOrangeRed];
                     cell.promptView.tapGestureEnabled = NO;
                     cell.promptView.textField.standardPlaceholder = @"email";
+                    cell.promptView.textField.text = [SessionUser currentUser].email;
                     break;
                 }
                     
@@ -171,13 +186,12 @@ static NSString *const kUpdatePatientSegue = @"UpdatePatientSegue";
         }
             
         case SettingsSectionPatients: {
+            [cell configureForPatient:self.family.patients[indexPath.row]];
+            break;
+        }
             
-            if (indexPath.row < [self.family.patients count]) {
-                [cell configureForPatient:self.family.patients[indexPath.row]];
-            } else {
-                [cell configureForNewPatient];
-            }
-            
+        case SettingsSectionAddPatient: {
+            [cell configureForNewPatient];
             break;
         }
     }
@@ -194,24 +208,33 @@ static NSString *const kUpdatePatientSegue = @"UpdatePatientSegue";
             switch (indexPath.row) {
                     
                 case AccountSettingsEmail:
-                    [self performSegueWithIdentifier:kChangeEmailSegue sender:indexPath];
                     break;
                     
                 case AccountSettingsPassword:
-                    [self performSegueWithIdentifier:kChangePasswordSegue sender:indexPath];
+                    [self performSegueWithIdentifier:kSegueChangePassword sender:indexPath];
                     break;
                     
                 case AccountSettingsInvite:
-                    [self performSegueWithIdentifier:kInviteGuardianSegue sender:indexPath];
+                    [self performSegueWithIdentifier:kSegueInviteGuardian sender:indexPath];
                     break;
+                    
+
             }
             
             break;
+
+        case SettingsSectionPatients: {
             
-        case SettingsSectionPatients:
-            
-            [self performSegueWithIdentifier:kUpdatePatientSegue sender:indexPath];
+            Patient *patient = self.family.patients[indexPath.row];
+            [self performSegueWithIdentifier:kSegueUpdatePatient sender:patient];
             break;
+        }
+            
+        case SettingsSectionAddPatient: {
+            
+            [self performSegueWithIdentifier:kSegueUpdatePatient sender:nil];
+            break;
+        }
     }
 }
 
@@ -227,29 +250,66 @@ static NSString *const kUpdatePatientSegue = @"UpdatePatientSegue";
             
         case SettingsSectionPatients:
             return @"Children";
+    
+        case SettingsSectionAddPatient:
+            return nil;
     }
     
-    return nil;
+    return @"";
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     
-    //TODO: Remove magic number
-    return 32.5;
+    switch (section) {
+        case SettingsSectionAccounts:
+        case SettingsSectionPatients:
+            return 32.5;
+            break;
+            
+        case SettingsSectionAddPatient:
+            return 0.0;
+            break;
+    }
+    
+    return 0.0;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     
-    //TODO: Remove magic number
-    return 68.0;
+    switch (section) {
+        case SettingsSectionAccounts:
+            return 68.0;
+            
+        case SettingsSectionPatients:
+            return 0.0;
+            break;
+            
+        case SettingsSectionAddPatient:
+            return 68.0;
+            break;
+    }
+    
+    return 0.0;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section {
     
-    UITableViewHeaderFooterView *headerView = (UITableViewHeaderFooterView *)view;
-    headerView.textLabel.textColor = [UIColor leoGrayForTitlesAndHeadings];
-    headerView.textLabel.font = [UIFont leoExpandedCardHeaderFont];
-    headerView.tintColor = [UIColor leoWhite];
+    switch (section) {
+        case SettingsSectionAccounts:
+        case SettingsSectionPatients: {
+            
+            UITableViewHeaderFooterView *headerView = (UITableViewHeaderFooterView *)view;
+            headerView.textLabel.textColor = [UIColor leoGrayForTitlesAndHeadings];
+            headerView.textLabel.font = [UIFont leoExpandedCardHeaderFont];
+            headerView.textLabel.text = [headerView.textLabel.text capitalizedString];
+            headerView.tintColor = [UIColor leoWhite];
+            break;
+        }
+            
+        case SettingsSectionAddPatient:
+            view = nil;
+            break;
+    }
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {
@@ -262,9 +322,30 @@ static NSString *const kUpdatePatientSegue = @"UpdatePatientSegue";
 
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+
+
+    if ([segue.identifier isEqualToString:kSegueUpdatePatient]) {
+        
+        LEOSignUpPatientViewController *signUpPatientVC = segue.destinationViewController;
+        signUpPatientVC.feature = FeatureSettings;
+        signUpPatientVC.family = self.family;
+        signUpPatientVC.patient = (Patient *)sender;
+        
+        if (sender) {
+            signUpPatientVC.managementMode = ManagementModeEdit;
+        } else {
+            signUpPatientVC.managementMode = ManagementModeCreate;
+        }
+        
+        signUpPatientVC.delegate = self;
+
+    }
+}
+
+- (void)addPatient:(Patient *)patient {
     
-    //TODO: Method to be completed when we update with passing of data.
-    
+    [self.family addPatient:patient];
+    [self.tableView reloadData];
 }
 
 - (void)pop {

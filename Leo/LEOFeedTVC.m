@@ -67,7 +67,6 @@
 @property (strong, nonatomic) LEOTransitioningDelegate *transitionDelegate;
 
 @property (retain, nonatomic) NSMutableArray *cards;
-@property (strong, nonatomic) Family *family;
 @property (copy, nonatomic) NSArray *allStaff;
 @property (copy, nonatomic) NSArray *appointmentTypes;
 
@@ -98,7 +97,9 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
 #pragma mark - View Controller Lifecycle and VCL Helper Methods
 - (void)viewDidLoad {
     
-    [LEOStyleHelper styleNavigationBarForSettings];
+    
+    //TODO: Add one for feed
+    [LEOStyleHelper styleNavigationBarForFeature:FeatureSettings];
     
     [super viewDidLoad];
     
@@ -648,6 +649,8 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
     
     [UIView animateWithDuration:0.25 animations:^{
         
+        [self.menuView setBackgroundColor:[[UIColor clearColor] colorWithAlphaComponent:0.5]];
+
         self.menuView.alpha = 0.8;
         self.blurredImageView.alpha = 1;
         [self.menuButton layoutIfNeeded];

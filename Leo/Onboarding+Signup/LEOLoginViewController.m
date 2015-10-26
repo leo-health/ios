@@ -17,15 +17,16 @@
 #import "LEOForgotPasswordViewController.h"
 #import "UIViewController+Extensions.h"
 #import "LEOLoginView.h"
+#import "LEOHelperService.h"
+#import "LEOFeedTVC.h"
+#import "LEOStyleHelper.h"
+
 
 static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
 
 @interface LEOLoginViewController ()
 
 @property (strong, nonatomic) LEOLoginView *loginView;
-@property (strong, nonatomic) StickyView *stickyView;
-
-@property (weak, nonatomic) IBOutlet UINavigationBar *fakeNavigationBar;
 
 @end
 
@@ -35,27 +36,17 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self setupStickyView];
     [self setupNavigationBar];
+    [self setupLoginView];
     [self setupEmailTextField];
     [self setupPasswordTextField];
     [self setupForgotPasswordButton];
+    [self setupContinueButton];
     
 #if AUTOLOGIN_FLAG
     [self autologin];
 #endif
     // Do any additional setup after loading the view.
-}
-
--(StickyView *)stickyView {
-    return (StickyView *)self.view;
-}
-
-- (void)setupStickyView {
-    
-    self.stickyView.delegate = self;
-    self.stickyView.tintColor = [UIColor leoOrangeRed];
-    [self.stickyView reloadViews];
 }
 
 - (LEOLoginView *)loginView {
@@ -73,27 +64,35 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
     [self.loginView.forgotPasswordButton addTarget:self action:@selector(forgotPasswordTapped:) forControlEvents:UIControlEventTouchUpInside];
 }
 
+- (void)setupLoginView {
+    
+    [self.view addSubview:self.loginView];
+    
+    [self.view removeConstraints:self.view.constraints];
+    self.loginView.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    NSDictionary *bindings = NSDictionaryOfVariableBindings(_loginView);
+    
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_loginView]|" options:0 metrics:nil views:bindings]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_loginView]|" options:0 metrics:nil views:bindings]];
+    
+    UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(viewWasTapped)];
+    tapGestureForTextFieldDismissal.cancelsTouchesInView = NO;
+    [self.view addGestureRecognizer:tapGestureForTextFieldDismissal];
+}
+
+- (void)viewWasTapped {
+    
+    [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
+}
+
+
 - (void)setupNavigationBar {
     
-    self.navigationController.navigationBarHidden = YES;
+    [LEOStyleHelper styleNavigationBarForFeature:FeatureOnboarding];
     
-    [self.fakeNavigationBar setBackgroundImage:[UIImage imageWithColor:[UIColor leoWhite]]
-                                forBarPosition:UIBarPositionAny
-                                    barMetrics:UIBarMetricsDefault];
-    
-    [self.fakeNavigationBar setShadowImage:[UIImage new]];
-    
-    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [backButton addTarget:self action:@selector(pop) forControlEvents:UIControlEventTouchUpInside];
-    [backButton setImage:[UIImage imageNamed:@"Icon-BackArrow"] forState:UIControlStateNormal];
-    [backButton sizeToFit];
-    [backButton setTintColor:[UIColor leoOrangeRed]];
-    
-    UIBarButtonItem *backBBI = [[UIBarButtonItem alloc] initWithCustomView:backButton];
-    
-    UINavigationItem *item = [[UINavigationItem alloc] init];
-    item.leftBarButtonItem = backBBI;
-    [self.fakeNavigationBar pushNavigationItem:item animated:NO];
+    self.view.tintColor = [LEOStyleHelper tintColorForFeature:FeatureOnboarding];
+    [LEOStyleHelper styleBackButtonForViewController:self];
 }
 
 
@@ -115,11 +114,18 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
     
     [self passwordTextField].delegate = self;
     [self passwordTextField].standardPlaceholder = @"password";
-    [self passwordTextField].validationPlaceholder = @"Must have a password";
+    [self passwordTextField].validationPlaceholder = @"Password must be eight characters or more";
     [self passwordTextField].secureTextEntry = YES;
     [[self passwordTextField] sizeToFit];
 }
 
+- (void)setupContinueButton {
+    
+    [LEOStyleHelper styleButton:self.loginView.continueButton forFeature:FeatureOnboarding];
+    [self.loginView.continueButton setTitle:@"LOG IN" forState:UIControlStateNormal];
+    
+    [self.loginView.continueButton addTarget:self action:@selector(continueTapped:) forControlEvents:UIControlEventTouchUpInside];
+}
 
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     
@@ -134,48 +140,11 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
     
     if (textField == [self passwordTextField] && ![self passwordTextField].valid) {
         
-        self.passwordTextField.valid = [LEOValidationsHelper isValidPhoneNumberWithFormatting:mutableText.string];
+        self.passwordTextField.valid = [LEOValidationsHelper isValidPassword:mutableText.string];
     }
     
     return YES;
 }
-
-#pragma mark - <StickyViewDelegate>
-
-- (BOOL)scrollable {
-    return YES;
-}
-
-- (BOOL)initialStateExpanded {
-    return YES;
-}
-
-- (NSString *)expandedTitleViewContent {
-    return @"Log in to your Leo account";
-}
-
-
-- (NSString *)collapsedTitleViewContent {
-    return @"";
-}
-
-- (UIView *)stickyViewBody{
-    return self.loginView;
-}
-
-- (UIImage *)expandedGradientImage {
-    
-    return [UIImage imageWithColor:[UIColor leoWhite]];
-}
-
-- (UIImage *)collapsedGradientImage {
-    return [UIImage imageWithColor:[UIColor leoWhite]];
-}
-
--(UIViewController *)associatedViewController {
-    return self;
-}
-
 
 #pragma mark - Navigation
 
@@ -187,7 +156,6 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
         
         LEOForgotPasswordViewController *forgotPasswordVC = segue.destinationViewController;
         forgotPasswordVC.email = self.emailTextField.text;
-        self.fakeNavigationBar.items = nil;
     }
 }
 
@@ -200,7 +168,7 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
 - (void)continueTapped:(UIButton *)sender {
     
     BOOL validEmail = [LEOValidationsHelper isValidEmail:[self emailTextField].text];
-    BOOL validPassword = [LEOValidationsHelper isValidPassword:    [self passwordTextField].text];
+    BOOL validPassword = [LEOValidationsHelper isValidPassword:[self passwordTextField].text];
     
     [self emailTextField].valid = validEmail;
     [self passwordTextField].valid = validPassword;
@@ -209,25 +177,43 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
         
         LEOUserService *userService = [[LEOUserService alloc] init];
         
-        [userService loginUserWithEmail:[self emailTextField].text password:    [self passwordTextField].text withCompletion:^(SessionUser * user, NSError * error) {
-            
-            if (!error) {
-                
-                if ([self isModal]) {
-                    [self dismissViewControllerAnimated:self completion:nil];
-                } else {
-                    UIStoryboard *feedStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                    UIViewController *initialVC = [feedStoryboard instantiateInitialViewController];
-                    [self presentViewController:initialVC animated:NO completion:nil];
-                }
-            }
-        }];
+        [userService loginUserWithEmail:[self emailTextField].text
+                               password:[self passwordTextField].text
+                         withCompletion:^(SessionUser * user, NSError * error) {
+                             
+                             if (!error) {
+                                 
+                                 LEOHelperService *helperService = [[LEOHelperService alloc] init];
+                                 [helperService getFamilyWithCompletion:^(Family *family, NSError *error) {
+                                     
+                                     if (!error) {
+                                         
+                                         UIStoryboard *feedStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                                         UINavigationController *initialVC = [feedStoryboard instantiateInitialViewController];
+                                         LEOFeedTVC *feedTVC = initialVC.viewControllers[0];
+                                         feedTVC.family = family;
+                                         
+                                         [self presentViewController:initialVC animated:NO completion:nil];
+                                     }
+                                 }];
+                             } else {
+                                 
+                                 UIAlertController *loginAlert = [UIAlertController alertControllerWithTitle:@"Invalid login" message:@"Looks like your email or password isn't one we recognize. Try entering them again, or reset your password." preferredStyle:UIAlertControllerStyleAlert];
+                                 
+                                 UIAlertAction *continueAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil];
+                                 
+                                 [loginAlert addAction:continueAction];
+                                 
+                                 [self presentViewController:loginAlert animated:YES completion:nil];
+                             }
+                         }];
     }
 }
 
 - (void)forgotPasswordTapped:(UIButton *)sender {
     
-    [self performSegueWithIdentifier:kForgotPasswordSegue sender:sender];
+    [self performSegueWithIdentifier:kForgotPasswordSegue
+                              sender:sender];
 }
 
 

@@ -25,11 +25,13 @@
 
 #import "Family.h"
 #import "Patient.h"
+#import "LEOStyleHelper.h"
+#import "LEOUserService.h"
 
 @interface LEOSignUpPatientViewController ()
 
 @property (strong, nonatomic) LEOSignUpPatientView *signUpPatientView;
-@property (nonatomic) BOOL isNewFamily;
+
 @end
 
 @implementation LEOSignUpPatientViewController
@@ -41,7 +43,9 @@
     
     [super viewDidLoad];
     
-    [self setupStickyView];
+    [self setupView];
+    [self setupNavigationBar];
+    [self setupSignUpPatientView];
     [self setupFirstNameField];
     [self setupLastNameField];
     [self setupBirthDateField];
@@ -50,15 +54,58 @@
     [self setupGenderField];
 }
 
-- (void)setupStickyView {
+-(void)viewWillAppear:(BOOL)animated {
     
-    self.stickyView.delegate = self;
-    self.stickyView.tintColor = [UIColor leoOrangeRed];
-    [self.stickyView reloadViews];
+    [super viewWillAppear:animated];
+    
+    [self setupContinueButton];
 }
 
--(StickyView *)stickyView {
-    return (StickyView *)self.view;
+- (void)setupView {
+    
+    UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(viewWasTapped)];
+    tapGestureForTextFieldDismissal.cancelsTouchesInView = NO;
+    [self.view addGestureRecognizer:tapGestureForTextFieldDismissal];
+}
+
+- (void)viewWasTapped {
+    
+    [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
+}
+
+- (void)setupNavigationBar {
+    
+    self.view.tintColor = [LEOStyleHelper tintColorForFeature:self.feature];
+    
+    [LEOStyleHelper styleNavigationBarForFeature:self.feature];
+    
+    UILabel *navTitleLabel = [[UILabel alloc] init];
+    
+    if (self.managementMode == ManagementModeEdit) {
+        navTitleLabel.text = self.patient.fullName;
+    } else {
+        navTitleLabel.text = @"Add Child Details";
+    }
+    
+    [LEOStyleHelper styleLabel:navTitleLabel forFeature:self.feature];
+    
+    self.navigationItem.titleView = navTitleLabel;
+    
+    [LEOStyleHelper styleBackButtonForViewController:self];
+}
+
+
+- (void)setupSignUpPatientView {
+    
+    [self.view addSubview:self.signUpPatientView];
+    
+    [self.view removeConstraints:self.view.constraints];
+    self.signUpPatientView.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    NSDictionary *bindings = NSDictionaryOfVariableBindings(_signUpPatientView);
+    
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_signUpPatientView]|" options:0 metrics:nil views:bindings]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_signUpPatientView]|" options:0 metrics:nil views:bindings]];
 }
 
 - (void)setupFirstNameField {
@@ -125,6 +172,15 @@
     }
 }
 
+- (void)setupContinueButton {
+    
+    [LEOStyleHelper styleButton:self.signUpPatientView.updateButton forFeature:self.feature];
+    
+    [self.signUpPatientView.updateButton setTitle:@"CONTINUE" forState:UIControlStateNormal];
+    
+    [self.signUpPatientView.updateButton addTarget:self action:@selector(continueTapped:) forControlEvents:UIControlEventTouchUpInside];
+}
+
 
 #pragma mark - <UIImagePickerViewControllerDelegate>
 
@@ -133,7 +189,16 @@
     UIImage *originalImage = info[UIImagePickerControllerOriginalImage];
     RSKImageCropViewController *imageCropVC = [[RSKImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeCircle];
     imageCropVC.delegate = self;
-
+    imageCropVC.moveAndScaleLabel.font = [UIFont leoStandardFont];
+    imageCropVC.moveAndScaleLabel.textColor = [UIColor leoOrangeRed];
+    imageCropVC.maskLayerColor = [UIColor leoWhite];
+    [imageCropVC.cancelButton setTitleColor:[UIColor leoOrangeRed] forState:UIControlStateNormal];
+    [imageCropVC.chooseButton setTitleColor:[UIColor leoOrangeRed] forState:UIControlStateNormal];
+    imageCropVC.cancelButton.titleLabel.font = [UIFont leoStandardFont];
+    imageCropVC.chooseButton.titleLabel.font = [UIFont leoStandardFont];
+    imageCropVC.avoidEmptySpaceAroundImage = YES;
+    imageCropVC.view.backgroundColor = [UIColor leoWhite];
+    
     [self.navigationController pushViewController:imageCropVC animated:NO];
 
     [self dismissViewControllerAnimated:NO completion:^{
@@ -163,48 +228,11 @@
     self.patient.avatar = avatarImage;
 }
 
-#pragma mark - <StickyViewDelegate>
-
-- (BOOL)scrollable {
-    return YES;
-}
-
-- (BOOL)initialStateExpanded {
-    return YES;
-}
-
-- (NSString *)expandedTitleViewContent {
-    return @"Now, tell us about your child";
-}
-
-
-- (NSString *)collapsedTitleViewContent {
-    return @" ";
-}
-
-- (UIView *)stickyViewBody{
-    return self.signUpPatientView;
-}
-
-- (UIImage *)expandedGradientImage {
-    
-    return [UIImage imageWithColor:[UIColor leoWhite]];
-}
-
-- (UIImage *)collapsedGradientImage {
-    return [UIImage imageWithColor:[UIColor leoWhite]];
-}
-
--(UIViewController *)associatedViewController {
-    return self;
-}
-
 - (LEOSignUpPatientView *)signUpPatientView {
     
     if (!_signUpPatientView) {
         
         _signUpPatientView = [[LEOSignUpPatientView alloc] init];
-        _signUpPatientView.tintColor = [UIColor leoOrangeRed];
     }
     
     return _signUpPatientView;
@@ -226,6 +254,25 @@
         
         [self selectAGender:sender];
     }
+}
+
+
+- (void)navigationController:(UINavigationController *)navigationController
+      willShowViewController:(UIViewController *)viewController
+                    animated:(BOOL)animated {
+    
+    viewController.view.tintColor = [LEOStyleHelper tintColorForFeature:self.feature];
+    
+    [LEOStyleHelper styleNavigationBarForFeature:self.feature];
+    
+    UILabel *navTitleLabel = [[UILabel alloc] init];
+    navTitleLabel.text = @"Photos";
+   
+    [LEOStyleHelper styleLabel:navTitleLabel forFeature:self.feature];
+    
+    viewController.navigationItem.titleView = navTitleLabel;
+    
+    [viewController.navigationItem setHidesBackButton:YES];
 }
 
 
@@ -276,26 +323,76 @@
 
 #pragma mark - Navigation
 
+//TODO: Refactor this method
 - (void)continueTapped:(UIButton *)sender {
     
     if ([self validatePage]) {
         
-        [self addOnboardingData];
-        [self.navigationController popViewControllerAnimated:YES];
+        self.patient.firstName = [self firstNameTextField].text;
+        self.patient.lastName = [self lastNameTextField].text;
+        self.patient.gender = [self genderTextField].text;
+        self.patient.dob = [NSDate dateFromShortDate:[self birthDateTextField].text];
+        
+        switch (self.feature) {
+            case FeatureSettings: {
+            
+                LEOUserService *userService = [[LEOUserService alloc] init];
+
+                switch (self.managementMode) {
+                    case ManagementModeCreate: {
+                        
+                        [userService createPatient:self.patient withCompletion:^(Patient *patient, NSError *error) {
+                            
+                            if (!error) {
+                                
+                                self.patient.objectID = patient.objectID;
+                                [self finishLocalUpdate];
+                            }
+                        }];
+
+                        break;
+                    }
+                    case ManagementModeEdit: {
+                        
+                        [userService updatePatient:self.patient withCompletion:^(BOOL success, NSError *error) {
+                            
+                            if (!error) {
+                                [self.navigationController popViewControllerAnimated:YES];
+                            }
+                        }];
+                        
+                        break;
+                    }
+                        
+                }
+                
+                break;
+            }
+                
+            case FeatureOnboarding: {
+                
+                switch (self.managementMode) {
+                    case ManagementModeCreate:
+
+                        [self finishLocalUpdate];
+                        break;
+                        
+                    case ManagementModeEdit:
+                        
+                        [self.navigationController popViewControllerAnimated:YES];
+                        break;
+                }
+                
+                break;
+            }
+        }
     }
 }
 
-- (void)addOnboardingData {
-
-    self.patient.firstName = [self firstNameTextField].text;
-    self.patient.lastName = [self lastNameTextField].text;
-    self.patient.gender = [self genderTextField].text;
-    self.patient.dob = [NSDate dateFromShortDate:[self birthDateTextField].text];
+- (void)finishLocalUpdate {
     
-    if (self.managementMode == ManagementModeCreate) {
-        
-        [self.family addPatient:self.patient];
-    }
+    [self.family addPatient:self.patient];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 -(Patient *)patient {
@@ -321,7 +418,6 @@
 - (void)pop {
     
     [self.navigationController popViewControllerAnimated:YES];
-    self.navigationController.navigationBarHidden = YES;
 }
 
 #pragma mark - Validation

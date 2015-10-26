@@ -10,6 +10,8 @@
 #import "LEOStyleHelper.h"
 #import "LEOValidationsHelper.h"
 #import "LEOInviteView.h"
+#import "LEOUserService.h"
+#import "User.h"    
 
 @interface LEOInviteViewController ()
 
@@ -30,7 +32,16 @@
 
 - (void)setupView {
     
-    [LEOStyleHelper styleViewForSettings:self.view];
+    [LEOStyleHelper styleSettingsViewController:self];
+    
+    UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(viewWasTapped)];
+    tapGestureForTextFieldDismissal.cancelsTouchesInView = NO;
+    [self.view addGestureRecognizer:tapGestureForTextFieldDismissal];
+}
+
+- (void)viewWasTapped {
+    
+    [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
 }
 
 - (void)setupButton {
@@ -40,16 +51,36 @@
 
 - (void)setupNavigationBar {
     
-    self.navigationItem.title = @"Invite a Parent";
+    self.view.tintColor = [LEOStyleHelper tintColorForFeature:FeatureSettings];
     
-    [LEOStyleHelper styleCustomBackButtonForViewController:self];
+    [LEOStyleHelper styleNavigationBarForFeature:FeatureSettings];
+    
+    UILabel *navTitleLabel = [[UILabel alloc] init];
+    navTitleLabel.text = @"Invite a Parent";
+    
+    [LEOStyleHelper styleLabel:navTitleLabel forFeature:FeatureSettings];
+    
+    self.navigationItem.titleView = navTitleLabel;
+    
+    [LEOStyleHelper styleBackButtonForViewController:self];
 }
 
 - (void)sendInvitationsTapped {
     
     if ([self.inviteView isValidInvite]) {
         
-        NSLog(@"Invite sent!");
+        User *configUser = [[User alloc] init];
+        configUser.firstName = self.inviteView.firstName;
+        configUser.lastName = self.inviteView.lastName;
+        configUser.email = self.inviteView.email;
+        
+        LEOUserService *userService = [[LEOUserService alloc] init];
+        [userService inviteUser:configUser withCompletion:^(BOOL success, NSError *error) {
+        
+            if (success) {
+            NSLog(@"Invite sent!");
+            }
+        }];
     }
 }
 

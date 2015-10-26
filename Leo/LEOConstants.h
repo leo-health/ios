@@ -123,6 +123,11 @@ typedef enum ManagementMode : NSUInteger {
     ManagementModeEdit = 2
 } ManagementMode;
 
+typedef NS_ENUM(NSUInteger, Feature) {
+    FeatureOnboarding = 0,
+    FeatureSettings = 1,
+};
+
 @interface LEOConstants : NSObject
 
 #pragma mark - Temp constants
@@ -148,6 +153,8 @@ extern NSString *const APIEndpointFamily; // @"family";
 extern NSString *const APIEndpointInsurers; // @"insurers";
 extern NSString *const APIEndpointUserEnrollments; // = @"enrollments";
 extern NSString *const APIEndpointPatientEnrollments; // = @"patient_enrollments";
+extern NSString *const APIEndpointAvatars; // @"avatars";
+extern NSString *const APIEndpointInvite; // @"invite";
 
 #pragma mark - Common
 extern NSString *const APIParamID; // @"id";
@@ -163,6 +170,7 @@ extern NSString *const APIParamShortDescription; // @"short_description";
 extern NSString *const APIParamLongDescription; // @"long_description";
 
 extern NSString *const APIParamToken; // @"token";
+extern NSString *const APIParamSession; // = @"session";
 
 #pragma mark - Date & time
 extern NSString *const APIParamCreatedDateTime; // @"created_datetime";

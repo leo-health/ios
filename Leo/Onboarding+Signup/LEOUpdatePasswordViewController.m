@@ -30,7 +30,16 @@
 
 - (void)setupView {
     
-    [LEOStyleHelper styleViewForSettings:self.view];
+    [LEOStyleHelper styleSettingsViewController:self];
+    
+    UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(viewWasTapped)];
+    tapGestureForTextFieldDismissal.cancelsTouchesInView = NO;
+    [self.view addGestureRecognizer:tapGestureForTextFieldDismissal];
+}
+
+- (void)viewWasTapped {
+    
+    [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
 }
 
 - (void)setupButton {
@@ -40,9 +49,18 @@
 
 - (void)setupNavigationBar {
     
-    self.navigationItem.title = @"Change password";
+    self.view.tintColor = [LEOStyleHelper tintColorForFeature:FeatureSettings];
     
-    [LEOStyleHelper styleCustomBackButtonForViewController:self];
+    [LEOStyleHelper styleNavigationBarForFeature:FeatureSettings];
+    
+    UILabel *navTitleLabel = [[UILabel alloc] init];
+    navTitleLabel.text = @"Change Password";
+    
+    [LEOStyleHelper styleLabel:navTitleLabel forFeature:FeatureSettings];
+    
+    self.navigationItem.titleView = navTitleLabel;
+    
+    [LEOStyleHelper styleBackButtonForViewController:self];
 }
 
 - (void)updatePasswordTapped {

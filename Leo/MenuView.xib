@@ -29,10 +29,6 @@
                         <action selector="scheduleAVisitLabelTapped:" destination="-1" eventType="touchUpInside" id="zNy-YY-Pgc"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fGE-Fm-Q7H" userLabel="VisitImageButton">
-                    <rect key="frame" x="19" y="19" width="32" height="32"/>
-                    <state key="normal" image="Icon-Calendar"/>
-                </button>
                 <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JKh-FE-wAE" userLabel="Submit a Form Button">
                     <rect key="frame" x="70" y="69" width="480" height="36"/>
                     <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
@@ -43,28 +39,6 @@
                     <connections>
                         <action selector="submitAFormLabelTapped:" destination="-1" eventType="touchUpInside" id="dpB-ND-HuI"/>
                     </connections>
-                </button>
-                <button opaque="NO" contentMode="scaleAspectFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xFf-1B-aRN" userLabel="FormImageButton">
-                    <rect key="frame" x="19" y="71" width="32" height="32"/>
-                    <state key="normal" image="Icon-Form"/>
-                </button>
-                <button opaque="NO" contentMode="scaleAspectFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bVi-7X-26R" userLabel="ContactImageButton">
-                    <rect key="frame" x="19" y="123" width="32" height="32"/>
-                    <state key="normal" image="Icon-Contact"/>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0I9-CK-AD7" userLabel="Settings Button">
-                    <rect key="frame" x="70" y="173" width="480" height="36"/>
-                    <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
-                    <state key="normal" title="Settings">
-                        <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                    </state>
-                    <connections>
-                        <action selector="settingsLabelTapped:" destination="-1" eventType="touchUpInside" id="Y94-ph-Qfp"/>
-                    </connections>
-                </button>
-                <button opaque="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9PE-45-ZF4" userLabel="SettingsImageButton">
-                    <rect key="frame" x="19" y="175" width="32" height="32"/>
-                    <state key="normal" image="Icon-Settings"/>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GYE-cG-70l" userLabel="Contact Leo Button">
                     <rect key="frame" x="70" y="121" width="480" height="36"/>
@@ -77,39 +51,41 @@
                         <action selector="contactLeoLabelTapped:" destination="-1" eventType="touchUpInside" id="50J-I3-e2g"/>
                     </connections>
                 </button>
+                <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0I9-CK-AD7" userLabel="Settings Button">
+                    <rect key="frame" x="70" y="173" width="480" height="36"/>
+                    <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
+                    <state key="normal" title="Settings">
+                        <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="settingsLabelTapped:" destination="-1" eventType="touchUpInside" id="Y94-ph-Qfp"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="tWg-TR-bqb" firstAttribute="leading" secondItem="fGE-Fm-Q7H" secondAttribute="trailing" constant="19" id="4f5-Su-tzV"/>
-                <constraint firstItem="9PE-45-ZF4" firstAttribute="leading" secondItem="bVi-7X-26R" secondAttribute="leading" id="4p3-jz-8yR"/>
-                <constraint firstItem="bVi-7X-26R" firstAttribute="top" secondItem="xFf-1B-aRN" secondAttribute="bottom" constant="20" id="7dM-ZL-qlU"/>
-                <constraint firstItem="GYE-cG-70l" firstAttribute="leading" secondItem="bVi-7X-26R" secondAttribute="trailing" constant="19" id="ATf-tk-jsV"/>
-                <constraint firstItem="9PE-45-ZF4" firstAttribute="top" secondItem="bVi-7X-26R" secondAttribute="bottom" constant="20" id="BE3-FA-sIj"/>
-                <constraint firstAttribute="bottom" secondItem="9PE-45-ZF4" secondAttribute="bottom" constant="50" id="CIe-Mh-uxb"/>
-                <constraint firstItem="0I9-CK-AD7" firstAttribute="centerY" secondItem="9PE-45-ZF4" secondAttribute="centerY" id="F11-5E-QvW"/>
-                <constraint firstItem="JKh-FE-wAE" firstAttribute="centerY" secondItem="xFf-1B-aRN" secondAttribute="centerY" id="FVu-Ct-dSn"/>
-                <constraint firstItem="0I9-CK-AD7" firstAttribute="leading" secondItem="9PE-45-ZF4" secondAttribute="trailing" constant="19" id="KVY-He-w7Z"/>
-                <constraint firstItem="fGE-Fm-Q7H" firstAttribute="leading" secondItem="xFf-1B-aRN" secondAttribute="leading" id="QRT-4U-EbX"/>
-                <constraint firstItem="bVi-7X-26R" firstAttribute="leading" secondItem="xFf-1B-aRN" secondAttribute="leading" id="Qdp-4m-SQh"/>
+                <constraint firstItem="0I9-CK-AD7" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="48j-cx-0B2"/>
+                <constraint firstItem="0I9-CK-AD7" firstAttribute="leading" secondItem="GYE-cG-70l" secondAttribute="leading" id="6dt-ou-Huy"/>
+                <constraint firstItem="JKh-FE-wAE" firstAttribute="top" secondItem="tWg-TR-bqb" secondAttribute="bottom" id="HIs-KY-GOY"/>
+                <constraint firstItem="tWg-TR-bqb" firstAttribute="leading" secondItem="JKh-FE-wAE" secondAttribute="leading" id="Jxe-m0-E6s"/>
+                <constraint firstAttribute="bottom" secondItem="0I9-CK-AD7" secondAttribute="bottom" constant="50" id="QwK-hG-y49"/>
                 <constraint firstAttribute="trailing" secondItem="JKh-FE-wAE" secondAttribute="trailing" constant="50" id="UCm-zF-T85"/>
-                <constraint firstItem="JKh-FE-wAE" firstAttribute="leading" secondItem="xFf-1B-aRN" secondAttribute="trailing" constant="19" id="WNe-gu-QhA"/>
-                <constraint firstItem="GYE-cG-70l" firstAttribute="centerY" secondItem="bVi-7X-26R" secondAttribute="centerY" id="dbY-cn-2Z4"/>
+                <constraint firstItem="0I9-CK-AD7" firstAttribute="top" secondItem="GYE-cG-70l" secondAttribute="bottom" id="ZbU-vi-dQf"/>
                 <constraint firstAttribute="trailing" secondItem="tWg-TR-bqb" secondAttribute="trailing" constant="50" id="fcB-DH-0NT"/>
-                <constraint firstItem="fGE-Fm-Q7H" firstAttribute="centerY" secondItem="tWg-TR-bqb" secondAttribute="centerY" id="gHM-VZ-OYF"/>
-                <constraint firstItem="9PE-45-ZF4" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="19" id="gb0-aU-rEg"/>
+                <constraint firstItem="tWg-TR-bqb" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="30" id="iUk-Wf-OZs"/>
+                <constraint firstItem="GYE-cG-70l" firstAttribute="top" secondItem="JKh-FE-wAE" secondAttribute="bottom" id="mrO-v5-TgI"/>
                 <constraint firstAttribute="trailing" secondItem="0I9-CK-AD7" secondAttribute="trailing" constant="50" id="pfD-WV-nb8"/>
-                <constraint firstItem="xFf-1B-aRN" firstAttribute="top" secondItem="fGE-Fm-Q7H" secondAttribute="bottom" constant="20" id="qfz-Z2-IvI"/>
+                <constraint firstItem="JKh-FE-wAE" firstAttribute="leading" secondItem="GYE-cG-70l" secondAttribute="leading" id="piu-WE-yNa"/>
                 <constraint firstAttribute="trailing" secondItem="GYE-cG-70l" secondAttribute="trailing" constant="50" id="vE3-WJ-TJL"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="iUk-Wf-OZs"/>
+                </mask>
+            </variation>
             <point key="canvasLocation" x="771" y="531.5"/>
         </view>
     </objects>
-    <resources>
-        <image name="Icon-Calendar" width="39" height="41"/>
-        <image name="Icon-Contact" width="39" height="40"/>
-        <image name="Icon-Form" width="39" height="40"/>
-        <image name="Icon-Settings" width="39" height="40"/>
-    </resources>
 </document>

@@ -7,25 +7,21 @@
 //
 
 #import "LEOEnrollmentViewController.h"
-#import "LEOValidatedFloatLabeledTextField.h"
-#import "UIFont+LeoFonts.h"
-#import "UIColor+LeoColors.h"
 #import "UIScrollView+LEOScrollToVisible.h"
 #import "UIImage+Extensions.h"
 #import "LEOValidationsHelper.h"
 #import "Guardian.h"
 #import "LEOSignUpUserViewController.h"
 #import "LEOUserService.h"
+#import "LEOStyleHelper.h"
+#import "LEOPromptView.h"
 
 @interface LEOEnrollmentViewController ()
 
-@property (weak, nonatomic) IBOutlet LEOScrollableContainerView *scrollableContainerView;
 @property (weak, nonatomic) IBOutlet UIView *createAccountView;
-
-@property (weak, nonatomic) IBOutlet LEOValidatedFloatLabeledTextField *emailTextField;
-@property (weak, nonatomic) IBOutlet LEOValidatedFloatLabeledTextField *passwordTextField;
+@property (weak, nonatomic) IBOutlet LEOPromptView *emailPromptView;
+@property (weak, nonatomic) IBOutlet LEOPromptView *passwordPromptView;
 @property (weak, nonatomic) IBOutlet UIButton *continueButton;
-@property (weak, nonatomic) IBOutlet UINavigationBar *fakeNavigationBar;
 
 @property (strong, nonatomic) Guardian *guardian;
 
@@ -38,85 +34,49 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self setupScrollableContainerView];
     [self setupNavigationBar];
     [self setupEmailTextField];
     [self setupPasswordTextField];
     [self setupContinueButton];
 }
 
-- (void)setupScrollableContainerView {
-    
-    self.scrollableContainerView.delegate = self;
-    [self.scrollableContainerView reloadContainerView];
-}
-
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
-    [self setupNavigationBar];
 }
 
 -(void)viewDidAppear:(BOOL)animated {
 
-    [self testData];
+//    [self testData];
 }
 
-/**
- *  Should be possible to remove this when we have a cleaner implementation of the LEOScrollableContainerView(Controller)
- */
 - (void)setupNavigationBar {
     
-    self.navigationController.navigationBarHidden = YES;
-
-    [self.fakeNavigationBar setBackgroundImage:[UIImage imageWithColor:[UIColor leoWhite]]
-                                forBarPosition:UIBarPositionAny
-                                    barMetrics:UIBarMetricsDefault];
+    [LEOStyleHelper styleNavigationBarForFeature:FeatureOnboarding];
     
-    [self.fakeNavigationBar setShadowImage:[UIImage new]];
-    
-    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [backButton addTarget:self action:@selector(pop) forControlEvents:UIControlEventTouchUpInside];
-    [backButton setImage:[UIImage imageNamed:@"Icon-BackArrow"] forState:UIControlStateNormal];
-    [backButton sizeToFit];
-    [backButton setTintColor:[UIColor leoOrangeRed]];
-    
-    UIBarButtonItem *backBBI = [[UIBarButtonItem alloc] initWithCustomView:backButton];
-    
-    UINavigationItem *item = [[UINavigationItem alloc] init];
-    item.leftBarButtonItem = backBBI;
-    [self.fakeNavigationBar pushNavigationItem:item animated:NO];
+    self.view.tintColor = [LEOStyleHelper tintColorForFeature:FeatureOnboarding];
+    [LEOStyleHelper styleBackButtonForViewController:self];
 }
 
 - (void)setupEmailTextField {
     
-    self.emailTextField.delegate = self;
-    self.emailTextField.standardPlaceholder = @"email address";
-    self.emailTextField.validationPlaceholder = @"Invalid email";
-    [self.emailTextField sizeToFit];
+    self.emailPromptView.textField.delegate = self;
+    self.emailPromptView.textField.standardPlaceholder = @"email address";
+    self.emailPromptView.textField.validationPlaceholder = @"Invalid email";
+    [self.emailPromptView sizeToFit];
 }
 
 - (void)setupPasswordTextField {
     
-    self.passwordTextField.delegate = self;
-    self.passwordTextField.standardPlaceholder = @"password";
-    self.passwordTextField.validationPlaceholder = @"Passwords must be at least 8 characters";
-    self.passwordTextField.secureTextEntry = YES;
-    [self.passwordTextField sizeToFit];
-}
-
-- (BOOL)accountForNavigationBar {
-    return NO;
+    self.passwordPromptView.textField.delegate = self;
+    self.passwordPromptView.textField.standardPlaceholder = @"password";
+    self.passwordPromptView.textField.validationPlaceholder = @"Passwords must be at least 8 characters";
+    self.passwordPromptView.textField.secureTextEntry = YES;
+    [self.passwordPromptView sizeToFit];
 }
 
 - (void)setupContinueButton {
     
-    self.continueButton.layer.borderColor = [UIColor leoOrangeRed].CGColor;
-    self.continueButton.layer.borderWidth = 1.0;
-    
-    self.continueButton.titleLabel.font = [UIFont leoButtonLabelsAndTimeStampsFont];
-    [self.continueButton setTitleColor:[UIColor leoWhite] forState:UIControlStateNormal];
-    [self.continueButton setBackgroundImage:[UIImage imageWithColor:[UIColor leoOrangeRed]] forState:UIControlStateNormal];
+    [LEOStyleHelper styleButton:self.continueButton forFeature:FeatureOnboarding];
 }
 
 
@@ -128,41 +88,18 @@
     
     [mutableText replaceCharactersInRange:range withString:string];
     
-    if (textField == self.emailTextField && !self.emailTextField.valid) {
+    if (textField == self.emailPromptView.textField && !self.emailPromptView.valid) {
         
-        self.emailTextField.valid = [LEOValidationsHelper isValidEmail:mutableText.string];
+        self.emailPromptView.valid = [LEOValidationsHelper isValidEmail:mutableText.string];
     }
     
-    if (textField == self.passwordTextField && !self.passwordTextField.valid) {
+    if (textField == self.passwordPromptView.textField && !self.passwordPromptView.valid) {
         
-        self.passwordTextField.valid = [LEOValidationsHelper isValidPassword:mutableText.string];
+        self.passwordPromptView.valid = [LEOValidationsHelper isValidPassword:mutableText.string];
     }
     
     return YES;
 }
-
-#pragma mark - <LEOScrollableContainerViewDelegate>
-
--(NSString *)collapsedTitleViewContent {
-    return @"";
-}
-
--(BOOL)scrollable {
-    return NO;
-}
-
--(BOOL)initialStateExpanded {
-    return YES;
-}
-
--(NSString *)expandedTitleViewContent {
-    return @"First, please create an account with Leo";
-}
-
--(UIView *)bodyView {
-    return self.createAccountView;
-}
-
 
 #pragma mark - Navigation & Helper Methods
 
@@ -173,7 +110,7 @@
         [self addOnboardingData];
 
         LEOUserService *userService = [[LEOUserService alloc] init];
-        [userService enrollUser:self.guardian password:[self passwordTextField].text withCompletion:^(BOOL success, NSError *error) {
+        [userService enrollUser:self.guardian password:[self passwordPromptView].textField.text withCompletion:^(BOOL success, NSError *error) {
             
             if (!error) {
                 [self performSegueWithIdentifier:kSegueContinue sender:sender];
@@ -184,7 +121,7 @@
 
 - (void)addOnboardingData {
     
-    self.guardian.email = [self emailTextField].text;
+    self.guardian.email = [self emailPromptView].textField.text;
     self.guardian.primary = YES;
 }
 
@@ -199,11 +136,11 @@
 
 - (BOOL)validatePage {
     
-    BOOL validEmail = [LEOValidationsHelper isValidEmail:self.emailTextField.text];
-    BOOL validPassword = [LEOValidationsHelper isValidPassword:self.passwordTextField.text];
+    BOOL validEmail = [LEOValidationsHelper isValidEmail:self.emailPromptView.textField.text];
+    BOOL validPassword = [LEOValidationsHelper isValidPassword:self.passwordPromptView.textField.text];
     
-    self.emailTextField.valid = validEmail;
-    self.passwordTextField.valid = validPassword;
+    self.emailPromptView.valid = validEmail;
+    self.passwordPromptView.valid = validPassword;
     
     return validEmail && validPassword;
 }
@@ -211,11 +148,11 @@
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
     if ([segue.identifier isEqualToString:@"ContinueSegue"]) {
-        self.fakeNavigationBar.items = nil;
         
         LEOSignUpUserViewController *signUpUserVC = segue.destinationViewController;
         signUpUserVC.guardian = self.guardian;
         signUpUserVC.managementMode = ManagementModeCreate;
+        signUpUserVC.view.tintColor = [LEOStyleHelper tintColorForFeature:FeatureOnboarding];
     }
 }
 
@@ -227,7 +164,7 @@
 
 - (void)testData {
     
-    [self emailTextField].text = @"sally.carmichael@gmail.com";
-    [self passwordTextField].text = @"sallycarmichael";
+    [self emailPromptView].textField.text = @"sally.carmichael@gmail.com";
+    [self passwordPromptView].textField.text = @"sallycarmichael";
 }
 @end

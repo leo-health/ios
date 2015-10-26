@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "LEOScrollableContainerView.h"
 
-@interface LEOEnrollmentViewController : UIViewController <LEOScrollableContainerViewDelegate, UITextFieldDelegate, UIScrollViewDelegate>
+@interface LEOEnrollmentViewController : UIViewController <UITextFieldDelegate, UIScrollViewDelegate>
 
 @end
+ 

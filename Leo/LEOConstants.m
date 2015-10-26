@@ -34,9 +34,13 @@ NSString *const APIEndpointFamily = @"family";
 NSString *const APIEndpointInsurers = @"insurers";
 NSString *const APIEndpointUserEnrollments = @"enrollments";
 NSString *const APIEndpointPatientEnrollments = @"patient_enrollments";
+NSString *const APIEndpointAvatars = @"avatars";
+NSString *const APIEndpointInvite = @"invite";
 
 #pragma mark - Common
 NSString *const APIParamID = @"id";
+
+//FIXME: If common, this should not reference appointment.
 NSString *const APIParamState = @"appointment_status_id";
 NSString *const APIParamData = @"data";
 NSString *const APIParamType = @"type_name";
@@ -48,6 +52,7 @@ NSString *const APIParamDescription = @"description";
 NSString *const APIParamShortDescription = @"short_description";
 NSString *const APIParamLongDescription = @"long_description";
 NSString *const APIParamToken = @"authentication_token";
+NSString *const APIParamSession = @"session";
 
 #pragma mark - Date & time
 NSString *const APIParamCreatedDateTime = @"created_at";

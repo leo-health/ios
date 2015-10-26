@@ -24,13 +24,14 @@
 //FIXME: This doesn't *really* work without further code given you could void the authToken and then it would say you weren't logged in, but not have reset the SessionUser. Need to send a notification that "resets" this singleton. It will suffice for the time-being until we are logging in multiple users on the same phone.
 + (instancetype)newUserWithJSONDictionary:(NSDictionary *)jsonDictionary {
     
-    static SessionUser *currentUser = nil;
+    static SessionUser *currentUser;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         currentUser = [[self alloc] initWithJSONDictionary:jsonDictionary];
     });
     return currentUser;
 }
+
 
 
 - (BOOL)isLoggedIn {
@@ -43,16 +44,18 @@
     return [[LEOCredentialStore alloc] init];;
 }
 
+
 //TODO: Add an assertion to warn programmer here.
 -(instancetype)init {
     return nil;
 }
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
+    
    self = [super initWithJSONDictionary:jsonResponse[APIParamUser]];
     
     if (self) {
-        NSString *authToken = jsonResponse[@"authentication_token"];
+        NSString *authToken = jsonResponse[APIParamSession][APIParamToken];
         
         if (authToken) {
             [self setAuthToken:authToken];
@@ -70,7 +73,5 @@
     //TODO: Merge in changes from issue #295 here to complete this method!
 }
 
--(NSString *)description {
-    return [[self credentialStore] authToken];
-}
+
 @end

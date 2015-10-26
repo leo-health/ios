@@ -107,6 +107,53 @@
     return task;
 }
 
+
+- (NSURLSessionDataTask *)unauthenticatedImageGETRequestForJSONDictionaryFromAPIWithEndpoint:(NSString *)urlString params:(NSDictionary *)params completion:(void (^)(UIImage *rawImage, NSError *error))completionBlock {
+    
+    __block NSString *urlStringBlock = [urlString copy];
+    __block NSDictionary *paramsBlock = params;
+    self.responseSerializer = [AFImageResponseSerializer serializer];
+    
+    if (!params) {
+        params = [[NSDictionary alloc] init];
+    }
+    
+    NSURLSessionDataTask *task = [self GET:urlString parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
+        
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)task.response;
+        
+        if (httpResponse.statusCode == 200) {
+            NSLog(@"Received HTTP %ld - %@", (long)httpResponse.statusCode, responseObject);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completionBlock(responseObject, nil);
+            });
+        } else {
+            NSLog(@"Received HTTP %ld - %@", (long)httpResponse.statusCode, responseObject);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completionBlock(nil, nil);
+            });
+        }
+        
+        self.responseSerializer = [AFJSONResponseSerializer serializer];
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"%@",paramsBlock);
+        NSLog(@"%@",urlStringBlock);
+        NSLog(@"Fail: %@",error.localizedDescription);
+        NSLog(@"Fail: %@",error.localizedFailureReason);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            completionBlock(nil, error);
+        });
+        
+        self.responseSerializer = [AFJSONResponseSerializer serializer];
+
+    }];
+    
+
+    return task;
+}
+
+
 - (NSURLSessionDataTask *)standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:(NSString *)urlString params:(NSDictionary *)params completion:(void (^)(NSDictionary *rawResults, NSError *error))completionBlock {
     
     NSURLSessionDataTask *task = [self POST:urlString parameters:[self authenticatedParamsWithParams:params] success:^(NSURLSessionDataTask *task, id responseObject) {

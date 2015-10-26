@@ -25,19 +25,17 @@ static NSString *const kSignUpSegue = @"SignUpSegue";
 -(void)viewDidLoad {
     
     [super viewDidLoad];
-    
-    #if AUTOLOGIN_FLAG
-    [self loginTapped:nil];
-    #endif
-
-    self.navigationController.navigationBarHidden = YES;
-    UINavigationBar *navigationBar = self.navigationController.navigationBar;
-    
-    [navigationBar setBackgroundImage:[UIImage imageWithColor:[UIColor clearColor]]
-                       forBarPosition:UIBarPositionAny
-                           barMetrics:UIBarMetricsDefault];
-    [navigationBar setShadowImage:[UIImage new]];
 }
+
+- (void)viewDidAppear:(BOOL)animated {
+    
+    [super viewDidAppear:animated];
+    
+#if AUTOLOGIN_FLAG
+    [self loginTapped:nil];
+#endif
+}
+
 
 - (IBAction)loginTapped:(UIButton *)sender {
     [self performSegueWithIdentifier:kLoginSegue sender:sender];

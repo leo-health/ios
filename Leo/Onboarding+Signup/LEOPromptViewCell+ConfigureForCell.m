@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
-#import "LEOPromptViewCell+ConfigureForPatient.h"
+#import "LEOPromptViewCell+ConfigureForCell.h"
 #import "LEOPromptView.h"
 #import "UIColor+LeoColors.h"
 #import "UIFont+LeoFonts.h"
@@ -17,6 +17,7 @@
     
     self.promptView.textField.text = patient.fullName;
     self.promptView.accessoryImageViewVisible = YES;
+    self.promptView.tintColor = [UIColor leoOrangeRed];
     self.promptView.accessoryImage = [UIImage imageNamed:@"Icon-ForwardArrow"];
     self.promptView.textField.enabled = NO;
     self.promptView.tapGestureEnabled = NO;
@@ -27,6 +28,7 @@
 - (void)configureForNewPatient {
     self.promptView.textField.text = @"Add a child";
     self.promptView.accessoryImageViewVisible = YES;
+    self.promptView.tintColor = [UIColor leoGrayStandard];
     self.promptView.accessoryImage = [UIImage imageNamed:@"Icon-ToDo"];
     self.promptView.textField.enabled = NO;
     self.promptView.tapGestureEnabled = NO;

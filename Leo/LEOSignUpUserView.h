@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
+@class TPKeyboardAvoidingScrollView;
+
 #import <UIKit/UIKit.h>
 #import "LEOPromptView.h"
 
@@ -15,6 +17,9 @@
 @property (weak, nonatomic) IBOutlet LEOPromptView *lastNamePromptView;
 @property (weak, nonatomic) IBOutlet LEOPromptView *phoneNumberPromptView;
 @property (weak, nonatomic) IBOutlet LEOPromptView *insurerPromptView;
+@property (weak, nonatomic) IBOutlet UIButton *continueButton;
+@property (weak, nonatomic) IBOutlet TPKeyboardAvoidingScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet UIView *headerView;
 
 
 @end
