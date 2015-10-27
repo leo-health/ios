@@ -5,6 +5,7 @@
 build/
 DerivedData
 
+
 ## Various settings
 *.pbxuser
 !default.pbxuser
@@ -35,3 +36,5 @@ xcuserdata
 # Pods/
 
 .DS_Store
+
+fastlane_build/
