@@ -36,6 +36,8 @@
 		31254B7D1BB050CD00E8E150 /* LEOUserService.m in Sources */ = {isa = PBXBuildFile; fileRef = 31254B7C1BB050CD00E8E150 /* LEOUserService.m */; };
 		31254B801BB0576500E8E150 /* LEOMessageService.m in Sources */ = {isa = PBXBuildFile; fileRef = 31254B7F1BB0576500E8E150 /* LEOMessageService.m */; };
 		31254B831BB0599D00E8E150 /* LEOCardService.m in Sources */ = {isa = PBXBuildFile; fileRef = 31254B821BB0599D00E8E150 /* LEOCardService.m */; };
+		312594B41BDFE9FE00A497C0 /* LEOHorizontalModalTransitioningDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 312594B31BDFE9FE00A497C0 /* LEOHorizontalModalTransitioningDelegate.m */; };
+		312594B71BDFEA9C00A497C0 /* LEOHorizontalModalTransitionAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 312594B61BDFEA9C00A497C0 /* LEOHorizontalModalTransitionAnimator.m */; };
 		31264E861B5EBB1A00D292CF /* LEOMessagesAvatarImageFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 31264E851B5EBB1A00D292CF /* LEOMessagesAvatarImageFactory.m */; };
 		3128D4DB1B42DF6500582710 /* LEOOneButtonSecondaryOnlyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3128D4D91B42DF6500582710 /* LEOOneButtonSecondaryOnlyCell.m */; };
 		3128D4DC1B42DF6500582710 /* LEOOneButtonSecondaryOnlyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3128D4DA1B42DF6500582710 /* LEOOneButtonSecondaryOnlyCell.xib */; };
@@ -240,6 +242,10 @@
 		31254B7F1BB0576500E8E150 /* LEOMessageService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOMessageService.m; path = Services/LEOMessageService.m; sourceTree = "<group>"; };
 		31254B811BB0599D00E8E150 /* LEOCardService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOCardService.h; path = Services/LEOCardService.h; sourceTree = "<group>"; };
 		31254B821BB0599D00E8E150 /* LEOCardService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOCardService.m; path = Services/LEOCardService.m; sourceTree = "<group>"; };
+		312594B21BDFE9FE00A497C0 /* LEOHorizontalModalTransitioningDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOHorizontalModalTransitioningDelegate.h; sourceTree = "<group>"; };
+		312594B31BDFE9FE00A497C0 /* LEOHorizontalModalTransitioningDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOHorizontalModalTransitioningDelegate.m; sourceTree = "<group>"; };
+		312594B51BDFEA9C00A497C0 /* LEOHorizontalModalTransitionAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOHorizontalModalTransitionAnimator.h; sourceTree = "<group>"; };
+		312594B61BDFEA9C00A497C0 /* LEOHorizontalModalTransitionAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOHorizontalModalTransitionAnimator.m; sourceTree = "<group>"; };
 		31264E841B5EBB1A00D292CF /* LEOMessagesAvatarImageFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOMessagesAvatarImageFactory.h; sourceTree = "<group>"; };
 		31264E851B5EBB1A00D292CF /* LEOMessagesAvatarImageFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOMessagesAvatarImageFactory.m; sourceTree = "<group>"; };
 		3128D4D81B42DF6500582710 /* LEOOneButtonSecondaryOnlyCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOOneButtonSecondaryOnlyCell.h; sourceTree = "<group>"; };
@@ -898,6 +904,10 @@
 			children = (
 				3153C5E81B949D90000A22B4 /* LEOInitialViewController.h */,
 				3153C5E91B949D90000A22B4 /* LEOInitialViewController.m */,
+				312594B21BDFE9FE00A497C0 /* LEOHorizontalModalTransitioningDelegate.h */,
+				312594B31BDFE9FE00A497C0 /* LEOHorizontalModalTransitioningDelegate.m */,
+				312594B51BDFEA9C00A497C0 /* LEOHorizontalModalTransitionAnimator.h */,
+				312594B61BDFEA9C00A497C0 /* LEOHorizontalModalTransitionAnimator.m */,
 			);
 			name = Starter;
 			sourceTree = "<group>";
@@ -1462,6 +1472,7 @@
 				3168997D1BC4858400B4C1EB /* LEOReviewPatientCell.m in Sources */,
 				31BF23431BBAEA0A005856E5 /* LEOSignUpPatientView.m in Sources */,
 				31F5AA631B791B4A00F96D06 /* LEOCalendarViewController.m in Sources */,
+				312594B71BDFEA9C00A497C0 /* LEOHorizontalModalTransitionAnimator.m in Sources */,
 				3115F1FF1BC80E7D001BDF6A /* LEOInviteViewController.m in Sources */,
 				31D20ACC1B14C61F00F3351A /* LEOEHRViewController.m in Sources */,
 				31197A121B39D8FD00C773BA /* MenuView.m in Sources */,
@@ -1505,6 +1516,7 @@
 				3138FC3D1B9A1747000FE22C /* LEOEnrollmentViewController.m in Sources */,
 				3115F1E71BC55F77001BDF6A /* LEOStyleHelper.m in Sources */,
 				31FDDE601B29D9120009BBC2 /* LEOOneButtonPrimaryOnlyCell.m in Sources */,
+				312594B41BDFE9FE00A497C0 /* LEOHorizontalModalTransitioningDelegate.m in Sources */,
 				31CC12E91BB062C40099AB60 /* Provider.m in Sources */,
 				3138FC3A1B9A145B000FE22C /* LEOForgotPasswordViewController.m in Sources */,
 				3128D4E61B430F0200582710 /* LEOTwoButtonPrimaryAndSecondaryCell.m in Sources */,
@@ -1651,7 +1663,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 4;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zachary Drossman (C7TN5PHTLC)";
 				CURRENT_PROJECT_VERSION = 2015.10.26.18.23;
 				ENABLE_TESTABILITY = YES;
@@ -1701,7 +1712,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 4;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zachary Drossman (C7TN5PHTLC)";
 				CURRENT_PROJECT_VERSION = 2015.10.26.18.23;
 				ENABLE_TESTABILITY = YES;
@@ -1714,7 +1724,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 4;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: LEO HEALTH, INC. (4Q3R8E5P59)";
 				CURRENT_PROJECT_VERSION = 2015.10.26.18.23;
 				VERSIONING_SYSTEM = "apple-generic";
