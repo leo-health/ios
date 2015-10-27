@@ -1,0 +1,11 @@
+    upcoming:
+    - Test version
+    
+    releases:
+    - version: 1.0.0
+      build: 2015.10.26.18.23
+      date: October 26 2015
+      notes:
+      - First test build using new Fastfile configuration for Alpha builds
+    
+

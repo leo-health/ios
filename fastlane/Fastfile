@@ -1,113 +1,137 @@
-# Customise this file, documentation can be found here:
-# https://github.com/KrauseFx/fastlane/tree/master/docs
-# All available actions: https://github.com/KrauseFx/fastlane/blob/master/docs/Actions.md
-# can also be listed using the `fastlane actions` command
-
-# Change the syntax highlighting to Ruby
-# All lines starting with a # are ignored when running `fastlane`
-
-# By default, fastlane will send which actions are used
-# No personal data is shared, more information on https://github.com/fastlane/enhancer
-# Uncomment the following line to opt out
-# opt_out_usage
-
-# If you want to automatically update fastlane if a new version is available:
-# update_fastlane
-
-# This is the minimum version number required.
-# Update this, if you use features of a newer version
 fastlane_version "1.33.6"
+
+require 'yaml'
 
 default_platform :ios
 
-
 platform :ios do
 
-  before_all do
+desc "Submit a new alpha version to TestFlight"
+desc "This action does the following:"
+desc ""
+desc "- Ensures a clean git status"
+desc "- Increment the build number"
+desc "- Increment the version number, if option included"
+desc "- Get our mobile provisioning profile"
+desc "- Build and sign the app"
+desc "- Upload the ipa file to TestFlight"
+desc "- Post a message to slack containing the download link"
+desc "- Commit the version bump"
 
-     ENV["SLACK_URL"] = "https://hooks.slack.com/services/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"
-    
+before_all do
+    ENV["SLACK_URL"] = "https://hooks.slack.com/services/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"
+
+    ensure_git_status_clean
+
     #cocoapods
-    
-    increment_build_number
+end
 
-  end
+lane :alpha do |options|
 
-  desc "Runs all the tests"
-  lane :test do
-    snapshot
-  end
+      bump_type = options[:bump_type];
 
+      version = get_version_number(xcodeproj: "Leo.xcodeproj")
 
-  desc "Bump the version, and submit a new **Wikipedia Alpha** Build to Apple TestFlight"
-  lane :alpha do
-    # snapshot
-    sigh
+      # Update version number if bump_type is provided.
+      if bump_type
+        increment_version_number bump_type: bump_type
+      end
 
+      version = get_version_number(xcodeproj: "Leo.xcodeproj")
+
+      # Get current version number
+
+      # Next sections lifted and modified from https://github.com/artsy/eidolon/blob/9959ad473d49bf3ed2bcd5f897d0ff5d688f3d15/fastlane/Fastfile
+
+      # Increment build number to current date
+      build_number = Time.new.strftime("%Y.%m.%d.%H.%M")
+      increment_build_number build_number: build_number
+
+      # Generate release notes from CHANGELOG
+      changelog_filename = '../CHANGELOG.yml'
+      changelog_yaml = YAML.load_file(changelog_filename)
+      release_notes = changelog_yaml['upcoming'].map{ |note| note.prepend '- ' }.join("\n")
+
+      # Add a changelog entry for this version
+
+      changelog_contents = File.read(changelog_filename)
+      existing_releases = changelog_contents.split('releases:').last
+      this_release = changelog_yaml['upcoming'].map{ |note| note.prepend '  ' }.join("\n")
+      changelog_contents = <<-EOS
+    upcoming:
+    releases:
+    - version: #{version}
+      build: #{build_number}
+      date: #{Time.new.strftime("%B %d %Y")}
+      notes:
+    #{this_release}
+    #{existing_releases}
+    EOS
+
+      File.open(changelog_filename, 'w') { |file| file.puts changelog_contents }
+  
+    #snapshot (eventually add this for speed.)
+
+    #cert (eventually add this in when we have more developers.)
+
+    # Ensure we have the mobile provisioning profiles
+    sigh(
+      output_path: "./fastlane_build",
+      filename: "com.leohealth.leo.alpha.mobileprovision",
+    )
+
+    # Build and sign app
     gym(
      scheme: "Leo Alpha",
      workspace: "Leo.xcworkspace",
-     output_directory: "../",
+     output_directory: "./fastlane_build",
      output_name: "Leo.ipa",
      include_symbols: true,
      clean: true
      )
 
+    # Push our build to iTunesConnect
     pilot(
-      ipa: "../Leo.ipa",
+      ipa: "./fastlane_build/Leo.ipa",
       skip_submission: true
     )
 
-  end
+    # Make sure our directory is clean, except for changes Fastlane has made
+    clean_build_artifacts
 
-  desc "Submit a new Beta Build to Apple TestFlight"
-  desc "This will also make sure the profile is up to date"
-  lane :beta do
-    #snapshot
-    sigh
-    
-    gym(
-     scheme: "Leo",
-     workspace: "Leo.xcworkspace",
-     output_directory: "../",
-     output_name: "Leo.ipa",
-     include_symbols: true,
-     clean: true,
-     )
-
-    pilot(
-      ipa: "../Leo.ipa",
+    # Tag release and push to Github
+    commit_version_bump message: "Deploying version #{version}."
+    add_git_tag(
+      grouping: 'fastlane-builds',
+      prefix: 'v',
+      build_number: "#{version}.#{build_number}"
     )
-
-    # sh "your_script.sh"
-    # You can also use other beta testing services here
   end
 
   desc "Deploy a new version to the App Store"
+  # This still has to be worked through.
+
   lane :production do
     snapshot
-  desc "** Full Markdown** Support: `code`"
     sigh
     gym # Build your app - more options available
     deliver(force: true)
     # frameit
   end
 
-  # You can define as many lanes as you want
-
   after_all do |lane|
     # This block is called, only if the executed lane was successful
     
-    # slack(
-    #   message: "Successfully deployed new App Update."
-    # )
+     slack(
+       message: "Successfully deployed new App Update."
+     )
   end
 
   error do |lane, exception|
-    # slack(
-    #   message: exception.message,
-    #   success: false
-    # )
+     slack(
+       message: exception.message,
+       success: false
+     )
   end
 end
 

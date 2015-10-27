@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites name="fastlane">
   <testsuite name="deploy">
-    <testcase name="0: Verifying required fastlane version" time="0.000333"/>
-    <testcase name="1: default_platform" time="0.00022"/>
-    <testcase name="2: increment_build_number" time="0.727206"/>
-    <testcase name="3: sigh" time="4.207256"/>
-    <testcase name="4: gym" time="77.556137"/>
-    <testcase name="5: pilot" time="37.411519"/>
+    <testcase name="0: Verifying required fastlane version" time="0.000801"/>
+    <testcase name="1: default_platform" time="0.000212"/>
+    <testcase name="2: ensure_git_status_clean" time="0.01468"/>
+    <testcase name="3: get_version_number" time="0.34854"/>
+    <testcase name="4: increment_build_number" time="0.777331"/>
+    <testcase name="5: sigh" time="5.460655"/>
+    <testcase name="6: gym" time="73.55803"/>
+    <testcase name="7: pilot" time="39.01814"/>
+    <testcase name="8: clean_build_artifacts" time="0.002866"/>
   </testsuite>
 </testsuites>
