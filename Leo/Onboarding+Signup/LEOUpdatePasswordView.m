@@ -10,6 +10,7 @@
 #import "UIView+Extensions.h"
 #import "LEOPromptView.h"
 #import "LEOValidationsHelper.h"
+#import "UIView+Extensions.h"
 
 @interface LEOUpdatePasswordView ()
 
@@ -57,7 +58,23 @@ IB_DESIGNABLE
     [self setupCurrentPasswordField];
     [self setupNewPasswordField];
     [self setupRetypePasswordField];
+    
+    [self setupTouchEventForDismissingKeyboard];
 }
+
+//TODO: Eventually should move into a protocol or superclass potentially.
+- (void)setupTouchEventForDismissingKeyboard {
+    
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
+    UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:nil action:@selector(viewTapped)];
+#pragma clang diagnostic pop
+    
+    tapGestureForTextFieldDismissal.cancelsTouchesInView = NO;
+    [self addGestureRecognizer:tapGestureForTextFieldDismissal];
+}
+
+//TODO: Move out into some common class eventually.
 
 - (void)setupCurrentPasswordField {
     

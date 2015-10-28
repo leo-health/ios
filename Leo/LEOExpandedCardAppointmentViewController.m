@@ -132,7 +132,7 @@
     
     [self.view layoutIfNeeded];
     
-    UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(scrollViewWasTapped:)];
+    UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(scrollviewTapped:)];
     tapGestureForTextFieldDismissal.cancelsTouchesInView = NO;
     [self.scrollView addGestureRecognizer:tapGestureForTextFieldDismissal];
     
@@ -336,7 +336,7 @@
     }
 }
 
--(void)scrollViewWasTapped:(UIGestureRecognizer*)gesture{
+-(void)scrollviewTapped:(UIGestureRecognizer*)gesture{
     if (self.notesTextView.isFirstResponder) {
         [self.notesTextView resignFirstResponder];
     }

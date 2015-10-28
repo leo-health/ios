@@ -36,6 +36,7 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+//    [self setupTouchEventForDismissingKeyboard];
     [self setupNavigationBar];
     [self setupLoginView];
     [self setupEmailTextField];
@@ -75,17 +76,22 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
     
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_loginView]|" options:0 metrics:nil views:bindings]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_loginView]|" options:0 metrics:nil views:bindings]];
-    
-    UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(viewWasTapped)];
-    tapGestureForTextFieldDismissal.cancelsTouchesInView = NO;
-    [self.view addGestureRecognizer:tapGestureForTextFieldDismissal];
 }
 
-- (void)viewWasTapped {
-    
-    [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
-}
-
+//- (void)setupTouchEventForDismissingKeyboard {
+//    
+//#pragma clang diagnostic push
+//#pragma clang diagnostic ignored "-Wundeclared-selector"
+//    UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:nil action:@selector(viewTapped)];
+//#pragma clang diagnostic pop
+//    
+//    tapGestureForTextFieldDismissal.cancelsTouchesInView = NO;
+//    [self.view addGestureRecognizer:tapGestureForTextFieldDismissal];
+//}
+//
+//- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+//    [self.view endEditing:YES];
+//}
 
 - (void)setupNavigationBar {
     

@@ -43,7 +43,6 @@
     
     [super viewDidLoad];
     
-    [self setupView];
     [self setupNavigationBar];
     [self setupSignUpPatientView];
     [self setupFirstNameField];
@@ -61,17 +60,7 @@
     [self setupContinueButton];
 }
 
-- (void)setupView {
-    
-    UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(viewWasTapped)];
-    tapGestureForTextFieldDismissal.cancelsTouchesInView = NO;
-    [self.view addGestureRecognizer:tapGestureForTextFieldDismissal];
-}
 
-- (void)viewWasTapped {
-    
-    [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
-}
 
 - (void)setupNavigationBar {
     

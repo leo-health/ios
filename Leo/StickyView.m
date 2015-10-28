@@ -73,7 +73,7 @@ IB_DESIGNABLE
 }
 
 
--(void)scrollViewWasTapped:(UIGestureRecognizer*)gesture{
+-(void)scrollviewTapped:(UIGestureRecognizer*)gesture{
     
     [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
 }
@@ -178,7 +178,7 @@ IB_DESIGNABLE
     
     self.scrollView.delegate = self;
     
-    UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(scrollViewWasTapped:)];
+    UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(scrollviewTapped:)];
     tapGestureForTextFieldDismissal.cancelsTouchesInView = NO;
     [self.scrollView addGestureRecognizer:tapGestureForTextFieldDismissal];
 }

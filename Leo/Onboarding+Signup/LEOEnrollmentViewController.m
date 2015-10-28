@@ -45,19 +45,19 @@
     [super viewWillAppear:animated];
 }
 
+
+//TODO: Consider creating a common place for these besides UIView+Extensions, unless we are going to split out the view for this class down the line too...
 - (void)setupCreateAccountView {
     
-    UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(viewWasTapped)];
+    UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(viewTapped)];
     tapGestureForTextFieldDismissal.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:tapGestureForTextFieldDismissal];
-    
-    //    self.createAccountView.scrollView.delegate = self;
 }
 
 
-- (void)viewWasTapped {
-    
-    [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
+- (void)viewTapped {
+
+    [self.view endEditing:YES];
 }
 
 - (void)setupNavigationBar {
