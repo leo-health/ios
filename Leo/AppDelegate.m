@@ -45,7 +45,7 @@
 
 - (void)roundCornersOfWindow {
     
-    self.window.layer.cornerRadius = 2.0;
+    self.window.layer.cornerRadius = kCornerRadius;
     self.window.layer.masksToBounds = YES;
     self.window.layer.opaque = NO;
     self.window.layer.shouldRasterize = YES;

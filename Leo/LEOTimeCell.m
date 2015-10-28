@@ -57,7 +57,7 @@
     if (!_bottomBorder) {
         
         _bottomBorder = [CALayer layer];
-        _bottomBorder.frame = CGRectMake(0.0f, self.frame.size.height - selectionLineHeight, self.frame.size.width, selectionLineHeight);
+        _bottomBorder.frame = CGRectMake(0.0f, self.frame.size.height - kSelectionLineHeight, self.frame.size.width, kSelectionLineHeight);
         _bottomBorder.backgroundColor = [UIColor leoGreen].CGColor;
     }
     

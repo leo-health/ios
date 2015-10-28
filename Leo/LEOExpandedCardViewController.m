@@ -421,7 +421,7 @@
 }
 
 - (CGFloat)heightOfNoReturn {
-    return [self heightOfHeaderView] * heightOfNoReturnConstant;
+    return [self heightOfHeaderView] * kHeightOfNoReturnConstant;
 }
 
 - (CGFloat)heightOfHeaderCellExcludingOverlapWithNavBar {

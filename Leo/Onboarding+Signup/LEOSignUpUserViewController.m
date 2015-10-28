@@ -393,7 +393,7 @@
     
     if (scrollView == [self scrollView]) {
         
-        [self headerView].alpha = 1 - [self percentHeaderViewHidden] * speedForTitleViewAlphaChangeConstant;
+        [self headerView].alpha = 1 - [self percentHeaderViewHidden] * kSpeedForTitleViewAlphaChangeConstant;
         self.navigationItem.titleView.alpha = [self percentHeaderViewHidden];
         
         if ([self scrollViewVerticalContentOffset] >= [self heightOfHeaderView]) {
@@ -541,7 +541,7 @@
 }
 
 - (CGFloat)heightOfNoReturn {
-    return [self heightOfHeaderView] * heightOfNoReturnConstant;
+    return [self heightOfHeaderView] * kHeightOfNoReturnConstant;
 }
 
 - (CGFloat)heightOfHeaderCellExcludingOverlapWithNavBar {

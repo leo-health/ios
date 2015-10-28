@@ -361,7 +361,7 @@ static NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
     
     if (scrollView == self.tableView) {
         
-        [self headerCell].headerLabel.alpha = 1 - [self percentHeaderCellHidden] * speedForTitleViewAlphaChangeConstant;
+        [self headerCell].headerLabel.alpha = 1 - [self percentHeaderCellHidden] * kSpeedForTitleViewAlphaChangeConstant;
         self.navigationItem.titleView.alpha = [self percentHeaderCellHidden];
         
         if ([self tableViewVerticalContentOffset] >= [self heightOfHeaderCellExcludingOverlapWithNavBar]) {
@@ -512,7 +512,7 @@ static NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
 }
 
 - (CGFloat)heightOfNoReturn {
-    return [self heightOfHeaderCell] * heightOfNoReturnConstant;
+    return [self heightOfHeaderCell] * kHeightOfNoReturnConstant;
 }
 
 - (CGFloat)heightOfHeaderCellExcludingOverlapWithNavBar {

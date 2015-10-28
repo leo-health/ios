@@ -314,7 +314,8 @@ extern NSString *const kSegueContinue; // @"ContinueSegue";
 extern NSString *const kSeguePlan; // @"PlanSegue";
 
 #pragma mark - Magic numbers
-extern CGFloat const selectionLineHeight; // 2.0f;
+extern CGFloat const kSelectionLineHeight; // 2.0f;
+extern CGFloat const kCornerRadius; // 2.0f;
 
 #pragma mark - Storyboards
 extern NSString *const kStoryboardSettings; // @"Settings";
@@ -331,8 +332,8 @@ extern NSString *const kButtonCellReuseIdentifier; // @"ButtonCell";
 extern NSString *const kPromptViewCellReuseIdentifier; // @"LEOPromptViewCell";
 #pragma mark - Constants
 
-extern CGFloat const heightOfNoReturnConstant; // 0.4;
-extern CGFloat const speedForTitleViewAlphaChangeConstant; // 4.0;
+extern CGFloat const kHeightOfNoReturnConstant; // 0.4;
+extern CGFloat const kSpeedForTitleViewAlphaChangeConstant; // 4.0;
 
 @end
 

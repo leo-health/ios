@@ -38,7 +38,7 @@
         [appointmentType beginEditing];
         
         [appointmentType addAttribute:NSUnderlineStyleAttributeName
-                                value:@(selectionLineHeight)
+                                value:@(kSelectionLineHeight)
                                 range:range];
         
         [appointmentType addAttribute:NSForegroundColorAttributeName

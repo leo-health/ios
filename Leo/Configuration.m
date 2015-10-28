@@ -12,7 +12,7 @@
 static NSString *const ConfigurationAPIEndpoint = @"ApiURL";
 static NSString *const ConfigurationAPIVersion = @"ApiVersion";
 static NSString *const ConfigurationS3Endpoint = @"S3URL";
-
+static NSString *const ConfigurationSelfSignedCertificate = @"SelfSignedCertificate";
 
 @interface Configuration ()
 
@@ -84,5 +84,13 @@ static NSString *const ConfigurationS3Endpoint = @"S3URL";
     return [NSString stringWithFormat:@"https://%@",[self APIEndpoint]];
 }
 
-
++ (NSString *)selfSignedCertificate {
+    
+    Configuration *sharedConfiguration = [Configuration sharedConfiguration];
+    
+    if (sharedConfiguration.appSettings) {
+        return [sharedConfiguration.appSettings objectForKey:ConfigurationSelfSignedCertificate];
+    }
+    
+    return nil;}
 @end

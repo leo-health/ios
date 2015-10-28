@@ -15,6 +15,8 @@
 + (NSString *)APIVersion;
 + (NSString *)APIEndpointWithHTTPSProtocol;
 + (NSString *)S3Endpoint;
++ (NSString *)selfSignedCertificate;
+
 //+ (BOOL)isLoggingEnabled;
 
 @end

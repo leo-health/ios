@@ -4,6 +4,8 @@
 <dict>
 	<key>AppSettings</key>
 	<dict>
+		<key>SelfSignedCertificate</key>
+		<string>${SELF_SIGNED_CERTIFICATE}</string>
 		<key>ApiURL</key>
 		<string>${API_URL}</string>
 		<key>ApiVersion</key>

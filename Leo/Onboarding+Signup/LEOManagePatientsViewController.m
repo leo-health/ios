@@ -284,7 +284,7 @@ typedef NS_ENUM(NSUInteger, TableViewSection) {
         
         
         if ([self percentHeaderCellHidden] < 1) {
-            [self headerCell].headerLabel.alpha = 1 - [self percentHeaderCellHidden] * speedForTitleViewAlphaChangeConstant;
+            [self headerCell].headerLabel.alpha = 1 - [self percentHeaderCellHidden] * kSpeedForTitleViewAlphaChangeConstant;
             self.navTitleLabel.alpha = [self percentHeaderCellHidden];
         }
         
@@ -433,7 +433,7 @@ typedef NS_ENUM(NSUInteger, TableViewSection) {
 }
 
 - (CGFloat)heightOfNoReturn {
-    return [self heightOfHeaderCell] * heightOfNoReturnConstant;
+    return [self heightOfHeaderCell] * kHeightOfNoReturnConstant;
 }
 
 - (CGFloat)heightOfHeaderCellExcludingOverlapWithNavBar {
