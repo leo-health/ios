@@ -11,7 +11,7 @@
 #import "CardActivityProtocol.h"
 #import "Provider.h"
 
-typedef enum CardType {
+typedef NS_ENUM(NSUInteger, CardType) {
     
     CardTypeAppointment = 0,
     CardTypeConversation = 1,
@@ -19,7 +19,7 @@ typedef enum CardType {
     CardTypeForm = 3,
     CardTypeVisitSummary = 4
     
-} CardType;
+};
 
 
 @interface LEOCard : NSObject

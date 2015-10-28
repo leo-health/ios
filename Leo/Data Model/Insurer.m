@@ -11,7 +11,9 @@
 
 @implementation Insurer
 
-- (instancetype)initWithObjectID:(NSString *)objectID name:(NSString *)name plans:(NSArray *)plans {
+- (instancetype)initWithObjectID:(NSString *)objectID
+                            name:(NSString *)name
+                           plans:(NSArray *)plans {
     
     self = [super init];
     
@@ -34,12 +36,15 @@
     for (NSDictionary *planDictionary in jsonDictionary[APIParamInsurancePlans]) {
         
         NSMutableDictionary *mutablePlanDictionary = [planDictionary mutableCopy];
-        [mutablePlanDictionary setValue:name forKey:APIParamInsurerName];
+        mutablePlanDictionary[APIParamInsurerName] = name;
+
         InsurancePlan *plan = [[InsurancePlan alloc] initSupportedPlanWithJSONDictionary:mutablePlanDictionary];
         [mutablePlans addObject:plan];
     }
 
-    return [self initWithObjectID:objectID name:name plans:[mutablePlans copy]];
+    return [self initWithObjectID:objectID
+                             name:name
+                            plans:[mutablePlans copy]];
 }
 
 @end

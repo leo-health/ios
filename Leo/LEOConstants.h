@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef enum CardLayout {
+typedef NS_ENUM(NSUInteger, CardLayout) {
     CardLayoutTwoButtonPrimaryAndSecondary = 0,
     CardLayoutTwoButtonSecondaryOnly = 1,
     CardLayoutTwoButtonPrimaryOnly = 2,
@@ -16,7 +16,7 @@ typedef enum CardLayout {
     CardLayoutOneButtonSecondaryOnly = 4,
     CardLayoutOneButtonPrimaryOnly = 5,
     CardLayoutUndefined = 99
-} CardLayout;
+};
 
 /**
  *  Description AppointmentStatusCode tracks the status of the appointment
@@ -33,7 +33,7 @@ typedef enum CardLayout {
  *  @AppointmentStatusCodeConfirmingCancelling   Patient has cancelled appointment but not yet dismissed card from app. Internal Leo status for use on iOS app. Not supported by Leo backend.
  *  @AppointmentStatusCodeRecommending           Leo creates appointment object for user without filling out date of appointment. User may decide to make appointment or not. Internal Leo status only.
  */
-typedef enum AppointmentStatusCode : NSUInteger {
+typedef NS_ENUM(NSUInteger, AppointmentStatusCode) {
     AppointmentStatusCodeReminding = 0,
     AppointmentStatusCodeFuture = 1,
     AppointmentStatusCodeOpen = 2,
@@ -47,7 +47,7 @@ typedef enum AppointmentStatusCode : NSUInteger {
     AppointmentStatusCodeRecommending = 10,
     AppointmentStatusCodeNew = 11,
     AppointmentStatusCodeUndefined = 99,
-} AppointmentStatusCode;
+};
 
 /**
  *  Description MessageStatusCode tracks the status of the message
@@ -60,14 +60,14 @@ typedef enum AppointmentStatusCode : NSUInteger {
  *  @MessageStatusCodeUndefined
  *
  */
-typedef enum MessageStatusCode : NSUInteger {
+typedef NS_ENUM(NSUInteger, MessageStatusCode) {
     MessageStatusCodeRead = 0,
     MessageStatusCodeUnread = 1,
     MessageStatusCodeEscalated = 2,
     MessageStatusCodeClosed = 3,
     MessageStatusCodeOpen   = 4,
     MessageStatusCodeUndefined = 99
-} MessageStatusCode;
+};
 
 /**
  *  Description ConversationStatusCode tracks the status of the conversation
@@ -77,13 +77,13 @@ typedef enum MessageStatusCode : NSUInteger {
  *  @ConversationStatusCodeEscalated
  *
  */
-typedef enum ConversationStatusCode : NSUInteger {
+typedef NS_ENUM(NSUInteger, ConversationStatusCode) {
     ConversationStatusCodeClosed = 0,
     ConversationStatusCodeOpen = 1,
     ConversationStatusCodeNewMessages = 2,
     ConversationStatusCodeReadMessages = 3,
     ConversationStatusCodeUndefined = 99
-} ConversationStatusCode;
+};
 
 /**
  *  Description AppointmentReason describes the reason for which the patient is making the appointment
@@ -93,21 +93,21 @@ typedef enum ConversationStatusCode : NSUInteger {
  *  @AppointmentTypeImmunizations A visit with a nurse to get one or more immunizations.
  *  @AppointmentTypeFollowup        A visit to follow-up on known conditionss like asthma, sickness, ADHD, or eczema.
  */
-typedef enum AppointmentTypeCode : NSUInteger {
+typedef NS_ENUM(NSUInteger, AppointmentTypeCode) {
     AppointmentTypeCodeCheckup = 0,
     AppointmentTypeCodeSick = 1,
     AppointmentTypeCodeImmunization = 2,
     AppointmentTypeCodeFollowUp = 3,
     AppointmentTypeCodeUndefined = 99
-} AppointmentTypeCode;
+};
 
-typedef enum MessageTypeCode : NSUInteger {
+typedef NS_ENUM(NSUInteger, MessageTypeCode) {
     MessageTypeCodeText = 0,
     MessageTypeCodeImage = 1,
     MessageTypeCodeUndefined = 99
-} MessageTypeCode;
+};
 
-typedef enum RoleCode : NSUInteger {
+typedef NS_ENUM(NSUInteger, RoleCode) {
     RoleCodeProvider = 0,
     RoleCodeNursePractitioner = 1,
     RoleCodeCustomerService = 2,
@@ -115,13 +115,12 @@ typedef enum RoleCode : NSUInteger {
     RoleCodeGuardian = 4,
     RoleCodePatient = 5,
     RoleCodeUndefined = 99,
-} RoleCode;
+};
 
-typedef enum ManagementMode : NSUInteger {
-    
+typedef NS_ENUM(NSUInteger, ManagementMode) {
     ManagementModeCreate = 1,
     ManagementModeEdit = 2
-} ManagementMode;
+};
 
 typedef NS_ENUM(NSUInteger, Feature) {
     FeatureOnboarding = 0,
@@ -315,7 +314,8 @@ extern NSString *const kSegueContinue; // @"ContinueSegue";
 extern NSString *const kSeguePlan; // @"PlanSegue";
 
 #pragma mark - Magic numbers
-extern CGFloat const selectionLineHeight; // 2.0f;
+extern CGFloat const kSelectionLineHeight; // 2.0f;
+extern CGFloat const kCornerRadius; // 2.0f;
 
 #pragma mark - Storyboards
 extern NSString *const kStoryboardSettings; // @"Settings";
@@ -332,8 +332,8 @@ extern NSString *const kButtonCellReuseIdentifier; // @"ButtonCell";
 extern NSString *const kPromptViewCellReuseIdentifier; // @"LEOPromptViewCell";
 #pragma mark - Constants
 
-extern CGFloat const heightOfNoReturnConstant; // 0.4;
-extern CGFloat const speedForTitleViewAlphaChangeConstant; // 4.0;
+extern CGFloat const kHeightOfNoReturnConstant; // 0.4;
+extern CGFloat const kSpeedForTitleViewAlphaChangeConstant; // 4.0;
 
 @end
 

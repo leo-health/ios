@@ -114,7 +114,7 @@
     [self firstNameTextField].standardPlaceholder = @"first name";
     [self firstNameTextField].validationPlaceholder = @"please enter a valid first name";
     [[self firstNameTextField] sizeToFit];
-
+    
     [self firstNameTextField].text = self.patient.firstName;
 }
 
@@ -124,7 +124,7 @@
     [self lastNameTextField].standardPlaceholder = @"last name";
     [self lastNameTextField].validationPlaceholder = @"please enter a valid last name";
     [[self lastNameTextField] sizeToFit];
-
+    
     [self lastNameTextField].text = self.patient.lastName;
 }
 
@@ -134,11 +134,11 @@
     [self birthDateTextField].standardPlaceholder = @"birth date";
     [self birthDateTextField].validationPlaceholder = @"please add your child's birth date";
     [[self birthDateTextField] sizeToFit];
-
+    
     [self birthDateTextField].enabled = NO;
     self.signUpPatientView.birthDatePromptView.accessoryImageViewVisible = YES;
     self.signUpPatientView.birthDatePromptView.delegate = self;
-
+    
     [self birthDateTextField].text = [NSDate stringifiedShortDate:self.patient.dob];
 }
 
@@ -148,12 +148,12 @@
     [self genderTextField].standardPlaceholder = @"gender";
     [self genderTextField].validationPlaceholder = @"please provide us with your child's gender";
     [[self genderTextField] sizeToFit];
-
+    
     [self genderTextField].enabled = NO;
     self.signUpPatientView.genderPromptView.accessoryImageViewVisible = YES;
     self.signUpPatientView.genderPromptView.accessoryImage = [UIImage imageNamed:@"Icon-Forms"];
     self.signUpPatientView.genderPromptView.delegate = self;
-
+    
     [self genderTextField].text = self.patient.gender;
 }
 
@@ -163,11 +163,11 @@
     self.signUpPatientView.avatarValidationLabel.text = @"";
 }
 - (void)setupAvatarButton {
-
+    
     [[self avatarButton] addTarget:self action:@selector(presentPhotoPicker:) forControlEvents:UIControlEventTouchUpInside];
-
+    
     if (self.patient.avatar) {
-
+        
         [self updateButtonWithImage:self.patient.avatar];
     }
 }
@@ -185,7 +185,7 @@
 #pragma mark - <UIImagePickerViewControllerDelegate>
 
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-
+    
     UIImage *originalImage = info[UIImagePickerControllerOriginalImage];
     RSKImageCropViewController *imageCropVC = [[RSKImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeCircle];
     imageCropVC.delegate = self;
@@ -200,9 +200,9 @@
     imageCropVC.view.backgroundColor = [UIColor leoWhite];
     
     [self.navigationController pushViewController:imageCropVC animated:NO];
-
+    
     [self dismissViewControllerAnimated:NO completion:^{
-
+        
         self.signUpPatientView.avatarValidationLabel.text = @"";
     }];
 }
@@ -267,7 +267,7 @@
     
     UILabel *navTitleLabel = [[UILabel alloc] init];
     navTitleLabel.text = @"Photos";
-   
+    
     [LEOStyleHelper styleLabel:navTitleLabel forFeature:self.feature];
     
     viewController.navigationItem.titleView = navTitleLabel;
@@ -317,8 +317,8 @@
 }
 
 - (void)genderWasSelected:(NSNumber *)selectedGender element:(id)element {
-
-   [self genderTextField].text = ([selectedGender isEqualToNumber:@0]) ? @"Female" : @"Male";
+    
+    [self genderTextField].text = ([selectedGender isEqualToNumber:@0]) ? @"Female" : @"Male";
 }
 
 #pragma mark - Navigation
@@ -335,9 +335,9 @@
         
         switch (self.feature) {
             case FeatureSettings: {
-            
+                
                 LEOUserService *userService = [[LEOUserService alloc] init];
-
+                
                 switch (self.managementMode) {
                     case ManagementModeCreate: {
                         
@@ -349,7 +349,7 @@
                                 [self finishLocalUpdate];
                             }
                         }];
-
+                        
                         break;
                     }
                     case ManagementModeEdit: {
@@ -373,7 +373,7 @@
                 
                 switch (self.managementMode) {
                     case ManagementModeCreate:
-
+                        
                         [self finishLocalUpdate];
                         break;
                         
@@ -456,10 +456,10 @@
     }
     
     if (textField == self.lastNameTextField && ![self lastNameTextField].valid) {
-     
+        
         self.lastNameTextField.valid = [LEOValidationsHelper isValidLastName:mutableText.string];
     }
-        
+    
     return YES;
 }
 

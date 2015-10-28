@@ -55,8 +55,11 @@ typedef NS_ENUM(NSInteger, TapAction)
 typedef void (^ActionBlock)(void);
 
 static NSString *const kButtonValue   = @"buttonValue";
+
 static NSString *const kButtonTitle   = @"buttonTitle";
+
 static NSString *const kActionType    = @"buttonAction";
+
 static NSString *const kActionTarget  = @"buttonActionTarget";
 
 @interface AbstractActionSheetPicker : NSObject<UIPopoverControllerDelegate>
@@ -72,7 +75,7 @@ static NSString *const kActionTarget  = @"buttonActionTarget";
 @property (nonatomic, assign) CGRect presentFromRect;
 @property (nonatomic) NSDictionary *titleTextAttributes; // default is nil. Used to specify Title Label attributes.
 @property (nonatomic) NSAttributedString *attributedTitle; // default is nil. If titleTextAttributes not nil this value ignored.
-@property (nonatomic) NSDictionary *pickerTextAttributes; // default is nil. Used to specify Picker Label attributes.
+@property (nonatomic) NSDictionary *pickerTextAttributes; // default with a NSMutableParagraphStyle to set label align center. Used to specify Picker Label attributes.
 @property (nonatomic) UIColor *pickerBackgroundColor;
 @property (nonatomic, retain) Class popoverBackgroundViewClass; //allow popover customization on iPad
 @property (nonatomic) UIInterfaceOrientationMask supportedInterfaceOrientations; // You can set your own supportedInterfaceOrientations value to prevent dismissing picker in some special cases.

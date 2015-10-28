@@ -61,10 +61,14 @@
     self.navigationController.navigationBar.translucent = YES;
     
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [backButton addTarget:self action:@selector(pop) forControlEvents:UIControlEventTouchUpInside];
-    [backButton setImage:[UIImage imageNamed:@"Icon-BackArrow"] forState:UIControlStateNormal];
+    [backButton addTarget:self
+                   action:@selector(pop)
+         forControlEvents:UIControlEventTouchUpInside];
+    
+    [backButton setImage:[UIImage imageNamed:@"Icon-BackArrow"]
+                forState:UIControlStateNormal];
     [backButton sizeToFit];
-    [backButton setTintColor:[UIColor leoOrangeRed]];
+    backButton.tintColor = [UIColor leoOrangeRed];
     
     UIBarButtonItem *backBBI = [[UIBarButtonItem alloc] initWithCustomView:backButton];
     
@@ -109,10 +113,13 @@
     
     self.submitButton.layer.borderColor = [UIColor leoOrangeRed].CGColor;
     self.submitButton.layer.borderWidth = 1.0;
-    [self.submitButton setTitle:@"SUBMIT" forState:UIControlStateNormal];
+    [self.submitButton setTitle:@"SUBMIT"
+                       forState:UIControlStateNormal];
     self.submitButton.titleLabel.font = [UIFont leoButtonLabelsAndTimeStampsFont];
-    [self.submitButton setTitleColor:[UIColor leoWhite] forState:UIControlStateNormal];
-    [self.submitButton setBackgroundImage:[UIImage imageWithColor:[UIColor leoOrangeRed]] forState:UIControlStateNormal];
+    [self.submitButton setTitleColor:[UIColor leoWhite]
+                            forState:UIControlStateNormal];
+    [self.submitButton setBackgroundImage:[UIImage imageWithColor:[UIColor leoOrangeRed]]
+                                 forState:UIControlStateNormal];
 }
 
 

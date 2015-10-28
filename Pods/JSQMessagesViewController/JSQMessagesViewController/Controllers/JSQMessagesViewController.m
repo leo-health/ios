@@ -60,7 +60,10 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
 @property (assign, nonatomic) BOOL jsq_isObserving;
 
 @property (strong, nonatomic) NSIndexPath *selectedIndexPathForMenu;
-@property (nonatomic) BOOL firstLayout;
+
+@property (weak, nonatomic) UIGestureRecognizer *currentInteractivePopGestureRecognizer;
+
+@property (assign, nonatomic) BOOL textViewWasFirstResponderDuringInteractivePop;
 
 - (void)jsq_configureMessagesViewController;
 
@@ -137,6 +140,9 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
     self.incomingCellIdentifier = [JSQMessagesCollectionViewCellIncoming cellReuseIdentifier];
     self.incomingMediaCellIdentifier = [JSQMessagesCollectionViewCellIncoming mediaCellReuseIdentifier];
 
+    // NOTE: let this behavior be opt-in for now
+    // [JSQMessagesCollectionViewCell registerMenuAction:@selector(delete:)];
+
     self.showTypingIndicator = NO;
 
     self.showLoadEarlierMessagesHeader = NO;
@@ -145,10 +151,13 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
 
     [self jsq_updateCollectionViewInsets];
 
-    self.keyboardController = [[JSQMessagesKeyboardController alloc] initWithTextView:self.inputToolbar.contentView.textView
-                                                                          contextView:self.view
-                                                                 panGestureRecognizer:self.collectionView.panGestureRecognizer
-                                                                             delegate:self];
+    // Don't set keyboardController if client creates custom content view via -loadToolbarContentView
+    if (self.inputToolbar.contentView.textView != nil) {
+        self.keyboardController = [[JSQMessagesKeyboardController alloc] initWithTextView:self.inputToolbar.contentView.textView
+                                                                              contextView:self.view
+                                                                     panGestureRecognizer:self.collectionView.panGestureRecognizer
+                                                                                 delegate:self];
+    }
 }
 
 - (void)dealloc
@@ -229,23 +238,13 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
     [self.collectionView.collectionViewLayout invalidateLayout];
 
     if (self.automaticallyScrollsToMostRecentMessage) {
-
-        self.firstLayout = YES;
         dispatch_async(dispatch_get_main_queue(), ^{
-            self.firstLayout = NO;
+            [self scrollToBottomAnimated:NO];
             [self.collectionView.collectionViewLayout invalidateLayoutWithContext:[JSQMessagesCollectionViewFlowLayoutInvalidationContext context]];
         });
     }
-    
-    [self jsq_updateKeyboardTriggerPoint];
-}
 
-- (void)viewDidLayoutSubviews
-{
-    [super viewDidLayoutSubviews];
-    if (self.firstLayout && self.automaticallyScrollsToMostRecentMessage) {
-        [self scrollToBottomAnimated:NO];
-    }
+    [self jsq_updateKeyboardTriggerPoint];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -263,13 +262,13 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [self jsq_addActionToInteractivePopGestureRecognizer:NO];
     self.collectionView.collectionViewLayout.springinessEnabled = NO;
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
+    [self jsq_addActionToInteractivePopGestureRecognizer:NO];
     [self jsq_removeObservers];
     [self.keyboardController endListeningForKeyboard];
 }
@@ -287,7 +286,7 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
     return YES;
 }
 
-- (NSUInteger)supportedInterfaceOrientations
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
 {
     if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone) {
         return UIInterfaceOrientationMaskAllButUpsideDown;
@@ -415,6 +414,11 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
     return nil;
 }
 
+- (void)collectionView:(JSQMessagesCollectionView *)collectionView didDeleteMessageAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSAssert(NO, @"ERROR: required method not implemented: %s", __PRETTY_FUNCTION__);
+}
+
 - (id<JSQMessageBubbleImageDataSource>)collectionView:(JSQMessagesCollectionView *)collectionView messageBubbleImageDataForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NSAssert(NO, @"ERROR: required method not implemented: %s", __PRETTY_FUNCTION__);
@@ -489,10 +493,8 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
         NSParameterAssert(cell.textView.text != nil);
 
         id<JSQMessageBubbleImageDataSource> bubbleImageDataSource = [collectionView.dataSource collectionView:collectionView messageBubbleImageDataForItemAtIndexPath:indexPath];
-        if (bubbleImageDataSource != nil) {
-            cell.messageBubbleImageView.image = [bubbleImageDataSource messageBubbleImage];
-            cell.messageBubbleImageView.highlightedImage = [bubbleImageDataSource messageBubbleHighlightedImage];
-        }
+        cell.messageBubbleImageView.image = [bubbleImageDataSource messageBubbleImage];
+        cell.messageBubbleImageView.highlightedImage = [bubbleImageDataSource messageBubbleHighlightedImage];
     }
     else {
         id<JSQMessageMediaData> messageMedia = [messageItem media];
@@ -605,7 +607,7 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
 
 - (BOOL)collectionView:(UICollectionView *)collectionView canPerformAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender
 {
-    if (action == @selector(copy:)) {
+    if (action == @selector(copy:) || action == @selector(delete:)) {
         return YES;
     }
 
@@ -617,6 +619,12 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
     if (action == @selector(copy:)) {
         id<JSQMessageData> messageData = [collectionView.dataSource collectionView:collectionView messageDataForItemAtIndexPath:indexPath];
         [[UIPasteboard generalPasteboard] setString:[messageData text]];
+    }
+    else if (action == @selector(delete:)) {
+        [collectionView.dataSource collectionView:collectionView didDeleteMessageAtIndexPath:indexPath];
+
+        [collectionView deleteItemsAtIndexPaths:@[indexPath]];
+        [collectionView.collectionViewLayout invalidateLayout];
     }
 }
 
@@ -838,6 +846,8 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
                 [self.snapshotView removeFromSuperview];
             }
 
+            self.textViewWasFirstResponderDuringInteractivePop = [self.inputToolbar.contentView.textView isFirstResponder];
+
             [self.keyboardController endListeningForKeyboard];
 
             if ([UIDevice jsq_isCurrentDeviceBeforeiOS8]) {
@@ -859,6 +869,9 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
         case UIGestureRecognizerStateEnded:
         case UIGestureRecognizerStateFailed:
             [self.keyboardController beginListeningForKeyboard];
+            if (self.textViewWasFirstResponderDuringInteractivePop) {
+                [self.inputToolbar.contentView.textView becomeFirstResponder];
+            }
 
             if ([UIDevice jsq_isCurrentDeviceBeforeiOS8]) {
                 [self.snapshotView removeFromSuperview];
@@ -1032,14 +1045,16 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
 
 - (void)jsq_addActionToInteractivePopGestureRecognizer:(BOOL)addAction
 {
-    if (self.navigationController.interactivePopGestureRecognizer) {
-        [self.navigationController.interactivePopGestureRecognizer removeTarget:nil
-                                                                         action:@selector(jsq_handleInteractivePopGestureRecognizer:)];
-        
-        if (addAction) {
-            [self.navigationController.interactivePopGestureRecognizer addTarget:self
-                                                                          action:@selector(jsq_handleInteractivePopGestureRecognizer:)];
-        }
+    if (self.currentInteractivePopGestureRecognizer != nil) {
+        [self.currentInteractivePopGestureRecognizer removeTarget:nil
+                                                           action:@selector(jsq_handleInteractivePopGestureRecognizer:)];
+        self.currentInteractivePopGestureRecognizer = nil;
+    }
+
+    if (addAction) {
+        [self.navigationController.interactivePopGestureRecognizer addTarget:self
+                                                                      action:@selector(jsq_handleInteractivePopGestureRecognizer:)];
+        self.currentInteractivePopGestureRecognizer = self.navigationController.interactivePopGestureRecognizer;
     }
 }
 

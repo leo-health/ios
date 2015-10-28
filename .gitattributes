@@ -1,1 +1,2 @@
+CHANGELOG.yml merge=union
 *.pbxproj merge=union

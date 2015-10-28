@@ -38,7 +38,7 @@
     self.view.clipsToBounds = YES;
     self.scrollView.delegate = self;
     self.titleView.backgroundColor = self.card.tintColor; //TODO: Will ultimately be a gradient of the tintColor with some calculation in a separate image extension class, but for now, this will suffice.
-
+    
     self.contentView.backgroundColor = [UIColor whiteColor];
 }
 
@@ -53,9 +53,9 @@
     self.scrollView = [[UIScrollView alloc] init];
     self.scrollView.bounces = YES;
     self.view.backgroundColor = self.card.tintColor;
-    [self.scrollView setShowsHorizontalScrollIndicator:NO];
-    [self.scrollView setShowsVerticalScrollIndicator:NO];
-
+    self.scrollView.showsHorizontalScrollIndicator = NO;
+    self.scrollView.showsVerticalScrollIndicator = NO;
+    
     self.contentView = [[UIView alloc] init];
     
     self.titleView = [[UIView alloc] init];
@@ -78,13 +78,25 @@
     
     self.button = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.view addSubview:self.button];
-    [self.button addTarget:self action:@selector(buttonTapped) forControlEvents:UIControlEventTouchUpInside];
-    [self.button setTitle:self.card.stringRepresentationOfActionsAvailableForState[0] forState:UIControlStateNormal];
-    self.button.titleLabel.font = [UIFont leoButtonLabelsAndTimeStampsFont];
-    self.button.backgroundColor = self.card.tintColor;
-    [self.button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+
+    [self.button addTarget:self
+                    action:@selector(buttonTapped)
+          forControlEvents:UIControlEventTouchUpInside];
+
+    [self.button setTitle:self.card.stringRepresentationOfActionsAvailableForState[0]
+                 forState:UIControlStateNormal];
     
-    [self.button addObserver:self forKeyPath:@"enabled" options:NSKeyValueObservingOptionNew context:nil];
+    self.button.titleLabel.font = [UIFont leoButtonLabelsAndTimeStampsFont];
+    
+    self.button.backgroundColor = self.card.tintColor;
+    
+    [self.button setTitleColor:[UIColor whiteColor]
+                      forState:UIControlStateNormal];
+    
+    [self.button addObserver:self
+                  forKeyPath:@"enabled"
+                     options:NSKeyValueObservingOptionNew
+                     context:nil];
 }
 
 /**
@@ -94,12 +106,12 @@
  *  @note  Assumes the body view has been set by a subclass of this abstract class. If this class is not subclassed, the lack of bodyView will cause constraints to fail.
  */
 -(void)setBodyView:(UIView *)bodyView {
-
+    
     //TODO: This feels bad...let's come back and review at some point.
     [_bodyView removeFromSuperview];
     _bodyView = bodyView;
     [self.contentView addSubview:bodyView];
-
+    
     [self.view setNeedsUpdateConstraints];
 }
 
@@ -107,27 +119,33 @@
     
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:self.card.tintColor]
                                                   forBarMetrics:UIBarMetricsDefault];
+    
     self.navigationController.navigationBar.shadowImage = [UIImage new];
     self.navigationController.navigationBar.translucent = NO;
     
     [[UINavigationBar appearance] setBackIndicatorImage:[UIImage imageNamed:@"Icon-BackArrow"]];
     [[UINavigationBar appearance] setBackIndicatorTransitionMaskImage:[UIImage imageNamed:@"Icon-BackArrow"]];
     self.navigationController.navigationBar.topItem.title = @"";
-
+    
     UIButton *dismissButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [dismissButton addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
-    [dismissButton setImage:[UIImage imageNamed:@"Icon-Cancel"] forState:UIControlStateNormal];
+    
+    [dismissButton addTarget:self
+                      action:@selector(dismiss)
+            forControlEvents:UIControlEventTouchUpInside];
+    
+    [dismissButton setImage:[UIImage imageNamed:@"Icon-Cancel"]
+                   forState:UIControlStateNormal];
     [dismissButton sizeToFit];
-    [dismissButton setTintColor:[UIColor leoWhite]];
+    
+    dismissButton.tintColor = [UIColor leoWhite];
     
     UIBarButtonItem *dismissBBI = [[UIBarButtonItem alloc] initWithCustomView:dismissButton];
+    
     self.navigationItem.rightBarButtonItem = dismissBBI;
-
+    
     UILabel *navBarTitleLabel = [[UILabel alloc] init];
     
-    //TODO: Remove this line when done prepping this abstract class and have moved over to complete project.
     navBarTitleLabel.text = self.card.title;
-    
     navBarTitleLabel.textColor = [UIColor leoWhite];
     navBarTitleLabel.font = [UIFont leoMenuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
     
@@ -148,10 +166,8 @@
     [super viewWillAppear:animated];
     [self.view layoutIfNeeded];
     
-    CGFloat percentTitleViewHidden = self.scrollView.contentOffset.y / self.titleView.frame.size.height;
-    
-    if (percentTitleViewHidden < 0.5) {
-            self.navigationItem.titleView.hidden = YES;
+    if ([self percentHeaderViewHidden] < 0.5) {
+        self.navigationItem.titleView.hidden = YES;
     }
 }
 
@@ -166,26 +182,25 @@
     
     self.navigationItem.titleView.alpha = 0;
     self.navigationItem.titleView.hidden = NO;
-
-    CGFloat percentTitleViewHidden = self.scrollView.contentOffset.y / self.titleView.frame.size.height;
     
-    if (percentTitleViewHidden > 0.5) {
+    if ([self percentHeaderViewHidden] > 0.5) {
         self.navigationItem.titleView.alpha = 1;
     }
-
+    
 }
 
 #pragma mark - <ScrollViewDelegate>
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
     
     if (scrollView == self.scrollView) {
-        CGFloat percentTitleViewHidden = scrollView.contentOffset.y / self.titleView.frame.size.height;
-        
-        if (percentTitleViewHidden < 1) {
-            self.expandedTitleLabel.alpha = 1 - percentTitleViewHidden * 2; //FIXME: Magic number
-            self.navigationItem.titleView.alpha = percentTitleViewHidden;
-        }
+        self.expandedTitleLabel.alpha = 1 - [self percentHeaderViewHidden] * 2; //FIXME: Magic number
+        self.navigationItem.titleView.alpha = [self percentHeaderViewHidden];
     }
+}
+
+- (CGFloat)percentHeaderViewHidden {
+    
+    return MIN([self scrollViewVerticalContentOffset] / [self heightOfHeaderView], 1.0);
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
@@ -209,10 +224,8 @@
 #pragma mark - Scroll helpers
 - (void)stoppedScrolling {
     
-    CGFloat percentTitleViewHidden = self.scrollView.contentOffset.y / self.titleView.frame.size.height;
-    
-    if (percentTitleViewHidden < 1.0) {
-        if (percentTitleViewHidden > 0.5) {
+    if ([self percentHeaderViewHidden] < 1.0) {
+        if ([self percentHeaderViewHidden] > 0.5) {
             
             [self animateScrollViewTo:self.titleView.frame.size.height withDuration:0.1];
             [self animateAlphaLevelsOfView:self.expandedTitleLabel to:0 withDuration:0.1];
@@ -251,7 +264,7 @@
         
         self.constraintsAlreadyUpdated = YES;
     }
-
+    
     [self updateHorizontalBodyConstraints];
     [super updateViewConstraints];
 }
@@ -260,13 +273,13 @@
 - (void)updateHorizontalBodyConstraints {
     
     NSDictionary *viewDictionary = NSDictionaryOfVariableBindings(_titleView, _button, _bodyView, _scrollView, _contentView, _expandedTitleLabel);
-
+    
     [self.contentView removeConstraints:self.horizontalBodyViewConstraints];
     
     CGFloat screenWidth = self.view.frame.size.width;
     
     self.horizontalBodyViewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_bodyView(w)]|" options:0 metrics:@{@"w" : @(screenWidth)} views:viewDictionary];
-
+    
     [self.contentView addConstraints:self.horizontalBodyViewConstraints];
     
     
@@ -309,7 +322,7 @@
     NSArray *horizontalLayoutConstraintsForContentView = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_contentView]|" options:0 metrics:nil views:viewDictionary];
     [self.scrollView addConstraints:verticalLayoutConstraintsForContentView];
     [self.scrollView addConstraints:horizontalLayoutConstraintsForContentView];
-
+    
     NSArray *verticalLayoutConstraintsForSubviews = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_titleView(titleHeight)][_bodyView]-(contentViewRemainder)-|" options:0 metrics:@{@"titleHeight" : @(titleHeight), @"contentViewRemainder" : @(contentViewRemainder)} views:viewDictionary];
     
     CGFloat screenWidth = self.view.frame.size.width;
@@ -328,8 +341,8 @@
     [self.titleView addConstraints:horizontalLayoutConstraintsForFullTitle];
     [self.titleView addConstraints:verticalLayoutConstraintsForFullTitle];
     
-//    [self.contentView setContentHuggingPriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisVertical];
-//    [self.contentView setContentCompressionResistancePriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisVertical];
+    //    [self.contentView setContentHuggingPriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisVertical];
+    //    [self.contentView setContentCompressionResistancePriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisVertical];
 }
 
 
@@ -396,5 +409,40 @@
     [self.button removeObserver:self forKeyPath:@"enabled"];
 }
 
+
+#pragma mark - Shorthand Helpers
+
+- (CGFloat)heightOfScrollViewFrame {
+    return [self scrollView].frame.size.height;
+}
+
+- (CGFloat)totalHeightOfScrollViewContentArea {
+    return [self scrollView].contentSize.height + [self scrollView].contentInset.bottom;
+}
+
+- (CGFloat)heightOfNoReturn {
+    return [self heightOfHeaderView] * kHeightOfNoReturnConstant;
+}
+
+- (CGFloat)heightOfHeaderCellExcludingOverlapWithNavBar {
+    
+    return [self heightOfHeaderView] - [self navBarHeight];
+}
+
+- (CGFloat)heightOfHeaderView {
+    return [self headerView].bounds.size.height;
+}
+
+- (CGFloat)navBarHeight {
+    return self.navigationController.navigationBar.frame.size.height;
+}
+
+- (CGFloat)scrollViewVerticalContentOffset {
+    return [self scrollView].contentOffset.y;
+}
+
+- (UIView *)headerView {
+    return self.titleView;
+}
 
 @end

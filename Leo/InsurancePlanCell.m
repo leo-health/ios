@@ -23,7 +23,8 @@
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     
-    [super setSelected:selected animated:animated];
+    [super setSelected:selected
+              animated:animated];
     
     if (selected) {
         
@@ -33,7 +34,7 @@
         
         [insurer beginEditing];
         
-        [insurer addAttribute:NSUnderlineStyleAttributeName value:@(selectionLineHeight) range:range];
+        [insurer addAttribute:NSUnderlineStyleAttributeName value:@(kSelectionLineHeight) range:range];
         [insurer addAttribute:NSForegroundColorAttributeName value:self.selectedColor range:range];
         [insurer endEditing];
         

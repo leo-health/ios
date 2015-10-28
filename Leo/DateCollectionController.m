@@ -57,7 +57,10 @@ static NSString *const dateReuseIdentifier = @"DateCell";
         [cell configureForDate:date];
     };
     
-    self.dataSource = [[CollectionViewDataSource alloc] initWithItems:[self slotDateKeys] cellIdentifier:dateReuseIdentifier configureCellBlock:configureCell];
+    self.dataSource = [[CollectionViewDataSource alloc]
+                       initWithItems:[self slotDateKeys]
+                       cellIdentifier:dateReuseIdentifier
+                       configureCellBlock:configureCell];
     
     self.collectionView.dataSource = self.dataSource;
     self.collectionView.delegate = self;
@@ -67,11 +70,10 @@ static NSString *const dateReuseIdentifier = @"DateCell";
     self.collectionView.showsVerticalScrollIndicator = NO;
     
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
-    [flowLayout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
-    [flowLayout setMinimumInteritemSpacing:10.0f];
+    flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+    flowLayout.minimumInteritemSpacing = 10.0f;
     
     self.collectionView.collectionViewLayout = flowLayout;
-    
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView {

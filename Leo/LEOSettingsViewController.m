@@ -22,21 +22,21 @@
 
 #import "Patient.h"
 
-typedef enum SettingsSection {
+typedef NS_ENUM(NSUInteger, SettingsSection) {
     
     SettingsSectionAccounts = 0,
     SettingsSectionPatients = 1,
     SettingsSectionAddPatient = 2,
     
-} SettingsSection;
+};
 
-typedef enum AccountSettings {
+typedef NS_ENUM(NSUInteger, AccountSettings) {
     
     AccountSettingsEmail = 0,
     AccountSettingsPassword = 1,
     AccountSettingsInvite = 2,
     
-} AccountSettings;
+};
 
 @interface LEOSettingsViewController ()
 

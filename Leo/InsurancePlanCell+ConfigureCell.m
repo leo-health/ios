@@ -16,8 +16,8 @@
 - (void)configureForPlan:(InsurancePlan *)plan {
     
     NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
-    [style setAlignment:NSTextAlignmentLeft];
-    [style setLineBreakMode:NSLineBreakByWordWrapping]; //TODO: May want to do some sort of resizing of the text here such that we don't end up wrapping ever.
+    style.alignment = NSTextAlignmentLeft;
+    style.lineBreakMode = NSLineBreakByWordWrapping; //TODO: May want to do some sort of resizing of the text here such that we don't end up wrapping ever.
     
     UIFont *font1 = [UIFont leoMenuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
     UIFont *font2 = [UIFont leoFieldAndUserLabelsAndSecondaryButtonsFont];

@@ -10,6 +10,7 @@
 #import "Configuration.h"
 #import "LEOCredentialStore.h"
 #import "SessionUser.h"
+#import "Configuration.h"
 
 @implementation LEOAPISessionManager
 
@@ -26,6 +27,16 @@
                                          sessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
 
         _sharedClient.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+        AFSecurityPolicy *securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeCertificate];
+        securityPolicy.validatesDomainName = NO;
+        securityPolicy.allowInvalidCertificates = YES;
+
+        NSString *certificatePath = [[NSBundle mainBundle] pathForResource:[Configuration selfSignedCertificate] ofType:@"cer"];
+        NSData *certificateData = [[NSData alloc] initWithContentsOfFile:certificatePath];
+        securityPolicy.pinnedCertificates = @[certificateData];
+        _sharedClient.securityPolicy = securityPolicy;
+
     });
     
     return _sharedClient;

@@ -13,15 +13,15 @@
 @interface Patient : User <NSCoding>
 NS_ASSUME_NONNULL_BEGIN
 
-typedef enum Gender : NSUInteger {
+typedef NS_ENUM(NSUInteger, Gender) {
     GenderMale = 0,
     GenderFemale = 1
-} Gender;
+};
 
-typedef enum PatientStatusCode : NSUInteger {
+typedef NS_ENUM(NSUInteger, PatientStatusCode) {
     PatientStatusInactive = 1,
     PatientStatusActive = 2
-} PatientStatusCode;
+};
 
 @property (nonatomic, strong) NSDate * dob;
 @property (nonatomic, copy) NSString *gender;

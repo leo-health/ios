@@ -649,7 +649,7 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
     
     [UIView animateWithDuration:0.25 animations:^{
         
-        [self.menuView setBackgroundColor:[[UIColor clearColor] colorWithAlphaComponent:0.5]];
+        self.menuView.backgroundColor = [[UIColor clearColor] colorWithAlphaComponent:0.5];
 
         self.menuView.alpha = 0.8;
         self.blurredImageView.alpha = 1;

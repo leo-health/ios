@@ -106,15 +106,20 @@
     self.navigationController.navigationBar.shadowImage = [UIImage new];
     self.navigationController.navigationBar.translucent = NO;
     
-    [[UINavigationBar appearance] setBackIndicatorImage:[UIImage imageNamed:@"Icon-BackArrow"]];
-    [[UINavigationBar appearance] setBackIndicatorTransitionMaskImage:[UIImage imageNamed:@"Icon-BackArrow"]];
+    [UINavigationBar appearance].backIndicatorImage = [UIImage imageNamed:@"Icon-BackArrow"];
+    
+    [UINavigationBar appearance].backIndicatorTransitionMaskImage = [UIImage imageNamed:@"Icon-BackArrow"];
+    
     self.navigationController.navigationBar.topItem.title = @"";
     
     UIButton *dismissButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [dismissButton addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
-    [dismissButton setImage:[UIImage imageNamed:@"Icon-Cancel"] forState:UIControlStateNormal];
+    [dismissButton addTarget:self
+                      action:@selector(dismiss)
+            forControlEvents:UIControlEventTouchUpInside];
+    [dismissButton setImage:[UIImage imageNamed:@"Icon-Cancel"]
+                   forState:UIControlStateNormal];
     [dismissButton sizeToFit];
-    [dismissButton setTintColor:[UIColor leoWhite]];
+    dismissButton.tintColor = [UIColor leoWhite];
     
     UIBarButtonItem *dismissBBI = [[UIBarButtonItem alloc] initWithCustomView:dismissButton];
     self.navigationItem.rightBarButtonItem = dismissBBI;
