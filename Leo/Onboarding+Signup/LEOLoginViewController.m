@@ -92,7 +92,7 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
     [LEOStyleHelper styleNavigationBarForFeature:FeatureOnboarding];
     
     self.view.tintColor = [LEOStyleHelper tintColorForFeature:FeatureOnboarding];
-    [LEOStyleHelper styleBackButtonForViewController:self];
+    [LEOStyleHelper styleBackButtonForViewController:self forFeature:FeatureOnboarding];
 }
 
 

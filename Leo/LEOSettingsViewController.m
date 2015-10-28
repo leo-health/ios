@@ -79,7 +79,7 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
     navTitleLabel.text = @"Settings";
     
     self.view.tintColor = [UIColor whiteColor];
-    [LEOStyleHelper styleBackButtonForViewController:self];
+    [LEOStyleHelper styleBackButtonForViewController:self forFeature:FeatureSettings];
     [LEOStyleHelper styleLabel:navTitleLabel forFeature:FeatureSettings];
     
     self.navigationItem.titleView = navTitleLabel;

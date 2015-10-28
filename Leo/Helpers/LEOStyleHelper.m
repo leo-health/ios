@@ -19,7 +19,7 @@
     viewController.view.tintColor = [self tintColorForFeature:FeatureSettings];
     
     [self styleNavigationBarForFeature:FeatureSettings];
-    [self styleBackButtonForViewController:viewController];
+    [self styleBackButtonForViewController:viewController forFeature:FeatureSettings];
 }
 
 + (void)styleNavigationBarForFeature:(Feature)feature {
@@ -53,7 +53,17 @@
     promptTextView.tintColor = [self tintColorForFeature:feature];
 }
 
-+ (void)styleBackButtonForViewController:(UIViewController *)viewController {
++ (void)styleNavigationBarShadowLineForViewController:(UIViewController *)viewController feature:(Feature)feature {
+    
+    [viewController.navigationController.navigationBar setShadowImage:[UIImage imageWithColor:[self tintColorForFeature:feature]]];
+}
+
++ (void)removeNavigationBarShadowLineForViewController:(UIViewController *)viewController {
+    
+    [viewController.navigationController.navigationBar setShadowImage:[UIImage imageWithColor:[UIColor clearColor]]];
+}
+
++ (void)styleBackButtonForViewController:(UIViewController *)viewController forFeature:(Feature)feature {
     
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     
@@ -66,7 +76,7 @@
     [backButton setImage:[UIImage imageNamed:@"Icon-BackArrow"] forState:UIControlStateNormal];
     [backButton sizeToFit];
     
-    [backButton setTintColor:viewController.view.tintColor];
+    [backButton setTintColor:[self tintColorForFeature:feature]];
     
     UIBarButtonItem *backBBI = [[UIBarButtonItem alloc] initWithCustomView:backButton];
     
@@ -113,6 +123,9 @@
             
         case FeatureSettings:
             return [UIColor leoWhite];
+            
+        case FeatureAppointmentScheduling:
+            return [UIColor leoGreen];
     }
 }
 
@@ -124,6 +137,9 @@
             
         case FeatureSettings:
             return [UIColor leoOrangeRed];
+        
+        case FeatureAppointmentScheduling:
+            return [UIColor leoGreen];
     }
 }
 

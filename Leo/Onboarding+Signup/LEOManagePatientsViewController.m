@@ -86,7 +86,7 @@ typedef NS_ENUM(NSUInteger, TableViewSection) {
     
     self.navigationItem.titleView = self.navTitleLabel;
     self.navigationItem.titleView.hidden = YES;
-    [LEOStyleHelper styleBackButtonForViewController:self];
+    [LEOStyleHelper styleBackButtonForViewController:self forFeature:FeatureOnboarding];
 }
 
 - (void)setupTableView {

@@ -23,7 +23,6 @@ typedef void (^SelectionCriteriaBlock)(BOOL selected, NSIndexPath *indexPath);
 @property (copy, nonatomic) ConfigureCellBlock configureCellBlock;
 @property (strong, nonatomic) LEOAPIOperation *requestOperation;
 @property (weak, nonatomic) id<SingleSelectionProtocol>delegate;
-@property (strong, nonatomic) UIColor *tintColor;
-@property (strong, nonatomic) UIColor *navBarShadowLine;
+@property (nonatomic) Feature feature;
 
 @end

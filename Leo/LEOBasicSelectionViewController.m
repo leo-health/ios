@@ -13,6 +13,7 @@
 #import <MBProgressHUD/MBProgressHUD.h>
 #import "LEOApiReachability.h"
 #import "UIImage+Extensions.h"
+#import "LEOStyleHelper.h"
 
 @interface LEOBasicSelectionViewController ()
 
@@ -43,26 +44,21 @@
 #pragma mark - VCL Helper Methods
 - (void)setupNavBar {
     
+    [LEOStyleHelper styleNavigationBarForFeature:self.feature];
+    [LEOStyleHelper styleNavigationBarShadowLineForViewController:self feature:self.feature];
+    [LEOStyleHelper styleBackButtonForViewController:self forFeature:self.feature];
     UILabel *navBarTitleLabel = [[UILabel alloc] init];
     
     navBarTitleLabel.text = self.titleText;
-    navBarTitleLabel.textColor = self.navBarShadowLine;
-    navBarTitleLabel.font = [UIFont leoMenuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
     
-    [navBarTitleLabel sizeToFit];
+    [LEOStyleHelper styleLabel:navBarTitleLabel forFeature:self.feature];
     
     self.navigationItem.titleView = navBarTitleLabel;
+}
+
+-(void)viewWillDisappear:(BOOL)animated {
     
-    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [backButton addTarget:self action:@selector(pop) forControlEvents:UIControlEventTouchUpInside];
-    [backButton setImage:[UIImage imageNamed:@"Icon-BackArrow"] forState:UIControlStateNormal];
-    [backButton sizeToFit];
-    [backButton setTintColor:self.navBarShadowLine];
-    
-    UIBarButtonItem *backBBI = [[UIBarButtonItem alloc] initWithCustomView:backButton];
-    
-    self.navigationItem.hidesBackButton = YES;
-    self.navigationItem.leftBarButtonItem = backBBI;
+    [LEOStyleHelper removeNavigationBarShadowLineForViewController:self];
 }
 
 - (void)setupTableView {
@@ -153,12 +149,7 @@
 }
 
 
--(void)setNavBarShadowLine:(UIColor *)navBarShadowLine {
 
-    _navBarShadowLine = navBarShadowLine;
-    
-    [self.navigationController.navigationBar setShadowImage:[UIImage imageWithColor:self.navBarShadowLine]];
-}
 
 #pragma mark - Autolayout Constraints
 -(void)updateViewConstraints {
