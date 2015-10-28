@@ -9,14 +9,14 @@ platform :ios do
 desc "Submit a new alpha version to TestFlight"
 desc "This action does the following:"
 desc ""
-desc "- Ensures a clean git status"
-desc "- Increment the build number"
-desc "- Increment the version number, if option included"
-desc "- Get our mobile provisioning profile"
-desc "- Build and sign the app"
-desc "- Upload the ipa file to TestFlight"
-desc "- Post a message to slack containing the download link"
-desc "- Commit the version bump"
+desc "- 1) Ensures a clean git status"
+desc "- 2) Increment the build number"
+desc "- 3) Increment the version number, if option included"
+desc "- 4) Get our mobile provisioning profile"
+desc "- 5) Build and sign the app"
+desc "- 6) Upload the ipa file to TestFlight"
+desc "- 7) Commit the version bump"
+desc "- Post a message to slack whether success or failure"
 
 before_all do
     ENV["SLACK_URL"] = "https://hooks.slack.com/services/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"
@@ -24,6 +24,8 @@ before_all do
     ensure_git_status_clean
 
     #cocoapods
+
+    #TODO: Move increment of version out here. 
 end
 
 lane :alpha do |options|
@@ -37,6 +39,7 @@ lane :alpha do |options|
         increment_version_number bump_type: bump_type
       end
 
+      #TODO: Determine appropriate way to use version without duplicating line of code.
       version = get_version_number(xcodeproj: "Leo.xcodeproj")
 
       # Get current version number
@@ -82,13 +85,13 @@ lane :alpha do |options|
 
     # Build and sign app
     gym(
-     scheme: "Leo Alpha",
-     workspace: "Leo.xcworkspace",
-     output_directory: "./fastlane_build",
-     output_name: "Leo.ipa",
-     include_symbols: true,
-     clean: true
-     )
+      scheme: "Leo Alpha",
+      workspace: "Leo.xcworkspace",
+      output_directory: "./fastlane_build",
+      output_name: "Leo.ipa",
+      include_symbols: true,
+      clean: true
+    )
 
     # Push our build to iTunesConnect
     pilot(
@@ -122,16 +125,18 @@ lane :alpha do |options|
   after_all do |lane|
     # This block is called, only if the executed lane was successful
     
-     slack(
-       message: "Successfully deployed new App Update."
-     )
+    slack(
+      message: "Successfully deployed new App Update."
+
+      #TODO: Add release notes, versioning
+    )
   end
 
   error do |lane, exception|
-     slack(
-       message: exception.message,
-       success: false
-     )
+    slack(
+      message: exception.message,
+      success: false
+    )
   end
 end
 
