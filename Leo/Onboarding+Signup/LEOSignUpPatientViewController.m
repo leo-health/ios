@@ -31,6 +31,8 @@
 @interface LEOSignUpPatientViewController ()
 
 @property (strong, nonatomic) LEOSignUpPatientView *signUpPatientView;
+@property (nonatomic) BOOL breakerPreviouslyDrawn;
+@property (strong, nonatomic) CAShapeLayer *pathLayer;
 
 @end
 
@@ -46,6 +48,8 @@
     [self setupView];
     [self setupNavigationBar];
     [self setupSignUpPatientView];
+    [self setupBreaker];
+
     [self setupFirstNameField];
     [self setupLastNameField];
     [self setupBirthDateField];
@@ -101,6 +105,7 @@
     
     [self.view removeConstraints:self.view.constraints];
     self.signUpPatientView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.signUpPatientView.scrollView.delegate = self;
     
     NSDictionary *bindings = NSDictionaryOfVariableBindings(_signUpPatientView);
     
@@ -137,6 +142,7 @@
     
     [self birthDateTextField].enabled = NO;
     self.signUpPatientView.birthDatePromptView.accessoryImageViewVisible = YES;
+    self.signUpPatientView.birthDatePromptView.accessoryImage = [UIImage imageNamed:@"Icon-Expand"];
     self.signUpPatientView.birthDatePromptView.delegate = self;
     
     [self birthDateTextField].text = [NSDate stringifiedShortDate:self.patient.dob];
@@ -151,7 +157,7 @@
     
     [self genderTextField].enabled = NO;
     self.signUpPatientView.genderPromptView.accessoryImageViewVisible = YES;
-    self.signUpPatientView.genderPromptView.accessoryImage = [UIImage imageNamed:@"Icon-Forms"];
+    self.signUpPatientView.genderPromptView.accessoryImage = [UIImage imageNamed:@"Icon-Expand"];
     self.signUpPatientView.genderPromptView.delegate = self;
     
     [self genderTextField].text = self.patient.gender;
@@ -289,6 +295,17 @@
                                                                                     minimumDate:minDate
                                                                                     maximumDate:maxDate
                                                                                          target:self action:@selector(dateWasSelected:element:) origin:sender];
+    actionSheetPicker.pickerBackgroundColor = [UIColor leoWhite];
+    
+    UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [doneButton setTitleColor:[UIColor leoOrangeRed] forState:UIControlStateNormal];
+    [doneButton setTitle:@"Done" forState:UIControlStateNormal];
+    doneButton.titleLabel.font = [UIFont leoStandardFont];
+    [doneButton sizeToFit];
+    
+    UIBarButtonItem *doneBBI = [[UIBarButtonItem alloc] initWithCustomView:doneButton];
+    
+    [actionSheetPicker setDoneButton:doneBBI];
     
     actionSheetPicker.hideCancel = YES;
     [actionSheetPicker showActionSheetPicker];
@@ -305,9 +322,20 @@
     
     AbstractActionSheetPicker *picker = [[ActionSheetStringPicker alloc] initWithTitle:nil rows:@[@"Female",@"Male"] initialSelection:selectedIndex target:self successAction:@selector(genderWasSelected:element:) cancelAction:nil origin:sender];
     picker.hideCancel = YES;
-    picker.pickerBackgroundColor = [UIColor blackColor];
-    picker.pickerTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor],
-                                    NSFontAttributeName:[UIFont leoStandardFont],};
+    picker.pickerBackgroundColor = [UIColor leoWhite];
+
+    picker.pickerTextAttributes = @{NSForegroundColorAttributeName: [UIColor leoOrangeRed],
+                                    NSFontAttributeName:[UIFont leoStandardFont],
+                                    NSBackgroundColorAttributeName: [UIColor leoWhite]};
+
+    UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [doneButton setTitleColor:[UIColor leoOrangeRed] forState:UIControlStateNormal];
+    [doneButton setTitle:@"Done" forState:UIControlStateNormal];
+    doneButton.titleLabel.font = [UIFont leoStandardFont];
+    [doneButton sizeToFit];
+    UIBarButtonItem *doneBBI = [[UIBarButtonItem alloc] initWithCustomView:doneButton];
+    
+    [picker setDoneButton:doneBBI];
     [picker showActionSheetPicker];
 }
 
@@ -463,6 +491,78 @@
     return YES;
 }
 
+#pragma mark - <ScrollViewDelegate>
+
+#pragma mark - <UIScrollViewDelegate> & Helper Methods
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    
+    if (scrollView == self.signUpPatientView.scrollView) {
+        
+        if ([self scrollViewVerticalContentOffset] > 0) {
+            
+            if (!self.breakerPreviouslyDrawn) {
+                
+                [self fadeBreaker:YES];
+                self.breakerPreviouslyDrawn = YES;
+            }
+            
+        } else {
+            
+            self.breakerPreviouslyDrawn = NO;
+            [self fadeBreaker:NO];
+        }
+    }
+}
+
+- (void)fadeBreaker:(BOOL)shouldFade {
+    
+    CABasicAnimation *fadeAnimation = [CABasicAnimation animationWithKeyPath:@"breakerFade"];
+    fadeAnimation.duration = 0.3;
+    
+    if (shouldFade) {
+        
+        [self fadeAnimation:fadeAnimation fromColor:[UIColor clearColor] toColor:[UIColor leoOrangeRed] withStrokeColor:[UIColor leoOrangeRed]];
+        
+    } else {
+        
+        [self fadeAnimation:fadeAnimation fromColor:[UIColor leoOrangeRed] toColor:[UIColor clearColor] withStrokeColor:[UIColor clearColor]];
+    }
+    
+    [self.pathLayer addAnimation:fadeAnimation forKey:@"breakerFade"];
+    
+}
+
+- (void)fadeAnimation:(CABasicAnimation *)fadeAnimation fromColor:(UIColor *)fromColor toColor:(UIColor *)toColor withStrokeColor:(UIColor *)strokeColor {
+    
+    fadeAnimation.fromValue = (id)fromColor.CGColor;
+    fadeAnimation.toValue = (id)toColor.CGColor;
+    
+    self.pathLayer.strokeColor = strokeColor.CGColor;
+}
+
+- (void)setupBreaker {
+    
+    
+    CGRect viewRect = self.navigationController.navigationBar.bounds;
+    
+    CGPoint beginningOfLine = CGPointMake(viewRect.origin.x, 0);
+    CGPoint endOfLine = CGPointMake(self.view.bounds.size.width, 0);
+    
+    UIBezierPath *path = [UIBezierPath bezierPath];
+    [path moveToPoint:beginningOfLine];
+    [path addLineToPoint:endOfLine];
+    
+    self.pathLayer = [CAShapeLayer layer];
+    self.pathLayer.frame = self.view.bounds;
+    self.pathLayer.path = path.CGPath;
+    self.pathLayer.strokeColor = [UIColor clearColor].CGColor;
+    self.pathLayer.lineWidth = 1.0f;
+    self.pathLayer.lineJoin = kCALineJoinBevel;
+    
+    [self.view.layer addSublayer:self.pathLayer];
+}
+
 
 #pragma mark - Shorthand Helpers
 
@@ -486,6 +586,9 @@
     return self.signUpPatientView.avatarButton;
 }
 
+- (CGFloat)scrollViewVerticalContentOffset {
+    return self.signUpPatientView.scrollView.contentOffset.y;
+}
 
 
 @end
