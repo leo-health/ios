@@ -18,5 +18,6 @@
 @property (weak, nonatomic) IBOutlet LEOPromptView *genderPromptView;
 @property (weak, nonatomic) IBOutlet UILabel *avatarValidationLabel;
 @property (weak, nonatomic) IBOutlet UIButton *updateButton;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
 @end
