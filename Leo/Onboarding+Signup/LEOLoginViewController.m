@@ -113,6 +113,9 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
     [self emailTextField].delegate = self;
     [self emailTextField].standardPlaceholder = @"email address";
     [self emailTextField].validationPlaceholder = @"Invalid email";
+    [self emailTextField].autocorrectionType = UITextAutocorrectionTypeNo;
+    [self emailTextField].keyboardType = UIKeyboardTypeEmailAddress;
+    [self emailTextField].autocapitalizationType = UITextAutocapitalizationTypeNone;
     [[self emailTextField] sizeToFit];
 }
 
