@@ -8,6 +8,7 @@
 
 #import "LEOInitialViewController.h"
 #import "UIImage+Extensions.h"
+#import "LEOHorizontalModalTransitioningDelegate.h"
 
 static NSString *const kLoginSegue = @"LoginSegue";
 static NSString *const kSignUpSegue = @"SignUpSegue";
@@ -16,7 +17,7 @@ static NSString *const kSignUpSegue = @"SignUpSegue";
 
 @property (weak, nonatomic) IBOutlet UIButton *signUpButton;
 @property (weak, nonatomic) IBOutlet UIButton *loginButton;
-
+@property (strong, nonatomic) LEOHorizontalModalTransitioningDelegate *transitioningDelegate;
 @end
 
 @implementation LEOInitialViewController
@@ -45,4 +46,13 @@ static NSString *const kSignUpSegue = @"SignUpSegue";
     [self performSegueWithIdentifier:kSignUpSegue sender:sender];
 }
 
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    
+    UINavigationController *navController = segue.destinationViewController;
+    
+    self.transitioningDelegate = [[LEOHorizontalModalTransitioningDelegate alloc] init];
+
+    navController.transitioningDelegate = self.transitioningDelegate;
+    navController.modalPresentationStyle = UIModalPresentationCustom;
+}
 @end

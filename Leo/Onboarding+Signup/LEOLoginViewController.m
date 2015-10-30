@@ -161,8 +161,8 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
 
 
 - (void)pop {
-    
-    [self.navigationController popViewControllerAnimated:YES];
+
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)continueTapped:(UIButton *)sender {
@@ -215,8 +215,6 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
     [self performSegueWithIdentifier:kForgotPasswordSegue
                               sender:sender];
 }
-
-
 
 
 #if AUTOLOGIN_FLAG

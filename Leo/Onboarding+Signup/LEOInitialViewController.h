@@ -8,6 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-@interface LEOInitialViewController : UIViewController
+@interface LEOInitialViewController : UIViewController <UIViewControllerTransitioningDelegate>
 
 @end
