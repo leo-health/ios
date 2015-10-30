@@ -101,7 +101,7 @@
 
     button.titleLabel.font = [UIFont leoButtonLabelsAndTimeStampsFont];
     [button setTitleColor:[self backgroundColorForFeature:feature] forState:UIControlStateNormal];
-    [button setBackgroundImage:[UIImage imageWithColor:[self tintColorForFeature:feature]] forState:UIControlStateNormal];
+    button.backgroundColor = [UIColor leoOrangeRed];
 }
 
 
