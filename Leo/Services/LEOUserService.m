@@ -30,7 +30,7 @@
             LEOCredentialStore *credentialStore = [[LEOCredentialStore alloc] init];
             [credentialStore clearSavedCredentials];
             
-            [[SessionUser currentUser].credentialStore setAuthToken:rawResults[APIParamData][APIParamToken]];
+            [[SessionUser currentUser].credentialStore setAuthToken:rawResults[APIParamData][APIParamSession][APIParamToken]];
             
             
             //FIXME: This makes it clear we should have a rethink on the SessionUser class (and/or add methods to it)...
