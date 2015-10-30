@@ -122,8 +122,7 @@
     if ([self validatePage]) {
         
         [self addOnboardingData];
-        
-
+    
         LEOUserService *userService = [[LEOUserService alloc] init];
         [userService enrollUser:self.guardian password:[self passwordPromptView].textField.text withCompletion:^(BOOL success, NSError *error) {
             
