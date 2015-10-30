@@ -15,6 +15,7 @@
 #import "LEOUserService.h"
 #import "LEOStyleHelper.h"
 #import "LEOPromptView.h"
+#import <MBProgressHUD.h>
 
 @interface LEOEnrollmentViewController ()
 
@@ -118,14 +119,18 @@
 
 - (IBAction)continueTapped:(UIButton *)sender {
     
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES]; //TODO: Create separate class to set these up for all use cases with two methods that support showing and hiding our customized HUD.
+
     if ([self validatePage]) {
         
         [self addOnboardingData];
-        
+    
         LEOUserService *userService = [[LEOUserService alloc] init];
         [userService enrollUser:self.guardian password:[self passwordPromptView].textField.text withCompletion:^(BOOL success, NSError *error) {
             
             if (!error) {
+                
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
                 [self performSegueWithIdentifier:kSegueContinue sender:sender];
             }
         }];
