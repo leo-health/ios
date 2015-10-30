@@ -19,7 +19,7 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         
-        NSString *urlString = [NSString stringWithFormat:@"%@/%@",[Configuration APIEndpointWithHTTPSProtocol],[Configuration APIVersion]];
+        NSString *urlString = [NSString stringWithFormat:@"%@/%@",[Configuration APIEndpointWithProtocol],[Configuration APIVersion]];
 
         NSURL *baseURL = [NSURL URLWithString:urlString];
         
