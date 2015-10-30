@@ -89,18 +89,15 @@
     
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_signUpUserView]|" options:0 metrics:nil views:bindings]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_signUpUserView]|" options:0 metrics:nil views:bindings]];
-    
-    UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(viewWasTapped)];
-    tapGestureForTextFieldDismissal.cancelsTouchesInView = NO;
-    [self.view addGestureRecognizer:tapGestureForTextFieldDismissal];
+
     
     self.signUpUserView.scrollView.delegate = self;
 }
 
 
-- (void)viewWasTapped {
+- (void)viewTapped {
     
-    [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
+    [self.view endEditing:YES];
 }
 
 - (void)setupNavigationBar {
@@ -210,6 +207,7 @@
 
 - (void)continueTapped:(UIButton *)sender {
     
+
     if ([self validatePage]) {
         [self addOnboardingData];
         
@@ -280,6 +278,8 @@
         manageChildrenVC.family = self.family;
         manageChildrenVC.enrollmentToken = self.enrollmentToken;
     }
+    
+    [self.view endEditing:YES];
 }
 
 - (void)pop {

@@ -34,12 +34,12 @@
     
     [LEOStyleHelper styleSettingsViewController:self];
     
-    UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(viewWasTapped)];
+    UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(viewTapped)];
     tapGestureForTextFieldDismissal.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:tapGestureForTextFieldDismissal];
 }
 
-- (void)viewWasTapped {
+- (void)viewTapped {
     
     [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
 }

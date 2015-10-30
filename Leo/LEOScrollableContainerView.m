@@ -113,12 +113,12 @@
         self.scrollView.contentOffset = CGPointMake(0, 165);
     }
     
-    UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(scrollViewWasTapped:)];
+    UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(scrollviewTapped:)];
     tapGestureForTextFieldDismissal.cancelsTouchesInView = NO;
     [self.scrollView addGestureRecognizer:tapGestureForTextFieldDismissal];
 }
 
--(void)scrollViewWasTapped:(UIGestureRecognizer*)gesture{
+-(void)scrollviewTapped:(UIGestureRecognizer*)gesture{
     
     [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
 }

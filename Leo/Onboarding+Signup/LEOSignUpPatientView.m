@@ -26,6 +26,7 @@ IB_DESIGNABLE
     
     if (self) {
         [self setupConstraints];
+        [self commonInit];
     }
     
     return self;
@@ -37,10 +38,17 @@ IB_DESIGNABLE
     
     if (self) {
         [self setupConstraints];
+        [self commonInit];
     }
     
     return self;
 }
+
+- (void)commonInit {
+    [self setupTouchEventForDismissingKeyboard];
+}
+
+//TODO: Eventually should move into a protocol or superclass potentially.
 
 
 #pragma mark - Autolayout
@@ -64,6 +72,23 @@ IB_DESIGNABLE
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-30]];
 }
 
+- (void)viewTapped {
+    
+    [self endEditing:YES];
+}
+
+
+//TODO: Eventually should move into a protocol or superclass potentially.
+- (void)setupTouchEventForDismissingKeyboard {
+    
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
+    UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(viewTapped)];
+#pragma clang diagnostic pop
+    
+    tapGestureForTextFieldDismissal.cancelsTouchesInView = NO;
+    [self addGestureRecognizer:tapGestureForTextFieldDismissal];
+}
 
 
 

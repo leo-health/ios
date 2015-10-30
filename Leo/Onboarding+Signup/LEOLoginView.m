@@ -11,10 +11,8 @@
 
 @interface LEOLoginView ()
 
-@property (weak, nonatomic) IBOutlet UIView *contentView;
-
-
 @end
+
 @implementation LEOLoginView
 
 #pragma mark - Initialization
@@ -46,7 +44,27 @@
 
 - (void)commonInit {
     
-    //To be created
+    [self setupTouchEventForDismissingKeyboard];
+
+}
+
+
+//TODO: Eventually should move into a protocol or superclass potentially.
+
+- (void)setupTouchEventForDismissingKeyboard {
+    
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
+    UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(viewTapped)];
+#pragma clang diagnostic pop
+    
+    tapGestureForTextFieldDismissal.cancelsTouchesInView = NO;
+    [self addGestureRecognizer:tapGestureForTextFieldDismissal];
+}
+
+- (void)viewTapped {
+    
+    [self endEditing:YES];
 }
 
 #pragma mark - Autolayout
@@ -58,7 +76,7 @@
     LEOLoginView *loadedSubview = [loadedViews firstObject];
     
     [self addSubview:loadedSubview];
-    
+
     loadedSubview.translatesAutoresizingMaskIntoConstraints = NO;
     
     [self addConstraint:[self pin:loadedSubview attribute:NSLayoutAttributeTop]];
