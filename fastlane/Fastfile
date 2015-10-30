@@ -103,7 +103,7 @@ lane :alpha do |options|
     clean_build_artifacts
 
     # Tag release and push to Github
-    commit_version_bump message: "Deploying version #{version}."
+    commit_version_bump message: "Deploying version #{version}.", force: true
     add_git_tag(
       grouping: 'fastlane-builds',
       prefix: 'v',
