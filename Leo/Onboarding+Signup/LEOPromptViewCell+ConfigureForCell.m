@@ -28,8 +28,8 @@
 - (void)configureForNewPatient {
     self.promptView.textField.text = @"Add a child";
     self.promptView.accessoryImageViewVisible = YES;
-    self.promptView.tintColor = [UIColor leoGrayStandard];
-    self.promptView.accessoryImage = [UIImage imageNamed:@"Icon-ToDo"];
+    self.promptView.tintColor = [UIColor leoOrangeRed];
+    self.promptView.accessoryImage = [UIImage imageNamed:@"Icon-Add"];
     self.promptView.textField.enabled = NO;
     self.promptView.tapGestureEnabled = NO;
     

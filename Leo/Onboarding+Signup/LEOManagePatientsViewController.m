@@ -62,11 +62,8 @@ typedef NS_ENUM(NSUInteger, TableViewSection) {
     
     [super viewWillAppear:animated];
     
-    //    [self testData];
-    
     [self setupTableView];
     [self.tableView reloadData];
-    
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -221,7 +218,18 @@ typedef NS_ENUM(NSUInteger, TableViewSection) {
 
 -(void)continueTapped:(UIButton * __nonnull)sender {
     
+    if ([self.family.patients count] > 0) {
     [self performSegueWithIdentifier:kSegueContinue sender:sender];
+    } else {
+        
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Parents only!" message:@"You must add a child to continue." preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil];
+     
+        [alertController addAction:okAction];
+        
+        [self presentViewController:alertController animated:YES completion:nil];
+    }
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
