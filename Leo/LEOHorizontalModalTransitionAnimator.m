@@ -22,6 +22,7 @@
     // Set our ending frame. We'll modify this later if we have to
     CGRect endFrame = fromViewController.view.bounds;
     
+    //TODO: Consider refactoring what is in these if/else blocks to a separate method if possible
     if (self.presenting) {
         fromViewController.view.userInteractionEnabled = NO;
         
@@ -61,25 +62,6 @@
             [[UIApplication sharedApplication].keyWindow addSubview:toViewController.view];
             [transitionContext completeTransition:YES];
         }];
-        
-        
-        
-//        [transitionContext.containerView addSubview:snapshot];
-//        fromView.hidden = YES;
-//        snapshot.center = fromView.center;
-//        
-//        [UIView animateWithDuration:[self transitionDuration:transitionContext] animations:^{
-//            toViewController.view.tintAdjustmentMode = UIViewTintAdjustmentModeAutomatic;
-//            CGFloat offset = toViewController.view.frame.size.height - fromViewController.view.frame.origin.y;
-//            snapshot.frame = CGRectOffset(snapshot.frame, 0, offset);
-//            
-//        } completion:^(BOOL finished) {
-//            snapshot = nil;
-//            
-//            [[UIApplication sharedApplication].keyWindow addSubview:toViewController.view];
-//            [transitionContext completeTransition:YES];
-//        }];
-
     }
 }
 
