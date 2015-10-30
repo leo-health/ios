@@ -84,6 +84,14 @@
     return date;
 }
 
++ (NSDate *)dateFromDashedDateString:(NSString *)dateString {
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    
+    return [dateFormatter dateFromString:dateString];
+}
+
 + (NSDate *)dateFromShortDate:(NSString *)dateString {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"MM/dd/yyyy"];
