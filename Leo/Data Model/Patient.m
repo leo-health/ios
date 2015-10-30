@@ -7,8 +7,11 @@
 //
 
 #import "Patient.h"
+#import "NSDate+Extensions.h"
 
 @implementation Patient
+
+@synthesize gender = _gender;
 
 - (instancetype)initWithObjectID:(nullable NSString *)objectID familyID:(NSString *)familyID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(nullable NSString *)email avatarURL:(nullable NSString *)avatarURL avatar:(nullable UIImage *)avatar dob:(NSDate *)dob gender:(NSString *)gender status:(NSString *)status {
     
@@ -35,7 +38,7 @@
     
     if (self) {
         _familyID = jsonResponse[APIParamFamilyID]; //FIXME: Update with constant.
-        _dob = jsonResponse[APIParamUserBirthDate];
+        _dob = [NSDate dateFromDashedDateString:jsonResponse[APIParamUserBirthDate]];
         _gender = jsonResponse[APIParamUserSex];
         _status = jsonResponse[APIParamUserStatus];
     }
@@ -130,6 +133,19 @@
     if ([gender isEqualToString:@"Female"]) {
         _gender = @"F";
     }
+}
+
+-(NSString *)gender {
+    
+    if ([_gender isEqualToString:@"M"]) {
+        _gender = @"Male";
+    }
+         
+    if ([_gender isEqualToString:@"F"]) {
+        _gender = @"Female";
+    }
+         
+    return _gender;
 }
 
 #pragma mark - NSObject
