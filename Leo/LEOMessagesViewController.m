@@ -412,7 +412,7 @@
     
     [userService getAvatarForUser:user withCompletion:^(UIImage *image, NSError * error) {
         
-        if (!error) {
+        if (!error && image) {
             avatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:image withDiameter:kJSQMessagesCollectionViewAvatarSizeDefault borderColor:[UIColor leoGrayForPlaceholdersAndLines] borderWidth:2];
             avatarHighlightedImage = [LEOMessagesAvatarImageFactory circularAvatarHighlightedImage:image withDiameter:kJSQMessagesCollectionViewAvatarSizeDefault borderColor:[UIColor leoGrayForPlaceholdersAndLines] borderWidth:2];
             
