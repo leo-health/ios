@@ -76,7 +76,7 @@
     self.emailPromptView.textField.validationPlaceholder = @"Invalid email";
     self.emailPromptView.textField.autocorrectionType = UITextAutocorrectionTypeNo;
     self.emailPromptView.textField.keyboardType = UIKeyboardTypeEmailAddress;
-    
+    self.emailPromptView.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     [self.emailPromptView sizeToFit];
 }
 
