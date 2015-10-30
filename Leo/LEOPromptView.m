@@ -80,6 +80,7 @@ IB_DESIGNABLE
     self.accessoryImageView = [[UIImageView alloc] init];
     self.accessoryImageView.image = [UIImage imageNamed:@"Icon-ForwardArrow"];
     self.accessoryImageViewVisible = NO;
+    
     [self addSubview:self.accessoryImageView];
 }
 
