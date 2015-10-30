@@ -125,6 +125,7 @@ typedef NS_ENUM(NSUInteger, ManagementMode) {
 typedef NS_ENUM(NSUInteger, Feature) {
     FeatureOnboarding = 0,
     FeatureSettings = 1,
+    FeatureAppointmentScheduling = 2,
 };
 
 @interface LEOConstants : NSObject

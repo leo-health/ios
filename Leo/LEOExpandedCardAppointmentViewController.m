@@ -422,7 +422,7 @@
                 selectionVC.key = @"provider";
                 selectionVC.reuseIdentifier = @"ProviderCell";
                 selectionVC.titleText = @"Who would you like to see?";
-                selectionVC.tintColor = self.card.tintColor;
+                selectionVC.feature = FeatureAppointmentScheduling;
                 selectionVC.configureCellBlock = ^(ProviderCell *cell, Provider *provider) {
                     
                     cell.selectedColor = self.card.tintColor;

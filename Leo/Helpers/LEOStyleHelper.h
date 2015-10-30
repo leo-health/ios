@@ -20,8 +20,10 @@
 + (void)styleNavigationBarForFeature:(Feature)feature;
 + (void)styleLabel:(UILabel *)label forFeature:(Feature)feature;
 + (void)stylePromptTextView:(LEOPromptTextView *)promptTextView forFeature:(Feature)feature;
-+ (void)styleBackButtonForViewController:(UIViewController *)sender;
-//+ (void)styleBackButtonForViewController:(UIViewController *)sender navigationItem:(UINavigationItem *)navigationItem;
++ (void)styleBackButtonForViewController:(UIViewController *)viewController forFeature:(Feature)feature;
 + (void)styleButton:(UIButton *)button forFeature:(Feature)feature;
 + (UIColor *)tintColorForFeature:(Feature)feature;
++ (void)styleNavigationBarShadowLineForViewController:(UIViewController *)viewController feature:(Feature)feature;
++ (void)removeNavigationBarShadowLineForViewController:(UIViewController *)viewController;
+
 @end

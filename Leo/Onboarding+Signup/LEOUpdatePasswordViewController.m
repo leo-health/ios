@@ -56,7 +56,7 @@
     
     self.navigationItem.titleView = navTitleLabel;
     
-    [LEOStyleHelper styleBackButtonForViewController:self];
+    [LEOStyleHelper styleBackButtonForViewController:self forFeature:FeatureSettings];
 }
 
 - (void)updatePasswordTapped {

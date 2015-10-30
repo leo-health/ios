@@ -111,7 +111,7 @@
     [LEOStyleHelper styleLabel:navTitleLabel forFeature:FeatureOnboarding];
     
     self.navigationItem.titleView = navTitleLabel;
-    [LEOStyleHelper styleBackButtonForViewController:self];
+    [LEOStyleHelper styleBackButtonForViewController:self forFeature:FeatureOnboarding];
 }
 
 - (void)toggleNavigationBarTitleView {
@@ -249,8 +249,7 @@
         selectionVC.key = @"name";
         selectionVC.reuseIdentifier = @"InsurancePlanCell";
         selectionVC.titleText = @"Who is your insurer?";
-        selectionVC.tintColor = [UIColor leoOrangeRed];
-        selectionVC.navBarShadowLine = [UIColor leoOrangeRed];
+        selectionVC.feature = FeatureOnboarding;
         
         selectionVC.configureCellBlock = ^(InsurancePlanCell *cell, InsurancePlan *plan) {
             
