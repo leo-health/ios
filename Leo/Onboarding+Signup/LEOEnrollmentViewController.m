@@ -73,6 +73,8 @@
     self.emailPromptView.textField.delegate = self;
     self.emailPromptView.textField.standardPlaceholder = @"email address";
     self.emailPromptView.textField.validationPlaceholder = @"Invalid email";
+    self.emailPromptView.textField.autocorrectionType = UITextAutocorrectionTypeNo;
+
     [self.emailPromptView sizeToFit];
 }
 
