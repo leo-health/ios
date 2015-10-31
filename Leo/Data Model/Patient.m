@@ -11,7 +11,7 @@
 
 @implementation Patient
 
-@synthesize gender = _gender;
+@synthesize genderDisplayName = _genderDisplayName;
 
 - (instancetype)initWithObjectID:(nullable NSString *)objectID familyID:(NSString *)familyID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(nullable NSString *)email avatarURL:(nullable NSString *)avatarURL avatar:(nullable UIImage *)avatar dob:(NSDate *)dob gender:(NSString *)gender status:(NSString *)status {
     
@@ -51,7 +51,7 @@
     NSMutableDictionary *userDictionary = [[super dictionaryFromUser:patient] mutableCopy];
     
     userDictionary[APIParamFamilyID] = patient.familyID ?: [NSNull null]; //FIXME: Update with constant.
-    userDictionary[APIParamUserBirthDate] = patient.dob;
+    userDictionary[APIParamUserBirthDate] = [NSDate stringifiedDashedShortDate:patient.dob];
     userDictionary[APIParamUserSex] = patient.gender;
     userDictionary[APIParamUserStatus] = patient.status ?: [NSNull null];
 
@@ -122,30 +122,33 @@
     return haveEqualNames && haveEqualBirthdays;
 }
 
--(void)setGender:(NSString * __nonnull)gender {
+-(void)setGenderDisplayName:(NSString *)genderDisplayName {
     
-    _gender = gender;
+    _genderDisplayName = genderDisplayName;
     
-    if ([gender isEqualToString:@"Male"]) {
-        _gender = @"M";
+    if ([_genderDisplayName isEqualToString:@"Male"]) {
+        self.gender = @"M";
     }
     
-    if ([gender isEqualToString:@"Female"]) {
-        _gender = @"F";
+    if ([_genderDisplayName isEqualToString:@"Female"]) {
+        self.gender = @"F";
     }
+    
 }
 
--(NSString *)gender {
+- (NSString *)genderDisplayName {
     
-    if ([_gender isEqualToString:@"M"]) {
-        _gender = @"Male";
+    NSString *displayName;
+    
+    if ([self.gender isEqualToString:@"M"]) {
+        displayName = @"Male";
     }
-         
-    if ([_gender isEqualToString:@"F"]) {
-        _gender = @"Female";
+    
+    if ([self.gender isEqualToString:@"F"]) {
+        displayName = @"Female";
     }
-         
-    return _gender;
+    
+    return displayName;
 }
 
 #pragma mark - NSObject
