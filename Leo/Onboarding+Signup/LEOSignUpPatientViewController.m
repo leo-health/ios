@@ -149,7 +149,7 @@
     self.signUpPatientView.genderPromptView.accessoryImage = [UIImage imageNamed:@"Icon-Expand"];
     self.signUpPatientView.genderPromptView.delegate = self;
     
-    [self genderTextField].text = self.patient.gender;
+    [self genderTextField].text = self.patient.genderDisplayName;
 }
 
 - (void)setupAvatarValidationLabel {
@@ -347,7 +347,7 @@
         
         self.patient.firstName = [self firstNameTextField].text;
         self.patient.lastName = [self lastNameTextField].text;
-        self.patient.gender = [self genderTextField].text;
+        self.patient.genderDisplayName = [self genderTextField].text;
         self.patient.dob = [NSDate dateFromShortDate:[self birthDateTextField].text];
         
         switch (self.feature) {

@@ -140,6 +140,14 @@
     dateFormatter.dateFormat = @"MM/dd/YYYY";
     return [dateFormatter stringFromDate:date];
 }
+
++ (NSString *)stringifiedDashedShortDate:(NSDate *)date {
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
+    dateFormatter.dateFormat = @"dd-MM-YYYY";
+    return [dateFormatter stringFromDate:date];
+}
+
 /**
  *  Turns an NSDate into an NSString with the following format: January 1, 12:30am
  *

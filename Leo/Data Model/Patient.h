@@ -25,6 +25,7 @@ typedef NS_ENUM(NSUInteger, PatientStatusCode) {
 
 @property (nonatomic, strong) NSDate * dob;
 @property (nonatomic, copy) NSString *gender;
+@property (nonatomic, copy) NSString *genderDisplayName;
 @property (nonatomic, copy) NSString *status;
 @property (nonatomic, copy, nullable) NSString *familyID;
 
