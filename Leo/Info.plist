@@ -6,10 +6,10 @@
 	<dict>
 		<key>NSExceptionDomains</key>
 		<dict>
-			<key>localhost:3000</key>
+			<key>localhost</key>
 			<dict>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
-				<string>YES</string>
+				<true/>
 				<key>NSIncludesSubdomains</key>
 				<true/>
 			</dict>

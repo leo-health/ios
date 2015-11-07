@@ -36,7 +36,6 @@
         NSData *certificateData = [[NSData alloc] initWithContentsOfFile:certificatePath];
         securityPolicy.pinnedCertificates = @[certificateData];
         _sharedClient.securityPolicy = securityPolicy;
-
     });
     
     return _sharedClient;
