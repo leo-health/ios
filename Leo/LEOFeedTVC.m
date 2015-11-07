@@ -101,7 +101,6 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
     
     
     //TODO: Add one for feed
-    [LEOStyleHelper styleNavigationBarForFeature:FeatureSettings];
     
     [super viewDidLoad];
     
@@ -123,6 +122,8 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
     
     [super viewWillAppear:animated];
     
+    [LEOStyleHelper styleNavigationBarForFeature:FeatureSettings];
+
     self.navigationController.navigationBarHidden = YES;
 }
 

@@ -114,7 +114,7 @@
     button.backgroundColor = [UIColor leoOrangeRed];
 }
 
-
+//TODO: I smell something. Come back to this later to think through further.
 + (UIColor *)tintColorForFeature:(Feature)feature {
     
     switch (feature) {
@@ -132,6 +132,7 @@
     }
 }
 
+//TODO: I smell something. Come back to this later to think through further.
 + (UIColor *)backgroundColorForFeature:(Feature)feature {
     
     switch (feature) {
