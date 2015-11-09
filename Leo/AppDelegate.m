@@ -30,7 +30,14 @@
     [LEOStubs setupStubs];
 #endif
 
+    [self setupRemoteNotifications];
+    
     return YES;
+}
+
+- (void)setupRemoteNotifications {
+    
+    [[UIApplication sharedApplication] registerUserNotificationSettings:(UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert)];
 }
 
 
