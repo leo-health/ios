@@ -17,11 +17,14 @@ DerivedData
 !default.perspectivev3
 xcuserdata
 
-## Other
+## Other Xcode generated files
 *.xccheckout
 *.moved-aside
 *.xcuserstate
 *.xcscmblueprint
+
+## From templates
+DeveloperCodeSigning.xcconfig
 
 ## Docs
 *.hmap
