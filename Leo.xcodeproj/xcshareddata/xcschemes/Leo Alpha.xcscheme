@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "BCE1EC631B00E353007C8D0B"
-               BuildableName = ".app"
+               BuildableName = "Leo.app"
                BlueprintName = "Leo"
                ReferencedContainer = "container:Leo.xcodeproj">
             </BuildableReference>
@@ -57,7 +57,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "BCE1EC631B00E353007C8D0B"
-            BuildableName = ".app"
+            BuildableName = "Leo.app"
             BlueprintName = "Leo"
             ReferencedContainer = "container:Leo.xcodeproj">
          </BuildableReference>
@@ -80,7 +80,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "BCE1EC631B00E353007C8D0B"
-            BuildableName = ".app"
+            BuildableName = "Leo.app"
             BlueprintName = "Leo"
             ReferencedContainer = "container:Leo.xcodeproj">
          </BuildableReference>
@@ -99,7 +99,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "BCE1EC631B00E353007C8D0B"
-            BuildableName = ".app"
+            BuildableName = "Leo.app"
             BlueprintName = "Leo"
             ReferencedContainer = "container:Leo.xcodeproj">
          </BuildableReference>
