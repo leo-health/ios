@@ -30,14 +30,17 @@
     [LEOStubs setupStubs];
 #endif
 
-    [self setupRemoteNotifications];
+    [self setupRemoteNotificationsForApplication:application];
     
     return YES;
 }
 
-- (void)setupRemoteNotifications {
+- (void)setupRemoteNotificationsForApplication:(UIApplication *)application {
     
-    [[UIApplication sharedApplication] registerUserNotificationSettings:(UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert)];
+    UIUserNotificationType types = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
+    UIUserNotificationSettings *mySettings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
+    [application registerUserNotificationSettings:mySettings];
+    [application registerForRemoteNotifications];
 }
 
 
@@ -79,6 +82,31 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+
+-(void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
+{
+    // Prepare the Device Token for Registration (remove spaces and < >)
+    NSString *devToken = [[[[deviceToken description]
+                            stringByReplacingOccurrencesOfString:@"<"withString:@""]
+                           stringByReplacingOccurrencesOfString:@">" withString:@""]
+                          stringByReplacingOccurrencesOfString: @" " withString: @""];
+    NSLog(@"My token is: %@", devToken);
+}
+
+-(void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
+
+{
+    NSLog(@"Failed to get token, error: %@", error);  
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+    NSLog(@"%s..userInfo=%@",__FUNCTION__,userInfo);
+    /**
+     * Dump your code here according to your requirement after receiving push
+     */
 }
 
 @end
