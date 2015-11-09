@@ -2,31 +2,18 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSExceptionDomains</key>
-		<dict>
-			<key>localhost</key>
-			<dict>
-				<key>NSExceptionAllowsInsecureHTTPLoads</key>
-				<true/>
-				<key>NSIncludesSubdomains</key>
-				<true/>
-			</dict>
-		</dict>
-	</dict>
 	<key>AppSettings</key>
 	<dict>
 		<key>ApiProtocol</key>
 		<string>${API_PROTOCOL}</string>
-		<key>SelfSignedCertificate</key>
-		<string>${SELF_SIGNED_CERTIFICATE}</string>
 		<key>ApiURL</key>
 		<string>${API_URL}</string>
 		<key>ApiVersion</key>
 		<string>${API_VERSION}</string>
 		<key>S3URL</key>
 		<string>${S3_URL}</string>
+		<key>SelfSignedCertificate</key>
+		<string>${SELF_SIGNED_CERTIFICATE}</string>
 	</dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
@@ -46,10 +33,36 @@
 	<string>0.1.1</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>com.leohealth.leo</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>appointment</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>2015.10.31.09.23</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>localhost</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+			</dict>
+		</dict>
+	</dict>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
