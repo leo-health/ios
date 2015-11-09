@@ -246,6 +246,7 @@
 		312594B31BDFE9FE00A497C0 /* LEOHorizontalModalTransitioningDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOHorizontalModalTransitioningDelegate.m; sourceTree = "<group>"; };
 		312594B51BDFEA9C00A497C0 /* LEOHorizontalModalTransitionAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOHorizontalModalTransitionAnimator.h; sourceTree = "<group>"; };
 		312594B61BDFEA9C00A497C0 /* LEOHorizontalModalTransitionAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOHorizontalModalTransitionAnimator.m; sourceTree = "<group>"; };
+		312594B81BE2D2C100A497C0 /* Local.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Local.xcconfig; path = xcconfig/Local.xcconfig; sourceTree = "<group>"; };
 		31264E841B5EBB1A00D292CF /* LEOMessagesAvatarImageFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOMessagesAvatarImageFactory.h; sourceTree = "<group>"; };
 		31264E851B5EBB1A00D292CF /* LEOMessagesAvatarImageFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOMessagesAvatarImageFactory.m; sourceTree = "<group>"; };
 		3128D4D81B42DF6500582710 /* LEOOneButtonSecondaryOnlyCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOOneButtonSecondaryOnlyCell.h; sourceTree = "<group>"; };
@@ -735,6 +736,7 @@
 				314A405E1B83B1B400834BC2 /* Configuration.m */,
 				314A40551B838AD000834BC2 /* Application.xcconfig */,
 				314A40561B838AE700834BC2 /* Debug.xcconfig */,
+				312594B81BE2D2C100A497C0 /* Local.xcconfig */,
 				3196AAF61B8DFFDD00B11112 /* DebugStubs.xcconfig */,
 				314A40571B838AFC00834BC2 /* Release.xcconfig */,
 				314A40581B838B0800834BC2 /* Shared.xcconfig */,
@@ -1610,6 +1612,55 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		312594B91BE2D41800A497C0 /* Local */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zachary Drossman (C7TN5PHTLC)";
+				CURRENT_PROJECT_VERSION = 2015.10.26.18.23;
+				ENABLE_TESTABILITY = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Local;
+		};
+		312594BA1BE2D41800A497C0 /* Local */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 312594B81BE2D2C100A497C0 /* Local.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer: Zachary Drossman (C7TN5PHTLC)";
+				INFOPLIST_FILE = Leo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.leohealth.leo;
+			};
+			name = Local;
+		};
+		312594BB1BE2D41800A497C0 /* Local */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8E925C5780DCA1FB4A55B841 /* Pods-LeoTests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = LeoTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.leohealth.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Leo.app/Leo";
+			};
+			name = Local;
+		};
 		3132BEAB1B84F9D200494727 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8E925C5780DCA1FB4A55B841 /* Pods-LeoTests.debug.xcconfig */;
@@ -1759,6 +1810,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3132BEAB1B84F9D200494727 /* Debug */,
+				312594BB1BE2D41800A497C0 /* Local */,
 				3196AAF51B8DFD6C00B11112 /* Debug Stubs */,
 				3132BEAC1B84F9D200494727 /* Release */,
 			);
@@ -1769,6 +1821,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BCE1EC851B00E353007C8D0B /* Debug */,
+				312594B91BE2D41800A497C0 /* Local */,
 				3196AAF31B8DFD6C00B11112 /* Debug Stubs */,
 				BCE1EC861B00E353007C8D0B /* Release */,
 			);
@@ -1779,6 +1832,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BCE1EC881B00E353007C8D0B /* Debug */,
+				312594BA1BE2D41800A497C0 /* Local */,
 				3196AAF41B8DFD6C00B11112 /* Debug Stubs */,
 				BCE1EC891B00E353007C8D0B /* Release */,
 			);

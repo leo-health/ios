@@ -19,5 +19,6 @@ MTL_ENABLE_DEBUG_INFO = YES
 
 API_URL =   dev.leoforkids.com // leo-api.elasticbeanstalk.com // localhost:3000 //
 API_VERSION = api/v1
+API_PROTOCOL = https
 S3_URL = elasticbeanstalk-us-east-1-435800161732.s3.amazonaws.com
 SELF_SIGNED_CERTIFICATE = *.leoforkids.com

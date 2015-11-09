@@ -13,6 +13,8 @@ static NSString *const ConfigurationAPIEndpoint = @"ApiURL";
 static NSString *const ConfigurationAPIVersion = @"ApiVersion";
 static NSString *const ConfigurationS3Endpoint = @"S3URL";
 static NSString *const ConfigurationSelfSignedCertificate = @"SelfSignedCertificate";
+static NSString *const ConfigurationAPIProtocol = @"ApiProtocol";
+
 
 @interface Configuration ()
 
@@ -59,6 +61,18 @@ static NSString *const ConfigurationSelfSignedCertificate = @"SelfSignedCertific
     return nil;
 }
 
++ (NSString *)APIProtocol {
+    
+    Configuration *sharedConfiguration = [Configuration sharedConfiguration];
+    
+    if (sharedConfiguration.appSettings) {
+        return [sharedConfiguration.appSettings objectForKey:ConfigurationAPIProtocol];
+    }
+    
+    return nil;
+}
+
+
 + (NSString *)S3Endpoint {
     
     Configuration *sharedConfiguration = [Configuration sharedConfiguration];
@@ -80,9 +94,11 @@ static NSString *const ConfigurationSelfSignedCertificate = @"SelfSignedCertific
     return nil;
 }
 
-+ (NSString *)APIEndpointWithHTTPSProtocol {
-    return [NSString stringWithFormat:@"https://%@",[self APIEndpoint]];
++ (NSString *)APIEndpointWithProtocol {
+    
+    return [NSString stringWithFormat:@"%@://%@",[self APIProtocol],[self APIEndpoint]];
 }
+
 
 + (NSString *)selfSignedCertificate {
     
@@ -92,5 +108,7 @@ static NSString *const ConfigurationSelfSignedCertificate = @"SelfSignedCertific
         return [sharedConfiguration.appSettings objectForKey:ConfigurationSelfSignedCertificate];
     }
     
-    return nil;}
+    return nil;
+
+}
 @end

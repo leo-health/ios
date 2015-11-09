@@ -13,7 +13,7 @@
 
 + (NSString *)APIEndpoint;
 + (NSString *)APIVersion;
-+ (NSString *)APIEndpointWithHTTPSProtocol;
++ (NSString *)APIEndpointWithProtocol;
 + (NSString *)S3Endpoint;
 + (NSString *)selfSignedCertificate;
 
