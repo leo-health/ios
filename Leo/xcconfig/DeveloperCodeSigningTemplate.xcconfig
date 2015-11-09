@@ -1,0 +1,13 @@
+//
+//  DeveloperCodeSigning.xcconfig
+//  Leo
+//
+//  Created by Zachary Drossman on 11/9/15.
+//  Copyright © 2015 Leo Health. All rights reserved.
+//
+
+
+//Developer must add these to app before attempting to build. Changes will not be tracked in the repo.
+//Must be copied to a non-template version.
+CODE_SIGN_IDENTITY = iPhone Developer: Zachary Drossman (C7TN5PHTLC)
+CODE_SIGN_IDENTITY[sdk=iphoneos*] = iPhone Developer: Zachary Drossman (C7TN5PHTLC)

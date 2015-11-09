@@ -6,10 +6,7 @@
 //  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
-
-CODE_SIGN_IDENTITY = iPhone Developer
-CODE_SIGN_IDENTITY[sdk=iphoneos*] = iPhone Developer
-PROVISIONING_PROFILE =
+PROVISIONING_PROFILE = 
 LD_RUNPATH_SEARCH_PATHS = $(inherited) @executable_path/Frameworks
 INFOPLIST_FILE = Leo/Info.plist
 PRODUCT_NAME = $(TARGET_NAME)

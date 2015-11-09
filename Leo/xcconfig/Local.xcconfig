@@ -1,0 +1,23 @@
+//
+//  Local.xcconfig
+//  Leo
+//
+//  Created by Zachary Drossman on 10/29/15.
+//  Copyright © 2015 Leo Health. All rights reserved.
+//
+
+#include "Shared.xcconfig"
+#include "Pods/Target Support Files/Pods-Leo/Pods-Leo.local.xcconfig"
+
+//Shared across all debug and local, so duplicated for the time being. May want to create a Shared Development configuration file at some point
+ONLY_ACTIVE_ARCH = YES
+GCC_DYNAMIC_NO_PIC = NO
+GCC_SYMBOLS_PRIVATE_EXTERN = NO
+GCC_PREPROCESSOR_DEFINITIONS = DEBUG=1 $(inherited) STUBS_FLAG=0 AUTOLOGIN_FLAG=0
+MTL_ENABLE_DEBUG_INFO = YES
+
+//Not shared necessarily
+API_URL = localhost:3000
+API_VERSION = api/v1
+API_PROTOCOL = http
+//SELF_SIGNED_CERTIFICATE = *.leoforkids.com
