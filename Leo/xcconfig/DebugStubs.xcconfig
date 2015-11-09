@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
-
+#include "DeveloperCodeSigning.xcconfig"
 #include "Shared.xcconfig"
 #include "Pods/Target Support Files/Pods-Leo/Pods-Leo.debug stubs.xcconfig"
 

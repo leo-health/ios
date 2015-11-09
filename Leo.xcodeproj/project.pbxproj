@@ -424,6 +424,8 @@
 		31D7ADEA1B21F9A100E8C5EE /* CollectionViewDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewDataSource.m; sourceTree = "<group>"; };
 		31E77E051B87647B00C6EDE1 /* LEOAPISessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOAPISessionManager.h; path = APIs/LEOAPISessionManager.h; sourceTree = "<group>"; };
 		31E77E061B87647B00C6EDE1 /* LEOAPISessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOAPISessionManager.m; path = APIs/LEOAPISessionManager.m; sourceTree = "<group>"; };
+		31EBEFB91BF0FA1A00E8418E /* DeveloperCodeSigningTemplate.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = DeveloperCodeSigningTemplate.xcconfig; path = xcconfig/DeveloperCodeSigningTemplate.xcconfig; sourceTree = "<group>"; };
+		31EBEFBA1BF0FEBE00E8418E /* DeveloperCodeSigning.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = DeveloperCodeSigning.xcconfig; path = xcconfig/DeveloperCodeSigning.xcconfig; sourceTree = "<group>"; };
 		31ECA3331B23C39000BC1D6B /* LEOTimeCell+ConfigureCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LEOTimeCell+ConfigureCell.h"; sourceTree = "<group>"; };
 		31ECA3341B23C39000BC1D6B /* LEOTimeCell+ConfigureCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LEOTimeCell+ConfigureCell.m"; sourceTree = "<group>"; };
 		31ECA3361B23C53500BC1D6B /* LEODateCell+ConfigureCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LEODateCell+ConfigureCell.h"; sourceTree = "<group>"; };
@@ -743,6 +745,8 @@
 				3115F1ED1BC5AF4D001BDF6A /* TestsDebug.xcconfig */,
 				3132BEAD1B84FA0600494727 /* TestsRelease.xcconfig */,
 				3115F1EB1BC5AEAF001BDF6A /* TestsShared.xcconfig */,
+				31EBEFB91BF0FA1A00E8418E /* DeveloperCodeSigningTemplate.xcconfig */,
+				31EBEFBA1BF0FEBE00E8418E /* DeveloperCodeSigning.xcconfig */,
 			);
 			name = "Build Configuration";
 			sourceTree = "<group>";
@@ -1714,7 +1718,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zachary Drossman (C7TN5PHTLC)";
 				CURRENT_PROJECT_VERSION = 2015.10.31.09.23;
 				ENABLE_TESTABILITY = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1726,7 +1729,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3196AAF61B8DFFDD00B11112 /* DebugStubs.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Zachary Drossman (C7TN5PHTLC)";
 				INFOPLIST_FILE = Leo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.leohealth.leo;
@@ -1763,7 +1765,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zachary Drossman (C7TN5PHTLC)";
 				CURRENT_PROJECT_VERSION = 2015.10.31.09.23;
 				ENABLE_TESTABILITY = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1775,7 +1776,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: LEO HEALTH, INC. (4Q3R8E5P59)";
 				CURRENT_PROJECT_VERSION = 2015.10.31.09.23;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1785,7 +1785,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40561B838AE700834BC2 /* Debug.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Zachary Drossman (C7TN5PHTLC)";
 				INFOPLIST_FILE = Leo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.leohealth.leo;
@@ -1796,7 +1795,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40571B838AFC00834BC2 /* Release.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution: LEO HEALTH, INC. (4Q3R8E5P59)";
 				INFOPLIST_FILE = Leo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.leohealth.leo;
