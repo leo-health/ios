@@ -42,7 +42,7 @@
 			<string>com.leohealth.leo</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>appointment</string>
+				<string>leohealth</string>
 			</array>
 		</dict>
 	</array>

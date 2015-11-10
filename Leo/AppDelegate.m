@@ -10,6 +10,8 @@
 #import "AppDelegate.h"
 #import "UIFont+LeoFonts.h"
 #import "UIColor+LeoColors.h"
+#import "LEOFeedTVC.h"
+#import "SessionUser.h"
 
 #if STUBS_FLAG
 #import "LEOStubs.h"
@@ -29,11 +31,16 @@
 #if STUBS_FLAG
     [LEOStubs setupStubs];
 #endif
-
+    
     [self setupRemoteNotificationsForApplication:application];
+    
+    if (launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]) {
+        [self application:application didReceiveRemoteNotification:launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]];
+    }
     
     return YES;
 }
+
 
 - (void)setupRemoteNotificationsForApplication:(UIApplication *)application {
     
@@ -85,8 +92,7 @@
 }
 
 
--(void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
-{
+-(void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken {
     // Prepare the Device Token for Registration (remove spaces and < >)
     NSString *devToken = [[[[deviceToken description]
                             stringByReplacingOccurrencesOfString:@"<"withString:@""]
@@ -95,18 +101,82 @@
     NSLog(@"My token is: %@", devToken);
 }
 
--(void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
-
-{
+-(void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error {
     NSLog(@"Failed to get token, error: %@", error);  
 }
 
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
-{
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    
     NSLog(@"%s..userInfo=%@",__FUNCTION__,userInfo);
-    /**
-     * Dump your code here according to your requirement after receiving push
-     */
+
+    UIApplicationState state = [application applicationState];
+    
+    if (state == UIApplicationStateActive) {
+        //the app is in the foreground, so here you do your stuff since the OS does not do it for you
+        //navigate the "aps" dictionary looking for "loc-args" and "loc-key", for example, or your personal payload)
+        
+    } else {
+    
+        //TODO: This is just a test URL. Will need to make dynamic eventually.
+        NSURL *pushURL = [NSURL URLWithString:@"leohealth://feed/0"];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[UIApplication sharedApplication] openURL:pushURL];
+        });
+    }
+    
+    application.applicationIconBadgeNumber = 0;
+}
+
+-(BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+    
+    if ([url.scheme isEqualToString: @"leohealth"]) {
+        
+        SessionUser *user = [SessionUser currentUser];
+        
+        if ([user isLoggedIn]) {
+        //TODO: We still need to check that the user is logged in first. In fact...that's probably going to be an issue, no?
+        
+            if ([url.host isEqualToString: @"feed"]) {
+                UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                UINavigationController *navController = [storyboard instantiateInitialViewController];
+                LEOFeedTVC *feedTVC = navController.viewControllers[0];
+                feedTVC.cardInFocus = [url.path integerValue];
+                self.window.rootViewController = navController;
+                
+            } else {
+                NSLog(@"An unknown action was passed.");
+            }
+        }
+    }
+    
+    else {
+        NSLog(@"Not opened by LeoHealth.");
+    }
+    return NO;
+}
+
+-(BOOL) application: (UIApplication * ) application openURL: (NSURL * ) url options:(nonnull NSDictionary<NSString *,id> *)options {
+    
+    if ([url.scheme isEqualToString: @"leohealth"]) {
+
+        //TODO: We still need to check that the user is logged in first. In fact...that's probably going to be an issue, no?
+        
+        if ([url.host isEqualToString: @"home"]) {
+            
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            
+            self.window.rootViewController = [storyboard instantiateInitialViewController];
+            
+        } else if ([url.host isEqualToString: @"conversation"]) {
+            [self.window.rootViewController.storyboard instantiateInitialViewController];
+        } else {
+            NSLog(@"An unknown action was passed.");
+        }
+    } else {
+        NSLog(@"We were not opened with birdland.");
+    }
+    return NO;
 }
 
 @end

@@ -16,5 +16,6 @@
 
 + (instancetype)currentUser;
 + (instancetype)newUserWithJSONDictionary:(NSDictionary *)jsonDictionary;
+- (BOOL)isLoggedIn;
 
 @end
