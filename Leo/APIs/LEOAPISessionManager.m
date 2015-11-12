@@ -67,6 +67,14 @@
         }
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)task.response;
+
+        if (httpResponse.statusCode == 401) {
+            
+            [SessionUser logout];
+        }
+        
         NSLog(@"%@",paramsBlock);
         NSLog(@"%@",urlStringBlock);
         NSLog(@"Fail: %@",error.localizedDescription);
@@ -183,6 +191,7 @@
         }
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
         NSLog(@"Fail: %@",error.localizedDescription);
         NSLog(@"Fail: %@",error.localizedFailureReason);
         
@@ -244,6 +253,9 @@
         }
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)task.response;
+
         NSLog(@"Fail: %@",error.localizedDescription);
         NSLog(@"Fail: %@",error.localizedFailureReason);
         
@@ -289,15 +301,15 @@
     
     NSMutableDictionary *authenticatedParams = [params mutableCopy];
     
-    [authenticatedParams setValue:[self authToken] forKey:APIParamToken];
+    [authenticatedParams setValue:[LEOAPISessionManager authToken] forKey:APIParamToken];
     
     return authenticatedParams;
 }
 
 
 //FIXME: To be updated with the actual user token via keychain at some point.
-- (NSString *)authToken {
-    return [[SessionUser currentUser].credentialStore authToken];;
++ (NSString *)authToken {
+    return [SessionUser authToken];;
 }
 
 -(void)dealloc {

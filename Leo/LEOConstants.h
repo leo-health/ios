@@ -128,6 +128,14 @@ typedef NS_ENUM(NSUInteger, Feature) {
     FeatureAppointmentScheduling = 2,
 };
 
+typedef NS_ENUM(NSUInteger, MembershipType) {
+    
+    MembershipTypeNone = 0, //Not used explicitly, but in case nil is entered...
+    MembershipTypeIncomplete = 1,
+    MembershipTypeUnpaid = 2,
+    MembershipTypePaid = 3,
+};
+
 @interface LEOConstants : NSObject
 
 #pragma mark - Temp constants
@@ -213,7 +221,7 @@ extern NSString *const APIParamUserSpecialties; // @"specialties";
 extern NSString *const APIParamUserPrimary; // @"primary";
 extern NSString *const APIParamUserStatus; // @"status";
 extern NSString *const APIParamUserInsurancePlan; // @"insurancePlan";
-
+extern NSString *const APIParamUserMembershipType; // @"type";
 extern NSString *const APIParamUserBirthDate; // @"birth_date";
 extern NSString *const APIParamUserSex; // @"sex";
 extern NSString *const APIParamUserPassword; // @"password";
@@ -304,19 +312,21 @@ extern NSString *const APIParamPhone; // @"phone";
 extern NSString *const APIParamFax; // @"fax";
 extern NSString *const APIParamInsurerName; // @"insurer_name";
 
-
 #pragma mark - Insurance Plan
 extern NSString *const APIParamInsurancePlan; // @"insurance_plan";
 extern NSString *const APIParamInsurancePlans; // @"insurance_plans";
 extern NSString *const APIParamPlanName; // @"plan_name";
 extern NSString *const APIParamPlanSupported; // @"supported"; //Ironically, this param is not yet supported by the API.
 
-extern NSString *const kSegueContinue; // @"ContinueSegue";
-extern NSString *const kSeguePlan; // @"PlanSegue";
-
 #pragma mark - Magic numbers
 extern CGFloat const kSelectionLineHeight; // 2.0f;
 extern CGFloat const kCornerRadius; // 2.0f;
+extern CGFloat const kHeightOfNoReturnConstant; // 0.4;
+extern CGFloat const kSpeedForTitleViewAlphaChangeConstant; // 4.0;
+
+#pragma mark - Segues
+extern NSString *const kSegueContinue; // @"ContinueSegue";
+extern NSString *const kSeguePlan; // @"PlanSegue";
 
 #pragma mark - Storyboards
 extern NSString *const kStoryboardSettings; // @"Settings";
@@ -333,8 +343,6 @@ extern NSString *const kButtonCellReuseIdentifier; // @"ButtonCell";
 extern NSString *const kPromptViewCellReuseIdentifier; // @"LEOPromptViewCell";
 #pragma mark - Constants
 
-extern CGFloat const kHeightOfNoReturnConstant; // 0.4;
-extern CGFloat const kSpeedForTitleViewAlphaChangeConstant; // 4.0;
 
 @end
 

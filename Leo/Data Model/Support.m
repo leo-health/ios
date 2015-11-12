@@ -47,24 +47,6 @@
     return userDictionary;
 }
 
-- (id)copy {
-    
-    Support *supportCopy = [[Support alloc] init];
-    supportCopy.objectID = self.objectID;
-    supportCopy.firstName = self.firstName;
-    supportCopy.lastName = self.lastName;
-    supportCopy.middleInitial = self.middleInitial;
-    supportCopy.suffix = self.suffix;
-    supportCopy.title = self.title;
-    supportCopy.email = self.email;
-    supportCopy.avatarURL = self.avatarURL;
-    supportCopy.avatar = [self.avatar copy];
-    supportCopy.role = self.role;
-    supportCopy.roleDisplayName = self.roleDisplayName;
-    
-    return supportCopy;
-}
-
 - (NSString *)description {
     
     NSString *superDesc = [super description];
@@ -73,25 +55,5 @@
     
     return [superDesc stringByAppendingString:subDesc];
 }
-
-- (id)initWithCoder:(NSCoder *)decoder {
-    
-    self = [super initWithCoder:decoder];
-    
-    NSString *roleDisplayName = [decoder decodeObjectForKey:APIParamRole];
-    NSUInteger roleID = [decoder decodeIntegerForKey:APIParamRoleID];
-
-    return [self initWithObjectID:self.objectID title:self.title firstName:self.firstName middleInitial:self.middleInitial lastName:self.lastName suffix:self.suffix email:self.email avatarURL:self.avatarURL avatar:self.avatar role:roleID roleDisplayName:roleDisplayName];
-}
-
-- (void)encodeWithCoder:(NSCoder *)encoder {
-    
-    [super encodeWithCoder:encoder];
-    
-    [encoder encodeObject:self.roleDisplayName forKey:APIParamRole];
-    [encoder encodeInteger:self.role forKey:APIParamRoleID];
-}
-
-
 
 @end

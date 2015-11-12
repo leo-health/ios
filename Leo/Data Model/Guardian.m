@@ -10,8 +10,11 @@
 
 @implementation Guardian
 
+static NSString *const kMembershipTypeUnpaid = @"User";
+static NSString *const kMembershipTypePaid = @"Member";
+static NSString *const kMembershipTypeIncomplete = @"Incomplete"; //FIXME: This is only because the API doesn't yet support this detail.
 
-- (instancetype)initWithObjectID:(nullable NSString *)objectID familyID:(NSString *)familyID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email avatarURL:(nullable NSString *)avatarURL avatar:(nullable UIImage *)avatar phoneNumber:(NSString *)phoneNumber insurancePlan:(InsurancePlan *)insurancePlan primary:(BOOL)primary {
+- (instancetype)initWithObjectID:(nullable NSString *)objectID familyID:(NSString *)familyID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email avatarURL:(nullable NSString *)avatarURL avatar:(nullable UIImage *)avatar phoneNumber:(NSString *)phoneNumber insurancePlan:(InsurancePlan *)insurancePlan primary:(BOOL)primary membershipType:(MembershipType)membershipType {
     
     self = [super initWithObjectID:objectID title:title firstName:firstName middleInitial:middleInitial lastName:lastName suffix:suffix email:email avatarURL:avatarURL avatar:avatar];
     
@@ -20,6 +23,7 @@
         _phoneNumber = phoneNumber;
         _insurancePlan = insurancePlan;
         _primary = primary;
+        _membershipType = membershipType;
     }
     
     return self;
@@ -43,6 +47,10 @@
     _primary = jsonResponse[APIParamUserPrimary];
     _insurancePlan = jsonResponse[APIParamUserInsurancePlan];
     _phoneNumber = jsonResponse[APIParamPhone];
+    
+    if (jsonResponse[APIParamUserMembershipType] != [NSNull null]) {
+        _membershipType = [Guardian membershipTypeFromString:jsonResponse[APIParamUserMembershipType]];
+    }
 }
 
 + (NSDictionary *)dictionaryFromUser:(Guardian *)guardian {
@@ -53,28 +61,47 @@
     userDictionary[APIParamUserPrimary] = @(guardian.primary) ?: [NSNull null];
     userDictionary[APIParamPhone] = guardian.phoneNumber ?: [NSNull null];
     userDictionary[APIParamUserInsurancePlan] = guardian.insurancePlan ?: [NSNull null]; //FIXME: This should probably break since insurancePlan is a custom object.
+    userDictionary[APIParamUserMembershipType] = guardian.membershipType ? [Guardian membershipStringFromType:guardian.membershipType] : [NSNull null];
     
     return userDictionary;
 }
 
-//- (id)copy {
-//    
-//    Guardian *guardianCopy = [[Guardian alloc] init];
-//    guardianCopy.objectID = self.objectID;
-//    guardianCopy.familyID = self.familyID;
-//    guardianCopy.firstName = self.firstName;
-//    guardianCopy.lastName = self.lastName;
-//    guardianCopy.middleInitial = self.middleInitial;
-//    guardianCopy.suffix = self.suffix;
-//    guardianCopy.title = self.title;
-//    guardianCopy.email = self.email;
-//    guardianCopy.avatarURL = self.avatarURL;
-//    guardianCopy.avatar = [self.avatar copy];
-//    guardianCopy.primary = self.primary;
-//    guardianCopy.insurancePlan = [self.insurancePlan copy];
-//    guardianCopy.phoneNumber = self.phoneNumber;
-//    return guardianCopy;
-//}
++ (MembershipType)membershipTypeFromString:(NSString *)membershipTypeString {
+    
+    if (!membershipTypeString) {
+        return MembershipTypeNone; //As mentioned elsewhere, we don't use MembershipTypeNone for anything except to be exhaustive.
+    }
+    else if ([membershipTypeString isEqualToString:kMembershipTypeUnpaid]) {
+        return MembershipTypeUnpaid;
+    }
+
+    else if ([membershipTypeString isEqualToString:kMembershipTypePaid]) {
+        return MembershipTypePaid;
+    }
+    
+    else {
+        return MembershipTypeIncomplete;
+    }
+}
+
++ (NSString *)membershipStringFromType:(MembershipType)membershipType {
+    
+    switch (membershipType) {
+        case MembershipTypeUnpaid:
+            return kMembershipTypeUnpaid;
+        case MembershipTypePaid:
+            return kMembershipTypePaid;
+        case MembershipTypeIncomplete:
+            return kMembershipTypeIncomplete;
+        case MembershipTypeNone:
+            return nil;
+    }
+}
+
+-(void)setMembershipType:(MembershipType)membershipType {
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"membership-changed" object:self];
+}
 
 - (NSString *)description {
     
@@ -84,25 +111,5 @@
     
     return [superDesc stringByAppendingString:subDesc];
 }
-
-//- (id)initWithCoder:(NSCoder *)decoder {
-//    
-//    self = [super initWithCoder:decoder];
-//    
-//    NSString *familyID = [decoder decodeObjectForKey:APIParamFamilyID];
-//    BOOL primary = [decoder decodeBoolForKey:APIParamUserPrimary];
-//    
-//    return [self initWithObjectID:self.objectID familyID:familyID title:self.title firstName:self.firstName middleInitial:self.middleInitial lastName:self.lastName suffix:self.suffix email:self.email avatarURL:self.avatarURL avatar:self.avatar phoneNumber:self.phoneNumber insurancePlan:self.insurancePlan primary:self.primary];
-//}
-//
-//- (void)encodeWithCoder:(NSCoder *)encoder {
-//    
-//    [super encodeWithCoder:encoder];
-//    
-//    [encoder encodeObject:self.familyID forKey:APIParamFamilyID];
-//    [encoder encodeBool:self.primary forKey:APIParamUserPrimary];
-//    [encoder encodeObject:self.insurancePlan forKey:APIParamUserInsurancePlan];
-//    [encoder encodeObject:self.phoneNumber forKey:APIParamPhone];
-//}
 
 @end

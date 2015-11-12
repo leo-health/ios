@@ -12,19 +12,27 @@
 #define SERVICE_NAME @"LEO-AuthClient"
 #define AUTH_TOKEN_KEY @"auth_token"
 
+@interface LEOCredentialStore ()
+
+@property (copy, nonatomic) NSString *authToken;
+
+@end
+
 @implementation LEOCredentialStore
 
-- (instancetype)initWithAuthToken:(NSString *)authToken {
-    
-    self = [super init];
-    
-    if (self) {
-        
-        [self setAuthToken:authToken];
-    }
-    
-    return self;
-}
+//@synthesize authToken = _authToken;
+
+//- (instancetype)initWithAuthToken:(NSString *)authToken {
+//    
+//    self = [super init];
+//    
+//    if (self) {
+//        
+//        _authToken = authToken;
+//    }
+//    
+//    return self;
+//}
 
 - (void)clearSavedCredentials {
     [self setAuthToken:nil];
@@ -36,8 +44,12 @@
 
 - (void)setAuthToken:(NSString *)authToken {
     [self setSecureValue:authToken forKey:AUTH_TOKEN_KEY];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"token-changed" object:self];
+    
+    if (!authToken) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"token-invalidated" object:self];
+    }
 }
+
 
 - (void)setSecureValue:(NSString *)value forKey:(NSString *)key {
     if (value) {

@@ -12,10 +12,14 @@
 
 @interface SessionUser : Guardian
 
-@property (strong, nonatomic) LEOCredentialStore *credentialStore;
 
 + (instancetype)currentUser;
++ (void)setCurrentUser:(SessionUser *)user;
++ (void)setCurrentUserWithJSONDictionary:(NSDictionary *)jsonDictionary;
 + (instancetype)newUserWithJSONDictionary:(NSDictionary *)jsonDictionary;
-- (BOOL)isLoggedIn;
++ (BOOL)isLoggedIn;
++ (void)logout;
++ (NSString *)authToken;
++ (void)setAuthToken:(NSString *)authToken;
 
 @end

@@ -236,16 +236,16 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
             
             if (!error) {
                 self.cards = [cards mutableCopy];
-            }
-            dispatch_async(dispatch_get_main_queue() , ^{
                 
-                [MBProgressHUD hideHUDForView:self.tableView animated:YES];
                 [self.tableView reloadData];
                 
                 NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.cardInFocus inSection:0];
-                
                 [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
-
+            }
+            
+            dispatch_async(dispatch_get_main_queue() , ^{
+                
+                [MBProgressHUD hideHUDForView:self.tableView animated:YES];
             });
         }];
     });

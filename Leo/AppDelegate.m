@@ -12,6 +12,7 @@
 #import "UIColor+LeoColors.h"
 #import "LEOFeedTVC.h"
 #import "SessionUser.h"
+#import "LEOCredentialStore.h"
 
 #if STUBS_FLAG
 #import "LEOStubs.h"
@@ -33,14 +34,87 @@
 #endif
     
     [self setupRemoteNotificationsForApplication:application];
+    [self setupObservers];
+    
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    
+
+    NSString *storyboardIdentifier;
+    
+    if (!launchOptions) {
+        if ([SessionUser isLoggedIn]) {
+            
+            storyboardIdentifier = @"Main";
+        } else {
+            
+            storyboardIdentifier = @"Login";
+        }
+    }
     
     if (launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]) {
-        [self application:application didReceiveRemoteNotification:launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]];
+        [self application:application didReceiveRemoteNotification:launchOptions];
     }
+    
+    [self setRootViewControllerWithStoryboardName:storyboardIdentifier];
+
+    [self.window makeKeyAndVisible];
     
     return YES;
 }
 
+- (void)setupObservers {
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(notificationReceived:)
+                                                 name:@"token-changed"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(notificationReceived:)
+                                                 name:@"token-invalidated"
+                                               object:nil];
+
+}
+
+- (void)notificationReceived:(NSNotification *)notification {
+    
+    if ([notification.name isEqualToString:@"membership-changed"]) {
+        
+        switch ([SessionUser currentUser].membershipType) {
+                
+            case MembershipTypePaid:
+                [self setRootViewControllerWithStoryboardName:kStoryboardFeed];
+                break;
+
+            case MembershipTypeUnpaid:
+                
+            case MembershipTypeIncomplete:
+                [self setRootViewControllerWithStoryboardName:kStoryboardLogin];
+                break;
+                
+            case MembershipTypeNone:
+                break; //We don't use this explicitly to do anything, because token invalidation is more appropriate if this were to happen.
+        }
+    }
+    
+    if ([notification.name isEqualToString:@"token-invalidated"]) {
+        
+        [self setRootViewControllerWithStoryboardName:kStoryboardLogin];
+    }
+}
+
+- (void)setRootViewControllerWithStoryboardName:(NSString *)storyboardName {
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle:[NSBundle mainBundle]];
+    
+    [UIView transitionFromView:self.window.rootViewController.view
+                        toView:[storyboard instantiateInitialViewController].view
+                      duration:0.65f
+                       options:UIViewAnimationOptionTransitionFlipFromLeft
+                    completion:^(BOOL finished){
+                        self.window.rootViewController = [storyboard instantiateInitialViewController];
+                    }];
+}
 
 - (void)setupRemoteNotificationsForApplication:(UIApplication *)application {
     
@@ -132,9 +206,7 @@
     
     if ([url.scheme isEqualToString: @"leohealth"]) {
         
-        SessionUser *user = [SessionUser currentUser];
-        
-        if ([user isLoggedIn]) {
+        if ([SessionUser isLoggedIn]) {
         //TODO: We still need to check that the user is logged in first. In fact...that's probably going to be an issue, no?
         
             if ([url.host isEqualToString: @"feed"]) {

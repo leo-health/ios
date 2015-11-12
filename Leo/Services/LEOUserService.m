@@ -23,24 +23,13 @@
     
     NSDictionary *guardianDictionary = [Guardian dictionaryFromUser:newGuardian];
     
-    [[LEOUserService leoSessionManager] standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:@"users" params:guardianDictionary completion:^(NSDictionary *rawResults, NSError *error) {
+    [[LEOUserService leoSessionManager] standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIParamUsers params:guardianDictionary completion:^(NSDictionary *rawResults, NSError *error) {
         
         if (!error) {
-            
-            LEOCredentialStore *credentialStore = [[LEOCredentialStore alloc] init];
-            [credentialStore clearSavedCredentials];
-            
-            [[SessionUser currentUser].credentialStore setAuthToken:rawResults[APIParamData][APIParamSession][APIParamToken]];
-            
-            
-            //FIXME: This makes it clear we should have a rethink on the SessionUser class (and/or add methods to it)...
-            [SessionUser currentUser].familyID = rawResults[APIParamData][APIParamUser][APIParamFamilyID];
-            [SessionUser currentUser].objectID = rawResults[APIParamData][APIParamUser][APIParamID];
-            [SessionUser currentUser].firstName = rawResults[APIParamData][APIParamUser][APIParamUserFirstName];
-            [SessionUser currentUser].lastName = rawResults[APIParamData][APIParamUser][APIParamUserLastName];
-            [SessionUser currentUser].phoneNumber = rawResults[APIParamData][APIParamUser][APIParamPhone];
-            [SessionUser currentUser].insurancePlan = rawResults[APIParamData][APIParamUser][APIParamUserLastName];
-            
+                        
+            [SessionUser setCurrentUserWithJSONDictionary:rawResults[APIParamData]];
+            [SessionUser setAuthToken:rawResults[APIParamData][APIParamSession][APIParamToken]];
+
             Guardian *guardian = [[Guardian alloc] initWithJSONDictionary:rawResults[APIParamData][APIParamUser]];
             
             if (completionBlock) {
@@ -84,11 +73,8 @@
         
         if (!error) {
             
-            LEOCredentialStore *credentialStore = [[LEOCredentialStore alloc] init];
-            [credentialStore clearSavedCredentials];
-            
             [SessionUser newUserWithJSONDictionary:rawResults[APIParamData]];
-            
+            [SessionUser setAuthToken:rawResults[APIParamData][APIParamSession][APIParamToken]];
             completionBlock(YES, nil);
         } else {
             
@@ -180,8 +166,7 @@
         
         if (!error) {
             
-            LEOCredentialStore *credentialStore = [[LEOCredentialStore alloc] init];
-            [credentialStore clearSavedCredentials];
+            [SessionUser setCurrentUser:nil];
             
             [SessionUser newUserWithJSONDictionary:rawResults[APIParamData]];
             

@@ -15,6 +15,10 @@
 
 @implementation SessionUser
 
+static SessionUser *_currentUser = nil;
+static LEOCredentialStore *_credentialStore = nil;
+static dispatch_once_t onceToken;
+
 + (instancetype)currentUser {
     
     return [SessionUser newUserWithJSONDictionary:nil];
@@ -23,26 +27,53 @@
 
 //FIXME: This doesn't *really* work without further code given you could void the authToken and then it would say you weren't logged in, but not have reset the SessionUser. Need to send a notification that "resets" this singleton. It will suffice for the time-being until we are logging in multiple users on the same phone.
 + (instancetype)newUserWithJSONDictionary:(NSDictionary *)jsonDictionary {
-    
-    static SessionUser *currentUser;
-    static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        currentUser = [[self alloc] initWithJSONDictionary:jsonDictionary];
+        _currentUser = [[self alloc] initWithJSONDictionary:jsonDictionary];        
     });
-    return currentUser;
-}
-
-
-
-- (BOOL)isLoggedIn {
     
-    return [[self credentialStore] authToken] != nil;
+    return _currentUser;
 }
 
-- (LEOCredentialStore *)credentialStore {
-    
-    return [[LEOCredentialStore alloc] init];;
++ (void)setCurrentUser:(SessionUser *)user {
+    if (!user) {
+        _currentUser = nil;
+        onceToken = 0;
+        [_credentialStore clearSavedCredentials];
+    } else {
+        _currentUser = user;
+    }
 }
+
++ (void)setCurrentUserWithJSONDictionary:(NSDictionary *)jsonDictionary {
+    
+    if (!jsonDictionary) {
+        _currentUser = nil;
+        onceToken = 0;
+        [_credentialStore clearSavedCredentials];
+    } else {
+        _currentUser = [SessionUser newUserWithJSONDictionary:jsonDictionary];
+    }
+}
+
++ (BOOL)isLoggedIn {
+    
+    if (!_credentialStore) {
+        _credentialStore = [[LEOCredentialStore alloc] init];
+    }
+    
+    if (_credentialStore.authToken != nil) {
+        return YES;
+    }
+    
+    return NO;
+}
+
+//TODO: Eventually need to actually inform the server of the logging out...
++ (void)logout {
+    
+    [_credentialStore clearSavedCredentials];
+}
+
 
 
 //TODO: Add an assertion to warn programmer here.
@@ -50,28 +81,30 @@
     return nil;
 }
 
+
+//TODO: Check if this is even being used. It should probably be removed altogether at this point.
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
     
    self = [super initWithJSONDictionary:jsonResponse[APIParamUser]];
     
     if (self) {
-        NSString *authToken = jsonResponse[APIParamSession][APIParamToken];
-        
-        if (authToken) {
-            [self setAuthToken:authToken];
-        }
+//        NSString *authToken = jsonResponse[APIParamSession][APIParamToken];
+//        
+//        if (authToken) {
+//            [SessionUser setAuthToken:authToken];
+//        }
     }
     
     return self;
 }
 
-
-- (void)setAuthToken:(NSString *)authToken {
-    LEOCredentialStore *store = [[LEOCredentialStore alloc] init];
-    store.authToken = authToken;
-    
-    //TODO: Merge in changes from issue #295 here to complete this method!
++ (void)setAuthToken:(NSString *)authToken {
+    _credentialStore = [[LEOCredentialStore alloc] init];
+    _credentialStore.authToken = authToken;
 }
 
++ (NSString *)authToken {
+    return _credentialStore.authToken;
+}
 
 @end
