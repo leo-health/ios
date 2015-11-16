@@ -240,9 +240,16 @@
     LEOPusherHelper *pusherHelper = [LEOPusherHelper sharedPusher];
     [pusherHelper connectToPusherChannel:channelString withEvent:event sender:self withCompletion:^(NSDictionary *channelData) {
         
+        
         [[self conversation] addMessageFromJSON:channelData];
         self.offset ++;
     }];
+}
+
+- (void)fetchMessage {
+    
+    LEOMessageService *messageService = [[LEOMessageService alloc] init];
+    messageService get
 }
 
 - (void)notificationReceived:(NSNotification *)notification {

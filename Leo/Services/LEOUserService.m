@@ -16,6 +16,7 @@
 #import "LEOAPISessionManager.h"
 #import "LEOS3SessionManager.h"
 #import "SessionUser.h"
+#import "NSUserDefaults+Additions.h"
 
 @implementation LEOUserService
 
@@ -30,6 +31,7 @@
             [SessionUser setCurrentUserWithJSONDictionary:rawResults[APIParamData]];
             [SessionUser setAuthToken:rawResults[APIParamData][APIParamSession][APIParamToken]];
 
+            
             Guardian *guardian = [[Guardian alloc] initWithJSONDictionary:rawResults[APIParamData][APIParamUser]];
             
             if (completionBlock) {
@@ -135,6 +137,8 @@
     [[LEOUserService leoSessionManager] standardPUTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointUsers params:guardianDictionary completion:^(NSDictionary *rawResults, NSError *error) {
         
         if (!error) {
+            
+            
             completionBlock(YES, nil);
         } else {
             completionBlock (NO, error);
@@ -166,10 +170,12 @@
         
         if (!error) {
             
-            [SessionUser setCurrentUser:nil];
+            [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"SessionUser"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
             
-            [SessionUser newUserWithJSONDictionary:rawResults[APIParamData]];
-            
+            [SessionUser setAuthToken:rawResults[APIParamData][APIParamSession][APIParamToken]];
+            [SessionUser setCurrentUserWithJSONDictionary:rawResults[APIParamData]];
+
             if (completionBlock) {
                 completionBlock([SessionUser currentUser], nil);
             }
@@ -178,6 +184,23 @@
             if (completionBlock) {
                 completionBlock(nil, error);
             }
+        }
+    }];
+}
+
+- (void)logoutUserWithCompletion:(void (^)(BOOL success, NSError *error))completionBlock {
+    
+    [[LEOUserService leoSessionManager] standardDELETERequestForJSONDictionaryToAPIWithEndpoint:@"logout" params:nil completion:^(NSDictionary *rawResults, NSError *error) {
+        
+        if (!error) {
+
+            if ([rawResults[APIParamStatus] isEqualToString:@"ok"]) {
+                [SessionUser logout];
+            } else {
+                completionBlock(NO, nil);
+            }
+        } else {
+            completionBlock(NO, error);
         }
     }];
 }

@@ -192,19 +192,8 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
                              
                              if (!error) {
                                  
-                                 LEOHelperService *helperService = [[LEOHelperService alloc] init];
-                                 [helperService getFamilyWithCompletion:^(Family *family, NSError *error) {
-                                     
-                                     if (!error) {
-                                         
-                                         UIStoryboard *feedStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                                         UINavigationController *initialVC = [feedStoryboard instantiateInitialViewController];
-                                         LEOFeedTVC *feedTVC = initialVC.viewControllers[0];
-                                         feedTVC.family = family;
-                                         
-                                         [self presentViewController:initialVC animated:NO completion:nil];
-                                     }
-                                 }];
+                                 
+
                              } else {
                                  
                                  UIAlertController *loginAlert = [UIAlertController alertControllerWithTitle:@"Invalid login" message:@"Looks like your email or password isn't one we recognize. Try entering them again, or reset your password." preferredStyle:UIAlertControllerStyleAlert];

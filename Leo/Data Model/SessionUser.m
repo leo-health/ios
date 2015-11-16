@@ -21,14 +21,19 @@ static dispatch_once_t onceToken;
 
 + (instancetype)currentUser {
     
-    return [SessionUser newUserWithJSONDictionary:nil];
+    return _currentUser;
+}
+
++ (instancetype)guardian {
+    return _currentUser;
 }
 
 
 //FIXME: This doesn't *really* work without further code given you could void the authToken and then it would say you weren't logged in, but not have reset the SessionUser. Need to send a notification that "resets" this singleton. It will suffice for the time-being until we are logging in multiple users on the same phone.
 + (instancetype)newUserWithJSONDictionary:(NSDictionary *)jsonDictionary {
     dispatch_once(&onceToken, ^{
-        _currentUser = [[self alloc] initWithJSONDictionary:jsonDictionary];        
+        
+        _currentUser = [[self alloc] initWithJSONDictionary:jsonDictionary];
     });
     
     return _currentUser;
@@ -51,7 +56,12 @@ static dispatch_once_t onceToken;
         onceToken = 0;
         [_credentialStore clearSavedCredentials];
     } else {
+        _currentUser = nil;
+        onceToken = 0;
         _currentUser = [SessionUser newUserWithJSONDictionary:jsonDictionary];
+        
+        //Have added this here so that when the currentUser is replaced, we also check for membership changes at that time (once object has been instantiated.)
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"membership-changed" object:self];
     }
 }
 
@@ -88,11 +98,9 @@ static dispatch_once_t onceToken;
    self = [super initWithJSONDictionary:jsonResponse[APIParamUser]];
     
     if (self) {
-//        NSString *authToken = jsonResponse[APIParamSession][APIParamToken];
-//        
-//        if (authToken) {
-//            [SessionUser setAuthToken:authToken];
-//        }
+        
+        //Ensure the SessionUser guardian is saved to NSUserDefaults at time of creation. We should not allow changes to the guardian without replacing the entirety of the Guardian! Will have to come back to this and how we 
+        [self saveToUserDefaults];
     }
     
     return self;

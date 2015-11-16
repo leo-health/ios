@@ -299,6 +299,10 @@
 
 - (NSMutableDictionary *)authenticatedParamsWithParams:(NSDictionary *)params {
     
+    if (!params) {
+        params = [NSDictionary new];
+    }
+    
     NSMutableDictionary *authenticatedParams = [params mutableCopy];
     
     [authenticatedParams setValue:[LEOAPISessionManager authToken] forKey:APIParamToken];

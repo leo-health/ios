@@ -225,13 +225,13 @@
 
 - (void)addOnboardingData {
     
-    self.guardian.firstName = [self firstNameTextField].text;
-    self.guardian.lastName = [self lastNameTextField].text;
+    NSString *firstName = [self firstNameTextField].text;
+    NSString *lastName = [self lastNameTextField].text;
+    NSString *phoneNumber = [self phoneNumberTextField].text;
     
+    self.guardian = [[Guardian alloc] initWithObjectID:nil familyID:nil title:nil firstName:firstName middleInitial:nil lastName:lastName suffix:nil email:self.guardian.email avatarURL:nil avatar:nil phoneNumber:phoneNumber insurancePlan:self.guardian.insurancePlan primary:YES membershipType:MembershipTypeIncomplete];
+
     //InsurancePlan onboarding data provided as part of the delegate method upon return from the BasicSelectionViewController. Not in love with this implementation but it will suffice for the time-being.
-    
-    self.guardian.phoneNumber = [self phoneNumberTextField].text;
-    
     
     if (self.managementMode == ManagementModeCreate) {
         [self.family addGuardian:self.guardian];
@@ -342,7 +342,7 @@
     NSString *insurancePlanString = [NSString stringWithFormat:@"%@ %@",((InsurancePlan *)item).insurerName,((InsurancePlan *)item).name];
     [self insurerTextField].text = insurancePlanString;
     
-    self.guardian.insurancePlan = (InsurancePlan *)item;
+    self.guardian = [[Guardian alloc] initWithObjectID:self.guardian.objectID familyID:self.guardian.familyID title:self.guardian.title firstName:self.guardian.firstName middleInitial:self.guardian.middleInitial lastName:self.guardian.lastName suffix:self.guardian.suffix email:self.guardian.email avatarURL:nil avatar:nil phoneNumber:self.guardian.phoneNumber insurancePlan:self.guardian.insurancePlan primary:self.guardian.primary membershipType:self.guardian.membershipType];
 }
 
 
@@ -376,11 +376,9 @@
     [self insurerTextField].text = @"Aetna PPO";
     [self phoneNumberTextField].text = @"(555) 555-5555";
     
-    Guardian *guardian1 = [[Guardian alloc] initWithObjectID:nil title:@"Mrs" firstName:@"Sally" middleInitial:nil lastName:@"Carmichael" suffix:nil email:@"sally.carmichael@gmail.com" avatarURL:nil avatar:nil];
-    
     InsurancePlan *insurancePlan = [[InsurancePlan alloc] initWithObjectID:nil insurerID:@"1" insurerName:@"Aetna" name:@"PPO"];
-    
-    guardian1.insurancePlan = insurancePlan;
+
+    Guardian *guardian1 = [[Guardian alloc] initWithObjectID:nil title:@"Mrs" firstName:@"Sally" middleInitial:nil lastName:@"Carmichael" suffix:nil email:@"sally.carmichael@gmail.com" avatarURL:nil avatar:nil];
     
     self.family.guardians = @[guardian1];
 }

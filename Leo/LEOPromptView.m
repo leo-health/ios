@@ -117,8 +117,6 @@ IB_DESIGNABLE
     
     NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(_accessoryImageView, _textField, _sectionSeparator);
     
-    NSLog(@"%f", self.textField.intrinsicContentSize.height);
-    
     NSArray *constraintVerticalTextField = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(25)-[_textField(>=40)]-(3)-[_sectionSeparator(==1)]|" options:0 metrics:nil views:viewsDictionary];
     NSArray *constraintHorizontalTextField = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_textField]|" options:0 metrics:nil views:viewsDictionary];
     NSArray *constraintHorizontalSectionSeparator = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_sectionSeparator]|" options:0 metrics:nil views:viewsDictionary];

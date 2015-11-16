@@ -53,7 +53,7 @@
     
     index--;
     
-    return [self viewControllerAtIndex:index storyboard:[UIStoryboard storyboardWithName:@"Main" bundle:nil]];
+    return [self viewControllerAtIndex:index storyboard:[UIStoryboard storyboardWithName:kStoryboardFeed bundle:nil]];
 }
 
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(UIViewController *)viewController {
@@ -75,7 +75,7 @@
         return nil;
     }
     
-    return [self viewControllerAtIndex:index storyboard:[UIStoryboard storyboardWithName:@"Main" bundle:nil]];
+    return [self viewControllerAtIndex:index storyboard:[UIStoryboard storyboardWithName:kStoryboardFeed bundle:nil]];
 }
 
 - (UIViewController *)viewControllerAtIndex:(NSUInteger)index storyboard:(UIStoryboard *)storyboard {
@@ -125,7 +125,7 @@
 -(LEOFeedTVC *)feedViewController {
     
     if (!_feedViewController) {
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:kStoryboardFeed bundle:nil];
         _feedViewController = [storyboard instantiateViewControllerWithIdentifier:@"LEOFeedTVC"];;
     }
     

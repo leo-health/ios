@@ -8,6 +8,7 @@
 
 #import "User.h"
 #import "Appointment.h"
+#import "NSDictionary+Additions.h"
 
 @implementation User
 
@@ -42,32 +43,33 @@
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
     
-    NSString *firstName = jsonResponse[APIParamUserFirstName];
-    NSString *lastName = jsonResponse[APIParamUserLastName];
-    NSString *middleInitial = jsonResponse[APIParamUserMiddleInitial];
+    NSString *firstName = [jsonResponse itemForKey:APIParamUserFirstName];
+    NSString *lastName = [jsonResponse itemForKey:APIParamUserLastName];
+    NSString *middleInitial = [jsonResponse itemForKey:APIParamUserMiddleInitial];
+    NSString *title = [jsonResponse itemForKey:APIParamUserTitle];
+    NSString *suffix = [jsonResponse itemForKey:APIParamUserSuffix];
+    NSString *objectID = [[jsonResponse itemForKey:APIParamID] stringValue];
+    NSString *email = [jsonResponse itemForKey:APIParamUserEmail];
     
-    NSString *title;
-    if (!(jsonResponse[APIParamUserTitle] == [NSNull null])) {
-       title = jsonResponse[APIParamUserTitle];
-    }
+    NSDictionary *avatarDictionary = [jsonResponse itemForKey:@"avatar"];
+    NSString *avatarURL = [avatarDictionary itemForKey:@"avatarURL"];
     
-    NSString *suffix;
-    
-    if (!(jsonResponse[APIParamUserSuffix] == [NSNull null])) {
-        suffix = jsonResponse[APIParamUserSuffix];
-    }
-    
-    NSString *objectID = [jsonResponse[APIParamID] stringValue];
-    NSString *email = jsonResponse[APIParamUserEmail];
-    
-    NSString *avatarURL;
-    
-    if (!(jsonResponse[@"avatar"] == [NSNull null])) {
-        avatarURL = jsonResponse[@"avatar"][@"url"];
-    }
-    
-    //TODO: May need to protect against nil values...
     return [self initWithObjectID:objectID title:title firstName:firstName middleInitial:middleInitial lastName:lastName suffix:suffix email:email avatarURL:avatarURL avatar:nil];
+}
+
++ (NSDictionary *)plistFromUser:(User *)user {
+    
+    NSMutableDictionary *userDictionary = [[NSMutableDictionary alloc] init];
+    
+    userDictionary[APIParamUserTitle] = user.title;
+    userDictionary[APIParamUserFirstName] = user.firstName;
+    userDictionary[APIParamUserMiddleInitial] = user.middleInitial;
+    userDictionary[APIParamUserLastName] = user.lastName;
+    userDictionary[APIParamUserSuffix] = user.suffix;
+    userDictionary[APIParamID] = user.objectID;
+    userDictionary[APIParamUserEmail] = user.email;
+    
+    return userDictionary;
 }
 
 + (NSDictionary *)dictionaryFromUser:(User *)user {
@@ -75,13 +77,13 @@
     NSMutableDictionary *userDictionary = [[NSMutableDictionary alloc] init];
     
     //TODO: Remove the ternary operators for variables that MUST be there!
-    userDictionary[APIParamUserTitle] = user.title ?: [NSNull null];
-    userDictionary[APIParamUserFirstName] = user.firstName ?: [NSNull null];
-    userDictionary[APIParamUserMiddleInitial] = user.middleInitial ?: [NSNull null];
-    userDictionary[APIParamUserLastName] = user.lastName ?: [NSNull null];
-    userDictionary[APIParamUserSuffix] = user.suffix ?: [NSNull null];
-    userDictionary[APIParamID] = user.objectID ?: [NSNull null];
-    userDictionary[APIParamUserEmail] = user.email ?: [NSNull null];
+    userDictionary[APIParamUserTitle] = user.title;
+    userDictionary[APIParamUserFirstName] = user.firstName;
+    userDictionary[APIParamUserMiddleInitial] = user.middleInitial;
+    userDictionary[APIParamUserLastName] = user.lastName;
+    userDictionary[APIParamUserSuffix] = user.suffix;
+    userDictionary[APIParamID] = user.objectID;
+    userDictionary[APIParamUserEmail] = user.email;
     
     return userDictionary;
 }
@@ -90,7 +92,7 @@
     
     NSMutableDictionary *userDictionary = [[User dictionaryFromUser:user] mutableCopy];
     
-    userDictionary[APIParamUserAvatarURL] = user.avatarURL ?: [NSNull null];
+    userDictionary[APIParamUserAvatarURL] = user.avatarURL;
     
     return userDictionary;
 }

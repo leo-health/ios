@@ -38,17 +38,19 @@
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
-
     NSString *storyboardIdentifier;
     
     if (!launchOptions) {
         if ([SessionUser isLoggedIn]) {
             
-            storyboardIdentifier = @"Main";
+            storyboardIdentifier = kStoryboardFeed;
         } else {
             
-            storyboardIdentifier = @"Login";
+            storyboardIdentifier = kStoryboardLogin;
         }
+    } else {
+        
+        //TODO: Figure out what other launch option situations we want to account for.
     }
     
     if (launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]) {
@@ -57,6 +59,9 @@
     
     [self setRootViewControllerWithStoryboardName:storyboardIdentifier];
 
+    SessionUser *user = [[SessionUser alloc] initFromUserDefaults];
+    [SessionUser setCurrentUser:user];
+    
     [self.window makeKeyAndVisible];
     
     return YES;
@@ -66,29 +71,31 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(notificationReceived:)
-                                                 name:@"token-changed"
+                                                 name:@"membership-changed"
                                                object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(notificationReceived:)
                                                  name:@"token-invalidated"
                                                object:nil];
-
 }
 
 - (void)notificationReceived:(NSNotification *)notification {
     
     if ([notification.name isEqualToString:@"membership-changed"]) {
         
-        switch ([SessionUser currentUser].membershipType) {
+        switch ([SessionUser guardian].membershipType) {
                 
-            case MembershipTypePaid:
-                [self setRootViewControllerWithStoryboardName:kStoryboardFeed];
+            case MembershipTypeMember:
+                if ([SessionUser isLoggedIn]) {
+                    [self setRootViewControllerWithStoryboardName:kStoryboardFeed];
+                }
                 break;
-
+                
             case MembershipTypeUnpaid:
                 
             case MembershipTypeIncomplete:
+                
                 [self setRootViewControllerWithStoryboardName:kStoryboardLogin];
                 break;
                 
@@ -99,21 +106,53 @@
     
     if ([notification.name isEqualToString:@"token-invalidated"]) {
         
+        
         [self setRootViewControllerWithStoryboardName:kStoryboardLogin];
     }
 }
 
 - (void)setRootViewControllerWithStoryboardName:(NSString *)storyboardName {
     
+    if (!storyboardName) {
+        storyboardName = kStoryboardLogin;
+    }
+    
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle:[NSBundle mainBundle]];
     
-    [UIView transitionFromView:self.window.rootViewController.view
-                        toView:[storyboard instantiateInitialViewController].view
-                      duration:0.65f
-                       options:UIViewAnimationOptionTransitionFlipFromLeft
-                    completion:^(BOOL finished){
-                        self.window.rootViewController = [storyboard instantiateInitialViewController];
-                    }];
+    if (self.window.rootViewController) {
+        
+//        [UIView transitionWithView:[storyboard instantiateInitialViewController].view duration:0.65f options:UIViewAnimationOptionTransitionFlipFromLeft animations:nil completion:^(BOOL finished) {
+//            
+//            if (finished) {
+//            self.window.rootViewController = [storyboard instantiateInitialViewController];
+//                [self.window.rootViewController dismissViewControllerAnimated:YES completion:nil];
+//                [self.window.rootViewController.navigationController popToRootViewControllerAnimated:NO];
+//            }
+//        }];
+//
+        
+        [UIView transitionFromView:self.window.rootViewController.view
+                            toView:[storyboard instantiateInitialViewController].view
+                          duration:0.65f
+                           options:UIViewAnimationOptionTransitionFlipFromLeft
+                        completion:^(BOOL finished){
+                            
+
+                            if (finished) {
+                                
+                                self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+                                self.window.rootViewController = [storyboard instantiateInitialViewController];
+            
+//                                [self.window.rootViewController dismissViewControllerAnimated:YES completion:nil];
+//                                [self.window.rootViewController.navigationController popToRootViewControllerAnimated:NO];
+
+                                [self.window makeKeyAndVisible];
+                            }
+                        }];
+    } else {
+        
+        self.window.rootViewController = [storyboard instantiateInitialViewController];
+    }
 }
 
 - (void)setupRemoteNotificationsForApplication:(UIApplication *)application {
@@ -210,7 +249,7 @@
         //TODO: We still need to check that the user is logged in first. In fact...that's probably going to be an issue, no?
         
             if ([url.host isEqualToString: @"feed"]) {
-                UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                UIStoryboard *storyboard = [UIStoryboard storyboardWithName:kStoryboardFeed bundle:nil];
                 UINavigationController *navController = [storyboard instantiateInitialViewController];
                 LEOFeedTVC *feedTVC = navController.viewControllers[0];
                 feedTVC.cardInFocus = [url.path integerValue];
@@ -236,7 +275,7 @@
         
         if ([url.host isEqualToString: @"home"]) {
             
-            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:kStoryboardFeed bundle:nil];
             
             self.window.rootViewController = [storyboard instantiateInitialViewController];
             

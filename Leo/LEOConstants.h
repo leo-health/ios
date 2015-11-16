@@ -133,7 +133,7 @@ typedef NS_ENUM(NSUInteger, MembershipType) {
     MembershipTypeNone = 0, //Not used explicitly, but in case nil is entered...
     MembershipTypeIncomplete = 1,
     MembershipTypeUnpaid = 2,
-    MembershipTypePaid = 3,
+    MembershipTypeMember = 3,
 };
 
 @interface LEOConstants : NSObject
@@ -331,7 +331,7 @@ extern NSString *const kSeguePlan; // @"PlanSegue";
 #pragma mark - Storyboards
 extern NSString *const kStoryboardSettings; // @"Settings";
 extern NSString *const kStoryboardLogin; // @"Login";
-extern NSString *const kStoryboardFeed; // @"Main";
+extern NSString *const kStoryboardFeed; // @"Feed";
 extern NSString *const kStoryboardConversation; // @"Conversation";
 extern NSString *const kStoryboardAppointment; // @"Appointment";
 

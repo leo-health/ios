@@ -7,11 +7,13 @@
 //
 
 #import "Guardian.h"
+#import "NSUserDefaults+Additions.h"
+#import "NSDictionary+Additions.h"
 
 @implementation Guardian
 
 static NSString *const kMembershipTypeUnpaid = @"User";
-static NSString *const kMembershipTypePaid = @"Member";
+static NSString *const kMembershipTypeMember = @"Member";
 static NSString *const kMembershipTypeIncomplete = @"Incomplete"; //FIXME: This is only because the API doesn't yet support this detail.
 
 - (instancetype)initWithObjectID:(nullable NSString *)objectID familyID:(NSString *)familyID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email avatarURL:(nullable NSString *)avatarURL avatar:(nullable UIImage *)avatar phoneNumber:(NSString *)phoneNumber insurancePlan:(InsurancePlan *)insurancePlan primary:(BOOL)primary membershipType:(MembershipType)membershipType {
@@ -31,37 +33,68 @@ static NSString *const kMembershipTypeIncomplete = @"Incomplete"; //FIXME: This 
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
     
-    self = [super initWithJSONDictionary:jsonResponse];
-    
-    if (self) {
+    if (jsonResponse) {
         
-        [self updateWithJSONDictionary:jsonResponse];
+        self = [super initWithJSONDictionary:jsonResponse];
+        
+        if (self) {
+            
+            [self updateWithJSONDictionary:jsonResponse];
+        }
+        
+        return self;
     }
     
-    return self;
+    return nil;
+}
+
+- (void)saveToUserDefaults {
+    
+    NSDictionary *guardianDictionary = [Guardian plistFromUser:self];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:guardianDictionary forKey:NSStringFromClass([self class])];
+}
+
+- (instancetype)initFromUserDefaults {
+    
+    NSDictionary *guardianDictionary = [[NSUserDefaults standardUserDefaults] objectForKey:NSStringFromClass([self class])];
+    Guardian *guardian = [[Guardian alloc] initWithJSONDictionary:guardianDictionary];
+    
+    return guardian;
 }
 
 - (void)updateWithJSONDictionary:(NSDictionary *)jsonResponse {
     
-    _familyID = jsonResponse[APIParamFamilyID];
-    _primary = jsonResponse[APIParamUserPrimary];
-    _insurancePlan = jsonResponse[APIParamUserInsurancePlan];
-    _phoneNumber = jsonResponse[APIParamPhone];
-    
-    if (jsonResponse[APIParamUserMembershipType] != [NSNull null]) {
-        _membershipType = [Guardian membershipTypeFromString:jsonResponse[APIParamUserMembershipType]];
-    }
+    _familyID = [jsonResponse itemForKey:APIParamFamilyID];
+    _primary = [jsonResponse itemForKey:APIParamUserPrimary];
+    _insurancePlan = [jsonResponse itemForKey:APIParamUserInsurancePlan];
+    _phoneNumber = [jsonResponse itemForKey:APIParamPhone];
+    _membershipType = [Guardian membershipTypeFromString:[jsonResponse itemForKey:APIParamUserMembershipType]];
+        
+        //Cannot call notification re: membershiptype changing because object hasn't been fully formed. Must do so either via alternative pattern or via class calling this once creation is complete. For now we will do the latter. Code smell should be reviewed.
 }
 
 + (NSDictionary *)dictionaryFromUser:(Guardian *)guardian {
     
     NSMutableDictionary *userDictionary = [[super dictionaryFromUser:guardian] mutableCopy];
     
-    userDictionary[APIParamFamilyID] = guardian.familyID ?: [NSNull null];
-    userDictionary[APIParamUserPrimary] = @(guardian.primary) ?: [NSNull null];
-    userDictionary[APIParamPhone] = guardian.phoneNumber ?: [NSNull null];
-    userDictionary[APIParamUserInsurancePlan] = guardian.insurancePlan ?: [NSNull null]; //FIXME: This should probably break since insurancePlan is a custom object.
-    userDictionary[APIParamUserMembershipType] = guardian.membershipType ? [Guardian membershipStringFromType:guardian.membershipType] : [NSNull null];
+    userDictionary[APIParamFamilyID] = guardian.familyID;
+    userDictionary[APIParamUserPrimary] = @(guardian.primary);
+    userDictionary[APIParamPhone] = guardian.phoneNumber;
+    userDictionary[APIParamUserInsurancePlan] = guardian.insurancePlan; //FIXME: This should probably break since insurancePlan is a custom object.
+    userDictionary[APIParamUserMembershipType] = guardian.membershipType ? [Guardian membershipStringFromType:guardian.membershipType] : Nil;
+    
+    return userDictionary;
+}
+
++ (NSDictionary *)plistFromUser:(Guardian *)guardian {
+    
+    NSMutableDictionary *userDictionary = [[super plistFromUser:guardian] mutableCopy];
+    
+    userDictionary[APIParamFamilyID] = guardian.familyID;
+    userDictionary[APIParamUserPrimary] = @(guardian.primary);
+    userDictionary[APIParamPhone] = guardian.phoneNumber;
+    userDictionary[APIParamUserMembershipType] = [Guardian membershipStringFromType:guardian.membershipType];
     
     return userDictionary;
 }
@@ -75,8 +108,8 @@ static NSString *const kMembershipTypeIncomplete = @"Incomplete"; //FIXME: This 
         return MembershipTypeUnpaid;
     }
 
-    else if ([membershipTypeString isEqualToString:kMembershipTypePaid]) {
-        return MembershipTypePaid;
+    else if ([membershipTypeString isEqualToString:kMembershipTypeMember]) {
+        return MembershipTypeMember;
     }
     
     else {
@@ -89,8 +122,8 @@ static NSString *const kMembershipTypeIncomplete = @"Incomplete"; //FIXME: This 
     switch (membershipType) {
         case MembershipTypeUnpaid:
             return kMembershipTypeUnpaid;
-        case MembershipTypePaid:
-            return kMembershipTypePaid;
+        case MembershipTypeMember:
+            return kMembershipTypeMember;
         case MembershipTypeIncomplete:
             return kMembershipTypeIncomplete;
         case MembershipTypeNone:

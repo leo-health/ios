@@ -76,7 +76,7 @@
         
         NSUInteger index = [navItem.rightBarButtonItems count] - [navItem.rightBarButtonItems indexOfObject:sender];
         
-        UIViewController *viewController = [self.pageModelController viewControllerAtIndex:index storyboard:[UIStoryboard storyboardWithName:@"Main" bundle:nil]];
+        UIViewController *viewController = [self.pageModelController viewControllerAtIndex:index storyboard:[UIStoryboard storyboardWithName:kStoryboardFeed bundle:nil]];
         
         [self.pageModelController pageViewController:self.pageViewController flipToViewController:viewController];
     }

@@ -50,10 +50,10 @@
     
     NSMutableDictionary *userDictionary = [[super dictionaryFromUser:patient] mutableCopy];
     
-    userDictionary[APIParamFamilyID] = patient.familyID ?: [NSNull null]; //FIXME: Update with constant.
+    userDictionary[APIParamFamilyID] = patient.familyID;
     userDictionary[APIParamUserBirthDate] = [NSDate stringifiedDashedShortDate:patient.dob];
     userDictionary[APIParamUserSex] = patient.gender;
-    userDictionary[APIParamUserStatus] = patient.status ?: [NSNull null];
+    userDictionary[APIParamUserStatus] = patient.status;
 
     return userDictionary;
 }

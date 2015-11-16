@@ -15,6 +15,7 @@
 #import "Patient.h"
 
 #import "NSDate+Extensions.h"
+#import "NSDictionary+Additions.h"
 
 @interface Message()
 
@@ -75,36 +76,24 @@ static NSString *const kImage = @"image";
 //FIXME: LeoConstants missing some of these hence they have been commented out for the time-being.
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
     
-        NSString *objectID = [jsonResponse[APIParamID] stringValue];
-    NSString *text = jsonResponse[APIParamMessageBody];
+    NSString *objectID = [[jsonResponse itemForKey:APIParamID] stringValue];
+    NSString *text = [jsonResponse itemForKey:APIParamMessageBody];
     
     //FIXME: In order for this to work, need a helper to convert the URL to a media message
-    id<JSQMessageMediaData> media = jsonResponse[APIParamMessageBody];
+    id<JSQMessageMediaData> media = [jsonResponse itemForKey:APIParamMessageBody];
     
-    User *sender = [self initializeWithJSONDictionary:jsonResponse[APIParamMessageSender]];
+    User *sender = [self initializeWithJSONDictionary:[jsonResponse itemForKey:APIParamMessageSender]];
     
-    User *escalatedTo;
-    if (!(jsonResponse[APIParamMessageEscalatedTo] == [NSNull null])) {
-        escalatedTo = [self initializeWithJSONDictionary:jsonResponse[APIParamMessageEscalatedTo]];
-    }
-    
-//    User *escalatedBy
-//    if (jsonResponse[APIParamMessageEscalatedBy]) {
-//        escalatedBy = [self initializeWithJSONDictionary:jsonResponse[APIParamMessageEscalatedBy]];
-//    }
+    NSDictionary *escalatedToDictionary = [jsonResponse itemForKey:APIParamMessageEscalatedTo];
+    User *escalatedTo = [self initializeWithJSONDictionary:escalatedToDictionary];
 
-    NSString *status = jsonResponse[APIParamStatus];
-    MessageStatusCode statusCode = [jsonResponse[APIParamStatusID] integerValue];
+    NSString *status = [jsonResponse itemForKey:APIParamStatus];
+    MessageStatusCode statusCode = [[jsonResponse itemForKey:APIParamStatusID] integerValue];
     
     //MARK: Decide if I need to bring this in even since it is only being used for introspection and not kept around afterward.
-    MessageTypeCode typeCode = [self convertTypeToTypeCode:jsonResponse[APIParamType]];
-    
-    //    NSDate *escalatedAt = jsonResponse[APIParamMessageEscalatedDateTime];
-    
-    NSDate *createdAt = [NSDate dateFromDateTimeString:jsonResponse[APIParamCreatedDateTime]];
-    
-    //TODO: May need to protect against nil values...
-    
+    MessageTypeCode typeCode = [self convertTypeToTypeCode:[jsonResponse itemForKey:APIParamType]];
+    NSDate *createdAt = [NSDate dateFromDateTimeString:[jsonResponse itemForKey:APIParamCreatedDateTime]];
+        
     switch (typeCode) {
         case MessageTypeCodeText:
             return [[Message alloc] initWithObjectID:objectID text:text sender:sender escalatedTo:escalatedTo escalatedBy:nil status:status statusCode:statusCode createdAt:createdAt escalatedAt:nil];
@@ -153,7 +142,7 @@ static NSString *const kImage = @"image";
     
     NSMutableDictionary *messageDictionary = [[NSMutableDictionary alloc] init];
     
-    messageDictionary[APIParamID] = message.objectID ? message.objectID : [NSNull null];
+    messageDictionary[APIParamID] = message.objectID;
     
     if (message.text) {
         messageDictionary[APIParamMessageBody] = message.text;

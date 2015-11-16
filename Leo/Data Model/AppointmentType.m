@@ -7,6 +7,7 @@
 //
 
 #import "AppointmentType.h"
+#import "NSDictionary+Additions.h"
 
 @implementation AppointmentType
 
@@ -28,12 +29,12 @@
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
     
-    NSString *objectID = [jsonResponse[APIParamID] stringValue];
-    NSString *name = jsonResponse[APIParamName];
-    AppointmentTypeCode typeCode = [jsonResponse[APIParamAppointmentTypeID] integerValue];
-    NSNumber *duration = jsonResponse[APIParamAppointmentTypeDuration]; //Add LEOConstant instead of hardcoding this.
-    NSString *longDescription = jsonResponse[APIParamAppointmentTypeLongDescription];
-    NSString *shortDescription = jsonResponse[APIParamAppointmentTypeShortDescription];
+    NSString *objectID = [[jsonResponse itemForKey:APIParamID] stringValue];
+    NSString *name = [jsonResponse itemForKey:APIParamName];
+    AppointmentTypeCode typeCode = [[jsonResponse itemForKey:APIParamAppointmentTypeID] integerValue];
+    NSNumber *duration = [jsonResponse itemForKey:APIParamAppointmentTypeDuration]; //Add LEOConstant instead of hardcoding this.
+    NSString *longDescription = [jsonResponse itemForKey:APIParamAppointmentTypeLongDescription];
+    NSString *shortDescription = [jsonResponse itemForKey:APIParamAppointmentTypeShortDescription];
 
     return [self initWithObjectID:objectID name:name typeCode:typeCode duration:duration longDescription:longDescription shortDescription:shortDescription];
 }

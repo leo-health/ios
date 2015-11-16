@@ -206,7 +206,7 @@ NSString *const kSeguePlan = @"PlanSegue";
 #pragma mark - Storyboards
 NSString *const kStoryboardSettings = @"Settings";
 NSString *const kStoryboardLogin = @"Login";
-NSString *const kStoryboardFeed = @"Main";
+NSString *const kStoryboardFeed = @"Main"; //TODO: Eventually rename the file to Feed.storyboard.
 NSString *const kStoryboardConversation = @"Conversation";
 NSString *const kStoryboardAppointment = @"Appointment";
 

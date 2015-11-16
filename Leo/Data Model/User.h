@@ -36,6 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse;
 
 + (NSDictionary *)dictionaryFromUser:(User*)user;
++ (NSDictionary *)plistFromUser:(User *)user;
 
 - (NSString *)fullName;
 - (NSString *)firstAndLastName;

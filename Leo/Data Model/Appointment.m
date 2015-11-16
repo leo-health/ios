@@ -14,6 +14,7 @@
 #import "AppointmentType.h"
 #import "NSDate+Extensions.h"
 #import "Practice.h"
+#import "NSDictionary+Additions.h"
 
 @implementation Appointment
 
@@ -39,25 +40,15 @@
 
 - (instancetype)initWithJSONDictionary:(nonnull NSDictionary *)jsonResponse {
     
-    NSDate *date = [NSDate dateFromDateTimeString:jsonResponse[APIParamAppointmentStartDateTime]];
-    Patient *patient = [[Patient alloc] initWithJSONDictionary:jsonResponse[APIParamUserPatient]];
-    Provider *provider = [[Provider alloc] initWithJSONDictionary:jsonResponse[APIParamUserProvider]];
+    NSDate *date = [NSDate dateFromDateTimeString:[jsonResponse itemForKey:APIParamAppointmentStartDateTime]];
+    Patient *patient = [[Patient alloc] initWithJSONDictionary:[jsonResponse itemForKey:APIParamUserPatient]];
+    Provider *provider = [[Provider alloc] initWithJSONDictionary:[jsonResponse itemForKey:APIParamUserProvider]];
+    User *bookedByUser = [[User alloc] initWithJSONDictionary:[jsonResponse itemForKey:APIParamAppointmentBookedBy]];
+    AppointmentType *appointmentType = [[AppointmentType alloc] initWithJSONDictionary:[jsonResponse itemForKey:APIParamAppointmentType]];
     
-    //NSString *practiceID = jsonResponse[APIParamPracticeID];
-    
-    User *bookedByUser = [[User alloc] initWithJSONDictionary:jsonResponse[APIParamAppointmentBookedBy] ];
-    
-    AppointmentType *appointmentType = [[AppointmentType alloc] initWithJSONDictionary:jsonResponse[APIParamAppointmentType]];
-    
-    AppointmentStatusCode statusCode = [jsonResponse[APIParamState] integerValue]; //FIXME: Constant
-    NSString *objectID = [jsonResponse[APIParamID] stringValue];
-    
-    NSString *note;
-
-    if (jsonResponse[APIParamAppointmentNotes] != [NSNull null]) {
-    
-        note = jsonResponse[APIParamAppointmentNotes];
-    }
+    AppointmentStatusCode statusCode = [[jsonResponse itemForKey:APIParamState] integerValue]; //FIXME: Constant
+    NSString *objectID = [[jsonResponse itemForKey:APIParamID] stringValue];
+    NSString *note = [jsonResponse itemForKey:APIParamAppointmentNotes];
     
     //FIXME: Practice ID is being hardcoded while we only have one practice.
     return [self initWithObjectID:objectID date:date appointmentType:appointmentType patient:patient provider:provider practiceID:@"0" bookedByUser:bookedByUser note:note statusCode:statusCode];
