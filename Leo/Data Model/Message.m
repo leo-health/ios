@@ -123,19 +123,22 @@ static NSString *const kImage = @"image";
 //FIXME: This should not really be a part of the Message class. Let's figure out where this goes.
 - (User *)initializeWithJSONDictionary:(NSDictionary *)jsonDictionary {
     
-    if ([jsonDictionary[APIParamRoleID] isEqual: @(RoleCodeProvider)]) {
-        return [[Provider alloc] initWithJSONDictionary:jsonDictionary];
-    }
+    NSInteger roleID = [jsonDictionary[APIParamRoleID] integerValue];
     
-    else if ([jsonDictionary[APIParamRoleID]  isEqual: @(RoleCodeGuardian)]) {
-        return [[Guardian alloc] initWithJSONDictionary:jsonDictionary];
-    }
+    switch (roleID) {
+        case RoleCodeProvider:
+            return [[Provider alloc] initWithJSONDictionary:jsonDictionary];
+        
+        case RoleCodeGuardian:
+            return [[Guardian alloc] initWithJSONDictionary:jsonDictionary];
+          
     
-    else if ([jsonDictionary[APIParamRole]  isEqual: @(RoleCodePatient)]) {
-        return [[Patient alloc] initWithJSONDictionary:jsonDictionary];
+        case RoleCodePatient:
+            return [[Patient alloc] initWithJSONDictionary:jsonDictionary];
+
+        default:
+            return [[User alloc] initWithJSONDictionary:jsonDictionary];
     }
-    
-    return [[User alloc] initWithJSONDictionary:jsonDictionary];
 }
 
 + (NSDictionary *)dictionaryFromMessage:(Message *)message {

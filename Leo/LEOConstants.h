@@ -33,6 +33,7 @@ typedef NS_ENUM(NSUInteger, CardLayout) {
  *  @AppointmentStatusCodeConfirmingCancelling   Patient has cancelled appointment but not yet dismissed card from app. Internal Leo status for use on iOS app. Not supported by Leo backend.
  *  @AppointmentStatusCodeRecommending           Leo creates appointment object for user without filling out date of appointment. User may decide to make appointment or not. Internal Leo status only.
  */
+
 typedef NS_ENUM(NSUInteger, AppointmentStatusCode) {
     AppointmentStatusCodeReminding = 0,
     AppointmentStatusCodeFuture = 1,
@@ -225,6 +226,7 @@ extern NSString *const APIParamUserMembershipType; // @"type";
 extern NSString *const APIParamUserBirthDate; // @"birth_date";
 extern NSString *const APIParamUserSex; // @"sex";
 extern NSString *const APIParamUserPassword; // @"password";
+extern NSString *const APIParamUserJobTitle; // @"job_title";
 
 #pragma mark - Common user object references
 extern NSString *const APIParamUser; // @"user";
@@ -244,6 +246,7 @@ extern NSString *const APIParamUserSupports; // @"supports";
 #pragma mark - Role
 extern NSString *const APIParamRole; // @"role";
 extern NSString *const APIParamRoleID; // @"role_id";
+extern NSString *const APIParamRoleDisplayName; // @"display_name";
 
 #pragma mark - Relationship
 extern NSString *const APIParamRelationship; // @"relationship";

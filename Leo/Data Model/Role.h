@@ -6,34 +6,23 @@
 //  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
-
-/// MARK: This class likely will not be used. Will remove in a separate commit at a later time if appropriate.
 #import <Foundation/Foundation.h>
-#import <CoreData/CoreData.h>
-
-@class User;
-
-typedef NS_ENUM(NSUInteger, RoleType) {
-    RoleTypeChild,
-    RoleTypeParent,
-    RoleTypeCaretaker,
-    RoleTypeDoctor,
-    RoleTypeNursePractitioner,
-    RoleTypeAdministrator
-};
 
 @interface Role : NSObject
 NS_ASSUME_NONNULL_BEGIN
 
-@property (nonatomic, strong) NSDate * createdAt;
-@property (nonatomic, copy) NSString * name;
-@property (nonatomic, copy) NSString * resourceID;
-@property (nonatomic, strong) NSDate * updatedAt;
-@property (nonatomic, strong) User *user;
+@property (nonatomic, copy, readonly) NSString *objectID;
+@property (nonatomic, readonly) RoleCode roleCode;
+@property (nonatomic, copy, readonly) NSString *name;
+@property (nonatomic, copy, readonly) NSString *displayName;
 
-- (instancetype)initWithName:(NSString *)name resourceID:(NSString *)resourceID;
-- (RoleType)roleType;
 
+//initWithJSONDictionary is not the designated initializer. Maybe it should be. But in the meantime, using the attribute unavailable to let user of Role object know that standard init and new is not available. This is a suboptimal implementation since it would need to be done on every class but a first pass at providing this sort of compiler level context.
+
+- (instancetype) init __attribute__((unavailable("Use initWithJSONDictionary:. init not available.")));
+- (instancetype) new __attribute__((unavailable("Use initWithJSONDictionary:. new not available.")));
+
+- (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse;
 
 NS_ASSUME_NONNULL_END
 @end

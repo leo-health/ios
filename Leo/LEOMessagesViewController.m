@@ -547,7 +547,7 @@
             
             Support *support = (Support *)message.sender;
             attributes = @{NSFontAttributeName : [UIFont leoFieldAndUserLabelsAndSecondaryButtonsFont], NSForegroundColorAttributeName : [UIColor leoGrayForPlaceholdersAndLines]};
-            NSAttributedString *roleAttributedString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@",support.roleDisplayName] attributes:attributes];
+            NSAttributedString *roleAttributedString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@",support.jobTitle] attributes:attributes];
             [concatenatedDisplayNameAndTime appendAttributedString:roleAttributedString];
         } else if ([message.sender isKindOfClass:[Provider class]]) {
             
