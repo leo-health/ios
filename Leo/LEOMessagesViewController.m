@@ -84,7 +84,7 @@
     [self setupInputToolbar];
     [self setupCollectionViewFormatting];
     [self setupBubbles];
-    [self setupRequiredJSQProperties];
+    [self setupRequiredMessagingProperties];
     [self setupPusher];
     [self constructNotifications];
 }
@@ -96,9 +96,6 @@
 }
 #endif
 
-/**
- *  Setup the navigation bar with its appropriate color, title, and dismissal button
- */
 - (void)setupNavigationBar {
     
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:self.card.tintColor]
@@ -167,28 +164,18 @@
                                                            constant:0.0]];
 }
 
-/**
- *  Construct all notifications
- *
- */
 - (void)constructNotifications {
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationReceived:) name:@"Conversation-AddedMessage" object:nil];
 }
 
-/**
- *  senderId, senderDisplayName required by JSQMessagesViewController, and senderFamily required by LEO.
- */
-- (void)setupRequiredJSQProperties {
+- (void)setupRequiredMessagingProperties {
     
     self.senderId = [NSString stringWithFormat:@"%@F",[SessionUser currentUser].familyID];
     self.senderDisplayName = [SessionUser currentUser].fullName;
     self.senderFamily = [SessionUser currentUser].familyID;
 }
 
-/**
- *   Use a bubble factory used to create our underlying image bubbles via JSQ.
- */
 - (void)setupBubbles {
     
     JSQMessagesBubbleImageFactory *bubbleFactory = [[JSQMessagesBubbleImageFactory alloc] init];
@@ -196,9 +183,6 @@
     self.incomingBubbleImageData = [bubbleFactory incomingMessagesBubbleImageWithColor:[UIColor leoGrayForMessageBubbles]];
 }
 
-/**
- *  Choose avatar sizing, setup messageBubble font, and load earlier messages header
- */
 - (void)setupCollectionViewFormatting {
     
     self.collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero;
@@ -208,9 +192,6 @@
     self.collectionView.collectionViewLayout.messageBubbleFont = [UIFont leoStandardFont];
 }
 
-/**
- *  Customize input toolbar
- */
 - (void)setupInputToolbar {
     
     self.inputToolbar.contentView.leftBarButtonItem = nil;
@@ -240,16 +221,27 @@
     LEOPusherHelper *pusherHelper = [LEOPusherHelper sharedPusher];
     [pusherHelper connectToPusherChannel:channelString withEvent:event sender:self withCompletion:^(NSDictionary *channelData) {
         
+        NSString *messageID = [self extractMessageIDFromChannelData:channelData];
         
-        [[self conversation] addMessageFromJSON:channelData];
-        self.offset ++;
+        [self fetchMessageWithID:messageID];
     }];
 }
 
-- (void)fetchMessage {
+- (NSString *)extractMessageIDFromChannelData:(NSDictionary *)channelData {
+    return [[channelData objectForKey:@"message_id"] stringValue];
+}
+
+- (void)fetchMessageWithID:(NSString *)messageID {
     
     LEOMessageService *messageService = [[LEOMessageService alloc] init];
-    messageService get
+    [messageService getMessageWithIdentifier:messageID withCompletion:^(Message *message, NSError *error) {
+        [self updateConversationWithMessage:message];
+    }];
+}
+
+- (void)updateConversationWithMessage:(Message *)message {
+    [[self conversation] addMessage:message];
+    self.offset++;
 }
 
 - (void)notificationReceived:(NSNotification *)notification {
@@ -293,8 +285,7 @@
     Message *message = [Message messageWithObjectID:nil text:text sender:[SessionUser currentUser] escalatedTo:nil escalatedBy:nil status:nil statusCode:MessageStatusCodeUndefined escalatedAt:nil];
     
     [self sendMessage:message withCompletion:^{
-        [[self conversation] addMessage:message];
-        self.offset ++;
+        [self updateConversationWithMessage:message];
         [self finishSendingMessageAnimated:YES];
         [self.sendingIndicator stopAnimating];
         button.hidden = NO;
@@ -515,7 +506,7 @@
     return nil;
 }
 
-//TODO: Refactor this method ideally
+//TODO: Refactor this method
 - (NSAttributedString *)collectionView:(JSQMessagesCollectionView *)collectionView attributedTextForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath
 {
     Message *message = [[self conversation].messages objectAtIndex:indexPath.item];
@@ -658,6 +649,11 @@
 - (BOOL)isFamilyMessage:(Message *)message {
     return [message.senderId isEqualToString:self.senderId];
 }
+
+//- (BOOL)isFamilyMessage:(Message *)message {
+//    
+//    if (message.sender)
+//}
 
 #pragma mark - JSQMessages collection view flow layout delegate
 

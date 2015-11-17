@@ -89,6 +89,7 @@
             NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
             NSString *participantIDString = [numberFormatter stringFromNumber:participantID];
             
+            //TODO: Check if this is even working in any way. Not sure this is ever being set much less synchronized.
             User *user = [[NSUserDefaults standardUserDefaults] objectForKey:participantIDString];
             if (user) {
                 [participants addObject:user];
@@ -96,14 +97,27 @@
                 //TODO: Return a placeholder most likely as opposed to go looking for the user.
             }
         }
-        
-        //        self.conversationParticipants = [participants copy];
-        
+                
         Conversation *conversation = [[Conversation alloc] initWithJSONDictionary:rawResults[APIParamData]];
         
         if (completionBlock) {
             completionBlock(conversation);
         }
+    }];
+}
+
+- (void)getMessageWithIdentifier:(NSString *)messageIdentifier withCompletion:(void (^)(Message *message, NSError *error))completionBlock {
+    
+    NSString *endpoint = [NSString stringWithFormat:@"%@/%@",APIParamMessages, messageIdentifier];
+    [[LEOMessageService leoSessionManager] standardGETRequestForJSONDictionaryFromAPIWithEndpoint:endpoint params:nil completion:^(NSDictionary *rawResults, NSError *error) {
+        
+        if (!error) {
+            Message *message = [[Message alloc] initWithJSONDictionary:rawResults[APIParamData]];
+            completionBlock(message, nil);
+        } else {
+            completionBlock(nil, error);
+        }
+        
     }];
 }
 

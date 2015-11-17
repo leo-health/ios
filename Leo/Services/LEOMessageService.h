@@ -14,6 +14,6 @@
 
 - (void)createMessage:(Message *)message forConversation:( Conversation *)conversation withCompletion:(void (^)(Message  *  message, NSError *error))completionBlock;
 - (void)getMessagesForConversation:(Conversation *)conversation page:(NSInteger)page offset:(NSInteger)offset withCompletion:( void (^)(NSArray *messages))completionBlock;
-- (void)getConversationsForCurrentUserWithCompletion:(void (^)(Conversation*  conversation))completionBlock;
-
+- (void)getConversationsForCurrentUserWithCompletion:(void (^)(Conversation *conversation))completionBlock;
+- (void)getMessageWithIdentifier:(NSString *)messageIdentifier withCompletion:(void (^)(Message *message, NSError *error))completionBlock;
 @end
