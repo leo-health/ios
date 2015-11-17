@@ -136,6 +136,7 @@ NSString *const APIParamMessageBody = @"body";
 NSString *const APIParamMessageSender = @"sender";
 
 NSString *const APIParamMessageEscalatedTo = @"escalated_to";
+NSString *const APIParamMessageEscalatedBy = @"escalated_by";
 
 #pragma mark - Payment & Stripe
 NSString *const APIParamPaymentBalance = @"balance";

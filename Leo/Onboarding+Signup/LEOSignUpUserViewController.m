@@ -219,6 +219,9 @@
             case ManagementModeEdit:
                 [self pop];
                 break;
+                
+            case ManagementModeUndefined:
+                break;
         }
     }
 }

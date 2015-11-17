@@ -21,14 +21,15 @@
     Role *role = [[Role alloc] initWithJSONDictionary:dictionary[APIParamRole]];
     
     switch (role.roleCode) {
-        case RoleCodeProvider:
+            
+        case RoleCodeClinical:
+        case RoleCodeClinicalSupport:
             return [[Provider alloc] initWithJSONDictionary:dictionary];
             
-        case RoleCodeBilling:
+        case RoleCodeFinancial:
         case RoleCodeCustomerService:
-        case RoleCodeNursePractitioner: {
+        case RoleCodeOperational:
             return [[Support alloc] initWithJSONDictionary:dictionary];
-        }
             
         case RoleCodePatient:
             return [[Patient alloc] initWithJSONDictionary:dictionary];
@@ -36,7 +37,7 @@
         case RoleCodeGuardian:
             return [[Guardian alloc] initWithJSONDictionary:dictionary];
             
-        default:
+        case RoleCodeUndefined:
             return [[User alloc] initWithJSONDictionary:dictionary];
     }
 }

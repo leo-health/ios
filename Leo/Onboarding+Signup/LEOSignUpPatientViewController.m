@@ -385,7 +385,9 @@
                         
                         break;
                     }
-                        
+                
+                    case ManagementModeUndefined:
+                        break;
                 }
                 
                 break;
@@ -403,12 +405,15 @@
                         
                         [self.navigationController popViewControllerAnimated:YES];
                         break;
+                        
+                    case ManagementModeUndefined:
+                        break;
                 }
                 
                 break;
             }
-             
-            //This should never be possible, but for completion, adding it here.
+                
+            case FeatureUndefined:
             case FeatureAppointmentScheduling:
                 break;
         }
