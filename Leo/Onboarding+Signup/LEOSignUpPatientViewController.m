@@ -344,11 +344,16 @@
 - (void)continueTapped:(UIButton *)sender {
     
     if ([self validatePage]) {
+
+        NSString *firstName = [self firstNameTextField].text;
+        NSString *lastName = [self lastNameTextField].text;
+        NSString *gender = [[self genderTextField].text substringToIndex:1]; //FIXME: This should not be done here. Bad practice.
+        NSDate *dob = [NSDate dateFromShortDate:[self birthDateTextField].text];
+        UIImage *avatar = self.signUpPatientView.avatarButton.imageView.image;
         
-        self.patient.firstName = [self firstNameTextField].text;
-        self.patient.lastName = [self lastNameTextField].text;
-        self.patient.genderDisplayName = [self genderTextField].text;
-        self.patient.dob = [NSDate dateFromShortDate:[self birthDateTextField].text];
+        if (!self.patient) {
+            self.patient = [[Patient alloc] initWithObjectID:nil familyID:nil title:nil firstName:firstName middleInitial:nil lastName:lastName suffix:nil email:nil avatarURL:nil avatar:avatar dob:dob gender:gender status:nil];
+        }
         
         switch (self.feature) {
             case FeatureSettings: {
@@ -402,6 +407,10 @@
                 
                 break;
             }
+             
+            //This should never be possible, but for completion, adding it here.
+            case FeatureAppointmentScheduling:
+                break;
         }
     }
 }
@@ -411,17 +420,6 @@
     [self.family addPatient:self.patient];
     [self.navigationController popViewControllerAnimated:YES];
 }
-
--(Patient *)patient {
-    
-    if (!_patient) {
-        
-        _patient = [[Patient alloc] init];
-    }
-    
-    return _patient;
-}
-
 
 - (void)presentPhotoPicker:(id)sender {
     

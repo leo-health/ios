@@ -16,6 +16,7 @@
 #import "LEOAPISessionManager.h"
 #import "LEOS3SessionManager.h"
 #import "SessionUser.h"
+#import "NSUserDefaults+Additions.h"
 
 @implementation LEOUserService
 
@@ -23,23 +24,13 @@
     
     NSDictionary *guardianDictionary = [Guardian dictionaryFromUser:newGuardian];
     
-    [[LEOUserService leoSessionManager] standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:@"users" params:guardianDictionary completion:^(NSDictionary *rawResults, NSError *error) {
+    [[LEOUserService leoSessionManager] standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIParamUsers params:guardianDictionary completion:^(NSDictionary *rawResults, NSError *error) {
         
         if (!error) {
-            
-            LEOCredentialStore *credentialStore = [[LEOCredentialStore alloc] init];
-            [credentialStore clearSavedCredentials];
-            
-            [[SessionUser currentUser].credentialStore setAuthToken:rawResults[APIParamData][APIParamSession][APIParamToken]];
-            
-            
-            //FIXME: This makes it clear we should have a rethink on the SessionUser class (and/or add methods to it)...
-            [SessionUser currentUser].familyID = rawResults[APIParamData][APIParamUser][APIParamFamilyID];
-            [SessionUser currentUser].objectID = rawResults[APIParamData][APIParamUser][APIParamID];
-            [SessionUser currentUser].firstName = rawResults[APIParamData][APIParamUser][APIParamUserFirstName];
-            [SessionUser currentUser].lastName = rawResults[APIParamData][APIParamUser][APIParamUserLastName];
-            [SessionUser currentUser].phoneNumber = rawResults[APIParamData][APIParamUser][APIParamPhone];
-            [SessionUser currentUser].insurancePlan = rawResults[APIParamData][APIParamUser][APIParamUserLastName];
+                        
+            [SessionUser setCurrentUserWithJSONDictionary:rawResults[APIParamData]];
+            [SessionUser setAuthToken:rawResults[APIParamData][APIParamSession][APIParamToken]];
+
             
             Guardian *guardian = [[Guardian alloc] initWithJSONDictionary:rawResults[APIParamData][APIParamUser]];
             
@@ -84,11 +75,8 @@
         
         if (!error) {
             
-            LEOCredentialStore *credentialStore = [[LEOCredentialStore alloc] init];
-            [credentialStore clearSavedCredentials];
-            
             [SessionUser newUserWithJSONDictionary:rawResults[APIParamData]];
-            
+            [SessionUser setAuthToken:rawResults[APIParamData][APIParamSession][APIParamToken]];
             completionBlock(YES, nil);
         } else {
             
@@ -149,6 +137,8 @@
     [[LEOUserService leoSessionManager] standardPUTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointUsers params:guardianDictionary completion:^(NSDictionary *rawResults, NSError *error) {
         
         if (!error) {
+            
+            
             completionBlock(YES, nil);
         } else {
             completionBlock (NO, error);
@@ -180,11 +170,12 @@
         
         if (!error) {
             
-            LEOCredentialStore *credentialStore = [[LEOCredentialStore alloc] init];
-            [credentialStore clearSavedCredentials];
+            [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"SessionUser"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
             
-            [SessionUser newUserWithJSONDictionary:rawResults[APIParamData]];
-            
+            [SessionUser setAuthToken:rawResults[APIParamData][APIParamSession][APIParamToken]];
+            [SessionUser setCurrentUserWithJSONDictionary:rawResults[APIParamData]];
+
             if (completionBlock) {
                 completionBlock([SessionUser currentUser], nil);
             }
@@ -193,6 +184,23 @@
             if (completionBlock) {
                 completionBlock(nil, error);
             }
+        }
+    }];
+}
+
+- (void)logoutUserWithCompletion:(void (^)(BOOL success, NSError *error))completionBlock {
+    
+    [[LEOUserService leoSessionManager] standardDELETERequestForJSONDictionaryToAPIWithEndpoint:@"logout" params:nil completion:^(NSDictionary *rawResults, NSError *error) {
+        
+        if (!error) {
+
+            if ([rawResults[APIParamStatus] isEqualToString:@"ok"]) {
+                [SessionUser logout];
+            } else {
+                completionBlock(NO, nil);
+            }
+        } else {
+            completionBlock(NO, error);
         }
     }];
 }

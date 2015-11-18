@@ -10,20 +10,24 @@
 #import "User.h"
 #import "InsurancePlan.h"
 
-@interface Guardian : User <NSCoding>
+@interface Guardian : User
 NS_ASSUME_NONNULL_BEGIN
 
-@property (nonatomic) BOOL primary;
-@property (copy, nonatomic) NSString *relationship;
-@property (nonatomic, copy, nullable) NSString *familyID;
-@property (copy, nonatomic) NSString *phoneNumber;
-@property (strong, nonatomic) InsurancePlan *insurancePlan;
+@property (nonatomic, readonly) BOOL primary;
+@property (copy, nonatomic, readonly) NSString *relationship;
+@property (nonatomic, copy, nullable, readonly) NSString *familyID;
+@property (copy, nonatomic, readonly) NSString *phoneNumber;
+@property (strong, nonatomic, readonly) InsurancePlan *insurancePlan;
+@property (nonatomic, readonly) MembershipType membershipType;
 
-- (instancetype)initWithObjectID:(nullable NSString *)objectID familyID:(NSString *)familyID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email avatarURL:(nullable NSString *)avatarURL avatar:(nullable UIImage *)avatar phoneNumber:(NSString *)phoneNumber insurancePlan:(InsurancePlan *)insurancePlan primary:(BOOL)primary;
+- (instancetype)initWithObjectID:(nullable NSString *)objectID familyID:(nullable NSString *)familyID title:(nullable NSString *)title firstName:(nullable NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(nullable NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email avatarURL:(nullable NSString *)avatarURL avatar:(nullable UIImage *)avatar phoneNumber:(nullable NSString *)phoneNumber insurancePlan:(nullable InsurancePlan *)insurancePlan primary:(BOOL)primary membershipType:(MembershipType)membershipType;
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse;
+- (instancetype)initFromUserDefaults;
 
 + (NSDictionary *)dictionaryFromUser:(Guardian *)guardian;
+
+- (void)saveToUserDefaults;
 
 NS_ASSUME_NONNULL_END
 @end

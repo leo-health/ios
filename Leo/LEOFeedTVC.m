@@ -15,6 +15,7 @@
 #import "LEOCardConversation.h"
 
 #import "LEOCardService.h"
+#import "LEOHelperService.h"
 #import "LEOAppointmentService.h"
 
 #import "User.h"
@@ -190,7 +191,26 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
     
     [super viewDidAppear:animated];
     
-    [self fetchDataForCard:nil];
+    [self fetchFamilyWithCompletion:^{
+
+        [self fetchDataForCard:nil];
+    }];
+}
+
+- (void)fetchFamilyWithCompletion:( void (^) (void))completionBlock {
+    
+    if (!self.family) {
+        LEOHelperService *helperService = [[LEOHelperService alloc] init];
+        [helperService getFamilyWithCompletion:^(Family *family, NSError *error) {
+            
+            if (!error) {
+                self.family = family;
+                completionBlock();
+            }
+        }];
+    } else {
+        completionBlock();
+    }
 }
 
 - (void)notificationReceived:(NSNotification *)notification {
@@ -236,11 +256,16 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
             
             if (!error) {
                 self.cards = [cards mutableCopy];
+                
+                [self.tableView reloadData];
+                
+                NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.cardInFocus inSection:0];
+                [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
             }
+            
             dispatch_async(dispatch_get_main_queue() , ^{
                 
                 [MBProgressHUD hideHUDForView:self.tableView animated:YES];
-                [self.tableView reloadData];
             });
         }];
     });

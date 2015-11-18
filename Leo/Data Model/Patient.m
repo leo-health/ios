@@ -50,32 +50,12 @@
     
     NSMutableDictionary *userDictionary = [[super dictionaryFromUser:patient] mutableCopy];
     
-    userDictionary[APIParamFamilyID] = patient.familyID ?: [NSNull null]; //FIXME: Update with constant.
+    userDictionary[APIParamFamilyID] = patient.familyID;
     userDictionary[APIParamUserBirthDate] = [NSDate stringifiedDashedShortDate:patient.dob];
     userDictionary[APIParamUserSex] = patient.gender;
-    userDictionary[APIParamUserStatus] = patient.status ?: [NSNull null];
+    userDictionary[APIParamUserStatus] = patient.status;
 
     return userDictionary;
-}
-
-- (id)copy {
-
-    Patient*patientCopy = [[Patient alloc] init];
-    patientCopy.objectID = self.objectID;
-    patientCopy.familyID = self.familyID;
-    patientCopy.firstName = self.firstName;
-    patientCopy.lastName = self.lastName;
-    patientCopy.middleInitial = self.middleInitial;
-    patientCopy.suffix = self.suffix;
-    patientCopy.title = self.title;
-    patientCopy.email = self.email;
-    patientCopy.avatarURL = self.avatarURL;
-    patientCopy.avatar = [self.avatar copy];
-    patientCopy.dob = self.dob;
-    patientCopy.gender = self.gender;
-    patientCopy.status = self.status;
-    
-    return patientCopy;
 }
 
 - (NSString *)description {
@@ -85,28 +65,6 @@
     NSString *subDesc = [NSString stringWithFormat:@"\nName: %@ %@",self.firstName, self.lastName];
     
     return [superDesc stringByAppendingString:subDesc];
-}
-
-- (id)initWithCoder:(NSCoder *)decoder {
-    
-    self = [super initWithCoder:decoder];
-    
-    NSString *familyID = [decoder decodeObjectForKey:APIParamFamilyID];
-    NSDate *dob = [decoder decodeObjectForKey:APIParamUserBirthDate];
-    NSString *gender = [decoder decodeObjectForKey:APIParamUserSex];
-    NSString *status = [decoder decodeObjectForKey:APIParamUserStatus];
-    
-    return [self initWithObjectID:self.objectID familyID:familyID title:self.title firstName:self.firstName middleInitial:self.middleInitial lastName:self.lastName suffix:self.suffix email:self.email avatarURL:self.avatarURL avatar:self.avatar dob:dob gender:gender status:status];
-}
-
-- (void)encodeWithCoder:(NSCoder *)encoder {
-    
-    [super encodeWithCoder:encoder];
-    
-    [encoder encodeObject:self.familyID forKey:APIParamFamilyID];
-    [encoder encodeObject:self.dob forKey:APIParamUserBirthDate];
-    [encoder encodeObject:self.gender forKey:APIParamUserSex];
-    [encoder encodeObject:self.status forKey:APIParamUserStatus];
 }
 
 //MARK: This is both super helpful and super dangerous. We *need* this function for ensuring that we don't add the same patient to a family twice, but at the same time, it can only be used if we have enough information to properly distinguish patient. Meaning, if a parent names it's triplets with the exact same names, we will not be able to capture more than one of them in our product. Down the line we can make this more robust, by capturing data such as social security number, etc. etc. For now, I've added it here, but I'm trying to avoid using it as much as possible. I would love to make a custom compiler warning appear if a user of the Patient model object goes to use this so it is clear that they have to use it a certain way, but that is probably less than ideal in the long run and we should find a better solution. (When we build out a persistence layer on the front-end, we'll *need* this sort of thing to ensure non-duplication, even if just a backend validation.)
@@ -122,6 +80,7 @@
     return haveEqualNames && haveEqualBirthdays;
 }
 
+//FIXME: This was a quick implementation for dealing with gender display names vs. M/F in backend that I put in before leaving for vacation. Needs to be rebuilt at some point or backend could use display name instead to simplify.
 -(void)setGenderDisplayName:(NSString *)genderDisplayName {
     
     _genderDisplayName = genderDisplayName;

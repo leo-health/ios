@@ -139,18 +139,10 @@
 }
 
 - (void)addOnboardingData {
-    
-    self.guardian.email = [self emailPromptView].textField.text;
-    self.guardian.primary = YES;
-}
 
-- (Guardian *)guardian {
+        NSString *email = [self emailPromptView].textField.text;
     
-    if (!_guardian) {
-        _guardian = [[Guardian alloc] init];
-    }
-    
-    return _guardian;
+    self.guardian = [[Guardian alloc] initWithObjectID:nil familyID:nil title:nil firstName:nil middleInitial:nil lastName:nil suffix:nil email:email avatarURL:nil avatar:nil phoneNumber:nil insurancePlan:nil primary:YES membershipType:MembershipTypeNone];
 }
 
 - (BOOL)validatePage {

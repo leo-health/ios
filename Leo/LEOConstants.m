@@ -95,7 +95,7 @@ NSString *const APIParamUserSpecialties = @"specialties";
 NSString *const APIParamUserPrimary = @"primary";
 NSString *const APIParamUserStatus = @"status";
 NSString *const APIParamUserInsurancePlan = @"insurancePlan";
-
+NSString *const APIParamUserMembershipType = @"type";
 NSString *const APIParamUserBirthDate = @"birth_date";
 NSString *const APIParamUserSex = @"sex";
 NSString *const APIParamUserPassword = @"password";
@@ -196,6 +196,8 @@ NSString *const APIParamPlanSupported = @"supported"; //Ironically, this param i
 #pragma mark - Magic numbers
 CGFloat const kSelectionLineHeight = 2.0f;
 CGFloat const kCornerRadius = 2.0f;
+CGFloat const kHeightOfNoReturnConstant = 0.4;
+CGFloat const kSpeedForTitleViewAlphaChangeConstant = 4.0;
 
 #pragma mark - Segues
 NSString *const kSegueContinue = @"ContinueSegue";
@@ -204,7 +206,7 @@ NSString *const kSeguePlan = @"PlanSegue";
 #pragma mark - Storyboards
 NSString *const kStoryboardSettings = @"Settings";
 NSString *const kStoryboardLogin = @"Login";
-NSString *const kStoryboardFeed = @"Main";
+NSString *const kStoryboardFeed = @"Main"; //TODO: Eventually rename the file to Feed.storyboard.
 NSString *const kStoryboardConversation = @"Conversation";
 NSString *const kStoryboardAppointment = @"Appointment";
 
@@ -214,11 +216,5 @@ NSString *const kReviewUserCellReuseIdentifer = @"ReviewUserCell";
 NSString *const kReviewPatientCellReuseIdentifer = @"ReviewPatientCell";
 NSString *const kButtonCellReuseIdentifier = @"ButtonCell";
 NSString *const kPromptViewCellReuseIdentifier = @"LEOPromptViewCell";
-
-#pragma mark - Constants
-
-CGFloat const kHeightOfNoReturnConstant = 0.4;
-CGFloat const kSpeedForTitleViewAlphaChangeConstant = 4.0;
-
 
 @end

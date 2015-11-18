@@ -91,7 +91,7 @@
     
     NSMutableDictionary *conversationDictionary = [[NSMutableDictionary alloc] init];
     
-    conversationDictionary[APIParamID] = conversation.objectID ? conversation.objectID : [NSNull null];
+    conversationDictionary[APIParamID] = conversation.objectID;
     conversationDictionary[APIParamMessages] = conversation.messages;
     
     return conversationDictionary;
