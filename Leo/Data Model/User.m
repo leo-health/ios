@@ -48,7 +48,15 @@
     NSString *middleInitial = [jsonResponse itemForKey:APIParamUserMiddleInitial];
     NSString *title = [jsonResponse itemForKey:APIParamUserTitle];
     NSString *suffix = [jsonResponse itemForKey:APIParamUserSuffix];
-    NSString *objectID = [[jsonResponse itemForKey:APIParamID] stringValue];
+    
+    NSString *objectID;
+    
+    if ([jsonResponse[APIParamID] isKindOfClass:[NSNumber class]]) {
+            objectID = [[jsonResponse itemForKey:APIParamID] stringValue];
+    } else {
+        objectID = [jsonResponse itemForKey:APIParamID];
+    }
+    
     NSString *email = [jsonResponse itemForKey:APIParamUserEmail];
     
     NSDictionary *avatarDictionary = [jsonResponse itemForKey:@"avatar"];
