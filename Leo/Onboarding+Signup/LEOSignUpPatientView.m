@@ -91,5 +91,10 @@ IB_DESIGNABLE
 }
 
 
+- (BOOL)isValidAvatar {
+    
+    return self.avatarButton.imageView.image != [UIImage imageNamed:@"Icon-Camera-Avatars"] ? YES : NO;
+}
+
 
 @end

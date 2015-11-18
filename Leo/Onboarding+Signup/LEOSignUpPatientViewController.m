@@ -45,6 +45,7 @@
     
     [super viewDidLoad];
     
+    [self setupTintColor];
     [self setupNavigationBar];
     [self setupSignUpPatientView];
     [self setupBreaker];
@@ -55,36 +56,45 @@
     [self setupAvatarButton];
     [self setupAvatarValidationLabel];
     [self setupGenderField];
-}
-
--(void)viewWillAppear:(BOOL)animated {
-    
-    [super viewWillAppear:animated];
-    
     [self setupContinueButton];
 }
 
+- (void)setupTintColor {
 
+    self.view.tintColor = [LEOStyleHelper tintColorForFeature:self.feature];
+}
 
 - (void)setupNavigationBar {
     
-    self.view.tintColor = [LEOStyleHelper tintColorForFeature:self.feature];
-    
     [LEOStyleHelper styleNavigationBarForFeature:self.feature];
-    
-    UILabel *navTitleLabel = [[UILabel alloc] init];
-    
-    if (self.managementMode == ManagementModeEdit) {
-        navTitleLabel.text = self.patient.fullName;
-    } else {
-        navTitleLabel.text = @"Add Child Details";
-    }
+    [LEOStyleHelper styleBackButtonForViewController:self forFeature:self.feature];
+
+    UILabel *navTitleLabel = [self buildNavTitleLabel];
     
     [LEOStyleHelper styleLabel:navTitleLabel forFeature:self.feature];
     
     self.navigationItem.titleView = navTitleLabel;
     
-    [LEOStyleHelper styleBackButtonForViewController:self forFeature:self.feature];
+}
+
+- (UILabel *)buildNavTitleLabel {
+    
+    UILabel *navTitleLabel = [[UILabel alloc] init];
+    
+    switch (self.managementMode) {
+        case ManagementModeEdit:
+            navTitleLabel.text = self.patient.fullName;
+            break;
+            
+        case ManagementModeCreate:
+            navTitleLabel.text = @"Add Child Details";
+            break;
+            
+        case ManagementModeUndefined:
+            break;
+    }
+   
+    return navTitleLabel;
 }
 
 
@@ -157,6 +167,7 @@
     self.signUpPatientView.avatarValidationLabel.textColor = [UIColor leoOrangeRed];
     self.signUpPatientView.avatarValidationLabel.text = @"";
 }
+
 - (void)setupAvatarButton {
     
     [[self avatarButton] addTarget:self action:@selector(presentPhotoPicker:) forControlEvents:UIControlEventTouchUpInside];
@@ -170,19 +181,39 @@
 - (void)setupContinueButton {
     
     [LEOStyleHelper styleButton:self.signUpPatientView.updateButton forFeature:self.feature];
-    
     [self.signUpPatientView.updateButton setTitle:@"CONTINUE" forState:UIControlStateNormal];
-    
     [self.signUpPatientView.updateButton addTarget:self action:@selector(continueTapped:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 
 #pragma mark - <UIImagePickerViewControllerDelegate>
 
--(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+//TO finish picking media, get the original image and build a crop view controller with it, simultaneously dismissing the image picker.
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     
     UIImage *originalImage = info[UIImagePickerControllerOriginalImage];
-    RSKImageCropViewController *imageCropVC = [[RSKImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeCircle];
+    
+    RSKImageCropViewController *imageCropVC = [self buildCropViewControllerWithImage:originalImage];
+    
+    [self.navigationController pushViewController:imageCropVC animated:NO];
+    
+    [self dismissImagePicker];
+}
+
+- (void)dismissImagePicker {
+    
+    [self dismissViewControllerAnimated:NO completion:^{
+        
+        self.signUpPatientView.avatarValidationLabel.text = @"";
+    }];
+}
+
+
+
+- (RSKImageCropViewController *)buildCropViewControllerWithImage:(UIImage *)image {
+
+    RSKImageCropViewController *imageCropVC = [[RSKImageCropViewController alloc] initWithImage:image cropMode:RSKImageCropModeCircle];
+    
     imageCropVC.delegate = self;
     imageCropVC.moveAndScaleLabel.font = [UIFont leoStandardFont];
     imageCropVC.moveAndScaleLabel.textColor = [UIColor leoOrangeRed];
@@ -194,14 +225,8 @@
     imageCropVC.avoidEmptySpaceAroundImage = YES;
     imageCropVC.view.backgroundColor = [UIColor leoWhite];
     
-    [self.navigationController pushViewController:imageCropVC animated:NO];
-    
-    [self dismissViewControllerAnimated:NO completion:^{
-        
-        self.signUpPatientView.avatarValidationLabel.text = @"";
-    }];
+    return imageCropVC;
 }
-
 
 #pragma mark - <RSKImageCropViewControllerDelegate>
 
@@ -213,6 +238,7 @@
 - (void)imageCropViewController:(RSKImageCropViewController *)controller didCropImage:(UIImage *)croppedImage usingCropRect:(CGRect)cropRect
 {
     [self updateButtonWithImage:croppedImage];
+    
     [self.navigationController popViewControllerAnimated:YES];
 }
 

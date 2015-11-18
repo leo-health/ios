@@ -247,7 +247,7 @@ typedef NS_ENUM(NSUInteger, TableViewSection) {
         }
         
         signUpPatientVC.view.tintColor = [LEOStyleHelper tintColorForFeature:FeatureOnboarding];
-        
+        signUpPatientVC.feature = FeatureOnboarding;
         signUpPatientVC.delegate = self;
     }
     
