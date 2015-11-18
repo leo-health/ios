@@ -15,10 +15,11 @@
 #import "NSDate+Extensions.h"
 #import "Practice.h"
 #import "NSDictionary+Additions.h"
+#import "AppointmentStatus.h"
 
 @implementation Appointment
 
--(instancetype)initWithObjectID:(nullable NSString *)objectID date:(NSDate *)date appointmentType:(AppointmentType *)appointmentType patient:(Patient *)patient provider:(Provider *)provider practiceID:(NSString *)practiceID bookedByUser:(User *)bookedByUser note:(nullable NSString *)note statusCode:(AppointmentStatusCode)statusCode {
+-(instancetype)initWithObjectID:(nullable NSString *)objectID date:(nullable NSDate *)date appointmentType:(nullable AppointmentType *)appointmentType patient:(nullable Patient *)patient provider:(nullable Provider *)provider practiceID:(nullable NSString *)practiceID bookedByUser:(User *)bookedByUser note:(nullable NSString *)note status:(AppointmentStatus *)status {
 
     self = [super init];
     
@@ -29,7 +30,7 @@
         _provider = provider;
         _practiceID = practiceID;
         _bookedByUser = bookedByUser;
-        _statusCode = statusCode;
+        _status = status;
         _objectID = objectID;
         _note = note;
     }
@@ -46,17 +47,18 @@
     User *bookedByUser = [[User alloc] initWithJSONDictionary:[jsonResponse itemForKey:APIParamAppointmentBookedBy]];
     AppointmentType *appointmentType = [[AppointmentType alloc] initWithJSONDictionary:[jsonResponse itemForKey:APIParamAppointmentType]];
     
-    AppointmentStatusCode statusCode = [[jsonResponse itemForKey:APIParamState] integerValue]; //FIXME: Constant
+    AppointmentStatus *status = [[AppointmentStatus alloc] initWithJSONDictionary:[jsonResponse itemForKey:APIParamStatus]];
     NSString *objectID = [[jsonResponse itemForKey:APIParamID] stringValue];
     NSString *note = [jsonResponse itemForKey:APIParamAppointmentNotes];
     
     //FIXME: Practice ID is being hardcoded while we only have one practice.
-    return [self initWithObjectID:objectID date:date appointmentType:appointmentType patient:patient provider:provider practiceID:@"0" bookedByUser:bookedByUser note:note statusCode:statusCode];
+    return [self initWithObjectID:objectID date:date appointmentType:appointmentType patient:patient provider:provider practiceID:@"1" bookedByUser:bookedByUser note:note status:status];
 }
 
 - (instancetype)initWithPrepAppointment:(PrepAppointment *)prepAppointment {
     
-    return [self initWithObjectID:prepAppointment.objectID date:prepAppointment.date appointmentType:prepAppointment.appointmentType patient:prepAppointment.patient provider:prepAppointment.provider practiceID:@"0" bookedByUser:prepAppointment.bookedByUser note:prepAppointment.note statusCode:prepAppointment.statusCode];
+    //TODO: Remove hard coded practice at some point!
+    return [self initWithObjectID:prepAppointment.objectID date:prepAppointment.date appointmentType:prepAppointment.appointmentType patient:prepAppointment.patient provider:prepAppointment.provider practiceID:@"1" bookedByUser:prepAppointment.bookedByUser note:prepAppointment.note status:prepAppointment.status];
 }
 
 + (NSDictionary *)dictionaryFromAppointment:(Appointment *)appointment {
@@ -69,7 +71,7 @@
     
     appointmentDictionary[APIParamAppointmentStartDateTime] = appointment.date;
     appointmentDictionary[APIParamAppointmentTypeID] = appointment.appointmentType.objectID;
-    appointmentDictionary[APIParamState] = [NSNumber numberWithInteger:appointment.statusCode];
+    appointmentDictionary[@"appointment_status_id"] = @(appointment.status.statusCode);
     appointmentDictionary[APIParamUserProviderID] = appointment.provider.objectID;
     appointmentDictionary[APIParamUserPatientID] = appointment.patient.objectID;
     appointmentDictionary[APIParamPracticeID] = appointment.practiceID;
@@ -84,7 +86,7 @@
 -(NSString *) description {
     
     return [NSString stringWithFormat:@"<Appointment: %p>\nid: %@\ndate: %@\nappointmentType: %@\nstate: %lu\nnote %@\nbookedByUser: %@\npatient %@\nprovider: %@",
-            self, self.objectID, self.date, self.appointmentType, (unsigned long)self.statusCode, self.note, self.bookedByUser, self.patient, self.provider];
+            self, self.objectID, self.date, self.appointmentType, (unsigned long)self.status, self.note, self.bookedByUser, self.patient, self.provider];
 }
 
 @end
