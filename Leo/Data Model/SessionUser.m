@@ -40,9 +40,9 @@ static dispatch_once_t onceToken;
 }
 
 + (void)setCurrentUser:(SessionUser *)user {
+
     if (!user) {
-        _currentUser = nil;
-        onceToken = 0;
+        [self reset];
         [_credentialStore clearSavedCredentials];
     } else {
         _currentUser = user;
@@ -51,18 +51,21 @@ static dispatch_once_t onceToken;
 
 + (void)setCurrentUserWithJSONDictionary:(NSDictionary *)jsonDictionary {
     
+    [self reset];
     if (!jsonDictionary) {
-        _currentUser = nil;
-        onceToken = 0;
         [_credentialStore clearSavedCredentials];
     } else {
-        _currentUser = nil;
-        onceToken = 0;
         _currentUser = [SessionUser newUserWithJSONDictionary:jsonDictionary];
         
         //Have added this here so that when the currentUser is replaced, we also check for membership changes at that time (once object has been instantiated.)
         [[NSNotificationCenter defaultCenter] postNotificationName:@"membership-changed" object:self];
     }
+}
+
++ (void)reset {
+    
+    _currentUser = nil;
+    onceToken = 0;
 }
 
 + (BOOL)isLoggedIn {
@@ -71,11 +74,7 @@ static dispatch_once_t onceToken;
         _credentialStore = [[LEOCredentialStore alloc] init];
     }
     
-    if (_credentialStore.authToken != nil) {
-        return YES;
-    }
-    
-    return NO;
+    return _credentialStore.authToken != nil ? YES : NO;
 }
 
 //TODO: Eventually need to actually inform the server of the logging out...

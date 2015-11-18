@@ -41,13 +41,7 @@
     NSString *storyboardIdentifier;
     
     if (!launchOptions) {
-        if ([SessionUser isLoggedIn]) {
-            
-            storyboardIdentifier = kStoryboardFeed;
-        } else {
-            
-            storyboardIdentifier = kStoryboardLogin;
-        }
+       storyboardIdentifier = [SessionUser isLoggedIn] ? kStoryboardFeed : kStoryboardLogin;
     } else {
         
         //TODO: Figure out what other launch option situations we want to account for.
@@ -285,7 +279,7 @@
             NSLog(@"An unknown action was passed.");
         }
     } else {
-        NSLog(@"We were not opened with birdland.");
+        NSLog(@"We were not opened with Leo.");
     }
     return NO;
 }

@@ -36,7 +36,6 @@ typedef NS_ENUM(NSUInteger, AccountSettings) {
     AccountSettingsEmail = 0,
     AccountSettingsPassword = 1,
     AccountSettingsInvite = 2,
-    AccountSettingsLogout = 3,
 };
 
 @interface LEOSettingsViewController ()
@@ -116,7 +115,7 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
     
     switch (section) {
         case SettingsSectionAccounts:
-            rows = 4;
+            rows = 3;
             break;
             
         case SettingsSectionPatients:
@@ -184,14 +183,6 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
                     cell.promptView.tapGestureEnabled = NO;
                     break;
                 }
-                    
-                case AccountSettingsLogout: {
-                    cell.promptView.textField.text = @"Logout";
-                    cell.promptView.accessoryImageViewVisible = NO;
-                    cell.promptView.textField.enabled = NO;
-                    cell.promptView.tapGestureEnabled = NO;
-                    break;
-                }
             }
             
             break;
@@ -239,21 +230,8 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
                     [self performSegueWithIdentifier:kSegueInviteGuardian sender:indexPath];
                     break;
                     
-                case AccountSettingsLogout: {
-                    
-                    LEOUserService *userService = [[LEOUserService alloc] init];
-                    
-                    [userService logoutUserWithCompletion:^(BOOL success, NSError *error) {
-                        //If successful, code will not callback.
-                        //TODO: Setup alertcontroller to tell user they have not been successfully logged out.
-                    }];
-                    
-                    break;
-                }
             }
             
-            break;
-
         case SettingsSectionPatients: {
             
             Patient *patient = self.family.patients[indexPath.row];
@@ -325,19 +303,14 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
     
     switch (section) {
         case SettingsSectionAccounts:
-            return 68.0;
-            
-        case SettingsSectionPatients:
-            return 0.0;
-            break;
-            
-        case SettingsSectionAddPatient:
-            return 0.0;
-            break;
-            
         case SettingsSectionLogout:
+
             return 68.0;
-            break;
+    
+        case SettingsSectionPatients:
+        case SettingsSectionAddPatient:
+
+            return 0.0;
     }
     
     return 0.0;
