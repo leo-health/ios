@@ -87,14 +87,14 @@ static NSString *const kImage = @"image";
     User *sender = [UserFactory userFromJSONDictionary:jsonResponse[APIParamMessageSender]];
     
     User *escalatedTo;
-    if (!(jsonResponse[APIParamMessageEscalatedTo] == [NSNull null])) {
-        escalatedTo = [UserFactory userFromJSONDictionary:jsonResponse[APIParamMessageEscalatedTo]];
-    }
+//    if (!(jsonResponse[APIParamMessageEscalatedTo] == [NSNull null])) {
+//        escalatedTo = [UserFactory userFromJSONDictionary:jsonResponse[APIParamMessageEscalatedTo]];
+//    }
     
     User *escalatedBy;
-    if (jsonResponse[APIParamMessageEscalatedBy]) {
-        escalatedBy = [UserFactory userFromJSONDictionary:jsonResponse[APIParamMessageEscalatedBy]];
-    }
+//    if (jsonResponse[APIParamMessageEscalatedBy]) {
+//        escalatedBy = [UserFactory userFromJSONDictionary:jsonResponse[APIParamMessageEscalatedBy]];
+//    }
 
     NSString *status = [jsonResponse itemForKey:APIParamStatus];
     MessageStatusCode statusCode = [[jsonResponse itemForKey:APIParamStatusID] integerValue];

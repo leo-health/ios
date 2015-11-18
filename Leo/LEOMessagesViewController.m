@@ -83,7 +83,7 @@
     [self setupEmergencyBar];
     [self setupInputToolbar];
     [self setupCollectionViewFormatting];
-    [self setupBubbles];
+    [self setupMessageBubbles];
     [self setupRequiredMessagingProperties];
     [self setupPusher];
     [self constructNotifications];
@@ -108,16 +108,8 @@
     [UINavigationBar appearance].backIndicatorTransitionMaskImage = [UIImage imageNamed:@"Icon-BackArrow"];
     
     self.navigationController.navigationBar.topItem.title = @"";
-    
-    UIButton *dismissButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [dismissButton addTarget:self
-                      action:@selector(dismiss)
-            forControlEvents:UIControlEventTouchUpInside];
-    [dismissButton setImage:[UIImage imageNamed:@"Icon-Cancel"]
-                   forState:UIControlStateNormal];
-    [dismissButton sizeToFit];
-    dismissButton.tintColor = [UIColor leoWhite];
-    
+   
+    UIButton *dismissButton = [self buildDismissButton];
     UIBarButtonItem *dismissBBI = [[UIBarButtonItem alloc] initWithCustomView:dismissButton];
     self.navigationItem.rightBarButtonItem = dismissBBI;
     
@@ -129,6 +121,20 @@
     [navBarTitleLabel sizeToFit];
     
     self.navigationItem.titleView = navBarTitleLabel;
+}
+
+- (UIButton *)buildDismissButton {
+    
+    UIButton *dismissButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [dismissButton addTarget:self
+                      action:@selector(dismiss)
+            forControlEvents:UIControlEventTouchUpInside];
+    [dismissButton setImage:[UIImage imageNamed:@"Icon-Cancel"]
+                   forState:UIControlStateNormal];
+    [dismissButton sizeToFit];
+    dismissButton.tintColor = [UIColor leoWhite];
+    
+    return dismissButton;
 }
 
 - (void)setupEmergencyBar {
@@ -176,7 +182,7 @@
     self.senderFamily = [SessionUser currentUser].familyID;
 }
 
-- (void)setupBubbles {
+- (void)setupMessageBubbles {
     
     JSQMessagesBubbleImageFactory *bubbleFactory = [[JSQMessagesBubbleImageFactory alloc] init];
     self.outgoingBubbleImageData = [bubbleFactory outgoingMessagesBubbleImageWithColor:[UIColor leoBlue]];
@@ -186,7 +192,6 @@
 - (void)setupCollectionViewFormatting {
     
     self.collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero;
-    //self.collectionView.collectionViewLayout.incomingAvatarViewSize = CGSizeZero;
     
     self.showLoadEarlierMessagesHeader = YES;
     self.collectionView.collectionViewLayout.messageBubbleFont = [UIFont leoStandardFont];
@@ -196,12 +201,7 @@
     
     self.inputToolbar.contentView.leftBarButtonItem = nil;
     
-    UIButton *sendButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [sendButton setTitle:@"SEND" forState:UIControlStateNormal];
-    [sendButton setTitleColor:[UIColor leoWhite] forState:UIControlStateNormal];
-    sendButton.titleLabel.font = [UIFont leoFieldAndUserLabelsAndSecondaryButtonsFont];
-    
-    self.sendButton = sendButton;
+    [self initializeSendButton];
     
     self.inputToolbar.contentView.rightBarButtonItem = self.sendButton;
     self.inputToolbar.contentView.backgroundColor = [UIColor leoBlue];
@@ -211,6 +211,16 @@
     self.inputToolbar.contentView.textView.placeHolderTextColor = [UIColor leoGrayForPlaceholdersAndLines];
     self.inputToolbar.layer.borderColor = [UIColor whiteColor].CGColor;
     self.inputToolbar.contentView.textView.font = [UIFont leoStandardFont];
+}
+
+- (void)initializeSendButton {
+    
+    UIButton *sendButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [sendButton setTitle:@"SEND" forState:UIControlStateNormal];
+    [sendButton setTitleColor:[UIColor leoWhite] forState:UIControlStateNormal];
+    sendButton.titleLabel.font = [UIFont leoFieldAndUserLabelsAndSecondaryButtonsFont];
+    
+    self.sendButton = sendButton;
 }
 
 - (void)setupPusher {
@@ -251,11 +261,16 @@
         Conversation *conversation = (Conversation *)notification.object;
         Message *newMessage = conversation.messages.lastObject;
         
-        if ([self isFamilyMessage:newMessage]) {
-            [self finishSendingMessageAnimated:YES];
-        } else {
-            [self finishReceivingMessageAnimated:YES];
-        }
+        [self finishSendingMessage:newMessage];
+    }
+}
+
+- (void)finishSendingMessage:(Message *)message {
+    
+    if ([self isFamilyMessage:message]) {
+        [self finishSendingMessageAnimated:YES];
+    } else {
+        [self finishReceivingMessageAnimated:YES];
     }
 }
 
@@ -279,17 +294,16 @@
 
     [self.sendingIndicator startAnimating];
 
-    
     [JSQSystemSoundPlayer jsq_playMessageSentSound];
     
     Message *message = [Message messageWithObjectID:nil text:text sender:[SessionUser currentUser] escalatedTo:nil escalatedBy:nil status:nil statusCode:MessageStatusCodeUndefined escalatedAt:nil];
     
     [self sendMessage:message withCompletion:^{
+        
         [self updateConversationWithMessage:message];
-        [self finishSendingMessageAnimated:YES];
+        [self finishSendingMessage:message];
         [self.sendingIndicator stopAnimating];
         button.hidden = NO;
-
     }];
 }
 
@@ -745,20 +759,26 @@
          */
         [[self conversation] addMessages:messages];
         
-        /**
-         *  Using the method as described here to avoid flicker: http://stackoverflow.com/a/26401767/1938725
-         */
-        CGFloat oldOffset = self.collectionView.contentSize.height - self.collectionView.contentOffset.y;
-        
-        [CATransaction begin];
-        [CATransaction setDisableActions:YES];
-        
-        [collectionView performBatchUpdates:^{
-            [self.collectionView insertItemsAtIndexPaths:indexPaths];
-        } completion:^(BOOL finished) {
-            self.collectionView.contentOffset = CGPointMake(0.0, self.collectionView.contentSize.height - oldOffset);
-            [CATransaction commit];
-        }];
+        [self collectionView:collectionView avoidFlickerInAnimationWhenInsertingIndexPaths:indexPaths];
+    }];
+}
+
+
+/**
+ *  Using the method as described here to avoid flicker: http://stackoverflow.com/a/26401767/1938725
+ */
+- (void)collectionView:(UICollectionView *)collectionView avoidFlickerInAnimationWhenInsertingIndexPaths:(NSArray *)indexPaths {
+    
+    CGFloat oldOffset = self.collectionView.contentSize.height - self.collectionView.contentOffset.y;
+    
+    [CATransaction begin];
+    [CATransaction setDisableActions:YES];
+    
+    [self.collectionView performBatchUpdates:^{
+        [self.collectionView insertItemsAtIndexPaths:indexPaths];
+    } completion:^(BOOL finished) {
+        self.collectionView.contentOffset = CGPointMake(0.0, self.collectionView.contentSize.height - oldOffset);
+        [CATransaction commit];
     }];
 }
 

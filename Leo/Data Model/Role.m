@@ -35,8 +35,8 @@
 
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
-    NSString *objectID = [jsonResponse[APIParamRoleID] stringValue];
-    RoleCode roleCode = [jsonResponse[APIParamRoleID] integerValue];
+    NSString *objectID = [jsonResponse[APIParamID] stringValue];
+    RoleCode roleCode = [jsonResponse[APIParamID] integerValue];
     NSString *name = jsonResponse[APIParamName];
     NSString *displayName = jsonResponse[APIParamRoleDisplayName];
 
