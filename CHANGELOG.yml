@@ -1,4 +1,8 @@
     upcoming:
+    - API updates and bug fixes to Messaging
+    - Push notifications with fixed device identifier (test device)
+    - API updates and bug fixes to Scheduling
+    
     releases:
     - version: 0.1.1
       build: 2015.10.31.09.23
