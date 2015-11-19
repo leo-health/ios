@@ -80,7 +80,7 @@ lane :alpha do |options|
     # Ensure we have the mobile provisioning profiles
     sigh(
       output_path: "./fastlane_build",
-      filename: "com.leohealth.leo.alpha.mobileprovision",
+      filename: "com.leohealth.leo.alpha.mobileprovision"
     )
 
     # Build and sign app
