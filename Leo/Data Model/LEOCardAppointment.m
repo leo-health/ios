@@ -70,7 +70,6 @@ static NSString *kActionSelectorReschedule = @"reschedule";
         case AppointmentStatusCodeOpen:
         case AppointmentStatusCodeBooking:
         case AppointmentStatusCodeNew:
-
             return CardLayoutUndefined;
             
         case AppointmentStatusCodeCancelling:
@@ -103,6 +102,7 @@ static NSString *kActionSelectorReschedule = @"reschedule";
         case AppointmentStatusCodeChargeEntered:
         case AppointmentStatusCodeOpen:
             titleText = @"";
+            break;
             
         case AppointmentStatusCodeBooking:
         case AppointmentStatusCodeNew:
@@ -144,7 +144,6 @@ static NSString *kActionSelectorReschedule = @"reschedule";
             
         case AppointmentStatusCodeBooking:
         case AppointmentStatusCodeNew:
-        
             bodyText = nil;
             break;
             
@@ -187,7 +186,6 @@ static NSString *kActionSelectorReschedule = @"reschedule";
     
     switch (self.appointment.status.statusCode) {
         case AppointmentStatusCodeBooking:
-            
             actionStrings = @[@"RESCHEDULE APPOINTMENT"];
             break;
             
@@ -231,7 +229,7 @@ static NSString *kActionSelectorReschedule = @"reschedule";
     switch (self.appointment.status.statusCode) {
         
         case AppointmentStatusCodeNew: {
-            
+    
             NSString *buttonOneAction = kActionSelectorBook;
             [actions addObject:buttonOneAction];
             

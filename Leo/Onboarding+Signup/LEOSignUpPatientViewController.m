@@ -49,7 +49,7 @@
     [self setupNavigationBar];
     [self setupSignUpPatientView];
     [self setupBreaker];
-
+    
     [self setupFirstNameField];
     [self setupLastNameField];
     [self setupBirthDateField];
@@ -60,7 +60,7 @@
 }
 
 - (void)setupTintColor {
-
+    
     self.view.tintColor = [LEOStyleHelper tintColorForFeature:self.feature];
 }
 
@@ -68,7 +68,7 @@
     
     [LEOStyleHelper styleNavigationBarForFeature:self.feature];
     [LEOStyleHelper styleBackButtonForViewController:self forFeature:self.feature];
-
+    
     UILabel *navTitleLabel = [self buildNavTitleLabel];
     
     [LEOStyleHelper styleLabel:navTitleLabel forFeature:self.feature];
@@ -93,7 +93,7 @@
         case ManagementModeUndefined:
             break;
     }
-   
+    
     return navTitleLabel;
 }
 
@@ -211,7 +211,7 @@
 
 
 - (RSKImageCropViewController *)buildCropViewControllerWithImage:(UIImage *)image {
-
+    
     RSKImageCropViewController *imageCropVC = [[RSKImageCropViewController alloc] initWithImage:image cropMode:RSKImageCropModeCircle];
     
     imageCropVC.delegate = self;
@@ -338,11 +338,11 @@
     AbstractActionSheetPicker *picker = [[ActionSheetStringPicker alloc] initWithTitle:nil rows:@[@"Female",@"Male"] initialSelection:selectedIndex target:self successAction:@selector(genderWasSelected:element:) cancelAction:nil origin:sender];
     picker.hideCancel = YES;
     picker.pickerBackgroundColor = [UIColor leoWhite];
-
+    
     picker.pickerTextAttributes = @{NSForegroundColorAttributeName: [UIColor leoOrangeRed],
                                     NSFontAttributeName:[UIFont leoStandardFont],
                                     NSBackgroundColorAttributeName: [UIColor leoWhite]};
-
+    
     UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [doneButton setTitleColor:[UIColor leoOrangeRed] forState:UIControlStateNormal];
     [doneButton setTitle:@"Done" forState:UIControlStateNormal];
@@ -370,7 +370,7 @@
 - (void)continueTapped:(UIButton *)sender {
     
     if ([self validatePage]) {
-
+        
         NSString *firstName = [self firstNameTextField].text;
         NSString *lastName = [self lastNameTextField].text;
         NSString *gender = [[self genderTextField].text substringToIndex:1]; //FIXME: This should not be done here. Bad practice.
@@ -411,7 +411,7 @@
                         
                         break;
                     }
-                
+                        
                     case ManagementModeUndefined:
                         break;
                 }
@@ -462,7 +462,6 @@
 }
 
 - (void)pop {
-    
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -548,7 +547,6 @@
     }
     
     [self.pathLayer addAnimation:fadeAnimation forKey:@"breakerFade"];
-    
 }
 
 - (void)fadeAnimation:(CABasicAnimation *)fadeAnimation fromColor:(UIColor *)fromColor toColor:(UIColor *)toColor withStrokeColor:(UIColor *)strokeColor {
@@ -560,7 +558,6 @@
 }
 
 - (void)setupBreaker {
-    
     
     CGRect viewRect = self.navigationController.navigationBar.bounds;
     

@@ -20,7 +20,7 @@
 @implementation Appointment
 
 -(instancetype)initWithObjectID:(nullable NSString *)objectID date:(nullable NSDate *)date appointmentType:(nullable AppointmentType *)appointmentType patient:(nullable Patient *)patient provider:(nullable Provider *)provider practiceID:(nullable NSString *)practiceID bookedByUser:(User *)bookedByUser note:(nullable NSString *)note status:(AppointmentStatus *)status {
-
+    
     self = [super init];
     
     if (self) {
@@ -66,7 +66,7 @@
     NSMutableDictionary *appointmentDictionary = [[NSMutableDictionary alloc] init];
     
     if (appointment.objectID) {
-    appointmentDictionary[APIParamID] = appointment.objectID;
+        appointmentDictionary[APIParamID] = appointment.objectID;
     }
     
     appointmentDictionary[APIParamAppointmentStartDateTime] = appointment.date;
@@ -79,7 +79,7 @@
     if (appointment.note) {
         appointmentDictionary[APIParamAppointmentNotes] = appointment.note;
     }
-
+    
     return appointmentDictionary;
 }
 

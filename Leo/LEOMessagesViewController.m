@@ -108,7 +108,7 @@
     [UINavigationBar appearance].backIndicatorTransitionMaskImage = [UIImage imageNamed:@"Icon-BackArrow"];
     
     self.navigationController.navigationBar.topItem.title = @"";
-   
+    
     UIButton *dismissButton = [self buildDismissButton];
     UIBarButtonItem *dismissBBI = [[UIBarButtonItem alloc] initWithCustomView:dismissButton];
     self.navigationItem.rightBarButtonItem = dismissBBI;
@@ -291,9 +291,9 @@
                       date:(NSDate *)date
 {
     button.hidden = YES;
-
+    
     [self.sendingIndicator startAnimating];
-
+    
     [JSQSystemSoundPlayer jsq_playMessageSentSound];
     
     Message *message = [Message messageWithObjectID:nil text:text sender:[SessionUser currentUser] escalatedTo:nil escalatedBy:nil status:nil statusCode:MessageStatusCodeUndefined escalatedAt:nil];
@@ -665,7 +665,7 @@
 }
 
 //- (BOOL)isFamilyMessage:(Message *)message {
-//    
+//
 //    if (message.sender)
 //}
 

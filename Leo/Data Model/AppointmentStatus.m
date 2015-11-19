@@ -20,7 +20,6 @@
         _name = name;
         _athenaCode = athenaCode;
         _statusCode = statusCode;
-        
     }
     
     return self;
@@ -51,6 +50,7 @@
     
     NSNumberFormatter *numberFormatter = [NSNumberFormatter new];
     numberFormatter.numberStyle = NSNumberFormatterOrdinalStyle;
+    
     return [numberFormatter numberFromString:numberString];
 }
 
