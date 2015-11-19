@@ -9,6 +9,7 @@
 #import "Practice.h"
 #import "Provider.h"
 #import "Support.h"
+#import "UserFactory.h"
 
 @implementation Practice
 
@@ -46,15 +47,8 @@ static NSString *const RoleProvider = @"clinical";
     
     for (NSDictionary *staffDictionary in staffDictionaries) {
         
-        NSString *role = staffDictionary[APIParamRole];
-        
-        if ([role isEqualToString:RoleProvider]) {
-            Provider *provider = [[Provider alloc] initWithJSONDictionary:staffDictionary];
-            [staff addObject:provider];
-        } else {
-            Support *support = [[Support alloc] initWithJSONDictionary:staffDictionary];
-            [staff addObject:support];
-        }
+        User *staffMember = [UserFactory userFromJSONDictionary:staffDictionary];
+        [staff addObject:staffMember];
     }
     
     NSString *name = jsonResponse[APIParamPracticeName];

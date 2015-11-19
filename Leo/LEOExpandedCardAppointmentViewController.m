@@ -30,6 +30,7 @@
 #import "LEOAPISlotsOperation.h"
 #import "LEOApiReachability.h"
 #import <MBProgressHUD.h>
+#import "AppointmentStatus.h"
 
 @interface LEOExpandedCardAppointmentViewController ()
 
@@ -283,7 +284,7 @@
         
     self.appointment = [[Appointment alloc] initWithPrepAppointment:self.prepAppointment]; //FIXME: Make this a loop to account for changes to multiple objects, e.g. appointments on a card.
     
-    self.appointment.statusCode = AppointmentStatusCodeFuture;
+    self.appointment.status.statusCode = AppointmentStatusCodeFuture;
     
     [MBProgressHUD showHUDAddedTo:self.view.window animated:YES];
     

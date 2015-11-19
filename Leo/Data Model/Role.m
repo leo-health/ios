@@ -7,33 +7,40 @@
 //
 
 #import "Role.h"
-#import "User.h"
+
+@interface Role()
+
+@property (nonatomic, copy, readwrite) NSString *objectID;
+@property (nonatomic, readwrite) RoleCode roleCode;
+@property (nonatomic, copy, readwrite) NSString *name;
+@property (nonatomic, copy, readwrite) NSString *displayName;
+
+@end
+
 @implementation Role
 
-- (instancetype)initWithName:(NSString *)name resourceID:(NSString *)resourceID {
-
+- (instancetype)initWithObjectID:(NSString *)objectID roleCode:(RoleCode)roleCode name:(NSString *)name displayName:(NSString *)displayName {
+    
     self = [super init];
     
     if (self) {
+        _objectID = objectID;
+        _roleCode = roleCode;
         _name = name;
-        _resourceID = resourceID;
+        _displayName = displayName;
     }
     
     return self;
 }
 
-- (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
-    
-    NSString *resourceName = jsonResponse[APIParamRole];
-    NSString *resourceID = jsonResponse[APIParamRoleID];
-    
-    //TODO: May need to protect against nil values...
-    return [self initWithName:resourceName resourceID:resourceID];
-}
 
-- (RoleType)roleType {
-    
-    return [self.resourceID integerValue]; //TODO: Make sure this is the right field to determine the role type
+- (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
+    NSString *objectID = [jsonResponse[APIParamID] stringValue];
+    RoleCode roleCode = [jsonResponse[APIParamID] integerValue];
+    NSString *name = jsonResponse[APIParamName];
+    NSString *displayName = jsonResponse[APIParamRoleDisplayName];
+
+    return [self initWithObjectID:objectID roleCode:roleCode name:name displayName:displayName];
 }
 
 @end

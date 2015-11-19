@@ -7,12 +7,14 @@
 //
 
 #import "Message.h"
+
 #import "Conversation.h"
+
+#import "UserFactory.h"
 #import "User.h"
 #import "Provider.h"
 #import "Guardian.h"
 #import "Support.h"
-#import "Patient.h"
 
 #import "NSDate+Extensions.h"
 #import "NSDictionary+Additions.h"
@@ -82,10 +84,17 @@ static NSString *const kImage = @"image";
     //FIXME: In order for this to work, need a helper to convert the URL to a media message
     id<JSQMessageMediaData> media = [jsonResponse itemForKey:APIParamMessageBody];
     
-    User *sender = [self initializeWithJSONDictionary:[jsonResponse itemForKey:APIParamMessageSender]];
+    User *sender = [UserFactory userFromJSONDictionary:jsonResponse[APIParamMessageSender]];
     
-    NSDictionary *escalatedToDictionary = [jsonResponse itemForKey:APIParamMessageEscalatedTo];
-    User *escalatedTo = [self initializeWithJSONDictionary:escalatedToDictionary];
+    User *escalatedTo;
+//    if (!(jsonResponse[APIParamMessageEscalatedTo] == [NSNull null])) {
+//        escalatedTo = [UserFactory userFromJSONDictionary:jsonResponse[APIParamMessageEscalatedTo]];
+//    }
+    
+    User *escalatedBy;
+//    if (jsonResponse[APIParamMessageEscalatedBy]) {
+//        escalatedBy = [UserFactory userFromJSONDictionary:jsonResponse[APIParamMessageEscalatedBy]];
+//    }
 
     NSString *status = [jsonResponse itemForKey:APIParamStatus];
     MessageStatusCode statusCode = [[jsonResponse itemForKey:APIParamStatusID] integerValue];
@@ -96,13 +105,12 @@ static NSString *const kImage = @"image";
         
     switch (typeCode) {
         case MessageTypeCodeText:
-            return [[Message alloc] initWithObjectID:objectID text:text sender:sender escalatedTo:escalatedTo escalatedBy:nil status:status statusCode:statusCode createdAt:createdAt escalatedAt:nil];
+            return [[Message alloc] initWithObjectID:objectID text:text sender:sender escalatedTo:escalatedTo escalatedBy:escalatedBy status:status statusCode:statusCode createdAt:createdAt escalatedAt:nil];
             
         case MessageTypeCodeImage:
-             return [[Message alloc] initWithObjectID:objectID media:media sender:sender escalatedTo:escalatedTo escalatedBy:nil status:status statusCode:statusCode createdAt:createdAt escalatedAt:nil];
+             return [[Message alloc] initWithObjectID:objectID media:media sender:sender escalatedTo:escalatedTo escalatedBy:escalatedBy status:status statusCode:statusCode createdAt:createdAt escalatedAt:nil];
             
         case MessageTypeCodeUndefined:
-    
             return nil;
     }
 }
@@ -119,25 +127,6 @@ static NSString *const kImage = @"image";
 }
 
 
-
-//FIXME: This should not really be a part of the Message class. Let's figure out where this goes.
-- (User *)initializeWithJSONDictionary:(NSDictionary *)jsonDictionary {
-    
-    if ([jsonDictionary[APIParamRoleID] isEqual: @(RoleCodeProvider)]) {
-        return [[Provider alloc] initWithJSONDictionary:jsonDictionary];
-    }
-    
-    else if ([jsonDictionary[APIParamRoleID]  isEqual: @(RoleCodeGuardian)]) {
-        return [[Guardian alloc] initWithJSONDictionary:jsonDictionary];
-    }
-    
-    else if ([jsonDictionary[APIParamRole]  isEqual: @(RoleCodePatient)]) {
-        return [[Patient alloc] initWithJSONDictionary:jsonDictionary];
-    }
-    
-    return [[User alloc] initWithJSONDictionary:jsonDictionary];
-}
-
 + (NSDictionary *)dictionaryFromMessage:(Message *)message {
     
     NSMutableDictionary *messageDictionary = [[NSMutableDictionary alloc] init];
@@ -152,7 +141,7 @@ static NSString *const kImage = @"image";
         messageDictionary[APIParamTypeID] = @1;
     }
     
-    messageDictionary[APIParamUser] = message.sender;
+    messageDictionary[APIParamUser] = message.sender.objectID; //TODO: Check whether this is even necessary.
     messageDictionary[APIParamCreatedDateTime] = message.createdAt;
     messageDictionary[APIParamStatusID] = [NSNumber numberWithInteger:message.statusCode];
     

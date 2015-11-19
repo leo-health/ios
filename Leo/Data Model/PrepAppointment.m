@@ -13,10 +13,12 @@
 #import "AppointmentType.h"
 #import "Appointment.h"
 #import "Practice.h"
+#import "AppointmentStatus.h"
+#import "NSDictionary+Additions.h"
 
 @implementation PrepAppointment
 
-- (instancetype)initWithObjectID:(nullable NSString *)objectID date:(nullable NSDate *)date appointmentType:(AppointmentType *)appointmentType patient:(Patient *)patient provider:(Provider *)provider practiceID:(NSString *)practiceID bookedByUser:(User *)bookedByUser note:(NSString *)note statusCode:(AppointmentStatusCode)statusCode {
+- (instancetype)initWithObjectID:(nullable NSString *)objectID date:(nullable NSDate *)date appointmentType:(AppointmentType *)appointmentType patient:(Patient *)patient provider:(Provider *)provider practiceID:(NSString *)practiceID bookedByUser:(User *)bookedByUser note:(NSString *)note status:(AppointmentStatus *)status {
 
     self = [super init];
     
@@ -27,7 +29,7 @@
         _provider = provider;
         _practiceID = practiceID;
         _bookedByUser = bookedByUser;
-        _statusCode = statusCode;
+        _status = status;
         _objectID = objectID;
         _note = note;
     }
@@ -65,20 +67,20 @@
     User *bookedByUser = jsonResponse[APIParamAppointmentBookedBy];
     //FIXME: This should really go looking for the appointment type via ID as opposed to trying to pull it from this JSON response most likely (hence why we get a warning here because that isn't passed as part of the API endpoint.)
     
-    AppointmentType *appointmentType = [[AppointmentType alloc] initWithObjectID:@"0" name:jsonResponse[APIParamAppointmentType] typeCode:AppointmentTypeCodeCheckup duration:@15 longDescription:jsonResponse[APIParamAppointmentTypeLongDescription] shortDescription:jsonResponse[APIParamAppointmentTypeShortDescription]]; //FIXME: Constant
+    AppointmentType *appointmentType = [[AppointmentType alloc] initWithObjectID:@"0" name:jsonResponse[APIParamAppointmentType] typeCode:AppointmentTypeCodeWellVisit duration:@15 longDescription:jsonResponse[APIParamAppointmentTypeLongDescription] shortDescription:jsonResponse[APIParamAppointmentTypeShortDescription]]; //FIXME: Constant
     
-    AppointmentStatusCode statusCode = [jsonResponse[APIParamState] integerValue];
+    AppointmentStatus *status = [[AppointmentStatus alloc] initWithJSONDictionary:[jsonResponse itemForKey:APIParamStatus]];
     NSString *objectID = [jsonResponse[APIParamID] stringValue];
     NSString *note = jsonResponse[APIParamAppointmentNotes];
     
     //TODO: Come back and replace practiceID with actual practiceID
-    return [self initWithObjectID:objectID date:date appointmentType:appointmentType  patient:patient provider:provider practiceID:@"0" bookedByUser:bookedByUser note:note statusCode:statusCode];
+    return [self initWithObjectID:objectID date:date appointmentType:appointmentType  patient:patient provider:provider practiceID:@"0" bookedByUser:bookedByUser note:note status:status];
 }
 
 - (NSString *)description {
     
     return [NSString stringWithFormat:@"<Appointment: %p>\nid: %@\ndate: %@\nappointmentType: %@\nstate: %lu\nnote %@\nbookedByUser: %@\npatient %@\nprovider: %@",
-            self, self.objectID, self.date, self.appointmentType, (unsigned long)self.statusCode, self.note, self.bookedByUser, self.patient, self.provider];
+            self, self.objectID, self.date, self.appointmentType, (unsigned long)self.status, self.note, self.bookedByUser, self.patient, self.provider];
 }
 
 -(instancetype)initWithAppointment:(Appointment *)appointment {
@@ -91,7 +93,7 @@
                        practiceID:appointment.practiceID
                      bookedByUser:appointment.bookedByUser
                              note:appointment.note
-                       statusCode:appointment.statusCode];
+                           status:appointment.status];
 };
 
 @end

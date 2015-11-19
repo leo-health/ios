@@ -83,8 +83,8 @@
     [self setupEmergencyBar];
     [self setupInputToolbar];
     [self setupCollectionViewFormatting];
-    [self setupBubbles];
-    [self setupRequiredJSQProperties];
+    [self setupMessageBubbles];
+    [self setupRequiredMessagingProperties];
     [self setupPusher];
     [self constructNotifications];
 }
@@ -96,9 +96,6 @@
 }
 #endif
 
-/**
- *  Setup the navigation bar with its appropriate color, title, and dismissal button
- */
 - (void)setupNavigationBar {
     
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:self.card.tintColor]
@@ -112,15 +109,7 @@
     
     self.navigationController.navigationBar.topItem.title = @"";
     
-    UIButton *dismissButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [dismissButton addTarget:self
-                      action:@selector(dismiss)
-            forControlEvents:UIControlEventTouchUpInside];
-    [dismissButton setImage:[UIImage imageNamed:@"Icon-Cancel"]
-                   forState:UIControlStateNormal];
-    [dismissButton sizeToFit];
-    dismissButton.tintColor = [UIColor leoWhite];
-    
+    UIButton *dismissButton = [self buildDismissButton];
     UIBarButtonItem *dismissBBI = [[UIBarButtonItem alloc] initWithCustomView:dismissButton];
     self.navigationItem.rightBarButtonItem = dismissBBI;
     
@@ -132,6 +121,20 @@
     [navBarTitleLabel sizeToFit];
     
     self.navigationItem.titleView = navBarTitleLabel;
+}
+
+- (UIButton *)buildDismissButton {
+    
+    UIButton *dismissButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [dismissButton addTarget:self
+                      action:@selector(dismiss)
+            forControlEvents:UIControlEventTouchUpInside];
+    [dismissButton setImage:[UIImage imageNamed:@"Icon-Cancel"]
+                   forState:UIControlStateNormal];
+    [dismissButton sizeToFit];
+    dismissButton.tintColor = [UIColor leoWhite];
+    
+    return dismissButton;
 }
 
 - (void)setupEmergencyBar {
@@ -167,60 +170,38 @@
                                                            constant:0.0]];
 }
 
-/**
- *  Construct all notifications
- *
- */
 - (void)constructNotifications {
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationReceived:) name:@"Conversation-AddedMessage" object:nil];
 }
 
-/**
- *  senderId, senderDisplayName required by JSQMessagesViewController, and senderFamily required by LEO.
- */
-- (void)setupRequiredJSQProperties {
+- (void)setupRequiredMessagingProperties {
     
     self.senderId = [NSString stringWithFormat:@"%@F",[SessionUser currentUser].familyID];
     self.senderDisplayName = [SessionUser currentUser].fullName;
     self.senderFamily = [SessionUser currentUser].familyID;
 }
 
-/**
- *   Use a bubble factory used to create our underlying image bubbles via JSQ.
- */
-- (void)setupBubbles {
+- (void)setupMessageBubbles {
     
     JSQMessagesBubbleImageFactory *bubbleFactory = [[JSQMessagesBubbleImageFactory alloc] init];
     self.outgoingBubbleImageData = [bubbleFactory outgoingMessagesBubbleImageWithColor:[UIColor leoBlue]];
     self.incomingBubbleImageData = [bubbleFactory incomingMessagesBubbleImageWithColor:[UIColor leoGrayForMessageBubbles]];
 }
 
-/**
- *  Choose avatar sizing, setup messageBubble font, and load earlier messages header
- */
 - (void)setupCollectionViewFormatting {
     
     self.collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero;
-    //self.collectionView.collectionViewLayout.incomingAvatarViewSize = CGSizeZero;
     
     self.showLoadEarlierMessagesHeader = YES;
     self.collectionView.collectionViewLayout.messageBubbleFont = [UIFont leoStandardFont];
 }
 
-/**
- *  Customize input toolbar
- */
 - (void)setupInputToolbar {
     
     self.inputToolbar.contentView.leftBarButtonItem = nil;
     
-    UIButton *sendButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [sendButton setTitle:@"SEND" forState:UIControlStateNormal];
-    [sendButton setTitleColor:[UIColor leoWhite] forState:UIControlStateNormal];
-    sendButton.titleLabel.font = [UIFont leoFieldAndUserLabelsAndSecondaryButtonsFont];
-    
-    self.sendButton = sendButton;
+    [self initializeSendButton];
     
     self.inputToolbar.contentView.rightBarButtonItem = self.sendButton;
     self.inputToolbar.contentView.backgroundColor = [UIColor leoBlue];
@@ -232,6 +213,16 @@
     self.inputToolbar.contentView.textView.font = [UIFont leoStandardFont];
 }
 
+- (void)initializeSendButton {
+    
+    UIButton *sendButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [sendButton setTitle:@"SEND" forState:UIControlStateNormal];
+    [sendButton setTitleColor:[UIColor leoWhite] forState:UIControlStateNormal];
+    sendButton.titleLabel.font = [UIFont leoFieldAndUserLabelsAndSecondaryButtonsFont];
+    
+    self.sendButton = sendButton;
+}
+
 - (void)setupPusher {
     
     NSString *channelString = [NSString stringWithFormat:@"%@%@",@"newMessage",[SessionUser currentUser].email];
@@ -240,16 +231,27 @@
     LEOPusherHelper *pusherHelper = [LEOPusherHelper sharedPusher];
     [pusherHelper connectToPusherChannel:channelString withEvent:event sender:self withCompletion:^(NSDictionary *channelData) {
         
+        NSString *messageID = [self extractMessageIDFromChannelData:channelData];
         
-        [[self conversation] addMessageFromJSON:channelData];
-        self.offset ++;
+        [self fetchMessageWithID:messageID];
     }];
 }
 
-- (void)fetchMessage {
+- (NSString *)extractMessageIDFromChannelData:(NSDictionary *)channelData {
+    return [[channelData objectForKey:@"message_id"] stringValue];
+}
+
+- (void)fetchMessageWithID:(NSString *)messageID {
     
     LEOMessageService *messageService = [[LEOMessageService alloc] init];
-    messageService get
+    [messageService getMessageWithIdentifier:messageID withCompletion:^(Message *message, NSError *error) {
+        [self updateConversationWithMessage:message];
+    }];
+}
+
+- (void)updateConversationWithMessage:(Message *)message {
+    [[self conversation] addMessage:message];
+    self.offset++;
 }
 
 - (void)notificationReceived:(NSNotification *)notification {
@@ -259,11 +261,16 @@
         Conversation *conversation = (Conversation *)notification.object;
         Message *newMessage = conversation.messages.lastObject;
         
-        if ([self isFamilyMessage:newMessage]) {
-            [self finishSendingMessageAnimated:YES];
-        } else {
-            [self finishReceivingMessageAnimated:YES];
-        }
+        [self finishSendingMessage:newMessage];
+    }
+}
+
+- (void)finishSendingMessage:(Message *)message {
+    
+    if ([self isFamilyMessage:message]) {
+        [self finishSendingMessageAnimated:YES];
+    } else {
+        [self finishReceivingMessageAnimated:YES];
     }
 }
 
@@ -284,21 +291,19 @@
                       date:(NSDate *)date
 {
     button.hidden = YES;
-
+    
     [self.sendingIndicator startAnimating];
-
     
     [JSQSystemSoundPlayer jsq_playMessageSentSound];
     
     Message *message = [Message messageWithObjectID:nil text:text sender:[SessionUser currentUser] escalatedTo:nil escalatedBy:nil status:nil statusCode:MessageStatusCodeUndefined escalatedAt:nil];
     
     [self sendMessage:message withCompletion:^{
-        [[self conversation] addMessage:message];
-        self.offset ++;
-        [self finishSendingMessageAnimated:YES];
+        
+        [self updateConversationWithMessage:message];
+        [self finishSendingMessage:message];
         [self.sendingIndicator stopAnimating];
         button.hidden = NO;
-
     }];
 }
 
@@ -515,7 +520,7 @@
     return nil;
 }
 
-//TODO: Refactor this method ideally
+//TODO: Refactor this method
 - (NSAttributedString *)collectionView:(JSQMessagesCollectionView *)collectionView attributedTextForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath
 {
     Message *message = [[self conversation].messages objectAtIndex:indexPath.item];
@@ -556,7 +561,7 @@
             
             Support *support = (Support *)message.sender;
             attributes = @{NSFontAttributeName : [UIFont leoFieldAndUserLabelsAndSecondaryButtonsFont], NSForegroundColorAttributeName : [UIColor leoGrayForPlaceholdersAndLines]};
-            NSAttributedString *roleAttributedString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@",support.roleDisplayName] attributes:attributes];
+            NSAttributedString *roleAttributedString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@",support.jobTitle] attributes:attributes];
             [concatenatedDisplayNameAndTime appendAttributedString:roleAttributedString];
         } else if ([message.sender isKindOfClass:[Provider class]]) {
             
@@ -659,6 +664,11 @@
     return [message.senderId isEqualToString:self.senderId];
 }
 
+//- (BOOL)isFamilyMessage:(Message *)message {
+//
+//    if (message.sender)
+//}
+
 #pragma mark - JSQMessages collection view flow layout delegate
 
 #pragma mark - Adjusting cell label heights
@@ -749,20 +759,26 @@
          */
         [[self conversation] addMessages:messages];
         
-        /**
-         *  Using the method as described here to avoid flicker: http://stackoverflow.com/a/26401767/1938725
-         */
-        CGFloat oldOffset = self.collectionView.contentSize.height - self.collectionView.contentOffset.y;
-        
-        [CATransaction begin];
-        [CATransaction setDisableActions:YES];
-        
-        [collectionView performBatchUpdates:^{
-            [self.collectionView insertItemsAtIndexPaths:indexPaths];
-        } completion:^(BOOL finished) {
-            self.collectionView.contentOffset = CGPointMake(0.0, self.collectionView.contentSize.height - oldOffset);
-            [CATransaction commit];
-        }];
+        [self collectionView:collectionView avoidFlickerInAnimationWhenInsertingIndexPaths:indexPaths];
+    }];
+}
+
+
+/**
+ *  Using the method as described here to avoid flicker: http://stackoverflow.com/a/26401767/1938725
+ */
+- (void)collectionView:(UICollectionView *)collectionView avoidFlickerInAnimationWhenInsertingIndexPaths:(NSArray *)indexPaths {
+    
+    CGFloat oldOffset = self.collectionView.contentSize.height - self.collectionView.contentOffset.y;
+    
+    [CATransaction begin];
+    [CATransaction setDisableActions:YES];
+    
+    [self.collectionView performBatchUpdates:^{
+        [self.collectionView insertItemsAtIndexPaths:indexPaths];
+    } completion:^(BOOL finished) {
+        self.collectionView.contentOffset = CGPointMake(0.0, self.collectionView.contentSize.height - oldOffset);
+        [CATransaction commit];
     }];
 }
 

@@ -11,6 +11,7 @@
 #import "Guardian.h"
 #import "Provider.h"
 #import "Support.h"
+#import "UserFactory.h"
 
 @implementation Conversation
 
@@ -50,29 +51,8 @@
     
     for (NSDictionary *staffDictionary in staffDictionaries) {
         
-        NSUInteger roleID = [jsonResponse[APIParamRoleID] integerValue];
-        
-        switch (roleID) {
-            case RoleCodeProvider: {
-                
-                Provider *provider = [[Provider alloc] initWithJSONDictionary:staffDictionary];
-                [participants addObject:provider];
-                break;
-            }
-            
-            case RoleCodeBilling:
-            case RoleCodeCustomerService:
-            case RoleCodeNursePractitioner: {
-                Support *support = [[Support alloc] initWithJSONDictionary:staffDictionary];
-                [participants addObject:support];
-                break;
-            }
-                
-            default: {
-                
-                //do not add these users.
-            }
-        }
+        User *user = [UserFactory userFromJSONDictionary:staffDictionary];
+        [participants addObject:user];
     }
     
     for (NSDictionary *guardianDictionary in guardianDictionaries) {

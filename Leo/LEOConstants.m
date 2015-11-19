@@ -99,6 +99,7 @@ NSString *const APIParamUserMembershipType = @"type";
 NSString *const APIParamUserBirthDate = @"birth_date";
 NSString *const APIParamUserSex = @"sex";
 NSString *const APIParamUserPassword = @"password";
+NSString *const APIParamUserJobTitle = @"job_title";
 
 #pragma mark - Common user object references
 NSString *const APIParamUser = @"user";
@@ -118,6 +119,7 @@ NSString *const APIParamUserStaff = @"staff";
 #pragma mark - Role
 NSString *const APIParamRole = @"role";
 NSString *const APIParamRoleID = @"role_id";
+NSString *const APIParamRoleDisplayName = @"display_name";
 
 #pragma mark - Relationship
 NSString *const APIParamRelationship = @"relationship";
@@ -134,6 +136,7 @@ NSString *const APIParamMessageBody = @"body";
 NSString *const APIParamMessageSender = @"sender";
 
 NSString *const APIParamMessageEscalatedTo = @"escalated_to";
+NSString *const APIParamMessageEscalatedBy = @"escalated_by";
 
 #pragma mark - Payment & Stripe
 NSString *const APIParamPaymentBalance = @"balance";

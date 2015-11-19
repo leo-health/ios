@@ -13,6 +13,7 @@
 #import "Patient.h"
 #import "AppointmentType.h"
 #import "Appointment.h"
+#import "AppointmentStatus.h"
 #import "NSDate+Extensions.h"
 
 @interface LEOCardAppointment ()
@@ -60,12 +61,15 @@ static NSString *kActionSelectorReschedule = @"reschedule";
 
 - (CardLayout)layout {
     
-    switch (self.appointment.statusCode) {
-            
+    switch (self.appointment.status.statusCode) {
+          
+        case AppointmentStatusCodeUndefined:
+        case AppointmentStatusCodeCheckedIn:
+        case AppointmentStatusCodeCheckedOut:
+        case AppointmentStatusCodeChargeEntered:
+        case AppointmentStatusCodeOpen:
         case AppointmentStatusCodeBooking:
-        case AppointmentStatusCodeFuture:
         case AppointmentStatusCodeNew:
-
             return CardLayoutUndefined;
             
         case AppointmentStatusCodeCancelling:
@@ -77,13 +81,11 @@ static NSString *kActionSelectorReschedule = @"reschedule";
         case AppointmentStatusCodeRecommending:
             return CardLayoutOneButtonSecondaryOnly;
             
+        case AppointmentStatusCodeFuture:
         case AppointmentStatusCodeReminding:
             return CardLayoutTwoButtonPrimaryAndSecondary;
             
         case AppointmentStatusCodeCancelled:
-            return CardLayoutUndefined;
-            
-        default:
             return CardLayoutUndefined;
     }
 }
@@ -92,10 +94,17 @@ static NSString *kActionSelectorReschedule = @"reschedule";
     
     NSString *titleText;
     
-    switch (self.appointment.statusCode) {
+    switch (self.appointment.status.statusCode) {
+        
+        case AppointmentStatusCodeUndefined:
+        case AppointmentStatusCodeCheckedIn:
+        case AppointmentStatusCodeCheckedOut:
+        case AppointmentStatusCodeChargeEntered:
+        case AppointmentStatusCodeOpen:
+            titleText = @"";
+            break;
             
         case AppointmentStatusCodeBooking:
-        case AppointmentStatusCodeFuture:
         case AppointmentStatusCodeNew:
             titleText = @"Schedule A Visit";
             break;
@@ -112,6 +121,7 @@ static NSString *kActionSelectorReschedule = @"reschedule";
             titleText = @"Recommended Appointment";
             break;
             
+        case AppointmentStatusCodeFuture:
         case AppointmentStatusCodeReminding:
             titleText = @"Appointment Reminder";
             break;
@@ -130,12 +140,10 @@ static NSString *kActionSelectorReschedule = @"reschedule";
     
     NSString *bodyText;
     
-    switch (self.appointment.statusCode) {
+    switch (self.appointment.status.statusCode) {
             
         case AppointmentStatusCodeBooking:
-        case AppointmentStatusCodeFuture:
         case AppointmentStatusCodeNew:
-        
             bodyText = nil;
             break;
             
@@ -153,6 +161,7 @@ static NSString *kActionSelectorReschedule = @"reschedule";
             //bodyText = [NSString stringWithFormat:@"Looks like %@ is due for an appointment. We've got you all set. Click here to complete %@'s booking.", self.appointment.patient.firstName, self.appointment.patient.firstName];
             break;
             
+        case AppointmentStatusCodeFuture:
         case AppointmentStatusCodeReminding:
             bodyText = [NSString stringWithFormat:@"%@ has a %@ scheduled for %@ at %@.",self.appointment.patient.firstName, [((AppointmentType *)self.appointment.appointmentType).name lowercaseString], [NSDate stringifiedDateWithCommas:self.appointment.date], [NSDate stringifiedTime:self.appointment.date]];
             break;
@@ -175,10 +184,8 @@ static NSString *kActionSelectorReschedule = @"reschedule";
     
     NSArray *actionStrings;
     
-    switch (self.appointment.statusCode) {
+    switch (self.appointment.status.statusCode) {
         case AppointmentStatusCodeBooking:
-        case AppointmentStatusCodeFuture:
-            
             actionStrings = @[@"RESCHEDULE APPOINTMENT"];
             break;
             
@@ -200,7 +207,7 @@ static NSString *kActionSelectorReschedule = @"reschedule";
             actionStrings = @[@"SCHEDULE A VISIT"];
             break;
             
-            
+        case AppointmentStatusCodeFuture:
         case AppointmentStatusCodeReminding:
             actionStrings = @[@"RESCHEDULE",@"CANCEL"];
             break;
@@ -219,10 +226,10 @@ static NSString *kActionSelectorReschedule = @"reschedule";
     
     NSMutableArray *actions = [[NSMutableArray alloc] init];
     
-    switch (self.appointment.statusCode) {
+    switch (self.appointment.status.statusCode) {
         
         case AppointmentStatusCodeNew: {
-            
+    
             NSString *buttonOneAction = kActionSelectorBook;
             [actions addObject:buttonOneAction];
             
@@ -288,32 +295,32 @@ static NSString *kActionSelectorReschedule = @"reschedule";
 
 - (void)reschedule {
     
-    self.appointment.priorStatusCode = self.appointment.statusCode;
-    self.appointment.statusCode = AppointmentStatusCodeReminding;
+    self.appointment.priorAppointmentStatus.statusCode = self.appointment.status.statusCode;
+    self.appointment.status.statusCode = AppointmentStatusCodeReminding;
     [self.delegate didUpdateObjectStateForCard:self];
 }
 
 - (void)book {
     
-    self.appointment.statusCode = AppointmentStatusCodeReminding;
+    self.appointment.status.statusCode = AppointmentStatusCodeReminding;
     [self.delegate didUpdateObjectStateForCard:self];
 }
 
 - (void)schedule {
     
-    self.appointment.priorStatusCode = self.appointment.statusCode;
-    self.appointment.statusCode = AppointmentStatusCodeFuture;
+    self.appointment.priorAppointmentStatus.statusCode = self.appointment.status.statusCode;
+    self.appointment.status.statusCode = AppointmentStatusCodeFuture;
     [self.delegate didUpdateObjectStateForCard:self];
 }
 
 - (void)cancel {
-    self.appointment.priorStatusCode = self.appointment.statusCode;
-    self.appointment.statusCode = AppointmentStatusCodeCancelling;
+    self.appointment.priorAppointmentStatus.statusCode = self.appointment.status.statusCode;
+    self.appointment.status.statusCode = AppointmentStatusCodeCancelling;
     [self.delegate didUpdateObjectStateForCard:self];
 }
 
 - (void)confirmCancelled {
-    self.appointment.statusCode = AppointmentStatusCodeConfirmingCancelling;
+    self.appointment.status.statusCode = AppointmentStatusCodeConfirmingCancelling;
     [self.delegate didUpdateObjectStateForCard:self];
 }
 
@@ -324,12 +331,12 @@ static NSString *kActionSelectorReschedule = @"reschedule";
 }
 
 - (void)dismiss {
-    self.appointment.statusCode = AppointmentStatusCodeCancelled;
+    self.appointment.status.statusCode = AppointmentStatusCodeCancelled;
     [self.delegate didUpdateObjectStateForCard:self];
 }
 
 - (void)returnToPriorState {
-    self.appointment.statusCode = self.appointment.priorStatusCode;
+    self.appointment.status.statusCode = self.appointment.priorAppointmentStatus.statusCode;
 }
 
 - (void)confirmCancel {

@@ -126,6 +126,9 @@
             
         case FeatureAppointmentScheduling:
             return [UIColor leoGreen];
+            
+        case FeatureUndefined:
+            return [UIColor blackColor];
     }
 }
 
@@ -140,6 +143,9 @@
         
         case FeatureAppointmentScheduling:
             return [UIColor leoGreen];
+            
+        case FeatureUndefined:
+            return [UIColor blackColor];
     }
 }
 

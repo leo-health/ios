@@ -37,9 +37,7 @@
     
     [chatChannel bindToEventNamed:event handleWithBlock:^(PTPusherEvent *channelEvent) {
 
-        NSString *message = [channelEvent.data objectForKey:@"body"];
         NSLog(@"pusher activated by: %@", blockSender);
-        NSLog(@"message received: %@", message);
         
         if (completionBlock) {
             completionBlock(channelEvent.data);

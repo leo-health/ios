@@ -9,13 +9,13 @@
 #import <Foundation/Foundation.h>
 
 typedef NS_ENUM(NSUInteger, CardLayout) {
-    CardLayoutTwoButtonPrimaryAndSecondary = 0,
-    CardLayoutTwoButtonSecondaryOnly = 1,
-    CardLayoutTwoButtonPrimaryOnly = 2,
-    CardLayoutOneButtonPrimaryAndSecondary = 3,
-    CardLayoutOneButtonSecondaryOnly = 4,
-    CardLayoutOneButtonPrimaryOnly = 5,
-    CardLayoutUndefined = 99
+    CardLayoutUndefined = 0,
+    CardLayoutTwoButtonPrimaryAndSecondary = 1,
+    CardLayoutTwoButtonSecondaryOnly = 2,
+    CardLayoutTwoButtonPrimaryOnly = 3,
+    CardLayoutOneButtonPrimaryAndSecondary = 4,
+    CardLayoutOneButtonSecondaryOnly = 5,
+    CardLayoutOneButtonPrimaryOnly = 6,
 };
 
 /**
@@ -32,22 +32,25 @@ typedef NS_ENUM(NSUInteger, CardLayout) {
  *  @AppointmentStatusCodeCancelling             Patient is in process of cancelling appointment. Internal Leo status only for use on iOS app. Not supported on Leo backend.
  *  @AppointmentStatusCodeConfirmingCancelling   Patient has cancelled appointment but not yet dismissed card from app. Internal Leo status for use on iOS app. Not supported by Leo backend.
  *  @AppointmentStatusCodeRecommending           Leo creates appointment object for user without filling out date of appointment. User may decide to make appointment or not. Internal Leo status only.
+ *  @AppointmentStatusUndefined                  Any numeric value that is not defined explicitly
  */
+
 typedef NS_ENUM(NSUInteger, AppointmentStatusCode) {
-    AppointmentStatusCodeReminding = 0,
-    AppointmentStatusCodeFuture = 1,
-    AppointmentStatusCodeOpen = 2,
-    AppointmentStatusCodeCheckedIn = 3,
-    AppointmentStatusCodeCheckedOut = 4,
-    AppointmentStatusCodeChargeEntered = 5,
+    AppointmentStatusCodeUndefined = 0,
+    AppointmentStatusCodeCheckedIn = 1,
+    AppointmentStatusCodeCheckedOut = 2,
+    AppointmentStatusCodeChargeEntered = 3,
+    AppointmentStatusCodeFuture = 4,
+    AppointmentStatusCodeOpen = 5,
     AppointmentStatusCodeCancelled = 6,
     AppointmentStatusCodeBooking = 7,
     AppointmentStatusCodeCancelling = 8,
     AppointmentStatusCodeConfirmingCancelling = 9,
     AppointmentStatusCodeRecommending = 10,
     AppointmentStatusCodeNew = 11,
-    AppointmentStatusCodeUndefined = 99,
+    AppointmentStatusCodeReminding = 12,
 };
+
 
 /**
  *  Description MessageStatusCode tracks the status of the message
@@ -60,13 +63,14 @@ typedef NS_ENUM(NSUInteger, AppointmentStatusCode) {
  *  @MessageStatusCodeUndefined
  *
  */
+
 typedef NS_ENUM(NSUInteger, MessageStatusCode) {
-    MessageStatusCodeRead = 0,
-    MessageStatusCodeUnread = 1,
-    MessageStatusCodeEscalated = 2,
-    MessageStatusCodeClosed = 3,
-    MessageStatusCodeOpen   = 4,
-    MessageStatusCodeUndefined = 99
+    MessageStatusCodeUndefined = 0,
+    MessageStatusCodeRead = 1,
+    MessageStatusCodeUnread = 2,
+    MessageStatusCodeEscalated = 3,
+    MessageStatusCodeClosed = 4,
+    MessageStatusCodeOpen   = 5,
 };
 
 /**
@@ -78,11 +82,11 @@ typedef NS_ENUM(NSUInteger, MessageStatusCode) {
  *
  */
 typedef NS_ENUM(NSUInteger, ConversationStatusCode) {
-    ConversationStatusCodeClosed = 0,
-    ConversationStatusCodeOpen = 1,
-    ConversationStatusCodeNewMessages = 2,
-    ConversationStatusCodeReadMessages = 3,
-    ConversationStatusCodeUndefined = 99
+    ConversationStatusCodeUndefined = 0,
+    ConversationStatusCodeClosed = 1,
+    ConversationStatusCodeOpen = 2,
+    ConversationStatusCodeNewMessages = 3,
+    ConversationStatusCodeReadMessages = 4,
 };
 
 /**
@@ -94,38 +98,41 @@ typedef NS_ENUM(NSUInteger, ConversationStatusCode) {
  *  @AppointmentTypeFollowup        A visit to follow-up on known conditionss like asthma, sickness, ADHD, or eczema.
  */
 typedef NS_ENUM(NSUInteger, AppointmentTypeCode) {
-    AppointmentTypeCodeCheckup = 0,
+    AppointmentTypeCodeUndefined = 0,
     AppointmentTypeCodeSick = 1,
-    AppointmentTypeCodeImmunization = 2,
-    AppointmentTypeCodeFollowUp = 3,
-    AppointmentTypeCodeUndefined = 99
+    AppointmentTypeCodeFollowUp = 2,
+    AppointmentTypeCodeImmunization = 3,
+    AppointmentTypeCodeWellVisit = 4,
 };
 
 typedef NS_ENUM(NSUInteger, MessageTypeCode) {
-    MessageTypeCodeText = 0,
-    MessageTypeCodeImage = 1,
-    MessageTypeCodeUndefined = 99
+    MessageTypeCodeUndefined = 0,
+    MessageTypeCodeText = 1,
+    MessageTypeCodeImage = 2,
 };
 
 typedef NS_ENUM(NSUInteger, RoleCode) {
-    RoleCodeProvider = 0,
-    RoleCodeNursePractitioner = 1,
-    RoleCodeCustomerService = 2,
-    RoleCodeBilling = 3,
+    RoleCodeUndefined = 0,
+    RoleCodeFinancial = 1,
+    RoleCodeClinicalSupport = 2,
+    RoleCodeCustomerService = 3,
     RoleCodeGuardian = 4,
-    RoleCodePatient = 5,
-    RoleCodeUndefined = 99,
+    RoleCodeClinical = 5,
+    RoleCodePatient = 6,
+    RoleCodeOperational = 8,
 };
 
 typedef NS_ENUM(NSUInteger, ManagementMode) {
+    ManagementModeUndefined = 0,
     ManagementModeCreate = 1,
-    ManagementModeEdit = 2
+    ManagementModeEdit = 2,
 };
 
 typedef NS_ENUM(NSUInteger, Feature) {
-    FeatureOnboarding = 0,
-    FeatureSettings = 1,
-    FeatureAppointmentScheduling = 2,
+    FeatureUndefined = 0,
+    FeatureOnboarding = 1,
+    FeatureSettings = 2,
+    FeatureAppointmentScheduling = 3,
 };
 
 typedef NS_ENUM(NSUInteger, MembershipType) {
@@ -225,6 +232,7 @@ extern NSString *const APIParamUserMembershipType; // @"type";
 extern NSString *const APIParamUserBirthDate; // @"birth_date";
 extern NSString *const APIParamUserSex; // @"sex";
 extern NSString *const APIParamUserPassword; // @"password";
+extern NSString *const APIParamUserJobTitle; // @"job_title";
 
 #pragma mark - Common user object references
 extern NSString *const APIParamUser; // @"user";
@@ -244,6 +252,7 @@ extern NSString *const APIParamUserSupports; // @"supports";
 #pragma mark - Role
 extern NSString *const APIParamRole; // @"role";
 extern NSString *const APIParamRoleID; // @"role_id";
+extern NSString *const APIParamRoleDisplayName; // @"display_name";
 
 #pragma mark - Relationship
 extern NSString *const APIParamRelationship; // @"relationship";
@@ -259,6 +268,7 @@ extern NSString *const APIParamMessages; // @"messages";
 extern NSString *const APIParamMessageBody; // @"body";
 extern NSString *const APIParamMessageSender; // @"sender";
 extern NSString *const APIParamMessageEscalatedTo; // @"escalated_to";
+extern NSString *const APIParamMessageEscalatedBy; // @"escalated_by";
 
 #pragma mark - Payment & Stripe
 extern NSString *const APIParamPaymentBalance; // @"balance";

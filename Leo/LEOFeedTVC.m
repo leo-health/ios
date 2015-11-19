@@ -26,6 +26,7 @@
 #import "Family.h"
 #import "Practice.h"
 #import "SessionUser.h"
+#import "AppointmentStatus.h"
 
 #import "UIColor+LeoColors.h"
 #import "UIImage+Extensions.h"
@@ -257,14 +258,16 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
             if (!error) {
                 self.cards = [cards mutableCopy];
                 
-                [self.tableView reloadData];
                 
-                NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.cardInFocus inSection:0];
-                [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
             }
             
             dispatch_async(dispatch_get_main_queue() , ^{
                 
+                [self.tableView reloadData];
+
+                NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.cardInFocus inSection:0];
+                [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
+
                 [MBProgressHUD hideHUDForView:self.tableView animated:YES];
             });
         }];
@@ -327,7 +330,7 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
             
             Appointment *appointment = card.associatedCardObject; //FIXME: Make this a loop to account for multiple appointments.
             
-            switch (appointment.statusCode) {
+            switch (appointment.status.statusCode) {
                 case AppointmentStatusCodeNew:
                 case AppointmentStatusCodeBooking:
                 case AppointmentStatusCodeFuture: {
@@ -398,6 +401,9 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
 
 - (void)beginSchedulingNewAppointment {
     
+    AppointmentStatus *appointmentStatus = [[AppointmentStatus alloc] init];
+    appointmentStatus.statusCode = AppointmentStatusCodeNew;
+    
     Appointment *appointment = [[Appointment alloc] initWithObjectID:nil
                                                                 date:nil
                                                      appointmentType:nil
@@ -406,7 +412,7 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
                                                           practiceID:@"0"
                                                         bookedByUser:[SessionUser currentUser]
                                                                 note:nil
-                                                          statusCode:AppointmentStatusCodeNew];
+                                                          status:appointmentStatus];
     
     LEOCardAppointment *card = [[LEOCardAppointment alloc] initWithObjectID:@"temp"
                                                                    priority:@999
