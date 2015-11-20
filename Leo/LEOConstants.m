@@ -116,6 +116,9 @@ NSString *const APIParamUserSupport = @"support";
 NSString *const APIParamUserSupports = @"supports";
 NSString *const APIParamUserStaff = @"staff";
 
+#pragma mark - Session
+NSString *const APIParamSessionDeviceToken = @"device_token";
+
 #pragma mark - Role
 NSString *const APIParamRole = @"role";
 NSString *const APIParamRoleID = @"role_id";

@@ -12,7 +12,7 @@
 #import "UIColor+LeoColors.h"
 #import "LEOFeedTVC.h"
 #import "SessionUser.h"
-#import "LEOCredentialStore.h"
+#import "DeviceToken.h"
 
 #if STUBS_FLAG
 #import "LEOStubs.h"
@@ -206,6 +206,8 @@
                            stringByReplacingOccurrencesOfString:@">" withString:@""]
                           stringByReplacingOccurrencesOfString: @" " withString: @""];
     NSLog(@"My token is: %@", devToken);
+    
+    [DeviceToken createTokenWithString:devToken];
 }
 
 -(void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error {
@@ -258,6 +260,7 @@
     else {
         NSLog(@"Not opened by LeoHealth.");
     }
+    
     return NO;
 }
 
@@ -281,43 +284,9 @@
     } else {
         NSLog(@"We were not opened with Leo.");
     }
+    
     return NO;
 }
 
+
 @end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
