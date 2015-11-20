@@ -19,16 +19,20 @@
 #import "LEOUpdateEmailViewController.h"
 #import "LEOUpdatePasswordViewController.h"
 #import "LEOInviteViewController.h"
+#import "LEOWebViewController.h"
 
 #import "Patient.h"
 #import "LEOUserService.h"
+
+
 
 typedef NS_ENUM(NSUInteger, SettingsSection) {
     
     SettingsSectionAccounts = 0,
     SettingsSectionPatients = 1,
     SettingsSectionAddPatient = 2,
-    SettingsSectionLogout = 3,
+    SettingsSectionAbout = 3,
+    SettingsSectionLogout = 4,
 };
 
 typedef NS_ENUM(NSUInteger, AccountSettings) {
@@ -36,6 +40,14 @@ typedef NS_ENUM(NSUInteger, AccountSettings) {
     AccountSettingsEmail = 0,
     AccountSettingsPassword = 1,
     AccountSettingsInvite = 2,
+};
+
+typedef NS_ENUM(NSUInteger, AboutSettings) {
+    
+    AboutSettingsVersion = 0,
+    AboutSettingsTermsAndConditions = 1,
+    AboutSettingsPrivacyPolicy = 2,
+    AboutSettingsSystemSettings = 3,
 };
 
 @interface LEOSettingsViewController ()
@@ -51,7 +63,8 @@ static NSString *const kSegueChangeEmail = @"UpdateEmailSegue";
 static NSString *const kSegueChangePassword = @"UpdatePasswordSegue";
 static NSString *const kSegueInviteGuardian = @"InviteSegue";
 static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
-
+static NSString *const kSegueTermsAndConditions = @"TermsAndConditionsSegue";
+static NSString *const kSeguePrivacyPolicy = @"PrivacyPolicySegue";
 
 #pragma mark - View Controller Lifecycle and Helper Methods
 
@@ -126,6 +139,10 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
             rows = 1;
             break;
         
+        case SettingsSectionAbout:
+            rows = 4;
+            break;
+            
         case SettingsSectionLogout:
             rows = 1;
             break;
@@ -136,7 +153,7 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     
-    return 4;
+    return 5;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -198,6 +215,55 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
             break;
         }
             
+        case SettingsSectionAbout: {
+            
+            switch (indexPath.row) {
+                case AboutSettingsVersion: {
+                    
+                    NSString *appBuild = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
+                    
+                    NSString *appVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+                    
+                    cell.promptView.textField.text = [NSString stringWithFormat:@"Version: %@, Build:%@", appVersion, appBuild];
+                    cell.promptView.accessoryImageViewVisible = NO;
+                    cell.promptView.textField.enabled = NO;
+                    cell.promptView.tapGestureEnabled = NO;
+                    break;
+                }
+                    
+                case AboutSettingsTermsAndConditions: {
+                    
+                    cell.promptView.textField.text = @"Terms & Conditions";
+                    cell.promptView.accessoryImageViewVisible = YES;
+                    cell.promptView.accessoryImage = [UIImage imageNamed:@"Icon-ForwardArrow"];
+                    cell.promptView.textField.enabled = NO;
+                    cell.promptView.tapGestureEnabled = NO;
+                    break;
+                }
+                    
+                case AboutSettingsPrivacyPolicy: {
+                 
+                    cell.promptView.textField.text = @"Privacy Policy";
+                    cell.promptView.accessoryImageViewVisible = YES;
+                    cell.promptView.accessoryImage = [UIImage imageNamed:@"Icon-ForwardArrow"];
+                    cell.promptView.textField.enabled = NO;
+                    cell.promptView.tapGestureEnabled = NO;
+                    break;
+                }
+                    
+                case AboutSettingsSystemSettings: {
+                    
+                    cell.promptView.textField.text = @"System Settings";
+                    cell.promptView.accessoryImageViewVisible = YES;
+                    cell.promptView.accessoryImage = [UIImage imageNamed:@"Icon-ForwardArrow"];
+                    cell.promptView.textField.enabled = NO;
+                    cell.promptView.tapGestureEnabled = NO;
+                    break;
+                }
+            }
+
+            break;
+        }
         case SettingsSectionLogout: {
             
             cell.promptView.textField.text = @"Logout";
@@ -256,6 +322,32 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
             
             break;
         }
+            
+        case SettingsSectionAbout: {
+            
+            switch (indexPath.row) {
+                case AboutSettingsVersion:
+                    break;
+                    
+                case AboutSettingsTermsAndConditions: {
+                    [self performSegueWithIdentifier:kSegueTermsAndConditions sender:nil];
+                    break;
+                }
+                    
+                case AboutSettingsPrivacyPolicy: {
+                    [self performSegueWithIdentifier:kSeguePrivacyPolicy sender:nil];
+                    break;
+                }
+                    
+                case AboutSettingsSystemSettings: {
+                    
+                    NSURL *appSettings = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+                    [[UIApplication sharedApplication] openURL:appSettings];
+                    break;
+                }
+            }
+            
+        }
     }
 }
 
@@ -277,6 +369,9 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
             
         case SettingsSectionLogout:
             return nil;
+            
+        case SettingsSectionAbout:
+            return @"About";
     }
     
     return @"";
@@ -287,11 +382,13 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
     switch (section) {
         case SettingsSectionAccounts:
         case SettingsSectionPatients:
+        case SettingsSectionAbout:
             return 32.5;
             break;
             
         case SettingsSectionAddPatient:
         case SettingsSectionLogout:
+
             return 0.0;
             break;
     }
@@ -304,12 +401,12 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
     switch (section) {
         case SettingsSectionAccounts:
         case SettingsSectionLogout:
-
+        case SettingsSectionAddPatient:
+        case SettingsSectionAbout:
             return 68.0;
     
         case SettingsSectionPatients:
-        case SettingsSectionAddPatient:
-
+        
             return 0.0;
     }
     
@@ -320,7 +417,8 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
     
     switch (section) {
         case SettingsSectionAccounts:
-        case SettingsSectionPatients: {
+        case SettingsSectionPatients:
+        case SettingsSectionAbout: {
             
             UITableViewHeaderFooterView *headerView = (UITableViewHeaderFooterView *)view;
             headerView.textLabel.textColor = [UIColor leoGrayForTitlesAndHeadings];
@@ -365,6 +463,17 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
         signUpPatientVC.delegate = self;
 
     }
+    
+    if ([segue.identifier isEqualToString:kSegueTermsAndConditions]) {
+        
+        LEOWebViewController *webVC = (LEOWebViewController *)segue.destinationViewController;
+        webVC.urlString = @"http://www.leohealth.com";
+    }
+    
+    if ([segue.identifier isEqualToString:kSeguePrivacyPolicy]) {
+        LEOWebViewController *webVC = (LEOWebViewController *)segue.destinationViewController;
+        webVC.urlString = @"http://www.leohealth.com";
+    }
 }
 
 - (void)addPatient:(Patient *)patient {
@@ -374,7 +483,6 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
 }
 
 - (void)pop {
-    
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
