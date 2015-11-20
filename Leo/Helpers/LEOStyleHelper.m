@@ -39,7 +39,7 @@
 + (void)styleLabel:(UILabel *)label forFeature:(Feature)feature {
     
     label.font = [UIFont leoMenuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
-    label.textColor = [self tintColorForFeature:feature];
+    label.textColor = [self headerLabelColorForFeature:feature];
     
     [label sizeToFit];
 }
@@ -144,6 +144,23 @@
         
         case FeatureAppointmentScheduling:
             return [UIColor leoGreen];
+            
+        case FeatureUndefined:
+            return [UIColor blackColor];
+    }
+}
+
++ (UIColor *)headerLabelColorForFeature:(Feature)feature {
+    
+    switch (feature) {
+        case FeatureOnboarding:
+            return [UIColor leoOrangeRed];
+            
+        case FeatureSettings:
+            return [UIColor leoWhite];
+            
+        case FeatureAppointmentScheduling:
+            return [UIColor leoWhite];
             
         case FeatureUndefined:
             return [UIColor blackColor];
