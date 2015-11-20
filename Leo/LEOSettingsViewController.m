@@ -124,31 +124,24 @@ static NSString *const kSeguePrivacyPolicy = @"PrivacyPolicySegue";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    NSInteger rows = 0;
-    
     switch (section) {
         case SettingsSectionAccounts:
-            rows = 3;
-            break;
+            return 3;
             
         case SettingsSectionPatients:
-            rows = [self.family.patients count];
-            break;
+            return [self.family.patients count];
             
         case SettingsSectionAddPatient:
-            rows = 1;
-            break;
+            return 1;
         
         case SettingsSectionAbout:
-            rows = 4;
-            break;
+            return 4;
             
         case SettingsSectionLogout:
-            rows = 1;
-            break;
+            return 1;
     }
     
-    return rows;
+    return 0;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -175,7 +168,7 @@ static NSString *const kSeguePrivacyPolicy = @"PrivacyPolicySegue";
                     cell.promptView.textField.textColor = [UIColor leoOrangeRed];
                     cell.promptView.tapGestureEnabled = NO;
                     cell.promptView.textField.standardPlaceholder = @"email";
-                    cell.promptView.textField.text = [SessionUser currentUser].email;
+                    
                     break;
                 }
                     
@@ -186,7 +179,10 @@ static NSString *const kSeguePrivacyPolicy = @"PrivacyPolicySegue";
                     cell.promptView.accessoryImage = [UIImage imageNamed:@"Icon-ForwardArrow"];
                     cell.promptView.tintColor = [UIColor leoOrangeRed];
                     cell.promptView.textField.enabled = NO;
+                    cell.promptView.textField.textColor = [UIColor leoGrayStandard];
                     cell.promptView.tapGestureEnabled = NO;
+                    cell.promptView.textField.standardPlaceholder = @"";
+                    
                     break;
                 }
                     
@@ -194,10 +190,13 @@ static NSString *const kSeguePrivacyPolicy = @"PrivacyPolicySegue";
                     
                     cell.promptView.textField.text = @"Invite a parent";
                     cell.promptView.accessoryImageViewVisible = YES;
-                    cell.promptView.accessoryImage = [UIImage imageNamed:@"Icon-ToDo"];
+                    cell.promptView.accessoryImage = [UIImage imageNamed:@"Icon-Add"];
                     cell.promptView.tintColor = [UIColor leoOrangeRed];
                     cell.promptView.textField.enabled = NO;
+                    cell.promptView.textField.textColor = [UIColor leoGrayStandard];
                     cell.promptView.tapGestureEnabled = NO;
+                    cell.promptView.textField.standardPlaceholder = @"";
+                    
                     break;
                 }
             }
@@ -221,13 +220,15 @@ static NSString *const kSeguePrivacyPolicy = @"PrivacyPolicySegue";
                 case AboutSettingsVersion: {
                     
                     NSString *appBuild = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
-                    
                     NSString *appVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
                     
-                    cell.promptView.textField.text = [NSString stringWithFormat:@"Version: %@, Build:%@", appVersion, appBuild];
+                    cell.promptView.textField.text = [NSString stringWithFormat:@"%@ | %@", appVersion, appBuild];
                     cell.promptView.accessoryImageViewVisible = NO;
                     cell.promptView.textField.enabled = NO;
                     cell.promptView.tapGestureEnabled = NO;
+                    cell.promptView.textField.textColor = [UIColor leoOrangeRed];
+                    cell.promptView.textField.standardPlaceholder = @"version | build";
+                    
                     break;
                 }
                     
@@ -238,6 +239,10 @@ static NSString *const kSeguePrivacyPolicy = @"PrivacyPolicySegue";
                     cell.promptView.accessoryImage = [UIImage imageNamed:@"Icon-ForwardArrow"];
                     cell.promptView.textField.enabled = NO;
                     cell.promptView.tapGestureEnabled = NO;
+                    cell.promptView.tintColor = [UIColor leoOrangeRed];
+                    cell.promptView.textField.textColor = [UIColor leoGrayStandard];
+                    cell.promptView.textField.standardPlaceholder = @"";
+                    
                     break;
                 }
                     
@@ -248,6 +253,10 @@ static NSString *const kSeguePrivacyPolicy = @"PrivacyPolicySegue";
                     cell.promptView.accessoryImage = [UIImage imageNamed:@"Icon-ForwardArrow"];
                     cell.promptView.textField.enabled = NO;
                     cell.promptView.tapGestureEnabled = NO;
+                    cell.promptView.tintColor = [UIColor leoOrangeRed];
+                    cell.promptView.textField.textColor = [UIColor leoGrayStandard];
+                    cell.promptView.textField.standardPlaceholder = @"";
+                    
                     break;
                 }
                     
@@ -258,6 +267,10 @@ static NSString *const kSeguePrivacyPolicy = @"PrivacyPolicySegue";
                     cell.promptView.accessoryImage = [UIImage imageNamed:@"Icon-ForwardArrow"];
                     cell.promptView.textField.enabled = NO;
                     cell.promptView.tapGestureEnabled = NO;
+                    cell.promptView.tintColor = [UIColor leoOrangeRed];
+                    cell.promptView.textField.textColor = [UIColor leoGrayStandard];
+                    cell.promptView.textField.standardPlaceholder = @"";
+                    
                     break;
                 }
             }
@@ -281,7 +294,7 @@ static NSString *const kSeguePrivacyPolicy = @"PrivacyPolicySegue";
     
     switch (indexPath.section) {
             
-        case SettingsSectionAccounts:
+        case SettingsSectionAccounts: {
             
             switch (indexPath.row) {
                     
@@ -298,16 +311,21 @@ static NSString *const kSeguePrivacyPolicy = @"PrivacyPolicySegue";
                     
             }
             
+            break;
+        }
+    
         case SettingsSectionPatients: {
             
             Patient *patient = self.family.patients[indexPath.row];
             [self performSegueWithIdentifier:kSegueUpdatePatient sender:patient];
+
             break;
         }
             
         case SettingsSectionAddPatient: {
             
             [self performSegueWithIdentifier:kSegueUpdatePatient sender:nil];
+            
             break;
         }
             
@@ -347,6 +365,7 @@ static NSString *const kSeguePrivacyPolicy = @"PrivacyPolicySegue";
                 }
             }
             
+            break;
         }
     }
 }
@@ -354,7 +373,7 @@ static NSString *const kSeguePrivacyPolicy = @"PrivacyPolicySegue";
 
 #pragma mark - <UITableViewDelegate>
 
--(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     
     switch (section) {
             
@@ -384,16 +403,13 @@ static NSString *const kSeguePrivacyPolicy = @"PrivacyPolicySegue";
         case SettingsSectionPatients:
         case SettingsSectionAbout:
             return 32.5;
-            break;
             
         case SettingsSectionAddPatient:
         case SettingsSectionLogout:
-
-            return 0.0;
-            break;
+            return CGFLOAT_MIN;
     }
     
-    return 0.0;
+    return CGFLOAT_MIN;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
@@ -407,10 +423,10 @@ static NSString *const kSeguePrivacyPolicy = @"PrivacyPolicySegue";
     
         case SettingsSectionPatients:
         
-            return 0.0;
+            return CGFLOAT_MIN;
     }
     
-    return 0.0;
+    return CGFLOAT_MIN;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section {
@@ -445,7 +461,6 @@ static NSString *const kSeguePrivacyPolicy = @"PrivacyPolicySegue";
 
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-
 
     if ([segue.identifier isEqualToString:kSegueUpdatePatient]) {
         

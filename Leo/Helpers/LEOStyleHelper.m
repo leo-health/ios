@@ -106,11 +106,11 @@
 
 + (void)styleButton:(UIButton *)button forFeature:(Feature)feature {
     
-    button.layer.borderColor = [LEOStyleHelper tintColorForFeature:feature].CGColor;
+    button.layer.borderColor = [LEOStyleHelper backgroundColorForFeature:feature].CGColor;
     button.layer.borderWidth = 1.0;
 
     button.titleLabel.font = [UIFont leoButtonLabelsAndTimeStampsFont];
-    [button setTitleColor:[self backgroundColorForFeature:feature] forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor leoWhite] forState:UIControlStateNormal];
     button.backgroundColor = [UIColor leoOrangeRed];
 }
 

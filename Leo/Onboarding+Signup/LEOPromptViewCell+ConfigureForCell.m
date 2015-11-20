@@ -21,6 +21,7 @@
     self.promptView.accessoryImage = [UIImage imageNamed:@"Icon-ForwardArrow"];
     self.promptView.textField.enabled = NO;
     self.promptView.tapGestureEnabled = NO;
+    self.promptView.textField.standardPlaceholder = @"";
     
     [self setPatientCopyFontAndColor];
 }
