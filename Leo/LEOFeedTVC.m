@@ -60,6 +60,8 @@
 
 #import "LEOStyleHelper.h"
 
+
+
 @interface LEOFeedTVC ()
 
 @property (strong, nonatomic) LEOAppointmentService *appointmentService;
@@ -90,8 +92,6 @@ static NSString *const CellIdentifierLEOCardOneButtonSecondaryOnly = @"LEOOneBut
 static NSString *const CellIdentifierLEOCardOneButtonPrimaryAndSecondary = @"LEOOneButtonPrimaryAndSecondaryCell";
 static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButtonPrimaryOnlyCell";
 
-static NSString *const kNotificationBookAppointment = @"requestToBookNewAppointment";
-static NSString *const kNotificationManageSettings = @"requestToManageSettings";
 static NSString *const kNotificationCardUpdated = @"Card-Updated";
 static NSString *const kNotificationConversationAddedMessage = @"Conversation-AddedMessage";
 
@@ -150,10 +150,10 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
 
 - (void)setupNotifications {
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(notificationReceived:)
-                                                 name:kNotificationBookAppointment
-                                               object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(notificationReceived:)
+//                                                 name:kNotificationBookAppointment
+//                                               object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(notificationReceived:)
@@ -165,10 +165,10 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
                                                  name:kNotificationConversationAddedMessage
                                                object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(notificationReceived:)
-                                                 name:kNotificationManageSettings
-                                               object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(notificationReceived:)
+//                                                 name:kNotificationManageSettings
+//                                               object:nil];
 }
 
 //MARK: Most likely doesn't belong in this class; no longer tied to it except for completion block which can be passed in.
@@ -218,14 +218,6 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
     
     if ([notification.name isEqualToString:kNotificationConversationAddedMessage] || [notification.name isEqualToString: @"Card-Updated"]) {
         [self fetchDataForCard:notification.object];
-    }
-    
-    if ([notification.name isEqualToString:kNotificationBookAppointment]) {
-        [self beginSchedulingNewAppointment];
-    }
-    
-    if ([notification.name isEqualToString:kNotificationManageSettings]) {
-        [self loadSettings];
     }
 }
 
@@ -750,15 +742,71 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
     self.menuView = nil;
 }
 
--(void)didMakeMenuChoice {
+-(void)didMakeMenuChoice:(MenuChoice)menuChoice {
     
     [self animateMenuDisappearWithCompletion:^{
         [self dismissMenuView];
     }];
-}
+
+    switch (menuChoice) {
+        case MenuChoiceScheduleAppointment:
+            [self beginSchedulingNewAppointment];
+            break;
+            
+        case MenuChoiceChat: {
+            
+            LEOCardConversation *conversationCard = [self findConversationCard];
+            
+            if (conversationCard) {
+                [self loadChattingViewWithCard:conversationCard];
+            } else {
+                [self showSomethingWentWrong];
+            }
+            
+            break;
+        }
+            
+        case MenuChoiceSubmitAForm:
+            
+            break;
+            
+        case MenuChoiceUpdateSettings:
+            [self loadSettings];
+            break;
+            
+        case MenuChoiceUndefined:
+            break;
+            
+    }
+   }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return UIStatusBarStyleLightContent;
+}
+
+- (LEOCardConversation *)findConversationCard {
+    
+    for (LEOCard *card in self.cards) {
+        
+        if ([card isKindOfClass:[LEOCardConversation class]]) {
+            return (LEOCardConversation *)card;
+        }
+    }
+    
+    return nil;
+}
+
+- (void)showSomethingWentWrong {
+    
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Oops! Looks like we had a boo boo." message:@"We're working on a fix. Check back later!" preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *action = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }];
+    
+    [alertController addAction:action];
+
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 -(void)dealloc {

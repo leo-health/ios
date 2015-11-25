@@ -7,12 +7,11 @@
 //
 
 #import "MenuView.h"
-#import "LEOCardAppointment.h"
-#import "Appointment.h"
 #import "UIColor+LeoColors.h"
 
 @interface MenuView ()
 
+//TODO: This property can be removed once we add xibAdditions to this class (or at the very least made weak if we decide to hold onto it for some reason.)
 @property (strong, nonatomic) IBOutlet UIView *view;
 
 @property (weak, nonatomic) IBOutlet UIButton *scheduleAVisitLabelButton;
@@ -20,14 +19,12 @@
 @property (weak, nonatomic) IBOutlet UIButton *contactLeoLabelButton;
 @property (weak, nonatomic) IBOutlet UIButton *settingsLabelButton;
 
-
 @end
 
-static NSString *const kNotificationBookAppointment = @"requestToBookNewAppointment";
-static NSString *const kNotificationManageSettings = @"requestToManageSettings";
-
-
 @implementation MenuView
+
+
+#pragma mark - Initialization
 
 -(instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
@@ -49,9 +46,8 @@ static NSString *const kNotificationManageSettings = @"requestToManageSettings";
     return self;
 }
 
-/**
- *  CommonInit is used to provide access to initialization code relevant to any instantiation method (IB or code-based)
- */
+
+//TODO: Both of the lines of code having to do with the view property should be replaced by the xibAdditions UIView category once it has been added to master. May remove commonInit altogether.
 - (void)commonInit {
     
     [[NSBundle mainBundle] loadNibNamed:NSStringFromClass([self class])
@@ -59,78 +55,60 @@ static NSString *const kNotificationManageSettings = @"requestToManageSettings";
                                 options:nil];
     
     [self addSubview:self.view];
-    
-    [self setupButtons];
 }
 
-- (void)setupButtons {
+
+#pragma mark - Accessors
+
+- (void)setScheduleAVisitLabelButton:(UIButton *)scheduleAVisitLabelButton {
     
     [self.scheduleAVisitLabelButton setImage:[UIImage imageNamed:@"Menu-Scheduling"] forState:UIControlStateNormal];
-    [self.submitAFormLabelButton setImage:[UIImage imageNamed:@"Menu-Forms"] forState:UIControlStateNormal];
-    [self.contactLeoLabelButton setImage:[UIImage imageNamed:@"Menu-Chat"] forState:UIControlStateNormal];
-    [self.settingsLabelButton setImage:[UIImage imageNamed:@"Menu-Settings"] forState:UIControlStateNormal];
-    
     [self.scheduleAVisitLabelButton setTitleColor:[UIColor leoGrayForTitlesAndHeadings] forState:UIControlStateNormal];
-    [self.submitAFormLabelButton setTitleColor:[UIColor leoGrayForTitlesAndHeadings] forState:UIControlStateNormal];
-    [self.contactLeoLabelButton setTitleColor:[UIColor leoGrayForTitlesAndHeadings] forState:UIControlStateNormal];
-    [self.settingsLabelButton setTitleColor:[UIColor leoGrayForTitlesAndHeadings] forState:UIControlStateNormal];
-    
     self.scheduleAVisitLabelButton.tintColor = [UIColor leoGreen];
+}
+
+- (void)setSubmitAFormLabelButton:(UIButton *)submitAFormLabelButton {
+    
+    [self.submitAFormLabelButton setImage:[UIImage imageNamed:@"Menu-Forms"] forState:UIControlStateNormal];
+    [self.submitAFormLabelButton setTitleColor:[UIColor leoGrayForTitlesAndHeadings] forState:UIControlStateNormal];
     self.submitAFormLabelButton.tintColor = [UIColor leoPurple];
+}
+
+- (void)setContactLeoLabelButton:(UIButton *)contactLeoLabelButton {
+    
+    [self.contactLeoLabelButton setImage:[UIImage imageNamed:@"Menu-Chat"] forState:UIControlStateNormal];
+    [self.contactLeoLabelButton setTitleColor:[UIColor leoGrayForTitlesAndHeadings] forState:UIControlStateNormal];
     self.contactLeoLabelButton.tintColor = [UIColor leoBlue];
+}
+
+- (void)setSettingsLabelButton:(UIButton *)settingsLabelButton {
+    
+    [self.settingsLabelButton setImage:[UIImage imageNamed:@"Menu-Settings"] forState:UIControlStateNormal];
+    [self.settingsLabelButton setTitleColor:[UIColor leoGrayForTitlesAndHeadings] forState:UIControlStateNormal];
     self.settingsLabelButton.tintColor = [UIColor leoGrayForTimeStamps];
 }
 
-#pragma mark - Menu View Button Animation
 
-/**
- *  Takes user to appointment flow
- *
- *  @param sender UIButton that receives tap gesture
- */
+#pragma mark - Actions
+
 - (IBAction)scheduleAVisitLabelTapped:(UIButton *)sender {
-    
-    // Posting notification from another object
-    [self.delegate didMakeMenuChoice];
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationBookAppointment object:self userInfo:nil];
+    [self.delegate didMakeMenuChoice:MenuChoiceScheduleAppointment];
 }
 
-/**
- *  Loads a FormCardViewController
- *
- *  @param sender UIButton that receives tap gesture
- */
 - (IBAction)submitAFormLabelTapped:(UIButton *)sender {
-    [self.view removeFromSuperview];
+    [self.delegate didMakeMenuChoice:MenuChoiceSubmitAForm];
 }
 
-/**
- *  Loads Leo contact information
- *
- *  @param sender UIButton that receives tap gesture
- */
 - (IBAction)contactLeoLabelTapped:(UIButton *)sender {
-    [self.view removeFromSuperview];
+    [self.delegate didMakeMenuChoice:MenuChoiceChat];
 }
 
-/**
- *  Loads SettingsCardViewController
- *
- *  @param sender UIButton that receives tap gesture
- */
 - (IBAction)settingsLabelTapped:(UIButton *)sender {
-    
-    [self.delegate didMakeMenuChoice];
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationManageSettings object:self userInfo:nil];
+    [self.delegate didMakeMenuChoice:MenuChoiceUpdateSettings];
 }
 
 
-/**
- *  Zachary Drossman
- *  Implementation of addSubview to ensure the MenuView is sized according to its subviews
- */
+//TODO: This should be replaced by the xibAdditions UIView category once it has been added to master.
 - (void)addSubview:(UIView *)view {
     
     view.translatesAutoresizingMaskIntoConstraints = NO;
