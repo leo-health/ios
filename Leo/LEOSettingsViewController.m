@@ -483,11 +483,15 @@ static NSString *const kSeguePrivacyPolicy = @"PrivacyPolicySegue";
         
         LEOWebViewController *webVC = (LEOWebViewController *)segue.destinationViewController;
         webVC.urlString = @"http://www.leohealth.com";
+        webVC.titleString = @"Terms & Conditions";
+        webVC.feature = FeatureSettings;
     }
     
     if ([segue.identifier isEqualToString:kSeguePrivacyPolicy]) {
         LEOWebViewController *webVC = (LEOWebViewController *)segue.destinationViewController;
         webVC.urlString = @"http://www.leohealth.com";
+        webVC.titleString = @"Privacy Policy";
+        webVC.feature = FeatureSettings;
     }
 }
 

@@ -11,5 +11,7 @@
 @interface LEOWebViewController : UIViewController
 
 @property (copy, nonatomic) NSString *urlString;
+@property (copy, nonatomic) NSString *titleString;
+@property (nonatomic) Feature feature;
 
 @end
