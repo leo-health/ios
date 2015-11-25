@@ -46,6 +46,22 @@ static NSString *const kSignUpSegue = @"SignUpSegue";
     [self performSegueWithIdentifier:kSignUpSegue sender:sender];
 }
 
+-(void)setSignUpButton:(UIButton *)signUpButton {
+    
+    _signUpButton = signUpButton;
+    
+    _signUpButton.layer.cornerRadius = kCornerRadius;
+    [_signUpButton setTitle:@"SIGN UP" forState:UIControlStateNormal];
+}
+
+-(void)setLoginButton:(UIButton *)loginButton {
+    
+    _loginButton = loginButton;
+    
+    _loginButton.layer.cornerRadius = kCornerRadius;
+    [_loginButton setTitle:@"LOG IN" forState:UIControlStateNormal];
+}
+
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
     UINavigationController *navController = segue.destinationViewController;
@@ -55,4 +71,6 @@ static NSString *const kSignUpSegue = @"SignUpSegue";
     navController.transitioningDelegate = self.transitioningDelegate;
     navController.modalPresentationStyle = UIModalPresentationCustom;
 }
+
+
 @end
