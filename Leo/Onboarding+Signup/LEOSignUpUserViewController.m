@@ -38,7 +38,7 @@
 
 @interface LEOSignUpUserViewController ()
 
-@property (strong, nonatomic) LEOSignUpUserView *signUpUserView;
+@property (weak, nonatomic) LEOSignUpUserView *signUpUserView;
 @property (nonatomic) BOOL breakerPreviouslyDrawn;
 @property (strong, nonatomic) CAShapeLayer *pathLayer;
 
@@ -55,16 +55,14 @@
     
     [LEOStyleHelper tintColorForFeature:FeatureOnboarding];
     
-    [self setupSignUpUserView];
     [self setupBreaker];
     [self setupNavigationBar];
-    [self setupFirstNameField];
-    [self setupLastNameField];
-    [self setupPhoneNumberField];
-    [self setupInsurerPromptView];
     [self setupButton];
     
-    
+    self.signUpUserView.guardian = self.guardian;
+    self.signUpUserView.insurancePlan = self.guardian.insurancePlan;
+    self.signUpUserView.scrollView.delegate = self;
+    self.signUpUserView.insurerPromptView.delegate = self;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -75,30 +73,9 @@
 - (void)viewDidAppear:(BOOL)animated {
     
     [self toggleNavigationBarTitleView];
-    
-}
-
-- (void)setupSignUpUserView {
-    
-    [self.view addSubview:self.signUpUserView];
-    
-    [self.view removeConstraints:self.view.constraints];
-    self.signUpUserView.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    NSDictionary *bindings = NSDictionaryOfVariableBindings(_signUpUserView);
-    
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_signUpUserView]|" options:0 metrics:nil views:bindings]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_signUpUserView]|" options:0 metrics:nil views:bindings]];
-
-    
-    self.signUpUserView.scrollView.delegate = self;
 }
 
 
-- (void)viewTapped {
-    
-    [self.view endEditing:YES];
-}
 
 - (void)setupNavigationBar {
     
@@ -120,64 +97,18 @@
     self.navigationItem.titleView.alpha = (self.scrollView.contentOffset.y == 0) ? 0:1;
 }
 
-- (void)setupFirstNameField {
-    
-    [self firstNameTextField].delegate = self;
-    [self firstNameTextField].standardPlaceholder = @"first name";
-    [self firstNameTextField].validationPlaceholder = @"please enter your first name";
-    [[self firstNameTextField] sizeToFit];
-    
-    [self firstNameTextField].text = [self guardian].firstName;
-}
-
-- (void)setupLastNameField {
-    
-    [self lastNameTextField].delegate = self;
-    [self lastNameTextField].standardPlaceholder = @"last name";
-    [self lastNameTextField].validationPlaceholder = @"please enter your last name";
-    [[self lastNameTextField] sizeToFit];
-    
-    [self lastNameTextField].text = [self guardian].lastName;
-}
-
-- (void)setupPhoneNumberField {
-    
-    [self phoneNumberTextField].delegate = self;
-    [self phoneNumberTextField].standardPlaceholder = @"phone number";
-    [self phoneNumberTextField].validationPlaceholder = @"invalid phone number";
-    [self phoneNumberTextField].keyboardType = UIKeyboardTypePhonePad;
-    [[self phoneNumberTextField] sizeToFit];
-    
-    [self phoneNumberTextField].text = [self guardian].phoneNumber;
-}
-
-- (void)setupInsurerPromptView {
-    
-    [self insurerTextField].delegate = self;
-    [self insurerTextField].standardPlaceholder = @"insurer";
-    [self insurerTextField].validationPlaceholder = @"choose an insurer";
-    [self insurerTextField].enabled = NO;
-    [[self insurerTextField] sizeToFit];
-    
-    if ([self guardian].insurancePlan) {
-        [self insurerTextField].text = [NSString stringWithFormat:@"%@ %@",[self guardian].insurancePlan.insurerName, [self guardian].insurancePlan.name];
-    }
-    
-    self.signUpUserView.insurerPromptView.accessoryImageViewVisible = YES;
-    self.signUpUserView.insurerPromptView.delegate = self;
-}
 
 - (void)setupButton {
     
-    [LEOStyleHelper styleButton:[self continueButton] forFeature:FeatureOnboarding];
+    [LEOStyleHelper styleButton:self.signUpUserView.continueButton forFeature:FeatureOnboarding];
     
-    [[self continueButton] addTarget:self action:@selector(continueTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [self.signUpUserView.continueButton addTarget:self action:@selector(continueTapped:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (Family *)family {
     
     if (!_family) {
-        _family = [[Family alloc] init];
+        _family = [Family new];
     }
     
     return _family;
@@ -186,7 +117,20 @@
 -(LEOSignUpUserView *)signUpUserView {
     
     if (!_signUpUserView) {
-        _signUpUserView = [[LEOSignUpUserView alloc] init];
+
+        LEOSignUpUserView *strongView = [LEOSignUpUserView new];
+        
+        _signUpUserView = strongView;
+        
+        [self.view removeConstraints:self.view.constraints];
+        self.signUpUserView.translatesAutoresizingMaskIntoConstraints = NO;
+
+        [self.view addSubview:_signUpUserView];
+        
+        NSDictionary *bindings = NSDictionaryOfVariableBindings(_signUpUserView);
+        
+        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_signUpUserView]|" options:0 metrics:nil views:bindings]];
+        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_signUpUserView]|" options:0 metrics:nil views:bindings]];
     }
     
     return _signUpUserView;
@@ -207,12 +151,11 @@
 
 - (void)continueTapped:(UIButton *)sender {
     
-
-    if ([self validatePage]) {
-        [self addOnboardingData];
+    if ([self.signUpUserView validView]) {
         
         switch (self.managementMode) {
             case ManagementModeCreate:
+                [self.family addGuardian:self.guardian];
                 [self performSegueWithIdentifier:kSegueContinue sender:sender];
                 break;
                 
@@ -226,52 +169,24 @@
     }
 }
 
-- (void)addOnboardingData {
+-(Guardian *)guardian {
     
-    NSString *firstName = [self firstNameTextField].text;
-    NSString *lastName = [self lastNameTextField].text;
-    NSString *phoneNumber = [self phoneNumberTextField].text;
-    
-    self.guardian = [[Guardian alloc] initWithObjectID:nil familyID:nil title:nil firstName:firstName middleInitial:nil lastName:lastName suffix:nil email:self.guardian.email avatarURL:nil avatar:nil phoneNumber:phoneNumber insurancePlan:self.guardian.insurancePlan primary:YES membershipType:MembershipTypeIncomplete];
-
-    //InsurancePlan onboarding data provided as part of the delegate method upon return from the BasicSelectionViewController. Not in love with this implementation but it will suffice for the time-being.
-    
-    if (self.managementMode == ManagementModeCreate) {
-        [self.family addGuardian:self.guardian];
+    if (self.signUpUserView.guardian) {
+        return self.signUpUserView.guardian;
+    } else {
+        return _guardian;
     }
 }
 
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    
-    __block BOOL shouldSelect = NO;
     
     if ([segue.identifier isEqualToString:kSeguePlan]) {
         
-        LEOBasicSelectionViewController *selectionVC = segue.destinationViewController;
+        LEOBasicSelectionViewController *insurancePlanSelectionVC = segue.destinationViewController;
         
-        selectionVC.key = @"name";
-        selectionVC.reuseIdentifier = @"InsurancePlanCell";
-        selectionVC.titleText = @"Who is your insurer?";
-        selectionVC.feature = FeatureOnboarding;
-        
-        selectionVC.configureCellBlock = ^(InsurancePlanCell *cell, InsurancePlan *plan) {
-            
-            cell.selectedColor = [UIColor leoOrangeRed];
-            
-            shouldSelect = NO;
-            
-            [cell configureForPlan:plan];
-            
-            if ([plan.objectID isEqualToString:[self insurerTextField].text]) {
-                shouldSelect = YES;
-            }
-            
-            return shouldSelect;
-        };
-        
-        selectionVC.requestOperation = [[LEOAPIInsuranceOperation alloc] init];
-        selectionVC.delegate = self;
-    }
+        [self setupInsurancePlanVC:insurancePlanSelectionVC];
+           }
     
     if ([segue.identifier isEqualToString:kSegueContinue]) {
         
@@ -284,108 +199,48 @@
     [self.view endEditing:YES];
 }
 
+- (void)setupInsurancePlanVC:(LEOBasicSelectionViewController *)insurancePlanVC {
+    
+    __block BOOL shouldSelect = NO;
+
+    insurancePlanVC.key = @"name";
+    insurancePlanVC.reuseIdentifier = @"InsurancePlanCell";
+    insurancePlanVC.titleText = @"Who is your insurer?";
+    insurancePlanVC.feature = FeatureOnboarding;
+    
+    insurancePlanVC.configureCellBlock = ^(InsurancePlanCell *cell, InsurancePlan *plan) {
+        
+        cell.selectedColor = [UIColor leoOrangeRed];
+        
+        shouldSelect = NO;
+        
+        [cell configureForPlan:plan];
+        
+        if ([plan.objectID isEqualToString:self.guardian.insurancePlan.combinedName]) {
+            shouldSelect = YES;
+        }
+        
+        return shouldSelect;
+    };
+    
+    insurancePlanVC.requestOperation = [[LEOAPIInsuranceOperation alloc] init];
+    insurancePlanVC.delegate = self;
+}
+
 - (void)pop {
     
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-
-#pragma mark - Validation
-
-- (BOOL)validatePage {
-    
-    BOOL validFirstName = [LEOValidationsHelper isValidFirstName:[self firstNameTextField].text];
-    BOOL validLastName = [LEOValidationsHelper isValidLastName:[self lastNameTextField].text];
-    BOOL validPhoneNumber = [LEOValidationsHelper isValidPhoneNumberWithFormatting:[self phoneNumberTextField].text];
-    BOOL validInsurer = [LEOValidationsHelper isValidInsurer:[self insurerTextField].text];
-    
-    [self firstNameTextField].valid = validFirstName;
-    [self lastNameTextField].valid = validLastName;
-    [self phoneNumberTextField].valid = validPhoneNumber;
-    [self insurerTextField].valid = validInsurer;
-    
-    return validFirstName && validLastName && validPhoneNumber && validInsurer;
-}
-
-
-#pragma mark - <UITextFieldDelegate>
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    
-    NSMutableAttributedString *mutableText = [[NSMutableAttributedString alloc] initWithString:textField.text];
-    
-    [mutableText replaceCharactersInRange:range withString:string];
-    
-    if (textField == [self firstNameTextField] && ![self firstNameTextField].valid) {
-        
-        self.firstNameTextField.valid = [LEOValidationsHelper isValidFirstName:mutableText.string];
-    }
-    
-    if (textField == self.lastNameTextField && ![self lastNameTextField].valid) {
-        
-        self.lastNameTextField.valid = [LEOValidationsHelper isValidLastName:mutableText.string];
-    }
-    
-    if (textField == [self phoneNumberTextField]) {
-        
-        if (![self phoneNumberTextField].valid) {
-            [self phoneNumberTextField].valid = [LEOValidationsHelper isValidPhoneNumberWithFormatting:mutableText.string];
-        }
-        
-        return [LEOValidationsHelper phoneNumberTextField:textField shouldUpdateCharacters:string inRange:range];
-    }
-    
-    return YES;
-}
-
-
 #pragma mark - <SingleSelectionProtocol>
 
 -(void)didUpdateItem:(id)item forKey:(NSString *)key {
-    
-    NSString *insurancePlanString = [NSString stringWithFormat:@"%@ %@",((InsurancePlan *)item).insurerName,((InsurancePlan *)item).name];
-    [self insurerTextField].text = insurancePlanString;
-    
-    self.guardian = [[Guardian alloc] initWithObjectID:self.guardian.objectID familyID:self.guardian.familyID title:self.guardian.title firstName:self.guardian.firstName middleInitial:self.guardian.middleInitial lastName:self.guardian.lastName suffix:self.guardian.suffix email:self.guardian.email avatarURL:nil avatar:nil phoneNumber:self.guardian.phoneNumber insurancePlan:self.guardian.insurancePlan primary:self.guardian.primary membershipType:self.guardian.membershipType];
+   
+    self.signUpUserView.insurancePlan = (InsurancePlan *)item;
 }
 
 
-#pragma mark - Shorthand Helpers
-
-- (LEOValidatedFloatLabeledTextField *)firstNameTextField {
-    return self.signUpUserView.firstNamePromptView.textField;
-}
-
-- (LEOValidatedFloatLabeledTextField *)lastNameTextField {
-    return self.signUpUserView.lastNamePromptView.textField;
-}
-
-- (LEOValidatedFloatLabeledTextField *)phoneNumberTextField {
-    return self.signUpUserView.phoneNumberPromptView.textField;
-}
-
-- (LEOValidatedFloatLabeledTextField *)insurerTextField {
-    return self.signUpUserView.insurerPromptView.textField;
-}
-
-- (UIButton *)continueButton {
-    return self.signUpUserView.continueButton;
-}
-
-
-#pragma mark - Debugging
-- (void)testData {
-    [self firstNameTextField].text = @"Sally";
-    [self lastNameTextField].text = @"Carmichael";
-    [self insurerTextField].text = @"Aetna PPO";
-    [self phoneNumberTextField].text = @"(555) 555-5555";
-    
-    InsurancePlan *insurancePlan = [[InsurancePlan alloc] initWithObjectID:nil insurerID:@"1" insurerName:@"Aetna" name:@"PPO"];
-
-    Guardian *guardian1 = [[Guardian alloc] initWithObjectID:nil title:@"Mrs" firstName:@"Sally" middleInitial:nil lastName:@"Carmichael" suffix:nil email:@"sally.carmichael@gmail.com" avatarURL:nil avatar:nil];
-    
-    self.family.guardians = @[guardian1];
-}
-
+//TODO: ZSD - All the below code will be moved out into helper methods eventually, so do not try to optimize juuuust yet.
 
 #pragma mark - <UIScrollViewDelegate> & Helper Methods
 

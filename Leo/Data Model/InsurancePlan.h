@@ -16,6 +16,7 @@
 @property (strong, nonatomic) NSString *insurerID;
 @property (strong, nonatomic) NSString *insurerName;
 @property (strong, nonatomic) NSString *name;
+@property (strong, nonatomic) NSString *combinedName;
 
 @property (nonatomic) BOOL supported;
 

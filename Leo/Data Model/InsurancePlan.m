@@ -95,4 +95,9 @@
     return insurancePlanDictionary;
 }
 
+-(NSString *)combinedName {
+    
+    return [NSString stringWithFormat:@"%@ %@",self.insurerName, self.name];
+}
+
 @end
