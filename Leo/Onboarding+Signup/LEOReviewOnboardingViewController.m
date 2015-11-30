@@ -85,7 +85,6 @@ static NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
 - (void)viewDidAppear:(BOOL)animated {
     
     [self toggleNavigationBarTitleView];
-    
 }
 
 - (void)setupNavigationBar {
@@ -290,6 +289,7 @@ static NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
         LEOSignUpPatientViewController *signUpPatientVC = segue.destinationViewController;
         signUpPatientVC.family = self.family;
         signUpPatientVC.patient = sender;
+        signUpPatientVC.feature = FeatureOnboarding;
         signUpPatientVC.managementMode = ManagementModeEdit;
     }
 }
@@ -318,10 +318,11 @@ static NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
     LEOUserService *userService = [[LEOUserService alloc] init];
     [userService createGuardian:self.family.guardians[0] withCompletion:^(Guardian *guardian, NSError *error) {
         
-        //The guardian that is created should technically take the place of the original, given it will have an id and family_id.
-        self.family.guardians = @[guardian];
-        
-        if (!error) {
+        if (!error && guardian) {
+            
+            //The guardian that is created should technically take the place of the original, given it will have an id and family_id.t
+            self.family.guardians = @[guardian];
+
             
             [self createPatients:patients withCompletion:^(BOOL success) {
                 

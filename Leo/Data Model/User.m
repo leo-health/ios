@@ -13,14 +13,14 @@
 @implementation User
 
 
-- (id)init
-{
-    NSAssert(false, @"You cannot init this class without using the designated initializer. See public API for more information.");
-
-    self = nil;
-    
-    return nil;
-}
+//- (id)init
+//{
+//    NSAssert(false, @"You cannot init this class without using the designated initializer. See public API for more information.");
+//
+//    self = nil;
+//    
+//    return nil;
+//}
 
 - (instancetype)initWithObjectID:(nullable NSString*)objectID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email avatarURL:(NSString *)avatarURL avatar:(nullable UIImage *)avatar {
     
@@ -60,7 +60,7 @@
     NSString *email = [jsonResponse itemForKey:APIParamUserEmail];
     
     NSDictionary *avatarDictionary = [jsonResponse itemForKey:@"avatar"];
-    NSString *avatarURL = [avatarDictionary itemForKey:@"avatarURL"];
+    NSString *avatarURL = [avatarDictionary itemForKey:@"url"];
     
     return [self initWithObjectID:objectID title:title firstName:firstName middleInitial:middleInitial lastName:lastName suffix:suffix email:email avatarURL:avatarURL avatar:nil];
 }

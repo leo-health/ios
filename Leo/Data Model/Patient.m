@@ -8,6 +8,7 @@
 
 #import "Patient.h"
 #import "NSDate+Extensions.h"
+#import "LEOValidationsHelper.h"
 
 @implementation Patient
 
@@ -27,9 +28,14 @@
     return self;
 }
 
-- (instancetype)initWithTitle:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(nullable NSString *)email avatar:(nullable UIImage *)avatar dob:(NSDate *)dob gender:(NSString *)gender status:(NSString *)status {
+- (instancetype)initWithTitle:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(nullable NSString *)email avatar:(nullable UIImage *)avatar dob:(NSDate *)dob gender:(NSString *)gender status:(nullable NSString *)status {
     
     return [self initWithObjectID:nil familyID:nil title:title firstName:firstName middleInitial:middleInitial lastName:lastName suffix:suffix email:email avatarURL:nil avatar:avatar dob:dob gender:gender status:status];
+}
+
+- (instancetype)initWithFirstName:(NSString *)firstName lastName:(NSString *)lastName avatar:(UIImage *)avatar dob:(NSDate *)dob gender:(NSString *)gender {
+    
+    return [self initWithObjectID:nil familyID:nil title:nil firstName:firstName middleInitial:nil lastName:lastName suffix:nil email:nil avatarURL:nil avatar:avatar dob:dob gender:gender status:nil];
 }
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
@@ -110,6 +116,19 @@
     return displayName;
 }
 
+-(void)setGender:(NSString *)gender {
+
+    _gender = gender;
+    
+    if ([gender isEqualToString:@"Male"]) {
+        _gender = @"M";
+    }
+    
+    if ([gender isEqualToString:@"Female"]) {
+        _gender = @"F";
+    }
+}
+
 #pragma mark - NSObject
 
 - (BOOL)isEqual:(id)object {
@@ -126,6 +145,25 @@
 
 - (NSUInteger)hash {
     return [self.fullName hash] ^ [self.dob hash];
+}
+
+- (BOOL)isValid {
+    
+    BOOL validFirstName = [LEOValidationsHelper isValidFirstName:self.firstName];
+    BOOL validLastName = [LEOValidationsHelper isValidLastName:self.lastName];
+    BOOL validBirthDate = [LEOValidationsHelper isValidBirthDate:self.dob];
+    BOOL validGender = [LEOValidationsHelper isValidGender:self.gender];
+    BOOL validAvatar = [LEOValidationsHelper isValidAvatar:self.avatar];
+
+    return validAvatar && validFirstName && validLastName && validBirthDate && validGender;
+}
+
+//FIXME: This is not completely built out. Will work where currently used and probably nowhere else...
+-(id)copyWithZone:(NSZone *)zone {
+    
+    Patient *copy = [[Patient allocWithZone:zone] initWithFirstName:[self.firstName copy] lastName:[self.lastName copy] avatar:[self.avatar copy] dob:[self.dob copy] gender:[self.gender copy]];
+    
+    return copy;
 }
 
 @end

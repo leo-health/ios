@@ -237,16 +237,16 @@ typedef NS_ENUM(NSUInteger, TableViewSection) {
     if ([segue.identifier isEqualToString:kSignUpPatientSegue]) {
         
         LEOSignUpPatientViewController *signUpPatientVC = segue.destinationViewController;
-        signUpPatientVC.family = self.family;
-        signUpPatientVC.patient = (Patient *)sender;
         
         if (sender) {
             signUpPatientVC.managementMode = ManagementModeEdit;
+            signUpPatientVC.patient = (Patient *)sender;
         } else {
             signUpPatientVC.managementMode = ManagementModeCreate;
         }
         
-        signUpPatientVC.view.tintColor = [LEOStyleHelper tintColorForFeature:FeatureOnboarding];
+        signUpPatientVC.family = self.family;
+        
         signUpPatientVC.feature = FeatureOnboarding;
         signUpPatientVC.delegate = self;
     }

@@ -83,13 +83,16 @@
     return [familyDictionary copy];
 }
 
-- (void)addPatient:(Patient *)patient {
+- (void)addPatient:(nonnull Patient *)patient {
     
-    NSMutableArray *mutablePatients = [self.patients mutableCopy];
-    
-    [mutablePatients addObject:patient];
-    
-    self.patients = [mutablePatients copy];
+    if (patient) {
+        
+        NSMutableArray *mutablePatients = [self.patients mutableCopy];
+        
+        [mutablePatients addObject:patient];
+        
+        self.patients = [mutablePatients copy];
+    }
 }
 
 

@@ -8,16 +8,31 @@
 
 #import <UIKit/UIKit.h>
 #import "LEOPromptView.h"
+#import <RSKImageCropViewController.h>
 
-@interface LEOSignUpPatientView : UIView
+@class Patient;
 
-@property (weak, nonatomic) IBOutlet UIButton *avatarButton;
-@property (weak, nonatomic) IBOutlet LEOPromptView *firstNamePromptView;
-@property (weak, nonatomic) IBOutlet LEOPromptView *lastNamePromptView;
-@property (weak, nonatomic) IBOutlet LEOPromptView *birthDatePromptView;
-@property (weak, nonatomic) IBOutlet LEOPromptView *genderPromptView;
+@protocol LEOSignUpPatientProtocol <NSObject>
+
+- (void)presentPhotoPicker;
+- (void)continueTouchedUpInside;
+
+@end
+
+
+@interface LEOSignUpPatientView : UIView <UITextFieldDelegate, UIPickerViewDelegate, LEOPromptDelegate>
+
+@property (strong, nonatomic) Patient *patient;
+@property (nonatomic) ManagementMode managementMode;
+
 @property (weak, nonatomic) IBOutlet UILabel *avatarValidationLabel;
-@property (weak, nonatomic) IBOutlet UIButton *updateButton;
+@property (weak, nonatomic, readonly) IBOutlet UIButton *updateButton;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+
+@property (weak, nonatomic) id<LEOSignUpPatientProtocol, UIImagePickerControllerDelegate>delegate;
+
+
+- (void)updateAvatarImage:(UIImage *)avatarImage;
+- (void)validateFields;
 
 @end

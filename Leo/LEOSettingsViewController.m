@@ -469,9 +469,9 @@ static NSString *const kURLPrivacyPolicy = @"https://www.google.com";
     if ([segue.identifier isEqualToString:kSegueUpdatePatient]) {
         
         LEOSignUpPatientViewController *signUpPatientVC = segue.destinationViewController;
+        signUpPatientVC.patient = (Patient *)sender;
         signUpPatientVC.feature = FeatureSettings;
         signUpPatientVC.family = self.family;
-        signUpPatientVC.patient = (Patient *)sender;
         
         if (sender) {
             signUpPatientVC.managementMode = ManagementModeEdit;

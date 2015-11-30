@@ -24,7 +24,6 @@
 
 + (void)styleNavigationBarForFeature:(Feature)feature {
     
-    
     [UINavigationBar appearance].backItem.hidesBackButton = YES;
     
     [[UINavigationBar appearance] setBackgroundImage:[UIImage imageWithColor:[self backgroundColorForFeature:feature]]
@@ -76,7 +75,7 @@
     [backButton setImage:[UIImage imageNamed:@"Icon-BackArrow"] forState:UIControlStateNormal];
     [backButton sizeToFit];
     
-    [backButton setTintColor:[self tintColorForFeature:feature]];
+    [backButton setTintColor:[self headerLabelColorForFeature:feature]];
     
     UIBarButtonItem *backBBI = [[UIBarButtonItem alloc] initWithCustomView:backButton];
     
@@ -122,7 +121,7 @@
             return [UIColor leoOrangeRed];
             
         case FeatureSettings:
-            return [UIColor leoWhite];
+            return [UIColor leoOrangeRed];
             
         case FeatureAppointmentScheduling:
             return [UIColor leoGreen];

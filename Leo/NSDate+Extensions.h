@@ -19,8 +19,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSDate *)dateWithoutTime;
 - (NSDate *)beginningOfWeekForStartOfWeek:(NSInteger)weekday;
 + (NSDate *)dateFromDateTimeString:(NSString *)dateTimeString;
-+ (NSDate *)dateFromShortDate:(NSString *)dateString;
++ (NSDate *)dateFromShortDateString:(NSString *)dateString;
 + (NSDate *)dateFromDashedDateString:(NSString *)dateString;
+
++ (NSDate *)shortDateFromDate:(NSDate *)date;
+
 + (NSString *)stringifiedTime:(NSDate *)date;
 + (NSString *)stringifiedDateWithDot:(NSDate *)date;
 + (NSString *)stringifiedDateWithCommas:(NSDate *)date;
