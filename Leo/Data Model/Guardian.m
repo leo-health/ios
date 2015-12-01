@@ -9,6 +9,7 @@
 #import "Guardian.h"
 #import "NSUserDefaults+Additions.h"
 #import "NSDictionary+Additions.h"
+#import "LEOValidationsHelper.h"
 
 @implementation Guardian
 
@@ -143,6 +144,31 @@ static NSString *const kMembershipTypeIncomplete = @"Incomplete"; //FIXME: This 
     NSString *subDesc = [NSString stringWithFormat:@"\nName: %@ %@",self.firstName, self.lastName];
     
     return [superDesc stringByAppendingString:subDesc];
+}
+
+
+- (BOOL)validFirstName {
+    return [LEOValidationsHelper isValidFirstName:self.firstName];
+}
+
+- (BOOL)validLastName {
+    return [LEOValidationsHelper isValidLastName:self.lastName];
+}
+
+- (BOOL)validPhoneNumber {
+    return [LEOValidationsHelper isValidPhoneNumberWithFormatting:self.phoneNumber];
+}
+
+- (BOOL)validInsurer {
+    return [LEOValidationsHelper isValidInsurer:self.insurancePlan];
+}
+
+//TODO: Work through the rest of what makes it valid / invalid and various cases.
+//TODO: Add error terms or error string combination from error terms?
+
+- (BOOL)valid {
+    
+    return [self validFirstName] && [self validLastName] && [self validPhoneNumber] && [self validInsurer];
 }
 
 @end
