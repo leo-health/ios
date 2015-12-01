@@ -66,6 +66,10 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
 static NSString *const kSegueTermsAndConditions = @"TermsAndConditionsSegue";
 static NSString *const kSeguePrivacyPolicy = @"PrivacyPolicySegue";
 
+static NSString *const kURLTermsAndConditions = @"https://www.google.com";
+static NSString *const kURLPrivacyPolicy = @"https://www.google.com";
+
+
 #pragma mark - View Controller Lifecycle and Helper Methods
 
 - (void)viewDidLoad {
@@ -482,14 +486,14 @@ static NSString *const kSeguePrivacyPolicy = @"PrivacyPolicySegue";
     if ([segue.identifier isEqualToString:kSegueTermsAndConditions]) {
         
         LEOWebViewController *webVC = (LEOWebViewController *)segue.destinationViewController;
-        webVC.urlString = @"http://www.leohealth.com";
+        webVC.urlString = kURLTermsAndConditions
         webVC.titleString = @"Terms & Conditions";
         webVC.feature = FeatureSettings;
     }
     
     if ([segue.identifier isEqualToString:kSeguePrivacyPolicy]) {
         LEOWebViewController *webVC = (LEOWebViewController *)segue.destinationViewController;
-        webVC.urlString = @"http://www.leohealth.com";
+        webVC.urlString = kURLPrivacyPolicy
         webVC.titleString = @"Privacy Policy";
         webVC.feature = FeatureSettings;
     }

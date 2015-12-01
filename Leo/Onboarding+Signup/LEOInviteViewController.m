@@ -12,6 +12,7 @@
 #import "LEOInviteView.h"
 #import "LEOUserService.h"
 #import "User.h"    
+#import <MBProgressHUD/MBProgressHUD.h>
 
 @interface LEOInviteViewController ()
 
@@ -67,6 +68,9 @@
 
 - (void)sendInvitationsTapped {
     
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.inviteView.userInteractionEnabled = NO;
+    
     if ([self.inviteView isValidInvite]) {
         
         User *configUser = [[User alloc] initWithObjectID:nil title:nil firstName:self.inviteView.firstName middleInitial:nil lastName:self.inviteView.lastName suffix:nil email:self.inviteView.email avatarURL:nil avatar:nil];
@@ -74,8 +78,14 @@
         LEOUserService *userService = [[LEOUserService alloc] init];
         [userService inviteUser:configUser withCompletion:^(BOOL success, NSError *error) {
         
+            
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            self.inviteView.userInteractionEnabled = YES;
+
             if (success) {
-            NSLog(@"Invite sent!");
+
+                //TODO: add message to status bar to let user know that invite was sent successfully.
+                [self.navigationController popViewControllerAnimated:YES];
             }
         }];
     }
