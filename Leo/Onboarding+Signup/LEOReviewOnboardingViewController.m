@@ -36,6 +36,8 @@
 
 #import "UIImage+Extensions.h"
 
+#import <MBProgressHUD/MBProgressHUD.h>
+
 typedef NS_ENUM(NSUInteger, TableViewSection) {
     
     TableViewSectionTitle = 0,
@@ -304,8 +306,14 @@ static NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
 
 - (void)continueTapped:(UIButton *)sender {
     
+    __block UIButton *button = ((LEOButtonCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:4]]).button;
+    
+    button.userInteractionEnabled = NO;
+    
     NSArray *patients = [self.family.patients copy];
     self.family.patients = @[];
+    
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
     LEOUserService *userService = [[LEOUserService alloc] init];
     [userService createGuardian:self.family.guardians[0] withCompletion:^(Guardian *guardian, NSError *error) {
@@ -316,10 +324,22 @@ static NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
         if (!error) {
             
             [self createPatients:patients withCompletion:^(BOOL success) {
-                [self navigateToFeed];
+                
+                if (success) {
+                    [self navigateToFeed];
+                }
+                
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                button.userInteractionEnabled = YES;
+
             }];
         }
+        
+        button.userInteractionEnabled = YES;
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        
     }];
+    
 }
 
 - (void)createPatients:(NSArray *)patients withCompletion:( void (^) (BOOL success))completionBlock {
