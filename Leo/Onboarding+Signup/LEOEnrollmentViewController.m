@@ -122,6 +122,8 @@
     
     [MBProgressHUD showHUDAddedTo:self.view animated:YES]; //TODO: Create separate class to set these up for all use cases with two methods that support showing and hiding our customized HUD.
 
+    self.continueButton.userInteractionEnabled = NO;
+    
     if ([self validatePage]) {
         
         [self addOnboardingData];
@@ -131,11 +133,27 @@
             
             if (!error) {
                 
-                [MBProgressHUD hideHUDForView:self.view animated:YES];
                 [self performSegueWithIdentifier:kSegueContinue sender:sender];
             }
+            
+            [self postErrorAlert];
+            
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            self.continueButton.userInteractionEnabled = YES;
         }];
     }
+}
+
+- (void)postErrorAlert {
+    
+    UIAlertController *errorAlert = [UIAlertController alertControllerWithTitle:@"Minor hiccup!" message:@"Looks like something went wrong. Perhaps you entered an email address that is already taken?" preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *action = [UIAlertAction actionWithTitle:@"I'll try again." style:UIAlertActionStyleCancel handler:nil];
+    
+    [errorAlert addAction:action];
+    
+    
+    [self presentViewController:errorAlert animated:YES completion:nil];
 }
 
 - (void)addOnboardingData {
