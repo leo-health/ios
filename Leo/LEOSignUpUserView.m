@@ -173,7 +173,7 @@ IB_DESIGNABLE
     self.lastNamePromptView.valid = [LEOValidationsHelper isValidLastName:self.lastNamePromptView.textField.text];
     self.insurerPromptView.valid = [LEOValidationsHelper isValidInsurer:self.insurerPromptView.textField.text];
     
-    return self.phoneNumberPromptView.valid && self.firstNamePromptView.valid && self.lastNamePromptView.valid && self.insurerPromptView.valid ? YES : NO;
+    return self.phoneNumberPromptView.valid && self.firstNamePromptView.valid && self.lastNamePromptView.valid && self.insurerPromptView.valid;
 }
 
 #pragma mark - <UITextFieldDelegate>
