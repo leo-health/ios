@@ -19,16 +19,20 @@
 #import "LEOUpdateEmailViewController.h"
 #import "LEOUpdatePasswordViewController.h"
 #import "LEOInviteViewController.h"
+#import "LEOWebViewController.h"
 
 #import "Patient.h"
 #import "LEOUserService.h"
+
+
 
 typedef NS_ENUM(NSUInteger, SettingsSection) {
     
     SettingsSectionAccounts = 0,
     SettingsSectionPatients = 1,
     SettingsSectionAddPatient = 2,
-    SettingsSectionLogout = 3,
+    SettingsSectionAbout = 3,
+    SettingsSectionLogout = 4,
 };
 
 typedef NS_ENUM(NSUInteger, AccountSettings) {
@@ -36,6 +40,14 @@ typedef NS_ENUM(NSUInteger, AccountSettings) {
     AccountSettingsEmail = 0,
     AccountSettingsPassword = 1,
     AccountSettingsInvite = 2,
+};
+
+typedef NS_ENUM(NSUInteger, AboutSettings) {
+    
+    AboutSettingsVersion = 0,
+    AboutSettingsTermsAndConditions = 1,
+    AboutSettingsPrivacyPolicy = 2,
+    AboutSettingsSystemSettings = 3,
 };
 
 @interface LEOSettingsViewController ()
@@ -51,6 +63,11 @@ static NSString *const kSegueChangeEmail = @"UpdateEmailSegue";
 static NSString *const kSegueChangePassword = @"UpdatePasswordSegue";
 static NSString *const kSegueInviteGuardian = @"InviteSegue";
 static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
+static NSString *const kSegueTermsAndConditions = @"TermsAndConditionsSegue";
+static NSString *const kSeguePrivacyPolicy = @"PrivacyPolicySegue";
+
+static NSString *const kURLTermsAndConditions = @"https://www.google.com";
+static NSString *const kURLPrivacyPolicy = @"https://www.google.com";
 
 
 #pragma mark - View Controller Lifecycle and Helper Methods
@@ -111,32 +128,29 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    NSInteger rows = 0;
-    
     switch (section) {
         case SettingsSectionAccounts:
-            rows = 3;
-            break;
+            return 3;
             
         case SettingsSectionPatients:
-            rows = [self.family.patients count];
-            break;
+            return [self.family.patients count];
             
         case SettingsSectionAddPatient:
-            rows = 1;
-            break;
+            return 1;
         
+        case SettingsSectionAbout:
+            return 4;
+            
         case SettingsSectionLogout:
-            rows = 1;
-            break;
+            return 1;
     }
     
-    return rows;
+    return 0;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     
-    return 4;
+    return 5;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -158,7 +172,7 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
                     cell.promptView.textField.textColor = [UIColor leoOrangeRed];
                     cell.promptView.tapGestureEnabled = NO;
                     cell.promptView.textField.standardPlaceholder = @"email";
-                    cell.promptView.textField.text = [SessionUser currentUser].email;
+                    
                     break;
                 }
                     
@@ -169,7 +183,10 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
                     cell.promptView.accessoryImage = [UIImage imageNamed:@"Icon-ForwardArrow"];
                     cell.promptView.tintColor = [UIColor leoOrangeRed];
                     cell.promptView.textField.enabled = NO;
+                    cell.promptView.textField.textColor = [UIColor leoGrayStandard];
                     cell.promptView.tapGestureEnabled = NO;
+                    cell.promptView.textField.standardPlaceholder = @"";
+                    
                     break;
                 }
                     
@@ -177,10 +194,13 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
                     
                     cell.promptView.textField.text = @"Invite a parent";
                     cell.promptView.accessoryImageViewVisible = YES;
-                    cell.promptView.accessoryImage = [UIImage imageNamed:@"Icon-ToDo"];
+                    cell.promptView.accessoryImage = [UIImage imageNamed:@"Icon-Add"];
                     cell.promptView.tintColor = [UIColor leoOrangeRed];
                     cell.promptView.textField.enabled = NO;
+                    cell.promptView.textField.textColor = [UIColor leoGrayStandard];
                     cell.promptView.tapGestureEnabled = NO;
+                    cell.promptView.textField.standardPlaceholder = @"";
+                    
                     break;
                 }
             }
@@ -198,6 +218,69 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
             break;
         }
             
+        case SettingsSectionAbout: {
+            
+            switch (indexPath.row) {
+                case AboutSettingsVersion: {
+                    
+                    NSString *appBuild = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
+                    NSString *appVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+                    
+                    cell.promptView.textField.text = [NSString stringWithFormat:@"%@ | %@", appVersion, appBuild];
+                    cell.promptView.accessoryImageViewVisible = NO;
+                    cell.promptView.textField.enabled = NO;
+                    cell.promptView.tapGestureEnabled = NO;
+                    cell.promptView.textField.textColor = [UIColor leoOrangeRed];
+                    cell.promptView.textField.standardPlaceholder = @"version | build";
+                    
+                    break;
+                }
+                    
+                case AboutSettingsTermsAndConditions: {
+                    
+                    cell.promptView.textField.text = @"Terms & Conditions";
+                    cell.promptView.accessoryImageViewVisible = YES;
+                    cell.promptView.accessoryImage = [UIImage imageNamed:@"Icon-ForwardArrow"];
+                    cell.promptView.textField.enabled = NO;
+                    cell.promptView.tapGestureEnabled = NO;
+                    cell.promptView.tintColor = [UIColor leoOrangeRed];
+                    cell.promptView.textField.textColor = [UIColor leoGrayStandard];
+                    cell.promptView.textField.standardPlaceholder = @"";
+                    
+                    break;
+                }
+                    
+                case AboutSettingsPrivacyPolicy: {
+                 
+                    cell.promptView.textField.text = @"Privacy Policy";
+                    cell.promptView.accessoryImageViewVisible = YES;
+                    cell.promptView.accessoryImage = [UIImage imageNamed:@"Icon-ForwardArrow"];
+                    cell.promptView.textField.enabled = NO;
+                    cell.promptView.tapGestureEnabled = NO;
+                    cell.promptView.tintColor = [UIColor leoOrangeRed];
+                    cell.promptView.textField.textColor = [UIColor leoGrayStandard];
+                    cell.promptView.textField.standardPlaceholder = @"";
+                    
+                    break;
+                }
+                    
+                case AboutSettingsSystemSettings: {
+                    
+                    cell.promptView.textField.text = @"System Settings";
+                    cell.promptView.accessoryImageViewVisible = YES;
+                    cell.promptView.accessoryImage = [UIImage imageNamed:@"Icon-ForwardArrow"];
+                    cell.promptView.textField.enabled = NO;
+                    cell.promptView.tapGestureEnabled = NO;
+                    cell.promptView.tintColor = [UIColor leoOrangeRed];
+                    cell.promptView.textField.textColor = [UIColor leoGrayStandard];
+                    cell.promptView.textField.standardPlaceholder = @"";
+                    
+                    break;
+                }
+            }
+
+            break;
+        }
         case SettingsSectionLogout: {
             
             cell.promptView.textField.text = @"Logout";
@@ -215,7 +298,7 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
     
     switch (indexPath.section) {
             
-        case SettingsSectionAccounts:
+        case SettingsSectionAccounts: {
             
             switch (indexPath.row) {
                     
@@ -232,16 +315,21 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
                     
             }
             
+            break;
+        }
+    
         case SettingsSectionPatients: {
             
             Patient *patient = self.family.patients[indexPath.row];
             [self performSegueWithIdentifier:kSegueUpdatePatient sender:patient];
+
             break;
         }
             
         case SettingsSectionAddPatient: {
             
             [self performSegueWithIdentifier:kSegueUpdatePatient sender:nil];
+            
             break;
         }
             
@@ -256,13 +344,40 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
             
             break;
         }
+            
+        case SettingsSectionAbout: {
+            
+            switch (indexPath.row) {
+                case AboutSettingsVersion:
+                    break;
+                    
+                case AboutSettingsTermsAndConditions: {
+                    [self performSegueWithIdentifier:kSegueTermsAndConditions sender:nil];
+                    break;
+                }
+                    
+                case AboutSettingsPrivacyPolicy: {
+                    [self performSegueWithIdentifier:kSeguePrivacyPolicy sender:nil];
+                    break;
+                }
+                    
+                case AboutSettingsSystemSettings: {
+                    
+                    NSURL *appSettings = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+                    [[UIApplication sharedApplication] openURL:appSettings];
+                    break;
+                }
+            }
+            
+            break;
+        }
     }
 }
 
 
 #pragma mark - <UITableViewDelegate>
 
--(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     
     switch (section) {
             
@@ -277,6 +392,9 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
             
         case SettingsSectionLogout:
             return nil;
+            
+        case SettingsSectionAbout:
+            return @"About";
     }
     
     return @"";
@@ -287,16 +405,15 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
     switch (section) {
         case SettingsSectionAccounts:
         case SettingsSectionPatients:
+        case SettingsSectionAbout:
             return 32.5;
-            break;
             
         case SettingsSectionAddPatient:
         case SettingsSectionLogout:
-            return 0.0;
-            break;
+            return CGFLOAT_MIN;
     }
     
-    return 0.0;
+    return CGFLOAT_MIN;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
@@ -304,23 +421,24 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
     switch (section) {
         case SettingsSectionAccounts:
         case SettingsSectionLogout:
-
+        case SettingsSectionAddPatient:
+        case SettingsSectionAbout:
             return 68.0;
     
         case SettingsSectionPatients:
-        case SettingsSectionAddPatient:
-
-            return 0.0;
+        
+            return CGFLOAT_MIN;
     }
     
-    return 0.0;
+    return CGFLOAT_MIN;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section {
     
     switch (section) {
         case SettingsSectionAccounts:
-        case SettingsSectionPatients: {
+        case SettingsSectionPatients:
+        case SettingsSectionAbout: {
             
             UITableViewHeaderFooterView *headerView = (UITableViewHeaderFooterView *)view;
             headerView.textLabel.textColor = [UIColor leoGrayForTitlesAndHeadings];
@@ -348,7 +466,6 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
 
-
     if ([segue.identifier isEqualToString:kSegueUpdatePatient]) {
         
         LEOSignUpPatientViewController *signUpPatientVC = segue.destinationViewController;
@@ -365,6 +482,21 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
         signUpPatientVC.delegate = self;
 
     }
+    
+    if ([segue.identifier isEqualToString:kSegueTermsAndConditions]) {
+        
+        LEOWebViewController *webVC = (LEOWebViewController *)segue.destinationViewController;
+        webVC.urlString = kURLTermsAndConditions
+        webVC.titleString = @"Terms & Conditions";
+        webVC.feature = FeatureSettings;
+    }
+    
+    if ([segue.identifier isEqualToString:kSeguePrivacyPolicy]) {
+        LEOWebViewController *webVC = (LEOWebViewController *)segue.destinationViewController;
+        webVC.urlString = kURLPrivacyPolicy
+        webVC.titleString = @"Privacy Policy";
+        webVC.feature = FeatureSettings;
+    }
 }
 
 - (void)addPatient:(Patient *)patient {
@@ -374,7 +506,6 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
 }
 
 - (void)pop {
-    
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 

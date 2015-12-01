@@ -369,7 +369,8 @@
         selectionVC.key = @"appointmentType";
         selectionVC.reuseIdentifier = @"AppointmentTypeCell";
         selectionVC.titleText = @"What type of visit is this?";
-        
+        selectionVC.feature = FeatureAppointmentScheduling;
+
         selectionVC.configureCellBlock = ^(AppointmentTypeCell *cell, AppointmentType *appointmentType) {
             cell.selectedColor = self.card.tintColor;
             
@@ -399,7 +400,8 @@
             selectionVC.key = @"patient";
             selectionVC.reuseIdentifier = @"PatientCell";
             selectionVC.titleText = @"Who is the visit for?";
-            
+            selectionVC.feature = FeatureAppointmentScheduling;
+
             selectionVC.configureCellBlock = ^(PatientCell *cell, Patient *patient) {
                 
                 cell.selectedColor = self.card.tintColor;

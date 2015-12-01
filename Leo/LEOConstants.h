@@ -249,6 +249,9 @@ extern NSString *const APIParamUserGuardians; // @"guardians";
 extern NSString *const APIParamUserSupport; // @"support";
 extern NSString *const APIParamUserSupports; // @"supports";
 
+#pragma mark - Session
+extern NSString *const APIParamSessionDeviceToken; // @"device_token";
+
 #pragma mark - Role
 extern NSString *const APIParamRole; // @"role";
 extern NSString *const APIParamRoleID; // @"role_id";

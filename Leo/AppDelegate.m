@@ -12,7 +12,7 @@
 #import "UIColor+LeoColors.h"
 #import "LEOFeedTVC.h"
 #import "SessionUser.h"
-#import "LEOCredentialStore.h"
+#import "DeviceToken.h"
 
 #if STUBS_FLAG
 #import "LEOStubs.h"
@@ -200,12 +200,14 @@
 
 
 -(void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken {
+
     // Prepare the Device Token for Registration (remove spaces and < >)
-    NSString *devToken = [[[[deviceToken description]
+    NSString *deviceTokenString = [[[[deviceToken description]
                             stringByReplacingOccurrencesOfString:@"<"withString:@""]
                            stringByReplacingOccurrencesOfString:@">" withString:@""]
                           stringByReplacingOccurrencesOfString: @" " withString: @""];
-    NSLog(@"My token is: %@", devToken);
+    
+    [DeviceToken createTokenWithString:deviceTokenString];
 }
 
 -(void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error {
@@ -258,6 +260,7 @@
     else {
         NSLog(@"Not opened by LeoHealth.");
     }
+    
     return NO;
 }
 
@@ -281,43 +284,9 @@
     } else {
         NSLog(@"We were not opened with Leo.");
     }
+    
     return NO;
 }
 
+
 @end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

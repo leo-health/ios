@@ -41,6 +41,8 @@
                         <segue destination="ogw-xn-APr" kind="show" identifier="InviteSegue" id="5V3-Dl-vlX"/>
                         <segue destination="Vqd-KF-enV" kind="show" identifier="UpdateEmailSegue" id="QFt-od-RMM"/>
                         <segue destination="E1E-k5-SOB" kind="show" identifier="UpdatePasswordSegue" id="1kK-iS-xrW"/>
+                        <segue destination="KjM-vJ-EQe" kind="show" identifier="TermsAndConditionsSegue" id="Ioq-0z-A9J"/>
+                        <segue destination="KjM-vJ-EQe" kind="show" identifier="PrivacyPolicySegue" id="1FQ-qs-hvb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xB6-Zx-rfw" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -100,6 +102,41 @@
             </objects>
             <point key="canvasLocation" x="2369" y="-55"/>
         </scene>
+        <!--Web View Controller-->
+        <scene sceneID="uaI-Nz-CFN">
+            <objects>
+                <viewController id="KjM-vJ-EQe" customClass="LEOWebViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="42Y-YD-tut"/>
+                        <viewControllerLayoutGuide type="bottom" id="dfZ-gU-HjA"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="TtV-TO-rsM">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pMT-6r-Uar">
+                                <rect key="frame" x="0.0" y="20" width="600" height="580"/>
+                                <animations/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
+                            </webView>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="dfZ-gU-HjA" firstAttribute="top" secondItem="pMT-6r-Uar" secondAttribute="bottom" id="04q-h0-kBt"/>
+                            <constraint firstItem="pMT-6r-Uar" firstAttribute="top" secondItem="42Y-YD-tut" secondAttribute="bottom" id="S3s-Ok-d2V"/>
+                            <constraint firstAttribute="trailing" secondItem="pMT-6r-Uar" secondAttribute="trailing" id="ioq-n4-ig1"/>
+                            <constraint firstItem="pMT-6r-Uar" firstAttribute="leading" secondItem="TtV-TO-rsM" secondAttribute="leading" id="lVj-yu-MJN"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="webView" destination="pMT-6r-Uar" id="8qY-aS-tAa"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uca-km-1Ld" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1367" y="1606"/>
+        </scene>
         <!--Sign Up Patient View Controller-->
         <scene sceneID="5iE-DB-zl9">
             <objects>
@@ -117,7 +154,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DrY-5T-LqW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1498" y="1522"/>
+            <point key="canvasLocation" x="2369" y="2130"/>
         </scene>
         <!--Update Email View Controller-->
         <scene sceneID="zQI-l6-NPg">
@@ -226,4 +263,7 @@
             <point key="canvasLocation" x="2369" y="1402"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="1FQ-qs-hvb"/>
+    </inferredMetricsTieBreakers>
 </document>

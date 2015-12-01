@@ -17,6 +17,7 @@
 #import "LEOS3SessionManager.h"
 #import "SessionUser.h"
 #import "NSUserDefaults+Additions.h"
+#import "DeviceToken.h"
 
 @implementation LEOUserService
 
@@ -164,7 +165,7 @@
 
 - (void)loginUserWithEmail:(NSString *)email password:(NSString *)password withCompletion:(void (^)(SessionUser *user, NSError *error))completionBlock {
     
-    NSDictionary *loginParams = @{APIParamUserEmail:email, APIParamUserPassword:password};
+    NSDictionary *loginParams = @{APIParamUserEmail:email, APIParamUserPassword:password, APIParamSessionDeviceToken:[DeviceToken token]};
     
     [[LEOUserService leoSessionManager] unauthenticatedPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointLogin params:loginParams completion:^(NSDictionary *rawResults, NSError *error) {
         

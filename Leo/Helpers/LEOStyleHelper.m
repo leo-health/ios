@@ -39,7 +39,7 @@
 + (void)styleLabel:(UILabel *)label forFeature:(Feature)feature {
     
     label.font = [UIFont leoMenuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
-    label.textColor = [self tintColorForFeature:feature];
+    label.textColor = [self headerLabelColorForFeature:feature];
     
     [label sizeToFit];
 }
@@ -106,15 +106,15 @@
 
 + (void)styleButton:(UIButton *)button forFeature:(Feature)feature {
     
-    button.layer.borderColor = [LEOStyleHelper tintColorForFeature:feature].CGColor;
+    button.layer.borderColor = [LEOStyleHelper backgroundColorForFeature:feature].CGColor;
     button.layer.borderWidth = 1.0;
 
     button.titleLabel.font = [UIFont leoButtonLabelsAndTimeStampsFont];
-    [button setTitleColor:[self backgroundColorForFeature:feature] forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor leoWhite] forState:UIControlStateNormal];
     button.backgroundColor = [UIColor leoOrangeRed];
 }
 
-
+//TODO: I smell something. Come back to this later to think through further.
 + (UIColor *)tintColorForFeature:(Feature)feature {
     
     switch (feature) {
@@ -132,6 +132,7 @@
     }
 }
 
+//TODO: I smell something. Come back to this later to think through further.
 + (UIColor *)backgroundColorForFeature:(Feature)feature {
     
     switch (feature) {
@@ -143,6 +144,23 @@
         
         case FeatureAppointmentScheduling:
             return [UIColor leoGreen];
+            
+        case FeatureUndefined:
+            return [UIColor blackColor];
+    }
+}
+
++ (UIColor *)headerLabelColorForFeature:(Feature)feature {
+    
+    switch (feature) {
+        case FeatureOnboarding:
+            return [UIColor leoOrangeRed];
+            
+        case FeatureSettings:
+            return [UIColor leoWhite];
+            
+        case FeatureAppointmentScheduling:
+            return [UIColor leoWhite];
             
         case FeatureUndefined:
             return [UIColor blackColor];
