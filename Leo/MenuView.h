@@ -8,13 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSInteger, MenuChoice) {
+    
+    MenuChoiceUndefined,
+    MenuChoiceScheduleAppointment,
+    MenuChoiceChat,
+    MenuChoiceSubmitAForm,
+    MenuChoiceUpdateSettings,
+};
+
 @protocol MenuActivityProtocol <NSObject>
 
-//- (void)beginBookingNewAppointment;
-//- (void)beginUploadingNewForm;
-//- (void)loadContactUsView;
-//- (void)loadSettingsView;
-- (void)didMakeMenuChoice;
+- (void)didMakeMenuChoice:(MenuChoice)menuChoice;
 
 @end
 
