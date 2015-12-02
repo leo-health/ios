@@ -1,15 +1,19 @@
     upcoming:
-    - Updates to navigation bar colors to avoid "chameleon" coloring
-    - Integration of endpoint to capture device token
-    - Clean up of Settings
-    - Integration of reset password endpoint
-    - Messaging shortcut in menu
-    - Editing of marketing screen (where the user starts)
-    - Captures insurer of user during onboarding process
-    - Add spinners as needed
-    - Add some error alerts as needed
-
     releases:
+    - version: 0.1.1
+      build: 2015.12.02.11.05
+      date: December 02 2015
+      notes:
+      - Updates to navigation bar colors to avoid "chameleon" coloring
+  - Integration of endpoint to capture device token
+  - Clean up of Settings
+  - Integration of reset password endpoint
+  - Messaging shortcut in menu
+  - Editing of marketing screen (where the user starts)
+  - Captures insurer of user during onboarding process
+  - Add spinners as needed
+  - Add some error alerts as needed
+    
     - version: 0.1.1
       build: 2015.11.19.14.32
       date: November 19 2015
@@ -31,6 +35,7 @@
       notes:
       - First test build using new Fastfile configuration for Alpha builds
       - Provides the basic functionality all created prior to our first releases
+
 
 
 
