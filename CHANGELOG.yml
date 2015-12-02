@@ -1,19 +1,29 @@
     upcoming:
+    - Updates to navigation bar colors to avoid "chameleon" coloring
+    - Integration of endpoint to capture device token
+    - Clean up of Settings
+    - Integration of reset password endpoint
+    - Messaging shortcut in menu
+    - Editing of marketing screen (where the user starts)
+    - Captures insurer of user during onboarding process
+    - Add spinners as needed
+    - Add some error alerts as needed
+
     releases:
     - version: 0.1.1
       build: 2015.11.19.14.32
       date: November 19 2015
       notes:
       - API updates and bug fixes to Messaging
-  - Push notifications with fixed device identifier (test device)
-  - API updates and bug fixes to Scheduling
+    - Push notifications with fixed device identifier (test device)
+    - API updates and bug fixes to Scheduling
     
     - version: 0.1.1
       build: 2015.10.31.09.23
       date: October 31 2015
       notes:
       - Patches a long list of design issues associated with onboarding and signup
-  - Updates to support placeholders in messaging if avatar url returns successfully but a nil result
+    - Updates to support placeholders in messaging if avatar url returns successfully but a nil result
     
     - version: 0.1.0 (formerly incorrectly versioned 1.0.0)
       build: 2015.10.26.18.23
