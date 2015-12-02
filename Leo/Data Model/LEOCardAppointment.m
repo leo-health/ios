@@ -325,8 +325,7 @@ static NSString *kActionSelectorReschedule = @"reschedule";
 }
 
 - (void)unconfirmCancelled {
-    
-    [self returnToPriorState];
+    self.appointment.status.statusCode = AppointmentStatusCodeReminding;
     [self.delegate didUpdateObjectStateForCard:self];
 }
 

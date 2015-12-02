@@ -55,6 +55,16 @@
     return [self initWithObjectID:objectID date:date appointmentType:appointmentType patient:patient provider:provider practiceID:@"1" bookedByUser:bookedByUser note:note status:status];
 }
 
+-(AppointmentStatus *)priorAppointmentStatus {
+    
+    if (!_priorAppointmentStatus) {
+        
+        _priorAppointmentStatus = [[AppointmentStatus alloc] init];
+    }
+    
+    return _priorAppointmentStatus;
+}
+
 - (instancetype)initWithPrepAppointment:(PrepAppointment *)prepAppointment {
     
     //TODO: Remove hard coded practice at some point!

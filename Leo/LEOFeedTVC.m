@@ -361,6 +361,7 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
                     break;
                 }
                     
+
                 default: {
                     [self.tableView reloadData]; //TODO: This is not right, but for now it is a placeholder.
                 }
