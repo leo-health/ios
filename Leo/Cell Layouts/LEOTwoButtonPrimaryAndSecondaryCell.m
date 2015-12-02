@@ -12,13 +12,12 @@
 
 - (void)awakeFromNib {
    
-    self.bodyView.layer.cornerRadius = 2.0;
+    self.bodyView.layer.cornerRadius = kCornerRadius;
     self.bodyView.layer.masksToBounds = YES;
     
     [self.bodyView.layer setShouldRasterize:YES];
     [self.bodyView.layer setRasterizationScale:[UIScreen mainScreen].scale];
 }
-
 
 + (UINib *)nib {
     

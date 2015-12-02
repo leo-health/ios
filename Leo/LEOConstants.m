@@ -203,8 +203,8 @@ NSString *const APIParamPlanName = @"plan_name";
 NSString *const APIParamPlanSupported = @"supported"; //Ironically, this param is not yet supported by the API.
 
 #pragma mark - Magic numbers
-CGFloat const kSelectionLineHeight = 2.0f;
-CGFloat const kCornerRadius = 2.0f;
+CGFloat const kSelectionLineHeight = 2.0;
+CGFloat const kCornerRadius = 2.0;
 CGFloat const kHeightOfNoReturnConstant = 0.4;
 CGFloat const kSpeedForTitleViewAlphaChangeConstant = 4.0;
 
