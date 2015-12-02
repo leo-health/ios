@@ -104,6 +104,7 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
     
     [super viewDidLoad];
     
+    self.view.tintColor = [UIColor leoWhite];
     self.view.backgroundColor = [UIColor leoOrangeRed];
 
     [self setupNavigationBar];
@@ -136,8 +137,8 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
     self.navigationBar.barTintColor = [UIColor leoOrangeRed];
     self.navigationBar.translucent = NO;
     
-    UIImage *heartBBI = [[UIImage imageNamed:@"Icon-LeoHeart"] resizedImageToSize:CGSizeMake(30.0, 30.0)];
-    
+    UIImage *heartBBI = [[UIImage imageNamed:@"Icon-LeoHeart-Header"] resizedImageToSize:CGSizeMake(30.0, 30.0)];
+
     UIBarButtonItem *leoheartBBI = [[UIBarButtonItem alloc] initWithImage:heartBBI style:UIBarButtonItemStylePlain target:self action:nil];
 
     self.navigationBar.topItem.title = @"";
