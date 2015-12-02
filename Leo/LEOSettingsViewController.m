@@ -486,14 +486,14 @@ static NSString *const kURLPrivacyPolicy = @"https://www.google.com";
     if ([segue.identifier isEqualToString:kSegueTermsAndConditions]) {
         
         LEOWebViewController *webVC = (LEOWebViewController *)segue.destinationViewController;
-        webVC.urlString = kURLTermsAndConditions
+        webVC.urlString = kURLTermsAndConditions;
         webVC.titleString = @"Terms & Conditions";
         webVC.feature = FeatureSettings;
     }
     
     if ([segue.identifier isEqualToString:kSeguePrivacyPolicy]) {
         LEOWebViewController *webVC = (LEOWebViewController *)segue.destinationViewController;
-        webVC.urlString = kURLPrivacyPolicy
+        webVC.urlString = kURLPrivacyPolicy;
         webVC.titleString = @"Privacy Policy";
         webVC.feature = FeatureSettings;
     }
