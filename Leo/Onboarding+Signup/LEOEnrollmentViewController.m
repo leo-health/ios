@@ -132,11 +132,10 @@
         [userService enrollUser:self.guardian password:[self passwordPromptView].textField.text withCompletion:^(BOOL success, NSError *error) {
             
             if (!error) {
-                
                 [self performSegueWithIdentifier:kSegueContinue sender:sender];
+            } else {
+                [self postErrorAlert];
             }
-            
-            [self postErrorAlert];
             
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             self.continueButton.userInteractionEnabled = YES;
