@@ -235,8 +235,6 @@ extern NSString *const APIParamUserSex; // @"sex";
 extern NSString *const APIParamUserPassword; // @"password";
 extern NSString *const APIParamUserPasswordExisting; //@"current_password";
 extern NSString *const APIParamUserPasswordNewRetyped; //@"password_confirmation"
-
-
 extern NSString *const APIParamUserJobTitle; // @"job_title";
 
 #pragma mark - Common user object references

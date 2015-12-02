@@ -102,7 +102,6 @@ NSString *const APIParamUserSex = @"sex";
 NSString *const APIParamUserPassword = @"password";
 NSString *const APIParamUserPasswordExisting = @"current_password";
 NSString *const APIParamUserPasswordNewRetyped = @"password_confirmation";
-
 NSString *const APIParamUserJobTitle = @"job_title";
 
 #pragma mark - Common user object references
