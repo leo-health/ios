@@ -21,6 +21,7 @@ NSString *const APIEndpointUsers = @"users";
 NSString *const APIEndpointPatients = @"patients";
 NSString *const APIEndpointSessions = @"sessions";
 NSString *const APIEndpointResetPassword = @"sessions/password";
+NSString *const APIEndpointChangePassword = @"passwords/change_password";
 NSString *const APIEndpointAppointments = @"appointments";
 NSString *const APIEndpointConversations = @"conversations";
 NSString *const APIEndpointMessages = @"messages";
@@ -99,6 +100,8 @@ NSString *const APIParamUserMembershipType = @"type";
 NSString *const APIParamUserBirthDate = @"birth_date";
 NSString *const APIParamUserSex = @"sex";
 NSString *const APIParamUserPassword = @"password";
+NSString *const APIParamUserPasswordExisting = @"current_password";
+NSString *const APIParamUserPasswordNewRetyped = @"password_confirmation";
 NSString *const APIParamUserJobTitle = @"job_title";
 
 #pragma mark - Common user object references
@@ -223,4 +226,6 @@ NSString *const kReviewPatientCellReuseIdentifer = @"ReviewPatientCell";
 NSString *const kButtonCellReuseIdentifier = @"ButtonCell";
 NSString *const kPromptViewCellReuseIdentifier = @"LEOPromptViewCell";
 
+#pragma mark - LEO Error Domains
+NSString *const kLEOValidationsErrorDomain = @"LEOValidationsErrorDomain";
 @end

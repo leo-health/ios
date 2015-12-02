@@ -9,12 +9,18 @@
 #import "LEOUpdatePasswordViewController.h"
 #import "LEOStyleHelper.h"
 #import "LEOUpdatePasswordView.h"
+#import "LEOUserService.h" 
+#import "LEOAlertHelper.h"
+#import <MBProgressHUD.h>
 
 @interface LEOUpdatePasswordViewController ()
 
 @property (weak, nonatomic) IBOutlet LEOUpdatePasswordView *updatePasswordView;
 @property (weak, nonatomic) IBOutlet UIButton *updatePasswordButton;
 
+@property (copy, nonatomic) NSString *passwordCurrent;
+@property (copy, nonatomic) NSString *passwordNew;
+@property (copy, nonatomic) NSString *passwordNewRetyped;
 
 @end
 
@@ -31,11 +37,6 @@
 - (void)setupView {
     
     [LEOStyleHelper styleSettingsViewController:self];
-}
-
-- (void)viewTapped {
-    
-    [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
 }
 
 - (void)setupButton {
@@ -60,12 +61,63 @@
 }
 
 - (void)updatePasswordTapped {
-    
-    if ([self.updatePasswordView isValidPassword]) {
+
+    if ([self isValidNewPassword]) {
         
-        [self.updatePasswordView isValidCurrentPassword:YES];
-        NSLog(@"Password updated!");
+        [self validateViewPrompts];
+        [self updatePassword];
     }
+}
+
+- (BOOL)isValidNewPassword {
+    
+    NSError *error;
+    
+    BOOL valid = [self.updatePasswordView isValidPasswordWithError:&error];
+    
+    [LEOAlertHelper alertForViewController:self error:error];
+    
+    return valid;
+}
+
+- (void)updatePassword {
+    
+    [MBProgressHUD showHUDAddedTo:self.updatePasswordView animated:YES];
+    self.view.userInteractionEnabled = NO;
+    
+    LEOUserService *userService = [LEOUserService new];
+
+    [userService changePasswordWithOldPassword:self.passwordCurrent newPassword:self.passwordNew retypedNewPassword:self.passwordNewRetyped withCompletion:^(BOOL success, NSError *error) {
+        
+        [MBProgressHUD hideHUDForView:self.updatePasswordView animated:YES];
+
+        if (success) {
+            
+            //TODO: Add in confirmation of password change via status bar "message".
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+        
+        [LEOAlertHelper alertForViewController:self error:error];
+
+        self.view.userInteractionEnabled = YES;
+    }];
+}
+
+- (NSString *)passwordNewRetyped {
+    return self.updatePasswordView.passwordNewRetyped;
+}
+
+- (NSString *)passwordCurrent {
+    return self.updatePasswordView.passwordCurrent;
+}
+
+- (NSString *)passwordNew {
+    return self.updatePasswordView.passwordNew;
+}
+
+- (void)validateViewPrompts {
+    
+    [self.updatePasswordView isValidCurrentPassword:YES];
 }
 
 - (void)pop {

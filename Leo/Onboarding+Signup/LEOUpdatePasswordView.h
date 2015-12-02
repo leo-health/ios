@@ -10,9 +10,11 @@
 
 @interface LEOUpdatePasswordView : UIView <UITextFieldDelegate>
 
-@property (strong, nonatomic) NSString *updatedPassword;
+@property (copy, nonatomic) NSString *passwordCurrent;
+@property (copy, nonatomic) NSString *passwordNew;
+@property (copy, nonatomic) NSString *passwordNewRetyped;
 
-- (BOOL)isValidPassword;
+- (BOOL)isValidPasswordWithError:(NSError * __autoreleasing *)error;
 - (void)isValidCurrentPassword:(BOOL)validCurrentPassword;
 
 @end

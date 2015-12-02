@@ -14,7 +14,6 @@
 #import "Family.h"
 
 #import "LEOAPISessionManager.h"
-#import "LEOS3SessionManager.h"
 #import "SessionUser.h"
 #import "NSUserDefaults+Additions.h"
 #import "DeviceToken.h"
@@ -28,23 +27,16 @@
     [[LEOUserService leoSessionManager] standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIParamUsers params:guardianDictionary completion:^(NSDictionary *rawResults, NSError *error) {
         
         if (!error) {
-                        
+            
             [SessionUser setCurrentUserWithJSONDictionary:rawResults[APIParamData]];
             [SessionUser setAuthToken:rawResults[APIParamData][APIParamSession][APIParamToken]];
-
+            
             
             Guardian *guardian = [[Guardian alloc] initWithJSONDictionary:rawResults[APIParamData][APIParamUser]];
             
-            if (completionBlock) {
-                
-                completionBlock (guardian, nil);
-            }
+            completionBlock ? completionBlock (guardian, nil) : completionBlock;
         } else {
-            
-            if (completionBlock) {
-                
-                completionBlock (nil, error);
-            }
+            completionBlock ? completionBlock (nil, error) : completionBlock;
         }
     }];
 }
@@ -56,13 +48,13 @@
     [[LEOUserService leoSessionManager] standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointPatients params:patientDictionary completion:^(NSDictionary *rawResults, NSError *error) {
         
         if (!error) {
+            
             Patient *patient = [[Patient alloc] initWithJSONDictionary:rawResults[APIParamData][APIParamUserPatient]];
             patient.avatar = newPatient.avatar;
             
-            completionBlock(patient, nil);
+            completionBlock ? completionBlock(patient, nil) : completionBlock;
         } else {
-            
-            completionBlock(nil, error);
+            completionBlock ? completionBlock (nil, error) : completionBlock;
         }
     }];
 }
@@ -78,10 +70,9 @@
             
             [SessionUser newUserWithJSONDictionary:rawResults[APIParamData]];
             [SessionUser setAuthToken:rawResults[APIParamData][APIParamSession][APIParamToken]];
-            completionBlock(YES, nil);
+            completionBlock ? completionBlock(YES, nil) : completionBlock;
         } else {
-            
-            completionBlock(NO, error);
+            completionBlock ? completionBlock (NO, error) : completionBlock;
         }
     }];
 }
@@ -92,14 +83,8 @@
     
     [[LEOUserService leoSessionManager] standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointPatientEnrollments params:enrollmentParams completion:^(NSDictionary *rawResults, NSError *error) {
         
-        if (!error) {
-            
-            completionBlock(YES, nil);
-            
-        } else {
-            
-            completionBlock(NO, error);
-        }
+        BOOL success = error ? NO : YES;
+        completionBlock ? completionBlock(success, error) : completionBlock;
     }];
 }
 
@@ -109,11 +94,8 @@
     
     [[LEOUserService leoSessionManager] standardPUTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointPatientEnrollments params:patientDictionary completion:^(NSDictionary *rawResults, NSError *error) {
         
-        if (!error) {
-            completionBlock(YES, nil);
-        } else {
-            completionBlock (NO, error);
-        }
+        BOOL success = error ? NO : YES;
+        completionBlock ? completionBlock(success, error) : completionBlock;
     }];
 }
 
@@ -123,50 +105,39 @@
     
     [[LEOUserService leoSessionManager] standardPUTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointUserEnrollments params:guardianDictionary completion:^(NSDictionary *rawResults, NSError *error) {
         
-        if (!error) {
-            completionBlock(YES, nil);
-        } else {
-            completionBlock (NO, error);
-        }
+        BOOL success = error ? NO : YES;
+        completionBlock ? completionBlock(success, error) : completionBlock;
     }];
 }
 
 - (void)updateUser:(Guardian *)guardian withCompletion:(void (^) (BOOL success, NSError *error))completionBlock {
- 
+
     NSDictionary *guardianDictionary = [Guardian dictionaryFromUser:guardian];
     
     [[LEOUserService leoSessionManager] standardPUTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointUsers params:guardianDictionary completion:^(NSDictionary *rawResults, NSError *error) {
         
-        if (!error) {
-            
-            
-            completionBlock(YES, nil);
-        } else {
-            completionBlock (NO, error);
-        }
+        BOOL success = error ? NO : YES;
+        completionBlock ? completionBlock(success, error) : completionBlock;
     }];
 }
 
 - (void)updatePatient:(Patient *)patient withCompletion:(void (^) (BOOL success, NSError *error))completionBlock {
-    
+
     NSDictionary *patientDictionary = [Patient dictionaryFromUser:patient];
-    
+
     NSString *updatePatientEndpoint = [NSString stringWithFormat:@"%@/%@", APIEndpointPatients, patient.objectID];
-    
+
     [[LEOUserService leoSessionManager] standardPUTRequestForJSONDictionaryToAPIWithEndpoint:updatePatientEndpoint params:patientDictionary completion:^(NSDictionary *rawResults, NSError *error) {
         
-        if (!error) {
-            completionBlock(YES, nil);
-        } else {
-            completionBlock (NO, error);
-        }
+        BOOL success = error ? NO : YES;
+        completionBlock ? completionBlock(success, error) : completionBlock;
     }];
 }
 
 - (void)loginUserWithEmail:(NSString *)email password:(NSString *)password withCompletion:(void (^)(SessionUser *user, NSError *error))completionBlock {
-    
+
     NSDictionary *loginParams = @{APIParamUserEmail:email, APIParamUserPassword:password, APIParamSessionDeviceToken:[DeviceToken token]};
-    
+
     [[LEOUserService leoSessionManager] unauthenticatedPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointLogin params:loginParams completion:^(NSDictionary *rawResults, NSError *error) {
         
         if (!error) {
@@ -176,32 +147,27 @@
             
             [SessionUser setAuthToken:rawResults[APIParamData][APIParamSession][APIParamToken]];
             [SessionUser setCurrentUserWithJSONDictionary:rawResults[APIParamData]];
-
-            if (completionBlock) {
-                completionBlock([SessionUser currentUser], nil);
-            }
-        } else {
             
-            if (completionBlock) {
-                completionBlock(nil, error);
-            }
+            completionBlock ? completionBlock([SessionUser currentUser], nil) : nil;
+        } else {
+            completionBlock ? completionBlock(nil, error) : nil;
         }
     }];
 }
 
 - (void)logoutUserWithCompletion:(void (^)(BOOL success, NSError *error))completionBlock {
-    
-    [[LEOUserService leoSessionManager] standardDELETERequestForJSONDictionaryToAPIWithEndpoint:@"logout" params:nil completion:^(NSDictionary *rawResults, NSError *error) {
-        
-        if (!error) {
 
+    [[LEOUserService leoSessionManager] standardDELETERequestForJSONDictionaryToAPIWithEndpoint:@"logout" params:nil completion:^(NSDictionary *rawResults, NSError *error) {
+
+        if (!error) {
+            
             if ([rawResults[APIParamStatus] isEqualToString:@"ok"]) {
                 [SessionUser logout];
             } else {
-                completionBlock(NO, nil);
+                completionBlock ? completionBlock(NO, nil) : nil;
             }
         } else {
-            completionBlock(NO, error);
+            completionBlock ? completionBlock(NO, error) : nil;
         }
     }];
 }
@@ -211,9 +177,19 @@
     NSDictionary *resetPasswordParams = @{APIParamUserEmail:email};
     
     [[LEOUserService leoSessionManager] standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointResetPassword params:resetPasswordParams completion:^(NSDictionary *rawResults, NSError *error) {
-        if (completionBlock) {
-            completionBlock(rawResults, error);
-        }
+        
+        completionBlock ? completionBlock(rawResults, error) : nil;
+    }];
+}
+
+- (void)changePasswordWithOldPassword:(NSString *)oldPassword newPassword:(NSString *)newPassword retypedNewPassword:(NSString *)retypedNewPassword withCompletion:(void (^) (BOOL success, NSError *error))completionBlock {
+    
+    NSDictionary *changePasswordParams = @{APIParamUserPasswordExisting : oldPassword, APIParamUserPassword : newPassword, APIParamUserPasswordNewRetyped : retypedNewPassword};
+    
+    [[LEOUserService leoSessionManager] standardPUTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointChangePassword params:changePasswordParams completion:^(NSDictionary *rawResults, NSError *error) {
+        
+        BOOL success = error ? NO : YES;
+        completionBlock ? completionBlock(success, error) : nil;
     }];
 }
 
@@ -221,18 +197,13 @@
     
     if (user.avatarURL) {
         
-        //FIXME: This is a basic implementation. Nil params is an issue as well. What security does s3 support for users only accessing URLs they should have access to?
         [[LEOUserService leoSessionManager] unauthenticatedImageGETRequestForJSONDictionaryFromAPIWithEndpoint:user.avatarURL params:nil completion:^(UIImage *rawImage, NSError *error) {
             
-            if (completionBlock) {
-                completionBlock(rawImage, error);
-            }
+            completionBlock ? completionBlock(rawImage, error) : nil;
         }];
         
     } else {
-        
-        completionBlock(nil, nil);
-        return;
+        completionBlock ? completionBlock(nil, nil) : nil;
     }
 }
 
@@ -244,21 +215,10 @@
     
     [[LEOUserService leoSessionManager] standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointAvatars params:avatarParams completion:^(NSDictionary *rawResults, NSError *error) {
         
-        if (!error) {
-            
-            if (completionBlock) {
-                
-                //The extra "avatar" is not a mistake; that is how it is provided by the backend. Should be updated eventually.
-                user.avatarURL = rawResults[APIParamData][@"avatar"][@"avatar"][@"url"];
-                completionBlock(nil, nil);
-            }
-        } else {
-            
-            if (completionBlock) {
-                
-                completionBlock (nil, error);
-            }
-        }
+        //The extra "avatar" is not a "mistake" here; that is how it is provided by the backend. Should be updated eventually.
+        user.avatarURL = rawResults[APIParamData][@"avatar"][@"avatar"][@"url"];
+        
+        completionBlock ? completionBlock (nil, error) : nil;
     }];
 }
 
@@ -269,27 +229,15 @@
     NSString *inviteEndpoint = [NSString stringWithFormat:@"%@/%@", APIEndpointUserEnrollments, APIEndpointInvite];
     
     [[LEOUserService leoSessionManager] standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:inviteEndpoint params:userDictionary completion:^(NSDictionary *rawResults, NSError *error) {
-       
-        if (!error) {
-            
-            if (completionBlock) {
-                completionBlock (YES, nil);
-            }
-        } else {
-            
-            if (completionBlock) {
-                completionBlock(NO, error);
-            }
-        }
+        
+        BOOL success = error ? NO : YES;
+        
+        completionBlock ? completionBlock (success, error) : nil;
     }];
 }
+
 + (LEOAPISessionManager *)leoSessionManager {
     return [LEOAPISessionManager sharedClient];
-}
-
-
-+ (LEOS3SessionManager *)s3SessionManager {
-    return [LEOS3SessionManager sharedClient];
 }
 
 @end

@@ -154,6 +154,7 @@ extern NSString *const APIEndpointUsers; // @"users";
 extern NSString *const APIEndpointPatients; // @"patients";
 extern NSString *const APIEndpointSessions; // @"sessions";
 extern NSString *const APIEndpointResetPassword; // @"sessions/password";
+extern NSString *const APIEndpointChangePassword; // @"passwords/change_password";
 extern NSString *const APIEndpointAppointments; // @"appointments";
 extern NSString *const APIEndpointConversations; // @"conversations";
 extern NSString *const APIEndpointMessages; // @"messages";
@@ -232,6 +233,8 @@ extern NSString *const APIParamUserMembershipType; // @"type";
 extern NSString *const APIParamUserBirthDate; // @"birth_date";
 extern NSString *const APIParamUserSex; // @"sex";
 extern NSString *const APIParamUserPassword; // @"password";
+extern NSString *const APIParamUserPasswordExisting; //@"current_password";
+extern NSString *const APIParamUserPasswordNewRetyped; //@"password_confirmation"
 extern NSString *const APIParamUserJobTitle; // @"job_title";
 
 #pragma mark - Common user object references
@@ -354,8 +357,9 @@ extern NSString *const kReviewUserCellReuseIdentifer; // @"ReviewUserCell";
 extern NSString *const kReviewPatientCellReuseIdentifer; // @"ReviewPatientCell";
 extern NSString *const kButtonCellReuseIdentifier; // @"ButtonCell";
 extern NSString *const kPromptViewCellReuseIdentifier; // @"LEOPromptViewCell";
-#pragma mark - Constants
 
+#pragma mark - LEO Error Domains
+extern NSString *const kLEOValidationsErrorDomain; // @"LEOValidationsErrorDomain";
 
 @end
 

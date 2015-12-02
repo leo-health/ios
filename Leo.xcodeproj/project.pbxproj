@@ -52,6 +52,7 @@
 		3128D4EC1B43135F00582710 /* LEOOneButtonPrimaryAndSecondaryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3128D4EA1B43135F00582710 /* LEOOneButtonPrimaryAndSecondaryCell.xib */; };
 		3128D4EF1B4313D000582710 /* LEOTwoButtonPrimaryAndSecondaryCell+ConfigureForCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3128D4EE1B4313D000582710 /* LEOTwoButtonPrimaryAndSecondaryCell+ConfigureForCell.m */; };
 		3128D4F21B4313EB00582710 /* LEOOneButtonPrimaryAndSecondaryCell+ConfigureForCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3128D4F11B4313EB00582710 /* LEOOneButtonPrimaryAndSecondaryCell+ConfigureForCell.m */; };
+		312946091C0E0B8200AE5BB1 /* LEOAlertHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 312946081C0E0B8200AE5BB1 /* LEOAlertHelper.m */; };
 		312A82571B56EEBE00E1FB38 /* LEOMessagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 312A82541B56EEBE00E1FB38 /* LEOMessagesViewController.m */; };
 		312F35451BA212B700F64DAA /* LEOPusherHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 312F35441BA212B700F64DAA /* LEOPusherHelper.m */; };
 		3138FC321B9A1169000FE22C /* LEOValidatedFloatLabeledTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 3138FC311B9A1169000FE22C /* LEOValidatedFloatLabeledTextField.m */; };
@@ -278,6 +279,8 @@
 		3128D4EE1B4313D000582710 /* LEOTwoButtonPrimaryAndSecondaryCell+ConfigureForCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "LEOTwoButtonPrimaryAndSecondaryCell+ConfigureForCell.m"; path = "Cell Layouts/LEOTwoButtonPrimaryAndSecondaryCell+ConfigureForCell.m"; sourceTree = "<group>"; };
 		3128D4F01B4313EB00582710 /* LEOOneButtonPrimaryAndSecondaryCell+ConfigureForCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LEOOneButtonPrimaryAndSecondaryCell+ConfigureForCell.h"; sourceTree = "<group>"; };
 		3128D4F11B4313EB00582710 /* LEOOneButtonPrimaryAndSecondaryCell+ConfigureForCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LEOOneButtonPrimaryAndSecondaryCell+ConfigureForCell.m"; sourceTree = "<group>"; };
+		312946071C0E0B8200AE5BB1 /* LEOAlertHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOAlertHelper.h; path = Helpers/LEOAlertHelper.h; sourceTree = "<group>"; };
+		312946081C0E0B8200AE5BB1 /* LEOAlertHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOAlertHelper.m; path = Helpers/LEOAlertHelper.m; sourceTree = "<group>"; };
 		312A82531B56EEBE00E1FB38 /* LEOMessagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOMessagesViewController.h; sourceTree = "<group>"; };
 		312A82541B56EEBE00E1FB38 /* LEOMessagesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOMessagesViewController.m; sourceTree = "<group>"; };
 		312F35431BA212B700F64DAA /* LEOPusherHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOPusherHelper.h; sourceTree = "<group>"; };
@@ -813,6 +816,8 @@
 		3177B99B1B189F6C006AE360 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				312946071C0E0B8200AE5BB1 /* LEOAlertHelper.h */,
+				312946081C0E0B8200AE5BB1 /* LEOAlertHelper.m */,
 				3138FC521B9A1AF1000FE22C /* LEOValidationsHelper.h */,
 				3138FC531B9A1AF1000FE22C /* LEOValidationsHelper.m */,
 				3124182A1BBEE1B300E18176 /* UIViewController+Extensions.h */,
@@ -1528,6 +1533,7 @@
 				31D20ACC1B14C61F00F3351A /* LEOEHRViewController.m in Sources */,
 				31197A121B39D8FD00C773BA /* MenuView.m in Sources */,
 				31B998C61B7BD4F40055DEEA /* UIFont+LeoFonts.m in Sources */,
+				312946091C0E0B8200AE5BB1 /* LEOAlertHelper.m in Sources */,
 				3138FC4B1B9A19A8000FE22C /* InsurancePlanCell+ConfigureCell.m in Sources */,
 				31F5AA7A1B791B4B00F96D06 /* AppointmentTypeCell+ConfigureCell.m in Sources */,
 				3155888E1BBC314D0038E381 /* LEOManagePatientsViewController.m in Sources */,

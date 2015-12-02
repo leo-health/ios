@@ -59,16 +59,19 @@ IB_DESIGNABLE
     [self setupTouchEventForDismissingKeyboard];
 }
 
-//TODO: Eventually should move into a protocol or superclass potentially.
+//TODO: Eventually should move into an extension (extension/protocol) or superclass.
+
 - (void)setupTouchEventForDismissingKeyboard {
     
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wundeclared-selector"
-    UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:nil action:@selector(viewTapped)];
-#pragma clang diagnostic pop
+    UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(viewTapped)];
     
     tapGestureForTextFieldDismissal.cancelsTouchesInView = NO;
     [self addGestureRecognizer:tapGestureForTextFieldDismissal];
+}
+
+- (void)viewTapped {
+    
+    [self endEditing:YES];
 }
 
 - (void)setupFirstNameField {

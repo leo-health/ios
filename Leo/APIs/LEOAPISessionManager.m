@@ -223,6 +223,9 @@
         }
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+        [self formattedErrorFromError:&error];
+
         NSLog(@"Fail: %@",error.localizedDescription);
         NSLog(@"Fail: %@",error.localizedFailureReason);
         
@@ -310,6 +313,41 @@
     return authenticatedParams;
 }
 
+
+//MARK: First pass at "serializer" method for NSError creation from JSON dictionary provided by our API
+- (void)formattedErrorFromError:(NSError * __autoreleasing *)error {
+    
+    NSError *errorPointer = *error;
+    NSData *data = errorPointer.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey];
+    
+    NSError *serializationError;
+    NSDictionary *responseErrorDictionary = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
+    
+    NSString *errorDescription = responseErrorDictionary[@"message"][@"error_description"];
+    NSString *errorSuggestion = responseErrorDictionary[@"message"][@"recovery_suggestion"];
+    NSString *errorFailureReason = responseErrorDictionary[@"message"][@"error_message"];
+    
+    
+    NSMutableDictionary *formattedErrorDictionary = [NSMutableDictionary new];
+    
+    if (errorDescription) {
+        formattedErrorDictionary[NSLocalizedDescriptionKey] = errorDescription;
+    }
+    
+    if (errorSuggestion) {
+        formattedErrorDictionary[NSLocalizedRecoverySuggestionErrorKey] = errorSuggestion;
+    }
+    
+    if (errorFailureReason) {
+        formattedErrorDictionary[NSLocalizedFailureReasonErrorKey] = errorFailureReason;
+    }
+        
+    if (!serializationError) {
+        
+        NSInteger errorCode = [responseErrorDictionary[@"message"][@"error_code"] integerValue];
+        *error = [NSError errorWithDomain:errorPointer.domain code:errorCode userInfo:formattedErrorDictionary];
+    }
+}
 
 //FIXME: To be updated with the actual user token via keychain at some point.
 + (NSString *)authToken {
