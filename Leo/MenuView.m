@@ -23,6 +23,10 @@
 
 @implementation MenuView
 
+@synthesize scheduleAVisitLabelButton = _scheduleAVisitLabelButton;
+@synthesize submitAFormLabelButton = _submitAFormLabelButton;
+@synthesize contactLeoLabelButton = _contactLeoLabelButton;
+@synthesize settingsLabelButton = _settingsLabelButton;
 
 #pragma mark - Initialization
 
@@ -62,30 +66,38 @@
 
 - (void)setScheduleAVisitLabelButton:(UIButton *)scheduleAVisitLabelButton {
     
-    [self.scheduleAVisitLabelButton setImage:[UIImage imageNamed:@"Menu-Scheduling"] forState:UIControlStateNormal];
-    [self.scheduleAVisitLabelButton setTitleColor:[UIColor leoGrayForTitlesAndHeadings] forState:UIControlStateNormal];
-    self.scheduleAVisitLabelButton.tintColor = [UIColor leoGreen];
+    _scheduleAVisitLabelButton = scheduleAVisitLabelButton;
+    
+    [_scheduleAVisitLabelButton setImage:[UIImage imageNamed:@"Menu-Scheduling"] forState:UIControlStateNormal];
+    [_scheduleAVisitLabelButton setTitleColor:[UIColor leoGrayForTitlesAndHeadings] forState:UIControlStateNormal];
+    _scheduleAVisitLabelButton.tintColor = [UIColor leoGreen];
 }
 
 - (void)setSubmitAFormLabelButton:(UIButton *)submitAFormLabelButton {
     
-    [self.submitAFormLabelButton setImage:[UIImage imageNamed:@"Menu-Forms"] forState:UIControlStateNormal];
-    [self.submitAFormLabelButton setTitleColor:[UIColor leoGrayForTitlesAndHeadings] forState:UIControlStateNormal];
-    self.submitAFormLabelButton.tintColor = [UIColor leoPurple];
+    _submitAFormLabelButton = submitAFormLabelButton;
+    
+    [_submitAFormLabelButton setImage:[UIImage imageNamed:@"Menu-Forms"] forState:UIControlStateNormal];
+    [_submitAFormLabelButton setTitleColor:[UIColor leoGrayForTitlesAndHeadings] forState:UIControlStateNormal];
+    _submitAFormLabelButton.tintColor = [UIColor leoPurple];
 }
 
 - (void)setContactLeoLabelButton:(UIButton *)contactLeoLabelButton {
     
-    [self.contactLeoLabelButton setImage:[UIImage imageNamed:@"Menu-Chat"] forState:UIControlStateNormal];
-    [self.contactLeoLabelButton setTitleColor:[UIColor leoGrayForTitlesAndHeadings] forState:UIControlStateNormal];
-    self.contactLeoLabelButton.tintColor = [UIColor leoBlue];
+    _contactLeoLabelButton = contactLeoLabelButton;
+    
+    [_contactLeoLabelButton setImage:[UIImage imageNamed:@"Menu-Chat"] forState:UIControlStateNormal];
+    [_contactLeoLabelButton setTitleColor:[UIColor leoGrayForTitlesAndHeadings] forState:UIControlStateNormal];
+    _contactLeoLabelButton.tintColor = [UIColor leoBlue];
 }
 
 - (void)setSettingsLabelButton:(UIButton *)settingsLabelButton {
     
-    [self.settingsLabelButton setImage:[UIImage imageNamed:@"Menu-Settings"] forState:UIControlStateNormal];
-    [self.settingsLabelButton setTitleColor:[UIColor leoGrayForTitlesAndHeadings] forState:UIControlStateNormal];
-    self.settingsLabelButton.tintColor = [UIColor leoGrayForTimeStamps];
+    _settingsLabelButton = settingsLabelButton;
+    
+    [_settingsLabelButton setImage:[UIImage imageNamed:@"Menu-Settings"] forState:UIControlStateNormal];
+    [_settingsLabelButton setTitleColor:[UIColor leoGrayForTitlesAndHeadings] forState:UIControlStateNormal];
+    _settingsLabelButton.tintColor = [UIColor leoGrayForTimeStamps];
 }
 
 
