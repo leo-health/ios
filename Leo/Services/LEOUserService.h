@@ -25,5 +25,6 @@
 - (void)updateUser:(Guardian *)guardian withCompletion:(void (^) (BOOL success, NSError *error))completionBlock;
 - (void)inviteUser:(User *)user withCompletion:(void (^) (BOOL success, NSError *error))completionBlock;
 - (void)updatePatient:(Patient *)patient withCompletion:(void (^) (BOOL success, NSError *error))completionBlock;
+- (void)changePasswordWithOldPassword:(NSString *)oldPassword newPassword:(NSString *)newPassword retypedNewPassword:(NSString *)retypedNewPassword withCompletion:(void (^) (BOOL success, NSError *error))completionBlock;
 
 @end

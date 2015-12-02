@@ -19,6 +19,6 @@
 + (BOOL)isValidGender:(NSString *)candidate;
 + (BOOL)isValidInsurer:(NSString *)candidate;
 + (BOOL)isValidPassword:(NSString *)candidate;
-+ (BOOL)isValidPassword:(NSString *)candidate matching:(NSString *)otherCandidate;
++ (BOOL)isValidPassword:(NSString *)candidate matching:(NSString *)otherCandidate error:(NSError * __autoreleasing *)error;
 
 @end

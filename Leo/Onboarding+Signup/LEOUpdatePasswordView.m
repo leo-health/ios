@@ -20,8 +20,6 @@
 
 @property (nonatomic) BOOL hasBeenValidatedAtLeastOnce;
 
-@property (copy, nonatomic) NSString *matchingPassword;
-
 @end
 
 @implementation LEOUpdatePasswordView
@@ -62,16 +60,19 @@ IB_DESIGNABLE
     [self setupTouchEventForDismissingKeyboard];
 }
 
-//TODO: Eventually should move into a protocol or superclass potentially.
+//TODO: Eventually should move into an extension (extension/protocol) or superclass.
+
 - (void)setupTouchEventForDismissingKeyboard {
     
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wundeclared-selector"
-    UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:nil action:@selector(viewTapped)];
-#pragma clang diagnostic pop
+    UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(viewTapped)];
     
     tapGestureForTextFieldDismissal.cancelsTouchesInView = NO;
     [self addGestureRecognizer:tapGestureForTextFieldDismissal];
+}
+
+- (void)viewTapped {
+    
+    [self endEditing:YES];
 }
 
 //TODO: Move out into some common class eventually.
@@ -88,7 +89,7 @@ IB_DESIGNABLE
 - (void)setupNewPasswordField {
     
     self.passwordPromptView.textField.delegate = self;
-    self.passwordPromptView.textField.standardPlaceholder = @"password";
+    self.passwordPromptView.textField.standardPlaceholder = @"new password";
     self.passwordPromptView.textField.validationPlaceholder = @"passwords must be eight characters or longer";
     self.passwordPromptView.textField.secureTextEntry = YES;
     [self.passwordPromptView.textField sizeToFit];
@@ -123,47 +124,21 @@ IB_DESIGNABLE
 }
 
 
-#pragma mark - Accessors
-
-- (void)setUpdatedPassword:(NSString *)password {
-    
-    _updatedPassword = password;
-    
-    if (self.hasBeenValidatedAtLeastOnce) {
-        
-        self.passwordPromptView.valid  = [LEOValidationsHelper isValidPassword:_updatedPassword];
-    }
-}
-
--(void)setMatchingPassword:(NSString *)matchingPassword {
-    
-    _matchingPassword = matchingPassword;
-    
-    if (self.hasBeenValidatedAtLeastOnce) {
-        
-        self.retypePasswordPromptView.valid = [LEOValidationsHelper isValidPassword:_matchingPassword matching:self.updatedPassword];
-    }
-}
-
 #pragma mark - Validation
 
-- (BOOL)isValidPassword {
+- (BOOL)isValidPasswordWithError:(NSError * __autoreleasing *)error {
     
-    self.hasBeenValidatedAtLeastOnce = YES;
+    self.passwordNew = self.passwordPromptView.textField.text;
+    self.passwordNewRetyped = self.retypePasswordPromptView.textField.text;
     
-    self.updatedPassword = self.passwordPromptView.textField.text;
-    self.matchingPassword = self.retypePasswordPromptView.textField.text;
+    BOOL valid = [LEOValidationsHelper isValidPassword:self.passwordNew matching:self.passwordNewRetyped error:error];
     
-    return [LEOValidationsHelper isValidPassword:self.updatedPassword matching:self.matchingPassword];
+    return valid;
 }
 
 - (void)isValidCurrentPassword:(BOOL)validCurrentPassword {
     
-    if (validCurrentPassword) {
-        self.currentPasswordPromptView.valid = YES;
-    }
-    
-    self.currentPasswordPromptView.valid = NO;
+    self.currentPasswordPromptView.valid = validCurrentPassword ? YES : NO;
 }
 
 
@@ -176,15 +151,26 @@ IB_DESIGNABLE
     [mutableText replaceCharactersInRange:range withString:string];
     
     if (textField == self.passwordPromptView.textField) {
-        self.updatedPassword = mutableText.string;
+        self.passwordNew = mutableText.string;
     }
     
     if (textField == self.retypePasswordPromptView.textField) {
-        self.matchingPassword = mutableText.string;
+        self.passwordNewRetyped = mutableText.string;
     }
     
     return YES;
 }
 
+- (NSString *)passwordNew {
+    return self.passwordPromptView.textField.text;
+}
 
+- (NSString *)passwordCurrent {
+    return self.currentPasswordPromptView.textField.text;
+}
+
+- (NSString *)passwordNewRetyped {
+    return self.retypePasswordPromptView.textField.text;
+}
 @end
+

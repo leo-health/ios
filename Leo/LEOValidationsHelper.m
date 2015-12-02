@@ -9,6 +9,15 @@
 #import "LEOValidationsHelper.h"
 #import "NSDate+Extensions.h"
 
+typedef NS_ENUM(NSInteger, LEOValidationsErrorCode) {
+    
+    LEOValidationsErrorCodePasswordMismatch,
+    LEOValidationsErrorCodeInvalidPhoneNumber,
+    LEOValidationsErrorCodeInvalidEmail,
+    LEOValidationsErrorCodeMissingField,
+    LEOValidationsErrorCodePasswordLength,
+};
+
 @implementation LEOValidationsHelper
 
 
@@ -104,14 +113,35 @@
     return candidate.length > 7;
 }
 
-+ (BOOL)isValidPassword:(NSString *)candidate matching:(NSString *)otherCandidate {
++ (BOOL)isValidPassword:(NSString *)candidate matching:(NSString *)otherCandidate error:(NSError * __autoreleasing *)error {
+    
+    NSDictionary *userInfo = @{
+                               NSLocalizedDescriptionKey: NSLocalizedString(@"Password update unsuccessful.", nil),
+                               NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Password is too short.", nil),
+                               NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Passwords must be at least eight characters.", nil)
+                               };
+    
+    
+    NSInteger code = LEOValidationsErrorCodePasswordLength;
     
     if (candidate.length > 7) {
+        
+        userInfo = @{
+                     NSLocalizedDescriptionKey: NSLocalizedString(@"Password update unsuccessful.", nil),
+                     NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Passwords do not match.", nil),
+                     NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Your new password and confirmation of it do not match.", nil)
+                     };
+        
+        
+        
+        code = LEOValidationsErrorCodePasswordMismatch;
         
         if ([candidate isEqualToString:otherCandidate]) {
             return YES;
         }
     }
+    
+    *error = [NSError errorWithDomain:kLEOValidationsErrorDomain code:LEOValidationsErrorCodePasswordMismatch userInfo:userInfo];
     
     return NO;
 }
