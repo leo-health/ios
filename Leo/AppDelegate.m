@@ -43,7 +43,7 @@
     if (!launchOptions) {
        storyboardIdentifier = [SessionUser isLoggedIn] ? kStoryboardFeed : kStoryboardLogin;
     } else {
-        
+        storyboardIdentifier = kStoryboardLogin;
         //TODO: Figure out what other launch option situations we want to account for.
     }
     
@@ -113,7 +113,9 @@
     
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle:[NSBundle mainBundle]];
     
-    if (self.window.rootViewController) {
+    UIViewController *initialVC = [storyboard instantiateInitialViewController];
+    
+    if (self.window.rootViewController && [self.window.rootViewController class] != [initialVC class]) {
         
 //        [UIView transitionWithView:[storyboard instantiateInitialViewController].view duration:0.65f options:UIViewAnimationOptionTransitionFlipFromLeft animations:nil completion:^(BOOL finished) {
 //            
@@ -126,7 +128,7 @@
 //
         
         [UIView transitionFromView:self.window.rootViewController.view
-                            toView:[storyboard instantiateInitialViewController].view
+                            toView:initialVC.view
                           duration:0.65f
                            options:UIViewAnimationOptionTransitionFlipFromLeft
                         completion:^(BOOL finished){
@@ -145,7 +147,7 @@
                         }];
     } else {
         
-        self.window.rootViewController = [storyboard instantiateInitialViewController];
+        self.window.rootViewController = initialVC;
     }
 }
 
