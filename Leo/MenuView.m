@@ -97,7 +97,7 @@
     
     [_settingsLabelButton setImage:[UIImage imageNamed:@"Menu-Settings"] forState:UIControlStateNormal];
     [_settingsLabelButton setTitleColor:[UIColor leoGrayForTitlesAndHeadings] forState:UIControlStateNormal];
-    _settingsLabelButton.tintColor = [UIColor leoGrayForTimeStamps];
+    _settingsLabelButton.tintColor = [UIColor leoGrayForTitlesAndHeadings];
 }
 
 
