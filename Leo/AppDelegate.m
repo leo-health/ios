@@ -124,14 +124,10 @@
                            options:UIViewAnimationOptionTransitionFlipFromLeft
                         completion:^(BOOL finished){
                             
-                            
                             if (finished) {
                                 
                                 self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
                                 self.window.rootViewController = [storyboard instantiateInitialViewController];
-                                
-                                //                                [self.window.rootViewController dismissViewControllerAnimated:YES completion:nil];
-                                //                                [self.window.rootViewController.navigationController popToRootViewControllerAnimated:NO];
                                 
                                 [self.window makeKeyAndVisible];
                             }
@@ -233,7 +229,7 @@
 -(BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
     
     if ([url.scheme isEqualToString: @"leohealth"]) {
-
+        
         if ([SessionUser isLoggedIn]) {
             
             if ([url.host isEqualToString: @"feed"]) {
