@@ -99,38 +99,28 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
 #pragma mark - View Controller Lifecycle and VCL Helper Methods
 - (void)viewDidLoad {
     
-    
-    //TODO: Add one for feed
-    
     [super viewDidLoad];
     
     self.view.backgroundColor = [UIColor leoOrangeRed];
-
+    
     [self setupNavigationBar];
     [self setupNotifications];
     [self setupTableView];
     [self setupMenuButton];
     [self setNeedsStatusBarAppearanceUpdate];
-
-    [self pushNewMessageToConversation:[self conversation].associatedCardObject];
-
     
-    //Set background color such that the status bar color matches the color of the navigation bar.
+    [self pushNewMessageToConversation:[self conversation].associatedCardObject];
 }
 
--(void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
     
     [LEOStyleHelper styleNavigationBarForFeature:FeatureSettings];
-
+    
     self.navigationController.navigationBarHidden = YES;
 }
 
-
-/**
- *  Setup navigation bar
- */
 - (void)setupNavigationBar {
     
     self.navigationBar.barTintColor = [UIColor leoOrangeRed];
@@ -139,10 +129,10 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
     UIImage *heartBBI = [[UIImage imageNamed:@"Icon-LeoHeart"] resizedImageToSize:CGSizeMake(30.0, 30.0)];
     
     UIBarButtonItem *leoheartBBI = [[UIBarButtonItem alloc] initWithImage:heartBBI style:UIBarButtonItemStylePlain target:self action:nil];
-
+    
     self.navigationBar.topItem.title = @"";
     
-    UINavigationItem *item = [[UINavigationItem alloc] init];
+    UINavigationItem *item = [UINavigationItem new];
     
     item.leftBarButtonItem = leoheartBBI;
     
@@ -150,11 +140,6 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
 }
 
 - (void)setupNotifications {
-    
-//    [[NSNotificationCenter defaultCenter] addObserver:self
-//                                             selector:@selector(notificationReceived:)
-//                                                 name:kNotificationBookAppointment
-//                                               object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(notificationReceived:)
@@ -165,11 +150,6 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
                                              selector:@selector(notificationReceived:)
                                                  name:kNotificationConversationAddedMessage
                                                object:nil];
-    
-//    [[NSNotificationCenter defaultCenter] addObserver:self
-//                                             selector:@selector(notificationReceived:)
-//                                                 name:kNotificationManageSettings
-//                                               object:nil];
 }
 
 //MARK: Most likely doesn't belong in this class; no longer tied to it except for completion block which can be passed in.
@@ -189,12 +169,12 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
                           }];
 }
 
--(void)viewDidAppear:(BOOL)animated {
+- (void)viewDidAppear:(BOOL)animated {
     
     [super viewDidAppear:animated];
     
     [self fetchFamilyWithCompletion:^{
-
+        
         [self fetchDataForCard:nil];
     }];
 }
@@ -202,7 +182,8 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
 - (void)fetchFamilyWithCompletion:( void (^) (void))completionBlock {
     
     if (!self.family) {
-        LEOHelperService *helperService = [[LEOHelperService alloc] init];
+        
+        LEOHelperService *helperService = [LEOHelperService new];
         [helperService getFamilyWithCompletion:^(Family *family, NSError *error) {
             
             if (!error) {
@@ -230,7 +211,7 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
             return (LEOCardConversation *)card;
         }
     }
-    return nil; //Not loving this implementation since it technically *could* break...
+    return nil; //MARK: Not loving this implementation since it technically *could* break...
 }
 
 - (void)fetchData {
@@ -245,22 +226,20 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
     
     dispatch_async(queue, ^{
         
-        LEOCardService *cardService = [[LEOCardService alloc] init];
+        LEOCardService *cardService = [LEOCardService new];
         [cardService getCardsWithCompletion:^(NSArray *cards, NSError *error) {
             
             if (!error) {
                 self.cards = [cards mutableCopy];
-                
-                
             }
             
             dispatch_async(dispatch_get_main_queue() , ^{
                 
                 [self.tableView reloadData];
-
+                
                 NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.cardInFocus inSection:0];
                 [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
-
+                
                 [MBProgressHUD hideHUDForView:self.tableView animated:YES];
             });
         }];
@@ -304,11 +283,11 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
 
 #pragma mark - <UITableViewDelegate>
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
 -(void)takeResponsibilityForCard:(LEOCard *)card {
+    
     card.delegate = self;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"Card-Updated" object:nil]; //TODO: This method does not reflect the fact that an update has taken place. Consider naming differently, or moving this to a method that fits the bill?
 }
@@ -327,43 +306,52 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
                 case AppointmentStatusCodeNew:
                 case AppointmentStatusCodeBooking:
                 case AppointmentStatusCodeFuture: {
+                    
                     [self loadBookingViewWithCard:card];
                     break;
                 }
                     
                 case AppointmentStatusCodeCancelled: {
+                    
                     [self removeCardFromFeed:card];
                     break;
                 }
                     
                 case AppointmentStatusCodeCancelling: {
+                    
                     [self.tableView reloadData];
                     break;
                 }
                     
                 case AppointmentStatusCodeConfirmingCancelling: {
-                    [self removeCard:card
-          fromDatabaseWithCompletion:^(NSDictionary *response, NSError *error) {
-              if (!error) {
-                  
-                  [self.tableView reloadData];
-              } else {
-                  [card returnToPriorState];
-              }
-          }];
+                    
+                    [self removeCard:card fromDatabaseWithCompletion:^(NSDictionary *response, NSError *error) {
+                        
+                        if (!error) {
+                            
+                            [self.tableView reloadData];
+                        } else {
+                            [card returnToPriorState];
+                        }
+                    }];
+                    
                     break;
                 }
                     
                 case AppointmentStatusCodeReminding: {
                     
                     [self.tableView reloadData];
-                    
                     break;
                 }
                     
-
-                default: {
+                case AppointmentStatusCodeChargeEntered:
+                case AppointmentStatusCodeCheckedIn:
+                case AppointmentStatusCodeCheckedOut:
+                case AppointmentStatusCodeOpen:
+                case AppointmentStatusCodeRecommending:
+                case AppointmentStatusCodeUndefined: {
                     [self.tableView reloadData]; //TODO: This is not right, but for now it is a placeholder.
+                    break;
                 }
             }
         }
@@ -383,9 +371,10 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
                     break;
                 }
                     
-                default: {
+                case ConversationStatusCodeNewMessages:
+                case ConversationStatusCodeReadMessages:
+                case ConversationStatusCodeUndefined:
                     break;
-                }
                     
                     //FIXME: Need to handle "Call us" somehow
             }
@@ -395,7 +384,7 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
 
 - (void)beginSchedulingNewAppointment {
     
-    AppointmentStatus *appointmentStatus = [[AppointmentStatus alloc] init];
+    AppointmentStatus *appointmentStatus = [AppointmentStatus new];
     appointmentStatus.statusCode = AppointmentStatusCodeNew;
     
     Appointment *appointment = [[Appointment alloc] initWithObjectID:nil
@@ -406,7 +395,7 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
                                                           practiceID:@"0"
                                                         bookedByUser:[SessionUser currentUser]
                                                                 note:nil
-                                                          status:appointmentStatus];
+                                                              status:appointmentStatus];
     
     LEOCardAppointment *card = [[LEOCardAppointment alloc] initWithObjectID:@"temp"
                                                                    priority:@999
@@ -459,18 +448,14 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
 - (void)addCard:(LEOCard *)card {
     
     NSMutableArray *mutableCards = [self.cards mutableCopy];
-    
     [mutableCards addObject:card];
-    
     self.cards = [mutableCards copy];
 }
 
 - (void)removeCard:(LEOCard *)card {
     
     NSMutableArray *mutableCards = [self.cards mutableCopy];
-    
     [mutableCards removeObject:card];
-    
     self.cards = [mutableCards copy];
 }
 
@@ -485,7 +470,7 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
     appointmentBookingVC.delegate = self;
     
     appointmentBookingVC.card = (LEOCardAppointment *)card;
-    self.transitionDelegate = [[LEOTransitioningDelegate alloc] init];
+    self.transitionDelegate = [LEOTransitioningDelegate new];
     appointmentNavController.transitioningDelegate = self.transitionDelegate;
     appointmentNavController.modalPresentationStyle = UIModalPresentationCustom;
     [self presentViewController:appointmentNavController animated:YES completion:^{
@@ -501,7 +486,7 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
     LEOMessagesViewController *messagesVC = conversationNavController.viewControllers.firstObject;
     messagesVC.card = (LEOCardConversation *)card;
     
-    self.transitionDelegate = [[LEOTransitioningDelegate alloc] init];
+    self.transitionDelegate = [LEOTransitioningDelegate new];
     conversationNavController.transitioningDelegate = self.transitionDelegate;
     conversationNavController.modalPresentationStyle = UIModalPresentationCustom;
     [self presentViewController:conversationNavController animated:YES completion:^{
@@ -591,7 +576,7 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
 -(LEOAppointmentService *)appointmentService {
     
     if (!_appointmentService) {
-        _appointmentService = [[LEOAppointmentService alloc] init];
+        _appointmentService = [LEOAppointmentService new];
     }
     
     return _appointmentService;
@@ -675,7 +660,7 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
     [UIView animateWithDuration:0.25 animations:^{
         
         self.menuView.backgroundColor = [[UIColor clearColor] colorWithAlphaComponent:0.5];
-
+        
         self.menuView.alpha = 0.8;
         self.blurredImageView.alpha = 1;
         [self.menuButton layoutIfNeeded];
@@ -717,7 +702,7 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
  */
 - (void)initializeMenuView {
     
-    self.menuView = [[MenuView alloc] init];
+    self.menuView = [MenuView new];
     self.menuView.alpha = 0;
     self.menuView.translatesAutoresizingMaskIntoConstraints = NO;
     self.menuView.delegate = self;
@@ -749,8 +734,9 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
     [self animateMenuDisappearWithCompletion:^{
         [self dismissMenuView];
     }];
-
+    
     switch (menuChoice) {
+        
         case MenuChoiceScheduleAppointment:
             [self beginSchedulingNewAppointment];
             break;
@@ -780,7 +766,7 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
             break;
             
     }
-   }
+}
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return UIStatusBarStyleLightContent;
@@ -807,11 +793,11 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
     }];
     
     [alertController addAction:action];
-
+    
     [self presentViewController:alertController animated:YES completion:nil];
 }
 
--(void)dealloc {
+- (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
