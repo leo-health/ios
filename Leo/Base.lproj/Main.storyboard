@@ -3,7 +3,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -54,8 +53,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="1200"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="170" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="wWt-pD-EnJ">
-                                <rect key="frame" x="0.0" y="64" width="600" height="1136"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="170" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="wWt-pD-EnJ">
+                                <rect key="frame" x="0.0" y="20" width="600" height="1180"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -131,12 +130,12 @@
                                     <navigationItem title="Title" id="w8M-5l-XNC"/>
                                 </items>
                             </navigationBar>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3QI-78-SK2" userLabel="Menu Button" customClass="VBFPopFlatButton">
-                                <rect key="frame" x="534" y="1150" width="30" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3QI-78-SK2" userLabel="Menu Button" customClass="VBFPopFlatButton">
+                                <rect key="frame" x="515" y="1115" width="55" height="55"/>
                                 <animations/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="8uq-TA-nwg"/>
-                                    <constraint firstAttribute="width" constant="30" id="GTm-bZ-yuy"/>
+                                    <constraint firstAttribute="height" constant="55" id="8uq-TA-nwg"/>
+                                    <constraint firstAttribute="width" constant="55" id="GTm-bZ-yuy"/>
                                 </constraints>
                                 <state key="normal">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -147,10 +146,10 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="wWt-pD-EnJ" secondAttribute="trailing" id="DZF-KH-osd"/>
-                            <constraint firstItem="8NS-IF-Jb1" firstAttribute="top" secondItem="3QI-78-SK2" secondAttribute="bottom" constant="20" id="Min-65-1Yk"/>
+                            <constraint firstItem="8NS-IF-Jb1" firstAttribute="top" secondItem="3QI-78-SK2" secondAttribute="bottom" constant="30" id="Min-65-1Yk"/>
                             <constraint firstItem="SF1-FR-mdH" firstAttribute="leading" secondItem="brE-LS-Hll" secondAttribute="leading" id="Voi-KT-s91"/>
                             <constraint firstItem="SF1-FR-mdH" firstAttribute="top" secondItem="nea-hp-c8G" secondAttribute="bottom" id="iPw-ar-Xfe"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="3QI-78-SK2" secondAttribute="trailing" constant="20" id="kFN-cV-X9m"/>
+                            <constraint firstAttribute="trailing" secondItem="3QI-78-SK2" secondAttribute="trailing" constant="30" id="kFN-cV-X9m"/>
                             <constraint firstItem="wWt-pD-EnJ" firstAttribute="leading" secondItem="brE-LS-Hll" secondAttribute="leading" id="mCX-sd-upI"/>
                             <constraint firstAttribute="trailing" secondItem="SF1-FR-mdH" secondAttribute="trailing" id="rlb-aY-RRg"/>
                             <constraint firstItem="wWt-pD-EnJ" firstAttribute="top" secondItem="nea-hp-c8G" secondAttribute="bottom" id="uML-7E-8Px"/>
