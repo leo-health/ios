@@ -102,7 +102,8 @@ typedef NS_ENUM(NSInteger, LEOValidationsErrorCode) {
 }
 
 + (BOOL)isValidAvatar:(UIImage *)candidate {
-    return candidate ? YES : NO;
+    return candidate != [UIImage imageNamed:@"Icon-Camera-Avatars"] && candidate ? YES : NO;
+
 }
 
 + (BOOL)isValidGender:(NSString *)candidate {

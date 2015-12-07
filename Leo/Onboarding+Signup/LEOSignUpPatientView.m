@@ -37,28 +37,14 @@
 @synthesize patient = _patient;
 
 IB_DESIGNABLE
-#pragma mark - Initialization
 
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    
-    if (self) {
-    }
-    
-    return self;
+- (void)commonInit {
+
+    self.patient = [Patient new];
+    [self setupTouchEventForDismissingKeyboard];
 }
 
-//- (instancetype)initWithFrame:(CGRect)frame {
-//    
-//    self = [super initWithFrame:frame];
-//    
-//    if (self) {
-//
-//    }
-//    
-//    return self;
-//}
-
+#pragma mark - Accessors
 -(void)setDelegate:(id<LEOSignUpPatientProtocol,UIImagePickerControllerDelegate>)delegate {
     
     _delegate = delegate;
@@ -66,14 +52,6 @@ IB_DESIGNABLE
     [self setupConstraints];
     [self commonInit];
 }
-
-- (void)commonInit {
-    
-    self.patient = [Patient new];
-    [self setupTouchEventForDismissingKeyboard];
-}
-
-//TODO: Eventually should move into a protocol or superclass potentially.
 
 
 -(void)setFirstNamePromptView:(LEOPromptView *)firstNamePromptView {
@@ -83,8 +61,6 @@ IB_DESIGNABLE
     _firstNamePromptView.textField.standardPlaceholder = @"first name";
     _firstNamePromptView.textField.validationPlaceholder = @"please enter a first name";
     _firstNamePromptView.textField.delegate = self;
-    
-//    _patient.firstName = self.firstNamePromptView.textField.text;
 }
 
 -(void)setLastNamePromptView:(LEOPromptView *)lastNamePromptView {
@@ -93,8 +69,6 @@ IB_DESIGNABLE
     _lastNamePromptView.textField.standardPlaceholder = @"last name";
     _lastNamePromptView.textField.validationPlaceholder = @"please enter a last name";
     _lastNamePromptView.textField.delegate = self;
-    
-//    _patient.lastName = self.lastNamePromptView.textField.text;
 }
 
 -(void)setBirthDatePromptView:(LEOPromptView *)birthDatePromptView {
@@ -108,8 +82,6 @@ IB_DESIGNABLE
     _birthDatePromptView.accessoryImageViewVisible = YES;
     _birthDatePromptView.accessoryImage = [UIImage imageNamed:@"Icon-Expand"];
     _birthDatePromptView.delegate = self;
-
-//    _patient.dob = ![self.birthDatePromptView.textField.text isEqualToString:@""] ? [NSDate dateFromShortDateString:self.birthDatePromptView.textField.text] : nil; //Refactor out of this method.
 }
 
 - (void)setGenderPromptView:(LEOPromptView *)genderPromptView {
@@ -122,8 +94,6 @@ IB_DESIGNABLE
     _genderPromptView.accessoryImageViewVisible = YES;
     _genderPromptView.accessoryImage = [UIImage imageNamed:@"Icon-Expand"];
     _genderPromptView.delegate = self;
-
-//    _patient.gender = ![self.genderPromptView.textField.text isEqualToString:@""] ? [self.genderPromptView.textField.text substringToIndex:1] : nil; //FIXME: This should not be done here. Refactor out the implementation.
 }
 
 
@@ -161,15 +131,6 @@ IB_DESIGNABLE
     [self.delegate presentPhotoPicker];
 }
 
-- (void)updateAvatarImage:(UIImage *)avatarImage {
-    
-    UIImage *circularAvatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:avatarImage withDiameter:67 borderColor:[UIColor leoOrangeRed] borderWidth:1.0];
-    [self.avatarButton setImage:circularAvatarImage forState:UIControlStateNormal];
-    
-    self.avatarValidationLabel.text = @"";
-    self.patient.avatar = self.avatarButton.imageView.image;
-}
-
 -(Patient *)patient {
     
     NSString *firstName = self.firstNamePromptView.textField.text;
@@ -195,12 +156,24 @@ IB_DESIGNABLE
     [self.avatarButton setImage:_patient.avatar forState:UIControlStateNormal];
 }
 
+
+#pragma mark - Public API
+
+- (void)updateAvatarImage:(UIImage *)avatarImage {
+
+    UIImage *circularAvatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:avatarImage withDiameter:67 borderColor:[UIColor leoOrangeRed] borderWidth:1.0];
+    [self.avatarButton setImage:circularAvatarImage forState:UIControlStateNormal];
+
+    self.avatarValidationLabel.text = @"";
+    self.patient.avatar = self.avatarButton.imageView.image;
+}
+
 - (void)validateFields {
     
     NSString *firstName = self.firstNamePromptView.textField.text;
     NSString *lastName = self.lastNamePromptView.textField.text;
-    NSString *gender = ![self.genderPromptView.textField.text isEqualToString:@""] ? [self.genderPromptView.textField.text substringToIndex:1] : nil; //FIXME: This should not be done here. Bad practice.po
-    NSDate *dob =  ![self.birthDatePromptView.textField.text isEqualToString:@""] ? [NSDate dateFromShortDateString:self.birthDatePromptView.textField.text] : nil; //Refactor out of this method.
+    NSString *gender = [self genderFromGenderTextField:self.genderPromptView.textField];
+    NSDate *dob = [self dateFromDateTextField:self.birthDatePromptView.textField];
     UIImage *avatar = self.avatarButton.imageView.image;
     
     BOOL validFirstName = [LEOValidationsHelper isValidFirstName:firstName];
@@ -218,6 +191,14 @@ IB_DESIGNABLE
         
         self.avatarValidationLabel.text = @"please tap the camera to add a photo of your child";
     }
+}
+
+- (NSString *) genderFromGenderTextField:(UITextField *)textField {
+    return ![textField.text isEqualToString:@""] ? [textField.text substringToIndex:1] : nil;
+}
+
+- (NSDate *)dateFromDateTextField:(UITextField *)textField {
+    return ![textField.text isEqualToString:@""] ? [NSDate dateFromShortDateString:textField.text] : nil;
 }
 
 #pragma mark - <LEOPromptViewDelegate>
@@ -239,8 +220,7 @@ IB_DESIGNABLE
 
 #pragma mark - <ActionSheetPicker-3.0>
 
-
-//MAKE SEPARATE CLASS. USE GETTER.
+//TODO: Separate out into own class.
 - (void)selectADate:(UIControl *)sender {
     
     NSDate *minDate = [[NSDate date] dateBySubtractingYears:26];
@@ -268,8 +248,7 @@ IB_DESIGNABLE
     [actionSheetPicker showActionSheetPicker];
 }
 
-
-//MAKE SEPARATE CLASS. USE GETTER.
+//TODO: Separate out into own class.
 - (void)selectAGender:(UIControl *)sender {
     
     NSInteger selectedIndex = 0;
@@ -313,10 +292,8 @@ IB_DESIGNABLE
 }
 
 
-
-
 #pragma mark - Autolayout
-
+//TODO: Once we merge #530, come back to this and call the method from XibAdditions (which is, for the time being, an empty category.)
 - (void)setupConstraints {
     
     NSBundle *mainBundle = [NSBundle mainBundle];
@@ -336,32 +313,29 @@ IB_DESIGNABLE
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-30]];
 }
 
-- (void)viewTapped {
-    
-    [self endEditing:YES];
-}
 
 #pragma mark - <UITextFieldDelegate>
+
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    
+
     NSMutableAttributedString *mutableText = [[NSMutableAttributedString alloc] initWithString:textField.text];
-    
+
     [mutableText replaceCharactersInRange:range withString:string];
-    
+
     if (textField == self.firstNamePromptView.textField && !self.firstNamePromptView.valid) {
-        
+
         self.firstNamePromptView.valid = [LEOValidationsHelper isValidFirstName:mutableText.string];
     }
-    
+
     if (textField == self.lastNamePromptView.textField && !self.lastNamePromptView.valid) {
-        
+
         self.lastNamePromptView.valid = [LEOValidationsHelper isValidLastName:mutableText.string];
     }
-    
+
     return YES;
 }
 
-//TODO: Eventually should move into a protocol or superclass potentially.
+//TODO: Once we merge #530, come back to this and call the method from XibAdditions (which is, for the time being, an empty category.)
 - (void)setupTouchEventForDismissingKeyboard {
     
 #pragma clang diagnostic push
@@ -373,12 +347,8 @@ IB_DESIGNABLE
     [self addGestureRecognizer:tapGestureForTextFieldDismissal];
 }
 
-
-//TODO: Move out to user class / LEOValidations;
-- (BOOL)isValidAvatar {
-    
-    return self.avatarButton.imageView.image != [UIImage imageNamed:@"Icon-Camera-Avatars"] ? YES : NO;
+- (void)viewTapped {
+    [self endEditing:YES];
 }
-
 
 @end
