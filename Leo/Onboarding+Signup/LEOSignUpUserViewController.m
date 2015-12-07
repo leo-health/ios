@@ -151,9 +151,9 @@
 
 - (void)continueTapped:(UIButton *)sender {
 
-    [self updateGuardian];
-    
     if ([self.signUpUserView validView]) {
+
+        [self updateGuardian];
 
         switch (self.managementMode) {
             case ManagementModeCreate:
