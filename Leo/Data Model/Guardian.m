@@ -160,7 +160,7 @@ static NSString *const kMembershipTypeIncomplete = @"Incomplete"; //FIXME: This 
 }
 
 - (BOOL)validInsurer {
-    return [LEOValidationsHelper isValidInsurer:self.insurancePlan];
+    return [LEOValidationsHelper isValidInsurer:self.insurancePlan.name];
 }
 
 //TODO: Work through the rest of what makes it valid / invalid and various cases.
@@ -169,6 +169,13 @@ static NSString *const kMembershipTypeIncomplete = @"Incomplete"; //FIXME: This 
 - (BOOL)valid {
     
     return [self validFirstName] && [self validLastName] && [self validPhoneNumber] && [self validInsurer];
+}
+
+-(id)copyWithZone:(NSZone *)zone {
+
+    Guardian *guardianCopy = [self initWithObjectID:[self.objectID copy] title:[self.title copy] firstName:[self.firstName copy] middleInitial:nil lastName:[self.lastName copy] suffix:[self.suffix copy] email:[self.email copy] avatarURL:[self.avatarURL copy] avatar:[self.avatar copy]];
+
+    return guardianCopy;
 }
 
 @end

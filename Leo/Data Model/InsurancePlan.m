@@ -100,4 +100,11 @@
     return [NSString stringWithFormat:@"%@ %@",self.insurerName, self.name];
 }
 
+-(id)copyWithZone:(NSZone *)zone {
+
+    InsurancePlan *insurancePlan = [self initWithObjectID:[self.objectID copy] insurerID:[self.insurerID copy] insurerName:[self.insurerName copy] name:[self.name copy]];
+
+    return  insurancePlan;
+}
+
 @end

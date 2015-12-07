@@ -10,7 +10,7 @@
 #import "User.h"
 #import "InsurancePlan.h"
 
-@interface Guardian : User
+@interface Guardian : User <NSCopying>
 NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic) BOOL primary;
