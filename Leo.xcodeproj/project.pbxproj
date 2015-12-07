@@ -1692,7 +1692,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 2015.12.04.11.02;
+				CURRENT_PROJECT_VERSION = 2015.12.07.11.13;
 				ENABLE_TESTABILITY = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1788,7 +1788,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 2015.12.04.11.02;
+				CURRENT_PROJECT_VERSION = 2015.12.07.11.13;
 				ENABLE_TESTABILITY = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1835,7 +1835,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 2015.12.04.11.02;
+				CURRENT_PROJECT_VERSION = 2015.12.07.11.13;
 				ENABLE_TESTABILITY = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1846,7 +1846,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 2015.12.04.11.02;
+				CURRENT_PROJECT_VERSION = 2015.12.07.11.13;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
