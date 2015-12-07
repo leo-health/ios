@@ -17,8 +17,9 @@
 #import <UIKit/UIKit.h>
 #import "LEOPromptView.h"
 #import <RSKImageCropper/RSKImageCropper.h>
+#import "LEOSignUpPatientView.h"
 
-@interface LEOSignUpPatientViewController : UIViewController <UITextFieldDelegate, UIScrollViewDelegate, LEOPromptDelegate, UIPickerViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, RSKImageCropViewControllerDelegate>
+@interface LEOSignUpPatientViewController : UIViewController <UITextFieldDelegate, UIScrollViewDelegate, LEOPromptDelegate, LEOSignUpPatientProtocol, UIPickerViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, RSKImageCropViewControllerDelegate>
 
 @property (weak, nonatomic) id<SignUpPatientProtocol>delegate;
 @property (strong, nonatomic) Family *family;

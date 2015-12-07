@@ -44,7 +44,7 @@
         
         storyboardIdentifier = [SessionUser isLoggedIn] ? kStoryboardFeed : kStoryboardLogin;
     } else {
-        
+
         storyboardIdentifier = kStoryboardLogin;
         //TODO: Figure out what other launch option situations we want to account for.
     }

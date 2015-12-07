@@ -15,8 +15,9 @@
 + (BOOL)isValidEmail:(NSString *) candidate;
 + (BOOL)isValidFirstName:(NSString *)candidate;
 + (BOOL)isValidLastName:(NSString *)candidate;
-+ (BOOL)isValidBirthDate:(NSString *)candidate;
++ (BOOL)isValidBirthDate:(NSDate *)candidate;
 + (BOOL)isValidGender:(NSString *)candidate;
++ (BOOL)isValidAvatar:(UIImage *)candidate;
 + (BOOL)isValidInsurer:(NSString *)candidate;
 + (BOOL)isValidPassword:(NSString *)candidate;
 + (BOOL)isValidPassword:(NSString *)candidate matching:(NSString *)otherCandidate error:(NSError * __autoreleasing *)error;

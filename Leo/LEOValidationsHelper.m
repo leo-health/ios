@@ -97,8 +97,13 @@ typedef NS_ENUM(NSInteger, LEOValidationsErrorCode) {
     return [self isValidNonZeroLength:candidate] ? YES : NO;
 }
 
-+ (BOOL)isValidBirthDate:(NSString *)candidate {
++ (BOOL)isValidBirthDate:(NSDate *)candidate {
     return [self isValidShortDate:candidate];
+}
+
++ (BOOL)isValidAvatar:(UIImage *)candidate {
+    return candidate != [UIImage imageNamed:@"Icon-Camera-Avatars"] && candidate ? YES : NO;
+
 }
 
 + (BOOL)isValidGender:(NSString *)candidate {
@@ -158,11 +163,19 @@ typedef NS_ENUM(NSInteger, LEOValidationsErrorCode) {
     return [alphaOnlyTest evaluateWithObject:candidate];
 };
 
-+ (BOOL)isValidShortDate:(NSString *)candidate {
++ (BOOL)isValidShortDateFromString:(NSString *)candidate {
     
-    NSDate *date = [NSDate dateFromShortDate:candidate];
+    NSDate *date = [NSDate dateFromShortDateString:candidate];
     
     return ([date isKindOfClass:[NSDate class]] && date != nil) ? YES : NO;
 }
+
++ (BOOL)isValidShortDate:(NSDate *)candidate {
+    
+    NSDate *date = [NSDate shortDateFromDate:candidate];
+    
+    return ([date isKindOfClass:[NSDate class]] && date != nil) ? YES : NO;
+}
+
 
 @end

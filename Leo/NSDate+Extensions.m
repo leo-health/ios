@@ -92,7 +92,11 @@
     return [dateFormatter dateFromString:dateString];
 }
 
-+ (NSDate *)dateFromShortDate:(NSString *)dateString {
++ (NSDate *)shortDateFromDate:(NSDate *)date {
+    return [date dateWithoutTime];
+}
+
++ (NSDate *)dateFromShortDateString:(NSString *)dateString {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"MM/dd/yyyy"];
     

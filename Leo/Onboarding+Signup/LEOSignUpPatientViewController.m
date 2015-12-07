@@ -27,10 +27,12 @@
 #import "Patient.h"
 #import "LEOStyleHelper.h"
 #import "LEOUserService.h"
+#import "LEOImageCropViewController.h"
+#import "LEOAlertHelper.h"
 
 @interface LEOSignUpPatientViewController ()
 
-@property (strong, nonatomic) LEOSignUpPatientView *signUpPatientView;
+@property (weak, nonatomic) LEOSignUpPatientView *signUpPatientView;
 @property (nonatomic) BOOL breakerPreviouslyDrawn;
 @property (strong, nonatomic) CAShapeLayer *pathLayer;
 
@@ -38,25 +40,42 @@
 
 @implementation LEOSignUpPatientViewController
 
+@synthesize patient = _patient;
+
 
 #pragma mark - View Controller Lifecycle & Helpers
 
 - (void)viewDidLoad {
     
     [super viewDidLoad];
+    [self setupBreaker];
+    
+    self.signUpPatientView.delegate = self;
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    
+    if (!self.patient.avatar && self.patient) {
+        
+        LEOUserService *userService = [LEOUserService new];
+        
+        [userService getAvatarForUser:self.patient withCompletion:^(UIImage * rawImage, NSError * error) {
+            
+            if (!error && rawImage) {
+                
+                self.signUpPatientView.patient.avatar = rawImage;
+                [self.signUpPatientView updateAvatarImage:rawImage];
+            }
+        }];
+    }
+}
+
+- (void)setFeature:(Feature)feature {
+    
+    _feature = feature;
     
     [self setupTintColor];
     [self setupNavigationBar];
-    [self setupSignUpPatientView];
-    [self setupBreaker];
-    
-    [self setupFirstNameField];
-    [self setupLastNameField];
-    [self setupBirthDateField];
-    [self setupAvatarButton];
-    [self setupAvatarValidationLabel];
-    [self setupGenderField];
-    [self setupContinueButton];
 }
 
 - (void)setupTintColor {
@@ -74,7 +93,6 @@
     [LEOStyleHelper styleLabel:navTitleLabel forFeature:self.feature];
     
     self.navigationItem.titleView = navTitleLabel;
-    
 }
 
 - (UILabel *)buildNavTitleLabel {
@@ -82,6 +100,7 @@
     UILabel *navTitleLabel = [[UILabel alloc] init];
     
     switch (self.managementMode) {
+            
         case ManagementModeEdit:
             navTitleLabel.text = self.patient.fullName;
             break;
@@ -98,91 +117,25 @@
 }
 
 
-- (void)setupSignUpPatientView {
+- (LEOSignUpPatientView *)signUpPatientView {
     
-    [self.view addSubview:self.signUpPatientView];
-    
-    [self.view removeConstraints:self.view.constraints];
-    self.signUpPatientView.translatesAutoresizingMaskIntoConstraints = NO;
-    self.signUpPatientView.scrollView.delegate = self;
-    
-    NSDictionary *bindings = NSDictionaryOfVariableBindings(_signUpPatientView);
-    
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_signUpPatientView]|" options:0 metrics:nil views:bindings]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_signUpPatientView]|" options:0 metrics:nil views:bindings]];
-}
-
-- (void)setupFirstNameField {
-    
-    [self firstNameTextField].delegate = self;
-    [self firstNameTextField].standardPlaceholder = @"first name";
-    [self firstNameTextField].validationPlaceholder = @"please enter a valid first name";
-    [[self firstNameTextField] sizeToFit];
-    
-    [self firstNameTextField].text = self.patient.firstName;
-}
-
-- (void)setupLastNameField {
-    
-    [self lastNameTextField].delegate = self;
-    [self lastNameTextField].standardPlaceholder = @"last name";
-    [self lastNameTextField].validationPlaceholder = @"please enter a valid last name";
-    [[self lastNameTextField] sizeToFit];
-    
-    [self lastNameTextField].text = self.patient.lastName;
-}
-
-- (void)setupBirthDateField {
-    
-    [self birthDateTextField].delegate = self;
-    [self birthDateTextField].standardPlaceholder = @"birth date";
-    [self birthDateTextField].validationPlaceholder = @"please add your child's birth date";
-    [[self birthDateTextField] sizeToFit];
-    
-    [self birthDateTextField].enabled = NO;
-    self.signUpPatientView.birthDatePromptView.accessoryImageViewVisible = YES;
-    self.signUpPatientView.birthDatePromptView.accessoryImage = [UIImage imageNamed:@"Icon-Expand"];
-    self.signUpPatientView.birthDatePromptView.delegate = self;
-    
-    [self birthDateTextField].text = [NSDate stringifiedShortDate:self.patient.dob];
-}
-
-- (void)setupGenderField {
-    
-    [self genderTextField].delegate = self;
-    [self genderTextField].standardPlaceholder = @"gender";
-    [self genderTextField].validationPlaceholder = @"please provide us with your child's gender";
-    [[self genderTextField] sizeToFit];
-    
-    [self genderTextField].enabled = NO;
-    self.signUpPatientView.genderPromptView.accessoryImageViewVisible = YES;
-    self.signUpPatientView.genderPromptView.accessoryImage = [UIImage imageNamed:@"Icon-Expand"];
-    self.signUpPatientView.genderPromptView.delegate = self;
-    
-    [self genderTextField].text = self.patient.genderDisplayName;
-}
-
-- (void)setupAvatarValidationLabel {
-    self.signUpPatientView.avatarValidationLabel.font = [UIFont leoMenuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
-    self.signUpPatientView.avatarValidationLabel.textColor = [UIColor leoOrangeRed];
-    self.signUpPatientView.avatarValidationLabel.text = @"";
-}
-
-- (void)setupAvatarButton {
-    
-    [[self avatarButton] addTarget:self action:@selector(presentPhotoPicker:) forControlEvents:UIControlEventTouchUpInside];
-    
-    if (self.patient.avatar) {
+    if (!_signUpPatientView) {
         
-        [self updateButtonWithImage:self.patient.avatar];
+        LEOSignUpPatientView *strongView = [LEOSignUpPatientView new];
+        _signUpPatientView = strongView;
+        
+        [self.view removeConstraints:self.view.constraints];
+        _signUpPatientView.translatesAutoresizingMaskIntoConstraints = NO;
+        _signUpPatientView.scrollView.delegate = self;
+        [self.view addSubview:_signUpPatientView];
+        
+        NSDictionary *bindings = NSDictionaryOfVariableBindings(_signUpPatientView);
+        
+        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_signUpPatientView]|" options:0 metrics:nil views:bindings]];
+        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_signUpPatientView]|" options:0 metrics:nil views:bindings]];
     }
-}
-
-- (void)setupContinueButton {
     
-    [LEOStyleHelper styleButton:self.signUpPatientView.updateButton forFeature:self.feature];
-    [self.signUpPatientView.updateButton setTitle:@"CONTINUE" forState:UIControlStateNormal];
-    [self.signUpPatientView.updateButton addTarget:self action:@selector(continueTapped:) forControlEvents:UIControlEventTouchUpInside];
+    return _signUpPatientView;
 }
 
 
@@ -193,8 +146,9 @@
     
     UIImage *originalImage = info[UIImagePickerControllerOriginalImage];
     
-    RSKImageCropViewController *imageCropVC = [self buildCropViewControllerWithImage:originalImage];
-    
+    LEOImageCropViewController *imageCropVC = [[LEOImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeCircle];
+    imageCropVC.delegate = self;
+
     [self.navigationController pushViewController:imageCropVC animated:NO];
     
     [self dismissImagePicker];
@@ -204,79 +158,24 @@
     
     [self dismissViewControllerAnimated:NO completion:^{
         
+        //TODO: Pre-set states
         self.signUpPatientView.avatarValidationLabel.text = @"";
     }];
 }
 
 
-
-- (RSKImageCropViewController *)buildCropViewControllerWithImage:(UIImage *)image {
-    
-    RSKImageCropViewController *imageCropVC = [[RSKImageCropViewController alloc] initWithImage:image cropMode:RSKImageCropModeCircle];
-    
-    imageCropVC.delegate = self;
-    imageCropVC.moveAndScaleLabel.font = [UIFont leoStandardFont];
-    imageCropVC.moveAndScaleLabel.textColor = [UIColor leoOrangeRed];
-    imageCropVC.maskLayerColor = [UIColor leoWhite];
-    [imageCropVC.cancelButton setTitleColor:[UIColor leoOrangeRed] forState:UIControlStateNormal];
-    [imageCropVC.chooseButton setTitleColor:[UIColor leoOrangeRed] forState:UIControlStateNormal];
-    imageCropVC.cancelButton.titleLabel.font = [UIFont leoStandardFont];
-    imageCropVC.chooseButton.titleLabel.font = [UIFont leoStandardFont];
-    imageCropVC.avoidEmptySpaceAroundImage = YES;
-    imageCropVC.view.backgroundColor = [UIColor leoWhite];
-    
-    return imageCropVC;
-}
-
 #pragma mark - <RSKImageCropViewControllerDelegate>
 
-- (void)imageCropViewControllerDidCancelCrop:(RSKImageCropViewController *)controller
-{
+- (void)imageCropViewControllerDidCancelCrop:(RSKImageCropViewController *)controller {
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)imageCropViewController:(RSKImageCropViewController *)controller didCropImage:(UIImage *)croppedImage usingCropRect:(CGRect)cropRect
-{
-    [self updateButtonWithImage:croppedImage];
+- (void)imageCropViewController:(RSKImageCropViewController *)controller didCropImage:(UIImage *)croppedImage usingCropRect:(CGRect)cropRect {
     
+    [self.signUpPatientView updateAvatarImage:croppedImage];
+
     [self.navigationController popViewControllerAnimated:YES];
 }
-
-- (void)updateButtonWithImage:(UIImage *)avatarImage {
-    
-    UIImage *circularAvatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:avatarImage withDiameter:67 borderColor:[UIColor leoOrangeRed] borderWidth:1.0];
-    [[self avatarButton] setImage:circularAvatarImage forState:UIControlStateNormal];
-    self.patient.avatar = avatarImage;
-}
-
-- (LEOSignUpPatientView *)signUpPatientView {
-    
-    if (!_signUpPatientView) {
-        
-        _signUpPatientView = [[LEOSignUpPatientView alloc] init];
-    }
-    
-    return _signUpPatientView;
-}
-
-
-#pragma mark - <LEOPromptViewDelegate>
-
--(void)respondToPrompt:(id)sender {
-    
-    [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
-    
-    if (sender == self.signUpPatientView.birthDatePromptView) {
-        
-        [self selectADate:sender];
-    }
-    
-    if (sender == self.signUpPatientView.genderPromptView) {
-        
-        [self selectAGender:sender];
-    }
-}
-
 
 - (void)navigationController:(UINavigationController *)navigationController
       willShowViewController:(UIViewController *)viewController
@@ -296,153 +195,99 @@
     [viewController.navigationItem setHidesBackButton:YES];
 }
 
+#pragma mark - Data
 
-#pragma mark - <ActionSheetPicker-3.0>
-
-- (void)selectADate:(UIControl *)sender {
+- (void)updatePatient {
     
-    NSDate *minDate = [[NSDate date] dateBySubtractingYears:26];
-    NSDate *maxDate = [NSDate date];
-    
-    NSDate *selectedDate = [NSDate dateFromShortDate:[self birthDateTextField].text] ?: [NSDate date];
-    
-    AbstractActionSheetPicker *actionSheetPicker = [[ActionSheetDatePicker alloc] initWithTitle:@"" datePickerMode:UIDatePickerModeDate selectedDate:selectedDate
-                                                                                    minimumDate:minDate
-                                                                                    maximumDate:maxDate
-                                                                                         target:self action:@selector(dateWasSelected:element:) origin:sender];
-    actionSheetPicker.pickerBackgroundColor = [UIColor leoWhite];
-    
-    UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [doneButton setTitleColor:[UIColor leoOrangeRed] forState:UIControlStateNormal];
-    [doneButton setTitle:@"Done" forState:UIControlStateNormal];
-    doneButton.titleLabel.font = [UIFont leoStandardFont];
-    [doneButton sizeToFit];
-    
-    UIBarButtonItem *doneBBI = [[UIBarButtonItem alloc] initWithCustomView:doneButton];
-    
-    [actionSheetPicker setDoneButton:doneBBI];
-    
-    actionSheetPicker.hideCancel = YES;
-    [actionSheetPicker showActionSheetPicker];
-}
-
-- (void)selectAGender:(UIControl *)sender {
-    
-    NSInteger selectedIndex = 0;
-    
-    if ([[self genderTextField].text isEqualToString:@"Male"]) {
-        
-        selectedIndex = 1;
+    if (!self.patient) {
+        self.patient = self.signUpPatientView.patient;
     }
     
-    AbstractActionSheetPicker *picker = [[ActionSheetStringPicker alloc] initWithTitle:nil rows:@[@"Female",@"Male"] initialSelection:selectedIndex target:self successAction:@selector(genderWasSelected:element:) cancelAction:nil origin:sender];
-    picker.hideCancel = YES;
-    picker.pickerBackgroundColor = [UIColor leoWhite];
-    
-    picker.pickerTextAttributes = @{NSForegroundColorAttributeName: [UIColor leoOrangeRed],
-                                    NSFontAttributeName:[UIFont leoStandardFont],
-                                    NSBackgroundColorAttributeName: [UIColor leoWhite]};
-    
-    UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [doneButton setTitleColor:[UIColor leoOrangeRed] forState:UIControlStateNormal];
-    [doneButton setTitle:@"Done" forState:UIControlStateNormal];
-    doneButton.titleLabel.font = [UIFont leoStandardFont];
-    [doneButton sizeToFit];
-    UIBarButtonItem *doneBBI = [[UIBarButtonItem alloc] initWithCustomView:doneButton];
-    
-    [picker setDoneButton:doneBBI];
-    [picker showActionSheetPicker];
+    self.patient.firstName = self.signUpPatientView.patient.firstName;
+    self.patient.lastName = self.signUpPatientView.patient.lastName;
+    self.patient.gender = self.signUpPatientView.patient.gender;
+    self.patient.dob = self.signUpPatientView.patient.dob;
+    self.patient.avatar = self.signUpPatientView.patient.avatar;
 }
 
-- (void)dateWasSelected:(NSDate *)selectedDate element:(id)element {
+-(void)setPatient:(Patient *)patient {
     
-    [self birthDateTextField].text = [NSDate stringifiedShortDate:selectedDate];
+    _patient = patient;
+    self.signUpPatientView.patient = [patient copy];
 }
 
-- (void)genderWasSelected:(NSNumber *)selectedGender element:(id)element {
-    
-    [self genderTextField].text = ([selectedGender isEqualToNumber:@0]) ? @"Female" : @"Male";
-}
 
 #pragma mark - Navigation
 
 //TODO: Refactor this method
-- (void)continueTapped:(UIButton *)sender {
+- (void)continueTouchedUpInside {
     
-    if ([self validatePage]) {
-        
-        NSString *firstName = [self firstNameTextField].text;
-        NSString *lastName = [self lastNameTextField].text;
-        NSString *gender = [[self genderTextField].text substringToIndex:1]; //FIXME: This should not be done here. Bad practice.
-        NSDate *dob = [NSDate dateFromShortDate:[self birthDateTextField].text];
-        UIImage *avatar = self.signUpPatientView.avatarButton.imageView.image;
-        
-        if (!self.patient) {
-            self.patient = [[Patient alloc] initWithObjectID:nil familyID:nil title:nil firstName:firstName middleInitial:nil lastName:lastName suffix:nil email:nil avatarURL:nil avatar:avatar dob:dob gender:gender status:nil];
-        }
-        
-        switch (self.feature) {
-            case FeatureSettings: {
-                
-                LEOUserService *userService = [[LEOUserService alloc] init];
-                
-                switch (self.managementMode) {
-                    case ManagementModeCreate: {
+    LEOUserService *userService = [[LEOUserService alloc] init];
+    
+    [self.signUpPatientView validateFields];
+    
+    [self updatePatient];
+    
+    if ([self.patient isValid]) {
+    switch (self.feature) {
+        case FeatureSettings: {
+            
+            switch (self.managementMode) {
+                case ManagementModeCreate: {
+                    
+                    [userService createPatient:self.patient withCompletion:^(Patient *patient, NSError *error) {
                         
-                        [userService createPatient:self.patient withCompletion:^(Patient *patient, NSError *error) {
+                        if (!error) {
                             
-                            if (!error) {
-                                
-                                self.patient.objectID = patient.objectID;
-                                [self finishLocalUpdate];
-                            }
-                        }];
-                        
-                        break;
-                    }
-                    case ManagementModeEdit: {
-                        
-                        [userService updatePatient:self.patient withCompletion:^(BOOL success, NSError *error) {
-                            
-                            if (!error) {
-                                [self.navigationController popViewControllerAnimated:YES];
-                            }
-                        }];
-                        
-                        break;
-                    }
-                        
-                    case ManagementModeUndefined:
-                        break;
+                            self.patient.objectID = patient.objectID;
+                            [self finishLocalUpdate];
+                        }
+                    }];
+                    break;
                 }
-                
-                break;
-            }
-                
-            case FeatureOnboarding: {
-                
-                switch (self.managementMode) {
-                    case ManagementModeCreate:
+                    
+                case ManagementModeEdit: {
+                    
+                    [userService updatePatient:self.patient withCompletion:^(BOOL success, NSError *error) {
                         
-                        [self finishLocalUpdate];
-                        break;
-                        
-                    case ManagementModeEdit:
-                        
-                        [self.navigationController popViewControllerAnimated:YES];
-                        break;
-                        
-                    case ManagementModeUndefined:
-                        break;
+                        if (!error) {
+                            [self.navigationController popViewControllerAnimated:YES];
+                        }
+                    }];
+                    break;
                 }
-                
-                break;
+                    
+                case ManagementModeUndefined:
+                    break;
             }
-                
-            case FeatureUndefined:
-            case FeatureAppointmentScheduling:
-                break;
+            
+            break;
         }
+            
+        case FeatureOnboarding: {
+            
+            switch (self.managementMode) {
+                case ManagementModeCreate:
+                    
+                    [self finishLocalUpdate];
+                    break;
+                    
+                case ManagementModeEdit:
+                    
+                    [self.navigationController popViewControllerAnimated:YES];
+                    break;
+                    
+                case ManagementModeUndefined:
+                    break;
+            }
+            
+            break;
+        }
+            
+        case FeatureUndefined:
+        case FeatureAppointmentScheduling:
+            break;
+    }
     }
 }
 
@@ -452,7 +297,7 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)presentPhotoPicker:(id)sender {
+- (void)presentPhotoPicker {
     
     UIImagePickerController *pickerController = [[UIImagePickerController alloc] init];
     pickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
@@ -465,50 +310,7 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-#pragma mark - Validation
-
-- (BOOL)validatePage {
-    
-    BOOL validFirstName = [LEOValidationsHelper isValidFirstName:[self firstNameTextField].text];
-    BOOL validLastName = [LEOValidationsHelper isValidLastName:[self lastNameTextField].text];
-    BOOL validBirthDate = [LEOValidationsHelper isValidBirthDate:[self birthDateTextField].text];
-    BOOL validGender = [LEOValidationsHelper isValidGender:[self genderTextField].text];
-    BOOL validAvatar = self.signUpPatientView.avatarButton.imageView.image ? YES : NO;
-    
-    [self firstNameTextField].valid = validFirstName;
-    [self lastNameTextField].valid = validLastName;
-    [self birthDateTextField].valid = validBirthDate;
-    [self genderTextField].valid = validGender;
-    
-    if (!validAvatar) {
-        
-        self.signUpPatientView.avatarValidationLabel.text = @"please tap the camera to add a photo of your child";
-    }
-    
-    return validAvatar && validFirstName && validLastName && validBirthDate && validGender;
-}
-
-#pragma mark - <UITextFieldDelegate>
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    
-    NSMutableAttributedString *mutableText = [[NSMutableAttributedString alloc] initWithString:textField.text];
-    
-    [mutableText replaceCharactersInRange:range withString:string];
-    
-    if (textField == [self firstNameTextField] && ![self firstNameTextField].valid) {
-        
-        self.firstNameTextField.valid = [LEOValidationsHelper isValidFirstName:mutableText.string];
-    }
-    
-    if (textField == self.lastNameTextField && ![self lastNameTextField].valid) {
-        
-        self.lastNameTextField.valid = [LEOValidationsHelper isValidLastName:mutableText.string];
-    }
-    
-    return YES;
-}
-
-#pragma mark - <ScrollViewDelegate>
+////////////////////////////////////////////////NO NEED TO REFACTOR PAST THIS POINT IN SPRINT 12. BUT MOST OF THE BELOW WILL EVENTUALLY BE PULLED INTO A CATEGORY / PROTOCOL / OTHER CLASSES
 
 #pragma mark - <UIScrollViewDelegate> & Helper Methods
 
@@ -580,26 +382,6 @@
 
 
 #pragma mark - Shorthand Helpers
-
-- (LEOValidatedFloatLabeledTextField *)firstNameTextField {
-    return self.signUpPatientView.firstNamePromptView.textField;
-}
-
-- (LEOValidatedFloatLabeledTextField *)lastNameTextField {
-    return self.signUpPatientView.lastNamePromptView.textField;
-}
-
-- (LEOValidatedFloatLabeledTextField *)birthDateTextField {
-    return self.signUpPatientView.birthDatePromptView.textField;
-}
-
-- (LEOValidatedFloatLabeledTextField *)genderTextField {
-    return self.signUpPatientView.genderPromptView.textField;
-}
-
-- (UIButton *)avatarButton {
-    return self.signUpPatientView.avatarButton;
-}
 
 - (CGFloat)scrollViewVerticalContentOffset {
     return self.signUpPatientView.scrollView.contentOffset.y;
