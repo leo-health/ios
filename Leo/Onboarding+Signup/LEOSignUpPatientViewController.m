@@ -364,14 +364,14 @@
 - (void)setupBreaker {
 
     CGRect viewRect = self.navigationController.navigationBar.bounds;
-
+    
     CGPoint beginningOfLine = CGPointMake(viewRect.origin.x, 0);
     CGPoint endOfLine = CGPointMake(self.view.bounds.size.width, 0);
-
+    
     UIBezierPath *path = [UIBezierPath bezierPath];
     [path moveToPoint:beginningOfLine];
     [path addLineToPoint:endOfLine];
-
+    
     self.pathLayer = [CAShapeLayer layer];
     self.pathLayer.frame = self.view.bounds;
     self.pathLayer.path = path.CGPath;

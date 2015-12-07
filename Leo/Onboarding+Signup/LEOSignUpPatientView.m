@@ -46,9 +46,9 @@ IB_DESIGNABLE
 
 #pragma mark - Accessors
 -(void)setDelegate:(id<LEOSignUpPatientProtocol,UIImagePickerControllerDelegate>)delegate {
-    
+
     _delegate = delegate;
-    
+
     [self setupConstraints];
     [self commonInit];
 }
@@ -64,7 +64,7 @@ IB_DESIGNABLE
 }
 
 -(void)setLastNamePromptView:(LEOPromptView *)lastNamePromptView {
-    
+
     _lastNamePromptView = lastNamePromptView;
     _lastNamePromptView.textField.standardPlaceholder = @"last name";
     _lastNamePromptView.textField.validationPlaceholder = @"please enter a last name";
@@ -74,20 +74,20 @@ IB_DESIGNABLE
 -(void)setBirthDatePromptView:(LEOPromptView *)birthDatePromptView {
 
     _birthDatePromptView = birthDatePromptView;
-    
+
     _birthDatePromptView.textField.standardPlaceholder = @"birth date";
     _birthDatePromptView.textField.validationPlaceholder = @"please add your child's birth date";
     _birthDatePromptView.textField.enabled = NO;
-    
+
     _birthDatePromptView.accessoryImageViewVisible = YES;
     _birthDatePromptView.accessoryImage = [UIImage imageNamed:@"Icon-Expand"];
     _birthDatePromptView.delegate = self;
 }
 
 - (void)setGenderPromptView:(LEOPromptView *)genderPromptView {
-    
+
     _genderPromptView = genderPromptView;
-    
+
     _genderPromptView.textField.standardPlaceholder = @"gender";
     _genderPromptView.textField.validationPlaceholder = @"please choose your child's gender";
     _genderPromptView.textField.enabled = NO;
@@ -100,23 +100,23 @@ IB_DESIGNABLE
 - (void)setAvatarValidationLabel:(UILabel *)avatarValidationLabel {
 
     _avatarValidationLabel = avatarValidationLabel;
-    
+
     _avatarValidationLabel.font = [UIFont leoMenuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
     _avatarValidationLabel.textColor = [UIColor leoOrangeRed];
     _avatarValidationLabel.text = @"";
 }
 
 - (void)setAvatarButton:(UIButton *)avatarButton {
-    
+
     _avatarButton = avatarButton;
-    
+
     [_avatarButton addTarget:self action:@selector(avatarButtonTouchedUpInside) forControlEvents:UIControlEventTouchUpInside];
 }
 
 -(void)setUpdateButton:(UIButton *)updateButton {
-    
+
     _updateButton = updateButton;
-    
+
     [LEOStyleHelper styleButton:_updateButton forFeature:FeatureOnboarding];
     [_updateButton setTitle:@"CONTINUE" forState:UIControlStateNormal];
     [_updateButton addTarget:self action:@selector(continueTapped) forControlEvents:UIControlEventTouchUpInside];
@@ -127,12 +127,12 @@ IB_DESIGNABLE
 }
 
 - (void)avatarButtonTouchedUpInside {
-    
+
     [self.delegate presentPhotoPicker];
 }
 
 -(Patient *)patient {
-    
+
     NSString *firstName = self.firstNamePromptView.textField.text;
     NSString *lastName = self.lastNamePromptView.textField.text;
     NSString *gender = ![self.genderPromptView.textField.text isEqualToString:@""] ? [self.genderPromptView.textField.text substringToIndex:1] : nil; //FIXME: This should not be done here. Bad practice.po
@@ -140,19 +140,19 @@ IB_DESIGNABLE
     UIImage *avatar = self.avatarButton.imageView.image;
 
     _patient = [[Patient alloc] initWithFirstName:firstName lastName:lastName avatar:avatar dob:dob gender:gender];
-    
+
     return _patient;
 }
 
 -(void)setPatient:(Patient *)patient {
-    
+
     _patient = patient;
-    
+
     self.birthDatePromptView.textField.text = [NSDate stringifiedShortDate:_patient.dob]; //TODO: Refactor
     self.lastNamePromptView.textField.text = _patient.lastName;
     self.firstNamePromptView.textField.text = _patient.firstName;
     self.genderPromptView.textField.text = _patient.genderDisplayName;
-    
+
     [self.avatarButton setImage:_patient.avatar forState:UIControlStateNormal];
 }
 
@@ -169,26 +169,26 @@ IB_DESIGNABLE
 }
 
 - (void)validateFields {
-    
+
     NSString *firstName = self.firstNamePromptView.textField.text;
     NSString *lastName = self.lastNamePromptView.textField.text;
     NSString *gender = [self genderFromGenderTextField:self.genderPromptView.textField];
     NSDate *dob = [self dateFromDateTextField:self.birthDatePromptView.textField];
     UIImage *avatar = self.avatarButton.imageView.image;
-    
+
     BOOL validFirstName = [LEOValidationsHelper isValidFirstName:firstName];
     BOOL validLastName = [LEOValidationsHelper isValidLastName:lastName];
     BOOL validBirthDate = [LEOValidationsHelper isValidBirthDate:dob];
     BOOL validGender = [LEOValidationsHelper isValidGender:gender];
     BOOL validAvatar = [LEOValidationsHelper isValidAvatar:avatar];
-    
+
     self.firstNamePromptView.textField.valid = validFirstName;
     self.lastNamePromptView.textField.valid = validLastName;
     self.birthDatePromptView.textField.valid = validBirthDate;
     self.genderPromptView.textField.valid = validGender;
-    
+
     if (!validAvatar) {
-        
+
         self.avatarValidationLabel.text = @"please tap the camera to add a photo of your child";
     }
 }
@@ -204,16 +204,16 @@ IB_DESIGNABLE
 #pragma mark - <LEOPromptViewDelegate>
 
 -(void)respondToPrompt:(id)sender {
-    
+
     [self endEditing:YES];
-    
+
     if (sender == self.birthDatePromptView) {
-        
+
         [self selectADate:sender];
     }
-    
+
     if (sender == self.genderPromptView) {
-        
+
         [self selectAGender:sender];
     }
 }
@@ -222,70 +222,70 @@ IB_DESIGNABLE
 
 //TODO: Separate out into own class.
 - (void)selectADate:(UIControl *)sender {
-    
+
     NSDate *minDate = [[NSDate date] dateBySubtractingYears:26];
     NSDate *maxDate = [NSDate date];
-    
+
     NSDate *selectedDate = [NSDate dateFromShortDateString:self.birthDatePromptView.textField.text] ?: [NSDate date];
-    
+
     AbstractActionSheetPicker *actionSheetPicker = [[ActionSheetDatePicker alloc] initWithTitle:@"" datePickerMode:UIDatePickerModeDate selectedDate:selectedDate
                                                                                     minimumDate:minDate
                                                                                     maximumDate:maxDate
                                                                                          target:self action:@selector(dateWasSelected:element:) origin:sender];
     actionSheetPicker.pickerBackgroundColor = [UIColor leoWhite];
-    
+
     UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [doneButton setTitleColor:[UIColor leoOrangeRed] forState:UIControlStateNormal];
     [doneButton setTitle:@"Done" forState:UIControlStateNormal];
     doneButton.titleLabel.font = [UIFont leoStandardFont];
     [doneButton sizeToFit];
-    
+
     UIBarButtonItem *doneBBI = [[UIBarButtonItem alloc] initWithCustomView:doneButton];
-    
+
     [actionSheetPicker setDoneButton:doneBBI];
-    
+
     actionSheetPicker.hideCancel = YES;
     [actionSheetPicker showActionSheetPicker];
 }
 
 //TODO: Separate out into own class.
 - (void)selectAGender:(UIControl *)sender {
-    
+
     NSInteger selectedIndex = 0;
-    
+
     if ([self.genderPromptView.textField.text isEqualToString:@"Male"]) {
-        
+
         selectedIndex = 1;
     }
-    
+
     AbstractActionSheetPicker *picker = [[ActionSheetStringPicker alloc] initWithTitle:nil rows:@[@"Female",@"Male"] initialSelection:selectedIndex target:self successAction:@selector(genderWasSelected:element:) cancelAction:nil origin:sender];
     picker.hideCancel = YES;
     picker.pickerBackgroundColor = [UIColor leoWhite];
-    
+
     picker.pickerTextAttributes = @{NSForegroundColorAttributeName: [UIColor leoOrangeRed],
                                     NSFontAttributeName:[UIFont leoStandardFont],
                                     NSBackgroundColorAttributeName: [UIColor leoWhite]};
-    
+
     UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [doneButton setTitleColor:[UIColor leoOrangeRed] forState:UIControlStateNormal];
     [doneButton setTitle:@"Done" forState:UIControlStateNormal];
     doneButton.titleLabel.font = [UIFont leoStandardFont];
     [doneButton sizeToFit];
     UIBarButtonItem *doneBBI = [[UIBarButtonItem alloc] initWithCustomView:doneButton];
-    
+
     [picker setDoneButton:doneBBI];
     [picker showActionSheetPicker];
 }
 
 - (void)dateWasSelected:(NSDate *)selectedDate element:(id)element {
-    
+
     self.birthDatePromptView.textField.text = [NSDate stringifiedShortDate:selectedDate];
     self.birthDatePromptView.textField.valid = YES;
     self.patient.dob = selectedDate;
 }
 
 - (void)genderWasSelected:(NSNumber *)selectedGender element:(id)element {
-    
+
     self.genderPromptView.textField.text = ([selectedGender isEqualToNumber:@0]) ? @"Female" : @"Male";
     self.genderPromptView.textField.valid = YES;
     self.patient.gender = ([selectedGender isEqualToNumber:@0]) ? @"F" : @"M";
@@ -295,20 +295,20 @@ IB_DESIGNABLE
 #pragma mark - Autolayout
 //TODO: Once we merge #530, come back to this and call the method from XibAdditions (which is, for the time being, an empty category.)
 - (void)setupConstraints {
-    
+
     NSBundle *mainBundle = [NSBundle mainBundle];
     NSArray *loadedViews = [mainBundle loadNibNamed:NSStringFromClass([self class]) owner:self options:nil];
     LEOSignUpPatientView *loadedSubview = [loadedViews firstObject];
-    
+
     [self addSubview:loadedSubview];
-    
+
     loadedSubview.translatesAutoresizingMaskIntoConstraints = NO;
-    
+
     [self addConstraint:[self pin:loadedSubview attribute:NSLayoutAttributeTop]];
     [self addConstraint:[self pin:loadedSubview attribute:NSLayoutAttributeLeft]];
     [self addConstraint:[self pin:loadedSubview attribute:NSLayoutAttributeBottom]];
     [self addConstraint:[self pin:loadedSubview attribute:NSLayoutAttributeRight]];
-    
+
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeading multiplier:1.0 constant:30]];
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-30]];
 }
@@ -337,12 +337,12 @@ IB_DESIGNABLE
 
 //TODO: Once we merge #530, come back to this and call the method from XibAdditions (which is, for the time being, an empty category.)
 - (void)setupTouchEventForDismissingKeyboard {
-    
+
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundeclared-selector"
     UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(viewTapped)];
 #pragma clang diagnostic pop
-    
+
     tapGestureForTextFieldDismissal.cancelsTouchesInView = NO;
     [self addGestureRecognizer:tapGestureForTextFieldDismissal];
 }

@@ -407,7 +407,7 @@
 }
 
 - (CGFloat)heightOfHeaderCellExcludingOverlapWithNavBar {
-
+    
     return [self heightOfHeaderView] - [self navBarHeight];
 }
 

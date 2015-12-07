@@ -29,25 +29,25 @@ IB_DESIGNABLE
 - (instancetype)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder:aDecoder];
-    
+
     if (self) {
         [self setupConstraints];
         [self commonInit];
 
     }
-    
+
     return self;
 }
 
 -(instancetype)init {
-    
+
     self = [super init];
-    
+
     if (self) {
         [self setupConstraints];
         [self commonInit];
     }
-    
+
     return self;
 }
 
@@ -131,7 +131,7 @@ IB_DESIGNABLE
 }
 
 - (void)viewTapped {
-    
+
     [self endEditing:YES];
 }
 
@@ -140,20 +140,20 @@ IB_DESIGNABLE
 #pragma mark - Autolayout
 
 - (void)setupConstraints {
-    
+
     NSBundle *mainBundle = [NSBundle mainBundle];
     NSArray *loadedViews = [mainBundle loadNibNamed:@"LEOSignUpUserView" owner:self options:nil];
     LEOSignUpUserView *loadedSubview = [loadedViews firstObject];
-    
+
     [self addSubview:loadedSubview];
-    
+
     loadedSubview.translatesAutoresizingMaskIntoConstraints = NO;
-    
+
     [self addConstraint:[self pin:loadedSubview attribute:NSLayoutAttributeTop]];
     [self addConstraint:[self pin:loadedSubview attribute:NSLayoutAttributeLeft]];
     [self addConstraint:[self pin:loadedSubview attribute:NSLayoutAttributeBottom]];
     [self addConstraint:[self pin:loadedSubview attribute:NSLayoutAttributeRight]];
-    
+
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeading multiplier:1.0 constant:30]];
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-30]];
 }
@@ -169,38 +169,38 @@ IB_DESIGNABLE
 
 
 - (BOOL)validView {
-    
+
     self.phoneNumberPromptView.valid = [LEOValidationsHelper isValidPhoneNumberWithFormatting:self.phoneNumberPromptView.textField.text];
     self.firstNamePromptView.valid = [LEOValidationsHelper isValidFirstName:self.firstNamePromptView.textField.text];
     self.lastNamePromptView.valid = [LEOValidationsHelper isValidLastName:self.lastNamePromptView.textField.text];
     self.insurerPromptView.valid = [LEOValidationsHelper isValidInsurer:self.insurerPromptView.textField.text];
-    
+
     return self.phoneNumberPromptView.valid && self.firstNamePromptView.valid && self.lastNamePromptView.valid && self.insurerPromptView.valid;
 }
 
 #pragma mark - <UITextFieldDelegate>
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    
+
     NSMutableAttributedString *mutableText = [[NSMutableAttributedString alloc] initWithString:textField.text];
-    
+
     [mutableText replaceCharactersInRange:range withString:string];
-    
+
     if (textField == self.firstNamePromptView.textField && !self.firstNamePromptView.textField.valid) {
-        
+
         self.firstNamePromptView.textField.valid = [LEOValidationsHelper isValidFirstName:mutableText.string];
     }
-    
+
     if (textField == self.lastNamePromptView.textField && !self.lastNamePromptView.textField.valid) {
-        
+
         self.lastNamePromptView.textField.valid = [LEOValidationsHelper isValidLastName:mutableText.string];
     }
-    
+
     if (textField == self.phoneNumberPromptView.textField) {
-        
+
         if (!self.phoneNumberPromptView.textField.valid) {
             self.phoneNumberPromptView.textField.valid = [LEOValidationsHelper isValidPhoneNumberWithFormatting:mutableText.string];
         }
-        
+
         return [LEOValidationsHelper phoneNumberTextField:textField shouldUpdateCharacters:string inRange:range];
     }
     
