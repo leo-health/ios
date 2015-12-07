@@ -1,7 +1,11 @@
     upcoming:
-    - Fix for bugs in editing of patient in onboarding and settings
-    
     releases:
+    - version: 0.1.1
+      build: 2015.12.07.11.13
+      date: December 07 2015
+      notes:
+      - Fix for bugs in editing of patient in onboarding and settings
+    
     - version: 0.1.1
       build: 2015.12.04.11.02
       date: December 04 2015
@@ -49,6 +53,7 @@
       notes:
       - First test build using new Fastfile configuration for Alpha builds
       - Provides the basic functionality all created prior to our first releases
+
 
 
 

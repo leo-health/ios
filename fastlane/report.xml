@@ -3,67 +3,67 @@
   <testsuite name="run">
     
       
-      <testcase name="0: Verifying required fastlane version" time="0.000349">
+      <testcase name="0: Verifying required fastlane version" time="0.000313">
         
       </testcase>
     
       
-      <testcase name="1: default_platform" time="0.000287">
+      <testcase name="1: default_platform" time="0.000214">
         
       </testcase>
     
       
-      <testcase name="2: ensure_git_status_clean" time="0.023779">
+      <testcase name="2: ensure_git_status_clean" time="0.022977">
         
       </testcase>
     
       
-      <testcase name="3: get_version_number" time="1.805059">
+      <testcase name="3: get_version_number" time="0.839753">
         
       </testcase>
     
       
-      <testcase name="4: get_version_number" time="0.352138">
+      <testcase name="4: get_version_number" time="0.368002">
         
       </testcase>
     
       
-      <testcase name="5: increment_build_number" time="0.76587">
+      <testcase name="5: increment_build_number" time="0.790571">
         
       </testcase>
     
       
-      <testcase name="6: sigh" time="17.684053">
+      <testcase name="6: sigh" time="12.936702">
         
       </testcase>
     
       
-      <testcase name="7: gym" time="103.856333">
+      <testcase name="7: gym" time="104.780542">
         
       </testcase>
     
       
-      <testcase name="8: pilot" time="97.458555">
+      <testcase name="8: pilot" time="37.784725">
         
       </testcase>
     
       
-      <testcase name="9: clean_build_artifacts" time="0.021862">
+      <testcase name="9: clean_build_artifacts" time="0.00165">
         
       </testcase>
     
       
-      <testcase name="10: commit_version_bump" time="2.321494">
+      <testcase name="10: commit_version_bump" time="1.268189">
         
       </testcase>
     
       
-      <testcase name="11: add_git_tag" time="0.012594">
+      <testcase name="11: add_git_tag" time="0.017764">
         
       </testcase>
     
       
-      <testcase name="12: slack" time="0.435271">
+      <testcase name="12: slack" time="0.361075">
         
       </testcase>
     
