@@ -155,8 +155,9 @@ static NSString *kActionSelectorCallUs = @"callUs";
 }
 
 - (void)callUs {
-    
-    [self.delegate didUpdateObjectStateForCard:self];
+
+    NSString *phoneCallNum = [NSString stringWithFormat:@"tel://%@",kFlatironPediatricsPhoneNumber];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneCallNum]];
 }
 
 - (void)dismiss {
