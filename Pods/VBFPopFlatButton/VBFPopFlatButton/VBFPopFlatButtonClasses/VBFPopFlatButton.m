@@ -57,8 +57,9 @@
 
 - (CGFloat)lineLength {
 
-    return self.frame.size.width * (55/110.0);
+    return self.frame.size.width * 0.5;
 }
+
 - (void) commonSetup {
 
     if (self.currentButtonStyle == buttonRoundedStyle) {
