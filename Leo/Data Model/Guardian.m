@@ -173,7 +173,7 @@ static NSString *const kMembershipTypeIncomplete = @"Incomplete"; //FIXME: This 
 
 -(id)copyWithZone:(NSZone *)zone {
 
-    Guardian *guardianCopy = [self initWithObjectID:[self.objectID copy] title:[self.title copy] firstName:[self.firstName copy] middleInitial:nil lastName:[self.lastName copy] suffix:[self.suffix copy] email:[self.email copy] avatarURL:[self.avatarURL copy] avatar:[self.avatar copy]];
+    Guardian *guardianCopy = [self initWithObjectID:[self.objectID copy] familyID:[self.familyID copy] title:[self.title copy] firstName:[self.firstName copy] middleInitial:nil lastName:[self.lastName copy] suffix:[self.suffix copy] email:[self.email copy] avatarURL:[self.avatarURL copy] avatar:[self.avatar copy] phoneNumber:[self.phoneNumber copy] insurancePlan:[self.insurancePlan copy] primary:self.primary membershipType:self.membershipType];
 
     return guardianCopy;
 }
