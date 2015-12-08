@@ -1,4 +1,10 @@
     upcoming:
+    - Adds Privacy Policy and Terms and Conditions to Onboarding and Settings
+    - Supports beta builds for Testflight
+    - Updates Menu Button design
+    - Adds ability to call practice from Conversation card on main feed
+    - Fixes incidental saving of Patient and User data when not meaning to do so
+    
     releases:
     - version: 0.1.1
       build: 2015.12.08.17.52
