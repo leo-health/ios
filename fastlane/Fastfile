@@ -111,36 +111,7 @@ lane :alpha do |options|
     )
   end
 
-  desc "Deploy a new version to the App Store"
-  # This still has to be worked through.
-
-  lane :production do
-    snapshot
-    sigh
-    gym # Build your app - more options available
-    deliver(force: true)
-    # frameit
-  end
-
-  after_all do |lane|
-    # This block is called, only if the executed lane was successful
-    
-    slack(
-      message: "Successfully deployed new App Update."
-
-      #TODO: Add release notes, versioning
-    )
-  end
-
-  error do |lane, exception|
-    slack(
-      message: exception.message,
-      success: false
-    )
-  end
-end
-
-lane :testflight do |options|
+  lane :testflight do |options|
 
       bump_type = options[:bump_type];
 
@@ -184,7 +155,7 @@ lane :testflight do |options|
     EOS
 
       File.open(changelog_filename, 'w') { |file| file.puts changelog_contents }
-  
+
     #snapshot (eventually add this for speed.)
 
     #cert (eventually add this in when we have more developers.)
@@ -244,11 +215,11 @@ lane :testflight do |options|
     )
   end
 
- # error do |lane, exception|
- #   slack(
- #     message: exception.message,
- #     success: false
- #   )
+  error do |lane, exception|
+    slack(
+      message: exception.message,
+      success: false
+    )
   end
 end
 
