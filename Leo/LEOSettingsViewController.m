@@ -63,12 +63,6 @@ static NSString *const kSegueChangeEmail = @"UpdateEmailSegue";
 static NSString *const kSegueChangePassword = @"UpdatePasswordSegue";
 static NSString *const kSegueInviteGuardian = @"InviteSegue";
 static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
-static NSString *const kSegueTermsAndConditions = @"TermsAndConditionsSegue";
-static NSString *const kSeguePrivacyPolicy = @"PrivacyPolicySegue";
-
-static NSString *const kURLTermsAndConditions = @"https://www.google.com";
-static NSString *const kURLPrivacyPolicy = @"https://www.google.com";
-
 
 #pragma mark - View Controller Lifecycle and Helper Methods
 

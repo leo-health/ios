@@ -136,7 +136,11 @@
 
 - (void)loginUserWithEmail:(NSString *)email password:(NSString *)password withCompletion:(void (^)(SessionUser *user, NSError *error))completionBlock {
 
-    NSDictionary *loginParams = @{APIParamUserEmail:email, APIParamUserPassword:password, APIParamSessionDeviceToken:[DeviceToken token]};
+    NSMutableDictionary *loginParams = [@{APIParamUserEmail:email, APIParamUserPassword:password} mutableCopy];
+
+    if ([DeviceToken token]) {
+        [loginParams setValue:[DeviceToken token] forKey:APIParamSessionDeviceToken];
+    }
 
     [[LEOUserService leoSessionManager] unauthenticatedPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointLogin params:loginParams completion:^(NSDictionary *rawResults, NSError *error) {
         

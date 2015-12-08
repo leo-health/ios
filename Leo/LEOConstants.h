@@ -343,6 +343,8 @@ extern CGFloat const kSpeedForTitleViewAlphaChangeConstant; // 4.0;
 #pragma mark - Segues
 extern NSString *const kSegueContinue; // @"ContinueSegue";
 extern NSString *const kSeguePlan; // @"PlanSegue";
+extern NSString *const kSegueTermsAndConditions; // @"TermsAndConditionsSegue";
+extern NSString *const kSeguePrivacyPolicy; // @"PrivacyPolicySegue";
 
 #pragma mark - Storyboards
 extern NSString *const kStoryboardSettings; // @"Settings";
@@ -363,6 +365,10 @@ extern NSString *const kLEOValidationsErrorDomain; // @"LEOValidationsErrorDomai
 
 #pragma mark - Phone Numbers
 extern NSString *const kFlatironPediatricsPhoneNumber; // @"2124605600"; //Flatiron Pediatrics
+
+#pragma mark - URLs
+extern NSString *const kURLTermsAndConditions; // = @"https://provider.leoforkids.com/#/terms";
+extern NSString *const kURLPrivacyPolicy; // = @"https://provider.leoforkids.com/#/terms";
 
 @end
 

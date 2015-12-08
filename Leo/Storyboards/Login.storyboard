@@ -170,7 +170,7 @@
                                                     <constraint firstItem="TEV-cK-whC" firstAttribute="leading" secondItem="SpC-E4-Pz5" secondAttribute="leading" id="uUD-jo-N6n"/>
                                                 </constraints>
                                             </view>
-                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N69-be-bgZ" userLabel="Email Prompt View" customClass="LEOPromptView">
+                                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N69-be-bgZ" userLabel="Email Prompt View" customClass="LEOPromptView">
                                                 <rect key="frame" x="0.0" y="130" width="508" height="69"/>
                                                 <animations/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -183,7 +183,7 @@
                                                     </mask>
                                                 </variation>
                                             </view>
-                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Fde-xL-YXF" userLabel="Password Prompt View" customClass="LEOPromptView">
+                                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Fde-xL-YXF" userLabel="Password Prompt View" customClass="LEOPromptView">
                                                 <rect key="frame" x="0.0" y="199" width="508" height="69"/>
                                                 <animations/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -191,7 +191,7 @@
                                                     <constraint firstAttribute="height" constant="48" id="2RG-m9-Nc9"/>
                                                 </constraints>
                                             </view>
-                                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eum-yZ-MfU">
+                                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eum-yZ-MfU">
                                                 <rect key="frame" x="0.0" y="308" width="508" height="54"/>
                                                 <animations/>
                                                 <constraints>
@@ -416,6 +416,8 @@
                         <outlet property="tableView" destination="0Gz-5v-agx" id="eAu-Wq-37u"/>
                         <segue destination="XQ7-vY-bbt" kind="show" identifier="ReviewUserSegue" id="2cY-pS-BrR"/>
                         <segue destination="zmb-AH-3IW" kind="show" identifier="ReviewPatientSegue" id="GgB-6b-cnM"/>
+                        <segue destination="WeG-JV-ymy" kind="show" identifier="TermsAndConditionsSegue" id="Vvj-Ok-MIT"/>
+                        <segue destination="WeG-JV-ymy" kind="show" identifier="PrivacyPolicySegue" id="tC8-dS-hQl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oJR-MM-Ccg" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -610,9 +612,47 @@
             </objects>
             <point key="canvasLocation" x="3144" y="1494"/>
         </scene>
+        <!--Web View Controller-->
+        <scene sceneID="tG8-4Z-9xL">
+            <objects>
+                <viewController id="WeG-JV-ymy" customClass="LEOWebViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="JNO-ei-cIm"/>
+                        <viewControllerLayoutGuide type="bottom" id="UOn-p9-b2H"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="5cN-Ct-7z7">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wcW-fT-N8Y">
+                                <rect key="frame" x="0.0" y="20" width="600" height="580"/>
+                                <animations/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
+                            </webView>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="wcW-fT-N8Y" firstAttribute="top" secondItem="JNO-ei-cIm" secondAttribute="bottom" id="LEB-xM-Mwk"/>
+                            <constraint firstAttribute="trailing" secondItem="wcW-fT-N8Y" secondAttribute="trailing" id="exw-If-fGV"/>
+                            <constraint firstItem="wcW-fT-N8Y" firstAttribute="leading" secondItem="5cN-Ct-7z7" secondAttribute="leading" id="qsI-Lg-GFZ"/>
+                            <constraint firstItem="UOn-p9-b2H" firstAttribute="top" secondItem="wcW-fT-N8Y" secondAttribute="bottom" id="riQ-yT-bZ1"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="webView" destination="wcW-fT-N8Y" id="id4-fp-eAE"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pJn-ga-tab" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3087" y="3822"/>
+        </scene>
     </scenes>
     <resources>
         <image name="Background-Initial" width="750" height="1334"/>
         <image name="Icon-Logo" width="204" height="85"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="tC8-dS-hQl"/>
+    </inferredMetricsTieBreakers>
 </document>
