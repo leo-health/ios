@@ -8,6 +8,8 @@
 
 #include "TestsShared.xcconfig"
 #include "Pods/Target Support Files/Pods-LeoTests/Pods-LeoTests.release.xcconfig"
+#include "Pods/Target Support Files/Pods-LeoTests/Pods-LeoTests.testflight.xcconfig"
+
 
 VALIDATE_PRODUCT = YES
 COPY_PHASE_STRIP = NO
