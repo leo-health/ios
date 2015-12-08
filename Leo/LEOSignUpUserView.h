@@ -23,6 +23,7 @@
 
 @property (strong, nonatomic) Guardian *guardian;
 @property (strong, nonatomic) InsurancePlan *insurancePlan;
+@property (nonatomic) ManagementMode managementMode;
 
 - (BOOL)validView;
 

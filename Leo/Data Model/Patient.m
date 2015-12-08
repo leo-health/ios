@@ -15,47 +15,47 @@
 @synthesize genderDisplayName = _genderDisplayName;
 
 - (instancetype)initWithObjectID:(nullable NSString *)objectID familyID:(NSString *)familyID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(nullable NSString *)email avatarURL:(nullable NSString *)avatarURL avatar:(nullable UIImage *)avatar dob:(NSDate *)dob gender:(NSString *)gender status:(NSString *)status {
-    
+
     self = [super initWithObjectID:objectID title:title firstName:firstName middleInitial:middleInitial lastName:lastName suffix:suffix email:email avatarURL:avatarURL avatar:avatar];
-    
+
     if (self) {
         _familyID = familyID;
         _dob = dob;
         _gender = gender;
         _status = status;
     }
-    
+
     return self;
 }
 
 - (instancetype)initWithTitle:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(nullable NSString *)email avatar:(nullable UIImage *)avatar dob:(NSDate *)dob gender:(NSString *)gender status:(nullable NSString *)status {
-    
+
     return [self initWithObjectID:nil familyID:nil title:title firstName:firstName middleInitial:middleInitial lastName:lastName suffix:suffix email:email avatarURL:nil avatar:avatar dob:dob gender:gender status:status];
 }
 
 - (instancetype)initWithFirstName:(NSString *)firstName lastName:(NSString *)lastName avatar:(UIImage *)avatar dob:(NSDate *)dob gender:(NSString *)gender {
-    
+
     return [self initWithObjectID:nil familyID:nil title:nil firstName:firstName middleInitial:nil lastName:lastName suffix:nil email:nil avatarURL:nil avatar:avatar dob:dob gender:gender status:nil];
 }
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
-    
+
     self = [super initWithJSONDictionary:jsonResponse];
-    
+
     if (self) {
         _familyID = jsonResponse[APIParamFamilyID]; //FIXME: Update with constant.
         _dob = [NSDate dateFromDashedDateString:jsonResponse[APIParamUserBirthDate]];
         _gender = jsonResponse[APIParamUserSex];
         _status = jsonResponse[APIParamUserStatus];
     }
-    
+
     return self;
 }
 
 + (NSDictionary *)dictionaryFromUser:(Patient *)patient {
-    
+
     NSMutableDictionary *userDictionary = [[super dictionaryFromUser:patient] mutableCopy];
-    
+
     userDictionary[APIParamFamilyID] = patient.familyID;
     userDictionary[APIParamUserBirthDate] = [NSDate stringifiedDashedShortDate:patient.dob];
     userDictionary[APIParamUserSex] = patient.gender;
@@ -65,11 +65,11 @@
 }
 
 - (NSString *)description {
-    
+
     NSString *superDesc = [super description];
-    
+
     NSString *subDesc = [NSString stringWithFormat:@"\nName: %@ %@",self.firstName, self.lastName];
-    
+
     return [superDesc stringByAppendingString:subDesc];
 }
 
@@ -79,51 +79,51 @@
     if (!patient) {
         return NO;
     }
-    
+
     BOOL haveEqualNames = (!self.fullName && !patient.fullName) || [self.fullName isEqualToString:patient.fullName];
     BOOL haveEqualBirthdays = (!self.dob && !patient.dob) || [self.dob isEqualToDate:patient.dob];
-    
+
     return haveEqualNames && haveEqualBirthdays;
 }
 
 //FIXME: This was a quick implementation for dealing with gender display names vs. M/F in backend that I put in before leaving for vacation. Needs to be rebuilt at some point or backend could use display name instead to simplify.
 -(void)setGenderDisplayName:(NSString *)genderDisplayName {
-    
+
     _genderDisplayName = genderDisplayName;
-    
+
     if ([_genderDisplayName isEqualToString:@"Male"]) {
         self.gender = @"M";
     }
-    
+
     if ([_genderDisplayName isEqualToString:@"Female"]) {
         self.gender = @"F";
     }
-    
+
 }
 
 - (NSString *)genderDisplayName {
-    
+
     NSString *displayName;
-    
+
     if ([self.gender isEqualToString:@"M"]) {
         displayName = @"Male";
     }
-    
+
     if ([self.gender isEqualToString:@"F"]) {
         displayName = @"Female";
     }
-    
+
     return displayName;
 }
 
 -(void)setGender:(NSString *)gender {
 
     _gender = gender;
-    
+
     if ([gender isEqualToString:@"Male"]) {
         _gender = @"M";
     }
-    
+
     if ([gender isEqualToString:@"Female"]) {
         _gender = @"F";
     }
@@ -135,11 +135,11 @@
     if (self == object) {
         return YES;
     }
-    
+
     if (![object isKindOfClass:[Patient class]]) {
         return NO;
     }
-    
+
     return [self isEqualToPatient:(Patient *)object];
 }
 
@@ -148,7 +148,7 @@
 }
 
 - (BOOL)isValid {
-    
+
     BOOL validFirstName = [LEOValidationsHelper isValidFirstName:self.firstName];
     BOOL validLastName = [LEOValidationsHelper isValidLastName:self.lastName];
     BOOL validBirthDate = [LEOValidationsHelper isValidBirthDate:self.dob];
@@ -160,9 +160,9 @@
 
 //FIXME: This is not completely built out. Will work where currently used and probably nowhere else...
 -(id)copyWithZone:(NSZone *)zone {
-    
+
     Patient *copy = [[Patient allocWithZone:zone] initWithFirstName:[self.firstName copy] lastName:[self.lastName copy] avatar:[self.avatar copy] dob:[self.dob copy] gender:[self.gender copy]];
-    
+
     return copy;
 }
 

@@ -10,7 +10,7 @@
 
 @class Insurer;
 
-@interface InsurancePlan : NSObject
+@interface InsurancePlan : NSObject <NSCopying>
 
 @property (strong, nonatomic) NSString *objectID;
 @property (strong, nonatomic) NSString *insurerID;
