@@ -45,32 +45,42 @@
     self = [super initWithCoder:aDecoder];
     if (self) {
         self.currentButtonType = buttonDefaultType;
-        self.currentButtonStyle = buttonPlainStyle;
+        self.currentButtonStyle = buttonRoundedStyle;
         self.lineThickness = 2;
         self.lineRadius = 0;
-        self.animateToStartPosition = YES;
+        self.animateToStartPosition = NO;
         self.tintColor = [UIColor whiteColor];
         [self commonSetup];
     }
     return self;
 }
 
+- (CGFloat)lineLength {
+
+    return self.frame.size.width * 0.5;
+}
+
 - (void) commonSetup {
-    _firstSegment = [[VBFDoubleSegment alloc]initWithLength:self.frame.size.width
+
+    if (self.currentButtonStyle == buttonRoundedStyle) {
+        [self setupBackground];
+    }
+
+    _firstSegment = [[VBFDoubleSegment alloc]initWithLength:[self lineLength]
                                                   thickness:self.lineThickness
                                                      radius:self.lineRadius
                                                       color:self.tintColor
                                                initialState:doubleSegmentDefaultState];
     [self.layer addSublayer:_firstSegment];
     
-    _secondSegment = [[VBFDoubleSegment alloc]initWithLength:self.frame.size.width
+    _secondSegment = [[VBFDoubleSegment alloc]initWithLength:[self lineLength]
                                                    thickness:self.lineThickness
                                                       radius:self.lineRadius
                                                        color:self.tintColor
                                                 initialState:doubleSegmentDefaultState];
     [self.layer addSublayer:_secondSegment];
     
-    _thirdSegment = [[VBFDoubleSegment alloc]initWithLength:self.frame.size.width
+    _thirdSegment = [[VBFDoubleSegment alloc]initWithLength:[self lineLength]
                                                   thickness:self.lineThickness
                                                      radius:self.lineRadius
                                                       color:self.tintColor
@@ -78,31 +88,26 @@
     _thirdSegment.opacity = 0.0;
     [self.layer addSublayer:_thirdSegment];
     
-    if (self.currentButtonStyle == buttonRoundedStyle) {
-        [self setupBackgroundLayer];
-    }
+
     
     [self animateToType:self.currentButtonType];
 }
 
-- (void)setupBackgroundLayer {
-    self.bckgLayer = [CALayer layer];
-    CGFloat amount = self.frame.size.width / 3;
-    self.bckgLayer.frame = CGRectInset(self.bounds, -amount, -amount);
-    self.bckgLayer.cornerRadius = self.bckgLayer.bounds.size.width/2;
-    self.bckgLayer.backgroundColor = self.roundBackgroundColor.CGColor;
+- (void)setupBackground {
 
-    [self.layer insertSublayer:self.bckgLayer below:_firstSegment];
+    self.layer.cornerRadius = self.bounds.size.width/2;
+    self.layer.backgroundColor = self.roundBackgroundColor.CGColor;
 }
 
 - (void)setRoundBackgroundColor:(UIColor *)roundBackgroundColor {
+
+    _roundBackgroundColor = roundBackgroundColor;
+
     if (_currentButtonStyle == buttonRoundedStyle) {
-        if (!self.bckgLayer) {
-            [self setupBackgroundLayer];
-        }
-        self.bckgLayer.backgroundColor = roundBackgroundColor.CGColor;
+        [self setupBackground];
     }
 }
+
 - (void)setLineThickness:(CGFloat)lineThickness {
     _firstSegment.lineThickness = lineThickness;
     _secondSegment.lineThickness = lineThickness;
