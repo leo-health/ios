@@ -211,6 +211,8 @@ CGFloat const kSpeedForTitleViewAlphaChangeConstant = 4.0;
 #pragma mark - Segues
 NSString *const kSegueContinue = @"ContinueSegue";
 NSString *const kSeguePlan = @"PlanSegue";
+NSString *const kSegueTermsAndConditions = @"TermsAndConditionsSegue";
+NSString *const kSeguePrivacyPolicy = @"PrivacyPolicySegue";
 
 #pragma mark - Storyboards
 NSString *const kStoryboardSettings = @"Settings";
@@ -231,4 +233,9 @@ NSString *const kLEOValidationsErrorDomain = @"LEOValidationsErrorDomain";
 
 #pragma mark - Phone Numbers
 NSString *const kFlatironPediatricsPhoneNumber = @"2124605600"; //Flatiron Pediatrics
+
+#pragma mark - URLs
+NSString *const kURLTermsAndConditions = @"https://gist.githubusercontent.com/nayan-leo/bfcbb3857eca22682d0f/raw/3a5d4aa385995653330e9f68ecdf6ce27a8d06f0/leo-terms-draft.txt";
+NSString *const kURLPrivacyPolicy = @"https://gist.githubusercontent.com/nayan-leo/bfcbb3857eca22682d0f/raw/3a5d4aa385995653330e9f68ecdf6ce27a8d06f0/leo-terms-draft.txt";
+
 @end
