@@ -390,6 +390,7 @@
 		31B9CF321BBC69180002480C /* LEOPromptViewCell+ConfigureForCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "LEOPromptViewCell+ConfigureForCell.m"; path = "Onboarding+Signup/LEOPromptViewCell+ConfigureForCell.m"; sourceTree = "<group>"; };
 		31BA40541B30A5F900A11AEE /* LEOSectionSeparator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOSectionSeparator.h; sourceTree = "<group>"; };
 		31BA40551B30A5F900A11AEE /* LEOSectionSeparator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOSectionSeparator.m; sourceTree = "<group>"; };
+		31BB45EB1C17757A0036224C /* Testflight.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Testflight.xcconfig; path = xcconfig/Testflight.xcconfig; sourceTree = "<group>"; };
 		31BF23401BBAEA0A005856E5 /* LEOSignUpPatientView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOSignUpPatientView.h; path = "Onboarding+Signup/LEOSignUpPatientView.h"; sourceTree = "<group>"; };
 		31BF23411BBAEA0A005856E5 /* LEOSignUpPatientView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOSignUpPatientView.m; path = "Onboarding+Signup/LEOSignUpPatientView.m"; sourceTree = "<group>"; };
 		31BF23421BBAEA0A005856E5 /* LEOSignUpPatientView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LEOSignUpPatientView.xib; path = "Onboarding+Signup/LEOSignUpPatientView.xib"; sourceTree = "<group>"; };
@@ -770,6 +771,7 @@
 		314A40591B838B0E00834BC2 /* Build Configuration */ = {
 			isa = PBXGroup;
 			children = (
+				31BB45EB1C17757A0036224C /* Testflight.xcconfig */,
 				314A405D1B83B1B400834BC2 /* Configuration.h */,
 				314A405E1B83B1B400834BC2 /* Configuration.m */,
 				314A40551B838AD000834BC2 /* Application.xcconfig */,
@@ -1317,6 +1319,7 @@
 				3132BE9F1B84F9D100494727 /* Frameworks */,
 				3132BEA01B84F9D100494727 /* Resources */,
 				5611AFAF01C6667A748C8808 /* Copy Pods Resources */,
+				92B0C6FAA7FBF9A2DE5582A1 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1337,6 +1340,7 @@
 				BCE1EC611B00E353007C8D0B /* Frameworks */,
 				BCE1EC621B00E353007C8D0B /* Resources */,
 				CB7DB39BBE1DE6D4A4F9F218 /* Copy Pods Resources */,
+				7305E41372AF5CF04B09C7C2 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1451,6 +1455,36 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LeoTests/Pods-LeoTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7305E41372AF5CF04B09C7C2 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Leo/Pods-Leo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		92B0C6FAA7FBF9A2DE5582A1 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LeoTests/Pods-LeoTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		AD74AFBB7A78B2A607F83883 /* Check Pods Manifest.lock */ = {
@@ -1831,6 +1865,48 @@
 			};
 			name = "Debug Stubs";
 		};
+		31BB45EC1C1777A20036224C /* Testflight */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 2015.12.07.11.13;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Testflight;
+		};
+		31BB45ED1C1777A20036224C /* Testflight */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 31BB45EB1C17757A0036224C /* Testflight.xcconfig */;
+			buildSettings = {
+				INFOPLIST_FILE = Leo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.leohealth.leo;
+			};
+			name = Testflight;
+		};
+		31BB45EE1C1777A20036224C /* Testflight */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3132BEAD1B84FA0600494727 /* TestsRelease.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_NS_ASSERTIONS = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				INFOPLIST_FILE = LeoTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.leohealth.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Leo.app/Leo";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Testflight;
+		};
 		BCE1EC851B00E353007C8D0B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
@@ -1881,6 +1957,7 @@
 				312594BB1BE2D41800A497C0 /* Local */,
 				3196AAF51B8DFD6C00B11112 /* Debug Stubs */,
 				3132BEAC1B84F9D200494727 /* Release */,
+				31BB45EE1C1777A20036224C /* Testflight */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1892,6 +1969,7 @@
 				312594B91BE2D41800A497C0 /* Local */,
 				3196AAF31B8DFD6C00B11112 /* Debug Stubs */,
 				BCE1EC861B00E353007C8D0B /* Release */,
+				31BB45EC1C1777A20036224C /* Testflight */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1903,6 +1981,7 @@
 				312594BA1BE2D41800A497C0 /* Local */,
 				3196AAF41B8DFD6C00B11112 /* Debug Stubs */,
 				BCE1EC891B00E353007C8D0B /* Release */,
+				31BB45ED1C1777A20036224C /* Testflight */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
