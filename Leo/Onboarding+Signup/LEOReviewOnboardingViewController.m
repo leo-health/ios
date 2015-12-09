@@ -129,6 +129,9 @@ static NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
     [self.tableView registerNib:[LEOReviewUserCell nib]
          forCellReuseIdentifier:kReviewUserCellReuseIdentifer];
     [self.tableView registerNib:[LEOButtonCell nib] forCellReuseIdentifier:kButtonCellReuseIdentifier];
+
+    self.tableView.tableFooterView = [self buildAgreeViewFromString:@"By clicking subscribe you agree to our #<ts>terms of service# and #<pp>privacy policies#."];
+
 }
 
 
@@ -238,28 +241,11 @@ static NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
 
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-
-    if (section == TableViewSectionButton) {
-
-        UIView *footerView = [UIView new];
-
-        UIView *agreeView =[self buildAgreeViewFromString:@"By clicking subscribe you agree to our #<ts>terms of service# and #<pp>privacy policies#."];
-
-        [footerView addSubview:agreeView];
-
-        return footerView;
-    }
-
-    return nil;
-}
-
-
 //Adapted from http://stackoverflow.com/questions/20541676/ios-uitextview-or-uilabel-with-clickable-links-to-actions
 - (UIView *)buildAgreeViewFromString:(NSString *)localizedString {
 
     UIView *agreeView = [UIView new];
-    CGRect agreeFrame = CGRectMake(30,10,self.tableView.bounds.size.width - 60,64);
+    CGRect agreeFrame = CGRectMake(30,10,[UIScreen mainScreen].bounds.size.width - 60,64);
     agreeView.frame = agreeFrame;
 
     // 1. Split the localized string on the # sign:
@@ -376,11 +362,8 @@ static NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
 
         case TableViewSectionPatients:
         case TableViewSectionGuardians:
-            return CGFLOAT_MIN;
-            break;
-
         case TableViewSectionButton:
-            return 64.0;
+            return CGFLOAT_MIN;
             break;
     }
 
