@@ -242,7 +242,7 @@ static NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
 
         UIView *footerView = [UIView new];
 
-        UIView *agreeView = [self buildAgreeViewFromString:@"By clicking subscribe you agree to our #<ts>terms of service# and #<pp>privacy policies#."];
+        UIView *agreeView =[self buildAgreeViewFromString:@"By clicking subscribe you agree to our #<ts>terms of service# and #<pp>privacy policies#."];
 
         [footerView addSubview:agreeView];
 
@@ -378,7 +378,7 @@ static NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
             break;
 
         case TableViewSectionButton:
-            return 52.0;
+            return 64.0;
             break;
     }
 
