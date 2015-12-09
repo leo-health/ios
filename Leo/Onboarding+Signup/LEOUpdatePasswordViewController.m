@@ -32,6 +32,8 @@
     [self setupView];
     [self setupButton];
     [self setupNavigationBar];
+
+    [LEOApiReachability startMonitoringForController:self];
 }
 
 - (void)setupView {

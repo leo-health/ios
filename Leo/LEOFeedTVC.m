@@ -111,6 +111,7 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
     [self setNeedsStatusBarAppearanceUpdate];
     
     [self pushNewMessageToConversation:[self conversation].associatedCardObject];
+    [LEOApiReachability startMonitoringForController:self];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

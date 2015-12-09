@@ -25,7 +25,6 @@
 #import "LEOUserService.h"
 
 
-
 typedef NS_ENUM(NSUInteger, SettingsSection) {
     
     SettingsSectionAccounts = 0,
@@ -71,6 +70,8 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
     [super viewDidLoad];
     [self setupTableView];
     [self setupNavigationBar];
+
+    [LEOApiReachability startMonitoringForController:self];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

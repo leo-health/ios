@@ -15,6 +15,7 @@
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 #import "LEOConstants.h"
+#import "LEOApiReachability.h"
 
 #define MSDesignatedInitializer(__SEL__) __attribute__((unavailable("Invoke the designated initializer `" # __SEL__ "` instead or use a convenience initializer.")))
 

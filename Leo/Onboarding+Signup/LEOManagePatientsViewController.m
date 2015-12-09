@@ -56,6 +56,8 @@ typedef NS_ENUM(NSUInteger, TableViewSection) {
     
     [self setupBreaker];
     [self setupNavigationBar];
+
+    [LEOApiReachability startMonitoringForController:self];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

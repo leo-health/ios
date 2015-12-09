@@ -73,6 +73,8 @@ static NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
 
     [self setupNavigationBar];
     [self setupBreaker];
+
+    [LEOApiReachability startMonitoringForController:self];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

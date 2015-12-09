@@ -17,7 +17,6 @@
 
 #import "LEOSignUpUserView.h"
 #import "LEOPromptView.h"
-#import "LEOApiReachability.h"
 
 #import "LEOBasicSelectionViewController.h"
 #import "InsurancePlanCell+ConfigureCell.h"
@@ -63,6 +62,8 @@
     self.signUpUserView.insurancePlan = self.guardian.insurancePlan;
     self.signUpUserView.scrollView.delegate = self;
     self.signUpUserView.insurerPromptView.delegate = self;
+
+    [LEOApiReachability startMonitoringForController:self];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

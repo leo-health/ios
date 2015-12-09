@@ -13,8 +13,6 @@
 #import "UIColor+LeoColors.h"
 #import "UIImage+Extensions.h"
 
-#import "LEOApiReachability.h"
-
 #import "LEOValidationsHelper.h"
 #import "LEOSignUpPatientView.h"
 #import <ActionSheetPicker-3.0/ActionSheetPicker.h>
@@ -51,6 +49,8 @@
     [self setupBreaker];
 
     self.signUpPatientView.delegate = self;
+    [LEOApiReachability startMonitoringForController:self];
+
 }
 
 - (void)viewDidAppear:(BOOL)animated {

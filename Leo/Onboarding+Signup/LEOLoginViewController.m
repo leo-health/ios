@@ -21,7 +21,6 @@
 #import "LEOFeedTVC.h"
 #import "LEOStyleHelper.h"
 
-
 static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
 
 @interface LEOLoginViewController ()
@@ -43,7 +42,9 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
     [self setupPasswordTextField];
     [self setupForgotPasswordButton];
     [self setupContinueButton];
-    
+
+    [LEOApiReachability startMonitoringForController:self];
+
 #if AUTOLOGIN_FLAG
     [self autologin];
 #endif

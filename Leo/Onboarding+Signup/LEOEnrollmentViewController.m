@@ -40,6 +40,8 @@
     [self setupEmailTextField];
     [self setupPasswordTextField];
     [self setupContinueButton];
+
+    [LEOApiReachability startMonitoringForController:self];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

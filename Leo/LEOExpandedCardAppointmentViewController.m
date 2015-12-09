@@ -28,7 +28,6 @@
 #import "LEOAPIPracticeOperation.h"
 #import "LEOAPIFamilyOperation.h"
 #import "LEOAPISlotsOperation.h"
-#import "LEOApiReachability.h"
 #import <MBProgressHUD.h>
 #import "AppointmentStatus.h"
 

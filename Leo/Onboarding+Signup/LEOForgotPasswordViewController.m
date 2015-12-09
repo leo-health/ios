@@ -35,7 +35,9 @@
     [self setupResponseLabel];
     [self setupNavigationBar];
     [self setupEmailTextField];
-    
+
+    [LEOApiReachability startMonitoringForController:self];
+
     self.scrollableContainerView.delegate = self;
     
     [self.scrollableContainerView reloadContainerView];

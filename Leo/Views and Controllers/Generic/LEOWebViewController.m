@@ -22,7 +22,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
+    [LEOApiReachability startMonitoringForController:self];
+
     NSURL *url = [NSURL URLWithString:self.urlString];
     NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
     [self.webView loadRequest:urlRequest];
