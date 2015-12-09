@@ -1,7 +1,11 @@
     upcoming:
-    - Fix bug associated with privacy and terms of service footer in onboarding
-
     releases:
+    - version: 0.1.1
+      build: 2015.12.09.12.19
+      date: December 09 2015
+      notes:
+      - Fix bug associated with privacy and terms of service footer in onboarding
+    
     - version: 0.1.1
       build: 2015.12.09.11.33
       date: December 09 2015
@@ -71,6 +75,7 @@
       notes:
       - First test build using new Fastfile configuration for Alpha builds
       - Provides the basic functionality all created prior to our first releases
+
 
 
 
