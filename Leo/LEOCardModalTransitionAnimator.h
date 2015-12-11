@@ -7,9 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "LEOViewControllerAnimatedTransitioningProtocol.h"
 @import UIKit;
 
-@interface LEOCardTransitionAnimator : NSObject <UIViewControllerAnimatedTransitioning>
+@interface LEOCardModalTransitionAnimator : NSObject <LEOViewControllerAnimatedTransitioningProtocol>
 
 @property (nonatomic, assign, getter = isPresenting) BOOL presenting;
 

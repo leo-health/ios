@@ -7,7 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "LEOViewControllerAnimatedTransitioningProtocol.h"
+
+typedef NS_ENUM(NSInteger, TransitionAnimatorType) {
+
+    TransitionAnimatorTypeUndefined,
+    TransitionAnimatorTypeCardModal,
+    TransitionAnimatorTypeCardPush,
+};
 
 @interface LEOTransitioningDelegate : NSObject <UIViewControllerTransitioningDelegate>
+
+- (instancetype)initWithTransitionAnimatorType:(TransitionAnimatorType)transitionAnimatorType;
 
 @end
