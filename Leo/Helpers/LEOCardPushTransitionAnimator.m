@@ -52,6 +52,7 @@
         fromView.userInteractionEnabled = NO;
         toView.userInteractionEnabled = YES;
 
+        toView.frame = [transitionContext finalFrameForViewController:toViewController];
         [transitionContext.containerView addSubview:toView];
 
         /**
@@ -64,7 +65,13 @@
         NSDictionary *metrics = @{@"sHeight":[NSNumber numberWithFloat:statusBarHeight],@"w":@(10)};
         NSDictionary *views = NSDictionaryOfVariableBindings(toView);
 
-        horizontalTopViewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"|-(w)-[toView]-(w)-|" options:0 metrics:metrics views:views];
+        if (toView.superview.bounds.size.width == [UIScreen mainScreen].bounds.size.width) {
+
+            horizontalTopViewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"|-(w)-[toView]-(w)-|" options:0 metrics:metrics views:views];
+        } else {
+            horizontalTopViewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[toView]|" options:0 metrics:metrics views:views];
+        }
+        
         verticalTopViewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(sHeight)-[toView]-(sHeight)-|" options:0 metrics:metrics views:views];
 
         [transitionContext.containerView addConstraints:horizontalTopViewConstraints];
@@ -155,7 +162,7 @@
         fromView.hidden = YES;
 
         CGRect screenRect = [UIScreen mainScreen].bounds;
-        CGRect snapshotOffScreenRect =CGRectMake(screenRect.size.width, 0, snapshotView.bounds.size.width, snapshotView.bounds.size.height);
+        CGRect snapshotOffScreenRect =CGRectMake(screenRect.size.width, statusBarHeight, snapshotView.bounds.size.width, snapshotView.bounds.size.height);
 
         [UIView animateWithDuration:0.6
                               delay:0.0 usingSpringWithDamping:0.8

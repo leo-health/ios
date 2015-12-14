@@ -59,6 +59,10 @@
 		312A82571B56EEBE00E1FB38 /* LEOMessagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 312A82541B56EEBE00E1FB38 /* LEOMessagesViewController.m */; };
 		312F35451BA212B700F64DAA /* LEOPusherHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 312F35441BA212B700F64DAA /* LEOPusherHelper.m */; };
 		3132D9DF1C19E9BE00A3E9AA /* LEOCardPushTransitionAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 3132D9DE1C19E9BE00A3E9AA /* LEOCardPushTransitionAnimator.m */; };
+		3132D9E31C1BAC0E00A3E9AA /* LEONavigationControllerPushAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 3132D9E21C1BAC0E00A3E9AA /* LEONavigationControllerPushAnimator.m */; };
+		3132D9E61C1F37DD00A3E9AA /* UIView+AutoLayoutDebugging.m in Sources */ = {isa = PBXBuildFile; fileRef = 3132D9E51C1F37DD00A3E9AA /* UIView+AutoLayoutDebugging.m */; };
+		3132D9E91C1F3E4100A3E9AA /* LEONavigationControllerPopAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 3132D9E81C1F3E4100A3E9AA /* LEONavigationControllerPopAnimator.m */; };
+		3132D9EC1C1F681E00A3E9AA /* LEOImageCropViewControllerDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 3132D9EB1C1F681E00A3E9AA /* LEOImageCropViewControllerDataSource.m */; };
 		3138FC321B9A1169000FE22C /* LEOValidatedFloatLabeledTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 3138FC311B9A1169000FE22C /* LEOValidatedFloatLabeledTextField.m */; };
 		3138FC351B9A1294000FE22C /* LEOScrollableContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3138FC341B9A1294000FE22C /* LEOScrollableContainerView.m */; };
 		3138FC3A1B9A145B000FE22C /* LEOForgotPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3138FC391B9A145B000FE22C /* LEOForgotPasswordViewController.m */; };
@@ -303,6 +307,14 @@
 		3132D9DD1C19E9BE00A3E9AA /* LEOCardPushTransitionAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOCardPushTransitionAnimator.h; path = Helpers/LEOCardPushTransitionAnimator.h; sourceTree = "<group>"; };
 		3132D9DE1C19E9BE00A3E9AA /* LEOCardPushTransitionAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOCardPushTransitionAnimator.m; path = Helpers/LEOCardPushTransitionAnimator.m; sourceTree = "<group>"; };
 		3132D9E01C19EE1A00A3E9AA /* LEOViewControllerAnimatedTransitioningProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOViewControllerAnimatedTransitioningProtocol.h; path = Helpers/LEOViewControllerAnimatedTransitioningProtocol.h; sourceTree = "<group>"; };
+		3132D9E11C1BAC0E00A3E9AA /* LEONavigationControllerPushAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEONavigationControllerPushAnimator.h; path = Helpers/LEONavigationControllerPushAnimator.h; sourceTree = "<group>"; };
+		3132D9E21C1BAC0E00A3E9AA /* LEONavigationControllerPushAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEONavigationControllerPushAnimator.m; path = Helpers/LEONavigationControllerPushAnimator.m; sourceTree = "<group>"; };
+		3132D9E41C1F37DD00A3E9AA /* UIView+AutoLayoutDebugging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+AutoLayoutDebugging.h"; path = "Helpers/UIView+AutoLayoutDebugging.h"; sourceTree = "<group>"; };
+		3132D9E51C1F37DD00A3E9AA /* UIView+AutoLayoutDebugging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+AutoLayoutDebugging.m"; path = "Helpers/UIView+AutoLayoutDebugging.m"; sourceTree = "<group>"; };
+		3132D9E71C1F3E4100A3E9AA /* LEONavigationControllerPopAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEONavigationControllerPopAnimator.h; path = Helpers/LEONavigationControllerPopAnimator.h; sourceTree = "<group>"; };
+		3132D9E81C1F3E4100A3E9AA /* LEONavigationControllerPopAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEONavigationControllerPopAnimator.m; path = Helpers/LEONavigationControllerPopAnimator.m; sourceTree = "<group>"; };
+		3132D9EA1C1F681E00A3E9AA /* LEOImageCropViewControllerDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOImageCropViewControllerDataSource.h; path = Helpers/LEOImageCropViewControllerDataSource.h; sourceTree = "<group>"; };
+		3132D9EB1C1F681E00A3E9AA /* LEOImageCropViewControllerDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOImageCropViewControllerDataSource.m; path = Helpers/LEOImageCropViewControllerDataSource.m; sourceTree = "<group>"; };
 		3138FC301B9A1169000FE22C /* LEOValidatedFloatLabeledTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOValidatedFloatLabeledTextField.h; sourceTree = "<group>"; };
 		3138FC311B9A1169000FE22C /* LEOValidatedFloatLabeledTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOValidatedFloatLabeledTextField.m; sourceTree = "<group>"; };
 		3138FC331B9A1294000FE22C /* LEOScrollableContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOScrollableContainerView.h; sourceTree = "<group>"; };
@@ -1135,6 +1147,14 @@
 		BC163B001B054CCF000FB1CE /* View */ = {
 			isa = PBXGroup;
 			children = (
+				3132D9E41C1F37DD00A3E9AA /* UIView+AutoLayoutDebugging.h */,
+				3132D9E71C1F3E4100A3E9AA /* LEONavigationControllerPopAnimator.h */,
+				3132D9E81C1F3E4100A3E9AA /* LEONavigationControllerPopAnimator.m */,
+				3132D9EA1C1F681E00A3E9AA /* LEOImageCropViewControllerDataSource.h */,
+				3132D9EB1C1F681E00A3E9AA /* LEOImageCropViewControllerDataSource.m */,
+				3132D9E51C1F37DD00A3E9AA /* UIView+AutoLayoutDebugging.m */,
+				3132D9E11C1BAC0E00A3E9AA /* LEONavigationControllerPushAnimator.h */,
+				3132D9E21C1BAC0E00A3E9AA /* LEONavigationControllerPushAnimator.m */,
 				3132D9DD1C19E9BE00A3E9AA /* LEOCardPushTransitionAnimator.h */,
 				3132D9DE1C19E9BE00A3E9AA /* LEOCardPushTransitionAnimator.m */,
 				3115F1E81BC59BCC001BDF6A /* UIView+Extensions.h */,
@@ -1559,6 +1579,7 @@
 				31FDDE6F1B29EDF70009BBC2 /* ArrayDataSource.m in Sources */,
 				31CC12E51BB062C40099AB60 /* Family.m in Sources */,
 				3177B9E11B1A8CF3006AE360 /* LEOCard.m in Sources */,
+				3132D9EC1C1F681E00A3E9AA /* LEOImageCropViewControllerDataSource.m in Sources */,
 				31F5AA731B791B4B00F96D06 /* ProviderCell.m in Sources */,
 				31F5AA651B791B4A00F96D06 /* LEOAPISlotsOperation.m in Sources */,
 				31CF99111B17754B00BFAABE /* LEOTransitioningDelegate.m in Sources */,
@@ -1579,6 +1600,7 @@
 				3115F2021BC848F8001BDF6A /* LEOInviteView.m in Sources */,
 				31264E861B5EBB1A00D292CF /* LEOMessagesAvatarImageFactory.m in Sources */,
 				3115F1EA1BC59BCC001BDF6A /* UIView+Extensions.m in Sources */,
+				3132D9E91C1F3E4100A3E9AA /* LEONavigationControllerPopAnimator.m in Sources */,
 				31FDDE551B28DD2C0009BBC2 /* LEOTwoButtonPrimaryOnlyCell.m in Sources */,
 				3168997D1BC4858400B4C1EB /* LEOReviewPatientCell.m in Sources */,
 				31BF23431BBAEA0A005856E5 /* LEOSignUpPatientView.m in Sources */,
@@ -1593,6 +1615,7 @@
 				3138FC4B1B9A19A8000FE22C /* InsurancePlanCell+ConfigureCell.m in Sources */,
 				31F5AA7A1B791B4B00F96D06 /* AppointmentTypeCell+ConfigureCell.m in Sources */,
 				3155888E1BBC314D0038E381 /* LEOManagePatientsViewController.m in Sources */,
+				3132D9E31C1BAC0E00A3E9AA /* LEONavigationControllerPushAnimator.m in Sources */,
 				31CC12E61BB062C40099AB60 /* Practice.m in Sources */,
 				319FB4BE1BBA379E00EFF7B9 /* JVFloatLabeledTextField.m in Sources */,
 				3115F21A1BCEA316001BDF6A /* LEOUpdateEmailView.m in Sources */,
@@ -1614,6 +1637,7 @@
 				31FDDE6C1B29E38F0009BBC2 /* LEOTwoButtonSecondaryOnlyCell+ConfigureForCell.m in Sources */,
 				31E77E071B87647B00C6EDE1 /* LEOAPISessionManager.m in Sources */,
 				31CC12DD1BB062C40099AB60 /* Guardian.m in Sources */,
+				3132D9E61C1F37DD00A3E9AA /* UIView+AutoLayoutDebugging.m in Sources */,
 				316899681BC4851200B4C1EB /* LEOReviewUserCell.m in Sources */,
 				3128D4F21B4313EB00582710 /* LEOOneButtonPrimaryAndSecondaryCell+ConfigureForCell.m in Sources */,
 				31D20AC91B14C2F700F3351A /* LEOPageViewController.m in Sources */,

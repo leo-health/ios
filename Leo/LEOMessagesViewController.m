@@ -38,6 +38,11 @@
 #import "LEOCardConversation.h"
 #import "LEOUserService.h"
 #import "LEOMessageService.h"
+#import "LEOTransitioningDelegate.h"
+#import "LEOCardPushTransitionAnimator.h"
+#import "LEONavigationControllerPushAnimator.h"
+#import "LEONavigationControllerPopAnimator.h"
+#import "LEOImageCropViewControllerDataSource.h"
 
 #if STUBS_FLAG
 #import "LEOStubs.h"
@@ -50,8 +55,9 @@
 
 @property (copy, nonatomic) NSString *senderFamily;
 @property (strong, nonatomic) UIButton *sendButton;
+@property (strong, nonatomic) UIButton *attachButton;
 @property (strong, nonatomic) NSMutableDictionary *avatarDictionary;
-
+@property (strong, nonatomic) LEOTransitioningDelegate *transitioningDelegate;
 @property (nonatomic) NSInteger offset;
 @property (nonatomic) NSInteger nextPage;
 
@@ -74,11 +80,11 @@
  */
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
 #if STUBS_FLAG
     [self setupStubs];
 #endif
-    
+
     [self setupNavigationBar];
     [self setupEmergencyBar];
     [self setupInputToolbar];
@@ -87,44 +93,46 @@
     [self setupRequiredMessagingProperties];
     [self setupPusher];
     [self constructNotifications];
+
+    self.navigationController.delegate = self;
 }
 
 #if STUBS_FLAG
 - (void)setupStubs {
-    
+
     [LEOStubs setupConversationStubWithID:[SessionUser currentUser].familyID];
 }
 #endif
 
 - (void)setupNavigationBar {
-    
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:self.card.tintColor]
-                                                  forBarMetrics:UIBarMetricsDefault];
+
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:self.card.tintColor] forBarMetrics:UIBarMetricsDefault];
+
     self.navigationController.navigationBar.shadowImage = [UIImage new];
     self.navigationController.navigationBar.translucent = NO;
-    
+
     [UINavigationBar appearance].backIndicatorImage = [UIImage imageNamed:@"Icon-BackArrow"];
-    
+
     [UINavigationBar appearance].backIndicatorTransitionMaskImage = [UIImage imageNamed:@"Icon-BackArrow"];
-    
+
     self.navigationController.navigationBar.topItem.title = @"";
-    
+
     UIButton *dismissButton = [self buildDismissButton];
     UIBarButtonItem *dismissBBI = [[UIBarButtonItem alloc] initWithCustomView:dismissButton];
     self.navigationItem.rightBarButtonItem = dismissBBI;
-    
+
     UILabel *navBarTitleLabel = [[UILabel alloc] init];
-    
+
     navBarTitleLabel.text = self.card.title;
     navBarTitleLabel.textColor = [UIColor leoWhite];
     navBarTitleLabel.font = [UIFont leoMenuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
     [navBarTitleLabel sizeToFit];
-    
+
     self.navigationItem.titleView = navBarTitleLabel;
 }
 
 - (UIButton *)buildDismissButton {
-    
+
     UIButton *dismissButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [dismissButton addTarget:self
                       action:@selector(dismiss)
@@ -133,34 +141,46 @@
                    forState:UIControlStateNormal];
     [dismissButton sizeToFit];
     dismissButton.tintColor = [UIColor leoWhite];
-    
+
     return dismissButton;
 }
 
+-(UIButton *)attachButton {
+
+    if (!_attachButton) {
+        _attachButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_attachButton setImage:[UIImage imageNamed:@"Icon-Camera-Chat"] forState:UIControlStateNormal];
+        //        [_attachButton addTarget:self action:@selector(attachmentButtonTouchedUpInside:) forControlEvents:UIControlEventTouchUpInside];
+        _attachButton.tintColor = [UIColor leoWhite];
+    }
+
+    return _attachButton;
+}
+
 - (void)setupEmergencyBar {
-    
+
     UILabel *emergencyBar = [UILabel new];
-    
+
     emergencyBar.text = @"In case of emergency, dial 911";
     emergencyBar.textAlignment = NSTextAlignmentCenter;
     emergencyBar.font = [UIFont leoMenuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
     emergencyBar.backgroundColor = [UIColor leoLightBlue];
     emergencyBar.textColor = [UIColor leoBlue];
     [emergencyBar sizeToFit];
-    
+
     emergencyBar.translatesAutoresizingMaskIntoConstraints = NO;
-    
+
     self.topContentAdditionalInset = emergencyBar.frame.size.height;
-    
+
     [self.view addSubview:emergencyBar];
-    
+
     NSDictionary *views = NSDictionaryOfVariableBindings(emergencyBar);
-    
+
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[emergencyBar]|"
                                                                       options:0
                                                                       metrics:nil
                                                                         views:views]];
-    
+
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:emergencyBar
                                                           attribute:NSLayoutAttributeTop
                                                           relatedBy:NSLayoutRelationEqual
@@ -171,38 +191,38 @@
 }
 
 - (void)constructNotifications {
-    
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationReceived:) name:@"Conversation-AddedMessage" object:nil];
 }
 
 - (void)setupRequiredMessagingProperties {
-    
+
     self.senderId = [NSString stringWithFormat:@"%@F",[SessionUser currentUser].familyID];
     self.senderDisplayName = [SessionUser currentUser].fullName;
     self.senderFamily = [SessionUser currentUser].familyID;
 }
 
 - (void)setupMessageBubbles {
-    
+
     JSQMessagesBubbleImageFactory *bubbleFactory = [[JSQMessagesBubbleImageFactory alloc] init];
     self.outgoingBubbleImageData = [bubbleFactory outgoingMessagesBubbleImageWithColor:[UIColor leoBlue]];
     self.incomingBubbleImageData = [bubbleFactory incomingMessagesBubbleImageWithColor:[UIColor leoGrayForMessageBubbles]];
 }
 
 - (void)setupCollectionViewFormatting {
-    
+
     self.collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero;
-    
+
     self.showLoadEarlierMessagesHeader = YES;
     self.collectionView.collectionViewLayout.messageBubbleFont = [UIFont leoStandardFont];
 }
 
 - (void)setupInputToolbar {
-    
-    self.inputToolbar.contentView.leftBarButtonItem = nil;
-    
+
+    self.inputToolbar.contentView.leftBarButtonItem = self.attachButton;
+
     [self initializeSendButton];
-    
+
     self.inputToolbar.contentView.rightBarButtonItem = self.sendButton;
     self.inputToolbar.contentView.backgroundColor = [UIColor leoBlue];
     self.inputToolbar.contentView.textView.layer.borderColor = [UIColor whiteColor].CGColor;
@@ -214,25 +234,25 @@
 }
 
 - (void)initializeSendButton {
-    
+
     UIButton *sendButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [sendButton setTitle:@"SEND" forState:UIControlStateNormal];
     [sendButton setTitleColor:[UIColor leoWhite] forState:UIControlStateNormal];
     sendButton.titleLabel.font = [UIFont leoFieldAndUserLabelsAndSecondaryButtonsFont];
-    
+
     self.sendButton = sendButton;
 }
 
 - (void)setupPusher {
-    
+
     NSString *channelString = [NSString stringWithFormat:@"%@%@",@"newMessage",[SessionUser currentUser].email];
     NSString *event = @"new_message";
-    
+
     LEOPusherHelper *pusherHelper = [LEOPusherHelper sharedPusher];
     [pusherHelper connectToPusherChannel:channelString withEvent:event sender:self withCompletion:^(NSDictionary *channelData) {
-        
+
         NSString *messageID = [self extractMessageIDFromChannelData:channelData];
-        
+
         [self fetchMessageWithID:messageID];
     }];
 }
@@ -242,7 +262,7 @@
 }
 
 - (void)fetchMessageWithID:(NSString *)messageID {
-    
+
     LEOMessageService *messageService = [[LEOMessageService alloc] init];
     [messageService getMessageWithIdentifier:messageID withCompletion:^(Message *message, NSError *error) {
         [self updateConversationWithMessage:message];
@@ -255,18 +275,18 @@
 }
 
 - (void)notificationReceived:(NSNotification *)notification {
-    
+
     if ([notification.name isEqualToString: @"Conversation-AddedMessage"]) {
-        
+
         Conversation *conversation = (Conversation *)notification.object;
         Message *newMessage = conversation.messages.lastObject;
-        
+
         [self finishSendingMessage:newMessage];
     }
 }
 
 - (void)finishSendingMessage:(Message *)message {
-    
+
     if ([self isFamilyMessage:message]) {
         [self finishSendingMessageAnimated:YES];
     } else {
@@ -291,15 +311,15 @@
                       date:(NSDate *)date
 {
     button.hidden = YES;
-    
+
     [self.sendingIndicator startAnimating];
-    
+
     [JSQSystemSoundPlayer jsq_playMessageSentSound];
-    
-    Message *message = [Message messageWithObjectID:nil text:text sender:[SessionUser currentUser] escalatedTo:nil escalatedBy:nil status:nil statusCode:MessageStatusCodeUndefined escalatedAt:nil];
-    
+
+    Message *message = [Message messageWithObjectID:nil text:text sender:[SessionUser guardian] escalatedTo:nil escalatedBy:nil status:nil statusCode:MessageStatusCodeUndefined escalatedAt:nil];
+
     [self sendMessage:message withCompletion:^{
-        
+
         [self updateConversationWithMessage:message];
         [self finishSendingMessage:message];
         [self.sendingIndicator stopAnimating];
@@ -308,44 +328,130 @@
 }
 
 - (UIActivityIndicatorView *)sendingIndicator {
-    
+
     if (!_sendingIndicator) {
-        
-        _sendingIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-        
+
+        _sendingIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+
         [self.view addSubview:_sendingIndicator];
-        
+
         _sendingIndicator.translatesAutoresizingMaskIntoConstraints = NO;
-        
+
         NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(_sendingIndicator);
-        
-        
+
+
         //FIXME: These constraints should not include constants, but for a first pass it works well enough across all three phone sizes.
         [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_sendingIndicator]-(24)-|"
                                                                           options:0
                                                                           metrics:nil
                                                                             views:viewsDictionary]];
-        
+
         [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_sendingIndicator]-(12)-|"
                                                                           options:0
                                                                           metrics:nil
                                                                             views:viewsDictionary]];
         [_sendingIndicator hidesWhenStopped];
     }
-    
+
     return _sendingIndicator;
 }
 
-- (void)didPressAccessoryButton:(UIButton *)sender
-{
-    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"Media messages"
-                                                       delegate:self
-                                              cancelButtonTitle:@"Cancel"
-                                         destructiveButtonTitle:nil
-                                              otherButtonTitles:@"Send photo", @"Send location", @"Send video", nil];
-    
-    [sheet showFromToolbar:self.inputToolbar];
+- (void)didPressAccessoryButton:(UIButton *)sender {
+
+    LEOTransitioningDelegate *strongTransitioningDelegate = [[LEOTransitioningDelegate alloc] initWithTransitionAnimatorType:TransitionAnimatorTypeCardPush];;
+
+    self.transitioningDelegate = strongTransitioningDelegate;
+
+    [self.inputToolbar.contentView.textView resignFirstResponder];
+
+    UIAlertController *mediaController = [UIAlertController alertControllerWithTitle:@"Attachments" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+
+    UIViewController<UIImagePickerControllerDelegate, UINavigationControllerDelegate> * __weak weakself = self;
+
+    UIAlertAction *cameraAction = [UIAlertAction actionWithTitle:@"Photo from camera" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+
+        UIImagePickerController *pickerController = [UIImagePickerController new];
+        pickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+        pickerController.delegate = weakself;
+
+        pickerController.transitioningDelegate = self.transitioningDelegate;
+        pickerController.modalPresentationStyle = UIModalPresentationCustom;
+
+        [weakself presentViewController:pickerController animated:YES completion:nil];
+    }];
+
+    UIAlertAction *photoAction = [UIAlertAction actionWithTitle:@"Photo from library" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+
+        UIImagePickerController *pickerController = [UIImagePickerController new];
+        pickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        pickerController.delegate = weakself;
+
+        pickerController.transitioningDelegate = self.transitioningDelegate;
+        pickerController.modalPresentationStyle = UIModalPresentationCustom;
+
+        [weakself presentViewController:pickerController animated:YES completion:nil];
+    }];
+
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
+
+    [mediaController addAction:cameraAction];
+    [mediaController addAction:photoAction];
+    [mediaController addAction:cancelAction];
+
+    [self presentViewController:mediaController animated:YES completion:nil];
 }
+
+#pragma mark - <UIImagePickerViewControllerDelegate>
+
+//TO finish picking media, get the original image and build a crop view controller with it, simultaneously dismissing the image picker.
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+
+    UIImage *originalImage = info[UIImagePickerControllerOriginalImage];
+
+    LEOImageCropViewController *imageCropVC = [[LEOImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeSquare];
+
+//    LEOImageCropViewControllerDataSource *datasource = [LEOImageCropViewControllerDataSource new];
+
+//    imageCropVC.dataSource = datasource
+    imageCropVC.delegate = self;
+    imageCropVC.transitioningDelegate = self.transitioningDelegate;
+
+    [picker dismissViewControllerAnimated:NO completion:nil];
+
+    [self.navigationController pushViewController:imageCropVC animated:NO];
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    [picker dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)imageCropViewControllerDidCancelCrop:(RSKImageCropViewController *)controller {
+
+
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)imageCropViewController:(RSKImageCropViewController *)controller didCropImage:(UIImage *)croppedImage usingCropRect:(CGRect)cropRect {
+
+
+    JSQPhotoMediaItem *photoItem = [[JSQPhotoMediaItem alloc] initWithImage:croppedImage];
+
+    Message *message = [Message messageWithObjectID:nil media:photoItem sender:[SessionUser guardian] escalatedTo:nil escalatedBy:nil status:nil statusCode:MessageStatusCodeUndefined escalatedAt:nil];
+
+    [self.sendingIndicator startAnimating];
+
+    [JSQSystemSoundPlayer jsq_playMessageSentSound];
+
+    [self sendMessage:message withCompletion:^{
+
+        [self updateConversationWithMessage:message];
+        [self finishSendingMessage:message];
+        [self.sendingIndicator stopAnimating];
+    }];
+
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 
 #pragma mark - JSQMessages Collection View DataSource
 
@@ -356,7 +462,7 @@
 
 - (id<JSQMessageBubbleImageDataSource>)collectionView:(JSQMessagesCollectionView *)collectionView messageBubbleImageDataForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+
     return nil;
     /**
      *  You may return nil here if you do not want bubbles.
@@ -368,7 +474,7 @@
 
 - (id<JSQMessageAvatarImageDataSource>)collectionView:(JSQMessagesCollectionView *)collectionView avatarImageDataForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+
     /**
      *  Return your previously created avatar image data objects.
      *
@@ -379,144 +485,144 @@
      *
      *  Override the defaults in `viewDidLoad`
      */
-    
+
     Message *message = [[self conversation].messages objectAtIndex:indexPath.item];
-    
+
     if ([self isFamilyMessage:message]) {
         return nil;
     }
-    
+
     JSQMessagesAvatarImage *avatarImage = [self avatarForUser:message.sender withCompletion:^{
         [self.collectionView.collectionViewLayout invalidateLayoutWithContext:[JSQMessagesCollectionViewFlowLayoutInvalidationContext context]];
         [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
     }];
-    
+
     return avatarImage;
 }
 
 
 -(NSMutableDictionary *)avatarDictionary {
-    
+
     if (!_avatarDictionary) {
         _avatarDictionary = [[NSMutableDictionary alloc] init];
     }
-    
+
     return _avatarDictionary;
 }
 
 - (JSQMessagesAvatarImage *)avatarForUser:(User *)user withCompletion:(void (^) (void))completion {
-    
+
     __block JSQMessagesAvatarImage *combinedImages = [self.avatarDictionary objectForKey:user.objectID];
-    
+
     if (combinedImages) {
         return combinedImages;
     }
-    
-    
+
+
     UIImage *placeholderImage = [LEOMessagesAvatarImageFactory circularAvatarImage:[UIImage imageNamed:@"Icon-AvatarBorderless"] withDiameter:20.0 borderColor:[UIColor leoGrayForPlaceholdersAndLines] borderWidth:2];
-    
+
     combinedImages = [JSQMessagesAvatarImage avatarImageWithPlaceholder:placeholderImage];
-    
+
     __block UIImage *avatarImage;
     __block UIImage *avatarHighlightedImage;
-    
+
     LEOUserService *userService = [[LEOUserService alloc] init];
-    
+
     [userService getAvatarForUser:user withCompletion:^(UIImage *image, NSError * error) {
-        
+
         if (!error && image) {
             avatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:image withDiameter:kJSQMessagesCollectionViewAvatarSizeDefault borderColor:[UIColor leoGrayForPlaceholdersAndLines] borderWidth:2];
             avatarHighlightedImage = [LEOMessagesAvatarImageFactory circularAvatarHighlightedImage:image withDiameter:kJSQMessagesCollectionViewAvatarSizeDefault borderColor:[UIColor leoGrayForPlaceholdersAndLines] borderWidth:2];
-            
+
             combinedImages.avatarImage = avatarImage;
             combinedImages.avatarHighlightedImage = avatarHighlightedImage;
-            
+
             [self.avatarDictionary setObject:combinedImages forKey:user.objectID];
-            
+
             completion();
         }
     }];
-    
+
     return combinedImages;
 }
 
 - (Conversation *)conversation {
-    
+
     return (Conversation *)self.card.associatedCardObject;
 }
 
 - (NSAttributedString *)collectionView:(JSQMessagesCollectionView *)collectionView attributedTextForCellTopLabelAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+
     Message *message = [[self conversation].messages objectAtIndex:indexPath.item];
     Message *priorMessage;
-    
+
     if (indexPath.row > 0) {
         priorMessage = [[self conversation].messages objectAtIndex:indexPath.row - 1];
     }
-    
+
     /**
      *  Check to see if the current cell is on a different day than the prior cell, if so, add the date header.
      */
     if (!([NSDate daysBetweenDate:message.date andDate:priorMessage.date] == 0) || indexPath.row == 0) {
-        
-        
+
+
         NSDictionary *attributes = @{NSFontAttributeName : [UIFont leoButtonLabelsAndTimeStampsFont], NSForegroundColorAttributeName : [UIColor leoGrayForTimeStamps]};
-        
+
         NSString *basicDateString = [NSString stringWithFormat:@"  %@  ", [NSDate stringifiedDateWithDot:message.createdAt]];
         NSAttributedString *dateString = [[NSAttributedString alloc] initWithString:basicDateString attributes:attributes];
-        
+
         attributes = @{NSForegroundColorAttributeName : [UIColor whiteColor], NSStrikethroughColorAttributeName: [UIColor leoGrayForTimeStamps], NSStrikethroughStyleAttributeName : [NSNumber numberWithInteger:NSUnderlinePatternSolid | NSUnderlineStyleSingle]};
-        
+
         NSUInteger dateLength = [dateString length];
-        
+
         NSUInteger fullLengthOfBreak;
-        
+
         NSInteger screenHeight = [@([UIScreen mainScreen].bounds.size.height) integerValue];
         switch (screenHeight) {
             case 568:
                 fullLengthOfBreak = 44;
                 break;
-                
+
             case 667:
                 fullLengthOfBreak = 52;
                 break;
-                
+
             case 736:
                 fullLengthOfBreak = 58;
                 break;
-                
+
             default:
                 fullLengthOfBreak = 44;
                 break;
         }
-        
+
         NSUInteger lengthOfEachLine = floor((fullLengthOfBreak - dateLength) / 2);
-        
+
         NSMutableString *stringOfLength = [NSMutableString stringWithCapacity: lengthOfEachLine];
-        
+
         for (int i=0; i<lengthOfEachLine; i++) {
             [stringOfLength appendFormat: @"%C", [@"x" characterAtIndex:0]];
         }
-        
+
         NSString *strikeThroughString = [stringOfLength copy];
-        
+
         NSAttributedString *lineString = [[NSAttributedString alloc] initWithString:strikeThroughString attributes:attributes];
-        
+
         NSMutableAttributedString *fullString = [[NSMutableAttributedString alloc] init];
-        
+
         [fullString appendAttributedString:lineString];
         [fullString appendAttributedString:dateString];
         [fullString appendAttributedString:lineString];
-        
+
         if (indexPath.row == 0) {
             return fullString;
         }
-        
-        
+
+
         return fullString;
     }
-    
+
     return nil;
 }
 
@@ -524,63 +630,63 @@
 - (NSAttributedString *)collectionView:(JSQMessagesCollectionView *)collectionView attributedTextForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath
 {
     Message *message = [[self conversation].messages objectAtIndex:indexPath.item];
-    
+
     /**
      *  iOS7-style sender name labels
      */
-    
+
     /**
      *  Don't specify attributes to use the defaults.
      */
-    
+
     NSMutableAttributedString *concatenatedDisplayNameAndTime = [[NSMutableAttributedString alloc] init];
-    
+
     if ([self isFamilyMessage:message]) {
-        
+
         NSString *dateString = [NSString stringWithFormat:@"%@ ∙ ", [NSDate stringifiedTime:message.createdAt]];
-        
-        
+
+
         NSDictionary *attributes = @{NSFontAttributeName : [UIFont leoButtonLabelsAndTimeStampsFont], NSForegroundColorAttributeName : [UIColor leoGrayForTimeStamps]};
         NSAttributedString *timestampAttributedString = [[NSAttributedString alloc] initWithString:dateString attributes:attributes];
-        
+
         [concatenatedDisplayNameAndTime appendAttributedString:timestampAttributedString];
-        
+
         attributes = @{NSFontAttributeName : [UIFont leoFieldAndUserLabelsAndSecondaryButtonsFont], NSForegroundColorAttributeName : [UIColor leoBlue]};
         NSAttributedString *senderAttributedString = [[NSAttributedString alloc] initWithString:message.sender.firstName attributes:attributes];
-        
+
         [concatenatedDisplayNameAndTime appendAttributedString:senderAttributedString];
-        
+
     } else {
-        
+
         NSDictionary *attributes = @{NSFontAttributeName : [UIFont leoFieldAndUserLabelsAndSecondaryButtonsFont], NSForegroundColorAttributeName : [UIColor leoBlue]};
         NSAttributedString *senderAttributedString = [[NSAttributedString alloc] initWithString:message.senderDisplayName attributes:attributes];
-        
+
         [concatenatedDisplayNameAndTime appendAttributedString:senderAttributedString];
-        
+
         if ([message.sender isKindOfClass:[Support class]]) {
-            
+
             Support *support = (Support *)message.sender;
             attributes = @{NSFontAttributeName : [UIFont leoFieldAndUserLabelsAndSecondaryButtonsFont], NSForegroundColorAttributeName : [UIColor leoGrayForPlaceholdersAndLines]};
             NSAttributedString *roleAttributedString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@",support.jobTitle] attributes:attributes];
             [concatenatedDisplayNameAndTime appendAttributedString:roleAttributedString];
         } else if ([message.sender isKindOfClass:[Provider class]]) {
-            
+
             Provider *provider = (Provider *)message.sender;
             attributes = @{NSFontAttributeName : [UIFont leoFieldAndUserLabelsAndSecondaryButtonsFont], NSForegroundColorAttributeName : [UIColor leoGrayForPlaceholdersAndLines]};
             NSAttributedString *credentialAttributedString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@",provider.credentials[0]] attributes:attributes];
             [concatenatedDisplayNameAndTime appendAttributedString:credentialAttributedString];
         }
-        
+
         NSString *dateString = [NSString stringWithFormat:@" ∙ %@", [NSDate stringifiedTime:message.createdAt]];
-        
+
         attributes = @{NSFontAttributeName : [UIFont leoButtonLabelsAndTimeStampsFont], NSForegroundColorAttributeName : [UIColor leoGrayForTimeStamps]};
         NSAttributedString *timestampAttributedString = [[NSAttributedString alloc] initWithString:dateString attributes:attributes];
-        
+
         [concatenatedDisplayNameAndTime appendAttributedString:timestampAttributedString];
     }
-    
+
     return concatenatedDisplayNameAndTime;
-    
+
     return nil;
 }
 
@@ -599,15 +705,15 @@
      *  Override point for customizing cells
      */
     JSQMessagesCollectionViewCell *cell = (JSQMessagesCollectionViewCell *)[super collectionView:collectionView cellForItemAtIndexPath:indexPath];
-    
+
     Message *message = [self conversation].messages[indexPath.item];
-    
+
     if ([self isFamilyMessage:message]) {
         cell.textView.backgroundColor = [UIColor leoBlue];
     } else {
         cell.textView.backgroundColor = [UIColor leoGrayForMessageBubbles];
     }
-    
+
     /**
      *  MARK: This is of course a temporary solution for the first 6 - 12 months until we go back and optimize code for graphics performance.
      */
@@ -615,21 +721,21 @@
     cell.textView.layer.borderWidth = 0.6;
     cell.textView.layer.cornerRadius = 10;
     cell.textView.layer.masksToBounds = YES;
-    
+
     cell.layer.rasterizationScale = [UIScreen mainScreen].scale;
     cell.layer.shouldRasterize = YES;
-    
+
     /**
      *  MARK: Issue #184 - First pass solution without modifying JSQ code itself to deal with hardcoded values. May not work on all devices. Must test.
      */
-    
+
     if ([self isFamilyMessage:message]) {
         cell.messageBubbleTopLabel.textInsets = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 10.0f);
     }
     else {
         cell.messageBubbleTopLabel.textInsets = UIEdgeInsetsMake(0.0f, 40.0f, 0.0f, 0.0f);
     }
-    
+
     /**
      *  Configure almost *anything* on the cell
      *
@@ -643,20 +749,20 @@
      *  DO NOT manipulate cell layout information!
      *  Instead, override the properties you want on `self.collectionView.collectionViewLayout` from `viewDidLoad`
      */
-    
+
     if (!message.isMediaMessage) {
-        
+
         if ([self isFamilyMessage:message]) {
             cell.textView.textColor = [UIColor whiteColor];
         }
         else {
             cell.textView.textColor = [UIColor blackColor];
         }
-        
+
         cell.textView.linkTextAttributes = @{ NSForegroundColorAttributeName : cell.textView.textColor,
                                               NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle | NSUnderlinePatternSolid) };
     }
-    
+
     return cell;
 }
 
@@ -679,26 +785,26 @@
     /**
      *  Each label in a cell has a `height` delegate method that corresponds to its text dataSource method
      */
-    
+
     /**
      *  This logic should be consistent with what you return from `attributedTextForCellTopLabelAtIndexPath:`
      *  The other label height delegate methods should follow similarly
      *
      */
-    
+
     Message *message = [[self conversation].messages objectAtIndex:indexPath.item];
-    
+
     if (indexPath.row == 0) {
         return 40.0f;
     }
-    
+
     Message *priorMessage = [[self conversation].messages objectAtIndex:indexPath.row - 1];
-    
+
     if (!([NSDate daysBetweenDate:message.date andDate:priorMessage.date] == 0)) {
-        
+
         return 40.0f;
     }
-    
+
     return 0.0f;
 }
 
@@ -709,33 +815,31 @@
      *  iOS7-style sender name labels
      */
     Message *currentMessage = [[self conversation].messages objectAtIndex:indexPath.item];
-    
+
     if (indexPath.item - 1 > 0) {
         Message *previousMessage = [[self conversation].messages objectAtIndex:indexPath.item - 1];
         if ([previousMessage.sender.objectID isEqualToString:currentMessage.sender.objectID]) {
             return 0.0f;
         }
     }
-    
+
     return kJSQMessagesCollectionViewCellLabelHeightDefault;
 }
 
 - (CGFloat)collectionView:(JSQMessagesCollectionView *)collectionView
-                   layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout heightForCellBottomLabelAtIndexPath:(NSIndexPath *)indexPath
-{
+                   layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout heightForCellBottomLabelAtIndexPath:(NSIndexPath *)indexPath {
     return 0.0f;
 }
 
 #pragma mark - Responding to collection view tap events
 
 - (void)collectionView:(JSQMessagesCollectionView *)collectionView
-                header:(JSQMessagesLoadEarlierHeaderView *)headerView didTapLoadEarlierMessagesButton:(UIButton *)sender
-{
-    
+                header:(JSQMessagesLoadEarlierHeaderView *)headerView didTapLoadEarlierMessagesButton:(UIButton *)sender {
+
     LEOMessageService *messageService = [[LEOMessageService alloc] init];
-    
+
     [messageService getMessagesForConversation:[self conversation] page:self.nextPage offset:self.offset withCompletion:^void(NSArray * messages) {
-        
+
         /**
          *  Remove the message if there are no more messages to show. Currently, this is suboptimal as it requires the user to press the button an extra time and make an extra API call. But this is a quick and easy first pass option.
          */
@@ -743,9 +847,9 @@
             self.showLoadEarlierMessagesHeader = NO;
             return;
         }
-        
+
         NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
-        
+
         /**
          *  Collect the indexpaths into which we will insert the new messages.
          */
@@ -753,12 +857,12 @@
             NSIndexPath *indexPath = [NSIndexPath indexPathForItem:i inSection:0];
             [indexPaths addObject:indexPath];
         }
-        
+
         /**
          *  Add the messages to the conversation object itself
          */
         [[self conversation] addMessages:messages];
-        
+
         [self collectionView:collectionView avoidFlickerInAnimationWhenInsertingIndexPaths:indexPaths];
     }];
 }
@@ -768,12 +872,12 @@
  *  Using the method as described here to avoid flicker: http://stackoverflow.com/a/26401767/1938725
  */
 - (void)collectionView:(UICollectionView *)collectionView avoidFlickerInAnimationWhenInsertingIndexPaths:(NSArray *)indexPaths {
-    
+
     CGFloat oldOffset = self.collectionView.contentSize.height - self.collectionView.contentOffset.y;
-    
+
     [CATransaction begin];
     [CATransaction setDisableActions:YES];
-    
+
     [self.collectionView performBatchUpdates:^{
         [self.collectionView insertItemsAtIndexPaths:indexPaths];
     } completion:^(BOOL finished) {
@@ -789,13 +893,13 @@
  *  @param completionBlock a block for activity once the message has posted
  */
 - (void)sendMessage:(Message *)message withCompletion:(void (^) (void))completionBlock {
-    
+
     LEOMessageService *messageService = [[LEOMessageService alloc] init];
-    
+
     [messageService createMessage:message forConversation:[self conversation] withCompletion:^(Message * message, NSError * error) {
-        
+
         if (!error) {
-            
+
             if (completionBlock) {
                 completionBlock();
             }
@@ -807,7 +911,7 @@
  *  Remove ourselves as an observer.
  */
 -(void)dealloc {
-    
+
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -816,7 +920,7 @@
  */
 - (void)dismiss {
     [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
-        
+
     }];
 }
 
@@ -836,5 +940,27 @@
     }
     
     return _nextPage;
+}
+
+
+- (id<UIViewControllerAnimatedTransitioning>)
+navigationController:(UINavigationController *)navigationController
+animationControllerForOperation:(UINavigationControllerOperation)operation
+fromViewController:(UIViewController*)fromVC
+toViewController:(UIViewController*)toVC
+{
+    if (operation == UINavigationControllerOperationPush) {
+        
+        LEONavigationControllerPushAnimator *animator = [LEONavigationControllerPushAnimator new];
+        return animator;
+    }
+    
+    if (operation == UINavigationControllerOperationPop) {
+        
+        LEONavigationControllerPopAnimator *animator = [LEONavigationControllerPopAnimator new];
+        return animator;
+    }
+    
+    return nil;
 }
 @end
