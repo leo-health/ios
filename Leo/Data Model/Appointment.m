@@ -41,7 +41,7 @@
 
 - (instancetype)initWithJSONDictionary:(nonnull NSDictionary *)jsonResponse {
     
-    NSDate *date = [NSDate dateFromDateTimeString:[jsonResponse itemForKey:APIParamAppointmentStartDateTime]];
+    NSDate *date = [NSDate leo_dateFromDateTimeString:[jsonResponse itemForKey:APIParamAppointmentStartDateTime]];
     Patient *patient = [[Patient alloc] initWithJSONDictionary:[jsonResponse itemForKey:APIParamUserPatient]];
     Provider *provider = [[Provider alloc] initWithJSONDictionary:[jsonResponse itemForKey:APIParamUserProvider]];
     User *bookedByUser = [[User alloc] initWithJSONDictionary:[jsonResponse itemForKey:APIParamAppointmentBookedBy]];

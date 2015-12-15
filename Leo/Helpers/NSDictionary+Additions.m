@@ -10,7 +10,7 @@
 
 @implementation NSDictionary (Additions)
 
-- (id)itemForKey:(NSString *)key {
+- (id)leo_itemForKey:(NSString *)key {
     
     if ( self[key] == [NSNull null]) {
         return nil;

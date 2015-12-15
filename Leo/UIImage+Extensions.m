@@ -13,7 +13,7 @@
 
 //Sourced: https://coffeeshopped.com/2010/09/iphone-how-to-dynamically-color-a-uiimage
 
-+ (UIImage *)imageNamed:(NSString *)name withColor:(UIColor *)color {
++ (UIImage *)leo_imageNamed:(NSString *)name withColor:(UIColor *)color {
     
     UIImage *img = [UIImage imageNamed:name];
     
@@ -48,7 +48,7 @@
     return coloredImg;
 }
 
-+ (UIImage *)imageWithColor:(UIColor *)color
++ (UIImage *)leo_imageWithColor:(UIColor *)color
 {
     CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
     UIGraphicsBeginImageContext(rect.size);

@@ -48,7 +48,7 @@
     
     for (NSDate *date in [self fetchDaysFromToday:daysFromToday]) {
         
-        NSPredicate *filterByDate = [NSPredicate predicateWithFormat:@"(self.startDateTime >= %@) AND (self.startDateTime <= %@)", date, [date endOfDay]];
+        NSPredicate *filterByDate = [NSPredicate predicateWithFormat:@"(self.startDateTime >= %@) AND (self.startDateTime <= %@)", date, [date leo_endOfDay]];
         NSArray *slotsForDate = [slots filteredArrayUsingPredicate:filterByDate];
         
         NSSortDescriptor *ascending = [NSSortDescriptor sortDescriptorWithKey:@"startDateTime" ascending:YES];

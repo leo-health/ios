@@ -33,7 +33,7 @@
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
     
-    NSDate *startDateTime = [NSDate dateFromDateTimeString:jsonResponse[APIParamSlotStartDateTime]];
+    NSDate *startDateTime = [NSDate leo_dateFromDateTimeString:jsonResponse[APIParamSlotStartDateTime]];
     NSNumber *duration = jsonResponse[APIParamSlotDuration];
     NSString *providerID = [jsonResponse[APIParamUserProviderID] stringValue];
     NSString *practiceID = [jsonResponse[APIParamPracticeID] stringValue];
@@ -44,13 +44,13 @@
 + (NSDictionary *)slotsRequestDictionaryFromPrepAppointment:(PrepAppointment *)prepAppointment {
     
     NSDate *now = [[NSDate date] dateByAddingMinutes:30];
-    NSDate *twelveWeeksFromTheBeginningOfThisWeek = [[[NSDate date] beginningOfWeekForStartOfWeek:1] dateByAddingDays:84];
+    NSDate *twelveWeeksFromTheBeginningOfThisWeek = [[[NSDate date] leo_beginningOfWeekForStartOfWeek:1] dateByAddingDays:84];
     
     NSDictionary *slotRequestParameters = @{
                                  APIParamAppointmentTypeID : prepAppointment.appointmentType.objectID,
                                  APIParamUserProviderID : prepAppointment.provider.objectID,
-                                 APIParamStartDate : [NSDate stringifiedShortDate:now],
-                                 APIParamEndDate: [NSDate stringifiedShortDate:twelveWeeksFromTheBeginningOfThisWeek]
+                                 APIParamStartDate : [NSDate leo_stringifiedShortDate:now],
+                                 APIParamEndDate: [NSDate leo_stringifiedShortDate:twelveWeeksFromTheBeginningOfThisWeek]
                                  };
 
     return slotRequestParameters;

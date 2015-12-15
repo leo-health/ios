@@ -104,7 +104,7 @@ IB_DESIGNABLE
 
 - (void)setupNavigationBar {
     
-    [self.navigationBar setBackgroundImage:[UIImage imageWithColor:[UIColor clearColor]]
+    [self.navigationBar setBackgroundImage:[UIImage leo_imageWithColor:[UIColor clearColor]]
                                 forBarPosition:UIBarPositionAny
                                     barMetrics:UIBarMetricsDefault];
     
@@ -431,7 +431,7 @@ IB_DESIGNABLE
 - (void)updateNavBarShadowForScrollView:(UIScrollView *)scrollView {
     
     if ((scrollView.contentOffset.y + scrollView.contentInset.top + scrollView.contentInset.bottom) > 20) {
-        [self.navigationBar setShadowImage:[UIImage imageWithColor:[UIColor leoOrangeRed]]];
+        [self.navigationBar setShadowImage:[UIImage leo_imageWithColor:[UIColor leoOrangeRed]]];
 
         [UIView animateWithDuration:0.1 animations:^{
             [self layoutIfNeeded];

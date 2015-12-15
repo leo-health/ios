@@ -12,6 +12,6 @@
 
 
 //Ensures that we can never fill a dictionary with NSNull. Always returns an NSString or nil.
-- (id)itemForKey:(NSString *)key;
+- (id)leo_itemForKey:(NSString *)key;
 
 @end

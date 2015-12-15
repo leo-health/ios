@@ -66,11 +66,11 @@ static NSString *const kMembershipTypeIncomplete = @"Incomplete"; //FIXME: This 
 
 - (void)updateWithJSONDictionary:(NSDictionary *)jsonResponse {
 
-    _familyID = [jsonResponse itemForKey:APIParamFamilyID];
-    _primary = [jsonResponse itemForKey:APIParamUserPrimary];
-    _insurancePlan = [jsonResponse itemForKey:APIParamUserInsurancePlan];
-    _phoneNumber = [jsonResponse itemForKey:APIParamPhone];
-    _membershipType = [Guardian membershipTypeFromString:[jsonResponse itemForKey:APIParamUserMembershipType]];
+    _familyID = [jsonResponse leo_itemForKey:APIParamFamilyID];
+    _primary = [jsonResponse leo_itemForKey:APIParamUserPrimary];
+    _insurancePlan = [jsonResponse leo_itemForKey:APIParamUserInsurancePlan];
+    _phoneNumber = [jsonResponse leo_itemForKey:APIParamPhone];
+    _membershipType = [Guardian membershipTypeFromString:[jsonResponse leo_itemForKey:APIParamUserMembershipType]];
 
     //Cannot call notification re: membershiptype changing because object hasn't been fully formed. Must do so either via alternative pattern or via class calling this once creation is complete. For now we will do the latter. Code smell should be reviewed.
 }

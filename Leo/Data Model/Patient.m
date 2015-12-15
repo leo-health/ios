@@ -44,7 +44,7 @@
 
     if (self) {
         _familyID = jsonResponse[APIParamFamilyID]; //FIXME: Update with constant.
-        _dob = [NSDate dateFromDashedDateString:jsonResponse[APIParamUserBirthDate]];
+        _dob = [NSDate leo_dateFromDashedDateString:jsonResponse[APIParamUserBirthDate]];
         _gender = jsonResponse[APIParamUserSex];
         _status = jsonResponse[APIParamUserStatus];
     }
@@ -57,7 +57,7 @@
     NSMutableDictionary *userDictionary = [[super dictionaryFromUser:patient] mutableCopy];
 
     userDictionary[APIParamFamilyID] = patient.familyID;
-    userDictionary[APIParamUserBirthDate] = [NSDate stringifiedDashedShortDate:patient.dob];
+    userDictionary[APIParamUserBirthDate] = [NSDate leo_stringifiedDashedShortDate:patient.dob];
     userDictionary[APIParamUserSex] = patient.gender;
     userDictionary[APIParamUserStatus] = patient.status;
 

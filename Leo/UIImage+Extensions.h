@@ -10,7 +10,7 @@
 
 @interface UIImage (Extensions)
 
-+ (UIImage *)imageNamed:(NSString *)name withColor:(UIColor *)color;
-+ (UIImage *)imageWithColor:(UIColor *)color;
++ (UIImage *)leo_imageNamed:(NSString *)name withColor:(UIColor *)color;
++ (UIImage *)leo_imageWithColor:(UIColor *)color;
 
 @end

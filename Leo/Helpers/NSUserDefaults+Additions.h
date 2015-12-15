@@ -10,16 +10,16 @@
 
 @interface NSUserDefaults (Additions)
 
-+ (void)loadDefaultsWithName:(NSString *)name;
-+ (void)loadDefaultsWithDictionary:(NSDictionary *)dictionary;
++ (void)leo_loadDefaultsWithName:(NSString *)name;
++ (void)leo_loadDefaultsWithDictionary:(NSDictionary *)dictionary;
 
-+ (void)removeAllDefaults;
++ (void)leo_removeAllDefaults;
 
-+ (NSString *)stringForKey:(NSString *)defaultName;
-+ (void)setString:(NSString *)value forKey:(NSString *)defaultName;
++ (NSString *)leo_stringForKey:(NSString *)defaultName;
++ (void)leo_setString:(NSString *)value forKey:(NSString *)defaultName;
 
-+ (NSInteger)integerForKey:(NSString *)defaultName;
-+ (CGFloat)floatForKey:(NSString *)defaultName;
-+ (BOOL)boolForKey:(NSString *)defaultName;
++ (NSInteger)leo_integerForKey:(NSString *)defaultName;
++ (CGFloat)leo_floatForKey:(NSString *)defaultName;
++ (BOOL)leo_boolForKey:(NSString *)defaultName;
 
 @end

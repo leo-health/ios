@@ -177,7 +177,7 @@ static NSString *const dateReuseIdentifier = @"DateCell";
 - (CGPoint) offsetForWeekOfStartingDate {
     
     NSDate *firstDate = [self slotDateKeys].firstObject;
-    NSUInteger weeksFromFirstWeek = floor([NSDate daysBetweenDate:firstDate andDate:self.chosenDate]/7);
+    NSUInteger weeksFromFirstWeek = floor([NSDate leo_daysBetweenDate:firstDate andDate:self.chosenDate]/7);
     
     return CGPointMake(weeksFromFirstWeek * self.collectionView.frame.size.width, 0);
 }

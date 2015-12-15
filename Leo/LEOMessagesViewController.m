@@ -569,7 +569,7 @@
 
         NSDictionary *attributes = @{NSFontAttributeName : [UIFont leoButtonLabelsAndTimeStampsFont], NSForegroundColorAttributeName : [UIColor leoGrayForTimeStamps]};
 
-        NSString *basicDateString = [NSString stringWithFormat:@"  %@  ", [NSDate stringifiedDateWithDot:message.createdAt]];
+        NSString *basicDateString = [NSString stringWithFormat:@"  %@  ", [NSDate leo_stringifiedDateWithDot:message.createdAt]];
         NSAttributedString *dateString = [[NSAttributedString alloc] initWithString:basicDateString attributes:attributes];
 
         attributes = @{NSForegroundColorAttributeName : [UIColor whiteColor], NSStrikethroughColorAttributeName: [UIColor leoGrayForTimeStamps], NSStrikethroughStyleAttributeName : [NSNumber numberWithInteger:NSUnderlinePatternSolid | NSUnderlineStyleSingle]};
@@ -643,7 +643,7 @@
 
     if ([self isFamilyMessage:message]) {
 
-        NSString *dateString = [NSString stringWithFormat:@"%@ ∙ ", [NSDate stringifiedTime:message.createdAt]];
+        NSString *dateString = [NSString stringWithFormat:@"%@ ∙ ", [NSDate leo_stringifiedTime:message.createdAt]];
 
 
         NSDictionary *attributes = @{NSFontAttributeName : [UIFont leoButtonLabelsAndTimeStampsFont], NSForegroundColorAttributeName : [UIColor leoGrayForTimeStamps]};
@@ -677,7 +677,7 @@
             [concatenatedDisplayNameAndTime appendAttributedString:credentialAttributedString];
         }
 
-        NSString *dateString = [NSString stringWithFormat:@" ∙ %@", [NSDate stringifiedTime:message.createdAt]];
+        NSString *dateString = [NSString stringWithFormat:@" ∙ %@", [NSDate leo_stringifiedTime:message.createdAt]];
 
         attributes = @{NSFontAttributeName : [UIFont leoButtonLabelsAndTimeStampsFont], NSForegroundColorAttributeName : [UIColor leoGrayForTimeStamps]};
         NSAttributedString *timestampAttributedString = [[NSAttributedString alloc] initWithString:dateString attributes:attributes];
@@ -795,7 +795,7 @@
 
     Message *priorMessage = [[self conversation].messages objectAtIndex:indexPath.row - 1];
 
-    if (!([NSDate daysBetweenDate:message.date andDate:priorMessage.date] == 0)) {
+    if (!([NSDate leo_daysBetweenDate:message.date andDate:priorMessage.date] == 0)) {
 
         return 40.0f;
     }
