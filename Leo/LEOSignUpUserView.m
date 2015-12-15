@@ -149,10 +149,10 @@ IB_DESIGNABLE
 
     loadedSubview.translatesAutoresizingMaskIntoConstraints = NO;
 
-    [self addConstraint:[self pin:loadedSubview attribute:NSLayoutAttributeTop]];
-    [self addConstraint:[self pin:loadedSubview attribute:NSLayoutAttributeLeft]];
-    [self addConstraint:[self pin:loadedSubview attribute:NSLayoutAttributeBottom]];
-    [self addConstraint:[self pin:loadedSubview attribute:NSLayoutAttributeRight]];
+    [self addConstraint:[self leo_pin:loadedSubview attribute:NSLayoutAttributeTop]];
+    [self addConstraint:[self leo_pin:loadedSubview attribute:NSLayoutAttributeLeft]];
+    [self addConstraint:[self leo_pin:loadedSubview attribute:NSLayoutAttributeBottom]];
+    [self addConstraint:[self leo_pin:loadedSubview attribute:NSLayoutAttributeRight]];
 
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeading multiplier:1.0 constant:30]];
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-30]];

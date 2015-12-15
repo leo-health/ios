@@ -219,7 +219,7 @@
 
     insurancePlanVC.configureCellBlock = ^(InsurancePlanCell *cell, InsurancePlan *plan) {
 
-        cell.selectedColor = [UIColor leoOrangeRed];
+        cell.selectedColor = [UIColor leo_orangeRed];
 
         shouldSelect = NO;
 
@@ -287,11 +287,11 @@
 
     if (shouldFade) {
 
-        [self fadeAnimation:fadeAnimation fromColor:[UIColor clearColor] toColor:[UIColor leoOrangeRed] withStrokeColor:[UIColor leoOrangeRed]];
+        [self fadeAnimation:fadeAnimation fromColor:[UIColor clearColor] toColor:[UIColor leo_orangeRed] withStrokeColor:[UIColor leo_orangeRed]];
 
     } else {
 
-        [self fadeAnimation:fadeAnimation fromColor:[UIColor clearColor] toColor:[UIColor leoOrangeRed] withStrokeColor:[UIColor leoOrangeRed]];
+        [self fadeAnimation:fadeAnimation fromColor:[UIColor clearColor] toColor:[UIColor leo_orangeRed] withStrokeColor:[UIColor leo_orangeRed]];
     }
 
     [self.pathLayer addAnimation:fadeAnimation forKey:@"breakerFade"];

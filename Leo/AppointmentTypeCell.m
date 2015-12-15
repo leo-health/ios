@@ -54,10 +54,10 @@
 
 - (void)formatCell {
     
-    self.nameLabel.font = [UIFont leoMenuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
-    self.nameLabel.textColor = [UIColor leoGrayStandard];
-    self.descriptionLabel.font = [UIFont leoStandardFont];
-    self.descriptionLabel.textColor = [UIColor leoGrayStandard];
+    self.nameLabel.font = [UIFont leo_menuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
+    self.nameLabel.textColor = [UIColor leo_grayStandard];
+    self.descriptionLabel.font = [UIFont leo_standardFont];
+    self.descriptionLabel.textColor = [UIColor leo_grayStandard];
 }
 
 @end

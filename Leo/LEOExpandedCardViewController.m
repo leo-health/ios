@@ -88,7 +88,7 @@
     [self.button setTitle:self.card.stringRepresentationOfActionsAvailableForState[0]
                  forState:UIControlStateNormal];
     
-    self.button.titleLabel.font = [UIFont leoButtonLabelsAndTimeStampsFont];
+    self.button.titleLabel.font = [UIFont leo_buttonLabelsAndTimeStampsFont];
     
     self.button.backgroundColor = self.card.tintColor;
     
@@ -119,7 +119,7 @@
 
 - (void)setupNavBar {
     
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:self.card.tintColor]
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage leo_imageWithColor:self.card.tintColor]
                                                   forBarMetrics:UIBarMetricsDefault];
     
     self.navigationController.navigationBar.shadowImage = [UIImage new];
@@ -139,7 +139,7 @@
                    forState:UIControlStateNormal];
     [dismissButton sizeToFit];
     
-    dismissButton.tintColor = [UIColor leoWhite];
+    dismissButton.tintColor = [UIColor leo_white];
     
     UIBarButtonItem *dismissBBI = [[UIBarButtonItem alloc] initWithCustomView:dismissButton];
     
@@ -148,8 +148,8 @@
     UILabel *navBarTitleLabel = [[UILabel alloc] init];
     
     navBarTitleLabel.text = self.card.title;
-    navBarTitleLabel.textColor = [UIColor leoWhite];
-    navBarTitleLabel.font = [UIFont leoMenuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
+    navBarTitleLabel.textColor = [UIColor leo_white];
+    navBarTitleLabel.font = [UIFont leo_menuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
     
     [navBarTitleLabel sizeToFit]; //MARK: not sure this is useful anymore now that we have added autolayout.
     
@@ -157,8 +157,8 @@
     self.navigationItem.titleView.alpha = 0;
     
     self.expandedTitleLabel.text = self.expandedFullTitle;
-    self.expandedTitleLabel.font = [UIFont leoExpandedCardHeaderFont];
-    self.expandedTitleLabel.textColor = [UIColor leoWhite];
+    self.expandedTitleLabel.font = [UIFont leo_expandedCardHeaderFont];
+    self.expandedTitleLabel.textColor = [UIColor leo_white];
     self.expandedTitleLabel.numberOfLines = 0;
     self.expandedTitleLabel.lineBreakMode = NSLineBreakByWordWrapping;
 }
@@ -381,7 +381,7 @@
         [self.buttonLayer removeFromSuperlayer];
         self.button.enabled = YES;
     } else {
-        [self.button setBackgroundColor:[UIColor leoGrayForMessageBubbles]];
+        [self.button setBackgroundColor:[UIColor leo_grayForMessageBubbles]];
         [self.button.layer addSublayer:self.buttonLayer];
         self.button.enabled = NO;
     }
@@ -393,7 +393,7 @@
         
         _buttonLayer = [CALayer layer];
         _buttonLayer.frame = CGRectMake(0.0f, 0.0f, self.button.frame.size.width, 1.0);
-        _buttonLayer.borderColor = [UIColor leoGrayForPlaceholdersAndLines].CGColor;
+        _buttonLayer.borderColor = [UIColor leo_grayForPlaceholdersAndLines].CGColor;
         _buttonLayer.borderWidth = 1.0;
     }
     

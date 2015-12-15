@@ -40,7 +40,7 @@
 - (void)setUnselectedFormat {
     
     [self.bottomBorder removeFromSuperlayer];
-    [self updateLabel:self.timeLabel withColor:[UIColor leoGrayStandard]];
+    [self updateLabel:self.timeLabel withColor:[UIColor leo_grayStandard]];
     self.checkImageView.hidden = YES;
 }
 
@@ -48,7 +48,7 @@
     
     [self.layer addSublayer:self.bottomBorder];
     
-    [self updateLabel:self.timeLabel withColor:[UIColor leoGreen]];
+    [self updateLabel:self.timeLabel withColor:[UIColor leo_green]];
     self.checkImageView.hidden = NO;
 }
 
@@ -58,7 +58,7 @@
         
         _bottomBorder = [CALayer layer];
         _bottomBorder.frame = CGRectMake(0.0f, self.frame.size.height - kSelectionLineHeight, self.frame.size.width, kSelectionLineHeight);
-        _bottomBorder.backgroundColor = [UIColor leoGreen].CGColor;
+        _bottomBorder.backgroundColor = [UIColor leo_green].CGColor;
     }
     
     return _bottomBorder;

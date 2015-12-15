@@ -12,19 +12,19 @@
 
 
 //TODO: Placeholders
-+ (UIColor *) leoOrangeRed;
-+ (UIColor *) leoBlue;
-+ (UIColor *) leoGreen;
-+ (UIColor *) leoPurple;
-+ (UIColor *) leoPink;
-+ (UIColor *) leoRedBadge;
-+ (UIColor *) leoWhite;
-+ (UIColor *) leoLightBlue;
++ (UIColor *) leo_orangeRed;
++ (UIColor *) leo_blue;
++ (UIColor *) leo_green;
++ (UIColor *) leo_purple;
++ (UIColor *) leo_pink;
++ (UIColor *) leo_redBadge;
++ (UIColor *) leo_white;
++ (UIColor *) leo_lightBlue;
 
-+ (UIColor *)leoGrayStandard;
-+ (UIColor *)leoGrayForTitlesAndHeadings;
-+ (UIColor *)leoGrayForPlaceholdersAndLines;
-+ (UIColor *)leoGrayForTimeStamps;
-+ (UIColor *)leoGrayForMessageBubbles;
++ (UIColor *)leo_grayStandard;
++ (UIColor *)leo_grayForTitlesAndHeadings;
++ (UIColor *)leo_grayForPlaceholdersAndLines;
++ (UIColor *)leo_grayForTimeStamps;
++ (UIColor *)leo_grayForMessageBubbles;
 
 @end

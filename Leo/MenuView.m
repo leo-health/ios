@@ -69,8 +69,8 @@
     _scheduleAVisitLabelButton = scheduleAVisitLabelButton;
     
     [_scheduleAVisitLabelButton setImage:[UIImage imageNamed:@"Menu-Scheduling"] forState:UIControlStateNormal];
-    [_scheduleAVisitLabelButton setTitleColor:[UIColor leoGrayForTitlesAndHeadings] forState:UIControlStateNormal];
-    _scheduleAVisitLabelButton.tintColor = [UIColor leoGreen];
+    [_scheduleAVisitLabelButton setTitleColor:[UIColor leo_grayForTitlesAndHeadings] forState:UIControlStateNormal];
+    _scheduleAVisitLabelButton.tintColor = [UIColor leo_green];
 }
 
 - (void)setSubmitAFormLabelButton:(UIButton *)submitAFormLabelButton {
@@ -78,8 +78,8 @@
     _submitAFormLabelButton = submitAFormLabelButton;
     
     [_submitAFormLabelButton setImage:[UIImage imageNamed:@"Menu-Forms"] forState:UIControlStateNormal];
-    [_submitAFormLabelButton setTitleColor:[UIColor leoGrayForTitlesAndHeadings] forState:UIControlStateNormal];
-    _submitAFormLabelButton.tintColor = [UIColor leoPurple];
+    [_submitAFormLabelButton setTitleColor:[UIColor leo_grayForTitlesAndHeadings] forState:UIControlStateNormal];
+    _submitAFormLabelButton.tintColor = [UIColor leo_purple];
 }
 
 - (void)setContactLeoLabelButton:(UIButton *)contactLeoLabelButton {
@@ -87,8 +87,8 @@
     _contactLeoLabelButton = contactLeoLabelButton;
     
     [_contactLeoLabelButton setImage:[UIImage imageNamed:@"Menu-Chat"] forState:UIControlStateNormal];
-    [_contactLeoLabelButton setTitleColor:[UIColor leoGrayForTitlesAndHeadings] forState:UIControlStateNormal];
-    _contactLeoLabelButton.tintColor = [UIColor leoBlue];
+    [_contactLeoLabelButton setTitleColor:[UIColor leo_grayForTitlesAndHeadings] forState:UIControlStateNormal];
+    _contactLeoLabelButton.tintColor = [UIColor leo_blue];
 }
 
 - (void)setSettingsLabelButton:(UIButton *)settingsLabelButton {
@@ -96,8 +96,8 @@
     _settingsLabelButton = settingsLabelButton;
     
     [_settingsLabelButton setImage:[UIImage imageNamed:@"Menu-Settings"] forState:UIControlStateNormal];
-    [_settingsLabelButton setTitleColor:[UIColor leoGrayForTitlesAndHeadings] forState:UIControlStateNormal];
-    _settingsLabelButton.tintColor = [UIColor leoGrayForTitlesAndHeadings];
+    [_settingsLabelButton setTitleColor:[UIColor leo_grayForTitlesAndHeadings] forState:UIControlStateNormal];
+    _settingsLabelButton.tintColor = [UIColor leo_grayForTitlesAndHeadings];
 }
 
 

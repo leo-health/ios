@@ -64,7 +64,7 @@ static NSString *const dateReuseIdentifier = @"DateCell";
     
     self.collectionView.dataSource = self.dataSource;
     self.collectionView.delegate = self;
-    self.collectionView.backgroundColor = [UIColor leoGreen];
+    self.collectionView.backgroundColor = [UIColor leo_green];
     self.collectionView.pagingEnabled = YES;
     self.collectionView.showsHorizontalScrollIndicator = NO;
     self.collectionView.showsVerticalScrollIndicator = NO;
@@ -191,7 +191,7 @@ static NSString *const dateReuseIdentifier = @"DateCell";
  */
 - (NSIndexPath *)indexPathOfDate:(NSDate *)date {
     
-    NSInteger daysFromBeginningOfDateArray = [[date beginningOfDay] daysFrom:[self slotDateKeys].firstObject];
+    NSInteger daysFromBeginningOfDateArray = [[date leo_beginningOfDay] daysFrom:[self slotDateKeys].firstObject];
     return [NSIndexPath indexPathForRow:daysFromBeginningOfDateArray inSection:0];
 }
 

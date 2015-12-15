@@ -17,63 +17,63 @@
  *
  *  @return UIFont
  */
-+ (UIFont *)leoExpandedCardHeaderFont;
++ (UIFont *)leo_expandedCardHeaderFont;
 
 /**
  *  AvenirNext-Regular, Size 15
  *
  *  @return UIFont
  */
-+ (UIFont *)leoStandardFont;
++ (UIFont *)leo_standardFont;
 
 /**
  *  AvenirNext-Medium, Size 12
  *
  *  @return UIFont
  */
-+ (UIFont *)leoButtonLabelsAndTimeStampsFont;
++ (UIFont *)leo_buttonLabelsAndTimeStampsFont;
 
 /**
  *  AvenirNext-Medium, Size 15
  *
  *  @return UIFont
  */
-+ (UIFont *)leoMenuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont;
++ (UIFont *)leo_menuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont;
 
 /**
  *  AvenirNext-Medium, Size 19
  *
  *  @return UIFont
  */
-+ (UIFont *)leoCollapsedCardTitlesFont;
++ (UIFont *)leo_collapsedCardTitlesFont;
 
 /**
  *  AvenirNext-Bold, Size 12
  *
  *  @return UIFont
  */
-+ (UIFont *)leoFieldAndUserLabelsAndSecondaryButtonsFont;
++ (UIFont *)leo_fieldAndUserLabelsAndSecondaryButtonsFont;
 
 /**
  *  AvenirNext-DemiBold, Size 17
  *
  *  @return UIFont
  */
-+ (UIFont *)leoAppointmentSlotsAndDateFields;
++ (UIFont *)leo_appointmentSlotsAndDateFields;
 
 /**
  *  AvenirNextCondensed-Regular, Size 12
  *
  *  @return UIFont
  */
-+ (UIFont *)leoAppointmentDayLabelAndTimePeriod;
++ (UIFont *)leo_appointmentDayLabelAndTimePeriod;
 
 /**
  *  AvenirNextCondensed-Regular, Size 10
  *
  *  @return UIFont
  */
-+ (UIFont *)leoChatBubbleInitials;
++ (UIFont *)leo_chatBubbleInitials;
 
 
 @end

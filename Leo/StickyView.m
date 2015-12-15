@@ -86,8 +86,8 @@ IB_DESIGNABLE
 
 - (void)setupExpandedTitleLabel {
     
-    self.expandedTitleLabel.font = [UIFont leoExpandedCardHeaderFont];
-    self.expandedTitleLabel.textColor = [UIColor leoGrayForTitlesAndHeadings];
+    self.expandedTitleLabel.font = [UIFont leo_expandedCardHeaderFont];
+    self.expandedTitleLabel.textColor = [UIColor leo_grayForTitlesAndHeadings];
     self.expandedTitleLabel.numberOfLines = 0;
     self.expandedTitleLabel.lineBreakMode = NSLineBreakByWordWrapping;
     self.expandedTitleLabel.text = [self.delegate expandedTitleViewContent];
@@ -95,8 +95,8 @@ IB_DESIGNABLE
 
 - (void)setupCollapsedTitleLabel {
     
-    self.collapsedTitleLabel.font = [UIFont leoMenuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
-    self.collapsedTitleLabel.textColor = [UIColor leoGrayForTitlesAndHeadings];
+    self.collapsedTitleLabel.font = [UIFont leo_menuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
+    self.collapsedTitleLabel.textColor = [UIColor leo_grayForTitlesAndHeadings];
     self.collapsedTitleLabel.text = [self.delegate collapsedTitleViewContent];
     self.collapsedTitleLabel.textAlignment = NSTextAlignmentCenter;
     [self.collapsedTitleLabel sizeToFit];
@@ -120,7 +120,7 @@ IB_DESIGNABLE
     
     [backButton setImage:[UIImage imageNamed:@"Icon-BackArrow"] forState:UIControlStateNormal];
     [backButton sizeToFit];
-//    [backButton setTintColor:[UIColor leoOrangeRed]];
+//    [backButton setTintColor:[UIColor leo_orangeRed]];
     
     UIBarButtonItem *backBBI = [[UIBarButtonItem alloc] initWithCustomView:backButton];
     
@@ -134,7 +134,7 @@ IB_DESIGNABLE
     self.bodyView = [self.delegate stickyViewBody];
     self.associatedViewController = [self.delegate associatedViewController];
     
-    [self.continueButton setBackgroundImage:[UIImage imageWithColor:self.tintColor] forState:UIControlStateNormal];
+    [self.continueButton setBackgroundImage:[UIImage leo_imageWithColor:self.tintColor] forState:UIControlStateNormal];
     self.continueButton.layer.borderColor = self.tintColor.CGColor;
 
     [self formatTitles];
@@ -222,9 +222,9 @@ IB_DESIGNABLE
         self.continueButton.layer.borderColor = self.tintColor.CGColor;
         self.continueButton.layer.borderWidth = 1.0;
         
-        self.continueButton.titleLabel.font = [UIFont leoButtonLabelsAndTimeStampsFont];
-        [self.continueButton setTitleColor:[UIColor leoWhite] forState:UIControlStateNormal];
-        [self.continueButton setBackgroundImage:[UIImage imageWithColor:self.tintColor] forState:UIControlStateNormal];
+        self.continueButton.titleLabel.font = [UIFont leo_buttonLabelsAndTimeStampsFont];
+        [self.continueButton setTitleColor:[UIColor leo_white] forState:UIControlStateNormal];
+        [self.continueButton setBackgroundImage:[UIImage leo_imageWithColor:self.tintColor] forState:UIControlStateNormal];
     }
     
     [self.continueButton addTarget:self.associatedViewController action:@selector(continueTapped:) forControlEvents:UIControlEventTouchUpInside];
@@ -383,7 +383,7 @@ IB_DESIGNABLE
         self.pathLayer = [CAShapeLayer layer];
         self.pathLayer.frame = self.bounds;
         self.pathLayer.path = path.CGPath;
-        self.pathLayer.strokeColor = [UIColor leoWhite].CGColor;
+        self.pathLayer.strokeColor = [UIColor leo_white].CGColor;
         self.pathLayer.lineWidth = 1.0f;
         self.pathLayer.lineJoin = kCALineJoinBevel;
         
@@ -391,20 +391,20 @@ IB_DESIGNABLE
         
         CABasicAnimation *fadeAnimation = [CABasicAnimation animationWithKeyPath:@"breakerFade"];
         fadeAnimation.duration = 0.3;
-        fadeAnimation.fromValue = (id)[UIColor leoWhite].CGColor;
-        fadeAnimation.toValue = (id)[UIColor leoOrangeRed].CGColor;
+        fadeAnimation.fromValue = (id)[UIColor leo_white].CGColor;
+        fadeAnimation.toValue = (id)[UIColor leo_orangeRed].CGColor;
 
-        self.pathLayer.strokeColor = [UIColor leoOrangeRed].CGColor;
+        self.pathLayer.strokeColor = [UIColor leo_orangeRed].CGColor;
         [self.pathLayer addAnimation:fadeAnimation forKey:@"breakerFade"];
         
     } else {
         
         CABasicAnimation *fadeAnimation = [CABasicAnimation animationWithKeyPath:@"breakerFade"];
         fadeAnimation.duration = 0.3;
-        fadeAnimation.fromValue = (id)[UIColor leoOrangeRed].CGColor;
-        fadeAnimation.toValue = (id)[UIColor leoWhite].CGColor;
+        fadeAnimation.fromValue = (id)[UIColor leo_orangeRed].CGColor;
+        fadeAnimation.toValue = (id)[UIColor leo_white].CGColor;
         
-        self.pathLayer.strokeColor = [UIColor leoWhite].CGColor;
+        self.pathLayer.strokeColor = [UIColor leo_white].CGColor;
         [self.pathLayer addAnimation:fadeAnimation forKey:@"breakerFade"];
     }
 
@@ -431,7 +431,7 @@ IB_DESIGNABLE
 - (void)updateNavBarShadowForScrollView:(UIScrollView *)scrollView {
     
     if ((scrollView.contentOffset.y + scrollView.contentInset.top + scrollView.contentInset.bottom) > 20) {
-        [self.navigationBar setShadowImage:[UIImage leo_imageWithColor:[UIColor leoOrangeRed]]];
+        [self.navigationBar setShadowImage:[UIImage leo_imageWithColor:[UIColor leo_orangeRed]]];
 
         [UIView animateWithDuration:0.1 animations:^{
             [self layoutIfNeeded];
@@ -446,7 +446,7 @@ IB_DESIGNABLE
 }
 
 //-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-//    [self.navigationBar setShadowImage:[UIImage imageWithColor:[UIColor leoOrangeRed]]];
+//    [self.navigationBar setShadowImage:[UIImage imageWithColor:[UIColor leo_orangeRed]]];
 //
 //    [UIView animateWithDuration:0.1 animations:^{
 //        [self layoutIfNeeded];

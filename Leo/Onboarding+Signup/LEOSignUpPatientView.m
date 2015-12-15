@@ -101,8 +101,8 @@ IB_DESIGNABLE
 
     _avatarValidationLabel = avatarValidationLabel;
 
-    _avatarValidationLabel.font = [UIFont leoMenuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
-    _avatarValidationLabel.textColor = [UIColor leoOrangeRed];
+    _avatarValidationLabel.font = [UIFont leo_menuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
+    _avatarValidationLabel.textColor = [UIColor leo_orangeRed];
     _avatarValidationLabel.text = @"";
 }
 
@@ -136,7 +136,7 @@ IB_DESIGNABLE
     NSString *firstName = self.firstNamePromptView.textField.text;
     NSString *lastName = self.lastNamePromptView.textField.text;
     NSString *gender = ![self.genderPromptView.textField.text isEqualToString:@""] ? [self.genderPromptView.textField.text substringToIndex:1] : nil; //FIXME: This should not be done here. Bad practice.po
-    NSDate *dob =  ![self.birthDatePromptView.textField.text isEqualToString:@""] ? [NSDate dateFromShortDateString:self.birthDatePromptView.textField.text] : nil; //Refactor out of this method.
+    NSDate *dob =  ![self.birthDatePromptView.textField.text isEqualToString:@""] ? [NSDate leo_dateFromShortDateString:self.birthDatePromptView.textField.text] : nil; //Refactor out of this method.
     UIImage *avatar = self.avatarButton.imageView.image;
 
     _patient = [[Patient alloc] initWithFirstName:firstName lastName:lastName avatar:avatar dob:dob gender:gender];
@@ -148,7 +148,7 @@ IB_DESIGNABLE
 
     _patient = patient;
 
-    self.birthDatePromptView.textField.text = [NSDate stringifiedShortDate:_patient.dob]; //TODO: Refactor
+    self.birthDatePromptView.textField.text = [NSDate leo_stringifiedShortDate:_patient.dob]; //TODO: Refactor
     self.lastNamePromptView.textField.text = _patient.lastName;
     self.firstNamePromptView.textField.text = _patient.firstName;
     self.genderPromptView.textField.text = _patient.genderDisplayName;
@@ -161,7 +161,7 @@ IB_DESIGNABLE
 
 - (void)updateAvatarImage:(UIImage *)avatarImage {
 
-    UIImage *circularAvatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:avatarImage withDiameter:67 borderColor:[UIColor leoOrangeRed] borderWidth:1.0];
+    UIImage *circularAvatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:avatarImage withDiameter:67 borderColor:[UIColor leo_orangeRed] borderWidth:1.0];
     [self.avatarButton setImage:circularAvatarImage forState:UIControlStateNormal];
 
     self.avatarValidationLabel.text = @"";
@@ -198,7 +198,7 @@ IB_DESIGNABLE
 }
 
 - (NSDate *)dateFromDateTextField:(UITextField *)textField {
-    return ![textField.text isEqualToString:@""] ? [NSDate dateFromShortDateString:textField.text] : nil;
+    return ![textField.text isEqualToString:@""] ? [NSDate leo_dateFromShortDateString:textField.text] : nil;
 }
 
 #pragma mark - <LEOPromptViewDelegate>
@@ -226,18 +226,18 @@ IB_DESIGNABLE
     NSDate *minDate = [[NSDate date] dateBySubtractingYears:26];
     NSDate *maxDate = [NSDate date];
 
-    NSDate *selectedDate = [NSDate dateFromShortDateString:self.birthDatePromptView.textField.text] ?: [NSDate date];
+    NSDate *selectedDate = [NSDate leo_dateFromShortDateString:self.birthDatePromptView.textField.text] ?: [NSDate date];
 
     AbstractActionSheetPicker *actionSheetPicker = [[ActionSheetDatePicker alloc] initWithTitle:@"" datePickerMode:UIDatePickerModeDate selectedDate:selectedDate
                                                                                     minimumDate:minDate
                                                                                     maximumDate:maxDate
                                                                                          target:self action:@selector(dateWasSelected:element:) origin:sender];
-    actionSheetPicker.pickerBackgroundColor = [UIColor leoWhite];
+    actionSheetPicker.pickerBackgroundColor = [UIColor leo_white];
 
     UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [doneButton setTitleColor:[UIColor leoOrangeRed] forState:UIControlStateNormal];
+    [doneButton setTitleColor:[UIColor leo_orangeRed] forState:UIControlStateNormal];
     [doneButton setTitle:@"Done" forState:UIControlStateNormal];
-    doneButton.titleLabel.font = [UIFont leoStandardFont];
+    doneButton.titleLabel.font = [UIFont leo_standardFont];
     [doneButton sizeToFit];
 
     UIBarButtonItem *doneBBI = [[UIBarButtonItem alloc] initWithCustomView:doneButton];
@@ -260,16 +260,16 @@ IB_DESIGNABLE
 
     AbstractActionSheetPicker *picker = [[ActionSheetStringPicker alloc] initWithTitle:nil rows:@[@"Female",@"Male"] initialSelection:selectedIndex target:self successAction:@selector(genderWasSelected:element:) cancelAction:nil origin:sender];
     picker.hideCancel = YES;
-    picker.pickerBackgroundColor = [UIColor leoWhite];
+    picker.pickerBackgroundColor = [UIColor leo_white];
 
-    picker.pickerTextAttributes = @{NSForegroundColorAttributeName: [UIColor leoOrangeRed],
-                                    NSFontAttributeName:[UIFont leoStandardFont],
-                                    NSBackgroundColorAttributeName: [UIColor leoWhite]};
+    picker.pickerTextAttributes = @{NSForegroundColorAttributeName: [UIColor leo_orangeRed],
+                                    NSFontAttributeName:[UIFont leo_standardFont],
+                                    NSBackgroundColorAttributeName: [UIColor leo_white]};
 
     UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [doneButton setTitleColor:[UIColor leoOrangeRed] forState:UIControlStateNormal];
+    [doneButton setTitleColor:[UIColor leo_orangeRed] forState:UIControlStateNormal];
     [doneButton setTitle:@"Done" forState:UIControlStateNormal];
-    doneButton.titleLabel.font = [UIFont leoStandardFont];
+    doneButton.titleLabel.font = [UIFont leo_standardFont];
     [doneButton sizeToFit];
     UIBarButtonItem *doneBBI = [[UIBarButtonItem alloc] initWithCustomView:doneButton];
 
@@ -279,7 +279,7 @@ IB_DESIGNABLE
 
 - (void)dateWasSelected:(NSDate *)selectedDate element:(id)element {
 
-    self.birthDatePromptView.textField.text = [NSDate stringifiedShortDate:selectedDate];
+    self.birthDatePromptView.textField.text = [NSDate leo_stringifiedShortDate:selectedDate];
     self.birthDatePromptView.textField.valid = YES;
     self.patient.dob = selectedDate;
 }
@@ -304,10 +304,10 @@ IB_DESIGNABLE
 
     loadedSubview.translatesAutoresizingMaskIntoConstraints = NO;
 
-    [self addConstraint:[self pin:loadedSubview attribute:NSLayoutAttributeTop]];
-    [self addConstraint:[self pin:loadedSubview attribute:NSLayoutAttributeLeft]];
-    [self addConstraint:[self pin:loadedSubview attribute:NSLayoutAttributeBottom]];
-    [self addConstraint:[self pin:loadedSubview attribute:NSLayoutAttributeRight]];
+    [self addConstraint:[self leo_pin:loadedSubview attribute:NSLayoutAttributeTop]];
+    [self addConstraint:[self leo_pin:loadedSubview attribute:NSLayoutAttributeLeft]];
+    [self addConstraint:[self leo_pin:loadedSubview attribute:NSLayoutAttributeBottom]];
+    [self addConstraint:[self leo_pin:loadedSubview attribute:NSLayoutAttributeRight]];
 
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeading multiplier:1.0 constant:30]];
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-30]];

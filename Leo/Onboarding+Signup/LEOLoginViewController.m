@@ -15,7 +15,6 @@
 #import "LEOUserService.h"
 #import "LEOValidationsHelper.h"
 #import "LEOForgotPasswordViewController.h"
-#import "UIViewController+Extensions.h"
 #import "LEOLoginView.h"
 #import "LEOHelperService.h"
 #import "LEOFeedTVC.h"
@@ -55,7 +54,7 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
     
     if (!_loginView) {
         _loginView = [[LEOLoginView alloc] init];
-        _loginView.tintColor = [UIColor leoOrangeRed];
+        _loginView.tintColor = [UIColor leo_orangeRed];
     }
     
     return _loginView;

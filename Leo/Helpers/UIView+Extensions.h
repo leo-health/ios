@@ -10,7 +10,7 @@
 
 @interface UIView (Extensions)
 
-- (NSLayoutConstraint *)pin:(id)item attribute:(NSLayoutAttribute)attribute;
+- (NSLayoutConstraint *)leo_pin:(id)item attribute:(NSLayoutAttribute)attribute;
 
 
 @end

@@ -25,17 +25,17 @@
 
 - (void)setCopyFontAndColor {
     
-    self.nameLabel.font = [UIFont leoCollapsedCardTitlesFont];
-    self.nameLabel.textColor = [UIColor leoGrayStandard];
+    self.nameLabel.font = [UIFont leo_collapsedCardTitlesFont];
+    self.nameLabel.textColor = [UIColor leo_grayStandard];
     
-    self.insuranceLabel.font = [UIFont leoStandardFont];
-    self.insuranceLabel.textColor = [UIColor leoGrayStandard];
+    self.insuranceLabel.font = [UIFont leo_standardFont];
+    self.insuranceLabel.textColor = [UIColor leo_grayStandard];
     
-    self.phoneNumberLabel.font = [UIFont leoStandardFont];
-    self.phoneNumberLabel.textColor = [UIColor leoGrayStandard];
+    self.phoneNumberLabel.font = [UIFont leo_standardFont];
+    self.phoneNumberLabel.textColor = [UIColor leo_grayStandard];
     
-    [self.editButton setTitleColor:[UIColor leoOrangeRed] forState:UIControlStateNormal];
-    self.editButton.titleLabel.font = [UIFont leoFieldAndUserLabelsAndSecondaryButtonsFont];
+    [self.editButton setTitleColor:[UIColor leo_orangeRed] forState:UIControlStateNormal];
+    self.editButton.titleLabel.font = [UIFont leo_fieldAndUserLabelsAndSecondaryButtonsFont];
 }
 
 @end

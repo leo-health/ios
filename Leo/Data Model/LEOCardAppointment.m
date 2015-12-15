@@ -177,7 +177,7 @@ static NSString *kActionSelectorReschedule = @"reschedule";
 }
 
 -(nonnull UIColor *)tintColor {
-    return [UIColor leoGreen];
+    return [UIColor leo_green];
 }
 
 - (nonnull NSArray *)stringRepresentationOfActionsAvailableForState {

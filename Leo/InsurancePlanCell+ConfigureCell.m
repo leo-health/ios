@@ -19,11 +19,11 @@
     style.alignment = NSTextAlignmentLeft;
     style.lineBreakMode = NSLineBreakByWordWrapping; //TODO: May want to do some sort of resizing of the text here such that we don't end up wrapping ever.
     
-    UIFont *font1 = [UIFont leoMenuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
-    UIFont *font2 = [UIFont leoFieldAndUserLabelsAndSecondaryButtonsFont];
+    UIFont *font1 = [UIFont leo_menuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
+    UIFont *font2 = [UIFont leo_fieldAndUserLabelsAndSecondaryButtonsFont];
     
-    UIColor *color1 = [UIColor leoGrayForTitlesAndHeadings];
-    UIColor *color2 = [UIColor leoGrayStandard];
+    UIColor *color1 = [UIColor leo_grayForTitlesAndHeadings];
+    UIColor *color2 = [UIColor leo_grayStandard];
     
     NSDictionary *attributedDictionary1 = @{NSForegroundColorAttributeName:color1,
                                             NSFontAttributeName:font1,

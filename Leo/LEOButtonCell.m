@@ -31,9 +31,9 @@
 
 - (void)styleButton {
     
-    [self.button setTitleColor:[UIColor leoWhite] forState:UIControlStateNormal];
-    self.button.backgroundColor = [UIColor leoOrangeRed];
-    self.button.titleLabel.font = [UIFont leoButtonLabelsAndTimeStampsFont];
+    [self.button setTitleColor:[UIColor leo_white] forState:UIControlStateNormal];
+    self.button.backgroundColor = [UIColor leo_orangeRed];
+    self.button.titleLabel.font = [UIFont leo_buttonLabelsAndTimeStampsFont];
     
 }
 @end

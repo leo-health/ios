@@ -18,15 +18,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-        self.moveAndScaleLabel.font = [UIFont leoStandardFont];
-        self.moveAndScaleLabel.textColor = [UIColor leoOrangeRed];
-        self.maskLayerColor = [UIColor leoWhite];
-        [self.cancelButton setTitleColor:[UIColor leoOrangeRed] forState:UIControlStateNormal];
-        [self.chooseButton setTitleColor:[UIColor leoOrangeRed] forState:UIControlStateNormal];
-        self.cancelButton.titleLabel.font = [UIFont leoStandardFont];
-        self.chooseButton.titleLabel.font = [UIFont leoStandardFont];
+        self.moveAndScaleLabel.font = [UIFont leo_standardFont];
+        self.moveAndScaleLabel.textColor = [UIColor leo_orangeRed];
+        self.maskLayerColor = [UIColor leo_white];
+        [self.cancelButton setTitleColor:[UIColor leo_orangeRed] forState:UIControlStateNormal];
+        [self.chooseButton setTitleColor:[UIColor leo_orangeRed] forState:UIControlStateNormal];
+        self.cancelButton.titleLabel.font = [UIFont leo_standardFont];
+        self.chooseButton.titleLabel.font = [UIFont leo_standardFont];
         self.avoidEmptySpaceAroundImage = YES;
-        self.view.backgroundColor = [UIColor leoWhite];
+        self.view.backgroundColor = [UIColor leo_white];
 }
 
 

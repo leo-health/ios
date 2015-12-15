@@ -69,7 +69,7 @@
     
     AppointmentType *appointmentType = [[AppointmentType alloc] initWithObjectID:@"0" name:jsonResponse[APIParamAppointmentType] typeCode:AppointmentTypeCodeWellVisit duration:@15 longDescription:jsonResponse[APIParamAppointmentTypeLongDescription] shortDescription:jsonResponse[APIParamAppointmentTypeShortDescription]]; //FIXME: Constant
     
-    AppointmentStatus *status = [[AppointmentStatus alloc] initWithJSONDictionary:[jsonResponse itemForKey:APIParamStatus]];
+    AppointmentStatus *status = [[AppointmentStatus alloc] initWithJSONDictionary:[jsonResponse leo_itemForKey:APIParamStatus]];
     NSString *objectID = [jsonResponse[APIParamID] stringValue];
     NSString *note = jsonResponse[APIParamAppointmentNotes];
     

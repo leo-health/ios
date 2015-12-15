@@ -85,7 +85,7 @@
          */
         UIView *darkGrayOverlayWindow = [[UIView alloc]initWithFrame:[UIApplication sharedApplication].keyWindow.frame];
         darkGrayOverlayWindow.hidden = NO;
-        darkGrayOverlayWindow.backgroundColor = [[UIColor leoGrayForTitlesAndHeadings] colorWithAlphaComponent:0.6];
+        darkGrayOverlayWindow.backgroundColor = [[UIColor leo_grayForTitlesAndHeadings] colorWithAlphaComponent:0.6];
         [transitionContext.containerView insertSubview:darkGrayOverlayWindow belowSubview:toView];
         
         //Hide final layout

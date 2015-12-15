@@ -60,7 +60,7 @@
     NSString *email = [jsonResponse leo_itemForKey:APIParamUserEmail];
     
     NSDictionary *avatarDictionary = [jsonResponse leo_itemForKey:@"avatar"];
-    NSString *avatarURL = [avatarDictionary itemForKey:@"url"];
+    NSString *avatarURL = [avatarDictionary leo_itemForKey:@"url"];
     
     return [self initWithObjectID:objectID title:title firstName:firstName middleInitial:middleInitial lastName:lastName suffix:suffix email:email avatarURL:avatarURL avatar:nil];
 }

@@ -36,7 +36,7 @@
     
     if (!startDate) {
         
-        startDate = [[NSDate date].beginningOfDay beginningOfWeekForStartOfWeek:1];
+        startDate = [[[NSDate date] leo_beginningOfDay] leo_beginningOfWeekForStartOfWeek:1];
     }
     
     return startDate;

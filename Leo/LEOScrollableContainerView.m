@@ -149,12 +149,12 @@
         self.collapsedTitleLabel.alpha = 1;
     }
     
-    self.titleView.backgroundColor = [UIColor leoWhite]; //TODO: This should be set via a delegate most likely.
+    self.titleView.backgroundColor = [UIColor leo_white]; //TODO: This should be set via a delegate most likely.
 
 }
 - (void)setupExpandedTitleLabel {
     
-    self.expandedTitleLabel.font = [UIFont leoExpandedCardHeaderFont];
+    self.expandedTitleLabel.font = [UIFont leo_expandedCardHeaderFont];
     self.expandedTitleLabel.textColor = [UIColor blackColor];
     self.expandedTitleLabel.numberOfLines = 0;
     self.expandedTitleLabel.lineBreakMode = NSLineBreakByWordWrapping;
@@ -163,7 +163,7 @@
 
 - (void)setupCollapsedTitleLabel {
     
-    self.collapsedTitleLabel.font = [UIFont leoMenuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
+    self.collapsedTitleLabel.font = [UIFont leo_menuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
     self.collapsedTitleLabel.textColor = [UIColor blackColor];
     self.collapsedTitleLabel.text = [self.delegate collapsedTitleViewContent];
 }

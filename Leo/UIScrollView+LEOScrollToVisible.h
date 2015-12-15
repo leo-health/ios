@@ -15,7 +15,7 @@
  *
  *  @param view   The view to always be visible. Set to nil to remove automatic scrolling
  */
-- (void)scrollToViewIfObstructedByKeyboard:(UIView*)view;
+- (void)leo_scrollToViewIfObstructedByKeyboard:(UIView*)view;
 
 /**
  *  Scrolls the scrollView to show the view if it is not visible and is the first responder
@@ -23,6 +23,6 @@
  *  @param viewThatShouldBeVisible the view that should be seen if not visible
  *  @param keyboardSize            the size of the keyboard potentially obstructing the view
  */
-- (void)scrollViewToShowIfFirstResponder:(UIView*)viewThatShouldBeVisible withKeyboardSize:(CGSize)keyboardSize;
+- (void)leo_scrollViewToShowIfFirstResponder:(UIView*)viewThatShouldBeVisible withKeyboardSize:(CGSize)keyboardSize;
 
 @end

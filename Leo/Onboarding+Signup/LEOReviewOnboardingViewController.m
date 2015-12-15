@@ -21,8 +21,6 @@
 #import "Guardian.h"
 #import "InsurancePlan.h"
 
-#import "UIViewController+Extensions.h"
-
 #import "LEOSignUpPatientViewController.h"
 #import "LEOSignUpUserViewController.h"
 
@@ -269,13 +267,13 @@ static NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
 
         // 4. Create label, styling dependent on whether it's a link:
         UILabel *label = [UILabel new];
-        label.font = [UIFont leoStandardFont];
+        label.font = [UIFont leo_standardFont];
         label.text = chunk;
         label.userInteractionEnabled = isLink;
 
         if (isLink)
         {
-            label.textColor = [UIColor leoBlue];
+            label.textColor = [UIColor leo_blue];
 
             // 5. Set tap gesture for this clickable text:
             SEL selectorAction = isTermsOfServiceLink ? @selector(tapOnTermsOfServiceLink:) : @selector(tapOnPrivacyPolicyLink:);
@@ -291,7 +289,7 @@ static NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
         }
         else
         {
-            label.textColor = [UIColor leoGrayStandard];
+            label.textColor = [UIColor leo_grayStandard];
         }
 
         // 6. Lay out the labels so it forms a complete sentence again:
@@ -350,7 +348,7 @@ static NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
 
 - (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {
 
-    view.tintColor = [UIColor leoWhite];
+    view.tintColor = [UIColor leo_white];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
@@ -549,11 +547,11 @@ static NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
 
     if (shouldFade) {
 
-        [self fadeAnimation:fadeAnimation fromColor:[UIColor clearColor] toColor:[UIColor leoOrangeRed] withStrokeColor:[UIColor leoOrangeRed]];
+        [self fadeAnimation:fadeAnimation fromColor:[UIColor clearColor] toColor:[UIColor leo_orangeRed] withStrokeColor:[UIColor leo_orangeRed]];
 
     } else {
 
-        [self fadeAnimation:fadeAnimation fromColor:[UIColor clearColor] toColor:[UIColor leoOrangeRed] withStrokeColor:[UIColor leoOrangeRed]];
+        [self fadeAnimation:fadeAnimation fromColor:[UIColor clearColor] toColor:[UIColor leo_orangeRed] withStrokeColor:[UIColor leo_orangeRed]];
     }
 
     [self.pathLayer addAnimation:fadeAnimation forKey:@"breakerFade"];

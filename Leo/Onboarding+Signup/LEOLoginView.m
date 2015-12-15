@@ -76,8 +76,8 @@
 
     loadedSubview.translatesAutoresizingMaskIntoConstraints = NO;
     
-    [self addConstraint:[self pin:loadedSubview attribute:NSLayoutAttributeTop]];
-    [self addConstraint:[self pin:loadedSubview attribute:NSLayoutAttributeBottom]];
+    [self addConstraint:[self leo_pin:loadedSubview attribute:NSLayoutAttributeTop]];
+    [self addConstraint:[self leo_pin:loadedSubview attribute:NSLayoutAttributeBottom]];
     
     [self addConstraint:[NSLayoutConstraint constraintWithItem:loadedSubview attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeading multiplier:1.0 constant:30]];
     [self addConstraint:[NSLayoutConstraint constraintWithItem:loadedSubview attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-30]];

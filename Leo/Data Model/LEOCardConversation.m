@@ -106,7 +106,7 @@ static NSString *kActionSelectorCallUs = @"callUs";
 }
 
 -(nonnull UIColor *)tintColor {
-    return [UIColor leoBlue];
+    return [UIColor leo_blue];
 }
 
 - (nonnull NSArray *)stringRepresentationOfActionsAvailableForState {
