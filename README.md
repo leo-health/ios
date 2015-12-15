@@ -110,7 +110,7 @@ Standard commit types you will see include:
 
 * **Fix** - Changes based on feedback
 
-* **NI** - Only used for builds and should be used sparingly otherwise. Stands for `No Issue`.
+* **NI** - Only used for builds and readme updates regularly. Should be used sparingly otherwise. Stands for `No Issue`.
 
 * **Pull Request Code Review** - Used for `issues` that are actually pull requests when the feedback does not result in its own issues being created but rather changes made directly to the pull request based on the feedback. When this commit type is used, please use the pull request number to reflect the issue. Do not re-use the issue number of one of the commits within the pull request. Detailed commenting here is not required as it often exceeds a reasonable length and can easily be reviewed in context using the pull request itself.
 
@@ -181,4 +181,5 @@ _All pods used are MIT Licensed at this time._
 
 ####Websites
 #####[objc.io](http://www.objc.io)
+#####[iOS Good Practices](https://github.com/futurice/ios-good-practices)
 
