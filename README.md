@@ -27,9 +27,9 @@ You'll need access to a developer certificate. Talk to your team and they will g
 * Launching the App
 Please use the `Leo.xcworkspace` file to open the project.
 
-####CHANGELOG.yml
+####[CHANGELOG.yml](CHANGELOG.yml)
 
-* Found in the base directory, you may wish to peruse CHANGELOG.yml to see what has changed since the last build. It contains a history of all builds pushed to iTunesConnect and a summary of the differences between them.
+* Found in the base directory, you may wish to peruse [CHANGELOG.yml](CHANGELOG.yml) to see what has changed since the last build. It contains a history of all builds pushed to iTunesConnect and a summary of the differences between them.
 
 ##Uploading a build to iTunesConnect
 
@@ -39,7 +39,7 @@ For the time-being as we develop our automated build capabilities, there are cer
 
 * Builds should only be created off of master. And master should be even with our repo on github, not ahead or behind in commits.
 
-* Before creating a build, update the CHANGELOG.yml with a bulleted list under `upcoming` that describes the changes since the prior build in a lay-friendly way. Use english, not engineerish.
+* Before creating a build, update the [CHANGELOG.yml](CHANGELOG.yml) with a bulleted list under `upcoming` that describes the changes since the prior build in a lay-friendly way. Use english, not engineerish.
 
 * Commit this change with the message `NI - CHANGELOG.yml pre-build update`
 
@@ -173,7 +173,9 @@ _All pods used are MIT Licensed at this time._
 ######[Clean Code by Uncle Bob](http://amzn.com/0132350882)
 ######[Objective-C 2.0](http://amzn.com/0321917014)
 ######[Functional Swift](https://www.objc.io/books/functional-swift/)
-######[Advanced Swift](https://www.objc.io/books/advanced-swift/)
+######[Advanced Swift](https://www.objc.io/books/advanced-swift/)*
+
+*We have a copy of this in house.
 
 ####Videos
 ######[WWDC Videos](https://developer.apple.com/videos/wwdc2015/)
