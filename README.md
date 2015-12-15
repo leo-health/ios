@@ -170,16 +170,18 @@ _All pods used are MIT Licensed at this time._
 
 
 ####Books
-#####[Clean Code by Uncle Bob](http://amzn.com/0132350882)
-
-#####[Objective-C 2.0](http://amzn.com/0321917014)
-
+######[Clean Code by Uncle Bob](http://amzn.com/0132350882)
+######[Objective-C 2.0](http://amzn.com/0321917014)
+######[Functional Swift](https://www.objc.io/books/functional-swift/)
+######[Advanced Swift](https://www.objc.io/books/advanced-swift/)
 
 ####Videos
-#####[WWDC Videos](https://developer.apple.com/videos/wwdc2015/)
+######[WWDC Videos](https://developer.apple.com/videos/wwdc2015/)
 
 
 ####Websites
-#####[objc.io](http://www.objc.io)
-#####[iOS Good Practices](https://github.com/futurice/ios-good-practices)
-
+######[objc.io](http://www.objc.io)
+######[iOS Good Practices](https://github.com/futurice/ios-good-practices)
+######[NSHipster](http://www.nshipster.com)
+######[NatashaTheRobot](http://natashatherobot.com/)
+######[iOSDevWeekly](https://iosdevweekly.com/)
