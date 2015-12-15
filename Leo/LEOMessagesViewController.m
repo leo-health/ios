@@ -770,11 +770,6 @@
     return [message.senderId isEqualToString:self.senderId];
 }
 
-//- (BOOL)isFamilyMessage:(Message *)message {
-//
-//    if (message.sender)
-//}
-
 #pragma mark - JSQMessages collection view flow layout delegate
 
 #pragma mark - Adjusting cell label heights
