@@ -12,14 +12,14 @@
 
 static NSUserDefaults *defaults;
 
-+ (void)loadDefaultsWithName:(NSString *)name {
++ (void)leo_loadDefaultsWithName:(NSString *)name {
 
     NSString *path = [[NSBundle mainBundle] pathForResource:name ofType:@"plist"];
     NSDictionary *dictionary = [NSDictionary dictionaryWithContentsOfFile:path];
-    [self loadDefaultsWithDictionary:dictionary];
+    [self leo_loadDefaultsWithDictionary:dictionary];
 }
 
-+ (void)loadDefaultsWithDictionary:(NSDictionary *)dictionary {
++ (void)leo_loadDefaultsWithDictionary:(NSDictionary *)dictionary {
     
     if (!defaults) {
         defaults = [NSUserDefaults standardUserDefaults];
@@ -40,20 +40,20 @@ static NSUserDefaults *defaults;
     NSString *defaultsVersion = [defaults objectForKey:versionKey];
    
     if (![defaultsVersion isEqual:appVersion]) {
-        [NSUserDefaults removeAllDefaults];
+        [NSUserDefaults leo_removeAllDefaults];
     }
     
     [defaults setObject:appVersion forKey:versionKey];
     [defaults synchronize];
 }
 
-+ (void)removeAllDefaults {
++ (void)leo_removeAllDefaults {
     
     NSString *domainName = [[NSBundle mainBundle] bundleIdentifier];
     [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:domainName];
 }
 
-+ (NSString *)stringForKey:(NSString *)defaultName {
++ (NSString *)leo_stringForKey:(NSString *)defaultName {
     
     if (!defaults) {
         defaults = [NSUserDefaults standardUserDefaults];
@@ -61,7 +61,7 @@ static NSUserDefaults *defaults;
     return [defaults stringForKey:defaultName];
 }
 
-+ (void)setString:(NSString *)value forKey:(NSString *)defaultName {
++ (void)leo_setString:(NSString *)value forKey:(NSString *)defaultName {
     
     if (!defaults) {
         defaults = [NSUserDefaults standardUserDefaults];
@@ -69,7 +69,7 @@ static NSUserDefaults *defaults;
     [defaults setObject:value forKey:defaultName];
 }
 
-+ (NSInteger)integerForKey:(NSString *)defaultName {
++ (NSInteger)leo_integerForKey:(NSString *)defaultName {
     
     if (!defaults) {
         defaults = [NSUserDefaults standardUserDefaults];
@@ -77,7 +77,7 @@ static NSUserDefaults *defaults;
     return [defaults integerForKey:defaultName];
 }
 
-+ (CGFloat)floatForKey:(NSString *)defaultName {
++ (CGFloat)leo_floatForKey:(NSString *)defaultName {
 
     if (!defaults) {
         defaults = [NSUserDefaults standardUserDefaults];
@@ -85,7 +85,7 @@ static NSUserDefaults *defaults;
     return [defaults floatForKey:defaultName];
 }
 
-+ (BOOL)boolForKey:(NSString *)defaultName {
++ (BOOL)leo_boolForKey:(NSString *)defaultName {
     if (!defaults) {
         defaults = [NSUserDefaults standardUserDefaults];
     }

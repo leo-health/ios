@@ -78,11 +78,11 @@ static NSString *const kImage = @"image";
 //FIXME: LeoConstants missing some of these hence they have been commented out for the time-being.
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
     
-    NSString *objectID = [[jsonResponse itemForKey:APIParamID] stringValue];
-    NSString *text = [jsonResponse itemForKey:APIParamMessageBody];
+    NSString *objectID = [[jsonResponse leo_itemForKey:APIParamID] stringValue];
+    NSString *text = [jsonResponse leo_itemForKey:APIParamMessageBody];
     
     //FIXME: In order for this to work, need a helper to convert the URL to a media message
-    id<JSQMessageMediaData> media = [jsonResponse itemForKey:APIParamMessageBody];
+    id<JSQMessageMediaData> media = [jsonResponse leo_itemForKey:APIParamMessageBody];
     
     User *sender = [UserFactory userFromJSONDictionary:jsonResponse[APIParamMessageSender]];
     
@@ -96,12 +96,12 @@ static NSString *const kImage = @"image";
 //        escalatedBy = [UserFactory userFromJSONDictionary:jsonResponse[APIParamMessageEscalatedBy]];
 //    }
 
-    NSString *status = [jsonResponse itemForKey:APIParamStatus];
-    MessageStatusCode statusCode = [[jsonResponse itemForKey:APIParamStatusID] integerValue];
+    NSString *status = [jsonResponse leo_itemForKey:APIParamStatus];
+    MessageStatusCode statusCode = [[jsonResponse leo_itemForKey:APIParamStatusID] integerValue];
     
     //MARK: Decide if I need to bring this in even since it is only being used for introspection and not kept around afterward.
-    MessageTypeCode typeCode = [self convertTypeToTypeCode:[jsonResponse itemForKey:APIParamType]];
-    NSDate *createdAt = [NSDate dateFromDateTimeString:[jsonResponse itemForKey:APIParamCreatedDateTime]];
+    MessageTypeCode typeCode = [self convertTypeToTypeCode:[jsonResponse leo_itemForKey:APIParamType]];
+    NSDate *createdAt = [NSDate leo_dateFromDateTimeString:[jsonResponse leo_itemForKey:APIParamCreatedDateTime]];
         
     switch (typeCode) {
         case MessageTypeCodeText:

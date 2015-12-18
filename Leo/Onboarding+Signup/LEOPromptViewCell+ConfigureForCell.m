@@ -17,7 +17,7 @@
     
     self.promptView.textField.text = patient.fullName;
     self.promptView.accessoryImageViewVisible = YES;
-    self.promptView.tintColor = [UIColor leoOrangeRed];
+    self.promptView.tintColor = [UIColor leo_orangeRed];
     self.promptView.accessoryImage = [UIImage imageNamed:@"Icon-ForwardArrow"];
     self.promptView.textField.enabled = NO;
     self.promptView.tapGestureEnabled = NO;
@@ -29,7 +29,7 @@
 - (void)configureForNewPatient {
     self.promptView.textField.text = @"Add a child";
     self.promptView.accessoryImageViewVisible = YES;
-    self.promptView.tintColor = [UIColor leoOrangeRed];
+    self.promptView.tintColor = [UIColor leo_orangeRed];
     self.promptView.accessoryImage = [UIImage imageNamed:@"Icon-Add"];
     self.promptView.textField.enabled = NO;
     self.promptView.tapGestureEnabled = NO;
@@ -39,13 +39,13 @@
 
 - (void)setPatientCopyFontAndColor {
     
-    self.promptView.textField.textColor = [UIColor leoOrangeRed];
-    self.promptView.textField.font = [UIFont leoStandardFont];
+    self.promptView.textField.textColor = [UIColor leo_orangeRed];
+    self.promptView.textField.font = [UIFont leo_standardFont];
 }
 
 - (void)setNewPatientCopyFontAndColor {
-    self.promptView.textField.textColor = [UIColor leoGrayStandard];
-    self.promptView.textField.font = [UIFont leoStandardFont];
+    self.promptView.textField.textColor = [UIColor leo_grayStandard];
+    self.promptView.textField.font = [UIFont leo_standardFont];
 }
 
 @end

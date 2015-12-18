@@ -10,21 +10,21 @@
 
 @implementation NSDate (Extensions)
 
-- (NSDate *)endOfDay {
+- (NSDate *)leo_endOfDay {
     
     NSDate *modifiedDate = [NSDate dateWithYear:self.year month:self.month day:self.day hour:23 minute:59 second:59];
     
     return modifiedDate;
 }
 
-- (NSDate *)beginningOfDay {
+- (NSDate *)leo_beginningOfDay {
     
     NSDate *modifiedDate = [NSDate dateWithYear:self.year month:self.month day:self.day hour:0 minute:0 second:0];
     
     return modifiedDate;
 }
 
-+ (NSDate *)todayAdjustedForLocalTimeZone {
++ (NSDate *)leo_todayAdjustedForLocalTimeZone {
     
     NSTimeZone *currentTimeZone = [NSTimeZone localTimeZone];
     NSInteger currentGMTOffset = [currentTimeZone secondsFromGMTForDate:[NSDate date]];
@@ -42,7 +42,7 @@
 
 
 //SOURCE: http://stackoverflow.com/a/4739650/1938725
-+ (NSInteger)daysBetweenDate:(NSDate*)fromDateTime andDate:(NSDate*)toDateTime {
++ (NSInteger)leo_daysBetweenDate:(NSDate*)fromDateTime andDate:(NSDate*)toDateTime {
     
     
     NSDate *fromDate;
@@ -61,21 +61,21 @@
     return [difference day];
 }
 
-- (NSDate *)dateWithoutTime {
+- (NSDate *)leo_dateWithoutTime {
     
     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
     NSDateComponents *components = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:self];
     return [calendar dateFromComponents:components];
 }
 
-- (NSDate *)beginningOfWeekForStartOfWeek:(NSInteger)weekday {
+- (NSDate *)leo_beginningOfWeekForStartOfWeek:(NSInteger)weekday {
     
     NSInteger daysSinceBeginningOfWeek = self.weekday - weekday;
     
     return [self dateBySubtractingDays:daysSinceBeginningOfWeek];
 }
 
-+ (NSDate *)dateFromDateTimeString:(NSString *)dateTimeString {
++ (NSDate *)leo_dateFromDateTimeString:(NSString *)dateTimeString {
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZ"];
@@ -84,7 +84,7 @@
     return date;
 }
 
-+ (NSDate *)dateFromDashedDateString:(NSString *)dateString {
++ (NSDate *)leo_dateFromDashedDateString:(NSString *)dateString {
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd"];
@@ -92,18 +92,18 @@
     return [dateFormatter dateFromString:dateString];
 }
 
-+ (NSDate *)shortDateFromDate:(NSDate *)date {
-    return [date dateWithoutTime];
++ (NSDate *)leo_shortDateFromDate:(NSDate *)date {
+    return [date leo_dateWithoutTime];
 }
 
-+ (NSDate *)dateFromShortDateString:(NSString *)dateString {
++ (NSDate *)leo_dateFromShortDateString:(NSString *)dateString {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"MM/dd/yyyy"];
     
     return [dateFormatter dateFromString:dateString];
 }
 
-+ (NSString *)stringifiedTime:(NSDate *)date {
++ (NSString *)leo_stringifiedTime:(NSDate *)date {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
     dateFormatter.dateFormat = @"h':'mma";
     dateFormatter.AMSymbol = @"am";
@@ -111,13 +111,13 @@
     return [dateFormatter stringFromDate:date];
 }
 
-+ (NSString *)stringifiedTimeWithoutTimePeriod:(NSDate *)date {
++ (NSString *)leo_stringifiedTimeWithoutTimePeriod:(NSDate *)date {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
     dateFormatter.dateFormat = @"h':'mm";
     return [dateFormatter stringFromDate:date];
 }
 
-+ (NSString *)stringifiedTimePeriod:(NSDate *)date {
++ (NSString *)leo_stringifiedTimePeriod:(NSDate *)date {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
     dateFormatter.dateFormat = @"a";
     dateFormatter.AMSymbol = @"AM";
@@ -125,27 +125,27 @@
     return [dateFormatter stringFromDate:date];
 }
 
-+ (NSString *)stringifiedDateWithDot:(NSDate *)date {
++ (NSString *)leo_stringifiedDateWithDot:(NSDate *)date {
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
     dateFormatter.dateFormat = @"EEEE' ∙ 'MMMM', 'd'";
     return [dateFormatter stringFromDate:date];
 }
 
-+ (NSString *)stringifiedDateWithCommas:(NSDate *)date {
++ (NSString *)leo_stringifiedDateWithCommas:(NSDate *)date {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
     dateFormatter.dateFormat = @"EEEE', 'MMMM' 'd'";
     return [dateFormatter stringFromDate:date];
 }
 
-+ (NSString *)stringifiedShortDate:(NSDate *)date {
++ (NSString *)leo_stringifiedShortDate:(NSDate *)date {
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
     dateFormatter.dateFormat = @"MM/dd/YYYY";
     return [dateFormatter stringFromDate:date];
 }
 
-+ (NSString *)stringifiedDashedShortDate:(NSDate *)date {
++ (NSString *)leo_stringifiedDashedShortDate:(NSDate *)date {
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
     dateFormatter.dateFormat = @"dd-MM-YYYY";
@@ -159,7 +159,7 @@
  *
  *  @return formatted stringified date
  */
-+ (NSString *)stringifiedDateTime:(NSDate *)dateTime {
++ (NSString *)leo_stringifiedDateTime:(NSDate *)dateTime {
     
     NSDateFormatter *fullDateFormatter = [[NSDateFormatter alloc] init];
     fullDateFormatter.dateFormat = @"MMMM' 'd', 'h':'mma";

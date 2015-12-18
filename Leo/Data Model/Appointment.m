@@ -41,15 +41,15 @@
 
 - (instancetype)initWithJSONDictionary:(nonnull NSDictionary *)jsonResponse {
     
-    NSDate *date = [NSDate dateFromDateTimeString:[jsonResponse itemForKey:APIParamAppointmentStartDateTime]];
-    Patient *patient = [[Patient alloc] initWithJSONDictionary:[jsonResponse itemForKey:APIParamUserPatient]];
-    Provider *provider = [[Provider alloc] initWithJSONDictionary:[jsonResponse itemForKey:APIParamUserProvider]];
-    User *bookedByUser = [[User alloc] initWithJSONDictionary:[jsonResponse itemForKey:APIParamAppointmentBookedBy]];
-    AppointmentType *appointmentType = [[AppointmentType alloc] initWithJSONDictionary:[jsonResponse itemForKey:APIParamAppointmentType]];
+    NSDate *date = [NSDate leo_dateFromDateTimeString:[jsonResponse leo_itemForKey:APIParamAppointmentStartDateTime]];
+    Patient *patient = [[Patient alloc] initWithJSONDictionary:[jsonResponse leo_itemForKey:APIParamUserPatient]];
+    Provider *provider = [[Provider alloc] initWithJSONDictionary:[jsonResponse leo_itemForKey:APIParamUserProvider]];
+    User *bookedByUser = [[User alloc] initWithJSONDictionary:[jsonResponse leo_itemForKey:APIParamAppointmentBookedBy]];
+    AppointmentType *appointmentType = [[AppointmentType alloc] initWithJSONDictionary:[jsonResponse leo_itemForKey:APIParamAppointmentType]];
     
-    AppointmentStatus *status = [[AppointmentStatus alloc] initWithJSONDictionary:[jsonResponse itemForKey:APIParamStatus]];
-    NSString *objectID = [[jsonResponse itemForKey:APIParamID] stringValue];
-    NSString *note = [jsonResponse itemForKey:APIParamAppointmentNotes];
+    AppointmentStatus *status = [[AppointmentStatus alloc] initWithJSONDictionary:[jsonResponse leo_itemForKey:APIParamStatus]];
+    NSString *objectID = [[jsonResponse leo_itemForKey:APIParamID] stringValue];
+    NSString *note = [jsonResponse leo_itemForKey:APIParamAppointmentNotes];
     
     //FIXME: Practice ID is being hardcoded while we only have one practice.
     return [self initWithObjectID:objectID date:date appointmentType:appointmentType patient:patient provider:provider practiceID:@"1" bookedByUser:bookedByUser note:note status:status];

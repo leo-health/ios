@@ -68,13 +68,13 @@
 - (void)viewDidAppear:(BOOL)animated {
     
     [super viewDidAppear:animated];
-    [self.scrollView scrollToViewIfObstructedByKeyboard:self.notesTextView];
+    [self.scrollView leo_scrollToViewIfObstructedByKeyboard:self.notesTextView];
 }
 
 - (void)viewDidDisappear:(BOOL)animated{
     
     [LEOApiReachability stopMonitoring];
-    [self.scrollView scrollToViewIfObstructedByKeyboard:nil];
+    [self.scrollView leo_scrollToViewIfObstructedByKeyboard:nil];
 }
 
 - (void)dealloc {
@@ -122,12 +122,12 @@
     self.notesTextView.delegate = self;
     self.notesTextView.scrollEnabled = NO;
     self.notesTextView.placeholder = @"Questions / comments";
-    self.notesTextView.floatingLabelFont = [UIFont leoStandardFont];
-    self.notesTextView.placeholderLabel.font = [UIFont leoStandardFont];
-    self.notesTextView.font = [UIFont leoStandardFont];
-    self.notesTextView.floatingLabelActiveTextColor = [UIColor leoGrayStandard];
-    self.notesTextView.textColor = [UIColor leoGreen];
-    self.notesTextView.tintColor = [UIColor leoGreen];
+    self.notesTextView.floatingLabelFont = [UIFont leo_standardFont];
+    self.notesTextView.placeholderLabel.font = [UIFont leo_standardFont];
+    self.notesTextView.font = [UIFont leo_standardFont];
+    self.notesTextView.floatingLabelActiveTextColor = [UIColor leo_grayStandard];
+    self.notesTextView.textColor = [UIColor leo_green];
+    self.notesTextView.tintColor = [UIColor leo_green];
     self.notesTextView.text = self.prepAppointment.note;
     
     [self.view layoutIfNeeded];
@@ -520,11 +520,11 @@
     [style setAlignment:NSTextAlignmentLeft];
     [style setLineBreakMode:NSLineBreakByWordWrapping];
     
-    UIFont *baseFont = [UIFont leoStandardFont];
-    UIFont *variableFont = [UIFont leoMenuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
+    UIFont *baseFont = [UIFont leo_standardFont];
+    UIFont *variableFont = [UIFont leo_menuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
     
-    UIColor *baseColor = [UIColor leoGrayStandard];
-    UIColor *variableColor = [UIColor leoGreen];
+    UIColor *baseColor = [UIColor leo_grayStandard];
+    UIColor *variableColor = [UIColor leo_green];
     
     NSDictionary *baseDictionary = @{NSForegroundColorAttributeName:baseColor,
                                      NSFontAttributeName:baseFont,
@@ -561,11 +561,11 @@
         [style setAlignment:NSTextAlignmentLeft];
         [style setLineBreakMode:NSLineBreakByWordWrapping];
         
-        UIFont *baseFont = [UIFont leoStandardFont];
-        UIFont *variableFont = [UIFont leoMenuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
+        UIFont *baseFont = [UIFont leo_standardFont];
+        UIFont *variableFont = [UIFont leo_menuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
         
-        UIColor *baseColor = [UIColor leoGrayStandard];
-        UIColor *variableColor = [UIColor leoGreen];
+        UIColor *baseColor = [UIColor leo_grayStandard];
+        UIColor *variableColor = [UIColor leo_green];
         
         NSDictionary *baseDictionary = @{NSForegroundColorAttributeName:baseColor,
                                          NSFontAttributeName:baseFont,
@@ -581,13 +581,13 @@
         [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:@"My visit is at "
                                                                            attributes:baseDictionary]];
         
-        [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:[NSDate stringifiedTime:self.prepAppointment.date]
+        [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:[NSDate leo_stringifiedTime:self.prepAppointment.date]
                                                                            attributes:variableDictionary]];
         
         [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:@" on "
                                                                            attributes:baseDictionary]];
         
-        [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:[NSDate stringifiedDateWithCommas:self.prepAppointment.date]
+        [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:[NSDate leo_stringifiedDateWithCommas:self.prepAppointment.date]
                                                                            attributes:variableDictionary]];
         
         [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:[self dayOfMonthSuffix:self.prepAppointment.date.day]
@@ -664,7 +664,7 @@
     
     [button setImageEdgeInsets:UIEdgeInsetsMake(0, size.width - imageSize.width, 0, 0)];
     [button setTitleEdgeInsets:UIEdgeInsetsMake(0, -imageSize.width, 0, 10)];
-    button.tintColor = [UIColor leoGreen];
+    button.tintColor = [UIColor leo_green];
 }
 
 

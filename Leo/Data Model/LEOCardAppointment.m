@@ -163,7 +163,7 @@ static NSString *kActionSelectorReschedule = @"reschedule";
             
         case AppointmentStatusCodeFuture:
         case AppointmentStatusCodeReminding:
-            bodyText = [NSString stringWithFormat:@"%@ has a %@ scheduled for %@ at %@.",self.appointment.patient.firstName, [((AppointmentType *)self.appointment.appointmentType).name lowercaseString], [NSDate stringifiedDateWithCommas:self.appointment.date], [NSDate stringifiedTime:self.appointment.date]];
+            bodyText = [NSString stringWithFormat:@"%@ has a %@ scheduled for %@ at %@.",self.appointment.patient.firstName, [((AppointmentType *)self.appointment.appointmentType).name lowercaseString], [NSDate leo_stringifiedDateWithCommas:self.appointment.date], [NSDate leo_stringifiedTime:self.appointment.date]];
             break;
             
         case AppointmentStatusCodeCancelled:
@@ -177,7 +177,7 @@ static NSString *kActionSelectorReschedule = @"reschedule";
 }
 
 -(nonnull UIColor *)tintColor {
-    return [UIColor leoGreen];
+    return [UIColor leo_green];
 }
 
 - (nonnull NSArray *)stringRepresentationOfActionsAvailableForState {

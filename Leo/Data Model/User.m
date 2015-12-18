@@ -43,24 +43,24 @@
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
     
-    NSString *firstName = [jsonResponse itemForKey:APIParamUserFirstName];
-    NSString *lastName = [jsonResponse itemForKey:APIParamUserLastName];
-    NSString *middleInitial = [jsonResponse itemForKey:APIParamUserMiddleInitial];
-    NSString *title = [jsonResponse itemForKey:APIParamUserTitle];
-    NSString *suffix = [jsonResponse itemForKey:APIParamUserSuffix];
+    NSString *firstName = [jsonResponse leo_itemForKey:APIParamUserFirstName];
+    NSString *lastName = [jsonResponse leo_itemForKey:APIParamUserLastName];
+    NSString *middleInitial = [jsonResponse leo_itemForKey:APIParamUserMiddleInitial];
+    NSString *title = [jsonResponse leo_itemForKey:APIParamUserTitle];
+    NSString *suffix = [jsonResponse leo_itemForKey:APIParamUserSuffix];
     
     NSString *objectID;
     
     if ([jsonResponse[APIParamID] isKindOfClass:[NSNumber class]]) {
-            objectID = [[jsonResponse itemForKey:APIParamID] stringValue];
+            objectID = [[jsonResponse leo_itemForKey:APIParamID] stringValue];
     } else {
-        objectID = [jsonResponse itemForKey:APIParamID];
+        objectID = [jsonResponse leo_itemForKey:APIParamID];
     }
     
-    NSString *email = [jsonResponse itemForKey:APIParamUserEmail];
+    NSString *email = [jsonResponse leo_itemForKey:APIParamUserEmail];
     
-    NSDictionary *avatarDictionary = [jsonResponse itemForKey:@"avatar"];
-    NSString *avatarURL = [avatarDictionary itemForKey:@"url"];
+    NSDictionary *avatarDictionary = [jsonResponse leo_itemForKey:@"avatar"];
+    NSString *avatarURL = [avatarDictionary leo_itemForKey:@"url"];
     
     return [self initWithObjectID:objectID title:title firstName:firstName middleInitial:middleInitial lastName:lastName suffix:suffix email:email avatarURL:avatarURL avatar:nil];
 }

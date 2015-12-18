@@ -12,26 +12,26 @@
 @interface NSDate (Extensions)
 NS_ASSUME_NONNULL_BEGIN
 
-- (NSDate *)endOfDay;
-- (NSDate *)beginningOfDay;
-+ (NSDate *)todayAdjustedForLocalTimeZone;
-+ (NSInteger)daysBetweenDate:(NSDate*)fromDateTime andDate:(NSDate*)toDateTime;
-- (NSDate *)dateWithoutTime;
-- (NSDate *)beginningOfWeekForStartOfWeek:(NSInteger)weekday;
-+ (NSDate *)dateFromDateTimeString:(NSString *)dateTimeString;
-+ (NSDate *)dateFromShortDateString:(NSString *)dateString;
-+ (NSDate *)dateFromDashedDateString:(NSString *)dateString;
+- (NSDate *)leo_endOfDay;
+- (NSDate *)leo_beginningOfDay;
++ (NSDate *)leo_todayAdjustedForLocalTimeZone;
++ (NSInteger)leo_daysBetweenDate:(NSDate*)fromDateTime andDate:(NSDate*)toDateTime;
+- (NSDate *)leo_dateWithoutTime;
+- (NSDate *)leo_beginningOfWeekForStartOfWeek:(NSInteger)weekday;
++ (NSDate *)leo_dateFromDateTimeString:(NSString *)dateTimeString;
++ (NSDate *)leo_dateFromShortDateString:(NSString *)dateString;
++ (NSDate *)leo_dateFromDashedDateString:(NSString *)dateString;
 
-+ (NSDate *)shortDateFromDate:(NSDate *)date;
++ (NSDate *)leo_shortDateFromDate:(NSDate *)date;
 
-+ (NSString *)stringifiedTime:(NSDate *)date;
-+ (NSString *)stringifiedDateWithDot:(NSDate *)date;
-+ (NSString *)stringifiedDateWithCommas:(NSDate *)date;
-+ (NSString *)stringifiedDateTime:(NSDate *)dateTime;
-+ (NSString *)stringifiedTimeWithoutTimePeriod:(NSDate *)date;
-+ (NSString *)stringifiedTimePeriod:(NSDate *)date;
-+ (NSString *)stringifiedShortDate:(NSDate *)date;
-+ (NSString *)stringifiedDashedShortDate:(NSDate *)date;
++ (NSString *)leo_stringifiedTime:(NSDate *)date;
++ (NSString *)leo_stringifiedDateWithDot:(NSDate *)date;
++ (NSString *)leo_stringifiedDateWithCommas:(NSDate *)date;
++ (NSString *)leo_stringifiedDateTime:(NSDate *)dateTime;
++ (NSString *)leo_stringifiedTimeWithoutTimePeriod:(NSDate *)date;
++ (NSString *)leo_stringifiedTimePeriod:(NSDate *)date;
++ (NSString *)leo_stringifiedShortDate:(NSDate *)date;
++ (NSString *)leo_stringifiedDashedShortDate:(NSDate *)date;
 
 NS_ASSUME_NONNULL_END
 @end

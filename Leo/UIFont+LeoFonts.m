@@ -26,7 +26,7 @@ static NSString *const AvenirNextCondensedRegular = @"AvenirNextCondensed-Regula
  *
  *  @return UIFont
  */
-+ (UIFont *)leoExpandedCardHeaderFont {
++ (UIFont *)leo_expandedCardHeaderFont {
     return [UIFont fontWithName:AvenirNextUltraLight size:27];
 }
 
@@ -35,7 +35,7 @@ static NSString *const AvenirNextCondensedRegular = @"AvenirNextCondensed-Regula
  *
  *  @return UIFont
  */
-+ (UIFont *)leoStandardFont {
++ (UIFont *)leo_standardFont {
     return [UIFont fontWithName:AvenirNextRegular size:15];
 }
 
@@ -44,7 +44,7 @@ static NSString *const AvenirNextCondensedRegular = @"AvenirNextCondensed-Regula
  *
  *  @return UIFont
  */
-+ (UIFont *)leoButtonLabelsAndTimeStampsFont {
++ (UIFont *)leo_buttonLabelsAndTimeStampsFont {
     return [UIFont fontWithName:AvenirNextMedium size:12];
 }
 
@@ -54,7 +54,7 @@ static NSString *const AvenirNextCondensedRegular = @"AvenirNextCondensed-Regula
  *
  *  @return UIFont
  */
-+ (UIFont *)leoMenuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont {
++ (UIFont *)leo_menuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont {
     return [UIFont fontWithName:AvenirNextMedium size:15];
 }
 
@@ -63,7 +63,7 @@ static NSString *const AvenirNextCondensedRegular = @"AvenirNextCondensed-Regula
  *
  *  @return UIFont
  */
-+ (UIFont *)leoCollapsedCardTitlesFont {
++ (UIFont *)leo_collapsedCardTitlesFont {
     return [UIFont fontWithName:AvenirNextMedium size:19];
 }
 
@@ -72,7 +72,7 @@ static NSString *const AvenirNextCondensedRegular = @"AvenirNextCondensed-Regula
  *
  *  @return UIFont
  */
-+ (UIFont *)leoFieldAndUserLabelsAndSecondaryButtonsFont {
++ (UIFont *)leo_fieldAndUserLabelsAndSecondaryButtonsFont {
     return [UIFont fontWithName:AvenirNextBold size:12];
 }
 
@@ -81,7 +81,7 @@ static NSString *const AvenirNextCondensedRegular = @"AvenirNextCondensed-Regula
  *
  *  @return UIFont
  */
-+ (UIFont *)leoAppointmentSlotsAndDateFields {
++ (UIFont *)leo_appointmentSlotsAndDateFields {
     return [UIFont fontWithName:AvenirNextDemiBold size:17];
 }
 
@@ -90,7 +90,7 @@ static NSString *const AvenirNextCondensedRegular = @"AvenirNextCondensed-Regula
  *
  *  @return UIFont
  */
-+ (UIFont *)leoAppointmentDayLabelAndTimePeriod {
++ (UIFont *)leo_appointmentDayLabelAndTimePeriod {
     return [UIFont fontWithName:AvenirNextCondensedRegular size:12];
 }
 
@@ -99,7 +99,7 @@ static NSString *const AvenirNextCondensedRegular = @"AvenirNextCondensed-Regula
  *
  *  @return UIFont
  */
-+ (UIFont *)leoChatBubbleInitials {
++ (UIFont *)leo_chatBubbleInitials {
     return [UIFont fontWithName:AvenirNextCondensedRegular size:10];
 }
 

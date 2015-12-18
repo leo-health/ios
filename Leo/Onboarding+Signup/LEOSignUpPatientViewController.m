@@ -343,11 +343,11 @@
 
     if (shouldFade) {
 
-        [self fadeAnimation:fadeAnimation fromColor:[UIColor clearColor] toColor:[UIColor leoOrangeRed] withStrokeColor:[UIColor leoOrangeRed]];
+        [self fadeAnimation:fadeAnimation fromColor:[UIColor clearColor] toColor:[UIColor leo_orangeRed] withStrokeColor:[UIColor leo_orangeRed]];
 
     } else {
 
-        [self fadeAnimation:fadeAnimation fromColor:[UIColor leoOrangeRed] toColor:[UIColor clearColor] withStrokeColor:[UIColor clearColor]];
+        [self fadeAnimation:fadeAnimation fromColor:[UIColor leo_orangeRed] toColor:[UIColor clearColor] withStrokeColor:[UIColor clearColor]];
     }
 
     [self.pathLayer addAnimation:fadeAnimation forKey:@"breakerFade"];

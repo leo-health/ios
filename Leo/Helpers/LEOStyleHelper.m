@@ -26,7 +26,7 @@
     
     [UINavigationBar appearance].backItem.hidesBackButton = YES;
     
-    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageWithColor:[self backgroundColorForFeature:feature]]
+    [[UINavigationBar appearance] setBackgroundImage:[UIImage leo_imageWithColor:[self backgroundColorForFeature:feature]]
                                       forBarPosition:UIBarPositionAny
                                           barMetrics:UIBarMetricsDefault];
     
@@ -37,7 +37,7 @@
 
 + (void)styleLabel:(UILabel *)label forFeature:(Feature)feature {
     
-    label.font = [UIFont leoMenuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
+    label.font = [UIFont leo_menuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
     label.textColor = [self headerLabelColorForFeature:feature];
     
     [label sizeToFit];
@@ -45,21 +45,21 @@
 
 + (void)stylePromptTextView:(LEOPromptTextView *)promptTextView forFeature:(Feature)feature {
     
-    promptTextView.textColor = [UIColor leoGrayStandard];
-    promptTextView.font = [UIFont leoStandardFont];
+    promptTextView.textColor = [UIColor leo_grayStandard];
+    promptTextView.font = [UIFont leo_standardFont];
     
-    promptTextView.floatingLabelActiveTextColor = [UIColor leoGrayStandard];
+    promptTextView.floatingLabelActiveTextColor = [UIColor leo_grayStandard];
     promptTextView.tintColor = [self tintColorForFeature:feature];
 }
 
 + (void)styleNavigationBarShadowLineForViewController:(UIViewController *)viewController feature:(Feature)feature {
     
-    [viewController.navigationController.navigationBar setShadowImage:[UIImage imageWithColor:[self tintColorForFeature:feature]]];
+    [viewController.navigationController.navigationBar setShadowImage:[UIImage leo_imageWithColor:[self tintColorForFeature:feature]]];
 }
 
 + (void)removeNavigationBarShadowLineForViewController:(UIViewController *)viewController {
     
-    [viewController.navigationController.navigationBar setShadowImage:[UIImage imageWithColor:[UIColor clearColor]]];
+    [viewController.navigationController.navigationBar setShadowImage:[UIImage leo_imageWithColor:[UIColor clearColor]]];
 }
 
 + (void)styleBackButtonForViewController:(UIViewController *)viewController forFeature:(Feature)feature {
@@ -108,9 +108,9 @@
     button.layer.borderColor = [LEOStyleHelper backgroundColorForFeature:feature].CGColor;
     button.layer.borderWidth = 1.0;
 
-    button.titleLabel.font = [UIFont leoButtonLabelsAndTimeStampsFont];
-    [button setTitleColor:[UIColor leoWhite] forState:UIControlStateNormal];
-    button.backgroundColor = [UIColor leoOrangeRed];
+    button.titleLabel.font = [UIFont leo_buttonLabelsAndTimeStampsFont];
+    [button setTitleColor:[UIColor leo_white] forState:UIControlStateNormal];
+    button.backgroundColor = [UIColor leo_orangeRed];
 }
 
 //TODO: I smell something. Come back to this later to think through further.
@@ -118,13 +118,13 @@
     
     switch (feature) {
         case FeatureOnboarding:
-            return [UIColor leoOrangeRed];
+            return [UIColor leo_orangeRed];
             
         case FeatureSettings:
-            return [UIColor leoOrangeRed];
+            return [UIColor leo_orangeRed];
             
         case FeatureAppointmentScheduling:
-            return [UIColor leoGreen];
+            return [UIColor leo_green];
             
         case FeatureUndefined:
             return [UIColor blackColor];
@@ -136,13 +136,13 @@
     
     switch (feature) {
         case FeatureOnboarding:
-            return [UIColor leoWhite];
+            return [UIColor leo_white];
             
         case FeatureSettings:
-            return [UIColor leoOrangeRed];
+            return [UIColor leo_orangeRed];
         
         case FeatureAppointmentScheduling:
-            return [UIColor leoGreen];
+            return [UIColor leo_green];
             
         case FeatureUndefined:
             return [UIColor blackColor];
@@ -153,13 +153,13 @@
     
     switch (feature) {
         case FeatureOnboarding:
-            return [UIColor leoOrangeRed];
+            return [UIColor leo_orangeRed];
             
         case FeatureSettings:
-            return [UIColor leoWhite];
+            return [UIColor leo_white];
             
         case FeatureAppointmentScheduling:
-            return [UIColor leoWhite];
+            return [UIColor leo_white];
             
         case FeatureUndefined:
             return [UIColor blackColor];
@@ -178,7 +178,7 @@
 //    
 //    [[UINavigationBar appearance] setShadowImage:[UIImage new]];
 //    
-//    NSDictionary *titleTextAttributesDictionary = @{NSFontAttributeName : [UIFont leoMenuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont], NSForegroundColorAttributeName: [UIColor leoWhite]};
+//    NSDictionary *titleTextAttributesDictionary = @{NSFontAttributeName : [UIFont leo_menuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont], NSForegroundColorAttributeName: [UIColor leo_white]};
 //    
 //    [[UINavigationBar appearance] setTitleTextAttributes:titleTextAttributesDictionary];
 //    

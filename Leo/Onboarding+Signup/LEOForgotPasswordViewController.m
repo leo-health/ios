@@ -70,7 +70,7 @@
     [backButton setImage:[UIImage imageNamed:@"Icon-BackArrow"]
                 forState:UIControlStateNormal];
     [backButton sizeToFit];
-    backButton.tintColor = [UIColor leoOrangeRed];
+    backButton.tintColor = [UIColor leo_orangeRed];
     
     UIBarButtonItem *backBBI = [[UIBarButtonItem alloc] initWithCustomView:backButton];
     
@@ -113,14 +113,14 @@
 
 - (void)setupSubmitButton {
     
-    self.submitButton.layer.borderColor = [UIColor leoOrangeRed].CGColor;
+    self.submitButton.layer.borderColor = [UIColor leo_orangeRed].CGColor;
     self.submitButton.layer.borderWidth = 1.0;
     [self.submitButton setTitle:@"SUBMIT"
                        forState:UIControlStateNormal];
-    self.submitButton.titleLabel.font = [UIFont leoButtonLabelsAndTimeStampsFont];
-    [self.submitButton setTitleColor:[UIColor leoWhite]
+    self.submitButton.titleLabel.font = [UIFont leo_buttonLabelsAndTimeStampsFont];
+    [self.submitButton setTitleColor:[UIColor leo_white]
                             forState:UIControlStateNormal];
-    [self.submitButton setBackgroundImage:[UIImage imageWithColor:[UIColor leoOrangeRed]]
+    [self.submitButton setBackgroundImage:[UIImage leo_imageWithColor:[UIColor leo_orangeRed]]
                                  forState:UIControlStateNormal];
 }
 

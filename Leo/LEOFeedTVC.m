@@ -101,8 +101,8 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
 
     [super viewDidLoad];
 
-    self.view.tintColor = [UIColor leoWhite];
-    self.view.backgroundColor = [UIColor leoOrangeRed];
+    self.view.tintColor = [UIColor leo_white];
+    self.view.backgroundColor = [UIColor leo_orangeRed];
 
     [self setupNavigationBar];
     [self setupNotifications];
@@ -125,7 +125,7 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
 
 - (void)setupNavigationBar {
 
-    self.navigationBar.barTintColor = [UIColor leoOrangeRed];
+    self.navigationBar.barTintColor = [UIColor leo_orangeRed];
     self.navigationBar.translucent = NO;
 
     UIImage *heartBBI = [[UIImage imageNamed:@"Icon-LeoHeart-Header"] resizedImageToSize:CGSizeMake(30.0, 30.0)];
@@ -255,7 +255,7 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
 
     self.tableView.estimatedRowHeight = 100;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
-    self.tableView.backgroundColor = [UIColor leoGrayForMessageBubbles];
+    self.tableView.backgroundColor = [UIColor leo_grayForMessageBubbles];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 
     UIEdgeInsets insets = self.tableView.contentInset;
@@ -617,8 +617,8 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
 
     self.menuButton.currentButtonType = buttonAddType;
     self.menuButton.currentButtonStyle = buttonRoundedStyle;
-    self.menuButton.tintColor = [UIColor leoWhite];
-    self.menuButton.roundBackgroundColor = [UIColor leoOrangeRed];
+    self.menuButton.tintColor = [UIColor leo_white];
+    self.menuButton.roundBackgroundColor = [UIColor leo_orangeRed];
     self.menuButton.lineThickness = 1;
     [self.menuButton addTarget:self action:@selector(menuTapped) forControlEvents:UIControlEventTouchUpInside];
 }
@@ -655,7 +655,7 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
                 belowSubview:self.menuView];
     [self.menuButton animateToType:buttonCloseType];
     self.menuButton.roundBackgroundColor = [UIColor clearColor];
-    self.menuButton.tintColor = [UIColor leoOrangeRed];
+    self.menuButton.tintColor = [UIColor leo_orangeRed];
 
     self.blurredImageView.alpha = 0;
 
@@ -677,8 +677,8 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
 - (void)animateMenuDisappearWithCompletion:(void (^)(void))completionBlock {
 
     [self.menuButton animateToType:buttonAddType];
-    self.menuButton.roundBackgroundColor = [UIColor leoOrangeRed];
-    self.menuButton.tintColor = [UIColor leoWhite];
+    self.menuButton.roundBackgroundColor = [UIColor leo_orangeRed];
+    self.menuButton.tintColor = [UIColor leo_white];
     self.blurredImageView.alpha = 1;
 
     [UIView animateWithDuration:0.25 animations:^{

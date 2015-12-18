@@ -14,7 +14,7 @@ UIView *_viewToAlwaysBeVisible;
 CGFloat offset;
 CGSize originalSize;
 
-- (void)scrollToViewIfObstructedByKeyboard:(UIView *)view{
+- (void)leo_scrollToViewIfObstructedByKeyboard:(UIView *)view{
     _viewToAlwaysBeVisible = view;
     
     if (view == nil) {
@@ -43,7 +43,7 @@ CGSize originalSize;
  */
 - (void)keyboardWillShow:(NSNotification*)notification{
     CGSize keyboardSize = [self getKeyboardSizeFromKeyboardNotification:notification];
-    [self scrollViewToShowIfFirstResponder:_viewToAlwaysBeVisible withKeyboardSize:keyboardSize];
+    [self leo_scrollViewToShowIfFirstResponder:_viewToAlwaysBeVisible withKeyboardSize:keyboardSize];
 }
 
 /**
@@ -70,7 +70,7 @@ CGSize originalSize;
     return keyboardFrameViewCoordinates.size;
 }
 
--(void)scrollViewToShowIfFirstResponder:(UIView*)viewThatShouldBeVisible withKeyboardSize:(CGSize)keyboardSize{
+-(void)leo_scrollViewToShowIfFirstResponder:(UIView*)viewThatShouldBeVisible withKeyboardSize:(CGSize)keyboardSize{
     //Insets for scroll view content after keyboard abstructs the scroll view
     UIEdgeInsets scrollViewEdgeInsets = UIEdgeInsetsMake(0, 0, keyboardSize.height, 0);
     //A frame that represents which portion of the scroll view is visible after keyboard

@@ -165,14 +165,14 @@ typedef NS_ENUM(NSInteger, LEOValidationsErrorCode) {
 
 + (BOOL)isValidShortDateFromString:(NSString *)candidate {
     
-    NSDate *date = [NSDate dateFromShortDateString:candidate];
+    NSDate *date = [NSDate leo_dateFromShortDateString:candidate];
     
     return ([date isKindOfClass:[NSDate class]] && date != nil) ? YES : NO;
 }
 
 + (BOOL)isValidShortDate:(NSDate *)candidate {
     
-    NSDate *date = [NSDate shortDateFromDate:candidate];
+    NSDate *date = [NSDate leo_shortDateFromDate:candidate];
     
     return ([date isKindOfClass:[NSDate class]] && date != nil) ? YES : NO;
 }

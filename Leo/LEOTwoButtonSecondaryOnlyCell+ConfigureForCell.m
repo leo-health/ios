@@ -50,17 +50,17 @@
 
 - (void)setCopyFontAndColor {
     
-    self.titleLabel.font = [UIFont leoCollapsedCardTitlesFont];
-    self.titleLabel.textColor = [UIColor leoGrayForTitlesAndHeadings];
+    self.titleLabel.font = [UIFont leo_collapsedCardTitlesFont];
+    self.titleLabel.textColor = [UIColor leo_grayForTitlesAndHeadings];
     
-    self.bodyLabel.font = [UIFont leoStandardFont];
-    self.bodyLabel.textColor = [UIColor leoGrayStandard];
+    self.bodyLabel.font = [UIFont leo_standardFont];
+    self.bodyLabel.textColor = [UIColor leo_grayStandard];
     
-    self.buttonOne.titleLabel.font = [UIFont leoButtonLabelsAndTimeStampsFont];
-    [self.buttonOne setTitleColor:[UIColor leoGrayStandard] forState:UIControlStateNormal];
+    self.buttonOne.titleLabel.font = [UIFont leo_buttonLabelsAndTimeStampsFont];
+    [self.buttonOne setTitleColor:[UIColor leo_grayStandard] forState:UIControlStateNormal];
     
-    self.buttonTwo.titleLabel.font = [UIFont leoButtonLabelsAndTimeStampsFont];
-    [self.buttonTwo setTitleColor:[UIColor leoGrayStandard] forState:UIControlStateNormal];
+    self.buttonTwo.titleLabel.font = [UIFont leo_buttonLabelsAndTimeStampsFont];
+    [self.buttonTwo setTitleColor:[UIColor leo_grayStandard] forState:UIControlStateNormal];
 }
 
 @end

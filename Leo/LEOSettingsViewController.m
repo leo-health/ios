@@ -162,9 +162,9 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
                     
                     cell.promptView.textField.text = [SessionUser currentUser].email;
                     cell.promptView.accessoryImageViewVisible = NO;
-                    cell.promptView.tintColor = [UIColor leoOrangeRed];
+                    cell.promptView.tintColor = [UIColor leo_orangeRed];
                     cell.promptView.textField.enabled = NO;
-                    cell.promptView.textField.textColor = [UIColor leoOrangeRed];
+                    cell.promptView.textField.textColor = [UIColor leo_orangeRed];
                     cell.promptView.tapGestureEnabled = NO;
                     cell.promptView.textField.standardPlaceholder = @"email";
                     
@@ -176,9 +176,9 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
                     cell.promptView.textField.text = @"Change my password";
                     cell.promptView.accessoryImageViewVisible = YES;
                     cell.promptView.accessoryImage = [UIImage imageNamed:@"Icon-ForwardArrow"];
-                    cell.promptView.tintColor = [UIColor leoOrangeRed];
+                    cell.promptView.tintColor = [UIColor leo_orangeRed];
                     cell.promptView.textField.enabled = NO;
-                    cell.promptView.textField.textColor = [UIColor leoGrayStandard];
+                    cell.promptView.textField.textColor = [UIColor leo_grayStandard];
                     cell.promptView.tapGestureEnabled = NO;
                     cell.promptView.textField.standardPlaceholder = @"";
                     
@@ -190,9 +190,9 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
                     cell.promptView.textField.text = @"Invite a parent";
                     cell.promptView.accessoryImageViewVisible = YES;
                     cell.promptView.accessoryImage = [UIImage imageNamed:@"Icon-Add"];
-                    cell.promptView.tintColor = [UIColor leoOrangeRed];
+                    cell.promptView.tintColor = [UIColor leo_orangeRed];
                     cell.promptView.textField.enabled = NO;
-                    cell.promptView.textField.textColor = [UIColor leoGrayStandard];
+                    cell.promptView.textField.textColor = [UIColor leo_grayStandard];
                     cell.promptView.tapGestureEnabled = NO;
                     cell.promptView.textField.standardPlaceholder = @"";
                     
@@ -225,7 +225,7 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
                     cell.promptView.accessoryImageViewVisible = NO;
                     cell.promptView.textField.enabled = NO;
                     cell.promptView.tapGestureEnabled = NO;
-                    cell.promptView.textField.textColor = [UIColor leoOrangeRed];
+                    cell.promptView.textField.textColor = [UIColor leo_orangeRed];
                     cell.promptView.textField.standardPlaceholder = @"version | build";
                     
                     break;
@@ -238,8 +238,8 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
                     cell.promptView.accessoryImage = [UIImage imageNamed:@"Icon-ForwardArrow"];
                     cell.promptView.textField.enabled = NO;
                     cell.promptView.tapGestureEnabled = NO;
-                    cell.promptView.tintColor = [UIColor leoOrangeRed];
-                    cell.promptView.textField.textColor = [UIColor leoGrayStandard];
+                    cell.promptView.tintColor = [UIColor leo_orangeRed];
+                    cell.promptView.textField.textColor = [UIColor leo_grayStandard];
                     cell.promptView.textField.standardPlaceholder = @"";
                     
                     break;
@@ -252,8 +252,8 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
                     cell.promptView.accessoryImage = [UIImage imageNamed:@"Icon-ForwardArrow"];
                     cell.promptView.textField.enabled = NO;
                     cell.promptView.tapGestureEnabled = NO;
-                    cell.promptView.tintColor = [UIColor leoOrangeRed];
-                    cell.promptView.textField.textColor = [UIColor leoGrayStandard];
+                    cell.promptView.tintColor = [UIColor leo_orangeRed];
+                    cell.promptView.textField.textColor = [UIColor leo_grayStandard];
                     cell.promptView.textField.standardPlaceholder = @"";
                     
                     break;
@@ -266,8 +266,8 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
                     cell.promptView.accessoryImage = [UIImage imageNamed:@"Icon-ForwardArrow"];
                     cell.promptView.textField.enabled = NO;
                     cell.promptView.tapGestureEnabled = NO;
-                    cell.promptView.tintColor = [UIColor leoOrangeRed];
-                    cell.promptView.textField.textColor = [UIColor leoGrayStandard];
+                    cell.promptView.tintColor = [UIColor leo_orangeRed];
+                    cell.promptView.textField.textColor = [UIColor leo_grayStandard];
                     cell.promptView.textField.standardPlaceholder = @"";
                     
                     break;
@@ -436,10 +436,10 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
         case SettingsSectionAbout: {
             
             UITableViewHeaderFooterView *headerView = (UITableViewHeaderFooterView *)view;
-            headerView.textLabel.textColor = [UIColor leoGrayForTitlesAndHeadings];
-            headerView.textLabel.font = [UIFont leoExpandedCardHeaderFont];
+            headerView.textLabel.textColor = [UIColor leo_grayForTitlesAndHeadings];
+            headerView.textLabel.font = [UIFont leo_expandedCardHeaderFont];
             headerView.textLabel.text = [headerView.textLabel.text capitalizedString];
-            headerView.tintColor = [UIColor leoWhite];
+            headerView.tintColor = [UIColor leo_white];
             break;
         }
             
@@ -452,7 +452,7 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
 
 - (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {
     
-    view.tintColor = [UIColor leoWhite];
+    view.tintColor = [UIColor leo_white];
 }
 
 

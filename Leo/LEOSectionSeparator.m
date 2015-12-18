@@ -33,7 +33,7 @@
 }
 
 - (void)setup {
-    self.backgroundColor = [UIColor leoGrayForPlaceholdersAndLines];
+    self.backgroundColor = [UIColor leo_grayForPlaceholdersAndLines];
 }
 -(CGSize)intrinsicContentSize {
     return CGSizeMake(self.frame.size.width, 1.0);

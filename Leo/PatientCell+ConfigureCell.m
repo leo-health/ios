@@ -19,15 +19,15 @@
 - (void)configureForPatient:(Patient *)patient {
     
     self.fullNameLabel.text = patient.fullName;
-    self.fullNameLabel.font = [UIFont leoMenuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
-    self.fullNameLabel.textColor = [UIColor leoGrayForTitlesAndHeadings];
+    self.fullNameLabel.font = [UIFont leo_menuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
+    self.fullNameLabel.textColor = [UIColor leo_grayForTitlesAndHeadings];
     
     if (patient.avatar) {
-        self.avatarImageView.image = [LEOMessagesAvatarImageFactory circularAvatarImage:patient.avatar withDiameter:40 borderColor:[UIColor leoGrayForPlaceholdersAndLines] borderWidth:3];
+        self.avatarImageView.image = [LEOMessagesAvatarImageFactory circularAvatarImage:patient.avatar withDiameter:40 borderColor:[UIColor leo_grayForPlaceholdersAndLines] borderWidth:3];
         //This should really pull from the patient avatar image. But since we haven't set that up yet. This is a placeholder.
     } else {
 
-        self.avatarImageView.image = [LEOMessagesAvatarImageFactory circularAvatarImage:[UIImage imageNamed:@"Icon-AvatarBorderless"] withDiameter:40 borderColor:[UIColor leoGrayForPlaceholdersAndLines] borderWidth:3];
+        self.avatarImageView.image = [LEOMessagesAvatarImageFactory circularAvatarImage:[UIImage imageNamed:@"Icon-AvatarBorderless"] withDiameter:40 borderColor:[UIColor leo_grayForPlaceholdersAndLines] borderWidth:3];
 
         if (patient.avatarURL) {
             
@@ -39,9 +39,9 @@
                     UIImage *avatar;
                     if (!self.selected) {
                    
-                        avatar = [LEOMessagesAvatarImageFactory circularAvatarImage:rawImage withDiameter:40 borderColor:[UIColor leoGrayForPlaceholdersAndLines] borderWidth:3];
+                        avatar = [LEOMessagesAvatarImageFactory circularAvatarImage:rawImage withDiameter:40 borderColor:[UIColor leo_grayForPlaceholdersAndLines] borderWidth:3];
                     } else {
-                        avatar = [LEOMessagesAvatarImageFactory circularAvatarImage:rawImage withDiameter:40 borderColor:[UIColor leoGreen] borderWidth:3];
+                        avatar = [LEOMessagesAvatarImageFactory circularAvatarImage:rawImage withDiameter:40 borderColor:[UIColor leo_green] borderWidth:3];
                     }
                     
                     self.avatarImageView.image = avatar;

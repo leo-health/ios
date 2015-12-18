@@ -48,12 +48,12 @@
 
 - (void)formatCalendar {
     
-    self.monthView.backgroundColor = [UIColor leoGreen];
-    self.monthLabel.font = [UIFont leoExpandedCardHeaderFont];
-    self.monthLabel.textColor = [UIColor leoWhite];
+    self.monthView.backgroundColor = [UIColor leo_green];
+    self.monthLabel.font = [UIFont leo_expandedCardHeaderFont];
+    self.monthLabel.textColor = [UIColor leo_white];
     self.noSlotsLabel.text = @"We're all booked up this week!\nCheck out next week for more appointments.";
-    self.noSlotsLabel.textColor = [UIColor leoGrayStandard];
-    self.noSlotsLabel.font = [UIFont leoStandardFont];
+    self.noSlotsLabel.textColor = [UIColor leo_grayStandard];
+    self.noSlotsLabel.font = [UIFont leo_standardFont];
     self.noSlotsLabel.lineBreakMode = NSLineBreakByWordWrapping;
     self.noSlotsLabel.numberOfLines = 0;
     self.noSlotsLabel.hidden = YES;
@@ -140,7 +140,7 @@
         self.dateCollectionController = [[DateCollectionController alloc] initWithCollectionView:self.dateCollectionView dates:self.slotsDictionary chosenDate:[self initialDate]];
         self.dateCollectionController.delegate = self;
         
-        self.timeCollectionController = [[TimeCollectionController alloc] initWithCollectionView:self.timeCollectionView slots:self.slotsDictionary[[[self initialDate] beginningOfDay]] chosenSlot:[Slot slotFromExistingAppointment:self.prepAppointment]];
+        self.timeCollectionController = [[TimeCollectionController alloc] initWithCollectionView:self.timeCollectionView slots:self.slotsDictionary[[[self initialDate] leo_beginningOfDay]] chosenSlot:[Slot slotFromExistingAppointment:self.prepAppointment]];
         self.timeCollectionController.delegate = self;
         
         //FIXME: Don't love that I have to call this from outside of the DateCollectionController. There has got to be a better way.
@@ -194,7 +194,7 @@
     if (self.prepAppointment.date) {
         
         NSMutableDictionary *slotsDictionaryWithExistingAppointmentSlot = [data mutableCopy];
-        NSMutableArray *slotsForDateOfExistingAppointment = [slotsDictionaryWithExistingAppointmentSlot[[self.prepAppointment.date beginningOfDay]] mutableCopy];
+        NSMutableArray *slotsForDateOfExistingAppointment = [slotsDictionaryWithExistingAppointmentSlot[[self.prepAppointment.date leo_beginningOfDay]] mutableCopy];
         
         Slot *prepSlot = [Slot slotFromExistingAppointment:self.prepAppointment];
         
@@ -223,7 +223,7 @@
         
         sortedSlots = [slotsForDateOfExistingAppointment sortedArrayUsingDescriptors:@[datesAscending]];
         
-        [slotsDictionaryWithExistingAppointmentSlot setObject:sortedSlots forKey:[self.prepAppointment.date beginningOfDay]];
+        [slotsDictionaryWithExistingAppointmentSlot setObject:sortedSlots forKey:[self.prepAppointment.date leo_beginningOfDay]];
         self.slotsDictionary = [slotsDictionaryWithExistingAppointmentSlot copy];
         
     } else {

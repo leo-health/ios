@@ -10,7 +10,7 @@
 
 @implementation UIView (Extensions)
 
-- (NSLayoutConstraint *)pin:(id)item attribute:(NSLayoutAttribute)attribute {
+- (NSLayoutConstraint *)leo_pin:(id)item attribute:(NSLayoutAttribute)attribute {
     return [NSLayoutConstraint constraintWithItem:self
                                         attribute:attribute
                                         relatedBy:NSLayoutRelationEqual

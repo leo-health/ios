@@ -12,7 +12,6 @@
 #import "UIFont+LeoFonts.h"
 #import "UIColor+LeoColors.h"
 #import "UIImage+Extensions.h"
-#import "UIViewController+Extensions.h"
 
 #import "LEOPromptViewCell+ConfigureForCell.h"
 #import "LEOBasicHeaderCell+ConfigureForCell.h"
@@ -326,11 +325,11 @@ typedef NS_ENUM(NSUInteger, TableViewSection) {
     
     if (shouldFade) {
         
-        [self fadeAnimation:fadeAnimation fromColor:[UIColor clearColor] toColor:[UIColor leoOrangeRed] withStrokeColor:[UIColor leoOrangeRed]];
+        [self fadeAnimation:fadeAnimation fromColor:[UIColor clearColor] toColor:[UIColor leo_orangeRed] withStrokeColor:[UIColor leo_orangeRed]];
         
     } else {
         
-        [self fadeAnimation:fadeAnimation fromColor:[UIColor clearColor] toColor:[UIColor leoOrangeRed] withStrokeColor:[UIColor leoOrangeRed]];
+        [self fadeAnimation:fadeAnimation fromColor:[UIColor clearColor] toColor:[UIColor leo_orangeRed] withStrokeColor:[UIColor leo_orangeRed]];
     }
     
     [self.pathLayer addAnimation:fadeAnimation forKey:@"breakerFade"];
