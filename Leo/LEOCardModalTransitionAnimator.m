@@ -6,10 +6,10 @@
 //  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
-#import "LEOCardTransitionAnimator.h"
+#import "LEOCardModalTransitionAnimator.h"
 #import "UIColor+LeoColors.h"
 
-@implementation LEOCardTransitionAnimator
+@implementation LEOCardModalTransitionAnimator
 
 - (NSTimeInterval)transitionDuration:(id <UIViewControllerContextTransitioning>)transitionContext {
    
@@ -110,6 +110,7 @@
         
     }
     else {
+
         toViewController.view.userInteractionEnabled = YES;
         __block UIView *snapshot = [fromView snapshotViewAfterScreenUpdates:YES];
         [transitionContext.containerView addSubview:snapshot];

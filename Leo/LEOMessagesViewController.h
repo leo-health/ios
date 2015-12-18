@@ -20,8 +20,9 @@
 @class LEOCardConversation;
 
 #import <JSQMessagesViewController/JSQMessages.h>
+#import "LEOImageCropViewController.h"
 
-@interface LEOMessagesViewController : JSQMessagesViewController <UIActionSheetDelegate>
+@interface LEOMessagesViewController : JSQMessagesViewController <UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, RSKImageCropViewControllerDelegate>
 
 @property (strong, nonatomic) LEOCardConversation *card;
 
