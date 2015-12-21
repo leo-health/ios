@@ -14,14 +14,14 @@
 #import "LEOSignUpUserViewController.h"
 #import "LEOUserService.h"
 #import "LEOStyleHelper.h"
-#import "LEOPromptView.h"
+#import "LEOPromptField.h"
 #import <MBProgressHUD.h>
 
 @interface LEOEnrollmentViewController ()
 
 @property (weak, nonatomic) IBOutlet UIView *createAccountView;
-@property (weak, nonatomic) IBOutlet LEOPromptView *emailPromptView;
-@property (weak, nonatomic) IBOutlet LEOPromptView *passwordPromptView;
+@property (weak, nonatomic) IBOutlet LEOPromptField *emailPromptField;
+@property (weak, nonatomic) IBOutlet LEOPromptField *passwordPromptField;
 @property (weak, nonatomic) IBOutlet UIButton *continueButton;
 
 @property (strong, nonatomic) Guardian *guardian;
@@ -73,22 +73,22 @@
 
 - (void)setupEmailTextField {
     
-    self.emailPromptView.textField.delegate = self;
-    self.emailPromptView.textField.standardPlaceholder = @"email address";
-    self.emailPromptView.textField.validationPlaceholder = @"Invalid email";
-    self.emailPromptView.textField.autocorrectionType = UITextAutocorrectionTypeNo;
-    self.emailPromptView.textField.keyboardType = UIKeyboardTypeEmailAddress;
-    self.emailPromptView.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-    [self.emailPromptView sizeToFit];
+    self.emailPromptField.textField.delegate = self;
+    self.emailPromptField.textField.standardPlaceholder = @"email address";
+    self.emailPromptField.textField.validationPlaceholder = @"Invalid email";
+    self.emailPromptField.textField.autocorrectionType = UITextAutocorrectionTypeNo;
+    self.emailPromptField.textField.keyboardType = UIKeyboardTypeEmailAddress;
+    self.emailPromptField.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    [self.emailPromptField sizeToFit];
 }
 
 - (void)setupPasswordTextField {
     
-    self.passwordPromptView.textField.delegate = self;
-    self.passwordPromptView.textField.standardPlaceholder = @"password";
-    self.passwordPromptView.textField.validationPlaceholder = @"Passwords must be at least 8 characters";
-    self.passwordPromptView.textField.secureTextEntry = YES;
-    [self.passwordPromptView sizeToFit];
+    self.passwordPromptField.textField.delegate = self;
+    self.passwordPromptField.textField.standardPlaceholder = @"password";
+    self.passwordPromptField.textField.validationPlaceholder = @"Passwords must be at least 8 characters";
+    self.passwordPromptField.textField.secureTextEntry = YES;
+    [self.passwordPromptField sizeToFit];
 }
 
 - (void)setupContinueButton {
@@ -105,14 +105,14 @@
     
     [mutableText replaceCharactersInRange:range withString:string];
     
-    if (textField == self.emailPromptView.textField && !self.emailPromptView.valid) {
+    if (textField == self.emailPromptField.textField && !self.emailPromptField.valid) {
         
-        self.emailPromptView.valid = [LEOValidationsHelper isValidEmail:mutableText.string];
+        self.emailPromptField.valid = [LEOValidationsHelper isValidEmail:mutableText.string];
     }
     
-    if (textField == self.passwordPromptView.textField && !self.passwordPromptView.valid) {
+    if (textField == self.passwordPromptField.textField && !self.passwordPromptField.valid) {
         
-        self.passwordPromptView.valid = [LEOValidationsHelper isValidPassword:mutableText.string];
+        self.passwordPromptField.valid = [LEOValidationsHelper isValidPassword:mutableText.string];
     }
     
     return YES;
@@ -131,7 +131,7 @@
         [self addOnboardingData];
     
         LEOUserService *userService = [[LEOUserService alloc] init];
-        [userService enrollUser:self.guardian password:[self passwordPromptView].textField.text withCompletion:^(BOOL success, NSError *error) {
+        [userService enrollUser:self.guardian password:[self passwordPromptField].textField.text withCompletion:^(BOOL success, NSError *error) {
             
             if (!error) {
                 [self performSegueWithIdentifier:kSegueContinue sender:sender];
@@ -159,18 +159,18 @@
 
 - (void)addOnboardingData {
 
-        NSString *email = [self emailPromptView].textField.text;
+        NSString *email = [self emailPromptField].textField.text;
     
     self.guardian = [[Guardian alloc] initWithObjectID:nil familyID:nil title:nil firstName:nil middleInitial:nil lastName:nil suffix:nil email:email avatarURL:nil avatar:nil phoneNumber:nil insurancePlan:nil primary:YES membershipType:MembershipTypeNone];
 }
 
 - (BOOL)validatePage {
     
-    BOOL validEmail = [LEOValidationsHelper isValidEmail:self.emailPromptView.textField.text];
-    BOOL validPassword = [LEOValidationsHelper isValidPassword:self.passwordPromptView.textField.text];
+    BOOL validEmail = [LEOValidationsHelper isValidEmail:self.emailPromptField.textField.text];
+    BOOL validPassword = [LEOValidationsHelper isValidPassword:self.passwordPromptField.textField.text];
     
-    self.emailPromptView.valid = validEmail;
-    self.passwordPromptView.valid = validPassword;
+    self.emailPromptField.valid = validEmail;
+    self.passwordPromptField.valid = validPassword;
     
     return validEmail && validPassword;
 }
@@ -194,7 +194,7 @@
 
 - (void)testData {
     
-    [self emailPromptView].textField.text = @"sally.carmichael@gmail.com";
-    [self passwordPromptView].textField.text = @"sallycarmichael";
+    [self emailPromptField].textField.text = @"sally.carmichael@gmail.com";
+    [self passwordPromptField].textField.text = @"sallycarmichael";
 }
 @end

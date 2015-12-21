@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
     </dependencies>
     <objects>
@@ -9,11 +8,11 @@
             <connections>
                 <outlet property="contentView" destination="xO0-oj-ief" id="Ykt-Ji-oUA"/>
                 <outlet property="continueButton" destination="OHH-Dr-SMq" id="ucm-jm-czg"/>
-                <outlet property="firstNamePromptView" destination="J57-X8-tBs" id="HT5-f0-qZs"/>
+                <outlet property="firstNamePromptField" destination="J57-X8-tBs" id="HT5-f0-qZs"/>
                 <outlet property="headerView" destination="Kqv-nk-d3w" id="RaP-19-Ix4"/>
-                <outlet property="insurerPromptView" destination="j53-Ik-BrP" id="lYb-Lq-bg3"/>
-                <outlet property="lastNamePromptView" destination="6ao-k5-q96" id="aRo-1U-3Wv"/>
-                <outlet property="phoneNumberPromptView" destination="CN3-Ay-D6c" id="Z1W-nf-eHT"/>
+                <outlet property="insurerPromptField" destination="j53-Ik-BrP" id="lYb-Lq-bg3"/>
+                <outlet property="lastNamePromptField" destination="6ao-k5-q96" id="aRo-1U-3Wv"/>
+                <outlet property="phoneNumberPromptField" destination="CN3-Ay-D6c" id="Z1W-nf-eHT"/>
                 <outlet property="scrollView" destination="HgP-xD-hRj" id="bD4-IX-R7f"/>
             </connections>
         </placeholder>
@@ -48,7 +47,7 @@
                                         <constraint firstAttribute="height" constant="130" id="pqf-94-HRK"/>
                                     </constraints>
                                 </view>
-                                <view contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="j53-Ik-BrP" userLabel="Insurer Prompt View" customClass="LEOPromptView">
+                                <view contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="j53-Ik-BrP" userLabel="Insurer Prompt View" customClass="LEOPromptField">
                                     <rect key="frame" x="0.0" y="130" width="356" height="68"/>
                                     <animations/>
                                     <gestureRecognizers/>
@@ -56,14 +55,14 @@
                                         <constraint firstAttribute="height" constant="68" id="fsT-Iv-uVM"/>
                                     </constraints>
                                 </view>
-                                <view contentMode="scaleToFill" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="6ao-k5-q96" userLabel="Last Name Prompt View" customClass="LEOPromptView">
+                                <view contentMode="scaleToFill" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="6ao-k5-q96" userLabel="Last Name Prompt View" customClass="LEOPromptField">
                                     <rect key="frame" x="0.0" y="266" width="356" height="68"/>
                                     <animations/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="68" id="EjT-pD-VDA"/>
                                     </constraints>
                                 </view>
-                                <view contentMode="scaleToFill" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="CN3-Ay-D6c" userLabel="Phone Number Prompt View" customClass="LEOPromptView">
+                                <view contentMode="scaleToFill" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="CN3-Ay-D6c" userLabel="Phone Number Prompt View" customClass="LEOPromptField">
                                     <rect key="frame" x="0.0" y="334" width="356" height="68"/>
                                     <animations/>
                                     <constraints>
@@ -82,7 +81,7 @@
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
                                 </button>
-                                <view contentMode="scaleToFill" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="J57-X8-tBs" userLabel="First Name Prompt View" customClass="LEOPromptView">
+                                <view contentMode="scaleToFill" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="J57-X8-tBs" userLabel="First Name Prompt View" customClass="LEOPromptField">
                                     <rect key="frame" x="0.0" y="198" width="356" height="68"/>
                                     <animations/>
                                     <constraints>

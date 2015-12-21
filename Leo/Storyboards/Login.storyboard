@@ -170,7 +170,7 @@
                                                     <constraint firstItem="TEV-cK-whC" firstAttribute="leading" secondItem="SpC-E4-Pz5" secondAttribute="leading" id="uUD-jo-N6n"/>
                                                 </constraints>
                                             </view>
-                                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N69-be-bgZ" userLabel="Email Prompt View" customClass="LEOPromptView">
+                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N69-be-bgZ" userLabel="Email Prompt View" customClass="LEOPromptField">
                                                 <rect key="frame" x="0.0" y="130" width="508" height="69"/>
                                                 <animations/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -183,7 +183,7 @@
                                                     </mask>
                                                 </variation>
                                             </view>
-                                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Fde-xL-YXF" userLabel="Password Prompt View" customClass="LEOPromptView">
+                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Fde-xL-YXF" userLabel="Password Prompt View" customClass="LEOPromptField">
                                                 <rect key="frame" x="0.0" y="199" width="508" height="69"/>
                                                 <animations/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -191,7 +191,7 @@
                                                     <constraint firstAttribute="height" constant="48" id="2RG-m9-Nc9"/>
                                                 </constraints>
                                             </view>
-                                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eum-yZ-MfU">
+                                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eum-yZ-MfU">
                                                 <rect key="frame" x="0.0" y="308" width="508" height="54"/>
                                                 <animations/>
                                                 <constraints>
@@ -254,8 +254,8 @@
                     <connections>
                         <outlet property="continueButton" destination="eum-yZ-MfU" id="lI7-FX-dqx"/>
                         <outlet property="createAccountView" destination="wzu-K3-c75" id="G5I-lh-hGH"/>
-                        <outlet property="emailPromptView" destination="N69-be-bgZ" id="U66-wx-T7h"/>
-                        <outlet property="passwordPromptView" destination="Fde-xL-YXF" id="fhW-RQ-4ao"/>
+                        <outlet property="emailPromptField" destination="N69-be-bgZ" id="U66-wx-T7h"/>
+                        <outlet property="passwordPromptField" destination="Fde-xL-YXF" id="fhW-RQ-4ao"/>
                         <segue destination="0H6-eb-u2K" kind="show" identifier="ContinueSegue" id="EwN-DU-y7d"/>
                     </connections>
                 </viewController>

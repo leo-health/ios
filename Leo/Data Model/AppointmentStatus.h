@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *athenaCode;
 @property (nonatomic) AppointmentStatusCode statusCode;
 
+- (instancetype)initWithObjectID:(NSString *)objectID name:(NSString *)name athenaCode:(NSString *)athenaCode statusCode:(AppointmentStatusCode)statusCode;
 - (instancetype)initWithJSONDictionary:(nonnull NSDictionary *)jsonResponse;
 + (NSDictionary *)dictionaryFromAppointmentStatus:(AppointmentStatus *)status;
 

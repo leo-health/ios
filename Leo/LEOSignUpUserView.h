@@ -9,14 +9,14 @@
 @class TPKeyboardAvoidingScrollView, Guardian, InsurancePlan;
 
 #import <UIKit/UIKit.h>
-#import "LEOPromptView.h"
+#import "LEOPromptField.h"
 
 @interface LEOSignUpUserView : UIView <UITextFieldDelegate>
 
-@property (weak, nonatomic) IBOutlet LEOPromptView *firstNamePromptView;
-@property (weak, nonatomic) IBOutlet LEOPromptView *lastNamePromptView;
-@property (weak, nonatomic) IBOutlet LEOPromptView *phoneNumberPromptView;
-@property (weak, nonatomic) IBOutlet LEOPromptView *insurerPromptView;
+@property (weak, nonatomic) IBOutlet LEOPromptField *firstNamePromptField;
+@property (weak, nonatomic) IBOutlet LEOPromptField *lastNamePromptField;
+@property (weak, nonatomic) IBOutlet LEOPromptField *phoneNumberPromptField;
+@property (weak, nonatomic) IBOutlet LEOPromptField *insurerPromptField;
 @property (weak, nonatomic) IBOutlet UIButton *continueButton;
 @property (weak, nonatomic) IBOutlet TPKeyboardAvoidingScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIView *headerView;

@@ -36,5 +36,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 -(instancetype)initWithAppointment:(Appointment *)appointment;
 
+- (BOOL)isValidForBooking;
+- (BOOL)isValidForScheduling;
+
 NS_ASSUME_NONNULL_END
 @end

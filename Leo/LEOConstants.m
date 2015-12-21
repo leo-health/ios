@@ -226,7 +226,7 @@ NSString *const kHeaderCellReuseIdentifier = @"LEOBasicHeaderCell";
 NSString *const kReviewUserCellReuseIdentifer = @"ReviewUserCell";
 NSString *const kReviewPatientCellReuseIdentifer = @"ReviewPatientCell";
 NSString *const kButtonCellReuseIdentifier = @"ButtonCell";
-NSString *const kPromptViewCellReuseIdentifier = @"LEOPromptViewCell";
+NSString *const kPromptFieldCellReuseIdentifier = @"LEOPromptFieldCell";
 
 #pragma mark - LEO Error Domains
 NSString *const kLEOValidationsErrorDomain = @"LEOValidationsErrorDomain";

@@ -28,31 +28,52 @@ static NSString *kActionSelectorSchedule = @"schedule";
 static NSString *kActionSelectorCancel = @"cancel";
 static NSString *kActionSelectorConfirmCancelled = @"confirmCancelled";
 static NSString *kActionSelectorUnconfirmCancelled = @"unconfirmCancelled";
-static NSString *kActionSelectorDismiss = @"dismiss";
+static NSString *kActionSelectorCancelled = @"cancelled";
 static NSString *kActionSelectorBook = @"book";
 static NSString *kActionSelectorReschedule = @"reschedule";
 
-- (instancetype)initWithObjectID:(NSString *)objectID priority:(NSNumber *)priority associatedCardObject:(id)associatedCardObjectDictionary {
-    
-    self = [super initWithObjectID:objectID priority:priority type:CardTypeAppointment associatedCardObject:associatedCardObjectDictionary];
+- (instancetype)initWithObjectID:(NSString *)objectID priority:(NSNumber *)priority associatedCardObject:(id)associatedCardObject {
+
+    Appointment *appointment;
+
+    if ([associatedCardObject isKindOfClass:[NSDictionary class]]) {
+        appointment = [[Appointment alloc] initWithJSONDictionary:associatedCardObject];
+    } else {
+        appointment = associatedCardObject;
+    }
+
+    self = [super initWithObjectID:objectID priority:priority type:CardTypeAppointment associatedCardObject:appointment];
     
     if (self) {
         
-        Appointment *appointment = [[Appointment alloc] initWithJSONDictionary:associatedCardObjectDictionary];
-        
-        self.associatedCardObject = appointment;
+        [self commonInit];
     }
     
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSDictionary *)jsonCard {
-    
-    return [self initWithObjectID:jsonCard[APIParamID]
-                         priority:jsonCard[APIParamCardPriority]
-             associatedCardObject:jsonCard[APIParamCardData]];
+- (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
+
+    return [self initWithObjectID:jsonResponse[APIParamID]
+                         priority:jsonResponse[APIParamCardPriority]
+             associatedCardObject:jsonResponse[APIParamCardData]];
 }
 
+- (void)commonInit {
+
+    [self setupNotifications];
+}
+
+- (void)setupNotifications {
+
+    NSOperationQueue *mainQueue = [NSOperationQueue mainQueue];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(randomMethod) name:@"Status-Changed" object:self.associatedCardObject];
+}
+
+-(void)randomMethod {
+     [self.activityDelegate didUpdateObjectStateForCard:self];
+}
 
 -(Appointment *)appointment {
     
@@ -236,6 +257,7 @@ static NSString *kActionSelectorReschedule = @"reschedule";
             break;
             
         }
+            
         case AppointmentStatusCodeBooking: {
     
             NSString *buttonOneAction = kActionSelectorReschedule;
@@ -255,7 +277,7 @@ static NSString *kActionSelectorReschedule = @"reschedule";
         case AppointmentStatusCodeReminding:
         case AppointmentStatusCodeFuture: {
 
-            NSString *buttonOneAction = kActionSelectorSchedule;
+            NSString *buttonOneAction = kActionSelectorReschedule;
             [actions addObject:buttonOneAction];
             
             NSString *buttonTwoAction = kActionSelectorCancel;
@@ -277,7 +299,7 @@ static NSString *kActionSelectorReschedule = @"reschedule";
             
         case AppointmentStatusCodeConfirmingCancelling: {
             
-            NSString *buttonOneAction = kActionSelectorDismiss;
+            NSString *buttonOneAction = kActionSelectorCancelled;
             [actions addObject:buttonOneAction];
             
             break;
@@ -291,59 +313,6 @@ static NSString *kActionSelectorReschedule = @"reschedule";
     }
     
     return actions;
-}
-
-- (void)reschedule {
-    
-    self.appointment.priorAppointmentStatus.statusCode = self.appointment.status.statusCode;
-    self.appointment.status.statusCode = AppointmentStatusCodeReminding;
-    [self.delegate didUpdateObjectStateForCard:self];
-}
-
-- (void)book {
-    
-    self.appointment.status.statusCode = AppointmentStatusCodeReminding;
-    [self.delegate didUpdateObjectStateForCard:self];
-}
-
-- (void)schedule {
-    
-    self.appointment.priorAppointmentStatus.statusCode = self.appointment.status.statusCode;
-    self.appointment.status.statusCode = AppointmentStatusCodeFuture;
-    [self.delegate didUpdateObjectStateForCard:self];
-}
-
-- (void)cancel {
-    self.appointment.priorAppointmentStatus.statusCode = self.appointment.status.statusCode;
-    self.appointment.status.statusCode = AppointmentStatusCodeCancelling;
-    [self.delegate didUpdateObjectStateForCard:self];
-}
-
-- (void)confirmCancelled {
-    self.appointment.status.statusCode = AppointmentStatusCodeConfirmingCancelling;
-    [self.delegate didUpdateObjectStateForCard:self];
-}
-
-- (void)unconfirmCancelled {
-    self.appointment.status.statusCode = AppointmentStatusCodeReminding;
-    [self.delegate didUpdateObjectStateForCard:self];
-}
-
-- (void)dismiss {
-    self.appointment.status.statusCode = AppointmentStatusCodeCancelled;
-    [self.delegate didUpdateObjectStateForCard:self];
-}
-
-- (void)returnToPriorState {
-    self.appointment.status.statusCode = self.appointment.priorAppointmentStatus.statusCode;
-}
-
-- (void)confirmCancel {
-    //updates state of the appointment to show a view in which we confirm the appointment was cancelled.
-}
-
-- (void)remind {
-    //updates state of the collapsed card to show a few in which we remind user of the upcoming appointment.
 }
 
 -(nullable User *)primaryUser {
@@ -366,5 +335,8 @@ static NSString *kActionSelectorReschedule = @"reschedule";
     return [UIImage imageNamed:@"Icon-Calendar"];
 }
 
+-(void)dealloc {
+    //TODO: Remove after debugging complete.
+}
 
 @end

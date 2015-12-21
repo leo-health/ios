@@ -10,16 +10,19 @@
 #import "LEOAPISessionManager.h"
 #import "Slot.h"
 #import "Appointment.h"
+#import "LEOCardAppointment.h"
 
 @implementation LEOAppointmentService
 
-- (NSURLSessionTask *)createAppointmentWithAppointment:(Appointment *)appointment withCompletion:(void (^)(NSDictionary *rawResults, NSError *error))completionBlock {
+- (NSURLSessionTask *)createAppointmentWithAppointment:(Appointment *)appointment withCompletion:(void (^)(LEOCardAppointment *appointmentCard, NSError *error))completionBlock {
     
     NSDictionary *apptParams = [Appointment dictionaryFromAppointment:appointment];
 
     NSURLSessionTask *task = [[LEOAppointmentService leoSessionManager] standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointAppointments params:apptParams completion:^(NSDictionary *rawResults, NSError *error) {
+
+        LEOCardAppointment *card = [[LEOCardAppointment alloc] initWithJSONDictionary:rawResults[@"data"]];
         if (completionBlock) {
-            completionBlock(rawResults, error);
+            completionBlock(card, error);
         }
     }];
     
@@ -42,24 +45,27 @@
     return task;
 }
 
-- (NSURLSessionTask *)rescheduleAppointmentWithAppointment:(Appointment *)appointment withCompletion:(void (^)(NSDictionary *rawResults, NSError *error))completionBlock {
+- (NSURLSessionTask *)rescheduleAppointmentWithAppointment:(Appointment *)appointment withCompletion:(void (^)(LEOCardAppointment *appointmentCard, NSError *error))completionBlock {
 
     NSDictionary *apptParams = [Appointment dictionaryFromAppointment:appointment];
 
     NSString *rescheduleAppointmentURLString = [NSString stringWithFormat:@"%@/%@",APIEndpointAppointments, apptParams[APIParamID]];
 
     NSURLSessionTask *task = [[LEOAppointmentService leoSessionManager] standardPUTRequestForJSONDictionaryToAPIWithEndpoint:rescheduleAppointmentURLString params:apptParams completion:^(NSDictionary *rawResults, NSError *error) {
+
+        LEOCardAppointment *card = [[LEOCardAppointment alloc] initWithJSONDictionary:rawResults[@"data"]];
+
         if (completionBlock) {
-            completionBlock(rawResults, error);
+            completionBlock(card, error);
         }
     }];
     
     return task;
 }
 
-- (NSURLSessionTask *)getSlotsForPrepAppointment:(PrepAppointment *)prepAppointment withCompletion:(void (^)(NSArray *slots, NSError *error))completionBlock {
+- (NSURLSessionTask *)getSlotsForAppointment:(Appointment *)appointment withCompletion:(void (^)(NSArray *slots, NSError *error))completionBlock {
 
-    NSDictionary *slotParams = [Slot slotsRequestDictionaryFromPrepAppointment:prepAppointment];
+    NSDictionary *slotParams = [Slot slotsRequestDictionaryFromAppointment:appointment];
 
     NSString *slotsEndpointForTestProvider = [NSString stringWithFormat:@"%@",APIEndpointSlots];
     

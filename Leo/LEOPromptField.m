@@ -1,15 +1,16 @@
 //
-//  LEOPromptView.m
+//  LEOPromptField.m
 //  Leo
 //
 //  Created by Zachary Drossman on 9/3/15.
 //  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
-#import "LEOPromptView.h"
+#import "LEOPromptField.h"
 #import "LEOValidatedFloatLabeledTextField.h"
+#import "LEOSectionSeparator.h"
 
-@interface LEOPromptView()
+@interface LEOPromptField()
 
 @property (strong, nonatomic) UIImageView *accessoryImageView;
 @property (strong, nonatomic) UITapGestureRecognizer *tapGesture;
@@ -18,7 +19,7 @@
 @end
 
 IB_DESIGNABLE
-@implementation LEOPromptView
+@implementation LEOPromptField
 
 -(id)initWithCoder:(NSCoder *)aDecoder {
     
@@ -90,7 +91,7 @@ IB_DESIGNABLE
     self.accessoryImageView.image = accessoryImage;
 }
 - (void)setupTextField {
-    self.textField = [[LEOValidatedFloatLabeledTextField alloc] init];
+    self.textField = [LEOValidatedFloatLabeledTextField new];
     [self addSubview:self.textField];
 }
 

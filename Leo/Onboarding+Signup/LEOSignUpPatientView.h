@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "LEOPromptView.h"
+#import "LEOPromptField.h"
 #import <RSKImageCropViewController.h>
 
 @class Patient;

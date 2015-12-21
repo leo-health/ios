@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9059"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LEOAppointmentView">
+            <connections>
+                <outlet property="notesTextView" destination="TGt-QD-fPA" id="IHw-nw-Tpo"/>
+                <outlet property="patientPromptView" destination="JXY-Es-0vJ" id="MwD-D8-m2R"/>
+                <outlet property="schedulePromptView" destination="J93-Pg-1vC" id="M9a-1i-adJ"/>
+                <outlet property="staffPromptView" destination="cpa-ju-ZLf" id="1qm-FP-zgm"/>
+                <outlet property="visitTypePromptView" destination="xWQ-ys-Gel" id="rLe-Aj-i3z"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="345"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xWQ-ys-Gel" customClass="LEOPromptField">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="69"/>
+                    <animations/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JXY-Es-0vJ" customClass="LEOPromptField">
+                    <rect key="frame" x="0.0" y="69" width="600" height="69"/>
+                    <animations/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TGt-QD-fPA" customClass="JVFloatLabeledTextView">
+                    <rect key="frame" x="0.0" y="138" width="600" height="69"/>
+                    <animations/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="69" id="Xdf-nx-wnB"/>
+                    </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="Xdf-nx-wnB"/>
+                        </mask>
+                    </variation>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cpa-ju-ZLf" customClass="LEOPromptField">
+                    <rect key="frame" x="0.0" y="207" width="600" height="69"/>
+                    <animations/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="J93-Pg-1vC" customClass="LEOPromptField">
+                    <rect key="frame" x="0.0" y="276" width="600" height="69"/>
+                    <animations/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="69" id="keG-8w-INF"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <animations/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="J93-Pg-1vC" secondAttribute="bottom" id="3Jf-2q-8iM"/>
+                <constraint firstItem="J93-Pg-1vC" firstAttribute="trailing" secondItem="xWQ-ys-Gel" secondAttribute="trailing" id="E3q-2I-Lk0"/>
+                <constraint firstItem="JXY-Es-0vJ" firstAttribute="top" secondItem="xWQ-ys-Gel" secondAttribute="bottom" id="EEA-tn-AV8"/>
+                <constraint firstItem="cpa-ju-ZLf" firstAttribute="leading" secondItem="xWQ-ys-Gel" secondAttribute="leading" id="H9s-9i-oND"/>
+                <constraint firstItem="cpa-ju-ZLf" firstAttribute="top" secondItem="TGt-QD-fPA" secondAttribute="bottom" id="K1D-ux-EwM"/>
+                <constraint firstItem="xWQ-ys-Gel" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="MRN-0M-qc8"/>
+                <constraint firstItem="TGt-QD-fPA" firstAttribute="top" secondItem="JXY-Es-0vJ" secondAttribute="bottom" id="TAN-Us-fjp"/>
+                <constraint firstItem="J93-Pg-1vC" firstAttribute="leading" secondItem="xWQ-ys-Gel" secondAttribute="leading" id="Tr5-qL-Pne"/>
+                <constraint firstItem="cpa-ju-ZLf" firstAttribute="trailing" secondItem="xWQ-ys-Gel" secondAttribute="trailing" id="Yfw-A5-wMp"/>
+                <constraint firstItem="J93-Pg-1vC" firstAttribute="top" secondItem="cpa-ju-ZLf" secondAttribute="bottom" id="aDc-dS-Rik"/>
+                <constraint firstItem="JXY-Es-0vJ" firstAttribute="trailing" secondItem="xWQ-ys-Gel" secondAttribute="trailing" id="eDa-hz-XaL"/>
+                <constraint firstItem="TGt-QD-fPA" firstAttribute="trailing" secondItem="xWQ-ys-Gel" secondAttribute="trailing" id="fbG-zj-rbb"/>
+                <constraint firstAttribute="trailing" secondItem="xWQ-ys-Gel" secondAttribute="trailing" id="kWS-de-AfR"/>
+                <constraint firstItem="xWQ-ys-Gel" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="nCv-VW-VDe"/>
+                <constraint firstItem="JXY-Es-0vJ" firstAttribute="leading" secondItem="xWQ-ys-Gel" secondAttribute="leading" id="ngX-Af-ljF"/>
+                <constraint firstAttribute="bottom" secondItem="J93-Pg-1vC" secondAttribute="bottom" constant="255" id="qGa-To-HXz"/>
+                <constraint firstItem="TGt-QD-fPA" firstAttribute="leading" secondItem="xWQ-ys-Gel" secondAttribute="leading" id="xRk-nU-84H"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="qGa-To-HXz"/>
+                </mask>
+            </variation>
+            <point key="canvasLocation" x="310" y="180.5"/>
+        </view>
+    </objects>
+</document>

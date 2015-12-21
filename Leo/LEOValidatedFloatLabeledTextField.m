@@ -70,8 +70,9 @@ IB_DESIGNABLE
 }
 
 - (void)updatePlaceholderWithColor:(UIColor *)color {
-    
-    NSMutableAttributedString *mutablePlaceholder = [self.attributedPlaceholder mutableCopy];
+
+
+    NSMutableAttributedString *mutablePlaceholder = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@",self.placeholder]];
     
     [mutablePlaceholder setAttributes:@{NSForegroundColorAttributeName:color} range:NSMakeRange(0,[mutablePlaceholder length])];
     

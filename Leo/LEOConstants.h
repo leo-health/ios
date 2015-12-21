@@ -358,7 +358,7 @@ extern NSString *const kHeaderCellReuseIdentifier; // @"LEOBasicHeaderCell";
 extern NSString *const kReviewUserCellReuseIdentifer; // @"ReviewUserCell";
 extern NSString *const kReviewPatientCellReuseIdentifer; // @"ReviewPatientCell";
 extern NSString *const kButtonCellReuseIdentifier; // @"ButtonCell";
-extern NSString *const kPromptViewCellReuseIdentifier; // @"LEOPromptViewCell";
+extern NSString *const kPromptFieldCellReuseIdentifier; // @"LEOPromptFieldCell";
 
 #pragma mark - LEO Error Domains
 extern NSString *const kLEOValidationsErrorDomain; // @"LEOValidationsErrorDomain";

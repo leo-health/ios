@@ -1,5 +1,5 @@
 //
-//  LEOPromptView.h
+//  LEOPromptField.h
 //  Leo
 //
 //  Created by Zachary Drossman on 9/3/15.
@@ -7,16 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+
+#import "LEOPromptDelegate.h"
 #import "LEOValidatedFloatLabeledTextField.h"
-#import "LEOSectionSeparator.h"
 
-@protocol LEOPromptDelegate <NSObject>
-
-- (void)respondToPrompt:(id)sender;
-
-@end
-
-@interface LEOPromptView : UIView <UIGestureRecognizerDelegate>
+@interface LEOPromptField : UIView <UIGestureRecognizerDelegate>
 
 @property (weak, nonatomic) id<LEOPromptDelegate>delegate;
 @property (strong, nonatomic) LEOValidatedFloatLabeledTextField *textField;

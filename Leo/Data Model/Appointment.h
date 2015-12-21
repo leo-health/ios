@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy, nullable) NSString *objectID;
 @property (nonatomic, strong, nullable) AppointmentType *appointmentType;
 @property (nonatomic, strong, nullable) AppointmentStatus *status;
-@property (nonatomic, strong, nullable) AppointmentStatus *priorAppointmentStatus;
+@property (nonatomic, strong, nullable) AppointmentStatus *priorStatus;
 @property (nonatomic, strong) User *bookedByUser;
 @property (nonatomic, strong, nullable) Patient *patient;
 @property (nonatomic, strong, nullable) Provider *provider;
@@ -32,12 +32,23 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, nullable) NSString *practiceID;
 
 -(instancetype)initWithObjectID:(nullable NSString *)objectID date:(nullable NSDate *)date appointmentType:(nullable AppointmentType *)appointmentType patient:(nullable Patient *)patient provider:(nullable Provider *)provider practiceID:(nullable NSString *)practiceID bookedByUser:(User *)bookedByUser note:(nullable NSString *)note status:(AppointmentStatus *)status;
-
 - (instancetype)initWithJSONDictionary:(nonnull NSDictionary *)jsonResponse;
-
 - (instancetype)initWithPrepAppointment:(PrepAppointment *)prepAppointment;
 
 + (NSDictionary *)dictionaryFromAppointment:(Appointment *)appointment;
+
+- (BOOL)isValidForBooking;
+- (BOOL)isValidForScheduling;
+
+- (void)reschedule;
+- (void)book;
+- (void)schedule;
+- (void)cancel;
+- (void)confirmCancelled;
+- (void)unconfirmCancelled;
+- (void)cancelled;
+- (void)undoIfAvailable;
+
 
 NS_ASSUME_NONNULL_END
 @end

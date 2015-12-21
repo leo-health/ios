@@ -29,17 +29,16 @@
             NSString *cardType = jsonCard[APIParamType];
             
             if ([cardType isEqualToString:@"appointment"]) {
-                LEOCardAppointment *card = [[LEOCardAppointment alloc] initWithDictionary:jsonCard];
+                LEOCardAppointment *card = [[LEOCardAppointment alloc] initWithJSONDictionary:jsonCard];
                 [cards addObject:card];
             }
             
             if ([cardType isEqualToString:@"conversation"]) {
-                LEOCardConversation *card = [[LEOCardConversation alloc] initWithDictionary:jsonCard];
+                LEOCardConversation *card = [[LEOCardConversation alloc] initWithJSONDictionary:jsonCard];
                 [cards addObject:card];
             }
         }
         if (completionBlock) {
-            
             completionBlock(cards, error);
         }
     }];

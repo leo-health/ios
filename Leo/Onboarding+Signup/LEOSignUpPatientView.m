@@ -24,10 +24,10 @@
 @property (weak, nonatomic, readwrite) IBOutlet UIButton *updateButton;
 
 @property (weak, nonatomic) IBOutlet UIButton *avatarButton;
-@property (weak, nonatomic) IBOutlet LEOPromptView *firstNamePromptView;
-@property (weak, nonatomic) IBOutlet LEOPromptView *lastNamePromptView;
-@property (weak, nonatomic) IBOutlet LEOPromptView *birthDatePromptView;
-@property (weak, nonatomic) IBOutlet LEOPromptView *genderPromptView;
+@property (weak, nonatomic) IBOutlet LEOPromptField *firstNamePromptField;
+@property (weak, nonatomic) IBOutlet LEOPromptField *lastNamePromptField;
+@property (weak, nonatomic) IBOutlet LEOPromptField *birthDatePromptField;
+@property (weak, nonatomic) IBOutlet LEOPromptField *genderPromptField;
 
 @end
 
@@ -54,46 +54,46 @@ IB_DESIGNABLE
 }
 
 
--(void)setFirstNamePromptView:(LEOPromptView *)firstNamePromptView {
+-(void)setFirstNamePromptField:(LEOPromptField *)firstNamePromptField {
 
-    _firstNamePromptView = firstNamePromptView;
+    _firstNamePromptField = firstNamePromptField;
 
-    _firstNamePromptView.textField.standardPlaceholder = @"first name";
-    _firstNamePromptView.textField.validationPlaceholder = @"please enter a first name";
-    _firstNamePromptView.textField.delegate = self;
+    _firstNamePromptField.textField.standardPlaceholder = @"first name";
+    _firstNamePromptField.textField.validationPlaceholder = @"please enter a first name";
+    _firstNamePromptField.textField.delegate = self;
 }
 
--(void)setLastNamePromptView:(LEOPromptView *)lastNamePromptView {
+-(void)setLastNamePromptField:(LEOPromptField *)lastNamePromptField {
 
-    _lastNamePromptView = lastNamePromptView;
-    _lastNamePromptView.textField.standardPlaceholder = @"last name";
-    _lastNamePromptView.textField.validationPlaceholder = @"please enter a last name";
-    _lastNamePromptView.textField.delegate = self;
+    _lastNamePromptField = lastNamePromptField;
+    _lastNamePromptField.textField.standardPlaceholder = @"last name";
+    _lastNamePromptField.textField.validationPlaceholder = @"please enter a last name";
+    _lastNamePromptField.textField.delegate = self;
 }
 
--(void)setBirthDatePromptView:(LEOPromptView *)birthDatePromptView {
+-(void)setBirthDatePromptField:(LEOPromptField *)birthDatePromptField {
 
-    _birthDatePromptView = birthDatePromptView;
+    _birthDatePromptField = birthDatePromptField;
 
-    _birthDatePromptView.textField.standardPlaceholder = @"birth date";
-    _birthDatePromptView.textField.validationPlaceholder = @"please add your child's birth date";
-    _birthDatePromptView.textField.enabled = NO;
+    _birthDatePromptField.textField.standardPlaceholder = @"birth date";
+    _birthDatePromptField.textField.validationPlaceholder = @"please add your child's birth date";
+    _birthDatePromptField.textField.enabled = NO;
 
-    _birthDatePromptView.accessoryImageViewVisible = YES;
-    _birthDatePromptView.accessoryImage = [UIImage imageNamed:@"Icon-Expand"];
-    _birthDatePromptView.delegate = self;
+    _birthDatePromptField.accessoryImageViewVisible = YES;
+    _birthDatePromptField.accessoryImage = [UIImage imageNamed:@"Icon-Expand"];
+    _birthDatePromptField.delegate = self;
 }
 
-- (void)setGenderPromptView:(LEOPromptView *)genderPromptView {
+- (void)setGenderPromptField:(LEOPromptField *)genderPromptField {
 
-    _genderPromptView = genderPromptView;
+    _genderPromptField = genderPromptField;
 
-    _genderPromptView.textField.standardPlaceholder = @"gender";
-    _genderPromptView.textField.validationPlaceholder = @"please choose your child's gender";
-    _genderPromptView.textField.enabled = NO;
-    _genderPromptView.accessoryImageViewVisible = YES;
-    _genderPromptView.accessoryImage = [UIImage imageNamed:@"Icon-Expand"];
-    _genderPromptView.delegate = self;
+    _genderPromptField.textField.standardPlaceholder = @"gender";
+    _genderPromptField.textField.validationPlaceholder = @"please choose your child's gender";
+    _genderPromptField.textField.enabled = NO;
+    _genderPromptField.accessoryImageViewVisible = YES;
+    _genderPromptField.accessoryImage = [UIImage imageNamed:@"Icon-Expand"];
+    _genderPromptField.delegate = self;
 }
 
 
@@ -133,10 +133,10 @@ IB_DESIGNABLE
 
 -(Patient *)patient {
 
-    NSString *firstName = self.firstNamePromptView.textField.text;
-    NSString *lastName = self.lastNamePromptView.textField.text;
-    NSString *gender = ![self.genderPromptView.textField.text isEqualToString:@""] ? [self.genderPromptView.textField.text substringToIndex:1] : nil; //FIXME: This should not be done here. Bad practice.po
-    NSDate *dob =  ![self.birthDatePromptView.textField.text isEqualToString:@""] ? [NSDate leo_dateFromShortDateString:self.birthDatePromptView.textField.text] : nil; //Refactor out of this method.
+    NSString *firstName = self.firstNamePromptField.textField.text;
+    NSString *lastName = self.lastNamePromptField.textField.text;
+    NSString *gender = ![self.genderPromptField.textField.text isEqualToString:@""] ? [self.genderPromptField.textField.text substringToIndex:1] : nil; //FIXME: This should not be done here. Bad practice.po
+    NSDate *dob =  ![self.birthDatePromptField.textField.text isEqualToString:@""] ? [NSDate leo_dateFromShortDateString:self.birthDatePromptField.textField.text] : nil; //Refactor out of this method.
     UIImage *avatar = self.avatarButton.imageView.image;
 
     _patient = [[Patient alloc] initWithFirstName:firstName lastName:lastName avatar:avatar dob:dob gender:gender];
@@ -148,10 +148,10 @@ IB_DESIGNABLE
 
     _patient = patient;
 
-    self.birthDatePromptView.textField.text = [NSDate leo_stringifiedShortDate:_patient.dob]; //TODO: Refactor
-    self.lastNamePromptView.textField.text = _patient.lastName;
-    self.firstNamePromptView.textField.text = _patient.firstName;
-    self.genderPromptView.textField.text = _patient.genderDisplayName;
+    self.birthDatePromptField.textField.text = [NSDate leo_stringifiedShortDate:_patient.dob]; //TODO: Refactor
+    self.lastNamePromptField.textField.text = _patient.lastName;
+    self.firstNamePromptField.textField.text = _patient.firstName;
+    self.genderPromptField.textField.text = _patient.genderDisplayName;
 
     [self.avatarButton setImage:_patient.avatar forState:UIControlStateNormal];
 }
@@ -170,10 +170,10 @@ IB_DESIGNABLE
 
 - (void)validateFields {
 
-    NSString *firstName = self.firstNamePromptView.textField.text;
-    NSString *lastName = self.lastNamePromptView.textField.text;
-    NSString *gender = [self genderFromGenderTextField:self.genderPromptView.textField];
-    NSDate *dob = [self dateFromDateTextField:self.birthDatePromptView.textField];
+    NSString *firstName = self.firstNamePromptField.textField.text;
+    NSString *lastName = self.lastNamePromptField.textField.text;
+    NSString *gender = [self genderFromGenderTextField:self.genderPromptField.textField];
+    NSDate *dob = [self dateFromDateTextField:self.birthDatePromptField.textField];
     UIImage *avatar = self.avatarButton.imageView.image;
 
     BOOL validFirstName = [LEOValidationsHelper isValidFirstName:firstName];
@@ -182,10 +182,10 @@ IB_DESIGNABLE
     BOOL validGender = [LEOValidationsHelper isValidGender:gender];
     BOOL validAvatar = [LEOValidationsHelper isValidAvatar:avatar];
 
-    self.firstNamePromptView.textField.valid = validFirstName;
-    self.lastNamePromptView.textField.valid = validLastName;
-    self.birthDatePromptView.textField.valid = validBirthDate;
-    self.genderPromptView.textField.valid = validGender;
+    self.firstNamePromptField.textField.valid = validFirstName;
+    self.lastNamePromptField.textField.valid = validLastName;
+    self.birthDatePromptField.textField.valid = validBirthDate;
+    self.genderPromptField.textField.valid = validGender;
 
     if (!validAvatar) {
 
@@ -201,18 +201,18 @@ IB_DESIGNABLE
     return ![textField.text isEqualToString:@""] ? [NSDate leo_dateFromShortDateString:textField.text] : nil;
 }
 
-#pragma mark - <LEOPromptViewDelegate>
+#pragma mark - <LEOPromptFieldDelegate>
 
 -(void)respondToPrompt:(id)sender {
 
     [self endEditing:YES];
 
-    if (sender == self.birthDatePromptView) {
+    if (sender == self.birthDatePromptField) {
 
         [self selectADate:sender];
     }
 
-    if (sender == self.genderPromptView) {
+    if (sender == self.genderPromptField) {
 
         [self selectAGender:sender];
     }
@@ -226,7 +226,7 @@ IB_DESIGNABLE
     NSDate *minDate = [[NSDate date] dateBySubtractingYears:26];
     NSDate *maxDate = [NSDate date];
 
-    NSDate *selectedDate = [NSDate leo_dateFromShortDateString:self.birthDatePromptView.textField.text] ?: [NSDate date];
+    NSDate *selectedDate = [NSDate leo_dateFromShortDateString:self.birthDatePromptField.textField.text] ?: [NSDate date];
 
     AbstractActionSheetPicker *actionSheetPicker = [[ActionSheetDatePicker alloc] initWithTitle:@"" datePickerMode:UIDatePickerModeDate selectedDate:selectedDate
                                                                                     minimumDate:minDate
@@ -253,7 +253,7 @@ IB_DESIGNABLE
 
     NSInteger selectedIndex = 0;
 
-    if ([self.genderPromptView.textField.text isEqualToString:@"Male"]) {
+    if ([self.genderPromptField.textField.text isEqualToString:@"Male"]) {
 
         selectedIndex = 1;
     }
@@ -279,15 +279,15 @@ IB_DESIGNABLE
 
 - (void)dateWasSelected:(NSDate *)selectedDate element:(id)element {
 
-    self.birthDatePromptView.textField.text = [NSDate leo_stringifiedShortDate:selectedDate];
-    self.birthDatePromptView.textField.valid = YES;
+    self.birthDatePromptField.textField.text = [NSDate leo_stringifiedShortDate:selectedDate];
+    self.birthDatePromptField.textField.valid = YES;
     self.patient.dob = selectedDate;
 }
 
 - (void)genderWasSelected:(NSNumber *)selectedGender element:(id)element {
 
-    self.genderPromptView.textField.text = ([selectedGender isEqualToNumber:@0]) ? @"Female" : @"Male";
-    self.genderPromptView.textField.valid = YES;
+    self.genderPromptField.textField.text = ([selectedGender isEqualToNumber:@0]) ? @"Female" : @"Male";
+    self.genderPromptField.textField.valid = YES;
     self.patient.gender = ([selectedGender isEqualToNumber:@0]) ? @"F" : @"M";
 }
 
@@ -322,14 +322,14 @@ IB_DESIGNABLE
 
     [mutableText replaceCharactersInRange:range withString:string];
 
-    if (textField == self.firstNamePromptView.textField && !self.firstNamePromptView.valid) {
+    if (textField == self.firstNamePromptField.textField && !self.firstNamePromptField.valid) {
 
-        self.firstNamePromptView.valid = [LEOValidationsHelper isValidFirstName:mutableText.string];
+        self.firstNamePromptField.valid = [LEOValidationsHelper isValidFirstName:mutableText.string];
     }
 
-    if (textField == self.lastNamePromptView.textField && !self.lastNamePromptView.valid) {
+    if (textField == self.lastNamePromptField.textField && !self.lastNamePromptField.valid) {
 
-        self.lastNamePromptView.valid = [LEOValidationsHelper isValidLastName:mutableText.string];
+        self.lastNamePromptField.valid = [LEOValidationsHelper isValidLastName:mutableText.string];
     }
 
     return YES;

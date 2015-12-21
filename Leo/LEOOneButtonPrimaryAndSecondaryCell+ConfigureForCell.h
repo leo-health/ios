@@ -11,6 +11,6 @@
 
 @interface LEOOneButtonPrimaryAndSecondaryCell (ConfigureForCell)
 
-- (void)configureForCard:(LEOCard *)card;
+- (void)configureForCard:(id<LEOCardProtocol>)card;
 
 @end

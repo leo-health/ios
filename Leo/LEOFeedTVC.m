@@ -1,3 +1,4 @@
+
 //
 //  LEOFeedTVC.m
 //  Leo
@@ -59,6 +60,7 @@
 #import <VBFPopFlatButton/VBFPopFlatButton.h>
 
 #import "LEOStyleHelper.h"
+#import "LEOAppointmentViewController.h"
 
 
 
@@ -105,6 +107,7 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
     self.view.backgroundColor = [UIColor leo_orangeRed];
 
     [self setupNavigationBar];
+
     [self setupNotifications];
     [self setupTableView];
     [self setupMenuButton];
@@ -207,8 +210,8 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
 
 - (LEOCardConversation *)conversation {
 
-    for (LEOCard *card in self.cards) {
-
+    for (id<LEOCardProtocol>card in self.cards) {
+        
         if ([card isKindOfClass:[LEOCardConversation class]]) {
             return (LEOCardConversation *)card;
         }
@@ -220,8 +223,8 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
     [self fetchDataForCard:nil];
 }
 
-- (void)fetchDataForCard:(LEOCard *)card {
-
+- (void)fetchDataForCard:(id<LEOCardProtocol>)card {
+    
     dispatch_queue_t queue = dispatch_queue_create("loadingQueue", NULL);
 
     [MBProgressHUD showHUDAddedTo:self.tableView animated:YES];
@@ -239,8 +242,8 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
 
                 [self.tableView reloadData];
 
-                NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.cardInFocus inSection:0];
-                [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
+//                NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.cardInFocus inSection:0];
+//                [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
 
                 [MBProgressHUD hideHUDForView:self.tableView animated:YES];
             });
@@ -288,20 +291,20 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
--(void)takeResponsibilityForCard:(LEOCard *)card {
-
-    card.delegate = self;
+-(void)takeResponsibilityForCard:(id<LEOCardProtocol>)card {
+    
+    card.activityDelegate = self;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"Card-Updated" object:nil]; //TODO: This method does not reflect the fact that an update has taken place. Consider naming differently, or moving this to a method that fits the bill?
 }
 
-- (void)didUpdateObjectStateForCard:(LEOCard *)card {
-
+- (void)didUpdateObjectStateForCard:(id<LEOCardProtocol>)card {
+    
     [UIView animateWithDuration:0.2 animations:^{
 
     } completion:^(BOOL finished) {
 
-        if (card.type == CardTypeAppointment) {
-
+        if ([card isKindOfClass:[LEOCardAppointment class]]) {
+            
             Appointment *appointment = card.associatedCardObject; //FIXME: Make this a loop to account for multiple appointments.
 
             switch (appointment.status.statusCode) {
@@ -333,7 +336,8 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
 
                             [self.tableView reloadData];
                         } else {
-                            [card returnToPriorState];
+
+                            [card.associatedCardObject undoIfAvailable];
                         }
                     }];
 
@@ -357,9 +361,8 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
                 }
             }
         }
-
-        if (card.type == CardTypeConversation) {
-
+        if ([card isKindOfClass:[LEOCardConversation class]]) {
+            
             Conversation *conversation = card.associatedCardObject; //FIXME: Make this a loop to account for multiple appointments.
 
             switch (conversation.statusCode) {
@@ -387,8 +390,8 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
 - (void)beginSchedulingNewAppointment {
 
     AppointmentStatus *appointmentStatus = [AppointmentStatus new];
-    appointmentStatus.statusCode = AppointmentStatusCodeNew;
-
+    appointmentStatus.statusCode = AppointmentStatusCodeFuture;
+    
     Appointment *appointment = [[Appointment alloc] initWithObjectID:nil
                                                                 date:nil
                                                      appointmentType:nil
@@ -399,11 +402,8 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
                                                                 note:nil
                                                               status:appointmentStatus];
 
-    LEOCardAppointment *card = [[LEOCardAppointment alloc] initWithObjectID:@"temp"
-                                                                   priority:@999
-                                                                       type:CardTypeAppointment
-                                                       associatedCardObject:appointment];
-
+    LEOCardAppointment *card = [[LEOCardAppointment alloc] initWithObjectID:@"999" priority:@0 associatedCardObject:appointment];
+    
     [self loadBookingViewWithCard:card];
 }
 
@@ -462,23 +462,23 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
 }
 
 
-- (void)loadBookingViewWithCard:(LEOCard *)card {
+- (void)loadBookingViewWithCard:(LEOCardAppointment *)card {
 
     UIStoryboard *appointmentStoryboard = [UIStoryboard storyboardWithName:@"Appointment"
                                                                     bundle:nil];
 
     UINavigationController *appointmentNavController = [appointmentStoryboard instantiateInitialViewController];
-    LEOExpandedCardAppointmentViewController *appointmentBookingVC = appointmentNavController.viewControllers.firstObject;
-    appointmentBookingVC.delegate = self;
-
-    appointmentBookingVC.card = (LEOCardAppointment *)card;
-    self.transitionDelegate = [[LEOTransitioningDelegate alloc] initWithTransitionAnimatorType:TransitionAnimatorTypeCardModal];;
+    self.transitionDelegate = [[LEOTransitioningDelegate alloc] initWithTransitionAnimatorType:TransitionAnimatorTypeCardModal];
     appointmentNavController.transitioningDelegate = self.transitionDelegate;
     appointmentNavController.modalPresentationStyle = UIModalPresentationCustom;
-    [self presentViewController:appointmentNavController animated:YES completion:^{
-    }];
-}
 
+    LEOAppointmentViewController *appointmentBookingVC = appointmentNavController.viewControllers.firstObject;
+
+    appointmentBookingVC.card = (LEOCardAppointment *)card;
+    appointmentBookingVC.delegate = self;
+
+    [self presentViewController:appointmentNavController animated:YES completion:nil];
+}
 
 
 - (void)loadChattingViewWithCard:(LEOCard *)card {
@@ -504,8 +504,8 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    LEOCard *card = self.cards[indexPath.row];
-    card.delegate = self;
+    id<LEOCardProtocol>card = self.cards[indexPath.row];
+    card.activityDelegate = self;
 
     NSString *cellIdentifier;
 

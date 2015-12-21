@@ -8,15 +8,15 @@
 
 #import "LEOUpdatePasswordView.h"
 #import "UIView+Extensions.h"
-#import "LEOPromptView.h"
+#import "LEOPromptField.h"
 #import "LEOValidationsHelper.h"
 #import "UIView+Extensions.h"
 
 @interface LEOUpdatePasswordView ()
 
-@property (weak, nonatomic) IBOutlet LEOPromptView *currentPasswordPromptView;
-@property (weak, nonatomic) IBOutlet LEOPromptView *passwordPromptView;
-@property (weak, nonatomic) IBOutlet LEOPromptView *retypePasswordPromptView;
+@property (weak, nonatomic) IBOutlet LEOPromptField *currentPasswordPromptField;
+@property (weak, nonatomic) IBOutlet LEOPromptField *passwordPromptField;
+@property (weak, nonatomic) IBOutlet LEOPromptField *retypePasswordPromptField;
 
 @property (nonatomic) BOOL hasBeenValidatedAtLeastOnce;
 
@@ -79,29 +79,29 @@ IB_DESIGNABLE
 
 - (void)setupCurrentPasswordField {
     
-    self.currentPasswordPromptView.textField.delegate = self;
-    self.currentPasswordPromptView.textField.standardPlaceholder = @"current password";
-    self.currentPasswordPromptView.textField.validationPlaceholder = @"you have entered an invalid password";
-    self.currentPasswordPromptView.textField.secureTextEntry = YES;
-    [self.currentPasswordPromptView.textField sizeToFit];
+    self.currentPasswordPromptField.textField.delegate = self;
+    self.currentPasswordPromptField.textField.standardPlaceholder = @"current password";
+    self.currentPasswordPromptField.textField.validationPlaceholder = @"you have entered an invalid password";
+    self.currentPasswordPromptField.textField.secureTextEntry = YES;
+    [self.currentPasswordPromptField.textField sizeToFit];
 }
 
 - (void)setupNewPasswordField {
     
-    self.passwordPromptView.textField.delegate = self;
-    self.passwordPromptView.textField.standardPlaceholder = @"new password";
-    self.passwordPromptView.textField.validationPlaceholder = @"passwords must be eight characters or longer";
-    self.passwordPromptView.textField.secureTextEntry = YES;
-    [self.passwordPromptView.textField sizeToFit];
+    self.passwordPromptField.textField.delegate = self;
+    self.passwordPromptField.textField.standardPlaceholder = @"new password";
+    self.passwordPromptField.textField.validationPlaceholder = @"passwords must be eight characters or longer";
+    self.passwordPromptField.textField.secureTextEntry = YES;
+    [self.passwordPromptField.textField sizeToFit];
 }
 
 - (void)setupRetypePasswordField {
     
-    self.retypePasswordPromptView.textField.delegate = self;
-    self.retypePasswordPromptView.textField.standardPlaceholder = @"retype password";
-    self.retypePasswordPromptView.textField.validationPlaceholder = @"passwords must match";
-    self.retypePasswordPromptView.textField.secureTextEntry = YES;
-    [self.retypePasswordPromptView.textField sizeToFit];
+    self.retypePasswordPromptField.textField.delegate = self;
+    self.retypePasswordPromptField.textField.standardPlaceholder = @"retype password";
+    self.retypePasswordPromptField.textField.validationPlaceholder = @"passwords must match";
+    self.retypePasswordPromptField.textField.secureTextEntry = YES;
+    [self.retypePasswordPromptField.textField sizeToFit];
 }
 
 
@@ -128,8 +128,8 @@ IB_DESIGNABLE
 
 - (BOOL)isValidPasswordWithError:(NSError * __autoreleasing *)error {
     
-    self.passwordNew = self.passwordPromptView.textField.text;
-    self.passwordNewRetyped = self.retypePasswordPromptView.textField.text;
+    self.passwordNew = self.passwordPromptField.textField.text;
+    self.passwordNewRetyped = self.retypePasswordPromptField.textField.text;
     
     BOOL valid = [LEOValidationsHelper isValidPassword:self.passwordNew matching:self.passwordNewRetyped error:error];
     
@@ -138,7 +138,7 @@ IB_DESIGNABLE
 
 - (void)isValidCurrentPassword:(BOOL)validCurrentPassword {
     
-    self.currentPasswordPromptView.valid = validCurrentPassword ? YES : NO;
+    self.currentPasswordPromptField.valid = validCurrentPassword ? YES : NO;
 }
 
 
@@ -150,11 +150,11 @@ IB_DESIGNABLE
     
     [mutableText replaceCharactersInRange:range withString:string];
     
-    if (textField == self.passwordPromptView.textField) {
+    if (textField == self.passwordPromptField.textField) {
         self.passwordNew = mutableText.string;
     }
     
-    if (textField == self.retypePasswordPromptView.textField) {
+    if (textField == self.retypePasswordPromptField.textField) {
         self.passwordNewRetyped = mutableText.string;
     }
     
@@ -162,15 +162,15 @@ IB_DESIGNABLE
 }
 
 - (NSString *)passwordNew {
-    return self.passwordPromptView.textField.text;
+    return self.passwordPromptField.textField.text;
 }
 
 - (NSString *)passwordCurrent {
-    return self.currentPasswordPromptView.textField.text;
+    return self.currentPasswordPromptField.textField.text;
 }
 
 - (NSString *)passwordNewRetyped {
-    return self.retypePasswordPromptView.textField.text;
+    return self.retypePasswordPromptField.textField.text;
 }
 @end
 

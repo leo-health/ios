@@ -9,7 +9,7 @@
 #import "Slot.h"
 #import "NSDate+Extensions.h"
 #import "LEOConstants.h"
-#import "PrepAppointment.h"
+#import "Appointment.h"
 #import "AppointmentType.h"
 #import "Practice.h"
 #import "Provider.h"
@@ -41,14 +41,14 @@
     return [self initWithStartDateTime:startDateTime duration:duration providerID:providerID practiceID:practiceID];
 }
 
-+ (NSDictionary *)slotsRequestDictionaryFromPrepAppointment:(PrepAppointment *)prepAppointment {
++ (NSDictionary *)slotsRequestDictionaryFromAppointment:(Appointment *)appointment {
     
     NSDate *now = [[NSDate date] dateByAddingMinutes:30];
     NSDate *twelveWeeksFromTheBeginningOfThisWeek = [[[NSDate date] leo_beginningOfWeekForStartOfWeek:1] dateByAddingDays:84];
     
     NSDictionary *slotRequestParameters = @{
-                                 APIParamAppointmentTypeID : prepAppointment.appointmentType.objectID,
-                                 APIParamUserProviderID : prepAppointment.provider.objectID,
+                                 APIParamAppointmentTypeID : appointment.appointmentType.objectID,
+                                 APIParamUserProviderID : appointment.provider.objectID,
                                  APIParamStartDate : [NSDate leo_stringifiedShortDate:now],
                                  APIParamEndDate: [NSDate leo_stringifiedShortDate:twelveWeeksFromTheBeginningOfThisWeek]
                                  };
@@ -56,7 +56,7 @@
     return slotRequestParameters;
 }
 
-+ (Slot *)slotFromExistingAppointment:(PrepAppointment *)appointment {
++ (Slot *)slotFromExistingAppointment:(Appointment *)appointment {
     
     return [[Slot alloc] initWithStartDateTime:appointment.date duration:appointment.appointmentType.duration providerID:appointment.provider.objectID practiceID:appointment.practiceID];
 }
