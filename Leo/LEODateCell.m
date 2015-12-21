@@ -70,7 +70,7 @@
     [self.bottomBorder removeFromSuperlayer];
     self.dateLabel.font = [UIFont leo_appointmentSlotsAndDateFields];
     self.dateLabel.textColor = [UIColor leo_grayForTitlesAndHeadings];
-    self.dayOfDateLabel.textColor = [UIColor leo_grayStandard];
+    self.dayOfDateLabel.textColor = [UIColor leo_grayForTitlesAndHeadings];
     self.dayOfDateLabel.font = [UIFont leo_appointmentDayLabelAndTimePeriod];
     
     self.dateLabel.alpha = 1.0;
