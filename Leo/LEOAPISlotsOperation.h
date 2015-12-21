@@ -8,10 +8,10 @@
 
 #import "LEOAPIOperation.h"
 
-@class PrepAppointment;
+@class Appointment;
 
 @interface LEOAPISlotsOperation : LEOAPIOperation
 
--(instancetype)initWithPrepAppointment:(PrepAppointment *)prepAppointment;
+-(instancetype)initWithAppointment:(Appointment *)appointment;
 
 @end

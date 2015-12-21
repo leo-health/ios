@@ -11,8 +11,10 @@
 @class LEOCard;
 @class Appointment;
 
+#import "LEOCardProtocol.h"
+
 @protocol CardActivityProtocol <NSObject>
 
-- (void) didUpdateObjectStateForCard:(LEOCard *)card;
+- (void) didUpdateObjectStateForCard:(id<LEOCardProtocol>)card;
 
 @end

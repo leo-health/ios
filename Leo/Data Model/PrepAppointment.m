@@ -18,6 +18,53 @@
 
 @implementation PrepAppointment
 
+#pragma mark - Initializers
+
+//FIXME: Eventually this needs to use a status from the list of statuses sent from the API or find another place to do this (likely both!)
+- (instancetype)init {
+
+    AppointmentStatus *status = [[AppointmentStatus alloc] initWithObjectID:nil name:nil athenaCode:nil statusCode:AppointmentStatusCodeNew];
+
+    return [self initWithObjectID:nil date:nil appointmentType:nil patient:nil provider:nil practiceID:nil bookedByUser:nil note:nil status:status];
+}
+
+//MARK: Not sure this method will ever be used for a prep appointment.
+- (instancetype)initWithJSONDictionary:(nonnull NSDictionary *)jsonResponse {
+
+    NSDate *date = jsonResponse[APIParamAppointmentStartDateTime];
+    Patient *patient = jsonResponse[APIParamUserPatient];
+    Provider *provider = jsonResponse[APIParamUserProvider];
+    //    Practice *practice = jsonResponse[APIParamPractice];
+    User *bookedByUser = jsonResponse[APIParamAppointmentBookedBy];
+    //FIXME: This should really go looking for the appointment type via ID as opposed to trying to pull it from this JSON response most likely (hence why we get a warning here because that isn't passed as part of the API endpoint.)
+
+    AppointmentType *appointmentType = [[AppointmentType alloc] initWithObjectID:@"0" name:jsonResponse[APIParamAppointmentType] typeCode:AppointmentTypeCodeWellVisit duration:@15 longDescription:jsonResponse[APIParamAppointmentTypeLongDescription] shortDescription:jsonResponse[APIParamAppointmentTypeShortDescription]]; //FIXME: Constant
+
+    AppointmentStatus *status = [[AppointmentStatus alloc] initWithJSONDictionary:[jsonResponse leo_itemForKey:APIParamStatus]];
+    NSString *objectID = [jsonResponse[APIParamID] stringValue];
+    NSString *note = jsonResponse[APIParamAppointmentNotes];
+
+    //TODO: Come back and replace practiceID with actual practiceID
+    return [self initWithObjectID:objectID date:date appointmentType:appointmentType  patient:patient provider:provider practiceID:@"0" bookedByUser:bookedByUser note:note status:status];
+}
+
+-(instancetype)initWithAppointment:(Appointment *)appointment {
+
+    AppointmentStatus *newStatus = [[AppointmentStatus alloc] initWithObjectID:nil name:nil athenaCode:nil statusCode:AppointmentStatusCodeBooking];
+
+    AppointmentStatus *status = appointment.status ?: newStatus;
+
+    return [self initWithObjectID:appointment.objectID
+                             date:appointment.date
+                  appointmentType:appointment.appointmentType
+                          patient:appointment.patient
+                         provider:appointment.provider
+                       practiceID:appointment.practiceID
+                     bookedByUser:appointment.bookedByUser
+                             note:appointment.note
+                           status:status];
+};
+
 - (instancetype)initWithObjectID:(nullable NSString *)objectID date:(nullable NSDate *)date appointmentType:(AppointmentType *)appointmentType patient:(Patient *)patient provider:(Provider *)provider practiceID:(NSString *)practiceID bookedByUser:(User *)bookedByUser note:(NSString *)note status:(AppointmentStatus *)status {
 
     self = [super init];
@@ -57,43 +104,20 @@
     self.date = nil;
 }
 
-//MARK: Not sure this method will ever be used for a prep appointment.
-- (instancetype)initWithJSONDictionary:(nonnull NSDictionary *)jsonResponse {
-    
-    NSDate *date = jsonResponse[APIParamAppointmentStartDateTime];
-    Patient *patient = jsonResponse[APIParamUserPatient];
-    Provider *provider = jsonResponse[APIParamUserProvider];
-//    Practice *practice = jsonResponse[APIParamPractice];
-    User *bookedByUser = jsonResponse[APIParamAppointmentBookedBy];
-    //FIXME: This should really go looking for the appointment type via ID as opposed to trying to pull it from this JSON response most likely (hence why we get a warning here because that isn't passed as part of the API endpoint.)
-    
-    AppointmentType *appointmentType = [[AppointmentType alloc] initWithObjectID:@"0" name:jsonResponse[APIParamAppointmentType] typeCode:AppointmentTypeCodeWellVisit duration:@15 longDescription:jsonResponse[APIParamAppointmentTypeLongDescription] shortDescription:jsonResponse[APIParamAppointmentTypeShortDescription]]; //FIXME: Constant
-    
-    AppointmentStatus *status = [[AppointmentStatus alloc] initWithJSONDictionary:[jsonResponse leo_itemForKey:APIParamStatus]];
-    NSString *objectID = [jsonResponse[APIParamID] stringValue];
-    NSString *note = jsonResponse[APIParamAppointmentNotes];
-    
-    //TODO: Come back and replace practiceID with actual practiceID
-    return [self initWithObjectID:objectID date:date appointmentType:appointmentType  patient:patient provider:provider practiceID:@"0" bookedByUser:bookedByUser note:note status:status];
-}
-
 - (NSString *)description {
     
     return [NSString stringWithFormat:@"<Appointment: %p>\nid: %@\ndate: %@\nappointmentType: %@\nstate: %lu\nnote %@\nbookedByUser: %@\npatient %@\nprovider: %@",
             self, self.objectID, self.date, self.appointmentType, (unsigned long)self.status, self.note, self.bookedByUser, self.patient, self.provider];
 }
 
--(instancetype)initWithAppointment:(Appointment *)appointment {
-    
-    return [self initWithObjectID:appointment.objectID
-                             date:appointment.date
-                  appointmentType:appointment.appointmentType
-                          patient:appointment.patient
-                         provider:appointment.provider
-                       practiceID:appointment.practiceID
-                     bookedByUser:appointment.bookedByUser
-                             note:appointment.note
-                           status:appointment.status];
-};
+
+
+- (BOOL)isValidForBooking {
+    return self.appointmentType && self.patient && self.provider && self.date;
+}
+
+- (BOOL)isValidForScheduling {
+    return self.appointmentType && self.patient && self.provider;
+}
 
 @end

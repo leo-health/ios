@@ -7,6 +7,7 @@
 //
 
 #import "LEOCard.h"
+#import "LEOCardAppointment.h"
 
 @implementation LEOCard
 
@@ -35,6 +36,25 @@
                                  userInfo:nil];
 }
 
++ (instancetype)cardWithCardType:(CardType)cardType {
+
+    switch (cardType) {
+        case CardTypeAppointment:
+            return [LEOCardAppointment new];
+    }
+
+    return nil;
+}
+
++ (instancetype)cardWithCardType:(CardType)cardType withJSONDictionary:(NSDictionary *)jsonResponse {
+
+    switch (cardType) {
+        case CardTypeAppointment:
+            return [[LEOCardAppointment alloc] initWithJSONDictionary:jsonResponse];
+    }
+
+    return nil;
+}
 
 //+ (NSArray *)cardsFromJSONDictionary:(NSDictionary *)jsonResponse {
 //
@@ -49,88 +69,5 @@
 //
 //    return cards;
 //}
-
-#pragma mark - Abstract methods
-- (CardLayout)layout {
-    
-    @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                   reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
-                                 userInfo:nil];
-}
-
-- (NSString *)title {
-    
-    @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                   reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
-                                 userInfo:nil];
-    
-}
-
-- (NSString *)body {
-    
-    @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                   reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
-                                 userInfo:nil];
-}
-
-- (NSDate *)timestamp {
-    
-    @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                   reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
-                                 userInfo:nil];
-    
-}
-
-- (nonnull NSArray *)stringRepresentationOfActionsAvailableForState {
-    
-    @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                   reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
-                                 userInfo:nil];
-}
-
-- (UIImage *)icon {
-    
-    @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                   reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
-                                 userInfo:nil];
-    
-}
-
-- (UIColor *)tintColor {
-    
-    @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                   reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
-                                 userInfo:nil];
-}
-
-- (nullable User *)primaryUser {
-    
-    @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                   reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
-                                 userInfo:nil];
-}
-
-- (nullable User *)secondaryUser {
-    
-    @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                   reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
-                                 userInfo:nil];
-}
-
-- (NSArray *)actionsAvailableForState {
-    
-    @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                   reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
-                                 userInfo:nil];
-    
-}
-
-- (void)returnToPriorState {
-    
-    @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                   reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
-                                 userInfo:nil];
-}
-
 
 @end

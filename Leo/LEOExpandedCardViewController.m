@@ -283,8 +283,6 @@
     self.horizontalBodyViewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_bodyView(w)]|" options:0 metrics:@{@"w" : @(screenWidth)} views:viewDictionary];
     
     [self.contentView addConstraints:self.horizontalBodyViewConstraints];
-    
-    
 }
 
 /**

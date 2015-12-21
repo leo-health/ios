@@ -191,7 +191,9 @@
         }
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        
+
+        [self formattedErrorFromError:&error];
+
         NSLog(@"Fail: %@",error.localizedDescription);
         NSLog(@"Fail: %@",error.localizedFailureReason);
         

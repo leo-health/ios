@@ -20,5 +20,19 @@
                                          constant:0.0];
 }
 
+- (void)viewTapped {
+    
+    [self endEditing:YES];
+}
+
+//TODO: Eventually should move into a protocol or superclass potentially.
+- (void)setupTouchEventForDismissingKeyboard {
+    
+    UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:nil action:@selector(viewTapped)];
+    
+    tapGestureForTextFieldDismissal.cancelsTouchesInView = NO;
+    [self addGestureRecognizer:tapGestureForTextFieldDismissal];
+}
+
 
 @end

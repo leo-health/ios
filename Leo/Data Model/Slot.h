@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class PrepAppointment;
+@class Appointment;
 
 @interface Slot : NSObject
 
@@ -21,8 +21,8 @@
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse;
 
-+ (Slot *)slotFromExistingAppointment:(PrepAppointment *)appointment;
++ (Slot *)slotFromExistingAppointment:(Appointment *)appointment;
 + (NSArray *)slotsFromRawJSON:(NSDictionary *)rawJSON;
-+ (NSDictionary *)slotsRequestDictionaryFromPrepAppointment:(PrepAppointment *)prepAppointment;
++ (NSDictionary *)slotsRequestDictionaryFromAppointment:(Appointment *)appointment;
 
 @end

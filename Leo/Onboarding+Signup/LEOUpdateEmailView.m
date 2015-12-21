@@ -7,13 +7,13 @@
 //
 
 #import "LEOUpdateEmailView.h"
-#import "LEOPromptView.h"
+#import "LEOPromptField.h"
 #import "UIView+Extensions.h"
 #import "LEOValidationsHelper.h"
 
 @interface LEOUpdateEmailView ()
 
-@property (weak, nonatomic) IBOutlet LEOPromptView *emailAddressPromptView;
+@property (weak, nonatomic) IBOutlet LEOPromptField *emailAddressPromptField;
 @property (nonatomic) BOOL hasBeenValidatedAtLeastOnce;
 
 @end
@@ -53,10 +53,10 @@ IB_DESIGNABLE
 
 - (void)setupEmailField {
     
-    self.emailAddressPromptView.textField.delegate = self;
-    self.emailAddressPromptView.textField.standardPlaceholder = @"email";
-    self.emailAddressPromptView.textField.validationPlaceholder = @"please enter a valid email address";
-    [self.emailAddressPromptView.textField sizeToFit];
+    self.emailAddressPromptField.textField.delegate = self;
+    self.emailAddressPromptField.textField.standardPlaceholder = @"email";
+    self.emailAddressPromptField.textField.validationPlaceholder = @"please enter a valid email address";
+    [self.emailAddressPromptField.textField sizeToFit];
 }
 
 #pragma mark - Autolayout
@@ -86,7 +86,7 @@ IB_DESIGNABLE
     
     if (self.hasBeenValidatedAtLeastOnce) {
         
-        self.emailAddressPromptView.valid  = [LEOValidationsHelper isValidEmail:_email];
+        self.emailAddressPromptField.valid  = [LEOValidationsHelper isValidEmail:_email];
     }
 }
 
@@ -97,7 +97,7 @@ IB_DESIGNABLE
     
     self.hasBeenValidatedAtLeastOnce = YES;
     
-    self.email = self.emailAddressPromptView.textField.text;
+    self.email = self.emailAddressPromptField.textField.text;
     
     return [LEOValidationsHelper isValidEmail:self.email];
 }
@@ -111,7 +111,7 @@ IB_DESIGNABLE
     
     [mutableText replaceCharactersInRange:range withString:string];
     
-    if (textField == self.emailAddressPromptView.textField) {
+    if (textField == self.emailAddressPromptField.textField) {
         self.email = mutableText.string;
     }
     

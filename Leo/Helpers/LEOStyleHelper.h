@@ -25,5 +25,9 @@
 + (UIColor *)tintColorForFeature:(Feature)feature;
 + (void)styleNavigationBarShadowLineForViewController:(UIViewController *)viewController feature:(Feature)feature;
 + (void)removeNavigationBarShadowLineForViewController:(UIViewController *)viewController;
++ (void)styleDismissButtonForViewController:(UIViewController *)viewController feature:(Feature)feature;
+
++ (void)styleNavigationBarForViewController:(UIViewController *)viewController forFeature:(Feature)feature withTitleText:(NSString *)titleText dismissal:(BOOL)dismissAvailable backButton:(BOOL)backAvailable;
++ (void)styleExpandedTitleLabel:(UILabel *)label titleText:(NSString *)titleText;
 
 @end

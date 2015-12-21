@@ -16,7 +16,7 @@
 #import "UIColor+LeoColors.h"
 
 #import "LEOSignUpUserView.h"
-#import "LEOPromptView.h"
+#import "LEOPromptField.h"
 
 #import "LEOBasicSelectionViewController.h"
 #import "InsurancePlanCell+ConfigureCell.h"
@@ -25,7 +25,7 @@
 #import "LEOAPIInsuranceOperation.h"
 
 #import "LEOValidationsHelper.h"
-#import "LEOPromptView.h"
+#import "LEOPromptField.h"
 
 #import "LEOManagePatientsViewController.h"
 
@@ -61,7 +61,7 @@
     self.signUpUserView.guardian = self.guardian;
     self.signUpUserView.insurancePlan = self.guardian.insurancePlan;
     self.signUpUserView.scrollView.delegate = self;
-    self.signUpUserView.insurerPromptView.delegate = self;
+    self.signUpUserView.insurerPromptField.delegate = self;
 
     [LEOApiReachability startMonitoringForController:self];
 }
@@ -141,7 +141,7 @@
 
 - (void)respondToPrompt:(id)sender {
 
-    if (sender == self.signUpUserView.insurerPromptView) {
+    if (sender == self.signUpUserView.insurerPromptField) {
 
         [self performSegueWithIdentifier:kSeguePlan sender:nil];
     }

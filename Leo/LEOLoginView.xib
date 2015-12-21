@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LEOLoginView">
             <connections>
                 <outlet property="continueButton" destination="mEu-tO-pgj" id="8sB-Lb-sK0"/>
-                <outlet property="emailPromptView" destination="cEU-9q-euv" id="roX-qo-ysk"/>
+                <outlet property="emailPromptField" destination="cEU-9q-euv" id="roX-qo-ysk"/>
                 <outlet property="forgotPasswordButton" destination="fyJ-c7-8hR" id="LU3-WG-PVs"/>
-                <outlet property="passwordPromptView" destination="Pc8-E8-SZi" id="Ocd-rS-aQk"/>
+                <outlet property="passwordPromptField" destination="Pc8-E8-SZi" id="Ocd-rS-aQk"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -39,7 +38,7 @@
                         <constraint firstItem="1YX-AZ-qix" firstAttribute="leading" secondItem="20z-wZ-AEU" secondAttribute="leading" id="zOX-of-1Gz"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cEU-9q-euv" userLabel="Email Prompt View" customClass="LEOPromptView">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cEU-9q-euv" userLabel="Email Prompt View" customClass="LEOPromptField">
                     <rect key="frame" x="0.0" y="130" width="600" height="48"/>
                     <animations/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -47,7 +46,7 @@
                         <constraint firstAttribute="height" constant="48" id="iog-EG-YgB"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pc8-E8-SZi" userLabel="Password Prompt View" customClass="LEOPromptView">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pc8-E8-SZi" userLabel="Password Prompt View" customClass="LEOPromptField">
                     <rect key="frame" x="0.0" y="178" width="600" height="48"/>
                     <animations/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

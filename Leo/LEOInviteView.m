@@ -7,16 +7,16 @@
 //
 
 #import "LEOInviteView.h"
-#import "LEOPromptView.h"
+#import "LEOPromptField.h"
 #import "UIView+Extensions.h"
 #import "LEOValidationsHelper.h"
 #import "LEOPromptTextView.h"
 
 @interface LEOInviteView ()
 
-@property (weak, nonatomic) IBOutlet LEOPromptView *firstNamePromptView;
-@property (weak, nonatomic) IBOutlet LEOPromptView *lastNamePromptView;
-@property (weak, nonatomic) IBOutlet LEOPromptView *emailAddressPromptView;
+@property (weak, nonatomic) IBOutlet LEOPromptField *firstNamePromptField;
+@property (weak, nonatomic) IBOutlet LEOPromptField *lastNamePromptField;
+@property (weak, nonatomic) IBOutlet LEOPromptField *emailAddressPromptField;
 
 @property (nonatomic) BOOL hasBeenValidatedAtLeastOnce;
 
@@ -76,26 +76,26 @@ IB_DESIGNABLE
 
 - (void)setupFirstNameField {
     
-    self.firstNamePromptView.textField.delegate = self;
-    self.firstNamePromptView.textField.standardPlaceholder = @"first name";
-    self.firstNamePromptView.textField.validationPlaceholder = @"please enter a valid first name";
-    [self.firstNamePromptView.textField sizeToFit];
+    self.firstNamePromptField.textField.delegate = self;
+    self.firstNamePromptField.textField.standardPlaceholder = @"first name";
+    self.firstNamePromptField.textField.validationPlaceholder = @"please enter a valid first name";
+    [self.firstNamePromptField.textField sizeToFit];
 }
 
 - (void)setupLastNameField {
     
-    self.lastNamePromptView.textField.delegate = self;
-    self.lastNamePromptView.textField.standardPlaceholder = @"last name";
-    self.lastNamePromptView.textField.validationPlaceholder = @"please enter a valid last name";
-    [self.lastNamePromptView sizeToFit];
+    self.lastNamePromptField.textField.delegate = self;
+    self.lastNamePromptField.textField.standardPlaceholder = @"last name";
+    self.lastNamePromptField.textField.validationPlaceholder = @"please enter a valid last name";
+    [self.lastNamePromptField sizeToFit];
 }
 
 - (void)setupEmailField {
     
-    self.emailAddressPromptView.textField.delegate = self;
-    self.emailAddressPromptView.textField.standardPlaceholder = @"email";
-    self.emailAddressPromptView.textField.validationPlaceholder = @"please enter a valid email address";
-    [self.emailAddressPromptView.textField sizeToFit];
+    self.emailAddressPromptField.textField.delegate = self;
+    self.emailAddressPromptField.textField.standardPlaceholder = @"email";
+    self.emailAddressPromptField.textField.validationPlaceholder = @"please enter a valid email address";
+    [self.emailAddressPromptField.textField sizeToFit];
 }
 
 #pragma mark - Autolayout
@@ -124,7 +124,7 @@ IB_DESIGNABLE
     
     if (self.hasBeenValidatedAtLeastOnce) {
         
-        self.firstNamePromptView.valid = [LEOValidationsHelper isValidFirstName:_firstName];
+        self.firstNamePromptField.valid = [LEOValidationsHelper isValidFirstName:_firstName];
     }
 }
 
@@ -134,7 +134,7 @@ IB_DESIGNABLE
     
     if (self.hasBeenValidatedAtLeastOnce) {
 
-    self.lastNamePromptView.valid = [LEOValidationsHelper isValidLastName:_lastName];
+    self.lastNamePromptField.valid = [LEOValidationsHelper isValidLastName:_lastName];
     }
 }
 
@@ -144,7 +144,7 @@ IB_DESIGNABLE
     
     if (self.hasBeenValidatedAtLeastOnce) {
 
-    self.emailAddressPromptView.valid  = [LEOValidationsHelper isValidEmail:_email];
+    self.emailAddressPromptField.valid  = [LEOValidationsHelper isValidEmail:_email];
     }
 }
 
@@ -154,9 +154,9 @@ IB_DESIGNABLE
     
     self.hasBeenValidatedAtLeastOnce = YES;
     
-    self.firstName = self.firstNamePromptView.textField.text;
-    self.lastName = self.lastNamePromptView.textField.text;
-    self.email = self.emailAddressPromptView.textField.text;
+    self.firstName = self.firstNamePromptField.textField.text;
+    self.lastName = self.lastNamePromptField.textField.text;
+    self.email = self.emailAddressPromptField.textField.text;
     
     BOOL validFirstName = [LEOValidationsHelper isValidFirstName:self.firstName];
     BOOL validLastName = [LEOValidationsHelper isValidLastName:self.lastName];
@@ -172,16 +172,16 @@ IB_DESIGNABLE
     
     [mutableText replaceCharactersInRange:range withString:string];
     
-    if (textField == self.firstNamePromptView.textField) {
+    if (textField == self.firstNamePromptField.textField) {
         self.firstName = mutableText.string;
     }
     
-    if (textField == self.lastNamePromptView.textField) {
+    if (textField == self.lastNamePromptField.textField) {
         
         self.lastName = mutableText.string;
     }
     
-    if (textField == self.emailAddressPromptView.textField) {
+    if (textField == self.emailAddressPromptField.textField) {
         self.email = mutableText.string;
     }
     

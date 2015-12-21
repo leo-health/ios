@@ -15,6 +15,8 @@
 #import "Conversation.h"
 #import "Message.h"
 
+
+//FIXME: Update to reflect new paradigm, where associatedCardObject actions are associated with the associatedCardObject and NOT the card (where they should be.)
 @interface LEOCardConversation ()
 
 @property (strong, nonatomic) Conversation *conversation;
@@ -26,25 +28,56 @@
 static NSString *kActionSelectorReply = @"reply";
 static NSString *kActionSelectorCallUs = @"callUs";
 
-- (instancetype)initWithObjectID:(NSString *)objectID priority:(NSNumber *)priority associatedCardObject:(id)associatedCardObjectDictionary {
+- (instancetype)initWithObjectID:(NSString *)objectID priority:(NSNumber *)priority associatedCardObject:(id)associatedCardObject {
     
-    self = [super initWithObjectID:objectID priority:priority type:CardTypeConversation associatedCardObject:associatedCardObjectDictionary];
-    
-    if (self) {
-        
-        Conversation *conversation = [[Conversation alloc] initWithJSONDictionary:associatedCardObjectDictionary];
-        
-        self.associatedCardObject = conversation;
+    Conversation *conversation;
+
+    if ([associatedCardObject isKindOfClass:[NSDictionary class]]) {
+        conversation = [[Conversation alloc] initWithJSONDictionary:associatedCardObject];
+    } else {
+        conversation = associatedCardObject;
     }
-    
+
+    self = [super initWithObjectID:objectID priority:priority type:CardTypeAppointment associatedCardObject:conversation];
+
+    if (self) {
+
+        [self commonInit];
+    }
+
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSDictionary *)jsonCard {
+- (void)commonInit {
+
+    [self setupNotifications];
+}
+
+- (void)setupNotifications {
+
+    NSOperationQueue *mainQueue = [NSOperationQueue mainQueue];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(randomMethod) name:@"Status-Changed" object:self.associatedCardObject];
+    //
+    //     addObserverForName:@"Status-Changed"
+    //     object:self.associatedCardObject
+    //     queue:mainQueue
+    //     usingBlock:^(NSNotification *notification)
+    //     {
+    //
+    //     }];
+}
+
+-(void)randomMethod {
+    [self.activityDelegate didUpdateObjectStateForCard:self];
+}
+
+
+- (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
     
-    return [self initWithObjectID:jsonCard[APIParamID]
-                         priority:jsonCard[APIParamCardPriority]
-             associatedCardObject:jsonCard[APIParamCardData]];
+    return [self initWithObjectID:jsonResponse[APIParamID]
+                         priority:jsonResponse[APIParamCardPriority]
+             associatedCardObject:jsonResponse[APIParamCardData]];
 }
 
 
@@ -151,7 +184,7 @@ static NSString *kActionSelectorCallUs = @"callUs";
     
     self.conversation.priorStatusCode = self.conversation.statusCode;
     self.conversation.statusCode = ConversationStatusCodeOpen;
-    [self.delegate didUpdateObjectStateForCard:self];
+    [self.activityDelegate didUpdateObjectStateForCard:self];
 }
 
 - (void)callUs {
@@ -162,7 +195,7 @@ static NSString *kActionSelectorCallUs = @"callUs";
 
 - (void)dismiss {
     self.conversation.statusCode = ConversationStatusCodeClosed;
-    [self.delegate didUpdateObjectStateForCard:self];
+    [self.activityDelegate didUpdateObjectStateForCard:self];
 }
 
 - (void)returnToPriorState {

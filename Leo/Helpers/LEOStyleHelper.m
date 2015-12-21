@@ -14,6 +14,23 @@
 
 @implementation LEOStyleHelper
 
+
++ (void)styleNavigationBarForViewController:(UIViewController *)viewController forFeature:(Feature)feature withTitleText:(NSString *)titleText dismissal:(BOOL)dismissAvailable backButton:(BOOL)backAvailable {
+    
+    [self styleNavigationBarForFeature:feature];
+    [self styleNavigationBarShadowLineForViewController:viewController feature:feature];
+    [self styleViewController:viewController navigationTitleText:titleText forFeature:feature];
+
+    if (backAvailable) {
+        [self styleBackButtonForViewController:viewController forFeature:feature];
+    }
+
+    if (dismissAvailable) {
+        [self styleDismissButtonForViewController:viewController feature:feature];
+    }
+}
+
+
 + (void)styleSettingsViewController:(UIViewController *)viewController {
     
     viewController.view.tintColor = [self tintColorForFeature:FeatureSettings];
@@ -43,6 +60,22 @@
     [label sizeToFit];
 }
 
++ (void)styleViewController:(UIViewController *)viewController navigationTitleText:(NSString *)titleText forFeature:(Feature)feature {
+    
+    UILabel *navBarTitleLabel = [[UILabel alloc] init];
+    
+    navBarTitleLabel.text = titleText;
+    
+    //TODO: After merging with changes from chameleon issues (after sprint 12), rewrite this line to use the coloring methods.
+    navBarTitleLabel.textColor = [UIColor leo_white];
+    navBarTitleLabel.font = [UIFont leo_menuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
+    
+    [navBarTitleLabel sizeToFit]; //MARK: not sure this is useful anymore now that we have added autolayout.
+    
+    viewController.navigationItem.titleView = navBarTitleLabel;
+    viewController.navigationItem.titleView.alpha = 0;
+}
+
 + (void)stylePromptTextView:(LEOPromptTextView *)promptTextView forFeature:(Feature)feature {
     
     promptTextView.textColor = [UIColor leo_grayStandard];
@@ -55,6 +88,35 @@
 + (void)styleNavigationBarShadowLineForViewController:(UIViewController *)viewController feature:(Feature)feature {
     
     [viewController.navigationController.navigationBar setShadowImage:[UIImage leo_imageWithColor:[self tintColorForFeature:feature]]];
+}
+
++ (void)styleExpandedTitleLabel:(UILabel *)label titleText:(NSString *)titleText {
+    
+    label.text = titleText;
+    label.font = [UIFont leo_expandedCardHeaderFont];
+    label.textColor = [UIColor leo_white];
+    label.numberOfLines = 0;
+    label.lineBreakMode = NSLineBreakByWordWrapping;
+}
+
++ (void)styleDismissButtonForViewController:(UIViewController *)viewController feature:(Feature)feature {
+    
+    UIButton *dismissButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    
+    //TODO: Decide whether to use responder chain or move this out and instantiate the button in the VC.
+    [dismissButton addTarget:viewController
+                      action:@selector(dismiss)
+            forControlEvents:UIControlEventTouchUpInside];
+
+    [dismissButton setImage:[UIImage imageNamed:@"Icon-Cancel"]
+                   forState:UIControlStateNormal];
+    [dismissButton sizeToFit];
+    
+    dismissButton.tintColor = [UIColor leo_white];
+    
+    UIBarButtonItem *dismissBBI = [[UIBarButtonItem alloc] initWithCustomView:dismissButton];
+    
+    viewController.navigationItem.rightBarButtonItem = dismissBBI;
 }
 
 + (void)removeNavigationBarShadowLineForViewController:(UIViewController *)viewController {

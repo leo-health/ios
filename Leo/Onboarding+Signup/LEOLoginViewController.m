@@ -228,11 +228,11 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
 #pragma mark - Shorthand Helpers
 
 - (LEOValidatedFloatLabeledTextField *)emailTextField {
-    return self.loginView.emailPromptView.textField;
+    return self.loginView.emailPromptField.textField;
 }
 
 - (LEOValidatedFloatLabeledTextField *)passwordTextField {
-    return self.loginView.passwordPromptView.textField;
+    return self.loginView.passwordPromptField.textField;
 }
 
 

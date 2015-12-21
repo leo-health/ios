@@ -7,12 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "LEOPromptView.h"
+#import "LEOPromptField.h"
 
 @interface LEOLoginView : UIView
 
-@property (weak, nonatomic) IBOutlet LEOPromptView *emailPromptView;
-@property (weak, nonatomic) IBOutlet LEOPromptView *passwordPromptView;
+@property (weak, nonatomic) IBOutlet LEOPromptField *emailPromptField;
+@property (weak, nonatomic) IBOutlet LEOPromptField *passwordPromptField;
 @property (weak, nonatomic) IBOutlet UIButton *forgotPasswordButton;
 @property (weak, nonatomic) IBOutlet UIButton *continueButton;
 

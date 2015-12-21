@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LEOCardProtocol.h"
 
 @protocol FeedCellProtocol <NSObject> //TODO: Doublecheck if this protocol is still in use.
 

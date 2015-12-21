@@ -39,10 +39,10 @@ IB_DESIGNABLE
     return self;
 }
 
--(instancetype)init {
-
-    self = [super init];
-
+-(instancetype)initWithFrame:(CGRect)frame {
+    
+    self = [super initWithFrame:frame];
+    
     if (self) {
         [self setupConstraints];
         [self commonInit];
@@ -59,51 +59,51 @@ IB_DESIGNABLE
 
 #pragma mark - Accessors
 
-- (void)setFirstNamePromptView:(LEOPromptView *)firstNamePromptView {
+- (void)setFirstNamePromptField:(LEOPromptField *)firstNamePromptField {
 
-    _firstNamePromptView = firstNamePromptView;
+    _firstNamePromptField = firstNamePromptField;
 
-    _firstNamePromptView.textField.standardPlaceholder = @"first name";
-    _firstNamePromptView.textField.validationPlaceholder = @"please enter your first name";
-    _firstNamePromptView.textField.delegate = self;
+    _firstNamePromptField.textField.standardPlaceholder = @"first name";
+    _firstNamePromptField.textField.validationPlaceholder = @"please enter your first name";
+    _firstNamePromptField.textField.delegate = self;
 }
 
-- (void)setLastNamePromptView:(LEOPromptView *)lastNamePromptView {
+- (void)setLastNamePromptField:(LEOPromptField *)lastNamePromptField {
 
-    _lastNamePromptView = lastNamePromptView;
+    _lastNamePromptField = lastNamePromptField;
 
-    _lastNamePromptView.textField.standardPlaceholder = @"last name";
-    _lastNamePromptView.textField.validationPlaceholder = @"please enter your last name";
-    _lastNamePromptView.textField.delegate = self;
+    _lastNamePromptField.textField.standardPlaceholder = @"last name";
+    _lastNamePromptField.textField.validationPlaceholder = @"please enter your last name";
+    _lastNamePromptField.textField.delegate = self;
 }
 
-- (void)setPhoneNumberPromptView:(LEOPromptView *)phoneNumberPromptView {
+- (void)setPhoneNumberPromptField:(LEOPromptField *)phoneNumberPromptField {
 
-    _phoneNumberPromptView = phoneNumberPromptView;
+    _phoneNumberPromptField = phoneNumberPromptField;
 
-    _phoneNumberPromptView.textField.standardPlaceholder = @"phone number";
-    _phoneNumberPromptView.textField.validationPlaceholder = @"please enter a valid phone number";
-    _phoneNumberPromptView.textField.keyboardType = UIKeyboardTypePhonePad;
-    _phoneNumberPromptView.textField.delegate = self;
+    _phoneNumberPromptField.textField.standardPlaceholder = @"phone number";
+    _phoneNumberPromptField.textField.validationPlaceholder = @"please enter a valid phone number";
+    _phoneNumberPromptField.textField.keyboardType = UIKeyboardTypePhonePad;
+    _phoneNumberPromptField.textField.delegate = self;
 }
 
-- (void)setInsurerPromptView:(LEOPromptView *)insurerPromptView {
+- (void)setInsurerPromptField:(LEOPromptField *)insurerPromptField {
 
-    _insurerPromptView = insurerPromptView;
+    _insurerPromptField = insurerPromptField;
 
-    _insurerPromptView.textField.standardPlaceholder = @"insurance";
-    _insurerPromptView.textField.validationPlaceholder = @"please choose an insurance plan";
-    _insurerPromptView.textField.enabled = NO;
-    _insurerPromptView.accessoryImageViewVisible = YES;
-    _insurerPromptView.accessoryImage = [UIImage imageNamed:@"Icon-ForwardArrow"];
-    _insurerPromptView.textField.delegate = self;
+    _insurerPromptField.textField.standardPlaceholder = @"insurance";
+    _insurerPromptField.textField.validationPlaceholder = @"please choose an insurance plan";
+    _insurerPromptField.textField.enabled = NO;
+    _insurerPromptField.accessoryImageViewVisible = YES;
+    _insurerPromptField.accessoryImage = [UIImage imageNamed:@"Icon-ForwardArrow"];
+    _insurerPromptField.textField.delegate = self;
 }
 
 -(Guardian *)guardian {
 
-    _guardian.firstName = self.firstNamePromptView.textField.text;
-    _guardian.lastName = self.lastNamePromptView.textField.text;
-    _guardian.phoneNumber = self.phoneNumberPromptView.textField.text;
+    _guardian.firstName = self.firstNamePromptField.textField.text;
+    _guardian.lastName = self.lastNamePromptField.textField.text;
+    _guardian.phoneNumber = self.phoneNumberPromptField.textField.text;
     _guardian.insurancePlan = self.insurancePlan;
 
     return _guardian;
@@ -113,10 +113,10 @@ IB_DESIGNABLE
 
     _insurancePlan = insurancePlan;
 
-    _insurerPromptView.textField.text = _insurancePlan.combinedName;
+    _insurerPromptField.textField.text = _insurancePlan.combinedName;
 
     if (_insurancePlan) {
-        _insurerPromptView.valid = [LEOValidationsHelper isValidInsurer:_insurerPromptView.textField.text];
+        _insurerPromptField.valid = [LEOValidationsHelper isValidInsurer:_insurerPromptField.textField.text];
     }
 }
 
@@ -124,10 +124,10 @@ IB_DESIGNABLE
 
     _guardian = guardian;
 
-    _phoneNumberPromptView.textField.text = guardian.phoneNumber;
-    _firstNamePromptView.textField.text = guardian.firstName;
-    _lastNamePromptView.textField.text = guardian.lastName;
-    _insurerPromptView.textField.text = guardian.insurancePlan.combinedName;
+    _phoneNumberPromptField.textField.text = guardian.phoneNumber;
+    _firstNamePromptField.textField.text = guardian.firstName;
+    _lastNamePromptField.textField.text = guardian.lastName;
+    _insurerPromptField.textField.text = guardian.insurancePlan.combinedName;
 }
 
 - (void)viewTapped {
@@ -170,12 +170,12 @@ IB_DESIGNABLE
 
 - (BOOL)validView {
 
-    self.phoneNumberPromptView.valid = [LEOValidationsHelper isValidPhoneNumberWithFormatting:self.phoneNumberPromptView.textField.text];
-    self.firstNamePromptView.valid = [LEOValidationsHelper isValidFirstName:self.firstNamePromptView.textField.text];
-    self.lastNamePromptView.valid = [LEOValidationsHelper isValidLastName:self.lastNamePromptView.textField.text];
-    self.insurerPromptView.valid = [LEOValidationsHelper isValidInsurer:self.insurerPromptView.textField.text];
+    self.phoneNumberPromptField.valid = [LEOValidationsHelper isValidPhoneNumberWithFormatting:self.phoneNumberPromptField.textField.text];
+    self.firstNamePromptField.valid = [LEOValidationsHelper isValidFirstName:self.firstNamePromptField.textField.text];
+    self.lastNamePromptField.valid = [LEOValidationsHelper isValidLastName:self.lastNamePromptField.textField.text];
+    self.insurerPromptField.valid = [LEOValidationsHelper isValidInsurer:self.insurerPromptField.textField.text];
 
-    return self.phoneNumberPromptView.valid && self.firstNamePromptView.valid && self.lastNamePromptView.valid && self.insurerPromptView.valid;
+    return self.phoneNumberPromptField.valid && self.firstNamePromptField.valid && self.lastNamePromptField.valid && self.insurerPromptField.valid;
 }
 
 #pragma mark - <UITextFieldDelegate>
@@ -185,20 +185,20 @@ IB_DESIGNABLE
 
     [mutableText replaceCharactersInRange:range withString:string];
 
-    if (textField == self.firstNamePromptView.textField && !self.firstNamePromptView.textField.valid) {
+    if (textField == self.firstNamePromptField.textField && !self.firstNamePromptField.textField.valid) {
 
-        self.firstNamePromptView.textField.valid = [LEOValidationsHelper isValidFirstName:mutableText.string];
+        self.firstNamePromptField.textField.valid = [LEOValidationsHelper isValidFirstName:mutableText.string];
     }
 
-    if (textField == self.lastNamePromptView.textField && !self.lastNamePromptView.textField.valid) {
+    if (textField == self.lastNamePromptField.textField && !self.lastNamePromptField.textField.valid) {
 
-        self.lastNamePromptView.textField.valid = [LEOValidationsHelper isValidLastName:mutableText.string];
+        self.lastNamePromptField.textField.valid = [LEOValidationsHelper isValidLastName:mutableText.string];
     }
 
-    if (textField == self.phoneNumberPromptView.textField) {
+    if (textField == self.phoneNumberPromptField.textField) {
 
-        if (!self.phoneNumberPromptView.textField.valid) {
-            self.phoneNumberPromptView.textField.valid = [LEOValidationsHelper isValidPhoneNumberWithFormatting:mutableText.string];
+        if (!self.phoneNumberPromptField.textField.valid) {
+            self.phoneNumberPromptField.textField.valid = [LEOValidationsHelper isValidPhoneNumberWithFormatting:mutableText.string];
         }
 
         return [LEOValidationsHelper phoneNumberTextField:textField shouldUpdateCharacters:string inRange:range];

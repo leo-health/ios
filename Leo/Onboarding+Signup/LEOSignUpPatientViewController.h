@@ -15,7 +15,7 @@
 @end
 
 #import <UIKit/UIKit.h>
-#import "LEOPromptView.h"
+#import "LEOPromptField.h"
 #import <RSKImageCropper/RSKImageCropper.h>
 #import "LEOSignUpPatientView.h"
 

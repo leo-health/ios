@@ -10,19 +10,12 @@
 #import "User.h"
 #import "CardActivityProtocol.h"
 #import "Provider.h"
+#import "LEOCardProtocol.h"
 
-typedef NS_ENUM(NSUInteger, CardType) {
-    
-    CardTypeAppointment = 0,
-    CardTypeConversation = 1,
-    CardTypePayment = 2,
-    CardTypeForm = 3,
-    CardTypeVisitSummary = 4
-    
-};
 
 
 @interface LEOCard : NSObject
+
 NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSString *objectID;
 @property (strong, nonatomic) NSNumber *priority;
@@ -31,25 +24,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) id associatedCardObject;
 
-@property (weak, nonatomic) id<CardActivityProtocol> delegate;
+@property (weak, nonatomic) id<CardActivityProtocol> activityDelegate;
+@property (weak, nonatomic) id<LEOCardProtocol> cardDelegate;
 
 - (instancetype)initWithObjectID:(NSString *)objectID priority:(NSNumber *)priority type:(CardType)type associatedCardObject:(id)associatedCardObject;
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse;
 
++ (instancetype)cardWithCardType:(CardType)cardType;
++ (instancetype)cardWithCardType:(CardType)cardType withJSONDictionary:(NSDictionary *)jsonResponse;
 
-//abstract methods
-- (UIImage *)icon;
-- (UIColor *)tintColor;
-- (NSString *)title;
-- (NSString *)body;
-- (CardLayout)layout;
-- (NSArray *)stringRepresentationOfActionsAvailableForState;
-- (nullable User *)secondaryUser;
-- (nullable User *)primaryUser;
-- (NSDate *)timestamp;
-- (NSArray *)actionsAvailableForState;
-- (void)returnToPriorState;
 
 NS_ASSUME_NONNULL_END
 @end

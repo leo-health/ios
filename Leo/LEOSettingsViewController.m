@@ -8,9 +8,9 @@
 
 #import "LEOSettingsViewController.h"
 #import "Family.h"
-#import "LEOPromptViewCell+ConfigureForCell.h"
+#import "LEOPromptFieldCell+ConfigureForCell.h"
 #import "SessionUser.h"
-#import "LEOPromptView.h"
+#import "LEOPromptField.h"
 #import "UIColor+LeoColors.h"
 #import "UIFont+LeoFonts.h"
 #import "UIImage+Extensions.h"
@@ -114,8 +114,8 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
     tableViewInsets.top += 38.5;
     self.tableView.contentInset = tableViewInsets;
     
-    [self.tableView registerNib:[LEOPromptViewCell nib]
-         forCellReuseIdentifier:kPromptViewCellReuseIdentifier];
+    [self.tableView registerNib:[LEOPromptFieldCell nib]
+         forCellReuseIdentifier:kPromptFieldCellReuseIdentifier];
 }
 
 
@@ -150,7 +150,7 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    LEOPromptViewCell *cell = (LEOPromptViewCell *)[tableView dequeueReusableCellWithIdentifier:kPromptViewCellReuseIdentifier];
+    LEOPromptFieldCell *cell = (LEOPromptFieldCell *)[tableView dequeueReusableCellWithIdentifier:kPromptFieldCellReuseIdentifier];
     
     switch (indexPath.section) {
             
@@ -160,42 +160,40 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
                     
                 case AccountSettingsEmail: {
                     
-                    cell.promptView.textField.text = [SessionUser currentUser].email;
-                    cell.promptView.accessoryImageViewVisible = NO;
-                    cell.promptView.tintColor = [UIColor leo_orangeRed];
-                    cell.promptView.textField.enabled = NO;
-                    cell.promptView.textField.textColor = [UIColor leo_orangeRed];
-                    cell.promptView.tapGestureEnabled = NO;
-                    cell.promptView.textField.standardPlaceholder = @"email";
-                    
+                    cell.promptField.textField.text = [SessionUser currentUser].email;
+                    cell.promptField.accessoryImageViewVisible = NO;
+                    cell.promptField.tintColor = [UIColor leo_orangeRed];
+                    cell.promptField.textField.enabled = NO;
+                    cell.promptField.textField.textColor = [UIColor leo_orangeRed];
+                    cell.promptField.tapGestureEnabled = NO;
+                    cell.promptField.textField.standardPlaceholder = @"email";
+
                     break;
                 }
                     
                 case AccountSettingsPassword: {
-                    
-                    cell.promptView.textField.text = @"Change my password";
-                    cell.promptView.accessoryImageViewVisible = YES;
-                    cell.promptView.accessoryImage = [UIImage imageNamed:@"Icon-ForwardArrow"];
-                    cell.promptView.tintColor = [UIColor leo_orangeRed];
-                    cell.promptView.textField.enabled = NO;
-                    cell.promptView.textField.textColor = [UIColor leo_grayStandard];
-                    cell.promptView.tapGestureEnabled = NO;
-                    cell.promptView.textField.standardPlaceholder = @"";
-                    
+
+                    cell.promptField.textField.text = @"Change my password";
+                    cell.promptField.accessoryImageViewVisible = YES;
+                    cell.promptField.accessoryImage = [UIImage imageNamed:@"Icon-ForwardArrow"];
+                    cell.promptField.tintColor = [UIColor leo_orangeRed];
+                    cell.promptField.textField.enabled = NO;
+                    cell.promptField.textField.textColor = [UIColor leo_grayStandard];
+                    cell.promptField.tapGestureEnabled = NO;
+                    cell.promptField.textField.standardPlaceholder = @"";
                     break;
                 }
                     
                 case AccountSettingsInvite: {
-                    
-                    cell.promptView.textField.text = @"Invite a parent";
-                    cell.promptView.accessoryImageViewVisible = YES;
-                    cell.promptView.accessoryImage = [UIImage imageNamed:@"Icon-Add"];
-                    cell.promptView.tintColor = [UIColor leo_orangeRed];
-                    cell.promptView.textField.enabled = NO;
-                    cell.promptView.textField.textColor = [UIColor leo_grayStandard];
-                    cell.promptView.tapGestureEnabled = NO;
-                    cell.promptView.textField.standardPlaceholder = @"";
-                    
+
+                    cell.promptField.textField.text = @"Invite a parent";
+                    cell.promptField.accessoryImageViewVisible = YES;
+                    cell.promptField.accessoryImage = [UIImage imageNamed:@"Icon-Add"];
+                    cell.promptField.tintColor = [UIColor leo_orangeRed];
+                    cell.promptField.textField.enabled = NO;
+                    cell.promptField.textField.textColor = [UIColor leo_grayStandard];
+                    cell.promptField.tapGestureEnabled = NO;
+                    cell.promptField.textField.standardPlaceholder = @"";
                     break;
                 }
             }
@@ -221,55 +219,51 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
                     NSString *appBuild = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
                     NSString *appVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
                     
-                    cell.promptView.textField.text = [NSString stringWithFormat:@"%@ | %@", appVersion, appBuild];
-                    cell.promptView.accessoryImageViewVisible = NO;
-                    cell.promptView.textField.enabled = NO;
-                    cell.promptView.tapGestureEnabled = NO;
-                    cell.promptView.textField.textColor = [UIColor leo_orangeRed];
-                    cell.promptView.textField.standardPlaceholder = @"version | build";
-                    
+                    cell.promptField.textField.text = [NSString stringWithFormat:@"%@ | %@", appVersion, appBuild];
+                    cell.promptField.accessoryImageViewVisible = NO;
+                    cell.promptField.textField.enabled = NO;
+                    cell.promptField.tapGestureEnabled = NO;
+                    cell.promptField.textField.textColor = [UIColor leo_orangeRed];
+                    cell.promptField.textField.standardPlaceholder = @"version | build";
                     break;
                 }
                     
                 case AboutSettingsTermsAndConditions: {
                     
-                    cell.promptView.textField.text = @"Terms & Conditions";
-                    cell.promptView.accessoryImageViewVisible = YES;
-                    cell.promptView.accessoryImage = [UIImage imageNamed:@"Icon-ForwardArrow"];
-                    cell.promptView.textField.enabled = NO;
-                    cell.promptView.tapGestureEnabled = NO;
-                    cell.promptView.tintColor = [UIColor leo_orangeRed];
-                    cell.promptView.textField.textColor = [UIColor leo_grayStandard];
-                    cell.promptView.textField.standardPlaceholder = @"";
-                    
+                    cell.promptField.textField.text = @"Terms & Conditions";
+                    cell.promptField.accessoryImageViewVisible = YES;
+                    cell.promptField.accessoryImage = [UIImage imageNamed:@"Icon-ForwardArrow"];
+                    cell.promptField.textField.enabled = NO;
+                    cell.promptField.tapGestureEnabled = NO;
+                    cell.promptField.tintColor = [UIColor leo_orangeRed];
+                    cell.promptField.textField.textColor = [UIColor leo_grayStandard];
+                    cell.promptField.textField.standardPlaceholder = @"";
                     break;
                 }
                     
                 case AboutSettingsPrivacyPolicy: {
-                 
-                    cell.promptView.textField.text = @"Privacy Policy";
-                    cell.promptView.accessoryImageViewVisible = YES;
-                    cell.promptView.accessoryImage = [UIImage imageNamed:@"Icon-ForwardArrow"];
-                    cell.promptView.textField.enabled = NO;
-                    cell.promptView.tapGestureEnabled = NO;
-                    cell.promptView.tintColor = [UIColor leo_orangeRed];
-                    cell.promptView.textField.textColor = [UIColor leo_grayStandard];
-                    cell.promptView.textField.standardPlaceholder = @"";
-                    
+
+                    cell.promptField.textField.text = @"Privacy Policy";
+                    cell.promptField.accessoryImageViewVisible = YES;
+                    cell.promptField.accessoryImage = [UIImage imageNamed:@"Icon-ForwardArrow"];
+                    cell.promptField.textField.enabled = NO;
+                    cell.promptField.tapGestureEnabled = NO;
+                    cell.promptField.tintColor = [UIColor leo_orangeRed];
+                    cell.promptField.textField.textColor = [UIColor leo_grayStandard];
+                    cell.promptField.textField.standardPlaceholder = @"";
                     break;
                 }
                     
                 case AboutSettingsSystemSettings: {
                     
-                    cell.promptView.textField.text = @"System Settings";
-                    cell.promptView.accessoryImageViewVisible = YES;
-                    cell.promptView.accessoryImage = [UIImage imageNamed:@"Icon-ForwardArrow"];
-                    cell.promptView.textField.enabled = NO;
-                    cell.promptView.tapGestureEnabled = NO;
-                    cell.promptView.tintColor = [UIColor leo_orangeRed];
-                    cell.promptView.textField.textColor = [UIColor leo_grayStandard];
-                    cell.promptView.textField.standardPlaceholder = @"";
-                    
+                    cell.promptField.textField.text = @"System Settings";
+                    cell.promptField.accessoryImageViewVisible = YES;
+                    cell.promptField.accessoryImage = [UIImage imageNamed:@"Icon-ForwardArrow"];
+                    cell.promptField.textField.enabled = NO;
+                    cell.promptField.tapGestureEnabled = NO;
+                    cell.promptField.tintColor = [UIColor leo_orangeRed];
+                    cell.promptField.textField.textColor = [UIColor leo_grayStandard];
+                    cell.promptField.textField.standardPlaceholder = @"";
                     break;
                 }
             }
@@ -278,10 +272,10 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
         }
         case SettingsSectionLogout: {
             
-            cell.promptView.textField.text = @"Logout";
-            cell.promptView.accessoryImageViewVisible = NO;
-            cell.promptView.textField.enabled = NO;
-            cell.promptView.tapGestureEnabled = NO;
+            cell.promptField.textField.text = @"Logout";
+            cell.promptField.accessoryImageViewVisible = NO;
+            cell.promptField.textField.enabled = NO;
+            cell.promptField.tapGestureEnabled = NO;
             break;
         }
     }

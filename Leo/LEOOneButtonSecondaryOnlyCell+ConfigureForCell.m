@@ -15,7 +15,7 @@
 
 @implementation LEOOneButtonSecondaryOnlyCell (ConfigureForCell)
 
-- (void)configureForCard:(LEOCard *)card {
+- (void)configureForCard:(id<LEOCardProtocol>)card {
     
     self.iconImageView.image = [card icon];
     self.titleLabel.text = [card title];
@@ -28,7 +28,7 @@
     
     [self.buttonOne setTitle:[card stringRepresentationOfActionsAvailableForState][0] forState:UIControlStateNormal];
     [self.buttonOne removeTarget:nil action:NULL forControlEvents:self.buttonOne.allControlEvents];
-    [self.buttonOne addTarget:card action:NSSelectorFromString([card actionsAvailableForState][0]) forControlEvents:UIControlEventTouchUpInside];
+    [self.buttonOne addTarget:card.associatedCardObject action:NSSelectorFromString([card actionsAvailableForState][0]) forControlEvents:UIControlEventTouchUpInside];
     
     [self formatSubviewsWithTintColor:card.tintColor];
     [self setCopyFontAndColor];

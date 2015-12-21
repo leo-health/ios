@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
     </dependencies>
     <objects>
@@ -9,11 +8,11 @@
             <connections>
                 <outlet property="avatarButton" destination="xHX-B3-gG2" id="eNM-Y9-QCl"/>
                 <outlet property="avatarValidationLabel" destination="uZR-9M-9bv" id="jqg-zW-unN"/>
-                <outlet property="birthDatePromptView" destination="akX-b1-of0" id="hSa-Wr-vqZ"/>
+                <outlet property="birthDatePromptField" destination="akX-b1-of0" id="hSa-Wr-vqZ"/>
                 <outlet property="contentView" destination="1LP-Ig-PFg" id="nuJ-i9-FSM"/>
-                <outlet property="firstNamePromptView" destination="xzJ-EK-S70" id="gOE-jG-4cW"/>
-                <outlet property="genderPromptView" destination="wXO-Yh-mXH" id="s8f-JN-naC"/>
-                <outlet property="lastNamePromptView" destination="IsI-Id-xlv" id="bfQ-vR-SXI"/>
+                <outlet property="firstNamePromptField" destination="xzJ-EK-S70" id="gOE-jG-4cW"/>
+                <outlet property="genderPromptField" destination="wXO-Yh-mXH" id="s8f-JN-naC"/>
+                <outlet property="lastNamePromptField" destination="IsI-Id-xlv" id="bfQ-vR-SXI"/>
                 <outlet property="scrollView" destination="9Ps-s0-yza" id="2CB-aJ-K6h"/>
                 <outlet property="updateButton" destination="Do6-Qk-bdr" id="tEk-l6-wnJ"/>
             </connections>
@@ -29,7 +28,7 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1LP-Ig-PFg" userLabel="Content View">
                             <rect key="frame" x="0.0" y="0.0" width="404" height="499"/>
                             <subviews>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xzJ-EK-S70" userLabel="First Name Prompt View" customClass="LEOPromptView">
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xzJ-EK-S70" userLabel="First Name Prompt View" customClass="LEOPromptField">
                                     <rect key="frame" x="0.0" y="107" width="404" height="48"/>
                                     <animations/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -37,7 +36,7 @@
                                         <constraint firstAttribute="height" constant="48" id="Qte-Eu-r3o"/>
                                     </constraints>
                                 </view>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IsI-Id-xlv" userLabel="Last Name Prompt View" customClass="LEOPromptView">
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IsI-Id-xlv" userLabel="Last Name Prompt View" customClass="LEOPromptField">
                                     <rect key="frame" x="0.0" y="155" width="404" height="48"/>
                                     <animations/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -45,7 +44,7 @@
                                         <constraint firstAttribute="height" constant="48" id="XW6-2g-Um1"/>
                                     </constraints>
                                 </view>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wXO-Yh-mXH" userLabel="Gender Prompt View" customClass="LEOPromptView">
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wXO-Yh-mXH" userLabel="Gender Prompt View" customClass="LEOPromptField">
                                     <rect key="frame" x="0.0" y="251" width="404" height="48"/>
                                     <animations/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -72,7 +71,7 @@
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
                                 </button>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="akX-b1-of0" userLabel="Birthdate Prompt View" customClass="LEOPromptView">
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="akX-b1-of0" userLabel="Birthdate Prompt View" customClass="LEOPromptField">
                                     <rect key="frame" x="0.0" y="203" width="404" height="48"/>
                                     <animations/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

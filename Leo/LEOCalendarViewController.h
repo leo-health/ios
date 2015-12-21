@@ -12,12 +12,12 @@
 #import "TimeCollectionController.h"
 
 @class LEOAPIOperation;
-@class PrepAppointment;
+@class Appointment;
 
 @interface LEOCalendarViewController : UIViewController <DateCollectionProtocol, TimeCollectionProtocol>
 NS_ASSUME_NONNULL_BEGIN
 
-@property (strong, nonatomic) PrepAppointment *prepAppointment;
+@property (strong, nonatomic) Appointment *appointment;
 @property (strong, nonatomic) LEOAPIOperation *requestOperation;
 @property (weak, nonatomic) id<SingleSelectionProtocol>delegate;
 

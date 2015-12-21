@@ -10,14 +10,14 @@
 
 #import <UIKit/UIKit.h>
 #import "CardActivityProtocol.h"
-#import "ExpandedCardViewProtocol.h"
+#import "LEOExpandedCardViewProtocol.h"
 
 @class LEOCard;
 
 @interface LEOExpandedCardViewController : UIViewController <UIScrollViewDelegate>
 NS_ASSUME_NONNULL_BEGIN
 
-@property (weak, nonatomic) id<ExpandedCardViewProtocol>delegate;
+@property (weak, nonatomic) id<LEOExpandedCardViewDelegate>delegate;
 
 @property (strong, nonatomic) LEOCard *card;
 @property (strong, nonatomic) NSString *expandedFullTitle;

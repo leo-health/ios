@@ -13,7 +13,7 @@
 #import "UIColor+LeoColors.h"
 #import "UIImage+Extensions.h"
 
-#import "LEOPromptViewCell+ConfigureForCell.h"
+#import "LEOPromptFieldCell+ConfigureForCell.h"
 #import "LEOBasicHeaderCell+ConfigureForCell.h"
 #import "LEOReviewPatientCell+ConfigureForCell.h"
 #import "LEOButtonCell.h"
@@ -94,10 +94,10 @@ typedef NS_ENUM(NSUInteger, TableViewSection) {
     
     [self.tableView registerNib:[LEOBasicHeaderCell nib]
          forCellReuseIdentifier:kHeaderCellReuseIdentifier];
-    [self.tableView registerNib:[LEOPromptViewCell nib]
-         forCellReuseIdentifier:kPromptViewCellReuseIdentifier];
+    [self.tableView registerNib:[LEOPromptFieldCell nib]
+         forCellReuseIdentifier:kPromptFieldCellReuseIdentifier];
     [self.tableView registerNib:[LEOButtonCell nib] forCellReuseIdentifier:kButtonCellReuseIdentifier];
-    
+
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     self.tableView.estimatedRowHeight = 100.0;
@@ -147,8 +147,8 @@ typedef NS_ENUM(NSUInteger, TableViewSection) {
             
             Patient *patient = self.family.patients[indexPath.row];
             
-            LEOPromptViewCell *cell = [tableView
-                                       dequeueReusableCellWithIdentifier:kPromptViewCellReuseIdentifier
+            LEOPromptFieldCell *cell = [tableView
+                                       dequeueReusableCellWithIdentifier:kPromptFieldCellReuseIdentifier
                                        forIndexPath:indexPath];
             
             [cell configureForPatient:patient];
@@ -158,8 +158,8 @@ typedef NS_ENUM(NSUInteger, TableViewSection) {
             
         case TableViewSectionAddPatient: {
             
-            LEOPromptViewCell *cell = [tableView
-                                       dequeueReusableCellWithIdentifier:kPromptViewCellReuseIdentifier
+            LEOPromptFieldCell *cell = [tableView
+                                       dequeueReusableCellWithIdentifier:kPromptFieldCellReuseIdentifier
                                        forIndexPath:indexPath];
             
             [cell configureForNewPatient];

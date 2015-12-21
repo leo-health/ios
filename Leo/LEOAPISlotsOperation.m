@@ -10,6 +10,8 @@
 #import "LEOCalendarDataSource.h" //TODO: Replace with data manager when slots are finished being integrated
 #import "LEOAppointmentService.h"
 #import "PrepAppointment.h"
+#import "Appointment.h"
+
 #import <DateTools.h>
 @interface LEOAPISlotsOperation()
 
@@ -21,12 +23,12 @@
 
 NSInteger const dayRangeForSlots = 45;
 
--(instancetype)initWithPrepAppointment:(PrepAppointment *)prepAppointment {
+-(instancetype)initWithAppointment:(Appointment *)appointment {
     
     self = [super init];
     
     if (self) {
-        _prepAppointment = prepAppointment;
+        _prepAppointment = [[PrepAppointment alloc] initWithAppointment:appointment];
     }
     
     return self;
@@ -36,7 +38,7 @@ NSInteger const dayRangeForSlots = 45;
     
     LEOAppointmentService *appointmentService = [[LEOAppointmentService alloc] init];
 
-    [appointmentService getSlotsForPrepAppointment:self.prepAppointment withCompletion:^(NSArray *slots, NSError *error) {
+    [appointmentService getSlotsForAppointment:[[Appointment alloc] initWithPrepAppointment:self.prepAppointment] withCompletion:^(NSArray *slots, NSError *error) {
         
         id data = [LEOCalendarDataSource formatSlots:slots forDaysFromToday:dayRangeForSlots];
         

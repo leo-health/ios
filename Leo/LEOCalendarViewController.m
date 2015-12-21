@@ -15,6 +15,7 @@
 #import "Slot.h"
 #import "LEOConstants.h"
 #import "PrepAppointment.h"
+#import "Appointment.h"
 #import "LEOAPISlotsOperation.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 #import "UIColor+LeoColors.h"
@@ -79,7 +80,7 @@
         self.noSlotsLabel.hidden = NO;
     } else {
         
-        self.timeCollectionController = [[TimeCollectionController alloc] initWithCollectionView:self.timeCollectionView slots:self.slotsDictionary[date] chosenSlot:[Slot slotFromExistingAppointment:self.prepAppointment]];
+        self.timeCollectionController = [[TimeCollectionController alloc] initWithCollectionView:self.timeCollectionView slots:self.slotsDictionary[date] chosenSlot:[Slot slotFromExistingAppointment:self.appointment]];
         self.timeCollectionController.delegate = self;
 
         [self.timeCollectionView layoutIfNeeded];
@@ -106,8 +107,8 @@
     
     NSDate *initialDate;
     
-    if (self.prepAppointment.date) {
-        initialDate = self.prepAppointment.date;
+    if (self.appointment.date) {
+        initialDate = self.appointment.date;
     } else {
         initialDate = [self firstSlot].startDateTime;
     }
@@ -140,7 +141,7 @@
         self.dateCollectionController = [[DateCollectionController alloc] initWithCollectionView:self.dateCollectionView dates:self.slotsDictionary chosenDate:[self initialDate]];
         self.dateCollectionController.delegate = self;
         
-        self.timeCollectionController = [[TimeCollectionController alloc] initWithCollectionView:self.timeCollectionView slots:self.slotsDictionary[[[self initialDate] leo_beginningOfDay]] chosenSlot:[Slot slotFromExistingAppointment:self.prepAppointment]];
+        self.timeCollectionController = [[TimeCollectionController alloc] initWithCollectionView:self.timeCollectionView slots:self.slotsDictionary[[[self initialDate] leo_beginningOfDay]] chosenSlot:[Slot slotFromExistingAppointment:self.appointment]];
         self.timeCollectionController.delegate = self;
         
         //FIXME: Don't love that I have to call this from outside of the DateCollectionController. There has got to be a better way.
@@ -191,12 +192,12 @@
 //TODO: code that needs refactoring.
 - (void)addSlotToSlotData:(id)data {
     
-    if (self.prepAppointment.date) {
+    if (self.appointment.date) {
         
         NSMutableDictionary *slotsDictionaryWithExistingAppointmentSlot = [data mutableCopy];
-        NSMutableArray *slotsForDateOfExistingAppointment = [slotsDictionaryWithExistingAppointmentSlot[[self.prepAppointment.date leo_beginningOfDay]] mutableCopy];
-        
-        Slot *prepSlot = [Slot slotFromExistingAppointment:self.prepAppointment];
+        NSMutableArray *slotsForDateOfExistingAppointment = [slotsDictionaryWithExistingAppointmentSlot[[self.appointment.date leo_beginningOfDay]] mutableCopy];
+
+        Slot *prepSlot = [Slot slotFromExistingAppointment:self.appointment];
         
         NSUInteger slotCount = [slotsForDateOfExistingAppointment count];
         
@@ -223,7 +224,7 @@
         
         sortedSlots = [slotsForDateOfExistingAppointment sortedArrayUsingDescriptors:@[datesAscending]];
         
-        [slotsDictionaryWithExistingAppointmentSlot setObject:sortedSlots forKey:[self.prepAppointment.date leo_beginningOfDay]];
+        [slotsDictionaryWithExistingAppointmentSlot setObject:sortedSlots forKey:[self.appointment.date leo_beginningOfDay]];
         self.slotsDictionary = [slotsDictionaryWithExistingAppointmentSlot copy];
         
     } else {
