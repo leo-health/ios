@@ -80,7 +80,7 @@ IB_DESIGNABLE
     _notesTextView.floatingLabelFont = [UIFont leo_standardFont];
     _notesTextView.placeholderLabel.font = [UIFont leo_standardFont];
     _notesTextView.font = [UIFont leo_standardFont];
-    _notesTextView.floatingLabelActiveTextColor = [UIColor leo_grayStandard]; //TODO: Check this color is right.
+    _notesTextView.floatingLabelActiveTextColor = [UIColor leo_grayForPlaceholdersAndLines]; //TODO: Check *again* this color is right.
     _notesTextView.textColor = [UIColor leo_green];
     _notesTextView.tintColor = [UIColor leo_green];
 }

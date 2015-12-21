@@ -56,10 +56,6 @@
     return nil;
 }
 
-- (void)revertChanges {
-    
-}
-
 //+ (NSArray *)cardsFromJSONDictionary:(NSDictionary *)jsonResponse {
 //
 //    NSArray *jsonCards = jsonResponse[@"cards"];

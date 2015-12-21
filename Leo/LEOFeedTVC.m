@@ -211,7 +211,7 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
 - (LEOCardConversation *)conversation {
 
     for (id<LEOCardProtocol>card in self.cards) {
-        
+
         if ([card isKindOfClass:[LEOCardConversation class]]) {
             return (LEOCardConversation *)card;
         }
@@ -224,7 +224,7 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
 }
 
 - (void)fetchDataForCard:(id<LEOCardProtocol>)card {
-    
+
     dispatch_queue_t queue = dispatch_queue_create("loadingQueue", NULL);
 
     [MBProgressHUD showHUDAddedTo:self.tableView animated:YES];
@@ -242,8 +242,8 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
 
                 [self.tableView reloadData];
 
-//                NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.cardInFocus inSection:0];
-//                [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
+                //                NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.cardInFocus inSection:0];
+                //                [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
 
                 [MBProgressHUD hideHUDForView:self.tableView animated:YES];
             });
@@ -292,19 +292,19 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
 }
 
 -(void)takeResponsibilityForCard:(id<LEOCardProtocol>)card {
-    
+
     card.activityDelegate = self;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"Card-Updated" object:nil]; //TODO: This method does not reflect the fact that an update has taken place. Consider naming differently, or moving this to a method that fits the bill?
 }
 
 - (void)didUpdateObjectStateForCard:(id<LEOCardProtocol>)card {
-    
+
     [UIView animateWithDuration:0.2 animations:^{
 
     } completion:^(BOOL finished) {
 
         if ([card isKindOfClass:[LEOCardAppointment class]]) {
-            
+
             Appointment *appointment = card.associatedCardObject; //FIXME: Make this a loop to account for multiple appointments.
 
             switch (appointment.status.statusCode) {
@@ -362,7 +362,7 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
             }
         }
         if ([card isKindOfClass:[LEOCardConversation class]]) {
-            
+
             Conversation *conversation = card.associatedCardObject; //FIXME: Make this a loop to account for multiple appointments.
 
             switch (conversation.statusCode) {
@@ -391,7 +391,7 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
 
     AppointmentStatus *appointmentStatus = [AppointmentStatus new];
     appointmentStatus.statusCode = AppointmentStatusCodeFuture;
-    
+
     Appointment *appointment = [[Appointment alloc] initWithObjectID:nil
                                                                 date:nil
                                                      appointmentType:nil
@@ -403,7 +403,7 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
                                                               status:appointmentStatus];
 
     LEOCardAppointment *card = [[LEOCardAppointment alloc] initWithObjectID:@"999" priority:@0 associatedCardObject:appointment];
-    
+
     [self loadBookingViewWithCard:card];
 }
 
@@ -752,21 +752,21 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
             } else {
                 [self showSomethingWentWrong];
             }
-
+            
             break;
         }
-
+            
         case MenuChoiceSubmitAForm:
-
+            
             break;
-
+            
         case MenuChoiceUpdateSettings:
             [self loadSettings];
             break;
-
+            
         case MenuChoiceUndefined:
             break;
-
+            
     }
 }
 
@@ -775,27 +775,27 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
 }
 
 - (LEOCardConversation *)findConversationCard {
-
+    
     for (LEOCard *card in self.cards) {
-
+        
         if ([card isKindOfClass:[LEOCardConversation class]]) {
             return (LEOCardConversation *)card;
         }
     }
-
+    
     return nil;
 }
 
 - (void)showSomethingWentWrong {
-
+    
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Oops! Looks like we had a boo boo." message:@"We're working on a fix. Check back later!" preferredStyle:UIAlertControllerStyleAlert];
-
+    
     UIAlertAction *action = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [self dismissViewControllerAnimated:YES completion:nil];
     }];
-
+    
     [alertController addAction:action];
-
+    
     [self presentViewController:alertController animated:YES completion:nil];
 }
 
