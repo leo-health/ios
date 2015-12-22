@@ -14,6 +14,7 @@
 @interface LEOStickyHeaderView ()
 
 @property (nonatomic) BOOL breakerIsOnScreen;
+@property (strong, nonatomic) CAGradientLayer *gradientLayer;
 @property (strong, nonatomic) CAShapeLayer *pathLayer;
 @property (nonatomic) CGFloat snapToHeight;
 @property (weak, nonatomic) UILabel *expandedTitleLabel;
@@ -83,6 +84,17 @@
     }
     
     return _titleView;
+}
+
+- (CAGradientLayer*)gradientLayer {
+    
+    if (!_gradientLayer) {
+        _gradientLayer = [CAGradientLayer layer];
+        
+        [self.titleView.layer addSublayer:_gradientLayer];
+    }
+    
+    return _gradientLayer;
 }
 
 - (UIView *)contentView {
@@ -167,10 +179,27 @@
     [self updateButton];
 }
 
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    self.gradientLayer.frame = self.titleView.bounds;
+}
+
 - (void)setupSubviews {
     
     self.contentView.backgroundColor = [UIColor blackColor];
     self.titleView.backgroundColor = [UIColor blueColor];
+    
+    
+    // TODO: set up initial gradient
+    self.gradientLayer.colors = @[(id)[UIColor leo_green].CGColor, (id)[UIColor whiteColor].CGColor];
+    // init gradient angle to vertical
+    self.gradientLayer.startPoint = [self initialGradientStartPoint];
+    self.gradientLayer.endPoint = [self initialGradientEndPoint];
+    
+    
+    
+    
+    
     self.bodyView.backgroundColor = [UIColor redColor];
     self.submissionControl.backgroundColor = [UIColor greenColor];
 }
@@ -240,8 +269,13 @@
     [self.scrollView addConstraints:verticalLayoutConstraintsForContentView];
     [self.scrollView addConstraints:horizontalLayoutConstraintsForContentView];
     
-    NSArray *verticalLayoutConstraintsForSubviews = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_titleView(titleHeight)][_bodyView]|" options:0 metrics:@{@"titleHeight" : @(titleHeight)} views:viewDictionary];
+    NSDictionary* titleHeightMetrics = @{@"titleHeight" : @(titleHeight)};
+    NSLayoutConstraint *heightConstraint = [NSLayoutConstraint constraintWithItem:_titleView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:titleHeight];
+    NSLayoutConstraint *heightConstraint = [NSLayoutConstraint constraintWithItem:_titleView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:titleHeight];
 
+    NSArray *verticalLayoutConstraintsForSubviews = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_titleView(titleHeight)]" options:0 metrics:titleHeightMetrics views:viewDictionary];
+    NSArray *verticalLayoutConstraintsForBodyView = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(titleHeight)-[_bodyView]|" options:0 metrics:titleHeightMetrics views:viewDictionary];
+    
     //TODO: This definitely is not the "right" solution. It is the "work" solution. The hardcoding here cannot be removed with this as the solution. Revisit and think through alternative.
     CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width - 20;
     CGFloat screenWidthWithMargins = screenWidth - 60;
@@ -251,6 +285,7 @@
     [self.contentView addConstraints:horizontalBodyViewConstraints];
     [self.contentView addConstraints:horizontalTitleViewConstraints];
     [self.contentView addConstraints:verticalLayoutConstraintsForSubviews];
+    [self.contentView addConstraints:verticalLayoutConstraintsForBodyView];
     
     NSArray *horizontalLayoutConstraintsForFullTitle = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(20)-[_expandedTitleLabel]-(100)-|" options:0 metrics:nil views:viewDictionary];
     NSArray *verticalLayoutConstraintsForFullTitle = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_expandedTitleLabel]-(20)-|" options:0 metrics:nil views:viewDictionary];
@@ -339,10 +374,66 @@
 
 #pragma mark - <UIScrollViewDelegate> & Helper Methods
 
+- (CGPoint)initialGradientStartPoint {
+    return CGPointMake(0.5, 0);
+}
+
+- (CGPoint)initialGradientEndPoint {
+    return CGPointMake(0.5, 1);
+}
+
+- (CGPoint)finalGradientStartPoint {
+    return CGPointMake(1,  1 - (44 / [self heightOfTitleView]) );
+}
+
+- (CGPoint)finalGradientEndPoint {
+    return CGPointMake(0, 1);
+}
+
+- (void)updateGradientForTransitionPercentage:(CGFloat)transitionCompletionPercentage {
+    CGFloat percentage = transitionCompletionPercentage;
+    if (percentage < 0) {
+        // don't need to change the angle when at the top.
+        // TODO: stretch the title view and the gradient layer frame (does this happen automatically?)
+        percentage = 0;
+    } else if (percentage > 1) {
+        percentage = 1;
+    }
+    
+    self.gradientLayer.startPoint = CGPointMake([self initialGradientStartPoint].x + percentage * ([self finalGradientStartPoint].x - [self initialGradientStartPoint].x),
+                                                [self initialGradientStartPoint].y + percentage * ([self finalGradientStartPoint].y - [self initialGradientStartPoint].y));
+    self.gradientLayer.endPoint = CGPointMake([self initialGradientEndPoint].x + percentage * ([self finalGradientEndPoint].x - [self initialGradientEndPoint].x),
+                                              [self initialGradientEndPoint].y + percentage * ([self finalGradientEndPoint].y - [self initialGradientEndPoint].y));
+    
+}
+
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    
     
     if (scrollView == self.scrollView) {
         [self animateBreakerIfNeeded];
+        
+        // stick titleView to top
+        CGRect frame = self.titleView.frame;
+        if (scrollView.contentOffset.y > [self heightOfTitleView] - [self navBarHeight]) {
+            frame.origin.y = scrollView.contentOffset.y - [self heightOfTitleView] + [self navBarHeight];
+        } else {
+            frame.origin.y = 0; // original
+        }
+        self.titleView.frame = frame;
+        
+        // other views will scroll underneath
+        if ([self.titleView.superview.subviews indexOfObject:self.titleView] != self.titleView.superview.subviews.count) {
+            [self.titleView.superview bringSubviewToFront:self.titleView];
+        }
+        
+        // update gradient
+        CGFloat percentage = scrollView.contentOffset.y / [self heightOfTitleView];
+
+        if (percentage < 1 && percentage >= 0) {
+            [self updateGradientForTransitionPercentage:percentage];
+        }
+        
     }
 }
 
@@ -425,7 +516,8 @@
 }
 
 - (CGFloat)navBarHeight {
-    return self.snapToHeight;
+    return 44;
+//    return self.snapToHeight;
 }
 
 - (CGFloat)heightOfTitleView {

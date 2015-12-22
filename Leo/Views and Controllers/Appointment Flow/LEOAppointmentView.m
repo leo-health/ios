@@ -404,7 +404,12 @@ IB_DESIGNABLE
 -(CGSize)intrinsicContentSize {
 
     CGFloat intrinsicHeight = self.visitTypePromptView.textView.bounds.size.height +self.patientPromptView.textView.bounds.size.height + self.notesTextView.bounds.size.height + self.staffPromptView.textView.bounds.size.height + self.schedulePromptView.textView.bounds.size.height;
-
+    
+    
+    // TODO: remove this - used to test scrolling in sticky header
+    intrinsicHeight = 1000;
+    
+    
     return CGSizeMake(300, intrinsicHeight);
 }
 
