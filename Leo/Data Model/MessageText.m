@@ -29,5 +29,10 @@
     return self;
 }
 
+-(NSString *)description {
+
+    return [NSString stringWithFormat:@"<%@: senderId=%@, senderDisplayName=%@, date=%@, text=%@>",
+            [self class], self.senderId, self.senderDisplayName, self.date, self.text];
+}
 
 @end

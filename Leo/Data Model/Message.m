@@ -29,9 +29,6 @@
 
 @property (copy, nonatomic) NSString *senderId;
 
-
-
-
 @end
 
 @implementation Message
@@ -60,11 +57,9 @@ static NSString *const kImage = @"image";
 
 #pragma mark - Initialization
 
--(instancetype)init {
-
-    @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                   reason:[NSString stringWithFormat:@"You must initialize %@ with one of its custom initializers.", NSStringFromSelector(_cmd)]
-                                 userInfo:nil];
+- (id)init {
+    NSAssert(NO, @"%s is not a valid initializer for %@.", __PRETTY_FUNCTION__, [self class]);
+    return nil;
 }
 
 - (instancetype)initWithObjectID:(nullable NSString *)objectID sender:(User *)sender escalatedTo:(nullable User *)escalatedTo escalatedBy:(nullable User *)escalatedBy status:(nullable NSString *)status statusCode:(MessageStatusCode)statusCode createdAt:(NSDate *)createdAt escalatedAt:(nullable NSDate *)escalatedAt isMediaMessage:(BOOL)isMediaMessage {
@@ -147,41 +142,11 @@ static NSString *const kImage = @"image";
     return MessageTypeCodeUndefined;
 }
 
-//
-//+ (NSDictionary *)dictionaryFromMessage:(Message *)message {
-//    
-//    NSMutableDictionary *messageDictionary = [[NSMutableDictionary alloc] init];
-//    
-//    messageDictionary[APIParamID] = message.objectID;
-//    
-//    if (message.text) {
-//        messageDictionary[APIParamMessageBody] = message.text;
-//        messageDictionary[APIParamTypeID] = @0;
-//    } else {
-//        messageDictionary[APIParamMessageBody] = message.media;
-//        messageDictionary[APIParamTypeID] = @1;
-//    }
-//    
-//    messageDictionary[APIParamUser] = message.sender.objectID; //TODO: Check whether this is even necessary.
-//    messageDictionary[APIParamCreatedDateTime] = message.createdAt;
-//    messageDictionary[APIParamStatusID] = [NSNumber numberWithInteger:message.statusCode];
-//    
-//    return messageDictionary;
-//}
-//
-
-- (id)init
-{
-    NSAssert(NO, @"%s is not a valid initializer for %@.", __PRETTY_FUNCTION__, [self class]);
-    return nil;
-}
-
-- (NSUInteger)messageHash
-{
+- (NSUInteger)messageHash {
     return self.hash;
 }
 
-#pragma mark - NSObject
+#pragma mark - NSObject Overrides
 
 - (BOOL)isEqual:(id)object
 {
@@ -207,37 +172,14 @@ static NSString *const kImage = @"image";
     && hasEqualContent;
 }
 
-- (NSUInteger)hash
-{
+- (NSUInteger)hash {
     NSUInteger contentHash = self.isMediaMessage ? [self.media mediaHash] : self.text.hash;
     return self.senderId.hash ^ self.date.hash ^ contentHash;
 }
-//
-//- (NSString *)description
-//{
-//    if (self.text) {
-//        return [NSString stringWithFormat:@"<%@: senderId=%@, senderDisplayName=%@, date=%@, isMediaMessage=%@, text=%@, media=%@>",
-//            [self class], self.senderId, self.senderDisplayName, self.date, @(self.isMediaMessage), self.text, self.media];
-//}
 
-- (id)debugQuickLookObject
-{
+- (id)debugQuickLookObject {
     return [self.media mediaView] ?: [self.media mediaPlaceholderView];
 }
-
-#pragma mark - NSCopying
-
-//- (instancetype)copyWithZone:(NSZone *)zone
-//{
-//    if (self.isMediaMessage) {
-//        return [[[self class] allocWithZone:zone] initWithObjectID:self.objectID media:self.media sender:self.sender escalatedTo:self.escalatedTo escalatedBy:self.escalatedBy status:self.status statusCode:self.statusCode createdAt:self.createdAt escalatedAt:self.escalatedAt urlString:self.url];
-//    }
-//    
-//    return [[[self class] allocWithZone:zone] initWithObjectID:self.objectID text:self.text sender:self.sender escalatedTo:self.escalatedTo escalatedBy:self.escalatedBy status:self.status statusCode:self.statusCode createdAt:self.createdAt escalatedAt:self.escalatedAt];
-//}
-
-
-
 
 
 @end
