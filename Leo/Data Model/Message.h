@@ -17,7 +17,7 @@ typedef NS_ENUM(NSUInteger, LEOMessageType) {
     LEOMessageTypeVideo,
 };
 
-@interface Message : NSObject <JSQMessageData, NSCopying>
+@interface Message : NSObject <JSQMessageData>
 NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy) NSString *objectID;
