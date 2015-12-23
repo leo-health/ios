@@ -37,7 +37,7 @@
     NSMutableArray *mutableMessages = [[NSMutableArray alloc] init];
     
     for (NSDictionary *messageDictionary in messageDictionaries) {
-        Message *message = [[Message alloc] initWithJSONDictionary:messageDictionary];
+        Message *message = [Message messageWithJSONDictionary:messageDictionary];
         [mutableMessages addObject:message];
     }
     
@@ -112,8 +112,37 @@
 
 - (void)addMessageFromJSON:(NSDictionary *)messageDictionary {
 
-    Message *message = [[Message alloc] initWithJSONDictionary:messageDictionary];
+    Message *message = [Message messageWithJSONDictionary:messageDictionary];
     [self addMessage:message];
 }
+
+- (void)reply {
+
+    self.priorStatusCode = self.statusCode;
+    self.statusCode = ConversationStatusCodeOpen;
+}
+
+- (void)call {
+
+    NSString *phoneCallNum = [NSString stringWithFormat:@"tel://%@",kFlatironPediatricsPhoneNumber];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneCallNum]];
+}
+
+- (void)dismiss {
+    self.statusCode = ConversationStatusCodeClosed;
+}
+
+- (void)returnToPriorState {
+    self.statusCode = self.priorStatusCode;
+}
+
+- (void)setStatusCode:(ConversationStatusCode)statusCode {
+
+    _statusCode = statusCode;
+
+    //FIXME: Consider whether this will work given we replace the Appointment object regularly...
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"Status-Changed" object:self];
+}
+
 
 @end

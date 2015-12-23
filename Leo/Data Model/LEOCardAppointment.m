@@ -66,8 +66,6 @@ static NSString *kActionSelectorReschedule = @"reschedule";
 
 - (void)setupNotifications {
 
-    NSOperationQueue *mainQueue = [NSOperationQueue mainQueue];
-
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusChanged) name:@"Status-Changed" object:self.associatedCardObject];
 }
 

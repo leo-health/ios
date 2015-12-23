@@ -14,6 +14,8 @@
 #import "Patient.h"
 #import "Conversation.h"
 #import "Message.h"
+#import "MessageImage.h"
+#import "MessageText.h"
 
 
 //FIXME: Update to reflect new paradigm, where associatedCardObject actions are associated with the associatedCardObject and NOT the card (where they should be.)
@@ -38,7 +40,7 @@ static NSString *kActionSelectorCallUs = @"callUs";
         conversation = associatedCardObject;
     }
 
-    self = [super initWithObjectID:objectID priority:priority type:CardTypeAppointment associatedCardObject:conversation];
+    self = [super initWithObjectID:objectID priority:priority type:CardTypeConversation associatedCardObject:conversation];
 
     if (self) {
 
@@ -55,20 +57,10 @@ static NSString *kActionSelectorCallUs = @"callUs";
 
 - (void)setupNotifications {
 
-    NSOperationQueue *mainQueue = [NSOperationQueue mainQueue];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(randomMethod) name:@"Status-Changed" object:self.associatedCardObject];
-    //
-    //     addObserverForName:@"Status-Changed"
-    //     object:self.associatedCardObject
-    //     queue:mainQueue
-    //     usingBlock:^(NSNotification *notification)
-    //     {
-    //
-    //     }];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusChanged) name:@"Status-Changed" object:self.associatedCardObject];
 }
 
--(void)randomMethod {
+-(void)statusChanged {
     [self.activityDelegate didUpdateObjectStateForCard:self];
 }
 
@@ -117,7 +109,9 @@ static NSString *kActionSelectorCallUs = @"callUs";
 - (NSString *)body {
     
     NSString *bodyText;
-    
+
+    Message *message = self.conversation.messages.lastObject;
+
     switch (self.conversation.statusCode) {
             
         case ConversationStatusCodeClosed:
@@ -125,16 +119,17 @@ static NSString *kActionSelectorCallUs = @"callUs";
         case ConversationStatusCodeNewMessages:
         case ConversationStatusCodeReadMessages:
         case ConversationStatusCodeUndefined: {
-            Message *message = self.conversation.messages.lastObject;
-            
-            if (message.text) {
+
+            if ([message isKindOfClass:[MessageText class]]) {
                 bodyText = message.text;
-            } else {
-                bodyText = [NSString stringWithFormat:@"%@ has sent you a media message.", message.sender.fullName];
+            }
+
+            if ([message isKindOfClass:[MessageImage class]]) {
+                bodyText = @"You have been sent an image.";
             }
         }
     }
-    
+
     return bodyText;
 }
 
@@ -180,27 +175,6 @@ static NSString *kActionSelectorCallUs = @"callUs";
     return actions;
 }
 
-- (void)reply {
-    
-    self.conversation.priorStatusCode = self.conversation.statusCode;
-    self.conversation.statusCode = ConversationStatusCodeOpen;
-    [self.activityDelegate didUpdateObjectStateForCard:self];
-}
-
-- (void)callUs {
-
-    NSString *phoneCallNum = [NSString stringWithFormat:@"tel://%@",kFlatironPediatricsPhoneNumber];
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneCallNum]];
-}
-
-- (void)dismiss {
-    self.conversation.statusCode = ConversationStatusCodeClosed;
-    [self.activityDelegate didUpdateObjectStateForCard:self];
-}
-
-- (void)returnToPriorState {
-    self.conversation.statusCode = self.conversation.priorStatusCode;
-}
 
 -(nullable User *)primaryUser {
     

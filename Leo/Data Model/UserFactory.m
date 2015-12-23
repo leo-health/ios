@@ -38,6 +38,7 @@
             return [[Guardian alloc] initWithJSONDictionary:dictionary];
             
         case RoleCodeUndefined:
+        case RoleCodeBot:
             return [[User alloc] initWithJSONDictionary:dictionary];
     }
 }

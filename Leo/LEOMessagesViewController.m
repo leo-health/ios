@@ -43,6 +43,8 @@
 #import "LEONavigationControllerPushAnimator.h"
 #import "LEONavigationControllerPopAnimator.h"
 #import "LEOImageCropViewControllerDataSource.h"
+#import "MessageText.h"
+#import "MessageImage.h"
 
 #if STUBS_FLAG
 #import "LEOStubs.h"
@@ -316,7 +318,7 @@
 
     [JSQSystemSoundPlayer jsq_playMessageSentSound];
 
-    Message *message = [Message messageWithObjectID:nil text:text sender:[SessionUser guardian] escalatedTo:nil escalatedBy:nil status:nil statusCode:MessageStatusCodeUndefined escalatedAt:nil];
+    Message *message = [MessageText messageWithObjectID:nil text:text sender:[SessionUser guardian] escalatedTo:nil escalatedBy:nil status:nil statusCode:MessageStatusCodeUndefined escalatedAt:nil];
 
     [self sendMessage:message withCompletion:^{
 
@@ -410,9 +412,9 @@
 
     LEOImageCropViewController *imageCropVC = [[LEOImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeSquare];
 
-//    LEOImageCropViewControllerDataSource *datasource = [LEOImageCropViewControllerDataSource new];
+    //    LEOImageCropViewControllerDataSource *datasource = [LEOImageCropViewControllerDataSource new];
 
-//    imageCropVC.dataSource = datasource
+    //    imageCropVC.dataSource = datasource
     imageCropVC.delegate = self;
     imageCropVC.transitioningDelegate = self.transitioningDelegate;
 
@@ -433,10 +435,11 @@
 
 - (void)imageCropViewController:(RSKImageCropViewController *)controller didCropImage:(UIImage *)croppedImage usingCropRect:(CGRect)cropRect {
 
+    self.sendButton.hidden = YES;
 
     JSQPhotoMediaItem *photoItem = [[JSQPhotoMediaItem alloc] initWithImage:croppedImage];
 
-    Message *message = [Message messageWithObjectID:nil media:photoItem sender:[SessionUser guardian] escalatedTo:nil escalatedBy:nil status:nil statusCode:MessageStatusCodeUndefined escalatedAt:nil];
+    MessageImage *message = [MessageImage messageWithObjectID:nil media:photoItem sender:[SessionUser guardian] escalatedTo:nil escalatedBy:nil status:nil statusCode:MessageStatusCodeUndefined escalatedAt:nil urlString:nil];
 
     [self.sendingIndicator startAnimating];
 
@@ -444,6 +447,7 @@
 
     [self sendMessage:message withCompletion:^{
 
+        self.sendButton.hidden = NO;
         [self updateConversationWithMessage:message];
         [self finishSendingMessage:message];
         [self.sendingIndicator stopAnimating];
@@ -750,7 +754,7 @@
      *  Instead, override the properties you want on `self.collectionView.collectionViewLayout` from `viewDidLoad`
      */
 
-    if (!message.isMediaMessage) {
+    if ([message isKindOfClass:[MessageText class]]) {
 
         if ([self isFamilyMessage:message]) {
             cell.textView.textColor = [UIColor whiteColor];
@@ -761,6 +765,24 @@
 
         cell.textView.linkTextAttributes = @{ NSForegroundColorAttributeName : cell.textView.textColor,
                                               NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle | NSUnderlinePatternSolid) };
+    }
+
+    if ([message isKindOfClass:[MessageImage class]]) {
+
+        MessageImage *messageImage = (MessageImage *)message;
+
+        JSQPhotoMediaItem *photoMediaItem = (JSQPhotoMediaItem *)messageImage.media;
+
+        if (!photoMediaItem.image) {
+
+            LEOMessageService *messageService = [LEOMessageService new];
+
+            [messageService getImageFromURL:messageImage.urlString withCompletion:^(UIImage *rawImage, NSError *error) {
+
+                photoMediaItem.image = rawImage;
+                [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
+            }];
+        }
     }
 
     return cell;
@@ -958,4 +980,6 @@ toViewController:(UIViewController*)toVC
     
     return nil;
 }
+
+
 @end

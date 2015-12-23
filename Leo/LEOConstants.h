@@ -119,6 +119,7 @@ typedef NS_ENUM(NSUInteger, RoleCode) {
     RoleCodeGuardian = 4,
     RoleCodeClinical = 5,
     RoleCodePatient = 6,
+    RoleCodeBot = 7,
     RoleCodeOperational = 8,
 };
 
