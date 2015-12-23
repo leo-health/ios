@@ -28,6 +28,8 @@ typedef void(^SubmitBlock)(void);
 
 @interface LEOStickyHeaderView : UIView <UITextViewDelegate, UITextFieldDelegate>
 
+@property (nonatomic) CGFloat snapToHeight;
+
 @property (weak, nonatomic) id<LEOStickyHeaderDataSource> datasource;
 @property (weak, nonatomic) id<LEOStickyHeaderDelegate> delegate;
 
