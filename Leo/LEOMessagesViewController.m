@@ -43,6 +43,8 @@
 #import "LEONavigationControllerPushAnimator.h"
 #import "LEONavigationControllerPopAnimator.h"
 #import "LEOImageCropViewControllerDataSource.h"
+#import "MessageText.h" 
+#import "MessageImage.h"
 
 #if STUBS_FLAG
 #import "LEOStubs.h"
@@ -316,7 +318,7 @@
 
     [JSQSystemSoundPlayer jsq_playMessageSentSound];
 
-    Message *message = [Message messageWithObjectID:nil text:text sender:[SessionUser guardian] escalatedTo:nil escalatedBy:nil status:nil statusCode:MessageStatusCodeUndefined escalatedAt:nil];
+    Message *message = [MessageText messageWithObjectID:nil text:text sender:[SessionUser guardian] escalatedTo:nil escalatedBy:nil status:nil statusCode:MessageStatusCodeUndefined escalatedAt:nil];
 
     [self sendMessage:message withCompletion:^{
 
@@ -433,10 +435,16 @@
 
 - (void)imageCropViewController:(RSKImageCropViewController *)controller didCropImage:(UIImage *)croppedImage usingCropRect:(CGRect)cropRect {
 
+    self.sendButton.hidden = YES;
 
     JSQPhotoMediaItem *photoItem = [[JSQPhotoMediaItem alloc] initWithImage:croppedImage];
 
-    Message *message = [Message messageWithObjectID:nil media:photoItem sender:[SessionUser guardian] escalatedTo:nil escalatedBy:nil status:nil statusCode:MessageStatusCodeUndefined escalatedAt:nil];
+    NSData *imageData = [[NSData alloc] initWithData:UIImagePNGRepresentation(croppedImage)];
+
+    int imageSize = imageData.length;
+    NSLog(@"SIZE OF IMAGE: %i ", imageSize);
+
+    MessageImage *message = [MessageImage messageWithObjectID:nil media:photoItem sender:[SessionUser guardian] escalatedTo:nil escalatedBy:nil status:nil statusCode:MessageStatusCodeUndefined escalatedAt:nil urlString:nil];
 
     [self.sendingIndicator startAnimating];
 
@@ -444,6 +452,7 @@
 
     [self sendMessage:message withCompletion:^{
 
+        self.sendButton.hidden = NO;
         [self updateConversationWithMessage:message];
         [self finishSendingMessage:message];
         [self.sendingIndicator stopAnimating];
@@ -763,6 +772,24 @@
                                               NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle | NSUnderlinePatternSolid) };
     }
 
+    if (message.isMediaMessage) {
+
+        MessageImage *messageImage = (MessageImage *)message;
+
+        JSQPhotoMediaItem *photoMediaItem = (JSQPhotoMediaItem *)messageImage.media;
+
+        if (!photoMediaItem.image) {
+
+            LEOMessageService *messageService = [LEOMessageService new];
+
+            [messageService getImageFromURL:messageImage.urlString withCompletion:^(UIImage *rawImage, NSError *error) {
+
+                photoMediaItem.image = rawImage;
+                [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
+            }];
+        }
+    }
+    
     return cell;
 }
 

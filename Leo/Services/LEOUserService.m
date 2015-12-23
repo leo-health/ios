@@ -14,6 +14,7 @@
 #import "Family.h"
 
 #import "LEOAPISessionManager.h"
+#import "LEOS3SessionManager.h"
 #import "SessionUser.h"
 #import "NSUserDefaults+Additions.h"
 #import "DeviceToken.h"
@@ -201,8 +202,7 @@
     
     if (user.avatarURL) {
         
-        [[LEOUserService leoSessionManager] unauthenticatedImageGETRequestForJSONDictionaryFromAPIWithEndpoint:user.avatarURL params:nil completion:^(UIImage *rawImage, NSError *error) {
-            
+        [[LEOUserService leoS3Manager] unauthenticatedGETRequestForImageFromS3WithURL:user.avatarURL params:nil completion:^(UIImage *rawImage, NSError *error) {
             completionBlock ? completionBlock(rawImage, error) : nil;
         }];
         
@@ -244,4 +244,7 @@
     return [LEOAPISessionManager sharedClient];
 }
 
++ (LEOS3SessionManager *)leoS3Manager {
+    return [LEOS3SessionManager sharedClient];
+}
 @end

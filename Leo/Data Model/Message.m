@@ -7,6 +7,8 @@
 //
 
 #import "Message.h"
+#import "MessageText.h"
+#import "MessageImage.h"
 
 #import "Conversation.h"
 
@@ -18,12 +20,17 @@
 
 #import "NSDate+Extensions.h"
 #import "NSDictionary+Additions.h"
+#import <AFNetworking/UIImage+AFNetworking.h>
+#import <JSQPhotoMediaItem.h>
+
+#import "LEOMessageService.h"
 
 @interface Message()
 
 @property (copy, nonatomic) NSString *senderId;
 
-- (instancetype)initWithObjectID:(nullable NSString *)objectID sender:(User *)sender escalatedTo:(nullable User *)escalatedTo escalatedBy:(nullable User *)escalatedBy status:(nullable NSString *)status statusCode:(MessageStatusCode)statusCode createdAt:(NSDate *)createdAt escalatedAt:(nullable NSDate *)escalatedAt isMediaMessage:(BOOL)isMediaMessage;
+
+
 
 @end
 
@@ -76,46 +83,53 @@ static NSString *const kImage = @"image";
 
 
 //FIXME: LeoConstants missing some of these hence they have been commented out for the time-being.
-- (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
-    
++ (instancetype)messageWithJSONDictionary:(NSDictionary *)jsonResponse {
+
     NSString *objectID = [[jsonResponse leo_itemForKey:APIParamID] stringValue];
-    NSString *text = [jsonResponse leo_itemForKey:APIParamMessageBody];
-    
-    //FIXME: In order for this to work, need a helper to convert the URL to a media message
-    id<JSQMessageMediaData> media = [jsonResponse leo_itemForKey:APIParamMessageBody];
-    
+    MessageTypeCode typeCode = [self convertTypeToTypeCode:[jsonResponse leo_itemForKey:APIParamType]];
+
     User *sender = [UserFactory userFromJSONDictionary:jsonResponse[APIParamMessageSender]];
-    
+
     User *escalatedTo;
-//    if (!(jsonResponse[APIParamMessageEscalatedTo] == [NSNull null])) {
-//        escalatedTo = [UserFactory userFromJSONDictionary:jsonResponse[APIParamMessageEscalatedTo]];
-//    }
-    
+    //    if (!(jsonResponse[APIParamMessageEscalatedTo] == [NSNull null])) {
+    //        escalatedTo = [UserFactory userFromJSONDictionary:jsonResponse[APIParamMessageEscalatedTo]];
+    //    }
+
     User *escalatedBy;
-//    if (jsonResponse[APIParamMessageEscalatedBy]) {
-//        escalatedBy = [UserFactory userFromJSONDictionary:jsonResponse[APIParamMessageEscalatedBy]];
-//    }
+    //    if (jsonResponse[APIParamMessageEscalatedBy]) {
+    //        escalatedBy = [UserFactory userFromJSONDictionary:jsonResponse[APIParamMessageEscalatedBy]];
+    //    }
 
     NSString *status = [jsonResponse leo_itemForKey:APIParamStatus];
     MessageStatusCode statusCode = [[jsonResponse leo_itemForKey:APIParamStatusID] integerValue];
-    
+
     //MARK: Decide if I need to bring this in even since it is only being used for introspection and not kept around afterward.
-    MessageTypeCode typeCode = [self convertTypeToTypeCode:[jsonResponse leo_itemForKey:APIParamType]];
     NSDate *createdAt = [NSDate leo_dateFromDateTimeString:[jsonResponse leo_itemForKey:APIParamCreatedDateTime]];
-        
+
     switch (typeCode) {
-        case MessageTypeCodeText:
-            return [[Message alloc] initWithObjectID:objectID text:text sender:sender escalatedTo:escalatedTo escalatedBy:escalatedBy status:status statusCode:statusCode createdAt:createdAt escalatedAt:nil];
-            
-        case MessageTypeCodeImage:
-             return [[Message alloc] initWithObjectID:objectID media:media sender:sender escalatedTo:escalatedTo escalatedBy:escalatedBy status:status statusCode:statusCode createdAt:createdAt escalatedAt:nil];
-            
+        case MessageTypeCodeText: {
+
+            NSString *text = [jsonResponse leo_itemForKey:APIParamMessageBody];
+
+            return [[MessageText alloc] initWithObjectID:objectID text:text sender:sender escalatedTo:escalatedTo escalatedBy:escalatedBy status:status statusCode:statusCode createdAt:createdAt escalatedAt:nil];
+        }
+
+        case MessageTypeCodeImage: {
+
+            NSString *imageURLString = jsonResponse[APIParamMessageBody][@"url"];
+
+            JSQPhotoMediaItem *media = [[JSQPhotoMediaItem alloc] initWithImage:nil];
+
+            return [MessageImage messageWithObjectID:objectID media:media sender:sender escalatedTo:escalatedTo escalatedBy:escalatedBy status:status statusCode:statusCode escalatedAt:nil urlString:imageURLString];
+        }
+
         case MessageTypeCodeUndefined:
+            
             return nil;
     }
 }
 
-- (MessageTypeCode)convertTypeToTypeCode:(NSString *)type {
++ (MessageTypeCode)convertTypeToTypeCode:(NSString *)type {
     
     if ([type isEqualToString:kText]) {
         return MessageTypeCodeText;
@@ -126,58 +140,28 @@ static NSString *const kImage = @"image";
     return MessageTypeCodeUndefined;
 }
 
-
-+ (NSDictionary *)dictionaryFromMessage:(Message *)message {
-    
-    NSMutableDictionary *messageDictionary = [[NSMutableDictionary alloc] init];
-    
-    messageDictionary[APIParamID] = message.objectID;
-    
-    if (message.text) {
-        messageDictionary[APIParamMessageBody] = message.text;
-        messageDictionary[APIParamTypeID] = @0;
-    } else {
-        messageDictionary[APIParamMessageBody] = message.media;
-        messageDictionary[APIParamTypeID] = @1;
-    }
-    
-    messageDictionary[APIParamUser] = message.sender.objectID; //TODO: Check whether this is even necessary.
-    messageDictionary[APIParamCreatedDateTime] = message.createdAt;
-    messageDictionary[APIParamStatusID] = [NSNumber numberWithInteger:message.statusCode];
-    
-    return messageDictionary;
-}
-
-+ (instancetype)messageWithObjectID:(nullable NSString *)objectID text:(NSString *)text sender:(User *)sender escalatedTo:(nullable User *)escalatedTo escalatedBy:(nullable User *)escalatedBy status:(nullable NSString *)status statusCode:(MessageStatusCode)statusCode escalatedAt:(nullable NSDate *)escalatedAt {
-    
-    return [[Message alloc] initWithObjectID:objectID text:(NSString *)text sender:sender escalatedTo:escalatedTo escalatedBy:escalatedBy status:status statusCode:statusCode createdAt:[NSDate date] escalatedAt:escalatedAt];
-}
-
-- (instancetype)initWithObjectID:(nullable NSString *)objectID text:(NSString *)text sender:(User *)sender escalatedTo:(nullable User *)escalatedTo escalatedBy:(nullable User *)escalatedBy status:(nullable NSString *)status statusCode:(MessageStatusCode)statusCode createdAt:(NSDate *)createdAt escalatedAt:(nullable NSDate *)escalatedAt {
-    
-    self = [self initWithObjectID:objectID sender:sender escalatedTo:escalatedTo escalatedBy:escalatedBy status:status statusCode:statusCode createdAt:createdAt escalatedAt:escalatedAt isMediaMessage:NO];
-    
-    if (self) {
-        _text = [text copy];
-    }
-    return self;
-}
-
-+ (instancetype)messageWithObjectID:(nullable NSString *)objectID media:(id<JSQMessageMediaData>)media sender:(User *)sender escalatedTo:(nullable User *)escalatedTo escalatedBy:(nullable User *)escalatedBy status:(nullable NSString *)status statusCode:(MessageStatusCode)statusCode escalatedAt:(nullable NSDate *)escalatedAt {
-    
-    return [[Message alloc] initWithObjectID:objectID media:media sender:sender escalatedTo:escalatedTo escalatedBy:escalatedBy status:status statusCode:statusCode createdAt:[NSDate date] escalatedAt:escalatedAt];
-}
-
-- (instancetype)initWithObjectID:(nullable NSString *)objectID media:(id<JSQMessageMediaData>)media sender:(User *)sender escalatedTo:(nullable User *)escalatedTo escalatedBy:(nullable User *)escalatedBy status:(nullable NSString *)status statusCode:(MessageStatusCode)statusCode createdAt:(NSDate *)createdAt escalatedAt:(nullable NSDate *)escalatedAt {
-    
-    self = [self initWithObjectID:objectID sender:sender escalatedTo:escalatedTo escalatedBy:escalatedBy status:status statusCode:statusCode createdAt:createdAt escalatedAt:escalatedAt isMediaMessage:YES];
-    
-    if (self) {
-        _media = media;
-    }
-    return self;
-}
-
+//
+//+ (NSDictionary *)dictionaryFromMessage:(Message *)message {
+//    
+//    NSMutableDictionary *messageDictionary = [[NSMutableDictionary alloc] init];
+//    
+//    messageDictionary[APIParamID] = message.objectID;
+//    
+//    if (message.text) {
+//        messageDictionary[APIParamMessageBody] = message.text;
+//        messageDictionary[APIParamTypeID] = @0;
+//    } else {
+//        messageDictionary[APIParamMessageBody] = message.media;
+//        messageDictionary[APIParamTypeID] = @1;
+//    }
+//    
+//    messageDictionary[APIParamUser] = message.sender.objectID; //TODO: Check whether this is even necessary.
+//    messageDictionary[APIParamCreatedDateTime] = message.createdAt;
+//    messageDictionary[APIParamStatusID] = [NSNumber numberWithInteger:message.statusCode];
+//    
+//    return messageDictionary;
+//}
+//
 
 - (id)init
 {
@@ -221,12 +205,13 @@ static NSString *const kImage = @"image";
     NSUInteger contentHash = self.isMediaMessage ? [self.media mediaHash] : self.text.hash;
     return self.senderId.hash ^ self.date.hash ^ contentHash;
 }
-
-- (NSString *)description
-{
-    return [NSString stringWithFormat:@"<%@: senderId=%@, senderDisplayName=%@, date=%@, isMediaMessage=%@, text=%@, media=%@>",
-            [self class], self.senderId, self.senderDisplayName, self.date, @(self.isMediaMessage), self.text, self.media];
-}
+//
+//- (NSString *)description
+//{
+//    if (self.text) {
+//        return [NSString stringWithFormat:@"<%@: senderId=%@, senderDisplayName=%@, date=%@, isMediaMessage=%@, text=%@, media=%@>",
+//            [self class], self.senderId, self.senderDisplayName, self.date, @(self.isMediaMessage), self.text, self.media];
+//}
 
 - (id)debugQuickLookObject
 {
@@ -235,14 +220,14 @@ static NSString *const kImage = @"image";
 
 #pragma mark - NSCopying
 
-- (instancetype)copyWithZone:(NSZone *)zone
-{
-    if (self.isMediaMessage) {
-        return [[[self class] allocWithZone:zone] initWithObjectID:self.objectID media:self.media sender:self.sender escalatedTo:self.escalatedTo escalatedBy:self.escalatedBy status:self.status statusCode:self.statusCode createdAt:self.createdAt escalatedAt:self.escalatedAt];
-    }
-    
-    return [[[self class] allocWithZone:zone] initWithObjectID:self.objectID text:self.text sender:self.sender escalatedTo:self.escalatedTo escalatedBy:self.escalatedBy status:self.status statusCode:self.statusCode createdAt:self.createdAt escalatedAt:self.escalatedAt];
-}
+//- (instancetype)copyWithZone:(NSZone *)zone
+//{
+//    if (self.isMediaMessage) {
+//        return [[[self class] allocWithZone:zone] initWithObjectID:self.objectID media:self.media sender:self.sender escalatedTo:self.escalatedTo escalatedBy:self.escalatedBy status:self.status statusCode:self.statusCode createdAt:self.createdAt escalatedAt:self.escalatedAt urlString:self.url];
+//    }
+//    
+//    return [[[self class] allocWithZone:zone] initWithObjectID:self.objectID text:self.text sender:self.sender escalatedTo:self.escalatedTo escalatedBy:self.escalatedBy status:self.status statusCode:self.statusCode createdAt:self.createdAt escalatedAt:self.escalatedAt];
+//}
 
 
 

@@ -8,8 +8,12 @@
 
 #import "LEOMessageService.h"
 #import "LEOAPISessionManager.h"
+#import "LEOS3SessionManager.h"
 #import "Message.h"
+#import "MessageText.h"
+#import "MessageImage.h"
 #import "Conversation.h"
+#import <JSQPhotoMediaItem.h>
 
 @implementation LEOMessageService
 
@@ -17,10 +21,17 @@
     
     NSArray *messageValues;
     
-    if (message.text) {
+    if ([message isKindOfClass:[MessageText class]]) {
         messageValues = @[message.text, @"text"];
-    } else {
-        messageValues = @[message.media, @"media"];
+    }
+
+    if ([message isKindOfClass:[MessageImage class]]) {
+
+        NSString *photoString = [UIImagePNGRepresentation(((JSQPhotoMediaItem *)message.media).image) base64EncodedStringWithOptions:0];
+        messageValues = @[photoString, @"image"];
+
+        NSUInteger bytes = [photoString lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
+        NSLog(@"%lu bytes", (unsigned long)bytes);
     }
     
     NSArray *messageKeys = @[APIParamMessageBody, APIParamType];
@@ -32,7 +43,7 @@
     
     [[LEOMessageService leoSessionManager] standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:createMessageForConversationURLString params:messageParams completion:^(NSDictionary *rawResults, NSError *error) {
         
-        Message *message = [[Message alloc] initWithJSONDictionary:rawResults[APIParamData]];
+        Message *message = [Message messageWithJSONDictionary:rawResults[APIParamData]];
         
         if (completionBlock) {
             completionBlock(message, error);
@@ -58,7 +69,7 @@
             
             for (NSDictionary *messageDictionary in messageDictionaries) {
                 
-                Message *message = [[Message alloc] initWithJSONDictionary:messageDictionary];
+                Message *message = [Message messageWithJSONDictionary:messageDictionary];
                 
                 [mutableMessages addObject:message];
             }
@@ -75,6 +86,20 @@
         }
     }];
 }
+
+- (void)getImageFromURL:(NSString *)imageURL withCompletion:(void (^)(UIImage *rawImage, NSError *error))completionBlock {
+
+    if (imageURL) {
+
+        [[LEOMessageService leoS3Manager] unauthenticatedGETRequestForImageFromS3WithURL:imageURL params:nil completion:^(UIImage *rawImage, NSError *error) {
+                completionBlock ? completionBlock(rawImage, error) : nil;
+        }];
+
+    } else {
+        completionBlock ? completionBlock(nil, nil) : nil;
+    }
+}
+
 
 - (void)getConversationsForCurrentUserWithCompletion:(void (^)(Conversation*  conversation))completionBlock {
     
@@ -112,7 +137,7 @@
     [[LEOMessageService leoSessionManager] standardGETRequestForJSONDictionaryFromAPIWithEndpoint:endpoint params:nil completion:^(NSDictionary *rawResults, NSError *error) {
         
         if (!error) {
-            Message *message = [[Message alloc] initWithJSONDictionary:rawResults[APIParamData]];
+            Message *message = [Message messageWithJSONDictionary:rawResults[APIParamData]];
             completionBlock(message, nil);
         } else {
             completionBlock(nil, error);
@@ -125,4 +150,7 @@
     return [LEOAPISessionManager sharedClient];
 }
 
++ (LEOS3SessionManager *)leoS3Manager {
+    return [LEOS3SessionManager sharedClient];
+}
 @end
