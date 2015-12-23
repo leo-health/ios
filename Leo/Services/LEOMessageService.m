@@ -30,8 +30,9 @@
         NSString *photoString = [UIImagePNGRepresentation(((JSQPhotoMediaItem *)message.media).image) base64EncodedStringWithOptions:0];
         messageValues = @[photoString, @"image"];
 
+        //Log size of photo being shared
         NSUInteger bytes = [photoString lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
-        NSLog(@"%lu bytes", (unsigned long)bytes);
+        NSLog(@"Size of photo being uploaded to server in megabytes: %lu", (unsigned long)bytes / 1024.0);
     }
     
     NSArray *messageKeys = @[APIParamMessageBody, APIParamType];
@@ -91,7 +92,7 @@
 
     if (imageURL) {
 
-        [[LEOMessageService leoS3Manager] unauthenticatedGETRequestForImageFromS3WithURL:imageURL params:nil completion:^(UIImage *rawImage, NSError *error) {
+        [[LEOMessageService leoMediaSessionManager] unauthenticatedGETRequestForImageFromS3WithURL:imageURL params:nil completion:^(UIImage *rawImage, NSError *error) {
                 completionBlock ? completionBlock(rawImage, error) : nil;
         }];
 
@@ -150,7 +151,7 @@
     return [LEOAPISessionManager sharedClient];
 }
 
-+ (LEOS3SessionManager *)leoS3Manager {
++ (LEOS3SessionManager *)leoMediaSessionManager {
     return [LEOS3SessionManager sharedClient];
 }
 @end

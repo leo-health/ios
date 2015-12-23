@@ -60,6 +60,13 @@ static NSString *const kImage = @"image";
 
 #pragma mark - Initialization
 
+-(instancetype)init {
+
+    @throw [NSException exceptionWithName:NSInternalInconsistencyException
+                                   reason:[NSString stringWithFormat:@"You must initialize %@ with one of its custom initializers.", NSStringFromSelector(_cmd)]
+                                 userInfo:nil];
+}
+
 - (instancetype)initWithObjectID:(nullable NSString *)objectID sender:(User *)sender escalatedTo:(nullable User *)escalatedTo escalatedBy:(nullable User *)escalatedBy status:(nullable NSString *)status statusCode:(MessageStatusCode)statusCode createdAt:(NSDate *)createdAt escalatedAt:(nullable NSDate *)escalatedAt isMediaMessage:(BOOL)isMediaMessage {
     
     self = [super init];

@@ -43,7 +43,7 @@
 #import "LEONavigationControllerPushAnimator.h"
 #import "LEONavigationControllerPopAnimator.h"
 #import "LEOImageCropViewControllerDataSource.h"
-#import "MessageText.h" 
+#import "MessageText.h"
 #import "MessageImage.h"
 
 #if STUBS_FLAG
@@ -412,9 +412,9 @@
 
     LEOImageCropViewController *imageCropVC = [[LEOImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeSquare];
 
-//    LEOImageCropViewControllerDataSource *datasource = [LEOImageCropViewControllerDataSource new];
+    //    LEOImageCropViewControllerDataSource *datasource = [LEOImageCropViewControllerDataSource new];
 
-//    imageCropVC.dataSource = datasource
+    //    imageCropVC.dataSource = datasource
     imageCropVC.delegate = self;
     imageCropVC.transitioningDelegate = self.transitioningDelegate;
 
@@ -438,11 +438,6 @@
     self.sendButton.hidden = YES;
 
     JSQPhotoMediaItem *photoItem = [[JSQPhotoMediaItem alloc] initWithImage:croppedImage];
-
-    NSData *imageData = [[NSData alloc] initWithData:UIImagePNGRepresentation(croppedImage)];
-
-    int imageSize = imageData.length;
-    NSLog(@"SIZE OF IMAGE: %i ", imageSize);
 
     MessageImage *message = [MessageImage messageWithObjectID:nil media:photoItem sender:[SessionUser guardian] escalatedTo:nil escalatedBy:nil status:nil statusCode:MessageStatusCodeUndefined escalatedAt:nil urlString:nil];
 
@@ -759,7 +754,7 @@
      *  Instead, override the properties you want on `self.collectionView.collectionViewLayout` from `viewDidLoad`
      */
 
-    if (!message.isMediaMessage) {
+    if ([message isKindOfClass:[MessageText class]]) {
 
         if ([self isFamilyMessage:message]) {
             cell.textView.textColor = [UIColor whiteColor];
@@ -772,7 +767,7 @@
                                               NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle | NSUnderlinePatternSolid) };
     }
 
-    if (message.isMediaMessage) {
+    if ([message isKindOfClass:[MessageImage class]]) {
 
         MessageImage *messageImage = (MessageImage *)message;
 
@@ -789,7 +784,7 @@
             }];
         }
     }
-    
+
     return cell;
 }
 
@@ -985,4 +980,6 @@ toViewController:(UIViewController*)toVC
     
     return nil;
 }
+
+
 @end

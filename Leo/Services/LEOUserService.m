@@ -202,7 +202,7 @@
     
     if (user.avatarURL) {
         
-        [[LEOUserService leoS3Manager] unauthenticatedGETRequestForImageFromS3WithURL:user.avatarURL params:nil completion:^(UIImage *rawImage, NSError *error) {
+        [[LEOUserService leoMediaSessionManager] unauthenticatedGETRequestForImageFromS3WithURL:user.avatarURL params:nil completion:^(UIImage *rawImage, NSError *error) {
             completionBlock ? completionBlock(rawImage, error) : nil;
         }];
         
@@ -244,7 +244,7 @@
     return [LEOAPISessionManager sharedClient];
 }
 
-+ (LEOS3SessionManager *)leoS3Manager {
++ (LEOS3SessionManager *)leoMediaSessionManager {
     return [LEOS3SessionManager sharedClient];
 }
 @end
