@@ -49,6 +49,13 @@
     
     [UINavigationBar appearance].translucent = NO;
     
+    // TODO: AF find correct place for this
+    if (feature == FeatureAppointmentScheduling) {
+        [[UINavigationBar appearance] setBackgroundImage:[UIImage new] forBarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
+        [UINavigationBar appearance].translucent = YES;
+    }
+
+    
     [[UINavigationBar appearance] setShadowImage:[UIImage new]];
 }
 

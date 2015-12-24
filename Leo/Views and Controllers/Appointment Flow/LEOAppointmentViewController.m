@@ -154,6 +154,8 @@
 
 - (void)layoutStickyHeaderView {
 
+    self.stickyHeaderView.snapToHeight = self.navigationController.navigationBar.frame.size.height;
+
     self.stickyHeaderView.translatesAutoresizingMaskIntoConstraints = NO;
 
     NSDictionary *bindings = NSDictionaryOfVariableBindings(_stickyHeaderView);
