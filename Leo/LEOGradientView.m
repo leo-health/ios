@@ -11,6 +11,8 @@
 
 @interface LEOGradientView ()
 
+@property (weak, nonatomic) CAGradientLayer *gradientLayer;
+@property (weak, nonatomic) UILabel *expandedTitleLabel;
 @property (nonatomic) BOOL constraintsAlreadyUpdated;
 
 @end
@@ -21,21 +23,51 @@
 
     if (!_expandedTitleLabel) {
 
-        _expandedTitleLabel = [UILabel new];
+        UILabel* strongLabel = [UILabel new];
+        _expandedTitleLabel = strongLabel;
+        [self addSubview:_expandedTitleLabel];
 
-        [LEOStyleHelper styleExpandedTitleLabel:_expandedTitleLabel titleText:@"Test Title"];
+        [LEOStyleHelper styleExpandedTitleLabel:_expandedTitleLabel titleText:self.titleText];
     }
 
     return _expandedTitleLabel;
 }
 
+- (void)setTitleText:(NSString *)titleText {
+
+    _titleText = titleText;
+    self.expandedTitleLabel.text = titleText;
+}
+
+- (void)setTitleTextColor:(UIColor *)titleTextColor {
+
+    _titleTextColor =
+    self.expandedTitleLabel.textColor = titleTextColor;
+}
+
+- (void)setTitleTextFont:(UIFont *)titleTextFont {
+
+    _titleTextFont = titleTextFont;
+    self.expandedTitleLabel.font = titleTextFont;
+}
+
+- (void)resetDefaultStylingForTitleLabel {
+    [LEOStyleHelper styleExpandedTitleLabel:_expandedTitleLabel titleText:self.titleText];
+}
+
 - (CAGradientLayer*)gradientLayer {
 
     if (!_gradientLayer) {
-        _gradientLayer = [CAGradientLayer layer];
+        CAGradientLayer *strongLayer = [CAGradientLayer layer];
+        _gradientLayer = strongLayer;
+        [self.layer addSublayer:_gradientLayer];
     }
     
     return _gradientLayer;
+}
+
+- (CGRect)gradientLayerBounds {
+    return self.gradientLayer.bounds;
 }
 
 - (void)setInitialStartPoint:(CGPoint)initialStartPoint {
@@ -81,9 +113,6 @@
         [self removeConstraints:self.constraints];
         self.expandedTitleLabel.translatesAutoresizingMaskIntoConstraints = NO;
 
-        [self.layer addSublayer:self.gradientLayer];
-        [self addSubview:self.expandedTitleLabel];
-
         NSDictionary* viewDictionary = NSDictionaryOfVariableBindings(_expandedTitleLabel);
         NSArray *horizontalLayoutConstraintsForFullTitle = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(20)-[_expandedTitleLabel]-(100)-|" options:0 metrics:nil views:viewDictionary];
         NSArray *verticalLayoutConstraintsForFullTitle = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_expandedTitleLabel]-(20)-|" options:0 metrics:nil views:viewDictionary];
@@ -93,8 +122,8 @@
 
         self.constraintsAlreadyUpdated = YES;
     }
-    [super updateConstraints];
 
+    [super updateConstraints];
 }
 
 - (void)layoutSubviews {

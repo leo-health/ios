@@ -141,6 +141,7 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 
     [super layoutSubviews];
 
+    // NOTE: The gradient view set up will be moved out into the StickyHeaderViewController subclasses so it can be customizable
     self.titleView.initialStartPoint = [self initialGradientStartPoint];
     self.titleView.initialEndPoint = [self initialGradientEndPoint];
     self.titleView.finalStartPoint = [self finalGradientStartPoint];
@@ -154,7 +155,9 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
     self.submissionControl.backgroundColor = [UIColor greenColor];
     self.titleView.backgroundColor = [UIColor blueColor];
 
-    self.titleView.colors = @[(id)[UIColor leo_green].CGColor, (id)[UIColor whiteColor].CGColor];
+    // NOTE: The gradient view set up will be moved out into the StickyHeaderViewController subclasses so it can be customizable
+    self.titleView.colors = @[(id)[UIColor leo_green].CGColor, (id)[UIColor leo_white].CGColor];
+    self.titleView.titleText = @"Testing title";
 }
 
 -(void)setMeetsSubmissionRequirements:(BOOL)meetsSubmissionRequirements {
@@ -193,8 +196,6 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
     if ([self.titleView.superview.subviews indexOfObject:self.titleView] != self.titleView.superview.subviews.count) {
         [self.titleView.superview bringSubviewToFront:self.titleView];
     }
-
-    //TODO: Need to figure out how to set this via calculation. Based on research so far, the bodyView, which we would like to use to help with the calculation has a frame that is set at 600 x 536, which obviously isn't yet taking into account the constraints on it.
 
     NSDictionary *viewDictionary = NSDictionaryOfVariableBindings(_titleView, _bodyView, _scrollView, _contentView, _submissionControl);
 
@@ -422,9 +423,10 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 
 #pragma mark - Gradeient transition points
 
+// NOTE: These methods will be moved into the sticky header vc subclass, which is the only thing that will know about the gradient view
 - (CGPoint)initialGradientStartPoint {
     
-    CGFloat percentageForTopOfVisibleView = 1 - ([self heightOfTitleView] / CGRectGetHeight(self.titleView.gradientLayer.bounds));
+    CGFloat percentageForTopOfVisibleView = 1 - ([self heightOfTitleView] / CGRectGetHeight(self.titleView.gradientLayerBounds));
     return CGPointMake(0.4, percentageForTopOfVisibleView);
 }
 
@@ -434,7 +436,7 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 
 - (CGPoint)finalGradientStartPoint {
 
-    CGFloat percentageForTopOfNavBar = 1 - ([self navBarHeight] / CGRectGetHeight(self.titleView.gradientLayer.bounds));
+    CGFloat percentageForTopOfNavBar = 1 - ([self navBarHeight] / CGRectGetHeight(self.titleView.gradientLayerBounds));
     return CGPointMake(0.2, percentageForTopOfNavBar);
 }
 

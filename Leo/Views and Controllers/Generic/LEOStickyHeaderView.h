@@ -21,9 +21,6 @@ typedef void(^SubmitBlock)(void);
 
 - (void)submitCardUpdates;
 
-// TODO: move this into sticky header VC
-- (void)headerViewDidScrollOutOfView:(CAGradientLayer*)gradientLayer;
-
 @end
 
 @interface LEOStickyHeaderView : UIView <UITextViewDelegate, UITextFieldDelegate>
