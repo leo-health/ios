@@ -6,14 +6,14 @@
 //  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
-#import "LEOEHRViewController.h"
+#import "LEORecordViewController.h"
 
-@interface LEOEHRViewController ()
+@interface LEORecordViewController ()
 
 
 @end
 
-@implementation LEOEHRViewController
+@implementation LEORecordViewController
 
 - (void)viewDidLoad {
     
@@ -30,7 +30,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
-    self.childName.text = self.childData;
+    NSLog(@"New record loaded!");
 }
 
 /*

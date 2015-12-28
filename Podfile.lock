@@ -23,6 +23,7 @@ PODS:
     - AFNetworking/NSURLSession
   - DateTools (1.7.0)
   - Expecta (0.2.4)
+  - GNZSlidingSegment (0.1.0)
   - JSQMessagesViewController (7.2.0):
     - JSQSystemSoundPlayer (~> 2.0.1)
   - JSQSystemSoundPlayer (2.0.1)
@@ -59,6 +60,7 @@ DEPENDENCIES:
   - AFNetworking
   - DateTools
   - Expecta
+  - GNZSlidingSegment (from `https://github.com/chrisgonzgonz/GNZSlidingSegment.git`)
   - JSQMessagesViewController
   - libPusher (~> 1.5)
   - MBProgressHUD
@@ -71,11 +73,16 @@ DEPENDENCIES:
   - VBFPopFlatButton
 
 EXTERNAL SOURCES:
+  GNZSlidingSegment:
+    :git: https://github.com/chrisgonzgonz/GNZSlidingSegment.git
   Specta:
     :commit: c07c003cfe3a41fa510567e2e0a9fd7f5ae3b098
     :git: https://github.com/specta/specta.git
 
 CHECKOUT OPTIONS:
+  GNZSlidingSegment:
+    :commit: c76c1d2311e4f7af84d0d7bc350922095b8944d0
+    :git: https://github.com/chrisgonzgonz/GNZSlidingSegment.git
   Specta:
     :commit: c07c003cfe3a41fa510567e2e0a9fd7f5ae3b098
     :git: https://github.com/specta/specta.git
@@ -85,6 +92,7 @@ SPEC CHECKSUMS:
   AFNetworking: 8e4e60500beb8bec644cf575beee72990a76d399
   DateTools: 53288ee8b905fdc75897a1e6b5cc0144b14cba60
   Expecta: cfaf1d3e2e194ca704a25e997093d30a1ce70b61
+  GNZSlidingSegment: 76e937198abbc09d945795c41c3e39b681ad3d1e
   JSQMessagesViewController: 73cab48aa92fc2d512f3b6724f3425cc47a19eb5
   JSQSystemSoundPlayer: c5850e77a4363ffd374cd851154b9af93264ed8d
   libPusher: 5ea58aeb83fa4ac1f5d8ef8543b1def6ace997b8

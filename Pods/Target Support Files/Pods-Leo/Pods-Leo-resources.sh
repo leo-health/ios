@@ -67,6 +67,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_resource "JSQMessagesViewController/JSQMessagesViewController/Views/JSQMessagesToolbarContentView.xib"
   install_resource "JSQMessagesViewController/JSQMessagesViewController/Views/JSQMessagesTypingIndicatorFooterView.xib"
   install_resource "RSKImageCropper/RSKImageCropper/RSKImageCropperStrings.bundle"
+  install_resource "${BUILT_PRODUCTS_DIR}/GNZSlidingSegment.bundle"
 fi
 if [[ "$CONFIGURATION" == "Local" ]]; then
   install_resource "DateTools/DateTools/DateTools.bundle"
@@ -78,6 +79,7 @@ if [[ "$CONFIGURATION" == "Local" ]]; then
   install_resource "JSQMessagesViewController/JSQMessagesViewController/Views/JSQMessagesToolbarContentView.xib"
   install_resource "JSQMessagesViewController/JSQMessagesViewController/Views/JSQMessagesTypingIndicatorFooterView.xib"
   install_resource "RSKImageCropper/RSKImageCropper/RSKImageCropperStrings.bundle"
+  install_resource "${BUILT_PRODUCTS_DIR}/GNZSlidingSegment.bundle"
 fi
 if [[ "$CONFIGURATION" == "Debug Stubs" ]]; then
   install_resource "DateTools/DateTools/DateTools.bundle"
@@ -89,6 +91,7 @@ if [[ "$CONFIGURATION" == "Debug Stubs" ]]; then
   install_resource "JSQMessagesViewController/JSQMessagesViewController/Views/JSQMessagesToolbarContentView.xib"
   install_resource "JSQMessagesViewController/JSQMessagesViewController/Views/JSQMessagesTypingIndicatorFooterView.xib"
   install_resource "RSKImageCropper/RSKImageCropper/RSKImageCropperStrings.bundle"
+  install_resource "${BUILT_PRODUCTS_DIR}/GNZSlidingSegment.bundle"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_resource "DateTools/DateTools/DateTools.bundle"
@@ -100,6 +103,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_resource "JSQMessagesViewController/JSQMessagesViewController/Views/JSQMessagesToolbarContentView.xib"
   install_resource "JSQMessagesViewController/JSQMessagesViewController/Views/JSQMessagesTypingIndicatorFooterView.xib"
   install_resource "RSKImageCropper/RSKImageCropper/RSKImageCropperStrings.bundle"
+  install_resource "${BUILT_PRODUCTS_DIR}/GNZSlidingSegment.bundle"
 fi
 if [[ "$CONFIGURATION" == "Testflight" ]]; then
   install_resource "DateTools/DateTools/DateTools.bundle"
@@ -111,6 +115,7 @@ if [[ "$CONFIGURATION" == "Testflight" ]]; then
   install_resource "JSQMessagesViewController/JSQMessagesViewController/Views/JSQMessagesToolbarContentView.xib"
   install_resource "JSQMessagesViewController/JSQMessagesViewController/Views/JSQMessagesTypingIndicatorFooterView.xib"
   install_resource "RSKImageCropper/RSKImageCropper/RSKImageCropperStrings.bundle"
+  install_resource "${BUILT_PRODUCTS_DIR}/GNZSlidingSegment.bundle"
 fi
 
 mkdir -p "${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"

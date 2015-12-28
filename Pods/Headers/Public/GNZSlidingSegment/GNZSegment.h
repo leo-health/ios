@@ -1,0 +1,1 @@
+../../../GNZSlidingSegment/Pod/Classes/GNZSegment.h
