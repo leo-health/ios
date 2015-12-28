@@ -14,6 +14,7 @@ typedef void(^SubmitBlock)(void);
 
 - (UIView *)injectTitleView;
 - (UIView *)injectBodyView;
+- (UIView *)injectFooterView;
 
 @end
 
@@ -30,8 +31,6 @@ typedef void(^SubmitBlock)(void);
 
 @property (weak, nonatomic) id<LEOStickyHeaderDataSource> datasource;
 @property (weak, nonatomic) id<LEOStickyHeaderDelegate> delegate;
-
-@property (nonatomic) BOOL meetsSubmissionRequirements;
 
 - (void)reloadBodyView;
 

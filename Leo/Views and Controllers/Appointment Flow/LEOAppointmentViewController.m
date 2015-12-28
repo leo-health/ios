@@ -41,6 +41,7 @@
 
 @property (weak, nonatomic) LEOAppointmentView *appointmentView;
 @property (strong, nonatomic) LEOGradientView *gradientView;
+@property (strong, nonatomic) UIButton *submissionButton;
 @property (strong, nonatomic) Appointment *appointment;
 
 @end
@@ -55,15 +56,13 @@
 
     [self setupNavigationBar];
 
-    self.stickyHeaderView.meetsSubmissionRequirements = self.appointment.isValidForBooking;
+    self.submissionButton.enabled = self.appointment.isValidForBooking;
     self.stickyHeaderView.snapToHeight = CGRectGetHeight(self.navigationController.navigationBar.bounds);
 }
 
 -(void)viewWillAppear:(BOOL)animated {
 
     [super viewWillAppear:animated];
-
-    [self setupNavigationBar];
 
     [self.view updateConstraints];
 
@@ -103,7 +102,7 @@
         self.appointmentView.date = item;
     }
 
-    self.stickyHeaderView.meetsSubmissionRequirements = self.appointment.isValidForBooking;
+    self.submissionButton.enabled = self.appointment.isValidForBooking;
 }
 
 - (void)viewDidLayoutSubviews {
@@ -119,12 +118,11 @@
     self.gradientView.finalStartPoint = CGPointMake(0.2, percentageForTopOfNavBar);
 
     self.gradientView.finalEndPoint = CGPointMake(0.9, 1);
+
 }
 
 - (UIView *)injectTitleView {
-
-    LEOGradientView *strongView = self.gradientView;
-    return strongView;
+    return self.gradientView;
 }
 
 - (LEOGradientView *)gradientView {
@@ -139,6 +137,23 @@
 
     }
     return _gradientView;
+}
+
+- (UIView *)injectFooterView {
+    return self.submissionButton;
+}
+
+- (UIButton *)submissionButton {
+
+    if (!_submissionButton) {
+
+        UIButton* strongButton = [UIButton new];
+        _submissionButton = strongButton;
+        [LEOStyleHelper styleSubmissionButton:_submissionButton forFeature:self.feature];
+        [_submissionButton addTarget:self action:@selector(submitCardUpdates) forControlEvents:UIControlEventTouchUpInside];
+        [_submissionButton setTitle:@"CONFIRM VISIT" forState:UIControlStateNormal];
+    }
+    return _submissionButton;
 }
 
 - (void)updateTitleViewForScrollTransitionPercentage:(CGFloat)transitionPercentage {
@@ -320,10 +335,6 @@
     [self.delegate takeResponsibilityForCard:self.card];
     [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
     }];
-}
-
--(void)dealloc {
-    //TODO: Remove after debugging complete.
 }
 
 @end

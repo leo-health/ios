@@ -10,7 +10,6 @@
 #import "UIColor+LeoColors.h"
 #import "LEOStyleHelper.h"
 #import <TPKeyboardAvoidingScrollView.h>
-#import "LEOCardSubmissionControl.h"
 #import "LEOGradientView.h"
 
 CGFloat const kTitleHeight = 150.0;
@@ -25,7 +24,8 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 @property (strong, nonatomic) NSLayoutConstraint* titleViewTopConstraint;
 @property (weak, nonatomic) UIView *bodyView;
 @property (weak, nonatomic) UIView *contentView;
-@property (weak, nonatomic) LEOCardSubmissionControl *submissionControl;
+@property (weak, nonatomic) UIView *separatorLine;
+@property (weak, nonatomic) UIView *footerView;
 
 @end
 
@@ -72,9 +72,14 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
         UIView *strongTitleView = [UIView new];
         _titleView = strongTitleView;
 
+        UIView *strongFooterView = [UIView new];
+        _footerView = strongFooterView;
+
+
         [self.scrollView addSubview:_contentView];
         [_contentView addSubview:_bodyView];
         [_contentView addSubview:_titleView];
+        [self addSubview:_footerView];
     }
 
     return _contentView;
@@ -98,17 +103,16 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
     return _scrollView;
 }
 
--(LEOCardSubmissionControl *)submissionControl {
+- (UIView *)separatorLine {
 
-    if (!_submissionControl) {
+    if (!_separatorLine) {
 
-        LEOCardSubmissionControl *strongButton = [LEOCardSubmissionControl new];
-        _submissionControl = strongButton;
-
-        [self addSubview:_submissionControl];
+        UIView *strongView = [UIView new];
+        _separatorLine = strongView;
+        _separatorLine.backgroundColor = [UIColor leo_grayForPlaceholdersAndLines];
+        [self addSubview:_separatorLine];
     }
-
-    return _submissionControl;
+    return _separatorLine;
 }
 
 - (void)reloadBodyView {
@@ -129,38 +133,27 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
     [self setupConstraints];
 }
 
+- (void)reloadFooterView {
+    [self.footerView removeFromSuperview];
+    UIView* strongFooterView = [self.datasource injectFooterView];
+    _footerView = strongFooterView;
+    [self addSubview:_footerView];
+    [self setupConstraints];
+}
+
 - (void)setDatasource:(id<LEOStickyHeaderDataSource>)datasource {
 
     _datasource = datasource;
 
     [self reloadBodyView];
     [self reloadTitleView];
-    [self updateButton];
+    [self reloadFooterView];
 }
 
 - (void)setupSubviews {
 
     self.contentView.backgroundColor = [UIColor blackColor];
     self.bodyView.backgroundColor = [UIColor redColor];
-    self.submissionControl.backgroundColor = [UIColor greenColor];
-//    self.titleView.backgroundColor = [UIColor blueColor];
-}
-
--(void)setMeetsSubmissionRequirements:(BOOL)meetsSubmissionRequirements {
-
-    _meetsSubmissionRequirements = meetsSubmissionRequirements;
-
-    [self.submissionControl isSubmissionReady:meetsSubmissionRequirements];
-}
-
-- (void)updateButton {
-
-    [self.submissionControl addTarget:self action:@selector(buttonTouchedUpInside) forControlEvents:UIControlEventTouchUpInside];
-}
-
-- (void)buttonTouchedUpInside {
-
-    [self.delegate submitCardUpdates];
 }
 
 //FIXME: Remove magic numbers / hard coding.
@@ -170,28 +163,30 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
     [self removeConstraints:self.constraints];
     [self.scrollView removeConstraints:self.scrollView.constraints];
     [self.contentView removeConstraints:self.contentView.constraints];
-    [self.submissionControl removeConstraints:self.submissionControl.constraints];
 
     self.scrollView.translatesAutoresizingMaskIntoConstraints = NO;
     self.contentView.translatesAutoresizingMaskIntoConstraints = NO;
     self.bodyView.translatesAutoresizingMaskIntoConstraints = NO;
     self.titleView.translatesAutoresizingMaskIntoConstraints = NO;
-    self.submissionControl.translatesAutoresizingMaskIntoConstraints = NO;
+    self.separatorLine.translatesAutoresizingMaskIntoConstraints = NO;
+    self.footerView.translatesAutoresizingMaskIntoConstraints = NO;
 
     // set Z index so other views will scroll underneath the title view
     if ([self.titleView.superview.subviews indexOfObject:self.titleView] != self.titleView.superview.subviews.count) {
         [self.titleView.superview bringSubviewToFront:self.titleView];
     }
 
-    NSDictionary *viewDictionary = NSDictionaryOfVariableBindings(_titleView, _bodyView, _scrollView, _contentView, _submissionControl);
+    NSDictionary *viewDictionary = NSDictionaryOfVariableBindings(_titleView, _bodyView, _scrollView, _contentView, _footerView, _separatorLine);
 
-    NSArray *verticalLayoutConstraintsForScrollView = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_scrollView][_submissionControl(==44)]|" options:0 metrics:nil views:viewDictionary];
+    NSArray *verticalLayoutConstraintsForScrollView = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_scrollView][_separatorLine(==1)][_footerView(==44)]|" options:0 metrics:nil views:viewDictionary];
     NSArray *horizontalLayoutConstraintsForScrollView = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_scrollView]|" options:0 metrics:nil views:viewDictionary];
-    NSArray *horizontalLayoutConstraintsForButtonView = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_submissionControl]|" options:0 metrics:nil views:viewDictionary];
+    NSArray *horizontalLayoutConstraintsForButtonView = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_footerView]|" options:0 metrics:nil views:viewDictionary];
+    NSArray *horizontalLayoutConstraintsForSeparatorLineView = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_separatorLine]|" options:0 metrics:nil views:viewDictionary];
 
     [self addConstraints:verticalLayoutConstraintsForScrollView];
     [self addConstraints:horizontalLayoutConstraintsForScrollView];
     [self addConstraints:horizontalLayoutConstraintsForButtonView];
+    [self addConstraints:horizontalLayoutConstraintsForSeparatorLineView];
 
     NSArray *verticalLayoutConstraintsForContentView = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_contentView]|" options:0 metrics:nil views:viewDictionary];
     NSArray *horizontalLayoutConstraintsForContentView = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_contentView]|" options:0 metrics:nil views:viewDictionary];
@@ -311,9 +306,10 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 
         // update gradient
         CGFloat percentage = scrollView.contentOffset.y / ([self heightOfTitleView] - [self navBarHeight]);
-        if (percentage <= 1) {
-            [self.delegate updateTitleViewForScrollTransitionPercentage:percentage];
+        if (percentage > 1) {
+            percentage = 1;
         }
+        [self.delegate updateTitleViewForScrollTransitionPercentage:percentage];
     }
 }
 

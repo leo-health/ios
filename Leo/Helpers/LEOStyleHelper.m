@@ -78,7 +78,7 @@
     navBarTitleLabel.font = [UIFont leo_menuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
     
     [navBarTitleLabel sizeToFit]; //MARK: not sure this is useful anymore now that we have added autolayout.
-    
+
     viewController.navigationItem.titleView = navBarTitleLabel;
     viewController.navigationItem.titleView.alpha = 0;
 }
@@ -171,6 +171,15 @@
 //    
 //    navigationItem.leftBarButtonItem = backBBI;
 //}
+
++ (void)styleSubmissionButton:(UIButton *)button forFeature:(Feature)feature {
+
+    button.titleLabel.font = [UIFont leo_buttonLabelsAndTimeStampsFont];
+    [button setTitleColor:[UIColor leo_white] forState:UIControlStateNormal];
+    [button setBackgroundImage:[UIImage leo_imageWithColor:[self tintColorForFeature:feature]] forState:UIControlStateNormal];
+    [button setBackgroundImage:[UIImage leo_imageWithColor:[UIColor leo_grayForMessageBubbles]] forState:UIControlStateDisabled];
+
+}
 
 + (void)styleButton:(UIButton *)button forFeature:(Feature)feature {
     
