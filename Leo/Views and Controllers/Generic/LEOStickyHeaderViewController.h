@@ -12,9 +12,12 @@
 #import "LEOStickyHeaderView.h"
 
 
-@interface LEOStickyHeaderViewController : UIViewController <UIScrollViewDelegate>
+@interface LEOStickyHeaderViewController : UIViewController
 
-@property (strong, nonatomic) id<LEOCardProtocol>card;
+@property (nonatomic) Feature feature;
 
+@property (strong, nonatomic) LEOStickyHeaderView *stickyHeaderView;
+
+//@property (strong, nonatomic) id<LEOCardProtocol>card;
 
 @end

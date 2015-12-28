@@ -12,14 +12,15 @@ typedef void(^SubmitBlock)(void);
 
 @protocol LEOStickyHeaderDataSource <NSObject>
 
+- (UIView *)injectTitleView;
 - (UIView *)injectBodyView;
-- (UIColor *)stickyHeaderColor;
 
 @end
 
 @protocol LEOStickyHeaderDelegate <NSObject>
 
 - (void)submitCardUpdates;
+- (void)updateTitleViewForScrollTransitionPercentage:(CGFloat)transitionPercentage;
 
 @end
 

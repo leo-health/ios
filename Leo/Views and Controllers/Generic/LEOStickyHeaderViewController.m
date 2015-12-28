@@ -12,45 +12,35 @@
 #import "LEOStickyHeaderView.h"
 @interface LEOStickyHeaderViewController ()
 
-@property (nonatomic) Feature feature;
-@property (strong, nonatomic) UILabel *expandedTitleLabel;
-
-@property (strong, nonatomic) LEOStickyHeaderView *stickyHeaderView;
-
 @end
 
 @implementation LEOStickyHeaderViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
+-(LEOStickyHeaderView *)stickyHeaderView {
 
-    [self setupHeader];
-    // Do any additional setup after loading the view.
+    if (!_stickyHeaderView) {
+
+        LEOStickyHeaderView *strongView = [LEOStickyHeaderView new];
+
+        _stickyHeaderView = strongView;
+
+        [self.view addSubview:_stickyHeaderView];
+
+        [self layoutStickyHeaderView];
+    }
+
+    return _stickyHeaderView;
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)layoutStickyHeaderView {
+
+    self.stickyHeaderView.translatesAutoresizingMaskIntoConstraints = NO;
+
+    NSDictionary *bindings = NSDictionaryOfVariableBindings(_stickyHeaderView);
+
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_stickyHeaderView]|" options:0 metrics:nil views:bindings]];
+
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_stickyHeaderView]|" options:0 metrics:nil views:bindings]];
 }
-
--(UIView *)injectBodyView {
-    return [[UIView alloc] init];
-}
-
-- (void)setupHeader {
-    
-    //Setup navigation bar itself
-    [LEOStyleHelper styleNavigationBarForViewController:self forFeature:self.feature withTitleText:self.card.title dismissal:YES backButton:NO];
-    
-    //TODO: This should come out most likely since it's part of the stickyheaderview and not controller...
-    //Setup when in expanded state
-    [LEOStyleHelper styleExpandedTitleLabel:self.expandedTitleLabel titleText:self.card.title];
-}
-
-
-
-
-
-
 
 @end

@@ -12,6 +12,7 @@
 #import "LEOCardAppointment.h"
 
 #import "LEOStyleHelper.h"
+#import "UIColor+LeoColors.h"
 
 #import "LEOCalendarViewController.h"
 #import "LEOBasicSelectionViewController.h"
@@ -33,12 +34,13 @@
 
 #import <MBProgressHUD.h>
 
+#import "LEOGradientView.h"
 #import "LEOAppointmentService.h"
 
 @interface LEOAppointmentViewController ()
 
-@property (weak, nonatomic) LEOStickyHeaderView *stickyHeaderView;
 @property (weak, nonatomic) LEOAppointmentView *appointmentView;
+@property (strong, nonatomic) LEOGradientView *gradientView;
 @property (strong, nonatomic) Appointment *appointment;
 
 @end
@@ -54,8 +56,7 @@
     [self setupNavigationBar];
 
     self.stickyHeaderView.meetsSubmissionRequirements = self.appointment.isValidForBooking;
-
-    // Do any additional setup after loading the view.
+    self.stickyHeaderView.snapToHeight = CGRectGetHeight(self.navigationController.navigationBar.bounds);
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -103,6 +104,44 @@
     self.stickyHeaderView.meetsSubmissionRequirements = self.appointment.isValidForBooking;
 }
 
+- (void)viewDidLayoutSubviews {
+
+    [super viewDidLayoutSubviews];
+
+    CGFloat percentageForTopOfVisibleView = 1 - (CGRectGetHeight(self.gradientView.bounds) / CGRectGetHeight(self.gradientView.gradientLayerBounds));
+    self.gradientView.initialStartPoint = CGPointMake(0.4, percentageForTopOfVisibleView);
+
+    self.gradientView.initialEndPoint = CGPointMake(0.7, 1);
+
+    CGFloat percentageForTopOfNavBar = 1 - (CGRectGetHeight(self.navigationController.navigationBar.bounds) / CGRectGetHeight(self.gradientView.gradientLayerBounds));
+    self.gradientView.finalStartPoint = CGPointMake(0.2, percentageForTopOfNavBar);
+
+    self.gradientView.finalEndPoint = CGPointMake(0.9, 1);
+}
+
+- (UIView *)injectTitleView {
+
+    LEOGradientView *strongView = self.gradientView;
+    return strongView;
+}
+
+- (LEOGradientView *)gradientView {
+
+    if (!_gradientView) {
+
+        LEOGradientView *strongView = [LEOGradientView new];
+        _gradientView = strongView;
+
+        _gradientView.colors = @[(id)[UIColor leo_green].CGColor, (id)[UIColor leo_white].CGColor];
+        _gradientView.titleText = @"Testing title";
+
+    }
+    return _gradientView;
+}
+
+- (void)updateTitleViewForScrollTransitionPercentage:(CGFloat)transitionPercentage {
+    self.gradientView.currentTransitionPercentage = transitionPercentage;
+}
 
 - (UIView *)injectBodyView {
 
@@ -136,34 +175,6 @@
     return self.appointmentView.appointment;
 }
 
--(LEOStickyHeaderView *)stickyHeaderView {
-
-    if (!_stickyHeaderView) {
-
-        LEOStickyHeaderView *strongView = [LEOStickyHeaderView new];
-
-        _stickyHeaderView = strongView;
-
-        [self.view addSubview:_stickyHeaderView];
-
-        [self layoutStickyHeaderView];
-    }
-
-    return _stickyHeaderView;
-}
-
-- (void)layoutStickyHeaderView {
-
-    self.stickyHeaderView.snapToHeight = self.navigationController.navigationBar.frame.size.height;
-
-    self.stickyHeaderView.translatesAutoresizingMaskIntoConstraints = NO;
-
-    NSDictionary *bindings = NSDictionaryOfVariableBindings(_stickyHeaderView);
-
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_stickyHeaderView]|" options:0 metrics:nil views:bindings]];
-
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_stickyHeaderView]|" options:0 metrics:nil views:bindings]];
-}
 
 -(void)submitCardUpdates {
  

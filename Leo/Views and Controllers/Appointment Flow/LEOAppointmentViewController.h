@@ -8,16 +8,16 @@
 
 @class LEOCardAppointment;
 
-#import "LEOStickyHeaderView.h"
+#import "LEOStickyHeaderViewController.h"
 #import "LEOAppointmentView.h"
 #import "LEOBasicSelectionViewController.h"
 #import "LEOExpandedCardViewProtocol.h"
 #import "CardActivityProtocol.h"
 
-@interface LEOAppointmentViewController : UIViewController <LEOStickyHeaderDataSource, LEOStickyHeaderDelegate, LEOAppointmentViewDelegate, SingleSelectionProtocol, LEOExpandedCardViewDelegate, CardActivityProtocol>
+@interface LEOAppointmentViewController : LEOStickyHeaderViewController <LEOStickyHeaderDataSource, LEOStickyHeaderDelegate, LEOAppointmentViewDelegate, SingleSelectionProtocol, LEOExpandedCardViewDelegate, CardActivityProtocol>
 
 @property (weak, nonatomic) id<LEOExpandedCardViewDelegate>delegate;
 @property (strong, nonatomic) LEOCardAppointment *card;
-@property (nonatomic) Feature feature;
+//@property (nonatomic) Feature feature;
 
 @end
