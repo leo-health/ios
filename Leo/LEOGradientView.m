@@ -41,7 +41,7 @@
 
 - (void)setTitleTextColor:(UIColor *)titleTextColor {
 
-    _titleTextColor =
+    _titleTextColor = titleTextColor;
     self.expandedTitleLabel.textColor = titleTextColor;
 }
 
@@ -101,6 +101,8 @@
                                                 self.initialStartPoint.y + _currentTransitionPercentage * (self.finalStartPoint.y - self.initialStartPoint.y));
     self.gradientLayer.endPoint = CGPointMake(self.initialEndPoint.x + _currentTransitionPercentage * (self.finalEndPoint.x - self.initialEndPoint.x),
                                               self.initialEndPoint.y + _currentTransitionPercentage * (self.finalEndPoint.y - self.initialEndPoint.y));
+
+    self.expandedTitleLabel.alpha = 1 - currentTransitionPercentage;
 
 }
 

@@ -63,6 +63,8 @@
 
     [super viewWillAppear:animated];
 
+    [self setupNavigationBar];
+
     [self.view updateConstraints];
 
 }
@@ -133,7 +135,7 @@
         _gradientView = strongView;
 
         _gradientView.colors = @[(id)[UIColor leo_green].CGColor, (id)[UIColor leo_white].CGColor];
-        _gradientView.titleText = @"Testing title";
+        _gradientView.titleText = self.card.title;
 
     }
     return _gradientView;
@@ -141,6 +143,7 @@
 
 - (void)updateTitleViewForScrollTransitionPercentage:(CGFloat)transitionPercentage {
     self.gradientView.currentTransitionPercentage = transitionPercentage;
+    self.navigationItem.titleView.alpha = transitionPercentage;
 }
 
 - (UIView *)injectBodyView {
