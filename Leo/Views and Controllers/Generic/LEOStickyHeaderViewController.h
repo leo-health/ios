@@ -18,4 +18,8 @@
 
 @property (strong, nonatomic) LEOStickyHeaderView *stickyHeaderView;
 
+@property (nonatomic, getter=isCollapsed) BOOL collapsed;
+
+- (void)addAnimationToNavBar:(void(^)())animations;
+
 @end

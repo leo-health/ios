@@ -7,12 +7,15 @@
 //  Copyright © 2015 Leo Health. All rights reserved.
 //
 
+#include "math.h"
+
 #import "LEOAppointmentViewController.h"
 #import "LEOAppointmentView.h"
 #import "LEOCardAppointment.h"
 
 #import "LEOStyleHelper.h"
 #import "UIColor+LeoColors.h"
+#import "UIImage+Layer.h"
 
 #import "LEOCalendarViewController.h"
 #import "LEOBasicSelectionViewController.h"
@@ -44,6 +47,8 @@
 @property (strong, nonatomic) UIButton *submissionButton;
 @property (strong, nonatomic) Appointment *appointment;
 
+@property (nonatomic) BOOL didLayoutSubviewsOnce;
+
 @end
 
 @implementation LEOAppointmentViewController
@@ -66,8 +71,38 @@
 
     [super viewWillAppear:animated];
 
-    [self.view updateConstraints];
+    __weak id weakSelf = self;
+    [self addAnimationToNavBar:^{
+        [[weakSelf navigationController].navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    }];
 
+
+
+    [self.view updateConstraints];
+}
+
+-(void)viewWillDisappear:(BOOL)animated {
+
+    [super viewWillDisappear:animated];
+
+    // Match the gradient in consecutive nav bars
+    CAGradientLayer *gradient = [CAGradientLayer layer];
+    gradient.startPoint = CGPointMake(0, 0);
+    gradient.endPoint = CGPointMake(1, 1);
+
+    gradient.colors = self.gradientView.colors;
+    gradient.frame = self.navigationController.navigationBar.bounds;
+
+    __weak id weakSelf = self;
+    void(^animations)() = ^(){
+        [[weakSelf navigationController].navigationBar setBackgroundImage:[UIImage imageFromLayer:gradient] forBarMetrics:UIBarMetricsDefault];
+    };
+
+    if ([self.stickyHeaderView isCollapsed]) {
+        animations();
+    } else {
+        [self addAnimationToNavBar:animations];
+    }
 }
 
 -(void)setupNavigationBar {
@@ -85,43 +120,71 @@
     self.stickyHeaderView.delegate = self;
 }
 
+#pragma mark - Layout
 
--(void)didUpdateItem:(id)item forKey:(NSString *)key {
+- (CGFloat)translateRelativePosition:(CGFloat)relativePositionInitial fromSize:(CGFloat)initialSize toSize:(CGFloat)finalSize {
 
-    if ([key isEqualToString:@"appointmentType"]) {
-        self.appointmentView.appointmentType = item;
-    }
+    // get absolute position
+    CGFloat absolutePosI = relativePositionInitial * initialSize;
+    // get extra size
+    CGFloat extra = initialSize - finalSize;
+    // subtract extra size
+    CGFloat absolutePosF = absolutePosI - extra;
+    // get relative position
+    CGFloat relPos = absolutePosF / finalSize;
 
-    else if ([key isEqualToString:@"patient"]) {
-        self.appointmentView.patient = item;
-    }
-
-    else if ([key isEqualToString:@"provider"]) {
-        self.appointmentView.provider = item;
-    }
-
-    else if ([key isEqualToString:@"date"]) {
-        self.appointmentView.date = item;
-    }
-
-    self.submissionButton.enabled = self.appointment.isValidForBooking;
+    return relPos;
 }
 
-#pragma mark - Layout
+/**
+ *  Calculates the start and end points based on a center, rotation and radius 
+ *  Returns both start and end points by passing the points by reference
+ *
+ *  @param startPoint a pointer to a CGPoint
+ *  @param endPoint   a pointer to a CGPoint
+ *  @param center     CGPoint representing the center of the circle
+ *  @param r          radius
+ *  @param theta      clockwise rotation in radians relative to x axis
+ */
+-(void)gradientStartPoint:(CGPoint*)startPoint endPoint:(CGPoint*)endPoint withCenter:(CGPoint)center withRadius:(CGFloat)r withRotationInRadians:(CGFloat)theta {
+
+    CGFloat dy = r * sinf(theta);
+    CGFloat dx = r * cosf(theta);
+    *startPoint = CGPointMake(center.x - dx, center.y - dy);
+    *endPoint = CGPointMake(center.x + dx, center.y + dy);
+}
 
 -(void)viewDidLayoutSubviews {
 
     [super viewDidLayoutSubviews];
 
-    CGFloat percentageForTopOfVisibleView = 1 - (CGRectGetHeight(self.gradientView.bounds) / CGRectGetHeight(self.gradientView.gradientLayerBounds));
-    self.gradientView.initialStartPoint = CGPointMake(0.4, percentageForTopOfVisibleView);
+    if (!self.didLayoutSubviewsOnce) {
 
-    self.gradientView.initialEndPoint = CGPointMake(0.7, 1);
+        CGFloat y2 = 1;
+        CGFloat r = 0.05;
+        CGPoint start;
+        CGPoint end;
 
-    CGFloat percentageForTopOfNavBar = 1 - (CGRectGetHeight(self.navigationController.navigationBar.bounds) / CGRectGetHeight(self.gradientView.gradientLayerBounds));
-    self.gradientView.finalStartPoint = CGPointMake(0.2, percentageForTopOfNavBar);
+        CGRect rect = self.gradientView.bounds;
+        CGFloat y1 = [self translateRelativePosition:0 fromSize:CGRectGetHeight(rect) toSize:CGRectGetHeight(self.gradientView.gradientLayerBounds)];
+        CGPoint center = CGPointMake(0.5, y1 + (y2 - y1)/2);
+        CGFloat theta = atanf(CGRectGetWidth(rect)/(CGRectGetHeight(rect)/2));
+        [self gradientStartPoint:&start endPoint:&end withCenter:center withRadius:r withRotationInRadians:theta];
 
-    self.gradientView.finalEndPoint = CGPointMake(0.9, 1);
+        self.gradientView.initialStartPoint = start;
+        self.gradientView.initialEndPoint = end;
+
+        rect = self.navigationController.navigationBar.bounds;
+        y1 = [self translateRelativePosition:0 fromSize:CGRectGetHeight(rect) toSize:CGRectGetHeight(self.gradientView.gradientLayerBounds)];
+        center = CGPointMake(0.5, y1 + (y2 - y1)/2);
+        theta = atanf(CGRectGetWidth(rect)/(CGRectGetHeight(rect)/2));
+        [self gradientStartPoint:&start endPoint:&end withCenter:center withRadius:r withRotationInRadians:theta];
+
+        self.gradientView.finalStartPoint = start;
+        self.gradientView.finalEndPoint = end;
+        
+        self.didLayoutSubviewsOnce = YES;
+    }
 }
 
 #pragma mark - StickyHeaderView Delegate
@@ -136,8 +199,7 @@
 
         LEOGradientView *strongView = [LEOGradientView new];
         _gradientView = strongView;
-
-        _gradientView.colors = @[(id)[UIColor leo_green].CGColor, (id)[UIColor leo_white].CGColor];
+        _gradientView.colors = @[(id)[UIColor whiteColor].CGColor, (id)[UIColor blackColor].CGColor];
         _gradientView.titleText = self.card.title;
     }
 
@@ -296,6 +358,27 @@
 
 #pragma mark - Actions
 
+-(void)didUpdateItem:(id)item forKey:(NSString *)key {
+
+    if ([key isEqualToString:@"appointmentType"]) {
+        self.appointmentView.appointmentType = item;
+    }
+
+    else if ([key isEqualToString:@"patient"]) {
+        self.appointmentView.patient = item;
+    }
+
+    else if ([key isEqualToString:@"provider"]) {
+        self.appointmentView.provider = item;
+    }
+
+    else if ([key isEqualToString:@"date"]) {
+        self.appointmentView.date = item;
+    }
+
+    self.submissionButton.enabled = self.appointment.isValidForBooking;
+}
+
 -(void)submitCardUpdates {
 
     LEOAppointmentService *appointmentService = [LEOAppointmentService new];
@@ -344,5 +427,28 @@
     [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
     }];
 }
+
+
+//- (id<UIViewControllerAnimatedTransitioning>)
+//navigationController:(UINavigationController *)navigationController
+//animationControllerForOperation:(UINavigationControllerOperation)operation
+//fromViewController:(UIViewController*)fromVC
+//toViewController:(UIViewController*)toVC
+//{
+//    if (operation == UINavigationControllerOperationPush) {
+//
+//        LEONavigationControllerPushAnimator *animator = [LEONavigationControllerPushAnimator new];
+//        return animator;
+//    }
+//
+//    if (operation == UINavigationControllerOperationPop) {
+//
+//        LEONavigationControllerPopAnimator *animator = [LEONavigationControllerPopAnimator new];
+//        return animator;
+//    }
+//
+//    return nil;
+//}
+
 
 @end

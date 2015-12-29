@@ -15,6 +15,8 @@
 @property (weak, nonatomic) UILabel *expandedTitleLabel;
 @property (nonatomic) BOOL constraintsAlreadyUpdated;
 
+@property (nonatomic) CGRect previousBounds;
+
 @end
 
 @implementation LEOGradientView
@@ -60,6 +62,7 @@
     if (!_gradientLayer) {
         CAGradientLayer *strongLayer = [CAGradientLayer layer];
         _gradientLayer = strongLayer;
+        self.layer.shouldRasterize = YES;
         [self.layer addSublayer:_gradientLayer];
     }
     
@@ -88,9 +91,8 @@
 }
 
 - (void)setCurrentTransitionPercentage:(CGFloat)currentTransitionPercentage {
-
+    
     _currentTransitionPercentage = currentTransitionPercentage;
-
     if (currentTransitionPercentage < 0) {
         _currentTransitionPercentage = 0;
     } else if (currentTransitionPercentage > 1) {
@@ -131,8 +133,11 @@
 
     [super layoutSubviews];
 
-    CGFloat extraHeightForGradient = CGRectGetHeight([[UIScreen mainScreen] bounds]);
-    self.gradientLayer.frame = CGRectMake(0, -extraHeightForGradient, CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds) + extraHeightForGradient);
+    if (!CGRectEqualToRect(self.previousBounds, self.bounds)) {
+
+        CGFloat extraHeightForGradient = CGRectGetHeight([[UIScreen mainScreen] bounds]);
+        self.gradientLayer.frame = CGRectMake(0, -extraHeightForGradient, CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds) + extraHeightForGradient);
+    }
 }
 
 

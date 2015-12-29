@@ -16,6 +16,13 @@
 
 @implementation LEOStickyHeaderViewController
 
+-(void)viewDidAppear:(BOOL)animated {
+
+    [super viewDidAppear:animated];
+
+    [self.stickyHeaderView updateScrollTransitionForOffset:self.stickyHeaderView.scrollViewContentOffset];
+}
+
 -(LEOStickyHeaderView *)stickyHeaderView {
 
     if (!_stickyHeaderView) {
@@ -41,6 +48,24 @@
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_stickyHeaderView]|" options:0 metrics:nil views:bindings]];
 
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_stickyHeaderView]|" options:0 metrics:nil views:bindings]];
+}
+
+- (void)addAnimationToNavBar:(void(^)())animations {
+
+    CGFloat duration = [self.navigationController.transitionCoordinator transitionDuration];
+
+    CATransition *animation = [CATransition animation];
+    animation.duration = duration;
+    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    animation.type = kCATransitionFade;
+    
+    [self.navigationController.navigationBar.layer addAnimation:animation forKey:nil];
+
+    [UIView animateWithDuration:duration animations:animations];
+}
+
+-(BOOL)isCollapsed {
+    return self.stickyHeaderView.isCollapsed;
 }
 
 @end

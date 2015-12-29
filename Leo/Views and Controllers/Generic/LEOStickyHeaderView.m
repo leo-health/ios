@@ -12,7 +12,7 @@
 #import <TPKeyboardAvoidingScrollView.h>
 #import "LEOGradientView.h"
 
-CGFloat const kTitleHeight = 150.0;
+CGFloat const kTitleHeight = 150;
 CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 
 @interface LEOStickyHeaderView ()
@@ -26,6 +26,7 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 @property (weak, nonatomic) UIView *contentView;
 @property (weak, nonatomic) UIView *separatorLine;
 @property (weak, nonatomic) UIView *footerView;
+@property (nonatomic) CGFloat footerHeight;
 
 @end
 
@@ -134,11 +135,28 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 }
 
 - (void)reloadFooterView {
+
     [self.footerView removeFromSuperview];
-    UIView* strongFooterView = [self.datasource injectFooterView];
+
+    UIView* strongFooterView;
+
+    if ([self.delegate respondsToSelector:@selector(injectFooterView)]) {
+        strongFooterView = [self.datasource injectFooterView];
+    }
+
+    // make footer optional by setting 0 height
+    if (strongFooterView == nil) {
+
+        strongFooterView = [UIView new];
+        self.footerHeight = 0;
+    } else {
+
+        self.footerHeight = 44; // TODO: let the client set this?
+    }
     _footerView = strongFooterView;
     [self addSubview:_footerView];
     [self setupConstraints];
+
 }
 
 - (void)setDatasource:(id<LEOStickyHeaderDataSource>)datasource {
@@ -178,7 +196,7 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 
     NSDictionary *viewDictionary = NSDictionaryOfVariableBindings(_titleView, _bodyView, _scrollView, _contentView, _footerView, _separatorLine);
 
-    NSArray *verticalLayoutConstraintsForScrollView = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_scrollView][_separatorLine(==1)][_footerView(==44)]|" options:0 metrics:nil views:viewDictionary];
+    NSArray *verticalLayoutConstraintsForScrollView = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_scrollView][_separatorLine(==1)][_footerView(==footerHeight)]|" options:0 metrics:@{@"footerHeight": @(self.footerHeight)} views:viewDictionary];
     NSArray *horizontalLayoutConstraintsForScrollView = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_scrollView]|" options:0 metrics:nil views:viewDictionary];
     NSArray *horizontalLayoutConstraintsForButtonView = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_footerView]|" options:0 metrics:nil views:viewDictionary];
     NSArray *horizontalLayoutConstraintsForSeparatorLineView = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_separatorLine]|" options:0 metrics:nil views:viewDictionary];
@@ -222,6 +240,10 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 - (BOOL)hasScrolled {
 
     return [self scrollViewVerticalContentOffset] > 0;
+}
+
+-(BOOL)isCollapsed {
+    return [self scrollViewVerticalContentOffset] > [self heightOfHeaderCellExcludingOverlapWithNavBar];
 }
 
 - (void)fadeBreakerOut {
@@ -291,23 +313,28 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 
 #pragma mark - <UIScrollViewDelegate> & Helper Methods
 
+-(void)updateScrollTransitionForOffset:(CGPoint)offset {
+
+    [self animateBreakerIfNeeded];
+
+    // stick titleView to top
+    if (self.scrollView.contentOffset.y > [self heightOfTitleView] - [self navBarHeight]) {
+        self.titleViewTopConstraint.constant = self.scrollView.contentOffset.y - [self heightOfTitleView] + [self navBarHeight];
+    } else {
+        self.titleViewTopConstraint.constant = kTitleViewTopConstraintOriginalConstant;
+    }
+
+    // update gradient
+    CGFloat percentage = self.scrollView.contentOffset.y / ([self heightOfTitleView] - [self navBarHeight]);
+    percentage = percentage > 1 ? 1 : percentage;
+    [self.delegate updateTitleViewForScrollTransitionPercentage:percentage];
+}
+
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
 
     if (scrollView == self.scrollView) {
 
-        [self animateBreakerIfNeeded];
-
-        // stick titleView to top
-        if (scrollView.contentOffset.y > [self heightOfTitleView] - [self navBarHeight]) {
-            self.titleViewTopConstraint.constant = scrollView.contentOffset.y - [self heightOfTitleView] + [self navBarHeight];
-        } else {
-            self.titleViewTopConstraint.constant = kTitleViewTopConstraintOriginalConstant;
-        }
-
-        // update gradient
-        CGFloat percentage = scrollView.contentOffset.y / ([self heightOfTitleView] - [self navBarHeight]);
-        percentage = percentage > 1 ? 1 : percentage;
-        [self.delegate updateTitleViewForScrollTransitionPercentage:percentage];
+        [self updateScrollTransitionForOffset:self.scrollViewContentOffset];
     }
 }
 
@@ -336,9 +363,8 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
             scrollView.contentOffset = CGPointMake(0.0, [ self heightOfHeaderCellExcludingOverlapWithNavBar]);
         } completion:nil];
 
-
     } else if ([self scrollViewVerticalContentOffset] < [self heightOfNoReturn]) {
-        
+
         [UIView animateWithDuration:0.1 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
 
             scrollView.contentOffset = CGPointMake(0.0, 0.0);
@@ -397,7 +423,11 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 }
 
 - (CGFloat)scrollViewVerticalContentOffset {
-    return self.scrollView.contentOffset.y;
+    return self.scrollViewContentOffset.y;
+}
+
+-(CGPoint)scrollViewContentOffset {
+    return self.scrollView.contentOffset;
 }
 
 

@@ -10,5 +10,6 @@
 
 @interface LEONavigationControllerPushAnimator : NSObject <UIViewControllerAnimatedTransitioning>
 
+@property (strong, nonatomic) UINavigationController* navigationController;
 
 @end
