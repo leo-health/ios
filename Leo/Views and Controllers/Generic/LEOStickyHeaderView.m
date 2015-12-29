@@ -306,9 +306,7 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 
         // update gradient
         CGFloat percentage = scrollView.contentOffset.y / ([self heightOfTitleView] - [self navBarHeight]);
-        if (percentage > 1) {
-            percentage = 1;
-        }
+        percentage = percentage > 1 ? 1 : percentage;
         [self.delegate updateTitleViewForScrollTransitionPercentage:percentage];
     }
 }
