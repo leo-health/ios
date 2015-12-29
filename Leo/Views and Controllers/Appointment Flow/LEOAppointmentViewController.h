@@ -18,6 +18,5 @@
 
 @property (weak, nonatomic) id<LEOExpandedCardViewDelegate>delegate;
 @property (strong, nonatomic) LEOCardAppointment *card;
-//@property (nonatomic) Feature feature;
 
 @end

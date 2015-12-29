@@ -18,6 +18,4 @@
 
 @property (strong, nonatomic) LEOStickyHeaderView *stickyHeaderView;
 
-//@property (strong, nonatomic) id<LEOCardProtocol>card;
-
 @end

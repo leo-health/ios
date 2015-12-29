@@ -178,7 +178,6 @@
     [button setTitleColor:[UIColor leo_white] forState:UIControlStateNormal];
     [button setBackgroundImage:[UIImage leo_imageWithColor:[self tintColorForFeature:feature]] forState:UIControlStateNormal];
     [button setBackgroundImage:[UIImage leo_imageWithColor:[UIColor leo_grayForMessageBubbles]] forState:UIControlStateDisabled];
-
 }
 
 + (void)styleButton:(UIButton *)button forFeature:(Feature)feature {

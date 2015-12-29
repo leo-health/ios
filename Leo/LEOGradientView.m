@@ -103,7 +103,6 @@
                                               self.initialEndPoint.y + _currentTransitionPercentage * (self.finalEndPoint.y - self.initialEndPoint.y));
 
     self.expandedTitleLabel.alpha = 1 - currentTransitionPercentage;
-
 }
 
 

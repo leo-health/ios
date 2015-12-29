@@ -333,7 +333,6 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 
     if ([self scrollViewVerticalContentOffset] > [self heightOfNoReturn] && [self scrollViewVerticalContentOffset] < [self heightOfHeaderCellExcludingOverlapWithNavBar]) {
 
-        NSLog(@"here");
         [UIView animateWithDuration:0.1 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
 
             scrollView.contentOffset = CGPointMake(0.0, [ self heightOfHeaderCellExcludingOverlapWithNavBar]);
@@ -341,7 +340,7 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 
 
     } else if ([self scrollViewVerticalContentOffset] < [self heightOfNoReturn]) {
-        NSLog(@"there");
+        
         [UIView animateWithDuration:0.1 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
 
             scrollView.contentOffset = CGPointMake(0.0, 0.0);
