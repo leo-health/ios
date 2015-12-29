@@ -45,7 +45,16 @@
     
     NSDate *now = [[NSDate date] dateByAddingMinutes:30];
     NSDate *twelveWeeksFromTheBeginningOfThisWeek = [[[NSDate date] leo_beginningOfWeekForStartOfWeek:1] dateByAddingDays:84];
-    
+
+
+    // TODO: BUG: found a crash here due to a nil object
+    /**
+     *  
+     Logs:
+     2015-12-28 15:36:12.530 Leo[5985:287519] No slots for this date to be shown.
+     2015-12-28 15:36:13.043 Leo[5985:287519] Reachability: Reachable via WiFi
+     2015-12-28 15:36:19.532 Leo[5985:288257] *** Terminating app due to uncaught exception 'NSInvalidArgumentException', reason: '*** -[__NSPlaceholderDictionary initWithObjects:forKeys:count:]: attempt to insert nil object from objects[0]'
+     */
     NSDictionary *slotRequestParameters = @{
                                  APIParamAppointmentTypeID : appointment.appointmentType.objectID,
                                  APIParamUserProviderID : appointment.provider.objectID,

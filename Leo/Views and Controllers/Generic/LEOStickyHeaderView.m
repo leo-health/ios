@@ -10,7 +10,6 @@
 #import "UIColor+LeoColors.h"
 #import "LEOStyleHelper.h"
 #import <TPKeyboardAvoidingScrollView.h>
-#import "LEOCardSubmissionControl.h"
 #import "LEOGradientView.h"
 
 CGFloat const kTitleHeight = 150.0;
@@ -21,11 +20,12 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 @property (nonatomic) BOOL breakerIsOnScreen;
 @property (strong, nonatomic) CAShapeLayer *pathLayer;
 @property (weak, nonatomic) TPKeyboardAvoidingScrollView *scrollView;
-@property (weak, nonatomic) LEOGradientView *titleView;
+@property (weak, nonatomic) UIView *titleView;
 @property (strong, nonatomic) NSLayoutConstraint* titleViewTopConstraint;
 @property (weak, nonatomic) UIView *bodyView;
 @property (weak, nonatomic) UIView *contentView;
-@property (weak, nonatomic) LEOCardSubmissionControl *submissionControl;
+@property (weak, nonatomic) UIView *separatorLine;
+@property (weak, nonatomic) UIView *footerView;
 
 @end
 
@@ -59,18 +59,6 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
     [self setupConstraints];
 }
 
-- (UIView *)titleView {
-
-    if (!_titleView) {
-        LEOGradientView *strongView = [LEOGradientView new];
-        _titleView = strongView;
-
-        [self.contentView addSubview:_titleView];
-    }
-
-    return _titleView;
-}
-
 - (UIView *)contentView {
 
     if (!_contentView) {
@@ -81,8 +69,17 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
         UIView *strongBodyView = [UIView new];
         _bodyView = strongBodyView;
 
+        UIView *strongTitleView = [UIView new];
+        _titleView = strongTitleView;
+
+        UIView *strongFooterView = [UIView new];
+        _footerView = strongFooterView;
+
+
         [self.scrollView addSubview:_contentView];
         [_contentView addSubview:_bodyView];
+        [_contentView addSubview:_titleView];
+        [self addSubview:_footerView];
     }
 
     return _contentView;
@@ -106,17 +103,16 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
     return _scrollView;
 }
 
--(LEOCardSubmissionControl *)submissionControl {
+- (UIView *)separatorLine {
 
-    if (!_submissionControl) {
+    if (!_separatorLine) {
 
-        LEOCardSubmissionControl *strongButton = [LEOCardSubmissionControl new];
-        _submissionControl = strongButton;
-
-        [self addSubview:_submissionControl];
+        UIView *strongView = [UIView new];
+        _separatorLine = strongView;
+        _separatorLine.backgroundColor = [UIColor leo_grayForPlaceholdersAndLines];
+        [self addSubview:_separatorLine];
     }
-
-    return _submissionControl;
+    return _separatorLine;
 }
 
 - (void)reloadBodyView {
@@ -125,7 +121,23 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
     UIView *strongBodyView = [self.datasource injectBodyView];
     _bodyView = strongBodyView;
     [self.contentView addSubview:_bodyView];
+    [self setupConstraints];
+}
 
+- (void)reloadTitleView {
+
+    [self.titleView removeFromSuperview];
+    UIView* strongTitleView = [self.datasource injectTitleView];
+    _titleView = strongTitleView;
+    [self.contentView addSubview:_titleView];
+    [self setupConstraints];
+}
+
+- (void)reloadFooterView {
+    [self.footerView removeFromSuperview];
+    UIView* strongFooterView = [self.datasource injectFooterView];
+    _footerView = strongFooterView;
+    [self addSubview:_footerView];
     [self setupConstraints];
 }
 
@@ -134,47 +146,14 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
     _datasource = datasource;
 
     [self reloadBodyView];
-    [self updateButton];
-}
-
-- (void)layoutSubviews {
-
-    [super layoutSubviews];
-
-    // NOTE: The gradient view set up will be moved out into the StickyHeaderViewController subclasses so it can be customizable
-    self.titleView.initialStartPoint = [self initialGradientStartPoint];
-    self.titleView.initialEndPoint = [self initialGradientEndPoint];
-    self.titleView.finalStartPoint = [self finalGradientStartPoint];
-    self.titleView.finalEndPoint = [self finalGradientEndPoint];
+    [self reloadTitleView];
+    [self reloadFooterView];
 }
 
 - (void)setupSubviews {
 
     self.contentView.backgroundColor = [UIColor blackColor];
     self.bodyView.backgroundColor = [UIColor redColor];
-    self.submissionControl.backgroundColor = [UIColor greenColor];
-    self.titleView.backgroundColor = [UIColor blueColor];
-
-    // NOTE: The gradient view set up will be moved out into the StickyHeaderViewController subclasses so it can be customizable
-    self.titleView.colors = @[(id)[UIColor leo_green].CGColor, (id)[UIColor leo_white].CGColor];
-    self.titleView.titleText = @"Testing title";
-}
-
--(void)setMeetsSubmissionRequirements:(BOOL)meetsSubmissionRequirements {
-
-    _meetsSubmissionRequirements = meetsSubmissionRequirements;
-
-    [self.submissionControl isSubmissionReady:meetsSubmissionRequirements];
-}
-
-- (void)updateButton {
-
-    [self.submissionControl addTarget:self action:@selector(buttonTouchedUpInside) forControlEvents:UIControlEventTouchUpInside];
-}
-
-- (void)buttonTouchedUpInside {
-
-    [self.delegate submitCardUpdates];
 }
 
 //FIXME: Remove magic numbers / hard coding.
@@ -184,28 +163,30 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
     [self removeConstraints:self.constraints];
     [self.scrollView removeConstraints:self.scrollView.constraints];
     [self.contentView removeConstraints:self.contentView.constraints];
-    [self.submissionControl removeConstraints:self.submissionControl.constraints];
 
     self.scrollView.translatesAutoresizingMaskIntoConstraints = NO;
     self.contentView.translatesAutoresizingMaskIntoConstraints = NO;
     self.bodyView.translatesAutoresizingMaskIntoConstraints = NO;
     self.titleView.translatesAutoresizingMaskIntoConstraints = NO;
-    self.submissionControl.translatesAutoresizingMaskIntoConstraints = NO;
+    self.separatorLine.translatesAutoresizingMaskIntoConstraints = NO;
+    self.footerView.translatesAutoresizingMaskIntoConstraints = NO;
 
     // set Z index so other views will scroll underneath the title view
     if ([self.titleView.superview.subviews indexOfObject:self.titleView] != self.titleView.superview.subviews.count) {
         [self.titleView.superview bringSubviewToFront:self.titleView];
     }
 
-    NSDictionary *viewDictionary = NSDictionaryOfVariableBindings(_titleView, _bodyView, _scrollView, _contentView, _submissionControl);
+    NSDictionary *viewDictionary = NSDictionaryOfVariableBindings(_titleView, _bodyView, _scrollView, _contentView, _footerView, _separatorLine);
 
-    NSArray *verticalLayoutConstraintsForScrollView = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_scrollView][_submissionControl(==44)]|" options:0 metrics:nil views:viewDictionary];
+    NSArray *verticalLayoutConstraintsForScrollView = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_scrollView][_separatorLine(==1)][_footerView(==44)]|" options:0 metrics:nil views:viewDictionary];
     NSArray *horizontalLayoutConstraintsForScrollView = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_scrollView]|" options:0 metrics:nil views:viewDictionary];
-    NSArray *horizontalLayoutConstraintsForButtonView = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_submissionControl]|" options:0 metrics:nil views:viewDictionary];
+    NSArray *horizontalLayoutConstraintsForButtonView = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_footerView]|" options:0 metrics:nil views:viewDictionary];
+    NSArray *horizontalLayoutConstraintsForSeparatorLineView = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_separatorLine]|" options:0 metrics:nil views:viewDictionary];
 
     [self addConstraints:verticalLayoutConstraintsForScrollView];
     [self addConstraints:horizontalLayoutConstraintsForScrollView];
     [self addConstraints:horizontalLayoutConstraintsForButtonView];
+    [self addConstraints:horizontalLayoutConstraintsForSeparatorLineView];
 
     NSArray *verticalLayoutConstraintsForContentView = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_contentView]|" options:0 metrics:nil views:viewDictionary];
     NSArray *horizontalLayoutConstraintsForContentView = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_contentView]|" options:0 metrics:nil views:viewDictionary];
@@ -325,9 +306,8 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 
         // update gradient
         CGFloat percentage = scrollView.contentOffset.y / ([self heightOfTitleView] - [self navBarHeight]);
-        if (percentage <= 1) {
-            self.titleView.currentTransitionPercentage = percentage;
-        }
+        percentage = percentage > 1 ? 1 : percentage;
+        [self.delegate updateTitleViewForScrollTransitionPercentage:percentage];
     }
 }
 
@@ -349,7 +329,7 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 
 - (void)navigationTitleViewSnapsForScrollView:(UIScrollView *)scrollView {
 
-    if ([self scrollViewVerticalContentOffset] > [self heightOfNoReturn] && [self scrollViewVerticalContentOffset] < [self heightOfTitleView]) {
+    if ([self scrollViewVerticalContentOffset] > [self heightOfNoReturn] && [self scrollViewVerticalContentOffset] < [self heightOfHeaderCellExcludingOverlapWithNavBar]) {
 
         [UIView animateWithDuration:0.1 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
 
@@ -358,7 +338,7 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 
 
     } else if ([self scrollViewVerticalContentOffset] < [self heightOfNoReturn]) {
-
+        
         [UIView animateWithDuration:0.1 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
 
             scrollView.contentOffset = CGPointMake(0.0, 0.0);
@@ -418,30 +398,6 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 
 - (CGFloat)scrollViewVerticalContentOffset {
     return self.scrollView.contentOffset.y;
-}
-
-
-#pragma mark - Gradeient transition points
-
-// NOTE: These methods will be moved into the sticky header vc subclass, which is the only thing that will know about the gradient view
-- (CGPoint)initialGradientStartPoint {
-    
-    CGFloat percentageForTopOfVisibleView = 1 - ([self heightOfTitleView] / CGRectGetHeight(self.titleView.gradientLayerBounds));
-    return CGPointMake(0.4, percentageForTopOfVisibleView);
-}
-
-- (CGPoint)initialGradientEndPoint {
-    return CGPointMake(0.7, 1);
-}
-
-- (CGPoint)finalGradientStartPoint {
-
-    CGFloat percentageForTopOfNavBar = 1 - ([self navBarHeight] / CGRectGetHeight(self.titleView.gradientLayerBounds));
-    return CGPointMake(0.2, percentageForTopOfNavBar);
-}
-
-- (CGPoint)finalGradientEndPoint {
-    return CGPointMake(0.9, 1);
 }
 
 

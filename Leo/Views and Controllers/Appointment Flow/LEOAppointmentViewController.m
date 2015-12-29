@@ -12,6 +12,7 @@
 #import "LEOCardAppointment.h"
 
 #import "LEOStyleHelper.h"
+#import "UIColor+LeoColors.h"
 
 #import "LEOCalendarViewController.h"
 #import "LEOBasicSelectionViewController.h"
@@ -33,19 +34,23 @@
 
 #import <MBProgressHUD.h>
 
+#import "LEOGradientView.h"
 #import "LEOAppointmentService.h"
 
 @interface LEOAppointmentViewController ()
 
-@property (weak, nonatomic) LEOStickyHeaderView *stickyHeaderView;
 @property (weak, nonatomic) LEOAppointmentView *appointmentView;
+@property (strong, nonatomic) LEOGradientView *gradientView;
+@property (strong, nonatomic) UIButton *submissionButton;
 @property (strong, nonatomic) Appointment *appointment;
 
 @end
 
 @implementation LEOAppointmentViewController
 
-- (void)viewDidLoad {
+#pragma mark - View Lifecycle
+
+-(void)viewDidLoad {
 
     [super viewDidLoad];
 
@@ -53,9 +58,8 @@
 
     [self setupNavigationBar];
 
-    self.stickyHeaderView.meetsSubmissionRequirements = self.appointment.isValidForBooking;
-
-    // Do any additional setup after loading the view.
+    self.submissionButton.enabled = self.appointment.isValidForBooking;
+    self.stickyHeaderView.snapToHeight = CGRectGetHeight(self.navigationController.navigationBar.bounds);
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -66,7 +70,7 @@
 
 }
 
-- (void)setupNavigationBar {
+-(void)setupNavigationBar {
 
     [LEOStyleHelper styleNavigationBarForViewController:self forFeature:self.feature withTitleText:self.card.title dismissal:YES backButton:NO];
 }
@@ -100,9 +104,70 @@
         self.appointmentView.date = item;
     }
 
-    self.stickyHeaderView.meetsSubmissionRequirements = self.appointment.isValidForBooking;
+    self.submissionButton.enabled = self.appointment.isValidForBooking;
 }
 
+#pragma mark - Layout
+
+-(void)viewDidLayoutSubviews {
+
+    [super viewDidLayoutSubviews];
+
+    CGFloat percentageForTopOfVisibleView = 1 - (CGRectGetHeight(self.gradientView.bounds) / CGRectGetHeight(self.gradientView.gradientLayerBounds));
+    self.gradientView.initialStartPoint = CGPointMake(0.4, percentageForTopOfVisibleView);
+
+    self.gradientView.initialEndPoint = CGPointMake(0.7, 1);
+
+    CGFloat percentageForTopOfNavBar = 1 - (CGRectGetHeight(self.navigationController.navigationBar.bounds) / CGRectGetHeight(self.gradientView.gradientLayerBounds));
+    self.gradientView.finalStartPoint = CGPointMake(0.2, percentageForTopOfNavBar);
+
+    self.gradientView.finalEndPoint = CGPointMake(0.9, 1);
+}
+
+#pragma mark - StickyHeaderView Delegate
+
+-(UIView *)injectTitleView {
+    return self.gradientView;
+}
+
+-(LEOGradientView *)gradientView {
+
+    if (!_gradientView) {
+
+        LEOGradientView *strongView = [LEOGradientView new];
+        _gradientView = strongView;
+
+        _gradientView.colors = @[(id)[UIColor leo_green].CGColor, (id)[UIColor leo_white].CGColor];
+        _gradientView.titleText = self.card.title;
+    }
+
+    return _gradientView;
+}
+
+-(UIView *)injectFooterView {
+    return self.submissionButton;
+}
+
+-(UIButton *)submissionButton {
+
+    if (!_submissionButton) {
+
+        UIButton* strongButton = [UIButton new];
+        _submissionButton = strongButton;
+
+        [LEOStyleHelper styleSubmissionButton:_submissionButton forFeature:self.feature];
+        [_submissionButton addTarget:self action:@selector(submitCardUpdates) forControlEvents:UIControlEventTouchUpInside];
+        [_submissionButton setTitle:@"CONFIRM VISIT" forState:UIControlStateNormal];
+    }
+
+    return _submissionButton;
+}
+
+-(void)updateTitleViewForScrollTransitionPercentage:(CGFloat)transitionPercentage {
+
+    self.gradientView.currentTransitionPercentage = transitionPercentage;
+    self.navigationItem.titleView.alpha = transitionPercentage;
+}
 
 - (UIView *)injectBodyView {
 
@@ -110,6 +175,7 @@
 
     strongView.delegate = self;
     strongView.tintColor = [LEOStyleHelper tintColorForFeature:FeatureAppointmentScheduling];
+
     return strongView;
 }
 
@@ -131,83 +197,16 @@
     return _appointmentView;
 }
 
-- (Appointment *)appointment {
+-(Appointment *)appointment {
 
     return self.appointmentView.appointment;
-}
-
--(LEOStickyHeaderView *)stickyHeaderView {
-
-    if (!_stickyHeaderView) {
-
-        LEOStickyHeaderView *strongView = [LEOStickyHeaderView new];
-
-        _stickyHeaderView = strongView;
-
-        [self.view addSubview:_stickyHeaderView];
-
-        [self layoutStickyHeaderView];
-    }
-
-    return _stickyHeaderView;
-}
-
-- (void)layoutStickyHeaderView {
-
-    self.stickyHeaderView.snapToHeight = self.navigationController.navigationBar.frame.size.height;
-
-    self.stickyHeaderView.translatesAutoresizingMaskIntoConstraints = NO;
-
-    NSDictionary *bindings = NSDictionaryOfVariableBindings(_stickyHeaderView);
-
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_stickyHeaderView]|" options:0 metrics:nil views:bindings]];
-
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_stickyHeaderView]|" options:0 metrics:nil views:bindings]];
-}
-
--(void)submitCardUpdates {
- 
-    LEOAppointmentService *appointmentService = [LEOAppointmentService new];
-
-    self.appointment.status.statusCode = AppointmentStatusCodeFuture;
-
-    [MBProgressHUD showHUDAddedTo:self.view.window animated:YES];
-
-    __weak LEOAppointmentViewController *weakself = self;
-
-    if (!self.appointment.objectID) {
-
-        [appointmentService createAppointmentWithAppointment:self.appointment withCompletion:^(LEOCardAppointment * appointmentCard, NSError * error) {
-
-            if (!error) {
-
-                weakself.card = appointmentCard;
-                [self.appointment book];
-            }
-
-            [MBProgressHUD hideHUDForView:weakself.view.window animated:YES];
-        }];
-    } else {
-
-        [appointmentService rescheduleAppointmentWithAppointment:self.appointment withCompletion:^(LEOCardAppointment * appointmentCard, NSError *error) {
-
-
-            if (!error) {
-
-                weakself.card = appointmentCard;
-                [self.appointment book];
-            }
-
-            [MBProgressHUD hideHUDForView:weakself.view.window animated:YES];
-        }];
-    }
 }
 
 -(void)leo_performSegueWithIdentifier:(NSString *)segueIdentifier {
     [self performSegueWithIdentifier:segueIdentifier sender:nil];
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
 
     __block BOOL shouldSelect = NO;
 
@@ -295,21 +294,55 @@
     }
 }
 
-
 #pragma mark - Actions
-- (void)didUpdateObjectStateForCard:(id<LEOCardProtocol>)card {
+
+-(void)submitCardUpdates {
+
+    LEOAppointmentService *appointmentService = [LEOAppointmentService new];
+
+    self.appointment.status.statusCode = AppointmentStatusCodeFuture;
+
+    [MBProgressHUD showHUDAddedTo:self.view.window animated:YES];
+
+    __weak LEOAppointmentViewController *weakself = self;
+
+    if (!self.appointment.objectID) {
+
+        [appointmentService createAppointmentWithAppointment:self.appointment withCompletion:^(LEOCardAppointment * appointmentCard, NSError * error) {
+
+            if (!error) {
+
+                weakself.card = appointmentCard;
+                [self.appointment book];
+            }
+
+            [MBProgressHUD hideHUDForView:weakself.view.window animated:YES];
+        }];
+    } else {
+
+        [appointmentService rescheduleAppointmentWithAppointment:self.appointment withCompletion:^(LEOCardAppointment * appointmentCard, NSError *error) {
+
+
+            if (!error) {
+
+                weakself.card = appointmentCard;
+                [self.appointment book];
+            }
+            
+            [MBProgressHUD hideHUDForView:weakself.view.window animated:YES];
+        }];
+    }
+}
+
+-(void)didUpdateObjectStateForCard:(id<LEOCardProtocol>)card {
     [self dismiss];
 }
 
-- (void)dismiss {
+-(void)dismiss {
 
     [self.delegate takeResponsibilityForCard:self.card];
     [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
     }];
-}
-
--(void)dealloc {
-    //TODO: Remove after debugging complete.
 }
 
 @end

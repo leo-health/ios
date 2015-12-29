@@ -21,6 +21,7 @@
 + (void)styleLabel:(UILabel *)label forFeature:(Feature)feature;
 + (void)stylePromptTextView:(LEOPromptTextView *)promptTextView forFeature:(Feature)feature;
 + (void)styleBackButtonForViewController:(UIViewController *)viewController forFeature:(Feature)feature;
++ (void)styleSubmissionButton:(UIButton *)button forFeature:(Feature)feature;
 + (void)styleButton:(UIButton *)button forFeature:(Feature)feature;
 + (UIColor *)tintColorForFeature:(Feature)feature;
 + (void)styleNavigationBarShadowLineForViewController:(UIViewController *)viewController feature:(Feature)feature;
