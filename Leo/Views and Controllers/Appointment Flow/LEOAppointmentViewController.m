@@ -118,7 +118,6 @@
     self.gradientView.finalStartPoint = CGPointMake(0.2, percentageForTopOfNavBar);
 
     self.gradientView.finalEndPoint = CGPointMake(0.9, 1);
-
 }
 
 - (UIView *)injectTitleView {
@@ -157,6 +156,7 @@
 }
 
 - (void)updateTitleViewForScrollTransitionPercentage:(CGFloat)transitionPercentage {
+
     self.gradientView.currentTransitionPercentage = transitionPercentage;
     self.navigationItem.titleView.alpha = transitionPercentage;
 }
@@ -167,6 +167,7 @@
 
     strongView.delegate = self;
     strongView.tintColor = [LEOStyleHelper tintColorForFeature:FeatureAppointmentScheduling];
+
     return strongView;
 }
 
