@@ -24,6 +24,14 @@ Talk to your team when you arrive about getting access to elastic beanstalk.
 * Apple Developer Certificates
 You'll need access to a developer certificate. Talk to your team and they will get you setup. *Please do not allow Apple to automatically `Fix issue` from Xcode and provide you with new certificates.*
 
+* Install fastlane
+Install [fastlane](https://fastlane.tools/) using the following command.
+```sudo gem install fastlane --verbose```
+
+* Install Required Xcode Plugins
+Run the following command from the terminal after installing fastlane.
+```fastlane xcode```
+
 * Launching the App
 Please use the `Leo.xcworkspace` file to open the project.
 
@@ -73,16 +81,16 @@ For the time being, until we have an opportunity to develop our own style guide,
 
 ##Git style guide
 
-* We are currently somewhere between git-flow and github-flow. 
+* We are currently somewhere between git-flow and github-flow.
 
 
-* We do not use a development branch, but private integration branches are encouraged. 
+* We do not use a development branch, but private integration branches are encouraged.
 
 
-* Work should be committed to a fork, and then a pull request made to submit changes. 
+* Work should be committed to a fork, and then a pull request made to submit changes.
 
 
-* Changes from master should be rebased into the branch, and changes from the remote should always be rebased into master. Rebase down! Merge up! 
+* Changes from master should be rebased into the branch, and changes from the remote should always be rebased into master. Rebase down! Merge up!
 
 
 * Commit messages are ideally styled as such:
@@ -114,7 +122,7 @@ Standard commit types you will see include:
 
 * **Pull Request Code Review** - Used for `issues` that are actually pull requests when the feedback does not result in its own issues being created but rather changes made directly to the pull request based on the feedback. When this commit type is used, please use the pull request number to reflect the issue. Do not re-use the issue number of one of the commits within the pull request. Detailed commenting here is not required as it often exceeds a reasonable length and can easily be reviewed in context using the pull request itself.
 
-* You may see other options going back further in the history. Let's not get caught up with old ways of doing things. Changes and amendments to this style will be made as necessary and this is always open to discussion if you think you have something to add! 
+* You may see other options going back further in the history. Let's not get caught up with old ways of doing things. Changes and amendments to this style will be made as necessary and this is always open to discussion if you think you have something to add!
 
 
 ##Xcode preferences

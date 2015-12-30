@@ -23,9 +23,14 @@ before_all do
 
     ensure_git_status_clean
 
-    #cocoapods
+    #TODO: ensure cocoapods are installed
 
-    #TODO: Move increment of version out here. 
+end
+
+lane :xcode do
+  install_xcode_plugin(
+    url: "https://github.com/fastlane/FixCode/releases/download/0.2.0/FixCode.xcplugin.zip"
+  )
 end
 
 lane :alpha do |options|
@@ -72,7 +77,7 @@ lane :alpha do |options|
     EOS
 
       File.open(changelog_filename, 'w') { |file| file.puts changelog_contents }
-  
+
     #snapshot (eventually add this for speed.)
 
     #cert (eventually add this in when we have more developers.)
@@ -207,7 +212,7 @@ lane :alpha do |options|
 
   after_all do |lane|
     # This block is called, only if the executed lane was successful
-    
+
     slack(
       message: "Successfully deployed new App Update."
 
@@ -223,5 +228,5 @@ lane :alpha do |options|
   end
 end
 
-# More information about multiple platforms in fastlane: 
+# More information about multiple platforms in fastlane:
 # https://github.com/KrauseFx/fastlane/blob/master/docs/Platforms.md
