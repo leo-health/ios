@@ -16,13 +16,6 @@
 
 @implementation LEOStickyHeaderViewController
 
--(void)viewDidAppear:(BOOL)animated {
-
-    [super viewDidAppear:animated];
-
-    [self.stickyHeaderView updateScrollTransitionForOffset:self.stickyHeaderView.scrollViewContentOffset];
-}
-
 -(LEOStickyHeaderView *)stickyHeaderView {
 
     if (!_stickyHeaderView) {
@@ -64,8 +57,26 @@
     [UIView animateWithDuration:duration animations:animations];
 }
 
+// NOTE: This feels wrong. I should probably move the scrollview delegate into the controller, not the view
+
 -(BOOL)isCollapsed {
     return self.stickyHeaderView.isCollapsed;
+}
+
+-(BOOL)isCollapsable {
+    return self.stickyHeaderView.isCollapsable;
+}
+
+-(void)setCollapsable:(BOOL)collapsable {
+    [self.stickyHeaderView setCollapsable:collapsable];
+}
+
+-(CGFloat)transitionPercentageForScrollOffset:(CGPoint)offset {
+    return [self.stickyHeaderView transitionPercentageForScrollOffset:offset];
+}
+
+-(CGPoint)scrollViewContentOffset {
+    return self.stickyHeaderView.scrollViewContentOffset;
 }
 
 @end

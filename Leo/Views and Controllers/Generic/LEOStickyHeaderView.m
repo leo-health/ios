@@ -313,7 +313,7 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 
 #pragma mark - <UIScrollViewDelegate> & Helper Methods
 
--(void)updateScrollTransitionForOffset:(CGPoint)offset {
+-(void)updateTransitionPercentageForScrollOffset:(CGPoint)offset {
 
     [self animateBreakerIfNeeded];
 
@@ -325,16 +325,20 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
     }
 
     // update gradient
-    CGFloat percentage = self.scrollView.contentOffset.y / ([self heightOfTitleView] - [self navBarHeight]);
+    CGFloat percentage = [self transitionPercentageForScrollOffset:offset];
     percentage = percentage > 1 ? 1 : percentage;
     [self.delegate updateTitleViewForScrollTransitionPercentage:percentage];
+}
+
+-(CGFloat)transitionPercentageForScrollOffset:(CGPoint)offset {
+    return self.scrollView.contentOffset.y / ([self heightOfTitleView] - [self navBarHeight]);
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
 
     if (scrollView == self.scrollView) {
 
-        [self updateScrollTransitionForOffset:self.scrollViewContentOffset];
+        [self updateTransitionPercentageForScrollOffset:self.scrollViewContentOffset];
     }
 }
 
@@ -356,19 +360,23 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 
 - (void)navigationTitleViewSnapsForScrollView:(UIScrollView *)scrollView {
 
-    if ([self scrollViewVerticalContentOffset] > [self heightOfNoReturn] && [self scrollViewVerticalContentOffset] < [self heightOfHeaderCellExcludingOverlapWithNavBar]) {
+    // Note: what is the desired functionality here? Do we want to disable the scrolling animations as well?
+    if (self.isCollapsable) {
 
-        [UIView animateWithDuration:0.1 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        if ([self scrollViewVerticalContentOffset] > [self heightOfNoReturn] && [self scrollViewVerticalContentOffset] < [self heightOfHeaderCellExcludingOverlapWithNavBar]) {
 
-            scrollView.contentOffset = CGPointMake(0.0, [ self heightOfHeaderCellExcludingOverlapWithNavBar]);
-        } completion:nil];
+            [UIView animateWithDuration:0.1 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
 
-    } else if ([self scrollViewVerticalContentOffset] < [self heightOfNoReturn]) {
+                scrollView.contentOffset = CGPointMake(0.0, [ self heightOfHeaderCellExcludingOverlapWithNavBar]);
+            } completion:nil];
 
-        [UIView animateWithDuration:0.1 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        } else if ([self scrollViewVerticalContentOffset] < [self heightOfNoReturn]) {
 
-            scrollView.contentOffset = CGPointMake(0.0, 0.0);
-        } completion:nil];
+            [UIView animateWithDuration:0.1 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+
+                scrollView.contentOffset = CGPointMake(0.0, 0.0);
+            } completion:nil];
+        }
     }
 }
 

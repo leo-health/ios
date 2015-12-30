@@ -18,8 +18,11 @@
 
 @property (strong, nonatomic) LEOStickyHeaderView *stickyHeaderView;
 
+@property (nonatomic, getter=isCollapsable) BOOL collapsable;
 @property (nonatomic, getter=isCollapsed) BOOL collapsed;
+@property (nonatomic) CGPoint scrollViewContentOffset;
 
-- (void)addAnimationToNavBar:(void(^)())animations;
+-(void)addAnimationToNavBar:(void(^)())animations;
+-(CGFloat)transitionPercentageForScrollOffset:(CGPoint)offset;
 
 @end

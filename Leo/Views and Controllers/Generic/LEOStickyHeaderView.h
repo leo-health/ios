@@ -27,6 +27,7 @@ typedef void(^SubmitBlock)(void);
 
 @interface LEOStickyHeaderView : UIView <UITextViewDelegate, UITextFieldDelegate>
 
+@property (nonatomic, getter=isCollapsable) BOOL collapsable;
 @property (nonatomic, getter=isCollapsed) BOOL collapsed;
 @property (nonatomic) CGFloat snapToHeight;
 
@@ -34,7 +35,9 @@ typedef void(^SubmitBlock)(void);
 @property (weak, nonatomic) id<LEOStickyHeaderDelegate> delegate;
 @property (nonatomic) CGPoint scrollViewContentOffset;
 
--(void)updateScrollTransitionForOffset:(CGPoint)offset;
+-(CGFloat)transitionPercentageForScrollOffset:(CGPoint)offset;
+-(void)updateTransitionPercentageForScrollOffset:(CGPoint)offset;
+
 - (void)reloadBodyView;
 
 @end

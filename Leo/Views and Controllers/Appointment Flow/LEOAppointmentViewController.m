@@ -71,13 +71,13 @@
 
     [super viewWillAppear:animated];
 
-    __weak id weakSelf = self;
+    __weak LEOAppointmentViewController* weakSelf = self;
     [self addAnimationToNavBar:^{
-        [[weakSelf navigationController].navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+        [weakSelf.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+        CGFloat percentage = [weakSelf transitionPercentageForScrollOffset:weakSelf.scrollViewContentOffset];
+        weakSelf.navigationItem.titleView.hidden = percentage == 0;
     }];
-
-
-
+    
     [self.view updateConstraints];
 }
 
@@ -87,11 +87,10 @@
 
     // Match the gradient in consecutive nav bars
     CAGradientLayer *gradient = [CAGradientLayer layer];
-    gradient.startPoint = CGPointMake(0, 0);
-    gradient.endPoint = CGPointMake(1, 1);
-
-    gradient.colors = self.gradientView.colors;
     gradient.frame = self.navigationController.navigationBar.bounds;
+    gradient.colors = self.gradientView.colors;
+    gradient.startPoint = CGPointMake(0,0);
+    gradient.endPoint = CGPointMake(1, 1);
 
     __weak id weakSelf = self;
     void(^animations)() = ^(){
@@ -160,6 +159,7 @@
 
     if (!self.didLayoutSubviewsOnce) {
 
+        // To get an accurate angle for the gradient, place the start and end points on the edge a circle that is centered in the view
         CGFloat y2 = 1;
         CGFloat r = 0.05;
         CGPoint start;
@@ -228,6 +228,7 @@
 -(void)updateTitleViewForScrollTransitionPercentage:(CGFloat)transitionPercentage {
 
     self.gradientView.currentTransitionPercentage = transitionPercentage;
+    self.navigationItem.titleView.hidden = NO;
     self.navigationItem.titleView.alpha = transitionPercentage;
 }
 
