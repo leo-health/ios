@@ -40,4 +40,6 @@ DeveloperCodeSigning.xcconfig
 
 .DS_Store
 
+# Fastlane
 fastlane_build/
+fastlane/report.xml
