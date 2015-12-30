@@ -30,7 +30,7 @@ Install [fastlane](https://fastlane.tools/) using the following command.
 
 * Install Required Xcode Plugins
 Run the following command from the terminal after installing fastlane.
-```fastlane xcode```
+```fastlane mac xcode```
 
 * Launching the App
 Please use the `Leo.xcworkspace` file to open the project.
