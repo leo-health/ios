@@ -4,6 +4,14 @@ require 'yaml'
 
 default_platform :ios
 
+platform :mac do
+  desc "Installs xcode plugin FixCode to prevent xcode from automatically 'Fixing issues' with code signing"
+  lane :xcode do
+    install_xcode_plugin(
+      url: "https://github.com/fastlane/FixCode/releases/download/0.2.0/FixCode.xcplugin.zip"
+    )
+  end
+end
 platform :ios do
 
 desc "Submit a new alpha version to TestFlight"
@@ -25,12 +33,6 @@ before_all do
 
     #TODO: ensure cocoapods are installed
 
-end
-
-lane :xcode do
-  install_xcode_plugin(
-    url: "https://github.com/fastlane/FixCode/releases/download/0.2.0/FixCode.xcplugin.zip"
-  )
 end
 
 lane :alpha do |options|
