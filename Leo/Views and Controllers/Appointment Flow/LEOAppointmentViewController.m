@@ -60,7 +60,7 @@ static NSString *const kSelectionVCProviderKey = @"provider";
 static NSString *const kProviderCell = @"ProviderCell";
 static NSString *const kProviderPrompt = @"Who would you like to see?";
 static NSString *const kScheduleSegue = @"ScheduleSegue";
-static NSString *const kSelectionVCProviderKey = @"date";
+static NSString *const kSelectionVCDateKey = @"date";
 
 
 @interface LEOAppointmentViewController ()
