@@ -123,7 +123,7 @@
         [self.view addSubview:_slidingSegmentView];
 
         _slidingSegmentView.dataSource = self;
-//        _slidingSegmentView.delegate = self;
+        _slidingSegmentView.delegate = self;
     }
 
     return _slidingSegmentView;
@@ -152,10 +152,9 @@
 }
 
 #pragma mark - GNZSlidingSegmentView Delegate
-//- (void)slidingSegmentView:(GNZSlidingSegmentView *)slidingSegmentView segmentDidChange:(NSUInteger)newSegmentIndex {
-//
-//    [self.headerView didChangeSegmentSelection];
-//}
+- (void)slidingSegmentView:(GNZSlidingSegmentView *)slidingSegmentView segmentDidChange:(NSUInteger)newSegmentIndex {
+    [self.headerView didChangeSegmentSelection:newSegmentIndex];
+}
 
 
 @end

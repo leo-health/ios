@@ -14,6 +14,6 @@
 
 - (instancetype)initWithPatients:(NSArray *)patients;
 - (GNZSegmentedControl *)segmentedControl;
-- (void)didChangeSegmentSelection:(id)sender;
+- (void)didChangeSegmentSelection:(NSUInteger)segmentIndex;
 
 @end

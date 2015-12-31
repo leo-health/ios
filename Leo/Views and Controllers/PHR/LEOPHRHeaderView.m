@@ -55,6 +55,7 @@
         LEOPatientSelectorView *strongPatientSelectorView = [[LEOPatientSelectorView alloc] initWithPatients:self.patients];
 
         _patientSelectorView = strongPatientSelectorView;
+
         [self addSubview:_patientSelectorView];
 
         _patientSelectorView.backgroundColor = [UIColor leo_orangeRed];
@@ -107,7 +108,7 @@
     return CGSizeMake(UIViewNoIntrinsicMetric, height);
 }
 
-//- (void)didChangeSegmentSelection {
-//    [self.patientSelectorView didChangeSegmentSelection:nil];
-//}
+- (void)didChangeSegmentSelection:(NSUInteger)segmentIndex {
+    [self.patientSelectorView didChangeSegmentSelection:segmentIndex];
+}
 @end

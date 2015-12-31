@@ -8,10 +8,20 @@
 
 #import "GNZSlidingSegmentView.h"
 
+typedef NS_ENUM(NSUInteger, ScrollDirection) {
+
+    ScrollDirectionLeft = 1,
+    ScrollDirectionRight = 2
+};
+
 @interface GNZSlidingSegmentView () <UIScrollViewDelegate>
 @property (weak, nonatomic) UIScrollView *scrollView;
 @property (nonatomic) id<GNZSegment> feedSelectorControl;
 @property (nonatomic) BOOL alreadyUpdatedConstraints;
+@property (nonatomic) CGFloat lastContentOffsetX;
+@property (nonatomic) NSInteger currentPage;
+@property (nonatomic) BOOL isResponsibleForSegmentChange;
+@property (nonatomic) ScrollDirection lastScrollDirection;
 
 @end
 @implementation GNZSlidingSegmentView
@@ -110,24 +120,73 @@
 }
 
 #pragma mark - UIScrollView Delegate
+
+-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+
+    self.lastContentOffsetX = scrollView.contentOffset.x;
+    self.currentPage = [self currentPageForScrollView:scrollView];
+    self.isResponsibleForSegmentChange = YES;
+
+}
+
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    self.feedSelectorControl.selectedSegmentIndex = [self currentPageForScrollView:scrollView];
-    if ([self.feedSelectorControl respondsToSelector:@selector(adjustIndicatorForScroll:)])
-        [(id <GNZSegment>)self.feedSelectorControl adjustIndicatorForScroll:scrollView];
+
+    ScrollDirection currentScrollDirection;
+
+    if (scrollView.contentOffset.x > self.lastContentOffsetX) {
+        self.lastScrollDirection = ScrollDirectionRight;
+        currentScrollDirection = ScrollDirectionRight;
+    }
+
+    if (scrollView.contentOffset.x < self.lastContentOffsetX) {
+        self.lastScrollDirection = ScrollDirectionLeft;
+        currentScrollDirection = ScrollDirectionLeft;
+    }
+
+    if (self.isResponsibleForSegmentChange) {
+        if (currentScrollDirection == ScrollDirectionRight) {
+
+            NSLog(@"current page: %d", self.currentPage);
+            NSLog(@"currentPageForScrollView: %d", [self currentPageForScrollView:scrollView] );
+
+            if (!([self currentPageForScrollView:scrollView] == self.currentPage)) {
+                self.feedSelectorControl.selectedSegmentIndex ++;
+                NSLog(@"Selector did increment!");
+                self.currentPage = [self currentPageForScrollView:scrollView];
+
+                if ([self.feedSelectorControl respondsToSelector:@selector(adjustIndicatorForScroll:)]) {
+                    [(id <GNZSegment>)self.feedSelectorControl adjustIndicatorForScroll:scrollView];
+                }
+            }
+        } else if (currentScrollDirection == ScrollDirectionLeft) {
+
+            if (!([self currentPageForScrollView:scrollView] == self.currentPage)) {
+                self.feedSelectorControl.selectedSegmentIndex --;
+                self.currentPage = [self currentPageForScrollView:scrollView];
+
+                if ([self.feedSelectorControl respondsToSelector:@selector(adjustIndicatorForScroll:)]) {
+                    [(id <GNZSegment>)self.feedSelectorControl adjustIndicatorForScroll:scrollView];
+                }
+            }
+        }
+    }
+
+    self.lastScrollDirection = currentScrollDirection;
+    self.lastContentOffsetX = scrollView.contentOffset.x;
+
+
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    //    NSLog(@"decel end, page %@", @([self currentPageForScrollView:scrollView]));
-    //    NSLog(@"correct page %lu", [self.feedSelectorControl selectedSegmentIndex]);
 
     [self.delegate slidingSegmentView:self segmentDidChange:[self.feedSelectorControl selectedSegmentIndex]];
+    self.isResponsibleForSegmentChange = NO;
 }
 
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
-    //    NSLog(@"scroll animation end, page %@",@([self currentPageForScrollView:scrollView]));
-    //    NSLog(@"correct page %lu", [self.feedSelectorControl selectedSegmentIndex]);
 
     [self.delegate slidingSegmentView:self segmentDidChange:[self.feedSelectorControl selectedSegmentIndex]];
+    self.isResponsibleForSegmentChange = NO;
 }
 
 - (NSInteger) currentPageForScrollView:(UIScrollView *)scrollView

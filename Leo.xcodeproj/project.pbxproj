@@ -1836,6 +1836,7 @@
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 2015.12.09.12.19;
 				ENABLE_TESTABILITY = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				ONLY_ACTIVE_ARCH = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1933,6 +1934,7 @@
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 2015.12.09.12.19;
 				ENABLE_TESTABILITY = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				ONLY_ACTIVE_ARCH = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1979,6 +1981,7 @@
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 2015.12.09.12.19;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Testflight;
@@ -2022,6 +2025,7 @@
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 2015.12.09.12.19;
 				ENABLE_TESTABILITY = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				ONLY_ACTIVE_ARCH = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -2032,6 +2036,7 @@
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 2015.12.09.12.19;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

@@ -38,6 +38,8 @@ NSString * const GNZSegmentOptionIndicatorColor = @"SEGMENT_INDICATOR_COLOR";
 #pragma mark - Initializers
 - (instancetype)initWithSegmentCount:(NSUInteger)count indicatorStyle:(GNZIndicatorStyle)style options:(NSDictionary<NSString *,UIColor *> *)segmentOptions {
     if (self = [super initWithFrame:CGRectZero]) {
+
+
         _indicatorStyle = style;
         _elevatorHeightConstraints = [NSMutableArray new];
         _controlBackgroundColor = segmentOptions[GNZSegmentOptionControlBackgroundColor];
@@ -45,6 +47,7 @@ NSString * const GNZSegmentOptionIndicatorColor = @"SEGMENT_INDICATOR_COLOR";
         _segmentSelectedColor = segmentOptions[GNZSegmentOptionSelectedSegmentTintColor];
         _indicatorColor = segmentOptions[GNZSegmentOptionIndicatorColor];
         _segmentCount = count;
+
 
         [self commonInit];
     }
@@ -55,6 +58,8 @@ NSString * const GNZSegmentOptionIndicatorColor = @"SEGMENT_INDICATOR_COLOR";
 - (void)commonInit {
 
     self.backgroundColor = self.controlBackgroundColor;
+    _selectedSegmentIndex = 0;
+    [self activateSelectedSegment];
 }
 
 #pragma mark - Layout and Defaults
@@ -99,8 +104,7 @@ NSString * const GNZSegmentOptionIndicatorColor = @"SEGMENT_INDICATOR_COLOR";
             if (leftMostButton) {
 
                 views = NSDictionaryOfVariableBindings(segmentButton);
-                [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(25)-[segmentButton]" options:0 metrics:nil views:views]];
-                [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[segmentButton]|" options:0 metrics:nil views:views]];
+                [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(13)-[segmentButton]" options:0 metrics:nil views:views]];
             }
 
 
@@ -111,15 +115,16 @@ NSString * const GNZSegmentOptionIndicatorColor = @"SEGMENT_INDICATOR_COLOR";
                 views = NSDictionaryOfVariableBindings(segmentButton, priorSegmentButton);
 
                 //TODO: ZSD remove magic number and make settable by client.
-                [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[priorSegmentButton]-(25)-[segmentButton]" options:0 metrics:nil views:views]];
-                [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[segmentButton]|" options:0 metrics:nil views:views]];
+                [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[priorSegmentButton]-(26)-[segmentButton]" options:0 metrics:nil views:views]];
             }
 
             if (finalButton) {
 
                 views = NSDictionaryOfVariableBindings(segmentButton);
-                [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[segmentButton]-(25)-|" options:0 metrics:nil views:views]];
+                [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[segmentButton]-(13)-|" options:0 metrics:nil views:views]];
             }
+
+            [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[segmentButton(60)]|" options:0 metrics:nil views:views]];
 
         }];
 
@@ -197,8 +202,8 @@ NSString * const GNZSegmentOptionIndicatorColor = @"SEGMENT_INDICATOR_COLOR";
 - (CGRect)selectedSegmentFrameAdjustedForSpacing {
 
     CGRect adjustedSegmentFrame = [self selectedSegmentFrame];
-    adjustedSegmentFrame.origin.x -= 12.5;
-    adjustedSegmentFrame.size.width += 25.0;
+    adjustedSegmentFrame.origin.x -= 13;
+    adjustedSegmentFrame.size.width += 26;
 
     return adjustedSegmentFrame;
 }
@@ -260,15 +265,16 @@ NSString * const GNZSegmentOptionIndicatorColor = @"SEGMENT_INDICATOR_COLOR";
 - (void)segmentTouchedUpInside:(UIButton *)sender {
     NSUInteger previousSelectedSegmentIndex = self.selectedSegmentIndex;
     NSUInteger currentSelectedIndex = [self.segments indexOfObject:sender];
-    
+
     self.selectedSegmentIndex = currentSelectedIndex;
-    
-//    if (currentSelectedIndex != previousSelectedSegmentIndex)
-//    {
-        [self sendActionsForControlEvents:UIControlEventValueChanged];
-//    }
+    [self sendActionsForControlEvents:UIControlEventValueChanged];
 }
 
+//- (void)segmentChanged:(UIButton *)sender {
+//
+//    NSUInteger currentSelectedIndex = [self.segments indexOfObject:sender];
+//    self.selectedSegmentIndex = currentSelectedIndex;
+//}
 
 #pragma mark - Set Segment Properties
 - (void)setTitle:(NSString *)title forSegmentAtIndex:(NSUInteger)segment {
@@ -345,21 +351,5 @@ NSString * const GNZSegmentOptionIndicatorColor = @"SEGMENT_INDICATOR_COLOR";
         constraint.constant = MAX(0, constant);
     }
 }
-
-//-(CGSize)intrinsicContentSize {
-//
-//    CGFloat width = ([self.segments count] - 1) * 25;
-//    CGFloat height;
-//
-//    for (UIButton *button in self.segments) {
-//
-//        width += CGRectGetWidth(button.bounds);
-//        height = MAX(height, CGRectGetHeight(button.bounds));
-//    }
-//
-//    NSLog(@"width: %f", width);
-//    NSLog(@"height: %f", height);
-//    return CGSizeMake(width, MAX(self.controlHeight, height));
-//}
 
 @end

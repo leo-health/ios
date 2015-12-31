@@ -29,11 +29,4 @@
     return CGSizeMake(CGRectGetWidth([UIScreen mainScreen].bounds), 150);
 }
 
-//- (void)connectSegmentedControl {
-//    if (_feedSelectorControl != [self.dataSource segmentedControlForSlidingSegmentView:self]) {
-//        _feedSelectorControl = [self.dataSource segmentedControlForSlidingSegmentView:self];
-//        [(id)_feedSelectorControl addTarget:self action:@selector(segmentSelectionDidChange:) forControlEvents:UIControlEventValueChanged];
-//        self.scrollView.delegate = self;
-//    }
-//}
 @end

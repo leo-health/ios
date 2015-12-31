@@ -1,5 +1,5 @@
 //
-//  LEOChildSelectorView.m
+//  LEOPatientSelectorView.m
 //  Leo
 //
 //  Created by Zachary Drossman on 12/27/15.
@@ -18,6 +18,7 @@
 @property (weak, nonatomic) UIView *contentView;
 @property (nonatomic) BOOL alreadyUpdatedConstraints;
 @property (weak, nonatomic) GNZSegmentedControl *segmentedControl;
+@property (nonatomic) BOOL isResponsibleForSegmentChange;
 
 @end
 
@@ -56,33 +57,44 @@ static const CGFloat kSelectorViewHeight = 32.0;
 
         _segmentedControl.customIndicatorAnimatorBlock = ^void(UIScrollView *scrollView) {
 
-            CGFloat leftEdgeOfScrollViewForSegment = [_segmentedControl selectedSegmentIndex]/_segmentedControl.numberOfSegments * CGRectGetWidth(scrollView.frame);
-            CGFloat rightEdgeOfScrollViewForSegment = ([_segmentedControl selectedSegmentIndex] + 1)/_segmentedControl.numberOfSegments * CGRectGetWidth(scrollView.frame);
-
             CGRect selectedSegmentRect = [self.segmentedControl selectedSegmentFrameAdjustedForSpacing];
 
+            //TODO: ZSD Consider using convertRect:toView: instead of the below to calculate visibleRect.
 
-            self.contentOffset = percentCompleteSegmentViewTransition * CGRectGetWidth(selectedSegmentRect);
+            CGRect visibleRect;
+            visibleRect.origin = self.contentOffset;
+            visibleRect.size = self.bounds.size;
 
+            float theScale = 1.0;
+            visibleRect.origin.x *= theScale;
+            visibleRect.origin.y *= theScale;
+            visibleRect.size.width *= theScale;
+            visibleRect.size.height *= theScale;
 
+            BOOL segmentIsFullyOnScreen = CGRectContainsRect(visibleRect, selectedSegmentRect);
 
-//            
-//
-//
-//            CGFloat percentOfSegmentOnToBeOnScreen;
-//
-//            if (scrollView.contentOffset.x > rightEdgeOfScrollViewForSegment) {
-//                percentOfSegmentOnToBeOnScreen = (scrollView.contentOffset.x - leftEdgeOfScrollViewForSegment) / scrollView.contentOffset.x;
-//            }
-//
-//
-//            CGRect animationRect = selectedSegmentRect;
-//            animationRect.origin.x =
-//
-//            self.contentOffset = 
-////            [self scrollRectToVisible:animationRect animated:YES];
+            if (!segmentIsFullyOnScreen) {
+
+                CGRect onScreenRectOfSelectedSegment = CGRectIntersection(visibleRect, selectedSegmentRect);
+
+                CGFloat onScreenWidthPortionOfSelectedSegmentRect = CGRectGetWidth(onScreenRectOfSelectedSegment);
+
+                CGFloat widthOfSelectedSegmentRect = CGRectGetWidth(selectedSegmentRect);
+
+                CGFloat remainingPortionOfSegmentViewToTransitionOnScreen = (widthOfSelectedSegmentRect - onScreenWidthPortionOfSelectedSegmentRect) / widthOfSelectedSegmentRect;
+
+                CGFloat contentOffsetX;
+
+                if (onScreenRectOfSelectedSegment.origin.x > selectedSegmentRect.origin.x) {
+                    contentOffsetX = -remainingPortionOfSegmentViewToTransitionOnScreen * CGRectGetWidth(selectedSegmentRect) + self.contentOffset.x;
+                } else {
+                    contentOffsetX = remainingPortionOfSegmentViewToTransitionOnScreen * CGRectGetWidth(selectedSegmentRect) + self.contentOffset.x;
+                }
+
+                [self setContentOffset:CGPointMake(contentOffsetX, self.contentOffset.y) animated:YES];
+            }
         };
-
+        
         [self.contentView addSubview:_segmentedControl];
 
         [self.patients enumerateObjectsUsingBlock:^(id  _Nonnull patient, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -151,6 +163,19 @@ static const CGFloat kSelectorViewHeight = 32.0;
     [super updateConstraints];
 }
 
+-(void)layoutSubviews {
+
+    [super layoutSubviews];
+
+    CGFloat leftInset = (CGRectGetWidth(self.bounds) - CGRectGetWidth(self.contentView.bounds)) / 2.0;
+
+    if (leftInset > 0) {
+        self.contentInset = UIEdgeInsetsMake(0, leftInset, 0, 0);
+    }
+
+    [super layoutSubviews];
+}
+
 - (NSArray *)createPatientButtons {
 
     NSMutableArray<UIButton *> *patientButtons = [NSMutableArray new];
@@ -172,10 +197,8 @@ static const CGFloat kSelectorViewHeight = 32.0;
 
 #pragma mark - Actions
 
-- (void)didChangeSegmentSelection:(id)sender {
-
-    CGRect selectedSegmentRect = [self.segmentedControl selectedSegmentFrameAdjustedForSpacing];
-    [self scrollRectToVisible:selectedSegmentRect animated:YES];
+- (void)didChangeSegmentSelection:(NSUInteger)segmentIndex {
+        [self.segmentedControl adjustIndicatorForScroll:self];
 }
 
 

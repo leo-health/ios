@@ -44,5 +44,7 @@ typedef void(^CustomIndicatorAnimatorBlock)(UIScrollView *scrollView);
 - (CGRect)selectedSegmentFrame;
 - (CGRect)selectedSegmentFrameAdjustedForSpacing;
 
+//- (void)segmentChanged:(UIButton *)sender;
+
 @end
 NS_ASSUME_NONNULL_END
