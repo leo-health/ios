@@ -60,6 +60,7 @@ static NSString *const kSelectionVCProviderKey = @"provider";
 static NSString *const kProviderCell = @"ProviderCell";
 static NSString *const kProviderPrompt = @"Who would you like to see?";
 static NSString *const kScheduleSegue = @"ScheduleSegue";
+static NSString *const kSelectionVCProviderKey = @"date";
 
 
 @interface LEOAppointmentViewController ()
@@ -392,19 +393,19 @@ static NSString *const kScheduleSegue = @"ScheduleSegue";
 
 -(void)didUpdateItem:(id)item forKey:(NSString *)key {
 
-    if ([key isEqualToString:@"appointmentType"]) {
+    if ([key isEqualToString:kAppointmentType]) {
         self.appointmentView.appointmentType = item;
     }
 
-    else if ([key isEqualToString:@"patient"]) {
+    else if ([key isEqualToString:kSelectionVCPatientKey]) {
         self.appointmentView.patient = item;
     }
 
-    else if ([key isEqualToString:@"provider"]) {
+    else if ([key isEqualToString:kSelectionVCProviderKey]) {
         self.appointmentView.provider = item;
     }
 
-    else if ([key isEqualToString:@"date"]) {
+    else if ([key isEqualToString:kSelectionVCDateKey]) {
         self.appointmentView.date = item;
     }
 

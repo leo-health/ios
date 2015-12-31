@@ -12,7 +12,6 @@
 #import <TPKeyboardAvoidingScrollView.h>
 #import "LEOGradientView.h"
 
-CGFloat const kTitleHeight = 150;
 CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 
 @interface LEOStickyHeaderView ()

@@ -77,7 +77,6 @@
     if (!_gradientLayer) {
         CAGradientLayer *strongLayer = [CAGradientLayer layer];
         _gradientLayer = strongLayer;
-        self.layer.shouldRasterize = YES;
         [self.layer addSublayer:_gradientLayer];
     }
     
