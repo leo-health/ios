@@ -10,13 +10,15 @@
 
 @interface LEOGradientView : UIView
 
-// gradient animation
+@property (nonatomic, readonly) CGRect gradientLayerBounds;
+
+// gradient animation parameters
 @property (strong, nonatomic) NSArray *colors;
 @property (nonatomic) CGPoint initialStartPoint;
 @property (nonatomic) CGPoint initialEndPoint;
 @property (nonatomic) CGPoint finalStartPoint;
 @property (nonatomic) CGPoint finalEndPoint;
-@property (nonatomic, readonly) CGRect gradientLayerBounds;
+
 @property (nonatomic) CGFloat currentTransitionPercentage;
 
 // title label
@@ -24,6 +26,8 @@
 @property (strong, nonatomic) UIColor *titleTextColor;
 @property (strong, nonatomic) UIFont *titleTextFont;
 
-- (void)resetDefaultStylingForTitleLabel;
+-(instancetype)initWithColors:(NSArray *)colors initialStartPoint:(CGPoint)initialStartPoint initialEndPoint:(CGPoint)initialEndPoint finalStartPoint:(CGPoint)finalStartPoint finalEndPoint:(CGPoint)finalEndPoint;
+
+-(void)resetDefaultStylingForTitleLabel;
 
 @end

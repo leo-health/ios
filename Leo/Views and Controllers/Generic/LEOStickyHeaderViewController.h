@@ -16,11 +16,13 @@
 
 @property (nonatomic) Feature feature;
 
-@property (strong, nonatomic) LEOStickyHeaderView *stickyHeaderView;
+@property (strong, nonatomic, readonly) LEOStickyHeaderView *stickyHeaderView;
 
 @property (nonatomic, getter=isCollapsable) BOOL collapsable;
-@property (nonatomic, getter=isCollapsed) BOOL collapsed;
-@property (nonatomic) CGPoint scrollViewContentOffset;
+@property (nonatomic, readonly, getter=isCollapsed) BOOL collapsed;
+@property (nonatomic, readonly) CGPoint scrollViewContentOffset;
+
+-(instancetype)initWithFeature:(Feature)feature collapsable:(BOOL)collapsable collapsedHeight:(CGFloat)collapsedHeight;
 
 -(void)addAnimationToNavBar:(void(^)())animations;
 -(CGFloat)transitionPercentageForScrollOffset:(CGPoint)offset;

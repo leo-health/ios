@@ -40,6 +40,28 @@
 #import "LEOGradientView.h"
 #import "LEOAppointmentService.h"
 
+static NSString *const kCopySubmitAppointment = @"CONFIRM VISIT";
+
+// Appointment Segue constants
+static NSString *const kVisitTypeSegue = @"VisitTypeSegue";
+static NSString *const kAppointmentType = @"appointmentType";
+static NSString *const kAppointmentTypeCell = @"AppointmentTypeCell";
+static NSString *const kTypeOfVisitPrompt = @"What type of visit is this?";
+
+// Patient segue constants
+static NSString *const kPatientSegue = @"PatientSegue";
+static NSString *const kSelectionVCPatientKey = @"patient";
+static NSString *const kPatientCell = @"PatientCell";
+static NSString *const kPatientPrompt = @"Who is the visit for?";
+
+// Staff/Schedule segue constants
+static NSString *const kStaffSegue = @"StaffSegue";
+static NSString *const kSelectionVCProviderKey = @"provider";
+static NSString *const kProviderCell = @"ProviderCell";
+static NSString *const kProviderPrompt = @"Who would you like to see?";
+static NSString *const kScheduleSegue = @"ScheduleSegue";
+
+
 @interface LEOAppointmentViewController ()
 
 @property (weak, nonatomic) LEOAppointmentView *appointmentView;
@@ -199,8 +221,12 @@
 
         LEOGradientView *strongView = [LEOGradientView new];
         _gradientView = strongView;
-        _gradientView.colors = @[(id)[UIColor whiteColor].CGColor, (id)[UIColor blackColor].CGColor, (id)[UIColor redColor].CGColor];
+        _gradientView.colors = @[(id)[UIColor leo_green].CGColor, (id)[UIColor leo_white].CGColor];
         _gradientView.titleText = self.card.title;
+
+        NSNumber *_height = @150;
+        NSArray *heightConstraint = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_gradientView(==_height)]" options:0 metrics:NSDictionaryOfVariableBindings(_height) views:NSDictionaryOfVariableBindings(_gradientView)];
+        [_gradientView addConstraints:heightConstraint];
     }
 
     return _gradientView;
@@ -219,7 +245,11 @@
 
         [LEOStyleHelper styleSubmissionButton:_submissionButton forFeature:self.feature];
         [_submissionButton addTarget:self action:@selector(submitCardUpdates) forControlEvents:UIControlEventTouchUpInside];
-        [_submissionButton setTitle:@"CONFIRM VISIT" forState:UIControlStateNormal];
+        [_submissionButton setTitle:kCopySubmitAppointment forState:UIControlStateNormal];
+
+        NSNumber *_height = @44;
+        NSArray *heightConstraint = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_submissionButton(==_height)]" options:0 metrics:NSDictionaryOfVariableBindings(_height) views:NSDictionaryOfVariableBindings(_submissionButton)];
+        [_submissionButton addConstraints:heightConstraint];
     }
 
     return _submissionButton;
@@ -274,11 +304,11 @@
 
     LEOBasicSelectionViewController *selectionVC = segue.destinationViewController;
 
-    if ([segue.identifier isEqualToString:@"VisitTypeSegue"]) {
+    if ([segue.identifier isEqualToString:kVisitTypeSegue]) {
 
-        selectionVC.key = @"appointmentType";
-        selectionVC.reuseIdentifier = @"AppointmentTypeCell";
-        selectionVC.titleText = @"What type of visit is this?";
+        selectionVC.key = kAppointmentType;
+        selectionVC.reuseIdentifier = kAppointmentTypeCell;
+        selectionVC.titleText = kTypeOfVisitPrompt;
 
         selectionVC.configureCellBlock = ^(AppointmentTypeCell *cell, AppointmentType *appointmentType) {
             cell.selectedColor = self.card.tintColor;
@@ -296,11 +326,12 @@
 
         selectionVC.requestOperation = [[LEOAPIAppointmentTypesOperation alloc] init];
         selectionVC.delegate = self;
-    } else if ([segue.identifier isEqualToString:@"PatientSegue"]) {
 
-        selectionVC.key = @"patient";
-        selectionVC.reuseIdentifier = @"PatientCell";
-        selectionVC.titleText = @"Who is the visit for?";
+    } else if ([segue.identifier isEqualToString:kPatientSegue]) {
+
+        selectionVC.key = kSelectionVCPatientKey;
+        selectionVC.reuseIdentifier = kPatientCell;
+        selectionVC.titleText = kPatientPrompt;
 
         selectionVC.configureCellBlock = ^(PatientCell *cell, Patient *patient) {
 
@@ -319,11 +350,12 @@
 
         selectionVC.requestOperation = [[LEOAPIFamilyOperation alloc] init];
         selectionVC.delegate = self;
-    } else if ([segue.identifier isEqualToString:@"StaffSegue"]) {
 
-        selectionVC.key = @"provider";
-        selectionVC.reuseIdentifier = @"ProviderCell";
-        selectionVC.titleText = @"Who would you like to see?";
+    } else if ([segue.identifier isEqualToString:kStaffSegue]) {
+
+        selectionVC.key = kSelectionVCProviderKey;
+        selectionVC.reuseIdentifier = kProviderCell;
+        selectionVC.titleText = kProviderPrompt;
         selectionVC.feature = FeatureAppointmentScheduling;
         selectionVC.configureCellBlock = ^(ProviderCell *cell, Provider *provider) {
 
@@ -344,7 +376,7 @@
         selectionVC.delegate = self;
     }
 
-    if ([segue.identifier isEqualToString:@"ScheduleSegue"]) {
+    if ([segue.identifier isEqualToString:kScheduleSegue]) {
 
         LEOCalendarViewController *calendarVC = segue.destinationViewController;
 

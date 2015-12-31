@@ -21,6 +21,21 @@
 
 @implementation LEOGradientView
 
+-(instancetype)initWithColors:(NSArray *)colors initialStartPoint:(CGPoint)initialStartPoint initialEndPoint:(CGPoint)initialEndPoint finalStartPoint:(CGPoint)finalStartPoint finalEndPoint:(CGPoint)finalEndPoint titleText:(NSString*)titleText {
+
+    self = [super init];
+    if (self) {
+
+        self.colors = colors;
+        self.initialStartPoint = initialStartPoint;
+        self.initialEndPoint = initialEndPoint;
+        self.finalStartPoint = finalStartPoint;
+        self.finalEndPoint = finalEndPoint;
+        self.titleText = titleText;
+    }
+    return self;
+}
+
 - (UILabel *)expandedTitleLabel {
 
     if (!_expandedTitleLabel) {
@@ -99,10 +114,23 @@
         _currentTransitionPercentage = 1;
     }
 
-    self.gradientLayer.startPoint = CGPointMake(self.initialStartPoint.x + _currentTransitionPercentage * (self.finalStartPoint.x - self.initialStartPoint.x),
-                                                self.initialStartPoint.y + _currentTransitionPercentage * (self.finalStartPoint.y - self.initialStartPoint.y));
-    self.gradientLayer.endPoint = CGPointMake(self.initialEndPoint.x + _currentTransitionPercentage * (self.finalEndPoint.x - self.initialEndPoint.x),
-                                              self.initialEndPoint.y + _currentTransitionPercentage * (self.finalEndPoint.y - self.initialEndPoint.y));
+    CGPoint newStart = CGPointMake(self.initialStartPoint.x + _currentTransitionPercentage * (self.finalStartPoint.x - self.initialStartPoint.x),
+                                   self.initialStartPoint.y + _currentTransitionPercentage * (self.finalStartPoint.y - self.initialStartPoint.y));
+    CGPoint newEnd = CGPointMake(self.initialEndPoint.x + _currentTransitionPercentage * (self.finalEndPoint.x - self.initialEndPoint.x),
+                self.initialEndPoint.y + _currentTransitionPercentage * (self.finalEndPoint.y - self.initialEndPoint.y));
+
+    CABasicAnimation *startAnimation = [CABasicAnimation animationWithKeyPath:@"startPoint"];
+    startAnimation.fromValue = [NSValue valueWithCGPoint:self.gradientLayer.startPoint];
+    startAnimation.toValue = [NSValue valueWithCGPoint:newStart];
+    self.gradientLayer.startPoint = newStart;
+    [self.gradientLayer addAnimation:startAnimation forKey:@"startPoint"];
+
+    CABasicAnimation *endAnimation = [CABasicAnimation animationWithKeyPath:@"endPoint"];
+    endAnimation.duration = 0;
+    endAnimation.fromValue = [NSValue valueWithCGPoint:self.gradientLayer.endPoint];
+    endAnimation.toValue = [NSValue valueWithCGPoint:newEnd];
+    self.gradientLayer.endPoint = newEnd;
+    [self.gradientLayer addAnimation:endAnimation forKey:@"endPoint"];
 
     self.expandedTitleLabel.alpha = 1 - currentTransitionPercentage;
 }
@@ -113,7 +141,6 @@
 
     if (!self.constraintsAlreadyUpdated) {
 
-        [self removeConstraints:self.constraints];
         self.expandedTitleLabel.translatesAutoresizingMaskIntoConstraints = NO;
 
         NSDictionary* viewDictionary = NSDictionaryOfVariableBindings(_expandedTitleLabel);

@@ -22,11 +22,11 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 @property (weak, nonatomic) TPKeyboardAvoidingScrollView *scrollView;
 @property (weak, nonatomic) UIView *titleView;
 @property (strong, nonatomic) NSLayoutConstraint* titleViewTopConstraint;
+@property (strong, nonatomic) NSLayoutConstraint* bodyViewTopConstraint;
 @property (weak, nonatomic) UIView *bodyView;
 @property (weak, nonatomic) UIView *contentView;
 @property (weak, nonatomic) UIView *separatorLine;
 @property (weak, nonatomic) UIView *footerView;
-@property (nonatomic) CGFloat footerHeight;
 
 @end
 
@@ -137,27 +137,18 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 
 - (void)reloadFooterView {
 
-    [self.footerView removeFromSuperview];
+    if ([self.datasource respondsToSelector:@selector(injectFooterView)]) {
+        UIView* strongFooterView = [self.datasource injectFooterView];
 
-    UIView* strongFooterView;
+        if (strongFooterView) {
 
-    if ([self.delegate respondsToSelector:@selector(injectFooterView)]) {
-        strongFooterView = [self.datasource injectFooterView];
+            [self.footerView removeFromSuperview];
+
+            _footerView = strongFooterView;
+            [self addSubview:_footerView];
+            [self setupConstraints];
+        }
     }
-
-    // make footer optional by setting 0 height
-    if (strongFooterView == nil) {
-
-        strongFooterView = [UIView new];
-        self.footerHeight = 0;
-    } else {
-
-        self.footerHeight = 44; // TODO: let the client set this?
-    }
-    _footerView = strongFooterView;
-    [self addSubview:_footerView];
-    [self setupConstraints];
-
 }
 
 - (void)setDatasource:(id<LEOStickyHeaderDataSource>)datasource {
@@ -200,13 +191,14 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
     if (!self.pathLayer) {
         [self setupBreaker];
     }
+    self.bodyViewTopConstraint.constant = CGRectGetHeight(self.titleView.bounds);
+    [super layoutSubviews];
 }
 
 //FIXME: Remove magic numbers / hard coding.
 //TODO: Consider moving autolayout out of a single method into accessor helper methods.
 - (void)setupConstraints {
 
-    [self removeConstraints:self.constraints];
     [self.scrollView removeConstraints:self.scrollView.constraints];
     [self.contentView removeConstraints:self.contentView.constraints];
 
@@ -222,28 +214,30 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
         [self.titleView.superview bringSubviewToFront:self.titleView];
     }
 
-    NSDictionary *viewDictionary = NSDictionaryOfVariableBindings(_titleView, _bodyView, _scrollView, _contentView, _footerView, _separatorLine);
+    NSDictionary *viewDictionary = NSDictionaryOfVariableBindings(_titleView, _bodyView, _scrollView, _contentView, _separatorLine, _footerView);
 
-    NSArray *verticalLayoutConstraintsForScrollView = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_scrollView][_separatorLine(==1)][_footerView(==footerHeight)]|" options:0 metrics:@{@"footerHeight": @(self.footerHeight)} views:viewDictionary];
-    NSArray *horizontalLayoutConstraintsForScrollView = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_scrollView]|" options:0 metrics:nil views:viewDictionary];
+    NSArray *verticalLayoutConstraintsForScrollView = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_scrollView][_separatorLine(==1)][_footerView]|" options:0 metrics:nil views:viewDictionary];
     NSArray *horizontalLayoutConstraintsForButtonView = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_footerView]|" options:0 metrics:nil views:viewDictionary];
+    NSArray *horizontalLayoutConstraintsForScrollView = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_scrollView]|" options:0 metrics:nil views:viewDictionary];
     NSArray *horizontalLayoutConstraintsForSeparatorLineView = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_separatorLine]|" options:0 metrics:nil views:viewDictionary];
 
     [self addConstraints:verticalLayoutConstraintsForScrollView];
     [self addConstraints:horizontalLayoutConstraintsForScrollView];
-    [self addConstraints:horizontalLayoutConstraintsForButtonView];
     [self addConstraints:horizontalLayoutConstraintsForSeparatorLineView];
+    [self addConstraints:horizontalLayoutConstraintsForButtonView];
 
     NSArray *verticalLayoutConstraintsForContentView = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_contentView]|" options:0 metrics:nil views:viewDictionary];
     NSArray *horizontalLayoutConstraintsForContentView = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_contentView]|" options:0 metrics:nil views:viewDictionary];
     [self.scrollView addConstraints:verticalLayoutConstraintsForContentView];
     [self.scrollView addConstraints:horizontalLayoutConstraintsForContentView];
 
+// handled in subview
+//    NSLayoutConstraint *titleHeightConstraint = [NSLayoutConstraint constraintWithItem:_titleView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:kTitleHeight];
 
-    NSLayoutConstraint *titleHeightConstraint = [NSLayoutConstraint constraintWithItem:_titleView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:kTitleHeight];
-    self.titleViewTopConstraint = [NSLayoutConstraint constraintWithItem:_titleView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_contentView attribute:NSLayoutAttributeTop multiplier:1 constant:kTitleViewTopConstraintOriginalConstant];
+    self.titleViewTopConstraint = [NSLayoutConstraint constraintWithItem:self.titleView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1 constant:kTitleViewTopConstraintOriginalConstant];
+    self.bodyViewTopConstraint = [NSLayoutConstraint constraintWithItem:self.bodyView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1 constant:100];
 
-    NSArray *verticalLayoutConstraintsForBodyView = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(titleHeight)-[_bodyView]|" options:0 metrics:@{@"titleHeight" : @(kTitleHeight)} views:viewDictionary];
+    NSArray *verticalLayoutConstraintsForBodyView = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_bodyView]|" options:0 metrics:nil views:viewDictionary];
 
     //TODO: This definitely is not the "right" solution. It is the "work" solution. The hardcoding here cannot be removed with this as the solution. Revisit and think through alternative.
     CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width - 20;
@@ -253,7 +247,8 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 
     [self.contentView addConstraints:horizontalBodyViewConstraints];
     [self.contentView addConstraints:horizontalTitleViewConstraints];
-    [self.contentView addConstraints:@[titleHeightConstraint, self.titleViewTopConstraint]];
+    [self.contentView addConstraint:self.titleViewTopConstraint];
+    [self.contentView addConstraint:self.bodyViewTopConstraint];
     [self.contentView addConstraints:verticalLayoutConstraintsForBodyView];
 }
 
@@ -388,7 +383,6 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
                 scrollView.contentOffset = CGPointMake(0.0, [ self heightOfHeaderCellExcludingOverlapWithNavBar]);
             } completion:^(BOOL finished) {
 
-                NSLog(@"offset up: %@", NSStringFromCGPoint(self.scrollView.contentOffset));
                 [self animateBreakerIfNeeded];
             }];
         }
@@ -401,7 +395,6 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
                 scrollView.contentOffset = CGPointMake(0.0, 0.0);
             } completion:^(BOOL finished) {
 
-                NSLog(@"offset down: %@", NSStringFromCGPoint(self.scrollView.contentOffset));
                 [self animateBreakerIfNeeded];
             }];
         }

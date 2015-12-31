@@ -16,6 +16,20 @@
 
 @implementation LEOStickyHeaderViewController
 
+@synthesize stickyHeaderView = _stickyHeaderView;
+
+-(instancetype)initWithFeature:(Feature)feature collapsable:(BOOL)collapsable collapsedHeight:(CGFloat)collapsedHeight {
+
+    self = [super init];
+    if (self) {
+
+        self.feature = feature;
+        self.collapsable = collapsable;
+        self.stickyHeaderView.snapToHeight = collapsedHeight;
+    }
+    return self;
+}
+
 -(LEOStickyHeaderView *)stickyHeaderView {
 
     if (!_stickyHeaderView) {
