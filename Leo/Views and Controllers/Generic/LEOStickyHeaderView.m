@@ -55,7 +55,8 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 
 - (void)commonInit {
 
-    [self setupBreaker];
+    // default values
+    self.collapsable = YES;
     [self setupSubviews];
     [self setupConstraints];
 }
@@ -174,6 +175,33 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
     self.bodyView.backgroundColor = [UIColor redColor];
 }
 
+#pragma mark - Layout
+-(CGSize)intrinsicContentSize {
+
+    // Force the Scroll view to calculate its height
+    [self.scrollView layoutIfNeeded];
+
+    CGFloat heightWeWouldLikeTheScrollViewContentAreaToBe = [self heightOfScrollViewFrame] + [self heightOfHeaderCellExcludingOverlapWithNavBar];
+
+    if ([self totalHeightOfScrollViewContentArea] > [self heightOfScrollViewFrame] && [self totalHeightOfScrollViewContentArea] < heightWeWouldLikeTheScrollViewContentAreaToBe) {
+
+        CGFloat bottomInsetWeNeedToGetToHeightWeWouldLikeTheScrollViewContentAreaToBe = heightWeWouldLikeTheScrollViewContentAreaToBe - [self totalHeightOfScrollViewContentArea];
+        self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, bottomInsetWeNeedToGetToHeightWeWouldLikeTheScrollViewContentAreaToBe, 0);
+    }
+
+    [self.scrollView layoutIfNeeded];
+
+    return self.scrollView.contentSize;
+}
+
+-(void)layoutSubviews {
+
+    [super layoutSubviews];
+    if (!self.pathLayer) {
+        [self setupBreaker];
+    }
+}
+
 //FIXME: Remove magic numbers / hard coding.
 //TODO: Consider moving autolayout out of a single method into accessor helper methods.
 - (void)setupConstraints {
@@ -231,26 +259,18 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 
 - (void)animateBreakerIfNeeded {
 
-    if ([self hasScrolled]) {
-
-        self.breakerIsOnScreen ? [self fadeBreakerOut] : [self fadeBreakerIn];
+    if ([self isCollapsed] && !self.breakerIsOnScreen) {
+        [self fadeBreakerIn];
+    } else if (![self isCollapsed] && self.breakerIsOnScreen) {
+        [self fadeBreakerOut];
     }
-}
-
-- (BOOL)hasScrolled {
-
-    return [self scrollViewVerticalContentOffset] > 0;
-}
-
--(BOOL)isCollapsed {
-    return [self scrollViewVerticalContentOffset] > [self heightOfHeaderCellExcludingOverlapWithNavBar];
 }
 
 - (void)fadeBreakerOut {
 
     [self updateBreakerWithBlock:^(CABasicAnimation *fadeAnimation) {
 
-        [self fadeAnimation:fadeAnimation fromColor:[UIColor leo_orangeRed] toColor:[UIColor clearColor] withStrokeColor:[UIColor clearColor]];
+        [self fadeAnimation:fadeAnimation fromColor:[LEOStyleHelper tintColorForFeature:self.feature] toColor:[UIColor clearColor]];
     }];
 
     self.breakerIsOnScreen = NO;
@@ -260,7 +280,7 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 
     [self updateBreakerWithBlock:^(CABasicAnimation *fadeAnimation) {
 
-        [self fadeAnimation:fadeAnimation fromColor:[UIColor clearColor] toColor:[UIColor leo_orangeRed] withStrokeColor:[UIColor leo_orangeRed]];
+        [self fadeAnimation:fadeAnimation fromColor:[UIColor clearColor] toColor:[LEOStyleHelper tintColorForFeature:self.feature]];
     }];
 
     self.breakerIsOnScreen = YES;
@@ -268,28 +288,25 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 
 - (void)updateBreakerWithBlock:(void (^) (CABasicAnimation *fadeAnimation))transitionBlock {
 
-    CABasicAnimation *fadeAnimation = [CABasicAnimation animationWithKeyPath:@"breakerFade"];
-    fadeAnimation.duration = 0.3;
+    CABasicAnimation *fadeAnimation = [CABasicAnimation animationWithKeyPath:@"strokeColor"];
+    fadeAnimation.duration = .3;
 
     transitionBlock(fadeAnimation);
 
-    [self.pathLayer addAnimation:fadeAnimation forKey:@"breakerFade"];
+    [self.pathLayer addAnimation:fadeAnimation forKey:@"strokeColor"];
 }
 
-- (void)fadeAnimation:(CABasicAnimation *)fadeAnimation fromColor:(UIColor *)fromColor toColor:(UIColor *)toColor withStrokeColor:(UIColor *)strokeColor {
+- (void)fadeAnimation:(CABasicAnimation *)fadeAnimation fromColor:(UIColor *)fromColor toColor:(UIColor *)toColor {
 
     fadeAnimation.fromValue = (id)fromColor.CGColor;
     fadeAnimation.toValue = (id)toColor.CGColor;
-
-    self.pathLayer.strokeColor = strokeColor.CGColor;
+    self.pathLayer.strokeColor = toColor.CGColor;
 }
 
 - (void)drawBreaker {
 
-    CGRect viewRect = CGRectMake(0, 0, self.bounds.size.width, 88);
-
-    CGPoint beginningOfLine = CGPointMake(viewRect.origin.x, 0);
-    CGPoint endOfLine = CGPointMake(self.bounds.size.width, 0);
+    CGPoint beginningOfLine = CGPointMake(0, [self navBarHeight]);
+    CGPoint endOfLine = CGPointMake(CGRectGetMaxX(self.bounds), [self navBarHeight]);
 
     UIBezierPath *path = [UIBezierPath bezierPath];
     [path moveToPoint:beginningOfLine];
@@ -299,7 +316,7 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
     self.pathLayer.frame = self.bounds;
     self.pathLayer.path = path.CGPath;
     self.pathLayer.strokeColor = [UIColor clearColor].CGColor;
-    self.pathLayer.lineWidth = 1.0f;
+    self.pathLayer.lineWidth = 1.f;
     self.pathLayer.lineJoin = kCALineJoinBevel;
 
     [self.layer addSublayer:self.pathLayer];
@@ -363,42 +380,37 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
     // Note: what is the desired functionality here? Do we want to disable the scrolling animations as well?
     if (self.isCollapsable) {
 
+        // Force collapse
         if ([self scrollViewVerticalContentOffset] > [self heightOfNoReturn] && [self scrollViewVerticalContentOffset] < [self heightOfHeaderCellExcludingOverlapWithNavBar]) {
 
             [UIView animateWithDuration:0.1 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
 
                 scrollView.contentOffset = CGPointMake(0.0, [ self heightOfHeaderCellExcludingOverlapWithNavBar]);
-            } completion:nil];
+            } completion:^(BOOL finished) {
 
-        } else if ([self scrollViewVerticalContentOffset] < [self heightOfNoReturn]) {
+                NSLog(@"offset up: %@", NSStringFromCGPoint(self.scrollView.contentOffset));
+                [self animateBreakerIfNeeded];
+            }];
+        }
+
+        // Force expand
+        else if ([self scrollViewVerticalContentOffset] < [self heightOfNoReturn]) {
 
             [UIView animateWithDuration:0.1 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
 
                 scrollView.contentOffset = CGPointMake(0.0, 0.0);
-            } completion:nil];
+            } completion:^(BOOL finished) {
+
+                NSLog(@"offset down: %@", NSStringFromCGPoint(self.scrollView.contentOffset));
+                [self animateBreakerIfNeeded];
+            }];
         }
     }
 }
 
-#pragma mark - Layout
--(CGSize)intrinsicContentSize {
-
-    // Force the Scroll view to calculate its height
-    [self.scrollView layoutIfNeeded];
-
-    CGFloat heightWeWouldLikeTheScrollViewContentAreaToBe = [self heightOfScrollViewFrame] + [self heightOfHeaderCellExcludingOverlapWithNavBar];
-
-    if ([self totalHeightOfScrollViewContentArea] > [self heightOfScrollViewFrame] && [self totalHeightOfScrollViewContentArea] < heightWeWouldLikeTheScrollViewContentAreaToBe) {
-
-        CGFloat bottomInsetWeNeedToGetToHeightWeWouldLikeTheScrollViewContentAreaToBe = heightWeWouldLikeTheScrollViewContentAreaToBe - [self totalHeightOfScrollViewContentArea];
-        self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, bottomInsetWeNeedToGetToHeightWeWouldLikeTheScrollViewContentAreaToBe, 0);
-    }
-
-    [self.scrollView layoutIfNeeded];
-
-    return self.scrollView.contentSize;
+-(BOOL)isCollapsed {
+    return [self scrollViewVerticalContentOffset] >= [self heightOfHeaderCellExcludingOverlapWithNavBar];
 }
-
 
 #pragma mark - Shorthand Helpers
 

@@ -199,7 +199,7 @@
 
         LEOGradientView *strongView = [LEOGradientView new];
         _gradientView = strongView;
-        _gradientView.colors = @[(id)[UIColor whiteColor].CGColor, (id)[UIColor blackColor].CGColor];
+        _gradientView.colors = @[(id)[UIColor whiteColor].CGColor, (id)[UIColor blackColor].CGColor, (id)[UIColor redColor].CGColor];
         _gradientView.titleText = self.card.title;
     }
 
@@ -261,7 +261,6 @@
 }
 
 -(Appointment *)appointment {
-
     return self.appointmentView.appointment;
 }
 
@@ -428,28 +427,6 @@
     [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
     }];
 }
-
-
-//- (id<UIViewControllerAnimatedTransitioning>)
-//navigationController:(UINavigationController *)navigationController
-//animationControllerForOperation:(UINavigationControllerOperation)operation
-//fromViewController:(UIViewController*)fromVC
-//toViewController:(UIViewController*)toVC
-//{
-//    if (operation == UINavigationControllerOperationPush) {
-//
-//        LEONavigationControllerPushAnimator *animator = [LEONavigationControllerPushAnimator new];
-//        return animator;
-//    }
-//
-//    if (operation == UINavigationControllerOperationPop) {
-//
-//        LEONavigationControllerPopAnimator *animator = [LEONavigationControllerPopAnimator new];
-//        return animator;
-//    }
-//
-//    return nil;
-//}
 
 
 @end

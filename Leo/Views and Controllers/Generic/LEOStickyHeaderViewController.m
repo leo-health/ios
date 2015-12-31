@@ -79,4 +79,13 @@
     return self.stickyHeaderView.scrollViewContentOffset;
 }
 
+-(Feature)feature {
+    return self.stickyHeaderView.feature;
+}
+
+-(void)setFeature:(Feature)feature {
+    self.stickyHeaderView.feature = feature;
+}
+
+
 @end

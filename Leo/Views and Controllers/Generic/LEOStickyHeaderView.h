@@ -27,6 +27,7 @@ typedef void(^SubmitBlock)(void);
 
 @interface LEOStickyHeaderView : UIView <UITextViewDelegate, UITextFieldDelegate>
 
+@property (nonatomic) Feature feature;
 @property (nonatomic, getter=isCollapsable) BOOL collapsable;
 @property (nonatomic, getter=isCollapsed) BOOL collapsed;
 @property (nonatomic) CGFloat snapToHeight;

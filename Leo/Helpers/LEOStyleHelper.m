@@ -93,8 +93,12 @@
 }
 
 + (void)styleNavigationBarShadowLineForViewController:(UIViewController *)viewController feature:(Feature)feature {
-    
-    [viewController.navigationController.navigationBar setShadowImage:[UIImage leo_imageWithColor:[self tintColorForFeature:feature]]];
+
+    if (feature == FeatureAppointmentScheduling) {
+        viewController.navigationController.navigationBar.shadowImage = [UIImage new];
+    } else {
+        [viewController.navigationController.navigationBar setShadowImage:[UIImage leo_imageWithColor:[self tintColorForFeature:feature]]];
+    }
 }
 
 + (void)styleExpandedTitleLabel:(UILabel *)label titleText:(NSString *)titleText {
