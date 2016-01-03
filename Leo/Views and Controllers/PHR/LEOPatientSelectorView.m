@@ -75,6 +75,8 @@ static const CGFloat kSelectorViewHeight = 32.0;
 
             if (!segmentIsFullyOnScreen) {
 
+                NSLog(@"Segment Index Animating On Screen: %lu", [_segmentedControl selectedSegmentIndex]);
+
                 CGRect onScreenRectOfSelectedSegment = CGRectIntersection(visibleRect, selectedSegmentRect);
 
                 CGFloat onScreenWidthPortionOfSelectedSegmentRect = CGRectGetWidth(onScreenRectOfSelectedSegment);
@@ -91,7 +93,12 @@ static const CGFloat kSelectorViewHeight = 32.0;
                     contentOffsetX = remainingPortionOfSegmentViewToTransitionOnScreen * CGRectGetWidth(selectedSegmentRect) + self.contentOffset.x;
                 }
 
-                [self setContentOffset:CGPointMake(contentOffsetX, self.contentOffset.y) animated:YES];
+                [UIView animateWithDuration:0.1 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+                    [self setContentOffset:CGPointMake(contentOffsetX, self.contentOffset.y) animated:NO];
+                } completion:^(BOOL finished) {
+                   
+                }];
+
             }
         };
         

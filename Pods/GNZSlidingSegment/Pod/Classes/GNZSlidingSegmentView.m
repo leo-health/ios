@@ -146,12 +146,12 @@ typedef NS_ENUM(NSUInteger, ScrollDirection) {
     if (self.isResponsibleForSegmentChange) {
         if (currentScrollDirection == ScrollDirectionRight) {
 
-            NSLog(@"current page: %d", self.currentPage);
-            NSLog(@"currentPageForScrollView: %d", [self currentPageForScrollView:scrollView] );
+//            NSLog(@"current page: %d", self.currentPage);
+//            NSLog(@"currentPageForScrollView: %d", [self currentPageForScrollView:scrollView] );
 
             if (!([self currentPageForScrollView:scrollView] == self.currentPage)) {
                 self.feedSelectorControl.selectedSegmentIndex ++;
-                NSLog(@"Selector did increment!");
+//                NSLog(@"Selector did increment!");
                 self.currentPage = [self currentPageForScrollView:scrollView];
 
                 if ([self.feedSelectorControl respondsToSelector:@selector(adjustIndicatorForScroll:)]) {
@@ -173,8 +173,6 @@ typedef NS_ENUM(NSUInteger, ScrollDirection) {
 
     self.lastScrollDirection = currentScrollDirection;
     self.lastContentOffsetX = scrollView.contentOffset.x;
-
-
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
