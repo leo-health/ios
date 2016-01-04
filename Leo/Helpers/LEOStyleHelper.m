@@ -49,7 +49,7 @@
     
     [UINavigationBar appearance].translucent = NO;
     
-    // TODO: AF find correct place for this
+    // FIXME: AF find correct place for this
     if (feature == FeatureAppointmentScheduling) {
         [[UINavigationBar appearance] setBackgroundImage:[UIImage new] forBarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
         [UINavigationBar appearance].translucent = YES;
@@ -93,8 +93,13 @@
 }
 
 + (void)styleNavigationBarShadowLineForViewController:(UIViewController *)viewController feature:(Feature)feature {
-    
-    [viewController.navigationController.navigationBar setShadowImage:[UIImage leo_imageWithColor:[self tintColorForFeature:feature]]];
+
+    // FIXME: AF find correct place for this
+    if (feature == FeatureAppointmentScheduling) {
+        viewController.navigationController.navigationBar.shadowImage = [UIImage new];
+    } else {
+        [viewController.navigationController.navigationBar setShadowImage:[UIImage leo_imageWithColor:[self tintColorForFeature:feature]]];
+    }
 }
 
 + (void)styleExpandedTitleLabel:(UILabel *)label titleText:(NSString *)titleText {

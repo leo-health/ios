@@ -15,9 +15,26 @@
 @property (weak, nonatomic) UILabel *expandedTitleLabel;
 @property (nonatomic) BOOL constraintsAlreadyUpdated;
 
+@property (nonatomic) CGRect previousBounds;
+
 @end
 
 @implementation LEOGradientView
+
+-(instancetype)initWithColors:(NSArray *)colors initialStartPoint:(CGPoint)initialStartPoint initialEndPoint:(CGPoint)initialEndPoint finalStartPoint:(CGPoint)finalStartPoint finalEndPoint:(CGPoint)finalEndPoint titleText:(NSString*)titleText {
+
+    self = [super init];
+    if (self) {
+
+        _colors = colors;
+        _initialStartPoint = initialStartPoint;
+        _initialEndPoint = initialEndPoint;
+        _finalStartPoint = finalStartPoint;
+        _finalEndPoint = finalEndPoint;
+        _titleText = titleText;
+    }
+    return self;
+}
 
 - (UILabel *)expandedTitleLabel {
 
@@ -25,6 +42,7 @@
 
         UILabel* strongLabel = [UILabel new];
         _expandedTitleLabel = strongLabel;
+        _expandedTitleLabel.text = self.titleText;
         [self addSubview:_expandedTitleLabel];
 
         [LEOStyleHelper styleExpandedTitleLabel:_expandedTitleLabel titleText:self.titleText];
@@ -58,11 +76,14 @@
 - (CAGradientLayer*)gradientLayer {
 
     if (!_gradientLayer) {
+
         CAGradientLayer *strongLayer = [CAGradientLayer layer];
         _gradientLayer = strongLayer;
+        _gradientLayer.colors = self.colors;
+        _gradientLayer.startPoint = self.initialStartPoint;
+        _gradientLayer.endPoint = self.initialEndPoint;
         [self.layer addSublayer:_gradientLayer];
     }
-    
     return _gradientLayer;
 }
 
@@ -88,19 +109,31 @@
 }
 
 - (void)setCurrentTransitionPercentage:(CGFloat)currentTransitionPercentage {
-
+    
     _currentTransitionPercentage = currentTransitionPercentage;
-
     if (currentTransitionPercentage < 0) {
         _currentTransitionPercentage = 0;
     } else if (currentTransitionPercentage > 1) {
         _currentTransitionPercentage = 1;
     }
 
-    self.gradientLayer.startPoint = CGPointMake(self.initialStartPoint.x + _currentTransitionPercentage * (self.finalStartPoint.x - self.initialStartPoint.x),
-                                                self.initialStartPoint.y + _currentTransitionPercentage * (self.finalStartPoint.y - self.initialStartPoint.y));
-    self.gradientLayer.endPoint = CGPointMake(self.initialEndPoint.x + _currentTransitionPercentage * (self.finalEndPoint.x - self.initialEndPoint.x),
-                                              self.initialEndPoint.y + _currentTransitionPercentage * (self.finalEndPoint.y - self.initialEndPoint.y));
+    CGPoint newStart = CGPointMake(self.initialStartPoint.x + _currentTransitionPercentage * (self.finalStartPoint.x - self.initialStartPoint.x),
+                                   self.initialStartPoint.y + _currentTransitionPercentage * (self.finalStartPoint.y - self.initialStartPoint.y));
+    CGPoint newEnd = CGPointMake(self.initialEndPoint.x + _currentTransitionPercentage * (self.finalEndPoint.x - self.initialEndPoint.x),
+                self.initialEndPoint.y + _currentTransitionPercentage * (self.finalEndPoint.y - self.initialEndPoint.y));
+
+    CABasicAnimation *startAnimation = [CABasicAnimation animationWithKeyPath:@"startPoint"];
+    startAnimation.fromValue = [NSValue valueWithCGPoint:self.gradientLayer.startPoint];
+    startAnimation.toValue = [NSValue valueWithCGPoint:newStart];
+    self.gradientLayer.startPoint = newStart;
+    [self.gradientLayer addAnimation:startAnimation forKey:@"startPoint"];
+
+    CABasicAnimation *endAnimation = [CABasicAnimation animationWithKeyPath:@"endPoint"];
+    endAnimation.duration = 0;
+    endAnimation.fromValue = [NSValue valueWithCGPoint:self.gradientLayer.endPoint];
+    endAnimation.toValue = [NSValue valueWithCGPoint:newEnd];
+    self.gradientLayer.endPoint = newEnd;
+    [self.gradientLayer addAnimation:endAnimation forKey:@"endPoint"];
 
     self.expandedTitleLabel.alpha = 1 - currentTransitionPercentage;
 }
@@ -111,12 +144,17 @@
 
     if (!self.constraintsAlreadyUpdated) {
 
-        [self removeConstraints:self.constraints];
         self.expandedTitleLabel.translatesAutoresizingMaskIntoConstraints = NO;
 
         NSDictionary* viewDictionary = NSDictionaryOfVariableBindings(_expandedTitleLabel);
         NSArray *horizontalLayoutConstraintsForFullTitle = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(20)-[_expandedTitleLabel]-(100)-|" options:0 metrics:nil views:viewDictionary];
         NSArray *verticalLayoutConstraintsForFullTitle = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_expandedTitleLabel]-(20)-|" options:0 metrics:nil views:viewDictionary];
+
+        // only add the top constraint if the user did not explicitly specify the height
+        if ([self hasAmbiguousLayout]) {
+            NSLayoutConstraint *topConstraint = [NSLayoutConstraint constraintWithItem:self.expandedTitleLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1 constant:20];
+            [self addConstraint:topConstraint];
+        }
 
         [self addConstraints:horizontalLayoutConstraintsForFullTitle];
         [self addConstraints:verticalLayoutConstraintsForFullTitle];
@@ -127,12 +165,20 @@
     [super updateConstraints];
 }
 
+-(BOOL)didChangeSize {
+    return !CGRectEqualToRect(self.previousBounds, self.bounds);
+}
+
 - (void)layoutSubviews {
 
     [super layoutSubviews];
 
-    CGFloat extraHeightForGradient = CGRectGetHeight([[UIScreen mainScreen] bounds]);
-    self.gradientLayer.frame = CGRectMake(0, -extraHeightForGradient, CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds) + extraHeightForGradient);
+    if ([self didChangeSize]) {
+
+        CGFloat extraHeightForGradient = CGRectGetHeight([[UIScreen mainScreen] bounds]);
+        self.gradientLayer.frame = CGRectMake(0, -extraHeightForGradient, CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds) + extraHeightForGradient);
+        self.previousBounds = self.bounds;
+    }
 }
 
 

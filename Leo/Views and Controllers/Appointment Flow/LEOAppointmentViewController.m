@@ -13,6 +13,7 @@
 
 #import "LEOStyleHelper.h"
 #import "UIColor+LeoColors.h"
+#import "UIImage+Extensions.h"
 
 #import "LEOCalendarViewController.h"
 #import "LEOBasicSelectionViewController.h"
@@ -37,12 +38,40 @@
 #import "LEOGradientView.h"
 #import "LEOAppointmentService.h"
 
+static CGFloat const kHeightSubmitButton = 44;
+static CGFloat const kHeightStickyHeader = 150;
+
+static NSString *const kCopySubmitAppointment = @"CONFIRM VISIT";
+
+// Appointment Segue constants
+static NSString *const kSegueVisitType = @"VisitTypeSegue";
+static NSString *const kKeySelectionVCAppointmentType = @"appointmentType";
+static NSString *const kCellAppointmentType = @"AppointmentTypeCell";
+static NSString *const kPromptTypeOfVisit = @"What type of visit is this?";
+
+// Patient segue constants
+static NSString *const kSeguePatient = @"PatientSegue";
+static NSString *const kKeySelectionVCPatient = @"patient";
+static NSString *const kCellPatient = @"PatientCell";
+static NSString *const kPromptPatient = @"Who is the visit for?";
+
+// Staff/Schedule segue constants
+static NSString *const kSegueStaff = @"StaffSegue";
+static NSString *const kKeySelectionVCProvider = @"provider";
+static NSString *const kCellProvider = @"ProviderCell";
+static NSString *const kPromptProvider = @"Who would you like to see?";
+static NSString *const kSegueSchedule = @"ScheduleSegue";
+static NSString *const kKeySelectionVCDate = @"date";
+
+
 @interface LEOAppointmentViewController ()
 
 @property (weak, nonatomic) LEOAppointmentView *appointmentView;
 @property (strong, nonatomic) LEOGradientView *gradientView;
 @property (strong, nonatomic) UIButton *submissionButton;
 @property (strong, nonatomic) Appointment *appointment;
+
+@property (nonatomic) BOOL didLayoutSubviewsOnce;
 
 @end
 
@@ -66,45 +95,40 @@
 
     [super viewWillAppear:animated];
 
-    [self.view updateConstraints];
+    __weak LEOAppointmentViewController* weakSelf = self;
+    [self addAnimationToNavBar:^{
+        [weakSelf.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+        CGFloat percentage = [weakSelf transitionPercentageForScrollOffset:weakSelf.scrollViewContentOffset];
+        weakSelf.navigationItem.titleView.hidden = percentage == 0;
+    }];
+}
 
+-(void)viewWillDisappear:(BOOL)animated {
+
+    [super viewWillDisappear:animated];
+
+    // Match the gradient in consecutive nav bars
+    CAGradientLayer *gradient = [CAGradientLayer layer];
+    gradient.frame = self.navigationController.navigationBar.bounds;
+    gradient.colors = self.gradientView.colors;
+    gradient.startPoint = CGPointMake(0,0);
+    gradient.endPoint = CGPointMake(1, 1);
+
+    __weak id weakSelf = self;
+    void(^animations)() = ^(){
+        [[weakSelf navigationController].navigationBar setBackgroundImage:[UIImage leo_imageFromLayer:gradient] forBarMetrics:UIBarMetricsDefault];
+    };
+
+    if ([self.stickyHeaderView isCollapsed]) {
+        animations();
+    } else {
+        [self addAnimationToNavBar:animations];
+    }
 }
 
 -(void)setupNavigationBar {
 
     [LEOStyleHelper styleNavigationBarForViewController:self forFeature:self.feature withTitleText:self.card.title dismissal:YES backButton:NO];
-}
-
-
--(void)setCard:(LEOCardAppointment *)card {
-
-    _card = card;
-    _card.activityDelegate = self;
-
-    self.stickyHeaderView.datasource = self;
-    self.stickyHeaderView.delegate = self;
-}
-
-
--(void)didUpdateItem:(id)item forKey:(NSString *)key {
-
-    if ([key isEqualToString:@"appointmentType"]) {
-        self.appointmentView.appointmentType = item;
-    }
-
-    else if ([key isEqualToString:@"patient"]) {
-        self.appointmentView.patient = item;
-    }
-
-    else if ([key isEqualToString:@"provider"]) {
-        self.appointmentView.provider = item;
-    }
-
-    else if ([key isEqualToString:@"date"]) {
-        self.appointmentView.date = item;
-    }
-
-    self.submissionButton.enabled = self.appointment.isValidForBooking;
 }
 
 #pragma mark - Layout
@@ -113,15 +137,36 @@
 
     [super viewDidLayoutSubviews];
 
-    CGFloat percentageForTopOfVisibleView = 1 - (CGRectGetHeight(self.gradientView.bounds) / CGRectGetHeight(self.gradientView.gradientLayerBounds));
-    self.gradientView.initialStartPoint = CGPointMake(0.4, percentageForTopOfVisibleView);
+    if (!self.didLayoutSubviewsOnce) {
 
-    self.gradientView.initialEndPoint = CGPointMake(0.7, 1);
+        // To get an accurate angle for the gradient, place the start and end points on the edge a circle that is centered in the view
+        CGFloat y2 = 1;
+        CGPoint start;
+        CGPoint end;
 
-    CGFloat percentageForTopOfNavBar = 1 - (CGRectGetHeight(self.navigationController.navigationBar.bounds) / CGRectGetHeight(self.gradientView.gradientLayerBounds));
-    self.gradientView.finalStartPoint = CGPointMake(0.2, percentageForTopOfNavBar);
+        CGRect rect = self.gradientView.bounds;
+        CGFloat r = CGRectGetHeight(rect) / CGRectGetHeight(self.gradientView.gradientLayerBounds);
 
-    self.gradientView.finalEndPoint = CGPointMake(0.9, 1);
+        CGFloat y1 = [LEOGradientHelper translateRelativePosition:0 fromSize:CGRectGetHeight(rect) toSize:CGRectGetHeight(self.gradientView.gradientLayerBounds)];
+        CGPoint center = CGPointMake(0.5, y1 + (y2 - y1)/2);
+        CGFloat theta = atanf(CGRectGetWidth(rect)/(CGRectGetHeight(rect)/2));
+        [LEOGradientHelper gradientStartPoint:&start endPoint:&end withCenter:center withRadius:r withRotationInRadians:theta];
+
+        self.gradientView.initialStartPoint = start;
+        self.gradientView.initialEndPoint = end;
+
+        rect = self.navigationController.navigationBar.bounds;
+        r = CGRectGetHeight(rect) / CGRectGetHeight(self.gradientView.gradientLayerBounds);
+        y1 = [LEOGradientHelper translateRelativePosition:0 fromSize:CGRectGetHeight(rect) toSize:CGRectGetHeight(self.gradientView.gradientLayerBounds)];
+        center = CGPointMake(0.5, y1 + (y2 - y1)/2);
+        theta = atanf(CGRectGetWidth(rect)/(CGRectGetHeight(rect)/2));
+        [LEOGradientHelper gradientStartPoint:&start endPoint:&end withCenter:center withRadius:r withRotationInRadians:theta];
+
+        self.gradientView.finalStartPoint = start;
+        self.gradientView.finalEndPoint = end;
+        
+        self.didLayoutSubviewsOnce = YES;
+    }
 }
 
 #pragma mark - StickyHeaderView Delegate
@@ -136,9 +181,12 @@
 
         LEOGradientView *strongView = [LEOGradientView new];
         _gradientView = strongView;
-
         _gradientView.colors = @[(id)[UIColor leo_green].CGColor, (id)[UIColor leo_white].CGColor];
         _gradientView.titleText = self.card.title;
+
+        NSNumber *height = @(kHeightStickyHeader);
+        NSArray *heightConstraint = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_gradientView(==height)]" options:0 metrics:NSDictionaryOfVariableBindings(height) views:NSDictionaryOfVariableBindings(_gradientView)];
+        [_gradientView addConstraints:heightConstraint];
     }
 
     return _gradientView;
@@ -157,15 +205,19 @@
 
         [LEOStyleHelper styleSubmissionButton:_submissionButton forFeature:self.feature];
         [_submissionButton addTarget:self action:@selector(submitCardUpdates) forControlEvents:UIControlEventTouchUpInside];
-        [_submissionButton setTitle:@"CONFIRM VISIT" forState:UIControlStateNormal];
+        [_submissionButton setTitle:kCopySubmitAppointment forState:UIControlStateNormal];
+
+        NSNumber *height = @(kHeightSubmitButton);
+        NSArray *heightConstraint = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_submissionButton(==height)]" options:0 metrics:NSDictionaryOfVariableBindings(height) views:NSDictionaryOfVariableBindings(_submissionButton)];
+        [_submissionButton addConstraints:heightConstraint];
     }
 
     return _submissionButton;
 }
-
 -(void)updateTitleViewForScrollTransitionPercentage:(CGFloat)transitionPercentage {
 
     self.gradientView.currentTransitionPercentage = transitionPercentage;
+    self.navigationItem.titleView.hidden = NO;
     self.navigationItem.titleView.alpha = transitionPercentage;
 }
 
@@ -198,7 +250,6 @@
 }
 
 -(Appointment *)appointment {
-
     return self.appointmentView.appointment;
 }
 
@@ -212,11 +263,11 @@
 
     LEOBasicSelectionViewController *selectionVC = segue.destinationViewController;
 
-    if ([segue.identifier isEqualToString:@"VisitTypeSegue"]) {
+    if ([segue.identifier isEqualToString:kSegueVisitType]) {
 
-        selectionVC.key = @"appointmentType";
-        selectionVC.reuseIdentifier = @"AppointmentTypeCell";
-        selectionVC.titleText = @"What type of visit is this?";
+        selectionVC.key = kKeySelectionVCAppointmentType;
+        selectionVC.reuseIdentifier = kCellAppointmentType;
+        selectionVC.titleText = kPromptTypeOfVisit;
 
         selectionVC.configureCellBlock = ^(AppointmentTypeCell *cell, AppointmentType *appointmentType) {
             cell.selectedColor = self.card.tintColor;
@@ -234,11 +285,12 @@
 
         selectionVC.requestOperation = [[LEOAPIAppointmentTypesOperation alloc] init];
         selectionVC.delegate = self;
-    } else if ([segue.identifier isEqualToString:@"PatientSegue"]) {
 
-        selectionVC.key = @"patient";
-        selectionVC.reuseIdentifier = @"PatientCell";
-        selectionVC.titleText = @"Who is the visit for?";
+    } else if ([segue.identifier isEqualToString:kSeguePatient]) {
+
+        selectionVC.key = kKeySelectionVCPatient;
+        selectionVC.reuseIdentifier = kCellPatient;
+        selectionVC.titleText = kPromptPatient;
 
         selectionVC.configureCellBlock = ^(PatientCell *cell, Patient *patient) {
 
@@ -257,11 +309,12 @@
 
         selectionVC.requestOperation = [[LEOAPIFamilyOperation alloc] init];
         selectionVC.delegate = self;
-    } else if ([segue.identifier isEqualToString:@"StaffSegue"]) {
 
-        selectionVC.key = @"provider";
-        selectionVC.reuseIdentifier = @"ProviderCell";
-        selectionVC.titleText = @"Who would you like to see?";
+    } else if ([segue.identifier isEqualToString:kSegueStaff]) {
+
+        selectionVC.key = kKeySelectionVCProvider;
+        selectionVC.reuseIdentifier = kCellProvider;
+        selectionVC.titleText = kPromptProvider;
         selectionVC.feature = FeatureAppointmentScheduling;
         selectionVC.configureCellBlock = ^(ProviderCell *cell, Provider *provider) {
 
@@ -282,7 +335,7 @@
         selectionVC.delegate = self;
     }
 
-    if ([segue.identifier isEqualToString:@"ScheduleSegue"]) {
+    if ([segue.identifier isEqualToString:kSegueSchedule]) {
 
         LEOCalendarViewController *calendarVC = segue.destinationViewController;
 
@@ -295,6 +348,36 @@
 }
 
 #pragma mark - Actions
+
+-(void)didUpdateItem:(id)item forKey:(NSString *)key {
+
+    if ([key isEqualToString:kKeySelectionVCAppointmentType]) {
+        self.appointmentView.appointmentType = item;
+    }
+
+    else if ([key isEqualToString:kKeySelectionVCPatient]) {
+        self.appointmentView.patient = item;
+    }
+
+    else if ([key isEqualToString:kKeySelectionVCProvider]) {
+        self.appointmentView.provider = item;
+    }
+
+    else if ([key isEqualToString:kKeySelectionVCDate]) {
+        self.appointmentView.date = item;
+    }
+
+    self.submissionButton.enabled = self.appointment.isValidForBooking;
+}
+
+-(void)setCard:(LEOCardAppointment *)card {
+
+    _card = card;
+    _card.activityDelegate = self;
+
+    self.stickyHeaderView.datasource = self;
+    self.stickyHeaderView.delegate = self;
+}
 
 -(void)submitCardUpdates {
 
@@ -344,5 +427,6 @@
     [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
     }];
 }
+
 
 @end

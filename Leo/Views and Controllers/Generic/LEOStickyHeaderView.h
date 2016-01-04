@@ -12,9 +12,9 @@ typedef void(^SubmitBlock)(void);
 
 @protocol LEOStickyHeaderDataSource <NSObject>
 
-- (UIView *)injectTitleView;
-- (UIView *)injectBodyView;
-- (UIView *)injectFooterView;
+-(UIView *)injectTitleView;
+-(UIView *)injectBodyView;
+-(UIView *)injectFooterView;
 
 @end
 
@@ -27,10 +27,17 @@ typedef void(^SubmitBlock)(void);
 
 @interface LEOStickyHeaderView : UIView <UITextViewDelegate, UITextFieldDelegate>
 
+@property (nonatomic) Feature feature;
+@property (nonatomic, getter=isCollapsible) BOOL collapsible;
+@property (nonatomic, getter=isCollapsed) BOOL collapsed;
 @property (nonatomic) CGFloat snapToHeight;
 
 @property (weak, nonatomic) id<LEOStickyHeaderDataSource> datasource;
 @property (weak, nonatomic) id<LEOStickyHeaderDelegate> delegate;
+@property (nonatomic) CGPoint scrollViewContentOffset;
+
+-(CGFloat)transitionPercentageForScrollOffset:(CGPoint)offset;
+-(void)updateTransitionPercentageForScrollOffset:(CGPoint)offset;
 
 - (void)reloadBodyView;
 

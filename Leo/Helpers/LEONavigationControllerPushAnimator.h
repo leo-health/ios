@@ -10,5 +10,4 @@
 
 @interface LEONavigationControllerPushAnimator : NSObject <UIViewControllerAnimatedTransitioning>
 
-
 @end
