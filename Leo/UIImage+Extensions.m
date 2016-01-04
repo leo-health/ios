@@ -10,6 +10,24 @@
 
 @implementation UIImage (Extensions)
 
+// Source: http://stackoverflow.com/questions/3454356/uiimage-from-calayer-iphone-sdk
+
++ (UIImage *)leo_imageFromLayer:(CALayer *)layer
+{
+
+    if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)]) {
+        UIGraphicsBeginImageContextWithOptions([layer frame].size, NO, [UIScreen mainScreen].scale);
+    } else {
+        UIGraphicsBeginImageContext([layer frame].size);
+    }
+
+    [layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *outputImage = UIGraphicsGetImageFromCurrentImageContext();
+
+    UIGraphicsEndImageContext();
+
+    return outputImage;
+}
 
 //Sourced: https://coffeeshopped.com/2010/09/iphone-how-to-dynamically-color-a-uiimage
 

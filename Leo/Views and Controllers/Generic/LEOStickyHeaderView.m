@@ -55,7 +55,7 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 - (void)commonInit {
 
     // default values
-    self.collapsable = YES;
+    self.collapsible = YES;
     [self setupSubviews];
     [self setupConstraints];
 }
@@ -372,7 +372,7 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 - (void)navigationTitleViewSnapsForScrollView:(UIScrollView *)scrollView {
 
     // Note: what is the desired functionality here? Do we want to disable the scrolling animations as well?
-    if (self.isCollapsable) {
+    if (self.isCollapsible) {
 
         // Force collapse
         if ([self scrollViewVerticalContentOffset] > [self heightOfNoReturn] && [self scrollViewVerticalContentOffset] < [self heightOfHeaderCellExcludingOverlapWithNavBar]) {

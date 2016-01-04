@@ -10,6 +10,7 @@
 
 @interface UIImage (Extensions)
 
++ (UIImage *)leo_imageFromLayer:(CALayer *)layer;
 + (UIImage *)leo_imageNamed:(NSString *)name withColor:(UIColor *)color;
 + (UIImage *)leo_imageWithColor:(UIColor *)color;
 

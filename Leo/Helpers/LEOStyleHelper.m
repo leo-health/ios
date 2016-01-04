@@ -49,7 +49,7 @@
     
     [UINavigationBar appearance].translucent = NO;
     
-    // TODO: AF find correct place for this
+    // FIXME: AF find correct place for this
     if (feature == FeatureAppointmentScheduling) {
         [[UINavigationBar appearance] setBackgroundImage:[UIImage new] forBarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
         [UINavigationBar appearance].translucent = YES;
@@ -94,6 +94,7 @@
 
 + (void)styleNavigationBarShadowLineForViewController:(UIViewController *)viewController feature:(Feature)feature {
 
+    // FIXME: AF find correct place for this
     if (feature == FeatureAppointmentScheduling) {
         viewController.navigationController.navigationBar.shadowImage = [UIImage new];
     } else {

@@ -17,15 +17,14 @@
 @implementation LEOStickyHeaderViewController
 
 @synthesize stickyHeaderView = _stickyHeaderView;
+@synthesize feature = _feature;
 
--(instancetype)initWithFeature:(Feature)feature collapsable:(BOOL)collapsable collapsedHeight:(CGFloat)collapsedHeight {
+-(instancetype)initWithFeature:(Feature)feature {
 
     self = [super init];
     if (self) {
 
-        self.feature = feature;
-        self.collapsable = collapsable;
-        self.stickyHeaderView.snapToHeight = collapsedHeight;
+        _feature = feature;
     }
     return self;
 }
@@ -37,6 +36,7 @@
         LEOStickyHeaderView *strongView = [LEOStickyHeaderView new];
 
         _stickyHeaderView = strongView;
+        _stickyHeaderView.feature = _feature;
 
         [self.view addSubview:_stickyHeaderView];
 
@@ -71,18 +71,16 @@
     [UIView animateWithDuration:duration animations:animations];
 }
 
-// NOTE: This feels wrong. I should probably move the scrollview delegate into the controller, not the view
-
 -(BOOL)isCollapsed {
     return self.stickyHeaderView.isCollapsed;
 }
 
--(BOOL)isCollapsable {
-    return self.stickyHeaderView.isCollapsable;
+-(BOOL)isCollapsible {
+    return self.stickyHeaderView.isCollapsible;
 }
 
--(void)setCollapsable:(BOOL)collapsable {
-    [self.stickyHeaderView setCollapsable:collapsable];
+-(void)setCollapsible:(BOOL)collapsible {
+    [self.stickyHeaderView setCollapsible:collapsible];
 }
 
 -(CGFloat)transitionPercentageForScrollOffset:(CGPoint)offset {
@@ -98,6 +96,7 @@
 }
 
 -(void)setFeature:(Feature)feature {
+    _feature = feature;
     self.stickyHeaderView.feature = feature;
 }
 

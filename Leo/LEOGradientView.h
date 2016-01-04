@@ -7,10 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "LEOGradientHelper.h"
 
 @interface LEOGradientView : UIView
 
 @property (nonatomic, readonly) CGRect gradientLayerBounds;
+
+NS_ASSUME_NONNULL_BEGIN
 
 // gradient animation parameters
 @property (strong, nonatomic) NSArray *colors;
@@ -29,5 +32,7 @@
 -(instancetype)initWithColors:(NSArray *)colors initialStartPoint:(CGPoint)initialStartPoint initialEndPoint:(CGPoint)initialEndPoint finalStartPoint:(CGPoint)finalStartPoint finalEndPoint:(CGPoint)finalEndPoint;
 
 -(void)resetDefaultStylingForTitleLabel;
+
+NS_ASSUME_NONNULL_END
 
 @end

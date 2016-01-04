@@ -14,6 +14,7 @@
 @property (weak, nonatomic) CAGradientLayer *gradientLayer;
 @property (weak, nonatomic) UILabel *expandedTitleLabel;
 @property (nonatomic) BOOL constraintsAlreadyUpdated;
+@property (nonatomic) BOOL layoutSubviewsCalledOnce;
 
 @property (nonatomic) CGRect previousBounds;
 
@@ -26,12 +27,12 @@
     self = [super init];
     if (self) {
 
-        self.colors = colors;
-        self.initialStartPoint = initialStartPoint;
-        self.initialEndPoint = initialEndPoint;
-        self.finalStartPoint = finalStartPoint;
-        self.finalEndPoint = finalEndPoint;
-        self.titleText = titleText;
+        _colors = colors;
+        _initialStartPoint = initialStartPoint;
+        _initialEndPoint = initialEndPoint;
+        _finalStartPoint = finalStartPoint;
+        _finalEndPoint = finalEndPoint;
+        _titleText = titleText;
     }
     return self;
 }
@@ -42,6 +43,7 @@
 
         UILabel* strongLabel = [UILabel new];
         _expandedTitleLabel = strongLabel;
+        _expandedTitleLabel.text = self.titleText;
         [self addSubview:_expandedTitleLabel];
 
         [LEOStyleHelper styleExpandedTitleLabel:_expandedTitleLabel titleText:self.titleText];
@@ -75,11 +77,14 @@
 - (CAGradientLayer*)gradientLayer {
 
     if (!_gradientLayer) {
+
         CAGradientLayer *strongLayer = [CAGradientLayer layer];
         _gradientLayer = strongLayer;
+        _gradientLayer.colors = self.colors;
+        _gradientLayer.startPoint = self.initialStartPoint;
+        _gradientLayer.endPoint = self.initialEndPoint;
         [self.layer addSublayer:_gradientLayer];
     }
-    
     return _gradientLayer;
 }
 
@@ -140,6 +145,10 @@
 
     if (!self.constraintsAlreadyUpdated) {
 
+        // need to find a better way to do this. The client should be able to set the height/width constraints
+//        [self removeConstraints:self.constraints];
+
+
         self.expandedTitleLabel.translatesAutoresizingMaskIntoConstraints = NO;
 
         NSDictionary* viewDictionary = NSDictionaryOfVariableBindings(_expandedTitleLabel);
@@ -159,10 +168,11 @@
 
     [super layoutSubviews];
 
-    if (!CGRectEqualToRect(self.previousBounds, self.bounds)) {
+    if (!self.layoutSubviewsCalledOnce) {
 
         CGFloat extraHeightForGradient = CGRectGetHeight([[UIScreen mainScreen] bounds]);
         self.gradientLayer.frame = CGRectMake(0, -extraHeightForGradient, CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds) + extraHeightForGradient);
+        self.layoutSubviewsCalledOnce = YES;
     }
 }
 
