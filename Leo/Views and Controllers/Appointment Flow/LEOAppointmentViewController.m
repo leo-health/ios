@@ -131,16 +131,6 @@ static NSString *const kKeySelectionVCDate = @"date";
     [LEOStyleHelper styleNavigationBarForViewController:self forFeature:self.feature withTitleText:self.card.title dismissal:YES backButton:NO];
 }
 
-
--(void)setCard:(LEOCardAppointment *)card {
-
-    _card = card;
-    _card.activityDelegate = self;
-
-    self.stickyHeaderView.datasource = self;
-    self.stickyHeaderView.delegate = self;
-}
-
 #pragma mark - Layout
 
 -(void)viewDidLayoutSubviews {
@@ -151,11 +141,12 @@ static NSString *const kKeySelectionVCDate = @"date";
 
         // To get an accurate angle for the gradient, place the start and end points on the edge a circle that is centered in the view
         CGFloat y2 = 1;
-        CGFloat r = 0.05;
         CGPoint start;
         CGPoint end;
 
         CGRect rect = self.gradientView.bounds;
+        CGFloat r = CGRectGetHeight(rect) / CGRectGetHeight(self.gradientView.gradientLayerBounds);
+
         CGFloat y1 = [LEOGradientHelper translateRelativePosition:0 fromSize:CGRectGetHeight(rect) toSize:CGRectGetHeight(self.gradientView.gradientLayerBounds)];
         CGPoint center = CGPointMake(0.5, y1 + (y2 - y1)/2);
         CGFloat theta = atanf(CGRectGetWidth(rect)/(CGRectGetHeight(rect)/2));
@@ -165,6 +156,7 @@ static NSString *const kKeySelectionVCDate = @"date";
         self.gradientView.initialEndPoint = end;
 
         rect = self.navigationController.navigationBar.bounds;
+        r = CGRectGetHeight(rect) / CGRectGetHeight(self.gradientView.gradientLayerBounds);
         y1 = [LEOGradientHelper translateRelativePosition:0 fromSize:CGRectGetHeight(rect) toSize:CGRectGetHeight(self.gradientView.gradientLayerBounds)];
         center = CGPointMake(0.5, y1 + (y2 - y1)/2);
         theta = atanf(CGRectGetWidth(rect)/(CGRectGetHeight(rect)/2));
@@ -222,7 +214,6 @@ static NSString *const kKeySelectionVCDate = @"date";
 
     return _submissionButton;
 }
-
 -(void)updateTitleViewForScrollTransitionPercentage:(CGFloat)transitionPercentage {
 
     self.gradientView.currentTransitionPercentage = transitionPercentage;
@@ -377,6 +368,15 @@ static NSString *const kKeySelectionVCDate = @"date";
     }
 
     self.submissionButton.enabled = self.appointment.isValidForBooking;
+}
+
+-(void)setCard:(LEOCardAppointment *)card {
+
+    _card = card;
+    _card.activityDelegate = self;
+
+    self.stickyHeaderView.datasource = self;
+    self.stickyHeaderView.delegate = self;
 }
 
 -(void)submitCardUpdates {

@@ -14,7 +14,6 @@
 @property (weak, nonatomic) CAGradientLayer *gradientLayer;
 @property (weak, nonatomic) UILabel *expandedTitleLabel;
 @property (nonatomic) BOOL constraintsAlreadyUpdated;
-@property (nonatomic) BOOL layoutSubviewsCalledOnce;
 
 @property (nonatomic) CGRect previousBounds;
 
@@ -145,15 +144,17 @@
 
     if (!self.constraintsAlreadyUpdated) {
 
-        // need to find a better way to do this. The client should be able to set the height/width constraints
-//        [self removeConstraints:self.constraints];
-
-
         self.expandedTitleLabel.translatesAutoresizingMaskIntoConstraints = NO;
 
         NSDictionary* viewDictionary = NSDictionaryOfVariableBindings(_expandedTitleLabel);
         NSArray *horizontalLayoutConstraintsForFullTitle = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(20)-[_expandedTitleLabel]-(100)-|" options:0 metrics:nil views:viewDictionary];
         NSArray *verticalLayoutConstraintsForFullTitle = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_expandedTitleLabel]-(20)-|" options:0 metrics:nil views:viewDictionary];
+
+        // only add the top constraint if the user did not explicitly specify the height
+        if ([self hasAmbiguousLayout]) {
+            NSLayoutConstraint *topConstraint = [NSLayoutConstraint constraintWithItem:self.expandedTitleLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1 constant:20];
+            [self addConstraint:topConstraint];
+        }
 
         [self addConstraints:horizontalLayoutConstraintsForFullTitle];
         [self addConstraints:verticalLayoutConstraintsForFullTitle];
@@ -164,15 +165,19 @@
     [super updateConstraints];
 }
 
+-(BOOL)didChangeSize {
+    return !CGRectEqualToRect(self.previousBounds, self.bounds);
+}
+
 - (void)layoutSubviews {
 
     [super layoutSubviews];
 
-    if (!self.layoutSubviewsCalledOnce) {
+    if ([self didChangeSize]) {
 
         CGFloat extraHeightForGradient = CGRectGetHeight([[UIScreen mainScreen] bounds]);
         self.gradientLayer.frame = CGRectMake(0, -extraHeightForGradient, CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds) + extraHeightForGradient);
-        self.layoutSubviewsCalledOnce = YES;
+        self.previousBounds = self.bounds;
     }
 }
 

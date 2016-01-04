@@ -7,6 +7,7 @@
 //
 
 #import "LEOGradientHelper.h"
+#import "UIColor+LeoColors.h"
 
 @implementation LEOGradientHelper
 

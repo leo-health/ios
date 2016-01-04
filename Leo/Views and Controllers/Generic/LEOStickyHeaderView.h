@@ -12,9 +12,9 @@ typedef void(^SubmitBlock)(void);
 
 @protocol LEOStickyHeaderDataSource <NSObject>
 
-- (UIView *)injectTitleView;
-- (UIView *)injectBodyView;
-- (UIView *)injectFooterView;
+-(UIView *)injectTitleView;
+-(UIView *)injectBodyView;
+-(UIView *)injectFooterView;
 
 @end
 
