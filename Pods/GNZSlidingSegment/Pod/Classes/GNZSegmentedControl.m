@@ -89,7 +89,7 @@ NSString * const GNZSegmentOptionIndicatorColor = @"SEGMENT_INDICATOR_COLOR";
     return _segmentDistance;
 }
 
-    - (void)updateConstraints {
+- (void)updateConstraints {
 
     if (!self.alreadyUpdatedConstraints) {
 
@@ -243,6 +243,7 @@ NSString * const GNZSegmentOptionIndicatorColor = @"SEGMENT_INDICATOR_COLOR";
 
     [self deactivateSelectedSegment];
     _selectedSegmentIndex = selectedSegmentIndex;
+    [self sendActionsForControlEvents:UIControlEventValueChanged];
     [self activateSelectedSegment];
 }
 
@@ -282,7 +283,6 @@ NSString * const GNZSegmentOptionIndicatorColor = @"SEGMENT_INDICATOR_COLOR";
     NSUInteger currentSelectedIndex = [self.segments indexOfObject:sender];
 
     self.selectedSegmentIndex = currentSelectedIndex;
-    [self sendActionsForControlEvents:UIControlEventValueChanged];
 }
 
 //- (void)segmentChanged:(UIButton *)sender {
@@ -369,7 +369,7 @@ NSString * const GNZSegmentOptionIndicatorColor = @"SEGMENT_INDICATOR_COLOR";
 
 -(void)setControlHeight:(CGFloat)controlHeight {
     _controlHeight = controlHeight;
-
+    
     [self invalidateIntrinsicContentSize];
 }
 

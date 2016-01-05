@@ -15,6 +15,6 @@
 @property (strong, nonatomic) GNZSegmentedControl *segmentControl;
 
 - (instancetype)initWithPatients:(NSArray *)patients;
-- (void)didChangeSegmentSelection:(NSUInteger)segmentIndex;
+//- (void)didChangeSegmentSelection:(NSUInteger)segmentIndex;
 
 @end

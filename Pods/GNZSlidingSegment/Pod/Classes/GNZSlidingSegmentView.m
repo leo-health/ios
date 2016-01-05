@@ -113,9 +113,11 @@ typedef NS_ENUM(NSUInteger, ScrollDirection) {
 #pragma mark - Actions
 -(void)segmentSelectionDidChange:(id)sender
 {
-    CGRect frame = self.scrollView.frame;
-    frame.origin.x = frame.size.width * [(id)self.feedSelectorControl selectedSegmentIndex];
-    [self.scrollView scrollRectToVisible:frame animated:YES];
+    if (!self.isResponsibleForSegmentChange) {
+        CGRect frame = self.scrollView.frame;
+        frame.origin.x = frame.size.width * [(id)self.feedSelectorControl selectedSegmentIndex];
+        [self.scrollView scrollRectToVisible:frame animated:YES];
+    }
 }
 
 #pragma mark - UIScrollView Delegate
@@ -160,13 +162,13 @@ typedef NS_ENUM(NSUInteger, ScrollDirection) {
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
 
-    [self.delegate slidingSegmentView:self segmentDidChange:[self.feedSelectorControl selectedSegmentIndex]];
+//    [self.delegate slidingSegmentView:self segmentDidChange:[self.feedSelectorControl selectedSegmentIndex]];
     self.isResponsibleForSegmentChange = NO;
 }
 
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
 
-    [self.delegate slidingSegmentView:self segmentDidChange:[self.feedSelectorControl selectedSegmentIndex]];
+//    [self.delegate slidingSegmentView:self segmentDidChange:[self.feedSelectorControl selectedSegmentIndex]];
     self.isResponsibleForSegmentChange = NO;
 }
 

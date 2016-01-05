@@ -11,6 +11,7 @@
 #import "UIFont+LeoFonts.h"
 #import "UIColor+LeoColors.h"
 #import "User.h"
+
 @interface LEOPatientProfileView ()
 
 @property (weak, nonatomic) UILabel *patientNameLabel;

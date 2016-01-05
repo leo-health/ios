@@ -148,7 +148,7 @@
 
 #pragma mark - GNZSlidingSegmentView Delegate
 - (void)slidingSegmentView:(GNZSlidingSegmentView *)slidingSegmentView segmentDidChange:(NSUInteger)newSegmentIndex {
-    [self.headerView didChangeSegmentSelection:newSegmentIndex];
+//    [self.headerView didChangeSegmentSelection:newSegmentIndex];
 }
 
 
