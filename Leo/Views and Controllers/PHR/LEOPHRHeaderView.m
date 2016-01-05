@@ -107,19 +107,11 @@
     [super updateConstraints];
 }
 
-- (void)segmentDidChange:(UISegmentedControl *)sender
-{
+- (void)segmentDidChange:(UISegmentedControl *)sender {
     NSUInteger segmentIndex = [sender selectedSegmentIndex];
 
     [self.patientSelectorView didChangeSegmentSelection:segmentIndex];
     self.patientProfileView.patient = self.patients[segmentIndex];
 }
-
-
-//- (void)didChangeSegmentSelection:(NSUInteger)segmentIndex {
-//
-//    [self.patientSelectorView didChangeSegmentSelection:segmentIndex];
-//    self.patientProfileView.patient = self.patients[segmentIndex];
-//}
 
 @end

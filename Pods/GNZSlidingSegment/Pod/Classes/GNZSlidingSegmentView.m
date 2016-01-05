@@ -161,14 +161,10 @@ typedef NS_ENUM(NSUInteger, ScrollDirection) {
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-
-//    [self.delegate slidingSegmentView:self segmentDidChange:[self.feedSelectorControl selectedSegmentIndex]];
     self.isResponsibleForSegmentChange = NO;
 }
 
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
-
-//    [self.delegate slidingSegmentView:self segmentDidChange:[self.feedSelectorControl selectedSegmentIndex]];
     self.isResponsibleForSegmentChange = NO;
 }
 
