@@ -149,17 +149,12 @@
                 _avatar = rawImage;
                 [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationAvatarUpdate object:self];
             } else {
-                //TODO: deal with an error?
+                //TODO: ZSD deal with an error?
             }
         }];
     }
 
     return _avatar;
-}
-
-
-- (BOOL)hasUniqueAvatar {
-    return [UIImage imageNamed:@"Icon-Avatar"] ? NO : YES;
 }
 
 //TODO: Refactor
