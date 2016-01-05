@@ -8,11 +8,6 @@
 
 #import "LEOPatientProfileView.h"
 #import "Patient.h"
-@interface LEOPatientProfileView ()
-
-@property (strong, nonatomic) Patient *patient;
-
-@end
 
 @implementation LEOPatientProfileView
 
