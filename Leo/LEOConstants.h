@@ -368,8 +368,11 @@ extern NSString *const kLEOValidationsErrorDomain; // @"LEOValidationsErrorDomai
 extern NSString *const kFlatironPediatricsPhoneNumber; // @"2124605600"; //Flatiron Pediatrics
 
 #pragma mark - URLs
-extern NSString *const kURLTermsAndConditions; // = @"https://provider.leoforkids.com/#/terms";
-extern NSString *const kURLPrivacyPolicy; // = @"https://provider.leoforkids.com/#/terms";
+extern NSString *const kURLTermsAndConditions; // @"https://provider.leoforkids.com/#/terms";
+extern NSString *const kURLPrivacyPolicy; // @"https://provider.leoforkids.com/#/terms";
+
+#pragma mark - Notifications
+extern NSString *const kNotificationAvatarUpdate; // @"Avatar-Updated";
 
 @end
 
