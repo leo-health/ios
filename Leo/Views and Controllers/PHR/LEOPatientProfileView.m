@@ -11,6 +11,8 @@
 #import "UIFont+LeoFonts.h"
 #import "UIColor+LeoColors.h"
 #import "User.h"
+#import "LEOUserService.h"
+#import "LEOMessagesAvatarImageFactory.h"
 
 @interface LEOPatientProfileView ()
 
@@ -21,6 +23,11 @@
 @end
 
 @implementation LEOPatientProfileView
+
+static CGFloat const kAvatarProfileDiameter = 67;
+static CGFloat const kAvatarProfileBorderWidth = 1.0;
+static CGFloat const kSpacerProfileTop = 50.0;
+static CGFloat const kSpacerProfileBottom = 4.0;
 
 - (instancetype)initWithPatient:(Patient *)patient {
     self = [super init];
@@ -42,7 +49,7 @@
 
         _patientNameLabel.text = self.patient.fullName;
         _patientNameLabel.font = [UIFont leo_expandedCardHeaderFont];
-        _patientNameLabel.textColor = [UIColor leo_grayForTitlesAndHeadings];
+        _patientNameLabel.textColor = [UIColor leo_white];
         [_patientNameLabel sizeToFit];
     }
 
@@ -53,15 +60,14 @@
 
     if (!_patientAvatarImageView) {
 
-        if (!self.patient.avatar) {
+        UIImage *profileImage = [LEOMessagesAvatarImageFactory circularAvatarImage:self.patient.avatar withDiameter:kAvatarProfileDiameter borderColor:[UIColor leo_white] borderWidth:kAvatarProfileBorderWidth];
 
-
-        }
-
-        UIImageView *strongImageView = [[UIImageView alloc] initWithImage:self.patient.avatar];
+        UIImageView *strongImageView = [[UIImageView alloc] initWithImage:profileImage];
 
         _patientAvatarImageView = strongImageView;
         [self addSubview:_patientAvatarImageView];
+
+        [_patientAvatarImageView sizeToFit];
     }
 
     return _patientAvatarImageView;
@@ -80,25 +86,32 @@
 
         NSArray *horizontalConstraintsForPatientNameLabel = [NSLayoutConstraint constraintsWithVisualFormat:@"H:[_patientNameLabel]" options:0 metrics:nil views:bindings];
 
+        NSArray *horizontalConstraintsForPatientAvatarImageView = [NSLayoutConstraint constraintsWithVisualFormat:@"H:[_patientAvatarImageView(avatarDiameter)]" options:0 metrics:@{@"avatarDiameter" : @(kAvatarProfileDiameter)} views:bindings];
+
+        NSLayoutConstraint *centerConstraintForPatientAvatarImageView = [NSLayoutConstraint constraintWithItem:self.patientAvatarImageView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0];
+
         NSLayoutConstraint *centerConstraintForPatientNameLabel = [NSLayoutConstraint constraintWithItem:self.patientNameLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0];
 
-        NSArray *verticalConstraintsForPatientNameLabel = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[_patientAvatarImageView][_patientNameLabel]-(4)-|" options:0 metrics:nil views:bindings];
+        NSArray *verticalConstraintsForProfile = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(topSpacer)-[_patientAvatarImageView(avatarDiameter)][_patientNameLabel]-(bottomSpacer)-|" options:0 metrics:@{@"avatarDiameter" : @(kAvatarProfileDiameter), @"topSpacer" : @(kSpacerProfileTop), @"bottomSpacer" : @(kSpacerProfileBottom) } views:bindings];
 
+        [self addConstraints:horizontalConstraintsForPatientAvatarImageView];
         [self addConstraints:horizontalConstraintsForPatientNameLabel];
-        [self addConstraints:verticalConstraintsForPatientNameLabel];
+        [self addConstraints:verticalConstraintsForProfile];
         [self addConstraint:centerConstraintForPatientNameLabel];
-
+        [self addConstraint:centerConstraintForPatientAvatarImageView];
+        
         self.alreadyUpdatedConstraints = YES;
     }
 
     [super updateConstraints];
 }
 
--(void)setPatient:(Patient *)patient {
+- (void)setPatient:(Patient *)patient {
 
     _patient = patient;
+
     self.patientNameLabel.text = _patient.fullName;
-    self.patientAvatarImageView.image = _patient.avatar;
+    self.patientAvatarImageView.image = [LEOMessagesAvatarImageFactory circularAvatarImage:_patient.avatar withDiameter:kAvatarProfileDiameter borderColor:[UIColor leo_white] borderWidth:kAvatarProfileBorderWidth];
 }
 
 @end
