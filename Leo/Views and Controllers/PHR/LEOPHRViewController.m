@@ -32,6 +32,9 @@
 
 @implementation LEOPHRViewController
 
+
+#pragma mark - VCL & Helper
+
 - (instancetype)initWithPatients:(NSArray *)patients {
     
     self = [super init];
@@ -41,11 +44,8 @@
     return self;
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
 
-    // Do any additional setup after loading the view.
-}
+#pragma mark - Accessors
 
 -(LEOPHRHeaderView *)headerView {
 
@@ -81,36 +81,6 @@
     return _segmentViewControllers;
 }
 
--(void)updateViewConstraints {
-
-    if (!self.alreadyUpdatedConstraints) {
-
-        [self.view removeConstraints:self.view.constraints];
-        self.headerView.translatesAutoresizingMaskIntoConstraints = NO;
-        self.slidingSegmentView.translatesAutoresizingMaskIntoConstraints = NO;
-
-        NSDictionary *bindings = NSDictionaryOfVariableBindings(_headerView,_slidingSegmentView);
-
-        NSArray *horizontalConstraintsForPatientSelectorView = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_headerView]|" options:0 metrics:nil views:bindings];
-        NSArray *horizontalConstraintsForSlidingSegmentView = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_slidingSegmentView]|" options:0 metrics:nil views:bindings];
-
-
-        //TODO: ZSD Determine appropriate way to size header vs. body if constants are not appropriate.
-
-        NSInteger headerViewHeight = 174;
-        NSInteger slidingSegmentViewHeight = CGRectGetHeight([UIScreen mainScreen].bounds) - headerViewHeight;
-
-        NSArray *verticalConstraintsForSubviews = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_headerView(headerViewHeight)][_slidingSegmentView(slidingSegmentViewHeight)]|" options:0 metrics:@{ @"headerViewHeight" : @(headerViewHeight), @"slidingSegmentViewHeight" : @(slidingSegmentViewHeight)} views:bindings];
-
-        [self.view addConstraints:horizontalConstraintsForPatientSelectorView];
-        [self.view addConstraints:horizontalConstraintsForSlidingSegmentView];
-        [self.view addConstraints:verticalConstraintsForSubviews];
-
-        self.alreadyUpdatedConstraints = YES;
-    }
-
-    [super updateViewConstraints];
-}
 
 -(GNZSlidingSegmentView *)slidingSegmentView {
 
@@ -125,16 +95,41 @@
         _slidingSegmentView.dataSource = self;
         _slidingSegmentView.delegate = self;
     }
-
+    
     return _slidingSegmentView;
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+
+#pragma mark - Layout
+
+-(void)updateViewConstraints {
+
+    if (!self.alreadyUpdatedConstraints) {
+
+        [self.view removeConstraints:self.view.constraints];
+        self.headerView.translatesAutoresizingMaskIntoConstraints = NO;
+        self.slidingSegmentView.translatesAutoresizingMaskIntoConstraints = NO;
+
+        NSDictionary *bindings = NSDictionaryOfVariableBindings(_headerView,_slidingSegmentView);
+
+        NSArray *horizontalConstraintsForPatientSelectorView = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_headerView]|" options:0 metrics:nil views:bindings];
+        NSArray *horizontalConstraintsForSlidingSegmentView = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_slidingSegmentView]|" options:0 metrics:nil views:bindings];
+
+        NSArray *verticalConstraintsForSubviews = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_headerView][_slidingSegmentView(300)]|" options:0 metrics:nil views:bindings];
+
+        [self.view addConstraints:horizontalConstraintsForPatientSelectorView];
+        [self.view addConstraints:horizontalConstraintsForSlidingSegmentView];
+        [self.view addConstraints:verticalConstraintsForSubviews];
+
+        self.alreadyUpdatedConstraints = YES;
+    }
+
+    [super updateViewConstraints];
 }
 
+
 #pragma mark - GNZSlidingSegmentView Datasource
+
 - (id<GNZSegment>)segmentedControlForSlidingSegmentView:(GNZSlidingSegmentView *)segmentPageController {
     return self.headerView.segmentControl;
 }

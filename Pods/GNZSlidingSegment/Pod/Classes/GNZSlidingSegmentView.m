@@ -21,7 +21,6 @@ typedef NS_ENUM(NSUInteger, ScrollDirection) {
 @property (nonatomic) CGFloat lastContentOffsetX;
 @property (nonatomic) NSInteger currentPage;
 @property (nonatomic) BOOL isResponsibleForSegmentChange;
-@property (nonatomic) ScrollDirection lastScrollDirection;
 
 @end
 @implementation GNZSlidingSegmentView
@@ -134,44 +133,28 @@ typedef NS_ENUM(NSUInteger, ScrollDirection) {
     ScrollDirection currentScrollDirection;
 
     if (scrollView.contentOffset.x > self.lastContentOffsetX) {
-        self.lastScrollDirection = ScrollDirectionRight;
         currentScrollDirection = ScrollDirectionRight;
     }
 
     if (scrollView.contentOffset.x < self.lastContentOffsetX) {
-        self.lastScrollDirection = ScrollDirectionLeft;
         currentScrollDirection = ScrollDirectionLeft;
     }
 
     if (self.isResponsibleForSegmentChange) {
-        if (currentScrollDirection == ScrollDirectionRight) {
 
-//            NSLog(@"current page: %d", self.currentPage);
-//            NSLog(@"currentPageForScrollView: %d", [self currentPageForScrollView:scrollView] );
+        if (!([self currentPageForScrollView:scrollView] == self.currentPage)) {
 
-            if (!([self currentPageForScrollView:scrollView] == self.currentPage)) {
-                self.feedSelectorControl.selectedSegmentIndex ++;
-//                NSLog(@"Selector did increment!");
-                self.currentPage = [self currentPageForScrollView:scrollView];
+            currentScrollDirection == ScrollDirectionRight ? self.feedSelectorControl.selectedSegmentIndex ++ : self.feedSelectorControl.selectedSegmentIndex -- ;
 
-                if ([self.feedSelectorControl respondsToSelector:@selector(adjustIndicatorForScroll:)]) {
-                    [(id <GNZSegment>)self.feedSelectorControl adjustIndicatorForScroll:scrollView];
-                }
-            }
-        } else if (currentScrollDirection == ScrollDirectionLeft) {
+            self.currentPage = [self currentPageForScrollView:scrollView];
 
-            if (!([self currentPageForScrollView:scrollView] == self.currentPage)) {
-                self.feedSelectorControl.selectedSegmentIndex --;
-                self.currentPage = [self currentPageForScrollView:scrollView];
+            if ([self.feedSelectorControl respondsToSelector:@selector(adjustIndicatorForScroll:)]) {
 
-                if ([self.feedSelectorControl respondsToSelector:@selector(adjustIndicatorForScroll:)]) {
-                    [(id <GNZSegment>)self.feedSelectorControl adjustIndicatorForScroll:scrollView];
-                }
+                [(id <GNZSegment>)self.feedSelectorControl adjustIndicatorForScroll:scrollView];
             }
         }
     }
 
-    self.lastScrollDirection = currentScrollDirection;
     self.lastContentOffsetX = scrollView.contentOffset.x;
 }
 

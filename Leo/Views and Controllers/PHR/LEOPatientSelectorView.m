@@ -24,7 +24,8 @@
 
 @implementation LEOPatientSelectorView
 
-static const CGFloat kSelectorViewHeight = 32.0;
+static const CGFloat kHeightSegmentControl = 45.0;
+static const CGFloat kDistanceSegments = 26.0;
 
 - (instancetype)initWithPatients:(NSArray *)patients {
 
@@ -53,29 +54,18 @@ static const CGFloat kSelectorViewHeight = 32.0;
         _segmentedControl = strongSegmentedControl;
         _segmentedControl.backgroundColor = [UIColor clearColor];
         _segmentedControl.font = [UIFont leo_fieldAndUserLabelsAndSecondaryButtonsFont];
-        _segmentedControl.controlHeight = 32.0;
-
+        _segmentedControl.segmentDistance = kDistanceSegments;
+        _segmentedControl.controlHeight = kHeightSegmentControl;
+        
         _segmentedControl.customIndicatorAnimatorBlock = ^void(UIScrollView *scrollView) {
 
             CGRect selectedSegmentRect = [self.segmentedControl selectedSegmentFrameAdjustedForSpacing];
 
-            //TODO: ZSD Consider using convertRect:toView: instead of the below to calculate visibleRect.
-
-            CGRect visibleRect;
-            visibleRect.origin = self.contentOffset;
-            visibleRect.size = self.bounds.size;
-
-            float theScale = 1.0;
-            visibleRect.origin.x *= theScale;
-            visibleRect.origin.y *= theScale;
-            visibleRect.size.width *= theScale;
-            visibleRect.size.height *= theScale;
+            CGRect visibleRect = [self.contentView convertRect:self.bounds toView:self.contentView];
 
             BOOL segmentIsFullyOnScreen = CGRectContainsRect(visibleRect, selectedSegmentRect);
 
             if (!segmentIsFullyOnScreen) {
-
-                NSLog(@"Segment Index Animating On Screen: %lu", [_segmentedControl selectedSegmentIndex]);
 
                 CGRect onScreenRectOfSelectedSegment = CGRectIntersection(visibleRect, selectedSegmentRect);
 
@@ -160,12 +150,13 @@ static const CGFloat kSelectorViewHeight = 32.0;
         self.alreadyUpdatedConstraints = YES;
     }
 
-    if (CGRectGetWidth(self.segmentedControl.bounds) < CGRectGetWidth(self.bounds)) {
-
-        NSLayoutConstraint *centerXConstraintForContentView = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0];
-
-        [self addConstraint:centerXConstraintForContentView];
-    }
+//    if (CGRectGetWidth(self.segmentedControl.bounds) < CGRectGetWidth(self.bounds)) {
+//
+//        //this happens outside of alreadyUpdatedConstraints block because the segmentedControl bounds
+//        NSLayoutConstraint *centerXConstraintForContentView = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0];
+//
+//        [self addConstraint:centerXConstraintForContentView];
+//    }
 
     [super updateConstraints];
 }

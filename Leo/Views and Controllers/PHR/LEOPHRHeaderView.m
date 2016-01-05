@@ -10,6 +10,7 @@
 #import "LEOPatientProfileView.h"
 #import "LEOPatientSelectorView.h"
 #import "UIColor+LeoColors.h"
+#import <GNZSlidingSegment/GNZSegmentedControl.h>
 
 @interface LEOPHRHeaderView ()
 
@@ -38,7 +39,9 @@
 
     if (!_patientProfileView) {
 
-        LEOPatientProfileView *strongPatientProfileView = [LEOPatientProfileView new];
+        NSUInteger patientIndex = [self.patientSelectorView.segmentedControl selectedSegmentIndex];
+
+        LEOPatientProfileView *strongPatientProfileView = [[LEOPatientProfileView alloc] initWithPatient:self.patients[patientIndex]];
 
         _patientProfileView = strongPatientProfileView;
         _patientProfileView.backgroundColor = [UIColor leo_orangeRed];
@@ -102,13 +105,10 @@
     [super updateConstraints];
 }
 
-- (CGSize)intrinsicContentSize {
-
-    CGFloat height = CGRectGetHeight(self.patientProfileView.bounds) + CGRectGetHeight(self.patientSelectorView.bounds);
-    return CGSizeMake(UIViewNoIntrinsicMetric, height);
-}
-
 - (void)didChangeSegmentSelection:(NSUInteger)segmentIndex {
+
     [self.patientSelectorView didChangeSegmentSelection:segmentIndex];
+    self.patientProfileView.patient = self.patients[segmentIndex];
 }
+
 @end

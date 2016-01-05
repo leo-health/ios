@@ -14,4 +14,6 @@
 
 - (instancetype)initWithPatient:(Patient *)patient;
 
+@property (strong, nonatomic) Patient *patient;
+
 @end

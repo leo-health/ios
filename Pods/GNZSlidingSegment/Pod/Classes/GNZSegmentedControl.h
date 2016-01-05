@@ -28,6 +28,7 @@ typedef void(^CustomIndicatorAnimatorBlock)(UIScrollView *scrollView);
 
 @property (nonatomic) UIFont *font;
 @property (nonatomic) CGFloat controlHeight;
+@property (nonatomic) CGFloat segmentDistance;
 @property (strong, nonatomic) CustomIndicatorAnimatorBlock customIndicatorAnimatorBlock;
 
 + (instancetype)new __attribute__((unavailable("use initWithSegmentCount:options:")));
