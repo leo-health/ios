@@ -27,6 +27,8 @@
 static const CGFloat kHeightSegmentControl = 45.0;
 static const CGFloat kDistanceSegments = 26.0;
 
+#pragma mark - VFL & Helper Methods
+
 - (instancetype)initWithPatients:(NSArray *)patients {
 
     self = [super init];
@@ -40,6 +42,8 @@ static const CGFloat kDistanceSegments = 26.0;
     return self;
 }
 
+
+#pragma mark - Accessors
 
 - (GNZSegmentedControl *)segmentedControl {
 
@@ -116,6 +120,9 @@ static const CGFloat kDistanceSegments = 26.0;
     return _contentView;
 }
 
+
+#pragma mark - Layout
+
 - (void)updateConstraints {
 
     if (!self.alreadyUpdatedConstraints) {
@@ -150,14 +157,6 @@ static const CGFloat kDistanceSegments = 26.0;
         self.alreadyUpdatedConstraints = YES;
     }
 
-//    if (CGRectGetWidth(self.segmentedControl.bounds) < CGRectGetWidth(self.bounds)) {
-//
-//        //this happens outside of alreadyUpdatedConstraints block because the segmentedControl bounds
-//        NSLayoutConstraint *centerXConstraintForContentView = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0];
-//
-//        [self addConstraint:centerXConstraintForContentView];
-//    }
-
     [super updateConstraints];
 }
 
@@ -172,24 +171,6 @@ static const CGFloat kDistanceSegments = 26.0;
     }
 
     [super layoutSubviews];
-}
-
-- (NSArray *)createPatientButtons {
-
-    NSMutableArray<UIButton *> *patientButtons = [NSMutableArray new];
-
-    for (Patient *patient in self.patients) {
-
-        UIButton *patientButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [patientButton setTitle:patient.firstName forState:UIControlStateNormal];
-
-        [patientButton sizeToFit];
-
-        [patientButtons addObject:patientButton];
-        //TODO: Add actions for state to actually move page view control
-    }
-
-    return patientButtons;
 }
 
 

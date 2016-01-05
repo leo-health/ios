@@ -30,6 +30,8 @@
 
     if (self) {
         _patients = patients;
+
+        [self.segmentControl addTarget:self action:@selector(segmentDidChange:) forControlEvents:UIControlEventValueChanged];
     }
 
     return self;
@@ -105,7 +107,8 @@
     [super updateConstraints];
 }
 
-- (void)didChangeSegmentSelection:(NSUInteger)segmentIndex {
+- (void)segmentDidChange:(UISegmentedControl *)sender {
+    NSUInteger segmentIndex = [sender selectedSegmentIndex];
 
     [self.patientSelectorView didChangeSegmentSelection:segmentIndex];
     self.patientProfileView.patient = self.patients[segmentIndex];
