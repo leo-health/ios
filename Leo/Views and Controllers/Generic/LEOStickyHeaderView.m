@@ -161,8 +161,7 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 
 - (void)setupSubviews {
 
-    self.contentView.backgroundColor = [UIColor blackColor];
-    self.bodyView.backgroundColor = [UIColor redColor];
+    self.contentView.backgroundColor = [UIColor clearColor];
 }
 
 #pragma mark - Layout
@@ -187,10 +186,16 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 -(void)layoutSubviews {
 
     [super layoutSubviews];
-    if (!self.pathLayer) {
+    if (!self.pathLayer && !self.breakerHidden) {
         [self setupBreaker];
     }
-    self.bodyViewTopConstraint.constant = CGRectGetHeight(self.titleView.bounds);
+
+    CGFloat headerHeight = CGRectGetHeight(self.titleView.bounds);
+    self.bodyViewTopConstraint.constant = headerHeight;
+    // default snapToHeight to be the same height as the header
+    if (self.snapToHeight == nil) {
+        self.snapToHeight = @(headerHeight);
+    }
     [super layoutSubviews];
 }
 
@@ -215,6 +220,7 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 
     NSDictionary *viewDictionary = NSDictionaryOfVariableBindings(_titleView, _bodyView, _scrollView, _contentView, _separatorLine, _footerView);
 
+    // Outside scroll view
     NSArray *verticalLayoutConstraintsForScrollView = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_scrollView][_separatorLine(==1)][_footerView]|" options:0 metrics:nil views:viewDictionary];
     NSArray *horizontalLayoutConstraintsForButtonView = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_footerView]|" options:0 metrics:nil views:viewDictionary];
     NSArray *horizontalLayoutConstraintsForScrollView = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_scrollView]|" options:0 metrics:nil views:viewDictionary];
@@ -225,27 +231,25 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
     [self addConstraints:horizontalLayoutConstraintsForSeparatorLineView];
     [self addConstraints:horizontalLayoutConstraintsForButtonView];
 
+    // Inside scroll view
     NSArray *verticalLayoutConstraintsForContentView = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_contentView]|" options:0 metrics:nil views:viewDictionary];
     NSArray *horizontalLayoutConstraintsForContentView = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_contentView]|" options:0 metrics:nil views:viewDictionary];
     [self.scrollView addConstraints:verticalLayoutConstraintsForContentView];
     [self.scrollView addConstraints:horizontalLayoutConstraintsForContentView];
 
-// handled in subview
-//    NSLayoutConstraint *titleHeightConstraint = [NSLayoutConstraint constraintWithItem:_titleView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:kTitleHeight];
+
+    NSArray *horizontalLayoutConstraintsForHeaderView = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_titleView]|" options:0 metrics:nil views:viewDictionary];
+    NSArray *horizontalLayoutConstraintsForBodyView = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_bodyView]|" options:0 metrics:nil views:viewDictionary];
+
+    [self.contentView addConstraints:horizontalLayoutConstraintsForHeaderView];
+    [self.contentView addConstraints:horizontalLayoutConstraintsForBodyView];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.scrollView attribute:NSLayoutAttributeWidth multiplier:1 constant:0]];
 
     self.titleViewTopConstraint = [NSLayoutConstraint constraintWithItem:self.titleView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1 constant:kTitleViewTopConstraintOriginalConstant];
     self.bodyViewTopConstraint = [NSLayoutConstraint constraintWithItem:self.bodyView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1 constant:100];
 
     NSArray *verticalLayoutConstraintsForBodyView = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_bodyView]|" options:0 metrics:nil views:viewDictionary];
 
-    //TODO: This definitely is not the "right" solution. It is the "work" solution. The hardcoding here cannot be removed with this as the solution. Revisit and think through alternative.
-    CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width - 20;
-    CGFloat screenWidthWithMargins = screenWidth - 60;
-    NSArray *horizontalTitleViewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_titleView(w)]" options:0 metrics:@{@"w" : @(screenWidth)} views:viewDictionary];
-    NSArray *horizontalBodyViewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(30)-[_bodyView(wM)]-(30)-|" options:0 metrics:@{@"wM" : @(screenWidthWithMargins)} views:viewDictionary];
-
-    [self.contentView addConstraints:horizontalBodyViewConstraints];
-    [self.contentView addConstraints:horizontalTitleViewConstraints];
     [self.contentView addConstraint:self.titleViewTopConstraint];
     [self.contentView addConstraint:self.bodyViewTopConstraint];
     [self.contentView addConstraints:verticalLayoutConstraintsForBodyView];
@@ -283,7 +287,7 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 - (void)updateBreakerWithBlock:(void (^) (CABasicAnimation *fadeAnimation))transitionBlock {
 
     CABasicAnimation *fadeAnimation = [CABasicAnimation animationWithKeyPath:@"strokeColor"];
-    fadeAnimation.duration = .3;
+    fadeAnimation.duration = .2;
 
     transitionBlock(fadeAnimation);
 
@@ -329,16 +333,23 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
     [self animateBreakerIfNeeded];
 
     // stick titleView to top
-    if (self.scrollView.contentOffset.y > [self heightOfTitleView] - [self navBarHeight]) {
-        self.titleViewTopConstraint.constant = self.scrollView.contentOffset.y - [self heightOfTitleView] + [self navBarHeight];
+    if (offset.y > [self heightOfTitleView] - [self navBarHeight]) {
+        self.titleViewTopConstraint.constant = offset.y - [self heightOfTitleView] + [self navBarHeight];
+        NSLog(@"1 offset: %f", offset.y);
+    } else if (self.headerShouldNotBounceOnScroll && offset.y < 0) {
+        self.titleViewTopConstraint.constant = offset.y;
+        NSLog(@"2 offset: %f", offset.y);
     } else {
         self.titleViewTopConstraint.constant = kTitleViewTopConstraintOriginalConstant;
+        NSLog(@"3 offset: %f", offset.y);
     }
 
     // update gradient
     CGFloat percentage = [self transitionPercentageForScrollOffset:offset];
     percentage = percentage > 1 ? 1 : percentage;
-    [self.delegate updateTitleViewForScrollTransitionPercentage:percentage];
+    if ([self.delegate respondsToSelector:@selector(updateTitleViewForScrollTransitionPercentage:)]) {
+        [self.delegate updateTitleViewForScrollTransitionPercentage:percentage];
+    }
 }
 
 -(CGFloat)transitionPercentageForScrollOffset:(CGPoint)offset {
@@ -359,13 +370,6 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
     if (scrollView == self.scrollView) {
 
         decelerate ? nil : [self navigationTitleViewSnapsForScrollView:scrollView];
-    }
-}
-
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-
-    if (scrollView == self.scrollView) {
-        [self navigationTitleViewSnapsForScrollView:scrollView];
     }
 }
 
@@ -423,7 +427,7 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 }
 
 - (CGFloat)navBarHeight {
-    return self.snapToHeight;
+    return [self.snapToHeight floatValue];
 }
 
 - (CGFloat)heightOfTitleView {

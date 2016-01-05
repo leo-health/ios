@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LEOStickyHeaderViewController.h"
 
-@interface LEOPHRViewController : UIViewController 
+@interface LEOPHRViewController : LEOStickyHeaderViewController
 
 - (instancetype)initWithPatients:(NSArray *)patients;
 

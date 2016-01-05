@@ -17,7 +17,11 @@
 
 #import "Patient.h"
 
-@interface LEOPHRViewController () <GNZSlidingSegmentViewDatasource, GNZSlidingSegmentViewDelegate>
+#import "UIColor+LeoColors.h"
+
+static CGFloat const kHeightOfHeaderPHR = 100;
+
+@interface LEOPHRViewController () <GNZSlidingSegmentViewDatasource, GNZSlidingSegmentViewDelegate, LEOStickyHeaderDataSource, LEOStickyHeaderDelegate>
 
 @property (weak, nonatomic) LEOPHRHeaderView *headerView;
 
@@ -44,6 +48,31 @@
     return self;
 }
 
+-(void)viewDidLoad {
+
+    [super viewDidLoad];
+
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    self.stickyHeaderView.headerShouldNotBounceOnScroll = YES;
+    self.stickyHeaderView.breakerHidden = YES;
+    self.stickyHeaderView.snapToHeight = @(kHeightOfHeaderPHR);
+    self.stickyHeaderView.delegate = self;
+    self.stickyHeaderView.datasource = self;
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+
+    [super viewWillAppear:animated];
+    [self setupNavigationBar];
+}
+
+-(void)setupNavigationBar {
+
+    self.navigationController.navigationBarHidden = NO;
+    self.navigationController.navigationBar.translucent = YES;
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.tintColor = [UIColor leo_white];
+}
 
 #pragma mark - Accessors
 
@@ -53,8 +82,10 @@
 
         LEOPHRHeaderView *strongHeaderView = [[LEOPHRHeaderView alloc] initWithPatients:self.patients];
         _headerView = strongHeaderView;
+        _headerView.backgroundColor = [UIColor leo_white];
 
-        [self.view addSubview:_headerView];
+        // TODO: Remove when subview content is available to size view
+        [_headerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_headerView(height)]" options:0 metrics:@{@"height":@(200)} views:NSDictionaryOfVariableBindings(_headerView)]];
     }
 
     return _headerView;
@@ -90,7 +121,8 @@
 
         _slidingSegmentView = strongSlidingSegmentView;
 
-        [self.view addSubview:_slidingSegmentView];
+        // TODO: Remove when subview content is available to size view
+        [_slidingSegmentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_slidingSegmentView(1000)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_slidingSegmentView)]];
 
         _slidingSegmentView.dataSource = self;
         _slidingSegmentView.delegate = self;
@@ -99,34 +131,15 @@
     return _slidingSegmentView;
 }
 
+#pragma mark - Sticky Header View DataSource
 
-#pragma mark - Layout
-
--(void)updateViewConstraints {
-
-    if (!self.alreadyUpdatedConstraints) {
-
-        [self.view removeConstraints:self.view.constraints];
-        self.headerView.translatesAutoresizingMaskIntoConstraints = NO;
-        self.slidingSegmentView.translatesAutoresizingMaskIntoConstraints = NO;
-
-        NSDictionary *bindings = NSDictionaryOfVariableBindings(_headerView,_slidingSegmentView);
-
-        NSArray *horizontalConstraintsForPatientSelectorView = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_headerView]|" options:0 metrics:nil views:bindings];
-        NSArray *horizontalConstraintsForSlidingSegmentView = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_slidingSegmentView]|" options:0 metrics:nil views:bindings];
-
-        NSArray *verticalConstraintsForSubviews = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_headerView][_slidingSegmentView(300)]|" options:0 metrics:nil views:bindings];
-
-        [self.view addConstraints:horizontalConstraintsForPatientSelectorView];
-        [self.view addConstraints:horizontalConstraintsForSlidingSegmentView];
-        [self.view addConstraints:verticalConstraintsForSubviews];
-
-        self.alreadyUpdatedConstraints = YES;
-    }
-
-    [super updateViewConstraints];
+-(UIView *)injectBodyView {
+    return self.slidingSegmentView;
 }
 
+-(UIView *)injectTitleView {
+    return self.headerView;
+}
 
 #pragma mark - GNZSlidingSegmentView Datasource
 
