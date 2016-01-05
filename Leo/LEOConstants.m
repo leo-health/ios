@@ -213,6 +213,7 @@ NSString *const kSegueContinue = @"ContinueSegue";
 NSString *const kSeguePlan = @"PlanSegue";
 NSString *const kSegueTermsAndConditions = @"TermsAndConditionsSegue";
 NSString *const kSeguePrivacyPolicy = @"PrivacyPolicySegue";
+NSString *const kSegueStoryboard = @"PHR";
 
 #pragma mark - Storyboards
 NSString *const kStoryboardSettings = @"Settings";
@@ -220,6 +221,7 @@ NSString *const kStoryboardLogin = @"Login";
 NSString *const kStoryboardFeed = @"Main"; //TODO: Eventually rename the file to Feed.storyboard.
 NSString *const kStoryboardConversation = @"Conversation";
 NSString *const kStoryboardAppointment = @"Appointment";
+NSString *const kStoryboardPHR = @"PHR";
 
 #pragma mark - Cell Reuse Identifiers 
 NSString *const kHeaderCellReuseIdentifier = @"LEOBasicHeaderCell";

@@ -34,6 +34,7 @@
 #import "LEOExpandedCardAppointmentViewController.h"
 #import "LEOMessagesViewController.h"
 #import "LEOSettingsViewController.h"
+#import "LEOPHRViewController.h"
 
 #import "LEOCardAppointment.h"
 #import "LEOTransitioningDelegate.h"
@@ -135,14 +136,27 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
 
     UIBarButtonItem *leoheartBBI = [[UIBarButtonItem alloc] initWithImage:heartBBI style:UIBarButtonItemStylePlain target:self action:nil];
 
+    UIImage *phrImage = [[UIImage imageNamed:@"Icon-PHR"] resizedImageToSize:CGSizeMake(30.0, 30.0)];
+
+    UIBarButtonItem *phrBBI = [[UIBarButtonItem alloc] initWithImage:phrImage style:UIBarButtonItemStylePlain target:self action:@selector(phrTouchedUpInside)];
+
     self.navigationBar.topItem.title = @"";
 
     UINavigationItem *item = [UINavigationItem new];
 
     item.leftBarButtonItem = leoheartBBI;
+    item.rightBarButtonItem = phrBBI;
 
     self.navigationBar.items = @[item];
 }
+
+- (void)phrTouchedUpInside {
+
+    LEOPHRViewController *phrViewController = [[LEOPHRViewController alloc] initWithPatients:self.family.patients];
+    phrViewController.view.backgroundColor = [UIColor whiteColor];
+    [self.navigationController pushViewController:phrViewController animated:YES];
+}
+
 
 - (void)setupNotifications {
 
