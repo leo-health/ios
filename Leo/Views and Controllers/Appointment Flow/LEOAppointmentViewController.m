@@ -88,7 +88,7 @@ static NSString *const kKeySelectionVCDate = @"date";
     [self setupNavigationBar];
 
     self.submissionButton.enabled = self.appointment.isValidForBooking;
-    self.stickyHeaderView.snapToHeight = CGRectGetHeight(self.navigationController.navigationBar.bounds);
+    self.stickyHeaderView.snapToHeight = @(CGRectGetHeight(self.navigationController.navigationBar.bounds));
 }
 
 -(void)viewWillAppear:(BOOL)animated {

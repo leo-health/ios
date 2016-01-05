@@ -16,7 +16,6 @@
 
 @implementation LEOStickyHeaderViewController
 
-@synthesize stickyHeaderView = _stickyHeaderView;
 @synthesize feature = _feature;
 
 -(instancetype)initWithFeature:(Feature)feature {

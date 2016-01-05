@@ -12,7 +12,12 @@
 #import "LEOStickyHeaderView.h"
 
 
-@interface LEOStickyHeaderViewController : UIViewController
+@interface LEOStickyHeaderViewController : UIViewController {
+    // used to allow subclasses to override accessors for lazy instantiation
+    // source: http://stackoverflow.com/questions/10943042/subclass-of-class-with-synthesized-readonly-property-cannot-access-instance-vari
+    @protected
+    LEOStickyHeaderView *_stickyHeaderView;
+}
 
 @property (nonatomic) Feature feature;
 

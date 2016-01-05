@@ -30,7 +30,9 @@ typedef void(^SubmitBlock)(void);
 @property (nonatomic) Feature feature;
 @property (nonatomic, getter=isCollapsible) BOOL collapsible;
 @property (nonatomic, getter=isCollapsed) BOOL collapsed;
-@property (nonatomic) CGFloat snapToHeight;
+@property (nonatomic) BOOL headerShouldNotBounceOnScroll;
+@property (nonatomic) BOOL breakerHidden;
+@property (nonatomic) NSNumber *snapToHeight;
 
 @property (weak, nonatomic) id<LEOStickyHeaderDataSource> datasource;
 @property (weak, nonatomic) id<LEOStickyHeaderDelegate> delegate;
