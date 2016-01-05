@@ -177,7 +177,7 @@ static const CGFloat kDistanceSegments = 26.0;
 #pragma mark - Actions
 
 - (void)didChangeSegmentSelection:(NSUInteger)segmentIndex {
-        [self.segmentedControl adjustIndicatorForScroll:self];
+    [self.segmentedControl adjustIndicatorForScroll:self];
 }
 
 

@@ -227,10 +227,6 @@ static NSString *const kKeySelectionVCDate = @"date";
 
     strongView.delegate = self;
     strongView.tintColor = [LEOStyleHelper tintColorForFeature:FeatureAppointmentScheduling];
-//
-//    UIView *marginContainer = [UIView new];
-//    [marginContainer addSubview:strongView];
-//    marginContainer addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(margin)-[]-(margin)-|" options:<#(NSLayoutFormatOptions)#> metrics:<#(nullable NSDictionary<NSString *,id> *)#> views:<#(nonnull NSDictionary<NSString *,id> *)#>]
 
     return strongView;
 }

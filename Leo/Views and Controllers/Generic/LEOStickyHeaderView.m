@@ -56,7 +56,7 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 
     // default values
     self.collapsible = YES;
-    [self setupSubviews];
+    self.contentView.backgroundColor = [UIColor clearColor];
     [self setupConstraints];
 }
 
@@ -159,11 +159,6 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
     [self reloadFooterView];
 }
 
-- (void)setupSubviews {
-
-    self.contentView.backgroundColor = [UIColor clearColor];
-}
-
 #pragma mark - Layout
 -(CGSize)intrinsicContentSize {
 
@@ -186,14 +181,17 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 -(void)layoutSubviews {
 
     [super layoutSubviews];
-    if (!self.pathLayer && !self.breakerHidden) {
-        [self setupBreaker];
+
+    if (!self.pathLayer && !self.breakerHidden && self.feature != FeatureUndefined) {
+
+        [self drawBreaker];
     }
 
     CGFloat headerHeight = CGRectGetHeight(self.titleView.bounds);
     self.bodyViewTopConstraint.constant = headerHeight;
     // default snapToHeight to be the same height as the header
-    if (self.snapToHeight == nil) {
+    if (!self.snapToHeight) {
+
         self.snapToHeight = @(headerHeight);
     }
     [super layoutSubviews];
@@ -320,31 +318,28 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
     [self.layer addSublayer:self.pathLayer];
 }
 
-- (void)setupBreaker {
-
-    [self drawBreaker];
-    self.breakerIsOnScreen = NO;
-}
-
 #pragma mark - <UIScrollViewDelegate> & Helper Methods
 
 -(void)updateTransitionPercentageForScrollOffset:(CGPoint)offset {
 
     [self animateBreakerIfNeeded];
 
-    // stick titleView to top
-    if (offset.y > [self heightOfTitleView] - [self navBarHeight]) {
+    // header should scroll with the body until it reaches collapsed position
+    BOOL shouldStayInCollapsedPosition = offset.y > [self heightOfTitleView] - [self navBarHeight];
+    BOOL shouldStayAtTopDuringBounce = self.headerShouldNotBounceOnScroll && offset.y < 0;
+
+    if (shouldStayInCollapsedPosition) {
+
         self.titleViewTopConstraint.constant = offset.y - [self heightOfTitleView] + [self navBarHeight];
-        NSLog(@"1 offset: %f", offset.y);
-    } else if (self.headerShouldNotBounceOnScroll && offset.y < 0) {
+    } else if (shouldStayAtTopDuringBounce) {
+
         self.titleViewTopConstraint.constant = offset.y;
-        NSLog(@"2 offset: %f", offset.y);
     } else {
+
         self.titleViewTopConstraint.constant = kTitleViewTopConstraintOriginalConstant;
-        NSLog(@"3 offset: %f", offset.y);
     }
 
-    // update gradient
+    // inform the delegate about the transition status
     CGFloat percentage = [self transitionPercentageForScrollOffset:offset];
     percentage = percentage > 1 ? 1 : percentage;
     if ([self.delegate respondsToSelector:@selector(updateTitleViewForScrollTransitionPercentage:)]) {
@@ -356,7 +351,7 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
     return self.scrollView.contentOffset.y / ([self heightOfTitleView] - [self navBarHeight]);
 }
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
 
     if (scrollView == self.scrollView) {
 
@@ -364,8 +359,19 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
     }
 }
 
+-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
 
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    if (scrollView == self.scrollView) {
+
+        BOOL bouncing = scrollView.contentOffset.y < 0;
+        if (!bouncing) {
+
+            [self navigationTitleViewSnapsForScrollView:scrollView];
+        }
+    }
+}
+
+-(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
 
     if (scrollView == self.scrollView) {
 
@@ -373,7 +379,7 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
     }
 }
 
-- (void)navigationTitleViewSnapsForScrollView:(UIScrollView *)scrollView {
+-(void)navigationTitleViewSnapsForScrollView:(UIScrollView *)scrollView {
 
     // Note: what is the desired functionality here? Do we want to disable the scrolling animations as well?
     if (self.isCollapsible) {

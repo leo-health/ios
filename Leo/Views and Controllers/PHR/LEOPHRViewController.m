@@ -36,7 +36,6 @@ static CGFloat const kHeightOfHeaderPHR = 100;
 
 @implementation LEOPHRViewController
 
-
 #pragma mark - VCL & Helper
 
 - (instancetype)initWithPatients:(NSArray *)patients {
@@ -53,11 +52,20 @@ static CGFloat const kHeightOfHeaderPHR = 100;
     [super viewDidLoad];
 
     self.automaticallyAdjustsScrollViewInsets = NO;
-    self.stickyHeaderView.headerShouldNotBounceOnScroll = YES;
-    self.stickyHeaderView.breakerHidden = YES;
-    self.stickyHeaderView.snapToHeight = @(kHeightOfHeaderPHR);
     self.stickyHeaderView.delegate = self;
     self.stickyHeaderView.datasource = self;
+}
+
+- (LEOStickyHeaderView *)stickyHeaderView {
+
+    if (!_stickyHeaderView) {
+
+        _stickyHeaderView = [super stickyHeaderView];
+
+        _stickyHeaderView.headerShouldNotBounceOnScroll = YES;
+        _stickyHeaderView.breakerHidden = YES;
+    }
+    return _stickyHeaderView;
 }
 
 -(void)viewWillAppear:(BOOL)animated {
