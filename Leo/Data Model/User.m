@@ -9,6 +9,7 @@
 #import "User.h"
 #import "Appointment.h"
 #import "NSDictionary+Additions.h"
+#import "LEOUserService.h"
 
 @implementation User
 
@@ -132,6 +133,33 @@
     }
     
     return [[nameComponents componentsJoinedByString:@" "] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+}
+
+- (UIImage *)avatar {
+
+    if (!_avatar) {
+
+        _avatar = [UIImage imageNamed:@"Icon-AvatarBorderless"];
+
+        LEOUserService *userService = [LEOUserService new];
+
+        [userService getAvatarForUser:self withCompletion:^(UIImage * rawImage, NSError * error) {
+
+            if (!error && rawImage) {
+                _avatar = rawImage;
+                [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationAvatarUpdate object:self];
+            } else {
+                //TODO: deal with an error?
+            }
+        }];
+    }
+
+    return _avatar;
+}
+
+
+- (BOOL)hasUniqueAvatar {
+    return [UIImage imageNamed:@"Icon-Avatar"] ? NO : YES;
 }
 
 //TODO: Refactor

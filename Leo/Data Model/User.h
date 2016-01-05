@@ -41,6 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString *)fullName;
 - (NSString *)firstAndLastName;
 - (NSString *)initials;
+- (BOOL)hasUniqueAvatar;
 
 NS_ASSUME_NONNULL_END
 @end

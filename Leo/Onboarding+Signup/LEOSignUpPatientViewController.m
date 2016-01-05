@@ -55,19 +55,7 @@
 
 - (void)viewDidAppear:(BOOL)animated {
 
-    if (!self.patient.avatar && self.patient) {
-
-        LEOUserService *userService = [LEOUserService new];
-
-        [userService getAvatarForUser:self.patient withCompletion:^(UIImage * rawImage, NSError * error) {
-
-            if (!error && rawImage) {
-
-                self.signUpPatientView.patient.avatar = rawImage;
-                [self.signUpPatientView updateAvatarImage:rawImage];
-            }
-        }];
-    }
+    [self.signUpPatientView updateAvatarImage:self.signUpPatientView.patient.avatar];
 }
 
 - (void)setFeature:(Feature)feature {

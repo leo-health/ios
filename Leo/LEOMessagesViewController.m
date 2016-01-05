@@ -496,17 +496,21 @@
         return nil;
     }
 
-    JSQMessagesAvatarImage *avatarImage = [self avatarForUser:message.sender withCompletion:^{
+    NSOperationQueue *messageQueue = [NSOperationQueue new];
+
+    [[NSNotificationCenter defaultCenter] addObserverForName:kNotificationAvatarUpdate object:message.sender queue:messageQueue usingBlock:^(NSNotification * _Nonnull notification) {
+
         [self.collectionView.collectionViewLayout invalidateLayoutWithContext:[JSQMessagesCollectionViewFlowLayoutInvalidationContext context]];
         [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
     }];
 
+    JSQMessagesAvatarImage *avatarImage = [self avatarForUser:message.sender];
+
     return avatarImage;
 }
 
-
 -(NSMutableDictionary *)avatarDictionary {
-
+    
     if (!_avatarDictionary) {
         _avatarDictionary = [[NSMutableDictionary alloc] init];
     }
@@ -514,38 +518,23 @@
     return _avatarDictionary;
 }
 
-- (JSQMessagesAvatarImage *)avatarForUser:(User *)user withCompletion:(void (^) (void))completion {
+- (JSQMessagesAvatarImage *)avatarForUser:(User *)user {
 
-    __block JSQMessagesAvatarImage *combinedImages = [self.avatarDictionary objectForKey:user.objectID];
+    JSQMessagesAvatarImage *combinedImages = [self.avatarDictionary objectForKey:user.objectID];
 
     if (combinedImages) {
         return combinedImages;
     }
 
-
     UIImage *placeholderImage = [LEOMessagesAvatarImageFactory circularAvatarImage:[UIImage imageNamed:@"Icon-AvatarBorderless"] withDiameter:20.0 borderColor:[UIColor leo_grayForPlaceholdersAndLines] borderWidth:2];
-
+    
     combinedImages = [JSQMessagesAvatarImage avatarImageWithPlaceholder:placeholderImage];
 
-    __block UIImage *avatarImage;
-    __block UIImage *avatarHighlightedImage;
+    combinedImages.avatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:user.avatar withDiameter:kJSQMessagesCollectionViewAvatarSizeDefault borderColor:[UIColor leo_grayForPlaceholdersAndLines] borderWidth:2];
 
-    LEOUserService *userService = [[LEOUserService alloc] init];
+    combinedImages.avatarHighlightedImage = [LEOMessagesAvatarImageFactory circularAvatarHighlightedImage:user.avatar withDiameter:kJSQMessagesCollectionViewAvatarSizeDefault borderColor:[UIColor leo_grayForPlaceholdersAndLines] borderWidth:2];
 
-    [userService getAvatarForUser:user withCompletion:^(UIImage *image, NSError * error) {
-
-        if (!error && image) {
-            avatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:image withDiameter:kJSQMessagesCollectionViewAvatarSizeDefault borderColor:[UIColor leo_grayForPlaceholdersAndLines] borderWidth:2];
-            avatarHighlightedImage = [LEOMessagesAvatarImageFactory circularAvatarHighlightedImage:image withDiameter:kJSQMessagesCollectionViewAvatarSizeDefault borderColor:[UIColor leo_grayForPlaceholdersAndLines] borderWidth:2];
-
-            combinedImages.avatarImage = avatarImage;
-            combinedImages.avatarHighlightedImage = avatarHighlightedImage;
-
-            [self.avatarDictionary setObject:combinedImages forKey:user.objectID];
-
-            completion();
-        }
-    }];
+    [self.avatarDictionary setObject:combinedImages forKey:user.objectID];
 
     return combinedImages;
 }
