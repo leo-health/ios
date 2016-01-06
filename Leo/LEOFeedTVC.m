@@ -132,8 +132,6 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
     self.navigationBar.barTintColor = [UIColor leo_orangeRed];
     self.navigationBar.translucent = NO;
 
-    [self.navigationBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
-
     UIImage *heartBBI = [[UIImage imageNamed:@"Icon-LeoHeart-Header"] resizedImageToSize:CGSizeMake(30.0, 30.0)];
 
     UIBarButtonItem *leoheartBBI = [[UIBarButtonItem alloc] initWithImage:heartBBI style:UIBarButtonItemStylePlain target:self action:nil];
@@ -486,7 +484,9 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
     UINavigationController *appointmentNavController = [appointmentStoryboard instantiateInitialViewController];
     self.transitionDelegate = [[LEOTransitioningDelegate alloc] initWithTransitionAnimatorType:TransitionAnimatorTypeCardModal];
     appointmentNavController.transitioningDelegate = self.transitionDelegate;
-    appointmentNavController.modalPresentationStyle = UIModalPresentationCustom;
+
+    // Mysteriously fixed the issue of the blank nav bar upon returning from appointments. Don't quite understand why. @zach do you know if there are any side effects by changing this value?
+    appointmentNavController.modalPresentationStyle = UIModalPresentationFullScreen; //UIModalPresentationCustom;
 
     LEOAppointmentViewController *appointmentBookingVC = appointmentNavController.viewControllers.firstObject;
 
@@ -743,12 +743,8 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
  */
 - (void)dismissMenuView {
 
-    [self viewWillAppear:YES];
-
     [self.menuView removeFromSuperview];
     self.menuView = nil;
-
-    [self viewDidAppear:YES];
 }
 
 -(void)didMakeMenuChoice:(MenuChoice)menuChoice {
