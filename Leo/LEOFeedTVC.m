@@ -132,9 +132,11 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
     self.navigationBar.barTintColor = [UIColor leo_orangeRed];
     self.navigationBar.translucent = NO;
 
-    UIImage *heartBBI = [[UIImage imageNamed:@"Icon-LeoHeart-Header"] resizedImageToSize:CGSizeMake(30.0, 30.0)];
-
-    UIBarButtonItem *leoheartBBI = [[UIBarButtonItem alloc] initWithImage:heartBBI style:UIBarButtonItemStylePlain target:self action:nil];
+    CGSize imgSize = CGSizeMake(30.0, 30.0);
+    UIImage *heartBBI = [[UIImage imageNamed:@"Icon-LeoHeart-Header"] resizedImageToSize:imgSize];
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:(CGRect){.origin = CGPointZero, .size = imgSize}];
+    imageView.image = heartBBI;
+    UIBarButtonItem *leoheartBBI = [[UIBarButtonItem alloc] initWithCustomView:imageView];
 
     UIImage *phrImage = [[UIImage imageNamed:@"Icon-PHR"] resizedImageToSize:CGSizeMake(30.0, 30.0)];
 
