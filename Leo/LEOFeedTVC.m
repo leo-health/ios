@@ -132,6 +132,8 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
     self.navigationBar.barTintColor = [UIColor leo_orangeRed];
     self.navigationBar.translucent = NO;
 
+    [self.navigationBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
+
     UIImage *heartBBI = [[UIImage imageNamed:@"Icon-LeoHeart-Header"] resizedImageToSize:CGSizeMake(30.0, 30.0)];
 
     UIBarButtonItem *leoheartBBI = [[UIBarButtonItem alloc] initWithImage:heartBBI style:UIBarButtonItemStylePlain target:self action:nil];
@@ -741,8 +743,12 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
  */
 - (void)dismissMenuView {
 
+    [self viewWillAppear:YES];
+
     [self.menuView removeFromSuperview];
     self.menuView = nil;
+
+    [self viewDidAppear:YES];
 }
 
 -(void)didMakeMenuChoice:(MenuChoice)menuChoice {
