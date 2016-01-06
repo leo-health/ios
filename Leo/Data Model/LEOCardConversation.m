@@ -28,7 +28,7 @@
 @implementation LEOCardConversation
 
 static NSString *kActionSelectorReply = @"reply";
-static NSString *kActionSelectorCallUs = @"callUs";
+static NSString *kActionSelectorCallUs = @"call";
 
 - (instancetype)initWithObjectID:(NSString *)objectID priority:(NSNumber *)priority associatedCardObject:(id)associatedCardObject {
     

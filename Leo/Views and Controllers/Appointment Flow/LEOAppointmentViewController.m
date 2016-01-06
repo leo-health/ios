@@ -107,22 +107,27 @@ static NSString *const kKeySelectionVCDate = @"date";
 
     [super viewWillDisappear:animated];
 
-    // Match the gradient in consecutive nav bars
-    CAGradientLayer *gradient = [CAGradientLayer layer];
-    gradient.frame = self.navigationController.navigationBar.bounds;
-    gradient.colors = self.gradientView.colors;
-    gradient.startPoint = CGPointMake(0,0);
-    gradient.endPoint = CGPointMake(1, 1);
+    // only apply the gradient nav bar when pushing
+    BOOL pushingAViewController = self.navigationController.viewControllers.count > 1;
+    if (pushingAViewController) {
 
-    __weak id weakSelf = self;
-    void(^animations)() = ^(){
-        [[weakSelf navigationController].navigationBar setBackgroundImage:[UIImage leo_imageFromLayer:gradient] forBarMetrics:UIBarMetricsDefault];
-    };
+        // Match the gradient in consecutive nav bars
+        CAGradientLayer *gradient = [CAGradientLayer layer];
+        gradient.frame = self.navigationController.navigationBar.bounds;
+        gradient.colors = self.gradientView.colors;
+        gradient.startPoint = CGPointMake(0,0);
+        gradient.endPoint = CGPointMake(1, 1);
 
-    if ([self.stickyHeaderView isCollapsed]) {
-        animations();
-    } else {
-        [self addAnimationToNavBar:animations];
+        __weak LEOAppointmentViewController *weakSelf = self;
+        void(^animations)() = ^(){
+            [weakSelf.navigationController.navigationBar setBackgroundImage:[UIImage leo_imageFromLayer:gradient] forBarMetrics:UIBarMetricsDefault];
+        };
+
+        if (self.stickyHeaderView.isCollapsed) {
+            animations();
+        } else {
+            [self addAnimationToNavBar:animations];
+        }
     }
 }
 
