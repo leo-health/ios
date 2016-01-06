@@ -487,7 +487,7 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
     self.transitionDelegate = [[LEOTransitioningDelegate alloc] initWithTransitionAnimatorType:TransitionAnimatorTypeCardModal];
     appointmentNavController.transitioningDelegate = self.transitionDelegate;
 
-    // Mysteriously fixed the issue of the blank nav bar upon returning from appointments. Don't quite understand why. @zach do you know if there are any side effects by changing this value?
+    // ????: Are there any side effects here? Using UIModalPresentationFullScreen allows viewWillAppear to be called upon dismissing a presented view controller
     appointmentNavController.modalPresentationStyle = UIModalPresentationFullScreen; //UIModalPresentationCustom;
 
     LEOAppointmentViewController *appointmentBookingVC = appointmentNavController.viewControllers.firstObject;

@@ -118,12 +118,12 @@ static NSString *const kKeySelectionVCDate = @"date";
         gradient.startPoint = CGPointMake(0,0);
         gradient.endPoint = CGPointMake(1, 1);
 
-        __weak id weakSelf = self;
+        __weak LEOAppointmentViewController *weakSelf = self;
         void(^animations)() = ^(){
-            [[weakSelf navigationController].navigationBar setBackgroundImage:[UIImage leo_imageFromLayer:gradient] forBarMetrics:UIBarMetricsDefault];
+            [weakSelf.navigationController.navigationBar setBackgroundImage:[UIImage leo_imageFromLayer:gradient] forBarMetrics:UIBarMetricsDefault];
         };
 
-        if ([self.stickyHeaderView isCollapsed]) {
+        if (self.stickyHeaderView.isCollapsed) {
             animations();
         } else {
             [self addAnimationToNavBar:animations];
