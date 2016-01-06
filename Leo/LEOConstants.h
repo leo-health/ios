@@ -173,6 +173,15 @@ extern NSString *const APIEndpointPatientEnrollments; // = @"patient_enrollments
 extern NSString *const APIEndpointAvatars; // @"avatars";
 extern NSString *const APIEndpointInvite; // @"invite";
 
+extern NSString *const APIEndpointHealthRecord; // @"patients";
+extern NSString *const APIEndpointNotes; // @"notes";
+extern NSString *const APIEndpointMedications; // @"medications";
+extern NSString *const APIEndpointAllergies; // @"allergies";
+extern NSString *const APIEndpointImmunizations; // @"immunizations";
+extern NSString *const APIEndpointBMIs; // @"bmis";
+extern NSString *const APIEndpointHeights; // @"height";
+extern NSString *const APIEndpointWeights; // @"weight";
+
 #pragma mark - Common
 extern NSString *const APIParamID; // @"id";
 extern NSString *const APIParamState; // @"appointment_status_id";
@@ -336,8 +345,13 @@ extern NSString *const APIParamPlanName; // @"plan_name";
 extern NSString *const APIParamPlanSupported; // @"supported"; //Ironically, this param is not yet supported by the API.
 
 #pragma mark - Personal Health Record
-// NOTE: API will soon support one combined request for all PHR data
-// more constants will come when the API is updated
+extern NSString *const APIParamBMIs; // @"bmis";
+extern NSString *const APIParamHeights; // @"heights";
+extern NSString *const APIParamWeights; // @"weights";
+extern NSString *const APIParamMedications; // @"medications";
+extern NSString *const APIParamAllergies; // @"allergies";
+extern NSString *const APIParamNotes; // @"notes";
+extern NSString *const APIParamImmunizations; // @"immunizations";
 
 #pragma mark - PHR Allergy
 extern NSString *const APIParamAllergyOnsetAt; // @"onset_at";
@@ -368,6 +382,8 @@ extern NSString *const APIParamPatientNoteDeletedAt; // @"deleted_at";
 extern NSString *const APIParamPatientNoteNote; // @"note";
 
 #pragma mark - Vital Measurements
+extern NSString *const APIParamVitalMeasurementSearchStartDate; // @"start_date";
+extern NSString *const APIParamVitalMeasurementSearchEndDate; // @"end_date";
 extern NSString *const APIParamVitalMeasurementTakenAt; // @"taken_at";
 extern NSString *const APIParamVitalMeasurementValue; // @"value";
 extern NSString *const APIParamVitalMeasurementPercentile; // @"percentile";

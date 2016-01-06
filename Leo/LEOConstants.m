@@ -37,6 +37,14 @@ NSString *const APIEndpointUserEnrollments = @"enrollments";
 NSString *const APIEndpointPatientEnrollments = @"patient_enrollments";
 NSString *const APIEndpointAvatars = @"avatars";
 NSString *const APIEndpointInvite = @"invite";
+NSString *const APIEndpointHealthRecord = @"patients";
+NSString *const APIEndpointNotes = @"notes";
+NSString *const APIEndpointMedications = @"medications";
+NSString *const APIEndpointAllergies = @"allergies";
+NSString *const APIEndpointImmunizations = @"immunizations";
+NSString *const APIEndpointBMIs = @"bmis";
+NSString *const APIEndpointHeights = @"height";
+NSString *const APIEndpointWeights = @"weight";
 
 #pragma mark - Common
 NSString *const APIParamID = @"id";
@@ -202,8 +210,13 @@ NSString *const APIParamPlanName = @"plan_name";
 NSString *const APIParamPlanSupported = @"supported"; //Ironically, this param is not yet supported by the API.
 
 #pragma mark - Personal Health Record
-// NOTE: API will soon support one combined request for all PHR data
-// more constants will come when the API is updated
+NSString *const APIParamBMIs = @"bmis";
+NSString *const APIParamHeights = @"heights";
+NSString *const APIParamWeights = @"weights";
+NSString *const APIParamMedications = @"medications";
+NSString *const APIParamAllergies = @"allergies";
+NSString *const APIParamNotes = @"notes";
+NSString *const APIParamImmunizations = @"immunizations";
 
 #pragma mark - PHR Allergy
 NSString *const APIParamAllergyOnsetAt = @"onset_at";
@@ -234,6 +247,8 @@ NSString *const APIParamPatientNoteDeletedAt = @"deleted_at";
 NSString *const APIParamPatientNoteNote = @"note";
 
 #pragma mark - Vital Measurements
+NSString *const APIParamVitalMeasurementSearchStartDate = @"start_date";
+NSString *const APIParamVitalMeasurementSearchEndDate = @"end_date";
 NSString *const APIParamVitalMeasurementTakenAt = @"taken_at";
 NSString *const APIParamVitalMeasurementValue = @"value";
 NSString *const APIParamVitalMeasurementPercentile = @"percentile";
