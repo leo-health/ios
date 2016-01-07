@@ -20,7 +20,6 @@
 
     // FIXME: Replace with one api call when available
 
-
     // TODO: Handle errors
 
     __block HealthRecord *healthRecord = [HealthRecord new];
@@ -86,7 +85,7 @@
 
     NSURLSessionTask *task = [[[self class] leoSessionManager] standardGETRequestForJSONDictionaryFromAPIWithEndpoint:endpoint params:params completion:^(NSDictionary *rawResults, NSError *error) {
 
-        NSArray *dictionaries = rawResults[APIParamData][0][dataParamName];
+        NSArray *dictionaries = rawResults[APIParamData][dataParamName];
 
         NSArray *objs = [PatientVitalMeasurement patientVitalsFromDictionaries:dictionaries];
 
@@ -104,7 +103,7 @@
 
     NSURLSessionTask *task = [[[self class] leoSessionManager] standardGETRequestForJSONDictionaryFromAPIWithEndpoint:endpoint params:nil completion:^(NSDictionary *rawResults, NSError *error) {
 
-        NSArray *dictionaries = rawResults[APIParamData][0][APIParamMedications];
+        NSArray *dictionaries = rawResults[APIParamData][APIParamMedications];
 
         NSArray *objs = [Medication medicationsFromDictionaries:dictionaries];
 
@@ -122,7 +121,7 @@
 
     NSURLSessionTask *task = [[[self class] leoSessionManager] standardGETRequestForJSONDictionaryFromAPIWithEndpoint:endpoint params:nil completion:^(NSDictionary *rawResults, NSError *error) {
 
-        NSArray *dictionaries = rawResults[APIParamData][0][APIParamImmunizations];
+        NSArray *dictionaries = rawResults[APIParamData][APIParamImmunizations];
 
         NSArray *objs = [Immunization immunizationsFromDictionaries:dictionaries];
 
@@ -139,7 +138,7 @@
 
     NSURLSessionTask *task = [[[self class] leoSessionManager] standardGETRequestForJSONDictionaryFromAPIWithEndpoint:endpoint params:nil completion:^(NSDictionary *rawResults, NSError *error) {
 
-        NSArray *dictionaries = rawResults[APIParamData][0][APIParamAllergies];
+        NSArray *dictionaries = rawResults[APIParamData][APIParamAllergies];
 
         NSArray *objs = [Allergy allergiesFromDictionaries:dictionaries];
 
@@ -157,7 +156,7 @@
 
     NSURLSessionTask *task = [[[self class] leoSessionManager] standardGETRequestForJSONDictionaryFromAPIWithEndpoint:endpoint params:nil completion:^(NSDictionary *rawResults, NSError *error) {
 
-        NSArray *dictionaries = rawResults[APIParamData][0][APIParamNotes];
+        NSArray *dictionaries = rawResults[APIParamData][APIParamNotes];
 
         NSArray *objs = [PatientNote patientNotesFromDictionaries:dictionaries];
 

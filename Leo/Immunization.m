@@ -38,5 +38,10 @@
     return [array copy];
 }
 
++(instancetype)mockObject {
+
+    return [[self alloc] initWithAdministeredAt:[NSDate date] vaccine:@"vaccine"];
+}
+
 
 @end

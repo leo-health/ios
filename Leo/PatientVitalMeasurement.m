@@ -40,6 +40,13 @@
     return [array copy];
 }
 
++(instancetype)mockObject {
+    return [[self alloc] initWithJSONDictionary:@{
+        @"taken_at": @"2016-01-04T12:00:59-05:00",
+        @"value": @0.016,
+        @"percentile": [NSNull null]
+        }];
+}
 
 
 @end

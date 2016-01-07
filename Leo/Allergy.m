@@ -34,6 +34,9 @@
     return [self initWithOnsetAt:onsetAt allergen:allergen severity:severity note:note];
 }
 
++(instancetype)mockObject {
+    return [[self alloc] initWithOnsetAt:[NSDate date] allergen:@"Peanuts" severity:@"High" note:@"note"];
+}
 
 +(NSArray *)allergiesFromDictionaries:(NSArray *)dictionaries {
     NSMutableArray *array = [NSMutableArray new];

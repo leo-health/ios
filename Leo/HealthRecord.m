@@ -33,4 +33,9 @@
     return nil;
 }
 
++ (instancetype)mockObject {
+
+    return [[HealthRecord alloc] initWithAllergies:@[[Allergy mockObject]] medications:@[[Medication mockObject]] immunizations:@[[Immunization mockObject]] bmis:@[[PatientVitalMeasurementBMI mockObject]] heights:@[[PatientVitalMeasurementHeight mockObject]] weights:@[[PatientVitalMeasurementWeight mockObject]] notes:@[[PatientNote mockObject]]];
+}
+
 @end

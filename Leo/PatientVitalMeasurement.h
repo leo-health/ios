@@ -23,6 +23,7 @@ typedef PatientVitalMeasurement PatientVitalMeasurementWeight;
 -(instancetype)initWithTakenAt:(NSDate *)takenAT value:(NSNumber *)value percentile:(NSNumber *)percentile;
 -(instancetype)initWithJSONDictionary:(NSDictionary *)jsonDictionary;
 +(NSArray *)patientVitalsFromDictionaries:(NSArray *)dictionaries;
++(instancetype)mockObject;
 
 NS_ASSUME_NONNULL_END
 

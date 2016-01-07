@@ -109,6 +109,7 @@ static CGFloat const kHeightOfHeaderPHR = 100;
 
             //TODO: ZSD Update once LEORecordViewController is actually built out.
             LEORecordViewController *recordVC = [[LEORecordViewController alloc] init];
+            recordVC.patient = patient;
             recordVC.view.backgroundColor = [UIColor colorWithRed:arc4random_uniform(255)/255.0 green:arc4random_uniform(255)/255.0 blue:arc4random_uniform(255.0)/255 alpha:1.0];
 
             [recordVCs addObject:recordVC];

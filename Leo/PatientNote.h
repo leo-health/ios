@@ -23,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 -(instancetype)initWithObjectID:(NSString *)objectID user:(User *)user createdAt:(NSDate *)createdAt updatedAt:(NSDate *)updatedAt deletedAt:(NSDate *)deletedAt note:(NSString *)note;
 -(instancetype)initWithJSONDictionary:(NSDictionary *)jsonDictionary;
 +(NSArray *)patientNotesFromDictionaries:(NSArray *)dictionaries;
++(instancetype)mockObject;
 
 NS_ASSUME_NONNULL_END
 
