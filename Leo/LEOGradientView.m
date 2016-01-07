@@ -44,8 +44,6 @@
         _expandedTitleLabel = strongLabel;
         _expandedTitleLabel.text = self.titleText;
         [self addSubview:_expandedTitleLabel];
-
-        [LEOStyleHelper styleExpandedTitleLabel:_expandedTitleLabel titleText:self.titleText];
     }
 
     return _expandedTitleLabel;
@@ -67,10 +65,6 @@
 
     _titleTextFont = titleTextFont;
     self.expandedTitleLabel.font = titleTextFont;
-}
-
-- (void)resetDefaultStylingForTitleLabel {
-    [LEOStyleHelper styleExpandedTitleLabel:_expandedTitleLabel titleText:self.titleText];
 }
 
 - (CAGradientLayer*)gradientLayer {
@@ -144,22 +138,22 @@
 
     if (!self.constraintsAlreadyUpdated) {
 
+        self.translatesAutoresizingMaskIntoConstraints = NO;
         self.expandedTitleLabel.translatesAutoresizingMaskIntoConstraints = NO;
 
         NSDictionary* viewDictionary = NSDictionaryOfVariableBindings(_expandedTitleLabel);
         NSArray *horizontalLayoutConstraintsForFullTitle = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(20)-[_expandedTitleLabel]-(100)-|" options:0 metrics:nil views:viewDictionary];
         NSArray *verticalLayoutConstraintsForFullTitle = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_expandedTitleLabel]-(20)-|" options:0 metrics:nil views:viewDictionary];
 
-        // only add the top constraint if the user did not explicitly specify the height
-        if ([self hasAmbiguousLayout]) {
-            NSLayoutConstraint *topConstraint = [NSLayoutConstraint constraintWithItem:self.expandedTitleLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1 constant:20];
-            [self addConstraint:topConstraint];
-        }
-
         [self addConstraints:horizontalLayoutConstraintsForFullTitle];
         [self addConstraints:verticalLayoutConstraintsForFullTitle];
 
         self.constraintsAlreadyUpdated = YES;
+    }
+
+    else if ([self hasAmbiguousLayout]) {
+        NSLayoutConstraint *topConstraint = [NSLayoutConstraint constraintWithItem:self.expandedTitleLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1 constant:20];
+        [self addConstraint:topConstraint];
     }
 
     [super updateConstraints];
@@ -179,7 +173,12 @@
         self.gradientLayer.frame = CGRectMake(0, -extraHeightForGradient, CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds) + extraHeightForGradient);
         self.previousBounds = self.bounds;
     }
+
+    [super layoutSubviews];
 }
 
+- (CGSize)intrinsicContentSize {
+    return CGSizeMake(UIViewNoIntrinsicMetric, 154);
+}
 
 @end

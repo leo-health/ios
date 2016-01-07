@@ -12,15 +12,18 @@ typedef void(^SubmitBlock)(void);
 
 @protocol LEOStickyHeaderDataSource <NSObject>
 
+@required
 -(UIView *)injectTitleView;
 -(UIView *)injectBodyView;
+
+@optional
 -(UIView *)injectFooterView;
 
 @end
 
 @protocol LEOStickyHeaderDelegate <NSObject>
 
-- (void)submitCardUpdates;
+@optional
 - (void)updateTitleViewForScrollTransitionPercentage:(CGFloat)transitionPercentage;
 
 @end
@@ -36,6 +39,7 @@ typedef void(^SubmitBlock)(void);
 
 @property (weak, nonatomic) id<LEOStickyHeaderDataSource> datasource;
 @property (weak, nonatomic) id<LEOStickyHeaderDelegate> delegate;
+
 @property (nonatomic) CGPoint scrollViewContentOffset;
 
 -(CGFloat)transitionPercentageForScrollOffset:(CGPoint)offset;

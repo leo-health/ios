@@ -29,6 +29,6 @@
 + (void)styleDismissButtonForViewController:(UIViewController *)viewController feature:(Feature)feature;
 
 + (void)styleNavigationBarForViewController:(UIViewController *)viewController forFeature:(Feature)feature withTitleText:(NSString *)titleText dismissal:(BOOL)dismissAvailable backButton:(BOOL)backAvailable;
-+ (void)styleExpandedTitleLabel:(UILabel *)label titleText:(NSString *)titleText;
++ (void)styleExpandedTitleLabel:(UILabel *)label feature:(Feature)feature;
 
 @end

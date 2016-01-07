@@ -11,5 +11,6 @@
 @interface UIView (Extensions)
 
 - (NSLayoutConstraint *)leo_pin:(id)item attribute:(NSLayoutAttribute)attribute;
+- (void)setupTouchEventForDismissingKeyboard;
 
 @end

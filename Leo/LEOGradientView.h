@@ -29,9 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) UIColor *titleTextColor;
 @property (strong, nonatomic) UIFont *titleTextFont;
 
--(instancetype)initWithColors:(NSArray *)colors initialStartPoint:(CGPoint)initialStartPoint initialEndPoint:(CGPoint)initialEndPoint finalStartPoint:(CGPoint)finalStartPoint finalEndPoint:(CGPoint)finalEndPoint;
-
--(void)resetDefaultStylingForTitleLabel;
+-(instancetype)initWithColors:(NSArray *)colors initialStartPoint:(CGPoint)initialStartPoint initialEndPoint:(CGPoint)initialEndPoint finalStartPoint:(CGPoint)finalStartPoint finalEndPoint:(CGPoint)finalEndPoint titleText:(NSString*)titleText;
 
 NS_ASSUME_NONNULL_END
 

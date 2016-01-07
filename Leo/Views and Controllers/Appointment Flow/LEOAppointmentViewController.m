@@ -38,6 +38,19 @@
 #import "LEOGradientView.h"
 #import "LEOAppointmentService.h"
 
+@interface LEOAppointmentViewController ()
+
+@property (weak, nonatomic) LEOAppointmentView *appointmentView;
+@property (strong, nonatomic) LEOGradientView *gradientView;
+@property (strong, nonatomic) UIButton *submissionButton;
+@property (strong, nonatomic) Appointment *appointment;
+
+@property (nonatomic) BOOL didLayoutSubviewsOnce;
+
+@end
+
+@implementation LEOAppointmentViewController
+
 static CGFloat const kHeightSubmitButton = 44;
 static CGFloat const kHeightStickyHeader = 150;
 
@@ -62,20 +75,6 @@ static NSString *const kCellProvider = @"ProviderCell";
 static NSString *const kPromptProvider = @"Who would you like to see?";
 static NSString *const kSegueSchedule = @"ScheduleSegue";
 static NSString *const kKeySelectionVCDate = @"date";
-
-
-@interface LEOAppointmentViewController ()
-
-@property (weak, nonatomic) LEOAppointmentView *appointmentView;
-@property (strong, nonatomic) LEOGradientView *gradientView;
-@property (strong, nonatomic) UIButton *submissionButton;
-@property (strong, nonatomic) Appointment *appointment;
-
-@property (nonatomic) BOOL didLayoutSubviewsOnce;
-
-@end
-
-@implementation LEOAppointmentViewController
 
 #pragma mark - View Lifecycle
 
@@ -188,10 +187,6 @@ static NSString *const kKeySelectionVCDate = @"date";
         _gradientView = strongView;
         _gradientView.colors = @[(id)[UIColor leo_green].CGColor, (id)[UIColor leo_white].CGColor];
         _gradientView.titleText = self.card.title;
-
-        NSNumber *height = @(kHeightStickyHeader);
-        NSArray *heightConstraint = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_gradientView(==height)]" options:0 metrics:NSDictionaryOfVariableBindings(height) views:NSDictionaryOfVariableBindings(_gradientView)];
-        [_gradientView addConstraints:heightConstraint];
     }
 
     return _gradientView;
@@ -211,14 +206,11 @@ static NSString *const kKeySelectionVCDate = @"date";
         [LEOStyleHelper styleSubmissionButton:_submissionButton forFeature:self.feature];
         [_submissionButton addTarget:self action:@selector(submitCardUpdates) forControlEvents:UIControlEventTouchUpInside];
         [_submissionButton setTitle:kCopySubmitAppointment forState:UIControlStateNormal];
-
-        NSNumber *height = @(kHeightSubmitButton);
-        NSArray *heightConstraint = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_submissionButton(==height)]" options:0 metrics:NSDictionaryOfVariableBindings(height) views:NSDictionaryOfVariableBindings(_submissionButton)];
-        [_submissionButton addConstraints:heightConstraint];
     }
 
     return _submissionButton;
 }
+
 -(void)updateTitleViewForScrollTransitionPercentage:(CGFloat)transitionPercentage {
 
     self.gradientView.currentTransitionPercentage = transitionPercentage;

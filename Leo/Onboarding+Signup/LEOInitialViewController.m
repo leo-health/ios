@@ -69,7 +69,7 @@ static NSString *const kSignUpSegue = @"SignUpSegue";
     self.transitioningDelegate = [[LEOHorizontalModalTransitioningDelegate alloc] init];
 
     navController.transitioningDelegate = self.transitioningDelegate;
-    navController.modalPresentationStyle = UIModalPresentationCustom;
+    navController.modalPresentationStyle = UIModalPresentationFullScreen;
 }
 
 
