@@ -346,8 +346,6 @@ IB_DESIGNABLE
     self.appointmentType = prepAppointment.appointmentType;
 }
 
-
-
 - (Appointment *)appointment {
 
     if (_prepAppointment) {
@@ -401,12 +399,12 @@ IB_DESIGNABLE
 
 #pragma mark - Autolayout
 
--(CGSize)intrinsicContentSize {
-
-    CGFloat intrinsicHeight = self.visitTypePromptView.textView.bounds.size.height +self.patientPromptView.textView.bounds.size.height + self.notesTextView.bounds.size.height + self.staffPromptView.textView.bounds.size.height + self.schedulePromptView.textView.bounds.size.height;
-
-    return CGSizeMake(300, intrinsicHeight);
-}
+//-(CGSize)intrinsicContentSize {
+//
+//    CGFloat intrinsicHeight = self.visitTypePromptView.textView.bounds.size.height +self.patientPromptView.textView.bounds.size.height + self.notesTextView.bounds.size.height + self.staffPromptView.textView.bounds.size.height + self.schedulePromptView.textView.bounds.size.height;
+//
+//    return CGSizeMake(300, intrinsicHeight);
+//}
 
 - (void)setupTouchEventForDismissingKeyboard {
 

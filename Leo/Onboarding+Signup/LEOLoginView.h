@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "LEOPromptField.h"
 
-@interface LEOLoginView : UIView
+@interface LEOLoginView : UIView <UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet LEOPromptField *emailPromptField;
 @property (weak, nonatomic) IBOutlet LEOPromptField *passwordPromptField;

@@ -12,7 +12,10 @@
 #import "LEOStickyHeaderView.h"
 @interface LEOStickyHeaderViewController ()
 
+@property (nonatomic) BOOL alreadyUpdatedConstraints;
+
 @end
+
 
 @implementation LEOStickyHeaderViewController
 
@@ -28,6 +31,11 @@
     return self;
 }
 
+-(void)viewDidLoad {
+
+    [super viewDidLoad];
+}
+
 -(LEOStickyHeaderView *)stickyHeaderView {
 
     if (!_stickyHeaderView) {
@@ -38,22 +46,26 @@
         _stickyHeaderView.feature = _feature;
 
         [self.view addSubview:_stickyHeaderView];
-
-        [self layoutStickyHeaderView];
     }
 
     return _stickyHeaderView;
 }
 
-- (void)layoutStickyHeaderView {
+- (void)updateViewConstraints {
 
-    self.stickyHeaderView.translatesAutoresizingMaskIntoConstraints = NO;
+    if (!self.alreadyUpdatedConstraints) {
 
-    NSDictionary *bindings = NSDictionaryOfVariableBindings(_stickyHeaderView);
+        self.stickyHeaderView.translatesAutoresizingMaskIntoConstraints = NO;
 
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_stickyHeaderView]|" options:0 metrics:nil views:bindings]];
+        NSDictionary *bindings = NSDictionaryOfVariableBindings(_stickyHeaderView);
 
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_stickyHeaderView]|" options:0 metrics:nil views:bindings]];
+        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_stickyHeaderView]|" options:0 metrics:nil views:bindings]];
+        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_stickyHeaderView]|" options:0 metrics:nil views:bindings]];
+
+        self.alreadyUpdatedConstraints = YES;
+    }
+
+    [super updateViewConstraints];
 }
 
 - (void)addAnimationToNavBar:(void(^)())animations {

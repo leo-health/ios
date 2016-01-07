@@ -8,6 +8,9 @@
 
 #import "LEOLoginView.h"
 #import "UIView+Extensions.h"
+#import "UIView+XibAdditions.h"
+#import "LEOStyleHelper.h"
+#import "LEOValidationsHelper.h"
 
 @interface LEOLoginView ()
 
@@ -22,9 +25,7 @@
     self = [super initWithCoder:aDecoder];
     
     if (self) {
-        [self setupConstraints];
         [self commonInit];
-        
     }
     
     return self;
@@ -35,7 +36,6 @@
     self = [super init];
     
     if (self) {
-        [self setupConstraints];
         [self commonInit];
     }
     
@@ -48,39 +48,62 @@
 
 }
 
+- (void)setEmailPromptField:(LEOPromptField *)emailPromptField {
 
-//TODO: Eventually should move into an extension (extension/protocol) or superclass.
+    _emailPromptField = emailPromptField;
 
-- (void)setupTouchEventForDismissingKeyboard {
-    
-    UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(viewTapped)];
-    
-    tapGestureForTextFieldDismissal.cancelsTouchesInView = NO;
-    [self addGestureRecognizer:tapGestureForTextFieldDismissal];
+    _emailPromptField.textField.delegate = self;
+    _emailPromptField.textField.standardPlaceholder = @"email address";
+    _emailPromptField.textField.validationPlaceholder = @"Invalid email";
+    _emailPromptField.textField.autocorrectionType = UITextAutocorrectionTypeNo;
+    _emailPromptField.textField.keyboardType = UIKeyboardTypeEmailAddress;
+    _emailPromptField.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
 }
 
-- (void)viewTapped {
-    
-    [self endEditing:YES];
+- (void)setPasswordPromptField:(LEOPromptField *)passwordPromptField {
+
+    _passwordPromptField = passwordPromptField;
+
+    _passwordPromptField.textField.delegate = self;
+    _passwordPromptField.textField.standardPlaceholder = @"password";
+    _passwordPromptField.textField.validationPlaceholder = @"Password must be eight characters or more";
+    _passwordPromptField.textField.secureTextEntry = YES;
 }
 
-#pragma mark - Autolayout
+- (void)setContinueButton:(UIButton *)continueButton {
 
-- (void)setupConstraints {
-    
-    NSBundle *mainBundle = [NSBundle mainBundle];
-    NSArray *loadedViews = [mainBundle loadNibNamed:@"LEOLoginView" owner:self options:nil];
-    LEOLoginView *loadedSubview = [loadedViews firstObject];
-    
-    [self addSubview:loadedSubview];
+    _continueButton = continueButton;
 
-    loadedSubview.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    [self addConstraint:[self leo_pin:loadedSubview attribute:NSLayoutAttributeTop]];
-    [self addConstraint:[self leo_pin:loadedSubview attribute:NSLayoutAttributeBottom]];
-    
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:loadedSubview attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeading multiplier:1.0 constant:30]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:loadedSubview attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-30]];
+    [LEOStyleHelper styleButton:_continueButton forFeature:FeatureOnboarding];
+    [_continueButton setTitle:@"LOG IN" forState:UIControlStateNormal];
+    [_continueButton addTarget:nil action:@selector(continueTapped:) forControlEvents:UIControlEventTouchUpInside];
 }
+
+- (void)setForgotPasswordButton:(UIButton *)forgotPasswordButton {
+
+    _forgotPasswordButton = forgotPasswordButton;
+
+    [_forgotPasswordButton addTarget:nil action:@selector(forgotPasswordTapped:) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+
+    NSMutableAttributedString *mutableText = [[NSMutableAttributedString alloc] initWithString:textField.text];
+
+    [mutableText replaceCharactersInRange:range withString:string];
+
+    if (textField == self.emailPromptField.textField && !self.emailPromptField.textField.valid) {
+
+        self.emailPromptField.textField.valid = [LEOValidationsHelper isValidEmail:mutableText.string];
+    }
+
+    if (textField == self.passwordPromptField.textField && !self.passwordPromptField.textField.valid) {
+
+        self.passwordPromptField.textField.valid = [LEOValidationsHelper isValidPassword:mutableText.string];
+    }
+
+    return YES;
+}
+
 
 @end

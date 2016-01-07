@@ -11,6 +11,8 @@
 @interface UIView (XibAdditions)
 
 - (void)leo_loadViewFromNibWithConstraints;
+- (UIView *)leo_loadViewFromNib;
+
 - (CGSize)leo_xibSize;
 
 @end

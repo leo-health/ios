@@ -13,7 +13,7 @@
 
 
 - (void)leo_loadViewFromNibWithConstraints {
-    
+
     NSBundle *mainBundle = [NSBundle mainBundle];
     NSArray *loadedViews = [mainBundle loadNibNamed:NSStringFromClass([self class]) owner:self options:nil];
     UIView *loadedSubview = [loadedViews firstObject];
@@ -26,6 +26,13 @@
     [self addConstraint:[self leo_pin:loadedSubview attribute:NSLayoutAttributeLeft]];
     [self addConstraint:[self leo_pin:loadedSubview attribute:NSLayoutAttributeBottom]];
     [self addConstraint:[self leo_pin:loadedSubview attribute:NSLayoutAttributeRight]];
+}
+
+- (UIView *)leo_loadViewFromNib {
+
+    NSBundle *mainBundle = [NSBundle mainBundle];
+    NSArray *loadedViews = [mainBundle loadNibNamed:NSStringFromClass([self class]) owner:self options:nil];
+    return [loadedViews firstObject];
 }
 
 - (CGSize)leo_xibSize {
