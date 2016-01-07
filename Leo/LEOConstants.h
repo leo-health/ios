@@ -173,6 +173,15 @@ extern NSString *const APIEndpointPatientEnrollments; // = @"patient_enrollments
 extern NSString *const APIEndpointAvatars; // @"avatars";
 extern NSString *const APIEndpointInvite; // @"invite";
 
+extern NSString *const APIEndpointHealthRecord; // @"patients";
+extern NSString *const APIEndpointNotes; // @"notes";
+extern NSString *const APIEndpointMedications; // @"medications";
+extern NSString *const APIEndpointAllergies; // @"allergies";
+extern NSString *const APIEndpointImmunizations; // @"immunizations";
+extern NSString *const APIEndpointBMIs; // @"bmis";
+extern NSString *const APIEndpointHeights; // @"height";
+extern NSString *const APIEndpointWeights; // @"weight";
+
 #pragma mark - Common
 extern NSString *const APIParamID; // @"id";
 extern NSString *const APIParamState; // @"appointment_status_id";
@@ -334,6 +343,50 @@ extern NSString *const APIParamInsurancePlan; // @"insurance_plan";
 extern NSString *const APIParamInsurancePlans; // @"insurance_plans";
 extern NSString *const APIParamPlanName; // @"plan_name";
 extern NSString *const APIParamPlanSupported; // @"supported"; //Ironically, this param is not yet supported by the API.
+
+#pragma mark - Personal Health Record
+extern NSString *const APIParamBMIs; // @"bmis";
+extern NSString *const APIParamHeights; // @"heights";
+extern NSString *const APIParamWeights; // @"weights";
+extern NSString *const APIParamMedications; // @"medications";
+extern NSString *const APIParamAllergies; // @"allergies";
+extern NSString *const APIParamNotes; // @"notes";
+extern NSString *const APIParamImmunizations; // @"immunizations";
+
+#pragma mark - PHR Allergy
+extern NSString *const APIParamAllergyOnsetAt; // @"onset_at";
+extern NSString *const APIParamAllergyAllergen; // @"allergen";
+extern NSString *const APIParamAllergySeverity; // @"severity";
+extern NSString *const APIParamAllergyNote; // @"note";
+
+#pragma mark - PHR Immunization
+extern NSString *const APIParamImmunizationAdministeredAt; // @"administered_at";
+extern NSString *const APIParamImmunizationVaccine; // @"vaccine";
+
+#pragma mark - PHR Medication
+extern NSString *const APIParamMedicationStartedAt; // @"started_at";
+extern NSString *const APIParamMedicationEnteredAt; // @"entered_at";
+extern NSString *const APIParamMedicationMedication; // @"medication";
+extern NSString *const APIParamMedicationSig; // @"sig";
+extern NSString *const APIParamMedicationNote; // @"note";
+extern NSString *const APIParamMedicationDose; // @"dose";
+extern NSString *const APIParamMedicationRoute; // @"route";
+extern NSString *const APIParamMedicationFrequency; // @"frequency";
+
+#pragma mark - Patient Note
+extern NSString *const APIParamPatientNoteID; // @"id";
+extern NSString *const APIParamPatientNoteUser; // @"user";
+extern NSString *const APIParamPatientNoteCreatedAt; // @"created_at";
+extern NSString *const APIParamPatientNoteUpdatedAt; // @"updated_at";
+extern NSString *const APIParamPatientNoteDeletedAt; // @"deleted_at";
+extern NSString *const APIParamPatientNoteNote; // @"note";
+
+#pragma mark - Vital Measurements
+extern NSString *const APIParamVitalMeasurementSearchStartDate; // @"start_date";
+extern NSString *const APIParamVitalMeasurementSearchEndDate; // @"end_date";
+extern NSString *const APIParamVitalMeasurementTakenAt; // @"taken_at";
+extern NSString *const APIParamVitalMeasurementValue; // @"value";
+extern NSString *const APIParamVitalMeasurementPercentile; // @"percentile";
 
 #pragma mark - Magic numbers
 extern CGFloat const kSelectionLineHeight; // 2.0f;

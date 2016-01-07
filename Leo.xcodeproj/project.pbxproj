@@ -194,6 +194,13 @@
 		31FDDE6F1B29EDF70009BBC2 /* ArrayDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 3130B48E1B068CE0006ACC80 /* ArrayDataSource.m */; };
 		31FEF1571B0D09E700AD14D2 /* LEOSecondaryUserView.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FEF1561B0D09E700AD14D2 /* LEOSecondaryUserView.m */; };
 		6660C93E1C3AF92800C2657B /* LEOGradientHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6660C93D1C3AF92800C2657B /* LEOGradientHelper.m */; };
+		66A5DB271C3D95FD008AEC55 /* HealthRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A5DB261C3D95FD008AEC55 /* HealthRecord.m */; };
+		66A5DB2A1C3D964C008AEC55 /* Allergy.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A5DB291C3D964C008AEC55 /* Allergy.m */; };
+		66A5DB2D1C3D96A9008AEC55 /* Immunization.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A5DB2C1C3D96A9008AEC55 /* Immunization.m */; };
+		66A5DB301C3D96B1008AEC55 /* Medication.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A5DB2F1C3D96B1008AEC55 /* Medication.m */; };
+		66A5DB331C3D96F7008AEC55 /* PatientNote.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A5DB321C3D96F7008AEC55 /* PatientNote.m */; };
+		66A5DB361C3D979B008AEC55 /* PatientVitalMeasurement.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A5DB351C3D979B008AEC55 /* PatientVitalMeasurement.m */; };
+		66A5DB391C3DAEEE008AEC55 /* LEOHealthRecordService.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A5DB381C3DAEEE008AEC55 /* LEOHealthRecordService.m */; };
 		66C7EF6B1C2A02C200F2FF56 /* LEOGradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C7EF6A1C2A02C200F2FF56 /* LEOGradientView.m */; };
 		80A98A7B253FC07906E88FF2 /* libPods-Leo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 35A5E688B99D6A1E2E30A645 /* libPods-Leo.a */; };
 		BC163B021B054E03000FB1CE /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC163B011B054E03000FB1CE /* QuartzCore.framework */; };
@@ -583,6 +590,20 @@
 		6660C93C1C3AF92800C2657B /* LEOGradientHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOGradientHelper.h; sourceTree = "<group>"; };
 		6660C93D1C3AF92800C2657B /* LEOGradientHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOGradientHelper.m; sourceTree = "<group>"; };
 		6684A24A1C34497500C41D6F /* DeveloperCodeSigning.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = DeveloperCodeSigning.xcconfig; sourceTree = "<group>"; };
+		66A5DB251C3D95FD008AEC55 /* HealthRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HealthRecord.h; path = Leo/HealthRecord.h; sourceTree = SOURCE_ROOT; };
+		66A5DB261C3D95FD008AEC55 /* HealthRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HealthRecord.m; path = Leo/HealthRecord.m; sourceTree = SOURCE_ROOT; };
+		66A5DB281C3D964C008AEC55 /* Allergy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Allergy.h; path = Leo/Allergy.h; sourceTree = SOURCE_ROOT; };
+		66A5DB291C3D964C008AEC55 /* Allergy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Allergy.m; path = Leo/Allergy.m; sourceTree = SOURCE_ROOT; };
+		66A5DB2B1C3D96A9008AEC55 /* Immunization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Immunization.h; path = Leo/Immunization.h; sourceTree = SOURCE_ROOT; };
+		66A5DB2C1C3D96A9008AEC55 /* Immunization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Immunization.m; path = Leo/Immunization.m; sourceTree = SOURCE_ROOT; };
+		66A5DB2E1C3D96B1008AEC55 /* Medication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Medication.h; path = Leo/Medication.h; sourceTree = SOURCE_ROOT; };
+		66A5DB2F1C3D96B1008AEC55 /* Medication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Medication.m; path = Leo/Medication.m; sourceTree = SOURCE_ROOT; };
+		66A5DB311C3D96F7008AEC55 /* PatientNote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PatientNote.h; path = Leo/PatientNote.h; sourceTree = SOURCE_ROOT; };
+		66A5DB321C3D96F7008AEC55 /* PatientNote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PatientNote.m; path = Leo/PatientNote.m; sourceTree = SOURCE_ROOT; };
+		66A5DB341C3D979B008AEC55 /* PatientVitalMeasurement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PatientVitalMeasurement.h; path = Leo/PatientVitalMeasurement.h; sourceTree = SOURCE_ROOT; };
+		66A5DB351C3D979B008AEC55 /* PatientVitalMeasurement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PatientVitalMeasurement.m; path = Leo/PatientVitalMeasurement.m; sourceTree = SOURCE_ROOT; };
+		66A5DB371C3DAEEE008AEC55 /* LEOHealthRecordService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOHealthRecordService.h; sourceTree = "<group>"; };
+		66A5DB381C3DAEEE008AEC55 /* LEOHealthRecordService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOHealthRecordService.m; sourceTree = "<group>"; };
 		66C7EF691C2A02C200F2FF56 /* LEOGradientView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOGradientView.h; sourceTree = "<group>"; };
 		66C7EF6A1C2A02C200F2FF56 /* LEOGradientView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOGradientView.m; sourceTree = "<group>"; };
 		68672CCCC55FDBB684C56186 /* Pods-Leo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Leo.release.xcconfig"; path = "Pods/Target Support Files/Pods-Leo/Pods-Leo.release.xcconfig"; sourceTree = "<group>"; };
@@ -738,6 +759,8 @@
 		31254B791BAC99CF00E8E150 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				66A5DB371C3DAEEE008AEC55 /* LEOHealthRecordService.h */,
+				66A5DB381C3DAEEE008AEC55 /* LEOHealthRecordService.m */,
 				31254B721BAC99C500E8E150 /* LEOAppointmentService.h */,
 				31254B731BAC99C500E8E150 /* LEOAppointmentService.m */,
 				31254B741BAC99C500E8E150 /* LEOHelperService.h */,
@@ -1237,6 +1260,18 @@
 		BC4D685B1B04DAF10018DAB5 /* Objects */ = {
 			isa = PBXGroup;
 			children = (
+				66A5DB251C3D95FD008AEC55 /* HealthRecord.h */,
+				66A5DB261C3D95FD008AEC55 /* HealthRecord.m */,
+				66A5DB281C3D964C008AEC55 /* Allergy.h */,
+				66A5DB291C3D964C008AEC55 /* Allergy.m */,
+				66A5DB2B1C3D96A9008AEC55 /* Immunization.h */,
+				66A5DB2C1C3D96A9008AEC55 /* Immunization.m */,
+				66A5DB2E1C3D96B1008AEC55 /* Medication.h */,
+				66A5DB2F1C3D96B1008AEC55 /* Medication.m */,
+				66A5DB311C3D96F7008AEC55 /* PatientNote.h */,
+				66A5DB321C3D96F7008AEC55 /* PatientNote.m */,
+				66A5DB341C3D979B008AEC55 /* PatientVitalMeasurement.h */,
+				66A5DB351C3D979B008AEC55 /* PatientVitalMeasurement.m */,
 				31CC12D31BB062C40099AB60 /* Message.h */,
 				31CC12C31BB062C40099AB60 /* Message.m */,
 				31339B251C29BEAC00B53A86 /* MessageText.h */,
@@ -1646,6 +1681,7 @@
 				3132D9EC1C1F681E00A3E9AA /* LEOImageCropViewControllerDataSource.m in Sources */,
 				31F5AA731B791B4B00F96D06 /* ProviderCell.m in Sources */,
 				31F5AA651B791B4A00F96D06 /* LEOAPISlotsOperation.m in Sources */,
+				66A5DB331C3D96F7008AEC55 /* PatientNote.m in Sources */,
 				31CF99111B17754B00BFAABE /* LEOTransitioningDelegate.m in Sources */,
 				31254B831BB0599D00E8E150 /* LEOCardService.m in Sources */,
 				319FB4BF1BBA379E00EFF7B9 /* JVFloatLabeledTextView.m in Sources */,
@@ -1659,6 +1695,7 @@
 				317B72C41C318B3B00F3620D /* LEOPHRHeaderView.m in Sources */,
 				310C63161BFBA16700028AF4 /* UserFactory.m in Sources */,
 				31DB400E1BFE733C005F1BF2 /* LEOWebViewController.m in Sources */,
+				66A5DB361C3D979B008AEC55 /* PatientVitalMeasurement.m in Sources */,
 				BCED00811B0150F4007653D6 /* LEOFeedTVC.m in Sources */,
 				31339B271C29BEAC00B53A86 /* MessageText.m in Sources */,
 				3128D4DB1B42DF6500582710 /* LEOOneButtonSecondaryOnlyCell.m in Sources */,
@@ -1683,6 +1720,7 @@
 				312946091C0E0B8200AE5BB1 /* LEOAlertHelper.m in Sources */,
 				31339B241C285AEE00B53A86 /* LEOCardModalTransitionAnimator.m in Sources */,
 				3138FC4B1B9A19A8000FE22C /* InsurancePlanCell+ConfigureCell.m in Sources */,
+				66A5DB2D1C3D96A9008AEC55 /* Immunization.m in Sources */,
 				31F5AA7A1B791B4B00F96D06 /* AppointmentTypeCell+ConfigureCell.m in Sources */,
 				3155888E1BBC314D0038E381 /* LEOManagePatientsViewController.m in Sources */,
 				3132D9E31C1BAC0E00A3E9AA /* LEONavigationControllerPushAnimator.m in Sources */,
@@ -1738,6 +1776,7 @@
 				317B72B61C30A2E900F3620D /* LEOPatientProfileView.m in Sources */,
 				3177B9981B17A1B7006AE360 /* LEOCardAppointment.m in Sources */,
 				31254B801BB0576500E8E150 /* LEOMessageService.m in Sources */,
+				66A5DB271C3D95FD008AEC55 /* HealthRecord.m in Sources */,
 				31CC12E11BB062C40099AB60 /* SessionUser.m in Sources */,
 				31F5AA791B791B4B00F96D06 /* AppointmentTypeCell.m in Sources */,
 				31CC12DE1BB062C40099AB60 /* InsurancePlan.m in Sources */,
@@ -1754,8 +1793,10 @@
 				3182E55E1B20C8F5004DECF8 /* NSDate+Extensions.m in Sources */,
 				3129460F1C0F445E00AE5BB1 /* LEOImageCropViewController.m in Sources */,
 				3128D4EF1B4313D000582710 /* LEOTwoButtonPrimaryAndSecondaryCell+ConfigureForCell.m in Sources */,
+				66A5DB2A1C3D964C008AEC55 /* Allergy.m in Sources */,
 				31FDDE681B29E3580009BBC2 /* LEOTwoButtonSecondaryOnlyCell.m in Sources */,
 				313FA7261C0385E5008189B9 /* LEOStickyHeaderView.m in Sources */,
+				66A5DB301C3D96B1008AEC55 /* Medication.m in Sources */,
 				3168997F1BC4858400B4C1EB /* LEOReviewPatientCell+ConfigureForCell.m in Sources */,
 				3192ACD91B0CC7C5007195F2 /* UIImage+Extensions.m in Sources */,
 				31CC12ED1BB062E90099AB60 /* LEOS3SessionManager.m in Sources */,
@@ -1786,6 +1827,7 @@
 				314655101BFD1FE700354181 /* AppointmentStatus.m in Sources */,
 				31DB40111BFF9CC8005F1BF2 /* DeviceToken.m in Sources */,
 				312A82571B56EEBE00E1FB38 /* LEOMessagesViewController.m in Sources */,
+				66A5DB391C3DAEEE008AEC55 /* LEOHealthRecordService.m in Sources */,
 				319F335D1B2201F900C1C526 /* CollectionViewLayout.m in Sources */,
 				3138FC351B9A1294000FE22C /* LEOScrollableContainerView.m in Sources */,
 				3138FC541B9A1AF1000FE22C /* LEOValidationsHelper.m in Sources */,

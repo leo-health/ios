@@ -37,6 +37,14 @@ NSString *const APIEndpointUserEnrollments = @"enrollments";
 NSString *const APIEndpointPatientEnrollments = @"patient_enrollments";
 NSString *const APIEndpointAvatars = @"avatars";
 NSString *const APIEndpointInvite = @"invite";
+NSString *const APIEndpointHealthRecord = @"patients";
+NSString *const APIEndpointNotes = @"notes";
+NSString *const APIEndpointMedications = @"medications";
+NSString *const APIEndpointAllergies = @"allergies";
+NSString *const APIEndpointImmunizations = @"immunizations";
+NSString *const APIEndpointBMIs = @"bmis";
+NSString *const APIEndpointHeights = @"height";
+NSString *const APIEndpointWeights = @"weight";
 
 #pragma mark - Common
 NSString *const APIParamID = @"id";
@@ -194,13 +202,56 @@ NSString *const APIParamPhone = @"phone";
 NSString *const APIParamFax = @"fax";
 NSString *const APIParamInsurerName = @"insurer_name";
 
-
 #pragma mark - Insurance Plan
 NSString *const APIParamInsurancePlan = @"insurance_plan";
 NSString *const APIParamInsurancePlanID = @"insurance_plan_id";
 NSString *const APIParamInsurancePlans = @"insurance_plans";
 NSString *const APIParamPlanName = @"plan_name";
 NSString *const APIParamPlanSupported = @"supported"; //Ironically, this param is not yet supported by the API.
+
+#pragma mark - Personal Health Record
+NSString *const APIParamBMIs = @"bmis";
+NSString *const APIParamHeights = @"heights";
+NSString *const APIParamWeights = @"weights";
+NSString *const APIParamMedications = @"medications";
+NSString *const APIParamAllergies = @"allergies";
+NSString *const APIParamNotes = @"notes";
+NSString *const APIParamImmunizations = @"immunizations";
+
+#pragma mark - PHR Allergy
+NSString *const APIParamAllergyOnsetAt = @"onset_at";
+NSString *const APIParamAllergyAllergen = @"allergen";
+NSString *const APIParamAllergySeverity = @"severity";
+NSString *const APIParamAllergyNote = @"note";
+
+#pragma mark - PHR Immunization
+NSString *const APIParamImmunizationAdministeredAt = @"administered_at";
+NSString *const APIParamImmunizationVaccine = @"vaccine";
+
+#pragma mark - PHR Medication
+NSString *const APIParamMedicationStartedAt = @"started_at";
+NSString *const APIParamMedicationEnteredAt = @"entered_at";
+NSString *const APIParamMedicationMedication = @"medication";
+NSString *const APIParamMedicationSig = @"sig";
+NSString *const APIParamMedicationNote = @"note";
+NSString *const APIParamMedicationDose = @"dose";
+NSString *const APIParamMedicationRoute = @"route";
+NSString *const APIParamMedicationFrequency = @"frequency";
+
+#pragma mark - Patient Note
+NSString *const APIParamPatientNoteID = @"id";
+NSString *const APIParamPatientNoteUser = @"user";
+NSString *const APIParamPatientNoteCreatedAt = @"created_at";
+NSString *const APIParamPatientNoteUpdatedAt = @"updated_at";
+NSString *const APIParamPatientNoteDeletedAt = @"deleted_at";
+NSString *const APIParamPatientNoteNote = @"note";
+
+#pragma mark - Vital Measurements
+NSString *const APIParamVitalMeasurementSearchStartDate = @"start_date";
+NSString *const APIParamVitalMeasurementSearchEndDate = @"end_date";
+NSString *const APIParamVitalMeasurementTakenAt = @"taken_at";
+NSString *const APIParamVitalMeasurementValue = @"value";
+NSString *const APIParamVitalMeasurementPercentile = @"percentile";
 
 #pragma mark - Magic numbers
 CGFloat const kSelectionLineHeight = 2.0;
