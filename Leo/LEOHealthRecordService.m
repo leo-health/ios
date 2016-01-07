@@ -16,38 +16,38 @@
     return [LEOAPISessionManager sharedClient];
 }
 
--(NSURLSessionTask *)getHealthRecordforPatient:(Patient *)patient withCompletion:(void (^)(HealthRecord *, NSError *))completionBlock {
+-(NSURLSessionTask *)getHealthRecordForPatient:(Patient *)patient withCompletion:(void (^)(HealthRecord *, NSError *))completionBlock {
 
     // FIXME: Replace with one api call when available
 
     // TODO: Handle errors
 
     __block HealthRecord *healthRecord = [HealthRecord new];
-    return [self getBMIsforPatient:patient withCompletion:^(NSArray<PatientVitalMeasurementBMI *> *bmis, NSError *error) {
+    return [self getBMIsForPatient:patient withCompletion:^(NSArray<PatientVitalMeasurementBMI *> *bmis, NSError *error) {
 
         healthRecord.bmis = bmis;
 
-        [self getHeightsforPatient:patient withCompletion:^(NSArray<PatientVitalMeasurementHeight *> *heights, NSError *error) {
+        [self getHeightsForPatient:patient withCompletion:^(NSArray<PatientVitalMeasurementHeight *> *heights, NSError *error) {
 
             healthRecord.heights = heights;
 
-            [self getWeightsforPatient:patient withCompletion:^(NSArray<PatientVitalMeasurementWeight *> *weights, NSError *error) {
+            [self getWeightsForPatient:patient withCompletion:^(NSArray<PatientVitalMeasurementWeight *> *weights, NSError *error) {
 
                 healthRecord.weights = weights;
 
-                [self getMedicationsforPatient:patient withCompletion:^(NSArray<Medication *> *medications, NSError *error) {
+                [self getMedicationsForPatient:patient withCompletion:^(NSArray<Medication *> *medications, NSError *error) {
 
                     healthRecord.medications = medications;
 
-                    [self getImmunizationsforPatient:patient withCompletion:^(NSArray<Immunization *> *immunizations, NSError *error) {
+                    [self getImmunizationsForPatient:patient withCompletion:^(NSArray<Immunization *> *immunizations, NSError *error) {
 
                         healthRecord.immunizations = immunizations;
 
-                        [self getAllergiesforPatient:patient withCompletion:^(NSArray<Allergy *> *allergies, NSError *error) {
+                        [self getAllergiesForPatient:patient withCompletion:^(NSArray<Allergy *> *allergies, NSError *error) {
 
                             healthRecord.allergies = allergies;
 
-                            [self getNotesforPatient:patient withCompletion:^(NSArray<PatientNote *> *notes, NSError *error) {
+                            [self getNotesForPatient:patient withCompletion:^(NSArray<PatientNote *> *notes, NSError *error) {
 
                                 healthRecord.notes = notes;
 
@@ -63,15 +63,15 @@
     }];
 }
 
--(NSURLSessionTask *)getBMIsforPatient:(Patient *)patient withCompletion:(void (^)(NSArray<PatientVitalMeasurementBMI *> *, NSError *))completionBlock {
+-(NSURLSessionTask *)getBMIsForPatient:(Patient *)patient withCompletion:(void (^)(NSArray<PatientVitalMeasurementBMI *> *, NSError *))completionBlock {
     return [self getVitalsWithEndpoint:APIEndpointBMIs forPatient:patient dataParamName:APIParamBMIs withCompletion:completionBlock];
 }
 
--(NSURLSessionTask *)getHeightsforPatient:(Patient *)patient withCompletion:(void (^)(NSArray<PatientVitalMeasurementHeight *> *, NSError *))completionBlock {
+-(NSURLSessionTask *)getHeightsForPatient:(Patient *)patient withCompletion:(void (^)(NSArray<PatientVitalMeasurementHeight *> *, NSError *))completionBlock {
     return [self getVitalsWithEndpoint:APIEndpointHeights forPatient:patient dataParamName:APIParamHeights withCompletion:completionBlock];
 }
 
--(NSURLSessionTask *)getWeightsforPatient:(Patient *)patient withCompletion:(void (^)(NSArray<PatientVitalMeasurementWeight *> *, NSError *))completionBlock {
+-(NSURLSessionTask *)getWeightsForPatient:(Patient *)patient withCompletion:(void (^)(NSArray<PatientVitalMeasurementWeight *> *, NSError *))completionBlock {
     return [self getVitalsWithEndpoint:APIEndpointWeights forPatient:patient dataParamName:APIParamWeights withCompletion:completionBlock];
 }
 
@@ -97,7 +97,7 @@
     return task;
 }
 
--(NSURLSessionTask *)getMedicationsforPatient:(Patient *)patient withCompletion:(void (^)(NSArray<Medication *> *, NSError *))completionBlock {
+-(NSURLSessionTask *)getMedicationsForPatient:(Patient *)patient withCompletion:(void (^)(NSArray<Medication *> *, NSError *))completionBlock {
 
     NSString *endpoint = [NSString stringWithFormat:@"%@/%@/%@", APIEndpointPatients, patient.objectID, APIEndpointMedications];
 
@@ -115,7 +115,7 @@
     return task;
 }
 
--(NSURLSessionTask *)getImmunizationsforPatient:(Patient *)patient withCompletion:(void (^)(NSArray<Immunization *> *, NSError *))completionBlock {
+-(NSURLSessionTask *)getImmunizationsForPatient:(Patient *)patient withCompletion:(void (^)(NSArray<Immunization *> *, NSError *))completionBlock {
 
     NSString *endpoint = [NSString stringWithFormat:@"%@/%@/%@", APIEndpointPatients, patient.objectID, APIEndpointImmunizations];
 
@@ -132,7 +132,8 @@
 
     return task;
 }
--(NSURLSessionTask *)getAllergiesforPatient:(Patient *)patient withCompletion:(void (^)(NSArray<Allergy *> *, NSError *))completionBlock {
+
+-(NSURLSessionTask *)getAllergiesForPatient:(Patient *)patient withCompletion:(void (^)(NSArray<Allergy *> *, NSError *))completionBlock {
 
     NSString *endpoint = [NSString stringWithFormat:@"%@/%@/%@", APIEndpointPatients, patient.objectID, APIEndpointAllergies];
 
@@ -150,7 +151,7 @@
     return task;
 }
 
--(NSURLSessionTask *)getNotesforPatient:(Patient *)patient withCompletion:(void (^)(NSArray<PatientNote *> *, NSError *))completionBlock {
+-(NSURLSessionTask *)getNotesForPatient:(Patient *)patient withCompletion:(void (^)(NSArray<PatientNote *> *, NSError *))completionBlock {
 
     NSString *endpoint = [NSString stringWithFormat:@"%@/%@/%@", APIEndpointPatients, patient.objectID, APIEndpointNotes];
 

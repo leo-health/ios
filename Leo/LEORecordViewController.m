@@ -7,6 +7,12 @@
 //
 
 #import "LEORecordViewController.h"
+
+// views
+#import "LEOPHRTableViewCell.h"
+#import "UIColor+LeoColors.h"
+
+// model
 #import "LEOHealthRecordService.h"
 #import "HealthRecord.h"
 
@@ -51,7 +57,14 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
         _tableView.dataSource = self;
         _tableView.delegate = self;
 
-        [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:self.cellReuseIdentifier];
+        _tableView.scrollEnabled = NO;
+        _tableView.separatorInset = UIEdgeInsetsMake(0, 20, 0, 20);
+        _tableView.estimatedRowHeight = 65;
+        _tableView.rowHeight = UITableViewAutomaticDimension;
+        _tableView.tableFooterView = [UIView new];
+        _tableView.separatorColor = [UIColor leo_grayForPlaceholdersAndLines];
+
+        [_tableView registerNib:[LEOPHRTableViewCell nib] forCellReuseIdentifier:self.cellReuseIdentifier];
     }
     return _tableView;
 }
@@ -71,10 +84,12 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
 
         HealthRecord *hr = [HealthRecord mockObject];
         self.healthRecord = hr;
+
     } else {
 
         LEOHealthRecordService *service = [LEOHealthRecordService new];
-        [service getHealthRecordForUser:self.patient withCompletion:^(HealthRecord *healthRecord, NSError *error) {
+
+        [service getHealthRecordForPatient:self.patient withCompletion:^(HealthRecord *healthRecord, NSError *error) {
 
             if (error) {
 
@@ -152,13 +167,36 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
 
  - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
-     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:self.cellReuseIdentifier forIndexPath:indexPath];
+     UITableViewCell *_cell = [tableView dequeueReusableCellWithIdentifier:self.cellReuseIdentifier forIndexPath:indexPath];
 
+     LEOPHRTableViewCell *cell = (LEOPHRTableViewCell *)_cell;
+     switch (indexPath.section) {
+         case PHRTableViewSectionRecentVitals:
+             [cell configureCellWithBMI:self.healthRecord.bmis[0]];
+             break;
 
+         case PHRTableViewSectionAllergies:
+             [cell configureCellWithAllergy:self.healthRecord.allergies[indexPath.row]];
+             break;
 
-     cell.textLabel.text = [NSString stringWithFormat:@"%@", indexPath];
+         case PHRTableViewSectionMedications:
+             [cell configureCellWithMedication:self.healthRecord.medications[indexPath.row]];
+             break;
 
-     return cell;
+         case PHRTableViewSectionImmunizations:
+             [cell configureCellWithImmunization:self.healthRecord.immunizations[indexPath.row]];
+             break;
+
+         case PHRTableViewSectionNotes:
+
+             _cell.textLabel.text = @"Notes";
+             break;
+
+         default:
+             break;
+     }
+
+     return _cell;
 }
 
 

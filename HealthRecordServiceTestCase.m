@@ -12,7 +12,7 @@
 
 @interface HealthRecordServiceTestCase : XCTestCase
 
-@property (strong, nonatomic) User *user;
+@property (strong, nonatomic) Patient *patient;
 
 @end
 
@@ -23,7 +23,7 @@
     // Put setup code here. This method is called before the invocation of each test method in the class.
 
     // create a mock user
-    self.user = [[User alloc] initWithJSONDictionary:@{
+    self.patient = [[Patient alloc] initWithJSONDictionary:@{
         @"id": @2,
         @"title": [NSNull null],
         @"first_name": @"Danish",
@@ -56,7 +56,7 @@
     XCTestExpectation *expectation = [self expectationWithDescription:@"Expect the api to return"];
 
     LEOHealthRecordService *service = [LEOHealthRecordService new];
-    [service getNotesForUser:self.user withCompletion:^(NSArray<PatientNote *> *notes, NSError *error) {
+    [service getNotesForPatient:self.patient withCompletion:^(NSArray<PatientNote *> *notes, NSError *error) {
 
         // ????: API fails with 403 Forbidden, I'm gussing becuase the current logged in user is not being set up correctly. How can we get tests to use real user data?
 

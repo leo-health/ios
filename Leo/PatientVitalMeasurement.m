@@ -27,8 +27,8 @@
 -(instancetype)initWithJSONDictionary:(NSDictionary *)jsonDictionary {
 
     NSDate *takenAt = [jsonDictionary leo_itemForKey:APIParamVitalMeasurementTakenAt];
-    NSNumber *value = [jsonDictionary leo_itemForKey:APIParamVitalMeasurementValue];
-    NSNumber *percentile = [jsonDictionary leo_itemForKey:APIParamVitalMeasurementPercentile];
+    NSString *value = [jsonDictionary leo_itemForKey:APIParamVitalMeasurementValue];
+    NSString *percentile = [jsonDictionary leo_itemForKey:APIParamVitalMeasurementPercentile];
     return [self initWithTakenAt:takenAt value:value percentile:percentile];
 }
 
@@ -41,6 +41,7 @@
 }
 
 +(instancetype)mockObject {
+    
     return [[self alloc] initWithJSONDictionary:@{
         @"taken_at": @"2016-01-04T12:00:59-05:00",
         @"value": @0.016,
