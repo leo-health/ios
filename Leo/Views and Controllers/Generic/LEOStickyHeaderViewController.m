@@ -55,8 +55,6 @@
 
     if (!self.alreadyUpdatedConstraints) {
 
-//        [self.view removeConstraints:self.view.constraints];
-
         self.stickyHeaderView.translatesAutoresizingMaskIntoConstraints = NO;
 
         NSDictionary *bindings = NSDictionaryOfVariableBindings(_stickyHeaderView);

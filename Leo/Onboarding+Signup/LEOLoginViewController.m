@@ -151,8 +151,7 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
 
                              if (!error) {
 
-
-
+                                 //TODO: ZSD Determine whether we really have a flow when there is no error. Otherwise just use if (error) below.
                              } else {
 
                                  UIAlertController *loginAlert = [UIAlertController alertControllerWithTitle:@"Invalid login" message:@"Looks like your email or password isn't one we recognize. Try entering them again, or reset your password." preferredStyle:UIAlertControllerStyleAlert];

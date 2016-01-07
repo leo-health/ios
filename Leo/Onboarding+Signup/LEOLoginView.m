@@ -105,9 +105,5 @@
     return YES;
 }
 
--(CGSize)intrinsicContentSize {
-
-    return CGSizeMake(UIViewNoIntrinsicMetric, CGRectGetHeight([UIScreen mainScreen].bounds) - 207.0);
-}
 
 @end
