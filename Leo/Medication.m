@@ -42,4 +42,13 @@
     return [self initWithStartedAt:startedAt enteredAt:enteredAt medication:medication sig:sig note:note dose:dose route:route frequency:frequency];
 }
 
++(NSArray *)medicationsFromDictionaries:(NSArray *)dictionaries {
+    NSMutableArray *array = [NSMutableArray new];
+    for (NSDictionary *dict in dictionaries) {
+        [array addObject:[[self alloc] initWithJSONDictionary:dict]];
+    }
+    return [array copy];
+}
+
+
 @end

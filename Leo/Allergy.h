@@ -10,13 +10,17 @@
 
 @interface Allergy : NSObject
 
+NS_ASSUME_NONNULL_BEGIN
+
 @property (strong, nonatomic) NSDate *onsetAt;
-@property (strong, nonatomic) NSString *allergen;
-@property (strong, nonatomic) NSString *severity;
-@property (strong, nonatomic) NSString *note;
+@property (copy, nonatomic) NSString *allergen;
+@property (copy, nonatomic) NSString *severity;
+@property (copy, nonatomic) NSString *note;
 
 -(instancetype)initWithOnsetAt:(NSDate *)onsetAt allergen:(NSString *)allergen severity:(NSString *)severity note:(NSString *)note;
 -(instancetype)initWithJSONDictionary:(NSDictionary *)jsonDictionary;
++(NSArray *)allergiesFromDictionaries:(NSArray *)dictionaries;
 
+NS_ASSUME_NONNULL_END
 
 @end

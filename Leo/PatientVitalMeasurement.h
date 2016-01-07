@@ -10,15 +10,21 @@
 
 @interface PatientVitalMeasurement : NSObject
 
+NS_ASSUME_NONNULL_BEGIN
+
 typedef PatientVitalMeasurement PatientVitalMeasurementBMI;
 typedef PatientVitalMeasurement PatientVitalMeasurementHeight;
 typedef PatientVitalMeasurement PatientVitalMeasurementWeight;
 
 @property (strong, nonatomic) NSDate *takenAt;
-@property (strong, nonatomic) NSNumber *value;
-@property (strong, nonatomic) NSNumber *percentile;
+@property (copy, nonatomic) NSString *value;
+@property (copy, nonatomic) NSString *percentile;
 
 -(instancetype)initWithTakenAt:(NSDate *)takenAT value:(NSNumber *)value percentile:(NSNumber *)percentile;
 -(instancetype)initWithJSONDictionary:(NSDictionary *)jsonDictionary;
++(NSArray *)patientVitalsFromDictionaries:(NSArray *)dictionaries;
+
+NS_ASSUME_NONNULL_END
+
 
 @end

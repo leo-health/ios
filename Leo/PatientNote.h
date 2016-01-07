@@ -11,14 +11,20 @@
 
 @interface PatientNote : NSObject
 
-@property (strong, nonatomic) NSString *objectID;
+NS_ASSUME_NONNULL_BEGIN
+
+@property (copy, nonatomic) NSString *objectID;
 @property (strong, nonatomic) User *user;
 @property (strong, nonatomic) NSDate *createdAt;
 @property (strong, nonatomic) NSDate *updatedAt;
 @property (strong, nonatomic) NSDate *deletedAt;
-@property (strong, nonatomic) NSString *note;
+@property (copy, nonatomic) NSString *note;
 
 -(instancetype)initWithObjectID:(NSString *)objectID user:(User *)user createdAt:(NSDate *)createdAt updatedAt:(NSDate *)updatedAt deletedAt:(NSDate *)deletedAt note:(NSString *)note;
 -(instancetype)initWithJSONDictionary:(NSDictionary *)jsonDictionary;
++(NSArray *)patientNotesFromDictionaries:(NSArray *)dictionaries;
+
+NS_ASSUME_NONNULL_END
+
 
 @end

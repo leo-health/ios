@@ -30,4 +30,13 @@
     return [self initWithAdministeredAt:administeredAt vaccine:vaccine];
 }
 
++(NSArray *)immunizationsFromDictionaries:(NSArray *)dictionaries {
+    NSMutableArray *array = [NSMutableArray new];
+    for (NSDictionary *dict in dictionaries) {
+        [array addObject:[[self alloc] initWithJSONDictionary:dict]];
+    }
+    return [array copy];
+}
+
+
 @end

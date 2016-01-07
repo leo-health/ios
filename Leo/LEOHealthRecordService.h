@@ -8,19 +8,19 @@
 
 #import <Foundation/Foundation.h>
 #import "HealthRecord.h"
-#import "User.h"
+#import "Patient.h"
 
 @interface LEOHealthRecordService : NSObject
 
-- (NSURLSessionTask *)getHealthRecordForUser:(User *)user withCompletion:(void (^)(HealthRecord *healthRecord, NSError *error))completionBlock;
+- (NSURLSessionTask *)getHealthRecordforPatient:(Patient *)patient withCompletion:(void (^)(HealthRecord *healthRecord, NSError *error))completionBlock;
 
--(NSURLSessionTask *)getWeightsForUser:(User *)user withCompletion:(void (^)(NSArray<PatientVitalMeasurementWeight *> *, NSError *))completionBlock;
--(NSURLSessionTask *)getHeightsForUser:(User *)user withCompletion:(void (^)(NSArray<PatientVitalMeasurementHeight *> *, NSError *))completionBlock;
--(NSURLSessionTask *)getBMIsForUser:(User *)user withCompletion:(void (^)(NSArray<PatientVitalMeasurementBMI *> *, NSError *))completionBlock;
+-(NSURLSessionTask *)getWeightsforPatient:(Patient *)patient withCompletion:(void (^)(NSArray<PatientVitalMeasurementWeight *> *, NSError *))completionBlock;
+-(NSURLSessionTask *)getHeightsforPatient:(Patient *)patient withCompletion:(void (^)(NSArray<PatientVitalMeasurementHeight *> *, NSError *))completionBlock;
+-(NSURLSessionTask *)getBMIsforPatient:(Patient *)patient withCompletion:(void (^)(NSArray<PatientVitalMeasurementBMI *> *, NSError *))completionBlock;
 
--(NSURLSessionTask *)getMedicationsForUser:(User *)user withCompletion:(void (^)(NSArray<Medication *> *, NSError *))completionBlock;
--(NSURLSessionTask *)getImmunizationsForUser:(User *)user withCompletion:(void (^)(NSArray<Immunization *> *, NSError *))completionBlock;
--(NSURLSessionTask *)getAllergiesForUser:(User *)user withCompletion:(void (^)(NSArray<Allergy *> *, NSError *))completionBlock;
--(NSURLSessionTask *)getNotesForUser:(User *)user withCompletion:(void (^)(NSArray<PatientNote *> *, NSError *))completionBlock;
+-(NSURLSessionTask *)getMedicationsforPatient:(Patient *)patient withCompletion:(void (^)(NSArray<Medication *> *, NSError *))completionBlock;
+-(NSURLSessionTask *)getImmunizationsforPatient:(Patient *)patient withCompletion:(void (^)(NSArray<Immunization *> *, NSError *))completionBlock;
+-(NSURLSessionTask *)getAllergiesforPatient:(Patient *)patient withCompletion:(void (^)(NSArray<Allergy *> *, NSError *))completionBlock;
+-(NSURLSessionTask *)getNotesforPatient:(Patient *)patient withCompletion:(void (^)(NSArray<PatientNote *> *, NSError *))completionBlock;
 
 @end

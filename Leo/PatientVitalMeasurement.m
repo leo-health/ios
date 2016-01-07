@@ -12,7 +12,7 @@
 
 @implementation PatientVitalMeasurement
 
--(instancetype)initWithTakenAt:(NSDate *)takenAT value:(NSNumber *)value percentile:(NSNumber *)percentile {
+-(instancetype)initWithTakenAt:(NSDate *)takenAT value:(NSString *)value percentile:(NSString *)percentile {
 
     self = [super init];
     if (self) {
@@ -31,5 +31,15 @@
     NSNumber *percentile = [jsonDictionary leo_itemForKey:APIParamVitalMeasurementPercentile];
     return [self initWithTakenAt:takenAt value:value percentile:percentile];
 }
+
++(NSArray *)patientVitalsFromDictionaries:(NSArray *)dictionaries {
+    NSMutableArray *array = [NSMutableArray new];
+    for (NSDictionary *dict in dictionaries) {
+        [array addObject:[[self alloc] initWithJSONDictionary:dict]];
+    }
+    return [array copy];
+}
+
+
 
 @end

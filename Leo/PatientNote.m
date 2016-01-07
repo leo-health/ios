@@ -38,4 +38,13 @@
     return [self initWithObjectID:objectID user:user createdAt:createdAt updatedAt:updatedAt deletedAt:deletedAt note:note];
 }
 
++ (NSArray *)patientNotesFromDictionaries:(NSArray *)dictionaries {
+    NSMutableArray *array = [NSMutableArray new];
+    for (NSDictionary *dict in dictionaries) {
+        [array addObject:[[self alloc] initWithJSONDictionary:dict]];
+    }
+    return [array copy];
+}
+
+
 @end

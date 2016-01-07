@@ -10,10 +10,15 @@
 
 @interface Immunization : NSObject
 
+NS_ASSUME_NONNULL_BEGIN
+
 @property (strong, nonatomic) NSDate *administeredAt;
-@property (strong, nonatomic) NSString *vaccine;
+@property (copy, nonatomic) NSString *vaccine;
 
 -(instancetype)initWithAdministeredAt:(NSDate *)administeredAt vaccine:(NSString *)vaccine;
 -(instancetype)initWithJSONDictionary:(NSDictionary *)jsonDictionary;
++(NSArray *)immunizationsFromDictionaries:(NSArray *)dictionaries;
+
+NS_ASSUME_NONNULL_END
 
 @end
