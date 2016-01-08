@@ -20,9 +20,10 @@ typedef PatientVitalMeasurement PatientVitalMeasurementWeight;
 @property (copy, nonatomic) NSString *value;
 @property (copy, nonatomic) NSString *percentile;
 
--(instancetype)initWithTakenAt:(NSDate *)takenAT value:(NSNumber *)value percentile:(NSNumber *)percentile;
+-(instancetype)initWithTakenAt:(NSDate *)takenAT value:(NSString *)value percentile:(NSString *)percentile;
 -(instancetype)initWithJSONDictionary:(NSDictionary *)jsonDictionary;
 +(NSArray *)patientVitalsFromDictionaries:(NSArray *)dictionaries;
++(instancetype)mockObject;
 
 NS_ASSUME_NONNULL_END
 

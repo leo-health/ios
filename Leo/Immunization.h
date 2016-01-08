@@ -18,7 +18,9 @@ NS_ASSUME_NONNULL_BEGIN
 -(instancetype)initWithAdministeredAt:(NSDate *)administeredAt vaccine:(NSString *)vaccine;
 -(instancetype)initWithJSONDictionary:(NSDictionary *)jsonDictionary;
 +(NSArray *)immunizationsFromDictionaries:(NSArray *)dictionaries;
++(instancetype)mockObject;
 
 NS_ASSUME_NONNULL_END
+
 
 @end

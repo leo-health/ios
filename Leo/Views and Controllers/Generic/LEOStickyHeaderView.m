@@ -158,23 +158,6 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 }
 
 #pragma mark - Layout
--(CGSize)intrinsicContentSize {
-
-    // Force the Scroll view to calculate its height
-    [self.scrollView layoutIfNeeded];
-
-    CGFloat heightWeWouldLikeTheScrollViewContentAreaToBe = [self heightOfScrollViewFrame] + [self heightOfHeaderCellExcludingOverlapWithNavBar];
-
-    if ([self totalHeightOfScrollViewContentArea] > [self heightOfScrollViewFrame] && [self totalHeightOfScrollViewContentArea] < heightWeWouldLikeTheScrollViewContentAreaToBe) {
-
-        CGFloat bottomInsetWeNeedToGetToHeightWeWouldLikeTheScrollViewContentAreaToBe = heightWeWouldLikeTheScrollViewContentAreaToBe - [self totalHeightOfScrollViewContentArea];
-        self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, bottomInsetWeNeedToGetToHeightWeWouldLikeTheScrollViewContentAreaToBe, 0);
-    }
-
-    [self.scrollView layoutIfNeeded];
-
-    return self.scrollView.contentSize;
-}
 
 -(void)layoutSubviews {
 
@@ -184,7 +167,9 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
         [self drawBreaker];
     }
 
-    [self.titleView layoutIfNeeded];
+    // determine size of titleView
+    [self.contentView layoutIfNeeded];
+
     CGFloat headerHeight = CGRectGetHeight(self.titleView.bounds);
 
     self.bodyViewTopConstraint.constant = headerHeight;
@@ -192,6 +177,18 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
     if (!self.snapToHeight) {
 
         self.snapToHeight = @(headerHeight);
+    }
+
+    // determine content size via autolayout
+    [self.scrollView layoutIfNeeded];
+
+    CGFloat maxPossibleOffsetY = self.scrollView.contentSize.height - CGRectGetHeight(self.scrollView.bounds);
+    CGFloat differenceBetweenExpanedAndCollapsedHeights = CGRectGetHeight(self.titleView.bounds) - [self navBarHeight];
+
+    if (maxPossibleOffsetY < differenceBetweenExpanedAndCollapsedHeights) {
+        
+        CGFloat insetHeight = differenceBetweenExpanedAndCollapsedHeights - maxPossibleOffsetY;
+        self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, insetHeight, 0);
     }
 
     [super layoutSubviews];
@@ -348,6 +345,7 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
     // inform the delegate about the transition status
     CGFloat percentage = [self transitionPercentageForScrollOffset:offset];
     percentage = percentage > 1 ? 1 : percentage;
+
     if ([self.delegate respondsToSelector:@selector(updateTitleViewForScrollTransitionPercentage:)]) {
         [self.delegate updateTitleViewForScrollTransitionPercentage:percentage];
     }

@@ -27,6 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 -(instancetype)initWithAllergies:(NSArray<Allergy*> *)allergies medications:(NSArray<Medication*> *)medications immunizations:(NSArray<Immunization*> *)immunizations bmis:(NSArray<PatientVitalMeasurementBMI*> *)bmis heights:(NSArray<PatientVitalMeasurementHeight*>*)heights weights:(NSArray<PatientVitalMeasurementWeight*> *)weights notes:(NSArray<PatientNote*> *)notes;
 -(instancetype)initWithJSONDictionary:(NSDictionary *)jsonDictionary;
++(instancetype)mockObject;
 
 NS_ASSUME_NONNULL_END
 
