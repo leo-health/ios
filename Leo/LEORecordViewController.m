@@ -18,9 +18,9 @@
 
 @interface LEORecordViewController () <UITableViewDataSource, UITableViewDelegate>
 
-@property (nonatomic) BOOL updatedConstraintsOnce;
+@property (nonatomic) BOOL alreadyUpdatedConstraints;
 @property (weak, nonatomic) UITableView *tableView;
-@property (strong, nonatomic) NSString *cellReuseIdentifier;
+@property (copy, nonatomic) NSString *cellReuseIdentifier;
 
 @property (strong, nonatomic) HealthRecord *healthRecord;
 
@@ -34,13 +34,12 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
     PHRTableViewSectionMedications,
     PHRTableViewSectionImmunizations,
     PHRTableViewSectionNotes,
+    countOfPHRTableViewSections
 };
 
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-
-    // request health record
     [self requestHealthRecord];
 }
 
@@ -71,7 +70,7 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
 
 - (NSString *)cellReuseIdentifier {
     if (!_cellReuseIdentifier) {
-        _cellReuseIdentifier = @"PLACEHOLDER";
+        _cellReuseIdentifier = NSStringFromClass([LEOPHRTableViewCell class]);
     }
     return _cellReuseIdentifier;
 }
@@ -110,7 +109,7 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
 
     [super updateViewConstraints];
 
-    if (!self.updatedConstraintsOnce) {
+    if (!self.alreadyUpdatedConstraints) {
 
         self.view.translatesAutoresizingMaskIntoConstraints = NO;
         self.tableView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -123,14 +122,14 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
         [self.view addConstraints:tableViewHorizontalConstraints];
         [self.view addConstraints:tableViewVerticalConstraints];
 
-        self.updatedConstraintsOnce = YES;
+        self.alreadyUpdatedConstraints = YES;
     }
 }
 
 #pragma mark - Table View Data Source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 5;
+    return countOfPHRTableViewSections;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -156,9 +155,6 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
 
         case PHRTableViewSectionNotes:
             rows = self.healthRecord.notes.count;
-            break;
-
-        default:
             break;
     };
     return rows;
@@ -188,14 +184,9 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
              break;
 
          case PHRTableViewSectionNotes:
-
              _cell.textLabel.text = @"Notes";
              break;
-
-         default:
-             break;
      }
-
      return _cell;
 }
 

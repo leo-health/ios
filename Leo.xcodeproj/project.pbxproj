@@ -201,7 +201,6 @@
 		66A5DB331C3D96F7008AEC55 /* PatientNote.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A5DB321C3D96F7008AEC55 /* PatientNote.m */; };
 		66A5DB361C3D979B008AEC55 /* PatientVitalMeasurement.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A5DB351C3D979B008AEC55 /* PatientVitalMeasurement.m */; };
 		66A5DB391C3DAEEE008AEC55 /* LEOHealthRecordService.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A5DB381C3DAEEE008AEC55 /* LEOHealthRecordService.m */; };
-		66A5DB3B1C3EBB3A008AEC55 /* HealthRecordServiceTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A5DB3A1C3EBB3A008AEC55 /* HealthRecordServiceTestCase.m */; };
 		66A5DB421C3EE93D008AEC55 /* LEOPHRTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A5DB401C3EE93D008AEC55 /* LEOPHRTableViewCell.m */; };
 		66A5DB431C3EE93D008AEC55 /* LEOPHRTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66A5DB411C3EE93D008AEC55 /* LEOPHRTableViewCell.xib */; };
 		66C7EF6B1C2A02C200F2FF56 /* LEOGradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C7EF6A1C2A02C200F2FF56 /* LEOGradientView.m */; };
@@ -607,7 +606,6 @@
 		66A5DB351C3D979B008AEC55 /* PatientVitalMeasurement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PatientVitalMeasurement.m; path = Leo/PatientVitalMeasurement.m; sourceTree = SOURCE_ROOT; };
 		66A5DB371C3DAEEE008AEC55 /* LEOHealthRecordService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOHealthRecordService.h; sourceTree = "<group>"; };
 		66A5DB381C3DAEEE008AEC55 /* LEOHealthRecordService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOHealthRecordService.m; sourceTree = "<group>"; };
-		66A5DB3A1C3EBB3A008AEC55 /* HealthRecordServiceTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HealthRecordServiceTestCase.m; sourceTree = SOURCE_ROOT; };
 		66A5DB3F1C3EE93D008AEC55 /* LEOPHRTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOPHRTableViewCell.h; sourceTree = "<group>"; };
 		66A5DB401C3EE93D008AEC55 /* LEOPHRTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOPHRTableViewCell.m; sourceTree = "<group>"; };
 		66A5DB411C3EE93D008AEC55 /* LEOPHRTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LEOPHRTableViewCell.xib; sourceTree = "<group>"; };
@@ -839,7 +837,6 @@
 			isa = PBXGroup;
 			children = (
 				3132BEA41B84F9D200494727 /* Supporting Files */,
-				66A5DB3A1C3EBB3A008AEC55 /* HealthRecordServiceTestCase.m */,
 			);
 			path = LeoTests;
 			sourceTree = "<group>";
@@ -1677,7 +1674,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				66A5DB3B1C3EBB3A008AEC55 /* HealthRecordServiceTestCase.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

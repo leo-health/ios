@@ -158,31 +158,6 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 }
 
 #pragma mark - Layout
-//-(CGSize)intrinsicContentSize {
-//
-//    // Force the Scroll view to calculate its height
-//    [self.scrollView layoutIfNeeded];
-//
-//
-////    CGFloat insetHeight = CGRectGetHeight(self.scrollView.bounds) - self.scrollView.contentSize.height - [self navBarHeight];
-////
-////    if (insetHeight > 0) {
-////        self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, insetHeight, 0);
-////    }
-//
-//
-//    CGFloat heightWeWouldLikeTheScrollViewContentAreaToBe = [self heightOfScrollViewFrame] + [self heightOfHeaderCellExcludingOverlapWithNavBar];
-//
-//    if ([self totalHeightOfScrollViewContentArea] > [self heightOfScrollViewFrame] && [self totalHeightOfScrollViewContentArea] < heightWeWouldLikeTheScrollViewContentAreaToBe) {
-//
-//        CGFloat bottomInsetWeNeedToGetToHeightWeWouldLikeTheScrollViewContentAreaToBe = heightWeWouldLikeTheScrollViewContentAreaToBe - [self totalHeightOfScrollViewContentArea];
-//        self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, bottomInsetWeNeedToGetToHeightWeWouldLikeTheScrollViewContentAreaToBe, 0);
-//    }
-//
-//    [self.scrollView layoutIfNeeded];
-//
-//    return self.scrollView.contentSize;
-//}
 
 -(void)layoutSubviews {
 
@@ -207,12 +182,12 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
     // determine content size via autolayout
     [self.scrollView layoutIfNeeded];
 
-    CGFloat maxPossibleOffset = self.scrollView.contentSize.height - CGRectGetHeight(self.scrollView.bounds);
-    CGFloat differenceBetweenExpanedAndCollapsed = CGRectGetHeight(self.titleView.bounds) - [self navBarHeight];
+    CGFloat maxPossibleOffsetY = self.scrollView.contentSize.height - CGRectGetHeight(self.scrollView.bounds);
+    CGFloat differenceBetweenExpanedAndCollapsedHeights = CGRectGetHeight(self.titleView.bounds) - [self navBarHeight];
 
-    if (maxPossibleOffset < differenceBetweenExpanedAndCollapsed) {
+    if (maxPossibleOffsetY < differenceBetweenExpanedAndCollapsedHeights) {
         
-        CGFloat insetHeight = differenceBetweenExpanedAndCollapsed - maxPossibleOffset;
+        CGFloat insetHeight = differenceBetweenExpanedAndCollapsedHeights - maxPossibleOffsetY;
         self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, insetHeight, 0);
     }
 
