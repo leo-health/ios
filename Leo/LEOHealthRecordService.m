@@ -9,6 +9,7 @@
 #import "LEOHealthRecordService.h"
 #import "LEOAPISessionManager.h"
 #import "PatientVitalMeasurement.h"
+#import "NSDate+Extensions.h"
 
 @implementation LEOHealthRecordService
 
@@ -79,7 +80,7 @@
 
     // return all records.
     // FIXME: API should have a most recent option, as well as start and end date should be optional to return all
-    NSDictionary *params = @{ APIParamVitalMeasurementSearchStartDate : [NSDate dateWithTimeIntervalSince1970:0], APIParamVitalMeasurementSearchEndDate : [NSDate date] };
+    NSDictionary *params = @{ APIParamVitalMeasurementSearchStartDate : [NSDate leo_stringifiedShortDate:[NSDate dateWithTimeIntervalSince1970:0]], APIParamVitalMeasurementSearchEndDate : [NSDate leo_stringifiedShortDate:[NSDate date]] };
 
     NSString *endpoint = [NSString stringWithFormat:@"%@/%@/%@", APIEndpointPatients, patient.objectID, vitalsEndpoint];
 

@@ -42,9 +42,9 @@ NSString *const APIEndpointNotes = @"notes";
 NSString *const APIEndpointMedications = @"medications";
 NSString *const APIEndpointAllergies = @"allergies";
 NSString *const APIEndpointImmunizations = @"immunizations";
-NSString *const APIEndpointBMIs = @"bmis";
-NSString *const APIEndpointHeights = @"height";
-NSString *const APIEndpointWeights = @"weight";
+NSString *const APIEndpointBMIs = @"vitals/bmis";
+NSString *const APIEndpointHeights = @"vitals/height";
+NSString *const APIEndpointWeights = @"vitals/weight";
 
 #pragma mark - Common
 NSString *const APIParamID = @"id";

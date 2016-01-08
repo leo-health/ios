@@ -103,6 +103,12 @@
     return [dateFormatter dateFromString:dateString];
 }
 
++ (NSString *)leo_stringifiedDate:(NSDate*)date withFormat:(NSString *)formatString {
+    NSDateFormatter *dateFormatter = [NSDateFormatter new];
+    dateFormatter.dateFormat = formatString;
+    return [dateFormatter stringFromDate:date];
+}
+
 + (NSString *)leo_stringifiedTime:(NSDate *)date {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
     dateFormatter.dateFormat = @"h':'mma";

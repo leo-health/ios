@@ -8,6 +8,7 @@
 
 #import "PatientVitalMeasurement.h"
 #import "NSDictionary+Additions.h"
+#import "NSDate+Extensions.h"
 #import "LEOConstants.h"
 
 @implementation PatientVitalMeasurement
@@ -26,8 +27,8 @@
 
 -(instancetype)initWithJSONDictionary:(NSDictionary *)jsonDictionary {
 
-    NSDate *takenAt = [jsonDictionary leo_itemForKey:APIParamVitalMeasurementTakenAt];
-    NSString *value = [jsonDictionary leo_itemForKey:APIParamVitalMeasurementValue];
+    NSDate *takenAt = [NSDate leo_dateFromDateTimeString:[jsonDictionary leo_itemForKey:APIParamVitalMeasurementTakenAt]];
+    NSString *value = [NSString stringWithFormat:@"%@", [jsonDictionary leo_itemForKey:APIParamVitalMeasurementValue]];
     NSString *percentile = [jsonDictionary leo_itemForKey:APIParamVitalMeasurementPercentile];
     return [self initWithTakenAt:takenAt value:value percentile:percentile];
 }
@@ -45,7 +46,7 @@
     return [[self alloc] initWithJSONDictionary:@{
         @"taken_at": @"2016-01-04T12:00:59-05:00",
         @"value": @0.016,
-        @"percentile": [NSNull null]
+        @"percentile": @"42nd percentile"
         }];
 }
 

@@ -8,6 +8,7 @@
 
 #import "Medication.h"
 #import "NSDictionary+Additions.h"
+#import "NSDate+Extensions.h"
 #import "LEOConstants.h"
 
 @implementation Medication
@@ -31,8 +32,8 @@
 
 -(instancetype)initWithJSONDictionary:(NSDictionary *)jsonDictionary {
 
-    NSDate *startedAt = [jsonDictionary leo_itemForKey:APIParamMedicationStartedAt];
-    NSDate *enteredAt = [jsonDictionary leo_itemForKey:APIParamMedicationEnteredAt];
+    NSDate *startedAt = [NSDate leo_dateFromDateTimeString:[jsonDictionary leo_itemForKey:APIParamMedicationStartedAt]];
+    NSDate *enteredAt = [NSDate leo_dateFromDateTimeString:[jsonDictionary leo_itemForKey:APIParamMedicationEnteredAt]];
     NSString *medication = [jsonDictionary leo_itemForKey:APIParamMedicationMedication];
     NSString *sig = [jsonDictionary leo_itemForKey:APIParamMedicationSig];
     NSString *note = [jsonDictionary leo_itemForKey:APIParamMedicationNote];

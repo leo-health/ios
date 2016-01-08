@@ -24,6 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSDate *)leo_shortDateFromDate:(NSDate *)date;
 
++ (NSString *)leo_stringifiedDate:(NSDate*)date withFormat:(NSString *)formatString;
 + (NSString *)leo_stringifiedTime:(NSDate *)date;
 + (NSString *)leo_stringifiedDateWithDot:(NSDate *)date;
 + (NSString *)leo_stringifiedDateWithCommas:(NSDate *)date;

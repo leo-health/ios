@@ -369,6 +369,7 @@ IB_DESIGNABLE
         return NO;
     }
 
+    [self invalidateIntrinsicContentSize];
     return YES;
 }
 

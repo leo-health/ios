@@ -8,6 +8,7 @@
 
 #import "Immunization.h"
 #import "NSDictionary+Additions.h"
+#import "NSDate+Extensions.h"
 #import "LEOConstants.h"
 
 @implementation Immunization
@@ -25,7 +26,7 @@
 
 -(instancetype)initWithJSONDictionary:(NSDictionary *)jsonDictionary {
 
-    NSDate *administeredAt = [jsonDictionary leo_itemForKey:APIParamImmunizationAdministeredAt];
+    NSDate *administeredAt = [NSDate leo_dateFromDateTimeString:[jsonDictionary leo_itemForKey:APIParamImmunizationAdministeredAt]];
     NSString *vaccine = [jsonDictionary leo_itemForKey:APIParamImmunizationVaccine];
     return [self initWithAdministeredAt:administeredAt vaccine:vaccine];
 }

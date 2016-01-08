@@ -24,5 +24,7 @@
 - (void)configureCellWithAllergy:(Allergy *)allergy;
 - (void)configureCellWithMedication:(Medication *)medication;
 - (void)configureCellWithImmunization:(Immunization *)immunization;
+-(void)configureCellWithNote:(PatientNote *)note;
+
 
 @end

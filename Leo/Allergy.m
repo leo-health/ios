@@ -8,6 +8,7 @@
 
 #import "Allergy.h"
 #import "NSDictionary+Additions.h"
+#import "NSDate+Extensions.h"
 #import "LEOConstants.h"
 
 @implementation Allergy
@@ -27,7 +28,7 @@
 
 -(instancetype)initWithJSONDictionary:(NSDictionary *)jsonDictionary {
 
-    NSDate *onsetAt = [jsonDictionary leo_itemForKey:APIParamAllergyOnsetAt];
+    NSDate *onsetAt = [NSDate leo_dateFromDateTimeString:[jsonDictionary leo_itemForKey:APIParamAllergyOnsetAt]];
     NSString *allergen = [jsonDictionary leo_itemForKey:APIParamAllergyAllergen];
     NSString *severity = [jsonDictionary leo_itemForKey:APIParamAllergySeverity];
     NSString *note = [jsonDictionary leo_itemForKey:APIParamAllergyNote];
@@ -35,7 +36,7 @@
 }
 
 +(instancetype)mockObject {
-    return [[self alloc] initWithOnsetAt:[NSDate date] allergen:@"Peanuts" severity:@"High" note:@"note"];
+    return [[self alloc] initWithOnsetAt:[NSDate date] allergen:@"Peanuts" severity:@"High" note:@"Bacon ipsum dolor amet sirloin pancetta cow pork chop kielbasa venison boudin ham strip steak tongue prosciutto tenderloin andouille t-bone pig. Picanha capicola spare ribs pork belly, ball tip brisket short loin. Ham hock chicken picanha, beef ribs venison pancetta ground round shankle hamburger ribeye."];
 }
 
 +(NSArray *)allergiesFromDictionaries:(NSArray *)dictionaries {
