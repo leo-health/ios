@@ -68,7 +68,7 @@
         self.titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
 
         NSDictionary* viewDictionary = NSDictionaryOfVariableBindings(_titleLabel);
-        NSArray *horizontalLayoutConstraintsForFullTitle = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(20)-[_titleLabel]-(100)-|" options:0 metrics:nil views:viewDictionary];
+        NSArray *horizontalLayoutConstraintsForFullTitle = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(30)-[_titleLabel]-(100)-|" options:0 metrics:nil views:viewDictionary];
         NSArray *verticalLayoutConstraintsForFullTitle = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_titleLabel]|" options:0 metrics:nil views:viewDictionary];
 
         [self addConstraints:horizontalLayoutConstraintsForFullTitle];

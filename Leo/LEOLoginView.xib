@@ -36,7 +36,7 @@
                                 <constraint firstAttribute="height" constant="46" id="J4g-Og-YST"/>
                             </constraints>
                         </view>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mEu-tO-pgj">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mEu-tO-pgj">
                             <rect key="frame" x="0.0" y="526" width="540" height="54"/>
                             <color key="backgroundColor" red="0.98431372549999996" green="0.2784313725" blue="0.1960784314" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>

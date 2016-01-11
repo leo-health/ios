@@ -66,6 +66,13 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
     self.navigationItem.titleView.hidden = percentage == 0;
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+
+    [super viewDidAppear:animated];
+
+    [self.loginView.emailPromptField.textField becomeFirstResponder];
+}
+
 - (void)setupNavigationBar {
     [LEOStyleHelper styleNavigationBarForViewController:self forFeature:self.feature withTitleText:@"Login" dismissal:NO backButton:YES];
 }
@@ -176,9 +183,9 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
                               sender:sender];
 }
 
--(void)viewDidDisappear:(BOOL)animated {
+-(void)viewWillDisappear:(BOOL)animated {
 
-    // ???: Is this really necessary?
+    // ???: Is this really necessary
     [self.view endEditing:YES];
 }
 

@@ -45,18 +45,10 @@
         _stickyHeaderView = strongView;
         _stickyHeaderView.feature = _feature;
 
-        if (![self needsBounceAbility]) {
-            _stickyHeaderView.scrollView.bounces = NO;
-        }
         [self.view addSubview:_stickyHeaderView];
     }
 
     return _stickyHeaderView;
-}
-
--(BOOL)needsBounceAbility {
-
-    return _stickyHeaderView.scrollView.contentSize.height > (_stickyHeaderView.scrollView.bounds.size.height - _stickyHeaderView.scrollView.contentInset.bottom - _stickyHeaderView.scrollView.contentInset.top);
 }
 
 - (void)updateViewConstraints {

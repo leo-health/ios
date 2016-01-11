@@ -94,7 +94,7 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
         [self addSubview:_scrollView];
 
         _scrollView.delegate = self;
-        _scrollView.bounces = YES;
+
         _scrollView.showsHorizontalScrollIndicator = NO;
         _scrollView.showsVerticalScrollIndicator = NO;
 
@@ -112,6 +112,7 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
         _separatorLine.backgroundColor = [UIColor leo_grayForPlaceholdersAndLines];
         [self addSubview:_separatorLine];
     }
+
     return _separatorLine;
 }
 
@@ -120,6 +121,7 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
     [self.bodyView removeFromSuperview];
     UIView *strongBodyView = [self.datasource injectBodyView];
     _bodyView = strongBodyView;
+
     [self.contentView addSubview:_bodyView];
 }
 
@@ -190,6 +192,11 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
     }
 
     [super layoutSubviews];
+}
+
+
+-(BOOL)needsBounceAbility {
+    return self.scrollView.contentSize.height > (self.scrollView.bounds.size.height - self.scrollView.contentInset.bottom - self.scrollView.contentInset.top);
 }
 
 - (void)updateConstraints {
@@ -354,6 +361,10 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
+
+
+    //???: Best place for this
+    self.scrollView.bounces = [self needsBounceAbility];
 
     if (scrollView == self.scrollView) {
 
