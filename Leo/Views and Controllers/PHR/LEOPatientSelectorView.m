@@ -92,7 +92,6 @@ static const CGFloat kDistanceSegments = 26.0;
                 } completion:^(BOOL finished) {
                    
                 }];
-
             }
         };
         

@@ -43,7 +43,7 @@
 }
 
 - (void)commonInit {
-    
+
     [self setupTouchEventForDismissingKeyboard];
 
 }
@@ -58,6 +58,8 @@
     _emailPromptField.textField.autocorrectionType = UITextAutocorrectionTypeNo;
     _emailPromptField.textField.keyboardType = UIKeyboardTypeEmailAddress;
     _emailPromptField.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+
+    [_emailPromptField.textField becomeFirstResponder];
 }
 
 - (void)setPasswordPromptField:(LEOPromptField *)passwordPromptField {

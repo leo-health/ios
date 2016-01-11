@@ -9,7 +9,6 @@
 #import "LEOStickyHeaderView.h"
 #import "UIColor+LeoColors.h"
 #import "LEOStyleHelper.h"
-#import <TPKeyboardAvoidingScrollView.h>
 #import "LEOGradientView.h"
 
 CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
@@ -18,7 +17,6 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 
 @property (nonatomic) BOOL breakerIsOnScreen;
 @property (strong, nonatomic) CAShapeLayer *pathLayer;
-@property (weak, nonatomic) TPKeyboardAvoidingScrollView *scrollView;
 @property (weak, nonatomic) UIView *titleView;
 @property (strong, nonatomic) NSLayoutConstraint* titleViewTopConstraint;
 @property (strong, nonatomic) NSLayoutConstraint* bodyViewTopConstraint;
@@ -183,11 +181,11 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
     [self.scrollView layoutIfNeeded];
 
     CGFloat maxPossibleOffsetY = self.scrollView.contentSize.height - CGRectGetHeight(self.scrollView.bounds);
-    CGFloat differenceBetweenExpanedAndCollapsedHeights = CGRectGetHeight(self.titleView.bounds) - [self navBarHeight];
+    CGFloat differenceBetweenExpandedAndCollapsedHeights = CGRectGetHeight(self.titleView.bounds) - [self navBarHeight];
 
-    if (maxPossibleOffsetY < differenceBetweenExpanedAndCollapsedHeights) {
+    if (maxPossibleOffsetY < differenceBetweenExpandedAndCollapsedHeights && maxPossibleOffsetY > 0) {
         
-        CGFloat insetHeight = differenceBetweenExpanedAndCollapsedHeights - maxPossibleOffsetY;
+        CGFloat insetHeight = differenceBetweenExpandedAndCollapsedHeights - maxPossibleOffsetY;
         self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, insetHeight, 0);
     }
 

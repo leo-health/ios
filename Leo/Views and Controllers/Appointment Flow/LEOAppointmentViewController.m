@@ -97,7 +97,7 @@ static NSString *const kKeySelectionVCDate = @"date";
     __weak LEOAppointmentViewController* weakSelf = self;
     [self addAnimationToNavBar:^{
         [weakSelf.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
-        CGFloat percentage = [weakSelf transitionPercentageForScrollOffset:weakSelf.scrollViewContentOffset];
+        CGFloat percentage = [weakSelf transitionPercentageForScrollOffset:weakSelf.stickyHeaderView.scrollView.contentOffset];
         weakSelf.navigationItem.titleView.hidden = percentage == 0;
     }];
 }
@@ -213,6 +213,7 @@ static NSString *const kKeySelectionVCDate = @"date";
 
 -(void)updateTitleViewForScrollTransitionPercentage:(CGFloat)transitionPercentage {
 
+    if (self.stickyHeaderView)
     self.gradientView.currentTransitionPercentage = transitionPercentage;
     self.navigationItem.titleView.hidden = NO;
     self.navigationItem.titleView.alpha = transitionPercentage;

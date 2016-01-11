@@ -69,7 +69,7 @@
 
         NSDictionary* viewDictionary = NSDictionaryOfVariableBindings(_titleLabel);
         NSArray *horizontalLayoutConstraintsForFullTitle = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(20)-[_titleLabel]-(100)-|" options:0 metrics:nil views:viewDictionary];
-        NSArray *verticalLayoutConstraintsForFullTitle = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_titleLabel]-(20)-|" options:0 metrics:nil views:viewDictionary];
+        NSArray *verticalLayoutConstraintsForFullTitle = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_titleLabel]|" options:0 metrics:nil views:viewDictionary];
 
         [self addConstraints:horizontalLayoutConstraintsForFullTitle];
         [self addConstraints:verticalLayoutConstraintsForFullTitle];
@@ -86,8 +86,22 @@
     [super updateConstraints];
 }
 
+- (void)setIntrinsicHeight:(CGFloat)intrinsicHeight {
+
+    _intrinsicHeight = intrinsicHeight;
+    [self invalidateIntrinsicContentSize];
+}
+
 - (CGSize)intrinsicContentSize {
-    return CGSizeMake(UIViewNoIntrinsicMetric, 207.0);
+    CGSize intrinsicSize;
+
+    if (self.intrinsicHeight) {
+        intrinsicSize = CGSizeMake(UIViewNoIntrinsicMetric, self.intrinsicHeight);
+    }
+    else {
+        intrinsicSize = CGSizeMake(UIViewNoIntrinsicMetric, 207.0);
+    }
+    return intrinsicSize;
 }
 
 @end

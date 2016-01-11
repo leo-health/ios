@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <TPKeyboardAvoiding/TPKeyboardAvoidingScrollView.h>
 
 typedef void(^SubmitBlock)(void);
 
@@ -40,7 +41,7 @@ typedef void(^SubmitBlock)(void);
 @property (weak, nonatomic) id<LEOStickyHeaderDataSource> datasource;
 @property (weak, nonatomic) id<LEOStickyHeaderDelegate> delegate;
 
-@property (nonatomic) CGPoint scrollViewContentOffset;
+@property (weak, nonatomic) TPKeyboardAvoidingScrollView *scrollView;
 
 -(CGFloat)transitionPercentageForScrollOffset:(CGPoint)offset;
 -(void)updateTransitionPercentageForScrollOffset:(CGPoint)offset;

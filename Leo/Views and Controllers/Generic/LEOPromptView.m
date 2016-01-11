@@ -149,7 +149,7 @@ IB_DESIGNABLE
 }
 
 -(CGSize)intrinsicContentSize {
-    return CGSizeMake(UIViewNoIntrinsicMetric, self.textView.bounds.size.height + 1);
+    return CGSizeMake(UIViewNoIntrinsicMetric, self.textView.bounds.size.height);
 }
 
 @end

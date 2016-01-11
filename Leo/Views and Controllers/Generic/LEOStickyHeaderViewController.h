@@ -25,10 +25,10 @@
 
 @property (nonatomic, getter=isCollapsible) BOOL collapsible;
 @property (nonatomic, readonly, getter=isCollapsed) BOOL collapsed;
-@property (nonatomic, readonly) CGPoint scrollViewContentOffset;
+@property (nonatomic) BOOL needsScrollingAbility;
 
 -(instancetype)initWithFeature:(Feature)feature;
-
+-(BOOL)needsScrollingAbility;
 -(void)addAnimationToNavBar:(void(^)())animations;
 -(CGFloat)transitionPercentageForScrollOffset:(CGPoint)offset;
 
