@@ -191,14 +191,14 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
         self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, insetHeight, 0);
     }
 
-    self.scrollView.bounces = [self needsBounceAbility];
+    self.scrollView.bounces = ![self scrollViewContentSizeSmallerThanScrollViewFrameIncludingInsets];
 
     [super layoutSubviews];
 }
 
 
 -(BOOL)scrollViewContentSizeSmallerThanScrollViewFrameIncludingInsets {
-    return self.scrollView.contentSize.height > (self.scrollView.bounds.size.height - self.scrollView.contentInset.bottom - self.scrollView.contentInset.top);
+    return self.scrollView.contentSize.height < (self.scrollView.bounds.size.height - self.scrollView.contentInset.bottom - self.scrollView.contentInset.top);
 }
 
 - (void)updateConstraints {

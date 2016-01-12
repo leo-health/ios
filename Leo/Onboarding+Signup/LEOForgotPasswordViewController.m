@@ -32,7 +32,10 @@
 
 #pragma mark - View Controller Lifecycle and Helpers
 
+static CGFloat const kHeightStickyHeader = 150.0;
+
 - (void)viewDidLoad {
+
     [super viewDidLoad];
     
     [self.view setupTouchEventForDismissingKeyboard];
@@ -84,7 +87,7 @@
     if (!_headerView) {
 
         _headerView = [[LEOHeaderView alloc] initWithTitleText:@"Reset your password"];
-        _headerView.intrinsicHeight = @(150);
+        _headerView.intrinsicHeight = @(kStickyHeaderHeight);
         [LEOStyleHelper styleExpandedTitleLabel:_headerView.titleLabel feature:self.feature];
     }
 
