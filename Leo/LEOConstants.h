@@ -393,7 +393,7 @@ extern CGFloat const kSelectionLineHeight; // 2.0f;
 extern CGFloat const kCornerRadius; // 2.0f;
 extern CGFloat const kHeightOfNoReturnConstant; // 0.4;
 extern CGFloat const kSpeedForTitleViewAlphaChangeConstant; // 4.0;
-
+extern CGFloat const kStickyHeaderHeight; // 150.0;
 #pragma mark - Segues
 extern NSString *const kSegueContinue; // @"ContinueSegue";
 extern NSString *const kSeguePlan; // @"PlanSegue";

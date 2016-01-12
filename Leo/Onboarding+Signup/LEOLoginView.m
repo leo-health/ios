@@ -43,7 +43,7 @@
 }
 
 - (void)commonInit {
-    
+
     [self setupTouchEventForDismissingKeyboard];
 
 }

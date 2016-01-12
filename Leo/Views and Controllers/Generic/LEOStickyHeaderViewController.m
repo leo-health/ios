@@ -99,7 +99,7 @@
 }
 
 -(CGPoint)scrollViewContentOffset {
-    return self.stickyHeaderView.scrollViewContentOffset;
+    return self.stickyHeaderView.scrollView.contentOffset;
 }
 
 -(Feature)feature {

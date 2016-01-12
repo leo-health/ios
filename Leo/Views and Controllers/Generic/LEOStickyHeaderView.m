@@ -9,7 +9,6 @@
 #import "LEOStickyHeaderView.h"
 #import "UIColor+LeoColors.h"
 #import "LEOStyleHelper.h"
-#import <TPKeyboardAvoidingScrollView.h>
 #import "LEOGradientView.h"
 
 CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
@@ -18,7 +17,6 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 
 @property (nonatomic) BOOL breakerIsOnScreen;
 @property (strong, nonatomic) CAShapeLayer *pathLayer;
-@property (weak, nonatomic) TPKeyboardAvoidingScrollView *scrollView;
 @property (weak, nonatomic) UIView *titleView;
 @property (strong, nonatomic) NSLayoutConstraint* titleViewTopConstraint;
 @property (strong, nonatomic) NSLayoutConstraint* bodyViewTopConstraint;
@@ -96,7 +94,7 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
         [self addSubview:_scrollView];
 
         _scrollView.delegate = self;
-        _scrollView.bounces = YES;
+
         _scrollView.showsHorizontalScrollIndicator = NO;
         _scrollView.showsVerticalScrollIndicator = NO;
 
@@ -114,6 +112,7 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
         _separatorLine.backgroundColor = [UIColor leo_grayForPlaceholdersAndLines];
         [self addSubview:_separatorLine];
     }
+
     return _separatorLine;
 }
 
@@ -122,6 +121,7 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
     [self.bodyView removeFromSuperview];
     UIView *strongBodyView = [self.datasource injectBodyView];
     _bodyView = strongBodyView;
+
     [self.contentView addSubview:_bodyView];
 }
 
@@ -183,15 +183,24 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
     [self.scrollView layoutIfNeeded];
 
     CGFloat maxPossibleOffsetY = self.scrollView.contentSize.height - CGRectGetHeight(self.scrollView.bounds);
-    CGFloat differenceBetweenExpanedAndCollapsedHeights = CGRectGetHeight(self.titleView.bounds) - [self navBarHeight];
+    CGFloat differenceBetweenExpandedAndCollapsedHeights = CGRectGetHeight(self.titleView.bounds) - [self navBarHeight];
 
-    if (maxPossibleOffsetY < differenceBetweenExpanedAndCollapsedHeights) {
+    if (maxPossibleOffsetY < differenceBetweenExpandedAndCollapsedHeights && maxPossibleOffsetY > 0) {
         
-        CGFloat insetHeight = differenceBetweenExpanedAndCollapsedHeights - maxPossibleOffsetY;
+        CGFloat insetHeight = differenceBetweenExpandedAndCollapsedHeights - maxPossibleOffsetY;
         self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, insetHeight, 0);
     }
 
+    self.scrollView.bounces = [self needsBounceAbility];
+
     [super layoutSubviews];
+}
+
+
+-(BOOL)needsBounceAbility {
+
+    //checks whether the contentsize of the scrollview is greater than the bounds of the scrollview (including insets) in order to determine whether it wills scroll
+    return self.scrollView.contentSize.height > (self.scrollView.bounds.size.height - self.scrollView.contentInset.bottom - self.scrollView.contentInset.top);
 }
 
 - (void)updateConstraints {
@@ -356,6 +365,7 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
+
 
     if (scrollView == self.scrollView) {
 

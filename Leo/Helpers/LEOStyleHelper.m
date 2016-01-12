@@ -142,7 +142,7 @@
     [backButton setImage:[UIImage imageNamed:@"Icon-BackArrow"] forState:UIControlStateNormal];
     [backButton sizeToFit];
     
-    [backButton setTintColor:[self headerLabelColorForFeature:feature]];
+    [backButton setTintColor:[self headerIconColorForFeature:feature]];
     
     UIBarButtonItem *backBBI = [[UIBarButtonItem alloc] initWithCustomView:backButton];
     
@@ -185,6 +185,23 @@
     }
 }
 
++ (UIColor *)headerIconColorForFeature:(Feature)feature {
+
+    switch (feature) {
+        case FeatureOnboarding:
+            return [UIColor leo_orangeRed];
+
+        case FeatureSettings:
+            return [UIColor leo_white];
+
+        case FeatureAppointmentScheduling:
+            return [UIColor leo_white];
+
+        case FeatureUndefined:
+            return [UIColor blackColor];
+    }
+}
+
 //TODO: I smell something. Come back to this later to think through further.
 + (UIColor *)backgroundColorForFeature:(Feature)feature {
     
@@ -207,7 +224,7 @@
     
     switch (feature) {
         case FeatureOnboarding:
-            return [UIColor leo_orangeRed];
+            return [UIColor leo_grayForTitlesAndHeadings];
             
         case FeatureSettings:
             return [UIColor leo_white];

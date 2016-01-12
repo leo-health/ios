@@ -75,6 +75,7 @@ static CGFloat const kSpacerProfileBottom = 4.0;
     if (!self.alreadyUpdatedConstraints) {
 
         [self removeConstraints:self.constraints];
+        
         self.translatesAutoresizingMaskIntoConstraints = NO;
         self.patientNameLabel.translatesAutoresizingMaskIntoConstraints = NO;
         self.patientAvatarImageView.translatesAutoresizingMaskIntoConstraints = NO;

@@ -15,14 +15,14 @@
                     <rect key="frame" x="30" y="0.0" width="540" height="600"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cEU-9q-euv" userLabel="Email Prompt View" customClass="LEOPromptField">
-                            <rect key="frame" x="0.0" y="0.0" width="540" height="48"/>
+                            <rect key="frame" x="0.0" y="0.0" width="540" height="46"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="48" id="iog-EG-YgB"/>
+                                <constraint firstAttribute="height" constant="46" id="iog-EG-YgB"/>
                             </constraints>
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fyJ-c7-8hR">
-                            <rect key="frame" x="0.0" y="136" width="540" height="29"/>
+                            <rect key="frame" x="0.0" y="126" width="540" height="376"/>
                             <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="12"/>
                             <state key="normal" title="FORGOT PASSWORD">
                                 <color key="titleColor" red="0.22352941179999999" green="0.22352941179999999" blue="0.22352941179999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -30,17 +30,17 @@
                             </state>
                         </button>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pc8-E8-SZi" userLabel="Password Prompt View" customClass="LEOPromptField">
-                            <rect key="frame" x="0.0" y="48" width="540" height="48"/>
+                            <rect key="frame" x="0.0" y="46" width="540" height="46"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="48" id="J4g-Og-YST"/>
+                                <constraint firstAttribute="height" constant="46" id="J4g-Og-YST"/>
                             </constraints>
                         </view>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mEu-tO-pgj">
-                            <rect key="frame" x="0.0" y="193" width="540" height="60"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mEu-tO-pgj">
+                            <rect key="frame" x="0.0" y="526" width="540" height="54"/>
                             <color key="backgroundColor" red="0.98431372549999996" green="0.2784313725" blue="0.1960784314" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="60" id="PrG-Vx-wvM"/>
+                                <constraint firstAttribute="height" constant="54" id="PrG-Vx-wvM"/>
                             </constraints>
                             <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <state key="normal" title="Button">
@@ -52,6 +52,7 @@
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="cEU-9q-euv" secondAttribute="trailing" id="96c-uC-ZdL"/>
+                        <constraint firstAttribute="bottom" secondItem="mEu-tO-pgj" secondAttribute="bottom" constant="20" id="CWA-9b-gMR"/>
                         <constraint firstItem="Pc8-E8-SZi" firstAttribute="top" secondItem="cEU-9q-euv" secondAttribute="bottom" id="D90-I4-WTd"/>
                         <constraint firstItem="cEU-9q-euv" firstAttribute="top" secondItem="BYX-bY-Wfj" secondAttribute="top" id="Fny-4O-r2h"/>
                         <constraint firstItem="fyJ-c7-8hR" firstAttribute="trailing" secondItem="Pc8-E8-SZi" secondAttribute="trailing" id="Hb3-u6-4bO"/>
@@ -59,10 +60,10 @@
                         <constraint firstItem="mEu-tO-pgj" firstAttribute="trailing" secondItem="fyJ-c7-8hR" secondAttribute="trailing" id="VxC-8H-CcD"/>
                         <constraint firstItem="mEu-tO-pgj" firstAttribute="leading" secondItem="fyJ-c7-8hR" secondAttribute="leading" id="Y4l-b4-D0J"/>
                         <constraint firstItem="Pc8-E8-SZi" firstAttribute="leading" secondItem="cEU-9q-euv" secondAttribute="leading" id="c2H-XQ-Lrm"/>
-                        <constraint firstItem="fyJ-c7-8hR" firstAttribute="top" secondItem="Pc8-E8-SZi" secondAttribute="bottom" constant="40" id="jUz-rK-tcq"/>
+                        <constraint firstItem="fyJ-c7-8hR" firstAttribute="top" secondItem="Pc8-E8-SZi" secondAttribute="bottom" constant="34" id="jUz-rK-tcq"/>
                         <constraint firstItem="fyJ-c7-8hR" firstAttribute="leading" secondItem="Pc8-E8-SZi" secondAttribute="leading" id="jbB-ES-Kdy"/>
                         <constraint firstItem="Pc8-E8-SZi" firstAttribute="trailing" secondItem="cEU-9q-euv" secondAttribute="trailing" id="nXe-Hv-nbu"/>
-                        <constraint firstItem="mEu-tO-pgj" firstAttribute="top" secondItem="fyJ-c7-8hR" secondAttribute="bottom" constant="28" id="vvy-vO-7kl"/>
+                        <constraint firstItem="mEu-tO-pgj" firstAttribute="top" secondItem="fyJ-c7-8hR" secondAttribute="bottom" constant="24" id="vvy-vO-7kl"/>
                     </constraints>
                 </view>
             </subviews>

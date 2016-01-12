@@ -17,7 +17,7 @@ pod 'UIImage-Resize' #MIT
 pod 'JSQMessagesViewController' #MIT
 pod 'libPusher', '~> 1.5' #MIT
 pod 'MBProgressHUD' #MIT
-pod 'TPKeyboardAvoiding' #MIT
+pod 'TPKeyboardAvoiding' #Zlib
 pod 'ActionSheetPicker-3.0', '~> 2.0.1' #BSD
 pod 'RSKImageCropper' #MIT
 pod 'GNZSlidingSegment', :git => 'https://github.com/chrisgonzgonz/GNZSlidingSegment.git' #MIT
