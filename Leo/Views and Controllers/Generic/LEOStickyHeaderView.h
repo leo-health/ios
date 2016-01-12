@@ -43,9 +43,9 @@ typedef void(^SubmitBlock)(void);
 
 @property (weak, nonatomic) TPKeyboardAvoidingScrollView *scrollView;
 
--(CGFloat)transitionPercentageForScrollOffset:(CGPoint)offset;
--(void)updateTransitionPercentageForScrollOffset:(CGPoint)offset;
-
+- (CGFloat)transitionPercentageForScrollOffset:(CGPoint)offset;
+- (void)updateTransitionPercentageForScrollOffset:(CGPoint)offset;
+- (BOOL)scrollViewContentSizeSmallerThanScrollViewFrameIncludingInsets;
 - (void)reloadBodyView;
 
 @end

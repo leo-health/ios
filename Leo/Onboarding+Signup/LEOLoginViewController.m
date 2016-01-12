@@ -70,7 +70,9 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
 
     [super viewDidAppear:animated];
 
-    [self.loginView.emailPromptField.textField becomeFirstResponder];
+    if ([self.stickyHeaderView scrollViewContentSizeSmallerThanScrollViewFrameIncludingInsets]) {
+        [self.loginView.emailPromptField.textField becomeFirstResponder];
+    }
 }
 
 - (void)setupNavigationBar {

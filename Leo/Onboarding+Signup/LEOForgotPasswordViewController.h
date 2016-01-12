@@ -8,9 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-#import "LEOScrollableContainerView.h"
+#import "LEOStickyHeaderViewController.h"
 
-@interface LEOForgotPasswordViewController : UIViewController <LEOScrollableContainerViewDelegate, UITextFieldDelegate, UIScrollViewDelegate>
+@interface LEOForgotPasswordViewController : LEOStickyHeaderViewController < LEOStickyHeaderDelegate, LEOStickyHeaderDataSource>
 
 @property (strong, nonatomic) NSString *email;
 

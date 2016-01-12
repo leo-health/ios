@@ -197,9 +197,7 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 }
 
 
--(BOOL)needsBounceAbility {
-
-    //checks whether the contentsize of the scrollview is greater than the bounds of the scrollview (including insets) in order to determine whether it wills scroll
+-(BOOL)scrollViewContentSizeSmallerThanScrollViewFrameIncludingInsets {
     return self.scrollView.contentSize.height > (self.scrollView.bounds.size.height - self.scrollView.contentInset.bottom - self.scrollView.contentInset.top);
 }
 
@@ -225,7 +223,7 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
         }
 
         NSDictionary *viewDictionary = NSDictionaryOfVariableBindings(_titleView, _bodyView, _scrollView, _contentView, _separatorLine, _footerView);
-
+        
         // Outside scroll view
         NSArray *verticalLayoutConstraintsForScrollView = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_scrollView][_separatorLine(==1)][_footerView]|" options:0 metrics:nil views:viewDictionary];
         NSArray *horizontalLayoutConstraintsForButtonView = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_footerView]|" options:0 metrics:nil views:viewDictionary];
@@ -365,7 +363,6 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
-
 
     if (scrollView == self.scrollView) {
 
