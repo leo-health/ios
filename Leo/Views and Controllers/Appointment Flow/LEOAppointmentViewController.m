@@ -213,7 +213,6 @@ static NSString *const kKeySelectionVCDate = @"date";
 
 -(void)updateTitleViewForScrollTransitionPercentage:(CGFloat)transitionPercentage {
 
-    if (self.stickyHeaderView)
     self.gradientView.currentTransitionPercentage = transitionPercentage;
     self.navigationItem.titleView.hidden = NO;
     self.navigationItem.titleView.alpha = transitionPercentage;

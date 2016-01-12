@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (weak, nonatomic) UILabel *titleLabel;
 @property (nonatomic) CGFloat currentTransitionPercentage;
-@property (nonatomic) CGFloat intrinsicHeight;
+@property (strong, nonatomic) NSNumber *intrinsicHeight;
 
 - (instancetype)initWithTitleText:(NSString *)titleText;
 

@@ -18,7 +18,13 @@
 
 @implementation LEOHeaderView
 
+static CGFloat const kLeftInsetTitle = 30.0;
+static CGFloat const kRightInsetTitle = 100.0;
+static CGFloat const kDefaultHeaderViewHeight = 207.0;
+
+
 #pragma mark - VCL & Helper Methods
+
 - (instancetype)initWithTitleText:(NSString *)titleText {
 
     self = [super init];
@@ -58,6 +64,15 @@
     self.titleLabel.alpha = 1 - currentTransitionPercentage;
 }
 
+- (void)setIntrinsicHeight:(NSNumber *)intrinsicHeight {
+
+    _intrinsicHeight = intrinsicHeight;
+    [self invalidateIntrinsicContentSize];
+}
+
+
+#pragma mark - Layout
+
 - (void)updateConstraints {
 
     if (!self.constraintsAlreadyUpdated) {
@@ -67,8 +82,10 @@
         self.translatesAutoresizingMaskIntoConstraints = NO;
         self.titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
 
-        NSDictionary* viewDictionary = NSDictionaryOfVariableBindings(_titleLabel);
-        NSArray *horizontalLayoutConstraintsForFullTitle = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(30)-[_titleLabel]-(100)-|" options:0 metrics:nil views:viewDictionary];
+        NSDictionary *viewDictionary = NSDictionaryOfVariableBindings(_titleLabel);
+        NSDictionary *metricsDictionary = @{@"leftTitleInset" : @(kLeftInsetTitle), @"rightTitleInset" : @(kRightInsetTitle)};
+
+        NSArray *horizontalLayoutConstraintsForFullTitle = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(leftTitleInset)-[_titleLabel]-(rightTitleInset)-|" options:0 metrics:metricsDictionary views:viewDictionary];
         NSArray *verticalLayoutConstraintsForFullTitle = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_titleLabel]|" options:0 metrics:nil views:viewDictionary];
 
         [self addConstraints:horizontalLayoutConstraintsForFullTitle];
@@ -86,22 +103,18 @@
     [super updateConstraints];
 }
 
-- (void)setIntrinsicHeight:(CGFloat)intrinsicHeight {
-
-    _intrinsicHeight = intrinsicHeight;
-    [self invalidateIntrinsicContentSize];
-}
-
 - (CGSize)intrinsicContentSize {
+
     CGSize intrinsicSize;
 
     if (self.intrinsicHeight) {
-        intrinsicSize = CGSizeMake(UIViewNoIntrinsicMetric, self.intrinsicHeight);
+        intrinsicSize = CGSizeMake(UIViewNoIntrinsicMetric, [self.intrinsicHeight floatValue]);
     }
     else {
-        intrinsicSize = CGSizeMake(UIViewNoIntrinsicMetric, 207.0);
+        intrinsicSize = CGSizeMake(UIViewNoIntrinsicMetric, kDefaultHeaderViewHeight);
     }
     return intrinsicSize;
 }
+
 
 @end

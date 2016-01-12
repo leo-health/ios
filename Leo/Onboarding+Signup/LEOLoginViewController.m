@@ -23,7 +23,6 @@
 #import "UIViewController+XibAdditions.h"
 #import "UIView+Extensions.h"
 
-static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
 
 @interface LEOLoginViewController ()
 
@@ -34,6 +33,7 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
 
 @implementation LEOLoginViewController
 
+static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
 
 #pragma mark - VCL & Helpers
 
@@ -85,7 +85,7 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
     if (!_headerView) {
 
         _headerView = [[LEOHeaderView alloc] initWithTitleText:@"Login to your Leo account"];
-        _headerView.intrinsicHeight = 150;
+        _headerView.intrinsicHeight = @(kStickyHeaderHeight);
         [LEOStyleHelper styleExpandedTitleLabel:_headerView.titleLabel feature:self.feature];
     }
 
@@ -184,8 +184,6 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
-
-    // ???: Is this really necessary
     [self.view endEditing:YES];
 }
 
