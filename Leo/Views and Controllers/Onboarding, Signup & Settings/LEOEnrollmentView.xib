@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="X2Q-lj-nC6" customClass="LEOEnrollmentView">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6g6-Vl-1pj">
+                    <rect key="frame" x="30" y="0.0" width="540" height="600"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="06Q-7G-8l1" userLabel="Email Prompt View" customClass="LEOPromptField">
+                            <rect key="frame" x="0.0" y="0.0" width="540" height="46"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="46" id="ISh-oZ-X75"/>
+                            </constraints>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D0L-eC-iIx" userLabel="Password Prompt View" customClass="LEOPromptField">
+                            <rect key="frame" x="0.0" y="46" width="540" height="46"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="46" id="36I-pv-iQm"/>
+                            </constraints>
+                        </view>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4jM-8d-SmS">
+                            <rect key="frame" x="0.0" y="228" width="540" height="54"/>
+                            <color key="backgroundColor" red="0.98431372549999996" green="0.2784313725" blue="0.1960784314" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="54" id="Iy5-LW-51y"/>
+                            </constraints>
+                            <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <state key="normal" title="Button">
+                                <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="06Q-7G-8l1" firstAttribute="leading" secondItem="6g6-Vl-1pj" secondAttribute="leading" id="0V8-Rp-mTW"/>
+                        <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="4jM-8d-SmS" secondAttribute="bottom" id="35z-sn-hJD"/>
+                        <constraint firstAttribute="trailing" secondItem="06Q-7G-8l1" secondAttribute="trailing" id="6tz-cX-4Z4"/>
+                        <constraint firstItem="D0L-eC-iIx" firstAttribute="leading" secondItem="06Q-7G-8l1" secondAttribute="leading" id="7RR-f7-7Ol"/>
+                        <constraint firstItem="4jM-8d-SmS" firstAttribute="trailing" secondItem="D0L-eC-iIx" secondAttribute="trailing" id="AOw-c2-Zak"/>
+                        <constraint firstAttribute="bottom" secondItem="4jM-8d-SmS" secondAttribute="bottom" constant="235" id="AkP-2H-pnB"/>
+                        <constraint firstItem="4jM-8d-SmS" firstAttribute="leading" secondItem="D0L-eC-iIx" secondAttribute="leading" id="K1A-0S-PNb"/>
+                        <constraint firstItem="D0L-eC-iIx" firstAttribute="top" secondItem="06Q-7G-8l1" secondAttribute="bottom" id="kcw-E6-FB6"/>
+                        <constraint firstAttribute="bottom" relation="lessThanOrEqual" secondItem="4jM-8d-SmS" secondAttribute="bottom" constant="318" id="lrr-PC-lwP"/>
+                        <constraint firstItem="D0L-eC-iIx" firstAttribute="trailing" secondItem="06Q-7G-8l1" secondAttribute="trailing" id="utT-D5-9Wr"/>
+                        <constraint firstItem="4jM-8d-SmS" firstAttribute="top" secondItem="6g6-Vl-1pj" secondAttribute="top" constant="228" id="whM-zd-Hem"/>
+                        <constraint firstItem="06Q-7G-8l1" firstAttribute="top" secondItem="6g6-Vl-1pj" secondAttribute="top" id="zbX-kK-luc"/>
+                    </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="AkP-2H-pnB"/>
+                        </mask>
+                    </variation>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="6g6-Vl-1pj" secondAttribute="trailing" constant="30" id="3ts-R3-2pG"/>
+                <constraint firstItem="6g6-Vl-1pj" firstAttribute="leading" secondItem="X2Q-lj-nC6" secondAttribute="leading" constant="30" id="HVe-zx-KYQ"/>
+                <constraint firstAttribute="bottom" secondItem="6g6-Vl-1pj" secondAttribute="bottom" id="WC9-Qj-lcE"/>
+                <constraint firstItem="6g6-Vl-1pj" firstAttribute="top" secondItem="X2Q-lj-nC6" secondAttribute="top" id="u7p-nv-hLV"/>
+            </constraints>
+            <connections>
+                <outlet property="continueButton" destination="4jM-8d-SmS" id="5WH-hJ-fDc"/>
+                <outlet property="emailPromptField" destination="06Q-7G-8l1" id="icw-do-0IJ"/>
+                <outlet property="passwordPromptField" destination="D0L-eC-iIx" id="jab-PS-0Ov"/>
+            </connections>
+        </view>
+    </objects>
+</document>
