@@ -32,6 +32,7 @@
     emailPromptField.textField.delegate = self;
     emailPromptField.textField.standardPlaceholder = @"email address";
     emailPromptField.textField.validationPlaceholder = @"Invalid email";
+    emailPromptField.textField.autocorrectionType = UITextAutocorrectionTypeNo;
 }
 
 
