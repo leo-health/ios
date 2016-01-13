@@ -33,9 +33,13 @@
             
             [insurancePlans addObjectsFromArray:insurer.plans];
         }
-        
+
+        NSSortDescriptor *sortByName = [NSSortDescriptor sortDescriptorWithKey:@"combinedName" ascending:YES];
+
+        NSArray *sortedInsurancePlans = [insurancePlans sortedArrayUsingDescriptors:@[sortByName]];
+
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            self.requestBlock(insurancePlans, nil);
+            self.requestBlock(sortedInsurancePlans, nil);
         }];
     }];
 }
