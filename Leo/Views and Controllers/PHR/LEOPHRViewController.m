@@ -61,7 +61,6 @@ static CGFloat const kHeightOfHeaderPHR = 100;
     if (!_stickyHeaderView) {
 
         _stickyHeaderView = [super stickyHeaderView];
-
         _stickyHeaderView.headerShouldNotBounceOnScroll = YES;
         _stickyHeaderView.breakerHidden = YES;
     }
@@ -127,11 +126,7 @@ static CGFloat const kHeightOfHeaderPHR = 100;
     if (!_slidingSegmentView) {
 
         GNZSlidingSegmentView *strongSlidingSegmentView = [GNZSlidingSegmentView new];
-
         _slidingSegmentView = strongSlidingSegmentView;
-
-        // TODO: Remove when subview content is available to size view
-        [_slidingSegmentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_slidingSegmentView(1000)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_slidingSegmentView)]];
 
         _slidingSegmentView.dataSource = self;
         _slidingSegmentView.delegate = self;

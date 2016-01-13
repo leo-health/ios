@@ -184,9 +184,8 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 
     CGFloat maxPossibleOffsetY = self.scrollView.contentSize.height - CGRectGetHeight(self.scrollView.bounds);
     CGFloat differenceBetweenExpandedAndCollapsedHeights = CGRectGetHeight(self.titleView.bounds) - [self navBarHeight];
+    if (0 < maxPossibleOffsetY && maxPossibleOffsetY < differenceBetweenExpandedAndCollapsedHeights) {
 
-    if (maxPossibleOffsetY < differenceBetweenExpandedAndCollapsedHeights && maxPossibleOffsetY > 0) {
-        
         CGFloat insetHeight = differenceBetweenExpandedAndCollapsedHeights - maxPossibleOffsetY;
         self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, insetHeight, 0);
     }
@@ -252,7 +251,7 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
         self.bodyViewTopConstraint = [NSLayoutConstraint constraintWithItem:self.bodyView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1 constant:100];
 
         NSArray *verticalLayoutConstraintsForBodyView = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_bodyView]|" options:0 metrics:nil views:viewDictionary];
-        
+
         [self.contentView addConstraint:self.titleViewTopConstraint];
         [self.contentView addConstraint:self.bodyViewTopConstraint];
         [self.contentView addConstraints:verticalLayoutConstraintsForBodyView];
@@ -392,7 +391,6 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 
 -(void)navigationTitleViewSnapsForScrollView:(UIScrollView *)scrollView {
 
-    // Note: what is the desired functionality here? Do we want to disable the scrolling animations as well?
     if (self.isCollapsible) {
 
         // Force collapse

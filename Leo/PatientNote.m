@@ -8,6 +8,7 @@
 
 #import "PatientNote.h"
 #import "NSDictionary+Additions.h"
+#import "NSDate+Extensions.h"
 #import "LEOConstants.h"
 
 @implementation PatientNote
@@ -31,9 +32,9 @@
 
     NSString *objectID = [jsonDictionary leo_itemForKey:APIParamPatientNoteID];
     User *user = [[User alloc] initWithJSONDictionary:[jsonDictionary leo_itemForKey:APIParamPatientNoteUser]];
-    NSDate *createdAt = [jsonDictionary leo_itemForKey:APIParamPatientNoteCreatedAt];
-    NSDate *updatedAt = [jsonDictionary leo_itemForKey:APIParamPatientNoteUpdatedAt];
-    NSDate *deletedAt = [jsonDictionary leo_itemForKey:APIParamPatientNoteDeletedAt];
+    NSDate *createdAt = [NSDate leo_dateFromDateTimeString:[jsonDictionary leo_itemForKey:APIParamPatientNoteCreatedAt]];
+    NSDate *updatedAt = [NSDate leo_dateFromDateTimeString:[jsonDictionary leo_itemForKey:APIParamPatientNoteUpdatedAt]];
+    NSDate *deletedAt = [NSDate leo_dateFromDateTimeString:[jsonDictionary leo_itemForKey:APIParamPatientNoteDeletedAt]];
     NSString *note = [jsonDictionary leo_itemForKey:APIParamPatientNoteNote];
     return [self initWithObjectID:objectID user:user createdAt:createdAt updatedAt:updatedAt deletedAt:deletedAt note:note];
 }

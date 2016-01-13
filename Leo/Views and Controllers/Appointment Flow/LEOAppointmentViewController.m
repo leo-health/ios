@@ -137,7 +137,7 @@ static NSString *const kKeySelectionVCDate = @"date";
 
 #pragma mark - Layout
 
--(void)viewDidLayoutSubviews {
+- (void)viewDidLayoutSubviews {
 
     [super viewDidLayoutSubviews];
 
@@ -175,11 +175,11 @@ static NSString *const kKeySelectionVCDate = @"date";
 
 #pragma mark - StickyHeaderView Delegate
 
--(UIView *)injectTitleView {
+- (UIView *)injectTitleView {
     return self.gradientView;
 }
 
--(LEOGradientView *)gradientView {
+- (LEOGradientView *)gradientView {
 
     if (!_gradientView) {
 

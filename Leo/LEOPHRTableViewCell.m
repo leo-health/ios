@@ -9,6 +9,7 @@
 #import "LEOPHRTableViewCell.h"
 #import "UIFont+LeoFonts.h"
 #import "UIColor+LeoColors.h"
+#import "NSDate+Extensions.h"
 
 @implementation LEOPHRTableViewCell
 
@@ -26,17 +27,26 @@
 
     self.recordMainDetailLabel.font = [UIFont leo_standardFont];
     self.recordMainDetailLabel.textColor = [UIColor leo_grayStandard];
+    self.recordMainDetailLabel.numberOfLines = 0;
 
     self.recordTitleDetailLabel.font = [UIFont leo_standardFont];
     self.recordTitleDetailLabel.textColor = [UIColor leo_grayStandard];
+
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
 }
 
 - (void)configureCellWithVitals:(PatientVitalMeasurement *)vital {
 
     self.recordTitleDetailLabel.text = nil;
-    // FIXME: where does this information come from?
-    self.recordSideLabel.text = @"NORMAL";
-    self.recordMainDetailLabel.text = [NSString stringWithFormat:@"%@ %@ percentile", vital.value, vital.percentile];
+    self.recordSideLabel.text = nil;
+    NSMutableString *str = [NSMutableString new];
+    if (vital.value) {
+        [str appendString:vital.value];
+    }
+    if (vital.percentile) {
+        [str appendString:[NSString stringWithFormat:@"  -  %@",vital.percentile]];
+    }
+    self.recordMainDetailLabel.text = [str copy];
 }
 
 - (void)configureCellWithBMI:(PatientVitalMeasurementBMI *)bmi {
@@ -80,8 +90,16 @@
     // TODO: fill with dosage
     self.recordTitleDetailLabel.text = nil;
     // TODO: date formatting
-    self.recordSideLabel.text = [NSString stringWithFormat:@" - %@", immunization.administeredAt];
+    self.recordSideLabel.text = [NSDate leo_stringifiedDate:immunization.administeredAt withFormat:@"MMM dd, YYYY"];
     self.recordMainDetailLabel.text = nil;
+}
+
+-(void)configureCellWithNote:(PatientNote *)note {
+
+    self.recordTitleLabel.text = nil;
+    self.recordTitleDetailLabel.text = nil;
+    self.recordSideLabel.text = nil;
+    self.recordMainDetailLabel.text = note.note;
 }
 
 

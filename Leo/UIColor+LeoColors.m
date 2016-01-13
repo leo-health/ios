@@ -48,7 +48,7 @@
 
 }
 
-+ (UIColor *)leo_grayStandard{
++ (UIColor *)leo_grayStandard {
     return [UIColor colorWithRed:124.0/255.0 green:124.0/255.0 blue:124.0/255.0 alpha:1]; /*#7C7C7C*/
 
 }
