@@ -32,8 +32,6 @@
 
 #pragma mark - View Controller Lifecycle and Helpers
 
-static CGFloat const kHeightStickyHeader = 150.0;
-
 - (void)viewDidLoad {
 
     [super viewDidLoad];
@@ -98,7 +96,7 @@ static CGFloat const kHeightStickyHeader = 150.0;
 
     if (!_forgotPasswordView) {
 
-        _forgotPasswordView = [self leo_loadViewFromClass:[LEOForgotPasswordView class]];
+        _forgotPasswordView = [self leo_loadViewFromNibForClass:[LEOForgotPasswordView class]];
     }
 
     return _forgotPasswordView;

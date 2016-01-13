@@ -98,7 +98,7 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
 
     if (!_loginView) {
 
-        _loginView = [self leo_loadViewFromClass:[LEOLoginView class]];
+        _loginView = [self leo_loadViewFromNibForClass:[LEOLoginView class]];
         _loginView.tintColor = [UIColor leo_orangeRed];
     }
 

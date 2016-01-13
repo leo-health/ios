@@ -92,7 +92,7 @@
 - (LEOEnrollmentView *)enrollmentView {
 
     if (!_enrollmentView) {
-        _enrollmentView = [self leo_loadViewFromClass:[LEOEnrollmentView class]];
+        _enrollmentView = [self leo_loadViewFromNibForClass:[LEOEnrollmentView class]];
     }
 
     return _enrollmentView;
