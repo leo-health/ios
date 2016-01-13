@@ -10,7 +10,7 @@
 
 @implementation UIViewController (XibAdditions)
 
-- (UIView *)leo_loadViewFromClass:(Class)class {
+- (UIView *)leo_loadViewFromNibForClass:(Class)class {
 
     NSBundle *mainBundle = [NSBundle mainBundle];
     NSArray *loadedViews = [mainBundle loadNibNamed:NSStringFromClass(class) owner:self options:nil];

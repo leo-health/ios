@@ -10,6 +10,6 @@
 
 @interface UIViewController (XibAdditions)
 
-- (id)leo_loadViewFromClass:(Class)class;
+- (id)leo_loadViewFromNibForClass:(Class)class;
 
 @end

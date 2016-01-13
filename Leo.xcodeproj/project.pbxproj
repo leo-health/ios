@@ -151,6 +151,10 @@
 		31D20ACC1B14C61F00F3351A /* LEORecordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D20ACB1B14C61F00F3351A /* LEORecordViewController.m */; };
 		31D2753C1C3DB355005F8964 /* UIViewController+XibAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D2753B1C3DB355005F8964 /* UIViewController+XibAdditions.m */; };
 		31D2753F1C3DB676005F8964 /* LEOHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D2753E1C3DB676005F8964 /* LEOHeaderView.m */; };
+		31D275651C45520E005F8964 /* LEOForgotPasswordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D275641C45520E005F8964 /* LEOForgotPasswordView.m */; };
+		31D275671C45522B005F8964 /* LEOForgotPasswordView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 31D275661C45522B005F8964 /* LEOForgotPasswordView.xib */; };
+		31D275691C45A1DF005F8964 /* LEOEnrollmentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 31D275681C45A1DF005F8964 /* LEOEnrollmentView.xib */; };
+		31D2756C1C45A1FB005F8964 /* LEOEnrollmentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D2756B1C45A1FB005F8964 /* LEOEnrollmentView.m */; };
 		31D62EC51B1CBA7400B4150A /* LEOTimeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D62EC31B1CBA7400B4150A /* LEOTimeCell.m */; };
 		31D62EC61B1CBA7400B4150A /* LEOTimeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 31D62EC41B1CBA7400B4150A /* LEOTimeCell.xib */; };
 		31D62ED01B1D3ED500B4150A /* LEODateCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D62ECE1B1D3ED500B4150A /* LEODateCell.m */; };
@@ -508,6 +512,12 @@
 		31D2753B1C3DB355005F8964 /* UIViewController+XibAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIViewController+XibAdditions.m"; path = "Helpers/UIViewController+XibAdditions.m"; sourceTree = "<group>"; };
 		31D2753D1C3DB676005F8964 /* LEOHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOHeaderView.h; path = "Views and Controllers/Generic/LEOHeaderView.h"; sourceTree = "<group>"; };
 		31D2753E1C3DB676005F8964 /* LEOHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOHeaderView.m; path = "Views and Controllers/Generic/LEOHeaderView.m"; sourceTree = "<group>"; };
+		31D275631C45520E005F8964 /* LEOForgotPasswordView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOForgotPasswordView.h; path = "Views and Controllers/Login/LEOForgotPasswordView.h"; sourceTree = "<group>"; };
+		31D275641C45520E005F8964 /* LEOForgotPasswordView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOForgotPasswordView.m; path = "Views and Controllers/Login/LEOForgotPasswordView.m"; sourceTree = "<group>"; };
+		31D275661C45522B005F8964 /* LEOForgotPasswordView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LEOForgotPasswordView.xib; path = "Views and Controllers/Login/LEOForgotPasswordView.xib"; sourceTree = "<group>"; };
+		31D275681C45A1DF005F8964 /* LEOEnrollmentView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LEOEnrollmentView.xib; path = "Views and Controllers/Onboarding, Signup & Settings/LEOEnrollmentView.xib"; sourceTree = "<group>"; };
+		31D2756A1C45A1FB005F8964 /* LEOEnrollmentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOEnrollmentView.h; path = "Views and Controllers/Onboarding, Signup & Settings/LEOEnrollmentView.h"; sourceTree = "<group>"; };
+		31D2756B1C45A1FB005F8964 /* LEOEnrollmentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOEnrollmentView.m; path = "Views and Controllers/Onboarding, Signup & Settings/LEOEnrollmentView.m"; sourceTree = "<group>"; };
 		31D418AB1B3872C7008D70F3 /* DateTimeSelectionProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DateTimeSelectionProtocol.h; sourceTree = "<group>"; };
 		31D62EC21B1CBA7400B4150A /* LEOTimeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOTimeCell.h; sourceTree = "<group>"; };
 		31D62EC31B1CBA7400B4150A /* LEOTimeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOTimeCell.m; sourceTree = "<group>"; };
@@ -700,6 +710,9 @@
 			children = (
 				3138FC3B1B9A1747000FE22C /* LEOEnrollmentViewController.h */,
 				3138FC3C1B9A1747000FE22C /* LEOEnrollmentViewController.m */,
+				31D275681C45A1DF005F8964 /* LEOEnrollmentView.xib */,
+				31D2756A1C45A1FB005F8964 /* LEOEnrollmentView.h */,
+				31D2756B1C45A1FB005F8964 /* LEOEnrollmentView.m */,
 			);
 			name = Enrollment;
 			sourceTree = "<group>";
@@ -1020,6 +1033,9 @@
 				312418841BC0638200E18176 /* LEOLoginView.m */,
 				3138FC381B9A145B000FE22C /* LEOForgotPasswordViewController.h */,
 				3138FC391B9A145B000FE22C /* LEOForgotPasswordViewController.m */,
+				31D275661C45522B005F8964 /* LEOForgotPasswordView.xib */,
+				31D275631C45520E005F8964 /* LEOForgotPasswordView.h */,
+				31D275641C45520E005F8964 /* LEOForgotPasswordView.m */,
 			);
 			name = Login;
 			sourceTree = "<group>";
@@ -1542,6 +1558,7 @@
 				3153C5EC1B94A0B3000A22B4 /* Login.storyboard in Resources */,
 				313FA7201C0374DE008189B9 /* LEOAppointmentView.xib in Resources */,
 				BCE1EC731B00E353007C8D0B /* Main.storyboard in Resources */,
+				31D275691C45A1DF005F8964 /* LEOEnrollmentView.xib in Resources */,
 				316899791BC4858400B4C1EB /* LEOBasicHeaderCell.xib in Resources */,
 				311CBB3E1B56B0F50009BD7A /* Conversation.storyboard in Resources */,
 				3115F21B1BCEA316001BDF6A /* LEOUpdateEmailView.xib in Resources */,
@@ -1554,6 +1571,7 @@
 				31FDDE561B28DD2C0009BBC2 /* LEOTwoButtonPrimaryOnlyCell.xib in Resources */,
 				BCE1EC781B00E353007C8D0B /* LaunchScreen.xib in Resources */,
 				3168997C1BC4858400B4C1EB /* LEOButtonCell.xib in Resources */,
+				31D275671C45522B005F8964 /* LEOForgotPasswordView.xib in Resources */,
 				3115F2061BC84935001BDF6A /* LEOInviteView.xib in Resources */,
 				31B5EC641BDA84720016F653 /* *.leoforkids.com.cer in Resources */,
 				31FDDE611B29D9120009BBC2 /* LEOOneButtonPrimaryOnlyCell.xib in Resources */,
@@ -1706,6 +1724,7 @@
 				31DB400E1BFE733C005F1BF2 /* LEOWebViewController.m in Sources */,
 				66A5DB361C3D979B008AEC55 /* PatientVitalMeasurement.m in Sources */,
 				BCED00811B0150F4007653D6 /* LEOFeedTVC.m in Sources */,
+				31D275651C45520E005F8964 /* LEOForgotPasswordView.m in Sources */,
 				31339B271C29BEAC00B53A86 /* MessageText.m in Sources */,
 				3128D4DB1B42DF6500582710 /* LEOOneButtonSecondaryOnlyCell.m in Sources */,
 				3115F2221BCEA998001BDF6A /* LEOUpdatePasswordViewController.m in Sources */,
@@ -1753,6 +1772,7 @@
 				31CC12E21BB062C40099AB60 /* Support.m in Sources */,
 				31CC12E81BB062C40099AB60 /* Patient.m in Sources */,
 				31FDDE6C1B29E38F0009BBC2 /* LEOTwoButtonSecondaryOnlyCell+ConfigureForCell.m in Sources */,
+				31D2756C1C45A1FB005F8964 /* LEOEnrollmentView.m in Sources */,
 				31E77E071B87647B00C6EDE1 /* LEOAPISessionManager.m in Sources */,
 				31CC12DD1BB062C40099AB60 /* Guardian.m in Sources */,
 				3132D9E61C1F37DD00A3E9AA /* UIView+AutoLayoutDebugging.m in Sources */,

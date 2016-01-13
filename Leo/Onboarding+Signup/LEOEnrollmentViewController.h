@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface LEOEnrollmentViewController : UIViewController <UITextFieldDelegate, UIScrollViewDelegate>
+#import "LEOStickyHeaderViewController.h"
+@interface LEOEnrollmentViewController : LEOStickyHeaderViewController <LEOStickyHeaderDelegate, LEOStickyHeaderDataSource>
 
 @end
  

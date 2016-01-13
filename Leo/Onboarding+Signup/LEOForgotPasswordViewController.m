@@ -14,180 +14,139 @@
 #import "UIImage+Extensions.h"
 #import "LEOUserService.h"
 #import "LEOValidationsHelper.h"
+#import "LEOForgotPasswordView.h"
+#import "UIView+Extensions.h"
+#import "LEOPromptField.h"
+#import "LEOStyleHelper.h"
+#import "LEOHeaderView.h"
+#import "UIViewController+XibAdditions.h"
 
 @interface LEOForgotPasswordViewController ()
 
-@property (weak, nonatomic) IBOutlet LEOScrollableContainerView *scrollableContainerView;
-@property (weak, nonatomic) IBOutlet UIView *forgotPasswordView;
-
-@property (weak, nonatomic) IBOutlet LEOValidatedFloatLabeledTextField *emailTextField;
-@property (weak, nonatomic) IBOutlet UIButton *submitButton;
-@property (weak, nonatomic) IBOutlet UILabel *resetResponseLabel;
+@property (strong, nonatomic) LEOForgotPasswordView *forgotPasswordView;
+@property (strong, nonatomic) LEOHeaderView *headerView;
 
 @end
 
 @implementation LEOForgotPasswordViewController
 
+#pragma mark - View Controller Lifecycle and Helpers
+
 - (void)viewDidLoad {
+
     [super viewDidLoad];
     
-    [self setupSubmitButton];
-    [self setupResponseLabel];
+    [self.view setupTouchEventForDismissingKeyboard];
+
+    self.feature = FeatureOnboarding;
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    self.extendedLayoutIncludesOpaqueBars = YES;
+
+    self.stickyHeaderView.snapToHeight = @(CGRectGetHeight(self.navigationController.navigationBar.bounds) + CGRectGetHeight([UIApplication sharedApplication].statusBarFrame));
+    self.stickyHeaderView.datasource = self;
+    self.stickyHeaderView.delegate = self;
+
     [self setupNavigationBar];
-    [self setupEmailTextField];
 
     [LEOApiReachability startMonitoringForController:self];
-
-    self.scrollableContainerView.delegate = self;
-    
-    [self.scrollableContainerView reloadContainerView];
-    // Do any additional setup after loading the view.
 }
 
--(void)setEmail:(NSString *)email {
+- (void)setEmail:(NSString *)email {
 
     _email = email;
-    self.emailTextField.text = email;
+
+    self.forgotPasswordView.emailPromptField.textField.text = email;
 }
-
-- (void)setupResponseLabel {
-
-    self.resetResponseLabel.hidden = YES;
-    self.resetResponseLabel.numberOfLines = 0;
-    self.resetResponseLabel.lineBreakMode = NSLineBreakByWordWrapping;
-}
-
-- (void)setupNavigationBar {
-    
-    self.navigationController.navigationBarHidden = NO;
-    self.navigationController.navigationBar.translucent = YES;
-    
-    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [backButton addTarget:self
-                   action:@selector(pop)
-         forControlEvents:UIControlEventTouchUpInside];
-    
-    [backButton setImage:[UIImage imageNamed:@"Icon-BackArrow"]
-                forState:UIControlStateNormal];
-    [backButton sizeToFit];
-    backButton.tintColor = [UIColor leo_orangeRed];
-    
-    UIBarButtonItem *backBBI = [[UIBarButtonItem alloc] initWithCustomView:backButton];
-    
-    UINavigationItem *item = [[UINavigationItem alloc] init];
-    item.leftBarButtonItem = backBBI;
-    self.navigationItem.leftBarButtonItem = backBBI;
-}
-
 
 - (void)viewWillAppear:(BOOL)animated {
-    
+
     [super viewWillAppear:animated];
-    //    self.navigationController.navigationBar.hidden = NO;
-    
-}
-- (void)setupEmailTextField {
-    
-    self.emailTextField.delegate = self;
-    self.emailTextField.standardPlaceholder = @"email address";
-    self.emailTextField.validationPlaceholder = @"Invalid email";
-    [self.emailTextField sizeToFit];
+
+    [self setupNavigationBar];
+
+    CGFloat percentage = [self transitionPercentageForScrollOffset:self.stickyHeaderView.scrollView.contentOffset];
+
+    self.navigationItem.titleView.hidden = percentage == 0;
 }
 
+- (void)viewDidAppear:(BOOL)animated {
 
--(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    
-    NSMutableAttributedString *mutableText = [[NSMutableAttributedString alloc] initWithString:textField.text];
-    
-    [mutableText replaceCharactersInRange:range withString:string];
-    
-    if (textField == self.emailTextField) {
-        
-        if (!self.emailTextField.valid) {
-            self.emailTextField.valid = [LEOValidationsHelper isValidEmail:mutableText.string];
-        }
+    [super viewDidAppear:animated];
+
+    if ([self.stickyHeaderView scrollViewContentSizeSmallerThanScrollViewFrameIncludingInsets]) {
+        [self.forgotPasswordView.emailPromptField.textField becomeFirstResponder];
     }
-    
-    return YES;
 }
 
-- (void)setupSubmitButton {
-    
-    self.submitButton.layer.borderColor = [UIColor leo_orangeRed].CGColor;
-    self.submitButton.layer.borderWidth = 1.0;
-    [self.submitButton setTitle:@"SUBMIT"
-                       forState:UIControlStateNormal];
-    self.submitButton.titleLabel.font = [UIFont leo_buttonLabelsAndTimeStampsFont];
-    [self.submitButton setTitleColor:[UIColor leo_white]
-                            forState:UIControlStateNormal];
-    [self.submitButton setBackgroundImage:[UIImage leo_imageWithColor:[UIColor leo_orangeRed]]
-                                 forState:UIControlStateNormal];
+#pragma mark - Accessors
+
+- (LEOHeaderView *)headerView {
+
+    if (!_headerView) {
+
+        _headerView = [[LEOHeaderView alloc] initWithTitleText:@"Reset your password"];
+        _headerView.intrinsicHeight = @(kStickyHeaderHeight);
+        [LEOStyleHelper styleExpandedTitleLabel:_headerView.titleLabel feature:self.feature];
+    }
+
+    return _headerView;
+}
+
+- (LEOForgotPasswordView *)forgotPasswordView {
+
+    if (!_forgotPasswordView) {
+
+        _forgotPasswordView = [self leo_loadViewFromNibForClass:[LEOForgotPasswordView class]];
+    }
+
+    return _forgotPasswordView;
 }
 
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
+#pragma mark - <LEOStickyHeaderViewDataSource>
 
-
-
-
--(NSString *)collapsedTitleViewContent {
-    return @"";
-}
-
--(BOOL)scrollable {
-    return NO;
-}
-
--(BOOL)initialStateExpanded {
-    return YES;
-}
-
--(NSString *)expandedTitleViewContent {
-    return @"Reset your password";
-}
-
--(UIView *)bodyView {
+- (UIView *)injectBodyView {
     return self.forgotPasswordView;
 }
 
--(BOOL)accountForNavigationBar {
-    return YES;
+- (UIView *)injectTitleView {
+    return self.headerView;
 }
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
+
+
+#pragma mark - <LEOStickyHeaderViewDelegate>
+
+-(void)updateTitleViewForScrollTransitionPercentage:(CGFloat)transitionPercentage {
+
+    self.headerView.currentTransitionPercentage = transitionPercentage;
+    self.navigationItem.titleView.hidden = NO;
+    self.navigationItem.titleView.alpha = transitionPercentage;
+}
+
+
+
+- (void)setupNavigationBar {
+    [LEOStyleHelper styleNavigationBarForViewController:self forFeature:self.feature withTitleText:@"Reset Password" dismissal:NO backButton:YES];
+}
+
 
 - (void)pop {
-    
     [self.navigationController popViewControllerAnimated:YES];
-    //    self.navigationController.navigationBar.hidden = YES;
-    
 }
 
 - (IBAction)submitTapped:(UIButton *)sender {
+
+    BOOL validEmail = [LEOValidationsHelper isValidEmail:self.forgotPasswordView.emailPromptField.textField.text];
     
-    
-    BOOL validEmail = [LEOValidationsHelper isValidEmail:self.emailTextField.text];
-    
-    self.emailTextField.valid = validEmail;
+    self.forgotPasswordView.emailPromptField.valid = validEmail;
     
     if (validEmail) {
     
         LEOUserService *userService = [[LEOUserService alloc] init];
         
-        [userService resetPasswordWithEmail:self.emailTextField.text withCompletion:^(NSDictionary * response, NSError * error) {
+        [userService resetPasswordWithEmail:self.forgotPasswordView.emailPromptField.textField.text withCompletion:^(NSDictionary * response, NSError * error) {
 
-            self.resetResponseLabel.hidden = NO;
-            self.resetResponseLabel.text = @"If you have an account with us, a link to reset your password will be sent to your e-mail address soon.";
+            self.forgotPasswordView.responseLabel.hidden = NO;
         }];
     }
 }
