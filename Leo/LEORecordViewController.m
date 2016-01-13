@@ -14,7 +14,6 @@
 
 // views
 #import "LEOPHRTableViewCell.h"
-#import "LEOPHRTVSectionHeaderView.h"
 #import "LEOIntrinsicSizeTableView.h"
 
 // model
@@ -25,9 +24,9 @@
 
 @property (nonatomic) BOOL alreadyUpdatedConstraints;
 @property (nonatomic) BOOL layedOutViewsOnce;
-@property (strong, nonatomic) NSLayoutConstraint *tableViewHeightConstraint;
 @property (weak, nonatomic) UITableView *tableView;
 @property (copy, nonatomic) NSString *cellReuseIdentifier;
+@property (copy, nonatomic) NSString *headerReuseIdentifier;
 @property (strong, nonatomic) UITableViewCell *sizingCell;
 @property (strong, nonatomic) UITableViewHeaderFooterView *sizingHeader;
 
@@ -73,17 +72,24 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
         _tableView.separatorColor = [UIColor leo_grayForPlaceholdersAndLines];
 
         [_tableView registerNib:[LEOPHRTableViewCell nib] forCellReuseIdentifier:self.cellReuseIdentifier];
-        [_tableView registerClass:[UITableViewHeaderFooterView class] forHeaderFooterViewReuseIdentifier:@"headerView"];
+        [_tableView registerClass:[UITableViewHeaderFooterView class] forHeaderFooterViewReuseIdentifier:self.headerReuseIdentifier];
     }
     return _tableView;
 }
-
 - (NSString *)cellReuseIdentifier {
 
     if (!_cellReuseIdentifier) {
         _cellReuseIdentifier = NSStringFromClass([LEOPHRTableViewCell class]);
     }
     return _cellReuseIdentifier;
+}
+
+-(NSString *)headerReuseIdentifier {
+
+    if (!_headerReuseIdentifier) {
+        _headerReuseIdentifier = @"headerView";
+    }
+    return _headerReuseIdentifier;
 }
 
 - (void)requestHealthRecord {
@@ -121,7 +127,6 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
 
 - (void)updateViewConstraints {
 
-    CGFloat tableViewContentHeight = self.tableView.contentSize.height;
     if (!self.alreadyUpdatedConstraints) {
 
         self.view.translatesAutoresizingMaskIntoConstraints = NO;
@@ -138,10 +143,7 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
         self.alreadyUpdatedConstraints = YES;
     }
 
-    self.tableViewHeightConstraint.constant = tableViewContentHeight;
-
     [super updateViewConstraints];
-
 }
 
 #pragma mark - Table View Data Source
@@ -173,7 +175,7 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
         return nil;
     }
 
-    UITableViewHeaderFooterView *sectionHeaderView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"headerView"];
+    UITableViewHeaderFooterView *sectionHeaderView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:self.headerReuseIdentifier];
 
     [sectionHeaderView.contentView removeConstraints:sectionHeaderView.contentView.constraints];
     for (UIView *subview in sectionHeaderView.contentView.subviews) {
@@ -274,7 +276,7 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
 
 - (UITableViewCell *)sizingCell {
 
-    // move to a dictionary when we have more than one reuse id
+    //TODO: move to a dictionary when we have more than one reuse id
 
     if (!_sizingCell) {
         _sizingCell = [[[NSBundle mainBundle] loadNibNamed:NSStringFromClass([LEOPHRTableViewCell class]) owner:nil options:nil] firstObject];

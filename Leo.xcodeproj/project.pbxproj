@@ -199,8 +199,6 @@
 		31FEF1571B0D09E700AD14D2 /* LEOSecondaryUserView.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FEF1561B0D09E700AD14D2 /* LEOSecondaryUserView.m */; };
 		660D77781C46ACBF00DCCB3C /* LEOIntrinsicSizeTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 660D77771C46ACBF00DCCB3C /* LEOIntrinsicSizeTableView.m */; };
 		6660C93E1C3AF92800C2657B /* LEOGradientHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6660C93D1C3AF92800C2657B /* LEOGradientHelper.m */; };
-		66890E161C44685800BF17A8 /* LEOPHRTVSectionHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66890E151C44685800BF17A8 /* LEOPHRTVSectionHeaderView.m */; };
-		66890E181C4575A200BF17A8 /* LEOPHRTVHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66890E171C4575A200BF17A8 /* LEOPHRTVHeaderView.xib */; };
 		66A5DB271C3D95FD008AEC55 /* HealthRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A5DB261C3D95FD008AEC55 /* HealthRecord.m */; };
 		66A5DB2A1C3D964C008AEC55 /* Allergy.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A5DB291C3D964C008AEC55 /* Allergy.m */; };
 		66A5DB2D1C3D96A9008AEC55 /* Immunization.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A5DB2C1C3D96A9008AEC55 /* Immunization.m */; };
@@ -607,9 +605,6 @@
 		6660C93C1C3AF92800C2657B /* LEOGradientHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOGradientHelper.h; sourceTree = "<group>"; };
 		6660C93D1C3AF92800C2657B /* LEOGradientHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOGradientHelper.m; sourceTree = "<group>"; };
 		6684A24A1C34497500C41D6F /* DeveloperCodeSigning.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = DeveloperCodeSigning.xcconfig; sourceTree = "<group>"; };
-		66890E141C44685800BF17A8 /* LEOPHRTVSectionHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOPHRTVSectionHeaderView.h; sourceTree = "<group>"; };
-		66890E151C44685800BF17A8 /* LEOPHRTVSectionHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOPHRTVSectionHeaderView.m; sourceTree = "<group>"; };
-		66890E171C4575A200BF17A8 /* LEOPHRTVHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LEOPHRTVHeaderView.xib; sourceTree = "<group>"; };
 		66A5DB251C3D95FD008AEC55 /* HealthRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HealthRecord.h; path = Leo/HealthRecord.h; sourceTree = SOURCE_ROOT; };
 		66A5DB261C3D95FD008AEC55 /* HealthRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HealthRecord.m; path = Leo/HealthRecord.m; sourceTree = SOURCE_ROOT; };
 		66A5DB281C3D964C008AEC55 /* Allergy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Allergy.h; path = Leo/Allergy.h; sourceTree = SOURCE_ROOT; };
@@ -1230,9 +1225,6 @@
 				66A5DB3F1C3EE93D008AEC55 /* LEOPHRTableViewCell.h */,
 				66A5DB401C3EE93D008AEC55 /* LEOPHRTableViewCell.m */,
 				66A5DB411C3EE93D008AEC55 /* LEOPHRTableViewCell.xib */,
-				66890E141C44685800BF17A8 /* LEOPHRTVSectionHeaderView.h */,
-				66890E151C44685800BF17A8 /* LEOPHRTVSectionHeaderView.m */,
-				66890E171C4575A200BF17A8 /* LEOPHRTVHeaderView.xib */,
 			);
 			name = PHR;
 			sourceTree = "<group>";
@@ -1595,7 +1587,6 @@
 				BCE1EC751B00E353007C8D0B /* Images.xcassets in Resources */,
 				31D62EC61B1CBA7400B4150A /* LEOTimeCell.xib in Resources */,
 				3138FC4A1B9A19A8000FE22C /* InsurancePlanCell.xib in Resources */,
-				66890E181C4575A200BF17A8 /* LEOPHRTVHeaderView.xib in Resources */,
 				31F5AA801B7920B700F96D06 /* Appointment.storyboard in Resources */,
 				31F5AA7B1B791B4B00F96D06 /* AppointmentTypeCell.xib in Resources */,
 				31D62ED11B1D3ED500B4150A /* LEODateCell.xib in Resources */,
@@ -1829,7 +1820,6 @@
 				31FDDE591B28DFC10009BBC2 /* LEOTwoButtonPrimaryOnlyCell+ConfigureForCell.m in Sources */,
 				31197A0C1B39A70C00C773BA /* UIImageEffects.m in Sources */,
 				31F5AA771B791B4B00F96D06 /* PatientCell+ConfigureCell.m in Sources */,
-				66890E161C44685800BF17A8 /* LEOPHRTVSectionHeaderView.m in Sources */,
 				BCE1EC6D1B00E353007C8D0B /* AppDelegate.m in Sources */,
 				315E12B51BB9BDA6001023F1 /* LEOSignUpUserView.m in Sources */,
 				31D2753F1C3DB676005F8964 /* LEOHeaderView.m in Sources */,

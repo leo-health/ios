@@ -184,7 +184,7 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 
     CGFloat maxPossibleOffsetY = self.scrollView.contentSize.height - CGRectGetHeight(self.scrollView.bounds);
     CGFloat differenceBetweenExpandedAndCollapsedHeights = CGRectGetHeight(self.titleView.bounds) - [self navBarHeight];
-    if (0 < maxPossibleOffsetY && maxPossibleOffsetY < differenceBetweenExpanedAndCollapsedHeights) {
+    if (0 < maxPossibleOffsetY && maxPossibleOffsetY < differenceBetweenExpandedAndCollapsedHeights) {
 
         CGFloat insetHeight = differenceBetweenExpandedAndCollapsedHeights - maxPossibleOffsetY;
         self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, insetHeight, 0);

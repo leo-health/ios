@@ -61,8 +61,6 @@ static CGFloat const kHeightOfHeaderPHR = 100;
     if (!_stickyHeaderView) {
 
         _stickyHeaderView = [super stickyHeaderView];
-
-//        _stickyHeaderView.snapToHeight = @(64);
         _stickyHeaderView.headerShouldNotBounceOnScroll = YES;
         _stickyHeaderView.breakerHidden = YES;
     }
