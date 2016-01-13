@@ -11,8 +11,7 @@
 @implementation LEOIntrinsicSizeTableView
 
 -(CGSize)intrinsicContentSize {
-    [self setNeedsLayout];
-    [self layoutIfNeeded];
+
     CGSize size = self.contentSize;
     return size;
 }

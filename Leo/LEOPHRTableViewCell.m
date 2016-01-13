@@ -38,8 +38,7 @@
 - (void)configureCellWithVitals:(PatientVitalMeasurement *)vital {
 
     self.recordTitleDetailLabel.text = nil;
-    // FIXME: where does this information come from?
-    self.recordSideLabel.text = nil; //@"NORMAL";
+    self.recordSideLabel.text = nil;
     NSMutableString *str = [NSMutableString new];
     if (vital.value) {
         [str appendString:vital.value];

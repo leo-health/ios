@@ -23,7 +23,6 @@
 @interface LEORecordViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic) BOOL alreadyUpdatedConstraints;
-@property (nonatomic) BOOL layedOutViewsOnce;
 @property (weak, nonatomic) UITableView *tableView;
 @property (copy, nonatomic) NSString *cellReuseIdentifier;
 @property (copy, nonatomic) NSString *headerReuseIdentifier;
@@ -276,8 +275,6 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
 
 - (UITableViewCell *)sizingCell {
 
-    //TODO: move to a dictionary when we have more than one reuse id
-
     if (!_sizingCell) {
         _sizingCell = [[[NSBundle mainBundle] loadNibNamed:NSStringFromClass([LEOPHRTableViewCell class]) owner:nil options:nil] firstObject];
     }
@@ -289,7 +286,7 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
     [self configureCell:self.sizingCell forIndexPath:indexPath];
 
     // get margins from the nib to determine the preferred max layout width
-    // ????: is there a less hacky way of doing this?
+    // ????: HAX: is there a less hacky way of doing this?
     UILabel *growingLabel = [(LEOPHRTableViewCell *)self.sizingCell recordMainDetailLabel];
     CGFloat margins = CGRectGetWidth(self.sizingCell.contentView.bounds) - CGRectGetWidth(growingLabel.bounds);
     CGFloat finalWidth = CGRectGetWidth(tableView.bounds) - margins;
