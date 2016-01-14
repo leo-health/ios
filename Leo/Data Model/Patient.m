@@ -9,14 +9,15 @@
 #import "Patient.h"
 #import "NSDate+Extensions.h"
 #import "LEOValidationsHelper.h"
+#import "LEOS3Image.h"
 
 @implementation Patient
 
 @synthesize genderDisplayName = _genderDisplayName;
 
-- (instancetype)initWithObjectID:(nullable NSString *)objectID familyID:(NSString *)familyID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(nullable NSString *)email avatarURL:(nullable NSString *)avatarURL avatar:(nullable UIImage *)avatar dob:(NSDate *)dob gender:(NSString *)gender status:(NSString *)status {
+- (instancetype)initWithObjectID:(nullable NSString *)objectID familyID:(NSString *)familyID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(nullable NSString *)email avatar:(nullable LEOS3Image *)avatar dob:(NSDate *)dob gender:(NSString *)gender status:(NSString *)status {
 
-    self = [super initWithObjectID:objectID title:title firstName:firstName middleInitial:middleInitial lastName:lastName suffix:suffix email:email avatarURL:avatarURL avatar:avatar];
+    self = [super initWithObjectID:objectID title:title firstName:firstName middleInitial:middleInitial lastName:lastName suffix:suffix email:email avatar:avatar];
 
     if (self) {
         _familyID = familyID;
@@ -28,14 +29,14 @@
     return self;
 }
 
-- (instancetype)initWithTitle:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(nullable NSString *)email avatar:(nullable UIImage *)avatar dob:(NSDate *)dob gender:(NSString *)gender status:(nullable NSString *)status {
+- (instancetype)initWithTitle:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(nullable NSString *)email avatar:(nullable LEOS3Image *)avatar dob:(NSDate *)dob gender:(NSString *)gender status:(nullable NSString *)status {
 
-    return [self initWithObjectID:nil familyID:nil title:title firstName:firstName middleInitial:middleInitial lastName:lastName suffix:suffix email:email avatarURL:nil avatar:avatar dob:dob gender:gender status:status];
+    return [self initWithObjectID:nil familyID:nil title:title firstName:firstName middleInitial:middleInitial lastName:lastName suffix:suffix email:email avatar:avatar dob:dob gender:gender status:status];
 }
 
-- (instancetype)initWithFirstName:(NSString *)firstName lastName:(NSString *)lastName avatar:(UIImage *)avatar dob:(NSDate *)dob gender:(NSString *)gender {
+- (instancetype)initWithFirstName:(NSString *)firstName lastName:(NSString *)lastName avatar:(LEOS3Image *)avatar dob:(NSDate *)dob gender:(NSString *)gender {
 
-    return [self initWithObjectID:nil familyID:nil title:nil firstName:firstName middleInitial:nil lastName:lastName suffix:nil email:nil avatarURL:nil avatar:avatar dob:dob gender:gender status:nil];
+    return [self initWithObjectID:nil familyID:nil title:nil firstName:firstName middleInitial:nil lastName:lastName suffix:nil email:nil avatar:avatar dob:dob gender:gender status:nil];
 }
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
@@ -153,7 +154,7 @@
     BOOL validLastName = [LEOValidationsHelper isValidLastName:self.lastName];
     BOOL validBirthDate = [LEOValidationsHelper isValidBirthDate:self.dob];
     BOOL validGender = [LEOValidationsHelper isValidGender:self.gender];
-    BOOL validAvatar = [LEOValidationsHelper isValidAvatar:self.avatar];
+    BOOL validAvatar = [LEOValidationsHelper isValidAvatar:self.avatar.image];
 
     return validAvatar && validFirstName && validLastName && validBirthDate && validGender;
 }

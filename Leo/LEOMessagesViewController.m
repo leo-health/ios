@@ -439,7 +439,7 @@
 
     JSQPhotoMediaItem *photoItem = [[JSQPhotoMediaItem alloc] initWithImage:croppedImage];
 
-    MessageImage *message = [MessageImage messageWithObjectID:nil media:photoItem sender:[SessionUser guardian] escalatedTo:nil escalatedBy:nil status:nil statusCode:MessageStatusCodeUndefined escalatedAt:nil urlString:nil];
+    MessageImage *message = [MessageImage messageWithObjectID:nil media:photoItem sender:[SessionUser guardian] escalatedTo:nil escalatedBy:nil status:nil statusCode:MessageStatusCodeUndefined escalatedAt:nil leoMedia:nil];
 
     [self.sendingIndicator startAnimating];
 
@@ -530,9 +530,9 @@
     
     combinedImages = [JSQMessagesAvatarImage avatarImageWithPlaceholder:placeholderImage];
 
-    combinedImages.avatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:user.avatar withDiameter:kJSQMessagesCollectionViewAvatarSizeDefault borderColor:[UIColor leo_grayForPlaceholdersAndLines] borderWidth:2];
+    combinedImages.avatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:user.avatar.image withDiameter:kJSQMessagesCollectionViewAvatarSizeDefault borderColor:[UIColor leo_grayForPlaceholdersAndLines] borderWidth:2];
 
-    combinedImages.avatarHighlightedImage = [LEOMessagesAvatarImageFactory circularAvatarHighlightedImage:user.avatar withDiameter:kJSQMessagesCollectionViewAvatarSizeDefault borderColor:[UIColor leo_grayForPlaceholdersAndLines] borderWidth:2];
+    combinedImages.avatarHighlightedImage = [LEOMessagesAvatarImageFactory circularAvatarHighlightedImage:user.avatar.image withDiameter:kJSQMessagesCollectionViewAvatarSizeDefault borderColor:[UIColor leo_grayForPlaceholdersAndLines] borderWidth:2];
 
     [self.avatarDictionary setObject:combinedImages forKey:user.objectID];
 
@@ -766,8 +766,8 @@
 
             LEOMessageService *messageService = [LEOMessageService new];
 
-            [messageService getImageFromURL:messageImage.urlString withCompletion:^(UIImage *rawImage, NSError *error) {
-
+            [messageService getImageForS3Image:messageImage.s3Image withCompletion:^(UIImage *rawImage, NSError *error) {
+                messageImage.s3Image.image = rawImage;
                 photoMediaItem.image = rawImage;
                 [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
             }];

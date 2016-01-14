@@ -74,7 +74,7 @@
         
         Guardian *sessionGuardian = [SessionUser currentUser];
         
-        Guardian *prepGuardian = [[Guardian alloc] initWithObjectID:sessionGuardian.objectID familyID:sessionGuardian.familyID title:sessionGuardian.title firstName:sessionGuardian.firstName middleInitial:sessionGuardian.middleInitial lastName:sessionGuardian.lastName suffix:sessionGuardian.suffix email:sessionGuardian.email avatarURL:sessionGuardian.avatarURL avatar:sessionGuardian.avatar phoneNumber:sessionGuardian.phoneNumber insurancePlan:sessionGuardian.insurancePlan primary:sessionGuardian.primary membershipType:sessionGuardian.membershipType];
+        Guardian *prepGuardian = [[Guardian alloc] initWithObjectID:sessionGuardian.objectID familyID:sessionGuardian.familyID title:sessionGuardian.title firstName:sessionGuardian.firstName middleInitial:sessionGuardian.middleInitial lastName:sessionGuardian.lastName suffix:sessionGuardian.suffix email:sessionGuardian.email  avatar:sessionGuardian.avatar phoneNumber:sessionGuardian.phoneNumber insurancePlan:sessionGuardian.insurancePlan primary:sessionGuardian.primary membershipType:sessionGuardian.membershipType];
         
         [userService updateUser:prepGuardian withCompletion:^(BOOL success, NSError *error) {
             

@@ -18,6 +18,7 @@
 #import "SessionUser.h"
 #import "NSUserDefaults+Additions.h"
 #import "DeviceToken.h"
+#import "LEOS3Image.h"
 
 @implementation LEOUserService
 
@@ -198,11 +199,11 @@
     }];
 }
 
-- (void)getAvatarForUser:(User *)user withCompletion:(void (^)(UIImage *rawImage, NSError *error))completionBlock {
+- (void)getImageForS3Image:(LEOS3Image *)s3Image withCompletion:(void (^)(UIImage *rawImage, NSError *error))completionBlock {
     
-    if (user.avatarURL) {
-        
-        [[LEOUserService leoMediaSessionManager] unauthenticatedGETRequestForImageFromS3WithURL:user.avatarURL params:nil completion:^(UIImage *rawImage, NSError *error) {
+    if (s3Image.baseURL && s3Image.parameters) {
+
+        [[LEOUserService leoMediaSessionManager] presignedGETRequestForImageFromS3WithURL:s3Image.baseURL params:s3Image.parameters completion:^(UIImage *rawImage, NSError *error) {
             completionBlock ? completionBlock(rawImage, error) : nil;
         }];
         
@@ -212,16 +213,20 @@
 }
 
 - (void)postAvatarForUser:(User *)user withCompletion:(void (^)(BOOL success, NSError *error))completionBlock {
+
+    UIImage *avatarImage = user.avatar.image;
+
+    NSString *avatarData = [UIImagePNGRepresentation(avatarImage) base64EncodedStringWithOptions:0];
     
-    NSString *avatarData = [UIImagePNGRepresentation(user.avatar) base64EncodedStringWithOptions:0];
-    
-    NSDictionary *avatarParams = @{@"avatar":avatarData, @"patient_id":@([user.objectID integerValue]) };
+    NSDictionary *avatarParams = @{@"avatar":avatarData, @"patient_id":@([user.objectID integerValue])};
     
     [[LEOUserService leoSessionManager] standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointAvatars params:avatarParams completion:^(NSDictionary *rawResults, NSError *error) {
         
-        //The extra "avatar" is not a "mistake" here; that is how it is provided by the backend. Should be updated eventually.
-        user.avatarURL = rawResults[APIParamData][@"avatar"][@"avatar"][@"url"];
-        
+        //TODO: The extra "avatar" is not a "mistake" here; that is how it is provided by the backend. Should be updated eventually.
+        NSDictionary *rawAvatarUrlData = rawResults[APIParamData][@"avatar"][@"url"];
+        user.avatar = [[LEOS3Image alloc] initWithJSONDictionary:rawAvatarUrlData];
+        user.avatar.image = avatarImage;
+
         completionBlock ? completionBlock (nil, error) : nil;
     }];
 }

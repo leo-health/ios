@@ -33,6 +33,7 @@
 @property (weak, nonatomic) LEOSignUpPatientView *signUpPatientView;
 @property (nonatomic) BOOL breakerPreviouslyDrawn;
 @property (strong, nonatomic) CAShapeLayer *pathLayer;
+@property (strong, nonatomic) Patient *originalPatient;
 
 @end
 
@@ -51,11 +52,17 @@
     self.signUpPatientView.delegate = self;
     [LEOApiReachability startMonitoringForController:self];
 
-}
+    NSOperationQueue *avatarQueue = [NSOperationQueue new];
 
-- (void)viewDidAppear:(BOOL)animated {
+    [[NSNotificationCenter defaultCenter] addObserverForName:kNotificationAvatarUpdate object:self.patient queue:avatarQueue usingBlock:^(NSNotification * _Nonnull notification) {
 
-    [self.signUpPatientView updateAvatarImage:self.signUpPatientView.patient.avatar];
+        dispatch_async(dispatch_get_main_queue(), ^{
+
+            UIImage *circularAvatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:self.patient.avatar.image withDiameter:67 borderColor:[UIColor leo_orangeRed] borderWidth:1.0];
+
+            [self.signUpPatientView.avatarButton setImage:circularAvatarImage forState:UIControlStateNormal];
+        });
+    }];
 }
 
 - (void)setFeature:(Feature)feature {
@@ -160,7 +167,12 @@
 
 - (void)imageCropViewController:(RSKImageCropViewController *)controller didCropImage:(UIImage *)croppedImage usingCropRect:(CGRect)cropRect {
 
-    [self.signUpPatientView updateAvatarImage:croppedImage];
+    UIImage *circularAvatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:croppedImage withDiameter:67 borderColor:[UIColor leo_orangeRed] borderWidth:1.0];
+
+
+    self.signUpPatientView.patient.avatar.image = croppedImage;
+
+    [self.signUpPatientView.avatarButton setImage:circularAvatarImage forState:UIControlStateNormal];
 
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -201,7 +213,8 @@
 -(void)setPatient:(Patient *)patient {
 
     _patient = patient;
-    self.signUpPatientView.patient = [patient copy];
+    self.originalPatient = [patient copy];
+    self.signUpPatientView.patient = patient;
 }
 
 

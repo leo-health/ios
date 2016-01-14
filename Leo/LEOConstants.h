@@ -227,7 +227,7 @@ extern NSString *const APIParamUserMiddleInitial; // @"middle_initial";
 extern NSString *const APIParamUserLastName; // @"last_name";
 extern NSString *const APIParamUserSuffix; // @"suffix";
 extern NSString *const APIParamUserEmail; // @"email";
-extern NSString *const APIParamUserAvatarURL; // @"avatar_url";
+extern NSString *const APIParamUserAvatar; // @"avatar_url";
 
 extern NSString *const APIParamUserProviderID; // @"provider_id";
 
@@ -303,6 +303,10 @@ extern NSString *const APIParamFormSubmittedDateTime; // @"submitted_datetime";
 extern NSString *const APIParamFormSubmittedBy; // @"submitted_by";
 extern NSString *const APIParamFormTitle; // @"title";
 extern NSString *const APIParamFormNotes; // @"notes";
+
+#pragma mark - Images
+extern NSString *const APIParamImageBaseURL; // @"base_url";
+extern NSString *const APIParamImageURLParameters; // @"parameters";
 
 #pragma mark - Card
 extern NSString *const APIParamCardCount; // @"count";
@@ -426,6 +430,7 @@ extern NSString *const kURLPrivacyPolicy; // @"https://provider.leoforkids.com/#
 
 #pragma mark - Notifications
 extern NSString *const kNotificationAvatarUpdate; // @"Avatar-Updated";
+extern NSString *const kNotificationCellUpdate; // = @"Cell-Updated";
 
 @end
 

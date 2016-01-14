@@ -23,7 +23,6 @@
 @property (weak, nonatomic) IBOutlet UIView *contentView;
 @property (weak, nonatomic, readwrite) IBOutlet UIButton *updateButton;
 
-@property (weak, nonatomic) IBOutlet UIButton *avatarButton;
 @property (weak, nonatomic) IBOutlet LEOPromptField *firstNamePromptField;
 @property (weak, nonatomic) IBOutlet LEOPromptField *lastNamePromptField;
 @property (weak, nonatomic) IBOutlet LEOPromptField *birthDatePromptField;
@@ -31,21 +30,22 @@
 
 @end
 
-
+IB_DESIGNABLE
 @implementation LEOSignUpPatientView
 
 @synthesize patient = _patient;
 
-IB_DESIGNABLE
+
+#pragma mark - View Controller Lifecycle and Helper Methods
 
 - (void)commonInit {
-
-    self.patient = [Patient new];
     [self setupTouchEventForDismissingKeyboard];
 }
 
+
 #pragma mark - Accessors
--(void)setDelegate:(id<LEOSignUpPatientProtocol,UIImagePickerControllerDelegate>)delegate {
+
+- (void)setDelegate:(id<LEOSignUpPatientProtocol,UIImagePickerControllerDelegate>)delegate {
 
     _delegate = delegate;
 
@@ -54,7 +54,7 @@ IB_DESIGNABLE
 }
 
 
--(void)setFirstNamePromptField:(LEOPromptField *)firstNamePromptField {
+- (void)setFirstNamePromptField:(LEOPromptField *)firstNamePromptField {
 
     _firstNamePromptField = firstNamePromptField;
 
@@ -63,7 +63,7 @@ IB_DESIGNABLE
     _firstNamePromptField.textField.delegate = self;
 }
 
--(void)setLastNamePromptField:(LEOPromptField *)lastNamePromptField {
+- (void)setLastNamePromptField:(LEOPromptField *)lastNamePromptField {
 
     _lastNamePromptField = lastNamePromptField;
     _lastNamePromptField.textField.standardPlaceholder = @"last name";
@@ -71,7 +71,7 @@ IB_DESIGNABLE
     _lastNamePromptField.textField.delegate = self;
 }
 
--(void)setBirthDatePromptField:(LEOPromptField *)birthDatePromptField {
+- (void)setBirthDatePromptField:(LEOPromptField *)birthDatePromptField {
 
     _birthDatePromptField = birthDatePromptField;
 
@@ -96,7 +96,6 @@ IB_DESIGNABLE
     _genderPromptField.delegate = self;
 }
 
-
 - (void)setAvatarValidationLabel:(UILabel *)avatarValidationLabel {
 
     _avatarValidationLabel = avatarValidationLabel;
@@ -106,14 +105,7 @@ IB_DESIGNABLE
     _avatarValidationLabel.text = @"";
 }
 
-- (void)setAvatarButton:(UIButton *)avatarButton {
-
-    _avatarButton = avatarButton;
-
-    [_avatarButton addTarget:self action:@selector(avatarButtonTouchedUpInside) forControlEvents:UIControlEventTouchUpInside];
-}
-
--(void)setUpdateButton:(UIButton *)updateButton {
+- (void)setUpdateButton:(UIButton *)updateButton {
 
     _updateButton = updateButton;
 
@@ -121,6 +113,55 @@ IB_DESIGNABLE
     [_updateButton setTitle:@"CONTINUE" forState:UIControlStateNormal];
     [_updateButton addTarget:self action:@selector(continueTapped) forControlEvents:UIControlEventTouchUpInside];
 }
+
+- (Patient *)patient {
+
+    NSString *firstName = self.firstNamePromptField.textField.text;
+    NSString *lastName = self.lastNamePromptField.textField.text;
+    NSString *gender = ![self.genderPromptField.textField.text isEqualToString:@""] ? [self.genderPromptField.textField.text substringToIndex:1] : nil; //FIXME: This should not be done here. Bad practice.po
+    NSDate *dob =  ![self.birthDatePromptField.textField.text isEqualToString:@""] ? [NSDate leo_dateFromShortDateString:self.birthDatePromptField.textField.text] : nil; //Refactor out of this method.
+
+    if (!_patient) {
+        _patient = [[Patient alloc] initWithFirstName:firstName lastName:lastName avatar:nil dob:dob gender:gender];
+
+        //TODO: Refactor. This cannot possibly be the right place for this.
+        [self.avatarButton setImage:[UIImage imageNamed:@"Icon-Camera-Avatars"] forState:UIControlStateNormal];
+    } else {
+
+        _patient.firstName = firstName;
+        _patient.lastName = lastName;
+        _patient.dob = dob;
+        _patient.gender = gender;
+    }
+
+    return _patient;
+}
+
+- (void)setPatient:(Patient *)patient {
+
+    _patient = patient;
+
+    self.birthDatePromptField.textField.text = [NSDate leo_stringifiedShortDate:_patient.dob]; //TODO: Refactor
+    self.lastNamePromptField.textField.text = _patient.lastName;
+    self.firstNamePromptField.textField.text = _patient.firstName;
+    self.genderPromptField.textField.text = _patient.genderDisplayName;
+
+    UIImage *circularAvatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:_patient.avatar.image withDiameter:67 borderColor:[UIColor leo_orangeRed] borderWidth:1.0];
+
+    [self.avatarButton setImage:circularAvatarImage forState:UIControlStateNormal];
+}
+
+- (void)setAvatarButton:(UIButton *)avatarButton {
+
+    _avatarButton = avatarButton;
+
+    [_avatarButton addTarget:self action:@selector(avatarButtonTouchedUpInside) forControlEvents:UIControlEventTouchUpInside];
+
+    self.avatarValidationLabel.text = @"";
+}
+
+
+#pragma mark - Actions
 
 - (void)continueTapped {
     [self.delegate continueTouchedUpInside];
@@ -131,42 +172,8 @@ IB_DESIGNABLE
     [self.delegate presentPhotoPicker];
 }
 
--(Patient *)patient {
-
-    NSString *firstName = self.firstNamePromptField.textField.text;
-    NSString *lastName = self.lastNamePromptField.textField.text;
-    NSString *gender = ![self.genderPromptField.textField.text isEqualToString:@""] ? [self.genderPromptField.textField.text substringToIndex:1] : nil; //FIXME: This should not be done here. Bad practice.po
-    NSDate *dob =  ![self.birthDatePromptField.textField.text isEqualToString:@""] ? [NSDate leo_dateFromShortDateString:self.birthDatePromptField.textField.text] : nil; //Refactor out of this method.
-    UIImage *avatar = self.avatarButton.imageView.image;
-
-    _patient = [[Patient alloc] initWithFirstName:firstName lastName:lastName avatar:avatar dob:dob gender:gender];
-
-    return _patient;
-}
-
--(void)setPatient:(Patient *)patient {
-
-    _patient = patient;
-
-    self.birthDatePromptField.textField.text = [NSDate leo_stringifiedShortDate:_patient.dob]; //TODO: Refactor
-    self.lastNamePromptField.textField.text = _patient.lastName;
-    self.firstNamePromptField.textField.text = _patient.firstName;
-    self.genderPromptField.textField.text = _patient.genderDisplayName;
-
-    [self.avatarButton setImage:_patient.avatar forState:UIControlStateNormal];
-}
-
 
 #pragma mark - Public API
-
-- (void)updateAvatarImage:(UIImage *)avatarImage {
-
-    UIImage *circularAvatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:avatarImage withDiameter:67 borderColor:[UIColor leo_orangeRed] borderWidth:1.0];
-    [self.avatarButton setImage:circularAvatarImage forState:UIControlStateNormal];
-
-    self.avatarValidationLabel.text = @"";
-    self.patient.avatar = self.avatarButton.imageView.image;
-}
 
 - (void)validateFields {
 
@@ -203,17 +210,15 @@ IB_DESIGNABLE
 
 #pragma mark - <LEOPromptFieldDelegate>
 
--(void)respondToPrompt:(id)sender {
+- (void)respondToPrompt:(id)sender {
 
     [self endEditing:YES];
 
     if (sender == self.birthDatePromptField) {
-
         [self selectADate:sender];
     }
 
     if (sender == self.genderPromptField) {
-
         [self selectAGender:sender];
     }
 }
@@ -293,6 +298,7 @@ IB_DESIGNABLE
 
 
 #pragma mark - Autolayout
+
 //TODO: Once we merge #530, come back to this and call the method from XibAdditions (which is, for the time being, an empty category.)
 - (void)setupConstraints {
 
@@ -342,7 +348,7 @@ IB_DESIGNABLE
 #pragma clang diagnostic ignored "-Wundeclared-selector"
     UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(viewTapped)];
 #pragma clang diagnostic pop
-
+    
     tapGestureForTextFieldDismissal.cancelsTouchesInView = NO;
     [self addGestureRecognizer:tapGestureForTextFieldDismissal];
 }

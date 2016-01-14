@@ -59,7 +59,7 @@ static CGFloat const kSpacerProfileBottom = 4.0;
 
     if (!_patientAvatarImageView) {
 
-        UIImage *profileImage = [LEOMessagesAvatarImageFactory circularAvatarImage:self.patient.avatar withDiameter:kAvatarProfileDiameter borderColor:[UIColor leo_white] borderWidth:kAvatarProfileBorderWidth];
+        UIImage *profileImage = [LEOMessagesAvatarImageFactory circularAvatarImage:self.patient.avatar.image withDiameter:kAvatarProfileDiameter borderColor:[UIColor leo_white] borderWidth:kAvatarProfileBorderWidth];
 
         UIImageView *strongImageView = [[UIImageView alloc] initWithImage:profileImage];
 
@@ -103,7 +103,7 @@ static CGFloat const kSpacerProfileBottom = 4.0;
     _patient = patient;
 
     self.patientNameLabel.text = _patient.fullName;
-    self.patientAvatarImageView.image = [LEOMessagesAvatarImageFactory circularAvatarImage:_patient.avatar withDiameter:kAvatarProfileDiameter borderColor:[UIColor leo_white] borderWidth:kAvatarProfileBorderWidth];
+    self.patientAvatarImageView.image = [LEOMessagesAvatarImageFactory circularAvatarImage:_patient.avatar.image withDiameter:kAvatarProfileDiameter borderColor:[UIColor leo_white] borderWidth:kAvatarProfileBorderWidth];
 }
 
 @end

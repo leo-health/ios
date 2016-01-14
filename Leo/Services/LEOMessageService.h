@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
-@class Message, Conversation;
+@class Message, Conversation, LEOS3Image;
 
 #import <Foundation/Foundation.h>
 
@@ -16,6 +16,6 @@
 - (void)getMessagesForConversation:(Conversation *)conversation page:(NSInteger)page offset:(NSInteger)offset withCompletion:( void (^)(NSArray *messages))completionBlock;
 - (void)getConversationsForCurrentUserWithCompletion:(void (^)(Conversation *conversation))completionBlock;
 - (void)getMessageWithIdentifier:(NSString *)messageIdentifier withCompletion:(void (^)(Message *message, NSError *error))completionBlock;
-- (void)getImageFromURL:(NSString *)imageURL withCompletion:(void (^)(UIImage *rawImage, NSError *error))completionBlock;
+- (void)getImageForS3Image:(LEOS3Image *)s3Image withCompletion:(void (^)(UIImage *rawImage, NSError *error))completionBlock;
 
 @end

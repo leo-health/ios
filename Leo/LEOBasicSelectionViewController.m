@@ -32,7 +32,6 @@
 
     [super viewDidLoad];
     [self setupTableView];
-    
 }
 
 -(void)viewWillAppear:(BOOL)animated {

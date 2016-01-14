@@ -166,7 +166,7 @@
 
     NSString *email = self.enrollmentView.emailPromptField.textField.text;
 
-    self.guardian = [[Guardian alloc] initWithObjectID:nil familyID:nil title:nil firstName:nil middleInitial:nil lastName:nil suffix:nil email:email avatarURL:nil avatar:nil phoneNumber:nil insurancePlan:nil primary:YES membershipType:MembershipTypeNone];
+    self.guardian = [[Guardian alloc] initWithObjectID:nil familyID:nil title:nil firstName:nil middleInitial:nil lastName:nil suffix:nil email:email avatar:nil phoneNumber:nil insurancePlan:nil primary:YES membershipType:MembershipTypeNone];
 }
 
 - (BOOL)validatePage {

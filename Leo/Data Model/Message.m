@@ -118,11 +118,11 @@ static NSString *const kImage = @"image";
 
         case MessageTypeCodeImage: {
 
-            NSString *imageURLString = jsonResponse[APIParamMessageBody][@"url"];
+            LEOS3Image *media = [[LEOS3Image alloc] initWithJSONDictionary:jsonResponse[APIParamMessageBody]];
 
-            JSQPhotoMediaItem *media = [[JSQPhotoMediaItem alloc] initWithImage:nil];
+            JSQPhotoMediaItem *photoMediaItem = [[JSQPhotoMediaItem alloc] initWithImage:nil];
 
-            return [MessageImage messageWithObjectID:objectID media:media sender:sender escalatedTo:escalatedTo escalatedBy:escalatedBy status:status statusCode:statusCode escalatedAt:nil urlString:imageURLString];
+            return [MessageImage messageWithObjectID:objectID media:photoMediaItem sender:sender escalatedTo:escalatedTo escalatedBy:escalatedBy status:status statusCode:statusCode escalatedAt:nil leoMedia:media];
         }
 
         case MessageTypeCodeUndefined:

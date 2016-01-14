@@ -93,7 +93,7 @@ NSString *const APIParamUserMiddleInitial = @"middle_initial";
 NSString *const APIParamUserLastName = @"last_name";
 NSString *const APIParamUserSuffix = @"suffix";
 NSString *const APIParamUserEmail = @"email";
-NSString *const APIParamUserAvatarURL = @"avatar_url";
+NSString *const APIParamUserAvatar = @"avatar";
 
 NSString *const APIParamUserProviderID = @"provider_id";
 NSString *const APIParamUserPatientID = @"patient_id";
@@ -169,6 +169,10 @@ NSString *const APIParamFormSubmittedDateTime = @"submitted_datetime";
 NSString *const APIParamFormSubmittedBy = @"submitted_by";
 NSString *const APIParamFormTitle = @"title";
 NSString *const APIParamFormNotes = @"notes";
+
+#pragma mark - Images
+NSString *const APIParamImageBaseURL = @"base_url";
+NSString *const APIParamImageURLParameters = @"parameters";
 
 #pragma mark - Card
 NSString *const APIParamCardCount = @"count";
@@ -294,4 +298,6 @@ NSString *const kURLPrivacyPolicy = @"https://gist.githubusercontent.com/nayan-l
 
 #pragma mark - Notifications
 NSString *const kNotificationAvatarUpdate = @"Avatar-Updated";
+NSString *const kNotificationCellUpdate = @"Cell-Updated";
+
 @end

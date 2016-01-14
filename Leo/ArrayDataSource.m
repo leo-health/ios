@@ -36,10 +36,10 @@ selectionCriteriaBlock:(SelectionCriteriaBlock)selectionCriteriaBlock {
     self = [super init];
     
     if (self) {
-        self.items = items;
-        self.cellIdentifier = cellIdentifier;
-        self.configureCellBlock = [configureCellBlock copy];
-        self.selectionCriteriaBlock = [selectionCriteriaBlock copy];
+        _items = items;
+        _cellIdentifier = cellIdentifier;
+        _configureCellBlock = [configureCellBlock copy];
+        _selectionCriteriaBlock = [selectionCriteriaBlock copy];
     }
     
     return self;
@@ -65,6 +65,16 @@ selectionCriteriaBlock:(SelectionCriteriaBlock)selectionCriteriaBlock {
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:self.cellIdentifier
                                                             forIndexPath:indexPath];
+
+    //TODO: Come back and review this as a pattern; obviously would be more effective if all cells were reloaded in one call (but this might be premature optimization.)
+    NSOperationQueue *reloadCellQueue = [NSOperationQueue new];
+
+    [[NSNotificationCenter defaultCenter] addObserverForName:kNotificationCellUpdate object:item queue:reloadCellQueue usingBlock:^(NSNotification * _Nonnull notification) {
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        });
+    }];
 
     BOOL selected = self.configureCellBlock(cell, item);
     

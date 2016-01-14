@@ -14,6 +14,7 @@
 #import "MessageImage.h"
 #import "Conversation.h"
 #import <JSQPhotoMediaItem.h>
+#import "LEOS3Image.h"
 
 @implementation LEOMessageService
 
@@ -32,7 +33,7 @@
 
         //Log size of photo being shared
         NSUInteger bytes = [photoString lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
-        NSLog(@"Size of photo being uploaded to server in megabytes: %lu", (unsigned long)bytes / 1024.0);
+        NSLog(@"Size of photo being uploaded to server in megabytes: %f", (unsigned long)bytes / 1024.0);
     }
     
     NSArray *messageKeys = @[APIParamMessageBody, APIParamType];
@@ -88,12 +89,12 @@
     }];
 }
 
-- (void)getImageFromURL:(NSString *)imageURL withCompletion:(void (^)(UIImage *rawImage, NSError *error))completionBlock {
+- (void)getImageForS3Image:(LEOS3Image *)s3Image withCompletion:(void (^)(UIImage *rawImage, NSError *error))completionBlock {
 
-    if (imageURL) {
+    if (s3Image.baseURL && s3Image.parameters) {
 
-        [[LEOMessageService leoMediaSessionManager] unauthenticatedGETRequestForImageFromS3WithURL:imageURL params:nil completion:^(UIImage *rawImage, NSError *error) {
-                completionBlock ? completionBlock(rawImage, error) : nil;
+        [[LEOMessageService leoMediaSessionManager] presignedGETRequestForImageFromS3WithURL:s3Image.baseURL params:s3Image.parameters completion:^(UIImage *rawImage, NSError *error) {
+            completionBlock ? completionBlock(rawImage, error) : nil;
         }];
 
     } else {

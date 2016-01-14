@@ -74,7 +74,7 @@
     
     if ([self.inviteView isValidInvite]) {
         
-        User *configUser = [[User alloc] initWithObjectID:nil title:nil firstName:self.inviteView.firstName middleInitial:nil lastName:self.inviteView.lastName suffix:nil email:self.inviteView.email avatarURL:nil avatar:nil];
+        User *configUser = [[User alloc] initWithObjectID:nil title:nil firstName:self.inviteView.firstName middleInitial:nil lastName:self.inviteView.lastName suffix:nil email:self.inviteView.email avatar:nil];
         
         LEOUserService *userService = [[LEOUserService alloc] init];
         [userService inviteUser:configUser withCompletion:^(BOOL success, NSError *error) {

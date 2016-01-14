@@ -12,6 +12,6 @@
 
 + (LEOS3SessionManager *)sharedClient;
 
-- (NSURLSessionDataTask *)unauthenticatedGETRequestForImageFromS3WithURL:(NSString *)urlString params:(NSDictionary *)params completion:(void (^)(UIImage *rawImage, NSError *error))completionBlock;
+- (NSURLSessionDataTask *)presignedGETRequestForImageFromS3WithURL:(NSString *)urlString params:(NSDictionary *)params completion:(void (^)(UIImage *rawImage, NSError *error))completionBlock;
 
 @end

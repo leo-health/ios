@@ -23,7 +23,7 @@
     return _sharedClient;
 }
 
-- (NSURLSessionDataTask *)unauthenticatedGETRequestForImageFromS3WithURL:(NSString *)urlString params:(NSDictionary *)params completion:(void (^)(UIImage *rawImage, NSError *error))completionBlock {
+- (NSURLSessionDataTask *)presignedGETRequestForImageFromS3WithURL:(NSString *)urlString params:(NSDictionary *)params completion:(void (^)(UIImage *rawImage, NSError *error))completionBlock {
     
     __block NSString *urlStringBlock = [urlString copy];
     __block NSDictionary *paramsBlock = params;

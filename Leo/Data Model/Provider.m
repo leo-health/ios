@@ -7,12 +7,13 @@
 //
 
 #import "Provider.h"
+#import "LEOS3Image.h"
 
 @implementation Provider
 
-- (instancetype)initWithObjectID:(nullable NSString *)objectID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email avatarURL:(nullable NSString *)avatarURL avatar:(UIImage *)avatar credentialSuffixes:(NSArray *)credentials specialties:(NSArray *)specialties {
+- (instancetype)initWithObjectID:(nullable NSString *)objectID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email avatar:(LEOS3Image *)avatar credentialSuffixes:(NSArray *)credentials specialties:(NSArray *)specialties {
     
-    self = [super initWithObjectID:objectID title:title firstName:firstName middleInitial:middleInitial lastName:lastName suffix:suffix email:email avatarURL:avatarURL avatar:avatar];
+    self = [super initWithObjectID:objectID title:title firstName:firstName middleInitial:middleInitial lastName:lastName suffix:suffix email:email avatar:avatar];
     
     if (self) {
         _credentials = credentials;

@@ -10,6 +10,7 @@
 #import "NSUserDefaults+Additions.h"
 #import "NSDictionary+Additions.h"
 #import "LEOValidationsHelper.h"
+#import "LEOS3Image.h"
 
 @implementation Guardian
 
@@ -17,9 +18,9 @@ static NSString *const kMembershipTypeUnpaid = @"User";
 static NSString *const kMembershipTypeMember = @"Member";
 static NSString *const kMembershipTypeIncomplete = @"Incomplete"; //FIXME: This is only because the API doesn't yet support this detail.
 
-- (instancetype)initWithObjectID:(nullable NSString *)objectID familyID:(NSString *)familyID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email avatarURL:(nullable NSString *)avatarURL avatar:(nullable UIImage *)avatar phoneNumber:(NSString *)phoneNumber insurancePlan:(InsurancePlan *)insurancePlan primary:(BOOL)primary membershipType:(MembershipType)membershipType {
+- (instancetype)initWithObjectID:(nullable NSString *)objectID familyID:(NSString *)familyID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email avatar:(nullable LEOS3Image *)avatar phoneNumber:(NSString *)phoneNumber insurancePlan:(InsurancePlan *)insurancePlan primary:(BOOL)primary membershipType:(MembershipType)membershipType {
 
-    self = [super initWithObjectID:objectID title:title firstName:firstName middleInitial:middleInitial lastName:lastName suffix:suffix email:email avatarURL:avatarURL avatar:avatar];
+    self = [super initWithObjectID:objectID title:title firstName:firstName middleInitial:middleInitial lastName:lastName suffix:suffix email:email avatar:avatar];
 
     if (self) {
         _familyID = familyID;
@@ -173,7 +174,7 @@ static NSString *const kMembershipTypeIncomplete = @"Incomplete"; //FIXME: This 
 
 -(id)copyWithZone:(NSZone *)zone {
 
-    Guardian *guardianCopy = [self initWithObjectID:[self.objectID copy] familyID:[self.familyID copy] title:[self.title copy] firstName:[self.firstName copy] middleInitial:nil lastName:[self.lastName copy] suffix:[self.suffix copy] email:[self.email copy] avatarURL:[self.avatarURL copy] avatar:[self.avatar copy] phoneNumber:[self.phoneNumber copy] insurancePlan:[self.insurancePlan copy] primary:self.primary membershipType:self.membershipType];
+    Guardian *guardianCopy = [self initWithObjectID:[self.objectID copy] familyID:[self.familyID copy] title:[self.title copy] firstName:[self.firstName copy] middleInitial:nil lastName:[self.lastName copy] suffix:[self.suffix copy] email:[self.email copy] avatar:[self.avatar copy] phoneNumber:[self.phoneNumber copy] insurancePlan:[self.insurancePlan copy] primary:self.primary membershipType:self.membershipType];
 
     return guardianCopy;
 }

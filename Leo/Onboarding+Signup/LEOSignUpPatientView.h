@@ -28,11 +28,10 @@
 @property (weak, nonatomic) IBOutlet UILabel *avatarValidationLabel;
 @property (weak, nonatomic, readonly) IBOutlet UIButton *updateButton;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet UIButton *avatarButton;
 
 @property (weak, nonatomic) id<LEOSignUpPatientProtocol, UIImagePickerControllerDelegate>delegate;
 
-
-- (void)updateAvatarImage:(UIImage *)avatarImage;
 - (void)validateFields;
 
 @end
