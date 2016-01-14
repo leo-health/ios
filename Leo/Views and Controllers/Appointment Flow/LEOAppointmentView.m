@@ -83,6 +83,7 @@ IB_DESIGNABLE
     _notesTextView.floatingLabelActiveTextColor = [UIColor leo_grayForPlaceholdersAndLines]; //TODO: Check *again* this color is right.
     _notesTextView.textColor = [UIColor leo_green];
     _notesTextView.tintColor = [UIColor leo_green];
+    _notesTextView.autocorrectionType = UITextAutocorrectionTypeNo;
 }
 
 -(void)setPatientPromptView:(LEOPromptView *)patientPromptView {
@@ -369,6 +370,9 @@ IB_DESIGNABLE
         return NO;
     }
 
+    [self invalidateIntrinsicContentSize];
+    [self setNeedsLayout];
+
     return YES;
 }
 
@@ -398,6 +402,17 @@ IB_DESIGNABLE
 
 
 #pragma mark - Autolayout
+
+//-(CGSize)intrinsicContentSize {
+//
+//    CGFloat intrinsicHeight = self.visitTypePromptView.textView.bounds.size.height +self.patientPromptView.textView.bounds.size.height + self.notesTextView.bounds.size.height + self.staffPromptView.textView.bounds.size.height + self.schedulePromptView.textView.bounds.size.height;
+//
+//    intrinsicHeight += 400;
+//
+//    return CGSizeMake(300, intrinsicHeight);
+//}
+
+
 
 - (void)setupTouchEventForDismissingKeyboard {
 

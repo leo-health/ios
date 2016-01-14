@@ -148,6 +148,8 @@ static NSString *const kKeySelectionVCDate = @"date";
         CGPoint start;
         CGPoint end;
 
+        [self.stickyHeaderView layoutIfNeeded];
+
         CGRect rect = self.gradientView.bounds;
         CGFloat r = CGRectGetHeight(rect) / CGRectGetHeight(self.gradientView.gradientLayerBounds);
 
@@ -155,6 +157,12 @@ static NSString *const kKeySelectionVCDate = @"date";
         CGPoint center = CGPointMake(0.5, y1 + (y2 - y1)/2);
         CGFloat theta = atanf(CGRectGetWidth(rect)/(CGRectGetHeight(rect)/2));
         [LEOGradientHelper gradientStartPoint:&start endPoint:&end withCenter:center withRadius:r withRotationInRadians:theta];
+
+        start.x *= 2;
+        start.y *= 2;
+        end.x *= 2;
+        end.y *= 2;
+
 
         self.gradientView.initialStartPoint = start;
         self.gradientView.initialEndPoint = end;
@@ -165,6 +173,7 @@ static NSString *const kKeySelectionVCDate = @"date";
         center = CGPointMake(0.5, y1 + (y2 - y1)/2);
         theta = atanf(CGRectGetWidth(rect)/(CGRectGetHeight(rect)/2));
         [LEOGradientHelper gradientStartPoint:&start endPoint:&end withCenter:center withRadius:r withRotationInRadians:theta];
+
 
         self.gradientView.finalStartPoint = start;
         self.gradientView.finalEndPoint = end;
@@ -185,7 +194,7 @@ static NSString *const kKeySelectionVCDate = @"date";
 
         LEOGradientView *strongView = [LEOGradientView new];
         _gradientView = strongView;
-        _gradientView.colors = @[(id)[UIColor leo_green].CGColor, (id)[UIColor leo_white].CGColor];
+        _gradientView.colors = @[(id)[UIColor leo_green].CGColor, (id)[UIColor leo_redBadge].CGColor];
         _gradientView.titleText = self.card.title;
     }
 
