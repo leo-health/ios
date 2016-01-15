@@ -17,6 +17,10 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 
 @property (nonatomic) BOOL breakerIsOnScreen;
 @property (nonatomic) BOOL snapTransitionInProcess;
+@property (nonatomic) BOOL wasExpandedBeforeContentSizeChange;
+@property (nonatomic) BOOL forceSnapToStartFromBeginning;
+@property (nonatomic) BOOL forceSnapToStartFromEnd;
+@property (nonatomic) BOOL scrollingWithTouch;
 @property (strong, nonatomic) CAShapeLayer *pathLayer;
 @property (weak, nonatomic) UIView *titleView;
 @property (strong, nonatomic) NSLayoutConstraint* titleViewTopConstraint;
@@ -57,6 +61,7 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
     // ????: is there ever a time where scrollView gets deallocated before this method is called?
     [self.scrollView removeObserver:self forKeyPath:@"contentSize"];
     [self.scrollView removeObserver:self forKeyPath:@"contentOffset"];
+    [self.scrollView removeObserver:self forKeyPath:@"contentInset"];
 }
 
 - (void)commonInit {
@@ -64,6 +69,7 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
     // default values
     self.collapsible = YES;
     self.contentView.backgroundColor = [UIColor clearColor];
+    self.wasExpandedBeforeContentSizeChange = YES;
     [self registerForKeyboardNotifications];
 }
 
@@ -97,11 +103,15 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
     if (!_scrollView) {
 
         TPKeyboardAvoidingScrollView *strongView = [TPKeyboardAvoidingScrollView new];
+
+//        strongView.contentInset = UIEdgeInsetsMake(0, 0, 100, 0);
         _scrollView = strongView;
 
         [self addSubview:_scrollView];
 
-        [_scrollView addObserver:self forKeyPath:@"contentSize" options:NSKeyValueObservingOptionNew context:nil];
+        [_scrollView addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionOld context:nil];
+        [_scrollView addObserver:self forKeyPath:@"contentInset" options:NSKeyValueObservingOptionOld context:nil];
+        [_scrollView addObserver:self forKeyPath:@"contentSize" options:NSKeyValueObservingOptionOld context:nil];
 
         _scrollView.delegate = self;
 
@@ -198,16 +208,86 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
 
-    if ([keyPath isEqualToString:@"contentSize"] && object == self.scrollView) {
 
-        // header should always be either expanded or collapsed, never in between
-//        BOOL shouldChangeFromCollapsedToExpanded = [self isCollapsed] && [self titleViewShouldSnapToExpandedState];
-//        BOOL shouldChangeFromExpandedToCollapsed = ![self isCollapsed] && [self titleViewShouldSnapToCollapsedState];
-//        BOOL shouldAnimateSnap = ([self scrollViewAtBottomPosition] && shouldChangeFromCollapsedToExpanded) || (![self scrollViewAtBottomPosition] && shouldChangeFromExpandedToCollapsed);
+    if (object == self.scrollView) {
 
-        [self navigationTitleViewSnapsForScrollView:self.scrollView animated:NO];
-        [self updateScrollInsetsToAllowForCollapse];
+
+        if ([keyPath isEqualToString:@"contentSize"]) {
+
+            [self updateScrollInsetsToAllowForCollapse];
+        }
+
+        if ([keyPath isEqualToString:@"contentOffset"]) {
+
+            NSLog(@"offset old:           %@", change[NSKeyValueChangeOldKey]);
+            NSLog(@"          offset new: %@", NSStringFromCGPoint(self.scrollView.contentOffset));
+
+            if ([change[NSKeyValueChangeOldKey] CGPointValue].y == 0) {
+//                self.wasExpandedBeforeContentSizeChange = YES;
+            }
+        }
+
+        if ([keyPath isEqualToString:@"contentInset"]) {
+            NSLog(@"inset old:           %@", change[NSKeyValueChangeOldKey]);
+            NSLog(@"         inset       %@", NSStringFromUIEdgeInsets(self.scrollView.contentInset));
+
+        }
+
+
+
+        if ([keyPath isEqualToString:@"contentOffset"] || [keyPath isEqualToString:@"contentSize"]) {
+
+            // header should always be either expanded or collapsed, never in between
+            BOOL shouldChangeFromCollapsedToExpanded = !self.wasExpandedBeforeContentSizeChange && [self titleViewShouldSnapToExpandedState];
+            BOOL shouldChangeFromExpandedToCollapsed = self.wasExpandedBeforeContentSizeChange && [self titleViewShouldSnapToCollapsedState];
+            BOOL shouldAnimateSnap = shouldChangeFromCollapsedToExpanded || shouldChangeFromExpandedToCollapsed;
+
+            if (!self.scrollingWithTouch && !self.snapTransitionInProcess) {
+                NSLog(@"navigationTitleViewSnapsForScrollView");
+
+                if (shouldChangeFromExpandedToCollapsed) {
+                    self.forceSnapToStartFromBeginning = YES;
+                    [self snapToExpanded]; // start animation from beginning
+                    // will change content offset, then this observe method will be called recursively.
+                    [self navigationTitleViewSnapsForScrollView:self.scrollView animated:YES];
+                } else if (shouldChangeFromCollapsedToExpanded) {
+                    self.forceSnapToStartFromEnd = YES;
+                    [self snapToCollapsed];
+                    [self navigationTitleViewSnapsForScrollView:self.scrollView animated:YES];
+                }
+
+                if (!self.forceSnapToStartFromBeginning && !self.forceSnapToStartFromEnd) {
+                    // do nothing in response to the aniation initialization
+                    [self navigationTitleViewSnapsForScrollView:self.scrollView animated:shouldAnimateSnap];
+                }
+            }
+        }
     }
+
+
+//    if ([keyPath isEqualToString:@"contentOffset"] && object == self.scrollView) {
+//
+//        if ([change[NSKeyValueChangeOldKey] CGPointValue].y == 0) {
+//            self.wasExpandedBeforeContentSizeChange = YES;
+//        }
+//
+//        if (!self.scrollingWithTouch && !self.snapTransitionInProcess) {
+//            [self navigationTitleViewSnapsForScrollView:self.scrollView animated:YES];
+//        }
+//        NSLog(@"scrollingWithTouch %d", self.scrollingWithTouch);
+//    }
+//
+//    if ([keyPath isEqualToString:@"contentSize"] && object == self.scrollView) {
+//
+//
+//
+//        // header should always be either expanded or collapsed, never in between
+//        BOOL shouldChangeFromCollapsedToExpanded = !self.wasExpandedBeforeContentSizeChange && [self titleViewShouldSnapToExpandedState];
+//        BOOL shouldChangeFromExpandedToCollapsed = self.wasExpandedBeforeContentSizeChange && [self titleViewShouldSnapToCollapsedState];
+//        BOOL shouldAnimateSnap = shouldChangeFromCollapsedToExpanded || shouldChangeFromExpandedToCollapsed;
+//
+//        [self navigationTitleViewSnapsForScrollView:self.scrollView animated:shouldAnimateSnap];
+//    }
 }
 
 - (void)registerForKeyboardNotifications {
@@ -227,6 +307,13 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 }
 
 - (void)updateScrollInsetsToAllowForCollapse {
+
+
+
+//    self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, 300, 0);
+//    return;
+
+
 
     // determine content size via autolayout
     [self.scrollView layoutIfNeeded];
@@ -414,11 +501,12 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 
 // TODO: CLEAN ME
 
-    if (!self.snapTransitionInProcess && [self scrollViewAtBottomPosition]) {
+    BOOL snapTrans = self.snapTransitionInProcess;
+    BOOL atBottom = [self scrollViewAtBottomPosition];
+    if (!snapTrans && atBottom) {
 
         // if weve reached the bottom
 
-        NSLog(@"at bottom!");
 
 
     } else {
@@ -449,6 +537,14 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
     }
 }
 
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+
+    if (scrollView == self.scrollView) {
+
+        self.scrollingWithTouch = YES;
+    }
+}
+
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
 
     if (scrollView == self.scrollView) {
@@ -457,6 +553,7 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
         if (!bouncing) {
 
             [self navigationTitleViewSnapsForScrollView:scrollView animated:YES];
+            self.scrollingWithTouch = NO;
         }
     }
 }
@@ -465,7 +562,10 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 
     if (scrollView == self.scrollView) {
 
-        decelerate ? nil : [self navigationTitleViewSnapsForScrollView:scrollView animated:YES];
+        if (!decelerate) {
+            [self navigationTitleViewSnapsForScrollView:scrollView animated:YES];
+            self.scrollingWithTouch = NO;
+        }
     }
 }
 
@@ -487,11 +587,30 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 
 - (BOOL)scrollViewAtBottomPosition {
 
-    CGFloat maxPossibleOffsetY = self.scrollView.contentSize.height - CGRectGetHeight(self.scrollView.bounds);
-    return self.scrollView.contentOffset.y == maxPossibleOffsetY;
+    CGFloat maxPossibleOffsetY = self.scrollView.contentSize.height - CGRectGetHeight(self.scrollView.bounds) + self.scrollView.contentInset.bottom + self.scrollView.contentInset.top;
+    CGFloat currentOffset = self.scrollView.contentOffset.y;
+
+    // these values are not exact. Compare the rounded values.
+    // ????: interestingly, this is the simplest way I've found to compare approximate decimals
+    NSString *roundedFormat = @"%.2f";
+    NSString *roundedCurrentOffset = [NSString stringWithFormat:roundedFormat, currentOffset];
+    NSString *roundedMaxPossibleOffsetY= [NSString stringWithFormat:roundedFormat, maxPossibleOffsetY];
+
+    BOOL atBottom =  [roundedCurrentOffset isEqualToString:roundedMaxPossibleOffsetY];
+
+    NSLog(@"scrollViewAtBottomPosition: %d", atBottom);
+    return atBottom;
 }
 
+- (void)snapToExpanded {
 
+    self.scrollView.contentOffset = CGPointMake(0.0, 0.0);
+}
+
+- (void)snapToCollapsed {
+
+    self.scrollView.contentOffset = CGPointMake(0.0, [self heightOfHeaderCellExcludingOverlapWithNavBar]);
+}
 
 -(void)navigationTitleViewSnapsForScrollView:(UIScrollView *)scrollView animated:(BOOL)animated {
 
@@ -506,21 +625,27 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
         };
 
         // Force collapse
-        if ([self titleViewShouldSnapToCollapsedState]) {
+        if (self.forceSnapToStartFromBeginning || [self titleViewShouldSnapToCollapsedState]) {
 
             self.snapTransitionInProcess = YES;
+            self.forceSnapToStartFromBeginning = NO;
+            self.wasExpandedBeforeContentSizeChange = NO;
             animations = ^{
 
-                scrollView.contentOffset = CGPointMake(0.0, [self heightOfHeaderCellExcludingOverlapWithNavBar]);
+                [self snapToCollapsed];
+
             };
         }
 
         // Force expand
-        else if ([self titleViewShouldSnapToExpandedState]) {
+        else if (self.forceSnapToStartFromEnd || [self titleViewShouldSnapToExpandedState]) {
 
             self.snapTransitionInProcess = YES;
+            self.forceSnapToStartFromEnd = NO;
+            self.wasExpandedBeforeContentSizeChange = YES;
             animations = ^{
-                scrollView.contentOffset = CGPointMake(0.0, 0.0);
+
+                [self snapToExpanded];
             };
         }
 
@@ -532,11 +657,17 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
             animations();
             completion(YES);
         }
+
+
     }
 }
 
 -(BOOL)isCollapsed {
     return [self scrollViewVerticalContentOffset] >= [self heightOfHeaderCellExcludingOverlapWithNavBar];
+}
+
+- (BOOL)isExpanded {
+    return [self scrollViewVerticalContentOffset] <= 0;
 }
 
 #pragma mark - Shorthand Helpers

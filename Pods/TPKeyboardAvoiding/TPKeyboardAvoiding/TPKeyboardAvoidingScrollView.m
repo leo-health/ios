@@ -7,6 +7,7 @@
 //
 
 #import "TPKeyboardAvoidingScrollView.h"
+#import "UIScrollView+TPKeyboardAvoidingAdditions.h"
 
 @interface TPKeyboardAvoidingScrollView () <UITextFieldDelegate, UITextViewDelegate>
 @end
@@ -20,6 +21,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(TPKeyboardAvoiding_keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(scrollToActiveTextField) name:UITextViewTextDidBeginEditingNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(scrollToActiveTextField) name:UITextFieldTextDidBeginEditingNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(scrollToActiveTextField) name:UITextFieldTextDidChangeNotification object:nil];
 }
 
 -(id)initWithFrame:(CGRect)frame {
@@ -59,6 +61,28 @@
 }
 - (void)scrollToActiveTextField {
     return [self TPKeyboardAvoiding_scrollToActiveTextField];
+}
+
+- (void)scrollRectToVisible:(CGRect)rect animated:(BOOL)animated {
+
+    NSLog(@"scrollRect: %@ %d", NSStringFromCGRect(rect), animated);
+
+    UIEdgeInsets oldInsets = self.contentInset;
+
+    TPKeyboardAvoidingState *state = self.keyboardAvoidingState;
+    if ( state.keyboardVisible ) {
+        TPKeyboardAvoidingState *state = self.keyboardAvoidingState;
+        UIEdgeInsets newInset = self.contentInset;
+        CGRect keyboardRect = state.keyboardRect;
+        newInset.bottom = keyboardRect.size.height; // - MAX((CGRectGetMaxY(keyboardRect) - CGRectGetMaxY(self.bounds)), 0);
+
+        self.contentInset = newInset;
+    }
+
+    [super scrollRectToVisible:rect animated:animated];
+
+    self.contentInset = oldInsets;
+
 }
 
 #pragma mark - Responders, events

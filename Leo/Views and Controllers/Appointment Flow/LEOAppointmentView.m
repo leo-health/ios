@@ -73,7 +73,6 @@ IB_DESIGNABLE
 - (void)setNotesTextView:(JVFloatLabeledTextView *)notesTextView {
 
     _notesTextView = notesTextView;
-
     _notesTextView.delegate = self;
     _notesTextView.scrollEnabled = NO;
     _notesTextView.placeholder = @"Questions / comments";
@@ -364,13 +363,14 @@ IB_DESIGNABLE
      *
      *  TODO: Remove magic numbers
      */
-    if([text isEqualToString:@" "] && range.location < 600){
-        return YES;
-    }else if([[textView text] length] - range.length + text.length > 600){
+//    if([text isEqualToString:@" "] && range.location < 600){
+//        return YES;
+//    }else
+        if([[textView text] length] - range.length + text.length > 600){
         return NO;
     }
 
-    [self invalidateIntrinsicContentSize];
+//    [self invalidateIntrinsicContentSize];
     [self setNeedsLayout];
 
     return YES;

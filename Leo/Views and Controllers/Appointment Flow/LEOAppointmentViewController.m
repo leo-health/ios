@@ -106,6 +106,8 @@ static NSString *const kKeySelectionVCDate = @"date";
 
     [super viewWillDisappear:animated];
 
+    [self.view endEditing:YES];
+
     // only apply the gradient nav bar when pushing
     BOOL pushingAViewController = self.navigationController.viewControllers.count > 1;
     if (pushingAViewController) {

@@ -14,11 +14,11 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EdQ-WD-ghP" userLabel="Container View">
                     <rect key="frame" x="20" y="0.0" width="560" height="600"/>
                     <subviews>
-                        <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YDA-RD-nGm" userLabel="Visit Type Prompt View" customClass="LEOPromptView">
+                        <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YDA-RD-nGm" userLabel="Visit Type Prompt View" customClass="LEOPromptView">
                             <rect key="frame" x="0.0" y="0.0" width="560" height="209"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
-                        <view contentMode="scaleToFill" verticalHuggingPriority="200" misplaced="YES" placeholderIntrinsicWidth="600" placeholderIntrinsicHeight="115" translatesAutoresizingMaskIntoConstraints="NO" id="lPr-KA-gBU" userLabel="Notes Text View" customClass="JVFloatLabeledTextView">
+                        <view contentMode="scaleToFill" verticalHuggingPriority="200" placeholderIntrinsicWidth="600" placeholderIntrinsicHeight="115" translatesAutoresizingMaskIntoConstraints="NO" id="lPr-KA-gBU" userLabel="Notes Text View" customClass="JVFloatLabeledTextView">
                             <rect key="frame" x="0.0" y="465" width="560" height="115"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
@@ -30,7 +30,7 @@
                                 </mask>
                             </variation>
                         </view>
-                        <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Gdf-Uy-PhB" userLabel="Patient Prompt View" customClass="LEOPromptView">
+                        <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Gdf-Uy-PhB" userLabel="Patient Prompt View" customClass="LEOPromptView">
                             <rect key="frame" x="0.0" y="229" width="560" height="62"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
