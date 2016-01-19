@@ -9,6 +9,8 @@
 #import "LEOImageCropViewController.h"
 #import "UIFont+LeoFonts.h"
 #import "UIColor+LeoColors.h"
+#import "LEOStyleHelper.h"
+
 @interface LEOImageCropViewController ()
 
 @end
@@ -19,13 +21,12 @@
     [super viewDidLoad];
     
         self.moveAndScaleLabel.font = [UIFont leo_standardFont];
-        self.moveAndScaleLabel.textColor = [UIColor leo_orangeRed];
+        self.moveAndScaleLabel.textColor = self.view.tintColor;
         self.maskLayerColor = [UIColor leo_white];
-        [self.cancelButton setTitleColor:[UIColor leo_orangeRed] forState:UIControlStateNormal];
-        [self.chooseButton setTitleColor:[UIColor leo_orangeRed] forState:UIControlStateNormal];
+        [self.cancelButton setTitleColor:[LEOStyleHelper tintColorForFeature:self.feature] forState:UIControlStateNormal];
+        [self.chooseButton setTitleColor:[LEOStyleHelper tintColorForFeature:self.feature] forState:UIControlStateNormal];
         self.cancelButton.titleLabel.font = [UIFont leo_standardFont];
         self.chooseButton.titleLabel.font = [UIFont leo_standardFont];
-        self.avoidEmptySpaceAroundImage = YES;
         self.view.backgroundColor = [UIColor leo_white];
 }
 

@@ -10,4 +10,6 @@
 
 @interface LEOImageCropViewController : RSKImageCropViewController
 
+@property (nonatomic) Feature feature;
+
 @end

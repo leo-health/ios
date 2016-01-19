@@ -511,7 +511,6 @@ static CGFloat const kFeedInsetTop = 30.0;
     conversationNavController.transitioningDelegate = self.transitionDelegate;
     conversationNavController.modalPresentationStyle = UIModalPresentationCustom;
     [self presentViewController:conversationNavController animated:YES completion:^{
-
     }];
 }
 
