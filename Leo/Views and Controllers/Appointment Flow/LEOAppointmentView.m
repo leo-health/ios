@@ -363,15 +363,9 @@ IB_DESIGNABLE
      *
      *  TODO: Remove magic numbers
      */
-//    if([text isEqualToString:@" "] && range.location < 600){
-//        return YES;
-//    }else
-        if([[textView text] length] - range.length + text.length > 600){
+    if([[textView text] length] - range.length + text.length > 600){
         return NO;
     }
-
-//    [self invalidateIntrinsicContentSize];
-    [self setNeedsLayout];
 
     return YES;
 }
@@ -403,17 +397,6 @@ IB_DESIGNABLE
 
 #pragma mark - Autolayout
 
-//-(CGSize)intrinsicContentSize {
-//
-//    CGFloat intrinsicHeight = self.visitTypePromptView.textView.bounds.size.height +self.patientPromptView.textView.bounds.size.height + self.notesTextView.bounds.size.height + self.staffPromptView.textView.bounds.size.height + self.schedulePromptView.textView.bounds.size.height;
-//
-//    intrinsicHeight += 400;
-//
-//    return CGSizeMake(300, intrinsicHeight);
-//}
-
-
-
 - (void)setupTouchEventForDismissingKeyboard {
 
     UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(viewTapped)];
@@ -422,8 +405,5 @@ IB_DESIGNABLE
     [self addGestureRecognizer:tapGestureForTextFieldDismissal];
 }
 
-- (void)dealloc {
-    
-    //TODO: Remove after debugging complete.
-}
+
 @end

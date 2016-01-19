@@ -7,7 +7,6 @@
 //
 
 #import "TPKeyboardAvoidingScrollView.h"
-#import "UIScrollView+TPKeyboardAvoidingAdditions.h"
 
 @interface TPKeyboardAvoidingScrollView () <UITextFieldDelegate, UITextViewDelegate>
 @end
@@ -64,9 +63,7 @@
 }
 
 - (void)scrollRectToVisible:(CGRect)rect animated:(BOOL)animated {
-
-    NSLog(@"scrollRect: %@ %d", NSStringFromCGRect(rect), animated);
-
+    
     UIEdgeInsets oldInsets = self.contentInset;
 
     TPKeyboardAvoidingState *state = self.keyboardAvoidingState;
@@ -74,6 +71,8 @@
         TPKeyboardAvoidingState *state = self.keyboardAvoidingState;
         UIEdgeInsets newInset = self.contentInset;
         CGRect keyboardRect = state.keyboardRect;
+        
+         // not sure what the side effects of this are...
         newInset.bottom = keyboardRect.size.height; // - MAX((CGRectGetMaxY(keyboardRect) - CGRectGetMaxY(self.bounds)), 0);
 
         self.contentInset = newInset;

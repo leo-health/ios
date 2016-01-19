@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-
 @interface TPKeyboardAvoidingState : NSObject
+
 @property (nonatomic, assign) UIEdgeInsets priorInset;
 @property (nonatomic, assign) UIEdgeInsets priorScrollIndicatorInsets;
 @property (nonatomic, assign) BOOL         keyboardVisible;
@@ -17,6 +17,8 @@
 @property (nonatomic, assign) CGSize       priorContentSize;
 @property (nonatomic, assign) BOOL         priorPagingEnabled;
 @property (nonatomic, assign) BOOL         ignoringNotifications;
+
+
 @end
 
 @interface UIScrollView (TPKeyboardAvoidingAdditions)
@@ -33,4 +35,6 @@
 - (void)TPKeyboardAvoiding_assignTextDelegateForViewsBeneathView:(UIView*)view;
 - (UIView*)TPKeyboardAvoiding_findFirstResponderBeneathView:(UIView*)view;
 -(CGSize)TPKeyboardAvoiding_calculatedContentSizeFromSubviewFrames;
+
+
 @end
