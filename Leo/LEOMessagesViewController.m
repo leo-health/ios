@@ -422,6 +422,8 @@
 
     if ([self.navigationController.viewControllers count] > 1) {
 
+        //you cannot go back from the first view controller to pop up, so we ensure that the back button will not be updated.
+        //TODO: Someday consider whether the above comment actually makes sense from a design perspective (it is the Apple default for UIImagePickerViewController, but that doesn't mean that we should follow it.
         if (self.navigationController.viewControllers[1] != viewController) {
             UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Icon-BackArrow"] style:UIBarButtonItemStylePlain target:viewController action:@selector(popViewControllerAnimated:)];
 
