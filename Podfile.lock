@@ -21,6 +21,7 @@ PODS:
   - AFNetworking/UIKit (2.6.1):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
+  - CWStatusBarNotification (2.3.4)
   - DateTools (1.7.0)
   - Expecta (0.2.4)
   - GNZSlidingSegment (0.1.0)
@@ -58,6 +59,7 @@ PODS:
 DEPENDENCIES:
   - ActionSheetPicker-3.0 (~> 2.0.1)
   - AFNetworking
+  - CWStatusBarNotification (~> 2.3.4)
   - DateTools
   - Expecta
   - GNZSlidingSegment (from `https://github.com/chrisgonzgonz/GNZSlidingSegment.git`)
@@ -90,6 +92,7 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   ActionSheetPicker-3.0: 11f2053085d3088dc1ef9d38a9f11c18b528dd9e
   AFNetworking: 8e4e60500beb8bec644cf575beee72990a76d399
+  CWStatusBarNotification: 3fec41edcb0ae3677d9febfcb9632d8bdf52294c
   DateTools: 53288ee8b905fdc75897a1e6b5cc0144b14cba60
   Expecta: cfaf1d3e2e194ca704a25e997093d30a1ce70b61
   GNZSlidingSegment: 76e937198abbc09d945795c41c3e39b681ad3d1e

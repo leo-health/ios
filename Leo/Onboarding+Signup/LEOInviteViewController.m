@@ -13,11 +13,13 @@
 #import "LEOUserService.h"
 #import "User.h"    
 #import <MBProgressHUD/MBProgressHUD.h>
+#import <CWStatusBarNotification.h>
 
 @interface LEOInviteViewController ()
 
 @property (weak, nonatomic) IBOutlet LEOInviteView *inviteView;
 @property (weak, nonatomic) IBOutlet UIButton *sendInvitationsButton;
+@property (strong, nonatomic) CWStatusBarNotification *statusBarNotification;
 
 @end
 
@@ -39,6 +41,16 @@
     UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(viewTapped)];
     tapGestureForTextFieldDismissal.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:tapGestureForTextFieldDismissal];
+}
+
+- (CWStatusBarNotification *)statusBarNotification {
+
+    if (!_statusBarNotification) {
+
+        _statusBarNotification = [CWStatusBarNotification new];
+    }
+
+    return _statusBarNotification;
 }
 
 - (void)viewTapped {
@@ -85,7 +97,10 @@
 
             if (success) {
 
-                //TODO: add message to status bar to let user know that invite was sent successfully.
+
+                [self.statusBarNotification displayNotificationWithMessage:@"Additional parent successfully invited!"
+                                                               forDuration:1.0f];
+
                 [self.navigationController popViewControllerAnimated:YES];
             }
         }];
