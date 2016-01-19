@@ -179,7 +179,10 @@
             
         case FeatureAppointmentScheduling:
             return [UIColor leo_green];
-            
+
+        case FeatureMessaging:
+            return [UIColor leo_blue];
+
         case FeatureUndefined:
             return [UIColor blackColor];
     }
@@ -195,6 +198,9 @@
             return [UIColor leo_white];
 
         case FeatureAppointmentScheduling:
+            return [UIColor leo_white];
+
+        case FeatureMessaging:
             return [UIColor leo_white];
 
         case FeatureUndefined:
@@ -214,7 +220,10 @@
         
         case FeatureAppointmentScheduling:
             return [UIColor leo_green];
-            
+
+        case FeatureMessaging:
+            return [UIColor leo_blue];
+
         case FeatureUndefined:
             return [UIColor blackColor];
     }
@@ -230,6 +239,9 @@
             return [UIColor leo_white];
             
         case FeatureAppointmentScheduling:
+            return [UIColor leo_white];
+
+        case FeatureMessaging:
             return [UIColor leo_white];
             
         case FeatureUndefined:

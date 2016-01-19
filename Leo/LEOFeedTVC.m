@@ -510,7 +510,6 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
     conversationNavController.transitioningDelegate = self.transitionDelegate;
     conversationNavController.modalPresentationStyle = UIModalPresentationCustom;
     [self presentViewController:conversationNavController animated:YES completion:^{
-
     }];
 }
 

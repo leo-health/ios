@@ -64,6 +64,7 @@
 @property (nonatomic) NSInteger nextPage;
 
 @property (strong, nonatomic) UIActivityIndicatorView *sendingIndicator;
+@property (strong, nonatomic) LEOImageCropViewControllerDataSource *cropDataSource;
 
 @end
 
@@ -333,7 +334,7 @@
 
     if (!_sendingIndicator) {
 
-        _sendingIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        _sendingIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
 
         [self.view addSubview:_sendingIndicator];
 
@@ -376,6 +377,7 @@
         pickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
         pickerController.delegate = weakself;
 
+        [pickerController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor leo_white], NSFontAttributeName: [UIFont leo_menuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont]}];
         pickerController.transitioningDelegate = self.transitioningDelegate;
         pickerController.modalPresentationStyle = UIModalPresentationCustom;
 
@@ -387,7 +389,13 @@
         UIImagePickerController *pickerController = [UIImagePickerController new];
         pickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
         pickerController.delegate = weakself;
+        [pickerController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor leo_white], NSFontAttributeName: [UIFont leo_menuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont]}];
 
+        [[UIBarButtonItem appearanceWhenContainedIn:[UIImagePickerController class], nil] setTitleTextAttributes:@{ NSForegroundColorAttributeName:[UIColor leo_white], NSFontAttributeName : [UIFont leo_buttonLabelsAndTimeStampsFont] } forState:UIControlStateNormal];
+
+        [[UIBarButtonItem appearanceWhenContainedIn:[UIImagePickerController class], nil] setBackButtonBackgroundImage:nil forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+
+        [pickerController.navigationBar setBackgroundImage:[UIImage leo_imageWithColor:self.card.tintColor] forBarMetrics:UIBarMetricsDefault];
         pickerController.transitioningDelegate = self.transitioningDelegate;
         pickerController.modalPresentationStyle = UIModalPresentationCustom;
 
@@ -403,6 +411,29 @@
     [self presentViewController:mediaController animated:YES completion:nil];
 }
 
+
+#pragma mark - <UINavigationControllerDelegate>
+
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
+
+    UINavigationItem *imagePickerControllerNavigationItem;
+
+    // add done button to right side of nav bar
+
+    if ([self.navigationController.viewControllers count] > 1) {
+
+        if (self.navigationController.viewControllers[1] != viewController) {
+            UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Icon-BackArrow"] style:UIBarButtonItemStylePlain target:viewController action:@selector(popViewControllerAnimated:)];
+
+            UINavigationBar *bar = navigationController.navigationBar;
+            //    [bar setHidden:NO];
+            imagePickerControllerNavigationItem = bar.topItem;
+            //    ipcNavBarTopItem.title = @"Photos";
+            imagePickerControllerNavigationItem.leftBarButtonItem = backButton;
+        }
+    }
+}
+
 #pragma mark - <UIImagePickerViewControllerDelegate>
 
 //TO finish picking media, get the original image and build a crop view controller with it, simultaneously dismissing the image picker.
@@ -410,12 +441,17 @@
 
     UIImage *originalImage = info[UIImagePickerControllerOriginalImage];
 
-    LEOImageCropViewController *imageCropVC = [[LEOImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeSquare];
+    LEOImageCropViewController *imageCropVC = [[LEOImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeCustom];
 
-    //    LEOImageCropViewControllerDataSource *datasource = [LEOImageCropViewControllerDataSource new];
+    self.cropDataSource = [LEOImageCropViewControllerDataSource new];
 
-    //    imageCropVC.dataSource = datasource
+    imageCropVC.moveAndScaleLabel.text = @"Confirm you would like to share this photo";
+    imageCropVC.feature = FeatureMessaging;
+    
+    [imageCropVC.chooseButton setTitle:@"Send" forState:UIControlStateNormal];
+    imageCropVC.dataSource = self.cropDataSource;
     imageCropVC.delegate = self;
+    imageCropVC.zoomable = NO;
     imageCropVC.transitioningDelegate = self.transitioningDelegate;
 
     [picker dismissViewControllerAnimated:NO completion:nil];
@@ -510,7 +546,7 @@
 }
 
 -(NSMutableDictionary *)avatarDictionary {
-    
+
     if (!_avatarDictionary) {
         _avatarDictionary = [[NSMutableDictionary alloc] init];
     }
@@ -527,7 +563,7 @@
     }
 
     UIImage *placeholderImage = [LEOMessagesAvatarImageFactory circularAvatarImage:[UIImage imageNamed:@"Icon-AvatarBorderless"] withDiameter:20.0 borderColor:[UIColor leo_grayForPlaceholdersAndLines] borderWidth:2];
-    
+
     combinedImages = [JSQMessagesAvatarImage avatarImageWithPlaceholder:placeholderImage];
 
     combinedImages.avatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:user.avatar withDiameter:kJSQMessagesCollectionViewAvatarSizeDefault borderColor:[UIColor leo_grayForPlaceholdersAndLines] borderWidth:2];
@@ -926,7 +962,7 @@
  */
 - (void)dismiss {
     [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
-
+        
     }];
 }
 

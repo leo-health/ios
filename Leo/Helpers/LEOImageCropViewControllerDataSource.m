@@ -30,7 +30,7 @@
                                  maskSize.width,
                                  maskSize.height);
 
-    return maskRect;
+    return [UIScreen mainScreen].bounds;
 }
 
 // Returns a custom path for the mask.
