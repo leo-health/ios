@@ -20,6 +20,7 @@
 #import "UIViewController+XibAdditions.h"
 #import "UIView+Extensions.h"
 #import "LEOEnrollmentView.h"
+
 @interface LEOEnrollmentViewController ()
 
 @property (strong, nonatomic) LEOEnrollmentView *enrollmentView;
@@ -123,18 +124,18 @@
 #pragma mark - Navigation & Helper Methods
 
 - (void)continueTapped:(UIButton *)sender {
-    
+
     [MBProgressHUD showHUDAddedTo:self.view animated:YES]; //TODO: Create separate class to set these up for all use cases with two methods that support showing and hiding our customized HUD.
 
     self.enrollmentView.continueButton.userInteractionEnabled = NO;
-    
+
     if ([self validatePage]) {
-        
+
         [self addOnboardingData];
-    
+
         LEOUserService *userService = [[LEOUserService alloc] init];
         [userService enrollUser:self.guardian password:self.enrollmentView.passwordPromptField.textField.text withCompletion:^(BOOL success, NSError *error) {
-            
+
             if (!error) {
                 [self performSegueWithIdentifier:kSegueContinue sender:sender];
             } else {
@@ -152,11 +153,11 @@
 }
 
 - (void)postErrorAlert {
-    
+
     UIAlertController *errorAlert = [UIAlertController alertControllerWithTitle:@"Minor hiccup!" message:@"Looks like something went wrong. Perhaps you entered an email address that is already taken?" preferredStyle:UIAlertControllerStyleAlert];
-    
+
     UIAlertAction *action = [UIAlertAction actionWithTitle:@"I'll try again." style:UIAlertActionStyleCancel handler:nil];
-    
+
     [errorAlert addAction:action];
 
     [self presentViewController:errorAlert animated:YES completion:nil];
@@ -170,20 +171,20 @@
 }
 
 - (BOOL)validatePage {
-    
+
     BOOL validEmail = [LEOValidationsHelper isValidEmail:self.enrollmentView.emailPromptField.textField.text];
     BOOL validPassword = [LEOValidationsHelper isValidPassword:self.enrollmentView.passwordPromptField.textField.text];
-    
+
     self.enrollmentView.emailPromptField.valid = validEmail;
     self.enrollmentView.passwordPromptField.valid = validPassword;
-    
+
     return validEmail && validPassword;
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    
+
     if ([segue.identifier isEqualToString:kSegueContinue]) {
-        
+
         LEOSignUpUserViewController *signUpUserVC = segue.destinationViewController;
         signUpUserVC.guardian = self.guardian;
         signUpUserVC.managementMode = ManagementModeCreate;
