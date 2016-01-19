@@ -20,7 +20,8 @@ pod 'MBProgressHUD' #MIT
 pod 'TPKeyboardAvoiding' #Zlib
 pod 'ActionSheetPicker-3.0', '~> 2.0.1' #BSD
 pod 'RSKImageCropper' #MIT
-pod 'GNZSlidingSegment', :git => 'https://github.com/chrisgonzgonz/GNZSlidingSegment.git' #MIT
+pod 'GNZSlidingSegment', :git => 'https://github.com/chrisgonzgonz/GNZSlidingSegment.git'  #MIT
+pod 'CWStatusBarNotification', '~> 2.3.4' #MIT
 
 #Should review dependencies of these pods to ensure that all pods are compliant with their own licenses. e.g. Facebook Pop, etc.
 
