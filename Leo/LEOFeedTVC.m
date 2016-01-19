@@ -98,6 +98,7 @@ static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButto
 static NSString *const kNotificationCardUpdated = @"Card-Updated";
 static NSString *const kNotificationConversationAddedMessage = @"Conversation-AddedMessage";
 
+static CGFloat const kFeedInsetTop = 30.0;
 
 #pragma mark - View Controller Lifecycle and VCL Helper Methods
 - (void)viewDidLoad {
@@ -278,7 +279,7 @@ static NSString *const kNotificationConversationAddedMessage = @"Conversation-Ad
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 
     UIEdgeInsets insets = self.tableView.contentInset;
-    insets.top += 24;
+    insets.top += kFeedInsetTop;
     self.tableView.contentInset = insets;
 
     [self.tableView registerNib:[LEOTwoButtonPrimaryOnlyCell nib]
