@@ -467,28 +467,5 @@ typedef NS_ENUM(NSUInteger, TableViewSection) {
     return (LEOBasicHeaderCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
 }
 
-#pragma mark - Test Data
-
-- (void)testData {
-    
-    Patient *patient = [[Patient alloc] initWithTitle:nil firstName:@"Zachary" middleInitial:@"S" lastName:@"Drossman" suffix:nil email:nil avatar:[UIImage imageNamed:@"Avatar-Emily"] dob:[NSDate date] gender:@"M" status:[@(PatientStatusInactive) stringValue]];
-    
-    Patient *patient2 = [[Patient alloc] initWithTitle:nil firstName:@"Zachary" middleInitial:@"S" lastName:@"Drossman" suffix:nil email:nil avatar:[UIImage imageNamed:@"Avatar-Emily"] dob:[NSDate date] gender:@"M" status:[@(PatientStatusInactive) stringValue]];
-    
-    Patient *patient3 = [[Patient alloc] initWithTitle:nil firstName:@"Zachary" middleInitial:@"S" lastName:@"Drossman" suffix:nil email:nil avatar:[UIImage imageNamed:@"Avatar-Emily"] dob:[NSDate date] gender:@"M" status:[@(PatientStatusInactive) stringValue]];
-    
-    Patient *patient4 = [[Patient alloc] initWithTitle:nil firstName:@"Zachary" middleInitial:@"S" lastName:@"Drossman" suffix:nil email:nil avatar:[UIImage imageNamed:@"Avatar-Emily"] dob:[NSDate date] gender:@"M" status:[@(PatientStatusInactive) stringValue]];
-    
-    Patient *patient5 = [[Patient alloc] initWithTitle:nil firstName:@"Zachary" middleInitial:@"S" lastName:@"Drossman" suffix:nil email:nil avatar:[UIImage imageNamed:@"Avatar-Emily"] dob:[NSDate date] gender:@"M" status:[@(PatientStatusInactive) stringValue]];
-    
-    //    Patient *patient6 = [[Patient alloc] initWithTitle:nil firstName:@"Zachary" middleInitial:@"S" lastName:@"Drossman" suffix:nil email:nil avatar:[UIImage imageNamed:@"Avatar-Emily"] dob:[NSDate date] gender:@"M" status:[@(PatientStatusInactive) stringValue]];
-    //
-    //    Patient *patient7 = [[Patient alloc] initWithTitle:nil firstName:@"Zachary" middleInitial:@"S" lastName:@"Drossman" suffix:nil email:nil avatar:[UIImage imageNamed:@"Avatar-Emily"] dob:[NSDate date] gender:@"M" status:[@(PatientStatusInactive) stringValue]];
-    //
-    //    Patient *patient8 = [[Patient alloc] initWithTitle:nil firstName:@"Zachary" middleInitial:@"S" lastName:@"Drossman" suffix:nil email:nil avatar:[UIImage imageNamed:@"Avatar-Emily"] dob:[NSDate date] gender:@"M" status:[@(PatientStatusInactive) stringValue]];
-    
-    self.family.patients = @[patient, patient2, patient3, patient4, patient5]; //, patient6, patient7, patient8];
-}
-
 
 @end

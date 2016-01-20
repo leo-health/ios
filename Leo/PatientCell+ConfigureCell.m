@@ -26,10 +26,10 @@
 
     if (!self.selected) {
 
-        avatar = [LEOMessagesAvatarImageFactory circularAvatarImage:patient.avatar withDiameter:40 borderColor:[UIColor leo_grayForPlaceholdersAndLines] borderWidth:3];
+        avatar = [LEOMessagesAvatarImageFactory circularAvatarImage:patient.avatar.image withDiameter:40 borderColor:[UIColor leo_grayForPlaceholdersAndLines] borderWidth:3];
     } else {
 
-        avatar = [LEOMessagesAvatarImageFactory circularAvatarImage:patient.avatar withDiameter:40 borderColor:[UIColor leo_green] borderWidth:3];
+        avatar = [LEOMessagesAvatarImageFactory circularAvatarImage:patient.avatar.image withDiameter:40 borderColor:[UIColor leo_green] borderWidth:3];
     }
 
     self.avatarImageView.image = avatar;

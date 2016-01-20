@@ -93,7 +93,7 @@ NSString *const APIParamUserMiddleInitial = @"middle_initial";
 NSString *const APIParamUserLastName = @"last_name";
 NSString *const APIParamUserSuffix = @"suffix";
 NSString *const APIParamUserEmail = @"email";
-NSString *const APIParamUserAvatarURL = @"avatar_url";
+NSString *const APIParamUserAvatar = @"avatar";
 
 NSString *const APIParamUserProviderID = @"provider_id";
 NSString *const APIParamUserPatientID = @"patient_id";
@@ -169,6 +169,10 @@ NSString *const APIParamFormSubmittedDateTime = @"submitted_datetime";
 NSString *const APIParamFormSubmittedBy = @"submitted_by";
 NSString *const APIParamFormTitle = @"title";
 NSString *const APIParamFormNotes = @"notes";
+
+#pragma mark - Images
+NSString *const APIParamImageBaseURL = @"base_url";
+NSString *const APIParamImageURLParameters = @"parameters";
 
 #pragma mark - Card
 NSString *const APIParamCardCount = @"count";
@@ -293,5 +297,7 @@ NSString *const kURLTermsAndConditions = @"https://gist.githubusercontent.com/na
 NSString *const kURLPrivacyPolicy = @"https://gist.githubusercontent.com/nayan-leo/bfcbb3857eca22682d0f/raw/3a5d4aa385995653330e9f68ecdf6ce27a8d06f0/leo-terms-draft.txt";
 
 #pragma mark - Notifications
-NSString *const kNotificationAvatarUpdate = @"Avatar-Updated";
+NSString *const kNotificationDownloadedImageUpdated = @"DownloadedImage-Updated";
+NSString *const kNotificationImageChanged = @"Image-Changed";
+
 @end

@@ -32,7 +32,6 @@
 
     [super viewDidLoad];
     [self setupTableView];
-    
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -119,7 +118,7 @@
             }
         };
         
-        self.dataSource = [[ArrayDataSource alloc] initWithItems:self.data cellIdentifier:self.reuseIdentifier configureCellBlock:self.configureCellBlock selectionCriteriaBlock: selectionCriteriaBlock];
+        self.dataSource = [[ArrayDataSource alloc] initWithItems:self.data cellIdentifier:self.reuseIdentifier configureCellBlock:self.configureCellBlock selectionCriteriaBlock: selectionCriteriaBlock notificationBlock:self.notificationBlock];
         
         self.tableView.dataSource = self.dataSource;
         self.tableView.delegate = self;

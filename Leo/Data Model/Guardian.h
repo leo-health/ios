@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "User.h"
 #import "InsurancePlan.h"
+#import "LEOS3Image.h"
 
 @interface Guardian : User <NSCopying>
 NS_ASSUME_NONNULL_BEGIN
@@ -21,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) MembershipType membershipType;
 @property (nonatomic) BOOL valid;
 
-- (instancetype)initWithObjectID:(nullable NSString *)objectID familyID:(nullable NSString *)familyID title:(nullable NSString *)title firstName:(nullable NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(nullable NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email avatarURL:(nullable NSString *)avatarURL avatar:(nullable UIImage *)avatar phoneNumber:(nullable NSString *)phoneNumber insurancePlan:(nullable InsurancePlan *)insurancePlan primary:(BOOL)primary membershipType:(MembershipType)membershipType;
+- (instancetype)initWithObjectID:(nullable NSString *)objectID familyID:(nullable NSString *)familyID title:(nullable NSString *)title firstName:(nullable NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(nullable NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email avatar:(nullable LEOS3Image *)avatar phoneNumber:(nullable NSString *)phoneNumber insurancePlan:(nullable InsurancePlan *)insurancePlan primary:(BOOL)primary membershipType:(MembershipType)membershipType;
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse;
 - (instancetype)initFromUserDefaults;

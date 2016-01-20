@@ -304,6 +304,13 @@ static NSString *const kKeySelectionVCDate = @"date";
             return shouldSelect;
         };
 
+        selectionVC.notificationBlock = ^(NSIndexPath *indexPath, Patient *patient, UITableView *tableView) {
+
+            [[NSNotificationCenter defaultCenter] addObserverForName:kNotificationDownloadedImageUpdated object:patient.avatar queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull notification) {
+                [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            }];
+        };
+        
         selectionVC.requestOperation = [[LEOAPIFamilyOperation alloc] init];
         selectionVC.delegate = self;
 

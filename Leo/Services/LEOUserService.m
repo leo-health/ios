@@ -198,31 +198,26 @@
     }];
 }
 
-- (void)getAvatarForUser:(User *)user withCompletion:(void (^)(UIImage *rawImage, NSError *error))completionBlock {
-    
-    if (user.avatarURL) {
-        
-        [[LEOUserService leoMediaSessionManager] unauthenticatedGETRequestForImageFromS3WithURL:user.avatarURL params:nil completion:^(UIImage *rawImage, NSError *error) {
-            completionBlock ? completionBlock(rawImage, error) : nil;
-        }];
-        
-    } else {
-        completionBlock ? completionBlock(nil, nil) : nil;
-    }
-}
-
 - (void)postAvatarForUser:(User *)user withCompletion:(void (^)(BOOL success, NSError *error))completionBlock {
+
+    UIImage *avatarImage = user.avatar.image;
+    UIImage *placeholderImage = user.avatar.placeholder;
+
+    NSString *avatarData = [UIImagePNGRepresentation(avatarImage) base64EncodedStringWithOptions:0];
     
-    NSString *avatarData = [UIImagePNGRepresentation(user.avatar) base64EncodedStringWithOptions:0];
-    
-    NSDictionary *avatarParams = @{@"avatar":avatarData, @"patient_id":@([user.objectID integerValue]) };
+    NSDictionary *avatarParams = @{@"avatar":avatarData, @"patient_id":@([user.objectID integerValue])};
     
     [[LEOUserService leoSessionManager] standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointAvatars params:avatarParams completion:^(NSDictionary *rawResults, NSError *error) {
-        
-        //The extra "avatar" is not a "mistake" here; that is how it is provided by the backend. Should be updated eventually.
-        user.avatarURL = rawResults[APIParamData][@"avatar"][@"avatar"][@"url"];
-        
-        completionBlock ? completionBlock (nil, error) : nil;
+
+        //TODO: The extra "avatar" is not a "mistake" here; that is how it is provided by the backend. Should be updated eventually.
+        NSDictionary *rawAvatarUrlData = rawResults[APIParamData][@"avatar"][@"url"];
+        user.avatar = [[LEOS3Image alloc] initWithJSONDictionary:rawAvatarUrlData];
+        user.avatar.image = avatarImage;
+        user.avatar.placeholder = placeholderImage;
+
+        BOOL success = error ? YES : NO;
+
+        completionBlock ? completionBlock (success, error) : nil;
     }];
 }
 
@@ -244,7 +239,4 @@
     return [LEOAPISessionManager sharedClient];
 }
 
-+ (LEOS3SessionManager *)leoMediaSessionManager {
-    return [LEOS3SessionManager sharedClient];
-}
 @end

@@ -14,6 +14,7 @@
 @property (nonatomic, copy) NSString *cellIdentifier;
 @property (nonatomic, copy) TableViewCellConfigureBlock configureCellBlock;
 @property (nonatomic, copy) SelectionCriteriaBlock selectionCriteriaBlock;
+@property (nonatomic, copy) TableViewNotificationBlock notificationBlock;
 
 @end
 
@@ -31,15 +32,17 @@
 - (id)initWithItems:(NSArray *)items
      cellIdentifier:(NSString *)cellIdentifier
  configureCellBlock:(TableViewCellConfigureBlock)configureCellBlock
-selectionCriteriaBlock:(SelectionCriteriaBlock)selectionCriteriaBlock {
+selectionCriteriaBlock:(SelectionCriteriaBlock)selectionCriteriaBlock
+  notificationBlock:(TableViewNotificationBlock)notificationBlock {
 
     self = [super init];
     
     if (self) {
-        self.items = items;
-        self.cellIdentifier = cellIdentifier;
-        self.configureCellBlock = [configureCellBlock copy];
-        self.selectionCriteriaBlock = [selectionCriteriaBlock copy];
+        _items = items;
+        _cellIdentifier = cellIdentifier;
+        _configureCellBlock = [configureCellBlock copy];
+        _selectionCriteriaBlock = [selectionCriteriaBlock copy];
+        _notificationBlock = [notificationBlock copy];
     }
     
     return self;
@@ -66,8 +69,12 @@ selectionCriteriaBlock:(SelectionCriteriaBlock)selectionCriteriaBlock {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:self.cellIdentifier
                                                             forIndexPath:indexPath];
 
+    if (self.notificationBlock) {
+        self.notificationBlock(indexPath, item, tableView);
+    }
+
     BOOL selected = self.configureCellBlock(cell, item);
-    
+
     if (self.selectionCriteriaBlock) {
         self.selectionCriteriaBlock(selected, indexPath);
     }

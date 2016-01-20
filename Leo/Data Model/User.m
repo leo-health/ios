@@ -9,7 +9,8 @@
 #import "User.h"
 #import "Appointment.h"
 #import "NSDictionary+Additions.h"
-#import "LEOUserService.h"
+#import "LEOS3Image.h"
+#import "LEOValidationsHelper.h"
 
 @implementation User
 
@@ -23,7 +24,7 @@
 //    return nil;
 //}
 
-- (instancetype)initWithObjectID:(nullable NSString*)objectID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email avatarURL:(NSString *)avatarURL avatar:(nullable UIImage *)avatar {
+- (instancetype)initWithObjectID:(nullable NSString*)objectID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email avatar:(nullable LEOS3Image *)avatar {
     
     self = [super init];
     
@@ -35,7 +36,6 @@
         _lastName = lastName;
         _suffix = suffix;
         _email = email;
-        _avatarURL = avatarURL;
         _avatar = avatar;
     }
     
@@ -60,11 +60,14 @@
     
     NSString *email = [jsonResponse leo_itemForKey:APIParamUserEmail];
     
-    NSDictionary *avatarDictionary = [jsonResponse leo_itemForKey:@"avatar"];
-    NSString *avatarURL = [avatarDictionary leo_itemForKey:@"url"];
+    LEOS3Image *avatar = [[LEOS3Image alloc] initWithJSONDictionary:[jsonResponse leo_itemForKey:@"avatar"]];
+    avatar.placeholder = [UIImage imageNamed:@"Icon-AvatarBorderless"];
     
-    return [self initWithObjectID:objectID title:title firstName:firstName middleInitial:middleInitial lastName:lastName suffix:suffix email:email avatarURL:avatarURL avatar:nil];
+    return [self initWithObjectID:objectID title:title firstName:firstName middleInitial:middleInitial lastName:lastName suffix:suffix email:email avatar:avatar];
 }
+
+
+//TODO: All of the rest of this class needs to be updated for the new avatar model.
 
 + (NSDictionary *)plistFromUser:(User *)user {
     
@@ -97,15 +100,6 @@
     return userDictionary;
 }
 
-+ (NSDictionary *)dictionaryFromUserWithPhoto:(User *)user {
-    
-    NSMutableDictionary *userDictionary = [[User dictionaryFromUser:user] mutableCopy];
-    
-    userDictionary[APIParamUserAvatarURL] = user.avatarURL;
-    
-    return userDictionary;
-}
-
 - (NSString *)initials {
 
     NSString *_initials;
@@ -116,6 +110,16 @@
     _initials = [NSString stringWithFormat:@"%@%@", firstInitial, lastInitial];
     
     return _initials;
+}
+
+- (LEOS3Image *)avatar {
+
+    if (!_avatar) {
+
+        _avatar = [LEOS3Image new];
+    }
+
+    return _avatar;
 }
 
 - (NSString *)fullName {
@@ -135,27 +139,6 @@
     return [[nameComponents componentsJoinedByString:@" "] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 }
 
-- (UIImage *)avatar {
-
-    if (!_avatar) {
-
-        _avatar = [UIImage imageNamed:@"Icon-AvatarBorderless"];
-
-        LEOUserService *userService = [LEOUserService new];
-
-        [userService getAvatarForUser:self withCompletion:^(UIImage * rawImage, NSError * error) {
-
-            if (!error && rawImage) {
-                _avatar = rawImage;
-                [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationAvatarUpdate object:self];
-            } else {
-                //TODO: ZSD deal with an error?
-            }
-        }];
-    }
-
-    return _avatar;
-}
 
 //TODO: Refactor
 - (NSString *)firstAndLastName {
@@ -175,5 +158,6 @@
     
     return [NSString stringWithFormat:@"<%@: %p>",[self class],self];
 }
+
 
 @end

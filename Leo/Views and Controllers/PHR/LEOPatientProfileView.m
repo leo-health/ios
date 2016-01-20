@@ -33,7 +33,15 @@ static CGFloat const kSpacerProfileBottom = 4.0;
     self = [super init];
     if (self) {
         _patient = patient;
+
+        [[NSNotificationCenter defaultCenter] addObserverForName:kNotificationDownloadedImageUpdated object:self.patient.avatar queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull notification) {
+
+            UIImage *circularAvatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:self.patient.avatar.image withDiameter:67 borderColor:[UIColor leo_white] borderWidth:1.0];
+
+            _patientAvatarImageView.image = circularAvatarImage;
+        }];
     }
+
     return self;
 }
 
@@ -59,7 +67,7 @@ static CGFloat const kSpacerProfileBottom = 4.0;
 
     if (!_patientAvatarImageView) {
 
-        UIImage *profileImage = [LEOMessagesAvatarImageFactory circularAvatarImage:self.patient.avatar withDiameter:kAvatarProfileDiameter borderColor:[UIColor leo_white] borderWidth:kAvatarProfileBorderWidth];
+        UIImage *profileImage = [LEOMessagesAvatarImageFactory circularAvatarImage:self.patient.avatar.image withDiameter:kAvatarProfileDiameter borderColor:[UIColor leo_white] borderWidth:kAvatarProfileBorderWidth];
 
         UIImageView *strongImageView = [[UIImageView alloc] initWithImage:profileImage];
 
@@ -75,7 +83,7 @@ static CGFloat const kSpacerProfileBottom = 4.0;
     if (!self.alreadyUpdatedConstraints) {
 
         [self removeConstraints:self.constraints];
-        
+
         self.translatesAutoresizingMaskIntoConstraints = NO;
         self.patientNameLabel.translatesAutoresizingMaskIntoConstraints = NO;
         self.patientAvatarImageView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -91,7 +99,7 @@ static CGFloat const kSpacerProfileBottom = 4.0;
         [self addConstraints:verticalConstraintsForProfile];
         [self addConstraint:centerConstraintForPatientNameLabel];
         [self addConstraint:centerConstraintForPatientAvatarImageView];
-        
+
         self.alreadyUpdatedConstraints = YES;
     }
 
@@ -103,7 +111,16 @@ static CGFloat const kSpacerProfileBottom = 4.0;
     _patient = patient;
 
     self.patientNameLabel.text = _patient.fullName;
-    self.patientAvatarImageView.image = [LEOMessagesAvatarImageFactory circularAvatarImage:_patient.avatar withDiameter:kAvatarProfileDiameter borderColor:[UIColor leo_white] borderWidth:kAvatarProfileBorderWidth];
+
+    self.patientAvatarImageView.image = [LEOMessagesAvatarImageFactory circularAvatarImage:_patient.avatar.image withDiameter:kAvatarProfileDiameter borderColor:[UIColor leo_white] borderWidth:kAvatarProfileBorderWidth];
+
+    [[NSNotificationCenter defaultCenter] addObserverForName:kNotificationDownloadedImageUpdated object:_patient.avatar queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull notification) {
+
+        UIImage *circularAvatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:self.patient.avatar.image withDiameter:67 borderColor:[UIColor leo_white] borderWidth:1.0];
+
+        _patientAvatarImageView.image = circularAvatarImage;
+    }];
+
 }
 
 @end
