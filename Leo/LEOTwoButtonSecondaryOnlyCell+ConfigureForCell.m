@@ -36,10 +36,28 @@
     [self.buttonTwo addTarget:card.associatedCardObject action:NSSelectorFromString([card actionsAvailableForState][1]) forControlEvents:UIControlEventTouchUpInside];
     
     [self formatSubviewsWithTintColor:card.tintColor];
+
     [self setCopyFontAndColor];
+
+    // FixME: is there a better place for this?
+    // should separate into both, read, unread methods
+
+    self.bodyView.backgroundColor = [UIColor leo_white];
+
+    if (self.unreadState) {
+
+        [self configureForUnreadCard:card];
+    }
     
     //FIXME: Should I have access to this method outside of secondaryUserViews
     [self.secondaryUserView refreshSubviews];
+}
+
+- (void)configureForUnreadCard:(id<LEOCardProtocol>)card {
+
+    // TODO: define unread state configuration here
+
+    self.bodyView.backgroundColor = [UIColor blackColor];
 }
 
 - (void)formatSubviewsWithTintColor:(UIColor *)tintColor {

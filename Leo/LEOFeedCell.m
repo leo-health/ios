@@ -36,4 +36,36 @@
     // Configure the view for the selected state
 }
 
+// ????: not sure if this is the right pattern
+- (void)configureForCard:(id<LEOCardProtocol>)card {
+    // !!!!: Implemented in subclass
+}
+
+- (void)configureForUnreadCard:(id<LEOCardProtocol>)card {
+    // !!!!: Implemented in subclass
+}
+
+
+- (void)configureForCard:(id<LEOCardProtocol>)card forUnreadState:(BOOL)unreadState animated:(BOOL)animated {
+
+    void (^animations)() = ^{
+
+        [self configureForUnreadCard:card];
+    };
+
+    if (animated) {
+
+        // reset the state so the animation happens from the beginning
+        self.unreadState = !unreadState;
+        [self configureForCard:card];
+        [UIView animateWithDuration:5 animations:animations];
+    }
+
+    else {
+        
+        animations();
+    }
+}
+
+
 @end

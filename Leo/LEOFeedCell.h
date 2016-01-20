@@ -20,5 +20,14 @@
 @interface LEOFeedCell : UITableViewCell
 
 @property (weak, nonatomic) id<FeedCellProtocol>delegate;
+@property (nonatomic) BOOL unreadState;
+
+
+- (void)configureForCard:(id<LEOCardProtocol>)card forUnreadState:(BOOL)unreadState animated:(BOOL)animated;
+
+// ????: this must be implemented by subclass categories. What is the right architecture here to avoid duplication?
+// protocol?
+- (void)configureForCard:(id<LEOCardProtocol>)card;
+- (void)configureForUnreadCard:(id<LEOCardProtocol>)card;
 
 @end

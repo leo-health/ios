@@ -20,6 +20,8 @@
 
 @interface AppDelegate ()
 
+@property (readonly) LEOFeedTVC *feedTVC;
+
 @end
 
 @implementation AppDelegate
@@ -31,7 +33,7 @@
 #if STUBS_FLAG
     [LEOStubs setupStubs];
 #endif
-    
+
     [self setupRemoteNotificationsForApplication:application];
     [self setupObservers];
     
@@ -138,7 +140,7 @@
 }
 
 - (void)setupRemoteNotificationsForApplication:(UIApplication *)application {
-    
+
     UIUserNotificationType types = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
     UIUserNotificationSettings *mySettings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
     [application registerUserNotificationSettings:mySettings];
@@ -233,12 +235,15 @@
         if ([SessionUser isLoggedIn]) {
             
             if ([url.host isEqualToString: @"feed"]) {
-                
-                UIStoryboard *storyboard = [UIStoryboard storyboardWithName:kStoryboardFeed bundle:nil];
-                UINavigationController *navController = [storyboard instantiateInitialViewController];
-                LEOFeedTVC *feedTVC = navController.viewControllers[0];
-                feedTVC.cardInFocus = [url.path integerValue];
-                self.window.rootViewController = navController;
+
+                NSArray *pathComponents = url.pathComponents;
+                NSInteger cardNumber = 0;
+                if (pathComponents.count > 1) {
+                    cardNumber = [pathComponents[1] integerValue];
+                }
+                self.feedTVC.cardInFocus = cardNumber;
+                [self.feedTVC fetchData];
+
             } else {
                 
                 NSLog(@"An unknown action was passed.");
@@ -247,7 +252,11 @@
     }
     
     else {
-        NSLog(@"Not opened by Leo Health.");
+
+        // the url scheme gives the target application, not the source
+//        NSLog(@"Not opened by Leo Health.");
+        NSLog(@"An unknown action was passed.");
+
     }
     
     return NO;
@@ -258,6 +267,18 @@
     if ([url.scheme isEqualToString: @"leohealth"]) {
         
         if ([SessionUser isLoggedIn]) {
+
+            if ([url.host isEqualToString: @"feed"]) {
+
+                // TODO: move this out into its own deep link handler method - possibly in a separate class
+                [self setRootViewControllerWithStoryboardName:kStoryboardFeed];
+                NSArray *pathComponents = url.pathComponents;
+                NSInteger cardNumber = 0;
+                if (pathComponents.count > 1) {
+                    cardNumber = [pathComponents[1] integerValue];
+                }
+                self.feedTVC.cardInFocus = cardNumber;
+            }
             
             if ([url.host isEqualToString: @"home"]) {
                 
@@ -279,6 +300,11 @@
     }
     
     return NO;
+}
+
+- (LEOFeedTVC *)feedTVC {
+    
+    return [[(UINavigationController *)self.window.rootViewController viewControllers] firstObject];
 }
 
 

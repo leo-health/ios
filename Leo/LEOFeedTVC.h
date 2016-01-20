@@ -20,5 +20,7 @@
 @property (strong, nonatomic) Family *family;
 @property (nonatomic) NSInteger cardInFocus;
 
+- (void)fetchData;
+
 
 @end
