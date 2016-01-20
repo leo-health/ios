@@ -61,7 +61,8 @@
     NSString *email = [jsonResponse leo_itemForKey:APIParamUserEmail];
     
     LEOS3Image *avatar = [[LEOS3Image alloc] initWithJSONDictionary:[jsonResponse leo_itemForKey:@"avatar"]];
-
+    avatar.placeholder = [UIImage imageNamed:@"Icon-AvatarBorderless"];
+    
     return [self initWithObjectID:objectID title:title firstName:firstName middleInitial:middleInitial lastName:lastName suffix:suffix email:email avatar:avatar];
 }
 
@@ -111,6 +112,16 @@
     return _initials;
 }
 
+- (LEOS3Image *)avatar {
+
+    if (!_avatar) {
+
+        _avatar = [LEOS3Image new];
+    }
+
+    return _avatar;
+}
+
 - (NSString *)fullName {
     
     NSArray *nameComponents;
@@ -128,24 +139,6 @@
     return [[nameComponents componentsJoinedByString:@" "] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 }
 
-- (LEOS3Image *)avatar {
-
-    if (![LEOValidationsHelper isValidAvatar:_avatar.image]) {
-
-        if (!_avatar) {
-            _avatar = [LEOS3Image new];
-        }
-        
-        _avatar.image = [UIImage imageNamed:@"Icon-AvatarBorderless"];
-
-        [_avatar getS3ImageDataForS3ImageWithCompletion:^{
-            [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationAvatarUpdate object:self];
-            [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationCellUpdate object:self];
-        }];
-    }
-
-    return _avatar;
-}
 
 //TODO: Refactor
 - (NSString *)firstAndLastName {
@@ -165,5 +158,6 @@
     
     return [NSString stringWithFormat:@"<%@: %p>",[self class],self];
 }
+
 
 @end

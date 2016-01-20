@@ -50,23 +50,31 @@
     [self setupBreaker];
 
     self.signUpPatientView.delegate = self;
+    self.signUpPatientView.patient = self.patient;
+
     [LEOApiReachability startMonitoringForController:self];
 
-    NSOperationQueue *avatarQueue = [NSOperationQueue new];
+    [[NSNotificationCenter defaultCenter] addObserverForName:kNotificationDownloadedImageUpdated object:self.patient.avatar queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull notification) {
 
-    [[NSNotificationCenter defaultCenter] addObserverForName:kNotificationAvatarUpdate object:self.patient queue:avatarQueue usingBlock:^(NSNotification * _Nonnull notification) {
+        UIImage *circularAvatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:self.patient.avatar.image withDiameter:67 borderColor:[UIColor leo_orangeRed] borderWidth:1.0];
 
-        dispatch_async(dispatch_get_main_queue(), ^{
+        self.originalPatient.avatar = [self.patient.avatar copy];
 
-            UIImage *circularAvatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:self.patient.avatar.image withDiameter:67 borderColor:[UIColor leo_orangeRed] borderWidth:1.0];
-
-            [self.signUpPatientView.avatarButton setImage:circularAvatarImage forState:UIControlStateNormal];
-        });
+        [self.signUpPatientView.avatarButton setImage:circularAvatarImage forState:UIControlStateNormal];
     }];
+
+    [[NSNotificationCenter defaultCenter] addObserverForName:kNotificationImageChanged object:self.patient.avatar queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull notification) {
+
+        UIImage *circularAvatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:self.patient.avatar.image withDiameter:67 borderColor:[UIColor leo_orangeRed] borderWidth:1.0];
+
+        [self.signUpPatientView.avatarButton setImage:circularAvatarImage forState:UIControlStateNormal];
+
+    }];
+
 }
 
 - (void)setFeature:(Feature)feature {
-
+    
     _feature = feature;
 
     [self setupTintColor];
@@ -167,12 +175,12 @@
 
 - (void)imageCropViewController:(RSKImageCropViewController *)controller didCropImage:(UIImage *)croppedImage usingCropRect:(CGRect)cropRect {
 
-    UIImage *circularAvatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:croppedImage withDiameter:67 borderColor:[UIColor leo_orangeRed] borderWidth:1.0];
+//    UIImage *circularAvatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:croppedImage withDiameter:67 borderColor:[UIColor leo_orangeRed] borderWidth:1.0];
 
 
     self.signUpPatientView.patient.avatar.image = croppedImage;
 
-    [self.signUpPatientView.avatarButton setImage:circularAvatarImage forState:UIControlStateNormal];
+//    [self.signUpPatientView.avatarButton setImage:circularAvatarImage forState:UIControlStateNormal];
 
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -199,10 +207,6 @@
 
 - (void)updatePatient {
 
-    if (!self.patient) {
-        self.patient = self.signUpPatientView.patient;
-    }
-
     self.patient.firstName = self.signUpPatientView.patient.firstName;
     self.patient.lastName = self.signUpPatientView.patient.lastName;
     self.patient.gender = self.signUpPatientView.patient.gender;
@@ -210,12 +214,21 @@
     self.patient.avatar = self.signUpPatientView.patient.avatar;
 }
 
--(void)setPatient:(Patient *)patient {
+-(Patient *)patient {
+
+    if (!_patient) {
+        _patient = [Patient new];
+    }
+
+    return _patient;
+}
+
+- (void)setPatient:(Patient *)patient {
 
     _patient = patient;
-    self.originalPatient = [patient copy];
-    self.signUpPatientView.patient = patient;
+    self.originalPatient = [_patient copy];
 }
+
 
 
 #pragma mark - Navigation
@@ -223,10 +236,11 @@
 //TODO: Refactor this method
 - (void)continueTouchedUpInside {
 
+    //TODO: Manage button enabled and progress hud
+
     LEOUserService *userService = [[LEOUserService alloc] init];
 
     [self.signUpPatientView validateFields];
-
 
     if ([self.signUpPatientView.patient isValid]) {
 
@@ -242,8 +256,18 @@
 
                             if (!error) {
 
+                                //TODO: Let user know that patient was created successfully or not IF in settings only
+
                                 self.patient.objectID = patient.objectID;
-                                [self finishLocalUpdate];
+                                
+                                [userService postAvatarForUser:self.patient withCompletion:^(BOOL success, NSError *error) {
+
+                                    if (!error) {
+
+                                        //TODO: Let user know that patient was created successfully or not IF in settings only
+                                        [self finishLocalUpdate];
+                                    }
+                                }];
                             }
                         }];
                         break;
@@ -251,19 +275,41 @@
 
                     case ManagementModeEdit: {
 
-                        [userService updatePatient:self.patient withCompletion:^(BOOL success, NSError *error) {
+                        if (![self.patient isEqual:self.originalPatient]) {
 
-                            if (!error) {
-                                [self.navigationController popViewControllerAnimated:YES];
-                            }
-                        }];
-                        break;
+                            [userService updatePatient:self.patient withCompletion:^(BOOL success, NSError *error) {
+
+                                //TODO: Let user know that patient was updated successfully or not IF in settings only
+
+                                if (success) {
+                                    [self.navigationController popViewControllerAnimated:YES];
+                                }
+
+                            }];
+                        }
+
+                        NSData *avatarImageData = UIImagePNGRepresentation(self.patient.avatar.image);
+                        NSData *originalAvatarImageData = UIImagePNGRepresentation(self.originalPatient.avatar.image);
+
+                        if (![avatarImageData isEqual:originalAvatarImageData]) {
+
+                            [userService postAvatarForUser:self.patient withCompletion:^(BOOL success, NSError *error) {
+
+                                //TODO: Let user know that patient was updated successfully or not IF in settings only
+
+                                if (success) {
+                                    [self.navigationController popViewControllerAnimated:YES];
+                                }
+                            }];
+                        }
                     }
 
+                        break;
+                        
                     case ManagementModeUndefined:
                         break;
                 }
-
+                
                 break;
             }
 
@@ -288,6 +334,7 @@
             }
 
             case FeatureUndefined:
+
             case FeatureAppointmentScheduling:
                 break;
         }
@@ -310,6 +357,9 @@
 }
 
 - (void)pop {
+
+    [self.patient copyFrom:self.originalPatient];
+    
     [self.navigationController popViewControllerAnimated:YES];
 }
 

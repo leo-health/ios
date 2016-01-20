@@ -297,7 +297,7 @@ NSString *const kURLTermsAndConditions = @"https://gist.githubusercontent.com/na
 NSString *const kURLPrivacyPolicy = @"https://gist.githubusercontent.com/nayan-leo/bfcbb3857eca22682d0f/raw/3a5d4aa385995653330e9f68ecdf6ce27a8d06f0/leo-terms-draft.txt";
 
 #pragma mark - Notifications
-NSString *const kNotificationAvatarUpdate = @"Avatar-Updated";
-NSString *const kNotificationCellUpdate = @"Cell-Updated";
+NSString *const kNotificationDownloadedImageUpdated = @"DownloadedImage-Updated";
+NSString *const kNotificationImageChanged = @"Image-Changed";
 
 @end

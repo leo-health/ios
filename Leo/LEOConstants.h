@@ -429,8 +429,8 @@ extern NSString *const kURLTermsAndConditions; // @"https://provider.leoforkids.
 extern NSString *const kURLPrivacyPolicy; // @"https://provider.leoforkids.com/#/terms";
 
 #pragma mark - Notifications
-extern NSString *const kNotificationAvatarUpdate; // @"Avatar-Updated";
-extern NSString *const kNotificationCellUpdate; // = @"Cell-Updated";
+extern NSString *const kNotificationDownloadedImageUpdated; // @"DownloadedImage-Updated";
+extern NSString *const kNotificationImageChanged; // @"Image-Changed";
 
 @end
 

@@ -121,18 +121,11 @@ IB_DESIGNABLE
     NSString *gender = ![self.genderPromptField.textField.text isEqualToString:@""] ? [self.genderPromptField.textField.text substringToIndex:1] : nil; //FIXME: This should not be done here. Bad practice.po
     NSDate *dob =  ![self.birthDatePromptField.textField.text isEqualToString:@""] ? [NSDate leo_dateFromShortDateString:self.birthDatePromptField.textField.text] : nil; //Refactor out of this method.
 
-    if (!_patient) {
-        _patient = [[Patient alloc] initWithFirstName:firstName lastName:lastName avatar:nil dob:dob gender:gender];
-
-        //TODO: Refactor. This cannot possibly be the right place for this.
-        [self.avatarButton setImage:[UIImage imageNamed:@"Icon-Camera-Avatars"] forState:UIControlStateNormal];
-    } else {
-
-        _patient.firstName = firstName;
-        _patient.lastName = lastName;
-        _patient.dob = dob;
-        _patient.gender = gender;
-    }
+    //TODO: Refactor. This cannot possibly be the right place for this.
+    _patient.firstName = firstName;
+    _patient.lastName = lastName;
+    _patient.dob = dob;
+    _patient.gender = gender;
 
     return _patient;
 }
@@ -146,14 +139,18 @@ IB_DESIGNABLE
     self.firstNamePromptField.textField.text = _patient.firstName;
     self.genderPromptField.textField.text = _patient.genderDisplayName;
 
-    UIImage *circularAvatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:_patient.avatar.image withDiameter:67 borderColor:[UIColor leo_orangeRed] borderWidth:1.0];
+    if (_patient.avatar.image) {
 
-    [self.avatarButton setImage:circularAvatarImage forState:UIControlStateNormal];
+        UIImage *circularAvatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:_patient.avatar.image withDiameter:67 borderColor:[UIColor leo_orangeRed] borderWidth:1.0];
+        [self.avatarButton setImage:circularAvatarImage forState:UIControlStateNormal];
+    }
 }
 
 - (void)setAvatarButton:(UIButton *)avatarButton {
 
     _avatarButton = avatarButton;
+
+    [self.avatarButton setBackgroundImage:[UIImage imageNamed:@"Icon-Camera-Avatars"] forState:UIControlStateNormal];
 
     [_avatarButton addTarget:self action:@selector(avatarButtonTouchedUpInside) forControlEvents:UIControlEventTouchUpInside];
 

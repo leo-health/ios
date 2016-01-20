@@ -14,6 +14,7 @@
 @property (nonatomic, copy) NSString *cellIdentifier;
 @property (nonatomic, copy) TableViewCellConfigureBlock configureCellBlock;
 @property (nonatomic, copy) SelectionCriteriaBlock selectionCriteriaBlock;
+@property (nonatomic, copy) TableViewNotificationBlock notificationBlock;
 
 @end
 
@@ -31,7 +32,8 @@
 - (id)initWithItems:(NSArray *)items
      cellIdentifier:(NSString *)cellIdentifier
  configureCellBlock:(TableViewCellConfigureBlock)configureCellBlock
-selectionCriteriaBlock:(SelectionCriteriaBlock)selectionCriteriaBlock {
+selectionCriteriaBlock:(SelectionCriteriaBlock)selectionCriteriaBlock
+  notificationBlock:(TableViewNotificationBlock)notificationBlock {
 
     self = [super init];
     
@@ -40,6 +42,7 @@ selectionCriteriaBlock:(SelectionCriteriaBlock)selectionCriteriaBlock {
         _cellIdentifier = cellIdentifier;
         _configureCellBlock = [configureCellBlock copy];
         _selectionCriteriaBlock = [selectionCriteriaBlock copy];
+        _notificationBlock = [notificationBlock copy];
     }
     
     return self;
@@ -66,18 +69,12 @@ selectionCriteriaBlock:(SelectionCriteriaBlock)selectionCriteriaBlock {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:self.cellIdentifier
                                                             forIndexPath:indexPath];
 
-    //TODO: Come back and review this as a pattern; obviously would be more effective if all cells were reloaded in one call (but this might be premature optimization.)
-    NSOperationQueue *reloadCellQueue = [NSOperationQueue new];
-
-    [[NSNotificationCenter defaultCenter] addObserverForName:kNotificationCellUpdate object:item queue:reloadCellQueue usingBlock:^(NSNotification * _Nonnull notification) {
-
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-        });
-    }];
+    if (self.notificationBlock) {
+        self.notificationBlock(indexPath, item, tableView);
+    }
 
     BOOL selected = self.configureCellBlock(cell, item);
-    
+
     if (self.selectionCriteriaBlock) {
         self.selectionCriteriaBlock(selected, indexPath);
     }

@@ -18,7 +18,6 @@
 #import "SessionUser.h"
 #import "NSUserDefaults+Additions.h"
 #import "DeviceToken.h"
-#import "LEOS3Image.h"
 
 @implementation LEOUserService
 
@@ -199,35 +198,26 @@
     }];
 }
 
-- (void)getImageForS3Image:(LEOS3Image *)s3Image withCompletion:(void (^)(UIImage *rawImage, NSError *error))completionBlock {
-    
-    if (s3Image.baseURL && s3Image.parameters) {
-
-        [[LEOUserService leoMediaSessionManager] presignedGETRequestForImageFromS3WithURL:s3Image.baseURL params:s3Image.parameters completion:^(UIImage *rawImage, NSError *error) {
-            completionBlock ? completionBlock(rawImage, error) : nil;
-        }];
-        
-    } else {
-        completionBlock ? completionBlock(nil, nil) : nil;
-    }
-}
-
 - (void)postAvatarForUser:(User *)user withCompletion:(void (^)(BOOL success, NSError *error))completionBlock {
 
     UIImage *avatarImage = user.avatar.image;
+    UIImage *placeholderImage = user.avatar.placeholder;
 
     NSString *avatarData = [UIImagePNGRepresentation(avatarImage) base64EncodedStringWithOptions:0];
     
     NSDictionary *avatarParams = @{@"avatar":avatarData, @"patient_id":@([user.objectID integerValue])};
     
     [[LEOUserService leoSessionManager] standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointAvatars params:avatarParams completion:^(NSDictionary *rawResults, NSError *error) {
-        
+
         //TODO: The extra "avatar" is not a "mistake" here; that is how it is provided by the backend. Should be updated eventually.
         NSDictionary *rawAvatarUrlData = rawResults[APIParamData][@"avatar"][@"url"];
         user.avatar = [[LEOS3Image alloc] initWithJSONDictionary:rawAvatarUrlData];
         user.avatar.image = avatarImage;
+        user.avatar.placeholder = placeholderImage;
 
-        completionBlock ? completionBlock (nil, error) : nil;
+        BOOL success = error ? YES : NO;
+
+        completionBlock ? completionBlock (success, error) : nil;
     }];
 }
 
@@ -249,7 +239,4 @@
     return [LEOAPISessionManager sharedClient];
 }
 
-+ (LEOS3SessionManager *)leoMediaSessionManager {
-    return [LEOS3SessionManager sharedClient];
-}
 @end

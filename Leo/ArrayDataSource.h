@@ -11,13 +11,15 @@
 
 typedef BOOL (^TableViewCellConfigureBlock)(id cell, id item);
 typedef void (^SelectionCriteriaBlock)(BOOL selected, NSIndexPath *indexPath);
+typedef void (^TableViewNotificationBlock)(NSIndexPath *indexPath, id item, UITableView *tableView);
 
 @interface ArrayDataSource : NSObject <UITableViewDataSource>
 
 - (id)initWithItems:(NSArray *)items
      cellIdentifier:(NSString *)cellIdentifier
  configureCellBlock:(TableViewCellConfigureBlock)configureCellBlock
-selectionCriteriaBlock:(SelectionCriteriaBlock)selectionCriteriaBlock;
+selectionCriteriaBlock:(SelectionCriteriaBlock)selectionCriteriaBlock
+notificationBlock:(TableViewNotificationBlock)notificationBlock;
 
 - (id)itemAtIndexPath:(NSIndexPath *)indexPath;
 

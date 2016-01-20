@@ -156,6 +156,7 @@
 		31D275691C45A1DF005F8964 /* LEOEnrollmentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 31D275681C45A1DF005F8964 /* LEOEnrollmentView.xib */; };
 		31D2756C1C45A1FB005F8964 /* LEOEnrollmentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D2756B1C45A1FB005F8964 /* LEOEnrollmentView.m */; };
 		31D2756F1C4809AC005F8964 /* LEOS3Image.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D2756E1C4809AC005F8964 /* LEOS3Image.m */; };
+		31D275721C501AC5005F8964 /* LEOMediaService.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D275711C501AC5005F8964 /* LEOMediaService.m */; };
 		31D62EC51B1CBA7400B4150A /* LEOTimeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D62EC31B1CBA7400B4150A /* LEOTimeCell.m */; };
 		31D62EC61B1CBA7400B4150A /* LEOTimeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 31D62EC41B1CBA7400B4150A /* LEOTimeCell.xib */; };
 		31D62ED01B1D3ED500B4150A /* LEODateCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D62ECE1B1D3ED500B4150A /* LEODateCell.m */; };
@@ -522,6 +523,8 @@
 		31D2756B1C45A1FB005F8964 /* LEOEnrollmentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOEnrollmentView.m; path = "Views and Controllers/Onboarding, Signup & Settings/LEOEnrollmentView.m"; sourceTree = "<group>"; };
 		31D2756D1C4809AC005F8964 /* LEOS3Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOS3Image.h; path = "Leo/Data Model/LEOS3Image.h"; sourceTree = SOURCE_ROOT; };
 		31D2756E1C4809AC005F8964 /* LEOS3Image.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOS3Image.m; path = "Leo/Data Model/LEOS3Image.m"; sourceTree = SOURCE_ROOT; };
+		31D275701C501AC5005F8964 /* LEOMediaService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOMediaService.h; path = Services/LEOMediaService.h; sourceTree = "<group>"; };
+		31D275711C501AC5005F8964 /* LEOMediaService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOMediaService.m; path = Services/LEOMediaService.m; sourceTree = "<group>"; };
 		31D418AB1B3872C7008D70F3 /* DateTimeSelectionProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DateTimeSelectionProtocol.h; sourceTree = "<group>"; };
 		31D62EC21B1CBA7400B4150A /* LEOTimeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOTimeCell.h; sourceTree = "<group>"; };
 		31D62EC31B1CBA7400B4150A /* LEOTimeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOTimeCell.m; sourceTree = "<group>"; };
@@ -795,6 +798,8 @@
 				31254B7F1BB0576500E8E150 /* LEOMessageService.m */,
 				31254B811BB0599D00E8E150 /* LEOCardService.h */,
 				31254B821BB0599D00E8E150 /* LEOCardService.m */,
+				31D275701C501AC5005F8964 /* LEOMediaService.h */,
+				31D275711C501AC5005F8964 /* LEOMediaService.m */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -1797,6 +1802,7 @@
 				31CC12E71BB062C40099AB60 /* PrepAppointment.m in Sources */,
 				312F35451BA212B700F64DAA /* LEOPusherHelper.m in Sources */,
 				31D2753C1C3DB355005F8964 /* UIViewController+XibAdditions.m in Sources */,
+				31D275721C501AC5005F8964 /* LEOMediaService.m in Sources */,
 				314BC36F1B94C817000A50D8 /* LEOCredentialStore.m in Sources */,
 				31F5AA681B791B4A00F96D06 /* LEOAPIOperation.m in Sources */,
 				315839881C2074790093FE2E /* UIView+Extensions.m in Sources */,

@@ -16,35 +16,38 @@
 //  Released under an MIT license: http://opensource.org/licenses/MIT
 //
 
-#import "LEOMessagesViewController.h"
-#import <JSQMessagesViewController/JSQMessagesBubbleImageFactory.h>
-#import "User.h"
-#import <OHHTTPStubs/OHHTTPStubs.h>
+#import "LEOCardConversation.h"
+#import "LEOCardPushTransitionAnimator.h"
+#import "Configuration.h"
 #import "Conversation.h"
+#import "Family.h"
+#import "Guardian.h"
+#import "LEOImageCropViewControllerDataSource.h"
+#import "LEOMediaService.h"
 #import "Message.h"
+#import "MessageImage.h"
+#import "MessageText.h"
+#import "LEOMessagesAvatarImageFactory.h"
+#import "LEOMessageService.h"
+#import "LEOMessagesViewController.h"
+#import "LEONavigationControllerPopAnimator.h"
+#import "LEONavigationControllerPushAnimator.h"
+#import "NSDate+Extensions.h"
+#import "Practice.h"
+#import "LEOPusherHelper.h"
+#import "SessionUser.h"
+#import "Support.h"
+#import "LEOTransitioningDelegate.h"
+#import "User.h"
+#import "LEOUserService.h"
 #import "UIColor+LeoColors.h"
 #import "UIFont+LeoFonts.h"
-#import "Family.h"
-#import "NSDate+Extensions.h"
-#import "Support.h"
-#import "Guardian.h"
-#import "Practice.h"
-#import "LEOMessagesAvatarImageFactory.h"
-#import "Configuration.h"
-#import "SessionUser.h"
-#import "LEOPusherHelper.h"
-#import <UIImageView+AFNetworking.h>
 #import "UIImage+Extensions.h"
-#import "LEOCardConversation.h"
-#import "LEOUserService.h"
-#import "LEOMessageService.h"
-#import "LEOTransitioningDelegate.h"
-#import "LEOCardPushTransitionAnimator.h"
-#import "LEONavigationControllerPushAnimator.h"
-#import "LEONavigationControllerPopAnimator.h"
-#import "LEOImageCropViewControllerDataSource.h"
-#import "MessageText.h"
-#import "MessageImage.h"
+
+#import <UIImageView+AFNetworking.h>
+#import <JSQMessagesViewController/JSQMessagesBubbleImageFactory.h>
+#import <OHHTTPStubs/OHHTTPStubs.h>
+
 
 #if STUBS_FLAG
 #import "LEOStubs.h"
@@ -496,9 +499,7 @@
         return nil;
     }
 
-    NSOperationQueue *messageQueue = [NSOperationQueue new];
-
-    [[NSNotificationCenter defaultCenter] addObserverForName:kNotificationAvatarUpdate object:message.sender queue:messageQueue usingBlock:^(NSNotification * _Nonnull notification) {
+    [[NSNotificationCenter defaultCenter] addObserverForName:kNotificationDownloadedImageUpdated object:message.sender.avatar queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull notification) {
 
         [self.collectionView.collectionViewLayout invalidateLayoutWithContext:[JSQMessagesCollectionViewFlowLayoutInvalidationContext context]];
         [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
@@ -510,7 +511,7 @@
 }
 
 -(NSMutableDictionary *)avatarDictionary {
-    
+
     if (!_avatarDictionary) {
         _avatarDictionary = [[NSMutableDictionary alloc] init];
     }
@@ -527,7 +528,7 @@
     }
 
     UIImage *placeholderImage = [LEOMessagesAvatarImageFactory circularAvatarImage:[UIImage imageNamed:@"Icon-AvatarBorderless"] withDiameter:20.0 borderColor:[UIColor leo_grayForPlaceholdersAndLines] borderWidth:2];
-    
+
     combinedImages = [JSQMessagesAvatarImage avatarImageWithPlaceholder:placeholderImage];
 
     combinedImages.avatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:user.avatar.image withDiameter:kJSQMessagesCollectionViewAvatarSizeDefault borderColor:[UIColor leo_grayForPlaceholdersAndLines] borderWidth:2];
@@ -764,9 +765,9 @@
 
         if (!photoMediaItem.image) {
 
-            LEOMessageService *messageService = [LEOMessageService new];
+            LEOMediaService *mediaService = [LEOMediaService new];
 
-            [messageService getImageForS3Image:messageImage.s3Image withCompletion:^(UIImage *rawImage, NSError *error) {
+            [mediaService getImageForS3Image:messageImage.s3Image withCompletion:^(UIImage *rawImage, NSError *error) {
                 messageImage.s3Image.image = rawImage;
                 photoMediaItem.image = rawImage;
                 [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];

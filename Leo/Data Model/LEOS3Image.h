@@ -13,9 +13,10 @@
 @property (copy, nonatomic) NSString *baseURL;
 @property (copy, nonatomic) NSDictionary *parameters;
 @property (strong, nonatomic) UIImage *image;
+@property (strong, nonatomic) UIImage *placeholder;
 
-- (instancetype)initWithBaseURL:(NSString *)baseURL parameters:(NSDictionary *)parameters;
--(instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse;
+- (instancetype)initWithBaseURL:(NSString *)baseURL parameters:(NSDictionary *)parameters placeholder:(UIImage *)placeholder;
+- (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse;
 - (void)getS3ImageDataForS3ImageWithCompletion:(void (^) (void))completion;
 
 //"X-Amz-Algorithm" = "AWS4-HMAC-SHA256";

@@ -7,12 +7,13 @@
 //
 
 #import "LEOS3Image.h"
-#import "LEOUserService.h"
+#import "LEOMediaService.h"
 
 @implementation LEOS3Image
 
+@synthesize image = _image;
 
-- (instancetype)initWithBaseURL:(NSString *)baseURL parameters:(NSDictionary *)parameters{
+- (instancetype)initWithBaseURL:(NSString *)baseURL parameters:(NSDictionary *)parameters placeholder:(UIImage *)placeholder {
 
     self = [super init];
 
@@ -20,6 +21,7 @@
 
         _baseURL = [baseURL copy];
         _parameters = [parameters copy];
+        _placeholder = placeholder;
     }
 
     return self;
@@ -30,32 +32,47 @@
     NSString *baseURL = jsonResponse[APIParamImageBaseURL];
     NSDictionary *parameters = jsonResponse[APIParamImageURLParameters];
 
-    return [self initWithBaseURL:baseURL parameters:parameters];
+    return [self initWithBaseURL:baseURL parameters:parameters placeholder:nil];
 }
 
-- (void)getS3ImageDataForS3ImageWithCompletion:(void (^) (void))completion {
+- (UIImage *)image {
 
-    LEOUserService *userService = [LEOUserService new];
+    if (!_image) {
 
-    [userService getImageForS3Image:self withCompletion:^(UIImage * rawImage, NSError * error) {
+        _image = self.placeholder;
 
-        if (!error && rawImage) {
+        LEOMediaService *mediaService = [LEOMediaService new];
 
-            self.image = rawImage;
+        [mediaService getImageForS3Image:self withCompletion:^(UIImage * rawImage, NSError * error) {
 
-            if (completion) {
-                completion();
+            if (!error && rawImage) {
+
+                _image = rawImage;
+                [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationDownloadedImageUpdated object:self];
+
+            } else {
+                //TODO: ZSD deal with an error?
             }
-        } else {
-            //TODO: ZSD deal with an error?
-        }
-    }];
+        }];
+    }
+
+    return _image;
+}
+
+-(void)setImage:(UIImage *)image {
+
+    _image = image;
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationImageChanged object:self];
 }
 
 - (id)copyWithZone:(NSZone *)zone {
 
-    LEOS3Image *s3Copy = [self initWithBaseURL:[self.baseURL copy] parameters:[self.parameters copy]];
-    s3Copy.image = [self.image copy];
+    LEOS3Image *s3Copy = [[LEOS3Image allocWithZone:zone] initWithBaseURL:[self.baseURL copy] parameters:[self.parameters copy] placeholder:[self.placeholder copy]];
+
+    if (self.image) {
+        s3Copy.image = [self.image copy];
+    }
     
     return s3Copy;
 }

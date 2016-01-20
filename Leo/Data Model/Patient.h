@@ -42,7 +42,7 @@ typedef NS_ENUM(NSUInteger, PatientStatusCode) {
 + (NSDictionary *)dictionaryFromUser:(Patient *)patient;
 
 - (BOOL)isValid;
-
+- (void)copyFrom:(Patient *)otherPatient;
 
 NS_ASSUME_NONNULL_END
 @end

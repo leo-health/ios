@@ -83,8 +83,9 @@
 
     BOOL haveEqualNames = (!self.fullName && !patient.fullName) || [self.fullName isEqualToString:patient.fullName];
     BOOL haveEqualBirthdays = (!self.dob && !patient.dob) || [self.dob isEqualToDate:patient.dob];
+    BOOL haveEqualGenders = (!self.gender && !patient.gender) || [self.gender isEqualToString:patient.gender];
 
-    return haveEqualNames && haveEqualBirthdays;
+    return haveEqualNames && haveEqualBirthdays && haveEqualGenders;
 }
 
 //FIXME: This was a quick implementation for dealing with gender display names vs. M/F in backend that I put in before leaving for vacation. Needs to be rebuilt at some point or backend could use display name instead to simplify.
@@ -161,10 +162,19 @@
 
 //FIXME: This is not completely built out. Will work where currently used and probably nowhere else...
 -(id)copyWithZone:(NSZone *)zone {
-
+    
     Patient *copy = [[Patient allocWithZone:zone] initWithFirstName:[self.firstName copy] lastName:[self.lastName copy] avatar:[self.avatar copy] dob:[self.dob copy] gender:[self.gender copy]];
 
     return copy;
+}
+
+- (void)copyFrom:(Patient *)otherPatient {
+
+    self.firstName = otherPatient.firstName;
+    self.lastName = otherPatient.lastName;
+    self.avatar = otherPatient.avatar;
+    self.dob = otherPatient.dob;
+    self.gender = otherPatient.gender;
 }
 
 @end

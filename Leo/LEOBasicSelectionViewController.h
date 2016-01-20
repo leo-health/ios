@@ -13,6 +13,7 @@
 
 typedef BOOL (^ConfigureCellBlock)(id cell, id data);
 typedef void (^SelectionCriteriaBlock)(BOOL selected, NSIndexPath *indexPath);
+typedef void (^TableViewNotificationBlock)(NSIndexPath *indexPath, id item, UITableView *tableView);
 
 @interface LEOBasicSelectionViewController : UIViewController <UITableViewDelegate>
 
@@ -21,8 +22,10 @@ typedef void (^SelectionCriteriaBlock)(BOOL selected, NSIndexPath *indexPath);
 @property (strong, nonatomic) NSString *titleText;
 @property (strong, nonatomic) NSString *reuseIdentifier;
 @property (copy, nonatomic) ConfigureCellBlock configureCellBlock;
+@property (copy, nonatomic) TableViewNotificationBlock notificationBlock;
 @property (strong, nonatomic) LEOAPIOperation *requestOperation;
 @property (weak, nonatomic) id<SingleSelectionProtocol>delegate;
 @property (nonatomic) Feature feature;
+
 
 @end
