@@ -156,6 +156,8 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
 
     if (validEmail && validPassword) {
 
+        [self.view endEditing:YES];
+
         LEOUserService *userService = [[LEOUserService alloc] init];
 
         [userService loginUserWithEmail:[self emailTextField].text
