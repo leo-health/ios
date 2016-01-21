@@ -103,7 +103,7 @@
 }
 
 - (void)setCurrentTransitionPercentage:(CGFloat)currentTransitionPercentage {
-    
+
     _currentTransitionPercentage = currentTransitionPercentage;
     if (currentTransitionPercentage < 0) {
         _currentTransitionPercentage = 0;

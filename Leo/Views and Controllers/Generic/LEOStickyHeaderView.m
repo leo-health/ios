@@ -11,11 +11,19 @@
 #import "LEOStyleHelper.h"
 #import "LEOGradientView.h"
 
-CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
+#define _UIKeyboardFrameEndUserInfoKey (&UIKeyboardFrameEndUserInfoKey != NULL ? UIKeyboardFrameEndUserInfoKey : @"UIKeyboardBoundsUserInfoKey")
 
 @interface LEOStickyHeaderView ()
 
+// TODO: revisit these bools later to try to move toward a more functional architecture with less state
 @property (nonatomic) BOOL breakerIsOnScreen;
+@property (nonatomic) BOOL snapTransitionInProcess;
+@property (nonatomic) BOOL wasExpandedBeforeContentSizeChange;
+@property (nonatomic) BOOL forceSnapToStartFromBeginning;
+@property (nonatomic) BOOL forceSnapToStartFromEnd;
+@property (nonatomic) BOOL scrollingWithTouch;
+@property (nonatomic) BOOL keyboardIsVisible;
+@property (nonatomic) CGRect keyboardRect;
 @property (strong, nonatomic) CAShapeLayer *pathLayer;
 @property (weak, nonatomic) UIView *titleView;
 @property (strong, nonatomic) NSLayoutConstraint* titleViewTopConstraint;
@@ -30,7 +38,14 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 
 @implementation LEOStickyHeaderView
 
+CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
+NSString * const kKVOKeyPathContentSize = @"contentSize";
+NSString * const kKVOKeyPathContentOffset = @"contentOffset";
+NSString * const kAnimationKeyPathStrokeColor = @"strokeColor";
+
 @synthesize bodyView = _bodyView;
+
+#pragma mark  -  Setup and Accessors
 
 - (instancetype)initWithBodyView:(UIView *)bodyView {
 
@@ -51,11 +66,20 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
     return self;
 }
 
+- (void)dealloc {
+
+    // ????: is there ever a time where scrollView gets deallocated before this method is called?
+    [self.scrollView removeObserver:self forKeyPath:kKVOKeyPathContentSize];
+    [self.scrollView removeObserver:self forKeyPath:kKVOKeyPathContentOffset];
+}
+
 - (void)commonInit {
 
     // default values
     self.collapsible = YES;
     self.contentView.backgroundColor = [UIColor clearColor];
+    self.wasExpandedBeforeContentSizeChange = YES; // FIXME: should depend on if the view starts in collapsed position - not yet implemented
+    [self registerForKeyboardNotifications];
 }
 
 - (UIView *)contentView {
@@ -74,7 +98,6 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
         UIView *strongFooterView = [UIView new];
         _footerView = strongFooterView;
 
-
         [self.scrollView addSubview:_contentView];
         [_contentView addSubview:_bodyView];
         [_contentView addSubview:_titleView];
@@ -84,7 +107,7 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
     return _contentView;
 }
 
-- (UIScrollView *)scrollView {
+- (TPKeyboardAvoidingScrollView *)scrollView {
 
     if (!_scrollView) {
 
@@ -92,6 +115,9 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
         _scrollView = strongView;
 
         [self addSubview:_scrollView];
+
+        [_scrollView addObserver:self forKeyPath:kKVOKeyPathContentOffset options:NSKeyValueObservingOptionOld context:nil];
+        [_scrollView addObserver:self forKeyPath:kKVOKeyPathContentSize options:NSKeyValueObservingOptionOld context:nil];
 
         _scrollView.delegate = self;
 
@@ -179,25 +205,7 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
         self.snapToHeight = @(headerHeight);
     }
 
-    // determine content size via autolayout
-    [self.scrollView layoutIfNeeded];
-
-    CGFloat maxPossibleOffsetY = self.scrollView.contentSize.height - CGRectGetHeight(self.scrollView.bounds);
-    CGFloat differenceBetweenExpandedAndCollapsedHeights = CGRectGetHeight(self.titleView.bounds) - [self navBarHeight];
-    if (0 < maxPossibleOffsetY && maxPossibleOffsetY < differenceBetweenExpandedAndCollapsedHeights) {
-
-        CGFloat insetHeight = differenceBetweenExpandedAndCollapsedHeights - maxPossibleOffsetY;
-        self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, insetHeight, 0);
-    }
-
-    self.scrollView.bounces = ![self scrollViewContentSizeSmallerThanScrollViewFrameIncludingInsets];
-
     [super layoutSubviews];
-}
-
-
--(BOOL)scrollViewContentSizeSmallerThanScrollViewFrameIncludingInsets {
-    return self.scrollView.contentSize.height < (self.scrollView.bounds.size.height - self.scrollView.contentInset.bottom - self.scrollView.contentInset.top);
 }
 
 - (void)updateConstraints {
@@ -222,7 +230,7 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
         }
 
         NSDictionary *viewDictionary = NSDictionaryOfVariableBindings(_titleView, _bodyView, _scrollView, _contentView, _separatorLine, _footerView);
-        
+
         // Outside scroll view
         NSArray *verticalLayoutConstraintsForScrollView = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_scrollView][_separatorLine(==1)][_footerView]|" options:0 metrics:nil views:viewDictionary];
         NSArray *horizontalLayoutConstraintsForButtonView = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_footerView]|" options:0 metrics:nil views:viewDictionary];
@@ -255,12 +263,298 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
         [self.contentView addConstraint:self.titleViewTopConstraint];
         [self.contentView addConstraint:self.bodyViewTopConstraint];
         [self.contentView addConstraints:verticalLayoutConstraintsForBodyView];
-
+        
         self.alreadyUpdatedConstraints = YES;
     }
-
+    
     [super updateConstraints];
 }
+
+#pragma mark - KVO Methods
+
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
+
+    if (object == self.scrollView) {
+
+        if ([keyPath isEqualToString:kKVOKeyPathContentSize]) {
+
+            [self updateScrollInsetsToAllowForCollapse];
+        }
+
+        if ([keyPath isEqualToString:kKVOKeyPathContentOffset]) {
+
+            [self snapIfNeededInResponseToObservedContentOffsetChange];
+        }
+    }
+}
+
+- (void)updateScrollInsetsToAllowForCollapse {
+
+    // determine content size via autolayout
+    [self.scrollView layoutIfNeeded];
+
+    UIEdgeInsets insets = self.scrollView.contentInset;
+    CGFloat insetHeight = insets.bottom; // add top later
+
+    BOOL keyboardIsVisible = self.keyboardIsVisible;
+    CGFloat keyboardSize = ( keyboardIsVisible ? CGRectGetHeight(self.keyboardRect) : 0 );
+
+    CGFloat inbetweenSize = [self heightOfHeaderCellExcludingOverlapWithNavBar];
+    CGFloat scrollViewSize = CGRectGetHeight(self.scrollView.bounds) - keyboardSize; // available visible space
+    CGFloat contentSize = self.scrollView.contentSize.height;
+    CGFloat extraHeight = contentSize - scrollViewSize;
+
+    if (extraHeight > 0) {
+
+        insetHeight = inbetweenSize - extraHeight + keyboardSize;
+        if (insetHeight < keyboardSize) {
+            insetHeight = keyboardSize; // TRUTH: insetHeight >= keyboardSize
+        }
+    } else {
+        insetHeight = keyboardSize;
+    }
+    insets.bottom = insetHeight;
+    self.scrollView.contentInset = insets;
+
+
+    // other side effects that depend on inset changes
+
+    // scroll view should bounce only if it is scrollable - i.e. contentSize is smaller than frame minus insets
+    self.scrollView.bounces = ![self scrollViewContentSizeSmallerThanScrollViewFrameIncludingInsets];
+}
+
+- (void)snapIfNeededInResponseToObservedContentOffsetChange {
+
+
+    // header should always be either expanded or collapsed, never in between
+    BOOL shouldChangeFromCollapsedToExpanded = !self.wasExpandedBeforeContentSizeChange && [self titleViewShouldSnapToExpandedState];
+    BOOL shouldChangeFromExpandedToCollapsed = self.wasExpandedBeforeContentSizeChange && [self scrollViewVerticalContentOffset];
+    BOOL shouldAnimateSnap = shouldChangeFromCollapsedToExpanded || shouldChangeFromExpandedToCollapsed;
+
+    if (!self.scrollingWithTouch && !self.snapTransitionInProcess) {
+
+        if (shouldChangeFromExpandedToCollapsed) {
+
+            self.forceSnapToStartFromBeginning = YES;
+            [self snapToExpanded]; // start animation from beginning
+            // will change content offset, then this observe method will be called recursively.
+            [self navigationTitleViewSnapsForScrollView:self.scrollView animated:YES];
+
+        } else if (shouldChangeFromCollapsedToExpanded) {
+
+            self.forceSnapToStartFromEnd = YES;
+            [self snapToCollapsed];
+            [self navigationTitleViewSnapsForScrollView:self.scrollView animated:YES];
+        }
+
+        if (!self.forceSnapToStartFromBeginning && !self.forceSnapToStartFromEnd) {
+
+            // do nothing in response to the aniation initialization
+            [self navigationTitleViewSnapsForScrollView:self.scrollView animated:shouldAnimateSnap];
+        }
+    }
+}
+
+- (void)registerForKeyboardNotifications {
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stickyHeaderView_keyboardWillShow:) name:UIKeyboardWillChangeFrameNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stickyHeaderView_keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+}
+
+- (void)stickyHeaderView_keyboardWillShow:(NSNotification *)notification {
+
+    self.keyboardIsVisible = YES;
+    self.keyboardRect = [self convertRect:[[[notification userInfo] objectForKey:_UIKeyboardFrameEndUserInfoKey] CGRectValue] fromView:nil];
+    [self updateScrollInsetsToAllowForCollapse];
+}
+
+- (void)stickyHeaderView_keyboardWillHide:(NSNotification *)notification {
+
+    self.keyboardIsVisible = NO;
+    self.keyboardRect = [self convertRect:[[[notification userInfo] objectForKey:_UIKeyboardFrameEndUserInfoKey] CGRectValue] fromView:nil];
+    [self updateScrollInsetsToAllowForCollapse];
+}
+
+#pragma mark - <UIScrollViewDelegate> & Helper Methods
+
+-(void)updateTransitionPercentageForScrollOffset:(CGPoint)offset {
+
+    [self animateBreakerIfNeeded];
+
+    // holds position of title view once it reaches the collapsed state
+    BOOL shouldStayInCollapsedPosition = offset.y > [self heightOfTitleView] - [self navBarHeight];
+    BOOL shouldStayAtTopDuringBounce = self.headerShouldNotBounceOnScroll && offset.y < 0;
+
+    if (shouldStayInCollapsedPosition) {
+
+        // moves title view down while scrolling to keep in the same position
+        self.titleViewTopConstraint.constant = offset.y - [self heightOfTitleView] + [self navBarHeight];
+    } else if (shouldStayAtTopDuringBounce) {
+
+        // difference between bounce below title view and bounce above title view
+        self.titleViewTopConstraint.constant = offset.y;
+    } else {
+
+        // ensures that title view stays "attached" to body view during scroll
+        self.titleViewTopConstraint.constant = kTitleViewTopConstraintOriginalConstant;
+    }
+
+    // prevent redrawing of the gradient if there is no snap in progress and the scroll view is at the bottom
+    // this prevents flickering when the user is deleting text from the bottom of the text view
+    if (self.snapTransitionInProcess || ![self scrollViewAtBottomPosition]) {
+
+        // inform the delegate about the transition status
+        CGFloat percentage = [self transitionPercentageForScrollOffset:offset];
+        percentage = percentage > 1 ? 1 : percentage;
+
+        if ([self.delegate respondsToSelector:@selector(updateTitleViewForScrollTransitionPercentage:)]) {
+            [self.delegate updateTitleViewForScrollTransitionPercentage:percentage];
+        }
+    }
+}
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
+
+    if (scrollView == self.scrollView) {
+
+        [self updateTransitionPercentageForScrollOffset:self.scrollViewContentOffset];
+    }
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+
+    if (scrollView == self.scrollView) {
+
+        self.scrollingWithTouch = YES;
+    }
+}
+
+-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+
+    if (scrollView == self.scrollView) {
+
+        BOOL bouncing = scrollView.contentOffset.y < 0;
+        if (!bouncing) {
+
+            [self navigationTitleViewSnapsForScrollView:scrollView animated:YES];
+            self.scrollingWithTouch = NO;
+        }
+    }
+}
+
+-(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+
+    if (scrollView == self.scrollView) {
+
+        if (!decelerate) {
+            [self navigationTitleViewSnapsForScrollView:scrollView animated:YES];
+            self.scrollingWithTouch = NO;
+        }
+    }
+}
+
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
+
+    if (scrollView == self.scrollView) {
+
+        [self navigationTitleViewSnapsForScrollView:scrollView animated:YES];
+    }
+}
+
+
+-(CGFloat)transitionPercentageForScrollOffset:(CGPoint)offset {
+    return self.scrollView.contentOffset.y / ([self heightOfTitleView] - [self navBarHeight]);
+}
+
+- (BOOL)scrollViewAtBottomPosition {
+
+    CGFloat maxPossibleOffsetY = self.scrollView.contentSize.height - CGRectGetHeight(self.scrollView.bounds) + self.scrollView.contentInset.bottom + self.scrollView.contentInset.top;
+    CGFloat currentOffset = self.scrollView.contentOffset.y;
+
+    // these values are not exact. Compare the rounded values.
+    // ????: interestingly, this is the simplest way I've found to compare approximate decimals
+    NSString *roundedFormat = @"%.2f";
+    NSString *roundedCurrentOffset = [NSString stringWithFormat:roundedFormat, currentOffset];
+    NSString *roundedMaxPossibleOffsetY= [NSString stringWithFormat:roundedFormat, maxPossibleOffsetY];
+
+    BOOL atBottom =  [roundedCurrentOffset isEqualToString:roundedMaxPossibleOffsetY];
+
+    return atBottom;
+}
+
+#pragma mark  -  Snapping 
+
+- (BOOL)titleViewShouldSnapToExpandedState {
+    return [self scrollViewVerticalContentOffset] < [self heightOfNoReturn];
+}
+
+- (BOOL)titleViewShouldSnapToCollapsedState {
+    return [self scrollViewVerticalContentOffset] > [self heightOfNoReturn] && [self scrollViewVerticalContentOffset] < [self heightOfHeaderCellExcludingOverlapWithNavBar];
+}
+
+- (void)snapToExpanded {
+
+    self.scrollView.contentOffset = CGPointMake(0.0, 0.0);
+}
+
+- (void)snapToCollapsed {
+
+    self.scrollView.contentOffset = CGPointMake(0.0, [self heightOfHeaderCellExcludingOverlapWithNavBar]);
+}
+
+-(void)navigationTitleViewSnapsForScrollView:(UIScrollView *)scrollView animated:(BOOL)animated {
+
+    if (self.isCollapsible) {
+
+        void (^animations)() = ^{};
+
+        void (^completion)(BOOL) = ^(BOOL finished) {
+
+            self.snapTransitionInProcess = NO;
+            [self animateBreakerIfNeeded];
+        };
+
+        // Force collapse
+        if (self.forceSnapToStartFromBeginning || [self titleViewShouldSnapToCollapsedState]) {
+
+            self.snapTransitionInProcess = YES;
+            self.forceSnapToStartFromBeginning = NO;
+            self.wasExpandedBeforeContentSizeChange = NO;
+            animations = ^{
+
+                [self snapToCollapsed];
+            };
+        }
+
+        // Force expand
+        else if (self.forceSnapToStartFromEnd || [self titleViewShouldSnapToExpandedState]) {
+
+            self.snapTransitionInProcess = YES;
+            self.forceSnapToStartFromEnd = NO;
+            self.wasExpandedBeforeContentSizeChange = YES;
+            animations = ^{
+
+                [self snapToExpanded];
+            };
+        } else {
+
+            self.wasExpandedBeforeContentSizeChange = [self isExpanded];
+        }
+
+        if (animated) {
+
+            [UIView animateWithDuration:0.5 animations:animations completion:completion];
+        } else {
+
+            animations();
+            completion(YES);
+        }
+
+
+    }
+}
+
+#pragma mark  -  Breaker
 
 - (void)animateBreakerIfNeeded {
 
@@ -293,12 +587,12 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 
 - (void)updateBreakerWithBlock:(void (^) (CABasicAnimation *fadeAnimation))transitionBlock {
 
-    CABasicAnimation *fadeAnimation = [CABasicAnimation animationWithKeyPath:@"strokeColor"];
+    CABasicAnimation *fadeAnimation = [CABasicAnimation animationWithKeyPath:kAnimationKeyPathStrokeColor];
     fadeAnimation.duration = .2;
 
     transitionBlock(fadeAnimation);
 
-    [self.pathLayer addAnimation:fadeAnimation forKey:@"strokeColor"];
+    [self.pathLayer addAnimation:fadeAnimation forKey:kAnimationKeyPathStrokeColor];
 }
 
 - (void)fadeAnimation:(CABasicAnimation *)fadeAnimation fromColor:(UIColor *)fromColor toColor:(UIColor *)toColor {
@@ -323,107 +617,19 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
     self.pathLayer.strokeColor = [UIColor clearColor].CGColor;
     self.pathLayer.lineWidth = 1.f;
     self.pathLayer.lineJoin = kCALineJoinBevel;
-
+    
     [self.layer addSublayer:self.pathLayer];
 }
 
-#pragma mark - <UIScrollViewDelegate> & Helper Methods
-
--(void)updateTransitionPercentageForScrollOffset:(CGPoint)offset {
-
-    [self animateBreakerIfNeeded];
-
-    // header should scroll with the body until it reaches collapsed position
-    BOOL shouldStayInCollapsedPosition = offset.y > [self heightOfTitleView] - [self navBarHeight];
-    BOOL shouldStayAtTopDuringBounce = self.headerShouldNotBounceOnScroll && offset.y < 0;
-
-    if (shouldStayInCollapsedPosition) {
-
-        self.titleViewTopConstraint.constant = offset.y - [self heightOfTitleView] + [self navBarHeight];
-    } else if (shouldStayAtTopDuringBounce) {
-
-        self.titleViewTopConstraint.constant = offset.y;
-    } else {
-
-        self.titleViewTopConstraint.constant = kTitleViewTopConstraintOriginalConstant;
-    }
-
-    // inform the delegate about the transition status
-    CGFloat percentage = [self transitionPercentageForScrollOffset:offset];
-    percentage = percentage > 1 ? 1 : percentage;
-
-    if ([self.delegate respondsToSelector:@selector(updateTitleViewForScrollTransitionPercentage:)]) {
-        [self.delegate updateTitleViewForScrollTransitionPercentage:percentage];
-    }
-}
-
--(CGFloat)transitionPercentageForScrollOffset:(CGPoint)offset {
-    return self.scrollView.contentOffset.y / ([self heightOfTitleView] - [self navBarHeight]);
-}
-
--(void)scrollViewDidScroll:(UIScrollView *)scrollView {
-
-    if (scrollView == self.scrollView) {
-
-        [self updateTransitionPercentageForScrollOffset:self.scrollViewContentOffset];
-    }
-}
-
--(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-
-    if (scrollView == self.scrollView) {
-
-        BOOL bouncing = scrollView.contentOffset.y < 0;
-        if (!bouncing) {
-
-            [self navigationTitleViewSnapsForScrollView:scrollView];
-        }
-    }
-}
-
--(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-
-    if (scrollView == self.scrollView) {
-
-        decelerate ? nil : [self navigationTitleViewSnapsForScrollView:scrollView];
-    }
-}
-
--(void)navigationTitleViewSnapsForScrollView:(UIScrollView *)scrollView {
-
-    if (self.isCollapsible) {
-
-        // Force collapse
-        if ([self scrollViewVerticalContentOffset] > [self heightOfNoReturn] && [self scrollViewVerticalContentOffset] < [self heightOfHeaderCellExcludingOverlapWithNavBar]) {
-
-            [UIView animateWithDuration:0.1 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-
-                scrollView.contentOffset = CGPointMake(0.0, [ self heightOfHeaderCellExcludingOverlapWithNavBar]);
-            } completion:^(BOOL finished) {
-
-                [self animateBreakerIfNeeded];
-            }];
-        }
-
-        // Force expand
-        else if ([self scrollViewVerticalContentOffset] < [self heightOfNoReturn]) {
-
-            [UIView animateWithDuration:0.1 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-
-                scrollView.contentOffset = CGPointMake(0.0, 0.0);
-            } completion:^(BOOL finished) {
-
-                [self animateBreakerIfNeeded];
-            }];
-        }
-    }
-}
+#pragma mark - Shorthand Helpers
 
 -(BOOL)isCollapsed {
     return [self scrollViewVerticalContentOffset] >= [self heightOfHeaderCellExcludingOverlapWithNavBar];
 }
 
-#pragma mark - Shorthand Helpers
+- (BOOL)isExpanded {
+    return [self scrollViewVerticalContentOffset] <= 0;
+}
 
 - (CGFloat)heightOfScrollViewFrame {
     return self.scrollView.frame.size.height;
@@ -461,5 +667,8 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
     return self.scrollView.contentOffset;
 }
 
+-(BOOL)scrollViewContentSizeSmallerThanScrollViewFrameIncludingInsets {
+    return self.scrollView.contentSize.height < (self.scrollView.bounds.size.height - self.scrollView.contentInset.bottom - self.scrollView.contentInset.top);
+}
 
 @end

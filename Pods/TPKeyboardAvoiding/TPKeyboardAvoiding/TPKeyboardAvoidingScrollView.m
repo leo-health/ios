@@ -20,6 +20,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(TPKeyboardAvoiding_keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(scrollToActiveTextField) name:UITextViewTextDidBeginEditingNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(scrollToActiveTextField) name:UITextFieldTextDidBeginEditingNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(scrollToActiveTextField) name:UITextFieldTextDidChangeNotification object:nil];
 }
 
 -(id)initWithFrame:(CGRect)frame {
@@ -59,6 +60,33 @@
 }
 - (void)scrollToActiveTextField {
     return [self TPKeyboardAvoiding_scrollToActiveTextField];
+}
+
+/**
+ *  scrollRectToVisible assumes the insets are not part of the visible space. To allow the active text field to scroll just above the keyboard, we temporarily reset the insets to reflect the true visible space
+ *
+ *  @param rect
+ *  @param animated
+ */
+- (void)scrollRectToVisible:(CGRect)rect animated:(BOOL)animated {
+    
+    UIEdgeInsets oldInsets = self.contentInset;
+
+    TPKeyboardAvoidingState *state = self.keyboardAvoidingState;
+    if ( state.keyboardVisible ) {
+
+        UIEdgeInsets newInset = self.contentInset;
+        CGRect keyboardRect = state.keyboardRect;
+        
+        newInset.bottom = keyboardRect.size.height - MAX((CGRectGetMaxY(keyboardRect) - CGRectGetMaxY(self.bounds)), 0);
+
+        self.contentInset = newInset;
+    }
+
+    [super scrollRectToVisible:rect animated:animated];
+
+    self.contentInset = oldInsets;
+
 }
 
 #pragma mark - Responders, events
