@@ -271,6 +271,7 @@ static NSString *const kKeySelectionVCDate = @"date";
     __block BOOL shouldSelect = NO;
 
     LEOBasicSelectionViewController *selectionVC = segue.destinationViewController;
+    selectionVC.feature = FeatureAppointmentScheduling;
 
     if ([segue.identifier isEqualToString:kSegueVisitType]) {
 
@@ -331,7 +332,6 @@ static NSString *const kKeySelectionVCDate = @"date";
         selectionVC.key = kKeySelectionVCProvider;
         selectionVC.reuseIdentifier = kCellProvider;
         selectionVC.titleText = kPromptProvider;
-        selectionVC.feature = FeatureAppointmentScheduling;
         selectionVC.configureCellBlock = ^(ProviderCell *cell, Provider *provider) {
 
             cell.selectedColor = self.card.tintColor;

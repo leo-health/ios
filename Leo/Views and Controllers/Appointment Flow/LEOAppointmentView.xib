@@ -15,19 +15,19 @@
                     <rect key="frame" x="20" y="0.0" width="560" height="600"/>
                     <subviews>
                         <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YDA-RD-nGm" userLabel="Visit Type Prompt View" customClass="LEOPromptView">
-                            <rect key="frame" x="0.0" y="39" width="560" height="126"/>
+                            <rect key="frame" x="0.0" y="39" width="560" height="93"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
                         <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Gdf-Uy-PhB" userLabel="Patient Prompt View" customClass="LEOPromptView">
-                            <rect key="frame" x="0.0" y="204" width="560" height="57"/>
+                            <rect key="frame" x="0.0" y="171" width="560" height="55"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
                         <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WOR-GZ-2Yn" userLabel="Staff Prompt View" customClass="LEOPromptView">
-                            <rect key="frame" x="0.0" y="300" width="560" height="46"/>
+                            <rect key="frame" x="0.0" y="265" width="560" height="44"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
                         <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" placeholderIntrinsicWidth="600" placeholderIntrinsicHeight="115" translatesAutoresizingMaskIntoConstraints="NO" id="lPr-KA-gBU" userLabel="Notes Text View" customClass="JVFloatLabeledTextView">
-                            <rect key="frame" x="0.0" y="385" width="560" height="115"/>
+                            <rect key="frame" x="0.0" y="348" width="560" height="115"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="69" id="PkO-Tb-59N"/>
@@ -39,14 +39,14 @@
                             </variation>
                         </view>
                         <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kUq-WI-JkM" userLabel="Separator Line View">
-                            <rect key="frame" x="0.0" y="500" width="560" height="1"/>
+                            <rect key="frame" x="0.0" y="463" width="560" height="1"/>
                             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="1" id="SBT-Fq-ji8"/>
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Saa-tt-gbz" userLabel="Schedule Prompt View" customClass="LEOPromptView">
-                            <rect key="frame" x="0.0" y="540" width="560" height="60"/>
+                            <rect key="frame" x="0.0" y="503" width="560" height="58"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="69" id="eNh-sO-7iZ"/>
@@ -76,6 +76,7 @@
                         <constraint firstItem="WOR-GZ-2Yn" firstAttribute="leading" secondItem="YDA-RD-nGm" secondAttribute="leading" id="c5i-wT-DGY"/>
                         <constraint firstItem="Saa-tt-gbz" firstAttribute="top" secondItem="kUq-WI-JkM" secondAttribute="bottom" constant="39" id="cci-Co-MGm"/>
                         <constraint firstItem="YDA-RD-nGm" firstAttribute="leading" secondItem="EdQ-WD-ghP" secondAttribute="leading" id="dTi-pI-bPF"/>
+                        <constraint firstAttribute="bottom" secondItem="Saa-tt-gbz" secondAttribute="bottom" constant="39" id="gbE-Hz-0bY"/>
                         <constraint firstItem="WOR-GZ-2Yn" firstAttribute="top" secondItem="Gdf-Uy-PhB" secondAttribute="bottom" constant="39" id="i5d-8s-B9q"/>
                         <constraint firstItem="WOR-GZ-2Yn" firstAttribute="trailing" secondItem="YDA-RD-nGm" secondAttribute="trailing" id="lAQ-lx-sKZ"/>
                         <constraint firstItem="Saa-tt-gbz" firstAttribute="top" secondItem="Gdf-Uy-PhB" secondAttribute="bottom" constant="20" id="lb9-fd-6eA"/>
@@ -96,6 +97,7 @@
                             <exclude reference="pvG-Sg-Y68"/>
                             <exclude reference="seb-yi-6Nt"/>
                             <exclude reference="7LV-6p-glD"/>
+                            <exclude reference="Rlv-EE-ea2"/>
                             <exclude reference="lb9-fd-6eA"/>
                             <exclude reference="nrU-z5-bfH"/>
                         </mask>
