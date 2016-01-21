@@ -190,8 +190,8 @@ static NSString *const kKeySelectionVCDate = @"date";
 
         LEOGradientView *strongView = [LEOGradientView new];
         _gradientView = strongView;
-        UIColor *startColor = [UIColor colorWithRed:49/255. green:220/255. blue:116/255. alpha:1];
-        UIColor *endColor = [UIColor colorWithRed:71/255. green:197/255. blue:124/255. alpha:1];
+        UIColor *startColor = [LEOStyleHelper gradientStartColorForFeature:self.feature];
+        UIColor *endColor = [LEOStyleHelper gradientEndColorForFeature:self.feature];
         _gradientView.colors = @[(id)startColor.CGColor, (id)endColor.CGColor];
         _gradientView.titleText = self.card.title;
         _gradientView.titleTextFont = [UIFont leo_expandedCardHeaderFont];
@@ -268,6 +268,19 @@ static NSString *const kKeySelectionVCDate = @"date";
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
 
+
+    if ([segue.identifier isEqualToString:kSegueSchedule]) {
+
+        LEOCalendarViewController *calendarVC = segue.destinationViewController;
+
+        calendarVC.delegate = self;
+        calendarVC.appointment = self.appointmentView.appointment;
+        calendarVC.requestOperation = [[LEOAPISlotsOperation alloc] initWithAppointment:self.appointmentView.appointment];
+
+        return;
+    }
+
+    
     __block BOOL shouldSelect = NO;
 
     LEOBasicSelectionViewController *selectionVC = segue.destinationViewController;
@@ -349,17 +362,6 @@ static NSString *const kKeySelectionVCDate = @"date";
 
         selectionVC.requestOperation = [[LEOAPIPracticeOperation alloc] init];
         selectionVC.delegate = self;
-    }
-
-    if ([segue.identifier isEqualToString:kSegueSchedule]) {
-
-        LEOCalendarViewController *calendarVC = segue.destinationViewController;
-
-        calendarVC.delegate = self;
-        calendarVC.appointment = self.appointmentView.appointment;
-        calendarVC.requestOperation = [[LEOAPISlotsOperation alloc] initWithAppointment:self.appointmentView.appointment];
-
-        return;
     }
 }
 
