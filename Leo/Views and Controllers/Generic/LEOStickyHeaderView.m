@@ -71,6 +71,7 @@ NSString * const kAnimationKeyPathStrokeColor = @"strokeColor";
     // ????: is there ever a time where scrollView gets deallocated before this method is called?
     [self.scrollView removeObserver:self forKeyPath:kKVOKeyPathContentSize];
     [self.scrollView removeObserver:self forKeyPath:kKVOKeyPathContentOffset];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)commonInit {
