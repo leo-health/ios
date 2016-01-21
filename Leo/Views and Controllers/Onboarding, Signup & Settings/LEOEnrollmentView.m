@@ -59,7 +59,7 @@
     _continueButton = continueButton;
 
     [LEOStyleHelper styleButton:_continueButton forFeature:FeatureOnboarding];
-    [_continueButton setTitle:@"LOG IN" forState:UIControlStateNormal];
+    [_continueButton setTitle:@"SIGN UP" forState:UIControlStateNormal];
     [_continueButton addTarget:nil action:@selector(continueTapped:) forControlEvents:UIControlEventTouchUpInside];
 }
 
