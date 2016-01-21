@@ -129,7 +129,7 @@ static NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
     [self.tableView registerNib:[LEOButtonCell nib] forCellReuseIdentifier:kButtonCellReuseIdentifier];
 
     self.tableView.tableFooterView = [self buildAgreeViewFromString:@"By clicking subscribe you agree to our #<ts>terms of service# and #<pp>privacy policies#."];
-
+    self.tableView.tableFooterView.bounds = CGRectInset(self.tableView.tableFooterView.bounds, 0.0, -10.0);
 }
 
 
@@ -243,7 +243,7 @@ static NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
 - (UIView *)buildAgreeViewFromString:(NSString *)localizedString {
 
     UIView *agreeView = [UIView new];
-    CGRect agreeFrame = CGRectMake(30,10,[UIScreen mainScreen].bounds.size.width - 60,64);
+    CGRect agreeFrame = CGRectMake(30,20,[UIScreen mainScreen].bounds.size.width - 60,74);
     agreeView.frame = agreeFrame;
 
     // 1. Split the localized string on the # sign:
