@@ -43,6 +43,7 @@
         UILabel* strongLabel = [UILabel new];
         _expandedTitleLabel = strongLabel;
         _expandedTitleLabel.text = self.titleText;
+        _expandedTitleLabel.numberOfLines = 0;
         [self addSubview:_expandedTitleLabel];
     }
 

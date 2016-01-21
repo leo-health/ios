@@ -14,6 +14,7 @@
 #import "LEOStyleHelper.h"
 #import "UIColor+LeoColors.h"
 #import "UIImage+Extensions.h"
+#import "UIFont+LeoFonts.h"
 
 #import "LEOCalendarViewController.h"
 #import "LEOBasicSelectionViewController.h"
@@ -189,8 +190,12 @@ static NSString *const kKeySelectionVCDate = @"date";
 
         LEOGradientView *strongView = [LEOGradientView new];
         _gradientView = strongView;
-        _gradientView.colors = @[(id)[UIColor leo_green].CGColor, (id)[UIColor leo_white].CGColor];
+        UIColor *startColor = [UIColor colorWithRed:49/255. green:220/255. blue:116/255. alpha:1];
+        UIColor *endColor = [UIColor colorWithRed:71/255. green:197/255. blue:124/255. alpha:1];
+        _gradientView.colors = @[(id)startColor.CGColor, (id)endColor.CGColor];
         _gradientView.titleText = self.card.title;
+        _gradientView.titleTextFont = [UIFont leo_expandedCardHeaderFont];
+        _gradientView.titleTextColor = [UIColor leo_white];
     }
 
     return _gradientView;
@@ -206,6 +211,9 @@ static NSString *const kKeySelectionVCDate = @"date";
 
         UIButton* strongButton = [UIButton new];
         _submissionButton = strongButton;
+
+        _submissionButton.translatesAutoresizingMaskIntoConstraints = NO;
+        [_submissionButton addConstraint:[NSLayoutConstraint constraintWithItem:_submissionButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:44]];
 
         [LEOStyleHelper styleSubmissionButton:_submissionButton forFeature:self.feature];
         [_submissionButton addTarget:self action:@selector(submitCardUpdates) forControlEvents:UIControlEventTouchUpInside];

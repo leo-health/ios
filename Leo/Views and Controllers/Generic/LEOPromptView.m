@@ -121,7 +121,7 @@ IB_DESIGNABLE
     NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(_accessoryImageView, _textView, _sectionSeparator);
 
     NSArray *constraintVerticalTextView = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_textView][_sectionSeparator(==1)]|" options:0 metrics:nil views:viewsDictionary];
-    NSArray *constraintHorizontalTextView = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_textView]|" options:0 metrics:nil views:viewsDictionary];
+    NSArray *constraintHorizontalTextView = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_textView]" options:0 metrics:nil views:viewsDictionary];
     NSArray *constraintHorizontalSectionSeparator = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_sectionSeparator]|" options:0 metrics:nil views:viewsDictionary];
 
     [self addConstraints:constraintHorizontalTextView];
@@ -132,7 +132,12 @@ IB_DESIGNABLE
 
     NSLayoutConstraint *constraintTrailingPromptImageView = [NSLayoutConstraint constraintWithItem:self.accessoryImageView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0];
 
-    [self addConstraints:@[constraintVerticalAlignmentPromptImageView,constraintTrailingPromptImageView]];
+    NSLayoutConstraint *labelImageSpace = [NSLayoutConstraint constraintWithItem:self.textView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationLessThanOrEqual toItem:self.accessoryImageView attribute:NSLayoutAttributeLeading multiplier:1 constant:0];
+    [self.accessoryImageView setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
+    [self.textView setContentCompressionResistancePriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisHorizontal];
+    
+
+    [self addConstraints:@[constraintVerticalAlignmentPromptImageView,constraintTrailingPromptImageView, labelImageSpace]];
 }
 
 - (NSString *)validationPlaceholder {
