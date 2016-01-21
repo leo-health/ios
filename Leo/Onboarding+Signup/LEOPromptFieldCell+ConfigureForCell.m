@@ -33,7 +33,8 @@
     self.promptField.accessoryImage = [UIImage imageNamed:@"Icon-Add"];
     self.promptField.textField.enabled = NO;
     self.promptField.tapGestureEnabled = NO;
-    
+    self.promptField.textField.standardPlaceholder = @"";
+
     [self setNewPatientCopyFontAndColor];
 }
 
