@@ -8,11 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LEOManagePatientsView : UIView
+@interface LEOManagePatientsView : UIView <UITableViewDelegate, UITableViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (nonatomic) NSInteger cellCount;
+@property (strong, nonatomic) NSArray *patients;
 
--(instancetype)initWithCellCount:(NSInteger)cellCount;
+-(instancetype)initWithPatients:(NSArray *)patients;
 
 @end

@@ -7,88 +7,45 @@
 //
 
 #import "LEOManagePatientsView.h"
+#import "UIView+Extensions.h"
 
 @interface LEOManagePatientsView ()
 
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *heightConstraintForTableView;
 
 @end
 
 @implementation LEOManagePatientsView
 
--(instancetype)initWithCellCount:(NSInteger)cellCount {
+#pragma mark - Initialization and Helpers
+
+-(instancetype)initWithPatients:(NSArray *)patients {
     
     self = [super init];
     
     if (self) {
         
-        _cellCount = cellCount;
-        
-        [self setupConstraints];
-        [self setupTableView];
+        _patients = patients;
+
+        [self commonInit];
     }
     
     return self;
 }
 
-#pragma mark - Autolayout
+- (void)commonInit {
 
-- (void)setupConstraints {
-    
-    NSBundle *mainBundle = [NSBundle mainBundle];
-    NSArray *loadedViews = [mainBundle loadNibNamed:@"LEOManagePatientsView" owner:self options:nil];
-    LEOManagePatientsView *loadedSubview = [loadedViews firstObject];
-    
-    [self addSubview:loadedSubview];
-    
-    loadedSubview.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    [self addConstraint:[self pin:loadedSubview attribute:NSLayoutAttributeTop]];
-    [self addConstraint:[self pin:loadedSubview attribute:NSLayoutAttributeLeft]];
-    [self addConstraint:[self pin:loadedSubview attribute:NSLayoutAttributeBottom]];
-    [self addConstraint:[self pin:loadedSubview attribute:NSLayoutAttributeRight]];
-    
-    self.heightConstraintForTableView.constant = self.cellCount * 68;
-    
-    [self addConstraint:self.heightConstraintForTableView];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    [self setupTouchEventForDismissingKeyboard];
 }
 
-- (NSLayoutConstraint *)pin:(id)item attribute:(NSLayoutAttribute)attribute {
-    return [NSLayoutConstraint constraintWithItem:self
-                                        attribute:attribute
-                                        relatedBy:NSLayoutRelationEqual
-                                           toItem:item
-                                        attribute:attribute
-                                       multiplier:1.0
-                                         constant:0.0];
+
+-(void)setTableView:(UITableView *)tableView {
+
+    _tableView = tableView;
+
+    _tableView.scrollEnabled = NO;
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
 
--(NSLayoutConstraint *)heightConstraintForTableView {
-    
-    if (!_heightConstraintForTableView) {
-        _heightConstraintForTableView = [NSLayoutConstraint constraintWithItem:self.tableView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:self.cellCount * 68];
-    }
-    
-    return _heightConstraintForTableView;
-}
-
--(void)setCellCount:(NSInteger)cellCount {
-    _cellCount = cellCount;
-    
-    [self updateHeightForTableView];
-}
-
-- (void)updateHeightForTableView {
-    
-    [self removeConstraint:self.heightConstraintForTableView];
-    
-    self.heightConstraintForTableView.constant =  self.cellCount * 68;
-    
-    [self addConstraint:self.heightConstraintForTableView];
-}
-- (void)setupTableView {
-    
-    self.tableView.scrollEnabled = NO;
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-}
 @end
