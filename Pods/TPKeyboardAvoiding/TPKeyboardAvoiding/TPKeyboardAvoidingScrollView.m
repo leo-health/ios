@@ -62,18 +62,23 @@
     return [self TPKeyboardAvoiding_scrollToActiveTextField];
 }
 
+/**
+ *  scrollRectToVisible assumes the insets are not part of the visible space. To allow the active text field to scroll just above the keyboard, we temporarily reset the insets to reflect the true visible space
+ *
+ *  @param rect
+ *  @param animated
+ */
 - (void)scrollRectToVisible:(CGRect)rect animated:(BOOL)animated {
     
     UIEdgeInsets oldInsets = self.contentInset;
 
     TPKeyboardAvoidingState *state = self.keyboardAvoidingState;
     if ( state.keyboardVisible ) {
-        TPKeyboardAvoidingState *state = self.keyboardAvoidingState;
+
         UIEdgeInsets newInset = self.contentInset;
         CGRect keyboardRect = state.keyboardRect;
         
-         // not sure what the side effects of this are...
-        newInset.bottom = keyboardRect.size.height; // - MAX((CGRectGetMaxY(keyboardRect) - CGRectGetMaxY(self.bounds)), 0);
+        newInset.bottom = keyboardRect.size.height - MAX((CGRectGetMaxY(keyboardRect) - CGRectGetMaxY(self.bounds)), 0);
 
         self.contentInset = newInset;
     }

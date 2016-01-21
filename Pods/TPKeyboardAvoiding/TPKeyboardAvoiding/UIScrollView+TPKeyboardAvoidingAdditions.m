@@ -303,7 +303,7 @@ static const int kStateKey;
 
 -(CGFloat)TPKeyboardAvoiding_idealOffsetForView:(UIView *)view withViewingAreaHeight:(CGFloat)viewAreaHeight {
     CGSize contentSize = self.contentSize;
-    CGFloat offset = 0.0;
+    CGFloat offset;
 
     CGRect subviewRect = [view convertRect:view.bounds toView:self];
     

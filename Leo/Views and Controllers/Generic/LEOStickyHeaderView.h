@@ -9,6 +9,15 @@
 #import <UIKit/UIKit.h>
 #import <TPKeyboardAvoiding/TPKeyboardAvoidingScrollView.h>
 
+/**
+ *
+
+ Limitations of the current implementation
+ 1. User cannot modify the insets of the scrollView
+ 2. LEOStickyHeaderView must always start in expanded state (contentOffset y = 0)
+
+ */
+
 typedef void(^SubmitBlock)(void);
 
 @protocol LEOStickyHeaderDataSource <NSObject>
@@ -41,7 +50,7 @@ typedef void(^SubmitBlock)(void);
 @property (weak, nonatomic) id<LEOStickyHeaderDataSource> datasource;
 @property (weak, nonatomic) id<LEOStickyHeaderDelegate> delegate;
 
-@property (weak, nonatomic) TPKeyboardAvoidingScrollView *scrollView;
+@property (strong, nonatomic) TPKeyboardAvoidingScrollView *scrollView;
 
 - (CGFloat)transitionPercentageForScrollOffset:(CGPoint)offset;
 - (void)updateTransitionPercentageForScrollOffset:(CGPoint)offset;

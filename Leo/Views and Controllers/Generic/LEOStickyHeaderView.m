@@ -13,10 +13,9 @@
 
 #define _UIKeyboardFrameEndUserInfoKey (&UIKeyboardFrameEndUserInfoKey != NULL ? UIKeyboardFrameEndUserInfoKey : @"UIKeyboardBoundsUserInfoKey")
 
-CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
-
 @interface LEOStickyHeaderView ()
 
+// TODO: revisit these bools later to try to move toward a more functional architecture with less state
 @property (nonatomic) BOOL breakerIsOnScreen;
 @property (nonatomic) BOOL snapTransitionInProcess;
 @property (nonatomic) BOOL wasExpandedBeforeContentSizeChange;
@@ -39,7 +38,14 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 
 @implementation LEOStickyHeaderView
 
+CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
+NSString * const kKVOKeyPathContentSize = @"contentSize";
+NSString * const kKVOKeyPathContentOffset = @"contentOffset";
+NSString * const kAnimationKeyPathStrokeColor = @"strokeColor";
+
 @synthesize bodyView = _bodyView;
+
+#pragma mark  -  Setup and Accessors
 
 - (instancetype)initWithBodyView:(UIView *)bodyView {
 
@@ -63,8 +69,8 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 - (void)dealloc {
 
     // ????: is there ever a time where scrollView gets deallocated before this method is called?
-    [self.scrollView removeObserver:self forKeyPath:@"contentSize"];
-    [self.scrollView removeObserver:self forKeyPath:@"contentOffset"];
+    [self.scrollView removeObserver:self forKeyPath:kKVOKeyPathContentSize];
+    [self.scrollView removeObserver:self forKeyPath:kKVOKeyPathContentOffset];
 }
 
 - (void)commonInit {
@@ -110,8 +116,8 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 
         [self addSubview:_scrollView];
 
-        [_scrollView addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionOld context:nil];
-        [_scrollView addObserver:self forKeyPath:@"contentSize" options:NSKeyValueObservingOptionOld context:nil];
+        [_scrollView addObserver:self forKeyPath:kKVOKeyPathContentOffset options:NSKeyValueObservingOptionOld context:nil];
+        [_scrollView addObserver:self forKeyPath:kKVOKeyPathContentSize options:NSKeyValueObservingOptionOld context:nil];
 
         _scrollView.delegate = self;
 
@@ -198,102 +204,8 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 
         self.snapToHeight = @(headerHeight);
     }
+
     [super layoutSubviews];
-}
-
--(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
-
-    if (object == self.scrollView) {
-
-        if ([keyPath isEqualToString:@"contentSize"]) {
-
-            [self updateScrollInsetsToAllowForCollapse];
-        }
-
-        if ([keyPath isEqualToString:@"contentOffset"]) {
-
-            // header should always be either expanded or collapsed, never in between
-            BOOL shouldChangeFromCollapsedToExpanded = !self.wasExpandedBeforeContentSizeChange && [self titleViewShouldSnapToExpandedState];
-            BOOL shouldChangeFromExpandedToCollapsed = self.wasExpandedBeforeContentSizeChange && [self scrollViewVerticalContentOffset];
-            BOOL shouldAnimateSnap = shouldChangeFromCollapsedToExpanded || shouldChangeFromExpandedToCollapsed;
-
-            if (!self.scrollingWithTouch && !self.snapTransitionInProcess) {
-
-                if (shouldChangeFromExpandedToCollapsed) {
-
-                    self.forceSnapToStartFromBeginning = YES;
-                    [self snapToExpanded]; // start animation from beginning
-                    // will change content offset, then this observe method will be called recursively.
-                    [self navigationTitleViewSnapsForScrollView:self.scrollView animated:YES];
-
-                } else if (shouldChangeFromCollapsedToExpanded) {
-
-                    self.forceSnapToStartFromEnd = YES;
-                    [self snapToCollapsed];
-                    [self navigationTitleViewSnapsForScrollView:self.scrollView animated:YES];
-                }
-
-                if (!self.forceSnapToStartFromBeginning && !self.forceSnapToStartFromEnd) {
-
-                    // do nothing in response to the aniation initialization
-                    [self navigationTitleViewSnapsForScrollView:self.scrollView animated:shouldAnimateSnap];
-                }
-            }
-        }
-    }
-}
-
-- (void)registerForKeyboardNotifications {
-
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stickyHeaderView_keyboardWillShow:) name:UIKeyboardWillChangeFrameNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stickyHeaderView_keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
-}
-
-- (void)stickyHeaderView_keyboardWillShow:(NSNotification *)notification {
-
-    self.keyboardIsVisible = YES;
-    self.keyboardRect = [self convertRect:[[[notification userInfo] objectForKey:_UIKeyboardFrameEndUserInfoKey] CGRectValue] fromView:nil];
-    [self updateScrollInsetsToAllowForCollapse];
-}
-
-- (void)stickyHeaderView_keyboardWillHide:(NSNotification *)notification {
-
-    self.keyboardIsVisible = NO;
-    self.keyboardRect = [self convertRect:[[[notification userInfo] objectForKey:_UIKeyboardFrameEndUserInfoKey] CGRectValue] fromView:nil];
-    [self updateScrollInsetsToAllowForCollapse];
-}
-
-- (void)updateScrollInsetsToAllowForCollapse {
-
-    // determine content size via autolayout
-    [self.scrollView layoutIfNeeded];
-
-    UIEdgeInsets insets = self.scrollView.contentInset;
-    CGFloat insetHeight = insets.bottom; // add top later
-
-    BOOL keyboardIsVisible = self.keyboardIsVisible;
-    CGFloat keyboardSize = ( keyboardIsVisible ? CGRectGetHeight(self.keyboardRect) : 0 );
-    // ????: to allow for user set original insets, should I add insetHeight to keyboardSize?
-
-    CGFloat inbetweenSize = [self heightOfHeaderCellExcludingOverlapWithNavBar];
-    CGFloat scrollViewSize = CGRectGetHeight(self.scrollView.bounds) - keyboardSize; // available visible space
-    CGFloat contentSize = self.scrollView.contentSize.height;
-    CGFloat extraHeight = contentSize - scrollViewSize;
-
-    if (extraHeight > 0) {
-
-        insetHeight = inbetweenSize - extraHeight + keyboardSize;
-        if (insetHeight < keyboardSize) {
-            insetHeight = keyboardSize; // TRUTH:  insetHeight >= keyboardSize
-        }
-    } else {
-        insetHeight = keyboardSize;
-    }
-    insets.bottom = insetHeight;
-    self.scrollView.contentInset = insets;
-
-    // other side effects
-    self.scrollView.bounces = ![self scrollViewContentSizeSmallerThanScrollViewFrameIncludingInsets];
 }
 
 - (void)updateConstraints {
@@ -318,7 +230,7 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
         }
 
         NSDictionary *viewDictionary = NSDictionaryOfVariableBindings(_titleView, _bodyView, _scrollView, _contentView, _separatorLine, _footerView);
-        
+
         // Outside scroll view
         NSArray *verticalLayoutConstraintsForScrollView = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_scrollView][_separatorLine(==1)][_footerView]|" options:0 metrics:nil views:viewDictionary];
         NSArray *horizontalLayoutConstraintsForButtonView = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_footerView]|" options:0 metrics:nil views:viewDictionary];
@@ -351,76 +263,116 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
         [self.contentView addConstraint:self.titleViewTopConstraint];
         [self.contentView addConstraint:self.bodyViewTopConstraint];
         [self.contentView addConstraints:verticalLayoutConstraintsForBodyView];
-
+        
         self.alreadyUpdatedConstraints = YES;
     }
-
+    
     [super updateConstraints];
 }
 
-- (void)animateBreakerIfNeeded {
+#pragma mark - KVO Methods
 
-    if ([self isCollapsed] && !self.breakerIsOnScreen) {
-        [self fadeBreakerIn];
-    } else if (![self isCollapsed] && self.breakerIsOnScreen) {
-        [self fadeBreakerOut];
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
+
+    if (object == self.scrollView) {
+
+        if ([keyPath isEqualToString:kKVOKeyPathContentSize]) {
+
+            [self updateScrollInsetsToAllowForCollapse];
+        }
+
+        if ([keyPath isEqualToString:kKVOKeyPathContentOffset]) {
+
+            [self snapIfNeededInResponseToObservedContentOffsetChange];
+        }
     }
 }
 
-- (void)fadeBreakerOut {
+- (void)updateScrollInsetsToAllowForCollapse {
 
-    [self updateBreakerWithBlock:^(CABasicAnimation *fadeAnimation) {
+    // determine content size via autolayout
+    [self.scrollView layoutIfNeeded];
 
-        [self fadeAnimation:fadeAnimation fromColor:[LEOStyleHelper tintColorForFeature:self.feature] toColor:[UIColor clearColor]];
-    }];
+    UIEdgeInsets insets = self.scrollView.contentInset;
+    CGFloat insetHeight = insets.bottom; // add top later
 
-    self.breakerIsOnScreen = NO;
+    BOOL keyboardIsVisible = self.keyboardIsVisible;
+    CGFloat keyboardSize = ( keyboardIsVisible ? CGRectGetHeight(self.keyboardRect) : 0 );
+
+    CGFloat inbetweenSize = [self heightOfHeaderCellExcludingOverlapWithNavBar];
+    CGFloat scrollViewSize = CGRectGetHeight(self.scrollView.bounds) - keyboardSize; // available visible space
+    CGFloat contentSize = self.scrollView.contentSize.height;
+    CGFloat extraHeight = contentSize - scrollViewSize;
+
+    if (extraHeight > 0) {
+
+        insetHeight = inbetweenSize - extraHeight + keyboardSize;
+        if (insetHeight < keyboardSize) {
+            insetHeight = keyboardSize; // TRUTH: insetHeight >= keyboardSize
+        }
+    } else {
+        insetHeight = keyboardSize;
+    }
+    insets.bottom = insetHeight;
+    self.scrollView.contentInset = insets;
+
+
+    // other side effects that depend on inset changes
+
+    // scroll view should bounce only if it is scrollable - i.e. contentSize is smaller than frame minus insets
+    self.scrollView.bounces = ![self scrollViewContentSizeSmallerThanScrollViewFrameIncludingInsets];
 }
 
-- (void)fadeBreakerIn {
+- (void)snapIfNeededInResponseToObservedContentOffsetChange {
 
-    [self updateBreakerWithBlock:^(CABasicAnimation *fadeAnimation) {
 
-        [self fadeAnimation:fadeAnimation fromColor:[UIColor clearColor] toColor:[LEOStyleHelper tintColorForFeature:self.feature]];
-    }];
+    // header should always be either expanded or collapsed, never in between
+    BOOL shouldChangeFromCollapsedToExpanded = !self.wasExpandedBeforeContentSizeChange && [self titleViewShouldSnapToExpandedState];
+    BOOL shouldChangeFromExpandedToCollapsed = self.wasExpandedBeforeContentSizeChange && [self scrollViewVerticalContentOffset];
+    BOOL shouldAnimateSnap = shouldChangeFromCollapsedToExpanded || shouldChangeFromExpandedToCollapsed;
 
-    self.breakerIsOnScreen = YES;
+    if (!self.scrollingWithTouch && !self.snapTransitionInProcess) {
+
+        if (shouldChangeFromExpandedToCollapsed) {
+
+            self.forceSnapToStartFromBeginning = YES;
+            [self snapToExpanded]; // start animation from beginning
+            // will change content offset, then this observe method will be called recursively.
+            [self navigationTitleViewSnapsForScrollView:self.scrollView animated:YES];
+
+        } else if (shouldChangeFromCollapsedToExpanded) {
+
+            self.forceSnapToStartFromEnd = YES;
+            [self snapToCollapsed];
+            [self navigationTitleViewSnapsForScrollView:self.scrollView animated:YES];
+        }
+
+        if (!self.forceSnapToStartFromBeginning && !self.forceSnapToStartFromEnd) {
+
+            // do nothing in response to the aniation initialization
+            [self navigationTitleViewSnapsForScrollView:self.scrollView animated:shouldAnimateSnap];
+        }
+    }
 }
 
-- (void)updateBreakerWithBlock:(void (^) (CABasicAnimation *fadeAnimation))transitionBlock {
+- (void)registerForKeyboardNotifications {
 
-    CABasicAnimation *fadeAnimation = [CABasicAnimation animationWithKeyPath:@"strokeColor"];
-    fadeAnimation.duration = .2;
-
-    transitionBlock(fadeAnimation);
-
-    [self.pathLayer addAnimation:fadeAnimation forKey:@"strokeColor"];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stickyHeaderView_keyboardWillShow:) name:UIKeyboardWillChangeFrameNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stickyHeaderView_keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 }
 
-- (void)fadeAnimation:(CABasicAnimation *)fadeAnimation fromColor:(UIColor *)fromColor toColor:(UIColor *)toColor {
+- (void)stickyHeaderView_keyboardWillShow:(NSNotification *)notification {
 
-    fadeAnimation.fromValue = (id)fromColor.CGColor;
-    fadeAnimation.toValue = (id)toColor.CGColor;
-    self.pathLayer.strokeColor = toColor.CGColor;
+    self.keyboardIsVisible = YES;
+    self.keyboardRect = [self convertRect:[[[notification userInfo] objectForKey:_UIKeyboardFrameEndUserInfoKey] CGRectValue] fromView:nil];
+    [self updateScrollInsetsToAllowForCollapse];
 }
 
-- (void)drawBreaker {
+- (void)stickyHeaderView_keyboardWillHide:(NSNotification *)notification {
 
-    CGPoint beginningOfLine = CGPointMake(0, [self navBarHeight]);
-    CGPoint endOfLine = CGPointMake(CGRectGetMaxX(self.bounds), [self navBarHeight]);
-
-    UIBezierPath *path = [UIBezierPath bezierPath];
-    [path moveToPoint:beginningOfLine];
-    [path addLineToPoint:endOfLine];
-
-    self.pathLayer = [CAShapeLayer layer];
-    self.pathLayer.frame = self.bounds;
-    self.pathLayer.path = path.CGPath;
-    self.pathLayer.strokeColor = [UIColor clearColor].CGColor;
-    self.pathLayer.lineWidth = 1.f;
-    self.pathLayer.lineJoin = kCALineJoinBevel;
-
-    [self.layer addSublayer:self.pathLayer];
+    self.keyboardIsVisible = NO;
+    self.keyboardRect = [self convertRect:[[[notification userInfo] objectForKey:_UIKeyboardFrameEndUserInfoKey] CGRectValue] fromView:nil];
+    [self updateScrollInsetsToAllowForCollapse];
 }
 
 #pragma mark - <UIScrollViewDelegate> & Helper Methods
@@ -459,10 +411,6 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
             [self.delegate updateTitleViewForScrollTransitionPercentage:percentage];
         }
     }
-}
-
--(CGFloat)transitionPercentageForScrollOffset:(CGPoint)offset {
-    return self.scrollView.contentOffset.y / ([self heightOfTitleView] - [self navBarHeight]);
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
@@ -513,12 +461,9 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
     }
 }
 
-- (BOOL)titleViewShouldSnapToExpandedState {
-    return [self scrollViewVerticalContentOffset] < [self heightOfNoReturn];
-}
 
-- (BOOL)titleViewShouldSnapToCollapsedState {
-    return [self scrollViewVerticalContentOffset] > [self heightOfNoReturn] && [self scrollViewVerticalContentOffset] < [self heightOfHeaderCellExcludingOverlapWithNavBar];
+-(CGFloat)transitionPercentageForScrollOffset:(CGPoint)offset {
+    return self.scrollView.contentOffset.y / ([self heightOfTitleView] - [self navBarHeight]);
 }
 
 - (BOOL)scrollViewAtBottomPosition {
@@ -535,6 +480,16 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
     BOOL atBottom =  [roundedCurrentOffset isEqualToString:roundedMaxPossibleOffsetY];
 
     return atBottom;
+}
+
+#pragma mark  -  Snapping 
+
+- (BOOL)titleViewShouldSnapToExpandedState {
+    return [self scrollViewVerticalContentOffset] < [self heightOfNoReturn];
+}
+
+- (BOOL)titleViewShouldSnapToCollapsedState {
+    return [self scrollViewVerticalContentOffset] > [self heightOfNoReturn] && [self scrollViewVerticalContentOffset] < [self heightOfHeaderCellExcludingOverlapWithNavBar];
 }
 
 - (void)snapToExpanded {
@@ -597,6 +552,73 @@ CGFloat const kTitleViewTopConstraintOriginalConstant = 0;
 
 
     }
+}
+
+#pragma mark  -  Breaker
+
+- (void)animateBreakerIfNeeded {
+
+    if ([self isCollapsed] && !self.breakerIsOnScreen) {
+        [self fadeBreakerIn];
+    } else if (![self isCollapsed] && self.breakerIsOnScreen) {
+        [self fadeBreakerOut];
+    }
+}
+
+- (void)fadeBreakerOut {
+
+    [self updateBreakerWithBlock:^(CABasicAnimation *fadeAnimation) {
+
+        [self fadeAnimation:fadeAnimation fromColor:[LEOStyleHelper tintColorForFeature:self.feature] toColor:[UIColor clearColor]];
+    }];
+
+    self.breakerIsOnScreen = NO;
+}
+
+- (void)fadeBreakerIn {
+
+    [self updateBreakerWithBlock:^(CABasicAnimation *fadeAnimation) {
+
+        [self fadeAnimation:fadeAnimation fromColor:[UIColor clearColor] toColor:[LEOStyleHelper tintColorForFeature:self.feature]];
+    }];
+
+    self.breakerIsOnScreen = YES;
+}
+
+- (void)updateBreakerWithBlock:(void (^) (CABasicAnimation *fadeAnimation))transitionBlock {
+
+    CABasicAnimation *fadeAnimation = [CABasicAnimation animationWithKeyPath:kAnimationKeyPathStrokeColor];
+    fadeAnimation.duration = .2;
+
+    transitionBlock(fadeAnimation);
+
+    [self.pathLayer addAnimation:fadeAnimation forKey:kAnimationKeyPathStrokeColor];
+}
+
+- (void)fadeAnimation:(CABasicAnimation *)fadeAnimation fromColor:(UIColor *)fromColor toColor:(UIColor *)toColor {
+
+    fadeAnimation.fromValue = (id)fromColor.CGColor;
+    fadeAnimation.toValue = (id)toColor.CGColor;
+    self.pathLayer.strokeColor = toColor.CGColor;
+}
+
+- (void)drawBreaker {
+
+    CGPoint beginningOfLine = CGPointMake(0, [self navBarHeight]);
+    CGPoint endOfLine = CGPointMake(CGRectGetMaxX(self.bounds), [self navBarHeight]);
+
+    UIBezierPath *path = [UIBezierPath bezierPath];
+    [path moveToPoint:beginningOfLine];
+    [path addLineToPoint:endOfLine];
+
+    self.pathLayer = [CAShapeLayer layer];
+    self.pathLayer.frame = self.bounds;
+    self.pathLayer.path = path.CGPath;
+    self.pathLayer.strokeColor = [UIColor clearColor].CGColor;
+    self.pathLayer.lineWidth = 1.f;
+    self.pathLayer.lineJoin = kCALineJoinBevel;
+    
+    [self.layer addSublayer:self.pathLayer];
 }
 
 #pragma mark - Shorthand Helpers

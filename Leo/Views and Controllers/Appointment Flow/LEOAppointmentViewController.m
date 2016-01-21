@@ -170,7 +170,6 @@ static NSString *const kKeySelectionVCDate = @"date";
         theta = atanf(CGRectGetWidth(rect)/(CGRectGetHeight(rect)/2));
         [LEOGradientHelper gradientStartPoint:&start endPoint:&end withCenter:center withRadius:r withRotationInRadians:theta];
 
-
         self.gradientView.finalStartPoint = start;
         self.gradientView.finalEndPoint = end;
         
