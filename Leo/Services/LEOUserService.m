@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
+#import "AppDelegate.h"
 #import "LEOUserService.h"
 
 #import "User.h"
@@ -137,11 +138,36 @@
 
 - (void)loginUserWithEmail:(NSString *)email password:(NSString *)password withCompletion:(void (^)(SessionUser *user, NSError *error))completionBlock {
 
+
+/*
+ 
+ device identifier (udid)
+ device token
+ os version
+ device size
+ 
+ */
+
+
     NSMutableDictionary *loginParams = [@{APIParamUserEmail:email, APIParamUserPassword:password} mutableCopy];
 
     if ([DeviceToken token]) {
         [loginParams setValue:[DeviceToken token] forKey:APIParamSessionDeviceToken];
     }
+
+
+    // ????: what should be the format here?
+    CGSize screenSize = [[UIScreen mainScreen] bounds].size;
+    [loginParams setObject:NSStringFromCGSize(screenSize) forKey:@"device_size"];
+
+
+    NSLog(@"%@",[AppDelegate deviceName]);
+
+    // SOURCE: http://stackoverflow.com/questions/3339722/how-to-check-ios-version
+    NSOperatingSystemVersion osVersion = [[NSProcessInfo processInfo] operatingSystemVersion];
+    NSLog(@"%ld.%ld.%ld",osVersion.majorVersion, osVersion.minorVersion, osVersion.patchVersion);
+
+
 
     [[LEOUserService leoSessionManager] unauthenticatedPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointLogin params:loginParams completion:^(NSDictionary *rawResults, NSError *error) {
         
