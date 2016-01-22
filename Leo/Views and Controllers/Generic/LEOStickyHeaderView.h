@@ -50,6 +50,7 @@ typedef void(^SubmitBlock)(void);
 @property (weak, nonatomic) id<LEOStickyHeaderDataSource> datasource;
 @property (weak, nonatomic) id<LEOStickyHeaderDelegate> delegate;
 
+// Scroll view must be strong to ensure KVO observers are removed before dealloc
 @property (strong, nonatomic) TPKeyboardAvoidingScrollView *scrollView;
 
 - (CGFloat)transitionPercentageForScrollOffset:(CGPoint)offset;

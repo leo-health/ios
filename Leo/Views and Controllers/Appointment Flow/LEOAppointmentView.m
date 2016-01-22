@@ -192,7 +192,7 @@ IB_DESIGNABLE
 
     self.prepAppointment.date = date;
 
-    [self updateSchedulingPromptView:self.schedulePromptView];
+    [self enableSchedulingIfNeeded];
 }
 
 - (void)setNote:(NSString *)note {
@@ -249,9 +249,12 @@ IB_DESIGNABLE
     promptView.textView.attributedText = attrString;
 }
 
-- (void)updateSchedulingPromptView:(LEOPromptView *)promptView {
+- (void)enableSchedulingIfNeeded {
 
-    if (self.prepAppointment.date) {
+    LEOPromptView *promptView = self.schedulePromptView;
+
+    if (self.prepAppointment.isValidForBooking) {
+
         NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
         [style setAlignment:NSTextAlignmentLeft];
         [style setLineBreakMode:NSLineBreakByWordWrapping];
@@ -276,7 +279,7 @@ IB_DESIGNABLE
         [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:@"My visit is at "
                                                                            attributes:baseDictionary]];
 
-        [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:[NSDate leo_stringifiedTime:self.prepAppointment.date]
+        [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:[NSDate leo_stringifiedTimeWithEasternTimeZone:self.prepAppointment.date]
                                                                            attributes:variableDictionary]];
 
         [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:@" on "
@@ -289,10 +292,19 @@ IB_DESIGNABLE
                                                                            attributes:variableDictionary]];
 
         promptView.textView.attributedText = attrString;
+        promptView.tintColor = [UIColor leo_green];
+
+    } else if (self.prepAppointment.isValidForScheduling) {
+
+        self.schedulePromptView.userInteractionEnabled = YES;
+        self.schedulePromptView.tintColor = [UIColor leo_green];
+        [self updatePromptView:self.schedulePromptView withBaseString:@"When would you like to come in? and so on and so forth" variableStrings:nil];
 
     } else {
 
-        [self updatePromptView:promptView withBaseString:@"Please complete the fields above\nbefore selecting an appointment date and time." variableStrings:nil];
+        [self updatePromptView:promptView withBaseString:@"Please complete the fields above before selecting an appointment date and time." variableStrings:nil];
+        promptView.tintColor = [UIColor leo_grayForPlaceholdersAndLines];
+        promptView.userInteractionEnabled = NO;
     }
 }
 
@@ -368,30 +380,6 @@ IB_DESIGNABLE
     }
 
     return YES;
-}
-
-#pragma mark - Validation
-
-/**
- *  Determine whether the calendar button should be enabled
- */
-- (void)enableSchedulingIfNeeded {
-
-    if (self.prepAppointment.isValidForBooking) {
-        [self updateSchedulingPromptView:self.schedulePromptView];
-        return;
-    }
-
-    self.schedulePromptView.userInteractionEnabled = NO;
-    [self updatePromptView:self.schedulePromptView withBaseString:@"Please complete the above fields before booking." variableStrings:nil];
-    self.schedulePromptView.tintColor = [UIColor leo_grayForPlaceholdersAndLines];
-
-    if (self.prepAppointment.isValidForScheduling) {
-
-        self.schedulePromptView.userInteractionEnabled = YES;
-        self.schedulePromptView.tintColor = [UIColor leo_green];
-        [self updatePromptView:self.schedulePromptView withBaseString:@"When would you like to come in?" variableStrings:nil];
-    }
 }
 
 

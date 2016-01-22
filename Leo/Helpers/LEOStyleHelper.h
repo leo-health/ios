@@ -31,4 +31,7 @@
 + (void)styleNavigationBarForViewController:(UIViewController *)viewController forFeature:(Feature)feature withTitleText:(NSString *)titleText dismissal:(BOOL)dismissAvailable backButton:(BOOL)backAvailable;
 + (void)styleExpandedTitleLabel:(UILabel *)label feature:(Feature)feature;
 
++ (UIColor *)gradientStartColorForFeature:(Feature)feature;
++ (UIColor *)gradientEndColorForFeature:(Feature)feature;
+
 @end

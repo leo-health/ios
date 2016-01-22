@@ -136,7 +136,7 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundeclared-selector"
     //MARK: Determine whether we're cool with doing this here
-    [backButton addTarget:viewController action:@selector(pop) forControlEvents:UIControlEventTouchUpInside];
+    [backButton addTarget:viewController.navigationController action:@selector(popViewControllerAnimated:) forControlEvents:UIControlEventTouchUpInside];
 #pragma clang diagnostic pop
     
     [backButton setImage:[UIImage imageNamed:@"Icon-BackArrow"] forState:UIControlStateNormal];
@@ -244,6 +244,46 @@
         case FeatureMessaging:
             return [UIColor leo_white];
             
+        case FeatureUndefined:
+            return [UIColor blackColor];
+    }
+}
+
++ (UIColor *)gradientStartColorForFeature:(Feature)feature {
+
+    switch (feature) {
+        case FeatureOnboarding:
+            return [UIColor blackColor];
+
+        case FeatureSettings:
+            return [UIColor blackColor];
+
+        case FeatureAppointmentScheduling:
+            return [UIColor colorWithRed:49/255. green:220/255. blue:116/255. alpha:1];
+
+        case FeatureMessaging:
+            return [UIColor blackColor];
+
+        case FeatureUndefined:
+            return [UIColor blackColor];
+    }
+}
+
++ (UIColor *)gradientEndColorForFeature:(Feature)feature {
+
+    switch (feature) {
+        case FeatureOnboarding:
+            return [UIColor blackColor];
+
+        case FeatureSettings:
+            return [UIColor blackColor];
+
+        case FeatureAppointmentScheduling:
+            return [UIColor colorWithRed:71/255. green:197/255. blue:124/255. alpha:1];
+
+        case FeatureMessaging:
+            return [UIColor blackColor];
+
         case FeatureUndefined:
             return [UIColor blackColor];
     }

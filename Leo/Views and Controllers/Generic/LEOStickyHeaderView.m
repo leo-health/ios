@@ -68,7 +68,6 @@ NSString * const kAnimationKeyPathStrokeColor = @"strokeColor";
 
 - (void)dealloc {
 
-    // ????: is there ever a time where scrollView gets deallocated before this method is called?
     [self.scrollView removeObserver:self forKeyPath:kKVOKeyPathContentSize];
     [self.scrollView removeObserver:self forKeyPath:kKVOKeyPathContentOffset];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -298,7 +297,13 @@ NSString * const kAnimationKeyPathStrokeColor = @"strokeColor";
     CGFloat insetHeight = insets.bottom; // add top later
 
     BOOL keyboardIsVisible = self.keyboardIsVisible;
-    CGFloat keyboardSize = ( keyboardIsVisible ? CGRectGetHeight(self.keyboardRect) : 0 );
+    CGFloat keyboardSize = 0;
+
+    // Since the keyboard is always attached to the bottom of the screen, only add insets for the part that overlaps with the scrollView
+    CGFloat maxYDiff = (CGRectGetMaxY(self.keyboardRect) - CGRectGetMaxY(self.scrollView.frame));
+    if (keyboardIsVisible) {
+        keyboardSize = CGRectGetHeight(self.keyboardRect) - MAX(maxYDiff, 0);
+    }
 
     CGFloat inbetweenSize = [self heightOfHeaderCellExcludingOverlapWithNavBar];
     CGFloat scrollViewSize = CGRectGetHeight(self.scrollView.bounds) - keyboardSize; // available visible space
@@ -325,7 +330,6 @@ NSString * const kAnimationKeyPathStrokeColor = @"strokeColor";
 }
 
 - (void)snapIfNeededInResponseToObservedContentOffsetChange {
-
 
     // header should always be either expanded or collapsed, never in between
     BOOL shouldChangeFromCollapsedToExpanded = !self.wasExpandedBeforeContentSizeChange && [self titleViewShouldSnapToExpandedState];
@@ -358,7 +362,7 @@ NSString * const kAnimationKeyPathStrokeColor = @"strokeColor";
 
 - (void)registerForKeyboardNotifications {
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stickyHeaderView_keyboardWillShow:) name:UIKeyboardWillChangeFrameNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stickyHeaderView_keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stickyHeaderView_keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 }
 

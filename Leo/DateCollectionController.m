@@ -64,7 +64,7 @@ static NSString *const dateReuseIdentifier = @"DateCell";
     
     self.collectionView.dataSource = self.dataSource;
     self.collectionView.delegate = self;
-    self.collectionView.backgroundColor = [UIColor leo_green];
+    self.collectionView.backgroundColor = [UIColor clearColor];
     self.collectionView.pagingEnabled = YES;
     self.collectionView.showsHorizontalScrollIndicator = NO;
     self.collectionView.showsVerticalScrollIndicator = NO;

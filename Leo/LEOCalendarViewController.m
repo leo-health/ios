@@ -20,6 +20,7 @@
 #import <MBProgressHUD/MBProgressHUD.h>
 #import "UIColor+LeoColors.h"
 #import "UIFont+LeoFonts.h"
+#import "LEOStyleHelper.h"
 
 @interface LEOCalendarViewController ()
 
@@ -27,6 +28,7 @@
 @property (weak, nonatomic) IBOutlet UICollectionView *timeCollectionView;
 @property (weak, nonatomic) IBOutlet UILabel *monthLabel;
 @property (weak, nonatomic) IBOutlet UIView *monthView;
+@property (weak, nonatomic) IBOutlet UIView *gradientView;
 
 @property (strong, nonatomic) NSDictionary *slotsDictionary;
 
@@ -44,12 +46,36 @@
     
     [self formatCalendar];
     [self setupCollectionView];
+    [self setupNavBar];
 }
 
+- (void)viewDidLayoutSubviews {
+
+    [super viewDidLayoutSubviews];
+    [self setupGradient];
+}
+
+- (void)setupGradient {
+
+    UIColor *startColor = [LEOStyleHelper gradientStartColorForFeature:FeatureAppointmentScheduling];
+    UIColor *endColor = [LEOStyleHelper gradientEndColorForFeature:FeatureAppointmentScheduling];
+    CAGradientLayer *gradientLayer = [CAGradientLayer layer];
+    gradientLayer.colors = @[(id)startColor.CGColor, (id)endColor.CGColor];
+    gradientLayer.startPoint = CGPointMake(0, 0);
+    gradientLayer.endPoint = CGPointMake(1, 1);
+    gradientLayer.frame = self.gradientView.frame;
+    [self.gradientView.layer addSublayer:gradientLayer];
+}
+
+- (void)setupNavBar {
+
+    [LEOStyleHelper styleNavigationBarForViewController:self forFeature:FeatureAppointmentScheduling withTitleText:nil dismissal:NO backButton:YES];
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+}
 
 - (void)formatCalendar {
     
-    self.monthView.backgroundColor = [UIColor leo_green];
+    self.monthView.backgroundColor = [UIColor clearColor];
     self.monthLabel.font = [UIFont leo_expandedCardHeaderFont];
     self.monthLabel.textColor = [UIColor leo_white];
     self.noSlotsLabel.text = @"We're all booked up this week!\nCheck out next week for more appointments.";
@@ -95,12 +121,12 @@
 
 
 - (void)setupCollectionView {
-    
+
+    self.automaticallyAdjustsScrollViewInsets = NO;
+
     //FIXME: This is a code smell. These shouldn't be initialized just for the sake of setting up the design. Will come back to this later for speed of first module completion.
     self.dateCollectionController = [[DateCollectionController alloc] initWithCollectionView:self.dateCollectionView dates:self.slotsDictionary chosenDate:[self initialDate]];
     self.timeCollectionController = [[TimeCollectionController alloc] initWithCollectionView:self.timeCollectionView slots:self.slotsDictionary[[self initialDate]] chosenSlot:nil];
-    
-    [self updateMonthLabelWithDate:[self initialDate]];
 }
 
 - (NSDate *)initialDate {
@@ -123,7 +149,7 @@
     [LEOApiReachability startMonitoringForController:self withContinueBlock:^{
         [self loadCollectionViewWithInitialDate];
     } withNoContinueBlock:^{
-        //tbd
+        // TODO: what should happen when the user is offline?
     }];
 
 }
@@ -146,6 +172,8 @@
         
         //FIXME: Don't love that I have to call this from outside of the DateCollectionController. There has got to be a better way.
         [self.dateCollectionView setContentOffset:[self.dateCollectionController offsetForWeekOfStartingDate] animated:NO];
+
+        [self updateMonthLabelWithDate:[self initialDate]];
         
         [self.timeCollectionView layoutIfNeeded];
     }];

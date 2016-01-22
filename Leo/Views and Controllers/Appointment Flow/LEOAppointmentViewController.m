@@ -14,6 +14,7 @@
 #import "LEOStyleHelper.h"
 #import "UIColor+LeoColors.h"
 #import "UIImage+Extensions.h"
+#import "UIFont+LeoFonts.h"
 
 #import "LEOCalendarViewController.h"
 #import "LEOBasicSelectionViewController.h"
@@ -189,8 +190,12 @@ static NSString *const kKeySelectionVCDate = @"date";
 
         LEOGradientView *strongView = [LEOGradientView new];
         _gradientView = strongView;
-        _gradientView.colors = @[(id)[UIColor leo_green].CGColor, (id)[UIColor leo_white].CGColor];
+        UIColor *startColor = [LEOStyleHelper gradientStartColorForFeature:self.feature];
+        UIColor *endColor = [LEOStyleHelper gradientEndColorForFeature:self.feature];
+        _gradientView.colors = @[(id)startColor.CGColor, (id)endColor.CGColor];
         _gradientView.titleText = self.card.title;
+        _gradientView.titleTextFont = [UIFont leo_expandedCardHeaderFont];
+        _gradientView.titleTextColor = [UIColor leo_white];
     }
 
     return _gradientView;
@@ -206,6 +211,10 @@ static NSString *const kKeySelectionVCDate = @"date";
 
         UIButton* strongButton = [UIButton new];
         _submissionButton = strongButton;
+
+        // TODO: Add a public API to LEOStickyHeaderView to set footer height 
+        _submissionButton.translatesAutoresizingMaskIntoConstraints = NO;
+        [_submissionButton addConstraint:[NSLayoutConstraint constraintWithItem:_submissionButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:44]];
 
         [LEOStyleHelper styleSubmissionButton:_submissionButton forFeature:self.feature];
         [_submissionButton addTarget:self action:@selector(submitCardUpdates) forControlEvents:UIControlEventTouchUpInside];
@@ -260,9 +269,23 @@ static NSString *const kKeySelectionVCDate = @"date";
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
 
+
+    if ([segue.identifier isEqualToString:kSegueSchedule]) {
+
+        LEOCalendarViewController *calendarVC = segue.destinationViewController;
+
+        calendarVC.delegate = self;
+        calendarVC.appointment = self.appointmentView.appointment;
+        calendarVC.requestOperation = [[LEOAPISlotsOperation alloc] initWithAppointment:self.appointmentView.appointment];
+
+        return;
+    }
+
+    
     __block BOOL shouldSelect = NO;
 
     LEOBasicSelectionViewController *selectionVC = segue.destinationViewController;
+    selectionVC.feature = FeatureAppointmentScheduling;
 
     if ([segue.identifier isEqualToString:kSegueVisitType]) {
 
@@ -323,7 +346,6 @@ static NSString *const kKeySelectionVCDate = @"date";
         selectionVC.key = kKeySelectionVCProvider;
         selectionVC.reuseIdentifier = kCellProvider;
         selectionVC.titleText = kPromptProvider;
-        selectionVC.feature = FeatureAppointmentScheduling;
         selectionVC.configureCellBlock = ^(ProviderCell *cell, Provider *provider) {
 
             cell.selectedColor = self.card.tintColor;
@@ -341,17 +363,6 @@ static NSString *const kKeySelectionVCDate = @"date";
 
         selectionVC.requestOperation = [[LEOAPIPracticeOperation alloc] init];
         selectionVC.delegate = self;
-    }
-
-    if ([segue.identifier isEqualToString:kSegueSchedule]) {
-
-        LEOCalendarViewController *calendarVC = segue.destinationViewController;
-
-        calendarVC.delegate = self;
-        calendarVC.appointment = self.appointmentView.appointment;
-        calendarVC.requestOperation = [[LEOAPISlotsOperation alloc] initWithAppointment:self.appointmentView.appointment];
-
-        return;
     }
 }
 
