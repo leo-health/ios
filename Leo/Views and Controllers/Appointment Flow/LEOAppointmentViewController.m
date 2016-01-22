@@ -212,6 +212,7 @@ static NSString *const kKeySelectionVCDate = @"date";
         UIButton* strongButton = [UIButton new];
         _submissionButton = strongButton;
 
+        // TODO: Add a public API to LEOStickyHeaderView to set footer height 
         _submissionButton.translatesAutoresizingMaskIntoConstraints = NO;
         [_submissionButton addConstraint:[NSLayoutConstraint constraintWithItem:_submissionButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:44]];
 

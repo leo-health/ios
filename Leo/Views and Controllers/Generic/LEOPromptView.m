@@ -121,7 +121,7 @@ IB_DESIGNABLE
     NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(_accessoryImageView, _textView, _sectionSeparator);
 
     NSArray *constraintVerticalTextView = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_textView][_sectionSeparator(==1)]|" options:0 metrics:nil views:viewsDictionary];
-    NSArray *constraintHorizontalTextView = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_textView]" options:0 metrics:nil views:viewsDictionary];
+    NSArray *constraintHorizontalTextView = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_textView]-(1)-[_accessoryImageView]|" options:0 metrics:nil views:viewsDictionary];
     NSArray *constraintHorizontalSectionSeparator = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_sectionSeparator]|" options:0 metrics:nil views:viewsDictionary];
 
     [self addConstraints:constraintHorizontalTextView];
@@ -132,12 +132,16 @@ IB_DESIGNABLE
 
     NSLayoutConstraint *constraintTrailingPromptImageView = [NSLayoutConstraint constraintWithItem:self.accessoryImageView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0];
 
-    NSLayoutConstraint *labelImageSpace = [NSLayoutConstraint constraintWithItem:self.textView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationLessThanOrEqual toItem:self.accessoryImageView attribute:NSLayoutAttributeLeading multiplier:1 constant:0];
+    // Compression resistance
     [self.accessoryImageView setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
     [self.textView setContentCompressionResistancePriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisHorizontal];
+    // Content hugging
+    [self.accessoryImageView setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
+    [self.textView setContentHuggingPriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisHorizontal];
+
     
 
-    [self addConstraints:@[constraintVerticalAlignmentPromptImageView,constraintTrailingPromptImageView, labelImageSpace]];
+    [self addConstraints:@[constraintVerticalAlignmentPromptImageView,constraintTrailingPromptImageView]];
 }
 
 - (NSString *)validationPlaceholder {

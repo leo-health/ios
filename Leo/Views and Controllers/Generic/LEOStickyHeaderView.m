@@ -298,6 +298,8 @@ NSString * const kAnimationKeyPathStrokeColor = @"strokeColor";
 
     BOOL keyboardIsVisible = self.keyboardIsVisible;
     CGFloat keyboardSize = 0;
+
+    // Since the keyboard is always attached to the bottom of the screen, only add insets for the part that overlaps with the scrollView
     CGFloat maxYDiff = (CGRectGetMaxY(self.keyboardRect) - CGRectGetMaxY(self.scrollView.frame));
     if (keyboardIsVisible) {
         keyboardSize = CGRectGetHeight(self.keyboardRect) - MAX(maxYDiff, 0);
