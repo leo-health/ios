@@ -237,23 +237,10 @@
                     <view key="view" contentMode="scaleToFill" id="mrN-tH-5PR">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Upe-hO-jAp">
-                                <rect key="frame" x="0.0" y="20" width="600" height="580"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </tableView>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="Upe-hO-jAp" firstAttribute="leading" secondItem="mrN-tH-5PR" secondAttribute="leading" id="57e-KT-sXj"/>
-                            <constraint firstAttribute="bottomMargin" secondItem="Upe-hO-jAp" secondAttribute="bottom" id="NJ2-sZ-xCk"/>
-                            <constraint firstAttribute="trailing" secondItem="Upe-hO-jAp" secondAttribute="trailing" id="c9b-Pf-NHu"/>
-                            <constraint firstItem="Upe-hO-jAp" firstAttribute="top" secondItem="5hU-Kn-oWV" secondAttribute="bottom" id="yGz-wF-EJW"/>
-                        </constraints>
                     </view>
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
-                        <outlet property="tableView" destination="Upe-hO-jAp" id="lxE-FU-klf"/>
                         <segue destination="w6v-NG-N8f" kind="show" identifier="SignUpPatientSegue" id="VqK-QW-gNa"/>
                         <segue destination="OYv-Kz-zcb" kind="show" identifier="ContinueSegue" id="nws-bR-vKp"/>
                     </connections>

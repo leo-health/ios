@@ -12,7 +12,7 @@
 #import "LEOStickyHeaderViewController.h"
 @class Family;
 
-@interface LEOManagePatientsViewController : LEOStickyHeaderViewController <UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource, SignUpPatientProtocol>
+@interface LEOManagePatientsViewController : LEOStickyHeaderViewController <UITextFieldDelegate, SignUpPatientProtocol, LEOStickyHeaderDataSource, LEOStickyHeaderDelegate, UITableViewDelegate>
 
 @property (strong, nonatomic) Family *family;
 @property (copy, nonatomic) NSString *enrollmentToken;

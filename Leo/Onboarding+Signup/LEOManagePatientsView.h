@@ -6,11 +6,19 @@
 //  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
+@class LEOIntrinsicSizeTableView;
+
 #import <UIKit/UIKit.h>
 
-@interface LEOManagePatientsView : UIView <UITableViewDelegate, UITableViewDataSource>
+typedef NS_ENUM(NSUInteger, TableViewSection) {
+    TableViewSectionPatients = 0,
+    TableViewSectionAddPatient = 1,
+    TableViewSectionButton = 2
+};
 
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@interface LEOManagePatientsView : UIView <UITableViewDataSource>
+
+@property (weak, nonatomic) IBOutlet LEOIntrinsicSizeTableView *tableView;
 @property (strong, nonatomic) NSArray *patients;
 
 -(instancetype)initWithPatients:(NSArray *)patients;

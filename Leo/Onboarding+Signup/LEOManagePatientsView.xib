@@ -5,23 +5,15 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LEOManagePatientsView">
-            <connections>
-                <outlet property="heightConstraintForTableView" destination="0jd-UA-eUb" id="vLN-Pq-0ze"/>
-                <outlet property="tableView" destination="fET-bS-EvM" id="57t-OI-bfe"/>
-            </connections>
-        </placeholder>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="KHs-3H-XT8">
+        <view contentMode="scaleToFill" id="KHs-3H-XT8" customClass="LEOManagePatientsView">
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="fET-bS-EvM">
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="fET-bS-EvM" customClass="LEOIntrinsicSizeTableView">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="600" id="0jd-UA-eUb"/>
-                    </constraints>
                 </tableView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -31,6 +23,9 @@
                 <constraint firstAttribute="trailing" secondItem="fET-bS-EvM" secondAttribute="trailing" id="x8y-RI-nee"/>
                 <constraint firstItem="fET-bS-EvM" firstAttribute="top" secondItem="KHs-3H-XT8" secondAttribute="top" id="xIc-Bo-tGl"/>
             </constraints>
+            <connections>
+                <outlet property="tableView" destination="fET-bS-EvM" id="ceV-c1-wmA"/>
+            </connections>
             <point key="canvasLocation" x="272" y="248"/>
         </view>
     </objects>
