@@ -243,7 +243,7 @@ static NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
 - (UIView *)buildAgreeViewFromString:(NSString *)localizedString {
 
     UIView *agreeView = [UIView new];
-    CGRect agreeFrame = CGRectMake(30,20,[UIScreen mainScreen].bounds.size.width - 60,74);
+    CGRect agreeFrame = CGRectMake(30,0,[UIScreen mainScreen].bounds.size.width - 60,74);
     agreeView.frame = agreeFrame;
 
     // 1. Split the localized string on the # sign:
