@@ -30,7 +30,7 @@
     
     
     
-    NSString *timeString = [NSDate leo_stringifiedTimeWithoutTimePeriod:slot.startDateTime];
+    NSString *timeString = [NSDate leo_stringifiedTimeWithEasternTimeZone:slot.startDateTime];
     
     NSAttributedString *formattedTimeString = [[NSAttributedString alloc] initWithString:timeString attributes:attributedDictionary1];
     
