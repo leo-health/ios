@@ -117,6 +117,14 @@
     return [dateFormatter stringFromDate:date];
 }
 
++ (NSString *)leo_stringifiedTimeWithEasternTimeZone:(NSDate *)date {
+
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
+    dateFormatter.timeZone = [NSTimeZone timeZoneWithName:@"US/Eastern"];
+    dateFormatter.dateFormat = @"h':'mm";
+    return [dateFormatter stringFromDate:date];
+}
+
 + (NSString *)leo_stringifiedTimeWithoutTimePeriod:(NSDate *)date {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
     dateFormatter.dateFormat = @"h':'mm";
