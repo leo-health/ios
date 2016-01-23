@@ -7,88 +7,134 @@
 //
 
 #import "LEOManagePatientsView.h"
+#import "UIView+Extensions.h"
+#import "LEOBasicHeaderCell+ConfigureForCell.h"
+#import "LEOPromptFieldCell+ConfigureForCell.h"
+#import "LEOButtonCell.h"
+#import "LEOIntrinsicSizeTableView.h"
+
+
 
 @interface LEOManagePatientsView ()
 
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *heightConstraintForTableView;
 
 @end
 
 @implementation LEOManagePatientsView
 
--(instancetype)initWithCellCount:(NSInteger)cellCount {
+#pragma mark - Initialization and Helpers
+
+-(instancetype)initWithPatients:(NSArray *)patients {
     
     self = [super init];
     
     if (self) {
         
-        _cellCount = cellCount;
-        
-        [self setupConstraints];
-        [self setupTableView];
+        _patients = patients;
+
+        [self commonInit];
     }
     
     return self;
 }
 
-#pragma mark - Autolayout
+-(instancetype)initWithCoder:(NSCoder *)aDecoder {
 
-- (void)setupConstraints {
-    
-    NSBundle *mainBundle = [NSBundle mainBundle];
-    NSArray *loadedViews = [mainBundle loadNibNamed:@"LEOManagePatientsView" owner:self options:nil];
-    LEOManagePatientsView *loadedSubview = [loadedViews firstObject];
-    
-    [self addSubview:loadedSubview];
-    
-    loadedSubview.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    [self addConstraint:[self pin:loadedSubview attribute:NSLayoutAttributeTop]];
-    [self addConstraint:[self pin:loadedSubview attribute:NSLayoutAttributeLeft]];
-    [self addConstraint:[self pin:loadedSubview attribute:NSLayoutAttributeBottom]];
-    [self addConstraint:[self pin:loadedSubview attribute:NSLayoutAttributeRight]];
-    
-    self.heightConstraintForTableView.constant = self.cellCount * 68;
-    
-    [self addConstraint:self.heightConstraintForTableView];
-}
+    self = [super initWithCoder:aDecoder];
 
-- (NSLayoutConstraint *)pin:(id)item attribute:(NSLayoutAttribute)attribute {
-    return [NSLayoutConstraint constraintWithItem:self
-                                        attribute:attribute
-                                        relatedBy:NSLayoutRelationEqual
-                                           toItem:item
-                                        attribute:attribute
-                                       multiplier:1.0
-                                         constant:0.0];
-}
+    if (self) {
 
--(NSLayoutConstraint *)heightConstraintForTableView {
-    
-    if (!_heightConstraintForTableView) {
-        _heightConstraintForTableView = [NSLayoutConstraint constraintWithItem:self.tableView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:self.cellCount * 68];
+        [self commonInit];
     }
-    
-    return _heightConstraintForTableView;
+
+    return self;
 }
 
--(void)setCellCount:(NSInteger)cellCount {
-    _cellCount = cellCount;
-    
-    [self updateHeightForTableView];
+- (void)commonInit {
+
+    [self setupTouchEventForDismissingKeyboard];
 }
 
-- (void)updateHeightForTableView {
+
+- (void)setTableView:(LEOIntrinsicSizeTableView *)tableView {
+
+    _tableView = tableView;
+
+    _tableView.scrollEnabled = NO;
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    _tableView.estimatedRowHeight = 150.0;
+    _tableView.rowHeight = UITableViewAutomaticDimension;
+    _tableView.alwaysBounceVertical = NO;
+
+    [_tableView registerNib:[LEOPromptFieldCell nib]
+         forCellReuseIdentifier:kPromptFieldCellReuseIdentifier];
     
-    [self removeConstraint:self.heightConstraintForTableView];
-    
-    self.heightConstraintForTableView.constant =  self.cellCount * 68;
-    
-    [self addConstraint:self.heightConstraintForTableView];
+    [_tableView registerNib:[LEOButtonCell nib] forCellReuseIdentifier:kButtonCellReuseIdentifier];
+
+    _tableView.dataSource = self;
 }
-- (void)setupTableView {
-    
-    self.tableView.scrollEnabled = NO;
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return TableViewNumberOfSections;
 }
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+
+    switch (section) {
+
+        case TableViewSectionPatients:
+            return [self.patients count];
+
+        case TableViewSectionAddPatient:
+            return 1;
+
+        case TableViewSectionButton:
+            return 1;
+    }
+
+    return 0;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    switch (indexPath.section) {
+
+        case TableViewSectionPatients: {
+
+            Patient *patient = self.patients[indexPath.row];
+
+            LEOPromptFieldCell *cell = [tableView
+                                        dequeueReusableCellWithIdentifier:kPromptFieldCellReuseIdentifier
+                                        forIndexPath:indexPath];
+
+            [cell configureForPatient:patient];
+
+            return cell;
+        }
+
+        case TableViewSectionAddPatient: {
+
+            LEOPromptFieldCell *cell = [tableView
+                                        dequeueReusableCellWithIdentifier:kPromptFieldCellReuseIdentifier
+                                        forIndexPath:indexPath];
+
+            [cell configureForNewPatient];
+
+            return cell;
+        }
+
+        case TableViewSectionButton: {
+
+            LEOButtonCell *buttonCell = [tableView dequeueReusableCellWithIdentifier:kButtonCellReuseIdentifier];
+
+            [buttonCell.button addTarget:nil action:@selector(continueTapped:) forControlEvents:UIControlEventTouchUpInside];
+
+            return buttonCell;
+        }
+    }
+
+    return nil;
+}
+
+
 @end

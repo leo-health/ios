@@ -343,7 +343,7 @@
 
 - (void)finishLocalUpdate {
 
-    [self.family addPatient:self.patient];
+    [self.delegate addPatient:self.patient];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
