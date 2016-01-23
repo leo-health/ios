@@ -265,6 +265,9 @@ extern NSString *const APIParamUserSupports; // @"supports";
 
 #pragma mark - Session
 extern NSString *const APIParamSessionDeviceToken; // @"device_token";
+extern NSString *const APIParamSessionDeviceType; // @"device_type";
+extern NSString *const APIParamSessionPlatform; // @"platform";
+extern NSString *const APIParamSessionOSVersion; // @"os_version";
 
 #pragma mark - Role
 extern NSString *const APIParamRole; // @"role";
