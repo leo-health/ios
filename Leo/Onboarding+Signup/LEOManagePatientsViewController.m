@@ -55,8 +55,6 @@ static NSString *const kSignUpPatientSegue = @"SignUpPatientSegue";
 
     [self setupNavigationBar];
 
-//    self.view.tintColor = [LEOStyleHelper tintColorForFeature:FeatureOnboarding];
-
     [LEOApiReachability startMonitoringForController:self];
 }
 
@@ -151,6 +149,8 @@ static NSString *const kSignUpPatientSegue = @"SignUpPatientSegue";
         [self performSegueWithIdentifier:kSegueContinue sender:sender];
     } else {
 
+
+        //TODO: Copy Review
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Parents only!" message:@"You must add a child to continue." preferredStyle:UIAlertControllerStyleAlert];
 
         UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil];

@@ -13,7 +13,10 @@
 typedef NS_ENUM(NSUInteger, TableViewSection) {
     TableViewSectionPatients = 0,
     TableViewSectionAddPatient = 1,
-    TableViewSectionButton = 2
+    TableViewSectionButton = 2,
+
+    //keep as last item in enum to provide dynamic number of sections
+    TableViewNumberOfSections
 };
 
 @interface LEOManagePatientsView : UIView <UITableViewDataSource>

@@ -75,7 +75,7 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 3;
+    return TableViewNumberOfSections;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -134,32 +134,6 @@
     }
 
     return nil;
-}
-
-
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-
-    switch (indexPath.section) {
-            
-        case TableViewSectionAddPatient:
-        case TableViewSectionPatients:
-        case TableViewSectionButton:
-            return UITableViewAutomaticDimension;
-    }
-
-    return UITableViewAutomaticDimension;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView currentRowForIndexPath:(NSIndexPath *)indexPath {
-
-    NSInteger sumSections = 0;
-
-    for (NSInteger i = 0; i < indexPath.section; i++) {
-        NSInteger rowsInSection = [tableView numberOfRowsInSection:i];
-        sumSections += rowsInSection;
-    }
-
-    return sumSections + indexPath.row;
 }
 
 
