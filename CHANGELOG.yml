@@ -1,33 +1,40 @@
     upcoming:
+    - New! Addition of Personal Health Record
+    - New! Photo Messaging
+    - New! Status bar notifications upon success and failure of inviting a parent
+    - New! Status bar notifications upon success and failure of changing a password
+    - New! Design updates including gradients
+    - Tons and tons of bug fixing
+
     releases:
     - version: 0.1.1
       build: 2015.12.09.12.19
       date: December 09 2015
       notes:
       - Fix bug associated with privacy and terms of service footer in onboarding
-    
+
     - version: 0.1.1
       build: 2015.12.09.11.33
       date: December 09 2015
       notes:
       - Minor tweaks.
-    
+
     - version: 0.1.1
       build: 2015.12.08.17.52
       date: December 08 2015
       notes:
       - Adds Privacy Policy and Terms and Conditions to Onboarding and Settings
-  - Supports beta builds for Testflight
-  - Updates Menu Button design
-  - Adds ability to call practice from Conversation card on main feed
-  - Fixes incidental saving of Patient and User data when not meaning to do so
-    
+      - Supports beta builds for Testflight
+      - Updates Menu Button design
+      - Adds ability to call practice from Conversation card on main feed
+      - Fixes incidental saving of Patient and User data when not meaning to do so
+
     - version: 0.1.1
       build: 2015.12.07.11.13
       date: December 07 2015
       notes:
       - Fix for bugs in editing of patient in onboarding and settings
-    
+
     - version: 0.1.1
       build: 2015.12.04.11.02
       date: December 04 2015
@@ -40,7 +47,7 @@
       - Fix for missing icons in menu
       - Fix for error appearing on successful enrollment
       - Fix for excess flipping on app opening
-    
+
     - version: 0.1.1
       build: 2015.12.02.11.05
       date: December 02 2015
@@ -53,7 +60,7 @@
       - Captures insurer of user during onboarding process
       - Add spinners as needed
       - Add some error alerts as needed
-    
+
     - version: 0.1.1
       build: 2015.11.19.14.32
       date: November 19 2015
@@ -61,14 +68,14 @@
       - API updates and bug fixes to Messaging
     - Push notifications with fixed device identifier (test device)
     - API updates and bug fixes to Scheduling
-    
+
     - version: 0.1.1
       build: 2015.10.31.09.23
       date: October 31 2015
       notes:
       - Patches a long list of design issues associated with onboarding and signup
     - Updates to support placeholders in messaging if avatar url returns successfully but a nil result
-    
+
     - version: 0.1.0 (formerly incorrectly versioned 1.0.0)
       build: 2015.10.26.18.23
       date: October 26 2015
