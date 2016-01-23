@@ -9,6 +9,7 @@
 #import "LEOPHRViewController.h"
 #import "LEOPHRHeaderView.h"
 #import "LEORecordViewController.h"
+#import "LEOStyleHelper.h"
 
 #import <GNZSlidingSegment/GNZSegmentedControl.h>
 #import <GNZSlidingSegment/GNZSlidingSegmentView.h>
@@ -74,6 +75,8 @@ static CGFloat const kHeightOfHeaderPHR = 100;
 }
 
 -(void)setupNavigationBar {
+
+    [LEOStyleHelper styleBackButtonForViewController:self forFeature:FeatureSettings];
 
     self.navigationController.navigationBarHidden = NO;
     self.navigationController.navigationBar.translucent = YES;
