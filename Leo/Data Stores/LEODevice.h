@@ -1,5 +1,5 @@
 //
-//  DeviceToken.h
+//  LEODevice.h
 //  Leo
 //
 //  Created by Zachary Drossman on 11/20/15.
@@ -8,9 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
-@interface DeviceToken : NSObject
+@interface LEODevice : NSObject
 
 + (instancetype)createTokenWithString:(NSString *)token;
-+ (NSString *)token;
++ (NSString *)deviceToken;
++ (NSString *)deviceType;
++ (NSString *)osVersionString;
++ (NSDictionary *)jsonDictionary;
 
 @end

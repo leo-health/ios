@@ -18,7 +18,7 @@
 #import "LEOS3SessionManager.h"
 #import "SessionUser.h"
 #import "NSUserDefaults+Additions.h"
-#import "DeviceToken.h"
+#import "LEODevice.h"
 
 @implementation LEOUserService
 
@@ -138,20 +138,11 @@
 
 - (void)loginUserWithEmail:(NSString *)email password:(NSString *)password withCompletion:(void (^)(SessionUser *user, NSError *error))completionBlock {
 
-    // SOURCE: http://stackoverflow.com/questions/3339722/how-to-check-ios-version
-    NSOperatingSystemVersion osVersion = [[NSProcessInfo processInfo] operatingSystemVersion];
-    NSString *oSVersionString = [NSString stringWithFormat:@"%ld.%ld.%ld",osVersion.majorVersion, osVersion.minorVersion, osVersion.patchVersion];
-
     NSMutableDictionary *loginParams = [@{
                                           APIParamUserEmail         : email,
-                                          APIParamUserPassword      : password,
-                                          APIParamSessionDeviceType : [AppDelegate deviceName],
-                                          APIParamSessionOSVersion  : oSVersionString
-                                          } mutableCopy];
+                                          APIParamUserPassword      : password } mutableCopy];
 
-    if ([DeviceToken token]) {
-        [loginParams setObject:[DeviceToken token] forKey:APIParamSessionDeviceToken];
-    }
+    [loginParams addEntriesFromDictionary:[LEODevice jsonDictionary]];
 
     [[LEOUserService leoSessionManager] unauthenticatedPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointLogin params:loginParams completion:^(NSDictionary *rawResults, NSError *error) {
         
