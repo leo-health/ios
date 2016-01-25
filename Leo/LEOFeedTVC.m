@@ -78,13 +78,13 @@
 @property (copy, nonatomic) NSArray *appointmentTypes;
 
 @property (weak, nonatomic) IBOutlet VBFPopFlatButton *menuButton;
-
 @property (nonatomic) BOOL menuShowing;
 @property (strong, nonatomic) UIImageView *blurredImageView;
 @property (strong, nonatomic) MenuView *menuView;
 @property (weak, nonatomic) IBOutlet UINavigationBar *navigationBar;
 
-@property (strong, nonatomic) NSNumber *cardInFocusObject; // ????: possible pattern to use public primitives, but still allow for not setting them
+@property (strong, nonatomic) NSIndexPath *cardInFocusIndexPath;
+
 
 @end
 
@@ -138,19 +138,6 @@ static CGFloat const kFeedInsetTop = 30.0;
 
         [self fetchDataForCard:nil];
     }];
-}
-
-- (NSInteger)cardInFocus {
-
-    if (self.cardInFocusObject) {
-        return [self.cardInFocusObject integerValue];
-    }
-    return -1;
-}
-
-- (void)setCardInFocus:(NSInteger)cardInFocus {
-    
-    self.cardInFocusObject = @(cardInFocus);
 }
 
 - (void)setupNavigationBar {
@@ -275,22 +262,54 @@ static CGFloat const kFeedInsetTop = 30.0;
                 [self.tableView reloadData];
                 [MBProgressHUD hideHUDForView:self.tableView animated:NO];
 
-                if (self.cardInFocus >= 0) {
-
-                    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.cardInFocus inSection:0];
-                    [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
-
-                    [self animateCellHighlight];
-                }
+                [self activateCardInFocus];
             });
         }];
     });
 }
 
+- (NSIndexPath *)cardInFocusIndexPath {
+
+    if (!_cardInFocusIndexPath) {
+        _cardInFocusIndexPath = [self indexPathForCardWithCardType:self.cardInFocusType underlyingObjectID:self.cardInFocusObjectID];
+    }
+    return _cardInFocusIndexPath;
+}
+
+- (NSIndexPath*)indexPathForCardWithCardType:(CardType)cardType underlyingObjectID:(NSString*)objectID {
+
+    if (!objectID || cardType == CardTypeUndefined) {
+        return nil;
+    }
+
+    int i = 0;
+    NSIndexPath *indexPath;
+    for (LEOCard *card in self.cards) {
+        if (card.type == cardType) {
+//             ????: TODO: create a protocol for associatedCardObjects
+            if ([card.associatedCardObject respondsToSelector:@selector(objectID)]) {
+                NSString *objectIDString = (NSString *)[card.associatedCardObject objectID];
+                if ([objectIDString isEqual:objectID]) {
+                    indexPath = [NSIndexPath indexPathForItem:i inSection:0];
+                }
+            }
+        }
+        i++;
+    }
+    return indexPath;
+}
+
+- (void)activateCardInFocus {
+
+    [self.tableView scrollToRowAtIndexPath:self.cardInFocusIndexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
+
+    [self animateCellHighlight];
+
+}
+
 - (void)animateCellHighlight {
 
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.cardInFocus inSection:0];
-    LEOFeedCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+    LEOFeedCell *cell = [self.tableView cellForRowAtIndexPath:self.cardInFocusIndexPath];
     [cell configureForCard:self.cards[0] forUnreadState:YES animated:YES];
 }
 
@@ -593,7 +612,7 @@ static CGFloat const kFeedInsetTop = 30.0;
     LEOFeedCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier
                                                          forIndexPath:indexPath];;
 
-    cell.unreadState = indexPath.row == self.cardInFocus;
+    cell.unreadState = [indexPath isEqual:self.cardInFocusIndexPath];
     [cell configureForCard:card];
 
     return cell;

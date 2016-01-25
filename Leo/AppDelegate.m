@@ -216,9 +216,8 @@
         //navigate the "aps" dictionary looking for "loc-args" and "loc-key", for example, or your personal payload)
         
     } else {
-        
-        //TODO: This is just a test URL. Will need to make dynamic eventually.
-        NSURL *pushURL = [NSURL URLWithString:@"leohealth://feed/0"];
+
+        NSURL *pushURL = userInfo[kPushNotificationParamDeepLink];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [[UIApplication sharedApplication] openURL:pushURL];
@@ -228,78 +227,41 @@
     application.applicationIconBadgeNumber = 0;
 }
 
--(BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
-    
-    if ([url.scheme isEqualToString: @"leohealth"]) {
-        
+- (BOOL)leo_application:(UIApplication * )application openURL:(NSURL *)url options:(NSDictionary<NSString *,id> *)options {
+
+    if ([url.scheme isEqualToString:kDeepLinkDefaultScheme]) {
+
         if ([SessionUser isLoggedIn]) {
-            
-            if ([url.host isEqualToString: @"feed"]) {
+
+            if ([url.host isEqualToString:kDeepLinkPathFeed]) {
 
                 NSArray *pathComponents = url.pathComponents;
-                NSInteger cardNumber = 0;
-                if (pathComponents.count > 1) {
-                    cardNumber = [pathComponents[1] integerValue];
-                }
-                self.feedTVC.cardInFocus = cardNumber;
-                [self.feedTVC fetchData];
 
-            } else {
-                
-                NSLog(@"An unknown action was passed.");
+                if (pathComponents.count > 2) {
+                    
+                    self.feedTVC.cardInFocusType = [LEOCard cardTypeWithString:pathComponents[1]];
+                    self.feedTVC.cardInFocusObjectID = pathComponents[2];
+                    [self.feedTVC fetchData];
+
+                    return YES;
+                }
             }
         }
     }
-    
-    else {
 
-        // the url scheme gives the target application, not the source
-//        NSLog(@"Not opened by Leo Health.");
-        NSLog(@"An unknown action was passed.");
-
-    }
-    
+    // explicitly return YES in all valid url structures
+    NSLog(@"An unknown action was passed.");
     return NO;
 }
 
-- (BOOL)application: (UIApplication * ) application openURL: (NSURL * ) url options:(nonnull NSDictionary<NSString *,id> *)options {
-    
-    if ([url.scheme isEqualToString: @"leohealth"]) {
-        
-        if ([SessionUser isLoggedIn]) {
+-(BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
 
-            if ([url.host isEqualToString: @"feed"]) {
+    return [self leo_application:application openURL:url options:nil];
+}
 
-                // TODO: move this out into its own deep link handler method - possibly in a separate class
-                [self setRootViewControllerWithStoryboardName:kStoryboardFeed];
-                NSArray *pathComponents = url.pathComponents;
-                NSInteger cardNumber = 0;
-                if (pathComponents.count > 1) {
-                    cardNumber = [pathComponents[1] integerValue];
-                }
-                self.feedTVC.cardInFocus = cardNumber;
-            }
-            
-            if ([url.host isEqualToString: @"home"]) {
-                
-                UIStoryboard *storyboard = [UIStoryboard storyboardWithName:kStoryboardFeed bundle:nil];
-                
-                self.window.rootViewController = [storyboard instantiateInitialViewController];
-                
-            } else if ([url.host isEqualToString: @"conversation"]) {
-                
-                [self.window.rootViewController.storyboard instantiateInitialViewController];
-            } else {
-                
-                NSLog(@"An unknown action was passed.");
-            }
-        }
-    } else {
-        
-        NSLog(@"We were not opened with Leo.");
-    }
-    
-    return NO;
+- (BOOL)application:(UIApplication *) application openURL:(NSURL *)url options:(nonnull NSDictionary<NSString *,id> *)options {
+
+    return [self leo_application:application openURL:url options:options];
 }
 
 - (LEOFeedTVC *)feedTVC {

@@ -18,7 +18,8 @@
 @interface LEOFeedTVC : UIViewController <UITableViewDelegate, UITableViewDataSource, CardActivityProtocol, LEOExpandedCardViewDelegate, MenuActivityProtocol>
 
 @property (strong, nonatomic) Family *family;
-@property (nonatomic) NSInteger cardInFocus;
+@property (strong, nonatomic) NSString *cardInFocusObjectID;
+@property (nonatomic) CardType cardInFocusType;
 
 - (void)fetchData;
 

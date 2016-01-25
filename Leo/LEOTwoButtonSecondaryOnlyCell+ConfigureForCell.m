@@ -57,7 +57,7 @@
 
     // TODO: define unread state configuration here
 
-    self.bodyView.backgroundColor = [UIColor blackColor];
+//    self.bodyView.backgroundColor = [UIColor blackColor];
 }
 
 - (void)formatSubviewsWithTintColor:(UIColor *)tintColor {
