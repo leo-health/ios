@@ -13,6 +13,9 @@
 - (void)awakeFromNib {
     
     self.selectionStyle = UITableViewCellSelectionStyleNone;
+
+    //TODO: Remove "button, replace with UILabel, since we aren't actually using functionality of the control after all.
+    self.editButton.enabled = NO;
 }
 
 + (UINib *)nib {
