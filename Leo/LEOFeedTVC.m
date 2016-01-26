@@ -108,8 +108,6 @@ static CGFloat const kFeedInsetTop = 30.0;
     self.view.tintColor = [UIColor leo_white];
     self.view.backgroundColor = [UIColor leo_orangeRed];
 
-    [self setupNavigationBar];
-
     [self setupNotifications];
     [self setupTableView];
     [self setupMenuButton];
@@ -123,12 +121,14 @@ static CGFloat const kFeedInsetTop = 30.0;
 
     [super viewWillAppear:animated];
 
-    [LEOStyleHelper styleNavigationBarForFeature:FeatureSettings];
-
-    self.navigationController.navigationBarHidden = YES;
+    [self setupNavigationBar];
 }
 
 - (void)setupNavigationBar {
+
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
+
+    [LEOStyleHelper styleNavigationBarForFeature:FeatureSettings];
 
     self.navigationBar.barTintColor = [UIColor leo_orangeRed];
     self.navigationBar.translucent = NO;
