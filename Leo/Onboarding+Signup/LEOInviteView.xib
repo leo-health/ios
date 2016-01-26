@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9059"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9531"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LEOInviteView">
@@ -18,33 +19,30 @@
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LXY-wq-flv" customClass="LEOPromptField">
                     <rect key="frame" x="30" y="0.0" width="540" height="48"/>
-                    <animations/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="48" placeholder="YES" id="v8W-2b-zcd"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LZb-2H-ibk" customClass="LEOPromptField">
-                    <rect key="frame" x="30" y="110" width="540" height="48"/>
-                    <animations/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="48" placeholder="YES" id="QqT-4l-8qf"/>
-                    </constraints>
-                </view>
-                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eO9-kC-VjT" customClass="LEOPromptField">
-                    <rect key="frame" x="30" y="62" width="540" height="48"/>
-                    <animations/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eO9-kC-VjT" customClass="LEOPromptField">
+                    <rect key="frame" x="30" y="48" width="540" height="68"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="68" id="uF2-Su-ewK"/>
                     </constraints>
                 </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LZb-2H-ibk" customClass="LEOPromptField">
+                    <rect key="frame" x="30" y="116" width="540" height="48"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="48" placeholder="YES" id="QqT-4l-8qf"/>
+                    </constraints>
+                </view>
             </subviews>
-            <animations/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="LXY-wq-flv" firstAttribute="leading" secondItem="eO9-kC-VjT" secondAttribute="leading" id="By2-Fc-Bir"/>
+                <constraint firstAttribute="bottom" secondItem="LZb-2H-ibk" secondAttribute="bottom" id="H5O-A1-1mr"/>
                 <constraint firstItem="LZb-2H-ibk" firstAttribute="top" secondItem="eO9-kC-VjT" secondAttribute="bottom" id="On1-FO-Fiu"/>
                 <constraint firstItem="eO9-kC-VjT" firstAttribute="leading" secondItem="LZb-2H-ibk" secondAttribute="leading" id="QUm-3E-07y"/>
                 <constraint firstItem="eO9-kC-VjT" firstAttribute="trailing" secondItem="LZb-2H-ibk" secondAttribute="trailing" id="SJc-HQ-rn5"/>
@@ -54,6 +52,7 @@
                 <constraint firstItem="LXY-wq-flv" firstAttribute="leading" secondItem="nze-tw-Yyn" secondAttribute="leading" constant="30" id="s9V-z7-n42"/>
                 <constraint firstItem="LXY-wq-flv" firstAttribute="trailing" secondItem="eO9-kC-VjT" secondAttribute="trailing" id="w17-bQ-xh6"/>
             </constraints>
+            <point key="canvasLocation" x="682" y="409"/>
         </view>
     </objects>
 </document>
