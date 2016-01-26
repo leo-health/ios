@@ -238,10 +238,11 @@
                 NSArray *pathComponents = url.pathComponents;
 
                 if (pathComponents.count > 2) {
-                    
+
+                    [self setRootViewControllerWithStoryboardName:kStoryboardFeed];
+
                     self.feedTVC.cardInFocusType = [LEOCard cardTypeWithString:pathComponents[1]];
                     self.feedTVC.cardInFocusObjectID = pathComponents[2];
-                    [self.feedTVC fetchData];
 
                     return YES;
                 }

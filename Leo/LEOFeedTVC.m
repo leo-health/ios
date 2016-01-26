@@ -310,7 +310,7 @@ static CGFloat const kFeedInsetTop = 30.0;
 - (void)animateCellHighlight {
 
     LEOFeedCell *cell = [self.tableView cellForRowAtIndexPath:self.cardInFocusIndexPath];
-    [cell configureForCard:self.cards[0] forUnreadState:YES animated:YES];
+    [cell setUnreadState:YES animated:YES];
 }
 
 - (void)setupTableView {
@@ -318,6 +318,7 @@ static CGFloat const kFeedInsetTop = 30.0;
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
 
+    // TODO: update to use exact row heights so that scrollToIndexPath works correctly
     self.tableView.estimatedRowHeight = 200;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     self.tableView.backgroundColor = [UIColor leo_grayForMessageBubbles];
@@ -612,8 +613,8 @@ static CGFloat const kFeedInsetTop = 30.0;
     LEOFeedCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier
                                                          forIndexPath:indexPath];;
 
-    cell.unreadState = [indexPath isEqual:self.cardInFocusIndexPath];
     [cell configureForCard:card];
+    cell.unreadState = [indexPath isEqual:self.cardInFocusIndexPath];
 
     return cell;
 }
