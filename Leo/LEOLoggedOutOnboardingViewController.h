@@ -1,5 +1,5 @@
 //
-//  LoggedOutOnboardingViewController.h
+//  LEOLoggedOutOnboardingViewController.h
 //  Leo
 //
 //  Created by Adam Fanslau on 1/25/16.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LoggedOutOnboardingViewController : UICollectionViewController
+@interface LEOLoggedOutOnboardingViewController : UICollectionViewController
 
 @end

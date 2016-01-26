@@ -1,12 +1,12 @@
 //
-//  LoggedOutOnboardingViewController.m
+//  LEOLoggedOutOnboardingViewController.m
 //  Leo
 //
 //  Created by Adam Fanslau on 1/25/16.
 //  Copyright © 2016 Leo Health. All rights reserved.
 //
 
-#import "LoggedOutOnboardingViewController.h"
+#import "LEOLoggedOutOnboardingViewController.h"
 #import "LEOLoggedOutSignUpCell.h"
 #import "UIColor+LeoColors.h"
 #import "LEOHorizontalModalTransitioningDelegate.h"
@@ -14,13 +14,13 @@
 static NSString *const kLoginSegue = @"LoginSegue";
 static NSString *const kSignUpSegue = @"SignUpSegue";
 
-@interface LoggedOutOnboardingViewController () <UICollectionViewDelegateFlowLayout>
+@interface LEOLoggedOutOnboardingViewController () <UICollectionViewDelegateFlowLayout>
 
 @property (strong, nonatomic) LEOHorizontalModalTransitioningDelegate *transitioningDelegate;
 
 @end
 
-@implementation LoggedOutOnboardingViewController
+@implementation LEOLoggedOutOnboardingViewController
 
 typedef NS_ENUM(NSUInteger, OnboardingCellFeature) {
     OnboardingCellFeatureLogin,

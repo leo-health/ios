@@ -201,7 +201,7 @@
 		31FDDE6F1B29EDF70009BBC2 /* ArrayDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 3130B48E1B068CE0006ACC80 /* ArrayDataSource.m */; };
 		31FEF1571B0D09E700AD14D2 /* LEOSecondaryUserView.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FEF1561B0D09E700AD14D2 /* LEOSecondaryUserView.m */; };
 		660D77781C46ACBF00DCCB3C /* LEOIntrinsicSizeTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 660D77771C46ACBF00DCCB3C /* LEOIntrinsicSizeTableView.m */; };
-		662371DF1C5683A3001AB3E7 /* LoggedOutOnboardingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 662371DE1C5683A3001AB3E7 /* LoggedOutOnboardingViewController.m */; };
+		662371DF1C5683A3001AB3E7 /* LEOLoggedOutOnboardingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 662371DE1C5683A3001AB3E7 /* LEOLoggedOutOnboardingViewController.m */; };
 		662371E51C568A26001AB3E7 /* LEOLoggedOutOnboardingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 662371E31C568A26001AB3E7 /* LEOLoggedOutOnboardingCell.m */; };
 		662371E61C568A26001AB3E7 /* LEOLoggedOutOnboardingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 662371E41C568A26001AB3E7 /* LEOLoggedOutOnboardingCell.xib */; };
 		662371F11C568C23001AB3E7 /* LEOLoggedOutLoginCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 662371EF1C568C23001AB3E7 /* LEOLoggedOutLoginCell.m */; };
@@ -618,8 +618,8 @@
 		5E9632A0348BFFA2B85A9B06 /* Pods-LeoTests.debug stubs.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LeoTests.debug stubs.xcconfig"; path = "Pods/Target Support Files/Pods-LeoTests/Pods-LeoTests.debug stubs.xcconfig"; sourceTree = "<group>"; };
 		660D77761C46ACBF00DCCB3C /* LEOIntrinsicSizeTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOIntrinsicSizeTableView.h; sourceTree = "<group>"; };
 		660D77771C46ACBF00DCCB3C /* LEOIntrinsicSizeTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOIntrinsicSizeTableView.m; sourceTree = "<group>"; };
-		662371DD1C5683A3001AB3E7 /* LoggedOutOnboardingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoggedOutOnboardingViewController.h; sourceTree = "<group>"; };
-		662371DE1C5683A3001AB3E7 /* LoggedOutOnboardingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoggedOutOnboardingViewController.m; sourceTree = "<group>"; };
+		662371DD1C5683A3001AB3E7 /* LEOLoggedOutOnboardingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOLoggedOutOnboardingViewController.h; sourceTree = "<group>"; };
+		662371DE1C5683A3001AB3E7 /* LEOLoggedOutOnboardingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOLoggedOutOnboardingViewController.m; sourceTree = "<group>"; };
 		662371E21C568A26001AB3E7 /* LEOLoggedOutOnboardingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOLoggedOutOnboardingCell.h; sourceTree = "<group>"; };
 		662371E31C568A26001AB3E7 /* LEOLoggedOutOnboardingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOLoggedOutOnboardingCell.m; sourceTree = "<group>"; };
 		662371E41C568A26001AB3E7 /* LEOLoggedOutOnboardingCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LEOLoggedOutOnboardingCell.xib; sourceTree = "<group>"; };
@@ -1278,8 +1278,8 @@
 		662371DC1C56831D001AB3E7 /* Logged Out Flow */ = {
 			isa = PBXGroup;
 			children = (
-				662371DD1C5683A3001AB3E7 /* LoggedOutOnboardingViewController.h */,
-				662371DE1C5683A3001AB3E7 /* LoggedOutOnboardingViewController.m */,
+				662371DD1C5683A3001AB3E7 /* LEOLoggedOutOnboardingViewController.h */,
+				662371DE1C5683A3001AB3E7 /* LEOLoggedOutOnboardingViewController.m */,
 				662371E21C568A26001AB3E7 /* LEOLoggedOutOnboardingCell.h */,
 				662371E31C568A26001AB3E7 /* LEOLoggedOutOnboardingCell.m */,
 				662371E41C568A26001AB3E7 /* LEOLoggedOutOnboardingCell.xib */,
@@ -1803,7 +1803,7 @@
 				3168997D1BC4858400B4C1EB /* LEOReviewPatientCell.m in Sources */,
 				31BF23431BBAEA0A005856E5 /* LEOSignUpPatientView.m in Sources */,
 				31F5AA631B791B4A00F96D06 /* LEOCalendarViewController.m in Sources */,
-				662371DF1C5683A3001AB3E7 /* LoggedOutOnboardingViewController.m in Sources */,
+				662371DF1C5683A3001AB3E7 /* LEOLoggedOutOnboardingViewController.m in Sources */,
 				3101F9411BF54D320075765B /* NSUserDefaults+Additions.m in Sources */,
 				312594B71BDFEA9C00A497C0 /* LEOHorizontalModalTransitionAnimator.m in Sources */,
 				31D275761C517AF0005F8964 /* LEOManagePatientsView.m in Sources */,
