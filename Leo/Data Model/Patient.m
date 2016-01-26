@@ -44,7 +44,7 @@
     self = [super initWithJSONDictionary:jsonResponse];
 
     if (self) {
-        _familyID = jsonResponse[APIParamFamilyID]; //FIXME: Update with constant.
+        _familyID = [jsonResponse[APIParamFamilyID] stringValue];
         _dob = [NSDate leo_dateFromDashedDateString:jsonResponse[APIParamUserBirthDate]];
         _gender = jsonResponse[APIParamUserSex];
         _status = jsonResponse[APIParamUserStatus];
