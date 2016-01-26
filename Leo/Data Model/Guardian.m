@@ -67,7 +67,7 @@ static NSString *const kMembershipTypeIncomplete = @"Incomplete"; //FIXME: This 
 
 - (void)updateWithJSONDictionary:(NSDictionary *)jsonResponse {
 
-    _familyID = [jsonResponse leo_itemForKey:APIParamFamilyID];
+    _familyID = [[jsonResponse leo_itemForKey:APIParamFamilyID] stringValue];
     _primary = [jsonResponse leo_itemForKey:APIParamUserPrimary];
     _insurancePlan = [jsonResponse leo_itemForKey:APIParamUserInsurancePlan];
     _phoneNumber = [jsonResponse leo_itemForKey:APIParamPhone];
