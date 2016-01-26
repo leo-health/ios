@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="reuseIdentifierLogin" id="gTV-IL-0wX" customClass="LEOLoggedOutLoginCell">
+            <rect key="frame" x="0.0" y="0.0" width="305" height="367"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="305" height="367"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5Hf-Zk-nMs">
+                        <rect key="frame" x="0.0" y="0.0" width="305" height="367"/>
+                    </imageView>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xza-4P-GKi" userLabel="Call to action button">
+                        <rect key="frame" x="0.0" y="117" width="305" height="50"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="50" id="Hbk-FV-ADG"/>
+                        </constraints>
+                        <state key="normal" title="HAVE AN ACCOUNT ALREADY? SIGN IN"/>
+                    </button>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            </view>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="5Hf-Zk-nMs" secondAttribute="bottom" id="9V4-Rm-JgN"/>
+                <constraint firstItem="5Hf-Zk-nMs" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="9uM-9A-aNA"/>
+                <constraint firstAttribute="trailing" secondItem="5Hf-Zk-nMs" secondAttribute="trailing" id="BCW-e5-q9B"/>
+                <constraint firstAttribute="trailing" secondItem="Xza-4P-GKi" secondAttribute="trailing" id="XSd-fB-MtE"/>
+                <constraint firstItem="Xza-4P-GKi" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="Y1r-gc-o1q"/>
+                <constraint firstAttribute="bottom" secondItem="Xza-4P-GKi" secondAttribute="bottom" constant="200" id="aoT-LQ-ftY"/>
+                <constraint firstItem="Xza-4P-GKi" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="odG-8j-vmD"/>
+                <constraint firstItem="5Hf-Zk-nMs" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="xQL-Bw-wSQ"/>
+            </constraints>
+            <size key="customSize" width="305" height="367"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="odG-8j-vmD"/>
+                </mask>
+            </variation>
+            <connections>
+                <outlet property="imageView" destination="5Hf-Zk-nMs" id="OyL-Mh-Og9"/>
+                <outlet property="loginButton" destination="Xza-4P-GKi" id="tow-SK-Pot"/>
+            </connections>
+            <point key="canvasLocation" x="176.5" y="228.5"/>
+        </collectionViewCell>
+    </objects>
+</document>

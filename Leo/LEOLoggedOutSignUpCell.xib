@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="reuseIdentifierSignup" id="gTV-IL-0wX" customClass="LEOLoggedOutSignUpCell">
+            <rect key="frame" x="0.0" y="0.0" width="456" height="407"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="456" height="407"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9dX-x6-lDU">
+                        <rect key="frame" x="0.0" y="0.0" width="456" height="407"/>
+                    </imageView>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dzi-R7-eX4" userLabel="Sign up">
+                        <rect key="frame" x="133" y="162" width="190" height="40"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="190" id="cRx-a1-wg5"/>
+                            <constraint firstAttribute="height" constant="40" id="zsG-Ui-pHX"/>
+                        </constraints>
+                        <state key="normal" title="CREATE AN ACCOUNT"/>
+                    </button>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RIK-cW-zkd" userLabel="Log in">
+                        <rect key="frame" x="0.0" y="212" width="456" height="50"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="50" id="ce2-hH-pEZ"/>
+                        </constraints>
+                        <state key="normal" title="SIGN IN TO AN EXISTING ACCOUNT"/>
+                    </button>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            </view>
+            <constraints>
+                <constraint firstItem="RIK-cW-zkd" firstAttribute="top" secondItem="Dzi-R7-eX4" secondAttribute="bottom" constant="10" id="15H-sk-QNz"/>
+                <constraint firstItem="9dX-x6-lDU" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="1Mw-ZE-a7j"/>
+                <constraint firstItem="RIK-cW-zkd" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="7iX-vT-Mri"/>
+                <constraint firstAttribute="bottom" secondItem="9dX-x6-lDU" secondAttribute="bottom" id="8iG-5x-gHv"/>
+                <constraint firstAttribute="trailing" secondItem="RIK-cW-zkd" secondAttribute="trailing" id="K7M-IO-KRW"/>
+                <constraint firstItem="Dzi-R7-eX4" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="Moj-hm-s6S"/>
+                <constraint firstAttribute="bottom" secondItem="RIK-cW-zkd" secondAttribute="bottom" constant="145" id="ehp-pl-baS"/>
+                <constraint firstItem="RIK-cW-zkd" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="teJ-8n-da6"/>
+                <constraint firstAttribute="trailing" secondItem="9dX-x6-lDU" secondAttribute="trailing" id="x4b-w9-0O8"/>
+                <constraint firstItem="9dX-x6-lDU" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="zli-yh-rp2"/>
+            </constraints>
+            <size key="customSize" width="456" height="407"/>
+            <connections>
+                <outlet property="imageView" destination="9dX-x6-lDU" id="3cu-Ds-Mlo"/>
+                <outlet property="loginButton" destination="RIK-cW-zkd" id="amk-Ox-0bi"/>
+                <outlet property="signUpButton" destination="Dzi-R7-eX4" id="SMa-SR-gdf"/>
+            </connections>
+            <point key="canvasLocation" x="250" y="158.5"/>
+        </collectionViewCell>
+    </objects>
+</document>
