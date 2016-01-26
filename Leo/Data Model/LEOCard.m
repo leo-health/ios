@@ -61,12 +61,12 @@
     // ????: Changing cardTypes requires this to change. There must be a safer way to do this
     return @[
              @"CardTypeUndefined",
-             @"CardTypeAppointment",
-             @"CardTypeConversation",
-             @"CardTypePayment",
-             @"CardTypeForm",
-             @"CardTypeVisitSummary",
-             @"CardTypeCustom"
+             @"appointment",
+             @"conversation",
+             @"payment",
+             @"form",
+             @"visit_summary",
+             @"custom"
              ];
 }
 

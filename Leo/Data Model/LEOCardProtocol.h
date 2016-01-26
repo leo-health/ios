@@ -11,6 +11,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+// Changes here require changes in [LEOCard cardTypes] method, which defines the string representation of these types
+// FIXME: is there a better way?
 typedef NS_ENUM(NSUInteger, CardType) {
 
     CardTypeUndefined = 0,
