@@ -746,6 +746,7 @@ static CGFloat const kFeedInsetTop = 30.0;
 - (void)dismissMenuView {
 
     [self.menuView removeFromSuperview];
+    self.menuShowing = NO;
     self.menuView = nil;
 }
 
