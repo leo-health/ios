@@ -254,12 +254,14 @@
     NSString *channelString = [NSString stringWithFormat:@"%@%@",@"newMessage",[SessionUser currentUser].email];
     NSString *event = @"new_message";
 
+    __weak typeof(self) weakSelf = self;
     LEOPusherHelper *pusherHelper = [LEOPusherHelper sharedPusher];
     [pusherHelper connectToPusherChannel:channelString withEvent:event sender:self withCompletion:^(NSDictionary *channelData) {
 
-        NSString *messageID = [self extractMessageIDFromChannelData:channelData];
+        typeof(self) strongSelf = weakSelf;
+        NSString *messageID = [strongSelf extractMessageIDFromChannelData:channelData];
 
-        [self fetchMessageWithID:messageID];
+        [strongSelf fetchMessageWithID:messageID];
     }];
 }
 
@@ -271,6 +273,7 @@
 
     LEOMessageService *messageService = [[LEOMessageService alloc] init];
     [messageService getMessageWithIdentifier:messageID withCompletion:^(Message *message, NSError *error) {
+
         [self updateConversationWithMessage:message];
     }];
 }
@@ -372,26 +375,24 @@
 
     UIAlertController *mediaController = [UIAlertController alertControllerWithTitle:@"Attachments" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
 
-    UIViewController<UIImagePickerControllerDelegate, UINavigationControllerDelegate> * __weak weakself = self;
-
     UIAlertAction *cameraAction = [UIAlertAction actionWithTitle:@"Photo from camera" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
 
         UIImagePickerController *pickerController = [UIImagePickerController new];
         pickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
-        pickerController.delegate = weakself;
+        pickerController.delegate = self;
 
         [pickerController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor leo_white], NSFontAttributeName: [UIFont leo_menuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont]}];
         pickerController.transitioningDelegate = self.transitioningDelegate;
         pickerController.modalPresentationStyle = UIModalPresentationCustom;
 
-        [weakself presentViewController:pickerController animated:YES completion:nil];
+        [self presentViewController:pickerController animated:YES completion:nil];
     }];
 
     UIAlertAction *photoAction = [UIAlertAction actionWithTitle:@"Photo from library" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
 
         UIImagePickerController *pickerController = [UIImagePickerController new];
         pickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        pickerController.delegate = weakself;
+        pickerController.delegate = self;
         [pickerController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor leo_white], NSFontAttributeName: [UIFont leo_menuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont]}];
 
         [[UIBarButtonItem appearanceWhenContainedIn:[UIImagePickerController class], nil] setTitleTextAttributes:@{ NSForegroundColorAttributeName:[UIColor leo_white], NSFontAttributeName : [UIFont leo_buttonLabelsAndTimeStampsFont] } forState:UIControlStateNormal];
@@ -402,7 +403,7 @@
         pickerController.transitioningDelegate = self.transitioningDelegate;
         pickerController.modalPresentationStyle = UIModalPresentationCustom;
 
-        [weakself presentViewController:pickerController animated:YES completion:nil];
+        [self presentViewController:pickerController animated:YES completion:nil];
     }];
 
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
@@ -537,10 +538,12 @@
         return nil;
     }
 
+    __weak typeof(self) weakSelf = self;
     [[NSNotificationCenter defaultCenter] addObserverForName:kNotificationDownloadedImageUpdated object:message.sender.avatar queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull notification) {
 
-        [self.collectionView.collectionViewLayout invalidateLayoutWithContext:[JSQMessagesCollectionViewFlowLayoutInvalidationContext context]];
-        [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
+        typeof(self) strongSelf = weakSelf;
+        [strongSelf.collectionView.collectionViewLayout invalidateLayoutWithContext:[JSQMessagesCollectionViewFlowLayoutInvalidationContext context]];
+        [strongSelf.collectionView reloadItemsAtIndexPaths:@[indexPath]];
     }];
 
     JSQMessagesAvatarImage *avatarImage = [self avatarForUser:message.sender];
@@ -964,9 +967,7 @@
  *  Return to prior screen by dismissing the LEOMessagesViewController.
  */
 - (void)dismiss {
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
-        
-    }];
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 /**
