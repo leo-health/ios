@@ -34,6 +34,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)cardWithCardType:(CardType)cardType;
 + (instancetype)cardWithCardType:(CardType)cardType withJSONDictionary:(NSDictionary *)jsonResponse;
 
++ (CardType)cardTypeWithString:(NSString *)cardTypeString;
++ (NSString *)stringWithCardType:(CardType)cardType;
 
 NS_ASSUME_NONNULL_END
 @end

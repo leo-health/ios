@@ -78,11 +78,13 @@
 @property (copy, nonatomic) NSArray *appointmentTypes;
 
 @property (weak, nonatomic) IBOutlet VBFPopFlatButton *menuButton;
-
 @property (nonatomic) BOOL menuShowing;
 @property (strong, nonatomic) UIImageView *blurredImageView;
 @property (strong, nonatomic) MenuView *menuView;
 @property (weak, nonatomic) IBOutlet UINavigationBar *navigationBar;
+
+@property (strong, nonatomic) NSIndexPath *cardInFocusIndexPath;
+
 
 @end
 
@@ -122,6 +124,16 @@ static CGFloat const kFeedInsetTop = 30.0;
     [super viewWillAppear:animated];
 
     [self setupNavigationBar];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+
+    [super viewDidAppear:animated];
+
+    [self fetchFamilyWithCompletion:^{
+
+        [self fetchDataForCard:nil];
+    }];
 }
 
 - (void)setupNavigationBar {
@@ -191,16 +203,6 @@ static CGFloat const kFeedInsetTop = 30.0;
                           }];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-
-    [super viewDidAppear:animated];
-
-    [self fetchFamilyWithCompletion:^{
-
-        [self fetchDataForCard:nil];
-    }];
-}
-
 - (void)fetchFamilyWithCompletion:( void (^) (void))completionBlock {
 
     if (!self.family) {
@@ -258,14 +260,57 @@ static CGFloat const kFeedInsetTop = 30.0;
             dispatch_async(dispatch_get_main_queue() , ^{
 
                 [self.tableView reloadData];
+                [MBProgressHUD hideHUDForView:self.tableView animated:NO];
 
-                //                NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.cardInFocus inSection:0];
-                //                [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
-
-                [MBProgressHUD hideHUDForView:self.tableView animated:YES];
+                [self activateCardInFocus];
             });
         }];
     });
+}
+
+- (NSIndexPath *)cardInFocusIndexPath {
+
+    if (!_cardInFocusIndexPath) {
+        _cardInFocusIndexPath = [self indexPathForCardWithCardType:self.cardInFocusType underlyingObjectID:self.cardInFocusObjectID];
+    }
+    return _cardInFocusIndexPath;
+}
+
+- (NSIndexPath*)indexPathForCardWithCardType:(CardType)cardType underlyingObjectID:(NSString*)objectID {
+
+    if (!objectID || cardType == CardTypeUndefined) {
+        return nil;
+    }
+
+    int i = 0;
+    NSIndexPath *indexPath;
+    for (LEOCard *card in self.cards) {
+        if (card.type == cardType) {
+//             ????: TODO: create a protocol for associatedCardObjects
+            if ([card.associatedCardObject respondsToSelector:@selector(objectID)]) {
+                NSString *objectIDString = (NSString *)[card.associatedCardObject objectID];
+                if ([objectIDString isEqual:objectID]) {
+                    indexPath = [NSIndexPath indexPathForItem:i inSection:0];
+                }
+            }
+        }
+        i++;
+    }
+    return indexPath;
+}
+
+- (void)activateCardInFocus {
+
+    [self.tableView scrollToRowAtIndexPath:self.cardInFocusIndexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
+
+    [self animateCellHighlight];
+
+}
+
+- (void)animateCellHighlight {
+
+    LEOFeedCell *cell = [self.tableView cellForRowAtIndexPath:self.cardInFocusIndexPath];
+    [cell setUnreadState:YES animated:YES];
 }
 
 - (void)setupTableView {
@@ -273,7 +318,8 @@ static CGFloat const kFeedInsetTop = 30.0;
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
 
-    self.tableView.estimatedRowHeight = 100;
+    // TODO: update to use exact row heights so that scrollToIndexPath works correctly
+    self.tableView.estimatedRowHeight = 200;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     self.tableView.backgroundColor = [UIColor leo_grayForMessageBubbles];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -516,7 +562,6 @@ static CGFloat const kFeedInsetTop = 30.0;
 
 #pragma mark - <UITableViewDataSource>
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-
     return self.cards.count;
 }
 
@@ -528,62 +573,35 @@ static CGFloat const kFeedInsetTop = 30.0;
     NSString *cellIdentifier;
 
     switch (card.layout) {
+
         case CardLayoutTwoButtonSecondaryOnly: {
             cellIdentifier = CellIdentifierLEOCardTwoButtonSecondaryOnly;
-            LEOTwoButtonSecondaryOnlyCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier
-                                                                                  forIndexPath:indexPath];
-            [cell configureForCard:card];
-
-            return cell;
+            break;
         }
 
         case CardLayoutOneButtonSecondaryOnly: {
             cellIdentifier = CellIdentifierLEOCardOneButtonSecondaryOnly;
-            LEOOneButtonSecondaryOnlyCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier
-                                                                                  forIndexPath:indexPath];
-            [cell configureForCard:card];
-
-            return cell;
+            break;
         }
 
         case CardLayoutTwoButtonPrimaryOnly: {
             cellIdentifier = CellIdentifierLEOCardTwoButtonPrimaryOnly;
-            LEOTwoButtonPrimaryOnlyCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier
-                                                                                forIndexPath:indexPath];
-            [cell configureForCard:card];
-
-            return cell;
+            break;
         }
 
         case CardLayoutOneButtonPrimaryOnly: {
             cellIdentifier = CellIdentifierLEOCardOneButtonPrimaryOnly;
-            LEOOneButtonPrimaryOnlyCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier
-                                                                                forIndexPath:indexPath];
-            [cell configureForCard:card];
-
-            return cell;
+            break;
         }
 
         case CardLayoutTwoButtonPrimaryAndSecondary: {
             cellIdentifier = CellIdentifierLEOCardTwoButtonPrimaryAndSecondary;
-
-            LEOTwoButtonPrimaryAndSecondaryCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
-
-            [cell configureForCard:card];
-
-
-            return cell;
+            break;
         }
 
         case CardLayoutOneButtonPrimaryAndSecondary: {
             cellIdentifier = CellIdentifierLEOCardOneButtonPrimaryAndSecondary;
-
-            LEOOneButtonPrimaryAndSecondaryCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier
-                                                                                        forIndexPath:indexPath];
-
-            [cell configureForCard:card];
-
-            return cell;
+            break;
         }
 
         case CardLayoutUndefined: {
@@ -591,6 +609,14 @@ static CGFloat const kFeedInsetTop = 30.0;
             return nil;
         }
     }
+
+    LEOFeedCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier
+                                                         forIndexPath:indexPath];;
+
+    [cell configureForCard:card];
+    cell.unreadState = [indexPath isEqual:self.cardInFocusIndexPath];
+
+    return cell;
 }
 
 -(LEOAppointmentService *)appointmentService {

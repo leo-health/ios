@@ -11,14 +11,17 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+// Changes here require changes in [LEOCard cardTypes] method, which defines the string representation of these types
+// FIXME: is there a better way?
 typedef NS_ENUM(NSUInteger, CardType) {
 
-    CardTypeAppointment = 0,
-    CardTypeConversation = 1,
-    CardTypePayment = 2,
-    CardTypeForm = 3,
-    CardTypeVisitSummary = 4,
-    CardTypeCustom = 5,
+    CardTypeUndefined = 0,
+    CardTypeAppointment = 1,
+    CardTypeConversation = 2,
+    CardTypePayment = 3,
+    CardTypeForm = 4,
+    CardTypeVisitSummary = 5,
+    CardTypeCustom = 6,
 };
 
 @protocol LEOCardProtocol <NSObject>

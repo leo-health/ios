@@ -10,14 +10,12 @@
 
 @implementation LEOFeedCell
 
-- (void)awakeFromNib {
-    
-}
-
 -(id)initWithCoder:(NSCoder *)aDecoder {
+
     self = [super initWithCoder:aDecoder];
     
     if (self) {
+
         self.backgroundColor = [UIColor clearColor];
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         self.layer.shadowOffset = CGSizeMake(0,1);
@@ -30,10 +28,47 @@
     return self;
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-    
-    // Configure the view for the selected state
+- (void)configureForCard:(id<LEOCardProtocol>)card {
+
+    @throw [NSException exceptionWithName:NSInternalInconsistencyException
+                                   reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
+                                 userInfo:nil];
 }
+
+- (void)setUnreadState:(BOOL)unreadState animated:(BOOL)animated {
+
+    void (^animations)() = ^{
+
+        self.unreadState = unreadState;
+    };
+
+    if (animated) {
+
+        // reset the state so the animation happens from the beginning
+        self.unreadState = !unreadState;
+        [UIView animateWithDuration:1 animations:animations];
+    }
+
+    else {
+
+        animations();
+    }
+}
+
+- (void)setUnreadState:(BOOL)unreadState {
+
+    _unreadState = unreadState;
+
+    if (unreadState) {
+
+        // TODO: design unread state
+    }
+
+    else {
+
+        // TODO: design normal state
+    }
+}
+
 
 @end

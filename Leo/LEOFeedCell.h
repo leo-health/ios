@@ -9,16 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "LEOCardProtocol.h"
 
-@protocol FeedCellProtocol <NSObject> //TODO: Doublecheck if this protocol is still in use.
-
-@optional
-- (void)didTapButtonOneOnCell;
-- (void)didTapButtonTwoOnCell;
-
-@end
-
 @interface LEOFeedCell : UITableViewCell
 
-@property (weak, nonatomic) id<FeedCellProtocol>delegate;
+@property (nonatomic) BOOL unreadState;
+
+- (void)setUnreadState:(BOOL)unreadState animated:(BOOL)animated;
+- (void)configureForCard:(id<LEOCardProtocol>)card;
 
 @end

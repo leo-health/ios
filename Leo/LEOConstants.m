@@ -303,4 +303,12 @@ NSString *const kURLPrivacyPolicy = @"https://gist.githubusercontent.com/nayan-l
 NSString *const kNotificationDownloadedImageUpdated = @"DownloadedImage-Updated";
 NSString *const kNotificationImageChanged = @"Image-Changed";
 
+#pragma mark - Push Notifications
+NSString *const kPushNotificationParamDeepLink = @"deep_link_url";
+
+#pragma mark - Deep Linking
+NSString *const kDeepLinkDefaultScheme = @"leohealth";
+NSString *const kDeepLinkPathFeed = @"feed";
+
+
 @end

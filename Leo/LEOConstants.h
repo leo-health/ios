@@ -436,5 +436,12 @@ extern NSString *const kURLPrivacyPolicy; // @"https://provider.leoforkids.com/#
 extern NSString *const kNotificationDownloadedImageUpdated; // @"DownloadedImage-Updated";
 extern NSString *const kNotificationImageChanged; // @"Image-Changed";
 
+#pragma mark - Push Notifications
+extern NSString *const kPushNotificationParamDeepLink; // @"deep_link_url";
+
+#pragma mark - Deep Linking
+extern NSString *const kDeepLinkDefaultScheme; // @"leohealth";
+extern NSString *const kDeepLinkPathFeed; // @"feed";
+
 @end
 

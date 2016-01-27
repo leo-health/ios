@@ -56,6 +56,37 @@
     return nil;
 }
 
++ (NSArray *)cardTypes {
+
+    // ????: Changing cardTypes requires this to change. There must be a safer way to do this
+    return @[
+             @"CardTypeUndefined",
+             @"appointment",
+             @"conversation",
+             @"payment",
+             @"form",
+             @"visit_summary",
+             @"custom"
+             ];
+}
+
++ (CardType)cardTypeWithString:(NSString *)cardTypeString {
+    NSUInteger index = [[self cardTypes] indexOfObject:cardTypeString];
+    if (index == NSNotFound) {
+        return CardTypeUndefined;
+    }
+    return index;
+}
+
++ (NSString *)stringWithCardType:(CardType)cardType {
+    NSArray *cardTypes = [self cardTypes];
+    if (cardType < cardTypes.count) {
+        return cardTypes[cardType];
+    }
+    return cardTypes[0]; //CardTypeUndefined
+}
+
+
 //+ (NSArray *)cardsFromJSONDictionary:(NSDictionary *)jsonResponse {
 //
 //    NSArray *jsonCards = jsonResponse[@"cards"];

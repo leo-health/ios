@@ -36,8 +36,13 @@
     [self.buttonTwo addTarget:card.associatedCardObject action:NSSelectorFromString([card actionsAvailableForState][1]) forControlEvents:UIControlEventTouchUpInside];
     
     [self formatSubviewsWithTintColor:card.tintColor];
+
     [self setCopyFontAndColor];
-    
+
+    self.bodyView.backgroundColor = [UIColor leo_white];
+
+    self.unreadState = self.unreadState; // Trigger formatting updates for default value NO by calling the setter. 
+
     //FIXME: Should I have access to this method outside of secondaryUserViews
     [self.secondaryUserView refreshSubviews];
 }
