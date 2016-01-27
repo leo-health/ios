@@ -42,7 +42,8 @@
 }
 
 - (void)setupButton {
-    
+
+    [LEOStyleHelper styleButton:self.updatePasswordButton forFeature:FeatureSettings];
     [self.updatePasswordButton addTarget:self action:@selector(updatePasswordTapped) forControlEvents:UIControlEventTouchUpInside];
 }
 

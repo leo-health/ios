@@ -59,7 +59,8 @@
 }
 
 - (void)setupButton {
-    
+
+    [LEOStyleHelper styleButton:self.sendInvitationsButton forFeature:FeatureSettings];
     [self.sendInvitationsButton addTarget:self action:@selector(sendInvitationsTapped) forControlEvents:UIControlEventTouchUpInside];
 }
 
