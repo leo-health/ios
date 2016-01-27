@@ -29,7 +29,7 @@ typedef NS_ENUM(NSUInteger, OnboardingCellFeature) {
     OnboardingCellFeatureHealthRecord,
     OnboardingCellFeatureForms,
     OnboardingCellFeatureSignUp,
-    count_OnboardingCellFeature
+    OnboardingCellFeatureCount
 };
 
 static NSString * const imageNameSignedOutLogin = @"Signed-Out-Login";
@@ -70,7 +70,7 @@ static NSString * const reuseIdentifierFeature = @"reuseIdentifierFeature";
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return count_OnboardingCellFeature;
+    return OnboardingCellFeatureCount;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {

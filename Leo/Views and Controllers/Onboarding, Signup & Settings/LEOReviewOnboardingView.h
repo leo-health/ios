@@ -15,9 +15,7 @@ typedef NS_ENUM(NSUInteger, TableViewSection) {
     TableViewSectionGuardians,
     TableViewSectionPatients,
     TableViewSectionButton,
-
-    //Keep last as a dynamic way to cover section number
-    TableViewNumberOfSections
+    TableViewSectionCount
 };
 
 @interface LEOReviewOnboardingView : UIView <UITableViewDataSource>

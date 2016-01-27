@@ -41,7 +41,7 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
     PHRTableViewSectionMedications,
     PHRTableViewSectionImmunizations,
     PHRTableViewSectionNotes,
-    countOfPHRTableViewSections
+    PHRTableViewSectionCount
 };
 
 - (void)viewDidLoad {
@@ -149,7 +149,7 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
 
 #pragma mark - Sections
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return countOfPHRTableViewSections;
+    return PHRTableViewSectionCount;
 }
 
 - (UITableViewHeaderFooterView *)sizingHeader {
