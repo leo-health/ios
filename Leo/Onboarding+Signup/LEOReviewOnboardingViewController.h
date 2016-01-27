@@ -9,8 +9,9 @@
 @class Family;
 
 #import <UIKit/UIKit.h>
+#import "LEOStickyHeaderViewController.h"
 
-@interface LEOReviewOnboardingViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface LEOReviewOnboardingViewController : LEOStickyHeaderViewController <LEOStickyHeaderDataSource, LEOStickyHeaderDelegate, UITableViewDelegate>
 
 @property (strong, nonatomic) Family *family;
 

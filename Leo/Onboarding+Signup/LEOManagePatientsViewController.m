@@ -25,7 +25,6 @@
 #import "LEOIntrinsicSizeTableView.h"
 #import "UIView+Extensions.h"
 
-static NSString *const kSignUpPatientSegue = @"SignUpPatientSegue";
 
 @interface LEOManagePatientsViewController ()
 
@@ -36,6 +35,8 @@ static NSString *const kSignUpPatientSegue = @"SignUpPatientSegue";
 @end
 
 @implementation LEOManagePatientsViewController
+
+static NSString *const kSignUpPatientSegue = @"SignUpPatientSegue";
 
 #pragma mark - View Controller Lifecycle and Helpers
 
