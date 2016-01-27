@@ -11,8 +11,8 @@
 #import "UIColor+LeoColors.h"
 #import "LEOHorizontalModalTransitioningDelegate.h"
 
-static NSString *const kLoginSegue = @"LoginSegue";
-static NSString *const kSignUpSegue = @"SignUpSegue";
+static NSString *const kSegueLogin = @"LoginSegue";
+static NSString *const kSegueSignUp = @"SignUpSegue";
 
 @interface LEOLoggedOutOnboardingViewController () <UICollectionViewDelegateFlowLayout>
 
@@ -151,12 +151,12 @@ static NSString * const reuseIdentifierFeature = @"reuseIdentifierFeature";
 
 - (void)loginTouchedUpInside:(UIButton *)sender {
 
-    [self performSegueWithIdentifier:kLoginSegue sender:self];
+    [self performSegueWithIdentifier:kSegueLogin sender:self];
 }
 
 - (void)signupTouchedUpInside:(UIButton *)sender {
 
-    [self performSegueWithIdentifier:kSignUpSegue sender:self];
+    [self performSegueWithIdentifier:kSegueSignUp sender:self];
 }
 
 
