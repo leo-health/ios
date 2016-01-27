@@ -136,7 +136,11 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundeclared-selector"
     //MARK: Determine whether we're cool with doing this here
-    [backButton addTarget:viewController.navigationController action:@selector(popViewControllerAnimated:) forControlEvents:UIControlEventTouchUpInside];
+    if ([viewController respondsToSelector:@selector(pop)]) {
+        [backButton addTarget:viewController action:@selector(pop) forControlEvents:UIControlEventTouchUpInside];
+    } else {
+        [backButton addTarget:viewController.navigationController action:@selector(popViewControllerAnimated:) forControlEvents:UIControlEventTouchUpInside];
+    }
 #pragma clang diagnostic pop
     
     [backButton setImage:[UIImage imageNamed:@"Icon-BackArrow"] forState:UIControlStateNormal];

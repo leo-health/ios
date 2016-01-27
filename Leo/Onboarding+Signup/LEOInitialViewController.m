@@ -10,8 +10,8 @@
 #import "UIImage+Extensions.h"
 #import "LEOHorizontalModalTransitioningDelegate.h"
 
-static NSString *const kLoginSegue = @"LoginSegue";
-static NSString *const kSignUpSegue = @"SignUpSegue";
+static NSString *const kSegueLogin = @"LoginSegue";
+static NSString *const kSegueSignUp = @"SignUpSegue";
 
 @interface LEOInitialViewController()
 
@@ -39,11 +39,11 @@ static NSString *const kSignUpSegue = @"SignUpSegue";
 
 
 - (IBAction)loginTapped:(UIButton *)sender {
-    [self performSegueWithIdentifier:kLoginSegue sender:sender];
+    [self performSegueWithIdentifier:kSegueLogin sender:sender];
 }
 
 - (IBAction)signUpTapped:(UIButton *)sender {
-    [self performSegueWithIdentifier:kSignUpSegue sender:sender];
+    [self performSegueWithIdentifier:kSegueSignUp sender:sender];
 }
 
 -(void)setSignUpButton:(UIButton *)signUpButton {
