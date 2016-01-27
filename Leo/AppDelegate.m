@@ -20,8 +20,6 @@
 
 @interface AppDelegate ()
 
-@property (readonly) LEOFeedTVC *feedTVC;
-
 @end
 
 @implementation AppDelegate
@@ -241,8 +239,8 @@
 
                     [self setRootViewControllerWithStoryboardName:kStoryboardFeed];
 
-                    self.feedTVC.cardInFocusType = [LEOCard cardTypeWithString:pathComponents[1]];
-                    self.feedTVC.cardInFocusObjectID = pathComponents[2];
+                    [self feedTVC].cardInFocusType = [LEOCard cardTypeWithString:pathComponents[1]];
+                    [self feedTVC].cardInFocusObjectID = pathComponents[2];
 
                     return YES;
                 }
