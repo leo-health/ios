@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "LEOPromptField.h"
 #import <RSKImageCropViewController.h>
-
+#import <TPKeyboardAvoiding/TPKeyboardAvoidingScrollView.h>
 @class Patient;
 
 @protocol LEOSignUpPatientProtocol <NSObject>
@@ -27,8 +27,8 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *avatarValidationLabel;
 @property (weak, nonatomic, readonly) IBOutlet UIButton *updateButton;
-@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
-@property (weak, nonatomic) IBOutlet UIButton *avatarButton;
+@property (weak, nonatomic) IBOutlet TPKeyboardAvoidingScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
 
 @property (weak, nonatomic) id<LEOSignUpPatientProtocol, UIImagePickerControllerDelegate>delegate;
 

@@ -41,17 +41,8 @@
 }
 #pragma mark - VCL Helper Methods
 - (void)setupNavBar {
-    
-    [LEOStyleHelper styleNavigationBarForFeature:self.feature];
-    [LEOStyleHelper styleNavigationBarShadowLineForViewController:self feature:self.feature];
-    [LEOStyleHelper styleBackButtonForViewController:self forFeature:self.feature];
-    UILabel *navBarTitleLabel = [[UILabel alloc] init];
-    
-    navBarTitleLabel.text = self.titleText;
-    
-    [LEOStyleHelper styleLabel:navBarTitleLabel forFeature:self.feature];
-    
-    self.navigationItem.titleView = navBarTitleLabel;
+
+    [LEOStyleHelper styleNavigationBarForViewController:self forFeature:self.feature withTitleText:self.titleText dismissal:NO backButton:YES shadow:YES];
 }
 
 -(void)viewWillDisappear:(BOOL)animated {

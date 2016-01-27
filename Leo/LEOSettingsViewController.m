@@ -461,7 +461,7 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
         signUpPatientVC.patient = (Patient *)sender;
         signUpPatientVC.feature = FeatureSettings;
         signUpPatientVC.family = self.family;
-        
+
         if (sender) {
             signUpPatientVC.managementMode = ManagementModeEdit;
         } else {

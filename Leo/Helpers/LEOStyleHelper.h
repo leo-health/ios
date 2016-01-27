@@ -29,6 +29,8 @@
 + (void)styleDismissButtonForViewController:(UIViewController *)viewController feature:(Feature)feature;
 
 + (void)styleNavigationBarForViewController:(UIViewController *)viewController forFeature:(Feature)feature withTitleText:(NSString *)titleText dismissal:(BOOL)dismissAvailable backButton:(BOOL)backAvailable;
++ (void)styleNavigationBarForViewController:(UIViewController *)viewController forFeature:(Feature)feature withTitleText:(NSString *)titleText dismissal:(BOOL)dismissAvailable backButton:(BOOL)backAvailable shadow:(BOOL)shadow;
+
 + (void)styleExpandedTitleLabel:(UILabel *)label feature:(Feature)feature;
 
 + (UIColor *)gradientStartColorForFeature:(Feature)feature;
