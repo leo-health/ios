@@ -38,7 +38,7 @@
 
 @interface LEOReviewOnboardingViewController ()
 
-@property (strong, nonatomic) UILabel *navTitleLabel;
+@property (weak, nonatomic) UILabel *navTitleLabel;
 @property (strong, nonatomic) LEOReviewOnboardingView *reviewOnboardingView;
 @property (strong, nonatomic) LEOHeaderView *headerView;
 
@@ -51,7 +51,8 @@
 
 static NSString *const kReviewUserSegue = @"ReviewUserSegue";
 static NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
-
+static NSString *const kHeaderReviewOnboarding = @"Finally, please confirm your information";
+static CGFloat const kHeaderIntrinsicHeight = 194;
 
 #pragma mark - View Controller Lifecycle and Helpers
 
@@ -118,8 +119,8 @@ static NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
 
     if (!_headerView) {
 
-        _headerView = [[LEOHeaderView alloc] initWithTitleText:@"Finally, please confirm your information"];
-        _headerView.intrinsicHeight = @(194.0);
+        _headerView = [[LEOHeaderView alloc] initWithTitleText:kHeaderReviewOnboarding];
+        _headerView.intrinsicHeight = @(kHeaderIntrinsicHeight);
         [LEOStyleHelper styleExpandedTitleLabel:_headerView.titleLabel feature:self.feature];
     }
     

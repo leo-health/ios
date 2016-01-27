@@ -133,7 +133,8 @@
         case TableViewSectionButton: {
 
             LEOButtonCell *buttonCell = [tableView dequeueReusableCellWithIdentifier:kButtonCellReuseIdentifier];
-            
+
+            //Using responder chain to get to continueTapped: in view controller
             [buttonCell.button addTarget:nil action:@selector(continueTapped:) forControlEvents:UIControlEventTouchUpInside];
             
             return buttonCell;

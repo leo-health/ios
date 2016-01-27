@@ -12,9 +12,9 @@
 
 typedef NS_ENUM(NSUInteger, TableViewSection) {
 
-    TableViewSectionGuardians = 1,
-    TableViewSectionPatients = 2,
-    TableViewSectionButton = 3,
+    TableViewSectionGuardians,
+    TableViewSectionPatients,
+    TableViewSectionButton,
 
     //Keep last as a dynamic way to cover section number
     TableViewNumberOfSections
