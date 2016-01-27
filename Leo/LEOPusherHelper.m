@@ -30,8 +30,9 @@
 
 - (void)connectToPusherChannel:(NSString *)channel withEvent:(NSString *)event sender:(id)sender withCompletion:(void (^)(NSDictionary *channelData))completionBlock {
     
-    __block id blockSender = sender;
-    self.client = [PTPusher pusherWithKey:@"218006d766a6d76e8672" delegate:self encrypted:YES];
+    __weak id blockSender = sender;
+    __weak LEOPusherHelper *weakSelf = self;
+    self.client = [PTPusher pusherWithKey:@"218006d766a6d76e8672" delegate:weakSelf encrypted:YES];
     
     PTPusherChannel *chatChannel = [self.client subscribeToChannelNamed:channel];
     

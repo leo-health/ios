@@ -254,12 +254,13 @@
     NSString *channelString = [NSString stringWithFormat:@"%@%@",@"newMessage",[SessionUser currentUser].email];
     NSString *event = @"new_message";
 
+    __weak typeof(self) weakSelf = self;
     LEOPusherHelper *pusherHelper = [LEOPusherHelper sharedPusher];
-    [pusherHelper connectToPusherChannel:channelString withEvent:event sender:self withCompletion:^(NSDictionary *channelData) {
+    [pusherHelper connectToPusherChannel:channelString withEvent:event sender:weakSelf withCompletion:^(NSDictionary *channelData) {
 
-        NSString *messageID = [self extractMessageIDFromChannelData:channelData];
+        NSString *messageID = [weakSelf extractMessageIDFromChannelData:channelData];
 
-        [self fetchMessageWithID:messageID];
+        [weakSelf fetchMessageWithID:messageID];
     }];
 }
 
@@ -269,9 +270,10 @@
 
 - (void)fetchMessageWithID:(NSString *)messageID {
 
+    __weak typeof(self) weakSelf = self;
     LEOMessageService *messageService = [[LEOMessageService alloc] init];
     [messageService getMessageWithIdentifier:messageID withCompletion:^(Message *message, NSError *error) {
-        [self updateConversationWithMessage:message];
+        [weakSelf updateConversationWithMessage:message];
     }];
 }
 
@@ -324,11 +326,12 @@
 
     Message *message = [MessageText messageWithObjectID:nil text:text sender:[SessionUser guardian] escalatedTo:nil escalatedBy:nil status:nil statusCode:MessageStatusCodeUndefined escalatedAt:nil];
 
-    [self sendMessage:message withCompletion:^{
+    __weak typeof(self) weakSelf = self;
+    [weakSelf sendMessage:message withCompletion:^{
 
-        [self updateConversationWithMessage:message];
-        [self finishSendingMessage:message];
-        [self.sendingIndicator stopAnimating];
+        [weakSelf updateConversationWithMessage:message];
+        [weakSelf finishSendingMessage:message];
+        [weakSelf.sendingIndicator stopAnimating];
         button.hidden = NO;
     }];
 }
@@ -372,37 +375,36 @@
 
     UIAlertController *mediaController = [UIAlertController alertControllerWithTitle:@"Attachments" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
 
-    UIViewController<UIImagePickerControllerDelegate, UINavigationControllerDelegate> * __weak weakself = self;
-
+    __weak typeof(self) weakSelf = self;
     UIAlertAction *cameraAction = [UIAlertAction actionWithTitle:@"Photo from camera" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
 
         UIImagePickerController *pickerController = [UIImagePickerController new];
         pickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
-        pickerController.delegate = weakself;
+        pickerController.delegate = weakSelf;
 
         [pickerController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor leo_white], NSFontAttributeName: [UIFont leo_menuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont]}];
-        pickerController.transitioningDelegate = self.transitioningDelegate;
+        pickerController.transitioningDelegate = weakSelf.transitioningDelegate;
         pickerController.modalPresentationStyle = UIModalPresentationCustom;
 
-        [weakself presentViewController:pickerController animated:YES completion:nil];
+        [weakSelf presentViewController:pickerController animated:YES completion:nil];
     }];
 
     UIAlertAction *photoAction = [UIAlertAction actionWithTitle:@"Photo from library" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
 
         UIImagePickerController *pickerController = [UIImagePickerController new];
         pickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        pickerController.delegate = weakself;
+        pickerController.delegate = weakSelf;
         [pickerController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor leo_white], NSFontAttributeName: [UIFont leo_menuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont]}];
 
         [[UIBarButtonItem appearanceWhenContainedIn:[UIImagePickerController class], nil] setTitleTextAttributes:@{ NSForegroundColorAttributeName:[UIColor leo_white], NSFontAttributeName : [UIFont leo_buttonLabelsAndTimeStampsFont] } forState:UIControlStateNormal];
 
         [[UIBarButtonItem appearanceWhenContainedIn:[UIImagePickerController class], nil] setBackButtonBackgroundImage:nil forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
 
-        [pickerController.navigationBar setBackgroundImage:[UIImage leo_imageWithColor:self.card.tintColor] forBarMetrics:UIBarMetricsDefault];
-        pickerController.transitioningDelegate = self.transitioningDelegate;
+        [pickerController.navigationBar setBackgroundImage:[UIImage leo_imageWithColor:weakSelf.card.tintColor] forBarMetrics:UIBarMetricsDefault];
+        pickerController.transitioningDelegate = weakSelf.transitioningDelegate;
         pickerController.modalPresentationStyle = UIModalPresentationCustom;
 
-        [weakself presentViewController:pickerController animated:YES completion:nil];
+        [weakSelf presentViewController:pickerController animated:YES completion:nil];
     }];
 
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
@@ -486,12 +488,13 @@
 
     [JSQSystemSoundPlayer jsq_playMessageSentSound];
 
-    [self sendMessage:message withCompletion:^{
+    __weak typeof(self) weakSelf = self;
+    [weakSelf sendMessage:message withCompletion:^{
 
-        self.sendButton.hidden = NO;
-        [self updateConversationWithMessage:message];
-        [self finishSendingMessage:message];
-        [self.sendingIndicator stopAnimating];
+        weakSelf.sendButton.hidden = NO;
+        [weakSelf updateConversationWithMessage:message];
+        [weakSelf finishSendingMessage:message];
+        [weakSelf.sendingIndicator stopAnimating];
     }];
 
     [self.navigationController popViewControllerAnimated:YES];
@@ -537,10 +540,11 @@
         return nil;
     }
 
+    __weak typeof(self) weakSelf = self;
     [[NSNotificationCenter defaultCenter] addObserverForName:kNotificationDownloadedImageUpdated object:message.sender.avatar queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull notification) {
 
-        [self.collectionView.collectionViewLayout invalidateLayoutWithContext:[JSQMessagesCollectionViewFlowLayoutInvalidationContext context]];
-        [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
+        [weakSelf.collectionView.collectionViewLayout invalidateLayoutWithContext:[JSQMessagesCollectionViewFlowLayoutInvalidationContext context]];
+        [weakSelf.collectionView reloadItemsAtIndexPaths:@[indexPath]];
     }];
 
     JSQMessagesAvatarImage *avatarImage = [self avatarForUser:message.sender];
@@ -805,10 +809,11 @@
 
             LEOMediaService *mediaService = [LEOMediaService new];
 
+            __weak typeof(self) weakSelf = self;
             [mediaService getImageForS3Image:messageImage.s3Image withCompletion:^(UIImage *rawImage, NSError *error) {
                 messageImage.s3Image.image = rawImage;
                 photoMediaItem.image = rawImage;
-                [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
+                [weakSelf.collectionView reloadItemsAtIndexPaths:@[indexPath]];
             }];
         }
     }
@@ -883,13 +888,14 @@
 
     LEOMessageService *messageService = [[LEOMessageService alloc] init];
 
-    [messageService getMessagesForConversation:[self conversation] page:self.nextPage offset:self.offset withCompletion:^void(NSArray * messages) {
+    __weak typeof(self) weakSelf = self;
+    [messageService getMessagesForConversation:[weakSelf conversation] page:weakSelf.nextPage offset:weakSelf.offset withCompletion:^void(NSArray * messages) {
 
         /**
          *  Remove the message if there are no more messages to show. Currently, this is suboptimal as it requires the user to press the button an extra time and make an extra API call. But this is a quick and easy first pass option.
          */
         if ([messages count] == 0) {
-            self.showLoadEarlierMessagesHeader = NO;
+            weakSelf.showLoadEarlierMessagesHeader = NO;
             return;
         }
 
@@ -906,9 +912,9 @@
         /**
          *  Add the messages to the conversation object itself
          */
-        [[self conversation] addMessages:messages];
+        [[weakSelf conversation] addMessages:messages];
 
-        [self collectionView:collectionView avoidFlickerInAnimationWhenInsertingIndexPaths:indexPaths];
+        [weakSelf collectionView:collectionView avoidFlickerInAnimationWhenInsertingIndexPaths:indexPaths];
     }];
 }
 
@@ -923,10 +929,11 @@
     [CATransaction begin];
     [CATransaction setDisableActions:YES];
 
-    [self.collectionView performBatchUpdates:^{
-        [self.collectionView insertItemsAtIndexPaths:indexPaths];
+    __weak typeof(self) weakSelf = self;
+    [weakSelf.collectionView performBatchUpdates:^{
+        [weakSelf.collectionView insertItemsAtIndexPaths:indexPaths];
     } completion:^(BOOL finished) {
-        self.collectionView.contentOffset = CGPointMake(0.0, self.collectionView.contentSize.height - oldOffset);
+        weakSelf.collectionView.contentOffset = CGPointMake(0.0, self.collectionView.contentSize.height - oldOffset);
         [CATransaction commit];
     }];
 }
@@ -964,9 +971,7 @@
  *  Return to prior screen by dismissing the LEOMessagesViewController.
  */
 - (void)dismiss {
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
-        
-    }];
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 /**
