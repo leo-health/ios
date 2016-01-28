@@ -185,7 +185,7 @@ static NSString *const kPlaceholderValidationBirthDate = @"please add your child
         case ManagementModeCreate:
 
             self.avatarValidationLabel.text = kAvatarCallToActionAdd;
-            self.avatarValidationLabel.textColor = [UIColor leo_grayStandard];
+//            self.avatarValidationLabel.textColor = [UIColor leo_grayStandard];
             break;
 
         case ManagementModeEdit:

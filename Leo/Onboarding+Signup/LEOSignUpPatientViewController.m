@@ -27,14 +27,12 @@
 #import "LEOUserService.h"
 #import "LEOImageCropViewController.h"
 #import "LEOAlertHelper.h"
-#import "LEOTransitioningDelegate.h"
 #import "UIViewController+XibAdditions.h"
 
 @interface LEOSignUpPatientViewController ()
 
 @property (weak, nonatomic) LEOSignUpPatientView *signUpPatientView;
 @property (strong, nonatomic) Patient *originalPatient;
-@property (strong, nonatomic) LEOTransitioningDelegate *transitioningDelegate;
 
 @end
 
@@ -43,7 +41,8 @@
 @synthesize patient = _patient;
 
 static NSString *const kAvatarCallToActionEdit = @"Edit the photo of your child";
-static NSString *const kTitle = @"Add Child Details";
+static NSString *const kTitleAddChildDetails = @"Add Child Details";
+static NSString *const kTitlePhotos = @"Photos";
 
 #pragma mark - View Controller Lifecycle & Helpers
 
@@ -58,65 +57,48 @@ static NSString *const kTitle = @"Add Child Details";
     [self setupNotifications];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+
+    [self.patient copyFrom:self.originalPatient];
+}
+
 - (void)setupNotifications {
+
+    __weak typeof(self) weakself = self;
 
     [[NSNotificationCenter defaultCenter] addObserverForName:kNotificationDownloadedImageUpdated object:self.patient.avatar queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull notification) {
 
+        typeof(self) strongself = weakself;
+
         UIImage *circularAvatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:self.patient.avatar.image withDiameter:67 borderColor:[UIColor leo_orangeRed] borderWidth:1.0];
 
-        self.originalPatient.avatar = [self.patient.avatar copy];
+        strongself.originalPatient.avatar = [self.patient.avatar copy];
 
-        self.signUpPatientView.avatarImageView.image = circularAvatarImage;
-        self.signUpPatientView.avatarValidationLabel.textColor = [UIColor leo_grayStandard];
-        self.signUpPatientView.avatarValidationLabel.text = kAvatarCallToActionEdit;
+        strongself.signUpPatientView.avatarImageView.image = circularAvatarImage;
+        strongself.signUpPatientView.avatarValidationLabel.textColor = [UIColor leo_grayStandard];
+        strongself.signUpPatientView.avatarValidationLabel.text = kAvatarCallToActionEdit;
     }];
 
     [[NSNotificationCenter defaultCenter] addObserverForName:kNotificationImageChanged object:self.patient.avatar queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull notification) {
 
+        typeof(self) strongself = weakself;
+
         UIImage *circularAvatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:self.patient.avatar.image withDiameter:67 borderColor:[UIColor leo_orangeRed] borderWidth:1.0];
 
-        self.signUpPatientView.avatarImageView.image = circularAvatarImage;
-        self.signUpPatientView.avatarValidationLabel.textColor = [UIColor leo_grayStandard];
-        self.signUpPatientView.avatarValidationLabel.text = kAvatarCallToActionEdit;
+        strongself.signUpPatientView.avatarImageView.image = circularAvatarImage;
+        strongself.signUpPatientView.avatarValidationLabel.textColor = [UIColor leo_grayStandard];
+        strongself.signUpPatientView.avatarValidationLabel.text = kAvatarCallToActionEdit;
     }];
 }
+
+
+#pragma mark - Accessors
 
 - (void)setFeature:(Feature)feature {
 
     _feature = feature;
 
     [self setupTintColor];
-    [self setupNavigationBar];
-}
-
-- (void)setupTintColor {
-
-    self.view.tintColor = [LEOStyleHelper tintColorForFeature:self.feature];
-}
-
-- (void)setupNavigationBar {
-
-}
-
-- (NSString *)buildNavigationTitleString {
-
-    NSString *navigationTitle = [NSString new];
-
-    switch (self.managementMode) {
-
-        case ManagementModeEdit:
-            navigationTitle = self.patient.fullName;
-            break;
-
-        case ManagementModeCreate:
-            navigationTitle = kTitle;
-            break;
-
-        case ManagementModeUndefined:
-            break;
-    }
-
-    return navigationTitle;
 }
 
 -(void)setManagementMode:(ManagementMode)managementMode {
@@ -128,8 +110,6 @@ static NSString *const kTitle = @"Add Child Details";
     NSString *navigationTitle = [self buildNavigationTitleString];
     [LEOStyleHelper styleNavigationBarForViewController:self forFeature:self.feature withTitleText:navigationTitle dismissal:NO backButton:YES shadow:YES];
 }
-
-#pragma mark - Accessors
 
 - (LEOSignUpPatientView *)signUpPatientView {
 
@@ -168,6 +148,36 @@ static NSString *const kTitle = @"Add Child Details";
     self.originalPatient = [_patient copy];
 }
 
+
+#pragma mark - Other setup helpers
+
+- (void)setupTintColor {
+
+    self.view.tintColor = [LEOStyleHelper tintColorForFeature:self.feature];
+}
+
+- (NSString *)buildNavigationTitleString {
+
+    NSString *navigationTitle;
+
+    switch (self.managementMode) {
+
+        case ManagementModeEdit:
+            navigationTitle = self.patient.fullName;
+            break;
+
+        case ManagementModeCreate:
+            navigationTitle = kTitleAddChildDetails;
+            break;
+
+        case ManagementModeUndefined:
+            break;
+    }
+    
+    return navigationTitle;
+}
+
+
 #pragma mark - <UIImagePickerViewControllerDelegate>
 
 //TO finish picking media, get the original image and build a crop view controller with it, simultaneously dismissing the image picker.
@@ -178,9 +188,12 @@ static NSString *const kTitle = @"Add Child Details";
     LEOImageCropViewController *imageCropVC = [[LEOImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeCircle];
     imageCropVC.delegate = self;
 
+    //oddly, we have to set both the tintColor of the view AND the text/title colors in order for these to *always* be orange; no joke -- sometimes they are orange if you don't set the tintColor, and sometimes they aren't. seen by both ZSD and ADF.
+    imageCropVC.view.tintColor = [LEOStyleHelper tintColorForFeature:self.feature];
     [imageCropVC.chooseButton setTitleColor:[UIColor leo_orangeRed] forState:UIControlStateNormal];
+    [imageCropVC.cancelButton setTitleColor:[UIColor leo_orangeRed] forState:UIControlStateNormal];
+    imageCropVC.moveAndScaleLabel.textColor = [LEOStyleHelper tintColorForFeature:self.feature];
 
-    imageCropVC.feature = FeatureOnboarding;
     imageCropVC.avoidEmptySpaceAroundImage = YES;
     [self.navigationController pushViewController:imageCropVC animated:NO];
 
@@ -188,10 +201,7 @@ static NSString *const kTitle = @"Add Child Details";
 }
 
 - (void)dismissImagePicker {
-
-    [self dismissViewControllerAnimated:NO completion:^{
-        //???: Anything necessary here?
-    }];
+    [self dismissViewControllerAnimated:NO completion:nil];
 }
 
 
@@ -212,43 +222,38 @@ static NSString *const kTitle = @"Add Child Details";
       willShowViewController:(UIViewController *)viewController
                     animated:(BOOL)animated {
 
-    viewController.view.tintColor = [LEOStyleHelper tintColorForFeature:self.feature];
-
-    [UINavigationBar appearance].backIndicatorImage = [UIImage imageNamed:@"Icon-BackArrow"];
-    [UINavigationBar appearance].backIndicatorTransitionMaskImage = [UIImage imageNamed:@"Icon-BackArrow"];
-
-    navigationController.navigationBar.backItem.title = @"";
-    navigationController.navigationBar.backIndicatorTransitionMaskImage = [UIImage imageNamed:@"Icon-BackArrow"];
-
-    UINavigationBar *bar = navigationController.navigationBar;
-    UINavigationItem *imagePickerControllerNavigationItem = bar.topItem;
-
-    bar.tintColor = [LEOStyleHelper tintColorForFeature:self.feature];
-
+    //Initial styling of the navigation bar
     [LEOStyleHelper styleNavigationBarForFeature:self.feature];
 
+    //Create the navigation bar title label
     UILabel *navTitleLabel = [[UILabel alloc] init];
-    navTitleLabel.text = @"Photos";
-
+    navTitleLabel.text = kTitlePhotos;
     [LEOStyleHelper styleLabel:navTitleLabel forFeature:self.feature];
-
     viewController.navigationItem.titleView = navTitleLabel;
     viewController.navigationItem.title = @"";
 
+    //Create the dismiss button for the navigation bar
     UIButton *dismissButton = [self buildDismissButton];
     UIBarButtonItem *dismissBBI = [[UIBarButtonItem alloc] initWithCustomView:dismissButton];
-    imagePickerControllerNavigationItem.rightBarButtonItem = dismissBBI;
+    navigationController.navigationBar.topItem.rightBarButtonItem = dismissBBI;
 
+
+    //Create the back button
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-
     [backButton setImage:[UIImage imageNamed:@"Icon-BackArrow"] forState:UIControlStateNormal];
     [backButton setTitle:@"" forState:UIControlStateNormal];
-
     [backButton addTarget:viewController action:@selector(popViewControllerAnimated:) forControlEvents:UIControlEventTouchUpInside];
 
     UIBarButtonItem *backBBI = [[UIBarButtonItem alloc] initWithCustomView:backButton];
     navigationController.navigationItem.leftBarButtonItem = backBBI;
+
+    //This is the special sauce required to get the bar to show the back arrow appropriately without the "Photos" title text, and in the appropriate spot.
+    [UINavigationBar appearance].backIndicatorImage = [UIImage imageNamed:@"Icon-BackArrow"];
+    [UINavigationBar appearance].backIndicatorTransitionMaskImage = [UIImage imageNamed:@"Icon-BackArrow"];
     navigationController.navigationItem.hidesBackButton = YES;
+
+    //Required to get the back button and cancel button to tint with the feature color
+    navigationController.navigationBar.tintColor = [LEOStyleHelper tintColorForFeature:self.feature];
 }
 
 - (void)dismiss {
@@ -395,8 +400,6 @@ static NSString *const kTitle = @"Add Child Details";
 }
 
 - (void)pop {
-    
-    [self.patient copyFrom:self.originalPatient];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
