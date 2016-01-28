@@ -159,9 +159,10 @@ static CGFloat const kFeedInsetTop = 30.0;
 
     UINavigationItem *item = [UINavigationItem new];
 
-    item.leftBarButtonItem = leoheartBBI;
+//    item.leftBarButtonItem = leoheartBBI;
     item.rightBarButtonItem = phrBBI;
 
+    item.titleView = imageView;
     self.navigationBar.items = @[item];
 }
 
