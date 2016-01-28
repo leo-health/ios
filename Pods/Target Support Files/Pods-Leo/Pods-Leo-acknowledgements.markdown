@@ -77,6 +77,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 
+## CrittercismSDK
+
+See http://www.crittercism.com/terms-services/
+
 ## DateTools
 
 The MIT License (MIT)
