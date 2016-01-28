@@ -15,10 +15,12 @@
 @implementation LEOStyleHelper
 
 
+
+//TODO: Remove this method and replace it's use across the app with the method that includes shadow. This is effectively deprecated.
 + (void)styleNavigationBarForViewController:(UIViewController *)viewController forFeature:(Feature)feature withTitleText:(NSString *)titleText dismissal:(BOOL)dismissAvailable backButton:(BOOL)backAvailable {
     
     [self styleNavigationBarForFeature:feature];
-    [self styleNavigationBarShadowLineForViewController:viewController feature:feature];
+    [self styleNavigationBarShadowLineForViewController:viewController feature:feature shadow:NO];
     [self styleViewController:viewController navigationTitleText:titleText forFeature:feature];
 
     if (backAvailable) {
@@ -30,6 +32,20 @@
     }
 }
 
++ (void)styleNavigationBarForViewController:(UIViewController *)viewController forFeature:(Feature)feature withTitleText:(NSString *)titleText dismissal:(BOOL)dismissAvailable backButton:(BOOL)backAvailable shadow:(BOOL)shadow {
+
+    [self styleNavigationBarForFeature:feature];
+    [self styleNavigationBarShadowLineForViewController:viewController feature:feature shadow:shadow];
+    [self styleViewController:viewController navigationTitleText:titleText forFeature:feature];
+
+    if (backAvailable) {
+        [self styleBackButtonForViewController:viewController forFeature:feature];
+    }
+
+    if (dismissAvailable) {
+        [self styleDismissButtonForViewController:viewController feature:feature];
+    }
+}
 
 + (void)styleSettingsViewController:(UIViewController *)viewController {
     
@@ -90,10 +106,16 @@
     promptTextView.tintColor = [self tintColorForFeature:feature];
 }
 
-+ (void)styleNavigationBarShadowLineForViewController:(UIViewController *)viewController feature:(Feature)feature {
++ (void)styleNavigationBarShadowLineForViewController:(UIViewController *)viewController feature:(Feature)feature shadow:(BOOL)shadow {
 
-    // ???: Is this right?
-    viewController.navigationController.navigationBar.shadowImage = [UIImage new];
+    if (shadow) {
+
+        UIColor *shadowColor = [self tintColorForFeature:feature];
+        viewController.navigationController.navigationBar.shadowImage = [UIImage leo_imageWithColor:shadowColor];
+    } else {
+
+        viewController.navigationController.navigationBar.shadowImage = [UIImage new];
+    }
 }
 
 + (void)styleExpandedTitleLabel:(UILabel *)label feature:(Feature)feature {

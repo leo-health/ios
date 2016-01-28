@@ -18,7 +18,7 @@
 @implementation LEOMessageService
 
 - (void)createMessage:(Message *)message forConversation:( Conversation *)conversation withCompletion:(void (^)(Message  *  message, NSError *error))completionBlock {
-    
+
     NSArray *messageValues;
     
     if ([message isKindOfClass:[MessageText class]]) {

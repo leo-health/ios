@@ -27,12 +27,11 @@
 #import "LEOUserService.h"
 #import "LEOImageCropViewController.h"
 #import "LEOAlertHelper.h"
+#import "UIViewController+XibAdditions.h"
 
 @interface LEOSignUpPatientViewController ()
 
 @property (weak, nonatomic) LEOSignUpPatientView *signUpPatientView;
-@property (nonatomic) BOOL breakerPreviouslyDrawn;
-@property (strong, nonatomic) CAShapeLayer *pathLayer;
 @property (strong, nonatomic) Patient *originalPatient;
 
 @end
@@ -41,91 +40,84 @@
 
 @synthesize patient = _patient;
 
+static NSString *const kAvatarCallToActionEdit = @"Edit the photo of your child";
+static NSString *const kTitleAddChildDetails = @"Add Child Details";
+static NSString *const kTitlePhotos = @"Photos";
 
 #pragma mark - View Controller Lifecycle & Helpers
 
 - (void)viewDidLoad {
 
     [super viewDidLoad];
-    [self setupBreaker];
 
     self.signUpPatientView.delegate = self;
-    self.signUpPatientView.patient = self.patient;
 
     [LEOApiReachability startMonitoringForController:self];
 
+    [self setupNotifications];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+
+    [self.patient copyFrom:self.originalPatient];
+}
+
+- (void)setupNotifications {
+
+    __weak typeof(self) weakself = self;
+
     [[NSNotificationCenter defaultCenter] addObserverForName:kNotificationDownloadedImageUpdated object:self.patient.avatar queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull notification) {
+
+        typeof(self) strongself = weakself;
 
         UIImage *circularAvatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:self.patient.avatar.image withDiameter:67 borderColor:[UIColor leo_orangeRed] borderWidth:1.0];
 
-        self.originalPatient.avatar = [self.patient.avatar copy];
+        strongself.originalPatient.avatar = [self.patient.avatar copy];
 
-        [self.signUpPatientView.avatarButton setImage:circularAvatarImage forState:UIControlStateNormal];
+        strongself.signUpPatientView.avatarImageView.image = circularAvatarImage;
+        strongself.signUpPatientView.avatarValidationLabel.textColor = [UIColor leo_grayStandard];
+        strongself.signUpPatientView.avatarValidationLabel.text = kAvatarCallToActionEdit;
     }];
 
     [[NSNotificationCenter defaultCenter] addObserverForName:kNotificationImageChanged object:self.patient.avatar queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull notification) {
 
+        typeof(self) strongself = weakself;
+
         UIImage *circularAvatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:self.patient.avatar.image withDiameter:67 borderColor:[UIColor leo_orangeRed] borderWidth:1.0];
 
-        [self.signUpPatientView.avatarButton setImage:circularAvatarImage forState:UIControlStateNormal];
-
+        strongself.signUpPatientView.avatarImageView.image = circularAvatarImage;
+        strongself.signUpPatientView.avatarValidationLabel.textColor = [UIColor leo_grayStandard];
+        strongself.signUpPatientView.avatarValidationLabel.text = kAvatarCallToActionEdit;
     }];
-
 }
 
+
+#pragma mark - Accessors
+
 - (void)setFeature:(Feature)feature {
-    
+
     _feature = feature;
 
     [self setupTintColor];
-    [self setupNavigationBar];
 }
 
-- (void)setupTintColor {
+-(void)setManagementMode:(ManagementMode)managementMode {
 
-    self.view.tintColor = [LEOStyleHelper tintColorForFeature:self.feature];
+    _managementMode = managementMode;
+
+    self.signUpPatientView.managementMode = managementMode;
+
+    NSString *navigationTitle = [self buildNavigationTitleString];
+    [LEOStyleHelper styleNavigationBarForViewController:self forFeature:self.feature withTitleText:navigationTitle dismissal:NO backButton:YES shadow:YES];
 }
-
-- (void)setupNavigationBar {
-
-    [LEOStyleHelper styleNavigationBarForFeature:self.feature];
-    [LEOStyleHelper styleBackButtonForViewController:self forFeature:self.feature];
-
-    UILabel *navTitleLabel = [self buildNavTitleLabel];
-
-    [LEOStyleHelper styleLabel:navTitleLabel forFeature:self.feature];
-
-    self.navigationItem.titleView = navTitleLabel;
-}
-
-- (UILabel *)buildNavTitleLabel {
-
-    UILabel *navTitleLabel = [[UILabel alloc] init];
-
-    switch (self.managementMode) {
-
-        case ManagementModeEdit:
-            navTitleLabel.text = self.patient.fullName;
-            break;
-
-        case ManagementModeCreate:
-            navTitleLabel.text = @"Add Child Details";
-            break;
-
-        case ManagementModeUndefined:
-            break;
-    }
-
-    return navTitleLabel;
-}
-
 
 - (LEOSignUpPatientView *)signUpPatientView {
 
     if (!_signUpPatientView) {
 
-        LEOSignUpPatientView *strongView = [LEOSignUpPatientView new];
+        LEOSignUpPatientView *strongView = [self leo_loadViewFromNibForClass:[LEOSignUpPatientView class]];
         _signUpPatientView = strongView;
+        _signUpPatientView.patient = self.patient;
 
         [self.view removeConstraints:self.view.constraints];
         _signUpPatientView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -139,79 +131,6 @@
     }
 
     return _signUpPatientView;
-}
-
-
-#pragma mark - <UIImagePickerViewControllerDelegate>
-
-//TO finish picking media, get the original image and build a crop view controller with it, simultaneously dismissing the image picker.
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-
-    UIImage *originalImage = info[UIImagePickerControllerOriginalImage];
-
-    LEOImageCropViewController *imageCropVC = [[LEOImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeCircle];
-    imageCropVC.delegate = self;
-
-    [self.navigationController pushViewController:imageCropVC animated:NO];
-
-    [self dismissImagePicker];
-}
-
-- (void)dismissImagePicker {
-
-    [self dismissViewControllerAnimated:NO completion:^{
-
-        //TODO: Pre-set states
-        self.signUpPatientView.avatarValidationLabel.text = @"";
-    }];
-}
-
-
-#pragma mark - <RSKImageCropViewControllerDelegate>
-
-- (void)imageCropViewControllerDidCancelCrop:(RSKImageCropViewController *)controller {
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
-- (void)imageCropViewController:(RSKImageCropViewController *)controller didCropImage:(UIImage *)croppedImage usingCropRect:(CGRect)cropRect {
-
-//    UIImage *circularAvatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:croppedImage withDiameter:67 borderColor:[UIColor leo_orangeRed] borderWidth:1.0];
-
-
-    self.signUpPatientView.patient.avatar.image = croppedImage;
-
-//    [self.signUpPatientView.avatarButton setImage:circularAvatarImage forState:UIControlStateNormal];
-
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
-- (void)navigationController:(UINavigationController *)navigationController
-      willShowViewController:(UIViewController *)viewController
-                    animated:(BOOL)animated {
-
-    viewController.view.tintColor = [LEOStyleHelper tintColorForFeature:self.feature];
-
-    [LEOStyleHelper styleNavigationBarForFeature:self.feature];
-
-    UILabel *navTitleLabel = [[UILabel alloc] init];
-    navTitleLabel.text = @"Photos";
-
-    [LEOStyleHelper styleLabel:navTitleLabel forFeature:self.feature];
-
-    viewController.navigationItem.titleView = navTitleLabel;
-
-    [viewController.navigationItem setHidesBackButton:YES];
-}
-
-#pragma mark - Data
-
-- (void)updatePatient {
-
-    self.patient.firstName = self.signUpPatientView.patient.firstName;
-    self.patient.lastName = self.signUpPatientView.patient.lastName;
-    self.patient.gender = self.signUpPatientView.patient.gender;
-    self.patient.dob = self.signUpPatientView.patient.dob;
-    self.patient.avatar = self.signUpPatientView.patient.avatar;
 }
 
 -(Patient *)patient {
@@ -228,6 +147,136 @@
     _patient = patient;
     self.originalPatient = [_patient copy];
 }
+
+
+#pragma mark - Other setup helpers
+
+- (void)setupTintColor {
+
+    self.view.tintColor = [LEOStyleHelper tintColorForFeature:self.feature];
+}
+
+- (NSString *)buildNavigationTitleString {
+
+    NSString *navigationTitle;
+
+    switch (self.managementMode) {
+
+        case ManagementModeEdit:
+            navigationTitle = self.patient.fullName;
+            break;
+
+        case ManagementModeCreate:
+            navigationTitle = kTitleAddChildDetails;
+            break;
+
+        case ManagementModeUndefined:
+            break;
+    }
+    
+    return navigationTitle;
+}
+
+
+#pragma mark - <UIImagePickerViewControllerDelegate>
+
+//TO finish picking media, get the original image and build a crop view controller with it, simultaneously dismissing the image picker.
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+
+    UIImage *originalImage = info[UIImagePickerControllerOriginalImage];
+
+    LEOImageCropViewController *imageCropVC = [[LEOImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeCircle];
+    imageCropVC.delegate = self;
+
+    //oddly, we have to set both the tintColor of the view AND the text/title colors in order for these to *always* be orange; no joke -- sometimes they are orange if you don't set the tintColor, and sometimes they aren't. seen by both ZSD and ADF.
+    imageCropVC.view.tintColor = [LEOStyleHelper tintColorForFeature:self.feature];
+    [imageCropVC.chooseButton setTitleColor:[UIColor leo_orangeRed] forState:UIControlStateNormal];
+    [imageCropVC.cancelButton setTitleColor:[UIColor leo_orangeRed] forState:UIControlStateNormal];
+    imageCropVC.moveAndScaleLabel.textColor = [LEOStyleHelper tintColorForFeature:self.feature];
+
+    imageCropVC.avoidEmptySpaceAroundImage = YES;
+    [self.navigationController pushViewController:imageCropVC animated:NO];
+
+    [self dismissImagePicker];
+}
+
+- (void)dismissImagePicker {
+    [self dismissViewControllerAnimated:NO completion:nil];
+}
+
+
+#pragma mark - <RSKImageCropViewControllerDelegate>
+
+- (void)imageCropViewControllerDidCancelCrop:(RSKImageCropViewController *)controller {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)imageCropViewController:(RSKImageCropViewController *)controller didCropImage:(UIImage *)croppedImage usingCropRect:(CGRect)cropRect {
+
+    self.signUpPatientView.patient.avatar.image = croppedImage;
+
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)navigationController:(UINavigationController *)navigationController
+      willShowViewController:(UIViewController *)viewController
+                    animated:(BOOL)animated {
+
+    //Initial styling of the navigation bar
+    [LEOStyleHelper styleNavigationBarForFeature:self.feature];
+
+    //Create the navigation bar title label
+    UILabel *navTitleLabel = [[UILabel alloc] init];
+    navTitleLabel.text = kTitlePhotos;
+    [LEOStyleHelper styleLabel:navTitleLabel forFeature:self.feature];
+    viewController.navigationItem.titleView = navTitleLabel;
+    viewController.navigationItem.title = @"";
+
+    //Create the dismiss button for the navigation bar
+    UIButton *dismissButton = [self buildDismissButton];
+    UIBarButtonItem *dismissBBI = [[UIBarButtonItem alloc] initWithCustomView:dismissButton];
+    navigationController.navigationBar.topItem.rightBarButtonItem = dismissBBI;
+
+
+    //Create the back button
+    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [backButton setImage:[UIImage imageNamed:@"Icon-BackArrow"] forState:UIControlStateNormal];
+    [backButton setTitle:@"" forState:UIControlStateNormal];
+    [backButton addTarget:viewController action:@selector(popViewControllerAnimated:) forControlEvents:UIControlEventTouchUpInside];
+
+    UIBarButtonItem *backBBI = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    navigationController.navigationItem.leftBarButtonItem = backBBI;
+
+    //This is the special sauce required to get the bar to show the back arrow appropriately without the "Photos" title text, and in the appropriate spot.
+    [UINavigationBar appearance].backIndicatorImage = [UIImage imageNamed:@"Icon-BackArrow"];
+    [UINavigationBar appearance].backIndicatorTransitionMaskImage = [UIImage imageNamed:@"Icon-BackArrow"];
+    navigationController.navigationItem.hidesBackButton = YES;
+
+    //Required to get the back button and cancel button to tint with the feature color
+    navigationController.navigationBar.tintColor = [LEOStyleHelper tintColorForFeature:self.feature];
+}
+
+- (void)dismiss {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (UIButton *)buildDismissButton {
+
+    UIButton *dismissButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [dismissButton addTarget:self
+                      action:@selector(dismiss)
+            forControlEvents:UIControlEventTouchUpInside];
+    [dismissButton setImage:[UIImage imageNamed:@"Icon-Cancel"]
+                   forState:UIControlStateNormal];
+    [dismissButton sizeToFit];
+    dismissButton.tintColor = [UIColor leo_orangeRed];
+
+    return dismissButton;
+}
+
+
+#pragma mark - Data
+
 
 
 
@@ -259,7 +308,7 @@
                                 //TODO: Let user know that patient was created successfully or not IF in settings only
 
                                 self.patient.objectID = patient.objectID;
-                                
+
                                 [userService postAvatarForUser:self.patient withCompletion:^(BOOL success, NSError *error) {
 
                                     if (!error) {
@@ -305,11 +354,11 @@
                     }
 
                         break;
-                        
+
                     case ManagementModeUndefined:
                         break;
                 }
-                
+
                 break;
             }
 
@@ -341,103 +390,35 @@
     }
 }
 
-- (void)finishLocalUpdate {
+- (void)updatePatient {
+    
+    self.patient.firstName = self.signUpPatientView.patient.firstName;
+    self.patient.lastName = self.signUpPatientView.patient.lastName;
+    self.patient.gender = self.signUpPatientView.patient.gender;
+    self.patient.dob = self.signUpPatientView.patient.dob;
+    self.patient.avatar = self.signUpPatientView.patient.avatar;
+}
 
+- (void)pop {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+
+#pragma mark - <LEOSignUpPatientViewDelegate>
+
+- (void)finishLocalUpdate {
+    
     [self.delegate addPatient:self.patient];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)presentPhotoPicker {
-
+    
     UIImagePickerController *pickerController = [[UIImagePickerController alloc] init];
     pickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     pickerController.delegate = self;
-
+    
     [self presentViewController:pickerController animated:YES completion:nil];
-}
-
-- (void)pop {
-
-    [self.patient copyFrom:self.originalPatient];
-    
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
-////////////////////////////////////////////////NO NEED TO REFACTOR PAST THIS POINT IN SPRINT 12. BUT MOST OF THE BELOW WILL EVENTUALLY BE PULLED INTO A CATEGORY / PROTOCOL / OTHER CLASSES
-
-#pragma mark - <UIScrollViewDelegate> & Helper Methods
-
--(void)scrollViewDidScroll:(UIScrollView *)scrollView {
-
-    if (scrollView == self.signUpPatientView.scrollView) {
-
-        if ([self scrollViewVerticalContentOffset] > 0) {
-
-            if (!self.breakerPreviouslyDrawn) {
-
-                [self fadeBreaker:YES];
-                self.breakerPreviouslyDrawn = YES;
-            }
-
-        } else {
-
-            self.breakerPreviouslyDrawn = NO;
-            [self fadeBreaker:NO];
-        }
-    }
-}
-
-- (void)fadeBreaker:(BOOL)shouldFade {
-
-    CABasicAnimation *fadeAnimation = [CABasicAnimation animationWithKeyPath:@"breakerFade"];
-    fadeAnimation.duration = 0.3;
-
-    if (shouldFade) {
-
-        [self fadeAnimation:fadeAnimation fromColor:[UIColor clearColor] toColor:[UIColor leo_orangeRed] withStrokeColor:[UIColor leo_orangeRed]];
-
-    } else {
-
-        [self fadeAnimation:fadeAnimation fromColor:[UIColor leo_orangeRed] toColor:[UIColor clearColor] withStrokeColor:[UIColor clearColor]];
-    }
-
-    [self.pathLayer addAnimation:fadeAnimation forKey:@"breakerFade"];
-}
-
-- (void)fadeAnimation:(CABasicAnimation *)fadeAnimation fromColor:(UIColor *)fromColor toColor:(UIColor *)toColor withStrokeColor:(UIColor *)strokeColor {
-
-    fadeAnimation.fromValue = (id)fromColor.CGColor;
-    fadeAnimation.toValue = (id)toColor.CGColor;
-
-    self.pathLayer.strokeColor = strokeColor.CGColor;
-}
-
-- (void)setupBreaker {
-
-    CGRect viewRect = self.navigationController.navigationBar.bounds;
-    
-    CGPoint beginningOfLine = CGPointMake(viewRect.origin.x, 0);
-    CGPoint endOfLine = CGPointMake(self.view.bounds.size.width, 0);
-    
-    UIBezierPath *path = [UIBezierPath bezierPath];
-    [path moveToPoint:beginningOfLine];
-    [path addLineToPoint:endOfLine];
-    
-    self.pathLayer = [CAShapeLayer layer];
-    self.pathLayer.frame = self.view.bounds;
-    self.pathLayer.path = path.CGPath;
-    self.pathLayer.strokeColor = [UIColor clearColor].CGColor;
-    self.pathLayer.lineWidth = 1.0f;
-    self.pathLayer.lineJoin = kCALineJoinBevel;
-    
-    [self.view.layer addSublayer:self.pathLayer];
-}
-
-
-#pragma mark - Shorthand Helpers
-
-- (CGFloat)scrollViewVerticalContentOffset {
-    return self.signUpPatientView.scrollView.contentOffset.y;
 }
 
 
