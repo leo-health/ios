@@ -341,6 +341,7 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
     if (indexPath.section == PHRTableViewSectionNotes) {
 
         LEORecordEditNotesViewController *vc = [LEORecordEditNotesViewController new];
+        vc.patient = self.patient;
         [self.phrViewController.navigationController pushViewController:vc animated:YES];
     }
 }

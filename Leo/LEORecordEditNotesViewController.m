@@ -17,6 +17,7 @@
 @interface LEORecordEditNotesViewController ()
 
 @property (weak, nonatomic) JVFloatLabeledTextView *myTextView;
+@property (strong, nonatomic) UIToolbar *accessoryView;
 @property (nonatomic) BOOL alreadyUpdatedConstraints;
 @property (weak, nonatomic) UIView *navigationBar;
 
@@ -44,7 +45,9 @@
         JVFloatLabeledTextView *strongView = [JVFloatLabeledTextView new];
         [self.view addSubview:strongView];
         _myTextView = strongView;
+
         _myTextView.placeholder = @"Please enter some notes about your child";
+        _myTextView.inputAccessoryView = self.accessoryView;
     }
 
     return _myTextView;
@@ -62,13 +65,34 @@
     return _navigationBar;
 }
 
+- (UIToolbar *)accessoryView {
+
+    if (!_accessoryView) {
+
+        _accessoryView = [UIToolbar new];
+
+        UIBarButtonItem *done = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneBBIAction)];
+        UIBarButtonItem *flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+        _accessoryView.items = @[flex, done];
+        _accessoryView.tintColor = [UIColor leo_orangeRed];
+    }
+    return _accessoryView;
+}
+
+- (void)doneBBIAction {
+    [self.view endEditing:YES];
+}
+
 - (void)loadView {
 
     [super loadView];
 
     self.myTextView.translatesAutoresizingMaskIntoConstraints = NO;
     self.navigationBar.translatesAutoresizingMaskIntoConstraints = NO;
+    self.accessoryView.translatesAutoresizingMaskIntoConstraints = NO;
     NSDictionary *views = NSDictionaryOfVariableBindings(_myTextView, _navigationBar);
+
+    [self.accessoryView addConstraint:[NSLayoutConstraint constraintWithItem:self.accessoryView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:30]];
 
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_navigationBar]|" options:0 metrics:nil views:views]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.navigationBar attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.topLayoutGuide attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
@@ -100,7 +124,11 @@
     self.myTextView.contentInset = insets;
 }
 
+- (void)dealloc {
 
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+}
 
 
 @end
