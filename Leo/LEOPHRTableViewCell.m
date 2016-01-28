@@ -100,6 +100,8 @@
     self.recordTitleDetailLabel.text = nil;
     self.recordSideLabel.text = nil;
     self.recordMainDetailLabel.text = note.note;
+
+    self.selectionStyle = UITableViewCellSelectionStyleDefault;
 }
 
 

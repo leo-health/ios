@@ -7,6 +7,7 @@
 //
 
 #import "LEORecordViewController.h"
+#import "LEOPHRViewController.h"
 
 // helpers
 #import "UIFont+LeoFonts.h"
@@ -15,6 +16,9 @@
 // views
 #import "LEOPHRTableViewCell.h"
 #import "LEOIntrinsicSizeTableView.h"
+
+// controllers
+#import "LEORecordEditNotesViewController.h"
 
 // model
 #import "LEOHealthRecordService.h"
@@ -329,6 +333,15 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
         case PHRTableViewSectionNotes:
             [_cell configureCellWithNote:self.healthRecord.notes[indexPath.row]];
             break;
+    }
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    if (indexPath.section == PHRTableViewSectionNotes) {
+
+        LEORecordEditNotesViewController *vc = [LEORecordEditNotesViewController new];
+        [self.phrViewController.navigationController pushViewController:vc animated:YES];
     }
 }
 
