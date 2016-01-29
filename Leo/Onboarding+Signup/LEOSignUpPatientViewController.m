@@ -59,6 +59,12 @@ static NSString *const kTitlePhotos = @"Photos";
     [self setupNotifications];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    
+    NSString *navigationTitle = [self buildNavigationTitleString];
+    [LEOStyleHelper styleNavigationBarForViewController:self forFeature:self.feature withTitleText:navigationTitle dismissal:NO backButton:YES shadow:YES];
+}
+
 - (void)setupNotifications {
 
     __weak typeof(self) weakself = self;
@@ -113,9 +119,6 @@ static NSString *const kTitlePhotos = @"Photos";
     _managementMode = managementMode;
 
     self.signUpPatientView.managementMode = managementMode;
-
-    NSString *navigationTitle = [self buildNavigationTitleString];
-    [LEOStyleHelper styleNavigationBarForViewController:self forFeature:self.feature withTitleText:navigationTitle dismissal:NO backButton:YES shadow:YES];
 }
 
 - (LEOSignUpPatientView *)signUpPatientView {
@@ -125,6 +128,7 @@ static NSString *const kTitlePhotos = @"Photos";
         LEOSignUpPatientView *strongView = [self leo_loadViewFromNibForClass:[LEOSignUpPatientView class]];
         _signUpPatientView = strongView;
         _signUpPatientView.patient = self.patient;
+        _signUpPatientView.managementMode = self.managementMode;
 
         [self.view removeConstraints:self.view.constraints];
         _signUpPatientView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -152,6 +156,7 @@ static NSString *const kTitlePhotos = @"Photos";
 - (void)setPatient:(Patient *)patient {
 
     _patient = patient;
+    self.signUpPatientView.patient = patient;
     self.originalPatient = [_patient copy];
 }
 

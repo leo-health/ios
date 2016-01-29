@@ -63,6 +63,7 @@ static NSString *const kSignUpPatientSegue = @"SignUpPatientSegue";
 
     [super viewWillAppear:animated];
     [self setupNavigationBar];
+    [self.managePatientsView.tableView reloadData];
 
     CGFloat percentage = [self transitionPercentageForScrollOffset:self.stickyHeaderView.scrollView.contentOffset];
 
