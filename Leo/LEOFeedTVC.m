@@ -149,19 +149,19 @@ static CGFloat const kFeedInsetTop = 30.0;
     UIImage *heartBBI = [[UIImage imageNamed:@"Icon-LeoHeart-Header"] resizedImageToSize:imgSize];
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:(CGRect){.origin = CGPointZero, .size = imgSize}];
     imageView.image = heartBBI;
-    UIBarButtonItem *leoheartBBI = [[UIBarButtonItem alloc] initWithCustomView:imageView];
 
-    UIImage *phrImage = [[UIImage imageNamed:@"Icon-PHR"] resizedImageToSize:CGSizeMake(30.0, 30.0)];
+    UIImage *phrImage = [UIImage imageNamed:@"Icon-PHR"];
 
-    UIBarButtonItem *phrBBI = [[UIBarButtonItem alloc] initWithImage:phrImage style:UIBarButtonItemStylePlain target:self action:@selector(phrTouchedUpInside)];
+    UIButton *phrButton = [UIButton buttonWithType:UIButtonTypeCustom];
+                           [phrButton setImage:phrImage forState:UIControlStateNormal];
+    phrButton.frame = (CGRect){.origin = CGPointZero, .size = imgSize};
+    [phrButton addTarget:self action:@selector(phrTouchedUpInside) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *phrBBI = [[UIBarButtonItem alloc] initWithCustomView:phrButton];
 
     self.navigationBar.topItem.title = @"";
 
     UINavigationItem *item = [UINavigationItem new];
-
-//    item.leftBarButtonItem = leoheartBBI;
     item.rightBarButtonItem = phrBBI;
-
     item.titleView = imageView;
     self.navigationBar.items = @[item];
 }
