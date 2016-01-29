@@ -216,7 +216,7 @@
         user.avatar.image = avatarImage;
         user.avatar.placeholder = placeholderImage;
 
-        BOOL success = error ? YES : NO;
+        BOOL success = !error;
 
         completionBlock ? completionBlock (success, error) : nil;
     }];

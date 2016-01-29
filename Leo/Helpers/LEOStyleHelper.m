@@ -201,7 +201,7 @@
             return [UIColor leo_orangeRed];
             
         case FeatureSettings:
-            return [UIColor leo_orangeRed];
+            return [UIColor leo_white];
             
         case FeatureAppointmentScheduling:
             return [UIColor leo_green];
