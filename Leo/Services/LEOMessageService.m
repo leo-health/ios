@@ -83,7 +83,7 @@
         } else {
             
             //TODO: Obviously all of our API calls should return errors, and all should be more descriptive / useful than this. That said, we are already handling user messaging at the API level via UIAlertControllers, so this can take a backseat. For now.
-            NSLog(@"Error!");
+            NSLog(@"Error! GET messages for conversation %@", error);
         }
     }];
 }

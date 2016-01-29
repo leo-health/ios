@@ -29,8 +29,15 @@
 
 -(instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
 
-    NSString *baseURL = jsonResponse[APIParamImageBaseURL];
-    NSDictionary *parameters = jsonResponse[APIParamImageURLParameters];
+    // TODO: update this once the API changes are completely pushed to the server.
+    // With this code, it will work with either response structure. Despite this, image upload is still failing
+    NSDictionary *url = jsonResponse[APIParamImageURL];
+    if (!url || ![url respondsToSelector:@selector(objectAtIndexedSubscript:)]) {
+        url = jsonResponse;
+    }
+
+    NSString *baseURL = url[APIParamImageBaseURL];
+    NSDictionary *parameters = url[APIParamImageURLParameters];
 
     return [self initWithBaseURL:baseURL parameters:parameters placeholder:nil];
 }
