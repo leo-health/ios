@@ -1,9 +1,13 @@
     upcoming:
-    - New! Design updates including new icons
-    - New! Deeplinks with scrolling to card available via notifications and emails
-    - Bug fixing
-
     releases:
+    - version: 0.3.0
+      build: 2016.01.28.19.22
+      date: January 28 2016
+      notes:
+      - New! Design updates including new icons
+  - New! Deeplinks with scrolling to card available via notifications and emails
+  - Bug fixing
+    
     - version: 0.2.0
       build: 2016.01.23.23.57
       date: January 23 2016
@@ -90,6 +94,7 @@
       notes:
       - First test build using new Fastfile configuration for Alpha builds
       - Provides the basic functionality all created prior to our first releases
+
 
 
 
