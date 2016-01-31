@@ -190,6 +190,7 @@
 		31F5AA801B7920B700F96D06 /* Appointment.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 31F5AA7F1B7920B700F96D06 /* Appointment.storyboard */; };
 		31FCDD5E1C56A64200BE4B78 /* LEOReviewOnboardingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FCDD5D1C56A64200BE4B78 /* LEOReviewOnboardingView.m */; };
 		31FCDD601C56A65E00BE4B78 /* LEOReviewOnboardingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 31FCDD5F1C56A65E00BE4B78 /* LEOReviewOnboardingView.xib */; };
+		31FCDD6E1C5EABE600BE4B78 /* *.leohealth.com.cer in Resources */ = {isa = PBXBuildFile; fileRef = 31FCDD6D1C5EAA5900BE4B78 /* *.leohealth.com.cer */; };
 		31FDDE551B28DD2C0009BBC2 /* LEOTwoButtonPrimaryOnlyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FDDE531B28DD2C0009BBC2 /* LEOTwoButtonPrimaryOnlyCell.m */; };
 		31FDDE561B28DD2C0009BBC2 /* LEOTwoButtonPrimaryOnlyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 31FDDE541B28DD2C0009BBC2 /* LEOTwoButtonPrimaryOnlyCell.xib */; };
 		31FDDE591B28DFC10009BBC2 /* LEOTwoButtonPrimaryOnlyCell+ConfigureForCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FDDE581B28DFC10009BBC2 /* LEOTwoButtonPrimaryOnlyCell+ConfigureForCell.m */; };
@@ -597,6 +598,7 @@
 		31FCDD5C1C56A64200BE4B78 /* LEOReviewOnboardingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOReviewOnboardingView.h; path = "Views and Controllers/Onboarding, Signup & Settings/LEOReviewOnboardingView.h"; sourceTree = "<group>"; };
 		31FCDD5D1C56A64200BE4B78 /* LEOReviewOnboardingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOReviewOnboardingView.m; path = "Views and Controllers/Onboarding, Signup & Settings/LEOReviewOnboardingView.m"; sourceTree = "<group>"; };
 		31FCDD5F1C56A65E00BE4B78 /* LEOReviewOnboardingView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LEOReviewOnboardingView.xib; path = "Views and Controllers/Onboarding, Signup & Settings/LEOReviewOnboardingView.xib"; sourceTree = "<group>"; };
+		31FCDD6D1C5EAA5900BE4B78 /* *.leohealth.com.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = "*.leohealth.com.cer"; sourceTree = "<group>"; };
 		31FDDE521B28DD2C0009BBC2 /* LEOTwoButtonPrimaryOnlyCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOTwoButtonPrimaryOnlyCell.h; sourceTree = "<group>"; };
 		31FDDE531B28DD2C0009BBC2 /* LEOTwoButtonPrimaryOnlyCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOTwoButtonPrimaryOnlyCell.m; sourceTree = "<group>"; };
 		31FDDE541B28DD2C0009BBC2 /* LEOTwoButtonPrimaryOnlyCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LEOTwoButtonPrimaryOnlyCell.xib; sourceTree = "<group>"; };
@@ -1469,6 +1471,7 @@
 		BCE1EC661B00E353007C8D0B /* Leo */ = {
 			isa = PBXGroup;
 			children = (
+				31FCDD6D1C5EAA5900BE4B78 /* *.leohealth.com.cer */,
 				31B5EC631BDA84720016F653 /* *.leoforkids.com.cer */,
 				3130B4911B0693D5006ACC80 /* Stoyboards & Xibs */,
 				BCA69A3D1B039ABC00C27B2B /* Views and Controllers */,
@@ -1647,6 +1650,7 @@
 				31FDDE611B29D9120009BBC2 /* LEOOneButtonPrimaryOnlyCell.xib in Resources */,
 				31F5AA751B791B4B00F96D06 /* ProviderCell.xib in Resources */,
 				3101F9431BF556820075765B /* LeoUserDefaults.plist in Resources */,
+				31FCDD6E1C5EABE600BE4B78 /* *.leohealth.com.cer in Resources */,
 				3115F22A1BCEAAC1001BDF6A /* LEOUpdatePasswordView.xib in Resources */,
 				31C01D911B66B8E000F9EAED /* Stubs in Resources */,
 				31D275771C517AF0005F8964 /* LEOManagePatientsView.xib in Resources */,
@@ -1986,7 +1990,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 2016.01.23.23.57;
+				CURRENT_PROJECT_VERSION = 2016.01.28.19.22;
 				ENABLE_TESTABILITY = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				ONLY_ACTIVE_ARCH = YES;
@@ -2084,7 +2088,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 2016.01.23.23.57;
+				CURRENT_PROJECT_VERSION = 2016.01.28.19.22;
 				ENABLE_TESTABILITY = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				ONLY_ACTIVE_ARCH = YES;
@@ -2132,7 +2136,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 2016.01.23.23.57;
+				CURRENT_PROJECT_VERSION = 2016.01.28.19.22;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -2175,7 +2179,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 2016.01.23.23.57;
+				CURRENT_PROJECT_VERSION = 2016.01.28.19.22;
 				ENABLE_TESTABILITY = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				ONLY_ACTIVE_ARCH = YES;
@@ -2187,7 +2191,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 2016.01.23.23.57;
+				CURRENT_PROJECT_VERSION = 2016.01.28.19.22;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
