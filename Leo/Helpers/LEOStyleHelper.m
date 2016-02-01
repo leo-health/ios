@@ -55,6 +55,24 @@
     [self styleBackButtonForViewController:viewController forFeature:FeatureSettings];
 }
 
++ (void)styleNavigationBar:(UINavigationBar*)navigationBar forFeature:(Feature)feature {
+
+    navigationBar.backItem.hidesBackButton = YES;
+
+    [navigationBar setBackgroundImage:[UIImage leo_imageWithColor:[self backgroundColorForFeature:feature]] forBarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
+
+    navigationBar.translucent = YES;
+
+    if (feature == FeatureOnboarding || feature == FeatureSettings) {
+        navigationBar.translucent = NO;
+
+    } else {
+        navigationBar.translucent = YES;
+    }
+
+    [navigationBar setShadowImage:[UIImage new]];
+}
+
 + (void)styleNavigationBarForFeature:(Feature)feature {
     
     [UINavigationBar appearance].backItem.hidesBackButton = YES;

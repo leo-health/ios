@@ -18,6 +18,7 @@
 + (void)styleSettingsViewController:(UIViewController *)viewController;
 
 + (void)styleNavigationBarForFeature:(Feature)feature;
++ (void)styleNavigationBar:(UINavigationBar*)navigationBar forFeature:(Feature)feature;
 + (void)styleLabel:(UILabel *)label forFeature:(Feature)feature;
 + (void)stylePromptTextView:(LEOPromptTextView *)promptTextView forFeature:(Feature)feature;
 + (void)styleBackButtonForViewController:(UIViewController *)viewController forFeature:(Feature)feature;
