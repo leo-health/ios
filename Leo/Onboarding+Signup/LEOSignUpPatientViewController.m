@@ -63,9 +63,14 @@ static NSString *const kTitlePhotos = @"Photos";
     
     NSString *navigationTitle = [self buildNavigationTitleString];
     [LEOStyleHelper styleNavigationBarForViewController:self forFeature:self.feature withTitleText:navigationTitle dismissal:NO backButton:YES shadow:YES];
+    [self.signUpPatientView.avatarImageView setNeedsDisplay];
 }
 
 - (void)setupNotifications {
+
+
+    // CLEANME: remove tests once bug is fixed
+
 
     __weak typeof(self) weakself = self;
 
@@ -73,9 +78,9 @@ static NSString *const kTitlePhotos = @"Photos";
 
         typeof(self) strongself = weakself;
 
-        UIImage *circularAvatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:self.patient.avatar.image withDiameter:67 borderColor:[UIColor leo_orangeRed] borderWidth:1.0];
+        UIImage *circularAvatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:strongself.patient.avatar.image withDiameter:67 borderColor:[UIColor leo_orangeRed] borderWidth:1.0];
 
-        strongself.originalPatient.avatar = [self.patient.avatar copy];
+        strongself.originalPatient.avatar = [strongself.patient.avatar copy];
 
         strongself.signUpPatientView.avatarImageView.image = circularAvatarImage;
         strongself.signUpPatientView.avatarValidationLabel.textColor = [UIColor leo_grayStandard];
@@ -84,13 +89,18 @@ static NSString *const kTitlePhotos = @"Photos";
 
     [[NSNotificationCenter defaultCenter] addObserverForName:kNotificationImageChanged object:self.patient.avatar queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull notification) {
 
-        typeof(self) strongself = weakself;
+//        typeof(self) strongself = weakself;
+
+        UIImage *oldImage = self.signUpPatientView.avatarImageView.image;
 
         UIImage *circularAvatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:self.patient.avatar.image withDiameter:67 borderColor:[UIColor leo_orangeRed] borderWidth:1.0];
 
-        strongself.signUpPatientView.avatarImageView.image = circularAvatarImage;
-        strongself.signUpPatientView.avatarValidationLabel.textColor = [UIColor leo_grayStandard];
-        strongself.signUpPatientView.avatarValidationLabel.text = kAvatarCallToActionEdit;
+        self.signUpPatientView.avatarImageView.image = circularAvatarImage;
+
+        UIImage *newImage = self.signUpPatientView.avatarImageView.image;
+
+        self.signUpPatientView.avatarValidationLabel.textColor = [UIColor leo_grayStandard];
+        self.signUpPatientView.avatarValidationLabel.text = kAvatarCallToActionEdit;
     }];
 }
 
@@ -156,8 +166,8 @@ static NSString *const kTitlePhotos = @"Photos";
 - (void)setPatient:(Patient *)patient {
 
     _patient = patient;
-    self.signUpPatientView.patient = patient;
     self.originalPatient = [_patient copy];
+    self.signUpPatientView.patient = self.patient; // if patient is nil, original patient should be nil, but self.patient and self.signupPatientView.patient should be [Patient new]
 }
 
 

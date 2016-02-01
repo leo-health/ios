@@ -94,7 +94,8 @@
     [navBarTitleLabel sizeToFit]; //MARK: not sure this is useful anymore now that we have added autolayout.
 
     viewController.navigationItem.titleView = navBarTitleLabel;
-    viewController.navigationItem.titleView.alpha = 0;
+    // not sure why this is the default alpha
+//    viewController.navigationItem.titleView.alpha = 0;
 }
 
 + (void)stylePromptTextView:(LEOPromptTextView *)promptTextView forFeature:(Feature)feature {
