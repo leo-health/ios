@@ -27,12 +27,14 @@
 #import "LEOUserService.h"
 #import "LEOImageCropViewController.h"
 #import "LEOAlertHelper.h"
+#import <CWStatusBarNotification.h>
 #import "UIViewController+XibAdditions.h"
 
 @interface LEOSignUpPatientViewController ()
 
 @property (weak, nonatomic) LEOSignUpPatientView *signUpPatientView;
 @property (strong, nonatomic) Patient *originalPatient;
+@property (strong, nonatomic) CWStatusBarNotification *statusBarNotification;
 
 @end
 
@@ -57,9 +59,10 @@ static NSString *const kTitlePhotos = @"Photos";
     [self setupNotifications];
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
-
-    [self.patient copyFrom:self.originalPatient];
+- (void)viewWillAppear:(BOOL)animated {
+    
+    NSString *navigationTitle = [self buildNavigationTitleString];
+    [LEOStyleHelper styleNavigationBarForViewController:self forFeature:self.feature withTitleText:navigationTitle dismissal:NO backButton:YES shadow:YES];
 }
 
 - (void)setupNotifications {
@@ -101,14 +104,21 @@ static NSString *const kTitlePhotos = @"Photos";
     [self setupTintColor];
 }
 
+- (CWStatusBarNotification *)statusBarNotification {
+
+    if (!_statusBarNotification) {
+
+        _statusBarNotification = [CWStatusBarNotification new];
+    }
+
+    return _statusBarNotification;
+}
+
 -(void)setManagementMode:(ManagementMode)managementMode {
 
     _managementMode = managementMode;
 
     self.signUpPatientView.managementMode = managementMode;
-
-    NSString *navigationTitle = [self buildNavigationTitleString];
-    [LEOStyleHelper styleNavigationBarForViewController:self forFeature:self.feature withTitleText:navigationTitle dismissal:NO backButton:YES shadow:YES];
 }
 
 - (LEOSignUpPatientView *)signUpPatientView {
@@ -118,6 +128,7 @@ static NSString *const kTitlePhotos = @"Photos";
         LEOSignUpPatientView *strongView = [self leo_loadViewFromNibForClass:[LEOSignUpPatientView class]];
         _signUpPatientView = strongView;
         _signUpPatientView.patient = self.patient;
+        _signUpPatientView.managementMode = self.managementMode;
 
         [self.view removeConstraints:self.view.constraints];
         _signUpPatientView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -145,6 +156,7 @@ static NSString *const kTitlePhotos = @"Photos";
 - (void)setPatient:(Patient *)patient {
 
     _patient = patient;
+    self.signUpPatientView.patient = patient;
     self.originalPatient = [_patient copy];
 }
 
@@ -225,6 +237,8 @@ static NSString *const kTitlePhotos = @"Photos";
     //Initial styling of the navigation bar
     [LEOStyleHelper styleNavigationBarForFeature:self.feature];
 
+    UIColor *tintColor = [LEOStyleHelper tintColorForFeature:self.feature];
+
     //Create the navigation bar title label
     UILabel *navTitleLabel = [[UILabel alloc] init];
     navTitleLabel.text = kTitlePhotos;
@@ -234,12 +248,13 @@ static NSString *const kTitlePhotos = @"Photos";
 
     //Create the dismiss button for the navigation bar
     UIButton *dismissButton = [self buildDismissButton];
+    dismissButton.tintColor = tintColor;
     UIBarButtonItem *dismissBBI = [[UIBarButtonItem alloc] initWithCustomView:dismissButton];
-    navigationController.navigationBar.topItem.rightBarButtonItem = dismissBBI;
-
+    viewController.navigationItem.rightBarButtonItem = dismissBBI;
 
     //Create the back button
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    backButton.tintColor = tintColor;
     [backButton setImage:[UIImage imageNamed:@"Icon-BackArrow"] forState:UIControlStateNormal];
     [backButton setTitle:@"" forState:UIControlStateNormal];
     [backButton addTarget:viewController action:@selector(popViewControllerAnimated:) forControlEvents:UIControlEventTouchUpInside];
@@ -253,7 +268,7 @@ static NSString *const kTitlePhotos = @"Photos";
     navigationController.navigationItem.hidesBackButton = YES;
 
     //Required to get the back button and cancel button to tint with the feature color
-    navigationController.navigationBar.tintColor = [LEOStyleHelper tintColorForFeature:self.feature];
+    navigationController.navigationBar.tintColor = tintColor;
 }
 
 - (void)dismiss {
@@ -287,84 +302,46 @@ static NSString *const kTitlePhotos = @"Photos";
 
     //TODO: Manage button enabled and progress hud
 
-    LEOUserService *userService = [[LEOUserService alloc] init];
-
     [self.signUpPatientView validateFields];
 
-    if ([self.signUpPatientView.patient isValid]) {
+    if (![self.signUpPatientView.patient isValid]) {
+        return;
+    }
 
-        [self updatePatient];
+    [self updateLocalPatient];
+
+    if ([self.patient isEqual:self.originalPatient]) {
+
+        [self.navigationController popViewControllerAnimated:YES];
+        
+    } else { // patient data was changed
 
         switch (self.feature) {
+
             case FeatureSettings: {
 
                 switch (self.managementMode) {
-                    case ManagementModeCreate: {
 
-                        [userService createPatient:self.patient withCompletion:^(Patient *patient, NSError *error) {
+                    case ManagementModeCreate:
 
-                            if (!error) {
-
-                                //TODO: Let user know that patient was created successfully or not IF in settings only
-
-                                self.patient.objectID = patient.objectID;
-
-                                [userService postAvatarForUser:self.patient withCompletion:^(BOOL success, NSError *error) {
-
-                                    if (!error) {
-
-                                        //TODO: Let user know that patient was created successfully or not IF in settings only
-                                        [self finishLocalUpdate];
-                                    }
-                                }];
-                            }
-                        }];
+                        [self postPatient];
                         break;
-                    }
 
-                    case ManagementModeEdit: {
+                    case ManagementModeEdit:
 
-                        if (![self.patient isEqual:self.originalPatient]) {
-
-                            [userService updatePatient:self.patient withCompletion:^(BOOL success, NSError *error) {
-
-                                //TODO: Let user know that patient was updated successfully or not IF in settings only
-
-                                if (success) {
-                                    [self.navigationController popViewControllerAnimated:YES];
-                                }
-
-                            }];
-                        }
-
-                        NSData *avatarImageData = UIImagePNGRepresentation(self.patient.avatar.image);
-                        NSData *originalAvatarImageData = UIImagePNGRepresentation(self.originalPatient.avatar.image);
-
-                        if (![avatarImageData isEqual:originalAvatarImageData]) {
-
-                            [userService postAvatarForUser:self.patient withCompletion:^(BOOL success, NSError *error) {
-
-                                //TODO: Let user know that patient was updated successfully or not IF in settings only
-
-                                if (success) {
-                                    [self.navigationController popViewControllerAnimated:YES];
-                                }
-                            }];
-                        }
-                    }
-
+                        [self putPatient];
                         break;
 
                     case ManagementModeUndefined:
                         break;
                 }
-
                 break;
             }
 
             case FeatureOnboarding: {
 
                 switch (self.managementMode) {
+
                     case ManagementModeCreate:
 
                         [self finishLocalUpdate];
@@ -378,20 +355,100 @@ static NSString *const kTitlePhotos = @"Photos";
                     case ManagementModeUndefined:
                         break;
                 }
-
                 break;
             }
 
-            case FeatureUndefined:
-
-            case FeatureAppointmentScheduling:
+            default:
                 break;
         }
     }
 }
 
-- (void)updatePatient {
-    
+- (void)postPatient {
+
+    LEOUserService *userService = [LEOUserService new];
+    [userService createPatient:self.patient withCompletion:^(Patient *patient, NSError *error) {
+
+        if (!error) {
+
+            //TODO: Let user know that patient was created successfully or not IF in settings only
+
+            [self.statusBarNotification displayNotificationWithMessage:@"Child information successfully created!"
+                                                           forDuration:1.0f];
+
+            self.patient.objectID = patient.objectID;
+
+            [userService postAvatarForUser:self.patient withCompletion:^(BOOL success, NSError *error) {
+
+                if (!error) {
+
+                    //TODO: Let user know that patient was created successfully or not IF in settings only
+                    [self finishLocalUpdate];
+                }
+            }];
+        }
+    }];
+}
+
+- (void)putPatient {
+
+    LEOUserService *userService = [LEOUserService new];
+
+    BOOL patientNeedsUpdate = ![self.patient isEqual:self.originalPatient];
+
+    NSData *avatarImageData = UIImagePNGRepresentation(self.patient.avatar.image);
+    NSData *originalAvatarImageData = UIImagePNGRepresentation(self.originalPatient.avatar.image);
+
+    BOOL avatarNeedsUpdate = ![avatarImageData isEqual:originalAvatarImageData];
+
+    BOOL shouldUpdateBoth = patientNeedsUpdate && avatarNeedsUpdate;
+
+    void (^avatarUpdateBlock)() = ^{
+        [userService postAvatarForUser:self.patient withCompletion:^(BOOL success, NSError *error) {
+
+            if (success) {
+
+                [self.statusBarNotification displayNotificationWithMessage:@"Child information successfully updated!"
+                                                               forDuration:1.0f];
+
+                [self.navigationController popViewControllerAnimated:YES];
+            }
+        }];
+    };
+
+    if (patientNeedsUpdate) {
+
+        [userService updatePatient:self.patient withCompletion:^(BOOL success, NSError *error) {
+
+            //TODO: Let user know that patient was updated successfully or not IF in settings only
+
+            if (success) {
+
+                if (shouldUpdateBoth) {
+
+                    avatarUpdateBlock();
+
+                } else {
+
+                    [self.statusBarNotification displayNotificationWithMessage:@"Child information successfully updated!"
+                                                                   forDuration:1.0f];
+                    [self.navigationController popViewControllerAnimated:YES];
+                }
+            }
+
+        }];
+    }
+
+
+    if (avatarNeedsUpdate && !shouldUpdateBoth) {
+
+        avatarUpdateBlock();
+
+    }
+}
+
+- (void)updateLocalPatient {
+
     self.patient.firstName = self.signUpPatientView.patient.firstName;
     self.patient.lastName = self.signUpPatientView.patient.lastName;
     self.patient.gender = self.signUpPatientView.patient.gender;
@@ -400,6 +457,8 @@ static NSString *const kTitlePhotos = @"Photos";
 }
 
 - (void)pop {
+    // reset the patient if the user clicks back, not with continue
+    [self.patient copyFrom:self.originalPatient];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

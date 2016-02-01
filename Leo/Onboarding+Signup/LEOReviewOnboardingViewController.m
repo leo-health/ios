@@ -79,6 +79,7 @@ static CGFloat const kHeaderIntrinsicHeight = 194;
 
     [super viewWillAppear:animated];
     [self setupNavigationBar];
+    [self.reviewOnboardingView.tableView reloadData];
 
     CGFloat percentage = [self transitionPercentageForScrollOffset:self.stickyHeaderView.scrollView.contentOffset];
 
