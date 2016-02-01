@@ -310,7 +310,14 @@ static NSString *const kTitlePhotos = @"Photos";
 
     [self updateLocalPatient];
 
-    if ([self.patient isEqual:self.originalPatient]) {
+    BOOL patientNeedsUpdate = ![self.patient isEqual:self.originalPatient];
+
+    NSData *avatarImageData = UIImageJPEGRepresentation(self.patient.avatar.image, 1);
+    NSData *originalAvatarImageData = UIImageJPEGRepresentation(self.originalPatient.avatar.image, 1);
+
+    BOOL avatarNeedsUpdate = ![avatarImageData isEqual:originalAvatarImageData];
+
+    if (!patientNeedsUpdate && !avatarNeedsUpdate) {
 
         [self.navigationController popViewControllerAnimated:YES];
         
@@ -329,7 +336,7 @@ static NSString *const kTitlePhotos = @"Photos";
 
                     case ManagementModeEdit:
 
-                        [self putPatient];
+                        [self putPatientByUpdatingData:patientNeedsUpdate andByUpdatingAvatar:avatarNeedsUpdate];
                         break;
 
                     case ManagementModeUndefined:
@@ -390,16 +397,9 @@ static NSString *const kTitlePhotos = @"Photos";
     }];
 }
 
-- (void)putPatient {
+- (void)putPatientByUpdatingData:(BOOL)patientNeedsUpdate andByUpdatingAvatar:(BOOL)avatarNeedsUpdate {
 
     LEOUserService *userService = [LEOUserService new];
-
-    BOOL patientNeedsUpdate = ![self.patient isEqual:self.originalPatient];
-
-    NSData *avatarImageData = UIImagePNGRepresentation(self.patient.avatar.image);
-    NSData *originalAvatarImageData = UIImagePNGRepresentation(self.originalPatient.avatar.image);
-
-    BOOL avatarNeedsUpdate = ![avatarImageData isEqual:originalAvatarImageData];
 
     BOOL shouldUpdateBoth = patientNeedsUpdate && avatarNeedsUpdate;
 
