@@ -174,6 +174,7 @@ NSString *const APIParamFormTitle = @"title";
 NSString *const APIParamFormNotes = @"notes";
 
 #pragma mark - Images
+NSString *const APIParamImageURL = @"url";
 NSString *const APIParamImageBaseURL = @"base_url";
 NSString *const APIParamImageURLParameters = @"parameters";
 

@@ -192,7 +192,8 @@
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
 
-        [self formattedErrorFromError:&error];
+        // FIXME: this method causes a crash I think because the server is not responding with an error in the expected structure. Do we still need this here?
+//        [self formattedErrorFromError:&error];
 
         NSLog(@"Fail: %@",error.localizedDescription);
         NSLog(@"Fail: %@",error.localizedFailureReason);
@@ -321,7 +322,7 @@
     
     NSError *errorPointer = *error;
     NSData *data = errorPointer.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey];
-    
+
     NSError *serializationError;
     NSDictionary *responseErrorDictionary = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
     

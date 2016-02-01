@@ -309,6 +309,7 @@ extern NSString *const APIParamFormTitle; // @"title";
 extern NSString *const APIParamFormNotes; // @"notes";
 
 #pragma mark - Images
+extern NSString *const APIParamImageURL; // = @"url";
 extern NSString *const APIParamImageBaseURL; // @"base_url";
 extern NSString *const APIParamImageURLParameters; // @"parameters";
 

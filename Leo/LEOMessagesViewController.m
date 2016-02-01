@@ -327,10 +327,12 @@
 
     Message *message = [MessageText messageWithObjectID:nil text:text sender:[SessionUser guardian] escalatedTo:nil escalatedBy:nil status:nil statusCode:MessageStatusCodeUndefined escalatedAt:nil];
 
-    [self sendMessage:message withCompletion:^{
+    [self sendMessage:message withCompletion:^(NSError *error){
 
-        [self updateConversationWithMessage:message];
-        [self finishSendingMessage:message];
+        if (!error) {
+            [self updateConversationWithMessage:message];
+            [self finishSendingMessage:message];
+        }
         [self.sendingIndicator stopAnimating];
         button.hidden = NO;
     }];
@@ -487,11 +489,14 @@
 
     [JSQSystemSoundPlayer jsq_playMessageSentSound];
 
-    [self sendMessage:message withCompletion:^{
+    [self sendMessage:message withCompletion:^(NSError *error){
 
         self.sendButton.hidden = NO;
-        [self updateConversationWithMessage:message];
-        [self finishSendingMessage:message];
+        if (!error) {
+
+            [self updateConversationWithMessage:message];
+            [self finishSendingMessage:message];
+        }
         [self.sendingIndicator stopAnimating];
     }];
 
@@ -940,7 +945,7 @@
  *  @param message         the message you wish to send
  *  @param completionBlock a block for activity once the message has posted
  */
-- (void)sendMessage:(Message *)message withCompletion:(void (^) (void))completionBlock {
+- (void)sendMessage:(Message *)message withCompletion:(void (^) (NSError *))completionBlock {
 
     LEOMessageService *messageService = [[LEOMessageService alloc] init];
 
@@ -949,7 +954,17 @@
         if (!error) {
 
             if (completionBlock) {
-                completionBlock();
+                completionBlock(nil);
+            }
+        } else {
+
+            //  TODO: find a better way of notifiying the user of a failure
+            
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Upload Error" message:@"Sorry, but we're having trouble uploading your image" preferredStyle:UIAlertControllerStyleAlert];
+            [alert addAction:[UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleCancel handler:nil]];
+            [self presentViewController:alert animated:YES completion:nil];
+            if (completionBlock) {
+                completionBlock(error);
             }
         }
     }];
