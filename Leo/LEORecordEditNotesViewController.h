@@ -7,10 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PatientNote.h"
 #import "Patient.h"
 
 @interface LEORecordEditNotesViewController : UIViewController
 
-@property (strong, nonatomic) Patient* patient;
+@property (strong, nonatomic) Patient *patient;
+@property (strong, nonatomic) PatientNote *note;
+@property (nonatomic, copy) void (^editNoteCompletionBlock)(PatientNote *updatedNote);
+
 
 @end

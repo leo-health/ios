@@ -11,12 +11,14 @@
 #import "JVFloatLabeledTextView.h"
 #import "UIColor+LeoColors.h"
 #import "UIImage+Extensions.h"
+#import "LEOHealthRecordService.h"
+#import <MBProgressHUD.h>
 
 #define _UIKeyboardFrameEndUserInfoKey (&UIKeyboardFrameEndUserInfoKey != NULL ? UIKeyboardFrameEndUserInfoKey : @"UIKeyboardBoundsUserInfoKey")
 
 @interface LEORecordEditNotesViewController ()
 
-@property (weak, nonatomic) JVFloatLabeledTextView *myTextView;
+@property (weak, nonatomic) JVFloatLabeledTextView *textView;
 @property (strong, nonatomic) UIToolbar *accessoryView;
 @property (nonatomic) BOOL alreadyUpdatedConstraints;
 @property (weak, nonatomic) UIView *navigationBar;
@@ -31,26 +33,22 @@
 
     [self registerForKeyboardNotifications];
 
-    [LEOStyleHelper styleNavigationBarForViewController:self forFeature:FeatureSettings withTitleText:self.patient.firstName dismissal:NO backButton:YES];
+    [self setupNavigationBar];
+
     self.automaticallyAdjustsScrollViewInsets = NO;
 
     // Without this line, the view ends up getting resized to 0 height, and does not appear (for searching: black screen push animated)
     self.view.backgroundColor = [UIColor leo_white];
 }
 
-- (JVFloatLabeledTextView *)myTextView {
+- (void)setupNavigationBar {
 
-    if (!_myTextView) {
+    [LEOStyleHelper styleNavigationBarForViewController:self forFeature:FeatureSettings withTitleText:self.patient.firstName dismissal:NO backButton:NO];
+    self.navigationItem.titleView.alpha = 1;
+    
+    UIBarButtonItem *saveBBI = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleDone target:self action:@selector(saveBBIAction)];
+    self.navigationItem.rightBarButtonItem = saveBBI;
 
-        JVFloatLabeledTextView *strongView = [JVFloatLabeledTextView new];
-        [self.view addSubview:strongView];
-        _myTextView = strongView;
-
-        _myTextView.placeholder = @"Please enter some notes about your child";
-        _myTextView.inputAccessoryView = self.accessoryView;
-    }
-
-    return _myTextView;
 }
 
 - (UIView *)navigationBar {
@@ -65,39 +63,97 @@
     return _navigationBar;
 }
 
-- (UIToolbar *)accessoryView {
+- (JVFloatLabeledTextView *)textView {
 
-    if (!_accessoryView) {
+    if (!_textView) {
 
-        _accessoryView = [UIToolbar new];
+        JVFloatLabeledTextView *strongView = [JVFloatLabeledTextView new];
+        [self.view addSubview:strongView];
+        _textView = strongView;
 
-        UIBarButtonItem *done = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneBBIAction)];
-        UIBarButtonItem *flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-        _accessoryView.items = @[flex, done];
-        _accessoryView.tintColor = [UIColor leo_orangeRed];
+        _textView.text = self.note.note;
+        _textView.placeholder = @"Please enter some notes about your child";
+        _textView.floatingLabelActiveTextColor = [UIColor leo_grayForPlaceholdersAndLines];
+//        _myTextView.inputAccessoryView = self.accessoryView; // TODO: decide if we want this
     }
-    return _accessoryView;
+
+    return _textView;
 }
 
-- (void)doneBBIAction {
+//- (UIToolbar *)accessoryView {
+//
+//    if (!_accessoryView) {
+//
+//        _accessoryView = [UIToolbar new];
+//
+//        UIBarButtonItem *done = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneBBIAction)];
+//        UIBarButtonItem *flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+//        _accessoryView.items = @[flex, done];
+//        _accessoryView.tintColor = [UIColor leo_orangeRed];
+//    }
+//    return _accessoryView;
+//}
+//
+//- (void)doneBBIAction {
+//    [self.view endEditing:YES];
+//}
+
+- (void)saveBBIAction {
+
     [self.view endEditing:YES];
+
+    if (self.note) {
+
+        self.note.note = self.textView.text;
+        [[LEOHealthRecordService new] putNote:self.note forPatient:self.patient withCompletion:^(PatientNote *updatedNote, NSError *error) {
+
+            // TODO: handle error
+            self.editNoteCompletionBlock(updatedNote);
+        }];
+
+        // update the note while we wait for the network
+        self.editNoteCompletionBlock(self.note);
+        [self dismissViewControllerAnimated:YES completion:nil];
+
+    } else {
+
+
+
+        self.note = [PatientNote new];
+        self.note.note = self.textView.text;
+
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        self.navigationItem.leftBarButtonItem.enabled = NO;
+
+        [[LEOHealthRecordService new] postNote:self.note.note forPatient:self.patient withCompletion:^(PatientNote *updatedNote, NSError *error) {
+
+            // update with new obejctID
+            self.editNoteCompletionBlock(updatedNote);
+
+            // @zach: does your button disabling code handle bar button items?
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [self dismissViewControllerAnimated:YES completion:nil];
+
+            // TODO: handle error
+        }];
+    }
 }
 
 - (void)loadView {
 
     [super loadView];
 
-    self.myTextView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.textView.translatesAutoresizingMaskIntoConstraints = NO;
     self.navigationBar.translatesAutoresizingMaskIntoConstraints = NO;
-    self.accessoryView.translatesAutoresizingMaskIntoConstraints = NO;
-    NSDictionary *views = NSDictionaryOfVariableBindings(_myTextView, _navigationBar);
+//    self.accessoryView.translatesAutoresizingMaskIntoConstraints = NO;
+    NSDictionary *views = NSDictionaryOfVariableBindings(_textView, _navigationBar);
 
-    [self.accessoryView addConstraint:[NSLayoutConstraint constraintWithItem:self.accessoryView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:30]];
+//    [self.accessoryView addConstraint:[NSLayoutConstraint constraintWithItem:self.accessoryView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:30]];
 
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_navigationBar]|" options:0 metrics:nil views:views]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.navigationBar attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.topLayoutGuide attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_navigationBar]-[_myTextView]-|" options:0 metrics:nil views:views]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_myTextView]-|" options:0 metrics:nil views:views]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_navigationBar]-[_textView]-|" options:0 metrics:nil views:views]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_textView]-|" options:0 metrics:nil views:views]];
 }
 
 #pragma mark  -  Keyboard Avoiding
@@ -119,9 +175,9 @@
 - (void)updateInsetsToShowKeyboard:(BOOL)showing notification:(NSNotification*)notification {
 
     CGRect keyboardRect = [self.view convertRect:[[[notification userInfo] objectForKey:_UIKeyboardFrameEndUserInfoKey] CGRectValue] fromView:nil];
-    UIEdgeInsets insets = self.myTextView.contentInset;
+    UIEdgeInsets insets = self.textView.contentInset;
     insets.bottom = showing ? CGRectGetHeight(keyboardRect) : 0;
-    self.myTextView.contentInset = insets;
+    self.textView.contentInset = insets;
 }
 
 - (void)dealloc {

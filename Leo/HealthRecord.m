@@ -23,7 +23,7 @@
         _bmis = bmis;
         _heights = heights;
         _weights = weights;
-        _notes = notes;
+        _notes = [notes mutableCopy];
     }
     return self;
 }
@@ -36,6 +36,15 @@
 + (instancetype)mockObject {
 
     return [[HealthRecord alloc] initWithAllergies:@[[Allergy mockObject]] medications:@[[Medication mockObject]] immunizations:@[[Immunization mockObject]] bmis:@[[PatientVitalMeasurementBMI mockObject]] heights:@[[PatientVitalMeasurementHeight mockObject]] weights:@[[PatientVitalMeasurementWeight mockObject]] notes:@[[PatientNote mockObject]]];
+}
+
+- (NSMutableArray *)notes {
+
+    if (!_notes) {
+        
+        _notes = [NSMutableArray new];
+    }
+    return _notes;
 }
 
 @end
