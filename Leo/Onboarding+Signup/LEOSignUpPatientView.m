@@ -23,7 +23,6 @@
 
 @property (weak, nonatomic) IBOutlet UIView *contentView;
 @property (weak, nonatomic, readwrite) IBOutlet UIButton *updateButton;
-
 @property (weak, nonatomic) IBOutlet UIControl *avatarView;
 @property (weak, nonatomic) IBOutlet LEOPromptField *firstNamePromptField;
 @property (weak, nonatomic) IBOutlet LEOPromptField *lastNamePromptField;
@@ -95,8 +94,7 @@ static NSString *const kPlaceholderValidationBirthDate = @"please add your child
     _birthDatePromptField.textField.standardPlaceholder = kPlaceholderStandardBirthDate;
     _birthDatePromptField.textField.validationPlaceholder = kPlaceholderValidationBirthDate;
     _birthDatePromptField.textField.enabled = NO;
-
-    _birthDatePromptField.accessoryImageViewVisible = YES;
+    _birthDatePromptField.accessoryImageViewVisible = [self genderAndBirthdateEditable];
     _birthDatePromptField.accessoryImage = [UIImage imageNamed:@"Icon-Expand"];
     _birthDatePromptField.delegate = self;
 }
@@ -108,9 +106,13 @@ static NSString *const kPlaceholderValidationBirthDate = @"please add your child
     _genderPromptField.textField.standardPlaceholder = kPlaceholderStandardGender;
     _genderPromptField.textField.validationPlaceholder = kPlaceholderValidationGender;
     _genderPromptField.textField.enabled = NO;
-    _genderPromptField.accessoryImageViewVisible = YES;
+    _genderPromptField.accessoryImageViewVisible = [self genderAndBirthdateEditable];
     _genderPromptField.accessoryImage = [UIImage imageNamed:@"Icon-Expand"];
     _genderPromptField.delegate = self;
+}
+
+- (BOOL)genderAndBirthdateEditable {
+    return self.feature == FeatureOnboarding || self.managementMode == ManagementModeCreate;
 }
 
 - (void)setAvatarValidationLabel:(UILabel *)avatarValidationLabel {
@@ -185,7 +187,6 @@ static NSString *const kPlaceholderValidationBirthDate = @"please add your child
         case ManagementModeCreate:
 
             self.avatarValidationLabel.text = kAvatarCallToActionAdd;
-//            self.avatarValidationLabel.textColor = [UIColor leo_grayStandard];
             break;
 
         case ManagementModeEdit:
@@ -195,6 +196,8 @@ static NSString *const kPlaceholderValidationBirthDate = @"please add your child
         case ManagementModeUndefined:
             break;
     }
+    self.genderPromptField.accessoryImageViewVisible = [self genderAndBirthdateEditable];
+    self.birthDatePromptField.accessoryImageViewVisible = [self genderAndBirthdateEditable];
 }
 
 - (NSString *)genderFromGenderTextField {
@@ -268,58 +271,64 @@ static NSString *const kPlaceholderValidationBirthDate = @"please add your child
 //TODO: Separate out into own class.
 - (void)selectADate:(UIControl *)sender {
 
-    NSDate *minDate = [[NSDate date] dateBySubtractingYears:26];
-    NSDate *maxDate = [NSDate date];
+    if ([self genderAndBirthdateEditable]) {
 
-    NSDate *selectedDate = [NSDate leo_dateFromShortDateString:self.birthDatePromptField.textField.text] ?: [NSDate date];
+        NSDate *minDate = [[NSDate date] dateBySubtractingYears:26];
+        NSDate *maxDate = [NSDate date];
 
-    AbstractActionSheetPicker *actionSheetPicker = [[ActionSheetDatePicker alloc] initWithTitle:@"" datePickerMode:UIDatePickerModeDate selectedDate:selectedDate
-                                                                                    minimumDate:minDate
-                                                                                    maximumDate:maxDate
-                                                                                         target:self action:@selector(dateWasSelected:element:) origin:sender];
-    actionSheetPicker.pickerBackgroundColor = [UIColor leo_white];
+        NSDate *selectedDate = [NSDate leo_dateFromShortDateString:self.birthDatePromptField.textField.text] ?: [NSDate date];
 
-    UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [doneButton setTitleColor:[UIColor leo_orangeRed] forState:UIControlStateNormal];
-    [doneButton setTitle:@"Done" forState:UIControlStateNormal];
-    doneButton.titleLabel.font = [UIFont leo_standardFont];
-    [doneButton sizeToFit];
+        AbstractActionSheetPicker *actionSheetPicker = [[ActionSheetDatePicker alloc] initWithTitle:@"" datePickerMode:UIDatePickerModeDate selectedDate:selectedDate
+                                                                                        minimumDate:minDate
+                                                                                        maximumDate:maxDate
+                                                                                             target:self action:@selector(dateWasSelected:element:) origin:sender];
+        actionSheetPicker.pickerBackgroundColor = [UIColor leo_white];
 
-    UIBarButtonItem *doneBBI = [[UIBarButtonItem alloc] initWithCustomView:doneButton];
+        UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [doneButton setTitleColor:[UIColor leo_orangeRed] forState:UIControlStateNormal];
+        [doneButton setTitle:@"Done" forState:UIControlStateNormal];
+        doneButton.titleLabel.font = [UIFont leo_standardFont];
+        [doneButton sizeToFit];
 
-    [actionSheetPicker setDoneButton:doneBBI];
+        UIBarButtonItem *doneBBI = [[UIBarButtonItem alloc] initWithCustomView:doneButton];
 
-    actionSheetPicker.hideCancel = YES;
-    [actionSheetPicker showActionSheetPicker];
+        [actionSheetPicker setDoneButton:doneBBI];
+        
+        actionSheetPicker.hideCancel = YES;
+        [actionSheetPicker showActionSheetPicker];
+    }
 }
 
 //TODO: Separate out into own class.
 - (void)selectAGender:(UIControl *)sender {
 
-    NSInteger selectedIndex = 0;
+    if ([self genderAndBirthdateEditable]) {
 
-    if ([self.genderPromptField.textField.text isEqualToString:@"Male"]) {
+        NSInteger selectedIndex = 0;
 
-        selectedIndex = 1;
+        if ([self.genderPromptField.textField.text isEqualToString:@"Male"]) {
+
+            selectedIndex = 1;
+        }
+
+        AbstractActionSheetPicker *picker = [[ActionSheetStringPicker alloc] initWithTitle:nil rows:@[@"Female",@"Male"] initialSelection:selectedIndex target:self successAction:@selector(genderWasSelected:element:) cancelAction:nil origin:sender];
+        picker.hideCancel = YES;
+        picker.pickerBackgroundColor = [UIColor leo_white];
+
+        picker.pickerTextAttributes = @{NSForegroundColorAttributeName: [UIColor leo_orangeRed],
+                                        NSFontAttributeName:[UIFont leo_standardFont],
+                                        NSBackgroundColorAttributeName: [UIColor leo_white]};
+
+        UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [doneButton setTitleColor:[UIColor leo_orangeRed] forState:UIControlStateNormal];
+        [doneButton setTitle:@"Done" forState:UIControlStateNormal];
+        doneButton.titleLabel.font = [UIFont leo_standardFont];
+        [doneButton sizeToFit];
+        UIBarButtonItem *doneBBI = [[UIBarButtonItem alloc] initWithCustomView:doneButton];
+        
+        [picker setDoneButton:doneBBI];
+        [picker showActionSheetPicker];
     }
-
-    AbstractActionSheetPicker *picker = [[ActionSheetStringPicker alloc] initWithTitle:nil rows:@[@"Female",@"Male"] initialSelection:selectedIndex target:self successAction:@selector(genderWasSelected:element:) cancelAction:nil origin:sender];
-    picker.hideCancel = YES;
-    picker.pickerBackgroundColor = [UIColor leo_white];
-
-    picker.pickerTextAttributes = @{NSForegroundColorAttributeName: [UIColor leo_orangeRed],
-                                    NSFontAttributeName:[UIFont leo_standardFont],
-                                    NSBackgroundColorAttributeName: [UIColor leo_white]};
-
-    UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [doneButton setTitleColor:[UIColor leo_orangeRed] forState:UIControlStateNormal];
-    [doneButton setTitle:@"Done" forState:UIControlStateNormal];
-    doneButton.titleLabel.font = [UIFont leo_standardFont];
-    [doneButton sizeToFit];
-    UIBarButtonItem *doneBBI = [[UIBarButtonItem alloc] initWithCustomView:doneButton];
-
-    [picker setDoneButton:doneBBI];
-    [picker showActionSheetPicker];
 }
 
 - (void)dateWasSelected:(NSDate *)selectedDate element:(id)element {

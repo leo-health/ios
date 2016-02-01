@@ -24,6 +24,7 @@
 
 @property (strong, nonatomic) Patient *patient;
 @property (nonatomic) ManagementMode managementMode;
+@property (nonatomic) Feature feature;
 
 @property (weak, nonatomic) IBOutlet UILabel *avatarValidationLabel;
 @property (weak, nonatomic, readonly) IBOutlet UIButton *updateButton;

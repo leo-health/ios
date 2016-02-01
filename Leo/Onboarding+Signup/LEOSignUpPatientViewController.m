@@ -165,7 +165,7 @@ static NSString *const kTitlePhotos = @"Photos";
 
 - (void)setupTintColor {
 
-    self.view.tintColor = [LEOStyleHelper tintColorForFeature:self.feature];
+    self.view.tintColor = [UIColor leo_orangeRed];
 }
 
 - (NSString *)buildNavigationTitleString {
