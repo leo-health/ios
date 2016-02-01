@@ -182,9 +182,12 @@ static NSString *kActionSelectorCallUs = @"call";
 }
 
 -(nullable User *)secondaryUser {
-    
-    Message *message = self.conversation.messages[0];
-    return message.sender;
+
+    if (self.conversation.messages.count > 0) {
+        Message *message = self.conversation.messages[0];
+        return message.sender;
+    }
+    return nil;
 }
 
 
