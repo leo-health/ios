@@ -103,7 +103,7 @@ static NSString * const kCopyEmptyNotesField = @"Add some notes for the doctor a
     self.recordSideLabel.text = nil;
 
     if (note) {
-        self.recordMainDetailLabel.text = note.note;
+        self.recordMainDetailLabel.text = note.text;
     } else {
         self.recordMainDetailLabel.text = kCopyEmptyNotesField;
     }

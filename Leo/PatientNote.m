@@ -13,7 +13,7 @@
 
 @implementation PatientNote
 
--(instancetype)initWithObjectID:(NSString *)objectID user:(User *)user createdAt:(NSDate *)createdAt updatedAt:(NSDate *)updatedAt deletedAt:(NSDate *)deletedAt note:(NSString *)note {
+-(instancetype)initWithObjectID:(NSString *)objectID user:(User *)user createdAt:(NSDate *)createdAt updatedAt:(NSDate *)updatedAt deletedAt:(NSDate *)deletedAt text:(NSString *)text {
 
     self = [super init];
     if (self) {
@@ -23,7 +23,7 @@
         _createdAt = createdAt;
         _updatedAt = updatedAt;
         _deletedAt = deletedAt;
-        _note = note;
+        _text = text;
     }
     return self;
 }
@@ -35,8 +35,8 @@
     NSDate *createdAt = [NSDate leo_dateFromDateTimeString:[jsonDictionary leo_itemForKey:APIParamPatientNoteCreatedAt]];
     NSDate *updatedAt = [NSDate leo_dateFromDateTimeString:[jsonDictionary leo_itemForKey:APIParamPatientNoteUpdatedAt]];
     NSDate *deletedAt = [NSDate leo_dateFromDateTimeString:[jsonDictionary leo_itemForKey:APIParamPatientNoteDeletedAt]];
-    NSString *note = [jsonDictionary leo_itemForKey:APIParamPatientNoteNote];
-    return [self initWithObjectID:objectID user:user createdAt:createdAt updatedAt:updatedAt deletedAt:deletedAt note:note];
+    NSString *text = [jsonDictionary leo_itemForKey:APIParamPatientNoteNote];
+    return [self initWithObjectID:objectID user:user createdAt:createdAt updatedAt:updatedAt deletedAt:deletedAt text:text];
 }
 
 + (NSArray *)patientNotesFromDictionaries:(NSArray *)dictionaries {
@@ -45,6 +45,15 @@
         [array addObject:[[self alloc] initWithJSONDictionary:dict]];
     }
     return [array copy];
+}
+
+- (void)updateWithPatientNote:(PatientNote *)existingNote {
+    self.objectID = existingNote.objectID;
+    self.user = existingNote.user;
+    self.createdAt = existingNote.createdAt;
+    self.updatedAt = existingNote.updatedAt;
+    self.deletedAt = existingNote.deletedAt;
+    self.text = existingNote.text;
 }
 
 +(instancetype)mockObject {

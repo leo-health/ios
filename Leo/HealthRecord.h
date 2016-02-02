@@ -23,11 +23,15 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic) NSArray<PatientVitalMeasurementBMI*>* bmis;
 @property (copy, nonatomic) NSArray<PatientVitalMeasurementHeight*>* heights;
 @property (copy, nonatomic) NSArray<PatientVitalMeasurementWeight*>* weights;
-@property (strong, nonatomic) NSMutableArray<PatientNote*>* notes;
+@property (copy, nonatomic) NSArray<PatientNote*>* notes;
+
 
 -(instancetype)initWithAllergies:(NSArray<Allergy*> *)allergies medications:(NSArray<Medication*> *)medications immunizations:(NSArray<Immunization*> *)immunizations bmis:(NSArray<PatientVitalMeasurementBMI*> *)bmis heights:(NSArray<PatientVitalMeasurementHeight*>*)heights weights:(NSArray<PatientVitalMeasurementWeight*> *)weights notes:(NSArray<PatientNote*> *)notes;
 -(instancetype)initWithJSONDictionary:(NSDictionary *)jsonDictionary;
 +(instancetype)mockObject;
+
+- (void)addNotesObject:(PatientNote *)object;
+- (void)removeNotesObject:(PatientNote *)object;
 
 NS_ASSUME_NONNULL_END
 

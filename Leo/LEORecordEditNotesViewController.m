@@ -71,32 +71,13 @@
         [self.view addSubview:strongView];
         _textView = strongView;
 
-        _textView.text = self.note.note;
+        _textView.text = self.note.text;
         _textView.placeholder = @"Please enter some notes about your child";
         _textView.floatingLabelActiveTextColor = [UIColor leo_grayForPlaceholdersAndLines];
-//        _myTextView.inputAccessoryView = self.accessoryView; // TODO: decide if we want this
     }
 
     return _textView;
 }
-
-//- (UIToolbar *)accessoryView {
-//
-//    if (!_accessoryView) {
-//
-//        _accessoryView = [UIToolbar new];
-//
-//        UIBarButtonItem *done = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneBBIAction)];
-//        UIBarButtonItem *flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-//        _accessoryView.items = @[flex, done];
-//        _accessoryView.tintColor = [UIColor leo_orangeRed];
-//    }
-//    return _accessoryView;
-//}
-//
-//- (void)doneBBIAction {
-//    [self.view endEditing:YES];
-//}
 
 - (void)saveBBIAction {
 
@@ -104,7 +85,7 @@
 
     if (self.note) {
 
-        self.note.note = self.textView.text;
+        self.note.text = self.textView.text;
         [[LEOHealthRecordService new] putNote:self.note forPatient:self.patient withCompletion:^(PatientNote *updatedNote, NSError *error) {
 
             // TODO: handle error
@@ -120,12 +101,12 @@
 
 
         self.note = [PatientNote new];
-        self.note.note = self.textView.text;
+        self.note.text = self.textView.text;
 
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         self.navigationItem.leftBarButtonItem.enabled = NO;
 
-        [[LEOHealthRecordService new] postNote:self.note.note forPatient:self.patient withCompletion:^(PatientNote *updatedNote, NSError *error) {
+        [[LEOHealthRecordService new] postNote:self.note.text forPatient:self.patient withCompletion:^(PatientNote *updatedNote, NSError *error) {
 
             // update with new obejctID
             self.editNoteCompletionBlock(updatedNote);
@@ -145,10 +126,7 @@
 
     self.textView.translatesAutoresizingMaskIntoConstraints = NO;
     self.navigationBar.translatesAutoresizingMaskIntoConstraints = NO;
-//    self.accessoryView.translatesAutoresizingMaskIntoConstraints = NO;
     NSDictionary *views = NSDictionaryOfVariableBindings(_textView, _navigationBar);
-
-//    [self.accessoryView addConstraint:[NSLayoutConstraint constraintWithItem:self.accessoryView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:30]];
 
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_navigationBar]|" options:0 metrics:nil views:views]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.navigationBar attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.topLayoutGuide attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];

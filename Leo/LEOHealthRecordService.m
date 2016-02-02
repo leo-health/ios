@@ -195,7 +195,7 @@
 
     NSString *endpoint = [NSString stringWithFormat:@"%@/%@/%@/%@", APIEndpointPatients, patient.objectID, APIEndpointNotes, note.objectID];
 
-    NSDictionary *params = @{APIParamPatientNoteNote:note.note};
+    NSDictionary *params = @{APIParamPatientNoteNote:note.text};
 
     NSURLSessionTask *task = [[[self class] leoSessionManager] standardPUTRequestForJSONDictionaryToAPIWithEndpoint:endpoint params:params completion:^(NSDictionary *rawResults, NSError *error) {
 

@@ -40,6 +40,11 @@
 
 @implementation LEORecordViewController
 
+const CGFloat kPHRSectionLayoutSpacing = 4;
+const CGFloat kPHRSectionLayoutHorizontalMargin = 28;
+const CGFloat kPHRSectionLayoutTopMargin = 25;
+const CGFloat kPHRSectionLayoutBottomMargin = 13;
+
 NS_ENUM(NSInteger, PHRTableViewSection) {
     PHRTableViewSectionRecentVitals,
     PHRTableViewSectionAllergies,
@@ -193,16 +198,13 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
 
     [self configureSectionHeader:sectionHeaderView forSection:section];
 
-    [sectionHeaderView setNeedsLayout];
-    [sectionHeaderView layoutIfNeeded];
-
     return sectionHeaderView;
 }
 
 - (void)configureSectionHeader:(UITableViewHeaderFooterView *)sectionHeaderView forSection:(NSInteger)section {
 
     UILabel *_titleLabel = [UILabel new];
-    _titleLabel.font = [UIFont leo_fieldAndUserLabelsAndSecondaryButtonsFont]; // bold 12
+    _titleLabel.font = [UIFont leo_fieldAndUserLabelsAndSecondaryButtonsFont];
     _titleLabel.textColor = [UIColor leo_grayStandard];
 
     UIView *_separatorLine = [UIView new];
@@ -227,10 +229,10 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
     _separatorLine.translatesAutoresizingMaskIntoConstraints = NO;
     _editNoteButton.translatesAutoresizingMaskIntoConstraints = NO;
 
-    NSNumber *spacing = @4;
-    NSNumber *horizontalMargin = @28;
-    NSNumber *topMargin = @25;
-    NSNumber *bottomMargin = @13;
+    NSNumber *spacing = @(kPHRSectionLayoutSpacing);
+    NSNumber *horizontalMargin = @(kPHRSectionLayoutHorizontalMargin);
+    NSNumber *topMargin = @(kPHRSectionLayoutTopMargin);
+    NSNumber *bottomMargin = @(kPHRSectionLayoutBottomMargin);
     UIView* _contentView = sectionHeaderView.contentView;
     NSDictionary *views = NSDictionaryOfVariableBindings(_titleLabel, _separatorLine, _editNoteButton, _contentView);
     NSDictionary *metrics = NSDictionaryOfVariableBindings(spacing, horizontalMargin, topMargin, bottomMargin);
@@ -396,17 +398,17 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
 
 - (void)updateNote:(PatientNote *)updatedNote {
 
-    NSArray *notesCopy = [self.healthRecord.notes copy];
     int i = 0;
-    for (PatientNote *note in notesCopy) {
+    for (PatientNote *note in self.healthRecord.notes) {
         if ([note.objectID isEqualToString:updatedNote.objectID] || (!note.objectID && !updatedNote.objectID) ) {
-            self.healthRecord.notes[i] = updatedNote;
+
+            [self.healthRecord.notes[i] updateWithPatientNote:updatedNote];
             return;
         }
         i++;
     }
     // if not found, this is a newly created note.
-    [self.healthRecord.notes addObject:updatedNote];
+    [self.healthRecord addNotesObject:updatedNote];
 }
 
 
