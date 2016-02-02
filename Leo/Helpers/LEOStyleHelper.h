@@ -12,12 +12,13 @@
 
 @interface LEOStyleHelper : NSObject
 
+#pragma mark - Depricated
+// TODO: remove this method when possible
++ (void)styleNavigationBarForFeature:(Feature)feature __attribute__((deprecated));
 
 #pragma mark - Onboarding & Login
 
 + (void)styleSettingsViewController:(UIViewController *)viewController;
-
-+ (void)styleNavigationBarForFeature:(Feature)feature;
 + (void)styleNavigationBar:(UINavigationBar*)navigationBar forFeature:(Feature)feature;
 + (void)styleLabel:(UILabel *)label forFeature:(Feature)feature;
 + (void)stylePromptTextView:(LEOPromptTextView *)promptTextView forFeature:(Feature)feature;
