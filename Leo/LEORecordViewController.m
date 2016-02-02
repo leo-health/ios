@@ -17,6 +17,7 @@
 // views
 #import "LEOPHRTableViewCell.h"
 #import "LEOIntrinsicSizeTableView.h"
+#import <MBProgressHUD.h>
 
 // controllers
 #import "LEORecordEditNotesViewController.h"
@@ -54,9 +55,9 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
     PHRTableViewSectionCount
 };
 
-- (void)viewDidLoad {
+- (void)viewDidAppear:(BOOL)animated {
     
-    [super viewDidLoad];
+    [super viewDidAppear:animated];
     [self requestHealthRecord];
 }
 
@@ -107,6 +108,10 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
 
     LEOHealthRecordService *service = [LEOHealthRecordService new];
 
+    // only show one HUD at a time
+    [MBProgressHUD hideHUDForView:self.view.window animated:YES];
+    [MBProgressHUD showHUDAddedTo:self.view.window animated:YES];
+
     [service getHealthRecordForPatient:self.patient withCompletion:^(HealthRecord *healthRecord, NSError *error) {
 
         if (error) {
@@ -119,6 +124,8 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
             healthRecord = [HealthRecord mockObject];
         }
         self.healthRecord = healthRecord;
+
+        [MBProgressHUD hideHUDForView:self.view.window animated:YES];
         [self reloadData];
     }];
     
