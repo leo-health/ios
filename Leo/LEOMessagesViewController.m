@@ -217,6 +217,8 @@
 
 - (void)setupCollectionViewFormatting {
 
+    self.collectionView.loadEarlierMessagesHeaderTextColor = [UIColor leo_blue];
+
     self.collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero;
 
     self.showLoadEarlierMessagesHeader = YES;
