@@ -85,7 +85,7 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
     
     self.navigationController.navigationBarHidden = NO;
 
-    [LEOStyleHelper styleNavigationBarForFeature:FeatureSettings];
+    [LEOStyleHelper styleNavigationBar:self.navigationController.navigationBar forFeature:FeatureSettings];
 
     UILabel *navTitleLabel = [[UILabel alloc] init];
     navTitleLabel.text = @"Settings";
