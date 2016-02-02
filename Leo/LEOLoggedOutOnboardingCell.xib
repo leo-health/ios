@@ -8,28 +8,78 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="reuseIdentifierFeature" id="gTV-IL-0wX" customClass="LEOLoggedOutOnboardingCell">
-            <rect key="frame" x="0.0" y="0.0" width="488" height="269"/>
+            <rect key="frame" x="0.0" y="0.0" width="653" height="579"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="488" height="269"/>
+                <rect key="frame" x="0.0" y="0.0" width="653" height="579"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="g4j-dF-Zae">
-                        <rect key="frame" x="0.0" y="0.0" width="488" height="269"/>
+                        <rect key="frame" x="0.0" y="0.0" width="653" height="579"/>
                     </imageView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kdm-iu-ROb" userLabel="Content View">
+                        <rect key="frame" x="207" y="155" width="240" height="269"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Main Title Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="peT-hx-3cq">
+                                <rect key="frame" x="60" y="0.0" width="120" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Detail label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1nN-yj-CnO">
+                                <rect key="frame" x="78" y="21" width="85" height="20"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="240" placeholderIntrinsicHeight="128" translatesAutoresizingMaskIntoConstraints="NO" id="Hwu-uW-Jhb">
+                                <rect key="frame" x="0.0" y="41" width="240" height="128"/>
+                            </imageView>
+                            <view contentMode="scaleToFill" placeholderIntrinsicWidth="240" placeholderIntrinsicHeight="100" translatesAutoresizingMaskIntoConstraints="NO" id="n2F-o7-wtE" userLabel="Swipe Arrows Container">
+                                <rect key="frame" x="0.0" y="169" width="240" height="100"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="Hwu-uW-Jhb" secondAttribute="trailing" id="2Sm-Dy-Rbt"/>
+                            <constraint firstItem="n2F-o7-wtE" firstAttribute="top" secondItem="Hwu-uW-Jhb" secondAttribute="bottom" id="5sA-oa-JR2"/>
+                            <constraint firstAttribute="bottom" secondItem="n2F-o7-wtE" secondAttribute="bottom" id="8gp-nQ-xes"/>
+                            <constraint firstItem="1nN-yj-CnO" firstAttribute="centerX" secondItem="kdm-iu-ROb" secondAttribute="centerX" id="KxO-PE-N3G"/>
+                            <constraint firstItem="n2F-o7-wtE" firstAttribute="top" secondItem="Hwu-uW-Jhb" secondAttribute="bottom" id="NZM-KZ-WoF"/>
+                            <constraint firstItem="1nN-yj-CnO" firstAttribute="top" secondItem="peT-hx-3cq" secondAttribute="bottom" id="OzN-Y6-GBo"/>
+                            <constraint firstItem="Hwu-uW-Jhb" firstAttribute="top" secondItem="1nN-yj-CnO" secondAttribute="bottom" id="TC5-x8-86H"/>
+                            <constraint firstItem="1nN-yj-CnO" firstAttribute="top" secondItem="peT-hx-3cq" secondAttribute="bottom" id="Uj0-Zo-v1l"/>
+                            <constraint firstItem="Hwu-uW-Jhb" firstAttribute="top" secondItem="1nN-yj-CnO" secondAttribute="bottom" id="V8k-p5-1Ca"/>
+                            <constraint firstItem="peT-hx-3cq" firstAttribute="top" secondItem="kdm-iu-ROb" secondAttribute="top" id="Vko-P7-K5m"/>
+                            <constraint firstItem="n2F-o7-wtE" firstAttribute="centerX" secondItem="kdm-iu-ROb" secondAttribute="centerX" id="n8t-za-FI5"/>
+                            <constraint firstItem="peT-hx-3cq" firstAttribute="centerX" secondItem="kdm-iu-ROb" secondAttribute="centerX" id="rhG-CF-znu"/>
+                            <constraint firstItem="Hwu-uW-Jhb" firstAttribute="centerX" secondItem="kdm-iu-ROb" secondAttribute="centerX" id="wkK-Je-uyH"/>
+                            <constraint firstItem="Hwu-uW-Jhb" firstAttribute="leading" secondItem="kdm-iu-ROb" secondAttribute="leading" id="yX5-gF-hNS"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="TC5-x8-86H"/>
+                                <exclude reference="Uj0-Zo-v1l"/>
+                                <exclude reference="5sA-oa-JR2"/>
+                            </mask>
+                        </variation>
+                    </view>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <constraints>
+                <constraint firstItem="kdm-iu-ROb" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="2ly-Sl-wDW"/>
                 <constraint firstAttribute="bottom" secondItem="g4j-dF-Zae" secondAttribute="bottom" id="3n4-GF-0nx"/>
                 <constraint firstItem="g4j-dF-Zae" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="6p3-cf-uuN"/>
                 <constraint firstItem="g4j-dF-Zae" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="IOF-c8-o28"/>
                 <constraint firstAttribute="trailing" secondItem="g4j-dF-Zae" secondAttribute="trailing" id="f4a-hd-NB7"/>
+                <constraint firstItem="kdm-iu-ROb" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="x2G-cc-WEe"/>
             </constraints>
-            <size key="customSize" width="488" height="269"/>
+            <size key="customSize" width="653" height="579"/>
             <connections>
                 <outlet property="imageView" destination="g4j-dF-Zae" id="YiF-Ye-0MH"/>
             </connections>
-            <point key="canvasLocation" x="93" y="215.5"/>
+            <point key="canvasLocation" x="175.5" y="60.5"/>
         </collectionViewCell>
     </objects>
 </document>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Yds-Jl-ijt" userLabel="Content View" customClass="LEOSwipeArrowsView">
+                    <rect key="frame" x="281" y="259" width="39" height="83"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Triangle Orange - Middle" translatesAutoresizingMaskIntoConstraints="NO" id="7fL-LW-Mqf">
+                            <rect key="frame" x="11" y="46" width="16" height="9"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Triangle Orange - Top" translatesAutoresizingMaskIntoConstraints="NO" id="88M-uR-PRp">
+                            <rect key="frame" x="11" y="27" width="16" height="9"/>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SWIPE" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rZS-qQ-Ei3">
+                            <rect key="frame" x="0.0" y="0.0" width="39" height="17"/>
+                            <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="12"/>
+                            <color key="textColor" red="1" green="0.37254901959999998" blue="0.25098039220000001" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Triangle Orange - Bottom" translatesAutoresizingMaskIntoConstraints="NO" id="zYD-ip-1gX">
+                            <rect key="frame" x="11" y="65" width="16" height="9"/>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="zYD-ip-1gX" firstAttribute="top" secondItem="7fL-LW-Mqf" secondAttribute="bottom" constant="10" id="0le-k6-tI7"/>
+                        <constraint firstAttribute="trailing" secondItem="88M-uR-PRp" secondAttribute="trailing" id="4xy-JY-LCH"/>
+                        <constraint firstAttribute="trailing" secondItem="zYD-ip-1gX" secondAttribute="trailing" id="5O8-mE-CTc"/>
+                        <constraint firstItem="7fL-LW-Mqf" firstAttribute="top" secondItem="88M-uR-PRp" secondAttribute="bottom" constant="10" id="5j1-El-Fz9"/>
+                        <constraint firstItem="zYD-ip-1gX" firstAttribute="leading" secondItem="Yds-Jl-ijt" secondAttribute="leading" id="6E6-Tl-1gU"/>
+                        <constraint firstAttribute="trailing" secondItem="rZS-qQ-Ei3" secondAttribute="trailing" id="6Xs-k0-s2K"/>
+                        <constraint firstAttribute="bottom" secondItem="zYD-ip-1gX" secondAttribute="bottom" constant="10" id="9tU-23-RSI"/>
+                        <constraint firstItem="88M-uR-PRp" firstAttribute="centerX" secondItem="Yds-Jl-ijt" secondAttribute="centerX" id="DLj-Zk-tel"/>
+                        <constraint firstItem="88M-uR-PRp" firstAttribute="top" secondItem="rZS-qQ-Ei3" secondAttribute="bottom" constant="10" id="MgD-cs-3UK"/>
+                        <constraint firstItem="rZS-qQ-Ei3" firstAttribute="centerX" secondItem="Yds-Jl-ijt" secondAttribute="centerX" id="VO9-Ka-ef9"/>
+                        <constraint firstAttribute="trailing" secondItem="7fL-LW-Mqf" secondAttribute="trailing" id="i1K-N4-gzz"/>
+                        <constraint firstItem="rZS-qQ-Ei3" firstAttribute="top" secondItem="Yds-Jl-ijt" secondAttribute="top" id="i2p-Ry-74a"/>
+                        <constraint firstItem="rZS-qQ-Ei3" firstAttribute="leading" secondItem="Yds-Jl-ijt" secondAttribute="leading" id="nVo-DH-Ub9"/>
+                        <constraint firstItem="7fL-LW-Mqf" firstAttribute="centerX" secondItem="Yds-Jl-ijt" secondAttribute="centerX" id="ohY-gT-gZn"/>
+                        <constraint firstItem="7fL-LW-Mqf" firstAttribute="leading" secondItem="Yds-Jl-ijt" secondAttribute="leading" id="rs6-zg-Mza"/>
+                        <constraint firstItem="88M-uR-PRp" firstAttribute="leading" secondItem="Yds-Jl-ijt" secondAttribute="leading" id="t5J-5p-8XW"/>
+                        <constraint firstItem="zYD-ip-1gX" firstAttribute="centerX" secondItem="Yds-Jl-ijt" secondAttribute="centerX" id="ylF-71-DGh"/>
+                    </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="VO9-Ka-ef9"/>
+                            <exclude reference="4xy-JY-LCH"/>
+                            <exclude reference="t5J-5p-8XW"/>
+                            <exclude reference="i1K-N4-gzz"/>
+                            <exclude reference="rs6-zg-Mza"/>
+                            <exclude reference="5O8-mE-CTc"/>
+                            <exclude reference="6E6-Tl-1gU"/>
+                        </mask>
+                    </variation>
+                    <connections>
+                        <outlet property="arrowBottom" destination="zYD-ip-1gX" id="4Cz-92-gBv"/>
+                        <outlet property="arrowMiddle" destination="7fL-LW-Mqf" id="FL5-k2-5Ln"/>
+                        <outlet property="arrowTop" destination="88M-uR-PRp" id="zj8-cA-wqR"/>
+                        <outlet property="labelSwipe" destination="rZS-qQ-Ei3" id="pPp-2g-kK1"/>
+                    </connections>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="Yds-Jl-ijt" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="4g2-EL-IHW"/>
+                <constraint firstAttribute="bottom" secondItem="Yds-Jl-ijt" secondAttribute="bottom" id="PrY-Cc-yE3"/>
+                <constraint firstItem="Yds-Jl-ijt" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="WWr-zl-wEE"/>
+                <constraint firstAttribute="trailing" secondItem="Yds-Jl-ijt" secondAttribute="trailing" id="gL2-G2-xqA"/>
+                <constraint firstItem="Yds-Jl-ijt" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="k7H-1F-rVJ"/>
+                <constraint firstItem="Yds-Jl-ijt" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="v6q-18-d8L"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="4g2-EL-IHW"/>
+                    <exclude reference="PrY-Cc-yE3"/>
+                    <exclude reference="gL2-G2-xqA"/>
+                    <exclude reference="v6q-18-d8L"/>
+                </mask>
+            </variation>
+            <point key="canvasLocation" x="518" y="407"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="Triangle Orange - Bottom" width="16" height="9"/>
+        <image name="Triangle Orange - Middle" width="16" height="9"/>
+        <image name="Triangle Orange - Top" width="16" height="9"/>
+    </resources>
+</document>

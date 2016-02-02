@@ -131,9 +131,7 @@ static NSString * const reuseIdentifierFeature = @"reuseIdentifierFeature";
             [_cell.loginButton addTarget:self action:@selector(loginTouchedUpInside:) forControlEvents:UIControlEventTouchUpInside];
             [_cell.signUpButton addTarget:self action:@selector(signupTouchedUpInside:) forControlEvents:UIControlEventTouchUpInside];
 
-            imageName = imageNameSignedOutSignup;
-
-            cell = _cell;
+            return _cell;
             
             break;
         }

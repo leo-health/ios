@@ -10,7 +10,7 @@
 
 @interface LEOLoggedOutSignUpCell : LEOLoggedOutLoginCell
 
+@property (weak, nonatomic) IBOutlet UIImageView *logoImageView;
 @property (weak, nonatomic) IBOutlet UIButton *signUpButton;
-
 
 @end
