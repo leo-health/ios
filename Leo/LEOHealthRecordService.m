@@ -50,7 +50,8 @@
 
                             [self getNotesForPatient:patient withCompletion:^(NSArray<PatientNote *> *notes, NSError *error) {
 
-                                healthRecord.notes = notes;
+                                NSMutableArray* mutable = [notes mutableCopy];
+                                healthRecord.notes = mutable;
 
                                 if (completionBlock) {
                                     completionBlock(healthRecord, error);
@@ -170,7 +171,45 @@
     return task;
 }
 
+-(NSURLSessionTask *)postNote:(NSString*)noteText forPatient:(Patient *)patient withCompletion:(void (^)(PatientNote *, NSError *))completionBlock {
 
+    NSString *endpoint = [NSString stringWithFormat:@"%@/%@/%@", APIEndpointPatients, patient.objectID, APIEndpointNotes];
+
+    NSDictionary *params = @{APIParamPatientNoteNote:noteText};
+
+    NSURLSessionTask *task = [[[self class] leoSessionManager] standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:endpoint params:params completion:^(NSDictionary *rawResults, NSError *error) {
+
+        NSDictionary *dict = rawResults[APIParamData][APIParamPatientNoteNote];
+
+        PatientNote *obj = [[PatientNote alloc] initWithJSONDictionary:dict];
+
+        if (completionBlock) {
+            completionBlock(obj, error);
+        }
+    }];
+    
+    return task;
+}
+
+-(NSURLSessionTask *)putNote:(PatientNote*)note forPatient:(Patient *)patient withCompletion:(void (^)(PatientNote *, NSError *))completionBlock {
+
+    NSString *endpoint = [NSString stringWithFormat:@"%@/%@/%@/%@", APIEndpointPatients, patient.objectID, APIEndpointNotes, note.objectID];
+
+    NSDictionary *params = @{APIParamPatientNoteNote:note.text};
+
+    NSURLSessionTask *task = [[[self class] leoSessionManager] standardPUTRequestForJSONDictionaryToAPIWithEndpoint:endpoint params:params completion:^(NSDictionary *rawResults, NSError *error) {
+
+        NSDictionary *dict = rawResults[APIParamData][APIParamPatientNoteNote];
+
+        PatientNote *obj = [[PatientNote alloc] initWithJSONDictionary:dict];
+
+        if (completionBlock) {
+            completionBlock(obj, error);
+        }
+    }];
+
+    return task;
+}
 
 
 @end

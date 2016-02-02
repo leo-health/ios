@@ -11,6 +11,8 @@
 #import "UIColor+LeoColors.h"
 #import "NSDate+Extensions.h"
 
+static NSString * const kCopyEmptyNotesField = @"Add some notes for the doctor about your kids";
+
 @implementation LEOPHRTableViewCell
 
 + (UINib *)nib {
@@ -99,7 +101,12 @@
     self.recordTitleLabel.text = nil;
     self.recordTitleDetailLabel.text = nil;
     self.recordSideLabel.text = nil;
-    self.recordMainDetailLabel.text = note.note;
+
+    if (note) {
+        self.recordMainDetailLabel.text = note.text;
+    } else {
+        self.recordMainDetailLabel.text = kCopyEmptyNotesField;
+    }
 }
 
 

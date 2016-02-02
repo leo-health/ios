@@ -7,14 +7,19 @@
 //
 
 #import "LEORecordViewController.h"
+#import "LEOPHRViewController.h"
 
 // helpers
 #import "UIFont+LeoFonts.h"
 #import "UIColor+LeoColors.h"
+#import "LEOStyleHelper.h"
 
 // views
 #import "LEOPHRTableViewCell.h"
 #import "LEOIntrinsicSizeTableView.h"
+
+// controllers
+#import "LEORecordEditNotesViewController.h"
 
 // model
 #import "LEOHealthRecordService.h"
@@ -34,6 +39,11 @@
 @end
 
 @implementation LEORecordViewController
+
+const CGFloat kPHRSectionLayoutSpacing = 4;
+const CGFloat kPHRSectionLayoutHorizontalMargin = 28;
+const CGFloat kPHRSectionLayoutTopMargin = 25;
+const CGFloat kPHRSectionLayoutBottomMargin = 13;
 
 NS_ENUM(NSInteger, PHRTableViewSection) {
     PHRTableViewSectionRecentVitals,
@@ -93,7 +103,7 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
 
 - (void)requestHealthRecord {
 
-    BOOL useMock = YES;
+    BOOL useMock = NO;
 
     LEOHealthRecordService *service = [LEOHealthRecordService new];
 
@@ -162,6 +172,11 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
 
+    // only show header if the section has rows
+    if ([self tableView:tableView numberOfRowsInSection:section] == 0) {
+        return 1;
+    }
+
     [self configureSectionHeader:self.sizingHeader forSection:section];
     CGSize size = [self.sizingHeader systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
     return size.height;
@@ -188,7 +203,50 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
 
 - (void)configureSectionHeader:(UITableViewHeaderFooterView *)sectionHeaderView forSection:(NSInteger)section {
 
+    UILabel *_titleLabel = [UILabel new];
+    _titleLabel.font = [UIFont leo_fieldAndUserLabelsAndSecondaryButtonsFont];
+    _titleLabel.textColor = [UIColor leo_grayStandard];
+
+    UIView *_separatorLine = [UIView new];
+    [_separatorLine setBackgroundColor:[UIColor leo_grayStandard]];
+
+    UIButton *_editNoteButton = [UIButton new];
+    _editNoteButton.titleLabel.font = [UIFont leo_buttonLabelsAndTimeStampsFont];
+    [_editNoteButton setTitleColor:[UIColor leo_orangeRed] forState:UIControlStateNormal];
+
+    [_editNoteButton addTarget:self action:@selector(editNoteTouchedUpInside) forControlEvents:UIControlEventTouchUpInside];
+
+    sectionHeaderView.contentView.backgroundColor = [UIColor clearColor];
+
+    [sectionHeaderView.contentView addSubview:_titleLabel];
+    [sectionHeaderView.contentView addSubview:_separatorLine];
+    [sectionHeaderView.contentView addSubview:_editNoteButton];
+
+    sectionHeaderView.backgroundView = [UIView new];
+
+    sectionHeaderView.contentView.translatesAutoresizingMaskIntoConstraints = NO;
+    _titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    _separatorLine.translatesAutoresizingMaskIntoConstraints = NO;
+    _editNoteButton.translatesAutoresizingMaskIntoConstraints = NO;
+
+    NSNumber *spacing = @(kPHRSectionLayoutSpacing);
+    NSNumber *horizontalMargin = @(kPHRSectionLayoutHorizontalMargin);
+    NSNumber *topMargin = @(kPHRSectionLayoutTopMargin);
+    NSNumber *bottomMargin = @(kPHRSectionLayoutBottomMargin);
+    UIView* _contentView = sectionHeaderView.contentView;
+    NSDictionary *views = NSDictionaryOfVariableBindings(_titleLabel, _separatorLine, _editNoteButton, _contentView);
+    NSDictionary *metrics = NSDictionaryOfVariableBindings(spacing, horizontalMargin, topMargin, bottomMargin);
+
+    [sectionHeaderView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_contentView]|" options:0 metrics:nil views:views]];
+    [sectionHeaderView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_contentView]|" options:0 metrics:nil views:views]];
+    [sectionHeaderView.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(topMargin)-[_editNoteButton]-(spacing)-[_separatorLine]" options:0 metrics:metrics views:views]];
+    [sectionHeaderView.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(topMargin)-[_titleLabel]-(spacing)-[_separatorLine(1)]-(bottomMargin)-|" options:0 metrics:metrics views:views]];
+    [sectionHeaderView.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(horizontalMargin)-[_titleLabel]-(>=horizontalMargin)-[_editNoteButton]-(horizontalMargin)-|" options:0 metrics:metrics views:views]];
+    [sectionHeaderView.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(horizontalMargin)-[_separatorLine]-(horizontalMargin)-|" options:0 metrics:metrics views:views]];
+
+
     NSString *title;
+    NSString *editNoteButtonText;
     switch (section) {
 
         case PHRTableViewSectionRecentVitals:
@@ -209,36 +267,12 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
 
         case PHRTableViewSectionNotes:
             title = @"NOTES";
+            editNoteButtonText = self.healthRecord.notes.count ? @"EDIT" : @"ADD";
             break;
     }
 
-    UILabel *_titleLabel = [UILabel new];
-    _titleLabel.font = [UIFont leo_fieldAndUserLabelsAndSecondaryButtonsFont]; // bold 12
-    _titleLabel.textColor = [UIColor leo_grayStandard];
-
-    UIView *_separatorLine = [UIView new];
-    [_separatorLine setBackgroundColor:[UIColor leo_grayStandard]];
     _titleLabel.text = title;
-
-    sectionHeaderView.contentView.backgroundColor = [UIColor clearColor];
-
-    [sectionHeaderView.contentView addSubview:_titleLabel];
-    [sectionHeaderView.contentView addSubview:_separatorLine];
-    sectionHeaderView.backgroundView = [UIView new];
-
-    _titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    _separatorLine.translatesAutoresizingMaskIntoConstraints = NO;
-
-    NSNumber *spacing = @4;
-    NSNumber *horizontalMargin = @28;
-    NSNumber *topMargin = @25;
-    NSNumber *bottomMargin = @13;
-    NSDictionary *views = NSDictionaryOfVariableBindings(_titleLabel, _separatorLine);
-    NSDictionary *metrics = NSDictionaryOfVariableBindings(spacing, horizontalMargin, topMargin, bottomMargin);
-
-    [sectionHeaderView.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(topMargin)-[_titleLabel]-(spacing)-[_separatorLine(1)]-(bottomMargin)-|" options:0 metrics:metrics views:views]];
-    [sectionHeaderView.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(horizontalMargin)-[_titleLabel]-(horizontalMargin)-|" options:0 metrics:metrics views:views]];
-    [sectionHeaderView.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(horizontalMargin)-[_separatorLine]-(horizontalMargin)-|" options:0 metrics:metrics views:views]];
+    [_editNoteButton setTitle:editNoteButtonText forState:UIControlStateNormal];
 }
 
 #pragma mark - Cells
@@ -267,7 +301,7 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
             break;
 
         case PHRTableViewSectionNotes:
-            rows = self.healthRecord.notes.count;
+            rows = self.healthRecord.notes.count ? : 1;
             break;
     };
     return rows;
@@ -326,10 +360,55 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
             [_cell configureCellWithImmunization:self.healthRecord.immunizations[indexPath.row]];
             break;
 
-        case PHRTableViewSectionNotes:
-            [_cell configureCellWithNote:self.healthRecord.notes[indexPath.row]];
+        case PHRTableViewSectionNotes: {
+            PatientNote *note;
+            if (indexPath.row < self.healthRecord.notes.count) {
+                note = self.healthRecord.notes[indexPath.row];
+            }
+            [_cell configureCellWithNote:note];
             break;
+        }
     }
+}
+
+- (void)editNoteTouchedUpInside {
+
+    PatientNote* note;
+    if (self.healthRecord.notes.count > 0) {
+        note = [self.healthRecord.notes lastObject]; // TODO: update to handle multiple notes
+    }
+
+    [self presentEditNotesViewControllerWithNote:note];
+}
+
+- (void)presentEditNotesViewControllerWithNote:(PatientNote*)note {
+
+    LEORecordEditNotesViewController *vc = [LEORecordEditNotesViewController new];
+    vc.patient = self.patient;
+    vc.note = note;
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+    [self.phrViewController presentViewController:nav animated:YES completion:nil];
+
+    vc.editNoteCompletionBlock = ^(PatientNote *updatedNote) {
+        // update the in memory note
+        [self updateNote:updatedNote];
+        [self reloadData];
+    };
+}
+
+- (void)updateNote:(PatientNote *)updatedNote {
+
+    int i = 0;
+    for (PatientNote *note in self.healthRecord.notes) {
+        if ([note.objectID isEqualToString:updatedNote.objectID] || (!note.objectID && !updatedNote.objectID) ) {
+
+            [self.healthRecord.notes[i] updateWithPatientNote:updatedNote];
+            return;
+        }
+        i++;
+    }
+    // if not found, this is a newly created note.
+    [self.healthRecord addNotesObject:updatedNote];
 }
 
 

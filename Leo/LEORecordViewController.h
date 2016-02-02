@@ -9,8 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "Patient.h"
 
+@class LEOPHRViewController;
+
 @interface LEORecordViewController : UIViewController
 
+@property (weak, nonatomic) LEOPHRViewController* phrViewController;
 @property (strong, nonatomic) Patient *patient;
 
 @end

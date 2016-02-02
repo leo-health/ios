@@ -18,11 +18,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSDate *createdAt;
 @property (strong, nonatomic) NSDate *updatedAt;
 @property (strong, nonatomic) NSDate *deletedAt;
-@property (copy, nonatomic) NSString *note;
+@property (copy, nonatomic) NSString *text;
 
--(instancetype)initWithObjectID:(NSString *)objectID user:(User *)user createdAt:(NSDate *)createdAt updatedAt:(NSDate *)updatedAt deletedAt:(NSDate *)deletedAt note:(NSString *)note;
+-(instancetype)initWithObjectID:(NSString *)objectID user:(User *)user createdAt:(NSDate *)createdAt updatedAt:(NSDate *)updatedAt deletedAt:(NSDate *)deletedAt text:(NSString *)text;
 -(instancetype)initWithJSONDictionary:(NSDictionary *)jsonDictionary;
 +(NSArray *)patientNotesFromDictionaries:(NSArray *)dictionaries;
+- (void)updateWithPatientNote:(PatientNote *)existingNote;
+
 +(instancetype)mockObject;
 
 NS_ASSUME_NONNULL_END

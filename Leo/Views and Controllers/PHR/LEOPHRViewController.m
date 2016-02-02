@@ -20,7 +20,7 @@
 
 #import "UIColor+LeoColors.h"
 
-static CGFloat const kHeightOfHeaderPHR = 100;
+static CGFloat const kHeightOfHeaderPHR = 200;
 
 @interface LEOPHRViewController () <GNZSlidingSegmentViewDatasource, GNZSlidingSegmentViewDelegate, LEOStickyHeaderDataSource, LEOStickyHeaderDelegate>
 
@@ -95,7 +95,7 @@ static CGFloat const kHeightOfHeaderPHR = 100;
         _headerView.backgroundColor = [UIColor leo_white];
 
         // TODO: Remove when subview content is available to size view
-        [_headerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_headerView(height)]" options:0 metrics:@{@"height":@(200)} views:NSDictionaryOfVariableBindings(_headerView)]];
+        [_headerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_headerView(height)]" options:0 metrics:@{@"height":@(kHeightOfHeaderPHR)} views:NSDictionaryOfVariableBindings(_headerView)]];
     }
 
     return _headerView;
@@ -113,7 +113,7 @@ static CGFloat const kHeightOfHeaderPHR = 100;
             LEORecordViewController *recordVC = [[LEORecordViewController alloc] init];
             recordVC.patient = patient;
             recordVC.view.backgroundColor = [UIColor colorWithRed:arc4random_uniform(255)/255.0 green:arc4random_uniform(255)/255.0 blue:arc4random_uniform(255.0)/255 alpha:1.0];
-
+            recordVC.phrViewController = self;
             [recordVCs addObject:recordVC];
         }
 
@@ -168,7 +168,7 @@ static CGFloat const kHeightOfHeaderPHR = 100;
 
 #pragma mark - GNZSlidingSegmentView Delegate
 - (void)slidingSegmentView:(GNZSlidingSegmentView *)slidingSegmentView segmentDidChange:(NSUInteger)newSegmentIndex {
-//    [self.headerView didChangeSegmentSelection:newSegmentIndex];
+
 }
 
 

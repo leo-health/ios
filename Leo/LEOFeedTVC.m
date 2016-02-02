@@ -169,6 +169,8 @@ static CGFloat const kFeedInsetTop = 30.0;
 - (void)phrTouchedUpInside {
 
     LEOPHRViewController *phrViewController = [[LEOPHRViewController alloc] initWithPatients:self.family.patients];
+
+    // Without this line, the view ends up getting resized to 0 height, and does not appear (for searching: black screen push animated)
     phrViewController.view.backgroundColor = [UIColor whiteColor];
     [self.navigationController pushViewController:phrViewController animated:YES];
 }
