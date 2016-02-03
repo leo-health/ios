@@ -79,7 +79,7 @@ static NSString *const kTitlePhotos = @"Photos";
     self.originalPatient.avatar = [self.patient.avatar copy];
 }
 
-- (void)updateUIForChangedImage {
+- (void)updateForChangedImage {
 
     [self updateUI];
 }
