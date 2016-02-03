@@ -208,7 +208,6 @@
 		662371E51C568A26001AB3E7 /* LEOLoggedOutOnboardingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 662371E31C568A26001AB3E7 /* LEOLoggedOutOnboardingCell.m */; };
 		662371E61C568A26001AB3E7 /* LEOLoggedOutOnboardingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 662371E41C568A26001AB3E7 /* LEOLoggedOutOnboardingCell.xib */; };
 		662371F11C568C23001AB3E7 /* LEOLoggedOutLoginCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 662371EF1C568C23001AB3E7 /* LEOLoggedOutLoginCell.m */; };
-		662371F21C568C23001AB3E7 /* LEOLoggedOutLoginCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 662371F01C568C23001AB3E7 /* LEOLoggedOutLoginCell.xib */; };
 		662371F61C568E51001AB3E7 /* LEOLoggedOutSignUpCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 662371F41C568E51001AB3E7 /* LEOLoggedOutSignUpCell.m */; };
 		662371F71C568E51001AB3E7 /* LEOLoggedOutSignUpCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 662371F51C568E51001AB3E7 /* LEOLoggedOutSignUpCell.xib */; };
 		662371F91C569F72001AB3E7 /* Signed-Out.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 662371F81C569F72001AB3E7 /* Signed-Out.xcassets */; };
@@ -219,6 +218,7 @@
 		6677AE381C614167002CA27C /* SignedOutPHRCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6677AE331C614167002CA27C /* SignedOutPHRCell.xib */; };
 		6677AE3A1C61665B002CA27C /* LEOSwipeArrowsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6677AE391C61665B002CA27C /* LEOSwipeArrowsView.xib */; };
 		6677AE3D1C61689D002CA27C /* LEOSwipeArrowsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6677AE3C1C61689D002CA27C /* LEOSwipeArrowsView.m */; };
+		6677AE3F1C62B71F002CA27C /* LEOLoggedOutLoginCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6677AE3E1C62B71F002CA27C /* LEOLoggedOutLoginCell.xib */; };
 		66A5DB271C3D95FD008AEC55 /* HealthRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A5DB261C3D95FD008AEC55 /* HealthRecord.m */; };
 		66A5DB2A1C3D964C008AEC55 /* Allergy.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A5DB291C3D964C008AEC55 /* Allergy.m */; };
 		66A5DB2D1C3D96A9008AEC55 /* Immunization.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A5DB2C1C3D96A9008AEC55 /* Immunization.m */; };
@@ -639,7 +639,6 @@
 		662371E41C568A26001AB3E7 /* LEOLoggedOutOnboardingCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LEOLoggedOutOnboardingCell.xib; sourceTree = "<group>"; };
 		662371EE1C568C23001AB3E7 /* LEOLoggedOutLoginCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOLoggedOutLoginCell.h; sourceTree = "<group>"; };
 		662371EF1C568C23001AB3E7 /* LEOLoggedOutLoginCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOLoggedOutLoginCell.m; sourceTree = "<group>"; };
-		662371F01C568C23001AB3E7 /* LEOLoggedOutLoginCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LEOLoggedOutLoginCell.xib; sourceTree = "<group>"; };
 		662371F31C568E51001AB3E7 /* LEOLoggedOutSignUpCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOLoggedOutSignUpCell.h; sourceTree = "<group>"; };
 		662371F41C568E51001AB3E7 /* LEOLoggedOutSignUpCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOLoggedOutSignUpCell.m; sourceTree = "<group>"; };
 		662371F51C568E51001AB3E7 /* LEOLoggedOutSignUpCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LEOLoggedOutSignUpCell.xib; sourceTree = "<group>"; };
@@ -653,6 +652,7 @@
 		6677AE391C61665B002CA27C /* LEOSwipeArrowsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LEOSwipeArrowsView.xib; sourceTree = "<group>"; };
 		6677AE3B1C61689D002CA27C /* LEOSwipeArrowsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOSwipeArrowsView.h; sourceTree = "<group>"; };
 		6677AE3C1C61689D002CA27C /* LEOSwipeArrowsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOSwipeArrowsView.m; sourceTree = "<group>"; };
+		6677AE3E1C62B71F002CA27C /* LEOLoggedOutLoginCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LEOLoggedOutLoginCell.xib; sourceTree = "<group>"; };
 		6684A24A1C34497500C41D6F /* DeveloperCodeSigning.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = DeveloperCodeSigning.xcconfig; sourceTree = "<group>"; };
 		66A5DB251C3D95FD008AEC55 /* HealthRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HealthRecord.h; path = Leo/HealthRecord.h; sourceTree = SOURCE_ROOT; };
 		66A5DB261C3D95FD008AEC55 /* HealthRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HealthRecord.m; path = Leo/HealthRecord.m; sourceTree = SOURCE_ROOT; };
@@ -1313,7 +1313,6 @@
 				662371E41C568A26001AB3E7 /* LEOLoggedOutOnboardingCell.xib */,
 				662371EE1C568C23001AB3E7 /* LEOLoggedOutLoginCell.h */,
 				662371EF1C568C23001AB3E7 /* LEOLoggedOutLoginCell.m */,
-				662371F01C568C23001AB3E7 /* LEOLoggedOutLoginCell.xib */,
 				662371F31C568E51001AB3E7 /* LEOLoggedOutSignUpCell.h */,
 				662371F41C568E51001AB3E7 /* LEOLoggedOutSignUpCell.m */,
 				662371F51C568E51001AB3E7 /* LEOLoggedOutSignUpCell.xib */,
@@ -1322,6 +1321,7 @@
 				6677AE301C614167002CA27C /* SignedOutFormsCell.xib */,
 				6677AE331C614167002CA27C /* SignedOutPHRCell.xib */,
 				6677AE391C61665B002CA27C /* LEOSwipeArrowsView.xib */,
+				6677AE3E1C62B71F002CA27C /* LEOLoggedOutLoginCell.xib */,
 				6677AE3B1C61689D002CA27C /* LEOSwipeArrowsView.h */,
 				6677AE3C1C61689D002CA27C /* LEOSwipeArrowsView.m */,
 			);
@@ -1646,7 +1646,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				31F5AA781B791B4B00F96D06 /* PatientCell.xib in Resources */,
-				662371F21C568C23001AB3E7 /* LEOLoggedOutLoginCell.xib in Resources */,
 				3115F1F81BC71669001BDF6A /* Settings.storyboard in Resources */,
 				3128D4E71B430F0200582710 /* LEOTwoButtonPrimaryAndSecondaryCell.xib in Resources */,
 				3168997E1BC4858400B4C1EB /* LEOReviewPatientCell.xib in Resources */,
@@ -1667,6 +1666,7 @@
 				316899691BC4851200B4C1EB /* LEOReviewUserCell.xib in Resources */,
 				31339B1D1C2208A000B53A86 /* LEOPromptFieldCell.xib in Resources */,
 				3124187F1BC0634E00E18176 /* LEOLoginView.xib in Resources */,
+				6677AE3F1C62B71F002CA27C /* LEOLoggedOutLoginCell.xib in Resources */,
 				31FDDE691B29E3580009BBC2 /* LEOTwoButtonSecondaryOnlyCell.xib in Resources */,
 				31FDDE561B28DD2C0009BBC2 /* LEOTwoButtonPrimaryOnlyCell.xib in Resources */,
 				BCE1EC781B00E353007C8D0B /* LaunchScreen.xib in Resources */,

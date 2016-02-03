@@ -16,6 +16,7 @@
     LEOSwipeArrowsView *view = [[[[[NSBundle mainBundle] loadNibNamed:NSStringFromClass([self class]) owner:self options:nil] firstObject] subviews] firstObject];
 
     // any additional setup goes here
+    view.arrowColor = LEOSwipeArrowsColorOptionGray;
 
     return view;
 

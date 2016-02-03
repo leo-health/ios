@@ -14,8 +14,10 @@
 
 - (void)awakeFromNib {
 
-    [self.loginButton setTitleColor:[UIColor leo_orangeRed] forState:UIControlStateNormal];
-    self.loginButton.titleLabel.font = [UIFont leo_buttonLabelsAndTimeStampsFont];
+    [super awakeFromNib];
+
+    self.swipeArrowsView.labelSwipe.hidden = NO;
+    self.swipeArrowsView.arrowColor = LEOSwipeArrowsColorOptionOrangeRed;
 }
 
 
