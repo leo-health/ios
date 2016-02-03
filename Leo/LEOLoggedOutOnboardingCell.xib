@@ -51,8 +51,8 @@
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
-                                <exclude reference="Uj0-Zo-v1l"/>
                                 <exclude reference="TC5-x8-86H"/>
+                                <exclude reference="Uj0-Zo-v1l"/>
                             </mask>
                         </variation>
                     </view>
