@@ -322,8 +322,8 @@ static NSString *const kTitlePhotos = @"Photos";
 
     BOOL patientNeedsUpdate = ![self.patient isEqual:self.originalPatient];
 
-    NSData *avatarImageData = UIImageJPEGRepresentation(self.patient.avatar.image, 1);
-    NSData *originalAvatarImageData = UIImageJPEGRepresentation(self.originalPatient.avatar.image, 1);
+    NSData *avatarImageData = UIImageJPEGRepresentation(self.patient.avatar.image, kImageCompressionFactor);
+    NSData *originalAvatarImageData = UIImageJPEGRepresentation(self.originalPatient.avatar.image, kImageCompressionFactor);
 
     BOOL avatarNeedsUpdate = ![avatarImageData isEqual:originalAvatarImageData];
 

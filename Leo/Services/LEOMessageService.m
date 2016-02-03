@@ -27,7 +27,7 @@
 
     if ([message isKindOfClass:[MessageImage class]]) {
 
-        NSString *photoString = [UIImagePNGRepresentation(((JSQPhotoMediaItem *)message.media).image) base64EncodedStringWithOptions:0];
+        NSString *photoString = [UIImageJPEGRepresentation(((JSQPhotoMediaItem *)message.media).image, kImageCompressionFactor) base64EncodedStringWithOptions:0];
         messageValues = @[photoString, @"image"];
 
         //TODO: Remove this when ready to launch

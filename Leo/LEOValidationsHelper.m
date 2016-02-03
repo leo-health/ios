@@ -107,8 +107,8 @@ typedef NS_ENUM(NSInteger, LEOValidationsErrorCode) {
         return NO;
     }
 
-    NSData *cameraImageData = UIImagePNGRepresentation([UIImage imageNamed:@"Icon-Camera-Avatars"]);
-    NSData *candidateImageData = UIImagePNGRepresentation(candidate);
+    NSData *cameraImageData = UIImageJPEGRepresentation([UIImage imageNamed:@"Icon-Camera-Avatars"], kImageCompressionFactor);
+    NSData *candidateImageData = UIImageJPEGRepresentation(candidate, kImageCompressionFactor);
 
     if ([cameraImageData isEqualToData:candidateImageData]) {
         return NO;
