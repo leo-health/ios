@@ -298,7 +298,7 @@ IB_DESIGNABLE
 
         self.schedulePromptView.userInteractionEnabled = YES;
         self.schedulePromptView.tintColor = [UIColor leo_green];
-        [self updatePromptView:self.schedulePromptView withBaseString:@"When would you like to come in? and so on and so forth" variableStrings:nil];
+        [self updatePromptView:self.schedulePromptView withBaseString:@"When would you like to come in?" variableStrings:nil];
 
     } else {
 
@@ -352,10 +352,16 @@ IB_DESIGNABLE
 
     _prepAppointment = prepAppointment;
 
-    self.date = prepAppointment.date;
+    _date = prepAppointment.date;
+
     self.patient = prepAppointment.patient;
     self.provider = prepAppointment.provider;
     self.appointmentType = prepAppointment.appointmentType;
+
+    // FIXME: there is probably a better way to trigger side effects here to avoid this weird necessary ordering
+    // self.date must be set last here because self setProvider will reset prepAppointment.provider, which will in turn set prepAppointment.date to nil
+
+    self.date = _date;
 }
 
 - (Appointment *)appointment {

@@ -253,7 +253,7 @@ static NSString *const kKeySelectionVCDate = @"date";
 
         _appointmentView = [loadedViews firstObject];
 
-        _appointmentView.appointment = self.appointment;
+        _appointmentView.appointment = self.card.associatedCardObject;
     }
 
     return _appointmentView;
@@ -443,8 +443,7 @@ static NSString *const kKeySelectionVCDate = @"date";
 -(void)dismiss {
 
     [self.delegate takeResponsibilityForCard:self.card];
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
-    }];
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 
