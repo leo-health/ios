@@ -79,7 +79,7 @@ static NSString *const kTitlePhotos = @"Photos";
     self.originalPatient.avatar = [self.patient.avatar copy];
 }
 
-- (void)updateForChangedImage {
+- (void)updateUIForChangedImage {
 
     [self updateUI];
 }
@@ -485,6 +485,10 @@ static NSString *const kTitlePhotos = @"Photos";
     pickerController.delegate = self;
     
     [self presentViewController:pickerController animated:YES completion:nil];
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 
