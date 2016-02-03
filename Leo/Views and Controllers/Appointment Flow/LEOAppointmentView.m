@@ -68,15 +68,6 @@ IB_DESIGNABLE
     [self enableSchedulingIfNeeded];
 }
 
-- (void)reloadData {
-
-    self.provider = self.provider;
-    self.patient = self.patient;
-    self.appointmentType = self.appointmentType;
-    self.note = self.note;
-    self.date = self.date;
-}
-
 #pragma mark - Accessors
 
 - (void)setNotesTextView:(JVFloatLabeledTextView *)notesTextView {
@@ -362,11 +353,15 @@ IB_DESIGNABLE
     _prepAppointment = prepAppointment;
 
     _date = prepAppointment.date;
-    _patient = prepAppointment.patient;
-    _provider = prepAppointment.provider;
-    _appointmentType = prepAppointment.appointmentType;
 
-    [self reloadData];
+    self.patient = prepAppointment.patient;
+    self.provider = prepAppointment.provider;
+    self.appointmentType = prepAppointment.appointmentType;
+
+    // FIXME: there is probably a better way to trigger side effects here to avoid this weird necessary ordering
+    // self.date must be set last here because self setProvider will reset prepAppointment.provider, which will in turn set prepAppointment.date to nil
+
+    self.date = _date;
 }
 
 - (Appointment *)appointment {
