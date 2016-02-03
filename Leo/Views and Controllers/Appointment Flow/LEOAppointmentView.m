@@ -298,7 +298,7 @@ IB_DESIGNABLE
 
         self.schedulePromptView.userInteractionEnabled = YES;
         self.schedulePromptView.tintColor = [UIColor leo_green];
-        [self updatePromptView:self.schedulePromptView withBaseString:@"When would you like to come in? and so on and so forth" variableStrings:nil];
+        [self updatePromptView:self.schedulePromptView withBaseString:@"When would you like to come in?" variableStrings:nil];
 
     } else {
 
