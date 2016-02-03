@@ -485,7 +485,7 @@
 
     JSQPhotoMediaItem *photoItem = [[JSQPhotoMediaItem alloc] initWithImage:croppedImage];
 
-    MessageImage *message = [MessageImage messageWithObjectID:nil media:photoItem sender:[SessionUser guardian] escalatedTo:nil escalatedBy:nil status:nil statusCode:MessageStatusCodeUndefined escalatedAt:nil leoMedia:nil];
+    MessageImage *message = [MessageImage messageWithObjectID:nil media:photoItem sender:[SessionUser guardian] escalatedTo:nil escalatedBy:nil status:nil statusCode:MessageStatusCodeUndefined createdAt:[NSDate date] escalatedAt:nil leoMedia:nil];
 
     [self.sendingIndicator startAnimating];
 

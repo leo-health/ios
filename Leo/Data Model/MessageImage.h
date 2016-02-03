@@ -34,9 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return An initialized `Message` object.
  */
-
-+ (instancetype)messageWithObjectID:(nullable NSString *)objectID media:(id<JSQMessageMediaData>)media sender:(User *)sender escalatedTo:(nullable User *)escalatedTo escalatedBy:(nullable User *)escalatedBy status:(nullable NSString *)status statusCode:(MessageStatusCode)statusCode escalatedAt:(nullable NSDate *)escalatedAt leoMedia:(LEOS3Image *)s3Image;
-
++ (instancetype)messageWithObjectID:(nullable NSString *)objectID media:(id<JSQMessageMediaData>)media sender:(User *)sender escalatedTo:(nullable User *)escalatedTo escalatedBy:(nullable User *)escalatedBy status:(nullable NSString *)status statusCode:(MessageStatusCode)statusCode createdAt:(NSDate*)createdAt escalatedAt:(nullable NSDate *)escalatedAt leoMedia:(nullable LEOS3Image *)s3Image;
 /**
  *  Initializes and returns a `Message` object having the given sender, escalatedTo user, escalatedBy user, status, statusCode, current
  *  system date (or the date on which the message was created) and escalatedAt date.

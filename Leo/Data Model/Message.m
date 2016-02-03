@@ -122,7 +122,7 @@ static NSString *const kImage = @"image";
 
             JSQPhotoMediaItem *photoMediaItem = [[JSQPhotoMediaItem alloc] initWithImage:nil];
 
-            return [MessageImage messageWithObjectID:objectID media:photoMediaItem sender:sender escalatedTo:escalatedTo escalatedBy:escalatedBy status:status statusCode:statusCode escalatedAt:nil leoMedia:media];
+            return [MessageImage messageWithObjectID:objectID media:photoMediaItem sender:sender escalatedTo:escalatedTo escalatedBy:escalatedBy status:status statusCode:statusCode createdAt:createdAt escalatedAt:nil leoMedia:media];
         }
 
         case MessageTypeCodeUndefined:
