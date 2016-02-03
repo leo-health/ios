@@ -204,7 +204,7 @@
     UIImage *avatarImage = user.avatar.image;
     UIImage *placeholderImage = user.avatar.placeholder;
 
-    NSString *avatarData = [UIImagePNGRepresentation(avatarImage) base64EncodedStringWithOptions:0];
+    NSString *avatarData = [UIImageJPEGRepresentation(avatarImage, kImageCompressionFactor) base64EncodedStringWithOptions:0];
     
     NSDictionary *avatarParams = @{@"avatar":avatarData, @"patient_id":@([user.objectID integerValue])};
     

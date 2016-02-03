@@ -311,5 +311,8 @@ NSString *const kPushNotificationParamDeepLink = @"deep_link_url";
 NSString *const kDeepLinkDefaultScheme = @"leohealth";
 NSString *const kDeepLinkPathFeed = @"feed";
 
+#pragma mark - Images
+CGFloat const kImageCompressionFactor = 0.8;
+
 
 @end

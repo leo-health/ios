@@ -444,5 +444,8 @@ extern NSString *const kPushNotificationParamDeepLink; // @"deep_link_url";
 extern NSString *const kDeepLinkDefaultScheme; // @"leohealth";
 extern NSString *const kDeepLinkPathFeed; // @"feed";
 
-@end
+#pragma mark - Images
+extern CGFloat const kImageCompressionFactor; // 0.8
 
+
+@end

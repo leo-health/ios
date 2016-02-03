@@ -14,16 +14,6 @@
 
 @implementation User
 
-
-//- (id)init
-//{
-//    NSAssert(false, @"You cannot init this class without using the designated initializer. See public API for more information.");
-//
-//    self = nil;
-//    
-//    return nil;
-//}
-
 - (instancetype)initWithObjectID:(nullable NSString*)objectID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email avatar:(nullable LEOS3Image *)avatar {
     
     self = [super init];
@@ -60,7 +50,7 @@
     
     NSString *email = [jsonResponse leo_itemForKey:APIParamUserEmail];
     
-    LEOS3Image *avatar = [[LEOS3Image alloc] initWithJSONDictionary:[jsonResponse leo_itemForKey:@"avatar"]];
+    LEOS3Image *avatar = [[LEOS3Image alloc] initWithJSONDictionary:[jsonResponse leo_itemForKey:APIParamUserAvatar][APIParamImageURL]];
     avatar.placeholder = [UIImage imageNamed:@"Icon-AvatarBorderless"];
     
     return [self initWithObjectID:objectID title:title firstName:firstName middleInitial:middleInitial lastName:lastName suffix:suffix email:email avatar:avatar];
