@@ -1,23 +1,26 @@
     upcoming:
+    - New! Patient notes
+    - Bug fixing
+
     releases:
     - version: 0.3.0
       build: 2016.01.28.19.22
       date: January 28 2016
       notes:
       - New! Design updates including new icons
-  - New! Deeplinks with scrolling to card available via notifications and emails
-  - Bug fixing
-    
+      - New! Deeplinks with scrolling to card available via notifications and emails
+      - Bug fixing
+
     - version: 0.2.0
       build: 2016.01.23.23.57
       date: January 23 2016
       notes:
       - New! Addition of Personal Health Record
-    - New! Photo Messaging
-    - New! Status bar notifications upon success and failure of inviting a parent
-    - New! Status bar notifications upon success and failure of changing a password
-    - New! Design updates including gradients
-    - Tons and tons of bug fixing
+      - New! Photo Messaging
+      - New! Status bar notifications upon success and failure of inviting a parent
+      - New! Status bar notifications upon success and failure of changing a password
+      - New! Design updates including gradients
+      - Tons and tons of bug fixing
 
     - version: 0.1.1
       build: 2015.12.09.12.19
