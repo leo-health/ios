@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithCollectionView:(UICollectionView *)collectionView dates:(NSDictionary *)slotsDictionary chosenDate:(NSDate *)chosenDate;
 
+- (NSDate *)weekStartingDate;
 - (CGPoint) offsetForWeekOfStartingDate;
 
 @property (weak, nonatomic) id<DateCollectionProtocol>delegate;

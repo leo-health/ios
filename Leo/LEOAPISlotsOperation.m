@@ -21,7 +21,7 @@
 
 @implementation LEOAPISlotsOperation
 
-NSInteger const dayRangeForSlots = 45;
+NSInteger const kDayRangeForSlots = 45;
 
 -(instancetype)initWithAppointment:(Appointment *)appointment {
     
@@ -40,7 +40,7 @@ NSInteger const dayRangeForSlots = 45;
 
     [appointmentService getSlotsForAppointment:[[Appointment alloc] initWithPrepAppointment:self.prepAppointment] withCompletion:^(NSArray *slots, NSError *error) {
         
-        id data = [LEOCalendarDataSource formatSlots:slots forDaysFromToday:dayRangeForSlots];
+        id data = [LEOCalendarDataSource formatSlots:slots forDaysFromToday:kDayRangeForSlots];
         
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             self.requestBlock(data, error);

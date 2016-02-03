@@ -98,12 +98,17 @@
     
 }
 
+- (void)showEmptyState {
+
+    self.timeCollectionView.hidden = YES;
+    self.noSlotsLabel.hidden = NO;
+}
+
 - (void)didScrollDateCollectionViewToDate:(NSDate *)date selectable:(BOOL)selectable {
     
     if (!selectable) {
-        
-        self.timeCollectionView.hidden = YES;
-        self.noSlotsLabel.hidden = NO;
+
+        [self showEmptyState];
     } else {
         
         self.timeCollectionController = [[TimeCollectionController alloc] initWithCollectionView:self.timeCollectionView slots:self.slotsDictionary[date] chosenSlot:[Slot slotFromExistingAppointment:self.appointment]];
@@ -173,9 +178,13 @@
         //FIXME: Don't love that I have to call this from outside of the DateCollectionController. There has got to be a better way.
         [self.dateCollectionView setContentOffset:[self.dateCollectionController offsetForWeekOfStartingDate] animated:NO];
 
-        [self updateMonthLabelWithDate:[self initialDate]];
+        [self updateMonthLabelWithDate:[self.dateCollectionController weekStartingDate]];
         
         [self.timeCollectionView layoutIfNeeded];
+
+        if ([self.timeCollectionController shouldShowEmptyState]) {
+            [self showEmptyState];
+        }
     }];
 }
 
