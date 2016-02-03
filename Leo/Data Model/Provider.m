@@ -8,6 +8,7 @@
 
 #import "Provider.h"
 #import "LEOS3Image.h"
+#import "NSDictionary+Additions.h"
 
 @implementation Provider
 
@@ -28,8 +29,8 @@
     self = [super initWithJSONDictionary:jsonResponse];
     
     if (self) {
-        _credentials = jsonResponse[APIParamUserCredentials];
-        _specialties = jsonResponse[APIParamUserSpecialties];
+        _credentials = [jsonResponse leo_itemForKey:APIParamUserCredentials];
+        _specialties = [jsonResponse leo_itemForKey:APIParamUserSpecialties];
     }
     
     return self;
