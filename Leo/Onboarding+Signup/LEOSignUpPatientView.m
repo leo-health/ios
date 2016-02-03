@@ -51,15 +51,9 @@ static NSString *const kPlaceholderValidationBirthDate = @"please add your child
 
 #pragma mark - View Lifecycle and Helper Methods
 
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+- (void)awakeFromNib {
 
-    self = [super initWithCoder:aDecoder];
-
-    if (self) {
-        [self commonInit];
-    }
-
-    return self;
+    [self commonInit];
 }
 
 - (void)commonInit {
@@ -94,7 +88,6 @@ static NSString *const kPlaceholderValidationBirthDate = @"please add your child
     _birthDatePromptField.textField.standardPlaceholder = kPlaceholderStandardBirthDate;
     _birthDatePromptField.textField.validationPlaceholder = kPlaceholderValidationBirthDate;
     _birthDatePromptField.textField.enabled = NO;
-    _birthDatePromptField.accessoryImageViewVisible = [self genderAndBirthdateEditable];
     _birthDatePromptField.accessoryImage = [UIImage imageNamed:@"Icon-Expand"];
     _birthDatePromptField.delegate = self;
 }
@@ -106,9 +99,23 @@ static NSString *const kPlaceholderValidationBirthDate = @"please add your child
     _genderPromptField.textField.standardPlaceholder = kPlaceholderStandardGender;
     _genderPromptField.textField.validationPlaceholder = kPlaceholderValidationGender;
     _genderPromptField.textField.enabled = NO;
-    _genderPromptField.accessoryImageViewVisible = [self genderAndBirthdateEditable];
-    _genderPromptField.accessoryImage = [UIImage imageNamed:@"Icon-Expand"];
+     _genderPromptField.accessoryImage = [UIImage imageNamed:@"Icon-Expand"];
     _genderPromptField.delegate = self;
+}
+
+-(void)setFeature:(Feature)feature {
+
+    _feature = feature;
+
+    [self updateUI];
+}
+
+- (void)updateUI {
+
+    if (self.feature == FeatureOnboarding) {
+        _genderPromptField.accessoryImageViewVisible = [self genderAndBirthdateEditable];
+        _birthDatePromptField.accessoryImageViewVisible = [self genderAndBirthdateEditable];
+    }
 }
 
 - (BOOL)genderAndBirthdateEditable {
@@ -179,7 +186,7 @@ static NSString *const kPlaceholderValidationBirthDate = @"please add your child
     }
 }
 
--(void)setManagementMode:(ManagementMode)managementMode {
+- (void)setManagementMode:(ManagementMode)managementMode {
 
     _managementMode = managementMode;
 
@@ -196,6 +203,7 @@ static NSString *const kPlaceholderValidationBirthDate = @"please add your child
         case ManagementModeUndefined:
             break;
     }
+
     self.genderPromptField.accessoryImageViewVisible = [self genderAndBirthdateEditable];
     self.birthDatePromptField.accessoryImageViewVisible = [self genderAndBirthdateEditable];
 }
@@ -293,7 +301,7 @@ static NSString *const kPlaceholderValidationBirthDate = @"please add your child
         UIBarButtonItem *doneBBI = [[UIBarButtonItem alloc] initWithCustomView:doneButton];
 
         [actionSheetPicker setDoneButton:doneBBI];
-        
+
         actionSheetPicker.hideCancel = YES;
         [actionSheetPicker showActionSheetPicker];
     }
@@ -325,7 +333,7 @@ static NSString *const kPlaceholderValidationBirthDate = @"please add your child
         doneButton.titleLabel.font = [UIFont leo_standardFont];
         [doneButton sizeToFit];
         UIBarButtonItem *doneBBI = [[UIBarButtonItem alloc] initWithCustomView:doneButton];
-        
+
         [picker setDoneButton:doneBBI];
         [picker showActionSheetPicker];
     }

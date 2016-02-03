@@ -56,7 +56,6 @@ static NSString *const kTitlePhotos = @"Photos";
 
     [LEOApiReachability startMonitoringForController:self];
 
-    [self setupNotifications];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -64,46 +63,42 @@ static NSString *const kTitlePhotos = @"Photos";
     NSString *navigationTitle = [self buildNavigationTitleString];
     [LEOStyleHelper styleNavigationBarForViewController:self forFeature:self.feature withTitleText:navigationTitle dismissal:NO backButton:YES shadow:YES];
     [self.signUpPatientView.avatarImageView setNeedsDisplay];
+
+    [self setupNotifications];
 }
 
 - (void)setupNotifications {
 
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateForDownloadedImage) name:kNotificationDownloadedImageUpdated object:self.patient.avatar];
 
-    // CLEANME: remove tests once bug is fixed
-
-
-    __weak typeof(self) weakself = self;
-
-    [[NSNotificationCenter defaultCenter] addObserverForName:kNotificationDownloadedImageUpdated object:self.patient.avatar queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull notification) {
-
-        typeof(self) strongself = weakself;
-
-        UIImage *circularAvatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:strongself.patient.avatar.image withDiameter:67 borderColor:[UIColor leo_orangeRed] borderWidth:1.0];
-
-        strongself.originalPatient.avatar = [strongself.patient.avatar copy];
-
-        strongself.signUpPatientView.avatarImageView.image = circularAvatarImage;
-        strongself.signUpPatientView.avatarValidationLabel.textColor = [UIColor leo_grayStandard];
-        strongself.signUpPatientView.avatarValidationLabel.text = kAvatarCallToActionEdit;
-    }];
-
-    [[NSNotificationCenter defaultCenter] addObserverForName:kNotificationImageChanged object:self.patient.avatar queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull notification) {
-
-//        typeof(self) strongself = weakself;
-
-        UIImage *oldImage = self.signUpPatientView.avatarImageView.image;
-
-        UIImage *circularAvatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:self.patient.avatar.image withDiameter:67 borderColor:[UIColor leo_orangeRed] borderWidth:1.0];
-
-        self.signUpPatientView.avatarImageView.image = circularAvatarImage;
-
-        UIImage *newImage = self.signUpPatientView.avatarImageView.image;
-
-        self.signUpPatientView.avatarValidationLabel.textColor = [UIColor leo_grayStandard];
-        self.signUpPatientView.avatarValidationLabel.text = kAvatarCallToActionEdit;
-    }];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateForChangedImage) name:kNotificationImageChanged object:self.patient.avatar];
 }
 
+- (void)updateOriginalPatient {
+
+    self.originalPatient.avatar = [self.patient.avatar copy];
+}
+
+- (void)updateForChangedImage {
+
+    [self updateUI];
+}
+
+- (void)updateForDownloadedImage {
+
+    [self updateOriginalPatient];
+    [self updateUI];
+}
+
+- (void)updateUI {
+
+    UIImage *circularAvatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:self.patient.avatar.image withDiameter:67 borderColor:[UIColor leo_orangeRed] borderWidth:1.0];
+
+    self.signUpPatientView.avatarImageView.image = circularAvatarImage;
+
+    self.signUpPatientView.avatarValidationLabel.textColor = [UIColor leo_grayStandard];
+    self.signUpPatientView.avatarValidationLabel.text = kAvatarCallToActionEdit;
+}
 
 #pragma mark - Accessors
 
@@ -112,6 +107,7 @@ static NSString *const kTitlePhotos = @"Photos";
     _feature = feature;
 
     [self setupTintColor];
+    self.signUpPatientView.feature = feature;
 }
 
 - (CWStatusBarNotification *)statusBarNotification {
@@ -139,7 +135,8 @@ static NSString *const kTitlePhotos = @"Photos";
         _signUpPatientView = strongView;
         _signUpPatientView.patient = self.patient;
         _signUpPatientView.managementMode = self.managementMode;
-
+        _signUpPatientView.feature = self.feature;
+        
         [self.view removeConstraints:self.view.constraints];
         _signUpPatientView.translatesAutoresizingMaskIntoConstraints = NO;
         _signUpPatientView.scrollView.delegate = self;
@@ -236,7 +233,7 @@ static NSString *const kTitlePhotos = @"Photos";
 - (void)imageCropViewController:(RSKImageCropViewController *)controller didCropImage:(UIImage *)croppedImage usingCropRect:(CGRect)cropRect {
 
     self.signUpPatientView.patient.avatar.image = croppedImage;
-
+    
     [self.navigationController popViewControllerAnimated:YES];
 }
 
