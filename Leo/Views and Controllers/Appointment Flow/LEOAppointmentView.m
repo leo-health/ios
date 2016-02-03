@@ -68,6 +68,15 @@ IB_DESIGNABLE
     [self enableSchedulingIfNeeded];
 }
 
+- (void)reloadData {
+
+    self.provider = self.provider;
+    self.patient = self.patient;
+    self.appointmentType = self.appointmentType;
+    self.note = self.note;
+    self.date = self.date;
+}
+
 #pragma mark - Accessors
 
 - (void)setNotesTextView:(JVFloatLabeledTextView *)notesTextView {
@@ -352,10 +361,12 @@ IB_DESIGNABLE
 
     _prepAppointment = prepAppointment;
 
-    self.date = prepAppointment.date;
-    self.patient = prepAppointment.patient;
-    self.provider = prepAppointment.provider;
-    self.appointmentType = prepAppointment.appointmentType;
+    _date = prepAppointment.date;
+    _patient = prepAppointment.patient;
+    _provider = prepAppointment.provider;
+    _appointmentType = prepAppointment.appointmentType;
+
+    [self reloadData];
 }
 
 - (Appointment *)appointment {
