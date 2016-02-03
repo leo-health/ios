@@ -10,6 +10,7 @@
 #import "Provider.h"
 #import "Support.h"
 #import "UserFactory.h"
+#import "NSDictionary+Additions.h"
 
 @implementation Practice
 
@@ -39,9 +40,9 @@ static NSString *const RoleProvider = @"clinical";
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
     
-    NSString *objectID = [jsonResponse[APIParamID] stringValue];
+    NSString *objectID = [[jsonResponse leo_itemForKey:APIParamID] stringValue];
     
-    NSArray *staffDictionaries = jsonResponse[APIParamUserStaff];
+    NSArray *staffDictionaries = [jsonResponse leo_itemForKey:APIParamUserStaff];
 
     NSMutableArray *staff = [[NSMutableArray alloc] init];
     
@@ -51,16 +52,16 @@ static NSString *const RoleProvider = @"clinical";
         [staff addObject:staffMember];
     }
     
-    NSString *name = jsonResponse[APIParamPracticeName];
-    NSString *fax = jsonResponse[APIParamPracticeFax];
+    NSString *name = [jsonResponse leo_itemForKey:APIParamPracticeName];
+    NSString *fax = [jsonResponse leo_itemForKey:APIParamPracticeFax];
     
-    NSString *addressLine1 = jsonResponse[APIParamPracticeLocationAddressLine1];
-    NSString *addressLine2 = jsonResponse[APIParamPracticeLocationAddressLine2];
-    NSString *city = jsonResponse[APIParamPracticeLocationCity];
-    NSString *state = jsonResponse[APIParamPracticeLocationState];
-    NSString *zip = jsonResponse[APIParamPracticeLocationZip];
-    NSString *phone = jsonResponse[APIParamPracticePhone];
-    NSString *email = jsonResponse[APIParamPracticeEmail];
+    NSString *addressLine1 = [jsonResponse leo_itemForKey:APIParamPracticeLocationAddressLine1];
+    NSString *addressLine2 = [jsonResponse leo_itemForKey:APIParamPracticeLocationAddressLine2];
+    NSString *city = [jsonResponse leo_itemForKey:APIParamPracticeLocationCity];
+    NSString *state = [jsonResponse leo_itemForKey:APIParamPracticeLocationState];
+    NSString *zip = [jsonResponse leo_itemForKey:APIParamPracticeLocationZip];
+    NSString *phone = [jsonResponse leo_itemForKey:APIParamPracticePhone];
+    NSString *email = [jsonResponse leo_itemForKey:APIParamPracticeEmail];
     
     //FIXME: Need to get APIParams for above to complete this and remove warning.
     return [self initWithObjectID:objectID name:name staff:[staff copy] addressLine1:addressLine1 addressLine2:addressLine2 city:city state:state zip:zip phone:phone email:email fax:fax];
