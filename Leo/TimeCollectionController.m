@@ -111,4 +111,8 @@ static NSString *const timeReuseIdentifier = @"TimeCell";
     return UIEdgeInsetsMake(0, 40, 0, 40);
 }
 
+- (BOOL)shouldShowEmptyState {
+    return self.slots.count == 0;
+}
+
 @end
