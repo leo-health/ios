@@ -1,8 +1,12 @@
     upcoming:
-    - New! Patient notes
-    - Bug fixing
-
     releases:
+    - version: 0.4.0
+      build: 2016.02.02.20.45
+      date: February 02 2016
+      notes:
+      - New! Patient notes
+  - Bug fixing
+    
     - version: 0.3.0
       build: 2016.01.28.19.22
       date: January 28 2016
@@ -97,6 +101,7 @@
       notes:
       - First test build using new Fastfile configuration for Alpha builds
       - Provides the basic functionality all created prior to our first releases
+
 
 
 
