@@ -1,12 +1,19 @@
     upcoming:
+    - Update! Logged out flow revamped
+    - Bug fix. Editing photos of patients
+    - Bug fix. Editing birth date and gender of patients in onboarding only
+    - Bug fix. Empty state for calendar on initial load if no appointments
+    - Bug fix. Rescheduling of appointments (one time only)
+    - Bug fix. Null credentials does not cause crash
+
     releases:
     - version: 0.4.0
       build: 2016.02.02.20.45
       date: February 02 2016
       notes:
       - New! Patient notes
-  - Bug fixing
-    
+      - Bug fixing
+
     - version: 0.3.0
       build: 2016.01.28.19.22
       date: January 28 2016
