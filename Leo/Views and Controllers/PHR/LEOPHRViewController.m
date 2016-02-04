@@ -82,6 +82,7 @@ static CGFloat const kHeightOfHeaderPHR = 200;
     self.navigationController.navigationBar.translucent = YES;
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
     self.navigationController.navigationBar.tintColor = [UIColor leo_white];
+    self.navigationController.navigationBar.shadowImage = [UIImage new];
 }
 
 #pragma mark - Accessors
