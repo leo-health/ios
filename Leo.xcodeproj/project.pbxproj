@@ -212,10 +212,6 @@
 		662371F71C568E51001AB3E7 /* LEOLoggedOutSignUpCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 662371F51C568E51001AB3E7 /* LEOLoggedOutSignUpCell.xib */; };
 		662371F91C569F72001AB3E7 /* Signed-Out.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 662371F81C569F72001AB3E7 /* Signed-Out.xcassets */; };
 		6660C93E1C3AF92800C2657B /* LEOGradientHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6660C93D1C3AF92800C2657B /* LEOGradientHelper.m */; };
-		6677AE2E1C613F89002CA27C /* SignedOutMessagingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6677AE2D1C613F89002CA27C /* SignedOutMessagingCell.xib */; };
-		6677AE341C614167002CA27C /* SignedOutAppointmentsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6677AE2F1C614167002CA27C /* SignedOutAppointmentsCell.xib */; };
-		6677AE351C614167002CA27C /* SignedOutFormsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6677AE301C614167002CA27C /* SignedOutFormsCell.xib */; };
-		6677AE381C614167002CA27C /* SignedOutPHRCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6677AE331C614167002CA27C /* SignedOutPHRCell.xib */; };
 		6677AE3A1C61665B002CA27C /* LEOSwipeArrowsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6677AE391C61665B002CA27C /* LEOSwipeArrowsView.xib */; };
 		6677AE3D1C61689D002CA27C /* LEOSwipeArrowsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6677AE3C1C61689D002CA27C /* LEOSwipeArrowsView.m */; };
 		6677AE3F1C62B71F002CA27C /* LEOLoggedOutLoginCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6677AE3E1C62B71F002CA27C /* LEOLoggedOutLoginCell.xib */; };
@@ -645,10 +641,6 @@
 		662371F81C569F72001AB3E7 /* Signed-Out.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Signed-Out.xcassets"; sourceTree = "<group>"; };
 		6660C93C1C3AF92800C2657B /* LEOGradientHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOGradientHelper.h; sourceTree = "<group>"; };
 		6660C93D1C3AF92800C2657B /* LEOGradientHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOGradientHelper.m; sourceTree = "<group>"; };
-		6677AE2D1C613F89002CA27C /* SignedOutMessagingCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SignedOutMessagingCell.xib; sourceTree = "<group>"; };
-		6677AE2F1C614167002CA27C /* SignedOutAppointmentsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SignedOutAppointmentsCell.xib; sourceTree = "<group>"; };
-		6677AE301C614167002CA27C /* SignedOutFormsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SignedOutFormsCell.xib; sourceTree = "<group>"; };
-		6677AE331C614167002CA27C /* SignedOutPHRCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SignedOutPHRCell.xib; sourceTree = "<group>"; };
 		6677AE391C61665B002CA27C /* LEOSwipeArrowsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LEOSwipeArrowsView.xib; sourceTree = "<group>"; };
 		6677AE3B1C61689D002CA27C /* LEOSwipeArrowsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOSwipeArrowsView.h; sourceTree = "<group>"; };
 		6677AE3C1C61689D002CA27C /* LEOSwipeArrowsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOSwipeArrowsView.m; sourceTree = "<group>"; };
@@ -1313,17 +1305,13 @@
 				662371E41C568A26001AB3E7 /* LEOLoggedOutOnboardingCell.xib */,
 				662371EE1C568C23001AB3E7 /* LEOLoggedOutLoginCell.h */,
 				662371EF1C568C23001AB3E7 /* LEOLoggedOutLoginCell.m */,
+				6677AE3E1C62B71F002CA27C /* LEOLoggedOutLoginCell.xib */,
 				662371F31C568E51001AB3E7 /* LEOLoggedOutSignUpCell.h */,
 				662371F41C568E51001AB3E7 /* LEOLoggedOutSignUpCell.m */,
 				662371F51C568E51001AB3E7 /* LEOLoggedOutSignUpCell.xib */,
-				6677AE2D1C613F89002CA27C /* SignedOutMessagingCell.xib */,
-				6677AE2F1C614167002CA27C /* SignedOutAppointmentsCell.xib */,
-				6677AE301C614167002CA27C /* SignedOutFormsCell.xib */,
-				6677AE331C614167002CA27C /* SignedOutPHRCell.xib */,
-				6677AE391C61665B002CA27C /* LEOSwipeArrowsView.xib */,
-				6677AE3E1C62B71F002CA27C /* LEOLoggedOutLoginCell.xib */,
 				6677AE3B1C61689D002CA27C /* LEOSwipeArrowsView.h */,
 				6677AE3C1C61689D002CA27C /* LEOSwipeArrowsView.m */,
+				6677AE391C61665B002CA27C /* LEOSwipeArrowsView.xib */,
 			);
 			name = "Logged Out Flow";
 			sourceTree = "<group>";
@@ -1661,7 +1649,6 @@
 				311CBB3E1B56B0F50009BD7A /* Conversation.storyboard in Resources */,
 				3115F21B1BCEA316001BDF6A /* LEOUpdateEmailView.xib in Resources */,
 				3128D4EC1B43135F00582710 /* LEOOneButtonPrimaryAndSecondaryCell.xib in Resources */,
-				6677AE351C614167002CA27C /* SignedOutFormsCell.xib in Resources */,
 				315E12B71BB9BDBD001023F1 /* LEOSignUpUserView.xib in Resources */,
 				316899691BC4851200B4C1EB /* LEOReviewUserCell.xib in Resources */,
 				31339B1D1C2208A000B53A86 /* LEOPromptFieldCell.xib in Resources */,
@@ -1678,16 +1665,13 @@
 				31F5AA751B791B4B00F96D06 /* ProviderCell.xib in Resources */,
 				3101F9431BF556820075765B /* LeoUserDefaults.plist in Resources */,
 				31FCDD6E1C5EABE600BE4B78 /* *.leohealth.com.cer in Resources */,
-				6677AE2E1C613F89002CA27C /* SignedOutMessagingCell.xib in Resources */,
 				3115F22A1BCEAAC1001BDF6A /* LEOUpdatePasswordView.xib in Resources */,
 				31C01D911B66B8E000F9EAED /* Stubs in Resources */,
-				6677AE341C614167002CA27C /* SignedOutAppointmentsCell.xib in Resources */,
 				31D275771C517AF0005F8964 /* LEOManagePatientsView.xib in Resources */,
 				BCE1EC751B00E353007C8D0B /* Images.xcassets in Resources */,
 				31D62EC61B1CBA7400B4150A /* LEOTimeCell.xib in Resources */,
 				3138FC4A1B9A19A8000FE22C /* InsurancePlanCell.xib in Resources */,
 				31F5AA801B7920B700F96D06 /* Appointment.storyboard in Resources */,
-				6677AE381C614167002CA27C /* SignedOutPHRCell.xib in Resources */,
 				31F5AA7B1B791B4B00F96D06 /* AppointmentTypeCell.xib in Resources */,
 				31D62ED11B1D3ED500B4150A /* LEODateCell.xib in Resources */,
 				31BF23441BBAEA0A005856E5 /* LEOSignUpPatientView.xib in Resources */,
