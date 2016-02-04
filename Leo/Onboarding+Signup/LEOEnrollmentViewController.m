@@ -72,7 +72,7 @@
 }
 
 - (void)setupNavigationBar {
-    [LEOStyleHelper styleNavigationBarForViewController:self forFeature:self.feature withTitleText:@"About Me" dismissal:NO backButton:YES];
+    [LEOStyleHelper styleNavigationBarForViewController:self forFeature:self.feature withTitleText:@"Sign Up" dismissal:NO backButton:YES];
 }
 
 

@@ -10,8 +10,9 @@
 #import "LEOPromptField.h"
 #import "SingleSelectionProtocol.h"
 #import "Family.h"
+#import "LEOStickyHeaderViewController.h"
 
-@interface LEOSignUpUserViewController : UIViewController <UITextFieldDelegate, LEOPromptDelegate, SingleSelectionProtocol, UIScrollViewDelegate>
+@interface LEOSignUpUserViewController : LEOStickyHeaderViewController <UITextFieldDelegate, LEOPromptDelegate, SingleSelectionProtocol, UIScrollViewDelegate, LEOStickyHeaderDataSource, LEOStickyHeaderDelegate>
 
 @property (strong, nonatomic) Family *family;
 @property (strong, nonatomic) Guardian *guardian;

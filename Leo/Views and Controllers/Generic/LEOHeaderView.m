@@ -19,7 +19,7 @@
 @implementation LEOHeaderView
 
 static CGFloat const kLeftInsetTitle = 30.0;
-static CGFloat const kRightInsetTitle = 100.0;
+static CGFloat const kRightInsetTitle = 60.0;
 static CGFloat const kDefaultHeaderViewHeight = 207.0;
 
 

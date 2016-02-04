@@ -31,7 +31,6 @@ IB_DESIGNABLE
     self = [super initWithCoder:aDecoder];
 
     if (self) {
-        [self setupConstraints];
         [self commonInit];
 
     }
@@ -44,7 +43,6 @@ IB_DESIGNABLE
     self = [super initWithFrame:frame];
     
     if (self) {
-        [self setupConstraints];
         [self commonInit];
     }
 
@@ -134,39 +132,6 @@ IB_DESIGNABLE
 
     [self endEditing:YES];
 }
-
-
-
-#pragma mark - Autolayout
-
-- (void)setupConstraints {
-
-    NSBundle *mainBundle = [NSBundle mainBundle];
-    NSArray *loadedViews = [mainBundle loadNibNamed:@"LEOSignUpUserView" owner:self options:nil];
-    LEOSignUpUserView *loadedSubview = [loadedViews firstObject];
-
-    [self addSubview:loadedSubview];
-
-    loadedSubview.translatesAutoresizingMaskIntoConstraints = NO;
-
-    [self addConstraint:[self leo_pin:loadedSubview attribute:NSLayoutAttributeTop]];
-    [self addConstraint:[self leo_pin:loadedSubview attribute:NSLayoutAttributeLeft]];
-    [self addConstraint:[self leo_pin:loadedSubview attribute:NSLayoutAttributeBottom]];
-    [self addConstraint:[self leo_pin:loadedSubview attribute:NSLayoutAttributeRight]];
-
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeading multiplier:1.0 constant:30]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-30]];
-}
-
-//TODO: Eventually should move into a protocol or superclass potentially.
-- (void)setupTouchEventForDismissingKeyboard {
-
-    UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:nil action:@selector(viewTapped)];
-
-    tapGestureForTextFieldDismissal.cancelsTouchesInView = NO;
-    [self addGestureRecognizer:tapGestureForTextFieldDismissal];
-}
-
 
 - (BOOL)validView {
 

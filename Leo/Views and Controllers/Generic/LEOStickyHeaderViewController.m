@@ -51,6 +51,14 @@
     return _stickyHeaderView;
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+
+    // Not sure why this solves the problem, but without this, the stickyHeaderView will animate its size from CGRectZero to full size along with the navigation controller push
+    [self.stickyHeaderView setNeedsLayout];
+    [self.stickyHeaderView layoutIfNeeded];
+}
+
 - (void)updateViewConstraints {
 
     if (!self.alreadyUpdatedConstraints) {
