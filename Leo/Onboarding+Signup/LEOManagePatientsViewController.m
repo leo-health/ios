@@ -187,6 +187,14 @@ static NSString *const kSignUpPatientSegue = @"SignUpPatientSegue";
     }
 }
 
+- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    if (indexPath.section == TableViewSectionButton) {
+        return 134; // button height 54 + top space 40 + bottom space 40
+    }
+    return 69;
+}
+
 
 #pragma mark - <LEOSignUpPatientDelegate>
 
