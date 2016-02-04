@@ -75,5 +75,12 @@
  */
 + (UIFont *)leo_chatBubbleInitials;
 
+/**
+ *  AvenirNext-Regular, Size 24
+ *
+ *  @return UIFont
+ */
++ (UIFont *)leo_valuePropOnboardingFont;
+
 
 @end

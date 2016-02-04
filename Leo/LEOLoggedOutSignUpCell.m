@@ -8,6 +8,9 @@
 
 #import "LEOLoggedOutSignUpCell.h"
 #import "LEOStyleHelper.h"
+#import "UIImage+Extensions.h"
+#import "UIColor+LeoColors.h"
+#import "UIFont+LeoFonts.h"
 
 @implementation LEOLoggedOutSignUpCell
 
@@ -15,7 +18,7 @@
 
     [super awakeFromNib];
 
-    [LEOStyleHelper styleSubmissionButton:self.signUpButton forFeature:FeatureOnboarding];
+    self.swipeArrowsContainerView.hidden = YES;
 }
 
 @end

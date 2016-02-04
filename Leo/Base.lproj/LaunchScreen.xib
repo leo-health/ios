@@ -11,23 +11,45 @@
             <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Splash-Logo" translatesAutoresizingMaskIntoConstraints="NO" id="8RP-IK-hR2">
-                    <rect key="frame" x="0.0" y="-3" width="480" height="486"/>
+                <label opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="MADE IN NEW YORK CITY" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wGe-B3-hb8">
+                    <rect key="frame" x="0.0" y="458" width="480" height="10"/>
+                    <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="15"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Leo - Logo for Splash" translatesAutoresizingMaskIntoConstraints="NO" id="MRr-nb-nzH">
+                    <rect key="frame" x="70" y="0.0" width="340" height="480"/>
                 </imageView>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="1" green="0.37254901960784315" blue="0.25098039215686274" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
-                <constraint firstItem="8RP-IK-hR2" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="8lO-Ws-6ha"/>
-                <constraint firstItem="8RP-IK-hR2" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="-3" id="AWk-V0-fK0"/>
-                <constraint firstAttribute="bottom" secondItem="8RP-IK-hR2" secondAttribute="bottom" constant="-3" id="NKO-dH-MfY"/>
-                <constraint firstAttribute="trailing" secondItem="8RP-IK-hR2" secondAttribute="trailing" id="gHf-5i-F21"/>
+                <constraint firstItem="MRr-nb-nzH" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="08f-bE-pBK"/>
+                <constraint firstItem="MRr-nb-nzH" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="7xI-hP-ep5"/>
+                <constraint firstItem="MRr-nb-nzH" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="82i-o8-vfy"/>
+                <constraint firstAttribute="trailing" secondItem="wGe-B3-hb8" secondAttribute="trailing" id="9yR-l8-HuZ"/>
+                <constraint firstItem="MRr-nb-nzH" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="DAe-zh-c7C"/>
+                <constraint firstItem="wGe-B3-hb8" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="K9E-sx-rIb"/>
+                <constraint firstItem="wGe-B3-hb8" firstAttribute="top" secondItem="MRr-nb-nzH" secondAttribute="bottom" id="TId-YL-js9"/>
+                <constraint firstAttribute="bottom" secondItem="wGe-B3-hb8" secondAttribute="bottom" constant="12.5" id="ZJk-MD-vv7"/>
+                <constraint firstItem="MRr-nb-nzH" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="70" id="blc-rE-R9Y"/>
+                <constraint firstAttribute="trailing" secondItem="MRr-nb-nzH" secondAttribute="trailing" constant="70" id="jBE-oJ-Txh"/>
+                <constraint firstItem="MRr-nb-nzH" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="kso-rg-QnZ"/>
+                <constraint firstAttribute="bottom" secondItem="MRr-nb-nzH" secondAttribute="bottom" id="kwC-cj-8z7"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="7xI-hP-ep5"/>
+                    <exclude reference="82i-o8-vfy"/>
+                    <exclude reference="kso-rg-QnZ"/>
+                    <exclude reference="TId-YL-js9"/>
+                </mask>
+            </variation>
             <point key="canvasLocation" x="548" y="455"/>
         </view>
     </objects>
     <resources>
-        <image name="Splash-Logo" width="378" height="667"/>
+        <image name="Leo - Logo for Splash" width="204" height="85"/>
     </resources>
 </document>

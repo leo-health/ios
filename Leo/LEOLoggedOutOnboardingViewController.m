@@ -77,7 +77,6 @@ static NSString * const reuseIdentifierFeature = @"reuseIdentifierFeature";
 
 
     LEOLoggedOutOnboardingCell *cell;
-    NSString *imageName;
 
     switch (indexPath.row) {
 
@@ -85,8 +84,6 @@ static NSString * const reuseIdentifierFeature = @"reuseIdentifierFeature";
 
             LEOLoggedOutLoginCell *_cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifierLogin forIndexPath:indexPath];
             [_cell.loginButton addTarget:self action:@selector(loginTouchedUpInside:) forControlEvents:UIControlEventTouchUpInside];
-
-            imageName = imageNameSignedOutLogin;
 
             cell = _cell;
 
@@ -97,7 +94,10 @@ static NSString * const reuseIdentifierFeature = @"reuseIdentifierFeature";
 
             cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifierFeature forIndexPath:indexPath];
 
-            imageName = imageNameSignedOutMessages;
+            cell.backgroundImageView.image = [UIImage imageNamed:@"Signed Out 1.1 - Background"];
+            cell.mainTitleLabel.text = @"Chat with us";
+            cell.detailLabel.text = @"We're always available to answer\nany questions or concerns.";
+            cell.contentImageView.image = [UIImage imageNamed:@"Chat Content"];
             break;
         }
 
@@ -105,7 +105,10 @@ static NSString * const reuseIdentifierFeature = @"reuseIdentifierFeature";
 
             cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifierFeature forIndexPath:indexPath];
 
-            imageName = imageNameSignedOutAppointments;
+            cell.backgroundImageView.image = [UIImage imageNamed:@"Signed Out 1.2 - Background"];
+            cell.mainTitleLabel.text = @"Book a visit";
+            cell.detailLabel.text = @"No more phone calls and long waits.\nFind a time that works for you.";
+            cell.contentImageView.image = [UIImage imageNamed:@"Schedule Content"];
             break;
         }
 
@@ -113,7 +116,10 @@ static NSString * const reuseIdentifierFeature = @"reuseIdentifierFeature";
 
             cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifierFeature forIndexPath:indexPath];
 
-            imageName = imageNameSignedOutForms;
+            cell.backgroundImageView.image = [UIImage imageNamed:@"Signed Out 1.3 - Background"];
+            cell.mainTitleLabel.text = @"Submit forms digitally";
+            cell.detailLabel.text = @"Cut the wait time by using your phone's\ncamera to easily submit documents.";
+            cell.contentImageView.image = [UIImage imageNamed:@"Form Content"];
             break;
         }
 
@@ -121,7 +127,10 @@ static NSString * const reuseIdentifierFeature = @"reuseIdentifierFeature";
 
             cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifierFeature forIndexPath:indexPath];
 
-            imageName = imageNameSignedOutHealthRecord;
+            cell.backgroundImageView.image = [UIImage imageNamed:@"Signed Out 1.4 - Background"];
+            cell.mainTitleLabel.text = @"Easy to read health records";
+            cell.detailLabel.text = @"Say goodbye to searching for paperwork.\nWe provide access to your child's records.";
+            cell.contentImageView.image = [UIImage imageNamed:@"Health Record Content"];
             break;
         }
 
@@ -131,9 +140,7 @@ static NSString * const reuseIdentifierFeature = @"reuseIdentifierFeature";
             [_cell.loginButton addTarget:self action:@selector(loginTouchedUpInside:) forControlEvents:UIControlEventTouchUpInside];
             [_cell.signUpButton addTarget:self action:@selector(signupTouchedUpInside:) forControlEvents:UIControlEventTouchUpInside];
 
-            imageName = imageNameSignedOutSignup;
-
-            cell = _cell;
+            return _cell;
             
             break;
         }
@@ -141,8 +148,6 @@ static NSString * const reuseIdentifierFeature = @"reuseIdentifierFeature";
         default:
             break;
     }
-
-    cell.imageView.image = [UIImage imageNamed:imageName];
 
     return cell;
 }
