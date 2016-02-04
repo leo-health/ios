@@ -18,8 +18,9 @@
     
     [helperService getFamilyWithCompletion:^(Family * family, NSError *error) {
 
-        id data = family.patients;
-        
+        // for appointments, sort by youngest to oldest
+        NSArray *data = [family.patients sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"dob" ascending:NO],[NSSortDescriptor sortDescriptorWithKey:@"firstName" ascending:YES]]];
+
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             self.requestBlock(data, error);
         }];
