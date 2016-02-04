@@ -468,7 +468,12 @@ NSString * const kAnimationKeyPathStrokeColor = @"strokeColor";
 
 
 -(CGFloat)transitionPercentageForScrollOffset:(CGPoint)offset {
-    return self.scrollView.contentOffset.y / ([self heightOfTitleView] - [self navBarHeight]);
+    // handle division by 0
+    CGFloat totalHeight = ([self heightOfTitleView] - [self navBarHeight]);
+    if (totalHeight == 0) {
+        return 0;
+    }
+    return self.scrollView.contentOffset.y / totalHeight;
 }
 
 - (BOOL)scrollViewAtBottomPosition {

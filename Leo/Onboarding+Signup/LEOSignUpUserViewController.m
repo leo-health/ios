@@ -9,7 +9,7 @@
 #import "LEOSignUpUserViewController.h"
 
 #import "UIImage+Extensions.h"
-
+#import "UIViewController+XibAdditions.h"
 
 //TODO: Eventually remove these and the code related to them from this VC!
 #import "UIFont+LeoFonts.h"
@@ -34,10 +34,12 @@
 #import "LEOStyleHelper.h"
 #import "UIView+Extensions.h"
 #import <TPKeyboardAvoidingScrollView.h>
+#import "LEOHeaderView.h"
 
 @interface LEOSignUpUserViewController ()
 
-@property (weak, nonatomic) LEOSignUpUserView *signUpUserView;
+@property (strong, nonatomic) LEOHeaderView *headerView;
+@property (strong, nonatomic) LEOSignUpUserView *signUpUserView;
 @property (nonatomic) BOOL breakerPreviouslyDrawn;
 @property (strong, nonatomic) CAShapeLayer *pathLayer;
 
@@ -52,15 +54,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    [LEOStyleHelper tintColorForFeature:FeatureOnboarding];
-
-    [self setupBreaker];
     [self setupNavigationBar];
     [self setupButton];
 
+    self.feature = FeatureOnboarding;
+    self.stickyHeaderView.datasource = self;
+    self.stickyHeaderView.delegate = self;
+    self.stickyHeaderView.snapToHeight = @([self.topLayoutGuide length]);
+
+    self.automaticallyAdjustsScrollViewInsets = NO;
+
     self.signUpUserView.guardian = self.guardian;
     self.signUpUserView.insurancePlan = self.guardian.insurancePlan;
-    self.signUpUserView.scrollView.delegate = self;
     self.signUpUserView.insurerPromptField.delegate = self;
 
     [LEOApiReachability startMonitoringForController:self];
@@ -68,36 +73,20 @@
 
 - (void)viewWillAppear:(BOOL)animated {
 
-    self.navigationItem.titleView.hidden = YES;
+    [super viewWillAppear:animated];
+    [self setupNavigationBar];
+
+    CGFloat percentage = [self transitionPercentageForScrollOffset:self.stickyHeaderView.scrollView.contentOffset];
+
+    self.navigationItem.titleView.hidden = percentage == 0;
 }
-
-- (void)viewDidAppear:(BOOL)animated {
-
-    [self toggleNavigationBarTitleView];
-}
-
-
 
 - (void)setupNavigationBar {
 
     self.view.tintColor = [LEOStyleHelper tintColorForFeature:FeatureOnboarding];
-    [LEOStyleHelper styleNavigationBarForFeature:FeatureOnboarding];
-
-    UILabel *navTitleLabel = [[UILabel alloc] init];
-    //    navTitleLabel.text = @"About Me";
-
-    [LEOStyleHelper styleLabel:navTitleLabel forFeature:FeatureOnboarding];
-
-    self.navigationItem.titleView = navTitleLabel;
+    [LEOStyleHelper styleNavigationBarForViewController:self forFeature:FeatureOnboarding withTitleText:@"About Me" dismissal:NO backButton:YES];
     [LEOStyleHelper styleBackButtonForViewController:self forFeature:FeatureOnboarding];
 }
-
-- (void)toggleNavigationBarTitleView {
-
-    self.navigationItem.titleView.hidden = NO;
-    self.navigationItem.titleView.alpha = (self.scrollView.contentOffset.y == 0) ? 0:1;
-}
-
 
 - (void)setupButton {
 
@@ -115,25 +104,42 @@
     return _family;
 }
 
+- (UIView *)injectBodyView {
+    return self.signUpUserView;
+}
+
+- (UIView *)injectTitleView {
+    return self.headerView;
+}
+
+- (LEOHeaderView *)headerView {
+
+    if (!_headerView) {
+
+        _headerView = [[LEOHeaderView alloc] initWithTitleText:@"Tell us a little about yourself"];
+        _headerView.intrinsicHeight = @(94.0); // I really don't like that we need to give this height here. StickyHeaderView should lay this out based on the header's constraints. The only time this should have to happen is when the constraints are ambiguious
+        // TODO: look into how to remove this
+        [LEOStyleHelper styleExpandedTitleLabel:_headerView.titleLabel feature:self.feature];
+    }
+
+    return _headerView;
+}
+
+- (void)updateTitleViewForScrollTransitionPercentage:(CGFloat)transitionPercentage {
+
+    self.headerView.currentTransitionPercentage = transitionPercentage;
+    self.navigationItem.titleView.hidden = NO;
+    self.navigationItem.titleView.alpha = transitionPercentage;
+}
+
 -(LEOSignUpUserView *)signUpUserView {
 
     if (!_signUpUserView) {
 
-        LEOSignUpUserView *strongView = [LEOSignUpUserView new];
+        LEOSignUpUserView *strongView = [self leo_loadViewFromNibForClass:[LEOSignUpUserView class]];
 
         _signUpUserView = strongView;
-
-        [self.view removeConstraints:self.view.constraints];
-        self.signUpUserView.translatesAutoresizingMaskIntoConstraints = NO;
-
-        [self.view addSubview:_signUpUserView];
-
-        NSDictionary *bindings = NSDictionaryOfVariableBindings(_signUpUserView);
-
-        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_signUpUserView]|" options:0 metrics:nil views:bindings]];
-        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_signUpUserView]|" options:0 metrics:nil views:bindings]];
     }
-
     return _signUpUserView;
 }
 
@@ -163,7 +169,7 @@
                 break;
 
             case ManagementModeEdit:
-                [self pop];
+                [self.navigationController popViewControllerAnimated:YES];
                 break;
 
             case ManagementModeUndefined:
@@ -247,188 +253,5 @@
     self.signUpUserView.insurancePlan = (InsurancePlan *)item;
 }
 
-
-//TODO: ZSD - All the below code will be moved out into helper methods eventually, so do not try to optimize juuuust yet.
-
-#pragma mark - <UIScrollViewDelegate> & Helper Methods
-
--(void)scrollViewDidScroll:(UIScrollView *)scrollView {
-
-    if (scrollView == [self scrollView]) {
-
-        [self headerView].alpha = 1 - [self percentHeaderViewHidden] * kSpeedForTitleViewAlphaChangeConstant;
-        self.navigationItem.titleView.alpha = [self percentHeaderViewHidden];
-
-        if ([self scrollViewVerticalContentOffset] >= [self heightOfHeaderView]) {
-
-            if (!self.breakerPreviouslyDrawn) {
-
-                [self fadeBreaker:YES];
-                self.breakerPreviouslyDrawn = YES;
-            }
-
-        } else {
-
-            self.breakerPreviouslyDrawn = NO;
-            [self fadeBreaker:NO];
-        }
-    }
-}
-
-- (CGFloat)percentHeaderViewHidden {
-
-    return MIN([self scrollViewVerticalContentOffset] / [self heightOfHeaderView], 1.0);
-}
-
-- (void)fadeBreaker:(BOOL)shouldFade {
-
-    CABasicAnimation *fadeAnimation = [CABasicAnimation animationWithKeyPath:@"breakerFade"];
-    fadeAnimation.duration = 0.3;
-
-    if (shouldFade) {
-
-        [self fadeAnimation:fadeAnimation fromColor:[UIColor clearColor] toColor:[UIColor leo_orangeRed] withStrokeColor:[UIColor leo_orangeRed]];
-
-    } else {
-
-        [self fadeAnimation:fadeAnimation fromColor:[UIColor clearColor] toColor:[UIColor leo_orangeRed] withStrokeColor:[UIColor leo_orangeRed]];
-    }
-
-    [self.pathLayer addAnimation:fadeAnimation forKey:@"breakerFade"];
-
-}
-
-- (void)fadeAnimation:(CABasicAnimation *)fadeAnimation fromColor:(UIColor *)fromColor toColor:(UIColor *)toColor withStrokeColor:(UIColor *)strokeColor {
-
-    fadeAnimation.fromValue = (id)fromColor.CGColor;
-    fadeAnimation.toValue = (id)toColor.CGColor;
-
-    self.pathLayer.strokeColor = strokeColor.CGColor;
-}
-
-- (void)setupBreaker {
-
-
-    CGRect viewRect = self.navigationController.navigationBar.bounds;
-
-    CGPoint beginningOfLine = CGPointMake(viewRect.origin.x, 0.0f);
-    CGPoint endOfLine = CGPointMake(viewRect.origin.x + viewRect.size.width, 0.0f);
-
-    UIBezierPath *path = [UIBezierPath bezierPath];
-    [path moveToPoint:beginningOfLine];
-    [path addLineToPoint:endOfLine];
-
-    self.pathLayer = [CAShapeLayer layer];
-    self.pathLayer.frame = self.view.bounds;
-    self.pathLayer.path = path.CGPath;
-    self.pathLayer.strokeColor = [UIColor clearColor].CGColor;
-    self.pathLayer.lineWidth = 1.0f;
-    self.pathLayer.lineJoin = kCALineJoinBevel;
-
-    [self.view.layer addSublayer:self.pathLayer];
-}
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-
-
-    if (scrollView == [self scrollView]) {
-
-        if (!decelerate) {
-            [self navigationTitleViewSnapsForScrollView:scrollView];
-        }
-    }
-}
-
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-
-    if (scrollView == [self scrollView]) {
-        [self navigationTitleViewSnapsForScrollView:scrollView];
-    }
-}
-
-- (void)navigationTitleViewSnapsForScrollView:(UIScrollView *)scrollView {
-
-    if ([self scrollViewVerticalContentOffset] > [self heightOfNoReturn] & scrollView.contentOffset.y < [self heightOfHeaderView]) {
-
-
-        [UIView animateWithDuration:0.1 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-
-            [scrollView layoutIfNeeded];
-            self.navigationItem.titleView.alpha = 1;
-            scrollView.contentOffset = CGPointMake(0.0, [ self heightOfHeaderView]);
-        } completion:nil];
-
-
-    } else if ([self scrollViewVerticalContentOffset] < [self heightOfNoReturn]) {
-
-
-        [UIView animateWithDuration:0.1 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-
-            [scrollView layoutIfNeeded];
-            self.navigationItem.titleView.alpha = 0;
-            scrollView.contentOffset = CGPointMake(0.0, 0.0);
-        } completion:nil];
-    }
-}
-
-
-#pragma mark - Layout
-
-- (CGSize)preferredContentSize
-{
-    // Force the table view to calculate its height
-    [[self scrollView] layoutIfNeeded];
-
-    CGFloat heightWeWouldLikeTheScrollViewContentAreaToBe = [self heightOfScrollViewFrame] + [self heightOfHeaderView];
-
-    if ([self totalHeightOfScrollViewContentArea] > [self heightOfScrollViewFrame] && [self totalHeightOfScrollViewContentArea] < heightWeWouldLikeTheScrollViewContentAreaToBe) {
-
-        CGFloat bottomInsetWeNeedToGetToHeightWeWouldLikeTheScrollViewContentAreaToBe = heightWeWouldLikeTheScrollViewContentAreaToBe - [self totalHeightOfScrollViewContentArea];
-        [self scrollView].contentInset = UIEdgeInsetsMake(0, 0, bottomInsetWeNeedToGetToHeightWeWouldLikeTheScrollViewContentAreaToBe, 0);
-    }
-
-    [[self scrollView] layoutIfNeeded];
-
-    return [self scrollView].contentSize;
-}
-
-
-#pragma mark - Shorthand Helpers
-
-- (CGFloat)heightOfScrollViewFrame {
-    return [self scrollView].frame.size.height;
-}
-
-- (CGFloat)totalHeightOfScrollViewContentArea {
-    return [self scrollView].contentSize.height + [self scrollView].contentInset.bottom;
-}
-
-- (CGFloat)heightOfNoReturn {
-    return [self heightOfHeaderView] * kHeightOfNoReturnConstant;
-}
-
-- (CGFloat)heightOfHeaderCellExcludingOverlapWithNavBar {
-    
-    return [self heightOfHeaderView] - [self navBarHeight];
-}
-
-- (CGFloat)heightOfHeaderView {
-    return [self headerView].bounds.size.height;
-}
-
-- (CGFloat)navBarHeight {
-    return self.navigationController.navigationBar.frame.size.height;
-}
-
-- (CGFloat)scrollViewVerticalContentOffset {
-    return [self scrollView].contentOffset.y;
-}
-
-- (UIView *)headerView {
-    return self.signUpUserView.headerView;
-}
-- (UIScrollView *)scrollView {
-    return self.signUpUserView.scrollView;
-}
 
 @end
