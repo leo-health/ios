@@ -36,6 +36,9 @@
 
 @implementation LEOManagePatientsViewController
 
+CGFloat const kCellHeightButton = 134;
+CGFloat const kCellHeightPatient = 69;
+
 static NSString *const kSignUpPatientSegue = @"SignUpPatientSegue";
 
 #pragma mark - View Controller Lifecycle and Helpers
@@ -190,9 +193,9 @@ static NSString *const kSignUpPatientSegue = @"SignUpPatientSegue";
 - (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
 
     if (indexPath.section == TableViewSectionButton) {
-        return 134; // button height 54 + top space 40 + bottom space 40
+        return kCellHeightButton; // button height 54 + top space 40 + bottom space 40
     }
-    return 69;
+    return kCellHeightPatient;
 }
 
 
