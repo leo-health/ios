@@ -62,7 +62,6 @@
 
     _tableView.scrollEnabled = NO;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    _tableView.estimatedRowHeight = 150.0;
     _tableView.rowHeight = UITableViewAutomaticDimension;
     _tableView.alwaysBounceVertical = NO;
 

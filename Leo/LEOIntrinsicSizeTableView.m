@@ -16,5 +16,10 @@
     return size;
 }
 
+- (void)reloadData {
+    [super reloadData];
+    [self invalidateIntrinsicContentSize];
+}
+
 
 @end
