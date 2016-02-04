@@ -127,7 +127,6 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
 - (void)reloadData {
 
     [self.tableView reloadData];
-    [self.tableView invalidateIntrinsicContentSize];
     [self.view setNeedsLayout];
     [self.view layoutIfNeeded];
 }

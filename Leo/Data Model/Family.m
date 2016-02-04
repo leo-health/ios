@@ -26,8 +26,9 @@
         _objectID = objectID;
         _guardians = guardians;
         _patients = patients;
+        [self sortPatients];
     }
-    
+
     return self;
 }
 
@@ -35,7 +36,7 @@
 
     NSString *objectID = jsonResponse[APIParamFamily][APIParamID];
 
-    NSArray *patientDictionaries = jsonResponse[APIParamFamily][APIParamUserPatients]; //FIXME: Use LEOConstants.
+    NSArray *patientDictionaries = jsonResponse[APIParamFamily][APIParamUserPatients];
     
     NSMutableArray *patients = [[NSMutableArray alloc] init];
     
@@ -44,7 +45,7 @@
         [patients addObject:patient];
     }
     
-    NSArray *guardianDictionaries = jsonResponse[APIParamFamily][APIParamUserGuardians]; //FIXME: Update name to guardian in LEOConstants file
+    NSArray *guardianDictionaries = jsonResponse[APIParamFamily][APIParamUserGuardians];
     NSMutableArray *guardians = [[NSMutableArray alloc] init];
     
     for (NSDictionary *guardianDictionary in guardianDictionaries) {
@@ -92,6 +93,8 @@
         [mutablePatients addObject:patient];
         
         self.patients = [mutablePatients copy];
+
+        [self sortPatients];
     }
 }
 
@@ -128,5 +131,10 @@
                    forKey:APIParamUserPatients];
 }
 
+- (void)sortPatients {
+
+    // default sort order is oldest to youngest, then alphabetical by firstName if born on the same date
+    self.patients = [self.patients sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"dob" ascending:YES], [NSSortDescriptor sortDescriptorWithKey:@"firstName" ascending:YES]]];
+}
 
 @end
