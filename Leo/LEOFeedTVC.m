@@ -61,6 +61,7 @@
 #import <VBFPopFlatButton/VBFPopFlatButton.h>
 
 #import "LEOStyleHelper.h"
+#import "LEOValidationsHelper.h"
 #import "LEOAppointmentViewController.h"
 
 
@@ -444,6 +445,8 @@ static CGFloat const kFeedInsetTop = 30.0;
 
                 case ConversationStatusCodeNewMessages:
                 case ConversationStatusCodeReadMessages:
+                case ConversationStatusCodeCallUs:
+                    [self confirmCallUs];
                 case ConversationStatusCodeUndefined:
                     break;
 
@@ -451,6 +454,22 @@ static CGFloat const kFeedInsetTop = 30.0;
             }
         }
     }];
+}
+
+- (void)confirmCallUs {
+
+    NSString *practiceName = @"Flatiron Pediatrics"; // FIXME: where is the practice object stored?
+    NSString *alertTitle = [NSString stringWithFormat:@"You are about to call \n%@\n%@", practiceName,
+                            [LEOValidationsHelper formattedPhoneNumberFromPhoneNumber:kFlatironPediatricsPhoneNumber]];
+
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:alertTitle message:nil preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"Call" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        NSString *phoneCallNum = [NSString stringWithFormat:@"tel://%@",kFlatironPediatricsPhoneNumber];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneCallNum]];
+    }]];
+    [alert addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
+
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 - (void)beginSchedulingNewAppointment {

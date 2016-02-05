@@ -86,6 +86,7 @@ static NSString *kActionSelectorCallUs = @"call";
         case ConversationStatusCodeOpen:
         case ConversationStatusCodeNewMessages:
         case ConversationStatusCodeReadMessages:
+        case ConversationStatusCodeCallUs:
         case ConversationStatusCodeUndefined:
             return CardLayoutTwoButtonSecondaryOnly;
     }
@@ -98,6 +99,7 @@ static NSString *kActionSelectorCallUs = @"call";
         case ConversationStatusCodeClosed:
         case ConversationStatusCodeOpen:
         case ConversationStatusCodeReadMessages:
+        case ConversationStatusCodeCallUs:
         case ConversationStatusCodeUndefined:
             return @"Chat with Leo";
             
@@ -118,6 +120,7 @@ static NSString *kActionSelectorCallUs = @"call";
         case ConversationStatusCodeOpen:
         case ConversationStatusCodeNewMessages:
         case ConversationStatusCodeReadMessages:
+        case ConversationStatusCodeCallUs:
         case ConversationStatusCodeUndefined: {
 
             if ([message isKindOfClass:[MessageText class]]) {
@@ -145,6 +148,7 @@ static NSString *kActionSelectorCallUs = @"call";
         case ConversationStatusCodeOpen:
         case ConversationStatusCodeNewMessages:
         case ConversationStatusCodeReadMessages:
+        case ConversationStatusCodeCallUs:
         case ConversationStatusCodeUndefined:
             return @[@"REPLY", @"CALL US"];
     }
@@ -160,6 +164,7 @@ static NSString *kActionSelectorCallUs = @"call";
         case ConversationStatusCodeOpen:
         case ConversationStatusCodeNewMessages:
         case ConversationStatusCodeReadMessages:
+        case ConversationStatusCodeCallUs:
         case ConversationStatusCodeUndefined: {
 
             NSString *buttonOneAction = kActionSelectorReply;

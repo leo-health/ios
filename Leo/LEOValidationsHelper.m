@@ -28,49 +28,52 @@ typedef NS_ENUM(NSInteger, LEOValidationsErrorCode) {
     NSArray *components = [newString componentsSeparatedByCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]];
     NSString *decimalString = [components componentsJoinedByString:@""];
     
-    NSUInteger length = decimalString.length;
-    BOOL hasLeadingOne = length > 0 && [decimalString characterAtIndex:0] == '1';
-    
-    if ((length > 10 && !hasLeadingOne) || (length > 11)) {
-        //            textField.text = decimalString;
+    NSString *formattedString = [self formattedPhoneNumberFromPhoneNumber:decimalString];
+    if (!formattedString) {
         return NO;
     }
+
+    textField.text = formattedString;
     
+    return NO;
+}
+
++ (NSString *)formattedPhoneNumberFromPhoneNumber:(NSString*)digitsOnlyPhoneNumber {
+
+    NSString *decimalString = digitsOnlyPhoneNumber;
+    NSUInteger length = decimalString.length;
+    BOOL hasLeadingOne = length > 1 && [decimalString characterAtIndex:0] == '1';
+
+    if ((length > 10 && !hasLeadingOne) || (length > 11)) {
+        return nil;
+    }
+
     NSUInteger index = 0;
     NSMutableString *formattedString = [NSMutableString string];
-    
-    if (hasLeadingOne && ![string isEqualToString:@""]) {
+
+    if (hasLeadingOne) {
         [formattedString appendString:@"1 "];
         index += 1;
     }
-    
+
     if (length - index > 3) {
         NSString *areaCode = [decimalString substringWithRange:NSMakeRange(index, 3)];
         [formattedString appendFormat:@"(%@) ",areaCode];
         index += 3;
     }
-    
+
     if (length - index > 3) {
         NSString *prefix = [decimalString substringWithRange:NSMakeRange(index, 3)];
         [formattedString appendFormat:@"%@-",prefix];
         index += 3;
     }
-    
-    //        if (length > 11 && hasLeadingOne) {
-    //            return NO;
-    //        }
-    //
-    //        if (length > 10 && !hasLeadingOne) {
-    //            return NO;
-    //        }
-    
+
     NSString *remainder = [decimalString substringFromIndex:index];
     [formattedString appendString:remainder];
-    
-    textField.text = formattedString;
-    
-    return NO;
+
+    return formattedString;
 }
+
 
 + (BOOL)isValidPhoneNumberWithFormatting:(NSString *)candidate {
     
