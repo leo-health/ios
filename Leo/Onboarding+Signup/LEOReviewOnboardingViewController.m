@@ -225,7 +225,7 @@ static CGFloat const kHeaderIntrinsicHeight = 194;
 
     __block UIButton *button = sender;
 
-    button.userInteractionEnabled = NO;
+    button.enabled = NO;
 
     NSArray *patients = [self.family.patients copy];
     self.family.patients = @[];
@@ -248,16 +248,15 @@ static CGFloat const kHeaderIntrinsicHeight = 194;
                 }
 
                 [MBProgressHUD hideHUDForView:self.view animated:YES];
-                button.userInteractionEnabled = YES;
+                button.enabled = YES;
 
             }];
         }
 
-        button.userInteractionEnabled = YES;
+        button.enabled = YES;
         [MBProgressHUD hideHUDForView:self.view animated:YES];
 
     }];
-
 }
 
 - (void)createPatients:(NSArray *)patients withCompletion:( void (^) (BOOL success))completionBlock {

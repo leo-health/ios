@@ -29,6 +29,7 @@
 #import "LEOAlertHelper.h"
 #import <CWStatusBarNotification.h>
 #import "UIViewController+XibAdditions.h"
+#import <MBProgressHUD/MBProgressHUD.h>
 
 @interface LEOSignUpPatientViewController ()
 
@@ -349,6 +350,7 @@ static NSString *const kTitlePhotos = @"Photos";
                     case ManagementModeUndefined:
                         break;
                 }
+
                 break;
             }
 
@@ -380,6 +382,9 @@ static NSString *const kTitlePhotos = @"Photos";
 
 - (void)postPatient {
 
+    self.signUpPatientView.updateButton.enabled = NO;
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+
     LEOUserService *userService = [LEOUserService new];
     [userService createPatient:self.patient withCompletion:^(Patient *patient, NSError *error) {
 
@@ -398,13 +403,23 @@ static NSString *const kTitlePhotos = @"Photos";
 
                     //TODO: Let user know that patient was created successfully or not IF in settings only
                     [self finishLocalUpdate];
+
+                    self.signUpPatientView.updateButton.enabled = YES;
+                    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
                 }
             }];
+        } else {
+
+            self.signUpPatientView.updateButton.enabled = YES;
+            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         }
     }];
 }
 
 - (void)putPatientByUpdatingData:(BOOL)patientNeedsUpdate andByUpdatingAvatar:(BOOL)avatarNeedsUpdate {
+
+    self.signUpPatientView.updateButton.enabled = NO;
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 
     LEOUserService *userService = [LEOUserService new];
 
@@ -420,6 +435,9 @@ static NSString *const kTitlePhotos = @"Photos";
 
                 [self.navigationController popViewControllerAnimated:YES];
             }
+
+            self.signUpPatientView.updateButton.enabled = YES;
+            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         }];
     };
 
@@ -436,6 +454,9 @@ static NSString *const kTitlePhotos = @"Photos";
                     avatarUpdateBlock();
 
                 } else {
+
+                    self.signUpPatientView.updateButton.enabled = YES;
+                    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
 
                     [self.statusBarNotification displayNotificationWithMessage:@"Child information successfully updated!"
                                                                    forDuration:1.0f];
