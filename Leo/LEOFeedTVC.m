@@ -249,7 +249,7 @@ static CGFloat const kFeedInsetTop = 30.0;
 
     dispatch_queue_t queue = dispatch_queue_create("loadingQueue", NULL);
 
-    [MBProgressHUD showHUDAddedTo:self.tableView animated:YES];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 
     dispatch_async(queue, ^{
 
@@ -263,7 +263,7 @@ static CGFloat const kFeedInsetTop = 30.0;
             dispatch_async(dispatch_get_main_queue() , ^{
 
                 [self.tableView reloadData];
-                [MBProgressHUD hideHUDForView:self.tableView animated:NO];
+                [MBProgressHUD hideHUDForView:self.view animated:NO];
 
                 [self activateCardInFocus];
             });
