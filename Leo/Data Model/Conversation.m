@@ -124,8 +124,8 @@
 
 - (void)call {
 
-    NSString *phoneCallNum = [NSString stringWithFormat:@"tel://%@",kFlatironPediatricsPhoneNumber];
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneCallNum]];
+    self.priorStatusCode = self.statusCode;
+    self.statusCode = ConversationStatusCodeCallUs;
 }
 
 - (void)dismiss {

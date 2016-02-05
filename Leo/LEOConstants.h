@@ -87,6 +87,7 @@ typedef NS_ENUM(NSUInteger, ConversationStatusCode) {
     ConversationStatusCodeOpen = 2,
     ConversationStatusCodeNewMessages = 3,
     ConversationStatusCodeReadMessages = 4,
+    ConversationStatusCodeCallUs = 5,
 };
 
 /**

@@ -10,6 +10,7 @@
 
 @interface LEOValidationsHelper : NSObject
 
++ (NSString *)formattedPhoneNumberFromPhoneNumber:(NSString*)digitsOnlyPhoneNumber;
 + (BOOL)phoneNumberTextField:(UITextField *)textField shouldUpdateCharacters:(NSString *)string inRange:(NSRange)range;
 + (BOOL)isValidPhoneNumberWithFormatting:(NSString *)candidate;
 + (BOOL)isValidEmail:(NSString *) candidate;
