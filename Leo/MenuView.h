@@ -14,7 +14,6 @@ typedef NS_ENUM(NSInteger, MenuChoice) {
     MenuChoiceScheduleAppointment,
     MenuChoiceChat,
     MenuChoiceSubmitAForm,
-    MenuChoiceUpdateSettings,
 };
 
 @protocol MenuActivityProtocol <NSObject>

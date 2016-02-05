@@ -17,7 +17,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *scheduleAVisitLabelButton;
 @property (weak, nonatomic) IBOutlet UIButton *submitAFormLabelButton;
 @property (weak, nonatomic) IBOutlet UIButton *contactLeoLabelButton;
-@property (weak, nonatomic) IBOutlet UIButton *settingsLabelButton;
 
 @end
 
@@ -26,7 +25,6 @@
 @synthesize scheduleAVisitLabelButton = _scheduleAVisitLabelButton;
 @synthesize submitAFormLabelButton = _submitAFormLabelButton;
 @synthesize contactLeoLabelButton = _contactLeoLabelButton;
-@synthesize settingsLabelButton = _settingsLabelButton;
 
 #pragma mark - Initialization
 
@@ -91,15 +89,6 @@
     _contactLeoLabelButton.tintColor = [UIColor leo_blue];
 }
 
-- (void)setSettingsLabelButton:(UIButton *)settingsLabelButton {
-    
-    _settingsLabelButton = settingsLabelButton;
-    
-    [_settingsLabelButton setImage:[UIImage imageNamed:@"Menu-Settings"] forState:UIControlStateNormal];
-    [_settingsLabelButton setTitleColor:[UIColor leo_grayForTitlesAndHeadings] forState:UIControlStateNormal];
-    _settingsLabelButton.tintColor = [UIColor leo_grayForTitlesAndHeadings];
-}
-
 
 #pragma mark - Actions
 
@@ -114,11 +103,6 @@
 - (IBAction)contactLeoLabelTapped:(UIButton *)sender {
     [self.delegate didMakeMenuChoice:MenuChoiceChat];
 }
-
-- (IBAction)settingsLabelTapped:(UIButton *)sender {
-    [self.delegate didMakeMenuChoice:MenuChoiceUpdateSettings];
-}
-
 
 //TODO: This should be replaced by the xibAdditions UIView category once it has been added to master.
 - (void)addSubview:(UIView *)view {
