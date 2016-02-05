@@ -405,6 +405,7 @@ static NSString *const kKeySelectionVCDate = @"date";
     self.appointment.status.statusCode = AppointmentStatusCodeFuture;
 
     [MBProgressHUD showHUDAddedTo:self.view.window animated:YES];
+    self.submissionButton.enabled = NO;
 
     __weak LEOAppointmentViewController *weakself = self;
 
@@ -412,18 +413,23 @@ static NSString *const kKeySelectionVCDate = @"date";
 
         [appointmentService createAppointmentWithAppointment:self.appointment withCompletion:^(LEOCardAppointment * appointmentCard, NSError * error) {
 
+            [MBProgressHUD hideHUDForView:weakself.view.window animated:YES];
+            self.submissionButton.enabled = YES;
+
             if (!error) {
 
                 weakself.card = appointmentCard;
                 [self.appointment book];
             }
 
-            [MBProgressHUD hideHUDForView:weakself.view.window animated:YES];
+
         }];
     } else {
 
         [appointmentService rescheduleAppointmentWithAppointment:self.appointment withCompletion:^(LEOCardAppointment * appointmentCard, NSError *error) {
 
+            [MBProgressHUD hideHUDForView:weakself.view.window animated:YES];
+            self.submissionButton.enabled = YES;
 
             if (!error) {
 
@@ -431,7 +437,8 @@ static NSString *const kKeySelectionVCDate = @"date";
                 [self.appointment book];
             }
             
-            [MBProgressHUD hideHUDForView:weakself.view.window animated:YES];
+
+
         }];
     }
 }
