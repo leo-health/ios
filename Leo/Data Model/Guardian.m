@@ -65,6 +65,11 @@ static NSString *const kMembershipTypeIncomplete = @"Incomplete"; //FIXME: This 
     return guardian;
 }
 
++ (void)removeFromUserDefaults {
+
+    [[NSUserDefaults standardUserDefaults] setObject:nil forKey:NSStringFromClass([self class])];
+}
+
 - (void)updateWithJSONDictionary:(NSDictionary *)jsonResponse {
 
 
@@ -142,6 +147,8 @@ static NSString *const kMembershipTypeIncomplete = @"Incomplete"; //FIXME: This 
 }
 
 -(void)setMembershipType:(MembershipType)membershipType {
+
+    _membershipType = membershipType;
 
     [[NSNotificationCenter defaultCenter] postNotificationName:@"membership-changed" object:self];
 }

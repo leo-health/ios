@@ -211,16 +211,6 @@ static CGFloat const kHeaderIntrinsicHeight = 194;
     }
 }
 
-- (void)navigateToFeed {
-
-    UIStoryboard *feedStoryboard = [UIStoryboard storyboardWithName:kStoryboardFeed bundle:nil];
-    UINavigationController *initialVC = [feedStoryboard instantiateInitialViewController];
-    LEOFeedTVC *feedTVC = initialVC.viewControllers[0];
-    feedTVC.family = self.family;
-
-    [self presentViewController:initialVC animated:NO completion:nil];
-}
-
 - (void)continueTapped:(UIButton *)sender {
 
     __block UIButton *button = sender;
@@ -244,7 +234,8 @@ static CGFloat const kHeaderIntrinsicHeight = 194;
             [self createPatients:patients withCompletion:^(BOOL success) {
 
                 if (success) {
-                    [self navigateToFeed];
+
+                    [[SessionUser currentUser] setMembershipType:MembershipTypeMember];
                 }
 
                 [MBProgressHUD hideHUDForView:self.view animated:YES];

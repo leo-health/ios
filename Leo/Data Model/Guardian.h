@@ -30,6 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSDictionary *)dictionaryFromUser:(Guardian *)guardian;
 
 - (void)saveToUserDefaults;
++ (void)removeFromUserDefaults;
 
 NS_ASSUME_NONNULL_END
 @end
