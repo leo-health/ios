@@ -26,40 +26,6 @@
 @synthesize submitAFormLabelButton = _submitAFormLabelButton;
 @synthesize contactLeoLabelButton = _contactLeoLabelButton;
 
-#pragma mark - Initialization
-
--(instancetype)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
-    
-    if (self) {
-        [self commonInit];
-    }
-    
-    return self;
-}
-
--(id)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    
-    if(self){
-        [self commonInit];
-    }
-    
-    return self;
-}
-
-
-//TODO: Both of the lines of code having to do with the view property should be replaced by the xibAdditions UIView category once it has been added to master. May remove commonInit altogether.
-- (void)commonInit {
-    
-    [[NSBundle mainBundle] loadNibNamed:NSStringFromClass([self class])
-                                  owner:self
-                                options:nil];
-    
-    [self addSubview:self.view];
-}
-
-
 #pragma mark - Accessors
 
 - (void)setScheduleAVisitLabelButton:(UIButton *)scheduleAVisitLabelButton {
@@ -102,18 +68,6 @@
 
 - (IBAction)contactLeoLabelTapped:(UIButton *)sender {
     [self.delegate didMakeMenuChoice:MenuChoiceChat];
-}
-
-//TODO: This should be replaced by the xibAdditions UIView category once it has been added to master.
-- (void)addSubview:(UIView *)view {
-    
-    view.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    [super addSubview:view];
-    
-    NSDictionary *views = NSDictionaryOfVariableBindings(view);
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[view]|" options:0 metrics:nil views:views]];
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[view]|" options:0 metrics:nil views:views]];
 }
 
 

@@ -63,7 +63,7 @@
 #import "LEOStyleHelper.h"
 #import "LEOValidationsHelper.h"
 #import "LEOAppointmentViewController.h"
-
+#import "UIViewController+XibAdditions.h"
 
 
 @interface LEOFeedTVC ()
@@ -779,7 +779,7 @@ static CGFloat const kFeedInsetTop = 30.0;
  */
 - (void)initializeMenuView {
 
-    self.menuView = [MenuView new];
+    self.menuView = [self leo_loadViewFromNibForClass:[MenuView class]];
     self.menuView.alpha = 0;
     self.menuView.translatesAutoresizingMaskIntoConstraints = NO;
     self.menuView.delegate = self;
