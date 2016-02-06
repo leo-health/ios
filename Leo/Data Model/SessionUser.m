@@ -20,7 +20,9 @@ static LEOCredentialStore *_credentialStore = nil;
 static dispatch_once_t onceToken;
 
 + (instancetype)currentUser {
-    
+    if (!_currentUser) {
+        _currentUser = [[SessionUser alloc] initFromUserDefaults];
+    }
     return _currentUser;
 }
 
@@ -69,17 +71,17 @@ static dispatch_once_t onceToken;
 }
 
 + (BOOL)isLoggedIn {
-    
+
     if (!_credentialStore) {
         _credentialStore = [[LEOCredentialStore alloc] init];
     }
-    
-    return _credentialStore.authToken != nil ? YES : NO;
+
+    return [self currentUser] && _credentialStore.authToken;
 }
 
 //TODO: Eventually need to actually inform the server of the logging out...
 + (void)logout {
-    
+    [self removeFromUserDefaults];
     [_credentialStore clearSavedCredentials];
 }
 

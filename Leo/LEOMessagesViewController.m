@@ -47,6 +47,7 @@
 #import <UIImageView+AFNetworking.h>
 #import <JSQMessagesViewController/JSQMessagesBubbleImageFactory.h>
 #import <OHHTTPStubs/OHHTTPStubs.h>
+#import <Photos/Photos.h>
 
 
 #if STUBS_FLAG
@@ -377,44 +378,52 @@
 
     [self.inputToolbar.contentView.textView resignFirstResponder];
 
-    UIAlertController *mediaController = [UIAlertController alertControllerWithTitle:@"Attachments" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertController *mediaController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
 
-    UIAlertAction *cameraAction = [UIAlertAction actionWithTitle:@"Photo from camera" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    [mediaController addAction:[UIAlertAction actionWithTitle:@"Photo Library" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
 
-        UIImagePickerController *pickerController = [UIImagePickerController new];
-        pickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
-        pickerController.delegate = self;
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
 
-        [pickerController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor leo_white], NSFontAttributeName: [UIFont leo_menuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont]}];
-        pickerController.transitioningDelegate = self.transitioningDelegate;
-        pickerController.modalPresentationStyle = UIModalPresentationCustom;
+                UIImagePickerController *pickerController = [UIImagePickerController new];
+                pickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+                pickerController.delegate = self;
+                [pickerController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor leo_white], NSFontAttributeName: [UIFont leo_menuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont]}];
 
-        [self presentViewController:pickerController animated:YES completion:nil];
-    }];
+                [[UIBarButtonItem appearanceWhenContainedIn:[UIImagePickerController class], nil] setTitleTextAttributes:@{ NSForegroundColorAttributeName:[UIColor leo_white], NSFontAttributeName : [UIFont leo_buttonLabelsAndTimeStampsFont] } forState:UIControlStateNormal];
 
-    UIAlertAction *photoAction = [UIAlertAction actionWithTitle:@"Photo from library" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                [[UIBarButtonItem appearanceWhenContainedIn:[UIImagePickerController class], nil] setBackButtonBackgroundImage:nil forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
 
-        UIImagePickerController *pickerController = [UIImagePickerController new];
-        pickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        pickerController.delegate = self;
-        [pickerController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor leo_white], NSFontAttributeName: [UIFont leo_menuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont]}];
+                [pickerController.navigationBar setBackgroundImage:[UIImage leo_imageWithColor:self.card.tintColor] forBarMetrics:UIBarMetricsDefault];
+                pickerController.transitioningDelegate = self.transitioningDelegate;
+                pickerController.modalPresentationStyle = UIModalPresentationCustom;
 
-        [[UIBarButtonItem appearanceWhenContainedIn:[UIImagePickerController class], nil] setTitleTextAttributes:@{ NSForegroundColorAttributeName:[UIColor leo_white], NSFontAttributeName : [UIFont leo_buttonLabelsAndTimeStampsFont] } forState:UIControlStateNormal];
+                [self presentViewController:pickerController animated:YES completion:nil];
+            }];
+        }];
+    }] ];
 
-        [[UIBarButtonItem appearanceWhenContainedIn:[UIImagePickerController class], nil] setBackButtonBackgroundImage:nil forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+    [mediaController addAction:[UIAlertAction actionWithTitle:@"Take Photo" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
 
-        [pickerController.navigationBar setBackgroundImage:[UIImage leo_imageWithColor:self.card.tintColor] forBarMetrics:UIBarMetricsDefault];
-        pickerController.transitioningDelegate = self.transitioningDelegate;
-        pickerController.modalPresentationStyle = UIModalPresentationCustom;
+        [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
 
-        [self presentViewController:pickerController animated:YES completion:nil];
-    }];
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
 
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
+                UIImagePickerController *pickerController = [UIImagePickerController new];
+                pickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+                pickerController.delegate = self;
 
-    [mediaController addAction:cameraAction];
-    [mediaController addAction:photoAction];
-    [mediaController addAction:cancelAction];
+                [pickerController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor leo_white], NSFontAttributeName: [UIFont leo_menuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont]}];
+                pickerController.transitioningDelegate = self.transitioningDelegate;
+                pickerController.modalPresentationStyle = UIModalPresentationCustom;
+
+                [self presentViewController:pickerController animated:YES completion:nil];
+            }];
+        }];
+    }]];
+
+
+    [mediaController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
 
     [self presentViewController:mediaController animated:YES completion:nil];
 }

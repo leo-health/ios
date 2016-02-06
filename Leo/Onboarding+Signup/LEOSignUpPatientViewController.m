@@ -30,6 +30,7 @@
 #import <CWStatusBarNotification.h>
 #import "UIViewController+XibAdditions.h"
 #import <MBProgressHUD/MBProgressHUD.h>
+#import <Photos/Photos.h>
 
 @interface LEOSignUpPatientViewController ()
 
@@ -500,12 +501,18 @@ static NSString *const kTitlePhotos = @"Photos";
 }
 
 - (void)presentPhotoPicker {
-    
-    UIImagePickerController *pickerController = [[UIImagePickerController alloc] init];
-    pickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    pickerController.delegate = self;
-    
-    [self presentViewController:pickerController animated:YES completion:nil];
+
+    [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
+
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+
+            UIImagePickerController *pickerController = [[UIImagePickerController alloc] init];
+            pickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+            pickerController.delegate = self;
+
+            [self presentViewController:pickerController animated:YES completion:nil]; 
+        }];
+    }];
 }
 
 - (void)dealloc {

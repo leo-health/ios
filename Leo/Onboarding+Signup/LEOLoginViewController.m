@@ -166,7 +166,7 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
 
                              if (!error) {
 
-                                 // Response to successful login is handled by a notification listener in AppDelegate
+                                 // Response to successful login is handled by a @"membership-changed" notification listener in AppDelegate
 
                                  //TODO: ZSD Determine whether we really have a flow when there is no error. Otherwise just use if (error) below.
                              } else {
