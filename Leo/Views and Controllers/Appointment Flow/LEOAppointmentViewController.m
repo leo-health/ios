@@ -38,6 +38,7 @@
 
 #import "LEOGradientView.h"
 #import "LEOAppointmentService.h"
+#import "UIButton+Extensions.h"
 
 @interface LEOAppointmentViewController ()
 
@@ -101,6 +102,13 @@ static NSString *const kKeySelectionVCDate = @"date";
         CGFloat percentage = [weakSelf transitionPercentageForScrollOffset:weakSelf.stickyHeaderView.scrollView.contentOffset];
         weakSelf.navigationItem.titleView.hidden = percentage == 0;
     }];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+
+    [super viewDidAppear:animated];
+
+    [LEOApiReachability startMonitoringForController:self withOfflineBlock:nil withOnlineBlock:nil];
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
@@ -209,7 +217,8 @@ static NSString *const kKeySelectionVCDate = @"date";
 
     if (!_submissionButton) {
 
-        UIButton* strongButton = [UIButton new];
+        UIButton *strongButton = [UIButton leo_buttonWithTextStyles:nil];
+
         _submissionButton = strongButton;
 
         // TODO: Add a public API to LEOStickyHeaderView to set footer height 
@@ -449,7 +458,7 @@ static NSString *const kKeySelectionVCDate = @"date";
 
 -(void)dismiss {
 
-    [self.delegate takeResponsibilityForCard:self.card];
+ //   [self.delegate takeResponsibilityForCard:self.card];
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 

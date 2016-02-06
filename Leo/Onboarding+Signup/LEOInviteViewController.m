@@ -34,6 +34,13 @@
     [LEOApiReachability startMonitoringForController:self];
 }
 
+-(void)viewDidAppear:(BOOL)animated {
+
+    [super viewDidAppear:animated];
+
+    [LEOApiReachability startMonitoringForController:self withOfflineBlock:nil withOnlineBlock:nil];
+}
+
 - (void)setupView {
     
     [LEOStyleHelper styleSettingsViewController:self];

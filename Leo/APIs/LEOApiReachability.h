@@ -8,10 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-@interface LEOApiReachability : NSObject
+@interface LEOApiReachability : NSObject <UIGestureRecognizerDelegate>
 
 + (void)startMonitoringForController:(UIViewController *)viewController;
-+ (void)startMonitoringForController:(UIViewController *)viewController withContinueBlock:(void (^)(void))continueBlock withNoContinueBlock:(void (^) (void))noContinueBlock;
++ (void)startMonitoringForController:(UIViewController *)viewController withOfflineBlock:(void (^)(void))offlineBlock withOnlineBlock:(void (^) (void))onlineBlock;
 
 + (void)stopMonitoring;
 

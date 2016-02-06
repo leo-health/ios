@@ -12,6 +12,7 @@
 #import "UIColor+leoColors.h"
 #import "LEOValidationsHelper.h"
 #import "UIImage+Extensions.h"
+#import "UIButton+Extensions.h"
 
 @implementation LEOForgotPasswordView
 
@@ -55,6 +56,8 @@
 - (void)setSubmitButton:(UIButton *)submitButton {
 
     _submitButton = submitButton;
+
+    [UIButton leo_buttonWithTextStyles:submitButton];
 
     submitButton.layer.borderColor = [UIColor leo_orangeRed].CGColor;
     submitButton.layer.borderWidth = 1.0;

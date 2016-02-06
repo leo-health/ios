@@ -191,6 +191,8 @@
 		31FCDD5E1C56A64200BE4B78 /* LEOReviewOnboardingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FCDD5D1C56A64200BE4B78 /* LEOReviewOnboardingView.m */; };
 		31FCDD601C56A65E00BE4B78 /* LEOReviewOnboardingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 31FCDD5F1C56A65E00BE4B78 /* LEOReviewOnboardingView.xib */; };
 		31FCDD6E1C5EABE600BE4B78 /* *.leohealth.com.cer in Resources */ = {isa = PBXBuildFile; fileRef = 31FCDD6D1C5EAA5900BE4B78 /* *.leohealth.com.cer */; };
+		31FCDD711C61564800BE4B78 /* LEOConnectivityStatusBarNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FCDD6F1C61564800BE4B78 /* LEOConnectivityStatusBarNotification.m */; };
+		31FCDD751C65094100BE4B78 /* UIButton+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FCDD731C65094100BE4B78 /* UIButton+Extensions.m */; };
 		31FDDE551B28DD2C0009BBC2 /* LEOTwoButtonPrimaryOnlyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FDDE531B28DD2C0009BBC2 /* LEOTwoButtonPrimaryOnlyCell.m */; };
 		31FDDE561B28DD2C0009BBC2 /* LEOTwoButtonPrimaryOnlyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 31FDDE541B28DD2C0009BBC2 /* LEOTwoButtonPrimaryOnlyCell.xib */; };
 		31FDDE591B28DFC10009BBC2 /* LEOTwoButtonPrimaryOnlyCell+ConfigureForCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FDDE581B28DFC10009BBC2 /* LEOTwoButtonPrimaryOnlyCell+ConfigureForCell.m */; };
@@ -602,6 +604,10 @@
 		31FCDD5D1C56A64200BE4B78 /* LEOReviewOnboardingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOReviewOnboardingView.m; path = "Views and Controllers/Onboarding, Signup & Settings/LEOReviewOnboardingView.m"; sourceTree = "<group>"; };
 		31FCDD5F1C56A65E00BE4B78 /* LEOReviewOnboardingView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LEOReviewOnboardingView.xib; path = "Views and Controllers/Onboarding, Signup & Settings/LEOReviewOnboardingView.xib"; sourceTree = "<group>"; };
 		31FCDD6D1C5EAA5900BE4B78 /* *.leohealth.com.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = "*.leohealth.com.cer"; sourceTree = "<group>"; };
+		31FCDD6F1C61564800BE4B78 /* LEOConnectivityStatusBarNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOConnectivityStatusBarNotification.m; path = "Views and Controllers/Generic/LEOConnectivityStatusBarNotification.m"; sourceTree = "<group>"; };
+		31FCDD701C61564800BE4B78 /* LEOConnectivityStatusBarNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOConnectivityStatusBarNotification.h; path = "Views and Controllers/Generic/LEOConnectivityStatusBarNotification.h"; sourceTree = "<group>"; };
+		31FCDD731C65094100BE4B78 /* UIButton+Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIButton+Extensions.m"; path = "Helpers/UIButton+Extensions.m"; sourceTree = "<group>"; };
+		31FCDD741C65094100BE4B78 /* UIButton+Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIButton+Extensions.h"; path = "Helpers/UIButton+Extensions.h"; sourceTree = "<group>"; };
 		31FDDE521B28DD2C0009BBC2 /* LEOTwoButtonPrimaryOnlyCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOTwoButtonPrimaryOnlyCell.h; sourceTree = "<group>"; };
 		31FDDE531B28DD2C0009BBC2 /* LEOTwoButtonPrimaryOnlyCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOTwoButtonPrimaryOnlyCell.m; sourceTree = "<group>"; };
 		31FDDE541B28DD2C0009BBC2 /* LEOTwoButtonPrimaryOnlyCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LEOTwoButtonPrimaryOnlyCell.xib; sourceTree = "<group>"; };
@@ -1257,6 +1263,8 @@
 				31339B191C2208A000B53A86 /* LEOPromptFieldCell.h */,
 				31339B1A1C2208A000B53A86 /* LEOPromptFieldCell.m */,
 				31339B1B1C2208A000B53A86 /* LEOPromptFieldCell.xib */,
+				31FCDD6F1C61564800BE4B78 /* LEOConnectivityStatusBarNotification.m */,
+				31FCDD701C61564800BE4B78 /* LEOConnectivityStatusBarNotification.h */,
 			);
 			name = Generic;
 			sourceTree = "<group>";
@@ -1329,6 +1337,8 @@
 		BC163B001B054CCF000FB1CE /* View */ = {
 			isa = PBXGroup;
 			children = (
+				31FCDD731C65094100BE4B78 /* UIButton+Extensions.m */,
+				31FCDD741C65094100BE4B78 /* UIButton+Extensions.h */,
 				313FA71C1C036E7F008189B9 /* UIView+XibAdditions.h */,
 				313FA71D1C036E7F008189B9 /* UIView+XibAdditions.m */,
 				6660C93C1C3AF92800C2657B /* LEOGradientHelper.h */,
@@ -1816,6 +1826,7 @@
 				66A5DB361C3D979B008AEC55 /* PatientVitalMeasurement.m in Sources */,
 				BCED00811B0150F4007653D6 /* LEOFeedTVC.m in Sources */,
 				31D275651C45520E005F8964 /* LEOForgotPasswordView.m in Sources */,
+				31FCDD751C65094100BE4B78 /* UIButton+Extensions.m in Sources */,
 				31339B271C29BEAC00B53A86 /* MessageText.m in Sources */,
 				3128D4DB1B42DF6500582710 /* LEOOneButtonSecondaryOnlyCell.m in Sources */,
 				3115F2221BCEA998001BDF6A /* LEOUpdatePasswordViewController.m in Sources */,
@@ -1958,6 +1969,7 @@
 				31DB40111BFF9CC8005F1BF2 /* LEODevice.m in Sources */,
 				312A82571B56EEBE00E1FB38 /* LEOMessagesViewController.m in Sources */,
 				66A5DB391C3DAEEE008AEC55 /* LEOHealthRecordService.m in Sources */,
+				31FCDD711C61564800BE4B78 /* LEOConnectivityStatusBarNotification.m in Sources */,
 				319F335D1B2201F900C1C526 /* CollectionViewLayout.m in Sources */,
 				3138FC351B9A1294000FE22C /* LEOScrollableContainerView.m in Sources */,
 				3138FC541B9A1AF1000FE22C /* LEOValidationsHelper.m in Sources */,

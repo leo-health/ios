@@ -12,6 +12,7 @@
 #import "LEOStyleHelper.h"
 #import "LEOValidationsHelper.h"
 #import "LEOPromptField.h"
+#import "UIButton+Extensions.h"
 
 @implementation LEOEnrollmentView
 
@@ -57,6 +58,8 @@
 - (void)setContinueButton:(UIButton *)continueButton {
 
     _continueButton = continueButton;
+
+    [UIButton leo_buttonWithTextStyles:continueButton];
 
     [LEOStyleHelper styleButton:_continueButton forFeature:FeatureOnboarding];
     [_continueButton setTitle:@"SIGN UP" forState:UIControlStateNormal];

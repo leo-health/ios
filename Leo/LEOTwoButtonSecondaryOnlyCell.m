@@ -7,6 +7,7 @@
 //
 
 #import "LEOTwoButtonSecondaryOnlyCell.h"
+#import "UIButton+Extensions.h"
 
 @implementation LEOTwoButtonSecondaryOnlyCell
 
@@ -17,6 +18,9 @@
     
     [self.bodyView.layer setShouldRasterize:YES];
     [self.bodyView.layer setRasterizationScale:[UIScreen mainScreen].scale];
+
+    [UIButton leo_buttonWithTextStyles:self.buttonOne];
+    [UIButton leo_buttonWithTextStyles:self.buttonTwo];
 }
 
 + (UINib *)nib {

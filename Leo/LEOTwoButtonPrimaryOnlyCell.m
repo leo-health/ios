@@ -7,7 +7,7 @@
 //
 
 #import "LEOTwoButtonPrimaryOnlyCell.h"
-
+#import "UIButton+Extensions.h"
 @implementation LEOTwoButtonPrimaryOnlyCell
 
 - (void)awakeFromNib {
@@ -17,6 +17,9 @@
     
     [self.bodyView.layer setShouldRasterize:YES];
     [self.bodyView.layer setRasterizationScale:[UIScreen mainScreen].scale];
+
+    [UIButton leo_buttonWithTextStyles:self.buttonOne];
+    [UIButton leo_buttonWithTextStyles:self.buttonTwo];
 }
 
 + (UINib *)nib {
@@ -30,6 +33,8 @@
     
     // Configure the view for the selected state
 }
+
+
 
 
 @end

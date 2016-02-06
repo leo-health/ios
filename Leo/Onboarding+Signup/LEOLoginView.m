@@ -11,6 +11,7 @@
 #import "UIView+XibAdditions.h"
 #import "LEOStyleHelper.h"
 #import "LEOValidationsHelper.h"
+#import "UIButton+Extensions.h"
 
 @interface LEOLoginView ()
 
@@ -73,6 +74,8 @@
 - (void)setContinueButton:(UIButton *)continueButton {
 
     _continueButton = continueButton;
+
+    [UIButton leo_buttonWithTextStyles:continueButton];
 
     [LEOStyleHelper styleButton:_continueButton forFeature:FeatureOnboarding];
     [_continueButton setTitle:@"LOG IN" forState:UIControlStateNormal];

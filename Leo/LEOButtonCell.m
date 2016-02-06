@@ -9,6 +9,7 @@
 #import "LEOButtonCell.h"
 #import "UIColor+LeoColors.h"
 #import "UIFont+LeoFonts.h"
+#import "UIButton+Extensions.h"
 
 @implementation LEOButtonCell
 
@@ -30,7 +31,9 @@
 }
 
 - (void)styleButton {
-    
+
+    [UIButton leo_buttonWithTextStyles:self.button];
+
     [self.button setTitleColor:[UIColor leo_white] forState:UIControlStateNormal];
     self.button.backgroundColor = [UIColor leo_orangeRed];
     self.button.titleLabel.font = [UIFont leo_buttonLabelsAndTimeStampsFont];
