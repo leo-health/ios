@@ -63,7 +63,7 @@
 #import "LEOStyleHelper.h"
 #import "LEOValidationsHelper.h"
 #import "LEOAppointmentViewController.h"
-
+#import "UIViewController+XibAdditions.h"
 
 
 @interface LEOFeedTVC ()
@@ -152,17 +152,26 @@ static CGFloat const kFeedInsetTop = 30.0;
     imageView.image = heartBBI;
 
     UIImage *phrImage = [UIImage imageNamed:@"Icon-PHR"];
-
     UIButton *phrButton = [UIButton buttonWithType:UIButtonTypeCustom];
                            [phrButton setImage:phrImage forState:UIControlStateNormal];
     phrButton.frame = (CGRect){.origin = CGPointZero, .size = imgSize};
     [phrButton addTarget:self action:@selector(phrTouchedUpInside) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *phrBBI = [[UIBarButtonItem alloc] initWithCustomView:phrButton];
 
-    self.navigationBar.topItem.title = @"";
 
+    UIImage *settingsImage = [UIImage imageNamed:@"Icon-Settings"];
+    UIButton *settingsButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [settingsButton setImage:settingsImage forState:UIControlStateNormal];
+    settingsButton.frame = (CGRect){.origin = CGPointZero, .size = imgSize};
+    [settingsButton addTarget:self action:@selector(loadSettings) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *settingsBBI = [[UIBarButtonItem alloc] initWithCustomView:settingsButton];
+
+
+
+    self.navigationBar.topItem.title = @"";
     UINavigationItem *item = [UINavigationItem new];
     item.rightBarButtonItem = phrBBI;
+    item.leftBarButtonItem = settingsBBI;
     item.titleView = imageView;
     self.navigationBar.items = @[item];
 }
@@ -770,7 +779,7 @@ static CGFloat const kFeedInsetTop = 30.0;
  */
 - (void)initializeMenuView {
 
-    self.menuView = [MenuView new];
+    self.menuView = [self leo_loadViewFromNibForClass:[MenuView class]];
     self.menuView.alpha = 0;
     self.menuView.translatesAutoresizingMaskIntoConstraints = NO;
     self.menuView.delegate = self;
@@ -824,11 +833,6 @@ static CGFloat const kFeedInsetTop = 30.0;
         }
             
         case MenuChoiceSubmitAForm:
-            
-            break;
-            
-        case MenuChoiceUpdateSettings:
-            [self loadSettings];
             break;
             
         case MenuChoiceUndefined:
