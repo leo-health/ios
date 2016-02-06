@@ -8,59 +8,130 @@
 
 #import "LEOApiReachability.h"
 #import <AFNetworking/AFNetworkReachabilityManager.h>
+#import "LEOConnectivityStatusBarNotification.h"
+#import <CWStatusBarNotification/CWStatusBarNotification.h>
+#import "UIFont+LeoFonts.h"
+#import "UIColor+LeoColors.h"
 
 @implementation LEOApiReachability
 
-+ (void)startMonitoringForController:(UIViewController *)viewController {
-    
-    [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
-        
-        NSLog(@"Reachability: %@", AFStringFromNetworkReachabilityStatus(status));
-        
-        if (status == AFNetworkReachabilityStatusNotReachable) {
-            UIAlertController *notReachableAlert = [UIAlertController alertControllerWithTitle:@"No connection." message:@"You appear to be offline. Try again when you have connectivity." preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Okay." style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                //tbd
-            }];
-                                       
-            [notReachableAlert addAction:okAction];
+static CWStatusBarNotification *_cwStatusBarNotification = nil;
 
-            [viewController presentViewController:notReachableAlert animated:YES completion:nil];
++ (void)startMonitoringForController:(UIViewController *)viewController {
+
+    [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+
+        switch (status) {
+
+            case AFNetworkReachabilityStatusNotReachable:
+            case AFNetworkReachabilityStatusUnknown: {
+
+                _cwStatusBarNotification = [CWStatusBarNotification new];
+
+                _cwStatusBarNotification.notificationLabelBackgroundColor = [UIColor leo_white];
+
+                _cwStatusBarNotification.notificationLabelFont = [UIFont leo_standardFont];
+
+                _cwStatusBarNotification.notificationLabelTextColor = [UIColor leo_orangeRed];
+
+                [_cwStatusBarNotification displayNotificationWithMessage:@"offline" completion:nil];
+
+                [self performActions:^(UIButton *button) {
+                    button.enabled = NO;
+                } onSubviewsOfView:viewController.view];
+            }
+
+                break;
+
+            case AFNetworkReachabilityStatusReachableViaWiFi:
+            case AFNetworkReachabilityStatusReachableViaWWAN: {
+
+                [self performActions:^(UIButton *button) {
+                    button.enabled = YES;
+                } onSubviewsOfView:viewController.view];
+
+                [_cwStatusBarNotification dismissNotification];
+
+            }
+                break;
         }
     }];
-    
+
     [[AFNetworkReachabilityManager sharedManager] startMonitoring];
 }
 
-+ (void)startMonitoringForController:(UIViewController *)viewController withContinueBlock:(void (^)(void))continueBlock withNoContinueBlock:(void (^) (void))noContinueBlock {
-    
++ (void)startMonitoringForController:(UIViewController *)viewController withOfflineBlock:(void (^)(void))offlineBlock withOnlineBlock:(void (^) (void))onlineBlock {
+
     [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
-        
-        NSLog(@"Reachability: %@", AFStringFromNetworkReachabilityStatus(status));
-        
-        if (status == AFNetworkReachabilityStatusNotReachable) {
-            UIAlertController *notReachableAlert = [UIAlertController alertControllerWithTitle:@"No connection." message:@"You appear to be offline. Try again when you have connectivity." preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Okay." style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                if (noContinueBlock) {
-                    noContinueBlock();
+
+        switch (status) {
+
+            case AFNetworkReachabilityStatusNotReachable:
+            case AFNetworkReachabilityStatusUnknown: {
+
+                _cwStatusBarNotification = [CWStatusBarNotification new];
+
+                _cwStatusBarNotification.notificationLabelBackgroundColor = [UIColor leo_white];
+
+                _cwStatusBarNotification.notificationLabelFont = [UIFont leo_standardFont
+                                                                  ];
+
+                _cwStatusBarNotification.notificationLabelTextColor = [UIColor leo_orangeRed];
+                
+                [_cwStatusBarNotification displayNotificationWithMessage:@"offline" completion:nil];
+
+                [self performActions:^(UIButton *button) {
+                    button.enabled = NO;
+                } onSubviewsOfView:viewController.view];
+
+                if (offlineBlock) {
+                    offlineBlock();
                 }
-            }];
-            
-            [notReachableAlert addAction:okAction];
-            
-            [viewController presentViewController:notReachableAlert animated:YES completion:nil];
-        } else {
-            if (continueBlock) {
-                continueBlock();
+            }
+                break;
+
+            case AFNetworkReachabilityStatusReachableViaWiFi:
+            case AFNetworkReachabilityStatusReachableViaWWAN: {
+
+                [self performActions:^(UIButton *button) {
+                    button.enabled = YES;
+                } onSubviewsOfView:viewController.view];
+
+                [_cwStatusBarNotification dismissNotification];
+
+                if (onlineBlock) {
+                    onlineBlock();
+                }
             }
         }
     }];
-    
+
     [[AFNetworkReachabilityManager sharedManager] startMonitoring];
 }
 
+//Recursive method for disabling all buttons within a view and its subviews
++ (void)performActions:(void (^)(UIButton *button))actionBlock onSubviewsOfView:(UIView *)view {
+
+    for (UIView *subview in view.subviews) {
+
+        if ([subview isKindOfClass:[UIButton class]]) {
+
+            UIButton *button = (UIButton *)subview;
+            actionBlock(button);
+
+        } else {
+
+            NSInteger count = 0; ;
+
+            while (count < [subview.subviews count]) {
+                [self performActions:actionBlock onSubviewsOfView:subview];
+                count++;
+            }
+        }
+    }
+}
+
 + (void)stopMonitoring {
-    
     [[AFNetworkReachabilityManager sharedManager] stopMonitoring];
 }
 

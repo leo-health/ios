@@ -69,10 +69,13 @@
 - (void)viewDidAppear:(BOOL)animated {
     
     [super viewDidAppear:animated];
-    
-    [LEOApiReachability startMonitoringForController:self withContinueBlock:^{
+
+    //TODO: Do we need to use weakself here?
+    [LEOApiReachability startMonitoringForController:self withOfflineBlock:^{
+        //TODO: Determine what we want to happen here if anything
+    } withOnlineBlock:^{
         [self requestDataAndUpdateView];
-    } withNoContinueBlock:nil];
+    }];
 }
 
 - (void)requestDataAndUpdateView {

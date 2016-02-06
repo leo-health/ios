@@ -7,6 +7,7 @@
 //
 
 #import "LEOOneButtonPrimaryAndSecondaryCell.h"
+#import "UIButton+Extensions.h"
 
 @implementation LEOOneButtonPrimaryAndSecondaryCell
 
@@ -17,6 +18,8 @@
     
     [self.bodyView.layer setShouldRasterize:YES];
     [self.bodyView.layer setRasterizationScale:[UIScreen mainScreen].scale];
+
+    [self.buttonOne leo_styleDisabledState];
 }
 
 + (UINib *)nib {

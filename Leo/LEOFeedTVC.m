@@ -117,7 +117,6 @@ static CGFloat const kFeedInsetTop = 30.0;
     [self setNeedsStatusBarAppearanceUpdate];
 
     [self pushNewMessageToConversation:[self conversation].associatedCardObject];
-    [LEOApiReachability startMonitoringForController:self];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -131,9 +130,20 @@ static CGFloat const kFeedInsetTop = 30.0;
 
     [super viewDidAppear:animated];
 
-    [self fetchFamilyWithCompletion:^{
+    [LEOApiReachability startMonitoringForController:self withOfflineBlock:^{
 
-        [self fetchDataForCard:nil];
+        self.menuButton.tintColor = [UIColor leo_grayForPlaceholdersAndLines];
+        self.menuButton.backgroundColor = [UIColor leo_grayStandard];
+        // TODO: what should happen when the user is offline?
+    } withOnlineBlock:^{
+
+        self.menuButton.tintColor = [UIColor leo_white];
+        self.menuButton.backgroundColor = [UIColor leo_orangeRed];
+
+        [self fetchFamilyWithCompletion:^{
+
+            [self fetchDataForCard:nil];
+        }];
     }];
 }
 
@@ -565,8 +575,7 @@ static CGFloat const kFeedInsetTop = 30.0;
     self.transitionDelegate = [[LEOTransitioningDelegate alloc] initWithTransitionAnimatorType:TransitionAnimatorTypeCardModal];
     appointmentNavController.transitioningDelegate = self.transitionDelegate;
 
-    // ????: Are there any side effects here? Using UIModalPresentationFullScreen allows viewWillAppear to be called upon dismissing a presented view controller
-    appointmentNavController.modalPresentationStyle = UIModalPresentationFullScreen; //UIModalPresentationCustom;
+    appointmentNavController.modalPresentationStyle = UIModalPresentationFullScreen;
 
     LEOAppointmentViewController *appointmentBookingVC = appointmentNavController.viewControllers.firstObject;
 
@@ -586,7 +595,7 @@ static CGFloat const kFeedInsetTop = 30.0;
 
     self.transitionDelegate = [[LEOTransitioningDelegate alloc] initWithTransitionAnimatorType:TransitionAnimatorTypeCardModal];
     conversationNavController.transitioningDelegate = self.transitionDelegate;
-    conversationNavController.modalPresentationStyle = UIModalPresentationCustom;
+    conversationNavController.modalPresentationStyle = UIModalPresentationFullScreen;
     [self presentViewController:conversationNavController animated:YES completion:^{
     }];
 }
@@ -731,6 +740,7 @@ static CGFloat const kFeedInsetTop = 30.0;
     [self.menuButton animateToType:buttonCloseType];
     self.menuButton.roundBackgroundColor = [UIColor clearColor];
     self.menuButton.tintColor = [UIColor leo_orangeRed];
+
 
     self.blurredImageView.alpha = 0;
 

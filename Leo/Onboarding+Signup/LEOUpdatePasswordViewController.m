@@ -9,7 +9,7 @@
 #import "LEOUpdatePasswordViewController.h"
 #import "LEOStyleHelper.h"
 #import "LEOUpdatePasswordView.h"
-#import "LEOUserService.h" 
+#import "LEOUserService.h"
 #import "LEOAlertHelper.h"
 #import <MBProgressHUD.h>
 #import <CWStatusBarNotification.h>
@@ -28,7 +28,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     [self setupView];
     [self setupButton];
     [self setupNavigationBar];
@@ -36,8 +36,15 @@
     [LEOApiReachability startMonitoringForController:self];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+
+    [super viewDidAppear:animated];
+
+    [LEOApiReachability startMonitoringForController:self withOfflineBlock:nil withOnlineBlock:nil];
+}
+
 - (void)setupView {
-    
+
     [LEOStyleHelper styleSettingsViewController:self];
 }
 
@@ -48,18 +55,18 @@
 }
 
 - (void)setupNavigationBar {
-    
+
     self.view.tintColor = [LEOStyleHelper tintColorForFeature:FeatureSettings];
-    
+
     [LEOStyleHelper styleNavigationBarForFeature:FeatureSettings];
-    
+
     UILabel *navTitleLabel = [[UILabel alloc] init];
     navTitleLabel.text = @"Change Password";
-    
+
     [LEOStyleHelper styleLabel:navTitleLabel forFeature:FeatureSettings];
-    
+
     self.navigationItem.titleView = navTitleLabel;
-    
+
     [LEOStyleHelper styleBackButtonForViewController:self forFeature:FeatureSettings];
 }
 
@@ -83,25 +90,25 @@
 }
 
 - (BOOL)isValidNewPassword {
-    
+
     NSError *error;
-    
+
     BOOL valid = [self.updatePasswordView isValidPasswordWithError:&error];
-    
+
     [LEOAlertHelper alertForViewController:self error:error];
-    
+
     return valid;
 }
 
 - (void)updatePassword {
-    
+
     [MBProgressHUD showHUDAddedTo:self.updatePasswordView animated:YES];
     self.view.userInteractionEnabled = NO;
-    
+
     LEOUserService *userService = [LEOUserService new];
 
     [userService changePasswordWithOldPassword:self.passwordCurrent newPassword:self.passwordNew retypedNewPassword:self.passwordNewRetyped withCompletion:^(BOOL success, NSError *error) {
-        
+
         [MBProgressHUD hideHUDForView:self.updatePasswordView animated:YES];
 
         if (success) {
@@ -111,7 +118,7 @@
 
             [self.navigationController popViewControllerAnimated:YES];
         }
-        
+
         [LEOAlertHelper alertForViewController:self error:error];
 
         self.view.userInteractionEnabled = YES;
@@ -131,7 +138,7 @@
 }
 
 - (void)validateViewPrompts {
-    
+
     [self.updatePasswordView isValidCurrentPassword:YES];
 }
 

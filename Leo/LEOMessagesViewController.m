@@ -16,6 +16,7 @@
 //  Released under an MIT license: http://opensource.org/licenses/MIT
 //
 
+#import "LEOApiReachability.h"
 #import "LEOCardConversation.h"
 #import "LEOCardPushTransitionAnimator.h"
 #import "Configuration.h"
@@ -43,12 +44,12 @@
 #import "UIColor+LeoColors.h"
 #import "UIFont+LeoFonts.h"
 #import "UIImage+Extensions.h"
-
 #import <UIImageView+AFNetworking.h>
 #import <JSQMessagesViewController/JSQMessagesBubbleImageFactory.h>
 #import <OHHTTPStubs/OHHTTPStubs.h>
 #import <Photos/Photos.h>
 
+#import "UIButton+Extensions.h"
 
 #if STUBS_FLAG
 #import "LEOStubs.h"
@@ -102,6 +103,17 @@
     [self constructNotifications];
 
     self.navigationController.delegate = self;
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+
+    [super viewDidAppear:animated];
+
+    [LEOApiReachability startMonitoringForController:self withOfflineBlock:^{
+        //Do anything?
+    } withOnlineBlock:^{
+        //Do anything?
+    }];
 }
 
 #if STUBS_FLAG
@@ -244,7 +256,8 @@
 
 - (void)initializeSendButton {
 
-    UIButton *sendButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    UIButton *sendButton = [UIButton leo_newButtonWithDisabledStyling];
+;
     [sendButton setTitle:@"SEND" forState:UIControlStateNormal];
     [sendButton setTitleColor:[UIColor leo_white] forState:UIControlStateNormal];
     sendButton.titleLabel.font = [UIFont leo_fieldAndUserLabelsAndSecondaryButtonsFont];
@@ -995,6 +1008,7 @@
 - (void)dismiss {
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
+
 
 /**
  *  Helper method to provide information on the next page to load if the `Load Earlier Messages` button is tapped.

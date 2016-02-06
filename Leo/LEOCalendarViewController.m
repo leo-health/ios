@@ -151,10 +151,12 @@
     
     [super viewDidAppear:animated];
     
-    [LEOApiReachability startMonitoringForController:self withContinueBlock:^{
-        [self loadCollectionViewWithInitialDate];
-    } withNoContinueBlock:^{
+    [LEOApiReachability startMonitoringForController:self withOfflineBlock:^{
+
         // TODO: what should happen when the user is offline?
+    } withOnlineBlock:^{
+
+        [self loadCollectionViewWithInitialDate];
     }];
 
 }

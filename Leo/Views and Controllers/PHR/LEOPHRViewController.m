@@ -55,6 +55,8 @@ static CGFloat const kHeightOfHeaderPHR = 200;
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.stickyHeaderView.delegate = self;
     self.stickyHeaderView.datasource = self;
+
+    [LEOApiReachability startMonitoringForController:self];
 }
 
 - (LEOStickyHeaderView *)stickyHeaderView {

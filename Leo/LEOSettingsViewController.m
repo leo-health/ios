@@ -70,8 +70,6 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
     [super viewDidLoad];
     [self setupTableView];
     [self setupNavigationBar];
-
-    [LEOApiReachability startMonitoringForController:self];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
