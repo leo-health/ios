@@ -1,11 +1,15 @@
     upcoming:
-    - New! Offline messaging
-    - New! Waiting notifications for updating patients and health record
-    - New! Settings in navigation bar
-    - New! Confirmation user wants to call before dialing practice
-    - Bug fixing
-
     releases:
+    - version: 0.5.0
+      build: 2016.02.05.22.39
+      date: February 05 2016
+      notes:
+      - New! Offline messaging
+  - New! Waiting notifications for updating patients and health record
+  - New! Settings in navigation bar
+  - New! Confirmation user wants to call before dialing practice
+  - Bug fixing
+    
     - version: 0.4.1
       build: 2016.02.03.20.54
       date: February 03 2016
@@ -118,6 +122,7 @@
       notes:
       - First test build using new Fastfile configuration for Alpha builds
       - Provides the basic functionality all created prior to our first releases
+
 
 
 
