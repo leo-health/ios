@@ -10,6 +10,8 @@
 
 @interface UIButton (Extensions)
 
-+ (UIButton *)leo_buttonWithTextStyles:(UIButton *)button;
 
+//TODO: ZSD Consider renaming these
+- (void)leo_styleDisabledState;
++ (UIButton *)leo_newButtonWithDisabledStyling;
 @end

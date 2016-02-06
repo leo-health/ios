@@ -32,7 +32,7 @@
 
 - (void)styleButton {
 
-    [UIButton leo_buttonWithTextStyles:self.button];
+    [self.button leo_styleDisabledState];
 
     [self.button setTitleColor:[UIColor leo_white] forState:UIControlStateNormal];
     self.button.backgroundColor = [UIColor leo_orangeRed];

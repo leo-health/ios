@@ -21,8 +21,6 @@ static CWStatusBarNotification *_cwStatusBarNotification = nil;
 
     [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
 
-        NSLog(@"Reachability: %@", AFStringFromNetworkReachabilityStatus(status));
-
         switch (status) {
 
             case AFNetworkReachabilityStatusNotReachable:
@@ -55,6 +53,7 @@ static CWStatusBarNotification *_cwStatusBarNotification = nil;
                 [_cwStatusBarNotification dismissNotification];
 
             }
+                break;
         }
     }];
 
@@ -63,10 +62,7 @@ static CWStatusBarNotification *_cwStatusBarNotification = nil;
 
 + (void)startMonitoringForController:(UIViewController *)viewController withOfflineBlock:(void (^)(void))offlineBlock withOnlineBlock:(void (^) (void))onlineBlock {
 
-
     [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
-
-        NSLog(@"Reachability: %@", AFStringFromNetworkReachabilityStatus(status));
 
         switch (status) {
 
@@ -83,8 +79,6 @@ static CWStatusBarNotification *_cwStatusBarNotification = nil;
                 _cwStatusBarNotification.notificationLabelTextColor = [UIColor leo_orangeRed];
                 
                 [_cwStatusBarNotification displayNotificationWithMessage:@"offline" completion:nil];
-
-
 
                 [self performActions:^(UIButton *button) {
                     button.enabled = NO;

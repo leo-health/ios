@@ -57,7 +57,7 @@
 
     _submitButton = submitButton;
 
-    [UIButton leo_buttonWithTextStyles:submitButton];
+    [submitButton leo_styleDisabledState];
 
     submitButton.layer.borderColor = [UIColor leo_orangeRed].CGColor;
     submitButton.layer.borderWidth = 1.0;

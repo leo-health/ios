@@ -11,18 +11,20 @@
 
 @implementation UIButton (Extensions)
 
-+ (UIButton *)leo_buttonWithTextStyles:(UIButton *)button {
+- (void)leo_styleDisabledState {
 
-    UIButton *companyButton = button;
+    [self setTitleColor:[UIColor lightGrayColor] forState:UIControlStateDisabled];
+    [self setTitleShadowColor:[UIColor darkGrayColor] forState:UIControlStateDisabled];
+}
 
-    if (!button) {
-       companyButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    }
++ (UIButton *)leo_newButtonWithDisabledStyling {
 
-    [companyButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateDisabled];
-    [companyButton setTitleShadowColor:[UIColor darkGrayColor] forState:UIControlStateDisabled];
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
 
-    return companyButton;
+    [button setTitleColor:[UIColor lightGrayColor] forState:UIControlStateDisabled];
+    [button setTitleShadowColor:[UIColor darkGrayColor] forState:UIControlStateDisabled];
+
+    return button;
 }
 
 

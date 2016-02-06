@@ -59,7 +59,7 @@
 
     _continueButton = continueButton;
 
-    [UIButton leo_buttonWithTextStyles:continueButton];
+    [continueButton leo_styleDisabledState];
 
     [LEOStyleHelper styleButton:_continueButton forFeature:FeatureOnboarding];
     [_continueButton setTitle:@"SIGN UP" forState:UIControlStateNormal];

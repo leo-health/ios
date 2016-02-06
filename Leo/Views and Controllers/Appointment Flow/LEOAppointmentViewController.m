@@ -217,7 +217,7 @@ static NSString *const kKeySelectionVCDate = @"date";
 
     if (!_submissionButton) {
 
-        UIButton *strongButton = [UIButton leo_buttonWithTextStyles:nil];
+        UIButton *strongButton = [UIButton leo_newButtonWithDisabledStyling];
 
         _submissionButton = strongButton;
 
@@ -458,7 +458,7 @@ static NSString *const kKeySelectionVCDate = @"date";
 
 -(void)dismiss {
 
- //   [self.delegate takeResponsibilityForCard:self.card];
+    [self.delegate takeResponsibilityForCard:self.card];
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 

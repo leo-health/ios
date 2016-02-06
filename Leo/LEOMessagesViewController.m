@@ -256,7 +256,7 @@
 
 - (void)initializeSendButton {
 
-    UIButton *sendButton = [UIButton leo_buttonWithTextStyles:nil];
+    UIButton *sendButton = [UIButton leo_newButtonWithDisabledStyling];
 ;
     [sendButton setTitle:@"SEND" forState:UIControlStateNormal];
     [sendButton setTitleColor:[UIColor leo_white] forState:UIControlStateNormal];
@@ -1009,10 +1009,6 @@
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
--(void)viewDidDisappear:(BOOL)animated {
-
-    [super viewDidDisappear:animated];
-}
 
 /**
  *  Helper method to provide information on the next page to load if the `Load Earlier Messages` button is tapped.

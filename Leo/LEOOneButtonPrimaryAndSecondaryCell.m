@@ -19,7 +19,7 @@
     [self.bodyView.layer setShouldRasterize:YES];
     [self.bodyView.layer setRasterizationScale:[UIScreen mainScreen].scale];
 
-    [UIButton leo_buttonWithTextStyles:self.buttonOne];
+    [self.buttonOne leo_styleDisabledState];
 }
 
 + (UINib *)nib {
