@@ -117,6 +117,8 @@
     
     if (self.window.rootViewController && [self.window.rootViewController class] != [initialVC class]) {
 
+        // transitionFromView should take the view currently visible on screen, or the animation will not happen correctly.
+
         // TODO: find a more general way of finding the top view controller. Can we travaerse the view hierarchy? Which view is appropriate to use in transitionFromView?
         UIViewController *rootVC = self.window.rootViewController;
         UIViewController *topVC = rootVC;
