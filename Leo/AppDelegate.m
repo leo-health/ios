@@ -133,7 +133,10 @@
         }
 
         // MARK: IOS8 unfortunately this solves the problem on iOS 8 where the collectionView frame appears as {0,20, 320, 548}. Should be full screen {0,0,320,568}
-        initialVC.view.frame = topVC.view.frame;
+        NSOperatingSystemVersion osVersion = [[NSProcessInfo processInfo] operatingSystemVersion];
+        if (osVersion.majorVersion <= 8) {
+            initialVC.view.frame = topVC.view.frame;
+        }
         
         [UIView transitionFromView:topVC.view
                             toView:initialVC.view
