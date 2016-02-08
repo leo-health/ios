@@ -8,6 +8,7 @@
 
 #import "LEOPusherHelper.h"
 #import "SessionUser.h"
+#import "Configuration.h"
 
 @interface LEOPusherHelper ()
 
@@ -32,7 +33,7 @@
     
     __weak id blockSender = sender;
     __weak LEOPusherHelper *weakSelf = self;
-    self.client = [PTPusher pusherWithKey:@"218006d766a6d76e8672" delegate:weakSelf encrypted:YES];
+    self.client = [PTPusher pusherWithKey:[Configuration pusherKey] delegate:weakSelf encrypted:YES];
     
     PTPusherChannel *chatChannel = [self.client subscribeToChannelNamed:channel];
     
