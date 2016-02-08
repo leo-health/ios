@@ -55,12 +55,6 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
     PHRTableViewSectionCount
 };
 
-- (void)viewDidAppear:(BOOL)animated {
-    
-    [super viewDidAppear:animated];
-    [self requestHealthRecord];
-}
-
 #pragma mark - Accessors and Setup
 
 - (UITableView *)tableView {
@@ -217,6 +211,7 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
     [_separatorLine setBackgroundColor:[UIColor leo_grayStandard]];
 
     UIButton *_editNoteButton = [UIButton new];
+    [_editNoteButton setTitle:@"EDIT" forState:UIControlStateNormal];
     _editNoteButton.titleLabel.font = [UIFont leo_buttonLabelsAndTimeStampsFont];
     [_editNoteButton setTitleColor:[UIColor leo_orangeRed] forState:UIControlStateNormal];
 
@@ -252,7 +247,6 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
 
 
     NSString *title;
-    NSString *editNoteButtonText;
     switch (section) {
 
         case PHRTableViewSectionRecentVitals:
@@ -273,12 +267,10 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
 
         case PHRTableViewSectionNotes:
             title = @"NOTES";
-            editNoteButtonText = self.healthRecord.notes.count ? @"EDIT" : @"ADD";
             break;
     }
 
     _titleLabel.text = title;
-    [_editNoteButton setTitle:editNoteButtonText forState:UIControlStateNormal];
 }
 
 #pragma mark - Cells
@@ -306,9 +298,15 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
             rows = self.healthRecord.immunizations.count;
             break;
 
-        case PHRTableViewSectionNotes:
-            rows = self.healthRecord.notes.count ? : 1;
+        case PHRTableViewSectionNotes: {
+
+            if (self.healthRecord) {
+                rows = self.healthRecord.notes.count ? : 1;
+            } else {
+                rows = 0;
+            }
             break;
+        }
     };
     return rows;
 }

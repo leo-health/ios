@@ -16,4 +16,7 @@
 @property (weak, nonatomic) LEOPHRViewController* phrViewController;
 @property (strong, nonatomic) Patient *patient;
 
+- (void)requestHealthRecord;
+
+
 @end

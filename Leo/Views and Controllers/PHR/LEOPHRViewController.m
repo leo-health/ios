@@ -76,6 +76,14 @@ static CGFloat const kHeightOfHeaderPHR = 200;
     [self setupNavigationBar];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+
+    [super viewDidAppear:animated];
+    for (LEORecordViewController *recordVC in self.segmentViewControllers) {
+        [recordVC requestHealthRecord];
+    }
+}
+
 -(void)setupNavigationBar {
 
     [LEOStyleHelper styleBackButtonForViewController:self forFeature:FeatureSettings];
