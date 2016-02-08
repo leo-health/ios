@@ -90,6 +90,8 @@ static NSString *const kKeySelectionVCDate = @"date";
 
     self.submissionButton.enabled = self.appointment.isValidForBooking;
     self.stickyHeaderView.snapToHeight = @(CGRectGetHeight(self.navigationController.navigationBar.bounds));
+    self.stickyHeaderView.datasource = self;
+    self.stickyHeaderView.delegate = self;
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -402,9 +404,6 @@ static NSString *const kKeySelectionVCDate = @"date";
 
     _card = card;
     _card.activityDelegate = self;
-
-    self.stickyHeaderView.datasource = self;
-    self.stickyHeaderView.delegate = self;
 }
 
 -(void)submitCardUpdates {
