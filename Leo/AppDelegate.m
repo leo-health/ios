@@ -13,6 +13,7 @@
 #import "LEOFeedTVC.h"
 #import "SessionUser.h"
 #import "LEODevice.h"
+#import <CrittercismSDK/Crittercism/Crittercism.h>
 
 #if STUBS_FLAG
 #import "LEOStubs.h"
@@ -27,7 +28,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     [self setupGlobalFormatting];
-    
+    [self setupCrittercism];
 #if STUBS_FLAG
     [LEOStubs setupStubs];
 #endif
@@ -60,6 +61,10 @@
     [self.window makeKeyAndVisible];
     
     return YES;
+}
+
+- (void)setupCrittercism {
+    [Crittercism enableWithAppID:@"56b8fe2913306f1000698f56"];
 }
 
 - (void)setupObservers {

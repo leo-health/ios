@@ -109,6 +109,12 @@ lane :alpha do |options|
     # Make sure our directory is clean, except for changes Fastlane has made
     clean_build_artifacts
 
+    #Uploads the dSYM to Crittercism
+    export APP_ID="56b8fe2913306f1000698f56"
+    export OAUTH2="5ce3b2e7f95d18f7df6f1a6314c89d3c"
+    sh "./Pods/CrittercismSDK/dsym_upload.sh -v Leo.app.dSYM"
+
+
     # Tag release and push to Github
     commit_version_bump message: "Deploying version #{version}.", force: true
     add_git_tag(
