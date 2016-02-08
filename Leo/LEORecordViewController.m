@@ -41,6 +41,8 @@
 
 @implementation LEORecordViewController
 
+static NSString * const kEditButtonText = @"EDIT";
+
 const CGFloat kPHRSectionLayoutSpacing = 4;
 const CGFloat kPHRSectionLayoutHorizontalMargin = 28;
 const CGFloat kPHRSectionLayoutTopMargin = 25;
@@ -211,7 +213,7 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
     [_separatorLine setBackgroundColor:[UIColor leo_grayStandard]];
 
     UIButton *_editNoteButton = [UIButton new];
-    [_editNoteButton setTitle:@"EDIT" forState:UIControlStateNormal];
+    [_editNoteButton setTitle:kEditButtonText forState:UIControlStateNormal];
     _editNoteButton.titleLabel.font = [UIFont leo_buttonLabelsAndTimeStampsFont];
     [_editNoteButton setTitleColor:[UIColor leo_orangeRed] forState:UIControlStateNormal];
 
