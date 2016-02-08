@@ -116,5 +116,17 @@ static CGFloat const kDefaultHeaderViewHeight = 207.0;
     return intrinsicSize;
 }
 
+- (void)layoutSubviews {
+
+    [super layoutSubviews];
+
+    // Need this for iOS 8.3
+    CGFloat maxWidth = self.titleLabel.preferredMaxLayoutWidth;
+    CGFloat actualWidth = CGRectGetWidth(self.titleLabel.bounds);
+    if (maxWidth != actualWidth) {
+        self.titleLabel.preferredMaxLayoutWidth = actualWidth;
+    }
+}
+
 
 @end
