@@ -52,6 +52,7 @@ static NSString * const reuseIdentifierFeature = @"reuseIdentifierFeature";
     [self.collectionView registerNib:[LEOLoggedOutOnboardingCell nib] forCellWithReuseIdentifier:reuseIdentifierFeature];
 
     self.collectionView.pagingEnabled = YES;
+    self.collectionView.bounces = NO;
     UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
     layout.minimumInteritemSpacing = 0;
     layout.minimumLineSpacing = 0;
