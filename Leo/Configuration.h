@@ -16,6 +16,8 @@
 + (NSString *)APIEndpointWithProtocol;
 + (NSString *)S3Endpoint;
 + (NSString *)selfSignedCertificate;
++ (NSString *)pusherKey;
++ (NSString *)crittercismAppID;
 
 //+ (BOOL)isLoggingEnabled;
 

@@ -4,6 +4,10 @@
 <dict>
 	<key>AppSettings</key>
 	<dict>
+		<key>PusherKey</key>
+		<string>${PUSHER_KEY}</string>
+		<key>CrittercismAppID</key>
+		<string>${CRITTERCISM_APP_ID}</string>
 		<key>ApiProtocol</key>
 		<string>${API_PROTOCOL}</string>
 		<key>ApiURL</key>

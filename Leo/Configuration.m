@@ -14,7 +14,8 @@ static NSString *const ConfigurationAPIVersion = @"ApiVersion";
 static NSString *const ConfigurationS3Endpoint = @"S3URL";
 static NSString *const ConfigurationSelfSignedCertificate = @"SelfSignedCertificate";
 static NSString *const ConfigurationAPIProtocol = @"ApiProtocol";
-
+static NSString *const ConfigurationPusherKey = @"PusherKey";
+static NSString *const ConfigurationCrittercismAppID = @"CrittercismAppID";
 
 @interface Configuration ()
 
@@ -109,6 +110,28 @@ static NSString *const ConfigurationAPIProtocol = @"ApiProtocol";
     }
     
     return nil;
-
 }
+
++ (NSString *)pusherKey {
+
+    Configuration *sharedConfiguration = [Configuration sharedConfiguration];
+
+    if (sharedConfiguration.appSettings) {
+        return [sharedConfiguration.appSettings objectForKey:ConfigurationPusherKey];
+    }
+
+    return nil;
+}
+
++ (NSString *)crittercismAppID {
+
+    Configuration *sharedConfiguration = [Configuration sharedConfiguration];
+
+    if (sharedConfiguration.appSettings) {
+        return [sharedConfiguration.appSettings objectForKey:ConfigurationCrittercismAppID];
+    }
+
+    return nil;
+}
+
 @end

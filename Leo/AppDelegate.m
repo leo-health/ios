@@ -14,6 +14,7 @@
 #import "SessionUser.h"
 #import "LEODevice.h"
 #import <CrittercismSDK/Crittercism/Crittercism.h>
+#import "Configuration.h"
 
 #if STUBS_FLAG
 #import "LEOStubs.h"
@@ -64,7 +65,7 @@
 }
 
 - (void)setupCrittercism {
-    [Crittercism enableWithAppID:@"56b8fe2913306f1000698f56"];
+    [Crittercism enableWithAppID:[Configuration crittercismAppID]];
 }
 
 - (void)setupObservers {
