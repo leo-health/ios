@@ -615,7 +615,8 @@ NSString * const kAnimationKeyPathStrokeColor = @"strokeColor";
 - (void)drawBreaker {
 
     CGPoint beginningOfLine = CGPointMake(0, [self navBarHeight]);
-    
+
+    // MARK: iOS8
     // when this is called, self.bounds has different widths in iOS 8.3 vs iOS 9.2 - use screen size to determine the width. Even in non-full screen views, the layer is cut off by its super layers bounds
     CGPoint endOfLine = CGPointMake(CGRectGetMaxX([UIScreen mainScreen].bounds), [self navBarHeight]);
 
