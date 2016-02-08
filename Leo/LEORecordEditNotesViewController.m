@@ -41,6 +41,12 @@
     self.view.backgroundColor = [UIColor leo_white];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+
+    [super viewDidAppear:animated];
+    [self.textView becomeFirstResponder];
+}
+
 - (void)setupNavigationBar {
 
     [LEOStyleHelper styleNavigationBarForViewController:self forFeature:FeatureSettings withTitleText:self.patient.firstName dismissal:NO backButton:NO];

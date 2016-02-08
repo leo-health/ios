@@ -76,6 +76,17 @@ static CGFloat const kHeightOfHeaderPHR = 200;
     [self setupNavigationBar];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+
+    [super viewDidAppear:animated];
+
+    // LEORecordViewController should handle its own data requests in viewDidAppear
+    // TODO: implement VCC (View Controller Containment) 
+    for (LEORecordViewController *recordVC in self.segmentViewControllers) {
+        [recordVC requestHealthRecord];
+    }
+}
+
 -(void)setupNavigationBar {
 
     [LEOStyleHelper styleBackButtonForViewController:self forFeature:FeatureSettings];
