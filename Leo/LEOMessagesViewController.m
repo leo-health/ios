@@ -737,14 +737,19 @@
 
             Support *support = (Support *)message.sender;
             attributes = @{NSFontAttributeName : [UIFont leo_fieldAndUserLabelsAndSecondaryButtonsFont], NSForegroundColorAttributeName : [UIColor leo_grayForPlaceholdersAndLines]};
-            NSAttributedString *roleAttributedString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@",support.jobTitle] attributes:attributes];
-            [concatenatedDisplayNameAndTime appendAttributedString:roleAttributedString];
+            if (support.jobTitle) {
+                NSAttributedString *roleAttributedString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@",support.jobTitle] attributes:attributes];
+                [concatenatedDisplayNameAndTime appendAttributedString:roleAttributedString];
+            }
         } else if ([message.sender isKindOfClass:[Provider class]]) {
 
             Provider *provider = (Provider *)message.sender;
             attributes = @{NSFontAttributeName : [UIFont leo_fieldAndUserLabelsAndSecondaryButtonsFont], NSForegroundColorAttributeName : [UIColor leo_grayForPlaceholdersAndLines]};
-            NSAttributedString *credentialAttributedString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@",provider.credentials[0]] attributes:attributes];
-            [concatenatedDisplayNameAndTime appendAttributedString:credentialAttributedString];
+            NSString *credential = [provider.credentials firstObject];
+            if (credential) {
+                NSAttributedString *credentialAttributedString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@",credential] attributes:attributes];
+                [concatenatedDisplayNameAndTime appendAttributedString:credentialAttributedString];
+            }
         }
 
         NSString *dateString = [NSString stringWithFormat:@" ∙ %@", [NSDate leo_stringifiedTime:message.createdAt]];
