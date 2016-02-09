@@ -49,9 +49,10 @@
 
                 _image = rawImage;
                 [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationDownloadedImageUpdated object:self];
-
             } else {
-                //TODO: ZSD deal with an error?
+
+                //TODO: Consider whether this is ultimately the right implementation.
+                [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationImageChanged object:self];
             }
         }];
     }
