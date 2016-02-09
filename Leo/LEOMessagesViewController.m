@@ -48,7 +48,6 @@
 #import <JSQMessagesViewController/JSQMessagesBubbleImageFactory.h>
 #import <OHHTTPStubs/OHHTTPStubs.h>
 #import <Photos/Photos.h>
-
 #import "UIButton+Extensions.h"
 
 #if STUBS_FLAG
@@ -262,6 +261,8 @@
     sendButton.titleLabel.font = [UIFont leo_fieldAndUserLabelsAndSecondaryButtonsFont];
 
     self.sendButton = sendButton;
+
+    [self.sendButton addObserver:self forKeyPath:@"enabled" options:NSKeyValueObservingOptionOld context:nil];
 }
 
 - (void)setupPusher {
@@ -320,6 +321,21 @@
 
 
 #pragma mark - JSQMessagesViewController method overrides
+
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
+
+    if (object == self.sendButton && [keyPath isEqualToString:@"enabled"]) {
+
+        // Override JSQ behavior of disabling send button
+        BOOL reachable = [LEOApiReachability reachable];
+        if (!self.sendButton.enabled && reachable) {
+            self.sendButton.enabled = YES;
+        } else if (self.sendButton.enabled && !reachable) {
+            self.sendButton.enabled = NO;
+        }
+    }
+}
 
 /**
  *  Sending a message. Your implementation of this method should do *at least* the following:

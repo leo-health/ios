@@ -17,6 +17,11 @@
 
 static CWStatusBarNotification *_cwStatusBarNotification = nil;
 
++ (BOOL)reachable {
+
+    return [AFNetworkReachabilityManager sharedManager].reachable;
+}
+
 + (void)startMonitoringForController:(UIViewController *)viewController {
 
     [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
