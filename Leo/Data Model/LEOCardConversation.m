@@ -128,7 +128,8 @@ static NSString *kActionSelectorCallUs = @"call";
             }
 
             if ([message isKindOfClass:[MessageImage class]]) {
-                bodyText = @"You have been sent an image.";
+                NSString *senderName = message.sender.fullName ?: @"Someone";
+                bodyText = [NSString stringWithFormat:@"%@ sent an image.", senderName];
             }
         }
     }
@@ -188,11 +189,7 @@ static NSString *kActionSelectorCallUs = @"call";
 
 -(nullable User *)secondaryUser {
 
-    if (self.conversation.messages.count > 0) {
-        Message *message = self.conversation.messages[0];
-        return message.sender;
-    }
-    return nil;
+    return [[self.conversation.messages lastObject] sender];
 }
 
 
