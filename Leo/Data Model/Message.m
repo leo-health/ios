@@ -120,6 +120,9 @@ static NSString *const kImage = @"image";
 
             LEOS3Image *media = [[LEOS3Image alloc] initWithJSONDictionary:jsonResponse[APIParamMessageBody]];
 
+            //FIXME: Replace with proper placeholder icon once available
+            media.placeholder = [UIImage imageNamed:@"Icon-Chat"];
+            
             JSQPhotoMediaItem *photoMediaItem = [[JSQPhotoMediaItem alloc] initWithImage:nil];
 
             return [MessageImage messageWithObjectID:objectID media:photoMediaItem sender:sender escalatedTo:escalatedTo escalatedBy:escalatedBy status:status statusCode:statusCode createdAt:createdAt escalatedAt:nil leoMedia:media];

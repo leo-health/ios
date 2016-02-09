@@ -103,6 +103,8 @@
     [self constructNotifications];
 
     self.navigationController.delegate = self;
+
+    [self setupMessageNotificationsForMessages:[self conversation].messages];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -845,14 +847,7 @@
         JSQPhotoMediaItem *photoMediaItem = (JSQPhotoMediaItem *)messageImage.media;
 
         if (!photoMediaItem.image) {
-
-            LEOMediaService *mediaService = [LEOMediaService new];
-
-            [mediaService getImageForS3Image:messageImage.s3Image withCompletion:^(UIImage *rawImage, NSError *error) {
-                messageImage.s3Image.image = rawImage;
-                photoMediaItem.image = rawImage;
-                [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
-            }];
+                photoMediaItem.image = messageImage.s3Image.image;
         }
     }
 
@@ -931,7 +926,7 @@
         /**
          *  Remove the message if there are no more messages to show. Currently, this is suboptimal as it requires the user to press the button an extra time and make an extra API call. But this is a quick and easy first pass option.
          */
-        if ([messages count] == 0) {
+        if (messages.count == 0) {
             self.showLoadEarlierMessagesHeader = NO;
             return;
         }
@@ -947,6 +942,11 @@
         }
 
         /**
+         *  Ensure all messages added are associated with notifications in case they are MessageImage objects
+         */
+        [self setupMessageNotificationsForMessages:messages];
+
+        /**
          *  Add the messages to the conversation object itself
          */
         [[self conversation] addMessages:messages];
@@ -955,6 +955,41 @@
     }];
 }
 
+
+- (void)setupMessageNotificationsForMessages:(NSArray *)messages {
+
+    for (NSInteger i = 0; i < messages.count; i++) {
+
+        Message *message = messages[i];
+
+        if ([message isKindOfClass:[MessageImage class]]) {
+
+            MessageImage *messageImage = (MessageImage *)message;
+
+            //MARK: The following notifications technically have the same implementation but result from different events. For the time-being, I'd prefer we kept them separate to remind us that two different things are happening. However, if we don't eventually see a real difference between these, we may choose to combine their implementations.
+
+            //Notification for downloading an image from the server
+            [[NSNotificationCenter defaultCenter] addObserverForName:kNotificationDownloadedImageUpdated object:messageImage.s3Image queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull notification) {
+
+                JSQPhotoMediaItem *photoMediaItem = (JSQPhotoMediaItem *)message.media;
+                photoMediaItem.image = messageImage.s3Image.image;
+
+                NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
+                [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
+            }];
+
+            //Notification for any local image update
+            [[NSNotificationCenter defaultCenter] addObserverForName:kNotificationImageChanged object:messageImage.s3Image queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull notification) {
+
+                JSQPhotoMediaItem *photoMediaItem = (JSQPhotoMediaItem *)message.media;
+                photoMediaItem.image = messageImage.s3Image.image;
+
+                NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
+                [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
+            }];
+        }
+    }
+}
 
 /**
  *  Using the method as described here to avoid flicker: http://stackoverflow.com/a/26401767/1938725
