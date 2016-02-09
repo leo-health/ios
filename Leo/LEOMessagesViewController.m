@@ -105,6 +105,12 @@
     self.navigationController.delegate = self;
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+
+    [super viewWillAppear:animated];
+    [self scrollToBottomAnimated:NO];
+}
+
 - (void)viewDidAppear:(BOOL)animated {
 
     [super viewDidAppear:animated];
