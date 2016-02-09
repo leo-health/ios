@@ -739,7 +739,7 @@
 
             Provider *provider = (Provider *)message.sender;
             attributes = @{NSFontAttributeName : [UIFont leo_fieldAndUserLabelsAndSecondaryButtonsFont], NSForegroundColorAttributeName : [UIColor leo_grayForPlaceholdersAndLines]};
-            NSString *credential = provider.credentials[0];
+            NSString *credential = [provider.credentials firstObject];
             if (credential) {
                 NSAttributedString *credentialAttributedString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@",credential] attributes:attributes];
                 [concatenatedDisplayNameAndTime appendAttributedString:credentialAttributedString];
