@@ -257,7 +257,6 @@
 - (void)initializeSendButton {
 
     UIButton *sendButton = [UIButton leo_newButtonWithDisabledStyling];
-;
     [sendButton setTitle:@"SEND" forState:UIControlStateNormal];
     [sendButton setTitleColor:[UIColor leo_white] forState:UIControlStateNormal];
     sendButton.titleLabel.font = [UIFont leo_fieldAndUserLabelsAndSecondaryButtonsFont];
@@ -335,6 +334,11 @@
          senderDisplayName:(NSString *)senderDisplayName
                       date:(NSDate *)date
 {
+    
+    if (text.length == 0) {
+        return;
+    }
+
     button.hidden = YES;
 
     [self.sendingIndicator startAnimating];
