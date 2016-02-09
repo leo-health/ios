@@ -13,6 +13,8 @@
 
 @implementation LEOButtonCell
 
+CGFloat const kCellHeightButton = 94;
+
 - (void)awakeFromNib {
     
     self.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -39,4 +41,10 @@
     self.button.titleLabel.font = [UIFont leo_buttonLabelsAndTimeStampsFont];
     
 }
+
+- (CGSize)intrinsicContentSize {
+
+    return CGSizeMake(UIViewNoIntrinsicMetric, kCellHeightButton);
+}
+
 @end

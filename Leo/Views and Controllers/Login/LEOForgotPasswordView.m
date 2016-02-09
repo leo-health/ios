@@ -13,6 +13,7 @@
 #import "LEOValidationsHelper.h"
 #import "UIImage+Extensions.h"
 #import "UIButton+Extensions.h"
+#import "LEOStyleHelper.h"
 
 @implementation LEOForgotPasswordView
 
@@ -20,10 +21,10 @@
 
     _responseLabel = responseLabel;
 
-    responseLabel.hidden = YES;
+    [LEOStyleHelper styleLabel:responseLabel forFeature:FeatureOnboarding];
     responseLabel.numberOfLines = 0;
     responseLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    responseLabel.text = @"If you have an account with us, a link to reset your password will be sent to your e-mail address soon.";
+    responseLabel.text = nil;
 }
 
 - (void)setEmailPromptField:(LEOPromptField *)emailPromptField {
@@ -33,6 +34,7 @@
     emailPromptField.textField.delegate = self;
     emailPromptField.textField.standardPlaceholder = @"email address";
     emailPromptField.textField.validationPlaceholder = @"Invalid email";
+    emailPromptField.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     emailPromptField.textField.autocorrectionType = UITextAutocorrectionTypeNo;
 }
 
@@ -59,14 +61,8 @@
 
     [submitButton leo_styleDisabledState];
 
-    submitButton.layer.borderColor = [UIColor leo_orangeRed].CGColor;
-    submitButton.layer.borderWidth = 1.0;
-    [submitButton setTitle:@"SUBMIT"
-                       forState:UIControlStateNormal];
-    submitButton.titleLabel.font = [UIFont leo_buttonLabelsAndTimeStampsFont];
-    [submitButton setTitleColor:[UIColor leo_white]
-                            forState:UIControlStateNormal];
-    [submitButton setBackgroundImage:[UIImage leo_imageWithColor:[UIColor leo_orangeRed]] forState:UIControlStateNormal];
+    [submitButton setTitle:@"SUBMIT" forState:UIControlStateNormal];
+    [LEOStyleHelper styleSubmissionButton:submitButton forFeature:FeatureOnboarding];
 }
 
 

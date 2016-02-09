@@ -58,9 +58,7 @@
 
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 
-    _tableView.estimatedRowHeight = 100.0;
     _tableView.rowHeight = UITableViewAutomaticDimension;
-
     _tableView.alwaysBounceVertical = NO;
 
     [_tableView registerNib:[LEOReviewPatientCell nib]

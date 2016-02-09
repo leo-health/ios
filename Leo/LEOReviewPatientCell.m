@@ -8,11 +8,6 @@
 
 #import "LEOReviewPatientCell.h"
 
-@interface LEOReviewPatientCell ()
-
-
-
-@end
 @implementation LEOReviewPatientCell
 
 - (void)awakeFromNib {
@@ -32,6 +27,10 @@
     [super setSelected:selected animated:animated];
     
     // Configure the view for the selected state
+}
+
+- (CGSize)intrinsicContentSize {
+    return CGSizeMake(UIViewNoIntrinsicMetric, 68); 
 }
 
 @end
