@@ -963,6 +963,7 @@
 
             //MARK: The following notifications technically have the same implementation but result from different events. For the time-being, I'd prefer we kept them separate to remind us that two different things are happening. However, if we don't eventually see a real difference between these, we may choose to combine their implementations.
 
+            //Notification for downloading an image from the server
             [[NSNotificationCenter defaultCenter] addObserverForName:kNotificationDownloadedImageUpdated object:messageImage.s3Image queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull notification) {
 
                 JSQPhotoMediaItem *photoMediaItem = (JSQPhotoMediaItem *)message.media;
@@ -972,6 +973,7 @@
                 [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
             }];
 
+            //Notification for any local image update
             [[NSNotificationCenter defaultCenter] addObserverForName:kNotificationImageChanged object:messageImage.s3Image queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull notification) {
 
                 JSQPhotoMediaItem *photoMediaItem = (JSQPhotoMediaItem *)message.media;
