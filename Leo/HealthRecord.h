@@ -14,25 +14,22 @@
 #import "PatientNote.h"
 
 @interface HealthRecord : NSObject
-
 NS_ASSUME_NONNULL_BEGIN
 
 @property (copy, nonatomic) NSArray<Allergy*>* allergies;
 @property (copy, nonatomic) NSArray<Medication*>* medications;
 @property (copy, nonatomic) NSArray<Immunization*>* immunizations;
-@property (copy, nonatomic) NSArray<PatientVitalMeasurementBMI*>* bmis;
-@property (copy, nonatomic) NSArray<PatientVitalMeasurementHeight*>* heights;
-@property (copy, nonatomic) NSArray<PatientVitalMeasurementWeight*>* weights;
-@property (copy, nonatomic) NSArray<PatientNote*>* notes;
+@property (copy, nonatomic) NSArray<PatientVitalMeasurement*>* bmis;
+@property (copy, nonatomic) NSArray<PatientVitalMeasurement*>* heights;
+@property (copy, nonatomic) NSArray<PatientVitalMeasurement*>* weights;
 
-
--(instancetype)initWithAllergies:(NSArray<Allergy*> *)allergies medications:(NSArray<Medication*> *)medications immunizations:(NSArray<Immunization*> *)immunizations bmis:(NSArray<PatientVitalMeasurementBMI*> *)bmis heights:(NSArray<PatientVitalMeasurementHeight*>*)heights weights:(NSArray<PatientVitalMeasurementWeight*> *)weights notes:(NSArray<PatientNote*> *)notes;
+-(instancetype)initWithAllergies:(NSArray<Allergy*> *)allergies medications:(NSArray<Medication*> *)medications immunizations:(NSArray<Immunization*> *)immunizations bmis:(NSArray<PatientVitalMeasurement*> *)bmis heights:(NSArray<PatientVitalMeasurement*>*)heights weights:(NSArray<PatientVitalMeasurement*> *)weights;
 -(instancetype)initWithJSONDictionary:(NSDictionary *)jsonDictionary;
 +(instancetype)mockObject;
 
 - (void)addNotesObject:(PatientNote *)object;
 - (void)removeNotesObject:(PatientNote *)object;
 
-NS_ASSUME_NONNULL_END
 
+NS_ASSUME_NONNULL_END
 @end

@@ -10,8 +10,10 @@
 #import "UIFont+LeoFonts.h"
 #import "UIColor+LeoColors.h"
 #import "NSDate+Extensions.h"
+#import "Patient.h"
+#import "HealthRecord.h"
 
-static NSString * const kCopyEmptyNotesField = @"Use this area to record notes about your kids health. These notes will not be seen by your providers.";
+
 
 @implementation LEOPHRTableViewCell
 
@@ -24,94 +26,105 @@ static NSString * const kCopyEmptyNotesField = @"Use this area to record notes a
     self.recordTitleLabel.font = [UIFont leo_standardFont];
     self.recordTitleLabel.textColor = [UIColor leo_grayForTitlesAndHeadings];
     self.recordTitleLabel.numberOfLines = 0;
+    self.recordTitleLabel.lineBreakMode = NSLineBreakByWordWrapping;
 
     self.recordSideLabel.font = [UIFont leo_standardFont];
     self.recordSideLabel.textColor = [UIColor leo_grayForTitlesAndHeadings];
     self.recordSideLabel.numberOfLines = 0;
+    self.recordSideLabel.lineBreakMode = NSLineBreakByWordWrapping;
 
     self.recordMainDetailLabel.font = [UIFont leo_standardFont];
     self.recordMainDetailLabel.textColor = [UIColor leo_grayStandard];
     self.recordMainDetailLabel.numberOfLines = 0;
-    self.recordMainDetailLabel.numberOfLines = 0;
+    self.recordMainDetailLabel.lineBreakMode = NSLineBreakByWordWrapping;
 
     self.recordTitleDetailLabel.font = [UIFont leo_standardFont];
     self.recordTitleDetailLabel.textColor = [UIColor leo_grayStandard];
     self.recordTitleDetailLabel.numberOfLines = 0;
+    self.recordTitleDetailLabel.lineBreakMode = NSLineBreakByWordWrapping;
 
     self.selectionStyle = UITableViewCellSelectionStyleNone;
 }
 
-- (void)configureCellWithVitals:(PatientVitalMeasurement *)vital {
+- (void)configureCellWithVital:(PatientVitalMeasurement *)vital  title:(NSString *)title {
 
-    self.recordTitleDetailLabel.text = nil;
+    if (vital) {
+        self.recordTitleLabel.text = title;
+        NSMutableString *str = [NSMutableString new];
+        if (vital.value) {
+            [str appendString:vital.value];
+        }
+        if (vital.percentile) {
+            [str appendString:[NSString stringWithFormat:@"  -  %@",vital.percentile]];
+        }
+        self.recordMainDetailLabel.text = [str copy];
+    }
+
     self.recordSideLabel.text = nil;
-    NSMutableString *str = [NSMutableString new];
-    if (vital.value) {
-        [str appendString:vital.value];
-    }
-    if (vital.percentile) {
-        [str appendString:[NSString stringWithFormat:@"  -  %@",vital.percentile]];
-    }
-    self.recordMainDetailLabel.text = [str copy];
+    self.recordTitleDetailLabel.text = nil;
 }
 
-- (void)configureCellWithBMI:(PatientVitalMeasurementBMI *)bmi {
+- (void)configureCellForEmptySectionWithMessage:(NSString *)message {
 
-    // ????: this description may belong in the model
-    self.recordTitleLabel.text = @"BMI";
-    [self configureCellWithVitals:bmi];
+    self.recordTitleLabel.text = nil;
+    self.recordSideLabel.text = nil;
+    self.recordMainDetailLabel.text = message;
+    self.recordTitleDetailLabel.text = nil;
 }
 
-- (void)configureCellWithHeight:(PatientVitalMeasurementHeight *)height {
+- (void)prepareForReuse {
 
-    self.recordTitleLabel.text = @"Height";
-    [self configureCellWithVitals:height];
-}
-
-- (void)configureCellWithWeight:(PatientVitalMeasurementWeight *)weight {
-
-    self.recordTitleLabel.text = @"Weight";
-    [self configureCellWithVitals:weight];
+    self.recordTitleDetailLabel.text = @"";
+    self.recordSideLabel.text = @"";
+    self.recordTitleLabel.text = @"";
+    self.recordMainDetailLabel.text = @"";
 }
 
 - (void)configureCellWithAllergy:(Allergy *)allergy {
 
-    self.recordTitleLabel.text = allergy.allergen;
-    self.recordTitleDetailLabel.text = nil;
-    self.recordSideLabel.text = allergy.severity;
-    self.recordMainDetailLabel.text = allergy.note;
+        self.recordTitleLabel.text = allergy.allergen;
+        self.recordSideLabel.text = allergy.severity;
+        self.recordMainDetailLabel.text = allergy.note;
+        self.recordTitleDetailLabel.text = nil;
 }
 
 - (void)configureCellWithMedication:(Medication *)medication {
 
-    self.recordTitleLabel.text = medication.medication;
-    self.recordTitleDetailLabel.text = nil;
-    self.recordSideLabel.text = medication.frequency;
-    self.recordMainDetailLabel.text = medication.note;
+        self.recordTitleLabel.text = medication.medication;
+        self.recordSideLabel.text = nil;
+        self.recordMainDetailLabel.text = medication.sig;
+        self.recordTitleDetailLabel.text = nil;
 }
 
 - (void)configureCellWithImmunization:(Immunization *)immunization {
 
-    self.recordTitleLabel.text = immunization.vaccine;
-    // TODO: fill with dosage
-    self.recordTitleDetailLabel.text = nil;
-    // TODO: date formatting
-    self.recordSideLabel.text = [NSDate leo_stringifiedDate:immunization.administeredAt withFormat:@"MMM dd, YYYY"];
-    self.recordMainDetailLabel.text = nil;
+        self.recordTitleLabel.text = immunization.vaccine;
+        self.recordMainDetailLabel.text = nil;
+        self.recordTitleDetailLabel.text = nil;
+        // TODO: date formatting
+        self.recordSideLabel.text = [NSDate leo_stringifiedDate:immunization.administeredAt withFormat:@"MM/dd/YY"];
 }
 
--(void)configureCellWithNote:(PatientNote *)note {
+- (void)configureCellWithNote:(PatientNote *)note {
+
+    self.recordMainDetailLabel.text = note.text;
+    self.recordTitleLabel.text = nil;
+    self.recordTitleLabel.text = nil;
+    self.recordSideLabel.text = nil;
+}
+
+- (void)configureCellForEmptyRecordWithPatient:(Patient *)patient {
 
     self.recordTitleLabel.text = nil;
-    self.recordTitleDetailLabel.text = nil;
-    self.recordSideLabel.text = nil;
 
-    if (note) {
-        self.recordMainDetailLabel.text = note.text;
-    } else {
-        self.recordMainDetailLabel.text = kCopyEmptyNotesField;
-    }
+    //TODO: Make gender pronouns come from a helper so that they are available for reuse based on gender
+    //TODO: Make gender in patient a typedef in order to avoid hard coding these strings going forward
+    NSString *sonOrDaughterString = [patient.gender isEqualToString:@"M"] ? @"son" : @"daughter";
+    NSString *hisOrHerString = [patient.gender isEqualToString:@"M"] ? @"his" : @"her";
+
+    NSString *emptyRecordString = [NSString stringWithFormat:@"As your %@'s data becomes available, this section will populate with important facts and figures related to %@ health and development.", sonOrDaughterString, hisOrHerString];
+
+    self.recordMainDetailLabel.text = emptyRecordString;
 }
-
 
 @end

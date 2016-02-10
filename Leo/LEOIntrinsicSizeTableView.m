@@ -21,5 +21,12 @@
     [self invalidateIntrinsicContentSize];
 }
 
+- (void)reloadSections:(NSIndexSet *)sections withRowAnimation:(UITableViewRowAnimation)animation {
+
+    [self beginUpdates];
+    [super reloadSections:sections withRowAnimation:animation];
+    [self invalidateIntrinsicContentSize];
+    [self endUpdates];
+}
 
 @end

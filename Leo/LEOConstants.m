@@ -45,6 +45,8 @@ NSString *const APIEndpointImmunizations = @"immunizations";
 NSString *const APIEndpointBMIs = @"vitals/bmis";
 NSString *const APIEndpointHeights = @"vitals/height";
 NSString *const APIEndpointWeights = @"vitals/weight";
+NSString *const APIEndpointPHR = @"phr";
+
 NSString *const APIEndpointPusherAuth = @"pusher/auth";
 
 #pragma mark - Common
@@ -266,6 +268,7 @@ NSString *const APIParamVitalMeasurementSearchEndDate = @"end_date";
 NSString *const APIParamVitalMeasurementTakenAt = @"taken_at";
 NSString *const APIParamVitalMeasurementValue = @"value";
 NSString *const APIParamVitalMeasurementPercentile = @"percentile";
+NSString *const APIParamVitalMeasurementType = @"type";
 
 
 #pragma mark - Magic numbers

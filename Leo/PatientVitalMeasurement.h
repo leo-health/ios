@@ -12,18 +12,22 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef PatientVitalMeasurement PatientVitalMeasurementBMI;
-typedef PatientVitalMeasurement PatientVitalMeasurementHeight;
-typedef PatientVitalMeasurement PatientVitalMeasurementWeight;
+typedef NS_ENUM(NSInteger, PatientVitalMeasurementType) {
+
+    PatientVitalMeasurementTypeBMI,
+    PatientVitalMeasurementTypeHeight,
+    PatientVitalMeasurementTypeWeight,
+};
 
 @property (strong, nonatomic) NSDate *takenAt;
 @property (copy, nonatomic) NSString *value;
 @property (copy, nonatomic) NSString *percentile;
+@property (nonatomic) PatientVitalMeasurementType measurementType;
 
--(instancetype)initWithTakenAt:(NSDate *)takenAT value:(NSString *)value percentile:(NSString *)percentile;
--(instancetype)initWithJSONDictionary:(NSDictionary *)jsonDictionary;
-+(NSArray *)patientVitalsFromDictionaries:(NSArray *)dictionaries;
-+(instancetype)mockObject;
+- (instancetype)initWithTakenAt:(NSDate *)takenAt value:(NSString *)value percentile:(NSString *)percentile measurementType:(PatientVitalMeasurementType)measurementType;
+- (instancetype)initWithJSONDictionary:(NSDictionary *)jsonDictionary;
++ (NSArray *)patientVitalsFromDictionaries:(NSArray *)dictionaries;
++ (instancetype)mockObject;
 
 NS_ASSUME_NONNULL_END
 

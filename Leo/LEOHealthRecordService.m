@@ -10,6 +10,8 @@
 #import "LEOAPISessionManager.h"
 #import "PatientVitalMeasurement.h"
 #import "NSDate+Extensions.h"
+#import "HealthRecord.h"
+#import "Patient.h"
 
 @implementation LEOHealthRecordService
 
@@ -19,61 +21,31 @@
 
 -(NSURLSessionTask *)getHealthRecordForPatient:(Patient *)patient withCompletion:(void (^)(HealthRecord *, NSError *))completionBlock {
 
-    // FIXME: Replace with one api call when available
+    NSString *endpoint = [NSString stringWithFormat:@"%@/%@/%@", APIEndpointPatients, patient.objectID, APIEndpointPHR];
 
-    // TODO: Handle errors
+    NSURLSessionTask *task = [[[self class] leoSessionManager] standardGETRequestForJSONDictionaryFromAPIWithEndpoint:endpoint params:nil completion:^(NSDictionary *rawResults, NSError *error) {
 
-    __block HealthRecord *healthRecord = [HealthRecord new];
-    return [self getBMIsForPatient:patient withCompletion:^(NSArray<PatientVitalMeasurementBMI *> *bmis, NSError *error) {
+        NSDictionary *phrDictionary = rawResults[APIParamData];
 
-        healthRecord.bmis = bmis;
+        NSArray *objs = [[HealthRecord alloc] initWithJSONDictionary:phrDictionary];
 
-        [self getHeightsForPatient:patient withCompletion:^(NSArray<PatientVitalMeasurementHeight *> *heights, NSError *error) {
-
-            healthRecord.heights = heights;
-
-            [self getWeightsForPatient:patient withCompletion:^(NSArray<PatientVitalMeasurementWeight *> *weights, NSError *error) {
-
-                healthRecord.weights = weights;
-
-                [self getMedicationsForPatient:patient withCompletion:^(NSArray<Medication *> *medications, NSError *error) {
-
-                    healthRecord.medications = medications;
-
-                    [self getImmunizationsForPatient:patient withCompletion:^(NSArray<Immunization *> *immunizations, NSError *error) {
-
-                        healthRecord.immunizations = immunizations;
-
-                        [self getAllergiesForPatient:patient withCompletion:^(NSArray<Allergy *> *allergies, NSError *error) {
-
-                            healthRecord.allergies = allergies;
-
-                            [self getNotesForPatient:patient withCompletion:^(NSArray<PatientNote *> *notes, NSError *error) {
-
-                                NSMutableArray* mutable = [notes mutableCopy];
-                                healthRecord.notes = mutable;
-
-                                if (completionBlock) {
-                                    completionBlock(healthRecord, error);
-                                }
-                            }];
-                        }];
-                    }];
-                }];
-            }];
-        }];
+        if (completionBlock) {
+            completionBlock(objs, error);
+        }
     }];
+    
+    return task;
 }
 
--(NSURLSessionTask *)getBMIsForPatient:(Patient *)patient withCompletion:(void (^)(NSArray<PatientVitalMeasurementBMI *> *, NSError *))completionBlock {
+-(NSURLSessionTask *)getBMIsForPatient:(Patient *)patient withCompletion:(void (^)(NSArray<PatientVitalMeasurement *> *, NSError *))completionBlock {
     return [self getVitalsWithEndpoint:APIEndpointBMIs forPatient:patient dataParamName:APIParamBMIs withCompletion:completionBlock];
 }
 
--(NSURLSessionTask *)getHeightsForPatient:(Patient *)patient withCompletion:(void (^)(NSArray<PatientVitalMeasurementHeight *> *, NSError *))completionBlock {
+-(NSURLSessionTask *)getHeightsForPatient:(Patient *)patient withCompletion:(void (^)(NSArray<PatientVitalMeasurement *> *, NSError *))completionBlock {
     return [self getVitalsWithEndpoint:APIEndpointHeights forPatient:patient dataParamName:APIParamHeights withCompletion:completionBlock];
 }
 
--(NSURLSessionTask *)getWeightsForPatient:(Patient *)patient withCompletion:(void (^)(NSArray<PatientVitalMeasurementWeight *> *, NSError *))completionBlock {
+-(NSURLSessionTask *)getWeightsForPatient:(Patient *)patient withCompletion:(void (^)(NSArray<PatientVitalMeasurement *> *, NSError *))completionBlock {
     return [self getVitalsWithEndpoint:APIEndpointWeights forPatient:patient dataParamName:APIParamWeights withCompletion:completionBlock];
 }
 
@@ -153,7 +125,7 @@
     return task;
 }
 
--(NSURLSessionTask *)getNotesForPatient:(Patient *)patient withCompletion:(void (^)(NSArray<PatientNote *> *, NSError *))completionBlock {
+-(NSURLSessionTask *)getNotesForPatient:(Patient *)patient withCompletion:(void (^)(NSArray<PatientNote *> *notes, NSError *error))completionBlock {
 
     NSString *endpoint = [NSString stringWithFormat:@"%@/%@/%@", APIEndpointPatients, patient.objectID, APIEndpointNotes];
 

@@ -6,17 +6,17 @@
 //  Copyright © 2016 Leo Health. All rights reserved.
 //
 
+@class PatientVitalMeasurement, Medication, Immunization, Allergy, PatientNote, HealthRecord, Patient;
+
 #import <Foundation/Foundation.h>
-#import "HealthRecord.h"
-#import "Patient.h"
 
 @interface LEOHealthRecordService : NSObject
 
 - (NSURLSessionTask *)getHealthRecordForPatient:(Patient *)patient withCompletion:(void (^)(HealthRecord *healthRecord, NSError *error))completionBlock;
 
--(NSURLSessionTask *)getWeightsForPatient:(Patient *)patient withCompletion:(void (^)(NSArray<PatientVitalMeasurementWeight *> *, NSError *))completionBlock;
--(NSURLSessionTask *)getHeightsForPatient:(Patient *)patient withCompletion:(void (^)(NSArray<PatientVitalMeasurementHeight *> *, NSError *))completionBlock;
--(NSURLSessionTask *)getBMIsForPatient:(Patient *)patient withCompletion:(void (^)(NSArray<PatientVitalMeasurementBMI *> *, NSError *))completionBlock;
+-(NSURLSessionTask *)getWeightsForPatient:(Patient *)patient withCompletion:(void (^)(NSArray<PatientVitalMeasurement *> *, NSError *))completionBlock;
+-(NSURLSessionTask *)getHeightsForPatient:(Patient *)patient withCompletion:(void (^)(NSArray<PatientVitalMeasurement *> *, NSError *))completionBlock;
+-(NSURLSessionTask *)getBMIsForPatient:(Patient *)patient withCompletion:(void (^)(NSArray<PatientVitalMeasurement *> *, NSError *))completionBlock;
 
 -(NSURLSessionTask *)getMedicationsForPatient:(Patient *)patient withCompletion:(void (^)(NSArray<Medication *> *, NSError *))completionBlock;
 -(NSURLSessionTask *)getImmunizationsForPatient:(Patient *)patient withCompletion:(void (^)(NSArray<Immunization *> *, NSError *))completionBlock;
