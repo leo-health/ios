@@ -30,6 +30,8 @@
 
 @implementation LEOForgotPasswordViewController
 
+NSString * const kCopyResetPasswordSubmissionResponse = @"If you have an account with us, a link to reset your password will be sent to your e-mail address soon.";
+
 #pragma mark - View Controller Lifecycle and Helpers
 
 - (void)viewDidLoad {
@@ -146,7 +148,7 @@
         
         [userService resetPasswordWithEmail:self.forgotPasswordView.emailPromptField.textField.text withCompletion:^(NSDictionary * response, NSError * error) {
 
-            self.forgotPasswordView.responseLabel.hidden = NO;
+            self.forgotPasswordView.responseLabel.text = kCopyResetPasswordSubmissionResponse;
         }];
     }
 }

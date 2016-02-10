@@ -24,7 +24,8 @@
 #import "UIViewController+XibAdditions.h"
 #import "LEOIntrinsicSizeTableView.h"
 #import "UIView+Extensions.h"
-
+#import "LEOButtonCell.h"
+#import "LEOPromptFieldCell.h"
 
 @interface LEOManagePatientsViewController ()
 
@@ -35,9 +36,6 @@
 @end
 
 @implementation LEOManagePatientsViewController
-
-CGFloat const kCellHeightButton = 134;
-CGFloat const kCellHeightPatient = 69;
 
 static NSString *const kSignUpPatientSegue = @"SignUpPatientSegue";
 
@@ -192,10 +190,15 @@ static NSString *const kSignUpPatientSegue = @"SignUpPatientSegue";
 
 - (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    if (indexPath.section == TableViewSectionButton) {
-        return kCellHeightButton; // button height 54 + top space 40 + bottom space 40
+    switch (indexPath.section) {
+        case TableViewSectionButton:
+            return [[LEOButtonCell new] intrinsicContentSize].height;
+        case TableViewSectionAddPatient:
+            return [[LEOPromptFieldCell new] intrinsicContentSize].height;
+        case TableViewSectionPatients:
+            return [[LEOPromptFieldCell new] intrinsicContentSize].height;
     }
-    return kCellHeightPatient;
+    return 0;
 }
 
 

@@ -30,4 +30,9 @@
     // Configure the view for the selected state
 }
 
+- (CGSize)intrinsicContentSize {
+    
+    return CGSizeMake(UIViewNoIntrinsicMetric, 68);
+}
+
 @end

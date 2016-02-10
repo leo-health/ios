@@ -36,6 +36,10 @@
 #import "UIViewController+XibAdditions.h"
 #import "LEOIntrinsicSizeTableView.h"
 
+#import "LEOButtonCell.h"
+#import "LEOReviewPatientCell.h"
+#import "LEOReviewUserCell.h"
+
 @interface LEOReviewOnboardingViewController ()
 
 @property (weak, nonatomic) UILabel *navTitleLabel;
@@ -88,6 +92,9 @@ static CGFloat const kHeaderIntrinsicHeight = 194;
 
 - (void)setupNavigationBar {
     [LEOStyleHelper styleNavigationBarForViewController:self forFeature:self.feature withTitleText:@"Confirm Your Data" dismissal:NO backButton:NO];
+
+    [LEOStyleHelper styleNavigationBar:self.navigationController.navigationBar forFeature:FeatureOnboarding];
+    self.navigationItem.hidesBackButton = YES;
 }
 
 
@@ -129,6 +136,21 @@ static CGFloat const kHeaderIntrinsicHeight = 194;
 }
 
 #pragma mark - <UITableViewDelegate>
+
+- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    switch (indexPath.section) {
+        case TableViewSectionButton:
+            return [[LEOButtonCell new] intrinsicContentSize].height;
+
+        case TableViewSectionGuardians:
+            return [[LEOReviewUserCell new] intrinsicContentSize].height;
+
+        case TableViewSectionPatients:
+            return [[LEOReviewPatientCell new] intrinsicContentSize].height;
+    }
+    return 0;
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
