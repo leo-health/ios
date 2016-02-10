@@ -19,6 +19,8 @@
 		<key>SelfSignedCertificate</key>
 		<string>${SELF_SIGNED_CERTIFICATE}</string>
 	</dict>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<false/>  
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>

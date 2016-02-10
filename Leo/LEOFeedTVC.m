@@ -851,10 +851,6 @@ static CGFloat const kFeedInsetTop = 30.0;
     }
 }
 
-- (UIStatusBarStyle)preferredStatusBarStyle {
-    return UIStatusBarStyleLightContent;
-}
-
 - (LEOCardConversation *)findConversationCard {
     
     for (LEOCard *card in self.cards) {

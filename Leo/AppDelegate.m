@@ -116,6 +116,12 @@
 - (void)setRootViewControllerWithStoryboardName:(NSString *)storyboardName {
     
     storyboardName = storyboardName ?: kStoryboardLogin;
+
+    if ([storyboardName isEqualToString:kStoryboardLogin]) {
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+    } else {
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    }
     
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle:[NSBundle mainBundle]];
     
