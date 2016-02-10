@@ -496,10 +496,15 @@ static CGFloat const kFeedInsetTop = 30.0;
     AppointmentStatus *appointmentStatus = [AppointmentStatus new];
     appointmentStatus.statusCode = AppointmentStatusCodeFuture;
 
+    Patient *patient;
+    if (self.family.patients.count == 1) {
+        patient = [self.family.patients firstObject];
+    }
+
     Appointment *appointment = [[Appointment alloc] initWithObjectID:nil
                                                                 date:nil
                                                      appointmentType:nil
-                                                             patient:nil
+                                                             patient:patient
                                                             provider:nil
                                                           practiceID:@"0"
                                                         bookedByUser:[SessionUser currentUser]
