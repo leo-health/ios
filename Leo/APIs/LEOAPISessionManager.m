@@ -193,7 +193,7 @@
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
 
         // FIXME: this method causes a crash I think because the server is not responding with an error in the expected structure. Do we still need this here?
-//        [self formattedErrorFromError:&error];
+        [self formattedErrorFromError:&error];
 
         NSLog(@"Fail: %@",error.localizedDescription);
         NSLog(@"Fail: %@",error.localizedFailureReason);
@@ -326,9 +326,9 @@
     NSError *serializationError;
     NSDictionary *responseErrorDictionary = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
     
-    NSString *errorDescription = responseErrorDictionary[@"message"][@"error_description"];
-    NSString *errorSuggestion = responseErrorDictionary[@"message"][@"recovery_suggestion"];
-    NSString *errorFailureReason = responseErrorDictionary[@"message"][@"error_message"];
+    NSString *errorDescription = responseErrorDictionary[@"message"]; //[@"error_description"];
+    NSString *errorSuggestion = responseErrorDictionary[@"message"]; //[@"recovery_suggestion"];
+    NSString *errorFailureReason = responseErrorDictionary[@"message"]; //[@"error_message"];
     
     
     NSMutableDictionary *formattedErrorDictionary = [NSMutableDictionary new];
@@ -347,7 +347,7 @@
         
     if (!serializationError) {
         
-        NSInteger errorCode = [responseErrorDictionary[@"message"][@"error_code"] integerValue];
+        NSInteger errorCode = 0; //[responseErrorDictionary[@"message"][@"error_code"] integerValue];
         *error = [NSError errorWithDomain:errorPointer.domain code:errorCode userInfo:formattedErrorDictionary];
     }
 }

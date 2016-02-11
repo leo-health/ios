@@ -7,27 +7,25 @@
 //
 
 #import "LEOImageCropViewController.h"
+#import "UIImage+Extensions.h"
 #import "UIFont+LeoFonts.h"
 #import "UIColor+LeoColors.h"
 #import "LEOStyleHelper.h"
-
-@interface LEOImageCropViewController ()
-
-@end
 
 @implementation LEOImageCropViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-        self.moveAndScaleLabel.font = [UIFont leo_standardFont];
-        self.moveAndScaleLabel.textColor = self.view.tintColor;
-        self.maskLayerColor = [UIColor leo_white];
-        [self.cancelButton setTitleColor:[LEOStyleHelper tintColorForFeature:self.feature] forState:UIControlStateNormal];
-        [self.chooseButton setTitleColor:[LEOStyleHelper tintColorForFeature:self.feature] forState:UIControlStateNormal];
-        self.cancelButton.titleLabel.font = [UIFont leo_standardFont];
-        self.chooseButton.titleLabel.font = [UIFont leo_standardFont];
-        self.view.backgroundColor = [UIColor leo_white];
+
+    self.moveAndScaleLabel.hidden = YES;
+    self.chooseButton.hidden = YES;
+    self.cancelButton.hidden = YES;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden = NO;
 }
 
 

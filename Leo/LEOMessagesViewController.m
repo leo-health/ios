@@ -48,7 +48,9 @@
 #import <JSQMessagesViewController/JSQMessagesBubbleImageFactory.h>
 #import <OHHTTPStubs/OHHTTPStubs.h>
 #import <Photos/Photos.h>
+#import "LEOImagePreviewViewController.h"
 #import "UIButton+Extensions.h"
+#import "LEOStyleHelper.h"
 
 #if STUBS_FLAG
 #import "LEOStubs.h"
@@ -92,7 +94,6 @@
     [self setupStubs];
 #endif
 
-    [self setupNavigationBar];
     [self setupEmergencyBar];
     [self setupInputToolbar];
     [self setupCollectionViewFormatting];
@@ -100,15 +101,13 @@
     [self setupRequiredMessagingProperties];
     [self setupPusher];
     [self constructNotifications];
-
-    self.navigationController.delegate = self;
-
     [self setupMessageNotificationsForMessages:[self conversation].messages];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
 
     [super viewWillAppear:animated];
+    [self setupNavigationBar];
     [self scrollToBottomAnimated:NO];
 }
 
@@ -155,6 +154,20 @@
     [navBarTitleLabel sizeToFit];
 
     self.navigationItem.titleView = navBarTitleLabel;
+}
+
+- (UIButton *)buildDismissButtonForPhotos {
+
+    UIButton *dismissButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [dismissButton addTarget:self
+                      action:@selector(imagePreviewControllerDidChooseCancel:)
+            forControlEvents:UIControlEventTouchUpInside];
+    [dismissButton setImage:[UIImage imageNamed:@"Icon-Cancel"]
+                   forState:UIControlStateNormal];
+    [dismissButton sizeToFit];
+    dismissButton.tintColor = [UIColor leo_white];
+
+    return dismissButton;
 }
 
 - (UIButton *)buildDismissButton {
@@ -413,6 +426,11 @@
 
 - (void)didPressAccessoryButton:(UIButton *)sender {
 
+    [self presentImagePickerViewController];
+}
+
+- (void)presentImagePickerViewController {
+
     LEOTransitioningDelegate *strongTransitioningDelegate = [[LEOTransitioningDelegate alloc] initWithTransitionAnimatorType:TransitionAnimatorTypeCardPush];;
 
     self.transitioningDelegate = strongTransitioningDelegate;
@@ -439,6 +457,8 @@
                 pickerController.transitioningDelegate = self.transitioningDelegate;
                 pickerController.modalPresentationStyle = UIModalPresentationCustom;
 
+                pickerController.delegate = self;
+
                 [self presentViewController:pickerController animated:YES completion:nil];
             }];
         }];
@@ -458,6 +478,8 @@
                 pickerController.transitioningDelegate = self.transitioningDelegate;
                 pickerController.modalPresentationStyle = UIModalPresentationCustom;
 
+                pickerController.delegate = self;
+
                 [self presentViewController:pickerController animated:YES completion:nil];
             }];
         }];
@@ -474,24 +496,41 @@
 
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
 
-    UINavigationItem *imagePickerControllerNavigationItem;
+    //Initial styling of the navigation bar
+    [LEOStyleHelper styleNavigationBarForFeature:FeatureMessaging];
 
-    // add done button to right side of nav bar
+    UIColor *tintColor = [UIColor leo_white];
 
-    if ([self.navigationController.viewControllers count] > 1) {
+    //Create the navigation bar title label
+    UILabel *navTitleLabel = [[UILabel alloc] init];
+    navTitleLabel.text = @"Photos";
+    [LEOStyleHelper styleLabel:navTitleLabel forFeature:FeatureMessaging];
+    viewController.navigationItem.titleView = navTitleLabel;
+    viewController.navigationItem.title = @"";
 
-        //you cannot go back from the first view controller to pop up, so we ensure that the back button will not be updated.
-        //TODO: Someday consider whether the above comment actually makes sense from a design perspective (it is the Apple default for UIImagePickerViewController, but that doesn't mean that we should follow it.
-        if (self.navigationController.viewControllers[1] != viewController) {
-            UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Icon-BackArrow"] style:UIBarButtonItemStylePlain target:viewController action:@selector(popViewControllerAnimated:)];
+    //Create the dismiss button for the navigation bar
+    UIButton *dismissButton = [self buildDismissButtonForPhotos];
+    dismissButton.tintColor = tintColor;
+    UIBarButtonItem *dismissBBI = [[UIBarButtonItem alloc] initWithCustomView:dismissButton];
+    viewController.navigationItem.rightBarButtonItem = dismissBBI;
 
-            UINavigationBar *bar = navigationController.navigationBar;
-            //    [bar setHidden:NO];
-            imagePickerControllerNavigationItem = bar.topItem;
-            //    ipcNavBarTopItem.title = @"Photos";
-            imagePickerControllerNavigationItem.leftBarButtonItem = backButton;
-        }
-    }
+    //Create the back button
+    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    backButton.tintColor = tintColor;
+    [backButton setImage:[UIImage imageNamed:@"Icon-BackArrow"] forState:UIControlStateNormal];
+    [backButton setTitle:@"" forState:UIControlStateNormal];
+    [backButton addTarget:viewController action:@selector(popViewControllerAnimated:) forControlEvents:UIControlEventTouchUpInside];
+
+    UIBarButtonItem *backBBI = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    navigationController.navigationItem.leftBarButtonItem = backBBI;
+
+    //This is the special sauce required to get the bar to show the back arrow appropriately without the "Photos" title text, and in the appropriate spot.
+    [UINavigationBar appearance].backIndicatorImage = [UIImage imageNamed:@"Icon-BackArrow"];
+    [UINavigationBar appearance].backIndicatorTransitionMaskImage = [UIImage imageNamed:@"Icon-BackArrow"];
+    navigationController.navigationItem.hidesBackButton = YES;
+
+    //Required to get the back button and cancel button to tint with the feature color
+    navigationController.navigationBar.tintColor = tintColor;
 }
 
 #pragma mark - <UIImagePickerViewControllerDelegate>
@@ -501,39 +540,39 @@
 
     UIImage *originalImage = info[UIImagePickerControllerOriginalImage];
 
-    LEOImageCropViewController *imageCropVC = [[LEOImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeCustom];
+    if ([picker sourceType] == UIImagePickerControllerSourceTypeCamera) {
+        UIImageWriteToSavedPhotosAlbum (originalImage, nil, nil, nil);
+    }
 
-    self.cropDataSource = [LEOImageCropViewControllerDataSource new];
-
-    imageCropVC.moveAndScaleLabel.text = @"Confirm you would like to share this photo";
-    imageCropVC.feature = FeatureMessaging;
-    
-    [imageCropVC.chooseButton setTitle:@"Send" forState:UIControlStateNormal];
-    imageCropVC.dataSource = self.cropDataSource;
-    imageCropVC.delegate = self;
-    imageCropVC.zoomable = NO;
-    imageCropVC.transitioningDelegate = self.transitioningDelegate;
-
-    [picker dismissViewControllerAnimated:NO completion:nil];
-
-    [self.navigationController pushViewController:imageCropVC animated:NO];
+    LEOImagePreviewViewController *previewVC = [[LEOImagePreviewViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeCustom];
+    previewVC.delegate = self;
+    previewVC.feature = FeatureMessaging;
+    previewVC.leftBarButtonItem.hidden = YES;
+    previewVC.rightBarButtonItem.titleLabel.text = @"SEND PHOTO";
+    [picker pushViewController:previewVC animated:YES];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)imageCropViewControllerDidCancelCrop:(RSKImageCropViewController *)controller {
+- (void)imagePreviewControllerDidChooseCancel:(LEOImagePreviewViewController *)imagePreviewController {
 
-
-    [self.navigationController popViewControllerAnimated:YES];
+    [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)imageCropViewController:(RSKImageCropViewController *)controller didCropImage:(UIImage *)croppedImage usingCropRect:(CGRect)cropRect {
+- (void)imagePreviewControllerDidChooseConfirm:(LEOImagePreviewViewController *)imagePreviewController {
+
+    [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
+    [self sendImageMessage:imagePreviewController.image];
+}
+
+- (void)sendImageMessage:(UIImage *)image {
 
     self.sendButton.hidden = YES;
 
-    JSQPhotoMediaItem *photoItem = [[JSQPhotoMediaItem alloc] initWithImage:croppedImage];
+    JSQPhotoMediaItem *photoItem = [[JSQPhotoMediaItem alloc] initWithImage:image];
 
     MessageImage *message = [MessageImage messageWithObjectID:nil media:photoItem sender:[SessionUser guardian] escalatedTo:nil escalatedBy:nil status:nil statusCode:MessageStatusCodeUndefined createdAt:[NSDate date] escalatedAt:nil leoMedia:nil];
 
@@ -554,7 +593,6 @@
 
     [self.navigationController popViewControllerAnimated:YES];
 }
-
 
 #pragma mark - JSQMessages Collection View DataSource
 
@@ -837,6 +875,7 @@
      *  Override point for customizing cells
      */
     JSQMessagesCollectionViewCell *cell = (JSQMessagesCollectionViewCell *)[super collectionView:collectionView cellForItemAtIndexPath:indexPath];
+    cell.delegate = self;
 
     Message *message = [self conversation].messages[indexPath.item];
 
@@ -966,6 +1005,48 @@
                    layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout heightForCellBottomLabelAtIndexPath:(NSIndexPath *)indexPath {
     return 0.0f;
 }
+
+#pragma mark - JSQMessagesCollectionViewCell Delegate
+
+- (void)messagesCollectionViewCellDidTapMessageBubble:(JSQMessagesCollectionViewCell *)cell {
+
+
+    NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
+
+    Message *message = [self conversation].messages[indexPath.item];
+
+    if ([message isKindOfClass:[MessageImage class]]) {
+
+        MessageImage *messageImage = (MessageImage *)message;
+
+        JSQPhotoMediaItem *photoMediaItem = (JSQPhotoMediaItem *)messageImage.media;
+
+        UIImage *image = photoMediaItem.image;
+
+        LEOImagePreviewViewController* lightboxVC = [[LEOImagePreviewViewController alloc] initWithImage:image cropMode:RSKImageCropModeCustom];
+        lightboxVC.feature = FeatureMessaging;
+        lightboxVC.toolbarHeight = 0;
+        lightboxVC.leftBarButtonItem.hidden = YES;
+        lightboxVC.rightBarButtonItem.hidden = YES;
+        lightboxVC.showsBackButton = YES;
+
+        [self.navigationController pushViewController:lightboxVC animated:YES];
+    }
+}
+
+// unfortunately, these methods are requeired, even though we don't want to use them
+- (void)messagesCollectionViewCellDidTapCell:(JSQMessagesCollectionViewCell *)cell atPosition:(CGPoint)position {
+
+}
+
+- (void)messagesCollectionViewCellDidTapAvatar:(JSQMessagesCollectionViewCell *)cell {
+
+}
+
+- (void)messagesCollectionViewCell:(JSQMessagesCollectionViewCell *)cell didPerformAction:(SEL)action withSender:(id)sender {
+
+}
+
 
 #pragma mark - Responding to collection view tap events
 

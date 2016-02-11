@@ -20,6 +20,7 @@
 #import "NSDate+Extensions.h"
 #import "LEOValidationsHelper.h"
 #import "LEOMessagesAvatarImageFactory.h"
+#import "LEOImagePreviewViewController.h"
 
 #import "Family.h"
 #import "Patient.h"
@@ -206,19 +207,13 @@ static NSString *const kTitlePhotos = @"Photos";
 
     UIImage *originalImage = info[UIImagePickerControllerOriginalImage];
 
-    LEOImageCropViewController *imageCropVC = [[LEOImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeCircle];
+    LEOImagePreviewViewController *imageCropVC = [[LEOImagePreviewViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeCircle];
     imageCropVC.delegate = self;
-
-    //oddly, we have to set both the tintColor of the view AND the text/title colors in order for these to *always* be orange; no joke -- sometimes they are orange if you don't set the tintColor, and sometimes they aren't. seen by both ZSD and ADF.
-    imageCropVC.view.tintColor = [LEOStyleHelper tintColorForFeature:self.feature];
-    [imageCropVC.chooseButton setTitleColor:[UIColor leo_orangeRed] forState:UIControlStateNormal];
-    [imageCropVC.cancelButton setTitleColor:[UIColor leo_orangeRed] forState:UIControlStateNormal];
-    imageCropVC.moveAndScaleLabel.textColor = [LEOStyleHelper tintColorForFeature:self.feature];
-
-    imageCropVC.avoidEmptySpaceAroundImage = YES;
-    [self.navigationController pushViewController:imageCropVC animated:NO];
-
-    [self dismissImagePicker];
+    imageCropVC.feature = self.feature;
+    imageCropVC.imageCropController.avoidEmptySpaceAroundImage = YES;
+    imageCropVC.leftBarButtonItem.hidden = YES;
+    imageCropVC.rightBarButtonItem.titleLabel.text = @"USE PHOTO";
+    [picker pushViewController:imageCropVC animated:NO];
 }
 
 - (void)dismissImagePicker {
@@ -227,16 +222,15 @@ static NSString *const kTitlePhotos = @"Photos";
 
 
 #pragma mark - <RSKImageCropViewControllerDelegate>
+- (void)imagePreviewControllerDidChooseCancel:(LEOImagePreviewViewController *)imagePreviewController {
 
-- (void)imageCropViewControllerDidCancelCrop:(RSKImageCropViewController *)controller {
-    [self.navigationController popViewControllerAnimated:YES];
+    [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)imageCropViewController:(RSKImageCropViewController *)controller didCropImage:(UIImage *)croppedImage usingCropRect:(CGRect)cropRect {
+- (void)imagePreviewControllerDidChooseConfirm:(LEOImagePreviewViewController *)imagePreviewController {
 
-    self.signUpPatientView.patient.avatar.image = croppedImage;
-    
-    [self.navigationController popViewControllerAnimated:YES];
+    [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
+    self.signUpPatientView.patient.avatar.image = imagePreviewController.image;
 }
 
 - (void)navigationController:(UINavigationController *)navigationController

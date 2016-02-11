@@ -26,6 +26,8 @@
 + (void)styleSubmissionButton:(UIButton *)button forFeature:(Feature)feature;
 + (void)styleButton:(UIButton *)button forFeature:(Feature)feature;
 + (UIColor *)tintColorForFeature:(Feature)feature;
++ (UIColor *)headerIconColorForFeature:(Feature)feature;
++ (UIColor *)backgroundColorForFeature:(Feature)feature;
 + (void)styleNavigationBarShadowLineForViewController:(UIViewController *)viewController feature:(Feature)feature;
 + (void)removeNavigationBarShadowLineForViewController:(UIViewController *)viewController;
 + (void)styleDismissButtonForViewController:(UIViewController *)viewController feature:(Feature)feature;
