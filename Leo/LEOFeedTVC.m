@@ -212,7 +212,7 @@ static CGFloat const kFeedInsetTop = 30.0;
 //MARK: Most likely doesn't belong in this class; no longer tied to it except for completion block which can be passed in.
 - (void)pushNewMessageToConversation:(Conversation *)conversation {
 
-    NSString *channelString = [NSString stringWithFormat:@"%@%@",@"newMessage",[SessionUser currentUser].email];
+    NSString *channelString = [NSString stringWithFormat:@"%@%@",@"newMessage",[SessionUser currentUser].objectID];
     NSString *event = @"new_message";
 
     LEOPusherHelper *pusherHelper = [LEOPusherHelper sharedPusher];

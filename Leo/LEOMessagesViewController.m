@@ -275,7 +275,7 @@
 
 - (void)setupPusher {
 
-    NSString *channelString = [NSString stringWithFormat:@"%@%@",@"newMessage",[SessionUser currentUser].email];
+    NSString *channelString = [NSString stringWithFormat:@"%@%@",@"newMessage",[SessionUser currentUser].objectID];
     NSString *event = @"new_message";
 
     __weak typeof(self) weakSelf = self;
