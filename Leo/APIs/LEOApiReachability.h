@@ -10,6 +10,8 @@
 
 @interface LEOApiReachability : NSObject <UIGestureRecognizerDelegate>
 
++ (BOOL)reachable;
+
 + (void)startMonitoringForController:(UIViewController *)viewController;
 + (void)startMonitoringForController:(UIViewController *)viewController withOfflineBlock:(void (^)(void))offlineBlock withOnlineBlock:(void (^) (void))onlineBlock;
 
