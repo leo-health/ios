@@ -599,6 +599,20 @@
     [[NSNotificationCenter defaultCenter] addObserverForName:kNotificationDownloadedImageUpdated object:message.sender.avatar queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull notification) {
 
         typeof(self) strongSelf = weakSelf;
+
+        [strongSelf updateCachedAvatarForUser:message.sender withBlock:^JSQMessagesAvatarImage *(JSQMessagesAvatarImage *combinedImages) {
+
+            UIImage *placeholderImage = [LEOMessagesAvatarImageFactory circularAvatarImage:[UIImage imageNamed:@"Icon-AvatarBorderless"] withDiameter:20.0 borderColor:[UIColor leo_grayForPlaceholdersAndLines] borderWidth:2];
+
+            combinedImages = [JSQMessagesAvatarImage avatarImageWithPlaceholder:placeholderImage];
+
+            combinedImages.avatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:message.sender.avatar.image withDiameter:kJSQMessagesCollectionViewAvatarSizeDefault borderColor:[UIColor leo_grayForPlaceholdersAndLines] borderWidth:2];
+
+            combinedImages.avatarHighlightedImage = [LEOMessagesAvatarImageFactory circularAvatarHighlightedImage:message.sender.avatar.image withDiameter:kJSQMessagesCollectionViewAvatarSizeDefault borderColor:[UIColor leo_grayForPlaceholdersAndLines] borderWidth:2];
+
+            return combinedImages;
+        }];
+
         [strongSelf.collectionView.collectionViewLayout invalidateLayoutWithContext:[JSQMessagesCollectionViewFlowLayoutInvalidationContext context]];
         [strongSelf.collectionView reloadItemsAtIndexPaths:@[indexPath]];
     }];
@@ -636,6 +650,15 @@
     [self.avatarDictionary setObject:combinedImages forKey:user.objectID];
 
     return combinedImages;
+}
+
+- (void)updateCachedAvatarForUser:(User *)user withBlock:(JSQMessagesAvatarImage * (^)(JSQMessagesAvatarImage *combinedImages))updateBlock {
+
+    JSQMessagesAvatarImage *combinedImages = [self.avatarDictionary objectForKey:user.objectID];
+
+    JSQMessagesAvatarImage *combinedImagesNew = updateBlock(combinedImages);
+
+    [self.avatarDictionary setObject:combinedImagesNew forKey:user.objectID];
 }
 
 - (Conversation *)conversation {
