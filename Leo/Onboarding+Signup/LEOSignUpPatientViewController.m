@@ -211,8 +211,8 @@ static NSString *const kTitlePhotos = @"Photos";
     imageCropVC.delegate = self;
     imageCropVC.feature = self.feature;
     imageCropVC.imageCropController.avoidEmptySpaceAroundImage = YES;
-    imageCropVC.leftBarButtonItem.hidden = YES;
-    imageCropVC.rightBarButtonItem.titleLabel.text = @"USE PHOTO";
+    imageCropVC.leftToolbarButton.hidden = YES;
+    imageCropVC.rightToolbarButton.titleLabel.text = @"USE PHOTO";
     [picker pushViewController:imageCropVC animated:YES];
 }
 

@@ -25,8 +25,8 @@
 @interface LEOImagePreviewViewController : UIViewController <RSKImageCropViewControllerDelegate>
 
 @property (strong, nonatomic, readonly) LEOImageCropViewController *imageCropController;
-@property (strong, nonatomic, readonly) UIButton *leftBarButtonItem;
-@property (strong, nonatomic, readonly) UIButton *rightBarButtonItem;
+@property (strong, nonatomic, readonly) UIButton *leftToolbarButton;
+@property (strong, nonatomic, readonly) UIButton *rightToolbarButton;
 @property (nonatomic) Feature feature;
 @property (nonatomic) UIImagePickerControllerSourceType sourceType;
 @property (weak, nonatomic) id<LEOImagePreviewDelegate> delegate;

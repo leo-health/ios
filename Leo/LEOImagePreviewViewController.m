@@ -37,8 +37,8 @@ CGFloat const kPaddingHorizontalToolbarButtons = 20;
 CGFloat const kHeightDefaultToolbar = 44;
 
 @synthesize image = _image;
-@synthesize leftBarButtonItem = _leftBarButtonItem;
-@synthesize rightBarButtonItem = _rightBarButtonItem;
+@synthesize leftToolbarButton = _leftToolbarButton;
+@synthesize rightToolbarButton = _rightToolbarButton;
 @synthesize imageCropController = _imageCropController;
 
 - (instancetype)initWithImage:(UIImage *)image cropMode:(RSKImageCropMode)cropMode {
@@ -74,16 +74,16 @@ CGFloat const kHeightDefaultToolbar = 44;
     if (hidden) {
 
         self.toolbarHeight = 0;
-        self.originalLeftButtonHidden = self.leftBarButtonItem.hidden;
-        self.originalRightButtonHidden = self.rightBarButtonItem.hidden;
-        self.leftBarButtonItem.hidden = YES;
-        self.rightBarButtonItem.hidden = YES;
+        self.originalLeftButtonHidden = self.leftToolbarButton.hidden;
+        self.originalRightButtonHidden = self.rightToolbarButton.hidden;
+        self.leftToolbarButton.hidden = YES;
+        self.rightToolbarButton.hidden = YES;
 
     } else {
 
         self.toolbarHeight = self.originalToolbarHeight;
-        self.leftBarButtonItem.hidden = self.originalLeftButtonHidden;
-        self.leftBarButtonItem.hidden = self.originalRightButtonHidden;
+        self.leftToolbarButton.hidden = self.originalLeftButtonHidden;
+        self.leftToolbarButton.hidden = self.originalRightButtonHidden;
     }
 }
 
@@ -153,18 +153,18 @@ CGFloat const kHeightDefaultToolbar = 44;
 
         self.imageCropView.translatesAutoresizingMaskIntoConstraints = NO;
         self.toolbar.translatesAutoresizingMaskIntoConstraints = NO;
-        self.leftBarButtonItem.translatesAutoresizingMaskIntoConstraints = NO;
-        self.rightBarButtonItem.translatesAutoresizingMaskIntoConstraints = NO;
+        self.leftToolbarButton.translatesAutoresizingMaskIntoConstraints = NO;
+        self.rightToolbarButton.translatesAutoresizingMaskIntoConstraints = NO;
 
-        NSDictionary *views = NSDictionaryOfVariableBindings(_imageCropView, _toolbar, _leftBarButtonItem, _rightBarButtonItem);
+        NSDictionary *views = NSDictionaryOfVariableBindings(_imageCropView, _toolbar, _leftToolbarButton, _rightToolbarButton);
 
         [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_imageCropView][_toolbar(toolbarHeight)]|" options:0 metrics:@{@"toolbarHeight":@(self.toolbarHeight)} views:views]];
         [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_imageCropView]|" options:0 metrics:nil views:views]];
         [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_toolbar]|" options:0 metrics:nil views:views]];
 
-        [self.toolbar addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(padding)-[_leftBarButtonItem]->=0-[_rightBarButtonItem]-(padding)-|" options:0 metrics:@{@"padding":@(kPaddingHorizontalToolbarButtons)} views:views]];
-        [self.toolbar addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_rightBarButtonItem]|" options:0 metrics:nil views:views]];
-        [self.toolbar addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_leftBarButtonItem]|" options:0 metrics:nil views:views]];
+        [self.toolbar addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(padding)-[_leftToolbarButton]->=0-[_rightToolbarButton]-(padding)-|" options:0 metrics:@{@"padding":@(kPaddingHorizontalToolbarButtons)} views:views]];
+        [self.toolbar addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_rightToolbarButton]|" options:0 metrics:nil views:views]];
+        [self.toolbar addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_leftToolbarButton]|" options:0 metrics:nil views:views]];
 
         self.alreadyUpdatedConstraints = YES;
     }
@@ -184,30 +184,30 @@ CGFloat const kHeightDefaultToolbar = 44;
     return _toolbar;
 }
 
-- (UIButton *)leftBarButtonItem {
+- (UIButton *)leftToolbarButton {
 
-    if (!_leftBarButtonItem) {
-        _leftBarButtonItem = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_leftBarButtonItem setTitle:@"CANCEL" forState:UIControlStateNormal];
-        [_leftBarButtonItem addTarget:self action:@selector(cancelBBIAction) forControlEvents:UIControlEventTouchUpInside];
-        _leftBarButtonItem.titleLabel.font = [UIFont leo_fieldAndUserLabelsAndSecondaryButtonsFont];
-        [_leftBarButtonItem setTitleColor:[LEOStyleHelper headerIconColorForFeature:self.feature] forState:UIControlStateNormal];
-        [self.toolbar addSubview:_leftBarButtonItem];
+    if (!_leftToolbarButton) {
+        _leftToolbarButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_leftToolbarButton setTitle:@"CANCEL" forState:UIControlStateNormal];
+        [_leftToolbarButton addTarget:self action:@selector(cancelBBIAction) forControlEvents:UIControlEventTouchUpInside];
+        _leftToolbarButton.titleLabel.font = [UIFont leo_fieldAndUserLabelsAndSecondaryButtonsFont];
+        [_leftToolbarButton setTitleColor:[LEOStyleHelper headerIconColorForFeature:self.feature] forState:UIControlStateNormal];
+        [self.toolbar addSubview:_leftToolbarButton];
     }
-    return _leftBarButtonItem;
+    return _leftToolbarButton;
 }
 
-- (UIButton *)rightBarButtonItem {
+- (UIButton *)rightToolbarButton {
 
-    if (!_rightBarButtonItem) {
-        _rightBarButtonItem = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_rightBarButtonItem setTitle:@"CONFIRM" forState:UIControlStateNormal];
-        [_rightBarButtonItem addTarget:self action:@selector(confirmBBIAction) forControlEvents:UIControlEventTouchUpInside];
-        _rightBarButtonItem.titleLabel.font = [UIFont leo_fieldAndUserLabelsAndSecondaryButtonsFont];
-        [_rightBarButtonItem setTitleColor:[LEOStyleHelper headerIconColorForFeature:self.feature] forState:UIControlStateNormal];
-        [self.toolbar addSubview:_rightBarButtonItem];
+    if (!_rightToolbarButton) {
+        _rightToolbarButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_rightToolbarButton setTitle:@"CONFIRM" forState:UIControlStateNormal];
+        [_rightToolbarButton addTarget:self action:@selector(confirmBBIAction) forControlEvents:UIControlEventTouchUpInside];
+        _rightToolbarButton.titleLabel.font = [UIFont leo_fieldAndUserLabelsAndSecondaryButtonsFont];
+        [_rightToolbarButton setTitleColor:[LEOStyleHelper headerIconColorForFeature:self.feature] forState:UIControlStateNormal];
+        [self.toolbar addSubview:_rightToolbarButton];
     }
-    return _rightBarButtonItem;
+    return _rightToolbarButton;
 }
 
 - (void)setupNavigationBar {

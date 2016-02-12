@@ -498,8 +498,8 @@
     LEOImagePreviewViewController *previewVC = [[LEOImagePreviewViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeCustom];
     previewVC.delegate = self;
     previewVC.feature = FeatureMessaging;
-    previewVC.leftBarButtonItem.hidden = YES;
-    previewVC.rightBarButtonItem.titleLabel.text = @"SEND PHOTO";
+    previewVC.leftToolbarButton.hidden = YES;
+    previewVC.rightToolbarButton.titleLabel.text = @"SEND PHOTO";
     [picker pushViewController:previewVC animated:YES];
 }
 
