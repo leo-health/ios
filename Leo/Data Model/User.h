@@ -11,13 +11,9 @@
 #import "LEOS3Image.h"
 @class Appointment, ConversationParticipant, Role;
 
-
-
 @interface User : NSObject
 
 NS_ASSUME_NONNULL_BEGIN
-
-
 
 @property (nonatomic, copy, nullable) NSString * objectID;
 @property (nonatomic, copy) NSString * firstName;

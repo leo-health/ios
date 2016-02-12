@@ -231,6 +231,11 @@ extern NSString *const APIParamUserSuffix; // @"suffix";
 extern NSString *const APIParamUserEmail; // @"email";
 extern NSString *const APIParamUserAvatar; // @"avatar_url";
 
+extern NSString *const kGenderMale; // @"M";
+extern NSString *const kGenderFemale; // @"F";
+extern NSString *const kGenderMaleDisplay; // @"Male";
+extern NSString *const kGenderFemaleDisplay; // @"Female";
+
 extern NSString *const APIParamUserProviderID; // @"provider_id";
 
 extern NSString *const APIParamUserPatientID; // @"provider_id";

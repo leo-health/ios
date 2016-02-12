@@ -314,12 +314,12 @@ static NSString *const kPlaceholderValidationBirthDate = @"please add your child
 
         NSInteger selectedIndex = 0;
 
-        if ([self.genderPromptField.textField.text isEqualToString:@"Male"]) {
+        if ([self.genderPromptField.textField.text isEqualToString:kGenderMaleDisplay]) {
 
             selectedIndex = 1;
         }
 
-        AbstractActionSheetPicker *picker = [[ActionSheetStringPicker alloc] initWithTitle:nil rows:@[@"Female",@"Male"] initialSelection:selectedIndex target:self successAction:@selector(genderWasSelected:element:) cancelAction:nil origin:sender];
+        AbstractActionSheetPicker *picker = [[ActionSheetStringPicker alloc] initWithTitle:nil rows:@[kGenderFemaleDisplay,kGenderMaleDisplay] initialSelection:selectedIndex target:self successAction:@selector(genderWasSelected:element:) cancelAction:nil origin:sender];
         picker.hideCancel = YES;
         picker.pickerBackgroundColor = [UIColor leo_white];
 
@@ -348,9 +348,9 @@ static NSString *const kPlaceholderValidationBirthDate = @"please add your child
 
 - (void)genderWasSelected:(NSNumber *)selectedGender element:(id)element {
 
-    self.genderPromptField.textField.text = ([selectedGender isEqualToNumber:@0]) ? @"Female" : @"Male";
+    self.genderPromptField.textField.text = ([selectedGender isEqualToNumber:@0]) ? kGenderFemaleDisplay : kGenderMaleDisplay;
     self.genderPromptField.textField.valid = YES;
-    self.patient.gender = ([selectedGender isEqualToNumber:@0]) ? @"F" : @"M";
+    self.patient.gender = ([selectedGender isEqualToNumber:@0]) ? kGenderFemale : kGenderFemale;
 }
 
 
