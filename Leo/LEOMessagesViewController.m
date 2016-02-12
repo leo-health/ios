@@ -603,21 +603,11 @@
 
         JSQMessagesAvatarImage *avatarImage = [strongSelf createAvatarImageForUser:message.sender];
 
-        [strongSelf.avatarDictionary setObject:avatarImage forKey:message.sender.objectID];
+        NSString *avatarID = message.sender.objectID;
 
+        strongSelf.avatarDictionary[avatarID] = avatarImage;
 
-        NSArray *visibleIndexPaths = [self.collectionView indexPathsForVisibleItems];
-
-        NSMutableArray *indexPathsForAvatar = [@[] mutableCopy];
-
-        for (NSIndexPath *indexPath in visibleIndexPaths) {
-
-            Message *currentMessage = [strongSelf conversation].messages[indexPath.row];
-
-            if (currentMessage.sender.objectID == message.sender.objectID) {
-                [indexPathsForAvatar addObject:indexPath];
-            }
-        }
+        NSArray *indexPathsForAvatar = [strongSelf visibleIndexPathsForMessagesAssociatedWithUser:message.sender];
 
         [strongSelf.collectionView.collectionViewLayout invalidateLayoutWithContext:[JSQMessagesCollectionViewFlowLayoutInvalidationContext context]];
         [strongSelf.collectionView reloadItemsAtIndexPaths:indexPathsForAvatar];
@@ -628,10 +618,29 @@
     return avatarImage;
 }
 
--(NSMutableDictionary *)avatarDictionary {
+- (NSArray <NSIndexPath *>*)visibleIndexPathsForMessagesAssociatedWithUser:(User *)user {
+
+
+    NSArray *visibleIndexPaths = [self.collectionView indexPathsForVisibleItems];
+
+    NSMutableArray *indexPathsForAvatar = [NSMutableArray new];
+
+    for (NSIndexPath *indexPath in visibleIndexPaths) {
+
+        Message *currentMessage = [self conversation].messages[indexPath.row];
+
+        if (currentMessage.sender.objectID == user.objectID) {
+            [indexPathsForAvatar addObject:indexPath];
+        }
+    }
+
+    return indexPathsForAvatar;
+}
+
+- (NSMutableDictionary *)avatarDictionary {
 
     if (!_avatarDictionary) {
-        _avatarDictionary = [[NSMutableDictionary alloc] init];
+        _avatarDictionary = [NSMutableDictionary new];
     }
 
     return _avatarDictionary;
@@ -697,6 +706,7 @@
 
         NSUInteger fullLengthOfBreak;
 
+        //TODO: At some point...we should clean this up.
         NSInteger screenHeight = [@([UIScreen mainScreen].bounds.size.height) integerValue];
         switch (screenHeight) {
             case 568:
@@ -817,14 +827,12 @@
 
 #pragma mark - UICollectionView DataSource
 
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
-{
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return [[self conversation].messages count];
 }
 
 //TODO: Refactor this method ideally
-- (UICollectionViewCell *)collectionView:(JSQMessagesCollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
-{
+- (UICollectionViewCell *)collectionView:(JSQMessagesCollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     /**
      *  Override point for customizing cells
      */
@@ -910,8 +918,7 @@
 #pragma mark - Adjusting cell label heights
 
 - (CGFloat)collectionView:(JSQMessagesCollectionView *)collectionView
-                   layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout heightForCellTopLabelAtIndexPath:(NSIndexPath *)indexPath
-{
+                   layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout heightForCellTopLabelAtIndexPath:(NSIndexPath *)indexPath {
     /**
      *  Each label in a cell has a `height` delegate method that corresponds to its text dataSource method
      */
@@ -939,8 +946,7 @@
 }
 
 - (CGFloat)collectionView:(JSQMessagesCollectionView *)collectionView
-                   layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout heightForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath
-{
+                   layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout heightForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath {
     /**
      *  iOS7-style sender name labels
      */
@@ -1087,10 +1093,7 @@
     }];
 }
 
-/**
- *  Remove ourselves as an observer.
- */
--(void)dealloc {
+- (void)dealloc {
 
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
@@ -1122,25 +1125,29 @@
 }
 
 
-- (id<UIViewControllerAnimatedTransitioning>)
-navigationController:(UINavigationController *)navigationController
-animationControllerForOperation:(UINavigationControllerOperation)operation
-fromViewController:(UIViewController*)fromVC
-toViewController:(UIViewController*)toVC
-{
-    if (operation == UINavigationControllerOperationPush) {
-        
-        LEONavigationControllerPushAnimator *animator = [LEONavigationControllerPushAnimator new];
-        return animator;
+- (id<UIViewControllerAnimatedTransitioning>) navigationController:(UINavigationController *)navigationController
+                                   animationControllerForOperation:(UINavigationControllerOperation)operation
+                                                fromViewController:(UIViewController*)fromVC
+                                                  toViewController:(UIViewController*)toVC {
+
+    switch (operation) {
+
+        case UINavigationControllerOperationPush: {
+
+            LEONavigationControllerPushAnimator *animator = [LEONavigationControllerPushAnimator new];
+            return animator;
+        }
+
+        case UINavigationControllerOperationPop: {
+
+            LEONavigationControllerPopAnimator *animator = [LEONavigationControllerPopAnimator new];
+            return animator;
+        }
+
+        case UINavigationControllerOperationNone: {
+            return nil;
+        }
     }
-    
-    if (operation == UINavigationControllerOperationPop) {
-        
-        LEONavigationControllerPopAnimator *animator = [LEONavigationControllerPopAnimator new];
-        return animator;
-    }
-    
-    return nil;
 }
 
 
