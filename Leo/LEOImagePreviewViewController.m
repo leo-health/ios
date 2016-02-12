@@ -25,6 +25,10 @@
 @property (strong, nonatomic) UIBarButtonItem *flexBBI;
 @property (nonatomic) BOOL alreadyUpdatedConstraints;
 
+@property (nonatomic) CGFloat originalToolbarHeight;
+@property (nonatomic) BOOL originalLeftButtonHidden;
+@property (nonatomic) BOOL originalRightButtonHidden;
+
 @end
 
 @implementation LEOImagePreviewViewController
@@ -44,10 +48,43 @@ CGFloat const kHeightDefaultToolbar = 44;
 
         _originalImage = image;
         _cropMode = cropMode;
-        _toolbarHeight = kHeightDefaultToolbar;
+        self.toolbarHeight = kHeightDefaultToolbar;
     }
 
     return self;
+}
+
+- (instancetype)initWithNoCropModeWithImage:(UIImage *)image {
+
+    self = [self initWithImage:image cropMode:RSKImageCropModeCustom];
+    if (self) {
+        [self setToolbarHidden:YES];
+    }
+    return self;
+}
+
+- (void)setToolbarHeight:(CGFloat)toolbarHeight {
+
+    _toolbarHeight = toolbarHeight;
+    self.originalToolbarHeight = toolbarHeight;
+}
+
+- (void)setToolbarHidden:(BOOL)hidden {
+
+    if (hidden) {
+
+        self.toolbarHeight = 0;
+        self.originalLeftButtonHidden = self.leftBarButtonItem.hidden;
+        self.originalRightButtonHidden = self.rightBarButtonItem.hidden;
+        self.leftBarButtonItem.hidden = YES;
+        self.rightBarButtonItem.hidden = YES;
+
+    } else {
+
+        self.toolbarHeight = self.originalToolbarHeight;
+        self.leftBarButtonItem.hidden = self.originalLeftButtonHidden;
+        self.leftBarButtonItem.hidden = self.originalRightButtonHidden;
+    }
 }
 
 - (void)viewDidLoad {

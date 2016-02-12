@@ -974,11 +974,8 @@
 
         UIImage *image = photoMediaItem.image;
 
-        LEOImagePreviewViewController* lightboxVC = [[LEOImagePreviewViewController alloc] initWithImage:image cropMode:RSKImageCropModeCustom];
+        LEOImagePreviewViewController* lightboxVC = [[LEOImagePreviewViewController alloc] initWithNoCropModeWithImage:image];
         lightboxVC.feature = FeatureMessaging;
-        lightboxVC.toolbarHeight = 0;
-        lightboxVC.leftBarButtonItem.hidden = YES;
-        lightboxVC.rightBarButtonItem.hidden = YES;
         lightboxVC.showsBackButton = YES;
 
         [self.navigationController pushViewController:lightboxVC animated:YES];

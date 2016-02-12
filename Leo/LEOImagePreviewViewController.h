@@ -34,6 +34,7 @@
 @property (nonatomic) CGFloat toolbarHeight;
 @property (nonatomic) BOOL showsBackButton;
 
+- (instancetype)initWithNoCropModeWithImage:(UIImage *)image;
 - (instancetype)initWithImage:(UIImage *)image cropMode:(RSKImageCropMode)cropMode;
 
 
