@@ -605,8 +605,22 @@
 
         [strongSelf.avatarDictionary setObject:avatarImage forKey:message.sender.objectID];
 
+
+        NSArray *visibleIndexPaths = [self.collectionView indexPathsForVisibleItems];
+
+        NSMutableArray *indexPathsForAvatar = [@[] mutableCopy];
+
+        for (NSIndexPath *indexPath in visibleIndexPaths) {
+
+            Message *currentMessage = [strongSelf conversation].messages[indexPath.row];
+
+            if (currentMessage.sender.objectID == message.sender.objectID) {
+                [indexPathsForAvatar addObject:indexPath];
+            }
+        }
+
         [strongSelf.collectionView.collectionViewLayout invalidateLayoutWithContext:[JSQMessagesCollectionViewFlowLayoutInvalidationContext context]];
-        [strongSelf.collectionView reloadItemsAtIndexPaths:@[indexPath]];
+        [strongSelf.collectionView reloadItemsAtIndexPaths:indexPathsForAvatar];
     }];
 
     JSQMessagesAvatarImage *avatarImage = [self avatarForUser:message.sender];
