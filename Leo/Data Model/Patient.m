@@ -10,6 +10,7 @@
 #import "NSDate+Extensions.h"
 #import "LEOValidationsHelper.h"
 #import "LEOS3Image.h"
+#import "LEOConstants.h"
 
 @implementation Patient
 
@@ -24,6 +25,8 @@
         _dob = dob;
         _gender = gender;
         _status = status;
+
+        [self setPatientAvatarPlaceholder];
     }
 
     return self;
@@ -48,9 +51,20 @@
         _dob = [NSDate leo_dateFromDashedDateString:jsonResponse[APIParamUserBirthDate]];
         _gender = jsonResponse[APIParamUserSex];
         _status = jsonResponse[APIParamUserStatus];
+
+        [self setPatientAvatarPlaceholder];
     }
 
     return self;
+}
+
+- (void)setPatientAvatarPlaceholder {
+
+    if ([self.gender isEqualToString:kGenderFemale]) {
+        self.avatar.placeholder = [UIImage imageNamed:@"Avatar_Patient_Daughter"];
+    } else {
+        self.avatar.placeholder = [UIImage imageNamed:@"Avatar_Patient_Son"];
+    }
 }
 
 + (NSDictionary *)dictionaryFromUser:(Patient *)patient {
@@ -93,12 +107,12 @@
 
     _genderDisplayName = genderDisplayName;
 
-    if ([_genderDisplayName isEqualToString:@"Male"]) {
-        self.gender = @"M";
+    if ([_genderDisplayName isEqualToString:kGenderMaleDisplay]) {
+        self.gender = kGenderMale;
     }
 
-    if ([_genderDisplayName isEqualToString:@"Female"]) {
-        self.gender = @"F";
+    if ([_genderDisplayName isEqualToString:kGenderFemaleDisplay]) {
+        self.gender = kGenderFemale;
     }
 
 }
@@ -107,12 +121,12 @@
 
     NSString *displayName;
 
-    if ([self.gender isEqualToString:@"M"]) {
-        displayName = @"Male";
+    if ([self.gender isEqualToString:kGenderMale]) {
+        displayName = kGenderMaleDisplay;
     }
 
-    if ([self.gender isEqualToString:@"F"]) {
-        displayName = @"Female";
+    if ([self.gender isEqualToString:kGenderFemale]) {
+        displayName = kGenderFemaleDisplay;
     }
 
     return displayName;
@@ -122,12 +136,12 @@
 
     _gender = gender;
 
-    if ([gender isEqualToString:@"Male"]) {
-        _gender = @"M";
+    if ([gender isEqualToString:kGenderMaleDisplay]) {
+        _gender = kGenderMale;
     }
 
-    if ([gender isEqualToString:@"Female"]) {
-        _gender = @"F";
+    if ([gender isEqualToString:kGenderFemaleDisplay]) {
+        _gender = kGenderFemale;
     }
 }
 

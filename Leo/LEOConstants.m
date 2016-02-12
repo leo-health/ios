@@ -95,6 +95,11 @@ NSString *const APIParamUserSuffix = @"suffix";
 NSString *const APIParamUserEmail = @"email";
 NSString *const APIParamUserAvatar = @"avatar";
 
+NSString *const kGenderMale = @"M";
+NSString *const kGenderFemale = @"F";
+NSString *const kGenderMaleDisplay = @"Male";
+NSString *const kGenderFemaleDisplay = @"Female";
+
 NSString *const APIParamUserProviderID = @"provider_id";
 NSString *const APIParamUserPatientID = @"patient_id";
 NSString *const APIParamUserBookedByID = @"booked_by_id";
