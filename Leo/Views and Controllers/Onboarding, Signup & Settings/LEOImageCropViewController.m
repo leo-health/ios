@@ -25,7 +25,11 @@
 - (void)viewWillAppear:(BOOL)animated {
 
     [super viewWillAppear:animated];
+
+    // RSKImageCropViewController feels it has the right to hide the nav bar, so we need to unhide it here
     self.navigationController.navigationBarHidden = NO;
+
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
 }
 
 

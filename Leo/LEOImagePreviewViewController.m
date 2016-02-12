@@ -60,6 +60,12 @@ CGFloat const kHeightDefaultToolbar = 44;
 
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    
+    [super viewWillAppear:animated];
+    [self setupNavigationBar];
+}
+
 - (UIImage *)image {
 
     if (!_image) {
@@ -98,29 +104,6 @@ CGFloat const kHeightDefaultToolbar = 44;
     }
 
     return _imageCropView;
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-
-    [super viewWillAppear:animated];
-    [self setupNavigationBar];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-
-    [super viewDidAppear:animated];
-}
-
-- (void)viewDidLayoutSubviews {
-
-    [super viewDidLayoutSubviews];
-
-    NSLog(@"layout");
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-
-    [super viewWillDisappear:animated];
 }
 
 - (void)updateViewConstraints {
@@ -205,8 +188,8 @@ CGFloat const kHeightDefaultToolbar = 44;
 
 - (void)imageCropViewControllerDidCancelCrop:(RSKImageCropViewController *)controller {
 
-    if ([self.delegate respondsToSelector:@selector(imagePreviewControllerDidChooseCancel:)]) {
-        [self.delegate imagePreviewControllerDidChooseCancel:self];
+    if ([self.delegate respondsToSelector:@selector(imagePreviewControllerDidCancel:)]) {
+        [self.delegate imagePreviewControllerDidCancel:self];
     }
 }
 
@@ -218,8 +201,8 @@ CGFloat const kHeightDefaultToolbar = 44;
 - (void)imageCropViewController:(RSKImageCropViewController *)controller didCropImage:(UIImage *)croppedImage usingCropRect:(CGRect)cropRect {
 
     _image = croppedImage;
-    if ([self.delegate respondsToSelector:@selector(imagePreviewControllerDidChooseConfirm:)]) {
-        [self.delegate imagePreviewControllerDidChooseConfirm:self];
+    if ([self.delegate respondsToSelector:@selector(imagePreviewControllerDidConfirm:)]) {
+        [self.delegate imagePreviewControllerDidConfirm:self];
     }
 }
 

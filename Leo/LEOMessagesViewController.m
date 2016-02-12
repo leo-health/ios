@@ -48,7 +48,6 @@
 #import <JSQMessagesViewController/JSQMessagesBubbleImageFactory.h>
 #import <OHHTTPStubs/OHHTTPStubs.h>
 #import <Photos/Photos.h>
-#import "LEOImagePreviewViewController.h"
 #import "UIButton+Extensions.h"
 #import "LEOStyleHelper.h"
 
@@ -154,20 +153,6 @@
     [navBarTitleLabel sizeToFit];
 
     self.navigationItem.titleView = navBarTitleLabel;
-}
-
-- (UIButton *)buildDismissButtonForPhotos {
-
-    UIButton *dismissButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [dismissButton addTarget:self
-                      action:@selector(imagePreviewControllerDidChooseCancel:)
-            forControlEvents:UIControlEventTouchUpInside];
-    [dismissButton setImage:[UIImage imageNamed:@"Icon-Cancel"]
-                   forState:UIControlStateNormal];
-    [dismissButton sizeToFit];
-    dismissButton.tintColor = [UIColor leo_white];
-
-    return dismissButton;
 }
 
 - (UIButton *)buildDismissButton {
@@ -496,41 +481,7 @@
 
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
 
-    //Initial styling of the navigation bar
-    [LEOStyleHelper styleNavigationBarForFeature:FeatureMessaging];
-
-    UIColor *tintColor = [UIColor leo_white];
-
-    //Create the navigation bar title label
-    UILabel *navTitleLabel = [[UILabel alloc] init];
-    navTitleLabel.text = @"Photos";
-    [LEOStyleHelper styleLabel:navTitleLabel forFeature:FeatureMessaging];
-    viewController.navigationItem.titleView = navTitleLabel;
-    viewController.navigationItem.title = @"";
-
-    //Create the dismiss button for the navigation bar
-    UIButton *dismissButton = [self buildDismissButtonForPhotos];
-    dismissButton.tintColor = tintColor;
-    UIBarButtonItem *dismissBBI = [[UIBarButtonItem alloc] initWithCustomView:dismissButton];
-    viewController.navigationItem.rightBarButtonItem = dismissBBI;
-
-    //Create the back button
-    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    backButton.tintColor = tintColor;
-    [backButton setImage:[UIImage imageNamed:@"Icon-BackArrow"] forState:UIControlStateNormal];
-    [backButton setTitle:@"" forState:UIControlStateNormal];
-    [backButton addTarget:viewController action:@selector(popViewControllerAnimated:) forControlEvents:UIControlEventTouchUpInside];
-
-    UIBarButtonItem *backBBI = [[UIBarButtonItem alloc] initWithCustomView:backButton];
-    navigationController.navigationItem.leftBarButtonItem = backBBI;
-
-    //This is the special sauce required to get the bar to show the back arrow appropriately without the "Photos" title text, and in the appropriate spot.
-    [UINavigationBar appearance].backIndicatorImage = [UIImage imageNamed:@"Icon-BackArrow"];
-    [UINavigationBar appearance].backIndicatorTransitionMaskImage = [UIImage imageNamed:@"Icon-BackArrow"];
-    navigationController.navigationItem.hidesBackButton = YES;
-
-    //Required to get the back button and cancel button to tint with the feature color
-    navigationController.navigationBar.tintColor = tintColor;
+    [LEOStyleHelper navigationController:navigationController willShowViewController:viewController animated:animated forFeature:FeatureMessaging forImagePickerWithDismissTarget:self action:@selector(imagePreviewControllerDidCancel:)];
 }
 
 #pragma mark - <UIImagePickerViewControllerDelegate>
@@ -557,12 +508,12 @@
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)imagePreviewControllerDidChooseCancel:(LEOImagePreviewViewController *)imagePreviewController {
+- (void)imagePreviewControllerDidCancel:(LEOImagePreviewViewController *)imagePreviewController {
 
     [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)imagePreviewControllerDidChooseConfirm:(LEOImagePreviewViewController *)imagePreviewController {
+- (void)imagePreviewControllerDidConfirm:(LEOImagePreviewViewController *)imagePreviewController {
 
     [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
     [self sendImageMessage:imagePreviewController.image];

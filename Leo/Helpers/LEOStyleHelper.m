@@ -61,14 +61,7 @@
 
     [navigationBar setBackgroundImage:[UIImage leo_imageWithColor:[self backgroundColorForFeature:feature]] forBarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
 
-    navigationBar.translucent = YES;
-
-    if (feature == FeatureOnboarding || feature == FeatureSettings) {
-        navigationBar.translucent = NO;
-
-    } else {
-        navigationBar.translucent = YES;
-    }
+    navigationBar.translucent = NO;
 
     [navigationBar setShadowImage:[UIImage new]];
 }
@@ -330,6 +323,53 @@
         case FeatureUndefined:
             return [UIColor blackColor];
     }
+}
+
++ (void)navigationController:(UINavigationController *)navigationController
+              willShowViewController:(UIViewController *)viewController
+                    animated:(BOOL)animated forFeature:(Feature)feature forImagePickerWithDismissTarget:(id)target action:(SEL)action {
+
+    //Initial styling of the navigation bar
+    [LEOStyleHelper styleNavigationBar:navigationController.navigationBar forFeature:feature];
+
+    UIColor *tintColor = [UIColor leo_white];
+
+    //Create the navigation bar title label
+    UILabel *navTitleLabel = [[UILabel alloc] init];
+    navTitleLabel.text = @"Photos";
+    [LEOStyleHelper styleLabel:navTitleLabel forFeature:feature];
+    viewController.navigationItem.titleView = navTitleLabel;
+    viewController.navigationItem.title = @"";
+
+    //Create the dismiss button for the navigation bar
+    UIButton *dismissButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [dismissButton addTarget:target
+                      action:action
+            forControlEvents:UIControlEventTouchUpInside];
+    [dismissButton setImage:[UIImage imageNamed:@"Icon-Cancel"]
+                   forState:UIControlStateNormal];
+    [dismissButton sizeToFit];
+    dismissButton.tintColor = tintColor;
+    UIBarButtonItem *dismissBBI = [[UIBarButtonItem alloc] initWithCustomView:dismissButton];
+    viewController.navigationItem.rightBarButtonItem = dismissBBI;
+
+    //Create the back button
+    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    backButton.tintColor = tintColor;
+    [backButton setImage:[UIImage imageNamed:@"Icon-BackArrow"] forState:UIControlStateNormal];
+    [backButton setTitle:@"" forState:UIControlStateNormal];
+    [backButton addTarget:viewController action:@selector(popViewControllerAnimated:) forControlEvents:UIControlEventTouchUpInside];
+
+    UIBarButtonItem *backBBI = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    navigationController.navigationItem.leftBarButtonItem = backBBI;
+
+    //This is the special sauce required to get the bar to show the back arrow appropriately without the "Photos" title text, and in the appropriate spot.
+    [UINavigationBar appearance].backIndicatorImage = [UIImage imageNamed:@"Icon-BackArrow"];
+    [UINavigationBar appearance].backIndicatorTransitionMaskImage = [UIImage imageNamed:@"Icon-BackArrow"];
+    navigationController.navigationItem.hidesBackButton = YES;
+
+    //Required to get the back button and cancel button to tint with the feature color
+    navigationController.navigationBar.tintColor = tintColor;
 }
 
 

@@ -14,12 +14,14 @@
 
 @protocol LEOImagePreviewDelegate <NSObject>
 
-- (void)imagePreviewControllerDidChooseCancel:(LEOImagePreviewViewController *)imagePreviewController;
-- (void)imagePreviewControllerDidChooseConfirm:(LEOImagePreviewViewController *)imagePreviewController;
+- (void)imagePreviewControllerDidCancel:(LEOImagePreviewViewController *)imagePreviewController;
+- (void)imagePreviewControllerDidConfirm:(LEOImagePreviewViewController *)imagePreviewController;
 
 @end
 
-
+/**
+ *  Using view controller containment here so we can customize the nav bar and toolbar that surround the crop view
+ */
 @interface LEOImagePreviewViewController : UIViewController <RSKImageCropViewControllerDelegate>
 
 @property (strong, nonatomic, readonly) LEOImageCropViewController *imageCropController;
