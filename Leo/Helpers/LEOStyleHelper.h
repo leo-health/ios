@@ -40,8 +40,7 @@
 + (UIColor *)gradientStartColorForFeature:(Feature)feature;
 + (UIColor *)gradientEndColorForFeature:(Feature)feature;
 
-+ (void)navigationController:(UINavigationController *)navigationController
-      willShowViewController:(UIViewController *)viewController
-                    animated:(BOOL)animated forFeature:(Feature)feature forImagePickerWithDismissTarget:(id)target action:(SEL)action;
-
++ (void)imagePickerController:(UINavigationController *)navigationController
+       willShowViewController:(UIViewController *)viewController
+                   forFeature:(Feature)feature forImagePickerWithDismissTarget:(id)target action:(SEL)action;
 @end

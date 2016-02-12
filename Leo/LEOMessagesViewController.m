@@ -75,6 +75,8 @@
 
 @implementation LEOMessagesViewController
 
+NSString *const kCopySendPhoto = @"SEND PHOTO";
+
 #pragma mark - View lifecycle
 
 /**
@@ -481,7 +483,7 @@
 
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
 
-    [LEOStyleHelper navigationController:navigationController willShowViewController:viewController animated:animated forFeature:FeatureMessaging forImagePickerWithDismissTarget:self action:@selector(imagePreviewControllerDidCancel:)];
+    [LEOStyleHelper imagePickerController:navigationController willShowViewController:viewController forFeature:FeatureMessaging forImagePickerWithDismissTarget:self action:@selector(imagePreviewControllerDidCancel:)];
 }
 
 #pragma mark - <UIImagePickerViewControllerDelegate>
@@ -499,7 +501,7 @@
     previewVC.delegate = self;
     previewVC.feature = FeatureMessaging;
     previewVC.leftToolbarButton.hidden = YES;
-    previewVC.rightToolbarButton.titleLabel.text = @"SEND PHOTO";
+    previewVC.rightToolbarButton.titleLabel.text = kCopySendPhoto;
     [picker pushViewController:previewVC animated:YES];
 }
 

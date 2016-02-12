@@ -48,6 +48,7 @@
 static NSString *const kAvatarCallToActionEdit = @"Edit the photo of your child";
 static NSString *const kTitleAddChildDetails = @"Add Child Details";
 static NSString *const kTitlePhotos = @"Photos";
+static NSString *const kCopyUsePhoto = @"USE PHOTO";
 
 #pragma mark - View Controller Lifecycle & Helpers
 
@@ -212,7 +213,7 @@ static NSString *const kTitlePhotos = @"Photos";
     imageCropVC.feature = self.feature;
     imageCropVC.imageCropController.avoidEmptySpaceAroundImage = YES;
     imageCropVC.leftToolbarButton.hidden = YES;
-    imageCropVC.rightToolbarButton.titleLabel.text = @"USE PHOTO";
+    imageCropVC.rightToolbarButton.titleLabel.text = kCopyUsePhoto;
     [picker pushViewController:imageCropVC animated:YES];
 }
 
@@ -237,8 +238,7 @@ static NSString *const kTitlePhotos = @"Photos";
       willShowViewController:(UIViewController *)viewController
                     animated:(BOOL)animated {
 
-
-    [LEOStyleHelper navigationController:navigationController willShowViewController:viewController animated:animated forFeature:self.feature forImagePickerWithDismissTarget:self action:@selector(dismiss)];
+    [LEOStyleHelper imagePickerController:navigationController willShowViewController:viewController forFeature:self.feature forImagePickerWithDismissTarget:self action:@selector(dismiss)];
 }
 
 - (void)dismiss {

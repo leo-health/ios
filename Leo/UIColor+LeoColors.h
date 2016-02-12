@@ -21,7 +21,6 @@
 + (UIColor *) leo_white;
 + (UIColor *) leo_lightBlue;
 
-+ (UIColor *)leo_grayBlueForBackgrounds;
 + (UIColor *)leo_grayStandard;
 + (UIColor *)leo_grayForTitlesAndHeadings;
 + (UIColor *)leo_grayForPlaceholdersAndLines;

@@ -13,6 +13,7 @@
 #import "UIFont+LeoFonts.h"
 #import "LEOImageCropViewControllerDataSource.h"
 #import "LEOImageCropViewController.h"
+#import "LEOConstants.h"
 
 @interface LEOImagePreviewViewController ()
 
@@ -33,8 +34,7 @@
 
 @implementation LEOImagePreviewViewController
 
-CGFloat const kPaddingHorizontalToolbarButtons = 20;
-CGFloat const kHeightDefaultToolbar = 44;
+NSString * const kCopyPhotoPreview = @"Photo Preview";
 
 @synthesize image = _image;
 @synthesize leftToolbarButton = _leftToolbarButton;
@@ -48,6 +48,8 @@ CGFloat const kHeightDefaultToolbar = 44;
 
         _originalImage = image;
         _cropMode = cropMode;
+
+        // FIXME: refactor to not use setter for side effects
         self.toolbarHeight = kHeightDefaultToolbar;
     }
 
@@ -116,15 +118,21 @@ CGFloat const kHeightDefaultToolbar = 44;
 - (LEOImageCropViewController *)imageCropController {
 
     if (!_imageCropController) {
+
         _imageCropController = [[LEOImageCropViewController alloc] initWithImage:self.image cropMode:self.cropMode];
+
         if (self.cropMode == RSKImageCropModeCustom) {
+
             self.cropDataSource = [LEOImageCropViewControllerDataSource new];
             _imageCropController.dataSource = self.cropDataSource;
         }
+
         _imageCropController.delegate = self;
         _imageCropController.moveAndScaleLabel.hidden = YES;
         _imageCropController.chooseButton.hidden = YES;
         _imageCropController.cancelButton.hidden = YES;
+
+        // FIXME: refactor to not use accessors for side effects
         [self imageCropView];
     }
 
@@ -134,11 +142,12 @@ CGFloat const kHeightDefaultToolbar = 44;
 - (UIView *)imageCropView {
 
     if (!_imageCropView) {
+
         UIView *strongView = _imageCropController.view;
         [self.view addSubview:strongView];
         [_imageCropController didMoveToParentViewController:self];
         _imageCropView = strongView;
-        _imageCropView.backgroundColor = [UIColor leo_grayBlueForBackgrounds];
+        _imageCropView.backgroundColor = [UIColor leo_grayForMessageBubbles];
     }
 
     return _imageCropView;
@@ -151,7 +160,7 @@ CGFloat const kHeightDefaultToolbar = 44;
 
     if (!self.alreadyUpdatedConstraints) {
 
-        self.view.backgroundColor = [UIColor leo_grayBlueForBackgrounds];
+        self.view.backgroundColor = [UIColor leo_grayForMessageBubbles];
 
         self.imageCropView.translatesAutoresizingMaskIntoConstraints = NO;
         self.toolbar.translatesAutoresizingMaskIntoConstraints = NO;
@@ -189,6 +198,7 @@ CGFloat const kHeightDefaultToolbar = 44;
 - (UIButton *)leftToolbarButton {
 
     if (!_leftToolbarButton) {
+
         _leftToolbarButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_leftToolbarButton setTitle:@"CANCEL" forState:UIControlStateNormal];
         [_leftToolbarButton addTarget:self action:@selector(cancelBBIAction) forControlEvents:UIControlEventTouchUpInside];
@@ -196,12 +206,14 @@ CGFloat const kHeightDefaultToolbar = 44;
         [_leftToolbarButton setTitleColor:[LEOStyleHelper headerIconColorForFeature:self.feature] forState:UIControlStateNormal];
         [self.toolbar addSubview:_leftToolbarButton];
     }
+
     return _leftToolbarButton;
 }
 
 - (UIButton *)rightToolbarButton {
 
     if (!_rightToolbarButton) {
+
         _rightToolbarButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_rightToolbarButton setTitle:@"CONFIRM" forState:UIControlStateNormal];
         [_rightToolbarButton addTarget:self action:@selector(confirmBBIAction) forControlEvents:UIControlEventTouchUpInside];
@@ -209,13 +221,14 @@ CGFloat const kHeightDefaultToolbar = 44;
         [_rightToolbarButton setTitleColor:[LEOStyleHelper headerIconColorForFeature:self.feature] forState:UIControlStateNormal];
         [self.toolbar addSubview:_rightToolbarButton];
     }
+
     return _rightToolbarButton;
 }
 
 - (void)setupNavigationBar {
 
     [self.navigationController setNavigationBarHidden:NO animated:NO];
-    [LEOStyleHelper styleNavigationBarForViewController:self forFeature:self.feature withTitleText:@"Photo Preview" dismissal:NO backButton:self.showsBackButton];
+    [LEOStyleHelper styleNavigationBarForViewController:self forFeature:self.feature withTitleText:kCopyPhotoPreview dismissal:NO backButton:self.showsBackButton];
     self.navigationItem.hidesBackButton = YES;
     self.navigationController.navigationBar.translucent = NO;
 }
@@ -228,19 +241,20 @@ CGFloat const kHeightDefaultToolbar = 44;
 - (void)imageCropViewControllerDidCancelCrop:(RSKImageCropViewController *)controller {
 
     if ([self.delegate respondsToSelector:@selector(imagePreviewControllerDidCancel:)]) {
+        
         [self.delegate imagePreviewControllerDidCancel:self];
     }
 }
 
 - (void)confirmBBIAction {
     [self.imageCropController.chooseButton sendActionsForControlEvents:UIControlEventTouchUpInside];
-
 }
 
 - (void)imageCropViewController:(RSKImageCropViewController *)controller didCropImage:(UIImage *)croppedImage usingCropRect:(CGRect)cropRect {
 
     _image = croppedImage;
     if ([self.delegate respondsToSelector:@selector(imagePreviewControllerDidConfirm:)]) {
+
         [self.delegate imagePreviewControllerDidConfirm:self];
     }
 }

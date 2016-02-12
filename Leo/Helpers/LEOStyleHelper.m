@@ -137,19 +137,23 @@
 }
 
 + (void)styleDismissButtonForViewController:(UIViewController *)viewController feature:(Feature)feature {
+    [self styleDismissButtonForViewController:viewController feature:feature target:viewController action:@selector(dismiss)];
+}
+
++ (void)styleDismissButtonForViewController:(UIViewController *)viewController feature:(Feature)feature target:(id)target action:(SEL)action {
     
     UIButton *dismissButton = [UIButton buttonWithType:UIButtonTypeCustom];
     
     //TODO: Decide whether to use responder chain or move this out and instantiate the button in the VC.
-    [dismissButton addTarget:viewController
-                      action:@selector(dismiss)
+    [dismissButton addTarget:target
+                      action:action
             forControlEvents:UIControlEventTouchUpInside];
 
     [dismissButton setImage:[UIImage imageNamed:@"Icon-Cancel"]
                    forState:UIControlStateNormal];
     [dismissButton sizeToFit];
     
-    dismissButton.tintColor = [UIColor leo_white];
+    dismissButton.tintColor = [self headerIconColorForFeature:feature];
     
     UIBarButtonItem *dismissBBI = [[UIBarButtonItem alloc] initWithCustomView:dismissButton];
     
@@ -174,7 +178,9 @@
         [backButton addTarget:viewController.navigationController action:@selector(popViewControllerAnimated:) forControlEvents:UIControlEventTouchUpInside];
     }
 #pragma clang diagnostic pop
-    
+
+    [backButton setTitle:@"" forState:UIControlStateNormal];
+
     [backButton setImage:[UIImage imageNamed:@"Icon-BackArrow"] forState:UIControlStateNormal];
     [backButton sizeToFit];
     
@@ -202,6 +208,8 @@
     [button setTitleColor:[UIColor leo_white] forState:UIControlStateNormal];
     button.backgroundColor = [UIColor leo_orangeRed];
 }
+
+
 
 //TODO: I smell something. Come back to this later to think through further.
 + (UIColor *)tintColorForFeature:(Feature)feature {
@@ -325,39 +333,33 @@
     }
 }
 
-+ (void)navigationController:(UINavigationController *)navigationController
++ (void)imagePickerController:(UINavigationController *)navigationController
               willShowViewController:(UIViewController *)viewController
-                    animated:(BOOL)animated forFeature:(Feature)feature forImagePickerWithDismissTarget:(id)target action:(SEL)action {
+                    forFeature:(Feature)feature forImagePickerWithDismissTarget:(id)target action:(SEL)action {
 
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    if (feature != FeatureOnboarding) {
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    }
+
 
     //Initial styling of the navigation bar
     [LEOStyleHelper styleNavigationBar:navigationController.navigationBar forFeature:feature];
 
-    UIColor *tintColor = [UIColor leo_white];
-
     //Create the navigation bar title label
-    UILabel *navTitleLabel = [[UILabel alloc] init];
-    navTitleLabel.text = @"Photos";
-    [LEOStyleHelper styleLabel:navTitleLabel forFeature:feature];
-    viewController.navigationItem.titleView = navTitleLabel;
+    [self styleViewController:viewController navigationTitleText:@"Photos" forFeature:feature];
     viewController.navigationItem.title = @"";
 
     //Create the dismiss button for the navigation bar
-    UIButton *dismissButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [dismissButton addTarget:target
-                      action:action
-            forControlEvents:UIControlEventTouchUpInside];
-    [dismissButton setImage:[UIImage imageNamed:@"Icon-Cancel"]
-                   forState:UIControlStateNormal];
-    [dismissButton sizeToFit];
-    dismissButton.tintColor = tintColor;
-    UIBarButtonItem *dismissBBI = [[UIBarButtonItem alloc] initWithCustomView:dismissButton];
-    viewController.navigationItem.rightBarButtonItem = dismissBBI;
+    [self styleDismissButtonForViewController:viewController feature:feature target:target action:action];
 
     //Create the back button
+
+    // TODO:
+    // FIXME: when using LEOStyleHelper method, back button appears on first view controller when it shouldn't
+
+//    [self styleBackButtonForViewController:viewController forFeature:feature];
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    backButton.tintColor = tintColor;
+    backButton.tintColor = [UIColor leo_white]; // something is missing here. In onboarding this appears orange
     [backButton setImage:[UIImage imageNamed:@"Icon-BackArrow"] forState:UIControlStateNormal];
     [backButton setTitle:@"" forState:UIControlStateNormal];
     [backButton addTarget:viewController action:@selector(popViewControllerAnimated:) forControlEvents:UIControlEventTouchUpInside];
@@ -371,7 +373,7 @@
     navigationController.navigationItem.hidesBackButton = YES;
 
     //Required to get the back button and cancel button to tint with the feature color
-    navigationController.navigationBar.tintColor = tintColor;
+    navigationController.navigationBar.tintColor = [self headerIconColorForFeature:feature];
 }
 
 

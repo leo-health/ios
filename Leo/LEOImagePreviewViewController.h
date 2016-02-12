@@ -9,8 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "RSKImageCropViewController.h"
 
-@class LEOImagePreviewViewController;
-@class LEOImageCropViewController;
+@class LEOImagePreviewViewController, LEOImageCropViewController;
 
 @protocol LEOImagePreviewDelegate <NSObject>
 
