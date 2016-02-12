@@ -94,12 +94,13 @@ CGFloat const kHeightDefaultToolbar = 44;
     [self addChildViewController:self.imageCropController];
 
     [self.imageCropController didMoveToParentViewController:self];
-
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
+
+    [self setupConstraints];
     [self setupNavigationBar];
 }
 
@@ -143,9 +144,10 @@ CGFloat const kHeightDefaultToolbar = 44;
     return _imageCropView;
 }
 
-- (void)updateViewConstraints {
-
-    [super updateViewConstraints];
+/**
+ *  Using this method in viewWillAppear to solve an issue where updateViewConstraints does not get called in signupPatient until a different instance is loaded in messaging
+ */
+- (void)setupConstraints {
 
     if (!self.alreadyUpdatedConstraints) {
 

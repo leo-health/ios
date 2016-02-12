@@ -329,6 +329,8 @@
               willShowViewController:(UIViewController *)viewController
                     animated:(BOOL)animated forFeature:(Feature)feature forImagePickerWithDismissTarget:(id)target action:(SEL)action {
 
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+
     //Initial styling of the navigation bar
     [LEOStyleHelper styleNavigationBar:navigationController.navigationBar forFeature:feature];
 
