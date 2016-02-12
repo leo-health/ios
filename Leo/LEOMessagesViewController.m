@@ -574,22 +574,14 @@
     }
 
     __weak typeof(self) weakSelf = self;
+    
     [[NSNotificationCenter defaultCenter] addObserverForName:kNotificationDownloadedImageUpdated object:message.sender.avatar queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull notification) {
 
         typeof(self) strongSelf = weakSelf;
 
-        [strongSelf updateCachedAvatarForUser:message.sender withBlock:^JSQMessagesAvatarImage *(JSQMessagesAvatarImage *combinedImages) {
+        JSQMessagesAvatarImage *avatarImage = [strongSelf createAvatarImageForUser:message.sender];
 
-            UIImage *placeholderImage = [LEOMessagesAvatarImageFactory circularAvatarImage:[UIImage imageNamed:@"Icon-AvatarBorderless"] withDiameter:20.0 borderColor:[UIColor leo_grayForPlaceholdersAndLines] borderWidth:2];
-
-            combinedImages = [JSQMessagesAvatarImage avatarImageWithPlaceholder:placeholderImage];
-
-            combinedImages.avatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:message.sender.avatar.image withDiameter:kJSQMessagesCollectionViewAvatarSizeDefault borderColor:[UIColor leo_grayForPlaceholdersAndLines] borderWidth:2];
-
-            combinedImages.avatarHighlightedImage = [LEOMessagesAvatarImageFactory circularAvatarHighlightedImage:message.sender.avatar.image withDiameter:kJSQMessagesCollectionViewAvatarSizeDefault borderColor:[UIColor leo_grayForPlaceholdersAndLines] borderWidth:2];
-
-            return combinedImages;
-        }];
+        [strongSelf.avatarDictionary setObject:avatarImage forKey:message.sender.objectID];
 
         [strongSelf.collectionView.collectionViewLayout invalidateLayoutWithContext:[JSQMessagesCollectionViewFlowLayoutInvalidationContext context]];
         [strongSelf.collectionView reloadItemsAtIndexPaths:@[indexPath]];
@@ -617,26 +609,24 @@
         return combinedImages;
     }
 
+    JSQMessagesAvatarImage *avatarImage = [self createAvatarImageForUser:user];
+
+    [self.avatarDictionary setObject:avatarImage forKey:user.objectID];
+
+    return avatarImage;
+}
+
+- (JSQMessagesAvatarImage *)createAvatarImageForUser:(User *)user {
+
     UIImage *placeholderImage = [LEOMessagesAvatarImageFactory circularAvatarImage:[UIImage imageNamed:@"Icon-AvatarBorderless"] withDiameter:20.0 borderColor:[UIColor leo_grayForPlaceholdersAndLines] borderWidth:2];
 
-    combinedImages = [JSQMessagesAvatarImage avatarImageWithPlaceholder:placeholderImage];
+    JSQMessagesAvatarImage *combinedImages = [JSQMessagesAvatarImage avatarImageWithPlaceholder:placeholderImage];
 
     combinedImages.avatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:user.avatar.image withDiameter:kJSQMessagesCollectionViewAvatarSizeDefault borderColor:[UIColor leo_grayForPlaceholdersAndLines] borderWidth:2];
 
     combinedImages.avatarHighlightedImage = [LEOMessagesAvatarImageFactory circularAvatarHighlightedImage:user.avatar.image withDiameter:kJSQMessagesCollectionViewAvatarSizeDefault borderColor:[UIColor leo_grayForPlaceholdersAndLines] borderWidth:2];
 
-    [self.avatarDictionary setObject:combinedImages forKey:user.objectID];
-
     return combinedImages;
-}
-
-- (void)updateCachedAvatarForUser:(User *)user withBlock:(JSQMessagesAvatarImage * (^)(JSQMessagesAvatarImage *combinedImages))updateBlock {
-
-    JSQMessagesAvatarImage *combinedImages = [self.avatarDictionary objectForKey:user.objectID];
-
-    JSQMessagesAvatarImage *combinedImagesNew = updateBlock(combinedImages);
-
-    [self.avatarDictionary setObject:combinedImagesNew forKey:user.objectID];
 }
 
 - (Conversation *)conversation {
