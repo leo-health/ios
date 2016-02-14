@@ -20,6 +20,7 @@
 #import "NSDate+Extensions.h"
 #import "LEOValidationsHelper.h"
 #import "LEOMessagesAvatarImageFactory.h"
+#import "LEOImagePreviewViewController.h"
 
 #import "Family.h"
 #import "Patient.h"
@@ -47,6 +48,7 @@
 static NSString *const kAvatarCallToActionEdit = @"Edit the photo of your child";
 static NSString *const kTitleAddChildDetails = @"Add Child Details";
 static NSString *const kTitlePhotos = @"Photos";
+static NSString *const kCopyUsePhoto = @"USE PHOTO";
 
 #pragma mark - View Controller Lifecycle & Helpers
 
@@ -206,19 +208,13 @@ static NSString *const kTitlePhotos = @"Photos";
 
     UIImage *originalImage = info[UIImagePickerControllerOriginalImage];
 
-    LEOImageCropViewController *imageCropVC = [[LEOImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeCircle];
+    LEOImagePreviewViewController *imageCropVC = [[LEOImagePreviewViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeCircle];
     imageCropVC.delegate = self;
-
-    //oddly, we have to set both the tintColor of the view AND the text/title colors in order for these to *always* be orange; no joke -- sometimes they are orange if you don't set the tintColor, and sometimes they aren't. seen by both ZSD and ADF.
-    imageCropVC.view.tintColor = [LEOStyleHelper tintColorForFeature:self.feature];
-    [imageCropVC.chooseButton setTitleColor:[UIColor leo_orangeRed] forState:UIControlStateNormal];
-    [imageCropVC.cancelButton setTitleColor:[UIColor leo_orangeRed] forState:UIControlStateNormal];
-    imageCropVC.moveAndScaleLabel.textColor = [LEOStyleHelper tintColorForFeature:self.feature];
-
-    imageCropVC.avoidEmptySpaceAroundImage = YES;
-    [self.navigationController pushViewController:imageCropVC animated:NO];
-
-    [self dismissImagePicker];
+    imageCropVC.feature = self.feature;
+    imageCropVC.imageCropController.avoidEmptySpaceAroundImage = YES;
+    imageCropVC.leftToolbarButton.hidden = YES;
+    imageCropVC.rightToolbarButton.titleLabel.text = kCopyUsePhoto;
+    [picker pushViewController:imageCropVC animated:YES];
 }
 
 - (void)dismissImagePicker {
@@ -227,57 +223,22 @@ static NSString *const kTitlePhotos = @"Photos";
 
 
 #pragma mark - <RSKImageCropViewControllerDelegate>
+- (void)imagePreviewControllerDidCancel:(LEOImagePreviewViewController *)imagePreviewController {
 
-- (void)imageCropViewControllerDidCancelCrop:(RSKImageCropViewController *)controller {
-    [self.navigationController popViewControllerAnimated:YES];
+    [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)imageCropViewController:(RSKImageCropViewController *)controller didCropImage:(UIImage *)croppedImage usingCropRect:(CGRect)cropRect {
+- (void)imagePreviewControllerDidConfirm:(LEOImagePreviewViewController *)imagePreviewController {
 
-    self.signUpPatientView.patient.avatar.image = croppedImage;
-    
-    [self.navigationController popViewControllerAnimated:YES];
+    [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
+    self.signUpPatientView.patient.avatar.image = imagePreviewController.image;
 }
 
 - (void)navigationController:(UINavigationController *)navigationController
       willShowViewController:(UIViewController *)viewController
                     animated:(BOOL)animated {
 
-    //Initial styling of the navigation bar
-    [LEOStyleHelper styleNavigationBarForFeature:self.feature];
-
-    UIColor *tintColor = [LEOStyleHelper tintColorForFeature:self.feature];
-
-    //Create the navigation bar title label
-    UILabel *navTitleLabel = [[UILabel alloc] init];
-    navTitleLabel.text = kTitlePhotos;
-    [LEOStyleHelper styleLabel:navTitleLabel forFeature:self.feature];
-    viewController.navigationItem.titleView = navTitleLabel;
-    viewController.navigationItem.title = @"";
-
-    //Create the dismiss button for the navigation bar
-    UIButton *dismissButton = [self buildDismissButton];
-    dismissButton.tintColor = tintColor;
-    UIBarButtonItem *dismissBBI = [[UIBarButtonItem alloc] initWithCustomView:dismissButton];
-    viewController.navigationItem.rightBarButtonItem = dismissBBI;
-
-    //Create the back button
-    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    backButton.tintColor = tintColor;
-    [backButton setImage:[UIImage imageNamed:@"Icon-BackArrow"] forState:UIControlStateNormal];
-    [backButton setTitle:@"" forState:UIControlStateNormal];
-    [backButton addTarget:viewController action:@selector(popViewControllerAnimated:) forControlEvents:UIControlEventTouchUpInside];
-
-    UIBarButtonItem *backBBI = [[UIBarButtonItem alloc] initWithCustomView:backButton];
-    navigationController.navigationItem.leftBarButtonItem = backBBI;
-
-    //This is the special sauce required to get the bar to show the back arrow appropriately without the "Photos" title text, and in the appropriate spot.
-    [UINavigationBar appearance].backIndicatorImage = [UIImage imageNamed:@"Icon-BackArrow"];
-    [UINavigationBar appearance].backIndicatorTransitionMaskImage = [UIImage imageNamed:@"Icon-BackArrow"];
-    navigationController.navigationItem.hidesBackButton = YES;
-
-    //Required to get the back button and cancel button to tint with the feature color
-    navigationController.navigationBar.tintColor = tintColor;
+    [LEOStyleHelper imagePickerController:navigationController willShowViewController:viewController forFeature:self.feature forImagePickerWithDismissTarget:self action:@selector(dismiss)];
 }
 
 - (void)dismiss {

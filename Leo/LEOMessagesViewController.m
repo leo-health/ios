@@ -49,6 +49,7 @@
 #import <OHHTTPStubs/OHHTTPStubs.h>
 #import <Photos/Photos.h>
 #import "UIButton+Extensions.h"
+#import "LEOStyleHelper.h"
 
 #if STUBS_FLAG
 #import "LEOStubs.h"
@@ -74,6 +75,8 @@
 
 @implementation LEOMessagesViewController
 
+NSString *const kCopySendPhoto = @"SEND PHOTO";
+
 #pragma mark - View lifecycle
 
 /**
@@ -92,7 +95,6 @@
     [self setupStubs];
 #endif
 
-    [self setupNavigationBar];
     [self setupEmergencyBar];
     [self setupInputToolbar];
     [self setupCollectionViewFormatting];
@@ -100,15 +102,13 @@
     [self setupRequiredMessagingProperties];
     [self setupPusher];
     [self constructNotifications];
-
-    self.navigationController.delegate = self;
-
     [self setupMessageNotificationsForMessages:[self conversation].messages];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
 
     [super viewWillAppear:animated];
+    [self setupNavigationBar];
     [self scrollToBottomAnimated:NO];
 }
 
@@ -413,6 +413,11 @@
 
 - (void)didPressAccessoryButton:(UIButton *)sender {
 
+    [self presentImagePickerViewController];
+}
+
+- (void)presentImagePickerViewController {
+
     LEOTransitioningDelegate *strongTransitioningDelegate = [[LEOTransitioningDelegate alloc] initWithTransitionAnimatorType:TransitionAnimatorTypeCardPush];;
 
     self.transitioningDelegate = strongTransitioningDelegate;
@@ -439,6 +444,8 @@
                 pickerController.transitioningDelegate = self.transitioningDelegate;
                 pickerController.modalPresentationStyle = UIModalPresentationCustom;
 
+                pickerController.delegate = self;
+
                 [self presentViewController:pickerController animated:YES completion:nil];
             }];
         }];
@@ -458,6 +465,8 @@
                 pickerController.transitioningDelegate = self.transitioningDelegate;
                 pickerController.modalPresentationStyle = UIModalPresentationCustom;
 
+                pickerController.delegate = self;
+
                 [self presentViewController:pickerController animated:YES completion:nil];
             }];
         }];
@@ -474,24 +483,7 @@
 
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
 
-    UINavigationItem *imagePickerControllerNavigationItem;
-
-    // add done button to right side of nav bar
-
-    if ([self.navigationController.viewControllers count] > 1) {
-
-        //you cannot go back from the first view controller to pop up, so we ensure that the back button will not be updated.
-        //TODO: Someday consider whether the above comment actually makes sense from a design perspective (it is the Apple default for UIImagePickerViewController, but that doesn't mean that we should follow it.
-        if (self.navigationController.viewControllers[1] != viewController) {
-            UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Icon-BackArrow"] style:UIBarButtonItemStylePlain target:viewController action:@selector(popViewControllerAnimated:)];
-
-            UINavigationBar *bar = navigationController.navigationBar;
-            //    [bar setHidden:NO];
-            imagePickerControllerNavigationItem = bar.topItem;
-            //    ipcNavBarTopItem.title = @"Photos";
-            imagePickerControllerNavigationItem.leftBarButtonItem = backButton;
-        }
-    }
+    [LEOStyleHelper imagePickerController:navigationController willShowViewController:viewController forFeature:FeatureMessaging forImagePickerWithDismissTarget:self action:@selector(imagePreviewControllerDidCancel:)];
 }
 
 #pragma mark - <UIImagePickerViewControllerDelegate>
@@ -501,39 +493,39 @@
 
     UIImage *originalImage = info[UIImagePickerControllerOriginalImage];
 
-    LEOImageCropViewController *imageCropVC = [[LEOImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeCustom];
+    if ([picker sourceType] == UIImagePickerControllerSourceTypeCamera) {
+        UIImageWriteToSavedPhotosAlbum (originalImage, nil, nil, nil);
+    }
 
-    self.cropDataSource = [LEOImageCropViewControllerDataSource new];
-
-    imageCropVC.moveAndScaleLabel.text = @"Confirm you would like to share this photo";
-    imageCropVC.feature = FeatureMessaging;
-    
-    [imageCropVC.chooseButton setTitle:@"Send" forState:UIControlStateNormal];
-    imageCropVC.dataSource = self.cropDataSource;
-    imageCropVC.delegate = self;
-    imageCropVC.zoomable = NO;
-    imageCropVC.transitioningDelegate = self.transitioningDelegate;
-
-    [picker dismissViewControllerAnimated:NO completion:nil];
-
-    [self.navigationController pushViewController:imageCropVC animated:NO];
+    LEOImagePreviewViewController *previewVC = [[LEOImagePreviewViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeCustom];
+    previewVC.delegate = self;
+    previewVC.feature = FeatureMessaging;
+    previewVC.leftToolbarButton.hidden = YES;
+    previewVC.rightToolbarButton.titleLabel.text = kCopySendPhoto;
+    [picker pushViewController:previewVC animated:YES];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)imageCropViewControllerDidCancelCrop:(RSKImageCropViewController *)controller {
+- (void)imagePreviewControllerDidCancel:(LEOImagePreviewViewController *)imagePreviewController {
 
-
-    [self.navigationController popViewControllerAnimated:YES];
+    [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)imageCropViewController:(RSKImageCropViewController *)controller didCropImage:(UIImage *)croppedImage usingCropRect:(CGRect)cropRect {
+- (void)imagePreviewControllerDidConfirm:(LEOImagePreviewViewController *)imagePreviewController {
+
+    [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
+    [self sendImageMessage:imagePreviewController.image];
+}
+
+- (void)sendImageMessage:(UIImage *)image {
 
     self.sendButton.hidden = YES;
 
-    JSQPhotoMediaItem *photoItem = [[JSQPhotoMediaItem alloc] initWithImage:croppedImage];
+    JSQPhotoMediaItem *photoItem = [[JSQPhotoMediaItem alloc] initWithImage:image];
 
     MessageImage *message = [MessageImage messageWithObjectID:nil media:photoItem sender:[SessionUser guardian] escalatedTo:nil escalatedBy:nil status:nil statusCode:MessageStatusCodeUndefined createdAt:[NSDate date] escalatedAt:nil leoMedia:nil];
 
@@ -554,7 +546,6 @@
 
     [self.navigationController popViewControllerAnimated:YES];
 }
-
 
 #pragma mark - JSQMessages Collection View DataSource
 
@@ -837,6 +828,7 @@
      *  Override point for customizing cells
      */
     JSQMessagesCollectionViewCell *cell = (JSQMessagesCollectionViewCell *)[super collectionView:collectionView cellForItemAtIndexPath:indexPath];
+    cell.delegate = self;
 
     Message *message = [self conversation].messages[indexPath.item];
 
@@ -966,6 +958,45 @@
                    layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout heightForCellBottomLabelAtIndexPath:(NSIndexPath *)indexPath {
     return 0.0f;
 }
+
+#pragma mark - JSQMessagesCollectionViewCell Delegate
+
+- (void)messagesCollectionViewCellDidTapMessageBubble:(JSQMessagesCollectionViewCell *)cell {
+
+
+    NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
+
+    Message *message = [self conversation].messages[indexPath.item];
+
+    if ([message isKindOfClass:[MessageImage class]]) {
+
+        MessageImage *messageImage = (MessageImage *)message;
+
+        JSQPhotoMediaItem *photoMediaItem = (JSQPhotoMediaItem *)messageImage.media;
+
+        UIImage *image = photoMediaItem.image;
+
+        LEOImagePreviewViewController* lightboxVC = [[LEOImagePreviewViewController alloc] initWithNoCropModeWithImage:image];
+        lightboxVC.feature = FeatureMessaging;
+        lightboxVC.showsBackButton = YES;
+
+        [self.navigationController pushViewController:lightboxVC animated:YES];
+    }
+}
+
+// unfortunately, these methods are requeired, even though we don't want to use them
+- (void)messagesCollectionViewCellDidTapCell:(JSQMessagesCollectionViewCell *)cell atPosition:(CGPoint)position {
+
+}
+
+- (void)messagesCollectionViewCellDidTapAvatar:(JSQMessagesCollectionViewCell *)cell {
+
+}
+
+- (void)messagesCollectionViewCell:(JSQMessagesCollectionViewCell *)cell didPerformAction:(SEL)action withSender:(id)sender {
+
+}
+
 
 #pragma mark - Responding to collection view tap events
 

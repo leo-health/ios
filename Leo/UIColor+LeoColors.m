@@ -14,7 +14,10 @@
     return [UIColor colorWithRed:255/255.0 green:95/255.0 blue:64/255.0 alpha:1]; /*#FF5F40*/
 }
 
-//Placeholders
++ (UIColor *)leo_grayBlueForBackgrounds {
+    return [UIColor colorWithRed:0.902 green:0.898 blue:0.953 alpha:1]; /*#e6e5f3*/
+}
+
 + (UIColor *)leo_blue {
     return [UIColor colorWithRed:67.0/255.0 green:182.0/255.0 blue:232.0/255.0 alpha:1]; /*#*/
 }
@@ -45,12 +48,10 @@
 
 + (UIColor *)leo_grayForTitlesAndHeadings {
     return [UIColor colorWithRed:74.0/255.0 green:74.0/255.0 blue:74.0/255.0 alpha:1]; /*#4A4A4A*/
-
 }
 
 + (UIColor *)leo_grayStandard {
     return [UIColor colorWithRed:124.0/255.0 green:124.0/255.0 blue:124.0/255.0 alpha:1]; /*#7C7C7C*/
-
 }
 
 + (UIColor *)leo_grayForPlaceholdersAndLines {

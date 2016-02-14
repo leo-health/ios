@@ -40,7 +40,7 @@
     NSDictionary *messageParams = [[NSDictionary alloc] initWithObjects:messageValues forKeys:messageKeys];
     
     
-    NSString *createMessageForConversationURLString = [NSString stringWithFormat:@"%@/%@/%@",APIEndpointConversations,conversation.objectID, APIEndpointMessages];
+    NSString *createMessageForConversationURLString = [NSString stringWithFormat:@"%@/%@/%@",APIEndpointConversations,conversation.objectID, @"garbage"];
     
     [[LEOMessageService leoSessionManager] standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:createMessageForConversationURLString params:messageParams completion:^(NSDictionary *rawResults, NSError *error) {
         

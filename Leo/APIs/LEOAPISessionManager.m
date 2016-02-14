@@ -192,8 +192,8 @@
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
 
-        // FIXME: this method causes a crash I think because the server is not responding with an error in the expected structure. Do we still need this here?
-//        [self formattedErrorFromError:&error];
+        // FIXME: uncomment when back end sends dynamic formatted error messages
+        [self formattedErrorFromError:&error];
 
         NSLog(@"Fail: %@",error.localizedDescription);
         NSLog(@"Fail: %@",error.localizedFailureReason);
@@ -226,7 +226,8 @@
         }
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        
+
+        // FIXME: uncomment when back end sends dynamic formatted error messages
         [self formattedErrorFromError:&error];
 
         NSLog(@"Fail: %@",error.localizedDescription);
@@ -316,6 +317,7 @@
     return authenticatedParams;
 }
 
+// TODO: Uncomment and/or Update this to handle dynamic error messages from back end
 
 //MARK: First pass at "serializer" method for NSError creation from JSON dictionary provided by our API
 - (void)formattedErrorFromError:(NSError * __autoreleasing *)error {
@@ -324,31 +326,30 @@
     NSData *data = errorPointer.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey];
 
     NSError *serializationError;
-    NSDictionary *responseErrorDictionary = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
-    
-    NSString *errorDescription = responseErrorDictionary[@"message"][@"error_description"];
-    NSString *errorSuggestion = responseErrorDictionary[@"message"][@"recovery_suggestion"];
-    NSString *errorFailureReason = responseErrorDictionary[@"message"][@"error_message"];
-    
-    
-    NSMutableDictionary *formattedErrorDictionary = [NSMutableDictionary new];
-    
-    if (errorDescription) {
-        formattedErrorDictionary[NSLocalizedDescriptionKey] = errorDescription;
-    }
-    
-    if (errorSuggestion) {
-        formattedErrorDictionary[NSLocalizedRecoverySuggestionErrorKey] = errorSuggestion;
-    }
-    
-    if (errorFailureReason) {
-        formattedErrorDictionary[NSLocalizedFailureReasonErrorKey] = errorFailureReason;
-    }
-        
+    NSDictionary *responseErrorDictionary = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&serializationError];
+
     if (!serializationError) {
-        
+
+        NSString *errorDescription = responseErrorDictionary[@"message"][@"error_description"];
+        NSString *errorSuggestion = responseErrorDictionary[@"message"][@"recovery_suggestion"];
+        NSString *errorFailureReason = responseErrorDictionary[@"message"][@"error_message"];
+
+        NSMutableDictionary *formattedErrorDictionary = [NSMutableDictionary new];
+
+        if (errorDescription) {
+            formattedErrorDictionary[NSLocalizedDescriptionKey] = errorDescription;
+        }
+
+        if (errorSuggestion) {
+            formattedErrorDictionary[NSLocalizedRecoverySuggestionErrorKey] = errorSuggestion;
+        }
+
+        if (errorFailureReason) {
+            formattedErrorDictionary[NSLocalizedFailureReasonErrorKey] = errorFailureReason;
+        }
+
         NSInteger errorCode = [responseErrorDictionary[@"message"][@"error_code"] integerValue];
-        *error = [NSError errorWithDomain:errorPointer.domain code:errorCode userInfo:formattedErrorDictionary];
+        *error = [NSError errorWithDomain:errorPointer.domain code:errorCode userInfo:responseErrorDictionary];
     }
 }
 

@@ -57,6 +57,6 @@
 - (CGRect)imageCropViewControllerCustomMovementRect:(RSKImageCropViewController *)controller
 {
     // If the image is not rotated, then the movement rect coincides with the mask rect.
-    return controller.maskRect;
+    return controller.view.bounds;
 }
 @end

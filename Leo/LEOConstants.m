@@ -272,6 +272,8 @@ CGFloat const kCornerRadius = 2.0;
 CGFloat const kHeightOfNoReturnConstant = 0.4;
 CGFloat const kSpeedForTitleViewAlphaChangeConstant = 4.0;
 CGFloat const kStickyHeaderHeight = 150.0;
+CGFloat const kPaddingHorizontalToolbarButtons = 20;
+CGFloat const kHeightDefaultToolbar = 44;
 
 #pragma mark - Segues
 NSString *const kSegueContinue = @"ContinueSegue";
