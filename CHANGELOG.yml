@@ -1,15 +1,24 @@
     upcoming:
+    - New! Placeholder avatars for children and providers
+    - New! Lightbox for images sent via messaging when tapping image
+    - Greater support for iOS8
+    - Fixes bug in notes where user can add multiple notes but cannot see new ones in the PHR
+    - Fixes bug where if image doesn't load in messages the app continues to make internet requests
+    - New! Users with a single child on the app - child is automatically selected for all appointments
+    - Additional bug fixing
+
+
     releases:
     - version: 0.5.0
       build: 2016.02.05.22.39
       date: February 05 2016
       notes:
       - New! Offline messaging
-  - New! Waiting notifications for updating patients and health record
-  - New! Settings in navigation bar
-  - New! Confirmation user wants to call before dialing practice
-  - Bug fixing
-    
+      - New! Waiting notifications for updating patients and health record
+      - New! Settings in navigation bar
+      - New! Confirmation user wants to call before dialing practice
+      - Bug fixing
+
     - version: 0.4.1
       build: 2016.02.03.20.54
       date: February 03 2016
@@ -106,15 +115,15 @@
       date: November 19 2015
       notes:
       - API updates and bug fixes to Messaging
-    - Push notifications with fixed device identifier (test device)
-    - API updates and bug fixes to Scheduling
+      - Push notifications with fixed device identifier (test device)
+      - API updates and bug fixes to Scheduling
 
     - version: 0.1.1
       build: 2015.10.31.09.23
       date: October 31 2015
       notes:
       - Patches a long list of design issues associated with onboarding and signup
-    - Updates to support placeholders in messaging if avatar url returns successfully but a nil result
+      - Updates to support placeholders in messaging if avatar url returns successfully but a nil result
 
     - version: 0.1.0 (formerly incorrectly versioned 1.0.0)
       build: 2015.10.26.18.23
