@@ -1,14 +1,17 @@
     upcoming:
-    - New! Placeholder avatars for children and providers
-    - New! Lightbox for images sent via messaging when tapping image
-    - Greater support for iOS8
-    - Fixes bug in notes where user can add multiple notes but cannot see new ones in the PHR
-    - Fixes bug where if image doesn't load in messages the app continues to make internet requests
-    - New! Users with a single child on the app - child is automatically selected for all appointments
-    - Additional bug fixing
-
-
     releases:
+    - version: 0.6.0
+      build: 2016.02.14.11.09
+      date: February 14 2016
+      notes:
+      - New! Placeholder avatars for children and providers
+  - New! Lightbox for images sent via messaging when tapping image
+  - Greater support for iOS8
+  - Fixes bug in notes where user can add multiple notes but cannot see new ones in the PHR
+  - Fixes bug where if image doesn't load in messages the app continues to make internet requests
+  - New! Users with a single child on the app - child is automatically selected for all appointments
+  - Additional bug fixing
+    
     - version: 0.5.0
       build: 2016.02.05.22.39
       date: February 05 2016
@@ -131,6 +134,7 @@
       notes:
       - First test build using new Fastfile configuration for Alpha builds
       - Provides the basic functionality all created prior to our first releases
+
 
 
 
