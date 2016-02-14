@@ -51,7 +51,7 @@
     NSString *email = [jsonResponse leo_itemForKey:APIParamUserEmail];
     
     LEOS3Image *avatar = [[LEOS3Image alloc] initWithJSONDictionary:[jsonResponse leo_itemForKey:APIParamUserAvatar][APIParamImageURL]];
-    avatar.placeholder = [UIImage imageNamed:@"Icon-AvatarBorderless"];
+    avatar.placeholder = [UIImage imageNamed:@"Icon-ProviderAvatarPlaceholder"];
     
     return [self initWithObjectID:objectID title:title firstName:firstName middleInitial:middleInitial lastName:lastName suffix:suffix email:email avatar:avatar];
 }
