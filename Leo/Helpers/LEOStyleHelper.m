@@ -11,6 +11,8 @@
 #import "UIColor+LeoColors.h"
 #import "UIImage+Extensions.h"
 #import "LEOPromptTextView.h"
+#import "CWStatusBarNotification.h"
+
 
 @implementation LEOStyleHelper
 
@@ -375,6 +377,17 @@
     //Required to get the back button and cancel button to tint with the feature color
     navigationController.navigationBar.tintColor = [self headerIconColorForFeature:feature];
 }
+
++ (void)styleStatusBarNotification:(CWStatusBarNotification *)statusBarNotification {
+
+
+    statusBarNotification.notificationLabelBackgroundColor = [UIColor leo_white];
+
+    statusBarNotification.notificationLabelFont = [UIFont leo_standardFont];
+
+    statusBarNotification.notificationLabelTextColor = [UIColor leo_orangeRed];
+}
+
 
 
 @end

@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
-@class LEOPromptTextView;
+@class LEOPromptTextView, CWStatusBarNotification;
 
 #import <Foundation/Foundation.h>
 
@@ -43,4 +43,8 @@
 + (void)imagePickerController:(UINavigationController *)navigationController
        willShowViewController:(UIViewController *)viewController
                    forFeature:(Feature)feature forImagePickerWithDismissTarget:(id)target action:(SEL)action;
+
++ (void)styleStatusBarNotification:(CWStatusBarNotification *)statusBarNotification;
+
+
 @end

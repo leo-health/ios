@@ -7,6 +7,7 @@
 //
 
 #import "LEOConnectivityStatusBarNotification.h"
+#import "LEOStyleHelper.h"
 #import <CWStatusBarNotification/CWStatusBarNotification.h>
 
 @implementation LEOConnectivityStatusBarNotification
@@ -22,6 +23,7 @@ static dispatch_once_t onceToken;
 
         _statusBarNotification = [self new];
         _cwStatusBarNotification = [CWStatusBarNotification new];
+        [LEOStyleHelper styleStatusBarNotification:_cwStatusBarNotification];
         [_cwStatusBarNotification displayNotificationWithMessage:kStatusBarNotificationOffline completion:nil];
     });
 

@@ -10,8 +10,7 @@
 #import <AFNetworking/AFNetworkReachabilityManager.h>
 #import "LEOConnectivityStatusBarNotification.h"
 #import <CWStatusBarNotification/CWStatusBarNotification.h>
-#import "UIFont+LeoFonts.h"
-#import "UIColor+LeoColors.h"
+#import "LEOStyleHelper.h"
 
 @implementation LEOApiReachability
 
@@ -20,6 +19,14 @@ static CWStatusBarNotification *_cwStatusBarNotification = nil;
 + (BOOL)reachable {
 
     return [AFNetworkReachabilityManager sharedManager].reachable;
+}
+
++ (void)createAndDisplayStatusBarNotification {
+
+    _cwStatusBarNotification = [CWStatusBarNotification new];
+    [LEOStyleHelper styleStatusBarNotification:_cwStatusBarNotification];
+    _cwStatusBarNotification.notificationTappedBlock = ^{};
+    [_cwStatusBarNotification displayNotificationWithMessage:@"offline" completion:nil];
 }
 
 + (void)startMonitoringForController:(UIViewController *)viewController {
@@ -31,15 +38,7 @@ static CWStatusBarNotification *_cwStatusBarNotification = nil;
             case AFNetworkReachabilityStatusNotReachable:
             case AFNetworkReachabilityStatusUnknown: {
 
-                _cwStatusBarNotification = [CWStatusBarNotification new];
-
-                _cwStatusBarNotification.notificationLabelBackgroundColor = [UIColor leo_white];
-
-                _cwStatusBarNotification.notificationLabelFont = [UIFont leo_standardFont];
-
-                _cwStatusBarNotification.notificationLabelTextColor = [UIColor leo_orangeRed];
-
-                [_cwStatusBarNotification displayNotificationWithMessage:@"offline" completion:nil];
+                [self createAndDisplayStatusBarNotification];
 
                 [self performActions:^(UIButton *button) {
                     button.enabled = NO;
@@ -74,16 +73,7 @@ static CWStatusBarNotification *_cwStatusBarNotification = nil;
             case AFNetworkReachabilityStatusNotReachable:
             case AFNetworkReachabilityStatusUnknown: {
 
-                _cwStatusBarNotification = [CWStatusBarNotification new];
-
-                _cwStatusBarNotification.notificationLabelBackgroundColor = [UIColor leo_white];
-
-                _cwStatusBarNotification.notificationLabelFont = [UIFont leo_standardFont
-                                                                  ];
-
-                _cwStatusBarNotification.notificationLabelTextColor = [UIColor leo_orangeRed];
-                
-                [_cwStatusBarNotification displayNotificationWithMessage:@"offline" completion:nil];
+                [self createAndDisplayStatusBarNotification];
 
                 [self performActions:^(UIButton *button) {
                     button.enabled = NO;

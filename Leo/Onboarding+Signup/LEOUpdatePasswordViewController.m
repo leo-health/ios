@@ -75,6 +75,7 @@
     if (!_statusBarNotification) {
 
         _statusBarNotification = [CWStatusBarNotification new];
+        [LEOStyleHelper styleStatusBarNotification:_statusBarNotification];
     }
 
     return _statusBarNotification;
