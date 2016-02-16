@@ -28,13 +28,6 @@
     return self;
 }
 
-- (void)configureForCard:(id<LEOCardProtocol>)card {
-
-    @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                   reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
-                                 userInfo:nil];
-}
-
 - (void)setUnreadState:(BOOL)unreadState animated:(BOOL)animated {
 
     void (^animations)() = ^{
@@ -70,5 +63,26 @@
     }
 }
 
+- (void)awakeFromNib {
+
+    self.bodyView.layer.cornerRadius = kCornerRadius;
+    self.bodyView.layer.masksToBounds = YES;
+
+    [self.bodyView.layer setShouldRasterize:YES];
+    [self.bodyView.layer setRasterizationScale:[UIScreen mainScreen].scale];
+
+}
+
++ (UINib *)nib {
+
+    return [UINib nibWithNibName:NSStringFromClass([LEOFeedCell class]) bundle:nil];
+}
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+
+    [super setSelected:selected animated:animated];
+
+    // Configure the view for the selected state
+}
 
 @end

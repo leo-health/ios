@@ -24,6 +24,8 @@
 static NSInteger const kInset = 8;
 static NSInteger const kButtonHeight = 44;
 static NSInteger const kLineThickness = 1;
+static NSString *const kMessageUs = @"MESSAGE US";
+static NSString *const kScheduleAVisit = @"SCHEDULE A VISIT";
 
 #pragma mark - Accessors
 
@@ -37,9 +39,10 @@ static NSInteger const kLineThickness = 1;
 
         [self addSubview:_bookAppointmentButton];
 
-        [_bookAppointmentButton setTitle:@"SCHEDULE A VISIT" forState:UIControlStateNormal];
+        NSString *capitalizedButtonTitle = [kScheduleAVisit uppercaseString];
+        [_bookAppointmentButton setTitle:capitalizedButtonTitle forState:UIControlStateNormal];
         [_bookAppointmentButton setTitleColor:[UIColor leo_orangeRed] forState:UIControlStateNormal];
-        _bookAppointmentButton.titleLabel.font = [UIFont leo_buttonLabelsAndTimeStampsFont];
+        _bookAppointmentButton.titleLabel.font = [UIFont leo_fieldAndUserLabelsAndSecondaryButtonsFont];
 
         [_bookAppointmentButton addTarget:self action:@selector(bookAppointmentTouchedUpInside) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -57,9 +60,10 @@ static NSInteger const kLineThickness = 1;
 
         [self addSubview:_messageUsButton];
 
-        [_messageUsButton setTitle:@"MESSAGE US" forState:UIControlStateNormal];
+        NSString *capitalizedButtonTitle = [kMessageUs uppercaseString];
+        [_messageUsButton setTitle:capitalizedButtonTitle forState:UIControlStateNormal];
         [_messageUsButton setTitleColor:[UIColor leo_orangeRed] forState:UIControlStateNormal];
-        _messageUsButton.titleLabel.font = [UIFont leo_buttonLabelsAndTimeStampsFont];
+        _messageUsButton.titleLabel.font = [UIFont leo_fieldAndUserLabelsAndSecondaryButtonsFont];
 
         [_messageUsButton addTarget:self action:@selector(messageUsTouchedUpInside) forControlEvents:UIControlEventTouchUpInside];
     }

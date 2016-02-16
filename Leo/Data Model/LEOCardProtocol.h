@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "User.h"
+#import "Practice.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -24,6 +25,17 @@ typedef NS_ENUM(NSUInteger, CardType) {
     CardTypeCustom = 6,
 };
 
+typedef NS_ENUM(NSUInteger, CardConfiguration) {
+
+    CardConfigurationUndefined = 0,
+    CardConfigurationTwoButtonHeaderAndFooter = 1,
+    CardConfigurationTwoButtonHeaderOnly = 2,
+    CardConfigurationTwoButtonFooterOnly = 3,
+    CardConfigurationOneButtonHeaderAndFooter = 4,
+    CardConfigurationOneButtonHeaderOnly = 5,
+    CardConfigurationOneButtonFooterOnly = 6,
+};
+
 @protocol LEOCardProtocol <NSObject>
 
 @required
@@ -37,15 +49,17 @@ typedef NS_ENUM(NSUInteger, CardType) {
 - (UIColor *)tintColor;
 - (NSString *)title;
 - (NSString *)body;
-- (CardLayout)layout;
 - (NSArray *)stringRepresentationOfActionsAvailableForState;
 - (NSDate *)timestamp;
 - (NSArray *)actionsAvailableForState;
+- (CardConfiguration)configuration;
+
 //- (void)returnToPriorState;
 
 @optional
-- (nullable User *)secondaryUser;
+- (nullable Practice *)practice;
 - (nullable User *)primaryUser;
+- (nullable User *)secondaryUser;
 
 NS_ASSUME_NONNULL_END
 @end

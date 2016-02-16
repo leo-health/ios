@@ -10,6 +10,9 @@
 #import "LEOCard.h"
 #import "UIFont+LeoFonts.h"
 #import "UIColor+LeoColors.h"
+#import "LEOCardAppointment.h"
+#import "LEOCardConversation.h"
+#import "UIView+Extensions.h"
 
 @implementation LEOTwoButtonPrimaryOnlyCell (ConfigureForCell)
 
@@ -19,9 +22,9 @@
     self.contentView.backgroundColor = [UIColor leo_grayForMessageBubbles];
     self.iconImageView.image = [card icon];
     self.titleLabel.text = [card title];
-    
-    self.primaryUserLabel.text = [[card primaryUser].firstName uppercaseString];
-    
+
+    [self configureHeaderViewForCard:card];
+
     self.bodyLabel.text = [card body];
     
     [self.buttonOne setTitle:[card stringRepresentationOfActionsAvailableForState][0] forState:UIControlStateNormal];
@@ -36,19 +39,27 @@
     [self setCopyFontAndColor];
 }
 
+- (void)configureHeaderViewForCard:(id<LEOCardProtocol>)card {
+
+    UILabel *nameLabel = [UILabel new];
+
+    [nameLabel leo_pinToSuperView];
+
+    nameLabel.text = [[card primaryUser].firstName uppercaseString];
+    nameLabel.textColor = card.tintColor;
+    nameLabel.font = [UIFont leo_fieldAndUserLabelsAndSecondaryButtonsFont];
+}
+
+
 - (void)formatSubviewsWithTintColor:(UIColor *)tintColor {
-    
     self.borderViewAtTopOfBodyView.backgroundColor = tintColor;
-    self.primaryUserLabel.textColor = tintColor;
 }
 
 - (void)setCopyFontAndColor {
     
     self.titleLabel.font = [UIFont leo_collapsedCardTitlesFont];
     self.titleLabel.textColor = [UIColor leo_grayForTitlesAndHeadings];
-    
-    self.primaryUserLabel.font = [UIFont leo_fieldAndUserLabelsAndSecondaryButtonsFont];
-    
+
     self.bodyLabel.font = [UIFont leo_standardFont];
     self.bodyLabel.textColor = [UIColor leo_grayStandard];
     

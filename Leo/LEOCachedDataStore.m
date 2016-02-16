@@ -7,8 +7,11 @@
 //
 
 #import "LEOCachedDataStore.h"
+#import "NSDate+Extensions.h"
 
 @implementation LEOCachedDataStore
+
+@synthesize practice = _practice;
 
 + (instancetype)sharedInstance  {
 
@@ -24,7 +27,17 @@
 - (void)setPractice:(Practice *)practice {
 
     _practice = practice;
+
     self.lastCachedDateForPractice = [NSDate date];
+}
+
+-(Practice *)practice {
+
+    if (![self.lastCachedDateForPractice isSameDay:[NSDate date]]) {
+        _practice = nil;
+    }
+
+    return _practice;
 }
 
 - (void)reset {

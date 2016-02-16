@@ -18,7 +18,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (UIColor *)tintColor;
 - (NSString *)title;
 - (NSString *)body;
-- (CardLayout)layout;
 - (NSArray *)stringRepresentationOfActionsAvailableForState;
 - (NSDate *)timestamp;
 - (NSArray *)actionsAvailableForState;

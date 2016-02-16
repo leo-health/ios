@@ -20,7 +20,7 @@
     self.iconImageView.image = [card icon];
     self.titleLabel.text = [card title];
     
-    self.primaryUserLabel.text = [[card primaryUser].firstName uppercaseString];
+    self.headerLabel.text = [[card primaryUser].firstName uppercaseString];
     
     self.bodyLabel.text = [card body];
     
@@ -35,7 +35,7 @@
 - (void)formatSubviewsWithTintColor:(UIColor *)tintColor {
     
     self.borderViewAtTopOfBodyView.backgroundColor = tintColor;
-    self.primaryUserLabel.textColor = tintColor;
+    self.headerLabel.textColor = tintColor;
 }
 
 - (void)setCopyFontAndColor {
@@ -43,7 +43,7 @@
     self.titleLabel.font = [UIFont leo_collapsedCardTitlesFont];
     self.titleLabel.textColor = [UIColor leo_grayForTitlesAndHeadings];
     
-    self.primaryUserLabel.font = [UIFont leo_fieldAndUserLabelsAndSecondaryButtonsFont];
+    self.headerLabel.font = [UIFont leo_fieldAndUserLabelsAndSecondaryButtonsFont];
     
     self.bodyLabel.font = [UIFont leo_standardFont];
     self.bodyLabel.textColor = [UIColor leo_grayStandard];

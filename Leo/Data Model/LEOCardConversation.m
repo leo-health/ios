@@ -16,7 +16,7 @@
 #import "Message.h"
 #import "MessageImage.h"
 #import "MessageText.h"
-
+#import "Guardian.h"
 
 //FIXME: Update to reflect new paradigm, where associatedCardObject actions are associated with the associatedCardObject and NOT the card (where they should be.)
 @interface LEOCardConversation ()
@@ -88,7 +88,7 @@ static NSString *kActionSelectorCallUs = @"call";
     return (Conversation *)self.associatedCardObject; //FIXME: Update to account for multiple objects at some point...
 }
 
-- (CardLayout)layout {
+- (CardConfiguration)configuration {
     
     switch (self.conversation.statusCode) {
             
@@ -98,7 +98,7 @@ static NSString *kActionSelectorCallUs = @"call";
         case ConversationStatusCodeReadMessages:
         case ConversationStatusCodeCallUs:
         case ConversationStatusCodeUndefined:
-            return CardLayoutTwoButtonSecondaryOnly;
+            return CardConfigurationTwoButtonHeaderAndFooter;
     }
 }
 
@@ -111,7 +111,7 @@ static NSString *kActionSelectorCallUs = @"call";
         case ConversationStatusCodeReadMessages:
         case ConversationStatusCodeCallUs:
         case ConversationStatusCodeUndefined:
-            return @"Chat with Leo";
+            return @"We are here to help";
             
         case ConversationStatusCodeNewMessages:
             return  @"You have new messages";
@@ -133,17 +133,22 @@ static NSString *kActionSelectorCallUs = @"call";
         case ConversationStatusCodeCallUs:
         case ConversationStatusCodeUndefined: {
 
-            if ([message isKindOfClass:[MessageText class]]) {
-                bodyText = message.text;
-            }
+            if ([message.sender isKindOfClass:[Guardian class]]) {
+                bodyText = @"We'll be in touch shortly";
+            } else {
 
-            if ([message isKindOfClass:[MessageImage class]]) {
-                NSString *senderName = message.sender.fullName ?: @"Someone";
-                bodyText = [NSString stringWithFormat:@"%@ sent an image.", senderName];
+                if ([message isKindOfClass:[MessageText class]]) {
+                    bodyText = message.text;
+                }
+
+                if ([message isKindOfClass:[MessageImage class]]) {
+                    NSString *senderName = message.sender.fullName ?: @"Someone";
+                    bodyText = [NSString stringWithFormat:@"%@ sent an image.", senderName];
+                }
             }
         }
     }
-
+    
     return bodyText;
 }
 
@@ -161,7 +166,7 @@ static NSString *kActionSelectorCallUs = @"call";
         case ConversationStatusCodeReadMessages:
         case ConversationStatusCodeCallUs:
         case ConversationStatusCodeUndefined:
-            return @[@"REPLY", @"CALL US"];
+            return @[@"MESSAGE US", @"CALL US"];
     }
 }
 
@@ -198,15 +203,11 @@ static NSString *kActionSelectorCallUs = @"call";
 }
 
 -(nullable User *)secondaryUser {
-
     return [[self.conversation.messages lastObject] sender];
 }
 
-
-//FIXME: Not sure what data we actually want for a timestamp.
 - (nonnull NSDate *)timestamp {
-    
-    return [NSDate date];
+    return [[self.conversation.messages lastObject] createdAt];
 }
 
 -(nonnull UIImage *)icon {

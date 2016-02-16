@@ -9,21 +9,16 @@
 #import <UIKit/UIKit.h>
 #import "LEOFeedCell.h"
 
-@class LEOSecondaryUserView;
-
 @interface LEOTwoButtonPrimaryAndSecondaryCell : LEOFeedCell
 
 @property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
-@property (weak, nonatomic) IBOutlet LEOSecondaryUserView *secondaryUserView;
-@property (weak, nonatomic) IBOutlet UILabel *primaryUserLabel;
+@property (weak, nonatomic) IBOutlet UIView *footerView;
+@property (weak, nonatomic) IBOutlet UIView *headerView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *bodyLabel;
-@property (weak, nonatomic) IBOutlet UIButton *buttonOne;
-@property (weak, nonatomic) IBOutlet UIButton *buttonTwo;
+@property (weak, nonatomic) IBOutlet UIView *buttonView;
 @property (weak, nonatomic) IBOutlet UIView *bodyView;
 @property (weak, nonatomic) IBOutlet UIView *borderViewAtTopOfBodyView;
-@property (weak, nonatomic) IBOutlet UIView *borderViewAboveButtons;
-@property (weak, nonatomic) IBOutlet UIView *borderViewBetweenButtons;
 
 + (UINib *)nib;
 

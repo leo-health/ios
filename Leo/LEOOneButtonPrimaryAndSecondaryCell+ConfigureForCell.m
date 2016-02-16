@@ -7,10 +7,12 @@
 //
 
 #import "LEOOneButtonPrimaryAndSecondaryCell+ConfigureForCell.h"
-#import "LEOCard.h"
 #import "UIFont+LeoFonts.h"
 #import "UIColor+LeoColors.h"
 #import "LEOSecondaryUserView.h"
+#import "LEOCardAppointment.h"
+#import "LEOCardConversation.h"
+#import "LEOPracticeDetailView.h"
 
 @implementation LEOOneButtonPrimaryAndSecondaryCell (ConfigureForCell)
 
@@ -21,30 +23,61 @@
     self.iconImageView.image = [card icon];
     self.titleLabel.text = [card title];
     
-    self.primaryUserLabel.text = [[card primaryUser].firstName uppercaseString];
-    
-    self.secondaryUserView.provider = (Provider *)card.secondaryUser;
-    self.secondaryUserView.timeStamp = card.timestamp;
-    self.secondaryUserView.cardLayout = CardLayoutOneButtonPrimaryAndSecondary;
-    self.secondaryUserView.backgroundColor = [UIColor clearColor];
+    self.headerLabel.text = [[card primaryUser].firstName uppercaseString];
     self.bodyLabel.text = [card body];
-    
+
+    [self configureFooterViewForCard:card];
+
     [self.buttonOne setTitle:[card stringRepresentationOfActionsAvailableForState][0] forState:UIControlStateNormal];
     [self.buttonOne removeTarget:nil action:NULL forControlEvents:self.buttonOne.allControlEvents];
     [self.buttonOne addTarget:card.associatedCardObject action:NSSelectorFromString([card actionsAvailableForState][0]) forControlEvents:UIControlEventTouchUpInside];
     
     [self formatSubviewsWithTintColor:card.tintColor];
     [self setCopyFontAndColor];
-    
-    //FIXME: Should I have access to this method outside of secondaryUserViews
-    [self.secondaryUserView refreshSubviews];
+}
+
+
+- (void)configureFooterViewForCard:(id<LEOCardProtocol>)card {
+
+    if ([card isKindOfClass:[LEOCardAppointment class]]) {
+        [self configureFooterViewForAppointmentCard:card];
+    }
+
+    if ([card isKindOfClass:[LEOCardConversation class]]) {
+        [self configureFooterViewForConversationCard:card];
+    }
+
+}
+
+- (void)configureFooterViewForAppointmentCard:(LEOCardAppointment *)card {
+
+    LEOPracticeDetailView *practiceDetailView = [LEOPracticeDetailView new];
+
+    practiceDetailView.translatesAutoresizingMaskIntoConstraints = NO;
+
+    [self.bodyFooterView addSubview:practiceDetailView];
+
+    NSDictionary *bindings = NSDictionaryOfVariableBindings(practiceDetailView);
+
+    [self.bodyFooterView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[practiceDetailView]|" options:0 metrics:nil views:bindings]];
+
+    [self.bodyFooterView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[practiceDetailView]|" options:0 metrics:nil views:bindings]];
+
+    practiceDetailView.practice = card.practice;
+
+    //TODO: Once we have this subclass IBDesignable, remove this.
+    self.bodyFooterView.backgroundColor = [UIColor clearColor];
+}
+
+- (void)configureFooterViewForConversationCard:(LEOCardConversation *)card {
+
+    //No configuration at this time.
 }
 
 
 - (void)formatSubviewsWithTintColor:(UIColor *)tintColor {
     
     self.borderViewAtTopOfBodyView.backgroundColor = tintColor;
-    self.secondaryUserView.cardColor = tintColor;
 }
 
 - (void)setCopyFontAndColor {
@@ -52,8 +85,8 @@
     self.titleLabel.font = [UIFont leo_collapsedCardTitlesFont];
     self.titleLabel.textColor = [UIColor leo_grayForTitlesAndHeadings];
     
-    self.primaryUserLabel.font = [UIFont leo_fieldAndUserLabelsAndSecondaryButtonsFont];
-    //self.primaryUserLabel.textColor to be set by card.
+    self.headerLabel.font = [UIFont leo_fieldAndUserLabelsAndSecondaryButtonsFont];
+    //self.headerLabel.textColor to be set by card.
     
     self.bodyLabel.font = [UIFont leo_standardFont];
     self.bodyLabel.textColor = [UIColor leo_grayStandard];

@@ -57,19 +57,26 @@
 
 
 - (NSURLSessionTask *)getPracticeWithID:(NSString *)practiceID withCompletion:(void (^)(Practice *practice, NSError *error))completionBlock {
-    
-    NSDictionary *practiceParams = @{APIParamID:practiceID};
-    
-    NSURLSessionTask *task = [[LEOHelperService leoSessionManager] standardGETRequestForJSONDictionaryFromAPIWithEndpoint:APIEndpointPractices params:practiceParams completion:^(NSDictionary *rawResults, NSError *error) {
-        
-        NSDictionary *dataArray = rawResults[APIParamData][@"practices"][0];
-        Practice *practice = [[Practice alloc] initWithJSONDictionary:dataArray];
 
-        [LEOCachedDataStore sharedInstance].practice = practice;
+    NSURLSessionTask *task;
 
-        //FIXME: Safety here
-        completionBlock(practice, error);
-    }];
+    if ([LEOCachedDataStore sharedInstance].practice) {
+        completionBlock([LEOCachedDataStore sharedInstance].practice, nil);
+    } else {
+
+        NSDictionary *practiceParams = @{APIParamID:practiceID};
+
+        task = [[LEOHelperService leoSessionManager] standardGETRequestForJSONDictionaryFromAPIWithEndpoint:APIEndpointPractices params:practiceParams completion:^(NSDictionary *rawResults, NSError *error) {
+
+            NSDictionary *dataArray = rawResults[APIParamData][@"practices"][0];
+            Practice *practice = [[Practice alloc] initWithJSONDictionary:dataArray];
+
+            [LEOCachedDataStore sharedInstance].practice = practice;
+
+            //FIXME: Safety here
+            completionBlock(practice, error);
+        }];
+    }
     
     return task;
 }

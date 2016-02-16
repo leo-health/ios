@@ -76,7 +76,7 @@
         return [self getSlotsForAppointmentType:appointment.appointmentType
                                       startDate:[self defaultStartDateForSlotsRequest]
                                         endDate:[self defaultEndDateForSlotsRequest]
-                                       practiceID:appointment.practiceID
+                                       practiceID:appointment.practice.objectID
                                  withCompletion:completionBlock];
 
     }

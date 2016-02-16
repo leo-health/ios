@@ -34,5 +34,20 @@
     [self addGestureRecognizer:tapGestureForTextFieldDismissal];
 }
 
+- (void)leo_pinToSuperView:(UIView *)superview {
+
+    self.translatesAutoresizingMaskIntoConstraints = NO;
+
+    [superview addSubview:self];
+
+    UIView *viewToPin = self;
+
+    NSDictionary *bindings = NSDictionaryOfVariableBindings(viewToPin);
+
+    [superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[viewToPin]|" options:0 metrics:nil views:bindings]];
+
+    [superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[viewToPin]|" options:0 metrics:nil views:bindings]];
+}
+
 
 @end
