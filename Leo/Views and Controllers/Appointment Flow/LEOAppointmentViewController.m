@@ -110,7 +110,9 @@ static NSString *const kKeySelectionVCDate = @"date";
 
     [super viewDidAppear:animated];
 
-    [LEOApiReachability startMonitoringForController:self withOfflineBlock:nil withOnlineBlock:nil];
+    [LEOApiReachability startMonitoringForController:self withOfflineBlock:nil withOnlineBlock:^{
+        self.submissionButton.enabled = self.appointment.isValidForBooking;
+    }];
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
