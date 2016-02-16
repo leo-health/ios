@@ -189,7 +189,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
     emergencyBar.text = @"In case of emergency, dial 911";
     emergencyBar.textAlignment = NSTextAlignmentCenter;
-    emergencyBar.font = [UIFont leo_menuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
+    emergencyBar.font = [UIFont leo_emergency911Label];
     emergencyBar.backgroundColor = [UIColor leo_lightBlue];
     emergencyBar.textColor = [UIColor leo_blue];
     [emergencyBar sizeToFit];

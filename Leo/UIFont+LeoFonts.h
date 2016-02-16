@@ -69,6 +69,13 @@
 + (UIFont *)leo_appointmentDayLabelAndTimePeriod;
 
 /**
+ *  AvenirNext-Regular, Size 12
+ *
+ *  @return UIFont
+ */
++ (UIFont *)leo_emergency911Label;
+
+/**
  *  AvenirNextCondensed-Regular, Size 10
  *
  *  @return UIFont

@@ -95,6 +95,15 @@ static NSString *const AvenirNextCondensedRegular = @"AvenirNextCondensed-Regula
 }
 
 /**
+ *  AvenirNext-Regular, Size 12
+ *
+ *  @return UIFont
+ */
++ (UIFont *)leo_emergency911Label {
+    return [UIFont fontWithName:AvenirNextRegular size:12];
+}
+
+/**
  *  AvenirNextCondensed-Regular, Size 10
  *
  *  @return UIFont
