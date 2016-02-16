@@ -611,11 +611,11 @@ static CGFloat const kFeedInsetTop = 30.0;
 
 - (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    UITableViewCell *cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
+    UITableViewCell *cell = [tableView.dataSource tableView:tableView cellForRowAtIndexPath:indexPath];
 
-    UIEdgeInsets inset = self.tableView.contentInset;
-    CGFloat margins = inset.right + inset.left + CGRectGetWidth(self.view.bounds) - CGRectGetWidth(self.tableView.bounds);
-    CGFloat w = CGRectGetWidth(self.tableView.bounds) - margins;
+    UIEdgeInsets inset = tableView.contentInset;
+    CGFloat margins = inset.right + inset.left + CGRectGetWidth(tableView.superview.bounds) - CGRectGetWidth(tableView.bounds);
+    CGFloat w = CGRectGetWidth(tableView.bounds) - margins;
 
     // get size
     CGSize fittingSize = UILayoutFittingCompressedSize;

@@ -60,7 +60,6 @@
     [self.view addSubview:self.tableView];
     
     self.tableView.separatorInset = UIEdgeInsetsMake(0, 20, 0, 20);
-    self.tableView.estimatedRowHeight = 65;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     self.tableView.separatorColor = [UIColor leo_grayForPlaceholdersAndLines];
@@ -103,12 +102,10 @@
         
         self.data = data;
         
-        SelectionCriteriaBlock selectionCriteriaBlock = ^(BOOL shouldSelect, NSIndexPath *indexPath) {
+        SelectionCriteriaBlock selectionCriteriaBlock = ^(BOOL shouldSelect, NSIndexPath *indexPath, UITableViewCell *cell) {
             
             if (shouldSelect) {
-                UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
                 cell.selected = YES;
-                [self.tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
             }
         };
         
@@ -134,6 +131,23 @@
 
 
 #pragma mark - <UITableViewDelegate>
+
+- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    UITableViewCell *cell = [tableView.dataSource tableView:tableView cellForRowAtIndexPath:indexPath];
+
+    UIEdgeInsets inset = tableView.contentInset;
+    CGFloat margins = inset.right + inset.left + CGRectGetWidth(tableView.superview.bounds) - CGRectGetWidth(tableView.bounds);
+    CGFloat w = CGRectGetWidth(tableView.bounds) - margins;
+
+    // get size
+    CGSize fittingSize = UILayoutFittingCompressedSize;
+    fittingSize.width = w;
+    CGSize size = [cell.contentView systemLayoutSizeFittingSize:fittingSize withHorizontalFittingPriority:UILayoutPriorityDefaultHigh verticalFittingPriority:UILayoutPriorityDefaultLow];
+
+    return size.height;
+}
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     [self.delegate didUpdateItem:self.data[indexPath.row] forKey:self.key];

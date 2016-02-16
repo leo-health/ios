@@ -76,7 +76,7 @@ selectionCriteriaBlock:(SelectionCriteriaBlock)selectionCriteriaBlock
     BOOL selected = self.configureCellBlock(cell, item);
 
     if (self.selectionCriteriaBlock) {
-        self.selectionCriteriaBlock(selected, indexPath);
+        self.selectionCriteriaBlock(selected, indexPath, cell);
     }
     
     return cell;

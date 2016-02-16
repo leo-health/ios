@@ -58,6 +58,7 @@ typedef NS_ENUM(NSUInteger, AboutSettings) {
 
 @implementation LEOSettingsViewController
 
+static CGFloat const kRowHeightSettings = 69;
 static NSString *const kSegueChangeEmail = @"UpdateEmailSegue";
 static NSString *const kSegueChangePassword = @"UpdatePasswordSegue";
 static NSString *const kSegueInviteGuardian = @"InviteSegue";
@@ -101,7 +102,7 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
     self.tableView.dataSource = self;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
-    self.tableView.estimatedRowHeight = 68.0;
+    self.tableView.estimatedRowHeight = kRowHeightSettings;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     
     self.tableView.backgroundColor = [UIColor clearColor];
