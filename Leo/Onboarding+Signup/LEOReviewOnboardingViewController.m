@@ -152,6 +152,13 @@ static CGFloat const kHeaderIntrinsicHeight = 194;
     return 0;
 }
 
+- (void)editButtonTouchUpInside:(UIButton *)sender {
+
+    CGPoint center = [sender convertPoint:sender.center toView:self.reviewOnboardingView.tableView];
+    NSIndexPath *ip = [self.reviewOnboardingView.tableView indexPathForRowAtPoint:center];
+    [self tableView:self.reviewOnboardingView.tableView didSelectRowAtIndexPath:ip];
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
     switch (indexPath.section) {

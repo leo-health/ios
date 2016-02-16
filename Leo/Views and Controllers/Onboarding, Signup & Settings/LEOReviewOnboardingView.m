@@ -114,6 +114,8 @@
 
             [reviewUserCell configureForGuardian:guardian];
 
+            [reviewUserCell.editButton addTarget:nil action:@selector(editButtonTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
+
             return reviewUserCell;
         }
 
@@ -122,6 +124,8 @@
             LEOReviewPatientCell *reviewPatientCell = [tableView dequeueReusableCellWithIdentifier:kReviewPatientCellReuseIdentifer];
 
             Patient *patient = self.family.patients[indexPath.row];
+
+            [reviewPatientCell.editButton addTarget:nil action:@selector(editButtonTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
 
             [reviewPatientCell configureForPatient:patient patientNumber:indexPath.row];
 
