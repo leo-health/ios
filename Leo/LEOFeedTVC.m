@@ -342,8 +342,6 @@ static CGFloat const kFeedInsetTop = 30.0;
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
 
-    // TODO: update to use exact row heights so that scrollToIndexPath works correctly
-    self.tableView.estimatedRowHeight = 200;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     self.tableView.backgroundColor = [UIColor leo_grayForMessageBubbles];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -609,6 +607,22 @@ static CGFloat const kFeedInsetTop = 30.0;
 #pragma mark - <UITableViewDataSource>
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.cards.count;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    UITableViewCell *cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
+
+    UIEdgeInsets inset = self.tableView.contentInset;
+    CGFloat margins = inset.right + inset.left + CGRectGetWidth(self.view.bounds) - CGRectGetWidth(self.tableView.bounds);
+    CGFloat w = CGRectGetWidth(self.tableView.bounds) - margins;
+
+    // get size
+    CGSize fittingSize = UILayoutFittingCompressedSize;
+    fittingSize.width = w;
+    CGSize size = [cell.contentView systemLayoutSizeFittingSize:fittingSize withHorizontalFittingPriority:UILayoutPriorityDefaultHigh verticalFittingPriority:UILayoutPriorityDefaultLow];
+
+    return size.height;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
