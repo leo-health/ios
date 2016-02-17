@@ -26,12 +26,13 @@
 #import "UIView+Extensions.h"
 #import "LEOButtonCell.h"
 #import "LEOPromptFieldCell.h"
+#import "LEOProgressDotsHeaderView.h"
 
 @interface LEOManagePatientsViewController ()
 
 @property (strong, nonatomic) UILabel *navTitleLabel;
 @property (strong, nonatomic) LEOManagePatientsView *managePatientsView;
-@property (strong, nonatomic) LEOHeaderView *headerView;
+@property (strong, nonatomic) LEOProgressDotsHeaderView *headerView;
 
 @end
 
@@ -49,9 +50,8 @@ static NSString *const kSignUpPatientSegue = @"SignUpPatientSegue";
 
     self.feature = FeatureOnboarding;
     self.automaticallyAdjustsScrollViewInsets = NO;
-    self.extendedLayoutIncludesOpaqueBars = YES;
 
-    self.stickyHeaderView.snapToHeight = @(CGRectGetHeight(self.navigationController.navigationBar.bounds) + CGRectGetHeight([UIApplication sharedApplication].statusBarFrame));
+    self.stickyHeaderView.snapToHeight = @(0);
     self.stickyHeaderView.datasource = self;
     self.stickyHeaderView.delegate = self;
 
@@ -101,12 +101,18 @@ static NSString *const kSignUpPatientSegue = @"SignUpPatientSegue";
     return _managePatientsView;
 }
 
-- (LEOHeaderView *)headerView {
+- (LEOProgressDotsHeaderView *)headerView {
 
     if (!_headerView) {
 
-        _headerView = [[LEOHeaderView alloc] initWithTitleText:@"Let's setup a profile for each of your children"];
-        _headerView.intrinsicHeight = @(194.0);
+        _headerView = [[LEOProgressDotsHeaderView alloc] initWithTitleText:@"Let's setup a profile for each of your children" numberOfCircles:kNumberOfProgressDots currentIndex:2 fillColor:[UIColor leo_orangeRed]];
+
+        // TODO: FIX these magic numbers by making sticky header view size its own header with autolayout
+        CGFloat height = kHeightOnboardingHeaders;
+        if (CGRectGetWidth([[UIScreen mainScreen] bounds]) < 375) {
+            height += 37;
+        }
+        _headerView.intrinsicHeight = @(height);
         [LEOStyleHelper styleExpandedTitleLabel:_headerView.titleLabel feature:self.feature];
     }
 

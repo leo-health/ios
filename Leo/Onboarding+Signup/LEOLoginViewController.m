@@ -45,9 +45,8 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
 
     self.feature = FeatureOnboarding;
     self.automaticallyAdjustsScrollViewInsets = NO;
-    self.extendedLayoutIncludesOpaqueBars = YES;
 
-    self.stickyHeaderView.snapToHeight = @(CGRectGetHeight(self.navigationController.navigationBar.bounds) + CGRectGetHeight([UIApplication sharedApplication].statusBarFrame));
+    self.stickyHeaderView.snapToHeight = @(0);
     self.stickyHeaderView.datasource = self;
     self.stickyHeaderView.delegate = self;
 
@@ -87,7 +86,7 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
     if (!_headerView) {
 
         _headerView = [[LEOHeaderView alloc] initWithTitleText:@"Login to your Leo account"];
-        _headerView.intrinsicHeight = @(kStickyHeaderHeight);
+        _headerView.intrinsicHeight = @(kHeightOnboardingHeaders);
         [LEOStyleHelper styleExpandedTitleLabel:_headerView.titleLabel feature:self.feature];
     }
 

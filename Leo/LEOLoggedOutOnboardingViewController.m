@@ -76,7 +76,6 @@ static NSString * const reuseIdentifierFeature = @"reuseIdentifierFeature";
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
 
-
     LEOLoggedOutOnboardingCell *cell;
 
     switch (indexPath.row) {

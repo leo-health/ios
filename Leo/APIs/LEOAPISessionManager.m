@@ -192,11 +192,9 @@
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
 
-        // FIXME: uncomment when back end sends dynamic formatted error messages
         [self formattedErrorFromError:&error];
 
-        NSLog(@"Fail: %@",error.localizedDescription);
-        NSLog(@"Fail: %@",error.localizedFailureReason);
+        NSLog(@"Fail: %@",error);
         
         dispatch_async(dispatch_get_main_queue(), ^{
             completionBlock(nil, error);
@@ -227,11 +225,9 @@
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
 
-        // FIXME: uncomment when back end sends dynamic formatted error messages
         [self formattedErrorFromError:&error];
 
-        NSLog(@"Fail: %@",error.localizedDescription);
-        NSLog(@"Fail: %@",error.localizedFailureReason);
+        NSLog(@"Fail: %@",error);
         
         dispatch_async(dispatch_get_main_queue(), ^{
             completionBlock(nil, error);
@@ -330,26 +326,9 @@
 
     if (!serializationError) {
 
-        NSString *errorDescription = responseErrorDictionary[@"message"][@"error_description"];
-        NSString *errorSuggestion = responseErrorDictionary[@"message"][@"recovery_suggestion"];
-        NSString *errorFailureReason = responseErrorDictionary[@"message"][@"error_message"];
-
-        NSMutableDictionary *formattedErrorDictionary = [NSMutableDictionary new];
-
-        if (errorDescription) {
-            formattedErrorDictionary[NSLocalizedDescriptionKey] = errorDescription;
-        }
-
-        if (errorSuggestion) {
-            formattedErrorDictionary[NSLocalizedRecoverySuggestionErrorKey] = errorSuggestion;
-        }
-
-        if (errorFailureReason) {
-            formattedErrorDictionary[NSLocalizedFailureReasonErrorKey] = errorFailureReason;
-        }
-
-        NSInteger errorCode = [responseErrorDictionary[@"message"][@"error_code"] integerValue];
-        *error = [NSError errorWithDomain:errorPointer.domain code:errorCode userInfo:responseErrorDictionary];
+        NSMutableDictionary *userInfo = [errorPointer.userInfo mutableCopy];
+        userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey] = responseErrorDictionary;
+        *error = [NSError errorWithDomain:errorPointer.domain code:errorPointer.code userInfo:userInfo];
     }
 }
 

@@ -27,4 +27,7 @@
 + (UIColor *)leo_grayForTimeStamps;
 + (UIColor *)leo_grayForMessageBubbles;
 
++ (UIColor *) leo_randomColor;
+
+
 @end

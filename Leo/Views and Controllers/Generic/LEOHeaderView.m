@@ -8,6 +8,8 @@
 
 #import "LEOHeaderView.h"
 #import "LEOStyleHelper.h"
+#import "LEOProgressDotsView.h"
+#import "UIColor+LeoColors.h"
 
 @interface LEOHeaderView ()
 
@@ -70,7 +72,6 @@ static CGFloat const kDefaultHeaderViewHeight = 207.0;
     [self invalidateIntrinsicContentSize];
 }
 
-
 #pragma mark - Layout
 
 - (void)updateConstraints {
@@ -86,18 +87,12 @@ static CGFloat const kDefaultHeaderViewHeight = 207.0;
         NSDictionary *metricsDictionary = @{@"leftTitleInset" : @(kLeftInsetTitle), @"rightTitleInset" : @(kRightInsetTitle)};
 
         NSArray *horizontalLayoutConstraintsForFullTitle = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(leftTitleInset)-[_titleLabel]-(rightTitleInset)-|" options:0 metrics:metricsDictionary views:viewDictionary];
-        NSArray *verticalLayoutConstraintsForFullTitle = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_titleLabel]|" options:0 metrics:nil views:viewDictionary];
+        NSArray *verticalLayoutConstraintsForFullTitle = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_titleLabel]|" options:0 metrics:metricsDictionary views:viewDictionary];
 
         [self addConstraints:horizontalLayoutConstraintsForFullTitle];
         [self addConstraints:verticalLayoutConstraintsForFullTitle];
 
         self.constraintsAlreadyUpdated = YES;
-    }
-
-    // only add the top constraint if the user did not explicitly specify the height
-    else if ([self hasAmbiguousLayout]) {
-        NSLayoutConstraint *topConstraint = [NSLayoutConstraint constraintWithItem:self.titleLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1 constant:20];
-        [self addConstraint:topConstraint];
     }
 
     [super updateConstraints];

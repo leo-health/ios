@@ -412,6 +412,8 @@ extern CGFloat const kSpeedForTitleViewAlphaChangeConstant; // 4.0;
 extern CGFloat const kStickyHeaderHeight; // 150.0;
 extern CGFloat const kPaddingHorizontalToolbarButtons; // 20;
 extern CGFloat const kHeightDefaultToolbar; // 44;
+extern CGFloat const kNumberOfProgressDots; // 4;
+extern CGFloat const kHeightOnboardingHeaders; // = 114;
 
 #pragma mark - Segues
 extern NSString *const kSegueContinue; // @"ContinueSegue";
