@@ -214,6 +214,7 @@
 		662371F71C568E51001AB3E7 /* LEOLoggedOutSignUpCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 662371F51C568E51001AB3E7 /* LEOLoggedOutSignUpCell.xib */; };
 		662371F91C569F72001AB3E7 /* Signed-Out.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 662371F81C569F72001AB3E7 /* Signed-Out.xcassets */; };
 		6660C93E1C3AF92800C2657B /* LEOGradientHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6660C93D1C3AF92800C2657B /* LEOGradientHelper.m */; };
+		6677135B1C7531D700735B74 /* NSObject+TableViewAccurateEstimatedCellHeight.m in Sources */ = {isa = PBXBuildFile; fileRef = 6677135A1C7531D700735B74 /* NSObject+TableViewAccurateEstimatedCellHeight.m */; };
 		6677AE3A1C61665B002CA27C /* LEOSwipeArrowsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6677AE391C61665B002CA27C /* LEOSwipeArrowsView.xib */; };
 		6677AE3D1C61689D002CA27C /* LEOSwipeArrowsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6677AE3C1C61689D002CA27C /* LEOSwipeArrowsView.m */; };
 		6677AE3F1C62B71F002CA27C /* LEOLoggedOutLoginCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6677AE3E1C62B71F002CA27C /* LEOLoggedOutLoginCell.xib */; };
@@ -648,6 +649,8 @@
 		662371F81C569F72001AB3E7 /* Signed-Out.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Signed-Out.xcassets"; sourceTree = "<group>"; };
 		6660C93C1C3AF92800C2657B /* LEOGradientHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOGradientHelper.h; sourceTree = "<group>"; };
 		6660C93D1C3AF92800C2657B /* LEOGradientHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOGradientHelper.m; sourceTree = "<group>"; };
+		667713591C7531D700735B74 /* NSObject+TableViewAccurateEstimatedCellHeight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+TableViewAccurateEstimatedCellHeight.h"; sourceTree = "<group>"; };
+		6677135A1C7531D700735B74 /* NSObject+TableViewAccurateEstimatedCellHeight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+TableViewAccurateEstimatedCellHeight.m"; sourceTree = "<group>"; };
 		6677AE391C61665B002CA27C /* LEOSwipeArrowsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LEOSwipeArrowsView.xib; sourceTree = "<group>"; };
 		6677AE3B1C61689D002CA27C /* LEOSwipeArrowsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOSwipeArrowsView.h; sourceTree = "<group>"; };
 		6677AE3C1C61689D002CA27C /* LEOSwipeArrowsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOSwipeArrowsView.m; sourceTree = "<group>"; };
@@ -1370,6 +1373,8 @@
 				3192ACD81B0CC7C5007195F2 /* UIImage+Extensions.m */,
 				1E7306F91B3F823800D029CC /* UIScrollView+LEOScrollToVisible.h */,
 				1E7306FA1B3F823800D029CC /* UIScrollView+LEOScrollToVisible.m */,
+				667713591C7531D700735B74 /* NSObject+TableViewAccurateEstimatedCellHeight.h */,
+				6677135A1C7531D700735B74 /* NSObject+TableViewAccurateEstimatedCellHeight.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -1925,6 +1930,7 @@
 				31F5AA791B791B4B00F96D06 /* AppointmentTypeCell.m in Sources */,
 				31CC12DE1BB062C40099AB60 /* InsurancePlan.m in Sources */,
 				31BF23471BBAEA27005856E5 /* LEOSignUpPatientViewController.m in Sources */,
+				6677135B1C7531D700735B74 /* NSObject+TableViewAccurateEstimatedCellHeight.m in Sources */,
 				31FDDE591B28DFC10009BBC2 /* LEOTwoButtonPrimaryOnlyCell+ConfigureForCell.m in Sources */,
 				31197A0C1B39A70C00C773BA /* UIImageEffects.m in Sources */,
 				31F5AA771B791B4B00F96D06 /* PatientCell+ConfigureCell.m in Sources */,

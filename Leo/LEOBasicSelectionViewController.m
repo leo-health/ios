@@ -13,6 +13,7 @@
 #import <MBProgressHUD/MBProgressHUD.h>
 #import "UIImage+Extensions.h"
 #import "LEOStyleHelper.h"
+#import "NSObject+TableViewAccurateEstimatedCellHeight.h"
 
 @interface LEOBasicSelectionViewController ()
 
@@ -132,30 +133,16 @@
 
 #pragma mark - <UITableViewDelegate>
 
-- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
-
-    UITableViewCell *cell = [tableView.dataSource tableView:tableView cellForRowAtIndexPath:indexPath];
-
-    UIEdgeInsets inset = tableView.contentInset;
-    CGFloat margins = inset.right + inset.left + CGRectGetWidth(tableView.superview.bounds) - CGRectGetWidth(tableView.bounds);
-    CGFloat w = CGRectGetWidth(tableView.bounds) - margins;
-
-    // get size
-    CGSize fittingSize = UILayoutFittingCompressedSize;
-    fittingSize.width = w;
-    CGSize size = [cell.contentView systemLayoutSizeFittingSize:fittingSize withHorizontalFittingPriority:UILayoutPriorityDefaultHigh verticalFittingPriority:UILayoutPriorityDefaultLow];
-
-    return size.height;
-}
-
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     [self.delegate didUpdateItem:self.data[indexPath.row] forKey:self.key];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
 
-
+    return [self leo_tableView:tableView estimatedHeightForRowAtIndexPath:indexPath];
+}
 
 #pragma mark - Autolayout Constraints
 -(void)updateViewConstraints {

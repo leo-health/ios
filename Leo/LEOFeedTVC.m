@@ -64,6 +64,7 @@
 #import "LEOValidationsHelper.h"
 #import "LEOAppointmentViewController.h"
 #import "UIViewController+XibAdditions.h"
+#import "NSObject+TableViewAccurateEstimatedCellHeight.h"
 
 
 @interface LEOFeedTVC ()
@@ -611,18 +612,7 @@ static CGFloat const kFeedInsetTop = 30.0;
 
 - (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    UITableViewCell *cell = [tableView.dataSource tableView:tableView cellForRowAtIndexPath:indexPath];
-
-    UIEdgeInsets inset = tableView.contentInset;
-    CGFloat margins = inset.right + inset.left + CGRectGetWidth(tableView.superview.bounds) - CGRectGetWidth(tableView.bounds);
-    CGFloat w = CGRectGetWidth(tableView.bounds) - margins;
-
-    // get size
-    CGSize fittingSize = UILayoutFittingCompressedSize;
-    fittingSize.width = w;
-    CGSize size = [cell.contentView systemLayoutSizeFittingSize:fittingSize withHorizontalFittingPriority:UILayoutPriorityDefaultHigh verticalFittingPriority:UILayoutPriorityDefaultLow];
-
-    return size.height;
+    return [self leo_tableView:tableView estimatedHeightForRowAtIndexPath:indexPath];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
