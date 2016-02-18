@@ -9,6 +9,7 @@
 #import "LEOPusherHelper.h"
 #import "SessionUser.h"
 #import "Configuration.h"
+#import "LEOAPISessionManager.h"
 
 @interface LEOPusherHelper ()
 
@@ -33,10 +34,15 @@
     
     __weak id blockSender = sender;
     __weak LEOPusherHelper *weakSelf = self;
+
     self.client = [PTPusher pusherWithKey:[Configuration pusherKey] delegate:weakSelf encrypted:YES];
+
+    NSString *pusherAuthURLString = [NSString stringWithFormat:@"%@/%@/%@", [Configuration APIEndpointWithProtocol],[Configuration APIVersion], APIEndpointPusherAuth];
+
+    self.client.authorizationURL = [NSURL URLWithString:pusherAuthURLString];
     
-    PTPusherChannel *chatChannel = [self.client subscribeToChannelNamed:channel];
-    
+    PTPusherPrivateChannel *chatChannel = [self.client subscribeToPrivateChannelNamed:channel];
+
     [chatChannel bindToEventNamed:event handleWithBlock:^(PTPusherEvent *channelEvent) {
 
         NSLog(@"pusher activated by: %@", blockSender);
@@ -49,12 +55,17 @@
     [self.client connect];
 }
 
-//- (void)pusher:(PTPusher *)pusher willAuthorizeChannel:(PTPusherChannel *)channel withRequest:(NSMutableURLRequest *)request
-//{
-//
-//    [request setValue:[[SessionUser currentUser].credentialStore authToken] forHTTPHeaderField:@"X-MyCustom-AuthTokenHeader"];
-//}
+- (void)pusher:(PTPusher *)pusher willAuthorizeChannel:(PTPusherChannel *)channel withRequest:(NSMutableURLRequest *)request
+{
 
+    NSString *readableBody = [[NSString alloc] initWithData:request.HTTPBody encoding:NSUTF8StringEncoding];
+
+    NSString *authTokenString = [NSString stringWithFormat:@"&authentication_token=%@",[SessionUser authToken]];
+
+    NSString *bodyString = [readableBody stringByAppendingString:authTokenString];
+
+    request.HTTPBody = [bodyString dataUsingEncoding:NSUTF8StringEncoding];
+}
 
 //TODO: At some point, we're going to want to implement something like this per the docs to ensure we are dealing with failures to connect.
 
