@@ -183,6 +183,7 @@ extern NSString *const APIEndpointImmunizations; // @"immunizations";
 extern NSString *const APIEndpointBMIs; // @"bmis";
 extern NSString *const APIEndpointHeights; // @"height";
 extern NSString *const APIEndpointWeights; // @"weight";
+extern NSString *const APIEndpointPusherAuth; // = @"pusher/auth";
 
 #pragma mark - Common
 extern NSString *const APIParamID; // @"id";

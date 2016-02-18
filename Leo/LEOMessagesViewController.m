@@ -275,7 +275,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
 - (void)setupPusher {
 
-    NSString *channelString = [NSString stringWithFormat:@"%@%@",@"newMessage",[SessionUser currentUser].objectID];
+    NSString *channelString = [NSString stringWithFormat:@"%@",[SessionUser currentUser].objectID];
     NSString *event = @"new_message";
 
     __weak typeof(self) weakSelf = self;
