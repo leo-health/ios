@@ -66,5 +66,12 @@
     return [UIColor colorWithRed:227.0/255.0 green:227.0/255.0 blue:227.0/255.0 alpha:1]; /*#E3E3E3*/
 }
 
++ (UIColor *) leo_randomColor {
+    
+    CGFloat hue = ( arc4random() % 256 / 256.0 );  //  0.0 to 1.0
+    CGFloat saturation = ( arc4random() % 128 / 256.0 ) + 0.5;  //  0.5 to 1.0, away from white
+    CGFloat brightness = ( arc4random() % 128 / 256.0 ) + 0.5;  //  0.5 to 1.0, away from black
+    return [UIColor colorWithHue:hue saturation:saturation brightness:brightness alpha:1];
+}
 
 @end

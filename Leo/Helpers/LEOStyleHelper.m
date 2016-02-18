@@ -74,14 +74,7 @@
 
     [[UINavigationBar appearance] setBackgroundImage:[UIImage leo_imageWithColor:[self backgroundColorForFeature:feature]] forBarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
 
-    [UINavigationBar appearance].translucent = YES;
-
-    if (feature == FeatureOnboarding || feature == FeatureSettings) {
-        [UINavigationBar appearance].translucent = NO;
-
-    } else {
-        [UINavigationBar appearance].translucent = YES;
-    }
+    [UINavigationBar appearance].translucent = NO;
 
     [[UINavigationBar appearance] setShadowImage:[UIImage new]];
 }

@@ -34,11 +34,11 @@
 #import "LEOStyleHelper.h"
 #import "UIView+Extensions.h"
 #import <TPKeyboardAvoidingScrollView.h>
-#import "LEOHeaderView.h"
+#import "LEOProgressDotsHeaderView.h"
 
 @interface LEOSignUpUserViewController ()
 
-@property (strong, nonatomic) LEOHeaderView *headerView;
+@property (strong, nonatomic) LEOProgressDotsHeaderView *headerView;
 @property (strong, nonatomic) LEOSignUpUserView *signUpUserView;
 @property (nonatomic) BOOL breakerPreviouslyDrawn;
 @property (strong, nonatomic) CAShapeLayer *pathLayer;
@@ -46,6 +46,8 @@
 @end
 
 @implementation LEOSignUpUserViewController
+
+static NSString * const kCopyHeaderSignUpUser = @"Tell us a little about yourself";
 
 @synthesize guardian = _guardian;
 
@@ -60,7 +62,7 @@
     self.feature = FeatureOnboarding;
     self.stickyHeaderView.datasource = self;
     self.stickyHeaderView.delegate = self;
-    self.stickyHeaderView.snapToHeight = @([self.topLayoutGuide length]);
+    self.stickyHeaderView.snapToHeight = @(0);
 
     self.automaticallyAdjustsScrollViewInsets = NO;
 
@@ -112,13 +114,15 @@
     return self.headerView;
 }
 
-- (LEOHeaderView *)headerView {
+- (LEOProgressDotsHeaderView *)headerView {
 
     if (!_headerView) {
 
-        _headerView = [[LEOHeaderView alloc] initWithTitleText:@"Tell us a little about yourself"];
-        _headerView.intrinsicHeight = @(94.0); // I really don't like that we need to give this height here. StickyHeaderView should lay this out based on the header's constraints. The only time this should have to happen is when the constraints are ambiguious
+        _headerView = [[LEOProgressDotsHeaderView alloc] initWithTitleText:kCopyHeaderSignUpUser numberOfCircles:kNumberOfProgressDots currentIndex:1 fillColor:[UIColor leo_orangeRed]];
+
+        // I really don't like that we need to give this height here. StickyHeaderView should lay this out based on the header's constraints. The only time this should have to happen is when the constraints are ambiguious
         // TODO: look into how to remove this
+        _headerView.intrinsicHeight = @(kHeightOnboardingHeaders);
         [LEOStyleHelper styleExpandedTitleLabel:_headerView.titleLabel feature:self.feature];
     }
 

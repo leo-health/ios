@@ -32,7 +32,7 @@
 
 #import <MBProgressHUD/MBProgressHUD.h>
 #import "LEOReviewOnboardingView.h"
-#import "LEOHeaderView.h"
+#import "LEOProgressDotsHeaderView.h"
 #import "UIViewController+XibAdditions.h"
 #import "LEOIntrinsicSizeTableView.h"
 
@@ -44,7 +44,7 @@
 
 @property (weak, nonatomic) UILabel *navTitleLabel;
 @property (strong, nonatomic) LEOReviewOnboardingView *reviewOnboardingView;
-@property (strong, nonatomic) LEOHeaderView *headerView;
+@property (strong, nonatomic) LEOProgressDotsHeaderView *headerView;
 
 @end
 
@@ -55,8 +55,7 @@
 
 static NSString *const kReviewUserSegue = @"ReviewUserSegue";
 static NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
-static NSString *const kHeaderReviewOnboarding = @"Finally, please confirm your information";
-static CGFloat const kHeaderIntrinsicHeight = 194;
+static NSString *const kCopyHeaderReviewOnboarding = @"Finally, please confirm your information";
 
 #pragma mark - View Controller Lifecycle and Helpers
 
@@ -68,9 +67,8 @@ static CGFloat const kHeaderIntrinsicHeight = 194;
 
     self.feature = FeatureOnboarding;
     self.automaticallyAdjustsScrollViewInsets = NO;
-    self.extendedLayoutIncludesOpaqueBars = YES;
 
-    self.stickyHeaderView.snapToHeight = @(CGRectGetHeight(self.navigationController.navigationBar.bounds) + CGRectGetHeight([UIApplication sharedApplication].statusBarFrame));
+    self.stickyHeaderView.snapToHeight = @(0);
     self.stickyHeaderView.datasource = self;
     self.stickyHeaderView.delegate = self;
 
@@ -123,12 +121,17 @@ static CGFloat const kHeaderIntrinsicHeight = 194;
     return _reviewOnboardingView;
 }
 
-- (LEOHeaderView *)headerView {
+- (LEOProgressDotsHeaderView *)headerView {
 
     if (!_headerView) {
 
-        _headerView = [[LEOHeaderView alloc] initWithTitleText:kHeaderReviewOnboarding];
-        _headerView.intrinsicHeight = @(kHeaderIntrinsicHeight);
+        _headerView = [[LEOProgressDotsHeaderView alloc] initWithTitleText:kCopyHeaderReviewOnboarding numberOfCircles:kNumberOfProgressDots currentIndex:3 fillColor:[UIColor leo_orangeRed]];
+        // TODO: FIX these magic numbers by making sticky header view size its own header with autolayout
+        CGFloat height = kHeightOnboardingHeaders;
+        if (CGRectGetWidth([[UIScreen mainScreen] bounds]) < 375) {
+            height += 37;
+        }
+        _headerView.intrinsicHeight = @(height);
         [LEOStyleHelper styleExpandedTitleLabel:_headerView.titleLabel feature:self.feature];
     }
     

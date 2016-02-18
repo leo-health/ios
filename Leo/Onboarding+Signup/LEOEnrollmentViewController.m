@@ -19,17 +19,21 @@
 #import "LEOHeaderView.h"
 #import "UIViewController+XibAdditions.h"
 #import "UIView+Extensions.h"
+#import "UIColor+LeoColors.h"
 #import "LEOEnrollmentView.h"
+#import "LEOProgressDotsHeaderView.h"
 
 @interface LEOEnrollmentViewController ()
 
 @property (strong, nonatomic) LEOEnrollmentView *enrollmentView;
-@property (strong, nonatomic) LEOHeaderView *headerView;
+@property (strong, nonatomic) LEOProgressDotsHeaderView *headerView;
 @property (strong, nonatomic) Guardian *guardian;
 
 @end
 
 @implementation LEOEnrollmentViewController
+
+static NSString * const kCopyHeaderEnrollment = @"First, please create an account with Leo";
 
 #pragma mark - View Controller Lifecycle & Helper Methods
 
@@ -41,9 +45,7 @@
 
     self.feature = FeatureOnboarding;
     self.automaticallyAdjustsScrollViewInsets = NO;
-    self.extendedLayoutIncludesOpaqueBars = YES;
-
-    self.stickyHeaderView.snapToHeight = @(CGRectGetHeight(self.navigationController.navigationBar.bounds) + CGRectGetHeight([UIApplication sharedApplication].statusBarFrame));
+    self.stickyHeaderView.snapToHeight = @(0);
     self.stickyHeaderView.datasource = self;
     self.stickyHeaderView.delegate = self;
 
@@ -78,12 +80,18 @@
 
 #pragma mark - Accessors
 
-- (LEOHeaderView *)headerView {
+- (LEOProgressDotsHeaderView *)headerView {
 
     if (!_headerView) {
 
-        _headerView = [[LEOHeaderView alloc] initWithTitleText:@"First, please create an account with Leo"];
-        _headerView.intrinsicHeight = @(194.0);
+        _headerView = [[LEOProgressDotsHeaderView alloc] initWithTitleText:kCopyHeaderEnrollment numberOfCircles:kNumberOfProgressDots currentIndex:0 fillColor:[UIColor leo_orangeRed]];
+
+        // TODO: FIX these magic numbers by making sticky header view size its own header with autolayout
+        CGFloat height = kHeightOnboardingHeaders;
+        if (CGRectGetWidth([[UIScreen mainScreen] bounds]) < 375) {
+            height += 37;
+        }
+        _headerView.intrinsicHeight = @(height);
         [LEOStyleHelper styleExpandedTitleLabel:_headerView.titleLabel feature:self.feature];
     }
 

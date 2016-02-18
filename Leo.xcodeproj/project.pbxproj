@@ -215,6 +215,8 @@
 		662371F91C569F72001AB3E7 /* Signed-Out.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 662371F81C569F72001AB3E7 /* Signed-Out.xcassets */; };
 		6660C93E1C3AF92800C2657B /* LEOGradientHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6660C93D1C3AF92800C2657B /* LEOGradientHelper.m */; };
 		6677135B1C7531D700735B74 /* NSObject+TableViewAccurateEstimatedCellHeight.m in Sources */ = {isa = PBXBuildFile; fileRef = 6677135A1C7531D700735B74 /* NSObject+TableViewAccurateEstimatedCellHeight.m */; };
+		667713521C73C67C00735B74 /* LEOProgressDotsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 667713511C73C67C00735B74 /* LEOProgressDotsView.m */; };
+		667713551C74EA7100735B74 /* LEOProgressDotsHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 667713541C74EA7100735B74 /* LEOProgressDotsHeaderView.m */; };
 		6677AE3A1C61665B002CA27C /* LEOSwipeArrowsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6677AE391C61665B002CA27C /* LEOSwipeArrowsView.xib */; };
 		6677AE3D1C61689D002CA27C /* LEOSwipeArrowsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6677AE3C1C61689D002CA27C /* LEOSwipeArrowsView.m */; };
 		6677AE3F1C62B71F002CA27C /* LEOLoggedOutLoginCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6677AE3E1C62B71F002CA27C /* LEOLoggedOutLoginCell.xib */; };
@@ -651,6 +653,10 @@
 		6660C93D1C3AF92800C2657B /* LEOGradientHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOGradientHelper.m; sourceTree = "<group>"; };
 		667713591C7531D700735B74 /* NSObject+TableViewAccurateEstimatedCellHeight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+TableViewAccurateEstimatedCellHeight.h"; sourceTree = "<group>"; };
 		6677135A1C7531D700735B74 /* NSObject+TableViewAccurateEstimatedCellHeight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+TableViewAccurateEstimatedCellHeight.m"; sourceTree = "<group>"; };
+		667713501C73C67C00735B74 /* LEOProgressDotsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOProgressDotsView.h; sourceTree = "<group>"; };
+		667713511C73C67C00735B74 /* LEOProgressDotsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOProgressDotsView.m; sourceTree = "<group>"; };
+		667713531C74EA7100735B74 /* LEOProgressDotsHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOProgressDotsHeaderView.h; sourceTree = "<group>"; };
+		667713541C74EA7100735B74 /* LEOProgressDotsHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOProgressDotsHeaderView.m; sourceTree = "<group>"; };
 		6677AE391C61665B002CA27C /* LEOSwipeArrowsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LEOSwipeArrowsView.xib; sourceTree = "<group>"; };
 		6677AE3B1C61689D002CA27C /* LEOSwipeArrowsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOSwipeArrowsView.h; sourceTree = "<group>"; };
 		6677AE3C1C61689D002CA27C /* LEOSwipeArrowsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOSwipeArrowsView.m; sourceTree = "<group>"; };
@@ -1227,6 +1233,8 @@
 		31F5AA821B794BD200F96D06 /* Generic */ = {
 			isa = PBXGroup;
 			children = (
+				667713501C73C67C00735B74 /* LEOProgressDotsView.h */,
+				667713511C73C67C00735B74 /* LEOProgressDotsView.m */,
 				3138FC4C1B9A1A2E000FE22C /* LEOPromptField.h */,
 				3138FC4D1B9A1A2E000FE22C /* LEOPromptField.m */,
 				31339B101C21EE0100B53A86 /* LEOPromptView.h */,
@@ -1244,6 +1252,8 @@
 				66C7EF6A1C2A02C200F2FF56 /* LEOGradientView.m */,
 				31D2753D1C3DB676005F8964 /* LEOHeaderView.h */,
 				31D2753E1C3DB676005F8964 /* LEOHeaderView.m */,
+				667713531C74EA7100735B74 /* LEOProgressDotsHeaderView.h */,
+				667713541C74EA7100735B74 /* LEOProgressDotsHeaderView.m */,
 				660D77761C46ACBF00DCCB3C /* LEOIntrinsicSizeTableView.h */,
 				660D77771C46ACBF00DCCB3C /* LEOIntrinsicSizeTableView.m */,
 				31B9CF2F1BBC68750002480C /* LEOPromptFieldCell+ConfigureForCell.h */,
@@ -1928,6 +1938,7 @@
 				66A5DB421C3EE93D008AEC55 /* LEOPHRTableViewCell.m in Sources */,
 				31CC12E11BB062C40099AB60 /* SessionUser.m in Sources */,
 				31F5AA791B791B4B00F96D06 /* AppointmentTypeCell.m in Sources */,
+				667713551C74EA7100735B74 /* LEOProgressDotsHeaderView.m in Sources */,
 				31CC12DE1BB062C40099AB60 /* InsurancePlan.m in Sources */,
 				31BF23471BBAEA27005856E5 /* LEOSignUpPatientViewController.m in Sources */,
 				6677135B1C7531D700735B74 /* NSObject+TableViewAccurateEstimatedCellHeight.m in Sources */,
@@ -1964,6 +1975,7 @@
 				31D7ADEB1B21F9A100E8C5EE /* CollectionViewDataSource.m in Sources */,
 				6660C93E1C3AF92800C2657B /* LEOGradientHelper.m in Sources */,
 				3196AAF91B8E01C900B11112 /* LEOStubs.m in Sources */,
+				667713521C73C67C00735B74 /* LEOProgressDotsView.m in Sources */,
 				3168996A1BC4851200B4C1EB /* LEOReviewUserCell+ConfigureForCell.m in Sources */,
 				3168997A1BC4858400B4C1EB /* LEOBasicHeaderCell+ConfigureForCell.m in Sources */,
 				31CC12E01BB062C40099AB60 /* Message.m in Sources */,

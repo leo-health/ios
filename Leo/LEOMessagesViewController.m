@@ -1114,7 +1114,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
             //  TODO: find a better way of notifiying the user of a failure
             
-            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Upload Error" message:@"Sorry, but we're having trouble uploading your image" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Upload Error" message:@"Sorry, but we're having trouble uploading your message" preferredStyle:UIAlertControllerStyleAlert];
             [alert addAction:[UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleCancel handler:nil]];
             [self presentViewController:alert animated:YES completion:nil];
             if (completionBlock) {

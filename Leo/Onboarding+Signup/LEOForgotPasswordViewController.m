@@ -42,9 +42,8 @@ NSString * const kCopyResetPasswordSubmissionResponse = @"If you have an account
 
     self.feature = FeatureOnboarding;
     self.automaticallyAdjustsScrollViewInsets = NO;
-    self.extendedLayoutIncludesOpaqueBars = YES;
 
-    self.stickyHeaderView.snapToHeight = @(CGRectGetHeight(self.navigationController.navigationBar.bounds) + CGRectGetHeight([UIApplication sharedApplication].statusBarFrame));
+    self.stickyHeaderView.snapToHeight = @(0);
     self.stickyHeaderView.datasource = self;
     self.stickyHeaderView.delegate = self;
 
@@ -87,7 +86,7 @@ NSString * const kCopyResetPasswordSubmissionResponse = @"If you have an account
     if (!_headerView) {
 
         _headerView = [[LEOHeaderView alloc] initWithTitleText:@"Reset your password"];
-        _headerView.intrinsicHeight = @(kStickyHeaderHeight);
+        _headerView.intrinsicHeight = @(kHeightOnboardingHeaders);
         [LEOStyleHelper styleExpandedTitleLabel:_headerView.titleLabel feature:self.feature];
     }
 
