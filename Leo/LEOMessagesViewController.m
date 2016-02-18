@@ -123,6 +123,11 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
     }];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+
+    [self.sendButton removeObserver:self forKeyPath:@"enabled"];
+}
+
 #if STUBS_FLAG
 - (void)setupStubs {
 
