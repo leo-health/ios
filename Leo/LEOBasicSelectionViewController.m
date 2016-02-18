@@ -13,6 +13,7 @@
 #import <MBProgressHUD/MBProgressHUD.h>
 #import "UIImage+Extensions.h"
 #import "LEOStyleHelper.h"
+#import "NSObject+TableViewAccurateEstimatedCellHeight.h"
 
 @interface LEOBasicSelectionViewController ()
 
@@ -60,7 +61,6 @@
     [self.view addSubview:self.tableView];
     
     self.tableView.separatorInset = UIEdgeInsetsMake(0, 20, 0, 20);
-    self.tableView.estimatedRowHeight = 65;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     self.tableView.separatorColor = [UIColor leo_grayForPlaceholdersAndLines];
@@ -103,12 +103,10 @@
         
         self.data = data;
         
-        SelectionCriteriaBlock selectionCriteriaBlock = ^(BOOL shouldSelect, NSIndexPath *indexPath) {
+        SelectionCriteriaBlock selectionCriteriaBlock = ^(BOOL shouldSelect, NSIndexPath *indexPath, UITableViewCell *cell) {
             
             if (shouldSelect) {
-                UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
                 cell.selected = YES;
-                [self.tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
             }
         };
         
@@ -134,14 +132,17 @@
 
 
 #pragma mark - <UITableViewDelegate>
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     [self.delegate didUpdateItem:self.data[indexPath.row] forKey:self.key];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
 
-
+    return [self leo_tableView:tableView estimatedHeightForRowAtIndexPath:indexPath];
+}
 
 #pragma mark - Autolayout Constraints
 -(void)updateViewConstraints {

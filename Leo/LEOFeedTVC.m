@@ -64,6 +64,7 @@
 #import "LEOValidationsHelper.h"
 #import "LEOAppointmentViewController.h"
 #import "UIViewController+XibAdditions.h"
+#import "NSObject+TableViewAccurateEstimatedCellHeight.h"
 
 
 @interface LEOFeedTVC ()
@@ -342,8 +343,6 @@ static CGFloat const kFeedInsetTop = 30.0;
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
 
-    // TODO: update to use exact row heights so that scrollToIndexPath works correctly
-    self.tableView.estimatedRowHeight = 200;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     self.tableView.backgroundColor = [UIColor leo_grayForMessageBubbles];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -609,6 +608,11 @@ static CGFloat const kFeedInsetTop = 30.0;
 #pragma mark - <UITableViewDataSource>
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.cards.count;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    return [self leo_tableView:tableView estimatedHeightForRowAtIndexPath:indexPath];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

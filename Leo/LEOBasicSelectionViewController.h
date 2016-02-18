@@ -10,9 +10,8 @@
 #import "LEOAPIOperation.h"
 #import "SingleSelectionProtocol.h"
 
-
 typedef BOOL (^ConfigureCellBlock)(id cell, id data);
-typedef void (^SelectionCriteriaBlock)(BOOL selected, NSIndexPath *indexPath);
+typedef void (^SelectionCriteriaBlock)(BOOL selected, NSIndexPath *indexPath, UITableViewCell *cell);
 typedef void (^TableViewNotificationBlock)(NSIndexPath *indexPath, id item, UITableView *tableView);
 
 @interface LEOBasicSelectionViewController : UIViewController <UITableViewDelegate>

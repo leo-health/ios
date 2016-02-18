@@ -7,6 +7,7 @@
 //
 
 #import "Support.h"
+#import "NSDictionary+Additions.h"
 
 @implementation Support
 
@@ -20,7 +21,7 @@
 
         // handle the case where job title is not included in the API response. From a data modeling perspective, the credentials feild is overloaded here, but allow for it as a fail safe
         if (!_jobTitle) {
-            NSArray *credentials = jsonResponse[APIParamUserCredentials];
+            NSArray *credentials = [jsonResponse leo_itemForKey:APIParamUserCredentials];
             if (credentials.count > 0) {
                 _jobTitle = credentials[0];
             }
