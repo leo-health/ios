@@ -259,9 +259,9 @@
         
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)task.response;
 
-        NSLog(@"Fail: %@",error.localizedDescription);
-        NSLog(@"Fail: %@",error.localizedFailureReason);
-        
+        [self formattedErrorFromError:&error];
+        NSLog(@"Fail: %@",error);
+
         dispatch_async(dispatch_get_main_queue(), ^{
             completionBlock(nil, error);
         });
@@ -313,9 +313,6 @@
     return authenticatedParams;
 }
 
-// TODO: Uncomment and/or Update this to handle dynamic error messages from back end
-
-//MARK: First pass at "serializer" method for NSError creation from JSON dictionary provided by our API
 - (void)formattedErrorFromError:(NSError * __autoreleasing *)error {
     
     NSError *errorPointer = *error;
@@ -324,10 +321,15 @@
     NSError *serializationError;
     NSDictionary *responseErrorDictionary = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&serializationError];
 
-    if (!serializationError) {
+    id deserializedData = responseErrorDictionary;
+    if (serializationError) {
+        deserializedData = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    }
+
+    if (deserializedData) {
 
         NSMutableDictionary *userInfo = [errorPointer.userInfo mutableCopy];
-        userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey] = responseErrorDictionary;
+        userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey] = deserializedData;
         *error = [NSError errorWithDomain:errorPointer.domain code:errorPointer.code userInfo:userInfo];
     }
 }

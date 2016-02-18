@@ -10,9 +10,6 @@
 
 #import "UIImage+Extensions.h"
 #import "UIViewController+XibAdditions.h"
-
-//TODO: Eventually remove these and the code related to them from this VC!
-#import "UIFont+LeoFonts.h"
 #import "UIColor+LeoColors.h"
 
 #import "LEOSignUpUserView.h"
