@@ -19,6 +19,9 @@
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse;
 - (void)getS3ImageDataForS3ImageWithCompletion:(void (^) (void))completion;
 
+- (void)setNeedsRefresh;
+- (void)refreshIfNeeded;
+
 //"X-Amz-Algorithm" = "AWS4-HMAC-SHA256";
 //"X-Amz-Credential" = "AKIAIZJEJH6F6OQL43XQ/20160114/us-east-1/s3/aws4_request";
 //"X-Amz-Date" = 20160114T160124Z;

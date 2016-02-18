@@ -123,11 +123,6 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
     }];
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
-
-    [self.sendButton removeObserver:self forKeyPath:@"enabled"];
-}
-
 #if STUBS_FLAG
 - (void)setupStubs {
 
@@ -968,7 +963,6 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
 - (void)messagesCollectionViewCellDidTapMessageBubble:(JSQMessagesCollectionViewCell *)cell {
 
-
     NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
 
     Message *message = [self conversation].messages[indexPath.item];
@@ -977,15 +971,27 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
         MessageImage *messageImage = (MessageImage *)message;
 
-        JSQPhotoMediaItem *photoMediaItem = (JSQPhotoMediaItem *)messageImage.media;
+        if ([messageImage.s3Image.image isEqual:messageImage.s3Image.placeholder]) {
 
-        UIImage *image = photoMediaItem.image;
+            [messageImage.s3Image setNeedsRefresh];
+            [messageImage.s3Image refreshIfNeeded];
 
-        LEOImagePreviewViewController* lightboxVC = [[LEOImagePreviewViewController alloc] initWithNoCropModeWithImage:image];
-        lightboxVC.feature = FeatureMessaging;
-        lightboxVC.showsBackButton = YES;
+            messageImage.media = [[JSQPhotoMediaItem alloc] initWithImage:nil];
 
-        [self.navigationController pushViewController:lightboxVC animated:YES];
+            [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
+
+        } else {
+
+            JSQPhotoMediaItem *photoMediaItem = (JSQPhotoMediaItem *)messageImage.media;
+
+            UIImage *image = photoMediaItem.image;
+
+            LEOImagePreviewViewController* lightboxVC = [[LEOImagePreviewViewController alloc] initWithNoCropModeWithImage:image];
+            lightboxVC.feature = FeatureMessaging;
+            lightboxVC.showsBackButton = YES;
+
+            [self.navigationController pushViewController:lightboxVC animated:YES];
+        }
     }
 }
 
@@ -1131,6 +1137,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
 - (void)dealloc {
 
+    [self.sendButton removeObserver:self forKeyPath:@"enabled"];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 

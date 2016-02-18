@@ -13,7 +13,7 @@
 @interface MessageImage : Message
 NS_ASSUME_NONNULL_BEGIN
 
-@property (copy, nonatomic, readonly) id<JSQMessageMediaData> media;
+@property (copy, nonatomic) id<JSQMessageMediaData> media;
 @property (strong, nonatomic) LEOS3Image *s3Image;
 
 /**
