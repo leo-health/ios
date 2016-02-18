@@ -22,40 +22,6 @@
 
 @implementation LEOUserService
 
-//- (void)createGuardians:(NSArray<Guardian *> *)newGuardians withCompletion:(void (^)(NSArray<Guardian *> *guardians, NSError *error))completionBlock {
-//
-//        __block NSInteger counter = 0;
-//
-//        [patients enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-//
-//            [userService createPatient:obj withCompletion:^(Patient *patient, NSError *error) {
-//
-//                if (!error) {
-//
-//                    [self.family addPatient:patient];
-//
-//                    counter++;
-//
-//                    [userService postAvatarForUser:patient withCompletion:^(BOOL success, NSError *error) {
-//
-//                        if (!error) {
-//
-//                            NSLog(@"Avatar upload occured successfully!");
-//                        }
-//                        
-//                    }];
-//                    
-//                    if (counter == [patients count]) {
-//                        completionBlock(YES);
-//                    }
-//                }
-//            }];
-//        }];
-//    }
-//
-//
-//}
-
 - (void)createGuardian:(Guardian *)newGuardian withCompletion:(void (^)(Guardian *guardian, NSError *error))completionBlock {
     
     NSDictionary *guardianDictionary = [Guardian dictionaryFromUser:newGuardian];

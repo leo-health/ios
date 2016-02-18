@@ -259,9 +259,20 @@ static NSString *const kCopyHeaderReviewOnboarding = @"Finally, please confirm y
 
         if (!error && guardian) {
 
+            if (self.family.guardians.count > 1) {
+
+                Guardian *otherGuardian = self.family.guardians[1];
+                [userService inviteUser:otherGuardian withCompletion:^(BOOL success, NSError *error) {
+
+                    if (success) {
+
+                        NSLog(@"Parent invitation success");
+                    }
+                }];
+            }
+
             //The guardian that is created should technically take the place of the original, given it will have an id and family_id.t
             self.family.guardians = @[guardian];
-
 
             [userService createPatients:patients withCompletion:^(NSArray<Patient *> *patients, NSError *error) {
 
@@ -273,13 +284,11 @@ static NSString *const kCopyHeaderReviewOnboarding = @"Finally, please confirm y
 
                 [MBProgressHUD hideHUDForView:self.view animated:YES];
                 button.enabled = YES;
-
             }];
         }
 
         button.enabled = YES;
         [MBProgressHUD hideHUDForView:self.view animated:YES];
-
     }];
 }
 

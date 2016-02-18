@@ -192,9 +192,8 @@
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
 
-        [self formattedErrorFromError:&error];
 
-        NSLog(@"Fail: %@",error);
+        NSLog(@"Fail: %@", error.userInfo);
         
         dispatch_async(dispatch_get_main_queue(), ^{
             completionBlock(nil, error);
@@ -227,7 +226,7 @@
 
         [self formattedErrorFromError:&error];
 
-        NSLog(@"Fail: %@",error);
+        NSLog(@"Fail: %@", error.userInfo);
         
         dispatch_async(dispatch_get_main_queue(), ^{
             completionBlock(nil, error);
@@ -260,7 +259,7 @@
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)task.response;
 
         [self formattedErrorFromError:&error];
-        NSLog(@"Fail: %@",error);
+        NSLog(@"Fail: %@", error.userInfo);
 
         dispatch_async(dispatch_get_main_queue(), ^{
             completionBlock(nil, error);
@@ -318,19 +317,22 @@
     NSError *errorPointer = *error;
     NSData *data = errorPointer.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey];
 
-    NSError *serializationError;
-    NSDictionary *responseErrorDictionary = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&serializationError];
+    if (data) {
 
-    id deserializedData = responseErrorDictionary;
-    if (serializationError) {
-        deserializedData = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    }
+        NSError *serializationError;
+        NSDictionary *responseErrorDictionary = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&serializationError];
 
-    if (deserializedData) {
+        id deserializedData = responseErrorDictionary;
+        if (serializationError) {
+            deserializedData = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        }
 
-        NSMutableDictionary *userInfo = [errorPointer.userInfo mutableCopy];
-        userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey] = deserializedData;
-        *error = [NSError errorWithDomain:errorPointer.domain code:errorPointer.code userInfo:userInfo];
+        if (deserializedData) {
+
+            NSMutableDictionary *userInfo = [errorPointer.userInfo mutableCopy];
+            userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey] = deserializedData;
+            *error = [NSError errorWithDomain:errorPointer.domain code:errorPointer.code userInfo:[userInfo copy]];
+        }
     }
 }
 
