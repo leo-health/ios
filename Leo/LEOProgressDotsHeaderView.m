@@ -56,9 +56,9 @@ static CGFloat const kSpacingCircle = 12.0;
     if (!_progressDotsView) {
 
         LEOProgressDotsView *strongView = [[LEOProgressDotsView alloc] initWithCircleRadius:self.circleRadius circleSpacing:self.circleSpacing numberOfCircles:self.numberOfCircles currentIndex:self.currentIndex borderColor:self.borderColor fillColor:self.fillColor];
-        [self addSubview:strongView];
-
         _progressDotsView = strongView;
+        [self addSubview:_progressDotsView];
+
     }
 
     return _progressDotsView;
@@ -82,15 +82,16 @@ static CGFloat const kSpacingCircle = 12.0;
         [self addConstraint:[NSLayoutConstraint constraintWithItem:self.progressDotsView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.titleLabel attribute:NSLayoutAttributeLeading multiplier:1 constant:0]];
     }
 
-    [super updateConstraints];
 }
 
 - (CGSize)intrinsicContentSize {
 
     CGSize superSize = [super intrinsicContentSize];
+
     if (!self.intrinsicHeight) {
         superSize.height += kSpacingTitleDots + [self.progressDotsView intrinsicContentSize].height;
     }
+    
     return superSize;
 }
 

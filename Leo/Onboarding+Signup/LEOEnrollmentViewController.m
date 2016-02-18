@@ -33,6 +33,8 @@
 
 @implementation LEOEnrollmentViewController
 
+static NSString * const kCopyHeaderEnrollment = @"First, please create an account with Leo";
+
 #pragma mark - View Controller Lifecycle & Helper Methods
 
 - (void)viewDidLoad {
@@ -82,7 +84,7 @@
 
     if (!_headerView) {
 
-        _headerView = [[LEOProgressDotsHeaderView alloc] initWithTitleText:@"First, please create an account with Leo" numberOfCircles:kNumberOfProgressDots currentIndex:0 fillColor:[UIColor leo_orangeRed]];
+        _headerView = [[LEOProgressDotsHeaderView alloc] initWithTitleText:kCopyHeaderEnrollment numberOfCircles:kNumberOfProgressDots currentIndex:0 fillColor:[UIColor leo_orangeRed]];
 
         // TODO: FIX these magic numbers by making sticky header view size its own header with autolayout
         CGFloat height = kHeightOnboardingHeaders;

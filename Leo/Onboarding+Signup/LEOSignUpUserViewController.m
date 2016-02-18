@@ -47,6 +47,8 @@
 
 @implementation LEOSignUpUserViewController
 
+static NSString * const kCopyHeaderSignUpUser = @"Tell us a little about yourself";
+
 @synthesize guardian = _guardian;
 
 #pragma mark - View Controller Lifecycle & Helper Methods
@@ -116,7 +118,7 @@
 
     if (!_headerView) {
 
-        _headerView = [[LEOProgressDotsHeaderView alloc] initWithTitleText:@"Tell us a little about yourself" numberOfCircles:kNumberOfProgressDots currentIndex:1 fillColor:[UIColor leo_orangeRed]];
+        _headerView = [[LEOProgressDotsHeaderView alloc] initWithTitleText:kCopyHeaderSignUpUser numberOfCircles:kNumberOfProgressDots currentIndex:1 fillColor:[UIColor leo_orangeRed]];
 
         // I really don't like that we need to give this height here. StickyHeaderView should lay this out based on the header's constraints. The only time this should have to happen is when the constraints are ambiguious
         // TODO: look into how to remove this

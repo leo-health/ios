@@ -55,7 +55,7 @@
 
 static NSString *const kReviewUserSegue = @"ReviewUserSegue";
 static NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
-static NSString *const kHeaderReviewOnboarding = @"Finally, please confirm your information";
+static NSString *const kCopyHeaderReviewOnboarding = @"Finally, please confirm your information";
 
 #pragma mark - View Controller Lifecycle and Helpers
 
@@ -125,7 +125,7 @@ static NSString *const kHeaderReviewOnboarding = @"Finally, please confirm your 
 
     if (!_headerView) {
 
-        _headerView = [[LEOProgressDotsHeaderView alloc] initWithTitleText:kHeaderReviewOnboarding numberOfCircles:kNumberOfProgressDots currentIndex:3 fillColor:[UIColor leo_orangeRed]];
+        _headerView = [[LEOProgressDotsHeaderView alloc] initWithTitleText:kCopyHeaderReviewOnboarding numberOfCircles:kNumberOfProgressDots currentIndex:3 fillColor:[UIColor leo_orangeRed]];
         // TODO: FIX these magic numbers by making sticky header view size its own header with autolayout
         CGFloat height = kHeightOnboardingHeaders;
         if (CGRectGetWidth([[UIScreen mainScreen] bounds]) < 375) {

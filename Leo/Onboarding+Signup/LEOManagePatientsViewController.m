@@ -38,7 +38,8 @@
 
 @implementation LEOManagePatientsViewController
 
-static NSString *const kSignUpPatientSegue = @"SignUpPatientSegue";
+static NSString * const kCopyHeaderManagePatients = @"Let's setup a profile for each of your children";
+static NSString * const kSignUpPatientSegue = @"SignUpPatientSegue";
 
 #pragma mark - View Controller Lifecycle and Helpers
 
@@ -105,7 +106,7 @@ static NSString *const kSignUpPatientSegue = @"SignUpPatientSegue";
 
     if (!_headerView) {
 
-        _headerView = [[LEOProgressDotsHeaderView alloc] initWithTitleText:@"Let's setup a profile for each of your children" numberOfCircles:kNumberOfProgressDots currentIndex:2 fillColor:[UIColor leo_orangeRed]];
+        _headerView = [[LEOProgressDotsHeaderView alloc] initWithTitleText:kCopyHeaderManagePatients numberOfCircles:kNumberOfProgressDots currentIndex:2 fillColor:[UIColor leo_orangeRed]];
 
         // TODO: FIX these magic numbers by making sticky header view size its own header with autolayout
         CGFloat height = kHeightOnboardingHeaders;
