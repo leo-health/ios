@@ -1,9 +1,13 @@
     upcoming:
-    - New! Progress "dots" in onboarding
-    - New! Private channels for messaging
-    - Bug fixes
-
     releases:
+    - version: 0.7.0
+      build: 2016.02.18.00.48
+      date: February 18 2016
+      notes:
+      - New! Progress "dots" in onboarding
+  - New! Private channels for messaging
+  - Bug fixes
+    
     - version: 0.6.0
       build: 2016.02.14.11.09
       date: February 14 2016
@@ -138,6 +142,7 @@
       notes:
       - First test build using new Fastfile configuration for Alpha builds
       - Provides the basic functionality all created prior to our first releases
+
 
 
 
