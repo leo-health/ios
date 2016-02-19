@@ -96,12 +96,15 @@ static NSString *const kCopyUsePhoto = @"USE PHOTO";
 
 - (void)updateUI {
 
-    UIImage *circularAvatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:self.patient.avatar.image withDiameter:67 borderColor:[UIColor leo_orangeRed] borderWidth:1.0];
+    if (self.patient.avatar.hasImagePromise) {
 
-    self.signUpPatientView.avatarImageView.image = circularAvatarImage;
+        UIImage *circularAvatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:self.patient.avatar.image withDiameter:67 borderColor:[UIColor leo_orangeRed] borderWidth:1.0];
 
-    self.signUpPatientView.avatarValidationLabel.textColor = [UIColor leo_grayStandard];
-    self.signUpPatientView.avatarValidationLabel.text = kAvatarCallToActionEdit;
+        self.signUpPatientView.avatarImageView.image = circularAvatarImage;
+
+        self.signUpPatientView.avatarValidationLabel.textColor = [UIColor leo_grayStandard];
+        self.signUpPatientView.avatarValidationLabel.text = kAvatarCallToActionEdit;
+    }
 }
 
 #pragma mark - Accessors
@@ -286,7 +289,7 @@ static NSString *const kCopyUsePhoto = @"USE PHOTO";
     NSData *avatarImageData = UIImageJPEGRepresentation(self.patient.avatar.image, kImageCompressionFactor);
     NSData *originalAvatarImageData = UIImageJPEGRepresentation(self.originalPatient.avatar.image, kImageCompressionFactor);
 
-    BOOL avatarNeedsUpdate = ![avatarImageData isEqual:originalAvatarImageData];
+    BOOL avatarNeedsUpdate = ![avatarImageData isEqual:originalAvatarImageData] && self.patient.avatar.hasImagePromise;
 
     if (!patientNeedsUpdate && !avatarNeedsUpdate) {
 
@@ -360,17 +363,27 @@ static NSString *const kCopyUsePhoto = @"USE PHOTO";
 
             self.patient.objectID = patient.objectID;
 
-            [userService postAvatarForUser:self.patient withCompletion:^(BOOL success, NSError *error) {
+            if (self.patient.avatar.hasImagePromise) {
 
-                if (!error) {
+                [userService postAvatarForUser:self.patient withCompletion:^(BOOL success, NSError *error) {
 
-                    //TODO: Let user know that patient was created successfully or not IF in settings only
-                    [self finishLocalUpdate];
+                    if (!error) {
 
-                    self.signUpPatientView.updateButton.enabled = YES;
-                    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-                }
-            }];
+                        [self finishLocalUpdate];
+
+                        self.signUpPatientView.updateButton.enabled = YES;
+                        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+                    }
+                }];
+            } else {
+
+                [self finishLocalUpdate];
+
+                self.signUpPatientView.updateButton.enabled = YES;
+                [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+
+            }
+
         } else {
 
             self.signUpPatientView.updateButton.enabled = YES;
@@ -389,6 +402,7 @@ static NSString *const kCopyUsePhoto = @"USE PHOTO";
     BOOL shouldUpdateBoth = patientNeedsUpdate && avatarNeedsUpdate;
 
     void (^avatarUpdateBlock)() = ^{
+
         [userService postAvatarForUser:self.patient withCompletion:^(BOOL success, NSError *error) {
 
             if (success) {

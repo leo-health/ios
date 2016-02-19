@@ -298,14 +298,17 @@ static NSString *const kCopyHeaderReviewOnboarding = @"Finally, please confirm y
 
                 counter++;
 
-                [userService postAvatarForUser:patient withCompletion:^(BOOL success, NSError *error) {
+                if (patient.avatar.hasImagePromise) {
 
-                    if (!error) {
+                    [userService postAvatarForUser:patient withCompletion:^(BOOL success, NSError *error) {
 
-                        NSLog(@"Avatar upload occured successfully!");
-                    }
+                        if (!error) {
 
-                }];
+                            NSLog(@"Avatar upload occured successfully!");
+                        }
+                        
+                    }];
+                }
 
                 if (counter == [patients count]) {
                     completionBlock(YES);

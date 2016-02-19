@@ -170,7 +170,7 @@ static NSString *const kPlaceholderValidationBirthDate = @"please add your child
     self.firstNamePromptField.textField.text = _patient.firstName;
     self.genderPromptField.textField.text = _patient.genderDisplayName;
 
-    if (_patient.avatar.image) {
+    if (_patient.avatar.hasImagePromise) {
 
         UIImage *circularAvatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:_patient.avatar.image withDiameter:67 borderColor:[UIColor leo_orangeRed] borderWidth:1.0];
         self.avatarImageView.image = circularAvatarImage;
@@ -197,7 +197,7 @@ static NSString *const kPlaceholderValidationBirthDate = @"please add your child
             break;
 
         case ManagementModeEdit:
-            self.avatarValidationLabel.text = kAvatarCallToActionEdit;
+            self.avatarValidationLabel.text = self.patient.avatar.hasImagePromise ? kAvatarCallToActionEdit : kAvatarCallToActionAdd;
             break;
 
         case ManagementModeUndefined:
@@ -235,20 +235,16 @@ static NSString *const kPlaceholderValidationBirthDate = @"please add your child
     NSString *lastName = self.lastNamePromptField.textField.text;
     NSString *gender = [self genderFromGenderTextField:self.genderPromptField.textField];
     NSDate *dob = [self dateFromDateTextField:self.birthDatePromptField.textField];
-    UIImage *avatar = self.avatarImageView.image;
 
     BOOL validFirstName = [LEOValidationsHelper isValidFirstName:firstName];
     BOOL validLastName = [LEOValidationsHelper isValidLastName:lastName];
     BOOL validBirthDate = [LEOValidationsHelper isValidBirthDate:dob];
     BOOL validGender = [LEOValidationsHelper isValidGender:gender];
-    BOOL validAvatar = [LEOValidationsHelper isValidAvatar:avatar];
 
     self.firstNamePromptField.textField.valid = validFirstName;
     self.lastNamePromptField.textField.valid = validLastName;
     self.birthDatePromptField.textField.valid = validBirthDate;
     self.genderPromptField.textField.valid = validGender;
-
-    self.avatarValidationLabel.textColor = validAvatar ? [UIColor leo_grayStandard] : [UIColor leo_redBadge];
 }
 
 - (NSString *) genderFromGenderTextField:(UITextField *)textField {

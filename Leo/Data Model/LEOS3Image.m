@@ -27,6 +27,15 @@
     return self;
 }
 
+- (BOOL)hasImagePromise {
+
+    if (self.baseURL) {
+        return YES;
+    }
+
+    return _hasImagePromise;
+}
+
 -(instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
 
     NSString *baseURL = jsonResponse[APIParamImageBaseURL];
@@ -48,11 +57,8 @@
             if (!error && rawImage) {
 
                 _image = rawImage;
-                [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationDownloadedImageUpdated object:self];
-            } else {
 
-                //TODO: Consider whether this is ultimately the right implementation.
-                [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationImageChanged object:self];
+                [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationDownloadedImageUpdated object:self];
             }
         }];
     }
@@ -63,6 +69,10 @@
 -(void)setImage:(UIImage *)image {
 
     _image = image;
+
+    if (![image isEqual:self.placeholder]) {
+        self.hasImagePromise = YES;
+    }
 
     [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationImageChanged object:self];
 }
