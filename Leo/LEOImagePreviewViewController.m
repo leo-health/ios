@@ -139,6 +139,12 @@ NSString * const kCopyPhotoPreview = @"Photo Preview";
     return _imageCropController;
 }
 
+- (void)setZoomable:(BOOL)zoomable {
+
+    _zoomable = zoomable;
+    self.imageCropController.view.userInteractionEnabled = _zoomable;
+}
+
 - (UIView *)imageCropView {
 
     if (!_imageCropView) {

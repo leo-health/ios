@@ -504,6 +504,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
     LEOImagePreviewViewController *previewVC = [[LEOImagePreviewViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeCustom];
     previewVC.delegate = self;
+    previewVC.zoomable = NO;
     previewVC.feature = FeatureMessaging;
     previewVC.leftToolbarButton.hidden = YES;
     previewVC.rightToolbarButton.titleLabel.text = kCopySendPhoto;
