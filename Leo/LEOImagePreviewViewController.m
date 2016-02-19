@@ -34,6 +34,9 @@
 
 @implementation LEOImagePreviewViewController
 
+// FIXME: When using custom transitions, the topLayoutGuide does not give the correct value.
+// source: http://slidetorock.com/blog/toplayoutguide-and-custom-transistions-in-ios-7.html
+CGFloat const kFakeTopLayoutGuide = 44;
 NSString * const kCopyPhotoPreview = @"Photo Preview";
 
 @synthesize image = _image;
@@ -169,7 +172,7 @@ NSString * const kCopyPhotoPreview = @"Photo Preview";
 
         NSDictionary *views = NSDictionaryOfVariableBindings(_imageCropView, _toolbar, _leftToolbarButton, _rightToolbarButton);
 
-        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_imageCropView][_toolbar(toolbarHeight)]|" options:0 metrics:@{@"toolbarHeight":@(self.toolbarHeight)} views:views]];
+        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(fakeTopLayoutGuide)-[_imageCropView][_toolbar(toolbarHeight)]|" options:0 metrics:@{@"toolbarHeight":@(self.toolbarHeight), @"fakeTopLayoutGuide":@(kFakeTopLayoutGuide)} views:views]];
         [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_imageCropView]|" options:0 metrics:nil views:views]];
         [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_toolbar]|" options:0 metrics:nil views:views]];
 

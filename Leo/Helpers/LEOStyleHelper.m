@@ -63,7 +63,11 @@
 
     [navigationBar setBackgroundImage:[UIImage leo_imageWithColor:[self backgroundColorForFeature:feature]] forBarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
 
-    navigationBar.translucent = NO;
+    BOOL translucent = NO;
+    if (feature == FeatureAppointmentScheduling) {
+        translucent = YES;
+    }
+    navigationBar.translucent = translucent;
 
     [navigationBar setShadowImage:[UIImage new]];
 }
@@ -75,13 +79,11 @@
     [[UINavigationBar appearance] setBackgroundImage:[UIImage leo_imageWithColor:[self backgroundColorForFeature:feature]] forBarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
 
 
-    [UINavigationBar appearance].translucent = YES;
-
-    if (feature == FeatureOnboarding || feature == FeatureSettings) {
-        [UINavigationBar appearance].translucent = NO;
-    } else {
-        [UINavigationBar appearance].translucent = YES;
+    BOOL translucent = NO;
+    if (feature == FeatureAppointmentScheduling) {
+        translucent = YES;
     }
+    [UINavigationBar appearance].translucent = translucent;
 
     [[UINavigationBar appearance] setShadowImage:[UIImage new]];
 }
