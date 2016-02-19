@@ -143,6 +143,8 @@
     if ([gender isEqualToString:kGenderFemaleDisplay]) {
         _gender = kGenderFemale;
     }
+
+    [self setPatientAvatarPlaceholder];
 }
 
 #pragma mark - NSObject

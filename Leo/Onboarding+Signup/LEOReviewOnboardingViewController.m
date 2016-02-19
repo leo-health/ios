@@ -263,10 +263,11 @@ static NSString *const kCopyHeaderReviewOnboarding = @"Finally, please confirm y
             self.family.guardians = @[guardian];
 
 
-            [self createPatients:patients withCompletion:^(BOOL success) {
+            [userService createPatients:patients withCompletion:^(NSArray<Patient *> *patients, NSError *error) {
 
-                if (success) {
+                if (!error) {
 
+                    self.family.patients = patients;
                     [[SessionUser currentUser] setMembershipType:MembershipTypeMember];
                 }
 
@@ -281,42 +282,5 @@ static NSString *const kCopyHeaderReviewOnboarding = @"Finally, please confirm y
 
     }];
 }
-
-- (void)createPatients:(NSArray *)patients withCompletion:( void (^) (BOOL success))completionBlock {
-
-    __block NSInteger counter = 0;
-
-    LEOUserService *userService = [[LEOUserService alloc] init];
-
-    [patients enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-
-        [userService createPatient:obj withCompletion:^(Patient *patient, NSError *error) {
-
-            if (!error) {
-
-                [self.family addPatient:patient];
-
-                counter++;
-
-                if (patient.avatar.hasImagePromise) {
-
-                    [userService postAvatarForUser:patient withCompletion:^(BOOL success, NSError *error) {
-
-                        if (!error) {
-
-                            NSLog(@"Avatar upload occured successfully!");
-                        }
-                        
-                    }];
-                }
-
-                if (counter == [patients count]) {
-                    completionBlock(YES);
-                }
-            }
-        }];
-    }];
-}
-
 
 @end

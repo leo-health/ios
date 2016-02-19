@@ -13,6 +13,7 @@
 @interface LEOUserService : NSObject
 
 - (void)createGuardian:(Guardian *)newGuardian withCompletion:(void (^)(Guardian *guardian, NSError *error))completionBlock;
+- (void)createPatients:(NSArray *)patients withCompletion:(void (^)(NSArray<Patient *> *patient, NSError *error))completionBlock;
 - (void)createPatient:(Patient *)newPatient withCompletion:(void (^)(Patient * patient, NSError *error))completionBlock;
 
 - (void)loginUserWithEmail:(NSString *)email password:(NSString *)password withCompletion:(void (^)(SessionUser *user, NSError *error))completionBlock;

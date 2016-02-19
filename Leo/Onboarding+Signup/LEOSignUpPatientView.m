@@ -173,6 +173,8 @@ static NSString *const kPlaceholderValidationBirthDate = @"please add your child
     if (_patient.avatar.hasImagePromise) {
 
         UIImage *circularAvatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:_patient.avatar.image withDiameter:67 borderColor:[UIColor leo_orangeRed] borderWidth:1.0];
+
+        self.avatarValidationLabel.text = kAvatarCallToActionEdit;
         self.avatarImageView.image = circularAvatarImage;
     }
 }
@@ -346,7 +348,7 @@ static NSString *const kPlaceholderValidationBirthDate = @"please add your child
 
     self.genderPromptField.textField.text = ([selectedGender isEqualToNumber:@0]) ? kGenderFemaleDisplay : kGenderMaleDisplay;
     self.genderPromptField.textField.valid = YES;
-    self.patient.gender = ([selectedGender isEqualToNumber:@0]) ? kGenderFemale : kGenderFemale;
+    self.patient.gender = ([selectedGender isEqualToNumber:@0]) ? kGenderFemale : kGenderMale;
 }
 
 

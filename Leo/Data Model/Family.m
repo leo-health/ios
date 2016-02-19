@@ -92,12 +92,15 @@
         
         [mutablePatients addObject:patient];
         
-        self.patients = [mutablePatients copy];
-
-        [self sortPatients];
+        self.patients = mutablePatients;
     }
 }
 
+- (void)setPatients:(NSArray *)patients {
+
+    _patients = [patients copy];
+    [self sortPatients];
+}
 
 - (void)addGuardian:(Guardian *)guardian {
     
@@ -134,7 +137,7 @@
 - (void)sortPatients {
 
     // default sort order is oldest to youngest, then alphabetical by firstName if born on the same date
-    self.patients = [self.patients sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"dob" ascending:YES], [NSSortDescriptor sortDescriptorWithKey:@"firstName" ascending:YES]]];
+    _patients = [_patients sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"dob" ascending:YES], [NSSortDescriptor sortDescriptorWithKey:@"firstName" ascending:YES]]];
 }
 
 @end

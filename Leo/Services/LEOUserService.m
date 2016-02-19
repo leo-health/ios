@@ -43,6 +43,49 @@
     }];
 }
 
+- (void)createPatients:(NSArray *)patients withCompletion:(void (^)(NSArray<Patient *> *patient, NSError *error))completionBlock {
+
+    __block NSInteger counter = 0;
+    __block NSMutableArray *newPatients = [NSMutableArray new];
+
+    // TODO: think about how to handle errors in dependent requests like this one.
+    // should we use an array of errors? one combined error? currently we do nothing
+
+    [patients enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+
+        [self createPatient:obj withCompletion:^(Patient *patient, NSError *error) {
+
+            if (!error) {
+
+                [newPatients addObject:patient];
+
+                if (patient.avatar.hasImagePromise) {
+
+                    [self postAvatarForUser:patient withCompletion:^(BOOL success, NSError *error) {
+
+                        if (!error) {
+
+                            NSLog(@"Avatar upload occured successfully!");
+
+                            counter++;
+                            if (counter == [patients count]) {
+                                completionBlock(newPatients, nil);
+                            }
+                        }
+                    }];
+
+                } else {
+
+                    counter++;
+                    if (counter == [patients count]) {
+                        completionBlock(newPatients, nil);
+                    }
+                }
+            }
+        }];
+    }];
+}
+
 - (void)createPatient:(Patient *)newPatient withCompletion:(void (^)(Patient * patient, NSError *error))completionBlock {
     
     NSDictionary *patientDictionary = [Patient dictionaryFromUser:newPatient];
