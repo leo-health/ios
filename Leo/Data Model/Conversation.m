@@ -88,9 +88,7 @@
     
     self.messages = sortedMessages;
     
-    [[NSNotificationCenter defaultCenter]
-     postNotificationName:@"Conversation-AddedMessage"
-     object:self];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"Conversation-AddedMessage" object:self];
 }
 
 
@@ -105,9 +103,7 @@
     
     self.messages = sortedMessages;
     
-    [[NSNotificationCenter defaultCenter]
-     postNotificationName:@"Conversation-AddedMessages"
-     object:self];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"Conversation-AddedMessages" object:self];
 }
 
 - (void)addMessageFromJSON:(NSDictionary *)messageDictionary {

@@ -10,7 +10,6 @@
 #import "LEOValidatedFloatLabeledTextField.h"
 #import "UIFont+LeoFonts.h"
 #import "UIColor+LeoColors.h"
-#import "UIScrollView+LEOScrollToVisible.h"
 #import "UIImage+Extensions.h"
 #import "LEOUserService.h"
 #import "LEOValidationsHelper.h"

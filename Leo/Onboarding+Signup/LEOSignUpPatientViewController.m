@@ -74,8 +74,18 @@ static NSString *const kCopyUsePhoto = @"USE PHOTO";
 - (void)setupNotifications {
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateForDownloadedImage) name:kNotificationDownloadedImageUpdated object:self.patient.avatar];
-
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateForChangedImage) name:kNotificationImageChanged object:self.patient.avatar];
+}
+
+- (void)removeObservers {
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotificationDownloadedImageUpdated object:self.patient.avatar];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotificationImageChanged object:self.patient.avatar];
+}
+
+- (void)dealloc {
+
+    [self removeObservers];
 }
 
 - (void)updateOriginalPatient {
@@ -489,10 +499,6 @@ static NSString *const kCopyUsePhoto = @"USE PHOTO";
             [self presentViewController:pickerController animated:YES completion:nil]; 
         }];
     }];
-}
-
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 

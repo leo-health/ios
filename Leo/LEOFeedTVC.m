@@ -210,6 +210,17 @@ static CGFloat const kFeedInsetTop = 30.0;
                                                object:nil];
 }
 
+- (void)removeObservers {
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotificationCardUpdated object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotificationConversationAddedMessage object:nil];
+}
+
+- (void)dealloc {
+
+    [self removeObservers];
+}
+
 //MARK: Most likely doesn't belong in this class; no longer tied to it except for completion block which can be passed in.
 - (void)pushNewMessageToConversation:(Conversation *)conversation {
 
@@ -380,7 +391,7 @@ static CGFloat const kFeedInsetTop = 30.0;
 -(void)takeResponsibilityForCard:(id<LEOCardProtocol>)card {
 
     card.activityDelegate = self;
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"Card-Updated" object:nil]; //TODO: This method does not reflect the fact that an update has taken place. Consider naming differently, or moving this to a method that fits the bill?
+    [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationCardUpdated object:nil]; //TODO: This method does not reflect the fact that an update has taken place. Consider naming differently, or moving this to a method that fits the bill?
 }
 
 - (void)didUpdateObjectStateForCard:(id<LEOCardProtocol>)card {
@@ -886,8 +897,5 @@ static CGFloat const kFeedInsetTop = 30.0;
     [self presentViewController:alertController animated:YES completion:nil];
 }
 
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
 
 @end

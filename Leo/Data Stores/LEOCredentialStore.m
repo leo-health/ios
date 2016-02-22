@@ -8,6 +8,7 @@
 
 #import "LEOCredentialStore.h"
 #import "SSKeychain.h"
+#import "LEOConstants.h"
 
 #define SERVICE_NAME @"LEO-AuthClient"
 #define AUTH_TOKEN_KEY @"auth_token"
@@ -46,7 +47,7 @@
     [self setSecureValue:authToken forKey:AUTH_TOKEN_KEY];
     
     if (!authToken) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"token-invalidated" object:self];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationTokenInvalidated object:self];
     }
 }
 

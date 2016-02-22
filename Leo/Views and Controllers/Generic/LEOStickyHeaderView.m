@@ -68,9 +68,7 @@ NSString * const kAnimationKeyPathStrokeColor = @"strokeColor";
 
 - (void)dealloc {
 
-    [self.scrollView removeObserver:self forKeyPath:kKVOKeyPathContentSize];
-    [self.scrollView removeObserver:self forKeyPath:kKVOKeyPathContentOffset];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self removeObservers];
 }
 
 - (void)commonInit {
@@ -364,6 +362,14 @@ NSString * const kAnimationKeyPathStrokeColor = @"strokeColor";
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stickyHeaderView_keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stickyHeaderView_keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+}
+
+- (void)removeObservers {
+
+    [self.scrollView removeObserver:self forKeyPath:kKVOKeyPathContentSize];
+    [self.scrollView removeObserver:self forKeyPath:kKVOKeyPathContentOffset];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }
 
 - (void)stickyHeaderView_keyboardWillShow:(NSNotification *)notification {

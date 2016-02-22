@@ -11,7 +11,6 @@
 #import "UIImage+Extensions.h"
 #import "UIFont+LeoFonts.h"
 #import "UIColor+LeoColors.h"
-#import "UIScrollView+LEOScrollToVisible.h"
 
 @interface LEOScrollableContainerView()
 

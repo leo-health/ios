@@ -221,6 +221,17 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationReceived:) name:@"Conversation-AddedMessage" object:nil];
 }
 
+- (void)removeObservers {
+    
+    [self.sendButton removeObserver:self forKeyPath:@"enabled"];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"Conversation-AddedMessage" object:nil];
+}
+
+- (void)dealloc {
+
+    [self removeObservers];
+}
+
 - (void)setupRequiredMessagingProperties {
 
     self.senderId = [NSString stringWithFormat:@"%@F",[SessionUser currentUser].familyID];
@@ -1143,12 +1154,6 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
             }
         }
     }];
-}
-
-- (void)dealloc {
-
-    [self.sendButton removeObserver:self forKeyPath:@"enabled"];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 /**

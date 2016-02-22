@@ -60,7 +60,7 @@ static dispatch_once_t onceToken;
         _currentUser = [SessionUser newUserWithJSONDictionary:jsonDictionary];
         
         //Have added this here so that when the currentUser is replaced, we also check for membership changes at that time (once object has been instantiated.)
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"membership-changed" object:self];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationMembershipChanged object:self];
     }
 }
 
