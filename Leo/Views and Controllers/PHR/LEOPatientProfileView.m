@@ -34,12 +34,13 @@ static CGFloat const kSpacerProfileBottom = 4.0;
     if (self) {
         _patient = patient;
 
-        [[NSNotificationCenter defaultCenter] addObserverForName:kNotificationDownloadedImageUpdated object:self.patient.avatar queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull notification) {
-
-            UIImage *circularAvatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:self.patient.avatar.image withDiameter:67 borderColor:[UIColor leo_white] borderWidth:1.0];
-
-            _patientAvatarImageView.image = circularAvatarImage;
-        }];
+        [self registerForNotifications];
+//        [[NSNotificationCenter defaultCenter] addObserverForName:kNotificationDownloadedImageUpdated object:self.patient.avatar queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull notification) {
+//
+//            UIImage *circularAvatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:self.patient.avatar.image withDiameter:67 borderColor:[UIColor leo_white] borderWidth:1.0];
+//
+//            _patientAvatarImageView.image = circularAvatarImage;
+//        }];
     }
 
     return self;
@@ -114,13 +115,36 @@ static CGFloat const kSpacerProfileBottom = 4.0;
 
     self.patientAvatarImageView.image = [LEOMessagesAvatarImageFactory circularAvatarImage:_patient.avatar.image withDiameter:kAvatarProfileDiameter borderColor:[UIColor leo_white] borderWidth:kAvatarProfileBorderWidth];
 
-    [[NSNotificationCenter defaultCenter] addObserverForName:kNotificationDownloadedImageUpdated object:_patient.avatar queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull notification) {
+    [self registerForNotifications];
+//    [[NSNotificationCenter defaultCenter] addObserverForName:kNotificationDownloadedImageUpdated object:_patient.avatar queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull notification) {
+//
+//        UIImage *circularAvatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:self.patient.avatar.image withDiameter:67 borderColor:[UIColor leo_white] borderWidth:1.0];
+//
+//        _patientAvatarImageView.image = circularAvatarImage;
+//    }];
 
-        UIImage *circularAvatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:self.patient.avatar.image withDiameter:67 borderColor:[UIColor leo_white] borderWidth:1.0];
+}
 
-        _patientAvatarImageView.image = circularAvatarImage;
-    }];
+- (void)registerForNotifications {
 
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationRecievedForDownloadedImage:) name:kNotificationDownloadedImageUpdated object:self.patient.avatar];
+}
+
+- (void)removeObservers {
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotificationDownloadedImageUpdated object:self.patient.avatar];
+}
+
+- (void)dealloc {
+
+    [self removeObservers];
+}
+
+- (void)notificationRecievedForDownloadedImage:(NSNotification *)notification {
+
+    UIImage *circularAvatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:self.patient.avatar.image withDiameter:67 borderColor:[UIColor leo_white] borderWidth:1.0];
+
+    _patientAvatarImageView.image = circularAvatarImage;
 }
 
 @end

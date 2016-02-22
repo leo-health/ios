@@ -18,7 +18,7 @@
 @interface LEOBasicSelectionViewController ()
 
 @property (strong, nonatomic) ArrayDataSource *dataSource;
-@property (strong, nonatomic) UITableView *tableView;
+@property (weak, nonatomic) UITableView *tableView;
 
 @property (nonatomic) BOOL alreadyUpdatedConstraints;
 
@@ -54,7 +54,8 @@
 - (void)setupTableView {
     
     
-    self.tableView = [[UITableView alloc] init];
+    UITableView *strongView = [[UITableView alloc] init];
+    self.tableView = strongView;
 
     [self.tableView registerNib:[UINib nibWithNibName:self.reuseIdentifier bundle:nil]  forCellReuseIdentifier:self.reuseIdentifier];
 
@@ -81,27 +82,29 @@
 - (void)requestDataAndUpdateView {
     
     [MBProgressHUD showHUDAddedTo:self.view animated:YES]; //TODO: Create separate class to set these up for all use cases with two methods that support showing and hiding our customized HUD.
-    
+
+    __weak typeof(self) weakSelf = self;
     [self requestDataWithCompletion:^(id data, NSError *error){
-        
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+
+        __strong typeof(self) strongSelf = weakSelf;
+        [MBProgressHUD hideHUDForView:strongSelf.view animated:YES];
         
         if (error) {
             
             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:@"Something went wrong!" preferredStyle:UIAlertControllerStyleAlert];
             
             UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Okay." style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                [self.navigationController popViewControllerAnimated:YES];
+                [strongSelf.navigationController popViewControllerAnimated:YES];
             }];
         
             [alertController addAction:okAction];
             
-            [self presentViewController:alertController animated:YES completion:nil];
+            [strongSelf presentViewController:alertController animated:YES completion:nil];
             
             return;
         }
         
-        self.data = data;
+        strongSelf.data = data;
         
         SelectionCriteriaBlock selectionCriteriaBlock = ^(BOOL shouldSelect, NSIndexPath *indexPath, UITableViewCell *cell) {
             
@@ -110,12 +113,12 @@
             }
         };
         
-        self.dataSource = [[ArrayDataSource alloc] initWithItems:self.data cellIdentifier:self.reuseIdentifier configureCellBlock:self.configureCellBlock selectionCriteriaBlock: selectionCriteriaBlock notificationBlock:self.notificationBlock];
+        strongSelf.dataSource = [[ArrayDataSource alloc] initWithItems:strongSelf.data cellIdentifier:strongSelf.reuseIdentifier configureCellBlock:strongSelf.configureCellBlock selectionCriteriaBlock: selectionCriteriaBlock notificationBlock:strongSelf.notificationBlock];
         
-        self.tableView.dataSource = self.dataSource;
-        self.tableView.delegate = self;
+        strongSelf.tableView.dataSource = strongSelf.dataSource;
+        strongSelf.tableView.delegate = strongSelf;
         
-        [self.tableView reloadData];
+        [strongSelf.tableView reloadData];
     }];
 }
 

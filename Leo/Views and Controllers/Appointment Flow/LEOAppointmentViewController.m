@@ -47,6 +47,8 @@
 @property (strong, nonatomic) UIButton *submissionButton;
 @property (strong, nonatomic) Appointment *appointment;
 
+@property (strong, nonatomic) NSMutableArray *notificationObservers;
+
 @property (nonatomic) BOOL didLayoutSubviewsOnce;
 
 @end
@@ -344,11 +346,15 @@ static NSString *const kKeySelectionVCDate = @"date";
             return shouldSelect;
         };
 
+
+        __weak typeof(self) weakSelf = self;
         selectionVC.notificationBlock = ^(NSIndexPath *indexPath, Patient *patient, UITableView *tableView) {
 
-            [[NSNotificationCenter defaultCenter] addObserverForName:kNotificationDownloadedImageUpdated object:patient.avatar queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull notification) {
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            id observer = [[NSNotificationCenter defaultCenter] addObserverForName:kNotificationDownloadedImageUpdated object:patient.avatar queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull notification) {
                 [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
             }];
+            [strongSelf.notificationObservers addObject:observer];
         };
         
         selectionVC.requestOperation = [[LEOAPIFamilyOperation alloc] init];
@@ -376,6 +382,21 @@ static NSString *const kKeySelectionVCDate = @"date";
 
         selectionVC.requestOperation = [[LEOAPIPracticeOperation alloc] init];
         selectionVC.delegate = self;
+    }
+}
+
+- (NSMutableArray *)notificationObservers {
+
+    if (!_notificationObservers) {
+        _notificationObservers = [NSMutableArray new];
+    }
+    return _notificationObservers;
+}
+
+- (void)dealloc {
+
+    for (id observer in self.notificationObservers) {
+        [[NSNotificationCenter defaultCenter] removeObserver:observer];
     }
 }
 
