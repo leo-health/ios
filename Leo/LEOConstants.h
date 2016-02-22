@@ -451,6 +451,8 @@ extern NSString *const kNotificationImageChanged; // @"Image-Changed";
 extern NSString *const kNotificationStatusChanged; // @"Status-Changed";
 extern NSString *const kNotificationMembershipChanged; // @"membership-changed";
 extern NSString *const kNotificationTokenInvalidated; // @"token-invalidated";
+extern NSString *const kNotificationConversationAddedMessage; // @"Conversation-AddedMessage";
+extern NSString *const kNotificationCardUpdated; // @"Card-Updated";
 
 #pragma mark - Push Notifications
 extern NSString *const kPushNotificationParamDeepLink; // @"deep_link_url";

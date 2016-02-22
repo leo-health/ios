@@ -12,6 +12,7 @@
 #import "Provider.h"
 #import "Support.h"
 #import "UserFactory.h"
+#import "LEOConstants.h"
 
 @implementation Conversation
 
@@ -88,7 +89,7 @@
     
     self.messages = sortedMessages;
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"Conversation-AddedMessage" object:self];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationConversationAddedMessage object:self];
 }
 
 
@@ -103,7 +104,7 @@
     
     self.messages = sortedMessages;
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"Conversation-AddedMessages" object:self];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationConversationAddedMessage object:self];
 }
 
 - (void)addMessageFromJSON:(NSDictionary *)messageDictionary {

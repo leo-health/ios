@@ -8,7 +8,7 @@
 //
 
 #import "LEOFeedTVC.h"
-
+#import "LEOConstants.h"
 #import <NSDate+DateTools.h>
 
 #import "ArrayDataSource.h"
@@ -98,10 +98,6 @@ static NSString *const CellIdentifierLEOCardTwoButtonPrimaryOnly = @"LEOTwoButto
 static NSString *const CellIdentifierLEOCardOneButtonSecondaryOnly = @"LEOOneButtonSecondaryOnlyCell";
 static NSString *const CellIdentifierLEOCardOneButtonPrimaryAndSecondary = @"LEOOneButtonPrimaryAndSecondaryCell";
 static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButtonPrimaryOnlyCell";
-
-static NSString *const kNotificationCardUpdated = @"Card-Updated";
-static NSString *const kNotificationConversationAddedMessage = @"Conversation-AddedMessage";
-
 static CGFloat const kFeedInsetTop = 30.0;
 
 #pragma mark - View Controller Lifecycle and VCL Helper Methods
