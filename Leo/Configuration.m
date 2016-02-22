@@ -52,6 +52,11 @@ static NSString *const ConfigurationCrittercismAppID = @"CrittercismAppID";
 }
 
 #pragma mark -
++ (NSString *)APIBaseURL {
+
+    return [NSString stringWithFormat:@"%@/%@",[Configuration APIEndpointWithProtocol],[Configuration APIVersion]];
+}
+
 + (NSString *)APIEndpoint {
     Configuration *sharedConfiguration = [Configuration sharedConfiguration];
     
