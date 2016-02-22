@@ -12,7 +12,6 @@
 @interface LEOGradientView ()
 
 @property (weak, nonatomic) CAGradientLayer *gradientLayer;
-@property (weak, nonatomic) UILabel *expandedTitleLabel;
 @property (nonatomic) BOOL constraintsAlreadyUpdated;
 
 @property (nonatomic) CGRect previousBounds;
@@ -23,7 +22,7 @@
 
 -(instancetype)initWithColors:(NSArray *)colors initialStartPoint:(CGPoint)initialStartPoint initialEndPoint:(CGPoint)initialEndPoint finalStartPoint:(CGPoint)finalStartPoint finalEndPoint:(CGPoint)finalEndPoint titleText:(NSString*)titleText {
 
-    self = [super init];
+    self = [super initWithTitleText:titleText];
     if (self) {
 
         _colors = colors;
@@ -31,41 +30,8 @@
         _initialEndPoint = initialEndPoint;
         _finalStartPoint = finalStartPoint;
         _finalEndPoint = finalEndPoint;
-        _titleText = titleText;
     }
     return self;
-}
-
-- (UILabel *)expandedTitleLabel {
-
-    if (!_expandedTitleLabel) {
-
-        UILabel* strongLabel = [UILabel new];
-        _expandedTitleLabel = strongLabel;
-        _expandedTitleLabel.text = self.titleText;
-        _expandedTitleLabel.numberOfLines = 0;
-        [self addSubview:_expandedTitleLabel];
-    }
-
-    return _expandedTitleLabel;
-}
-
-- (void)setTitleText:(NSString *)titleText {
-
-    _titleText = titleText;
-    self.expandedTitleLabel.text = titleText;
-}
-
-- (void)setTitleTextColor:(UIColor *)titleTextColor {
-
-    _titleTextColor = titleTextColor;
-    self.expandedTitleLabel.textColor = titleTextColor;
-}
-
-- (void)setTitleTextFont:(UIFont *)titleTextFont {
-
-    _titleTextFont = titleTextFont;
-    self.expandedTitleLabel.font = titleTextFont;
 }
 
 - (CAGradientLayer*)gradientLayer {
@@ -105,17 +71,12 @@
 
 - (void)setCurrentTransitionPercentage:(CGFloat)currentTransitionPercentage {
 
-    _currentTransitionPercentage = currentTransitionPercentage;
-    if (currentTransitionPercentage < 0) {
-        _currentTransitionPercentage = 0;
-    } else if (currentTransitionPercentage > 1) {
-        _currentTransitionPercentage = 1;
-    }
+    [super setCurrentTransitionPercentage:currentTransitionPercentage];
 
-    CGPoint newStart = CGPointMake(self.initialStartPoint.x + _currentTransitionPercentage * (self.finalStartPoint.x - self.initialStartPoint.x),
-                                   self.initialStartPoint.y + _currentTransitionPercentage * (self.finalStartPoint.y - self.initialStartPoint.y));
-    CGPoint newEnd = CGPointMake(self.initialEndPoint.x + _currentTransitionPercentage * (self.finalEndPoint.x - self.initialEndPoint.x),
-                self.initialEndPoint.y + _currentTransitionPercentage * (self.finalEndPoint.y - self.initialEndPoint.y));
+    CGPoint newStart = CGPointMake(self.initialStartPoint.x + currentTransitionPercentage * (self.finalStartPoint.x - self.initialStartPoint.x),
+                                   self.initialStartPoint.y + currentTransitionPercentage * (self.finalStartPoint.y - self.initialStartPoint.y));
+    CGPoint newEnd = CGPointMake(self.initialEndPoint.x + currentTransitionPercentage * (self.finalEndPoint.x - self.initialEndPoint.x),
+                self.initialEndPoint.y + currentTransitionPercentage * (self.finalEndPoint.y - self.initialEndPoint.y));
 
     CABasicAnimation *startAnimation = [CABasicAnimation animationWithKeyPath:@"startPoint"];
     startAnimation.fromValue = [NSValue valueWithCGPoint:self.gradientLayer.startPoint];
@@ -129,35 +90,6 @@
     endAnimation.toValue = [NSValue valueWithCGPoint:newEnd];
     self.gradientLayer.endPoint = newEnd;
     [self.gradientLayer addAnimation:endAnimation forKey:@"endPoint"];
-
-    self.expandedTitleLabel.alpha = 1 - currentTransitionPercentage;
-}
-
-
-
-- (void)updateConstraints {
-
-    if (!self.constraintsAlreadyUpdated) {
-
-        self.translatesAutoresizingMaskIntoConstraints = NO;
-        self.expandedTitleLabel.translatesAutoresizingMaskIntoConstraints = NO;
-
-        NSDictionary* viewDictionary = NSDictionaryOfVariableBindings(_expandedTitleLabel);
-        NSArray *horizontalLayoutConstraintsForFullTitle = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(20)-[_expandedTitleLabel]-(100)-|" options:0 metrics:nil views:viewDictionary];
-        NSArray *verticalLayoutConstraintsForFullTitle = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_expandedTitleLabel]-(20)-|" options:0 metrics:nil views:viewDictionary];
-
-        [self addConstraints:horizontalLayoutConstraintsForFullTitle];
-        [self addConstraints:verticalLayoutConstraintsForFullTitle];
-
-        self.constraintsAlreadyUpdated = YES;
-    }
-
-    else if ([self hasAmbiguousLayout]) {
-        NSLayoutConstraint *topConstraint = [NSLayoutConstraint constraintWithItem:self.expandedTitleLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1 constant:20];
-        [self addConstraint:topConstraint];
-    }
-
-    [super updateConstraints];
 }
 
 -(BOOL)didChangeSize {
@@ -178,8 +110,5 @@
     [super layoutSubviews];
 }
 
-- (CGSize)intrinsicContentSize {
-    return CGSizeMake(UIViewNoIntrinsicMetric, 154);
-}
 
 @end

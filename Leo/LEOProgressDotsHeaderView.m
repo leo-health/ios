@@ -77,22 +77,11 @@ static CGFloat const kSpacingCircle = 12.0;
         NSNumber *titleDotsSpacing = @(kSpacingTitleDots);
         NSDictionary *metrics = NSDictionaryOfVariableBindings(titleDotsSpacing);
 
-        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_progressDotsView]-(titleDotsSpacing)-[_titleLabel]|" options:0 metrics:metrics views:views]];
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(titleDotsSpacing)-[_progressDotsView]-(titleDotsSpacing)-[_titleLabel]|" options:0 metrics:metrics views:views]];
         [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_progressDotsView]-(>=0)-|" options:0 metrics:metrics views:views]];
         [self addConstraint:[NSLayoutConstraint constraintWithItem:self.progressDotsView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.titleLabel attribute:NSLayoutAttributeLeading multiplier:1 constant:0]];
     }
 
-}
-
-- (CGSize)intrinsicContentSize {
-
-    CGSize superSize = [super intrinsicContentSize];
-
-    if (!self.intrinsicHeight) {
-        superSize.height += kSpacingTitleDots + [self.progressDotsView intrinsicContentSize].height;
-    }
-    
-    return superSize;
 }
 
 

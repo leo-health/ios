@@ -116,9 +116,6 @@ static NSString * const kCopyHeaderSignUpUser = @"Tell us a little about yoursel
     if (!_headerView) {
 
         _headerView = [[LEOProgressDotsHeaderView alloc] initWithTitleText:kCopyHeaderSignUpUser numberOfCircles:kNumberOfProgressDots currentIndex:1 fillColor:[UIColor leo_orangeRed]];
-
-        // I really don't like that we need to give this height here. StickyHeaderView should lay this out based on the header's constraints. The only time this should have to happen is when the constraints are ambiguious
-        // TODO: look into how to remove this
         _headerView.intrinsicHeight = @(kHeightOnboardingHeaders);
         [LEOStyleHelper styleExpandedTitleLabel:_headerView.titleLabel feature:self.feature];
     }

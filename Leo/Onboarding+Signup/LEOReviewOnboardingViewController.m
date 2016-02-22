@@ -126,13 +126,8 @@ static NSString *const kCopyHeaderReviewOnboarding = @"Finally, please confirm y
 
     if (!_headerView) {
 
-        _headerView = [[LEOProgressDotsHeaderView alloc] initWithTitleText:kCopyHeaderReviewOnboarding numberOfCircles:kNumberOfProgressDots currentIndex:4 fillColor:[UIColor leo_orangeRed]];
-        // TODO: FIX these magic numbers by making sticky header view size its own header with autolayout
-        CGFloat height = kHeightOnboardingHeaders;
-        if (CGRectGetWidth([[UIScreen mainScreen] bounds]) < 375) {
-            height += 37;
-        }
-        _headerView.intrinsicHeight = @(height);
+        _headerView = [[LEOProgressDotsHeaderView alloc] initWithTitleText:kCopyHeaderReviewOnboarding numberOfCircles:kNumberOfProgressDots currentIndex:3 fillColor:[UIColor leo_orangeRed]];
+        _headerView.intrinsicHeight = @(kHeightOnboardingHeaders);
         [LEOStyleHelper styleExpandedTitleLabel:_headerView.titleLabel feature:self.feature];
     }
     
