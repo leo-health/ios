@@ -10,6 +10,7 @@
 #import "LEOStyleHelper.h"
 #import "JVFloatLabeledTextView.h"
 #import "UIColor+LeoColors.h"
+#import "UIFont+LeoFonts.h"
 #import "UIImage+Extensions.h"
 #import "LEOHealthRecordService.h"
 #import <MBProgressHUD.h>
@@ -83,6 +84,7 @@
         _textView = strongView;
 
         _textView.text = self.note.text;
+        _textView.font = [UIFont leo_standardFont];
         _textView.placeholder = @"Please enter some notes about your child";
         _textView.floatingLabelActiveTextColor = [UIColor leo_grayForPlaceholdersAndLines];
     }
