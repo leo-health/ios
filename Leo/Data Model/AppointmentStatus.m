@@ -31,6 +31,10 @@
     NSString *name = jsonResponse[APIParamDescription];
     NSString *athenaCode = jsonResponse[APIParamStatus];
     AppointmentStatusCode statusCode = [jsonResponse[APIParamID] integerValue];
+
+    if (statusCode == AppointmentStatusCodeCancelled) {
+        statusCode = AppointmentStatusCodeConfirmingCancelling;
+    }
     
     return [self initWithObjectID:objectID name:name athenaCode:athenaCode statusCode:statusCode];
 }
