@@ -27,6 +27,7 @@
 @property (strong, nonatomic, readonly) UIButton *leftToolbarButton;
 @property (strong, nonatomic, readonly) UIButton *rightToolbarButton;
 @property (nonatomic) Feature feature;
+@property (nonatomic) BOOL zoomable;
 @property (nonatomic) UIImagePickerControllerSourceType sourceType;
 @property (weak, nonatomic) id<LEOImagePreviewDelegate> delegate;
 @property (strong, nonatomic, readonly) UIImage *image;
