@@ -12,6 +12,7 @@
 @implementation LEOS3Image
 
 @synthesize image = _image;
+@synthesize hasImagePromise = _hasImagePromise;
 
 - (instancetype)initWithBaseURL:(NSString *)baseURL parameters:(NSDictionary *)parameters placeholder:(UIImage *)placeholder {
 
@@ -71,7 +72,7 @@
     _image = image;
 
     if (![image isEqual:self.placeholder]) {
-        self.hasImagePromise = YES;
+        _hasImagePromise = YES;
     }
 
     [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationImageChanged object:self];

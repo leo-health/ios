@@ -170,13 +170,7 @@
 + (UIImage *)jsq_circularImage:(UIImage *)image withDiameter:(NSUInteger)diameter highlightedColor:(UIColor *)highlightedColor borderColor:(UIColor *)borderColor borderWidth:(NSUInteger)borderWidth;
 {
 
-    // ????: FIXME: I don't think this is the right way to use NSParameterAssert.
-    // The app should only crash if the incorrect usage puts us in a bad state. In this case I think we can just return nil and nothing bad will happen other than not seeing an image
-    // thoughts? to discuss
-    if (!image) {
-        return nil;
-    }
-
+    NSParameterAssert(image != nil);
     NSParameterAssert(diameter > 0);
     NSParameterAssert(borderColor != nil);
     NSParameterAssert(borderWidth >= 0);
