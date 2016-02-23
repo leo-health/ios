@@ -45,6 +45,8 @@
 #import "LEOOneButtonPrimaryOnlyCell+ConfigureForCell.h"
 #import "LEOTwoButtonPrimaryAndSecondaryCell+ConfigureForCell.h"
 #import "LEOOneButtonPrimaryAndSecondaryCell+ConfigureForCell.h"
+#import "LEOFeedHeaderCell+ConfigureForCell.h"
+#import "LEOFeedNavigationHeaderView.h"
 
 #import <VBFPopFlatButton/VBFPopFlatButton.h>
 #import "UIImageEffects.h"
@@ -54,7 +56,6 @@
 #import <MBProgressHUD/MBProgressHUD.h>
 #import "Configuration.h"
 #import "LEOPusherHelper.h"
-#import "MenuView.h"
 
 #import <UIImage+Resize.h>
 #import "UIImageEffects.h"
@@ -65,6 +66,12 @@
 #import "LEOAppointmentViewController.h"
 #import "UIViewController+XibAdditions.h"
 #import "NSObject+TableViewAccurateEstimatedCellHeight.h"
+
+typedef NS_ENUM(NSUInteger, TableViewSection) {
+    TableViewSectionHeader,
+    TableViewSectionBody,
+    TableViewSectionCount,
+};
 
 
 @interface LEOFeedTVC ()
@@ -79,14 +86,11 @@
 @property (copy, nonatomic) NSArray *allStaff;
 @property (copy, nonatomic) NSArray *appointmentTypes;
 
-@property (weak, nonatomic) IBOutlet VBFPopFlatButton *menuButton;
-@property (nonatomic) BOOL menuShowing;
-@property (strong, nonatomic) UIImageView *blurredImageView;
-@property (strong, nonatomic) MenuView *menuView;
 @property (weak, nonatomic) IBOutlet UINavigationBar *navigationBar;
 
 @property (strong, nonatomic) NSIndexPath *cardInFocusIndexPath;
 @property (nonatomic) BOOL hasShownNewUserMessage;
+@property (strong, nonatomic) LEOFeedNavigationHeaderView *feedNavigatorHeaderView;
 
 @end
 
@@ -98,7 +102,9 @@ static NSString *const CellIdentifierLEOCardTwoButtonPrimaryOnly = @"LEOTwoButto
 static NSString *const CellIdentifierLEOCardOneButtonSecondaryOnly = @"LEOOneButtonSecondaryOnlyCell";
 static NSString *const CellIdentifierLEOCardOneButtonPrimaryAndSecondary = @"LEOOneButtonPrimaryAndSecondaryCell";
 static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButtonPrimaryOnlyCell";
-static CGFloat const kFeedInsetTop = 30.0;
+static NSString *const kCellIdentifierLEOHeaderCell = @"LEOFeedHeaderCell";
+
+static CGFloat const kFeedInsetTop = 20.0;
 
 #pragma mark - View Controller Lifecycle and VCL Helper Methods
 - (void)viewDidLoad {
@@ -110,7 +116,6 @@ static CGFloat const kFeedInsetTop = 30.0;
 
     [self setupNotifications];
     [self setupTableView];
-    [self setupMenuButton];
     [self setNeedsStatusBarAppearanceUpdate];
 
     [self pushNewMessageToConversation:[self conversation].associatedCardObject];
@@ -129,13 +134,9 @@ static CGFloat const kFeedInsetTop = 30.0;
 
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:^{
 
-        self.menuButton.tintColor = [UIColor leo_grayForPlaceholdersAndLines];
-        self.menuButton.backgroundColor = [UIColor leo_grayStandard];
-        // TODO: what should happen when the user is offline?
-    } withOnlineBlock:^{
+        // TODO: Update message of header cell for when offline.
 
-        self.menuButton.tintColor = [UIColor leo_white];
-        self.menuButton.backgroundColor = [UIColor leo_orangeRed];
+    } withOnlineBlock:^{
 
         [self fetchFamilyWithCompletion:^{
 
@@ -168,7 +169,7 @@ static CGFloat const kFeedInsetTop = 30.0;
 
     UIImage *phrImage = [UIImage imageNamed:@"Icon-PHR"];
     UIButton *phrButton = [UIButton buttonWithType:UIButtonTypeCustom];
-                           [phrButton setImage:phrImage forState:UIControlStateNormal];
+    [phrButton setImage:phrImage forState:UIControlStateNormal];
     phrButton.frame = (CGRect){.origin = CGPointZero, .size = imgSize};
     [phrButton addTarget:self action:@selector(phrTouchedUpInside) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *phrBBI = [[UIBarButtonItem alloc] initWithCustomView:phrButton];
@@ -342,7 +343,7 @@ static CGFloat const kFeedInsetTop = 30.0;
     NSIndexPath *indexPath;
     for (LEOCard *card in self.cards) {
         if (card.type == cardType) {
-//             ????: TODO: create a protocol for associatedCardObjects
+            //             ????: TODO: create a protocol for associatedCardObjects
             if ([card.associatedCardObject respondsToSelector:@selector(objectID)]) {
                 NSString *objectIDString = (NSString *)[card.associatedCardObject objectID];
                 if ([objectIDString isEqual:objectID]) {
@@ -399,6 +400,9 @@ static CGFloat const kFeedInsetTop = 30.0;
 
     [self.tableView registerNib:[LEOOneButtonPrimaryAndSecondaryCell nib]
          forCellReuseIdentifier:CellIdentifierLEOCardOneButtonPrimaryAndSecondary];
+
+    [self.tableView registerNib:[LEOFeedHeaderCell nib]
+         forCellReuseIdentifier:kCellIdentifierLEOHeaderCell];
 }
 
 
@@ -637,16 +641,64 @@ static CGFloat const kFeedInsetTop = 30.0;
 }
 
 #pragma mark - <UITableViewDataSource>
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return TableViewSectionCount;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.cards.count;
+
+    switch (section) {
+        case TableViewSectionHeader:
+            return 1;
+
+        case TableViewSectionBody:
+            return self.cards.count;
+
+        default:
+            return 0;
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    return [self leo_tableView:tableView estimatedHeightForRowAtIndexPath:indexPath];
+    switch (indexPath.section) {
+        case TableViewSectionHeader:
+            return 170;
+
+        case TableViewSectionBody:
+            return [self leo_tableView:tableView estimatedHeightForRowAtIndexPath:indexPath];
+
+        default:
+            return 0;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    switch (indexPath.section) {
+        case TableViewSectionHeader:
+            return [self tableView:tableView cellForHeaderRowAtIndexPath:indexPath];
+
+        case TableViewSectionBody:
+            return [self tableView:tableView cellForBodyRowAtIndexPath:indexPath];
+
+        default:
+            return nil;
+    }
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForHeaderRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    LEOFeedHeaderCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifierLEOHeaderCell
+                                                              forIndexPath:indexPath];;
+
+    [cell configureForCurrentUser];
+
+    return cell;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForBodyRowAtIndexPath:(NSIndexPath *)indexPath {
 
     id<LEOCardProtocol>card = self.cards[indexPath.row];
     card.activityDelegate = self;
@@ -692,7 +744,7 @@ static CGFloat const kFeedInsetTop = 30.0;
     }
 
     LEOFeedCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier
-                                                         forIndexPath:indexPath];;
+                                                        forIndexPath:indexPath];;
 
     [cell configureForCard:card];
     cell.unreadState = [indexPath isEqual:self.cardInFocusIndexPath];
@@ -700,197 +752,70 @@ static CGFloat const kFeedInsetTop = 30.0;
     return cell;
 }
 
--(LEOAppointmentService *)appointmentService {
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
 
+    switch (section) {
+        case TableViewSectionHeader:
+            return nil;
+
+        case TableViewSectionBody:
+            return self.feedNavigatorHeaderView;
+
+        default:
+            return nil;
+    }
+}
+
+-(BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+    return NO;
+}
+- (LEOFeedNavigationHeaderView *)feedNavigatorHeaderView {
+
+    if (!_feedNavigatorHeaderView) {
+
+        _feedNavigatorHeaderView = [LEOFeedNavigationHeaderView new];
+
+        _feedNavigatorHeaderView.backgroundColor = [UIColor leo_white];
+
+        _feedNavigatorHeaderView.delegate = self;
+    }
+
+    return _feedNavigatorHeaderView;
+}
+
+- (void)tappedBookAppointment {
+
+    [self beginSchedulingNewAppointment];
+}
+
+- (void)tappedMessageUs {
+
+    LEOCardConversation *conversationCard = [self findConversationCard];
+    [self loadChattingViewWithCard:conversationCard];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+
+    switch (section) {
+
+        case TableViewSectionBody:
+            return 44;
+
+        case TableViewSectionHeader:
+        default:
+            return CGFLOAT_MIN;
+    }
+}
+
+-(LEOAppointmentService *)appointmentService {
+    
     if (!_appointmentService) {
         _appointmentService = [LEOAppointmentService new];
     }
-
+    
     return _appointmentService;
 }
 
-
-/**
- *  Create a blurred version of the current view. Does not blur status bar currently.
- *
- *  @return the blurred UIImage
- */
--(UIImage *)blurredSnapshot {
-
-    self.menuButton.hidden = YES;
-    UIGraphicsBeginImageContextWithOptions([UIScreen mainScreen].bounds.size, NO, 0);
-
-    [self.view.window.layer renderInContext:UIGraphicsGetCurrentContext()];
-
-    //    [self.view drawViewHierarchyInRect:[UIScreen mainScreen].bounds afterScreenUpdates:YES];
-
-    UIImage *snapshotImage = UIGraphicsGetImageFromCurrentImageContext();
-
-    UIImage *blurredSnapshotImage = [UIImageEffects imageByApplyingBlurToImage:snapshotImage withRadius:4 tintColor:nil saturationDeltaFactor:1.0 maskImage:nil];
-
-    UIGraphicsEndImageContext();
-
-    self.menuButton.hidden = NO;
-    return blurredSnapshotImage;
-}
-
-
-/**
- *  Initialize VBFPopFlatButton for menu with appropriate values for key properties.
- */
-- (void)setupMenuButton {
-
-    self.menuButton.currentButtonType = buttonAddType;
-    self.menuButton.currentButtonStyle = buttonRoundedStyle;
-    self.menuButton.tintColor = [UIColor leo_white];
-    self.menuButton.roundBackgroundColor = [UIColor leo_orangeRed];
-    self.menuButton.lineThickness = 1;
-    [self.menuButton addTarget:self action:@selector(menuTapped) forControlEvents:UIControlEventTouchUpInside];
-}
-
-/**
- *  Toggle method for blur and menu animation when `menuButton` is tapped.
- */
-- (void)menuTapped {
-
-    if (!self.menuShowing) {
-
-        [self initializeMenuView];
-        [self animateMenuLoad];
-    } else {
-
-        [self animateMenuDisappearWithCompletion:^{
-            [self dismissMenuView];
-        }];
-    }
-
-    self.menuShowing = !self.menuShowing;
-}
-
-
-/**
- *  Load Main Menu for Leo. Includes blurred background and updated menu button.
- */
-- (void)animateMenuLoad {
-
-    UIImage *blurredView = [self blurredSnapshot];
-    self.blurredImageView = [[UIImageView alloc] initWithFrame:self.view.frame];
-    self.blurredImageView.image = blurredView;
-    [self.view insertSubview:self.blurredImageView
-                belowSubview:self.menuView];
-    [self.menuButton animateToType:buttonCloseType];
-    self.menuButton.roundBackgroundColor = [UIColor clearColor];
-    self.menuButton.tintColor = [UIColor leo_orangeRed];
-
-
-    self.blurredImageView.alpha = 0;
-
-    [UIView animateWithDuration:0.25 animations:^{
-
-        self.menuView.backgroundColor = [[UIColor clearColor] colorWithAlphaComponent:0.5];
-
-        self.menuView.alpha = 0.8;
-        self.blurredImageView.alpha = 1;
-        [self.menuButton layoutIfNeeded];
-        [self.menuView layoutIfNeeded];
-    }];
-}
-
-
-/**
- *  Unload main menu. Includes blurred background and updated menu button.
- */
-- (void)animateMenuDisappearWithCompletion:(void (^)(void))completionBlock {
-
-    [self.menuButton animateToType:buttonAddType];
-    self.menuButton.roundBackgroundColor = [UIColor leo_orangeRed];
-    self.menuButton.tintColor = [UIColor leo_white];
-    self.blurredImageView.alpha = 1;
-
-    [UIView animateWithDuration:0.25 animations:^{
-
-        self.blurredImageView.alpha = 0;
-        self.menuView.alpha = 0;
-        [self.menuButton layoutIfNeeded];
-        [self.menuView layoutIfNeeded];
-
-    } completion:^(BOOL finished) {
-
-        [self.blurredImageView removeFromSuperview];
-
-        if (completionBlock) {
-            completionBlock();
-        }
-    }];
-}
-
-
-/**
- *  Layout and set initial state of main menu.
- */
-- (void)initializeMenuView {
-
-    self.menuView = [self leo_loadViewFromNibForClass:[MenuView class]];
-    self.menuView.alpha = 0;
-    self.menuView.translatesAutoresizingMaskIntoConstraints = NO;
-    self.menuView.delegate = self;
-
-    [self.view insertSubview:self.menuView belowSubview:self.menuButton];
-
-    NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(_menuView);
-
-    NSArray *horizontalMenuViewLayoutConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_menuView]|" options:0 metrics:nil views:viewsDictionary];
-
-    NSArray *verticalMenuViewLayoutConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_menuView]|" options:0 metrics:nil views:viewsDictionary];
-
-    [self.view addConstraints:horizontalMenuViewLayoutConstraints];
-    [self.view addConstraints:verticalMenuViewLayoutConstraints];
-    [self.view layoutIfNeeded];
-}
-
-/**
- *  Remove menu view from superview and clear it from memory.
- */
-- (void)dismissMenuView {
-
-    [self.menuView removeFromSuperview];
-    self.menuShowing = NO;
-    self.menuView = nil;
-}
-
--(void)didMakeMenuChoice:(MenuChoice)menuChoice {
-
-    [self animateMenuDisappearWithCompletion:^{
-        [self dismissMenuView];
-    }];
-
-    switch (menuChoice) {
-
-        case MenuChoiceScheduleAppointment:
-            [self beginSchedulingNewAppointment];
-            break;
-
-        case MenuChoiceChat: {
-
-            LEOCardConversation *conversationCard = [self findConversationCard];
-
-            if (conversationCard) {
-                [self loadChattingViewWithCard:conversationCard];
-            } else {
-                [self showSomethingWentWrong];
-            }
-            
-            break;
-        }
-            
-        case MenuChoiceSubmitAForm:
-            break;
-            
-        case MenuChoiceUndefined:
-            break;
-            
-    }
-}
 
 - (LEOCardConversation *)findConversationCard {
     

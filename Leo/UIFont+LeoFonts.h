@@ -89,5 +89,12 @@
  */
 + (UIFont *)leo_valuePropOnboardingFont;
 
+/**
+ *  AvenirNext-Regular, Size 10
+ *
+ *  @return UIFont
+ */
++ (UIFont *)leo_feedHeaderMessage;
+
 
 @end
