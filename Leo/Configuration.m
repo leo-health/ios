@@ -10,6 +10,7 @@
 #import "Configuration.h"
 
 static NSString *const ConfigurationAPIEndpoint = @"ApiURL";
+static NSString *const ConfigurationProviderEndpoint = @"ProviderURL";
 static NSString *const ConfigurationAPIVersion = @"ApiVersion";
 static NSString *const ConfigurationS3Endpoint = @"S3URL";
 static NSString *const ConfigurationSelfSignedCertificate = @"SelfSignedCertificate";
@@ -52,18 +53,36 @@ static NSString *const ConfigurationCrittercismAppID = @"CrittercismAppID";
 }
 
 #pragma mark -
+
++ (NSString *)providerBaseURL {
+
+    return [self providerEndpointWithProtocol];
+}
+
 + (NSString *)APIBaseURL {
 
     return [NSString stringWithFormat:@"%@/%@",[Configuration APIEndpointWithProtocol],[Configuration APIVersion]];
 }
 
 + (NSString *)APIEndpoint {
+
     Configuration *sharedConfiguration = [Configuration sharedConfiguration];
     
     if (sharedConfiguration.appSettings) {
         return [sharedConfiguration.appSettings objectForKey:ConfigurationAPIEndpoint];
     }
     
+    return nil;
+}
+
++ (NSString *)providerEndpoint {
+
+    Configuration *sharedConfiguration = [Configuration sharedConfiguration];
+
+    if (sharedConfiguration.appSettings) {
+        return [sharedConfiguration.appSettings objectForKey:ConfigurationProviderEndpoint];
+    }
+
     return nil;
 }
 
@@ -100,11 +119,15 @@ static NSString *const ConfigurationCrittercismAppID = @"CrittercismAppID";
     return nil;
 }
 
++ (NSString *)providerEndpointWithProtocol {
+
+    return [NSString stringWithFormat:@"%@://%@",[self APIProtocol],[self providerEndpoint]];
+}
+
 + (NSString *)APIEndpointWithProtocol {
     
     return [NSString stringWithFormat:@"%@://%@",[self APIProtocol],[self APIEndpoint]];
 }
-
 
 + (NSString *)selfSignedCertificate {
     

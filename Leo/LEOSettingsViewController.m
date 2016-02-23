@@ -475,14 +475,14 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
     if ([segue.identifier isEqualToString:kSegueTermsAndConditions]) {
         
         LEOWebViewController *webVC = (LEOWebViewController *)segue.destinationViewController;
-        webVC.urlString = [NSString stringWithFormat:@"%@%@", [Configuration APIBaseURL], kURLTermsAndConditions];
+        webVC.urlString = [NSString stringWithFormat:@"%@%@", [Configuration providerBaseURL], kURLTermsAndConditions];
         webVC.titleString = @"Terms & Conditions";
         webVC.feature = FeatureSettings;
     }
     
     if ([segue.identifier isEqualToString:kSeguePrivacyPolicy]) {
         LEOWebViewController *webVC = (LEOWebViewController *)segue.destinationViewController;
-        webVC.urlString = [NSString stringWithFormat:@"%@%@", [Configuration APIBaseURL], kURLPrivacyPolicy];
+        webVC.urlString = [NSString stringWithFormat:@"%@%@", [Configuration providerBaseURL], kURLPrivacyPolicy];
         webVC.titleString = @"Privacy Policy";
         webVC.feature = FeatureSettings;
     }

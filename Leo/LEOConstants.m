@@ -308,8 +308,8 @@ NSString *const kLEOValidationsErrorDomain = @"LEOValidationsErrorDomain";
 NSString *const kFlatironPediatricsPhoneNumber = @"2124605600"; //Flatiron Pediatrics
 
 #pragma mark - URLs
-NSString *const kURLTermsAndConditions = @"/terms";
-NSString *const kURLPrivacyPolicy = @"/privacy";
+NSString *const kURLTermsAndConditions = @"/#/terms";
+NSString *const kURLPrivacyPolicy = @"/#/privacy";
 
 #pragma mark - Notifications
 NSString *const kNotificationDownloadedImageUpdated = @"DownloadedImage-Updated";
