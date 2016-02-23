@@ -971,28 +971,37 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
         MessageImage *messageImage = (MessageImage *)message;
 
-        if ([messageImage.s3Image.image isEqual:messageImage.s3Image.placeholder]) {
+        if (messageImage.s3Image.isPlaceholder) {
 
-            [messageImage.s3Image setNeedsRefresh];
-            [messageImage.s3Image refreshIfNeeded];
-
-            messageImage.media = [[JSQPhotoMediaItem alloc] initWithImage:nil];
-
-            [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
-
+            [self retryImageLoadForMessageImage:messageImage forIndexPath:indexPath];
         } else {
 
-            JSQPhotoMediaItem *photoMediaItem = (JSQPhotoMediaItem *)messageImage.media;
-
-            UIImage *image = photoMediaItem.image;
-
-            LEOImagePreviewViewController* lightboxVC = [[LEOImagePreviewViewController alloc] initWithNoCropModeWithImage:image];
-            lightboxVC.feature = FeatureMessaging;
-            lightboxVC.showsBackButton = YES;
-
-            [self.navigationController pushViewController:lightboxVC animated:YES];
+            [self pushImagePreviewControllerWithMedia:messageImage.media];
         }
     }
+}
+
+- (void)retryImageLoadForMessageImage:(MessageImage *)messageImage forIndexPath:(NSIndexPath *)indexPath {
+
+    [messageImage.s3Image setNeedsRefresh];
+    [messageImage.s3Image refreshIfNeeded];
+
+    messageImage.media = [[JSQPhotoMediaItem alloc] initWithImage:nil];
+
+    [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
+}
+
+- (void)pushImagePreviewControllerWithMedia:(id<JSQMessageMediaData>)media {
+
+    JSQPhotoMediaItem *photoMediaItem = (JSQPhotoMediaItem *)media;
+
+    UIImage *image = photoMediaItem.image;
+
+    LEOImagePreviewViewController* lightboxVC = [[LEOImagePreviewViewController alloc] initWithNoCropModeWithImage:image];
+    lightboxVC.feature = FeatureMessaging;
+    lightboxVC.showsBackButton = YES;
+
+    [self.navigationController pushViewController:lightboxVC animated:YES];
 }
 
 // unfortunately, these methods are requeired, even though we don't want to use them

@@ -120,7 +120,6 @@ static NSString *const kImage = @"image";
 
             LEOS3Image *media = [[LEOS3Image alloc] initWithJSONDictionary:jsonResponse[APIParamMessageBody]];
 
-            //FIXME: Replace with proper placeholder icon once available
             media.placeholder = [UIImage imageNamed:@"retry-placeholder"];
             
             JSQPhotoMediaItem *photoMediaItem = [[JSQPhotoMediaItem alloc] initWithImage:nil];

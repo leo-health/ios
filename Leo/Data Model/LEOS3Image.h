@@ -14,6 +14,7 @@
 @property (copy, nonatomic) NSDictionary *parameters;
 @property (strong, nonatomic) UIImage *image;
 @property (strong, nonatomic) UIImage *placeholder;
+@property (nonatomic, readonly) BOOL isPlaceholder;
 
 - (instancetype)initWithBaseURL:(NSString *)baseURL parameters:(NSDictionary *)parameters placeholder:(UIImage *)placeholder;
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse;

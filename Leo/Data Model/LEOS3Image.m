@@ -42,6 +42,11 @@
     return _image;
 }
 
+- (BOOL)isPlaceholder {
+
+    return [self.image isEqual:self.placeholder];
+}
+
 - (void)setNeedsRefresh {
     
     _image = nil;
