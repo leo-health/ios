@@ -1,8 +1,12 @@
     upcoming:
-    - Bug fix for messaging crash upon leaving messaging card
-    - Bug fix for translucent bar in appointments
-
     releases:
+    - version: 0.7.1
+      build: 2016.02.18.01.27
+      date: February 18 2016
+      notes:
+      - Bug fix for messaging crash upon leaving messaging card
+  - Bug fix for translucent bar in appointments
+    
     - version: 0.7.0
       build: 2016.02.18.00.48
       date: February 18 2016
@@ -145,6 +149,7 @@
       notes:
       - First test build using new Fastfile configuration for Alpha builds
       - Provides the basic functionality all created prior to our first releases
+
 
 
 
