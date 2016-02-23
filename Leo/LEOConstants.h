@@ -346,6 +346,8 @@ extern NSString *const APIParamSlotDuration; // @"duration";
 extern NSString *const APIParamStartDate; // @"start_date";
 extern NSString *const APIParamEndDate; // @"end_date";
 
+extern NSString *const kKeySelectionVCSlot; // @"slot";
+
 #pragma mark - Insurer
 extern NSString *const APIParamInsurancePlanID; // @"insurance_plan_id";
 extern NSString *const APIParamInsurerID; // @"insurer_id";

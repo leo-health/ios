@@ -209,6 +209,8 @@ NSString *const APIParamSlotDuration = @"duration";
 NSString *const APIParamStartDate = @"start_date";
 NSString *const APIParamEndDate = @"end_date";
 
+NSString *const kKeySelectionVCSlot = @"slot";
+
 #pragma mark - Insurer
 NSString *const APIParamInsurerID = @"insurer_id";
 NSString *const APIParamInsurers = @"insurers";

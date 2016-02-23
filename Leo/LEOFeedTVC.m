@@ -141,6 +141,9 @@ static CGFloat const kFeedInsetTop = 30.0;
 
             [self fetchDataForCard:nil];
         }];
+
+        // refresh cached practice
+        [[LEOHelperService new] getPracticesWithCompletion:nil];
     }];
 }
 
@@ -165,15 +168,12 @@ static CGFloat const kFeedInsetTop = 30.0;
     [phrButton addTarget:self action:@selector(phrTouchedUpInside) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *phrBBI = [[UIBarButtonItem alloc] initWithCustomView:phrButton];
 
-
     UIImage *settingsImage = [UIImage imageNamed:@"Icon-Settings"];
     UIButton *settingsButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [settingsButton setImage:settingsImage forState:UIControlStateNormal];
     settingsButton.frame = (CGRect){.origin = CGPointZero, .size = imgSize};
     [settingsButton addTarget:self action:@selector(loadSettings) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *settingsBBI = [[UIBarButtonItem alloc] initWithCustomView:settingsButton];
-
-
 
     self.navigationBar.topItem.title = @"";
     UINavigationItem *item = [UINavigationItem new];

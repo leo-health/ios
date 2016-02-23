@@ -23,6 +23,7 @@
 
 + (Slot *)slotFromExistingAppointment:(Appointment *)appointment;
 + (NSArray *)slotsFromRawJSON:(NSDictionary *)rawJSON;
-+ (NSDictionary *)slotsRequestDictionaryFromAppointment:(Appointment *)appointment;
++ (NSArray *)slotsWithNoDuplicateTimesByRandomlyChoosingProviderFromSlots:(NSArray *)slots;
+
 
 @end

@@ -199,7 +199,7 @@
 
 -(void)didSelectSlot:(Slot * __nonnull)slot {
     
-    [self.delegate didUpdateItem:slot.startDateTime forKey:@"date"];
+    [self.delegate didUpdateItem:slot forKey:kKeySelectionVCSlot];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (copy, nonatomic) NSString *objectID;
 @property (copy, nonatomic, readonly) NSArray *staff;
+@property (copy, nonatomic, readonly) NSArray *providers;
 @property (copy, nonatomic, readonly) NSString *name;
 @property (copy, nonatomic, readonly) NSString *addressLine1;
 @property (copy, nonatomic, readonly) NSString *addressLine2;

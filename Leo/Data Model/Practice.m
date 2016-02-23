@@ -99,4 +99,10 @@ static NSString *const RoleProvider = @"clinical";
     [encoder encodeObject:self.staff forKey:APIParamUsers];
 }
 
+- (NSArray *)providers {
+
+    NSPredicate *providerFilter = [NSPredicate predicateWithFormat:@"self isKindOfClass:%@",[Provider class]];
+    return [self.staff filteredArrayUsingPredicate:providerFilter];
+}
+
 @end
