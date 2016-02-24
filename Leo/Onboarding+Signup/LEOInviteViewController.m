@@ -14,24 +14,47 @@
 #import "User.h"    
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <CWStatusBarNotification.h>
+#import "LEOProgressDotsHeaderView.h"
+#import "UIColor+LeoColors.h"
+#import "UIViewController+XibAdditions.h"
+#import "LEOReviewOnboardingViewController.h"
+#import "Family.h"
+#import "Guardian.h"
 
-@interface LEOInviteViewController ()
+@interface LEOInviteViewController () <LEOStickyHeaderDataSource, LEOStickyHeaderDelegate>
 
-@property (weak, nonatomic) IBOutlet LEOInviteView *inviteView;
-@property (weak, nonatomic) IBOutlet UIButton *sendInvitationsButton;
+@property (strong, nonatomic) LEOProgressDotsHeaderView *headerView;
+@property (strong, nonatomic) LEOInviteView *inviteView;
 @property (strong, nonatomic) CWStatusBarNotification *statusBarNotification;
 
 @end
 
 @implementation LEOInviteViewController
 
+static NSString * const kCopyHeaderInviteParent = @"Invite another parent to Leo";
+
 - (void)viewDidLoad {
+
     [super viewDidLoad];
-    
-    [self setupView];
-    [self setupButton];
-    [self setupNavigationBar];
+
+    self.automaticallyAdjustsScrollViewInsets = NO;
+
+    self.stickyHeaderView.snapToHeight = @(0);
+    self.stickyHeaderView.datasource = self;
+    self.stickyHeaderView.delegate = self;
+
+    [LEOStyleHelper styleSettingsViewController:self];
     [LEOApiReachability startMonitoringForController:self];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+
+    [super viewWillAppear:animated];
+    [self setupNavigationBar];
+
+    CGFloat percentage = [self transitionPercentageForScrollOffset:self.stickyHeaderView.scrollView.contentOffset];
+
+    self.navigationItem.titleView.hidden = self.feature == FeatureOnboarding && percentage == 0;
 }
 
 -(void)viewDidAppear:(BOOL)animated {
@@ -41,13 +64,44 @@
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:nil withOnlineBlock:nil];
 }
 
-- (void)setupView {
-    
-    [LEOStyleHelper styleSettingsViewController:self];
-    
-    UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(viewTapped)];
-    tapGestureForTextFieldDismissal.cancelsTouchesInView = NO;
-    [self.view addGestureRecognizer:tapGestureForTextFieldDismissal];
+- (LEOInviteView *)inviteView {
+
+    if (!_inviteView) {
+        _inviteView = [self leo_loadViewFromNibForClass:[LEOInviteView class]];
+        _inviteView.feature = self.feature;
+    }
+
+    return _inviteView;
+}
+
+- (LEOProgressDotsHeaderView *)headerView {
+
+    if (!_headerView) {
+
+        _headerView = [[LEOProgressDotsHeaderView alloc] initWithTitleText:kCopyHeaderInviteParent numberOfCircles:kNumberOfProgressDots currentIndex:3 fillColor:[UIColor leo_orangeRed]];
+
+        _headerView.intrinsicHeight = self.feature == FeatureSettings ? @(0) : @(kHeightOnboardingHeaders);
+        [LEOStyleHelper styleExpandedTitleLabel:_headerView.titleLabel feature:self.feature];
+    }
+
+    return _headerView;
+}
+
+# pragma mark  -  LEOStickyHeaderView Delegate Data Source
+
+- (UIView *)injectBodyView {
+    return self.inviteView;
+}
+
+- (UIView *)injectTitleView {
+    return self.headerView;
+}
+
+-(void)updateTitleViewForScrollTransitionPercentage:(CGFloat)transitionPercentage {
+
+    self.headerView.currentTransitionPercentage = transitionPercentage;
+    self.navigationItem.titleView.hidden = NO;
+    self.navigationItem.titleView.alpha = transitionPercentage;
 }
 
 - (CWStatusBarNotification *)statusBarNotification {
@@ -61,64 +115,75 @@
     return _statusBarNotification;
 }
 
-- (void)viewTapped {
-    
-    [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
-}
-
-- (void)setupButton {
-
-    [LEOStyleHelper styleButton:self.sendInvitationsButton forFeature:FeatureSettings];
-    [self.sendInvitationsButton addTarget:self action:@selector(sendInvitationsTapped) forControlEvents:UIControlEventTouchUpInside];
-}
-
 - (void)setupNavigationBar {
-    
-    self.view.tintColor = [LEOStyleHelper tintColorForFeature:FeatureSettings];
-    
-    [LEOStyleHelper styleNavigationBarForFeature:FeatureSettings];
-    
-    UILabel *navTitleLabel = [[UILabel alloc] init];
-    navTitleLabel.text = @"Invite a Parent";
-    
-    [LEOStyleHelper styleLabel:navTitleLabel forFeature:FeatureSettings];
-    
-    self.navigationItem.titleView = navTitleLabel;
-    
-    [LEOStyleHelper styleBackButtonForViewController:self forFeature:FeatureSettings];
+
+    [LEOStyleHelper styleNavigationBarForViewController:self forFeature:self.feature withTitleText:@"Invite a Parent" dismissal:NO backButton:YES];
+//    [LEOStyleHelper styleNavigationBar:self.navigationController.navigationBar forFeature:self.feature];
 }
 
-- (void)sendInvitationsTapped {
-    
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    self.inviteView.userInteractionEnabled = NO;
-    
+- (IBAction)sendInvitationsTapped {
+
+    [self.view endEditing:YES];
     if ([self.inviteView isValidInvite]) {
+
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        self.inviteView.userInteractionEnabled = NO;
+
+        Guardian *configUser = [[Guardian alloc] initWithObjectID:nil title:nil firstName:self.inviteView.firstName middleInitial:nil lastName:self.inviteView.lastName suffix:nil email:self.inviteView.email avatar:nil];
         
-        User *configUser = [[User alloc] initWithObjectID:nil title:nil firstName:self.inviteView.firstName middleInitial:nil lastName:self.inviteView.lastName suffix:nil email:self.inviteView.email avatar:nil];
-        
-        LEOUserService *userService = [[LEOUserService alloc] init];
-        [userService inviteUser:configUser withCompletion:^(BOOL success, NSError *error) {
-        
-            
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-            self.inviteView.userInteractionEnabled = YES;
+        if (self.feature == FeatureOnboarding) {
 
-            if (success) {
+            [self.family addGuardian:configUser];
+            [self performSegueWithIdentifier:kSegueContinue sender:self];
+        }
+
+        else if (self.feature == FeatureSettings) {
+
+            LEOUserService *userService = [[LEOUserService alloc] init];
+            [userService inviteUser:configUser withCompletion:^(BOOL success, NSError *error) {
 
 
-                [self.statusBarNotification displayNotificationWithMessage:@"Additional parent successfully invited!"
-                                                               forDuration:1.0f];
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                self.inviteView.userInteractionEnabled = YES;
 
-                [self.navigationController popViewControllerAnimated:YES];
-            }
-        }];
+                if (success) {
+
+                    if (self.feature == FeatureSettings) {
+
+                        [self.statusBarNotification displayNotificationWithMessage:@"Additional parent successfully invited!"
+                                                                       forDuration:1.0f];
+
+                        [self.navigationController popViewControllerAnimated:YES];
+                    } else {
+
+                        [self.family addGuardian:configUser];
+                        [self performSegueWithIdentifier:kSegueContinue sender:self];
+                    }
+
+                }
+            }];
+        }
     }
+}
+
+- (IBAction)skipTouchUpInside:(id)sender {
+
+    [self.view endEditing:YES];
+    [self performSegueWithIdentifier:kSegueContinue sender:self];
 }
 
 - (void)pop {
     
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+
+    if ([segue.identifier isEqualToString:kSegueContinue]) {
+
+        LEOReviewOnboardingViewController *reviewOnboardingVC = segue.destinationViewController;
+        reviewOnboardingVC.family = self.family;
+    }
 }
 
 @end

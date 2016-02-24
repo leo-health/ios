@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LEOStickyHeaderViewController.h"
 
-@interface LEOInviteViewController : UIViewController
+@class Family;
+
+@interface LEOInviteViewController : LEOStickyHeaderViewController
+
+@property (strong, nonatomic) Family *family;
 
 @end

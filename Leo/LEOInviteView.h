@@ -14,6 +14,8 @@
 @property (copy, nonatomic) NSString *lastName;
 @property (copy, nonatomic) NSString *email;
 
+@property (nonatomic) Feature feature;
+
 - (BOOL)isValidInvite;
 
 @end

@@ -17,7 +17,7 @@
 #import "Patient.h"
 #import "Family.h"
 
-#import "LEOReviewOnboardingViewController.h"
+#import "LEOInviteViewController.h"
 #import "LEOStyleHelper.h"
 #import "LEOManagePatientsView.h"
 #import "LEOHeaderView.h"
@@ -143,9 +143,10 @@ static NSString * const kSignUpPatientSegue = @"SignUpPatientSegue";
     }
     
     if ([segue.identifier isEqualToString:kSegueContinue]) {
-        
-        LEOReviewOnboardingViewController *reviewOnboardingVC = segue.destinationViewController;
-        reviewOnboardingVC.family = self.family;
+
+        LEOInviteViewController *inviteVC = segue.destinationViewController;
+        inviteVC.feature = self.feature;
+        inviteVC.family = self.family;
     }
 }
 

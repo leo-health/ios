@@ -276,7 +276,7 @@ CGFloat const kSpeedForTitleViewAlphaChangeConstant = 4.0;
 CGFloat const kStickyHeaderHeight = 150.0;
 CGFloat const kPaddingHorizontalToolbarButtons = 20;
 CGFloat const kHeightDefaultToolbar = 44;
-CGFloat const kNumberOfProgressDots = 4;
+CGFloat const kNumberOfProgressDots = 5;
 CGFloat const kHeightOnboardingHeaders = 114;
 
 #pragma mark - Segues

@@ -485,6 +485,11 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
         webVC.titleString = @"Privacy Policy";
         webVC.feature = FeatureSettings;
     }
+
+    if ([segue.identifier isEqualToString:kSegueInviteGuardian]) {
+        LEOInviteViewController *inviteVC = (LEOInviteViewController *)segue.destinationViewController;
+        inviteVC.feature = FeatureSettings;
+    }
 }
 
 - (void)addPatient:(Patient *)patient {

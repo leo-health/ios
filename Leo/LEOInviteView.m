@@ -11,12 +11,17 @@
 #import "UIView+Extensions.h"
 #import "LEOValidationsHelper.h"
 #import "LEOPromptTextView.h"
+#import "UIViewController+XibAdditions.h"
+#import "UIView+Extensions.h"
+#import "LEOStyleHelper.h"
 
 @interface LEOInviteView ()
 
 @property (weak, nonatomic) IBOutlet LEOPromptField *firstNamePromptField;
 @property (weak, nonatomic) IBOutlet LEOPromptField *lastNamePromptField;
 @property (weak, nonatomic) IBOutlet LEOPromptField *emailAddressPromptField;
+@property (weak, nonatomic) IBOutlet UIButton *submitButton;
+@property (weak, nonatomic) IBOutlet UIButton *skipButton;
 
 @property (nonatomic) BOOL hasBeenValidatedAtLeastOnce;
 
@@ -25,99 +30,54 @@
 @implementation LEOInviteView
 
 IB_DESIGNABLE
-#pragma mark - Initialization
 
-- (instancetype)initWithCoder:(NSCoder *)aDecoder
-{
-    self = [super initWithCoder:aDecoder];
-    
-    if (self) {
-        [self commonInit];
-    }
-    
-    return self;
+- (void)setFirstNamePromptField:(LEOPromptField *)firstNamePromptField {
+
+    _firstNamePromptField = firstNamePromptField;
+    _firstNamePromptField.textField.delegate = self;
+    _firstNamePromptField.textField.standardPlaceholder = @"first name";
+    _firstNamePromptField.textField.validationPlaceholder = @"please enter a valid first name";
+    [_firstNamePromptField.textField sizeToFit];
 }
 
--(instancetype)init {
-    
-    self = [super init];
-    
-    if (self) {
-        [self commonInit];
-    }
-    
-    return self;
+- (void)setLastNamePromptField:(LEOPromptField *)lastNamePromptField {
+
+    _lastNamePromptField = lastNamePromptField;
+    _lastNamePromptField.textField.delegate = self;
+    _lastNamePromptField.textField.standardPlaceholder = @"last name";
+    _lastNamePromptField.textField.validationPlaceholder = @"please enter a valid last name";
+    [_lastNamePromptField sizeToFit];
 }
 
-- (void)commonInit {
-    
-    [self setupConstraints];
-    [self setupFirstNameField];
-    [self setupLastNameField];
-    [self setupEmailField];
-    
-    [self setupTouchEventForDismissingKeyboard];
+- (void)setEmailAddressPromptField:(LEOPromptField *)emailAddressPromptField {
+
+    _emailAddressPromptField = emailAddressPromptField;
+    _emailAddressPromptField.textField.delegate = self;
+    _emailAddressPromptField.textField.standardPlaceholder = @"email";
+    _emailAddressPromptField.textField.validationPlaceholder = @"please enter a valid email address";
+    [_emailAddressPromptField.textField sizeToFit];
 }
 
-//TODO: Eventually should move into an extension (extension/protocol) or superclass.
+- (void)setSubmitButton:(UIButton *)submitButton {
 
-- (void)setupTouchEventForDismissingKeyboard {
-    
-    UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(viewTapped)];
-    
-    tapGestureForTextFieldDismissal.cancelsTouchesInView = NO;
-    [self addGestureRecognizer:tapGestureForTextFieldDismissal];
+    _submitButton = submitButton;
+    [LEOStyleHelper styleButton:submitButton forFeature:FeatureSettings];
 }
 
-- (void)viewTapped {
-    
-    [self endEditing:YES];
+- (void)setSkipButton:(UIButton *)skipButton {
+
+    _skipButton = skipButton;
+    _skipButton.hidden = self.feature != FeatureOnboarding;
 }
 
-- (void)setupFirstNameField {
-    
-    self.firstNamePromptField.textField.delegate = self;
-    self.firstNamePromptField.textField.standardPlaceholder = @"first name";
-    self.firstNamePromptField.textField.validationPlaceholder = @"please enter a valid first name";
-    [self.firstNamePromptField.textField sizeToFit];
+- (void)setFeature:(Feature)feature {
+
+    _feature = feature;
+    self.skipButton.hidden = self.feature != FeatureOnboarding;
 }
-
-- (void)setupLastNameField {
-    
-    self.lastNamePromptField.textField.delegate = self;
-    self.lastNamePromptField.textField.standardPlaceholder = @"last name";
-    self.lastNamePromptField.textField.validationPlaceholder = @"please enter a valid last name";
-    [self.lastNamePromptField sizeToFit];
-}
-
-- (void)setupEmailField {
-    
-    self.emailAddressPromptField.textField.delegate = self;
-    self.emailAddressPromptField.textField.standardPlaceholder = @"email";
-    self.emailAddressPromptField.textField.validationPlaceholder = @"please enter a valid email address";
-    [self.emailAddressPromptField.textField sizeToFit];
-}
-
-#pragma mark - Autolayout
-
-- (void)setupConstraints {
-    
-    NSBundle *mainBundle = [NSBundle mainBundle];
-    NSArray *loadedViews = [mainBundle loadNibNamed:@"LEOInviteView" owner:self options:nil];
-    LEOInviteView *loadedSubview = [loadedViews firstObject];
-    
-    [self addSubview:loadedSubview];
-    
-    loadedSubview.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    [self addConstraint:[self leo_pin:loadedSubview attribute:NSLayoutAttributeTop]];
-    [self addConstraint:[self leo_pin:loadedSubview attribute:NSLayoutAttributeLeft]];
-    [self addConstraint:[self leo_pin:loadedSubview attribute:NSLayoutAttributeBottom]];
-    [self addConstraint:[self leo_pin:loadedSubview attribute:NSLayoutAttributeRight]];
-}
-
 
 #pragma mark - Accessors
+
 -(void)setFirstName:(NSString *)firstName {
     
     _firstName = firstName;

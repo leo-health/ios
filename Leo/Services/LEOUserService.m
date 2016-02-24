@@ -108,7 +108,7 @@
     
     NSMutableDictionary *enrollmentParams = [[User dictionaryFromUser:guardian] mutableCopy];
     enrollmentParams[APIParamUserPassword] = password;
-    
+
     [[LEOUserService leoSessionManager] unauthenticatedPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointUserEnrollments params:enrollmentParams completion:^(NSDictionary *rawResults, NSError *error) {
         
         if (!error) {

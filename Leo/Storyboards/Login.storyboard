@@ -226,7 +226,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jg6-Qh-7pA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1578" y="4469"/>
+            <point key="canvasLocation" x="1578" y="5765"/>
         </scene>
         <!--Sign Up Patient View Controller-->
         <scene sceneID="3BN-pe-nX0">
@@ -246,6 +246,27 @@
             </objects>
             <point key="canvasLocation" x="3033" y="2949"/>
         </scene>
+        <!--Invite View Controller-->
+        <scene sceneID="4eW-ZU-uAl">
+            <objects>
+                <viewController id="wtx-Mf-qJP" customClass="LEOInviteViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="p36-1P-NT0"/>
+                        <viewControllerLayoutGuide type="bottom" id="PTJ-fy-v3E"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="z07-h8-U1H">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <segue destination="OYv-Kz-zcb" kind="show" identifier="ContinueSegue" id="akq-BD-Sbp"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="e35-BG-cZ2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2332" y="3920"/>
+        </scene>
         <!--Sign Up Patient View Controller-->
         <scene sceneID="ngI-rD-Vb9">
             <objects>
@@ -262,7 +283,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fS7-h8-tbo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2332" y="4469"/>
+            <point key="canvasLocation" x="2332" y="5765"/>
         </scene>
         <!--Manage Patients View Controller-->
         <scene sceneID="d2r-CA-xyJ">
@@ -280,7 +301,7 @@
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
                         <segue destination="w6v-NG-N8f" kind="show" identifier="SignUpPatientSegue" id="VqK-QW-gNa"/>
-                        <segue destination="OYv-Kz-zcb" kind="show" identifier="ContinueSegue" id="nws-bR-vKp"/>
+                        <segue destination="wtx-Mf-qJP" kind="show" identifier="ContinueSegue" id="PO7-3H-45u"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="c9g-Yv-v8z" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -310,7 +331,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oJR-MM-Ccg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2332" y="3678"/>
+            <point key="canvasLocation" x="2332" y="4974"/>
         </scene>
         <!--Insurance Drill View Controller-->
         <scene sceneID="NRv-RX-fae">
@@ -346,7 +367,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zIK-jP-50e" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1578" y="5245"/>
+            <point key="canvasLocation" x="1578" y="6541"/>
         </scene>
         <!--Forgot Password View Controller-->
         <scene sceneID="A2i-wR-ONk">
@@ -434,7 +455,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pJn-ga-tab" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3087" y="3822"/>
+            <point key="canvasLocation" x="3087" y="5118"/>
         </scene>
     </scenes>
     <resources>
@@ -444,6 +465,6 @@
     <inferredMetricsTieBreakers>
         <segue reference="23i-lu-xHn"/>
         <segue reference="vWD-ov-4Y7"/>
-        <segue reference="tC8-dS-hQl"/>
+        <segue reference="Vvj-Ok-MIT"/>
     </inferredMetricsTieBreakers>
 </document>
