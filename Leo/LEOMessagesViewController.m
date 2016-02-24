@@ -363,23 +363,9 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
         return;
     }
 
-    button.hidden = YES;
-
-    [self.sendingIndicator startAnimating];
-
-    [JSQSystemSoundPlayer jsq_playMessageSentSound];
-
     Message *message = [MessageText messageWithObjectID:nil text:text sender:[SessionUser guardian] escalatedTo:nil escalatedBy:nil status:nil statusCode:MessageStatusCodeUndefined escalatedAt:nil];
 
-    [self sendMessage:message withCompletion:^(NSError *error){
-
-        if (!error) {
-            [self updateConversationWithMessage:message];
-            [self finishSendingMessage:message];
-        }
-        [self.sendingIndicator stopAnimating];
-        button.hidden = NO;
-    }];
+    [self sendMessage:message];
 }
 
 - (UIActivityIndicatorView *)sendingIndicator {
@@ -522,28 +508,36 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
     [self sendImageMessage:imagePreviewController.image];
 }
 
-- (void)sendImageMessage:(UIImage *)image {
+- (void)sendMessage:(Message *)message {
 
     self.sendButton.hidden = YES;
 
-    JSQPhotoMediaItem *photoItem = [[JSQPhotoMediaItem alloc] initWithImage:image];
-
-    MessageImage *message = [MessageImage messageWithObjectID:nil media:photoItem sender:[SessionUser guardian] escalatedTo:nil escalatedBy:nil status:nil statusCode:MessageStatusCodeUndefined createdAt:[NSDate date] escalatedAt:nil leoMedia:nil];
-
     [self.sendingIndicator startAnimating];
+    self.inputToolbar.contentView.userInteractionEnabled = NO;
 
     [JSQSystemSoundPlayer jsq_playMessageSentSound];
 
     [self sendMessage:message withCompletion:^(NSError *error){
 
-        self.sendButton.hidden = NO;
         if (!error) {
-
             [self updateConversationWithMessage:message];
             [self finishSendingMessage:message];
         }
+
+        self.inputToolbar.contentView.userInteractionEnabled = YES;
         [self.sendingIndicator stopAnimating];
+        self.sendButton.hidden = NO;
     }];
+}
+
+
+- (void)sendImageMessage:(UIImage *)image {
+
+    JSQPhotoMediaItem *photoItem = [[JSQPhotoMediaItem alloc] initWithImage:image];
+
+    MessageImage *message = [MessageImage messageWithObjectID:nil media:photoItem sender:[SessionUser guardian] escalatedTo:nil escalatedBy:nil status:nil statusCode:MessageStatusCodeUndefined createdAt:[NSDate date] escalatedAt:nil leoMedia:nil];
+
+    [self sendMessage:message];
 
     [self.navigationController popViewControllerAnimated:YES];
 }
