@@ -54,7 +54,7 @@
 - (void)setupTableView {
     
     
-    UITableView *strongView = [[UITableView alloc] init];
+    UITableView *strongView = [UITableView new];
     self.tableView = strongView;
 
     [self.tableView registerNib:[UINib nibWithNibName:self.reuseIdentifier bundle:nil]  forCellReuseIdentifier:self.reuseIdentifier];

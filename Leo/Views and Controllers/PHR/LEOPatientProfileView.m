@@ -114,7 +114,7 @@ static CGFloat const kSpacerProfileBottom = 4.0;
 
 - (void)registerForNotifications {
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationRecievedForDownloadedImage:) name:kNotificationDownloadedImageUpdated object:self.patient.avatar];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationReceivedForDownloadedImage:) name:kNotificationDownloadedImageUpdated object:self.patient.avatar];
 }
 
 - (void)removeObservers {
@@ -127,7 +127,7 @@ static CGFloat const kSpacerProfileBottom = 4.0;
     [self removeObservers];
 }
 
-- (void)notificationRecievedForDownloadedImage:(NSNotification *)notification {
+- (void)notificationReceivedForDownloadedImage:(NSNotification *)notification {
 
     UIImage *circularAvatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:self.patient.avatar.image withDiameter:67 borderColor:[UIColor leo_white] borderWidth:1.0];
 

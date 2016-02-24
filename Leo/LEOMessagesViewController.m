@@ -219,13 +219,14 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
 - (void)constructNotifications {
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationReceived:) name:@"Conversation-AddedMessage" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationReceived:) name:kNotificationConversationAddedMessage object:nil];
 }
 
 - (void)removeObservers {
     
     [self.sendButton removeObserver:self forKeyPath:@"enabled"];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"Conversation-AddedMessage" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotificationConversationAddedMessage object:nil];
+    
     for (id observer in self.notificationObservers) {
         [[NSNotificationCenter defaultCenter] removeObserver:observer];
     }

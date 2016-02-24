@@ -16,7 +16,6 @@
 #import "Practice.h"
 #import "NSDictionary+Additions.h"
 #import "AppointmentStatus.h"
-#import "LEOConstants.h"
 
 @implementation Appointment
 

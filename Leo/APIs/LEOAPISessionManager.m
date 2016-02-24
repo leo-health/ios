@@ -341,9 +341,5 @@
     return [SessionUser authToken];;
 }
 
-// ????: What is this used for? I dont' see this class being added as an observer anywhere
-//-(void)dealloc {
-//
-//    [[NSNotificationCenter defaultCenter] removeObserver:self];
-//}
+
 @end
