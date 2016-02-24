@@ -169,6 +169,7 @@
 
 + (UIImage *)jsq_circularImage:(UIImage *)image withDiameter:(NSUInteger)diameter highlightedColor:(UIColor *)highlightedColor borderColor:(UIColor *)borderColor borderWidth:(NSUInteger)borderWidth;
 {
+
     NSParameterAssert(image != nil);
     NSParameterAssert(diameter > 0);
     NSParameterAssert(borderColor != nil);

@@ -16,6 +16,11 @@
 @property (strong, nonatomic) UIImage *placeholder;
 @property (nonatomic, readonly) BOOL isPlaceholder;
 
+/**
+ *  Returns YES if an image other than the placeholder is expected to exist, i.e if baseURL or the user manually sets the image
+ */
+@property (nonatomic, readonly) BOOL hasImagePromise;
+
 - (instancetype)initWithBaseURL:(NSString *)baseURL parameters:(NSDictionary *)parameters placeholder:(UIImage *)placeholder;
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse;
 - (void)getS3ImageDataForS3ImageWithCompletion:(void (^) (void))completion;

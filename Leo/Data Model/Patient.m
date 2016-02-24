@@ -143,6 +143,8 @@
     if ([gender isEqualToString:kGenderFemaleDisplay]) {
         _gender = kGenderFemale;
     }
+
+    [self setPatientAvatarPlaceholder];
 }
 
 #pragma mark - NSObject
@@ -169,9 +171,8 @@
     BOOL validLastName = [LEOValidationsHelper isValidLastName:self.lastName];
     BOOL validBirthDate = [LEOValidationsHelper isValidBirthDate:self.dob];
     BOOL validGender = [LEOValidationsHelper isValidGender:self.gender];
-    BOOL validAvatar = [LEOValidationsHelper isValidAvatar:self.avatar.image];
 
-    return validAvatar && validFirstName && validLastName && validBirthDate && validGender;
+    return validFirstName && validLastName && validBirthDate && validGender;
 }
 
 //FIXME: This is not completely built out. Will work where currently used and probably nowhere else...
