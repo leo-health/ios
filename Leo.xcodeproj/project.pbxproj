@@ -214,9 +214,9 @@
 		662371F71C568E51001AB3E7 /* LEOLoggedOutSignUpCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 662371F51C568E51001AB3E7 /* LEOLoggedOutSignUpCell.xib */; };
 		662371F91C569F72001AB3E7 /* Signed-Out.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 662371F81C569F72001AB3E7 /* Signed-Out.xcassets */; };
 		6660C93E1C3AF92800C2657B /* LEOGradientHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6660C93D1C3AF92800C2657B /* LEOGradientHelper.m */; };
-		6677135B1C7531D700735B74 /* NSObject+TableViewAccurateEstimatedCellHeight.m in Sources */ = {isa = PBXBuildFile; fileRef = 6677135A1C7531D700735B74 /* NSObject+TableViewAccurateEstimatedCellHeight.m */; };
 		667713521C73C67C00735B74 /* LEOProgressDotsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 667713511C73C67C00735B74 /* LEOProgressDotsView.m */; };
 		667713551C74EA7100735B74 /* LEOProgressDotsHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 667713541C74EA7100735B74 /* LEOProgressDotsHeaderView.m */; };
+		6677135B1C7531D700735B74 /* NSObject+TableViewAccurateEstimatedCellHeight.m in Sources */ = {isa = PBXBuildFile; fileRef = 6677135A1C7531D700735B74 /* NSObject+TableViewAccurateEstimatedCellHeight.m */; };
 		6677AE3A1C61665B002CA27C /* LEOSwipeArrowsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6677AE391C61665B002CA27C /* LEOSwipeArrowsView.xib */; };
 		6677AE3D1C61689D002CA27C /* LEOSwipeArrowsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6677AE3C1C61689D002CA27C /* LEOSwipeArrowsView.m */; };
 		6677AE3F1C62B71F002CA27C /* LEOLoggedOutLoginCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6677AE3E1C62B71F002CA27C /* LEOLoggedOutLoginCell.xib */; };
@@ -651,12 +651,12 @@
 		662371F81C569F72001AB3E7 /* Signed-Out.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Signed-Out.xcassets"; sourceTree = "<group>"; };
 		6660C93C1C3AF92800C2657B /* LEOGradientHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOGradientHelper.h; sourceTree = "<group>"; };
 		6660C93D1C3AF92800C2657B /* LEOGradientHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOGradientHelper.m; sourceTree = "<group>"; };
-		667713591C7531D700735B74 /* NSObject+TableViewAccurateEstimatedCellHeight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+TableViewAccurateEstimatedCellHeight.h"; sourceTree = "<group>"; };
-		6677135A1C7531D700735B74 /* NSObject+TableViewAccurateEstimatedCellHeight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+TableViewAccurateEstimatedCellHeight.m"; sourceTree = "<group>"; };
 		667713501C73C67C00735B74 /* LEOProgressDotsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOProgressDotsView.h; sourceTree = "<group>"; };
 		667713511C73C67C00735B74 /* LEOProgressDotsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOProgressDotsView.m; sourceTree = "<group>"; };
 		667713531C74EA7100735B74 /* LEOProgressDotsHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOProgressDotsHeaderView.h; sourceTree = "<group>"; };
 		667713541C74EA7100735B74 /* LEOProgressDotsHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOProgressDotsHeaderView.m; sourceTree = "<group>"; };
+		667713591C7531D700735B74 /* NSObject+TableViewAccurateEstimatedCellHeight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+TableViewAccurateEstimatedCellHeight.h"; sourceTree = "<group>"; };
+		6677135A1C7531D700735B74 /* NSObject+TableViewAccurateEstimatedCellHeight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+TableViewAccurateEstimatedCellHeight.m"; sourceTree = "<group>"; };
 		6677AE391C61665B002CA27C /* LEOSwipeArrowsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LEOSwipeArrowsView.xib; sourceTree = "<group>"; };
 		6677AE3B1C61689D002CA27C /* LEOSwipeArrowsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOSwipeArrowsView.h; sourceTree = "<group>"; };
 		6677AE3C1C61689D002CA27C /* LEOSwipeArrowsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOSwipeArrowsView.m; sourceTree = "<group>"; };
