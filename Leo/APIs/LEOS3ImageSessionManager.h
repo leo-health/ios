@@ -8,9 +8,9 @@
 
 #import "AFHTTPSessionManager.h"
 
-@interface LEOS3SessionManager : AFHTTPSessionManager
+@interface LEOS3ImageSessionManager : AFHTTPSessionManager
 
-+ (LEOS3SessionManager *)sharedClient;
++ (LEOS3ImageSessionManager *)sharedClient;
 
 - (NSURLSessionDataTask *)presignedGETRequestForImageFromS3WithURL:(NSString *)urlString params:(NSDictionary *)params completion:(void (^)(UIImage *rawImage, NSError *error))completionBlock;
 

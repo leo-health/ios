@@ -18,6 +18,7 @@
 #import "LEOCardService.h"
 #import "LEOHelperService.h"
 #import "LEOAppointmentService.h"
+#import "LEOFeedMessageService.h"
 
 #import "User.h"
 #import "Role.h"
@@ -91,6 +92,7 @@ typedef NS_ENUM(NSUInteger, TableViewSection) {
 @property (strong, nonatomic) NSIndexPath *cardInFocusIndexPath;
 @property (nonatomic) BOOL hasShownNewUserMessage;
 @property (strong, nonatomic) LEOFeedNavigationHeaderView *feedNavigatorHeaderView;
+@property (strong, nonatomic) NSString *headerMessage;
 
 @end
 
@@ -151,6 +153,8 @@ static CGFloat const kFeedInsetTop = 20.0;
             }
         }];
     }];
+
+    [self fetchFeedHeader];
 }
 
 - (void)setupNavigationBar {
@@ -196,6 +200,29 @@ static CGFloat const kFeedInsetTop = 20.0;
     // Without this line, the view ends up getting resized to 0 height, and does not appear (for searching: black screen push animated)
     phrViewController.view.backgroundColor = [UIColor whiteColor];
     [self.navigationController pushViewController:phrViewController animated:YES];
+}
+
+- (void)fetchFeedHeader {
+
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+
+    [MBProgressHUD showHUDAddedTo:cell.contentView animated:YES];
+
+    LEOFeedMessageService *feedMessageService = [LEOFeedMessageService new];
+
+    [feedMessageService getFeedMessageForDate:[NSDate date] withCompletion:^(NSString *feedMessage, NSError *error) {
+
+        self.headerMessage = feedMessage;
+
+        dispatch_async(dispatch_get_main_queue() , ^{
+
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+            [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+
+            [MBProgressHUD hideHUDForView:cell.contentView animated:NO];
+        });
+    }];
 }
 
 
@@ -693,7 +720,7 @@ static CGFloat const kFeedInsetTop = 20.0;
     LEOFeedHeaderCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifierLEOHeaderCell
                                                               forIndexPath:indexPath];;
 
-    [cell configureForCurrentUser];
+    [cell configureForCurrentUserWithMessage:self.headerMessage];
 
     return cell;
 }

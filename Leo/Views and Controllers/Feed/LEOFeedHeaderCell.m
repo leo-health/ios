@@ -19,6 +19,13 @@
     self.messageTextView.dataDetectorTypes = UIDataDetectorTypeLink;
     self.messageTextView.textAlignment = NSTextAlignmentCenter;
     self.messageTextView.text = @"WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW";
+
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
+    self.layer.shadowOffset = CGSizeMake(0,1);
+    self.layer.shadowOpacity = 0.3;
+    self.layer.shadowRadius = 1;
+    self.layer.masksToBounds = NO;
+    self.clipsToBounds = NO;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

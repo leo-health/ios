@@ -10,6 +10,6 @@
 
 @interface LEOFeedHeaderCell (ConfigureForCell)
 
-- (void)configureForCurrentUser;
+- (void)configureForCurrentUserWithMessage:(NSString *)message;
 
 @end

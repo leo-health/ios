@@ -8,7 +8,7 @@
 
 #import "LEOMessageService.h"
 #import "LEOAPISessionManager.h"
-#import "LEOS3SessionManager.h"
+#import "LEOS3ImageSessionManager.h"
 #import "Message.h"
 #import "MessageText.h"
 #import "MessageImage.h"
@@ -137,7 +137,7 @@
     return [LEOAPISessionManager sharedClient];
 }
 
-+ (LEOS3SessionManager *)leoMediaSessionManager {
-    return [LEOS3SessionManager sharedClient];
++ (LEOS3ImageSessionManager *)leoMediaSessionManager {
+    return [LEOS3ImageSessionManager sharedClient];
 }
 @end

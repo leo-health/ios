@@ -15,12 +15,12 @@
 
 @implementation LEOFeedHeaderCell (ConfigureForCell)
 
-- (void)configureForCurrentUser {
+- (void)configureForCurrentUserWithMessage:(NSString *)message {
 
     NSString *firstNameOfCurrentUser = [SessionUser currentUser].firstName;
 
     self.salutationLabel.text = [NSString stringWithFormat:@"Hey %@,", firstNameOfCurrentUser];
-    self.messageTextView.text = @"This is a test message until we have hooked this up to Twitter.";
+    self.messageTextView.text =message;
 
     [self formatCell];
 }
