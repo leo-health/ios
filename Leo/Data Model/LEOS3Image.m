@@ -37,6 +37,23 @@
 
 - (UIImage *)image {
 
+    [self refreshIfNeeded];
+
+    return _image;
+}
+
+- (BOOL)isPlaceholder {
+
+    return [self.image isEqual:self.placeholder];
+}
+
+- (void)setNeedsRefresh {
+    
+    _image = nil;
+}
+
+- (void)refreshIfNeeded {
+
     if (!_image) {
 
         _image = self.placeholder;
@@ -56,8 +73,6 @@
             }
         }];
     }
-
-    return _image;
 }
 
 -(void)setImage:(UIImage *)image {

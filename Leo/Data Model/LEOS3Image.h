@@ -14,10 +14,14 @@
 @property (copy, nonatomic) NSDictionary *parameters;
 @property (strong, nonatomic) UIImage *image;
 @property (strong, nonatomic) UIImage *placeholder;
+@property (nonatomic, readonly) BOOL isPlaceholder;
 
 - (instancetype)initWithBaseURL:(NSString *)baseURL parameters:(NSDictionary *)parameters placeholder:(UIImage *)placeholder;
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse;
 - (void)getS3ImageDataForS3ImageWithCompletion:(void (^) (void))completion;
+
+- (void)setNeedsRefresh;
+- (void)refreshIfNeeded;
 
 //"X-Amz-Algorithm" = "AWS4-HMAC-SHA256";
 //"X-Amz-Credential" = "AKIAIZJEJH6F6OQL43XQ/20160114/us-east-1/s3/aws4_request";

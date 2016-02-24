@@ -123,11 +123,6 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
     }];
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
-
-    [self.sendButton removeObserver:self forKeyPath:@"enabled"];
-}
-
 #if STUBS_FLAG
 - (void)setupStubs {
 
@@ -969,7 +964,6 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
 - (void)messagesCollectionViewCellDidTapMessageBubble:(JSQMessagesCollectionViewCell *)cell {
 
-
     NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
 
     Message *message = [self conversation].messages[indexPath.item];
@@ -978,16 +972,37 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
         MessageImage *messageImage = (MessageImage *)message;
 
-        JSQPhotoMediaItem *photoMediaItem = (JSQPhotoMediaItem *)messageImage.media;
+        if (messageImage.s3Image.isPlaceholder) {
 
-        UIImage *image = photoMediaItem.image;
+            [self retryImageLoadForMessageImage:messageImage forIndexPath:indexPath];
+        } else {
 
-        LEOImagePreviewViewController* lightboxVC = [[LEOImagePreviewViewController alloc] initWithNoCropModeWithImage:image];
-        lightboxVC.feature = FeatureMessaging;
-        lightboxVC.showsBackButton = YES;
-
-        [self.navigationController pushViewController:lightboxVC animated:YES];
+            [self pushImagePreviewControllerWithMedia:messageImage.media];
+        }
     }
+}
+
+- (void)retryImageLoadForMessageImage:(MessageImage *)messageImage forIndexPath:(NSIndexPath *)indexPath {
+
+    [messageImage.s3Image setNeedsRefresh];
+    [messageImage.s3Image refreshIfNeeded];
+
+    messageImage.media = [[JSQPhotoMediaItem alloc] initWithImage:nil];
+
+    [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
+}
+
+- (void)pushImagePreviewControllerWithMedia:(id<JSQMessageMediaData>)media {
+
+    JSQPhotoMediaItem *photoMediaItem = (JSQPhotoMediaItem *)media;
+
+    UIImage *image = photoMediaItem.image;
+
+    LEOImagePreviewViewController* lightboxVC = [[LEOImagePreviewViewController alloc] initWithNoCropModeWithImage:image];
+    lightboxVC.feature = FeatureMessaging;
+    lightboxVC.showsBackButton = YES;
+
+    [self.navigationController pushViewController:lightboxVC animated:YES];
 }
 
 // unfortunately, these methods are requeired, even though we don't want to use them
@@ -1132,6 +1147,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
 - (void)dealloc {
 
+    [self.sendButton removeObserver:self forKeyPath:@"enabled"];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
