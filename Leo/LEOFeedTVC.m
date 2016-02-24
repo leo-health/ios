@@ -86,7 +86,7 @@
 @property (weak, nonatomic) IBOutlet UINavigationBar *navigationBar;
 
 @property (strong, nonatomic) NSIndexPath *cardInFocusIndexPath;
-
+@property (nonatomic) BOOL hasShownNewUserMessage;
 
 @end
 
@@ -295,9 +295,28 @@ static CGFloat const kFeedInsetTop = 30.0;
                 [MBProgressHUD hideHUDForView:self.view animated:NO];
 
                 [self activateCardInFocus];
+
+                [self promptUserToFillProfileIfNeeded];
+
             });
         }];
     });
+}
+
+- (void)promptUserToFillProfileIfNeeded {
+
+    if ([[SessionUser currentUser] numTimesLoggedIn] == 1 && !self.hasShownNewUserMessage) {
+
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Welcome to Leo at Flatiron Pediatrics!" message:@"Visit settings to add a photo of your child and invite another parent. Help us make your experience better by sending us a message with your feedback." preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:[UIAlertAction actionWithTitle:@"Go to Settings" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+
+            [self loadSettings];
+        }]];
+        [alert addAction:[UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleDefault handler:nil]];
+        [self presentViewController:alert animated:YES completion:nil];
+
+        self.hasShownNewUserMessage = YES;
+    }
 }
 
 - (NSIndexPath *)cardInFocusIndexPath {
