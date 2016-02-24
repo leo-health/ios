@@ -363,11 +363,13 @@ static NSString *const kPlaceholderValidationBirthDate = @"please add your child
     if (textField == self.firstNamePromptField.textField && !self.firstNamePromptField.valid) {
 
         self.firstNamePromptField.valid = [LEOValidationsHelper isValidFirstName:mutableText.string];
+        return [LEOValidationsHelper fieldText:textField.text shouldChangeTextInRange:range replacementText:string toValidateCharacterLimit:kCharacterLimitName];
     }
     
     if (textField == self.lastNamePromptField.textField && !self.lastNamePromptField.valid) {
         
         self.lastNamePromptField.valid = [LEOValidationsHelper isValidLastName:mutableText.string];
+        return [LEOValidationsHelper fieldText:textField.text shouldChangeTextInRange:range replacementText:string toValidateCharacterLimit:kCharacterLimitName];
     }
     
     return YES;

@@ -431,8 +431,6 @@ static NSString *const kKeySelectionVCDate = @"date";
                 weakself.card = appointmentCard;
                 [self.appointment book];
             }
-
-
         }];
     } else {
 
@@ -446,9 +444,6 @@ static NSString *const kKeySelectionVCDate = @"date";
                 weakself.card = appointmentCard;
                 [self.appointment book];
             }
-            
-
-
         }];
     }
 }

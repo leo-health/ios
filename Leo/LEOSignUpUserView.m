@@ -153,11 +153,13 @@ IB_DESIGNABLE
     if (textField == self.firstNamePromptField.textField && !self.firstNamePromptField.textField.valid) {
 
         self.firstNamePromptField.textField.valid = [LEOValidationsHelper isValidFirstName:mutableText.string];
+        return [LEOValidationsHelper fieldText:textField.text shouldChangeTextInRange:range replacementText:string toValidateCharacterLimit:kCharacterLimitName];
     }
 
     if (textField == self.lastNamePromptField.textField && !self.lastNamePromptField.textField.valid) {
 
         self.lastNamePromptField.textField.valid = [LEOValidationsHelper isValidLastName:mutableText.string];
+        return [LEOValidationsHelper fieldText:textField.text shouldChangeTextInRange:range replacementText:string toValidateCharacterLimit:kCharacterLimitName];
     }
 
     if (textField == self.phoneNumberPromptField.textField) {

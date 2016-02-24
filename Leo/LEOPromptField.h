@@ -20,4 +20,5 @@
 @property (nonatomic) BOOL tapGestureEnabled;
 @property (nonatomic) BOOL valid;
 
+
 @end

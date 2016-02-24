@@ -113,6 +113,7 @@ IB_DESIGNABLE
     
     if (textField == self.emailAddressPromptField.textField) {
         self.email = mutableText.string;
+        return [LEOValidationsHelper fieldText:textField.text shouldChangeTextInRange:range replacementText:string toValidateCharacterLimit:kCharacterLimitEmail];
     }
     
     return YES;

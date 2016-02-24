@@ -77,6 +77,7 @@
     if (textField == self.emailPromptField.textField && !self.emailPromptField.textField.valid) {
 
         self.emailPromptField.textField.valid = [LEOValidationsHelper isValidEmail:mutableText.string];
+        return [LEOValidationsHelper fieldText:textField.text shouldChangeTextInRange:range replacementText:string toValidateCharacterLimit:kCharacterLimitEmail];
     }
 
     if (textField == self.passwordPromptField.textField && !self.passwordPromptField.textField.valid) {

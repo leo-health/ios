@@ -133,16 +133,21 @@ IB_DESIGNABLE
     [mutableText replaceCharactersInRange:range withString:string];
     
     if (textField == self.firstNamePromptField.textField) {
+        
         self.firstName = mutableText.string;
+        return [LEOValidationsHelper fieldText:textField.text shouldChangeTextInRange:range replacementText:string toValidateCharacterLimit:kCharacterLimitName];
     }
     
     if (textField == self.lastNamePromptField.textField) {
         
         self.lastName = mutableText.string;
+        return [LEOValidationsHelper fieldText:textField.text shouldChangeTextInRange:range replacementText:string toValidateCharacterLimit:kCharacterLimitName];
     }
     
     if (textField == self.emailAddressPromptField.textField) {
+
         self.email = mutableText.string;
+        return [LEOValidationsHelper fieldText:textField.text shouldChangeTextInRange:range replacementText:string toValidateCharacterLimit:kCharacterLimitEmail];
     }
     
     return YES;

@@ -23,6 +23,7 @@
 #import "PrepAppointment.h"
 #import "LEOPromptView.h"
 #import "LEOValidatedFloatLabeledTextView.h" //Reason why I need to rebuild LEOPromptView / Field
+#import "LEOValidationsHelper.h"
 
 @interface LEOAppointmentView ()
 
@@ -376,16 +377,10 @@ IB_DESIGNABLE
 #pragma mark - <UITextViewDelegate>
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
 
-    /**
-     *  Ensures textview length does not exceed character limit imposed.
-     *
-     *  TODO: Remove magic numbers
-     */
-    if([[textView text] length] - range.length + text.length > 600){
-        return NO;
-    }
-
-    return YES;
+    return [LEOValidationsHelper fieldText:textView.text
+            shouldChangeTextInRange:range
+                    replacementText:text
+           toValidateCharacterLimit:kCharacterLimitAppointmentNotes];
 }
 
 

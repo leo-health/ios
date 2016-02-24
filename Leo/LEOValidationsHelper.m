@@ -192,5 +192,10 @@ typedef NS_ENUM(NSInteger, LEOValidationsErrorCode) {
     return ([date isKindOfClass:[NSDate class]] && date != nil) ? YES : NO;
 }
 
++ (BOOL)fieldText:(NSString *)originalText shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text toValidateCharacterLimit:(NSInteger)characterLimit {
+
+    return originalText.length - range.length + text.length < characterLimit;
+}
+
 
 @end
