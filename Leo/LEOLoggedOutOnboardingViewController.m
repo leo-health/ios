@@ -24,9 +24,9 @@ static NSString *const kSegueSignUp = @"SignUpSegue";
 
 typedef NS_ENUM(NSUInteger, OnboardingCellFeature) {
     OnboardingCellFeatureLogin,
-    OnboardingCellFeatureMessaging,
     OnboardingCellFeatureAppointments,
     OnboardingCellFeatureHealthRecord,
+    OnboardingCellFeatureMessaging,
     OnboardingCellFeatureForms,
     OnboardingCellFeatureSignUp,
     OnboardingCellFeatureCount
