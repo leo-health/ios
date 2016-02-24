@@ -15,6 +15,7 @@
 #import "LEODevice.h"
 #import <CrittercismSDK/Crittercism/Crittercism.h>
 #import "Configuration.h"
+#import "LEOConstants.h"
 
 #if STUBS_FLAG
 #import "LEOStubs.h"
@@ -72,13 +73,24 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(notificationReceived:)
-                                                 name:@"membership-changed"
+                                                 name:kNotificationMembershipChanged
                                                object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(notificationReceived:)
-                                                 name:@"token-invalidated"
+                                                 name:kNotificationTokenInvalidated
                                                object:nil];
+}
+
+- (void)removeObservers {
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotificationMembershipChanged object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotificationTokenInvalidated object:nil];
+}
+
+- (void)dealloc {
+
+    [self removeObservers];
 }
 
 - (void)notificationReceived:(NSNotification *)notification {

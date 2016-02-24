@@ -7,7 +7,6 @@
 //
 
 #import "LEOEnrollmentViewController.h"
-#import "UIScrollView+LEOScrollToVisible.h"
 #import "UIImage+Extensions.h"
 #import "LEOValidationsHelper.h"
 #import "Guardian.h"

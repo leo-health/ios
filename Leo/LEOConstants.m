@@ -314,6 +314,12 @@ NSString *const kURLPrivacyPolicy = @"https://gist.githubusercontent.com/nayan-l
 #pragma mark - Notifications
 NSString *const kNotificationDownloadedImageUpdated = @"DownloadedImage-Updated";
 NSString *const kNotificationImageChanged = @"Image-Changed";
+NSString *const kNotificationStatusChanged = @"Status-Changed";
+NSString *const kNotificationMembershipChanged = @"membership-changed";
+NSString *const kNotificationTokenInvalidated = @"token-invalidated";
+NSString *const kNotificationConversationAddedMessage = @"Conversation-AddedMessage";
+NSString *const kNotificationCardUpdated = @"Card-Updated";
+
 
 #pragma mark - Push Notifications
 NSString *const kPushNotificationParamDeepLink = @"deep_link_url";

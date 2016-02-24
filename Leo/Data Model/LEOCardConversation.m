@@ -57,7 +57,17 @@ static NSString *kActionSelectorCallUs = @"call";
 
 - (void)setupNotifications {
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusChanged) name:@"Status-Changed" object:self.associatedCardObject];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusChanged) name:kNotificationStatusChanged object:self.associatedCardObject];
+}
+
+- (void)removeObservers {
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotificationStatusChanged object:self.associatedCardObject];
+}
+
+- (void)dealloc {
+
+    [self removeObservers];
 }
 
 -(void)statusChanged {

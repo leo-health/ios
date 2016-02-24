@@ -70,6 +70,7 @@
 
 @property (strong, nonatomic) UIActivityIndicatorView *sendingIndicator;
 @property (strong, nonatomic) LEOImageCropViewControllerDataSource *cropDataSource;
+@property (strong, nonatomic) NSMutableArray *notificationObservers;
 
 @end
 
@@ -218,7 +219,31 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
 - (void)constructNotifications {
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationReceived:) name:@"Conversation-AddedMessage" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationReceived:) name:kNotificationConversationAddedMessage object:nil];
+}
+
+- (void)removeObservers {
+    
+    [self.sendButton removeObserver:self forKeyPath:@"enabled"];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotificationConversationAddedMessage object:nil];
+    
+    for (id observer in self.notificationObservers) {
+        [[NSNotificationCenter defaultCenter] removeObserver:observer];
+    }
+}
+
+- (NSMutableArray *)notificationObservers {
+
+    if (!_notificationObservers) {
+        _notificationObservers = [NSMutableArray new];
+    }
+
+    return _notificationObservers;
+}
+
+- (void)dealloc {
+
+    [self removeObservers];
 }
 
 - (void)setupRequiredMessagingProperties {
@@ -589,7 +614,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
     __weak typeof(self) weakSelf = self;
     
-    [[NSNotificationCenter defaultCenter] addObserverForName:kNotificationDownloadedImageUpdated object:message.sender.avatar queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull notification) {
+    id observer = [[NSNotificationCenter defaultCenter] addObserverForName:kNotificationDownloadedImageUpdated object:message.sender.avatar queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull notification) {
 
         typeof(self) strongSelf = weakSelf;
 
@@ -604,6 +629,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
         [strongSelf.collectionView.collectionViewLayout invalidateLayoutWithContext:[JSQMessagesCollectionViewFlowLayoutInvalidationContext context]];
         [strongSelf.collectionView reloadItemsAtIndexPaths:indexPathsForAvatar];
     }];
+    [self.notificationObservers addObject:observer];
 
     JSQMessagesAvatarImage *avatarImage = [self avatarForUser:message.sender];
 
@@ -1074,7 +1100,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
             //MARK: The following notifications technically have the same implementation but result from different events. For the time-being, I'd prefer we kept them separate to remind us that two different things are happening. However, if we don't eventually see a real difference between these, we may choose to combine their implementations.
 
             //Notification for downloading an image from the server
-            [[NSNotificationCenter defaultCenter] addObserverForName:kNotificationDownloadedImageUpdated object:messageImage.s3Image queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull notification) {
+            id observerDownload = [[NSNotificationCenter defaultCenter] addObserverForName:kNotificationDownloadedImageUpdated object:messageImage.s3Image queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull notification) {
 
                 JSQPhotoMediaItem *photoMediaItem = (JSQPhotoMediaItem *)message.media;
                 photoMediaItem.image = messageImage.s3Image.image;
@@ -1084,7 +1110,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
             }];
 
             //Notification for any local image update
-            [[NSNotificationCenter defaultCenter] addObserverForName:kNotificationImageChanged object:messageImage.s3Image queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull notification) {
+            id observerChanged = [[NSNotificationCenter defaultCenter] addObserverForName:kNotificationImageChanged object:messageImage.s3Image queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull notification) {
 
                 JSQPhotoMediaItem *photoMediaItem = (JSQPhotoMediaItem *)message.media;
                 photoMediaItem.image = messageImage.s3Image.image;
@@ -1092,6 +1118,8 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
                 NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
                 [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
             }];
+
+            [self.notificationObservers addObjectsFromArray:@[observerDownload, observerChanged]];
         }
     }
 }
@@ -1143,12 +1171,6 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
             }
         }
     }];
-}
-
-- (void)dealloc {
-
-    [self.sendButton removeObserver:self forKeyPath:@"enabled"];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 /**

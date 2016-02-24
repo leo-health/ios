@@ -341,7 +341,5 @@
     return [SessionUser authToken];;
 }
 
--(void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
+
 @end

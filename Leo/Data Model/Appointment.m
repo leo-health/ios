@@ -19,8 +19,6 @@
 
 @implementation Appointment
 
-
-
 -(instancetype)initWithObjectID:(nullable NSString *)objectID date:(nullable NSDate *)date appointmentType:(nullable AppointmentType *)appointmentType patient:(nullable Patient *)patient provider:(nullable Provider *)provider practiceID:(nullable NSString *)practiceID bookedByUser:(User *)bookedByUser note:(nullable NSString *)note status:(AppointmentStatus *)status {
 
     self = [super init];
@@ -153,11 +151,7 @@
     _status = status;
 
     //FIXME: Consider whether this will work given we replace the Appointment object regularly...
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"Status-Changed" object:self];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationStatusChanged object:self];
 }
 
--(void)dealloc {
-    //MARK: ZSD - Leave this in until debugging for de-allocated memory issue has been solved. If de-allocated memory issue isn't clear, then it has either been solved explicitly or implicitly and you may remove.
-    
-}
 @end

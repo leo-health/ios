@@ -148,6 +148,17 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 }
 
+- (void)removeObservers {
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+}
+
+- (void)dealloc {
+
+    [self removeObservers];
+}
+
 - (void)keyboardWillShow:(NSNotification *)notification {
     [self updateInsetsToShowKeyboard:YES notification:notification];
 }
@@ -162,12 +173,6 @@
     UIEdgeInsets insets = self.textView.contentInset;
     insets.bottom = showing ? CGRectGetHeight(keyboardRect) : 0;
     self.textView.contentInset = insets;
-}
-
-- (void)dealloc {
-
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }
 
 
