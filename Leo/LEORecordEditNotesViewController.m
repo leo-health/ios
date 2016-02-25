@@ -50,11 +50,11 @@
 
 - (void)setupNavigationBar {
 
-    [LEOStyleHelper styleNavigationBarForViewController:self forFeature:FeatureSettings withTitleText:self.patient.firstName dismissal:YES backButton:NO];
+    [LEOStyleHelper styleNavigationBarForViewController:self forFeature:FeatureSettings withTitleText:self.patient.firstName dismissal:NO backButton:NO];
     self.navigationItem.titleView.alpha = 1;
     
-    UIBarButtonItem *saveBBI = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleDone target:self action:@selector(saveBBIAction)];
-    self.navigationItem.leftBarButtonItem = saveBBI;
+    UIBarButtonItem *saveBBI = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(saveBBIAction)];
+    self.navigationItem.rightBarButtonItem = saveBBI;
 
 }
 
