@@ -119,6 +119,15 @@
             if (counter == providers.count) {
 
                 NSArray *dedupedSlots = [Slot slotsWithNoDuplicateTimesByRandomlyChoosingProviderFromSlots:allSlots];
+                
+                // test to verify ranomness is correct
+//                NSMutableDictionary *counts = [NSMutableDictionary new];
+//                for (Slot *slot in dedupedSlots) {
+//
+//                    NSString *provider = slot.providerID;
+//                    NSNumber *count = counts[provider];
+//                    counts[provider] = @([count integerValue] + 1);
+//                }
                 completionBlock(dedupedSlots, finalError);
             }
         }];
