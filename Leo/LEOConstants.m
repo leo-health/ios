@@ -209,8 +209,6 @@ NSString *const APIParamSlotDuration = @"duration";
 NSString *const APIParamStartDate = @"start_date";
 NSString *const APIParamEndDate = @"end_date";
 
-NSString *const kKeySelectionVCSlot = @"slot";
-
 #pragma mark - Insurer
 NSString *const APIParamInsurerID = @"insurer_id";
 NSString *const APIParamInsurers = @"insurers";
@@ -337,5 +335,9 @@ CGFloat const kImageCompressionFactor = 0.8;
 NSInteger const kCharacterLimitEmail = 50;
 NSInteger const kCharacterLimitName = 30;
 NSInteger const kCharacterLimitAppointmentNotes = 600;
+
+#pragma mark - LEOBasicSelectionViewController selection keys
+NSString *const kKeySelectionVCSlot = @"slot";
+
 
 @end

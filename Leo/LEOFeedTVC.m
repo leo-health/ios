@@ -10,7 +10,7 @@
 #import "LEOFeedTVC.h"
 #import "LEOConstants.h"
 #import <NSDate+DateTools.h>
-
+#import "LEOCachedDataStore.h"
 #import "ArrayDataSource.h"
 #import "LEOCard.h"
 #import "LEOCardConversation.h"
@@ -139,11 +139,16 @@ static CGFloat const kFeedInsetTop = 30.0;
 
         [self fetchFamilyWithCompletion:^{
 
-            [self fetchDataForCard:nil];
-        }];
 
-        // refresh cached practice
-        [[LEOHelperService new] getPracticesWithCompletion:nil];
+            // refresh cached practice
+            if (![[LEOCachedDataStore sharedInstance].lastCachedDateForPractice isSameDay:[NSDate date]] || ![LEOCachedDataStore sharedInstance].practice) {
+                [[LEOHelperService new] getPracticesWithCompletion:^(NSArray *practices, NSError *error) {
+                    [self fetchDataForCard:nil];
+                }];
+            } else {
+                [self fetchDataForCard:nil];
+            }
+        }];
     }];
 }
 

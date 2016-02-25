@@ -15,6 +15,8 @@
 @property (strong, nonatomic) Practice *practice;
 @property (strong, nonatomic) Family *family;
 
+@property (strong, nonatomic) NSDate *lastCachedDateForPractice;
+
 + (instancetype)sharedInstance;
 - (void)reset;
 

@@ -21,6 +21,12 @@
     return _sharedInstance;
 }
 
+- (void)setPractice:(Practice *)practice {
+
+    _practice = practice;
+    self.lastCachedDateForPractice = [NSDate date];
+}
+
 - (void)reset {
 
     self.practice = nil;
