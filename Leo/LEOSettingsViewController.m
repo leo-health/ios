@@ -23,6 +23,7 @@
 
 #import "Patient.h"
 #import "LEOUserService.h"
+#import "Configuration.h"
 
 
 typedef NS_ENUM(NSUInteger, SettingsSection) {
@@ -474,14 +475,14 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
     if ([segue.identifier isEqualToString:kSegueTermsAndConditions]) {
         
         LEOWebViewController *webVC = (LEOWebViewController *)segue.destinationViewController;
-        webVC.urlString = kURLTermsAndConditions;
+        webVC.urlString = [NSString stringWithFormat:@"%@%@", [Configuration providerBaseURL], kURLTermsOfService];
         webVC.titleString = @"Terms & Conditions";
         webVC.feature = FeatureSettings;
     }
     
     if ([segue.identifier isEqualToString:kSeguePrivacyPolicy]) {
         LEOWebViewController *webVC = (LEOWebViewController *)segue.destinationViewController;
-        webVC.urlString = kURLPrivacyPolicy;
+        webVC.urlString = [NSString stringWithFormat:@"%@%@", [Configuration providerBaseURL], kURLPrivacyPolicy];
         webVC.titleString = @"Privacy Policy";
         webVC.feature = FeatureSettings;
     }

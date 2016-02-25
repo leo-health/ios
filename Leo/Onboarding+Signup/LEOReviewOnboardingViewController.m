@@ -7,7 +7,7 @@
 //
 
 #import "LEOReviewOnboardingViewController.h"
-
+#import "Configuration.h"
 #import "LEOUserService.h"
 
 #import "SessionUser.h"
@@ -227,19 +227,17 @@ static NSString *const kCopyHeaderReviewOnboarding = @"Finally, please confirm y
     if ([segue.identifier isEqualToString:kSegueTermsAndConditions]) {
 
         LEOWebViewController *webVC = (LEOWebViewController *)segue.destinationViewController;
-        webVC.urlString = kURLTermsAndConditions;
+        webVC.urlString = [NSString stringWithFormat:@"%@%@", [Configuration providerBaseURL], kURLTermsOfService];
         webVC.titleString = @"Terms & Conditions";
         webVC.feature = FeatureOnboarding;
-
     }
 
     if ([segue.identifier isEqualToString:kSeguePrivacyPolicy]) {
 
         LEOWebViewController *webVC = (LEOWebViewController *)segue.destinationViewController;
-        webVC.urlString = kURLPrivacyPolicy;
+        webVC.urlString = [NSString stringWithFormat:@"%@%@", [Configuration providerBaseURL], kURLPrivacyPolicy];
         webVC.titleString = @"Privacy Policy";
         webVC.feature = FeatureOnboarding;
-
     }
 }
 

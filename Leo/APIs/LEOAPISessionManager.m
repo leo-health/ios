@@ -18,10 +18,8 @@
     static LEOAPISessionManager *_sharedClient = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        
-        NSString *urlString = [NSString stringWithFormat:@"%@/%@",[Configuration APIEndpointWithProtocol],[Configuration APIVersion]];
 
-        NSURL *baseURL = [NSURL URLWithString:urlString];
+        NSURL *baseURL = [NSURL URLWithString:[Configuration APIBaseURL]];
         
         _sharedClient = [[LEOAPISessionManager alloc] initWithBaseURL:baseURL
                                          sessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];

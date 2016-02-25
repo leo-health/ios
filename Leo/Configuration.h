@@ -11,6 +11,8 @@
 
 @interface Configuration : NSObject
 
++ (NSString *)APIBaseURL;
++ (NSString *)providerBaseURL;
 + (NSString *)APIEndpoint;
 + (NSString *)APIVersion;
 + (NSString *)APIEndpointWithProtocol;

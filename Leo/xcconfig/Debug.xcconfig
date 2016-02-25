@@ -19,6 +19,7 @@ GCC_PREPROCESSOR_DEFINITIONS = DEBUG=1 $(inherited) STUBS_FLAG=0 AUTOLOGIN_FLAG=
 MTL_ENABLE_DEBUG_INFO = YES
 
 API_URL =   api-dev.leohealth.com
+PROVIDER_URL = provider-dev.leohealth.com
 API_VERSION = api/v1
 API_PROTOCOL = https
 S3_URL = elasticbeanstalk-us-east-1-435800161732.s3.amazonaws.com
