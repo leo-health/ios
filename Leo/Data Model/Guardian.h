@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSDictionary *)dictionaryFromUser:(Guardian *)guardian;
 
-- (void)countLogin;
+- (void)incrementLoginCounter;
 - (void)saveToUserDefaults;
 + (void)removeFromUserDefaults;
 

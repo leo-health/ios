@@ -32,8 +32,8 @@
 
             [SessionUser setCurrentUserWithJSONDictionary:rawResults[APIParamData]];
             [SessionUser setAuthToken:rawResults[APIParamData][APIParamSession][APIParamToken]];
-            [[SessionUser currentUser] countLogin];
-            [[SessionUser currentUser] countLogin];
+            [[SessionUser currentUser] incrementLoginCounter];
+            [[SessionUser currentUser] incrementLoginCounter];
             
             Guardian *guardian = [[Guardian alloc] initWithJSONDictionary:rawResults[APIParamData][APIParamUser]];
             
@@ -197,7 +197,7 @@
             
             [SessionUser setAuthToken:rawResults[APIParamData][APIParamSession][APIParamToken]];
             [SessionUser setCurrentUserWithJSONDictionary:rawResults[APIParamData]];
-            [[SessionUser currentUser] countLogin];
+            [[SessionUser currentUser] incrementLoginCounter];
             
             completionBlock ? completionBlock([SessionUser currentUser], nil) : nil;
         } else {

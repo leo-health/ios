@@ -51,7 +51,7 @@ static NSString *const kUserDefaultsKeyLoginCounts = @"loginCounter";
     return nil;
 }
 
-- (void)countLogin {
+- (void)incrementLoginCounter {
 
     NSMutableDictionary *loginCounter = [[[NSUserDefaults standardUserDefaults] objectForKey:kUserDefaultsKeyLoginCounts] mutableCopy];
     if (!loginCounter) {
@@ -77,7 +77,7 @@ static NSString *const kUserDefaultsKeyLoginCounts = @"loginCounter";
     NSDictionary *guardianDictionary = [[NSUserDefaults standardUserDefaults] objectForKey:NSStringFromClass([self class])];
     Guardian *guardian = [[Guardian alloc] initWithJSONDictionary:guardianDictionary];
 
-    [guardian countLogin];
+    [guardian incrementLoginCounter];
     return guardian;
 }
 
