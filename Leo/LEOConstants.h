@@ -464,5 +464,10 @@ extern NSString *const kDeepLinkPathFeed; // @"feed";
 #pragma mark - Images
 extern CGFloat const kImageCompressionFactor; // 0.8
 
+#pragma mark - Text Field Character Limits
+extern NSInteger const kCharacterLimitEmail; // 50;
+extern NSInteger const kCharacterLimitName; // 30;
+extern NSInteger const kCharacterLimitAppointmentNotes; // 600;
+
 
 @end

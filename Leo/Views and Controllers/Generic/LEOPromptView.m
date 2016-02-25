@@ -139,8 +139,6 @@ IB_DESIGNABLE
     [self.accessoryImageView setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
     [self.textView setContentHuggingPriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisHorizontal];
 
-    
-
     [self addConstraints:@[constraintVerticalAlignmentPromptImageView,constraintTrailingPromptImageView]];
 }
 
@@ -160,5 +158,6 @@ IB_DESIGNABLE
 -(CGSize)intrinsicContentSize {
     return CGSizeMake(UIViewNoIntrinsicMetric, self.textView.bounds.size.height);
 }
+
 
 @end

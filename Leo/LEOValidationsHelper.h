@@ -22,5 +22,7 @@
 + (BOOL)isValidInsurer:(NSString *)candidate;
 + (BOOL)isValidPassword:(NSString *)candidate;
 + (BOOL)isValidPassword:(NSString *)candidate matching:(NSString *)otherCandidate error:(NSError * __autoreleasing *)error;
++ (BOOL)fieldText:(NSString *)originalText shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text toValidateCharacterLimit:(NSInteger)characterLimit;
+
 
 @end

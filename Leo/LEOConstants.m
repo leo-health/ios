@@ -331,5 +331,9 @@ NSString *const kDeepLinkPathFeed = @"feed";
 #pragma mark - Images
 CGFloat const kImageCompressionFactor = 0.8;
 
+#pragma mark - Text Field Character Limits
+NSInteger const kCharacterLimitEmail = 50;
+NSInteger const kCharacterLimitName = 30;
+NSInteger const kCharacterLimitAppointmentNotes = 600;
 
 @end
