@@ -18,6 +18,7 @@
 #import "LEOPHRTableViewCell.h"
 #import "LEOIntrinsicSizeTableView.h"
 #import <MBProgressHUD.h>
+#import "NSObject+TableViewAccurateEstimatedCellHeight.h"
 
 // controllers
 #import "LEORecordEditNotesViewController.h"
@@ -216,8 +217,8 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
     [_editNoteButton setTitle:kEditButtonText forState:UIControlStateNormal];
     _editNoteButton.titleLabel.font = [UIFont leo_buttonLabelsAndTimeStampsFont];
     [_editNoteButton setTitleColor:[UIColor leo_orangeRed] forState:UIControlStateNormal];
-
     [_editNoteButton addTarget:self action:@selector(editNoteTouchedUpInside) forControlEvents:UIControlEventTouchUpInside];
+    _editNoteButton.hidden = section != PHRTableViewSectionNotes;
 
     sectionHeaderView.contentView.backgroundColor = [UIColor clearColor];
 

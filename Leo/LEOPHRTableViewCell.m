@@ -23,16 +23,20 @@ static NSString * const kCopyEmptyNotesField = @"Add some notes for the doctor a
 
     self.recordTitleLabel.font = [UIFont leo_standardFont];
     self.recordTitleLabel.textColor = [UIColor leo_grayForTitlesAndHeadings];
+    self.recordTitleLabel.numberOfLines = 0;
 
     self.recordSideLabel.font = [UIFont leo_standardFont];
     self.recordSideLabel.textColor = [UIColor leo_grayForTitlesAndHeadings];
+    self.recordSideLabel.numberOfLines = 0;
 
     self.recordMainDetailLabel.font = [UIFont leo_standardFont];
     self.recordMainDetailLabel.textColor = [UIColor leo_grayStandard];
     self.recordMainDetailLabel.numberOfLines = 0;
+    self.recordMainDetailLabel.numberOfLines = 0;
 
     self.recordTitleDetailLabel.font = [UIFont leo_standardFont];
     self.recordTitleDetailLabel.textColor = [UIColor leo_grayStandard];
+    self.recordTitleDetailLabel.numberOfLines = 0;
 
     self.selectionStyle = UITableViewCellSelectionStyleNone;
 }
