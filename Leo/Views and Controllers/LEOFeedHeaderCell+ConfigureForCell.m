@@ -20,17 +20,17 @@
     NSString *firstNameOfCurrentUser = [SessionUser currentUser].firstName;
 
     self.salutationLabel.text = [NSString stringWithFormat:@"Hey %@,", firstNameOfCurrentUser];
-    self.messageTextView.text =message;
+    self.messageTextView.text = message;
 
     [self formatCell];
 }
 
 - (void)formatCell {
 
-    self.salutationLabel.font = [UIFont leo_menuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
+    self.salutationLabel.font = [UIFont leo_collapsedCardTitlesFont];
     self.salutationLabel.textColor = [UIColor leo_white];
 
-    self.messageTextView.font = [UIFont leo_feedHeaderMessage];
+    self.messageTextView.font = [UIFont leo_standardFont];
     self.messageTextView.backgroundColor = [UIColor clearColor];
     self.messageTextView.textColor = [UIColor leo_white];
 }

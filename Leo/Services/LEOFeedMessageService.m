@@ -23,6 +23,8 @@
 
         if (!error) {
             feedString = rawResults[@"data"][@"text"];
+        } else {
+            feedString = @"Welcome to Leo. Say hello. Book an appointment. Review your child's health record.";
         }
 
         if (completionBlock) {
@@ -37,5 +39,6 @@
 - (LEOS3JSONSessionManager *)sessionManager {
 
     return [LEOS3JSONSessionManager sharedClient];
+
 }
 @end

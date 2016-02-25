@@ -128,6 +128,8 @@ static CGFloat const kFeedInsetTop = 20.0;
     [super viewWillAppear:animated];
 
     [self setupNavigationBar];
+
+    self.headerMessage = @"Loading...";
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -207,8 +209,6 @@ static CGFloat const kFeedInsetTop = 20.0;
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
 
-    [MBProgressHUD showHUDAddedTo:cell.contentView animated:YES];
-
     LEOFeedMessageService *feedMessageService = [LEOFeedMessageService new];
 
     [feedMessageService getFeedMessageForDate:[NSDate date] withCompletion:^(NSString *feedMessage, NSError *error) {
@@ -219,8 +219,6 @@ static CGFloat const kFeedInsetTop = 20.0;
 
             NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
             [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-
-            [MBProgressHUD hideHUDForView:cell.contentView animated:NO];
         });
     }];
 }
@@ -267,10 +265,11 @@ static CGFloat const kFeedInsetTop = 20.0;
                           }];
 }
 
-
 - (void)fetchFamilyWithCompletion:( void (^) (void))completionBlock {
 
     if (!self.family) {
+
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 
         LEOHelperService *helperService = [LEOHelperService new];
         [helperService getFamilyWithCompletion:^(Family *family, NSError *error) {
@@ -280,6 +279,7 @@ static CGFloat const kFeedInsetTop = 20.0;
                 completionBlock();
             }
         }];
+
     } else {
         completionBlock();
     }
@@ -310,8 +310,6 @@ static CGFloat const kFeedInsetTop = 20.0;
 - (void)fetchDataForCard:(id<LEOCardProtocol>)card {
 
     dispatch_queue_t queue = dispatch_queue_create("loadingQueue", NULL);
-
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 
     dispatch_async(queue, ^{
 
@@ -691,7 +689,7 @@ static CGFloat const kFeedInsetTop = 20.0;
 
     switch (indexPath.section) {
         case TableViewSectionHeader:
-            return 170;
+//            return 190;
 
         case TableViewSectionBody:
             return [self leo_tableView:tableView estimatedHeightForRowAtIndexPath:indexPath];
@@ -702,6 +700,7 @@ static CGFloat const kFeedInsetTop = 20.0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+
 
     switch (indexPath.section) {
         case TableViewSectionHeader:

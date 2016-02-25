@@ -17,6 +17,7 @@
 
         _sharedClient = [[LEOS3JSONSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
         _sharedClient.responseSerializer = [AFJSONResponseSerializer serializer];
+        _sharedClient.requestSerializer.cachePolicy = NSURLRequestReloadIgnoringCacheData;
     });
     return _sharedClient;
 }

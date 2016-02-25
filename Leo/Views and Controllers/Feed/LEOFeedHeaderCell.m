@@ -18,8 +18,7 @@
     self.messageTextView.editable = NO;
     self.messageTextView.dataDetectorTypes = UIDataDetectorTypeLink;
     self.messageTextView.textAlignment = NSTextAlignmentCenter;
-    self.messageTextView.text = @"WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW";
-
+    self.messageTextView.scrollEnabled = NO;
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     self.layer.shadowOffset = CGSizeMake(0,1);
     self.layer.shadowOpacity = 0.3;
