@@ -6,7 +6,7 @@
 //  Copyright © 2016 Leo Health. All rights reserved.
 //
 
-@class Family, LEOIntrinsicSizeTableView;
+@class Family, LEOIntrinsicSizeTableView, LEOReviewOnboardingViewController;
 
 #import <UIKit/UIKit.h>
 
@@ -21,6 +21,7 @@ typedef NS_ENUM(NSUInteger, TableViewSection) {
 @interface LEOReviewOnboardingView : UIView <UITableViewDataSource>
 
 @property (weak, nonatomic) IBOutlet LEOIntrinsicSizeTableView *tableView;
+@property (weak, nonatomic) LEOReviewOnboardingViewController *controller;
 @property (strong, nonatomic) Family *family;
 
 @end
