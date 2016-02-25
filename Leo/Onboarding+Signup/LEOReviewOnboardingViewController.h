@@ -15,4 +15,7 @@
 
 @property (strong, nonatomic) Family *family;
 
+- (void)tapOnTermsOfServiceLink:(UITapGestureRecognizer *)tapGesture;
+- (void)tapOnPrivacyPolicyLink:(UITapGestureRecognizer *)tapGesture;
+
 @end

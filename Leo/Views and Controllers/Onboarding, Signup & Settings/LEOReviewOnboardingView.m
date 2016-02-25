@@ -12,6 +12,7 @@
 #import "LEOReviewOnboardingView.h"
 #import "LEOReviewPatientCell+ConfigureForCell.h"
 #import "LEOReviewUserCell+ConfigureForCell.h"
+#import "LEOReviewOnboardingViewController.h"
 
 #import "UIColor+LeoColors.h"
 #import "UIFont+LeoFonts.h"
@@ -236,6 +237,16 @@
     }
     
     return agreeView;
+}
+
+- (void)tapOnTermsOfServiceLink:(UITapGestureRecognizer *)tapGesture {
+
+    [self.controller tapOnTermsOfServiceLink:tapGesture];
+}
+
+- (void)tapOnPrivacyPolicyLink:(UITapGestureRecognizer *)tapGesture {
+
+    [self.controller tapOnPrivacyPolicyLink:tapGesture];
 }
 
 

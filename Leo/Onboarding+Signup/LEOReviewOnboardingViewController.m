@@ -116,6 +116,7 @@ static NSString *const kCopyHeaderReviewOnboarding = @"Finally, please confirm y
         _reviewOnboardingView = [self leo_loadViewFromNibForClass:[LEOReviewOnboardingView class]];
         _reviewOnboardingView.family = self.family;
         _reviewOnboardingView.tableView.delegate = self;
+        _reviewOnboardingView.controller = self;
     }
 
     return _reviewOnboardingView;
