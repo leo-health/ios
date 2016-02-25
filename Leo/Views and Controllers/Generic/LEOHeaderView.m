@@ -9,7 +9,6 @@
 #import "LEOHeaderView.h"
 #import "LEOStyleHelper.h"
 #import "LEOProgressDotsView.h"
-#import "UIColor+LeoColors.h"
 
 @interface LEOHeaderView ()
 

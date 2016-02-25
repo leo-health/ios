@@ -12,9 +12,7 @@
 #import "LEOCardAppointment.h"
 
 #import "LEOStyleHelper.h"
-#import "UIColor+LeoColors.h"
 #import "UIImage+Extensions.h"
-#import "UIFont+LeoFonts.h"
 
 #import "LEOCalendarViewController.h"
 #import "LEOBasicSelectionViewController.h"
