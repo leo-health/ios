@@ -365,7 +365,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
     Message *message = [MessageText messageWithObjectID:nil text:text sender:[SessionUser guardian] escalatedTo:nil escalatedBy:nil status:nil statusCode:MessageStatusCodeUndefined escalatedAt:nil];
 
-    [self sendMessage:message];
+    [self startSendingMessage:message];
 }
 
 - (UIActivityIndicatorView *)sendingIndicator {
@@ -508,7 +508,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
     [self sendImageMessage:imagePreviewController.image];
 }
 
-- (void)sendMessage:(Message *)message {
+- (void)startSendingMessage:(Message *)message {
 
     self.sendButton.hidden = YES;
 
@@ -537,7 +537,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
     MessageImage *message = [MessageImage messageWithObjectID:nil media:photoItem sender:[SessionUser guardian] escalatedTo:nil escalatedBy:nil status:nil statusCode:MessageStatusCodeUndefined createdAt:[NSDate date] escalatedAt:nil leoMedia:nil];
 
-    [self sendMessage:message];
+    [self startSendingMessage:message];
 
     [self.navigationController popViewControllerAnimated:YES];
 }
