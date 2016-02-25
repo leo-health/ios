@@ -8,26 +8,19 @@
 
 #import <Foundation/Foundation.h>
 #import "LEOGradientHelper.h"
+#import "LEOHeaderView.h"
 
-@interface LEOGradientView : UIView
+@interface LEOGradientView : LEOHeaderView
 
 @property (nonatomic, readonly) CGRect gradientLayerBounds;
 
 NS_ASSUME_NONNULL_BEGIN
 
-// gradient animation parameters
 @property (strong, nonatomic) NSArray *colors;
 @property (nonatomic) CGPoint initialStartPoint;
 @property (nonatomic) CGPoint initialEndPoint;
 @property (nonatomic) CGPoint finalStartPoint;
 @property (nonatomic) CGPoint finalEndPoint;
-
-@property (nonatomic) CGFloat currentTransitionPercentage;
-
-// title label
-@property (strong, nonatomic) NSString *titleText;
-@property (strong, nonatomic) UIColor *titleTextColor;
-@property (strong, nonatomic) UIFont *titleTextFont;
 
 -(instancetype)initWithColors:(NSArray *)colors initialStartPoint:(CGPoint)initialStartPoint initialEndPoint:(CGPoint)initialEndPoint finalStartPoint:(CGPoint)finalStartPoint finalEndPoint:(CGPoint)finalEndPoint titleText:(NSString*)titleText;
 

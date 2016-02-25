@@ -9,7 +9,6 @@
 #import "LEOHeaderView.h"
 #import "LEOStyleHelper.h"
 #import "LEOProgressDotsView.h"
-#import "UIColor+LeoColors.h"
 
 @interface LEOHeaderView ()
 
@@ -22,6 +21,8 @@
 
 static CGFloat const kLeftInsetTitle = 30.0;
 static CGFloat const kRightInsetTitle = 60.0;
+static CGFloat const kBottomInsetTitle = 0.0;
+static CGFloat const kTopInsetTitle = 20.0;
 static CGFloat const kDefaultHeaderViewHeight = 207.0;
 
 
@@ -84,10 +85,16 @@ static CGFloat const kDefaultHeaderViewHeight = 207.0;
         self.titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
 
         NSDictionary *viewDictionary = NSDictionaryOfVariableBindings(_titleLabel);
-        NSDictionary *metricsDictionary = @{@"leftTitleInset" : @(kLeftInsetTitle), @"rightTitleInset" : @(kRightInsetTitle)};
+        
+        NSDictionary *metricsDictionary = @{
+                                            @"leftTitleInset" : self.leftTitleInset,
+                                            @"rightTitleInset" : self.rightTitleInset,
+                                            @"topTitleInset" : self.topTitleInset,
+                                            @"bottomTitleInset" : self.bottomTitleInset,
+                                            };
 
         NSArray *horizontalLayoutConstraintsForFullTitle = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(leftTitleInset)-[_titleLabel]-(rightTitleInset)-|" options:0 metrics:metricsDictionary views:viewDictionary];
-        NSArray *verticalLayoutConstraintsForFullTitle = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_titleLabel]|" options:0 metrics:metricsDictionary views:viewDictionary];
+        NSArray *verticalLayoutConstraintsForFullTitle = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_titleLabel]-(bottomTitleInset)-|" options:0 metrics:metricsDictionary views:viewDictionary];
 
         [self addConstraints:horizontalLayoutConstraintsForFullTitle];
         [self addConstraints:verticalLayoutConstraintsForFullTitle];
@@ -95,7 +102,48 @@ static CGFloat const kDefaultHeaderViewHeight = 207.0;
         self.constraintsAlreadyUpdated = YES;
     }
 
+    if ([self hasAmbiguousLayout]) {
+        NSLayoutConstraint *topConstraint = [NSLayoutConstraint constraintWithItem:self.titleLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1 constant:[self.topTitleInset floatValue]];
+        [self addConstraint:topConstraint];
+    }
+
     [super updateConstraints];
+}
+
+- (NSNumber *)rightTitleInset {
+
+    if (!_rightTitleInset) {
+        return @(kRightInsetTitle);
+    }
+
+    return _rightTitleInset;
+}
+
+- (NSNumber *)leftTitleInset {
+
+    if (!_leftTitleInset) {
+        return @(kLeftInsetTitle);
+    }
+
+    return _rightTitleInset;
+}
+
+- (NSNumber *)bottomTitleInset {
+
+    if (!_bottomTitleInset) {
+        return @(kBottomInsetTitle);
+    }
+
+    return _bottomTitleInset;
+}
+
+- (NSNumber *)topTitleInset {
+
+    if (!_topTitleInset) {
+        return @(kTopInsetTitle);
+    }
+
+    return _topTitleInset;
 }
 
 - (CGSize)intrinsicContentSize {
@@ -106,7 +154,7 @@ static CGFloat const kDefaultHeaderViewHeight = 207.0;
         intrinsicSize = CGSizeMake(UIViewNoIntrinsicMetric, [self.intrinsicHeight floatValue]);
     }
     else {
-        intrinsicSize = CGSizeMake(UIViewNoIntrinsicMetric, kDefaultHeaderViewHeight);
+        intrinsicSize = CGSizeMake(UIViewNoIntrinsicMetric, UIViewNoIntrinsicMetric);
     }
     return intrinsicSize;
 }

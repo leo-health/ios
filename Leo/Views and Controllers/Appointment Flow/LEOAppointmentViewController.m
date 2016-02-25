@@ -12,9 +12,7 @@
 #import "LEOCardAppointment.h"
 
 #import "LEOStyleHelper.h"
-#import "UIColor+LeoColors.h"
 #import "UIImage+Extensions.h"
-#import "UIFont+LeoFonts.h"
 
 #import "LEOCalendarViewController.h"
 #import "LEOBasicSelectionViewController.h"
@@ -55,8 +53,8 @@
 
 @implementation LEOAppointmentViewController
 
-static CGFloat const kHeightSubmitButton = 44;
-static CGFloat const kHeightStickyHeader = 150;
+static CGFloat const kRightTitleInsetAppointments = 100;
+static CGFloat const kBottomTitleInsetAppointments = 20;
 
 static NSString *const kCopySubmitAppointment = @"CONFIRM VISIT";
 
@@ -202,14 +200,15 @@ static NSString *const kKeySelectionVCDate = @"date";
 
     if (!_gradientView) {
 
-        LEOGradientView *strongView = [LEOGradientView new];
+        LEOGradientView *strongView = [[LEOGradientView alloc] initWithTitleText:self.card.title];
         _gradientView = strongView;
         UIColor *startColor = [LEOStyleHelper gradientStartColorForFeature:self.feature];
         UIColor *endColor = [LEOStyleHelper gradientEndColorForFeature:self.feature];
         _gradientView.colors = @[(id)startColor.CGColor, (id)endColor.CGColor];
-        _gradientView.titleText = self.card.title;
-        _gradientView.titleTextFont = [UIFont leo_expandedCardHeaderFont];
-        _gradientView.titleTextColor = [UIColor leo_white];
+        [LEOStyleHelper styleExpandedTitleLabel:_gradientView.titleLabel feature:self.feature];
+        _gradientView.intrinsicHeight = @(kStickyHeaderHeight);
+        _gradientView.rightTitleInset = @(kRightTitleInsetAppointments);
+        _gradientView.bottomTitleInset = @(kBottomTitleInsetAppointments);
     }
 
     return _gradientView;
