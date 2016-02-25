@@ -139,8 +139,6 @@ IB_DESIGNABLE
     [self.accessoryImageView setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
     [self.textView setContentHuggingPriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisHorizontal];
 
-    
-
     [self addConstraints:@[constraintVerticalAlignmentPromptImageView,constraintTrailingPromptImageView]];
 }
 
