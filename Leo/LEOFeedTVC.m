@@ -94,6 +94,8 @@ typedef NS_ENUM(NSUInteger, TableViewSection) {
 @property (strong, nonatomic) LEOFeedNavigationHeaderView *feedNavigatorHeaderView;
 @property (strong, nonatomic) NSString *headerMessage;
 
+@property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
+
 @end
 
 @implementation LEOFeedTVC
@@ -130,6 +132,7 @@ static CGFloat const kFeedInsetTop = 20.0;
     [self setupNavigationBar];
 
     self.headerMessage = @"Loading...";
+    [self.tableView reloadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -157,6 +160,17 @@ static CGFloat const kFeedInsetTop = 20.0;
     }];
 
     [self fetchFeedHeader];
+}
+
+-(UIActivityIndicatorView *)activityIndicator {
+
+    if (!_activityIndicator) {
+
+        _activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        _activityIndicator.hidesWhenStopped = YES;
+    }
+
+    return _activityIndicator;
 }
 
 - (void)setupNavigationBar {
@@ -206,7 +220,7 @@ static CGFloat const kFeedInsetTop = 20.0;
 
 - (void)fetchFeedHeader {
 
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:TableViewSectionHeader];
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
 
     LEOFeedMessageService *feedMessageService = [LEOFeedMessageService new];
@@ -217,7 +231,7 @@ static CGFloat const kFeedInsetTop = 20.0;
 
         dispatch_async(dispatch_get_main_queue() , ^{
 
-            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:TableViewSectionHeader];
             [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
         });
     }];
@@ -269,7 +283,9 @@ static CGFloat const kFeedInsetTop = 20.0;
 
     if (!self.family) {
 
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        });
 
         LEOHelperService *helperService = [LEOHelperService new];
         [helperService getFamilyWithCompletion:^(Family *family, NSError *error) {
@@ -372,7 +388,7 @@ static CGFloat const kFeedInsetTop = 20.0;
             if ([card.associatedCardObject respondsToSelector:@selector(objectID)]) {
                 NSString *objectIDString = (NSString *)[card.associatedCardObject objectID];
                 if ([objectIDString isEqual:objectID]) {
-                    indexPath = [NSIndexPath indexPathForItem:i inSection:0];
+                    indexPath = [NSIndexPath indexPathForItem:i inSection:TableViewSectionBody];
                 }
             }
         }
@@ -476,7 +492,23 @@ static CGFloat const kFeedInsetTop = 20.0;
 
                 case AppointmentStatusCodeConfirmingCancelling: {
 
+                    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[((LEOCard *)card).priority integerValue] inSection:TableViewSectionBody];
+                    LEOFeedCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [cell addSubview:self.activityIndicator];
+
+                        CGRect frame = CGRectMake(CGRectGetMaxX(cell.frame) - 20, CGRectGetMinY(cell.frame) + 20, 40, 40);
+                        self.activityIndicator.frame = frame;
+                        [self.activityIndicator startAnimating];
+                    });
+
                     [self removeCard:card fromDatabaseWithCompletion:^(NSDictionary *response, NSError *error) {
+
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [self.activityIndicator stopAnimating];
+                            [self.activityIndicator removeFromSuperview];
+                        });
 
                         if (!error) {
 
@@ -608,7 +640,7 @@ static CGFloat const kFeedInsetTop = 20.0;
     [self removeCard:card];
 
     NSArray *indexPaths = @[[NSIndexPath indexPathForRow:cardRow
-                                               inSection:0]];
+                                               inSection:TableViewSectionBody]];
 
     [self.tableView deleteRowsAtIndexPaths:indexPaths
                           withRowAnimation:UITableViewRowAnimationFade];
@@ -689,7 +721,7 @@ static CGFloat const kFeedInsetTop = 20.0;
 
     switch (indexPath.section) {
         case TableViewSectionHeader:
-//            return 190;
+            //            return 190;
 
         case TableViewSectionBody:
             return [self leo_tableView:tableView estimatedHeightForRowAtIndexPath:indexPath];
@@ -821,12 +853,12 @@ static CGFloat const kFeedInsetTop = 20.0;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-
+    
     switch (section) {
-
+            
         case TableViewSectionBody:
             return 44;
-
+            
         case TableViewSectionHeader:
         default:
             return CGFLOAT_MIN;
