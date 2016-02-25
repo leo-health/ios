@@ -343,6 +343,7 @@
 
     if (feature != FeatureOnboarding) {
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+        [[UIApplication sharedApplication] setStatusBarHidden:NO];
     }
 
 
