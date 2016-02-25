@@ -41,28 +41,38 @@
     return [self initWithStartDateTime:startDateTime duration:duration providerID:providerID practiceID:practiceID];
 }
 
-+ (NSDictionary *)slotsRequestDictionaryFromAppointment:(Appointment *)appointment {
-    
-    NSDate *now = [[NSDate date] dateByAddingMinutes:30];
-    NSDate *twelveWeeksFromTheBeginningOfThisWeek = [[[NSDate date] leo_beginningOfWeekForStartOfWeek:1] dateByAddingDays:84];
++ (NSArray *)slotsWithNoDuplicateTimesByRandomlyChoosingProviderFromSlots:(NSArray *)slots {
 
+    if (slots.count < 2) {
+        return [slots copy];
+    }
 
-    // TODO: BUG: found a crash here due to a nil object
-    /**
-     *  
-     Logs:
-     2015-12-28 15:36:12.530 Leo[5985:287519] No slots for this date to be shown.
-     2015-12-28 15:36:13.043 Leo[5985:287519] Reachability: Reachable via WiFi
-     2015-12-28 15:36:19.532 Leo[5985:288257] *** Terminating app due to uncaught exception 'NSInvalidArgumentException', reason: '*** -[__NSPlaceholderDictionary initWithObjects:forKeys:count:]: attempt to insert nil object from objects[0]'
-     */
-    NSDictionary *slotRequestParameters = @{
-                                 APIParamAppointmentTypeID : appointment.appointmentType.objectID,
-                                 APIParamUserProviderID : appointment.provider.objectID,
-                                 APIParamStartDate : [NSDate leo_stringifiedShortDate:now],
-                                 APIParamEndDate: [NSDate leo_stringifiedShortDate:twelveWeeksFromTheBeginningOfThisWeek]
-                                 };
+    NSArray *sortedSlots = [slots sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"startDateTime" ascending:YES]]];
 
-    return slotRequestParameters;
+    NSMutableArray *dedupedSlots = [NSMutableArray new];
+    NSMutableArray *slotsWithSameTime = [NSMutableArray new];
+
+    for (Slot *slot in sortedSlots) {
+
+        Slot *lastSlot = [slotsWithSameTime lastObject];
+
+        if (!lastSlot || [lastSlot.startDateTime isEqualToDate:slot.startDateTime]) {
+
+            [slotsWithSameTime addObject:slot];
+
+        } else {
+
+            // choose a slot randomly from the slots with the same times
+            NSUInteger i = arc4random_uniform((unsigned int)slotsWithSameTime.count);
+            [dedupedSlots addObject:slotsWithSameTime[i]];
+            slotsWithSameTime = [NSMutableArray arrayWithObject:slot];
+        }
+    }
+
+    NSUInteger i = arc4random_uniform((unsigned int)slotsWithSameTime.count);
+    [dedupedSlots addObject:slotsWithSameTime[i]];
+
+    return [dedupedSlots copy];
 }
 
 + (Slot *)slotFromExistingAppointment:(Appointment *)appointment {
@@ -88,7 +98,7 @@
 
 - (NSString *) description {
     
-    return [NSString stringWithFormat:@"<Slot: %p> | Date / Time: %@", self, self.startDateTime];
+    return [NSString stringWithFormat:@"<Slot: %p> | ProviderID: %@ | Date / Time: %@", self, self.providerID, self.startDateTime];
 }
 
 @end

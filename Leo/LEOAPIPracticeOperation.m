@@ -17,10 +17,8 @@
     LEOHelperService *helperService = [[LEOHelperService alloc] init];
     
     [helperService getPracticeWithID:@"0" withCompletion:^(Practice *practice, NSError *error) {
-        
-        NSPredicate *providerFilter = [NSPredicate predicateWithFormat:@"self isKindOfClass:%@",[Provider class]];
-        
-        id data = [practice.staff filteredArrayUsingPredicate:providerFilter];
+
+        id data = practice.providers;
         
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             self.requestBlock(data, error);

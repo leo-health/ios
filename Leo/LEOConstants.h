@@ -469,5 +469,8 @@ extern NSInteger const kCharacterLimitEmail; // 50;
 extern NSInteger const kCharacterLimitName; // 30;
 extern NSInteger const kCharacterLimitAppointmentNotes; // 600;
 
+#pragma mark - LEOBasicSelectionViewController selection keys
+extern NSString *const kKeySelectionVCSlot; // @"slot";
+
 
 @end

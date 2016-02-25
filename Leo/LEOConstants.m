@@ -336,4 +336,8 @@ NSInteger const kCharacterLimitEmail = 50;
 NSInteger const kCharacterLimitName = 30;
 NSInteger const kCharacterLimitAppointmentNotes = 600;
 
+#pragma mark - LEOBasicSelectionViewController selection keys
+NSString *const kKeySelectionVCSlot = @"slot";
+
+
 @end

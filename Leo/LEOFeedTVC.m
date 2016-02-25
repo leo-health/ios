@@ -10,7 +10,7 @@
 #import "LEOFeedTVC.h"
 #import "LEOConstants.h"
 #import <NSDate+DateTools.h>
-
+#import "LEOCachedDataStore.h"
 #import "ArrayDataSource.h"
 #import "LEOCard.h"
 #import "LEOCardConversation.h"
@@ -139,7 +139,15 @@ static CGFloat const kFeedInsetTop = 30.0;
 
         [self fetchFamilyWithCompletion:^{
 
-            [self fetchDataForCard:nil];
+
+            // refresh cached practice
+            if (![[LEOCachedDataStore sharedInstance].lastCachedDateForPractice isSameDay:[NSDate date]] || ![LEOCachedDataStore sharedInstance].practice) {
+                [[LEOHelperService new] getPracticesWithCompletion:^(NSArray *practices, NSError *error) {
+                    [self fetchDataForCard:nil];
+                }];
+            } else {
+                [self fetchDataForCard:nil];
+            }
         }];
     }];
 }
@@ -165,15 +173,12 @@ static CGFloat const kFeedInsetTop = 30.0;
     [phrButton addTarget:self action:@selector(phrTouchedUpInside) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *phrBBI = [[UIBarButtonItem alloc] initWithCustomView:phrButton];
 
-
     UIImage *settingsImage = [UIImage imageNamed:@"Icon-Settings"];
     UIButton *settingsButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [settingsButton setImage:settingsImage forState:UIControlStateNormal];
     settingsButton.frame = (CGRect){.origin = CGPointZero, .size = imgSize};
     [settingsButton addTarget:self action:@selector(loadSettings) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *settingsBBI = [[UIBarButtonItem alloc] initWithCustomView:settingsButton];
-
-
 
     self.navigationBar.topItem.title = @"";
     UINavigationItem *item = [UINavigationItem new];

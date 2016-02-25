@@ -30,6 +30,8 @@
 #import "AppointmentType.h"
 #import "Appointment.h"
 #import "Patient.h"
+#import "Slot.h"
+#import "Practice.h"
 #import "AppointmentStatus.h"
 
 #import <MBProgressHUD.h>
@@ -37,6 +39,7 @@
 #import "LEOGradientView.h"
 #import "LEOAppointmentService.h"
 #import "UIButton+Extensions.h"
+#import "LEOCachedDataStore.h"
 
 @interface LEOAppointmentViewController ()
 
@@ -414,6 +417,23 @@ static NSString *const kKeySelectionVCDate = @"date";
 
     else if ([key isEqualToString:kKeySelectionVCDate]) {
         self.appointmentView.date = item;
+    }
+
+    else if ([key isEqualToString:kKeySelectionVCSlot]) {
+
+        Slot *slot = (Slot *)item;
+        NSArray *providers = [LEOCachedDataStore sharedInstance].practice.providers;
+        Provider *provider;
+        for (Provider *p in providers) {
+
+            if ([p.objectID isEqualToString:slot.providerID]) {
+
+                provider = p;
+                break;
+            }
+        }
+        self.appointmentView.provider = provider;
+        self.appointmentView.date = slot.startDateTime;
     }
 
     self.submissionButton.enabled = self.appointment.isValidForBooking;

@@ -98,7 +98,7 @@
 }
 
 - (BOOL)isValidForScheduling {
-    return self.appointmentType && self.patient && self.provider;
+    return self.appointmentType && self.patient;
 }
 
 - (NSString *)description {

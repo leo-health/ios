@@ -14,6 +14,7 @@
 #import "Practice.h"
 #import "InsurancePlan.h"
 #import "Insurer.h"
+#import "LEOCachedDataStore.h"
 
 @implementation LEOHelperService
 
@@ -44,10 +45,9 @@
         NSDictionary *dataDictionary = rawResults[APIParamData];
         
         Family *family = [[Family alloc] initWithJSONDictionary:dataDictionary]; //FIXME: LeoConstants
-        
-        //        NSString *filePath = [[self documentsDirectoryPath] stringByAppendingPathComponent:@"family"];
-        //        [NSKeyedArchiver archiveRootObject:family toFile:filePath];
-        
+
+        [LEOCachedDataStore sharedInstance].family = family;
+
         completionBlock(family, error);
     }];
     
@@ -64,7 +64,9 @@
         
         NSDictionary *dataArray = rawResults[APIParamData][@"practices"][0];
         Practice *practice = [[Practice alloc] initWithJSONDictionary:dataArray];
-        
+
+        [LEOCachedDataStore sharedInstance].practice = practice;
+
         //FIXME: Safety here
         completionBlock(practice, error);
     }];
@@ -84,8 +86,13 @@
             Practice *practice = [[Practice alloc] initWithJSONDictionary:practiceDictionary];
             [practices addObject:practice];
         }
-        //FIXME: Safety here
-        completionBlock(practices, error);
+
+        // TODO: Later - update to allow multiple practices
+        [LEOCachedDataStore sharedInstance].practice = [practices firstObject];
+
+        if (completionBlock) {
+            completionBlock(practices, error);
+        }
     }];
     
     return task;
