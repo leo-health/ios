@@ -56,10 +56,6 @@
     }
     
     [self setRootViewControllerWithStoryboardName:storyboardIdentifier];
-    
-    SessionUser *user = [[SessionUser alloc] initFromUserDefaults];
-    [SessionUser setCurrentUser:user];
-    
     [self.window makeKeyAndVisible];
     
     return YES;

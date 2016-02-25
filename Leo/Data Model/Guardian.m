@@ -17,6 +17,7 @@
 static NSString *const kMembershipTypeUnpaid = @"User";
 static NSString *const kMembershipTypeMember = @"Member";
 static NSString *const kMembershipTypeIncomplete = @"Incomplete"; //FIXME: This is only because the API doesn't yet support this detail.
+static NSString *const kUserDefaultsKeyLoginCounts = @"loginCounter";
 
 - (instancetype)initWithObjectID:(nullable NSString *)objectID familyID:(NSString *)familyID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email avatar:(nullable LEOS3Image *)avatar phoneNumber:(NSString *)phoneNumber insurancePlan:(InsurancePlan *)insurancePlan primary:(BOOL)primary membershipType:(MembershipType)membershipType {
 
@@ -50,10 +51,24 @@ static NSString *const kMembershipTypeIncomplete = @"Incomplete"; //FIXME: This 
     return nil;
 }
 
+- (void)incrementLoginCounter {
+
+    NSMutableDictionary *loginCounter = [[[NSUserDefaults standardUserDefaults] objectForKey:kUserDefaultsKeyLoginCounts] mutableCopy];
+    if (!loginCounter) {
+        loginCounter = [NSMutableDictionary new];
+    }
+    NSInteger count = [loginCounter[self.objectID] integerValue];
+    count++;
+    loginCounter[self.objectID] = @(count);
+
+    self.numTimesLoggedIn = count;
+
+    [[NSUserDefaults standardUserDefaults] setObject:loginCounter forKey:kUserDefaultsKeyLoginCounts];
+}
+
 - (void)saveToUserDefaults {
 
     NSDictionary *guardianDictionary = [Guardian plistFromUser:self];
-
     [[NSUserDefaults standardUserDefaults] setObject:guardianDictionary forKey:NSStringFromClass([self class])];
 }
 
@@ -62,6 +77,7 @@ static NSString *const kMembershipTypeIncomplete = @"Incomplete"; //FIXME: This 
     NSDictionary *guardianDictionary = [[NSUserDefaults standardUserDefaults] objectForKey:NSStringFromClass([self class])];
     Guardian *guardian = [[Guardian alloc] initWithJSONDictionary:guardianDictionary];
 
+    [guardian incrementLoginCounter];
     return guardian;
 }
 
