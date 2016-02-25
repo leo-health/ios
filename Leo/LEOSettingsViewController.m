@@ -475,7 +475,7 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
     if ([segue.identifier isEqualToString:kSegueTermsAndConditions]) {
         
         LEOWebViewController *webVC = (LEOWebViewController *)segue.destinationViewController;
-        webVC.urlString = [NSString stringWithFormat:@"%@%@", [Configuration providerBaseURL], kURLTermsAndConditions];
+        webVC.urlString = [NSString stringWithFormat:@"%@%@", [Configuration providerBaseURL], kURLTermsOfService];
         webVC.titleString = @"Terms & Conditions";
         webVC.feature = FeatureSettings;
     }
