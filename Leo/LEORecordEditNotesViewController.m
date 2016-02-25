@@ -10,6 +10,7 @@
 #import "LEOStyleHelper.h"
 #import "JVFloatLabeledTextView.h"
 #import "UIColor+LeoColors.h"
+#import "UIFont+LeoFonts.h"
 #import "UIImage+Extensions.h"
 #import "LEOHealthRecordService.h"
 #import <MBProgressHUD.h>
@@ -52,9 +53,14 @@
     [LEOStyleHelper styleNavigationBarForViewController:self forFeature:FeatureSettings withTitleText:self.patient.firstName dismissal:NO backButton:NO];
     self.navigationItem.titleView.alpha = 1;
     
-    UIBarButtonItem *saveBBI = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleDone target:self action:@selector(saveBBIAction)];
+    UIBarButtonItem *saveBBI = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(saveBBIAction)];
     self.navigationItem.rightBarButtonItem = saveBBI;
 
+}
+
+- (void)dismiss {
+
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (UIView *)navigationBar {
@@ -78,6 +84,7 @@
         _textView = strongView;
 
         _textView.text = self.note.text;
+        _textView.font = [UIFont leo_standardFont];
         _textView.placeholder = @"Please enter some notes about your child";
         _textView.floatingLabelActiveTextColor = [UIColor leo_grayForPlaceholdersAndLines];
     }
