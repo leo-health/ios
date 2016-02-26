@@ -16,7 +16,9 @@
 @implementation LEOOneButtonSecondaryOnlyCell (ConfigureForCell)
 
 - (void)configureForCard:(id<LEOCardProtocol>)card {
-    
+
+    self.contentView.backgroundColor = [UIColor leo_grayForMessageBubbles];
+
     self.iconImageView.image = [card icon];
     self.titleLabel.text = [card title];
     
