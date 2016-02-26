@@ -323,6 +323,8 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
         }
             
         case SettingsSectionLogout: {
+
+            [Crittercism leaveBreadcrumb:[NSString stringWithFormat:@"%s user requested logout", __PRETTY_FUNCTION__]];
             
             LEOUserService *userService = [[LEOUserService alloc] init];
             

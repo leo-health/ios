@@ -67,6 +67,8 @@
 }
 
 - (void)updateEmailTapped {
+
+    [Crittercism leaveBreadcrumb:[NSString stringWithFormat:@"%s", __PRETTY_FUNCTION__]];
     
     if ([self.updateEmailView isValidEmail]) {
         

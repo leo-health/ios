@@ -123,6 +123,8 @@ static NSString * const kCopyHeaderInviteParent = @"Invite another parent to Leo
 
 - (IBAction)sendInvitationsTapped {
 
+    [Crittercism leaveBreadcrumb:[NSString stringWithFormat:@"%s", __PRETTY_FUNCTION__]];
+
     [self.view endEditing:YES];
     if ([self.inviteView isValidInvite]) {
 
@@ -167,6 +169,8 @@ static NSString * const kCopyHeaderInviteParent = @"Invite another parent to Leo
 }
 
 - (IBAction)skipTouchUpInside:(id)sender {
+
+    [Crittercism leaveBreadcrumb:[NSString stringWithFormat:@"%s", __PRETTY_FUNCTION__]];
 
     [self.view endEditing:YES];
     [self performSegueWithIdentifier:kSegueContinue sender:self];
