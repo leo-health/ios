@@ -22,6 +22,7 @@ API_URL =   api-dev.leohealth.com
 PROVIDER_URL = provider-dev.leohealth.com
 API_VERSION = api/v1
 API_PROTOCOL = https
-S3_URL = elasticbeanstalk-us-east-1-435800161732.s3.amazonaws.com
+CONTENT_URL = leo-content.s3-website-us-east-1.amazonaws.com
 SELF_SIGNED_CERTIFICATE = *.leohealth.com
-
+CRITTERCISM_APP_ID = 56b8fe2913306f1000698f56
+PUSHER_KEY = 57ab52a00a037401d7d6

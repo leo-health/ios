@@ -17,9 +17,9 @@ GCC_SYMBOLS_PRIVATE_EXTERN = NO
 GCC_PREPROCESSOR_DEFINITIONS = DEBUG=1 $(inherited) STUBS_FLAG=0 AUTOLOGIN_FLAG=0
 MTL_ENABLE_DEBUG_INFO = YES
 
-//Not shared necessarily
 API_URL = localhost:3000
 PROVIDER_URL = localhost:8888
 API_VERSION = api/v1
 API_PROTOCOL = http
-//SELF_SIGNED_CERTIFICATE = *.leoforkids.com
+CONTENT_URL = leo-content.s3-website-us-east-1.amazonaws.com
+PUSHER_KEY = 218006d766a6d76e8672
