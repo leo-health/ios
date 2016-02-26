@@ -141,12 +141,6 @@ static CGFloat const kFeedInsetTop = 20.0;
     [self.tableView reloadData];
 }
 
--(void)setGrayView:(UIView *)grayView {
-
-    _grayView = grayView;
-    _grayView.backgroundColor = [UIColor leo_grayForMessageBubbles];
-}
-
 - (void)viewDidAppear:(BOOL)animated {
 
     [super viewDidAppear:animated];
@@ -156,7 +150,6 @@ static CGFloat const kFeedInsetTop = 20.0;
         // TODO: Update message of header cell for when offline.
 
     } withOnlineBlock:^{
-
         [self fetchData];
     }];
 
@@ -165,9 +158,6 @@ static CGFloat const kFeedInsetTop = 20.0;
 
 
 #pragma mark - Accessors
-
-
-
 
 - (UIActivityIndicatorView *)activityIndicator {
 
@@ -178,6 +168,12 @@ static CGFloat const kFeedInsetTop = 20.0;
     }
 
     return _activityIndicator;
+}
+
+-(void)setGrayView:(UIView *)grayView {
+
+    _grayView = grayView;
+    _grayView.backgroundColor = [UIColor leo_grayForMessageBubbles];
 }
 
 - (void)setupNavigationBar {
@@ -430,13 +426,6 @@ static CGFloat const kFeedInsetTop = 20.0;
     _tableView.rowHeight = UITableViewAutomaticDimension;
     _tableView.backgroundColor = [UIColor clearColor];
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-
-//    UIEdgeInsets insets = self.tableView.contentInset;
-//    insets.top += kFeedInsetTop;
-//    _tableView.contentInset = insets;
-//
-////    [_tableView setNeedsLayout];
-//    [_tableView layoutIfNeeded];
 
     [_tableView registerNib:[LEOTwoButtonPrimaryOnlyCell nib]
          forCellReuseIdentifier:CellIdentifierLEOCardTwoButtonPrimaryOnly];
