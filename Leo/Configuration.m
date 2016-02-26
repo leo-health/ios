@@ -98,7 +98,7 @@ static NSString *const ConfigurationCrittercismAppID = @"CrittercismAppID";
 }
 
 
-+ (NSString *)ContentURL {
++ (NSString *)contentURL {
     
     Configuration *sharedConfiguration = [Configuration sharedConfiguration];
     

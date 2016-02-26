@@ -10,13 +10,14 @@
 #import "LEOS3JSONSessionManager.h"
 #import "NSDate+Extensions.h"
 #import "NSDictionary+Additions.h"
+#import "Configuration.h"
 
 @implementation LEOFeedMessageService
 
 - (NSURLSessionTask *)getFeedMessageForDate:(NSDate *)date withCompletion:(void (^)(NSString *feedMessage, NSError *error))completionBlock {
 
     NSString *dateString = [NSDate leo_stringifiedDashedShortDateYearMonthDay:date];
-    NSString *endpoint = [NSString stringWithFormat:@"http://leo-content.s3-website-us-east-1.amazonaws.com/%@.json",dateString];
+    NSString *endpoint = [NSString stringWithFormat:@"http://%@/%@.json",[Configuration contentURL],dateString];
 
     NSURLSessionTask *task = [[self sessionManager] unauthenticatedGETRequestForJSONDictionaryFromS3WithURLString:endpoint params:nil completion:^(NSDictionary *rawResults, NSError *error) {
 
