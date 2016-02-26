@@ -51,8 +51,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="1200"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="O1n-3N-giV" userLabel="Gray View">
+                                <rect key="frame" x="0.0" y="220" width="600" height="980"/>
+                            </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="170" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="wWt-pD-EnJ">
-                                <rect key="frame" x="0.0" y="20" width="600" height="1180"/>
+                                <rect key="frame" x="0.0" y="64" width="600" height="1136"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="LEOOneButtonPrimaryOnlyCell" rowHeight="170" id="QFM-Vu-CBg" customClass="LEOOneButtonPrimaryOnlyCell">
@@ -118,12 +121,16 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="wWt-pD-EnJ" secondAttribute="trailing" id="DZF-KH-osd"/>
+                            <constraint firstAttribute="trailing" secondItem="O1n-3N-giV" secondAttribute="trailing" id="HpX-Ne-vIK"/>
                             <constraint firstItem="SF1-FR-mdH" firstAttribute="leading" secondItem="brE-LS-Hll" secondAttribute="leading" id="Voi-KT-s91"/>
+                            <constraint firstItem="O1n-3N-giV" firstAttribute="leading" secondItem="brE-LS-Hll" secondAttribute="leading" id="i9l-0Y-k9S"/>
                             <constraint firstItem="SF1-FR-mdH" firstAttribute="top" secondItem="nea-hp-c8G" secondAttribute="bottom" id="iPw-ar-Xfe"/>
                             <constraint firstItem="wWt-pD-EnJ" firstAttribute="leading" secondItem="brE-LS-Hll" secondAttribute="leading" id="mCX-sd-upI"/>
+                            <constraint firstItem="8NS-IF-Jb1" firstAttribute="top" secondItem="O1n-3N-giV" secondAttribute="bottom" id="n1h-qr-btZ"/>
                             <constraint firstAttribute="trailing" secondItem="SF1-FR-mdH" secondAttribute="trailing" id="rlb-aY-RRg"/>
-                            <constraint firstItem="wWt-pD-EnJ" firstAttribute="top" secondItem="nea-hp-c8G" secondAttribute="bottom" id="uML-7E-8Px"/>
+                            <constraint firstItem="wWt-pD-EnJ" firstAttribute="top" secondItem="nea-hp-c8G" secondAttribute="bottom" constant="44" id="uML-7E-8Px"/>
                             <constraint firstItem="8NS-IF-Jb1" firstAttribute="top" secondItem="wWt-pD-EnJ" secondAttribute="bottom" id="v8J-bS-MxC"/>
+                            <constraint firstItem="O1n-3N-giV" firstAttribute="top" secondItem="nea-hp-c8G" secondAttribute="bottom" constant="200" id="ypH-cD-hcT"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Cr4-HG-UCp"/>
@@ -131,6 +138,7 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="600" height="1200"/>
                     <connections>
+                        <outlet property="grayView" destination="O1n-3N-giV" id="eID-OD-dfm"/>
                         <outlet property="navigationBar" destination="SF1-FR-mdH" id="JAW-lL-ZIg"/>
                         <outlet property="tableView" destination="wWt-pD-EnJ" id="r5b-fO-60w"/>
                     </connections>

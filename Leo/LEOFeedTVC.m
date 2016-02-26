@@ -93,6 +93,7 @@ typedef NS_ENUM(NSUInteger, TableViewSection) {
 @property (strong, nonatomic) NSString *headerMessage;
 
 @property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
+@property (weak, nonatomic) IBOutlet UIView *grayView;
 
 @end
 
@@ -108,7 +109,9 @@ static NSString *const kCellIdentifierLEOHeaderCell = @"LEOFeedHeaderCell";
 
 static CGFloat const kFeedInsetTop = 20.0;
 
-#pragma mark - View Controller Lifecycle and VCL Helper Methods
+
+#pragma mark - View Controller Lifecycle
+
 - (void)viewDidLoad {
 
     [super viewDidLoad];
@@ -116,8 +119,10 @@ static CGFloat const kFeedInsetTop = 20.0;
     self.view.tintColor = [UIColor leo_white];
     self.view.backgroundColor = [UIColor leo_orangeRed];
 
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+
     [self setupNotifications];
-    [self setupTableView];
     [self setNeedsStatusBarAppearanceUpdate];
 
     [self pushNewMessageToConversation:[self conversation].associatedCardObject];
@@ -136,6 +141,12 @@ static CGFloat const kFeedInsetTop = 20.0;
     [self.tableView reloadData];
 }
 
+-(void)setGrayView:(UIView *)grayView {
+
+    _grayView = grayView;
+    _grayView.backgroundColor = [UIColor leo_grayForMessageBubbles];
+}
+
 - (void)viewDidAppear:(BOOL)animated {
 
     [super viewDidAppear:animated];
@@ -152,7 +163,13 @@ static CGFloat const kFeedInsetTop = 20.0;
     [self fetchData];
 }
 
--(UIActivityIndicatorView *)activityIndicator {
+
+#pragma mark - Accessors
+
+
+
+
+- (UIActivityIndicatorView *)activityIndicator {
 
     if (!_activityIndicator) {
 
@@ -199,6 +216,9 @@ static CGFloat const kFeedInsetTop = 20.0;
     self.navigationBar.items = @[item];
 }
 
+
+#pragma mark - Actions
+    
 - (void)phrTouchedUpInside {
 
     LEOPHRViewController *phrViewController = [[LEOPHRViewController alloc] initWithPatients:self.family.patients];
@@ -403,38 +423,40 @@ static CGFloat const kFeedInsetTop = 20.0;
     [cell setUnreadState:YES animated:YES];
 }
 
-- (void)setupTableView {
+-(void)setTableView:(UITableView *)tableView {
 
-    self.tableView.dataSource = self;
-    self.tableView.delegate = self;
+    _tableView = tableView;
 
-    self.tableView.rowHeight = UITableViewAutomaticDimension;
-    self.tableView.backgroundColor = [UIColor leo_grayForMessageBubbles];
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    _tableView.rowHeight = UITableViewAutomaticDimension;
+    _tableView.backgroundColor = [UIColor clearColor];
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 
-    UIEdgeInsets insets = self.tableView.contentInset;
-    insets.top += kFeedInsetTop;
-    self.tableView.contentInset = insets;
+//    UIEdgeInsets insets = self.tableView.contentInset;
+//    insets.top += kFeedInsetTop;
+//    _tableView.contentInset = insets;
+//
+////    [_tableView setNeedsLayout];
+//    [_tableView layoutIfNeeded];
 
-    [self.tableView registerNib:[LEOTwoButtonPrimaryOnlyCell nib]
+    [_tableView registerNib:[LEOTwoButtonPrimaryOnlyCell nib]
          forCellReuseIdentifier:CellIdentifierLEOCardTwoButtonPrimaryOnly];
 
-    [self.tableView registerNib:[LEOOneButtonPrimaryOnlyCell nib]
+    [_tableView registerNib:[LEOOneButtonPrimaryOnlyCell nib]
          forCellReuseIdentifier:CellIdentifierLEOCardOneButtonPrimaryOnly];
 
-    [self.tableView registerNib:[LEOTwoButtonSecondaryOnlyCell nib]
+    [_tableView registerNib:[LEOTwoButtonSecondaryOnlyCell nib]
          forCellReuseIdentifier:CellIdentifierLEOCardTwoButtonSecondaryOnly];
 
-    [self.tableView registerNib:[LEOOneButtonSecondaryOnlyCell nib]
+    [_tableView registerNib:[LEOOneButtonSecondaryOnlyCell nib]
          forCellReuseIdentifier:CellIdentifierLEOCardOneButtonSecondaryOnly];
 
-    [self.tableView registerNib:[LEOTwoButtonPrimaryAndSecondaryCell nib]
+    [_tableView registerNib:[LEOTwoButtonPrimaryAndSecondaryCell nib]
          forCellReuseIdentifier:CellIdentifierLEOCardTwoButtonPrimaryAndSecondary];
 
-    [self.tableView registerNib:[LEOOneButtonPrimaryAndSecondaryCell nib]
+    [_tableView registerNib:[LEOOneButtonPrimaryAndSecondaryCell nib]
          forCellReuseIdentifier:CellIdentifierLEOCardOneButtonPrimaryAndSecondary];
 
-    [self.tableView registerNib:[LEOFeedHeaderCell nib]
+    [_tableView registerNib:[LEOFeedHeaderCell nib]
          forCellReuseIdentifier:kCellIdentifierLEOHeaderCell];
 }
 
