@@ -173,4 +173,20 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (NSMutableArray *)notificationObservers {
+
+    if (!_notificationObservers) {
+        _notificationObservers = [NSMutableArray new];
+    }
+    return _notificationObservers;
+}
+
+- (void)dealloc {
+
+    for (id observer in self.notificationObservers) {
+        [[NSNotificationCenter defaultCenter] removeObserver:observer];
+    }
+}
+
+
 @end
