@@ -10,8 +10,8 @@
 
 @protocol LEONavigatorDelegate <NSObject>
 
-- (void)tappedBookAppointment;
-- (void)tappedMessageUs;
+- (void)bookAppointmentTouchedUpInside;
+- (void)messageUsTouchedUpInside;
 
 @end
 

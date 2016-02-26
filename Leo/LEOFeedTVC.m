@@ -77,8 +77,6 @@ typedef NS_ENUM(NSUInteger, TableViewSection) {
 
 @interface LEOFeedTVC ()
 
-@property (strong, nonatomic) LEOAppointmentService *appointmentService;
-
 @property (nonatomic, strong) ArrayDataSource *cardsArrayDataSource;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) LEOTransitioningDelegate *transitionDelegate;
@@ -220,9 +218,6 @@ static CGFloat const kFeedInsetTop = 20.0;
 
 - (void)fetchFeedHeader {
 
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:TableViewSectionHeader];
-    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-
     LEOFeedMessageService *feedMessageService = [LEOFeedMessageService new];
 
     [feedMessageService getFeedMessageForDate:[NSDate date] withCompletion:^(NSString *feedMessage, NSError *error) {
@@ -283,9 +278,7 @@ static CGFloat const kFeedInsetTop = 20.0;
 
     if (!self.family) {
 
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        });
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 
         LEOHelperService *helperService = [LEOHelperService new];
         [helperService getFamilyWithCompletion:^(Family *family, NSError *error) {
@@ -293,6 +286,8 @@ static CGFloat const kFeedInsetTop = 20.0;
             if (!error) {
                 self.family = family;
                 completionBlock();
+            } else {
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
             }
         }];
 
@@ -496,7 +491,7 @@ static CGFloat const kFeedInsetTop = 20.0;
                     LEOFeedCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
 
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        [cell addSubview:self.activityIndicator];
+                        [cell.contentView addSubview:self.activityIndicator];
 
                         CGRect frame = CGRectMake(CGRectGetMaxX(cell.frame) - 20, CGRectGetMinY(cell.frame) + 20, 40, 40);
                         self.activityIndicator.frame = frame;
@@ -624,7 +619,7 @@ static CGFloat const kFeedInsetTop = 20.0;
 
     //TODO: Include the progress hud while waiting for deletion.
 
-    [self.appointmentService cancelAppointment:card.associatedCardObject
+    [[LEOAppointmentService new] cancelAppointment:card.associatedCardObject
                                 withCompletion:^(NSDictionary * response, NSError * error) {
 
                                     if (completionBlock) {
@@ -718,17 +713,7 @@ static CGFloat const kFeedInsetTop = 20.0;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
-
-    switch (indexPath.section) {
-        case TableViewSectionHeader:
-            //            return 190;
-
-        case TableViewSectionBody:
-            return [self leo_tableView:tableView estimatedHeightForRowAtIndexPath:indexPath];
-
-        default:
-            return 0;
-    }
+    return [self leo_tableView:tableView estimatedHeightForRowAtIndexPath:indexPath];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -748,8 +733,7 @@ static CGFloat const kFeedInsetTop = 20.0;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForHeaderRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    LEOFeedHeaderCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifierLEOHeaderCell
-                                                              forIndexPath:indexPath];;
+    LEOFeedHeaderCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifierLEOHeaderCell forIndexPath:indexPath];
 
     [cell configureForCurrentUserWithMessage:self.headerMessage];
 
@@ -824,9 +808,6 @@ static CGFloat const kFeedInsetTop = 20.0;
     }
 }
 
--(BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
-    return NO;
-}
 - (LEOFeedNavigationHeaderView *)feedNavigatorHeaderView {
 
     if (!_feedNavigatorHeaderView) {
@@ -841,12 +822,12 @@ static CGFloat const kFeedInsetTop = 20.0;
     return _feedNavigatorHeaderView;
 }
 
-- (void)tappedBookAppointment {
+- (void)bookAppointmentTouchedUpInside {
 
     [self beginSchedulingNewAppointment];
 }
 
-- (void)tappedMessageUs {
+- (void)messageUsTouchedUpInside {
 
     LEOCardConversation *conversationCard = [self findConversationCard];
     [self loadChattingViewWithCard:conversationCard];
@@ -864,16 +845,6 @@ static CGFloat const kFeedInsetTop = 20.0;
             return CGFLOAT_MIN;
     }
 }
-
--(LEOAppointmentService *)appointmentService {
-    
-    if (!_appointmentService) {
-        _appointmentService = [LEOAppointmentService new];
-    }
-    
-    return _appointmentService;
-}
-
 
 - (LEOCardConversation *)findConversationCard {
     

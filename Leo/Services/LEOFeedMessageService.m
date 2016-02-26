@@ -9,6 +9,7 @@
 #import "LEOFeedMessageService.h"
 #import "LEOS3JSONSessionManager.h"
 #import "NSDate+Extensions.h"
+#import "NSDictionary+Additions.h"
 
 @implementation LEOFeedMessageService
 
@@ -22,7 +23,7 @@
         NSString *feedString;
 
         if (!error) {
-            feedString = rawResults[@"data"][@"text"];
+            feedString = [[rawResults leo_itemForKey:@"data"] leo_itemForKey:@"text"];
         } else {
             feedString = @"Welcome to Leo. Say hello. Book an appointment. Review your child's health record.";
         }

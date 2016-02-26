@@ -21,6 +21,9 @@
 
 @implementation LEOFeedNavigationHeaderView
 
+static NSInteger const kInset = 8;
+static NSInteger const kButtonHeight = 44;
+
 #pragma mark - Accessors
 
 - (UIButton *)bookAppointmentButton {
@@ -64,22 +67,33 @@
 }
 
 
-
 #pragma mark - Actions
 
 - (void)bookAppointmentTouchedUpInside {
-    [self.delegate tappedBookAppointment];
+
+    if ([self.delegate respondsToSelector:@selector(bookAppointmentTouchedUpInside)]) {
+        [self.delegate bookAppointmentTouchedUpInside];
+    }
 }
 
 - (void)messageUsTouchedUpInside {
-    [self.delegate tappedMessageUs];
+
+    if ([self.delegate respondsToSelector:@selector(messageUsTouchedUpInside)]) {
+        [self.delegate messageUsTouchedUpInside];
+    }
 }
 
 
 #pragma mark - Autolayout
 
++ (BOOL)requiresConstraintBasedLayout {
+    return YES;
+}
+
 - (void)updateConstraints {
 
+    [super updateConstraints];
+    
     if (!self.alreadyUpdatedConstraints) {
 
         self.bookAppointmentButton.translatesAutoresizingMaskIntoConstraints = NO;
@@ -109,7 +123,6 @@
 
     [super updateConstraints];
 }
-
 
 
 @end
