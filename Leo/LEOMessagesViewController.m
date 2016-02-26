@@ -1077,7 +1077,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
          */
         [[self conversation] addMessages:messages];
 
-        [self collectionViewAvoidFlickerInAnimationWhenInsertingIndexPaths:indexPaths];
+        [self collectionView:self.collectionView avoidFlickerInAnimationWhenInsertingIndexPaths:indexPaths];
     }];
 }
 
@@ -1122,17 +1122,17 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 /**
  *  Using the method as described here to avoid flicker: http://stackoverflow.com/a/26401767/1938725
  */
-- (void)collectionViewAvoidFlickerInAnimationWhenInsertingIndexPaths:(NSArray *)indexPaths {
+- (void)collectionView:(UICollectionView *)collectionView avoidFlickerInAnimationWhenInsertingIndexPaths:(NSArray *)indexPaths {
 
-    CGFloat oldOffset = self.collectionView.contentSize.height - self.collectionView.contentOffset.y;
+    CGFloat oldOffset = collectionView.contentSize.height - collectionView.contentOffset.y;
 
     [CATransaction begin];
     [CATransaction setDisableActions:YES];
 
-    [self.collectionView performBatchUpdates:^{
-        [self.collectionView insertItemsAtIndexPaths:indexPaths];
+    [collectionView performBatchUpdates:^{
+        [collectionView insertItemsAtIndexPaths:indexPaths];
     } completion:^(BOOL finished) {
-        self.collectionView.contentOffset = CGPointMake(0.0, self.collectionView.contentSize.height - oldOffset);
+        collectionView.contentOffset = CGPointMake(0.0, collectionView.contentSize.height - oldOffset);
         [CATransaction commit];
     }];
 }

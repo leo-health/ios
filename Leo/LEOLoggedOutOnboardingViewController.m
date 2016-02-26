@@ -129,7 +129,7 @@ static NSString * const reuseIdentifierFeature = @"reuseIdentifierFeature";
 
             cell.backgroundImageView.image = [UIImage imageNamed:@"Signed Out 1.4 - Background"];
             cell.mainTitleLabel.text = @"Your child’s information at your fingertips";
-            cell.detailLabel.text = @"Access to your child health data when you want it and need it";
+            cell.detailLabel.text = @"Access to your child's health data when you want it and need it";
             cell.contentImageView.image = [UIImage imageNamed:@"Health Record Content"];
             break;
         }
