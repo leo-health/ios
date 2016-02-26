@@ -13,8 +13,13 @@ VALIDATE_PRODUCT = YES
 ENABLE_NS_ASSERTIONS = NO
 MTL_ENABLE_DEBUG_INFO = NO
 
-API_URL = dev.leoforkids.com
-API_VERSION = api/v1
-API_PROTOCOL = https
 CODE_SIGN_IDENTITY[sdk=iphoneos*] = iPhone Distribution: LEO HEALTH, INC. (4Q3R8E5P59)
 
+API_URL =   api.leohealth.com
+PROVIDER_URL = provider.leohealth.com
+API_VERSION = api/v1
+API_PROTOCOL = https
+CONTENT_URL = leo-content.s3-website-us-east-1.amazonaws.com
+SELF_SIGNED_CERTIFICATE = *.leohealth.com
+CRITTERCISM_APP_ID = b732e3c640fc4b3db6b68775fdf0dd1700555300
+PUSHER_KEY = 1e11c5da0e735f562c28

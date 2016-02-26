@@ -16,8 +16,8 @@
 		<string>${API_VERSION}</string>
 		<key>ProviderURL</key>
 		<string>${PROVIDER_URL}</string>
-		<key>S3URL</key>
-		<string>${S3_URL}</string>
+		<key>ContentURL</key>
+		<string>${CONTENT_URL}</string>
 		<key>SelfSignedCertificate</key>
 		<string>${SELF_SIGNED_CERTIFICATE}</string>
 	</dict>

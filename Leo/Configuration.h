@@ -16,7 +16,7 @@
 + (NSString *)APIEndpoint;
 + (NSString *)APIVersion;
 + (NSString *)APIEndpointWithProtocol;
-+ (NSString *)S3Endpoint;
++ (NSString *)contentURL;
 + (NSString *)selfSignedCertificate;
 + (NSString *)pusherKey;
 + (NSString *)crittercismAppID;
