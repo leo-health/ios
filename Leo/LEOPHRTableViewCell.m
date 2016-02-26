@@ -11,7 +11,7 @@
 #import "UIColor+LeoColors.h"
 #import "NSDate+Extensions.h"
 
-static NSString * const kCopyEmptyNotesField = @"Add some notes for the doctor about your kids";
+static NSString * const kCopyEmptyNotesField = @"Use this area to record notes about your kids health. These notes will not be seen by your providers.";
 
 @implementation LEOPHRTableViewCell
 
