@@ -23,6 +23,7 @@
 
 static NSInteger const kInset = 8;
 static NSInteger const kButtonHeight = 44;
+static NSInteger const kLineThickness = 1;
 
 #pragma mark - Accessors
 
@@ -101,22 +102,33 @@ static NSInteger const kButtonHeight = 44;
 
         UIView *splitView = [UIView new];
         splitView.backgroundColor = [UIColor leo_orangeRed];
-
         [self addSubview:splitView];
         splitView.translatesAutoresizingMaskIntoConstraints = NO;
 
-        NSDictionary *bindings = @{@"bookAppointment":_bookAppointmentButton, @"split":splitView, @"messageUs":_messageUsButton};
+        UIView *breakerView = [UIView new];
+        breakerView.backgroundColor = [UIColor leo_grayForTimeStamps];
+        [self addSubview:breakerView];
+        breakerView.translatesAutoresizingMaskIntoConstraints = NO;
 
-        NSArray *verticalConstraintForMessageButton = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[messageUs(==44)]|" options:0 metrics:nil views:bindings];
-        NSArray *verticalConstraintForBookAppointmentButton = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[bookAppointment(==44)]|" options:0 metrics:nil views:bindings];
-        NSArray *verticalConstraintForSplitView = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(8)-[split]-(8)-|" options:0 metrics:nil views:bindings];
+        NSDictionary *bindings = @{@"bookAppointment":_bookAppointmentButton, @"split":splitView, @"messageUs":_messageUsButton, @"breaker":breakerView};
 
-        NSArray *horizontalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[bookAppointment][split(==1)][messageUs(==bookAppointment)]|" options:0 metrics:nil views:bindings];
+        NSDictionary *metrics = @{@"lineThickness":@(kLineThickness), @"buttonHeight":@(kButtonHeight), @"splitInset": @(kInset)};
+
+        NSArray *verticalConstraintForMessageButton = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[messageUs(buttonHeight)][breaker(lineThickness)]|" options:0 metrics:metrics views:bindings];
+
+        NSArray *verticalConstraintForBookAppointmentButton = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[bookAppointment(buttonHeight)]" options:0 metrics:metrics views:bindings];
+
+        NSArray *verticalConstraintForSplitView = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(splitInset)-[split]-(splitInset)-|" options:0 metrics:metrics views:bindings];
+
+        NSArray *horizontalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[bookAppointment][split(lineThickness)][messageUs(==bookAppointment)]|" options:0 metrics:metrics views:bindings];
+
+        NSArray *horizontalConstraintsForBreaker = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[breaker]|" options:0 metrics:metrics views:bindings];
 
         [self addConstraints:verticalConstraintForBookAppointmentButton];
         [self addConstraints:verticalConstraintForMessageButton];
         [self addConstraints:verticalConstraintForSplitView];
         [self addConstraints:horizontalConstraints];
+        [self addConstraints:horizontalConstraintsForBreaker];
 
         self.alreadyUpdatedConstraints = YES;
     }
