@@ -538,7 +538,6 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
     self.sendButton.hidden = YES;
 
     [self.sendingIndicator startAnimating];
-    self.inputToolbar.contentView.userInteractionEnabled = NO;
 
     [JSQSystemSoundPlayer jsq_playMessageSentSound];
 
@@ -562,6 +561,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
     MessageImage *message = [MessageImage messageWithObjectID:nil media:photoItem sender:[SessionUser guardian] escalatedTo:nil escalatedBy:nil status:nil statusCode:MessageStatusCodeUndefined createdAt:[NSDate date] escalatedAt:nil leoMedia:nil];
 
+    self.inputToolbar.contentView.userInteractionEnabled = NO;
     [self startSendingMessage:message];
 
     [self.navigationController popViewControllerAnimated:YES];
