@@ -1077,7 +1077,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
          */
         [[self conversation] addMessages:messages];
 
-        [self collectionView:self.collectionView avoidFlickerInAnimationWhenInsertingIndexPaths:indexPaths];
+        [self collectionView:collectionView avoidFlickerInAnimationWhenInsertingIndexPaths:indexPaths];
     }];
 }
 
@@ -1101,7 +1101,12 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
                 photoMediaItem.image = messageImage.s3Image.image;
 
                 NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
-                [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
+
+                dispatch_async(dispatch_get_main_queue(), ^{
+
+                    [self.collectionView.collectionViewLayout invalidateLayout];
+                    [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
+                });
             }];
 
             //Notification for any local image update
@@ -1111,7 +1116,13 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
                 photoMediaItem.image = messageImage.s3Image.image;
 
                 NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
-                [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
+
+                dispatch_async(dispatch_get_main_queue(), ^{
+
+                    [self.collectionView.collectionViewLayout invalidateLayout];
+                    [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
+                });
+
             }];
 
             [self.notificationObservers addObjectsFromArray:@[observerDownload, observerChanged]];

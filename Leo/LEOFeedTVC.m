@@ -846,7 +846,7 @@ static CGFloat const kFeedInsetTop = 20.0;
     switch (section) {
             
         case TableViewSectionBody:
-            return 44;
+            return 45;
             
         case TableViewSectionHeader:
         default:
