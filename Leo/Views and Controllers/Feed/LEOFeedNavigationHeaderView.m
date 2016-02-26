@@ -116,7 +116,7 @@ static NSInteger const kLineThickness = 1;
 
         NSArray *verticalConstraintForMessageButton = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[messageUs(buttonHeight)][breaker(lineThickness)]|" options:0 metrics:metrics views:bindings];
 
-        NSArray *verticalConstraintForBookAppointmentButton = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[bookAppointment(buttonHeight)]" options:0 metrics:metrics views:bindings];
+        NSArray *verticalConstraintForBookAppointmentButton = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[bookAppointment(buttonHeight)][breaker(lineThickness)]|" options:0 metrics:metrics views:bindings];
 
         NSArray *verticalConstraintForSplitView = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(splitInset)-[split]-(splitInset)-|" options:0 metrics:metrics views:bindings];
 

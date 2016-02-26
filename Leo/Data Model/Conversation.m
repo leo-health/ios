@@ -103,8 +103,6 @@
     NSArray *sortedMessages = [mutableMessages sortedArrayUsingDescriptors:@[timeSort]];
     
     self.messages = sortedMessages;
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationConversationAddedMessage object:self];
 }
 
 - (void)addMessageFromJSON:(NSDictionary *)messageDictionary {
