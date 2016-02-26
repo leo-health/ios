@@ -1,15 +1,19 @@
     upcoming:
-    - New! Retry to load images if they fail in messages
-    - New! Avatars are now optional (not yet tested)
-    - New! URLs for privacy policy and terms of service
-    - New! Invite a parent in onboarding
-    - New! No choice of doctor
-    - New! Feed message header and new navigation
-    - New! Updated Leo app icon (white on orange)
-    - New! Caching of some data (practice staff)
-    - Bug fixing
-
     releases:
+    - version: 0.8.0
+      build: 2016.02.25.22.39
+      date: February 25 2016
+      notes:
+      - New! Retry to load images if they fail in messages
+      - New! Avatars are now optional (not yet tested)
+      - New! URLs for privacy policy and terms of service
+      - New! Invite a parent in onboarding
+      - New! No choice of doctor
+      - New! Feed message header and new navigation
+      - New! Updated Leo app icon (white on orange)
+      - New! Caching of some data (practice staff)
+      - Bug fixing
+
     - version: 0.7.1
       build: 2016.02.18.01.27
       date: February 18 2016
@@ -159,6 +163,7 @@
       notes:
       - First test build using new Fastfile configuration for Alpha builds
       - Provides the basic functionality all created prior to our first releases
+
 
 
 
