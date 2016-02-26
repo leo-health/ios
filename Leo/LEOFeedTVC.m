@@ -129,7 +129,10 @@ static CGFloat const kFeedInsetTop = 20.0;
 
     [self setupNavigationBar];
 
-    self.headerMessage = @"Loading...";
+    if (!self.headerMessage) {
+        self.headerMessage = @"Loading...";
+    }
+
     [self.tableView reloadData];
 }
 
@@ -143,21 +146,10 @@ static CGFloat const kFeedInsetTop = 20.0;
 
     } withOnlineBlock:^{
 
-        [self fetchFamilyWithCompletion:^{
-
-
-            // refresh cached practice
-            if (![[LEOCachedDataStore sharedInstance].lastCachedDateForPractice isSameDay:[NSDate date]] || ![LEOCachedDataStore sharedInstance].practice) {
-                [[LEOHelperService new] getPracticesWithCompletion:^(NSArray *practices, NSError *error) {
-                    [self fetchDataForCard:nil];
-                }];
-            } else {
-                [self fetchDataForCard:nil];
-            }
-        }];
+        [self fetchData];
     }];
 
-    [self fetchFeedHeader];
+    [self fetchData];
 }
 
 -(UIActivityIndicatorView *)activityIndicator {
@@ -276,24 +268,18 @@ static CGFloat const kFeedInsetTop = 20.0;
 
 - (void)fetchFamilyWithCompletion:( void (^) (void))completionBlock {
 
-    if (!self.family) {
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    LEOHelperService *helperService = [LEOHelperService new];
+    [helperService getFamilyWithCompletion:^(Family *family, NSError *error) {
 
-        LEOHelperService *helperService = [LEOHelperService new];
-        [helperService getFamilyWithCompletion:^(Family *family, NSError *error) {
-
-            if (!error) {
-                self.family = family;
-                completionBlock();
-            } else {
-                [MBProgressHUD hideHUDForView:self.view animated:YES];
-            }
-        }];
-
-    } else {
-        completionBlock();
-    }
+        if (!error) {
+            self.family = family;
+            completionBlock();
+        } else {
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+        }
+    }];
 }
 
 - (void)notificationReceived:(NSNotification *)notification {
@@ -315,7 +301,19 @@ static CGFloat const kFeedInsetTop = 20.0;
 }
 
 - (void)fetchData {
-    [self fetchDataForCard:nil];
+
+    [self fetchFeedHeader];
+    [self fetchFamilyWithCompletion:^{
+
+        // refresh cached practice
+        if (![[LEOCachedDataStore sharedInstance].lastCachedDateForPractice isSameDay:[NSDate date]] || ![LEOCachedDataStore sharedInstance].practice) {
+            [[LEOHelperService new] getPracticesWithCompletion:^(NSArray *practices, NSError *error) {
+                [self fetchDataForCard:nil];
+            }];
+        } else {
+            [self fetchDataForCard:nil];
+        }
+    }];
 }
 
 - (void)fetchDataForCard:(id<LEOCardProtocol>)card {
