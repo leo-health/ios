@@ -46,7 +46,7 @@
 @synthesize patient = _patient;
 
 static NSString *const kAvatarCallToActionEdit = @"Edit the photo of your child";
-static NSString *const kTitleAddChildDetails = @"Add Child Details";
+static NSString *const kTitleAddChildDetails = @"Child Details";
 static NSString *const kTitlePhotos = @"Photos";
 static NSString *const kCopyUsePhoto = @"USE PHOTO";
 

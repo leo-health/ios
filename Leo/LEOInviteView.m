@@ -55,6 +55,7 @@ IB_DESIGNABLE
     _emailAddressPromptField.textField.delegate = self;
     _emailAddressPromptField.textField.standardPlaceholder = @"email";
     _emailAddressPromptField.textField.validationPlaceholder = @"please enter a valid email address";
+    _emailAddressPromptField.textField.keyboardType = UIKeyboardTypeEmailAddress;
     [_emailAddressPromptField.textField sizeToFit];
 }
 
@@ -79,11 +80,11 @@ IB_DESIGNABLE
 #pragma mark - Accessors
 
 -(void)setFirstName:(NSString *)firstName {
-    
+
     _firstName = firstName;
-    
+
     if (self.hasBeenValidatedAtLeastOnce) {
-        
+
         self.firstNamePromptField.valid = [LEOValidationsHelper isValidFirstName:_firstName];
     }
 }
@@ -91,59 +92,59 @@ IB_DESIGNABLE
 -(void)setLastName:(NSString *)lastName {
 
     _lastName = lastName;
-    
+
     if (self.hasBeenValidatedAtLeastOnce) {
 
-    self.lastNamePromptField.valid = [LEOValidationsHelper isValidLastName:_lastName];
+        self.lastNamePromptField.valid = [LEOValidationsHelper isValidLastName:_lastName];
     }
 }
 
 -(void)setEmail:(NSString *)email {
-    
+
     _email = email;
-    
+
     if (self.hasBeenValidatedAtLeastOnce) {
 
-    self.emailAddressPromptField.valid  = [LEOValidationsHelper isValidEmail:_email];
+        self.emailAddressPromptField.valid  = [LEOValidationsHelper isValidEmail:_email];
     }
 }
 
 
 #pragma mark - Validation
 - (BOOL)isValidInvite {
-    
+
     self.hasBeenValidatedAtLeastOnce = YES;
-    
+
     self.firstName = self.firstNamePromptField.textField.text;
     self.lastName = self.lastNamePromptField.textField.text;
     self.email = self.emailAddressPromptField.textField.text;
-    
+
     BOOL validFirstName = [LEOValidationsHelper isValidFirstName:self.firstName];
     BOOL validLastName = [LEOValidationsHelper isValidLastName:self.lastName];
     BOOL validEmail = [LEOValidationsHelper isValidEmail:self.email];
-    
+
     return validFirstName && validLastName && validEmail;
 }
 
 #pragma mark - <UITextFieldDelegate>
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    
+
     NSMutableAttributedString *mutableText = [[NSMutableAttributedString alloc] initWithString:textField.text];
-    
+
     [mutableText replaceCharactersInRange:range withString:string];
-    
+
     if (textField == self.firstNamePromptField.textField) {
-        
+
         self.firstName = mutableText.string;
         return [LEOValidationsHelper fieldText:textField.text shouldChangeTextInRange:range replacementText:string toValidateCharacterLimit:kCharacterLimitName];
     }
-    
+
     if (textField == self.lastNamePromptField.textField) {
-        
+
         self.lastName = mutableText.string;
         return [LEOValidationsHelper fieldText:textField.text shouldChangeTextInRange:range replacementText:string toValidateCharacterLimit:kCharacterLimitName];
     }
-    
+
     if (textField == self.emailAddressPromptField.textField) {
 
         self.email = mutableText.string;

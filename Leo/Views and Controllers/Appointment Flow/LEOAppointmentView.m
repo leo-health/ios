@@ -76,7 +76,7 @@ IB_DESIGNABLE
     _notesTextView = notesTextView;
     _notesTextView.delegate = self;
     _notesTextView.scrollEnabled = NO;
-    _notesTextView.placeholder = @"Questions / comments";
+    _notesTextView.placeholder = @"What would you like to cover?";
     _notesTextView.floatingLabelFont = [UIFont leo_standardFont];
     _notesTextView.placeholderLabel.font = [UIFont leo_standardFont];
     _notesTextView.font = [UIFont leo_standardFont];
@@ -168,7 +168,7 @@ IB_DESIGNABLE
         [self enableSchedulingIfNeeded];
     } else {
 
-        [self updatePromptView:self.patientPromptView withBaseString:@"Who is this appointment for?" variableStrings:nil];
+        [self updatePromptView:self.patientPromptView withBaseString:@"Who is this visit for?" variableStrings:nil];
     }
 }
 
@@ -299,7 +299,7 @@ IB_DESIGNABLE
 
         self.schedulePromptView.userInteractionEnabled = YES;
         self.schedulePromptView.tintColor = [UIColor leo_green];
-        [self updatePromptView:self.schedulePromptView withBaseString:@"When would you like to come in?" variableStrings:nil];
+        [self updatePromptView:self.schedulePromptView withBaseString:@"When would you like to be seen?" variableStrings:nil];
 
     } else {
 

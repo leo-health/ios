@@ -150,7 +150,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
     UILabel *navBarTitleLabel = [[UILabel alloc] init];
 
-    navBarTitleLabel.text = self.card.title;
+    navBarTitleLabel.text = @"Chat";
     navBarTitleLabel.textColor = [UIColor leo_white];
     navBarTitleLabel.font = [UIFont leo_menuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
     [navBarTitleLabel sizeToFit];
@@ -334,7 +334,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
 - (void)notificationReceived:(NSNotification *)notification {
 
-    if ([notification.name isEqualToString: @"Conversation-AddedMessage"]) {
+    if ([notification.name isEqualToString:kNotificationConversationAddedMessage]) {
 
         Conversation *conversation = (Conversation *)notification.object;
         Message *newMessage = conversation.messages.lastObject;
@@ -840,7 +840,8 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 #pragma mark - UICollectionView DataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return [[self conversation].messages count];
+    NSInteger count = [[self conversation].messages count];
+    return count;
 }
 
 //TODO: Refactor this method ideally
@@ -1076,7 +1077,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
          */
         [[self conversation] addMessages:messages];
 
-        [self collectionView:collectionView avoidFlickerInAnimationWhenInsertingIndexPaths:indexPaths];
+        [self collectionView:self.collectionView avoidFlickerInAnimationWhenInsertingIndexPaths:indexPaths];
     }];
 }
 
@@ -1123,15 +1124,15 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
  */
 - (void)collectionView:(UICollectionView *)collectionView avoidFlickerInAnimationWhenInsertingIndexPaths:(NSArray *)indexPaths {
 
-    CGFloat oldOffset = self.collectionView.contentSize.height - self.collectionView.contentOffset.y;
+    CGFloat oldOffset = collectionView.contentSize.height - collectionView.contentOffset.y;
 
     [CATransaction begin];
     [CATransaction setDisableActions:YES];
 
-    [self.collectionView performBatchUpdates:^{
-        [self.collectionView insertItemsAtIndexPaths:indexPaths];
+    [collectionView performBatchUpdates:^{
+        [collectionView insertItemsAtIndexPaths:indexPaths];
     } completion:^(BOOL finished) {
-        self.collectionView.contentOffset = CGPointMake(0.0, self.collectionView.contentSize.height - oldOffset);
+        collectionView.contentOffset = CGPointMake(0.0, collectionView.contentSize.height - oldOffset);
         [CATransaction commit];
     }];
 }

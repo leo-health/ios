@@ -472,5 +472,8 @@ extern NSInteger const kCharacterLimitAppointmentNotes; // 600;
 #pragma mark - LEOBasicSelectionViewController selection keys
 extern NSString *const kKeySelectionVCSlot; // @"slot";
 
+#pragma mark - General Copy
+extern NSString *const kCopyTermsOfService; // @"Terms of Service";
+
 
 @end

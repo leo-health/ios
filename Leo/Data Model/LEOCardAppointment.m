@@ -152,7 +152,7 @@ static NSString *kActionSelectorReschedule = @"reschedule";
             
         case AppointmentStatusCodeFuture:
         case AppointmentStatusCodeReminding:
-            titleText = @"Appointment Reminder";
+            titleText = @"Upcoming Appointment";
             break;
             
         case AppointmentStatusCodeCancelled:

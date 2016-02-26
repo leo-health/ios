@@ -21,6 +21,8 @@
 
 @implementation LEOReviewOnboardingView
 
+static NSString * const kCopySignUp = @"SIGN UP";
+
 -(instancetype)initWithFamily:(Family *)family {
 
     self = [super init];
@@ -68,7 +70,7 @@
          forCellReuseIdentifier:kReviewUserCellReuseIdentifer];
     [_tableView registerNib:[LEOButtonCell nib] forCellReuseIdentifier:kButtonCellReuseIdentifier];
 
-    _tableView.tableFooterView = [self buildAgreeViewFromString:@"By clicking subscribe you agree to our #<ts>terms of service# and #<pp>privacy policies#."];
+    _tableView.tableFooterView = [self buildAgreeViewFromString:@"By clicking sign up you agree to our #<ts>terms of service# and #<pp>privacy policies#."];
     _tableView.tableFooterView.bounds = CGRectInset(self.tableView.tableFooterView.bounds, 0.0, -10.0);
 
     _tableView.dataSource = self;
@@ -139,6 +141,7 @@
 
             //Using responder chain to get to continueTapped: in view controller
             [buttonCell.button addTarget:nil action:@selector(continueTapped:) forControlEvents:UIControlEventTouchUpInside];
+            [buttonCell.button setTitle:kCopySignUp forState:UIControlStateNormal];
 
             return buttonCell;
         }

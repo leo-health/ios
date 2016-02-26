@@ -95,8 +95,8 @@ static NSString * const reuseIdentifierFeature = @"reuseIdentifierFeature";
             cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifierFeature forIndexPath:indexPath];
 
             cell.backgroundImageView.image = [UIImage imageNamed:@"Signed Out 1.1 - Background"];
-            cell.mainTitleLabel.text = @"Chat with us";
-            cell.detailLabel.text = @"We're always available to answer\nany questions or concerns.";
+            cell.mainTitleLabel.text = @"Message your care team directly";
+            cell.detailLabel.text = @"We’re here to help when you need it";
             cell.contentImageView.image = [UIImage imageNamed:@"Chat Content"];
             break;
         }
@@ -106,8 +106,8 @@ static NSString * const reuseIdentifierFeature = @"reuseIdentifierFeature";
             cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifierFeature forIndexPath:indexPath];
 
             cell.backgroundImageView.image = [UIImage imageNamed:@"Signed Out 1.2 - Background"];
-            cell.mainTitleLabel.text = @"Book a visit";
-            cell.detailLabel.text = @"No more phone calls and long waits.\nFind a time that works for you.";
+            cell.mainTitleLabel.text = @"Book visits on your schedule";
+            cell.detailLabel.text = @"Gone are the days of negotiating for an appointment. Find a time that works for you.";
             cell.contentImageView.image = [UIImage imageNamed:@"Schedule Content"];
             break;
         }
@@ -128,8 +128,8 @@ static NSString * const reuseIdentifierFeature = @"reuseIdentifierFeature";
             cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifierFeature forIndexPath:indexPath];
 
             cell.backgroundImageView.image = [UIImage imageNamed:@"Signed Out 1.4 - Background"];
-            cell.mainTitleLabel.text = @"Easy to read health records";
-            cell.detailLabel.text = @"Say goodbye to searching for paperwork.\nWe provide access to your child's records.";
+            cell.mainTitleLabel.text = @"Your child’s information at your fingertips";
+            cell.detailLabel.text = @"Access to your child's health data when you want it and need it";
             cell.contentImageView.image = [UIImage imageNamed:@"Health Record Content"];
             break;
         }

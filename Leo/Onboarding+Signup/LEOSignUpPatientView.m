@@ -33,6 +33,8 @@
 
 @implementation LEOSignUpPatientView
 
+static NSString *const kCopySubmitButtonOnboarding = @"CONTINUE";
+static NSString *const kCopySubmitButtonSettings = @"SAVE CHANGES";
 static NSString *const kAvatarCallToActionAdd = @"Add a photo of your child";
 static NSString *const kAvatarCallToActionEdit = @"Edit the photo of your child";
 
@@ -116,6 +118,23 @@ static NSString *const kPlaceholderValidationBirthDate = @"please add your child
         _genderPromptField.accessoryImageViewVisible = [self genderAndBirthdateEditable];
         _birthDatePromptField.accessoryImageViewVisible = [self genderAndBirthdateEditable];
     }
+
+    NSString *submitButtonTitle;
+    switch (self.feature) {
+
+        case FeatureOnboarding:
+            submitButtonTitle = kCopySubmitButtonOnboarding;
+            break;
+
+        case FeatureSettings:
+            submitButtonTitle = kCopySubmitButtonSettings;
+            break;
+
+        default:
+            submitButtonTitle = @"SUBMIT";
+            break;
+    }
+    [self.updateButton setTitle:submitButtonTitle forState:UIControlStateNormal];
 }
 
 - (BOOL)genderAndBirthdateEditable {
@@ -142,7 +161,24 @@ static NSString *const kPlaceholderValidationBirthDate = @"please add your child
     _updateButton = updateButton;
 
     [LEOStyleHelper styleButton:_updateButton forFeature:FeatureOnboarding];
-    [_updateButton setTitle:@"CONTINUE" forState:UIControlStateNormal];
+
+    NSString *submitButtonTitle;
+    switch (self.feature) {
+
+        case FeatureOnboarding:
+            submitButtonTitle = kCopySubmitButtonOnboarding;
+            break;
+
+        case FeatureSettings:
+            submitButtonTitle = kCopySubmitButtonSettings;
+            break;
+
+        default:
+            submitButtonTitle = @"SUBMIT";
+            break;
+    }
+
+    [_updateButton setTitle:submitButtonTitle forState:UIControlStateNormal];
     [_updateButton addTarget:self action:@selector(continueTapped) forControlEvents:UIControlEventTouchUpInside];
 }
 

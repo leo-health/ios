@@ -72,11 +72,12 @@
             
             [SessionUser logout];
         }
-        
+
+        [self formattedErrorFromError:&error];
+
         NSLog(@"%@",paramsBlock);
         NSLog(@"%@",urlStringBlock);
-        NSLog(@"Fail: %@",error.localizedDescription);
-        NSLog(@"Fail: %@",error.localizedFailureReason);
+        NSLog(@"Fail: %@",error.userInfo);
         dispatch_async(dispatch_get_main_queue(), ^{
             completionBlock(nil, error);
         });
@@ -111,10 +112,12 @@
         }
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
+
+        [self formattedErrorFromError:&error];
+
         NSLog(@"%@",paramsBlock);
         NSLog(@"%@",urlStringBlock);
-        NSLog(@"Fail: %@",error.localizedDescription);
-        NSLog(@"Fail: %@",error.localizedFailureReason);
+        NSLog(@"Fail: %@",error.userInfo);
         dispatch_async(dispatch_get_main_queue(), ^{
             completionBlock(nil, error);
         });
@@ -153,10 +156,12 @@
         self.responseSerializer = [AFJSONResponseSerializer serializer];
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
+
+        [self formattedErrorFromError:&error];
+
         NSLog(@"%@",paramsBlock);
         NSLog(@"%@",urlStringBlock);
-        NSLog(@"Fail: %@",error.localizedDescription);
-        NSLog(@"Fail: %@",error.localizedFailureReason);
+        NSLog(@"Fail: %@",error.userInfo);
         dispatch_async(dispatch_get_main_queue(), ^{
             completionBlock(nil, error);
         });
@@ -190,6 +195,7 @@
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
 
+        [self formattedErrorFromError:&error];
 
         NSLog(@"Fail: %@", error.userInfo);
         
@@ -253,8 +259,6 @@
         }
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        
-        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)task.response;
 
         [self formattedErrorFromError:&error];
         NSLog(@"Fail: %@", error.userInfo);
@@ -286,8 +290,9 @@
         }
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        NSLog(@"Fail: %@",error.localizedDescription);
-        NSLog(@"Fail: %@",error.localizedFailureReason);
+
+        [self formattedErrorFromError:&error];
+        NSLog(@"Fail: %@",error.userInfo);
         
         dispatch_async(dispatch_get_main_queue(), ^{
             completionBlock(nil, error);

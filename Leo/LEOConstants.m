@@ -339,5 +339,8 @@ NSInteger const kCharacterLimitAppointmentNotes = 600;
 #pragma mark - LEOBasicSelectionViewController selection keys
 NSString *const kKeySelectionVCSlot = @"slot";
 
+#pragma mark - General Copy
+NSString *const kCopyTermsOfService = @"Terms of Service";
+
 
 @end
