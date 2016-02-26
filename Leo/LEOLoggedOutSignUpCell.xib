@@ -18,13 +18,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="462" height="526"/>
                     </imageView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cbs-cu-p2Z">
-                        <rect key="frame" x="0.0" y="24" width="462" height="394"/>
+                        <rect key="frame" x="0.0" y="67" width="462" height="394"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CKr-pG-RmZ">
-                                <rect key="frame" x="121" y="353" width="221" height="30"/>
+                                <rect key="frame" x="121" y="354" width="221" height="30"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RIK-cW-zkd" userLabel="Log in">
-                                        <rect key="frame" x="0.0" y="0.0" width="221" height="30"/>
+                                        <rect key="frame" x="0.0" y="1" width="221" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="ce2-hH-pEZ"/>
                                         </constraints>
@@ -51,7 +51,7 @@
                                 <rect key="frame" x="137" y="20" width="188" height="78"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dzi-R7-eX4" userLabel="Sign up">
-                                <rect key="frame" x="99" y="256" width="265" height="87"/>
+                                <rect key="frame" x="99" y="257" width="265" height="87"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="190" id="cRx-a1-wg5"/>
                                     <constraint firstAttribute="width" secondItem="Dzi-R7-eX4" secondAttribute="height" multiplier="265:87" id="glI-Ut-ySP"/>
@@ -65,11 +65,8 @@
                                     </mask>
                                 </variation>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="RQl-ZV-TzV">
-                                <rect key="frame" x="117" y="138" width="229" height="99"/>
-                                <string key="text">World class pediatric
-service in our very
-own NYC practice.</string>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="We’re powering a new type of practice, that actually cares about you." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="RQl-ZV-TzV">
+                                <rect key="frame" x="30" y="138" width="402" height="99"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="24"/>
                                 <color key="textColor" red="0.3411764705882353" green="0.3411764705882353" blue="0.3411764705882353" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -82,6 +79,8 @@ own NYC practice.</string>
                             <constraint firstItem="Dzi-R7-eX4" firstAttribute="top" secondItem="h3f-QX-7gk" secondAttribute="bottom" constant="15" id="9EQ-mB-bpl"/>
                             <constraint firstItem="CKr-pG-RmZ" firstAttribute="centerX" secondItem="Cbs-cu-p2Z" secondAttribute="centerX" id="F9Q-Je-Su2"/>
                             <constraint firstItem="RQl-ZV-TzV" firstAttribute="top" secondItem="h3f-QX-7gk" secondAttribute="bottom" constant="40" id="GOo-Pe-NGn"/>
+                            <constraint firstItem="RQl-ZV-TzV" firstAttribute="leading" secondItem="Cbs-cu-p2Z" secondAttribute="leading" constant="30" id="Ndv-cV-5JT"/>
+                            <constraint firstAttribute="trailing" secondItem="RQl-ZV-TzV" secondAttribute="trailing" constant="30" id="PPg-NW-cGG"/>
                             <constraint firstItem="RQl-ZV-TzV" firstAttribute="centerX" secondItem="Cbs-cu-p2Z" secondAttribute="centerX" id="QsR-Pw-hEu"/>
                             <constraint firstItem="Dzi-R7-eX4" firstAttribute="centerX" secondItem="Cbs-cu-p2Z" secondAttribute="centerX" id="Z7x-GF-ft2"/>
                             <constraint firstItem="Dzi-R7-eX4" firstAttribute="top" secondItem="CKr-pG-RmZ" secondAttribute="bottom" constant="8" symbolic="YES" id="bOh-09-scu"/>
@@ -92,23 +91,18 @@ own NYC practice.</string>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
+                                <exclude reference="QsR-Pw-hEu"/>
                                 <exclude reference="9EQ-mB-bpl"/>
                                 <exclude reference="bOh-09-scu"/>
                                 <exclude reference="hJS-MN-Ru3"/>
                             </mask>
                         </variation>
                     </view>
-                    <view contentMode="scaleToFill" verticalCompressionResistancePriority="1000" placeholderIntrinsicWidth="55" placeholderIntrinsicHeight="68" translatesAutoresizingMaskIntoConstraints="NO" id="9kE-NK-z6J">
-                        <rect key="frame" x="204" y="438" width="55" height="68"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    </view>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="9dX-x6-lDU" secondAttribute="bottom" id="ETb-6z-LBO"/>
-                <constraint firstItem="9kE-NK-z6J" firstAttribute="top" relation="greaterThanOrEqual" secondItem="Cbs-cu-p2Z" secondAttribute="bottom" constant="20" id="FxB-Zb-TPQ"/>
-                <constraint firstItem="9kE-NK-z6J" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="K84-Cm-ZIK"/>
                 <constraint firstItem="Cbs-cu-p2Z" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="RGG-QI-sXn"/>
                 <constraint firstItem="Cbs-cu-p2Z" firstAttribute="top" relation="greaterThanOrEqual" secondItem="gTV-IL-0wX" secondAttribute="top" constant="20" id="Udr-nZ-Sfs"/>
                 <constraint firstAttribute="trailing" secondItem="Cbs-cu-p2Z" secondAttribute="trailing" id="aZV-9w-AYL"/>
@@ -116,14 +110,12 @@ own NYC practice.</string>
                 <constraint firstAttribute="trailing" secondItem="9dX-x6-lDU" secondAttribute="trailing" id="hcU-dE-Xkf"/>
                 <constraint firstItem="9dX-x6-lDU" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="msd-BH-orr"/>
                 <constraint firstItem="Cbs-cu-p2Z" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" priority="250" id="uSV-mO-8Tb"/>
-                <constraint firstAttribute="bottom" secondItem="9kE-NK-z6J" secondAttribute="bottom" constant="20" id="xk7-RR-II3"/>
             </constraints>
             <size key="customSize" width="462" height="526"/>
             <connections>
                 <outlet property="backgroundImageView" destination="9dX-x6-lDU" id="on5-xM-slU"/>
                 <outlet property="loginButton" destination="RIK-cW-zkd" id="amk-Ox-0bi"/>
                 <outlet property="signUpButton" destination="Dzi-R7-eX4" id="SMa-SR-gdf"/>
-                <outlet property="swipeArrowsContainerView" destination="9kE-NK-z6J" id="IC2-3q-eha"/>
             </connections>
             <point key="canvasLocation" x="253" y="304"/>
         </collectionViewCell>

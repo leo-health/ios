@@ -39,6 +39,7 @@
 @implementation LEOManagePatientsViewController
 
 static NSString * const kCopyHeaderManagePatients = @"Let's setup a profile for each of your children";
+static NSString * const kCopyCollapsedHeaderManagePatients = @"My Children";
 static NSString * const kSignUpPatientSegue = @"SignUpPatientSegue";
 
 #pragma mark - View Controller Lifecycle and Helpers
@@ -73,7 +74,7 @@ static NSString * const kSignUpPatientSegue = @"SignUpPatientSegue";
 }
 
 - (void)setupNavigationBar {
-    [LEOStyleHelper styleNavigationBarForViewController:self forFeature:self.feature withTitleText:@"Add / Review Children" dismissal:NO backButton:YES];
+    [LEOStyleHelper styleNavigationBarForViewController:self forFeature:self.feature withTitleText:kCopyCollapsedHeaderManagePatients dismissal:NO backButton:YES];
 }
 
 
@@ -156,7 +157,7 @@ static NSString * const kSignUpPatientSegue = @"SignUpPatientSegue";
 
 
         //TODO: Copy Review
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Parents only!" message:@"You must add a child to continue." preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Please add a child" message:@"You must add a child to continue." preferredStyle:UIAlertControllerStyleAlert];
 
         UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil];
 

@@ -150,7 +150,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
     UILabel *navBarTitleLabel = [[UILabel alloc] init];
 
-    navBarTitleLabel.text = self.card.title;
+    navBarTitleLabel.text = @"Chat";
     navBarTitleLabel.textColor = [UIColor leo_white];
     navBarTitleLabel.font = [UIFont leo_menuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
     [navBarTitleLabel sizeToFit];

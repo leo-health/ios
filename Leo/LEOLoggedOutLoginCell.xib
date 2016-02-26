@@ -17,10 +17,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="456" height="612"/>
                     </imageView>
                     <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Cbs-cu-p2Z">
-                        <rect key="frame" x="0.0" y="147" width="456" height="319"/>
+                        <rect key="frame" x="0.0" y="175" width="456" height="264"/>
                         <subviews>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CKr-pG-RmZ">
-                                <rect key="frame" x="118" y="279" width="221" height="30"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CKr-pG-RmZ">
+                                <rect key="frame" x="118" y="224" width="221" height="30"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RIK-cW-zkd" userLabel="Log in">
                                         <rect key="frame" x="0.0" y="0.0" width="221" height="30"/>
@@ -52,8 +52,8 @@
                                     </mask>
                                 </variation>
                             </view>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" misplaced="YES" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="h3f-QX-7gk" userLabel="Logo">
-                                <rect key="frame" x="134" y="20" width="188" height="100"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="h3f-QX-7gk" userLabel="Logo">
+                                <rect key="frame" x="134" y="20" width="188" height="78"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="100" id="n4k-7s-NMJ"/>
                                 </constraints>
@@ -63,11 +63,8 @@
                                     </mask>
                                 </variation>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" misplaced="YES" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="RQl-ZV-TzV">
-                                <rect key="frame" x="114" y="159" width="229" height="99"/>
-                                <string key="text">World class pediatric
-service in our very
-own NYC practice.</string>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="Taking your child to the doctor just got a lot easier" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="RQl-ZV-TzV">
+                                <rect key="frame" x="30" y="138" width="396" height="66"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="24"/>
                                 <color key="textColor" red="0.3411764705882353" green="0.3411764705882353" blue="0.3411764705882353" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -78,10 +75,12 @@ own NYC practice.</string>
                             <constraint firstItem="h3f-QX-7gk" firstAttribute="centerX" secondItem="Cbs-cu-p2Z" secondAttribute="centerX" id="28g-mp-Qw6"/>
                             <constraint firstItem="CKr-pG-RmZ" firstAttribute="centerX" secondItem="Cbs-cu-p2Z" secondAttribute="centerX" id="F9Q-Je-Su2"/>
                             <constraint firstItem="RQl-ZV-TzV" firstAttribute="top" secondItem="h3f-QX-7gk" secondAttribute="bottom" constant="40" id="GOo-Pe-NGn"/>
+                            <constraint firstItem="RQl-ZV-TzV" firstAttribute="leading" secondItem="Cbs-cu-p2Z" secondAttribute="leading" constant="30" id="KrJ-bK-kxs"/>
                             <constraint firstItem="RQl-ZV-TzV" firstAttribute="centerX" secondItem="Cbs-cu-p2Z" secondAttribute="centerX" id="QsR-Pw-hEu"/>
                             <constraint firstItem="CKr-pG-RmZ" firstAttribute="top" secondItem="RQl-ZV-TzV" secondAttribute="bottom" constant="20" id="cNA-Bb-cpO"/>
                             <constraint firstItem="h3f-QX-7gk" firstAttribute="top" secondItem="Cbs-cu-p2Z" secondAttribute="top" constant="20" id="ePF-Z3-kwM"/>
                             <constraint firstItem="CKr-pG-RmZ" firstAttribute="top" secondItem="h3f-QX-7gk" secondAttribute="bottom" constant="10" id="hJS-MN-Ru3"/>
+                            <constraint firstAttribute="trailing" secondItem="RQl-ZV-TzV" secondAttribute="trailing" constant="30" id="irw-T7-qlK"/>
                             <constraint firstAttribute="bottom" secondItem="CKr-pG-RmZ" secondAttribute="bottom" constant="10" id="mwH-u8-NMX"/>
                         </constraints>
                         <variation key="default">

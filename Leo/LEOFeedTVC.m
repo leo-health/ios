@@ -347,12 +347,11 @@ static CGFloat const kFeedInsetTop = 20.0;
 
     if ([[SessionUser currentUser] numTimesLoggedIn] == 1 && !self.hasShownNewUserMessage) {
 
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Welcome to Leo at Flatiron Pediatrics!" message:@"Visit settings to add a photo of your child and invite another parent. Help us make your experience better by sending us a message with your feedback." preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Welcome to Leo at Flatiron Pediatrics!" message:@"First things first, please visit Settings to add a photo of your child and invite another parent/guardian!" preferredStyle:UIAlertControllerStyleAlert];
         [alert addAction:[UIAlertAction actionWithTitle:@"Go to Settings" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
 
             [self loadSettings];
         }]];
-        [alert addAction:[UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleDefault handler:nil]];
         [self presentViewController:alert animated:YES completion:nil];
 
         self.hasShownNewUserMessage = YES;

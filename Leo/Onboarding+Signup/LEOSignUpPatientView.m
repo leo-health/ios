@@ -118,6 +118,23 @@ static NSString *const kPlaceholderValidationBirthDate = @"please add your child
         _genderPromptField.accessoryImageViewVisible = [self genderAndBirthdateEditable];
         _birthDatePromptField.accessoryImageViewVisible = [self genderAndBirthdateEditable];
     }
+
+    NSString *submitButtonTitle;
+    switch (self.feature) {
+
+        case FeatureOnboarding:
+            submitButtonTitle = kCopySubmitButtonOnboarding;
+            break;
+
+        case FeatureSettings:
+            submitButtonTitle = kCopySubmitButtonSettings;
+            break;
+
+        default:
+            submitButtonTitle = @"SUBMIT";
+            break;
+    }
+    [self.updateButton setTitle:submitButtonTitle forState:UIControlStateNormal];
 }
 
 - (BOOL)genderAndBirthdateEditable {
@@ -146,7 +163,6 @@ static NSString *const kPlaceholderValidationBirthDate = @"please add your child
     [LEOStyleHelper styleButton:_updateButton forFeature:FeatureOnboarding];
 
     NSString *submitButtonTitle;
-
     switch (self.feature) {
 
         case FeatureOnboarding:

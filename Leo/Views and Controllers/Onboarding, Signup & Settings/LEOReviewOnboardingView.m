@@ -21,6 +21,8 @@
 
 @implementation LEOReviewOnboardingView
 
+static NSString * const kCopySignUp = @"SIGN UP";
+
 -(instancetype)initWithFamily:(Family *)family {
 
     self = [super init];
@@ -139,6 +141,7 @@
 
             //Using responder chain to get to continueTapped: in view controller
             [buttonCell.button addTarget:nil action:@selector(continueTapped:) forControlEvents:UIControlEventTouchUpInside];
+            [buttonCell.button setTitle:kCopySignUp forState:UIControlStateNormal];
 
             return buttonCell;
         }

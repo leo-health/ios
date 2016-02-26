@@ -230,7 +230,7 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
                     
                 case AboutSettingsTermsAndConditions: {
                     
-                    cell.promptField.textField.text = @"Terms & Conditions";
+                    cell.promptField.textField.text = kCopyTermsOfService;
                     cell.promptField.accessoryImageViewVisible = YES;
                     cell.promptField.accessoryImage = [UIImage imageNamed:@"Icon-ForwardArrow"];
                     cell.promptField.textField.enabled = NO;
@@ -476,7 +476,7 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
         
         LEOWebViewController *webVC = (LEOWebViewController *)segue.destinationViewController;
         webVC.urlString = [NSString stringWithFormat:@"%@%@", [Configuration providerBaseURL], kURLTermsOfService];
-        webVC.titleString = @"Terms & Conditions";
+        webVC.titleString = kCopyTermsOfService;
         webVC.feature = FeatureSettings;
     }
     
