@@ -22,6 +22,7 @@ typedef void (^TableViewNotificationBlock)(NSIndexPath *indexPath, id item, UITa
 @property (strong, nonatomic) NSString *reuseIdentifier;
 @property (copy, nonatomic) ConfigureCellBlock configureCellBlock;
 @property (copy, nonatomic) TableViewNotificationBlock notificationBlock;
+@property (strong, nonatomic) NSMutableArray *notificationObservers;
 @property (strong, nonatomic) LEOAPIOperation *requestOperation;
 @property (weak, nonatomic) id<SingleSelectionProtocol>delegate;
 @property (nonatomic) Feature feature;
