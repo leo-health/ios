@@ -8,7 +8,7 @@
 
 #import "LEOMediaService.h"
 #import "LEOS3Image.h"
-#import "LEOS3SessionManager.h"
+#import "LEOS3ImageSessionManager.h"
 
 @implementation LEOMediaService
 
@@ -25,8 +25,8 @@
     }
 }
 
-+ (LEOS3SessionManager *)leoMediaSessionManager {
-    return [LEOS3SessionManager sharedClient];
++ (LEOS3ImageSessionManager *)leoMediaSessionManager {
+    return [LEOS3ImageSessionManager sharedClient];
 }
 
 @end

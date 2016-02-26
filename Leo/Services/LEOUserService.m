@@ -15,7 +15,7 @@
 #import "Family.h"
 
 #import "LEOAPISessionManager.h"
-#import "LEOS3SessionManager.h"
+#import "LEOS3ImageSessionManager.h"
 #import "SessionUser.h"
 #import "NSUserDefaults+Additions.h"
 #import "LEODevice.h"

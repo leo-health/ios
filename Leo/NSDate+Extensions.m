@@ -166,6 +166,12 @@
     return [dateFormatter stringFromDate:date];
 }
 
++ (NSString *)leo_stringifiedDashedShortDateYearMonthDay:(NSDate *)date {
+
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
+    dateFormatter.dateFormat = @"YYYY-MM-dd";
+    return [dateFormatter stringFromDate:date];
+}
 /**
  *  Turns an NSDate into an NSString with the following format: January 1, 12:30am
  *
