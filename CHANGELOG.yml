@@ -1,12 +1,22 @@
     upcoming:
+    - New! Retry to load images if they fail in messages
+    - New! Avatars are now optional (not yet tested)
+    - New! URLs for privacy policy and terms of service
+    - New! Invite a parent in onboarding
+    - New! No choice of doctor
+    - New! Feed message header and new navigation
+    - New! Updated Leo app icon (white on orange)
+    - New! Caching of some data (practice staff)
+    - Bug fixing
+
     releases:
     - version: 0.7.1
       build: 2016.02.18.01.27
       date: February 18 2016
       notes:
       - Bug fix for messaging crash upon leaving messaging card
-  - Bug fix for translucent bar in appointments
-    
+      - Bug fix for translucent bar in appointments
+
     - version: 0.7.0
       build: 2016.02.18.00.48
       date: February 18 2016
@@ -20,12 +30,12 @@
       date: February 14 2016
       notes:
       - New! Placeholder avatars for children and providers
-  - New! Lightbox for images sent via messaging when tapping image
-  - Greater support for iOS8
-  - Fixes bug in notes where user can add multiple notes but cannot see new ones in the PHR
-  - Fixes bug where if image doesn't load in messages the app continues to make internet requests
-  - New! Users with a single child on the app - child is automatically selected for all appointments
-  - Additional bug fixing
+      - New! Lightbox for images sent via messaging when tapping image
+      - Greater support for iOS8
+      - Fixes bug in notes where user can add multiple notes but cannot see new ones in the PHR
+      - Fixes bug where if image doesn't load in messages the app continues to make internet requests
+      - New! Users with a single child on the app - child is automatically selected for all appointments
+      - Additional bug fixing
 
     - version: 0.5.0
       build: 2016.02.05.22.39
