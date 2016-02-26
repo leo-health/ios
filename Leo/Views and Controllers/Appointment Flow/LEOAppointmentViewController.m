@@ -62,16 +62,17 @@ static CGFloat const kBottomTitleInsetAppointments = 20;
 static NSString *const kCopySubmitAppointment = @"CONFIRM VISIT";
 
 // Appointment Segue constants
+static NSString *const kCopyTitleScheduleVisit = @"Let's schedule a visit";
 static NSString *const kSegueVisitType = @"VisitTypeSegue";
 static NSString *const kKeySelectionVCAppointmentType = @"appointmentType";
 static NSString *const kCellAppointmentType = @"AppointmentTypeCell";
-static NSString *const kPromptTypeOfVisit = @"What type of visit is this?";
+static NSString *const kPromptTypeOfVisit = @"Choose a visit type";
 
 // Patient segue constants
 static NSString *const kSeguePatient = @"PatientSegue";
 static NSString *const kKeySelectionVCPatient = @"patient";
 static NSString *const kCellPatient = @"PatientCell";
-static NSString *const kPromptPatient = @"Who is the visit for?";
+static NSString *const kPromptPatient = @"Choose a child";
 
 // Staff/Schedule segue constants
 static NSString *const kSegueStaff = @"StaffSegue";
@@ -150,7 +151,7 @@ static NSString *const kKeySelectionVCDate = @"date";
 
 -(void)setupNavigationBar {
 
-    [LEOStyleHelper styleNavigationBarForViewController:self forFeature:self.feature withTitleText:self.card.title dismissal:YES backButton:NO];
+    [LEOStyleHelper styleNavigationBarForViewController:self forFeature:self.feature withTitleText:kCopyTitleScheduleVisit dismissal:YES backButton:NO];
 }
 
 #pragma mark - Layout
@@ -203,7 +204,7 @@ static NSString *const kKeySelectionVCDate = @"date";
 
     if (!_gradientView) {
 
-        LEOGradientView *strongView = [[LEOGradientView alloc] initWithTitleText:self.card.title];
+        LEOGradientView *strongView = [[LEOGradientView alloc] initWithTitleText:kCopyTitleScheduleVisit];
         _gradientView = strongView;
         UIColor *startColor = [LEOStyleHelper gradientStartColorForFeature:self.feature];
         UIColor *endColor = [LEOStyleHelper gradientEndColorForFeature:self.feature];

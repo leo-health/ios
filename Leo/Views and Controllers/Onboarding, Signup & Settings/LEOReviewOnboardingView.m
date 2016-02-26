@@ -68,7 +68,7 @@
          forCellReuseIdentifier:kReviewUserCellReuseIdentifer];
     [_tableView registerNib:[LEOButtonCell nib] forCellReuseIdentifier:kButtonCellReuseIdentifier];
 
-    _tableView.tableFooterView = [self buildAgreeViewFromString:@"By clicking subscribe you agree to our #<ts>terms of service# and #<pp>privacy policies#."];
+    _tableView.tableFooterView = [self buildAgreeViewFromString:@"By clicking sign up you agree to our #<ts>terms of service# and #<pp>privacy policies#."];
     _tableView.tableFooterView.bounds = CGRectInset(self.tableView.tableFooterView.bounds, 0.0, -10.0);
 
     _tableView.dataSource = self;
