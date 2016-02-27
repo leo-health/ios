@@ -1,4 +1,6 @@
     upcoming:
+      - New! Cleaner feed interface
+      - Bug fixing
     releases:
     - version: 0.8.0
       build: 2016.02.25.22.39
