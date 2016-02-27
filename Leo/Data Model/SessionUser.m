@@ -81,6 +81,9 @@ static dispatch_once_t onceToken;
 
 //TODO: Eventually need to actually inform the server of the logging out...
 + (void)logout {
+
+    [Crittercism leaveBreadcrumb:[NSString stringWithFormat:@"%s", __PRETTY_FUNCTION__]];
+
     [self removeFromUserDefaults];
     [_credentialStore clearSavedCredentials];
 }

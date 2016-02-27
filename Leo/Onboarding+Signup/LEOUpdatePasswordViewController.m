@@ -103,6 +103,8 @@
 
 - (void)updatePassword {
 
+    [Crittercism leaveBreadcrumb:[NSString stringWithFormat:@"%s", __PRETTY_FUNCTION__]];
+
     [MBProgressHUD showHUDAddedTo:self.updatePasswordView animated:YES];
     self.view.userInteractionEnabled = NO;
 

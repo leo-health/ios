@@ -183,6 +183,8 @@ static CGFloat const kHeightOfHeaderPHR = 200;
 #pragma mark - GNZSlidingSegmentView Delegate
 - (void)slidingSegmentView:(GNZSlidingSegmentView *)slidingSegmentView segmentDidChange:(NSUInteger)newSegmentIndex {
 
+    [Crittercism leaveBreadcrumb:[NSString stringWithFormat:@"%s", __PRETTY_FUNCTION__]];
+
     self.stickyHeaderView.scrollView.contentOffset = CGPointZero;
 }
 

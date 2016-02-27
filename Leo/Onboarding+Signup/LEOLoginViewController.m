@@ -147,6 +147,8 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
 
 - (void)continueTapped:(UIButton *)sender {
 
+    [Crittercism leaveBreadcrumb:[NSString stringWithFormat:@"%s", __PRETTY_FUNCTION__]];
+
     BOOL validEmail = [LEOValidationsHelper isValidEmail:[self emailTextField].text];
     BOOL validPassword = [LEOValidationsHelper isValidPassword:[self passwordTextField].text];
 

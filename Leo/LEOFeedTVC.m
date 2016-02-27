@@ -464,6 +464,7 @@ static CGFloat const kFeedInsetTop = 20.0;
 
 - (void)didUpdateObjectStateForCard:(id<LEOCardProtocol>)card {
 
+
     [UIView animateWithDuration:0.2 animations:^{
 
     } completion:^(BOOL finished) {
@@ -477,11 +478,15 @@ static CGFloat const kFeedInsetTop = 20.0;
                 case AppointmentStatusCodeBooking:
                 case AppointmentStatusCodeFuture: {
 
+                    [Crittercism leaveBreadcrumb:[NSString stringWithFormat:@"%s appointment future", __PRETTY_FUNCTION__]];
+
                     [self loadBookingViewWithCard:card];
                     break;
                 }
 
                 case AppointmentStatusCodeCancelled: {
+
+                    [Crittercism leaveBreadcrumb:[NSString stringWithFormat:@"%s appointment cancelled", __PRETTY_FUNCTION__]];
 
                     [self removeCardFromFeed:card];
                     break;
@@ -489,11 +494,15 @@ static CGFloat const kFeedInsetTop = 20.0;
 
                 case AppointmentStatusCodeCancelling: {
 
+                    [Crittercism leaveBreadcrumb:[NSString stringWithFormat:@"%s appointment cancelling", __PRETTY_FUNCTION__]];
+
                     [self.tableView reloadData];
                     break;
                 }
 
                 case AppointmentStatusCodeConfirmingCancelling: {
+
+                    [Crittercism leaveBreadcrumb:[NSString stringWithFormat:@"%s appointment confirming cancelling", __PRETTY_FUNCTION__]];
 
                     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[((LEOCard *)card).priority integerValue] inSection:TableViewSectionBody];
                     LEOFeedCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
@@ -527,6 +536,8 @@ static CGFloat const kFeedInsetTop = 20.0;
 
                 case AppointmentStatusCodeReminding: {
 
+                    [Crittercism leaveBreadcrumb:[NSString stringWithFormat:@"%s appointment reminding", __PRETTY_FUNCTION__]];
+
                     [self.tableView reloadData];
                     break;
                 }
@@ -537,6 +548,9 @@ static CGFloat const kFeedInsetTop = 20.0;
                 case AppointmentStatusCodeOpen:
                 case AppointmentStatusCodeRecommending:
                 case AppointmentStatusCodeUndefined: {
+
+                    [Crittercism leaveBreadcrumb:[NSString stringWithFormat:@"%s appointment status undefined", __PRETTY_FUNCTION__]];
+
                     [self.tableView reloadData]; //TODO: This is not right, but for now it is a placeholder.
                     break;
                 }
@@ -549,10 +563,14 @@ static CGFloat const kFeedInsetTop = 20.0;
             switch (conversation.statusCode) {
 
                 case ConversationStatusCodeClosed: {
+
+                    [Crittercism leaveBreadcrumb:[NSString stringWithFormat:@"%s conversation closed", __PRETTY_FUNCTION__]];
                     [self.tableView reloadData];
                     break;
                 }
                 case ConversationStatusCodeOpen: {
+
+                    [Crittercism leaveBreadcrumb:[NSString stringWithFormat:@"%s conversation open", __PRETTY_FUNCTION__]];
                     [self loadChattingViewWithCard:card];
                     break;
                 }
@@ -560,11 +578,11 @@ static CGFloat const kFeedInsetTop = 20.0;
                 case ConversationStatusCodeNewMessages:
                 case ConversationStatusCodeReadMessages:
                 case ConversationStatusCodeCallUs:
+                    [Crittercism leaveBreadcrumb:[NSString stringWithFormat:@"%s conversation call us", __PRETTY_FUNCTION__]];
                     [self confirmCallUs];
                 case ConversationStatusCodeUndefined:
+                    [Crittercism leaveBreadcrumb:[NSString stringWithFormat:@"%s conversation undefined", __PRETTY_FUNCTION__]];
                     break;
-
-                    //FIXME: Need to handle "Call us" somehow
             }
         }
     }];
