@@ -1,12 +1,14 @@
     upcoming:
+    - External release; no changes since 0.8.1 internal release.
+
     releases:
     - version: 0.8.1
       build: 2016.02.26.19.28
       date: February 26 2016
       notes:
       - New! Cleaner feed interface
-  - Bug fixing
-    
+      -  Bug fixing
+
     - version: 0.8.0
       build: 2016.02.25.22.39
       date: February 25 2016
