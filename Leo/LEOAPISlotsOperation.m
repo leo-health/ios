@@ -29,6 +29,7 @@ NSInteger const kDayRangeForSlots = 45;
     
     if (self) {
         _prepAppointment = [[PrepAppointment alloc] initWithAppointment:appointment];
+        _prepAppointment.provider = nil;
     }
     
     return self;

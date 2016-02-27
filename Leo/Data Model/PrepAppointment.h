@@ -28,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 //MARK: Technically a bookedByUser in a prepAppointment should always be the currentuser, right? So we might not need this to be a publicly writeable property.
 @property (nonatomic, strong) User *bookedByUser;
 @property (nonatomic, strong) Patient *patient;
-@property (nonatomic, strong) Provider *provider;
+@property (nonatomic, strong, nullable) Provider *provider;
 @property (nonatomic, strong) NSString *note;
 @property (nonatomic, strong) NSString *practiceID;
 
