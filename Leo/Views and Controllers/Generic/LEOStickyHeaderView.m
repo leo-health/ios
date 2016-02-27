@@ -518,6 +518,11 @@ NSString * const kAnimationKeyPathStrokeColor = @"strokeColor";
     self.scrollView.contentOffset = CGPointMake(0.0, [self heightOfHeaderCellExcludingOverlapWithNavBar]);
 }
 
+- (BOOL)isCollapsible {
+
+    return [self heightOfHeaderCellExcludingOverlapWithNavBar] > 0;
+}
+
 -(void)navigationTitleViewSnapsForScrollView:(UIScrollView *)scrollView animated:(BOOL)animated {
 
     if (self.isCollapsible) {

@@ -113,10 +113,15 @@ typedef NS_ENUM(NSUInteger, ScrollDirection) {
 #pragma mark - Actions
 -(void)segmentSelectionDidChange:(id)sender
 {
+    NSInteger index = [(id)self.feedSelectorControl selectedSegmentIndex];
     if (!self.isResponsibleForSegmentChange) {
         CGRect frame = self.scrollView.frame;
-        frame.origin.x = frame.size.width * [(id)self.feedSelectorControl selectedSegmentIndex];
+        frame.origin.x = frame.size.width * index;
         [self.scrollView scrollRectToVisible:frame animated:YES];
+    }
+
+    if ([self.delegate respondsToSelector:@selector(slidingSegmentView:segmentDidChange:)]) {
+        [self.delegate slidingSegmentView:self segmentDidChange:index];
     }
 }
 
