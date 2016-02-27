@@ -84,6 +84,7 @@ NSString * const kAnimationKeyPathStrokeColor = @"strokeColor";
 
     if (!_contentView) {
 
+        // TODO: refactor - these should be in individual accessor methods. How to deal with side effects correctly?
         UIView *strongContentView = [UIView new];
         _contentView = strongContentView;
 
@@ -151,10 +152,17 @@ NSString * const kAnimationKeyPathStrokeColor = @"strokeColor";
 
 - (void)reloadTitleView {
 
-    [self.titleView removeFromSuperview];
-    UIView* strongTitleView = [self.datasource injectTitleView];
-    _titleView = strongTitleView;
-    [self.contentView addSubview:_titleView];
+    if ([self.datasource respondsToSelector:@selector(injectTitleView)]) {
+        UIView* strongView = [self.datasource injectTitleView];
+        
+        if (strongView) {
+            
+            [self.titleView removeFromSuperview];
+            
+            _titleView = strongView;
+            [self addSubview:_titleView];
+        }
+    }
 }
 
 - (void)reloadFooterView {

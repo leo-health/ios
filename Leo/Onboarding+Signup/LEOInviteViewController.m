@@ -94,7 +94,12 @@ static NSString * const kCopyHeaderInviteParent = @"Invite another parent to Leo
 }
 
 - (UIView *)injectTitleView {
-    return self.headerView;
+    
+    if (self.feature == FeatureOnboarding) {
+        return self.headerView;
+    }
+    
+    return nil;
 }
 
 -(void)updateTitleViewForScrollTransitionPercentage:(CGFloat)transitionPercentage {
