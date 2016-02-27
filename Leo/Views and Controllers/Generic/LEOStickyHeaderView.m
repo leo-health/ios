@@ -160,7 +160,7 @@ NSString * const kAnimationKeyPathStrokeColor = @"strokeColor";
             [self.titleView removeFromSuperview];
             
             _titleView = strongView;
-            [self addSubview:_titleView];
+            [_contentView addSubview:_titleView];
         }
     }
 }
