@@ -1,7 +1,11 @@
     upcoming:
-    - External release; no changes since 0.8.1 internal release.
-
     releases:
+    - version: 1.0.0
+      build: 2016.02.26.21.05
+      date: February 26 2016
+      notes:
+      - External release; no changes since 0.8.1 internal release.
+    
     - version: 0.8.1
       build: 2016.02.26.19.28
       date: February 26 2016
@@ -172,6 +176,7 @@
       notes:
       - First test build using new Fastfile configuration for Alpha builds
       - Provides the basic functionality all created prior to our first releases
+
 
 
 
