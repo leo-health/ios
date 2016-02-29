@@ -296,8 +296,12 @@
 }
 
 - (LEOFeedTVC *)feedTVC {
-    
-    return [[(UINavigationController *)self.window.rootViewController viewControllers] firstObject];
+
+    UINavigationController *nav = (UINavigationController *)self.window.rootViewController;
+    if ([nav isKindOfClass:[UINavigationController class]]) {
+        return [[nav viewControllers] firstObject];
+    }
+    return nil;
 }
 
 
