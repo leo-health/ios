@@ -335,27 +335,26 @@ NSString * const kAnimationKeyPathStrokeColor = @"strokeColor";
     self.scrollView.bounces = ![self scrollViewContentSizeSmallerThanScrollViewFrameIncludingInsets];
 }
 
+- (CGFloat)headerHeight {
+    return [self heightOfHeaderCellExcludingOverlapWithNavBar];
+}
+
 - (void)snapIfNeededInResponseToObservedContentOffsetChange {
 
     // header should always be either expanded or collapsed, never in between
-    BOOL shouldChangeFromCollapsedToExpanded = !self.wasExpandedBeforeContentSizeChange && [self titleViewShouldSnapToExpandedState];
-    BOOL shouldChangeFromExpandedToCollapsed = self.wasExpandedBeforeContentSizeChange && [self scrollViewVerticalContentOffset];
+    BOOL shouldChangeFromCollapsedToExpanded = !self.wasExpandedBeforeContentSizeChange && [self scrollViewVerticalContentOffset] <= 0;
+    BOOL shouldChangeFromExpandedToCollapsed = [self scrollViewVerticalContentOffset] > 0 && ![self isCollapsed]; // self.wasExpandedBeforeContentSizeChange && [self scrollViewVerticalContentOffset];
     BOOL shouldAnimateSnap = shouldChangeFromCollapsedToExpanded || shouldChangeFromExpandedToCollapsed;
 
     if (!self.scrollingWithTouch && !self.snapTransitionInProcess) {
 
         if (shouldChangeFromExpandedToCollapsed) {
 
-            self.forceSnapToStartFromBeginning = YES;
-            [self snapToExpanded]; // start animation from beginning
-            // will change content offset, then this observe method will be called recursively.
-            [self navigationTitleViewSnapsForScrollView:self.scrollView animated:YES];
+            [self snapToExpanded:NO animated:shouldAnimateSnap withCompletion:nil];
 
         } else if (shouldChangeFromCollapsedToExpanded) {
 
-            self.forceSnapToStartFromEnd = YES;
-            [self snapToCollapsed];
-            [self navigationTitleViewSnapsForScrollView:self.scrollView animated:YES];
+            [self snapToExpanded:YES animated:YES withCompletion:nil];
         }
 
         if (!self.forceSnapToStartFromBeginning && !self.forceSnapToStartFromEnd) {
@@ -456,7 +455,6 @@ NSString * const kAnimationKeyPathStrokeColor = @"strokeColor";
         if (!bouncing) {
 
             [self navigationTitleViewSnapsForScrollView:scrollView animated:YES];
-            self.scrollingWithTouch = NO;
         }
     }
 }
@@ -467,7 +465,6 @@ NSString * const kAnimationKeyPathStrokeColor = @"strokeColor";
 
         if (!decelerate) {
             [self navigationTitleViewSnapsForScrollView:scrollView animated:YES];
-            self.scrollingWithTouch = NO;
         }
     }
 }
@@ -509,21 +506,24 @@ NSString * const kAnimationKeyPathStrokeColor = @"strokeColor";
 #pragma mark  -  Snapping 
 
 - (BOOL)titleViewShouldSnapToExpandedState {
-    return [self scrollViewVerticalContentOffset] < [self heightOfNoReturn];
+
+    return ![self isExpanded] && [self scrollViewVerticalContentOffset] < [self heightOfNoReturn];
 }
 
 - (BOOL)titleViewShouldSnapToCollapsedState {
+
     return [self scrollViewVerticalContentOffset] > [self heightOfNoReturn] && [self scrollViewVerticalContentOffset] < [self heightOfHeaderCellExcludingOverlapWithNavBar];
 }
 
-- (void)snapToExpanded {
+- (void)snapToExpanded:(BOOL)expanded {
 
-    self.scrollView.contentOffset = CGPointMake(0.0, 0.0);
-}
+    if (expanded) {
 
-- (void)snapToCollapsed {
+        self.scrollView.contentOffset = CGPointMake(0.0, 0.0);
+    } else {
 
-    self.scrollView.contentOffset = CGPointMake(0.0, [self heightOfHeaderCellExcludingOverlapWithNavBar]);
+        self.scrollView.contentOffset = CGPointMake(0.0, [self heightOfHeaderCellExcludingOverlapWithNavBar]);
+    }
 }
 
 - (BOOL)isCollapsible {
@@ -531,55 +531,71 @@ NSString * const kAnimationKeyPathStrokeColor = @"strokeColor";
     return [self heightOfHeaderCellExcludingOverlapWithNavBar] > 0;
 }
 
+- (void)snapToExpanded:(BOOL)expanded animated:(BOOL)animated withCompletion:(void(^)(BOOL finished))completionBlock {
+
+    void(^_completion)(BOOL finished) = ^void(BOOL finished) {
+
+        [self snapCompletionBlock](finished);
+        completionBlock ? completionBlock(finished) : nil;
+    };
+
+    self.snapTransitionInProcess = YES;
+
+    if (expanded) {
+
+        self.forceSnapToStartFromEnd = NO;
+        self.wasExpandedBeforeContentSizeChange = YES;
+    } else {
+
+        self.forceSnapToStartFromBeginning = NO;
+        self.wasExpandedBeforeContentSizeChange = NO;
+    }
+
+    if (animated) {
+
+        [UIView animateWithDuration:0.5 animations:^{
+
+            [self snapToExpanded:expanded];
+        } completion:_completion];
+
+    } else {
+
+        [self snapToExpanded:expanded];
+        _completion(YES);
+    }
+}
+
+- (void(^)(BOOL finished))snapCompletionBlock {
+
+    return ^(BOOL finished) {
+
+        self.snapTransitionInProcess = NO;
+        self.scrollingWithTouch = NO;
+        [self animateBreakerIfNeeded];
+    };
+}
+
 -(void)navigationTitleViewSnapsForScrollView:(UIScrollView *)scrollView animated:(BOOL)animated {
 
     if (self.isCollapsible) {
 
-        void (^animations)() = ^{};
-
-        void (^completion)(BOOL) = ^(BOOL finished) {
-
-            self.snapTransitionInProcess = NO;
-            [self animateBreakerIfNeeded];
-        };
-
         // Force collapse
         if (self.forceSnapToStartFromBeginning || [self titleViewShouldSnapToCollapsedState]) {
 
-            self.snapTransitionInProcess = YES;
-            self.forceSnapToStartFromBeginning = NO;
-            self.wasExpandedBeforeContentSizeChange = NO;
-            animations = ^{
-
-                [self snapToCollapsed];
-            };
+            [self snapToExpanded:NO animated:animated withCompletion:nil];
         }
 
         // Force expand
         else if (self.forceSnapToStartFromEnd || [self titleViewShouldSnapToExpandedState]) {
 
-            self.snapTransitionInProcess = YES;
-            self.forceSnapToStartFromEnd = NO;
-            self.wasExpandedBeforeContentSizeChange = YES;
-            animations = ^{
+            [self snapToExpanded:YES animated:animated withCompletion:nil];
+        }
 
-                [self snapToExpanded];
-            };
-        } else {
+        else {
 
             self.wasExpandedBeforeContentSizeChange = [self isExpanded];
+            [self snapCompletionBlock](YES);
         }
-
-        if (animated) {
-
-            [UIView animateWithDuration:0.5 animations:animations completion:completion];
-        } else {
-
-            animations();
-            completion(YES);
-        }
-
-
     }
 }
 
