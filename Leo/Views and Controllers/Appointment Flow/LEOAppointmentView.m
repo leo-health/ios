@@ -84,7 +84,6 @@ IB_DESIGNABLE
     _notesTextView.floatingLabelActiveTextColor = [UIColor leo_grayForPlaceholdersAndLines]; //TODO: Check *again* this color is right.
     _notesTextView.textColor = [UIColor leo_green];
     _notesTextView.tintColor = [UIColor leo_green];
-    _notesTextView.autocorrectionType = UITextAutocorrectionTypeNo;
 }
 
 -(void)setPatientPromptView:(LEOPromptView *)patientPromptView {
