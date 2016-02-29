@@ -38,7 +38,7 @@
 
 @implementation LEOManagePatientsViewController
 
-static NSString * const kCopyHeaderManagePatients = @"Let's setup a profile for each of your children";
+static NSString * const kCopyHeaderManagePatients = @"Let's set up a profile for each of your children";
 static NSString * const kCopyCollapsedHeaderManagePatients = @"My Children";
 static NSString * const kSignUpPatientSegue = @"SignUpPatientSegue";
 
