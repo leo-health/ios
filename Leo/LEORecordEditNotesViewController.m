@@ -99,19 +99,19 @@
     if (self.note) {
 
         self.note.text = self.textView.text;
+
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         [[LEOHealthRecordService new] putNote:self.note forPatient:self.patient withCompletion:^(PatientNote *updatedNote, NSError *error) {
 
-            // TODO: handle error
-            self.editNoteCompletionBlock(updatedNote);
+            if (!error) {
+                self.editNoteCompletionBlock(updatedNote);
+            }
+            // update the note while we wait for the network
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [self dismissViewControllerAnimated:YES completion:nil];
         }];
 
-        // update the note while we wait for the network
-        self.editNoteCompletionBlock(self.note);
-        [self dismissViewControllerAnimated:YES completion:nil];
-
     } else {
-
-
 
         self.note = [PatientNote new];
         self.note.text = self.textView.text;
