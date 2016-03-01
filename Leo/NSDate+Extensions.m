@@ -84,6 +84,16 @@
     return date;
 }
 
++ (NSDate *)leo_dateFromAthenaDateTimeString:(NSString *)dateTimeString {
+
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZ"];
+
+    NSDate *date = [dateFormatter dateFromString:dateTimeString];
+    return date;
+}
+
+
 + (NSDate *)leo_dateFromDashedDateString:(NSString *)dateString {
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];

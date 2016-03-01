@@ -10,14 +10,12 @@
 #import "NSDictionary+Additions.h"
 #import "LEOConstants.h"
 
-@implementation HealthRecord {
-
-    NSMutableArray *_notes;
-}
+@implementation HealthRecord
 
 -(instancetype)initWithAllergies:(NSArray<Allergy *> *)allergies medications:(NSArray<Medication *> *)medications immunizations:(NSArray<Immunization *> *)immunizations bmis:(NSArray<PatientVitalMeasurement *> *)bmis heights:(NSArray<PatientVitalMeasurement *> *)heights weights:(NSArray<PatientVitalMeasurement *> *)weights {
 
     self = [super init];
+    
     if (self) {
 
         _allergies = allergies;
@@ -27,6 +25,7 @@
         _heights = heights;
         _weights = weights;
     }
+
     return self;
 }
 
@@ -48,24 +47,7 @@
 }
 
 + (instancetype)mockObject {
-
     return [[HealthRecord alloc] initWithAllergies:@[[Allergy mockObject]] medications:@[[Medication mockObject]] immunizations:@[[Immunization mockObject]] bmis:@[[PatientVitalMeasurement mockObject]] heights:@[[PatientVitalMeasurement mockObject]] weights:@[[PatientVitalMeasurement mockObject]]];
-}
-
-- (void)addNotesObject:(PatientNote *)object {
-    [_notes addObject:object];
-}
-
-- (void)setNotes:(NSArray<PatientNote *> *)notes {
-    _notes = [notes mutableCopy];
-}
-
-- (void)removeNotesObject:(PatientNote *)object {
-    [_notes removeObject:object];
-}
-
-- (NSArray<PatientNote *> *)notes {
-    return [_notes copy];
 }
 
 @end

@@ -94,6 +94,7 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
     }
     return _tableView;
 }
+
 - (NSString *)cellReuseIdentifier {
 
     if (!_cellReuseIdentifier) {
@@ -115,6 +116,7 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
     BOOL useMock = NO;
 
     if (!self.healthRecord) {
+    __block BOOL readyToHideHUD = NO;
 
         LEOHealthRecordService *service = [LEOHealthRecordService new];
 
@@ -126,15 +128,17 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
 
                 self.notes = [notes mutableCopy];
 
-                [self.tableView beginUpdates];
                 [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:PHRTableViewSectionNotes] withRowAnimation:UITableViewRowAnimationFade];
-                [self.tableView endUpdates];
-
                 [self.view setNeedsLayout];
                 [self.view layoutIfNeeded];
-
             }
-        }];
+            
+        if (readyToHideHUD) {
+            [MBProgressHUD hideHUDForView:self.view.window animated:YES];
+        }
+
+        readyToHideHUD = YES;
+    }];
 
         [service getHealthRecordForPatient:self.patient withCompletion:^(HealthRecord *healthRecord, NSError *error) {
 
@@ -159,7 +163,11 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
                 [self reloadData];
             }
 
-            [MBProgressHUD hideHUDForView:self.view.window animated:YES];
+            if (readyToHideHUD) {
+                [MBProgressHUD hideHUDForView:self.view.window animated:YES];
+            }
+            
+            readyToHideHUD = YES;
         }];
     }
 }
@@ -196,21 +204,203 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
     [super updateViewConstraints];
 }
 
-#pragma mark - Table View Data Source
+#pragma mark - <UITableViewDataSource>
 
-#pragma mark - Sections
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-
     return PHRTableViewSectionCount;
 }
 
-- (UITableViewHeaderFooterView *)sizingHeader {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-    if (!_sizingHeader) {
-        _sizingHeader = [UITableViewHeaderFooterView new];
+    NSInteger rows = 0;
+
+    if ([self healthRecordExists]) {
+        switch (section) {
+
+            case PHRTableViewSectionRecentVitals:
+                rows += [self healthRecordExists] ? 3 : 0; //one for each of the vitals: height, weight, bmi;
+                break;
+
+            case PHRTableViewSectionAllergies:
+                rows = [self healthRecordExists] ? self.healthRecord.allergies.count ?: 1 : 0;
+                break;
+
+            case PHRTableViewSectionMedications:
+                rows = [self healthRecordExists] ? self.healthRecord.medications.count ? : 1 : 0;
+                break;
+
+            case PHRTableViewSectionImmunizations:
+                rows = [self healthRecordExists] ? self.healthRecord.immunizations.count ? : 1 : 0;
+                break;
+
+            case PHRTableViewSectionNotes:
+                rows += 1;
+                break;
+        }
+    } else if (self.healthRecord) {
+
+        switch (section) {
+
+            case PHRTableViewSectionEmptyRecord:
+                rows += ![self healthRecordExists];
+                break;
+
+
+            case PHRTableViewSectionNotes:
+                
+                self.notes? rows += 1 : 0;
+                break;
+        }
+        
     }
-    return _sizingHeader;
+    
+    return rows;
 }
+
+/**
+ *  If any data fields comes back from the API, the health record exists.
+ *
+ *  @return BOOL existence of health record
+ */
+- (BOOL)healthRecordExists {
+
+    return (self.healthRecord.weights.count || self.healthRecord.heights.count || self.healthRecord.bmis.count || self.healthRecord.allergies.count || self.healthRecord.medications.count || self.healthRecord.immunizations.count) && self.healthRecord;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:self.cellReuseIdentifier forIndexPath:indexPath];
+
+    [self configureCell:cell forIndexPath:indexPath];
+    return cell;
+}
+
+- (void)configureCell:(UITableViewCell *)cell forIndexPath:(NSIndexPath*)indexPath {
+
+    LEOPHRTableViewCell *_cell = (LEOPHRTableViewCell *)cell;
+
+    switch (indexPath.section) {
+
+        case PHRTableViewSectionEmptyRecord:
+            [_cell configureCellForEmptyRecordWithPatient:self.patient];
+            break;
+
+        case PHRTableViewSectionRecentVitals: {
+
+            switch (indexPath.row) {
+                case 0:
+                    [self configureCell:_cell atIndexPath:indexPath forHeights:self.healthRecord.heights];
+                    break;
+
+                case 1:
+                    [self configureCell:_cell atIndexPath:indexPath forWeights:self.healthRecord.weights];
+                    break;
+
+                case 2:
+                    [self configureCell:_cell atIndexPath:indexPath forBMIs:self.healthRecord.bmis];
+                    break;
+            }
+        }
+            break;
+
+        case PHRTableViewSectionAllergies:
+            [self configureCell:_cell atIndexPath:indexPath forAllergies:self.healthRecord.allergies];
+            break;
+
+        case PHRTableViewSectionMedications:
+            [self configureCell:_cell atIndexPath:indexPath forMedications:self.healthRecord.medications];
+            break;
+
+        case PHRTableViewSectionImmunizations:
+            [self configureCell:_cell atIndexPath:indexPath forImmunizations:self.healthRecord.immunizations];
+            break;
+
+        case PHRTableViewSectionNotes:
+            [self configureCell:_cell atIndexPath:indexPath forNotes:self.notes];
+            break;
+    }
+}
+
+
+- (UITableViewCell *)configureCell:(LEOPHRTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath forAllergies:(NSArray <Allergy *>*)allergies {
+
+    if (self.healthRecord.allergies.count > 0) {
+        [cell configureCellWithAllergy:allergies[indexPath.row]];
+    } else {
+        [cell configureCellForEmptySectionWithMessage:kCopyEmptyAllergyField];
+    }
+
+    return cell;
+}
+
+- (UITableViewCell *)configureCell:(LEOPHRTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath forWeights:(NSArray <PatientVitalMeasurement *>*)weights {
+
+    if (weights.count) {
+        [cell configureCellWithVital:weights.firstObject title:@"Weight"];
+    } else {
+        [cell configureCellForEmptySectionWithMessage:kCopyEmptyWeightField];
+    }
+
+    return cell;
+}
+
+- (UITableViewCell *)configureCell:(LEOPHRTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath forHeights:(NSArray <PatientVitalMeasurement *>*)heights {
+
+    if (heights.count) {
+        [cell configureCellWithVital:heights.firstObject title:@"Height"];
+    } else {
+        [cell configureCellForEmptySectionWithMessage:kCopyEmptyHeightField];
+    }
+
+    return cell;
+}
+
+- (UITableViewCell *)configureCell:(LEOPHRTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath forBMIs:(NSArray <PatientVitalMeasurement *>*)bmis {
+
+    if (bmis.count) {
+        [cell configureCellWithVital:bmis.firstObject title:@"BMI"];
+    } else {
+        [cell configureCellForEmptySectionWithMessage:kCopyEmptyBMIField];
+    }
+
+    return cell;
+}
+
+- (UITableViewCell *)configureCell:(LEOPHRTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath forMedications:(NSArray <Medication *>*)medications {
+
+    if (medications.count > 0) {
+        [cell configureCellWithMedication:medications[indexPath.row]];
+    } else {
+        [cell configureCellForEmptySectionWithMessage:kCopyEmptyMedicationsField];
+    }
+
+    return cell;
+}
+
+- (UITableViewCell *)configureCell:(LEOPHRTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath forImmunizations:(NSArray <Immunization *>*)immunizations {
+
+    if (immunizations.count > 0) {
+        [cell configureCellWithImmunization:immunizations[indexPath.row]];
+    } else {
+        [cell configureCellForEmptySectionWithMessage:kCopyEmptyImmunizationField];
+    }
+
+    return cell;
+}
+
+- (UITableViewCell *)configureCell:(LEOPHRTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath forNotes:(NSArray <PatientNote *>*)notes {
+
+    if (indexPath.row < self.notes.count) {
+        [cell configureCellWithNote:self.notes[indexPath.row]];
+    } else {
+        [cell configureCellForEmptySectionWithMessage:kCopyEmptyNotesField];
+    }
+
+    return cell;
+}
+
+
+#pragma mark - <UITableViewDelegate>
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
 
@@ -222,6 +412,16 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
     [self configureSectionHeader:self.sizingHeader forSection:section];
     CGSize size = [self.sizingHeader systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
     return size.height;
+}
+
+
+- (UITableViewHeaderFooterView *)sizingHeader {
+
+    if (!_sizingHeader) {
+        _sizingHeader = [UITableViewHeaderFooterView new];
+    }
+
+    return _sizingHeader;
 }
 
 - (UITableViewHeaderFooterView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
@@ -245,14 +445,12 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
 
 - (void)configureSectionHeader:(UITableViewHeaderFooterView *)sectionHeaderView forSection:(NSInteger)section {
 
-
     UILabel *_titleLabel = [UILabel new];
     _titleLabel.font = [UIFont leo_fieldAndUserLabelsAndSecondaryButtonsFont];
     _titleLabel.textColor = [UIColor leo_grayStandard];
 
     UIView *_separatorLine = [UIView new];
     [_separatorLine setBackgroundColor:[UIColor leo_grayStandard]];
-
 
     UIButton *_editNoteButton = [UIButton new];
     [_editNoteButton setTitle:kEditButtonText forState:UIControlStateNormal];
@@ -294,11 +492,13 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
     [sectionHeaderView.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(horizontalMargin)-[_separatorLine]-(horizontalMargin)-|" options:0 metrics:metrics views:views]];
 
     NSString *title;
+
     switch (section) {
 
         case PHRTableViewSectionEmptyRecord:
             title = nil;
             break;
+
         case PHRTableViewSectionRecentVitals:
             title = @"RECENT VITALS";
             break;
@@ -323,74 +523,6 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
     _titleLabel.text = title;
 }
 
-/**
- *  If any data fields comes back from the API, the health record exists.
- *
- *  @return BOOL existence of health record
- */
-- (BOOL)healthRecordExists {
-
-    return (self.healthRecord.weights.count || self.healthRecord.heights.count || self.healthRecord.bmis.count || self.healthRecord.allergies.count || self.healthRecord.medications.count || self.healthRecord.immunizations.count) && self.healthRecord;
-}
-
-#pragma mark - Cells
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-
-    NSInteger rows = 0;
-
-    if ([self healthRecordExists]) {
-        switch (section) {
-
-            case PHRTableViewSectionRecentVitals:
-                rows += [self healthRecordExists] ? 3 : 0; //one for each of the vitals: height, weight, bmi;
-                break;
-
-            case PHRTableViewSectionAllergies:
-                rows = [self healthRecordExists] ? self.healthRecord.allergies.count ?: 1 : 0;
-                break;
-
-            case PHRTableViewSectionMedications:
-                rows = [self healthRecordExists] ? self.healthRecord.medications.count ? : 1 : 0;
-                break;
-
-            case PHRTableViewSectionImmunizations:
-                rows = [self healthRecordExists] ? self.healthRecord.immunizations.count ? : 1 : 0;
-                break;
-
-            case PHRTableViewSectionNotes:
-                rows += 1;
-                break;
-        }
-    } else if (self.healthRecord) {
-
-        switch (section) {
-
-            case PHRTableViewSectionEmptyRecord:
-                rows += ![self healthRecordExists];
-                break;
-
-
-            case PHRTableViewSectionNotes:
-
-                self.notes? rows += 1 : 0;
-                break;
-        }
-
-    }
-
-    return rows;
-}
-
-- (UITableViewCell *)sizingCell {
-
-    if (!_sizingCell) {
-        _sizingCell = [[[NSBundle mainBundle] loadNibNamed:NSStringFromClass([LEOPHRTableViewCell class]) owner:nil options:nil] firstObject];
-    }
-
-    return _sizingCell;
-}
-
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 
     [self configureCell:self.sizingCell forIndexPath:indexPath];
@@ -406,122 +538,21 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
     return size.height;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)sizingCell {
 
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:self.cellReuseIdentifier forIndexPath:indexPath];
-
-    [self configureCell:cell forIndexPath:indexPath];
-    return cell;
-}
-
-- (void)configureCell:(UITableViewCell *)cell forIndexPath:(NSIndexPath*)indexPath {
-
-    LEOPHRTableViewCell *_cell = (LEOPHRTableViewCell *)cell;
-
-    switch (indexPath.section) {
-
-        case PHRTableViewSectionEmptyRecord:
-            [_cell configureCellForEmptyRecordWithPatient:self.patient];
-            break;
-
-        case PHRTableViewSectionRecentVitals:
-
-            switch (indexPath.row) {
-                case 0: {
-
-                    if (self.healthRecord.heights.count) {
-                        [_cell configureCellWithVital:self.healthRecord.heights.firstObject title:@"Height"];
-                    } else {
-                        [_cell configureCellForEmptySectionWithMessage:kCopyEmptyHeightField];
-                    }
-                }
-                    break;
-
-                case 1: {
-                    if (self.healthRecord.weights.count) {
-                        [_cell configureCellWithVital:self.healthRecord.weights.firstObject title:@"Weight"];
-                    } else {
-                        [_cell configureCellForEmptySectionWithMessage:kCopyEmptyWeightField];
-                    }
-                }
-                    break;
-
-                case 2: {
-
-                    if (self.healthRecord.bmis.count) {
-                        [_cell configureCellWithVital:self.healthRecord.bmis.firstObject title:@"BMI"];
-                    } else {
-                        [_cell configureCellForEmptySectionWithMessage:kCopyEmptyBMIField];
-                    }
-                }
-                    break;
-            }
-
-            break;
-
-        case PHRTableViewSectionAllergies: {
-
-            if (self.healthRecord.allergies.count > 0) {
-
-                Allergy *allergy = self.healthRecord.allergies[indexPath.row];
-                [_cell configureCellWithAllergy:allergy];
-            } else {
-
-                [_cell configureCellForEmptySectionWithMessage:kCopyEmptyAllergyField];
-            }
-        }
-            break;
-
-        case PHRTableViewSectionMedications: {
-
-            if (self.healthRecord.medications.count > 0) {
-
-                Medication *medication = self.healthRecord.medications[indexPath.row];
-                [_cell configureCellWithMedication:medication];
-            } else {
-
-                [_cell configureCellForEmptySectionWithMessage:kCopyEmptyMedicationsField];
-            }
-
-        }
-            break;
-
-        case PHRTableViewSectionImmunizations: {
-
-            if (self.healthRecord.immunizations.count > 0) {
-
-                Immunization *immunization = self.healthRecord.immunizations[indexPath.row];
-                immunization.administeredAt = [NSDate date];
-                [_cell configureCellWithImmunization:immunization];
-
-            } else {
-
-                [_cell configureCellForEmptySectionWithMessage:kCopyEmptyImmunizationField];
-            }
-
-        }
-            break;
-
-        case PHRTableViewSectionNotes: {
-
-
-            if (indexPath.row < self.notes.count) {
-
-                PatientNote *note = self.notes[indexPath.row];
-                [_cell configureCellWithNote:note];
-
-            } else {
-
-                [_cell configureCellForEmptySectionWithMessage:kCopyEmptyNotesField];
-            }
-        }
-            break;
+    if (!_sizingCell) {
+        _sizingCell = [[[NSBundle mainBundle] loadNibNamed:NSStringFromClass([LEOPHRTableViewCell class]) owner:nil options:nil] firstObject];
     }
+
+    return _sizingCell;
 }
+
+#pragma mark - Actions
 
 - (void)editNoteTouchedUpInside {
     
     PatientNote* note;
+
     if (self.notes.count > 0) {
         note = [self.notes lastObject]; // TODO: update to handle multiple notes
     }
@@ -534,6 +565,7 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
     LEORecordEditNotesViewController *vc = [LEORecordEditNotesViewController new];
     vc.patient = self.patient;
     vc.note = note;
+
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
     [self.phrViewController presentViewController:nav animated:YES completion:nil];
     
@@ -547,6 +579,7 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
 - (void)updateNote:(PatientNote *)updatedNote {
     
     int i = 0;
+
     for (PatientNote *note in self.notes) {
         if ([note.objectID isEqualToString:updatedNote.objectID] || (!note.objectID && !updatedNote.objectID) ) {
             
@@ -555,6 +588,7 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
         }
         i++;
     }
+
     // if not found, this is a newly created note.
     [self.notes addObject:updatedNote];
 }

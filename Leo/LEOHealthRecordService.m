@@ -12,6 +12,7 @@
 #import "NSDate+Extensions.h"
 #import "HealthRecord.h"
 #import "Patient.h"
+#import "PatientNote.h"
 
 @implementation LEOHealthRecordService
 
@@ -27,16 +28,57 @@
 
         NSDictionary *phrDictionary = rawResults[APIParamData];
 
-        NSArray *objs = [[HealthRecord alloc] initWithJSONDictionary:phrDictionary];
+        HealthRecord *record = [[HealthRecord alloc] initWithJSONDictionary:phrDictionary];
 
         if (completionBlock) {
-            completionBlock(objs, error);
+            completionBlock(record, error);
         }
     }];
     
     return task;
 }
 
+-(NSURLSessionTask *)postNote:(NSString*)noteText forPatient:(Patient *)patient withCompletion:(void (^)(PatientNote *, NSError *))completionBlock {
+
+    NSString *endpoint = [NSString stringWithFormat:@"%@/%@/%@", APIEndpointPatients, patient.objectID, APIEndpointNotes];
+
+    NSDictionary *params = @{APIParamPatientNoteNote:noteText};
+
+    NSURLSessionTask *task = [[[self class] leoSessionManager] standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:endpoint params:params completion:^(NSDictionary *rawResults, NSError *error) {
+
+        NSDictionary *dict = rawResults[APIParamData][APIParamPatientNoteNote];
+
+        PatientNote *obj = [[PatientNote alloc] initWithJSONDictionary:dict];
+
+        if (completionBlock) {
+            completionBlock(obj, error);
+        }
+    }];
+
+    return task;
+}
+
+-(NSURLSessionTask *)putNote:(PatientNote*)note forPatient:(Patient *)patient withCompletion:(void (^)(PatientNote *, NSError *))completionBlock {
+
+    NSString *endpoint = [NSString stringWithFormat:@"%@/%@/%@/%@", APIEndpointPatients, patient.objectID, APIEndpointNotes, note.objectID];
+
+    NSDictionary *params = @{APIParamPatientNoteNote:note.text};
+
+    NSURLSessionTask *task = [[[self class] leoSessionManager] standardPUTRequestForJSONDictionaryToAPIWithEndpoint:endpoint params:params completion:^(NSDictionary *rawResults, NSError *error) {
+
+        NSDictionary *dict = rawResults[APIParamData][APIParamPatientNoteNote];
+
+        PatientNote *obj = [[PatientNote alloc] initWithJSONDictionary:dict];
+
+        if (completionBlock) {
+            completionBlock(obj, error);
+        }
+    }];
+    
+    return task;
+}
+
+//MARK: None of the individual endpoints are currently used, but if needed, we have them
 -(NSURLSessionTask *)getBMIsForPatient:(Patient *)patient withCompletion:(void (^)(NSArray<PatientVitalMeasurement *> *, NSError *))completionBlock {
     return [self getVitalsWithEndpoint:APIEndpointBMIs forPatient:patient dataParamName:APIParamBMIs withCompletion:completionBlock];
 }
@@ -137,46 +179,6 @@
 
         if (completionBlock) {
             completionBlock(objs, error);
-        }
-    }];
-
-    return task;
-}
-
--(NSURLSessionTask *)postNote:(NSString*)noteText forPatient:(Patient *)patient withCompletion:(void (^)(PatientNote *, NSError *))completionBlock {
-
-    NSString *endpoint = [NSString stringWithFormat:@"%@/%@/%@", APIEndpointPatients, patient.objectID, APIEndpointNotes];
-
-    NSDictionary *params = @{APIParamPatientNoteNote:noteText};
-
-    NSURLSessionTask *task = [[[self class] leoSessionManager] standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:endpoint params:params completion:^(NSDictionary *rawResults, NSError *error) {
-
-        NSDictionary *dict = rawResults[APIParamData][APIParamPatientNoteNote];
-
-        PatientNote *obj = [[PatientNote alloc] initWithJSONDictionary:dict];
-
-        if (completionBlock) {
-            completionBlock(obj, error);
-        }
-    }];
-    
-    return task;
-}
-
--(NSURLSessionTask *)putNote:(PatientNote*)note forPatient:(Patient *)patient withCompletion:(void (^)(PatientNote *, NSError *))completionBlock {
-
-    NSString *endpoint = [NSString stringWithFormat:@"%@/%@/%@/%@", APIEndpointPatients, patient.objectID, APIEndpointNotes, note.objectID];
-
-    NSDictionary *params = @{APIParamPatientNoteNote:note.text};
-
-    NSURLSessionTask *task = [[[self class] leoSessionManager] standardPUTRequestForJSONDictionaryToAPIWithEndpoint:endpoint params:params completion:^(NSDictionary *rawResults, NSError *error) {
-
-        NSDictionary *dict = rawResults[APIParamData][APIParamPatientNoteNote];
-
-        PatientNote *obj = [[PatientNote alloc] initWithJSONDictionary:dict];
-
-        if (completionBlock) {
-            completionBlock(obj, error);
         }
     }];
 

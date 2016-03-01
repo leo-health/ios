@@ -12,8 +12,7 @@
 #import "NSDate+Extensions.h"
 #import "Patient.h"
 #import "HealthRecord.h"
-
-
+#import "PatientNote.h"
 
 @implementation LEOPHRTableViewCell
 
@@ -82,27 +81,27 @@
 
 - (void)configureCellWithAllergy:(Allergy *)allergy {
 
-        self.recordTitleLabel.text = allergy.allergen;
-        self.recordSideLabel.text = allergy.severity;
-        self.recordMainDetailLabel.text = allergy.note;
-        self.recordTitleDetailLabel.text = nil;
+    self.recordTitleLabel.text = allergy.allergen;
+    self.recordSideLabel.text = allergy.severity;
+    self.recordMainDetailLabel.text = allergy.note;
+    self.recordTitleDetailLabel.text = nil;
 }
 
 - (void)configureCellWithMedication:(Medication *)medication {
 
-        self.recordTitleLabel.text = medication.medication;
-        self.recordSideLabel.text = nil;
-        self.recordMainDetailLabel.text = medication.sig;
-        self.recordTitleDetailLabel.text = nil;
+    self.recordTitleLabel.text = medication.medication;
+    self.recordSideLabel.text = nil;
+    self.recordMainDetailLabel.text = medication.sig;
+    self.recordTitleDetailLabel.text = nil;
 }
 
 - (void)configureCellWithImmunization:(Immunization *)immunization {
 
-        self.recordTitleLabel.text = immunization.vaccine;
-        self.recordMainDetailLabel.text = nil;
-        self.recordTitleDetailLabel.text = nil;
-        // TODO: date formatting
-        self.recordSideLabel.text = [NSDate leo_stringifiedDate:immunization.administeredAt withFormat:@"MM/dd/YY"];
+    self.recordTitleLabel.text = immunization.vaccine;
+    self.recordMainDetailLabel.text = nil;
+    self.recordTitleDetailLabel.text = nil;
+    // TODO: date formatting
+    self.recordSideLabel.text = [NSDate leo_stringifiedDate:immunization.administeredAt withFormat:@"M/d/YY"];
 }
 
 - (void)configureCellWithNote:(PatientNote *)note {

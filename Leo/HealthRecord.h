@@ -11,7 +11,6 @@
 #import "PatientVitalMeasurement.h"
 #import "Immunization.h"
 #import "Medication.h"
-#import "PatientNote.h"
 
 @interface HealthRecord : NSObject
 NS_ASSUME_NONNULL_BEGIN
@@ -26,9 +25,6 @@ NS_ASSUME_NONNULL_BEGIN
 -(instancetype)initWithAllergies:(NSArray<Allergy*> *)allergies medications:(NSArray<Medication*> *)medications immunizations:(NSArray<Immunization*> *)immunizations bmis:(NSArray<PatientVitalMeasurement*> *)bmis heights:(NSArray<PatientVitalMeasurement*>*)heights weights:(NSArray<PatientVitalMeasurement*> *)weights;
 -(instancetype)initWithJSONDictionary:(NSDictionary *)jsonDictionary;
 +(instancetype)mockObject;
-
-- (void)addNotesObject:(PatientNote *)object;
-- (void)removeNotesObject:(PatientNote *)object;
 
 
 NS_ASSUME_NONNULL_END
