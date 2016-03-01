@@ -347,7 +347,7 @@ static CGFloat const kFeedInsetTop = 20.0;
 
             dispatch_async(dispatch_get_main_queue() , ^{
 
-                [self.tableView reloadData];
+                [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:TableViewSectionBody] withRowAnimation:UITableViewRowAnimationNone];
                 [MBProgressHUD hideHUDForView:self.view animated:NO];
 
                 [self activateCardInFocus];
