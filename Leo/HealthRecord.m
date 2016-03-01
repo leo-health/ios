@@ -46,8 +46,5 @@
     return [self initWithAllergies:allergies medications:medications immunizations:immunizations bmis:bmis heights:heights weights:weights];
 }
 
-+ (instancetype)mockObject {
-    return [[HealthRecord alloc] initWithAllergies:@[[Allergy mockObject]] medications:@[[Medication mockObject]] immunizations:@[[Immunization mockObject]] bmis:@[[PatientVitalMeasurement mockObject]] heights:@[[PatientVitalMeasurement mockObject]] weights:@[[PatientVitalMeasurement mockObject]]];
-}
 
 @end

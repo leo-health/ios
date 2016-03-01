@@ -25,9 +25,6 @@ NS_ASSUME_NONNULL_BEGIN
 +(NSArray *)patientNotesFromDictionaries:(NSArray *)dictionaries;
 - (void)updateWithPatientNote:(PatientNote *)existingNote;
 
-+(instancetype)mockObject;
 
 NS_ASSUME_NONNULL_END
-
-
 @end

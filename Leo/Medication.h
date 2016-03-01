@@ -24,9 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 -(instancetype)initWithStartedAt:(NSDate *)startedAt enteredAt:(NSDate *)enteredAt medication:(NSString *)medication sig:(NSString *)sig note:(NSString *)note dose:(NSString *)dose route:(NSString *)route frequency:(NSString *)frequency;
 -(instancetype)initWithJSONDictionary:(NSDictionary *)jsonDictionary;
 +(NSArray *)medicationsFromDictionaries:(NSArray *)dictionaries;
-+(instancetype)mockObject;
+
 
 NS_ASSUME_NONNULL_END
-
-
 @end

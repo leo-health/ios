@@ -27,9 +27,7 @@ typedef NS_ENUM(NSInteger, PatientVitalMeasurementType) {
 - (instancetype)initWithTakenAt:(NSDate *)takenAt value:(NSString *)value percentile:(NSString *)percentile measurementType:(PatientVitalMeasurementType)measurementType;
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonDictionary;
 + (NSArray *)patientVitalsFromDictionaries:(NSArray *)dictionaries;
-+ (instancetype)mockObject;
+
 
 NS_ASSUME_NONNULL_END
-
-
 @end

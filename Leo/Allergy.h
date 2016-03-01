@@ -20,7 +20,6 @@ NS_ASSUME_NONNULL_BEGIN
 -(instancetype)initWithOnsetAt:(NSDate *)onsetAt allergen:(NSString *)allergen severity:(NSString *)severity note:(NSString *)note;
 -(instancetype)initWithJSONDictionary:(NSDictionary *)jsonDictionary;
 +(NSArray *)allergiesFromDictionaries:(NSArray *)dictionaries;
-+(instancetype)mockObject;
 
 NS_ASSUME_NONNULL_END
 

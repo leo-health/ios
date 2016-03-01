@@ -59,14 +59,20 @@ static NSString * const kCopyEmptyBMIField = @"BMI data unavailable.";
 static NSString * const kCopyEmptyAllergyField = @"No known allergies.";
 static NSString * const kCopyEmptyMedicationsField = @"No active medications.";
 
-NS_ENUM(NSInteger, PHRTableViewSection) {
-    PHRTableViewSectionEmptyRecord = 0,
-    PHRTableViewSectionRecentVitals,
-    PHRTableViewSectionAllergies,
-    PHRTableViewSectionMedications,
-    PHRTableViewSectionImmunizations,
-    PHRTableViewSectionNotes,
-    PHRTableViewSectionCount
+NS_ENUM(NSInteger, TableViewSection) {
+    TableViewSectionEmptyRecord = 0,
+    TableViewSectionRecentVitals,
+    TableViewSectionAllergies,
+    TableViewSectionMedications,
+    TableViewSectionImmunizations,
+    TableViewSectionNotes,
+    TableViewSectionCount
+};
+
+NS_ENUM(NSInteger, TableViewRow) {
+    TableViewRowVitalHeight,
+    TableViewRowVitalWeight,
+    TableViewRowVitalBMI,
 };
 
 #pragma mark - Accessors and Setup
@@ -113,8 +119,6 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
 
 - (void)requestHealthRecord {
 
-    BOOL useMock = NO;
-
     if (!self.healthRecord) {
     __block BOOL readyToHideHUD = NO;
 
@@ -128,7 +132,7 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
 
                 self.notes = [notes mutableCopy];
 
-                [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:PHRTableViewSectionNotes] withRowAnimation:UITableViewRowAnimationFade];
+                [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:TableViewSectionNotes] withRowAnimation:UITableViewRowAnimationFade];
                 [self.view setNeedsLayout];
                 [self.view layoutIfNeeded];
             }
@@ -147,20 +151,10 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
                 [LEOAlertHelper alertForViewController:self error:error];
             } else {
 
-                if (error) {
-
-                    NSLog(@"ERROR: phr request - %@", error);
-                }
-
-                //TODO: This should be converted to work in a scheme only, and not be available in all versions of the app.
-                if (useMock) {
-                    healthRecord = [HealthRecord mockObject];
-                }
-
                 self.healthRecord = healthRecord;
 
                 //MARK: May be an issue if tableview is reloading at the same time as when the notes field updates. Watch for crashes.
-                [self reloadData];
+                [self.tableView reloadData];
             }
 
             if (readyToHideHUD) {
@@ -172,14 +166,6 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
     }
 }
 
-- (void)reloadData {
-
-    [self.tableView reloadData];
-
-    //TODO: ZSD - @afanslau - is this necessary and why?
-    [self.view setNeedsLayout];
-    [self.view layoutIfNeeded];
-}
 
 #pragma mark - Layout
 
@@ -207,53 +193,44 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
 #pragma mark - <UITableViewDataSource>
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return PHRTableViewSectionCount;
+    return TableViewSectionCount;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
     NSInteger rows = 0;
 
-    if ([self healthRecordExists]) {
-        switch (section) {
-
-            case PHRTableViewSectionRecentVitals:
-                rows += [self healthRecordExists] ? 3 : 0; //one for each of the vitals: height, weight, bmi;
-                break;
-
-            case PHRTableViewSectionAllergies:
-                rows = [self healthRecordExists] ? self.healthRecord.allergies.count ?: 1 : 0;
-                break;
-
-            case PHRTableViewSectionMedications:
-                rows = [self healthRecordExists] ? self.healthRecord.medications.count ? : 1 : 0;
-                break;
-
-            case PHRTableViewSectionImmunizations:
-                rows = [self healthRecordExists] ? self.healthRecord.immunizations.count ? : 1 : 0;
-                break;
-
-            case PHRTableViewSectionNotes:
-                rows += 1;
-                break;
-        }
-    } else if (self.healthRecord) {
+    if (self.healthRecord) {
 
         switch (section) {
 
-            case PHRTableViewSectionEmptyRecord:
-                rows += ![self healthRecordExists];
+            case TableViewSectionRecentVitals:
+                rows = [self healthRecordContainsData] ? 3 : 0; //one for each of the vitals: height, weight, bmi;
                 break;
 
-
-            case PHRTableViewSectionNotes:
-                
-                self.notes? rows += 1 : 0;
+            case TableViewSectionAllergies:
+                rows = [self healthRecordContainsData] ? self.healthRecord.allergies.count ?: 1 : 0;
                 break;
+
+            case TableViewSectionMedications:
+                rows = [self healthRecordContainsData] ? self.healthRecord.medications.count ? : 1 : 0;
+                break;
+
+            case TableViewSectionImmunizations:
+                rows = [self healthRecordContainsData] ? self.healthRecord.immunizations.count ? : 1 : 0;
+                break;
+
+            case TableViewSectionNotes:
+                rows = self.notes? 1 : 0;
+                break;
+
+            case TableViewSectionEmptyRecord:
+                rows = ![self healthRecordContainsData];
+                break;
+
         }
-        
     }
-    
+
     return rows;
 }
 
@@ -262,7 +239,7 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
  *
  *  @return BOOL existence of health record
  */
-- (BOOL)healthRecordExists {
+- (BOOL)healthRecordContainsData {
 
     return (self.healthRecord.weights.count || self.healthRecord.heights.count || self.healthRecord.bmis.count || self.healthRecord.allergies.count || self.healthRecord.medications.count || self.healthRecord.immunizations.count) && self.healthRecord;
 }
@@ -281,41 +258,41 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
 
     switch (indexPath.section) {
 
-        case PHRTableViewSectionEmptyRecord:
+        case TableViewSectionEmptyRecord:
             [_cell configureCellForEmptyRecordWithPatient:self.patient];
             break;
 
-        case PHRTableViewSectionRecentVitals: {
+        case TableViewSectionRecentVitals: {
 
             switch (indexPath.row) {
-                case 0:
+                case TableViewRowVitalHeight:
                     [self configureCell:_cell atIndexPath:indexPath forHeights:self.healthRecord.heights];
                     break;
 
-                case 1:
+                case TableViewRowVitalWeight:
                     [self configureCell:_cell atIndexPath:indexPath forWeights:self.healthRecord.weights];
                     break;
 
-                case 2:
+                case TableViewRowVitalBMI:
                     [self configureCell:_cell atIndexPath:indexPath forBMIs:self.healthRecord.bmis];
                     break;
             }
         }
             break;
 
-        case PHRTableViewSectionAllergies:
+        case TableViewSectionAllergies:
             [self configureCell:_cell atIndexPath:indexPath forAllergies:self.healthRecord.allergies];
             break;
 
-        case PHRTableViewSectionMedications:
+        case TableViewSectionMedications:
             [self configureCell:_cell atIndexPath:indexPath forMedications:self.healthRecord.medications];
             break;
 
-        case PHRTableViewSectionImmunizations:
+        case TableViewSectionImmunizations:
             [self configureCell:_cell atIndexPath:indexPath forImmunizations:self.healthRecord.immunizations];
             break;
 
-        case PHRTableViewSectionNotes:
+        case TableViewSectionNotes:
             [self configureCell:_cell atIndexPath:indexPath forNotes:self.notes];
             break;
     }
@@ -390,8 +367,8 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
 
 - (UITableViewCell *)configureCell:(LEOPHRTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath forNotes:(NSArray <PatientNote *>*)notes {
 
-    if (indexPath.row < self.notes.count) {
-        [cell configureCellWithNote:self.notes[indexPath.row]];
+    if (indexPath.row < notes.count) {
+        [cell configureCellWithNote:notes[indexPath.row]];
     } else {
         [cell configureCellForEmptySectionWithMessage:kCopyEmptyNotesField];
     }
@@ -457,9 +434,9 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
     _editNoteButton.titleLabel.font = [UIFont leo_buttonLabelsAndTimeStampsFont];
     [_editNoteButton setTitleColor:[UIColor leo_orangeRed] forState:UIControlStateNormal];
     [_editNoteButton addTarget:self action:@selector(editNoteTouchedUpInside) forControlEvents:UIControlEventTouchUpInside];
-    _editNoteButton.hidden = section != PHRTableViewSectionNotes;
+    _editNoteButton.hidden = section != TableViewSectionNotes;
 
-    if (section != PHRTableViewSectionNotes) {
+    if (section != TableViewSectionNotes) {
         _editNoteButton.hidden = YES;
     }
 
@@ -495,27 +472,27 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
 
     switch (section) {
 
-        case PHRTableViewSectionEmptyRecord:
+        case TableViewSectionEmptyRecord:
             title = nil;
             break;
 
-        case PHRTableViewSectionRecentVitals:
+        case TableViewSectionRecentVitals:
             title = @"RECENT VITALS";
             break;
 
-        case PHRTableViewSectionAllergies:
+        case TableViewSectionAllergies:
             title = @"ALLERGIES";
             break;
 
-        case PHRTableViewSectionMedications:
+        case TableViewSectionMedications:
             title = @"MEDICATIONS";
             break;
 
-        case PHRTableViewSectionImmunizations:
+        case TableViewSectionImmunizations:
             title = @"IMMUNIZATIONS";
             break;
 
-        case PHRTableViewSectionNotes:
+        case TableViewSectionNotes:
             title = @"NOTES";
             break;
     }
@@ -572,7 +549,7 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
     vc.editNoteCompletionBlock = ^(PatientNote *updatedNote) {
         // update the in memory note
         [self updateNote:updatedNote];
-        [self reloadData];
+        [self.tableView reloadData];
     };
 }
 

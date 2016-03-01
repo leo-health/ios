@@ -35,10 +35,6 @@
     return [self initWithOnsetAt:onsetAt allergen:allergen severity:severity note:note];
 }
 
-+(instancetype)mockObject {
-    return [[self alloc] initWithOnsetAt:[NSDate date] allergen:@"Peanuts" severity:@"High" note:@"Bacon ipsum dolor amet sirloin pancetta cow pork chop kielbasa venison boudin ham strip steak tongue prosciutto tenderloin andouille t-bone pig. Picanha capicola spare ribs pork belly, ball tip brisket short loin. Ham hock chicken picanha, beef ribs venison pancetta ground round shankle hamburger ribeye."];
-}
-
 +(NSArray *)allergiesFromDictionaries:(NSArray *)dictionaries {
     NSMutableArray *array = [NSMutableArray new];
     for (NSDictionary *dict in dictionaries) {

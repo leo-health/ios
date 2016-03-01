@@ -56,36 +56,5 @@
     self.text = existingNote.text;
 }
 
-+(instancetype)mockObject {
-
-    return [[self alloc] initWithJSONDictionary:@{
-
-        @"id": @1,
-        @"user": @{
-            @"id": @2,
-            @"title": [NSNull null],
-            @"first_name": @"Danish",
-            @"middle_initial": [NSNull null],
-            @"last_name": @"Freeman",
-            @"suffix": [NSNull null],
-            @"sex": @"M",
-            @"practice_id": [NSNull null],
-            @"family_id": @1,
-            @"email": @"user28@test.com",
-            @"role": @{
-                @"id": @4,
-                @"name": @"guardian"
-            },
-            @"avatar": [NSNull null],
-            @"type": @"Member",
-            @"primary_guardian": @YES
-        },
-        @"created_at": @"2016-01-06T12:01:00.852-05:00",
-        @"updated_at": @"2016-01-06T12:01:00.852-05:00",
-        @"deleted_at": [NSNull null],
-        @"note": @"note"
-                                                  }];
-}
-
 
 @end
