@@ -120,7 +120,12 @@ NS_ENUM(NSInteger, TableViewRow) {
 - (void)requestHealthRecord {
 
     if (!self.healthRecord) {
-    __block BOOL readyToHideHUD = NO;
+
+        // only show one HUD at a time
+        [MBProgressHUD hideHUDForView:self.phrViewController.view animated:YES];
+        [MBProgressHUD showHUDAddedTo:self.phrViewController.view animated:YES];
+
+        __block BOOL readyToHideHUD = NO;
 
         LEOHealthRecordService *service = [LEOHealthRecordService new];
 
@@ -136,13 +141,13 @@ NS_ENUM(NSInteger, TableViewRow) {
                 [self.view setNeedsLayout];
                 [self.view layoutIfNeeded];
             }
-            
-        if (readyToHideHUD) {
-            [MBProgressHUD hideHUDForView:self.view.window animated:YES];
-        }
 
-        readyToHideHUD = YES;
-    }];
+            if (readyToHideHUD) {
+                [MBProgressHUD hideHUDForView:self.phrViewController.view animated:YES];
+            }
+
+            readyToHideHUD = YES;
+        }];
 
         [service getHealthRecordForPatient:self.patient withCompletion:^(HealthRecord *healthRecord, NSError *error) {
 
@@ -158,9 +163,9 @@ NS_ENUM(NSInteger, TableViewRow) {
             }
 
             if (readyToHideHUD) {
-                [MBProgressHUD hideHUDForView:self.view.window animated:YES];
+                [MBProgressHUD hideHUDForView:self.phrViewController.view animated:YES];
             }
-            
+
             readyToHideHUD = YES;
         }];
     }
@@ -527,18 +532,18 @@ NS_ENUM(NSInteger, TableViewRow) {
 #pragma mark - Actions
 
 - (void)editNoteTouchedUpInside {
-    
+
     PatientNote* note;
 
     if (self.notes.count > 0) {
         note = [self.notes lastObject]; // TODO: update to handle multiple notes
     }
-    
+
     [self presentEditNotesViewControllerWithNote:note];
 }
 
 - (void)presentEditNotesViewControllerWithNote:(PatientNote*)note {
-    
+
     LEORecordEditNotesViewController *vc = [LEORecordEditNotesViewController new];
     vc.patient = self.patient;
     vc.note = note;
@@ -556,7 +561,7 @@ NS_ENUM(NSInteger, TableViewRow) {
 - (void)updateNote:(PatientNote *)updatedNote {
     
     int i = 0;
-
+    
     for (PatientNote *note in self.notes) {
         if ([note.objectID isEqualToString:updatedNote.objectID] || (!note.objectID && !updatedNote.objectID) ) {
             
@@ -565,7 +570,7 @@ NS_ENUM(NSInteger, TableViewRow) {
         }
         i++;
     }
-
+    
     // if not found, this is a newly created note.
     [self.notes addObject:updatedNote];
 }
