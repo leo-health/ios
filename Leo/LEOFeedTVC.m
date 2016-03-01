@@ -234,8 +234,9 @@ static CGFloat const kFeedInsetTop = 20.0;
 
         dispatch_async(dispatch_get_main_queue() , ^{
 
-            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:TableViewSectionHeader];
-            [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:TableViewSectionHeader] withRowAnimation:UITableViewRowAnimationNone];
+//            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:TableViewSectionHeader];
+//            [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
         });
     }];
 }
@@ -284,7 +285,9 @@ static CGFloat const kFeedInsetTop = 20.0;
 
 - (void)fetchFamilyWithCompletion:( void (^) (void))completionBlock {
 
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.view];
+    [self.view insertSubview:hud belowSubview:self.navigationBar];
+    [hud show:YES];
 
     LEOHelperService *helperService = [LEOHelperService new];
     [helperService getFamilyWithCompletion:^(Family *family, NSError *error) {
