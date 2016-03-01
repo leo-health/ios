@@ -162,9 +162,9 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
                     
                     cell.promptField.textField.text = [SessionUser currentUser].email;
                     cell.promptField.accessoryImageViewVisible = NO;
-                    cell.promptField.tintColor = [UIColor leo_orangeRed];
+                    cell.promptField.tintColor = [UIColor leo_grayStandard];
                     cell.promptField.textField.enabled = NO;
-                    cell.promptField.textField.textColor = [UIColor leo_orangeRed];
+                    cell.promptField.textField.textColor = [UIColor leo_grayStandard];
                     cell.promptField.tapGestureEnabled = NO;
                     cell.promptField.textField.standardPlaceholder = @"email";
 
@@ -223,7 +223,7 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
                     cell.promptField.accessoryImageViewVisible = NO;
                     cell.promptField.textField.enabled = NO;
                     cell.promptField.tapGestureEnabled = NO;
-                    cell.promptField.textField.textColor = [UIColor leo_orangeRed];
+                    cell.promptField.textField.textColor = [UIColor leo_grayStandard];
                     cell.promptField.textField.standardPlaceholder = @"version | build";
                     break;
                 }
@@ -276,10 +276,14 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
             cell.promptField.accessoryImageViewVisible = NO;
             cell.promptField.textField.enabled = NO;
             cell.promptField.tapGestureEnabled = NO;
+            cell.promptField.accessoryImage = nil;
+            cell.promptField.tintColor = [UIColor leo_orangeRed];
+            cell.promptField.textField.textColor = [UIColor leo_orangeRed];
+
             break;
         }
     }
-    
+
     return cell;
 }
 
@@ -325,13 +329,7 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
         case SettingsSectionLogout: {
 
             [Crittercism leaveBreadcrumb:[NSString stringWithFormat:@"%s user requested logout", __PRETTY_FUNCTION__]];
-            
-            LEOUserService *userService = [[LEOUserService alloc] init];
-            
-            [userService logoutUserWithCompletion:^(BOOL success, NSError *error) {
-                //If successful, code will not callback.
-                //TODO: Setup alertcontroller to tell user they have not been successfully logged out.
-            }];
+            [[LEOUserService new] logoutUserWithCompletion:nil];
             
             break;
         }
