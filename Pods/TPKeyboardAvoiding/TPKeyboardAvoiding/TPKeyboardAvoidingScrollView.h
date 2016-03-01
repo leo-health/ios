@@ -9,7 +9,19 @@
 #import <UIKit/UIKit.h>
 #import "UIScrollView+TPKeyboardAvoidingAdditions.h"
 
+@protocol StickyHeaderScrollViewDelegate <NSObject>
+
+- (CGFloat)headerHeight;
+- (BOOL)scrollingWithTouch;
+
+@end
+
 @interface TPKeyboardAvoidingScrollView : UIScrollView <UITextFieldDelegate, UITextViewDelegate>
+
+
+
+@property (weak, nonatomic) id<StickyHeaderScrollViewDelegate> delegate;
+
 - (void)contentSizeToFit;
 - (BOOL)focusNextTextField;
 - (void)scrollToActiveTextField;

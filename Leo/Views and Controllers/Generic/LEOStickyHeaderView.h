@@ -38,7 +38,7 @@ typedef void(^SubmitBlock)(void);
 
 @end
 
-@interface LEOStickyHeaderView : UIView <UITextViewDelegate, UITextFieldDelegate>
+@interface LEOStickyHeaderView : UIView <UITextViewDelegate, UITextFieldDelegate, StickyHeaderScrollViewDelegate>
 
 @property (nonatomic) Feature feature;
 @property (nonatomic, getter=isCollapsible) BOOL collapsible;

@@ -89,6 +89,42 @@
 
 }
 
+- (CGFloat)headerHeight {
+    
+    if ([self.delegate respondsToSelector:@selector(headerHeight)]) {
+        return [self.delegate headerHeight];
+    }
+    return 0;
+}
+
+- (BOOL)scrollingWithTouch {
+
+    if ([self.delegate respondsToSelector:@selector(scrollingWithTouch)]) {
+        return [self.delegate scrollingWithTouch];
+    }
+    return YES;
+}
+
+- (void)setContentOffset:(CGPoint)contentOffset {
+
+    CGPoint offset = contentOffset;
+    if (![self scrollingWithTouch] && contentOffset.y > 0 && contentOffset.y < [self headerHeight]) {
+        offset.y = [self headerHeight];
+    }
+
+    [super setContentOffset:offset];
+}
+
+- (void)setContentOffset:(CGPoint)contentOffset animated:(BOOL)animated {
+
+    CGPoint offset = contentOffset;
+    if (![self scrollingWithTouch] && contentOffset.y > 0 && contentOffset.y < [self headerHeight]) {
+        offset.y = [self headerHeight];
+    }
+
+    [super setContentOffset:offset animated:animated];
+}
+
 #pragma mark - Responders, events
 
 -(void)willMoveToSuperview:(UIView *)newSuperview {
