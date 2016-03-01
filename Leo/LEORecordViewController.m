@@ -103,29 +103,31 @@ NS_ENUM(NSInteger, PHRTableViewSection) {
 
     BOOL useMock = NO;
 
-    LEOHealthRecordService *service = [LEOHealthRecordService new];
+    if (!self.healthRecord) {
 
-    // only show one HUD at a time
-    [MBProgressHUD hideHUDForView:self.view.window animated:YES];
-    [MBProgressHUD showHUDAddedTo:self.view.window animated:YES];
+        LEOHealthRecordService *service = [LEOHealthRecordService new];
 
-    [service getHealthRecordForPatient:self.patient withCompletion:^(HealthRecord *healthRecord, NSError *error) {
-
-        if (error) {
-
-            NSLog(@"ERROR: phr request - %@", error);
-        }
-
-        if (useMock) {
-
-            healthRecord = [HealthRecord mockObject];
-        }
-        self.healthRecord = healthRecord;
-
+        // only show one HUD at a time
         [MBProgressHUD hideHUDForView:self.view.window animated:YES];
-        [self reloadData];
-    }];
-    
+        [MBProgressHUD showHUDAddedTo:self.view.window animated:YES];
+
+        [service getHealthRecordForPatient:self.patient withCompletion:^(HealthRecord *healthRecord, NSError *error) {
+
+            if (error) {
+
+                NSLog(@"ERROR: phr request - %@", error);
+            }
+
+            if (useMock) {
+
+                healthRecord = [HealthRecord mockObject];
+            }
+            self.healthRecord = healthRecord;
+            
+            [MBProgressHUD hideHUDForView:self.view.window animated:YES];
+            [self reloadData];
+        }];
+    }
 }
 
 - (void)reloadData {
