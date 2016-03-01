@@ -6,8 +6,9 @@
 //  Copyright © 2016 Leo Health. All rights reserved.
 //
 
+@class Patient, PatientVitalMeasurement, Allergy, Medication, Immunization, PatientNote;
+
 #import <UIKit/UIKit.h>
-#import "HealthRecord.h"
 
 @interface LEOPHRTableViewCell : UITableViewCell
 
@@ -18,13 +19,13 @@
 
 + (UINib *)nib;
 
-- (void)configureCellWithBMI:(PatientVitalMeasurementBMI *)bmi;
-- (void)configureCellWithHeight:(PatientVitalMeasurementHeight *)height;
-- (void)configureCellWithWeight:(PatientVitalMeasurementWeight *)weight;
+- (void)configureCellWithVital:(PatientVitalMeasurement *)vital title:(NSString *)title;
 - (void)configureCellWithAllergy:(Allergy *)allergy;
 - (void)configureCellWithMedication:(Medication *)medication;
 - (void)configureCellWithImmunization:(Immunization *)immunization;
--(void)configureCellWithNote:(PatientNote *)note;
+- (void)configureCellWithNote:(PatientNote *)note;
+- (void)configureCellForEmptyRecordWithPatient:(Patient *)patient;
+- (void)configureCellForEmptySectionWithMessage:(NSString *)message;
 
 
 @end

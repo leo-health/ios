@@ -1,5 +1,5 @@
 //
-//  LEOEHRViewController.h
+//  LEORecordViewController.h
 //  Leo
 //
 //  Created by Zachary Drossman on 5/26/15.
@@ -7,9 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Patient.h"
 
-@class LEOPHRViewController;
+@class LEOPHRViewController, Patient;
 
 @interface LEORecordViewController : UIViewController
 

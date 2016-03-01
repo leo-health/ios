@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSDate *)leo_dateWithoutTime;
 - (NSDate *)leo_beginningOfWeekForStartOfWeek:(NSInteger)weekday;
 + (NSDate *)leo_dateFromDateTimeString:(NSString *)dateTimeString;
++ (NSDate *)leo_dateFromAthenaDateTimeString:(NSString *)dateTimeString;
 + (NSDate *)leo_dateFromShortDateString:(NSString *)dateString;
 + (NSDate *)leo_dateFromDashedDateString:(NSString *)dateString;
 

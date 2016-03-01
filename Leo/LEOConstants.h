@@ -170,8 +170,8 @@ extern NSString *const APIEndpointPractice; // @"practice";
 extern NSString *const APIEndpointSlots; // @"slots";
 extern NSString *const APIEndpointFamily; // @"family";
 extern NSString *const APIEndpointInsurers; // @"insurers";
-extern NSString *const APIEndpointUserEnrollments; // = @"enrollments";
-extern NSString *const APIEndpointPatientEnrollments; // = @"patient_enrollments";
+extern NSString *const APIEndpointUserEnrollments; // @"enrollments";
+extern NSString *const APIEndpointPatientEnrollments; // @"patient_enrollments";
 extern NSString *const APIEndpointAvatars; // @"avatars";
 extern NSString *const APIEndpointInvite; // @"invite";
 
@@ -183,7 +183,8 @@ extern NSString *const APIEndpointImmunizations; // @"immunizations";
 extern NSString *const APIEndpointBMIs; // @"bmis";
 extern NSString *const APIEndpointHeights; // @"height";
 extern NSString *const APIEndpointWeights; // @"weight";
-extern NSString *const APIEndpointPusherAuth; // = @"pusher/auth";
+extern NSString *const APIEndpointPusherAuth; // @"pusher/auth";
+extern NSString *const APIEndpointPHR; // @"phr";
 
 #pragma mark - Common
 extern NSString *const APIParamID; // @"id";

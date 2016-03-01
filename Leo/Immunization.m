@@ -26,7 +26,7 @@
 
 -(instancetype)initWithJSONDictionary:(NSDictionary *)jsonDictionary {
 
-    NSDate *administeredAt = [NSDate leo_dateFromDateTimeString:[jsonDictionary leo_itemForKey:APIParamImmunizationAdministeredAt]];
+    NSDate *administeredAt = [NSDate leo_dateFromAthenaDateTimeString:[jsonDictionary leo_itemForKey:APIParamImmunizationAdministeredAt]];
     NSString *vaccine = [jsonDictionary leo_itemForKey:APIParamImmunizationVaccine];
     return [self initWithAdministeredAt:administeredAt vaccine:vaccine];
 }
@@ -37,11 +37,6 @@
         [array addObject:[[self alloc] initWithJSONDictionary:dict]];
     }
     return [array copy];
-}
-
-+(instancetype)mockObject {
-
-    return [[self alloc] initWithAdministeredAt:[NSDate date] vaccine:@"vaccine"];
 }
 
 

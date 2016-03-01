@@ -51,10 +51,5 @@
     return [array copy];
 }
 
-+(instancetype)mockObject {
-
-    return [[self alloc] initWithStartedAt:[NSDate date] enteredAt:[NSDate date] medication:@"medication" sig:@"sig" note:@"note" dose:@"dose" route:@"route" frequency:@"frequency"];
-}
-
 
 @end
