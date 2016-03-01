@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -15,10 +15,31 @@
                     <rect key="frame" x="0.0" y="0.0" width="600" height="572"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1LP-Ig-PFg" userLabel="Content View">
-                            <rect key="frame" x="30" y="0.0" width="540" height="399"/>
+                            <rect key="frame" x="30" y="0.0" width="540" height="432"/>
                             <subviews>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IsI-Id-xlv" userLabel="Last Name Prompt View" customClass="LEOPromptField">
+                                    <rect key="frame" x="0.0" y="68" width="540" height="48"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="48" id="XW6-2g-Um1"/>
+                                    </constraints>
+                                </view>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="akX-b1-of0" userLabel="Birthdate Prompt View" customClass="LEOPromptField">
+                                    <rect key="frame" x="0.0" y="116" width="540" height="48"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="48" id="RPa-dS-Mvp"/>
+                                    </constraints>
+                                </view>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wXO-Yh-mXH" userLabel="Gender Prompt View" customClass="LEOPromptField">
+                                    <rect key="frame" x="0.0" y="164" width="540" height="48"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="48" id="yB9-a7-48B"/>
+                                    </constraints>
+                                </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NW5-r3-JJp" userLabel="Avatar View" customClass="UIControl">
-                                    <rect key="frame" x="0.0" y="20" width="540" height="67"/>
+                                    <rect key="frame" x="0.0" y="245" width="540" height="67"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Add a photo of your child" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uZR-9M-9bv" userLabel="Avatar Requirement Label">
                                             <rect key="frame" x="87" y="24" width="153" height="18"/>
@@ -44,36 +65,8 @@
                                         <constraint firstItem="WDV-8k-WR9" firstAttribute="centerY" secondItem="uZR-9M-9bv" secondAttribute="centerY" id="qky-JB-PnH"/>
                                     </constraints>
                                 </view>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xzJ-EK-S70" userLabel="First Name Prompt View" customClass="LEOPromptField">
-                                    <rect key="frame" x="0.0" y="87" width="540" height="48"/>
-                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="48" id="Qte-Eu-r3o"/>
-                                    </constraints>
-                                </view>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IsI-Id-xlv" userLabel="Last Name Prompt View" customClass="LEOPromptField">
-                                    <rect key="frame" x="0.0" y="135" width="540" height="48"/>
-                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="48" id="XW6-2g-Um1"/>
-                                    </constraints>
-                                </view>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="akX-b1-of0" userLabel="Birthdate Prompt View" customClass="LEOPromptField">
-                                    <rect key="frame" x="0.0" y="183" width="540" height="48"/>
-                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="48" id="RPa-dS-Mvp"/>
-                                    </constraints>
-                                </view>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wXO-Yh-mXH" userLabel="Gender Prompt View" customClass="LEOPromptField">
-                                    <rect key="frame" x="0.0" y="231" width="540" height="48"/>
-                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="48" id="yB9-a7-48B"/>
-                                    </constraints>
-                                </view>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Do6-Qk-bdr" userLabel="Continue Button">
-                                    <rect key="frame" x="0.0" y="312" width="540" height="54"/>
+                                    <rect key="frame" x="0.0" y="345" width="540" height="54"/>
                                     <color key="backgroundColor" red="0.98431372549999996" green="0.2784313725" blue="0.1960784314" alpha="1" colorSpace="calibratedRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="54" id="qDV-3V-Ygj"/>
@@ -83,15 +76,25 @@
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
                                 </button>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xzJ-EK-S70" userLabel="First Name Prompt View" customClass="LEOPromptField">
+                                    <rect key="frame" x="0.0" y="20" width="540" height="48"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="48" id="Qte-Eu-r3o"/>
+                                    </constraints>
+                                </view>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstItem="akX-b1-of0" firstAttribute="trailing" secondItem="xzJ-EK-S70" secondAttribute="trailing" id="7eG-0O-fwo"/>
                                 <constraint firstItem="NW5-r3-JJp" firstAttribute="leading" secondItem="1LP-Ig-PFg" secondAttribute="leading" id="BlL-SL-PJ9"/>
                                 <constraint firstAttribute="trailing" secondItem="NW5-r3-JJp" secondAttribute="trailing" id="Djs-4p-1Yf"/>
+                                <constraint firstItem="NW5-r3-JJp" firstAttribute="top" secondItem="wXO-Yh-mXH" secondAttribute="bottom" constant="33" id="GWP-2i-Ugk"/>
                                 <constraint firstItem="wXO-Yh-mXH" firstAttribute="top" secondItem="akX-b1-of0" secondAttribute="bottom" id="IV4-UD-MVP"/>
                                 <constraint firstItem="akX-b1-of0" firstAttribute="trailing" secondItem="wXO-Yh-mXH" secondAttribute="trailing" id="IWN-8F-WpX"/>
+                                <constraint firstItem="Do6-Qk-bdr" firstAttribute="top" secondItem="NW5-r3-JJp" secondAttribute="bottom" constant="33" id="RMx-mc-2q9"/>
                                 <constraint firstItem="akX-b1-of0" firstAttribute="top" secondItem="IsI-Id-xlv" secondAttribute="bottom" id="S9d-ER-BM6"/>
+                                <constraint firstItem="xzJ-EK-S70" firstAttribute="top" secondItem="1LP-Ig-PFg" secondAttribute="top" constant="20" id="UVH-gb-wdf"/>
                                 <constraint firstItem="NW5-r3-JJp" firstAttribute="top" secondItem="1LP-Ig-PFg" secondAttribute="top" constant="20" id="VF7-Qx-Zgh"/>
                                 <constraint firstItem="xzJ-EK-S70" firstAttribute="trailing" secondItem="Do6-Qk-bdr" secondAttribute="trailing" id="Vrw-AS-aon"/>
                                 <constraint firstItem="Do6-Qk-bdr" firstAttribute="top" secondItem="wXO-Yh-mXH" secondAttribute="bottom" constant="33" id="YGf-33-MM9"/>
@@ -109,7 +112,10 @@
                             </constraints>
                             <variation key="default">
                                 <mask key="constraints">
+                                    <exclude reference="nEk-y0-Vhx"/>
                                     <exclude reference="hT8-Fy-Fz5"/>
+                                    <exclude reference="VF7-Qx-Zgh"/>
+                                    <exclude reference="YGf-33-MM9"/>
                                 </mask>
                             </variation>
                         </view>
