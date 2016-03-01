@@ -40,23 +40,13 @@
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
-    NSString *storyboardIdentifier;
-    
-    if (!launchOptions) {
-        
-        storyboardIdentifier = [SessionUser isLoggedIn] ? kStoryboardFeed : kStoryboardLogin;
-    } else {
-
-        storyboardIdentifier = kStoryboardLogin;
-        //TODO: Figure out what other launch option situations we want to account for.
-    }
+    NSString *storyboardIdentifier = [SessionUser isLoggedIn] ? kStoryboardFeed : kStoryboardLogin;
     
     if (launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]) {
         [self application:application didReceiveRemoteNotification:launchOptions];
     }
     
     [self setRootViewControllerWithStoryboardName:storyboardIdentifier];
-    [self.window makeKeyAndVisible];
     
     return YES;
 }
@@ -166,6 +156,7 @@
     } else {
         
         self.window.rootViewController = initialVC;
+        [self.window makeKeyAndVisible];
     }
 }
 
@@ -268,8 +259,6 @@
                 NSArray *pathComponents = url.pathComponents;
 
                 if (pathComponents.count > 2) {
-
-                    [self setRootViewControllerWithStoryboardName:kStoryboardFeed];
 
                     [self feedTVC].cardInFocusType = [LEOCard cardTypeWithString:pathComponents[1]];
                     [self feedTVC].cardInFocusObjectID = pathComponents[2];
