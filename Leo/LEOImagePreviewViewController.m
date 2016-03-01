@@ -36,7 +36,7 @@
 
 // FIXME: When using custom transitions, the topLayoutGuide does not give the correct value.
 // source: http://slidetorock.com/blog/toplayoutguide-and-custom-transistions-in-ios-7.html
-CGFloat const kFakeTopLayoutGuide = 44;
+CGFloat const kFakeTopLayoutGuide = 0; // not sure why, but this seems to be correct positioning without this now...
 NSString * const kCopyPhotoPreview = @"Photo Preview";
 
 @synthesize image = _image;
