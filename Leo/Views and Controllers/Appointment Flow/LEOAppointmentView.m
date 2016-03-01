@@ -74,6 +74,7 @@ IB_DESIGNABLE
 - (void)setNotesTextView:(JVFloatLabeledTextView *)notesTextView {
 
     _notesTextView = notesTextView;
+    _notesTextView.text = self.note;
     _notesTextView.delegate = self;
     _notesTextView.scrollEnabled = NO;
     _notesTextView.placeholder = @"What would you like to cover?";
@@ -83,7 +84,6 @@ IB_DESIGNABLE
     _notesTextView.floatingLabelActiveTextColor = [UIColor leo_grayForPlaceholdersAndLines]; //TODO: Check *again* this color is right.
     _notesTextView.textColor = [UIColor leo_green];
     _notesTextView.tintColor = [UIColor leo_green];
-    _notesTextView.autocorrectionType = UITextAutocorrectionTypeNo;
 }
 
 -(void)setPatientPromptView:(LEOPromptView *)patientPromptView {
@@ -199,14 +199,8 @@ IB_DESIGNABLE
 - (void)setNote:(NSString *)note {
 
     _note = note;
-
-    if (note) {
-
-        self.notesTextView.text = note;
-    } else {
-
-        self.notesTextView.text = nil;
-    }
+    self.prepAppointment.note = note;
+    self.notesTextView.text = note;
 }
 
 #pragma mark - Drill Button Formatting
@@ -358,6 +352,7 @@ IB_DESIGNABLE
     self.patient = prepAppointment.patient;
     self.provider = prepAppointment.provider;
     self.appointmentType = prepAppointment.appointmentType;
+    self.note = prepAppointment.note;
 
     // FIXME: there is probably a better way to trigger side effects here to avoid this weird necessary ordering
     // self.date must be set last here because self setProvider will reset prepAppointment.provider, which will in turn set prepAppointment.date to nil
@@ -381,6 +376,11 @@ IB_DESIGNABLE
             shouldChangeTextInRange:range
                     replacementText:text
            toValidateCharacterLimit:kCharacterLimitAppointmentNotes];
+}
+
+- (void)textViewDidChange:(UITextView *)textView {
+
+    self.note = textView.text;
 }
 
 
