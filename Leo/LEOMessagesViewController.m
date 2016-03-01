@@ -68,6 +68,8 @@
 @property (nonatomic) NSInteger offset;
 @property (nonatomic) NSInteger nextPage;
 
+@property (nonatomic) BOOL viewWillAppearOnce;
+
 @property (strong, nonatomic) UIActivityIndicatorView *sendingIndicator;
 @property (strong, nonatomic) LEOImageCropViewControllerDataSource *cropDataSource;
 @property (strong, nonatomic) NSMutableArray *notificationObservers;
@@ -108,9 +110,19 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
 - (void)viewWillAppear:(BOOL)animated {
 
+    // JSQ will always scroll to bottom if this is set to YES. We want it to happen in other places, but not here
+    self.automaticallyScrollsToMostRecentMessage = NO;
     [super viewWillAppear:animated];
+    self.automaticallyScrollsToMostRecentMessage = YES;
+
     [self setupNavigationBar];
-    [self scrollToBottomAnimated:NO];
+
+    if (!self.viewWillAppearOnce) {
+
+        // scroll to bottom to avoid flicker on first load
+        [self scrollToBottomAnimated:NO];
+        self.viewWillAppearOnce = YES;
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
