@@ -35,6 +35,8 @@
 + (void)styleNavigationBarForViewController:(UIViewController *)viewController forFeature:(Feature)feature withTitleText:(NSString *)titleText dismissal:(BOOL)dismissAvailable backButton:(BOOL)backAvailable;
 + (void)styleNavigationBarForViewController:(UIViewController *)viewController forFeature:(Feature)feature withTitleText:(NSString *)titleText dismissal:(BOOL)dismissAvailable backButton:(BOOL)backAvailable shadow:(BOOL)shadow;
 
++ (void)roundCornersForView:(UIView*)view withCornerRadius:(CGFloat)radius;
+
 + (void)styleExpandedTitleLabel:(UILabel *)label feature:(Feature)feature;
 
 + (UIColor *)gradientStartColorForFeature:(Feature)feature;

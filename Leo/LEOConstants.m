@@ -273,7 +273,7 @@ NSString *const APIParamVitalMeasurementType = @"type";
 
 #pragma mark - Magic numbers
 CGFloat const kSelectionLineHeight = 2.0;
-CGFloat const kCornerRadius = 2.0;
+CGFloat const kCornerRadius = 5.0;
 CGFloat const kHeightOfNoReturnConstant = 0.4;
 CGFloat const kSpeedForTitleViewAlphaChangeConstant = 4.0;
 CGFloat const kStickyHeaderHeight = 154.0;
