@@ -96,7 +96,7 @@ static NSString * const reuseIdentifierFeature = @"reuseIdentifierFeature";
 
             cell.backgroundImageView.image = [UIImage imageNamed:@"Signed Out 1.1 - Background"];
             cell.mainTitleLabel.text = @"Message your care team directly";
-            cell.detailLabel.text = @"We’re here to help when you need it";
+            cell.detailLabel.text = @"We’re here to help when you need it.";
             cell.contentImageView.image = [UIImage imageNamed:@"Chat Content"];
             break;
         }
@@ -129,7 +129,7 @@ static NSString * const reuseIdentifierFeature = @"reuseIdentifierFeature";
 
             cell.backgroundImageView.image = [UIImage imageNamed:@"Signed Out 1.4 - Background"];
             cell.mainTitleLabel.text = @"Your child’s information at your fingertips";
-            cell.detailLabel.text = @"Access to your child's health data when you want it and need it";
+            cell.detailLabel.text = @"Access your child's health data when you want it and need it.";
             cell.contentImageView.image = [UIImage imageNamed:@"Health Record Content"];
             break;
         }
