@@ -28,16 +28,14 @@
 
         AFSecurityPolicy *securityPolicy;
 
-#ifdef LOCAL
+#if LOCAL
         securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeCertificate];
         securityPolicy.validatesDomainName = NO;
         securityPolicy.allowInvalidCertificates = YES;
 #endif
 
-#ifdef DEBUG
-#ifdef TESTFLIGHT
+#if defined(DEBUG) || defined(TESTFLIGHT)
         securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModePublicKey];
-#endif
 #endif
 
         NSString *certificatePath = [[NSBundle mainBundle] pathForResource:[Configuration selfSignedCertificate] ofType:@"cer"];
