@@ -717,8 +717,6 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
     combinedImages.avatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:user.avatar.image withDiameter:kJSQMessagesCollectionViewAvatarSizeDefault borderColor:[UIColor leo_grayForPlaceholdersAndLines] borderWidth:2];
 
-    combinedImages.avatarHighlightedImage = [LEOMessagesAvatarImageFactory circularAvatarHighlightedImage:user.avatar.image withDiameter:kJSQMessagesCollectionViewAvatarSizeDefault borderColor:[UIColor leo_grayForPlaceholdersAndLines] borderWidth:2];
-
     return combinedImages;
 }
 
