@@ -154,8 +154,6 @@ static CGFloat const kFeedInsetTop = 20.0;
     } withOnlineBlock:^{
         [self fetchData];
     }];
-
-//    [self fetchData];
 }
 
 
