@@ -292,13 +292,11 @@ static CGFloat const kFeedInsetTop = 20.0;
     LEOHelperService *helperService = [LEOHelperService new];
     [helperService getFamilyWithCompletion:^(Family *family, NSError *error) {
 
-        [hud hide:YES];
-        [hud removeFromSuperview];
-
         if (!error) {
             self.family = family;
             completionBlock();
         } else {
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
             [LEOAlertHelper alertForViewController:self title:kErrorDefaultTitle message:kErrorDefaultMessage];
         }
 
