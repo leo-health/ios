@@ -208,18 +208,10 @@
 
 - (void)logoutUserWithCompletion:(void (^)(BOOL success, NSError *error))completionBlock {
 
+    [SessionUser logout];
     [[LEOUserService leoSessionManager] standardDELETERequestForJSONDictionaryToAPIWithEndpoint:@"logout" params:nil completion:^(NSDictionary *rawResults, NSError *error) {
 
-        if (!error) {
-            
-            if ([rawResults[APIParamStatus] isEqualToString:@"ok"]) {
-                [SessionUser logout];
-            } else {
-                completionBlock ? completionBlock(NO, nil) : nil;
-            }
-        } else {
-            completionBlock ? completionBlock(NO, error) : nil;
-        }
+        completionBlock ? completionBlock(!error, error) : nil;
     }];
 }
 
