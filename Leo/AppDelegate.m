@@ -16,6 +16,7 @@
 #import <CrittercismSDK/Crittercism/Crittercism.h>
 #import "Configuration.h"
 #import "LEOConstants.h"
+#import "LEOStyleHelper.h"
 
 #if STUBS_FLAG
 #import "LEOStubs.h"
@@ -107,6 +108,8 @@
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle:[NSBundle mainBundle]];
     
     UIViewController *initialVC = [storyboard instantiateInitialViewController];
+
+    [LEOStyleHelper roundCornersForView:initialVC.view withCornerRadius:kCornerRadius];
     
     if (self.window.rootViewController && [self.window.rootViewController class] != [initialVC class]) {
 
