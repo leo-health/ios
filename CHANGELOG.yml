@@ -1,10 +1,14 @@
     upcoming:
-    - New! Empty state and better formatting for Personal Health Record.
-    - New! UI for adding a patient has been updated to make it easier to add avatars
-    - New! Rounding of buttons and expanded cards
-    - Bug fixes
-
     releases:
+    - version: 1.0.0
+      build: 2016.03.01.21.09
+      date: March 01 2016
+      notes:
+      - New! Empty state and better formatting for Personal Health Record.
+  - New! UI for adding a patient has been updated to make it easier to add avatars
+  - New! Rounding of buttons and expanded cards
+  - Bug fixes
+    
     - version: 1.0.1
       build: 2016.02.28.02.17
       date: February 28 2016
@@ -187,6 +191,7 @@
       notes:
       - First test build using new Fastfile configuration for Alpha builds
       - Provides the basic functionality all created prior to our first releases
+
 
 
 
