@@ -20,6 +20,7 @@
 #import "LEOIntrinsicSizeTableView.h"
 #import <MBProgressHUD.h>
 #import "NSObject+TableViewAccurateEstimatedCellHeight.h"
+#import "NSString+Helpers.h"
 
 // controllers
 #import "LEORecordEditNotesViewController.h"
@@ -226,7 +227,7 @@ NS_ENUM(NSInteger, TableViewRow) {
                 break;
 
             case TableViewSectionNotes:
-                rows = self.notes? 1 : 0;
+                rows = 1;
                 break;
 
             case TableViewSectionEmptyRecord:
@@ -372,7 +373,9 @@ NS_ENUM(NSInteger, TableViewRow) {
 
 - (UITableViewCell *)configureCell:(LEOPHRTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath forNotes:(NSArray <PatientNote *>*)notes {
 
-    if (indexPath.row < notes.count) {
+    PatientNote *note = indexPath.row < notes.count ? notes[indexPath.row] : nil;
+
+    if (note && ![note.text leo_isWhitespace]) {
         [cell configureCellWithNote:notes[indexPath.row]];
     } else {
         [cell configureCellForEmptySectionWithMessage:kCopyEmptyNotesField];

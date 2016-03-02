@@ -9,6 +9,7 @@
 #import "PatientNote.h"
 #import "NSDictionary+Additions.h"
 #import "NSDate+Extensions.h"
+#import "NSString+Helpers.h"
 #import "LEOConstants.h"
 
 @implementation PatientNote
@@ -26,6 +27,11 @@
         _text = text;
     }
     return self;
+}
+
+- (void)setText:(NSString *)text {
+
+    _text = [text leo_stringByTrimmingWhitespace];
 }
 
 -(instancetype)initWithJSONDictionary:(NSDictionary *)jsonDictionary {
