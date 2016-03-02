@@ -297,6 +297,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
     self.inputToolbar.contentView.textView.placeHolderTextColor = [UIColor leo_grayForPlaceholdersAndLines];
     self.inputToolbar.layer.borderColor = [UIColor whiteColor].CGColor;
     self.inputToolbar.contentView.textView.font = [UIFont leo_standardFont];
+    self.inputToolbar.maximumHeight = 200;
 }
 
 - (void)initializeSendButton {
@@ -370,6 +371,8 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
+
+    [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
 
     if (object == self.sendButton && [keyPath isEqualToString:@"enabled"]) {
 
@@ -1219,6 +1222,12 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
  */
 - (void)dismiss {
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+
+    [super viewWillDisappear:animated];
+    [self.view endEditing:YES];
 }
 
 
