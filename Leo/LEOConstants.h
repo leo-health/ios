@@ -475,6 +475,7 @@ extern NSString *const kKeySelectionVCSlot; // @"slot";
 
 #pragma mark - General Copy
 extern NSString *const kCopyTermsOfService; // @"Terms of Service";
-
+extern NSString *const kErrorDefaultMessage; // @"Looks like we have a boo-boo. We're already healing though and should be up and running again soon. Check back with us in a few minutes.";
+extern NSString *const kErrorDefaultTitle; // @"Oops!";
 
 @end
