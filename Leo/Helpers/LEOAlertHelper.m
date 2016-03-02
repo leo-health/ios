@@ -18,9 +18,7 @@
         
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:error.localizedDescription message:error.localizedRecoverySuggestion preferredStyle:UIAlertControllerStyleAlert];
         
-        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Got it." style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-            //[[viewController dismissViewControllerAnimated:YES completion:nil];
-        }];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Got it." style:UIAlertActionStyleCancel handler:nil];
         
         [alertController addAction:okAction];
         
@@ -32,9 +30,7 @@
 
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
 
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        //[[viewController dismissViewControllerAnimated:YES completion:nil];
-    }];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil];
 
     [alertController addAction:okAction];
 
