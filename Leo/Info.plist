@@ -4,25 +4,23 @@
 <dict>
 	<key>AppSettings</key>
 	<dict>
-		<key>PusherKey</key>
-		<string>${PUSHER_KEY}</string>
-		<key>CrittercismAppID</key>
-		<string>${CRITTERCISM_APP_ID}</string>
 		<key>ApiProtocol</key>
 		<string>${API_PROTOCOL}</string>
 		<key>ApiURL</key>
 		<string>${API_URL}</string>
 		<key>ApiVersion</key>
 		<string>${API_VERSION}</string>
-		<key>ProviderURL</key>
-		<string>${PROVIDER_URL}</string>
 		<key>ContentURL</key>
 		<string>${CONTENT_URL}</string>
+		<key>CrittercismAppID</key>
+		<string>${CRITTERCISM_APP_ID}</string>
+		<key>ProviderURL</key>
+		<string>${PROVIDER_URL}</string>
+		<key>PusherKey</key>
+		<string>${PUSHER_KEY}</string>
 		<key>SelfSignedCertificate</key>
 		<string>${SELF_SIGNED_CERTIFICATE}</string>
 	</dict>
-	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<false/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -38,7 +36,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0.1</string>
+	<string>1.0.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -64,9 +62,9 @@
 		<dict>
 			<key>leo-content.s3-website-us-east-1.amazonaws.com</key>
 			<dict>
-				<key>NSIncludesSubdomains</key>
-				<true/>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSIncludesSubdomains</key>
 				<true/>
 			</dict>
 			<key>localhost</key>
@@ -88,5 +86,7 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<false/>
 </dict>
 </plist>
