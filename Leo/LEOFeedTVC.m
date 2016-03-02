@@ -295,9 +295,9 @@ static CGFloat const kFeedInsetTop = 20.0;
         if (!error) {
             self.family = family;
             completionBlock();
-        } else {
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
         }
+
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
     }];
 }
 
