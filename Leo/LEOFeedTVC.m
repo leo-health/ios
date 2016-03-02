@@ -68,6 +68,8 @@
 #import "UIViewController+XibAdditions.h"
 #import "NSObject+TableViewAccurateEstimatedCellHeight.h"
 
+#import "LEOAlertHelper.h"
+
 typedef NS_ENUM(NSUInteger, TableViewSection) {
     TableViewSectionHeader,
     TableViewSectionBody,
@@ -152,8 +154,6 @@ static CGFloat const kFeedInsetTop = 20.0;
     } withOnlineBlock:^{
         [self fetchData];
     }];
-
-    [self fetchData];
 }
 
 
@@ -292,12 +292,16 @@ static CGFloat const kFeedInsetTop = 20.0;
     LEOHelperService *helperService = [LEOHelperService new];
     [helperService getFamilyWithCompletion:^(Family *family, NSError *error) {
 
+        [hud hide:YES];
+        [hud removeFromSuperview];
+
         if (!error) {
             self.family = family;
             completionBlock();
         } else {
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [LEOAlertHelper alertForViewController:self title:kErrorDefaultTitle message:kErrorDefaultMessage];
         }
+
     }];
 }
 

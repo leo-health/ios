@@ -11,5 +11,6 @@
 @interface LEOAlertHelper : NSObject
 
 + (void)alertForViewController:(UIViewController *)viewController error:(NSError *)error;
++ (void)alertForViewController:(UIViewController *)viewController title:(NSString *)title message:(NSString *)message;
 
 @end
