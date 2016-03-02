@@ -205,14 +205,21 @@
 
 + (void)styleButton:(UIButton *)button forFeature:(Feature)feature {
 
-    button.layer.borderColor = [LEOStyleHelper backgroundColorForFeature:feature].CGColor;
-    button.layer.borderWidth = 1.0;
-
+    [self roundCornersForView:button withCornerRadius:kCornerRadius];
+    
     button.titleLabel.font = [UIFont leo_buttonLabelsAndTimeStampsFont];
     [button setTitleColor:[UIColor leo_white] forState:UIControlStateNormal];
     button.backgroundColor = [UIColor leo_orangeRed];
 }
 
++ (void)roundCornersForView:(UIView*)view withCornerRadius:(CGFloat)radius {
+
+    view.layer.cornerRadius = radius;
+    view.layer.masksToBounds = YES;
+
+    [view.layer setShouldRasterize:YES];
+    [view.layer setRasterizationScale:[UIScreen mainScreen].scale];
+}
 
 
 //TODO: I smell something. Come back to this later to think through further.

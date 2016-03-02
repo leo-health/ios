@@ -94,6 +94,8 @@ static NSString *const kKeySelectionVCDate = @"date";
     self.stickyHeaderView.snapToHeight = @(CGRectGetHeight(self.navigationController.navigationBar.bounds));
     self.stickyHeaderView.datasource = self;
     self.stickyHeaderView.delegate = self;
+
+    [LEOStyleHelper roundCornersForView:self.navigationController.view withCornerRadius:kCornerRadius];
 }
 
 -(void)viewWillAppear:(BOOL)animated {

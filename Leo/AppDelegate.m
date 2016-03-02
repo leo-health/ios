@@ -81,31 +81,14 @@
 
 - (void)notificationReceived:(NSNotification *)notification {
     
-    if ([notification.name isEqualToString:@"membership-changed"]) {
-        
-        switch ([SessionUser guardian].membershipType) {
-                
-            case MembershipTypeMember:
-                
-                if ([SessionUser isLoggedIn]) {
-                    [self setRootViewControllerWithStoryboardName:kStoryboardFeed];
-                }
-                
-                break;
-                
-            case MembershipTypeUnpaid:
-                
-            case MembershipTypeIncomplete:
-                
-                [self setRootViewControllerWithStoryboardName:kStoryboardLogin];
-                break;
-                
-            case MembershipTypeNone:
-                break; //We don't use this explicitly to do anything, because token invalidation is more appropriate if this were to happen.
+    if ([notification.name isEqualToString:kNotificationMembershipChanged]) {
+
+        if ([SessionUser guardian].membershipType != MembershipTypeNone) {
+            [self setRootViewControllerWithStoryboardName:kStoryboardFeed];
         }
     }
     
-    if ([notification.name isEqualToString:@"token-invalidated"]) {
+    if ([notification.name isEqualToString:kNotificationTokenInvalidated]) {
         
         [self setRootViewControllerWithStoryboardName:kStoryboardLogin];
     }

@@ -106,6 +106,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
     [self setupPusher];
     [self constructNotifications];
     [self setupMessageNotificationsForMessages:[self conversation].messages];
+    [LEOStyleHelper roundCornersForView:self.navigationController.view withCornerRadius:kCornerRadius];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
