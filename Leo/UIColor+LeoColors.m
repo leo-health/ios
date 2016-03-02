@@ -66,6 +66,10 @@
     return [UIColor colorWithRed:227.0/255.0 green:227.0/255.0 blue:227.0/255.0 alpha:1]; /*#E3E3E3*/
 }
 
++ (UIColor *)leo_grayForInputAccessoryView {
+    return [UIColor colorWithWhite:245.0/255.0 alpha:1];
+}
+
 + (UIColor *) leo_randomColor {
     
     CGFloat hue = ( arc4random() % 256 / 256.0 );  //  0.0 to 1.0

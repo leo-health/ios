@@ -20,7 +20,7 @@
 #import "LEOHelperService.h"
 #import "LEOFeedTVC.h"
 #import "LEOStyleHelper.h"
-#import "UIViewController+XibAdditions.h"
+#import "NSObject+XibAdditions.h"
 #import "UIView+Extensions.h"
 
 

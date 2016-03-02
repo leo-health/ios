@@ -65,7 +65,7 @@
 #import "LEOStyleHelper.h"
 #import "LEOValidationsHelper.h"
 #import "LEOAppointmentViewController.h"
-#import "UIViewController+XibAdditions.h"
+#import "NSObject+XibAdditions.h"
 #import "NSObject+TableViewAccurateEstimatedCellHeight.h"
 
 #import "LEOAlertHelper.h"

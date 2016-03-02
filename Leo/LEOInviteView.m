@@ -11,7 +11,7 @@
 #import "UIView+Extensions.h"
 #import "LEOValidationsHelper.h"
 #import "LEOPromptTextView.h"
-#import "UIViewController+XibAdditions.h"
+#import "NSObject+XibAdditions.h"
 #import "UIView+Extensions.h"
 #import "LEOStyleHelper.h"
 

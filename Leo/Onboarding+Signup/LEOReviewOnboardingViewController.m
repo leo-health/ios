@@ -33,7 +33,7 @@
 #import <MBProgressHUD/MBProgressHUD.h>
 #import "LEOReviewOnboardingView.h"
 #import "LEOProgressDotsHeaderView.h"
-#import "UIViewController+XibAdditions.h"
+#import "NSObject+XibAdditions.h"
 #import "LEOIntrinsicSizeTableView.h"
 
 #import "LEOButtonCell.h"

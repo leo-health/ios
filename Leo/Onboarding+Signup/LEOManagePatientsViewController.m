@@ -21,7 +21,7 @@
 #import "LEOStyleHelper.h"
 #import "LEOManagePatientsView.h"
 #import "LEOHeaderView.h"
-#import "UIViewController+XibAdditions.h"
+#import "NSObject+XibAdditions.h"
 #import "LEOIntrinsicSizeTableView.h"
 #import "UIView+Extensions.h"
 #import "LEOButtonCell.h"

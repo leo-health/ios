@@ -7,7 +7,6 @@
 //
 
 #import "LEOAppointmentView.h"
-#import "UIView+XibAdditions.h"
 #import "UIView+Extensions.h"
 #import "JVFloatLabeledTextView.h"
 #import "UIFont+LeoFonts.h"
@@ -24,6 +23,8 @@
 #import "LEOPromptView.h"
 #import "LEOValidatedFloatLabeledTextView.h" //Reason why I need to rebuild LEOPromptView / Field
 #import "LEOValidationsHelper.h"
+#import "LEOInputAccessoryView.h"
+#import "NSObject+XibAdditions.h"
 
 @interface LEOAppointmentView ()
 
@@ -84,6 +85,11 @@ IB_DESIGNABLE
     _notesTextView.floatingLabelActiveTextColor = [UIColor leo_grayForPlaceholdersAndLines]; //TODO: Check *again* this color is right.
     _notesTextView.textColor = [UIColor leo_green];
     _notesTextView.tintColor = [UIColor leo_green];
+
+    LEOInputAccessoryView *accessoryView = [self leo_loadViewFromNibForClass:[LEOInputAccessoryView class]];
+    accessoryView.feature = FeatureAppointmentScheduling;
+    [accessoryView.doneButton addTarget:self action:@selector(endEditing:) forControlEvents:UIControlEventTouchUpInside];
+    _notesTextView.inputAccessoryView = accessoryView;
 }
 
 -(void)setPatientPromptView:(LEOPromptView *)patientPromptView {

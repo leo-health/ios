@@ -18,7 +18,7 @@
 #import "LEOPromptField.h"
 #import "LEOStyleHelper.h"
 #import "LEOHeaderView.h"
-#import "UIViewController+XibAdditions.h"
+#import "NSObject+XibAdditions.h"
 
 @interface LEOForgotPasswordViewController ()
 

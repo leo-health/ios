@@ -29,7 +29,7 @@
 #import "LEOImageCropViewController.h"
 #import "LEOAlertHelper.h"
 #import <CWStatusBarNotification.h>
-#import "UIViewController+XibAdditions.h"
+#import "NSObject+XibAdditions.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <Photos/Photos.h>
 

@@ -1,5 +1,5 @@
 //
-//  UIViewController+XibAdditions.h
+//  NSObject+XibAdditions.h
 //  Leo
 //
 //  Created by Zachary Drossman on 1/6/16.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UIViewController (XibAdditions)
+@interface NSObject (XibAdditions)
 
 - (id)leo_loadViewFromNibForClass:(Class)class;
 
