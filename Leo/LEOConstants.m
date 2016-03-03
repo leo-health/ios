@@ -270,6 +270,8 @@ NSString *const APIParamVitalMeasurementValue = @"value";
 NSString *const APIParamVitalMeasurementPercentile = @"percentile";
 NSString *const APIParamVitalMeasurementType = @"type";
 
+#pragma mark - Feed Message Header
+NSString *const APIParamFeedMessageHeaderText = @"text";
 
 #pragma mark - Magic numbers
 CGFloat const kSelectionLineHeight = 2.0;
