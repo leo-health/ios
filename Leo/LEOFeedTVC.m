@@ -42,7 +42,7 @@
 
 #import "LEOFeedHeaderCell+ConfigureForCell.h"
 #import "LEOFeedNavigationHeaderView.h"
-#import "LEOFeedCell+ConfigureForCell.h"
+#import "LEOFeedCell+ConfigureForCard.h"
 
 #import <VBFPopFlatButton/VBFPopFlatButton.h>
 #import "UIImageEffects.h"
@@ -343,7 +343,8 @@ static CGFloat const kFeedInsetTop = 20.0;
 
             dispatch_async(dispatch_get_main_queue() , ^{
 
-                [self.tableView reloadData];
+                [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:TableViewSectionBody] withRowAnimation:UITableViewRowAnimationNone];
+
                 [MBProgressHUD hideHUDForView:self.view animated:NO];
 
                 [self activateCardInFocus];

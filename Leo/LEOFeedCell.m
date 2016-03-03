@@ -7,6 +7,7 @@
 //
 
 #import "LEOFeedCell.h"
+#import "LEOStyleHelper.h"
 
 @implementation LEOFeedCell
 
@@ -64,13 +65,7 @@
 }
 
 - (void)awakeFromNib {
-
-    self.bodyView.layer.cornerRadius = kCornerRadius;
-    self.bodyView.layer.masksToBounds = YES;
-
-    [self.bodyView.layer setShouldRasterize:YES];
-    [self.bodyView.layer setRasterizationScale:[UIScreen mainScreen].scale];
-
+    [LEOStyleHelper roundCornersForView:self withCornerRadius:kCornerRadius];
 }
 
 + (UINib *)nib {
@@ -78,11 +73,5 @@
     return [UINib nibWithNibName:NSStringFromClass([LEOFeedCell class]) bundle:nil];
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
-}
 
 @end

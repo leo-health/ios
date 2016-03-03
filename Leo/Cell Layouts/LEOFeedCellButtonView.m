@@ -41,21 +41,6 @@ static NSInteger const kLineThickness = 1;
     return self;
 }
 
-//-(void)setCard:(id<LEOCardProtocol>)card {
-//
-//    [_leadingButton setTitle:[self.card stringRepresentationOfActionsAvailableForState][0] forState:UIControlStateNormal];
-//    [_leadingButton setTitleColor:card.tintColor forState:UIControlStateNormal];
-//    _leadingButton.titleLabel.font = [UIFont leo_fieldAndUserLabelsAndSecondaryButtonsFont];
-//    [_trailingButton removeTarget:nil action:NULL forControlEvents:_trailingButton.allControlEvents];
-//    [_leadingButton addTarget:self.card.associatedCardObject action:NSSelectorFromString([self.card actionsAvailableForState][0]) forControlEvents:UIControlEventTouchUpInside];
-//
-//    [_trailingButton setTitle:[self.card stringRepresentationOfActionsAvailableForState][1] forState:UIControlStateNormal];
-//    [_trailingButton setTitleColor:card.tintColor forState:UIControlStateNormal];
-//    _trailingButton.titleLabel.font = [UIFont leo_fieldAndUserLabelsAndSecondaryButtonsFont];
-//    [_trailingButton removeTarget:nil action:NULL forControlEvents:_trailingButton.allControlEvents];
-//    [_trailingButton addTarget:self.card.associatedCardObject action:NSSelectorFromString([self.card actionsAvailableForState][1]) forControlEvents:UIControlEventTouchUpInside];
-//}
-
 
 #pragma mark - Accessors
 
@@ -89,7 +74,6 @@ static NSInteger const kLineThickness = 1;
         [_trailingButton setTitleColor:self.card.tintColor forState:UIControlStateNormal];
         _trailingButton.titleLabel.font = [UIFont leo_fieldAndUserLabelsAndSecondaryButtonsFont];
 
-        [_trailingButton removeTarget:nil action:NULL forControlEvents:_trailingButton.allControlEvents];
         [_trailingButton addTarget:self.card.associatedCardObject action:NSSelectorFromString([self.card actionsAvailableForState][1]) forControlEvents:UIControlEventTouchUpInside];
 
         [self addSubview:_trailingButton];
@@ -162,8 +146,6 @@ static NSInteger const kLineThickness = 1;
                 NSArray *verticalConstraintForLeadingButton = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[breaker(lineThickness)][_leadingButton]|" options:0 metrics:nil views:bindings];
 
                 NSArray *horizontalConstraintsForBreaker = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[breaker]|" options:0 metrics:metrics views:bindings];
-
-
 
                 [self addConstraints:horizontalConstraints];
                 [self addConstraints:verticalConstraintForLeadingButton];

@@ -68,7 +68,7 @@ static CGFloat const kSpacer = 2;
         UILabel *strongLabel = [UILabel new];
         _addressLabel = strongLabel;
 
-        if (self.practice.addressLine2) {
+        if (![self.practice.addressLine2 isEqualToString:@""] && self.practice.addressLine2) {
             _addressLabel.text = [NSString stringWithFormat:@"%@, %@", self.practice.addressLine1, self.practice.addressLine2];
         } else {
             _addressLabel.text = self.practice.addressLine1;
