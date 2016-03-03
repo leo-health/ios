@@ -22,4 +22,4 @@ PROVIDER_URL = localhost:8888
 API_VERSION = api/v1
 API_PROTOCOL = http
 CONTENT_URL = leo-content.s3-website-us-east-1.amazonaws.com
-PUSHER_KEY = 218006d766a6d76e8672
+PUSHER_KEY = 161f84c2eba08ba953da
