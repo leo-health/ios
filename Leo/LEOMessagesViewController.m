@@ -371,6 +371,8 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
 
+    [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+
     if (object == self.sendButton && [keyPath isEqualToString:@"enabled"]) {
 
         // Override JSQ behavior of disabling send button
@@ -713,8 +715,6 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
     JSQMessagesAvatarImage *combinedImages = [JSQMessagesAvatarImage avatarImageWithPlaceholder:placeholderImage];
 
     combinedImages.avatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:user.avatar.image withDiameter:kJSQMessagesCollectionViewAvatarSizeDefault borderColor:[UIColor leo_grayForPlaceholdersAndLines] borderWidth:2];
-
-    combinedImages.avatarHighlightedImage = [LEOMessagesAvatarImageFactory circularAvatarHighlightedImage:user.avatar.image withDiameter:kJSQMessagesCollectionViewAvatarSizeDefault borderColor:[UIColor leo_grayForPlaceholdersAndLines] borderWidth:2];
 
     return combinedImages;
 }
@@ -1219,6 +1219,12 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
  */
 - (void)dismiss {
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+
+    [super viewWillDisappear:animated];
+    [self.view endEditing:YES];
 }
 
 
