@@ -176,14 +176,10 @@ static NSString *const dateReuseIdentifier = @"DateCell";
  */
 - (CGPoint) offsetForWeekOfStartingDate {
     
-    NSDate *firstDate = [self weekStartingDate];
+    NSDate *firstDate = [[self slotDateKeys] firstObject];
     NSUInteger weeksFromFirstWeek = floor([NSDate leo_daysBetweenDate:firstDate andDate:self.chosenDate]/7);
     
     return CGPointMake(weeksFromFirstWeek * self.collectionView.frame.size.width, 0);
-}
-
-- (NSDate *)weekStartingDate {
-    return [self slotDateKeys].firstObject;
 }
 
 /**
@@ -224,9 +220,12 @@ static NSString *const dateReuseIdentifier = @"DateCell";
     
     NSSortDescriptor *ascending = [NSSortDescriptor sortDescriptorWithKey:nil ascending:YES];
     
-    NSArray *keys = [self.slotsDictionary allKeys];
+    NSArray *keys = [[self.slotsDictionary allKeys] sortedArrayUsingDescriptors:@[ascending]];
+
+    NSInteger lastIndexForFullWeek = keys.count - (keys.count % 7);
+    keys = [keys subarrayWithRange:NSMakeRange(0, lastIndexForFullWeek)];
     
-    return [keys sortedArrayUsingDescriptors:@[ascending]];
+    return keys;
 }
 
 @end

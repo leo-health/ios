@@ -180,7 +180,7 @@
         //FIXME: Don't love that I have to call this from outside of the DateCollectionController. There has got to be a better way.
         [self.dateCollectionView setContentOffset:[self.dateCollectionController offsetForWeekOfStartingDate] animated:NO];
 
-        [self updateMonthLabelWithDate:[self.dateCollectionController weekStartingDate]];
+        [self updateMonthLabelWithDate:[self initialDate]];
         
         [self.timeCollectionView layoutIfNeeded];
 
@@ -191,6 +191,7 @@
 }
 
 - (void)updateMonthLabelWithDate:(NSDate *)date {
+
     NSDateFormatter *monthYearFormatter = [[NSDateFormatter alloc] init];
     monthYearFormatter.dateFormat = @"MMMM yyyy";
     self.monthLabel.text = [monthYearFormatter stringFromDate:date];
