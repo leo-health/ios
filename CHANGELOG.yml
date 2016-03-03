@@ -1,9 +1,13 @@
     upcoming:
-    - New! Rounding of the entire app
-    - New! Accessory to input view in appointments
-    - Bug fixing
-
     releases:
+    - version: 1.0.0
+      build: 2016.03.03.18.22
+      date: March 03 2016
+      notes:
+      - New! Rounding of the entire app
+  - New! Accessory to input view in appointments
+  - Bug fixing
+    
     - version: 1.0.0
       build: 2016.03.02.11.12
       date: March 02 2016
@@ -201,6 +205,7 @@
       notes:
       - First test build using new Fastfile configuration for Alpha builds
       - Provides the basic functionality all created prior to our first releases
+
 
 
 
