@@ -25,10 +25,18 @@
                                          sessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
 
         _sharedClient.responseSerializer = [AFJSONResponseSerializer serializer];
-    
-        AFSecurityPolicy *securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeCertificate];
+
+        AFSecurityPolicy *securityPolicy;
+
+#if LOCAL
+        securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeCertificate];
         securityPolicy.validatesDomainName = NO;
         securityPolicy.allowInvalidCertificates = YES;
+#endif
+
+#if defined(DEBUG) || defined(TESTFLIGHT)
+        securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModePublicKey];
+#endif
 
         NSString *certificatePath = [[NSBundle mainBundle] pathForResource:[Configuration selfSignedCertificate] ofType:@"cer"];
         NSData *certificateData = [[NSData alloc] initWithContentsOfFile:certificatePath];
