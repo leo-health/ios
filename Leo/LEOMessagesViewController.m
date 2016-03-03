@@ -297,7 +297,6 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
     self.inputToolbar.contentView.textView.placeHolderTextColor = [UIColor leo_grayForPlaceholdersAndLines];
     self.inputToolbar.layer.borderColor = [UIColor whiteColor].CGColor;
     self.inputToolbar.contentView.textView.font = [UIFont leo_standardFont];
-    self.inputToolbar.maximumHeight = 200;
 }
 
 - (void)initializeSendButton {
