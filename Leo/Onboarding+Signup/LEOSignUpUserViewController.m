@@ -9,7 +9,7 @@
 #import "LEOSignUpUserViewController.h"
 
 #import "UIImage+Extensions.h"
-#import "UIViewController+XibAdditions.h"
+#import "NSObject+XibAdditions.h"
 #import "UIColor+LeoColors.h"
 
 #import "LEOSignUpUserView.h"

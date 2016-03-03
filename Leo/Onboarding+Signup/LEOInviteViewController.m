@@ -16,7 +16,7 @@
 #import <CWStatusBarNotification.h>
 #import "LEOProgressDotsHeaderView.h"
 #import "UIColor+LeoColors.h"
-#import "UIViewController+XibAdditions.h"
+#import "NSObject+XibAdditions.h"
 #import "LEOReviewOnboardingViewController.h"
 #import "Family.h"
 #import "Guardian.h"

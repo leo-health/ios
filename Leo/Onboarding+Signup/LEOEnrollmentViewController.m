@@ -16,7 +16,7 @@
 #import "LEOPromptField.h"
 #import <MBProgressHUD.h>
 #import "LEOHeaderView.h"
-#import "UIViewController+XibAdditions.h"
+#import "NSObject+XibAdditions.h"
 #import "UIView+Extensions.h"
 #import "UIColor+LeoColors.h"
 #import "LEOEnrollmentView.h"

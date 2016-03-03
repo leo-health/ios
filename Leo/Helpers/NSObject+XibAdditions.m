@@ -1,14 +1,14 @@
 //
-//  UIViewController+XibAdditions.m
+//  NSObject+XibAdditions.m
 //  Leo
 //
 //  Created by Zachary Drossman on 1/6/16.
 //  Copyright © 2016 Leo Health. All rights reserved.
 //
 
-#import "UIViewController+XibAdditions.h"
+#import "NSObject+XibAdditions.h"
 
-@implementation UIViewController (XibAdditions)
+@implementation NSObject (XibAdditions)
 
 - (UIView *)leo_loadViewFromNibForClass:(Class)class {
 
