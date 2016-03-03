@@ -11,9 +11,17 @@
 
 @interface LEOFeedCell : UITableViewCell
 
+@property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
+@property (weak, nonatomic) IBOutlet UIView *footerView;
+@property (weak, nonatomic) IBOutlet UIView *headerView;
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *bodyLabel;
+@property (weak, nonatomic) IBOutlet UIView *buttonView;
+@property (weak, nonatomic) IBOutlet UIView *bodyView;
+@property (weak, nonatomic) IBOutlet UIView *borderViewAtTopOfBodyView;
 @property (nonatomic) BOOL unreadState;
 
++ (UINib *)nib;
 - (void)setUnreadState:(BOOL)unreadState animated:(BOOL)animated;
-- (void)configureForCard:(id<LEOCardProtocol>)card;
 
 @end

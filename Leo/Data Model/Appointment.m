@@ -19,7 +19,8 @@
 
 @implementation Appointment
 
--(instancetype)initWithObjectID:(nullable NSString *)objectID date:(nullable NSDate *)date appointmentType:(nullable AppointmentType *)appointmentType patient:(nullable Patient *)patient provider:(nullable Provider *)provider practiceID:(nullable NSString *)practiceID bookedByUser:(User *)bookedByUser note:(nullable NSString *)note status:(AppointmentStatus *)status {
+
+-(instancetype)initWithObjectID:(nullable NSString *)objectID date:(nullable NSDate *)date appointmentType:(nullable AppointmentType *)appointmentType patient:(nullable Patient *)patient provider:(nullable Provider *)provider practice:(Practice *)practice bookedByUser:(User *)bookedByUser note:(nullable NSString *)note status:(AppointmentStatus *)status {
 
     self = [super init];
 
@@ -28,7 +29,7 @@
         _appointmentType = appointmentType;
         _patient = patient;
         _provider = provider;
-        _practiceID = practiceID;
+        _practice = practice;
         _bookedByUser = bookedByUser;
         _status = status;
         _objectID = objectID;
@@ -50,9 +51,11 @@
     AppointmentStatus *status = [[AppointmentStatus alloc] initWithJSONDictionary:[jsonResponse leo_itemForKey:APIParamStatus]];
     NSString *objectID = [[jsonResponse leo_itemForKey:APIParamID] stringValue];
     NSString *note = [jsonResponse leo_itemForKey:APIParamAppointmentNotes];
-    
+
+    Practice *practice = [[Practice alloc] initWithJSONDictionary:[jsonResponse leo_itemForKey:APIParamPractice]];
+
     //FIXME: Practice ID is being hardcoded while we only have one practice.
-    return [self initWithObjectID:objectID date:date appointmentType:appointmentType patient:patient provider:provider practiceID:@"1" bookedByUser:bookedByUser note:note status:status];
+    return [self initWithObjectID:objectID date:date appointmentType:appointmentType patient:patient provider:provider practice:practice bookedByUser:bookedByUser note:note status:status];
 }
 
 - (AppointmentStatus *)priorStatus {
@@ -67,8 +70,17 @@
 
 - (instancetype)initWithPrepAppointment:(PrepAppointment *)prepAppointment {
 
+
     //TODO: Remove hard coded practice at some point!
-    return [self initWithObjectID:prepAppointment.objectID date:prepAppointment.date appointmentType:prepAppointment.appointmentType patient:prepAppointment.patient provider:prepAppointment.provider practiceID:@"1" bookedByUser:prepAppointment.bookedByUser note:prepAppointment.note status:prepAppointment.status];
+    return [self initWithObjectID:prepAppointment.objectID
+                             date:prepAppointment.date
+                  appointmentType:prepAppointment.appointmentType
+                          patient:prepAppointment.patient
+                         provider:prepAppointment.provider
+                         practice:prepAppointment.practice
+                     bookedByUser:prepAppointment.bookedByUser
+                             note:prepAppointment.note
+                           status:prepAppointment.status];
 }
 
 + (NSDictionary *)dictionaryFromAppointment:(Appointment *)appointment {
@@ -84,7 +96,7 @@
     appointmentDictionary[@"appointment_status_id"] = @(appointment.status.statusCode);
     appointmentDictionary[APIParamUserProviderID] = appointment.provider.objectID;
     appointmentDictionary[APIParamUserPatientID] = appointment.patient.objectID;
-    appointmentDictionary[APIParamPracticeID] = appointment.practiceID;
+    appointmentDictionary[APIParamPracticeID] = appointment.practice.objectID;
 
     if (appointment.note) {
         appointmentDictionary[APIParamAppointmentNotes] = appointment.note;

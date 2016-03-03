@@ -12,5 +12,6 @@
 
 - (NSLayoutConstraint *)leo_pin:(id)item attribute:(NSLayoutAttribute)attribute;
 - (void)setupTouchEventForDismissingKeyboard;
+- (void)leo_pinToSuperView:(UIView *)superview;
 
 @end

@@ -1,4 +1,4 @@
-
+    
 //
 //  LEOFeedTVC.m
 //  Leo
@@ -40,14 +40,9 @@
 #import "LEOCardAppointment.h"
 #import "LEOTransitioningDelegate.h"
 
-#import "LEOTwoButtonSecondaryOnlyCell+ConfigureForCell.h"
-#import "LEOOneButtonSecondaryOnlyCell+ConfigureForCell.h"
-#import "LEOTwoButtonPrimaryOnlyCell+ConfigureForCell.h"
-#import "LEOOneButtonPrimaryOnlyCell+ConfigureForCell.h"
-#import "LEOTwoButtonPrimaryAndSecondaryCell+ConfigureForCell.h"
-#import "LEOOneButtonPrimaryAndSecondaryCell+ConfigureForCell.h"
 #import "LEOFeedHeaderCell+ConfigureForCell.h"
 #import "LEOFeedNavigationHeaderView.h"
+#import "LEOFeedCell+ConfigureForCard.h"
 
 #import <VBFPopFlatButton/VBFPopFlatButton.h>
 #import "UIImageEffects.h"
@@ -84,7 +79,7 @@ typedef NS_ENUM(NSUInteger, TableViewSection) {
 @property (strong, nonatomic) LEOTransitioningDelegate *transitionDelegate;
 
 @property (retain, nonatomic) NSMutableArray *cards;
-@property (copy, nonatomic) NSArray *allStaff;
+@property (strong, nonatomic) Practice *practice;
 @property (copy, nonatomic) NSArray *appointmentTypes;
 
 @property (weak, nonatomic) IBOutlet UINavigationBar *navigationBar;
@@ -101,13 +96,8 @@ typedef NS_ENUM(NSUInteger, TableViewSection) {
 
 @implementation LEOFeedTVC
 
-static NSString *const CellIdentifierLEOCardTwoButtonSecondaryOnly = @"LEOTwoButtonSecondaryOnlyCell";
-static NSString *const CellIdentifierLEOCardTwoButtonPrimaryAndSecondary = @"LEOTwoButtonPrimaryAndSecondaryCell";
-static NSString *const CellIdentifierLEOCardTwoButtonPrimaryOnly = @"LEOTwoButtonPrimaryOnlyCell";
-static NSString *const CellIdentifierLEOCardOneButtonSecondaryOnly = @"LEOOneButtonSecondaryOnlyCell";
-static NSString *const CellIdentifierLEOCardOneButtonPrimaryAndSecondary = @"LEOOneButtonPrimaryAndSecondaryCell";
-static NSString *const CellIdentifierLEOCardOneButtonPrimaryOnly = @"LEOOneButtonPrimaryOnlyCell";
 static NSString *const kCellIdentifierLEOHeaderCell = @"LEOFeedHeaderCell";
+static NSString *const kCellIdentifierLEOFeed = @"LEOFeedCell";
 
 static CGFloat const kFeedInsetTop = 20.0;
 
@@ -326,14 +316,13 @@ static CGFloat const kFeedInsetTop = 20.0;
     [self fetchFeedHeader];
     [self fetchFamilyWithCompletion:^{
 
-        // refresh cached practice
-        if (![[LEOCachedDataStore sharedInstance].lastCachedDateForPractice isSameDay:[NSDate date]] || ![LEOCachedDataStore sharedInstance].practice) {
-            [[LEOHelperService new] getPracticesWithCompletion:^(NSArray *practices, NSError *error) {
-                [self fetchDataForCard:nil];
-            }];
-        } else {
+        [[LEOHelperService new] getPracticesWithCompletion:^(NSArray *practices, NSError *error) {
+
+            //MARK: Until we have more than one practice, this is required for creating new appointments with a default practice
+            self.practice = practices.firstObject;
+
             [self fetchDataForCard:nil];
-        }
+        }];
     }];
 }
 
@@ -353,6 +342,7 @@ static CGFloat const kFeedInsetTop = 20.0;
             dispatch_async(dispatch_get_main_queue() , ^{
 
                 [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:TableViewSectionBody] withRowAnimation:UITableViewRowAnimationNone];
+
                 [MBProgressHUD hideHUDForView:self.view animated:NO];
 
                 [self activateCardInFocus];
@@ -432,26 +422,11 @@ static CGFloat const kFeedInsetTop = 20.0;
     _tableView.backgroundColor = [UIColor clearColor];
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 
-    [_tableView registerNib:[LEOTwoButtonPrimaryOnlyCell nib]
-         forCellReuseIdentifier:CellIdentifierLEOCardTwoButtonPrimaryOnly];
-
-    [_tableView registerNib:[LEOOneButtonPrimaryOnlyCell nib]
-         forCellReuseIdentifier:CellIdentifierLEOCardOneButtonPrimaryOnly];
-
-    [_tableView registerNib:[LEOTwoButtonSecondaryOnlyCell nib]
-         forCellReuseIdentifier:CellIdentifierLEOCardTwoButtonSecondaryOnly];
-
-    [_tableView registerNib:[LEOOneButtonSecondaryOnlyCell nib]
-         forCellReuseIdentifier:CellIdentifierLEOCardOneButtonSecondaryOnly];
-
-    [_tableView registerNib:[LEOTwoButtonPrimaryAndSecondaryCell nib]
-         forCellReuseIdentifier:CellIdentifierLEOCardTwoButtonPrimaryAndSecondary];
-
-    [_tableView registerNib:[LEOOneButtonPrimaryAndSecondaryCell nib]
-         forCellReuseIdentifier:CellIdentifierLEOCardOneButtonPrimaryAndSecondary];
-
     [_tableView registerNib:[LEOFeedHeaderCell nib]
          forCellReuseIdentifier:kCellIdentifierLEOHeaderCell];
+
+    [self.tableView registerNib:[LEOFeedCell nib]
+         forCellReuseIdentifier:kCellIdentifierLEOFeed];
 }
 
 
@@ -624,7 +599,7 @@ static CGFloat const kFeedInsetTop = 20.0;
                                                      appointmentType:nil
                                                              patient:patient
                                                             provider:nil
-                                                          practiceID:@"0"
+                                                            practice:self.practice
                                                         bookedByUser:[SessionUser currentUser]
                                                                 note:nil
                                                               status:appointmentStatus];
@@ -749,7 +724,6 @@ static CGFloat const kFeedInsetTop = 20.0;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
-
     switch (indexPath.section) {
         case TableViewSectionHeader:
             return [self tableView:tableView cellForHeaderRowAtIndexPath:indexPath];
@@ -776,50 +750,11 @@ static CGFloat const kFeedInsetTop = 20.0;
     id<LEOCardProtocol>card = self.cards[indexPath.row];
     card.activityDelegate = self;
 
-    NSString *cellIdentifier;
-
-    switch (card.layout) {
-
-        case CardLayoutTwoButtonSecondaryOnly: {
-            cellIdentifier = CellIdentifierLEOCardTwoButtonSecondaryOnly;
-            break;
-        }
-
-        case CardLayoutOneButtonSecondaryOnly: {
-            cellIdentifier = CellIdentifierLEOCardOneButtonSecondaryOnly;
-            break;
-        }
-
-        case CardLayoutTwoButtonPrimaryOnly: {
-            cellIdentifier = CellIdentifierLEOCardTwoButtonPrimaryOnly;
-            break;
-        }
-
-        case CardLayoutOneButtonPrimaryOnly: {
-            cellIdentifier = CellIdentifierLEOCardOneButtonPrimaryOnly;
-            break;
-        }
-
-        case CardLayoutTwoButtonPrimaryAndSecondary: {
-            cellIdentifier = CellIdentifierLEOCardTwoButtonPrimaryAndSecondary;
-            break;
-        }
-
-        case CardLayoutOneButtonPrimaryAndSecondary: {
-            cellIdentifier = CellIdentifierLEOCardOneButtonPrimaryAndSecondary;
-            break;
-        }
-
-        case CardLayoutUndefined: {
-            //TODO: Should deal with this as an error of some sort.
-            return nil;
-        }
-    }
-
-    LEOFeedCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier
+    LEOFeedCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifierLEOFeed
                                                         forIndexPath:indexPath];;
 
     [cell configureForCard:card];
+    
     cell.unreadState = [indexPath isEqual:self.cardInFocusIndexPath];
 
     return cell;

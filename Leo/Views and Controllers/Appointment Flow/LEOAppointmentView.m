@@ -280,7 +280,7 @@ IB_DESIGNABLE
         [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:@"My visit is at "
                                                                            attributes:baseDictionary]];
 
-        [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:[NSDate leo_stringifiedTimeWithEasternTimeZone:self.prepAppointment.date]
+        [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:[NSDate leo_stringifiedTimeWithEasternTimeZoneWithPeriod:self.prepAppointment.date]
                                                                            attributes:variableDictionary]];
 
         [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:@" on "

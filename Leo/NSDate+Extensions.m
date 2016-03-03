@@ -127,7 +127,17 @@
     return [dateFormatter stringFromDate:date];
 }
 
-+ (NSString *)leo_stringifiedTimeWithEasternTimeZone:(NSDate *)date {
++ (NSString *)leo_stringifiedTimeWithEasternTimeZoneWithPeriod:(NSDate *)date {
+
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
+    dateFormatter.timeZone = [NSTimeZone timeZoneWithName:@"US/Eastern"];
+    dateFormatter.dateFormat = @"h':'mma";
+    dateFormatter.AMSymbol = @"am";
+    dateFormatter.PMSymbol = @"pm";
+    return [dateFormatter stringFromDate:date];
+}
+
++ (NSString *)leo_stringifiedTimeWithEasternTimeZoneWithoutPeriod:(NSDate *)date {
 
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
     dateFormatter.timeZone = [NSTimeZone timeZoneWithName:@"US/Eastern"];

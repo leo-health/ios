@@ -7,6 +7,7 @@
 //
 
 #import "LEOFeedCell.h"
+#import "LEOStyleHelper.h"
 
 @implementation LEOFeedCell
 
@@ -26,13 +27,6 @@
     }
     
     return self;
-}
-
-- (void)configureForCard:(id<LEOCardProtocol>)card {
-
-    @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                   reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
-                                 userInfo:nil];
 }
 
 - (void)setUnreadState:(BOOL)unreadState animated:(BOOL)animated {
@@ -68,6 +62,15 @@
 
         // TODO: design normal state
     }
+}
+
+- (void)awakeFromNib {
+    [LEOStyleHelper roundCornersForView:self withCornerRadius:kCornerRadius];
+}
+
++ (UINib *)nib {
+
+    return [UINib nibWithNibName:NSStringFromClass([LEOFeedCell class]) bundle:nil];
 }
 
 

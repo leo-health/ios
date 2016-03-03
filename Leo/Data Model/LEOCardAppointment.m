@@ -88,7 +88,7 @@ static NSString *kActionSelectorReschedule = @"reschedule";
     return (Appointment *)self.associatedCardObject; //FIXME: Update to account for multiple objects at some point...
 }
 
-- (CardLayout)layout {
+- (CardConfiguration)configuration{
     
     switch (self.appointment.status.statusCode) {
           
@@ -99,23 +99,22 @@ static NSString *kActionSelectorReschedule = @"reschedule";
         case AppointmentStatusCodeOpen:
         case AppointmentStatusCodeBooking:
         case AppointmentStatusCodeNew:
-            return CardLayoutUndefined;
+        case AppointmentStatusCodeCancelled:
+
+            return CardConfigurationUndefined;
             
         case AppointmentStatusCodeCancelling:
-            return CardLayoutTwoButtonPrimaryAndSecondary;
+            return CardConfigurationTwoButtonHeaderAndFooter;
             
         case AppointmentStatusCodeConfirmingCancelling:
-            return CardLayoutOneButtonPrimaryOnly;
+            return CardConfigurationOneButtonHeaderOnly;
             
         case AppointmentStatusCodeRecommending:
-            return CardLayoutOneButtonSecondaryOnly;
+            return CardConfigurationOneButtonHeaderAndFooter;
             
         case AppointmentStatusCodeFuture:
         case AppointmentStatusCodeReminding:
-            return CardLayoutTwoButtonPrimaryAndSecondary;
-            
-        case AppointmentStatusCodeCancelled:
-            return CardLayoutUndefined;
+            return CardConfigurationTwoButtonHeaderAndFooter;
     }
 }
 
@@ -192,7 +191,7 @@ static NSString *kActionSelectorReschedule = @"reschedule";
             
         case AppointmentStatusCodeFuture:
         case AppointmentStatusCodeReminding:
-            bodyText = [NSString stringWithFormat:@"%@ has a %@ scheduled for %@ at %@.",self.appointment.patient.firstName, [((AppointmentType *)self.appointment.appointmentType).name lowercaseString], [NSDate leo_stringifiedDateWithCommas:self.appointment.date], [NSDate leo_stringifiedTimeWithEasternTimeZone:self.appointment.date]];
+            bodyText = [NSString stringWithFormat:@"%@ has a %@ scheduled for %@ at %@.",self.appointment.patient.firstName, [((AppointmentType *)self.appointment.appointmentType).name lowercaseString], [NSDate leo_stringifiedDateWithCommas:self.appointment.date], [NSDate leo_stringifiedTimeWithEasternTimeZoneWithPeriod:self.appointment.date]];
             break;
             
         case AppointmentStatusCodeCancelled:
@@ -328,9 +327,9 @@ static NSString *kActionSelectorReschedule = @"reschedule";
     return self.appointment.patient;
 }
 
--(nullable Provider *)secondaryUser {
+-(nullable Practice *)practice {
     
-    return self.appointment.provider;
+    return self.appointment.practice;
 }
 
 //FIXME: Not sure what data we actually want for a timestamp.

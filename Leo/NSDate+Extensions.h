@@ -32,7 +32,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString *)leo_stringifiedDateTime:(NSDate *)dateTime;
 + (NSString *)leo_stringifiedTimeWithoutTimePeriod:(NSDate *)date;
 + (NSString *)leo_stringifiedTimePeriod:(NSDate *)date;
-+ (NSString *)leo_stringifiedTimeWithEasternTimeZone:(NSDate *)date;
++ (NSString *)leo_stringifiedTimeWithEasternTimeZoneWithPeriod:(NSDate *)date;
++ (NSString *)leo_stringifiedTimeWithEasternTimeZoneWithoutPeriod:(NSDate *)date;
 + (NSString *)leo_stringifiedShortDate:(NSDate *)date;
 + (NSString *)leo_stringifiedDashedShortDate:(NSDate *)date;
 + (NSString *)leo_stringifiedDashedShortDateYearMonthDay:(NSDate *)date;

@@ -25,7 +25,7 @@
 
     AppointmentStatus *status = [[AppointmentStatus alloc] initWithObjectID:nil name:nil athenaCode:nil statusCode:AppointmentStatusCodeNew];
 
-    return [self initWithObjectID:nil date:nil appointmentType:nil patient:nil provider:nil practiceID:nil bookedByUser:nil note:nil status:status];
+    return [self initWithObjectID:nil date:nil appointmentType:nil patient:nil provider:nil practice:nil bookedByUser:nil note:nil status:status];
 }
 
 //MARK: Not sure this method will ever be used for a prep appointment.
@@ -44,8 +44,9 @@
     NSString *objectID = [jsonResponse[APIParamID] stringValue];
     NSString *note = jsonResponse[APIParamAppointmentNotes];
 
-    //TODO: Come back and replace practiceID with actual practiceID
-    return [self initWithObjectID:objectID date:date appointmentType:appointmentType  patient:patient provider:provider practiceID:@"0" bookedByUser:bookedByUser note:note status:status];
+    Practice *practice = [[Practice alloc] initWithJSONDictionary:[jsonResponse leo_itemForKey:APIParamPractice]];
+
+    return [self initWithObjectID:objectID date:date appointmentType:appointmentType  patient:patient provider:provider practice:practice bookedByUser:bookedByUser note:note status:status];
 }
 
 -(instancetype)initWithAppointment:(Appointment *)appointment {
@@ -59,13 +60,13 @@
                   appointmentType:appointment.appointmentType
                           patient:appointment.patient
                          provider:appointment.provider
-                       practiceID:appointment.practiceID
+                       practice:appointment.practice
                      bookedByUser:appointment.bookedByUser
                              note:appointment.note
                            status:status];
 };
 
-- (instancetype)initWithObjectID:(nullable NSString *)objectID date:(nullable NSDate *)date appointmentType:(AppointmentType *)appointmentType patient:(Patient *)patient provider:(Provider *)provider practiceID:(NSString *)practiceID bookedByUser:(User *)bookedByUser note:(NSString *)note status:(AppointmentStatus *)status {
+- (instancetype)initWithObjectID:(nullable NSString *)objectID date:(nullable NSDate *)date appointmentType:(AppointmentType *)appointmentType patient:(Patient *)patient provider:(Provider *)provider practice:(Practice *)practice bookedByUser:(User *)bookedByUser note:(NSString *)note status:(AppointmentStatus *)status {
 
     self = [super init];
     
@@ -74,7 +75,7 @@
         _appointmentType = appointmentType;
         _patient = patient;
         _provider = provider;
-        _practiceID = practiceID;
+        _practice = practice;
         _bookedByUser = bookedByUser;
         _status = status;
         _objectID = objectID;
