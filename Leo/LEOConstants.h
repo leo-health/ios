@@ -405,6 +405,9 @@ extern NSString *const APIParamVitalMeasurementTakenAt; // @"taken_at";
 extern NSString *const APIParamVitalMeasurementValue; // @"value";
 extern NSString *const APIParamVitalMeasurementPercentile; // @"percentile";
 
+#pragma mark - Feed Message Header
+extern NSString *const APIParamFeedMessageHeaderText; // @"text";
+
 #pragma mark - Magic numbers
 extern CGFloat const kSelectionLineHeight; // 2.0f;
 extern CGFloat const kCornerRadius; // 2.0f;

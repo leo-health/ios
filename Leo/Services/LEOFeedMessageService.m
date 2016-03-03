@@ -14,6 +14,8 @@
 
 @implementation LEOFeedMessageService
 
+static NSString *const kDefaultMessage = @"Welcome to Leo @ Flatiron Pediatrics. Say hello. Book an appointment. Review your child's health record.";
+
 - (NSURLSessionTask *)getFeedMessageForDate:(NSDate *)date withCompletion:(void (^)(NSString *feedMessage, NSError *error))completionBlock {
 
     NSString *dateString = [NSDate leo_stringifiedDashedShortDateYearMonthDay:date];
@@ -24,9 +26,9 @@
         NSString *feedString;
 
         if (!error) {
-            feedString = [[rawResults leo_itemForKey:@"data"] leo_itemForKey:@"text"];
+            feedString = [[rawResults leo_itemForKey:APIParamData] leo_itemForKey:APIParamFeedMessageHeaderText];
         } else {
-            feedString = @"Welcome to Leo. Say hello. Book an appointment. Review your child's health record.";
+            feedString = kDefaultMessage;
         }
 
         if (completionBlock) {
