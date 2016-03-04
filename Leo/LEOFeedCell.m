@@ -65,7 +65,7 @@
 }
 
 - (void)awakeFromNib {
-    [LEOStyleHelper roundCornersForView:self withCornerRadius:kCornerRadius];
+    [LEOStyleHelper roundCornersForView:self.bodyView withCornerRadius:kCornerRadius];
 }
 
 + (UINib *)nib {
