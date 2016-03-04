@@ -74,6 +74,9 @@
 }
 
 -(void)prepareForReuse {
+
+    //MARK: This is probably a suboptimal implementation but one that allows us to iterate quickly for the short term; ideally we should dependency inject the subviews into these views such that they are replaced.
+
     [[self.headerView subviews]
      makeObjectsPerformSelector:@selector(removeFromSuperview)];
 
