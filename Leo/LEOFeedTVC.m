@@ -349,7 +349,7 @@ static CGFloat const kFeedInsetTop = 20.0;
     [MBProgressHUD hideHUDForView:self.view animated:YES];
 
     //If the error is that the phone is offline, that is handled by Reachability.
-    if (error.code != -1009) {
+    if (error.code != NSURLErrorNotConnectedToInternet) {
         [LEOAlertHelper alertForViewController:self title:kErrorDefaultTitle message:kErrorDefaultMessage];
     }
 }
