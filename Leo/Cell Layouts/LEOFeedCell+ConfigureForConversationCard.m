@@ -21,17 +21,6 @@
 
     [self conversation_configureFooterViewForCard:card];
     [self conversation_configureHeaderViewForCard:card];
-    [self conversation_configureButtonViewForCard:card];
-}
-
-
-- (void)conversation_configureButtonViewForCard:(LEOCardConversation *)card {
-
-    LEOFeedCellButtonView *activityView = [[LEOFeedCellButtonView alloc] initWithCard:card];
-    activityView.tintColor = self.tintColor;
-
-    [activityView leo_pinToSuperView:self.buttonView];
-
 }
 
 - (void)conversation_configureHeaderViewForCard:(LEOCardConversation *)card {

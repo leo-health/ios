@@ -71,6 +71,14 @@ static NSString *const kScheduleAVisit = @"SCHEDULE A VISIT";
     return _messageUsButton;
 }
 
+-(void)setUserInteractionEnabled:(BOOL)userInteractionEnabled {
+
+    [super setUserInteractionEnabled:userInteractionEnabled];
+
+    self.messageUsButton.enabled = userInteractionEnabled;
+    self.bookAppointmentButton.enabled = userInteractionEnabled;
+}
+
 
 #pragma mark - Actions
 

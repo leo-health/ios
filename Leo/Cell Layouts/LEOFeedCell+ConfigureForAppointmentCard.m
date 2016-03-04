@@ -20,15 +20,6 @@
 
     [self appointment_configureFooterViewForCard:card];
     [self appointment_configureHeaderViewForCard:card];
-    [self appointment_configureButtonViewForCard:card];
-}
-
-- (void)appointment_configureButtonViewForCard:(LEOCardAppointment *)card {
-
-    LEOFeedCellButtonView *activityView = [[LEOFeedCellButtonView alloc] initWithCard:card];
-    activityView.tintColor = self.tintColor;
-
-    [activityView leo_pinToSuperView:self.buttonView];
 }
 
 - (void)appointment_configureHeaderViewForCard:(LEOCardAppointment *)card {

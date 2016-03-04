@@ -92,7 +92,10 @@ typedef NS_ENUM(NSUInteger, TableViewSection) {
 @property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
 @property (weak, nonatomic) IBOutlet UIView *grayView;
 
+@property (nonatomic) BOOL enableButtonsInFeed;
+
 @end
+
 
 @implementation LEOFeedTVC
 
@@ -129,8 +132,6 @@ static CGFloat const kFeedInsetTop = 20.0;
     if (!self.headerMessage) {
         self.headerMessage = @"Loading...";
     }
-
-    [self.tableView reloadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -139,10 +140,14 @@ static CGFloat const kFeedInsetTop = 20.0;
 
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:^{
 
-        // TODO: Update message of header cell for when offline.
+        self.enableButtonsInFeed = NO;
+        [self.tableView reloadData];
 
     } withOnlineBlock:^{
+
+        self.enableButtonsInFeed = YES;
         [self fetchData];
+        [self.tableView reloadData];
     }];
 }
 
@@ -271,7 +276,7 @@ static CGFloat const kFeedInsetTop = 20.0;
                           }];
 }
 
-- (void)fetchFamilyWithCompletion:( void (^) (NSError *error))completionBlock {
+- (void)fetchFamilyWithCompletion:(void (^) (NSError *error))completionBlock {
 
     LEOHelperService *helperService = [LEOHelperService new];
     [helperService getFamilyWithCompletion:^(Family *family, NSError *error) {
@@ -313,26 +318,23 @@ static CGFloat const kFeedInsetTop = 20.0;
     [self fetchFamilyWithCompletion:^(NSError *error) {
 
         if (error) {
-
             [self handleNetworkError:error];
         } else {
 
             [[LEOHelperService new] getPracticesWithCompletion:^(NSArray *practices, NSError *error) {
 
                 if (error) {
-
                     [self handleNetworkError:error];
                 } else {
+
                     //MARK: Until we have more than one practice, this is required for creating new appointments with a default practice
                     self.practice = practices.firstObject;
 
                     [self fetchDataForCard:nil completion:^(NSArray *cards, NSError *error) {
 
                         if (error) {
-
                             [self handleNetworkError:error];
                         } else {
-
                             [MBProgressHUD hideHUDForView:self.view animated:YES];
                         }
                     }];
@@ -345,7 +347,11 @@ static CGFloat const kFeedInsetTop = 20.0;
 - (void)handleNetworkError:(NSError *)error {
 
     [MBProgressHUD hideHUDForView:self.view animated:YES];
-    [LEOAlertHelper alertForViewController:self title:kErrorDefaultTitle message:kErrorDefaultMessage];
+
+    //If the error is that the phone is offline, that is handled by Reachability.
+    if (error.code != NSURLErrorNotConnectedToInternet) {
+        [LEOAlertHelper alertForViewController:self title:kErrorDefaultTitle message:kErrorDefaultMessage];
+    }
 }
 
 - (void)fetchDataForCard:(id<LEOCardProtocol>)card completion:(void (^)(NSArray *, NSError *))completionBlock {
@@ -772,8 +778,10 @@ static CGFloat const kFeedInsetTop = 20.0;
     LEOFeedCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifierLEOFeed
                                                         forIndexPath:indexPath];;
 
+    cell.userInteractionEnabled = self.enableButtonsInFeed;
+
     [cell configureForCard:card];
-    
+
     cell.unreadState = [indexPath isEqual:self.cardInFocusIndexPath];
 
     return cell;
@@ -786,6 +794,7 @@ static CGFloat const kFeedInsetTop = 20.0;
             return nil;
 
         case TableViewSectionBody:
+            self.feedNavigatorHeaderView.userInteractionEnabled = self.enableButtonsInFeed;
             return self.feedNavigatorHeaderView;
 
         default:

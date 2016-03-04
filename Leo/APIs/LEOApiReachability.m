@@ -98,6 +98,7 @@ static CWStatusBarNotification *_cwStatusBarNotification = nil;
                     onlineBlock();
                 }
             }
+                break;
         }
     }];
 
@@ -114,14 +115,9 @@ static CWStatusBarNotification *_cwStatusBarNotification = nil;
             UIButton *button = (UIButton *)subview;
             actionBlock(button);
 
-        } else {
-
-            NSInteger count = 0; ;
-
-            while (count < [subview.subviews count]) {
-                [self performActions:actionBlock onSubviewsOfView:subview];
-                count++;
-            }
+            //!!!!: We will not address tableview subviews in this method -- they will have to take care of themselves for the time-being; this may be reason enough to address this elsewhere altogether or come up with another solution, but we'll work with this in the meantime.
+        } else if (![subview isKindOfClass:[UITableView class]]){
+            [self performActions:actionBlock onSubviewsOfView:subview];
         }
     }
 }
