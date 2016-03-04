@@ -28,7 +28,7 @@
 
     [headerLabel leo_pinToSuperView:self.headerView];
 
-    headerLabel.text = [[card primaryUser].firstName uppercaseString];
+    headerLabel.text = [card primaryUser].firstName;
     headerLabel.font = [UIFont leo_fieldAndUserLabelsAndSecondaryButtonsFont];
     headerLabel.textColor = card.tintColor;
 }
