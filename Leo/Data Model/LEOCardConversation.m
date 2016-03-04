@@ -103,16 +103,24 @@ static NSString *kActionSelectorCallUs = @"call";
 }
 
 - (NSString *)title {
-    
+
+//    Message *message = self.conversation.messages.lastObject;
+
     switch (self.conversation.statusCode) {
-            
+
         case ConversationStatusCodeClosed:
         case ConversationStatusCodeOpen:
         case ConversationStatusCodeReadMessages:
         case ConversationStatusCodeCallUs:
         case ConversationStatusCodeUndefined:
-            return @"We are here to help";
-            
+
+            //Leaving this in as a reminder of the goals we have for when we add states to our cards.
+//            if ([message.sender isKindOfClass:[Guardian class]]) {
+//                return @"We are here to help";
+//            } else if ([message.sender isKindOfClass:[Provider class]]) {
+                return @"Chat with us";
+//            }
+
         case ConversationStatusCodeNewMessages:
             return  @"You have new messages";
     }
@@ -134,7 +142,7 @@ static NSString *kActionSelectorCallUs = @"call";
         case ConversationStatusCodeUndefined: {
 
             if ([message.sender isKindOfClass:[Guardian class]]) {
-                bodyText = @"We'll be in touch shortly";
+                bodyText = message.text;
             } else {
 
                 if ([message isKindOfClass:[MessageText class]]) {
