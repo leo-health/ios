@@ -225,8 +225,6 @@ static CGFloat const kFeedInsetTop = 20.0;
         dispatch_async(dispatch_get_main_queue() , ^{
 
             [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:TableViewSectionHeader] withRowAnimation:UITableViewRowAnimationNone];
-//            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:TableViewSectionHeader];
-//            [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
         });
     }];
 }
@@ -273,30 +271,23 @@ static CGFloat const kFeedInsetTop = 20.0;
                           }];
 }
 
-- (void)fetchFamilyWithCompletion:( void (^) (void))completionBlock {
-
-    MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.view];
-    [self.view insertSubview:hud belowSubview:self.navigationBar];
-    [hud show:YES];
+- (void)fetchFamilyWithCompletion:( void (^) (NSError *error))completionBlock {
 
     LEOHelperService *helperService = [LEOHelperService new];
     [helperService getFamilyWithCompletion:^(Family *family, NSError *error) {
 
         if (!error) {
             self.family = family;
-            completionBlock();
-        } else {
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-            [LEOAlertHelper alertForViewController:self title:kErrorDefaultTitle message:kErrorDefaultMessage];
         }
 
+        completionBlock(error);
     }];
 }
 
 - (void)notificationReceived:(NSNotification *)notification {
 
     if ([notification.name isEqualToString:kNotificationConversationAddedMessage] || [notification.name isEqualToString: @"Card-Updated"]) {
-        [self fetchDataForCard:notification.object];
+        [self fetchDataForCard:notification.object completion:nil];
     }
 }
 
@@ -313,20 +304,51 @@ static CGFloat const kFeedInsetTop = 20.0;
 
 - (void)fetchData {
 
+
+    MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.view];
+    [self.view insertSubview:hud belowSubview:self.navigationBar];
+    [hud show:YES];
+
     [self fetchFeedHeader];
-    [self fetchFamilyWithCompletion:^{
+    [self fetchFamilyWithCompletion:^(NSError *error) {
 
-        [[LEOHelperService new] getPracticesWithCompletion:^(NSArray *practices, NSError *error) {
+        if (error) {
 
-            //MARK: Until we have more than one practice, this is required for creating new appointments with a default practice
-            self.practice = practices.firstObject;
+            [self handleNetworkError:error];
+        } else {
 
-            [self fetchDataForCard:nil];
-        }];
+            [[LEOHelperService new] getPracticesWithCompletion:^(NSArray *practices, NSError *error) {
+
+                if (error) {
+
+                    [self handleNetworkError:error];
+                } else {
+                    //MARK: Until we have more than one practice, this is required for creating new appointments with a default practice
+                    self.practice = practices.firstObject;
+
+                    [self fetchDataForCard:nil completion:^(NSArray *cards, NSError *error) {
+
+                        if (error) {
+
+                            [self handleNetworkError:error];
+                        } else {
+
+                            [MBProgressHUD hideHUDForView:self.view animated:YES];
+                        }
+                    }];
+                }
+            }];
+        }
     }];
 }
 
-- (void)fetchDataForCard:(id<LEOCardProtocol>)card {
+- (void)handleNetworkError:(NSError *)error {
+
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [LEOAlertHelper alertForViewController:self title:kErrorDefaultTitle message:kErrorDefaultMessage];
+}
+
+- (void)fetchDataForCard:(id<LEOCardProtocol>)card completion:(void (^)(NSArray *, NSError *))completionBlock {
 
     dispatch_queue_t queue = dispatch_queue_create("loadingQueue", NULL);
 
@@ -339,17 +361,14 @@ static CGFloat const kFeedInsetTop = 20.0;
                 self.cards = [cards mutableCopy];
             }
 
-            dispatch_async(dispatch_get_main_queue() , ^{
+            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:TableViewSectionBody] withRowAnimation:UITableViewRowAnimationNone];
 
-                [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:TableViewSectionBody] withRowAnimation:UITableViewRowAnimationNone];
+            [self activateCardInFocus];
 
-                [MBProgressHUD hideHUDForView:self.view animated:NO];
+            [self promptUserToFillProfileIfNeeded];
 
-                [self activateCardInFocus];
+            completionBlock ? completionBlock(cards, error) : nil;
 
-                [self promptUserToFillProfileIfNeeded];
-
-            });
         }];
     });
 }
