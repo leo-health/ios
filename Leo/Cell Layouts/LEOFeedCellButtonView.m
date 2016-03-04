@@ -46,16 +46,37 @@ static NSInteger const kLineThickness = 1;
 
     [super setUserInteractionEnabled:userInteractionEnabled];
 
-    self.leadingButton.enabled = userInteractionEnabled;
-    self.trailingButton.enabled = userInteractionEnabled;
+    switch (self.card.configuration) {
+
+        case CardConfigurationTwoButtonHeaderAndFooter:
+        case CardConfigurationTwoButtonFooterOnly:
+        case CardConfigurationTwoButtonHeaderOnly: {
+
+            self.leadingButton.enabled = userInteractionEnabled;
+            self.trailingButton.enabled = userInteractionEnabled;
+        }
+
+            break;
+
+        case CardConfigurationOneButtonHeaderAndFooter:
+        case CardConfigurationOneButtonFooterOnly:
+        case CardConfigurationOneButtonHeaderOnly: {
+
+            self.leadingButton.enabled = userInteractionEnabled;
+        }
+            break;
+
+        case CardConfigurationUndefined:
+            self.leadingButton.enabled = userInteractionEnabled;
+    }
 }
 
 #pragma mark - Accessors
 
 - (UIButton *)leadingButton {
-
-    if (!_leadingButton) {
-
+    
+        if (!_leadingButton) {
+            
         UIButton *strongButton = [UIButton leo_newButtonWithDisabledStyling];
         _leadingButton = strongButton;
 

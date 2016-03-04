@@ -141,22 +141,17 @@ static NSString *kActionSelectorCallUs = @"call";
         case ConversationStatusCodeCallUs:
         case ConversationStatusCodeUndefined: {
 
-            if ([message.sender isKindOfClass:[Guardian class]]) {
+            if ([message isKindOfClass:[MessageText class]]) {
                 bodyText = message.text;
-            } else {
+            }
 
-                if ([message isKindOfClass:[MessageText class]]) {
-                    bodyText = message.text;
-                }
-
-                if ([message isKindOfClass:[MessageImage class]]) {
-                    NSString *senderName = message.sender.fullName ?: @"Someone";
-                    bodyText = [NSString stringWithFormat:@"%@ sent an image.", senderName];
-                }
+            if ([message isKindOfClass:[MessageImage class]]) {
+                NSString *senderName = message.sender.fullName ?: @"Someone";
+                bodyText = [NSString stringWithFormat:@"%@ sent an image.", senderName];
             }
         }
     }
-    
+
     return bodyText;
 }
 
