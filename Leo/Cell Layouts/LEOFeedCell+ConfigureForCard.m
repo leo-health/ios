@@ -42,8 +42,19 @@
         [self configureSubviewsForConversationCard:card];
     }
 
+    [self configureButtonViewForCard:card];
     [self formatSubviewsWithTintColor:card.tintColor];
     [self setCopyFontAndColor];
+}
+
+- (void)configureButtonViewForCard:(id<LEOCardProtocol>)card {
+
+    LEOFeedCellButtonView *activityView = [[LEOFeedCellButtonView alloc] initWithCard:card];
+    activityView.tintColor = self.tintColor;
+
+    activityView.userInteractionEnabled = self.userInteractionEnabled;
+
+    [activityView leo_pinToSuperView:self.buttonView];
 }
 
 - (void)formatSubviewsWithTintColor:(UIColor *)tintColor {

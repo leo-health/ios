@@ -18,6 +18,7 @@
 @property (weak, nonatomic) UIButton *leadingButton;
 @property (weak, nonatomic) UIButton *trailingButton;
 @property (nonatomic) BOOL alreadyUpdatedConstraints;
+@property (nonatomic) BOOL enabled;
 
 @end
 
@@ -41,6 +42,13 @@ static NSInteger const kLineThickness = 1;
     return self;
 }
 
+-(void)setUserInteractionEnabled:(BOOL)userInteractionEnabled {
+
+    [super setUserInteractionEnabled:userInteractionEnabled];
+
+    self.leadingButton.enabled = userInteractionEnabled;
+    self.trailingButton.enabled = userInteractionEnabled;
+}
 
 #pragma mark - Accessors
 
