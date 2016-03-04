@@ -73,5 +73,16 @@
     return [UINib nibWithNibName:NSStringFromClass([LEOFeedCell class]) bundle:nil];
 }
 
+-(void)prepareForReuse {
+    [[self.headerView subviews]
+     makeObjectsPerformSelector:@selector(removeFromSuperview)];
+
+    [[self.footerView subviews]
+     makeObjectsPerformSelector:@selector(removeFromSuperview)];
+
+    [[self.buttonView subviews]
+     makeObjectsPerformSelector:@selector(removeFromSuperview)];
+}
+
 
 @end
