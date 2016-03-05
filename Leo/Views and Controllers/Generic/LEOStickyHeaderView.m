@@ -419,8 +419,9 @@ NSString * const kAnimationKeyPathStrokeColor = @"strokeColor";
 
     // prevent redrawing of the gradient if there is no snap in progress and the scroll view is at the bottom
     // this prevents flickering when the user is deleting text from the bottom of the text view
-    if (self.snapTransitionInProcess || ![self scrollViewAtBottomPosition]) {
+//    if (self.snapTransitionInProcess || ![self scrollViewAtBottomPosition]) {
 
+    // TODO: this check is used to prevent flickering in a scenario which we currently never see in the app. For the time being this fixes the bug where the header doesnt update its transition percentage when the keyboard first appears. We should revisit this when we refactor stickyHeaderView
         // inform the delegate about the transition status
         CGFloat percentage = [self transitionPercentageForScrollOffset:offset];
         percentage = percentage > 1 ? 1 : percentage;
@@ -428,7 +429,7 @@ NSString * const kAnimationKeyPathStrokeColor = @"strokeColor";
         if ([self.delegate respondsToSelector:@selector(updateTitleViewForScrollTransitionPercentage:)]) {
             [self.delegate updateTitleViewForScrollTransitionPercentage:percentage];
         }
-    }
+//    }
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
