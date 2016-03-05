@@ -172,7 +172,7 @@ static NSInteger const kLineThickness = 1;
 
                 NSArray *horizontalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_leadingButton]|" options:0 metrics:nil views:bindings];
 
-                NSArray *verticalConstraintForLeadingButton = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[breaker(lineThickness)][_leadingButton]|" options:0 metrics:nil views:bindings];
+                NSArray *verticalConstraintForLeadingButton = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[breaker(lineThickness)][_leadingButton]|" options:0 metrics:metrics views:bindings];
 
                 NSArray *horizontalConstraintsForBreaker = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[breaker]|" options:0 metrics:metrics views:bindings];
 
