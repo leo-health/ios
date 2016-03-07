@@ -1,11 +1,13 @@
     upcoming:
+    - Bug fixes.
+
     releases:
     - version: 1.0.0
       build: 2016.03.07.12.21
       date: March 07 2016
       notes:
       - No changes. External release.
-    
+
     - version: 1.0.0
       build: 2016.03.07.12.10
       date: March 07 2016
