@@ -329,9 +329,7 @@ static CGFloat const kFeedInsetTop = 20.0;
 
     [self fetchFeedHeader];
 
-
     [self fetchFamilyWithCompletion:^(NSError *error) {
-
 
         if (error) {
             [self handleNetworkError:error];
