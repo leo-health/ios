@@ -146,6 +146,12 @@ static CGFloat const kFeedInsetTop = 20.0;
     } withOnlineBlock:^{
 
         self.enableButtonsInFeed = YES;
+
+        //MARK: temp fix for not allowing user to go to settings or phr until family has downloaded as needed for these functions to work
+        if (!self.family) {
+            [self willEnableNavigationButtons:NO];
+        }
+
         [self fetchData];
         [self.tableView reloadData];
     }];
@@ -207,6 +213,13 @@ static CGFloat const kFeedInsetTop = 20.0;
     self.navigationBar.items = @[item];
 }
 
+- (void)willEnableNavigationButtons:(BOOL)enable {
+
+    UINavigationItem *item = self.navigationBar.items[0];
+
+    item.rightBarButtonItem.enabled = enable;
+    item.leftBarButtonItem.enabled = enable;
+}
 
 #pragma mark - Actions
     
@@ -315,11 +328,15 @@ static CGFloat const kFeedInsetTop = 20.0;
     [hud show:YES];
 
     [self fetchFeedHeader];
+
     [self fetchFamilyWithCompletion:^(NSError *error) {
 
         if (error) {
             [self handleNetworkError:error];
         } else {
+
+            //MARK: temp fix for not allowing user to go to settings or phr until family has downloaded as needed for these functions to work
+            [self willEnableNavigationButtons:YES];
 
             [[LEOHelperService new] getPracticesWithCompletion:^(NSArray *practices, NSError *error) {
 
