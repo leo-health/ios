@@ -67,6 +67,13 @@
     request.HTTPBody = [bodyString dataUsingEncoding:NSUTF8StringEncoding];
 }
 
+- (void)unsubscribeFromPrivateChannelWithName:(NSString *)channelName {
+
+    NSString *privateChannelName = [NSString stringWithFormat:@"private-%@",channelName];
+    PTPusherChannel *chatChannel = [self.client channelNamed:privateChannelName];
+    [chatChannel unsubscribe];
+}
+
 //TODO: At some point, we're going to want to implement something like this per the docs to ensure we are dealing with failures to connect.
 
 //- (void)pusher:(PTPusher *)pusher connection:(PTPusherConnection *)connection failedWithError:(NSError *)error

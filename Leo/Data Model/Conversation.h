@@ -40,5 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)dismiss;
 - (void)returnToPriorState;
 
+- (void)fetchMessageWithID:(NSString *)messageID completion:(void (^)(void))completionBlock;
+
 NS_ASSUME_NONNULL_END
 @end

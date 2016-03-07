@@ -82,7 +82,9 @@ static NSString *const kImage = @"image";
 }
 
 
-
++ (NSString *)extractMessageIDFromChannelData:(NSDictionary *)channelData {
+    return [[channelData objectForKey:@"message_id"] stringValue];
+}
 
 //FIXME: LeoConstants missing some of these hence they have been commented out for the time-being.
 + (instancetype)messageWithJSONDictionary:(NSDictionary *)jsonResponse {
