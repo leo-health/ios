@@ -10,6 +10,7 @@
 #import "UIColor+LeoColors.h"
 #import "UIFont+LeoFonts.h"
 #import "UIButton+Extensions.h"
+#import "LEOStyleHelper.h"
 
 @implementation LEOButtonCell
 
@@ -39,7 +40,8 @@ CGFloat const kCellHeightButton = 94;
     [self.button setTitleColor:[UIColor leo_white] forState:UIControlStateNormal];
     self.button.backgroundColor = [UIColor leo_orangeRed];
     self.button.titleLabel.font = [UIFont leo_buttonLabelsAndTimeStampsFont];
-    
+
+    [LEOStyleHelper roundCornersForView:self.button withCornerRadius:kCornerRadius];
 }
 
 - (CGSize)intrinsicContentSize {
