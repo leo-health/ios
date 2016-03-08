@@ -79,7 +79,8 @@
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZ"];
-    
+
+    dateFormatter.timeZone = [NSTimeZone timeZoneWithName:@"US/Eastern"];
     NSDate *date = [dateFormatter dateFromString:dateTimeString];
     return date;
 }
@@ -147,12 +148,14 @@
 
 + (NSString *)leo_stringifiedTimeWithoutTimePeriod:(NSDate *)date {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
+    dateFormatter.timeZone = [NSTimeZone timeZoneWithName:@"US/Eastern"];
     dateFormatter.dateFormat = @"h':'mm";
     return [dateFormatter stringFromDate:date];
 }
 
 + (NSString *)leo_stringifiedTimePeriod:(NSDate *)date {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
+    dateFormatter.timeZone = [NSTimeZone timeZoneWithName:@"US/Eastern"];
     dateFormatter.dateFormat = @"a";
     dateFormatter.AMSymbol = @"AM";
     dateFormatter.PMSymbol = @"PM";
