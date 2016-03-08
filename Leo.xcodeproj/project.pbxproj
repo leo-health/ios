@@ -2047,7 +2047,7 @@
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zachary Drossman (C7TN5PHTLC)";
-				CURRENT_PROJECT_VERSION = 2016.03.08.10.51;
+				CURRENT_PROJECT_VERSION = 2016.03.08.18.29;
 				ENABLE_TESTABILITY = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				ONLY_ACTIVE_ARCH = YES;
@@ -2090,7 +2090,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 2016.03.08.10.51;
+				CURRENT_PROJECT_VERSION = 2016.03.08.18.29;
 				ENABLE_TESTABILITY = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				ONLY_ACTIVE_ARCH = YES;
@@ -2134,7 +2134,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 2016.03.08.10.51;
+				CURRENT_PROJECT_VERSION = 2016.03.08.18.29;
 				ENABLE_TESTABILITY = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				ONLY_ACTIVE_ARCH = YES;
@@ -2178,7 +2178,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 2016.03.08.10.51;
+				CURRENT_PROJECT_VERSION = 2016.03.08.18.29;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				PROVISIONING_PROFILE = "4d3e62b3-2386-4cb0-83de-dec046d8f86f";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -2242,7 +2242,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 2016.03.08.10.51;
+				CURRENT_PROJECT_VERSION = 2016.03.08.18.29;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				PROVISIONING_PROFILE = "4d3e62b3-2386-4cb0-83de-dec046d8f86f";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -2286,7 +2286,7 @@
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer: Zachary Drossman (C7TN5PHTLC)";
-				CURRENT_PROJECT_VERSION = 2016.03.08.10.51;
+				CURRENT_PROJECT_VERSION = 2016.03.08.18.29;
 				ENABLE_TESTABILITY = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				ONLY_ACTIVE_ARCH = YES;
