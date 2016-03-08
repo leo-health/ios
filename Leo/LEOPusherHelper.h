@@ -13,5 +13,6 @@
 
 + (instancetype)sharedPusher;
 - (void)connectToPusherChannel:(NSString *)channel withEvent:(NSString *)event sender:(id)sender withCompletion:(void (^)(NSDictionary *channelData))completionBlock;
+- (void)unsubscribeFromPrivateChannelWithName:(NSString *)channelName;
 
 @end

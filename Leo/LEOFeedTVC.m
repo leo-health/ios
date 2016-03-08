@@ -64,6 +64,7 @@
 #import "NSObject+TableViewAccurateEstimatedCellHeight.h"
 
 #import "LEOAlertHelper.h"
+#import "LEOMessageService.h"
 
 typedef NS_ENUM(NSUInteger, TableViewSection) {
     TableViewSectionHeader,
@@ -119,8 +120,6 @@ static CGFloat const kFeedInsetTop = 20.0;
 
     [self setupNotifications];
     [self setNeedsStatusBarAppearanceUpdate];
-
-    [self pushNewMessageToConversation:[self conversation].associatedCardObject];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -138,12 +137,21 @@ static CGFloat const kFeedInsetTop = 20.0;
 
     [super viewDidAppear:animated];
 
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+
+    [self prepareForReachability];
+}
+
+- (void)prepareForReachability {
+
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:^{
 
         self.enableButtonsInFeed = NO;
         [self.tableView reloadData];
 
     } withOnlineBlock:^{
+
+        [self pushNewMessageToConversation];
 
         self.enableButtonsInFeed = YES;
 
@@ -156,7 +164,6 @@ static CGFloat const kFeedInsetTop = 20.0;
         [self.tableView reloadData];
     }];
 }
-
 
 #pragma mark - Accessors
 
@@ -259,12 +266,18 @@ static CGFloat const kFeedInsetTop = 20.0;
                                              selector:@selector(notificationReceived:)
                                                  name:kNotificationConversationAddedMessage
                                                object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(notificationReceived:)
+                                                 name:UIApplicationDidBecomeActiveNotification
+                                               object:nil];
 }
 
 - (void)removeObservers {
 
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotificationCardUpdated object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotificationConversationAddedMessage object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
 - (void)dealloc {
@@ -273,21 +286,34 @@ static CGFloat const kFeedInsetTop = 20.0;
 }
 
 //MARK: Most likely doesn't belong in this class; no longer tied to it except for completion block which can be passed in.
-- (void)pushNewMessageToConversation:(Conversation *)conversation {
+- (void)pushNewMessageToConversation {
 
     NSString *channelString = [NSString stringWithFormat:@"%@",[SessionUser currentUser].objectID];
     NSString *event = @"new_message";
 
     LEOPusherHelper *pusherHelper = [LEOPusherHelper sharedPusher];
 
+    __weak typeof(self) weakSelf = self;
+
     [pusherHelper connectToPusherChannel:channelString
                                withEvent:event
                                   sender:self
                           withCompletion:^(NSDictionary *channelData) {
 
-                              [conversation addMessageFromJSON:channelData];
+                              typeof(self) strongSelf = weakSelf;
+
+                              NSString *messageID = [Message extractObjectIDFromChannelData:channelData];
+
+                              Conversation *conversation = [strongSelf conversation].associatedCardObject;
+
+                              [conversation fetchMessageWithID:messageID completion:^{
+
+                                  [strongSelf.tableView reloadData];
+                              }];
                           }];
 }
+
+
 
 - (void)fetchFamilyWithCompletion:(void (^) (NSError *error))completionBlock {
 
@@ -306,6 +332,12 @@ static CGFloat const kFeedInsetTop = 20.0;
 
     if ([notification.name isEqualToString:kNotificationConversationAddedMessage] || [notification.name isEqualToString: @"Card-Updated"]) {
         [self fetchDataForCard:notification.object completion:nil];
+    }
+
+    if ([notification.name isEqualToString:UIApplicationDidBecomeActiveNotification]) {
+
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [self fetchData];
     }
 }
 
@@ -728,6 +760,9 @@ static CGFloat const kFeedInsetTop = 20.0;
 
 - (void)loadChattingViewWithCard:(LEOCard *)card {
 
+    NSString *channelString = [NSString stringWithFormat:@"%@",[SessionUser currentUser].objectID];
+    [[LEOPusherHelper sharedPusher] unsubscribeFromPrivateChannelWithName:channelString];
+    
     UIStoryboard *conversationStoryboard = [UIStoryboard storyboardWithName:@"Conversation" bundle:nil];
     UINavigationController *conversationNavController = [conversationStoryboard instantiateInitialViewController];
     LEOMessagesViewController *messagesVC = conversationNavController.viewControllers.firstObject;

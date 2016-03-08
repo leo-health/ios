@@ -14,6 +14,8 @@
 #import "UserFactory.h"
 #import "LEOConstants.h"
 
+#import "LEOMessageService.h"
+
 @implementation Conversation
 
 - (instancetype)initWithObjectID:(NSString *)objectID messages:(NSArray *)messages participants:(NSArray *)participants statusCode:(ConversationStatusCode)statusCode {
@@ -108,7 +110,20 @@
 - (void)addMessageFromJSON:(NSDictionary *)messageDictionary {
 
     Message *message = [Message messageWithJSONDictionary:messageDictionary];
-    [self addMessage:message];
+    [self addMessages:@[message]];
+}
+
+- (void)fetchMessageWithID:(NSString *)messageID completion:(void (^)(void))completionBlock {
+
+    LEOMessageService *messageService = [[LEOMessageService alloc] init];
+    [messageService getMessageWithIdentifier:messageID withCompletion:^(Message *message, NSError *error) {
+
+        [self addMessage:message];
+
+        if (completionBlock) {
+            completionBlock();
+        }
+    }];
 }
 
 - (void)reply {

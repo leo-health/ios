@@ -321,28 +321,26 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
     [pusherHelper connectToPusherChannel:channelString withEvent:event sender:self withCompletion:^(NSDictionary *channelData) {
 
         typeof(self) strongSelf = weakSelf;
-        NSString *messageID = [strongSelf extractMessageIDFromChannelData:channelData];
 
-        [strongSelf fetchMessageWithID:messageID];
+        NSString *messageID = [Message extractObjectIDFromChannelData:channelData];
+
+        [[strongSelf conversation] fetchMessageWithID:messageID completion:^{
+
+            Message *message = [self conversation].messages.lastObject;
+
+            NSInteger messageIndex = [self indexOfMessage:message];
+
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:messageIndex inSection:0];
+
+            [self addMessageNotificationForMessage:message atIndexPath:indexPath];
+
+            strongSelf.offset++;
+        }];
     }];
 }
 
-- (NSString *)extractMessageIDFromChannelData:(NSDictionary *)channelData {
-    return [[channelData objectForKey:@"message_id"] stringValue];
-}
-
-- (void)fetchMessageWithID:(NSString *)messageID {
-
-    LEOMessageService *messageService = [[LEOMessageService alloc] init];
-    [messageService getMessageWithIdentifier:messageID withCompletion:^(Message *message, NSError *error) {
-
-        [self updateConversationWithMessage:message];
-    }];
-}
-
-- (void)updateConversationWithMessage:(Message *)message {
-    [[self conversation] addMessage:message];
-    self.offset++;
+- (NSInteger)indexOfMessage:(Message *)message {
+    return [[self conversation].messages indexOfObject:message];
 }
 
 - (void)notificationReceived:(NSNotification *)notification {
@@ -577,7 +575,9 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
     [self sendMessage:message withCompletion:^(NSError *error){
 
         if (!error) {
-            [self updateConversationWithMessage:message];
+
+            [[self conversation] addMessage:message];
+            self.offset++;
             [self finishSendingMessage:message];
         }
 
@@ -658,6 +658,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
         [strongSelf.collectionView.collectionViewLayout invalidateLayoutWithContext:[JSQMessagesCollectionViewFlowLayoutInvalidationContext context]];
         [strongSelf.collectionView reloadItemsAtIndexPaths:indexPathsForAvatar];
     }];
+
     [self.notificationObservers addObject:observer];
 
     JSQMessagesAvatarImage *avatarImage = [self avatarForUser:message.sender];
@@ -1123,45 +1124,48 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
         Message *message = messages[i];
 
-        if ([message isKindOfClass:[MessageImage class]]) {
+        NSIndexPath *indexPath = [NSIndexPath indexPathForItem:i inSection:0];
+        [self addMessageNotificationForMessage:message atIndexPath:indexPath];
+    }
+}
 
-            MessageImage *messageImage = (MessageImage *)message;
+- (void)addMessageNotificationForMessage:(Message *)message atIndexPath:(NSIndexPath *)indexPath {
 
-            //MARK: The following notifications technically have the same implementation but result from different events. For the time-being, I'd prefer we kept them separate to remind us that two different things are happening. However, if we don't eventually see a real difference between these, we may choose to combine their implementations.
 
-            //Notification for downloading an image from the server
-            id observerDownload = [[NSNotificationCenter defaultCenter] addObserverForName:kNotificationDownloadedImageUpdated object:messageImage.s3Image queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull notification) {
+    if ([message isKindOfClass:[MessageImage class]]) {
 
-                JSQPhotoMediaItem *photoMediaItem = (JSQPhotoMediaItem *)message.media;
-                photoMediaItem.image = messageImage.s3Image.image;
+        MessageImage *messageImage = (MessageImage *)message;
 
-                NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
+    //MARK: The following notifications technically have the same implementation but result from different events. For the time-being, I'd prefer we kept them separate to remind us that two different things are happening. However, if we don't eventually see a real difference between these, we may choose to combine their implementations.
 
-                dispatch_async(dispatch_get_main_queue(), ^{
+    //Notification for downloading an image from the server
+    id observerDownload = [[NSNotificationCenter defaultCenter] addObserverForName:kNotificationDownloadedImageUpdated object:messageImage.s3Image queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull notification) {
 
-                    [self.collectionView.collectionViewLayout invalidateLayout];
-                    [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
-                });
-            }];
+        JSQPhotoMediaItem *photoMediaItem = (JSQPhotoMediaItem *)messageImage.media;
+        photoMediaItem.image = messageImage.s3Image.image;
 
-            //Notification for any local image update
-            id observerChanged = [[NSNotificationCenter defaultCenter] addObserverForName:kNotificationImageChanged object:messageImage.s3Image queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull notification) {
+        dispatch_async(dispatch_get_main_queue(), ^{
 
-                JSQPhotoMediaItem *photoMediaItem = (JSQPhotoMediaItem *)message.media;
-                photoMediaItem.image = messageImage.s3Image.image;
+            [self.collectionView.collectionViewLayout invalidateLayout];
+            [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
+        });
+    }];
 
-                NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
+    //Notification for any local image update
+    id observerChanged = [[NSNotificationCenter defaultCenter] addObserverForName:kNotificationImageChanged object:messageImage.s3Image queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull notification) {
 
-                dispatch_async(dispatch_get_main_queue(), ^{
+        JSQPhotoMediaItem *photoMediaItem = (JSQPhotoMediaItem *)messageImage.media;
+        photoMediaItem.image = messageImage.s3Image.image;
 
-                    [self.collectionView.collectionViewLayout invalidateLayout];
-                    [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
-                });
+        dispatch_async(dispatch_get_main_queue(), ^{
 
-            }];
+            [self.collectionView.collectionViewLayout invalidateLayout];
+            [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
+        });
 
-            [self.notificationObservers addObjectsFromArray:@[observerDownload, observerChanged]];
-        }
+    }];
+
+    [self.notificationObservers addObjectsFromArray:@[observerDownload, observerChanged]];
     }
 }
 

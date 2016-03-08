@@ -11,6 +11,7 @@
 #import "LEOFeedCellButtonView.h"
 #import "LEOCardUserView.h"
 #import "NSDate+DateTools.h"
+#import "NSDate+Extensions.h"
 #import "UIView+Extensions.h"
 #import "UIColor+LeoColors.h"
 #import "UIFont+LeoFonts.h"
@@ -36,7 +37,12 @@
 
     [timestampLabel leo_pinToSuperView:self.footerView];
 
-    timestampLabel.text = [NSString stringWithFormat:@"Sent %@",[card.timestamp.timeAgoSinceNow lowercaseString]];
+    if (card.timestamp.isToday) {
+        timestampLabel.text = [NSString stringWithFormat:@"Sent today at %@",[NSDate leo_stringifiedTime:card.timestamp]];
+    } else {
+        timestampLabel.text = [NSString stringWithFormat:@"Sent %@",[card.timestamp.timeAgoSinceNow lowercaseString]];
+    }
+
     timestampLabel.textColor = [UIColor leo_grayForTimeStamps];
     timestampLabel.font = [UIFont leo_buttonLabelsAndTimeStampsFont];
 }
