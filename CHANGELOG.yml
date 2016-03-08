@@ -1,11 +1,14 @@
     upcoming:
+    - New! Proper group chat with second parent involvement
+    - Bug fixes
+
     releases:
     - version: 1.0.0
       build: 2016.03.07.14.06
       date: March 07 2016
       notes:
       - Bug fixes.
-    
+
     - version: 1.0.0
       build: 2016.03.07.12.21
       date: March 07 2016
