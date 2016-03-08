@@ -111,7 +111,6 @@
 		3186DA121C88D7A200B71613 /* LEOFeedCell+ConfigureForConversationCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 3186DA111C88D7A200B71613 /* LEOFeedCell+ConfigureForConversationCard.m */; };
 		3192ACD91B0CC7C5007195F2 /* UIImage+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3192ACD81B0CC7C5007195F2 /* UIImage+Extensions.m */; };
 		31957EE61C29DE0A00D0A1A0 /* MessageImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 31957EE51C29DE0A00D0A1A0 /* MessageImage.m */; };
-		3196AAF91B8E01C900B11112 /* LEOStubs.m in Sources */ = {isa = PBXBuildFile; fileRef = 3196AAF81B8E01C900B11112 /* LEOStubs.m */; };
 		319F335D1B2201F900C1C526 /* CollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 319F335C1B2201F900C1C526 /* CollectionViewLayout.m */; };
 		319FB4BE1BBA379E00EFF7B9 /* JVFloatLabeledTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 319FB4B91BBA379E00EFF7B9 /* JVFloatLabeledTextField.m */; };
 		319FB4BF1BBA379E00EFF7B9 /* JVFloatLabeledTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 319FB4BB1BBA379E00EFF7B9 /* JVFloatLabeledTextView.m */; };
@@ -130,7 +129,6 @@
 		31BF23431BBAEA0A005856E5 /* LEOSignUpPatientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 31BF23411BBAEA0A005856E5 /* LEOSignUpPatientView.m */; };
 		31BF23441BBAEA0A005856E5 /* LEOSignUpPatientView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 31BF23421BBAEA0A005856E5 /* LEOSignUpPatientView.xib */; };
 		31BF23471BBAEA27005856E5 /* LEOSignUpPatientViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31BF23461BBAEA27005856E5 /* LEOSignUpPatientViewController.m */; };
-		31C01D911B66B8E000F9EAED /* Stubs in Resources */ = {isa = PBXBuildFile; fileRef = 31C01D901B66B8E000F9EAED /* Stubs */; };
 		31CC12DA1BB062C40099AB60 /* Appointment.m in Sources */ = {isa = PBXBuildFile; fileRef = 31CC12B91BB062C40099AB60 /* Appointment.m */; };
 		31CC12DB1BB062C40099AB60 /* Slot.m in Sources */ = {isa = PBXBuildFile; fileRef = 31CC12BB1BB062C40099AB60 /* Slot.m */; };
 		31CC12DC1BB062C40099AB60 /* Conversation.m in Sources */ = {isa = PBXBuildFile; fileRef = 31CC12BD1BB062C40099AB60 /* Conversation.m */; };
@@ -207,9 +205,9 @@
 		662371F61C568E51001AB3E7 /* LEOLoggedOutSignUpCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 662371F41C568E51001AB3E7 /* LEOLoggedOutSignUpCell.m */; };
 		662371F71C568E51001AB3E7 /* LEOLoggedOutSignUpCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 662371F51C568E51001AB3E7 /* LEOLoggedOutSignUpCell.xib */; };
 		662371F91C569F72001AB3E7 /* Signed-Out.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 662371F81C569F72001AB3E7 /* Signed-Out.xcassets */; };
+		6627E7201C876FB300B8F936 /* NSString+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 6627E71F1C876FB300B8F936 /* NSString+Helpers.m */; };
 		6627E7261C8790BA00B8F936 /* LEOInputAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6627E7251C8790BA00B8F936 /* LEOInputAccessoryView.xib */; };
 		6627E7291C87918600B8F936 /* LEOInputAccessoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6627E7281C87918600B8F936 /* LEOInputAccessoryView.m */; };
-		6627E7201C876FB300B8F936 /* NSString+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 6627E71F1C876FB300B8F936 /* NSString+Helpers.m */; };
 		6660C93E1C3AF92800C2657B /* LEOGradientHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6660C93D1C3AF92800C2657B /* LEOGradientHelper.m */; };
 		666477BC1C7CDA1300713264 /* LEOCachedDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 666477BB1C7CDA1300713264 /* LEOCachedDataStore.m */; };
 		667713521C73C67C00735B74 /* LEOProgressDotsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 667713511C73C67C00735B74 /* LEOProgressDotsView.m */; };
@@ -268,7 +266,7 @@
 		3115F1E51BC55F77001BDF6A /* LEOStyleHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOStyleHelper.h; path = Helpers/LEOStyleHelper.h; sourceTree = "<group>"; };
 		3115F1E61BC55F77001BDF6A /* LEOStyleHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOStyleHelper.m; path = Helpers/LEOStyleHelper.m; sourceTree = "<group>"; };
 		3115F1EB1BC5AEAF001BDF6A /* TestsShared.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = TestsShared.xcconfig; path = xcconfig/TestsShared.xcconfig; sourceTree = "<group>"; };
-		3115F1ED1BC5AF4D001BDF6A /* TestsDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = TestsDebug.xcconfig; path = xcconfig/TestsDebug.xcconfig; sourceTree = "<group>"; };
+		3115F1ED1BC5AF4D001BDF6A /* TestsInternal.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = TestsInternal.xcconfig; path = xcconfig/TestsInternal.xcconfig; sourceTree = "<group>"; };
 		3115F1F71BC71669001BDF6A /* Settings.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
 		3115F1FA1BC71683001BDF6A /* LEOSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOSettingsViewController.h; sourceTree = "<group>"; };
 		3115F1FB1BC71683001BDF6A /* LEOSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOSettingsViewController.m; sourceTree = "<group>"; };
@@ -315,6 +313,16 @@
 		312594B81BE2D2C100A497C0 /* Local.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Local.xcconfig; path = xcconfig/Local.xcconfig; sourceTree = "<group>"; };
 		31264E841B5EBB1A00D292CF /* LEOMessagesAvatarImageFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOMessagesAvatarImageFactory.h; sourceTree = "<group>"; };
 		31264E851B5EBB1A00D292CF /* LEOMessagesAvatarImageFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOMessagesAvatarImageFactory.m; sourceTree = "<group>"; };
+		3126E59A1C8F3CC00047189C /* Staging.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Staging.xcconfig; path = xcconfig/Staging.xcconfig; sourceTree = "<group>"; };
+		3126E59B1C8F3D8F0047189C /* AppStore.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = AppStore.xcconfig; path = xcconfig/AppStore.xcconfig; sourceTree = "<group>"; };
+		3126E59C1C8F3F470047189C /* QA.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = QA.xcconfig; path = xcconfig/QA.xcconfig; sourceTree = "<group>"; };
+		3126E5A61C8F42600047189C /* SharedInternal.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = SharedInternal.xcconfig; path = xcconfig/SharedInternal.xcconfig; sourceTree = "<group>"; };
+		3126E5A71C8F62A60047189C /* TestsAppStore.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = TestsAppStore.xcconfig; path = xcconfig/TestsAppStore.xcconfig; sourceTree = "<group>"; };
+		3126E5A81C8F62B80047189C /* TestsTestflight.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = TestsTestflight.xcconfig; path = xcconfig/TestsTestflight.xcconfig; sourceTree = "<group>"; };
+		3126E5A91C8F62C60047189C /* TestsStaging.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = TestsStaging.xcconfig; path = xcconfig/TestsStaging.xcconfig; sourceTree = "<group>"; };
+		3126E5AA1C8F62E60047189C /* TestsQA.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = TestsQA.xcconfig; path = xcconfig/TestsQA.xcconfig; sourceTree = "<group>"; };
+		3126E5AB1C8F62F60047189C /* TestsDevelopment.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = TestsDevelopment.xcconfig; sourceTree = "<group>"; };
+		3126E5AC1C8F63040047189C /* TestsLocal.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = TestsLocal.xcconfig; path = xcconfig/TestsLocal.xcconfig; sourceTree = "<group>"; };
 		3128D4E51B430F0200582710 /* LEOFeedCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LEOFeedCell.xib; path = "Cell Layouts/LEOFeedCell.xib"; sourceTree = "<group>"; };
 		3128D4ED1B4313D000582710 /* LEOFeedCell+ConfigureForCard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "LEOFeedCell+ConfigureForCard.h"; path = "Cell Layouts/LEOFeedCell+ConfigureForCard.h"; sourceTree = "<group>"; };
 		3128D4EE1B4313D000582710 /* LEOFeedCell+ConfigureForCard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "LEOFeedCell+ConfigureForCard.m"; path = "Cell Layouts/LEOFeedCell+ConfigureForCard.m"; sourceTree = "<group>"; };
@@ -393,9 +401,8 @@
 		3146550E1BFD1FE700354181 /* AppointmentStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppointmentStatus.h; path = "Leo/Data Model/AppointmentStatus.h"; sourceTree = SOURCE_ROOT; };
 		3146550F1BFD1FE700354181 /* AppointmentStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppointmentStatus.m; path = "Leo/Data Model/AppointmentStatus.m"; sourceTree = SOURCE_ROOT; };
 		314A40551B838AD000834BC2 /* Application.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Application.xcconfig; path = xcconfig/Application.xcconfig; sourceTree = "<group>"; };
-		314A40561B838AE700834BC2 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = xcconfig/Debug.xcconfig; sourceTree = "<group>"; };
-		314A40571B838AFC00834BC2 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = xcconfig/Release.xcconfig; sourceTree = "<group>"; };
-		314A40581B838B0800834BC2 /* Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Shared.xcconfig; path = xcconfig/Shared.xcconfig; sourceTree = "<group>"; };
+		314A40561B838AE700834BC2 /* Development.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = xcconfig/Development.xcconfig; sourceTree = "<group>"; };
+		314A40581B838B0800834BC2 /* SharedApplication.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = SharedApplication.xcconfig; path = xcconfig/SharedApplication.xcconfig; sourceTree = "<group>"; };
 		314A405D1B83B1B400834BC2 /* Configuration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Configuration.h; sourceTree = "<group>"; };
 		314A405E1B83B1B400834BC2 /* Configuration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Configuration.m; sourceTree = "<group>"; };
 		314AC60E1B85274000BF6869 /* LEOApiReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOApiReachability.h; path = APIs/LEOApiReachability.h; sourceTree = "<group>"; };
@@ -456,9 +463,6 @@
 		3192ACD81B0CC7C5007195F2 /* UIImage+Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Extensions.m"; sourceTree = "<group>"; };
 		31957EE41C29DE0A00D0A1A0 /* MessageImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MessageImage.h; path = "Leo/Data Model/MessageImage.h"; sourceTree = SOURCE_ROOT; };
 		31957EE51C29DE0A00D0A1A0 /* MessageImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MessageImage.m; path = "Leo/Data Model/MessageImage.m"; sourceTree = SOURCE_ROOT; };
-		3196AAF61B8DFFDD00B11112 /* DebugStubs.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = DebugStubs.xcconfig; path = xcconfig/DebugStubs.xcconfig; sourceTree = "<group>"; };
-		3196AAF71B8E01C900B11112 /* LEOStubs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOStubs.h; sourceTree = "<group>"; };
-		3196AAF81B8E01C900B11112 /* LEOStubs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOStubs.m; sourceTree = "<group>"; };
 		319F335B1B2201F900C1C526 /* CollectionViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewLayout.h; sourceTree = "<group>"; };
 		319F335C1B2201F900C1C526 /* CollectionViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewLayout.m; sourceTree = "<group>"; };
 		319FB4B81BBA379E00EFF7B9 /* JVFloatLabeledTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JVFloatLabeledTextField.h; sourceTree = "<group>"; };
@@ -493,7 +497,6 @@
 		31BF23421BBAEA0A005856E5 /* LEOSignUpPatientView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LEOSignUpPatientView.xib; path = "Onboarding+Signup/LEOSignUpPatientView.xib"; sourceTree = "<group>"; };
 		31BF23451BBAEA27005856E5 /* LEOSignUpPatientViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOSignUpPatientViewController.h; path = "Onboarding+Signup/LEOSignUpPatientViewController.h"; sourceTree = "<group>"; };
 		31BF23461BBAEA27005856E5 /* LEOSignUpPatientViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOSignUpPatientViewController.m; path = "Onboarding+Signup/LEOSignUpPatientViewController.m"; sourceTree = "<group>"; };
-		31C01D901B66B8E000F9EAED /* Stubs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Stubs; sourceTree = "<group>"; };
 		31CC128E1BB05E4B0099AB60 /* CardActivityProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardActivityProtocol.h; sourceTree = "<group>"; };
 		31CC12B81BB062C40099AB60 /* SessionUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SessionUser.h; path = "Leo/Data Model/SessionUser.h"; sourceTree = SOURCE_ROOT; };
 		31CC12B91BB062C40099AB60 /* Appointment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Appointment.m; path = "Leo/Data Model/Appointment.m"; sourceTree = SOURCE_ROOT; };
@@ -639,11 +642,11 @@
 		662371F41C568E51001AB3E7 /* LEOLoggedOutSignUpCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOLoggedOutSignUpCell.m; sourceTree = "<group>"; };
 		662371F51C568E51001AB3E7 /* LEOLoggedOutSignUpCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LEOLoggedOutSignUpCell.xib; sourceTree = "<group>"; };
 		662371F81C569F72001AB3E7 /* Signed-Out.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Signed-Out.xcassets"; sourceTree = "<group>"; };
+		6627E71E1C876FB300B8F936 /* NSString+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Helpers.h"; sourceTree = "<group>"; };
+		6627E71F1C876FB300B8F936 /* NSString+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Helpers.m"; sourceTree = "<group>"; };
 		6627E7251C8790BA00B8F936 /* LEOInputAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LEOInputAccessoryView.xib; sourceTree = "<group>"; };
 		6627E7271C87918600B8F936 /* LEOInputAccessoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOInputAccessoryView.h; sourceTree = "<group>"; };
 		6627E7281C87918600B8F936 /* LEOInputAccessoryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOInputAccessoryView.m; sourceTree = "<group>"; };
-		6627E71E1C876FB300B8F936 /* NSString+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Helpers.h"; sourceTree = "<group>"; };
-		6627E71F1C876FB300B8F936 /* NSString+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Helpers.m"; sourceTree = "<group>"; };
 		6660C93C1C3AF92800C2657B /* LEOGradientHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOGradientHelper.h; sourceTree = "<group>"; };
 		6660C93D1C3AF92800C2657B /* LEOGradientHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOGradientHelper.m; sourceTree = "<group>"; };
 		666477BA1C7CDA1300713264 /* LEOCachedDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOCachedDataStore.h; sourceTree = "<group>"; };
@@ -685,6 +688,8 @@
 		68672CCCC55FDBB684C56186 /* Pods-Leo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Leo.release.xcconfig"; path = "Pods/Target Support Files/Pods-Leo/Pods-Leo.release.xcconfig"; sourceTree = "<group>"; };
 		7E5BC0D4370F984698F4E074 /* libPods-LeoTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LeoTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E925C5780DCA1FB4A55B841 /* Pods-LeoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LeoTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LeoTests/Pods-LeoTests.debug.xcconfig"; sourceTree = "<group>"; };
+		9229621B9525CD4A230A5927 /* Pods-LeoTests.testflight.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LeoTests.testflight.xcconfig"; path = "Pods/Target Support Files/Pods-LeoTests/Pods-LeoTests.testflight.xcconfig"; sourceTree = "<group>"; };
+		ABD22D246D8774D0259B9DDD /* Pods-LeoTests.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LeoTests.appstore.xcconfig"; path = "Pods/Target Support Files/Pods-LeoTests/Pods-LeoTests.appstore.xcconfig"; sourceTree = "<group>"; };
 		BC163B011B054E03000FB1CE /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		BCA69A381B035CEF00C27B2B /* Leo-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Leo-Prefix.pch"; path = "../Leo-Prefix.pch"; sourceTree = "<group>"; };
 		BCE1EC641B00E353007C8D0B /* Leo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Leo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -918,16 +923,24 @@
 		314A40591B838B0E00834BC2 /* Build Configuration */ = {
 			isa = PBXGroup;
 			children = (
-				31BB45EB1C17757A0036224C /* Testflight.xcconfig */,
 				314A405D1B83B1B400834BC2 /* Configuration.h */,
 				314A405E1B83B1B400834BC2 /* Configuration.m */,
 				314A40551B838AD000834BC2 /* Application.xcconfig */,
-				314A40561B838AE700834BC2 /* Debug.xcconfig */,
+				3126E59B1C8F3D8F0047189C /* AppStore.xcconfig */,
+				31BB45EB1C17757A0036224C /* Testflight.xcconfig */,
+				3126E59A1C8F3CC00047189C /* Staging.xcconfig */,
+				3126E59C1C8F3F470047189C /* QA.xcconfig */,
+				314A40561B838AE700834BC2 /* Development.xcconfig */,
 				312594B81BE2D2C100A497C0 /* Local.xcconfig */,
-				3196AAF61B8DFFDD00B11112 /* DebugStubs.xcconfig */,
-				314A40571B838AFC00834BC2 /* Release.xcconfig */,
-				314A40581B838B0800834BC2 /* Shared.xcconfig */,
-				3115F1ED1BC5AF4D001BDF6A /* TestsDebug.xcconfig */,
+				314A40581B838B0800834BC2 /* SharedApplication.xcconfig */,
+				3126E5A61C8F42600047189C /* SharedInternal.xcconfig */,
+				3115F1ED1BC5AF4D001BDF6A /* TestsInternal.xcconfig */,
+				3126E5A71C8F62A60047189C /* TestsAppStore.xcconfig */,
+				3126E5A81C8F62B80047189C /* TestsTestflight.xcconfig */,
+				3126E5A91C8F62C60047189C /* TestsStaging.xcconfig */,
+				3126E5AA1C8F62E60047189C /* TestsQA.xcconfig */,
+				3126E5AB1C8F62F60047189C /* TestsDevelopment.xcconfig */,
+				3126E5AC1C8F63040047189C /* TestsLocal.xcconfig */,
 				3132BEAD1B84FA0600494727 /* TestsRelease.xcconfig */,
 				3115F1EB1BC5AEAF001BDF6A /* TestsShared.xcconfig */,
 				31EBEFB91BF0FA1A00E8418E /* DeveloperCodeSigningTemplate.xcconfig */,
@@ -1311,6 +1324,8 @@
 				8E925C5780DCA1FB4A55B841 /* Pods-LeoTests.debug.xcconfig */,
 				00C21EAFFFDC7EA3B95241D1 /* Pods-LeoTests.release.xcconfig */,
 				5E9632A0348BFFA2B85A9B06 /* Pods-LeoTests.debug stubs.xcconfig */,
+				9229621B9525CD4A230A5927 /* Pods-LeoTests.testflight.xcconfig */,
+				ABD22D246D8774D0259B9DDD /* Pods-LeoTests.appstore.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -1484,7 +1499,6 @@
 		BCE1EC5B1B00E353007C8D0B = {
 			isa = PBXGroup;
 			children = (
-				31C01D901B66B8E000F9EAED /* Stubs */,
 				BCE1EC661B00E353007C8D0B /* Leo */,
 				319FB4C11BBA37A400EFF7B9 /* JVFloatLabeledTextField */,
 				BCE1EC6B1B00E353007C8D0B /* AppDelegate.h */,
@@ -1557,8 +1571,6 @@
 			isa = PBXGroup;
 			children = (
 				31339B211C2491FE00B53A86 /* LEOCardProtocol.h */,
-				3196AAF71B8E01C900B11112 /* LEOStubs.h */,
-				3196AAF81B8E01C900B11112 /* LEOStubs.m */,
 				3177B9991B189F2D006AE360 /* Cards */,
 				BC4D685B1B04DAF10018DAB5 /* Objects */,
 			);
@@ -1689,7 +1701,6 @@
 				31FCDD6E1C5EABE600BE4B78 /* *.leohealth.com.cer in Resources */,
 				3115F22A1BCEAAC1001BDF6A /* LEOUpdatePasswordView.xib in Resources */,
 				6627E7261C8790BA00B8F936 /* LEOInputAccessoryView.xib in Resources */,
-				31C01D911B66B8E000F9EAED /* Stubs in Resources */,
 				31D275771C517AF0005F8964 /* LEOManagePatientsView.xib in Resources */,
 				BCE1EC751B00E353007C8D0B /* Images.xcassets in Resources */,
 				31D62EC61B1CBA7400B4150A /* LEOTimeCell.xib in Resources */,
@@ -1968,7 +1979,6 @@
 				3115F21C1BCEA316001BDF6A /* LEOUpdateEmailViewController.m in Sources */,
 				31D7ADEB1B21F9A100E8C5EE /* CollectionViewDataSource.m in Sources */,
 				6660C93E1C3AF92800C2657B /* LEOGradientHelper.m in Sources */,
-				3196AAF91B8E01C900B11112 /* LEOStubs.m in Sources */,
 				667713521C73C67C00735B74 /* LEOProgressDotsView.m in Sources */,
 				3168996A1BC4851200B4C1EB /* LEOReviewUserCell+ConfigureForCell.m in Sources */,
 				319FC6911C73C1ED00B53112 /* LEOPracticeDetailView.m in Sources */,
@@ -2036,7 +2046,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 2016.03.08.00.10;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zachary Drossman (C7TN5PHTLC)";
+				CURRENT_PROJECT_VERSION = 2016.03.08.10.51;
 				ENABLE_TESTABILITY = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				ONLY_ACTIVE_ARCH = YES;
@@ -2048,16 +2059,15 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 312594B81BE2D2C100A497C0 /* Local.xcconfig */;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				INFOPLIST_FILE = Leo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
-				PRODUCT_BUNDLE_IDENTIFIER = com.leohealth.leo;
+				PRODUCT_BUNDLE_IDENTIFIER = "";
 			};
 			name = Local;
 		};
 		312594BB1BE2D41800A497C0 /* Local */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8E925C5780DCA1FB4A55B841 /* Pods-LeoTests.debug.xcconfig */;
+			baseConfigurationReference = 3126E5AC1C8F63040047189C /* TestsLocal.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -2067,23 +2077,41 @@
 					"$(inherited)",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
 				INFOPLIST_FILE = LeoTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.leohealth.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Leo.app/Leo";
 			};
 			name = Local;
 		};
-		3132BEAB1B84F9D200494727 /* Debug */ = {
+		3126E59D1C8F41440047189C /* Staging */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8E925C5780DCA1FB4A55B841 /* Pods-LeoTests.debug.xcconfig */;
+			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 2016.03.08.10.51;
+				ENABLE_TESTABILITY = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "65e3f751-f893-4663-a6fe-591388084505";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Staging;
+		};
+		3126E59E1C8F41440047189C /* Staging */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3126E59A1C8F3CC00047189C /* Staging.xcconfig */;
+			buildSettings = {
+				INFOPLIST_FILE = Leo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				PRODUCT_BUNDLE_IDENTIFIER = "";
+			};
+			name = Staging;
+		};
+		3126E59F1C8F41440047189C /* Staging */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3126E5A91C8F62C60047189C /* TestsStaging.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -2093,23 +2121,83 @@
 					"$(inherited)",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
 				INFOPLIST_FILE = LeoTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.leohealth.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Leo.app/Leo";
 			};
-			name = Debug;
+			name = Staging;
 		};
-		3132BEAC1B84F9D200494727 /* Release */ = {
+		3126E5A01C8F41490047189C /* QA */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3132BEAD1B84FA0600494727 /* TestsRelease.xcconfig */;
+			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 2016.03.08.10.51;
+				ENABLE_TESTABILITY = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "4e985520-4df4-49c4-b7ed-915aafba9b7e";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = QA;
+		};
+		3126E5A11C8F41490047189C /* QA */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3126E59C1C8F3F470047189C /* QA.xcconfig */;
+			buildSettings = {
+				INFOPLIST_FILE = Leo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				PRODUCT_BUNDLE_IDENTIFIER = "";
+			};
+			name = QA;
+		};
+		3126E5A21C8F41490047189C /* QA */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3126E5AA1C8F62E60047189C /* TestsQA.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				INFOPLIST_FILE = LeoTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Leo.app/Leo";
+			};
+			name = QA;
+		};
+		3126E5A31C8F41520047189C /* AppStore */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 2016.03.08.10.51;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				PROVISIONING_PROFILE = "4d3e62b3-2386-4cb0-83de-dec046d8f86f";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = AppStore;
+		};
+		3126E5A41C8F41520047189C /* AppStore */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3126E59B1C8F3D8F0047189C /* AppStore.xcconfig */;
+			buildSettings = {
+				INFOPLIST_FILE = Leo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				PRODUCT_BUNDLE_IDENTIFIER = "";
+			};
+			name = AppStore;
+		};
+		3126E5A51C8F41520047189C /* AppStore */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3126E5A71C8F62A60047189C /* TestsAppStore.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -2123,38 +2211,15 @@
 				INFOPLIST_FILE = LeoTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.leohealth.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Leo.app/Leo";
 				VALIDATE_PRODUCT = YES;
 			};
-			name = Release;
+			name = AppStore;
 		};
-		3196AAF31B8DFD6C00B11112 /* Debug Stubs */ = {
+		3132BEAB1B84F9D200494727 /* Development */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
-			buildSettings = {
-				CURRENT_PROJECT_VERSION = 2016.03.08.00.10;
-				ENABLE_TESTABILITY = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
-				ONLY_ACTIVE_ARCH = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-			};
-			name = "Debug Stubs";
-		};
-		3196AAF41B8DFD6C00B11112 /* Debug Stubs */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3196AAF61B8DFFDD00B11112 /* DebugStubs.xcconfig */;
-			buildSettings = {
-				INFOPLIST_FILE = Leo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
-				PRODUCT_BUNDLE_IDENTIFIER = com.leohealth.leo;
-			};
-			name = "Debug Stubs";
-		};
-		3196AAF51B8DFD6C00B11112 /* Debug Stubs */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5E9632A0348BFFA2B85A9B06 /* Pods-LeoTests.debug stubs.xcconfig */;
+			baseConfigurationReference = 3126E5AB1C8F62F60047189C /* TestsDevelopment.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -2164,26 +2229,22 @@
 					"$(inherited)",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
 				INFOPLIST_FILE = LeoTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.leohealth.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Leo.app/Leo";
 			};
-			name = "Debug Stubs";
+			name = Development;
 		};
 		31BB45EC1C1777A20036224C /* Testflight */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 2016.03.08.00.10;
+				CURRENT_PROJECT_VERSION = 2016.03.08.10.51;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				PROVISIONING_PROFILE = "4d3e62b3-2386-4cb0-83de-dec046d8f86f";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Testflight;
@@ -2194,13 +2255,13 @@
 			buildSettings = {
 				INFOPLIST_FILE = Leo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
-				PRODUCT_BUNDLE_IDENTIFIER = com.leohealth.leo;
+				PRODUCT_BUNDLE_IDENTIFIER = "";
 			};
 			name = Testflight;
 		};
 		31BB45EE1C1777A20036224C /* Testflight */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3132BEAD1B84FA0600494727 /* TestsRelease.xcconfig */;
+			baseConfigurationReference = 3126E5A81C8F62B80047189C /* TestsTestflight.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -2214,54 +2275,35 @@
 				INFOPLIST_FILE = LeoTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.leohealth.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Leo.app/Leo";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Testflight;
 		};
-		BCE1EC851B00E353007C8D0B /* Debug */ = {
+		BCE1EC851B00E353007C8D0B /* Development */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 2016.03.08.00.10;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Zachary Drossman (C7TN5PHTLC)";
+				CURRENT_PROJECT_VERSION = 2016.03.08.10.51;
 				ENABLE_TESTABILITY = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "6fd945c0-974b-4ba6-8cd4-f232b09d7c3f";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
-			name = Debug;
+			name = Development;
 		};
-		BCE1EC861B00E353007C8D0B /* Release */ = {
+		BCE1EC881B00E353007C8D0B /* Development */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
-			buildSettings = {
-				CURRENT_PROJECT_VERSION = 2016.03.08.00.10;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
-				VERSIONING_SYSTEM = "apple-generic";
-			};
-			name = Release;
-		};
-		BCE1EC881B00E353007C8D0B /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 314A40561B838AE700834BC2 /* Debug.xcconfig */;
+			baseConfigurationReference = 314A40561B838AE700834BC2 /* Development.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = Leo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
-				PRODUCT_BUNDLE_IDENTIFIER = com.leohealth.leo;
+				PRODUCT_BUNDLE_IDENTIFIER = "";
 			};
-			name = Debug;
-		};
-		BCE1EC891B00E353007C8D0B /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 314A40571B838AFC00834BC2 /* Release.xcconfig */;
-			buildSettings = {
-				INFOPLIST_FILE = Leo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
-				PRODUCT_BUNDLE_IDENTIFIER = com.leohealth.leo;
-			};
-			name = Release;
+			name = Development;
 		};
 /* End XCBuildConfiguration section */
 
@@ -2269,38 +2311,41 @@
 		3132BEAA1B84F9D200494727 /* Build configuration list for PBXNativeTarget "LeoTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				3132BEAB1B84F9D200494727 /* Debug */,
+				3132BEAB1B84F9D200494727 /* Development */,
+				3126E5A21C8F41490047189C /* QA */,
+				3126E59F1C8F41440047189C /* Staging */,
 				312594BB1BE2D41800A497C0 /* Local */,
-				3196AAF51B8DFD6C00B11112 /* Debug Stubs */,
-				3132BEAC1B84F9D200494727 /* Release */,
 				31BB45EE1C1777A20036224C /* Testflight */,
+				3126E5A51C8F41520047189C /* AppStore */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Development;
 		};
 		BCE1EC5F1B00E353007C8D0B /* Build configuration list for PBXProject "Leo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				BCE1EC851B00E353007C8D0B /* Debug */,
+				BCE1EC851B00E353007C8D0B /* Development */,
+				3126E5A01C8F41490047189C /* QA */,
+				3126E59D1C8F41440047189C /* Staging */,
 				312594B91BE2D41800A497C0 /* Local */,
-				3196AAF31B8DFD6C00B11112 /* Debug Stubs */,
-				BCE1EC861B00E353007C8D0B /* Release */,
 				31BB45EC1C1777A20036224C /* Testflight */,
+				3126E5A31C8F41520047189C /* AppStore */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Development;
 		};
 		BCE1EC871B00E353007C8D0B /* Build configuration list for PBXNativeTarget "Leo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				BCE1EC881B00E353007C8D0B /* Debug */,
+				BCE1EC881B00E353007C8D0B /* Development */,
+				3126E5A11C8F41490047189C /* QA */,
+				3126E59E1C8F41440047189C /* Staging */,
 				312594BA1BE2D41800A497C0 /* Local */,
-				3196AAF41B8DFD6C00B11112 /* Debug Stubs */,
-				BCE1EC891B00E353007C8D0B /* Release */,
 				31BB45ED1C1777A20036224C /* Testflight */,
+				3126E5A41C8F41520047189C /* AppStore */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Development;
 		};
 /* End XCConfigurationList section */
 	};

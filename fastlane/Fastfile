@@ -14,7 +14,7 @@ platform :mac do
 end
 platform :ios do
 
-desc "Submit a new alpha version to TestFlight"
+desc "Submit a new development version for internal testing"
 desc "This action does the following:"
 desc ""
 desc "- 1) Ensures a clean git status"
@@ -35,9 +35,14 @@ before_all do
 
 end
 
-lane :alpha do |options|
+lane :internal do |options|
 
+      scheme = options[:scheme]
       bump_type = options[:bump_type];
+
+      if !scheme
+        scheme = "Development"
+      end
 
       version = get_version_number(xcodeproj: "Leo.xcodeproj")
 
@@ -87,22 +92,22 @@ lane :alpha do |options|
     # Ensure we have the mobile provisioning profiles
     sigh(
       output_path: "./fastlane_build",
-      filename: "com.leohealth.leo.alpha.mobileprovision"
+      filename: "com.leohealth.leo.internal.mobileprovision"
     )
 
     # Build and sign app
     gym(
-      scheme: "Leo Alpha",
+      scheme: "Leo #{scheme}",
       workspace: "Leo.xcworkspace",
       output_directory: "./fastlane_build",
-      output_name: "Leo-Alpha.ipa",
+      output_name: "Leo-#{scheme}.ipa",
       include_symbols: true,
       clean: true
     )
 
     # Push our build to iTunesConnect
     pilot(
-      ipa: "./fastlane_build/Leo-Alpha.ipa",
+      ipa: "./fastlane_build/Leo-#{scheme}.ipa",
       skip_submission: true
     )
 
@@ -116,7 +121,7 @@ lane :alpha do |options|
 
 
     # Tag release and push to Github
-    commit_version_bump message: "Deploying version #{version}.", force: true
+    commit_version_bump message: "Deploying version #{version}.#{build_number}", force: true
     add_git_tag(
       grouping: 'fastlane-builds',
       prefix: 'v',

@@ -7,14 +7,14 @@
 //
 
 #include "DeveloperCodeSigning.xcconfig"
-#include "Shared.xcconfig"
+#include "SharedApplication.xcconfig"
 #include "Pods/Target Support Files/Pods-Leo/Pods-Leo.local.xcconfig"
 
-//Shared across all debug and local, so duplicated for the time being. May want to create a Shared Development configuration file at some point
+
 ONLY_ACTIVE_ARCH = YES
 GCC_DYNAMIC_NO_PIC = NO
 GCC_SYMBOLS_PRIVATE_EXTERN = NO
-GCC_PREPROCESSOR_DEFINITIONS = DEBUG=1 $(inherited) STUBS_FLAG=0 AUTOLOGIN_FLAG=0
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) LOCAL=1
 MTL_ENABLE_DEBUG_INFO = YES
 
 API_URL = localhost:3000
@@ -23,3 +23,5 @@ API_VERSION = api/v1
 API_PROTOCOL = http
 CONTENT_URL = leo-content.s3-website-us-east-1.amazonaws.com
 PUSHER_KEY = 161f84c2eba08ba953da
+BUNDLE_IDENTIFIER = com.leohealth.dev-consumer
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) LOCAL=1 INTERNAL=0
