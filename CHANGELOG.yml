@@ -1,8 +1,14 @@
     upcoming:
-    - New! Proper group chat with second parent involvement
-    - Bug fixes
+    - No changes. External release.
 
     releases:
+    - version: 1.0.0
+      build: 2016.03.07.22.30
+      date: March 07 2016
+      notes:
+      - New! Proper group chat with second parent involvement
+      - Bug fixes
+
     - version: 1.0.0
       build: 2016.03.07.14.06
       date: March 07 2016
@@ -238,6 +244,7 @@
       notes:
       - First test build using new Fastfile configuration for Alpha builds
       - Provides the basic functionality all created prior to our first releases
+
 
 
 
