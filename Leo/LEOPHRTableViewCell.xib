@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
@@ -12,40 +12,14 @@
             <rect key="frame" x="0.0" y="0.0" width="826" height="249"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="826" height="249"/>
+                <rect key="frame" x="0.0" y="0.0" width="826" height="248.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QTC-fz-2pH" userLabel="Container View">
                         <rect key="frame" x="8" y="8" width="810" height="233"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="Weight" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5hb-qE-ZXK" userLabel="Title Label">
-                                <rect key="frame" x="20" y="5" width="58" height="21"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="1000" placeholderIntrinsicWidth="99" placeholderIntrinsicHeight="21" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r1P-35-7tk" userLabel="Title Detail Label">
-                                <rect key="frame" x="98" y="20" width="99" height="21"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="100" id="Akb-Jz-kVa"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="Akb-Jz-kVa"/>
-                                    </mask>
-                                </variation>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="48 lbs, 59th percentile" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OG5-MG-7Qm" userLabel="Main Detail Label">
-                                <rect key="frame" x="20" y="28" width="770" height="200"/>
-                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="13"/>
-                                <color key="textColor" red="0.48627450980392156" green="0.48627450980392156" blue="0.48627450980392156" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" misplaced="YES" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3RI-I8-hBd" userLabel="Side Detail Label">
-                                <rect key="frame" x="720" y="5" width="70" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="topRight" horizontalHuggingPriority="252" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="3/8/16" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3RI-I8-hBd" userLabel="Side Detail Label">
+                                <rect key="frame" x="720" y="5" width="70" height="20.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="70" id="XAy-Y7-SA0"/>
                                 </constraints>
@@ -53,27 +27,42 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="Weight" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5hb-qE-ZXK" userLabel="Title Label">
+                                <rect key="frame" x="20" y="5" width="680" height="20.5"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="48 lbs, 59th percentile" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OG5-MG-7Qm" userLabel="Main Detail Label">
+                                <rect key="frame" x="20" y="28" width="770" height="199.5"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="13"/>
+                                <color key="textColor" red="0.48627450980392156" green="0.48627450980392156" blue="0.48627450980392156" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="3RI-I8-hBd" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="r1P-35-7tk" secondAttribute="trailing" constant="20" id="8Vf-Po-M4l"/>
                             <constraint firstItem="3RI-I8-hBd" firstAttribute="bottom" secondItem="5hb-qE-ZXK" secondAttribute="bottom" id="8tz-pS-sqW"/>
-                            <constraint firstItem="r1P-35-7tk" firstAttribute="leading" secondItem="5hb-qE-ZXK" secondAttribute="trailing" constant="20" id="DIM-YY-Qda"/>
                             <constraint firstItem="3RI-I8-hBd" firstAttribute="top" secondItem="5hb-qE-ZXK" secondAttribute="top" id="REy-Tm-T1c"/>
                             <constraint firstAttribute="trailing" secondItem="3RI-I8-hBd" secondAttribute="trailing" constant="20" id="Stw-wc-zEV"/>
                             <constraint firstItem="3RI-I8-hBd" firstAttribute="top" secondItem="QTC-fz-2pH" secondAttribute="top" constant="20" id="Uzg-Hj-eaS"/>
                             <constraint firstAttribute="bottom" secondItem="OG5-MG-7Qm" secondAttribute="bottom" constant="5" id="Y6x-vx-jw0"/>
+                            <constraint firstItem="OG5-MG-7Qm" firstAttribute="top" relation="greaterThanOrEqual" secondItem="3RI-I8-hBd" secondAttribute="bottom" constant="3" id="apz-rt-lVC"/>
+                            <constraint firstItem="OG5-MG-7Qm" firstAttribute="top" secondItem="5hb-qE-ZXK" secondAttribute="bottom" priority="999" constant="3" id="cQe-7W-oih"/>
                             <constraint firstItem="OG5-MG-7Qm" firstAttribute="leading" secondItem="QTC-fz-2pH" secondAttribute="leading" constant="20" id="fRX-05-H9f"/>
+                            <constraint firstItem="OG5-MG-7Qm" firstAttribute="top" secondItem="3RI-I8-hBd" secondAttribute="bottom" priority="999" constant="3" id="fp7-cj-RN5"/>
                             <constraint firstAttribute="trailing" secondItem="OG5-MG-7Qm" secondAttribute="trailing" constant="20" id="liD-BC-pE6"/>
+                            <constraint firstItem="3RI-I8-hBd" firstAttribute="leading" secondItem="5hb-qE-ZXK" secondAttribute="trailing" constant="20" id="nsC-0h-lzP"/>
                             <constraint firstItem="5hb-qE-ZXK" firstAttribute="leading" secondItem="QTC-fz-2pH" secondAttribute="leading" constant="20" id="ny7-7A-ymh"/>
-                            <constraint firstItem="r1P-35-7tk" firstAttribute="top" secondItem="QTC-fz-2pH" secondAttribute="top" constant="20" id="qGF-uz-7kc"/>
-                            <constraint firstItem="OG5-MG-7Qm" firstAttribute="top" secondItem="5hb-qE-ZXK" secondAttribute="bottom" constant="3" id="qpk-jI-YUY"/>
+                            <constraint firstItem="OG5-MG-7Qm" firstAttribute="top" relation="greaterThanOrEqual" secondItem="5hb-qE-ZXK" secondAttribute="bottom" constant="3" id="qpk-jI-YUY"/>
                             <constraint firstItem="5hb-qE-ZXK" firstAttribute="top" secondItem="QTC-fz-2pH" secondAttribute="top" constant="5" id="zO1-wL-NFW"/>
+                            <constraint firstItem="3RI-I8-hBd" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="QTC-fz-2pH" secondAttribute="leading" constant="20" id="ztr-Nr-6e0"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
                                 <exclude reference="8tz-pS-sqW"/>
                                 <exclude reference="Uzg-Hj-eaS"/>
+                                <exclude reference="ztr-Nr-6e0"/>
                             </mask>
                         </variation>
                     </view>
@@ -88,7 +77,6 @@
             <connections>
                 <outlet property="recordMainDetailLabel" destination="OG5-MG-7Qm" id="uyk-fJ-Wfy"/>
                 <outlet property="recordSideLabel" destination="3RI-I8-hBd" id="aZE-gY-Tu4"/>
-                <outlet property="recordTitleDetailLabel" destination="r1P-35-7tk" id="M2L-56-Eys"/>
                 <outlet property="recordTitleLabel" destination="5hb-qE-ZXK" id="71B-yI-os0"/>
             </connections>
             <point key="canvasLocation" x="761" y="432.5"/>

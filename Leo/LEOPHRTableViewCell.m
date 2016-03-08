@@ -108,13 +108,13 @@
 
     self.recordMainDetailLabel.text = note.text;
     self.recordTitleLabel.text = nil;
-    self.recordTitleLabel.text = nil;
     self.recordSideLabel.text = nil;
 }
 
 - (void)configureCellForEmptyRecordWithPatient:(Patient *)patient {
 
     self.recordTitleLabel.text = nil;
+    self.recordSideLabel.text = nil;
 
     //TODO: Make gender pronouns come from a helper so that they are available for reuse based on gender
     //TODO: Make gender in patient a typedef in order to avoid hard coding these strings going forward
