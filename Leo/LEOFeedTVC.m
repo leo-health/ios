@@ -136,10 +136,13 @@ static CGFloat const kFeedInsetTop = 20.0;
 - (void)viewDidAppear:(BOOL)animated {
 
     [super viewDidAppear:animated];
-    [self updateUI];
+
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+
+    [self prepareForReachability];
 }
 
-- (void)updateUI {
+- (void)prepareForReachability {
 
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:^{
 
@@ -299,7 +302,7 @@ static CGFloat const kFeedInsetTop = 20.0;
 
                               typeof(self) strongSelf = weakSelf;
 
-                              NSString *messageID = [Message extractMessageIDFromChannelData:channelData];
+                              NSString *messageID = [Message extractObjectIDFromChannelData:channelData];
 
                               Conversation *conversation = [strongSelf conversation].associatedCardObject;
 
@@ -332,7 +335,9 @@ static CGFloat const kFeedInsetTop = 20.0;
     }
 
     if ([notification.name isEqualToString:UIApplicationDidBecomeActiveNotification]) {
-        [self updateUI];
+
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [self fetchData];
     }
 }
 

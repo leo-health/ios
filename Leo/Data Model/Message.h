@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 + (instancetype)messageWithJSONDictionary:(NSDictionary *)jsonResponse;
-+ (NSString *)extractMessageIDFromChannelData:(NSDictionary *)channelData;
++ (NSString *)extractObjectIDFromChannelData:(NSDictionary *)channelData;
 
 /**
  *  Creates an `NSDictionary` from a `Message` object

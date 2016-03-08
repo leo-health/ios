@@ -35,6 +35,7 @@
 
 static NSString *const kText = @"text";
 static NSString *const kImage = @"image";
+static NSString *const kMessageID = @"message_id";
 
 #pragma mark - <JSQMessageDataProtocol>
 
@@ -82,8 +83,8 @@ static NSString *const kImage = @"image";
 }
 
 
-+ (NSString *)extractMessageIDFromChannelData:(NSDictionary *)channelData {
-    return [[channelData objectForKey:@"message_id"] stringValue];
++ (NSString *)extractObjectIDFromChannelData:(NSDictionary *)channelData {
+    return [[channelData objectForKey:kMessageID] stringValue];
 }
 
 //FIXME: LeoConstants missing some of these hence they have been commented out for the time-being.

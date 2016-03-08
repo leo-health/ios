@@ -321,7 +321,8 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
     [pusherHelper connectToPusherChannel:channelString withEvent:event sender:self withCompletion:^(NSDictionary *channelData) {
 
         typeof(self) strongSelf = weakSelf;
-        NSString *messageID = [Message extractMessageIDFromChannelData:channelData];
+
+        NSString *messageID = [Message extractObjectIDFromChannelData:channelData];
 
         [[strongSelf conversation] fetchMessageWithID:messageID completion:^{
 
@@ -339,7 +340,6 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 }
 
 - (NSInteger)indexOfMessage:(Message *)message {
-
     return [[self conversation].messages indexOfObject:message];
 }
 

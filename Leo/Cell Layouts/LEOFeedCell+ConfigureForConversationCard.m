@@ -37,7 +37,6 @@
 
     [timestampLabel leo_pinToSuperView:self.footerView];
 
-
     if (card.timestamp.isToday) {
         timestampLabel.text = [NSString stringWithFormat:@"Sent today at %@",[NSDate leo_stringifiedTime:card.timestamp]];
     } else {
