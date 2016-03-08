@@ -95,8 +95,7 @@ NS_ENUM(NSInteger, TableViewRow) {
 
         _tableView.tableFooterView = [UIView new];
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        _tableView.rowHeight = UITableViewAutomaticDimension;
-        
+
         [_tableView registerNib:[LEOPHRTableViewCell nib] forCellReuseIdentifier:self.cellReuseIdentifier];
         [_tableView registerClass:[UITableViewHeaderFooterView class] forHeaderFooterViewReuseIdentifier:self.headerReuseIdentifier];
     }
@@ -509,7 +508,16 @@ NS_ENUM(NSInteger, TableViewRow) {
     _titleLabel.text = title;
 }
 
--(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    [self configureCell:self.sizingCell forIndexPath:indexPath];
+
+    // get margins from the nib to determine the preferred max layout width
+    // ????: HAX: is there a less hacky way of doing this?
+    UILabel *growingLabel = [(LEOPHRTableViewCell *)self.sizingCell recordMainDetailLabel];
+    CGFloat margins = CGRectGetWidth(self.sizingCell.contentView.bounds) - CGRectGetWidth(growingLabel.bounds);
+    CGFloat finalWidth = CGRectGetWidth(tableView.bounds) - margins;
+    [growingLabel setPreferredMaxLayoutWidth:finalWidth];
 
     CGSize size = [self.sizingCell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
     return size.height;
