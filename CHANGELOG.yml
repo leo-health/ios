@@ -1,7 +1,11 @@
     upcoming:
-    - No changes. Internal release with otherwise same code.
-
     releases:
+    - version: 1.0.0
+      build: 2016.03.08.00.10
+      date: March 08 2016
+      notes:
+      - No changes. Internal release with otherwise same code.
+
     - version: 1.0.0
       build: 2016.03.07.22.54
       date: March 07 2016
