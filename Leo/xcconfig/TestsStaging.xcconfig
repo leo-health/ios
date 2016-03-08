@@ -1,0 +1,12 @@
+//
+//  TestsStaging.xcconfig
+//  Leo
+//
+//  Created by Zachary Drossman on 3/8/16.
+//  Copyright © 2016 Leo Health. All rights reserved.
+//
+
+#include "TestsInternal.xcconfig"
+#include "Pods/Target Support Files/Pods-LeoTests/Pods-LeoTests.staging.xcconfig"
+
+BUNDLE_IDENTIFIER = com.leohealth.staging-consumer

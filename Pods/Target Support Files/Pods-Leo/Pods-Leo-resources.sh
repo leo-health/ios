@@ -57,7 +57,31 @@ install_resource()
       ;;
   esac
 }
-if [[ "$CONFIGURATION" == "Debug" ]]; then
+if [[ "$CONFIGURATION" == "Development" ]]; then
+  install_resource "DateTools/DateTools/DateTools.bundle"
+  install_resource "JSQMessagesViewController/JSQMessagesViewController/Assets/JSQMessagesAssets.bundle"
+  install_resource "JSQMessagesViewController/JSQMessagesViewController/Controllers/JSQMessagesViewController.xib"
+  install_resource "JSQMessagesViewController/JSQMessagesViewController/Views/JSQMessagesCollectionViewCellIncoming.xib"
+  install_resource "JSQMessagesViewController/JSQMessagesViewController/Views/JSQMessagesCollectionViewCellOutgoing.xib"
+  install_resource "JSQMessagesViewController/JSQMessagesViewController/Views/JSQMessagesLoadEarlierHeaderView.xib"
+  install_resource "JSQMessagesViewController/JSQMessagesViewController/Views/JSQMessagesToolbarContentView.xib"
+  install_resource "JSQMessagesViewController/JSQMessagesViewController/Views/JSQMessagesTypingIndicatorFooterView.xib"
+  install_resource "RSKImageCropper/RSKImageCropper/RSKImageCropperStrings.bundle"
+  install_resource "${BUILT_PRODUCTS_DIR}/GNZSlidingSegment.bundle"
+fi
+if [[ "$CONFIGURATION" == "QA" ]]; then
+  install_resource "DateTools/DateTools/DateTools.bundle"
+  install_resource "JSQMessagesViewController/JSQMessagesViewController/Assets/JSQMessagesAssets.bundle"
+  install_resource "JSQMessagesViewController/JSQMessagesViewController/Controllers/JSQMessagesViewController.xib"
+  install_resource "JSQMessagesViewController/JSQMessagesViewController/Views/JSQMessagesCollectionViewCellIncoming.xib"
+  install_resource "JSQMessagesViewController/JSQMessagesViewController/Views/JSQMessagesCollectionViewCellOutgoing.xib"
+  install_resource "JSQMessagesViewController/JSQMessagesViewController/Views/JSQMessagesLoadEarlierHeaderView.xib"
+  install_resource "JSQMessagesViewController/JSQMessagesViewController/Views/JSQMessagesToolbarContentView.xib"
+  install_resource "JSQMessagesViewController/JSQMessagesViewController/Views/JSQMessagesTypingIndicatorFooterView.xib"
+  install_resource "RSKImageCropper/RSKImageCropper/RSKImageCropperStrings.bundle"
+  install_resource "${BUILT_PRODUCTS_DIR}/GNZSlidingSegment.bundle"
+fi
+if [[ "$CONFIGURATION" == "Staging" ]]; then
   install_resource "DateTools/DateTools/DateTools.bundle"
   install_resource "JSQMessagesViewController/JSQMessagesViewController/Assets/JSQMessagesAssets.bundle"
   install_resource "JSQMessagesViewController/JSQMessagesViewController/Controllers/JSQMessagesViewController.xib"
@@ -81,31 +105,19 @@ if [[ "$CONFIGURATION" == "Local" ]]; then
   install_resource "RSKImageCropper/RSKImageCropper/RSKImageCropperStrings.bundle"
   install_resource "${BUILT_PRODUCTS_DIR}/GNZSlidingSegment.bundle"
 fi
-if [[ "$CONFIGURATION" == "Debug Stubs" ]]; then
-  install_resource "DateTools/DateTools/DateTools.bundle"
-  install_resource "JSQMessagesViewController/JSQMessagesViewController/Assets/JSQMessagesAssets.bundle"
-  install_resource "JSQMessagesViewController/JSQMessagesViewController/Controllers/JSQMessagesViewController.xib"
-  install_resource "JSQMessagesViewController/JSQMessagesViewController/Views/JSQMessagesCollectionViewCellIncoming.xib"
-  install_resource "JSQMessagesViewController/JSQMessagesViewController/Views/JSQMessagesCollectionViewCellOutgoing.xib"
-  install_resource "JSQMessagesViewController/JSQMessagesViewController/Views/JSQMessagesLoadEarlierHeaderView.xib"
-  install_resource "JSQMessagesViewController/JSQMessagesViewController/Views/JSQMessagesToolbarContentView.xib"
-  install_resource "JSQMessagesViewController/JSQMessagesViewController/Views/JSQMessagesTypingIndicatorFooterView.xib"
-  install_resource "RSKImageCropper/RSKImageCropper/RSKImageCropperStrings.bundle"
-  install_resource "${BUILT_PRODUCTS_DIR}/GNZSlidingSegment.bundle"
-fi
-if [[ "$CONFIGURATION" == "Release" ]]; then
-  install_resource "DateTools/DateTools/DateTools.bundle"
-  install_resource "JSQMessagesViewController/JSQMessagesViewController/Assets/JSQMessagesAssets.bundle"
-  install_resource "JSQMessagesViewController/JSQMessagesViewController/Controllers/JSQMessagesViewController.xib"
-  install_resource "JSQMessagesViewController/JSQMessagesViewController/Views/JSQMessagesCollectionViewCellIncoming.xib"
-  install_resource "JSQMessagesViewController/JSQMessagesViewController/Views/JSQMessagesCollectionViewCellOutgoing.xib"
-  install_resource "JSQMessagesViewController/JSQMessagesViewController/Views/JSQMessagesLoadEarlierHeaderView.xib"
-  install_resource "JSQMessagesViewController/JSQMessagesViewController/Views/JSQMessagesToolbarContentView.xib"
-  install_resource "JSQMessagesViewController/JSQMessagesViewController/Views/JSQMessagesTypingIndicatorFooterView.xib"
-  install_resource "RSKImageCropper/RSKImageCropper/RSKImageCropperStrings.bundle"
-  install_resource "${BUILT_PRODUCTS_DIR}/GNZSlidingSegment.bundle"
-fi
 if [[ "$CONFIGURATION" == "Testflight" ]]; then
+  install_resource "DateTools/DateTools/DateTools.bundle"
+  install_resource "JSQMessagesViewController/JSQMessagesViewController/Assets/JSQMessagesAssets.bundle"
+  install_resource "JSQMessagesViewController/JSQMessagesViewController/Controllers/JSQMessagesViewController.xib"
+  install_resource "JSQMessagesViewController/JSQMessagesViewController/Views/JSQMessagesCollectionViewCellIncoming.xib"
+  install_resource "JSQMessagesViewController/JSQMessagesViewController/Views/JSQMessagesCollectionViewCellOutgoing.xib"
+  install_resource "JSQMessagesViewController/JSQMessagesViewController/Views/JSQMessagesLoadEarlierHeaderView.xib"
+  install_resource "JSQMessagesViewController/JSQMessagesViewController/Views/JSQMessagesToolbarContentView.xib"
+  install_resource "JSQMessagesViewController/JSQMessagesViewController/Views/JSQMessagesTypingIndicatorFooterView.xib"
+  install_resource "RSKImageCropper/RSKImageCropper/RSKImageCropperStrings.bundle"
+  install_resource "${BUILT_PRODUCTS_DIR}/GNZSlidingSegment.bundle"
+fi
+if [[ "$CONFIGURATION" == "AppStore" ]]; then
   install_resource "DateTools/DateTools/DateTools.bundle"
   install_resource "JSQMessagesViewController/JSQMessagesViewController/Assets/JSQMessagesAssets.bundle"
   install_resource "JSQMessagesViewController/JSQMessagesViewController/Controllers/JSQMessagesViewController.xib"

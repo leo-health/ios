@@ -1,13 +1,19 @@
 //
-//  Testflight.xcconfig
+//  AppStore.xcconfig
 //  Leo
 //
-//  Created by Zachary Drossman on 12/8/15.
-//  Copyright © 2015 Leo Health. All rights reserved.
+//  Created by Zachary Drossman on 3/8/16.
+//  Copyright © 2016 Leo Health. All rights reserved.
 //
 
+//**
+//*
+//*UPDATE BEFORE RELEASING TO THE APP STORE
+//*
+//**
+
 #include "SharedApplication.xcconfig"
-#include "Pods/Target Support Files/Pods-Leo/Pods-Leo.testflight.xcconfig"
+#include "Pods/Target Support Files/Pods-Leo/Pods-Leo.appstore.xcconfig"
 
 VALIDATE_PRODUCT = YES
 ENABLE_NS_ASSERTIONS = NO
@@ -23,7 +29,6 @@ CONTENT_URL = leo-content.s3-website-us-east-1.amazonaws.com
 SELF_SIGNED_CERTIFICATE = *.leohealth.com
 CRITTERCISM_APP_ID = b732e3c640fc4b3db6b68775fdf0dd1700555300
 PUSHER_KEY = 1e11c5da0e735f562c28
-
 
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) RELEASE=1
 BUNDLE_IDENTIFIER = com.leohealth.leo

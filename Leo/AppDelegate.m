@@ -18,10 +18,6 @@
 #import "LEOConstants.h"
 #import "LEOStyleHelper.h"
 
-#if STUBS_FLAG
-#import "LEOStubs.h"
-#endif
-
 @interface AppDelegate ()
 
 @end
@@ -32,9 +28,6 @@
     
     [self setupGlobalFormatting];
     [self setupCrittercism];
-#if STUBS_FLAG
-    [LEOStubs setupStubs];
-#endif
 
     [self setupRemoteNotificationsForApplication:application];
     [self setupObservers];

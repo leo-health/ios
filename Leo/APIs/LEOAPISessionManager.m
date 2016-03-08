@@ -34,7 +34,7 @@
         securityPolicy.allowInvalidCertificates = YES;
 #endif
 
-#if defined(DEBUG) || defined(TESTFLIGHT)
+#if defined(INTERNAL) || defined(RELEASE)
         securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModePublicKey];
 #endif
 

@@ -46,14 +46,10 @@
 #import "UIImage+Extensions.h"
 #import <UIImageView+AFNetworking.h>
 #import <JSQMessagesViewController/JSQMessagesBubbleImageFactory.h>
-#import <OHHTTPStubs/OHHTTPStubs.h>
 #import <Photos/Photos.h>
 #import "UIButton+Extensions.h"
 #import "LEOStyleHelper.h"
 
-#if STUBS_FLAG
-#import "LEOStubs.h"
-#endif
 
 @interface LEOMessagesViewController ()
 
@@ -94,10 +90,6 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-#if STUBS_FLAG
-    [self setupStubs];
-#endif
-
     [self setupEmergencyBar];
     [self setupInputToolbar];
     [self setupCollectionViewFormatting];
@@ -136,13 +128,6 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
         //Do anything?
     }];
 }
-
-#if STUBS_FLAG
-- (void)setupStubs {
-
-    [LEOStubs setupConversationStubWithID:[SessionUser currentUser].familyID];
-}
-#endif
 
 - (void)setupNavigationBar {
 

@@ -1,6 +1,11 @@
     upcoming:
-      - No changes. Test build for provisioning.
     releases:
+    - version: 1.0.0
+      build: 2016.03.08.10.51
+      date: March 08 2016
+      notes:
+      - No changes. Test build for provisioning.
+    
     - version: 1.0.0
       build: 2016.03.08.00.10
       date: March 08 2016
@@ -255,6 +260,7 @@
       notes:
       - First test build using new Fastfile configuration for Alpha builds
       - Provides the basic functionality all created prior to our first releases
+
 
 
 

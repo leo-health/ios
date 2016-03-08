@@ -1,0 +1,25 @@
+//
+//  Staging.xcconfig
+//  Leo
+//
+//  Created by Zachary Drossman on 3/8/16.
+//  Copyright © 2016 Leo Health. All rights reserved.
+//
+
+#include "DeveloperCodeSigning.xcconfig"
+#include "SharedApplication.xcconfig"
+#include "SharedInternal.xcconfig"
+#include "Pods/Target Support Files/Pods-Leo/Pods-Leo.staging.xcconfig"
+
+
+API_URL =   api-dev.leohealth.com
+PROVIDER_URL = provider-dev.leohealth.com
+API_VERSION = api/v1
+API_PROTOCOL = https
+CONTENT_URL = leo-content.s3-website-us-east-1.amazonaws.com
+SELF_SIGNED_CERTIFICATE = *.leohealth.com
+CRITTERCISM_APP_ID = 56b8fe2913306f1000698f56
+PUSHER_KEY = c08f07973cb05aeb388f
+BUNDLE_IDENTIFIER = com.leohealth.staging-consumer
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) INTERNAL=1
+BUNDLE_DISPLAY_NAME = Leo Staging

@@ -1,0 +1,16 @@
+//
+//  TestsLocal.xcconfig
+//  Leo
+//
+//  Created by Zachary Drossman on 3/8/16.
+//  Copyright © 2016 Leo Health. All rights reserved.
+//
+
+#include "Pods/Target Support Files/Pods-LeoTests/Pods-LeoTests.local.xcconfig"
+
+ONLY_ACTIVE_ARCH = YES
+COPY_PHASE_STRIP = NO
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) INTERNAL=0
+MTL_ENABLE_DEBUG_INFO = YES
+
+BUNDLE_IDENTIFIER = com.leohealth.local-consumer
