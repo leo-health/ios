@@ -75,6 +75,7 @@ typedef NS_ENUM(NSUInteger, TableViewSection) {
 
 @interface LEOFeedTVC ()
 
+@property (strong, nonatomic) PTPusherEventBinding *pusherBinding;
 @property (nonatomic, strong) ArrayDataSource *cardsArrayDataSource;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) LEOTransitioningDelegate *transitionDelegate;
@@ -294,26 +295,30 @@ static CGFloat const kFeedInsetTop = 20.0;
     LEOPusherHelper *pusherHelper = [LEOPusherHelper sharedPusher];
 
     __weak typeof(self) weakSelf = self;
+    self.pusherBinding = [pusherHelper connectToPusherChannel:channelString
+                                                    withEvent:event
+                                                       sender:self
+                                               withCompletion:^(NSDictionary *channelData) {
 
-    [pusherHelper connectToPusherChannel:channelString
-                               withEvent:event
-                                  sender:self
-                          withCompletion:^(NSDictionary *channelData) {
+                                                   typeof(self) strongSelf = weakSelf;
 
-                              typeof(self) strongSelf = weakSelf;
+                                                   NSString *messageID = [Message extractObjectIDFromChannelData:channelData];
 
-                              NSString *messageID = [Message extractObjectIDFromChannelData:channelData];
+                                                   Conversation *conversation = [strongSelf conversation].associatedCardObject;
 
-                              Conversation *conversation = [strongSelf conversation].associatedCardObject;
+                                                   [conversation fetchMessageWithID:messageID completion:^{
 
-                              [conversation fetchMessageWithID:messageID completion:^{
-
-                                  [strongSelf.tableView reloadData];
-                              }];
-                          }];
+                                                       [strongSelf.tableView reloadData];
+                                                   }];
+                                               }];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
 
+    [super viewWillDisappear:animated];
+    NSString *channelString = [NSString stringWithFormat:@"%@",[SessionUser currentUser].objectID];
+    [[LEOPusherHelper sharedPusher] removeBinding:self.pusherBinding fromPrivateChannelWithName:channelString];
+}
 
 - (void)fetchFamilyWithCompletion:(void (^) (NSError *error))completionBlock {
 
@@ -760,9 +765,6 @@ static CGFloat const kFeedInsetTop = 20.0;
 
 - (void)loadChattingViewWithCard:(LEOCard *)card {
 
-    NSString *channelString = [NSString stringWithFormat:@"%@",[SessionUser currentUser].objectID];
-    [[LEOPusherHelper sharedPusher] unsubscribeFromPrivateChannelWithName:channelString];
-    
     UIStoryboard *conversationStoryboard = [UIStoryboard storyboardWithName:@"Conversation" bundle:nil];
     UINavigationController *conversationNavController = [conversationStoryboard instantiateInitialViewController];
     LEOMessagesViewController *messagesVC = conversationNavController.viewControllers.firstObject;

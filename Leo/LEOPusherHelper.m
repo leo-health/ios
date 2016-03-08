@@ -29,21 +29,31 @@
     return sharedHelper;
 }
 
+- (PTPusher *)client {
+    
+    if (!_client) {
+        
+        _client = [PTPusher pusherWithKey:[Configuration pusherKey] delegate:self encrypted:YES];
+        NSString *pusherAuthURLString = [NSString stringWithFormat:@"%@/%@/%@", [Configuration APIEndpointWithProtocol],[Configuration APIVersion], APIEndpointPusherAuth];
+        _client.authorizationURL = [NSURL URLWithString:pusherAuthURLString];
+        [_client connect];
+    }
 
-- (void)connectToPusherChannel:(NSString *)channel withEvent:(NSString *)event sender:(id)sender withCompletion:(void (^)(NSDictionary *channelData))completionBlock {
+    return _client;
+}
+
+- (PTPusherEventBinding *)connectToPusherChannel:(NSString *)channel withEvent:(NSString *)event sender:(id)sender withCompletion:(void (^)(NSDictionary *channelData))completionBlock {
     
     __weak id blockSender = sender;
-    __weak LEOPusherHelper *weakSelf = self;
 
-    self.client = [PTPusher pusherWithKey:[Configuration pusherKey] delegate:weakSelf encrypted:YES];
 
-    NSString *pusherAuthURLString = [NSString stringWithFormat:@"%@/%@/%@", [Configuration APIEndpointWithProtocol],[Configuration APIVersion], APIEndpointPusherAuth];
+    PTPusherChannel *chatChannel = [self privateChannelNamed:channel];
 
-    self.client.authorizationURL = [NSURL URLWithString:pusherAuthURLString];
-    
-    PTPusherPrivateChannel *chatChannel = [self.client subscribeToPrivateChannelNamed:channel];
+    if (!chatChannel) {
+        chatChannel = [self.client subscribeToPrivateChannelNamed:channel];
+    }
 
-    [chatChannel bindToEventNamed:event handleWithBlock:^(PTPusherEvent *channelEvent) {
+    return [chatChannel bindToEventNamed:event handleWithBlock:^(PTPusherEvent *channelEvent) {
 
         NSLog(@"pusher activated by: %@", blockSender);
         
@@ -51,8 +61,6 @@
             completionBlock(channelEvent.data);
         }
     }];
-    
-    [self.client connect];
 }
 
 - (void)pusher:(PTPusher *)pusher willAuthorizeChannel:(PTPusherChannel *)channel withRequest:(NSMutableURLRequest *)request
@@ -67,12 +75,26 @@
     request.HTTPBody = [bodyString dataUsingEncoding:NSUTF8StringEncoding];
 }
 
-- (void)unsubscribeFromPrivateChannelWithName:(NSString *)channelName {
-
+- (PTPusherChannel *)privateChannelNamed:(NSString *)channelName {
     NSString *privateChannelName = [NSString stringWithFormat:@"private-%@",channelName];
-    PTPusherChannel *chatChannel = [self.client channelNamed:privateChannelName];
-    [chatChannel unsubscribe];
+    return [self.client channelNamed:privateChannelName];
 }
+
+- (void)removeBinding:(PTPusherEventBinding *)binding fromPrivateChannelWithName:(NSString *)channelName {
+
+    [[self privateChannelNamed:channelName] removeBinding:binding];
+}
+
+//- (void)unsubscribeFromPrivateChannelWithName:(NSString *)channelName {
+//
+//    [self unsubscribeFromChannelWithName:privateChannelName];
+//}
+//
+//- (void)unsubscribeFromChannelWithName:(NSString *)channelName {
+//
+//    PTPusherChannel *chatChannel = [self.client channelNamed:channelName];
+//    [chatChannel unsubscribe];
+//}
 
 //TODO: At some point, we're going to want to implement something like this per the docs to ensure we are dealing with failures to connect.
 
