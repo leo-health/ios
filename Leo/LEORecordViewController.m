@@ -140,9 +140,6 @@ NS_ENUM(NSInteger, TableViewRow) {
                 self.notes = [notes mutableCopy];
 
                 [self.tableView reloadData];
-//                [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:TableViewSectionNotes] withRowAnimation:UITableViewRowAnimationFade];
-//                [self.view setNeedsLayout];
-//                [self.view layoutIfNeeded];
             }
 
             if (readyToHideHUD) {
