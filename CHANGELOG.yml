@@ -1,7 +1,13 @@
     upcoming:
-    - Supports internal schemes for multiple apps
 
     releases:
+    - version: 1.0.0
+      build: 2016.03.08.10.51
+      date: March 08 2016
+      notes:
+      - Supports internal schemes for multiple apps
+      - Note - Build number did not change
+
     - version: 1.0.0
       build: 2016.03.08.10.51
       date: March 08 2016
