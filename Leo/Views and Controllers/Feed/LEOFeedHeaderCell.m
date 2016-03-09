@@ -17,11 +17,11 @@
     self.backgroundColor = [UIColor leo_orangeRed];
 
     self.messageTextView.editable = NO;
-    self.messageTextView.selectable = NO;
+    self.messageTextView.selectable = YES;
     self.messageTextView.dataDetectorTypes = UIDataDetectorTypeLink;
     self.messageTextView.textAlignment = NSTextAlignmentCenter;
     self.messageTextView.scrollEnabled = NO;
-
+    self.messageTextView.linkTextAttributes = @{NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle)};  
     self.selectionStyle = UITableViewCellSelectionStyleNone;
 }
 
