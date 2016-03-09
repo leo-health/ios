@@ -2125,6 +2125,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "65e3f751-f893-4663-a6fe-591388084505";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Leo.app/Leo";
 			};
 			name = Staging;
@@ -2168,6 +2169,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "4e985520-4df4-49c4-b7ed-915aafba9b7e";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Leo.app/Leo";
 			};
 			name = QA;
@@ -2209,6 +2211,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "d5f8c1f5-4106-47aa-b11d-060c2590fd8d";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Leo.app/Leo";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -2232,6 +2235,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = $BUNDLE_IDENTIFIER;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "6fd945c0-974b-4ba6-8cd4-f232b09d7c3f";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Leo.app/Leo";
 			};
 			name = Development;
@@ -2273,6 +2277,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "4d3e62b3-2386-4cb0-83de-dec046d8f86f";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Leo.app/Leo";
 				VALIDATE_PRODUCT = YES;
 			};
