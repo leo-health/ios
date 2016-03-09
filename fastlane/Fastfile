@@ -35,9 +35,14 @@ before_all do
 
 end
 
-lane :development do |options|
+lane :internal do |options|
 
+      scheme = options[:scheme]
       bump_type = options[:bump_type];
+
+      if !scheme
+        scheme = "Development"
+      end
 
       version = get_version_number(xcodeproj: "Leo.xcodeproj")
 
@@ -86,24 +91,23 @@ lane :development do |options|
 
     # Ensure we have the mobile provisioning profiles
     sigh(
-      provisioning_name: "com.leohealth.dev-consumer.distribution",
       output_path: "./fastlane_build",
       filename: "com.leohealth.leo.internal.mobileprovision"
     )
 
     # Build and sign app
     gym(
-      scheme: "Leo Development",
+      scheme: "Leo #{scheme}",
       workspace: "Leo.xcworkspace",
       output_directory: "./fastlane_build",
-      output_name: "Leo-Development.ipa",
+      output_name: "Leo-#{scheme}.ipa",
       include_symbols: true,
       clean: true
     )
 
     # Push our build to iTunesConnect
     pilot(
-      ipa: "./fastlane_build/Leo-Development.ipa",
+      ipa: "./fastlane_build/Leo-#{scheme}.ipa",
       skip_submission: true
     )
 
@@ -200,7 +204,7 @@ lane :development do |options|
     clean_build_artifacts
 
     # Tag release and push to Github
-    commit_version_bump message: "Deploying version #{version}.#{build_number}.", force: true
+    commit_version_bump message: "Deploying version #{version}.", force: true
     add_git_tag(
       grouping: 'fastlane-builds',
       prefix: 'v',
