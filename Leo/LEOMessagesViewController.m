@@ -69,6 +69,7 @@
 @property (strong, nonatomic) UIActivityIndicatorView *sendingIndicator;
 @property (strong, nonatomic) LEOImageCropViewControllerDataSource *cropDataSource;
 @property (strong, nonatomic) NSMutableArray *notificationObservers;
+@property (strong, nonatomic) PTPusherEventBinding *pusherBinding;
 
 @end
 
@@ -241,6 +242,8 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
 - (void)dealloc {
 
+    NSString *channelString = [NSString stringWithFormat:@"%@",[SessionUser currentUser].objectID];
+    [[LEOPusherHelper sharedPusher] removeBinding:self.pusherBinding fromPrivateChannelWithName:channelString];
     [self removeObservers];
 }
 
@@ -301,23 +304,27 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
     NSString *channelString = [NSString stringWithFormat:@"%@",[SessionUser currentUser].objectID];
     NSString *event = @"new_message";
 
+    // Need to use weak self here because the PTPusher object holds on to this binding with a strong reference. Must also remove the binding on dealloc
     __weak typeof(self) weakSelf = self;
     LEOPusherHelper *pusherHelper = [LEOPusherHelper sharedPusher];
-    [pusherHelper connectToPusherChannel:channelString withEvent:event sender:self withCompletion:^(NSDictionary *channelData) {
 
-        typeof(self) strongSelf = weakSelf;
+    self.pusherBinding = [pusherHelper connectToPusherChannel:channelString withEvent:event sender:self withCompletion:^(NSDictionary *channelData) {
+
+        __strong typeof(self) strongSelf = weakSelf;
 
         NSString *messageID = [Message extractObjectIDFromChannelData:channelData];
 
+        __weak typeof(strongSelf) weakSelfNested = strongSelf;
         [[strongSelf conversation] fetchMessageWithID:messageID completion:^{
 
-            Message *message = [self conversation].messages.lastObject;
+            __strong typeof(strongSelf) strongSelfNested = weakSelfNested;
+            Message *message = [strongSelfNested conversation].messages.lastObject;
 
-            NSInteger messageIndex = [self indexOfMessage:message];
+            NSInteger messageIndex = [strongSelfNested indexOfMessage:message];
 
             NSIndexPath *indexPath = [NSIndexPath indexPathForRow:messageIndex inSection:0];
 
-            [self addMessageNotificationForMessage:message atIndexPath:indexPath];
+            [strongSelfNested addMessageNotificationForMessage:message atIndexPath:indexPath];
 
             strongSelf.offset++;
         }];
@@ -630,7 +637,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
     
     id observer = [[NSNotificationCenter defaultCenter] addObserverForName:kNotificationDownloadedImageUpdated object:message.sender.avatar queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull notification) {
 
-        typeof(self) strongSelf = weakSelf;
+        __strong typeof(self) strongSelf = weakSelf;
 
         JSQMessagesAvatarImage *avatarImage = [strongSelf createAvatarImageForUser:message.sender];
 
@@ -1121,36 +1128,38 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
         MessageImage *messageImage = (MessageImage *)message;
 
-    //MARK: The following notifications technically have the same implementation but result from different events. For the time-being, I'd prefer we kept them separate to remind us that two different things are happening. However, if we don't eventually see a real difference between these, we may choose to combine their implementations.
+        //MARK: The following notifications technically have the same implementation but result from different events. For the time-being, I'd prefer we kept them separate to remind us that two different things are happening. However, if we don't eventually see a real difference between these, we may choose to combine their implementations.
 
-    //Notification for downloading an image from the server
-    id observerDownload = [[NSNotificationCenter defaultCenter] addObserverForName:kNotificationDownloadedImageUpdated object:messageImage.s3Image queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull notification) {
+        //Notification for downloading an image from the server
+        __weak typeof(self) weakSelf = self;
+        id observerDownload = [[NSNotificationCenter defaultCenter] addObserverForName:kNotificationDownloadedImageUpdated object:messageImage.s3Image queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull notification) {
+            __strong typeof(self) strongSelf = weakSelf;
+            JSQPhotoMediaItem *photoMediaItem = (JSQPhotoMediaItem *)messageImage.media;
+            photoMediaItem.image = messageImage.s3Image.image;
 
-        JSQPhotoMediaItem *photoMediaItem = (JSQPhotoMediaItem *)messageImage.media;
-        photoMediaItem.image = messageImage.s3Image.image;
+            dispatch_async(dispatch_get_main_queue(), ^{
 
-        dispatch_async(dispatch_get_main_queue(), ^{
+                [strongSelf.collectionView.collectionViewLayout invalidateLayout];
+                [strongSelf.collectionView reloadItemsAtIndexPaths:@[indexPath]];
+            });
+        }];
 
-            [self.collectionView.collectionViewLayout invalidateLayout];
-            [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
-        });
-    }];
+        //Notification for any local image update
+        id observerChanged = [[NSNotificationCenter defaultCenter] addObserverForName:kNotificationImageChanged object:messageImage.s3Image queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull notification) {
 
-    //Notification for any local image update
-    id observerChanged = [[NSNotificationCenter defaultCenter] addObserverForName:kNotificationImageChanged object:messageImage.s3Image queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull notification) {
+            __strong typeof(self) strongSelf = weakSelf;
+            JSQPhotoMediaItem *photoMediaItem = (JSQPhotoMediaItem *)messageImage.media;
+            photoMediaItem.image = messageImage.s3Image.image;
 
-        JSQPhotoMediaItem *photoMediaItem = (JSQPhotoMediaItem *)messageImage.media;
-        photoMediaItem.image = messageImage.s3Image.image;
+            dispatch_async(dispatch_get_main_queue(), ^{
 
-        dispatch_async(dispatch_get_main_queue(), ^{
-
-            [self.collectionView.collectionViewLayout invalidateLayout];
-            [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
-        });
-
-    }];
-
-    [self.notificationObservers addObjectsFromArray:@[observerDownload, observerChanged]];
+                [strongSelf.collectionView.collectionViewLayout invalidateLayout];
+                [strongSelf.collectionView reloadItemsAtIndexPaths:@[indexPath]];
+            });
+            
+        }];
+        
+        [self.notificationObservers addObjectsFromArray:@[observerDownload, observerChanged]];
     }
 }
 

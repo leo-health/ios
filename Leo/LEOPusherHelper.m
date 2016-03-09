@@ -29,21 +29,31 @@
     return sharedHelper;
 }
 
+- (PTPusher *)client {
+    
+    if (!_client) {
+        
+        _client = [PTPusher pusherWithKey:[Configuration pusherKey] delegate:self encrypted:YES];
+        NSString *pusherAuthURLString = [NSString stringWithFormat:@"%@/%@/%@", [Configuration APIEndpointWithProtocol],[Configuration APIVersion], APIEndpointPusherAuth];
+        _client.authorizationURL = [NSURL URLWithString:pusherAuthURLString];
+        [_client connect];
+    }
 
-- (void)connectToPusherChannel:(NSString *)channel withEvent:(NSString *)event sender:(id)sender withCompletion:(void (^)(NSDictionary *channelData))completionBlock {
+    return _client;
+}
+
+- (PTPusherEventBinding *)connectToPusherChannel:(NSString *)channel withEvent:(NSString *)event sender:(id)sender withCompletion:(void (^)(NSDictionary *channelData))completionBlock {
     
     __weak id blockSender = sender;
-    __weak LEOPusherHelper *weakSelf = self;
 
-    self.client = [PTPusher pusherWithKey:[Configuration pusherKey] delegate:weakSelf encrypted:YES];
 
-    NSString *pusherAuthURLString = [NSString stringWithFormat:@"%@/%@/%@", [Configuration APIEndpointWithProtocol],[Configuration APIVersion], APIEndpointPusherAuth];
+    PTPusherPrivateChannel *chatChannel = [self privateChannelNamed:channel];
 
-    self.client.authorizationURL = [NSURL URLWithString:pusherAuthURLString];
-    
-    PTPusherPrivateChannel *chatChannel = [self.client subscribeToPrivateChannelNamed:channel];
+    if (!chatChannel) {
+        chatChannel = [self.client subscribeToPrivateChannelNamed:channel];
+    }
 
-    [chatChannel bindToEventNamed:event handleWithBlock:^(PTPusherEvent *channelEvent) {
+    return [chatChannel bindToEventNamed:event handleWithBlock:^(PTPusherEvent *channelEvent) {
 
         NSLog(@"pusher activated by: %@", blockSender);
         
@@ -51,8 +61,6 @@
             completionBlock(channelEvent.data);
         }
     }];
-    
-    [self.client connect];
 }
 
 - (void)pusher:(PTPusher *)pusher willAuthorizeChannel:(PTPusherChannel *)channel withRequest:(NSMutableURLRequest *)request
@@ -67,66 +75,15 @@
     request.HTTPBody = [bodyString dataUsingEncoding:NSUTF8StringEncoding];
 }
 
-- (void)unsubscribeFromPrivateChannelWithName:(NSString *)channelName {
-
+- (PTPusherPrivateChannel *)privateChannelNamed:(NSString *)channelName {
     NSString *privateChannelName = [NSString stringWithFormat:@"private-%@",channelName];
-    PTPusherChannel *chatChannel = [self.client channelNamed:privateChannelName];
-    [chatChannel unsubscribe];
+    return (PTPusherPrivateChannel *)[self.client channelNamed:privateChannelName];
 }
 
-//TODO: At some point, we're going to want to implement something like this per the docs to ensure we are dealing with failures to connect.
+- (void)removeBinding:(PTPusherEventBinding *)binding fromPrivateChannelWithName:(NSString *)channelName {
 
-//- (void)pusher:(PTPusher *)pusher connection:(PTPusherConnection *)connection failedWithError:(NSError *)error
-//{
-//    [self handleDisconnectionWithError:error];
-//}
-//
-//- (void)pusher:(PTPusher *)pusher connection:(PTPusherConnection *)connection didDisconnectWithError:(NSError *)error willAttemptReconnect:(BOOL)willAttemptReconnect
-//{
-//    if (!willAttemptReconnect) {
-//        [self handleDisconnectionWithError:error];
-//    }
-//}
-//
-//- (void)handleDisconnectionWithError:(NSError *)error
-//{
-//    Reachability *reachability = [Reachability reachabilityWithHostname:self.client.connection.URL.host];
-//    
-//    if (error && [error.domain isEqualToString:PTPusherFatalErrorDomain]) {
-//        NSLog(@"FATAL PUSHER ERROR, COULD NOT CONNECT! %@", error);
-//    }
-//    else {
-//        if ([reachability isReachable]) {
-//            // we do have reachability so let's wait for a set delay before trying again
-//            [self.client performSelector:@selector(connect) withObject:nil afterDelay:5];
-//        }
-//        else {
-//            // we need to wait for reachability to change
-//            [[NSNotificationCenter defaultCenter] addObserver:self
-//                                                     selector:@selector(_reachabilityChanged:)
-//                                                         name:kReachabilityChangedNotification
-//                                                       object:reachability];
-//            
-//            [reachability startNotifier];
-//        }
-//    }
-//}
-//
-//- (void)_reachabilityChanged:(NSNotification *note)
-//{
-//    Reachability *reachability = [note object];
-//    
-//    if ([reachability isReachable]) {
-//        // we're reachable, we can try and reconnect, otherwise keep waiting
-//        [self.client connect];
-//        
-//        // stop watching for reachability changes
-//        [reachability stopNotifier];
-//        
-//        [[NSNotificationCenter defaultCenter]
-//         removeObserver:self
-//         name:kReachabilityChangedNotification
-//         object:reachability];
-//    }
-//}
+    [[self privateChannelNamed:channelName] removeBinding:binding];
+}
+
+
 @end

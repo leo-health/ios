@@ -12,7 +12,8 @@
 @interface LEOPusherHelper : NSObject <PTPusherDelegate>
 
 + (instancetype)sharedPusher;
-- (void)connectToPusherChannel:(NSString *)channel withEvent:(NSString *)event sender:(id)sender withCompletion:(void (^)(NSDictionary *channelData))completionBlock;
-- (void)unsubscribeFromPrivateChannelWithName:(NSString *)channelName;
+- (PTPusherEventBinding *)connectToPusherChannel:(NSString *)channel withEvent:(NSString *)event sender:(id)sender withCompletion:(void (^)(NSDictionary *channelData))completionBlock;\
+- (void)removeBinding:(PTPusherEventBinding *)binding fromPrivateChannelWithName:(NSString *)channelName;
+
 
 @end
