@@ -98,7 +98,6 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
     [self setupRequiredMessagingProperties];
     [self setupPusher];
     [self constructNotifications];
-    [self setupMessageNotificationsForMessages:[self conversation].messages];
     [LEOStyleHelper roundCornersForView:self.navigationController.view withCornerRadius:kCornerRadius];
 }
 
@@ -318,15 +317,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
         [[strongSelf conversation] fetchMessageWithID:messageID completion:^{
 
             __strong typeof(strongSelf) strongSelfNested = weakSelfNested;
-            Message *message = [strongSelfNested conversation].messages.lastObject;
-
-            NSInteger messageIndex = [strongSelfNested indexOfMessage:message];
-
-            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:messageIndex inSection:0];
-
-            [strongSelfNested addMessageNotificationForMessage:message atIndexPath:indexPath];
-
-            strongSelf.offset++;
+            strongSelfNested.offset++;
         }];
     }];
 }
@@ -872,6 +863,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
 //TODO: Refactor this method ideally
 - (UICollectionViewCell *)collectionView:(JSQMessagesCollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+
     /**
      *  Override point for customizing cells
      */
@@ -942,7 +934,9 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
         JSQPhotoMediaItem *photoMediaItem = (JSQPhotoMediaItem *)messageImage.media;
 
         if (!photoMediaItem.image) {
-                photoMediaItem.image = messageImage.s3Image.image;
+
+            [self addMessageNotificationForMessage:messageImage atIndexPath:indexPath];
+            photoMediaItem.image = messageImage.s3Image.image;
         }
     }
 
@@ -1096,29 +1090,12 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
         }
 
         /**
-         *  Ensure all messages added are associated with notifications in case they are MessageImage objects
-         */
-        [self setupMessageNotificationsForMessages:messages];
-
-        /**
          *  Add the messages to the conversation object itself
          */
         [[self conversation] addMessages:messages];
 
         [self collectionView:collectionView avoidFlickerInAnimationWhenInsertingIndexPaths:indexPaths];
     }];
-}
-
-
-- (void)setupMessageNotificationsForMessages:(NSArray *)messages {
-
-    for (NSInteger i = 0; i < messages.count; i++) {
-
-        Message *message = messages[i];
-
-        NSIndexPath *indexPath = [NSIndexPath indexPathForItem:i inSection:0];
-        [self addMessageNotificationForMessage:message atIndexPath:indexPath];
-    }
 }
 
 - (void)addMessageNotificationForMessage:(Message *)message atIndexPath:(NSIndexPath *)indexPath {
@@ -1133,6 +1110,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
         //Notification for downloading an image from the server
         __weak typeof(self) weakSelf = self;
         id observerDownload = [[NSNotificationCenter defaultCenter] addObserverForName:kNotificationDownloadedImageUpdated object:messageImage.s3Image queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull notification) {
+
             __strong typeof(self) strongSelf = weakSelf;
             JSQPhotoMediaItem *photoMediaItem = (JSQPhotoMediaItem *)messageImage.media;
             photoMediaItem.image = messageImage.s3Image.image;
@@ -1156,9 +1134,9 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
                 [strongSelf.collectionView.collectionViewLayout invalidateLayout];
                 [strongSelf.collectionView reloadItemsAtIndexPaths:@[indexPath]];
             });
-            
+
         }];
-        
+
         [self.notificationObservers addObjectsFromArray:@[observerDownload, observerChanged]];
     }
 }
