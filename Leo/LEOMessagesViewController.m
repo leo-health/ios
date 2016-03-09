@@ -319,6 +319,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
     NSString *channelString = [NSString stringWithFormat:@"%@",[SessionUser currentUser].objectID];
     NSString *event = @"new_message";
 
+    // Need to use weak self here because the PTPusher object holds on to this binding with a strong reference. Must also remove the binding on dealloc
     __weak typeof(self) weakSelf = self;
     LEOPusherHelper *pusherHelper = [LEOPusherHelper sharedPusher];
 
