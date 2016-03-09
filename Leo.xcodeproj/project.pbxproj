@@ -321,7 +321,7 @@
 		3126E5A81C8F62B80047189C /* TestsTestflight.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = TestsTestflight.xcconfig; path = xcconfig/TestsTestflight.xcconfig; sourceTree = "<group>"; };
 		3126E5A91C8F62C60047189C /* TestsStaging.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = TestsStaging.xcconfig; path = xcconfig/TestsStaging.xcconfig; sourceTree = "<group>"; };
 		3126E5AA1C8F62E60047189C /* TestsQA.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = TestsQA.xcconfig; path = xcconfig/TestsQA.xcconfig; sourceTree = "<group>"; };
-		3126E5AB1C8F62F60047189C /* TestsDevelopment.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = TestsDevelopment.xcconfig; sourceTree = "<group>"; };
+		3126E5AB1C8F62F60047189C /* TestsDevelopment.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = TestsDevelopment.xcconfig; path = xcconfig/TestsDevelopment.xcconfig; sourceTree = "<group>"; };
 		3126E5AC1C8F63040047189C /* TestsLocal.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = TestsLocal.xcconfig; path = xcconfig/TestsLocal.xcconfig; sourceTree = "<group>"; };
 		3128D4E51B430F0200582710 /* LEOFeedCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LEOFeedCell.xib; path = "Cell Layouts/LEOFeedCell.xib"; sourceTree = "<group>"; };
 		3128D4ED1B4313D000582710 /* LEOFeedCell+ConfigureForCard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "LEOFeedCell+ConfigureForCard.h"; path = "Cell Layouts/LEOFeedCell+ConfigureForCard.h"; sourceTree = "<group>"; };
@@ -661,7 +661,7 @@
 		6677AE3B1C61689D002CA27C /* LEOSwipeArrowsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOSwipeArrowsView.h; sourceTree = "<group>"; };
 		6677AE3C1C61689D002CA27C /* LEOSwipeArrowsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOSwipeArrowsView.m; sourceTree = "<group>"; };
 		6677AE3E1C62B71F002CA27C /* LEOLoggedOutLoginCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LEOLoggedOutLoginCell.xib; sourceTree = "<group>"; };
-		6684A24A1C34497500C41D6F /* DeveloperCodeSigning.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = DeveloperCodeSigning.xcconfig; sourceTree = "<group>"; };
+		6684A24A1C34497500C41D6F /* DeveloperCodeSigning.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = DeveloperCodeSigning.xcconfig; path = xcconfig/DeveloperCodeSigning.xcconfig; sourceTree = "<group>"; };
 		66A5DB251C3D95FD008AEC55 /* HealthRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HealthRecord.h; path = Leo/HealthRecord.h; sourceTree = SOURCE_ROOT; };
 		66A5DB261C3D95FD008AEC55 /* HealthRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HealthRecord.m; path = Leo/HealthRecord.m; sourceTree = SOURCE_ROOT; };
 		66A5DB281C3D964C008AEC55 /* Allergy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Allergy.h; path = Leo/Allergy.h; sourceTree = SOURCE_ROOT; };
@@ -2238,7 +2238,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = $BUNDLE_IDENTIFIER;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "7d31869f-9f50-46ac-8642-132d485c4c03";
+				PROVISIONING_PROFILE = "6fd945c0-974b-4ba6-8cd4-f232b09d7c3f";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Leo.app/Leo";
 			};
 			name = Development;
@@ -2281,7 +2281,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "4d3e62b3-2386-4cb0-83de-dec046d8f86f";
+				PROVISIONING_PROFILE = "d5f8c1f5-4106-47aa-b11d-060c2590fd8d";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Leo.app/Leo";
 				VALIDATE_PRODUCT = YES;
 			};
