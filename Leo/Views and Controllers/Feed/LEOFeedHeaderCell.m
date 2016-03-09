@@ -21,7 +21,7 @@
     self.messageTextView.dataDetectorTypes = UIDataDetectorTypeLink;
     self.messageTextView.textAlignment = NSTextAlignmentCenter;
     self.messageTextView.scrollEnabled = NO;
-
+    self.messageTextView.linkTextAttributes = @{NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle)};  
     self.selectionStyle = UITableViewCellSelectionStyleNone;
 }
 
