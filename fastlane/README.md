@@ -15,11 +15,11 @@ Installs xcode plugin FixCode to prevent xcode from automatically 'Fixing issues
 ----
 
 ## iOS
-### ios alpha
+### ios internal
 ```
-fastlane ios alpha
+fastlane ios internal
 ```
-Submit a new alpha version to TestFlight
+Submit a new development version for internal testing
 
 This action does the following:
 

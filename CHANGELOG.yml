@@ -1,7 +1,11 @@
     upcoming:
-    - No changes. Testflight build.
-
     releases:
+    - version: 1.0.0
+      build: 2016.03.09.16.04
+      date: March 09 2016
+      notes:
+      - No changes. Testflight build.
+    
     - version: 1.0.0
       build: 2016.03.09.15.33
       date: March 09 2016
@@ -276,6 +280,7 @@
       notes:
       - First test build using new Fastfile configuration for Alpha builds
       - Provides the basic functionality all created prior to our first releases
+
 
 
 
