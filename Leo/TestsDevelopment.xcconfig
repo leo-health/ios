@@ -10,3 +10,5 @@
 #include "Pods/Target Support Files/Pods-LeoTests/Pods-LeoTests.development.xcconfig"
 
 BUNDLE_IDENTIFIER = com.leohealth.dev-consumer
+BUNDLE_DISPLAY_NAME = Leo Dev
+PROVISIONING_PROFILE = 6aca7843-ca60-4a21-8b31-6e0a64592ccd
