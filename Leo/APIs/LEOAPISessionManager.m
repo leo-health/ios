@@ -49,9 +49,6 @@
 
 - (NSURLSessionDataTask *)standardGETRequestForJSONDictionaryFromAPIWithEndpoint:(NSString *)urlString params:(NSDictionary *)params completion:(void (^)(NSDictionary *rawResults, NSError *error))completionBlock {
     
-    __block NSString *urlStringBlock = [urlString copy];
-    __block NSDictionary *paramsBlock = params;
-    
     if (!params) {
         params = [[NSDictionary alloc] init];
     }
@@ -77,14 +74,12 @@
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)task.response;
 
         if (httpResponse.statusCode == 401) {
-            
+
             [SessionUser logout];
         }
 
         [self formattedErrorFromError:&error];
 
-        NSLog(@"%@",paramsBlock);
-        NSLog(@"%@",urlStringBlock);
         NSLog(@"Fail: %@",error.userInfo);
         dispatch_async(dispatch_get_main_queue(), ^{
             completionBlock(nil, error);

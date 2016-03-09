@@ -13,7 +13,6 @@
 @interface LEOPHRTableViewCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UILabel *recordTitleLabel;
-@property (weak, nonatomic) IBOutlet UILabel *recordTitleDetailLabel;
 @property (weak, nonatomic) IBOutlet UILabel *recordMainDetailLabel;
 @property (weak, nonatomic) IBOutlet UILabel *recordSideLabel;
 

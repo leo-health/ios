@@ -37,11 +37,6 @@
     self.recordMainDetailLabel.numberOfLines = 0;
     self.recordMainDetailLabel.lineBreakMode = NSLineBreakByWordWrapping;
 
-    self.recordTitleDetailLabel.font = [UIFont leo_standardFont];
-    self.recordTitleDetailLabel.textColor = [UIColor leo_grayStandard];
-    self.recordTitleDetailLabel.numberOfLines = 0;
-    self.recordTitleDetailLabel.lineBreakMode = NSLineBreakByWordWrapping;
-
     self.selectionStyle = UITableViewCellSelectionStyleNone;
 }
 
@@ -60,7 +55,6 @@
     }
 
     self.recordSideLabel.text = nil;
-    self.recordTitleDetailLabel.text = nil;
 }
 
 - (void)configureCellForEmptySectionWithMessage:(NSString *)message {
@@ -68,12 +62,10 @@
     self.recordTitleLabel.text = nil;
     self.recordSideLabel.text = nil;
     self.recordMainDetailLabel.text = message;
-    self.recordTitleDetailLabel.text = nil;
 }
 
 - (void)prepareForReuse {
 
-    self.recordTitleDetailLabel.text = @"";
     self.recordSideLabel.text = @"";
     self.recordTitleLabel.text = @"";
     self.recordMainDetailLabel.text = @"";
@@ -84,7 +76,6 @@
     self.recordTitleLabel.text = allergy.allergen;
     self.recordSideLabel.text = allergy.severity;
     self.recordMainDetailLabel.text = allergy.note;
-    self.recordTitleDetailLabel.text = nil;
 }
 
 - (void)configureCellWithMedication:(Medication *)medication {
@@ -92,14 +83,12 @@
     self.recordTitleLabel.text = medication.medication;
     self.recordSideLabel.text = nil;
     self.recordMainDetailLabel.text = medication.sig;
-    self.recordTitleDetailLabel.text = nil;
 }
 
 - (void)configureCellWithImmunization:(Immunization *)immunization {
 
     self.recordTitleLabel.text = immunization.vaccine;
     self.recordMainDetailLabel.text = nil;
-    self.recordTitleDetailLabel.text = nil;
     // TODO: date formatting
     self.recordSideLabel.text = [NSDate leo_stringifiedDate:immunization.administeredAt withFormat:@"M/d/YY"];
 }
@@ -108,13 +97,13 @@
 
     self.recordMainDetailLabel.text = note.text;
     self.recordTitleLabel.text = nil;
-    self.recordTitleLabel.text = nil;
     self.recordSideLabel.text = nil;
 }
 
 - (void)configureCellForEmptyRecordWithPatient:(Patient *)patient {
 
     self.recordTitleLabel.text = nil;
+    self.recordSideLabel.text = nil;
 
     //TODO: Make gender pronouns come from a helper so that they are available for reuse based on gender
     //TODO: Make gender in patient a typedef in order to avoid hard coding these strings going forward
