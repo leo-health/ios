@@ -63,7 +63,7 @@
     [submitButton leo_styleDisabledState];
 
     [submitButton setTitle:@"SUBMIT" forState:UIControlStateNormal];
-    [LEOStyleHelper styleSubmissionButton:submitButton forFeature:FeatureOnboarding];
+    [LEOStyleHelper styleButton:submitButton forFeature:FeatureOnboarding];
 }
 
 

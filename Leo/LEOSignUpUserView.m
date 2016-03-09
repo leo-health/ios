@@ -8,6 +8,8 @@
 
 #import "LEOSignUpUserView.h"
 #import "UIView+Extensions.h"
+#import "UIButton+Extensions.h"
+#import "LEOStyleHelper.h"
 #import "Guardian.h"
 #import "LEOValidationsHelper.h"
 
@@ -63,6 +65,7 @@ IB_DESIGNABLE
 
     _firstNamePromptField.textField.standardPlaceholder = @"first name";
     _firstNamePromptField.textField.validationPlaceholder = @"please enter your first name";
+    _firstNamePromptField.textField.returnKeyType = UIReturnKeyNext;
     _firstNamePromptField.textField.delegate = self;
 }
 
@@ -72,6 +75,7 @@ IB_DESIGNABLE
 
     _lastNamePromptField.textField.standardPlaceholder = @"last name";
     _lastNamePromptField.textField.validationPlaceholder = @"please enter your last name";
+    _lastNamePromptField.textField.returnKeyType = UIReturnKeyNext;
     _lastNamePromptField.textField.delegate = self;
 }
 
@@ -95,6 +99,12 @@ IB_DESIGNABLE
     _insurerPromptField.accessoryImageViewVisible = YES;
     _insurerPromptField.accessoryImage = [UIImage imageNamed:@"Icon-ForwardArrow"];
     _insurerPromptField.textField.delegate = self;
+}
+
+- (void)setContinueButton:(UIButton *)continueButton {
+
+    _continueButton = continueButton;
+    [LEOStyleHelper styleButton:_continueButton forFeature:FeatureOnboarding];
 }
 
 -(Guardian *)guardian {
@@ -141,6 +151,17 @@ IB_DESIGNABLE
     self.insurerPromptField.valid = [LEOValidationsHelper isValidInsurer:self.insurerPromptField.textField.text];
 
     return self.phoneNumberPromptField.valid && self.firstNamePromptField.valid && self.lastNamePromptField.valid && self.insurerPromptField.valid;
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+
+    if (textField == self.firstNamePromptField.textField) {
+        [self.lastNamePromptField.textField becomeFirstResponder];
+    }
+    else if (textField == self.lastNamePromptField.textField) {
+        [self.phoneNumberPromptField.textField becomeFirstResponder];
+    }
+    return NO;
 }
 
 #pragma mark - <UITextFieldDelegate>

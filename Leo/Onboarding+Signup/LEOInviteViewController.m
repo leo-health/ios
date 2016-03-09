@@ -10,6 +10,7 @@
 #import "LEOStyleHelper.h"
 #import "LEOValidationsHelper.h"
 #import "LEOInviteView.h"
+#import "LEOPromptField.h"
 #import "LEOUserService.h"
 #import "User.h"    
 #import <MBProgressHUD/MBProgressHUD.h>
@@ -60,6 +61,10 @@ static NSString * const kCopyHeaderInviteParent = @"Invite another parent to Leo
 -(void)viewDidAppear:(BOOL)animated {
 
     [super viewDidAppear:animated];
+
+    if (self.feature == FeatureOnboarding) {
+        [self.inviteView.firstNamePromptField.textField becomeFirstResponder];
+    }
 
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:nil withOnlineBlock:nil];
 }

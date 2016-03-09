@@ -7,7 +7,6 @@
 //
 
 #import "LEOSignUpUserViewController.h"
-
 #import "UIImage+Extensions.h"
 #import "NSObject+XibAdditions.h"
 #import "UIColor+LeoColors.h"
@@ -88,8 +87,6 @@ static NSString * const kCopyHeaderSignUpUser = @"Tell us a little about yoursel
 }
 
 - (void)setupButton {
-
-    [LEOStyleHelper styleButton:self.signUpUserView.continueButton forFeature:FeatureOnboarding];
 
     [self.signUpUserView.continueButton addTarget:self action:@selector(continueTapped:) forControlEvents:UIControlEventTouchUpInside];
 }

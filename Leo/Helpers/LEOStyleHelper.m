@@ -12,7 +12,7 @@
 #import "UIImage+Extensions.h"
 #import "LEOPromptTextView.h"
 #import "CWStatusBarNotification.h"
-
+#import "UIButton+Extensions.h"
 
 @implementation LEOStyleHelper
 
@@ -206,7 +206,8 @@
 + (void)styleButton:(UIButton *)button forFeature:(Feature)feature {
 
     [self roundCornersForView:button withCornerRadius:kCornerRadius];
-    
+
+    [button leo_styleDisabledState];
     button.titleLabel.font = [UIFont leo_buttonLabelsAndTimeStampsFont];
     [button setTitleColor:[UIColor leo_white] forState:UIControlStateNormal];
     button.backgroundColor = [UIColor leo_orangeRed];

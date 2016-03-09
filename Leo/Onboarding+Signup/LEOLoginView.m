@@ -58,6 +58,7 @@
     _emailPromptField.textField.validationPlaceholder = @"Invalid email";
     _emailPromptField.textField.autocorrectionType = UITextAutocorrectionTypeNo;
     _emailPromptField.textField.keyboardType = UIKeyboardTypeEmailAddress;
+    _emailPromptField.textField.returnKeyType = UIReturnKeyNext;
     _emailPromptField.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
 }
 
@@ -68,6 +69,7 @@
     _passwordPromptField.textField.delegate = self;
     _passwordPromptField.textField.standardPlaceholder = @"password";
     _passwordPromptField.textField.validationPlaceholder = @"Password must be eight characters or more";
+    _passwordPromptField.textField.returnKeyType = UIReturnKeyDone;
     _passwordPromptField.textField.secureTextEntry = YES;
 }
 
@@ -87,6 +89,17 @@
     _forgotPasswordButton = forgotPasswordButton;
 
     [_forgotPasswordButton addTarget:nil action:@selector(forgotPasswordTapped:) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+
+    if (textField == self.emailPromptField.textField) {
+        [self.passwordPromptField.textField becomeFirstResponder];
+    }
+    else if (textField == self.passwordPromptField.textField) {
+        [self.passwordPromptField.textField resignFirstResponder];
+    }
+    return NO;
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {

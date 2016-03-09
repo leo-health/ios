@@ -26,6 +26,7 @@
 @property (nonatomic) ManagementMode managementMode;
 @property (nonatomic) Feature feature;
 
+@property (weak, nonatomic) IBOutlet LEOPromptField *firstNamePromptField;
 @property (weak, nonatomic) IBOutlet UILabel *avatarValidationLabel;
 @property (weak, nonatomic, readonly) IBOutlet UIButton *updateButton;
 @property (weak, nonatomic) IBOutlet TPKeyboardAvoidingScrollView *scrollView;

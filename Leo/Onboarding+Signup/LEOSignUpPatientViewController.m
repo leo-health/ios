@@ -62,6 +62,14 @@ static NSString *const kCopyUsePhoto = @"USE PHOTO";
 
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+
+    [super viewDidAppear:animated];
+    if (self.feature == FeatureOnboarding) {
+        [self.signUpPatientView.firstNamePromptField.textField becomeFirstResponder];
+    }
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     
     NSString *navigationTitle = [self buildNavigationTitleString];
