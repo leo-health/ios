@@ -1,8 +1,14 @@
     upcoming:
-    - New! Links in feed header
-    - Bug fixing
+    - No changes. Testflight build.
 
     releases:
+    - version: 1.0.0
+      build: 2016.03.09.15.33
+      date: March 09 2016
+      notes:
+      - New! Links in feed header
+      - Bug fixing
+
     - version: 1.0.0
       build: 2016.03.08.10.51
       date: March 08 2016
