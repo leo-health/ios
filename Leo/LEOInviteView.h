@@ -8,12 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+@class LEOPromptField;
+
 @interface LEOInviteView : UIView <UITextFieldDelegate>
 
 @property (copy, nonatomic) NSString *firstName;
 @property (copy, nonatomic) NSString *lastName;
 @property (copy, nonatomic) NSString *email;
 
+@property (weak, nonatomic) IBOutlet LEOPromptField *firstNamePromptField;
 @property (nonatomic) Feature feature;
 
 - (BOOL)isValidInvite;

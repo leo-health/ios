@@ -7,7 +7,6 @@
 //
 
 #import "LEOSignUpUserViewController.h"
-
 #import "UIImage+Extensions.h"
 #import "NSObject+XibAdditions.h"
 #import "UIColor+LeoColors.h"
@@ -80,6 +79,12 @@ static NSString * const kCopyHeaderSignUpUser = @"Tell us a little about yoursel
     self.navigationItem.titleView.hidden = percentage == 0;
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+
+    [super viewDidAppear:animated];
+    [LEOApiReachability startMonitoringForController:self withOfflineBlock:nil withOnlineBlock:nil];
+}
+
 - (void)setupNavigationBar {
 
     self.view.tintColor = [LEOStyleHelper tintColorForFeature:FeatureOnboarding];
@@ -88,8 +93,6 @@ static NSString * const kCopyHeaderSignUpUser = @"Tell us a little about yoursel
 }
 
 - (void)setupButton {
-
-    [LEOStyleHelper styleButton:self.signUpUserView.continueButton forFeature:FeatureOnboarding];
 
     [self.signUpUserView.continueButton addTarget:self action:@selector(continueTapped:) forControlEvents:UIControlEventTouchUpInside];
 }

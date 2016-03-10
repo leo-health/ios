@@ -10,6 +10,7 @@
 #import "LEOStyleHelper.h"
 #import "LEOValidationsHelper.h"
 #import "LEOInviteView.h"
+#import "LEOPromptField.h"
 #import "LEOUserService.h"
 #import "User.h"    
 #import <MBProgressHUD/MBProgressHUD.h>
@@ -57,10 +58,9 @@ static NSString * const kCopyHeaderInviteParent = @"Invite another parent to Leo
     self.navigationItem.titleView.hidden = self.feature == FeatureOnboarding && percentage == 0;
 }
 
--(void)viewDidAppear:(BOOL)animated {
+- (void)viewDidAppear:(BOOL)animated {
 
     [super viewDidAppear:animated];
-
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:nil withOnlineBlock:nil];
 }
 

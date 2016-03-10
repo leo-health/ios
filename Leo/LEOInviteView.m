@@ -17,7 +17,6 @@
 
 @interface LEOInviteView ()
 
-@property (weak, nonatomic) IBOutlet LEOPromptField *firstNamePromptField;
 @property (weak, nonatomic) IBOutlet LEOPromptField *lastNamePromptField;
 @property (weak, nonatomic) IBOutlet LEOPromptField *emailAddressPromptField;
 @property (weak, nonatomic) IBOutlet UIButton *submitButton;
@@ -37,6 +36,7 @@ IB_DESIGNABLE
     _firstNamePromptField.textField.delegate = self;
     _firstNamePromptField.textField.standardPlaceholder = @"first name";
     _firstNamePromptField.textField.validationPlaceholder = @"please enter a valid first name";
+    _firstNamePromptField.textField.returnKeyType = UIReturnKeyNext;
     [_firstNamePromptField.textField sizeToFit];
 }
 
@@ -46,6 +46,7 @@ IB_DESIGNABLE
     _lastNamePromptField.textField.delegate = self;
     _lastNamePromptField.textField.standardPlaceholder = @"last name";
     _lastNamePromptField.textField.validationPlaceholder = @"please enter a valid last name";
+    _lastNamePromptField.textField.returnKeyType = UIReturnKeyNext;
     [_lastNamePromptField sizeToFit];
 }
 
@@ -56,6 +57,9 @@ IB_DESIGNABLE
     _emailAddressPromptField.textField.standardPlaceholder = @"email";
     _emailAddressPromptField.textField.validationPlaceholder = @"please enter a valid email address";
     _emailAddressPromptField.textField.keyboardType = UIKeyboardTypeEmailAddress;
+    _emailAddressPromptField.textField.autocorrectionType = UITextAutocorrectionTypeNo;
+    _emailAddressPromptField.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    _emailAddressPromptField.textField.returnKeyType = UIReturnKeyDone;
     [_emailAddressPromptField.textField sizeToFit];
 }
 
@@ -124,6 +128,21 @@ IB_DESIGNABLE
     BOOL validEmail = [LEOValidationsHelper isValidEmail:self.email];
 
     return validFirstName && validLastName && validEmail;
+}
+
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+
+    if (textField == self.firstNamePromptField.textField) {
+        [self.lastNamePromptField.textField becomeFirstResponder];
+    }
+    else if (textField == self.lastNamePromptField.textField) {
+        [self.emailAddressPromptField.textField becomeFirstResponder];
+    }
+    else if (textField == self.emailAddressPromptField.textField) {
+        [self.emailAddressPromptField.textField resignFirstResponder];
+    }
+    return NO;
 }
 
 #pragma mark - <UITextFieldDelegate>

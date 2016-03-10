@@ -22,6 +22,7 @@
 #import "LEOStyleHelper.h"
 #import "NSObject+XibAdditions.h"
 #import "UIView+Extensions.h"
+#import <MBProgressHUD/MBProgressHUD.h>
 
 
 @interface LEOLoginViewController ()
@@ -68,10 +69,7 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
 - (void)viewDidAppear:(BOOL)animated {
 
     [super viewDidAppear:animated];
-
-    if ([self.stickyHeaderView scrollViewContentSizeSmallerThanScrollViewFrameIncludingInsets]) {
-        [self.loginView.emailPromptField.textField becomeFirstResponder];
-    }
+    [LEOApiReachability startMonitoringForController:self withOfflineBlock:nil withOnlineBlock:nil];
 }
 
 - (void)setupNavigationBar {
@@ -159,12 +157,14 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
 
         [self.view endEditing:YES];
 
-        LEOUserService *userService = [[LEOUserService alloc] init];
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 
+        LEOUserService *userService = [[LEOUserService alloc] init];
         [userService loginUserWithEmail:[self emailTextField].text
                                password:[self passwordTextField].text
                          withCompletion:^(SessionUser * user, NSError * error) {
 
+                             [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
                              if (!error) {
 
                                  // Response to successful login is handled by a @"membership-changed" notification listener in AppDelegate

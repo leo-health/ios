@@ -24,7 +24,6 @@
 @property (weak, nonatomic) IBOutlet UIView *contentView;
 @property (weak, nonatomic, readwrite) IBOutlet UIButton *updateButton;
 @property (weak, nonatomic) IBOutlet UIControl *avatarView;
-@property (weak, nonatomic) IBOutlet LEOPromptField *firstNamePromptField;
 @property (weak, nonatomic) IBOutlet LEOPromptField *lastNamePromptField;
 @property (weak, nonatomic) IBOutlet LEOPromptField *birthDatePromptField;
 @property (weak, nonatomic) IBOutlet LEOPromptField *genderPromptField;
@@ -34,7 +33,8 @@
 @implementation LEOSignUpPatientView
 
 static NSString *const kCopySubmitButtonOnboarding = @"CONTINUE";
-static NSString *const kCopySubmitButtonSettings = @"SAVE CHANGES";
+static NSString *const kCopySubmitButtonSettingsModify = @"SAVE CHANGES";
+static NSString *const kCopySubmitButtonSettingsCreate = @"SUBMIT";
 static NSString *const kAvatarCallToActionAdd = @"Add a photo of your child";
 static NSString *const kAvatarCallToActionEdit = @"Edit the photo of your child";
 
@@ -72,6 +72,7 @@ static NSString *const kPlaceholderValidationBirthDate = @"please add your child
 
     _firstNamePromptField.textField.standardPlaceholder = kPlaceholderStandardFirstName;
     _firstNamePromptField.textField.validationPlaceholder = kPlaceholderValidationFirstName;
+    _firstNamePromptField.textField.returnKeyType = UIReturnKeyNext;
     _firstNamePromptField.textField.delegate = self;
 }
 
@@ -80,6 +81,7 @@ static NSString *const kPlaceholderValidationBirthDate = @"please add your child
     _lastNamePromptField = lastNamePromptField;
     _lastNamePromptField.textField.standardPlaceholder = kPlaceholderStandardLastName;
     _lastNamePromptField.textField.validationPlaceholder = kPlaceholderValidationLastName;
+    _lastNamePromptField.textField.returnKeyType = UIReturnKeyDone;
     _lastNamePromptField.textField.delegate = self;
 }
 
@@ -127,7 +129,7 @@ static NSString *const kPlaceholderValidationBirthDate = @"please add your child
             break;
 
         case FeatureSettings:
-            submitButtonTitle = kCopySubmitButtonSettings;
+            submitButtonTitle = self.managementMode == ManagementModeCreate ? kCopySubmitButtonSettingsCreate : kCopySubmitButtonSettingsModify;
             break;
 
         default:
@@ -135,6 +137,21 @@ static NSString *const kPlaceholderValidationBirthDate = @"please add your child
             break;
     }
     [self.updateButton setTitle:submitButtonTitle forState:UIControlStateNormal];
+
+
+    switch (self.managementMode) {
+        case ManagementModeCreate:
+
+            self.avatarValidationLabel.text = kAvatarCallToActionAdd;
+            break;
+
+        case ManagementModeEdit:
+            self.avatarValidationLabel.text = self.patient.avatar.hasImagePromise ? kAvatarCallToActionEdit : kAvatarCallToActionAdd;
+            break;
+
+        case ManagementModeUndefined:
+            break;
+    }
 }
 
 - (BOOL)genderAndBirthdateEditable {
@@ -170,7 +187,7 @@ static NSString *const kPlaceholderValidationBirthDate = @"please add your child
             break;
 
         case FeatureSettings:
-            submitButtonTitle = kCopySubmitButtonSettings;
+            submitButtonTitle = self.managementMode == ManagementModeCreate ? kCopySubmitButtonSettingsCreate : kCopySubmitButtonSettingsModify;
             break;
 
         default:
@@ -228,22 +245,7 @@ static NSString *const kPlaceholderValidationBirthDate = @"please add your child
 
     _managementMode = managementMode;
 
-    switch (_managementMode) {
-        case ManagementModeCreate:
-
-            self.avatarValidationLabel.text = kAvatarCallToActionAdd;
-            break;
-
-        case ManagementModeEdit:
-            self.avatarValidationLabel.text = self.patient.avatar.hasImagePromise ? kAvatarCallToActionEdit : kAvatarCallToActionAdd;
-            break;
-
-        case ManagementModeUndefined:
-            break;
-    }
-
-    self.genderPromptField.accessoryImageViewVisible = [self genderAndBirthdateEditable];
-    self.birthDatePromptField.accessoryImageViewVisible = [self genderAndBirthdateEditable];
+    [self updateUI];
 }
 
 - (NSString *)genderFromGenderTextField {
@@ -389,6 +391,17 @@ static NSString *const kPlaceholderValidationBirthDate = @"please add your child
 
 
 #pragma mark - <UITextFieldDelegate>
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+
+    if (textField == self.firstNamePromptField.textField) {
+        [self.lastNamePromptField.textField becomeFirstResponder];
+    }
+    else if (textField == self.lastNamePromptField.textField) {
+        [self.lastNamePromptField.textField resignFirstResponder];
+    }
+    return NO;
+}
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
 
