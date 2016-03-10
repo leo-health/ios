@@ -42,6 +42,13 @@
 
 IB_DESIGNABLE
 
+static NSString * const kQuestionVisitType = @"What brings you in?";
+static NSString * const kQuestionPatient = @"Who is this visit for?";
+static NSString * const kQuestionReasonForVisit = @"What would you like to cover?";
+static NSString * const kQuestionDateTimeOfVisit = @"When would you like to be seen?";
+static NSString * const kQuestionProvider = @"Who would you like to see?";
+static NSString * const kValidationDateTimeOfVisit = @"Please complete the fields above to select a date and time";
+
 @synthesize prepAppointment = _prepAppointment;
 @synthesize appointment = _appointment;
 
@@ -78,7 +85,7 @@ IB_DESIGNABLE
     _notesTextView.text = self.note;
     _notesTextView.delegate = self;
     _notesTextView.scrollEnabled = NO;
-    _notesTextView.placeholder = @"What would you like to cover?";
+    _notesTextView.placeholder = kQuestionReasonForVisit;
     _notesTextView.floatingLabelFont = [UIFont leo_standardFont];
     _notesTextView.placeholderLabel.font = [UIFont leo_standardFont];
     _notesTextView.font = [UIFont leo_standardFont];
@@ -159,7 +166,7 @@ IB_DESIGNABLE
         [self updatePromptView:self.staffPromptView withBaseString:@"We will be seen by" variableStrings:@[provider.firstAndLastName]];
         [self enableSchedulingIfNeeded];
     } else {
-        self.staffPromptView.textView.text = @"Who would you like to see?";
+        self.staffPromptView.textView.text = kQuestionProvider;
     }
 }
 
@@ -174,7 +181,7 @@ IB_DESIGNABLE
         [self enableSchedulingIfNeeded];
     } else {
 
-        [self updatePromptView:self.patientPromptView withBaseString:@"Who is this visit for?" variableStrings:nil];
+        [self updatePromptView:self.patientPromptView withBaseString:kQuestionPatient variableStrings:nil];
     }
 }
 
@@ -189,7 +196,7 @@ IB_DESIGNABLE
         [self enableSchedulingIfNeeded];
     } else {
 
-        [self updatePromptView:self.visitTypePromptView withBaseString:@"What brings you in today?" variableStrings:nil];
+        [self updatePromptView:self.visitTypePromptView withBaseString:kQuestionVisitType variableStrings:nil];
     }
 }
 
@@ -299,11 +306,11 @@ IB_DESIGNABLE
 
         self.schedulePromptView.userInteractionEnabled = YES;
         self.schedulePromptView.tintColor = [UIColor leo_green];
-        [self updatePromptView:self.schedulePromptView withBaseString:@"When would you like to be seen?" variableStrings:nil];
+        [self updatePromptView:self.schedulePromptView withBaseString:kQuestionDateTimeOfVisit variableStrings:nil];
 
     } else {
 
-        [self updatePromptView:promptView withBaseString:@"Please complete the fields above before selecting an appointment date and time." variableStrings:nil];
+        [self updatePromptView:promptView withBaseString:kValidationDateTimeOfVisit variableStrings:nil];
         promptView.tintColor = [UIColor leo_grayForPlaceholdersAndLines];
         promptView.userInteractionEnabled = NO;
     }
