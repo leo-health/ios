@@ -42,12 +42,12 @@
 
 IB_DESIGNABLE
 
-static NSString * const kQuestionVisitType = @"What kind of visit is this?";
+static NSString * const kQuestionVisitType = @"What brings you in?";
 static NSString * const kQuestionPatient = @"Who is this visit for?";
 static NSString * const kQuestionReasonForVisit = @"What would you like to cover?";
 static NSString * const kQuestionDateTimeOfVisit = @"When would you like to be seen?";
 static NSString * const kQuestionProvider = @"Who would you like to see?";
-static NSString * const kValidationDateTimeOfVisit = @"Please complete the fields above before selecting an appointment date and time.";
+static NSString * const kValidationDateTimeOfVisit = @"Please complete the fields above to select a date and time";
 
 @synthesize prepAppointment = _prepAppointment;
 @synthesize appointment = _appointment;
