@@ -1,11 +1,19 @@
     upcoming:
+
     releases:
+    - version: 1.0.0
+      build: 2016.03.10.18.33
+      date: March 10 2016
+      notes:
+      - New! Next button on keyboard in onboarding
+      - Bug fixing
+
     - version: 1.0.0
       build: 2016.03.09.16.04
       date: March 09 2016
       notes:
       - No changes. Testflight build.
-    
+
     - version: 1.0.0
       build: 2016.03.09.15.33
       date: March 09 2016
