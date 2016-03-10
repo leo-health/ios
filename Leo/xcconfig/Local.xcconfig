@@ -25,3 +25,5 @@ CONTENT_URL = leo-content.s3-website-us-east-1.amazonaws.com
 PUSHER_KEY = 161f84c2eba08ba953da
 BUNDLE_IDENTIFIER = com.leohealth.dev-consumer
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) LOCAL=1 INTERNAL=0
+
+BUNDLE_DISPLAY_NAME = Leo Local
