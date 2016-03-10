@@ -211,6 +211,10 @@
     [SessionUser logout];
     [[LEOUserService leoSessionManager] standardDELETERequestForJSONDictionaryToAPIWithEndpoint:@"logout" params:nil completion:^(NSDictionary *rawResults, NSError *error) {
 
+        if (error) {
+            [[UIApplication sharedApplication] unregisterForRemoteNotifications];
+        }
+
         completionBlock ? completionBlock(!error, error) : nil;
     }];
 }
