@@ -341,7 +341,6 @@ static CGFloat const kFeedInsetTop = 20.0;
 
     if ([notification.name isEqualToString:UIApplicationDidBecomeActiveNotification]) {
 
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         [self fetchData];
     }
 }
@@ -359,7 +358,7 @@ static CGFloat const kFeedInsetTop = 20.0;
 
 - (void)fetchData {
 
-
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.view];
     [self.view insertSubview:hud belowSubview:self.navigationBar];
     [hud show:YES];
