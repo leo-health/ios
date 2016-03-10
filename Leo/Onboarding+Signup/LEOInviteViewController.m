@@ -58,14 +58,9 @@ static NSString * const kCopyHeaderInviteParent = @"Invite another parent to Leo
     self.navigationItem.titleView.hidden = self.feature == FeatureOnboarding && percentage == 0;
 }
 
--(void)viewDidAppear:(BOOL)animated {
+- (void)viewDidAppear:(BOOL)animated {
 
     [super viewDidAppear:animated];
-
-    if (self.feature == FeatureOnboarding) {
-        [self.inviteView.firstNamePromptField.textField becomeFirstResponder];
-    }
-
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:nil withOnlineBlock:nil];
 }
 

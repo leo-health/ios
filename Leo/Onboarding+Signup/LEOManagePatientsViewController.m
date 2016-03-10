@@ -73,6 +73,12 @@ static NSString * const kSignUpPatientSegue = @"SignUpPatientSegue";
     self.navigationItem.titleView.hidden = percentage == 0;
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+
+    [super viewDidAppear:animated];
+    [LEOApiReachability startMonitoringForController:self withOfflineBlock:nil withOnlineBlock:nil];
+}
+
 - (void)setupNavigationBar {
     [LEOStyleHelper styleNavigationBarForViewController:self forFeature:self.feature withTitleText:kCopyCollapsedHeaderManagePatients dismissal:NO backButton:YES];
 }

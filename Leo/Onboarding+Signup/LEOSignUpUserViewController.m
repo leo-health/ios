@@ -79,6 +79,12 @@ static NSString * const kCopyHeaderSignUpUser = @"Tell us a little about yoursel
     self.navigationItem.titleView.hidden = percentage == 0;
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+
+    [super viewDidAppear:animated];
+    [LEOApiReachability startMonitoringForController:self withOfflineBlock:nil withOnlineBlock:nil];
+}
+
 - (void)setupNavigationBar {
 
     self.view.tintColor = [LEOStyleHelper tintColorForFeature:FeatureOnboarding];

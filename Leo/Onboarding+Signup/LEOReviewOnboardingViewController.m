@@ -88,6 +88,12 @@ static NSString *const kCopyHeaderReviewOnboarding = @"Finally, please confirm y
     self.navigationItem.titleView.hidden = percentage == 0;
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+
+    [super viewDidAppear:animated];
+    [LEOApiReachability startMonitoringForController:self withOfflineBlock:nil withOnlineBlock:nil];
+}
+
 - (void)setupNavigationBar {
     [LEOStyleHelper styleNavigationBarForViewController:self forFeature:self.feature withTitleText:@"Confirm Your Data" dismissal:NO backButton:NO];
 

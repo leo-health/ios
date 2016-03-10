@@ -72,10 +72,7 @@ NSString * const kCopyResetPasswordSubmissionResponse = @"If you have an account
 - (void)viewDidAppear:(BOOL)animated {
 
     [super viewDidAppear:animated];
-
-    if ([self.stickyHeaderView scrollViewContentSizeSmallerThanScrollViewFrameIncludingInsets]) {
-        [self.forgotPasswordView.emailPromptField.textField becomeFirstResponder];
-    }
+    [LEOApiReachability startMonitoringForController:self withOfflineBlock:nil withOnlineBlock:nil];
 }
 
 #pragma mark - Accessors

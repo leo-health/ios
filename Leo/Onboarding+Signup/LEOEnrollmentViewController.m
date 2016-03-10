@@ -67,10 +67,7 @@ static NSString * const kCopyCollapsedHeaderEnrollment = @"Create an account";
 - (void)viewDidAppear:(BOOL)animated {
 
     [super viewDidAppear:animated];
-
-    if ([self.stickyHeaderView scrollViewContentSizeSmallerThanScrollViewFrameIncludingInsets]) {
-        [self.enrollmentView.emailPromptField.textField becomeFirstResponder];
-    }
+    [LEOApiReachability startMonitoringForController:self withOfflineBlock:nil withOnlineBlock:nil];
 }
 
 - (void)setupNavigationBar {
