@@ -250,7 +250,11 @@ static NSString *const kCopyHeaderReviewOnboarding = @"Finally, please confirm y
 - (void)continueTapped:(UIButton *)sender {
 
     [Crittercism leaveBreadcrumb:[NSString stringWithFormat:@"%s", __PRETTY_FUNCTION__]];
-    
+
+    BOOL isSecondGuardian = self.family.guardians.count > 1;
+    __block BOOL attemptedInviteOfGuardian;
+    __block BOOL attemptedPatientCreation;
+
     __block UIButton *button = sender;
 
     button.enabled = NO;
@@ -261,18 +265,25 @@ static NSString *const kCopyHeaderReviewOnboarding = @"Finally, please confirm y
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 
     LEOUserService *userService = [[LEOUserService alloc] init];
-    [userService createGuardian:self.family.guardians[0] withCompletion:^(Guardian *guardian, NSError *error) {
+    [userService createGuardian:self.family.guardians.firstObject withCompletion:^(Guardian *guardian, NSError *error) {
 
         if (!error && guardian) {
 
-            if (self.family.guardians.count > 1) {
+            if (isSecondGuardian) {
 
-                Guardian *otherGuardian = self.family.guardians[1];
+                Guardian *otherGuardian = self.family.guardians.lastObject;
                 [userService inviteUser:otherGuardian withCompletion:^(BOOL success, NSError *error) {
 
-                    if (success) {
+                    attemptedInviteOfGuardian = YES;
 
+                    if (success) {
                         NSLog(@"Parent invitation success");
+                    }
+
+                    if (attemptedPatientCreation) {
+
+                        [MBProgressHUD hideHUDForView:self.view animated:YES];
+                        button.enabled = YES;
                     }
                 }];
             }
@@ -282,19 +293,21 @@ static NSString *const kCopyHeaderReviewOnboarding = @"Finally, please confirm y
 
             [userService createPatients:patients withCompletion:^(NSArray<Patient *> *patients, NSError *error) {
 
-                if (!error) {
+                attemptedPatientCreation = YES;
 
+                if (!error) {
+                    
                     self.family.patients = patients;
                     [[SessionUser currentUser] setMembershipType:MembershipTypeMember];
                 }
 
-                [MBProgressHUD hideHUDForView:self.view animated:YES];
-                button.enabled = YES;
+                if (isSecondGuardian && attemptedInviteOfGuardian) {
+
+                    [MBProgressHUD hideHUDForView:self.view animated:YES];
+                    button.enabled = YES;
+                }
             }];
         }
-
-        button.enabled = YES;
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
     }];
 }
 
