@@ -1,9 +1,15 @@
     upcoming:
 
+    - version: 1.0.0
+      build: 2016.03.11.17.13
+      date: March 11 2016
+      notes:
+      - Bug fixing
+
     releases:
     - version: 1.0.0
       build: 2016.03.11.15.57
-      date: March 10 2016
+      date: March 11 2016
       notes:
       - Update! Book appointments up to 90 days out
       - Bug fixing
