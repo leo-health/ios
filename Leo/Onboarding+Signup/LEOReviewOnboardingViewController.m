@@ -276,7 +276,6 @@ static NSString *const kCopyHeaderReviewOnboarding = @"Finally, please confirm y
 
                     attemptedInviteOfGuardian = YES;
 
-                    ALog
                     if (success) {
                         NSLog(@"Parent invitation success");
                     }
