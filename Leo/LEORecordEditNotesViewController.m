@@ -14,6 +14,9 @@
 #import "UIImage+Extensions.h"
 #import "LEOHealthRecordService.h"
 #import <MBProgressHUD.h>
+#import "UIButton+Extensions.h"
+#import "LEOAlertHelper.h"
+#import "LEOApiReachability.h"
 
 #define _UIKeyboardFrameEndUserInfoKey (&UIKeyboardFrameEndUserInfoKey != NULL ? UIKeyboardFrameEndUserInfoKey : @"UIKeyboardBoundsUserInfoKey")
 
@@ -33,7 +36,7 @@
     [super viewDidLoad];
 
     [self registerForKeyboardNotifications];
-
+    [self setupReachability];
     [self setupNavigationBar];
 
     self.automaticallyAdjustsScrollViewInsets = NO;
@@ -48,13 +51,30 @@
     [self.textView becomeFirstResponder];
 }
 
+- (void)setupReachability {
+
+    [LEOApiReachability startMonitoringForController:self withOfflineBlock:^{
+        self.navigationItem.rightBarButtonItem.enabled = NO;
+    } withOnlineBlock:^{
+        self.navigationItem.rightBarButtonItem.enabled = YES;
+    }];
+}
+
 - (void)setupNavigationBar {
 
     [LEOStyleHelper styleNavigationBarForViewController:self forFeature:FeatureSettings withTitleText:self.patient.firstName dismissal:NO backButton:NO];
     self.navigationItem.titleView.alpha = 1;
-    
-    UIBarButtonItem *saveBBI = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(saveBBIAction)];
-    self.navigationItem.rightBarButtonItem = saveBBI;
+
+
+    UIButton *doneButton = [UIButton leo_newButtonWithDisabledStyling];
+    [doneButton setTitle:@"Done" forState:UIControlStateNormal];
+    doneButton.titleLabel.font = [UIFont leo_fieldAndUserLabelsAndSecondaryButtonsFont];
+    [doneButton setTitleColor:[UIColor leo_white] forState:UIControlStateNormal];
+    [doneButton addTarget:self action:@selector(saveBBIAction) forControlEvents:UIControlEventTouchUpInside];
+    [doneButton sizeToFit];
+
+    UIBarButtonItem *doneBBI = [[UIBarButtonItem alloc] initWithCustomView:doneButton];
+    self.navigationItem.rightBarButtonItem = doneBBI;
 
 }
 
@@ -100,15 +120,25 @@
 
         self.note.text = self.textView.text;
 
+        self.navigationItem.rightBarButtonItem.enabled = NO;
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+
         [[LEOHealthRecordService new] putNote:self.note forPatient:self.patient withCompletion:^(PatientNote *updatedNote, NSError *error) {
 
+
             if (!error) {
+
                 self.editNoteCompletionBlock(updatedNote);
+                [self dismissViewControllerAnimated:YES completion:nil];
+                
+            } else {
+                [LEOAlertHelper alertForViewController:self title:@"Something went wrong" message:@"We can't save your notes right now. Please try again in a little while."];
             }
+
             // update the note while we wait for the network
             [MBProgressHUD hideHUDForView:self.view animated:YES];
-            [self dismissViewControllerAnimated:YES completion:nil];
+            self.navigationItem.rightBarButtonItem.enabled = YES;
+
         }];
 
     } else {
@@ -117,18 +147,21 @@
         self.note.text = self.textView.text;
 
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        self.navigationItem.leftBarButtonItem.enabled = NO;
+        self.navigationItem.rightBarButtonItem.enabled = NO;
 
         [[LEOHealthRecordService new] postNote:self.note.text forPatient:self.patient withCompletion:^(PatientNote *updatedNote, NSError *error) {
 
-            // update with new obejctID
-            self.editNoteCompletionBlock(updatedNote);
+            if (!error) {
 
-            // @zach: does your button disabling code handle bar button items?
+                self.editNoteCompletionBlock(updatedNote);
+                [self dismissViewControllerAnimated:YES completion:nil];
+            } else {
+                [LEOAlertHelper alertForViewController:self title:@"Something went wrong" message:@"We can't save your notes right now. Please try again in a little while."];
+            }
+
+            self.navigationItem.rightBarButtonItem.enabled = YES;
+
             [MBProgressHUD hideHUDForView:self.view animated:YES];
-            [self dismissViewControllerAnimated:YES completion:nil];
-
-            // TODO: handle error
         }];
     }
 }
