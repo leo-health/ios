@@ -21,7 +21,7 @@
 
 @implementation LEOAPISlotsOperation
 
-NSInteger const kDayRangeForSlots = 45;
+NSInteger const kDayRangeForSlots = 90;
 
 -(instancetype)initWithAppointment:(Appointment *)appointment {
     
