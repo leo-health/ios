@@ -1,4 +1,4 @@
-app_identifier "com.leohealth.leo" # The bundle identifier of your app
+app_identifier ENV["APP_IDENTIFIER"] # The bundle identifier of your app
 apple_id "z@leohealth.com" # Your Apple email address
 
 # You can uncomment any of the lines below and add your own
