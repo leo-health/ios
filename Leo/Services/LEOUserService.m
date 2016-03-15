@@ -24,8 +24,10 @@
 
 - (void)createGuardian:(Guardian *)newGuardian withCompletion:(void (^)(Guardian *guardian, NSError *error))completionBlock {
     
-    NSDictionary *guardianDictionary = [Guardian dictionaryFromUser:newGuardian];
-    
+    NSMutableDictionary *guardianDictionary = [[Guardian dictionaryFromUser:newGuardian] mutableCopy];
+
+    [guardianDictionary addEntriesFromDictionary:[LEODevice jsonDictionary]];
+
     [[LEOUserService leoSessionManager] standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIParamUsers params:guardianDictionary completion:^(NSDictionary *rawResults, NSError *error) {
         
         if (!error) {
