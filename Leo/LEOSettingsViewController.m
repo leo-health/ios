@@ -460,7 +460,6 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
         LEOSignUpPatientViewController *signUpPatientVC = segue.destinationViewController;
         signUpPatientVC.patient = (Patient *)sender;
         signUpPatientVC.feature = FeatureSettings;
-        signUpPatientVC.family = self.family;
 
         if (sender) {
             signUpPatientVC.managementMode = ManagementModeEdit;

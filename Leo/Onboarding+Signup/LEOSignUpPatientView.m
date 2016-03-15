@@ -266,7 +266,6 @@ static NSString *const kPlaceholderValidationBirthDate = @"please add your child
     [self.delegate presentPhotoPicker];
 }
 
-
 #pragma mark - Public API
 
 - (void)validateFields {

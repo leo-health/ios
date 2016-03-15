@@ -66,8 +66,10 @@ static CWStatusBarNotification *_cwStatusBarNotification = nil;
 
 + (void)startMonitoringForController:(UIViewController *)viewController withOfflineBlock:(void (^)(void))offlineBlock withOnlineBlock:(void (^) (void))onlineBlock {
 
+    __weak UIViewController* weakViewController = viewController;
     [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
 
+        __strong UIViewController *strongViewController = weakViewController;
         switch (status) {
 
             case AFNetworkReachabilityStatusNotReachable:
@@ -77,7 +79,7 @@ static CWStatusBarNotification *_cwStatusBarNotification = nil;
 
                 [self performActions:^(UIButton *button) {
                     button.enabled = NO;
-                } onSubviewsOfView:viewController.view];
+                } onSubviewsOfView:strongViewController.view];
 
                 if (offlineBlock) {
                     offlineBlock();
@@ -90,7 +92,7 @@ static CWStatusBarNotification *_cwStatusBarNotification = nil;
 
                 [self performActions:^(UIButton *button) {
                     button.enabled = YES;
-                } onSubviewsOfView:viewController.view];
+                } onSubviewsOfView:strongViewController.view];
 
                 [_cwStatusBarNotification dismissNotification];
 

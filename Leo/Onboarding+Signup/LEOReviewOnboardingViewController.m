@@ -216,7 +216,6 @@ static NSString *const kCopyHeaderReviewOnboarding = @"Finally, please confirm y
     if ([segue.identifier isEqualToString:kReviewUserSegue]) {
 
         LEOSignUpUserViewController *signUpUserVC = segue.destinationViewController;
-        signUpUserVC.family = self.family;
         signUpUserVC.guardian = sender;
         signUpUserVC.managementMode = ManagementModeEdit;
     }
@@ -224,7 +223,6 @@ static NSString *const kCopyHeaderReviewOnboarding = @"Finally, please confirm y
     if ([segue.identifier isEqualToString:kReviewPatientSegue]) {
 
         LEOSignUpPatientViewController *signUpPatientVC = segue.destinationViewController;
-        signUpPatientVC.family = self.family;
         signUpPatientVC.patient = sender;
         signUpPatientVC.feature = FeatureOnboarding;
         signUpPatientVC.managementMode = ManagementModeEdit;

@@ -57,9 +57,6 @@ static NSString *const kCopyUsePhoto = @"USE PHOTO";
     [super viewDidLoad];
 
     self.signUpPatientView.delegate = self;
-
-    [LEOApiReachability startMonitoringForController:self];
-
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -163,7 +160,6 @@ static NSString *const kCopyUsePhoto = @"USE PHOTO";
         
         [self.view removeConstraints:self.view.constraints];
         _signUpPatientView.translatesAutoresizingMaskIntoConstraints = NO;
-        _signUpPatientView.scrollView.delegate = self;
         [self.view addSubview:_signUpPatientView];
 
         NSDictionary *bindings = NSDictionaryOfVariableBindings(_signUpPatientView);
@@ -485,8 +481,6 @@ static NSString *const kCopyUsePhoto = @"USE PHOTO";
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-
-#pragma mark - <LEOSignUpPatientViewDelegate>
 
 - (void)finishLocalUpdate {
     

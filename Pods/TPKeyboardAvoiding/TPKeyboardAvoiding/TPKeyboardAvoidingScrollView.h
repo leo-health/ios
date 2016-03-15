@@ -18,9 +18,9 @@
 
 @interface TPKeyboardAvoidingScrollView : UIScrollView <UITextFieldDelegate, UITextViewDelegate>
 
-
-
-@property (weak, nonatomic) id<StickyHeaderScrollViewDelegate> delegate;
+#if __has_feature(objc_arc)
+@property (weak, nonatomic) id<StickyHeaderScrollViewDelegate> stickyDelegate;
+#endif
 
 - (void)contentSizeToFit;
 - (BOOL)focusNextTextField;

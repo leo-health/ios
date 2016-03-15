@@ -119,6 +119,7 @@ NSString * const kAnimationKeyPathStrokeColor = @"strokeColor";
         [_scrollView addObserver:self forKeyPath:kKVOKeyPathContentSize options:NSKeyValueObservingOptionOld context:nil];
 
         _scrollView.delegate = self;
+        _scrollView.stickyDelegate = self;
 
         _scrollView.showsHorizontalScrollIndicator = NO;
         _scrollView.showsVerticalScrollIndicator = NO;

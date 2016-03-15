@@ -136,9 +136,7 @@ static NSString * const kSignUpPatientSegue = @"SignUpPatientSegue";
         } else {
             signUpPatientVC.managementMode = ManagementModeCreate;
         }
-        
-        signUpPatientVC.family = self.family;
-        
+                
         signUpPatientVC.feature = FeatureOnboarding;
         signUpPatientVC.delegate = self;
     }
