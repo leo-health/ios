@@ -10,8 +10,6 @@
 #include "SharedInternal.xcconfig"
 #include "Pods/Target Support Files/Pods-Leo/Pods-Leo.development.xcconfig"
 
-CODE_SIGN_IDENTITY[sdk=iphoneos*] = iPhone Developer: Zachary Drossman (C7TN5PHTLC)
-
 API_URL =   api-dev.leohealth.com
 PROVIDER_URL = provider-dev.leohealth.com
 API_VERSION = api/v1
