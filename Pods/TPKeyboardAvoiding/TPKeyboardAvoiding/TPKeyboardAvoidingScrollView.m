@@ -13,6 +13,10 @@
 
 @implementation TPKeyboardAvoidingScrollView
 
+#if __has_feature(objc_arc)
+@synthesize stickyDelegate = _stickyDelegate;
+#endif
+
 #pragma mark - Setup/Teardown
 
 - (void)setup {
@@ -90,18 +94,20 @@
 }
 
 - (CGFloat)headerHeight {
-    
-    if ([self.delegate respondsToSelector:@selector(headerHeight)]) {
-        return [self.delegate headerHeight];
+#if __has_feature(objc_arc)
+    if ([self.stickyDelegate respondsToSelector:@selector(headerHeight)]) {
+        return [self.stickyDelegate headerHeight];
     }
+#endif
     return 0;
 }
 
 - (BOOL)scrollingWithTouch {
-
-    if ([self.delegate respondsToSelector:@selector(scrollingWithTouch)]) {
-        return [self.delegate scrollingWithTouch];
+#if __has_feature(objc_arc)
+    if ([self.stickyDelegate respondsToSelector:@selector(scrollingWithTouch)]) {
+        return [self.stickyDelegate scrollingWithTouch];
     }
+#endif
     return YES;
 }
 

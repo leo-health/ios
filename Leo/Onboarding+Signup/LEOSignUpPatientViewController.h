@@ -23,7 +23,6 @@
 @interface LEOSignUpPatientViewController : UIViewController <UITextFieldDelegate, UIScrollViewDelegate, LEOSignUpPatientProtocol, UIPickerViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, LEOImagePreviewDelegate>
 
 @property (weak, nonatomic) id<SignUpPatientProtocol>delegate;
-@property (strong, nonatomic) Family *family;
 @property (strong, nonatomic) Patient *patient;
 @property (copy, nonatomic) NSString *enrollmentToken;
 @property (nonatomic) ManagementMode managementMode;
