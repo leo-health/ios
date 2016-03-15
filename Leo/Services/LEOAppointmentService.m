@@ -77,6 +77,7 @@
                                       startDate:[self defaultStartDateForSlotsRequest]
                                         endDate:[self defaultEndDateForSlotsRequest]
                                        practiceID:appointment.practice.objectID
+                          existingAppointmentID:appointment.objectID
                                  withCompletion:completionBlock];
 
     }
@@ -85,6 +86,7 @@
                                   startDate:[self defaultStartDateForSlotsRequest]
                                     endDate:[self defaultEndDateForSlotsRequest]
                                    provider:appointment.provider
+                      existingAppointmentID:appointment.objectID
                              withCompletion:completionBlock];
 }
 
@@ -99,7 +101,7 @@
     return twelveWeeksFromTheBeginningOfThisWeek;
 }
 
-- (NSURLSessionTask *)getSlotsForAppointmentType:(AppointmentType *)appointmentType startDate:(NSDate *)startDate endDate:(NSDate *)endDate practiceID:(NSString *)practiceID withCompletion:(void (^)(NSArray *slots, NSError *error))completionBlock {
+- (NSURLSessionTask *)getSlotsForAppointmentType:(AppointmentType *)appointmentType startDate:(NSDate *)startDate endDate:(NSDate *)endDate practiceID:(NSString *)practiceID existingAppointmentID:(NSString*)appointmentID withCompletion:(void (^)(NSArray *slots, NSError *error))completionBlock {
 
     NSArray *providers = [LEOCachedDataStore sharedInstance].practice.providers;
 
@@ -109,7 +111,7 @@
 
     [providers enumerateObjectsUsingBlock:^(Provider * provider, NSUInteger idx, BOOL *stop) {
 
-        [self getSlotsForAppointmentType:appointmentType startDate:startDate endDate:endDate provider:provider withCompletion:^(NSArray *slots, NSError *error) {
+        [self getSlotsForAppointmentType:appointmentType startDate:startDate endDate:endDate provider:provider existingAppointmentID:appointmentID withCompletion:^(NSArray *slots, NSError *error) {
 
             counter++;
 
@@ -136,14 +138,17 @@
     return nil; // ????: what is the right return value here?
 }
 
-- (NSURLSessionTask *)getSlotsForAppointmentType:(AppointmentType *)appointmentType startDate:(NSDate *)startDate endDate:(NSDate *)endDate provider:(Provider *)provider withCompletion:(void (^)(NSArray *slots, NSError *error))completionBlock {
+- (NSURLSessionTask *)getSlotsForAppointmentType:(AppointmentType *)appointmentType startDate:(NSDate *)startDate endDate:(NSDate *)endDate provider:(Provider *)provider existingAppointmentID:(NSString*)appointmentID withCompletion:(void (^)(NSArray *slots, NSError *error))completionBlock {
 
-    NSDictionary *params = @{
+    NSMutableDictionary *params = [@{
                              APIParamAppointmentTypeID : appointmentType.objectID,
                              APIParamStartDate : [NSDate leo_stringifiedShortDate:startDate],
                              APIParamEndDate: [NSDate leo_stringifiedShortDate:endDate],
                              APIParamUserProviderID : provider.objectID
-                             };
+                             } mutableCopy];
+    if (appointmentID) {
+        [params setObject:appointmentID forKey:APIParamAppointmentID];
+    }
 
     NSString *slotsEndpointForTestProvider = [NSString stringWithFormat:@"%@",APIEndpointSlots];
 

@@ -339,6 +339,7 @@ extern NSString *const APIParamAppointment; // @"appointment";
 extern NSString *const APIParamAppointmentStartDateTime; // @"start_datetime";
 extern NSString *const APIParamAppointmentNotes; // @"notes";
 extern NSString *const APIParamAppointmentBookedBy; // @"booked_by";
+extern NSString *const APIParamAppointmentID; // @"appointment_id";
 
 #pragma mark - Appointment slot
 extern NSString *const APIParamSlots; // @"slots";
@@ -404,6 +405,7 @@ extern NSString *const APIParamVitalMeasurementSearchEndDate; // @"end_date";
 extern NSString *const APIParamVitalMeasurementTakenAt; // @"taken_at";
 extern NSString *const APIParamVitalMeasurementValue; // @"value";
 extern NSString *const APIParamVitalMeasurementPercentile; // @"percentile";
+extern NSString *const APIParamVitalMeasurementUnits; // @"units";
 
 #pragma mark - Feed Message Header
 extern NSString *const APIParamFeedMessageHeaderText; // @"text";

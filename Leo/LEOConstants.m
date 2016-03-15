@@ -203,6 +203,7 @@ NSString *const APIParamAppointment = @"appointment";
 NSString *const APIParamAppointmentStartDateTime = @"start_datetime";
 NSString *const APIParamAppointmentNotes = @"notes";
 NSString *const APIParamAppointmentBookedBy = @"booked_by";
+NSString *const APIParamAppointmentID = @"appointment_id";
 
 #pragma mark - Appointment slot
 NSString *const APIParamSlots = @"slots";
@@ -267,6 +268,7 @@ NSString *const APIParamVitalMeasurementSearchStartDate = @"start_date";
 NSString *const APIParamVitalMeasurementSearchEndDate = @"end_date";
 NSString *const APIParamVitalMeasurementTakenAt = @"taken_at";
 NSString *const APIParamVitalMeasurementValue = @"value";
+NSString *const APIParamVitalMeasurementUnits = @"units";
 NSString *const APIParamVitalMeasurementPercentile = @"percentile";
 NSString *const APIParamVitalMeasurementType = @"type";
 
