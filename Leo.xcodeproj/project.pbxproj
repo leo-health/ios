@@ -2047,7 +2047,7 @@
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zachary Drossman (C7TN5PHTLC)";
-				CURRENT_PROJECT_VERSION = 2016.03.15.12.55;
+				CURRENT_PROJECT_VERSION = 2016.03.15.13.15;
 				ENABLE_TESTABILITY = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				ONLY_ACTIVE_ARCH = YES;
@@ -2090,11 +2090,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 2016.03.15.12.55;
+				CURRENT_PROJECT_VERSION = 2016.03.15.13.15;
 				ENABLE_TESTABILITY = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "65e3f751-f893-4663-a6fe-591388084505";
+				PROVISIONING_PROFILE = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Staging;
@@ -2135,11 +2135,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 2016.03.15.12.55;
+				CURRENT_PROJECT_VERSION = 2016.03.15.13.15;
 				ENABLE_TESTABILITY = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "4e985520-4df4-49c4-b7ed-915aafba9b7e";
+				PROVISIONING_PROFILE = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = QA;
@@ -2180,9 +2180,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 2016.03.15.12.55;
+				CURRENT_PROJECT_VERSION = 2016.03.15.13.15;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
-				PROVISIONING_PROFILE = "d5f8c1f5-4106-47aa-b11d-060c2590fd8d";
+				PROVISIONING_PROFILE = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = AppStore;
@@ -2247,9 +2247,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 2016.03.15.12.55;
+				CURRENT_PROJECT_VERSION = 2016.03.15.13.15;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
-				PROVISIONING_PROFILE = "d5f8c1f5-4106-47aa-b11d-060c2590fd8d";
+				PROVISIONING_PROFILE = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Testflight;
@@ -2291,12 +2291,12 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Zachary Drossman (C7TN5PHTLC)";
-				CURRENT_PROJECT_VERSION = 2016.03.15.12.55;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 2016.03.15.13.15;
 				ENABLE_TESTABILITY = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "73dc68bd-01f0-40da-a035-aaf600aa1766";
+				PROVISIONING_PROFILE = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Development;
