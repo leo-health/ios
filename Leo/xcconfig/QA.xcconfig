@@ -6,11 +6,14 @@
 //  Copyright © 2016 Leo Health. All rights reserved.
 //
 
-#include "DeveloperCodeSigning.xcconfig"
 #include "SharedApplication.xcconfig"
-#include "SharedInternal.xcconfig"
 #include "Pods/Target Support Files/Pods-Leo/Pods-Leo.qa.xcconfig"
 
+VALIDATE_PRODUCT = YES
+ENABLE_NS_ASSERTIONS = NO
+MTL_ENABLE_DEBUG_INFO = NO
+
+CODE_SIGN_IDENTITY[sdk=iphoneos*] = iPhone Distribution: LEO HEALTH, INC. (4Q3R8E5P59)
 
 API_URL =   api-dev.leohealth.com
 PROVIDER_URL = provider-dev.leohealth.com
@@ -20,7 +23,8 @@ CONTENT_URL = leo-content.s3-website-us-east-1.amazonaws.com
 SELF_SIGNED_CERTIFICATE = *.leohealth.com
 CRITTERCISM_APP_ID = 56b8fe2913306f1000698f56
 PUSHER_KEY = c08f07973cb05aeb388f
-BUNDLE_IDENTIFIER = com.leohealth.qa-consumer
+
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) INTERNAL=1
+BUNDLE_IDENTIFIER = com.leohealth.qa-consumer
+ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon-Development
 BUNDLE_DISPLAY_NAME = Leo QA
-PROVISIONING_PROFILE = 4e985520-4df4-49c4-b7ed-915aafba9b7e

@@ -38,17 +38,15 @@ end
 lane :internal do |options|
 
       scheme = options[:scheme]
-      bump_type = options[:bump_type];
+      bump_type = options[:bump_type]
 
-      if !scheme
-        scheme = "Development"
+      if scheme.to_s.strip.length == 0
+        scheme = "Staging"
       end
 
-      if scheme == "Development"
-        ENV["APP_IDENTIFIER"] = "com.leohealth.dev-consumer"
-      elseif scheme == "Staging"
+      if scheme == "Staging"
         ENV["APP_IDENTIFIER"] = "com.leohealth.staging-consumer"
-      elseif scheme == "QA"
+      else
         ENV["APP_IDENTIFIER"] = "com.leohealth.qa-consumer"
       end
 

@@ -10,6 +10,8 @@
 #include "SharedInternal.xcconfig"
 #include "Pods/Target Support Files/Pods-Leo/Pods-Leo.development.xcconfig"
 
+CODE_SIGN_IDENTITY[sdk=iphoneos*] = iPhone Developer: Zachary Drossman (C7TN5PHTLC)
+
 API_URL =   api-dev.leohealth.com
 PROVIDER_URL = provider-dev.leohealth.com
 API_VERSION = api/v1
@@ -21,6 +23,5 @@ PUSHER_KEY = c08f07973cb05aeb388f
 
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) INTERNAL=1
 BUNDLE_IDENTIFIER = com.leohealth.dev-consumer
+ASSETCATALOG_COMPILER_APPICON_NAME =
 BUNDLE_DISPLAY_NAME = Leo Dev
-//PROVISIONING_PROFILE = 7d31869f-9f50-46ac-8642-132d485c4c03
-
