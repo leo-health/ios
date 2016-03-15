@@ -116,54 +116,65 @@
 
     [self.view endEditing:YES];
 
-    if (self.note) {
+    if ([self noteDidChange]) {
 
-        self.note.text = self.textView.text;
+        if (self.note) {
 
-        self.navigationItem.rightBarButtonItem.enabled = NO;
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            self.note.text = self.textView.text;
 
-        [[LEOHealthRecordService new] putNote:self.note forPatient:self.patient withCompletion:^(PatientNote *updatedNote, NSError *error) {
+            self.navigationItem.rightBarButtonItem.enabled = NO;
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+
+            [[LEOHealthRecordService new] putNote:self.note forPatient:self.patient withCompletion:^(PatientNote *updatedNote, NSError *error) {
 
 
-            if (!error) {
+                if (!error) {
 
-                self.editNoteCompletionBlock(updatedNote);
-                [self dismissViewControllerAnimated:YES completion:nil];
+                    self.editNoteCompletionBlock(updatedNote);
+                    [self dismissViewControllerAnimated:YES completion:nil];
+
+                } else {
+                    [LEOAlertHelper alertForViewController:self title:@"Something went wrong" message:@"We can't save your notes right now. Please try again in a little while."];
+                }
+
+                // update the note while we wait for the network
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                self.navigationItem.rightBarButtonItem.enabled = YES;
+
+            }];
+
+        } else if (![self.textView.text isEqualToString:@""]) {
+
+            self.note = [PatientNote new];
+            self.note.text = self.textView.text;
+
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            self.navigationItem.rightBarButtonItem.enabled = NO;
+
+            [[LEOHealthRecordService new] postNote:self.note.text forPatient:self.patient withCompletion:^(PatientNote *updatedNote, NSError *error) {
+
+                if (!error) {
+
+                    self.editNoteCompletionBlock(updatedNote);
+                    [self dismissViewControllerAnimated:YES completion:nil];
+                } else {
+                    [LEOAlertHelper alertForViewController:self title:@"Something went wrong" message:@"We can't save your notes right now. Please try again in a little while."];
+                }
                 
-            } else {
-                [LEOAlertHelper alertForViewController:self title:@"Something went wrong" message:@"We can't save your notes right now. Please try again in a little while."];
-            }
-
-            // update the note while we wait for the network
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-            self.navigationItem.rightBarButtonItem.enabled = YES;
-
-        }];
-
+                self.navigationItem.rightBarButtonItem.enabled = YES;
+                
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+            }];
+        } else {
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }
     } else {
-
-        self.note = [PatientNote new];
-        self.note.text = self.textView.text;
-
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        self.navigationItem.rightBarButtonItem.enabled = NO;
-
-        [[LEOHealthRecordService new] postNote:self.note.text forPatient:self.patient withCompletion:^(PatientNote *updatedNote, NSError *error) {
-
-            if (!error) {
-
-                self.editNoteCompletionBlock(updatedNote);
-                [self dismissViewControllerAnimated:YES completion:nil];
-            } else {
-                [LEOAlertHelper alertForViewController:self title:@"Something went wrong" message:@"We can't save your notes right now. Please try again in a little while."];
-            }
-
-            self.navigationItem.rightBarButtonItem.enabled = YES;
-
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-        }];
+        [self dismissViewControllerAnimated:YES completion:nil];
     }
+}
+
+- (BOOL)noteDidChange {
+    return ![self.note.text isEqualToString:self.textView.text];
 }
 
 - (void)loadView {
