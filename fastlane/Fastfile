@@ -44,6 +44,14 @@ lane :internal do |options|
         scheme = "Development"
       end
 
+      if scheme == "Development"
+        ENV["APP_IDENTIFIER"] = "com.leohealth.dev-consumer"
+      elseif scheme == "Staging"
+        ENV["APP_IDENTIFIER"] = "com.leohealth.staging-consumer"
+      elseif scheme == "QA"
+        ENV["APP_IDENTIFIER"] = "com.leohealth.qa-consumer"
+      end
+
       version = get_version_number(xcodeproj: "Leo.xcodeproj")
 
       # Update version number if bump_type is provided.
@@ -130,6 +138,8 @@ lane :internal do |options|
   end
 
   lane :testflight do |options|
+
+      ENV["APP_IDENTIFIER"] = "com.leohealth.leo"
 
       bump_type = options[:bump_type];
 
