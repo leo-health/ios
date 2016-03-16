@@ -112,7 +112,7 @@ static NSString *const kUserDefaultsKeyLoginCounts = @"loginCounter";
     userDictionary[APIParamFamilyID] = guardian.familyID;
     userDictionary[APIParamUserPrimary] = @(guardian.primary);
     userDictionary[APIParamPhone] = guardian.phoneNumber;
-    userDictionary[APIParamUserInsurancePlan] = guardian.insurancePlan; //FIXME: This should probably break since insurancePlan is a custom object.
+    userDictionary[APIParamInsurancePlanID] = guardian.insurancePlan.objectID; //FIXME: This should probably break since insurancePlan is a custom object.
     userDictionary[APIParamUserMembershipType] = guardian.membershipType ? [Guardian membershipStringFromType:guardian.membershipType] : Nil;
 
     return userDictionary;
