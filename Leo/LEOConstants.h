@@ -405,7 +405,7 @@ extern NSString *const APIParamVitalMeasurementSearchEndDate; // @"end_date";
 extern NSString *const APIParamVitalMeasurementTakenAt; // @"taken_at";
 extern NSString *const APIParamVitalMeasurementValue; // @"value";
 extern NSString *const APIParamVitalMeasurementPercentile; // @"percentile";
-extern NSString *const APIParamVitalMeasurementUnits; // @"units";
+extern NSString *const APIParamVitalMeasurementUnit; // @"unit";
 
 #pragma mark - Feed Message Header
 extern NSString *const APIParamFeedMessageHeaderText; // @"text";

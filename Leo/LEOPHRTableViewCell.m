@@ -50,8 +50,8 @@
             [str appendString:vital.value];
         }
 
-        if (vital.units) {
-            [str appendFormat:@" %@", vital.units];
+        if (vital.unit) {
+            [str appendFormat:@" %@", vital.unit];
         }
 
         if (vital.percentile) {
