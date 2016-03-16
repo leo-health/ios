@@ -45,12 +45,19 @@
     if (vital) {
         self.recordTitleLabel.text = title;
         NSMutableString *str = [NSMutableString new];
+
         if (vital.value) {
             [str appendString:vital.value];
         }
+
+        if (vital.unit) {
+            [str appendFormat:@" %@", vital.unit];
+        }
+
         if (vital.percentile) {
             [str appendString:[NSString stringWithFormat:@"  -  %@",vital.percentile]];
         }
+
         self.recordMainDetailLabel.text = [str copy];
     }
 

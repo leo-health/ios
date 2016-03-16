@@ -168,9 +168,9 @@
     [self requestDataWithCompletion:^(id data, NSError *error){
         
         [MBProgressHUD hideHUDForView:self.view animated:YES];
-        
-        [self addSlotToSlotData:data];
-        
+
+        self.slotsDictionary = data;
+
         self.dateCollectionController = [[DateCollectionController alloc] initWithCollectionView:self.dateCollectionView dates:self.slotsDictionary chosenDate:[self initialDate]];
         self.dateCollectionController.delegate = self;
         
@@ -228,48 +228,5 @@
     return nil; // Need to deal with this since it would break, even though we'd never have no open slots.
 }
 
-
-//TODO: code that needs refactoring.
-- (void)addSlotToSlotData:(id)data {
-    
-    if (self.appointment.date) {
-        
-        NSMutableDictionary *slotsDictionaryWithExistingAppointmentSlot = [data mutableCopy];
-        NSMutableArray *slotsForDateOfExistingAppointment = [slotsDictionaryWithExistingAppointmentSlot[[self.appointment.date leo_beginningOfDay]] mutableCopy];
-
-        Slot *prepSlot = [Slot slotFromExistingAppointment:self.appointment];
-        
-        NSUInteger slotCount = [slotsForDateOfExistingAppointment count];
-        
-        NSArray *sortedSlots;
-        
-        BOOL duplicate = NO;
-        
-        for (NSInteger i = 0; i < slotCount; i++) {
-            
-            Slot *slot = slotsForDateOfExistingAppointment[i];
-            
-            if ([prepSlot.startDateTime isEqualToDate:slot.startDateTime]) {
-                duplicate = YES;
-                break;
-            }
-        }
-        
-        if (!duplicate) {
-            
-            [slotsForDateOfExistingAppointment insertObject:prepSlot atIndex:0];
-        }
-        
-        NSSortDescriptor *datesAscending = [NSSortDescriptor sortDescriptorWithKey:@"startDateTime" ascending:YES];
-        
-        sortedSlots = [slotsForDateOfExistingAppointment sortedArrayUsingDescriptors:@[datesAscending]];
-        
-        [slotsDictionaryWithExistingAppointmentSlot setObject:sortedSlots forKey:[self.appointment.date leo_beginningOfDay]];
-        self.slotsDictionary = [slotsDictionaryWithExistingAppointmentSlot copy];
-        
-    } else {
-        self.slotsDictionary = data;
-    }
-}
 
 @end

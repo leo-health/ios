@@ -13,7 +13,7 @@
 
 @implementation PatientVitalMeasurement
 
-- (instancetype)initWithTakenAt:(NSDate *)takenAt value:(NSString *)value percentile:(NSString *)percentile measurementType:(PatientVitalMeasurementType)measurementType {
+- (instancetype)initWithTakenAt:(NSDate *)takenAt value:(NSString *)value percentile:(NSString *)percentile unit:(NSString*)unit measurementType:(PatientVitalMeasurementType)measurementType {
 
     self = [super init];
     if (self) {
@@ -22,6 +22,7 @@
         _value = value;
         _percentile = percentile;
         _measurementType = measurementType;
+        _unit = unit;
     }
 
     return self;
@@ -31,10 +32,11 @@
 
     NSDate *takenAt = [NSDate leo_dateFromDateTimeString:[jsonDictionary leo_itemForKey:APIParamVitalMeasurementTakenAt]];
     NSString *value = [NSString stringWithFormat:@"%@", [jsonDictionary leo_itemForKey:APIParamVitalMeasurementValue]];
+    NSString *unit = [NSString stringWithFormat:@"%@", [jsonDictionary leo_itemForKey:APIParamVitalMeasurementUnit]];
     NSString *percentile = [jsonDictionary leo_itemForKey:APIParamVitalMeasurementPercentile];
     PatientVitalMeasurementType measurementType = [[jsonDictionary leo_itemForKey:APIParamType] integerValue];
 
-    return [self initWithTakenAt:takenAt value:value percentile:percentile measurementType:measurementType];
+    return [self initWithTakenAt:takenAt value:value percentile:percentile unit:unit measurementType:measurementType];
 }
 
 + (NSArray *)patientVitalsFromDictionaries:(NSArray *)dictionaries {
