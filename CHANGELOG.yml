@@ -1,7 +1,11 @@
     upcoming:
-    - Bug fixing for updated URL schemes
-
     releases:
+    - version: 1.0.0
+      build: 2016.03.17.15.02
+      date: March 17 2016
+      notes:
+      - Bug fixing for updated URL schemes
+    
     - version: 1.0.0
       build: 2016.03.17.14.25
       date: March 17 2016
@@ -321,6 +325,7 @@
       notes:
       - First test build using new Fastfile configuration for Alpha builds
       - Provides the basic functionality all created prior to our first releases
+
 
 
 
