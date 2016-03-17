@@ -1,7 +1,11 @@
     upcoming:
-    - More bug fixing for push notifications
-
     releases:
+    - version: 1.0.0
+      build: 2016.03.17.16.12
+      date: March 17 2016
+      notes:
+      - More bug fixing for push notifications
+    
     - version: 1.0.0
       build: 2016.03.17.15.02
       date: March 17 2016
@@ -327,6 +331,7 @@
       notes:
       - First test build using new Fastfile configuration for Alpha builds
       - Provides the basic functionality all created prior to our first releases
+
 
 
 
