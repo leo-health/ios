@@ -1,11 +1,13 @@
     upcoming:
+    - Bug fixing for push notifications
+
     releases:
     - version: 1.0.0
       build: 2016.03.15.16.25
       date: March 15 2016
       notes:
       - No updates. Testflight release.
-    
+
     - version: 1.0.0
       build: 2016.03.15.15.10
       date: March 15 2016
