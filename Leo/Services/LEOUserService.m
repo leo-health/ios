@@ -214,7 +214,6 @@
 
 - (void)logoutUserWithCompletion:(void (^)(BOOL success, NSError *error))completionBlock {
 
-    [SessionUser logout];
     [[LEOUserService leoSessionManager] standardDELETERequestForJSONDictionaryToAPIWithEndpoint:@"logout" params:nil completion:^(NSDictionary *rawResults, NSError *error) {
 
         if (error) {
@@ -223,6 +222,7 @@
 
         completionBlock ? completionBlock(!error, error) : nil;
     }];
+    [SessionUser logout];
 }
 
 - (void)resetPasswordWithEmail:(NSString *)email withCompletion:(void (^)(NSDictionary *  rawResults, NSError *error))completionBlock {
