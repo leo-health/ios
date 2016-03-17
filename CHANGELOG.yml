@@ -1,11 +1,13 @@
     upcoming:
+    - More bug fixing for push notifications
+
     releases:
     - version: 1.0.0
       build: 2016.03.17.15.02
       date: March 17 2016
       notes:
       - Bug fixing for updated URL schemes
-    
+
     - version: 1.0.0
       build: 2016.03.17.14.25
       date: March 17 2016
