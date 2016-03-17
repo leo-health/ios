@@ -29,3 +29,4 @@ BUNDLE_IDENTIFIER = com.leohealth.qa-consumer
 ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon-Development
 BUNDLE_DISPLAY_NAME = Leo QA
 URL_IDENTIFIER = com.leohealth.qa-consumer
+URL_SCHEME = leo-development-consumer
