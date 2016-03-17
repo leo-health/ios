@@ -45,7 +45,7 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>com.leohealth.leo</string>
+			<string>${URL_IDENTIFIER}</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>leohealth</string>
