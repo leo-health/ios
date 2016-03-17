@@ -38,7 +38,9 @@
             [[SessionUser currentUser] incrementLoginCounter];
             
             Guardian *guardian = [[Guardian alloc] initWithJSONDictionary:rawResults[APIParamData][APIParamUser]];
-            
+
+            [((AppDelegate *)[UIApplication sharedApplication].delegate) setupRemoteNotificationsForApplication:[UIApplication sharedApplication]];
+
             completionBlock ? completionBlock (guardian, nil) : completionBlock;
         } else {
             completionBlock ? completionBlock (nil, error) : completionBlock;
@@ -200,7 +202,9 @@
             [SessionUser setAuthToken:rawResults[APIParamData][APIParamSession][APIParamToken]];
             [SessionUser setCurrentUserWithJSONDictionary:rawResults[APIParamData]];
             [[SessionUser currentUser] incrementLoginCounter];
-            
+
+            [((AppDelegate *)[UIApplication sharedApplication].delegate) setupRemoteNotificationsForApplication:[UIApplication sharedApplication]];
+
             completionBlock ? completionBlock([SessionUser currentUser], nil) : nil;
         } else {
             completionBlock ? completionBlock(nil, error) : nil;
