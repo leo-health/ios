@@ -127,7 +127,7 @@ lane :internal do |options|
 
 
     # Tag release and push to Github
-    commit_version_bump message: "Deploying version #{version} build #{build_number}", force: true
+    commit_version_bump message: "Deploying version #{version} build #{build_number} for #{scheme}", force: true
     add_git_tag(
       grouping: 'fastlane-builds',
       prefix: 'v',
@@ -212,7 +212,7 @@ lane :internal do |options|
     clean_build_artifacts
 
     # Tag release and push to Github
-    commit_version_bump message: "Deploying version #{version} build #{build_number}", force: true
+    commit_version_bump message: "Deploying version #{version} build #{build_number} for #{scheme}", force: true
     add_git_tag(
       grouping: 'fastlane-builds',
       prefix: 'v',
