@@ -10,7 +10,10 @@
 
 @interface LEOAlertHelper : NSObject
 
-+ (void)alertForViewController:(UIViewController *)viewController error:(NSError *)error;
 + (void)alertForViewController:(UIViewController *)viewController title:(NSString *)title message:(NSString *)message;
++ (void)alertForViewController:(UIViewController *)viewController
+                         error:(NSError *)error
+                   backupTitle:(NSString *)backupTitle
+                 backupMessage:(NSString *)backupMessage;
 
 @end
