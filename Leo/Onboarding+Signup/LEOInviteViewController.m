@@ -21,6 +21,7 @@
 #import "LEOReviewOnboardingViewController.h"
 #import "Family.h"
 #import "Guardian.h"
+#import "LEOAlertHelper.h"
 
 @interface LEOInviteViewController () <LEOStickyHeaderDataSource, LEOStickyHeaderDelegate>
 
@@ -166,7 +167,8 @@ static NSString * const kCopyHeaderInviteParent = @"Invite another parent to Leo
                         [self.family addGuardian:configUser];
                         [self performSegueWithIdentifier:kSegueContinue sender:self];
                     }
-
+                } else {
+                    [LEOAlertHelper alertForViewController:self error:error backupTitle:kErrorDefaultTitle backupMessage:kErrorDefaultMessage];
                 }
             }];
         }
