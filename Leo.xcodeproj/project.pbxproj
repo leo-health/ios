@@ -30,6 +30,7 @@
 		31197A121B39D8FD00C773BA /* MenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 31197A111B39D8FD00C773BA /* MenuView.m */; };
 		31197A141B39DA3000C773BA /* MenuView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 31197A131B39DA3000C773BA /* MenuView.xib */; };
 		311CBB3E1B56B0F50009BD7A /* Conversation.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 311CBB3D1B56B0F50009BD7A /* Conversation.storyboard */; };
+		31209FA11C9F584700E8B749 /* NSString+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 31209FA01C9F584700E8B749 /* NSString+Extensions.m */; };
 		3124187F1BC0634E00E18176 /* LEOLoginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3124187E1BC0634E00E18176 /* LEOLoginView.xib */; };
 		312418851BC0638200E18176 /* LEOLoginView.m in Sources */ = {isa = PBXBuildFile; fileRef = 312418841BC0638200E18176 /* LEOLoginView.m */; };
 		312418881BC066E200E18176 /* LEOLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 312418871BC066E200E18176 /* LEOLoginViewController.m */; };
@@ -291,6 +292,8 @@
 		31197A111B39D8FD00C773BA /* MenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuView.m; sourceTree = "<group>"; };
 		31197A131B39DA3000C773BA /* MenuView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MenuView.xib; sourceTree = "<group>"; };
 		311CBB3D1B56B0F50009BD7A /* Conversation.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Conversation.storyboard; sourceTree = "<group>"; };
+		31209F9F1C9F584700E8B749 /* NSString+Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Extensions.h"; sourceTree = "<group>"; };
+		31209FA01C9F584700E8B749 /* NSString+Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Extensions.m"; sourceTree = "<group>"; };
 		3124187E1BC0634E00E18176 /* LEOLoginView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LEOLoginView.xib; sourceTree = "<group>"; };
 		312418831BC0638200E18176 /* LEOLoginView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOLoginView.h; path = "Onboarding+Signup/LEOLoginView.h"; sourceTree = "<group>"; };
 		312418841BC0638200E18176 /* LEOLoginView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOLoginView.m; path = "Onboarding+Signup/LEOLoginView.m"; sourceTree = "<group>"; };
@@ -1001,6 +1004,8 @@
 		31920A461B0A8ACC006309C2 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				31209F9F1C9F584700E8B749 /* NSString+Extensions.h */,
+				31209FA01C9F584700E8B749 /* NSString+Extensions.m */,
 				3101F93F1BF54D320075765B /* NSUserDefaults+Additions.h */,
 				3101F9401BF54D320075765B /* NSUserDefaults+Additions.m */,
 				312F35431BA212B700F64DAA /* LEOPusherHelper.h */,
@@ -1906,6 +1911,7 @@
 				31CC12E81BB062C40099AB60 /* Patient.m in Sources */,
 				31D2756C1C45A1FB005F8964 /* LEOEnrollmentView.m in Sources */,
 				31E77E071B87647B00C6EDE1 /* LEOAPISessionManager.m in Sources */,
+				31209FA11C9F584700E8B749 /* NSString+Extensions.m in Sources */,
 				31CC12DD1BB062C40099AB60 /* Guardian.m in Sources */,
 				316899681BC4851200B4C1EB /* LEOReviewUserCell.m in Sources */,
 				313FA7291C04FA13008189B9 /* LEOAppointmentViewController.m in Sources */,
@@ -2048,7 +2054,6 @@
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zachary Drossman (C7TN5PHTLC)";
 				CURRENT_PROJECT_VERSION = 2016.03.17.16.12;
-				CURRENT_PROJECT_VERSION = 2016.03.17.16.12;
 				ENABLE_TESTABILITY = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				ONLY_ACTIVE_ARCH = YES;
@@ -2091,7 +2096,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 2016.03.17.16.12;
 				CURRENT_PROJECT_VERSION = 2016.03.17.16.12;
 				ENABLE_TESTABILITY = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
@@ -2137,7 +2141,6 @@
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 2016.03.17.16.12;
-				CURRENT_PROJECT_VERSION = 2016.03.17.16.12;
 				ENABLE_TESTABILITY = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				ONLY_ACTIVE_ARCH = YES;
@@ -2181,7 +2184,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 2016.03.17.16.12;
 				CURRENT_PROJECT_VERSION = 2016.03.17.16.12;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				PROVISIONING_PROFILE = "";
@@ -2248,7 +2250,6 @@
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 2016.03.17.16.12;
-				CURRENT_PROJECT_VERSION = 2016.03.17.16.12;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				PROVISIONING_PROFILE = "";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -2291,8 +2292,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Zachary Drossman (C7TN5PHTLC)";
-				CURRENT_PROJECT_VERSION = 2016.03.17.16.12;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 2016.03.17.16.12;
 				ENABLE_TESTABILITY = YES;
