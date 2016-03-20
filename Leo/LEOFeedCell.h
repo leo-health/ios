@@ -19,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet UIView *buttonView;
 @property (weak, nonatomic) IBOutlet UIView *bodyView;
 @property (weak, nonatomic) IBOutlet UIView *borderViewAtTopOfBodyView;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicatorView;
 @property (nonatomic) BOOL unreadState;
 
 + (UINib *)nib;
