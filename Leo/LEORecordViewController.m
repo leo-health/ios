@@ -159,7 +159,8 @@ NS_ENUM(NSInteger, TableViewRow) {
                 [LEOAlertHelper alertForViewController:self
                                                  error:error
                                            backupTitle:kErrorDefaultTitle
-                                         backupMessage:kErrorDefaultMessage];            } else {
+                                         backupMessage:kErrorDefaultMessage];
+            } else {
 
                 self.healthRecord = healthRecord;
 
