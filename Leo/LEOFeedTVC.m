@@ -65,7 +65,7 @@
 
 #import "LEOAlertHelper.h"
 #import "LEOMessageService.h"
-#import <CWStatusBarNotification/CWStatusBarNotification.h>
+#import "LEOStatusBarNotification.h"
 
 typedef NS_ENUM(NSUInteger, TableViewSection) {
     TableViewSectionHeader,
@@ -574,7 +574,6 @@ static CGFloat const kFeedInsetTop = 20.0;
 
                         dispatch_async(dispatch_get_main_queue(), ^{
                             [cell.activityIndicatorView stopAnimating];
-                            [cell.activityIndicatorView removeFromSuperview];
                         });
 
                         if (!error) {
@@ -584,7 +583,8 @@ static CGFloat const kFeedInsetTop = 20.0;
                             [card.associatedCardObject undoIfAvailable];
 
                             //MARK: This is a temp fix given that we haven't described error messages for failed requests in the feed. Return to this at a later time with a thought through design. Also, this probably belongs in the card instead of the view controller so that it may be used by multiple cards if we're going to implement a generic solution, but again, for a later time.
-                            CWStatusBarNotification *failedStatus = [CWStatusBarNotification new];
+
+                            LEOStatusBarNotification *failedStatus = [LEOStatusBarNotification new];
                             [failedStatus displayNotificationWithMessage:@"Appointment cancellation failed. Contact practice or try again." forDuration:4.0];
                         }
                     }];

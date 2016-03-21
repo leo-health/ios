@@ -28,7 +28,7 @@
 #import "LEOUserService.h"
 #import "LEOImageCropViewController.h"
 #import "LEOAlertHelper.h"
-#import <CWStatusBarNotification.h>
+#import "LEOStatusBarNotification.h"
 #import "NSObject+XibAdditions.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <Photos/Photos.h>
@@ -37,7 +37,6 @@
 
 @property (weak, nonatomic) LEOSignUpPatientView *signUpPatientView;
 @property (strong, nonatomic) Patient *originalPatient;
-@property (strong, nonatomic) CWStatusBarNotification *statusBarNotification;
 
 @end
 
@@ -128,17 +127,6 @@ static NSString *const kCopyUsePhoto = @"USE PHOTO";
 
     [self setupTintColor];
     self.signUpPatientView.feature = feature;
-}
-
-- (CWStatusBarNotification *)statusBarNotification {
-
-    if (!_statusBarNotification) {
-
-        _statusBarNotification = [CWStatusBarNotification new];
-        [LEOStyleHelper styleStatusBarNotification:_statusBarNotification];
-    }
-
-    return _statusBarNotification;
 }
 
 -(void)setManagementMode:(ManagementMode)managementMode {
@@ -372,7 +360,9 @@ static NSString *const kCopyUsePhoto = @"USE PHOTO";
 
             //TODO: Let user know that patient was created successfully or not IF in settings only
 
-            [self.statusBarNotification displayNotificationWithMessage:@"Child information successfully created!"
+            LEOStatusBarNotification *successNotification = [LEOStatusBarNotification new];
+
+            [successNotification displayNotificationWithMessage:@"Child information successfully created!"
                                                            forDuration:1.0f];
 
             self.patient.objectID = patient.objectID;
@@ -421,7 +411,9 @@ static NSString *const kCopyUsePhoto = @"USE PHOTO";
 
             if (success) {
 
-                [self.statusBarNotification displayNotificationWithMessage:@"Child information successfully updated!"
+                LEOStatusBarNotification *successNotification = [LEOStatusBarNotification new];
+
+                [successNotification displayNotificationWithMessage:@"Child information successfully updated!"
                                                                forDuration:1.0f];
 
                 [self.navigationController popViewControllerAnimated:YES];
@@ -449,7 +441,8 @@ static NSString *const kCopyUsePhoto = @"USE PHOTO";
                     self.signUpPatientView.updateButton.enabled = YES;
                     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
 
-                    [self.statusBarNotification displayNotificationWithMessage:@"Child information successfully updated!"
+                    LEOStatusBarNotification *successNotification =[LEOStatusBarNotification new];
+                    [successNotification displayNotificationWithMessage:@"Child information successfully updated!"
                                                                    forDuration:1.0f];
                     [self.navigationController popViewControllerAnimated:YES];
                 }

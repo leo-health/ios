@@ -389,16 +389,6 @@
     navigationController.navigationBar.tintColor = [self headerIconColorForFeature:feature];
 }
 
-+ (void)styleStatusBarNotification:(CWStatusBarNotification *)statusBarNotification {
-    
-    
-    statusBarNotification.notificationLabelBackgroundColor = [UIColor leo_white];
-    
-    statusBarNotification.notificationLabelFont = [UIFont leo_standardFont];
-    
-    statusBarNotification.notificationLabelTextColor = [UIColor leo_orangeRed];
-}
-
 
 
 @end
