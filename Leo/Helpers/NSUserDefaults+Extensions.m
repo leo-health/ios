@@ -1,14 +1,14 @@
 //
-//  NSUserDefaults+Additions.m
+//  NSUserDefaults+Extensions.m
 //  
 //
 //  Created by Zachary Drossman on 11/12/15.
 //
 //
 
-#import "NSUserDefaults+Additions.h"
+#import "NSUserDefaults+Extensions.h"
 
-@implementation NSUserDefaults (Additions)
+@implementation NSUserDefaults (Extensions)
 
 static NSUserDefaults *defaults;
 

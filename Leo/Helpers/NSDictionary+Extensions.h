@@ -1,5 +1,5 @@
 //
-//  NSDictionary+Additions.h
+//  NSDictionary+Extensions.h
 //  Leo
 //
 //  Created by Zachary Drossman on 11/13/15.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NSDictionary (Additions)
+@interface NSDictionary (Extensions)
 
 
 //Ensures that we can never fill a dictionary with NSNull. Always returns an NSString or nil.

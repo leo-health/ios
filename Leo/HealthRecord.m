@@ -7,7 +7,7 @@
 //
 
 #import "HealthRecord.h"
-#import "NSDictionary+Additions.h"
+#import "NSDictionary+Extensions.h"
 #import "LEOConstants.h"
 
 @implementation HealthRecord

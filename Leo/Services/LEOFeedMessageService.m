@@ -9,7 +9,7 @@
 #import "LEOFeedMessageService.h"
 #import "LEOS3JSONSessionManager.h"
 #import "NSDate+Extensions.h"
-#import "NSDictionary+Additions.h"
+#import "NSDictionary+Extensions.h"
 #import "Configuration.h"
 
 @implementation LEOFeedMessageService

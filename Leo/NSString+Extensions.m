@@ -10,6 +10,16 @@
 
 @implementation NSString (Extensions)
 
+- (NSString *)leo_stringByTrimmingWhitespace {
+
+    return [self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+}
+
+- (BOOL)leo_isWhitespace {
+
+    return [[self leo_stringByTrimmingWhitespace] isEqualToString:@""];
+}
+
 /**
  *  Determines the appropriate suffix to add on to a number when used in a sentence.
  *  Adapted from http://stackoverflow.com/a/4011232/1938725

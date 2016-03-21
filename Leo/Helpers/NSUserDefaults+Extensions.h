@@ -1,5 +1,5 @@
 //
-//  NSUserDefaults+Additions.h
+//  NSUserDefaults+Extensions.h
 //  
 //
 //  Created by Zachary Drossman on 11/12/15.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NSUserDefaults (Additions)
+@interface NSUserDefaults (Extensions)
 
 + (void)leo_loadDefaultsWithName:(NSString *)name;
 + (void)leo_loadDefaultsWithDictionary:(NSDictionary *)dictionary;

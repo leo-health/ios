@@ -10,6 +10,9 @@
 
 @interface NSString (Extensions)
 
+- (NSString *)leo_stringByTrimmingWhitespace;
+- (BOOL)leo_isWhitespace;
+
 + (NSString *)leo_numericSuffix:(NSUInteger)number;
 
 @end

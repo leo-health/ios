@@ -9,9 +9,9 @@
 /* Begin PBXBuildFile section */
 		18BA867E436F53B27026FDB3 /* libPods-LeoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E5BC0D4370F984698F4E074 /* libPods-LeoTests.a */; };
 		1E7306FB1B3F823800D029CC /* UIScrollView+LEOScrollToVisible.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E7306FA1B3F823800D029CC /* UIScrollView+LEOScrollToVisible.m */; };
-		3101F9411BF54D320075765B /* NSUserDefaults+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3101F9401BF54D320075765B /* NSUserDefaults+Additions.m */; };
+		3101F9411BF54D320075765B /* NSUserDefaults+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3101F9401BF54D320075765B /* NSUserDefaults+Extensions.m */; };
 		3101F9431BF556820075765B /* LeoUserDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3101F9421BF556820075765B /* LeoUserDefaults.plist */; };
-		3101F9461BF664A60075765B /* NSDictionary+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3101F9451BF664A60075765B /* NSDictionary+Additions.m */; };
+		3101F9461BF664A60075765B /* NSDictionary+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3101F9451BF664A60075765B /* NSDictionary+Extensions.m */; };
 		310740741B545EFD0098FD40 /* LEOCardConversation.m in Sources */ = {isa = PBXBuildFile; fileRef = 310740731B545EFD0098FD40 /* LEOCardConversation.m */; };
 		310C63161BFBA16700028AF4 /* UserFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 310C63151BFBA16700028AF4 /* UserFactory.m */; };
 		3115F1E71BC55F77001BDF6A /* LEOStyleHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3115F1E61BC55F77001BDF6A /* LEOStyleHelper.m */; };
@@ -206,7 +206,6 @@
 		662371F61C568E51001AB3E7 /* LEOLoggedOutSignUpCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 662371F41C568E51001AB3E7 /* LEOLoggedOutSignUpCell.m */; };
 		662371F71C568E51001AB3E7 /* LEOLoggedOutSignUpCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 662371F51C568E51001AB3E7 /* LEOLoggedOutSignUpCell.xib */; };
 		662371F91C569F72001AB3E7 /* Signed-Out.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 662371F81C569F72001AB3E7 /* Signed-Out.xcassets */; };
-		6627E7201C876FB300B8F936 /* NSString+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 6627E71F1C876FB300B8F936 /* NSString+Helpers.m */; };
 		6627E7261C8790BA00B8F936 /* LEOInputAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6627E7251C8790BA00B8F936 /* LEOInputAccessoryView.xib */; };
 		6627E7291C87918600B8F936 /* LEOInputAccessoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6627E7281C87918600B8F936 /* LEOInputAccessoryView.m */; };
 		6660C93E1C3AF92800C2657B /* LEOGradientHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6660C93D1C3AF92800C2657B /* LEOGradientHelper.m */; };
@@ -255,11 +254,11 @@
 		00C21EAFFFDC7EA3B95241D1 /* Pods-LeoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LeoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-LeoTests/Pods-LeoTests.release.xcconfig"; sourceTree = "<group>"; };
 		1E7306F91B3F823800D029CC /* UIScrollView+LEOScrollToVisible.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+LEOScrollToVisible.h"; sourceTree = "<group>"; };
 		1E7306FA1B3F823800D029CC /* UIScrollView+LEOScrollToVisible.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+LEOScrollToVisible.m"; sourceTree = "<group>"; };
-		3101F93F1BF54D320075765B /* NSUserDefaults+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSUserDefaults+Additions.h"; path = "Helpers/NSUserDefaults+Additions.h"; sourceTree = "<group>"; };
-		3101F9401BF54D320075765B /* NSUserDefaults+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSUserDefaults+Additions.m"; path = "Helpers/NSUserDefaults+Additions.m"; sourceTree = "<group>"; };
+		3101F93F1BF54D320075765B /* NSUserDefaults+Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSUserDefaults+Extensions.h"; path = "Helpers/NSUserDefaults+Extensions.h"; sourceTree = "<group>"; };
+		3101F9401BF54D320075765B /* NSUserDefaults+Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSUserDefaults+Extensions.m"; path = "Helpers/NSUserDefaults+Extensions.m"; sourceTree = "<group>"; };
 		3101F9421BF556820075765B /* LeoUserDefaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = LeoUserDefaults.plist; path = Leo/LeoUserDefaults.plist; sourceTree = "<group>"; };
-		3101F9441BF664A60075765B /* NSDictionary+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDictionary+Additions.h"; path = "Helpers/NSDictionary+Additions.h"; sourceTree = "<group>"; };
-		3101F9451BF664A60075765B /* NSDictionary+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDictionary+Additions.m"; path = "Helpers/NSDictionary+Additions.m"; sourceTree = "<group>"; };
+		3101F9441BF664A60075765B /* NSDictionary+Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDictionary+Extensions.h"; path = "Helpers/NSDictionary+Extensions.h"; sourceTree = "<group>"; };
+		3101F9451BF664A60075765B /* NSDictionary+Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDictionary+Extensions.m"; path = "Helpers/NSDictionary+Extensions.m"; sourceTree = "<group>"; };
 		310740721B545EFD0098FD40 /* LEOCardConversation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOCardConversation.h; path = "Data Model/LEOCardConversation.h"; sourceTree = "<group>"; };
 		310740731B545EFD0098FD40 /* LEOCardConversation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOCardConversation.m; path = "Data Model/LEOCardConversation.m"; sourceTree = "<group>"; };
 		310C63141BFBA16700028AF4 /* UserFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserFactory.h; path = "Leo/Data Model/UserFactory.h"; sourceTree = SOURCE_ROOT; };
@@ -484,7 +483,7 @@
 		31B509821C7CE27B00CE33D4 /* LEOFeedNavigationHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOFeedNavigationHeaderView.h; path = "Views and Controllers/Feed/LEOFeedNavigationHeaderView.h"; sourceTree = "<group>"; };
 		31B509831C7CE27B00CE33D4 /* LEOFeedNavigationHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOFeedNavigationHeaderView.m; path = "Views and Controllers/Feed/LEOFeedNavigationHeaderView.m"; sourceTree = "<group>"; };
 		31B509881C7E330300CE33D4 /* LEOFeedMessageService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOFeedMessageService.h; path = Services/LEOFeedMessageService.h; sourceTree = "<group>"; };
-		31B509891C7E330300CE33D4 /* LEOFeedMessageService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOFeedMessageService.m; path = Services/LEOFeedMessageService.m; sourceTree = "<group>"; };
+		31B509891C7E330300CE33D4 /* LEOFeedMessageService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = LEOFeedMessageService.m; path = Services/LEOFeedMessageService.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		31B5098B1C7E4F8C00CE33D4 /* LEOS3JSONSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOS3JSONSessionManager.h; path = APIs/LEOS3JSONSessionManager.h; sourceTree = "<group>"; };
 		31B5098C1C7E4F8C00CE33D4 /* LEOS3JSONSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOS3JSONSessionManager.m; path = APIs/LEOS3JSONSessionManager.m; sourceTree = "<group>"; };
 		31B5EC631BDA84720016F653 /* *.leoforkids.com.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = "*.leoforkids.com.cer"; sourceTree = "<group>"; };
@@ -502,37 +501,37 @@
 		31BF23461BBAEA27005856E5 /* LEOSignUpPatientViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOSignUpPatientViewController.m; path = "Onboarding+Signup/LEOSignUpPatientViewController.m"; sourceTree = "<group>"; };
 		31CC128E1BB05E4B0099AB60 /* CardActivityProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardActivityProtocol.h; sourceTree = "<group>"; };
 		31CC12B81BB062C40099AB60 /* SessionUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SessionUser.h; path = "Leo/Data Model/SessionUser.h"; sourceTree = SOURCE_ROOT; };
-		31CC12B91BB062C40099AB60 /* Appointment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Appointment.m; path = "Leo/Data Model/Appointment.m"; sourceTree = SOURCE_ROOT; };
+		31CC12B91BB062C40099AB60 /* Appointment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = Appointment.m; path = "Leo/Data Model/Appointment.m"; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		31CC12BA1BB062C40099AB60 /* Slot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Slot.h; path = "Leo/Data Model/Slot.h"; sourceTree = SOURCE_ROOT; };
 		31CC12BB1BB062C40099AB60 /* Slot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Slot.m; path = "Leo/Data Model/Slot.m"; sourceTree = SOURCE_ROOT; };
 		31CC12BC1BB062C40099AB60 /* Conversation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Conversation.h; path = "Leo/Data Model/Conversation.h"; sourceTree = SOURCE_ROOT; };
 		31CC12BD1BB062C40099AB60 /* Conversation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Conversation.m; path = "Leo/Data Model/Conversation.m"; sourceTree = SOURCE_ROOT; };
-		31CC12BE1BB062C40099AB60 /* Guardian.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Guardian.m; path = "Leo/Data Model/Guardian.m"; sourceTree = SOURCE_ROOT; };
+		31CC12BE1BB062C40099AB60 /* Guardian.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = Guardian.m; path = "Leo/Data Model/Guardian.m"; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		31CC12BF1BB062C40099AB60 /* InsurancePlan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InsurancePlan.h; path = "Leo/Data Model/InsurancePlan.h"; sourceTree = SOURCE_ROOT; };
 		31CC12C01BB062C40099AB60 /* InsurancePlan.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InsurancePlan.m; path = "Leo/Data Model/InsurancePlan.m"; sourceTree = SOURCE_ROOT; };
 		31CC12C11BB062C40099AB60 /* Insurer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Insurer.h; path = "Leo/Data Model/Insurer.h"; sourceTree = SOURCE_ROOT; };
 		31CC12C21BB062C40099AB60 /* Insurer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Insurer.m; path = "Leo/Data Model/Insurer.m"; sourceTree = SOURCE_ROOT; };
-		31CC12C31BB062C40099AB60 /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Message.m; path = "Leo/Data Model/Message.m"; sourceTree = SOURCE_ROOT; };
+		31CC12C31BB062C40099AB60 /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = Message.m; path = "Leo/Data Model/Message.m"; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		31CC12C41BB062C40099AB60 /* SessionUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SessionUser.m; path = "Leo/Data Model/SessionUser.m"; sourceTree = SOURCE_ROOT; };
 		31CC12C51BB062C40099AB60 /* Support.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Support.h; path = "Leo/Data Model/Support.h"; sourceTree = SOURCE_ROOT; };
 		31CC12C61BB062C40099AB60 /* Support.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Support.m; path = "Leo/Data Model/Support.m"; sourceTree = SOURCE_ROOT; };
 		31CC12C71BB062C40099AB60 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = User.h; path = "Leo/Data Model/User.h"; sourceTree = SOURCE_ROOT; };
 		31CC12C81BB062C40099AB60 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = User.m; path = "Leo/Data Model/User.m"; sourceTree = SOURCE_ROOT; };
 		31CC12C91BB062C40099AB60 /* Appointment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Appointment.h; path = "Leo/Data Model/Appointment.h"; sourceTree = SOURCE_ROOT; };
-		31CC12CA1BB062C40099AB60 /* AppointmentType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppointmentType.m; path = "Leo/Data Model/AppointmentType.m"; sourceTree = SOURCE_ROOT; };
+		31CC12CA1BB062C40099AB60 /* AppointmentType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = AppointmentType.m; path = "Leo/Data Model/AppointmentType.m"; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		31CC12CB1BB062C40099AB60 /* Family.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Family.m; path = "Leo/Data Model/Family.m"; sourceTree = SOURCE_ROOT; };
 		31CC12CC1BB062C40099AB60 /* Guardian.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Guardian.h; path = "Leo/Data Model/Guardian.h"; sourceTree = SOURCE_ROOT; };
 		31CC12CD1BB062C40099AB60 /* Practice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Practice.h; path = "Leo/Data Model/Practice.h"; sourceTree = SOURCE_ROOT; };
-		31CC12CE1BB062C40099AB60 /* Practice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Practice.m; path = "Leo/Data Model/Practice.m"; sourceTree = SOURCE_ROOT; };
+		31CC12CE1BB062C40099AB60 /* Practice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = Practice.m; path = "Leo/Data Model/Practice.m"; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		31CC12CF1BB062C40099AB60 /* PrepAppointment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PrepAppointment.h; path = "Leo/Data Model/PrepAppointment.h"; sourceTree = SOURCE_ROOT; };
-		31CC12D01BB062C40099AB60 /* PrepAppointment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PrepAppointment.m; path = "Leo/Data Model/PrepAppointment.m"; sourceTree = SOURCE_ROOT; };
+		31CC12D01BB062C40099AB60 /* PrepAppointment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = PrepAppointment.m; path = "Leo/Data Model/PrepAppointment.m"; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		31CC12D11BB062C40099AB60 /* AppointmentType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppointmentType.h; path = "Leo/Data Model/AppointmentType.h"; sourceTree = SOURCE_ROOT; };
 		31CC12D21BB062C40099AB60 /* Family.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Family.h; path = "Leo/Data Model/Family.h"; sourceTree = SOURCE_ROOT; };
 		31CC12D31BB062C40099AB60 /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Message.h; path = "Leo/Data Model/Message.h"; sourceTree = SOURCE_ROOT; };
 		31CC12D41BB062C40099AB60 /* Patient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Patient.h; path = "Leo/Data Model/Patient.h"; sourceTree = SOURCE_ROOT; };
 		31CC12D51BB062C40099AB60 /* Patient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Patient.m; path = "Leo/Data Model/Patient.m"; sourceTree = SOURCE_ROOT; };
 		31CC12D61BB062C40099AB60 /* Provider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Provider.h; path = "Leo/Data Model/Provider.h"; sourceTree = SOURCE_ROOT; };
-		31CC12D71BB062C40099AB60 /* Provider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Provider.m; path = "Leo/Data Model/Provider.m"; sourceTree = SOURCE_ROOT; };
+		31CC12D71BB062C40099AB60 /* Provider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = Provider.m; path = "Leo/Data Model/Provider.m"; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		31CC12D81BB062C40099AB60 /* Role.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Role.h; path = "Leo/Data Model/Role.h"; sourceTree = SOURCE_ROOT; };
 		31CC12D91BB062C40099AB60 /* Role.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Role.m; path = "Leo/Data Model/Role.m"; sourceTree = SOURCE_ROOT; };
 		31CC12EB1BB062E90099AB60 /* LEOS3ImageSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOS3ImageSessionManager.h; path = APIs/LEOS3ImageSessionManager.h; sourceTree = "<group>"; };
@@ -645,8 +644,6 @@
 		662371F41C568E51001AB3E7 /* LEOLoggedOutSignUpCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOLoggedOutSignUpCell.m; sourceTree = "<group>"; };
 		662371F51C568E51001AB3E7 /* LEOLoggedOutSignUpCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LEOLoggedOutSignUpCell.xib; sourceTree = "<group>"; };
 		662371F81C569F72001AB3E7 /* Signed-Out.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Signed-Out.xcassets"; sourceTree = "<group>"; };
-		6627E71E1C876FB300B8F936 /* NSString+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Helpers.h"; sourceTree = "<group>"; };
-		6627E71F1C876FB300B8F936 /* NSString+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Helpers.m"; sourceTree = "<group>"; };
 		6627E7251C8790BA00B8F936 /* LEOInputAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LEOInputAccessoryView.xib; sourceTree = "<group>"; };
 		6627E7271C87918600B8F936 /* LEOInputAccessoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOInputAccessoryView.h; sourceTree = "<group>"; };
 		6627E7281C87918600B8F936 /* LEOInputAccessoryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOInputAccessoryView.m; sourceTree = "<group>"; };
@@ -666,17 +663,17 @@
 		6677AE3E1C62B71F002CA27C /* LEOLoggedOutLoginCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LEOLoggedOutLoginCell.xib; sourceTree = "<group>"; };
 		6684A24A1C34497500C41D6F /* DeveloperCodeSigning.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = DeveloperCodeSigning.xcconfig; path = xcconfig/DeveloperCodeSigning.xcconfig; sourceTree = "<group>"; };
 		66A5DB251C3D95FD008AEC55 /* HealthRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HealthRecord.h; path = Leo/HealthRecord.h; sourceTree = SOURCE_ROOT; };
-		66A5DB261C3D95FD008AEC55 /* HealthRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HealthRecord.m; path = Leo/HealthRecord.m; sourceTree = SOURCE_ROOT; };
+		66A5DB261C3D95FD008AEC55 /* HealthRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = HealthRecord.m; path = Leo/HealthRecord.m; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		66A5DB281C3D964C008AEC55 /* Allergy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Allergy.h; path = Leo/Allergy.h; sourceTree = SOURCE_ROOT; };
-		66A5DB291C3D964C008AEC55 /* Allergy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Allergy.m; path = Leo/Allergy.m; sourceTree = SOURCE_ROOT; };
+		66A5DB291C3D964C008AEC55 /* Allergy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = Allergy.m; path = Leo/Allergy.m; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		66A5DB2B1C3D96A9008AEC55 /* Immunization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Immunization.h; path = Leo/Immunization.h; sourceTree = SOURCE_ROOT; };
-		66A5DB2C1C3D96A9008AEC55 /* Immunization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Immunization.m; path = Leo/Immunization.m; sourceTree = SOURCE_ROOT; };
+		66A5DB2C1C3D96A9008AEC55 /* Immunization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = Immunization.m; path = Leo/Immunization.m; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		66A5DB2E1C3D96B1008AEC55 /* Medication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Medication.h; path = Leo/Medication.h; sourceTree = SOURCE_ROOT; };
-		66A5DB2F1C3D96B1008AEC55 /* Medication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Medication.m; path = Leo/Medication.m; sourceTree = SOURCE_ROOT; };
+		66A5DB2F1C3D96B1008AEC55 /* Medication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = Medication.m; path = Leo/Medication.m; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		66A5DB311C3D96F7008AEC55 /* PatientNote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PatientNote.h; path = Leo/PatientNote.h; sourceTree = SOURCE_ROOT; };
-		66A5DB321C3D96F7008AEC55 /* PatientNote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PatientNote.m; path = Leo/PatientNote.m; sourceTree = SOURCE_ROOT; };
+		66A5DB321C3D96F7008AEC55 /* PatientNote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = PatientNote.m; path = Leo/PatientNote.m; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		66A5DB341C3D979B008AEC55 /* PatientVitalMeasurement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PatientVitalMeasurement.h; path = Leo/PatientVitalMeasurement.h; sourceTree = SOURCE_ROOT; };
-		66A5DB351C3D979B008AEC55 /* PatientVitalMeasurement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PatientVitalMeasurement.m; path = Leo/PatientVitalMeasurement.m; sourceTree = SOURCE_ROOT; };
+		66A5DB351C3D979B008AEC55 /* PatientVitalMeasurement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = PatientVitalMeasurement.m; path = Leo/PatientVitalMeasurement.m; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		66A5DB371C3DAEEE008AEC55 /* LEOHealthRecordService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOHealthRecordService.h; sourceTree = "<group>"; };
 		66A5DB381C3DAEEE008AEC55 /* LEOHealthRecordService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOHealthRecordService.m; sourceTree = "<group>"; };
 		66A5DB3F1C3EE93D008AEC55 /* LEOPHRTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOPHRTableViewCell.h; sourceTree = "<group>"; };
@@ -884,10 +881,8 @@
 			isa = PBXGroup;
 			children = (
 				3132D9E01C19EE1A00A3E9AA /* LEOViewControllerAnimatedTransitioningProtocol.h */,
-				3101F9441BF664A60075765B /* NSDictionary+Additions.h */,
-				3101F9451BF664A60075765B /* NSDictionary+Additions.m */,
-				6627E71E1C876FB300B8F936 /* NSString+Helpers.h */,
-				6627E71F1C876FB300B8F936 /* NSString+Helpers.m */,
+				3101F9441BF664A60075765B /* NSDictionary+Extensions.h */,
+				3101F9451BF664A60075765B /* NSDictionary+Extensions.m */,
 				3177B99B1B189F6C006AE360 /* Controller */,
 				31920A461B0A8ACC006309C2 /* Model */,
 				BC163B001B054CCF000FB1CE /* View */,
@@ -1006,8 +1001,8 @@
 			children = (
 				31209F9F1C9F584700E8B749 /* NSString+Extensions.h */,
 				31209FA01C9F584700E8B749 /* NSString+Extensions.m */,
-				3101F93F1BF54D320075765B /* NSUserDefaults+Additions.h */,
-				3101F9401BF54D320075765B /* NSUserDefaults+Additions.m */,
+				3101F93F1BF54D320075765B /* NSUserDefaults+Extensions.h */,
+				3101F9401BF54D320075765B /* NSUserDefaults+Extensions.m */,
 				312F35431BA212B700F64DAA /* LEOPusherHelper.h */,
 				312F35441BA212B700F64DAA /* LEOPusherHelper.m */,
 				3182E55C1B20C8F5004DECF8 /* NSDate+Extensions.h */,
@@ -1873,7 +1868,7 @@
 				31F5AA631B791B4A00F96D06 /* LEOCalendarViewController.m in Sources */,
 				6677AE3D1C61689D002CA27C /* LEOSwipeArrowsView.m in Sources */,
 				662371DF1C5683A3001AB3E7 /* LEOLoggedOutOnboardingViewController.m in Sources */,
-				3101F9411BF54D320075765B /* NSUserDefaults+Additions.m in Sources */,
+				3101F9411BF54D320075765B /* NSUserDefaults+Extensions.m in Sources */,
 				312594B71BDFEA9C00A497C0 /* LEOHorizontalModalTransitionAnimator.m in Sources */,
 				31D275761C517AF0005F8964 /* LEOManagePatientsView.m in Sources */,
 				3115F1FF1BC80E7D001BDF6A /* LEOInviteViewController.m in Sources */,
@@ -1886,7 +1881,6 @@
 				3138FC4B1B9A19A8000FE22C /* InsurancePlanCell+ConfigureCell.m in Sources */,
 				66A5DB2D1C3D96A9008AEC55 /* Immunization.m in Sources */,
 				31F5AA7A1B791B4B00F96D06 /* AppointmentTypeCell+ConfigureCell.m in Sources */,
-				6627E7201C876FB300B8F936 /* NSString+Helpers.m in Sources */,
 				3155888E1BBC314D0038E381 /* LEOManagePatientsViewController.m in Sources */,
 				3132D9E31C1BAC0E00A3E9AA /* LEONavigationControllerPushAnimator.m in Sources */,
 				31CC12E61BB062C40099AB60 /* Practice.m in Sources */,
@@ -1940,7 +1934,7 @@
 				3138FC3A1B9A145B000FE22C /* LEOForgotPasswordViewController.m in Sources */,
 				317B72B31C30A29A00F3620D /* LEOPHRViewController.m in Sources */,
 				31FEF1571B0D09E700AD14D2 /* LEOCardUserView.m in Sources */,
-				3101F9461BF664A60075765B /* NSDictionary+Additions.m in Sources */,
+				3101F9461BF664A60075765B /* NSDictionary+Extensions.m in Sources */,
 				317B72B61C30A2E900F3620D /* LEOPatientProfileView.m in Sources */,
 				3177B9981B17A1B7006AE360 /* LEOCardAppointment.m in Sources */,
 				31254B801BB0576500E8E150 /* LEOMessageService.m in Sources */,

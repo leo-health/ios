@@ -8,7 +8,7 @@
 
 #import "User.h"
 #import "Appointment.h"
-#import "NSDictionary+Additions.h"
+#import "NSDictionary+Extensions.h"
 #import "LEOS3Image.h"
 #import "LEOValidationsHelper.h"
 

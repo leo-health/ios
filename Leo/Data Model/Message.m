@@ -19,7 +19,7 @@
 #import "Support.h"
 
 #import "NSDate+Extensions.h"
-#import "NSDictionary+Additions.h"
+#import "NSDictionary+Extensions.h"
 #import <AFNetworking/UIImage+AFNetworking.h>
 #import <JSQPhotoMediaItem.h>
 

@@ -20,7 +20,7 @@
 #import "LEOIntrinsicSizeTableView.h"
 #import <MBProgressHUD.h>
 #import "NSObject+TableViewAccurateEstimatedCellHeight.h"
-#import "NSString+Helpers.h"
+#import "NSString+Extensions.h"
 
 // controllers
 #import "LEORecordEditNotesViewController.h"
