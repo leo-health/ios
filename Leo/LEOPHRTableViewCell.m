@@ -58,7 +58,7 @@
         if (vital.percentile) {
 
             NSString *percentileSuffix = [NSString leo_numericSuffix:[vital.percentile integerValue]];
-            [str appendString:[NSString stringWithFormat:@"  -  %@%@ percentile",vital.percentile, percentileSuffix]];
+            [str appendString:[NSString stringWithFormat:@", %@%@ percentile",vital.percentile, percentileSuffix]];
         }
 
         self.recordMainDetailLabel.text = [str copy];
