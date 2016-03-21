@@ -73,6 +73,13 @@
     return [UINib nibWithNibName:NSStringFromClass([LEOFeedCell class]) bundle:nil];
 }
 
+-(void)setActivityIndicatorView:(UIActivityIndicatorView *)activityIndicatorView {
+
+    _activityIndicatorView = activityIndicatorView;
+
+    _activityIndicatorView.hidesWhenStopped = YES;
+}
+
 -(void)prepareForReuse {
 
     //MARK: This is probably a suboptimal implementation but one that allows us to iterate quickly for the short term; ideally we should dependency inject the subviews into these views such that they are replaced.

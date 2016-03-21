@@ -12,7 +12,8 @@
 #import "LEOUserService.h"
 #import "LEOAlertHelper.h"
 #import <MBProgressHUD.h>
-#import <CWStatusBarNotification.h>
+#import "LEOStatusBarNotification.h"
+
 @interface LEOUpdatePasswordViewController ()
 
 @property (weak, nonatomic) IBOutlet LEOUpdatePasswordView *updatePasswordView;
@@ -21,7 +22,7 @@
 @property (copy, nonatomic) NSString *passwordCurrent;
 @property (copy, nonatomic) NSString *passwordNew;
 @property (copy, nonatomic) NSString *passwordNewRetyped;
-@property (strong, nonatomic) CWStatusBarNotification *statusBarNotification;
+
 @end
 
 @implementation LEOUpdatePasswordViewController
@@ -70,17 +71,6 @@
     [LEOStyleHelper styleBackButtonForViewController:self forFeature:FeatureSettings];
 }
 
-- (CWStatusBarNotification *)statusBarNotification {
-
-    if (!_statusBarNotification) {
-
-        _statusBarNotification = [CWStatusBarNotification new];
-        [LEOStyleHelper styleStatusBarNotification:_statusBarNotification];
-    }
-
-    return _statusBarNotification;
-}
-
 - (void)updatePasswordTapped {
 
     if ([self isValidNewPassword]) {
@@ -119,7 +109,9 @@
 
         if (success) {
 
-            [self.statusBarNotification displayNotificationWithMessage:@"Password successfully updated!"
+            LEOStatusBarNotification *successNotification = [LEOStatusBarNotification new];
+
+            [successNotification displayNotificationWithMessage:@"Password successfully updated!"
                                                            forDuration:1.0f];
 
             [self.navigationController popViewControllerAnimated:YES];

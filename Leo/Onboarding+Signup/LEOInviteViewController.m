@@ -14,7 +14,7 @@
 #import "LEOUserService.h"
 #import "User.h"    
 #import <MBProgressHUD/MBProgressHUD.h>
-#import <CWStatusBarNotification.h>
+#import "LEOStatusBarNotification.h"
 #import "LEOProgressDotsHeaderView.h"
 #import "UIColor+LeoColors.h"
 #import "NSObject+XibAdditions.h"
@@ -27,7 +27,6 @@
 
 @property (strong, nonatomic) LEOProgressDotsHeaderView *headerView;
 @property (strong, nonatomic) LEOInviteView *inviteView;
-@property (strong, nonatomic) CWStatusBarNotification *statusBarNotification;
 
 @end
 
@@ -110,17 +109,6 @@ static NSString * const kCopyHeaderInviteParent = @"Invite another parent to Leo
     self.navigationItem.titleView.alpha = transitionPercentage;
 }
 
-- (CWStatusBarNotification *)statusBarNotification {
-
-    if (!_statusBarNotification) {
-
-        _statusBarNotification = [CWStatusBarNotification new];
-        [LEOStyleHelper styleStatusBarNotification:_statusBarNotification];
-    }
-
-    return _statusBarNotification;
-}
-
 - (void)setupNavigationBar {
 
     [LEOStyleHelper styleNavigationBarForViewController:self forFeature:self.feature withTitleText:@"Invite a Parent" dismissal:NO backButton:YES];
@@ -158,7 +146,8 @@ static NSString * const kCopyHeaderInviteParent = @"Invite another parent to Leo
 
                     if (self.feature == FeatureSettings) {
 
-                        [self.statusBarNotification displayNotificationWithMessage:@"Additional parent successfully invited!"
+                        LEOStatusBarNotification *successNotification = [LEOStatusBarNotification new];
+                        [successNotification displayNotificationWithMessage:@"Additional parent successfully invited!"
                                                                        forDuration:1.0f];
 
                         [self.navigationController popViewControllerAnimated:YES];

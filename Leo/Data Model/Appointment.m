@@ -143,14 +143,17 @@
 }
 
 - (void)confirmCancelled {
+    self.priorStatus = self.status;
     self.status = [[AppointmentStatus alloc] initWithObjectID:nil name:@"ConfirmingCancelling" athenaCode:nil statusCode:AppointmentStatusCodeConfirmingCancelling];
 }
 
 - (void)unconfirmCancelled {
+    self.priorStatus = self.status;
     self.status = [[AppointmentStatus alloc] initWithObjectID:nil name:@"Reminding" athenaCode:nil statusCode:AppointmentStatusCodeReminding];
 }
 
 - (void)cancelled {
+    self.priorStatus = self.status;
     self.status = [[AppointmentStatus alloc] initWithObjectID:nil name:@"Cancelled" athenaCode:nil statusCode:AppointmentStatusCodeCancelled];
 }
 

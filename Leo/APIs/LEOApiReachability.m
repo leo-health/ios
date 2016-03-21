@@ -8,13 +8,12 @@
 
 #import "LEOApiReachability.h"
 #import <AFNetworking/AFNetworkReachabilityManager.h>
-#import "LEOConnectivityStatusBarNotification.h"
-#import <CWStatusBarNotification/CWStatusBarNotification.h>
+#import "LEOStatusBarNotification.h"
 #import "LEOStyleHelper.h"
 
 @implementation LEOApiReachability
 
-static CWStatusBarNotification *_cwStatusBarNotification = nil;
+static LEOStatusBarNotification *_statusBarNotification = nil;
 
 + (BOOL)reachable {
 
@@ -23,10 +22,9 @@ static CWStatusBarNotification *_cwStatusBarNotification = nil;
 
 + (void)createAndDisplayStatusBarNotification {
 
-    _cwStatusBarNotification = [CWStatusBarNotification new];
-    [LEOStyleHelper styleStatusBarNotification:_cwStatusBarNotification];
-    _cwStatusBarNotification.notificationTappedBlock = ^{};
-    [_cwStatusBarNotification displayNotificationWithMessage:@"offline" completion:nil];
+    _statusBarNotification = [LEOStatusBarNotification new];
+    _statusBarNotification.notificationTappedBlock = ^{};
+    [_statusBarNotification displayNotificationWithMessage:@"offline" completion:nil];
 }
 
 + (void)startMonitoringForController:(UIViewController *)viewController {
@@ -54,7 +52,7 @@ static CWStatusBarNotification *_cwStatusBarNotification = nil;
                     button.enabled = YES;
                 } onSubviewsOfView:viewController.view];
 
-                [_cwStatusBarNotification dismissNotification];
+                [_statusBarNotification dismissNotification];
 
             }
                 break;
@@ -94,7 +92,7 @@ static CWStatusBarNotification *_cwStatusBarNotification = nil;
                     button.enabled = YES;
                 } onSubviewsOfView:strongViewController.view];
 
-                [_cwStatusBarNotification dismissNotification];
+                [_statusBarNotification dismissNotification];
 
                 if (onlineBlock) {
                     onlineBlock();

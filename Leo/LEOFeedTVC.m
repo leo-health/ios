@@ -65,6 +65,7 @@
 
 #import "LEOAlertHelper.h"
 #import "LEOMessageService.h"
+#import "LEOStatusBarNotification.h"
 
 typedef NS_ENUM(NSUInteger, TableViewSection) {
     TableViewSectionHeader,
@@ -566,26 +567,25 @@ static CGFloat const kFeedInsetTop = 20.0;
                     LEOFeedCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
 
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        [cell.contentView addSubview:self.activityIndicator];
-
-                        CGRect frame = CGRectMake(CGRectGetMaxX(cell.frame) - 20, CGRectGetMinY(cell.frame) + 20, 40, 40);
-                        self.activityIndicator.frame = frame;
-                        [self.activityIndicator startAnimating];
+                        [cell.activityIndicatorView startAnimating];
                     });
 
                     [self removeCard:card fromDatabaseWithCompletion:^(NSDictionary *response, NSError *error) {
 
                         dispatch_async(dispatch_get_main_queue(), ^{
-                            [self.activityIndicator stopAnimating];
-                            [self.activityIndicator removeFromSuperview];
+                            [cell.activityIndicatorView stopAnimating];
                         });
 
                         if (!error) {
-
                             [self.tableView reloadData];
                         } else {
 
                             [card.associatedCardObject undoIfAvailable];
+
+                            //MARK: This is a temp fix given that we haven't described error messages for failed requests in the feed. Return to this at a later time with a thought through design. Also, this probably belongs in the card instead of the view controller so that it may be used by multiple cards if we're going to implement a generic solution, but again, for a later time.
+
+                            LEOStatusBarNotification *failedStatus = [LEOStatusBarNotification new];
+                            [failedStatus displayNotificationWithMessage:@"Appointment cancellation failed. Contact practice or try again." forDuration:4.0];
                         }
                     }];
 

@@ -46,7 +46,4 @@
        willShowViewController:(UIViewController *)viewController
                    forFeature:(Feature)feature forImagePickerWithDismissTarget:(id)target action:(SEL)action;
 
-+ (void)styleStatusBarNotification:(CWStatusBarNotification *)statusBarNotification;
-
-
 @end
