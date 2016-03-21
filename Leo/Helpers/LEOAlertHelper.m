@@ -7,7 +7,7 @@
 //
 
 #import "LEOAlertHelper.h"
-#import "NSDictionary+Additions.h"
+#import "NSDictionary+Extensions.h"
 
 @implementation LEOAlertHelper
 

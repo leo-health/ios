@@ -96,7 +96,10 @@
 
     BOOL valid = [self.updatePasswordView isValidPasswordWithError:&error];
 
-    [LEOAlertHelper alertForViewController:self error:error];
+    [LEOAlertHelper alertForViewController:self
+                                     error:error
+                               backupTitle:kErrorDefaultTitle
+                             backupMessage:kErrorDefaultMessage];
 
     return valid;
 }
@@ -120,10 +123,13 @@
                                                            forDuration:1.0f];
 
             [self.navigationController popViewControllerAnimated:YES];
+        } else {
+
+        [LEOAlertHelper alertForViewController:self
+                                         error:error
+                                   backupTitle:kErrorDefaultTitle
+                                 backupMessage:kErrorDefaultMessage];
         }
-
-        [LEOAlertHelper alertForViewController:self error:error];
-
         self.view.userInteractionEnabled = YES;
     }];
 }
