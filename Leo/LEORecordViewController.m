@@ -134,7 +134,10 @@ NS_ENUM(NSInteger, TableViewRow) {
         [service getNotesForPatient:self.patient withCompletion:^(NSArray<PatientNote *> *notes, NSError *error) {
 
             if (error) {
-                [LEOAlertHelper alertForViewController:self error:error];
+                [LEOAlertHelper alertForViewController:self
+                                                 error:error
+                                           backupTitle:kErrorDefaultTitle
+                                         backupMessage:kErrorDefaultMessage];
             } else {
 
                 self.notes = [notes mutableCopy];
@@ -153,8 +156,10 @@ NS_ENUM(NSInteger, TableViewRow) {
 
             if (error) {
 
-                [LEOAlertHelper alertForViewController:self error:error];
-            } else {
+                [LEOAlertHelper alertForViewController:self
+                                                 error:error
+                                           backupTitle:kErrorDefaultTitle
+                                         backupMessage:kErrorDefaultMessage];            } else {
 
                 self.healthRecord = healthRecord;
 
