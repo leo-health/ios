@@ -7,7 +7,7 @@
 //
 
 #import "Support.h"
-#import "NSDictionary+Additions.h"
+#import "NSDictionary+Extensions.h"
 
 @implementation Support
 

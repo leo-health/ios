@@ -7,9 +7,9 @@
 //
 
 #import "PatientNote.h"
-#import "NSDictionary+Additions.h"
+#import "NSDictionary+Extensions.h"
 #import "NSDate+Extensions.h"
-#import "NSString+Helpers.h"
+#import "NSString+Extensions.h"
 #import "LEOConstants.h"
 
 @implementation PatientNote

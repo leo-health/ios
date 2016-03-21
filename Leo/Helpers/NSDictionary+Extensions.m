@@ -1,14 +1,14 @@
 //
-//  NSDictionary+Additions.m
+//  NSDictionary+Extensions.h
 //  Leo
 //
 //  Created by Zachary Drossman on 11/13/15.
 //  Copyright © 2015 Leo Health. All rights reserved.
 //
 
-#import "NSDictionary+Additions.h"
+#import "NSDictionary+Extensions.h"
 
-@implementation NSDictionary (Additions)
+@implementation NSDictionary (Extensions)
 
 - (id)leo_itemForKey:(NSString *)key {
     

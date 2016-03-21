@@ -8,7 +8,7 @@
 
 #import "Provider.h"
 #import "LEOS3Image.h"
-#import "NSDictionary+Additions.h"
+#import "NSDictionary+Extensions.h"
 
 @implementation Provider
 

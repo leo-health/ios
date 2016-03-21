@@ -7,7 +7,7 @@
 //
 
 #import "Medication.h"
-#import "NSDictionary+Additions.h"
+#import "NSDictionary+Extensions.h"
 #import "NSDate+Extensions.h"
 #import "LEOConstants.h"
 

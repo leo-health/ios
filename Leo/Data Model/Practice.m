@@ -10,7 +10,7 @@
 #import "Provider.h"
 #import "Support.h"
 #import "UserFactory.h"
-#import "NSDictionary+Additions.h"
+#import "NSDictionary+Extensions.h"
 
 @implementation Practice
 

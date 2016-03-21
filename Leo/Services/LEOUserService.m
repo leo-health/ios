@@ -17,7 +17,7 @@
 #import "LEOAPISessionManager.h"
 #import "LEOS3ImageSessionManager.h"
 #import "SessionUser.h"
-#import "NSUserDefaults+Additions.h"
+#import "NSUserDefaults+Extensions.h"
 #import "LEODevice.h"
 
 @implementation LEOUserService

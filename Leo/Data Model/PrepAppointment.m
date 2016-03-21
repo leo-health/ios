@@ -14,7 +14,7 @@
 #import "Appointment.h"
 #import "Practice.h"
 #import "AppointmentStatus.h"
-#import "NSDictionary+Additions.h"
+#import "NSDictionary+Extensions.h"
 
 @implementation PrepAppointment
 

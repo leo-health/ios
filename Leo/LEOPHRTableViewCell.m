@@ -13,6 +13,7 @@
 #import "Patient.h"
 #import "HealthRecord.h"
 #import "PatientNote.h"
+#import "NSString+Extensions.h"
 
 @implementation LEOPHRTableViewCell
 
@@ -55,7 +56,9 @@
         }
 
         if (vital.percentile) {
-            [str appendString:[NSString stringWithFormat:@"  -  %@",vital.percentile]];
+
+            NSString *percentileSuffix = [NSString leo_numericSuffix:[vital.percentile integerValue]];
+            [str appendString:[NSString stringWithFormat:@"  -  %@%@ percentile",vital.percentile, percentileSuffix]];
         }
 
         self.recordMainDetailLabel.text = [str copy];

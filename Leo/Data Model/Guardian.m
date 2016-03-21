@@ -7,8 +7,8 @@
 //
 
 #import "Guardian.h"
-#import "NSUserDefaults+Additions.h"
-#import "NSDictionary+Additions.h"
+#import "NSUserDefaults+Extensions.h"
+#import "NSDictionary+Extensions.h"
 #import "LEOValidationsHelper.h"
 #import "LEOS3Image.h"
 
