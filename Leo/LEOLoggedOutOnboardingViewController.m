@@ -10,6 +10,9 @@
 #import "LEOLoggedOutSignUpCell.h"
 #import "UIColor+LeoColors.h"
 #import "LEOHorizontalModalTransitioningDelegate.h"
+#import "LEOSettingsService.h"
+#import "Configuration.h"
+#import "LEOAlertHelper.h"
 
 static NSString *const kSegueLogin = @"LoginSegue";
 static NSString *const kSegueSignUp = @"SignUpSegue";
@@ -44,8 +47,17 @@ static NSString * const reuseIdentifierSignup = @"reuseIdentifierSignup";
 static NSString * const reuseIdentifierFeature = @"reuseIdentifierFeature";
 
 - (void)viewDidLoad {
-    
+
     [super viewDidLoad];
+
+    [Configuration clearRemoteEnvironmentVariables];
+
+    [[LEOSettingsService new] getConfigurationWithCompletion:^(BOOL success, NSError *error) {
+
+        if (success) {
+            [Configuration setupCrittercism];
+        }
+    }];
 
     [self.collectionView registerNib:[LEOLoggedOutLoginCell nib] forCellWithReuseIdentifier:reuseIdentifierLogin];
     [self.collectionView registerNib:[LEOLoggedOutSignUpCell nib] forCellWithReuseIdentifier:reuseIdentifierSignup];

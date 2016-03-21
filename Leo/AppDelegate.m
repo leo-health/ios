@@ -13,7 +13,6 @@
 #import "LEOFeedTVC.h"
 #import "SessionUser.h"
 #import "LEODevice.h"
-#import <CrittercismSDK/Crittercism/Crittercism.h>
 #import "Configuration.h"
 #import "LEOConstants.h"
 #import "LEOStyleHelper.h"
@@ -27,7 +26,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     [self setupGlobalFormatting];
-    [self setupCrittercism];
+
+    [Configuration downloadKeysIfNeeded];
 
     [self setupRemoteNotificationsForApplication:application];
     [self setupObservers];
@@ -43,10 +43,6 @@
     [self setRootViewControllerWithStoryboardName:storyboardIdentifier];
     
     return YES;
-}
-
-- (void)setupCrittercism {
-    [Crittercism enableWithAppID:[Configuration crittercismAppID]];
 }
 
 - (void)setupObservers {
@@ -177,6 +173,9 @@
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
+
+    [Configuration downloadKeysIfNeeded];
+
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
 }
 

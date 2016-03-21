@@ -22,7 +22,6 @@ PROVIDER_URL = localhost:8888
 API_VERSION = api/v1
 API_PROTOCOL = http
 CONTENT_URL = leo-content.s3-website-us-east-1.amazonaws.com
-PUSHER_KEY = 161f84c2eba08ba953da
 
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) LOCAL=1 INTERNAL=0
 BUNDLE_IDENTIFIER = com.leohealth.dev-consumer

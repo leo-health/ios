@@ -61,6 +61,15 @@ static NSUserDefaults *defaults;
     return [defaults stringForKey:defaultName];
 }
 
++ (void)leo_removeObjectForKey:(NSString *)defaultName {
+
+    if (!defaults) {
+        defaults = [NSUserDefaults standardUserDefaults];
+    }
+
+    [defaults removeObjectForKey:defaultName];
+}
+
 + (void)leo_setString:(NSString *)value forKey:(NSString *)defaultName {
     
     if (!defaults) {
@@ -92,7 +101,7 @@ static NSUserDefaults *defaults;
     return [defaults boolForKey:defaultName];
 }
 
-+ (void)saveDefaults {
++ (void)leo_saveDefaults {
     if (!defaults) {
         defaults = [NSUserDefaults standardUserDefaults];
     }

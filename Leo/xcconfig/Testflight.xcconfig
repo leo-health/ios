@@ -21,8 +21,6 @@ API_VERSION = api/v1
 API_PROTOCOL = https
 CONTENT_URL = leo-content.s3-website-us-east-1.amazonaws.com
 SELF_SIGNED_CERTIFICATE = *.leohealth.com
-CRITTERCISM_APP_ID = b732e3c640fc4b3db6b68775fdf0dd1700555300
-PUSHER_KEY = 1e11c5da0e735f562c28
 
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) RELEASE=1
 BUNDLE_IDENTIFIER = com.leohealth.leo

@@ -49,7 +49,9 @@
 #import <Photos/Photos.h>
 #import "UIButton+Extensions.h"
 #import "LEOStyleHelper.h"
-
+#import "Configuration.h"
+#import "LEOAlertHelper.h"
+#import "NSUserDefaults+Extensions.h"
 
 @interface LEOMessagesViewController ()
 
@@ -76,6 +78,8 @@
 @implementation LEOMessagesViewController
 
 NSString *const kCopySendPhoto = @"SEND PHOTO";
+NSString *const kErrorTitleMessagingDown = @"Messaging is currently down";
+NSString *const kErrorBodyMessagingDown = @"We are experiencing technical difficulties. Please call your provider directly, or try again later.";
 
 #pragma mark - View lifecycle
 
@@ -127,6 +131,13 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
     } withOnlineBlock:^{
         //Do anything?
     }];
+
+    if (![Configuration pusherKey]) {
+        [LEOAlertHelper alertForViewController:self
+                                         error:nil
+                                   backupTitle:kErrorTitleMessagingDown
+                                 backupMessage:kErrorBodyMessagingDown];
+    }
 }
 
 - (void)setupNavigationBar {
