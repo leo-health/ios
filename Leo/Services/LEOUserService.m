@@ -36,6 +36,7 @@
             [SessionUser setAuthToken:rawResults[APIParamData][APIParamSession][APIParamToken]];
             [[SessionUser currentUser] incrementLoginCounter];
             [[SessionUser currentUser] incrementLoginCounter];
+            [Crittercism setUsername:[[SessionUser currentUser] anonymousCustomerServiceID]];
             
             Guardian *guardian = [[Guardian alloc] initWithJSONDictionary:rawResults[APIParamData][APIParamUser]];
 
@@ -201,6 +202,7 @@
             
             [SessionUser setAuthToken:rawResults[APIParamData][APIParamSession][APIParamToken]];
             [SessionUser setCurrentUserWithJSONDictionary:rawResults[APIParamData]];
+            [Crittercism setUsername:[[SessionUser currentUser] anonymousCustomerServiceID]];
             [[SessionUser currentUser] incrementLoginCounter];
 
             [((AppDelegate *)[UIApplication sharedApplication].delegate) setupRemoteNotificationsForApplication:[UIApplication sharedApplication]];

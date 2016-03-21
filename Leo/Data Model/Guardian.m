@@ -18,6 +18,9 @@ static NSString *const kMembershipTypeUnpaid = @"User";
 static NSString *const kMembershipTypeMember = @"Member";
 static NSString *const kMembershipTypeIncomplete = @"Incomplete"; //FIXME: This is only because the API doesn't yet support this detail.
 static NSString *const kUserDefaultsKeyLoginCounts = @"loginCounter";
+static NSString *const kUserDefaultsKeyAnonymousCustomerServiceID = @"anonymousCustomerServiceID";
+
+@synthesize anonymousCustomerServiceID = _anonymousCustomerServiceID;
 
 - (instancetype)initWithObjectID:(nullable NSString *)objectID familyID:(NSString *)familyID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email avatar:(nullable LEOS3Image *)avatar phoneNumber:(NSString *)phoneNumber insurancePlan:(InsurancePlan *)insurancePlan primary:(BOOL)primary membershipType:(MembershipType)membershipType {
 
@@ -78,7 +81,32 @@ static NSString *const kUserDefaultsKeyLoginCounts = @"loginCounter";
     Guardian *guardian = [[Guardian alloc] initWithJSONDictionary:guardianDictionary];
 
     [guardian incrementLoginCounter];
+    
     return guardian;
+}
+
+- (NSString *)anonymousCustomerServiceID {
+
+    if (!_anonymousCustomerServiceID) {
+        _anonymousCustomerServiceID = [[NSUserDefaults standardUserDefaults] objectForKey:kUserDefaultsKeyAnonymousCustomerServiceID];
+        if (!_anonymousCustomerServiceID) {
+            _anonymousCustomerServiceID = [self generateRandomUserIDForCrittercism];
+            [[NSUserDefaults standardUserDefaults] setObject:_anonymousCustomerServiceID forKey:kUserDefaultsKeyAnonymousCustomerServiceID];
+        }
+    }
+    return _anonymousCustomerServiceID;
+}
+
+- (NSString *)generateRandomUserIDForCrittercism {
+
+    NSUInteger r = arc4random_uniform(pow(10, 10));
+    NSNumberFormatter *f = [NSNumberFormatter new];
+    f.numberStyle = NSNumberFormatterDecimalStyle;
+    NSNumber *userId = [f numberFromString:self.objectID];
+    if (userId) {
+        r = r * [userId integerValue];
+    }
+    return [NSString stringWithFormat:@"%ld", r];
 }
 
 + (void)removeFromUserDefaults {
