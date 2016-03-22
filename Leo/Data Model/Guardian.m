@@ -88,12 +88,16 @@ static NSString *const kUserDefaultsKeyAnonymousCustomerServiceID = @"anonymousC
 - (NSString *)anonymousCustomerServiceID {
 
     if (!_anonymousCustomerServiceID) {
-        _anonymousCustomerServiceID = [[NSUserDefaults standardUserDefaults] objectForKey:kUserDefaultsKeyAnonymousCustomerServiceID];
+
+        _anonymousCustomerServiceID = [NSUserDefaults leo_stringForKey:kUserDefaultsKeyAnonymousCustomerServiceID];
+
         if (!_anonymousCustomerServiceID) {
+
             _anonymousCustomerServiceID = [self generateRandomUserIDForCrittercism];
-            [[NSUserDefaults standardUserDefaults] setObject:_anonymousCustomerServiceID forKey:kUserDefaultsKeyAnonymousCustomerServiceID];
+            [NSUserDefaults leo_setString:_anonymousCustomerServiceID forKey:kUserDefaultsKeyAnonymousCustomerServiceID];
         }
     }
+
     return _anonymousCustomerServiceID;
 }
 

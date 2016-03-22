@@ -13,6 +13,7 @@
 + (void)leo_loadDefaultsWithName:(NSString *)name;
 + (void)leo_loadDefaultsWithDictionary:(NSDictionary *)dictionary;
 
++ (void)leo_saveDefaults;
 + (void)leo_removeAllDefaults;
 + (void)leo_removeObjectForKey:(NSString *)defaultName;
 
