@@ -296,22 +296,37 @@ static CGFloat const kFeedInsetTop = 20.0;
     LEOPusherHelper *pusherHelper = [LEOPusherHelper sharedPusher];
 
     __weak typeof(self) weakSelf = self;
-    self.pusherBinding = [pusherHelper connectToPusherChannel:channelString
-                                                    withEvent:event
-                                                       sender:self
-                                               withCompletion:^(NSDictionary *channelData) {
 
-                                                   typeof(self) strongSelf = weakSelf;
+    [Configuration downloadRemoteEnvironmentVariablesIfNeededWithCompletion:^(BOOL success, NSError *error) {
 
-                                                   NSString *messageID = [Message extractObjectIDFromChannelData:channelData];
+        typeof(self) strongSelf = weakSelf;
 
-                                                   Conversation *conversation = [strongSelf conversation].associatedCardObject;
+        __weak typeof(self) weakNestedSelf = strongSelf;
 
-                                                   [conversation fetchMessageWithID:messageID completion:^{
+        if (success) {
+            strongSelf.pusherBinding = [pusherHelper connectToPusherChannel:channelString
+                                                                  withEvent:event
+                                                                     sender:strongSelf
+                                                             withCompletion:^(NSDictionary *channelData) {
 
-                                                       [strongSelf.tableView reloadData];
-                                                   }];
-                                               }];
+                                                                 typeof(self) strongNestedSelf = weakNestedSelf;
+
+                                                                 NSString *messageID = [Message extractObjectIDFromChannelData:channelData];
+
+                                                                 Conversation *conversation = [strongNestedSelf conversation].associatedCardObject;
+
+                                                                 [conversation fetchMessageWithID:messageID completion:^{
+                                                                     [strongNestedSelf.tableView reloadData];
+                                                                 }];
+                                                             }];
+        } else {
+
+            [LEOAlertHelper alertForViewController:self
+                                             error:nil
+                                       backupTitle:kErrorTitleMessagingDown
+                                     backupMessage:kErrorBodyMessagingDown];
+        }
+    }];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

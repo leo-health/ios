@@ -33,13 +33,18 @@
     
     if (!_client) {
         
-        _client = [PTPusher pusherWithKey:[Configuration pusherKey] delegate:self encrypted:YES];
-        NSString *pusherAuthURLString = [NSString stringWithFormat:@"%@/%@/%@", [Configuration APIEndpointWithProtocol],[Configuration APIVersion], APIEndpointPusherAuth];
-        _client.authorizationURL = [NSURL URLWithString:pusherAuthURLString];
-        [_client connect];
+        [self updateClientForNewKeys];
     }
 
     return _client;
+}
+
+- (void) updateClientForNewKeys {
+
+    _client = [PTPusher pusherWithKey:[Configuration pusherKey] delegate:self encrypted:YES];
+    NSString *pusherAuthURLString = [NSString stringWithFormat:@"%@/%@/%@", [Configuration APIEndpointWithProtocol],[Configuration APIVersion], APIEndpointPusherAuth];
+    _client.authorizationURL = [NSURL URLWithString:pusherAuthURLString];
+    [_client connect];
 }
 
 - (PTPusherEventBinding *)connectToPusherChannel:(NSString *)channel withEvent:(NSString *)event sender:(id)sender withCompletion:(void (^)(NSDictionary *channelData))completionBlock {

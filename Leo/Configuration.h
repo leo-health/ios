@@ -11,9 +11,9 @@
 
 @interface Configuration : NSObject
 
-+ (void)setupCrittercism;
++ (void)downloadRemoteEnvironmentVariablesIfNeededWithCompletion:(void (^) (BOOL success, NSError *error))completionBlock;
++ (void)updateCrittercismWithNewKeys;
 + (void)clearRemoteEnvironmentVariables;
-+ (void)downloadKeysIfNeeded;
 
 + (NSString *)APIBaseURL;
 + (NSString *)providerBaseURL;

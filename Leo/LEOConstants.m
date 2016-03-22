@@ -349,6 +349,8 @@ NSString *const kKeySelectionVCSlot = @"slot";
 NSString *const kCopyTermsOfService = @"Terms of Service";
 NSString *const kErrorDefaultMessage = @"Looks like we have a boo-boo. We're already healing though and should be up and running again soon. Check back with us in a few minutes.";
 NSString *const kErrorDefaultTitle = @"Oops!";
+NSString *const kErrorTitleMessagingDown = @"Messaging is currently down";
+NSString *const kErrorBodyMessagingDown = @"We are experiencing technical difficulties. Please call your provider directly, or try again later.";
 
 #pragma mark - Configuration Parameters
 NSString *const kConfigurationPusherAPIKey = @"PUSHER_KEY";

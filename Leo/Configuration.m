@@ -11,6 +11,7 @@
 #import "NSUserDefaults+Extensions.h"
 #import <Crittercism/Crittercism.h>
 #import "LEOSettingsService.h"
+#import "LEOPusherHelper.h"
 
 static NSString *const ConfigurationAPIEndpoint = @"ApiURL";
 static NSString *const ConfigurationProviderEndpoint = @"ProviderURL";
@@ -152,7 +153,7 @@ static NSString *const ConfigurationCrittercismAppID = @"CrittercismAppID";
     return [NSUserDefaults leo_stringForKey:kConfigurationCrittercismAPPID];
 }
 
-+ (void)setupCrittercism {
++ (void)updateCrittercismWithNewKeys {
     [Crittercism enableWithAppID:[Configuration crittercismAppID]];
 }
 
@@ -162,7 +163,7 @@ static NSString *const ConfigurationCrittercismAppID = @"CrittercismAppID";
     [NSUserDefaults leo_removeObjectForKey:kConfigurationCrittercismAPPID];
 }
 
-+ (void)downloadKeysIfNeeded {
++ (void)downloadRemoteEnvironmentVariablesIfNeededWithCompletion:(void (^) (BOOL success, NSError *error))completionBlock {
 
     if (![Configuration pusherKey] || ![Configuration crittercismAppID]) {
 
@@ -170,10 +171,12 @@ static NSString *const ConfigurationCrittercismAppID = @"CrittercismAppID";
 
         [[LEOSettingsService new] getConfigurationWithCompletion:^(BOOL success, NSError *error) {
 
-            if (success) {
-                [Configuration setupCrittercism];
+            if (completionBlock) {
+                completionBlock(success, error);
             }
         }];
+    } else {
+        completionBlock(YES, nil);
     }
 }
 

@@ -78,8 +78,6 @@
 @implementation LEOMessagesViewController
 
 NSString *const kCopySendPhoto = @"SEND PHOTO";
-NSString *const kErrorTitleMessagingDown = @"Messaging is currently down";
-NSString *const kErrorBodyMessagingDown = @"We are experiencing technical difficulties. Please call your provider directly, or try again later.";
 
 #pragma mark - View lifecycle
 
@@ -131,13 +129,6 @@ NSString *const kErrorBodyMessagingDown = @"We are experiencing technical diffic
     } withOnlineBlock:^{
         //Do anything?
     }];
-
-    if (![Configuration pusherKey]) {
-        [LEOAlertHelper alertForViewController:self
-                                         error:nil
-                                   backupTitle:kErrorTitleMessagingDown
-                                 backupMessage:kErrorBodyMessagingDown];
-    }
 }
 
 - (void)setupNavigationBar {
@@ -316,20 +307,37 @@ NSString *const kErrorBodyMessagingDown = @"We are experiencing technical diffic
 
     // Need to use weak self here because the PTPusher object holds on to this binding with a strong reference. Must also remove the binding on dealloc
     __weak typeof(self) weakSelf = self;
+
     LEOPusherHelper *pusherHelper = [LEOPusherHelper sharedPusher];
 
-    self.pusherBinding = [pusherHelper connectToPusherChannel:channelString withEvent:event sender:self withCompletion:^(NSDictionary *channelData) {
+    [Configuration downloadRemoteEnvironmentVariablesIfNeededWithCompletion:^(BOOL success, NSError *error) {
 
         __strong typeof(self) strongSelf = weakSelf;
 
-        NSString *messageID = [Message extractObjectIDFromChannelData:channelData];
+        if (success) {
 
-        __weak typeof(strongSelf) weakSelfNested = strongSelf;
-        [[strongSelf conversation] fetchMessageWithID:messageID completion:^{
+            __weak typeof(self) weakNestedSelf = strongSelf;
 
-            __strong typeof(strongSelf) strongSelfNested = weakSelfNested;
-            strongSelfNested.offset++;
-        }];
+            strongSelf.pusherBinding = [pusherHelper connectToPusherChannel:channelString withEvent:event sender:strongSelf withCompletion:^(NSDictionary *channelData) {
+
+                __strong typeof(self) strongNestedSelf = weakNestedSelf;
+
+                NSString *messageID = [Message extractObjectIDFromChannelData:channelData];
+
+                __weak typeof(strongSelf) weakDoubleNestedSelf = strongNestedSelf;
+
+                [[strongSelf conversation] fetchMessageWithID:messageID completion:^{
+
+                    __strong typeof(strongSelf) strongDoubleNestedSelf = weakDoubleNestedSelf;
+                    strongDoubleNestedSelf.offset++;
+                }];
+            }];
+        } else {
+            [LEOAlertHelper alertForViewController:self
+                                             error:nil
+                                       backupTitle:kErrorTitleMessagingDown
+                                     backupMessage:kErrorBodyMessagingDown];
+        }
     }];
 }
 

@@ -55,7 +55,7 @@ static NSString * const reuseIdentifierFeature = @"reuseIdentifierFeature";
     [[LEOSettingsService new] getConfigurationWithCompletion:^(BOOL success, NSError *error) {
 
         if (success) {
-            [Configuration setupCrittercism];
+            [Configuration updateCrittercismWithNewKeys];
         }
     }];
 

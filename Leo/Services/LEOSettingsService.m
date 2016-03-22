@@ -26,7 +26,7 @@
         [NSUserDefaults leo_saveDefaults];
 
         if (completionBlock) {
-            error ? completionBlock(NO, error) : completionBlock (YES, error);
+            completionBlock(!error, error);
         }
     }];
 }
