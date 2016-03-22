@@ -38,7 +38,6 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString *)leo_stringifiedDashedShortDate:(NSDate *)date;
 + (NSString *)leo_stringifiedDashedShortDateYearMonthDay:(NSDate *)date;
 
-+ (NSString *)leo_dayOfMonthSuffix:(NSUInteger)dayOfMonth;
 
 NS_ASSUME_NONNULL_END
 @end
