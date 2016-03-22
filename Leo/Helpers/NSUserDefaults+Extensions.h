@@ -14,6 +14,7 @@
 + (void)leo_loadDefaultsWithDictionary:(NSDictionary *)dictionary;
 
 + (void)leo_removeAllDefaults;
++ (void)leo_removeObjectForKey:(NSString *)defaultName;
 
 + (NSString *)leo_stringForKey:(NSString *)defaultName;
 + (void)leo_setString:(NSString *)value forKey:(NSString *)defaultName;
@@ -21,5 +22,6 @@
 + (NSInteger)leo_integerForKey:(NSString *)defaultName;
 + (CGFloat)leo_floatForKey:(NSString *)defaultName;
 + (BOOL)leo_boolForKey:(NSString *)defaultName;
++ (void)leo_saveDefaults;
 
 @end

@@ -8,6 +8,10 @@
 //  Adapted from source: http://code.tutsplus.com/tutorials/ios-quick-tip-managing-configurations-with-ease--mobile-18324
 
 #import "Configuration.h"
+#import "NSUserDefaults+Extensions.h"
+#import <Crittercism/Crittercism.h>
+#import "LEOSettingsService.h"
+#import "LEOPusherHelper.h"
 
 static NSString *const ConfigurationAPIEndpoint = @"ApiURL";
 static NSString *const ConfigurationProviderEndpoint = @"ProviderURL";
@@ -141,25 +145,39 @@ static NSString *const ConfigurationCrittercismAppID = @"CrittercismAppID";
 }
 
 + (NSString *)pusherKey {
-
-    Configuration *sharedConfiguration = [Configuration sharedConfiguration];
-
-    if (sharedConfiguration.appSettings) {
-        return [sharedConfiguration.appSettings objectForKey:ConfigurationPusherKey];
-    }
-
-    return nil;
+    return [NSUserDefaults leo_stringForKey:kConfigurationPusherAPIKey];
 }
 
 + (NSString *)crittercismAppID {
 
-    Configuration *sharedConfiguration = [Configuration sharedConfiguration];
+    return [NSUserDefaults leo_stringForKey:kConfigurationCrittercismAPPID];
+}
 
-    if (sharedConfiguration.appSettings) {
-        return [sharedConfiguration.appSettings objectForKey:ConfigurationCrittercismAppID];
++ (void)updateCrittercismWithNewKeys {
+    [Crittercism enableWithAppID:[Configuration crittercismAppID]];
+}
+
++ (void)clearRemoteEnvironmentVariables {
+
+    [NSUserDefaults leo_removeObjectForKey:kConfigurationPusherAPIKey];
+    [NSUserDefaults leo_removeObjectForKey:kConfigurationCrittercismAPPID];
+}
+
++ (void)downloadRemoteEnvironmentVariablesIfNeededWithCompletion:(void (^) (BOOL success, NSError *error))completionBlock {
+
+    if (![Configuration pusherKey] || ![Configuration crittercismAppID]) {
+
+        [Configuration clearRemoteEnvironmentVariables];
+
+        [[LEOSettingsService new] getConfigurationWithCompletion:^(BOOL success, NSError *error) {
+
+            if (completionBlock) {
+                completionBlock(success, error);
+            }
+        }];
+    } else {
+        completionBlock(YES, nil);
     }
-
-    return nil;
 }
 
 @end

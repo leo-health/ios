@@ -11,6 +11,10 @@
 
 @interface Configuration : NSObject
 
++ (void)downloadRemoteEnvironmentVariablesIfNeededWithCompletion:(void (^) (BOOL success, NSError *error))completionBlock;
++ (void)updateCrittercismWithNewKeys;
++ (void)clearRemoteEnvironmentVariables;
+
 + (NSString *)APIBaseURL;
 + (NSString *)providerBaseURL;
 + (NSString *)APIEndpoint;
@@ -20,7 +24,5 @@
 + (NSString *)selfSignedCertificate;
 + (NSString *)pusherKey;
 + (NSString *)crittercismAppID;
-
-//+ (BOOL)isLoggingEnabled;
 
 @end

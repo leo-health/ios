@@ -8,6 +8,7 @@
 
 #import "SessionUser.h"
 #import "LEOCredentialStore.h"
+#import "Configuration.h"
 
 @interface SessionUser()
 
@@ -85,6 +86,8 @@ static dispatch_once_t onceToken;
     [Crittercism leaveBreadcrumb:[NSString stringWithFormat:@"%s", __PRETTY_FUNCTION__]];
 
     [self removeFromUserDefaults];
+    [Configuration clearRemoteEnvironmentVariables];
+
     [_credentialStore clearSavedCredentials];
 }
 

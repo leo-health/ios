@@ -32,6 +32,7 @@
 		311CBB3E1B56B0F50009BD7A /* Conversation.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 311CBB3D1B56B0F50009BD7A /* Conversation.storyboard */; };
 		31209FA11C9F584700E8B749 /* NSString+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 31209FA01C9F584700E8B749 /* NSString+Extensions.m */; };
 		31209FA41CA03DF100E8B749 /* LEOStatusBarNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 31209FA31CA03DF100E8B749 /* LEOStatusBarNotification.m */; };
+		31209FA71CA0845E00E8B749 /* LEOSettingsService.m in Sources */ = {isa = PBXBuildFile; fileRef = 31209FA61CA0845E00E8B749 /* LEOSettingsService.m */; };
 		3124187F1BC0634E00E18176 /* LEOLoginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3124187E1BC0634E00E18176 /* LEOLoginView.xib */; };
 		312418851BC0638200E18176 /* LEOLoginView.m in Sources */ = {isa = PBXBuildFile; fileRef = 312418841BC0638200E18176 /* LEOLoginView.m */; };
 		312418881BC066E200E18176 /* LEOLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 312418871BC066E200E18176 /* LEOLoginViewController.m */; };
@@ -295,6 +296,8 @@
 		31209FA01C9F584700E8B749 /* NSString+Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Extensions.m"; sourceTree = "<group>"; };
 		31209FA21CA03DF100E8B749 /* LEOStatusBarNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOStatusBarNotification.h; path = "Views and Controllers/Generic/LEOStatusBarNotification.h"; sourceTree = "<group>"; };
 		31209FA31CA03DF100E8B749 /* LEOStatusBarNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOStatusBarNotification.m; path = "Views and Controllers/Generic/LEOStatusBarNotification.m"; sourceTree = "<group>"; };
+		31209FA51CA0845E00E8B749 /* LEOSettingsService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOSettingsService.h; path = Services/LEOSettingsService.h; sourceTree = "<group>"; };
+		31209FA61CA0845E00E8B749 /* LEOSettingsService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOSettingsService.m; path = Services/LEOSettingsService.m; sourceTree = "<group>"; };
 		3124187E1BC0634E00E18176 /* LEOLoginView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LEOLoginView.xib; sourceTree = "<group>"; };
 		312418831BC0638200E18176 /* LEOLoginView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOLoginView.h; path = "Onboarding+Signup/LEOLoginView.h"; sourceTree = "<group>"; };
 		312418841BC0638200E18176 /* LEOLoginView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOLoginView.m; path = "Onboarding+Signup/LEOLoginView.m"; sourceTree = "<group>"; };
@@ -843,6 +846,8 @@
 				31254B821BB0599D00E8E150 /* LEOCardService.m */,
 				31D275701C501AC5005F8964 /* LEOMediaService.h */,
 				31D275711C501AC5005F8964 /* LEOMediaService.m */,
+				31209FA51CA0845E00E8B749 /* LEOSettingsService.h */,
+				31209FA61CA0845E00E8B749 /* LEOSettingsService.m */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -1823,6 +1828,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				31209FA71CA0845E00E8B749 /* LEOSettingsService.m in Sources */,
 				31F5AA661B791B4A00F96D06 /* LEOAPIPracticeOperation.m in Sources */,
 				3138FC491B9A19A8000FE22C /* InsurancePlanCell.m in Sources */,
 				319FB4C01BBA379E00EFF7B9 /* NSString+TextDirectionality.m in Sources */,

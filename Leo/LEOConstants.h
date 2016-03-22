@@ -184,6 +184,7 @@ extern NSString *const APIEndpointBMIs; // @"bmis";
 extern NSString *const APIEndpointHeights; // @"height";
 extern NSString *const APIEndpointWeights; // @"weight";
 extern NSString *const APIEndpointPusherAuth; // @"pusher/auth";
+extern NSString *const APIEndpointConfiguration; // @"ios_configuration";
 extern NSString *const APIEndpointPHR; // @"phr";
 
 #pragma mark - Common
@@ -482,5 +483,12 @@ extern NSString *const kKeySelectionVCSlot; // @"slot";
 extern NSString *const kCopyTermsOfService; // @"Terms of Service";
 extern NSString *const kErrorDefaultMessage; // @"Looks like we have a boo-boo. We're already healing though and should be up and running again soon. Check back with us in a few minutes.";
 extern NSString *const kErrorDefaultTitle; // @"Oops!";
+extern NSString *const kErrorTitleMessagingDown; // @"Messaging is currently down";
+extern NSString *const kErrorBodyMessagingDown; // @"We are experiencing technical difficulties. Please call your provider directly, or try again later.";
+
+#pragma mark - Configuration Parameters
+extern NSString *const kConfigurationPusherAPIKey; // @"PUSHER_KEY";
+extern NSString *const kConfigurationCrittercismAPPID; // @"CRITTERCISM_APP_ID";
+
 
 @end
