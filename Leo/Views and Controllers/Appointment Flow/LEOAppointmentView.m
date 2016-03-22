@@ -25,6 +25,7 @@
 #import "LEOValidationsHelper.h"
 #import "LEOInputAccessoryView.h"
 #import "NSObject+XibAdditions.h"
+#import "NSString+Extensions.h"
 
 @interface LEOAppointmentView ()
 
@@ -296,7 +297,7 @@ static NSString * const kValidationDateTimeOfVisit = @"Please complete the field
         [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:[NSDate leo_stringifiedDateWithCommas:self.prepAppointment.date]
                                                                            attributes:variableDictionary]];
 
-        [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:[NSDate leo_dayOfMonthSuffix:self.prepAppointment.date.day]
+        [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString leo_numericSuffix:self.prepAppointment.date.day]
                                                                            attributes:variableDictionary]];
 
         promptView.textView.attributedText = attrString;
