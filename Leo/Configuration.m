@@ -12,6 +12,7 @@
 #import <Crittercism/Crittercism.h>
 #import "LEOSettingsService.h"
 #import "LEOPusherHelper.h"
+#import "SessionUser.h"
 
 static NSString *const ConfigurationAPIEndpoint = @"ApiURL";
 static NSString *const ConfigurationProviderEndpoint = @"ProviderURL";
@@ -154,7 +155,9 @@ static NSString *const ConfigurationCrittercismAppID = @"CrittercismAppID";
 }
 
 + (void)updateCrittercismWithNewKeys {
+
     [Crittercism enableWithAppID:[Configuration crittercismAppID]];
+    [Crittercism setUsername:[[SessionUser currentUser] anonymousCustomerServiceID]];
 }
 
 + (void)clearRemoteEnvironmentVariables {

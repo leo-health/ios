@@ -25,29 +25,29 @@
 #import "LEOUserService.h"
 #import "Configuration.h"
 
-
 typedef NS_ENUM(NSUInteger, SettingsSection) {
     
-    SettingsSectionAccounts = 0,
-    SettingsSectionPatients = 1,
-    SettingsSectionAddPatient = 2,
-    SettingsSectionAbout = 3,
-    SettingsSectionLogout = 4,
+    SettingsSectionAccounts,
+    SettingsSectionPatients,
+    SettingsSectionAddPatient,
+    SettingsSectionAbout,
+    SettingsSectionLogout,
 };
 
 typedef NS_ENUM(NSUInteger, AccountSettings) {
     
-    AccountSettingsEmail = 0,
-    AccountSettingsPassword = 1,
-    AccountSettingsInvite = 2,
+    AccountSettingsEmail,
+    AccountSettingsPassword,
+    AccountSettingsInvite,
 };
 
 typedef NS_ENUM(NSUInteger, AboutSettings) {
     
-    AboutSettingsVersion = 0,
-    AboutSettingsTermsAndConditions = 1,
-    AboutSettingsPrivacyPolicy = 2,
-    AboutSettingsSystemSettings = 3,
+    AboutSettingsVersion,
+    AboutSettingsCustomerServiceID,
+    AboutSettingsTermsAndConditions,
+    AboutSettingsPrivacyPolicy,
+    AboutSettingsSystemSettings,
 };
 
 @interface LEOSettingsViewController ()
@@ -134,7 +134,7 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
             return 1;
         
         case SettingsSectionAbout:
-            return 4;
+            return 5;
             
         case SettingsSectionLogout:
             return 1;
@@ -215,16 +215,23 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
             
             switch (indexPath.row) {
                 case AboutSettingsVersion: {
-                    
-                    NSString *appBuild = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
-                    NSString *appVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-                    
-                    cell.promptField.textField.text = [NSString stringWithFormat:@"%@ | %@", appVersion, appBuild];
+                    cell.promptField.textField.text = [self buildVersionString];
                     cell.promptField.accessoryImageViewVisible = NO;
                     cell.promptField.textField.enabled = NO;
                     cell.promptField.tapGestureEnabled = NO;
                     cell.promptField.textField.textColor = [UIColor leo_grayStandard];
                     cell.promptField.textField.standardPlaceholder = @"version | build";
+                    break;
+                }
+
+                case AboutSettingsCustomerServiceID: {
+
+                    cell.promptField.textField.text = [[SessionUser currentUser] anonymousCustomerServiceID];
+                    cell.promptField.accessoryImageViewVisible = NO;
+                    cell.promptField.textField.enabled = NO;
+                    cell.promptField.tapGestureEnabled = NO;
+                    cell.promptField.textField.textColor = [UIColor leo_grayStandard];
+                    cell.promptField.textField.standardPlaceholder = @"Anonymous Customer Service ID";
                     break;
                 }
                     
@@ -339,7 +346,11 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
             switch (indexPath.row) {
                 case AboutSettingsVersion:
                     break;
-                    
+
+                case AboutSettingsCustomerServiceID: {
+                    break;
+                }
+
                 case AboutSettingsTermsAndConditions: {
                     [self performSegueWithIdentifier:kSegueTermsAndConditions sender:nil];
                     break;
@@ -363,6 +374,12 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
     }
 }
 
+- (NSString *)buildVersionString {
+
+    NSString *appBuild = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
+    NSString *appVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+    return [NSString stringWithFormat:@"%@ | %@", appVersion, appBuild];
+}
 
 #pragma mark - <UITableViewDelegate>
 

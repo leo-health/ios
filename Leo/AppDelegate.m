@@ -16,6 +16,7 @@
 #import "Configuration.h"
 #import "LEOConstants.h"
 #import "LEOStyleHelper.h"
+#import "NSUserDefaults+Extensions.h"
 
 @interface AppDelegate ()
 
@@ -168,6 +169,9 @@
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+
+    // source: http://stackoverflow.com/questions/9647931/nsuserdefaults-synchronize-method
+    [NSUserDefaults leo_saveDefaults];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
