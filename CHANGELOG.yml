@@ -1,11 +1,13 @@
     upcoming:
+    - Bug fixing
+
     releases:
     - version: 1.0.0
       build: 2016.03.21.23.34
       date: March 21 2016
       notes:
       - Bug fixing
-    
+
     - version: 1.0.0
       build: 2016.03.17.16.12
       date: March 17 2016
