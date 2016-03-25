@@ -7,6 +7,6 @@
 //
 
 #include "TestsRelease.xcconfig"
-#include "Pods/Target Support Files/Pods-LeoTests/Pods-LeoTests.release.xcconfig"
+#include "Pods/Target Support Files/Pods-LeoTests/Pods-LeoTests.appstore.xcconfig"
 
 BUNDLE_IDENTIFIER = com.leohealth.leo
