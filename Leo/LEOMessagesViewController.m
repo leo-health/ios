@@ -444,7 +444,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
 - (void)presentImagePickerViewController {
 
-    [Crittercism leaveBreadcrumb:[NSString stringWithFormat:@"%s choose photo", __PRETTY_FUNCTION__]];
+    [LEOBreadcrumb crumbWithObject:[NSString stringWithFormat:@"%s choose photo", __PRETTY_FUNCTION__]];
 
     LEOTransitioningDelegate *strongTransitioningDelegate = [[LEOTransitioningDelegate alloc] initWithTransitionAnimatorType:TransitionAnimatorTypeCardPush];;
 
@@ -459,7 +459,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
 
-                [Crittercism leaveBreadcrumb:[NSString stringWithFormat:@"%s choose photo", __PRETTY_FUNCTION__]];
+                [LEOBreadcrumb crumbWithObject:[NSString stringWithFormat:@"%s choose photo", __PRETTY_FUNCTION__]];
 
                 UIImagePickerController *pickerController = [UIImagePickerController new];
                 pickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
@@ -487,7 +487,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
 
-                [Crittercism leaveBreadcrumb:[NSString stringWithFormat:@"%s take photo", __PRETTY_FUNCTION__]];
+                [LEOBreadcrumb crumbWithObject:[NSString stringWithFormat:@"%s take photo", __PRETTY_FUNCTION__]];
 
                 UIImagePickerController *pickerController = [UIImagePickerController new];
                 pickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
@@ -506,7 +506,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
 
     [mediaController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        [Crittercism leaveBreadcrumb:[NSString stringWithFormat:@"%s cancel photo", __PRETTY_FUNCTION__]];
+        [LEOBreadcrumb crumbWithObject:[NSString stringWithFormat:@"%s cancel photo", __PRETTY_FUNCTION__]];
     }]];
 
     [self presentViewController:mediaController animated:YES completion:nil];
@@ -525,7 +525,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 //TO finish picking media, get the original image and build a crop view controller with it, simultaneously dismissing the image picker.
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
 
-    [Crittercism leaveBreadcrumb:[NSString stringWithFormat:@"%s", __PRETTY_FUNCTION__]];
+    [LEOBreadcrumb crumbWithFunction:__PRETTY_FUNCTION__];
 
     UIImage *originalImage = info[UIImagePickerControllerOriginalImage];
 
@@ -544,21 +544,21 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
 
-    [Crittercism leaveBreadcrumb:[NSString stringWithFormat:@"%s", __PRETTY_FUNCTION__]];
+    [LEOBreadcrumb crumbWithFunction:__PRETTY_FUNCTION__];
 
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)imagePreviewControllerDidCancel:(LEOImagePreviewViewController *)imagePreviewController {
 
-    [Crittercism leaveBreadcrumb:[NSString stringWithFormat:@"%s", __PRETTY_FUNCTION__]];
+    [LEOBreadcrumb crumbWithFunction:__PRETTY_FUNCTION__];
 
     [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)imagePreviewControllerDidConfirm:(LEOImagePreviewViewController *)imagePreviewController {
 
-    [Crittercism leaveBreadcrumb:[NSString stringWithFormat:@"%s", __PRETTY_FUNCTION__]];
+    [LEOBreadcrumb crumbWithFunction:__PRETTY_FUNCTION__];
 
     [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
     [self sendImageMessage:imagePreviewController.image];
@@ -566,7 +566,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
 - (void)startSendingMessage:(Message *)message {
 
-    [Crittercism leaveBreadcrumb:[NSString stringWithFormat:@"%s", __PRETTY_FUNCTION__]];
+    [LEOBreadcrumb crumbWithFunction:__PRETTY_FUNCTION__];
 
     self.sendButton.hidden = YES;
 
@@ -592,7 +592,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
 - (void)sendImageMessage:(UIImage *)image {
 
-    [Crittercism leaveBreadcrumb:[NSString stringWithFormat:@"%s", __PRETTY_FUNCTION__]];
+    [LEOBreadcrumb crumbWithFunction:__PRETTY_FUNCTION__];
 
     JSQPhotoMediaItem *photoItem = [[JSQPhotoMediaItem alloc] initWithImage:image];
 
@@ -1084,7 +1084,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 - (void)collectionView:(JSQMessagesCollectionView *)collectionView
                 header:(JSQMessagesLoadEarlierHeaderView *)headerView didTapLoadEarlierMessagesButton:(UIButton *)sender {
 
-    [Crittercism leaveBreadcrumb:[NSString stringWithFormat:@"%s", __PRETTY_FUNCTION__]];
+    [LEOBreadcrumb crumbWithFunction:__PRETTY_FUNCTION__];
 
     LEOMessageService *messageService = [[LEOMessageService alloc] init];
 

@@ -23,7 +23,7 @@
 #import "NSObject+XibAdditions.h"
 #import "UIView+Extensions.h"
 #import <MBProgressHUD/MBProgressHUD.h>
-
+#import <Crashlytics/Crashlytics.h>
 
 @interface LEOLoginViewController ()
 
@@ -143,9 +143,12 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)continueTapped:(UIButton *)sender {
+- (void)continueTapped:(id)sender {
+    [[Crashlytics sharedInstance] crash];
+}
+- (void)whatever:(UIButton *)sender {
 
-    [Crittercism leaveBreadcrumb:[NSString stringWithFormat:@"%s", __PRETTY_FUNCTION__]];
+    [LEOBreadcrumb crumbWithFunction:__PRETTY_FUNCTION__];
 
     BOOL validEmail = [LEOValidationsHelper isValidEmail:[self emailTextField].text];
     BOOL validPassword = [LEOValidationsHelper isValidPassword:[self passwordTextField].text];

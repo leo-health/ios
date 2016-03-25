@@ -13,6 +13,7 @@
 
 + (void)downloadRemoteEnvironmentVariablesIfNeededWithCompletion:(void (^) (BOOL success, NSError *error))completionBlock;
 + (void)updateCrittercismWithNewKeys;
++ (void)updateCrashlyticsWithNewKeys;
 + (void)clearRemoteEnvironmentVariables;
 
 + (NSString *)APIBaseURL;

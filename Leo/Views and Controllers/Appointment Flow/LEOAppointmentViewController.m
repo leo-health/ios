@@ -287,7 +287,8 @@ static NSString *const kKeySelectionVCDate = @"date";
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
 
-    [Crittercism leaveBreadcrumb:[NSString stringWithFormat:@"%s %@", __PRETTY_FUNCTION__, segue.identifier]];
+    [LEOBreadcrumb crumbWithFunction:__PRETTY_FUNCTION__];
+
 
     if ([segue.identifier isEqualToString:kSegueSchedule]) {
 

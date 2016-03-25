@@ -16,7 +16,7 @@
 #import <Foundation/Foundation.h>
 #import "LEOConstants.h"
 #import "LEOApiReachability.h"
-#import <Crittercism/Crittercism.h>
+#import "LEOBreadcrumb.h"
 
 #define MSDesignatedInitializer(__SEL__) __attribute__((unavailable("Invoke the designated initializer `" # __SEL__ "` instead or use a convenience initializer.")))
 

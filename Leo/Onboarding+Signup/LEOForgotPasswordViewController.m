@@ -133,7 +133,7 @@ NSString * const kCopyResetPasswordSubmissionResponse = @"If you have an account
 
 - (IBAction)submitTapped:(UIButton *)sender {
 
-    [Crittercism leaveBreadcrumb:[NSString stringWithFormat:@"%s", __PRETTY_FUNCTION__]];
+    [LEOBreadcrumb crumbWithFunction:__PRETTY_FUNCTION__];
 
     BOOL validEmail = [LEOValidationsHelper isValidEmail:self.forgotPasswordView.emailPromptField.textField.text];
     

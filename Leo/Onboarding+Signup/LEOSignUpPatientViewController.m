@@ -274,7 +274,7 @@ static NSString *const kCopyUsePhoto = @"USE PHOTO";
 //TODO: Refactor this method
 - (void)continueTouchedUpInside {
 
-    [Crittercism leaveBreadcrumb:[NSString stringWithFormat:@"%s", __PRETTY_FUNCTION__]];
+    [LEOBreadcrumb crumbWithFunction:__PRETTY_FUNCTION__];
 
     //TODO: Manage button enabled and progress hud
 
