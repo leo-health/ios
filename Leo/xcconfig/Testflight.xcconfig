@@ -28,3 +28,4 @@ ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon-Release
 BUNDLE_DISPLAY_NAME = Leo
 URL_IDENTIFIER = com.leohealth.leo
 URL_SCHEME = leo-production-consumer
+ENVIRONMENT = testflight

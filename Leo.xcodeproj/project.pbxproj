@@ -1616,6 +1616,7 @@
 				BCE1EC621B00E353007C8D0B /* Resources */,
 				CB7DB39BBE1DE6D4A4F9F218 /* Copy Pods Resources */,
 				7305E41372AF5CF04B09C7C2 /* Embed Pods Frameworks */,
+				31209FA81CA2E45C00E8B749 /* Crittercism Symbolication Shell Script */,
 			);
 			buildRules = (
 			);
@@ -1724,6 +1725,20 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		31209FA81CA2E45C00E8B749 /* Crittercism Symbolication Shell Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Crittercism Symbolication Shell Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "${SRCROOT}/crittercism/crittercism_symbolication.sh -k ~/Leo/Code/private_keys -d ${SRCROOT}/crittercism -e ${ENVIRONMENT}";
+		};
 		5611AFAF01C6667A748C8808 /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
