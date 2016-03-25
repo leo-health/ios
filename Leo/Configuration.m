@@ -13,6 +13,8 @@
 #import "LEOSettingsService.h"
 #import "LEOPusherHelper.h"
 #import "SessionUser.h"
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
 
 static NSString *const ConfigurationAPIEndpoint = @"ApiURL";
 static NSString *const ConfigurationProviderEndpoint = @"ProviderURL";
@@ -159,6 +161,13 @@ static NSString *const ConfigurationCrittercismAppID = @"CrittercismAppID";
     [Crittercism enableWithAppID:[Configuration crittercismAppID]];
     [Crittercism setUsername:[[SessionUser currentUser] anonymousCustomerServiceID]];
 }
+
++ (void)updateCrashlyticsWithNewKeys {
+
+    [Fabric with:@[[Crashlytics class]]];
+    [[Crashlytics sharedInstance] setUserIdentifier:[[SessionUser currentUser] anonymousCustomerServiceID]];
+}
+
 
 + (void)clearRemoteEnvironmentVariables {
 

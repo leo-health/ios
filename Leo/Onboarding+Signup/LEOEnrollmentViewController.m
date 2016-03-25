@@ -124,7 +124,7 @@ static NSString * const kCopyCollapsedHeaderEnrollment = @"Create an account";
 
 - (void)continueTapped:(UIButton *)sender {
 
-    [Crittercism leaveBreadcrumb:[NSString stringWithFormat:@"%s", __PRETTY_FUNCTION__]];
+    [LEOBreadcrumb crumbWithFunction:__PRETTY_FUNCTION__];
 
     [MBProgressHUD showHUDAddedTo:self.view animated:YES]; //TODO: Create separate class to set these up for all use cases with two methods that support showing and hiding our customized HUD.
 

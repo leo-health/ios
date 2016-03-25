@@ -159,7 +159,7 @@ static NSString * const kCopyHeaderSignUpUser = @"Tell us a little about yoursel
 
 - (void)continueTapped:(UIButton *)sender {
 
-    [Crittercism leaveBreadcrumb:[NSString stringWithFormat:@"%s", __PRETTY_FUNCTION__]];
+    [LEOBreadcrumb crumbWithFunction:__PRETTY_FUNCTION__];
 
     if ([self.signUpUserView validView]) {
 

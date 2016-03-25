@@ -24,7 +24,6 @@
 #import "UIView+Extensions.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 
-
 @interface LEOLoginViewController ()
 
 @property (strong, nonatomic) LEOLoginView *loginView;
@@ -143,9 +142,9 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)continueTapped:(UIButton *)sender {
+- (void)continueTapped:(id)sender {
 
-    [Crittercism leaveBreadcrumb:[NSString stringWithFormat:@"%s", __PRETTY_FUNCTION__]];
+    [LEOBreadcrumb crumbWithFunction:__PRETTY_FUNCTION__];
 
     BOOL validEmail = [LEOValidationsHelper isValidEmail:[self emailTextField].text];
     BOOL validPassword = [LEOValidationsHelper isValidPassword:[self passwordTextField].text];
@@ -159,8 +158,7 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
 
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 
-        LEOUserService *userService = [[LEOUserService alloc] init];
-        [userService loginUserWithEmail:[self emailTextField].text
+        [[LEOUserService new] loginUserWithEmail:[self emailTextField].text
                                password:[self passwordTextField].text
                          withCompletion:^(SessionUser * user, NSError * error) {
 

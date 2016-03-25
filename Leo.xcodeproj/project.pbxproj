@@ -72,6 +72,7 @@
 		3138FC511B9A1A9B000FE22C /* LEOAPIInsuranceOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3138FC501B9A1A9B000FE22C /* LEOAPIInsuranceOperation.m */; };
 		3138FC541B9A1AF1000FE22C /* LEOValidationsHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3138FC531B9A1AF1000FE22C /* LEOValidationsHelper.m */; };
 		3138FC571B9A1B7D000FE22C /* LEOSignUpUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3138FC561B9A1B7D000FE22C /* LEOSignUpUserViewController.m */; };
+		313ECC2A1CA5BE340059C434 /* LEOBreadcrumb.m in Sources */ = {isa = PBXBuildFile; fileRef = 313ECC291CA5BE340059C434 /* LEOBreadcrumb.m */; };
 		313FA71B1C036E22008189B9 /* LEOAppointmentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 313FA71A1C036E22008189B9 /* LEOAppointmentView.m */; };
 		313FA71E1C036E7F008189B9 /* UIView+XibAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 313FA71D1C036E7F008189B9 /* UIView+XibAdditions.m */; };
 		313FA7201C0374DE008189B9 /* LEOAppointmentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 313FA71F1C0374DE008189B9 /* LEOAppointmentView.xib */; };
@@ -392,6 +393,8 @@
 		3138FC551B9A1B7D000FE22C /* LEOSignUpUserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOSignUpUserViewController.h; path = "Onboarding+Signup/LEOSignUpUserViewController.h"; sourceTree = "<group>"; };
 		3138FC561B9A1B7D000FE22C /* LEOSignUpUserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOSignUpUserViewController.m; path = "Onboarding+Signup/LEOSignUpUserViewController.m"; sourceTree = "<group>"; };
 		3138FC5B1B9F87E5000FE22C /* LEOExpandedCardViewProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOExpandedCardViewProtocol.h; sourceTree = "<group>"; };
+		313ECC281CA5BE340059C434 /* LEOBreadcrumb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOBreadcrumb.h; path = Helpers/LEOBreadcrumb.h; sourceTree = "<group>"; };
+		313ECC291CA5BE340059C434 /* LEOBreadcrumb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOBreadcrumb.m; path = Helpers/LEOBreadcrumb.m; sourceTree = "<group>"; };
 		313FA7191C036E22008189B9 /* LEOAppointmentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOAppointmentView.h; path = "Views and Controllers/Appointment Flow/LEOAppointmentView.h"; sourceTree = "<group>"; };
 		313FA71A1C036E22008189B9 /* LEOAppointmentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOAppointmentView.m; path = "Views and Controllers/Appointment Flow/LEOAppointmentView.m"; sourceTree = "<group>"; };
 		313FA71C1C036E7F008189B9 /* UIView+XibAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+XibAdditions.h"; path = "Views and Controllers/Generic/UIView+XibAdditions.h"; sourceTree = "<group>"; };
@@ -1004,6 +1007,8 @@
 		31920A461B0A8ACC006309C2 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				313ECC281CA5BE340059C434 /* LEOBreadcrumb.h */,
+				313ECC291CA5BE340059C434 /* LEOBreadcrumb.m */,
 				31209F9F1C9F584700E8B749 /* NSString+Extensions.h */,
 				31209FA01C9F584700E8B749 /* NSString+Extensions.m */,
 				3101F93F1BF54D320075765B /* NSUserDefaults+Extensions.h */,
@@ -1617,6 +1622,7 @@
 				CB7DB39BBE1DE6D4A4F9F218 /* Copy Pods Resources */,
 				7305E41372AF5CF04B09C7C2 /* Embed Pods Frameworks */,
 				31209FA81CA2E45C00E8B749 /* Crittercism Symbolication Shell Script */,
+				313ECC271CA5B3690059C434 /* Fabric - Crashlytics  */,
 			);
 			buildRules = (
 			);
@@ -1738,6 +1744,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "${SRCROOT}/crittercism/crittercism_symbolication.sh -k ~/Leo/Code/private_keys -d ${SRCROOT}/crittercism -e ${ENVIRONMENT}";
+		};
+		313ECC271CA5B3690059C434 /* Fabric - Crashlytics  */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Fabric - Crashlytics ";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" a48fa68d614c6ca7670c4076bb6e357b2c8f574a 12dfb0b6d4cc95cec4ca5d6b4827c7cd4c1661b9902963d8c29746a18494cdbd";
 		};
 		5611AFAF01C6667A748C8808 /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1896,6 +1916,7 @@
 				31D20ACC1B14C61F00F3351A /* LEORecordViewController.m in Sources */,
 				31197A121B39D8FD00C773BA /* MenuView.m in Sources */,
 				662371F11C568C23001AB3E7 /* LEOLoggedOutLoginCell.m in Sources */,
+				313ECC2A1CA5BE340059C434 /* LEOBreadcrumb.m in Sources */,
 				31B998C61B7BD4F40055DEEA /* UIFont+LeoFonts.m in Sources */,
 				312946091C0E0B8200AE5BB1 /* LEOAlertHelper.m in Sources */,
 				31339B241C285AEE00B53A86 /* LEOCardModalTransitionAnimator.m in Sources */,

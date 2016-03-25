@@ -30,7 +30,7 @@
 
     [self setupRemoteNotificationsForApplication:application];
     [self setupObservers];
-    
+
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     NSString *storyboardIdentifier = [SessionUser isLoggedIn] ? kStoryboardFeed : kStoryboardLogin;
@@ -178,6 +178,7 @@
 
     [Configuration downloadRemoteEnvironmentVariablesIfNeededWithCompletion:^(BOOL success, NSError *error) {
         [Configuration updateCrittercismWithNewKeys];
+        [Configuration updateCrashlyticsWithNewKeys];
     }];
 
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.

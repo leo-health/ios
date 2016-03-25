@@ -154,7 +154,7 @@ static NSString * const kSignUpPatientSegue = @"SignUpPatientSegue";
 
 -(void)continueTapped:(UIButton * __nonnull)sender {
 
-    [Crittercism leaveBreadcrumb:[NSString stringWithFormat:@"%s", __PRETTY_FUNCTION__]];
+    [LEOBreadcrumb crumbWithFunction:__PRETTY_FUNCTION__];
 
     if ([self.family.patients count] > 0) {
 

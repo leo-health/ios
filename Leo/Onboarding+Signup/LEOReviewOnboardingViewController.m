@@ -169,7 +169,7 @@ static NSString *const kCopyHeaderReviewOnboarding = @"Finally, please confirm y
     switch (indexPath.section) {
         case TableViewSectionGuardians: {
 
-            [Crittercism leaveBreadcrumb:[NSString stringWithFormat:@"%s edit guardian", __PRETTY_FUNCTION__]];
+            [LEOBreadcrumb crumbWithObject:[NSString stringWithFormat:@"%s edit guardian", __PRETTY_FUNCTION__]];
 
             Guardian *guardian = self.family.guardians[indexPath.row];
             [self performSegueWithIdentifier:kReviewUserSegue sender:guardian];
@@ -178,7 +178,7 @@ static NSString *const kCopyHeaderReviewOnboarding = @"Finally, please confirm y
 
         case TableViewSectionPatients: {
 
-            [Crittercism leaveBreadcrumb:[NSString stringWithFormat:@"%s edit patient", __PRETTY_FUNCTION__]];
+            [LEOBreadcrumb crumbWithObject:[NSString stringWithFormat:@"%s edit patient", __PRETTY_FUNCTION__]];
 
             Patient *patient = self.family.patients[indexPath.row];
             [self performSegueWithIdentifier:kReviewPatientSegue sender:patient];
@@ -247,7 +247,7 @@ static NSString *const kCopyHeaderReviewOnboarding = @"Finally, please confirm y
 
 - (void)continueTapped:(UIButton *)sender {
 
-    [Crittercism leaveBreadcrumb:[NSString stringWithFormat:@"%s", __PRETTY_FUNCTION__]];
+    [LEOBreadcrumb crumbWithFunction:__PRETTY_FUNCTION__];
 
     BOOL isSecondGuardian = self.family.guardians.count > 1;
     __block BOOL attemptedInviteOfGuardian;

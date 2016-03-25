@@ -68,8 +68,8 @@
 
 - (void)updateEmailTapped {
 
-    [Crittercism leaveBreadcrumb:[NSString stringWithFormat:@"%s", __PRETTY_FUNCTION__]];
-    
+    [LEOBreadcrumb crumbWithFunction:__PRETTY_FUNCTION__];
+
     if ([self.updateEmailView isValidEmail]) {
         
         LEOUserService *userService = [[LEOUserService alloc] init];

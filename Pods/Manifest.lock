@@ -21,10 +21,13 @@ PODS:
   - AFNetworking/UIKit (2.6.1):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
+  - Crashlytics (3.7.0):
+    - Fabric (~> 1.6.3)
   - CrittercismSDK (5.5.0)
   - CWStatusBarNotification (2.3.4)
   - DateTools (1.7.0)
   - Expecta (0.2.4)
+  - Fabric (1.6.7)
   - GNZSlidingSegment (0.1.0)
   - JSQMessagesViewController (7.2.0):
     - JSQSystemSoundPlayer (~> 2.0.1)
@@ -60,10 +63,12 @@ PODS:
 DEPENDENCIES:
   - ActionSheetPicker-3.0 (~> 2.0.1)
   - AFNetworking
+  - Crashlytics
   - CrittercismSDK (= 5.5.0)
   - CWStatusBarNotification (~> 2.3.4)
   - DateTools
   - Expecta
+  - Fabric
   - GNZSlidingSegment (from `https://github.com/chrisgonzgonz/GNZSlidingSegment.git`)
   - JSQMessagesViewController
   - libPusher (~> 1.5)
@@ -94,10 +99,12 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   ActionSheetPicker-3.0: 11f2053085d3088dc1ef9d38a9f11c18b528dd9e
   AFNetworking: 8e4e60500beb8bec644cf575beee72990a76d399
+  Crashlytics: c3a2333dea9e2733d2777f730910321fc9e25c0d
   CrittercismSDK: 74d8e8ce05b79a89dd6d35110b57960490182862
   CWStatusBarNotification: 3fec41edcb0ae3677d9febfcb9632d8bdf52294c
   DateTools: 53288ee8b905fdc75897a1e6b5cc0144b14cba60
   Expecta: cfaf1d3e2e194ca704a25e997093d30a1ce70b61
+  Fabric: caf7580c725e64db144f610ac65cd60956911dc7
   GNZSlidingSegment: 76e937198abbc09d945795c41c3e39b681ad3d1e
   JSQMessagesViewController: 73cab48aa92fc2d512f3b6724f3425cc47a19eb5
   JSQSystemSoundPlayer: c5850e77a4363ffd374cd851154b9af93264ed8d

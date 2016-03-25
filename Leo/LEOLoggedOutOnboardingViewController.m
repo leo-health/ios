@@ -56,6 +56,7 @@ static NSString * const reuseIdentifierFeature = @"reuseIdentifierFeature";
 
         if (success) {
             [Configuration updateCrittercismWithNewKeys];
+            [Configuration updateCrashlyticsWithNewKeys];
         }
     }];
 
@@ -168,7 +169,11 @@ static NSString * const reuseIdentifierFeature = @"reuseIdentifierFeature";
 
 - (void)loginTouchedUpInside:(UIButton *)sender {
 
+    [LEOBreadcrumb crumbWithFunction:__PRETTY_FUNCTION__];
+
     [self performSegueWithIdentifier:kSegueLogin sender:self];
+
+
 }
 
 - (void)signupTouchedUpInside:(UIButton *)sender {

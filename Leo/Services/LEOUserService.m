@@ -19,6 +19,7 @@
 #import "SessionUser.h"
 #import "NSUserDefaults+Extensions.h"
 #import "LEODevice.h"
+#import <Crittercism/Crittercism.h>
 
 @implementation LEOUserService
 
@@ -32,6 +33,7 @@
         
         if (!error) {
 
+            //FIXME: This should all be in a method within the sessionUser object, not in the Service layer
             [SessionUser setCurrentUserWithJSONDictionary:rawResults[APIParamData]];
             [SessionUser setAuthToken:rawResults[APIParamData][APIParamSession][APIParamToken]];
             [[SessionUser currentUser] incrementLoginCounter];

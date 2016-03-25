@@ -23,7 +23,8 @@ pod 'RSKImageCropper' #MIT
 pod 'GNZSlidingSegment', :git => 'https://github.com/chrisgonzgonz/GNZSlidingSegment.git'  #MIT
 pod 'CWStatusBarNotification', '~> 2.3.4' #MIT
 pod 'CrittercismSDK', '5.5.0' #License needed?
-
+pod 'Fabric' #non-standard license; see https://fabric.io/privacy
+pod 'Crashlytics' #non-standard license; https://fabric.io/privacy
 #Should review dependencies of these pods to ensure that all pods are compliant with their own licenses. e.g. Facebook Pop, etc.
 
 end
