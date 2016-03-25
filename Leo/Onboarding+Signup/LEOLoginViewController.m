@@ -143,9 +143,6 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
 }
 
 - (void)continueTapped:(id)sender {
-    [[Crashlytics sharedInstance] crash];
-}
-- (void)whatever:(UIButton *)sender {
 
     [LEOBreadcrumb crumbWithFunction:__PRETTY_FUNCTION__];
 
@@ -161,8 +158,7 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
 
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 
-        LEOUserService *userService = [[LEOUserService alloc] init];
-        [userService loginUserWithEmail:[self emailTextField].text
+        [[LEOUserService new] loginUserWithEmail:[self emailTextField].text
                                password:[self passwordTextField].text
                          withCompletion:^(SessionUser * user, NSError * error) {
 
