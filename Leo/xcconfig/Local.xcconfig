@@ -28,3 +28,4 @@ BUNDLE_IDENTIFIER = com.leohealth.dev-consumer
 ASSETCATALOG_COMPILER_APPICON_NAME =
 BUNDLE_DISPLAY_NAME = Leo Local
 URL_SCHEME = leo-local-consumer
+ENVIRONMENT = local
