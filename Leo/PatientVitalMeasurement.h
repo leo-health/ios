@@ -23,9 +23,15 @@ typedef NS_ENUM(NSInteger, PatientVitalMeasurementType) {
 @property (copy, nonatomic) NSString *value;
 @property (copy, nonatomic) NSString *percentile;
 @property (copy, nonatomic) NSString *unit;
+@property (copy, nonatomic) NSString *valueAndUnitFormatted;
 @property (nonatomic) PatientVitalMeasurementType measurementType;
 
-- (instancetype)initWithTakenAt:(NSDate *)takenAt value:(NSString *)value percentile:(NSString *)percentile unit:(NSString*)unit measurementType:(PatientVitalMeasurementType)measurementType;
+- (instancetype)initWithTakenAt:(NSDate *)takenAt
+                          value:(NSString *)value
+                     percentile:(NSString *)percentile
+                           unit:(NSString*)unit
+                measurementType:(PatientVitalMeasurementType)measurementType
+          valueAndUnitFormatted:(NSString*)valueAndUnitFormatted;
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonDictionary;
 + (NSArray *)patientVitalsFromDictionaries:(NSArray *)dictionaries;
 

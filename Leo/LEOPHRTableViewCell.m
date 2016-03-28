@@ -47,12 +47,8 @@
         self.recordTitleLabel.text = title;
         NSMutableString *str = [NSMutableString new];
 
-        if (vital.value) {
-            [str appendString:vital.value];
-        }
-
-        if (vital.unit) {
-            [str appendFormat:@" %@", vital.unit];
+        if (vital.valueAndUnitFormatted) {
+            [str appendString:vital.valueAndUnitFormatted];
         }
 
         if (vital.percentile) {
