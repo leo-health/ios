@@ -304,6 +304,7 @@ static CGFloat const kFeedInsetTop = 20.0;
         __weak typeof(self) weakNestedSelf = strongSelf;
 
         if (success) {
+            //MARK: This may be constantly getting reset upon return to the feed. Should it be this way? Something to look into.
             strongSelf.pusherBinding = [pusherHelper connectToPusherChannel:channelString
                                                                   withEvent:event
                                                                      sender:strongSelf
@@ -351,12 +352,13 @@ static CGFloat const kFeedInsetTop = 20.0;
 
 - (void)notificationReceived:(NSNotification *)notification {
 
-    if ([notification.name isEqualToString:kNotificationConversationAddedMessage] || [notification.name isEqualToString: @"Card-Updated"]) {
+    if ([notification.name isEqualToString:kNotificationConversationAddedMessage] || [notification.name isEqualToString:kNotificationCardUpdated]) {
         [self fetchDataForCard:notification.object completion:nil];
     }
 
     if ([notification.name isEqualToString:UIApplicationDidBecomeActiveNotification]) {
 
+        //FIXME: This is a bit misleading because given our card architecture, this is going to happen even when becoming active within a card (e.g. messaging). This is misleading because a) it happens anyway, but b) even if we wanted it to happen, it is happening asynchronously with other operations, so it's not guaranteed to finish before we complete say, a `getMessages` request. I don't believe the specific example I am bringing up poses an issue, but if we rely on this data being up-to-date for another request, it certainly would be an issue. Let's revisit -- adding as an issue to Github as well.
         [self fetchData];
     }
 }
@@ -383,6 +385,8 @@ static CGFloat const kFeedInsetTop = 20.0;
 
     [self fetchFamilyWithCompletion:^(NSError *error) {
 
+        //!!!: The way we are handling errors here is a code smell. We need to go back and refactor the errors out.
+        
         if (error) {
             [self handleNetworkError:error];
         } else {
