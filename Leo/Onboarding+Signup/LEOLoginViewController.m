@@ -23,6 +23,7 @@
 #import "NSObject+XibAdditions.h"
 #import "UIView+Extensions.h"
 #import <MBProgressHUD/MBProgressHUD.h>
+#import <Crashlytics/Crashlytics.h>
 
 @interface LEOLoginViewController ()
 
