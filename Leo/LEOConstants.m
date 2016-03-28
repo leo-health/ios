@@ -269,6 +269,7 @@ NSString *const APIParamVitalMeasurementSearchEndDate = @"end_date";
 NSString *const APIParamVitalMeasurementTakenAt = @"taken_at";
 NSString *const APIParamVitalMeasurementValue = @"value";
 NSString *const APIParamVitalMeasurementUnit = @"unit";
+NSString *const APIParamVitalMeasurementFormattedValueAndUnit = @"formatted_value_with_units";
 NSString *const APIParamVitalMeasurementPercentile = @"percentile";
 NSString *const APIParamVitalMeasurementType = @"type";
 
