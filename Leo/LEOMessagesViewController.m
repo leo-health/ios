@@ -572,7 +572,9 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
     [self.sendingIndicator startAnimating];
 
-    [JSQSystemSoundPlayer jsq_playMessageSentSound];
+//    TODO: Update this with another sound at some point if desired. Leaving the
+//          line commented here so we know where it should go in the code.
+//    [JSQSystemSoundPlayer jsq_playMessageSentSound];
 
     [self sendMessage:message withCompletion:^(NSError *error){
 
