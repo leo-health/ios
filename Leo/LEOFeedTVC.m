@@ -440,27 +440,10 @@ static CGFloat const kFeedInsetTop = 20.0;
 
             [self activateCardInFocus];
 
-            [self promptUserToFillProfileIfNeeded];
-
             completionBlock ? completionBlock(cards, error) : nil;
 
         }];
     });
-}
-
-- (void)promptUserToFillProfileIfNeeded {
-
-    if ([[SessionUser currentUser] numTimesLoggedIn] == 1 && !self.hasShownNewUserMessage) {
-
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Welcome to Leo at Flatiron Pediatrics!" message:@"First things first, please visit Settings to add a photo of your child and invite another parent/guardian!" preferredStyle:UIAlertControllerStyleAlert];
-        [alert addAction:[UIAlertAction actionWithTitle:@"Go to Settings" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-
-            [self loadSettings];
-        }]];
-        [self presentViewController:alert animated:YES completion:nil];
-
-        self.hasShownNewUserMessage = YES;
-    }
 }
 
 - (NSIndexPath *)cardInFocusIndexPath {
