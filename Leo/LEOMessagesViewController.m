@@ -125,9 +125,9 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
     [super viewDidAppear:animated];
 
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:^{
-        //Do anything?
+        self.pusherBinding = nil;
     } withOnlineBlock:^{
-        //Do anything?
+        [self resetPusherAndGetMissedMessages];
     }];
 }
 
@@ -258,9 +258,15 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
 - (void)dealloc {
 
+    [self clearPusher];
+    [self removeObservers];
+}
+
+- (void)clearPusher {
+
     NSString *channelString = [NSString stringWithFormat:@"%@",[SessionUser currentUser].objectID];
     [[LEOPusherHelper sharedPusher] removeBinding:self.pusherBinding fromPrivateChannelWithName:channelString];
-    [self removeObservers];
+    self.pusherBinding = nil;
 }
 
 - (void)setupRequiredMessagingProperties {
@@ -372,31 +378,32 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
     }
 
     if ([notification.name isEqualToString:UIApplicationDidEnterBackgroundNotification] || [notification.name isEqualToString:UIApplicationWillResignActiveNotification]) {
-
-        NSString *channelString = [NSString stringWithFormat:@"%@",[SessionUser currentUser].objectID];
-        [[LEOPusherHelper sharedPusher] removeBinding:self.pusherBinding fromPrivateChannelWithName:channelString];
-        self.pusherBinding = nil;
+        [self clearPusher];
     }
 
     if ([notification.name isEqualToString:UIApplicationDidBecomeActiveNotification]) {
-
-        [self setupPusher];
-
-        self.sendButton.hidden = YES;
-        [self.sendingIndicator startAnimating];
-
-        [[LEOMessageService new] getMessagesForConversation:[self conversation] page:nil offset:nil sinceDateTime:[self lastMessageDate] withCompletion:^(NSArray * messages, NSError *error) {
-
-            [self.sendingIndicator stopAnimating];
-            self.sendButton.hidden = NO;
-
-            if (!error) {
-                [self collectionView:self.collectionView updateWithNewMessages:messages startingAtIndex:[self conversation].messages.count];
-            } else {
-                [LEOAlertHelper alertForViewController:self error:error backupTitle:kErrorTitleMessagingDown backupMessage:kErrorBodyMessagingDown];
-            }
-        }];
+        [self resetPusherAndGetMissedMessages];
     }
+}
+
+- (void)resetPusherAndGetMissedMessages {
+
+    [self setupPusher];
+
+    self.sendButton.hidden = YES;
+    [self.sendingIndicator startAnimating];
+
+    [[LEOMessageService new] getMessagesForConversation:[self conversation] page:nil offset:nil sinceDateTime:[self lastMessageDate] withCompletion:^(NSArray * messages, NSError *error) {
+
+        [self.sendingIndicator stopAnimating];
+        self.sendButton.hidden = NO;
+
+        if (!error) {
+            [self collectionView:self.collectionView updateWithNewMessages:messages startingAtIndex:[self conversation].messages.count];
+        } else {
+            [LEOAlertHelper alertForViewController:self error:error backupTitle:kErrorTitleMessagingDown backupMessage:kErrorBodyMessagingDown];
+        }
+    }];
 }
 
 - (NSDate *)lastMessageDate {
