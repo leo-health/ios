@@ -74,6 +74,7 @@ fastlane ios testflight bump_type:minor
 ```
 Soon we will implement further fastlane capabilities to launch a production app. We will update this file when that functionality is complete.
 
+Finally, make sure to push git tags to the server after deploying a new build.
 
 ##Coding style guide
 
