@@ -1621,8 +1621,8 @@
 				BCE1EC621B00E353007C8D0B /* Resources */,
 				CB7DB39BBE1DE6D4A4F9F218 /* Copy Pods Resources */,
 				7305E41372AF5CF04B09C7C2 /* Embed Pods Frameworks */,
-				31209FA81CA2E45C00E8B749 /* Crittercism Symbolication Shell Script */,
-				313ECC271CA5B3690059C434 /* Fabric - Crashlytics  */,
+				31209FA81CA2E45C00E8B749 /* Upload Symbols to Crittercism */,
+				313ECC271CA5B3690059C434 /* Upload Symbols to Crashlytics */,
 			);
 			buildRules = (
 			);
@@ -1731,28 +1731,28 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		31209FA81CA2E45C00E8B749 /* Crittercism Symbolication Shell Script */ = {
+		31209FA81CA2E45C00E8B749 /* Upload Symbols to Crittercism */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Crittercism Symbolication Shell Script";
+			name = "Upload Symbols to Crittercism";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "${SRCROOT}/build_scripts/crittercism_symbolication.sh -k ~/Leo/Code/private_keys -d ${SRCROOT}/crittercism -e ${ENVIRONMENT}";
+			shellScript = "\"${SRCROOT}/build_scripts/crittercism_symbolication.sh -k ~/Leo/Code/private_keys -d ${SRCROOT}/crittercism -e ${ENVIRONMENT}\"";
 		};
-		313ECC271CA5B3690059C434 /* Fabric - Crashlytics  */ = {
+		313ECC271CA5B3690059C434 /* Upload Symbols to Crashlytics */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Fabric - Crashlytics ";
+			name = "Upload Symbols to Crashlytics";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
