@@ -1,10 +1,14 @@
     upcoming:
-    - New! No more annoying prompt without avatars on first login
-    - New! Bug squashing tools integrated
-    - Fixes issue where real time updates stop coming back from sleep state
-    - Bug fixing
-
     releases:
+    - version: 1.0.0
+      build: 2016.03.30.17.31
+      date: March 30 2016
+      notes:
+      - New! No more annoying prompt without avatars on first login
+  - New! Bug squashing tools integrated
+  - Fixes issue where real time updates stop coming back from sleep state
+  - Bug fixing
+    
     - version: 1.0.0
       build: 2016.03.21.23.34
       date: March 21 2016
@@ -342,6 +346,7 @@
       notes:
       - First test build using new Fastfile configuration for Alpha builds
       - Provides the basic functionality all created prior to our first releases
+
 
 
 
