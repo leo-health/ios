@@ -296,6 +296,9 @@ extern NSString *const APIParamConversationParticipants; // @"participants";
 extern NSString *const APIParamMessages; // @"messages";
 extern NSString *const APIParamMessageBody; // @"body";
 extern NSString *const APIParamMessageSender; // @"sender";
+extern NSString *const APIParamMessagePage; // = @"page";
+extern NSString *const APIParamMessageOffset; // = @"offset";
+extern NSString *const APIParamMessageMinDate; // = @"start_datetime";
 extern NSString *const APIParamMessageEscalatedTo; // @"escalated_to";
 extern NSString *const APIParamMessageEscalatedBy; // @"escalated_by";
 

@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSArray *messages;
 @property (nonatomic, strong) NSArray *participants;
 @property (nonatomic, strong) NSNumber *state;
-@property (nonatomic, strong) NSNumber *messageCount;
+@property (nonatomic, readonly) NSInteger messageCount;
 @property (nonatomic) ConversationStatusCode statusCode;
 @property (nonatomic) ConversationStatusCode priorStatusCode;
 

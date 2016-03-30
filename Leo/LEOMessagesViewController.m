@@ -125,14 +125,14 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
     [super viewDidAppear:animated];
 
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:^{
-        //Do anything?
+        [self clearPusher]
     } withOnlineBlock:^{
-        //Do anything?
+        [self resetPusherAndGetMissedMessages];
     }];
 }
 
 - (void)setupNavigationBar {
-
+    
     [self.navigationController.navigationBar setBackgroundImage:[UIImage leo_imageWithColor:self.card.tintColor] forBarMetrics:UIBarMetricsDefault];
 
     self.navigationController.navigationBar.shadowImage = [UIImage new];
@@ -219,14 +219,29 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
 - (void)constructNotifications {
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationReceived:) name:kNotificationConversationAddedMessage object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(notificationReceived:)
+                                                 name:kNotificationConversationAddedMessage
+                                               object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(notificationReceived:)
+                                                 name:UIApplicationDidBecomeActiveNotification
+                                               object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(notificationReceived:)
+                                                 name:UIApplicationDidEnterBackgroundNotification
+                                               object:nil];
 }
 
 - (void)removeObservers {
     
     [self.sendButton removeObserver:self forKeyPath:@"enabled"];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotificationConversationAddedMessage object:nil];
-    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
+
     for (id observer in self.notificationObservers) {
         [[NSNotificationCenter defaultCenter] removeObserver:observer];
     }
@@ -243,9 +258,15 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
 - (void)dealloc {
 
+    [self clearPusher];
+    [self removeObservers];
+}
+
+- (void)clearPusher {
+
     NSString *channelString = [NSString stringWithFormat:@"%@",[SessionUser currentUser].objectID];
     [[LEOPusherHelper sharedPusher] removeBinding:self.pusherBinding fromPrivateChannelWithName:channelString];
-    [self removeObservers];
+    self.pusherBinding = nil;
 }
 
 - (void)setupRequiredMessagingProperties {
@@ -318,20 +339,22 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
             __weak typeof(self) weakNestedSelf = strongSelf;
 
-            strongSelf.pusherBinding = [pusherHelper connectToPusherChannel:channelString withEvent:event sender:strongSelf withCompletion:^(NSDictionary *channelData) {
+            if (!strongSelf.pusherBinding) {
+                strongSelf.pusherBinding = [pusherHelper connectToPusherChannel:channelString withEvent:event sender:strongSelf withCompletion:^(NSDictionary *channelData) {
 
-                __strong typeof(self) strongNestedSelf = weakNestedSelf;
+                    __strong typeof(self) strongNestedSelf = weakNestedSelf;
 
-                NSString *messageID = [Message extractObjectIDFromChannelData:channelData];
+                    NSString *messageID = [Message extractObjectIDFromChannelData:channelData];
 
-                __weak typeof(strongSelf) weakDoubleNestedSelf = strongNestedSelf;
+                    __weak typeof(strongSelf) weakDoubleNestedSelf = strongNestedSelf;
 
-                [[strongSelf conversation] fetchMessageWithID:messageID completion:^{
+                    [[strongSelf conversation] fetchMessageWithID:messageID completion:^{
 
-                    __strong typeof(strongSelf) strongDoubleNestedSelf = weakDoubleNestedSelf;
-                    strongDoubleNestedSelf.offset++;
+                        __strong typeof(strongSelf) strongDoubleNestedSelf = weakDoubleNestedSelf;
+                        strongDoubleNestedSelf.offset++;
+                    }];
                 }];
-            }];
+            }
         } else {
             [LEOAlertHelper alertForViewController:self
                                              error:nil
@@ -351,9 +374,42 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
         Conversation *conversation = (Conversation *)notification.object;
         Message *newMessage = conversation.messages.lastObject;
-
         [self finishSendingMessage:newMessage];
     }
+
+    if ([notification.name isEqualToString:UIApplicationDidEnterBackgroundNotification] || [notification.name isEqualToString:UIApplicationWillResignActiveNotification]) {
+        [self clearPusher];
+    }
+
+    if ([notification.name isEqualToString:UIApplicationDidBecomeActiveNotification]) {
+        [self resetPusherAndGetMissedMessages];
+    }
+}
+
+- (void)resetPusherAndGetMissedMessages {
+
+    [self setupPusher];
+
+    self.sendButton.hidden = YES;
+    [self.sendingIndicator startAnimating];
+
+    [[LEOMessageService new] getMessagesForConversation:[self conversation] page:nil offset:nil sinceDateTime:[self lastMessageDate] withCompletion:^(NSArray * messages, NSError *error) {
+
+        [self.sendingIndicator stopAnimating];
+        self.sendButton.hidden = NO;
+
+        if (!error) {
+            [self collectionView:self.collectionView updateWithNewMessages:messages startingAtIndex:[self conversation].messages.count];
+        } else {
+            [LEOAlertHelper alertForViewController:self error:error backupTitle:kErrorTitleMessagingDown backupMessage:kErrorBodyMessagingDown];
+        }
+    }];
+}
+
+- (NSDate *)lastMessageDate {
+    
+    Message *message = [self conversation].messages.lastObject;
+    return message.createdAt;
 }
 
 - (void)finishSendingMessage:(Message *)message {
@@ -1067,7 +1123,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
     [self.navigationController pushViewController:lightboxVC animated:YES];
 }
 
-// unfortunately, these methods are requeired, even though we don't want to use them
+// unfortunately, these methods are required, even though we don't want to use them
 - (void)messagesCollectionViewCellDidTapCell:(JSQMessagesCollectionViewCell *)cell atPosition:(CGPoint)position {
 
 }
@@ -1088,35 +1144,45 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
     [LEOBreadcrumb crumbWithFunction:__PRETTY_FUNCTION__];
 
-    LEOMessageService *messageService = [[LEOMessageService alloc] init];
+    [[LEOMessageService new] getMessagesForConversation:[self conversation] page:@(self.nextPage) offset:@(self.offset) sinceDateTime:nil withCompletion:^void(NSArray *messages, NSError *error) {
 
-    [messageService getMessagesForConversation:[self conversation] page:self.nextPage offset:self.offset withCompletion:^void(NSArray * messages) {
-
-        /**
-         *  Remove the message if there are no more messages to show. Currently, this is suboptimal as it requires the user to press the button an extra time and make an extra API call. But this is a quick and easy first pass option.
-         */
-        if (messages.count == 0) {
-            self.showLoadEarlierMessagesHeader = NO;
-            return;
+        if (error) {
+            [LEOAlertHelper alertForViewController:self error:error backupTitle:kErrorTitleMessagingDown backupMessage:kErrorBodyMessagingDown];
         }
 
-        NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
-
-        /**
-         *  Collect the indexpaths into which we will insert the new messages.
-         */
-        for (NSInteger i = 0; i < [messages count]; i++) {
-            NSIndexPath *indexPath = [NSIndexPath indexPathForItem:i inSection:0];
-            [indexPaths addObject:indexPath];
-        }
-
-        /**
-         *  Add the messages to the conversation object itself
-         */
         [[self conversation] addMessages:messages];
 
-        [self collectionView:collectionView avoidFlickerInAnimationWhenInsertingIndexPaths:indexPaths];
+        [self collectionView:collectionView updateWithNewMessages:messages startingAtIndex:0];
     }];
+}
+
+
+- (void)collectionView:(UICollectionView *)collectionView updateWithNewMessages:(NSArray *)messages startingAtIndex:(NSInteger)startIndex {
+
+    /**
+     *  Remove the message if there are no more messages to show. Currently, this is suboptimal as it requires the user to press the button an extra time and make an extra API call. But this is a quick and easy first pass option.
+     */
+    if (messages.count == 0) {
+        self.showLoadEarlierMessagesHeader = NO;
+        return;
+    }
+
+    NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
+
+    /**
+     *  Collect the indexpaths into which we will insert the new messages.
+     */
+    for (NSInteger i = startIndex; i < [messages count] + startIndex; i++) {
+        NSIndexPath *indexPath = [NSIndexPath indexPathForItem:i inSection:0];
+        [indexPaths addObject:indexPath];
+    }
+
+    /**
+     *  Add the messages to the conversation object itself
+     */
+    [[self conversation] addMessages:messages];
+
+    [self collectionView:collectionView avoidFlickerInAnimationWhenInsertingIndexPaths:indexPaths];
 }
 
 - (void)addMessageNotificationForMessage:(Message *)message atIndexPath:(NSIndexPath *)indexPath {

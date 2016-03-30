@@ -16,6 +16,13 @@
 
 #import "LEOMessageService.h"
 
+@interface Conversation ()
+
+//TODO: Add this into the initializers and dictionaryFromConversation methods
+@property (nonatomic, readwrite) NSInteger messageCount;
+
+@end
+
 @implementation Conversation
 
 - (instancetype)initWithObjectID:(NSString *)objectID messages:(NSArray *)messages participants:(NSArray *)participants statusCode:(ConversationStatusCode)statusCode {

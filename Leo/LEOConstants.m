@@ -159,7 +159,9 @@ NSString *const APIParamConversationParticipants = @"participants";
 NSString *const APIParamMessages = @"messages";
 NSString *const APIParamMessageBody = @"body";
 NSString *const APIParamMessageSender = @"sender";
-
+NSString *const APIParamMessagePage = @"page";
+NSString *const APIParamMessageOffset = @"offset";
+NSString *const APIParamMessageMinDate = @"start_datetime";
 NSString *const APIParamMessageEscalatedTo = @"escalated_to";
 NSString *const APIParamMessageEscalatedBy = @"escalated_by";
 

@@ -14,6 +14,7 @@
 #import "MessageImage.h"
 #import "Conversation.h"
 #import <JSQPhotoMediaItem.h>
+#import "NSDate+Extensions.h"
 
 @implementation LEOMessageService
 
@@ -38,8 +39,7 @@
     NSArray *messageKeys = @[APIParamMessageBody, APIParamType];
     
     NSDictionary *messageParams = [[NSDictionary alloc] initWithObjects:messageValues forKeys:messageKeys];
-    
-    
+
     NSString *createMessageForConversationURLString = [NSString stringWithFormat:@"%@/%@/%@",APIEndpointConversations,conversation.objectID, APIEndpointMessages];
     
     [[LEOMessageService leoSessionManager] standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:createMessageForConversationURLString params:messageParams completion:^(NSDictionary *rawResults, NSError *error) {
@@ -52,17 +52,28 @@
     }];
 }
 
-- (void)getMessagesForConversation:(Conversation *)conversation page:(NSInteger)page offset:(NSInteger)offset withCompletion:( void (^)(NSArray *messages))completionBlock {
-    
-    NSArray *messageValues = @[@(page), @(offset)];
-    NSArray *messageKeys = @[@"page", @"offset"];
-    
-    NSDictionary *messageParams = [[NSDictionary alloc] initWithObjects:messageValues forKeys:messageKeys];
-    
+- (void)getMessagesForConversation:(Conversation *)conversation page:(nullable NSNumber *)page offset:(nullable NSNumber *)offset sinceDateTime:(nullable NSDate *)sinceDateTime withCompletion:(void (^)(NSArray *messages, NSError *error))completionBlock {
+
+    NSMutableDictionary *messageParams = [NSMutableDictionary new];
+
+    if (page) {
+        messageParams[APIParamMessagePage] = page;
+    }
+
+    if (offset) {
+        messageParams[APIParamMessageOffset] = offset;
+    }
+
+    if (sinceDateTime) {
+        messageParams[APIParamMessageMinDate] = [NSDate leo_stringifiedDate:sinceDateTime withFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZ"];
+    }
+
     NSString *getMessagesForConversationURLString = [NSString stringWithFormat:@"%@/%@/%@",APIEndpointConversations,conversation.objectID, APIEndpointMessages];
     
     [[LEOMessageService leoSessionManager] standardGETRequestForJSONDictionaryFromAPIWithEndpoint:getMessagesForConversationURLString params:messageParams completion:^(NSDictionary *rawResults, NSError *error) {
-        
+
+        NSArray *immutableMessages;
+
         if (!error) {
             NSArray *messageDictionaries = rawResults[APIParamData];
             
@@ -75,15 +86,11 @@
                 [mutableMessages addObject:message];
             }
             
-            NSArray *immutableMessages = [mutableMessages copy];
-            
-            if (completionBlock) {
-                completionBlock(immutableMessages);
-            }
-        } else {
-            
-            //TODO: Obviously all of our API calls should return errors, and all should be more descriptive / useful than this. That said, we are already handling user messaging at the API level via UIAlertControllers, so this can take a backseat. For now.
-            NSLog(@"Error! GET messages for conversation %@", error);
+            immutableMessages = [mutableMessages copy];
+        }
+
+        if (completionBlock) {
+            completionBlock(immutableMessages, error);
         }
     }];
 }
