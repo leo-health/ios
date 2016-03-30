@@ -125,7 +125,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
     [super viewDidAppear:animated];
 
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:^{
-        [self clearPusher]
+        [self clearPusher];
     } withOnlineBlock:^{
         [self resetPusherAndGetMissedMessages];
     }];
