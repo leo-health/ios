@@ -17,6 +17,7 @@
 #import "LEOConstants.h"
 #import "LEOStyleHelper.h"
 #import "NSUserDefaults+Extensions.h"
+#import <Localytics/Localytics.h>
 
 @interface AppDelegate ()
 
@@ -38,7 +39,9 @@
     if (launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]) {
         [self application:application didReceiveRemoteNotification:launchOptions];
     }
-    
+
+    [Localytics autoIntegrate:@"c2e70fb21fdad8a9305f68e-db4e6272-f694-11e5-8253-0086bc74ca0f" launchOptions:launchOptions];
+
     [self setRootViewControllerWithStoryboardName:storyboardIdentifier];
     
     return YES;
