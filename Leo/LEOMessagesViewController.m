@@ -125,14 +125,14 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
     [super viewDidAppear:animated];
 
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:^{
-        self.pusherBinding = nil;
+        [self clearPusher]
     } withOnlineBlock:^{
         [self resetPusherAndGetMissedMessages];
     }];
 }
 
 - (void)setupNavigationBar {
-
+    
     [self.navigationController.navigationBar setBackgroundImage:[UIImage leo_imageWithColor:self.card.tintColor] forBarMetrics:UIBarMetricsDefault];
 
     self.navigationController.navigationBar.shadowImage = [UIImage new];
