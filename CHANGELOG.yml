@@ -1,4 +1,7 @@
     upcoming:
+    - New! No more annoying prompt without avatars on first login
+    - New! Bug squashing tools integrated
+    - Fixes issue where real time updates stop coming back from sleep state
     - Bug fixing
 
     releases:
