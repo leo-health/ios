@@ -399,7 +399,9 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
         self.sendButton.hidden = NO;
 
         if (!error) {
-            [self collectionView:self.collectionView updateWithNewMessages:messages startingAtIndex:[self conversation].messages.count];
+            if (messages.count > 0) {
+                [self collectionView:self.collectionView updateWithNewMessages:messages startingAtIndex:[self conversation].messages.count];
+            }
         } else {
             [LEOAlertHelper alertForViewController:self error:error backupTitle:kErrorTitleMessagingDown backupMessage:kErrorBodyMessagingDown];
         }
@@ -1150,8 +1152,6 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
             [LEOAlertHelper alertForViewController:self error:error backupTitle:kErrorTitleMessagingDown backupMessage:kErrorBodyMessagingDown];
         }
 
-        [[self conversation] addMessages:messages];
-
         [self collectionView:collectionView updateWithNewMessages:messages startingAtIndex:0];
     }];
 }
@@ -1162,7 +1162,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
     /**
      *  Remove the message if there are no more messages to show. Currently, this is suboptimal as it requires the user to press the button an extra time and make an extra API call. But this is a quick and easy first pass option.
      */
-    if (messages.count == 0) {
+    if (messages.count == 0 && startIndex == 0) {
         self.showLoadEarlierMessagesHeader = NO;
         return;
     }
@@ -1179,6 +1179,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
     /**
      *  Add the messages to the conversation object itself
+     *  FIXME: this should probably not happen within a method with this name; let's consider refactoring this out.
      */
     [[self conversation] addMessages:messages];
 
