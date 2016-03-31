@@ -35,6 +35,8 @@
 
     [super viewDidLoad];
 
+    [Localytics tagScreen:kAnalyticScreenHealthRecordNotes];
+    
     [self registerForKeyboardNotifications];
     [self setupReachability];
     [self setupNavigationBar];
@@ -130,6 +132,8 @@
 
                 if (!error) {
 
+                    [Localytics tagEvent:kAnalyticActionSaveHealthRecordNotes];
+
                     self.editNoteCompletionBlock(updatedNote);
                     [self dismissViewControllerAnimated:YES completion:nil];
 
@@ -154,6 +158,8 @@
             [[LEOHealthRecordService new] postNote:self.note.text forPatient:self.patient withCompletion:^(PatientNote *updatedNote, NSError *error) {
 
                 if (!error) {
+
+                    [Localytics tagEvent:kAnalyticActionSaveHealthRecordNotes];
 
                     self.editNoteCompletionBlock(updatedNote);
                     [self dismissViewControllerAnimated:YES completion:nil];

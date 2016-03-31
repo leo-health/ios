@@ -52,6 +52,8 @@ static CGFloat const kHeightOfHeaderPHR = 200;
 
     [super viewDidLoad];
 
+    [Localytics tagScreen:kAnalyticScreenHealthRecord];
+
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.stickyHeaderView.delegate = self;
     self.stickyHeaderView.datasource = self;

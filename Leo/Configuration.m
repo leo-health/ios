@@ -15,6 +15,8 @@
 #import "SessionUser.h"
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
+#import <Localytics/Localytics.h>
+#import "AppDelegate.h"
 
 static NSString *const ConfigurationAPIEndpoint = @"ApiURL";
 static NSString *const ConfigurationProviderEndpoint = @"ProviderURL";
@@ -152,8 +154,11 @@ static NSString *const ConfigurationCrittercismAppID = @"CrittercismAppID";
 }
 
 + (NSString *)crittercismAppID {
+    return [NSUserDefaults leo_stringForKey:kConfigurationCrittercismAppID];
+}
 
-    return [NSUserDefaults leo_stringForKey:kConfigurationCrittercismAPPID];
++ (NSString *)localyticsAppID {
+    return [NSUserDefaults leo_stringForKey:kConfigurationLocalyticsAppID];
 }
 
 + (void)updateCrittercismWithNewKeys {
@@ -168,28 +173,38 @@ static NSString *const ConfigurationCrittercismAppID = @"CrittercismAppID";
     [[Crashlytics sharedInstance] setUserIdentifier:[[SessionUser currentUser] anonymousCustomerServiceID]];
 }
 
++ (void)updateLocalyticsWithNewKeys {
+    [Localytics autoIntegrate:[Configuration localyticsAppID] launchOptions:((AppDelegate *)[UIApplication sharedApplication].delegate).lastLaunchOptions];
+}
 
 + (void)clearRemoteEnvironmentVariables {
 
     [NSUserDefaults leo_removeObjectForKey:kConfigurationPusherAPIKey];
-    [NSUserDefaults leo_removeObjectForKey:kConfigurationCrittercismAPPID];
+    [NSUserDefaults leo_removeObjectForKey:kConfigurationCrittercismAppID];
+    [NSUserDefaults leo_removeObjectForKey:kConfigurationLocalyticsAppID];
 }
 
 + (void)downloadRemoteEnvironmentVariablesIfNeededWithCompletion:(void (^) (BOOL success, NSError *error))completionBlock {
 
-    if (![Configuration pusherKey] || ![Configuration crittercismAppID]) {
+    if (![Configuration pusherKey] || ![Configuration crittercismAppID] || ![Configuration localyticsAppID]) {
 
         [Configuration clearRemoteEnvironmentVariables];
 
         [[LEOSettingsService new] getConfigurationWithCompletion:^(BOOL success, NSError *error) {
+
+            [Localytics setLoggingEnabled:YES];
 
             if (completionBlock) {
                 completionBlock(success, error);
             }
         }];
     } else {
+
         completionBlock(YES, nil);
+        [Localytics setLoggingEnabled:YES];
     }
+
+
 }
 
 @end

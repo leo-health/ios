@@ -38,6 +38,8 @@ static NSString * const kCopyHeaderInviteParent = @"Invite another parent to Leo
 
     [super viewDidLoad];
 
+    [Localytics tagScreen:kAnalyticScreenInviteUser];
+
     self.automaticallyAdjustsScrollViewInsets = NO;
 
     self.stickyHeaderView.snapToHeight = @(0);
@@ -135,6 +137,7 @@ static NSString * const kCopyHeaderInviteParent = @"Invite another parent to Leo
 
         else if (self.feature == FeatureSettings) {
 
+
             LEOUserService *userService = [[LEOUserService alloc] init];
             [userService inviteUser:configUser withCompletion:^(BOOL success, NSError *error) {
 
@@ -145,6 +148,8 @@ static NSString * const kCopyHeaderInviteParent = @"Invite another parent to Leo
                 if (success) {
 
                     if (self.feature == FeatureSettings) {
+
+                        [Localytics tagEvent:kAnalyticActionInviteUserFromSettings];
 
                         LEOStatusBarNotification *successNotification = [LEOStatusBarNotification new];
                         [successNotification displayNotificationWithMessage:@"Additional parent successfully invited!"

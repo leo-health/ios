@@ -139,6 +139,8 @@ static CGFloat const kFeedInsetTop = 20.0;
 
     [super viewDidAppear:animated];
 
+    [Localytics tagScreen:kAnalyticScreenFeed];
+
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
 
     [self prepareForReachability];
@@ -298,6 +300,8 @@ static CGFloat const kFeedInsetTop = 20.0;
     __weak typeof(self) weakSelf = self;
 
     [Configuration downloadRemoteEnvironmentVariablesIfNeededWithCompletion:^(BOOL success, NSError *error) {
+
+        [Localytics tagScreen:kAnalyticScreenFeed];
 
         typeof(self) strongSelf = weakSelf;
 
@@ -656,6 +660,9 @@ static CGFloat const kFeedInsetTop = 20.0;
 
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:alertTitle message:nil preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:@"Call" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+
+        [Localytics tagEvent:kAnalyticActionCallUs];
+
         NSString *phoneCallNum = [NSString stringWithFormat:@"tel://%@",kFlatironPediatricsPhoneNumber];
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneCallNum]];
     }]];

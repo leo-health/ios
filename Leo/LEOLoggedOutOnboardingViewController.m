@@ -52,11 +52,10 @@ static NSString * const reuseIdentifierFeature = @"reuseIdentifierFeature";
 
     [Configuration clearRemoteEnvironmentVariables];
 
-    [[LEOSettingsService new] getConfigurationWithCompletion:^(BOOL success, NSError *error) {
+    [Configuration downloadRemoteEnvironmentVariablesIfNeededWithCompletion:^(BOOL success, NSError *error) {
 
         if (success) {
-            [Configuration updateCrittercismWithNewKeys];
-            [Configuration updateCrashlyticsWithNewKeys];
+            [Localytics tagScreen:kAnalyticScreenProductPreview];
         }
     }];
 
@@ -172,8 +171,6 @@ static NSString * const reuseIdentifierFeature = @"reuseIdentifierFeature";
     [LEOBreadcrumb crumbWithFunction:__PRETTY_FUNCTION__];
 
     [self performSegueWithIdentifier:kSegueLogin sender:self];
-
-
 }
 
 - (void)signupTouchedUpInside:(UIButton *)sender {

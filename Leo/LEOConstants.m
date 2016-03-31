@@ -357,7 +357,75 @@ NSString *const kErrorBodyMessagingDown = @"We are experiencing technical diffic
 
 #pragma mark - Configuration Parameters
 NSString *const kConfigurationPusherAPIKey = @"PUSHER_KEY";
-NSString *const kConfigurationCrittercismAPPID = @"CRITTERCISM_APP_ID";
+NSString *const kConfigurationCrittercismAppID = @"CRITTERCISM_APP_ID";
+NSString *const kConfigurationLocalyticsAppID = @"LOCALYTICS_APP_ID";
+
+#pragma mark - Analytics
+NSString *const kAnalyticScreenLogin = @"User Login"; //in
+NSString *const kAnalyticScreenForgotPassword = @"Forgot Password"; //in
+NSString *const kAnalyticScreenProductPreview = @"Product Preview"; //in
+NSString *const kAnalyticScreenUserEnrollment = @"User Enrollment"; //in
+NSString *const kAnalyticScreenUserProfile = @"User Profile"; //in
+NSString *const kAnalyticScreenPatientProfile = @"Patient Profile"; //in
+NSString *const kAnalyticScreenInviteUser = @"Invite User"; //in
+NSString *const kAnalyticScreenManagePatients = @"Manage Patients"; //in
+NSString *const kAnalyticScreenReviewRegistration = @"Review Registration"; //in
+NSString *const kAnalyticScreenFeed = @"Feed"; //in
+NSString *const kAnalyticScreenAppointmentScheduling = @"Appointment Scheduling"; //in
+NSString *const kAnalyticScreenAppointmentCalendar = @"Appointment Calendar"; //in
+NSString *const kAnalyticScreenMessaging = @"Messaging"; //in
+NSString *const kAnalyticScreenSettings = @"Settings"; //in
+NSString *const kAnalyticScreenUpdatePassword = @"Update Password"; //in
+NSString *const kAnalyticScreenHealthRecord = @"Health Record"; //in
+NSString *const kAnalyticScreenHealthRecordNotes = @"Health Record Notes"; //in
+
+NSString *const kAnalyticActionLogin = @"Login"; //in
+NSString *const kAnalyticActionLogout = @"Logout"; //in
+NSString *const kAnalyticActionReviewProductPreview = @"Review Product Preview"; //NOT in
+NSString *const kAnalyticActionEnroll = @"Enroll"; //in
+NSString *const kAnalyticActionCompleteNewUserProfile = @"Complete New User Profile";
+NSString *const kAnalyticActionSaveNewPatientInRegistration = @"Add New Patient In Registration";
+NSString *const kAnalyticActionSaveNewPatientInSettings = @"Add New Patient In Settings";
+NSString *const kAnalyticActionEditPatientInRegistration = @"Edit Patient In Registration";
+NSString *const kAnalyticActionEditPatientInSettings = @"Edit Patient In Settings";
+NSString *const kAnalyticActionSendTextMessage = @"Send Text Message"; //in
+NSString *const kAnalyticActionSendImageMessage = @"Send Image Message"; //in
+NSString *const kAnalyticActionUpdatePassword = @"Update Password"; //in
+NSString *const kAnalyticActionConfirmAccount = @"Confirm Account Details"; //in
+NSString *const kAnalyticActionEditUserProfile = @"Edit User Profile"; //in
+NSString *const kAnalyticActionResetPassword = @"Reset Password"; //in - success not guaranteed
+NSString *const kAnalyticActionInviteUserFromSettings = @"Invite User From Settings"; //in
+NSString *const kAnalyticActionInviteUserFromRegistration = @"Invite User From Registration"; //in
+NSString *const kAnalyticActionCallUs = @"Call Us"; //in - success not guaranteed
+NSString *const kAnalyticActionBookVisit = @"Book Visit"; //in - success not guaranteed?
+NSString *const kAnalyticActionRescheduleVisit = @"Reschedule Visit"; //in - success not guaranteed
+NSString *const kAnalyticActionScheduleVisit = @"Schedule Visit"; //in - success not guaranteed
+NSString *const kAnalyticActionCancelVisit = @"Cancel Visit"; //in - success not guaranteed?
+NSString *const kAnalyticActionChoosePhotoForAvatar = @"Choose Photo For Avatar"; //in
+NSString *const kAnalyticActionConfirmPhotoForAvatar = @"Confirm Photo For Avatar"; //in - success not guaranteed
+NSString *const kAnalyticActionCancelPhotoForAvatar = @"Cancel Photo For Avatar"; //in, but only captures partial data
+NSString *const kAnalyticActionChoosePhotoForMessage = @"Choose Photo For Message"; //in
+NSString *const kAnalyticActionTakePhotoForMessage = @"Take Photo For Message"; //in - success not guaranteed
+NSString *const kAnalyticActionConfirmPhotoForMessage = @"Confirm Photo For Message"; //in - success not guaranteed
+NSString *const kAnalyticActionCancelPhotoForMessage = @"Cancel Photo For Message"; //in, but only captures partial data
+NSString *const kAnalyticActionSaveHealthRecordNotes = @"Save Health Record Notes"; //in
+
+NSString *const kAnalyticActionConfirmPatientsInOnboarding = @"Confirm Patients"; //in
+
+//For down the line
+NSString *const kAnalyticSessionMessaging = @"Messaging Session"; //in
+NSString *const kAnalyticSessionScheduling = @"Scheduling Session";
+NSString *const kAnalyticSessionHealthRecord = @"Health Record Session";
+NSString *const kAnalyticSessionSettings = @"Settings Session";
+NSString *const kAnalyticSessionFeed = @"Feed Session";
+NSString *const kAnalyticSessionRegistration = @"Registration Session";
+
+
+NSString *const kAnalyticActionSwipeToFirstProductPreviewCell = @"Go To First Product Preview Screen";
+NSString *const kAnalyticActionSwipeToSecondProductPreviewCell = @"Go To Second Product Preview Screen";
+NSString *const kAnalyticActionSwipeToThirdProductPreviewCell = @"Go To Third Product Preview Screen";
+NSString *const kAnalyticActionSwipeToFourthProductPreviewCell = @"Go To Fourth Product Preview Screen";
+NSString *const kAnalyticActionSwipeToFifthProductPreviewCell = @"Go To Fifth Product Preview Screen";
 
 
 @end

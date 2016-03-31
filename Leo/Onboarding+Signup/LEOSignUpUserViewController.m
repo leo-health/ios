@@ -52,6 +52,8 @@ static NSString * const kCopyHeaderSignUpUser = @"Tell us a little about yoursel
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    [Localytics tagScreen:kAnalyticScreenUserProfile];
+
     [self setupNavigationBar];
     [self setupButton];
 
@@ -168,10 +170,13 @@ static NSString * const kCopyHeaderSignUpUser = @"Tell us a little about yoursel
         switch (self.managementMode) {
             case ManagementModeCreate:
                 [self.family addGuardian:self.guardian];
+                [Localytics tagEvent:kAnalyticActionCompleteNewUserProfile];
+
                 [self performSegueWithIdentifier:kSegueContinue sender:sender];
                 break;
 
             case ManagementModeEdit:
+                [Localytics tagEvent:kAnalyticActionEditUserProfile];
                 [self.navigationController popViewControllerAnimated:YES];
                 break;
 

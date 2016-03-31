@@ -70,6 +70,8 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
 - (void)viewDidLoad {
     
     [super viewDidLoad];
+    [Localytics tagScreen:kAnalyticScreenSettings];
+
     [self setupTableView];
     [self setupNavigationBar];
 }
@@ -336,6 +338,8 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
         case SettingsSectionLogout: {
 
             [LEOBreadcrumb crumbWithObject:[NSString stringWithFormat:@"%s user requested logout", __PRETTY_FUNCTION__]];
+            [Localytics tagEvent:kAnalyticActionLogout];
+            
             [[LEOUserService new] logoutUserWithCompletion:nil];
             
             break;

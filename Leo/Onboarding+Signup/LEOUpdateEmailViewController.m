@@ -23,7 +23,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     [self setupView];
     [self setupButton];
     [self setupNavigationBar];
@@ -69,7 +69,6 @@
 - (void)updateEmailTapped {
 
     [LEOBreadcrumb crumbWithFunction:__PRETTY_FUNCTION__];
-
     if ([self.updateEmailView isValidEmail]) {
         
         LEOUserService *userService = [[LEOUserService alloc] init];

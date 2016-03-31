@@ -72,7 +72,7 @@
 @property (strong, nonatomic) LEOImageCropViewControllerDataSource *cropDataSource;
 @property (strong, nonatomic) NSMutableArray *notificationObservers;
 @property (strong, nonatomic) PTPusherEventBinding *pusherBinding;
-
+@property (strong, nonatomic) NSDate *startSession;
 @end
 
 @implementation LEOMessagesViewController
@@ -92,6 +92,10 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
  */
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    [Localytics tagScreen:kAnalyticScreenMessaging];
+
+    self.startSession = [NSDate date];
 
     [self setupEmergencyBar];
     [self setupInputToolbar];
@@ -125,8 +129,12 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
     [super viewDidAppear:animated];
 
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:^{
+
+        [Localytics tagEvent:kAnalyticSessionMessaging attributes:@{@"sessionLength":@([self sessionTime])}];
         [self clearPusher];
     } withOnlineBlock:^{
+
+        self.startSession = [NSDate date];
         [self resetPusherAndGetMissedMessages];
     }];
 }
@@ -333,6 +341,8 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
     [Configuration downloadRemoteEnvironmentVariablesIfNeededWithCompletion:^(BOOL success, NSError *error) {
 
+        [Localytics tagScreen:kAnalyticScreenMessaging];
+
         __strong typeof(self) strongSelf = weakSelf;
 
         if (success) {
@@ -378,10 +388,15 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
     }
 
     if ([notification.name isEqualToString:UIApplicationDidEnterBackgroundNotification] || [notification.name isEqualToString:UIApplicationWillResignActiveNotification]) {
+
+        [Localytics tagEvent:kAnalyticSessionMessaging attributes:@{@"sessionLength":@([self sessionTime])}];
+
         [self clearPusher];
     }
 
     if ([notification.name isEqualToString:UIApplicationDidBecomeActiveNotification]) {
+
+        self.startSession = [NSDate date];
         [self resetPusherAndGetMissedMessages];
     }
 }
@@ -504,6 +519,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
     [LEOBreadcrumb crumbWithObject:[NSString stringWithFormat:@"%s choose photo", __PRETTY_FUNCTION__]];
 
+    [Localytics tagEvent:kAnalyticActionChoosePhotoForMessage];
     LEOTransitioningDelegate *strongTransitioningDelegate = [[LEOTransitioningDelegate alloc] initWithTransitionAnimatorType:TransitionAnimatorTypeCardPush];;
 
     self.transitioningDelegate = strongTransitioningDelegate;
@@ -546,7 +562,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
 
                 [LEOBreadcrumb crumbWithObject:[NSString stringWithFormat:@"%s take photo", __PRETTY_FUNCTION__]];
-
+                [Localytics tagEvent:kAnalyticActionTakePhotoForMessage];
                 UIImagePickerController *pickerController = [UIImagePickerController new];
                 pickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
                 pickerController.delegate = self;
@@ -591,6 +607,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
         UIImageWriteToSavedPhotosAlbum (originalImage, nil, nil, nil);
     }
 
+
     LEOImagePreviewViewController *previewVC = [[LEOImagePreviewViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeCustom];
     previewVC.delegate = self;
     previewVC.zoomable = NO;
@@ -603,6 +620,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
 
     [LEOBreadcrumb crumbWithFunction:__PRETTY_FUNCTION__];
+    [Localytics tagEvent:kAnalyticActionCancelPhotoForMessage];
 
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
@@ -610,6 +628,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 - (void)imagePreviewControllerDidCancel:(LEOImagePreviewViewController *)imagePreviewController {
 
     [LEOBreadcrumb crumbWithFunction:__PRETTY_FUNCTION__];
+    [Localytics tagEvent:kAnalyticActionConfirmPhotoForMessage];
 
     [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
 }
@@ -638,6 +657,13 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
         if (!error) {
 
+            if ([message isKindOfClass:[MessageImage class]]) {
+                [Localytics tagEvent:kAnalyticActionSendImageMessage];
+            }
+            else if ([message isKindOfClass:[MessageText class]]) {
+                [Localytics tagEvent:kAnalyticActionSendTextMessage];
+            }
+            
             [[self conversation] addMessage:responseMessage];
             self.offset++;
             [self finishSendingMessage:responseMessage];
@@ -659,6 +685,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
     MessageImage *message = [MessageImage messageWithObjectID:nil media:photoItem sender:[SessionUser guardian] escalatedTo:nil escalatedBy:nil status:nil statusCode:MessageStatusCodeUndefined createdAt:[NSDate date] escalatedAt:nil leoMedia:nil];
 
     self.inputToolbar.contentView.userInteractionEnabled = NO;
+
     [self startSendingMessage:message];
 
     [self.navigationController popViewControllerAnimated:YES];
@@ -1282,7 +1309,15 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
  *  Return to prior screen by dismissing the LEOMessagesViewController.
  */
 - (void)dismiss {
+
+
+    [Localytics tagEvent:kAnalyticSessionMessaging attributes:@{@"sessionLength":@([self sessionTime])}];
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (double)sessionTime {
+    
+    return [[NSDate date] secondsLaterThan:self.startSession];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

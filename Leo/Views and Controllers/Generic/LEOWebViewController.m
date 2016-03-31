@@ -23,6 +23,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    [Localytics tagScreen:self.titleString];
     [LEOApiReachability startMonitoringForController:self];
 
     self.webView.delegate = self;

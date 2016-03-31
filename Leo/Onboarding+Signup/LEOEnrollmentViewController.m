@@ -67,6 +67,8 @@ static NSString * const kCopyCollapsedHeaderEnrollment = @"Create an account";
 - (void)viewDidAppear:(BOOL)animated {
 
     [super viewDidAppear:animated];
+
+    [Localytics tagScreen:kAnalyticScreenUserEnrollment];
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:nil withOnlineBlock:nil];
 }
 
@@ -190,6 +192,8 @@ static NSString * const kCopyCollapsedHeaderEnrollment = @"Create an account";
         signUpUserVC.guardian = self.guardian;
         signUpUserVC.managementMode = ManagementModeCreate;
         signUpUserVC.view.tintColor = [LEOStyleHelper tintColorForFeature:FeatureOnboarding];
+
+        [Localytics tagEvent:kAnalyticActionEnroll];
     }
 }
 

@@ -48,6 +48,8 @@ static NSString * const kSignUpPatientSegue = @"SignUpPatientSegue";
 
     [super viewDidLoad];
 
+    [Localytics tagScreen:kAnalyticScreenManagePatients];
+
     [self.view setupTouchEventForDismissingKeyboard];
 
     self.feature = FeatureOnboarding;
@@ -157,6 +159,8 @@ static NSString * const kSignUpPatientSegue = @"SignUpPatientSegue";
     [LEOBreadcrumb crumbWithFunction:__PRETTY_FUNCTION__];
 
     if ([self.family.patients count] > 0) {
+
+        [Localytics tagEvent:kAnalyticActionConfirmPatientsInOnboarding];
 
         [self performSegueWithIdentifier:kSegueContinue sender:sender];
     } else {

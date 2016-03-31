@@ -10,6 +10,8 @@
 #import "LEOAPISessionManager.h"
 #import "NSUserDefaults+Extensions.h"
 #import "NSDictionary+Extensions.h"
+#import "Configuration.h"
+#import "AppDelegate.h"
 
 @implementation LEOSettingsService
 
@@ -19,9 +21,16 @@
 
         NSDictionary *keyData = rawResults[APIParamData];
 
-        [NSUserDefaults leo_setString:[keyData leo_itemForKey: kConfigurationCrittercismAPPID] forKey:kConfigurationCrittercismAPPID];
-
+        [NSUserDefaults leo_setString:[keyData leo_itemForKey:kConfigurationCrittercismAppID] forKey:kConfigurationCrittercismAppID];
         [NSUserDefaults leo_setString:[keyData leo_itemForKey:kConfigurationPusherAPIKey] forKey:kConfigurationPusherAPIKey];
+
+        [Configuration updateCrittercismWithNewKeys];
+        [Configuration updateCrashlyticsWithNewKeys];
+
+        if (![[Configuration localyticsAppID] isEqualToString:[keyData leo_itemForKey:kConfigurationLocalyticsAppID]]) {
+            [NSUserDefaults leo_setString:[keyData leo_itemForKey:kConfigurationLocalyticsAppID] forKey:kConfigurationLocalyticsAppID];
+            [Configuration updateLocalyticsWithNewKeys];
+        }
 
         [NSUserDefaults leo_saveDefaults];
 
@@ -30,7 +39,6 @@
         }
     }];
 }
-
 
 + (LEOAPISessionManager *)leoSessionManager {
     return [LEOAPISessionManager sharedClient];

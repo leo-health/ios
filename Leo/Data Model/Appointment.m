@@ -122,27 +122,35 @@
 //FIXME: Remove all of the effective mocks here and replace with the API response for getAppointmentStatus.
 - (void)reschedule {
 
+    [Localytics tagEvent:kAnalyticActionRescheduleVisit];
+
     self.priorStatus = self.status;
     self.status = [[AppointmentStatus alloc] initWithObjectID:nil name:@"Future" athenaCode:nil statusCode:AppointmentStatusCodeFuture];
 }
 
 - (void)book {
 
+    [Localytics tagEvent:kAnalyticActionBookVisit];
+
     self.status = [[AppointmentStatus alloc] initWithObjectID:nil name:@"Reminding" athenaCode:nil statusCode:AppointmentStatusCodeReminding];
 }
 
 - (void)schedule {
+
+    [Localytics tagEvent:kAnalyticActionScheduleVisit];
 
     self.priorStatus = self.status;
     self.status = [[AppointmentStatus alloc] initWithObjectID:nil name:@"Future" athenaCode:nil statusCode:AppointmentStatusCodeFuture];
 }
 
 - (void)cancel {
+
     self.priorStatus = self.status;
     self.status = [[AppointmentStatus alloc] initWithObjectID:nil name:@"Cancelling" athenaCode:nil statusCode:AppointmentStatusCodeCancelling];
 }
 
 - (void)confirmCancelled {
+    [Localytics tagEvent:kAnalyticActionCancelVisit];
     self.priorStatus = self.status;
     self.status = [[AppointmentStatus alloc] initWithObjectID:nil name:@"ConfirmingCancelling" athenaCode:nil statusCode:AppointmentStatusCodeConfirmingCancelling];
 }

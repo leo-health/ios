@@ -70,7 +70,7 @@ typedef NS_ENUM(NSUInteger, MessageStatusCode) {
     MessageStatusCodeUnread = 2,
     MessageStatusCodeEscalated = 3,
     MessageStatusCodeClosed = 4,
-    MessageStatusCodeOpen   = 5,
+    MessageStatusCodeOpen = 5,
 };
 
 /**
@@ -201,7 +201,7 @@ extern NSString *const APIParamShortDescription; // @"short_description";
 extern NSString *const APIParamLongDescription; // @"long_description";
 
 extern NSString *const APIParamToken; // @"token";
-extern NSString *const APIParamSession; // = @"session";
+extern NSString *const APIParamSession; // @"session";
 
 #pragma mark - Date & time
 extern NSString *const APIParamCreatedDateTime; // @"created_datetime";
@@ -225,7 +225,7 @@ extern NSString *const APIParamFamilyID; // @"family_id";
 extern NSString *const APIParamFamily; // @"family";
 
 #pragma mark - User and user subclass
-extern NSString *const APIParamUserEnrollment; // = @"enrollment";
+extern NSString *const APIParamUserEnrollment; // @"enrollment";
 extern NSString *const APIParamUserTitle; // @"title";
 extern NSString *const APIParamUserFirstName; // @"first_name";
 extern NSString *const APIParamUserMiddleInitial; // @"middle_initial";
@@ -296,9 +296,9 @@ extern NSString *const APIParamConversationParticipants; // @"participants";
 extern NSString *const APIParamMessages; // @"messages";
 extern NSString *const APIParamMessageBody; // @"body";
 extern NSString *const APIParamMessageSender; // @"sender";
-extern NSString *const APIParamMessagePage; // = @"page";
-extern NSString *const APIParamMessageOffset; // = @"offset";
-extern NSString *const APIParamMessageMinDate; // = @"start_datetime";
+extern NSString *const APIParamMessagePage; // @"page";
+extern NSString *const APIParamMessageOffset; // @"offset";
+extern NSString *const APIParamMessageMinDate; // @"start_datetime";
 extern NSString *const APIParamMessageEscalatedTo; // @"escalated_to";
 extern NSString *const APIParamMessageEscalatedBy; // @"escalated_by";
 
@@ -321,7 +321,7 @@ extern NSString *const APIParamFormTitle; // @"title";
 extern NSString *const APIParamFormNotes; // @"notes";
 
 #pragma mark - Images
-extern NSString *const APIParamImageURL; // = @"url";
+extern NSString *const APIParamImageURL; // @"url";
 extern NSString *const APIParamImageBaseURL; // @"base_url";
 extern NSString *const APIParamImageURLParameters; // @"parameters";
 
@@ -424,7 +424,7 @@ extern CGFloat const kStickyHeaderHeight; // 150.0;
 extern CGFloat const kPaddingHorizontalToolbarButtons; // 20;
 extern CGFloat const kHeightDefaultToolbar; // 44;
 extern CGFloat const kNumberOfProgressDots; // 4;
-extern CGFloat const kHeightOnboardingHeaders; // = 114;
+extern CGFloat const kHeightOnboardingHeaders; // 114;
 
 #pragma mark - Segues
 extern NSString *const kSegueContinue; // @"ContinueSegue";
@@ -492,7 +492,82 @@ extern NSString *const kErrorBodyMessagingDown; // @"We are experiencing technic
 
 #pragma mark - Configuration Parameters
 extern NSString *const kConfigurationPusherAPIKey; // @"PUSHER_KEY";
-extern NSString *const kConfigurationCrittercismAPPID; // @"CRITTERCISM_APP_ID";
+extern NSString *const kConfigurationCrittercismAppID; // @"CRITTERCISM_APP_ID";
+extern NSString *const kConfigurationLocalyticsAppID; // @"LOCALYTICS_APP_ID";
 
+#pragma mark - Analytics
+extern NSString *const kAnalyticScreenLogin; // @"User Login";
+extern NSString *const kAnalyticScreenForgotPassword; // @"Forgot Password";
+extern NSString *const kAnalyticScreenProductPreview; // @"Product Preview";
+extern NSString *const kAnalyticScreenUserEnrollment; // @"User Enrollment";
+extern NSString *const kAnalyticScreenUserProfile; // @"User Profile";
+extern NSString *const kAnalyticScreenPatientProfile; // @"Patient Profile";
+extern NSString *const kAnalyticScreenInviteUser; // @"Invite User";
+extern NSString *const kAnalyticScreenManagePatients; // @"Manage Patients";
+extern NSString *const kAnalyticScreenReviewRegistration; // @"Review Registration";
+extern NSString *const kAnalyticScreenFeed; // @"Feed";
+extern NSString *const kAnalyticScreenAppointmentScheduling; // @"Appointment Scheduling";
+extern NSString *const kAnalyticScreenAppointmentCalendar; // @"Appointment Calendar";
+extern NSString *const kAnalyticScreenMessaging; // @"Messaging";
+extern NSString *const kAnalyticScreenSettings; // @"Settings";
+extern NSString *const kAnalyticScreenUpdatePassword; // @"Update Password";
+extern NSString *const kAnalyticScreenHealthRecord; // @"Health Record";
+extern NSString *const kAnalyticScreenHealthRecordNotes; // @"Health Record Notes";
+extern NSString *const kAnalyticScreenTermsOfService; // @"Terms of Service";
+extern NSString *const kAnalyticScreenPrivacyPolicy; // @"Privacy Policy";
+extern NSString *const kAnalyticScreenWebView; // @"Web View";
+
+extern NSString *const kAnalyticActionLogin; // @"Login";
+extern NSString *const kAnalyticActionLogout; // @"Logout";
+
+extern NSString *const kAnalyticActionReviewProductPreview; // @"Review Product Preview";
+extern NSString *const kAnalyticActionEnroll; // @"Enroll";
+extern NSString *const kAnalyticActionCompleteNewUserProfile; // @"Complete New User Profile";
+extern NSString *const kAnalyticActionSaveNewPatientInRegistration; // @"Add New Patient In Registration";
+extern NSString *const kAnalyticActionSaveNewPatientInSettings; // @"Add New Patient In Settings";
+extern NSString *const kAnalyticActionEditPatientInRegistration; // @"Edit Patient In Registration";
+extern NSString *const kAnalyticActionEditPatientInSettings; // @"Edit Patient In Settings";
+extern NSString *const kAnalyticActionSendTextMessage; // @"Send Text Message";
+extern NSString *const kAnalyticActionSendImageMessage; // @"Send Image Message";
+extern NSString *const kAnalyticActionUpdatePassword; // @"Update Password";
+extern NSString *const kAnalyticActionConfirmAccount; // @"Confirm Account Details";
+extern NSString *const kAnalyticActionEditUserProfile; // @"Edit User Profile";
+extern NSString *const kAnalyticActionResetPassword; // @"Reset Password";
+extern NSString *const kAnalyticActionInviteUserFromSettings; // @"Invite User From Settings";
+extern NSString *const kAnalyticActionInviteUserFromRegistration; // @"Invite User From Onboarding";
+extern NSString *const kAnalyticActionCallUs; // @"Call Us";
+
+extern NSString *const kAnalyticActionBookVisit; // @"Book Visit";
+extern NSString *const kAnalyticActionRescheduleVisit; // @"Reschedule Visit";
+extern NSString *const kAnalyticActionScheduleVisit; // @"Schedule Visit";
+extern NSString *const kAnalyticActionCancelVisit; // @"Cancel Visit";
+extern NSString *const kAnalyticActionChoosePhotoForAvatar; // @"Choose Photo For Avatar";
+extern NSString *const kAnalyticActionTakePhotoForAvatar; // @"Take Photo For Avatar";
+extern NSString *const kAnalyticActionConfirmPhotoForAvatar; // @"Confirm Photo For Avatar";
+extern NSString *const kAnalyticActionCancelPhotoForAvatar; // @"Cancel Photo For Avatar";
+extern NSString *const kAnalyticActionChoosePhotoForMessage; // @"Choose Photo For Message";
+extern NSString *const kAnalyticActionTakePhotoForMessage; // @"Take Photo For Message";
+extern NSString *const kAnalyticActionConfirmPhotoForMessage; // @"Confirm Photo For Message";
+extern NSString *const kAnalyticActionCancelPhotoForMessage; // @"Cancel Photo For Message";
+extern NSString *const kAnalyticActionGoToHealthRecord; // @"Go To Health Records";
+extern NSString *const kAnalyticActionGoToHealthRecordNotes; // @"Go To Health Record Notes";
+extern NSString *const kAnalyticActionSaveHealthRecordNotes; // @"Save Health Record Notes";
+
+extern NSString *const kAnalyticActionConfirmPatientsInOnboarding; // @"Confirm Patients";
+
+//For down the line
+extern NSString *const kAnalyticSessionMessaging; // @"Messaging Session";
+extern NSString *const kAnalyticSessionScheduling; // @"Scheduling Session";
+extern NSString *const kAnalyticSessionHealthRecord; // @"Health Record Session";
+extern NSString *const kAnalyticSessionSettings; // @"Settings Session";
+extern NSString *const kAnalyticSessionFeed; // @"Feed Session";
+extern NSString *const kAnalyticSessionRegistration; // = @"Registration Session";
+
+
+extern NSString *const kAnalyticActionSwipeToFirstProductPreviewCell; // @"Go To First Product Preview Screen";
+extern NSString *const kAnalyticActionSwipeToSecondProductPreviewCell; // @"Go To Second Product Preview Screen";
+extern NSString *const kAnalyticActionSwipeToThirdProductPreviewCell; // @"Go To Third Product Preview Screen";
+extern NSString *const kAnalyticActionSwipeToFourthProductPreviewCell; // @"Go To Fourth Product Preview Screen";
+extern NSString *const kAnalyticActionSwipeToFifthProductPreviewCell; // @"Go To Fifth Product Preview Screen";
 
 @end

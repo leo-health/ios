@@ -57,11 +57,13 @@ static NSString *const kReviewUserSegue = @"ReviewUserSegue";
 static NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
 static NSString *const kCopyHeaderReviewOnboarding = @"Finally, please confirm your information";
 
+
 #pragma mark - View Controller Lifecycle and Helpers
 
 - (void)viewDidLoad {
 
     [super viewDidLoad];
+    [Localytics tagScreen:kAnalyticScreenReviewRegistration];
 
     [self.view setupTouchEventForDismissingKeyboard];
 
@@ -178,6 +180,7 @@ static NSString *const kCopyHeaderReviewOnboarding = @"Finally, please confirm y
 
         case TableViewSectionPatients: {
 
+
             [LEOBreadcrumb crumbWithObject:[NSString stringWithFormat:@"%s edit patient", __PRETTY_FUNCTION__]];
 
             Patient *patient = self.family.patients[indexPath.row];
@@ -188,7 +191,6 @@ static NSString *const kCopyHeaderReviewOnboarding = @"Finally, please confirm y
         case TableViewSectionButton:
             break;
     }
-
 }
 
 
@@ -204,6 +206,7 @@ static NSString *const kCopyHeaderReviewOnboarding = @"Finally, please confirm y
 - (void)tapOnPrivacyPolicyLink:(UITapGestureRecognizer *)tapGesture {
 
     if (tapGesture.state == UIGestureRecognizerStateEnded) {
+
         [self performSegueWithIdentifier:kSeguePrivacyPolicy sender:nil];
     }
 }
@@ -272,10 +275,11 @@ static NSString *const kCopyHeaderReviewOnboarding = @"Finally, please confirm y
                 Guardian *otherGuardian = self.family.guardians.lastObject;
                 [userService inviteUser:otherGuardian withCompletion:^(BOOL success, NSError *error) {
 
+
                     attemptedInviteOfGuardian = YES;
 
                     if (success) {
-                        NSLog(@"Parent invitation success");
+                        [Localytics tagEvent:kAnalyticActionInviteUserFromRegistration];
                     }
 
                     if (attemptedPatientCreation) {
@@ -294,6 +298,8 @@ static NSString *const kCopyHeaderReviewOnboarding = @"Finally, please confirm y
                 attemptedPatientCreation = YES;
 
                 if (!error) {
+
+                    [Localytics tagEvent:kAnalyticActionConfirmAccount];
                     
                     self.family.patients = patients;
                     [[SessionUser currentUser] setMembershipType:MembershipTypeMember];

@@ -114,6 +114,8 @@ static NSString *const kKeySelectionVCDate = @"date";
 
     [super viewDidAppear:animated];
 
+    [Localytics tagScreen:kAnalyticScreenAppointmentScheduling];
+
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:nil withOnlineBlock:^{
         self.submissionButton.enabled = self.appointment.isValidForBooking;
     }];

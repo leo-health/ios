@@ -30,6 +30,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    [Localytics tagScreen:kAnalyticScreenUpdatePassword];
+
     [self setupView];
     [self setupButton];
     [self setupNavigationBar];
@@ -108,6 +110,8 @@
         [MBProgressHUD hideHUDForView:self.updatePasswordView animated:YES];
 
         if (success) {
+
+            [Localytics tagEvent:kAnalyticActionUpdatePassword];
 
             LEOStatusBarNotification *successNotification = [LEOStatusBarNotification new];
 

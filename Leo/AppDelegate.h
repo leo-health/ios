@@ -13,6 +13,7 @@
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) UIViewController *initialViewController;
+@property (strong, nonatomic) NSDictionary *lastLaunchOptions;
 
 - (void)setupRemoteNotificationsForApplication:(UIApplication *)application;
 

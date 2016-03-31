@@ -28,18 +28,19 @@
 
 
 #pragma mark - View Controller Lifecycle
--(void)viewDidLoad {
-    
+- (void)viewDidLoad {
 
     [super viewDidLoad];
+
     [self setupTableView];
 }
 
--(void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
     [self setupNavBar];
 }
+
 #pragma mark - VCL Helper Methods
 - (void)setupNavBar {
 
@@ -70,6 +71,8 @@
 - (void)viewDidAppear:(BOOL)animated {
     
     [super viewDidAppear:animated];
+
+    [Localytics tagScreen:self.titleText];
 
     //TODO: Do we need to use weakself here?
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:^{

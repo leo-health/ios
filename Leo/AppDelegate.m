@@ -21,6 +21,7 @@
 
 @interface AppDelegate ()
 
+
 @end
 
 @implementation AppDelegate
@@ -40,7 +41,9 @@
         [self application:application didReceiveRemoteNotification:launchOptions];
     }
 
-    [Localytics autoIntegrate:@"c2e70fb21fdad8a9305f68e-db4e6272-f694-11e5-8253-0086bc74ca0f" launchOptions:launchOptions];
+    [Configuration downloadRemoteEnvironmentVariablesIfNeededWithCompletion:^(BOOL success, NSError *error) {
+        [Localytics autoIntegrate:[Configuration localyticsAppID] launchOptions:launchOptions];
+    }];
 
     [self setRootViewControllerWithStoryboardName:storyboardIdentifier];
     
@@ -179,11 +182,8 @@
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
 
-    [Configuration downloadRemoteEnvironmentVariablesIfNeededWithCompletion:^(BOOL success, NSError *error) {
-        [Configuration updateCrittercismWithNewKeys];
-        [Configuration updateCrashlyticsWithNewKeys];
-    }];
-
+    [Configuration downloadRemoteEnvironmentVariablesIfNeededWithCompletion:nil];
+    
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
 }
 
