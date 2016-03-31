@@ -634,13 +634,13 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 //          line commented here so we know where it should go in the code.
 //    [JSQSystemSoundPlayer jsq_playMessageSentSound];
 
-    [self sendMessage:message withCompletion:^(NSError *error){
+    [self sendMessage:message withCompletion:^(Message *responseMessage, NSError *error){
 
         if (!error) {
 
-            [[self conversation] addMessage:message];
+            [[self conversation] addMessage:responseMessage];
             self.offset++;
-            [self finishSendingMessage:message];
+            [self finishSendingMessage:responseMessage];
         }
 
         self.inputToolbar.contentView.userInteractionEnabled = YES;
@@ -1253,7 +1253,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
  *  @param message         the message you wish to send
  *  @param completionBlock a block for activity once the message has posted
  */
-- (void)sendMessage:(Message *)message withCompletion:(void (^) (NSError *))completionBlock {
+- (void)sendMessage:(Message *)message withCompletion:(void (^) (Message *responseMessage, NSError *error))completionBlock {
 
     LEOMessageService *messageService = [[LEOMessageService alloc] init];
 
@@ -1262,7 +1262,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
         if (!error) {
 
             if (completionBlock) {
-                completionBlock(nil);
+                completionBlock(message, error);
             }
         } else {
 
@@ -1272,7 +1272,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
             [alert addAction:[UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleCancel handler:nil]];
             [self presentViewController:alert animated:YES completion:nil];
             if (completionBlock) {
-                completionBlock(error);
+                completionBlock(message, error);
             }
         }
     }];
