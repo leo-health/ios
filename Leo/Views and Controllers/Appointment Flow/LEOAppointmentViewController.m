@@ -40,6 +40,7 @@
 #import "LEOAppointmentService.h"
 #import "UIButton+Extensions.h"
 #import "LEOCachedDataStore.h"
+#import "LEOAnalyticSession.h"
 
 @interface LEOAppointmentViewController ()
 
@@ -49,6 +50,7 @@
 @property (strong, nonatomic) Appointment *appointment;
 
 @property (nonatomic) BOOL didLayoutSubviewsOnce;
+@property (strong, nonatomic) LEOAnalyticSession *analyticSession;
 
 @end
 
@@ -86,6 +88,7 @@ static NSString *const kKeySelectionVCDate = @"date";
 
     [super viewDidLoad];
 
+    self.analyticSession = [LEOAnalyticSession startSessionWithSessionEventName:kAnalyticSessionScheduling];
     self.feature = FeatureAppointmentScheduling;
 
     [self setupNavigationBar];
@@ -485,6 +488,7 @@ static NSString *const kKeySelectionVCDate = @"date";
 
 -(void)dismiss {
 
+    [self.analyticSession completeSession];
     [self.delegate takeResponsibilityForCard:self.card];
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }

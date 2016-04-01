@@ -188,6 +188,7 @@ static NSString * const kCopyHeaderInviteParent = @"Invite another parent to Leo
 
         LEOReviewOnboardingViewController *reviewOnboardingVC = segue.destinationViewController;
         reviewOnboardingVC.family = self.family;
+        reviewOnboardingVC.analyticSession = self.analyticSession;
     }
 }
 

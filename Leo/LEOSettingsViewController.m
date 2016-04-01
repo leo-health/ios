@@ -25,6 +25,8 @@
 #import "LEOUserService.h"
 #import "Configuration.h"
 
+#import "LEOAnalyticSession.h"
+
 typedef NS_ENUM(NSUInteger, SettingsSection) {
     
     SettingsSectionAccounts,
@@ -53,6 +55,7 @@ typedef NS_ENUM(NSUInteger, AboutSettings) {
 @interface LEOSettingsViewController ()
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) LEOAnalyticSession *analyticSession;
 
 @end
 
@@ -81,6 +84,13 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
     [super viewWillAppear:animated];
     
     [self.tableView reloadData];
+}
+
+-(void)viewDidAppear:(BOOL)animated {
+
+    [super viewDidAppear:animated];
+
+    self.analyticSession = [LEOAnalyticSession startSessionWithSessionEventName:kAnalyticSessionSettings];
 }
 
 - (void)setupNavigationBar {
@@ -520,6 +530,8 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
 }
 
 - (void)pop {
+
+    [self.analyticSession completeSession];
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 

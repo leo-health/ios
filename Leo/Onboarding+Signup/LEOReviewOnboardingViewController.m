@@ -40,11 +40,13 @@
 #import "LEOReviewPatientCell.h"
 #import "LEOReviewUserCell.h"
 
+
 @interface LEOReviewOnboardingViewController ()
 
 @property (weak, nonatomic) UILabel *navTitleLabel;
 @property (strong, nonatomic) LEOReviewOnboardingView *reviewOnboardingView;
 @property (strong, nonatomic) LEOProgressDotsHeaderView *headerView;
+
 
 @end
 
@@ -63,6 +65,7 @@ static NSString *const kCopyHeaderReviewOnboarding = @"Finally, please confirm y
 - (void)viewDidLoad {
 
     [super viewDidLoad];
+    
     [Localytics tagScreen:kAnalyticScreenReviewRegistration];
 
     [self.view setupTouchEventForDismissingKeyboard];

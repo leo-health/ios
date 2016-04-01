@@ -10,10 +10,12 @@
 
 #import <UIKit/UIKit.h>
 #import "LEOStickyHeaderViewController.h"
+#import "LEOAnalyticSession.h"
 
 @interface LEOReviewOnboardingViewController : LEOStickyHeaderViewController <LEOStickyHeaderDataSource, LEOStickyHeaderDelegate, UITableViewDelegate>
 
 @property (strong, nonatomic) Family *family;
+@property (strong, nonatomic) LEOAnalyticSession *analyticSession;
 
 - (void)tapOnTermsOfServiceLink:(UITapGestureRecognizer *)tapGesture;
 - (void)tapOnPrivacyPolicyLink:(UITapGestureRecognizer *)tapGesture;

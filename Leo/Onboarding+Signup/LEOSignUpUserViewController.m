@@ -39,6 +39,7 @@
 @property (nonatomic) BOOL breakerPreviouslyDrawn;
 @property (strong, nonatomic) CAShapeLayer *pathLayer;
 
+
 @end
 
 @implementation LEOSignUpUserViewController
@@ -217,6 +218,7 @@ static NSString * const kCopyHeaderSignUpUser = @"Tell us a little about yoursel
 
         manageChildrenVC.family = self.family;
         manageChildrenVC.enrollmentToken = self.enrollmentToken;
+        manageChildrenVC.analyticSession = self.analyticSession;
     }
 
     [self.view endEditing:YES];

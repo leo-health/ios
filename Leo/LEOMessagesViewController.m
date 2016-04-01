@@ -52,6 +52,7 @@
 #import "Configuration.h"
 #import "LEOAlertHelper.h"
 #import "NSUserDefaults+Extensions.h"
+#import "LEOAnalyticSession.h"
 
 @interface LEOMessagesViewController ()
 
@@ -72,7 +73,8 @@
 @property (strong, nonatomic) LEOImageCropViewControllerDataSource *cropDataSource;
 @property (strong, nonatomic) NSMutableArray *notificationObservers;
 @property (strong, nonatomic) PTPusherEventBinding *pusherBinding;
-@property (strong, nonatomic) NSDate *startSession;
+@property (strong, nonatomic) LEOAnalyticSession *analyticSession;
+
 @end
 
 @implementation LEOMessagesViewController
@@ -95,8 +97,8 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
     [Localytics tagScreen:kAnalyticScreenMessaging];
 
-    self.startSession = [NSDate date];
-
+    self.analyticSession = [LEOAnalyticSession startSessionWithSessionEventName:kAnalyticSessionMessaging];
+    
     [self setupEmergencyBar];
     [self setupInputToolbar];
     [self setupCollectionViewFormatting];
@@ -130,11 +132,11 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:^{
 
-        [Localytics tagEvent:kAnalyticSessionMessaging attributes:@{@"sessionLength":@([self sessionTime])}];
+        [self.analyticSession completeSession];
         [self clearPusher];
     } withOnlineBlock:^{
 
-        self.startSession = [NSDate date];
+        self.analyticSession = [LEOAnalyticSession startSessionWithSessionEventName:kAnalyticSessionMessaging];
         [self resetPusherAndGetMissedMessages];
     }];
 }
@@ -389,14 +391,11 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
     if ([notification.name isEqualToString:UIApplicationDidEnterBackgroundNotification] || [notification.name isEqualToString:UIApplicationWillResignActiveNotification]) {
 
-        [Localytics tagEvent:kAnalyticSessionMessaging attributes:@{@"sessionLength":@([self sessionTime])}];
-
         [self clearPusher];
     }
 
     if ([notification.name isEqualToString:UIApplicationDidBecomeActiveNotification]) {
 
-        self.startSession = [NSDate date];
         [self resetPusherAndGetMissedMessages];
     }
 }
@@ -1310,15 +1309,12 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
  */
 - (void)dismiss {
 
+    [self.analyticSession completeSession];
 
-    [Localytics tagEvent:kAnalyticSessionMessaging attributes:@{@"sessionLength":@([self sessionTime])}];
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (double)sessionTime {
-    
-    return [[NSDate date] secondsLaterThan:self.startSession];
-}
+
 
 - (void)viewWillDisappear:(BOOL)animated {
 

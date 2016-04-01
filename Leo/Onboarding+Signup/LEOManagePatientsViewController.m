@@ -123,7 +123,6 @@ static NSString * const kSignUpPatientSegue = @"SignUpPatientSegue";
     return _headerView;
 }
 
-
 #pragma mark - Navigation
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -148,6 +147,7 @@ static NSString * const kSignUpPatientSegue = @"SignUpPatientSegue";
         LEOInviteViewController *inviteVC = segue.destinationViewController;
         inviteVC.feature = self.feature;
         inviteVC.family = self.family;
+        inviteVC.analyticSession = self.analyticSession;
     }
 }
 

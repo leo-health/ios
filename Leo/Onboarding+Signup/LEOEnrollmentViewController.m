@@ -21,6 +21,7 @@
 #import "UIColor+LeoColors.h"
 #import "LEOEnrollmentView.h"
 #import "LEOProgressDotsHeaderView.h"
+#import "LEOAnalyticSession.h"
 
 @interface LEOEnrollmentViewController ()
 
@@ -28,6 +29,7 @@
 @property (strong, nonatomic) LEOProgressDotsHeaderView *headerView;
 @property (strong, nonatomic) Guardian *guardian;
 
+@property (strong, nonatomic) LEOAnalyticSession *analyticSession;
 @end
 
 @implementation LEOEnrollmentViewController
@@ -192,7 +194,8 @@ static NSString * const kCopyCollapsedHeaderEnrollment = @"Create an account";
         signUpUserVC.guardian = self.guardian;
         signUpUserVC.managementMode = ManagementModeCreate;
         signUpUserVC.view.tintColor = [LEOStyleHelper tintColorForFeature:FeatureOnboarding];
-
+        signUpUserVC.analyticSession = self.analyticSession;
+        
         [Localytics tagEvent:kAnalyticActionEnroll];
     }
 }

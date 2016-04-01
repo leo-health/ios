@@ -10,6 +10,7 @@
 #import "LEOPHRHeaderView.h"
 #import "LEORecordViewController.h"
 #import "LEOStyleHelper.h"
+#import "LEOAnalyticSession.h"
 
 #import <GNZSlidingSegment/GNZSegmentedControl.h>
 #import <GNZSlidingSegment/GNZSlidingSegmentView.h>
@@ -32,6 +33,8 @@ static CGFloat const kHeightOfHeaderPHR = 200;
 
 @property (nonatomic) BOOL alreadyUpdatedConstraints;
 @property (strong, nonatomic) NSArray *patients;
+
+@property (strong, nonatomic) LEOAnalyticSession *analyticSession;
 
 @end
 
@@ -81,6 +84,8 @@ static CGFloat const kHeightOfHeaderPHR = 200;
 - (void)viewDidAppear:(BOOL)animated {
 
     [super viewDidAppear:animated];
+
+    self.analyticSession = [LEOAnalyticSession startSessionWithSessionEventName:kAnalyticSessionHealthRecord];
 
     // LEORecordViewController should handle its own data requests in viewDidAppear
     // TODO: implement VCC (View Controller Containment) 
