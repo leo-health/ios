@@ -36,7 +36,6 @@ NSString * const kCopyResetPasswordSubmissionResponse = @"If you have an account
 - (void)viewDidLoad {
 
     [super viewDidLoad];
-    [Localytics tagScreen:kAnalyticScreenForgotPassword];
 
     [self.view setupTouchEventForDismissingKeyboard];
 
@@ -73,6 +72,8 @@ NSString * const kCopyResetPasswordSubmissionResponse = @"If you have an account
 - (void)viewDidAppear:(BOOL)animated {
 
     [super viewDidAppear:animated];
+
+    [Localytics tagScreen:kAnalyticScreenForgotPassword];
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:nil withOnlineBlock:nil];
 }
 

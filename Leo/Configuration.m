@@ -200,10 +200,11 @@ static NSString *const ConfigurationCrittercismAppID = @"CrittercismAppID";
         }];
     } else {
 
-        completionBlock(YES, nil);
-        [Localytics setLoggingEnabled:YES];
+        if (completionBlock) {
+            completionBlock(YES, nil);
+        }
     }
-
+    
 
 }
 

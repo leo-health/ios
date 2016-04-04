@@ -23,15 +23,21 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    [Localytics tagScreen:self.titleString];
-    [LEOApiReachability startMonitoringForController:self];
-
     self.webView.delegate = self;
     NSURL *url = [NSURL URLWithString:self.urlString];
     NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
     [self.webView loadRequest:urlRequest];
     
     [self setupNavigationBar];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+
+    [super viewDidAppear:animated];
+
+    [Localytics tagScreen:self.titleString];
+
+    [LEOApiReachability startMonitoringForController:self];
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)webView {

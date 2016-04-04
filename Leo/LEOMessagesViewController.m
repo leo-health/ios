@@ -95,8 +95,6 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    [Localytics tagScreen:kAnalyticScreenMessaging];
-
     self.analyticSession = [LEOAnalyticSession startSessionWithSessionEventName:kAnalyticSessionMessaging];
     
     [self setupEmergencyBar];
@@ -130,13 +128,13 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
     [super viewDidAppear:animated];
 
+    [Localytics tagScreen:kAnalyticScreenMessaging];
+
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:^{
 
-        [self.analyticSession completeSession];
         [self clearPusher];
     } withOnlineBlock:^{
 
-        self.analyticSession = [LEOAnalyticSession startSessionWithSessionEventName:kAnalyticSessionMessaging];
         [self resetPusherAndGetMissedMessages];
     }];
 }

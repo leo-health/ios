@@ -55,7 +55,6 @@ static NSString *const kCopyUsePhoto = @"USE PHOTO";
 
     [super viewDidLoad];
 
-    [Localytics tagScreen:kAnalyticScreenPatientProfile];
 
     self.signUpPatientView.delegate = self;
 }
@@ -72,6 +71,9 @@ static NSString *const kCopyUsePhoto = @"USE PHOTO";
 - (void)viewDidAppear:(BOOL)animated {
 
     [super viewDidAppear:animated];
+
+    [Localytics tagScreen:kAnalyticScreenPatientProfile];
+
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:nil withOnlineBlock:nil];
 }
 

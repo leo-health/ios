@@ -20,6 +20,7 @@
 #import "NSUserDefaults+Extensions.h"
 #import "LEODevice.h"
 #import <Crittercism/Crittercism.h>
+#import "Configuration.h"
 
 @implementation LEOUserService
 
@@ -226,6 +227,8 @@
 
         completionBlock ? completionBlock(!error, error) : nil;
     }];
+
+    [Configuration clearRemoteEnvironmentVariables];
     [SessionUser logout];
 }
 

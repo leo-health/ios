@@ -71,6 +71,7 @@ static NSString * const kCopyCollapsedHeaderEnrollment = @"Create an account";
     [super viewDidAppear:animated];
 
     [Localytics tagScreen:kAnalyticScreenUserEnrollment];
+    
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:nil withOnlineBlock:nil];
 }
 

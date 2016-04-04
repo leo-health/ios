@@ -30,8 +30,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    [Localytics tagScreen:kAnalyticScreenUpdatePassword];
-
     [self setupView];
     [self setupButton];
     [self setupNavigationBar];
@@ -42,6 +40,8 @@
 - (void)viewDidAppear:(BOOL)animated {
 
     [super viewDidAppear:animated];
+
+    [Localytics tagScreen:kAnalyticScreenUpdatePassword];
 
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:nil withOnlineBlock:nil];
 }

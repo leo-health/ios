@@ -73,7 +73,8 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-    [Localytics tagScreen:kAnalyticScreenSettings];
+
+    self.analyticSession = [LEOAnalyticSession startSessionWithSessionEventName:kAnalyticSessionSettings];
 
     [self setupTableView];
     [self setupNavigationBar];
@@ -90,7 +91,7 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
 
     [super viewDidAppear:animated];
 
-    self.analyticSession = [LEOAnalyticSession startSessionWithSessionEventName:kAnalyticSessionSettings];
+    [Localytics tagScreen:kAnalyticScreenSettings];
 }
 
 - (void)setupNavigationBar {

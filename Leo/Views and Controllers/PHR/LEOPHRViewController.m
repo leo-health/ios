@@ -55,7 +55,7 @@ static CGFloat const kHeightOfHeaderPHR = 200;
 
     [super viewDidLoad];
 
-    [Localytics tagScreen:kAnalyticScreenHealthRecord];
+    self.analyticSession = [LEOAnalyticSession startSessionWithSessionEventName:kAnalyticSessionHealthRecord];
 
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.stickyHeaderView.delegate = self;
@@ -85,7 +85,7 @@ static CGFloat const kHeightOfHeaderPHR = 200;
 
     [super viewDidAppear:animated];
 
-    self.analyticSession = [LEOAnalyticSession startSessionWithSessionEventName:kAnalyticSessionHealthRecord];
+    [Localytics tagScreen:kAnalyticScreenHealthRecord];
 
     // LEORecordViewController should handle its own data requests in viewDidAppear
     // TODO: implement VCC (View Controller Containment) 

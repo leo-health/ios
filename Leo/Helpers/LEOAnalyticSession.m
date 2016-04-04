@@ -12,7 +12,7 @@
 @interface LEOAnalyticSession ()
 
 @property (strong, nonatomic) NSDate *startTime;
-@property (strong, nonatomic) NSString *eventName;
+@property (copy, nonatomic) NSString *eventName;
 @end
 
 @implementation LEOAnalyticSession
@@ -42,8 +42,22 @@ NSString *const kSessionLength = @"session_length";
     return self;
 }
 
+
+//MARK: There has to be a less clutzy way of accomplishing this. I'm probably
+// just forgetting an old trick, but for now, this should work.
+
 - (NSNumber *)sessionLength {
-    return @([[NSDate date] secondsLaterThan:self.startTime]);
+
+    NSNumber *fullNumericSessionLength = @([[NSDate date] secondsLaterThan:self.startTime]);
+
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+    [formatter setMaximumFractionDigits:0];
+    [formatter setRoundingMode: NSNumberFormatterRoundHalfUp];
+
+    NSString *numberString = [formatter stringFromNumber:fullNumericSessionLength];
+    NSNumber *roundedNumber = [formatter numberFromString:numberString];
+
+    return roundedNumber;
 }
 
 - (void)completeSession {

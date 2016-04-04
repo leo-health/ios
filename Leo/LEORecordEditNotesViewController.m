@@ -35,8 +35,6 @@
 
     [super viewDidLoad];
 
-    [Localytics tagScreen:kAnalyticScreenHealthRecordNotes];
-    
     [self registerForKeyboardNotifications];
     [self setupReachability];
     [self setupNavigationBar];
@@ -50,6 +48,9 @@
 - (void)viewDidAppear:(BOOL)animated {
 
     [super viewDidAppear:animated];
+
+    [Localytics tagScreen:kAnalyticScreenHealthRecordNotes];
+
     [self.textView becomeFirstResponder];
 }
 

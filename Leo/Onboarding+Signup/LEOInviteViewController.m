@@ -38,8 +38,6 @@ static NSString * const kCopyHeaderInviteParent = @"Invite another parent to Leo
 
     [super viewDidLoad];
 
-    [Localytics tagScreen:kAnalyticScreenInviteUser];
-
     self.automaticallyAdjustsScrollViewInsets = NO;
 
     self.stickyHeaderView.snapToHeight = @(0);
@@ -63,6 +61,9 @@ static NSString * const kCopyHeaderInviteParent = @"Invite another parent to Leo
 - (void)viewDidAppear:(BOOL)animated {
 
     [super viewDidAppear:animated];
+
+    [Localytics tagScreen:kAnalyticScreenInviteUser];
+
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:nil withOnlineBlock:nil];
 }
 

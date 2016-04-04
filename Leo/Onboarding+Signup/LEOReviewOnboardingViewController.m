@@ -65,8 +65,6 @@ static NSString *const kCopyHeaderReviewOnboarding = @"Finally, please confirm y
 - (void)viewDidLoad {
 
     [super viewDidLoad];
-    
-    [Localytics tagScreen:kAnalyticScreenReviewRegistration];
 
     [self.view setupTouchEventForDismissingKeyboard];
 
@@ -96,6 +94,9 @@ static NSString *const kCopyHeaderReviewOnboarding = @"Finally, please confirm y
 - (void)viewDidAppear:(BOOL)animated {
 
     [super viewDidAppear:animated];
+
+    [Localytics tagScreen:kAnalyticScreenReviewRegistration];
+
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:nil withOnlineBlock:nil];
 }
 

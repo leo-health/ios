@@ -41,8 +41,6 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
 
     [super viewDidLoad];
 
-    [Localytics tagScreen:kAnalyticScreenLogin];
-
     [self.view setupTouchEventForDismissingKeyboard];
 
     self.feature = FeatureOnboarding;
@@ -70,6 +68,9 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
 - (void)viewDidAppear:(BOOL)animated {
 
     [super viewDidAppear:animated];
+
+    [Localytics tagScreen:kAnalyticScreenLogin];
+
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:nil withOnlineBlock:nil];
 }
 

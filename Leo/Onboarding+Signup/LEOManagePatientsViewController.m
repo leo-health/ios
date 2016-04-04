@@ -48,7 +48,6 @@ static NSString * const kSignUpPatientSegue = @"SignUpPatientSegue";
 
     [super viewDidLoad];
 
-    [Localytics tagScreen:kAnalyticScreenManagePatients];
 
     [self.view setupTouchEventForDismissingKeyboard];
 
@@ -78,6 +77,9 @@ static NSString * const kSignUpPatientSegue = @"SignUpPatientSegue";
 - (void)viewDidAppear:(BOOL)animated {
 
     [super viewDidAppear:animated];
+
+    [Localytics tagScreen:kAnalyticScreenManagePatients];
+
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:nil withOnlineBlock:nil];
 }
 
@@ -122,6 +124,7 @@ static NSString * const kSignUpPatientSegue = @"SignUpPatientSegue";
 
     return _headerView;
 }
+
 
 #pragma mark - Navigation
 

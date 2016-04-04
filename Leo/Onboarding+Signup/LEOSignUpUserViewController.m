@@ -53,8 +53,6 @@ static NSString * const kCopyHeaderSignUpUser = @"Tell us a little about yoursel
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    [Localytics tagScreen:kAnalyticScreenUserProfile];
-
     [self setupNavigationBar];
     [self setupButton];
 
@@ -85,6 +83,9 @@ static NSString * const kCopyHeaderSignUpUser = @"Tell us a little about yoursel
 - (void)viewDidAppear:(BOOL)animated {
 
     [super viewDidAppear:animated];
+
+    [Localytics tagScreen:kAnalyticScreenUserProfile];
+
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:nil withOnlineBlock:nil];
 }
 
