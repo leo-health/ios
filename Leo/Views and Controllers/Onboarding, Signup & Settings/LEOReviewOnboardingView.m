@@ -23,7 +23,7 @@
 
 static NSString * const kCopySignUp = @"SIGN UP";
 
--(instancetype)initWithFamily:(Family *)family {
+- (instancetype)initWithFamily:(Family *)family {
 
     self = [super init];
 
@@ -37,7 +37,7 @@ static NSString * const kCopySignUp = @"SIGN UP";
     return self;
 }
 
--(instancetype)initWithCoder:(NSCoder *)aDecoder {
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
 
     self = [super initWithCoder:aDecoder];
 
@@ -55,7 +55,7 @@ static NSString * const kCopySignUp = @"SIGN UP";
 }
 
 
--(void)setTableView:(LEOIntrinsicSizeTableView *)tableView {
+- (void)setTableView:(LEOIntrinsicSizeTableView *)tableView {
 
     _tableView = tableView;
 

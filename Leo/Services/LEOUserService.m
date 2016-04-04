@@ -203,8 +203,9 @@
             [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"SessionUser"];
             [[NSUserDefaults standardUserDefaults] synchronize];
             
-            [SessionUser setAuthToken:rawResults[APIParamData][APIParamSession][APIParamToken]];
             [SessionUser setCurrentUserWithJSONDictionary:rawResults[APIParamData]];
+            [SessionUser setAuthToken:rawResults[APIParamData][APIParamSession][APIParamToken]];
+
             [Crittercism setUsername:[[SessionUser currentUser] anonymousCustomerServiceID]];
             [[SessionUser currentUser] incrementLoginCounter];
 

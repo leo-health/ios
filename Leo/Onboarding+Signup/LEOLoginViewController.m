@@ -147,7 +147,7 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
 
 - (void)continueTapped:(id)sender {
 
-    [Localytics tagEvent:kAnalyticActionLogin];
+    [Localytics tagEvent:kAnalyticEventLogin];
 
     [LEOBreadcrumb crumbWithFunction:__PRETTY_FUNCTION__];
 
@@ -169,7 +169,6 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
 
                              [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
                              if (!error) {
-
 
                                  // Response to successful login is handled by a @"membership-changed" notification listener in AppDelegate
 

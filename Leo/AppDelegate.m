@@ -33,6 +33,8 @@
     [self setupRemoteNotificationsForApplication:application];
     [self setupObservers];
 
+    self.lastLaunchOptions = launchOptions;
+
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     NSString *storyboardIdentifier = [SessionUser isLoggedIn] ? kStoryboardFeed : kStoryboardLogin;
@@ -42,7 +44,10 @@
     }
 
     [Configuration downloadRemoteEnvironmentVariablesIfNeededWithCompletion:^(BOOL success, NSError *error) {
-        [Localytics autoIntegrate:[Configuration localyticsAppID] launchOptions:launchOptions];
+
+        if (success) {
+            [Localytics autoIntegrate:[Configuration localyticsAppID] launchOptions:launchOptions];
+        }
     }];
 
     [self setRootViewControllerWithStoryboardName:storyboardIdentifier];

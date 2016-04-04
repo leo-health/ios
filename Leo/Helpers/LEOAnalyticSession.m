@@ -13,6 +13,7 @@
 
 @property (strong, nonatomic) NSDate *startTime;
 @property (copy, nonatomic) NSString *eventName;
+
 @end
 
 @implementation LEOAnalyticSession
@@ -34,18 +35,20 @@ NSString *const kSessionLength = @"session_length";
 }
 
 - (instancetype)init {
+
     self = [super init];
+
     if (self) {
 
         [self addNotifications];
     }
+
     return self;
 }
 
 
 //MARK: There has to be a less clutzy way of accomplishing this. I'm probably
 // just forgetting an old trick, but for now, this should work.
-
 - (NSNumber *)sessionLength {
 
     NSNumber *fullNumericSessionLength = @([[NSDate date] secondsLaterThan:self.startTime]);

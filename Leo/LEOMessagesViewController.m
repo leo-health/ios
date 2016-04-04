@@ -516,7 +516,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
     [LEOBreadcrumb crumbWithObject:[NSString stringWithFormat:@"%s choose photo", __PRETTY_FUNCTION__]];
 
-    [Localytics tagEvent:kAnalyticActionChoosePhotoForMessage];
+    [Localytics tagEvent:kAnalyticEventChoosePhotoForMessage];
     LEOTransitioningDelegate *strongTransitioningDelegate = [[LEOTransitioningDelegate alloc] initWithTransitionAnimatorType:TransitionAnimatorTypeCardPush];;
 
     self.transitioningDelegate = strongTransitioningDelegate;
@@ -559,7 +559,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
 
                 [LEOBreadcrumb crumbWithObject:[NSString stringWithFormat:@"%s take photo", __PRETTY_FUNCTION__]];
-                [Localytics tagEvent:kAnalyticActionTakePhotoForMessage];
+                [Localytics tagEvent:kAnalyticEventTakePhotoForMessage];
                 UIImagePickerController *pickerController = [UIImagePickerController new];
                 pickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
                 pickerController.delegate = self;
@@ -617,7 +617,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
 
     [LEOBreadcrumb crumbWithFunction:__PRETTY_FUNCTION__];
-    [Localytics tagEvent:kAnalyticActionCancelPhotoForMessage];
+    [Localytics tagEvent:kAnalyticEventCancelPhotoForMessage];
 
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
@@ -625,7 +625,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 - (void)imagePreviewControllerDidCancel:(LEOImagePreviewViewController *)imagePreviewController {
 
     [LEOBreadcrumb crumbWithFunction:__PRETTY_FUNCTION__];
-    [Localytics tagEvent:kAnalyticActionConfirmPhotoForMessage];
+    [Localytics tagEvent:kAnalyticEventConfirmPhotoForMessage];
 
     [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
 }
@@ -655,10 +655,10 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
         if (!error) {
 
             if ([message isKindOfClass:[MessageImage class]]) {
-                [Localytics tagEvent:kAnalyticActionSendImageMessage];
+                [Localytics tagEvent:kAnalyticEventSendImageMessage];
             }
             else if ([message isKindOfClass:[MessageText class]]) {
-                [Localytics tagEvent:kAnalyticActionSendTextMessage];
+                [Localytics tagEvent:kAnalyticEventSendTextMessage];
             }
             
             [[self conversation] addMessage:responseMessage];
@@ -1312,8 +1312,6 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
-
-
 - (void)viewWillDisappear:(BOOL)animated {
 
     [super viewWillDisappear:animated];
@@ -1328,7 +1326,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
  *
  *  @return NSInteger the page number of the next page to load if the `Load Earlier Messages` button is tapped.
  */
--(NSInteger)nextPage {
+- (NSInteger)nextPage {
     
     if (!_nextPage) {
         _nextPage = 2;

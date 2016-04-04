@@ -51,6 +51,7 @@ static NSString * const kCopyHeaderSignUpUser = @"Tell us a little about yoursel
 #pragma mark - View Controller Lifecycle & Helper Methods
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
 
     [self setupNavigationBar];
@@ -170,16 +171,22 @@ static NSString * const kCopyHeaderSignUpUser = @"Tell us a little about yoursel
         [self updateGuardian];
 
         switch (self.managementMode) {
-            case ManagementModeCreate:
+            case ManagementModeCreate: {
+
+                [Localytics tagEvent:kAnalyticEventCompleteNewUserProfile];
+
                 [self.family addGuardian:self.guardian];
-                [Localytics tagEvent:kAnalyticActionCompleteNewUserProfile];
 
                 [self performSegueWithIdentifier:kSegueContinue sender:sender];
+            }
                 break;
 
-            case ManagementModeEdit:
-                [Localytics tagEvent:kAnalyticActionEditUserProfile];
+            case ManagementModeEdit: {
+
+                [Localytics tagEvent:kAnalyticEventEditUserProfile];
+
                 [self.navigationController popViewControllerAnimated:YES];
+            }
                 break;
 
             case ManagementModeUndefined:

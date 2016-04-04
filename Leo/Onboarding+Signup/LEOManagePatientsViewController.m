@@ -13,7 +13,6 @@
 #import "UIColor+LeoColors.h"
 #import "UIImage+Extensions.h"
 
-
 #import "Patient.h"
 #import "Family.h"
 
@@ -47,7 +46,6 @@ static NSString * const kSignUpPatientSegue = @"SignUpPatientSegue";
 - (void)viewDidLoad {
 
     [super viewDidLoad];
-
 
     [self.view setupTouchEventForDismissingKeyboard];
 
@@ -163,7 +161,7 @@ static NSString * const kSignUpPatientSegue = @"SignUpPatientSegue";
 
     if ([self.family.patients count] > 0) {
 
-        [Localytics tagEvent:kAnalyticActionConfirmPatientsInOnboarding];
+        [Localytics tagEvent:kAnalyticEventConfirmPatientsInOnboarding];
 
         [self performSegueWithIdentifier:kSegueContinue sender:sender];
     } else {

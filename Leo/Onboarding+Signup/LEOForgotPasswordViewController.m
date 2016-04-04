@@ -147,7 +147,7 @@ NSString * const kCopyResetPasswordSubmissionResponse = @"If you have an account
         
         [userService resetPasswordWithEmail:self.forgotPasswordView.emailPromptField.textField.text withCompletion:^(NSDictionary * response, NSError * error) {
 
-            [Localytics tagEvent:kAnalyticActionUpdatePassword];
+            [Localytics tagEvent:kAnalyticEventUpdatePassword];
             self.forgotPasswordView.responseLabel.text = kCopyResetPasswordSubmissionResponse;
         }];
     }

@@ -349,7 +349,7 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
         case SettingsSectionLogout: {
 
             [LEOBreadcrumb crumbWithObject:[NSString stringWithFormat:@"%s user requested logout", __PRETTY_FUNCTION__]];
-            [Localytics tagEvent:kAnalyticActionLogout];
+            [Localytics tagEvent:kAnalyticEventLogout];
             
             [[LEOUserService new] logoutUserWithCompletion:nil];
             

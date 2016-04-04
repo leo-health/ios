@@ -15,7 +15,6 @@
 #import "LEOAnalyticSession.h"
 
 
-
 @interface LEOManagePatientsViewController : LEOStickyHeaderViewController <UITextFieldDelegate, SignUpPatientProtocol, LEOStickyHeaderDataSource, LEOStickyHeaderDelegate, UITableViewDelegate>
 
 @property (strong, nonatomic) Family *family;

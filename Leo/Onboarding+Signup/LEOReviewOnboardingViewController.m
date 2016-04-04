@@ -184,7 +184,6 @@ static NSString *const kCopyHeaderReviewOnboarding = @"Finally, please confirm y
 
         case TableViewSectionPatients: {
 
-
             [LEOBreadcrumb crumbWithObject:[NSString stringWithFormat:@"%s edit patient", __PRETTY_FUNCTION__]];
 
             Patient *patient = self.family.patients[indexPath.row];
@@ -210,7 +209,6 @@ static NSString *const kCopyHeaderReviewOnboarding = @"Finally, please confirm y
 - (void)tapOnPrivacyPolicyLink:(UITapGestureRecognizer *)tapGesture {
 
     if (tapGesture.state == UIGestureRecognizerStateEnded) {
-
         [self performSegueWithIdentifier:kSeguePrivacyPolicy sender:nil];
     }
 }
@@ -283,7 +281,7 @@ static NSString *const kCopyHeaderReviewOnboarding = @"Finally, please confirm y
                     attemptedInviteOfGuardian = YES;
 
                     if (success) {
-                        [Localytics tagEvent:kAnalyticActionInviteUserFromRegistration];
+                        [Localytics tagEvent:kAnalyticEventInviteUserFromRegistration];
                     }
 
                     if (attemptedPatientCreation) {
@@ -303,8 +301,9 @@ static NSString *const kCopyHeaderReviewOnboarding = @"Finally, please confirm y
 
                 if (!error) {
 
-                    [Localytics tagEvent:kAnalyticActionConfirmAccount];
-                    
+                    [Localytics tagEvent:kAnalyticEventConfirmAccount];
+                    [self.analyticSession completeSession];
+
                     self.family.patients = patients;
                     [[SessionUser currentUser] setMembershipType:MembershipTypeMember];
                 }

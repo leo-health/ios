@@ -130,7 +130,6 @@
 		31B998C61B7BD4F40055DEEA /* UIFont+LeoFonts.m in Sources */ = {isa = PBXBuildFile; fileRef = 31B998C51B7BD4F40055DEEA /* UIFont+LeoFonts.m */; };
 		31B9CF331BBC69180002480C /* LEOPromptFieldCell+ConfigureForCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31B9CF321BBC69180002480C /* LEOPromptFieldCell+ConfigureForCell.m */; };
 		31BA40561B30A5F900A11AEE /* LEOSectionSeparator.m in Sources */ = {isa = PBXBuildFile; fileRef = 31BA40551B30A5F900A11AEE /* LEOSectionSeparator.m */; };
-		31BD16C01CAD5B5B002829EB /* LEOAnalytic.m in Sources */ = {isa = PBXBuildFile; fileRef = 31BD16BF1CAD5B5B002829EB /* LEOAnalytic.m */; };
 		31BD16C31CAF088E002829EB /* LEOAnalyticSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 31BD16C21CAF088E002829EB /* LEOAnalyticSession.m */; };
 		31BF23431BBAEA0A005856E5 /* LEOSignUpPatientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 31BF23411BBAEA0A005856E5 /* LEOSignUpPatientView.m */; };
 		31BF23441BBAEA0A005856E5 /* LEOSignUpPatientView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 31BF23421BBAEA0A005856E5 /* LEOSignUpPatientView.xib */; };
@@ -504,8 +503,6 @@
 		31BA40541B30A5F900A11AEE /* LEOSectionSeparator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOSectionSeparator.h; sourceTree = "<group>"; };
 		31BA40551B30A5F900A11AEE /* LEOSectionSeparator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOSectionSeparator.m; sourceTree = "<group>"; };
 		31BB45EB1C17757A0036224C /* Testflight.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Testflight.xcconfig; path = xcconfig/Testflight.xcconfig; sourceTree = "<group>"; };
-		31BD16BE1CAD5B5B002829EB /* LEOAnalytic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOAnalytic.h; path = Helpers/LEOAnalytic.h; sourceTree = "<group>"; };
-		31BD16BF1CAD5B5B002829EB /* LEOAnalytic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOAnalytic.m; path = Helpers/LEOAnalytic.m; sourceTree = "<group>"; };
 		31BD16C11CAF088E002829EB /* LEOAnalyticSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOAnalyticSession.h; path = Helpers/LEOAnalyticSession.h; sourceTree = "<group>"; };
 		31BD16C21CAF088E002829EB /* LEOAnalyticSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOAnalyticSession.m; path = Helpers/LEOAnalyticSession.m; sourceTree = "<group>"; };
 		31BF23401BBAEA0A005856E5 /* LEOSignUpPatientView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOSignUpPatientView.h; path = "Onboarding+Signup/LEOSignUpPatientView.h"; sourceTree = "<group>"; };
@@ -1012,8 +1009,6 @@
 		31920A461B0A8ACC006309C2 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				31BD16BE1CAD5B5B002829EB /* LEOAnalytic.h */,
-				31BD16BF1CAD5B5B002829EB /* LEOAnalytic.m */,
 				31BD16C11CAF088E002829EB /* LEOAnalyticSession.h */,
 				31BD16C21CAF088E002829EB /* LEOAnalyticSession.m */,
 				313ECC281CA5BE340059C434 /* LEOBreadcrumb.h */,

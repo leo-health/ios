@@ -10,7 +10,6 @@
 
 @interface LEOAnalyticSession : NSObject
 
-
 + (LEOAnalyticSession *)startSessionWithSessionEventName:(NSString *)sessionEventName;
 - (NSNumber *)sessionLength;
 - (void)completeSession;

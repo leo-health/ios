@@ -45,6 +45,8 @@ static NSString * const kCopyCollapsedHeaderEnrollment = @"Create an account";
 
     [self.view setupTouchEventForDismissingKeyboard];
 
+    self.analyticSession = [LEOAnalyticSession startSessionWithSessionEventName:kAnalyticSessionRegistration];
+    
     self.feature = FeatureOnboarding;
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.stickyHeaderView.snapToHeight = @(0);
@@ -197,7 +199,7 @@ static NSString * const kCopyCollapsedHeaderEnrollment = @"Create an account";
         signUpUserVC.view.tintColor = [LEOStyleHelper tintColorForFeature:FeatureOnboarding];
         signUpUserVC.analyticSession = self.analyticSession;
         
-        [Localytics tagEvent:kAnalyticActionEnroll];
+        [Localytics tagEvent:kAnalyticEventEnroll];
     }
 }
 

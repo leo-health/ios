@@ -111,7 +111,7 @@
 
         if (success) {
 
-            [Localytics tagEvent:kAnalyticActionUpdatePassword];
+            [Localytics tagEvent:kAnalyticEventUpdatePassword];
 
             LEOStatusBarNotification *successNotification = [LEOStatusBarNotification new];
 

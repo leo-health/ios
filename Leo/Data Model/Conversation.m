@@ -146,7 +146,6 @@
 }
 
 - (void)dismiss {
-
     self.statusCode = ConversationStatusCodeClosed;
 }
 

@@ -50,6 +50,7 @@ static NSString *const ConfigurationCrittercismAppID = @"CrittercismAppID";
 #pragma mark -
 #pragma mark Private Initialization
 - (id)init {
+
     self = [super init];
     
     if (self) {
@@ -174,6 +175,8 @@ static NSString *const ConfigurationCrittercismAppID = @"CrittercismAppID";
 }
 
 + (void)updateLocalyticsWithNewKeys {
+
+    //FIXME: I really don't like this implementation reaching into the AppDelegate for a property. It's smelly. Given there is no secret being passed,
     [Localytics autoIntegrate:[Configuration localyticsAppID] launchOptions:((AppDelegate *)[UIApplication sharedApplication].delegate).lastLaunchOptions];
 }
 
@@ -192,8 +195,6 @@ static NSString *const ConfigurationCrittercismAppID = @"CrittercismAppID";
 
         [[LEOSettingsService new] getConfigurationWithCompletion:^(BOOL success, NSError *error) {
 
-            [Localytics setLoggingEnabled:YES];
-
             if (completionBlock) {
                 completionBlock(success, error);
             }
@@ -204,8 +205,7 @@ static NSString *const ConfigurationCrittercismAppID = @"CrittercismAppID";
             completionBlock(YES, nil);
         }
     }
-    
-
 }
+
 
 @end

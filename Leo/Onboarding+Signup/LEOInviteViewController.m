@@ -138,7 +138,6 @@ static NSString * const kCopyHeaderInviteParent = @"Invite another parent to Leo
 
         else if (self.feature == FeatureSettings) {
 
-
             LEOUserService *userService = [[LEOUserService alloc] init];
             [userService inviteUser:configUser withCompletion:^(BOOL success, NSError *error) {
 
@@ -150,7 +149,7 @@ static NSString * const kCopyHeaderInviteParent = @"Invite another parent to Leo
 
                     if (self.feature == FeatureSettings) {
 
-                        [Localytics tagEvent:kAnalyticActionInviteUserFromSettings];
+                        [Localytics tagEvent:kAnalyticEventInviteUserFromSettings];
 
                         LEOStatusBarNotification *successNotification = [LEOStatusBarNotification new];
                         [successNotification displayNotificationWithMessage:@"Additional parent successfully invited!"

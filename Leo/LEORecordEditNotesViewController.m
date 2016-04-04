@@ -133,7 +133,7 @@
 
                 if (!error) {
 
-                    [Localytics tagEvent:kAnalyticActionSaveHealthRecordNotes];
+                    [Localytics tagEvent:kAnalyticEventSaveHealthRecordNotes];
 
                     self.editNoteCompletionBlock(updatedNote);
                     [self dismissViewControllerAnimated:YES completion:nil];
@@ -160,7 +160,7 @@
 
                 if (!error) {
 
-                    [Localytics tagEvent:kAnalyticActionSaveHealthRecordNotes];
+                    [Localytics tagEvent:kAnalyticEventSaveHealthRecordNotes];
 
                     self.editNoteCompletionBlock(updatedNote);
                     [self dismissViewControllerAnimated:YES completion:nil];

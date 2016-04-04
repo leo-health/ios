@@ -55,7 +55,6 @@ static NSString *const kCopyUsePhoto = @"USE PHOTO";
 
     [super viewDidLoad];
 
-
     self.signUpPatientView.delegate = self;
 }
 
@@ -233,13 +232,13 @@ static NSString *const kCopyUsePhoto = @"USE PHOTO";
 #pragma mark - <RSKImageCropViewControllerDelegate>
 - (void)imagePreviewControllerDidCancel:(LEOImagePreviewViewController *)imagePreviewController {
 
-    [Localytics tagEvent:kAnalyticActionCancelPhotoForAvatar];
+    [Localytics tagEvent:kAnalyticEventCancelPhotoForAvatar];
     [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)imagePreviewControllerDidConfirm:(LEOImagePreviewViewController *)imagePreviewController {
 
-    [Localytics tagEvent:kAnalyticActionConfirmPhotoForAvatar];
+    [Localytics tagEvent:kAnalyticEventConfirmPhotoForAvatar];
     [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
     self.signUpPatientView.patient.avatar.image = imagePreviewController.image;
 }
@@ -313,14 +312,14 @@ static NSString *const kCopyUsePhoto = @"USE PHOTO";
 
                     case ManagementModeCreate:
 
-                        [Localytics tagEvent:kAnalyticActionSaveNewPatientInSettings];
+                        [Localytics tagEvent:kAnalyticEventSaveNewPatientInSettings];
 
                         [self postPatient];
                         break;
 
                     case ManagementModeEdit:
 
-                        [Localytics tagEvent:kAnalyticActionEditPatientInSettings];
+                        [Localytics tagEvent:kAnalyticEventEditPatientInSettings];
 
                         [self putPatientByUpdatingData:patientNeedsUpdate andByUpdatingAvatar:avatarNeedsUpdate];
                         break;
@@ -336,16 +335,20 @@ static NSString *const kCopyUsePhoto = @"USE PHOTO";
 
                 switch (self.managementMode) {
 
-                    case ManagementModeCreate:
+                    case ManagementModeCreate: {
 
-                        [Localytics tagEvent:kAnalyticActionSaveNewPatientInRegistration];
+                        [Localytics tagEvent:kAnalyticEventSaveNewPatientInRegistration];
+
                         [self finishLocalUpdate];
+                    }
                         break;
 
-                    case ManagementModeEdit:
+                    case ManagementModeEdit: {
 
-                        [Localytics tagEvent:kAnalyticActionEditPatientInRegistration];
+                        [Localytics tagEvent:kAnalyticEventEditPatientInRegistration];
+
                         [self.navigationController popViewControllerAnimated:YES];
+                    }
                         break;
 
                     case ManagementModeUndefined:
@@ -495,12 +498,11 @@ static NSString *const kCopyUsePhoto = @"USE PHOTO";
 
 - (void)presentPhotoPicker {
 
-
     [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
 
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
 
-            [Localytics tagEvent:kAnalyticActionChoosePhotoForAvatar];
+            [Localytics tagEvent:kAnalyticEventChoosePhotoForAvatar];
 
             UIImagePickerController *pickerController = [[UIImagePickerController alloc] init];
             pickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;

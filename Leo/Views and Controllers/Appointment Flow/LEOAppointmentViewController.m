@@ -462,6 +462,7 @@ static NSString *const kKeySelectionVCDate = @"date";
 
             if (!error) {
 
+                [Localytics tagEvent:kAnalyticEventBookVisit];
                 weakself.card = appointmentCard;
                 [self.appointment book];
             }
@@ -475,6 +476,7 @@ static NSString *const kKeySelectionVCDate = @"date";
 
             if (!error) {
 
+                [Localytics tagEvent:kAnalyticEventRescheduleVisit];
                 weakself.card = appointmentCard;
                 [self.appointment book];
             }
