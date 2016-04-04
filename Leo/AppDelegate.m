@@ -33,8 +33,6 @@
     [self setupRemoteNotificationsForApplication:application];
     [self setupObservers];
 
-    self.lastLaunchOptions = launchOptions;
-
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     NSString *storyboardIdentifier = [SessionUser isLoggedIn] ? kStoryboardFeed : kStoryboardLogin;

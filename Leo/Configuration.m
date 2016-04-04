@@ -175,9 +175,7 @@ static NSString *const ConfigurationCrittercismAppID = @"CrittercismAppID";
 }
 
 + (void)updateLocalyticsWithNewKeys {
-
-    //FIXME: I really don't like this implementation reaching into the AppDelegate for a property. It's smelly. Given there is no secret being passed,
-    [Localytics autoIntegrate:[Configuration localyticsAppID] launchOptions:((AppDelegate *)[UIApplication sharedApplication].delegate).lastLaunchOptions];
+    [Localytics autoIntegrate:[Configuration localyticsAppID] launchOptions:@{}];
 }
 
 + (void)clearRemoteEnvironmentVariables {
