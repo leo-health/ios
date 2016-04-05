@@ -322,8 +322,6 @@ static NSString *const kCopyHeaderReviewOnboarding = @"Finally, please confirm y
                     [MBProgressHUD hideHUDForView:self.view animated:YES];
                     button.enabled = YES;
                 }
-
-
             }];
         }
     }];

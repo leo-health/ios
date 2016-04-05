@@ -48,6 +48,8 @@ static NSString *const kAvatarCallToActionEdit = @"Edit the photo of your child"
 static NSString *const kTitleAddChildDetails = @"Child Details";
 static NSString *const kTitlePhotos = @"Photos";
 static NSString *const kCopyUsePhoto = @"USE PHOTO";
+static NSString *const kStatusBarNotificationAvatarUploadFailure = @"Child information did not successfully update. Please try again.";
+static NSString *const kStatusBarNotificationAvatarUploadSuccess = @"Child profile successfully updated!";
 
 #pragma mark - View Controller Lifecycle & Helpers
 
@@ -368,11 +370,11 @@ static NSString *const kCopyUsePhoto = @"USE PHOTO";
 
         if (!error) {
 
-            //TODO: Let user know that patient was created successfully or not IF in settings only
+            //TODO: Let user know that patient was created successfully or not created successfully in settings only
 
             LEOStatusBarNotification *successNotification = [LEOStatusBarNotification new];
 
-            [successNotification displayNotificationWithMessage:@"Child information successfully created!"
+            [successNotification displayNotificationWithMessage:kStatusBarNotificationAvatarUploadSuccess
                                                            forDuration:1.0f];
 
             self.patient.objectID = patient.objectID;
@@ -385,20 +387,18 @@ static NSString *const kCopyUsePhoto = @"USE PHOTO";
 
                 [userService postAvatarForUser:self.patient withCompletion:^(BOOL success, NSError *error) {
 
-                    LEOStatusBarNotification *successNotification = [LEOStatusBarNotification new];
-
                     if (!error) {
 
                         self.signUpPatientView.updateButton.enabled = YES;
 
-                        [successNotification displayNotificationWithMessage:@"Child information successfully updated!"
+                        [successNotification displayNotificationWithMessage:kStatusBarNotificationAvatarUploadSuccess
                                                                 forDuration:1.0f];
 
                         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
                     } else {
 
 
-                        [successNotification displayNotificationWithMessage:@"Child information did not successfully update. Try again."
+                        [successNotification displayNotificationWithMessage:kStatusBarNotificationAvatarUploadFailure
                                                                 forDuration:1.0f];
                     }
                 }];
@@ -438,11 +438,11 @@ static NSString *const kCopyUsePhoto = @"USE PHOTO";
 
             if (success) {
 
-                [successNotification displayNotificationWithMessage:@"Child information successfully updated!"
+                [successNotification displayNotificationWithMessage:kStatusBarNotificationAvatarUploadSuccess
                                                         forDuration:1.0f];
             } else {
 
-                [successNotification displayNotificationWithMessage:@"Child information did not successfully update. Try again."
+                [successNotification displayNotificationWithMessage:kStatusBarNotificationAvatarUploadFailure
                                                         forDuration:1.0f];
             }
 
@@ -471,7 +471,7 @@ static NSString *const kCopyUsePhoto = @"USE PHOTO";
                     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
 
                     LEOStatusBarNotification *successNotification =[LEOStatusBarNotification new];
-                    [successNotification displayNotificationWithMessage:@"Child information successfully updated!"
+                    [successNotification displayNotificationWithMessage:kStatusBarNotificationAvatarUploadSuccess
                                                                    forDuration:1.0f];
                     [self.navigationController popViewControllerAnimated:YES];
                 }
