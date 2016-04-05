@@ -146,7 +146,7 @@ static NSString *const kPlaceholderValidationBirthDate = @"please add your child
             break;
 
         case ManagementModeEdit:
-            self.avatarValidationLabel.text = self.patient.avatar.hasImagePromise ? kAvatarCallToActionEdit : kAvatarCallToActionAdd;
+            self.avatarValidationLabel.text = self.patient.avatar.isPlaceholder ? kAvatarCallToActionAdd : kAvatarCallToActionEdit;
             break;
 
         case ManagementModeUndefined:
@@ -223,7 +223,7 @@ static NSString *const kPlaceholderValidationBirthDate = @"please add your child
     self.firstNamePromptField.textField.text = _patient.firstName;
     self.genderPromptField.textField.text = _patient.genderDisplayName;
 
-    if (_patient.avatar.hasImagePromise) {
+    if (_patient.avatar.image) {
 
         UIImage *circularAvatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:_patient.avatar.image withDiameter:67 borderColor:[UIColor leo_orangeRed] borderWidth:1.0];
 

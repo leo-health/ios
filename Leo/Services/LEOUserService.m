@@ -22,8 +22,13 @@
 #import "Configuration.h"
 #import <Crashlytics/Crashlytics.h>
 #import <Crittercism/Crittercism.h>
+#import <UIImage-Resize/UIImage+Resize.h>
 
 @implementation LEOUserService
+
+static CGFloat kImageSideSizeScale1Avatar = 100.0;
+static CGFloat kImageSideSizeScale2Avatar = 200.0;
+static CGFloat kImageSideSizeScale3Avatar = 300.0;
 
 - (void)createGuardian:(Guardian *)newGuardian withCompletion:(void (^)(Guardian *guardian, NSError *error))completionBlock {
     
@@ -61,7 +66,7 @@
     }];
 }
 
-- (void)createPatients:(NSArray *)patients withCompletion:(void (^)(NSArray<Patient *> *patient, NSError *error))completionBlock {
+- (void)createPatients:(NSArray *)patients withCompletion:(void (^)(NSArray<Patient *> *responsePatients, NSError *error))completionBlock {
 
     __block NSInteger counter = 0;
     __block NSMutableArray *newPatients = [NSMutableArray new];
@@ -77,27 +82,12 @@
 
                 [newPatients addObject:patient];
 
-                if (patient.avatar.hasImagePromise) {
-
-                    [self postAvatarForUser:patient withCompletion:^(BOOL success, NSError *error) {
-
-                        if (!error) {
-
-                            NSLog(@"Avatar upload occured successfully!");
-
-                            counter++;
-                            if (counter == [patients count]) {
-                                completionBlock(newPatients, nil);
-                            }
-                        }
-                    }];
-
-                } else {
-
-                    counter++;
-                    if (counter == [patients count]) {
-                        completionBlock(newPatients, nil);
-                    }
+                if (!patient.avatar.isPlaceholder) {
+                    [self updateAvatarImageForUser:patient withLocalUser:patients[idx]];
+                }
+                counter++;
+                if (counter == [patients count]) {
+                    completionBlock(newPatients, nil);
                 }
             }
         }];
@@ -200,6 +190,42 @@
     }];
 }
 
+- (void)updateAvatarImagesForUsers:(NSArray <User *> *)responseUsers withLocalUsers:(NSArray <User *> *)localUsers {
+
+    for (NSInteger i = 0; i < [responseUsers count]; i++) {
+        [self updateAvatarImageForUser:responseUsers[i] withLocalUser:localUsers[i]];
+    }
+};
+
+- (void)updateAvatarImageForUser:(User *)user withLocalUser:(User *)localUser {
+    user.avatar.image = [self resizeLocalAvatarImageBasedOnScreenScale:localUser.avatar.image];
+}
+
+- (UIImage *)resizeLocalAvatarImageBasedOnScreenScale:(UIImage *)avatarImage {
+
+    CGFloat resizedImageSideSize = kImageSideSizeScale3Avatar;
+
+    NSInteger scale = (int)[UIScreen mainScreen].scale;
+
+    switch (scale) {
+
+        case 1:
+            resizedImageSideSize = kImageSideSizeScale1Avatar;
+            break;
+
+        case 2:
+            resizedImageSideSize = kImageSideSizeScale2Avatar;
+            break;
+
+        case 3:
+            resizedImageSideSize = kImageSideSizeScale3Avatar;
+            break;
+    }
+
+    return [avatarImage resizedImageToSize:CGSizeMake(resizedImageSideSize, resizedImageSideSize)];
+}
+
+
 - (void)loginUserWithEmail:(NSString *)email password:(NSString *)password withCompletion:(void (^)(SessionUser *user, NSError *error))completionBlock {
 
     NSMutableDictionary *loginParams = [@{
@@ -271,6 +297,46 @@
     }];
 }
 
+- (void)postAvatarsForUsers:(NSArray <User *> *)users withCompletion:(void (^)(BOOL success, NSError *error))completionBlock {
+
+    __block NSInteger counter = 0;
+
+    // TODO: think about how to handle errors in dependent requests like this one.
+    // should we use an array of errors? one combined error? currently we do nothing
+
+    __weak typeof(self) weakSelf = self;
+
+    [users enumerateObjectsUsingBlock:^(User *user, NSUInteger idx, BOOL *stop) {
+
+        __strong typeof(self) strongSelf = weakSelf;
+
+        if (!user.avatar.isPlaceholder) {
+            [strongSelf postAvatarForUser:user withCompletion:^(BOOL success, NSError *error) {
+
+                if (!error) {
+
+                    NSLog(@"Avatar upload occured successfully!");
+
+                    counter++;
+                    if (counter == [users count]) {
+                        completionBlock(YES, nil);
+                    }
+                } else {
+                    if (completionBlock) {
+                        completionBlock(NO, error);
+                    }
+                }
+            }];
+        } else {
+
+            counter++;
+            if (counter == [users count]) {
+                completionBlock(YES, nil);
+            }
+        }
+    }];
+}
+
 - (void)postAvatarForUser:(User *)user withCompletion:(void (^)(BOOL success, NSError *error))completionBlock {
 
     UIImage *avatarImage = user.avatar.image;
@@ -285,7 +351,7 @@
         //TODO: The extra "avatar" is not a "mistake" here; that is how it is provided by the backend. Should be updated eventually.
         NSDictionary *rawAvatarUrlData = rawResults[APIParamData][@"avatar"][@"url"];
         user.avatar = [[LEOS3Image alloc] initWithJSONDictionary:rawAvatarUrlData];
-        user.avatar.image = avatarImage;
+        user.avatar.image = [self resizeLocalAvatarImageBasedOnScreenScale:avatarImage];
         user.avatar.placeholder = placeholderImage;
 
         BOOL success = !error;
