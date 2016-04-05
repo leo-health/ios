@@ -61,6 +61,9 @@ static NSString * const kCopyHeaderInviteParent = @"Invite another parent to Leo
 - (void)viewDidAppear:(BOOL)animated {
 
     [super viewDidAppear:animated];
+
+    [Localytics tagScreen:kAnalyticScreenInviteUser];
+
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:nil withOnlineBlock:nil];
 }
 
@@ -146,6 +149,8 @@ static NSString * const kCopyHeaderInviteParent = @"Invite another parent to Leo
 
                     if (self.feature == FeatureSettings) {
 
+                        [Localytics tagEvent:kAnalyticEventInviteUserFromSettings];
+
                         LEOStatusBarNotification *successNotification = [LEOStatusBarNotification new];
                         [successNotification displayNotificationWithMessage:@"Additional parent successfully invited!"
                                                                        forDuration:1.0f];
@@ -183,6 +188,7 @@ static NSString * const kCopyHeaderInviteParent = @"Invite another parent to Leo
 
         LEOReviewOnboardingViewController *reviewOnboardingVC = segue.destinationViewController;
         reviewOnboardingVC.family = self.family;
+        reviewOnboardingVC.analyticSession = self.analyticSession;
     }
 }
 

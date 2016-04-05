@@ -14,6 +14,7 @@
 + (void)downloadRemoteEnvironmentVariablesIfNeededWithCompletion:(void (^) (BOOL success, NSError *error))completionBlock;
 + (void)updateCrittercismWithNewKeys;
 + (void)updateCrashlyticsWithNewKeys;
++ (void)updateLocalyticsWithNewKeys;
 + (void)clearRemoteEnvironmentVariables;
 
 + (NSString *)APIBaseURL;
@@ -25,5 +26,7 @@
 + (NSString *)selfSignedCertificate;
 + (NSString *)pusherKey;
 + (NSString *)crittercismAppID;
++ (NSString *)localyticsAppID;
++ (NSString *)vendorID;
 
 @end

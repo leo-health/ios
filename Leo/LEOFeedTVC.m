@@ -139,6 +139,8 @@ static CGFloat const kFeedInsetTop = 20.0;
 
     [super viewDidAppear:animated];
 
+    [Localytics tagScreen:kAnalyticScreenFeed];
+
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
 
     [self prepareForReachability];
@@ -298,6 +300,8 @@ static CGFloat const kFeedInsetTop = 20.0;
     __weak typeof(self) weakSelf = self;
 
     [Configuration downloadRemoteEnvironmentVariablesIfNeededWithCompletion:^(BOOL success, NSError *error) {
+
+        [Localytics tagScreen:kAnalyticScreenFeed];
 
         typeof(self) strongSelf = weakSelf;
 
@@ -656,6 +660,9 @@ static CGFloat const kFeedInsetTop = 20.0;
 
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:alertTitle message:nil preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:@"Call" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+
+        [Localytics tagEvent:kAnalyticEventCallUs];
+
         NSString *phoneCallNum = [NSString stringWithFormat:@"tel://%@",kFlatironPediatricsPhoneNumber];
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneCallNum]];
     }]];
@@ -701,12 +708,17 @@ static CGFloat const kFeedInsetTop = 20.0;
 }
 
 
+//FIXME: This method should be rethought out with architectural updates to app but works for the short-term.
 - (void)removeCard:(LEOCard *)card fromDatabaseWithCompletion:(void (^)(NSDictionary *response, NSError *error))completionBlock {
 
     //TODO: Include the progress hud while waiting for deletion.
 
     [[LEOAppointmentService new] cancelAppointment:card.associatedCardObject
                                 withCompletion:^(NSDictionary * response, NSError * error) {
+
+                                    if (!error) {
+                                        [Localytics tagEvent:kAnalyticEventCancelVisit];
+                                    }
 
                                     if (completionBlock) {
                                         completionBlock(response, error);

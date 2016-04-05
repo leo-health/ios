@@ -25,6 +25,8 @@
 #import "LEOUserService.h"
 #import "Configuration.h"
 
+#import "LEOAnalyticSession.h"
+
 typedef NS_ENUM(NSUInteger, SettingsSection) {
     
     SettingsSectionAccounts,
@@ -53,6 +55,7 @@ typedef NS_ENUM(NSUInteger, AboutSettings) {
 @interface LEOSettingsViewController ()
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) LEOAnalyticSession *analyticSession;
 
 @end
 
@@ -70,6 +73,9 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
 - (void)viewDidLoad {
     
     [super viewDidLoad];
+
+    self.analyticSession = [LEOAnalyticSession startSessionWithSessionEventName:kAnalyticSessionSettings];
+
     [self setupTableView];
     [self setupNavigationBar];
 }
@@ -79,6 +85,13 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
     [super viewWillAppear:animated];
     
     [self.tableView reloadData];
+}
+
+-(void)viewDidAppear:(BOOL)animated {
+
+    [super viewDidAppear:animated];
+
+    [Localytics tagScreen:kAnalyticScreenSettings];
 }
 
 - (void)setupNavigationBar {
@@ -336,6 +349,8 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
         case SettingsSectionLogout: {
 
             [LEOBreadcrumb crumbWithObject:[NSString stringWithFormat:@"%s user requested logout", __PRETTY_FUNCTION__]];
+            [Localytics tagEvent:kAnalyticEventLogout];
+            
             [[LEOUserService new] logoutUserWithCompletion:nil];
             
             break;
@@ -516,6 +531,8 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
 }
 
 - (void)pop {
+
+    [self.analyticSession completeSession];
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 

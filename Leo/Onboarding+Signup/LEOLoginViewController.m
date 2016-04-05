@@ -23,6 +23,9 @@
 #import "NSObject+XibAdditions.h"
 #import "UIView+Extensions.h"
 #import <MBProgressHUD/MBProgressHUD.h>
+#import <Crashlytics/Crashlytics.h>
+#import <Crittercism/Crittercism.h>
+#import "Configuration.h"
 
 @interface LEOLoginViewController ()
 
@@ -68,6 +71,9 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
 - (void)viewDidAppear:(BOOL)animated {
 
     [super viewDidAppear:animated];
+
+    [Localytics tagScreen:kAnalyticScreenLogin];
+
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:nil withOnlineBlock:nil];
 }
 
@@ -164,6 +170,12 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
 
                              [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
                              if (!error) {
+
+                                 [Crittercism setUsername:[Configuration vendorID]];
+                                 [Localytics setCustomerId:[Configuration vendorID]];
+                                 [[Crashlytics sharedInstance] setUserIdentifier:[Configuration vendorID]];
+
+                                 [Localytics tagEvent:kAnalyticEventLogin];
 
                                  // Response to successful login is handled by a @"membership-changed" notification listener in AppDelegate
 

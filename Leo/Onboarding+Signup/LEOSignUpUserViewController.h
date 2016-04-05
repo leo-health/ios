@@ -11,6 +11,7 @@
 #import "SingleSelectionProtocol.h"
 #import "Family.h"
 #import "LEOStickyHeaderViewController.h"
+#import "LEOAnalyticSession.h"
 
 @interface LEOSignUpUserViewController : LEOStickyHeaderViewController <UITextFieldDelegate, LEOPromptDelegate, SingleSelectionProtocol, UIScrollViewDelegate, LEOStickyHeaderDataSource, LEOStickyHeaderDelegate>
 
@@ -20,5 +21,7 @@
 @property (strong, nonatomic) NSArray *insurancePlans;
 
 @property (nonatomic) ManagementMode managementMode;
+
+@property (strong, nonatomic) LEOAnalyticSession *analyticSession;
 
 @end

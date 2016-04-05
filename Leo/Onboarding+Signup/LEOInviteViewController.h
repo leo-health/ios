@@ -6,13 +6,15 @@
 //  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
+@class Family;
+
 #import <UIKit/UIKit.h>
 #import "LEOStickyHeaderViewController.h"
-
-@class Family;
+#import "LEOAnalyticSession.h"
 
 @interface LEOInviteViewController : LEOStickyHeaderViewController
 
 @property (strong, nonatomic) Family *family;
+@property (strong, nonatomic) LEOAnalyticSession *analyticSession;
 
 @end

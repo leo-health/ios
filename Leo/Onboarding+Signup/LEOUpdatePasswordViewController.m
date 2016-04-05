@@ -41,6 +41,8 @@
 
     [super viewDidAppear:animated];
 
+    [Localytics tagScreen:kAnalyticScreenUpdatePassword];
+
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:nil withOnlineBlock:nil];
 }
 
@@ -108,6 +110,8 @@
         [MBProgressHUD hideHUDForView:self.updatePasswordView animated:YES];
 
         if (success) {
+
+            [Localytics tagEvent:kAnalyticEventUpdatePassword];
 
             LEOStatusBarNotification *successNotification = [LEOStatusBarNotification new];
 

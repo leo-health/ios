@@ -52,6 +52,7 @@
 #import "Configuration.h"
 #import "LEOAlertHelper.h"
 #import "NSUserDefaults+Extensions.h"
+#import "LEOAnalyticSession.h"
 
 @interface LEOMessagesViewController ()
 
@@ -72,6 +73,7 @@
 @property (strong, nonatomic) LEOImageCropViewControllerDataSource *cropDataSource;
 @property (strong, nonatomic) NSMutableArray *notificationObservers;
 @property (strong, nonatomic) PTPusherEventBinding *pusherBinding;
+@property (strong, nonatomic) LEOAnalyticSession *analyticSession;
 
 @end
 
@@ -93,6 +95,8 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.analyticSession = [LEOAnalyticSession startSessionWithSessionEventName:kAnalyticSessionMessaging];
+    
     [self setupEmergencyBar];
     [self setupInputToolbar];
     [self setupCollectionViewFormatting];
@@ -124,9 +128,13 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
     [super viewDidAppear:animated];
 
+    [Localytics tagScreen:kAnalyticScreenMessaging];
+
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:^{
+
         [self clearPusher];
     } withOnlineBlock:^{
+
         [self resetPusherAndGetMissedMessages];
     }];
 }
@@ -333,6 +341,8 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
     [Configuration downloadRemoteEnvironmentVariablesIfNeededWithCompletion:^(BOOL success, NSError *error) {
 
+        [Localytics tagScreen:kAnalyticScreenMessaging];
+
         __strong typeof(self) strongSelf = weakSelf;
 
         if (success) {
@@ -378,10 +388,12 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
     }
 
     if ([notification.name isEqualToString:UIApplicationDidEnterBackgroundNotification] || [notification.name isEqualToString:UIApplicationWillResignActiveNotification]) {
+
         [self clearPusher];
     }
 
     if ([notification.name isEqualToString:UIApplicationDidBecomeActiveNotification]) {
+
         [self resetPusherAndGetMissedMessages];
     }
 }
@@ -504,6 +516,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
     [LEOBreadcrumb crumbWithObject:[NSString stringWithFormat:@"%s choose photo", __PRETTY_FUNCTION__]];
 
+    [Localytics tagEvent:kAnalyticEventChoosePhotoForMessage];
     LEOTransitioningDelegate *strongTransitioningDelegate = [[LEOTransitioningDelegate alloc] initWithTransitionAnimatorType:TransitionAnimatorTypeCardPush];;
 
     self.transitioningDelegate = strongTransitioningDelegate;
@@ -546,7 +559,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
 
                 [LEOBreadcrumb crumbWithObject:[NSString stringWithFormat:@"%s take photo", __PRETTY_FUNCTION__]];
-
+                [Localytics tagEvent:kAnalyticEventTakePhotoForMessage];
                 UIImagePickerController *pickerController = [UIImagePickerController new];
                 pickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
                 pickerController.delegate = self;
@@ -591,6 +604,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
         UIImageWriteToSavedPhotosAlbum (originalImage, nil, nil, nil);
     }
 
+
     LEOImagePreviewViewController *previewVC = [[LEOImagePreviewViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeCustom];
     previewVC.delegate = self;
     previewVC.zoomable = NO;
@@ -603,6 +617,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
 
     [LEOBreadcrumb crumbWithFunction:__PRETTY_FUNCTION__];
+    [Localytics tagEvent:kAnalyticEventCancelPhotoForMessage];
 
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
@@ -610,6 +625,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 - (void)imagePreviewControllerDidCancel:(LEOImagePreviewViewController *)imagePreviewController {
 
     [LEOBreadcrumb crumbWithFunction:__PRETTY_FUNCTION__];
+    [Localytics tagEvent:kAnalyticEventConfirmPhotoForMessage];
 
     [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
 }
@@ -638,6 +654,13 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
         if (!error) {
 
+            if ([message isKindOfClass:[MessageImage class]]) {
+                [Localytics tagEvent:kAnalyticEventSendImageMessage];
+            }
+            else if ([message isKindOfClass:[MessageText class]]) {
+                [Localytics tagEvent:kAnalyticEventSendTextMessage];
+            }
+            
             [[self conversation] addMessage:responseMessage];
             self.offset++;
             [self finishSendingMessage:responseMessage];
@@ -659,6 +682,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
     MessageImage *message = [MessageImage messageWithObjectID:nil media:photoItem sender:[SessionUser guardian] escalatedTo:nil escalatedBy:nil status:nil statusCode:MessageStatusCodeUndefined createdAt:[NSDate date] escalatedAt:nil leoMedia:nil];
 
     self.inputToolbar.contentView.userInteractionEnabled = NO;
+
     [self startSendingMessage:message];
 
     [self.navigationController popViewControllerAnimated:YES];
@@ -1282,6 +1306,9 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
  *  Return to prior screen by dismissing the LEOMessagesViewController.
  */
 - (void)dismiss {
+
+    [self.analyticSession completeSession];
+
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -1299,7 +1326,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
  *
  *  @return NSInteger the page number of the next page to load if the `Load Earlier Messages` button is tapped.
  */
--(NSInteger)nextPage {
+- (NSInteger)nextPage {
     
     if (!_nextPage) {
         _nextPage = 2;

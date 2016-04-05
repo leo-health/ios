@@ -51,6 +51,16 @@
 				<string>${URL_SCHEME}</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>Localytics</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>ampc2e70fb21fdad8a9305f68e-db4e6272-f694-11e5-8253-0086bc74ca0f</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>2016.03.30.17.31</string>
@@ -88,6 +98,16 @@
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
 				<key>NSIncludesSubdomains</key>
+				<true/>
+			</dict>
+			<key>public.localytics.s3.amazonaws.com</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
+			<key>pushapi.localytics.com</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
 			</dict>
 		</dict>

@@ -17,8 +17,10 @@
 #import "LEOConstants.h"
 #import "LEOStyleHelper.h"
 #import "NSUserDefaults+Extensions.h"
+#import <Localytics/Localytics.h>
 
 @interface AppDelegate ()
+
 
 @end
 
@@ -38,7 +40,15 @@
     if (launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]) {
         [self application:application didReceiveRemoteNotification:launchOptions];
     }
-    
+
+    [Configuration downloadRemoteEnvironmentVariablesIfNeededWithCompletion:^(BOOL success, NSError *error) {
+
+        if (success) {
+            [Localytics autoIntegrate:[Configuration localyticsAppID] launchOptions:launchOptions];
+            [Localytics setLoggingEnabled:YES];
+        }
+    }];
+
     [self setRootViewControllerWithStoryboardName:storyboardIdentifier];
     
     return YES;
@@ -177,10 +187,13 @@
 - (void)applicationWillEnterForeground:(UIApplication *)application {
 
     [Configuration downloadRemoteEnvironmentVariablesIfNeededWithCompletion:^(BOOL success, NSError *error) {
-        [Configuration updateCrittercismWithNewKeys];
-        [Configuration updateCrashlyticsWithNewKeys];
-    }];
 
+        if (success) {
+
+            //TODO: This may not be necessary. Test!
+        }
+    }];
+    
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
 }
 

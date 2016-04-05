@@ -127,17 +127,19 @@
 }
 
 - (void)book {
-
     self.status = [[AppointmentStatus alloc] initWithObjectID:nil name:@"Reminding" athenaCode:nil statusCode:AppointmentStatusCodeReminding];
 }
 
 - (void)schedule {
+
+    [Localytics tagEvent:kAnalyticEventScheduleVisit];
 
     self.priorStatus = self.status;
     self.status = [[AppointmentStatus alloc] initWithObjectID:nil name:@"Future" athenaCode:nil statusCode:AppointmentStatusCodeFuture];
 }
 
 - (void)cancel {
+
     self.priorStatus = self.status;
     self.status = [[AppointmentStatus alloc] initWithObjectID:nil name:@"Cancelling" athenaCode:nil statusCode:AppointmentStatusCodeCancelling];
 }

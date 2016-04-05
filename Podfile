@@ -25,6 +25,9 @@ pod 'CWStatusBarNotification', '~> 2.3.4' #MIT
 pod 'CrittercismSDK', '5.5.0' #License needed?
 pod 'Fabric' #non-standard license; see https://fabric.io/privacy
 pod 'Crashlytics' #non-standard license; https://fabric.io/privacy
+pod 'Localytics',  '~> 3.0'
+
+
 #Should review dependencies of these pods to ensure that all pods are compliant with their own licenses. e.g. Facebook Pop, etc.
 
 end

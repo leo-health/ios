@@ -50,15 +50,7 @@ static NSString * const reuseIdentifierFeature = @"reuseIdentifierFeature";
 
     [super viewDidLoad];
 
-    [Configuration clearRemoteEnvironmentVariables];
-
-    [[LEOSettingsService new] getConfigurationWithCompletion:^(BOOL success, NSError *error) {
-
-        if (success) {
-            [Configuration updateCrittercismWithNewKeys];
-            [Configuration updateCrashlyticsWithNewKeys];
-        }
-    }];
+    [Localytics tagScreen:kAnalyticScreenProductPreview];
 
     [self.collectionView registerNib:[LEOLoggedOutLoginCell nib] forCellWithReuseIdentifier:reuseIdentifierLogin];
     [self.collectionView registerNib:[LEOLoggedOutSignUpCell nib] forCellWithReuseIdentifier:reuseIdentifierSignup];
@@ -172,8 +164,6 @@ static NSString * const reuseIdentifierFeature = @"reuseIdentifierFeature";
     [LEOBreadcrumb crumbWithFunction:__PRETTY_FUNCTION__];
 
     [self performSegueWithIdentifier:kSegueLogin sender:self];
-
-
 }
 
 - (void)signupTouchedUpInside:(UIButton *)sender {

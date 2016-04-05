@@ -21,6 +21,10 @@
 #import "UIColor+LeoColors.h"
 #import "LEOEnrollmentView.h"
 #import "LEOProgressDotsHeaderView.h"
+#import "LEOAnalyticSession.h"
+#import <Crashlytics/Crashlytics.h>
+#import <Crittercism/Crittercism.h>
+#import "Configuration.h"
 
 @interface LEOEnrollmentViewController ()
 
@@ -28,6 +32,7 @@
 @property (strong, nonatomic) LEOProgressDotsHeaderView *headerView;
 @property (strong, nonatomic) Guardian *guardian;
 
+@property (strong, nonatomic) LEOAnalyticSession *analyticSession;
 @end
 
 @implementation LEOEnrollmentViewController
@@ -43,6 +48,8 @@ static NSString * const kCopyCollapsedHeaderEnrollment = @"Create an account";
 
     [self.view setupTouchEventForDismissingKeyboard];
 
+    self.analyticSession = [LEOAnalyticSession startSessionWithSessionEventName:kAnalyticSessionRegistration];
+    
     self.feature = FeatureOnboarding;
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.stickyHeaderView.snapToHeight = @(0);
@@ -67,6 +74,9 @@ static NSString * const kCopyCollapsedHeaderEnrollment = @"Create an account";
 - (void)viewDidAppear:(BOOL)animated {
 
     [super viewDidAppear:animated];
+
+    [Localytics tagScreen:kAnalyticScreenUserEnrollment];
+    
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:nil withOnlineBlock:nil];
 }
 
@@ -138,6 +148,13 @@ static NSString * const kCopyCollapsedHeaderEnrollment = @"Create an account";
         [userService enrollUser:self.guardian password:self.enrollmentView.passwordPromptField.textField.text withCompletion:^(BOOL success, NSError *error) {
 
             if (!error) {
+
+                [Crittercism setUsername:[Configuration vendorID]];
+                [Localytics setCustomerId:[Configuration vendorID]];
+                [[Crashlytics sharedInstance] setUserIdentifier:[Configuration vendorID]];
+
+                [Localytics tagEvent:kAnalyticEventEnroll];
+
                 [self performSegueWithIdentifier:kSegueContinue sender:sender];
             } else {
                 [self postErrorAlert];
@@ -190,6 +207,7 @@ static NSString * const kCopyCollapsedHeaderEnrollment = @"Create an account";
         signUpUserVC.guardian = self.guardian;
         signUpUserVC.managementMode = ManagementModeCreate;
         signUpUserVC.view.tintColor = [LEOStyleHelper tintColorForFeature:FeatureOnboarding];
+        signUpUserVC.analyticSession = self.analyticSession;
     }
 }
 

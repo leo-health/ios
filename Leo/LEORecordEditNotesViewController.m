@@ -48,6 +48,9 @@
 - (void)viewDidAppear:(BOOL)animated {
 
     [super viewDidAppear:animated];
+
+    [Localytics tagScreen:kAnalyticScreenHealthRecordNotes];
+
     [self.textView becomeFirstResponder];
 }
 
@@ -130,6 +133,8 @@
 
                 if (!error) {
 
+                    [Localytics tagEvent:kAnalyticEventSaveHealthRecordNotes];
+
                     self.editNoteCompletionBlock(updatedNote);
                     [self dismissViewControllerAnimated:YES completion:nil];
 
@@ -154,6 +159,8 @@
             [[LEOHealthRecordService new] postNote:self.note.text forPatient:self.patient withCompletion:^(PatientNote *updatedNote, NSError *error) {
 
                 if (!error) {
+
+                    [Localytics tagEvent:kAnalyticEventSaveHealthRecordNotes];
 
                     self.editNoteCompletionBlock(updatedNote);
                     [self dismissViewControllerAnimated:YES completion:nil];

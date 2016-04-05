@@ -40,11 +40,13 @@
 #import "LEOReviewPatientCell.h"
 #import "LEOReviewUserCell.h"
 
+
 @interface LEOReviewOnboardingViewController ()
 
 @property (weak, nonatomic) UILabel *navTitleLabel;
 @property (strong, nonatomic) LEOReviewOnboardingView *reviewOnboardingView;
 @property (strong, nonatomic) LEOProgressDotsHeaderView *headerView;
+
 
 @end
 
@@ -56,6 +58,7 @@
 static NSString *const kReviewUserSegue = @"ReviewUserSegue";
 static NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
 static NSString *const kCopyHeaderReviewOnboarding = @"Finally, please confirm your information";
+
 
 #pragma mark - View Controller Lifecycle and Helpers
 
@@ -91,6 +94,9 @@ static NSString *const kCopyHeaderReviewOnboarding = @"Finally, please confirm y
 - (void)viewDidAppear:(BOOL)animated {
 
     [super viewDidAppear:animated];
+
+    [Localytics tagScreen:kAnalyticScreenReviewRegistration];
+
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:nil withOnlineBlock:nil];
 }
 
@@ -188,7 +194,6 @@ static NSString *const kCopyHeaderReviewOnboarding = @"Finally, please confirm y
         case TableViewSectionButton:
             break;
     }
-
 }
 
 
@@ -272,10 +277,11 @@ static NSString *const kCopyHeaderReviewOnboarding = @"Finally, please confirm y
                 Guardian *otherGuardian = self.family.guardians.lastObject;
                 [userService inviteUser:otherGuardian withCompletion:^(BOOL success, NSError *error) {
 
+
                     attemptedInviteOfGuardian = YES;
 
                     if (success) {
-                        NSLog(@"Parent invitation success");
+                        [Localytics tagEvent:kAnalyticEventInviteUserFromRegistration];
                     }
 
                     if (attemptedPatientCreation) {
@@ -294,7 +300,10 @@ static NSString *const kCopyHeaderReviewOnboarding = @"Finally, please confirm y
                 attemptedPatientCreation = YES;
 
                 if (!error) {
-                    
+
+                    [Localytics tagEvent:kAnalyticEventConfirmAccount];
+                    [self.analyticSession completeSession];
+
                     self.family.patients = patients;
                     [[SessionUser currentUser] setMembershipType:MembershipTypeMember];
                 }

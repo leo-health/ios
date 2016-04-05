@@ -17,6 +17,7 @@
 #import "LEOConstants.h"
 #import "LEOApiReachability.h"
 #import "LEOBreadcrumb.h"
+#import <Localytics/Localytics.h>
 
 #define MSDesignatedInitializer(__SEL__) __attribute__((unavailable("Invoke the designated initializer `" # __SEL__ "` instead or use a convenience initializer.")))
 

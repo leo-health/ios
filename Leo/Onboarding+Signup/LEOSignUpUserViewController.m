@@ -39,6 +39,7 @@
 @property (nonatomic) BOOL breakerPreviouslyDrawn;
 @property (strong, nonatomic) CAShapeLayer *pathLayer;
 
+
 @end
 
 @implementation LEOSignUpUserViewController
@@ -50,6 +51,7 @@ static NSString * const kCopyHeaderSignUpUser = @"Tell us a little about yoursel
 #pragma mark - View Controller Lifecycle & Helper Methods
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
 
     [self setupNavigationBar];
@@ -82,6 +84,9 @@ static NSString * const kCopyHeaderSignUpUser = @"Tell us a little about yoursel
 - (void)viewDidAppear:(BOOL)animated {
 
     [super viewDidAppear:animated];
+
+    [Localytics tagScreen:kAnalyticScreenUserProfile];
+
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:nil withOnlineBlock:nil];
 }
 
@@ -166,13 +171,22 @@ static NSString * const kCopyHeaderSignUpUser = @"Tell us a little about yoursel
         [self updateGuardian];
 
         switch (self.managementMode) {
-            case ManagementModeCreate:
+            case ManagementModeCreate: {
+
+                [Localytics tagEvent:kAnalyticEventCompleteNewUserProfile];
+
                 [self.family addGuardian:self.guardian];
+
                 [self performSegueWithIdentifier:kSegueContinue sender:sender];
+            }
                 break;
 
-            case ManagementModeEdit:
+            case ManagementModeEdit: {
+
+                [Localytics tagEvent:kAnalyticEventEditUserProfile];
+
                 [self.navigationController popViewControllerAnimated:YES];
+            }
                 break;
 
             case ManagementModeUndefined:
@@ -212,6 +226,7 @@ static NSString * const kCopyHeaderSignUpUser = @"Tell us a little about yoursel
 
         manageChildrenVC.family = self.family;
         manageChildrenVC.enrollmentToken = self.enrollmentToken;
+        manageChildrenVC.analyticSession = self.analyticSession;
     }
 
     [self.view endEditing:YES];

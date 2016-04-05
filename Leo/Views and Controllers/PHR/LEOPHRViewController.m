@@ -10,6 +10,7 @@
 #import "LEOPHRHeaderView.h"
 #import "LEORecordViewController.h"
 #import "LEOStyleHelper.h"
+#import "LEOAnalyticSession.h"
 
 #import <GNZSlidingSegment/GNZSegmentedControl.h>
 #import <GNZSlidingSegment/GNZSlidingSegmentView.h>
@@ -33,6 +34,8 @@ static CGFloat const kHeightOfHeaderPHR = 200;
 @property (nonatomic) BOOL alreadyUpdatedConstraints;
 @property (strong, nonatomic) NSArray *patients;
 
+@property (strong, nonatomic) LEOAnalyticSession *analyticSession;
+
 @end
 
 @implementation LEOPHRViewController
@@ -51,6 +54,8 @@ static CGFloat const kHeightOfHeaderPHR = 200;
 -(void)viewDidLoad {
 
     [super viewDidLoad];
+
+    self.analyticSession = [LEOAnalyticSession startSessionWithSessionEventName:kAnalyticSessionHealthRecord];
 
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.stickyHeaderView.delegate = self;
@@ -79,6 +84,8 @@ static CGFloat const kHeightOfHeaderPHR = 200;
 - (void)viewDidAppear:(BOOL)animated {
 
     [super viewDidAppear:animated];
+
+    [Localytics tagScreen:kAnalyticScreenHealthRecord];
 
     // LEORecordViewController should handle its own data requests in viewDidAppear
     // TODO: implement VCC (View Controller Containment) 
@@ -187,5 +194,10 @@ static CGFloat const kHeightOfHeaderPHR = 200;
     self.stickyHeaderView.scrollView.contentOffset = CGPointZero;
 }
 
+- (void)pop {
+
+    [self.analyticSession completeSession];
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 @end

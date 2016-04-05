@@ -43,11 +43,28 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-    
+
     [self formatCalendar];
     [self setupCollectionView];
     [self setupNavBar];
 }
+
+- (void)viewDidAppear:(BOOL)animated {
+
+    [super viewDidAppear:animated];
+
+    [Localytics tagScreen:kAnalyticScreenAppointmentCalendar];
+
+    [LEOApiReachability startMonitoringForController:self withOfflineBlock:^{
+
+        // TODO: what should happen when the user is offline?
+    } withOnlineBlock:^{
+
+        [self loadCollectionViewWithInitialDate];
+    }];
+    
+}
+
 
 - (void)viewDidLayoutSubviews {
 
@@ -145,20 +162,6 @@
     }
     
     return initialDate;
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    
-    [super viewDidAppear:animated];
-    
-    [LEOApiReachability startMonitoringForController:self withOfflineBlock:^{
-
-        // TODO: what should happen when the user is offline?
-    } withOnlineBlock:^{
-
-        [self loadCollectionViewWithInitialDate];
-    }];
-
 }
 
 - (void)loadCollectionViewWithInitialDate {

@@ -18,7 +18,6 @@ static NSString *const kMembershipTypeUnpaid = @"User";
 static NSString *const kMembershipTypeMember = @"Member";
 static NSString *const kMembershipTypeIncomplete = @"Incomplete"; //FIXME: This is only because the API doesn't yet support this detail.
 static NSString *const kUserDefaultsKeyLoginCounts = @"loginCounter";
-static NSString *const kUserDefaultsKeyAnonymousCustomerServiceID = @"anonymousCustomerServiceID";
 
 @synthesize anonymousCustomerServiceID = _anonymousCustomerServiceID;
 
@@ -85,22 +84,6 @@ static NSString *const kUserDefaultsKeyAnonymousCustomerServiceID = @"anonymousC
     return guardian;
 }
 
-- (NSString *)anonymousCustomerServiceID {
-
-    if (!_anonymousCustomerServiceID) {
-
-        _anonymousCustomerServiceID = [NSUserDefaults leo_stringForKey:kUserDefaultsKeyAnonymousCustomerServiceID];
-
-        if (!_anonymousCustomerServiceID) {
-
-            _anonymousCustomerServiceID = [self generateRandomUserIDForCrittercism];
-            [NSUserDefaults leo_setString:_anonymousCustomerServiceID forKey:kUserDefaultsKeyAnonymousCustomerServiceID];
-        }
-    }
-
-    return _anonymousCustomerServiceID;
-}
-
 - (NSString *)generateRandomUserIDForCrittercism {
 
     NSUInteger r = arc4random_uniform(pow(10, 10));
@@ -114,7 +97,6 @@ static NSString *const kUserDefaultsKeyAnonymousCustomerServiceID = @"anonymousC
 }
 
 + (void)removeFromUserDefaults {
-
     [[NSUserDefaults standardUserDefaults] setObject:nil forKey:NSStringFromClass([self class])];
 }
 
@@ -133,6 +115,8 @@ static NSString *const kUserDefaultsKeyAnonymousCustomerServiceID = @"anonymousC
     _insurancePlan = [jsonResponse leo_itemForKey:APIParamUserInsurancePlan];
     _phoneNumber = [jsonResponse leo_itemForKey:APIParamPhone];
     _membershipType = [Guardian membershipTypeFromString:[jsonResponse leo_itemForKey:APIParamUserMembershipType]];
+    _anonymousCustomerServiceID = [jsonResponse leo_itemForKey:APIParamUserVendorID];
+
 
     //Cannot call notification re: membershiptype changing because object hasn't been fully formed. Must do so either via alternative pattern or via class calling this once creation is complete. For now we will do the latter. Code smell should be reviewed.
 }
@@ -146,6 +130,7 @@ static NSString *const kUserDefaultsKeyAnonymousCustomerServiceID = @"anonymousC
     userDictionary[APIParamPhone] = guardian.phoneNumber;
     userDictionary[APIParamInsurancePlanID] = guardian.insurancePlan.objectID; //FIXME: This should probably break since insurancePlan is a custom object.
     userDictionary[APIParamUserMembershipType] = guardian.membershipType ? [Guardian membershipStringFromType:guardian.membershipType] : Nil;
+    userDictionary[APIParamUserVendorID] = guardian.anonymousCustomerServiceID;
 
     return userDictionary;
 }
@@ -158,6 +143,7 @@ static NSString *const kUserDefaultsKeyAnonymousCustomerServiceID = @"anonymousC
     userDictionary[APIParamUserPrimary] = @(guardian.primary);
     userDictionary[APIParamPhone] = guardian.phoneNumber;
     userDictionary[APIParamUserMembershipType] = [Guardian membershipStringFromType:guardian.membershipType];
+    userDictionary[APIParamUserVendorID] = guardian.anonymousCustomerServiceID;
 
     return userDictionary;
 }

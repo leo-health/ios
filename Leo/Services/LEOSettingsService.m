@@ -10,27 +10,42 @@
 #import "LEOAPISessionManager.h"
 #import "NSUserDefaults+Extensions.h"
 #import "NSDictionary+Extensions.h"
+#import "Configuration.h"
+#import "AppDelegate.h"
 
 @implementation LEOSettingsService
 
 - (void)getConfigurationWithCompletion:(void (^)(BOOL success, NSError *error))completionBlock {
 
-    [[LEOSettingsService leoSessionManager] standardGETRequestForJSONDictionaryFromAPIWithEndpoint:APIEndpointConfiguration params:nil completion:^(NSDictionary *rawResults, NSError *error) {
+    [[LEOSettingsService leoSessionManager] unauthenticatedGETRequestForJSONDictionaryFromAPIWithEndpoint:APIEndpointConfiguration params:nil completion:^(NSDictionary *rawResults, NSError *error) {
 
-        NSDictionary *keyData = rawResults[APIParamData];
+        if (!error) {
+            NSDictionary *keyData = rawResults[APIParamData];
 
-        [NSUserDefaults leo_setString:[keyData leo_itemForKey: kConfigurationCrittercismAPPID] forKey:kConfigurationCrittercismAPPID];
+            [NSUserDefaults leo_setString:[keyData leo_itemForKey:kConfigurationCrittercismAppID] forKey:kConfigurationCrittercismAppID];
+            [NSUserDefaults leo_setString:[keyData leo_itemForKey:kConfigurationPusherAPIKey] forKey:kConfigurationPusherAPIKey];
+            [NSUserDefaults leo_setString:[keyData leo_itemForKey:kConfigurationVendorID] forKey:kConfigurationVendorID];
 
-        [NSUserDefaults leo_setString:[keyData leo_itemForKey:kConfigurationPusherAPIKey] forKey:kConfigurationPusherAPIKey];
+            [Configuration updateCrittercismWithNewKeys];
+            [Configuration updateCrashlyticsWithNewKeys];
 
-        [NSUserDefaults leo_saveDefaults];
+            if (![[Configuration localyticsAppID] isEqualToString:[keyData leo_itemForKey:kConfigurationLocalyticsAppID]] || ![Configuration localyticsAppID]) {
+                [NSUserDefaults leo_setString:[keyData leo_itemForKey:kConfigurationLocalyticsAppID] forKey:kConfigurationLocalyticsAppID];
+            }
+
+            if (![[Configuration localyticsAppID] isEqualToString:[keyData leo_itemForKey:kConfigurationLocalyticsAppID]] && [Configuration localyticsAppID]) {
+                [Configuration updateLocalyticsWithNewKeys];
+            }
+
+
+            [NSUserDefaults leo_saveDefaults];
+        }
 
         if (completionBlock) {
             completionBlock(!error, error);
         }
     }];
 }
-
 
 + (LEOAPISessionManager *)leoSessionManager {
     return [LEOAPISessionManager sharedClient];

@@ -20,7 +20,7 @@ typedef NS_ENUM(NSUInteger, TableViewSection) {
 
 @interface LEOReviewOnboardingView : UIView <UITableViewDataSource>
 
-@property (weak, nonatomic) IBOutlet LEOIntrinsicSizeTableView *tableView;
+@property (weak, nonatomic) LEOIntrinsicSizeTableView *tableView;
 @property (weak, nonatomic) LEOReviewOnboardingViewController *controller;
 @property (strong, nonatomic) Family *family;
 

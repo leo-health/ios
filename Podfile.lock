@@ -36,6 +36,7 @@ PODS:
     - libPusher/Core (= 1.6.1)
   - libPusher/Core (1.6.1):
     - SocketRocket (= 0.4.1)
+  - Localytics (3.8.0)
   - MBProgressHUD (0.9.1)
   - OHHTTPStubs (4.3.0):
     - OHHTTPStubs/Default (= 4.3.0)
@@ -72,6 +73,7 @@ DEPENDENCIES:
   - GNZSlidingSegment (from `https://github.com/chrisgonzgonz/GNZSlidingSegment.git`)
   - JSQMessagesViewController
   - libPusher (~> 1.5)
+  - Localytics (~> 3.0)
   - MBProgressHUD
   - OHHTTPStubs
   - RSKImageCropper
@@ -109,6 +111,7 @@ SPEC CHECKSUMS:
   JSQMessagesViewController: 73cab48aa92fc2d512f3b6724f3425cc47a19eb5
   JSQSystemSoundPlayer: c5850e77a4363ffd374cd851154b9af93264ed8d
   libPusher: 5ea58aeb83fa4ac1f5d8ef8543b1def6ace997b8
+  Localytics: 8fd8455e92c5d5d507d1302e704e7db5ca2a33bf
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
   OHHTTPStubs: 0aec5755528693a165bd616cb79f69387de306a8
   pop: bb773ae2c791ca2629de13b347e7a8b450fa6a57

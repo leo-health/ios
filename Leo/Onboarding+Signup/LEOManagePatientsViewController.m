@@ -13,7 +13,6 @@
 #import "UIColor+LeoColors.h"
 #import "UIImage+Extensions.h"
 
-
 #import "Patient.h"
 #import "Family.h"
 
@@ -76,6 +75,9 @@ static NSString * const kSignUpPatientSegue = @"SignUpPatientSegue";
 - (void)viewDidAppear:(BOOL)animated {
 
     [super viewDidAppear:animated];
+
+    [Localytics tagScreen:kAnalyticScreenManagePatients];
+
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:nil withOnlineBlock:nil];
 }
 
@@ -146,6 +148,7 @@ static NSString * const kSignUpPatientSegue = @"SignUpPatientSegue";
         LEOInviteViewController *inviteVC = segue.destinationViewController;
         inviteVC.feature = self.feature;
         inviteVC.family = self.family;
+        inviteVC.analyticSession = self.analyticSession;
     }
 }
 
@@ -157,6 +160,8 @@ static NSString * const kSignUpPatientSegue = @"SignUpPatientSegue";
     [LEOBreadcrumb crumbWithFunction:__PRETTY_FUNCTION__];
 
     if ([self.family.patients count] > 0) {
+
+        [Localytics tagEvent:kAnalyticEventConfirmPatientsInOnboarding];
 
         [self performSegueWithIdentifier:kSegueContinue sender:sender];
     } else {

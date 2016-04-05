@@ -19,6 +19,8 @@
 #import "SessionUser.h"
 #import "NSUserDefaults+Extensions.h"
 #import "LEODevice.h"
+#import "Configuration.h"
+#import <Crashlytics/Crashlytics.h>
 #import <Crittercism/Crittercism.h>
 
 @implementation LEOUserService
@@ -26,6 +28,13 @@
 - (void)createGuardian:(Guardian *)newGuardian withCompletion:(void (^)(Guardian *guardian, NSError *error))completionBlock {
     
     NSMutableDictionary *guardianDictionary = [[Guardian dictionaryFromUser:newGuardian] mutableCopy];
+
+    [Configuration downloadRemoteEnvironmentVariablesIfNeededWithCompletion:^(BOOL success, NSError *error) {
+
+        if (success) {
+            [guardianDictionary setObject:[Configuration vendorID] forKey:kConfigurationVendorID];
+        }
+    }];
 
     [guardianDictionary addEntriesFromDictionary:[LEODevice jsonDictionary]];
 
@@ -36,10 +45,11 @@
             //FIXME: This should all be in a method within the sessionUser object, not in the Service layer
             [SessionUser setCurrentUserWithJSONDictionary:rawResults[APIParamData]];
             [SessionUser setAuthToken:rawResults[APIParamData][APIParamSession][APIParamToken]];
+
+            //???: ZSD - @afanslau -- this looks to need some explaining. Why are we incrementing the LoginCounter twice?
             [[SessionUser currentUser] incrementLoginCounter];
             [[SessionUser currentUser] incrementLoginCounter];
-            [Crittercism setUsername:[[SessionUser currentUser] anonymousCustomerServiceID]];
-            
+
             Guardian *guardian = [[Guardian alloc] initWithJSONDictionary:rawResults[APIParamData][APIParamUser]];
 
             [((AppDelegate *)[UIApplication sharedApplication].delegate) setupRemoteNotificationsForApplication:[UIApplication sharedApplication]];
@@ -117,12 +127,15 @@
     NSMutableDictionary *enrollmentParams = [[User dictionaryFromUser:guardian] mutableCopy];
     enrollmentParams[APIParamUserPassword] = password;
 
+    [enrollmentParams setObject:[Configuration vendorID] forKey:kConfigurationVendorID];
+
     [[LEOUserService leoSessionManager] unauthenticatedPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointUserEnrollments params:enrollmentParams completion:^(NSDictionary *rawResults, NSError *error) {
         
         if (!error) {
             
             [SessionUser newUserWithJSONDictionary:rawResults[APIParamData]];
             [SessionUser setAuthToken:rawResults[APIParamData][APIParamSession][APIParamToken]];
+
             completionBlock ? completionBlock(YES, nil) : completionBlock;
         } else {
             completionBlock ? completionBlock (NO, error) : completionBlock;
@@ -202,13 +215,13 @@
             [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"SessionUser"];
             [[NSUserDefaults standardUserDefaults] synchronize];
             
-            [SessionUser setAuthToken:rawResults[APIParamData][APIParamSession][APIParamToken]];
             [SessionUser setCurrentUserWithJSONDictionary:rawResults[APIParamData]];
-            [Crittercism setUsername:[[SessionUser currentUser] anonymousCustomerServiceID]];
+            [SessionUser setAuthToken:rawResults[APIParamData][APIParamSession][APIParamToken]];
+
             [[SessionUser currentUser] incrementLoginCounter];
 
             [((AppDelegate *)[UIApplication sharedApplication].delegate) setupRemoteNotificationsForApplication:[UIApplication sharedApplication]];
-
+            
             completionBlock ? completionBlock([SessionUser currentUser], nil) : nil;
         } else {
             completionBlock ? completionBlock(nil, error) : nil;
@@ -226,7 +239,15 @@
 
         completionBlock ? completionBlock(!error, error) : nil;
     }];
+
     [SessionUser logout];
+
+    [Configuration downloadRemoteEnvironmentVariablesIfNeededWithCompletion:^(BOOL success, NSError *error) {
+
+        [Crittercism setUsername:[Configuration vendorID]];
+        [Localytics setCustomerId:[Configuration vendorID]];
+        [[Crashlytics sharedInstance] setUserIdentifier:[Configuration vendorID]];
+    }];
 }
 
 - (void)resetPasswordWithEmail:(NSString *)email withCompletion:(void (^)(NSDictionary *  rawResults, NSError *error))completionBlock {
