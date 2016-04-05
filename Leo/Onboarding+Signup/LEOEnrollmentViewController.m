@@ -22,6 +22,9 @@
 #import "LEOEnrollmentView.h"
 #import "LEOProgressDotsHeaderView.h"
 #import "LEOAnalyticSession.h"
+#import <Crashlytics/Crashlytics.h>
+#import <Crittercism/Crittercism.h>
+#import "Configuration.h"
 
 @interface LEOEnrollmentViewController ()
 
@@ -145,6 +148,13 @@ static NSString * const kCopyCollapsedHeaderEnrollment = @"Create an account";
         [userService enrollUser:self.guardian password:self.enrollmentView.passwordPromptField.textField.text withCompletion:^(BOOL success, NSError *error) {
 
             if (!error) {
+
+                [Crittercism setUsername:[Configuration vendorID]];
+                [Localytics setCustomerId:[Configuration vendorID]];
+                [[Crashlytics sharedInstance] setUserIdentifier:[Configuration vendorID]];
+
+                [Localytics tagEvent:kAnalyticEventEnroll];
+
                 [self performSegueWithIdentifier:kSegueContinue sender:sender];
             } else {
                 [self postErrorAlert];
@@ -198,8 +208,6 @@ static NSString * const kCopyCollapsedHeaderEnrollment = @"Create an account";
         signUpUserVC.managementMode = ManagementModeCreate;
         signUpUserVC.view.tintColor = [LEOStyleHelper tintColorForFeature:FeatureOnboarding];
         signUpUserVC.analyticSession = self.analyticSession;
-        
-        [Localytics tagEvent:kAnalyticEventEnroll];
     }
 }
 

@@ -50,14 +50,7 @@ static NSString * const reuseIdentifierFeature = @"reuseIdentifierFeature";
 
     [super viewDidLoad];
 
-    [Configuration clearRemoteEnvironmentVariables];
-
-    [Configuration downloadRemoteEnvironmentVariablesIfNeededWithCompletion:^(BOOL success, NSError *error) {
-
-        if (success) {
-            [Localytics tagScreen:kAnalyticScreenProductPreview];
-        }
-    }];
+    [Localytics tagScreen:kAnalyticScreenProductPreview];
 
     [self.collectionView registerNib:[LEOLoggedOutLoginCell nib] forCellWithReuseIdentifier:reuseIdentifierLogin];
     [self.collectionView registerNib:[LEOLoggedOutSignUpCell nib] forCellWithReuseIdentifier:reuseIdentifierSignup];

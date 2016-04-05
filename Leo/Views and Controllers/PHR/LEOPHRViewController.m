@@ -194,5 +194,10 @@ static CGFloat const kHeightOfHeaderPHR = 200;
     self.stickyHeaderView.scrollView.contentOffset = CGPointZero;
 }
 
+- (void)pop {
+
+    [self.analyticSession completeSession];
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 @end

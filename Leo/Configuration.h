@@ -27,5 +27,6 @@
 + (NSString *)pusherKey;
 + (NSString *)crittercismAppID;
 + (NSString *)localyticsAppID;
++ (NSString *)vendorID;
 
 @end

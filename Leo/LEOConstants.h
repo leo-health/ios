@@ -256,6 +256,7 @@ extern NSString *const APIParamUserPassword; // @"password";
 extern NSString *const APIParamUserPasswordExisting; //@"current_password";
 extern NSString *const APIParamUserPasswordNewRetyped; //@"password_confirmation"
 extern NSString *const APIParamUserJobTitle; // @"job_title";
+extern NSString *const APIParamUserVendorID; // @"vendor_id";
 
 #pragma mark - Common user object references
 extern NSString *const APIParamUser; // @"user";
@@ -494,6 +495,7 @@ extern NSString *const kErrorBodyMessagingDown; // @"We are experiencing technic
 extern NSString *const kConfigurationPusherAPIKey; // @"PUSHER_KEY";
 extern NSString *const kConfigurationCrittercismAppID; // @"CRITTERCISM_APP_ID";
 extern NSString *const kConfigurationLocalyticsAppID; // @"LOCALYTICS_APP_ID";
+extern NSString *const kConfigurationVendorID; // @"vendor_id";
 
 #pragma mark - Analytics
 extern NSString *const kAnalyticScreenLogin; // @"User Login";

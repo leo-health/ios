@@ -119,6 +119,7 @@ NSString *const APIParamUserPassword = @"password";
 NSString *const APIParamUserPasswordExisting = @"current_password";
 NSString *const APIParamUserPasswordNewRetyped = @"password_confirmation";
 NSString *const APIParamUserJobTitle = @"job_title";
+NSString *const APIParamUserVendorID = @"vendor_id";
 
 #pragma mark - Common user object references
 NSString *const APIParamUser = @"user";
@@ -359,6 +360,7 @@ NSString *const kErrorBodyMessagingDown = @"We are experiencing technical diffic
 NSString *const kConfigurationPusherAPIKey = @"PUSHER_KEY";
 NSString *const kConfigurationCrittercismAppID = @"CRITTERCISM_APP_ID";
 NSString *const kConfigurationLocalyticsAppID = @"LOCALYTICS_APP_ID";
+NSString *const kConfigurationVendorID = @"vendor_id";
 
 #pragma mark - Analytics
 NSString *const kAnalyticScreenLogin = @"User Login";

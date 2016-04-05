@@ -76,7 +76,6 @@
         if (httpResponse.statusCode == 401) {
 
             [SessionUser logout];
-            [Configuration clearRemoteEnvironmentVariables];
         }
 
         [self formattedErrorFromError:&error];

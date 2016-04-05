@@ -174,8 +174,13 @@ static NSString *const ConfigurationCrittercismAppID = @"CrittercismAppID";
     [[Crashlytics sharedInstance] setUserIdentifier:[[SessionUser currentUser] anonymousCustomerServiceID]];
 }
 
++ (NSString *)vendorID {
+
+    return [SessionUser guardian].anonymousCustomerServiceID ? : [NSUserDefaults leo_stringForKey:kConfigurationVendorID];
+}
+
 + (void)updateLocalyticsWithNewKeys {
-    [Localytics autoIntegrate:[Configuration localyticsAppID] launchOptions:@{}];
+//    [Localytics autoIntegrate:[Configuration localyticsAppID] launchOptions:@{}];
 }
 
 + (void)clearRemoteEnvironmentVariables {
@@ -183,13 +188,12 @@ static NSString *const ConfigurationCrittercismAppID = @"CrittercismAppID";
     [NSUserDefaults leo_removeObjectForKey:kConfigurationPusherAPIKey];
     [NSUserDefaults leo_removeObjectForKey:kConfigurationCrittercismAppID];
     [NSUserDefaults leo_removeObjectForKey:kConfigurationLocalyticsAppID];
+    [NSUserDefaults leo_removeObjectForKey:kConfigurationVendorID];
 }
 
 + (void)downloadRemoteEnvironmentVariablesIfNeededWithCompletion:(void (^) (BOOL success, NSError *error))completionBlock {
 
-    if (![Configuration pusherKey] || ![Configuration crittercismAppID] || ![Configuration localyticsAppID]) {
-
-        [Configuration clearRemoteEnvironmentVariables];
+    if (![Configuration pusherKey] || ![Configuration crittercismAppID] || ![Configuration localyticsAppID] || ![Configuration vendorID]) {
 
         [[LEOSettingsService new] getConfigurationWithCompletion:^(BOOL success, NSError *error) {
 
