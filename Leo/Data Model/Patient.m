@@ -11,6 +11,7 @@
 #import "LEOValidationsHelper.h"
 #import "LEOS3Image.h"
 #import "LEOConstants.h"
+#import "NSDictionary+Extensions.h"
 
 @implementation Patient
 
@@ -47,10 +48,10 @@
     self = [super initWithJSONDictionary:jsonResponse];
 
     if (self) {
-        _familyID = [jsonResponse[APIParamFamilyID] stringValue];
-        _dob = [NSDate leo_dateFromDashedDateString:jsonResponse[APIParamUserBirthDate]];
-        _gender = jsonResponse[APIParamUserSex];
-        _status = jsonResponse[APIParamUserStatus];
+        _familyID = [[jsonResponse leo_itemForKey:APIParamFamilyID] stringValue];
+        _dob = [NSDate leo_dateFromDashedDateString:[jsonResponse leo_itemForKey:APIParamUserBirthDate]];
+        _gender = [jsonResponse leo_itemForKey:APIParamUserSex];
+        _status = [jsonResponse leo_itemForKey:APIParamUserStatus];
 
         [self setPatientAvatarPlaceholder];
     }

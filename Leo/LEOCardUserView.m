@@ -56,6 +56,8 @@
             _nameLabel.text = [[NSString stringWithFormat:@"%@", [self.user fullName]] capitalizedString];
         } else if ([self.user isKindOfClass:[Support class]]) {
             _nameLabel.text = [[NSString stringWithFormat:@"%@", [self.user fullName]] capitalizedString];
+        } else {
+            _nameLabel.text = [[self.user fullName] capitalizedString];
         }
 
         _nameLabel.textColor = self.cardColor;

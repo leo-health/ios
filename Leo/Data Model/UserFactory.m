@@ -30,10 +30,7 @@
         case RoleCodeCustomerService:
         case RoleCodeOperational:
             return [[Support alloc] initWithJSONDictionary:dictionary];
-            
-        case RoleCodePatient:
-            return [[Patient alloc] initWithJSONDictionary:dictionary];
-            
+
         case RoleCodeGuardian:
             return [[Guardian alloc] initWithJSONDictionary:dictionary];
             
