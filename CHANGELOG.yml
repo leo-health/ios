@@ -1,9 +1,13 @@
     upcoming:
-    - New! Background uploading of avatars for faster user experience
-    - New! Front end analytics
-    - Bug fixes
-
     releases:
+    - version: 1.0.0
+      build: 2016.04.05.20.41
+      date: April 05 2016
+      notes:
+      - New! Background uploading of avatars for faster user experience
+  - New! Front end analytics
+  - Bug fixes
+    
     - version: 1.0.0
       build: 2016.03.30.17.31
       date: March 30 2016
@@ -350,6 +354,7 @@
       notes:
       - First test build using new Fastfile configuration for Alpha builds
       - Provides the basic functionality all created prior to our first releases
+
 
 
 
