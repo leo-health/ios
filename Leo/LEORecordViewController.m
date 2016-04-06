@@ -337,7 +337,7 @@ NS_ENUM(NSInteger, TableViewRow) {
 - (UITableViewCell *)configureCell:(LEOPHRTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath forWeights:(NSArray <PatientVitalMeasurement *>*)weights {
 
     if (weights.count) {
-        [cell configureCellWithVital:weights.firstObject title:@"Weight"];
+        [cell configureCellWithVital:weights.lastObject title:@"Weight"];
     } else {
         [cell configureCellForEmptySectionWithMessage:kCopyEmptyWeightField];
     }
@@ -348,7 +348,7 @@ NS_ENUM(NSInteger, TableViewRow) {
 - (UITableViewCell *)configureCell:(LEOPHRTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath forHeights:(NSArray <PatientVitalMeasurement *>*)heights {
 
     if (heights.count) {
-        [cell configureCellWithVital:heights.firstObject title:@"Height"];
+        [cell configureCellWithVital:heights.lastObject title:@"Height"];
     } else {
         [cell configureCellForEmptySectionWithMessage:kCopyEmptyHeightField];
     }
@@ -359,7 +359,7 @@ NS_ENUM(NSInteger, TableViewRow) {
 - (UITableViewCell *)configureCell:(LEOPHRTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath forBMIs:(NSArray <PatientVitalMeasurement *>*)bmis {
 
     if (bmis.count) {
-        [cell configureCellWithVital:bmis.firstObject title:@"BMI"];
+        [cell configureCellWithVital:bmis.lastObject title:@"BMI"];
     } else {
         [cell configureCellForEmptySectionWithMessage:kCopyEmptyBMIField];
     }
