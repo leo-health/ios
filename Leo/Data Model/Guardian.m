@@ -12,6 +12,12 @@
 #import "LEOValidationsHelper.h"
 #import "LEOS3Image.h"
 
+@interface Guardian ()
+
+@property (copy, nonatomic, readwrite, nullable) NSString *anonymousCustomerServiceID;
+
+@end
+
 @implementation Guardian
 
 static NSString *const kMembershipTypeUnpaid = @"User";
@@ -52,6 +58,7 @@ static NSString *const kUserDefaultsKeyLoginCounts = @"loginCounter";
 
     return nil;
 }
+
 
 - (void)incrementLoginCounter {
 
@@ -196,6 +203,9 @@ static NSString *const kUserDefaultsKeyLoginCounts = @"loginCounter";
     return [superDesc stringByAppendingString:subDesc];
 }
 
+- (void)resetAnonymousCustomerServiceID {
+    self.anonymousCustomerServiceID = nil;
+}
 
 - (BOOL)validFirstName {
     return [LEOValidationsHelper isValidFirstName:self.firstName];

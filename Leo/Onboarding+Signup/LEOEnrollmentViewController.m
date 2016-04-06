@@ -49,6 +49,7 @@ static NSString * const kCopyCollapsedHeaderEnrollment = @"Create an account";
     [self.view setupTouchEventForDismissingKeyboard];
 
     self.analyticSession = [LEOAnalyticSession startSessionWithSessionEventName:kAnalyticSessionRegistration];
+
     
     self.feature = FeatureOnboarding;
     self.automaticallyAdjustsScrollViewInsets = NO;
@@ -148,6 +149,10 @@ static NSString * const kCopyCollapsedHeaderEnrollment = @"Create an account";
         [userService enrollUser:self.guardian password:self.enrollmentView.passwordPromptField.textField.text withCompletion:^(BOOL success, NSError *error) {
 
             if (!error) {
+
+                [Configuration resetVendorID];
+
+                [Configuration downloadRemoteEnvironmentVariablesIfNeededWithCompletion:nil];
 
                 [Crittercism setUsername:[Configuration vendorID]];
                 [Localytics setCustomerId:[Configuration vendorID]];

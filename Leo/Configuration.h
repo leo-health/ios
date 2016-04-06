@@ -16,6 +16,7 @@
 + (void)updateCrashlyticsWithNewKeys;
 + (void)updateLocalyticsWithNewKeys;
 + (void)clearRemoteEnvironmentVariables;
++ (void)resetVendorID;
 
 + (NSString *)APIBaseURL;
 + (NSString *)providerBaseURL;
