@@ -183,6 +183,11 @@ static NSString *const ConfigurationCrittercismAppID = @"CrittercismAppID";
 //    [Localytics autoIntegrate:[Configuration localyticsAppID] launchOptions:@{}];
 }
 
++ (void)resetVendorID {
+    [NSUserDefaults leo_removeObjectForKey:kConfigurationVendorID];
+    [[SessionUser guardian] resetAnonymousCustomerServiceID];
+}
+
 + (void)clearRemoteEnvironmentVariables {
 
     [NSUserDefaults leo_removeObjectForKey:kConfigurationPusherAPIKey];
