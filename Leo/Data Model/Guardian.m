@@ -97,13 +97,13 @@ static NSString *const kUserDefaultsKeyLoginCounts = @"loginCounter";
 }
 
 + (void)removeFromUserDefaults {
-    [[NSUserDefaults standardUserDefaults] setObject:nil forKey:NSStringFromClass([self class])];
+    [NSUserDefaults leo_removeAllDefaults];
 }
 
 - (void)updateWithJSONDictionary:(NSDictionary *)jsonResponse {
 
-
     id familyID = [jsonResponse leo_itemForKey:APIParamFamilyID];
+
     if ([familyID isKindOfClass:[NSString class]]) {
         _familyID = familyID;
     } else if ([familyID respondsToSelector:@selector(stringValue)]) {

@@ -48,6 +48,8 @@ static NSString *const kAvatarCallToActionEdit = @"Edit the photo of your child"
 static NSString *const kTitleAddChildDetails = @"Child Details";
 static NSString *const kTitlePhotos = @"Photos";
 static NSString *const kCopyUsePhoto = @"USE PHOTO";
+static NSString *const kStatusBarNotificationAvatarUploadFailure = @"Child information did not successfully update. Please try again.";
+static NSString *const kStatusBarNotificationAvatarUploadSuccess = @"Child profile successfully updated!";
 
 #pragma mark - View Controller Lifecycle & Helpers
 
@@ -111,7 +113,7 @@ static NSString *const kCopyUsePhoto = @"USE PHOTO";
 
 - (void)updateUI {
 
-    if (self.patient.avatar.hasImagePromise) {
+    if (self.patient.avatar.image) {
 
         UIImage *circularAvatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:self.patient.avatar.image withDiameter:67 borderColor:[UIColor leo_orangeRed] borderWidth:1.0];
 
@@ -269,11 +271,6 @@ static NSString *const kCopyUsePhoto = @"USE PHOTO";
 }
 
 
-#pragma mark - Data
-
-
-
-
 #pragma mark - Navigation
 
 //TODO: Refactor this method
@@ -296,7 +293,7 @@ static NSString *const kCopyUsePhoto = @"USE PHOTO";
     NSData *avatarImageData = UIImageJPEGRepresentation(self.patient.avatar.image, kImageCompressionFactor);
     NSData *originalAvatarImageData = UIImageJPEGRepresentation(self.originalPatient.avatar.image, kImageCompressionFactor);
 
-    BOOL avatarNeedsUpdate = ![avatarImageData isEqual:originalAvatarImageData] && self.patient.avatar.hasImagePromise;
+    BOOL avatarNeedsUpdate = ![avatarImageData isEqualToData:originalAvatarImageData];
 
     if (!patientNeedsUpdate && !avatarNeedsUpdate) {
 
@@ -373,25 +370,35 @@ static NSString *const kCopyUsePhoto = @"USE PHOTO";
 
         if (!error) {
 
-            //TODO: Let user know that patient was created successfully or not IF in settings only
+            //TODO: Let user know that patient was created successfully or not created successfully in settings only
 
             LEOStatusBarNotification *successNotification = [LEOStatusBarNotification new];
 
-            [successNotification displayNotificationWithMessage:@"Child information successfully created!"
+            [successNotification displayNotificationWithMessage:kStatusBarNotificationAvatarUploadSuccess
                                                            forDuration:1.0f];
 
             self.patient.objectID = patient.objectID;
 
-            if (self.patient.avatar.hasImagePromise) {
+            if (!self.patient.avatar.isPlaceholder) {
+
+                [userService updateAvatarImageForUser:self.patient withLocalUser:self.patient];
+
+                [self finishLocalUpdate];
 
                 [userService postAvatarForUser:self.patient withCompletion:^(BOOL success, NSError *error) {
 
                     if (!error) {
 
-                        [self finishLocalUpdate];
-
                         self.signUpPatientView.updateButton.enabled = YES;
+
+                        [successNotification displayNotificationWithMessage:kStatusBarNotificationAvatarUploadSuccess
+                                                                forDuration:1.0f];
+
                         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+                    } else {
+
+                        [successNotification displayNotificationWithMessage:kStatusBarNotificationAvatarUploadFailure
+                                                                forDuration:1.0f];
                     }
                 }];
             } else {
@@ -400,7 +407,6 @@ static NSString *const kCopyUsePhoto = @"USE PHOTO";
 
                 self.signUpPatientView.updateButton.enabled = YES;
                 [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-
             }
 
         } else {
@@ -422,21 +428,27 @@ static NSString *const kCopyUsePhoto = @"USE PHOTO";
 
     void (^avatarUpdateBlock)() = ^{
 
+        [userService updateAvatarImageForUser:self.patient withLocalUser:self.patient];
+
         [userService postAvatarForUser:self.patient withCompletion:^(BOOL success, NSError *error) {
+
+            LEOStatusBarNotification *successNotification = [LEOStatusBarNotification new];
 
             if (success) {
 
-                LEOStatusBarNotification *successNotification = [LEOStatusBarNotification new];
+                [successNotification displayNotificationWithMessage:kStatusBarNotificationAvatarUploadSuccess
+                                                        forDuration:1.0f];
+            } else {
 
-                [successNotification displayNotificationWithMessage:@"Child information successfully updated!"
-                                                               forDuration:1.0f];
-
-                [self.navigationController popViewControllerAnimated:YES];
+                [successNotification displayNotificationWithMessage:kStatusBarNotificationAvatarUploadFailure
+                                                        forDuration:1.0f];
             }
 
             self.signUpPatientView.updateButton.enabled = YES;
             [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         }];
+
+        [self finishLocalUpdate];
     };
 
     if (patientNeedsUpdate) {
@@ -457,7 +469,7 @@ static NSString *const kCopyUsePhoto = @"USE PHOTO";
                     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
 
                     LEOStatusBarNotification *successNotification =[LEOStatusBarNotification new];
-                    [successNotification displayNotificationWithMessage:@"Child information successfully updated!"
+                    [successNotification displayNotificationWithMessage:kStatusBarNotificationAvatarUploadSuccess
                                                                    forDuration:1.0f];
                     [self.navigationController popViewControllerAnimated:YES];
                 }
@@ -466,11 +478,8 @@ static NSString *const kCopyUsePhoto = @"USE PHOTO";
         }];
     }
 
-
-    if (avatarNeedsUpdate && !shouldUpdateBoth) {
-
+    else if (avatarNeedsUpdate && !shouldUpdateBoth) {
         avatarUpdateBlock();
-
     }
 }
 
@@ -488,7 +497,6 @@ static NSString *const kCopyUsePhoto = @"USE PHOTO";
     [self.patient copyFrom:self.originalPatient];
     [self.navigationController popViewControllerAnimated:YES];
 }
-
 
 - (void)finishLocalUpdate {
     

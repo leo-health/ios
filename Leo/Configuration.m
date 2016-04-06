@@ -165,13 +165,13 @@ static NSString *const ConfigurationCrittercismAppID = @"CrittercismAppID";
 + (void)updateCrittercismWithNewKeys {
 
     [Crittercism enableWithAppID:[Configuration crittercismAppID]];
-    [Crittercism setUsername:[[SessionUser currentUser] anonymousCustomerServiceID]];
+    [Crittercism setUsername:[[SessionUser guardian] anonymousCustomerServiceID]];
 }
 
 + (void)updateCrashlyticsWithNewKeys {
 
     [Fabric with:@[[Crashlytics class]]];
-    [[Crashlytics sharedInstance] setUserIdentifier:[[SessionUser currentUser] anonymousCustomerServiceID]];
+    [[Crashlytics sharedInstance] setUserIdentifier:[[SessionUser guardian] anonymousCustomerServiceID]];
 }
 
 + (NSString *)vendorID {

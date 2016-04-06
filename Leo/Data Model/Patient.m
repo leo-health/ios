@@ -62,7 +62,7 @@
 
     if ([self.gender isEqualToString:kGenderFemale]) {
         self.avatar.placeholder = [UIImage imageNamed:@"Avatar_Patient_Daughter"];
-    } else {
+    } else if ([self.gender isEqualToString:kGenderMale]) {
         self.avatar.placeholder = [UIImage imageNamed:@"Avatar_Patient_Son"];
     }
 }

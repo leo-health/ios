@@ -12,7 +12,6 @@
 @implementation LEOS3Image
 
 @synthesize image = _image;
-@synthesize hasImagePromise = _hasImagePromise;
 
 - (instancetype)initWithBaseURL:(NSString *)baseURL parameters:(NSDictionary *)parameters placeholder:(UIImage *)placeholder {
 
@@ -26,15 +25,6 @@
     }
 
     return self;
-}
-
-- (BOOL)hasImagePromise {
-
-    if (self.baseURL) {
-        return YES;
-    }
-
-    return _hasImagePromise;
 }
 
 -(instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
@@ -54,11 +44,17 @@
 
 - (BOOL)isPlaceholder {
 
-    return [self.image isEqual:self.placeholder];
+    if (!_image) {
+        _image = self.placeholder;
+    }
+
+    NSData *imageData = UIImagePNGRepresentation(self.image);
+    NSData *placeholderData = UIImagePNGRepresentation(self.placeholder);
+
+    return [imageData isEqualToData:placeholderData];
 }
 
 - (void)setNeedsRefresh {
-    
     _image = nil;
 }
 
@@ -85,10 +81,6 @@
 -(void)setImage:(UIImage *)image {
 
     _image = image;
-
-    if (![image isEqual:self.placeholder]) {
-        _hasImagePromise = YES;
-    }
 
     [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationImageChanged object:self];
 }

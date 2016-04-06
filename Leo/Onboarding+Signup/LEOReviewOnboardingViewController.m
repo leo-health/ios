@@ -39,6 +39,7 @@
 #import "LEOButtonCell.h"
 #import "LEOReviewPatientCell.h"
 #import "LEOReviewUserCell.h"
+#import "LEOCachedDataStore.h"
 
 
 @interface LEOReviewOnboardingViewController ()
@@ -292,10 +293,10 @@ static NSString *const kCopyHeaderReviewOnboarding = @"Finally, please confirm y
                 }];
             }
 
-            //The guardian that is created should technically take the place of the original, given it will have an id and family_id.t
+            //The guardian that is created should technically take the place of the original, given it will have an id and family_id.t=
             self.family.guardians = @[guardian];
 
-            [userService createPatients:patients withCompletion:^(NSArray<Patient *> *patients, NSError *error) {
+            [userService createPatients:patients withCompletion:^(NSArray<Patient *> *responsePatients, NSError *error) {
 
                 attemptedPatientCreation = YES;
 
@@ -304,7 +305,15 @@ static NSString *const kCopyHeaderReviewOnboarding = @"Finally, please confirm y
                     [Localytics tagEvent:kAnalyticEventConfirmAccount];
                     [self.analyticSession completeSession];
 
-                    self.family.patients = patients;
+                    self.family.patients = responsePatients;
+
+                    [LEOCachedDataStore sharedInstance].family = self.family;
+
+                    [userService postAvatarsForUsers:responsePatients withCompletion:^(BOOL success, NSError *error) {
+
+                        [LEOCachedDataStore sharedInstance].family = self.family;
+                    }];
+
                     [[SessionUser currentUser] setMembershipType:MembershipTypeMember];
                 }
 

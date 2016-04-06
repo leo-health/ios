@@ -89,6 +89,8 @@ static dispatch_once_t onceToken;
     [Configuration clearRemoteEnvironmentVariables];
 
     [_credentialStore clearSavedCredentials];
+
+    [self reset];
 }
 
 

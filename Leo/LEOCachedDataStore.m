@@ -8,6 +8,7 @@
 
 #import "LEOCachedDataStore.h"
 #import "NSDate+Extensions.h"
+#import "Family.h"
 
 @implementation LEOCachedDataStore
 
@@ -31,8 +32,9 @@
     self.lastCachedDateForPractice = [NSDate date];
 }
 
--(Practice *)practice {
+- (Practice *)practice {
 
+    //FIXME: ZSD - This code should really be associated with a stale property on practice and should read if (_practice.stale)
     if (![self.lastCachedDateForPractice isSameDay:[NSDate date]]) {
         _practice = nil;
     }

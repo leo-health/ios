@@ -186,6 +186,10 @@
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
 
+    NSString *storyboardIdentifier = [SessionUser isLoggedIn] ? kStoryboardFeed : kStoryboardLogin;
+
+    [self setRootViewControllerWithStoryboardName:storyboardIdentifier];
+
     [Configuration downloadRemoteEnvironmentVariablesIfNeededWithCompletion:^(BOOL success, NSError *error) {
 
         if (success) {
