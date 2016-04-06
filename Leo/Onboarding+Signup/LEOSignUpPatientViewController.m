@@ -397,7 +397,6 @@ static NSString *const kStatusBarNotificationAvatarUploadSuccess = @"Child profi
                         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
                     } else {
 
-
                         [successNotification displayNotificationWithMessage:kStatusBarNotificationAvatarUploadFailure
                                                                 forDuration:1.0f];
                     }
@@ -408,7 +407,6 @@ static NSString *const kStatusBarNotificationAvatarUploadSuccess = @"Child profi
 
                 self.signUpPatientView.updateButton.enabled = YES;
                 [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-
             }
 
         } else {

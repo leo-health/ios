@@ -44,7 +44,9 @@
 
 - (BOOL)isPlaceholder {
 
-    [self refreshIfNeeded];
+    if (!_image) {
+        _image = self.placeholder;
+    }
 
     NSData *imageData = UIImagePNGRepresentation(self.image);
     NSData *placeholderData = UIImagePNGRepresentation(self.placeholder);

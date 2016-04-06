@@ -239,7 +239,7 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
 
                 case AboutSettingsCustomerServiceID: {
 
-                    cell.promptField.textField.text = [[SessionUser currentUser] anonymousCustomerServiceID];
+                    cell.promptField.textField.text = [Configuration vendorID];
                     cell.promptField.accessoryImageViewVisible = NO;
                     cell.promptField.textField.enabled = NO;
                     cell.promptField.tapGestureEnabled = NO;
