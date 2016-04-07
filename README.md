@@ -66,7 +66,7 @@ For the time-being as we develop our automated build capabilities, there are cer
 Did you read the **Rules you must follow** section? If not, read that before reading this! We use [fastlane](https://fastlane.tools/)! Currently we support two builds -- `alpha`, which may be distributed internally, and `testflight` which may be distributed externally to testers. In order to upload a build, after installing fastlane on your machine you may type `fastlane ios <lane>` where `<lane>` is either `alpha` or `testflight`
 
 ```
-fastlane ios alpha
+fastlane ios internal
 ```
 
 If building for an external testflight release, the build should be bumped. This may be done by adding the bump_type argument to the terminal command. Options are `patch`, `minor`, and `major`.
