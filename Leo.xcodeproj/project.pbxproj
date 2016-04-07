@@ -1745,7 +1745,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "${SRCROOT}/build_scripts/crashlytics.sh -k ~/Leo/Code/private_keys -d ${PODS_ROOT}/Fabric -e ${ENVIRONMENT}";
+			shellScript = "${SRCROOT}/build_scripts/crashlytics.sh -k ../private_keys -d ${PODS_ROOT}/Fabric -e ${ENVIRONMENT}";
 		};
 		5611AFAF01C6667A748C8808 /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
