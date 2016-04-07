@@ -49,22 +49,24 @@ For the time-being as we develop our automated build capabilities, there are cer
 
 * Before creating a build, update the [CHANGELOG.yml](CHANGELOG.yml) with a bulleted list under `upcoming` that describes the changes since the prior build in a lay-friendly way. Use english, not engineerish.
 
-* Commit this change with the message `NI - CHANGELOG.yml pre-build update`
+* Commit this change with the message `NI - CHANGELOG: Pre-build update`
 
 * Upload the build (see below directions on how to do this) and then **HANDS OFF** until you see that the build has properly uploaded (~2 minutes or less). This eventually will not be necessary but with the current in-process automation, it is important for cleanliness of our repos against our builds.
 
-* Commit the changes once the build completes with the message `NI - CHANGELOG.yml post-build update`.
+* Commit the changes once the build completes with the message `NI - CHANGELOG: Post-build update`.
 
 * This is the one time you are allowed to push directly to master. Do so now!
 
+* You must have the necessary private keys on your local machine. Ask someone for them if you need them. They should sit in a folder called `private_keys` at the same level as your project directory (to be clear, not in your project directory).
 
+* You must, for the time-being, manually upload a zipped dsym to Crittercism. The script for crittercism dsym uploads works in development but does not yet work in production. Once this has been updated, we will remove this step. Instructions for doing this can be found on Crittercism's website. If you do not have a login for Crittercism, ask for one if you are responsible for uploading builds to iTunesConnect.
 
 ####Uploading the Build
 
-Did you read the **Rules you must follow** section? If not, read that before reading this! We use [fastlane](https://fastlane.tools/)! Currently we support two builds -- `alpha`, which may be distributed internally, and `testflight` which may be distributed externally to testers. In order to upload a build, after installing fastlane on your machine you may type `fastlane ios <lane>` where `<lane>` is either `alpha` or `testflight`
+Did you read the **Rules you must follow** section? If not, read that before reading this! We use [fastlane](https://fastlane.tools/)! Currently we support two builds -- `internal`, which may be distributed internally, and `testflight` which may be distributed externally to testers. In order to upload a build, after installing fastlane on your machine you may type `fastlane ios <lane>` where `<lane>` is either `internal` or `testflight`
 
 ```
-fastlane ios alpha
+fastlane ios internal
 ```
 
 If building for an external testflight release, the build should be bumped. This may be done by adding the bump_type argument to the terminal command. Options are `patch`, `minor`, and `major`.
