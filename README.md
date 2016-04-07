@@ -63,7 +63,7 @@ For the time-being as we develop our automated build capabilities, there are cer
 
 ####Uploading the Build
 
-Did you read the **Rules you must follow** section? If not, read that before reading this! We use [fastlane](https://fastlane.tools/)! Currently we support two builds -- `alpha`, which may be distributed internally, and `testflight` which may be distributed externally to testers. In order to upload a build, after installing fastlane on your machine you may type `fastlane ios <lane>` where `<lane>` is either `alpha` or `testflight`
+Did you read the **Rules you must follow** section? If not, read that before reading this! We use [fastlane](https://fastlane.tools/)! Currently we support two builds -- `internal`, which may be distributed internally, and `testflight` which may be distributed externally to testers. In order to upload a build, after installing fastlane on your machine you may type `fastlane ios <lane>` where `<lane>` is either `internal` or `testflight`
 
 ```
 fastlane ios internal
