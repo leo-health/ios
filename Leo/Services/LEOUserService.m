@@ -31,20 +31,15 @@ static CGFloat kImageSideSizeScale2Avatar = 200.0;
 static CGFloat kImageSideSizeScale3Avatar = 300.0;
 
 - (void)createGuardian:(Guardian *)newGuardian withCompletion:(void (^)(Guardian *guardian, NSError *error))completionBlock {
-    
+
     NSMutableDictionary *guardianDictionary = [[Guardian dictionaryFromUser:newGuardian] mutableCopy];
 
-    [Configuration downloadRemoteEnvironmentVariablesIfNeededWithCompletion:^(BOOL success, NSError *error) {
-
-        if (success) {
-            [guardianDictionary setObject:[Configuration vendorID] forKey:kConfigurationVendorID];
-        }
-    }];
+    [guardianDictionary setObject:[Configuration vendorID] forKey:kConfigurationVendorID];
 
     [guardianDictionary addEntriesFromDictionary:[LEODevice jsonDictionary]];
 
     [[LEOUserService leoSessionManager] standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIParamUsers params:guardianDictionary completion:^(NSDictionary *rawResults, NSError *error) {
-        
+
         if (!error) {
 
             //FIXME: This should all be in a method within the sessionUser object, not in the Service layer
@@ -268,12 +263,7 @@ static CGFloat kImageSideSizeScale3Avatar = 300.0;
 
     [SessionUser logout];
 
-    [Configuration downloadRemoteEnvironmentVariablesIfNeededWithCompletion:^(BOOL success, NSError *error) {
-
-        [Crittercism setUsername:[Configuration vendorID]];
-        [Localytics setCustomerId:[Configuration vendorID]];
-        [[Crashlytics sharedInstance] setUserIdentifier:[Configuration vendorID]];
-    }];
+    [Configuration downloadRemoteEnvironmentVariablesIfNeededWithCompletion:nil];
 }
 
 - (void)resetPasswordWithEmail:(NSString *)email withCompletion:(void (^)(NSDictionary *  rawResults, NSError *error))completionBlock {

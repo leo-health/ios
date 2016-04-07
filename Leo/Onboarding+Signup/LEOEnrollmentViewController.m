@@ -25,6 +25,7 @@
 #import <Crashlytics/Crashlytics.h>
 #import <Crittercism/Crittercism.h>
 #import "Configuration.h"
+#import "LEOAlertHelper.h"
 
 @interface LEOEnrollmentViewController ()
 
@@ -152,15 +153,21 @@ static NSString * const kCopyCollapsedHeaderEnrollment = @"Create an account";
 
                 [Configuration resetVendorID];
 
-                [Configuration downloadRemoteEnvironmentVariablesIfNeededWithCompletion:nil];
+                [Configuration downloadRemoteEnvironmentVariablesIfNeededWithCompletion:^(BOOL success, NSError *error) {
 
-                [Crittercism setUsername:[Configuration vendorID]];
-                [Localytics setCustomerId:[Configuration vendorID]];
-                [[Crashlytics sharedInstance] setUserIdentifier:[Configuration vendorID]];
+                    if (success) {
+                    [Localytics tagEvent:kAnalyticEventEnroll];
 
-                [Localytics tagEvent:kAnalyticEventEnroll];
+                    [MBProgressHUD hideHUDForView:self.view animated:YES];
+                    self.enrollmentView.continueButton.enabled = YES;
 
-                [self performSegueWithIdentifier:kSegueContinue sender:sender];
+                    [self performSegueWithIdentifier:kSegueContinue sender:sender];
+                    } else {
+
+                        [LEOAlertHelper alertForViewController:self error:error backupTitle:kErrorDefaultTitle backupMessage:kErrorDefaultMessage];
+                    }
+                }];
+
             } else {
                 [self postErrorAlert];
             }
