@@ -88,10 +88,13 @@
 
     BOOL valid = [self.updatePasswordView isValidPasswordWithError:&error];
 
-    [LEOAlertHelper alertForViewController:self
+    if (!valid) {
+
+        [LEOAlertHelper alertForViewController:self
                                      error:error
                                backupTitle:kErrorDefaultTitle
                              backupMessage:kErrorDefaultMessage];
+    }
 
     return valid;
 }
