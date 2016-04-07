@@ -49,11 +49,11 @@ For the time-being as we develop our automated build capabilities, there are cer
 
 * Before creating a build, update the [CHANGELOG.yml](CHANGELOG.yml) with a bulleted list under `upcoming` that describes the changes since the prior build in a lay-friendly way. Use english, not engineerish.
 
-* Commit this change with the message `NI - CHANGELOG.yml pre-build update`
+* Commit this change with the message `NI - CHANGELOG: Pre-build update`
 
 * Upload the build (see below directions on how to do this) and then **HANDS OFF** until you see that the build has properly uploaded (~2 minutes or less). This eventually will not be necessary but with the current in-process automation, it is important for cleanliness of our repos against our builds.
 
-* Commit the changes once the build completes with the message `NI - CHANGELOG.yml post-build update`.
+* Commit the changes once the build completes with the message `NI - CHANGELOG: Post-build update`.
 
 * This is the one time you are allowed to push directly to master. Do so now!
 
