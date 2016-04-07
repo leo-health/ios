@@ -165,13 +165,13 @@ static NSString *const ConfigurationCrittercismAppID = @"CrittercismAppID";
 + (void)updateCrittercismWithNewKeys {
 
     [Crittercism enableWithAppID:[Configuration crittercismAppID]];
-    [Crittercism setUsername:[[SessionUser guardian] anonymousCustomerServiceID]];
+    [Crittercism setUsername:[Configuration vendorID]];
 }
 
 + (void)updateCrashlyticsWithNewKeys {
 
     [Fabric with:@[[Crashlytics class]]];
-    [[Crashlytics sharedInstance] setUserIdentifier:[[SessionUser guardian] anonymousCustomerServiceID]];
+    [[Crashlytics sharedInstance] setUserIdentifier:[Configuration vendorID]];
 }
 
 + (NSString *)vendorID {
@@ -201,6 +201,8 @@ static NSString *const ConfigurationCrittercismAppID = @"CrittercismAppID";
     if (![Configuration pusherKey] || ![Configuration crittercismAppID] || ![Configuration localyticsAppID] || ![Configuration vendorID]) {
 
         [[LEOSettingsService new] getConfigurationWithCompletion:^(BOOL success, NSError *error) {
+
+            [Localytics setCustomerId:[Configuration vendorID]];
 
             if (completionBlock) {
                 completionBlock(success, error);
