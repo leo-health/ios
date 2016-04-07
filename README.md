@@ -57,7 +57,9 @@ For the time-being as we develop our automated build capabilities, there are cer
 
 * This is the one time you are allowed to push directly to master. Do so now!
 
+* You must have the necessary private keys on your local machine. Ask someone for them if you need them. They should sit in a folder called `private_keys` at the same level as your project directory (to be clear, not in your project directory).
 
+* You must, for the time-being, manually upload a zipped dsym to Crittercism. The script for crittercism dsym uploads works in development but does not yet work in production. Once this has been updated, we will remove this step. Instructions for doing this can be found on Crittercism's website. If you do not have a login for Crittercism, ask for one if you are responsible for uploading builds to iTunesConnect.
 
 ####Uploading the Build
 
