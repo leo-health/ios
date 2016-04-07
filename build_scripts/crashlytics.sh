@@ -24,9 +24,6 @@ done
 shift $((OPTIND-1))
 
 case ${ENVIRONMENT} in
-	development)
-    source "${KEYS_DIR}"/internal_keys.sh
-    ;;
     qa)
     source "${KEYS_DIR}"/internal_keys.sh
     ;;
