@@ -9,10 +9,12 @@
 #import "LEOCachedDataStore.h"
 #import "NSDate+Extensions.h"
 #import "Family.h"
+#import "Notice.h"
 
 @implementation LEOCachedDataStore
 
 @synthesize practice = _practice;
+@synthesize notices = _notices;
 
 + (instancetype)sharedInstance  {
 
@@ -42,9 +44,26 @@
     return _practice;
 }
 
+- (void)setNotices:(NSArray *)notices {
+
+    _notices = notices;
+
+    self.lastCachedDateForNotices = [NSDate date];
+}
+
+- (NSArray *)notices {
+
+    if (![self.lastCachedDateForNotices isSameDay:[NSDate date]]) {
+        _notices = nil;
+    }
+
+    return _notices;
+}
+
 - (void)reset {
 
     self.practice = nil;
+    self.notices = nil;
     self.family = nil;
 }
 

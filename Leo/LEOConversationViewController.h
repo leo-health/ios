@@ -23,7 +23,7 @@
 #import "LEOImageCropViewController.h"
 #import "LEOImagePreviewViewController.h"
 
-@interface LEOMessagesViewController : JSQMessagesViewController <UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, RSKImageCropViewControllerDelegate, LEOImagePreviewDelegate, JSQMessagesCollectionViewCellDelegate>
+@interface LEOConversationViewController : JSQMessagesViewController <UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, RSKImageCropViewControllerDelegate, LEOImagePreviewDelegate, JSQMessagesCollectionViewCellDelegate>
 
 @property (strong, nonatomic) LEOCardConversation *card;
 

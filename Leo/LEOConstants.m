@@ -7,6 +7,7 @@
 //
 
 #import "LEOConstants.h"
+#import <NSDate+DateTools.h>
 
 @implementation LEOConstants
 
@@ -48,6 +49,7 @@ NSString *const APIEndpointWeights = @"vitals/weight";
 NSString *const APIEndpointPHR = @"phr";
 NSString *const APIEndpointConfiguration = @"ios_configuration";
 NSString *const APIEndpointPusherAuth = @"pusher/auth";
+NSString *const APIEndpointConversationNotices = @"conversation_notices";
 
 #pragma mark - Common
 NSString *const APIParamID = @"id";
@@ -82,6 +84,11 @@ NSString *const APIParamPracticePhone = @"phone";
 NSString *const APIParamPracticeEmail = @"email";
 NSString *const APIParamPracticeName = @"name";
 NSString *const APIParamPracticeFax = @"fax";
+NSString *const APIParamPracticeTimeZone = @"time_zone";
+NSString *const APIParamPracticeActiveSchedule = @"active_schedule";
+NSString *const APIParamPracticeScheduleExceptions = @"schedule_exceptions";
+NSString *const APIParamPracticeScheduleType = @"schedule_type";
+NSString *const APIParamPracticeDailyHours = @"daily_hours";
 
 #pragma mark - Family
 NSString *const APIParamFamilyID = @"family_id";
@@ -279,6 +286,19 @@ NSString *const APIParamVitalMeasurementType = @"type";
 #pragma mark - Feed Message Header
 NSString *const APIParamFeedMessageHeaderText = @"text";
 
+#pragma mark - Notice
+NSString *const APIParamNoticeName = @"name";
+NSString *const APIParamNoticeHeaderString = @"header_string";
+NSString *const APIParamNoticeBodyString = @"body_string";
+NSString *const APIParamNoticeHeaderAttributes = @"header_attributes";
+NSString *const APIParamNoticeBodyAttributes = @"body_attributes";
+NSString *const APIParamNoticeActionAvailable = @"action_available";
+
+#pragma mark - Notices
+
+NSString *const NoticeConversationPracticeOpen = @"practice_open";
+NSString *const NoticeConversationPracticeClosed = @"practice_closed";
+
 #pragma mark - Magic numbers
 CGFloat const kSelectionLineHeight = 2.0;
 CGFloat const kCornerRadius = 4.0;
@@ -426,5 +446,8 @@ NSString *const kAnalyticEventSwipeToThirdProductPreviewCell = @"Go To Third Pro
 NSString *const kAnalyticEventSwipeToFourthProductPreviewCell = @"Go To Fourth Product Preview Screen"; //NOT USED
 NSString *const kAnalyticEventSwipeToFifthProductPreviewCell = @"Go To Fifth Product Preview Screen"; //NOT USED
 
+#pragma mark - LEOErrorDomains
+
+NSString *const LEOErrorDomainContent = @"Leo Content";
 
 @end

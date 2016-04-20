@@ -89,5 +89,18 @@
  */
 + (UIFont *)leo_valuePropOnboardingFont;
 
+/**
+ *  AvenirNext-Bold, Size 24
+ *
+ *  @return UIFont
+ */
++ (UIFont *)leo_fullScreenNoticeHeader;
+
+/**
+ *  AvenirNext-Regular, Size 24
+ *
+ *  @return UIFont
+ */
++ (UIFont *)leo_fullScreenNoticeBody;
 
 @end

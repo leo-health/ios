@@ -68,6 +68,25 @@ static NSString *const AvenirNextCondensedRegular = @"AvenirNextCondensed-Regula
 }
 
 /**
+ *  AvenirNext-Bold, Size 24
+ *
+ *  @return UIFont
+ */
++ (UIFont *)leo_fullScreenNoticeHeader {
+    return [UIFont fontWithName:AvenirNextBold size:24];
+}
+
+/**
+ *  AvenirNext-Regular, Size 24
+ *
+ *  @return UIFont
+ */
++ (UIFont *)leo_fullScreenNoticeBody {
+    return [UIFont fontWithName:AvenirNextRegular size:24];
+}
+
+
+/**
  *  AvenirNext-Bold, Size 12
  *
  *  @return UIFont

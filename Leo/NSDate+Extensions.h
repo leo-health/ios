@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSDate *)leo_dateFromAthenaDateTimeString:(NSString *)dateTimeString;
 + (NSDate *)leo_dateFromShortDateString:(NSString *)dateString;
 + (NSDate *)leo_dateFromDashedDateString:(NSString *)dateString;
-
++ (NSDate *)leo_dateFromString:(NSString *)dateTimeString withFormat:(NSString *)dateStringFormat;
 + (NSDate *)leo_shortDateFromDate:(NSDate *)date;
 
 + (NSString *)leo_stringifiedDate:(NSDate*)date withFormat:(NSString *)formatString;

@@ -145,6 +145,11 @@ typedef NS_ENUM(NSUInteger, MembershipType) {
     MembershipTypeMember = 3,
 };
 
+typedef NS_ENUM(NSUInteger, LEOErrorDomainContentCodes) {
+
+    LEOErrorDomainContentCodeMissingContent,
+};
+
 @interface LEOConstants : NSObject
 
 #pragma mark - Temp constants
@@ -185,6 +190,7 @@ extern NSString *const APIEndpointWeights; // @"weight";
 extern NSString *const APIEndpointPusherAuth; // @"pusher/auth";
 extern NSString *const APIEndpointConfiguration; // @"ios_configuration";
 extern NSString *const APIEndpointPHR; // @"phr";
+extern NSString *const APIEndpointConversationNotices; // @"conversation_notices";
 
 #pragma mark - Common
 extern NSString *const APIParamID; // @"id";
@@ -218,6 +224,11 @@ extern NSString *const APIParamPracticePhone; // @"phone";
 extern NSString *const APIParamPracticeEmail; // @"email";
 extern NSString *const APIParamPracticeName; // @"name";
 extern NSString *const APIParamPracticeFax; // @"fax";
+extern NSString *const APIParamPracticeTimeZone; // @"time_zone";
+extern NSString *const APIParamPracticeActiveSchedule; // @"active_schedule";
+extern NSString *const APIParamPracticeScheduleExceptions; // @"schedule_exceptions";
+extern NSString *const APIParamPracticeScheduleType; // @"schedule_type"
+extern NSString *const APIParamPracticeDailyHours; // @"daily_hours"
 
 #pragma mark - Family
 extern NSString *const APIParamFamilyID; // @"family_id";
@@ -415,6 +426,19 @@ extern NSString *const APIParamVitalMeasurementFormattedValueAndUnit; // @"forma
 #pragma mark - Feed Message Header
 extern NSString *const APIParamFeedMessageHeaderText; // @"text";
 
+#pragma mark - Notice
+extern NSString *const APIParamNoticeName; // = @"name";
+extern NSString *const APIParamNoticeHeaderString; // @"header_string";
+extern NSString *const APIParamNoticeBodyString; // @"body_string";
+extern NSString *const APIParamNoticeHeaderAttributes; // @"header_attributes";
+extern NSString *const APIParamNoticeBodyAttributes; // @"body_attributes";
+extern NSString *const APIParamNoticeActionAvailable; // @"action_available";
+
+#pragma mark - Notices
+
+extern NSString *const NoticeConversationPracticeOpen; // @"practice_open";
+extern NSString *const NoticeConversationPracticeClosed; // @"practice_closed";
+
 #pragma mark - Magic numbers
 extern CGFloat const kSelectionLineHeight; // 2.0f;
 extern CGFloat const kCornerRadius; // 2.0f;
@@ -567,6 +591,10 @@ extern NSString *const kAnalyticEventSwipeToSecondProductPreviewCell; // @"Go To
 extern NSString *const kAnalyticEventSwipeToThirdProductPreviewCell; // @"Go To Third Product Preview Screen";
 extern NSString *const kAnalyticEventSwipeToFourthProductPreviewCell; // @"Go To Fourth Product Preview Screen";
 extern NSString *const kAnalyticEventSwipeToFifthProductPreviewCell; // @"Go To Fifth Product Preview Screen";
+
+#pragma mark - LEOErrorDomains
+
+extern NSString *const LEOErrorDomainContent; // @"Leo Content";
 
 
 @end
