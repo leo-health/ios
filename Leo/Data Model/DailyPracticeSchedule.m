@@ -13,13 +13,15 @@
 
 @implementation DailyPracticeSchedule
 
-- (instancetype)initWithDayOfWeekName:(NSString *)dayOfWeekName startTimeString:(NSString *)startTimeString endTimeString:(NSString *)endTimeString {
+- (instancetype)initWithDayOfWeekName:(NSString *)dayOfWeekName
+                      startTimeString:(NSString *)startTimeString
+                        endTimeString:(NSString *)endTimeString {
 
     self = [super init];
 
     if (self) {
 
-        _dayOfWeek = [self convertDayOfWeekName:dayOfWeekName];
+        _dayOfWeek = [DailyPracticeSchedule convertDayOfWeekName:dayOfWeekName];
         _dayOfWeekName = dayOfWeekName;
         _startTimeString = startTimeString;
         _endTimeString = endTimeString;
@@ -30,28 +32,34 @@
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
 
-    NSString *dayOfWeekName = [jsonResponse leo_itemForKey:@"day_of_the_week"];
-    NSString *startTimeString = [jsonResponse leo_itemForKey:@"start_time"];
-    NSString *endTimeString = [jsonResponse leo_itemForKey:@"end_time"];
+    NSString *dayOfWeekName = [jsonResponse leo_itemForKey:APIParamDailyScheduleDayOfWeek];
+    NSString *startTimeString = [jsonResponse leo_itemForKey:APIParamDailyScheduleStartTime];
+    NSString *endTimeString = [jsonResponse leo_itemForKey:APIParamDailyScheduleEndTime];
 
-    return [self initWithDayOfWeekName:dayOfWeekName startTimeString:startTimeString endTimeString:endTimeString];
+    return [self initWithDayOfWeekName:dayOfWeekName
+                       startTimeString:startTimeString
+                         endTimeString:endTimeString];
 }
 
 + (NSArray *)dailySchedulesFromJSONArray:(NSDictionary *)jsonResponse {
 
-    NSArray *dailyPracticeSchedules = [jsonResponse leo_itemForKey:APIParamPracticeDailyHours];
+    NSArray *dailyPracticeSchedules =
+    [jsonResponse leo_itemForKey:APIParamPracticeDailyHours];
+
     NSMutableArray *mutableSchedules = [NSMutableArray new];
 
     for (NSDictionary *dailyPracticeSchedule in dailyPracticeSchedules) {
 
-        DailyPracticeSchedule *dailySchedule = [[self alloc] initWithJSONDictionary:dailyPracticeSchedule];
+        DailyPracticeSchedule *dailySchedule =
+        [[self alloc] initWithJSONDictionary:dailyPracticeSchedule];
+
         [mutableSchedules addObject:dailySchedule];
     }
 
     return [mutableSchedules copy];
 }
 
-- (DayOfWeek)convertDayOfWeekName:(NSString *)dayOfWeekName {
++ (DayOfWeek)convertDayOfWeekName:(NSString *)dayOfWeekName {
 
     if ([dayOfWeekName isEqualToString:@"sunday"]) {
         return DayOfWeekSunday;

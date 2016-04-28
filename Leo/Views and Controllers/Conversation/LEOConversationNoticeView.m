@@ -30,7 +30,10 @@
 
 @implementation LEOConversationNoticeView
 
-- (instancetype)initWithNotice:(Notice *)notice noticeButtonText:(NSString *)noticeButtonText noticeButtonImage:(UIImage *)noticeButtonImage noticeButtonTappedUpInsideBlock:(void (^) (void))noticeButtonTappedUpInsideBlock {
+- (instancetype)initWithNotice:(Notice *)notice
+              noticeButtonText:(NSString *)noticeButtonText
+             noticeButtonImage:(UIImage *)noticeButtonImage
+noticeButtonTappedUpInsideBlock:(void (^) (void))noticeButtonTappedUpInsideBlock {
 
     self = [super init];
 
@@ -49,7 +52,11 @@
     return self;
 }
 
-- (instancetype)initWithAttributedHeaderText:(NSAttributedString *)attributedHeaderText attributedBodyText:(NSAttributedString *)attributedBodyText noticeButtonText:(NSString *)noticeButtonText noticeButtonImage:(UIImage *)noticeButtonImage noticeButtonTappedUpInsideBlock:(void (^) (void))noticeButtonTappedUpInsideBlock {
+- (instancetype)initWithAttributedHeaderText:(NSAttributedString *)attributedHeaderText
+                          attributedBodyText:(NSAttributedString *)attributedBodyText
+                            noticeButtonText:(NSString *)noticeButtonText
+                           noticeButtonImage:(UIImage *)noticeButtonImage
+             noticeButtonTappedUpInsideBlock:(void (^) (void))noticeButtonTappedUpInsideBlock {
 
     self = [super init];
 
@@ -61,7 +68,8 @@
         _noticeButtonImage = noticeButtonImage;
         _noticeButtonTappedUpInsideBlock = noticeButtonTappedUpInsideBlock;
 
-        [self concatenateAttributedHeaderText:_attributedHeaderText attributedBodyText:_attributedBodyText];
+        [self concatenateAttributedHeaderText:_attributedHeaderText
+                           attributedBodyText:_attributedBodyText];
 
         self.backgroundColor = [UIColor leo_lightBlue];
     }
@@ -69,12 +77,23 @@
     return self;
 }
 
-- (instancetype)initWithHeaderText:(NSString *)headerText bodyText:(NSString *)bodyText noticeButtonText:(NSString *)noticeButtonText noticeButtonImage:(UIImage *)noticeButtonImage noticeButtonTappedUpInsideBlock:(void (^)(void))noticeButtonTappedUpInsideBlock {
+- (instancetype)initWithHeaderText:(NSString *)headerText
+                          bodyText:(NSString *)bodyText
+                  noticeButtonText:(NSString *)noticeButtonText
+                 noticeButtonImage:(UIImage *)noticeButtonImage
+   noticeButtonTappedUpInsideBlock:(void (^)(void))noticeButtonTappedUpInsideBlock {
 
-    NSAttributedString *attributedHeaderText = [[NSAttributedString alloc] initWithString:headerText attributes:[self defaultHeaderTextAttributes]];
-    NSAttributedString *attributedBodyText = [[NSAttributedString alloc] initWithString:bodyText attributes:[self defaultBodyTextAttributes]];
+    NSAttributedString *attributedHeaderText = [[NSAttributedString alloc] initWithString:headerText
+                                                                               attributes:[self defaultHeaderTextAttributes]];
 
-    return [self initWithAttributedHeaderText:attributedHeaderText attributedBodyText:attributedBodyText noticeButtonText:noticeButtonText noticeButtonImage:noticeButtonImage noticeButtonTappedUpInsideBlock:noticeButtonTappedUpInsideBlock];
+    NSAttributedString *attributedBodyText = [[NSAttributedString alloc] initWithString:bodyText
+                                                                             attributes:[self defaultBodyTextAttributes]];
+
+    return [self initWithAttributedHeaderText:attributedHeaderText
+                           attributedBodyText:attributedBodyText
+                             noticeButtonText:noticeButtonText
+                            noticeButtonImage:noticeButtonImage
+              noticeButtonTappedUpInsideBlock:noticeButtonTappedUpInsideBlock];
 }
 
 - (UIButton *)noticeButton {
@@ -85,10 +104,14 @@
 
         _noticeButton = strongButton;
 
-        [_noticeButton setTitle:self.noticeButtonText forState:UIControlStateNormal];
-        [_noticeButton setImage:self.noticeButtonImage forState:UIControlStateNormal]; //Image will override text if provided;
+        [_noticeButton setTitle:self.noticeButtonText
+                       forState:UIControlStateNormal];
 
-        [_noticeButton addTarget:self action:@selector(noticeButtonTappedUpInside) forControlEvents:UIControlEventTouchUpInside];
+        [_noticeButton setImage:self.noticeButtonImage
+                       forState:UIControlStateNormal]; //Image will override text if provided;
+
+        [_noticeButton addTarget:self action:@selector(noticeButtonTappedUpInside)
+                forControlEvents:UIControlEventTouchUpInside];
 
         [self addSubview:_noticeButton];
     }
@@ -102,30 +125,38 @@
 
     __block BOOL headerAttributes;
 
-    [_notice.attributedHeaderText enumerateAttributesInRange:NSMakeRange(0, _notice.attributedHeaderText.length) options:0 usingBlock:^(NSDictionary<NSString *,id> * _Nonnull attrs, NSRange range, BOOL * _Nonnull stop) {
+    [_notice.attributedHeaderText enumerateAttributesInRange:NSMakeRange(0, _notice.attributedHeaderText.length)
+                                                     options:0
+                                                  usingBlock:^(NSDictionary<NSString *,id> * _Nonnull attrs, NSRange range, BOOL * _Nonnull stop) {
 
-        headerAttributes = attrs.count > 0 ? YES : NO;
-    }];
-
+                                                      headerAttributes = attrs.count > 0 ? YES : NO;
+                                                  }];
+    
     __block BOOL bodyAttributes;
+    
+    [_notice.attributedBodyText enumerateAttributesInRange:NSMakeRange(0, _notice.attributedBodyText.length)
+                                                   options:0
+                                                usingBlock:^(NSDictionary<NSString *,id> * _Nonnull attrs, NSRange range, BOOL * _Nonnull stop) {
 
-    [_notice.attributedBodyText enumerateAttributesInRange:NSMakeRange(0, _notice.attributedBodyText.length) options:0 usingBlock:^(NSDictionary<NSString *,id> * _Nonnull attrs, NSRange range, BOOL * _Nonnull stop) {
-
-        bodyAttributes = attrs.count > 0 ? YES : NO;
-    }];
-
+                                                    bodyAttributes = attrs.count > 0 ? YES : NO;
+                                                }];
+    
     if (!headerAttributes) {
-        notice.attributedHeaderText = [[NSAttributedString alloc] initWithString:notice.attributedHeaderText.string attributes:[self defaultHeaderTextAttributes]];
+        notice.attributedHeaderText = [[NSAttributedString alloc] initWithString:notice.attributedHeaderText.string
+                                                                      attributes:[self defaultHeaderTextAttributes]];
     }
 
     if (!bodyAttributes) {
-        notice.attributedBodyText = [[NSAttributedString alloc] initWithString:notice.attributedBodyText.string attributes:[self defaultBodyTextAttributes]];
+        notice.attributedBodyText = [[NSAttributedString alloc] initWithString:notice.attributedBodyText.string
+                                                                    attributes:[self defaultBodyTextAttributes]];
     }
 
-    [self updateAttributedHeaderText:notice.attributedHeaderText attributedBodyText:notice.attributedBodyText];
+    [self updateAttributedHeaderText:notice.attributedHeaderText
+                  attributedBodyText:notice.attributedBodyText];
 }
 
-- (void)updateAttributedHeaderText:(NSAttributedString *)attributedHeaderText attributedBodyText:(NSAttributedString *)attributedBodyText {
+- (void)updateAttributedHeaderText:(NSAttributedString *)attributedHeaderText
+                attributedBodyText:(NSAttributedString *)attributedBodyText {
 
     [self updateAttributedHeaderText:attributedHeaderText];
     [self updateAttributedBodyText:attributedBodyText];
@@ -147,7 +178,8 @@
     self.attributedBodyText = [[NSAttributedString alloc] initWithString:bodyText];
 }
 
--(void)updateHeaderText:(NSString *)headerText bodyText:(NSString *)bodyText {
+-(void)updateHeaderText:(NSString *)headerText
+               bodyText:(NSString *)bodyText {
 
     [self updateHeaderText:headerText];
     [self updateBodyText:bodyText];
@@ -157,14 +189,16 @@
 
     _attributedHeaderText = attributedHeaderText;
 
-    [self concatenateAttributedHeaderText:attributedHeaderText attributedBodyText:self.attributedBodyText];
+    [self concatenateAttributedHeaderText:attributedHeaderText
+                       attributedBodyText:self.attributedBodyText];
 }
 
 -(void)setAttributedBodyText:(NSAttributedString *)attributedBodyText {
 
     _attributedBodyText = attributedBodyText;
 
-    [self concatenateAttributedHeaderText:self.attributedHeaderText attributedBodyText:attributedBodyText];
+    [self concatenateAttributedHeaderText:self.attributedHeaderText
+                       attributedBodyText:attributedBodyText];
 }
 
 -(void)setAttributedText:(NSAttributedString *)attributedText {
@@ -172,22 +206,22 @@
     _attributedText = attributedText;
 
     self.noticeLabel.attributedText = attributedText;
-
     [self.noticeLabel sizeToFit]; //Still necessary?
-
     [self setNeedsUpdateConstraints];
 }
 
 - (NSDictionary *)defaultHeaderTextAttributes {
-    return @{
-             NSForegroundColorAttributeName : [UIColor leo_blue],
-             NSFontAttributeName : [UIFont leo_fieldAndUserLabelsAndSecondaryButtonsFont]
 
+    return @{ NSForegroundColorAttributeName : [UIColor leo_blue],
+              NSFontAttributeName : [UIFont leo_fieldAndUserLabelsAndSecondaryButtonsFont]
              };
 }
 
 - (NSDictionary *)defaultBodyTextAttributes {
-    return @{ NSForegroundColorAttributeName : [UIColor leo_blue], NSFontAttributeName : [UIFont leo_emergency911Label] };
+
+    return @{ NSForegroundColorAttributeName : [UIColor leo_blue],
+              NSFontAttributeName : [UIFont leo_emergency911Label]
+            };
 }
 
 - (void)concatenateAttributedHeaderText:(NSAttributedString *)attributedHeaderText
@@ -237,22 +271,30 @@
     NSDictionary *bindings;
     NSArray *horizontalConstraints;
 
+    NSNumber *outerMargin = @18;
+    NSNumber *innerMargin = @10;
+    NSNumber *buttonWidth = @30;
+    NSNumber *buttonHeight = @40;
+
+    NSDictionary *metrics = NSDictionaryOfVariableBindings(outerMargin, innerMargin, buttonWidth);
+
     if (self.notice.actionAvailable) {
 
         self.noticeButton.translatesAutoresizingMaskIntoConstraints = NO;
 
         bindings = NSDictionaryOfVariableBindings(_noticeLabel, _noticeButton);
 
+
         horizontalConstraints =
-        [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(18)-[_noticeLabel]-(10)-[_noticeButton(==30)]-(18)-|"
+        [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(outerMargin)-[_noticeLabel]-(innerMargin)-[_noticeButton(==buttonWidth)]-(outerMargin)-|"
                                                 options:0
-                                                metrics:nil
+                                                metrics:metrics
                                                   views:bindings];
 
         NSArray *verticalConstraintsForNoticeButton =
-        [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(>=10)-[_noticeButton]-(>=10)-|"
+        [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(>=innerMargin)-[_noticeButton]-(>=innerMargin)-|"
                                                 options:0
-                                                metrics:nil
+                                                metrics:metrics
                                                   views:bindings];
 
         NSLayoutConstraint *heightConstraintForNoticeButton =
@@ -262,7 +304,7 @@
                                         toItem:nil
                                      attribute:NSLayoutAttributeNotAnAttribute
                                     multiplier:1.0
-                                      constant:40.0];
+                                      constant:[buttonHeight integerValue]];
 
         NSLayoutConstraint *centerYConstraintForNoticeButton =
         [NSLayoutConstraint constraintWithItem:_noticeButton
@@ -281,13 +323,13 @@
 
         bindings = NSDictionaryOfVariableBindings(_noticeLabel);
 
-        horizontalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(18)-[_noticeLabel]-(18)-|"
+        horizontalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(outerMargin)-[_noticeLabel]-(outerMargin)-|"
                                                                         options:0
-                                                                        metrics:nil
+                                                                        metrics:metrics
                                                                           views:bindings];
     }
 
-    NSArray *verticalConstraintsForNoticeLabel = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(10)-[_noticeLabel]-(10)-|" options:0 metrics:nil views:bindings];
+    NSArray *verticalConstraintsForNoticeLabel = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(innerMargin)-[_noticeLabel]-(innerMargin)-|" options:0 metrics:metrics views:bindings];
 
     [self addConstraints:horizontalConstraints];
     [self addConstraints:verticalConstraintsForNoticeLabel];

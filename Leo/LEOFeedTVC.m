@@ -67,8 +67,6 @@
 #import "LEOMessageService.h"
 #import "LEOStatusBarNotification.h"
 
-#import "LEOConversationFullScreenNoticeViewController.h"
-
 typedef NS_ENUM(NSUInteger, TableViewSection) {
     TableViewSectionHeader,
     TableViewSectionBody,

@@ -16,7 +16,6 @@
 		310943701CC809A80015D52F /* LEOConversationNoticeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3109436F1CC809A80015D52F /* LEOConversationNoticeView.m */; };
 		310943731CC9471F0015D52F /* LEOConversationFullScreenNoticeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 310943721CC9471F0015D52F /* LEOConversationFullScreenNoticeView.m */; };
 		310943761CCE5CA70015D52F /* Notice.m in Sources */ = {isa = PBXBuildFile; fileRef = 310943751CCE5CA70015D52F /* Notice.m */; };
-		310943791CCE7C4B0015D52F /* LEOConversationFullScreenNoticeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 310943781CCE7C4B0015D52F /* LEOConversationFullScreenNoticeViewController.m */; };
 		310C63161BFBA16700028AF4 /* UserFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 310C63151BFBA16700028AF4 /* UserFactory.m */; };
 		3115F1E71BC55F77001BDF6A /* LEOStyleHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3115F1E61BC55F77001BDF6A /* LEOStyleHelper.m */; };
 		3115F1F81BC71669001BDF6A /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3115F1F71BC71669001BDF6A /* Settings.storyboard */; };
@@ -277,8 +276,6 @@
 		310943721CC9471F0015D52F /* LEOConversationFullScreenNoticeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOConversationFullScreenNoticeView.m; path = "Views and Controllers/Conversation/LEOConversationFullScreenNoticeView.m"; sourceTree = "<group>"; };
 		310943741CCE5CA70015D52F /* Notice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Notice.h; path = "Leo/Data Model/Notice.h"; sourceTree = SOURCE_ROOT; };
 		310943751CCE5CA70015D52F /* Notice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Notice.m; path = "Leo/Data Model/Notice.m"; sourceTree = SOURCE_ROOT; };
-		310943771CCE7C4B0015D52F /* LEOConversationFullScreenNoticeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOConversationFullScreenNoticeViewController.h; path = "Views and Controllers/Conversation/LEOConversationFullScreenNoticeViewController.h"; sourceTree = "<group>"; };
-		310943781CCE7C4B0015D52F /* LEOConversationFullScreenNoticeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOConversationFullScreenNoticeViewController.m; path = "Views and Controllers/Conversation/LEOConversationFullScreenNoticeViewController.m"; sourceTree = "<group>"; };
 		310C63141BFBA16700028AF4 /* UserFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserFactory.h; path = "Leo/Data Model/UserFactory.h"; sourceTree = SOURCE_ROOT; };
 		310C63151BFBA16700028AF4 /* UserFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserFactory.m; path = "Leo/Data Model/UserFactory.m"; sourceTree = SOURCE_ROOT; };
 		3115F1E51BC55F77001BDF6A /* LEOStyleHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOStyleHelper.h; path = Helpers/LEOStyleHelper.h; sourceTree = "<group>"; };
@@ -908,8 +905,6 @@
 				3109436F1CC809A80015D52F /* LEOConversationNoticeView.m */,
 				310943711CC9471F0015D52F /* LEOConversationFullScreenNoticeView.h */,
 				310943721CC9471F0015D52F /* LEOConversationFullScreenNoticeView.m */,
-				310943771CCE7C4B0015D52F /* LEOConversationFullScreenNoticeViewController.h */,
-				310943781CCE7C4B0015D52F /* LEOConversationFullScreenNoticeViewController.m */,
 			);
 			name = "Conversation & Message";
 			sourceTree = "<group>";
@@ -2067,7 +2062,6 @@
 				BCE1EC9E1B012628007C8D0B /* UIColor+LeoColors.m in Sources */,
 				31D2756F1C4809AC005F8964 /* LEOS3Image.m in Sources */,
 				314655101BFD1FE700354181 /* AppointmentStatus.m in Sources */,
-				310943791CCE7C4B0015D52F /* LEOConversationFullScreenNoticeViewController.m in Sources */,
 				31DB40111BFF9CC8005F1BF2 /* LEODevice.m in Sources */,
 				312A82571B56EEBE00E1FB38 /* LEOConversationViewController.m in Sources */,
 				66A5DB391C3DAEEE008AEC55 /* LEOHealthRecordService.m in Sources */,

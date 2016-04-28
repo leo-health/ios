@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface PracticeScheduleException : NSObject
+NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) NSDate *startDate;
 @property (strong, nonatomic) NSDate *endDate;
@@ -19,4 +20,5 @@
 
 + (NSArray *)exceptionsWithJSONArray:(NSArray *)jsonResponse;
 
+NS_ASSUME_NONNULL_END
 @end

@@ -54,7 +54,6 @@
 #import "NSUserDefaults+Extensions.h"
 #import "LEOAnalyticSession.h"
 #import "LEOConversationNoticeView.h"
-#import "LEOConversationFullScreenNoticeViewController.h"
 #import "LEOConversationFullScreenNoticeView.h"
 #import "Notice.h"
 #import "LEOValidationsHelper.h"
@@ -179,7 +178,6 @@ static NSString *const kCopyOffHoursBody =
 
 - (void)viewWillAppear:(BOOL)animated {
 
-
     // JSQ will always scroll to bottom if this is set to YES. We want it to happen in other places, but not here
     self.automaticallyScrollsToMostRecentMessage = NO;
     [super viewWillAppear:animated];
@@ -230,7 +228,6 @@ static NSString *const kCopyOffHoursBody =
     [UIImage imageNamed:@"Button-Conversation-Notice"];
 
     NSError *noticeError;
-
     Notice *notice = [self fetchAppropriateNoticeWithError:&noticeError];
 
     if(noticeError) {
@@ -281,7 +278,9 @@ static NSString *const kCopyOffHoursBody =
 
     if (!noticeName) {
 
-        *error = [NSError errorWithDomain:LEOErrorDomainContent code:LEOErrorDomainContentCodeMissingContent userInfo:nil];
+        *error = [NSError errorWithDomain:LEOErrorDomainContent
+                                     code:LEOErrorDomainContentCodeMissingContent
+                                 userInfo:nil];
     };
 
     return [self.notices filteredArrayUsingPredicate:filterNoticeByName][0];
@@ -347,9 +346,6 @@ static NSString *const kCopyOffHoursBody =
                                   constant:0.0];
 
     [self.view addConstraint:self.verticalConstraintForNoticeView];
-
-//    [self.view setNeedsLayout];
-//    [self.view layoutIfNeeded];
 
     self.topContentAdditionalInset = noticeView.frame.size.height;
 
@@ -477,6 +473,7 @@ static NSString *const kCopyOffHoursBody =
 -(UIButton *)attachButton {
 
     if (!_attachButton) {
+
         _attachButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_attachButton setImage:[UIImage imageNamed:@"Icon-Camera-Chat"]
                        forState:UIControlStateNormal];
@@ -596,7 +593,9 @@ static NSString *const kCopyOffHoursBody =
 
     UIButton *sendButton = [UIButton leo_newButtonWithDisabledStyling];
 
-    [sendButton setTitle:@"SEND" forState:UIControlStateNormal];
+    [sendButton setTitle:@"SEND"
+                forState:UIControlStateNormal];
+
     [sendButton setTitleColor:[UIColor leo_white]
                      forState:UIControlStateNormal];
 
@@ -634,23 +633,24 @@ static NSString *const kCopyOffHoursBody =
             __weak typeof(self) weakNestedSelf = strongSelf;
 
             if (!strongSelf.pusherBinding) {
-                strongSelf.pusherBinding = [pusherHelper connectToPusherChannel:channelString
-                                                                      withEvent:event
-                                                                         sender:strongSelf
-                                                                 withCompletion:^(NSDictionary *channelData) {
+                strongSelf.pusherBinding =
+                [pusherHelper connectToPusherChannel:channelString
+                                           withEvent:event
+                                              sender:strongSelf
+                                      withCompletion:^(NSDictionary *channelData) {
 
-                                                                     __strong typeof(self) strongNestedSelf = weakNestedSelf;
+                                          __strong typeof(self) strongNestedSelf = weakNestedSelf;
 
-                                                                     NSString *messageID = [Message extractObjectIDFromChannelData:channelData];
+                                          NSString *messageID = [Message extractObjectIDFromChannelData:channelData];
 
-                                                                     __weak typeof(strongSelf) weakDoubleNestedSelf = strongNestedSelf;
+                                          __weak typeof(strongSelf) weakDoubleNestedSelf = strongNestedSelf;
 
-                                                                     [[strongSelf conversation] fetchMessageWithID:messageID completion:^{
+                                          [[strongSelf conversation] fetchMessageWithID:messageID completion:^{
 
-                                                                         __strong typeof(strongSelf) strongDoubleNestedSelf = weakDoubleNestedSelf;
-                                                                         strongDoubleNestedSelf.offset++;
-                                                                     }];
-                                                                 }];
+                                              __strong typeof(strongSelf) strongDoubleNestedSelf = weakDoubleNestedSelf;
+                                              strongDoubleNestedSelf.offset++;
+                                          }];
+                                      }];
             }
         } else {
             [LEOAlertHelper alertForViewController:self
@@ -715,25 +715,28 @@ static NSString *const kCopyOffHoursBody =
                                              [self.sendingIndicator stopAnimating];
                                              self.sendButton.hidden = NO;
 
-                                             if (!error) {
-
-                                                 if (messages.count > 0) {
-                                                     [self collectionView:self.collectionView
-                                                    updateWithNewMessages:messages
-                                                          startingAtIndex:[self conversation].messages.count];
-                                                 }
-                                             } else {
+                                             if (error) {
 
                                                  [LEOAlertHelper alertForViewController:self
                                                                                   error:error
                                                                             backupTitle:kErrorTitleMessagingDown
                                                                           backupMessage:kErrorBodyMessagingDown];
+
+                                                 return;
+                                             }
+
+
+                                             if (messages.count > 0) {
+
+                                                 [self collectionView:self.collectionView
+                                                updateWithNewMessages:messages
+                                                      startingAtIndex:[self conversation].messages.count];
                                              }
                                          }];
 }
 
 - (NSDate *)lastMessageDate {
-
+    
     Message *message = [self conversation].messages.lastObject;
     return message.createdAt;
 }

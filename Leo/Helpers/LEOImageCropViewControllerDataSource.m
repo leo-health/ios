@@ -11,25 +11,7 @@
 @implementation LEOImageCropViewControllerDataSource
 
 // Returns a custom rect for the mask.
-- (CGRect)imageCropViewControllerCustomMaskRect:(RSKImageCropViewController *)controller
-{
-
-    CGRect screenSize = [UIScreen mainScreen].bounds;
-
-    CGFloat screenRatio = screenSize.size.height / screenSize.size.width;
-
-    CGFloat magicWidth = 250;
-
-    CGSize maskSize = CGSizeMake(magicWidth, magicWidth * screenRatio);
-
-    CGFloat viewWidth = CGRectGetWidth(controller.view.frame);
-    CGFloat viewHeight = CGRectGetHeight(controller.view.frame);
-
-    CGRect maskRect = CGRectMake((viewWidth - maskSize.width) * 0.5f,
-                                 (viewHeight - maskSize.height) * 0.5f,
-                                 maskSize.width,
-                                 maskSize.height);
-
+- (CGRect)imageCropViewControllerCustomMaskRect:(RSKImageCropViewController *)controller {
     return [UIScreen mainScreen].bounds;
 }
 
@@ -54,8 +36,7 @@
 }
 
 // Returns a custom rect in which the image can be moved.
-- (CGRect)imageCropViewControllerCustomMovementRect:(RSKImageCropViewController *)controller
-{
+- (CGRect)imageCropViewControllerCustomMovementRect:(RSKImageCropViewController *)controller {
     // If the image is not rotated, then the movement rect coincides with the mask rect.
     return controller.view.bounds;
 }

@@ -64,8 +64,7 @@ static NSString *const kDefaultMessage = @"Welcome to Leo @ Flatiron Pediatrics.
                     completionBlock(notices, error);
                 }
 
-            } else
-            {
+            } else {
                 if (completionBlock) {
                     completionBlock(nil, error);
                 }
@@ -80,8 +79,6 @@ static NSString *const kDefaultMessage = @"Welcome to Leo @ Flatiron Pediatrics.
 
 
 - (LEOS3JSONSessionManager *)sessionManager {
-
     return [LEOS3JSONSessionManager sharedClient];
-    
 }
 @end

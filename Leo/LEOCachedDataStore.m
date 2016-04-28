@@ -46,7 +46,7 @@
 
 - (void)setNotices:(NSArray *)notices {
 
-    _notices = notices;
+    _notices = [notices copy];
 
     self.lastCachedDateForNotices = [NSDate date];
 }

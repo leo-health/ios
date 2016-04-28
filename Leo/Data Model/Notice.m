@@ -81,7 +81,6 @@
     for (NSDictionary *noticeDictionary in jsonResponse) {
 
         Notice *notice = [[self alloc] initWithJSONDictionary:noticeDictionary];
-
         [mutableNotices addObject:notice];
     }
 

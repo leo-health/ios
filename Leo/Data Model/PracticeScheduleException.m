@@ -11,7 +11,8 @@
 
 @implementation PracticeScheduleException
 
-- (instancetype)initWithStartDate:(NSDate *)startDate endDate:(NSDate *)endDate {
+- (instancetype)initWithStartDate:(NSDate *)startDate
+                          endDate:(NSDate *)endDate {
 
     self = [super init];
 
@@ -26,11 +27,11 @@
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
 
-
     NSDate *startDate = [jsonResponse leo_itemForKey:@"start_date"];
     NSDate *endDate = [jsonResponse leo_itemForKey:@"end_date"];
 
-    return [self initWithStartDate:startDate endDate:endDate];
+    return [self initWithStartDate:startDate
+                           endDate:endDate];
 }
 
 + (NSArray *)exceptionsWithJSONArray:(NSArray *)jsonResponse {
@@ -39,7 +40,9 @@
 
     for (NSDictionary *exceptionDictionary in jsonResponse) {
 
-        PracticeScheduleException *exception = [[self alloc] initWithJSONDictionary:exceptionDictionary];
+        PracticeScheduleException *exception =
+        [[self alloc] initWithJSONDictionary:exceptionDictionary];
+        
         [mutableExceptions addObject:exception];
     }
 

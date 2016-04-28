@@ -36,7 +36,6 @@ static NSString *const kActionButtonCancel = @"Cancel";
                                completion:nil];
 }
 
-
 + (UIAlertAction *)alertActionCallPractice:(Practice *)practice {
 
     __weak typeof(self) weakSelf = self;

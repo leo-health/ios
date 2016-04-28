@@ -34,7 +34,6 @@ typedef NS_ENUM(NSUInteger, CardLayout) {
  *  @AppointmentStatusCodeRecommending           Leo creates appointment object for user without filling out date of appointment. User may decide to make appointment or not. Internal Leo status only.
  *  @AppointmentStatusUndefined                  Any numeric value that is not defined explicitly
  */
-
 typedef NS_ENUM(NSUInteger, AppointmentStatusCode) {
     AppointmentStatusCodeUndefined = 0,
     AppointmentStatusCodeCheckedIn = 1,
@@ -63,7 +62,6 @@ typedef NS_ENUM(NSUInteger, AppointmentStatusCode) {
  *  @MessageStatusCodeUndefined
  *
  */
-
 typedef NS_ENUM(NSUInteger, MessageStatusCode) {
     MessageStatusCodeUndefined = 0,
     MessageStatusCodeRead = 1,
@@ -152,11 +150,12 @@ typedef NS_ENUM(NSUInteger, LEOErrorDomainContentCodes) {
 
 @interface LEOConstants : NSObject
 
+
 #pragma mark - Temp constants
 extern NSString *const kUserToken; // @"";
 
-#pragma mark - URL & endpoints
 
+#pragma mark - URL & endpoints
 extern NSString *const APIEndpointUsers; // @"users";
 extern NSString *const APIEndpointPatients; // @"patients";
 extern NSString *const APIEndpointSessions; // @"sessions";
@@ -170,7 +169,6 @@ extern NSString *const APIEndpointLogin; // @"login";
 extern NSString *const APIEndpointCards; // @"cards";
 extern NSString *const APIEndpointPractices; // @"practices";
 extern NSString *const APIEndpointPractice; // @"practice";
-
 extern NSString *const APIEndpointSlots; // @"slots";
 extern NSString *const APIEndpointFamily; // @"family";
 extern NSString *const APIEndpointInsurers; // @"insurers";
@@ -178,7 +176,6 @@ extern NSString *const APIEndpointUserEnrollments; // @"enrollments";
 extern NSString *const APIEndpointPatientEnrollments; // @"patient_enrollments";
 extern NSString *const APIEndpointAvatars; // @"avatars";
 extern NSString *const APIEndpointAddCaregiver; // @"invite";
-
 extern NSString *const APIEndpointHealthRecord; // @"patients";
 extern NSString *const APIEndpointNotes; // @"notes";
 extern NSString *const APIEndpointMedications; // @"medications";
@@ -191,6 +188,7 @@ extern NSString *const APIEndpointPusherAuth; // @"pusher/auth";
 extern NSString *const APIEndpointConfiguration; // @"ios_configuration";
 extern NSString *const APIEndpointPHR; // @"phr";
 extern NSString *const APIEndpointConversationNotices; // @"conversation_notices";
+
 
 #pragma mark - Common
 extern NSString *const APIParamID; // @"id";
@@ -208,9 +206,11 @@ extern NSString *const APIParamLongDescription; // @"long_description";
 extern NSString *const APIParamToken; // @"token";
 extern NSString *const APIParamSession; // @"session";
 
+
 #pragma mark - Date & time
 extern NSString *const APIParamCreatedDateTime; // @"created_datetime";
 extern NSString *const APIParamUpdatedDateTime; // @"updated_datetime";
+
 
 #pragma mark - Practice
 extern NSString *const APIParamPracticeID; // @"practice_id";
@@ -230,9 +230,11 @@ extern NSString *const APIParamPracticeScheduleExceptions; // @"schedule_excepti
 extern NSString *const APIParamPracticeScheduleType; // @"schedule_type"
 extern NSString *const APIParamPracticeDailyHours; // @"daily_hours"
 
+
 #pragma mark - Family
 extern NSString *const APIParamFamilyID; // @"family_id";
 extern NSString *const APIParamFamily; // @"family";
+
 
 #pragma mark - User and user subclass
 extern NSString *const APIParamUserEnrollment; // @"enrollment";
@@ -250,10 +252,8 @@ extern NSString *const kGenderMaleDisplay; // @"Male";
 extern NSString *const kGenderFemaleDisplay; // @"Female";
 
 extern NSString *const APIParamUserProviderID; // @"provider_id";
-
 extern NSString *const APIParamUserPatientID; // @"provider_id";
 extern NSString *const APIParamUserBookedByID; // @"booked_by_id";
-
 extern NSString *const APIParamUserCredentials; // @"credentials";
 extern NSString *const APIParamUserSpecialties; // @"specialties";
 extern NSString *const APIParamUserPrimary; // @"primary";
@@ -267,6 +267,7 @@ extern NSString *const APIParamUserPasswordExisting; //@"current_password";
 extern NSString *const APIParamUserPasswordNewRetyped; //@"password_confirmation"
 extern NSString *const APIParamUserJobTitle; // @"job_title";
 extern NSString *const APIParamUserVendorID; // @"vendor_id";
+
 
 #pragma mark - Common user object references
 extern NSString *const APIParamUser; // @"user";
@@ -283,20 +284,24 @@ extern NSString *const APIParamUserGuardians; // @"guardians";
 extern NSString *const APIParamUserSupport; // @"support";
 extern NSString *const APIParamUserSupports; // @"supports";
 
+
 #pragma mark - Session
 extern NSString *const APIParamSessionDeviceToken; // @"device_token";
 extern NSString *const APIParamSessionDeviceType; // @"device_type";
 extern NSString *const APIParamSessionPlatform; // @"platform";
 extern NSString *const APIParamSessionOSVersion; // @"os_version";
 
+
 #pragma mark - Role
 extern NSString *const APIParamRole; // @"role";
 extern NSString *const APIParamRoleID; // @"role_id";
 extern NSString *const APIParamRoleDisplayName; // @"display_name";
 
+
 #pragma mark - Relationship
 extern NSString *const APIParamRelationship; // @"relationship";
 extern NSString *const APIParamRelationshipID; // @"relationship_id";
+
 
 #pragma mark - Conversation & message
 extern NSString *const APIParamConversations; // @"conversations";
@@ -313,6 +318,7 @@ extern NSString *const APIParamMessageMinDate; // @"start_datetime";
 extern NSString *const APIParamMessageEscalatedTo; // @"escalated_to";
 extern NSString *const APIParamMessageEscalatedBy; // @"escalated_by";
 
+
 #pragma mark - Payment & Stripe
 extern NSString *const APIParamPaymentBalance; // @"balance";
 extern NSString *const APIParamPaymentDueDateTime; // @"due_datetime";
@@ -325,29 +331,33 @@ extern NSString *const APIParamStripeSource; // @"source";
 extern NSString *const APIParamStripeSourceObject; // @"object";
 extern NSString *const APIParamStripeSourceBrand; // @"brand";
 
+
 #pragma mark - Forms
 extern NSString *const APIParamFormSubmittedDateTime; // @"submitted_datetime";
 extern NSString *const APIParamFormSubmittedBy; // @"submitted_by";
 extern NSString *const APIParamFormTitle; // @"title";
 extern NSString *const APIParamFormNotes; // @"notes";
 
+
 #pragma mark - Images
 extern NSString *const APIParamImageURL; // @"url";
 extern NSString *const APIParamImageBaseURL; // @"base_url";
 extern NSString *const APIParamImageURLParameters; // @"parameters";
+
 
 #pragma mark - Card
 extern NSString *const APIParamCardCount; // @"count";
 extern NSString *const APIParamCardData; // @"card_data";
 extern NSString *const APIParamCardPriority; // @"priority";
 
+
 #pragma mark - Appointment type
 extern NSString *const APIParamAppointmentType; // @"visit_type";
 extern NSString *const APIParamAppointmentTypeID; // @"visit_type_id";
-
 extern NSString *const APIParamAppointmentTypeDuration; // @"duration";
 extern NSString *const APIParamAppointmentTypeLongDescription; // @"long_description";
 extern NSString *const APIParamAppointmentTypeShortDescription; // @"short_description";
+
 
 #pragma mark - Appointment
 extern NSString *const APIParamAppointment; // @"appointment";
@@ -356,12 +366,14 @@ extern NSString *const APIParamAppointmentNotes; // @"notes";
 extern NSString *const APIParamAppointmentBookedBy; // @"booked_by";
 extern NSString *const APIParamAppointmentID; // @"appointment_id";
 
+
 #pragma mark - Appointment slot
 extern NSString *const APIParamSlots; // @"slots";
 extern NSString *const APIParamSlotStartDateTime; // @"start_datetime";
 extern NSString *const APIParamSlotDuration; // @"duration";
 extern NSString *const APIParamStartDate; // @"start_date";
 extern NSString *const APIParamEndDate; // @"end_date";
+
 
 #pragma mark - Insurer
 extern NSString *const APIParamInsurancePlanID; // @"insurance_plan_id";
@@ -371,11 +383,13 @@ extern NSString *const APIParamPhone; // @"phone";
 extern NSString *const APIParamFax; // @"fax";
 extern NSString *const APIParamInsurerName; // @"insurer_name";
 
+
 #pragma mark - Insurance Plan
 extern NSString *const APIParamInsurancePlan; // @"insurance_plan";
 extern NSString *const APIParamInsurancePlans; // @"insurance_plans";
 extern NSString *const APIParamPlanName; // @"plan_name";
 extern NSString *const APIParamPlanSupported; // @"supported"; //Ironically, this param is not yet supported by the API.
+
 
 #pragma mark - Personal Health Record
 extern NSString *const APIParamBMIs; // @"bmis";
@@ -386,15 +400,18 @@ extern NSString *const APIParamAllergies; // @"allergies";
 extern NSString *const APIParamNotes; // @"notes";
 extern NSString *const APIParamImmunizations; // @"immunizations";
 
+
 #pragma mark - PHR Allergy
 extern NSString *const APIParamAllergyOnsetAt; // @"onset_at";
 extern NSString *const APIParamAllergyAllergen; // @"allergen";
 extern NSString *const APIParamAllergySeverity; // @"severity";
 extern NSString *const APIParamAllergyNote; // @"note";
 
+
 #pragma mark - PHR Immunization
 extern NSString *const APIParamImmunizationAdministeredAt; // @"administered_at";
 extern NSString *const APIParamImmunizationVaccine; // @"vaccine";
+
 
 #pragma mark - PHR Medication
 extern NSString *const APIParamMedicationStartedAt; // @"started_at";
@@ -406,6 +423,7 @@ extern NSString *const APIParamMedicationDose; // @"dose";
 extern NSString *const APIParamMedicationRoute; // @"route";
 extern NSString *const APIParamMedicationFrequency; // @"frequency";
 
+
 #pragma mark - Patient Note
 extern NSString *const APIParamPatientNoteID; // @"id";
 extern NSString *const APIParamPatientNoteUser; // @"user";
@@ -413,6 +431,7 @@ extern NSString *const APIParamPatientNoteCreatedAt; // @"created_at";
 extern NSString *const APIParamPatientNoteUpdatedAt; // @"updated_at";
 extern NSString *const APIParamPatientNoteDeletedAt; // @"deleted_at";
 extern NSString *const APIParamPatientNoteNote; // @"note";
+
 
 #pragma mark - Vital Measurements
 extern NSString *const APIParamVitalMeasurementSearchStartDate; // @"start_date";
@@ -423,8 +442,10 @@ extern NSString *const APIParamVitalMeasurementPercentile; // @"percentile";
 extern NSString *const APIParamVitalMeasurementUnit; // @"unit";
 extern NSString *const APIParamVitalMeasurementFormattedValueAndUnit; // @"formatted_value_with_units";
 
+
 #pragma mark - Feed Message Header
 extern NSString *const APIParamFeedMessageHeaderText; // @"text";
+
 
 #pragma mark - Notice
 extern NSString *const APIParamNoticeName; // = @"name";
@@ -434,10 +455,17 @@ extern NSString *const APIParamNoticeHeaderAttributes; // @"header_attributes";
 extern NSString *const APIParamNoticeBodyAttributes; // @"body_attributes";
 extern NSString *const APIParamNoticeActionAvailable; // @"action_available";
 
-#pragma mark - Notices
 
+#pragma mark - Notices
 extern NSString *const NoticeConversationPracticeOpen; // @"practice_open";
 extern NSString *const NoticeConversationPracticeClosed; // @"practice_closed";
+
+
+#pragma mark - Daily Schedule
+extern NSString *const APIParamDailyScheduleDayOfWeek; // @"day_of_the_week";
+extern NSString *const APIParamDailyScheduleStartTime; // @"start_time";
+extern NSString *const APIParamDailyScheduleEndTime; // @"end_time";
+
 
 #pragma mark - Magic numbers
 extern CGFloat const kSelectionLineHeight; // 2.0f;
@@ -450,11 +478,13 @@ extern CGFloat const kHeightDefaultToolbar; // 44;
 extern CGFloat const kNumberOfProgressDots; // 4;
 extern CGFloat const kHeightOnboardingHeaders; // 114;
 
+
 #pragma mark - Segues
 extern NSString *const kSegueContinue; // @"ContinueSegue";
 extern NSString *const kSeguePlan; // @"PlanSegue";
 extern NSString *const kSegueTermsAndConditions; // @"TermsAndConditionsSegue";
 extern NSString *const kSeguePrivacyPolicy; // @"PrivacyPolicySegue";
+
 
 #pragma mark - Storyboards
 extern NSString *const kStoryboardSettings; // @"Settings";
@@ -463,6 +493,7 @@ extern NSString *const kStoryboardFeed; // @"Feed";
 extern NSString *const kStoryboardConversation; // @"Conversation";
 extern NSString *const kStoryboardAppointment; // @"Appointment";
 
+
 #pragma mark - Cell Reuse Identifiers
 extern NSString *const kHeaderCellReuseIdentifier; // @"LEOBasicHeaderCell";
 extern NSString *const kReviewUserCellReuseIdentifer; // @"ReviewUserCell";
@@ -470,15 +501,20 @@ extern NSString *const kReviewPatientCellReuseIdentifer; // @"ReviewPatientCell"
 extern NSString *const kButtonCellReuseIdentifier; // @"ButtonCell";
 extern NSString *const kPromptFieldCellReuseIdentifier; // @"LEOPromptFieldCell";
 
+
 #pragma mark - LEO Error Domains
-extern NSString *const kLEOValidationsErrorDomain; // @"LEOValidationsErrorDomain";
+extern NSString *const LEOErrorDomainValidation; // @"LEOErrorDomainValidation";
+extern NSString *const LEOErrorDomainContent; // @"LeoErrorDomainContent";
+
 
 #pragma mark - Phone Numbers
 extern NSString *const kFlatironPediatricsPhoneNumber; // @"2124605600"; //Flatiron Pediatrics
 
+
 #pragma mark - URLs
 extern NSString *const kURLTermsOfService; // @"/#/terms";
 extern NSString *const kURLPrivacyPolicy; // @"/#/privacy";
+
 
 #pragma mark - Notifications
 extern NSString *const kNotificationDownloadedImageUpdated; // @"DownloadedImage-Updated";
@@ -489,23 +525,29 @@ extern NSString *const kNotificationTokenInvalidated; // @"token-invalidated";
 extern NSString *const kNotificationConversationAddedMessage; // @"Conversation-AddedMessage";
 extern NSString *const kNotificationCardUpdated; // @"Card-Updated";
 
+
 #pragma mark - Push Notifications
 extern NSString *const kPushNotificationParamDeepLink; // @"deep_link_url";
+
 
 #pragma mark - Deep Linking
 extern NSString *const kDeepLinkDefaultScheme; // @"leohealth";
 extern NSString *const kDeepLinkPathFeed; // @"feed";
 
+
 #pragma mark - Images
 extern CGFloat const kImageCompressionFactor; // 0.8
+
 
 #pragma mark - Text Field Character Limits
 extern NSInteger const kCharacterLimitEmail; // 50;
 extern NSInteger const kCharacterLimitName; // 30;
 extern NSInteger const kCharacterLimitAppointmentNotes; // 600;
 
+
 #pragma mark - LEOBasicSelectionViewController selection keys
 extern NSString *const kKeySelectionVCSlot; // @"slot";
+
 
 #pragma mark - General Copy
 extern NSString *const kCopyTermsOfService; // @"Terms of Service";
@@ -514,11 +556,13 @@ extern NSString *const kErrorDefaultTitle; // @"Oops!";
 extern NSString *const kErrorTitleMessagingDown; // @"Messaging is currently down";
 extern NSString *const kErrorBodyMessagingDown; // @"We are experiencing technical difficulties. Please call your provider directly, or try again later.";
 
+
 #pragma mark - Configuration Parameters
 extern NSString *const kConfigurationPusherAPIKey; // @"PUSHER_KEY";
 extern NSString *const kConfigurationCrittercismAppID; // @"CRITTERCISM_APP_ID";
 extern NSString *const kConfigurationLocalyticsAppID; // @"LOCALYTICS_APP_ID";
 extern NSString *const kConfigurationVendorID; // @"vendor_id";
+
 
 #pragma mark - Analytics
 extern NSString *const kAnalyticScreenLogin; // @"User Login";
@@ -591,10 +635,6 @@ extern NSString *const kAnalyticEventSwipeToSecondProductPreviewCell; // @"Go To
 extern NSString *const kAnalyticEventSwipeToThirdProductPreviewCell; // @"Go To Third Product Preview Screen";
 extern NSString *const kAnalyticEventSwipeToFourthProductPreviewCell; // @"Go To Fourth Product Preview Screen";
 extern NSString *const kAnalyticEventSwipeToFifthProductPreviewCell; // @"Go To Fifth Product Preview Screen";
-
-#pragma mark - LEOErrorDomains
-
-extern NSString *const LEOErrorDomainContent; // @"Leo Content";
 
 
 @end

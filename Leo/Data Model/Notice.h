@@ -19,8 +19,16 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) BOOL actionAvailable;
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonDictionary;
-- (instancetype)initWithName:(NSString *)name attributedHeaderText:(NSAttributedString *)attributedHeaderString attributedBodyText:(NSAttributedString *)attributedBodyString actionAvailable:(BOOL)actionAvailable;
-- (instancetype)initWithName:(NSString *)name headerText:(NSString *)headerString bodyText:(NSString *)bodyString actionAvailable:(BOOL)actionAvailable;
+
+- (instancetype)initWithName:(NSString *)name
+        attributedHeaderText:(NSAttributedString *)attributedHeaderString
+          attributedBodyText:(NSAttributedString *)attributedBodyString
+             actionAvailable:(BOOL)actionAvailable;
+
+- (instancetype)initWithName:(NSString *)name
+                  headerText:(NSString *)headerString
+                    bodyText:(NSString *)bodyString
+             actionAvailable:(BOOL)actionAvailable;
 
 + (NSArray *)noticesFromJSONArray:(NSArray *)jsonResponse;
 

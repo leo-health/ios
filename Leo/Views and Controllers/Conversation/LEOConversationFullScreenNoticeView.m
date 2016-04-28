@@ -212,7 +212,6 @@ dismissButtonTouchedUpInsideBlock:(void (^)(void))dismissButtonTouchedUpInsideBl
 -(void)setAttributedText:(NSAttributedString *)attributedText {
 
     _attributedText = attributedText;
-
     self.noticeLabel.attributedText = attributedText;
 }
 
@@ -231,10 +230,14 @@ dismissButtonTouchedUpInsideBlock:(void (^)(void))dismissButtonTouchedUpInsideBl
 
         NSDictionary *bindings = NSDictionaryOfVariableBindings(_noticeLabel, _buttonOne, _buttonTwo, _buttonDismiss);
 
+        NSNumber *margin = @45;
+
+        NSDictionary *metrics = NSDictionaryOfVariableBindings(margin);
+
         NSArray *horizontalConstraintsForNoticeLabel =
-        [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(45)-[_noticeLabel]-(45)-|"
+        [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(margin)-[_noticeLabel]-(margin)-|"
                                                 options:0
-                                                metrics:nil
+                                                metrics:metrics
                                                   views:bindings];
 
         NSLayoutConstraint *centerConstraintForButtonOne =
@@ -265,9 +268,9 @@ dismissButtonTouchedUpInsideBlock:(void (^)(void))dismissButtonTouchedUpInsideBl
                                       constant:0];
 
         NSArray *verticalConstraintsForButtonTwo =
-        [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_buttonOne]-[_buttonTwo]-(45)-|"
+        [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_buttonOne]-[_buttonTwo]-(margin)-|"
                                                 options:0
-                                                metrics:nil
+                                                metrics:metrics
                                                   views:bindings];
 
         NSArray *horizontalConstraintsForDismissButton = [NSLayoutConstraint constraintsWithVisualFormat:@"H:[_buttonDismiss]-|" options:0 metrics:nil views:bindings];
