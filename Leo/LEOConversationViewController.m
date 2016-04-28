@@ -222,6 +222,8 @@ static NSString *const kCopyOffHoursBody =
 
 - (void)setupNoticeView {
 
+    [self.headerNoticeView removeFromSuperview];
+    
     __weak typeof(self) weakSelf = self;
 
     UIImage *noticeButtonImage =
@@ -300,9 +302,6 @@ static NSString *const kCopyOffHoursBody =
                                               __strong typeof(self) strongSelf = weakSelf;
 
                                               [strongSelf animateToConversationView];
-
-                                              self.fullScreenNoticeView = nil;
-
                                           } buttonTwoTouchedUpInsideBlock:^{
 
                                               __strong typeof(self) strongSelf = weakSelf;
@@ -316,6 +315,10 @@ static NSString *const kCopyOffHoursBody =
                                           }];
 
         [self setupConstraintsForFullScreenNoticeView];
+    }
+
+    if (![self shouldShowFullScreenNotice] && self.fullScreenNoticeView) {
+        [self animateToConversationView];
     }
 }
 
@@ -687,14 +690,20 @@ static NSString *const kCopyOffHoursBody =
             [self.sendingIndicator startAnimating];
 
             [self setupNoticeView];
+
+            [self.view setNeedsLayout];
+            [self.view layoutIfNeeded];
+
+            self.topContentAdditionalInset = CGRectGetHeight(self.headerNoticeView.frame);
+
+            self.collectionView.contentOffset =
+            CGPointMake(0, -self.topContentAdditionalInset);
+
             [self setupFullScreenNotice];
 
             [self resetPusherAndGetMissedMessages];
 
             [self.sendingIndicator stopAnimating];
-
-            [self.view setNeedsLayout];
-            [self.view layoutIfNeeded];
         }];
     }
 }
