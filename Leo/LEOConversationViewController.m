@@ -317,7 +317,7 @@ static NSString *const kCopyOffHoursBody =
         [self setupConstraintsForFullScreenNoticeView];
     }
 
-    if (![self shouldShowFullScreenNotice] && self.fullScreenNoticeView) {
+    if (![self shouldShowFullScreenNotice] && [self.fullScreenNoticeView superview]) {
         [self animateToConversationView];
     }
 }
