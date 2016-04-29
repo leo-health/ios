@@ -32,24 +32,21 @@
         securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeCertificate];
         securityPolicy.validatesDomainName = NO;
         securityPolicy.allowInvalidCertificates = YES;
-
-        NSString *certificatePath = [[NSBundle mainBundle] pathForResource:[Configuration selfSignedCertificate] ofType:@"cer"];
-        NSData *certificateData = [[NSData alloc] initWithContentsOfFile:certificatePath];
-        securityPolicy.pinnedCertificates = @[certificateData];
-        _sharedClient.securityPolicy = securityPolicy;
 #endif
 
 #if defined(INTERNAL) || defined(RELEASE)
         securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModePublicKey];
-
-        NSString *certificatePath = [[NSBundle mainBundle] pathForResource:[Configuration selfSignedCertificate] ofType:@"cer"];
-        NSData *certificateData = [[NSData alloc] initWithContentsOfFile:certificatePath];
-        securityPolicy.pinnedCertificates = @[certificateData];
-        _sharedClient.securityPolicy = securityPolicy;
 #endif
 
     });
-    
+
+#if defined(LOCAL) || defined(INTERNAL) || defined(RELEASE)
+    NSString *certificatePath = [[NSBundle mainBundle] pathForResource:[Configuration selfSignedCertificate] ofType:@"cer"];
+    NSData *certificateData = [[NSData alloc] initWithContentsOfFile:certificatePath];
+    securityPolicy.pinnedCertificates = @[certificateData];
+    _sharedClient.securityPolicy = securityPolicy;
+#endif
+
     return _sharedClient;
 }
 
