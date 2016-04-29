@@ -38,12 +38,15 @@
         securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModePublicKey];
 #endif
 
-        NSString *certificatePath = [[NSBundle mainBundle] pathForResource:[Configuration selfSignedCertificate] ofType:@"cer"];
-        NSData *certificateData = [[NSData alloc] initWithContentsOfFile:certificatePath];
-        securityPolicy.pinnedCertificates = @[certificateData];
-        _sharedClient.securityPolicy = securityPolicy;
     });
-    
+
+#if defined(LOCAL) || defined(INTERNAL) || defined(RELEASE)
+    NSString *certificatePath = [[NSBundle mainBundle] pathForResource:[Configuration selfSignedCertificate] ofType:@"cer"];
+    NSData *certificateData = [[NSData alloc] initWithContentsOfFile:certificatePath];
+    securityPolicy.pinnedCertificates = @[certificateData];
+    _sharedClient.securityPolicy = securityPolicy;
+#endif
+
     return _sharedClient;
 }
 
