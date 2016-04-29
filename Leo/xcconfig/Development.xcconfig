@@ -10,14 +10,14 @@
 #include "SharedInternal.xcconfig"
 #include "Pods/Target Support Files/Pods-Leo/Pods-Leo.development.xcconfig"
 
-API_URL =   api-dev.leohealth.com
+API_URL =  267qjr-api-staging-leo-health.runnableapp.com
 PROVIDER_URL = provider-dev.leohealth.com
 API_VERSION = api/v1
 API_PROTOCOL = https
 CONTENT_URL = leo-content.s3-website-us-east-1.amazonaws.com
 SELF_SIGNED_CERTIFICATE = *.leohealth.com
 
-GCC_PREPROCESSOR_DEFINITIONS = $(inherited) INTERNAL=1
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) RUNNABLE=1
 BUNDLE_IDENTIFIER = com.leohealth.dev-consumer
 ASSETCATALOG_COMPILER_APPICON_NAME =
 BUNDLE_DISPLAY_NAME = Leo Dev
