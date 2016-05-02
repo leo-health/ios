@@ -51,7 +51,7 @@
         _buttonTwoTouchedUpInsideBlock = buttonTwoTouchedUpInsideBlock;
         _dismissButtonTouchedUpInsideBlock = dismissButtonTouchedUpInsideBlock;
 
-        self.backgroundColor = [UIColor leo_lightBlue];
+        self.backgroundColor = [[UIColor leo_lightBlue] colorWithAlphaComponent:0.95];
 
         [self concatenateAttributedHeaderText:_attributedHeaderText attributedBodyText:_attributedBodyText];
     }
