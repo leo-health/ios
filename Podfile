@@ -8,25 +8,28 @@ inhibit_all_warnings!
 #All pods are followed by their license type
 target 'Leo' do
 
-pod 'AFNetworking' #MIT
-pod 'VBFPopFlatButton' #MIT
-pod 'OHHTTPStubs' #MIT
-pod 'SSKeychain' #MIT
-pod 'DateTools' #MIT
-pod 'UIImage-Resize' #MIT
+#Should be part of the app for certain for the medium term
+pod 'CrittercismSDK', '5.5.0' #License needed?
+pod 'Fabric' #non-standard license; see https://fabric.io/privacy
+pod 'Crashlytics' #non-standard license; https://fabric.io/privacy
+pod 'Localytics',  '~> 3.0' #License needed?
+pod 'Stripe' #License needed?
 pod 'JSQMessagesViewController' #MIT
 pod 'libPusher', '~> 1.5' #MIT
+
+#Good to have, but could rewrite; not worth it for now
+pod 'AFNetworking' #MIT
+pod 'SSKeychain' #MIT
+pod 'DateTools' #MIT
+pod 'CWStatusBarNotification', '~> 2.3.4' #MIT
 pod 'MBProgressHUD' #MIT
+
+#Should replace with our own implementations
+pod 'UIImage-Resize' #MIT
 pod 'TPKeyboardAvoiding' #Zlib
 pod 'ActionSheetPicker-3.0', '~> 2.0.1' #BSD
 pod 'RSKImageCropper' #MIT
 pod 'GNZSlidingSegment', :git => 'https://github.com/chrisgonzgonz/GNZSlidingSegment.git'  #MIT
-pod 'CWStatusBarNotification', '~> 2.3.4' #MIT
-pod 'CrittercismSDK', '5.5.0' #License needed?
-pod 'Fabric' #non-standard license; see https://fabric.io/privacy
-pod 'Crashlytics' #non-standard license; https://fabric.io/privacy
-pod 'Localytics',  '~> 3.0'
-
 
 #Should review dependencies of these pods to ensure that all pods are compliant with their own licenses. e.g. Facebook Pop, etc.
 
