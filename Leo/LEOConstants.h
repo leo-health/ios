@@ -190,6 +190,8 @@ extern NSString *const APIEndpointPHR; // @"phr";
 extern NSString *const APIEndpointConversationNotices; // @"conversation_notices";
 
 
+extern NSString *const APIEndpointPaymentToken; // @"payment_token";
+
 #pragma mark - Common
 extern NSString *const APIParamID; // @"id";
 extern NSString *const APIParamState; // @"appointment_status_id";
@@ -498,6 +500,7 @@ extern NSString *const kStoryboardAppointment; // @"Appointment";
 extern NSString *const kHeaderCellReuseIdentifier; // @"LEOBasicHeaderCell";
 extern NSString *const kReviewUserCellReuseIdentifer; // @"ReviewUserCell";
 extern NSString *const kReviewPatientCellReuseIdentifer; // @"ReviewPatientCell";
+extern NSString *const kPaymentDetailsCellReuseIdentifier; // @"PaymentDetailsCell";
 extern NSString *const kButtonCellReuseIdentifier; // @"ButtonCell";
 extern NSString *const kPromptFieldCellReuseIdentifier; // @"LEOPromptFieldCell";
 

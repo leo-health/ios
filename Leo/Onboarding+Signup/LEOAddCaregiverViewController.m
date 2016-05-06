@@ -18,7 +18,7 @@
 #import "LEOProgressDotsHeaderView.h"
 #import "UIColor+LeoColors.h"
 #import "NSObject+XibAdditions.h"
-#import "LEOReviewOnboardingViewController.h"
+#import "LEOPaymentViewController.h"
 #import "Family.h"
 #import "Guardian.h"
 #import "LEOAlertHelper.h"
@@ -201,9 +201,11 @@ static NSString * const kCopyHeaderAddCaregiver = @"Add another parent or caregi
 
     if ([segue.identifier isEqualToString:kSegueContinue]) {
 
-        LEOReviewOnboardingViewController *reviewOnboardingVC = segue.destinationViewController;
-        reviewOnboardingVC.family = self.family;
-        reviewOnboardingVC.analyticSession = self.analyticSession;
+        LEOPaymentViewController *paymentVC = segue.destinationViewController;
+        paymentVC.family = self.family;
+        paymentVC.analyticSession = self.analyticSession;
+        paymentVC.feature = FeatureOnboarding;
+        paymentVC.managementMode = ManagementModeCreate;
     }
 }
 

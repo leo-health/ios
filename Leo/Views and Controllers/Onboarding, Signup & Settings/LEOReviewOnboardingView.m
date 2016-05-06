@@ -12,6 +12,8 @@
 #import "LEOReviewOnboardingView.h"
 #import "LEOReviewPatientCell+ConfigureForCell.h"
 #import "LEOReviewUserCell+ConfigureForCell.h"
+#import "LEOPaymentDetailsCell+ConfigureForCell.h"
+
 #import "LEOReviewOnboardingViewController.h"
 
 #import "UIColor+LeoColors.h"
@@ -22,6 +24,7 @@
 @implementation LEOReviewOnboardingView
 
 static NSString * const kCopySignUp = @"SIGN UP";
+static NSInteger const kChargeAmountPerChild = 20;
 
 - (instancetype)initWithFamily:(Family *)family {
 
@@ -54,6 +57,12 @@ static NSString * const kCopySignUp = @"SIGN UP";
     [self setupTouchEventForDismissingKeyboard];
 }
 
+//-(void)setPaymentDetails:(STPCardParams *)paymentDetails {
+//
+//    _paymentDetails = paymentDetails;
+//
+//    [self.tableView reloadData];
+//}
 
 - (void)setTableView:(LEOIntrinsicSizeTableView *)tableView {
 
@@ -68,8 +77,11 @@ static NSString * const kCopySignUp = @"SIGN UP";
          forCellReuseIdentifier:kReviewPatientCellReuseIdentifer];
     [_tableView registerNib:[LEOReviewUserCell nib]
          forCellReuseIdentifier:kReviewUserCellReuseIdentifer];
-    [_tableView registerNib:[LEOButtonCell nib] forCellReuseIdentifier:kButtonCellReuseIdentifier];
-
+    [_tableView registerNib:[LEOButtonCell nib]
+     forCellReuseIdentifier:kButtonCellReuseIdentifier];
+    [_tableView registerNib:[LEOPaymentDetailsCell nib]
+     forCellReuseIdentifier:kPaymentDetailsCellReuseIdentifier];
+    
     _tableView.tableFooterView = [self buildAgreeViewFromString:@"By clicking sign up you agree to our #<ts>terms of service# and #<pp>privacy policies#."];
     _tableView.tableFooterView.bounds = CGRectInset(self.tableView.tableFooterView.bounds, 0.0, -10.0);
 
@@ -91,6 +103,10 @@ static NSString * const kCopySignUp = @"SIGN UP";
 
         case TableViewSectionPatients:
             rows = [self.family.patients count];
+            break;
+
+        case TableViewSectionPaymentDetails:
+            rows = 1;
             break;
 
         case TableViewSectionButton:
@@ -135,6 +151,19 @@ static NSString * const kCopySignUp = @"SIGN UP";
             return reviewPatientCell;
         }
 
+        case TableViewSectionPaymentDetails: {
+
+            LEOPaymentDetailsCell *paymentDetailsCell = [tableView dequeueReusableCellWithIdentifier:kPaymentDetailsCellReuseIdentifier];
+
+            NSNumber *chargeAmount = @(self.family.patients.count * kChargeAmountPerChild);
+
+            [paymentDetailsCell.editButton addTarget:nil action:@selector(editButtonTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
+
+            [paymentDetailsCell configureForCard:self.paymentDetails charge:chargeAmount numberOfChildren:@(self.family.patients.count)];
+
+            return paymentDetailsCell;
+        }
+        
         case TableViewSectionButton: {
 
             LEOButtonCell *buttonCell = [tableView dequeueReusableCellWithIdentifier:kButtonCellReuseIdentifier];
@@ -145,6 +174,8 @@ static NSString * const kCopySignUp = @"SIGN UP";
 
             return buttonCell;
         }
+
+
     }
     
     return nil;

@@ -50,7 +50,7 @@ NSString *const APIEndpointPHR = @"phr";
 NSString *const APIEndpointConfiguration = @"ios_configuration";
 NSString *const APIEndpointPusherAuth = @"pusher/auth";
 NSString *const APIEndpointConversationNotices = @"conversation_notices";
-
+NSString *const APIEndpointPaymentToken = @"payment_token";
 
 #pragma mark - Common
 NSString *const APIParamID = @"id";
@@ -340,7 +340,7 @@ CGFloat const kSpeedForTitleViewAlphaChangeConstant = 4.0;
 CGFloat const kStickyHeaderHeight = 154.0;
 CGFloat const kPaddingHorizontalToolbarButtons = 20;
 CGFloat const kHeightDefaultToolbar = 44;
-CGFloat const kNumberOfProgressDots = 5;
+CGFloat const kNumberOfProgressDots = 6;
 CGFloat const kHeightOnboardingHeaders = 114;
 
 
@@ -366,6 +366,7 @@ NSString *const kHeaderCellReuseIdentifier = @"LEOBasicHeaderCell";
 NSString *const kReviewUserCellReuseIdentifer = @"ReviewUserCell";
 NSString *const kReviewPatientCellReuseIdentifer = @"ReviewPatientCell";
 NSString *const kButtonCellReuseIdentifier = @"ButtonCell";
+NSString *const kPaymentDetailsCellReuseIdentifier = @"PaymentDetailsCell";
 NSString *const kPromptFieldCellReuseIdentifier = @"LEOPromptFieldCell";
 
 

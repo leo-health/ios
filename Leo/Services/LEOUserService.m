@@ -112,6 +112,7 @@ static CGFloat kImageSideSizeScale3Avatar = 300.0;
     NSMutableDictionary *enrollmentParams = [[User dictionaryFromUser:guardian] mutableCopy];
     enrollmentParams[APIParamUserPassword] = password;
 
+    //FIXME: It is this line of code where the app crashes when attempting to login / signup after being logged out of the app because [Configuration vendorID] returns nil.
     [enrollmentParams setObject:[Configuration vendorID] forKey:kConfigurationVendorID];
 
     [[LEOUserService leoSessionManager] unauthenticatedPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointUserEnrollments params:enrollmentParams completion:^(NSDictionary *rawResults, NSError *error) {

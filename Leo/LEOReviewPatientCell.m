@@ -18,11 +18,6 @@
     self.editButton.enabled = NO;
 }
 
-+ (UINib *)nib {
-    
-    return [UINib nibWithNibName:@"LEOReviewPatientCell" bundle:nil];
-}
-
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
     

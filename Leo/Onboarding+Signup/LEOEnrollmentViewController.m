@@ -176,6 +176,7 @@ static NSString * const kCopyCollapsedHeaderEnrollment = @"Create an account";
 
                         [self performSegueWithIdentifier:kSegueContinue
                                                   sender:sender];
+
                     } else {
 
                         [LEOAlertHelper alertForViewController:self
@@ -196,7 +197,6 @@ static NSString * const kCopyCollapsedHeaderEnrollment = @"Create an account";
 
                 [MBProgressHUD hideHUDForView:self.view
                                      animated:YES];
-
                 self.enrollmentView.continueButton.enabled = YES;
             }];
 

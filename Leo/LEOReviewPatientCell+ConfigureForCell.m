@@ -12,6 +12,7 @@
 #import "UIFont+LeoFonts.h"
 #import "UIColor+LeoColors.h"
 #import "LEOMessagesAvatarImageFactory.h"
+#import "UITableViewCell+Extensions.h"
 
 @implementation LEOReviewPatientCell (ConfigureForCell)
 

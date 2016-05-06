@@ -18,6 +18,7 @@
 #import "LEOStyleHelper.h"
 #import "NSUserDefaults+Extensions.h"
 #import <Localytics/Localytics.h>
+#import <Stripe/Stripe.h>
 
 @interface AppDelegate ()
 
@@ -53,6 +54,8 @@
             #endif
         }
     }];
+
+    [Stripe setDefaultPublishableKey:@"pk_test_LRYSNRBvOYUG47Sg4QZqtlkB"];
 
     [self setRootViewControllerWithStoryboardName:storyboardIdentifier];
     

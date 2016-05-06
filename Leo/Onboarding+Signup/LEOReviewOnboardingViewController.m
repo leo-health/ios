@@ -18,6 +18,7 @@
 
 #import "LEOSignUpPatientViewController.h"
 #import "LEOSignUpUserViewController.h"
+#import "LEOPaymentViewController.h"
 
 #import "UIColor+LeoColors.h"
 #import "UIFont+LeoFonts.h"
@@ -40,7 +41,7 @@
 #import "LEOReviewPatientCell.h"
 #import "LEOReviewUserCell.h"
 #import "LEOCachedDataStore.h"
-
+#import "LEOPaymentDetailsCell.h"
 
 @interface LEOReviewOnboardingViewController ()
 
@@ -59,7 +60,7 @@
 static NSString *const kReviewUserSegue = @"ReviewUserSegue";
 static NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
 static NSString *const kCopyHeaderReviewOnboarding = @"Please confirm your family information";
-
+static NSString *const kReviewPaymentDetails = @"ReviewPaymentDetails";
 
 #pragma mark - View Controller Lifecycle and Helpers
 
@@ -130,6 +131,7 @@ static NSString *const kCopyHeaderReviewOnboarding = @"Please confirm your famil
         _reviewOnboardingView.family = self.family;
         _reviewOnboardingView.tableView.delegate = self;
         _reviewOnboardingView.controller = self;
+        _reviewOnboardingView.paymentDetails = self.paymentDetails;
     }
 
     return _reviewOnboardingView;
@@ -139,7 +141,7 @@ static NSString *const kCopyHeaderReviewOnboarding = @"Please confirm your famil
 
     if (!_headerView) {
 
-        _headerView = [[LEOProgressDotsHeaderView alloc] initWithTitleText:kCopyHeaderReviewOnboarding numberOfCircles:kNumberOfProgressDots currentIndex:4 fillColor:[UIColor leo_orangeRed]];
+        _headerView = [[LEOProgressDotsHeaderView alloc] initWithTitleText:kCopyHeaderReviewOnboarding numberOfCircles:kNumberOfProgressDots currentIndex:5 fillColor:[UIColor leo_orangeRed]];
         _headerView.intrinsicHeight = @(kHeightOnboardingHeaders);
         [LEOStyleHelper styleExpandedTitleLabel:_headerView.titleLabel feature:self.feature];
     }
@@ -158,6 +160,9 @@ static NSString *const kCopyHeaderReviewOnboarding = @"Please confirm your famil
         case TableViewSectionGuardians:
             return [[LEOReviewUserCell new] intrinsicContentSize].height;
 
+        case TableViewSectionPaymentDetails:
+            return [[LEOPaymentDetailsCell new] intrinsicContentSize].height;
+            
         case TableViewSectionPatients:
             return [[LEOReviewPatientCell new] intrinsicContentSize].height;
     }
@@ -190,6 +195,13 @@ static NSString *const kCopyHeaderReviewOnboarding = @"Please confirm your famil
             Patient *patient = self.family.patients[indexPath.row];
             [self performSegueWithIdentifier:kReviewPatientSegue sender:patient];
             break;
+        }
+
+        case TableViewSectionPaymentDetails: {
+
+            [LEOBreadcrumb crumbWithObject:[NSString stringWithFormat:@"%s edit payment details", __PRETTY_FUNCTION__]];
+
+            [self performSegueWithIdentifier:kReviewPaymentDetails sender:nil];
         }
 
         case TableViewSectionButton:
@@ -249,6 +261,21 @@ static NSString *const kCopyHeaderReviewOnboarding = @"Please confirm your famil
         webVC.titleString = @"Privacy Policy";
         webVC.feature = FeatureOnboarding;
     }
+
+    if ([segue.identifier isEqualToString:kReviewPaymentDetails]) {
+        LEOPaymentViewController *paymentVC = (LEOPaymentViewController *)segue.destinationViewController;
+        paymentVC.family = self.family;
+        paymentVC.feature = FeatureOnboarding;
+        paymentVC.managementMode = ManagementModeEdit;
+        paymentVC.delegate = self;
+    }
+}
+
+-(void)updatePaymentWithPaymentDetails:(STPCard *)paymentDetails {
+
+    _paymentDetails = paymentDetails;
+
+    self.reviewOnboardingView.paymentDetails = paymentDetails;
 }
 
 - (void)continueTapped:(UIButton *)sender {

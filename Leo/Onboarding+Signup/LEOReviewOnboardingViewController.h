@@ -11,11 +11,14 @@
 #import <UIKit/UIKit.h>
 #import "LEOStickyHeaderViewController.h"
 #import "LEOAnalyticSession.h"
+#import <Stripe/Stripe.h>
+#import "LEOPaymentViewController.h"
 
-@interface LEOReviewOnboardingViewController : LEOStickyHeaderViewController <LEOStickyHeaderDataSource, LEOStickyHeaderDelegate, UITableViewDelegate>
+@interface LEOReviewOnboardingViewController : LEOStickyHeaderViewController <LEOStickyHeaderDataSource, LEOStickyHeaderDelegate, UITableViewDelegate, LEOUpdatePaymentProtocol>
 
 @property (strong, nonatomic) Family *family;
 @property (strong, nonatomic) LEOAnalyticSession *analyticSession;
+@property (strong, nonatomic) STPCardParams *paymentDetails;
 
 - (void)tapOnTermsOfServiceLink:(UITapGestureRecognizer *)tapGesture;
 - (void)tapOnPrivacyPolicyLink:(UITapGestureRecognizer *)tapGesture;
