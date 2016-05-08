@@ -121,6 +121,7 @@
 		3186DA121C88D7A200B71613 /* LEOFeedCell+ConfigureForConversationCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 3186DA111C88D7A200B71613 /* LEOFeedCell+ConfigureForConversationCard.m */; };
 		3192ACD91B0CC7C5007195F2 /* UIImage+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3192ACD81B0CC7C5007195F2 /* UIImage+Extensions.m */; };
 		31957EE61C29DE0A00D0A1A0 /* MessageImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 31957EE51C29DE0A00D0A1A0 /* MessageImage.m */; };
+		3197BC221CDD2DC000E3201B /* LEOSubscriptionManagementViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3197BC211CDD2DC000E3201B /* LEOSubscriptionManagementViewController.m */; };
 		319F335D1B2201F900C1C526 /* CollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 319F335C1B2201F900C1C526 /* CollectionViewLayout.m */; };
 		319FB4BE1BBA379E00EFF7B9 /* JVFloatLabeledTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 319FB4B91BBA379E00EFF7B9 /* JVFloatLabeledTextField.m */; };
 		319FB4BF1BBA379E00EFF7B9 /* JVFloatLabeledTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 319FB4BB1BBA379E00EFF7B9 /* JVFloatLabeledTextView.m */; };
@@ -500,6 +501,8 @@
 		3192ACD81B0CC7C5007195F2 /* UIImage+Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Extensions.m"; sourceTree = "<group>"; };
 		31957EE41C29DE0A00D0A1A0 /* MessageImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MessageImage.h; path = "Leo/Data Model/MessageImage.h"; sourceTree = SOURCE_ROOT; };
 		31957EE51C29DE0A00D0A1A0 /* MessageImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MessageImage.m; path = "Leo/Data Model/MessageImage.m"; sourceTree = SOURCE_ROOT; };
+		3197BC201CDD2DC000E3201B /* LEOSubscriptionManagementViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOSubscriptionManagementViewController.h; path = "Views and Controllers/Payments/LEOSubscriptionManagementViewController.h"; sourceTree = "<group>"; };
+		3197BC211CDD2DC000E3201B /* LEOSubscriptionManagementViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOSubscriptionManagementViewController.m; path = "Views and Controllers/Payments/LEOSubscriptionManagementViewController.m"; sourceTree = "<group>"; };
 		319F335B1B2201F900C1C526 /* CollectionViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewLayout.h; sourceTree = "<group>"; };
 		319F335C1B2201F900C1C526 /* CollectionViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewLayout.m; sourceTree = "<group>"; };
 		319FB4B81BBA379E00EFF7B9 /* JVFloatLabeledTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JVFloatLabeledTextField.h; sourceTree = "<group>"; };
@@ -1286,6 +1289,8 @@
 				31E615DC1CD4068A0027B226 /* LEOPaymentsView.h */,
 				31E615DD1CD4068A0027B226 /* LEOPaymentsView.m */,
 				31E615DF1CD8E5460027B226 /* LEOPaymentsView.xib */,
+				3197BC201CDD2DC000E3201B /* LEOSubscriptionManagementViewController.h */,
+				3197BC211CDD2DC000E3201B /* LEOSubscriptionManagementViewController.m */,
 			);
 			name = Payments;
 			sourceTree = "<group>";
@@ -2023,6 +2028,7 @@
 				31E77E071B87647B00C6EDE1 /* LEOAPISessionManager.m in Sources */,
 				31209FA11C9F584700E8B749 /* NSString+Extensions.m in Sources */,
 				31CC12DD1BB062C40099AB60 /* Guardian.m in Sources */,
+				3197BC221CDD2DC000E3201B /* LEOSubscriptionManagementViewController.m in Sources */,
 				316899681BC4851200B4C1EB /* LEOReviewUserCell.m in Sources */,
 				313FA7291C04FA13008189B9 /* LEOAppointmentViewController.m in Sources */,
 				31CC12DC1BB062C40099AB60 /* Conversation.m in Sources */,

@@ -76,7 +76,7 @@ NSString *const kCopyPaymentsHeader = @"Add a credit or debit card";
 
         _paymentsView = [self leo_loadViewFromNibForClass:[LEOPaymentsView class]];
 
-        _paymentsView.numberOfChildren = self.family.patients.count;
+        _paymentsView.numberOfChildren = MIN(self.family.patients.count, 5);
         _paymentsView.chargePerChild = 20;
 
         _paymentsView.tintColor = [UIColor leo_orangeRed];

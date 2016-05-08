@@ -20,6 +20,7 @@
 #import "LEOUpdatePasswordViewController.h"
 #import "LEOAddCaregiverViewController.h"
 #import "LEOWebViewController.h"
+#import "LEOSubscriptionManagementViewController.h"
 
 #import "Patient.h"
 #import "LEOUserService.h"
@@ -40,7 +41,9 @@ typedef NS_ENUM(NSUInteger, AccountSettings) {
     
     AccountSettingsEmail,
     AccountSettingsPassword,
+    AccountSettingsSubscriptionManagement,
     AccountSettingsAddCaregiver,
+    AccountSettingsInvite,
 };
 
 typedef NS_ENUM(NSUInteger, AboutSettings) {
@@ -67,6 +70,9 @@ static NSString *const kSegueChangeEmail = @"UpdateEmailSegue";
 static NSString *const kSegueChangePassword = @"UpdatePasswordSegue";
 static NSString *const kSegueAddCaregiver = @"AddCaregiverSegue";
 static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
+static NSString *const kSegueManageMySubscription = @"ManageSubscriptionSegue";
+
+static NSString *const kCopyManageMySubscription = @"Manage my subscription";
 
 #pragma mark - View Controller Lifecycle and Helper Methods
 
@@ -138,7 +144,7 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
     
     switch (section) {
         case SettingsSectionAccounts:
-            return 3;
+            return 4;
             
         case SettingsSectionPatients:
             return [self.family.patients count];
@@ -196,7 +202,20 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
                     cell.promptField.textField.standardPlaceholder = @"";
                     break;
                 }
-                    
+
+                case AccountSettingsSubscriptionManagement: {
+
+                    cell.promptField.textField.text = kCopyManageMySubscription;
+                    cell.promptField.accessoryImageViewVisible = YES;
+                    cell.promptField.accessoryImage = [UIImage imageNamed:@"Icon-ForwardArrow"];
+                    cell.promptField.tintColor = [UIColor leo_orangeRed];
+                    cell.promptField.textField.enabled = NO;
+                    cell.promptField.textField.textColor = [UIColor leo_grayStandard];
+                    cell.promptField.textField.standardPlaceholder = @"";
+                    cell.promptField.tapGestureEnabled = NO;
+                    break;
+                }
+
                 case AccountSettingsAddCaregiver: {
 
                     cell.promptField.textField.text = @"Add a parent / caregiver";
@@ -209,8 +228,9 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
                     cell.promptField.textField.standardPlaceholder = @"";
                     break;
                 }
+
             }
-            
+
             break;
         }
             
@@ -321,6 +341,11 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
                     
                 case AccountSettingsPassword:
                     [self performSegueWithIdentifier:kSegueChangePassword sender:indexPath];
+                    break;
+
+
+                case AccountSettingsSubscriptionManagement:
+                    [self performSegueWithIdentifier:kSegueManageMySubscription sender:indexPath];
                     break;
                     
                 case AccountSettingsAddCaregiver:

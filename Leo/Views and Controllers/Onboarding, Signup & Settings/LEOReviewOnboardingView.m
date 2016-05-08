@@ -159,7 +159,7 @@ static NSInteger const kChargeAmountPerChild = 20;
 
             [paymentDetailsCell.editButton addTarget:nil action:@selector(editButtonTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
 
-            [paymentDetailsCell configureForCard:self.paymentDetails charge:chargeAmount numberOfChildren:@(self.family.patients.count)];
+            [paymentDetailsCell configureForCard:self.paymentDetails charge:chargeAmount numberOfChildren:MIN(@(self.family.patients.count), @5)];
 
             return paymentDetailsCell;
         }
