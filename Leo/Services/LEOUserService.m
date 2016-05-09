@@ -61,6 +61,30 @@ static CGFloat kImageSideSizeScale3Avatar = 300.0;
     }];
 }
 
+- (NSURLSessionTask *)getGuardianWithID:(NSString *)guardianID withCompletion:(void (^)(Guardian *guardian, NSError *error))completionBlock {
+
+    NSDictionary *paramsDictionary = @{APIParamID : guardianID};
+
+    NSURLSessionTask *task = [[LEOUserService leoSessionManager] standardGETRequestForJSONDictionaryFromAPIWithEndpoint:APIParamUsers params:paramsDictionary completion:^(NSDictionary *rawResults, NSError *error) {
+
+        if (!error) {
+            [SessionUser setCurrentUserWithJSONDictionary:rawResults[APIParamData]];
+
+            Guardian *guardian = [[Guardian alloc] initWithJSONDictionary:rawResults[APIParamData][APIParamUser]];
+
+            if (completionBlock) {
+                completionBlock (guardian, nil);
+            }
+        }
+        else {
+            if (completionBlock) {
+                completionBlock (nil, error);
+            }
+        }
+     }];
+
+    return task;
+}
 - (void)createPatients:(NSArray *)patients withCompletion:(void (^)(NSArray<Patient *> *responsePatients, NSError *error))completionBlock {
 
     __block NSInteger counter = 0;

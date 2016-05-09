@@ -14,11 +14,12 @@
 #import "SessionUser.h"
 #import "LEODevice.h"
 #import "Configuration.h"
-#import "LEOConstants.h"
 #import "LEOStyleHelper.h"
 #import "NSUserDefaults+Extensions.h"
 #import <Localytics/Localytics.h>
 #import <Stripe/Stripe.h>
+#import "LEOUserService.h"
+#import "LEOPaymentViewController.h";
 
 @interface AppDelegate ()
 
@@ -90,14 +91,34 @@
     
     if ([notification.name isEqualToString:kNotificationMembershipChanged]) {
 
-        if ([SessionUser guardian].membershipType != MembershipTypeNone) {
+        if ([SessionUser guardian].membershipType == MembershipTypeMember) {
             [self setRootViewControllerWithStoryboardName:kStoryboardFeed];
         }
+
+        if ([SessionUser guardian].membershipType == MembershipTypeExempted) {
+            [self setRootViewControllerWithStoryboardName:kStoryboardFeed];
+        }
+
+        if ([SessionUser guardian].membershipType == MembershipTypeDelinquent) {
+
+            LEOPaymentViewController *paymentVC = [[LEOPaymentViewController alloc] init];
+            [self setRootViewController:paymentVC];
+        }
     }
-    
+
     if ([notification.name isEqualToString:kNotificationTokenInvalidated]) {
-        
         [self setRootViewControllerWithStoryboardName:kStoryboardLogin];
+    }
+}
+
+- (void)setRootViewController:(UIViewController *)viewController {
+
+    [LEOStyleHelper roundCornersForView:viewController.view withCornerRadius:kCornerRadius];
+
+    self.window.rootViewController = viewController;
+
+    if (!self.window.rootViewController) {
+        [self.window makeKeyAndVisible];
     }
 }
 
@@ -202,6 +223,10 @@
     
     // TODO: remove this when adding feature: use badge on chat mini card
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+
+    if ([SessionUser guardian]) {
+        [[LEOUserService new] getGuardianWithID:[SessionUser guardian].objectID withCompletion:nil];
+    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {

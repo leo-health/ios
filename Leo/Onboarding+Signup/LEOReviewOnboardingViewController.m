@@ -8,7 +8,9 @@
 
 #import "LEOReviewOnboardingViewController.h"
 #import "Configuration.h"
+
 #import "LEOUserService.h"
+#import "LEOPaymentService.h"
 
 #import "SessionUser.h"
 #import "Family.h"
@@ -42,6 +44,8 @@
 #import "LEOReviewUserCell.h"
 #import "LEOCachedDataStore.h"
 #import "LEOPaymentDetailsCell.h"
+
+#import "LEOAlertHelper.h"
 
 @interface LEOReviewOnboardingViewController ()
 
@@ -271,7 +275,7 @@ static NSString *const kReviewPaymentDetails = @"ReviewPaymentDetails";
     }
 }
 
--(void)updatePaymentWithPaymentDetails:(STPCard *)paymentDetails {
+-(void)updatePaymentWithPaymentDetails:(STPToken *)paymentDetails {
 
     _paymentDetails = paymentDetails;
 
@@ -295,7 +299,8 @@ static NSString *const kReviewPaymentDetails = @"ReviewPaymentDetails";
 
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 
-    LEOUserService *userService = [[LEOUserService alloc] init];
+    LEOUserService *userService = [LEOUserService new];
+
     [userService createGuardian:self.family.guardians.firstObject withCompletion:^(Guardian *guardian, NSError *error) {
 
         if (!error && guardian) {
@@ -327,7 +332,26 @@ static NSString *const kReviewPaymentDetails = @"ReviewPaymentDetails";
 
                 attemptedPatientCreation = YES;
 
-                if (!error) {
+                if (error) {
+
+                    [MBProgressHUD hideHUDForView:self.view animated:YES];
+                    button.enabled = YES;
+                    [LEOAlertHelper alertForViewController:self error:error backupTitle:@"Something went wrong!" backupMessage:@"Please check your information and your internet connection and try again."];
+
+                    return;
+                }
+
+
+                [[LEOPaymentService new] createChargeWithToken:self.paymentDetails completion:^(BOOL success, NSError *error) {
+
+                    if (error) {
+
+                        [MBProgressHUD hideHUDForView:self.view animated:YES];
+                        button.enabled = YES;
+                        [LEOAlertHelper alertForViewController:self error:error backupTitle:@"Something went wrong!" backupMessage:@"Please check your information and your internet connection and try again."];
+
+                        return;
+                    }
 
                     [Localytics tagEvent:kAnalyticEventConfirmAccount];
 
@@ -340,18 +364,16 @@ static NSString *const kReviewPaymentDetails = @"ReviewPaymentDetails";
                     [LEOCachedDataStore sharedInstance].family = self.family;
 
                     [userService postAvatarsForUsers:responsePatients withCompletion:^(BOOL success, NSError *error) {
-
                         [LEOCachedDataStore sharedInstance].family = self.family;
                     }];
 
-                    [[SessionUser currentUser] setMembershipType:MembershipTypeMember];
-                }
 
-                if (isSecondGuardian && attemptedAdditionOfCaregiver) {
+                    if (isSecondGuardian && attemptedAdditionOfCaregiver) {
 
-                    [MBProgressHUD hideHUDForView:self.view animated:YES];
-                    button.enabled = YES;
-                }
+                        [MBProgressHUD hideHUDForView:self.view animated:YES];
+                        button.enabled = YES;
+                    }
+                }];
             }];
         }
     }];

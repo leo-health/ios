@@ -18,7 +18,7 @@
 
 @property (strong, nonatomic) Family *family;
 @property (strong, nonatomic) LEOAnalyticSession *analyticSession;
-@property (strong, nonatomic) STPCardParams *paymentDetails;
+@property (strong, nonatomic) STPToken *paymentDetails;
 
 - (void)tapOnTermsOfServiceLink:(UITapGestureRecognizer *)tapGesture;
 - (void)tapOnPrivacyPolicyLink:(UITapGestureRecognizer *)tapGesture;

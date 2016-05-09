@@ -146,10 +146,13 @@ typedef NS_ENUM(NSUInteger, Feature) {
 
 typedef NS_ENUM(NSUInteger, MembershipType) {
     
-    MembershipTypeNone = 0, //Not used explicitly, but in case nil is entered...
+    MembershipTypeUnknown = 0, //Not used explicitly, but in case nil is entered...
     MembershipTypeIncomplete = 1,
-    MembershipTypeUnpaid = 2,
+    MembershipTypeDelinquent = 2,
     MembershipTypeMember = 3,
+    MembershipTypeExempted = 4,
+    MembershipTypeExpecting = 5,
+    MembershipTypePreview = 6,
 };
 
 typedef NS_ENUM(NSUInteger, LEOErrorDomainContentCodes) {
@@ -199,7 +202,7 @@ extern NSString *const APIEndpointPHR; // @"phr";
 extern NSString *const APIEndpointConversationNotices; // @"conversation_notices";
 
 
-extern NSString *const APIEndpointPaymentToken; // @"payment_token";
+extern NSString *const APIEndpointSubscriptions; // @"payment_token";
 
 #pragma mark - Common
 extern NSString *const APIParamID; // @"id";

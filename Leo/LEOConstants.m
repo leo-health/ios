@@ -51,6 +51,7 @@ NSString *const APIEndpointConfiguration = @"ios_configuration";
 NSString *const APIEndpointPusherAuth = @"pusher/auth";
 NSString *const APIEndpointConversationNotices = @"conversation_notices";
 NSString *const APIEndpointPaymentToken = @"payment_token";
+NSString *const APIEndpointSubscriptions = @"subscriptions";
 
 #pragma mark - Common
 NSString *const APIParamID = @"id";

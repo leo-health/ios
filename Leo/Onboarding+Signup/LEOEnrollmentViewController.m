@@ -226,7 +226,7 @@ static NSString * const kCopyCollapsedHeaderEnrollment = @"Create an account";
                                            phoneNumber:nil
                                          insurancePlan:nil
                                                primary:YES
-                                        membershipType:MembershipTypeNone];
+                                        membershipType:MembershipTypeUnknown];
 }
 
 - (BOOL)validatePage {

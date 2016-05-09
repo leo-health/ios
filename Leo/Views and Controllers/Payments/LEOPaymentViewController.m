@@ -23,7 +23,7 @@
 
 @property (strong, nonatomic) LEOProgressDotsHeaderView *headerView;
 @property (strong, nonatomic) LEOPaymentsView *paymentsView;
-@property (strong, nonatomic) STPCard *paymentDetails;
+@property (strong, nonatomic) STPToken *paymentDetails;
 
 @end
 
@@ -122,16 +122,16 @@ NSString *const kCopyPaymentsHeader = @"Add a credit or debit card";
             return;
         }
 
-        self.paymentDetails = token.card;
+            self.paymentDetails = token;
 
-        if (self.managementMode == ManagementModeCreate) {
-            
-            [self performSegueWithIdentifier:kSegueContinue sender:nil];
-        } else if (self.managementMode == ManagementModeEdit) {
+            if (self.managementMode == ManagementModeCreate) {
+                [self performSegueWithIdentifier:kSegueContinue sender:nil];
+            }
 
-            [self.delegate updatePaymentWithPaymentDetails:token.card];
-            [self.navigationController popViewControllerAnimated:YES];
-        }
+            else if (self.managementMode == ManagementModeEdit) {
+                [self.delegate updatePaymentWithPaymentDetails:token.card];
+                [self.navigationController popViewControllerAnimated:YES];
+            }
     };
 
     [[STPAPIClient sharedClient] createTokenWithCard:cardParams
