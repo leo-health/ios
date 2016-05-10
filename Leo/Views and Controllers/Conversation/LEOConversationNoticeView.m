@@ -129,7 +129,7 @@ noticeButtonTappedUpInsideBlock:(void (^) (void))noticeButtonTappedUpInsideBlock
                                                      options:0
                                                   usingBlock:^(NSDictionary<NSString *,id> * _Nonnull attrs, NSRange range, BOOL * _Nonnull stop) {
 
-                                                      headerAttributes = attrs.count > 0 ? YES : NO;
+                                                      headerAttributes = attrs.count > 0;
                                                   }];
     
     __block BOOL bodyAttributes;
@@ -138,7 +138,7 @@ noticeButtonTappedUpInsideBlock:(void (^) (void))noticeButtonTappedUpInsideBlock
                                                    options:0
                                                 usingBlock:^(NSDictionary<NSString *,id> * _Nonnull attrs, NSRange range, BOOL * _Nonnull stop) {
 
-                                                    bodyAttributes = attrs.count > 0 ? YES : NO;
+                                                    bodyAttributes = attrs.count > 0;
                                                 }];
     
     if (!headerAttributes) {
@@ -350,6 +350,12 @@ noticeButtonTappedUpInsideBlock:(void (^) (void))noticeButtonTappedUpInsideBlock
     if (self.noticeButtonTappedUpInsideBlock) {
         self.noticeButtonTappedUpInsideBlock();
     }
+}
+
+- (CGSize)intrinsicContentSize {
+
+    CGFloat intrinsicHeight = 20 + CGRectGetHeight(self.noticeLabel.frame);
+    return CGSizeMake(UIViewNoIntrinsicMetric, intrinsicHeight);
 }
 
 @end

@@ -76,32 +76,37 @@
 
     //Find the hours for the day of the week of the date requested
     DailyPracticeSchedule *relevantHours =
-    [self.activeSchedulesByDayOfWeek filteredArrayUsingPredicate:dayOfWeekFilter][0];
+    [self.activeSchedulesByDayOfWeek filteredArrayUsingPredicate:dayOfWeekFilter].firstObject;
 
-    //Get the start time and end time formatted as dates
-    NSDate *startTime = [NSDate leo_timeFromHourMinuteString:relevantHours.startTimeString
-                                                withTimeZone:self.timeZone];
+    if (relevantHours) {
 
-    NSDate *endTime = [NSDate leo_timeFromHourMinuteString:relevantHours.endTimeString
-                                              withTimeZone:self.timeZone];
+        //Get the start time and end time formatted as dates
+        NSDate *startTime = [NSDate leo_timeFromHourMinuteString:relevantHours.startTimeString
+                                                    withTimeZone:self.timeZone];
 
-    //Concatenate the date provided with the opening and closing times for that day of week
-    NSDate *startDate = [NSDate dateWithYear:date.year
-                                       month:date.month
-                                         day:date.day
-                                        hour:startTime.hour
-                                      minute:startTime.minute
-                                      second:0];
+        NSDate *endTime = [NSDate leo_timeFromHourMinuteString:relevantHours.endTimeString
+                                                  withTimeZone:self.timeZone];
 
-    NSDate *endDate = [NSDate dateWithYear:date.year
-                                     month:date.month
-                                       day:date.day
-                                      hour:endTime.hour
-                                    minute:endTime.minute
-                                    second:0];
+        //Concatenate the date provided with the opening and closing times for that day of week
+        NSDate *startDate = [NSDate dateWithYear:date.year
+                                           month:date.month
+                                             day:date.day
+                                            hour:startTime.hour
+                                          minute:startTime.minute
+                                          second:0];
 
-    //If the time is after closing or before opening, then the practice is closed at this time
-    return [[NSDate date] isLaterThanOrEqualTo:endDate] || [[NSDate date] isEarlierThan:startDate];
+        NSDate *endDate = [NSDate dateWithYear:date.year
+                                         month:date.month
+                                           day:date.day
+                                          hour:endTime.hour
+                                        minute:endTime.minute
+                                        second:0];
+
+        //If the time is after closing or before opening, then the practice is closed at this time
+        return [[NSDate date] isLaterThanOrEqualTo:endDate] || [[NSDate date] isEarlierThan:startDate];
+    }
+    
+    return YES;
 }
 
 - (BOOL)isClosedForAnExceptionAtThisTime:(NSDate *)date {

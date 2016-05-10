@@ -109,6 +109,8 @@ static NSString *const kCopyOffHoursTitle =
 static NSString *const kCopyOffHoursBody =
 @"Please call 911 in case of emergency. If you need clinical assistance now, you can call our nurse line.";
 
+static NSString *const kDefaultPracticeID = @"0";
+
 #pragma mark - View lifecycle
 
 /**
@@ -142,22 +144,28 @@ static NSString *const kCopyOffHoursBody =
         self.notices = notices;
         self.practice = practice;
 
-        self.analyticSession = [LEOAnalyticSession startSessionWithSessionEventName:kAnalyticSessionMessaging];
+        self.analyticSession =
+        [LEOAnalyticSession startSessionWithSessionEventName:kAnalyticSessionMessaging];
 
         [self setupPusher];
         [self constructNotifications];
         [self setupNoticeView];
+
         [self setupFullScreenNotice];
     }];
 
+    [self setupStyling];
+}
+
+- (void)setupStyling {
+
     [LEOStyleHelper roundCornersForView:self.navigationController.view
                        withCornerRadius:kCornerRadius];
-
 }
 
 - (void)fetchRequiredDataWithCompletion:(void (^)(NSArray *notices, Practice *practice, NSError *error))completionBlock {
 
-    [[LEOHelperService new] getPracticeWithID:@"0" withCompletion:^(Practice *practice, NSError *error) {
+    [[LEOHelperService new] getPracticeWithID:kDefaultPracticeID withCompletion:^(Practice *practice, NSError *error) {
 
         if (error) {
             completionBlock(nil, nil, error);
@@ -192,6 +200,12 @@ static NSString *const kCopyOffHoursBody =
         self.viewWillAppearOnce = YES;
     }
 
+    self.topContentAdditionalInset = CGRectGetHeight(self.headerNoticeView.frame);
+
+    self.collectionView.contentOffset =
+    CGPointMake(0, -self.topContentAdditionalInset);
+
+    //The below methods needed to ensure messaging window includes contentOffset includes the topContentAdditionalInset
     [self.view setNeedsLayout];
     [self.view layoutIfNeeded];
 }
@@ -280,12 +294,25 @@ static NSString *const kCopyOffHoursBody =
 
     if (!noticeName) {
 
+        if (error) {
         *error = [NSError errorWithDomain:LEOErrorDomainContent
                                      code:LEOErrorDomainContentCodeMissingContent
                                  userInfo:nil];
+        }
     };
 
-    return [self.notices filteredArrayUsingPredicate:filterNoticeByName][0];
+    Notice *appropriateNotice = [self.notices filteredArrayUsingPredicate:filterNoticeByName].firstObject;
+
+    if (!appropriateNotice) {
+
+        if (error) {
+            *error = [NSError errorWithDomain:LEOErrorDomainContent
+                                         code:LEOErrorDomainContentCodeMissingContent
+                                     userInfo:nil];
+        }
+    };
+
+    return appropriateNotice;
 }
 
 - (void)setupFullScreenNotice {
@@ -317,9 +344,13 @@ static NSString *const kCopyOffHoursBody =
         [self setupConstraintsForFullScreenNoticeView];
     }
 
-    if (![self shouldShowFullScreenNotice] && [self.fullScreenNoticeView superview]) {
+    if ([self fullScreenNoticeIsShowingButShouldBeHidden]) {
         [self animateToConversationView];
     }
+}
+
+- (BOOL) fullScreenNoticeIsShowingButShouldBeHidden {
+    return (![self shouldShowFullScreenNotice] && [self.fullScreenNoticeView superview]);
 }
 
 - (void)setupConstraintsForHeaderNoticeView:(LEOConversationNoticeView *)noticeView {
@@ -350,10 +381,10 @@ static NSString *const kCopyOffHoursBody =
 
     [self.view addConstraint:self.verticalConstraintForNoticeView];
 
-    self.topContentAdditionalInset = noticeView.frame.size.height;
-
-    self.collectionView.contentOffset =
-    CGPointMake(0, -self.topContentAdditionalInset);
+//    self.topContentAdditionalInset = noticeView.frame.size.height;
+//
+//    self.collectionView.contentOffset =
+//    CGPointMake(0, -self.topContentAdditionalInset);
 }
 
 - (void)setupConstraintsForFullScreenNoticeView {
@@ -865,9 +896,8 @@ static NSString *const kCopyOffHoursBody =
                                         message:nil
                                  preferredStyle:UIAlertControllerStyleActionSheet];
 
-    [mediaController addAction:[self loadImagePickerControllerAction]];;
+    [mediaController addAction:[self loadImagePickerControllerAction]];
     [mediaController addAction:[self loadCameraPickerControllerAction]];
-
     [mediaController addAction:[self cancelPickerControllerAction]];
 
     [self presentViewController:mediaController
