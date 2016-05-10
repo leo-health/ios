@@ -119,14 +119,17 @@ dismissButtonTouchedUpInsideBlock:(void (^)(void))dismissButtonTouchedUpInsideBl
                        action:@selector(buttonOneTouchedUpInside)
              forControlEvents:UIControlEventTouchUpInside];
 
-        [_buttonOne setTitleColor:[UIColor leo_blue] forState:UIControlStateNormal];
+        [_buttonOne setTitleColor:[UIColor leo_lightBlue] forState:UIControlStateNormal];
 
-        _buttonOne.titleLabel.font = [UIFont leo_appointmentSlotsAndDateFields];
+        _buttonOne.titleLabel.font =
+        [UIFont leo_emergency911Label];
+
         _buttonOne.layer.borderWidth = 1.0;
         _buttonOne.layer.borderColor = [UIColor leo_blue].CGColor;
 
         [LEOStyleHelper roundCornersForView:_buttonOne withCornerRadius:kCornerRadius];
 
+        _buttonOne.backgroundColor = [UIColor leo_blue];
         _buttonOne.contentEdgeInsets = UIEdgeInsetsMake(8, 8, 8, 8);
 
         [self addSubview:_buttonOne];
@@ -152,7 +155,8 @@ dismissButtonTouchedUpInsideBlock:(void (^)(void))dismissButtonTouchedUpInsideBl
 
         [_buttonTwo setTitleColor:[UIColor leo_blue] forState:UIControlStateNormal];
 
-        _buttonTwo.titleLabel.font = [UIFont leo_appointmentSlotsAndDateFields];
+        _buttonTwo.titleLabel.font =
+        [UIFont leo_emergency911Label];
         _buttonTwo.layer.borderWidth = 1.0;
         _buttonTwo.layer.borderColor = [UIColor leo_blue].CGColor;
 
@@ -240,24 +244,6 @@ dismissButtonTouchedUpInsideBlock:(void (^)(void))dismissButtonTouchedUpInsideBl
                                                 metrics:metrics
                                                   views:bindings];
 
-        NSLayoutConstraint *centerConstraintForButtonOne =
-        [NSLayoutConstraint constraintWithItem:self.buttonOne
-                                     attribute:NSLayoutAttributeCenterX
-                                     relatedBy:NSLayoutRelationEqual
-                                        toItem:self
-                                     attribute:NSLayoutAttributeCenterX
-                                    multiplier:1.0
-                                      constant:0];
-
-        NSLayoutConstraint *centerConstraintForButtonTwo =
-        [NSLayoutConstraint constraintWithItem:self.buttonTwo
-                                     attribute:NSLayoutAttributeCenterX
-                                     relatedBy:NSLayoutRelationEqual
-                                        toItem:self
-                                     attribute:NSLayoutAttributeCenterX
-                                    multiplier:1.0
-                                      constant:0];
-
         NSLayoutConstraint *centerConstraintForNoticeLabel =
         [NSLayoutConstraint constraintWithItem:self.noticeLabel
                                      attribute:NSLayoutAttributeCenterY
@@ -268,7 +254,20 @@ dismissButtonTouchedUpInsideBlock:(void (^)(void))dismissButtonTouchedUpInsideBl
                                       constant:0];
 
         NSArray *verticalConstraintsForButtonTwo =
-        [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_buttonOne]-[_buttonTwo]-(margin)-|"
+        [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_buttonTwo]-(margin)-|"
+                                                options:0
+                                                metrics:metrics
+                                                  views:bindings];
+
+        NSArray *verticalConstraintsForButtonOne =
+        [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_buttonOne]-(margin)-|"
+                                                options:0
+                                                metrics:metrics
+                                                  views:bindings];
+
+
+        NSArray *horizontalConstraintsForBothButtons =
+        [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(margin)-[_buttonOne]-[_buttonTwo(_buttonOne)]-(margin)-|"
                                                 options:0
                                                 metrics:metrics
                                                   views:bindings];
@@ -280,10 +279,10 @@ dismissButtonTouchedUpInsideBlock:(void (^)(void))dismissButtonTouchedUpInsideBl
         [self addConstraints:horizontalConstraintsForNoticeLabel];
         [self addConstraint:centerConstraintForNoticeLabel];
 
-        [self addConstraint:centerConstraintForButtonOne];
-        [self addConstraint:centerConstraintForButtonTwo];
+        [self addConstraints:horizontalConstraintsForBothButtons];
 
         [self addConstraints:verticalConstraintsForButtonTwo];
+        [self addConstraints:verticalConstraintsForButtonOne];
 
         [self addConstraints:horizontalConstraintsForDismissButton];
         [self addConstraints:verticalConstraintsForDismissButton];
