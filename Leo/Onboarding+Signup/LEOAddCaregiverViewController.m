@@ -1,15 +1,15 @@
 //
-//  LEOInviteViewController.m
+//  LEOAddCaregiverViewController.m
 //  Leo
 //
 //  Created by Zachary Drossman on 10/9/15.
 //  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
-#import "LEOInviteViewController.h"
+#import "LEOAddCaregiverViewController.h"
 #import "LEOStyleHelper.h"
 #import "LEOValidationsHelper.h"
-#import "LEOInviteView.h"
+#import "LEOAddCaregiverView.h"
 #import "LEOPromptField.h"
 #import "LEOUserService.h"
 #import "User.h"    
@@ -22,17 +22,18 @@
 #import "Family.h"
 #import "Guardian.h"
 #import "LEOAlertHelper.h"
+#import "UIFont+LeoFonts.h"
 
-@interface LEOInviteViewController () <LEOStickyHeaderDataSource, LEOStickyHeaderDelegate>
+@interface LEOAddCaregiverViewController () <LEOStickyHeaderDataSource, LEOStickyHeaderDelegate>
 
 @property (strong, nonatomic) LEOProgressDotsHeaderView *headerView;
-@property (strong, nonatomic) LEOInviteView *inviteView;
+@property (strong, nonatomic) LEOAddCaregiverView *addCaregiverView;
 
 @end
 
-@implementation LEOInviteViewController
+@implementation LEOAddCaregiverViewController
 
-static NSString * const kCopyHeaderInviteParent = @"Invite another parent to Leo";
+static NSString * const kCopyHeaderAddCaregiver = @"Add another parent or caregiver to Leo";
 
 - (void)viewDidLoad {
 
@@ -62,26 +63,26 @@ static NSString * const kCopyHeaderInviteParent = @"Invite another parent to Leo
 
     [super viewDidAppear:animated];
 
-    [Localytics tagScreen:kAnalyticScreenInviteUser];
+    [Localytics tagScreen:kAnalyticScreenAddCaregiver];
 
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:nil withOnlineBlock:nil];
 }
 
-- (LEOInviteView *)inviteView {
+- (LEOAddCaregiverView *)addCaregiverView {
 
-    if (!_inviteView) {
-        _inviteView = [self leo_loadViewFromNibForClass:[LEOInviteView class]];
-        _inviteView.feature = self.feature;
+    if (!_addCaregiverView) {
+        _addCaregiverView = [self leo_loadViewFromNibForClass:[LEOAddCaregiverView class]];
+        _addCaregiverView.feature = self.feature;
     }
 
-    return _inviteView;
+    return _addCaregiverView;
 }
 
 - (LEOProgressDotsHeaderView *)headerView {
 
     if (!_headerView) {
 
-        _headerView = [[LEOProgressDotsHeaderView alloc] initWithTitleText:kCopyHeaderInviteParent numberOfCircles:kNumberOfProgressDots currentIndex:3 fillColor:[UIColor leo_orangeRed]];
+        _headerView = [[LEOProgressDotsHeaderView alloc] initWithTitleText:kCopyHeaderAddCaregiver numberOfCircles:kNumberOfProgressDots currentIndex:3 fillColor:[UIColor leo_orangeRed]];
 
         _headerView.intrinsicHeight = self.feature == FeatureSettings ? @(0) : @(kHeightOnboardingHeaders);
         [LEOStyleHelper styleExpandedTitleLabel:_headerView.titleLabel feature:self.feature];
@@ -93,7 +94,7 @@ static NSString * const kCopyHeaderInviteParent = @"Invite another parent to Leo
 # pragma mark  -  LEOStickyHeaderView Delegate Data Source
 
 - (UIView *)injectBodyView {
-    return self.inviteView;
+    return self.addCaregiverView;
 }
 
 - (UIView *)injectTitleView {
@@ -114,8 +115,22 @@ static NSString * const kCopyHeaderInviteParent = @"Invite another parent to Leo
 
 - (void)setupNavigationBar {
 
-    [LEOStyleHelper styleNavigationBarForViewController:self forFeature:self.feature withTitleText:@"Invite a Parent" dismissal:NO backButton:YES];
-//    [LEOStyleHelper styleNavigationBar:self.navigationController.navigationBar forFeature:self.feature];
+    [LEOStyleHelper styleNavigationBarForViewController:self forFeature:self.feature withTitleText:@"Add a Parent / Caregiver" dismissal:NO backButton:YES];
+
+    if (self.feature == FeatureOnboarding) {
+
+        UIButton *skipButton = [UIButton buttonWithType:UIButtonTypeCustom];
+
+        [skipButton setTitle:@"Skip for now" forState:UIControlStateNormal];
+        [skipButton setTitleColor:[UIColor leo_orangeRed] forState:UIControlStateNormal];
+        [skipButton addTarget:self action:@selector(skipTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
+        skipButton.titleLabel.font = [UIFont leo_standardFont];
+        [skipButton sizeToFit];
+
+        UIBarButtonItem *backBBI = [[UIBarButtonItem alloc] initWithCustomView:skipButton];
+
+        self.navigationItem.rightBarButtonItem = backBBI;
+    }
 }
 
 - (IBAction)sendInvitationsTapped {
@@ -123,12 +138,12 @@ static NSString * const kCopyHeaderInviteParent = @"Invite another parent to Leo
     [LEOBreadcrumb crumbWithFunction:__PRETTY_FUNCTION__];
 
     [self.view endEditing:YES];
-    if ([self.inviteView isValidInvite]) {
+    if ([self.addCaregiverView isValidInvite]) {
 
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        self.inviteView.userInteractionEnabled = NO;
+        self.addCaregiverView.userInteractionEnabled = NO;
 
-        Guardian *configUser = [[Guardian alloc] initWithObjectID:nil title:nil firstName:self.inviteView.firstName middleInitial:nil lastName:self.inviteView.lastName suffix:nil email:self.inviteView.email avatar:nil];
+        Guardian *configUser = [[Guardian alloc] initWithObjectID:nil title:nil firstName:self.addCaregiverView.firstName middleInitial:nil lastName:self.addCaregiverView.lastName suffix:nil email:self.addCaregiverView.email avatar:nil];
         
         if (self.feature == FeatureOnboarding) {
 
@@ -139,20 +154,20 @@ static NSString * const kCopyHeaderInviteParent = @"Invite another parent to Leo
         else if (self.feature == FeatureSettings) {
 
             LEOUserService *userService = [[LEOUserService alloc] init];
-            [userService inviteUser:configUser withCompletion:^(BOOL success, NSError *error) {
+            [userService addCaregiver:configUser withCompletion:^(BOOL success, NSError *error) {
 
 
                 [MBProgressHUD hideHUDForView:self.view animated:YES];
-                self.inviteView.userInteractionEnabled = YES;
+                self.addCaregiverView.userInteractionEnabled = YES;
 
                 if (success) {
 
                     if (self.feature == FeatureSettings) {
 
-                        [Localytics tagEvent:kAnalyticEventInviteUserFromSettings];
+                        [Localytics tagEvent:kAnalyticEventAddCaregiverFromSettings];
 
                         LEOStatusBarNotification *successNotification = [LEOStatusBarNotification new];
-                        [successNotification displayNotificationWithMessage:@"Additional parent successfully invited!"
+                        [successNotification displayNotificationWithMessage:@"Additional caregiver successfully added to your family!"
                                                                        forDuration:1.0f];
 
                         [self.navigationController popViewControllerAnimated:YES];
@@ -169,7 +184,7 @@ static NSString * const kCopyHeaderInviteParent = @"Invite another parent to Leo
     }
 }
 
-- (IBAction)skipTouchUpInside:(id)sender {
+- (void)skipTouchUpInside:(id)sender {
 
     [LEOBreadcrumb crumbWithFunction:__PRETTY_FUNCTION__];
 

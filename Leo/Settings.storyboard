@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="hnZ-G5-1Lz">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="hnZ-G5-1Lz">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -36,7 +36,7 @@
                     <connections>
                         <outlet property="tableView" destination="XwZ-tJ-z2G" id="Jf0-Vr-byQ"/>
                         <segue destination="OwN-TI-rL1" kind="show" identifier="UpdatePatientSegue" id="dpL-rs-5NO"/>
-                        <segue destination="ogw-xn-APr" kind="show" identifier="InviteSegue" id="5V3-Dl-vlX"/>
+                        <segue destination="ogw-xn-APr" kind="show" identifier="AddCaregiverSegue" id="5V3-Dl-vlX"/>
                         <segue destination="Vqd-KF-enV" kind="show" identifier="UpdateEmailSegue" id="QFt-od-RMM"/>
                         <segue destination="E1E-k5-SOB" kind="show" identifier="UpdatePasswordSegue" id="1kK-iS-xrW"/>
                         <segue destination="KjM-vJ-EQe" kind="show" identifier="TermsAndConditionsSegue" id="Ioq-0z-A9J"/>
@@ -47,10 +47,10 @@
             </objects>
             <point key="canvasLocation" x="1498" y="690"/>
         </scene>
-        <!--Invite View Controller-->
+        <!--Add Caregiver View Controller-->
         <scene sceneID="uWV-a1-FHR">
             <objects>
-                <viewController id="ogw-xn-APr" customClass="LEOInviteViewController" sceneMemberID="viewController">
+                <viewController id="ogw-xn-APr" customClass="LEOAddCaregiverViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="oic-zp-YeW"/>
                         <viewControllerLayoutGuide type="bottom" id="I4d-qZ-7nU"/>

@@ -1,12 +1,12 @@
 //
-//  LEOInviteView.m
+//  LEOAddCaregiverView.m
 //  Leo
 //
 //  Created by Zachary Drossman on 10/9/15.
 //  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
-#import "LEOInviteView.h"
+#import "LEOAddCaregiverView.h"
 #import "LEOPromptField.h"
 #import "UIView+Extensions.h"
 #import "LEOValidationsHelper.h"
@@ -14,19 +14,21 @@
 #import "NSObject+XibAdditions.h"
 #import "UIView+Extensions.h"
 #import "LEOStyleHelper.h"
+#import "UIFont+LeoFonts.h"
+#import "UIColor+LeoColors.h"
 
-@interface LEOInviteView ()
+@interface LEOAddCaregiverView ()
 
 @property (weak, nonatomic) IBOutlet LEOPromptField *lastNamePromptField;
 @property (weak, nonatomic) IBOutlet LEOPromptField *emailAddressPromptField;
+@property (weak, nonatomic) IBOutlet UILabel  *termsLabel;
 @property (weak, nonatomic) IBOutlet UIButton *submitButton;
-@property (weak, nonatomic) IBOutlet UIButton *skipButton;
 
 @property (nonatomic) BOOL hasBeenValidatedAtLeastOnce;
 
 @end
 
-@implementation LEOInviteView
+@implementation LEOAddCaregiverView
 
 IB_DESIGNABLE
 
@@ -63,22 +65,23 @@ IB_DESIGNABLE
     [_emailAddressPromptField.textField sizeToFit];
 }
 
+- (void)setTermsLabel:(UILabel *)termsLabel {
+
+    _termsLabel = termsLabel;
+
+    _termsLabel.text = @"By adding a parent or caregiver, you are providing this individual with access to your family's account and your child or children's health data.";
+    _termsLabel.font = [UIFont leo_emergency911Label];
+    _termsLabel.textColor = [UIColor leo_grayStandard];
+    _termsLabel.textAlignment = NSTextAlignmentLeft;
+    _termsLabel.numberOfLines = 0;
+    _termsLabel.lineBreakMode = NSLineBreakByWordWrapping;
+}
+
 - (void)setSubmitButton:(UIButton *)submitButton {
 
     _submitButton = submitButton;
+
     [LEOStyleHelper styleButton:submitButton forFeature:FeatureSettings];
-}
-
-- (void)setSkipButton:(UIButton *)skipButton {
-
-    _skipButton = skipButton;
-    _skipButton.hidden = self.feature != FeatureOnboarding;
-}
-
-- (void)setFeature:(Feature)feature {
-
-    _feature = feature;
-    self.skipButton.hidden = self.feature != FeatureOnboarding;
 }
 
 #pragma mark - Accessors

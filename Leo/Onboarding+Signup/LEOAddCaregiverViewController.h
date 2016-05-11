@@ -1,5 +1,5 @@
 //
-//  LEOInviteViewController.h
+//  LEOAddCaregiverViewController.h
 //  Leo
 //
 //  Created by Zachary Drossman on 10/9/15.
@@ -12,7 +12,7 @@
 #import "LEOStickyHeaderViewController.h"
 #import "LEOAnalyticSession.h"
 
-@interface LEOInviteViewController : LEOStickyHeaderViewController
+@interface LEOAddCaregiverViewController : LEOStickyHeaderViewController
 
 @property (strong, nonatomic) Family *family;
 @property (strong, nonatomic) LEOAnalyticSession *analyticSession;

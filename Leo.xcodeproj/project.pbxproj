@@ -17,9 +17,9 @@
 		3115F1E71BC55F77001BDF6A /* LEOStyleHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3115F1E61BC55F77001BDF6A /* LEOStyleHelper.m */; };
 		3115F1F81BC71669001BDF6A /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3115F1F71BC71669001BDF6A /* Settings.storyboard */; };
 		3115F1FC1BC71683001BDF6A /* LEOSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3115F1FB1BC71683001BDF6A /* LEOSettingsViewController.m */; };
-		3115F1FF1BC80E7D001BDF6A /* LEOInviteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3115F1FE1BC80E7D001BDF6A /* LEOInviteViewController.m */; };
-		3115F2021BC848F8001BDF6A /* LEOInviteView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3115F2011BC848F8001BDF6A /* LEOInviteView.m */; };
-		3115F2061BC84935001BDF6A /* LEOInviteView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3115F2051BC84934001BDF6A /* LEOInviteView.xib */; };
+		3115F1FF1BC80E7D001BDF6A /* LEOAddCaregiverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3115F1FE1BC80E7D001BDF6A /* LEOAddCaregiverViewController.m */; };
+		3115F2021BC848F8001BDF6A /* LEOAddCaregiverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3115F2011BC848F8001BDF6A /* LEOAddCaregiverView.m */; };
+		3115F2061BC84935001BDF6A /* LEOAddCaregiverView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3115F2051BC84934001BDF6A /* LEOAddCaregiverView.xib */; };
 		3115F21A1BCEA316001BDF6A /* LEOUpdateEmailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3115F2161BCEA316001BDF6A /* LEOUpdateEmailView.m */; };
 		3115F21B1BCEA316001BDF6A /* LEOUpdateEmailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3115F2171BCEA316001BDF6A /* LEOUpdateEmailView.xib */; };
 		3115F21C1BCEA316001BDF6A /* LEOUpdateEmailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3115F2191BCEA316001BDF6A /* LEOUpdateEmailViewController.m */; };
@@ -273,11 +273,11 @@
 		3115F1F71BC71669001BDF6A /* Settings.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
 		3115F1FA1BC71683001BDF6A /* LEOSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOSettingsViewController.h; sourceTree = "<group>"; };
 		3115F1FB1BC71683001BDF6A /* LEOSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOSettingsViewController.m; sourceTree = "<group>"; };
-		3115F1FD1BC80E7D001BDF6A /* LEOInviteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOInviteViewController.h; path = "Onboarding+Signup/LEOInviteViewController.h"; sourceTree = "<group>"; };
-		3115F1FE1BC80E7D001BDF6A /* LEOInviteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOInviteViewController.m; path = "Onboarding+Signup/LEOInviteViewController.m"; sourceTree = "<group>"; };
-		3115F2001BC848F8001BDF6A /* LEOInviteView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOInviteView.h; sourceTree = "<group>"; };
-		3115F2011BC848F8001BDF6A /* LEOInviteView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOInviteView.m; sourceTree = "<group>"; };
-		3115F2051BC84934001BDF6A /* LEOInviteView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LEOInviteView.xib; path = "Onboarding+Signup/LEOInviteView.xib"; sourceTree = "<group>"; };
+		3115F1FD1BC80E7D001BDF6A /* LEOAddCaregiverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOAddCaregiverViewController.h; path = "Onboarding+Signup/LEOAddCaregiverViewController.h"; sourceTree = "<group>"; };
+		3115F1FE1BC80E7D001BDF6A /* LEOAddCaregiverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOAddCaregiverViewController.m; path = "Onboarding+Signup/LEOAddCaregiverViewController.m"; sourceTree = "<group>"; };
+		3115F2001BC848F8001BDF6A /* LEOAddCaregiverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOAddCaregiverView.h; sourceTree = "<group>"; };
+		3115F2011BC848F8001BDF6A /* LEOAddCaregiverView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOAddCaregiverView.m; sourceTree = "<group>"; };
+		3115F2051BC84934001BDF6A /* LEOAddCaregiverView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LEOAddCaregiverView.xib; path = "Onboarding+Signup/LEOAddCaregiverView.xib"; sourceTree = "<group>"; };
 		3115F2151BCEA316001BDF6A /* LEOUpdateEmailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOUpdateEmailView.h; path = "Onboarding+Signup/LEOUpdateEmailView.h"; sourceTree = "<group>"; };
 		3115F2161BCEA316001BDF6A /* LEOUpdateEmailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOUpdateEmailView.m; path = "Onboarding+Signup/LEOUpdateEmailView.m"; sourceTree = "<group>"; };
 		3115F2171BCEA316001BDF6A /* LEOUpdateEmailView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LEOUpdateEmailView.xib; path = "Onboarding+Signup/LEOUpdateEmailView.xib"; sourceTree = "<group>"; };
@@ -791,7 +791,7 @@
 				3115F1FB1BC71683001BDF6A /* LEOSettingsViewController.m */,
 				3115F21D1BCEA31E001BDF6A /* Update Email */,
 				3115F21F1BCEA973001BDF6A /* Update Password */,
-				3115F21E1BCEA326001BDF6A /* Invite Parent */,
+				3115F21E1BCEA326001BDF6A /* Add Caregiver */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -808,16 +808,16 @@
 			name = "Update Email";
 			sourceTree = "<group>";
 		};
-		3115F21E1BCEA326001BDF6A /* Invite Parent */ = {
+		3115F21E1BCEA326001BDF6A /* Add Caregiver */ = {
 			isa = PBXGroup;
 			children = (
-				3115F1FD1BC80E7D001BDF6A /* LEOInviteViewController.h */,
-				3115F1FE1BC80E7D001BDF6A /* LEOInviteViewController.m */,
-				3115F2001BC848F8001BDF6A /* LEOInviteView.h */,
-				3115F2011BC848F8001BDF6A /* LEOInviteView.m */,
-				3115F2051BC84934001BDF6A /* LEOInviteView.xib */,
+				3115F1FD1BC80E7D001BDF6A /* LEOAddCaregiverViewController.h */,
+				3115F1FE1BC80E7D001BDF6A /* LEOAddCaregiverViewController.m */,
+				3115F2001BC848F8001BDF6A /* LEOAddCaregiverView.h */,
+				3115F2011BC848F8001BDF6A /* LEOAddCaregiverView.m */,
+				3115F2051BC84934001BDF6A /* LEOAddCaregiverView.xib */,
 			);
-			name = "Invite Parent";
+			name = "Add Caregiver";
 			sourceTree = "<group>";
 		};
 		3115F21F1BCEA973001BDF6A /* Update Password */ = {
@@ -1708,7 +1708,7 @@
 				BCE1EC781B00E353007C8D0B /* LaunchScreen.xib in Resources */,
 				3168997C1BC4858400B4C1EB /* LEOButtonCell.xib in Resources */,
 				31D275671C45522B005F8964 /* LEOForgotPasswordView.xib in Resources */,
-				3115F2061BC84935001BDF6A /* LEOInviteView.xib in Resources */,
+				3115F2061BC84935001BDF6A /* LEOAddCaregiverView.xib in Resources */,
 				31B5EC641BDA84720016F653 /* *.leoforkids.com.cer in Resources */,
 				31F5AA751B791B4B00F96D06 /* ProviderCell.xib in Resources */,
 				3101F9431BF556820075765B /* LeoUserDefaults.plist in Resources */,
@@ -1889,7 +1889,7 @@
 				31254B7D1BB050CD00E8E150 /* LEOUserService.m in Sources */,
 				31CC12DF1BB062C40099AB60 /* Insurer.m in Sources */,
 				31F5AA691B791B4A00F96D06 /* LEOAPIAppointmentTypesOperation.m in Sources */,
-				3115F2021BC848F8001BDF6A /* LEOInviteView.m in Sources */,
+				3115F2021BC848F8001BDF6A /* LEOAddCaregiverView.m in Sources */,
 				31264E861B5EBB1A00D292CF /* LEOMessagesAvatarImageFactory.m in Sources */,
 				3132D9E91C1F3E4100A3E9AA /* LEONavigationControllerPopAnimator.m in Sources */,
 				3168997D1BC4858400B4C1EB /* LEOReviewPatientCell.m in Sources */,
@@ -1900,7 +1900,7 @@
 				3101F9411BF54D320075765B /* NSUserDefaults+Extensions.m in Sources */,
 				312594B71BDFEA9C00A497C0 /* LEOHorizontalModalTransitionAnimator.m in Sources */,
 				31D275761C517AF0005F8964 /* LEOManagePatientsView.m in Sources */,
-				3115F1FF1BC80E7D001BDF6A /* LEOInviteViewController.m in Sources */,
+				3115F1FF1BC80E7D001BDF6A /* LEOAddCaregiverViewController.m in Sources */,
 				31D20ACC1B14C61F00F3351A /* LEORecordViewController.m in Sources */,
 				31197A121B39D8FD00C773BA /* MenuView.m in Sources */,
 				662371F11C568C23001AB3E7 /* LEOLoggedOutLoginCell.m in Sources */,

@@ -350,13 +350,13 @@ static CGFloat kImageSideSizeScale3Avatar = 300.0;
     }];
 }
 
-- (void)inviteUser:(User *)user withCompletion:(void (^) (BOOL success, NSError *error))completionBlock {
+- (void)addCaregiver:(User *)user withCompletion:(void (^) (BOOL success, NSError *error))completionBlock {
     
     NSDictionary *userDictionary = [User dictionaryFromUser:user];
     
-    NSString *inviteEndpoint = [NSString stringWithFormat:@"%@/%@", APIEndpointUserEnrollments, APIEndpointInvite];
+    NSString *addCaregiverEndpoint = [NSString stringWithFormat:@"%@/%@", APIEndpointUserEnrollments, APIEndpointAddCaregiver];
     
-    [[LEOUserService leoSessionManager] standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:inviteEndpoint params:userDictionary completion:^(NSDictionary *rawResults, NSError *error) {
+    [[LEOUserService leoSessionManager] standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:addCaregiverEndpoint params:userDictionary completion:^(NSDictionary *rawResults, NSError *error) {
         
         BOOL success = error ? NO : YES;
         
