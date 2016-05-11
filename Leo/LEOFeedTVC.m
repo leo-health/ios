@@ -389,8 +389,6 @@ static CGFloat const kFeedInsetTop = 20.0;
 
     [self fetchFamilyWithCompletion:^(NSError *error) {
 
-        //!!!: The way we are handling errors here is a code smell. We need to go back and refactor the errors out.
-        
         if (error) {
             [self handleNetworkError:error];
         } else {
