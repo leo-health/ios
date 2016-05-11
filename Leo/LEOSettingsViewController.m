@@ -299,6 +299,7 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
             cell.promptField.accessoryImage = nil;
             cell.promptField.tintColor = [UIColor leo_orangeRed];
             cell.promptField.textField.textColor = [UIColor leo_orangeRed];
+            cell.promptField.textField.standardPlaceholder = @"";
 
             break;
         }
