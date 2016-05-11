@@ -59,7 +59,12 @@ NSString *const kStandardErrorAlertActionText = @"Got it.";
 
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:kStandardErrorAlertActionText
                                                        style:UIAlertActionStyleCancel
-                                                     handler:nil];
+                                                     handler:^(UIAlertAction * _Nonnull action) {
+
+                                                         if ([viewController respondsToSelector:@selector(okTouchedUpInside)]) {
+                                                             [viewController performSelector:@selector(okTouchedUpInside)];
+                                                         }
+                                                     }];
 
     [alertController addAction:okAction];
 
