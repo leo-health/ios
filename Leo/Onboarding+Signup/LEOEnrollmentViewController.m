@@ -6,11 +6,11 @@
 //  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
+#import "LEOSignUpUserViewController.h"
 #import "LEOEnrollmentViewController.h"
 #import "UIImage+Extensions.h"
 #import "LEOValidationsHelper.h"
 #import "Guardian.h"
-#import "LEOSignUpUserViewController.h"
 #import "LEOUserService.h"
 #import "LEOStyleHelper.h"
 #import "LEOPromptField.h"
@@ -22,8 +22,6 @@
 #import "LEOEnrollmentView.h"
 #import "LEOProgressDotsHeaderView.h"
 #import "LEOAnalyticSession.h"
-#import <Crashlytics/Crashlytics.h>
-#import <Crittercism/Crittercism.h>
 #import "Configuration.h"
 #import "LEOAlertHelper.h"
 
@@ -41,6 +39,7 @@
 static NSString * const kCopyHeaderEnrollment = @"First, please create an account with Leo";
 static NSString * const kCopyCollapsedHeaderEnrollment = @"Create an account";
 
+
 #pragma mark - View Controller Lifecycle & Helper Methods
 
 - (void)viewDidLoad {
@@ -49,9 +48,9 @@ static NSString * const kCopyCollapsedHeaderEnrollment = @"Create an account";
 
     [self.view setupTouchEventForDismissingKeyboard];
 
-    self.analyticSession = [LEOAnalyticSession startSessionWithSessionEventName:kAnalyticSessionRegistration];
+    self.analyticSession =
+    [LEOAnalyticSession startSessionWithSessionEventName:kAnalyticSessionRegistration];
 
-    
     self.feature = FeatureOnboarding;
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.stickyHeaderView.snapToHeight = @(0);
@@ -66,9 +65,11 @@ static NSString * const kCopyCollapsedHeaderEnrollment = @"Create an account";
 - (void)viewWillAppear:(BOOL)animated {
 
     [super viewWillAppear:animated];
+
     [self setupNavigationBar];
 
-    CGFloat percentage = [self transitionPercentageForScrollOffset:self.stickyHeaderView.scrollView.contentOffset];
+    CGFloat percentage =
+    [self transitionPercentageForScrollOffset:self.stickyHeaderView.scrollView.contentOffset];
 
     self.navigationItem.titleView.hidden = percentage == 0;
 }
@@ -78,12 +79,19 @@ static NSString * const kCopyCollapsedHeaderEnrollment = @"Create an account";
     [super viewDidAppear:animated];
 
     [Localytics tagScreen:kAnalyticScreenUserEnrollment];
-    
-    [LEOApiReachability startMonitoringForController:self withOfflineBlock:nil withOnlineBlock:nil];
+
+    [LEOApiReachability startMonitoringForController:self
+                                    withOfflineBlock:nil
+                                     withOnlineBlock:nil];
 }
 
 - (void)setupNavigationBar {
-    [LEOStyleHelper styleNavigationBarForViewController:self forFeature:self.feature withTitleText:kCopyCollapsedHeaderEnrollment dismissal:NO backButton:YES];
+
+    [LEOStyleHelper styleNavigationBarForViewController:self
+                                             forFeature:self.feature
+                                          withTitleText:kCopyCollapsedHeaderEnrollment
+                                              dismissal:NO
+                                             backButton:YES];
 }
 
 
@@ -93,9 +101,15 @@ static NSString * const kCopyCollapsedHeaderEnrollment = @"Create an account";
 
     if (!_headerView) {
 
-        _headerView = [[LEOProgressDotsHeaderView alloc] initWithTitleText:kCopyHeaderEnrollment numberOfCircles:kNumberOfProgressDots currentIndex:0 fillColor:[UIColor leo_orangeRed]];
+        _headerView = [[LEOProgressDotsHeaderView alloc] initWithTitleText:kCopyHeaderEnrollment
+                                                           numberOfCircles:kNumberOfProgressDots
+                                                              currentIndex:0
+                                                                 fillColor:[UIColor leo_orangeRed]];
+
         _headerView.intrinsicHeight = @(kHeightOnboardingHeaders);
-        [LEOStyleHelper styleExpandedTitleLabel:_headerView.titleLabel feature:self.feature];
+
+        [LEOStyleHelper styleExpandedTitleLabel:_headerView.titleLabel
+                                        feature:self.feature];
     }
 
     return _headerView;
@@ -138,7 +152,8 @@ static NSString * const kCopyCollapsedHeaderEnrollment = @"Create an account";
 
     [LEOBreadcrumb crumbWithFunction:__PRETTY_FUNCTION__];
 
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES]; //TODO: Create separate class to set these up for all use cases with two methods that support showing and hiding our customized HUD.
+    [MBProgressHUD showHUDAddedTo:self.view
+                         animated:YES]; //TODO: Create separate class to set these up for all use cases with two methods that support showing and hiding our customized HUD.
 
     self.enrollmentView.continueButton.enabled = NO;
 
@@ -146,64 +161,84 @@ static NSString * const kCopyCollapsedHeaderEnrollment = @"Create an account";
 
         [self addOnboardingData];
 
-        LEOUserService *userService = [[LEOUserService alloc] init];
-        [userService enrollUser:self.guardian password:self.enrollmentView.passwordPromptField.textField.text withCompletion:^(BOOL success, NSError *error) {
+        [Configuration resetVendorID];
 
-            if (!error) {
+        [Configuration downloadRemoteEnvironmentVariablesIfNeededWithCompletion:^(BOOL success, NSError *error) {
 
-                [Configuration resetVendorID];
+            LEOUserService *userService = [[LEOUserService alloc] init];
+            [userService enrollUser:self.guardian password:self.enrollmentView.passwordPromptField.textField.text withCompletion:^(BOOL success, NSError *error) {
 
-                [Configuration downloadRemoteEnvironmentVariablesIfNeededWithCompletion:^(BOOL success, NSError *error) {
+                if (!error) {
 
                     if (success) {
-                    [Localytics tagEvent:kAnalyticEventEnroll];
 
-                    [MBProgressHUD hideHUDForView:self.view animated:YES];
-                    self.enrollmentView.continueButton.enabled = YES;
+                        [Localytics tagEvent:kAnalyticEventEnroll];
 
-                    [self performSegueWithIdentifier:kSegueContinue sender:sender];
+                        [self performSegueWithIdentifier:kSegueContinue
+                                                  sender:sender];
                     } else {
 
-                        [LEOAlertHelper alertForViewController:self error:error backupTitle:kErrorDefaultTitle backupMessage:kErrorDefaultMessage];
+                        [LEOAlertHelper alertForViewController:self
+                                                         error:error
+                                                   backupTitle:kErrorDefaultTitle
+                                                 backupMessage:kErrorDefaultMessage];
                     }
-                }];
+                } else {
 
-            } else {
-                [self postErrorAlert];
-            }
+                    NSString *backupTitle = @"Minor hiccup!";
+                    NSString *backupMessage = @"Looks like something went wrong. Perhaps you entered an email address that is already taken?";
 
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-            self.enrollmentView.continueButton.enabled = YES;
+                    [LEOAlertHelper alertForViewController:self
+                                                     error:error
+                                               backupTitle:backupTitle
+                                             backupMessage:backupMessage];
+                }
+
+                [MBProgressHUD hideHUDForView:self.view
+                                     animated:YES];
+
+                self.enrollmentView.continueButton.enabled = YES;
+            }];
+
         }];
     } else {
 
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [MBProgressHUD hideHUDForView:self.view
+                             animated:YES];
+
         self.enrollmentView.continueButton.enabled = YES;
     }
-}
-
-- (void)postErrorAlert {
-
-    UIAlertController *errorAlert = [UIAlertController alertControllerWithTitle:@"Minor hiccup!" message:@"Looks like something went wrong. Perhaps you entered an email address that is already taken?" preferredStyle:UIAlertControllerStyleAlert];
-
-    UIAlertAction *action = [UIAlertAction actionWithTitle:@"I'll try again." style:UIAlertActionStyleCancel handler:nil];
-
-    [errorAlert addAction:action];
-
-    [self presentViewController:errorAlert animated:YES completion:nil];
 }
 
 - (void)addOnboardingData {
 
     NSString *email = self.enrollmentView.emailPromptField.textField.text;
 
-    self.guardian = [[Guardian alloc] initWithObjectID:nil familyID:nil title:nil firstName:nil middleInitial:nil lastName:nil suffix:nil email:email avatar:nil phoneNumber:nil insurancePlan:nil primary:YES membershipType:MembershipTypeNone];
+    self.guardian = [[Guardian alloc] initWithObjectID:nil
+                                              familyID:nil
+                                                 title:nil
+                                             firstName:nil
+                                         middleInitial:nil
+                                              lastName:nil
+                                                suffix:nil
+                                                 email:email
+                                                avatar:nil
+                                           phoneNumber:nil
+                                         insurancePlan:nil
+                                               primary:YES
+                                        membershipType:MembershipTypeNone];
 }
 
 - (BOOL)validatePage {
 
-    BOOL validEmail = [LEOValidationsHelper isValidEmail:self.enrollmentView.emailPromptField.textField.text];
-    BOOL validPassword = [LEOValidationsHelper isValidPassword:self.enrollmentView.passwordPromptField.textField.text];
+    NSString *email = self.enrollmentView.emailPromptField.textField.text;
+    BOOL validEmail =
+    [LEOValidationsHelper isValidEmail:email];
+
+    NSString *password = self.enrollmentView.passwordPromptField.textField.text;
+
+    BOOL validPassword =
+    [LEOValidationsHelper isValidPassword:password];
 
     self.enrollmentView.emailPromptField.valid = validEmail;
     self.enrollmentView.passwordPromptField.valid = validPassword;
@@ -227,7 +262,8 @@ static NSString * const kCopyCollapsedHeaderEnrollment = @"Create an account";
 
 - (void)pop {
     
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES
+                             completion:nil];
 }
 
 
