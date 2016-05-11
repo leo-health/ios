@@ -16,7 +16,7 @@
 
 @implementation LEONoticeService
 
-static NSString *const kDefaultMessage = @"Welcome to Leo @ Flatiron Pediatrics. Say hello. Book an appointment. Review your child's health record.";
+static NSString *const kDefaultMessage = @"Welcome to Leo + Flatiron Pediatrics. Say hello. Book an appointment. Review your child's health record.";
 
 - (NSURLSessionTask *)getFeedNoticeForDate:(NSDate *)date withCompletion:(void (^)(NSString *feedMessage, NSError *error))completionBlock {
 
