@@ -15,8 +15,27 @@
 #import "Conversation.h"
 #import <JSQPhotoMediaItem.h>
 #import "NSDate+Extensions.h"
+#import "Notice.h"
+#import "NSDictionary+Extensions.h"
 
 @implementation LEOMessageService
+
+- (void)getConversationNoticeWithCompletion:(void (^)(Notice *conversationNotice, NSError *error))completionBlock {
+
+    [[LEOMessageService leoSessionManager] standardGETRequestForJSONDictionaryFromAPIWithEndpoint:APIEndpointConversationNotices params:nil completion:^(NSDictionary *rawResults, NSError *error) {
+
+        Notice *messageHeader;
+
+        if (!error) {
+            messageHeader = [[Notice alloc] initWithJSONDictionary:[rawResults leo_itemForKey:APIParamData]];
+        }
+
+        if (completionBlock) {
+            completionBlock(messageHeader, error);
+        }
+    }];
+}
+
 
 - (void)createMessage:(Message *)message forConversation:( Conversation *)conversation withCompletion:(void (^)(Message  *  message, NSError *error))completionBlock {
 

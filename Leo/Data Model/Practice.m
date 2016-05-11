@@ -11,17 +11,32 @@
 #import "Support.h"
 #import "UserFactory.h"
 #import "NSDictionary+Extensions.h"
+#import "NSDate+Extensions.h"
+#import <NSDate+DateTools.h>
+#import "DailyPracticeSchedule.h"
+#import "PracticeScheduleException.h"
 
 @implementation Practice
 
-//TODO: Having this and using it in Practice is a code smell. Return to this and determine whether a change to the model might be ideal.
-static NSString *const RoleProvider = @"clinical";
-
-- (instancetype)initWithObjectID:(NSString *)objectID name:(NSString *)name staff:(NSArray *)staff addressLine1:(NSString *)addressLine1 addressLine2:(NSString *)addressLine2 city:(NSString *)city state:(NSString *)state zip:(NSString *)zip phone:(NSString *)phone email:(NSString *)email fax:(NSString *)fax {
+- (instancetype)initWithObjectID:(NSString *)objectID
+                            name:(NSString *)name
+                           staff:(NSArray *)staff
+                    addressLine1:(NSString *)addressLine1
+                    addressLine2:(NSString *)addressLine2
+                            city:(NSString *)city
+                           state:(NSString *)state
+                             zip:(NSString *)zip
+                           phone:(NSString *)phone
+                           email:(NSString *)email
+                             fax:(NSString *)fax
+                        timeZone:(NSTimeZone *)timeZone
+      activeSchedulesByDayOfWeek:(NSArray *)activeSchedulesByDayOfWeek
+              scheduleExceptions:(NSArray *)scheduleExceptions {
 
     self = [super init];
     
     if (self) {
+
         _objectID = objectID;
         _name = name;
         _staff = staff;
@@ -33,9 +48,82 @@ static NSString *const RoleProvider = @"clinical";
         _phone = phone;
         _email = email;
         _fax = fax;
+        _timeZone = timeZone;
+        _activeSchedulesByDayOfWeek = activeSchedulesByDayOfWeek;
+        _scheduleExceptions = scheduleExceptions;
     }
     
     return self;
+}
+
+- (PracticeStatus)status {
+
+    if ([self isClosedAtThisTimeBasedOnTheActiveSchedule:[NSDate date]]) {
+        return PracticeStatusClosed;
+    }
+
+    if ([self isClosedForAnExceptionAtThisTime:[NSDate date]]) {
+        return PracticeStatusClosed;
+    }
+
+    return PracticeStatusOpen;
+}
+
+- (BOOL)isClosedAtThisTimeBasedOnTheActiveSchedule:(NSDate *)date {
+
+    NSPredicate *dayOfWeekFilter =
+    [NSPredicate predicateWithFormat:@"SELF.dayOfWeek == %d", date.weekday];
+
+    //Find the hours for the day of the week of the date requested
+    DailyPracticeSchedule *relevantHours =
+    [self.activeSchedulesByDayOfWeek filteredArrayUsingPredicate:dayOfWeekFilter].firstObject;
+
+    if (relevantHours) {
+
+        //Get the start time and end time formatted as dates
+        NSDate *startTime = [NSDate leo_timeFromHourMinuteString:relevantHours.startTimeString
+                                                    withTimeZone:self.timeZone];
+
+        NSDate *endTime = [NSDate leo_timeFromHourMinuteString:relevantHours.endTimeString
+                                                  withTimeZone:self.timeZone];
+
+        //Concatenate the date provided with the opening and closing times for that day of week
+        NSDate *startDate = [NSDate dateWithYear:date.year
+                                           month:date.month
+                                             day:date.day
+                                            hour:startTime.hour
+                                          minute:startTime.minute
+                                          second:0];
+
+        NSDate *endDate = [NSDate dateWithYear:date.year
+                                         month:date.month
+                                           day:date.day
+                                          hour:endTime.hour
+                                        minute:endTime.minute
+                                        second:0];
+
+        //If the time is after closing or before opening, then the practice is closed at this time
+        return [[NSDate date] isLaterThanOrEqualTo:endDate] || [[NSDate date] isEarlierThan:startDate];
+    }
+    
+    return YES;
+}
+
+- (BOOL)isClosedForAnExceptionAtThisTime:(NSDate *)date {
+
+    //Check to see if the date requested is in our list of exception dates
+    NSPredicate *exceptionFilter =
+    [NSPredicate predicateWithFormat:@"(SELF.startDate <= %@) AND (SELF.endDate >= %@)", date, date];
+
+    NSArray *exceptionsFound =
+    [self.scheduleExceptions filteredArrayUsingPredicate:exceptionFilter];
+
+    //If it is found at least once, then the practice is closed at this time
+    if (exceptionsFound.count > 0) {
+        return YES;
+    }
+
+    return NO;
 }
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
@@ -62,46 +150,40 @@ static NSString *const RoleProvider = @"clinical";
     NSString *zip = [jsonResponse leo_itemForKey:APIParamPracticeLocationZip];
     NSString *phone = [jsonResponse leo_itemForKey:APIParamPracticePhone];
     NSString *email = [jsonResponse leo_itemForKey:APIParamPracticeEmail];
-    
+    NSTimeZone *timeZone = [NSTimeZone timeZoneWithName:[jsonResponse leo_itemForKey:APIParamPracticeTimeZone]];
+
     //FIXME: Need to get APIParams for above to complete this and remove warning.
-    return [self initWithObjectID:objectID name:name staff:[staff copy] addressLine1:addressLine1 addressLine2:addressLine2 city:city state:state zip:zip phone:phone email:email fax:fax];
-}
 
-- (id)initWithCoder:(NSCoder *)decoder {
-    
-    NSString *objectID = [decoder decodeObjectForKey:APIParamPracticeID];
-    NSString *name = [decoder decodeObjectForKey:APIParamPracticeName];
-    NSString *addressLine1 = [decoder decodeObjectForKey:APIParamPracticeLocationAddressLine1];
-    NSString *addressLine2 = [decoder decodeObjectForKey:APIParamPracticeLocationAddressLine2];
-    NSString *city = [decoder decodeObjectForKey:APIParamPracticeLocationCity];
-    NSString *state = [decoder decodeObjectForKey:APIParamPracticeLocationState];
-    NSString *zip = [decoder decodeObjectForKey:APIParamPracticeLocationZip];
-    NSString *phone = [decoder decodeObjectForKey:APIParamPracticePhone];
-    NSString *email = [decoder decodeObjectForKey:APIParamPracticeEmail];
-    NSArray *staff = [decoder decodeObjectForKey:APIParamUsers];
-    NSString *fax = [decoder decodeObjectForKey:APIParamPracticeFax];
-    
-    return [self initWithObjectID:objectID name:name staff:[staff copy] addressLine1:addressLine1 addressLine2:addressLine2 city:city state:state zip:zip phone:phone email:email fax:fax];
-}
+    NSArray *activeScheduleJSON = [jsonResponse leo_itemForKey:APIParamPracticeActiveSchedule];
 
-- (void)encodeWithCoder:(NSCoder *)encoder {
-     
-    [encoder encodeObject:self.objectID forKey:APIParamID];
-    [encoder encodeObject:self.name forKey:APIParamPracticeName];
-    [encoder encodeObject:self.addressLine1 forKey:APIParamPracticeLocationAddressLine1];
-    [encoder encodeObject:self.addressLine2 forKey:APIParamPracticeLocationAddressLine2];
-    [encoder encodeObject:self.city forKey:APIParamPracticeLocationCity];
-    [encoder encodeObject:self.state forKey:APIParamPracticeLocationState];
-    [encoder encodeObject:self.zip forKey:APIParamPracticeLocationZip];
-    [encoder encodeObject:self.phone forKey:APIParamPracticePhone];
-    [encoder encodeObject:self.email forKey:APIParamPracticeEmail];
-    [encoder encodeObject:self.fax forKey:APIParamPracticeFax];
-    [encoder encodeObject:self.staff forKey:APIParamUsers];
+    NSArray *activeSchedulesByDayOfWeek =
+    [DailyPracticeSchedule dailySchedulesFromJSONArray:activeScheduleJSON];
+
+    NSArray *scheduleExceptionsJSON = [jsonResponse leo_itemForKey:APIParamPracticeScheduleExceptions];
+
+    NSArray *scheduleExceptions = [PracticeScheduleException exceptionsWithJSONArray:scheduleExceptionsJSON];
+
+    return [self initWithObjectID:objectID
+                             name:name
+                            staff:[staff copy]
+                     addressLine1:addressLine1
+                     addressLine2:addressLine2
+                             city:city
+                            state:state
+                              zip:zip
+                            phone:phone
+                            email:email
+                              fax:fax
+                         timeZone:timeZone
+       activeSchedulesByDayOfWeek:activeSchedulesByDayOfWeek
+               scheduleExceptions:scheduleExceptions];
 }
 
 - (NSArray *)providers {
 
-    NSPredicate *providerFilter = [NSPredicate predicateWithFormat:@"self isKindOfClass:%@",[Provider class]];
+    NSPredicate *providerFilter =
+    [NSPredicate predicateWithFormat:@"self isKindOfClass:%@",[Provider class]];
+
     return [self.staff filteredArrayUsingPredicate:providerFilter];
 }
 

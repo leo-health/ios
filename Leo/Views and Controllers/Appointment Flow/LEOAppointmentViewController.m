@@ -419,6 +419,8 @@ static NSString *const kKeySelectionVCDate = @"date";
     else if ([key isEqualToString:kKeySelectionVCSlot]) {
 
         Slot *slot = (Slot *)item;
+
+        //FIXME: This is potentially a major bug. Must be reviewed to determine if it is for the next release. (It could be nil and the rest of this will fail.)
         NSArray *providers = [LEOCachedDataStore sharedInstance].practice.providers;
         Provider *provider;
         for (Provider *p in providers) {

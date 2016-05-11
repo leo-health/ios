@@ -9,13 +9,13 @@
 #import "LEOValidationsHelper.h"
 #import "NSDate+Extensions.h"
 
-typedef NS_ENUM(NSInteger, LEOValidationsErrorCode) {
+typedef NS_ENUM(NSInteger, LEOErrorCodeValidations) {
     
-    LEOValidationsErrorCodePasswordMismatch,
-    LEOValidationsErrorCodeInvalidPhoneNumber,
-    LEOValidationsErrorCodeInvalidEmail,
-    LEOValidationsErrorCodeMissingField,
-    LEOValidationsErrorCodePasswordLength,
+    LEOErrorCodeValidationsPasswordMismatch,
+    LEOErrorCodeValidationsInvalidPhoneNumber,
+    LEOErrorCodeValidationsInvalidEmail,
+    LEOErrorCodeValidationsMissingField,
+    LEOErrorCodeValidationsPasswordLength,
 };
 
 @implementation LEOValidationsHelper
@@ -142,7 +142,7 @@ typedef NS_ENUM(NSInteger, LEOValidationsErrorCode) {
                                };
     
     
-    NSInteger code = LEOValidationsErrorCodePasswordLength;
+    NSInteger code = LEOErrorCodeValidationsPasswordLength;
     
     if (candidate.length > 7) {
         
@@ -154,14 +154,14 @@ typedef NS_ENUM(NSInteger, LEOValidationsErrorCode) {
         
         
         
-        code = LEOValidationsErrorCodePasswordMismatch;
+        code = LEOErrorCodeValidationsPasswordMismatch;
         
         if ([candidate isEqualToString:otherCandidate]) {
             return YES;
         }
     }
     
-    *error = [NSError errorWithDomain:kLEOValidationsErrorDomain code:LEOValidationsErrorCodePasswordMismatch userInfo:userInfo];
+    *error = [NSError errorWithDomain:LEOErrorDomainValidation code:LEOErrorCodeValidationsPasswordMismatch userInfo:userInfo];
     
     return NO;
 }

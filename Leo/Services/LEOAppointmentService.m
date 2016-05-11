@@ -103,6 +103,7 @@
 
 - (NSURLSessionTask *)getSlotsForAppointmentType:(AppointmentType *)appointmentType startDate:(NSDate *)startDate endDate:(NSDate *)endDate practiceID:(NSString *)practiceID existingAppointmentID:(NSString*)appointmentID withCompletion:(void (^)(NSArray *slots, NSError *error))completionBlock {
 
+    //FIXME: This is potentially a major bug. Must be reviewed to determine if it is for the next release. (It could be nil and the rest of this will fail.)
     NSArray *providers = [LEOCachedDataStore sharedInstance].practice.providers;
 
     __block NSMutableArray *allSlots = [NSMutableArray new];
@@ -121,15 +122,7 @@
             if (counter == providers.count) {
 
                 NSArray *dedupedSlots = [Slot slotsWithNoDuplicateTimesByRandomlyChoosingProviderFromSlots:allSlots];
-                
-                // test to verify ranomness is correct
-//                NSMutableDictionary *counts = [NSMutableDictionary new];
-//                for (Slot *slot in dedupedSlots) {
-//
-//                    NSString *provider = slot.providerID;
-//                    NSNumber *count = counts[provider];
-//                    counts[provider] = @([count integerValue] + 1);
-//                }
+
                 completionBlock(dedupedSlots, finalError);
             }
         }];

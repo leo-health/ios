@@ -18,7 +18,7 @@
 #import "LEOCardService.h"
 #import "LEOHelperService.h"
 #import "LEOAppointmentService.h"
-#import "LEOFeedMessageService.h"
+#import "LEONoticeService.h"
 
 #import "User.h"
 #import "Role.h"
@@ -33,7 +33,7 @@
 #import "UIColor+LeoColors.h"
 #import "UIImage+Extensions.h"
 #import "LEOExpandedCardAppointmentViewController.h"
-#import "LEOMessagesViewController.h"
+#import "LEOConversationViewController.h"
 #import "LEOSettingsViewController.h"
 #import "LEOPHRViewController.h"
 
@@ -245,9 +245,9 @@ static CGFloat const kFeedInsetTop = 20.0;
 
 - (void)fetchFeedHeader {
 
-    LEOFeedMessageService *feedMessageService = [LEOFeedMessageService new];
+    LEONoticeService *feedMessageService = [LEONoticeService new];
 
-    [feedMessageService getFeedMessageForDate:[NSDate date] withCompletion:^(NSString *feedMessage, NSError *error) {
+    [feedMessageService getFeedNoticeForDate:[NSDate date] withCompletion:^(NSString *feedMessage, NSError *error) {
 
         self.headerMessage = feedMessage;
 
@@ -407,12 +407,20 @@ static CGFloat const kFeedInsetTop = 20.0;
                     //MARK: Until we have more than one practice, this is required for creating new appointments with a default practice
                     self.practice = practices.firstObject;
 
-                    [self fetchDataForCard:nil completion:^(NSArray *cards, NSError *error) {
+                    [[LEONoticeService new] getConversationNoticesWithCompletion:^(NSArray *notices, NSError *error) {
 
                         if (error) {
                             [self handleNetworkError:error];
                         } else {
-                            [MBProgressHUD hideHUDForView:self.view animated:YES];
+
+                            [self fetchDataForCard:nil completion:^(NSArray *cards, NSError *error) {
+
+                                if (error) {
+                                    [self handleNetworkError:error];
+                                } else {
+                                    [MBProgressHUD hideHUDForView:self.view animated:YES];
+                                }
+                            }];
                         }
                     }];
                 }
@@ -780,14 +788,14 @@ static CGFloat const kFeedInsetTop = 20.0;
 
     UIStoryboard *conversationStoryboard = [UIStoryboard storyboardWithName:@"Conversation" bundle:nil];
     UINavigationController *conversationNavController = [conversationStoryboard instantiateInitialViewController];
-    LEOMessagesViewController *messagesVC = conversationNavController.viewControllers.firstObject;
+
+    LEOConversationViewController *messagesVC = conversationNavController.viewControllers.firstObject;
     messagesVC.card = (LEOCardConversation *)card;
 
     self.transitionDelegate = [[LEOTransitioningDelegate alloc] initWithTransitionAnimatorType:TransitionAnimatorTypeCardModal];
     conversationNavController.transitioningDelegate = self.transitionDelegate;
     conversationNavController.modalPresentationStyle = UIModalPresentationFullScreen;
-    [self presentViewController:conversationNavController animated:YES completion:^{
-    }];
+    [self presentViewController:conversationNavController animated:YES completion:nil];
 }
 
 #pragma mark - <UITableViewDataSource>

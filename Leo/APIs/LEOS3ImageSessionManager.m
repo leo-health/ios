@@ -1,5 +1,5 @@
 //
-//  LEOs3SessionMananger.m
+//  LEOs3SessionManager.m
 //  Leo
 //
 //  Created by Zachary Drossman on 8/21/15.

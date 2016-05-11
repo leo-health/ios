@@ -23,6 +23,5 @@
 + (NSInteger)leo_integerForKey:(NSString *)defaultName;
 + (CGFloat)leo_floatForKey:(NSString *)defaultName;
 + (BOOL)leo_boolForKey:(NSString *)defaultName;
-+ (void)leo_saveDefaults;
 
 @end

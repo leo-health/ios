@@ -51,7 +51,7 @@ static CGFloat const kHeightOfHeaderPHR = 200;
     return self;
 }
 
--(void)viewDidLoad {
+- (void)viewDidLoad {
 
     [super viewDidLoad];
 
@@ -72,10 +72,11 @@ static CGFloat const kHeightOfHeaderPHR = 200;
         _stickyHeaderView.headerShouldNotBounceOnScroll = YES;
         _stickyHeaderView.breakerHidden = YES;
     }
+
     return _stickyHeaderView;
 }
 
--(void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated {
 
     [super viewWillAppear:animated];
     [self setupNavigationBar];

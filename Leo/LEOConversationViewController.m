@@ -30,7 +30,7 @@
 #import "MessageText.h"
 #import "LEOMessagesAvatarImageFactory.h"
 #import "LEOMessageService.h"
-#import "LEOMessagesViewController.h"
+#import "LEOConversationViewController.h"
 #import "LEONavigationControllerPopAnimator.h"
 #import "LEONavigationControllerPushAnimator.h"
 #import "NSDate+Extensions.h"
@@ -53,8 +53,17 @@
 #import "LEOAlertHelper.h"
 #import "NSUserDefaults+Extensions.h"
 #import "LEOAnalyticSession.h"
+#import "LEOConversationNoticeView.h"
+#import "LEOConversationFullScreenNoticeView.h"
+#import "Notice.h"
+#import "LEOValidationsHelper.h"
+#import "LEOCallManager.h"
+#import "LEOCachedDataStore.h"
+#import "Practice.h"
+#import "LEOHelperService.h"
+#import "LEONoticeService.h"
 
-@interface LEOMessagesViewController ()
+@interface LEOConversationViewController ()
 
 @property (strong, nonatomic) JSQMessagesBubbleImage *outgoingBubbleImageData;
 @property (strong, nonatomic) JSQMessagesBubbleImage *incomingBubbleImageData;
@@ -75,11 +84,32 @@
 @property (strong, nonatomic) PTPusherEventBinding *pusherBinding;
 @property (strong, nonatomic) LEOAnalyticSession *analyticSession;
 
+@property (strong, nonatomic) LEOConversationFullScreenNoticeView *fullScreenNoticeView;
+@property (strong, nonatomic) LEOConversationNoticeView *headerNoticeView;
+
+@property (strong, nonatomic) NSLayoutConstraint *topConstraintForFullScreenNoticeView;
+@property (strong, nonatomic) NSArray *horizontalConstraintsForNoticeView;
+@property (strong, nonatomic) NSLayoutConstraint *verticalConstraintForNoticeView;
+
+@property (copy, nonatomic) NSArray *notices;
+@property (strong, nonnull) Practice *practice;
+
 @end
 
-@implementation LEOMessagesViewController
+@implementation LEOConversationViewController
 
 NSString *const kCopySendPhoto = @"SEND PHOTO";
+
+NSString *const kCopyDefaultHeaderNoticeText =
+@"In case of emergency, dial 911";
+
+static NSString *const kCopyOffHoursTitle =
+@"Our office is closed at the moment.";
+
+static NSString *const kCopyOffHoursBody =
+@"Please call 911 in case of emergency. If you need clinical assistance now, you can call our nurse line.";
+
+static NSString *const kDefaultPracticeID = @"0";
 
 #pragma mark - View lifecycle
 
@@ -95,16 +125,63 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.analyticSession = [LEOAnalyticSession startSessionWithSessionEventName:kAnalyticSessionMessaging];
-    
-    [self setupEmergencyBar];
     [self setupInputToolbar];
     [self setupCollectionViewFormatting];
     [self setupMessageBubbles];
     [self setupRequiredMessagingProperties];
-    [self setupPusher];
-    [self constructNotifications];
-    [LEOStyleHelper roundCornersForView:self.navigationController.view withCornerRadius:kCornerRadius];
+
+    [self fetchRequiredDataWithCompletion:^(NSArray *notices, Practice *practice, NSError *error) {
+
+        if (error) {
+
+            [LEOAlertHelper alertForViewController:self
+                                             error:nil
+                                       backupTitle:kErrorTitleMessagingDown
+                                     backupMessage:kErrorBodyMessagingDown];
+            return;
+        }
+        
+        self.notices = notices;
+        self.practice = practice;
+
+        self.analyticSession =
+        [LEOAnalyticSession startSessionWithSessionEventName:kAnalyticSessionMessaging];
+
+        [self setupPusher];
+        [self constructNotifications];
+        [self setupNoticeView];
+
+        [self setupFullScreenNotice];
+    }];
+
+    [self setupStyling];
+}
+
+- (void)setupStyling {
+
+    [LEOStyleHelper roundCornersForView:self.navigationController.view
+                       withCornerRadius:kCornerRadius];
+}
+
+- (void)fetchRequiredDataWithCompletion:(void (^)(NSArray *notices, Practice *practice, NSError *error))completionBlock {
+
+    [[LEOHelperService new] getPracticeWithID:kDefaultPracticeID withCompletion:^(Practice *practice, NSError *error) {
+
+        if (error) {
+            completionBlock(nil, nil, error);
+            return;
+        }
+
+        [[LEONoticeService new] getConversationNoticesWithCompletion:^(NSArray *notices, NSError *error) {
+
+            if (error) {
+                completionBlock(nil, practice, error);
+                return;
+            }
+
+            completionBlock(notices, practice, nil);
+        }];
+    }];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -122,6 +199,15 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
         [self scrollToBottomAnimated:NO];
         self.viewWillAppearOnce = YES;
     }
+
+    self.topContentAdditionalInset = CGRectGetHeight(self.headerNoticeView.frame);
+
+    self.collectionView.contentOffset =
+    CGPointMake(0, -self.topContentAdditionalInset);
+
+    //The below methods needed to ensure messaging window includes contentOffset includes the topContentAdditionalInset
+    [self.view setNeedsLayout];
+    [self.view layoutIfNeeded];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -130,37 +216,275 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
     [Localytics tagScreen:kAnalyticScreenMessaging];
 
-    [LEOApiReachability startMonitoringForController:self withOfflineBlock:^{
+    [LEOApiReachability startMonitoringForController:self
+                                    withOfflineBlock:^{
+                                        [self clearPusher];
+                                    }
+                                     withOnlineBlock:^{
+                                         [self resetPusherAndGetMissedMessages];
+                                     }];
+}
 
-        [self clearPusher];
-    } withOnlineBlock:^{
+- (BOOL)shouldShowFullScreenNotice {
 
-        [self resetPusherAndGetMissedMessages];
+    if (self.practice.status == PracticeStatusOpen) {
+        return NO;
+    }
+
+    return YES;
+}
+
+- (void)setupNoticeView {
+
+    [self.headerNoticeView removeFromSuperview];
+    
+    __weak typeof(self) weakSelf = self;
+
+    UIImage *noticeButtonImage =
+    [UIImage imageNamed:@"Button-Conversation-Notice"];
+
+    NSError *noticeError;
+    Notice *notice = [self fetchAppropriateNoticeWithError:&noticeError];
+
+    if(noticeError) {
+
+        [LEOAlertHelper alertForViewController:self
+                                         error:nil
+                                   backupTitle:kErrorTitleMessagingDown
+                                 backupMessage:kErrorBodyMessagingDown];
+
+        return;
+    }
+
+    self.headerNoticeView =
+    [[LEOConversationNoticeView alloc] initWithNotice:notice
+                                         noticeButtonText:nil
+                                        noticeButtonImage:noticeButtonImage
+                          noticeButtonTappedUpInsideBlock:^{
+
+                              __strong typeof(self) strongSelf = weakSelf;
+
+                              [LEOCallManager alertToCallPractice:self.practice
+                                               fromViewController:strongSelf];
+                          }];
+
+    [self.view addSubview:self.headerNoticeView];
+
+    [self setupConstraintsForHeaderNoticeView:self.headerNoticeView];
+}
+
+- (Notice *)fetchAppropriateNoticeWithError:(NSError **)error {
+
+    NSString *noticeName;
+
+    switch (self.practice.status) {
+
+        case PracticeStatusOpen:
+            noticeName = NoticeConversationPracticeOpen;
+            break;
+
+        case PracticeStatusClosed:
+            noticeName = NoticeConversationPracticeClosed;
+            break;
+    }
+
+
+    NSPredicate *filterNoticeByName =
+    [NSPredicate predicateWithFormat:@"SELF.name == %@", noticeName];
+
+    if (!noticeName) {
+
+        if (error) {
+        *error = [NSError errorWithDomain:LEOErrorDomainContent
+                                     code:LEOErrorDomainContentCodeMissingContent
+                                 userInfo:nil];
+        }
+    };
+
+    Notice *appropriateNotice = [self.notices filteredArrayUsingPredicate:filterNoticeByName].firstObject;
+
+    if (!appropriateNotice) {
+
+        if (error) {
+            *error = [NSError errorWithDomain:LEOErrorDomainContent
+                                         code:LEOErrorDomainContentCodeMissingContent
+                                     userInfo:nil];
+        }
+    };
+
+    return appropriateNotice;
+}
+
+- (void)setupFullScreenNotice {
+
+    if ([self shouldShowFullScreenNotice] && !self.fullScreenNoticeView) {
+        
+        __weak typeof(self) weakSelf = self;
+
+        self.fullScreenNoticeView =
+        [[LEOConversationFullScreenNoticeView alloc] initWithHeaderText:kCopyOffHoursTitle
+                                                               bodyText:kCopyOffHoursBody
+                                          buttonOneTouchedUpInsideBlock:^{
+
+                                              __strong typeof(self) strongSelf = weakSelf;
+
+                                              [strongSelf animateToConversationView];
+                                          } buttonTwoTouchedUpInsideBlock:^{
+
+                                              __strong typeof(self) strongSelf = weakSelf;
+
+                                              [LEOCallManager alertToCallPractice:self.practice
+                                                               fromViewController:strongSelf];
+
+                                          } dismissButtonTouchedUpInsideBlock:^{
+
+                                              [self dismissViewControllerAnimated:YES completion:nil];
+                                          }];
+
+        [self setupConstraintsForFullScreenNoticeView];
+    }
+
+    if ([self fullScreenNoticeIsShowingButShouldBeHidden]) {
+        [self animateToConversationView];
+    }
+}
+
+- (BOOL) fullScreenNoticeIsShowingButShouldBeHidden {
+    return (![self shouldShowFullScreenNotice] && [self.fullScreenNoticeView superview]);
+}
+
+- (void)setupConstraintsForHeaderNoticeView:(LEOConversationNoticeView *)noticeView {
+
+    [self.view removeConstraints:self.horizontalConstraintsForNoticeView];
+    [self.view removeConstraint:self.verticalConstraintForNoticeView];
+
+    NSDictionary *bindings = NSDictionaryOfVariableBindings(noticeView);
+
+    noticeView.translatesAutoresizingMaskIntoConstraints = NO;
+
+    self.horizontalConstraintsForNoticeView =
+    [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[noticeView]|"
+                                            options:0
+                                            metrics:nil
+                                              views:bindings];
+
+    [self.view addConstraints:self.horizontalConstraintsForNoticeView];
+
+    self.verticalConstraintForNoticeView =
+    [NSLayoutConstraint constraintWithItem:noticeView
+                                 attribute:NSLayoutAttributeTop
+                                 relatedBy:NSLayoutRelationEqual
+                                    toItem:self.topLayoutGuide
+                                 attribute:NSLayoutAttributeBottom
+                                multiplier:1.0
+                                  constant:0.0];
+
+    [self.view addConstraint:self.verticalConstraintForNoticeView];
+
+//    self.topContentAdditionalInset = noticeView.frame.size.height;
+//
+//    self.collectionView.contentOffset =
+//    CGPointMake(0, -self.topContentAdditionalInset);
+}
+
+- (void)setupConstraintsForFullScreenNoticeView {
+
+    [self.navigationController.view addSubview:self.fullScreenNoticeView];
+    NSDictionary *bindings = NSDictionaryOfVariableBindings(_fullScreenNoticeView);
+
+    self.fullScreenNoticeView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.navigationController.view.translatesAutoresizingMaskIntoConstraints = NO;
+
+    NSArray *horizontalConstraints =
+    [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_fullScreenNoticeView]|"
+                                            options:0
+                                            metrics:nil
+                                              views:bindings];
+
+    NSLayoutConstraint *heightConstraint =
+    [NSLayoutConstraint constraintWithItem:self.fullScreenNoticeView
+                                 attribute:NSLayoutAttributeHeight
+                                 relatedBy:NSLayoutRelationEqual
+                                    toItem:self.navigationController.view
+                                 attribute:NSLayoutAttributeHeight
+                                multiplier:1.0
+                                  constant:0];
+
+    self.topConstraintForFullScreenNoticeView =
+    [NSLayoutConstraint constraintWithItem:self.fullScreenNoticeView
+                                 attribute:NSLayoutAttributeTop
+                                 relatedBy:NSLayoutRelationEqual
+                                    toItem:self.navigationController.view
+                                 attribute:NSLayoutAttributeTop
+                                multiplier:1.0
+                                  constant:0];
+
+    [self.navigationController.view addConstraints:horizontalConstraints];
+
+
+    [self.navigationController.view addConstraint:self.topConstraintForFullScreenNoticeView];
+    [self.navigationController.view addConstraint:heightConstraint];
+}
+
+- (void)animateToConversationView {
+
+    [self.navigationController.view removeConstraint:self.topConstraintForFullScreenNoticeView];
+
+    NSLayoutConstraint * updatedTopConstraint =
+    [NSLayoutConstraint constraintWithItem:self.fullScreenNoticeView
+                                 attribute:NSLayoutAttributeTop
+                                 relatedBy:NSLayoutRelationEqual
+                                    toItem:self.navigationController.view
+                                 attribute:NSLayoutAttributeBottom
+                                multiplier:1.0
+                                  constant:0];
+
+    [self.navigationController.view addConstraint:updatedTopConstraint];
+
+    [UIView animateWithDuration:0.3 animations:^{
+
+        [self.navigationController.view layoutIfNeeded];
+
+    } completion:^(BOOL finished) {
+
+        if (finished) {
+            [self.fullScreenNoticeView removeFromSuperview];
+            self.fullScreenNoticeView = nil;
+        }
     }];
 }
 
 - (void)setupNavigationBar {
-    
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage leo_imageWithColor:self.card.tintColor] forBarMetrics:UIBarMetricsDefault];
 
-    self.navigationController.navigationBar.shadowImage = [UIImage new];
-    self.navigationController.navigationBar.translucent = NO;
+    UINavigationBar *navigationBar = self.navigationController.navigationBar;
 
-    [UINavigationBar appearance].backIndicatorImage = [UIImage imageNamed:@"Icon-BackArrow"];
+    UIImage *tintColorImage = [UIImage leo_imageWithColor:self.card.tintColor];
 
-    [UINavigationBar appearance].backIndicatorTransitionMaskImage = [UIImage imageNamed:@"Icon-BackArrow"];
+    [navigationBar setBackgroundImage:tintColorImage
+                        forBarMetrics:UIBarMetricsDefault];
 
-    self.navigationController.navigationBar.topItem.title = @"";
+    navigationBar.shadowImage = [UIImage new];
+    navigationBar.translucent = NO;
+
+    [UINavigationBar appearance].backIndicatorImage =
+    [UIImage imageNamed:@"Icon-BackArrow"];
+
+    [UINavigationBar appearance].backIndicatorTransitionMaskImage =
+    [UIImage imageNamed:@"Icon-BackArrow"];
+
+    navigationBar.topItem.title = @"";
 
     UIButton *dismissButton = [self buildDismissButton];
-    UIBarButtonItem *dismissBBI = [[UIBarButtonItem alloc] initWithCustomView:dismissButton];
+    UIBarButtonItem *dismissBBI =
+    [[UIBarButtonItem alloc] initWithCustomView:dismissButton];
     self.navigationItem.rightBarButtonItem = dismissBBI;
 
     UILabel *navBarTitleLabel = [[UILabel alloc] init];
 
     navBarTitleLabel.text = @"Chat";
     navBarTitleLabel.textColor = [UIColor leo_white];
-    navBarTitleLabel.font = [UIFont leo_menuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
+    navBarTitleLabel.font =
+    [UIFont leo_menuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
     [navBarTitleLabel sizeToFit];
 
     self.navigationItem.titleView = navBarTitleLabel;
@@ -183,46 +507,14 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 -(UIButton *)attachButton {
 
     if (!_attachButton) {
+
         _attachButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_attachButton setImage:[UIImage imageNamed:@"Icon-Camera-Chat"] forState:UIControlStateNormal];
-        //        [_attachButton addTarget:self action:@selector(attachmentButtonTouchedUpInside:) forControlEvents:UIControlEventTouchUpInside];
+        [_attachButton setImage:[UIImage imageNamed:@"Icon-Camera-Chat"]
+                       forState:UIControlStateNormal];
         _attachButton.tintColor = [UIColor leo_white];
     }
 
     return _attachButton;
-}
-
-- (void)setupEmergencyBar {
-
-    UILabel *emergencyBar = [UILabel new];
-
-    emergencyBar.text = @"In case of emergency, dial 911";
-    emergencyBar.textAlignment = NSTextAlignmentCenter;
-    emergencyBar.font = [UIFont leo_emergency911Label];
-    emergencyBar.backgroundColor = [UIColor leo_lightBlue];
-    emergencyBar.textColor = [UIColor leo_blue];
-    [emergencyBar sizeToFit];
-
-    emergencyBar.translatesAutoresizingMaskIntoConstraints = NO;
-
-    self.topContentAdditionalInset = emergencyBar.frame.size.height;
-
-    [self.view addSubview:emergencyBar];
-
-    NSDictionary *views = NSDictionaryOfVariableBindings(emergencyBar);
-
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[emergencyBar]|"
-                                                                      options:0
-                                                                      metrics:nil
-                                                                        views:views]];
-
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:emergencyBar
-                                                          attribute:NSLayoutAttributeTop
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.topLayoutGuide
-                                                          attribute:NSLayoutAttributeBottom
-                                                         multiplier:1.0
-                                                           constant:0.0]];
 }
 
 - (void)constructNotifications {
@@ -244,11 +536,16 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 }
 
 - (void)removeObservers {
-    
-    [self.sendButton removeObserver:self forKeyPath:@"enabled"];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotificationConversationAddedMessage object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
+
+    [self.sendButton removeObserver:self
+                         forKeyPath:@"enabled"];
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:kNotificationConversationAddedMessage object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIApplicationDidBecomeActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIApplicationDidEnterBackgroundNotification object:nil];
 
     for (id observer in self.notificationObservers) {
         [[NSNotificationCenter defaultCenter] removeObserver:observer];
@@ -273,7 +570,8 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 - (void)clearPusher {
 
     NSString *channelString = [NSString stringWithFormat:@"%@",[SessionUser currentUser].objectID];
-    [[LEOPusherHelper sharedPusher] removeBinding:self.pusherBinding fromPrivateChannelWithName:channelString];
+    [[LEOPusherHelper sharedPusher] removeBinding:self.pusherBinding
+                       fromPrivateChannelWithName:channelString];
     self.pusherBinding = nil;
 }
 
@@ -286,9 +584,14 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
 - (void)setupMessageBubbles {
 
-    JSQMessagesBubbleImageFactory *bubbleFactory = [[JSQMessagesBubbleImageFactory alloc] init];
-    self.outgoingBubbleImageData = [bubbleFactory outgoingMessagesBubbleImageWithColor:[UIColor leo_blue]];
-    self.incomingBubbleImageData = [bubbleFactory incomingMessagesBubbleImageWithColor:[UIColor leo_grayForMessageBubbles]];
+    JSQMessagesBubbleImageFactory *bubbleFactory =
+    [JSQMessagesBubbleImageFactory new];
+
+    self.outgoingBubbleImageData =
+    [bubbleFactory outgoingMessagesBubbleImageWithColor:[UIColor leo_blue]];
+
+    self.incomingBubbleImageData =
+    [bubbleFactory incomingMessagesBubbleImageWithColor:[UIColor leo_grayForMessageBubbles]];
 }
 
 - (void)setupCollectionViewFormatting {
@@ -303,35 +606,49 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
 - (void)setupInputToolbar {
 
-    self.inputToolbar.contentView.leftBarButtonItem = self.attachButton;
+    JSQMessagesToolbarContentView *contentView = self.inputToolbar.contentView;
+
+    contentView.leftBarButtonItem = self.attachButton;
 
     [self initializeSendButton];
 
-    self.inputToolbar.contentView.rightBarButtonItem = self.sendButton;
-    self.inputToolbar.contentView.backgroundColor = [UIColor leo_blue];
-    self.inputToolbar.contentView.textView.layer.borderColor = [UIColor whiteColor].CGColor;
-    self.inputToolbar.contentView.textView.placeHolder = @"Type a message...";
-    self.inputToolbar.contentView.textView.tintColor = [UIColor leo_blue];
-    self.inputToolbar.contentView.textView.placeHolderTextColor = [UIColor leo_grayForPlaceholdersAndLines];
+    contentView.rightBarButtonItem = self.sendButton;
+    contentView.backgroundColor = [UIColor leo_blue];
+    contentView.textView.layer.borderColor = [UIColor whiteColor].CGColor;
+    contentView.textView.placeHolder = @"Type a message...";
+    contentView.textView.tintColor = [UIColor leo_blue];
+    contentView.textView.placeHolderTextColor = [UIColor leo_grayForPlaceholdersAndLines];
+    contentView.textView.font = [UIFont leo_standardFont];
+
     self.inputToolbar.layer.borderColor = [UIColor whiteColor].CGColor;
-    self.inputToolbar.contentView.textView.font = [UIFont leo_standardFont];
 }
 
 - (void)initializeSendButton {
 
     UIButton *sendButton = [UIButton leo_newButtonWithDisabledStyling];
-    [sendButton setTitle:@"SEND" forState:UIControlStateNormal];
-    [sendButton setTitleColor:[UIColor leo_white] forState:UIControlStateNormal];
-    sendButton.titleLabel.font = [UIFont leo_fieldAndUserLabelsAndSecondaryButtonsFont];
+
+    [sendButton setTitle:@"SEND"
+                forState:UIControlStateNormal];
+
+    [sendButton setTitleColor:[UIColor leo_white]
+                     forState:UIControlStateNormal];
+
+    sendButton.titleLabel.font =
+    [UIFont leo_fieldAndUserLabelsAndSecondaryButtonsFont];
 
     self.sendButton = sendButton;
 
-    [self.sendButton addObserver:self forKeyPath:@"enabled" options:NSKeyValueObservingOptionOld context:nil];
+    [self.sendButton addObserver:self
+                      forKeyPath:@"enabled"
+                         options:NSKeyValueObservingOptionOld
+                         context:nil];
 }
 
 - (void)setupPusher {
 
-    NSString *channelString = [NSString stringWithFormat:@"%@",[SessionUser currentUser].objectID];
+    NSString *channelString =
+    [NSString stringWithFormat:@"%@",[SessionUser currentUser].objectID];
+
     NSString *event = @"new_message";
 
     // Need to use weak self here because the PTPusher object holds on to this binding with a strong reference. Must also remove the binding on dealloc
@@ -350,20 +667,24 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
             __weak typeof(self) weakNestedSelf = strongSelf;
 
             if (!strongSelf.pusherBinding) {
-                strongSelf.pusherBinding = [pusherHelper connectToPusherChannel:channelString withEvent:event sender:strongSelf withCompletion:^(NSDictionary *channelData) {
+                strongSelf.pusherBinding =
+                [pusherHelper connectToPusherChannel:channelString
+                                           withEvent:event
+                                              sender:strongSelf
+                                      withCompletion:^(NSDictionary *channelData) {
 
-                    __strong typeof(self) strongNestedSelf = weakNestedSelf;
+                                          __strong typeof(self) strongNestedSelf = weakNestedSelf;
 
-                    NSString *messageID = [Message extractObjectIDFromChannelData:channelData];
+                                          NSString *messageID = [Message extractObjectIDFromChannelData:channelData];
 
-                    __weak typeof(strongSelf) weakDoubleNestedSelf = strongNestedSelf;
+                                          __weak typeof(strongSelf) weakDoubleNestedSelf = strongNestedSelf;
 
-                    [[strongSelf conversation] fetchMessageWithID:messageID completion:^{
+                                          [[strongSelf conversation] fetchMessageWithID:messageID completion:^{
 
-                        __strong typeof(strongSelf) strongDoubleNestedSelf = weakDoubleNestedSelf;
-                        strongDoubleNestedSelf.offset++;
-                    }];
-                }];
+                                              __strong typeof(strongSelf) strongDoubleNestedSelf = weakDoubleNestedSelf;
+                                              strongDoubleNestedSelf.offset++;
+                                          }];
+                                      }];
             }
         } else {
             [LEOAlertHelper alertForViewController:self
@@ -387,14 +708,34 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
         [self finishSendingMessage:newMessage];
     }
 
-    if ([notification.name isEqualToString:UIApplicationDidEnterBackgroundNotification] || [notification.name isEqualToString:UIApplicationWillResignActiveNotification]) {
+    if ([notification.name isEqualToString:UIApplicationDidEnterBackgroundNotification] ||
+        [notification.name isEqualToString:UIApplicationWillResignActiveNotification]) {
 
         [self clearPusher];
     }
 
     if ([notification.name isEqualToString:UIApplicationDidBecomeActiveNotification]) {
 
-        [self resetPusherAndGetMissedMessages];
+        [self fetchRequiredDataWithCompletion:^(NSArray *notices, Practice *practice, NSError *error) {
+
+            [self.sendingIndicator startAnimating];
+
+            [self setupNoticeView];
+
+            [self.view setNeedsLayout];
+            [self.view layoutIfNeeded];
+
+            self.topContentAdditionalInset = CGRectGetHeight(self.headerNoticeView.frame);
+
+            self.collectionView.contentOffset =
+            CGPointMake(0, -self.topContentAdditionalInset);
+
+            [self setupFullScreenNotice];
+
+            [self resetPusherAndGetMissedMessages];
+
+            [self.sendingIndicator stopAnimating];
+        }];
     }
 }
 
@@ -405,19 +746,33 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
     self.sendButton.hidden = YES;
     [self.sendingIndicator startAnimating];
 
-    [[LEOMessageService new] getMessagesForConversation:[self conversation] page:nil offset:nil sinceDateTime:[self lastMessageDate] withCompletion:^(NSArray * messages, NSError *error) {
+    [[LEOMessageService new] getMessagesForConversation:[self conversation]
+                                                   page:nil
+                                                 offset:nil
+                                          sinceDateTime:[self lastMessageDate]
+                                         withCompletion:^(NSArray * messages, NSError *error) {
 
-        [self.sendingIndicator stopAnimating];
-        self.sendButton.hidden = NO;
+                                             [self.sendingIndicator stopAnimating];
+                                             self.sendButton.hidden = NO;
 
-        if (!error) {
-            if (messages.count > 0) {
-                [self collectionView:self.collectionView updateWithNewMessages:messages startingAtIndex:[self conversation].messages.count];
-            }
-        } else {
-            [LEOAlertHelper alertForViewController:self error:error backupTitle:kErrorTitleMessagingDown backupMessage:kErrorBodyMessagingDown];
-        }
-    }];
+                                             if (error) {
+
+                                                 [LEOAlertHelper alertForViewController:self
+                                                                                  error:error
+                                                                            backupTitle:kErrorTitleMessagingDown
+                                                                          backupMessage:kErrorBodyMessagingDown];
+
+                                                 return;
+                                             }
+
+
+                                             if (messages.count > 0) {
+
+                                                 [self collectionView:self.collectionView
+                                                updateWithNewMessages:messages
+                                                      startingAtIndex:[self conversation].messages.count];
+                                             }
+                                         }];
 }
 
 - (NSDate *)lastMessageDate {
@@ -441,12 +796,16 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
 
-    [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    [super observeValueForKeyPath:keyPath
+                         ofObject:object
+                           change:change
+                          context:context];
 
     if (object == self.sendButton && [keyPath isEqualToString:@"enabled"]) {
 
         // Override JSQ behavior of disabling send button
         BOOL reachable = [LEOApiReachability reachable];
+
         if (!self.sendButton.enabled && reachable) {
             self.sendButton.enabled = YES;
         } else if (self.sendButton.enabled && !reachable) {
@@ -468,12 +827,19 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
          senderDisplayName:(NSString *)senderDisplayName
                       date:(NSDate *)date
 {
-    
+
     if (text.length == 0) {
         return;
     }
 
-    Message *message = [MessageText messageWithObjectID:nil text:text sender:[SessionUser guardian] escalatedTo:nil escalatedBy:nil status:nil statusCode:MessageStatusCodeUndefined escalatedAt:nil];
+    Message *message = [MessageText messageWithObjectID:nil
+                                                   text:text
+                                                 sender:[SessionUser guardian]
+                                            escalatedTo:nil
+                                            escalatedBy:nil
+                                                 status:nil
+                                             statusCode:MessageStatusCodeUndefined
+                                            escalatedAt:nil];
 
     [self startSendingMessage:message];
 }
@@ -482,14 +848,15 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
     if (!_sendingIndicator) {
 
-        _sendingIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+        _sendingIndicator =
+        [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
 
         [self.view addSubview:_sendingIndicator];
 
         _sendingIndicator.translatesAutoresizingMaskIntoConstraints = NO;
 
-        NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(_sendingIndicator);
-
+        NSDictionary *viewsDictionary =
+        NSDictionaryOfVariableBindings(_sendingIndicator);
 
         //FIXME: These constraints should not include constants, but for a first pass it works well enough across all three phone sizes.
         [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_sendingIndicator]-(24)-|"
@@ -508,7 +875,6 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 }
 
 - (void)didPressAccessoryButton:(UIButton *)sender {
-
     [self presentImagePickerViewController];
 }
 
@@ -517,72 +883,124 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
     [LEOBreadcrumb crumbWithObject:[NSString stringWithFormat:@"%s choose photo", __PRETTY_FUNCTION__]];
 
     [Localytics tagEvent:kAnalyticEventChoosePhotoForMessage];
-    LEOTransitioningDelegate *strongTransitioningDelegate = [[LEOTransitioningDelegate alloc] initWithTransitionAnimatorType:TransitionAnimatorTypeCardPush];;
+
+    LEOTransitioningDelegate *strongTransitioningDelegate =
+    [[LEOTransitioningDelegate alloc] initWithTransitionAnimatorType:TransitionAnimatorTypeCardPush];;
 
     self.transitioningDelegate = strongTransitioningDelegate;
 
     [self.inputToolbar.contentView.textView resignFirstResponder];
 
-    UIAlertController *mediaController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertController *mediaController =
+    [UIAlertController alertControllerWithTitle:nil
+                                        message:nil
+                                 preferredStyle:UIAlertControllerStyleActionSheet];
 
-    [mediaController addAction:[UIAlertAction actionWithTitle:@"Photo Library" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
+    [mediaController addAction:[self loadImagePickerControllerAction]];
+    [mediaController addAction:[self loadCameraPickerControllerAction]];
+    [mediaController addAction:[self cancelPickerControllerAction]];
 
-            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-
-                [LEOBreadcrumb crumbWithObject:[NSString stringWithFormat:@"%s choose photo", __PRETTY_FUNCTION__]];
-
-                UIImagePickerController *pickerController = [UIImagePickerController new];
-                pickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-                pickerController.delegate = self;
-                [pickerController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor leo_white], NSFontAttributeName: [UIFont leo_menuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont]}];
-
-                [[UIBarButtonItem appearanceWhenContainedIn:[UIImagePickerController class], nil] setTitleTextAttributes:@{ NSForegroundColorAttributeName:[UIColor leo_white], NSFontAttributeName : [UIFont leo_buttonLabelsAndTimeStampsFont] } forState:UIControlStateNormal];
-
-                [[UIBarButtonItem appearanceWhenContainedIn:[UIImagePickerController class], nil] setBackButtonBackgroundImage:nil forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-
-                [pickerController.navigationBar setBackgroundImage:[UIImage leo_imageWithColor:self.card.tintColor] forBarMetrics:UIBarMetricsDefault];
-                pickerController.transitioningDelegate = self.transitioningDelegate;
-                pickerController.modalPresentationStyle = UIModalPresentationCustom;
-
-                pickerController.delegate = self;
-
-                [self presentViewController:pickerController animated:YES completion:nil];
-            }];
-        }];
-    }] ];
-
-    [mediaController addAction:[UIAlertAction actionWithTitle:@"Take Photo" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-
-        [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
-
-            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-
-                [LEOBreadcrumb crumbWithObject:[NSString stringWithFormat:@"%s take photo", __PRETTY_FUNCTION__]];
-                [Localytics tagEvent:kAnalyticEventTakePhotoForMessage];
-                UIImagePickerController *pickerController = [UIImagePickerController new];
-                pickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
-                pickerController.delegate = self;
-
-                [pickerController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor leo_white], NSFontAttributeName: [UIFont leo_menuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont]}];
-                pickerController.transitioningDelegate = self.transitioningDelegate;
-                pickerController.modalPresentationStyle = UIModalPresentationCustom;
-
-                pickerController.delegate = self;
-
-                [self presentViewController:pickerController animated:YES completion:nil];
-            }];
-        }];
-    }]];
-
-
-    [mediaController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        [LEOBreadcrumb crumbWithObject:[NSString stringWithFormat:@"%s cancel photo", __PRETTY_FUNCTION__]];
-    }]];
-
-    [self presentViewController:mediaController animated:YES completion:nil];
+    [self presentViewController:mediaController
+                       animated:YES
+                     completion:nil];
 }
 
+- (UIAlertAction *)cancelPickerControllerAction {
+
+    return [UIAlertAction actionWithTitle:@"Cancel"
+                                    style:UIAlertActionStyleCancel
+                                  handler:^(UIAlertAction * _Nonnull action) {
+                                      [LEOBreadcrumb crumbWithObject:[NSString stringWithFormat:@"%s cancel photo", __PRETTY_FUNCTION__]];
+                                  }];
+}
+
+- (UIAlertAction *)loadCameraPickerControllerAction {
+
+    return [UIAlertAction actionWithTitle:@"Take Photo"
+                                    style:UIAlertActionStyleDefault
+                                  handler:^(UIAlertAction * _Nonnull action) {
+                                      [self setupTakePictureController];
+                                  }];
+}
+
+- (UIAlertAction *)loadImagePickerControllerAction {
+
+    return [UIAlertAction actionWithTitle:@"Photo Library"
+                                    style:UIAlertActionStyleDefault
+                                  handler:^(UIAlertAction * _Nonnull action) {
+
+                                      [self setupImagePickerController];
+                                  }];
+}
+
+- (void)setupImagePickerController {
+
+    [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
+
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+
+            [LEOBreadcrumb crumbWithObject:[NSString stringWithFormat:@"%s choose photo", __PRETTY_FUNCTION__]];
+
+            UIImagePickerController *pickerController = [UIImagePickerController new];
+            pickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+            pickerController.delegate = self;
+
+            NSDictionary *navigationBarAttributes =
+            @{NSForegroundColorAttributeName:
+                  [UIColor leo_white],
+              NSFontAttributeName:
+                  [UIFont leo_menuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont]};
+
+            [pickerController.navigationBar setTitleTextAttributes:navigationBarAttributes];
+
+            NSDictionary *barButtonItemAttributes =
+            @{ NSForegroundColorAttributeName:[UIColor leo_white],
+               NSFontAttributeName : [UIFont leo_buttonLabelsAndTimeStampsFont]};
+
+            [[UIBarButtonItem appearanceWhenContainedIn:[UIImagePickerController class], nil] setTitleTextAttributes: barButtonItemAttributes
+                                                                                                            forState:UIControlStateNormal];
+
+            [[UIBarButtonItem appearanceWhenContainedIn:[UIImagePickerController class], nil] setBackButtonBackgroundImage:nil
+                                                                                                                  forState:UIControlStateNormal
+                                                                                                                barMetrics:UIBarMetricsDefault];
+            
+            [pickerController.navigationBar setBackgroundImage:[UIImage leo_imageWithColor:self.card.tintColor]
+                                                 forBarMetrics:UIBarMetricsDefault];
+
+            pickerController.transitioningDelegate = self.transitioningDelegate;
+            pickerController.modalPresentationStyle = UIModalPresentationCustom;
+
+            pickerController.delegate = self;
+
+            [self presentViewController:pickerController
+                               animated:YES
+                             completion:nil];
+        }];
+    }];
+}
+
+- (void)setupTakePictureController {
+
+    [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
+
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+
+            [LEOBreadcrumb crumbWithObject:[NSString stringWithFormat:@"%s take photo", __PRETTY_FUNCTION__]];
+            [Localytics tagEvent:kAnalyticEventTakePhotoForMessage];
+            UIImagePickerController *pickerController = [UIImagePickerController new];
+            pickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+            pickerController.delegate = self;
+
+            [pickerController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor leo_white], NSFontAttributeName: [UIFont leo_menuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont]}];
+            pickerController.transitioningDelegate = self.transitioningDelegate;
+            pickerController.modalPresentationStyle = UIModalPresentationCustom;
+
+            pickerController.delegate = self;
+
+            [self presentViewController:pickerController animated:YES completion:nil];
+        }];
+    }];
+}
 
 #pragma mark - <UINavigationControllerDelegate>
 
@@ -646,9 +1064,9 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
     [self.sendingIndicator startAnimating];
 
-//    TODO: Update this with another sound at some point if desired. Leaving the
-//          line commented here so we know where it should go in the code.
-//    [JSQSystemSoundPlayer jsq_playMessageSentSound];
+    //    TODO: Update this with another sound at some point if desired. Leaving the
+    //          line commented here so we know where it should go in the code.
+    //    [JSQSystemSoundPlayer jsq_playMessageSentSound];
 
     [self sendMessage:message withCompletion:^(Message *responseMessage, NSError *error){
 
@@ -660,7 +1078,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
             else if ([message isKindOfClass:[MessageText class]]) {
                 [Localytics tagEvent:kAnalyticEventSendTextMessage];
             }
-            
+
             [[self conversation] addMessage:responseMessage];
             self.offset++;
             [self finishSendingMessage:responseMessage];
@@ -728,7 +1146,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
     }
 
     __weak typeof(self) weakSelf = self;
-    
+
     id observer = [[NSNotificationCenter defaultCenter] addObserverForName:kNotificationDownloadedImageUpdated object:message.sender.avatar queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull notification) {
 
         __strong typeof(self) strongSelf = weakSelf;
@@ -798,7 +1216,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 - (JSQMessagesAvatarImage *)createAvatarImageForUser:(User *)user {
 
     UIImage *placeholderImage = [LEOMessagesAvatarImageFactory circularAvatarImage:[UIImage imageNamed:@"Icon-ProviderAvatarPlaceholder"] withDiameter:20.0 borderColor:[UIColor leo_grayForPlaceholdersAndLines] borderWidth:2];
-    
+
     JSQMessagesAvatarImage *combinedImages = [JSQMessagesAvatarImage avatarImageWithPlaceholder:placeholderImage];
 
     combinedImages.avatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:user.avatar.image withDiameter:kJSQMessagesCollectionViewAvatarSizeDefault borderColor:[UIColor leo_grayForPlaceholdersAndLines] borderWidth:2];
@@ -1262,7 +1680,7 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
 
     [CATransaction begin];
     [CATransaction setDisableActions:YES];
-
+    
     [collectionView performBatchUpdates:^{
         [collectionView insertItemsAtIndexPaths:indexPaths];
     } completion:^(BOOL finished) {
@@ -1278,18 +1696,18 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
  *  @param completionBlock a block for activity once the message has posted
  */
 - (void)sendMessage:(Message *)message withCompletion:(void (^) (Message *responseMessage, NSError *error))completionBlock {
-
+    
     LEOMessageService *messageService = [[LEOMessageService alloc] init];
-
+    
     [messageService createMessage:message forConversation:[self conversation] withCompletion:^(Message * message, NSError * error) {
-
+        
         if (!error) {
-
+            
             if (completionBlock) {
                 completionBlock(message, error);
             }
         } else {
-
+            
             //  TODO: find a better way of notifiying the user of a failure
             
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Upload Error" message:@"Sorry, but we're having trouble uploading your message" preferredStyle:UIAlertControllerStyleAlert];
@@ -1306,14 +1724,14 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
  *  Return to prior screen by dismissing the LEOMessagesViewController.
  */
 - (void)dismiss {
-
+    
     [self.analyticSession completeSession];
-
+    
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-
+    
     [super viewWillDisappear:animated];
     [self.view endEditing:YES];
 }
@@ -1342,21 +1760,21 @@ NSString *const kCopySendPhoto = @"SEND PHOTO";
                                    animationControllerForOperation:(UINavigationControllerOperation)operation
                                                 fromViewController:(UIViewController*)fromVC
                                                   toViewController:(UIViewController*)toVC {
-
+    
     switch (operation) {
-
+            
         case UINavigationControllerOperationPush: {
-
+            
             LEONavigationControllerPushAnimator *animator = [LEONavigationControllerPushAnimator new];
             return animator;
         }
-
+            
         case UINavigationControllerOperationPop: {
-
+            
             LEONavigationControllerPopAnimator *animator = [LEONavigationControllerPopAnimator new];
             return animator;
         }
-
+            
         case UINavigationControllerOperationNone: {
             return nil;
         }

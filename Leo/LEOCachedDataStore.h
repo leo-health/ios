@@ -11,13 +11,17 @@
 @class Practice, Family;
 
 @interface LEOCachedDataStore : NSObject
+NS_ASSUME_NONNULL_BEGIN
 
-@property (strong, nonatomic) Practice *practice;
-@property (strong, nonatomic) Family *family;
+@property (strong, nonatomic, nullable) Practice *practice;
+@property (strong, nonatomic, nullable) Family *family;
+@property (strong, nonatomic, nullable) NSArray *notices;
 
-@property (strong, nonatomic) NSDate *lastCachedDateForPractice;
+@property (strong, nonatomic, nullable) NSDate *lastCachedDateForPractice;
+@property (strong, nonatomic, nullable) NSDate *lastCachedDateForNotices;
 
 + (instancetype)sharedInstance;
 - (void)reset;
 
+NS_ASSUME_NONNULL_END
 @end

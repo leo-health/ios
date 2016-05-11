@@ -19,7 +19,7 @@
 }
 
 + (UIColor *)leo_blue {
-    return [UIColor colorWithRed:67.0/255.0 green:182.0/255.0 blue:232.0/255.0 alpha:1]; /*#*/
+    return [UIColor colorWithRed:1.0/255.0 green:192.0/255.0 blue:228.0/255.0 alpha:1]; /*#*/
 }
 
 + (UIColor *)leo_lightBlue {

@@ -94,6 +94,15 @@
     return date;
 }
 
++ (NSDate *)leo_timeFromHourMinuteString:(NSString *)timeString withTimeZone:(NSTimeZone *)timeZone {
+
+    NSDateFormatter *formatter = [NSDateFormatter new];
+
+    [formatter setTimeZone:timeZone];
+    [formatter setDateFormat:@"HH:mm"];
+
+    return [formatter dateFromString:timeString];
+}
 
 + (NSDate *)leo_dateFromDashedDateString:(NSString *)dateString {
     
