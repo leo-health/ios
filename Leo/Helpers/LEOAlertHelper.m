@@ -19,10 +19,21 @@ NSString *const kStandardErrorAlertActionText = @"Got it.";
  *  implementation, but must re-raise the issue with the back-end team to
  *  discuss alternatives again.
  */
+
 + (void)alertForViewController:(UIViewController *)viewController
                          error:(NSError *)error
                    backupTitle:(NSString *)backupTitle
                  backupMessage:(NSString *)backupMessage {
+
+    [self alertForViewController:viewController error:error backupTitle:backupTitle backupMessage:backupMessage okBlock:nil];
+
+}
+
++ (void)alertForViewController:(UIViewController *)viewController
+                         error:(NSError *)error
+                   backupTitle:(NSString *)backupTitle
+                 backupMessage:(NSString *)backupMessage
+                       okBlock:(void (^)(UIAlertAction * action))okBlock {
 
     UIAlertController *alertController;
 
@@ -31,7 +42,7 @@ NSString *const kStandardErrorAlertActionText = @"Got it.";
     if (error_message) {
 
         if (backupTitle) {
-
+            
             alertController = [UIAlertController alertControllerWithTitle:backupTitle
                                                                   message:error_message
                                                            preferredStyle:UIAlertControllerStyleAlert];
@@ -59,7 +70,7 @@ NSString *const kStandardErrorAlertActionText = @"Got it.";
 
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:kStandardErrorAlertActionText
                                                        style:UIAlertActionStyleCancel
-                                                     handler:nil];
+                                                     handler:okBlock];
 
     [alertController addAction:okAction];
 

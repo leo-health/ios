@@ -14,6 +14,7 @@
 #import "UIImage+Extensions.h"
 #import "LEOStyleHelper.h"
 #import "NSObject+TableViewAccurateEstimatedCellHeight.h"
+#import "LEOAlertHelper.h"
 
 @interface LEOBasicSelectionViewController ()
 
@@ -28,6 +29,7 @@
 
 
 #pragma mark - View Controller Lifecycle
+
 - (void)viewDidLoad {
 
     [super viewDidLoad];
@@ -42,20 +44,54 @@
     [self setupNavBar];
 }
 
-#pragma mark - VCL Helper Methods
-- (void)setupNavBar {
-
-    [LEOStyleHelper styleNavigationBarForViewController:self forFeature:self.feature withTitleText:self.titleText dismissal:NO backButton:YES shadow:YES];
-}
-
--(void)viewWillDisappear:(BOOL)animated {
-    
+- (void)viewWillDisappear:(BOOL)animated {
     [LEOStyleHelper removeNavigationBarShadowLineForViewController:self];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+
+    [super viewDidAppear:animated];
+
+    [Localytics tagScreen:self.titleText];
+
+    __weak typeof(self) weakSelf = self;
+
+    [LEOApiReachability startMonitoringForController:self
+                                    withOfflineBlock:^{
+
+                                        __strong typeof(self) strongSelf = weakSelf;
+
+                                        [LEOAlertHelper alertForViewController:strongSelf
+                                                                         title:@"Oops!"
+                                                                       message:@"Looks like we have a boo boo or your internet is not working at the moment. Please go back and try again."];
+
+                                    }
+                                     withOnlineBlock:nil];
+
+    [self requestDataAndUpdateView];
+}
+
+- (void)dealloc {
+
+    for (id observer in self.notificationObservers) {
+        [[NSNotificationCenter defaultCenter] removeObserver:observer];
+    }
+}
+
+
+#pragma mark - VCL Helper Methods
+
+- (void)setupNavBar {
+    [LEOStyleHelper styleNavigationBarForViewController:self
+                                             forFeature:self.feature
+                                          withTitleText:self.titleText
+                                              dismissal:NO
+                                             backButton:YES
+                                                 shadow:YES];
+}
+
 - (void)setupTableView {
-    
-    
+
     UITableView *strongView = [UITableView new];
     self.tableView = strongView;
 
@@ -69,30 +105,31 @@
     self.tableView.separatorColor = [UIColor leo_grayForPlaceholdersAndLines];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    
-    [super viewDidAppear:animated];
-
-    [Localytics tagScreen:self.titleText];
-
-    //TODO: Do we need to use weakself here?
-    [LEOApiReachability startMonitoringForController:self withOfflineBlock:^{
-        //TODO: Determine what we want to happen here if anything
-    } withOnlineBlock:^{
-        [self requestDataAndUpdateView];
-    }];
-}
-
 - (void)requestDataAndUpdateView {
     
     [MBProgressHUD showHUDAddedTo:self.view animated:YES]; //TODO: Create separate class to set these up for all use cases with two methods that support showing and hiding our customized HUD.
 
     __weak typeof(self) weakSelf = self;
+
     [self requestDataWithCompletion:^(id data, NSError *error){
 
         __strong typeof(self) strongSelf = weakSelf;
+
         [MBProgressHUD hideHUDForView:strongSelf.view animated:YES];
-        
+
+        if (error) {
+
+            [LEOAlertHelper alertForViewController:strongSelf
+                                             error:error
+                                       backupTitle:@"Oops!"
+                                     backupMessage:@"Looks like we have a boo boo or your internet is not working at the moment. Please try again."
+                                           okBlock:^(UIAlertAction *action) {
+                                               [self pop];
+                                     }];
+            return;
+        }
+
+
         if (error) {
             
             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:@"Something went wrong!" preferredStyle:UIAlertControllerStyleAlert];
@@ -126,6 +163,9 @@
     }];
 }
 
+
+#pragma mark - Actions
+
 - (void)requestDataWithCompletion:(void (^) (id data, NSError *error))completionBlock {
     
     NSOperationQueue *queue = [[NSOperationQueue alloc] init];
@@ -151,7 +191,9 @@
     return [self leo_tableView:tableView estimatedHeightForRowAtIndexPath:indexPath];
 }
 
+
 #pragma mark - Autolayout Constraints
+
 -(void)updateViewConstraints {
     
     if (!self.alreadyUpdatedConstraints) {
@@ -172,10 +214,16 @@
     [super updateViewConstraints];
 }
 
+
+#pragma mark - Navigation
+
 - (void)pop {
     
     [self.navigationController popViewControllerAnimated:YES];
 }
+
+
+#pragma mark - Notifications
 
 - (NSMutableArray *)notificationObservers {
 
@@ -183,13 +231,6 @@
         _notificationObservers = [NSMutableArray new];
     }
     return _notificationObservers;
-}
-
-- (void)dealloc {
-
-    for (id observer in self.notificationObservers) {
-        [[NSNotificationCenter defaultCenter] removeObserver:observer];
-    }
 }
 
 

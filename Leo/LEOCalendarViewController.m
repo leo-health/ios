@@ -21,6 +21,7 @@
 #import "UIColor+LeoColors.h"
 #import "UIFont+LeoFonts.h"
 #import "LEOStyleHelper.h"
+#import "LEOAlertHelper.h"
 
 @interface LEOCalendarViewController ()
 
@@ -106,7 +107,9 @@
 - (void)requestDataWithCompletion:(void (^) (id data, NSError *error))completionBlock {
     
     NSOperationQueue *queue = [[NSOperationQueue alloc] init];
-    
+
+    self.requestOperation = [[LEOAPISlotsOperation alloc] initWithAppointment:self.appointment];
+
     self.requestOperation.requestBlock = ^(id data, NSError *error) {
         completionBlock(data, error);
     };
@@ -167,28 +170,38 @@
 - (void)loadCollectionViewWithInitialDate {
     
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    
+
+    __weak typeof(self) weakSelf = self;
+
     [self requestDataWithCompletion:^(id data, NSError *error){
-        
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
 
-        self.slotsDictionary = data;
+        __strong typeof(self) strongSelf = weakSelf;
 
-        self.dateCollectionController = [[DateCollectionController alloc] initWithCollectionView:self.dateCollectionView dates:self.slotsDictionary chosenDate:[self initialDate]];
-        self.dateCollectionController.delegate = self;
+        [MBProgressHUD hideHUDForView:strongSelf.view animated:YES];
+
+        if (error) {
+
+            [LEOAlertHelper alertForViewController:strongSelf error:error backupTitle:@"Oops!" backupMessage:@"Looks like we have a boo boo or your internet is not working at the moment. Please try again."];
+            return;
+        }
+
+        strongSelf.slotsDictionary = data;
+
+        strongSelf.dateCollectionController = [[DateCollectionController alloc] initWithCollectionView:strongSelf.dateCollectionView dates:strongSelf.slotsDictionary chosenDate:[strongSelf initialDate]];
+        strongSelf.dateCollectionController.delegate = strongSelf;
         
-        self.timeCollectionController = [[TimeCollectionController alloc] initWithCollectionView:self.timeCollectionView slots:self.slotsDictionary[[[self initialDate] leo_beginningOfDay]] chosenSlot:[Slot slotFromExistingAppointment:self.appointment]];
-        self.timeCollectionController.delegate = self;
+        strongSelf.timeCollectionController = [[TimeCollectionController alloc] initWithCollectionView:strongSelf.timeCollectionView slots:strongSelf.slotsDictionary[[[strongSelf initialDate] leo_beginningOfDay]] chosenSlot:[Slot slotFromExistingAppointment:strongSelf.appointment]];
+        strongSelf.timeCollectionController.delegate = strongSelf;
         
         //FIXME: Don't love that I have to call this from outside of the DateCollectionController. There has got to be a better way.
-        [self.dateCollectionView setContentOffset:[self.dateCollectionController offsetForWeekOfStartingDate] animated:NO];
+        [strongSelf.dateCollectionView setContentOffset:[strongSelf.dateCollectionController offsetForWeekOfStartingDate] animated:NO];
 
-        [self updateMonthLabelWithDate:[self initialDate]];
+        [strongSelf updateMonthLabelWithDate:[strongSelf initialDate]];
         
-        [self.timeCollectionView layoutIfNeeded];
+        [strongSelf.timeCollectionView layoutIfNeeded];
 
-        if ([self.timeCollectionController shouldShowEmptyState]) {
-            [self showEmptyState];
+        if ([strongSelf.timeCollectionController shouldShowEmptyState]) {
+            [strongSelf showEmptyState];
         }
     }];
 }

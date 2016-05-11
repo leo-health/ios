@@ -301,7 +301,6 @@ static NSString *const kKeySelectionVCDate = @"date";
 
         calendarVC.delegate = self;
         calendarVC.appointment = self.appointmentView.appointment;
-        calendarVC.requestOperation = [[LEOAPISlotsOperation alloc] initWithAppointment:self.appointmentView.appointment];
 
         return;
     }
