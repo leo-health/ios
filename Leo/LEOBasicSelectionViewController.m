@@ -29,6 +29,7 @@
 
 
 #pragma mark - View Controller Lifecycle
+
 - (void)viewDidLoad {
 
     [super viewDidLoad];
@@ -55,14 +56,18 @@
 
     __weak typeof(self) weakSelf = self;
 
-    [LEOApiReachability startMonitoringForController:self withOfflineBlock:^{
+    [LEOApiReachability startMonitoringForController:self
+                                    withOfflineBlock:^{
 
-        __strong typeof(self) strongSelf = weakSelf;
+                                        __strong typeof(self) strongSelf = weakSelf;
 
-        [LEOAlertHelper alertForViewController:strongSelf title:@"Oops!" message:@"Looks like we have a boo boo or your internet is not working at the moment. Please go back and try again."];
+                                        [LEOAlertHelper alertForViewController:strongSelf
+                                                                         title:@"Oops!"
+                                                                       message:@"Looks like we have a boo boo or your internet is not working at the moment. Please go back and try again."];
 
-    } withOnlineBlock:nil];
-    
+                                    }
+                                     withOnlineBlock:nil];
+
     [self requestDataAndUpdateView];
 }
 
@@ -77,7 +82,12 @@
 #pragma mark - VCL Helper Methods
 
 - (void)setupNavBar {
-    [LEOStyleHelper styleNavigationBarForViewController:self forFeature:self.feature withTitleText:self.titleText dismissal:NO backButton:YES shadow:YES];
+    [LEOStyleHelper styleNavigationBarForViewController:self
+                                             forFeature:self.feature
+                                          withTitleText:self.titleText
+                                              dismissal:NO
+                                             backButton:YES
+                                                 shadow:YES];
 }
 
 - (void)setupTableView {
@@ -109,7 +119,13 @@
 
         if (error) {
 
-            [LEOAlertHelper alertForViewController:strongSelf error:error backupTitle:@"Oops!" backupMessage:@"Looks like we have a boo boo or your internet is not working at the moment. Please try again."];
+            [LEOAlertHelper alertForViewController:strongSelf
+                                             error:error
+                                       backupTitle:@"Oops!"
+                                     backupMessage:@"Looks like we have a boo boo or your internet is not working at the moment. Please try again."
+                                           okBlock:^(UIAlertAction *action) {
+                                               [self pop];
+                                     }];
             return;
         }
 
@@ -149,11 +165,6 @@
 
 
 #pragma mark - Actions
-
-- (void)okTouchedUpInside {
-
-    [self pop];
-}
 
 - (void)requestDataWithCompletion:(void (^) (id data, NSError *error))completionBlock {
     
