@@ -33,7 +33,7 @@
 
 @implementation LEOAddCaregiverViewController
 
-static NSString * const kCopyHeaderAddCaregiver = @"Add another parent or caregiver to Leo";
+static NSString * const kCopyHeaderAddCaregiver = @"Add another parent or caregiver";
 
 - (void)viewDidLoad {
 

@@ -69,7 +69,7 @@ IB_DESIGNABLE
 
     _termsLabel = termsLabel;
 
-    _termsLabel.text = @"By adding a parent or caregiver, you are providing this individual with access to your family's account and your child or children's health data.";
+    _termsLabel.text = @"By adding a parent or caregiver, you are providing this individual with access to your family's account and your childrens' health data.";
     _termsLabel.font = [UIFont leo_emergency911Label];
     _termsLabel.textColor = [UIColor leo_grayStandard];
     _termsLabel.textAlignment = NSTextAlignmentLeft;
