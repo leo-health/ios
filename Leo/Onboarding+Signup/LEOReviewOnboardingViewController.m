@@ -58,7 +58,7 @@
 
 static NSString *const kReviewUserSegue = @"ReviewUserSegue";
 static NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
-static NSString *const kCopyHeaderReviewOnboarding = @"Finally, please confirm your information";
+static NSString *const kCopyHeaderReviewOnboarding = @"Please confirm your family information";
 
 
 #pragma mark - View Controller Lifecycle and Helpers
@@ -256,7 +256,7 @@ static NSString *const kCopyHeaderReviewOnboarding = @"Finally, please confirm y
     [LEOBreadcrumb crumbWithFunction:__PRETTY_FUNCTION__];
 
     BOOL isSecondGuardian = self.family.guardians.count > 1;
-    __block BOOL attemptedInviteOfGuardian;
+    __block BOOL attemptedAdditionOfCaregiver;
     __block BOOL attemptedPatientCreation;
 
     __block UIButton *button = sender;
@@ -276,13 +276,13 @@ static NSString *const kCopyHeaderReviewOnboarding = @"Finally, please confirm y
             if (isSecondGuardian) {
 
                 Guardian *otherGuardian = self.family.guardians.lastObject;
-                [userService inviteUser:otherGuardian withCompletion:^(BOOL success, NSError *error) {
+                [userService addCaregiver:otherGuardian withCompletion:^(BOOL success, NSError *error) {
 
 
-                    attemptedInviteOfGuardian = YES;
+                    attemptedAdditionOfCaregiver = YES;
 
                     if (success) {
-                        [Localytics tagEvent:kAnalyticEventInviteUserFromRegistration];
+                        [Localytics tagEvent:kAnalyticEventAddCaregiverFromRegistration];
                     }
 
                     if (attemptedPatientCreation) {
@@ -317,7 +317,7 @@ static NSString *const kCopyHeaderReviewOnboarding = @"Finally, please confirm y
                     [[SessionUser currentUser] setMembershipType:MembershipTypeMember];
                 }
 
-                if (isSecondGuardian && attemptedInviteOfGuardian) {
+                if (isSecondGuardian && attemptedAdditionOfCaregiver) {
 
                     [MBProgressHUD hideHUDForView:self.view animated:YES];
                     button.enabled = YES;

@@ -18,7 +18,7 @@
 
 #import "LEOUpdateEmailViewController.h"
 #import "LEOUpdatePasswordViewController.h"
-#import "LEOInviteViewController.h"
+#import "LEOAddCaregiverViewController.h"
 #import "LEOWebViewController.h"
 
 #import "Patient.h"
@@ -40,7 +40,7 @@ typedef NS_ENUM(NSUInteger, AccountSettings) {
     
     AccountSettingsEmail,
     AccountSettingsPassword,
-    AccountSettingsInvite,
+    AccountSettingsAddCaregiver,
 };
 
 typedef NS_ENUM(NSUInteger, AboutSettings) {
@@ -65,7 +65,7 @@ typedef NS_ENUM(NSUInteger, AboutSettings) {
 static CGFloat const kRowHeightSettings = 69;
 static NSString *const kSegueChangeEmail = @"UpdateEmailSegue";
 static NSString *const kSegueChangePassword = @"UpdatePasswordSegue";
-static NSString *const kSegueInviteGuardian = @"InviteSegue";
+static NSString *const kSegueAddCaregiver = @"AddCaregiverSegue";
 static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
 
 #pragma mark - View Controller Lifecycle and Helper Methods
@@ -197,9 +197,9 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
                     break;
                 }
                     
-                case AccountSettingsInvite: {
+                case AccountSettingsAddCaregiver: {
 
-                    cell.promptField.textField.text = @"Invite a parent";
+                    cell.promptField.textField.text = @"Add a parent / caregiver";
                     cell.promptField.accessoryImageViewVisible = YES;
                     cell.promptField.accessoryImage = [UIImage imageNamed:@"Icon-Add"];
                     cell.promptField.tintColor = [UIColor leo_orangeRed];
@@ -323,8 +323,8 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
                     [self performSegueWithIdentifier:kSegueChangePassword sender:indexPath];
                     break;
                     
-                case AccountSettingsInvite:
-                    [self performSegueWithIdentifier:kSegueInviteGuardian sender:indexPath];
+                case AccountSettingsAddCaregiver:
+                    [self performSegueWithIdentifier:kSegueAddCaregiver sender:indexPath];
                     break;
                     
             }
@@ -519,9 +519,9 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
         webVC.feature = FeatureSettings;
     }
 
-    if ([segue.identifier isEqualToString:kSegueInviteGuardian]) {
-        LEOInviteViewController *inviteVC = (LEOInviteViewController *)segue.destinationViewController;
-        inviteVC.feature = FeatureSettings;
+    if ([segue.identifier isEqualToString:kSegueAddCaregiver]) {
+        LEOAddCaregiverViewController *addCaregiverVC = (LEOAddCaregiverViewController *)segue.destinationViewController;
+        addCaregiverVC.feature = FeatureSettings;
     }
 }
 

@@ -25,7 +25,7 @@
 - (void)updateUser:(Guardian *)guardian withCompletion:(void (^) (BOOL success, NSError *error))completionBlock;
 - (void)updateAvatarImagesForUsers:(NSArray <User *> *)responseUsers withLocalUsers:(NSArray <User *> *)localUsers;
 - (void)updateAvatarImageForUser:(User *)user withLocalUser:(User *)localUser;
-- (void)inviteUser:(User *)user withCompletion:(void (^) (BOOL success, NSError *error))completionBlock;
+- (void)addCaregiver:(User *)user withCompletion:(void (^) (BOOL success, NSError *error))completionBlock;
 - (void)updatePatient:(Patient *)patient withCompletion:(void (^) (BOOL success, NSError *error))completionBlock;
 - (void)changePasswordWithOldPassword:(NSString *)oldPassword newPassword:(NSString *)newPassword retypedNewPassword:(NSString *)retypedNewPassword withCompletion:(void (^) (BOOL success, NSError *error))completionBlock;
 

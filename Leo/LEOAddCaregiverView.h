@@ -1,5 +1,5 @@
 //
-//  LEOInviteView.h
+//  LEOAddCaregiverView.h
 //  Leo
 //
 //  Created by Zachary Drossman on 10/9/15.
@@ -10,7 +10,7 @@
 
 @class LEOPromptField;
 
-@interface LEOInviteView : UIView <UITextFieldDelegate>
+@interface LEOAddCaregiverView : UIView <UITextFieldDelegate>
 
 @property (copy, nonatomic) NSString *firstName;
 @property (copy, nonatomic) NSString *lastName;

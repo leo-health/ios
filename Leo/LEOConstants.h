@@ -172,7 +172,7 @@ extern NSString *const APIEndpointInsurers; // @"insurers";
 extern NSString *const APIEndpointUserEnrollments; // @"enrollments";
 extern NSString *const APIEndpointPatientEnrollments; // @"patient_enrollments";
 extern NSString *const APIEndpointAvatars; // @"avatars";
-extern NSString *const APIEndpointInvite; // @"invite";
+extern NSString *const APIEndpointAddCaregiver; // @"invite";
 
 extern NSString *const APIEndpointHealthRecord; // @"patients";
 extern NSString *const APIEndpointNotes; // @"notes";
@@ -503,7 +503,7 @@ extern NSString *const kAnalyticScreenProductPreview; // @"Product Preview";
 extern NSString *const kAnalyticScreenUserEnrollment; // @"User Enrollment";
 extern NSString *const kAnalyticScreenUserProfile; // @"User Profile";
 extern NSString *const kAnalyticScreenPatientProfile; // @"Patient Profile";
-extern NSString *const kAnalyticScreenInviteUser; // @"Invite User";
+extern NSString *const kAnalyticScreenAddCaregiver; // @"Add Caregiver";
 extern NSString *const kAnalyticScreenManagePatients; // @"Manage Patients";
 extern NSString *const kAnalyticScreenReviewRegistration; // @"Review Registration";
 extern NSString *const kAnalyticScreenFeed; // @"Feed";
@@ -534,8 +534,8 @@ extern NSString *const kAnalyticEventUpdatePassword; // @"Update Password";
 extern NSString *const kAnalyticEventConfirmAccount; // @"Confirm Account Details";
 extern NSString *const kAnalyticEventEditUserProfile; // @"Edit User Profile";
 extern NSString *const kAnalyticEventResetPassword; // @"Reset Password";
-extern NSString *const kAnalyticEventInviteUserFromSettings; // @"Invite User From Settings";
-extern NSString *const kAnalyticEventInviteUserFromRegistration; // @"Invite User From Onboarding";
+extern NSString *const kAnalyticEventAddCaregiverFromSettings; // @"Add Caregiver From Settings";
+extern NSString *const kAnalyticEventAddCaregiverFromRegistration; // @"Add Caregiver From Onboarding";
 extern NSString *const kAnalyticEventCallUs; // @"Call Us";
 
 extern NSString *const kAnalyticEventBookVisit; // @"Book Visit";

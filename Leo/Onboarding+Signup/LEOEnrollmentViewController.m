@@ -38,7 +38,7 @@
 
 @implementation LEOEnrollmentViewController
 
-static NSString * const kCopyHeaderEnrollment = @"First, please create an account with Leo";
+static NSString * const kCopyHeaderEnrollment = @"First, please create an account";
 static NSString * const kCopyCollapsedHeaderEnrollment = @"Create an account";
 
 #pragma mark - View Controller Lifecycle & Helper Methods

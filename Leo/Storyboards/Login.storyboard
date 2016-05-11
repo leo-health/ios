@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="EQF-WD-ZCd">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="EQF-WD-ZCd">
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -246,10 +245,10 @@
             </objects>
             <point key="canvasLocation" x="3033" y="2949"/>
         </scene>
-        <!--Invite View Controller-->
+        <!--Add Caregiver View Controller-->
         <scene sceneID="4eW-ZU-uAl">
             <objects>
-                <viewController id="wtx-Mf-qJP" customClass="LEOInviteViewController" sceneMemberID="viewController">
+                <viewController id="wtx-Mf-qJP" customClass="LEOAddCaregiverViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="p36-1P-NT0"/>
                         <viewControllerLayoutGuide type="bottom" id="PTJ-fy-v3E"/>
