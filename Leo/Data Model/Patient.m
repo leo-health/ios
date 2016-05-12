@@ -61,14 +61,6 @@
 
 - (void)setPatientAvatarPlaceholder {
 
-    NSString *avatarPlaceholderImageName;
-
-    if ([self.gender isEqualToString:kGenderFemale]) {
-        avatarPlaceholderImageName = @"Avatar_Patient_Daughter";
-    } else if ([self.gender isEqualToString:kGenderMale]) {
-        avatarPlaceholderImageName = @"Avatar_Patient_Son";
-    }
-
     self.avatar.placeholder = [UIImage imageNamed:[self avatarPlaceholderImageName]];
 }
 
