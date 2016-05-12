@@ -1,10 +1,14 @@
     upcoming:
-    - Update! Registration flow copy
-    - New! Message notice for practice after hours and major holidays
-    - Fix for onboarding issue where user does not complete enrollment and tries again
-    - Fix for losing connectivity while scheduling an appointment
-
     releases:
+    - version: 1.0.0
+      build: 2016.05.11.19.08
+      date: May 11 2016
+      notes:
+      - Update! Registration flow copy
+  - New! Message notice for practice after hours and major holidays
+  - Fix for onboarding issue where user does not complete enrollment and tries again
+  - Fix for losing connectivity while scheduling an appointment
+    
     - version: 1.0.0
       build: 2016.04.07.18.44
       date: April 07 2016
@@ -383,6 +387,7 @@
       notes:
       - First test build using new Fastfile configuration for Alpha builds
       - Provides the basic functionality all created prior to our first releases
+
 
 
 
