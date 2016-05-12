@@ -1,7 +1,11 @@
     upcoming:
-    - Bug fixes.
-
     releases:
+    - version: 1.0.1
+      build: 2016.05.11.22.09
+      date: May 11 2016
+      notes:
+      - Bug fixes.
+    
     - version: 1.0.0
       build: 2016.05.11.19.08
       date: May 11 2016
@@ -389,6 +393,7 @@
       notes:
       - First test build using new Fastfile configuration for Alpha builds
       - Provides the basic functionality all created prior to our first releases
+
 
 
 
