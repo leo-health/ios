@@ -234,14 +234,15 @@ dismissButtonTouchedUpInsideBlock:(void (^)(void))dismissButtonTouchedUpInsideBl
 
         NSDictionary *bindings = NSDictionaryOfVariableBindings(_noticeLabel, _buttonOne, _buttonTwo, _buttonDismiss);
 
-        NSNumber *margin = @45;
-
+        NSNumber *standardMargin = @45;
         NSNumber *bottomMargin = @75;
+        NSNumber *rightMargin = @16;
+        NSNumber *topMargin = @12;
 
-        NSDictionary *metrics = NSDictionaryOfVariableBindings(margin, bottomMargin);
+        NSDictionary *metrics = NSDictionaryOfVariableBindings(standardMargin, bottomMargin, rightMargin, topMargin);
 
         NSArray *horizontalConstraintsForNoticeLabel =
-        [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(margin)-[_noticeLabel]-(margin)-|"
+        [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(standardMargin)-[_noticeLabel]-(standardMargin)-|"
                                                 options:0
                                                 metrics:metrics
                                                   views:bindings];
@@ -269,14 +270,14 @@ dismissButtonTouchedUpInsideBlock:(void (^)(void))dismissButtonTouchedUpInsideBl
 
 
         NSArray *horizontalConstraintsForBothButtons =
-        [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(margin)-[_buttonOne]-[_buttonTwo(_buttonOne)]-(margin)-|"
+        [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(standardMargin)-[_buttonOne]-[_buttonTwo(_buttonOne)]-(standardMargin)-|"
                                                 options:0
                                                 metrics:metrics
                                                   views:bindings];
 
-        NSArray *horizontalConstraintsForDismissButton = [NSLayoutConstraint constraintsWithVisualFormat:@"H:[_buttonDismiss]-(16)-|" options:0 metrics:nil views:bindings];
+        NSArray *horizontalConstraintsForDismissButton = [NSLayoutConstraint constraintsWithVisualFormat:@"H:[_buttonDismiss]-(rightMargin)-|" options:0 metrics:metrics views:bindings];
 
-        NSArray *verticalConstraintsForDismissButton = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(12)-[_buttonDismiss]" options:0 metrics:nil views:bindings];
+        NSArray *verticalConstraintsForDismissButton = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(topMargin)-[_buttonDismiss]" options:0 metrics:metrics views:bindings];
 
         [self addConstraints:horizontalConstraintsForNoticeLabel];
         [self addConstraint:centerConstraintForNoticeLabel];
