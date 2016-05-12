@@ -11,7 +11,7 @@
 @interface LEOConversationFullScreenNoticeView : UIView
 
 - (instancetype)initWithAttributedHeaderText:(NSAttributedString *)attributedHeaderText
-                          attributedbodyText:(NSAttributedString *)attributedBodyText
+                          attributedBodyText:(NSAttributedString *)attributedBodyText
                buttonOneTouchedUpInsideBlock:(void (^) (void))buttonOneTouchedUpInsideBlock
                buttonTwoTouchedUpInsideBlock:(void (^) (void))buttonTwoTouchedUpInsideBlock
            dismissButtonTouchedUpInsideBlock:(void (^) (void))dismissButtonTouchedUpInsideBlock;

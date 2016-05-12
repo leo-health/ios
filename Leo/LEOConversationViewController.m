@@ -92,7 +92,7 @@
 @property (strong, nonatomic) NSLayoutConstraint *verticalConstraintForNoticeView;
 
 @property (copy, nonatomic) NSArray *notices;
-@property (strong, nonnull) Practice *practice;
+@property (strong, nonatomic) Practice *practice;
 
 @end
 
@@ -140,7 +140,7 @@ static NSString *const kDefaultPracticeID = @"0";
                                      backupMessage:kErrorBodyMessagingDown];
             return;
         }
-        
+
         self.notices = notices;
         self.practice = practice;
 
@@ -237,7 +237,7 @@ static NSString *const kDefaultPracticeID = @"0";
 - (void)setupNoticeView {
 
     [self.headerNoticeView removeFromSuperview];
-    
+
     __weak typeof(self) weakSelf = self;
 
     UIImage *noticeButtonImage =
@@ -258,15 +258,15 @@ static NSString *const kDefaultPracticeID = @"0";
 
     self.headerNoticeView =
     [[LEOConversationNoticeView alloc] initWithNotice:notice
-                                         noticeButtonText:nil
-                                        noticeButtonImage:noticeButtonImage
-                          noticeButtonTappedUpInsideBlock:^{
+                                     noticeButtonText:nil
+                                    noticeButtonImage:noticeButtonImage
+                      noticeButtonTappedUpInsideBlock:^{
 
-                              __strong typeof(self) strongSelf = weakSelf;
+                          __strong typeof(self) strongSelf = weakSelf;
 
-                              [LEOCallManager alertToCallPractice:self.practice
-                                               fromViewController:strongSelf];
-                          }];
+                          [LEOCallManager alertToCallPractice:self.practice
+                                           fromViewController:strongSelf];
+                      }];
 
     [self.view addSubview:self.headerNoticeView];
 
@@ -295,9 +295,9 @@ static NSString *const kDefaultPracticeID = @"0";
     if (!noticeName) {
 
         if (error) {
-        *error = [NSError errorWithDomain:LEOErrorDomainContent
-                                     code:LEOErrorDomainContentCodeMissingContent
-                                 userInfo:nil];
+            *error = [NSError errorWithDomain:LEOErrorDomainContent
+                                         code:LEOErrorDomainContentCodeMissingContent
+                                     userInfo:nil];
         }
     };
 
@@ -318,12 +318,18 @@ static NSString *const kDefaultPracticeID = @"0";
 - (void)setupFullScreenNotice {
 
     if ([self shouldShowFullScreenNotice] && !self.fullScreenNoticeView) {
-        
+
         __weak typeof(self) weakSelf = self;
 
+
+        NSError *fetchNoticeError;
+
+        //FIXME: Not doing anything with the error right now, and I know we have to. Will add issue for next build.
+        Notice *notice = [self fetchAppropriateNoticeWithError:&fetchNoticeError];
+
         self.fullScreenNoticeView =
-        [[LEOConversationFullScreenNoticeView alloc] initWithHeaderText:kCopyOffHoursTitle
-                                                               bodyText:kCopyOffHoursBody
+        [[LEOConversationFullScreenNoticeView alloc] initWithHeaderText:notice.attributedHeaderText.string
+                                                               bodyText:notice.attributedBodyText.string
                                           buttonOneTouchedUpInsideBlock:^{
 
                                               __strong typeof(self) strongSelf = weakSelf;
@@ -381,10 +387,10 @@ static NSString *const kDefaultPracticeID = @"0";
 
     [self.view addConstraint:self.verticalConstraintForNoticeView];
 
-//    self.topContentAdditionalInset = noticeView.frame.size.height;
-//
-//    self.collectionView.contentOffset =
-//    CGPointMake(0, -self.topContentAdditionalInset);
+    //    self.topContentAdditionalInset = noticeView.frame.size.height;
+    //
+    //    self.collectionView.contentOffset =
+    //    CGPointMake(0, -self.topContentAdditionalInset);
 }
 
 - (void)setupConstraintsForFullScreenNoticeView {
@@ -776,7 +782,7 @@ static NSString *const kDefaultPracticeID = @"0";
 }
 
 - (NSDate *)lastMessageDate {
-    
+
     Message *message = [self conversation].messages.lastObject;
     return message.createdAt;
 }
@@ -963,7 +969,7 @@ static NSString *const kDefaultPracticeID = @"0";
             [[UIBarButtonItem appearanceWhenContainedIn:[UIImagePickerController class], nil] setBackButtonBackgroundImage:nil
                                                                                                                   forState:UIControlStateNormal
                                                                                                                 barMetrics:UIBarMetricsDefault];
-            
+
             [pickerController.navigationBar setBackgroundImage:[UIImage leo_imageWithColor:self.card.tintColor]
                                                  forBarMetrics:UIBarMetricsDefault];
 
@@ -1680,7 +1686,7 @@ static NSString *const kDefaultPracticeID = @"0";
 
     [CATransaction begin];
     [CATransaction setDisableActions:YES];
-    
+
     [collectionView performBatchUpdates:^{
         [collectionView insertItemsAtIndexPaths:indexPaths];
     } completion:^(BOOL finished) {

@@ -35,7 +35,7 @@
 @implementation LEOConversationFullScreenNoticeView
 
 - (instancetype)initWithAttributedHeaderText:(NSAttributedString *)attributedHeaderText
-                          attributedbodyText:(NSAttributedString *)attributedBodyText
+                          attributedBodyText:(NSAttributedString *)attributedBodyText
                buttonOneTouchedUpInsideBlock:(void (^) (void))buttonOneTouchedUpInsideBlock
                buttonTwoTouchedUpInsideBlock:(void (^) (void))buttonTwoTouchedUpInsideBlock
            dismissButtonTouchedUpInsideBlock:(void (^) (void))dismissButtonTouchedUpInsideBlock {
@@ -68,7 +68,7 @@ dismissButtonTouchedUpInsideBlock:(void (^)(void))dismissButtonTouchedUpInsideBl
     NSAttributedString *attributedHeaderString = [[NSAttributedString alloc] initWithString:headerText attributes:[self fullScreenNoticeHeaderTextAttributes]];
     NSAttributedString *attributedBodyString = [[NSAttributedString alloc] initWithString:bodyText attributes:[self fullScreenNoticeBodyTextAttributes]];
 
-    return [self initWithAttributedHeaderText:attributedHeaderString attributedbodyText:attributedBodyString buttonOneTouchedUpInsideBlock:buttonOneTouchedUpInsideBlock buttonTwoTouchedUpInsideBlock:buttonTwoTouchedUpInsideBlock dismissButtonTouchedUpInsideBlock:dismissButtonTouchedUpInsideBlock];
+    return [self initWithAttributedHeaderText:attributedHeaderString attributedBodyText:attributedBodyString buttonOneTouchedUpInsideBlock:buttonOneTouchedUpInsideBlock buttonTwoTouchedUpInsideBlock:buttonTwoTouchedUpInsideBlock dismissButtonTouchedUpInsideBlock:dismissButtonTouchedUpInsideBlock];
 }
 
 - (void)concatenateAttributedHeaderText:(NSAttributedString *)attributedHeaderText
