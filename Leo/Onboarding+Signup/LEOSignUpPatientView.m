@@ -116,10 +116,8 @@ static NSString *const kPlaceholderValidationBirthDate = @"please add your child
 
 - (void)updateUI {
 
-    if (self.feature == FeatureOnboarding) {
-        _genderPromptField.accessoryImageViewVisible = [self genderAndBirthdateEditable];
-        _birthDatePromptField.accessoryImageViewVisible = [self genderAndBirthdateEditable];
-    }
+    _genderPromptField.accessoryImageViewVisible = [self genderAndBirthdateEditable];
+    _birthDatePromptField.accessoryImageViewVisible = [self genderAndBirthdateEditable];
 
     NSString *submitButtonTitle;
     switch (self.feature) {
