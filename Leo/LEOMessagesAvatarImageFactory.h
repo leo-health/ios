@@ -57,7 +57,7 @@
  *
  *  @return An initialized `JSQMessagesAvatarImage` object if created successfully, `nil` otherwise.
  */
-+ (JSQMessagesAvatarImage *)avatarImageWithImage:(UIImage *)image diameter:(NSUInteger)diameter borderColor:(UIColor *)borderColor borderWidth:(NSUInteger)borderWidth;
++ (JSQMessagesAvatarImage *)avatarImageWithImage:(UIImage *)image diameter:(NSUInteger)diameter borderColor:(UIColor *)borderColor borderWidth:(NSUInteger)borderWidth renderingMode:(UIImageRenderingMode)renderingMode;
 
 /**
  *  Returns a copy of the specified image that is cropped to a circle with the given diameter.
@@ -69,7 +69,7 @@
  *
  *  @return A new image object if successful, `nil` otherwise.
  */
-+ (UIImage *)circularAvatarImage:(UIImage *)image withDiameter:(NSUInteger)diameter borderColor:(UIColor *)borderColor borderWidth:(NSUInteger)borderWidth;
++ (UIImage *)circularAvatarImage:(UIImage *)image withDiameter:(NSUInteger)diameter borderColor:(UIColor *)borderColor borderWidth:(NSUInteger)borderWidth renderingMode:(UIImageRenderingMode)renderingMode;
 
 /**
  *  Returns a copy of the specified image that is cropped to a circle with the given diameter.

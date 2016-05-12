@@ -61,11 +61,18 @@
 
 - (void)setPatientAvatarPlaceholder {
 
+    self.avatar.placeholder = [UIImage imageNamed:[self avatarPlaceholderImageName]];
+}
+
+- (NSString *)avatarPlaceholderImageName {
+
     if ([self.gender isEqualToString:kGenderFemale]) {
-        self.avatar.placeholder = [UIImage imageNamed:@"Avatar_Patient_Daughter"];
+        return @"Avatar_Patient_Daughter";
     } else if ([self.gender isEqualToString:kGenderMale]) {
-        self.avatar.placeholder = [UIImage imageNamed:@"Avatar_Patient_Son"];
+        return @"Avatar_Patient_Son";
     }
+
+    else return @"Avatar_Patient_Son";
 }
 
 + (NSDictionary *)dictionaryFromUser:(Patient *)patient {
@@ -174,6 +181,17 @@
     BOOL validGender = [LEOValidationsHelper isValidGender:self.gender];
 
     return validFirstName && validLastName && validBirthDate && validGender;
+}
+
+- (BOOL)hasAvatarDifferentFromPlaceholder {
+
+    UIImage *placeholderImage = [UIImage imageNamed:[self avatarPlaceholderImageName]];
+
+    NSData *imageData = UIImagePNGRepresentation(self.avatar.image);
+
+    NSData *placeholderData = UIImagePNGRepresentation(placeholderImage);
+
+    return ![imageData isEqualToData:placeholderData];
 }
 
 //FIXME: This is not completely built out. Will work where currently used and probably nowhere else...

@@ -43,6 +43,7 @@ typedef NS_ENUM(NSUInteger, PatientStatusCode) {
 
 - (BOOL)isValid;
 - (void)copyFrom:(Patient *)otherPatient;
+- (BOOL)hasAvatarDifferentFromPlaceholder;
 
 NS_ASSUME_NONNULL_END
 @end

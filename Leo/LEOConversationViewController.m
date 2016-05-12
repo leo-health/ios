@@ -1221,11 +1221,11 @@ static NSString *const kDefaultPracticeID = @"0";
 
 - (JSQMessagesAvatarImage *)createAvatarImageForUser:(User *)user {
 
-    UIImage *placeholderImage = [LEOMessagesAvatarImageFactory circularAvatarImage:[UIImage imageNamed:@"Icon-ProviderAvatarPlaceholder"] withDiameter:20.0 borderColor:[UIColor leo_grayForPlaceholdersAndLines] borderWidth:2];
+    UIImage *placeholderImage = [LEOMessagesAvatarImageFactory circularAvatarImage:[UIImage imageNamed:@"Icon-ProviderAvatarPlaceholder"] withDiameter:20.0 borderColor:[UIColor leo_grayForPlaceholdersAndLines] borderWidth:2 renderingMode:UIImageRenderingModeAutomatic];
 
     JSQMessagesAvatarImage *combinedImages = [JSQMessagesAvatarImage avatarImageWithPlaceholder:placeholderImage];
 
-    combinedImages.avatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:user.avatar.image withDiameter:kJSQMessagesCollectionViewAvatarSizeDefault borderColor:[UIColor leo_grayForPlaceholdersAndLines] borderWidth:2];
+    combinedImages.avatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:user.avatar.image withDiameter:kJSQMessagesCollectionViewAvatarSizeDefault borderColor:[UIColor leo_grayForPlaceholdersAndLines] borderWidth:2 renderingMode:UIImageRenderingModeAutomatic];
 
     return combinedImages;
 }

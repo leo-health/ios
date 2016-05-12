@@ -115,7 +115,7 @@ static NSString *const kStatusBarNotificationAvatarUploadSuccess = @"Child profi
 
     if (self.patient.avatar.image) {
 
-        UIImage *circularAvatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:self.patient.avatar.image withDiameter:67 borderColor:[UIColor leo_orangeRed] borderWidth:1.0];
+        UIImage *circularAvatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:self.patient.avatar.image withDiameter:67 borderColor:[UIColor leo_orangeRed] borderWidth:1.0 renderingMode:UIImageRenderingModeAutomatic];
 
         self.signUpPatientView.avatarImageView.image = circularAvatarImage;
 

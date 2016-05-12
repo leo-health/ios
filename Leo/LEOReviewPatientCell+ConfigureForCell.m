@@ -30,7 +30,7 @@
     //MARK: Leaving the below here in case we want to implement this again.
 //    self.editButton.hidden = patientNumber > 0 ? YES : NO;
     
-    self.avatarImageView.image = [LEOMessagesAvatarImageFactory circularAvatarImage:patient.avatar.image withDiameter:36 borderColor:[UIColor leo_orangeRed] borderWidth:1.0];
+    self.avatarImageView.image = [LEOMessagesAvatarImageFactory circularAvatarImage:patient.avatar.image withDiameter:36 borderColor:[UIColor leo_orangeRed] borderWidth:1.0 renderingMode:UIImageRenderingModeAutomatic];
 
     [self setPatientCopyFontAndColor];
 }
