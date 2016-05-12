@@ -225,7 +225,7 @@ static NSString *const kPlaceholderValidationBirthDate = @"please add your child
 
     if (_patient.avatar.image) {
 
-        UIImage *circularAvatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:_patient.avatar.image withDiameter:67 borderColor:[UIColor leo_orangeRed] borderWidth:1.0];
+        UIImage *circularAvatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:_patient.avatar.image withDiameter:67 borderColor:[UIColor leo_orangeRed] borderWidth:1.0 renderingMode:UIImageRenderingModeAutomatic];
 
         self.avatarValidationLabel.text = kAvatarCallToActionEdit;
         self.avatarImageView.image = circularAvatarImage;

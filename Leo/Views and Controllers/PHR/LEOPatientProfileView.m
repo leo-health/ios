@@ -32,18 +32,21 @@ static CGFloat const kSpacerProfileBottom = 4.0;
 - (instancetype)initWithPatient:(Patient *)patient {
     self = [super init];
     if (self) {
+
         _patient = patient;
+
+        [self updateAvatarImageViewForPatient:_patient];
 
         [self registerForNotifications];
     }
-    
+
     return self;
 }
 
 - (UILabel *)patientNameLabel {
 
     if (!_patientNameLabel) {
-
+        
         UILabel *strongLabel = [[UILabel alloc] init];
 
         _patientNameLabel = strongLabel;
@@ -62,11 +65,14 @@ static CGFloat const kSpacerProfileBottom = 4.0;
 
     if (!_patientAvatarImageView) {
 
-        UIImage *profileImage = [LEOMessagesAvatarImageFactory circularAvatarImage:self.patient.avatar.image withDiameter:kAvatarProfileDiameter borderColor:[UIColor leo_white] borderWidth:kAvatarProfileBorderWidth];
+        UIImage *profileImage = [LEOMessagesAvatarImageFactory circularAvatarImage:self.patient.avatar.image withDiameter:kAvatarProfileDiameter borderColor:[UIColor leo_white] borderWidth:kAvatarProfileBorderWidth renderingMode:UIImageRenderingModeAlwaysTemplate];
 
-        UIImageView *strongImageView = [[UIImageView alloc] initWithImage:profileImage];
+        UIImageView *strongImageView = [[UIImageView alloc] init];
 
         _patientAvatarImageView = strongImageView;
+        _patientAvatarImageView.tintColor = [UIColor leo_white];
+        _patientAvatarImageView.image = profileImage;
+
         [self addSubview:_patientAvatarImageView];
     }
 
@@ -107,8 +113,25 @@ static CGFloat const kSpacerProfileBottom = 4.0;
 
     self.patientNameLabel.text = _patient.fullName;
 
-    self.patientAvatarImageView.image = [LEOMessagesAvatarImageFactory circularAvatarImage:_patient.avatar.image withDiameter:kAvatarProfileDiameter borderColor:[UIColor leo_white] borderWidth:kAvatarProfileBorderWidth];
 
+    [self updateAvatarImageViewForPatient:patient];
+}
+
+- (void)updateAvatarImageViewForPatient:(Patient *)patient {
+
+    if ([_patient hasAvatarDifferentFromPlaceholder]) {
+
+        self.patientAvatarImageView.tintColor = [UIColor clearColor];
+
+        self.patientAvatarImageView.image = [LEOMessagesAvatarImageFactory circularAvatarImage:_patient.avatar.image withDiameter:kAvatarProfileDiameter borderColor:[UIColor leo_white] borderWidth:kAvatarProfileBorderWidth renderingMode:UIImageRenderingModeAlwaysOriginal];
+    } else {
+
+        self.patientAvatarImageView.tintColor = [UIColor whiteColor];
+
+        self.patientAvatarImageView.image = [LEOMessagesAvatarImageFactory circularAvatarImage:_patient.avatar.image withDiameter:kAvatarProfileDiameter borderColor:[UIColor leo_white] borderWidth:kAvatarProfileBorderWidth renderingMode:UIImageRenderingModeAlwaysTemplate];
+    }
+
+    [self removeObservers];
     [self registerForNotifications];
 }
 
@@ -129,7 +152,7 @@ static CGFloat const kSpacerProfileBottom = 4.0;
 
 - (void)notificationReceivedForDownloadedImage:(NSNotification *)notification {
 
-    UIImage *circularAvatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:self.patient.avatar.image withDiameter:67 borderColor:[UIColor leo_white] borderWidth:1.0];
+    UIImage *circularAvatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:self.patient.avatar.image withDiameter:67 borderColor:[UIColor leo_white] borderWidth:1.0 renderingMode:UIImageRenderingModeAlwaysOriginal];
 
     _patientAvatarImageView.image = circularAvatarImage;
 }
