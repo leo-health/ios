@@ -246,6 +246,7 @@ static NSString *const kDefaultPracticeID = @"0";
     NSError *noticeError;
     Notice *notice = [self fetchAppropriateNoticeWithError:&noticeError];
 
+    //TODO: Bubble up error from API if possible in order to avoid confusion as to what the issue actually is.
     if(noticeError) {
 
         [LEOAlertHelper alertForViewController:self
@@ -306,6 +307,7 @@ static NSString *const kDefaultPracticeID = @"0";
     if (!appropriateNotice) {
 
         if (error) {
+
             *error = [NSError errorWithDomain:LEOErrorDomainContent
                                          code:LEOErrorDomainContentCodeMissingContent
                                      userInfo:nil];
@@ -322,10 +324,21 @@ static NSString *const kDefaultPracticeID = @"0";
         __weak typeof(self) weakSelf = self;
 
 
-        NSError *fetchNoticeError;
+        NSError *noticeError;
 
-        //FIXME: Not doing anything with the error right now, and I know we have to. Will add issue for next build.
-        Notice *notice = [self fetchAppropriateNoticeWithError:&fetchNoticeError];
+        Notice *notice = [self fetchAppropriateNoticeWithError:&noticeError];
+
+        //TODO: Bubble up error from API if possible in order to avoid confusion as to what the issue actually is.
+        if(noticeError) {
+
+            [LEOAlertHelper alertForViewController:self
+                                             error:nil
+                                       backupTitle:kErrorTitleMessagingDown
+                                     backupMessage:kErrorBodyMessagingDown];
+            
+            return;
+        }
+
 
         self.fullScreenNoticeView =
         [[LEOConversationFullScreenNoticeView alloc] initWithHeaderText:notice.attributedHeaderText.string
