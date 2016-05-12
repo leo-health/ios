@@ -448,7 +448,7 @@ static NSString *const kStatusBarNotificationAvatarUploadSuccess = @"Child profi
             [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         }];
 
-        [self finishLocalUpdate];
+        [self.navigationController popViewControllerAnimated:YES];
     };
 
     if (patientNeedsUpdate) {
