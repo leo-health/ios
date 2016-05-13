@@ -67,7 +67,7 @@ static NSInteger const kLineThickness = 1;
             break;
 
         case CardConfigurationUndefined:
-            self.leadingButton.enabled = userInteractionEnabled;
+            break;
     }
 }
 
@@ -80,10 +80,10 @@ static NSInteger const kLineThickness = 1;
         UIButton *strongButton = [UIButton leo_newButtonWithDisabledStyling];
         _leadingButton = strongButton;
 
+        //These lines creates a side effect that can mess with the user of this class. We may need to remove them. And consider not using lazy instantiation for side effects...?
         [_leadingButton setTitle:[self.card stringRepresentationOfActionsAvailableForState][0] forState:UIControlStateNormal];
         [_leadingButton setTitleColor:self.card.tintColor forState:UIControlStateNormal];
         _leadingButton.titleLabel.font = [UIFont leo_buttonLabelsAndTimeStampsFont];
-
         [_leadingButton addTarget:self.card.associatedCardObject action:NSSelectorFromString([self.card actionsAvailableForState][0]) forControlEvents:UIControlEventTouchUpInside];
 
         [self addSubview:_leadingButton];
