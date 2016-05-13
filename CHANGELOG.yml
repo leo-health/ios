@@ -1,19 +1,21 @@
     upcoming:
+    - Bug fixes.
+
     releases:
     - version: 1.0.1
       build: 2016.05.11.22.09
       date: May 11 2016
       notes:
       - Bug fixes.
-    
+
     - version: 1.0.0
       build: 2016.05.11.19.08
       date: May 11 2016
       notes:
       - Update! Registration flow copy
-  - New! Message notice for practice after hours and major holidays
-  - Fix for onboarding issue where user does not complete enrollment and tries again
-  - Fix for losing connectivity while scheduling an appointment
+      - New! Message notice for practice after hours and major holidays
+      - Fix for onboarding issue where user does not complete enrollment and tries again
+      - Fix for losing connectivity while scheduling an appointment
 
     - version: 1.0.0
       build: 2016.04.07.18.44
