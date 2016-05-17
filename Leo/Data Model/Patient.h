@@ -45,5 +45,8 @@ typedef NS_ENUM(NSUInteger, PatientStatusCode) {
 - (void)copyFrom:(Patient *)otherPatient;
 - (BOOL)hasAvatarDifferentFromPlaceholder;
 
+- (NSString *)possessiveSingularGender;
+- (NSString *)genderSpecificChildRelationship;
+
 NS_ASSUME_NONNULL_END
 @end

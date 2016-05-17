@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -14,7 +14,7 @@
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Ps-s0-yza" customClass="TPKeyboardAvoidingScrollView">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="572"/>
                     <subviews>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1LP-Ig-PFg" userLabel="Content View">
+                        <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1LP-Ig-PFg" userLabel="Content View">
                             <rect key="frame" x="30" y="0.0" width="540" height="432"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IsI-Id-xlv" userLabel="Last Name Prompt View" customClass="LEOPromptField">
@@ -65,6 +65,19 @@
                                         <constraint firstItem="WDV-8k-WR9" firstAttribute="centerY" secondItem="uZR-9M-9bv" secondAttribute="centerY" id="qky-JB-PnH"/>
                                     </constraints>
                                 </view>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xzJ-EK-S70" userLabel="First Name Prompt View" customClass="LEOPromptField">
+                                    <rect key="frame" x="0.0" y="20" width="540" height="48"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="48" id="Qte-Eu-r3o"/>
+                                    </constraints>
+                                </view>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="thf-GN-ehx">
+                                    <rect key="frame" x="0.0" y="407" width="42" height="21"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Do6-Qk-bdr" userLabel="Continue Button">
                                     <rect key="frame" x="0.0" y="345" width="540" height="54"/>
                                     <color key="backgroundColor" red="0.98431372549999996" green="0.2784313725" blue="0.1960784314" alpha="1" colorSpace="calibratedRGB"/>
@@ -76,19 +89,14 @@
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
                                 </button>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xzJ-EK-S70" userLabel="First Name Prompt View" customClass="LEOPromptField">
-                                    <rect key="frame" x="0.0" y="20" width="540" height="48"/>
-                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="48" id="Qte-Eu-r3o"/>
-                                    </constraints>
-                                </view>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstItem="akX-b1-of0" firstAttribute="trailing" secondItem="xzJ-EK-S70" secondAttribute="trailing" id="7eG-0O-fwo"/>
                                 <constraint firstItem="NW5-r3-JJp" firstAttribute="leading" secondItem="1LP-Ig-PFg" secondAttribute="leading" id="BlL-SL-PJ9"/>
+                                <constraint firstItem="thf-GN-ehx" firstAttribute="leading" secondItem="Do6-Qk-bdr" secondAttribute="leading" id="CBI-Sj-adc"/>
                                 <constraint firstAttribute="trailing" secondItem="NW5-r3-JJp" secondAttribute="trailing" id="Djs-4p-1Yf"/>
+                                <constraint firstAttribute="bottom" secondItem="thf-GN-ehx" secondAttribute="bottom" constant="8" id="EQL-nx-LRS"/>
                                 <constraint firstItem="NW5-r3-JJp" firstAttribute="top" secondItem="wXO-Yh-mXH" secondAttribute="bottom" constant="33" id="GWP-2i-Ugk"/>
                                 <constraint firstItem="wXO-Yh-mXH" firstAttribute="top" secondItem="akX-b1-of0" secondAttribute="bottom" id="IV4-UD-MVP"/>
                                 <constraint firstItem="akX-b1-of0" firstAttribute="trailing" secondItem="wXO-Yh-mXH" secondAttribute="trailing" id="IWN-8F-WpX"/>
@@ -106,8 +114,10 @@
                                 <constraint firstAttribute="bottom" secondItem="wXO-Yh-mXH" secondAttribute="bottom" constant="200" id="hT8-Fy-Fz5"/>
                                 <constraint firstItem="xzJ-EK-S70" firstAttribute="leading" secondItem="1LP-Ig-PFg" secondAttribute="leading" id="jwF-Mp-pwa"/>
                                 <constraint firstItem="akX-b1-of0" firstAttribute="leading" secondItem="wXO-Yh-mXH" secondAttribute="leading" id="mIJ-T0-zI7"/>
+                                <constraint firstItem="thf-GN-ehx" firstAttribute="top" secondItem="Do6-Qk-bdr" secondAttribute="bottom" constant="8" id="n6I-mW-fcz"/>
                                 <constraint firstItem="xzJ-EK-S70" firstAttribute="top" secondItem="NW5-r3-JJp" secondAttribute="bottom" id="nEk-y0-Vhx"/>
                                 <constraint firstItem="akX-b1-of0" firstAttribute="leading" secondItem="xzJ-EK-S70" secondAttribute="leading" id="oKr-Ue-7DN"/>
+                                <constraint firstItem="thf-GN-ehx" firstAttribute="trailing" secondItem="Do6-Qk-bdr" secondAttribute="trailing" id="qnu-hb-PV5"/>
                                 <constraint firstAttribute="bottom" secondItem="Do6-Qk-bdr" secondAttribute="bottom" constant="33" id="rgC-sa-LtJ"/>
                             </constraints>
                             <variation key="default">
@@ -116,6 +126,7 @@
                                     <exclude reference="hT8-Fy-Fz5"/>
                                     <exclude reference="VF7-Qx-Zgh"/>
                                     <exclude reference="YGf-33-MM9"/>
+                                    <exclude reference="rgC-sa-LtJ"/>
                                 </mask>
                             </variation>
                         </view>
@@ -153,6 +164,7 @@
                 <outlet property="firstNamePromptField" destination="xzJ-EK-S70" id="B5a-ZM-qLa"/>
                 <outlet property="genderPromptField" destination="wXO-Yh-mXH" id="5vM-p4-evd"/>
                 <outlet property="lastNamePromptField" destination="IsI-Id-xlv" id="KNG-vd-fey"/>
+                <outlet property="paymentAgreementLabel" destination="thf-GN-ehx" id="SCj-7L-joh"/>
                 <outlet property="scrollView" destination="9Ps-s0-yza" id="rFe-gB-wLt"/>
                 <outlet property="updateButton" destination="Do6-Qk-bdr" id="BaW-Ix-2tU"/>
             </connections>

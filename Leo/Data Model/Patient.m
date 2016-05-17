@@ -173,6 +173,14 @@
     return [self.fullName hash] ^ [self.dob hash];
 }
 
+- (NSString *)possessiveSingularGender {
+    return [self.gender isEqualToString:@"M"] ? @"his" : @"her";
+}
+
+- (NSString *)genderSpecificChildRelationship {
+    return [self.gender isEqualToString:@"M"] ? @"son" : @"daughter";
+}
+
 - (BOOL)isValid {
 
     BOOL validFirstName = [LEOValidationsHelper isValidFirstName:self.firstName];

@@ -111,12 +111,7 @@
     self.recordTitleLabel.text = nil;
     self.recordSideLabel.text = nil;
 
-    //TODO: Make gender pronouns come from a helper so that they are available for reuse based on gender
-    //TODO: Make gender in patient a typedef in order to avoid hard coding these strings going forward
-    NSString *sonOrDaughterString = [patient.gender isEqualToString:@"M"] ? @"son" : @"daughter";
-    NSString *hisOrHerString = [patient.gender isEqualToString:@"M"] ? @"his" : @"her";
-
-    NSString *emptyRecordString = [NSString stringWithFormat:@"As your %@'s data becomes available, this section will populate with important facts and figures related to %@ health and development.", sonOrDaughterString, hisOrHerString];
+    NSString *emptyRecordString = [NSString stringWithFormat:@"As your %@'s data becomes available, this section will populate with important facts and figures related to %@ health and development.", [patient genderSpecificChildRelationship], [patient possessiveSingularGender]];
 
     self.recordMainDetailLabel.text = emptyRecordString;
 }

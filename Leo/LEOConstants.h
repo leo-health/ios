@@ -8,6 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
+typedef NS_ENUM(NSUInteger, DeviceModel) {
+
+    DeviceModelUnsupported,
+    DeviceModel4OrLess,
+    DeviceModel5,
+    DeviceModel6,
+    DeviceModel6Plus,
+};
+
 typedef NS_ENUM(NSUInteger, CardLayout) {
     CardLayoutUndefined = 0,
     CardLayoutTwoButtonPrimaryAndSecondary = 1,

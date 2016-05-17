@@ -9,6 +9,21 @@
 #import "LEODevice.h"
 #import <sys/utsname.h>
 
+
+#define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+#define IS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+#define IS_RETINA ([[UIScreen mainScreen] scale] >= 2.0)
+
+#define SCREEN_WIDTH ([[UIScreen mainScreen] bounds].size.width)
+#define SCREEN_HEIGHT ([[UIScreen mainScreen] bounds].size.height)
+#define SCREEN_MAX_LENGTH (MAX(SCREEN_WIDTH, SCREEN_HEIGHT))
+#define SCREEN_MIN_LENGTH (MIN(SCREEN_WIDTH, SCREEN_HEIGHT))
+
+#define IS_IPHONE_4_OR_LESS (IS_IPHONE && SCREEN_MAX_LENGTH < 568.0)
+#define IS_IPHONE_5 (IS_IPHONE && SCREEN_MAX_LENGTH == 568.0)
+#define IS_IPHONE_6 (IS_IPHONE && SCREEN_MAX_LENGTH == 667.0)
+#define IS_IPHONE_6P (IS_IPHONE && SCREEN_MAX_LENGTH == 736.0)
+
 @implementation LEODevice
 
 static LEODevice *_device = nil;
@@ -44,8 +59,7 @@ static dispatch_once_t onceToken;
 }
 
 // SOURCE: http://stackoverflow.com/questions/11197509/ios-how-to-get-device-make-and-model
-+ (NSString*) deviceType
-{
++ (NSString*) deviceType {
     struct utsname systemInfo;
 
     uname(&systemInfo);
@@ -113,6 +127,27 @@ static dispatch_once_t onceToken;
     }
     
     return deviceName;
+}
+
++ (DeviceModel)deviceModel {
+
+    if (IS_IPHONE_4_OR_LESS) {
+        return DeviceModel4OrLess;
+    }
+
+    if (IS_IPHONE_5) {
+        return DeviceModel5;
+    }
+
+    if (IS_IPHONE_6) {
+        return DeviceModel6;
+    }
+
+    if (IS_IPHONE_6P) {
+        return DeviceModel6Plus;
+    }
+
+    return DeviceModelUnsupported;
 }
 
 + (NSString *)osVersionString {
