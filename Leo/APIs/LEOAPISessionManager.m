@@ -9,7 +9,7 @@
 #import "LEOAPISessionManager.h"
 #import "Configuration.h"
 #import "LEOCredentialStore.h"
-#import "SessionUser.h"
+#import "LEOSession.h"
 #import "Configuration.h"
 
 @implementation LEOAPISessionManager
@@ -78,7 +78,7 @@
 
         if (httpResponse.statusCode == 401) {
 
-            [SessionUser logout];
+            [LEOSession logout];
         }
 
         [self formattedErrorFromError:&error];
@@ -347,7 +347,7 @@
 
 //FIXME: To be updated with the actual user token via keychain at some point.
 + (NSString *)authToken {
-    return [SessionUser authToken];;
+    return [LEOSession authToken];;
 }
 
 

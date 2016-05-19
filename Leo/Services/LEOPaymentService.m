@@ -8,7 +8,7 @@
 
 #import "LEOPaymentService.h"
 #import "LEOAPISessionManager.h"
-#import "SessionUser.h"
+#import "LEOSession.h"
 
 @implementation LEOPaymentService
 
@@ -17,26 +17,11 @@
 
     NSURLSessionTask *task = [[LEOPaymentService leoSessionManager] standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointSubscriptions params:@{@"credit_card_token" : token.tokenId} completion:^(NSDictionary *rawResults, NSError *error) {
 
-        if (!error) {
-
-            NSDictionary *userDictionary = rawResults[APIParamData][APIParamUser];
-
-            [SessionUser setCurrentUserWithJSONDictionary:userDictionary];
-
-            Guardian *guardian = [[Guardian alloc] initWithJSONDictionary:rawResults[APIParamData][APIParamUser]];
-
-            if (completionBlock) {
-                completionBlock (guardian, nil);
-            }
-        }
-        else {
-            
-            if (completionBlock) {
-                completionBlock (nil, error);
-            }
+        if (completionBlock) {
+            completionBlock (!error, error);
         }
     }];
-    
+
     return task;
 }
 

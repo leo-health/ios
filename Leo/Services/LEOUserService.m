@@ -16,9 +16,8 @@
 
 #import "LEOAPISessionManager.h"
 #import "LEOS3ImageSessionManager.h"
-#import "SessionUser.h"
+#import "LEOSession.h"
 #import "NSUserDefaults+Extensions.h"
-#import "LEODevice.h"
 #import "Configuration.h"
 #import <Crashlytics/Crashlytics.h>
 #import <Crittercism/Crittercism.h>
@@ -36,19 +35,19 @@ static CGFloat kImageSideSizeScale3Avatar = 300.0;
 
     [guardianDictionary setObject:[Configuration vendorID] forKey:kConfigurationVendorID];
 
-    [guardianDictionary addEntriesFromDictionary:[LEODevice jsonDictionary]];
+    [guardianDictionary addEntriesFromDictionary:[LEOSession sessionDictionaryWithoutUser]];
 
     [[LEOUserService leoSessionManager] standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIParamUsers params:guardianDictionary completion:^(NSDictionary *rawResults, NSError *error) {
 
         if (!error) {
 
-            //FIXME: This should all be in a method within the sessionUser object, not in the Service layer
-            [SessionUser setCurrentUserWithJSONDictionary:rawResults[APIParamData]];
-            [SessionUser setAuthToken:rawResults[APIParamData][APIParamSession][APIParamToken]];
+            NSDictionary *userDictionary = rawResults[APIParamData];
+            NSString *authenticationToken = rawResults[APIParamData][APIParamSession][APIParamToken];
+            [LEOSession setCurrentSessionWithUserDictionary:userDictionary authenticationToken:authenticationToken];
 
             //???: ZSD - @afanslau -- this looks to need some explaining. Why are we incrementing the LoginCounter twice?
-            [[SessionUser currentUser] incrementLoginCounter];
-            [[SessionUser currentUser] incrementLoginCounter];
+            [[LEOSession user] incrementLoginCounter];
+            [[LEOSession user] incrementLoginCounter];
 
             Guardian *guardian = [[Guardian alloc] initWithJSONDictionary:rawResults[APIParamData][APIParamUser]];
 
@@ -68,7 +67,7 @@ static CGFloat kImageSideSizeScale3Avatar = 300.0;
     NSURLSessionTask *task = [[LEOUserService leoSessionManager] standardGETRequestForJSONDictionaryFromAPIWithEndpoint:APIParamUsers params:paramsDictionary completion:^(NSDictionary *rawResults, NSError *error) {
 
         if (!error) {
-            [SessionUser setCurrentUserWithJSONDictionary:rawResults[APIParamData]];
+            [LEOSession updateCurrentSessionWithUserDictionary:rawResults[APIParamData]];
 
             Guardian *guardian = [[Guardian alloc] initWithJSONDictionary:rawResults[APIParamData][APIParamUser]];
 
@@ -85,6 +84,7 @@ static CGFloat kImageSideSizeScale3Avatar = 300.0;
 
     return task;
 }
+
 - (void)createPatients:(NSArray *)patients withCompletion:(void (^)(NSArray<Patient *> *responsePatients, NSError *error))completionBlock {
 
     __block NSInteger counter = 0;
@@ -143,8 +143,9 @@ static CGFloat kImageSideSizeScale3Avatar = 300.0;
         
         if (!error) {
             
-            [SessionUser newUserWithJSONDictionary:rawResults[APIParamData]];
-            [SessionUser setAuthToken:rawResults[APIParamData][APIParamSession][APIParamToken]];
+            NSDictionary *userDictionary = rawResults[APIParamData];
+            NSString *authenticationToken = rawResults[APIParamData][APIParamSession][APIParamToken];
+            [LEOSession setCurrentSessionWithUserDictionary:userDictionary authenticationToken:authenticationToken];
 
             completionBlock ? completionBlock(YES, nil) : completionBlock;
         } else {
@@ -246,32 +247,31 @@ static CGFloat kImageSideSizeScale3Avatar = 300.0;
 }
 
 
-- (void)loginUserWithEmail:(NSString *)email password:(NSString *)password withCompletion:(void (^)(SessionUser *user, NSError *error))completionBlock {
+- (void)loginUserWithEmail:(NSString *)email password:(NSString *)password withCompletion:(void (^)(BOOL success, NSError *error))completionBlock {
 
     NSMutableDictionary *loginParams = [@{
                                           APIParamUserEmail         : email,
                                           APIParamUserPassword      : password } mutableCopy];
 
-    [loginParams addEntriesFromDictionary:[LEODevice jsonDictionary]];
+    [loginParams addEntriesFromDictionary:[LEOSession sessionDictionaryWithoutUser]];
 
     [[LEOUserService leoSessionManager] unauthenticatedPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointLogin params:loginParams completion:^(NSDictionary *rawResults, NSError *error) {
         
         if (!error) {
-            
-            [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"SessionUser"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-            
-            [SessionUser setCurrentUserWithJSONDictionary:rawResults[APIParamData]];
-            [SessionUser setAuthToken:rawResults[APIParamData][APIParamSession][APIParamToken]];
 
-            [[SessionUser currentUser] incrementLoginCounter];
+            NSDictionary *userDictionary = rawResults[APIParamData];
+            NSString *authenticationToken = rawResults[APIParamData][APIParamSession][APIParamToken];
+            [LEOSession setCurrentSessionWithUserDictionary:userDictionary authenticationToken:authenticationToken];
+
+            [[LEOSession user] incrementLoginCounter];
 
             [((AppDelegate *)[UIApplication sharedApplication].delegate) setupRemoteNotificationsForApplication:[UIApplication sharedApplication]];
-            
-            completionBlock ? completionBlock([SessionUser currentUser], nil) : nil;
-        } else {
-            completionBlock ? completionBlock(nil, error) : nil;
         }
+
+        if (completionBlock) {
+            completionBlock(!error, error);
+        }
+
     }];
 }
 
@@ -286,7 +286,7 @@ static CGFloat kImageSideSizeScale3Avatar = 300.0;
         completionBlock ? completionBlock(!error, error) : nil;
     }];
 
-    [SessionUser logout];
+    [LEOSession logout];
 
     [Configuration downloadRemoteEnvironmentVariablesIfNeededWithCompletion:nil];
 }

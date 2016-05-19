@@ -18,7 +18,7 @@
 #import <ActionSheetStringPicker.h>
 #import "LEOStyleHelper.h"
 #import "UIView+XibAdditions.h"
-#import "SessionUser.h"
+#import "LEOSession.h"
 
 @interface LEOSignUpPatientView ()
 
@@ -111,7 +111,7 @@ static NSString *const kPlaceholderValidationBirthDate = @"please add your child
 - (void)updatePaymentTermsLabel {
 
     //TODO: This is starting to add a ton of state (and conditions) -- we should rethink the architecture around this, particularly as we add exempted users to the mix (not to mention the fact that the view probably shouldn't have to know all of this...)
-    if (self.feature == FeatureSettings && [SessionUser guardian].membershipType != MembershipTypeExempted) {
+    if (self.feature == FeatureSettings && [LEOSession user].membershipType != MembershipTypeExempted) {
         if (self.managementMode == ManagementModeCreate) {
             self.paymentAgreementLabel.text = [NSString stringWithFormat:@"By adding %@ to your family, you agree to pay $20 per month to manage %@ care with Leo.", self.patient.firstName, [self.patient possessiveSingularGender]];
         } else {

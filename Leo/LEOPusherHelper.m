@@ -7,7 +7,7 @@
 //
 
 #import "LEOPusherHelper.h"
-#import "SessionUser.h"
+#import "LEOSession.h"
 #import "Configuration.h"
 #import "LEOAPISessionManager.h"
 
@@ -73,7 +73,7 @@
 
     NSString *readableBody = [[NSString alloc] initWithData:request.HTTPBody encoding:NSUTF8StringEncoding];
 
-    NSString *authTokenString = [NSString stringWithFormat:@"&authentication_token=%@",[SessionUser authToken]];
+    NSString *authTokenString = [NSString stringWithFormat:@"&authentication_token=%@",[LEOSession authToken]];
 
     NSString *bodyString = [readableBody stringByAppendingString:authTokenString];
 

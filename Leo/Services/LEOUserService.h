@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
-@class User, SessionUser, Guardian, Family, Patient;
+@class User, Guardian, Family, Patient;
 
 #import <Foundation/Foundation.h>
 
@@ -18,7 +18,7 @@
 
 - (NSURLSessionTask *)getGuardianWithID:(NSString *)guardianID withCompletion:(void (^)(Guardian *guardian, NSError *error))completionBlock;
 
-- (void)loginUserWithEmail:(NSString *)email password:(NSString *)password withCompletion:(void (^)(SessionUser *user, NSError *error))completionBlock;
+- (void)loginUserWithEmail:(NSString *)email password:(NSString *)password withCompletion:(void (^)(BOOL success, NSError *error))completionBlock;
 - (void)logoutUserWithCompletion:(void (^)(BOOL success, NSError *error))completionBlock;
 - (void)enrollUser:(Guardian *)guardian password:(NSString *)password withCompletion:(void (^) (BOOL success, NSError *error))completionBlock;
 - (void)updateEnrollmentOfUser:(Guardian *)guardian withCompletion:(void (^) (BOOL success, NSError *error))completionBlock;

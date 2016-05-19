@@ -11,7 +11,7 @@
 #import "UIFont+LeoFonts.h"
 #import "UIColor+LeoColors.h"
 #import "LEOFeedTVC.h"
-#import "SessionUser.h"
+#import "LEOSession.h"
 #import "LEODevice.h"
 #import "Configuration.h"
 #import "LEOStyleHelper.h"
@@ -19,7 +19,8 @@
 #import <Localytics/Localytics.h>
 #import <Stripe/Stripe.h>
 #import "LEOUserService.h"
-#import "LEOPaymentViewController.h";
+#import "LEOPaymentViewController.h"
+#import "Guardian.h"
 
 @interface AppDelegate ()
 
@@ -39,7 +40,7 @@
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
-    NSString *storyboardIdentifier = [SessionUser isLoggedIn] ? kStoryboardFeed : kStoryboardLogin;
+    NSString *storyboardIdentifier = [LEOSession isLoggedIn] ? kStoryboardFeed : kStoryboardLogin;
     
     if (launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]) {
         [self application:application didReceiveRemoteNotification:launchOptions];
@@ -91,18 +92,27 @@
     
     if ([notification.name isEqualToString:kNotificationMembershipChanged]) {
 
-        if ([SessionUser guardian].membershipType == MembershipTypeMember) {
-            [self setRootViewControllerWithStoryboardName:kStoryboardFeed];
-        }
+        switch ([LEOSession user].membershipType) {
+            case MembershipTypeMember:
+                [self setRootViewControllerWithStoryboardName:kStoryboardFeed];
+                break;
 
-        if ([SessionUser guardian].membershipType == MembershipTypeExempted) {
-            [self setRootViewControllerWithStoryboardName:kStoryboardFeed];
-        }
+            case MembershipTypeExempted:
+                [self setRootViewControllerWithStoryboardName:kStoryboardFeed];
+                break;
 
-        if ([SessionUser guardian].membershipType == MembershipTypeDelinquent) {
+            case MembershipTypeDelinquent: {
+                LEOPaymentViewController *paymentVC = [[LEOPaymentViewController alloc] init];
+                [self setRootViewController:paymentVC];
+            }
+                break;
 
-            LEOPaymentViewController *paymentVC = [[LEOPaymentViewController alloc] init];
-            [self setRootViewController:paymentVC];
+            case MembershipTypePreview:
+            case MembershipTypeUnknown:
+            case MembershipTypeExpecting:
+            case MembershipTypeIncomplete:
+                break;
+
         }
     }
 
@@ -224,8 +234,8 @@
     // TODO: remove this when adding feature: use badge on chat mini card
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
 
-    if ([SessionUser guardian]) {
-        [[LEOUserService new] getGuardianWithID:[SessionUser guardian].objectID withCompletion:nil];
+    if ([LEOSession user]) {
+        [[LEOUserService new] getGuardianWithID:[LEOSession user].objectID withCompletion:nil];
     }
 }
 
@@ -276,7 +286,7 @@
 
     if ([url.scheme isEqualToString:kDeepLinkDefaultScheme]) {
 
-        if ([SessionUser isLoggedIn]) {
+        if ([LEOSession isLoggedIn]) {
 
             if ([url.host isEqualToString:kDeepLinkPathFeed]) {
 

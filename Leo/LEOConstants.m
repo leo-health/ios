@@ -155,7 +155,7 @@ NSString *const APIParamSessionDeviceToken = @"device_token";
 NSString *const APIParamSessionDeviceType = @"device_type";
 NSString *const APIParamSessionPlatform = @"platform";
 NSString *const APIParamSessionOSVersion = @"os_version";
-
+NSString *const APIParamSessionAppVersion = @"app_version";
 
 #pragma mark - Role
 NSString *const APIParamRole = @"role";

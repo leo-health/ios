@@ -9,7 +9,7 @@
 #import "LEOSettingsViewController.h"
 #import "Family.h"
 #import "LEOPromptFieldCell+ConfigureForCell.h"
-#import "SessionUser.h"
+#import "LEOSession.h"
 #import "LEOPromptField.h"
 #import "UIColor+LeoColors.h"
 #import "UIFont+LeoFonts.h"
@@ -27,6 +27,7 @@
 #import "Configuration.h"
 
 #import "LEOAnalyticSession.h"
+#import "LEOSession.h"
 
 typedef NS_ENUM(NSUInteger, SettingsSection) {
     
@@ -179,7 +180,7 @@ static NSString *const kCopyManageMySubscription = @"Manage my subscription";
                     
                 case AccountSettingsEmail: {
                     
-                    cell.promptField.textField.text = [SessionUser currentUser].email;
+                    cell.promptField.textField.text = [LEOSession user].email;
                     cell.promptField.accessoryImageViewVisible = NO;
                     cell.promptField.tintColor = [UIColor leo_grayStandard];
                     cell.promptField.textField.enabled = NO;
@@ -417,8 +418,9 @@ static NSString *const kCopyManageMySubscription = @"Manage my subscription";
 
 - (NSString *)buildVersionString {
 
-    NSString *appBuild = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
-    NSString *appVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+    NSString *appBuild = [LEOSession appBuild];
+    NSString *appVersion = [LEOSession appVersion];
+
     return [NSString stringWithFormat:@"%@ | %@", appVersion, appBuild];
 }
 

@@ -12,7 +12,7 @@
 #import <Crittercism/Crittercism.h>
 #import "LEOSettingsService.h"
 #import "LEOPusherHelper.h"
-#import "SessionUser.h"
+#import "LEOSession.h"
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
 #import <Localytics/Localytics.h>
@@ -176,7 +176,7 @@ static NSString *const ConfigurationCrittercismAppID = @"CrittercismAppID";
 
 + (NSString *)vendorID {
 
-    return [SessionUser guardian].anonymousCustomerServiceID ? : [NSUserDefaults leo_stringForKey:kConfigurationVendorID];
+    return [LEOSession user].anonymousCustomerServiceID ? : [NSUserDefaults leo_stringForKey:kConfigurationVendorID];
 }
 
 + (void)updateLocalyticsWithNewKeys {
@@ -185,7 +185,7 @@ static NSString *const ConfigurationCrittercismAppID = @"CrittercismAppID";
 
 + (void)resetVendorID {
     [NSUserDefaults leo_removeObjectForKey:kConfigurationVendorID];
-    [[SessionUser guardian] resetAnonymousCustomerServiceID];
+    [[LEOSession user] resetAnonymousCustomerServiceID];
 }
 
 + (void)clearRemoteEnvironmentVariables {

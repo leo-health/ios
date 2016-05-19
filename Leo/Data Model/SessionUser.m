@@ -42,16 +42,6 @@ static dispatch_once_t onceToken;
     return _currentUser;
 }
 
-+ (void)setCurrentUser:(SessionUser *)user {
-
-    if (!user) {
-        [self reset];
-        [_credentialStore clearSavedCredentials];
-    } else {
-        _currentUser = user;
-    }
-}
-
 + (void)setCurrentUserWithJSONDictionary:(NSDictionary *)jsonDictionary {
     
     [self reset];
@@ -93,26 +83,22 @@ static dispatch_once_t onceToken;
     [self reset];
 }
 
+- (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
 
+    self = [super initWithJSONDictionary:jsonResponse[APIParamUser]];
+
+    if (self) {
+
+        //Ensure the SessionUser guardian is saved to NSUserDefaults at time of creation. We should not allow changes to the guardian without replacing the entirety of the Guardian! Will have to come back to this and how we
+        [self saveToUserDefaults];
+    }
+
+    return self;
+}
 
 //TODO: Add an assertion to warn programmer here.
 -(instancetype)init {
     return nil;
-}
-
-
-//TODO: Check if this is even being used. It should probably be removed altogether at this point.
-- (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
-    
-   self = [super initWithJSONDictionary:jsonResponse[APIParamUser]];
-    
-    if (self) {
-        
-        //Ensure the SessionUser guardian is saved to NSUserDefaults at time of creation. We should not allow changes to the guardian without replacing the entirety of the Guardian! Will have to come back to this and how we 
-        [self saveToUserDefaults];
-    }
-    
-    return self;
 }
 
 + (void)setAuthToken:(NSString *)authToken {

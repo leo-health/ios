@@ -10,7 +10,7 @@
 #import "LEOStyleHelper.h"
 #import "LEOUpdateEmailView.h"
 #import "LEOUserService.h"
-#import "SessionUser.h"
+#import "LEOSession.h"
 
 @interface LEOUpdateEmailViewController ()
 
@@ -74,14 +74,14 @@
         
         LEOUserService *userService = [[LEOUserService alloc] init];
         
-        Guardian *sessionGuardian = [SessionUser currentUser];
-        
+        Guardian *sessionGuardian = [LEOSession user];
+
         Guardian *prepGuardian = [[Guardian alloc] initWithObjectID:sessionGuardian.objectID familyID:sessionGuardian.familyID title:sessionGuardian.title firstName:sessionGuardian.firstName middleInitial:sessionGuardian.middleInitial lastName:sessionGuardian.lastName suffix:sessionGuardian.suffix email:sessionGuardian.email  avatar:sessionGuardian.avatar phoneNumber:sessionGuardian.phoneNumber insurancePlan:sessionGuardian.insurancePlan primary:sessionGuardian.primary membershipType:sessionGuardian.membershipType];
         
         [userService updateUser:prepGuardian withCompletion:^(BOOL success, NSError *error) {
             
             if (!error) {
-            [SessionUser currentUser].email = self.updateEmailView.email;
+            [LEOSession user].email = self.updateEmailView.email;
             NSLog(@"Email updated!");
             }
         }];

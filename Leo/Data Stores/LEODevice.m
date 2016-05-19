@@ -30,8 +30,6 @@ static LEODevice *_device = nil;
 static NSString *_token = nil;
 static dispatch_once_t onceToken;
 
-//FIXME: This doesn't *really* work without further code given you could void the authToken and then it would say you weren't logged in, but not have reset the SessionUser. Need to send a notification that "resets" this singleton. It will suffice for the time-being until we are logging in multiple users on the same phone.
-
 + (void)resetDeviceToken {
     
     onceToken = 0;

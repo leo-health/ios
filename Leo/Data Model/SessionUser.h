@@ -15,7 +15,6 @@
 
 + (instancetype)currentUser;
 + (instancetype)guardian;
-+ (void)setCurrentUser:(SessionUser *)user;
 + (void)setCurrentUserWithJSONDictionary:(NSDictionary *)jsonDictionary;
 + (instancetype)newUserWithJSONDictionary:(NSDictionary *)jsonDictionary;
 + (BOOL)isLoggedIn;

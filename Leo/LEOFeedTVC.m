@@ -27,7 +27,7 @@
 #import "Message.h"
 #import "Family.h"
 #import "Practice.h"
-#import "SessionUser.h"
+#import "LEOSession.h"
 #import "AppointmentStatus.h"
 
 #import "UIColor+LeoColors.h"
@@ -292,7 +292,7 @@ static CGFloat const kFeedInsetTop = 20.0;
 //MARK: Most likely doesn't belong in this class; no longer tied to it except for completion block which can be passed in.
 - (void)pushNewMessageToConversation {
 
-    NSString *channelString = [NSString stringWithFormat:@"%@",[SessionUser currentUser].objectID];
+    NSString *channelString = [NSString stringWithFormat:@"%@",[LEOSession user].objectID];
     NSString *event = @"new_message";
 
     LEOPusherHelper *pusherHelper = [LEOPusherHelper sharedPusher];
@@ -337,7 +337,7 @@ static CGFloat const kFeedInsetTop = 20.0;
 - (void)viewWillDisappear:(BOOL)animated {
 
     [super viewWillDisappear:animated];
-    NSString *channelString = [NSString stringWithFormat:@"%@",[SessionUser currentUser].objectID];
+    NSString *channelString = [NSString stringWithFormat:@"%@",[LEOSession user].objectID];
     [[LEOPusherHelper sharedPusher] removeBinding:self.pusherBinding fromPrivateChannelWithName:channelString];
 }
 
@@ -693,7 +693,7 @@ static CGFloat const kFeedInsetTop = 20.0;
                                                              patient:patient
                                                             provider:nil
                                                             practice:self.practice
-                                                        bookedByUser:[SessionUser currentUser]
+                                                        bookedByUser:[LEOSession user]
                                                                 note:nil
                                                               status:appointmentStatus];
 

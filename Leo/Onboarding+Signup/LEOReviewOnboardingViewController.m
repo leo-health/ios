@@ -12,7 +12,6 @@
 #import "LEOUserService.h"
 #import "LEOPaymentService.h"
 
-#import "SessionUser.h"
 #import "Family.h"
 #import "Patient.h"
 #import "Guardian.h"

@@ -14,7 +14,7 @@
 #import "UIFont+LeoFonts.h"
 #import "UIColor+LeoColors.h"
 #import "LEOStyleHelper.h"
-#import "LEODevice.h"
+#import "LEOSession.h"
 
 @interface LEOProductOverviewView ()
 
@@ -147,9 +147,7 @@ secondPriceDetailAttributedString:(NSAttributedString *)secondPriceDetailAttribu
 
 - (UIFont *)fontForLabel {
 
-    DeviceModel deviceModel = [LEODevice deviceModel];
-
-    switch (deviceModel) {
+    switch ([LEOSession deviceModel]) {
 
         case DeviceModel4OrLess:
             return [UIFont leo_emergency911Label];
@@ -364,7 +362,7 @@ secondPriceDetailAttributedString:(NSAttributedString *)secondPriceDetailAttribu
                                   @"featureSpacer" : spaceBetweenFeatures};
 
         NSArray *verticalConstraints;
-        switch ([LEODevice deviceModel]) {
+        switch ([LEOSession deviceModel]) {
 
             case DeviceModel4OrLess:
             case DeviceModelUnsupported:
@@ -633,9 +631,7 @@ secondPriceDetailAttributedString:(NSAttributedString *)secondPriceDetailAttribu
 
 - (NSNumber *)spaceBetweenFeaturesByDevice {
 
-    DeviceModel deviceModel = [LEODevice deviceModel];
-
-    switch (deviceModel) {
+    switch ([LEOSession deviceModel]) {
 
         case DeviceModel4OrLess:
         case DeviceModel5:

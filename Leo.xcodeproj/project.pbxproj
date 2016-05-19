@@ -181,6 +181,7 @@
 		31DB400E1BFE733C005F1BF2 /* LEOWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31DB400D1BFE733C005F1BF2 /* LEOWebViewController.m */; };
 		31DB40111BFF9CC8005F1BF2 /* LEODevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 31DB40101BFF9CC8005F1BF2 /* LEODevice.m */; };
 		31DD3C121CEBB40D002C4330 /* LEOProductOverviewPriceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 31DD3C111CEBB40D002C4330 /* LEOProductOverviewPriceView.m */; };
+		31DD3C151CED199B002C4330 /* LEOSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 31DD3C141CED199B002C4330 /* LEOSession.m */; };
 		31E615DA1CD406630027B226 /* LEOPaymentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31E615D91CD406630027B226 /* LEOPaymentViewController.m */; };
 		31E615DE1CD4068A0027B226 /* LEOPaymentsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 31E615DD1CD4068A0027B226 /* LEOPaymentsView.m */; };
 		31E615E01CD8E5460027B226 /* LEOPaymentsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 31E615DF1CD8E5460027B226 /* LEOPaymentsView.xib */; };
@@ -619,6 +620,8 @@
 		31DB40101BFF9CC8005F1BF2 /* LEODevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEODevice.m; path = "Data Stores/LEODevice.m"; sourceTree = "<group>"; };
 		31DD3C101CEBB40D002C4330 /* LEOProductOverviewPriceView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOProductOverviewPriceView.h; path = "Views and Controllers/Payments/LEOProductOverviewPriceView.h"; sourceTree = "<group>"; };
 		31DD3C111CEBB40D002C4330 /* LEOProductOverviewPriceView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOProductOverviewPriceView.m; path = "Views and Controllers/Payments/LEOProductOverviewPriceView.m"; sourceTree = "<group>"; };
+		31DD3C131CED199B002C4330 /* LEOSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOSession.h; path = "Data Model/LEOSession.h"; sourceTree = "<group>"; };
+		31DD3C141CED199B002C4330 /* LEOSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOSession.m; path = "Data Model/LEOSession.m"; sourceTree = "<group>"; };
 		31E615D81CD406630027B226 /* LEOPaymentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOPaymentViewController.h; path = "Views and Controllers/Payments/LEOPaymentViewController.h"; sourceTree = "<group>"; };
 		31E615D91CD406630027B226 /* LEOPaymentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOPaymentViewController.m; path = "Views and Controllers/Payments/LEOPaymentViewController.m"; sourceTree = "<group>"; };
 		31E615DC1CD4068A0027B226 /* LEOPaymentsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOPaymentsView.h; path = "Views and Controllers/Payments/LEOPaymentsView.h"; sourceTree = "<group>"; };
@@ -1677,6 +1680,8 @@
 		BCED00971B0257EB007653D6 /* Data Model */ = {
 			isa = PBXGroup;
 			children = (
+				31DD3C131CED199B002C4330 /* LEOSession.h */,
+				31DD3C141CED199B002C4330 /* LEOSession.m */,
 				31339B211C2491FE00B53A86 /* LEOCardProtocol.h */,
 				3177B9991B189F2D006AE360 /* Cards */,
 				BC4D685B1B04DAF10018DAB5 /* Objects */,
@@ -1958,6 +1963,7 @@
 				31DD3C121CEBB40D002C4330 /* LEOProductOverviewPriceView.m in Sources */,
 				3177B9E11B1A8CF3006AE360 /* LEOCard.m in Sources */,
 				3132D9EC1C1F681E00A3E9AA /* LEOImageCropViewControllerDataSource.m in Sources */,
+				31DD3C151CED199B002C4330 /* LEOSession.m in Sources */,
 				31F5AA731B791B4B00F96D06 /* ProviderCell.m in Sources */,
 				6627E7291C87918600B8F936 /* LEOInputAccessoryView.m in Sources */,
 				31F5AA651B791B4A00F96D06 /* LEOAPISlotsOperation.m in Sources */,

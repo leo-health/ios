@@ -60,13 +60,14 @@ NSString * const kHeaderTitleText = @"Unlimited access, simple pricing.";
 
 
             secondDetailAttributes = @{ NSForegroundColorAttributeName : [UIColor leo_orangeRed],
-                                        NSFontAttributeName : [UIFont leo_ultraLight14]
+                                        NSFontAttributeName : [UIFont leo_ultraLightItalic14]
                                         };
 
-            firstDetailString = @"per child";
-            secondDetailString = @"billed monthly";
+            firstDetailString = @"subscription fee waived";
+            secondDetailString = @"valued at $240/yr";
+            
+            price = @0;
 
-            price = @20;
         }
             break;
 
@@ -78,14 +79,13 @@ NSString * const kHeaderTitleText = @"Unlimited access, simple pricing.";
 
 
             secondDetailAttributes = @{ NSForegroundColorAttributeName : [UIColor leo_orangeRed],
-                                        NSFontAttributeName : [UIFont leo_ultraLightItalic14]
+                                        NSFontAttributeName : [UIFont leo_ultraLight14]
                                         };
 
-            firstDetailString = @"subscription fee waived";
-            secondDetailString = @"valued at $240/yr";
-
-            price = @0;
+            firstDetailString = @"per child";
+            secondDetailString = @"billed monthly";
             
+            price = @20;
         }
             break;
     }
