@@ -30,7 +30,9 @@
             [Configuration updateCrashlyticsWithNewKeys];
 
             if (![[Configuration localyticsAppID] isEqualToString:[keyData leo_itemForKey:kConfigurationLocalyticsAppID]] || ![Configuration localyticsAppID]) {
+
                 [NSUserDefaults leo_setString:[keyData leo_itemForKey:kConfigurationLocalyticsAppID] forKey:kConfigurationLocalyticsAppID];
+                [Localytics setCustomerId:[Configuration vendorID]];
             }
 
             if (![[Configuration localyticsAppID] isEqualToString:[keyData leo_itemForKey:kConfigurationLocalyticsAppID]] && [Configuration localyticsAppID]) {

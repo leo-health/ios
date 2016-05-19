@@ -303,7 +303,10 @@ static NSString *const kCopyHeaderReviewOnboarding = @"Please confirm your famil
                 if (!error) {
 
                     [Localytics tagEvent:kAnalyticEventConfirmAccount];
+
                     [self.analyticSession completeSession];
+
+                    self.analyticSession = nil;
 
                     self.family.patients = responsePatients;
 

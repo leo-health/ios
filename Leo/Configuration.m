@@ -202,8 +202,6 @@ static NSString *const ConfigurationCrittercismAppID = @"CrittercismAppID";
 
         [[LEOSettingsService new] getConfigurationWithCompletion:^(BOOL success, NSError *error) {
 
-            [Localytics setCustomerId:[Configuration vendorID]];
-
             if (completionBlock) {
                 completionBlock(success, error);
             }

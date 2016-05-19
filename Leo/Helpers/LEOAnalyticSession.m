@@ -64,15 +64,12 @@ NSString *const kSessionLength = @"session_length";
 }
 
 - (void)completeSession {
+
     [Localytics tagEvent:self.eventName attributes:@{kSessionLength:[self sessionLength]}];
+    [self removeNotifications];
 }
 
 - (void)addNotifications {
-
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(notificationReceived:)
-                                                 name:UIApplicationDidBecomeActiveNotification
-                                               object:nil];
 
     [[NSNotificationCenter defaultCenter] addObserver:self
                                          selector:@selector(notificationReceived:)
@@ -82,10 +79,6 @@ NSString *const kSessionLength = @"session_length";
 
 - (void)notificationReceived:(NSNotification *)notification {
 
-    if ([notification.name isEqualToString:UIApplicationDidBecomeActiveNotification]) {
-        [self updateSessionWithNewStartTime];
-    }
-
     if ([notification.name isEqualToString:UIApplicationDidEnterBackgroundNotification]) {
         [self completeSession];
     }
@@ -93,8 +86,7 @@ NSString *const kSessionLength = @"session_length";
 
 - (void)removeNotifications {
 
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:self];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:self];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
 }
 
 - (void)dealloc {
