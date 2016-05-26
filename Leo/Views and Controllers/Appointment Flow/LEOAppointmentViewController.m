@@ -463,7 +463,7 @@ static NSString *const kKeySelectionVCDate = @"date";
 
             if (!error) {
 
-                [Localytics tagEvent:kAnalyticEventBookVisit];
+                [Localytics tagEvent:kAnalyticEventBookVisit attributes:@{@"start date" : self.appointment.date}];
                 weakself.card = appointmentCard;
                 [self.appointment book];
             }
