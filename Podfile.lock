@@ -56,6 +56,9 @@ PODS:
   - SocketRocket (0.4.1)
   - Specta (1.0.4)
   - SSKeychain (1.2.3)
+  - Stripe (7.0.0):
+    - Stripe/Core (= 7.0.0)
+  - Stripe/Core (7.0.0)
   - TPKeyboardAvoiding (1.2.10)
   - UIImage-Resize (1.0.1)
   - VBFPopFlatButton (0.0.6):
@@ -79,6 +82,7 @@ DEPENDENCIES:
   - RSKImageCropper
   - Specta (from `https://github.com/specta/specta.git`, commit `c07c003cfe3a41fa510567e2e0a9fd7f5ae3b098`)
   - SSKeychain
+  - Stripe
   - TPKeyboardAvoiding
   - UIImage-Resize
   - VBFPopFlatButton
@@ -119,6 +123,7 @@ SPEC CHECKSUMS:
   SocketRocket: ee0b5c34182d37bb4f1f8d628bbe737718126daa
   Specta: 69bb134672aae190a1379ff91df07dad8dd1f869
   SSKeychain: 3f42991739c6c60a9cf1bbd4dff6c0d3694bcf3d
+  Stripe: 147bbff1ba7cf3422e4ed14f6e1fbbc72471ce6c
   TPKeyboardAvoiding: 614ebec846ec28b83d548769297fa5fb56468904
   UIImage-Resize: fa776860f10e6900bbaf53a73e494bdceaaccc77
   VBFPopFlatButton: 782344da63f104c279a857d806e065117a7e1196
