@@ -16,7 +16,9 @@
 
 + (instancetype)currentSession;
 + (void)setCurrentSessionWithUserDictionary:(NSDictionary *)jsonDictionary authenticationToken:(NSString *)authenticationToken;
++ (void)setCurrentSessionWithGuardian:(Guardian *)guardian authenticationToken:(NSString *)authenticationToken;
 + (void)updateCurrentSessionWithUserDictionary:(NSDictionary *)jsonDictionary;
++ (void)updateCurrentSessionWithGuardian:(Guardian *)guardian;
 
 + (Guardian *)user;
 + (BOOL)isLoggedIn;

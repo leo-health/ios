@@ -21,13 +21,12 @@
 @property (weak, nonatomic) IBOutlet STPPaymentCardTextField *paymentTextField;
 @property (weak, nonatomic) IBOutlet UILabel *paymentCardHeaderLabel;
 
-
 @end
 
 
 @implementation LEOPaymentsView
 
-- (instancetype)initWithNumberOfChildren:(NSInteger)numberOfChildren charge:(NSInteger)chargePerChild {
+- (instancetype)initWithNumberOfChildren:(NSInteger)numberOfChildren charge:(NSInteger)chargePerChild managementMode:(ManagementMode)managementMode  {
 
     self = [super init];
 
@@ -35,6 +34,7 @@
 
         _numberOfChildren = numberOfChildren;
         _chargePerChild = chargePerChild;
+        _managementMode = managementMode;
     }
 
     return self;
@@ -50,8 +50,6 @@
 
     _paymentInstructionsLabel.font = [UIFont leo_standardFont];
     _paymentInstructionsLabel.textColor = [UIColor leo_grayStandard];
-
-    _paymentInstructionsLabel.text = @"We ask that you keep one active credit or debit card on file to cover your monthly subscription fee.";
 }
 
 - (void)setNumberOfChildren:(NSInteger)numberOfChildren {
@@ -68,13 +66,44 @@
     [self updateChargeDetailsLabel];
 }
 
+-(void)setManagementMode:(ManagementMode)managementMode {
+
+    _managementMode = managementMode;
+
+    [self updatePaymentInstructionsLabel];
+    [self updateChargeDetailsLabel];
+    [self updateButtonLabel];
+}
+
+- (void)updatePaymentInstructionsLabel {
+
+    NSString *updateString = @"The card we have on file for you is invalid. ";
+
+    NSString *baseString = @"We ask that you keep one active credit or debit card on file to cover your monthly subscription fee.";
+
+    if (self.managementMode == ManagementModeCreate) {
+        _paymentInstructionsLabel.text = baseString;
+    } else if (self.managementMode == ManagementModeEdit){
+        _paymentInstructionsLabel.text = [updateString stringByAppendingString:baseString];
+    }
+}
+
 - (void)updateChargeDetailsLabel {
 
     NSString *childOrChildren = self.numberOfChildren > 1 ? @"children" : @"child";
 
     NSNumber *totalCharge = @(self.numberOfChildren * self.chargePerChild);
 
-    _chargeDetailsLabel.text = [NSString stringWithFormat:@"Your card will be charged $%@ on a monthly basis for %@ %@.  You will have the opportunity to review your details before being charged.", totalCharge, @(self.numberOfChildren), childOrChildren];
+    NSString *chargeAmountString = [NSString stringWithFormat:@"Your card will be charged $%@ on a monthly basis for %@ %@.", totalCharge, @(self.numberOfChildren), childOrChildren];
+
+    if (self.managementMode == ManagementModeCreate) {
+
+        NSString *reviewString = @" You will have the opportunity to review your details before being charged.";
+        _chargeDetailsLabel.text = [chargeAmountString stringByAppendingString:reviewString];
+        
+    } else if (self.managementMode == ManagementModeEdit){
+        _chargeDetailsLabel.text = chargeAmountString;
+    }
 }
 
 -(void)setPaymentTextField:(STPPaymentCardTextField *)paymentTextField {
@@ -112,7 +141,27 @@
                         action:@selector(continueTapped:)
               forControlEvents:UIControlEventTouchUpInside];
 
-    [_continueButton setTitle:@"CONTINUE" forState:UIControlStateNormal];
+}
+
+- (void)updateButtonLabel {
+
+    NSString *submitButtonText;
+
+    switch (self.managementMode) {
+        case ManagementModeCreate:
+            submitButtonText = @"CONTINUE";
+            break;
+
+        case ManagementModeEdit:
+            submitButtonText = @"UPDATE PAYMENT";
+            break;
+
+        case ManagementModeUndefined:
+            submitButtonText = @"CONTINUE";
+            break;
+    }
+
+    [_continueButton setTitle:submitButtonText forState:UIControlStateNormal];
 }
 
 - (void)setPaymentCardHeaderLabel:(UILabel *)paymentCardHeaderLabel {

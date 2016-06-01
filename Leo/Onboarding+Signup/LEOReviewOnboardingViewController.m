@@ -46,6 +46,8 @@
 
 #import "LEOAlertHelper.h"
 
+#import "LEOSession.h"
+
 @interface LEOReviewOnboardingViewController ()
 
 @property (weak, nonatomic) UILabel *navTitleLabel;
@@ -63,7 +65,7 @@
 static NSString *const kReviewUserSegue = @"ReviewUserSegue";
 static NSString *const kReviewPatientSegue = @"ReviewPatientSegue";
 static NSString *const kCopyHeaderReviewOnboarding = @"Please confirm your family information";
-static NSString *const kReviewPaymentDetails = @"ReviewPaymentDetails";
+static NSString *const kReviewPaymentDetails = @"ReviewPaymentSegue";
 
 #pragma mark - View Controller Lifecycle and Helpers
 
@@ -148,7 +150,7 @@ static NSString *const kReviewPaymentDetails = @"ReviewPaymentDetails";
         _headerView.intrinsicHeight = @(kHeightOnboardingHeaders);
         [LEOStyleHelper styleExpandedTitleLabel:_headerView.titleLabel feature:self.feature];
     }
-    
+
     return _headerView;
 }
 
@@ -165,7 +167,7 @@ static NSString *const kReviewPaymentDetails = @"ReviewPaymentDetails";
 
         case TableViewSectionPaymentDetails:
             return [[LEOPaymentDetailsCell new] intrinsicContentSize].height;
-            
+
         case TableViewSectionPatients:
             return [[LEOReviewPatientCell new] intrinsicContentSize].height;
     }
@@ -276,8 +278,6 @@ static NSString *const kReviewPaymentDetails = @"ReviewPaymentDetails";
 
 -(void)updatePaymentWithPaymentDetails:(STPToken *)paymentDetails {
 
-    _paymentDetails = paymentDetails;
-
     self.reviewOnboardingView.paymentDetails = paymentDetails;
 }
 
@@ -300,81 +300,101 @@ static NSString *const kReviewPaymentDetails = @"ReviewPaymentDetails";
 
     LEOUserService *userService = [LEOUserService new];
 
-    [userService createGuardian:self.family.guardians.firstObject withCompletion:^(Guardian *guardian, NSError *error) {
+    [userService updateUser:self.family.guardians.firstObject withCompletion:^(BOOL success, NSError *error) {
 
-        if (!error && guardian) {
+        if (error) {
 
-            if (isSecondGuardian) {
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            button.enabled = YES;
+            [LEOAlertHelper alertForViewController:self error:error backupTitle:@"Something went wrong!" backupMessage:@"Please check your user information and your internet connection and try again."];
 
-                Guardian *otherGuardian = self.family.guardians.lastObject;
-                [userService addCaregiver:otherGuardian withCompletion:^(BOOL success, NSError *error) {
+            return;
+        }
 
+        [userService createOrUpdatePatients:patients withCompletion:^(NSArray<Patient *> *responsePatients, NSError *error) {
 
-                    attemptedAdditionOfCaregiver = YES;
+            //This use of responsePatients is a temp fix for issue #646 in the /leo repo that will make all of this one endpoint and conduct the transaction on the backend, to ensure that we don't need to hold state for the transaction on the app.
+//            self.family.patients = responsePatients;
 
-                    if (success) {
-                        [Localytics tagEvent:kAnalyticEventAddCaregiverFromRegistration];
-                    }
+            attemptedPatientCreation = YES;
 
-                    if (attemptedPatientCreation) {
+            if (error) {
 
-                        [MBProgressHUD hideHUDForView:self.view animated:YES];
-                        button.enabled = YES;
-                    }
-                }];
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                button.enabled = YES;
+                [LEOAlertHelper alertForViewController:self error:error backupTitle:@"Something went wrong!" backupMessage:@"Please review the details for your children and your internet connection and try again."];
+
+                return;
             }
 
-            //The guardian that is created should technically take the place of the original, given it will have an id and family_id.t=
-            self.family.guardians = @[guardian];
 
-            [userService createPatients:patients withCompletion:^(NSArray<Patient *> *responsePatients, NSError *error) {
+            [[LEOPaymentService new] createChargeWithToken:self.paymentDetails completion:^(BOOL success, NSError *error) {
 
-                attemptedPatientCreation = YES;
+                NSString *errorCode = error.userInfo[@"message"][@"error_message"];
 
-                if (error) {
+                if (error && errorCode != 422) {
 
                     [MBProgressHUD hideHUDForView:self.view animated:YES];
                     button.enabled = YES;
-                    [LEOAlertHelper alertForViewController:self error:error backupTitle:@"Something went wrong!" backupMessage:@"Please check your information and your internet connection and try again."];
+                    [LEOAlertHelper alertForViewController:self error:error backupTitle:@"Something went wrong!" backupMessage:@"Please check your credit card details and your internet connection and try again."];
+                } else {
 
-                    return;
+                    [Localytics tagEvent:kAnalyticEventConfirmAccount];
+                    [self.analyticSession completeSession];
                 }
 
+                if (isSecondGuardian) {
 
-                [[LEOPaymentService new] createChargeWithToken:self.paymentDetails completion:^(BOOL success, NSError *error) {
+                    Guardian *otherGuardian = self.family.guardians.lastObject;
+
+                    [userService addCaregiver:otherGuardian withCompletion:^(BOOL success, NSError *error) {
+
+                        if (error) {
+
+                            [MBProgressHUD hideHUDForView:self.view animated:YES];
+                            button.enabled = YES;
+                            [LEOAlertHelper alertForViewController:self error:error backupTitle:@"Something went wrong!" backupMessage:@"Please check your information and your internet connection and try again."];
+                            
+                            return;
+                        }
+
+                        attemptedAdditionOfCaregiver = YES;
+
+                        if (success) {
+                            [Localytics tagEvent:kAnalyticEventAddCaregiverFromRegistration];
+                        }
+
+                        if (attemptedPatientCreation) {
+
+                            [MBProgressHUD hideHUDForView:self.view animated:YES];
+                            button.enabled = YES;
+                        }
+                    }];
+                }
+
+                [userService postAvatarsForUsers:responsePatients withCompletion:^(BOOL success, NSError *error) {
+                    [LEOCachedDataStore sharedInstance].family = self.family;
+                }];
+
+                [[LEOUserService new] getUserWithID:[LEOSession user].objectID withCompletion:^(Guardian *guardian, NSError *error) {
 
                     if (error) {
 
                         [MBProgressHUD hideHUDForView:self.view animated:YES];
                         button.enabled = YES;
-                        [LEOAlertHelper alertForViewController:self error:error backupTitle:@"Something went wrong!" backupMessage:@"Please check your information and your internet connection and try again."];
-
                         return;
                     }
-
-                    [Localytics tagEvent:kAnalyticEventConfirmAccount];
-
-                    [self.analyticSession completeSession];
-
-                    self.analyticSession = nil;
-
-                    self.family.patients = responsePatients;
-
-                    [LEOCachedDataStore sharedInstance].family = self.family;
-
-                    [userService postAvatarsForUsers:responsePatients withCompletion:^(BOOL success, NSError *error) {
-                        [LEOCachedDataStore sharedInstance].family = self.family;
-                    }];
-
-
+                    
                     if (isSecondGuardian && attemptedAdditionOfCaregiver) {
-
+                        
                         [MBProgressHUD hideHUDForView:self.view animated:YES];
                         button.enabled = YES;
                     }
+                    
+                    [LEOSession updateCurrentSessionWithGuardian:guardian];
                 }];
             }];
-        }
+        }];
     }];
 }
 

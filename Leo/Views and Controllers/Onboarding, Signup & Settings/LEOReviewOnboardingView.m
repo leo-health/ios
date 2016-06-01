@@ -13,7 +13,7 @@
 #import "LEOReviewPatientCell+ConfigureForCell.h"
 #import "LEOReviewUserCell+ConfigureForCell.h"
 #import "LEOPaymentDetailsCell+ConfigureForCell.h"
-
+#import "LEOSession.h"
 #import "LEOReviewOnboardingViewController.h"
 
 #import "UIColor+LeoColors.h"
@@ -91,6 +91,10 @@ static NSInteger const kChargeAmountPerChild = 20;
 
 #pragma mark - <UITableViewDataSource>
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return TableViewSectionCount;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
     NSInteger rows = 0;
@@ -105,8 +109,16 @@ static NSInteger const kChargeAmountPerChild = 20;
             rows = [self.family.patients count];
             break;
 
-        case TableViewSectionPaymentDetails:
-            rows = 1;
+        case TableViewSectionPaymentDetails: {
+
+            Guardian *guardian = self.family.guardians.firstObject;
+
+            if (guardian.membershipType == MembershipTypeExempted) {
+                rows = 0;
+            } else {
+                rows = self.paymentDetails.card ? 1 : 0;
+            }
+        }
             break;
 
         case TableViewSectionButton:
@@ -115,10 +127,6 @@ static NSInteger const kChargeAmountPerChild = 20;
     }
 
     return rows;
-}
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return TableViewSectionCount;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

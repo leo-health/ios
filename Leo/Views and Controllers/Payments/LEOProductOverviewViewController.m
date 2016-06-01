@@ -15,8 +15,9 @@
 #import "LEOPaymentViewController.h"
 #import "LEOProductOverviewView.h"
 #import "Guardian.h"
-
+#import "LEOReviewOnboardingViewController.h"
 #import "LEOStyleHelper.h"
+#import "LEOSession.h"
 
 @interface LEOProductOverviewViewController ()
 
@@ -31,6 +32,8 @@
 
 NSString * const kHeaderTitleText = @"Unlimited access, simple pricing.";
 
+NSString * const kSegueContinueWithExemption = @"SegueContinueWithExemption";
+NSString * const kSegueContinueWithPayment = @"SegueContinueWithPayment";
 - (void)viewDidLoad {
 
     [super viewDidLoad];
@@ -99,9 +102,12 @@ NSString * const kHeaderTitleText = @"Unlimited access, simple pricing.";
 
         __strong typeof(self) strongSelf = weakSelf;
 
-        [strongSelf performSegueWithIdentifier:kSegueContinue sender:nil];
+        if ([LEOSession user].membershipType == MembershipTypeExempted) {
+            [strongSelf performSegueWithIdentifier:kSegueContinueWithExemption sender:nil];
+        } else {
+            [strongSelf performSegueWithIdentifier:kSegueContinueWithPayment sender:nil];
+        }
     }];
-
 }
 
 - (LEOProductOverviewView *)productOverviewView {
@@ -170,8 +176,16 @@ NSString * const kHeaderTitleText = @"Unlimited access, simple pricing.";
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
 
-    if ([segue.identifier isEqualToString:kSegueContinue]) {
-        
+    if ([segue.identifier isEqualToString:kSegueContinueWithExemption]) {
+
+        LEOReviewOnboardingViewController *reviewOnboardingVC = segue.destinationViewController;
+        reviewOnboardingVC.family = self.family;
+        reviewOnboardingVC.analyticSession = self.analyticSession;
+        reviewOnboardingVC.feature = FeatureOnboarding;
+
+    }
+    if ([segue.identifier isEqualToString:kSegueContinueWithPayment]) {
+
         LEOPaymentViewController *paymentVC = segue.destinationViewController;
         paymentVC.family = self.family;
         paymentVC.analyticSession = self.analyticSession;

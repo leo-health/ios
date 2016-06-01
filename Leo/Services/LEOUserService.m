@@ -29,50 +29,79 @@ static CGFloat kImageSideSizeScale1Avatar = 100.0;
 static CGFloat kImageSideSizeScale2Avatar = 200.0;
 static CGFloat kImageSideSizeScale3Avatar = 300.0;
 
-- (void)createGuardian:(Guardian *)newGuardian withCompletion:(void (^)(Guardian *guardian, NSError *error))completionBlock {
+- (void)createUser:(Guardian *)newGuardian
+      withPassword:(NSString *)password
+    withCompletion:(void (^)(Guardian *guardian, NSError *error))completionBlock {
 
-    NSMutableDictionary *guardianDictionary = [[Guardian dictionaryFromUser:newGuardian] mutableCopy];
+    NSMutableDictionary *createAccountDictionary =
+    [[Guardian dictionaryFromUser:newGuardian] mutableCopy];
 
-    [guardianDictionary setObject:[Configuration vendorID] forKey:kConfigurationVendorID];
+    createAccountDictionary[APIParamUserPassword] = password;
 
-    [guardianDictionary addEntriesFromDictionary:[LEOSession sessionDictionaryWithoutUser]];
+    [createAccountDictionary setObject:[Configuration vendorID]
+                                forKey:kConfigurationVendorID];
 
-    [[LEOUserService leoSessionManager] standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIParamUsers params:guardianDictionary completion:^(NSDictionary *rawResults, NSError *error) {
+    [createAccountDictionary addEntriesFromDictionary:[LEOSession sessionDictionaryWithoutUser]];
+
+    [[LEOUserService leoSessionManager] unauthenticatedPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIParamUsers params:createAccountDictionary completion:^(NSDictionary *rawResults, NSError *error) {
 
         if (!error) {
 
-            NSDictionary *userDictionary = rawResults[APIParamData];
+            NSDictionary *userDictionary = rawResults[APIParamData][APIParamUser];
             NSString *authenticationToken = rawResults[APIParamData][APIParamSession][APIParamToken];
-            [LEOSession setCurrentSessionWithUserDictionary:userDictionary authenticationToken:authenticationToken];
+
+            [LEOSession setCurrentSessionWithUserDictionary:userDictionary
+                                        authenticationToken:authenticationToken];
+
+            //This is a temp implementation until the backend actually has this field and it is updated by POSTing to the server
+            [LEOSession user].updatedAtRemote = [NSDate date];
 
             //???: ZSD - @afanslau -- this looks to need some explaining. Why are we incrementing the LoginCounter twice?
             [[LEOSession user] incrementLoginCounter];
             [[LEOSession user] incrementLoginCounter];
 
-            Guardian *guardian = [[Guardian alloc] initWithJSONDictionary:rawResults[APIParamData][APIParamUser]];
+            Guardian *guardian = [[Guardian alloc] initWithJSONDictionary:userDictionary];
 
-            [((AppDelegate *)[UIApplication sharedApplication].delegate) setupRemoteNotificationsForApplication:[UIApplication sharedApplication]];
-
-            completionBlock ? completionBlock (guardian, nil) : completionBlock;
-        } else {
-            completionBlock ? completionBlock (nil, error) : completionBlock;
-        }
-    }];
-}
-
-- (NSURLSessionTask *)getGuardianWithID:(NSString *)guardianID withCompletion:(void (^)(Guardian *guardian, NSError *error))completionBlock {
-
-    NSDictionary *paramsDictionary = @{APIParamID : guardianID};
-
-    NSURLSessionTask *task = [[LEOUserService leoSessionManager] standardGETRequestForJSONDictionaryFromAPIWithEndpoint:APIParamUsers params:paramsDictionary completion:^(NSDictionary *rawResults, NSError *error) {
-
-        if (!error) {
-            [LEOSession updateCurrentSessionWithUserDictionary:rawResults[APIParamData]];
-
-            Guardian *guardian = [[Guardian alloc] initWithJSONDictionary:rawResults[APIParamData][APIParamUser]];
+            AppDelegate *delegate = ((AppDelegate *)[UIApplication sharedApplication].delegate);
+            [delegate setupRemoteNotificationsForApplication:[UIApplication sharedApplication]];
 
             if (completionBlock) {
                 completionBlock (guardian, nil);
+            }
+        } else {
+
+            if (completionBlock) {
+                completionBlock (nil, error);
+            }
+        }
+
+        //Have added this here so that when the currentUser is replaced, we also check for membership changes at that time (once object has been instantiated.)
+        [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationMembershipChanged object:self];
+    }];
+}
+
+- (NSURLSessionTask *)getUserWithID:(NSString *)userID withCompletion:(void (^)(Guardian *guardian, NSError *error))completionBlock {
+
+    NSString *endpoint = [NSString stringWithFormat:@"%@/%@", APIParamUsers, userID];
+
+    NSURLSessionTask *task = [[LEOUserService leoSessionManager] standardGETRequestForJSONDictionaryFromAPIWithEndpoint:endpoint params:nil completion:^(NSDictionary *rawResults, NSError *error) {
+
+        if (!error) {
+
+            MembershipType oldSessionUserMembershipType = [LEOSession user].membershipType;
+
+            Guardian *guardian = [[Guardian alloc] initWithJSONDictionary:rawResults[APIParamData][APIParamUser]];
+
+            //This is a temp implementation until the backend actually has this field and it is updated by POSTing to the server
+            guardian.updatedAtRemote = [NSDate date];
+
+            if (completionBlock) {
+                completionBlock (guardian, nil);
+            }
+
+            if (guardian.membershipType != oldSessionUserMembershipType) {
+                //Have added this here so that when the currentUser is replaced, we also check for membership changes at that time (once object has been instantiated.)
+                [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationMembershipChanged object:self];
             }
         }
         else {
@@ -80,7 +109,8 @@ static CGFloat kImageSideSizeScale3Avatar = 300.0;
                 completionBlock (nil, error);
             }
         }
-     }];
+
+            }];
 
     return task;
 }
@@ -99,6 +129,7 @@ static CGFloat kImageSideSizeScale3Avatar = 300.0;
 
             if (!error) {
 
+
                 [newPatients addObject:patient];
 
                 if (!patient.avatar.isPlaceholder) {
@@ -113,6 +144,66 @@ static CGFloat kImageSideSizeScale3Avatar = 300.0;
     }];
 }
 
+- (void)createOrUpdatePatients:(NSArray *)patients withCompletion:(void (^)(NSArray<Patient *> *responsePatients, NSError *error))completionBlock {
+
+    __block NSInteger counter = 0;
+    __block NSMutableArray *newPatients = [NSMutableArray new];
+    __block NSError *anyError;
+
+    [patients enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+
+        [self createOrUpdatePatient:obj withCompletion:^(Patient *patient, NSError *error) {
+
+            if (!error) {
+
+                [newPatients addObject:patient];
+
+                if (!patient.avatar.isPlaceholder) {
+                    [self updateAvatarImageForUser:patient withLocalUser:patients[idx]];
+                }
+                counter++;
+                if (counter == [patients count]) {
+                    completionBlock(newPatients, nil);
+                }
+            } else {
+
+                if (error) {
+                    anyError = error;
+                }
+
+                counter++;
+            }
+
+            if (counter == [patients count] && anyError) {
+
+                completionBlock(patients, anyError);
+            }
+            
+        }];
+    }];
+}
+
+- (void)createOrUpdatePatient:(Patient *)patient withCompletion:(void (^)(Patient *patient, NSError *error))completionBlock {
+
+    if (patient.objectID) {
+
+        [self updatePatient:patient withCompletion:^(BOOL success, NSError *error) {
+
+            if (completionBlock) {
+                completionBlock(patient, error);
+            }
+        }];
+    } else {
+
+        [self createPatient:patient withCompletion:^(Patient *patient, NSError *error) {
+
+            if (completionBlock) {
+                completionBlock(patient, error);
+            };
+        }];
+    }
+}
+
 - (void)createPatient:(Patient *)newPatient withCompletion:(void (^)(Patient * patient, NSError *error))completionBlock {
     
     NSDictionary *patientDictionary = [Patient dictionaryFromUser:newPatient];
@@ -122,68 +213,16 @@ static CGFloat kImageSideSizeScale3Avatar = 300.0;
         if (!error) {
             
             Patient *patient = [[Patient alloc] initWithJSONDictionary:rawResults[APIParamData][APIParamUserPatient]];
+
+            //This is a temp implementation until the backend actually has this field and it is updated by POSTing to the server
+            patient.updatedAtRemote = [NSDate date];
+
             patient.avatar = newPatient.avatar;
             
-            completionBlock ? completionBlock(patient, nil) : completionBlock;
+            completionBlock ? completionBlock(patient, nil) : nil;
         } else {
-            completionBlock ? completionBlock (nil, error) : completionBlock;
+            completionBlock ? completionBlock (nil, error) : nil;
         }
-    }];
-}
-
-- (void)enrollUser:(Guardian *)guardian password:(NSString *)password withCompletion:(void (^) (BOOL success, NSError *error))completionBlock {
-    
-    NSMutableDictionary *enrollmentParams = [[User dictionaryFromUser:guardian] mutableCopy];
-    enrollmentParams[APIParamUserPassword] = password;
-
-    //FIXME: It is this line of code where the app crashes when attempting to login / signup after being logged out of the app because [Configuration vendorID] returns nil.
-    [enrollmentParams setObject:[Configuration vendorID] forKey:kConfigurationVendorID];
-
-    [[LEOUserService leoSessionManager] unauthenticatedPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointUserEnrollments params:enrollmentParams completion:^(NSDictionary *rawResults, NSError *error) {
-        
-        if (!error) {
-            
-            NSDictionary *userDictionary = rawResults[APIParamData];
-            NSString *authenticationToken = rawResults[APIParamData][APIParamSession][APIParamToken];
-            [LEOSession setCurrentSessionWithUserDictionary:userDictionary authenticationToken:authenticationToken];
-
-            completionBlock ? completionBlock(YES, nil) : completionBlock;
-        } else {
-            completionBlock ? completionBlock (NO, error) : completionBlock;
-        }
-    }];
-}
-
-- (void)enrollPatient:(Patient *)patient withCompletion:(void (^) (BOOL success, NSError *error))completionBlock {
-    
-    NSMutableDictionary *enrollmentParams = [[Patient dictionaryFromUser:patient] mutableCopy];
-    
-    [[LEOUserService leoSessionManager] standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointPatientEnrollments params:enrollmentParams completion:^(NSDictionary *rawResults, NSError *error) {
-        
-        BOOL success = error ? NO : YES;
-        completionBlock ? completionBlock(success, error) : completionBlock;
-    }];
-}
-
-- (void)updateEnrollmentOfPatient:(Patient *)patient  withCompletion:(void (^) (BOOL success, NSError *error))completionBlock {
-    
-    NSDictionary *patientDictionary = [Patient dictionaryFromUser:patient];
-    
-    [[LEOUserService leoSessionManager] standardPUTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointPatientEnrollments params:patientDictionary completion:^(NSDictionary *rawResults, NSError *error) {
-        
-        BOOL success = error ? NO : YES;
-        completionBlock ? completionBlock(success, error) : completionBlock;
-    }];
-}
-
-- (void)updateEnrollmentOfUser:(Guardian *)guardian withCompletion:(void (^) (BOOL success, NSError *error))completionBlock {
-    
-    NSDictionary *guardianDictionary = [Guardian dictionaryFromUser:guardian];
-    
-    [[LEOUserService leoSessionManager] standardPUTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointUserEnrollments params:guardianDictionary completion:^(NSDictionary *rawResults, NSError *error) {
-        
-        BOOL success = error ? NO : YES;
-        completionBlock ? completionBlock(success, error) : completionBlock;
     }];
 }
 
@@ -192,9 +231,19 @@ static CGFloat kImageSideSizeScale3Avatar = 300.0;
     NSDictionary *guardianDictionary = [Guardian dictionaryFromUser:guardian];
     
     [[LEOUserService leoSessionManager] standardPUTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointUsers params:guardianDictionary completion:^(NSDictionary *rawResults, NSError *error) {
-        
-        BOOL success = error ? NO : YES;
-        completionBlock ? completionBlock(success, error) : completionBlock;
+
+        NSDictionary *userDictionary = rawResults[APIParamData][APIParamUser];
+
+        [LEOSession updateCurrentSessionWithUserDictionary:userDictionary];
+
+        //This is a temp implementation until the backend actually has this field and it is updated by POSTing to the server
+        [LEOSession user].updatedAtRemote = [NSDate date];
+
+        completionBlock ? completionBlock(!error, error) : nil;
+
+        //Have added this here so that when the currentUser is replaced, we also check for membership changes at that time (once object has been instantiated.)
+        [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationMembershipChanged object:self];
+
     }];
 }
 
@@ -205,9 +254,11 @@ static CGFloat kImageSideSizeScale3Avatar = 300.0;
     NSString *updatePatientEndpoint = [NSString stringWithFormat:@"%@/%@", APIEndpointPatients, patient.objectID];
 
     [[LEOUserService leoSessionManager] standardPUTRequestForJSONDictionaryToAPIWithEndpoint:updatePatientEndpoint params:patientDictionary completion:^(NSDictionary *rawResults, NSError *error) {
-        
-        BOOL success = error ? NO : YES;
-        completionBlock ? completionBlock(success, error) : completionBlock;
+
+        //This is a temp implementation until the backend actually has this field and it is updated by POSTing to the server
+        patient.updatedAtRemote = [NSDate date];
+
+        completionBlock ? completionBlock(!error, error) : nil;
     }];
 }
 
@@ -259,9 +310,12 @@ static CGFloat kImageSideSizeScale3Avatar = 300.0;
         
         if (!error) {
 
-            NSDictionary *userDictionary = rawResults[APIParamData];
+            NSDictionary *userDictionary = rawResults[APIParamData][APIParamUser];
             NSString *authenticationToken = rawResults[APIParamData][APIParamSession][APIParamToken];
             [LEOSession setCurrentSessionWithUserDictionary:userDictionary authenticationToken:authenticationToken];
+
+            //This is a temp implementation until the backend actually has this field and it is updated by POSTing to the server
+            [LEOSession user].updatedAtRemote = [NSDate date];
 
             [[LEOSession user] incrementLoginCounter];
 
@@ -272,6 +326,8 @@ static CGFloat kImageSideSizeScale3Avatar = 300.0;
             completionBlock(!error, error);
         }
 
+        //Have added this here so that when the currentUser is replaced, we also check for membership changes at that time (once object has been instantiated.)
+        [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationMembershipChanged object:self];
     }];
 }
 
@@ -363,8 +419,11 @@ static CGFloat kImageSideSizeScale3Avatar = 300.0;
     
     [[LEOUserService leoSessionManager] standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointAvatars params:avatarParams completion:^(NSDictionary *rawResults, NSError *error) {
 
+
         //TODO: The extra "avatar" is not a "mistake" here; that is how it is provided by the backend. Should be updated eventually.
         NSDictionary *rawAvatarUrlData = rawResults[APIParamData][@"avatar"][@"url"];
+
+        user.updatedAtRemote = [NSDate date];
         user.avatar = [[LEOS3Image alloc] initWithJSONDictionary:rawAvatarUrlData];
         user.avatar.image = [self resizeLocalAvatarImageBasedOnScreenScale:avatarImage];
         user.avatar.placeholder = placeholderImage;

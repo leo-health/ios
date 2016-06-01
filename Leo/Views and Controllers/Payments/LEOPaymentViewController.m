@@ -7,6 +7,7 @@
 //
 
 #import "LEOPaymentViewController.h"
+#import "LEOUserService.h"
 #import "LEOAnalyticSession.h"
 #import "LEOProgressDotsHeaderView.h"
 #import "LEOAlertHelper.h"
@@ -17,11 +18,14 @@
 #import "LEOReviewOnboardingViewController.h"
 #import "Family.h"
 #import "NSObject+XibAdditions.h"
+#import "LEOUserService.h"
+#import "LEOSession.h"
+
 #import <MBProgressHUD/MBProgressHUD.h>
 
 @interface LEOPaymentViewController ()
 
-@property (strong, nonatomic) LEOProgressDotsHeaderView *headerView;
+@property (strong, nonatomic) LEOHeaderView *headerView;
 @property (strong, nonatomic) LEOPaymentsView *paymentsView;
 @property (strong, nonatomic) STPToken *paymentDetails;
 
@@ -29,7 +33,8 @@
 
 @implementation LEOPaymentViewController
 
-NSString *const kCopyPaymentsHeader = @"Add a credit or debit card";
+NSString *const kCopyCreatePaymentsHeader = @"Add a credit or debit card";
+NSString *const kCopyEditPaymentsHeader = @"Update your credit or debit card";
 
 - (void)viewDidLoad {
 
@@ -55,11 +60,47 @@ NSString *const kCopyPaymentsHeader = @"Add a credit or debit card";
 
 - (void)setupNavigationBar {
 
+    BOOL backButton = YES;
+
+    if ([LEOSession user].membershipType == MembershipTypeDelinquent) {
+        backButton = NO;
+    }
+
     [LEOStyleHelper styleNavigationBarForViewController:self
                                              forFeature:self.feature
                                           withTitleText:@""
                                               dismissal:NO
-                                             backButton:YES];
+                                             backButton:backButton];
+
+    if ([LEOSession user].membershipType == MembershipTypeDelinquent) {
+
+        UIButton *logoutButton = [UIButton buttonWithType:UIButtonTypeCustom];
+
+        //TODO: Decide whether to use responder chain or move this out and instantiate the button in the VC.
+        [logoutButton addTarget:self
+                         action:@selector(logout)
+               forControlEvents:UIControlEventTouchUpInside];
+
+        [logoutButton setTitle:@"Logout"
+                      forState:UIControlStateNormal];
+
+        [logoutButton setTitleColor:[UIColor leo_orangeRed] forState:UIControlStateNormal];
+        logoutButton.titleLabel.font = [UIFont leo_standardFont];
+        logoutButton.tintColor = [LEOStyleHelper headerIconColorForFeature:self.feature];
+
+        [logoutButton sizeToFit];
+
+        UIBarButtonItem *dismissBBI = [[UIBarButtonItem alloc] initWithCustomView:logoutButton];
+
+        self.navigationItem.rightBarButtonItem = dismissBBI;
+    }
+
+}
+
+-(void)setManagementMode:(ManagementMode)managementMode {
+
+    _managementMode = managementMode;
+    self.paymentsView.managementMode = managementMode;
 }
 
 -(UIView *)injectTitleView {
@@ -70,6 +111,12 @@ NSString *const kCopyPaymentsHeader = @"Add a credit or debit card";
     return self.paymentsView;
 }
 
+-(void)setFamily:(Family *)family {
+
+    _family = family;
+    
+    self.paymentsView.numberOfChildren = family.patients.count;
+}
 - (LEOPaymentsView *)paymentsView {
 
     if (!_paymentsView) {
@@ -78,6 +125,7 @@ NSString *const kCopyPaymentsHeader = @"Add a credit or debit card";
 
         _paymentsView.numberOfChildren = MIN(self.family.patients.count, 5);
         _paymentsView.chargePerChild = 20;
+        _paymentsView.managementMode = self.managementMode;
 
         _paymentsView.tintColor = [UIColor leo_orangeRed];
         _paymentsView.delegate = self;
@@ -86,17 +134,25 @@ NSString *const kCopyPaymentsHeader = @"Add a credit or debit card";
     return _paymentsView;
 }
 
-- (LEOProgressDotsHeaderView *)headerView {
+- (LEOHeaderView *)headerView {
 
     if (!_headerView) {
 
-        _headerView = [[LEOProgressDotsHeaderView alloc] initWithTitleText:kCopyPaymentsHeader
-                                                           numberOfCircles:kNumberOfProgressDots
-                                                              currentIndex:4
-                                                                 fillColor:[UIColor leo_orangeRed]];
+        if (self.managementMode == ManagementModeCreate) {
+            _headerView = [[LEOProgressDotsHeaderView alloc] initWithTitleText:kCopyCreatePaymentsHeader
+                                                               numberOfCircles:kNumberOfProgressDots
+                                                                  currentIndex:4
+                                                                     fillColor:[UIColor leo_orangeRed]];
+
+
+        }
+
+        if (self.managementMode == ManagementModeEdit) {
+            _headerView = [[LEOHeaderView alloc] initWithTitleText:kCopyEditPaymentsHeader];
+
+        }
 
         _headerView.intrinsicHeight = @(kHeightOnboardingHeaders);
-
         [LEOStyleHelper styleExpandedTitleLabel:_headerView.titleLabel
                                         feature:self.feature];
     }
@@ -111,26 +167,54 @@ NSString *const kCopyPaymentsHeader = @"Add a credit or debit card";
     [MBProgressHUD showHUDAddedTo:self.view
                          animated:YES];
 
+    __weak typeof(self) weakSelf = self;
+
     void (^paymentDetailsBlock)(STPToken *token, NSError *error) = ^(STPToken *token, NSError *error) {
 
-        [MBProgressHUD hideHUDForView:self.view
-                             animated:YES];
+        __strong typeof(self) strongSelf = weakSelf;
 
         if (error) {
 
-            [self handleError:error];
+            [strongSelf handleError:error];
             return;
         }
 
-            self.paymentDetails = token;
+            strongSelf.paymentDetails = token;
 
-            if (self.managementMode == ManagementModeCreate) {
-                [self performSegueWithIdentifier:kSegueContinue sender:nil];
+            if (strongSelf.managementMode == ManagementModeCreate) {
+                [strongSelf performSegueWithIdentifier:kSegueContinue sender:nil];
+
+                [MBProgressHUD hideHUDForView:strongSelf.view
+                                     animated:YES];
             }
 
-            else if (self.managementMode == ManagementModeEdit) {
-                [self.delegate updatePaymentWithPaymentDetails:token.card];
-                [self.navigationController popViewControllerAnimated:YES];
+            else if (strongSelf.managementMode == ManagementModeEdit) {
+                [strongSelf.delegate updatePaymentWithPaymentDetails:token];
+
+                switch (self.feature) {
+                    case FeatureOnboarding:
+
+                        [MBProgressHUD hideHUDForView:strongSelf.view
+                                             animated:YES];
+
+                        [strongSelf.navigationController popViewControllerAnimated:YES];
+
+                        break;
+
+                    default: {
+
+                        [[LEOPaymentService new] updateAndChargeCardWithToken:strongSelf.paymentDetails completion:^(BOOL success, NSError *error) {
+
+                            [[LEOUserService new] getUserWithID:[LEOSession user].objectID withCompletion:^(Guardian *guardian, NSError *error) {
+                                [LEOSession updateCurrentSessionWithGuardian:guardian];
+
+                                [MBProgressHUD hideHUDForView:strongSelf.view
+                                                     animated:YES];
+                            }];
+                        }];
+                    }
+                        break;
+                }
             }
     };
 
@@ -144,6 +228,12 @@ NSString *const kCopyPaymentsHeader = @"Add a credit or debit card";
                                      error:error
                                backupTitle:@"Error with card data"
                              backupMessage:@"Your card information is either invalid or the card is unable to be charged. Please review your information or try another card."];
+}
+
+#pragma mark - Actions
+
+- (void)logout {
+    [[LEOUserService new] logoutUserWithCompletion:nil];
 }
 
 #pragma mark - Navigation
@@ -160,5 +250,7 @@ NSString *const kCopyPaymentsHeader = @"Add a credit or debit card";
         reviewOnboardingVC.paymentDetails = self.paymentDetails;
     }
 }
+
+
 
 @end

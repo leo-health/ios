@@ -27,7 +27,6 @@
 #import "Configuration.h"
 
 #import "LEOAnalyticSession.h"
-#import "LEOSession.h"
 
 typedef NS_ENUM(NSUInteger, SettingsSection) {
     
@@ -180,7 +179,7 @@ static NSString *const kCopyManageMySubscription = @"Manage my subscription";
                     
                 case AccountSettingsEmail: {
                     
-                    cell.promptField.textField.text = [LEOSession user].email;
+                    cell.promptField.textField.text = self.user.email;
                     cell.promptField.accessoryImageViewVisible = NO;
                     cell.promptField.tintColor = [UIColor leo_grayStandard];
                     cell.promptField.textField.enabled = NO;
@@ -540,6 +539,7 @@ static NSString *const kCopyManageMySubscription = @"Manage my subscription";
     }
     
     if ([segue.identifier isEqualToString:kSeguePrivacyPolicy]) {
+
         LEOWebViewController *webVC = (LEOWebViewController *)segue.destinationViewController;
         webVC.urlString = [NSString stringWithFormat:@"%@%@", [Configuration providerBaseURL], kURLPrivacyPolicy];
         webVC.titleString = @"Privacy Policy";
@@ -547,8 +547,15 @@ static NSString *const kCopyManageMySubscription = @"Manage my subscription";
     }
 
     if ([segue.identifier isEqualToString:kSegueAddCaregiver]) {
+
         LEOAddCaregiverViewController *addCaregiverVC = (LEOAddCaregiverViewController *)segue.destinationViewController;
         addCaregiverVC.feature = FeatureSettings;
+    }
+
+    if ([segue.identifier isEqualToString:kSegueManageMySubscription]) {
+
+        LEOSubscriptionManagementViewController *subscriptionManagementVC = (LEOSubscriptionManagementViewController *)segue.destinationViewController;
+        subscriptionManagementVC.membershipType = self.user.membershipType;
     }
 }
 

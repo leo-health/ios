@@ -339,7 +339,7 @@
         if (deserializedData) {
 
             NSMutableDictionary *userInfo = [errorPointer.userInfo mutableCopy];
-            userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey] = deserializedData;
+            userInfo = deserializedData;
             *error = [NSError errorWithDomain:errorPointer.domain code:errorPointer.code userInfo:[userInfo copy]];
         }
     }
@@ -347,7 +347,7 @@
 
 //FIXME: To be updated with the actual user token via keychain at some point.
 + (NSString *)authToken {
-    return [LEOSession authToken];;
+    return [LEOSession authToken];
 }
 
 

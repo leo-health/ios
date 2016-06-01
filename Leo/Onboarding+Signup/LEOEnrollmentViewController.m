@@ -166,13 +166,15 @@ static NSString * const kCopyCollapsedHeaderEnrollment = @"Create an account";
         [Configuration downloadRemoteEnvironmentVariablesIfNeededWithCompletion:^(BOOL success, NSError *error) {
 
             LEOUserService *userService = [[LEOUserService alloc] init];
-            [userService enrollUser:self.guardian password:self.enrollmentView.passwordPromptField.textField.text withCompletion:^(BOOL success, NSError *error) {
+            [userService createUser:self.guardian withPassword:self.enrollmentView.passwordPromptField.textField.text withCompletion:^(Guardian *guardian, NSError *error) {
 
                 if (!error) {
 
                     if (success) {
 
                         [Localytics tagEvent:kAnalyticEventEnroll];
+
+                        self.guardian = guardian;
 
                         [self performSegueWithIdentifier:kSegueContinue
                                                   sender:sender];
@@ -197,6 +199,7 @@ static NSString * const kCopyCollapsedHeaderEnrollment = @"Create an account";
 
                 [MBProgressHUD hideHUDForView:self.view
                                      animated:YES];
+                
                 self.enrollmentView.continueButton.enabled = YES;
             }];
 

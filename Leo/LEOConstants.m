@@ -124,7 +124,7 @@ NSString *const APIParamUserSpecialties = @"specialties";
 NSString *const APIParamUserPrimary = @"primary";
 NSString *const APIParamUserStatus = @"status";
 NSString *const APIParamUserInsurancePlan = @"insurancePlan";
-NSString *const APIParamUserMembershipType = @"type";
+NSString *const APIParamUserMembershipType = @"membership_type";
 NSString *const APIParamUserBirthDate = @"birth_date";
 NSString *const APIParamUserSex = @"sex";
 NSString *const APIParamUserPassword = @"password";
@@ -155,7 +155,7 @@ NSString *const APIParamSessionDeviceToken = @"device_token";
 NSString *const APIParamSessionDeviceType = @"device_type";
 NSString *const APIParamSessionPlatform = @"platform";
 NSString *const APIParamSessionOSVersion = @"os_version";
-NSString *const APIParamSessionAppVersion = @"app_version";
+NSString *const APIParamSessionAppVersion = @"client_version";
 
 #pragma mark - Role
 NSString *const APIParamRole = @"role";

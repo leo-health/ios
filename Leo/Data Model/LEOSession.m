@@ -57,11 +57,25 @@ static dispatch_once_t onceToken;
 
 + (void)setCurrentSessionWithUserDictionary:(NSDictionary *)jsonDictionary authenticationToken:(NSString *)authenticationToken {
 
+    Guardian *guardian = [[Guardian alloc] initWithJSONDictionary:jsonDictionary];
+
+    [self setCurrentSessionWithGuardian:guardian authenticationToken:authenticationToken];
+}
+
++ (void)saveSessionUserToUserDefaults {
+
+    NSDictionary *guardianDictionary = [Guardian plistFromUser:_user];
+    [[NSUserDefaults standardUserDefaults] setObject:guardianDictionary forKey:@"SessionUser"];
+}
+
++ (void)setCurrentSessionWithGuardian:(Guardian *)guardian authenticationToken:(NSString *)authenticationToken {
+
     [self reset];
-    if (!jsonDictionary) {
+    if (!guardian) {
         [_credentialStore clearSavedCredentials];
     } else {
-        _currentSession = [LEOSession newSessionWithJSONDictionary:jsonDictionary];
+
+        _currentSession = [LEOSession newSessionWithGuardian:guardian];
 
         if (authenticationToken) {
             [self setAuthToken:authenticationToken];
@@ -73,17 +87,19 @@ static dispatch_once_t onceToken;
     [self setCurrentSessionWithUserDictionary:jsonDictionary authenticationToken:nil];
 }
 
-+ (instancetype)newSessionWithJSONDictionary:(NSDictionary *)jsonDictionary {
++ (void)updateCurrentSessionWithGuardian:(Guardian *)guardian {
+    [self setCurrentSessionWithGuardian:guardian authenticationToken:nil];
+}
+
+
++ (instancetype)newSessionWithGuardian:(Guardian *)guardian {
 
     dispatch_once(&onceToken, ^{
 
         _currentSession = [[self alloc] init];
 
-        _user = [[Guardian alloc] initWithJSONDictionary:jsonDictionary[APIParamUserGuardian]];
-        [_user saveToUserDefaults];
-
-        //Have added this here so that when the currentUser is replaced, we also check for membership changes at that time (once object has been instantiated.)
-        [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationMembershipChanged object:self];
+        _user = guardian;
+        [self saveSessionUserToUserDefaults];
     });
 
     return _currentSession;
@@ -133,6 +149,12 @@ static dispatch_once_t onceToken;
 
     if (!_credentialStore) {
         _credentialStore = [[LEOCredentialStore alloc] init];
+    }
+
+    NSDictionary *guardianDictionary = [[NSUserDefaults standardUserDefaults] objectForKey:@"SessionUser"];
+
+    if (guardianDictionary) {
+        _user = [[Guardian alloc] initWithJSONDictionary:guardianDictionary];
     }
 
     return _user && _credentialStore.authToken;

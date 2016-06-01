@@ -11,10 +11,18 @@
 #import "NSDictionary+Extensions.h"
 #import "LEOS3Image.h"
 #import "LEOValidationsHelper.h"
+#import <NSDate+DateTools.h>
 
 @implementation User
 
-- (instancetype)initWithObjectID:(nullable NSString*)objectID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email avatar:(nullable LEOS3Image *)avatar {
+- (instancetype)initWithObjectID:(nullable NSString*)objectID
+                           title:(nullable NSString *)title
+                       firstName:(NSString *)firstName
+                   middleInitial:(nullable NSString *)middleInitial
+                        lastName:(NSString *)lastName
+                          suffix:(nullable NSString *)suffix
+                           email:(NSString *)email
+                          avatar:(nullable LEOS3Image *)avatar {
 
     self = [super init];
 
@@ -147,6 +155,16 @@
 - (NSString *)description {
 
     return [NSString stringWithFormat:@"<%@: %p>",[self class],self];
+}
+
+#pragma mark - Sync
+
+- (BOOL)isAheadOfRemote {
+    return [self.updatedAtLocal isLaterThan:self.updatedAtRemote];
+}
+
+- (BOOL)isBehindRemote {
+    return [self.updatedAtRemote isLaterThan:self.updatedAtLocal];
 }
 
 

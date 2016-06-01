@@ -54,7 +54,7 @@ NSString *const kTextFeatureFirst = @"A personalized care team approach for your
 NSString *const kTextFeatureSecond = @"Visits that start on time + parents can join via video conference";
 NSString *const kTextFeatureThird = @"Mobile messaging, scheduling, and health record access";
 NSString *const kTextFeatureFourth = @"Community support + exclusive access to events and classes";
-NSString *const kTextFeatureFifth = @"Prescriptions delivered directly\nto your door";
+NSString *const kTextFeatureFifth = @"Prescriptions delivered directly to your front door";
 
 - (instancetype)initWithFeature:(Feature)feature
                           price:(NSNumber *)price

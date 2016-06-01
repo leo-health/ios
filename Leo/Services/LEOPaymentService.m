@@ -25,6 +25,19 @@
     return task;
 }
 
+- (NSURLSessionTask *)updateAndChargeCardWithToken:(STPToken *)token
+                                        completion:(void (^)(BOOL success, NSError *error))completionBlock {
+
+    NSURLSessionTask *task = [[LEOPaymentService leoSessionManager] standardPUTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointSubscriptions params:@{@"credit_card_token" : token.tokenId} completion:^(NSDictionary *rawResults, NSError *error) {
+
+        if (completionBlock) {
+            completionBlock (!error, error);
+        }
+    }];
+
+    return task;
+}
+
 + (LEOAPISessionManager *)leoSessionManager {
     return [LEOAPISessionManager sharedClient];
 }

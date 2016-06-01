@@ -39,7 +39,6 @@
                 [Configuration updateLocalyticsWithNewKeys];
             }
 
-
             [NSUserDefaults leo_saveDefaults];
         }
 

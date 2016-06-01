@@ -535,7 +535,6 @@ static CGFloat const kFeedInsetTop = 20.0;
 
 - (void)didUpdateObjectStateForCard:(id<LEOCardProtocol>)card {
 
-
     [UIView animateWithDuration:0.2 animations:^{
 
     } completion:^(BOOL finished) {
@@ -709,6 +708,7 @@ static CGFloat const kFeedInsetTop = 20.0;
 
     LEOSettingsViewController *settingsVC = [settingsStoryboard instantiateInitialViewController];
     settingsVC.family = self.family;
+    settingsVC.user = [LEOSession user];
 
     [self.navigationController pushViewController:settingsVC animated:YES];
 }
@@ -720,16 +720,16 @@ static CGFloat const kFeedInsetTop = 20.0;
     //TODO: Include the progress hud while waiting for deletion.
 
     [[LEOAppointmentService new] cancelAppointment:card.associatedCardObject
-                                withCompletion:^(NSDictionary * response, NSError * error) {
+                                    withCompletion:^(NSDictionary * response, NSError * error) {
 
-                                    if (!error) {
-                                        [Localytics tagEvent:kAnalyticEventCancelVisit];
-                                    }
+                                        if (!error) {
+                                            [Localytics tagEvent:kAnalyticEventCancelVisit];
+                                        }
 
-                                    if (completionBlock) {
-                                        completionBlock(response, error);
-                                    }
-                                }];
+                                        if (completionBlock) {
+                                            completionBlock(response, error);
+                                        }
+                                    }];
 }
 
 - (void)removeCardFromFeed:(LEOCard *)card {
@@ -740,7 +740,7 @@ static CGFloat const kFeedInsetTop = 20.0;
 
     NSArray *indexPaths = @[[NSIndexPath indexPathForRow:cardRow
                                                inSection:TableViewSectionBody]];
-
+    
     [self.tableView deleteRowsAtIndexPaths:indexPaths
                           withRowAnimation:UITableViewRowAnimationFade];
 

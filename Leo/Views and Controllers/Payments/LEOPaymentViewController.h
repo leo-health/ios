@@ -14,7 +14,7 @@
 
 @protocol LEOUpdatePaymentProtocol
 
-- (void)updatePaymentWithPaymentDetails:(STPCard *)paymentDetails;
+- (void)updatePaymentWithPaymentDetails:(STPToken *)paymentDetails;
 
 @end
 

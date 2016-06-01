@@ -9,8 +9,13 @@
 #import "Family.h"
 #import "Patient.h"
 #import "Guardian.h"
+#import <objc/runtime.h>
+#import <NSDate+DateTools.h>
 
 @implementation Family
+
+static void * XXContext = &XXContext;
+static NSArray * _propertyNames = nil;
 
 -(instancetype)init {
     
@@ -26,7 +31,13 @@
         _objectID = objectID;
         _guardians = guardians;
         _patients = patients;
+
+        _shouldSyncUp = YES;
+        _shouldSyncDown = YES;
+
         [self sortPatients];
+
+        [self addObserverForAllProperties:self options:NSKeyValueObservingOptionNew context:XXContext];
     }
 
     return self;
@@ -138,6 +149,81 @@
 
     // default sort order is oldest to youngest, then alphabetical by firstName if born on the same date
     _patients = [_patients sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"dob" ascending:YES], [NSSortDescriptor sortDescriptorWithKey:@"firstName" ascending:YES]]];
+}
+
+
+#pragma mark - Sync
+
+- (BOOL)isAheadOfRemote {
+    return [self.updatedAtLocal isLaterThan:self.updatedAtRemote];
+}
+
+- (BOOL)isBehindRemote {
+    return [self.updatedAtRemote isLaterThan:self.updatedAtLocal];
+}
+
+
+#pragma mark - KVO
+-(void)observeValueForKeyPath:(NSString *)keyPath
+                     ofObject:(id)object
+                       change:(NSDictionary<NSString *,id> *)change
+                      context:(void *)context {
+
+    self.updatedAtLocal = [NSDate date];
+}
+
+//Source: http://stackoverflow.com/questions/6615826/get-property-name-as-a-string
+- (NSArray *)propertyNames {
+
+    unsigned int propertyCount = 0;
+    objc_property_t * properties = class_copyPropertyList([self class], &propertyCount);
+
+    NSMutableArray * propertyNames = [NSMutableArray array];
+
+    for (unsigned int i = 0; i < propertyCount; ++i) {
+        objc_property_t property = properties[i];
+        const char * name = property_getName(property);
+
+        NSString * propertyName = [NSString stringWithUTF8String:name];
+
+        if (![propertyName isEqualToString:@"updatedAtLocal"]) {
+            [propertyNames addObject:propertyName];
+        }
+    }
+
+    free(properties);
+    return propertyNames;
+}
+
+//Source: http://stackoverflow.com/questions/12673356/kvo-for-whole-object-properties
+- (void)addObserverForAllProperties:(NSObject *)observer
+                            options:(NSKeyValueObservingOptions)options
+                            context:(void *)context {
+
+   _propertyNames = [self propertyNames];
+
+    for (NSString *property in _propertyNames) {
+        [self addObserver:observer forKeyPath:property
+                  options:options context:context];
+    }
+}
+
+//Source: http://nshipster.com/key-value-observing/
+- (void)removeObserverForAllProperties:(NSObject *)observer
+                               context:(void *)context {
+
+    for (NSString *property in _propertyNames) {
+
+        @try {
+            [self removeObserver:observer forKeyPath:property context:XXContext];
+        }
+        @catch (NSException * __unused exception) {}
+    }
+}
+
+-(void)dealloc {
+
+    [self removeObserverForAllProperties:self context:XXContext];
 }
 
 @end

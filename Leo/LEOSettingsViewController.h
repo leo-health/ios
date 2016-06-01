@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
-@class Family;
+@class Family, Guardian;
 
 #import <UIKit/UIKit.h>
 #import "LEOSignUpPatientViewController.h"
@@ -14,5 +14,6 @@
 @interface LEOSettingsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, SignUpPatientProtocol>
 
 @property (strong, nonatomic) Family *family;
+@property (strong, nonatomic) Guardian *user;
 
 @end

@@ -10,4 +10,6 @@
 
 @interface LEOSubscriptionManagementViewController : UIViewController
 
+@property (nonatomic) MembershipType membershipType;
+
 @end

@@ -23,6 +23,9 @@
 
 @implementation LEOSubscriptionManagementViewController
 
+NSString *const kContactUsDetailForPaidMembers = @"Please contact us to make changes to your account or unsubscribe\n\nPlease email\nsupport@leohealth.com\n\nLive support available at leohealth.com\npowered by intercom";
+
+NSString *const kContactUsDetailForExemptedMembers = @"As a pre-existing customer of Flatiron Pediatrics, your subscription fee has been waived. However, if you have any questions or concerns about your account or to unsubscribe, please email us at:\n\nsupport@leohealth.com\n\nLive support available at leohealth.com\npowered by intercom";
 
 - (void)viewDidLoad {
 
@@ -41,7 +44,16 @@
 
         _contactUsDetailTextView.font = [UIFont leo_standardFont];
         _contactUsDetailTextView.textColor = [UIColor leo_grayStandard];
-        _contactUsDetailTextView.text = @"Please contact us to make changes to your account or unsubscribe\n\nPlease email\nsupport@leohealth.com\n\nLive support available at leohealth.com\npowered by intercom";
+
+        switch (self.membershipType) {
+            case MembershipTypeExempted:
+                _contactUsDetailTextView.text = kContactUsDetailForExemptedMembers;
+                break;
+                
+            default:
+                _contactUsDetailTextView.text = kContactUsDetailForPaidMembers;
+                break;
+        }
 
         _contactUsDetailTextView.dataDetectorTypes = UIDataDetectorTypeAll;
         _contactUsDetailTextView.editable = NO;
@@ -100,7 +112,7 @@
 
 
         NSArray *verticalLayoutConstraints =
-        [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(58)-[_contactUsTitleLabel]-(17)-[_contactUsDetailTextView(==200)]"
+        [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(58)-[_contactUsTitleLabel]-(17)-[_contactUsDetailTextView(==300)]"
                                                 options:0
                                                 metrics:nil
                                                   views:bindings];

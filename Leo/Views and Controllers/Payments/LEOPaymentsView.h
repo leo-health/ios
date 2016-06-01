@@ -19,10 +19,11 @@
 
 @interface LEOPaymentsView : UIView
 
-- (instancetype)initWithNumberOfChildren:(NSInteger)numberOfChildren charge:(NSInteger)chargePerChild;
+- (instancetype)initWithNumberOfChildren:(NSInteger)numberOfChildren charge:(NSInteger)chargePerChild managementMode:(ManagementMode)managementMode;
 
 @property (nonatomic) NSInteger numberOfChildren;
 @property (nonatomic) NSInteger chargePerChild;
+@property (nonatomic) ManagementMode managementMode;
 
 @property (weak, nonatomic) id<LEOPaymentViewProtocol> delegate;
 

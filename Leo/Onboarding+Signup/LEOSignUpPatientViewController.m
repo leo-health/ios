@@ -177,7 +177,7 @@ static NSString *const kStatusBarNotificationAvatarUploadSuccess = @"Child profi
 
     _patient = patient;
     self.originalPatient = [_patient copy];
-    self.signUpPatientView.patient = self.patient; // if patient is nil, original patient should be nil, but self.patient and self.signupPatientView.patient should be [Patient new]
+    self.signUpPatientView.patient = patient ? patient : [Patient new]; // if patient is nil, original patient should be nil, but self.patient and self.signupPatientView.patient should be [Patient new]
 }
 
 

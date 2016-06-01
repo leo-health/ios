@@ -20,13 +20,13 @@
 
 @implementation Guardian
 
-static NSString *const kMembershipTypeUnknown = @"Unknown";
-static NSString *const kMembershipTypeMember = @"Member";
-static NSString *const kMembershipTypeExpecting = @"Expecting";
-static NSString *const kMembershipTypeExempted = @"Exempted";
-static NSString *const kMembershipTypePreview = @"Preview";
-static NSString *const kMembershipTypeDelinquent = @"Delinquent";
-static NSString *const kMembershipTypeIncomplete = @"Incomplete"; //FIXME: This is only because the API doesn't yet support this detail.
+static NSString *const kMembershipTypeUnknown = @"unknown";
+static NSString *const kMembershipTypeMember = @"member";
+static NSString *const kMembershipTypeExpecting = @"expecting";
+static NSString *const kMembershipTypeExempted = @"exempted";
+static NSString *const kMembershipTypePreview = @"preview";
+static NSString *const kMembershipTypeDelinquent = @"delinquent";
+static NSString *const kMembershipTypeIncomplete = @"incomplete"; //FIXME: This is only because the API doesn't yet support this detail.
 static NSString *const kUserDefaultsKeyLoginCounts = @"loginCounter";
 
 @synthesize anonymousCustomerServiceID = _anonymousCustomerServiceID;

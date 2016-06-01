@@ -16,4 +16,7 @@
 - (NSURLSessionTask *)createChargeWithToken:(STPToken *)token
                    completion:(void (^)(BOOL success, NSError *error))completionBlock;
 
+- (NSURLSessionTask *)updateAndChargeCardWithToken:(STPToken *)token
+                                        completion:(void (^)(BOOL success, NSError *error))completionBlock;
+
 @end

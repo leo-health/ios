@@ -142,6 +142,7 @@ typedef NS_ENUM(NSUInteger, Feature) {
     FeatureSettings = 2,
     FeatureAppointmentScheduling = 3,
     FeatureMessaging = 4,
+    FeaturePayment = 5,
 };
 
 typedef NS_ENUM(NSUInteger, MembershipType) {
@@ -273,7 +274,7 @@ extern NSString *const APIParamUserSpecialties; // @"specialties";
 extern NSString *const APIParamUserPrimary; // @"primary";
 extern NSString *const APIParamUserStatus; // @"status";
 extern NSString *const APIParamUserInsurancePlan; // @"insurancePlan";
-extern NSString *const APIParamUserMembershipType; // @"type";
+extern NSString *const APIParamUserMembershipType; // @"membership_type";
 extern NSString *const APIParamUserBirthDate; // @"birth_date";
 extern NSString *const APIParamUserSex; // @"sex";
 extern NSString *const APIParamUserPassword; // @"password";

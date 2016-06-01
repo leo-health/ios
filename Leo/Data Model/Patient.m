@@ -12,8 +12,12 @@
 #import "LEOS3Image.h"
 #import "LEOConstants.h"
 #import "NSDictionary+Extensions.h"
+#import <objc/runtime.h>
 
 @implementation Patient
+
+static void * XXContext = &XXContext;
+static NSArray * _propertyNames = nil;
 
 @synthesize genderDisplayName = _genderDisplayName;
 
@@ -22,12 +26,13 @@
     self = [super initWithObjectID:objectID title:title firstName:firstName middleInitial:middleInitial lastName:lastName suffix:suffix email:email avatar:avatar];
 
     if (self) {
+
         _familyID = familyID;
         _dob = dob;
         _gender = gender;
         _status = status;
 
-        [self setPatientAvatarPlaceholder];
+        [self commonInit];
     }
 
     return self;
@@ -48,15 +53,22 @@
     self = [super initWithJSONDictionary:jsonResponse];
 
     if (self) {
+
         _familyID = [[jsonResponse leo_itemForKey:APIParamFamilyID] stringValue];
         _dob = [NSDate leo_dateFromDashedDateString:[jsonResponse leo_itemForKey:APIParamUserBirthDate]];
         _gender = [jsonResponse leo_itemForKey:APIParamUserSex];
         _status = [jsonResponse leo_itemForKey:APIParamUserStatus];
 
-        [self setPatientAvatarPlaceholder];
+        [self commonInit];
     }
 
     return self;
+}
+
+- (void)commonInit {
+
+    [self setPatientAvatarPlaceholder];
+    [self addObserverForAllProperties:self options:NSKeyValueObservingOptionNew context:XXContext];
 }
 
 - (void)setPatientAvatarPlaceholder {
@@ -217,6 +229,71 @@
     self.avatar = otherPatient.avatar;
     self.dob = otherPatient.dob;
     self.gender = otherPatient.gender;
+}
+
+
+
+#pragma mark - KVO
+-(void)observeValueForKeyPath:(NSString *)keyPath
+                     ofObject:(id)object
+                       change:(NSDictionary<NSString *,id> *)change
+                      context:(void *)context {
+
+    self.updatedAtLocal = [NSDate date];
+}
+
+//Source: http://stackoverflow.com/questions/6615826/get-property-name-as-a-string
+- (NSArray *)propertyNames {
+
+    unsigned int propertyCount = 0;
+    objc_property_t * properties = class_copyPropertyList([self class], &propertyCount);
+
+    NSMutableArray * propertyNames = [NSMutableArray array];
+
+    for (unsigned int i = 0; i < propertyCount; ++i) {
+        objc_property_t property = properties[i];
+        const char * name = property_getName(property);
+
+        NSString * propertyName = [NSString stringWithUTF8String:name];
+
+        if (![propertyName isEqualToString:@"updatedAtLocal"]) {
+            [propertyNames addObject:propertyName];
+        }
+    }
+
+    free(properties);
+    return propertyNames;
+}
+
+//Source: http://stackoverflow.com/questions/12673356/kvo-for-whole-object-properties
+- (void)addObserverForAllProperties:(NSObject *)observer
+                            options:(NSKeyValueObservingOptions)options
+                            context:(void *)context {
+
+    _propertyNames = [self propertyNames];
+
+    for (NSString *property in _propertyNames) {
+        [self addObserver:observer forKeyPath:property
+                  options:options context:context];
+    }
+}
+
+//Source: http://nshipster.com/key-value-observing/
+- (void)removeObserverForAllProperties:(NSObject *)observer
+                               context:(void *)context {
+
+    for (NSString *property in _propertyNames) {
+
+        @try {
+            [self removeObserver:observer forKeyPath:property context:XXContext];
+        }
+        @catch (NSException * __unused exception) {}
+    }
+}
+
+-(void)dealloc {
+
+    [self removeObserverForAllProperties:self context:XXContext];
 }
 
 @end
