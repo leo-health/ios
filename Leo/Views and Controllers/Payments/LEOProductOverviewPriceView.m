@@ -26,7 +26,9 @@
 
 @implementation LEOProductOverviewPriceView
 
-- (instancetype)initWithPrice:(NSNumber *)price firstDetailAttributedString:(NSAttributedString *)firstDetailAttributedString secondDetailAttributedString:(NSAttributedString *)secondDetailAttributedString {
+- (instancetype)initWithPrice:(NSNumber *)price
+  firstDetailAttributedString:(NSAttributedString *)firstDetailAttributedString
+ secondDetailAttributedString:(NSAttributedString *)secondDetailAttributedString {
 
     self = [super init];
 
@@ -34,21 +36,30 @@
 
         _price = price;
         _firstDetailAttributedString = firstDetailAttributedString;
-        _secondDetailAttributedString = secondDetailAttributedString;   
+        _secondDetailAttributedString = secondDetailAttributedString;
     }
 
     return self;
 }
 
-- (instancetype)initWithPrice:(NSNumber *)price firstDetailString:(NSString *)firstDetailString secondDetailString:(NSString *)secondDetailString {
+- (instancetype)initWithPrice:(NSNumber *)price
+            firstDetailString:(NSString *)firstDetailString
+           secondDetailString:(NSString *)secondDetailString {
 
-        NSDictionary *defaultAttributes = @{ NSForegroundColorAttributeName : [UIColor leo_orangeRed],
-                                                        NSFontAttributeName : [UIFont leo_ultraLight14] };
+    NSDictionary *defaultAttributes = @{ NSForegroundColorAttributeName : [UIColor leo_orangeRed],
+                                         NSFontAttributeName : [UIFont leo_ultraLight14] };
 
-        NSAttributedString *firstDetailAttributedString = [[NSAttributedString alloc] initWithString:firstDetailString attributes:defaultAttributes];
-        NSAttributedString *secondDetailAttributedString = [[NSAttributedString alloc] initWithString:secondDetailString attributes:defaultAttributes];
+    NSAttributedString *firstDetailAttributedString =
+    [[NSAttributedString alloc] initWithString:firstDetailString
+                                    attributes:defaultAttributes];
 
-        return [self initWithPrice:price firstDetailAttributedString:firstDetailAttributedString secondDetailAttributedString:secondDetailAttributedString];
+    NSAttributedString *secondDetailAttributedString =
+    [[NSAttributedString alloc] initWithString:secondDetailString
+                                    attributes:defaultAttributes];
+
+    return [self initWithPrice:price
+   firstDetailAttributedString:firstDetailAttributedString
+  secondDetailAttributedString:secondDetailAttributedString];
 }
 
 
@@ -99,7 +110,7 @@
 
         [self addSubview:_secondDetailLabel];
     }
-    
+
     return _secondDetailLabel;
 }
 
@@ -170,9 +181,12 @@
 
 - (CGSize)intrinsicContentSize {
 
-    CGFloat intrinsicWidth = self.pricingLabel.intrinsicContentSize.width + MAX(self.firstDetailLabel.intrinsicContentSize.width, self.secondDetailLabel.intrinsicContentSize.width);
-    CGFloat intrinsicHeight = self.pricingLabel.intrinsicContentSize.height;
+    CGFloat intrinsicWidth =
+    self.pricingLabel.intrinsicContentSize.width +
+    MAX(self.firstDetailLabel.intrinsicContentSize.width, self.secondDetailLabel.intrinsicContentSize.width);
 
+    CGFloat intrinsicHeight = self.pricingLabel.intrinsicContentSize.height;
+    
     return CGSizeMake(intrinsicWidth, intrinsicHeight);
 }
 

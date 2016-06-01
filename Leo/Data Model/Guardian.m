@@ -22,11 +22,9 @@
 
 static NSString *const kMembershipTypeUnknown = @"unknown";
 static NSString *const kMembershipTypeMember = @"member";
-static NSString *const kMembershipTypeExpecting = @"expecting";
 static NSString *const kMembershipTypeExempted = @"exempted";
-static NSString *const kMembershipTypePreview = @"preview";
 static NSString *const kMembershipTypeDelinquent = @"delinquent";
-static NSString *const kMembershipTypeIncomplete = @"incomplete"; //FIXME: This is only because the API doesn't yet support this detail.
+static NSString *const kMembershipTypeIncomplete = @"incomplete";
 static NSString *const kUserDefaultsKeyLoginCounts = @"loginCounter";
 
 @synthesize anonymousCustomerServiceID = _anonymousCustomerServiceID;
@@ -173,14 +171,6 @@ static NSString *const kUserDefaultsKeyLoginCounts = @"loginCounter";
         return MembershipTypeExempted;
     }
 
-    if ([membershipTypeString isEqualToString:kMembershipTypeExpecting]) {
-        return MembershipTypeExpecting;
-    }
-
-    if ([membershipTypeString isEqualToString:kMembershipTypePreview]) {
-        return MembershipTypePreview;
-    }
-
     if ([membershipTypeString isEqualToString:kMembershipTypeDelinquent]) {
         return MembershipTypeDelinquent;
     }
@@ -205,11 +195,7 @@ static NSString *const kUserDefaultsKeyLoginCounts = @"loginCounter";
             return kMembershipTypeDelinquent;
 
         case MembershipTypePreview:
-            return kMembershipTypePreview;
-
         case MembershipTypeExpecting:
-            return kMembershipTypeExpecting;
-
         case MembershipTypeUnknown:
             return kMembershipTypeUnknown;
     }

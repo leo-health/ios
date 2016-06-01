@@ -49,7 +49,7 @@ NSString *const kContactUsDetailForExemptedMembers = @"As a pre-existing custome
             case MembershipTypeExempted:
                 _contactUsDetailTextView.text = kContactUsDetailForExemptedMembers;
                 break;
-                
+
             default:
                 _contactUsDetailTextView.text = kContactUsDetailForPaidMembers;
                 break;
@@ -61,9 +61,9 @@ NSString *const kContactUsDetailForExemptedMembers = @"As a pre-existing custome
         _contactUsDetailTextView.linkTextAttributes =
         @{
           NSForegroundColorAttributeName : [UIColor leo_grayStandard],
-           NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle),
-           NSFontAttributeName : [UIFont leo_standardFont]
-           };
+          NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle),
+          NSFontAttributeName : [UIFont leo_standardFont]
+          };
         [self.view addSubview:_contactUsDetailTextView];
     }
 
@@ -71,7 +71,6 @@ NSString *const kContactUsDetailForExemptedMembers = @"As a pre-existing custome
 }
 
 - (UILabel *)contactUsTitleLabel {
-
 
     if (!_contactUsTitleLabel) {
 
@@ -129,14 +128,16 @@ NSString *const kContactUsDetailForExemptedMembers = @"As a pre-existing custome
 
 - (void)setupNavigationBar {
 
-    [LEOStyleHelper styleNavigationBar:self.navigationController.navigationBar forFeature:FeatureSettings];
-    [LEOStyleHelper styleBackButtonForViewController:self forFeature:FeatureSettings];
+    [LEOStyleHelper styleNavigationBar:self.navigationController.navigationBar
+                            forFeature:FeatureSettings];
+    [LEOStyleHelper styleBackButtonForViewController:self
+                                          forFeature:FeatureSettings];
 
     UILabel *navigationLabel = [UILabel new];
     navigationLabel.text = @"Manage Subscription";
-
+    
     [LEOStyleHelper styleLabel:navigationLabel forFeature:FeatureSettings];
-
+    
     self.navigationItem.titleView = navigationLabel;
 }
 

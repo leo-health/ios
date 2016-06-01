@@ -15,7 +15,6 @@
 #pragma mark - Temp constants
 NSString *const kUserToken = @"";
 
-
 #pragma mark - URL & endpoints
 NSString *const APIVersion = @"/api/v1";
 NSString *const APIEndpointUsers = @"users";
@@ -156,6 +155,7 @@ NSString *const APIParamSessionDeviceType = @"device_type";
 NSString *const APIParamSessionPlatform = @"platform";
 NSString *const APIParamSessionOSVersion = @"os_version";
 NSString *const APIParamSessionAppVersion = @"client_version";
+NSString *const LocalParamSessionUser = @"SessionUser";
 
 #pragma mark - Role
 NSString *const APIParamRole = @"role";
@@ -343,7 +343,7 @@ CGFloat const kPaddingHorizontalToolbarButtons = 20;
 CGFloat const kHeightDefaultToolbar = 44;
 CGFloat const kNumberOfProgressDots = 6;
 CGFloat const kHeightOnboardingHeaders = 114;
-
+CGFloat const kChargePerChild = 20;
 
 #pragma mark - Segues
 NSString *const kSegueContinue = @"ContinueSegue";
@@ -481,6 +481,8 @@ NSString *const kAnalyticEventTakePhotoForMessage = @"Take Photo For Message"; /
 NSString *const kAnalyticEventConfirmPhotoForMessage = @"Confirm Photo For Message"; //success not guaranteed
 NSString *const kAnalyticEventCancelPhotoForMessage = @"Cancel Photo For Message"; // only captures partial data
 NSString *const kAnalyticEventSaveHealthRecordNotes = @"Save Health Record Notes";
+NSString *const kAnalyticEventAddPaymentMethod = @"Add Payment Method";
+NSString *const kAnalyticEventUpdatePaymentMethod = @"Update Payment Method";
 
 NSString *const kAnalyticEventConfirmPatientsInOnboarding = @"Confirm Patients";
 

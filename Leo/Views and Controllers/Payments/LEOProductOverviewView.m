@@ -86,7 +86,11 @@ secondPriceDetailAttributedString:(NSAttributedString *)secondPriceDetailAttribu
     NSAttributedString *firstPriceDetailAttributedString = [[NSAttributedString alloc] initWithString:firstPriceDetailString];
     NSAttributedString *secondPriceDetailAttributedString = [[NSAttributedString alloc] initWithString:secondPriceDetailString];
 
-    return [self initWithFeature:feature price:price firstPriceDetailAttributedString:firstPriceDetailAttributedString secondPriceDetailAttributedString:secondPriceDetailAttributedString continueTappedUpInsideBlock:continueTappedUpInsideBlock];
+    return [self initWithFeature:feature
+                           price:price
+firstPriceDetailAttributedString:firstPriceDetailAttributedString
+secondPriceDetailAttributedString:secondPriceDetailAttributedString
+     continueTappedUpInsideBlock:continueTappedUpInsideBlock];
 }
 
 - (UILabel *)firstFeatureLabel {
@@ -164,7 +168,6 @@ secondPriceDetailAttributedString:(NSAttributedString *)secondPriceDetailAttribu
         case DeviceModelUnsupported:
             return [UIFont leo_emergency911Label];
     }
-
 }
 
 - (UIImageView *)secondFeatureImageView {
@@ -295,9 +298,11 @@ secondPriceDetailAttributedString:(NSAttributedString *)secondPriceDetailAttribu
 
     if (!_priceView) {
 
-        LEOProductOverviewPriceView *strongView = [[LEOProductOverviewPriceView alloc] initWithPrice:self.price
-                                                                                   firstDetailAttributedString:self.firstPriceDetailAttributedString
-                                                                                  secondDetailAttributedString:self.secondPriceDetailAttributedString];
+        LEOProductOverviewPriceView *strongView =
+        [[LEOProductOverviewPriceView alloc] initWithPrice:self.price
+                               firstDetailAttributedString:self.firstPriceDetailAttributedString
+                              secondDetailAttributedString:self.secondPriceDetailAttributedString];
+        
         _priceView = strongView;
 
         [self addSubview:_priceView];
@@ -316,7 +321,8 @@ secondPriceDetailAttributedString:(NSAttributedString *)secondPriceDetailAttribu
 
         [LEOStyleHelper styleButton:_continueButton forFeature:self.feature];
         [_continueButton setTitle:@"CONTINUE" forState:UIControlStateNormal];
-        [_continueButton addTarget:self action:@selector(continueTappedUpInside) forControlEvents:UIControlEventTouchUpInside];
+        [_continueButton addTarget:self action:@selector(continueTappedUpInside)
+                  forControlEvents:UIControlEventTouchUpInside];
         
         [self addSubview:_continueButton];
     }

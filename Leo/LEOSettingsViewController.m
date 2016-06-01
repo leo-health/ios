@@ -43,7 +43,6 @@ typedef NS_ENUM(NSUInteger, AccountSettings) {
     AccountSettingsPassword,
     AccountSettingsSubscriptionManagement,
     AccountSettingsAddCaregiver,
-    AccountSettingsInvite,
 };
 
 typedef NS_ENUM(NSUInteger, AboutSettings) {

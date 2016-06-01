@@ -1,4 +1,4 @@
-    
+
 //
 //  LEOFeedTVC.m
 //  Leo
@@ -233,7 +233,7 @@ static CGFloat const kFeedInsetTop = 20.0;
 }
 
 #pragma mark - Actions
-    
+
 - (void)phrTouchedUpInside {
 
     LEOPHRViewController *phrViewController = [[LEOPHRViewController alloc] initWithPatients:self.family.patients];
@@ -514,7 +514,7 @@ static CGFloat const kFeedInsetTop = 20.0;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 
     [_tableView registerNib:[LEOFeedHeaderCell nib]
-         forCellReuseIdentifier:kCellIdentifierLEOHeaderCell];
+     forCellReuseIdentifier:kCellIdentifierLEOHeaderCell];
 
     [self.tableView registerNib:[LEOFeedCell nib]
          forCellReuseIdentifier:kCellIdentifierLEOFeed];
@@ -740,7 +740,7 @@ static CGFloat const kFeedInsetTop = 20.0;
 
     NSArray *indexPaths = @[[NSIndexPath indexPathForRow:cardRow
                                                inSection:TableViewSectionBody]];
-    
+
     [self.tableView deleteRowsAtIndexPaths:indexPaths
                           withRowAnimation:UITableViewRowAnimationFade];
 
@@ -869,33 +869,33 @@ static CGFloat const kFeedInsetTop = 20.0;
         case TableViewSectionBody:
             self.feedNavigatorHeaderView.userInteractionEnabled = self.enableButtonsInFeed;
             return self.feedNavigatorHeaderView;
-
+            
         default:
             return nil;
     }
 }
 
 - (LEOFeedNavigationHeaderView *)feedNavigatorHeaderView {
-
+    
     if (!_feedNavigatorHeaderView) {
-
+        
         _feedNavigatorHeaderView = [LEOFeedNavigationHeaderView new];
-
+        
         _feedNavigatorHeaderView.backgroundColor = [UIColor leo_white];
-
+        
         _feedNavigatorHeaderView.delegate = self;
     }
-
+    
     return _feedNavigatorHeaderView;
 }
 
 - (void)bookAppointmentTouchedUpInside {
-
+    
     [self beginSchedulingNewAppointment];
 }
 
 - (void)messageUsTouchedUpInside {
-
+    
     LEOCardConversation *conversationCard = [self findConversationCard];
     [self loadChattingViewWithCard:conversationCard];
 }

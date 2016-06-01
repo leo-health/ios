@@ -24,7 +24,6 @@
 @implementation LEOReviewOnboardingView
 
 static NSString * const kCopySignUp = @"SIGN UP";
-static NSInteger const kChargeAmountPerChild = 20;
 
 - (instancetype)initWithFamily:(Family *)family {
 
@@ -95,7 +94,8 @@ static NSInteger const kChargeAmountPerChild = 20;
     return TableViewSectionCount;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)tableView
+ numberOfRowsInSection:(NSInteger)section {
 
     NSInteger rows = 0;
 
@@ -129,7 +129,8 @@ static NSInteger const kChargeAmountPerChild = 20;
     return rows;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)tableView
+         cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
     switch (indexPath.section) {
 
@@ -141,7 +142,9 @@ static NSInteger const kChargeAmountPerChild = 20;
 
             [reviewUserCell configureForGuardian:guardian];
 
-            [reviewUserCell.editButton addTarget:nil action:@selector(editButtonTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
+            [reviewUserCell.editButton addTarget:nil
+                                          action:@selector(editButtonTouchUpInside:)
+                                forControlEvents:UIControlEventTouchUpInside];
 
             return reviewUserCell;
         }
@@ -152,9 +155,12 @@ static NSInteger const kChargeAmountPerChild = 20;
 
             Patient *patient = self.family.patients[indexPath.row];
 
-            [reviewPatientCell.editButton addTarget:nil action:@selector(editButtonTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
+            [reviewPatientCell.editButton addTarget:nil
+                                             action:@selector(editButtonTouchUpInside:)
+                                   forControlEvents:UIControlEventTouchUpInside];
 
-            [reviewPatientCell configureForPatient:patient patientNumber:indexPath.row];
+            [reviewPatientCell configureForPatient:patient
+                                     patientNumber:indexPath.row];
 
             return reviewPatientCell;
         }
@@ -163,11 +169,15 @@ static NSInteger const kChargeAmountPerChild = 20;
 
             LEOPaymentDetailsCell *paymentDetailsCell = [tableView dequeueReusableCellWithIdentifier:kPaymentDetailsCellReuseIdentifier];
 
-            NSNumber *chargeAmount = @(self.family.patients.count * kChargeAmountPerChild);
+            NSNumber *chargeAmount = @(self.family.patients.count * kChargePerChild);
 
-            [paymentDetailsCell.editButton addTarget:nil action:@selector(editButtonTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
+            [paymentDetailsCell.editButton addTarget:nil
+                                              action:@selector(editButtonTouchUpInside:)
+                                    forControlEvents:UIControlEventTouchUpInside];
 
-            [paymentDetailsCell configureForCard:self.paymentDetails.card charge:chargeAmount numberOfChildren:MIN(@(self.family.patients.count), @5)];
+            [paymentDetailsCell configureForCard:self.paymentDetails.card
+                                          charge:chargeAmount
+                                numberOfChildren:@(self.family.patients.count)];
 
             return paymentDetailsCell;
         }
@@ -177,13 +187,15 @@ static NSInteger const kChargeAmountPerChild = 20;
             LEOButtonCell *buttonCell = [tableView dequeueReusableCellWithIdentifier:kButtonCellReuseIdentifier];
 
             //Using responder chain to get to continueTapped: in view controller
-            [buttonCell.button addTarget:nil action:@selector(continueTapped:) forControlEvents:UIControlEventTouchUpInside];
-            [buttonCell.button setTitle:kCopySignUp forState:UIControlStateNormal];
+            [buttonCell.button addTarget:nil
+                                  action:@selector(continueTapped:)
+                        forControlEvents:UIControlEventTouchUpInside];
+
+            [buttonCell.button setTitle:kCopySignUp
+                               forState:UIControlStateNormal];
 
             return buttonCell;
         }
-
-
     }
     
     return nil;

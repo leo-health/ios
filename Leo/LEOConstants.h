@@ -203,7 +203,7 @@ extern NSString *const APIEndpointPHR; // @"phr";
 extern NSString *const APIEndpointConversationNotices; // @"conversation_notices";
 
 
-extern NSString *const APIEndpointSubscriptions; // @"payment_token";
+extern NSString *const APIEndpointSubscriptions; // @"subscriptions";
 
 #pragma mark - Common
 extern NSString *const APIParamID; // @"id";
@@ -305,7 +305,8 @@ extern NSString *const APIParamSessionDeviceToken; // @"device_token";
 extern NSString *const APIParamSessionDeviceType; // @"device_type";
 extern NSString *const APIParamSessionPlatform; // @"platform";
 extern NSString *const APIParamSessionOSVersion; // @"os_version";
-extern NSString *const APIParamSessionAppVersion; // = @"app_version";
+extern NSString *const APIParamSessionAppVersion; // @"app_version";
+extern NSString *const LocalParamSessionUser; // @"SessionUser";
 
 
 #pragma mark - Role
@@ -493,6 +494,7 @@ extern CGFloat const kPaddingHorizontalToolbarButtons; // 20;
 extern CGFloat const kHeightDefaultToolbar; // 44;
 extern CGFloat const kNumberOfProgressDots; // 4;
 extern CGFloat const kHeightOnboardingHeaders; // 114;
+extern CGFloat const kChargePerChild; // 20;
 
 
 #pragma mark - Segues
@@ -638,6 +640,8 @@ extern NSString *const kAnalyticEventCancelPhotoForMessage; // @"Cancel Photo Fo
 extern NSString *const kAnalyticEventGoToHealthRecord; // @"Go To Health Records";
 extern NSString *const kAnalyticEventGoToHealthRecordNotes; // @"Go To Health Record Notes";
 extern NSString *const kAnalyticEventSaveHealthRecordNotes; // @"Save Health Record Notes";
+extern NSString *const kAnalyticEventAddPaymentMethod; // @"Add Payment Method";
+extern NSString *const kAnalyticEventUpdatePaymentMethod; // @"Update Payment Method";
 
 extern NSString *const kAnalyticEventConfirmPatientsInOnboarding; // @"Confirm Patients";
 

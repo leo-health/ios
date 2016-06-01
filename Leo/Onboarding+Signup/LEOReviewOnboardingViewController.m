@@ -54,7 +54,6 @@
 @property (strong, nonatomic) LEOReviewOnboardingView *reviewOnboardingView;
 @property (strong, nonatomic) LEOProgressDotsHeaderView *headerView;
 
-
 @end
 
 @implementation LEOReviewOnboardingViewController
@@ -277,7 +276,6 @@ static NSString *const kReviewPaymentDetails = @"ReviewPaymentSegue";
 }
 
 -(void)updatePaymentWithPaymentDetails:(STPToken *)paymentDetails {
-
     self.reviewOnboardingView.paymentDetails = paymentDetails;
 }
 
@@ -312,9 +310,6 @@ static NSString *const kReviewPaymentDetails = @"ReviewPaymentSegue";
         }
 
         [userService createOrUpdatePatients:patients withCompletion:^(NSArray<Patient *> *responsePatients, NSError *error) {
-
-            //This use of responsePatients is a temp fix for issue #646 in the /leo repo that will make all of this one endpoint and conduct the transaction on the backend, to ensure that we don't need to hold state for the transaction on the app.
-//            self.family.patients = responsePatients;
 
             attemptedPatientCreation = YES;
 

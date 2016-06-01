@@ -23,10 +23,13 @@ static Guardian *_user = nil;
 static LEOCredentialStore *_credentialStore = nil;
 static dispatch_once_t onceToken;
 
+static NSString *const kBundleVersionString = @"CFBundleVersion";
+static NSString *const kBundleShortVersionString = @"CFBundleShortVersionString";
+
 //TODO: Add an assertion to warn programmer here.
--(instancetype)init {
-    return nil;
-}
+//-(instancetype)init {
+//    return nil;
+//}
 
 + (instancetype)currentSession {
 
@@ -40,7 +43,7 @@ static dispatch_once_t onceToken;
 
 - (instancetype)initFromUserDefaults {
 
-    NSDictionary *guardianDictionary = [[NSUserDefaults standardUserDefaults] objectForKey:@"SessionUser"];
+    NSDictionary *guardianDictionary = [[NSUserDefaults standardUserDefaults] objectForKey:LocalParamSessionUser];
 
     _user = [[Guardian alloc] initWithJSONDictionary:guardianDictionary];
 
@@ -65,7 +68,7 @@ static dispatch_once_t onceToken;
 + (void)saveSessionUserToUserDefaults {
 
     NSDictionary *guardianDictionary = [Guardian plistFromUser:_user];
-    [[NSUserDefaults standardUserDefaults] setObject:guardianDictionary forKey:@"SessionUser"];
+    [[NSUserDefaults standardUserDefaults] setObject:guardianDictionary forKey:LocalParamSessionUser];
 }
 
 + (void)setCurrentSessionWithGuardian:(Guardian *)guardian authenticationToken:(NSString *)authenticationToken {
@@ -96,7 +99,7 @@ static dispatch_once_t onceToken;
 
     dispatch_once(&onceToken, ^{
 
-        _currentSession = [[self alloc] init];
+        _currentSession = [[LEOSession alloc] init];
 
         _user = guardian;
         [self saveSessionUserToUserDefaults];
@@ -106,11 +109,12 @@ static dispatch_once_t onceToken;
 }
 
 + (NSString *)appBuild {
-    return [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
+
+    return [[NSBundle mainBundle] objectForInfoDictionaryKey:kBundleVersionString];
 }
 
 + (NSString *)appVersion {
-    return [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+    return [[NSBundle mainBundle] objectForInfoDictionaryKey:kBundleShortVersionString];
 }
 
 + (NSString *)deviceType {
@@ -125,19 +129,6 @@ static dispatch_once_t onceToken;
     return [LEODevice osVersionString];
 }
 
-//FIXME: This doesn't *really* work without further code given you could void the authToken and then it would say you weren't logged in, but not have reset the session's user. Need to send a notification that "resets" this singleton. It will suffice for the time-being until we are logging in multiple users on the same phone.
-//Not sure this is used anywhere. Remove if not.
-+ (void)setCurrentSession:(LEOSession *)currentSession {
-
-    if (!currentSession) {
-        [self reset];
-        [_credentialStore clearSavedCredentials];
-    } else {
-        _currentSession = currentSession;
-    }
-}
-
-
 + (void)reset {
 
     _currentSession = nil;
@@ -151,7 +142,7 @@ static dispatch_once_t onceToken;
         _credentialStore = [[LEOCredentialStore alloc] init];
     }
 
-    NSDictionary *guardianDictionary = [[NSUserDefaults standardUserDefaults] objectForKey:@"SessionUser"];
+    NSDictionary *guardianDictionary = [[NSUserDefaults standardUserDefaults] objectForKey:LocalParamSessionUser];
 
     if (guardianDictionary) {
         _user = [[Guardian alloc] initWithJSONDictionary:guardianDictionary];

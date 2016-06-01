@@ -14,14 +14,13 @@
 #import "LEOSession.h"
 #import "LEODevice.h"
 #import "Configuration.h"
-#import "LEOStyleHelper.h"
 #import "NSUserDefaults+Extensions.h"
 #import <Localytics/Localytics.h>
 #import <Stripe/Stripe.h>
 #import "LEOUserService.h"
-#import "LEOPaymentViewController.h"
 #import "Guardian.h"
-#import "LEOHelperService.h"
+#import "LEORouter.h"
+#import <NSDate+DateTools.h>
 
 @interface AppDelegate ()
 
@@ -60,7 +59,7 @@
 
     [Stripe setDefaultPublishableKey:@"pk_test_LRYSNRBvOYUG47Sg4QZqtlkB"];
 
-    [self setRootViewControllerWithStoryboardName:storyboardIdentifier];
+    [LEORouter appDelegate:self setRootViewControllerWithStoryboardName:storyboardIdentifier];
     
     return YES;
 }
@@ -95,25 +94,15 @@
 
         switch ([LEOSession user].membershipType) {
             case MembershipTypeMember:
-                [self setRootViewControllerWithStoryboardName:kStoryboardFeed];
+                [LEORouter appDelegate:self setRootViewControllerWithStoryboardName:kStoryboardFeed];
                 break;
 
             case MembershipTypeExempted:
-                [self setRootViewControllerWithStoryboardName:kStoryboardFeed];
+                [LEORouter appDelegate:self setRootViewControllerWithStoryboardName:kStoryboardFeed];
                 break;
 
-            case MembershipTypeDelinquent: {
-
-                [[LEOHelperService new] getFamilyWithCompletion:^(Family *family, NSError *error) {
-                    LEOPaymentViewController *paymentVC = [[LEOPaymentViewController alloc] init];
-                    paymentVC.managementMode = ManagementModeEdit;
-                    paymentVC.feature = FeaturePayment;
-                    paymentVC.family = family;
-
-                    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:paymentVC];
-                    [self setRootViewController:navController];
-                }];
-            }
+            case MembershipTypeDelinquent:
+                [LEORouter beginDelinquencyProcessWithAppDelegate:self];
                 break;
 
             case MembershipTypePreview:
@@ -126,209 +115,10 @@
     }
 
     if ([notification.name isEqualToString:kNotificationTokenInvalidated]) {
-        [self setRootViewControllerWithStoryboardName:kStoryboardLogin];
+        [LEORouter appDelegate:self setRootViewControllerWithStoryboardName:kStoryboardLogin];
     }
 }
 
-- (void)loadModal:(UIViewController *)viewController {
-
-    [LEOStyleHelper roundCornersForView:viewController.view withCornerRadius:kCornerRadius];
-
-    UIViewController *rootViewController = self.window.rootViewController;
-
-    if (rootViewController) {
-        [rootViewController presentViewController:viewController animated:YES completion:nil];
-    }
-}
-
-- (void)setRootViewController:(UIViewController *)viewController {
-
-    [LEOStyleHelper roundCornersForView:viewController.view withCornerRadius:kCornerRadius];
-
-    UIViewController *rootVC = self.window.rootViewController;
-    UIViewController *topVC = rootVC;
-
-    BOOL sameClass = NO;
-
-    if ([rootVC class] == [UINavigationController class] && [viewController class] == [UINavigationController class]) {
-
-        UIViewController *rootContentVC = ((UINavigationController *)rootVC).viewControllers.firstObject;
-        UIViewController *initialContentVC = ((UINavigationController *)viewController).viewControllers.firstObject;
-
-        sameClass = [rootContentVC class] == [initialContentVC class];
-    }
-
-    if (self.window.rootViewController && !sameClass) {
-
-        // transitionFromView should take the view currently visible on screen, or the animation will not happen correctly.
-
-        // TODO: find a more general way of finding the top view controller. Can we travaerse the view hierarchy? Which view is appropriate to use in transitionFromView?
-        if (topVC.presentedViewController) {
-            topVC = topVC.presentedViewController;
-        }
-
-        //Flip version
-        [UIView transitionFromView:topVC.view
-                            toView:viewController.view
-                          duration:0.65f
-                           options:UIViewAnimationOptionTransitionFlipFromLeft
-                        completion:^(BOOL finished){
-
-                            if (finished) {
-                                self.window.rootViewController = viewController;
-                                [self.window makeKeyAndVisible];
-                            }
-                        }];
-
-//        //Modal version
-//        CGRect endFrame = viewController.view.frame;
-//        CGRect beginFrame = CGRectMake(endFrame.origin.x, endFrame.origin.y + endFrame.size.height, endFrame.size.width, endFrame.size.height);
-//
-//        viewController.view.frame = beginFrame;
-//
-//        [UIView transitionWithView:viewController.view duration:0.65f options:UIViewAnimationOptionCurveEaseOut animations:^{
-//
-//            viewController.view.frame = endFrame;
-//
-//        } completion:^(BOOL finished) {
-//
-//            [self.window makeKeyAndVisible];
-//        }];
-
-    } else {
-
-        self.window.rootViewController = viewController;
-
-        [UIView transitionFromView:topVC.view
-                            toView:viewController.view
-                          duration:0.65f
-                           options:UIViewAnimationOptionTransitionFlipFromLeft
-                        completion:^(BOOL finished){
-
-                            if (finished) {
-                                [self.window makeKeyAndVisible];
-                            }
-                        }];
-    }
-}
-
-- (void)setRootViewControllerWithStoryboardName:(NSString *)storyboardName {
-    
-    storyboardName = storyboardName ?: kStoryboardLogin;
-
-    if ([storyboardName isEqualToString:kStoryboardLogin]) {
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
-    } else {
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-    }
-    
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle:[NSBundle mainBundle]];
-    
-    UIViewController *initialVC = [storyboard instantiateInitialViewController];
-
-    [LEOStyleHelper roundCornersForView:initialVC.view withCornerRadius:kCornerRadius];
-
-
-    UIViewController *rootVC = self.window.rootViewController;
-    UIViewController *topVC = rootVC;
-
-    BOOL sameClass = NO;
-
-    if ([rootVC class] == [UINavigationController class] && [initialVC class] == [UINavigationController class]) {
-
-        UIViewController *rootContentVC = ((UINavigationController *)rootVC).viewControllers.firstObject;
-        UIViewController *initialContentVC = ((UINavigationController *)initialVC).viewControllers.firstObject;
-
-        sameClass = [rootContentVC class] == [initialContentVC class];
-    }
-
-    if (self.window.rootViewController && !sameClass) {
-
-        // transitionFromView should take the view currently visible on screen, or the animation will not happen correctly.
-
-        // TODO: find a more general way of finding the top view controller. Can we travaerse the view hierarchy? Which view is appropriate to use in transitionFromView?
-        if (topVC.presentedViewController) {
-            topVC = topVC.presentedViewController;
-        }
-
-        // MARK: IOS8 unfortunately this solves the problem on iOS 8 where the collectionView frame appears as {0,20, 320, 548}. Should be full screen {0,0,320,568}
-        NSOperatingSystemVersion osVersion = [[NSProcessInfo processInfo] operatingSystemVersion];
-        if (osVersion.majorVersion <= 8) {
-            initialVC.view.frame = topVC.view.frame;
-        }
-        
-        [UIView transitionFromView:topVC.view
-                            toView:initialVC.view
-                          duration:0.65f
-                           options:UIViewAnimationOptionTransitionFlipFromLeft
-                        completion:^(BOOL finished){
-
-                            if (finished) {
-                                self.window.rootViewController = initialVC;
-                                [self.window makeKeyAndVisible];
-                            }
-                        }];
-    } else {
-        
-        self.window.rootViewController = initialVC;
-        [self.window makeKeyAndVisible];
-    }
-}
-
-- (void)setRootViewControllerWithStoryboardName:(NSString *)storyboardName withAnimationCompletion:(void (^)(void))animationCompletion {
-
-    storyboardName = storyboardName ?: kStoryboardLogin;
-
-    if ([storyboardName isEqualToString:kStoryboardLogin]) {
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
-    } else {
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-    }
-
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle:[NSBundle mainBundle]];
-
-    UIViewController *initialVC = [storyboard instantiateInitialViewController];
-
-    [LEOStyleHelper roundCornersForView:initialVC.view withCornerRadius:kCornerRadius];
-
-    if (self.window.rootViewController && [self.window.rootViewController class] != [initialVC class]) {
-
-        // transitionFromView should take the view currently visible on screen, or the animation will not happen correctly.
-
-        // TODO: find a more general way of finding the top view controller. Can we travaerse the view hierarchy? Which view is appropriate to use in transitionFromView?
-        UIViewController *rootVC = self.window.rootViewController;
-        UIViewController *topVC = rootVC;
-        if (topVC.presentedViewController) {
-            topVC = topVC.presentedViewController;
-        }
-
-        // MARK: IOS8 unfortunately this solves the problem on iOS 8 where the collectionView frame appears as {0,20, 320, 548}. Should be full screen {0,0,320,568}
-        NSOperatingSystemVersion osVersion = [[NSProcessInfo processInfo] operatingSystemVersion];
-        if (osVersion.majorVersion <= 8) {
-            initialVC.view.frame = topVC.view.frame;
-        }
-
-        [UIView transitionFromView:topVC.view
-                            toView:initialVC.view
-                          duration:0.65f
-                           options:UIViewAnimationOptionTransitionFlipFromLeft
-                        completion:^(BOOL finished){
-
-                            if (finished) {
-                                self.window.rootViewController = initialVC;
-                                [self.window makeKeyAndVisible];
-
-                                if (animationCompletion) {
-                                    animationCompletion();
-                                }
-                            }
-                        }];
-    } else {
-
-        self.window.rootViewController = initialVC;
-        [self.window makeKeyAndVisible];
-    }
-}
 
 
 - (void)setupRemoteNotificationsForApplication:(UIApplication *)application {
@@ -387,8 +177,6 @@
 
             [LEOSession updateCurrentSessionWithGuardian:guardian];
         }];
-
-
     }
 }
 

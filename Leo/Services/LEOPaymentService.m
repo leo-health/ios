@@ -18,6 +18,11 @@
     NSURLSessionTask *task = [[LEOPaymentService leoSessionManager] standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointSubscriptions params:@{@"credit_card_token" : token.tokenId} completion:^(NSDictionary *rawResults, NSError *error) {
 
         if (completionBlock) {
+
+            if (!error) {
+                [Localytics tagEvent:kAnalyticEventAddPaymentMethod];
+            }
+
             completionBlock (!error, error);
         }
     }];
@@ -29,6 +34,10 @@
                                         completion:(void (^)(BOOL success, NSError *error))completionBlock {
 
     NSURLSessionTask *task = [[LEOPaymentService leoSessionManager] standardPUTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointSubscriptions params:@{@"credit_card_token" : token.tokenId} completion:^(NSDictionary *rawResults, NSError *error) {
+
+        if (!error) {
+            [Localytics tagEvent:kAnalyticEventUpdatePaymentMethod];
+        }
 
         if (completionBlock) {
             completionBlock (!error, error);

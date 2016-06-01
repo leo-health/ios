@@ -199,7 +199,7 @@ static NSString * const kCopyCollapsedHeaderEnrollment = @"Create an account";
 
                 [MBProgressHUD hideHUDForView:self.view
                                      animated:YES];
-                
+
                 self.enrollmentView.continueButton.enabled = YES;
             }];
 
@@ -229,7 +229,7 @@ static NSString * const kCopyCollapsedHeaderEnrollment = @"Create an account";
                                            phoneNumber:nil
                                          insurancePlan:nil
                                                primary:YES
-                                        membershipType:MembershipTypeUnknown];
+                                        membershipType:MembershipTypeIncomplete];
 }
 
 - (BOOL)validatePage {

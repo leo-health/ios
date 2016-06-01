@@ -123,8 +123,8 @@ NSString *const kCopyEditPaymentsHeader = @"Update your credit or debit card";
 
         _paymentsView = [self leo_loadViewFromNibForClass:[LEOPaymentsView class]];
 
-        _paymentsView.numberOfChildren = MIN(self.family.patients.count, 5);
-        _paymentsView.chargePerChild = 20;
+        _paymentsView.numberOfChildren = self.family.patients.count;
+        _paymentsView.chargePerChild = kChargePerChild;
         _paymentsView.managementMode = self.managementMode;
 
         _paymentsView.tintColor = [UIColor leo_orangeRed];
@@ -143,13 +143,10 @@ NSString *const kCopyEditPaymentsHeader = @"Update your credit or debit card";
                                                                numberOfCircles:kNumberOfProgressDots
                                                                   currentIndex:4
                                                                      fillColor:[UIColor leo_orangeRed]];
-
-
         }
 
         if (self.managementMode == ManagementModeEdit) {
             _headerView = [[LEOHeaderView alloc] initWithTitleText:kCopyEditPaymentsHeader];
-
         }
 
         _headerView.intrinsicHeight = @(kHeightOnboardingHeaders);
@@ -192,13 +189,13 @@ NSString *const kCopyEditPaymentsHeader = @"Update your credit or debit card";
                 [strongSelf.delegate updatePaymentWithPaymentDetails:token];
 
                 switch (self.feature) {
-                    case FeatureOnboarding:
+                    case FeatureOnboarding: {
 
                         [MBProgressHUD hideHUDForView:strongSelf.view
                                              animated:YES];
 
                         [strongSelf.navigationController popViewControllerAnimated:YES];
-
+                    }
                         break;
 
                     default: {
@@ -230,15 +227,16 @@ NSString *const kCopyEditPaymentsHeader = @"Update your credit or debit card";
                              backupMessage:@"Your card information is either invalid or the card is unable to be charged. Please review your information or try another card."];
 }
 
+
 #pragma mark - Actions
 
 - (void)logout {
     [[LEOUserService new] logoutUserWithCompletion:nil];
 }
 
+
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue
                  sender:(id)sender {
 

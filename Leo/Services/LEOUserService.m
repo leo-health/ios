@@ -218,10 +218,14 @@ static CGFloat kImageSideSizeScale3Avatar = 300.0;
             patient.updatedAtRemote = [NSDate date];
 
             patient.avatar = newPatient.avatar;
-            
-            completionBlock ? completionBlock(patient, nil) : nil;
+
+            if (completionBlock) {
+                completionBlock(patient, nil);
+            }
         } else {
-            completionBlock ? completionBlock (nil, error) : nil;
+            if (completionBlock) {
+                completionBlock(nil, error);
+            }
         }
     }];
 }
@@ -239,7 +243,9 @@ static CGFloat kImageSideSizeScale3Avatar = 300.0;
         //This is a temp implementation until the backend actually has this field and it is updated by POSTing to the server
         [LEOSession user].updatedAtRemote = [NSDate date];
 
-        completionBlock ? completionBlock(!error, error) : nil;
+        if (completionBlock) {
+            completionBlock(!error, error);
+        }
 
         //Have added this here so that when the currentUser is replaced, we also check for membership changes at that time (once object has been instantiated.)
         [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationMembershipChanged object:self];
@@ -258,7 +264,9 @@ static CGFloat kImageSideSizeScale3Avatar = 300.0;
         //This is a temp implementation until the backend actually has this field and it is updated by POSTing to the server
         patient.updatedAtRemote = [NSDate date];
 
-        completionBlock ? completionBlock(!error, error) : nil;
+        if (completionBlock) {
+            completionBlock(!error, error);
+        }
     }];
 }
 
@@ -339,7 +347,9 @@ static CGFloat kImageSideSizeScale3Avatar = 300.0;
             [[UIApplication sharedApplication] unregisterForRemoteNotifications];
         }
 
-        completionBlock ? completionBlock(!error, error) : nil;
+        if (completionBlock) {
+            completionBlock(!error, error);
+        }
     }];
 
     [LEOSession logout];
@@ -352,8 +362,10 @@ static CGFloat kImageSideSizeScale3Avatar = 300.0;
     NSDictionary *resetPasswordParams = @{APIParamUserEmail:email};
     
     [[LEOUserService leoSessionManager] standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointResetPassword params:resetPasswordParams completion:^(NSDictionary *rawResults, NSError *error) {
-        
-        completionBlock ? completionBlock(rawResults, error) : nil;
+
+        if (completionBlock) {
+            completionBlock(rawResults, error);
+        }
     }];
 }
 
@@ -362,9 +374,10 @@ static CGFloat kImageSideSizeScale3Avatar = 300.0;
     NSDictionary *changePasswordParams = @{APIParamUserPasswordExisting : oldPassword, APIParamUserPassword : newPassword, APIParamUserPasswordNewRetyped : retypedNewPassword};
     
     [[LEOUserService leoSessionManager] standardPUTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointChangePassword params:changePasswordParams completion:^(NSDictionary *rawResults, NSError *error) {
-        
-        BOOL success = error ? NO : YES;
-        completionBlock ? completionBlock(success, error) : nil;
+
+        if (completionBlock) {
+            completionBlock(!error, error);
+        }
     }];
 }
 
@@ -428,9 +441,9 @@ static CGFloat kImageSideSizeScale3Avatar = 300.0;
         user.avatar.image = [self resizeLocalAvatarImageBasedOnScreenScale:avatarImage];
         user.avatar.placeholder = placeholderImage;
 
-        BOOL success = !error;
-
-        completionBlock ? completionBlock (success, error) : nil;
+        if (completionBlock) {
+            completionBlock(!error, error);
+        }
     }];
 }
 
@@ -441,10 +454,10 @@ static CGFloat kImageSideSizeScale3Avatar = 300.0;
     NSString *addCaregiverEndpoint = [NSString stringWithFormat:@"%@/%@", APIEndpointUserEnrollments, APIEndpointAddCaregiver];
     
     [[LEOUserService leoSessionManager] standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:addCaregiverEndpoint params:userDictionary completion:^(NSDictionary *rawResults, NSError *error) {
-        
-        BOOL success = error ? NO : YES;
-        
-        completionBlock ? completionBlock (success, error) : nil;
+
+        if (completionBlock) {
+            completionBlock(!error, error);
+        }
     }];
 }
 

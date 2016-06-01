@@ -34,9 +34,8 @@
 
 @implementation LEOSignUpPatientView
 
-static NSString *const kCopySubmitButtonOnboarding = @"ADD CHILD";
-static NSString *const kCopySubmitButtonSettingsModify = @"SAVE CHANGES";
-static NSString *const kCopySubmitButtonSettingsCreate = @"ADD CHILD";
+static NSString *const kCopySubmitButtonModify = @"UPDATE DETAILS";
+static NSString *const kCopySubmitButtonCreate = @"ADD CHILD";
 static NSString *const kAvatarCallToActionAdd = @"Add a photo of your child";
 static NSString *const kAvatarCallToActionEdit = @"Edit the photo of your child";
 
@@ -133,22 +132,23 @@ static NSString *const kPlaceholderValidationBirthDate = @"please add your child
     _birthDatePromptField.accessoryImageViewVisible = [self genderAndBirthdateEditable];
 
     NSString *submitButtonTitle;
+
     switch (self.feature) {
 
         case FeatureOnboarding:
-            submitButtonTitle = kCopySubmitButtonOnboarding;
+            submitButtonTitle = self.managementMode == ManagementModeCreate ? kCopySubmitButtonCreate : kCopySubmitButtonModify;
             break;
 
         case FeatureSettings:
-            submitButtonTitle = self.managementMode == ManagementModeCreate ? kCopySubmitButtonSettingsCreate : kCopySubmitButtonSettingsModify;
+            submitButtonTitle = self.managementMode == ManagementModeCreate ? kCopySubmitButtonCreate : kCopySubmitButtonModify;
             break;
 
         default:
             submitButtonTitle = @"SUBMIT";
             break;
     }
-    [self.updateButton setTitle:submitButtonTitle forState:UIControlStateNormal];
 
+    [self.updateButton setTitle:submitButtonTitle forState:UIControlStateNormal];
 
     switch (self.managementMode) {
         case ManagementModeCreate:
@@ -193,11 +193,11 @@ static NSString *const kPlaceholderValidationBirthDate = @"please add your child
     switch (self.feature) {
 
         case FeatureOnboarding:
-            submitButtonTitle = kCopySubmitButtonOnboarding;
+            submitButtonTitle = kCopySubmitButtonModify;
             break;
 
         case FeatureSettings:
-            submitButtonTitle = self.managementMode == ManagementModeCreate ? kCopySubmitButtonSettingsCreate : kCopySubmitButtonSettingsModify;
+            submitButtonTitle = self.managementMode == ManagementModeCreate ? kCopySubmitButtonCreate : kCopySubmitButtonModify;
             break;
 
         default:

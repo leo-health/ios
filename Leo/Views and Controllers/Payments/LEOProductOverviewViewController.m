@@ -34,6 +34,7 @@ NSString * const kHeaderTitleText = @"Unlimited access, simple pricing.";
 
 NSString * const kSegueContinueWithExemption = @"SegueContinueWithExemption";
 NSString * const kSegueContinueWithPayment = @"SegueContinueWithPayment";
+
 - (void)viewDidLoad {
 
     [super viewDidLoad];
@@ -68,7 +69,7 @@ NSString * const kSegueContinueWithPayment = @"SegueContinueWithPayment";
 
             firstDetailString = @"subscription fee waived";
             secondDetailString = @"valued at $240/yr";
-            
+
             price = @0;
 
         }
@@ -87,14 +88,16 @@ NSString * const kSegueContinueWithPayment = @"SegueContinueWithPayment";
 
             firstDetailString = @"per child";
             secondDetailString = @"billed monthly";
-            
+
             price = @20;
         }
             break;
     }
 
-    NSAttributedString *firstDetailAttributedString = [[NSAttributedString alloc] initWithString:firstDetailString attributes:firstDetailAttributes];
-    NSAttributedString *secondDetailAttributedString = [[NSAttributedString alloc] initWithString:secondDetailString attributes:secondDetailAttributes];
+    NSAttributedString *firstDetailAttributedString = [[NSAttributedString alloc] initWithString:firstDetailString
+                                                                                      attributes:firstDetailAttributes];
+    NSAttributedString *secondDetailAttributedString = [[NSAttributedString alloc] initWithString:secondDetailString
+                                                                                       attributes:secondDetailAttributes];
 
     __weak typeof(self) weakSelf = self;
 
@@ -103,9 +106,11 @@ NSString * const kSegueContinueWithPayment = @"SegueContinueWithPayment";
         __strong typeof(self) strongSelf = weakSelf;
 
         if ([LEOSession user].membershipType == MembershipTypeExempted) {
-            [strongSelf performSegueWithIdentifier:kSegueContinueWithExemption sender:nil];
+            [strongSelf performSegueWithIdentifier:kSegueContinueWithExemption
+                                            sender:nil];
         } else {
-            [strongSelf performSegueWithIdentifier:kSegueContinueWithPayment sender:nil];
+            [strongSelf performSegueWithIdentifier:kSegueContinueWithPayment
+                                            sender:nil];
         }
     }];
 }
@@ -130,7 +135,10 @@ NSString * const kSegueContinueWithPayment = @"SegueContinueWithPayment";
 
     if (!_headerView) {
 
-        LEOProgressDotsHeaderView *strongView = [[LEOProgressDotsHeaderView alloc] initWithTitleText:kHeaderTitleText numberOfCircles:kNumberOfProgressDots currentIndex:4 fillColor:[UIColor leo_orangeRed]];
+        LEOProgressDotsHeaderView *strongView = [[LEOProgressDotsHeaderView alloc] initWithTitleText:kHeaderTitleText
+                                                                                     numberOfCircles:kNumberOfProgressDots
+                                                                                        currentIndex:4
+                                                                                           fillColor:[UIColor leo_orangeRed]];
 
         _headerView = strongView;
 
@@ -152,13 +160,22 @@ NSString * const kSegueContinueWithPayment = @"SegueContinueWithPayment";
 
         NSDictionary *bindings = NSDictionaryOfVariableBindings(_headerView, _productOverviewView);
 
-        NSArray *horizontalConstraintsForHeaderView = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_headerView]|" options:0 metrics:nil views:bindings];
+        NSArray *horizontalConstraintsForHeaderView = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_headerView]|"
+                                                                                              options:0 metrics:nil
+                                                                                                views:bindings];
 
-        NSArray *horizontalConstraintsForProductOverviewView = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(15)-[_productOverviewView]-(15)-|" options:0 metrics:nil views:bindings];
+        NSArray *horizontalConstraintsForProductOverviewView =
+        [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(15)-[_productOverviewView]-(15)-|"
+                                                options:0 metrics:nil
+                                                  views:bindings];
 
         NSDictionary *metrics = @{ @"headerHeight" : @(kHeightOnboardingHeaders)};
 
-        NSArray *verticalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_headerView(headerHeight)]-(30)-[_productOverviewView]|" options:0 metrics:metrics views:bindings];
+        NSArray *verticalConstraints =
+        [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_headerView(headerHeight)]-(30)-[_productOverviewView]|"
+                                                options:0
+                                                metrics:metrics
+                                                  views:bindings];
 
         [self.view addConstraints:horizontalConstraintsForHeaderView];
         [self.view addConstraints:horizontalConstraintsForProductOverviewView];

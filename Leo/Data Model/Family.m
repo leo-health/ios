@@ -169,7 +169,9 @@ static NSArray * _propertyNames = nil;
                        change:(NSDictionary<NSString *,id> *)change
                       context:(void *)context {
 
-    self.updatedAtLocal = [NSDate date];
+    if (context == XXContext) {
+        self.updatedAtLocal = [NSDate date];
+    }
 }
 
 //Source: http://stackoverflow.com/questions/6615826/get-property-name-as-a-string
@@ -186,13 +188,13 @@ static NSArray * _propertyNames = nil;
 
         NSString * propertyName = [NSString stringWithUTF8String:name];
 
-        if (![propertyName isEqualToString:@"updatedAtLocal"]) {
+        if (![propertyName isEqualToString:NSStringFromSelector(@selector(updatedAtLocal))]) {
             [propertyNames addObject:propertyName];
         }
     }
 
     free(properties);
-    return propertyNames;
+    return [propertyNames copy];
 }
 
 //Source: http://stackoverflow.com/questions/12673356/kvo-for-whole-object-properties
