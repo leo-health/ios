@@ -48,7 +48,7 @@
         if (success) {
             [Localytics autoIntegrate:[Configuration localyticsAppID] launchOptions:launchOptions];
 
-            #if defined(INTERNAL)
+            #if defined(INTERNAL) || defined(RUNNABLE)
                 [Localytics setLoggingEnabled:YES];
             #endif
         }
