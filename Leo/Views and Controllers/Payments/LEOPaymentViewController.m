@@ -172,6 +172,8 @@ NSString *const kCopyEditPaymentsHeader = @"Update your credit or debit card";
 
         if (error) {
 
+            [MBProgressHUD hideHUDForView:strongSelf.view
+                                 animated:YES];
             [strongSelf handleError:error];
             return;
         }
@@ -202,7 +204,16 @@ NSString *const kCopyEditPaymentsHeader = @"Update your credit or debit card";
 
                         [[LEOPaymentService new] updateAndChargeCardWithToken:strongSelf.paymentDetails completion:^(BOOL success, NSError *error) {
 
+                            if (error) {
+                                [self handleError:error];
+
+                                [MBProgressHUD hideHUDForView:strongSelf.view
+                                                     animated:YES];
+
+                                return;
+                            }
                             [[LEOUserService new] getUserWithID:[LEOSession user].objectID withCompletion:^(Guardian *guardian, NSError *error) {
+
                                 [LEOSession updateCurrentSessionWithGuardian:guardian];
 
                                 [MBProgressHUD hideHUDForView:strongSelf.view
