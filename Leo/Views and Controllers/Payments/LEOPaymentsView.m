@@ -26,7 +26,9 @@
 
 @implementation LEOPaymentsView
 
-- (instancetype)initWithNumberOfChildren:(NSInteger)numberOfChildren charge:(NSInteger)chargePerChild managementMode:(ManagementMode)managementMode  {
+- (instancetype)initWithNumberOfChildren:(NSInteger)numberOfChildren
+                                  charge:(NSInteger)chargePerChild
+                          managementMode:(ManagementMode)managementMode  {
 
     self = [super init];
 

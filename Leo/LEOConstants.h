@@ -604,6 +604,7 @@ extern NSString *const kAnalyticScreenHealthRecordNotes; // @"Health Record Note
 extern NSString *const kAnalyticScreenTermsOfService; // @"Terms of Service";
 extern NSString *const kAnalyticScreenPrivacyPolicy; // @"Privacy Policy";
 extern NSString *const kAnalyticScreenWebView; // @"Web View";
+extern NSString *const kAnalyticScreenAddPaymentMethod; // @"Add Payment Method";
 
 extern NSString *const kAnalyticEventLogin; // @"Login";
 extern NSString *const kAnalyticEventLogout; // @"Logout";

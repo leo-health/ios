@@ -13,13 +13,16 @@
 
 //TODO: May want to make number of children and charge per child part of the protocol.
 
-- (void)saveButtonTouchedUpInside:(UIButton *)sender parameters:(STPCardParams *)cardParams;
+- (void)saveButtonTouchedUpInside:(UIButton *)sender
+                       parameters:(STPCardParams *)cardParams;
 
 @end
 
 @interface LEOPaymentsView : UIView
 
-- (instancetype)initWithNumberOfChildren:(NSInteger)numberOfChildren charge:(NSInteger)chargePerChild managementMode:(ManagementMode)managementMode;
+- (instancetype)initWithNumberOfChildren:(NSInteger)numberOfChildren
+                                  charge:(NSInteger)chargePerChild
+                          managementMode:(ManagementMode)managementMode;
 
 @property (nonatomic) NSInteger numberOfChildren;
 @property (nonatomic) NSInteger chargePerChild;

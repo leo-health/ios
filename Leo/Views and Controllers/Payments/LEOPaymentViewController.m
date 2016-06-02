@@ -58,6 +58,14 @@ NSString *const kCopyEditPaymentsHeader = @"Update your credit or debit card";
     [self setupNavigationBar];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+
+    [super viewDidAppear:animated];
+
+    [Localytics tagScreen:kAnalyticScreenAddPaymentMethod];
+
+}
+
 - (void)setupNavigationBar {
 
     BOOL backButton = YES;
@@ -181,6 +189,7 @@ NSString *const kCopyEditPaymentsHeader = @"Update your credit or debit card";
             strongSelf.paymentDetails = token;
 
             if (strongSelf.managementMode == ManagementModeCreate) {
+
                 [strongSelf performSegueWithIdentifier:kSegueContinue sender:nil];
 
                 [MBProgressHUD hideHUDForView:strongSelf.view
@@ -188,6 +197,7 @@ NSString *const kCopyEditPaymentsHeader = @"Update your credit or debit card";
             }
 
             else if (strongSelf.managementMode == ManagementModeEdit) {
+
                 [strongSelf.delegate updatePaymentWithPaymentDetails:token];
 
                 switch (self.feature) {
@@ -197,6 +207,9 @@ NSString *const kCopyEditPaymentsHeader = @"Update your credit or debit card";
                                              animated:YES];
 
                         [strongSelf.navigationController popViewControllerAnimated:YES];
+
+                        [Localytics tagEvent:kAnalyticEventAddPaymentMethod];
+
                     }
                         break;
 
@@ -212,9 +225,12 @@ NSString *const kCopyEditPaymentsHeader = @"Update your credit or debit card";
 
                                 return;
                             }
+                            
                             [[LEOUserService new] getUserWithID:[LEOSession user].objectID withCompletion:^(Guardian *guardian, NSError *error) {
 
                                 [LEOSession updateCurrentSessionWithGuardian:guardian];
+
+                                [Localytics tagEvent:kAnalyticEventAddPaymentMethod];
 
                                 [MBProgressHUD hideHUDForView:strongSelf.view
                                                      animated:YES];

@@ -450,6 +450,7 @@ NSString *const kAnalyticScreenSettings = @"Settings";
 NSString *const kAnalyticScreenUpdatePassword = @"Update Password";
 NSString *const kAnalyticScreenHealthRecord = @"Health Record";
 NSString *const kAnalyticScreenHealthRecordNotes = @"Health Record Notes";
+NSString *const kAnalyticScreenAddPaymentMethod = @"Add Payment Method";
 
 NSString *const kAnalyticEventLogin = @"Login";
 NSString *const kAnalyticEventLogout = @"Logout";
