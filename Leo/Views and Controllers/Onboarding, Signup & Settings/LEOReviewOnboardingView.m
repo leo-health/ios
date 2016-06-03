@@ -71,6 +71,7 @@ static NSString * const kCopySignUp = @"SIGN UP";
 
     _tableView.rowHeight = UITableViewAutomaticDimension;
     _tableView.alwaysBounceVertical = NO;
+    _tableView.bounces = NO;
 
     [_tableView registerNib:[LEOReviewPatientCell nib]
          forCellReuseIdentifier:kReviewPatientCellReuseIdentifer];

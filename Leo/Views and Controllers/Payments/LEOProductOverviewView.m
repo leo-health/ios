@@ -636,6 +636,32 @@ secondPriceDetailAttributedString:secondPriceDetailAttributedString
     [super updateConstraints];
 }
 
+- (void)layoutSubviews {
+
+    [super layoutSubviews];
+
+    // MARK: IOS8 must manually set preferredMaxLayoutWidth in iOS 8
+    NSOperatingSystemVersion osVersion = [[NSProcessInfo processInfo] operatingSystemVersion];
+    if (osVersion.majorVersion <= 8) {
+
+        NSArray *labels = @[
+                            self.firstFeatureLabel,
+                            self.secondFeatureLabel,
+                            self.thirdFeatureLabel,
+                            self.fourthFeatureLabel,
+                            self.fifthFeatureLabel
+                            ];
+        for (UILabel *label in labels) {
+
+            CGFloat maxWidth = label.preferredMaxLayoutWidth;
+            CGFloat actualWidth = CGRectGetWidth(label.bounds);
+            if (maxWidth != actualWidth) {
+                label.preferredMaxLayoutWidth = actualWidth;
+            }
+        }
+    }
+}
+
 - (NSNumber *)spaceBetweenFeaturesByDevice {
 
     switch ([LEOSession deviceModel]) {

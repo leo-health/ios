@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -32,13 +32,6 @@
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Nf-gl-9yi">
-                            <rect key="frame" x="20" y="506" width="520" height="54"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="54" id="Kax-Tw-XN6"/>
-                            </constraints>
-                            <state key="normal" title="Button"/>
-                        </button>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CHh-if-gGU" customClass="STPPaymentCardTextField">
                             <rect key="frame" x="20" y="143" width="520" height="42"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -53,6 +46,13 @@
                                 <constraint firstAttribute="height" constant="1" id="qb2-om-Gpu"/>
                             </constraints>
                         </view>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Nf-gl-9yi">
+                            <rect key="frame" x="20" y="225" width="520" height="54"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="54" id="Kax-Tw-XN6"/>
+                            </constraints>
+                            <state key="normal" title="Button"/>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
@@ -67,11 +67,11 @@
                         <constraint firstItem="8xw-fF-w43" firstAttribute="top" secondItem="CHh-if-gGU" secondAttribute="bottom" id="O0J-Pj-F4g"/>
                         <constraint firstItem="Zed-nb-N6B" firstAttribute="top" secondItem="qi2-c2-zTs" secondAttribute="bottom" constant="28" id="SF2-vN-t3E"/>
                         <constraint firstItem="Pmi-gc-dUK" firstAttribute="top" secondItem="qi2-c2-zTs" secondAttribute="bottom" constant="28" id="UEN-Kj-q1I"/>
-                        <constraint firstItem="6Nf-gl-9yi" firstAttribute="top" relation="greaterThanOrEqual" secondItem="CHh-if-gGU" secondAttribute="bottom" constant="100" id="WTY-tD-Qm7"/>
+                        <constraint firstItem="6Nf-gl-9yi" firstAttribute="top" secondItem="CHh-if-gGU" secondAttribute="bottom" constant="40" id="WTY-tD-Qm7"/>
                         <constraint firstItem="CHh-if-gGU" firstAttribute="trailing" secondItem="qi2-c2-zTs" secondAttribute="trailing" id="d2y-BN-YfK"/>
                         <constraint firstItem="Pmi-gc-dUK" firstAttribute="trailing" secondItem="qi2-c2-zTs" secondAttribute="trailing" id="dJh-Ww-rUe"/>
                         <constraint firstItem="Zed-nb-N6B" firstAttribute="top" secondItem="Pmi-gc-dUK" secondAttribute="bottom" constant="28" id="eno-SI-k4U"/>
-                        <constraint firstAttribute="bottom" secondItem="6Nf-gl-9yi" secondAttribute="bottom" constant="40" id="fnm-u7-XwY"/>
+                        <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="6Nf-gl-9yi" secondAttribute="bottom" constant="30" id="fnm-u7-XwY"/>
                         <constraint firstAttribute="trailing" secondItem="qi2-c2-zTs" secondAttribute="trailing" constant="20" id="gu2-fv-WqY"/>
                         <constraint firstItem="CHh-if-gGU" firstAttribute="top" secondItem="Zed-nb-N6B" secondAttribute="bottom" constant="4" id="iiX-kq-9tR"/>
                         <constraint firstItem="8xw-fF-w43" firstAttribute="trailing" secondItem="qi2-c2-zTs" secondAttribute="trailing" id="zWY-xl-OJ6"/>

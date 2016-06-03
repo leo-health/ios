@@ -185,6 +185,10 @@ NSString * const kAnimationKeyPathStrokeColor = @"strokeColor";
 - (void)setDatasource:(id<LEOStickyHeaderDataSource>)datasource {
 
     _datasource = datasource;
+    [self reloadDataSourceViews];
+}
+
+- (void)reloadDataSourceViews {
 
     [self reloadBodyView];
     [self reloadTitleView];
