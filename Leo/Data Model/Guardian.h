@@ -37,5 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)removeFromUserDefaults;
 - (void)resetAnonymousCustomerServiceID;
 
+- (BOOL)isAPaidMember;
+
 NS_ASSUME_NONNULL_END
 @end

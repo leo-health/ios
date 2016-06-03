@@ -10,6 +10,7 @@
 
 @interface LEORouter : NSObject
 
++ (void)routeUserWithAppDelegate:(id<UIApplicationDelegate>)appDelegate;
 + (void)beginDelinquencyProcessWithAppDelegate:(id<UIApplicationDelegate>)appDelegate;
 + (void)appDelegate:(id<UIApplicationDelegate>)appDelegate setRootViewController:(UIViewController *)viewController;
 + (void)appDelegate:(id<UIApplicationDelegate>)appDelegate setRootViewControllerWithStoryboardName:(NSString *)storyboardName;

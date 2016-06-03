@@ -37,7 +37,7 @@ NSString *const kStandardErrorAlertActionText = @"Got it.";
 
     UIAlertController *alertController;
 
-    NSString *error_message = [[error.userInfo leo_itemForKey:@"message"] leo_itemForKey:@"error_message"];
+    NSString *error_message = [[error.userInfo leo_itemForKey:@"message"] leo_itemForKey:@"user_message"];
 
     if (error_message) {
 

@@ -325,7 +325,7 @@ static NSString *const kReviewPaymentDetails = @"ReviewPaymentSegue";
 
             [[LEOPaymentService new] createChargeWithToken:self.paymentDetails completion:^(BOOL success, NSError *error) {
 
-                NSString *errorCode = error.userInfo[@"message"][@"error_message"];
+                NSInteger errorCode = [((NSNumber *)error.userInfo[@"message"][@"error_code"]) integerValue];
 
                 if (error && errorCode != 422) {
 

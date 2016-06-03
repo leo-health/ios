@@ -70,6 +70,10 @@ static CGFloat kImageSideSizeScale3Avatar = 300.0;
 
             if (completionBlock) {
                 completionBlock (guardian, nil);
+
+                if (newGuardian.membershipType != guardian.membershipType) {
+                    [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationMembershipChanged object:self];
+                }
             }
         } else {
 
@@ -77,9 +81,6 @@ static CGFloat kImageSideSizeScale3Avatar = 300.0;
                 completionBlock (nil, error);
             }
         }
-
-        //Have added this here so that when the currentUser is replaced, we also check for membership changes at that time (once object has been instantiated.)
-        [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationMembershipChanged object:self];
     }];
 }
 
@@ -249,10 +250,6 @@ static CGFloat kImageSideSizeScale3Avatar = 300.0;
         if (completionBlock) {
             completionBlock(!error, error);
         }
-
-        //Have added this here so that when the currentUser is replaced, we also check for membership changes at that time (once object has been instantiated.)
-        [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationMembershipChanged object:self];
-
     }];
 }
 
