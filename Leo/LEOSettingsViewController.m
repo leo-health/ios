@@ -71,7 +71,7 @@ static NSString *const kSegueAddCaregiver = @"AddCaregiverSegue";
 static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
 static NSString *const kSegueManageMySubscription = @"ManageSubscriptionSegue";
 
-static NSString *const kCopyManageMySubscription = @"Manage my subscription";
+static NSString *const kCopyManageMySubscription = @"Manage my membership";
 
 #pragma mark - View Controller Lifecycle and Helper Methods
 

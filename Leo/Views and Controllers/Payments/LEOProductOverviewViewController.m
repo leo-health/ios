@@ -67,7 +67,7 @@ NSString * const kSegueContinueWithPayment = @"SegueContinueWithPayment";
                                         NSFontAttributeName : [UIFont leo_ultraLightItalic14]
                                         };
 
-            firstDetailString = @"subscription fee waived";
+            firstDetailString = @"membership fee waived";
             secondDetailString = @"valued at $240/yr";
 
             price = @0;
