@@ -142,6 +142,7 @@ NSString * const kSegueContinueWithPayment = @"SegueContinueWithPayment";
 
         _headerView = strongView;
 
+        _headerView.intrinsicHeight = @(kHeightOnboardingHeaders);
         [LEOStyleHelper styleExpandedTitleLabel:_headerView.titleLabel
                                         feature:self.feature];
 
@@ -169,12 +170,10 @@ NSString * const kSegueContinueWithPayment = @"SegueContinueWithPayment";
                                                 options:0 metrics:nil
                                                   views:bindings];
 
-        NSDictionary *metrics = @{ @"headerHeight" : @(kHeightOnboardingHeaders)};
-
         NSArray *verticalConstraints =
-        [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_headerView(headerHeight)]-(30)-[_productOverviewView]|"
+        [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_headerView]-(30)-[_productOverviewView]|"
                                                 options:0
-                                                metrics:metrics
+                                                metrics:nil
                                                   views:bindings];
 
         [self.view addConstraints:horizontalConstraintsForHeaderView];
