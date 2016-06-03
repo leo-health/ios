@@ -208,9 +208,13 @@ static NSString *const ConfigurationStripePublishableKey = @"StripePublishableKe
     [NSUserDefaults leo_removeObjectForKey:kConfigurationStripePublishableKey];
 }
 
++ (BOOL)isMissingKeys {
+    return (![Configuration pusherKey] || ![Configuration crittercismAppID] || ![Configuration localyticsAppID] || ![Configuration vendorID] || ![Configuration stripeKey]);
+}
+
 + (void)downloadRemoteEnvironmentVariablesIfNeededWithCompletion:(void (^) (BOOL success, NSError *error))completionBlock {
 
-    if (![Configuration pusherKey] || ![Configuration crittercismAppID] || ![Configuration localyticsAppID] || ![Configuration vendorID] || ![Configuration stripeKey]) {
+    if ([self isMissingKeys]) {
 
         [[LEOSettingsService new] getConfigurationWithCompletion:^(BOOL success, NSError *error) {
 
