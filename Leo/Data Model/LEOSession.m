@@ -151,6 +151,7 @@ static NSString *const kBundleShortVersionString = @"CFBundleShortVersionString"
     return _user && _credentialStore.authToken;
 }
 
+
 + (void)logout {
 
     [LEOBreadcrumb crumbWithFunction:__PRETTY_FUNCTION__];

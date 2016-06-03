@@ -11,7 +11,7 @@
 #import "LEOHelperService.h"
 #import "LEOStyleHelper.h"
 #import "LEOPaymentViewController.h"
-
+#import "LEOSession.h"
 
 @implementation LEORouter
 
@@ -86,6 +86,29 @@
                                 [appDelegate.window makeKeyAndVisible];
                             }
                         }];
+    }
+}
+
++ (void)routeWithAppDelegate:(id<UIApplicationDelegate>)appDelegate  {
+
+    switch ([LEOSession user].membershipType) {
+        case MembershipTypeMember:
+            [self appDelegate:appDelegate setRootViewControllerWithStoryboardName:kStoryboardFeed];
+            break;
+
+        case MembershipTypeExempted:
+            [LEORouter appDelegate:appDelegate setRootViewControllerWithStoryboardName:kStoryboardFeed];
+            break;
+
+        case MembershipTypeDelinquent:
+        case MembershipTypeIncomplete:
+            [LEORouter beginDelinquencyProcessWithAppDelegate:appDelegate];
+            break;
+
+        case MembershipTypeUnknown:
+            [LEORouter appDelegate:appDelegate setRootViewControllerWithStoryboardName:kStoryboardLogin];
+
+            break;
     }
 }
 

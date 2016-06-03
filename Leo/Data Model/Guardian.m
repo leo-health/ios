@@ -251,4 +251,21 @@ static NSString *const kUserDefaultsKeyLoginCounts = @"loginCounter";
     return guardianCopy;
 }
 
+- (BOOL)isAPaidMember {
+
+    switch (self.membershipType) {
+        case MembershipTypeMember:
+            return YES;
+
+        case MembershipTypePreview:
+        case MembershipTypeUnknown:
+        case MembershipTypeExempted:
+        case MembershipTypeExpecting:
+        case MembershipTypeDelinquent:
+        case MembershipTypeIncomplete:
+            return NO;
+    }
+}
+
+
 @end

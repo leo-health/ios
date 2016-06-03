@@ -39,9 +39,7 @@
     [Configuration resetStripeKey];
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    
-    NSString *storyboardIdentifier = [LEOSession isLoggedIn] ? kStoryboardFeed : kStoryboardLogin;
-    
+
     if (launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]) {
         [self application:application didReceiveRemoteNotification:launchOptions];
     }
@@ -57,9 +55,8 @@
         }
     }];
 
-    
-    [LEORouter appDelegate:self setRootViewControllerWithStoryboardName:storyboardIdentifier];
-    
+    [LEORouter routeWithAppDelegate:self];
+
     return YES;
 }
 
@@ -88,29 +85,9 @@
 }
 
 - (void)notificationReceived:(NSNotification *)notification {
-    
+
     if ([notification.name isEqualToString:kNotificationMembershipChanged]) {
-
-        switch ([LEOSession user].membershipType) {
-            case MembershipTypeMember:
-                [LEORouter appDelegate:self setRootViewControllerWithStoryboardName:kStoryboardFeed];
-                break;
-
-            case MembershipTypeExempted:
-                [LEORouter appDelegate:self setRootViewControllerWithStoryboardName:kStoryboardFeed];
-                break;
-
-            case MembershipTypeDelinquent:
-                [LEORouter beginDelinquencyProcessWithAppDelegate:self];
-                break;
-
-            case MembershipTypePreview:
-            case MembershipTypeUnknown:
-            case MembershipTypeExpecting:
-            case MembershipTypeIncomplete:
-                break;
-
-        }
+        [LEORouter routeWithAppDelegate:self];
     }
 
     if ([notification.name isEqualToString:kNotificationTokenInvalidated]) {
