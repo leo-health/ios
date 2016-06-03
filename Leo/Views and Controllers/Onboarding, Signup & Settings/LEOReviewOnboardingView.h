@@ -9,11 +9,13 @@
 @class Family, LEOIntrinsicSizeTableView, LEOReviewOnboardingViewController;
 
 #import <UIKit/UIKit.h>
+#import <Stripe/STPToken.h>
 
 typedef NS_ENUM(NSUInteger, TableViewSection) {
 
     TableViewSectionGuardians,
     TableViewSectionPatients,
+    TableViewSectionPaymentDetails,
     TableViewSectionButton,
     TableViewSectionCount
 };
@@ -23,5 +25,6 @@ typedef NS_ENUM(NSUInteger, TableViewSection) {
 @property (weak, nonatomic) LEOIntrinsicSizeTableView *tableView;
 @property (weak, nonatomic) LEOReviewOnboardingViewController *controller;
 @property (strong, nonatomic) Family *family;
+@property (strong, nonatomic) STPToken *paymentDetails;
 
 @end

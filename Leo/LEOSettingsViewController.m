@@ -9,7 +9,7 @@
 #import "LEOSettingsViewController.h"
 #import "Family.h"
 #import "LEOPromptFieldCell+ConfigureForCell.h"
-#import "SessionUser.h"
+#import "LEOSession.h"
 #import "LEOPromptField.h"
 #import "UIColor+LeoColors.h"
 #import "UIFont+LeoFonts.h"
@@ -20,6 +20,7 @@
 #import "LEOUpdatePasswordViewController.h"
 #import "LEOAddCaregiverViewController.h"
 #import "LEOWebViewController.h"
+#import "LEOSubscriptionManagementViewController.h"
 
 #import "Patient.h"
 #import "LEOUserService.h"
@@ -40,6 +41,7 @@ typedef NS_ENUM(NSUInteger, AccountSettings) {
     
     AccountSettingsEmail,
     AccountSettingsPassword,
+    AccountSettingsSubscriptionManagement,
     AccountSettingsAddCaregiver,
 };
 
@@ -67,6 +69,9 @@ static NSString *const kSegueChangeEmail = @"UpdateEmailSegue";
 static NSString *const kSegueChangePassword = @"UpdatePasswordSegue";
 static NSString *const kSegueAddCaregiver = @"AddCaregiverSegue";
 static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
+static NSString *const kSegueManageMySubscription = @"ManageSubscriptionSegue";
+
+static NSString *const kCopyManageMySubscription = @"Manage my subscription";
 
 #pragma mark - View Controller Lifecycle and Helper Methods
 
@@ -138,7 +143,7 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
     
     switch (section) {
         case SettingsSectionAccounts:
-            return 3;
+            return 4;
             
         case SettingsSectionPatients:
             return [self.family.patients count];
@@ -173,7 +178,7 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
                     
                 case AccountSettingsEmail: {
                     
-                    cell.promptField.textField.text = [SessionUser currentUser].email;
+                    cell.promptField.textField.text = self.user.email;
                     cell.promptField.accessoryImageViewVisible = NO;
                     cell.promptField.tintColor = [UIColor leo_grayStandard];
                     cell.promptField.textField.enabled = NO;
@@ -196,7 +201,20 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
                     cell.promptField.textField.standardPlaceholder = @"";
                     break;
                 }
-                    
+
+                case AccountSettingsSubscriptionManagement: {
+
+                    cell.promptField.textField.text = kCopyManageMySubscription;
+                    cell.promptField.accessoryImageViewVisible = YES;
+                    cell.promptField.accessoryImage = [UIImage imageNamed:@"Icon-ForwardArrow"];
+                    cell.promptField.tintColor = [UIColor leo_orangeRed];
+                    cell.promptField.textField.enabled = NO;
+                    cell.promptField.textField.textColor = [UIColor leo_grayStandard];
+                    cell.promptField.textField.standardPlaceholder = @"";
+                    cell.promptField.tapGestureEnabled = NO;
+                    break;
+                }
+
                 case AccountSettingsAddCaregiver: {
 
                     cell.promptField.textField.text = @"Add a parent / caregiver";
@@ -209,8 +227,9 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
                     cell.promptField.textField.standardPlaceholder = @"";
                     break;
                 }
+
             }
-            
+
             break;
         }
             
@@ -322,6 +341,11 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
                 case AccountSettingsPassword:
                     [self performSegueWithIdentifier:kSegueChangePassword sender:indexPath];
                     break;
+
+
+                case AccountSettingsSubscriptionManagement:
+                    [self performSegueWithIdentifier:kSegueManageMySubscription sender:indexPath];
+                    break;
                     
                 case AccountSettingsAddCaregiver:
                     [self performSegueWithIdentifier:kSegueAddCaregiver sender:indexPath];
@@ -392,8 +416,9 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
 
 - (NSString *)buildVersionString {
 
-    NSString *appBuild = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
-    NSString *appVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+    NSString *appBuild = [LEOSession appBuild];
+    NSString *appVersion = [LEOSession appVersion];
+
     return [NSString stringWithFormat:@"%@ | %@", appVersion, appBuild];
 }
 
@@ -513,6 +538,7 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
     }
     
     if ([segue.identifier isEqualToString:kSeguePrivacyPolicy]) {
+
         LEOWebViewController *webVC = (LEOWebViewController *)segue.destinationViewController;
         webVC.urlString = [NSString stringWithFormat:@"%@%@", [Configuration providerBaseURL], kURLPrivacyPolicy];
         webVC.titleString = @"Privacy Policy";
@@ -520,8 +546,15 @@ static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
     }
 
     if ([segue.identifier isEqualToString:kSegueAddCaregiver]) {
+
         LEOAddCaregiverViewController *addCaregiverVC = (LEOAddCaregiverViewController *)segue.destinationViewController;
         addCaregiverVC.feature = FeatureSettings;
+    }
+
+    if ([segue.identifier isEqualToString:kSegueManageMySubscription]) {
+
+        LEOSubscriptionManagementViewController *subscriptionManagementVC = (LEOSubscriptionManagementViewController *)segue.destinationViewController;
+        subscriptionManagementVC.membershipType = self.user.membershipType;
     }
 }
 

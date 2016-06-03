@@ -24,6 +24,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy, nullable) NSString *email;
 @property (nonatomic, strong, nullable) LEOS3Image *avatar;
 
+@property (strong, nonatomic) NSDate *updatedAtRemote;
+@property (strong, nonatomic) NSDate *updatedAtLocal;
+@property (nonatomic) BOOL shouldSyncUp;
+@property (nonatomic) BOOL shouldSyncDown;
+
+- (BOOL)isAheadOfRemote;
+- (BOOL)isBehindRemote;
+
 //- (instancetype)init MSDesignatedInitializer(initWithObjectID:title:firstName:middleInitial:lastName:suffix:email:avatar:);
 //- (instancetype)new MSDesignatedInitializer(initWithObjectID:title:firstName:middleInitial:lastName:suffix:email:avatar:);
 

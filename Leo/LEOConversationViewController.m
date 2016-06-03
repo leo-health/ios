@@ -36,7 +36,7 @@
 #import "NSDate+Extensions.h"
 #import "Practice.h"
 #import "LEOPusherHelper.h"
-#import "SessionUser.h"
+#import "LEOSession.h"
 #import "Support.h"
 #import "LEOTransitioningDelegate.h"
 #import "User.h"
@@ -588,7 +588,7 @@ static NSString *const kDefaultPracticeID = @"0";
 
 - (void)clearPusher {
 
-    NSString *channelString = [NSString stringWithFormat:@"%@",[SessionUser currentUser].objectID];
+    NSString *channelString = [NSString stringWithFormat:@"%@",[LEOSession user].objectID];
     [[LEOPusherHelper sharedPusher] removeBinding:self.pusherBinding
                        fromPrivateChannelWithName:channelString];
     self.pusherBinding = nil;
@@ -596,9 +596,9 @@ static NSString *const kDefaultPracticeID = @"0";
 
 - (void)setupRequiredMessagingProperties {
 
-    self.senderId = [NSString stringWithFormat:@"%@F",[SessionUser currentUser].familyID];
-    self.senderDisplayName = [SessionUser currentUser].fullName;
-    self.senderFamily = [SessionUser currentUser].familyID;
+    self.senderId = [NSString stringWithFormat:@"%@F",[LEOSession user].familyID];
+    self.senderDisplayName = [LEOSession user].fullName;
+    self.senderFamily = [LEOSession user].familyID;
 }
 
 - (void)setupMessageBubbles {
@@ -666,7 +666,7 @@ static NSString *const kDefaultPracticeID = @"0";
 - (void)setupPusher {
 
     NSString *channelString =
-    [NSString stringWithFormat:@"%@",[SessionUser currentUser].objectID];
+    [NSString stringWithFormat:@"%@",[LEOSession user].objectID];
 
     NSString *event = @"new_message";
 
@@ -853,7 +853,7 @@ static NSString *const kDefaultPracticeID = @"0";
 
     Message *message = [MessageText messageWithObjectID:nil
                                                    text:text
-                                                 sender:[SessionUser guardian]
+                                                 sender:[LEOSession user]
                                             escalatedTo:nil
                                             escalatedBy:nil
                                                  status:nil
@@ -1116,7 +1116,7 @@ static NSString *const kDefaultPracticeID = @"0";
 
     JSQPhotoMediaItem *photoItem = [[JSQPhotoMediaItem alloc] initWithImage:image];
 
-    MessageImage *message = [MessageImage messageWithObjectID:nil media:photoItem sender:[SessionUser guardian] escalatedTo:nil escalatedBy:nil status:nil statusCode:MessageStatusCodeUndefined createdAt:[NSDate date] escalatedAt:nil leoMedia:nil];
+    MessageImage *message = [MessageImage messageWithObjectID:nil media:photoItem sender:[LEOSession user] escalatedTo:nil escalatedBy:nil status:nil statusCode:MessageStatusCodeUndefined createdAt:[NSDate date] escalatedAt:nil leoMedia:nil];
 
     self.inputToolbar.contentView.userInteractionEnabled = NO;
 

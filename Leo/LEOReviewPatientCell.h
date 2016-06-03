@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UITableViewCell+Extensions.h"
 
 @interface LEOReviewPatientCell : UITableViewCell
 
@@ -14,7 +15,5 @@
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *birthDateLabel;
 @property (weak, nonatomic) IBOutlet UIButton *editButton;
-
-+ (UINib *)nib;
 
 @end

@@ -18,6 +18,7 @@
 #import <ActionSheetStringPicker.h>
 #import "LEOStyleHelper.h"
 #import "UIView+XibAdditions.h"
+#import "LEOSession.h"
 
 @interface LEOSignUpPatientView ()
 
@@ -27,14 +28,14 @@
 @property (weak, nonatomic) IBOutlet LEOPromptField *lastNamePromptField;
 @property (weak, nonatomic) IBOutlet LEOPromptField *birthDatePromptField;
 @property (weak, nonatomic) IBOutlet LEOPromptField *genderPromptField;
+@property (weak, nonatomic) IBOutlet UILabel  *paymentAgreementLabel;
 
 @end
 
 @implementation LEOSignUpPatientView
 
-static NSString *const kCopySubmitButtonOnboarding = @"CONTINUE";
-static NSString *const kCopySubmitButtonSettingsModify = @"SAVE CHANGES";
-static NSString *const kCopySubmitButtonSettingsCreate = @"SUBMIT";
+static NSString *const kCopySubmitButtonModify = @"UPDATE DETAILS";
+static NSString *const kCopySubmitButtonCreate = @"ADD CHILD";
 static NSString *const kAvatarCallToActionAdd = @"Add a photo of your child";
 static NSString *const kAvatarCallToActionEdit = @"Edit the photo of your child";
 
@@ -54,7 +55,6 @@ static NSString *const kPlaceholderValidationBirthDate = @"please add your child
 #pragma mark - View Lifecycle and Helper Methods
 
 - (void)awakeFromNib {
-
     [self commonInit];
 }
 
@@ -103,8 +103,20 @@ static NSString *const kPlaceholderValidationBirthDate = @"please add your child
     _genderPromptField.textField.standardPlaceholder = kPlaceholderStandardGender;
     _genderPromptField.textField.validationPlaceholder = kPlaceholderValidationGender;
     _genderPromptField.textField.enabled = NO;
-     _genderPromptField.accessoryImage = [UIImage imageNamed:@"Icon-Expand"];
+    _genderPromptField.accessoryImage = [UIImage imageNamed:@"Icon-Expand"];
     _genderPromptField.delegate = self;
+}
+
+- (void)updatePaymentTermsLabel {
+
+    //TODO: This is starting to add a ton of state (and conditions) -- we should rethink the architecture around this, particularly as we add exempted users to the mix (not to mention the fact that the view probably shouldn't have to know all of this...)
+    if (self.feature == FeatureSettings && [LEOSession user].membershipType != MembershipTypeExempted) {
+        if (self.managementMode == ManagementModeCreate) {
+            self.paymentAgreementLabel.text = [NSString stringWithFormat:@"By adding %@ to your family, you agree to pay $20 per month to manage %@ care with Leo.", self.patient.firstName, [self.patient possessiveSingularGender]];
+        } else {
+            self.paymentAgreementLabel.text = @"";
+        }
+    }
 }
 
 -(void)setFeature:(Feature)feature {
@@ -120,26 +132,26 @@ static NSString *const kPlaceholderValidationBirthDate = @"please add your child
     _birthDatePromptField.accessoryImageViewVisible = [self genderAndBirthdateEditable];
 
     NSString *submitButtonTitle;
+
     switch (self.feature) {
 
         case FeatureOnboarding:
-            submitButtonTitle = kCopySubmitButtonOnboarding;
+            submitButtonTitle = self.managementMode == ManagementModeCreate ? kCopySubmitButtonCreate : kCopySubmitButtonModify;
             break;
 
         case FeatureSettings:
-            submitButtonTitle = self.managementMode == ManagementModeCreate ? kCopySubmitButtonSettingsCreate : kCopySubmitButtonSettingsModify;
+            submitButtonTitle = self.managementMode == ManagementModeCreate ? kCopySubmitButtonCreate : kCopySubmitButtonModify;
             break;
 
         default:
             submitButtonTitle = @"SUBMIT";
             break;
     }
-    [self.updateButton setTitle:submitButtonTitle forState:UIControlStateNormal];
 
+    [self.updateButton setTitle:submitButtonTitle forState:UIControlStateNormal];
 
     switch (self.managementMode) {
         case ManagementModeCreate:
-
             self.avatarValidationLabel.text = kAvatarCallToActionAdd;
             break;
 
@@ -181,11 +193,11 @@ static NSString *const kPlaceholderValidationBirthDate = @"please add your child
     switch (self.feature) {
 
         case FeatureOnboarding:
-            submitButtonTitle = kCopySubmitButtonOnboarding;
+            submitButtonTitle = kCopySubmitButtonModify;
             break;
 
         case FeatureSettings:
-            submitButtonTitle = self.managementMode == ManagementModeCreate ? kCopySubmitButtonSettingsCreate : kCopySubmitButtonSettingsModify;
+            submitButtonTitle = self.managementMode == ManagementModeCreate ? kCopySubmitButtonCreate : kCopySubmitButtonModify;
             break;
 
         default:
@@ -244,6 +256,18 @@ static NSString *const kPlaceholderValidationBirthDate = @"please add your child
     _managementMode = managementMode;
 
     [self updateUI];
+}
+
+- (void)setPaymentAgreementLabel:(UILabel *)paymentAgreementLabel {
+
+    _paymentAgreementLabel = paymentAgreementLabel;
+
+    _paymentAgreementLabel.text = @"";
+    _paymentAgreementLabel.font = [UIFont leo_emergency911Label];
+    _paymentAgreementLabel.textColor = [UIColor leo_grayStandard];
+    _paymentAgreementLabel.textAlignment = NSTextAlignmentCenter;
+    _paymentAgreementLabel.numberOfLines = 0;
+    _paymentAgreementLabel.lineBreakMode = NSLineBreakByWordWrapping;
 }
 
 - (NSString *)genderFromGenderTextField {
@@ -384,6 +408,11 @@ static NSString *const kPlaceholderValidationBirthDate = @"please add your child
     self.genderPromptField.textField.text = ([selectedGender isEqualToNumber:@0]) ? kGenderFemaleDisplay : kGenderMaleDisplay;
     self.genderPromptField.textField.valid = YES;
     self.patient.gender = ([selectedGender isEqualToNumber:@0]) ? kGenderFemale : kGenderMale;
+
+    if (self.patient.firstName) {
+
+        [self updatePaymentTermsLabel];
+    }
 }
 
 

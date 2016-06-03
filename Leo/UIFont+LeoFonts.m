@@ -13,6 +13,7 @@
 //TODO: Placeholders, and temporary until switching over to Text Styles for use with Dynamic Type
 
 static NSString *const AvenirNextUltraLight = @"AvenirNext-UltraLight";
+static NSString *const AvenirNextUltraLightItalic = @"AvenirNext-UltraLightItalic";
 static NSString *const AvenirNextRegular = @"AvenirNext-Regular";
 static NSString *const AvenirNextMedium = @"AvenirNext-Medium";
 static NSString *const AvenirNextDemiBold = @"AvenirNext-DemiBold";
@@ -139,5 +140,33 @@ static NSString *const AvenirNextCondensedRegular = @"AvenirNextCondensed-Regula
     return [UIFont fontWithName:AvenirNextRegular size:24];
 }
 
+/**
+ *  AvenirNext-UltraLight, Size 39
+ *
+ *  @return UIFont
+ */
++ (UIFont *)leo_ultraLight39 {
+    return [UIFont fontWithName:AvenirNextUltraLight size:39];
+}
+
+/**
+ *  AvenirNext-UltraLight, Size 14
+ *
+ *  @return UIFont
+ */
+
++ (UIFont *)leo_ultraLight14 {
+    return [UIFont fontWithName:AvenirNextUltraLight size:14];
+}
+
+/**
+ *  AvenirNext-UltraLightItalic, Size 14
+ *
+ *  @return UIFont
+ */
+
++ (UIFont *)leo_ultraLightItalic14 {
+    return [UIFont fontWithName:AvenirNextUltraLightItalic size:14];
+}
 
 @end

@@ -12,6 +12,8 @@
 #import "LEOReviewOnboardingView.h"
 #import "LEOReviewPatientCell+ConfigureForCell.h"
 #import "LEOReviewUserCell+ConfigureForCell.h"
+#import "LEOPaymentDetailsCell+ConfigureForCell.h"
+#import "LEOSession.h"
 #import "LEOReviewOnboardingViewController.h"
 
 #import "UIColor+LeoColors.h"
@@ -54,6 +56,12 @@ static NSString * const kCopySignUp = @"SIGN UP";
     [self setupTouchEventForDismissingKeyboard];
 }
 
+//-(void)setPaymentDetails:(STPCardParams *)paymentDetails {
+//
+//    _paymentDetails = paymentDetails;
+//
+//    [self.tableView reloadData];
+//}
 
 - (void)setTableView:(LEOIntrinsicSizeTableView *)tableView {
 
@@ -68,8 +76,11 @@ static NSString * const kCopySignUp = @"SIGN UP";
          forCellReuseIdentifier:kReviewPatientCellReuseIdentifer];
     [_tableView registerNib:[LEOReviewUserCell nib]
          forCellReuseIdentifier:kReviewUserCellReuseIdentifer];
-    [_tableView registerNib:[LEOButtonCell nib] forCellReuseIdentifier:kButtonCellReuseIdentifier];
-
+    [_tableView registerNib:[LEOButtonCell nib]
+     forCellReuseIdentifier:kButtonCellReuseIdentifier];
+    [_tableView registerNib:[LEOPaymentDetailsCell nib]
+     forCellReuseIdentifier:kPaymentDetailsCellReuseIdentifier];
+    
     _tableView.tableFooterView = [self buildAgreeViewFromString:@"By clicking sign up you agree to our #<ts>terms of service# and #<pp>privacy policies#."];
     _tableView.tableFooterView.bounds = CGRectInset(self.tableView.tableFooterView.bounds, 0.0, -10.0);
 
@@ -79,7 +90,12 @@ static NSString * const kCopySignUp = @"SIGN UP";
 
 #pragma mark - <UITableViewDataSource>
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return TableViewSectionCount;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView
+ numberOfRowsInSection:(NSInteger)section {
 
     NSInteger rows = 0;
 
@@ -93,6 +109,18 @@ static NSString * const kCopySignUp = @"SIGN UP";
             rows = [self.family.patients count];
             break;
 
+        case TableViewSectionPaymentDetails: {
+
+            Guardian *guardian = self.family.guardians.firstObject;
+
+            if (guardian.membershipType == MembershipTypeExempted) {
+                rows = 0;
+            } else {
+                rows = self.paymentDetails.card ? 1 : 0;
+            }
+        }
+            break;
+
         case TableViewSectionButton:
             rows = 1;
             break;
@@ -101,11 +129,8 @@ static NSString * const kCopySignUp = @"SIGN UP";
     return rows;
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return TableViewSectionCount;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)tableView
+         cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
     switch (indexPath.section) {
 
@@ -117,7 +142,9 @@ static NSString * const kCopySignUp = @"SIGN UP";
 
             [reviewUserCell configureForGuardian:guardian];
 
-            [reviewUserCell.editButton addTarget:nil action:@selector(editButtonTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
+            [reviewUserCell.editButton addTarget:nil
+                                          action:@selector(editButtonTouchUpInside:)
+                                forControlEvents:UIControlEventTouchUpInside];
 
             return reviewUserCell;
         }
@@ -128,20 +155,44 @@ static NSString * const kCopySignUp = @"SIGN UP";
 
             Patient *patient = self.family.patients[indexPath.row];
 
-            [reviewPatientCell.editButton addTarget:nil action:@selector(editButtonTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
+            [reviewPatientCell.editButton addTarget:nil
+                                             action:@selector(editButtonTouchUpInside:)
+                                   forControlEvents:UIControlEventTouchUpInside];
 
-            [reviewPatientCell configureForPatient:patient patientNumber:indexPath.row];
+            [reviewPatientCell configureForPatient:patient
+                                     patientNumber:indexPath.row];
 
             return reviewPatientCell;
         }
 
+        case TableViewSectionPaymentDetails: {
+
+            LEOPaymentDetailsCell *paymentDetailsCell = [tableView dequeueReusableCellWithIdentifier:kPaymentDetailsCellReuseIdentifier];
+
+            NSNumber *chargeAmount = @(self.family.patients.count * kChargePerChild);
+
+            [paymentDetailsCell.editButton addTarget:nil
+                                              action:@selector(editButtonTouchUpInside:)
+                                    forControlEvents:UIControlEventTouchUpInside];
+
+            [paymentDetailsCell configureForCard:self.paymentDetails.card
+                                          charge:chargeAmount
+                                numberOfChildren:@(self.family.patients.count)];
+
+            return paymentDetailsCell;
+        }
+        
         case TableViewSectionButton: {
 
             LEOButtonCell *buttonCell = [tableView dequeueReusableCellWithIdentifier:kButtonCellReuseIdentifier];
 
             //Using responder chain to get to continueTapped: in view controller
-            [buttonCell.button addTarget:nil action:@selector(continueTapped:) forControlEvents:UIControlEventTouchUpInside];
-            [buttonCell.button setTitle:kCopySignUp forState:UIControlStateNormal];
+            [buttonCell.button addTarget:nil
+                                  action:@selector(continueTapped:)
+                        forControlEvents:UIControlEventTouchUpInside];
+
+            [buttonCell.button setTitle:kCopySignUp
+                               forState:UIControlStateNormal];
 
             return buttonCell;
         }

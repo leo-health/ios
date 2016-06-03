@@ -41,6 +41,7 @@
                         <segue destination="E1E-k5-SOB" kind="show" identifier="UpdatePasswordSegue" id="1kK-iS-xrW"/>
                         <segue destination="KjM-vJ-EQe" kind="show" identifier="TermsAndConditionsSegue" id="Ioq-0z-A9J"/>
                         <segue destination="KjM-vJ-EQe" kind="show" identifier="PrivacyPolicySegue" id="1FQ-qs-hvb"/>
+                        <segue destination="Ogv-sK-dHD" kind="push" identifier="ManageSubscriptionSegue" id="aMr-dg-IMW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xB6-Zx-rfw" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -97,7 +98,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uca-km-1Ld" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1367" y="1606"/>
+            <point key="canvasLocation" x="691" y="1552"/>
         </scene>
         <!--Sign Up Patient View Controller-->
         <scene sceneID="5iE-DB-zl9">
@@ -116,6 +117,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DrY-5T-LqW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2369" y="2130"/>
+        </scene>
+        <!--Subscription Management View Controller-->
+        <scene sceneID="g1i-Ee-m6R">
+            <objects>
+                <viewController id="Ogv-sK-dHD" customClass="LEOSubscriptionManagementViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Vnd-zz-Fz0"/>
+                        <viewControllerLayoutGuide type="bottom" id="awB-bN-J8M"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="dk1-YL-msn">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="9u0-OT-l6y"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="djQ-LX-abL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2369" y="2864"/>
         </scene>
         <!--Update Email View Controller-->
         <scene sceneID="zQI-l6-NPg">

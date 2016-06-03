@@ -166,10 +166,10 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
 
         [[LEOUserService new] loginUserWithEmail:[self emailTextField].text
                                password:[self passwordTextField].text
-                         withCompletion:^(SessionUser * user, NSError * error) {
+                         withCompletion:^(BOOL success, NSError * error) {
 
                              [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-                             if (!error) {
+                             if (success) {
 
                                  [Crittercism setUsername:[Configuration vendorID]];
                                  [Localytics setCustomerId:[Configuration vendorID]];

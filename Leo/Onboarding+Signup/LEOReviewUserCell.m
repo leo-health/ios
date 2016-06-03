@@ -7,6 +7,7 @@
 //
 
 #import "LEOReviewUserCell.h"
+#import "UITableViewCell+Extensions.h"
 
 @implementation LEOReviewUserCell
 
@@ -16,18 +17,6 @@
 
     //TODO: Remove "button, replace with UILabel, since we aren't actually using functionality of the control after all.
     self.editButton.enabled = NO;
-}
-
-+ (UINib *)nib {
-    
-    return [UINib nibWithNibName:@"LEOReviewUserCell" bundle:nil];
-}
-
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
 }
 
 - (CGSize)intrinsicContentSize {

@@ -1,4 +1,4 @@
-    
+
 //
 //  LEOFeedTVC.m
 //  Leo
@@ -27,7 +27,7 @@
 #import "Message.h"
 #import "Family.h"
 #import "Practice.h"
-#import "SessionUser.h"
+#import "LEOSession.h"
 #import "AppointmentStatus.h"
 
 #import "UIColor+LeoColors.h"
@@ -233,7 +233,7 @@ static CGFloat const kFeedInsetTop = 20.0;
 }
 
 #pragma mark - Actions
-    
+
 - (void)phrTouchedUpInside {
 
     LEOPHRViewController *phrViewController = [[LEOPHRViewController alloc] initWithPatients:self.family.patients];
@@ -292,7 +292,7 @@ static CGFloat const kFeedInsetTop = 20.0;
 //MARK: Most likely doesn't belong in this class; no longer tied to it except for completion block which can be passed in.
 - (void)pushNewMessageToConversation {
 
-    NSString *channelString = [NSString stringWithFormat:@"%@",[SessionUser currentUser].objectID];
+    NSString *channelString = [NSString stringWithFormat:@"%@",[LEOSession user].objectID];
     NSString *event = @"new_message";
 
     LEOPusherHelper *pusherHelper = [LEOPusherHelper sharedPusher];
@@ -337,7 +337,7 @@ static CGFloat const kFeedInsetTop = 20.0;
 - (void)viewWillDisappear:(BOOL)animated {
 
     [super viewWillDisappear:animated];
-    NSString *channelString = [NSString stringWithFormat:@"%@",[SessionUser currentUser].objectID];
+    NSString *channelString = [NSString stringWithFormat:@"%@",[LEOSession user].objectID];
     [[LEOPusherHelper sharedPusher] removeBinding:self.pusherBinding fromPrivateChannelWithName:channelString];
 }
 
@@ -514,7 +514,7 @@ static CGFloat const kFeedInsetTop = 20.0;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 
     [_tableView registerNib:[LEOFeedHeaderCell nib]
-         forCellReuseIdentifier:kCellIdentifierLEOHeaderCell];
+     forCellReuseIdentifier:kCellIdentifierLEOHeaderCell];
 
     [self.tableView registerNib:[LEOFeedCell nib]
          forCellReuseIdentifier:kCellIdentifierLEOFeed];
@@ -534,7 +534,6 @@ static CGFloat const kFeedInsetTop = 20.0;
 }
 
 - (void)didUpdateObjectStateForCard:(id<LEOCardProtocol>)card {
-
 
     [UIView animateWithDuration:0.2 animations:^{
 
@@ -693,7 +692,7 @@ static CGFloat const kFeedInsetTop = 20.0;
                                                              patient:patient
                                                             provider:nil
                                                             practice:self.practice
-                                                        bookedByUser:[SessionUser currentUser]
+                                                        bookedByUser:[LEOSession user]
                                                                 note:nil
                                                               status:appointmentStatus];
 
@@ -709,6 +708,7 @@ static CGFloat const kFeedInsetTop = 20.0;
 
     LEOSettingsViewController *settingsVC = [settingsStoryboard instantiateInitialViewController];
     settingsVC.family = self.family;
+    settingsVC.user = [LEOSession user];
 
     [self.navigationController pushViewController:settingsVC animated:YES];
 }
@@ -720,16 +720,16 @@ static CGFloat const kFeedInsetTop = 20.0;
     //TODO: Include the progress hud while waiting for deletion.
 
     [[LEOAppointmentService new] cancelAppointment:card.associatedCardObject
-                                withCompletion:^(NSDictionary * response, NSError * error) {
+                                    withCompletion:^(NSDictionary * response, NSError * error) {
 
-                                    if (!error) {
-                                        [Localytics tagEvent:kAnalyticEventCancelVisit];
-                                    }
+                                        if (!error) {
+                                            [Localytics tagEvent:kAnalyticEventCancelVisit];
+                                        }
 
-                                    if (completionBlock) {
-                                        completionBlock(response, error);
-                                    }
-                                }];
+                                        if (completionBlock) {
+                                            completionBlock(response, error);
+                                        }
+                                    }];
 }
 
 - (void)removeCardFromFeed:(LEOCard *)card {
@@ -869,33 +869,33 @@ static CGFloat const kFeedInsetTop = 20.0;
         case TableViewSectionBody:
             self.feedNavigatorHeaderView.userInteractionEnabled = self.enableButtonsInFeed;
             return self.feedNavigatorHeaderView;
-
+            
         default:
             return nil;
     }
 }
 
 - (LEOFeedNavigationHeaderView *)feedNavigatorHeaderView {
-
+    
     if (!_feedNavigatorHeaderView) {
-
+        
         _feedNavigatorHeaderView = [LEOFeedNavigationHeaderView new];
-
+        
         _feedNavigatorHeaderView.backgroundColor = [UIColor leo_white];
-
+        
         _feedNavigatorHeaderView.delegate = self;
     }
-
+    
     return _feedNavigatorHeaderView;
 }
 
 - (void)bookAppointmentTouchedUpInside {
-
+    
     [self beginSchedulingNewAppointment];
 }
 
 - (void)messageUsTouchedUpInside {
-
+    
     LEOCardConversation *conversationCard = [self findConversationCard];
     [self loadChattingViewWithCard:conversationCard];
 }

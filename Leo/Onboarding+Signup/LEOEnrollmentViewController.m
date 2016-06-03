@@ -166,7 +166,7 @@ static NSString * const kCopyCollapsedHeaderEnrollment = @"Create an account";
         [Configuration downloadRemoteEnvironmentVariablesIfNeededWithCompletion:^(BOOL success, NSError *error) {
 
             LEOUserService *userService = [[LEOUserService alloc] init];
-            [userService enrollUser:self.guardian password:self.enrollmentView.passwordPromptField.textField.text withCompletion:^(BOOL success, NSError *error) {
+            [userService createUser:self.guardian withPassword:self.enrollmentView.passwordPromptField.textField.text withCompletion:^(Guardian *guardian, NSError *error) {
 
                 if (!error) {
 
@@ -174,8 +174,11 @@ static NSString * const kCopyCollapsedHeaderEnrollment = @"Create an account";
 
                         [Localytics tagEvent:kAnalyticEventEnroll];
 
+                        self.guardian = guardian;
+
                         [self performSegueWithIdentifier:kSegueContinue
                                                   sender:sender];
+
                     } else {
 
                         [LEOAlertHelper alertForViewController:self
@@ -226,7 +229,7 @@ static NSString * const kCopyCollapsedHeaderEnrollment = @"Create an account";
                                            phoneNumber:nil
                                          insurancePlan:nil
                                                primary:YES
-                                        membershipType:MembershipTypeNone];
+                                        membershipType:MembershipTypeIncomplete];
 }
 
 - (BOOL)validatePage {

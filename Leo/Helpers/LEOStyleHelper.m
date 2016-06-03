@@ -239,6 +239,9 @@
         case FeatureMessaging:
             return [UIColor leo_blue];
 
+        case FeaturePayment:
+            return [UIColor leo_orangeRed];
+
         case FeatureUndefined:
             return [UIColor blackColor];
     }
@@ -258,6 +261,9 @@
 
         case FeatureMessaging:
             return [UIColor leo_white];
+
+        case FeaturePayment:
+            return [UIColor leo_orangeRed];
 
         case FeatureUndefined:
             return [UIColor blackColor];
@@ -280,6 +286,9 @@
         case FeatureMessaging:
             return [UIColor leo_blue];
 
+        case FeaturePayment:
+            return [UIColor leo_white];
+
         case FeatureUndefined:
             return [UIColor blackColor];
     }
@@ -299,6 +308,9 @@
 
         case FeatureMessaging:
             return [UIColor leo_white];
+
+        case FeaturePayment:
+            return [UIColor leo_grayForTitlesAndHeadings];
 
         case FeatureUndefined:
             return [UIColor blackColor];
@@ -320,6 +332,9 @@
         case FeatureMessaging:
             return [UIColor blackColor];
 
+        case FeaturePayment:
+            return [UIColor blackColor];
+
         case FeatureUndefined:
             return [UIColor blackColor];
     }
@@ -338,6 +353,9 @@
             return [UIColor colorWithRed:71/255. green:197/255. blue:124/255. alpha:1];
 
         case FeatureMessaging:
+            return [UIColor blackColor];
+
+        case FeaturePayment:
             return [UIColor blackColor];
 
         case FeatureUndefined:

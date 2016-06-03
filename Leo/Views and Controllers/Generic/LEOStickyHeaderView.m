@@ -75,7 +75,7 @@ NSString * const kAnimationKeyPathStrokeColor = @"strokeColor";
 
     // default values
     self.collapsible = YES;
-    self.contentView.backgroundColor = [UIColor clearColor];
+    self.contentView.backgroundColor = [UIColor whiteColor];
     self.wasExpandedBeforeContentSizeChange = YES; // FIXME: should depend on if the view starts in collapsed position - not yet implemented
     [self registerForKeyboardNotifications];
 }
@@ -118,6 +118,7 @@ NSString * const kAnimationKeyPathStrokeColor = @"strokeColor";
         [_scrollView addObserver:self forKeyPath:kKVOKeyPathContentOffset options:NSKeyValueObservingOptionOld context:nil];
         [_scrollView addObserver:self forKeyPath:kKVOKeyPathContentSize options:NSKeyValueObservingOptionOld context:nil];
 
+        _scrollView.backgroundColor = [UIColor whiteColor];
         _scrollView.delegate = self;
         _scrollView.stickyDelegate = self;
 

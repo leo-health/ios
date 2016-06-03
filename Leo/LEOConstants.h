@@ -8,6 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
+typedef NS_ENUM(NSUInteger, DeviceModel) {
+
+    DeviceModelUnsupported,
+    DeviceModel4OrLess,
+    DeviceModel5,
+    DeviceModel6,
+    DeviceModel6Plus,
+};
+
 typedef NS_ENUM(NSUInteger, CardLayout) {
     CardLayoutUndefined = 0,
     CardLayoutTwoButtonPrimaryAndSecondary = 1,
@@ -133,14 +142,18 @@ typedef NS_ENUM(NSUInteger, Feature) {
     FeatureSettings = 2,
     FeatureAppointmentScheduling = 3,
     FeatureMessaging = 4,
+    FeaturePayment = 5,
 };
 
 typedef NS_ENUM(NSUInteger, MembershipType) {
     
-    MembershipTypeNone = 0, //Not used explicitly, but in case nil is entered...
+    MembershipTypeUnknown = 0, //Not used explicitly, but in case nil is entered...
     MembershipTypeIncomplete = 1,
-    MembershipTypeUnpaid = 2,
+    MembershipTypeDelinquent = 2,
     MembershipTypeMember = 3,
+    MembershipTypeExempted = 4,
+    MembershipTypeExpecting = 5,
+    MembershipTypePreview = 6,
 };
 
 typedef NS_ENUM(NSUInteger, LEOErrorDomainContentCodes) {
@@ -189,6 +202,8 @@ extern NSString *const APIEndpointConfiguration; // @"ios_configuration";
 extern NSString *const APIEndpointPHR; // @"phr";
 extern NSString *const APIEndpointConversationNotices; // @"conversation_notices";
 
+
+extern NSString *const APIEndpointSubscriptions; // @"subscriptions";
 
 #pragma mark - Common
 extern NSString *const APIParamID; // @"id";
@@ -259,7 +274,7 @@ extern NSString *const APIParamUserSpecialties; // @"specialties";
 extern NSString *const APIParamUserPrimary; // @"primary";
 extern NSString *const APIParamUserStatus; // @"status";
 extern NSString *const APIParamUserInsurancePlan; // @"insurancePlan";
-extern NSString *const APIParamUserMembershipType; // @"type";
+extern NSString *const APIParamUserMembershipType; // @"membership_type";
 extern NSString *const APIParamUserBirthDate; // @"birth_date";
 extern NSString *const APIParamUserSex; // @"sex";
 extern NSString *const APIParamUserPassword; // @"password";
@@ -290,6 +305,8 @@ extern NSString *const APIParamSessionDeviceToken; // @"device_token";
 extern NSString *const APIParamSessionDeviceType; // @"device_type";
 extern NSString *const APIParamSessionPlatform; // @"platform";
 extern NSString *const APIParamSessionOSVersion; // @"os_version";
+extern NSString *const APIParamSessionAppVersion; // @"app_version";
+extern NSString *const LocalParamSessionUser; // @"SessionUser";
 
 
 #pragma mark - Role
@@ -477,6 +494,7 @@ extern CGFloat const kPaddingHorizontalToolbarButtons; // 20;
 extern CGFloat const kHeightDefaultToolbar; // 44;
 extern CGFloat const kNumberOfProgressDots; // 4;
 extern CGFloat const kHeightOnboardingHeaders; // 114;
+extern CGFloat const kChargePerChild; // 20;
 
 
 #pragma mark - Segues
@@ -498,6 +516,7 @@ extern NSString *const kStoryboardAppointment; // @"Appointment";
 extern NSString *const kHeaderCellReuseIdentifier; // @"LEOBasicHeaderCell";
 extern NSString *const kReviewUserCellReuseIdentifer; // @"ReviewUserCell";
 extern NSString *const kReviewPatientCellReuseIdentifer; // @"ReviewPatientCell";
+extern NSString *const kPaymentDetailsCellReuseIdentifier; // @"PaymentDetailsCell";
 extern NSString *const kButtonCellReuseIdentifier; // @"ButtonCell";
 extern NSString *const kPromptFieldCellReuseIdentifier; // @"LEOPromptFieldCell";
 
@@ -585,6 +604,7 @@ extern NSString *const kAnalyticScreenHealthRecordNotes; // @"Health Record Note
 extern NSString *const kAnalyticScreenTermsOfService; // @"Terms of Service";
 extern NSString *const kAnalyticScreenPrivacyPolicy; // @"Privacy Policy";
 extern NSString *const kAnalyticScreenWebView; // @"Web View";
+extern NSString *const kAnalyticScreenAddPaymentMethod; // @"Add Payment Method";
 
 extern NSString *const kAnalyticEventLogin; // @"Login";
 extern NSString *const kAnalyticEventLogout; // @"Logout";
@@ -621,6 +641,8 @@ extern NSString *const kAnalyticEventCancelPhotoForMessage; // @"Cancel Photo Fo
 extern NSString *const kAnalyticEventGoToHealthRecord; // @"Go To Health Records";
 extern NSString *const kAnalyticEventGoToHealthRecordNotes; // @"Go To Health Record Notes";
 extern NSString *const kAnalyticEventSaveHealthRecordNotes; // @"Save Health Record Notes";
+extern NSString *const kAnalyticEventAddPaymentMethod; // @"Add Payment Method";
+extern NSString *const kAnalyticEventUpdatePaymentMethod; // @"Update Payment Method";
 
 extern NSString *const kAnalyticEventConfirmPatientsInOnboarding; // @"Confirm Patients";
 

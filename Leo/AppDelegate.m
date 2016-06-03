@@ -11,13 +11,16 @@
 #import "UIFont+LeoFonts.h"
 #import "UIColor+LeoColors.h"
 #import "LEOFeedTVC.h"
-#import "SessionUser.h"
+#import "LEOSession.h"
 #import "LEODevice.h"
 #import "Configuration.h"
-#import "LEOConstants.h"
-#import "LEOStyleHelper.h"
 #import "NSUserDefaults+Extensions.h"
 #import <Localytics/Localytics.h>
+#import <Stripe/Stripe.h>
+#import "LEOUserService.h"
+#import "Guardian.h"
+#import "LEORouter.h"
+#import <NSDate+DateTools.h>
 
 @interface AppDelegate ()
 
@@ -37,7 +40,7 @@
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
-    NSString *storyboardIdentifier = [SessionUser isLoggedIn] ? kStoryboardFeed : kStoryboardLogin;
+    NSString *storyboardIdentifier = [LEOSession isLoggedIn] ? kStoryboardFeed : kStoryboardLogin;
     
     if (launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]) {
         [self application:application didReceiveRemoteNotification:launchOptions];
@@ -54,7 +57,9 @@
         }
     }];
 
-    [self setRootViewControllerWithStoryboardName:storyboardIdentifier];
+    [Stripe setDefaultPublishableKey:@"pk_test_LRYSNRBvOYUG47Sg4QZqtlkB"];
+
+    [LEORouter appDelegate:self setRootViewControllerWithStoryboardName:storyboardIdentifier];
     
     return YES;
 }
@@ -87,67 +92,34 @@
     
     if ([notification.name isEqualToString:kNotificationMembershipChanged]) {
 
-        if ([SessionUser guardian].membershipType != MembershipTypeNone) {
-            [self setRootViewControllerWithStoryboardName:kStoryboardFeed];
+        switch ([LEOSession user].membershipType) {
+            case MembershipTypeMember:
+                [LEORouter appDelegate:self setRootViewControllerWithStoryboardName:kStoryboardFeed];
+                break;
+
+            case MembershipTypeExempted:
+                [LEORouter appDelegate:self setRootViewControllerWithStoryboardName:kStoryboardFeed];
+                break;
+
+            case MembershipTypeDelinquent:
+                [LEORouter beginDelinquencyProcessWithAppDelegate:self];
+                break;
+
+            case MembershipTypePreview:
+            case MembershipTypeUnknown:
+            case MembershipTypeExpecting:
+            case MembershipTypeIncomplete:
+                break;
+
         }
     }
-    
+
     if ([notification.name isEqualToString:kNotificationTokenInvalidated]) {
-        
-        [self setRootViewControllerWithStoryboardName:kStoryboardLogin];
+        [LEORouter appDelegate:self setRootViewControllerWithStoryboardName:kStoryboardLogin];
     }
 }
 
-- (void)setRootViewControllerWithStoryboardName:(NSString *)storyboardName {
-    
-    storyboardName = storyboardName ?: kStoryboardLogin;
 
-    if ([storyboardName isEqualToString:kStoryboardLogin]) {
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
-    } else {
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-    }
-    
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle:[NSBundle mainBundle]];
-    
-    UIViewController *initialVC = [storyboard instantiateInitialViewController];
-
-    [LEOStyleHelper roundCornersForView:initialVC.view withCornerRadius:kCornerRadius];
-    
-    if (self.window.rootViewController && [self.window.rootViewController class] != [initialVC class]) {
-
-        // transitionFromView should take the view currently visible on screen, or the animation will not happen correctly.
-
-        // TODO: find a more general way of finding the top view controller. Can we travaerse the view hierarchy? Which view is appropriate to use in transitionFromView?
-        UIViewController *rootVC = self.window.rootViewController;
-        UIViewController *topVC = rootVC;
-        if (topVC.presentedViewController) {
-            topVC = topVC.presentedViewController;
-        }
-
-        // MARK: IOS8 unfortunately this solves the problem on iOS 8 where the collectionView frame appears as {0,20, 320, 548}. Should be full screen {0,0,320,568}
-        NSOperatingSystemVersion osVersion = [[NSProcessInfo processInfo] operatingSystemVersion];
-        if (osVersion.majorVersion <= 8) {
-            initialVC.view.frame = topVC.view.frame;
-        }
-        
-        [UIView transitionFromView:topVC.view
-                            toView:initialVC.view
-                          duration:0.65f
-                           options:UIViewAnimationOptionTransitionFlipFromLeft
-                        completion:^(BOOL finished){
-
-                            if (finished) {
-                                self.window.rootViewController = initialVC;
-                                [self.window makeKeyAndVisible];
-                            }
-                        }];
-    } else {
-        
-        self.window.rootViewController = initialVC;
-        [self.window makeKeyAndVisible];
-    }
-}
 
 - (void)setupRemoteNotificationsForApplication:(UIApplication *)application {
 
@@ -199,6 +171,13 @@
     
     // TODO: remove this when adding feature: use badge on chat mini card
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+
+    if ([LEOSession user]) {
+        [[LEOUserService new] getUserWithID:[LEOSession user].objectID withCompletion:^(Guardian *guardian, NSError *error) {
+
+            [LEOSession updateCurrentSessionWithGuardian:guardian];
+        }];
+    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
@@ -248,7 +227,7 @@
 
     if ([url.scheme isEqualToString:kDeepLinkDefaultScheme]) {
 
-        if ([SessionUser isLoggedIn]) {
+        if ([LEOSession isLoggedIn]) {
 
             if ([url.host isEqualToString:kDeepLinkPathFeed]) {
 

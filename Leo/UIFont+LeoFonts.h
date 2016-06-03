@@ -103,4 +103,27 @@
  */
 + (UIFont *)leo_fullScreenNoticeBody;
 
+/**
+ *  AvenirNext-UltraLight, Size 39
+ *
+ *  @return UIFont
+ */
++ (UIFont *)leo_ultraLight39;
+
+/**
+ *  AvenirNext-UltraLight, Size 14
+ *
+ *  @return UIFont
+ */
+
++ (UIFont *)leo_ultraLight14;
+
+/**
+ *  AvenirNext-UltraLightItalic, Size 14
+ *
+ *  @return UIFont
+ */
+
++ (UIFont *)leo_ultraLightItalic14;
+
 @end

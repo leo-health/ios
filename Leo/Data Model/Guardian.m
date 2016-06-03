@@ -20,9 +20,11 @@
 
 @implementation Guardian
 
-static NSString *const kMembershipTypeUnpaid = @"User";
-static NSString *const kMembershipTypeMember = @"Member";
-static NSString *const kMembershipTypeIncomplete = @"Incomplete"; //FIXME: This is only because the API doesn't yet support this detail.
+static NSString *const kMembershipTypeUnknown = @"unknown";
+static NSString *const kMembershipTypeMember = @"member";
+static NSString *const kMembershipTypeExempted = @"exempted";
+static NSString *const kMembershipTypeDelinquent = @"delinquent";
+static NSString *const kMembershipTypeIncomplete = @"incomplete";
 static NSString *const kUserDefaultsKeyLoginCounts = @"loginCounter";
 
 @synthesize anonymousCustomerServiceID = _anonymousCustomerServiceID;
@@ -157,33 +159,45 @@ static NSString *const kUserDefaultsKeyLoginCounts = @"loginCounter";
 
 + (MembershipType)membershipTypeFromString:(NSString *)membershipTypeString {
 
-    if (!membershipTypeString) {
-        return MembershipTypeNone; //As mentioned elsewhere, we don't use MembershipTypeNone for anything except to be exhaustive.
-    }
-    else if ([membershipTypeString isEqualToString:kMembershipTypeUnpaid]) {
-        return MembershipTypeUnpaid;
-    }
-
-    else if ([membershipTypeString isEqualToString:kMembershipTypeMember]) {
+    if ([membershipTypeString isEqualToString:kMembershipTypeMember]) {
         return MembershipTypeMember;
     }
 
-    else {
+    if ([membershipTypeString isEqualToString:kMembershipTypeIncomplete]) {
         return MembershipTypeIncomplete;
     }
+
+    if ([membershipTypeString isEqualToString:kMembershipTypeExempted]) {
+        return MembershipTypeExempted;
+    }
+
+    if ([membershipTypeString isEqualToString:kMembershipTypeDelinquent]) {
+        return MembershipTypeDelinquent;
+    }
+
+    return MembershipTypeUnknown; //As mentioned elsewhere, we don't use MembershipTypeUnknown for anything except to be exhaustive.
 }
 
 + (NSString *)membershipStringFromType:(MembershipType)membershipType {
 
     switch (membershipType) {
-        case MembershipTypeUnpaid:
-            return kMembershipTypeUnpaid;
+
         case MembershipTypeMember:
             return kMembershipTypeMember;
+
         case MembershipTypeIncomplete:
             return kMembershipTypeIncomplete;
-        case MembershipTypeNone:
-            return nil;
+
+        case MembershipTypeExempted:
+            return kMembershipTypeExempted;
+
+        case MembershipTypeDelinquent:
+            return kMembershipTypeDelinquent;
+
+        case MembershipTypePreview:
+        case MembershipTypeExpecting:
+        case MembershipTypeUnknown:
+            return kMembershipTypeUnknown;
     }
 }
 
@@ -227,7 +241,6 @@ static NSString *const kUserDefaultsKeyLoginCounts = @"loginCounter";
 //TODO: Add error terms or error string combination from error terms?
 
 - (BOOL)valid {
-
     return [self validFirstName] && [self validLastName] && [self validPhoneNumber] && [self validInsurer];
 }
 

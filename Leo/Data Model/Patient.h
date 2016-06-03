@@ -30,6 +30,8 @@ typedef NS_ENUM(NSUInteger, PatientStatusCode) {
 @property (nonatomic, copy) NSString *status; //FIXME: Should probably be using the PatientStatus instead of a string. Come back and update eventually!
 @property (nonatomic, copy, nullable) NSString *familyID;
 
+
+
 - (instancetype)initWithObjectID:(nullable NSString *)objectID familyID:(nullable NSString *)familyID title:(nullable NSString *)title firstName:(NSString * __nonnull)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString * __nonnull)lastName suffix:(nullable NSString *)suffix email:(nullable NSString *)email avatar:(nullable LEOS3Image *)avatar dob:(NSDate *)dob gender:(NSString *)gender status:(NSString *)status;
 
 - (instancetype)initWithTitle:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(nullable NSString *)email avatar:(nullable LEOS3Image *)avatar dob:(NSDate *)dob gender:(NSString *)gender status:(nullable NSString *)status;
@@ -44,6 +46,9 @@ typedef NS_ENUM(NSUInteger, PatientStatusCode) {
 - (BOOL)isValid;
 - (void)copyFrom:(Patient *)otherPatient;
 - (BOOL)hasAvatarDifferentFromPlaceholder;
+
+- (NSString *)possessiveSingularGender;
+- (NSString *)genderSpecificChildRelationship;
 
 NS_ASSUME_NONNULL_END
 @end

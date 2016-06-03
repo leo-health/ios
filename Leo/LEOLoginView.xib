@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -62,36 +62,18 @@
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="cEU-9q-euv" secondAttribute="trailing" id="96c-uC-ZdL"/>
-                        <constraint firstItem="mEu-tO-pgj" firstAttribute="top" secondItem="BYX-bY-Wfj" secondAttribute="top" constant="228" id="9Ax-cg-hvm"/>
-                        <constraint firstAttribute="bottom" secondItem="mEu-tO-pgj" secondAttribute="bottom" constant="235" id="CWA-9b-gMR"/>
                         <constraint firstItem="Pc8-E8-SZi" firstAttribute="top" secondItem="cEU-9q-euv" secondAttribute="bottom" id="D90-I4-WTd"/>
                         <constraint firstItem="cEU-9q-euv" firstAttribute="top" secondItem="BYX-bY-Wfj" secondAttribute="top" id="Fny-4O-r2h"/>
-                        <constraint firstItem="fyJ-c7-8hR" firstAttribute="trailing" secondItem="Pc8-E8-SZi" secondAttribute="trailing" id="Hb3-u6-4bO"/>
                         <constraint firstItem="cEU-9q-euv" firstAttribute="leading" secondItem="BYX-bY-Wfj" secondAttribute="leading" id="QoV-Uo-XEH"/>
                         <constraint firstItem="fyJ-c7-8hR" firstAttribute="centerX" secondItem="BYX-bY-Wfj" secondAttribute="centerX" id="Rhu-ve-feA"/>
-                        <constraint firstItem="mEu-tO-pgj" firstAttribute="trailing" secondItem="fyJ-c7-8hR" secondAttribute="trailing" id="VxC-8H-CcD"/>
-                        <constraint firstItem="mEu-tO-pgj" firstAttribute="leading" secondItem="fyJ-c7-8hR" secondAttribute="leading" id="Y4l-b4-D0J"/>
-                        <constraint firstAttribute="bottom" relation="lessThanOrEqual" secondItem="mEu-tO-pgj" secondAttribute="bottom" constant="318" id="ach-Vl-WCO"/>
                         <constraint firstItem="mEu-tO-pgj" firstAttribute="trailing" secondItem="Pc8-E8-SZi" secondAttribute="trailing" id="b74-cO-utT"/>
                         <constraint firstItem="Pc8-E8-SZi" firstAttribute="leading" secondItem="cEU-9q-euv" secondAttribute="leading" id="c2H-XQ-Lrm"/>
                         <constraint firstItem="fyJ-c7-8hR" firstAttribute="top" secondItem="Pc8-E8-SZi" secondAttribute="bottom" constant="15" id="jUz-rK-tcq"/>
-                        <constraint firstItem="fyJ-c7-8hR" firstAttribute="leading" secondItem="Pc8-E8-SZi" secondAttribute="leading" id="jbB-ES-Kdy"/>
                         <constraint firstItem="Pc8-E8-SZi" firstAttribute="trailing" secondItem="cEU-9q-euv" secondAttribute="trailing" id="nXe-Hv-nbu"/>
                         <constraint firstItem="mEu-tO-pgj" firstAttribute="leading" secondItem="Pc8-E8-SZi" secondAttribute="leading" id="obV-PX-0nQ"/>
                         <constraint firstItem="mEu-tO-pgj" firstAttribute="top" secondItem="fyJ-c7-8hR" secondAttribute="bottom" constant="15" id="vvy-vO-7kl"/>
                         <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="mEu-tO-pgj" secondAttribute="bottom" id="zxq-6J-52M"/>
                     </constraints>
-                    <variation key="default">
-                        <mask key="constraints">
-                            <exclude reference="9Ax-cg-hvm"/>
-                            <exclude reference="CWA-9b-gMR"/>
-                            <exclude reference="VxC-8H-CcD"/>
-                            <exclude reference="Y4l-b4-D0J"/>
-                            <exclude reference="ach-Vl-WCO"/>
-                            <exclude reference="Hb3-u6-4bO"/>
-                            <exclude reference="jbB-ES-Kdy"/>
-                        </mask>
-                    </variation>
                 </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

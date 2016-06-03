@@ -9,7 +9,7 @@
 #import "LEOAPISessionManager.h"
 #import "Configuration.h"
 #import "LEOCredentialStore.h"
-#import "SessionUser.h"
+#import "LEOSession.h"
 #import "Configuration.h"
 
 @implementation LEOAPISessionManager
@@ -28,7 +28,7 @@
 
         AFSecurityPolicy *securityPolicy;
 
-#if LOCAL
+#if defined(LOCAL)
         securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeCertificate];
         securityPolicy.validatesDomainName = NO;
         securityPolicy.allowInvalidCertificates = YES;
@@ -39,10 +39,10 @@
 #endif
 
 #if defined(LOCAL) || defined(INTERNAL) || defined(RELEASE)
-    NSString *certificatePath = [[NSBundle mainBundle] pathForResource:[Configuration selfSignedCertificate] ofType:@"cer"];
-    NSData *certificateData = [[NSData alloc] initWithContentsOfFile:certificatePath];
-    securityPolicy.pinnedCertificates = @[certificateData];
-    _sharedClient.securityPolicy = securityPolicy;
+        NSString *certificatePath = [[NSBundle mainBundle] pathForResource:[Configuration selfSignedCertificate] ofType:@"cer"];
+        NSData *certificateData = [[NSData alloc] initWithContentsOfFile:certificatePath];
+        securityPolicy.pinnedCertificates = @[certificateData];
+        _sharedClient.securityPolicy = securityPolicy;
 #endif
 
     });
@@ -78,7 +78,7 @@
 
         if (httpResponse.statusCode == 401) {
 
-            [SessionUser logout];
+            [LEOSession logout];
         }
 
         [self formattedErrorFromError:&error];
@@ -339,7 +339,7 @@
         if (deserializedData) {
 
             NSMutableDictionary *userInfo = [errorPointer.userInfo mutableCopy];
-            userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey] = deserializedData;
+            userInfo = deserializedData;
             *error = [NSError errorWithDomain:errorPointer.domain code:errorPointer.code userInfo:[userInfo copy]];
         }
     }
@@ -347,7 +347,7 @@
 
 //FIXME: To be updated with the actual user token via keychain at some point.
 + (NSString *)authToken {
-    return [SessionUser authToken];;
+    return [LEOSession authToken];
 }
 
 

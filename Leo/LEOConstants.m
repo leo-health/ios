@@ -15,7 +15,6 @@
 #pragma mark - Temp constants
 NSString *const kUserToken = @"";
 
-
 #pragma mark - URL & endpoints
 NSString *const APIVersion = @"/api/v1";
 NSString *const APIEndpointUsers = @"users";
@@ -50,7 +49,8 @@ NSString *const APIEndpointPHR = @"phr";
 NSString *const APIEndpointConfiguration = @"ios_configuration";
 NSString *const APIEndpointPusherAuth = @"pusher/auth";
 NSString *const APIEndpointConversationNotices = @"conversation_notices";
-
+NSString *const APIEndpointPaymentToken = @"payment_token";
+NSString *const APIEndpointSubscriptions = @"subscriptions";
 
 #pragma mark - Common
 NSString *const APIParamID = @"id";
@@ -123,7 +123,7 @@ NSString *const APIParamUserSpecialties = @"specialties";
 NSString *const APIParamUserPrimary = @"primary";
 NSString *const APIParamUserStatus = @"status";
 NSString *const APIParamUserInsurancePlan = @"insurancePlan";
-NSString *const APIParamUserMembershipType = @"type";
+NSString *const APIParamUserMembershipType = @"membership_type";
 NSString *const APIParamUserBirthDate = @"birth_date";
 NSString *const APIParamUserSex = @"sex";
 NSString *const APIParamUserPassword = @"password";
@@ -154,7 +154,8 @@ NSString *const APIParamSessionDeviceToken = @"device_token";
 NSString *const APIParamSessionDeviceType = @"device_type";
 NSString *const APIParamSessionPlatform = @"platform";
 NSString *const APIParamSessionOSVersion = @"os_version";
-
+NSString *const APIParamSessionAppVersion = @"client_version";
+NSString *const LocalParamSessionUser = @"SessionUser";
 
 #pragma mark - Role
 NSString *const APIParamRole = @"role";
@@ -340,9 +341,9 @@ CGFloat const kSpeedForTitleViewAlphaChangeConstant = 4.0;
 CGFloat const kStickyHeaderHeight = 154.0;
 CGFloat const kPaddingHorizontalToolbarButtons = 20;
 CGFloat const kHeightDefaultToolbar = 44;
-CGFloat const kNumberOfProgressDots = 5;
+CGFloat const kNumberOfProgressDots = 6;
 CGFloat const kHeightOnboardingHeaders = 114;
-
+CGFloat const kChargePerChild = 20;
 
 #pragma mark - Segues
 NSString *const kSegueContinue = @"ContinueSegue";
@@ -366,6 +367,7 @@ NSString *const kHeaderCellReuseIdentifier = @"LEOBasicHeaderCell";
 NSString *const kReviewUserCellReuseIdentifer = @"ReviewUserCell";
 NSString *const kReviewPatientCellReuseIdentifer = @"ReviewPatientCell";
 NSString *const kButtonCellReuseIdentifier = @"ButtonCell";
+NSString *const kPaymentDetailsCellReuseIdentifier = @"PaymentDetailsCell";
 NSString *const kPromptFieldCellReuseIdentifier = @"LEOPromptFieldCell";
 
 
@@ -448,6 +450,7 @@ NSString *const kAnalyticScreenSettings = @"Settings";
 NSString *const kAnalyticScreenUpdatePassword = @"Update Password";
 NSString *const kAnalyticScreenHealthRecord = @"Health Record";
 NSString *const kAnalyticScreenHealthRecordNotes = @"Health Record Notes";
+NSString *const kAnalyticScreenAddPaymentMethod = @"Add Payment Method";
 
 NSString *const kAnalyticEventLogin = @"Login";
 NSString *const kAnalyticEventLogout = @"Logout";
@@ -479,6 +482,8 @@ NSString *const kAnalyticEventTakePhotoForMessage = @"Take Photo For Message"; /
 NSString *const kAnalyticEventConfirmPhotoForMessage = @"Confirm Photo For Message"; //success not guaranteed
 NSString *const kAnalyticEventCancelPhotoForMessage = @"Cancel Photo For Message"; // only captures partial data
 NSString *const kAnalyticEventSaveHealthRecordNotes = @"Save Health Record Notes";
+NSString *const kAnalyticEventAddPaymentMethod = @"Add Payment Method";
+NSString *const kAnalyticEventUpdatePaymentMethod = @"Update Payment Method";
 
 NSString *const kAnalyticEventConfirmPatientsInOnboarding = @"Confirm Patients";
 
