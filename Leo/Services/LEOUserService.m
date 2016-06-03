@@ -38,8 +38,11 @@ static CGFloat kImageSideSizeScale3Avatar = 300.0;
 
     createAccountDictionary[APIParamUserPassword] = password;
 
-    [createAccountDictionary setObject:[Configuration vendorID]
-                                forKey:kConfigurationVendorID];
+    NSString *vendorID = [Configuration vendorID];
+    if (vendorID) {
+        [createAccountDictionary setObject:vendorID
+                                    forKey:kConfigurationVendorID];
+    }
 
     [createAccountDictionary addEntriesFromDictionary:[LEOSession sessionDictionaryWithoutUser]];
 
