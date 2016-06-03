@@ -55,7 +55,7 @@
         }
     }];
 
-    [LEORouter routeWithAppDelegate:self];
+    [LEORouter routeUserWithAppDelegate:self];
 
     return YES;
 }

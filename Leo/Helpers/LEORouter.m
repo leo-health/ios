@@ -89,7 +89,7 @@
     }
 }
 
-+ (void)routeWithAppDelegate:(id<UIApplicationDelegate>)appDelegate  {
++ (void)routeUserWithAppDelegate:(id<UIApplicationDelegate>)appDelegate  {
 
     switch ([LEOSession user].membershipType) {
         case MembershipTypeMember:

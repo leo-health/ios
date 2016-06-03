@@ -81,10 +81,6 @@ static CGFloat kImageSideSizeScale3Avatar = 300.0;
                 completionBlock (nil, error);
             }
         }
-
-        //Have added this here so that when the currentUser is replaced, we also check for membership changes at that time (once object has been instantiated.)
-
-
     }];
 }
 
