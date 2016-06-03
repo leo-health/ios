@@ -430,6 +430,7 @@ NSString *const kConfigurationPusherAPIKey = @"PUSHER_KEY";
 NSString *const kConfigurationCrittercismAppID = @"CRITTERCISM_APP_ID";
 NSString *const kConfigurationLocalyticsAppID = @"LOCALYTICS_APP_ID";
 NSString *const kConfigurationVendorID = @"vendor_id";
+NSString *const kConfigurationStripePublishableKey = @"STRIPE_PUBLISHABLE_KEY";
 
 
 #pragma mark - Analytics

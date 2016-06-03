@@ -16,7 +16,6 @@
 #import "Configuration.h"
 #import "NSUserDefaults+Extensions.h"
 #import <Localytics/Localytics.h>
-#import <Stripe/Stripe.h>
 #import "LEOUserService.h"
 #import "Guardian.h"
 #import "LEORouter.h"
@@ -37,6 +36,7 @@
     [self setupObservers];
 
     [Configuration resetVendorID];
+    [Configuration resetStripeKey];
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
@@ -57,8 +57,7 @@
         }
     }];
 
-    [Stripe setDefaultPublishableKey:@"pk_test_LRYSNRBvOYUG47Sg4QZqtlkB"];
-
+    
     [LEORouter appDelegate:self setRootViewControllerWithStoryboardName:storyboardIdentifier];
     
     return YES;

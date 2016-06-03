@@ -15,8 +15,10 @@
 + (void)updateCrittercismWithNewKeys;
 + (void)updateCrashlyticsWithNewKeys;
 + (void)updateLocalyticsWithNewKeys;
++ (void)updateStripeKey;
 + (void)clearRemoteEnvironmentVariables;
 + (void)resetVendorID;
++ (void)resetStripeKey;
 
 + (NSString *)APIBaseURL;
 + (NSString *)providerBaseURL;
@@ -29,5 +31,6 @@
 + (NSString *)crittercismAppID;
 + (NSString *)localyticsAppID;
 + (NSString *)vendorID;
++ (NSString *)stripeKey;
 
 @end

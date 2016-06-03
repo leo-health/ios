@@ -581,6 +581,7 @@ extern NSString *const kConfigurationPusherAPIKey; // @"PUSHER_KEY";
 extern NSString *const kConfigurationCrittercismAppID; // @"CRITTERCISM_APP_ID";
 extern NSString *const kConfigurationLocalyticsAppID; // @"LOCALYTICS_APP_ID";
 extern NSString *const kConfigurationVendorID; // @"vendor_id";
+extern NSString *const kConfigurationStripePublishableKey; // @"STRIPE_PUBLISHABLE_KEY";
 
 
 #pragma mark - Analytics
