@@ -114,7 +114,8 @@ lane :internal do |options|
     # Push our build to iTunesConnect
     pilot(
       ipa: "./fastlane_build/Leo-#{scheme}.ipa",
-      skip_submission: true
+      skip_submission: true,
+      skip_waiting_for_build_processing: true
     )
 
     # Make sure our directory is clean, except for changes Fastlane has made
@@ -199,7 +200,8 @@ lane :internal do |options|
     # Push our build to iTunesConnect
     pilot(
       ipa: "./fastlane_build/Leo-TestFlight.ipa",
-      skip_submission: true
+      skip_submission: true,
+      skip_waiting_for_build_processing: true
     )
 
     # Make sure our directory is clean, except for changes Fastlane has made
@@ -217,12 +219,99 @@ lane :internal do |options|
   desc "Deploy a new version to the App Store"
   # This still has to be worked through.
 
-  lane :production do
-    snapshot
-    sigh
-    gym # Build your app - more options available
-    deliver(force: true)
-    # frameit
+    lane :production do |options|
+
+      ENV["APP_IDENTIFIER"] = "com.leohealth.leo"
+
+      bump_type = options[:bump_type];
+
+      version = get_version_number(xcodeproj: "Leo.xcodeproj")
+
+      # Update version number if bump_type is provided.
+      if bump_type
+        increment_version_number bump_type: bump_type
+      end
+
+      #TODO: Determine appropriate way to use version without duplicating line of code.
+      version = get_version_number(xcodeproj: "Leo.xcodeproj")
+
+      # Get current version number
+
+      # Next sections lifted and modified from https://github.com/artsy/eidolon/blob/9959ad473d49bf3ed2bcd5f897d0ff5d688f3d15/fastlane/Fastfile
+
+      # Increment build number to current date
+      build_number = Time.new.strftime("%Y.%m.%d.%H.%M")
+      increment_build_number build_number: build_number
+
+      # Generate release notes from CHANGELOG
+      changelog_filename = '../CHANGELOG.yml'
+      changelog_yaml = YAML.load_file(changelog_filename)
+      release_notes = changelog_yaml['upcoming'].map{ |note| note.prepend '- ' }.join("\n")
+
+      # Add a changelog entry for this version
+
+      changelog_contents = File.read(changelog_filename)
+      existing_releases = changelog_contents.split('releases:').last
+      this_release = changelog_yaml['upcoming'].map{ |note| note.prepend '  ' }.join("\n")
+      changelog_contents = <<-EOS
+    upcoming:
+    releases:
+    - version: #{version}
+      build: #{build_number}
+      date: #{Time.new.strftime("%B %d %Y")}
+      notes:
+    #{this_release}
+    #{existing_releases}
+    EOS
+
+      File.open(changelog_filename, 'w') { |file| file.puts changelog_contents }
+
+
+    #snapshot (eventually add this for speed.)
+
+    #cert (eventually add this in when we have more developers.)
+
+    # Ensure we have the mobile provisioning profiles
+    sigh(
+      output_path: "./fastlane_build",
+      filename: "com.leohealth.leo.production.mobileprovision"
+    )
+
+    # Upload release-specific metadata
+    deliver(
+      submit_for_review: false,
+      skip_screenshots: true,
+      automatic_release: false,
+      metadata_path: "../metadata"
+    )
+
+    # Build and sign app
+    gym(
+      scheme: "Leo App Store",
+      workspace: "Leo.xcworkspace",
+      output_directory: "./fastlane_build",
+      output_name: "Leo-Production.ipa",
+      include_symbols: true,
+      clean: true
+    )
+
+    # Push our build to iTunesConnect
+    pilot(
+      ipa: "./fastlane_build/Leo-Production.ipa",
+      skip_submission: true,
+      skip_waiting_for_build_processing: true
+    )
+
+    # Make sure our directory is clean, except for changes Fastlane has made
+    clean_build_artifacts
+
+    # Tag release and push to Github
+    commit_version_bump message: "Deploying version #{version} build #{build_number} for Production", force: true
+    add_git_tag(
+      grouping: 'fastlane-builds',
+      prefix: 'v',
+      build_number: "#{version}.#{build_number}"
+    )
   end
 
   after_all do |lane|
