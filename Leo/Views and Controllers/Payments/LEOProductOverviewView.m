@@ -121,7 +121,7 @@ secondPriceDetailAttributedString:secondPriceDetailAttributedString
 
         _firstFeatureImageView = strongImageView;
 
-        _firstFeatureImageView.image = [UIImage imageNamed:@"Menu-Scheduling"];
+        _firstFeatureImageView.image = [UIImage imageNamed:@"Icon-Team_Based_Care"];
 
         [self addSubview:_firstFeatureImageView];
     }
@@ -178,7 +178,7 @@ secondPriceDetailAttributedString:secondPriceDetailAttributedString
 
         _secondFeatureImageView = strongImageView;
 
-        _secondFeatureImageView.image = [UIImage imageNamed:@"Menu-Scheduling"];
+        _secondFeatureImageView.image = [UIImage imageNamed:@"Icon-Video_Conferencing"];
 
         [self addSubview:_secondFeatureImageView];
     }
@@ -200,6 +200,7 @@ secondPriceDetailAttributedString:secondPriceDetailAttributedString
         _thirdFeatureLabel.numberOfLines = 0;
         _thirdFeatureLabel.lineBreakMode = NSLineBreakByWordWrapping;
 
+        [_thirdFeatureLabel sizeToFit];
 
         [self addSubview:_thirdFeatureLabel];
     }
@@ -214,7 +215,7 @@ secondPriceDetailAttributedString:secondPriceDetailAttributedString
         UIImageView *strongImageView = [UIImageView new];
 
         _thirdFeatureImageView = strongImageView;
-        _thirdFeatureImageView.image = [UIImage imageNamed:@"Menu-Scheduling"];
+        _thirdFeatureImageView.image = [UIImage imageNamed:@"Icon-App_Features"];
 
         [self addSubview:_thirdFeatureImageView];
     }
@@ -250,7 +251,7 @@ secondPriceDetailAttributedString:secondPriceDetailAttributedString
 
         _fourthFeatureImageView = strongImageView;
 
-        _fourthFeatureImageView.image = [UIImage imageNamed:@"Menu-Scheduling"];
+        _fourthFeatureImageView.image = [UIImage imageNamed:@"Icon-Exclusive_Access"];
 
         [self addSubview:_fourthFeatureImageView];
     }
@@ -286,7 +287,7 @@ secondPriceDetailAttributedString:secondPriceDetailAttributedString
 
         _fifthFeatureImageView = strongImageView;
 
-        _fifthFeatureImageView.image = [UIImage imageNamed:@"Menu-Scheduling"];
+        _fifthFeatureImageView.image = [UIImage imageNamed:@"Icon-Prescription_Delivery"];
 
         [self addSubview:_fifthFeatureImageView];
     }
@@ -340,7 +341,7 @@ secondPriceDetailAttributedString:secondPriceDetailAttributedString
 - (void)updateConstraints {
 
     [super updateConstraints];
-
+    
     if (!self.alreadyUpdatedConstraints) {
 
         self.firstFeatureImageView.translatesAutoresizingMaskIntoConstraints = NO;
