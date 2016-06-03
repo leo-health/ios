@@ -9,7 +9,7 @@
 #import "LEOInitialViewController.h"
 #import "UIImage+Extensions.h"
 #import "LEOHorizontalModalTransitioningDelegate.h"
-
+#import "Configuration.h"
 static NSString *const kSegueLogin = @"LoginSegue";
 static NSString *const kSegueSignUp = @"SignUpSegue";
 
@@ -31,18 +31,16 @@ static NSString *const kSegueSignUp = @"SignUpSegue";
 - (void)viewDidAppear:(BOOL)animated {
     
     [super viewDidAppear:animated];
-    
-#if AUTOLOGIN_FLAG
-    [self loginTapped:nil];
-#endif
+
+    [Configuration resetVendorID];
 }
 
 
-- (IBAction)loginTapped:(UIButton *)sender {
+- (void)loginTapped:(UIButton *)sender {
     [self performSegueWithIdentifier:kSegueLogin sender:sender];
 }
 
-- (IBAction)signUpTapped:(UIButton *)sender {
+- (void)signUpTapped:(UIButton *)sender {
     [self performSegueWithIdentifier:kSegueSignUp sender:sender];
 }
 

@@ -16,6 +16,8 @@
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
 #import <Localytics/Localytics.h>
+#import <Stripe/Stripe.h>
+
 #import "AppDelegate.h"
 
 static NSString *const ConfigurationAPIEndpoint = @"ApiURL";
@@ -26,6 +28,7 @@ static NSString *const ConfigurationSelfSignedCertificate = @"SelfSignedCertific
 static NSString *const ConfigurationAPIProtocol = @"ApiProtocol";
 static NSString *const ConfigurationPusherKey = @"PusherKey";
 static NSString *const ConfigurationCrittercismAppID = @"CrittercismAppID";
+static NSString *const ConfigurationStripePublishableKey = @"StripePublishableKey";
 
 @interface Configuration ()
 
@@ -179,13 +182,21 @@ static NSString *const ConfigurationCrittercismAppID = @"CrittercismAppID";
     return [LEOSession user].anonymousCustomerServiceID ? : [NSUserDefaults leo_stringForKey:kConfigurationVendorID];
 }
 
-+ (void)updateLocalyticsWithNewKeys {
-//    [Localytics autoIntegrate:[Configuration localyticsAppID] launchOptions:@{}];
-}
-
 + (void)resetVendorID {
     [NSUserDefaults leo_removeObjectForKey:kConfigurationVendorID];
     [[LEOSession user] resetAnonymousCustomerServiceID];
+}
+
++ (NSString *)stripeKey {
+    return [NSUserDefaults leo_stringForKey:kConfigurationStripePublishableKey];
+}
+
++ (void)resetStripeKey {
+    [NSUserDefaults leo_removeObjectForKey:kConfigurationStripePublishableKey];
+}
+
++ (void)updateStripeKey {
+    [Stripe setDefaultPublishableKey:[Configuration stripeKey]];
 }
 
 + (void)clearRemoteEnvironmentVariables {
@@ -194,11 +205,12 @@ static NSString *const ConfigurationCrittercismAppID = @"CrittercismAppID";
     [NSUserDefaults leo_removeObjectForKey:kConfigurationCrittercismAppID];
     [NSUserDefaults leo_removeObjectForKey:kConfigurationLocalyticsAppID];
     [NSUserDefaults leo_removeObjectForKey:kConfigurationVendorID];
+    [NSUserDefaults leo_removeObjectForKey:kConfigurationStripePublishableKey];
 }
 
 + (void)downloadRemoteEnvironmentVariablesIfNeededWithCompletion:(void (^) (BOOL success, NSError *error))completionBlock {
 
-    if (![Configuration pusherKey] || ![Configuration crittercismAppID] || ![Configuration localyticsAppID] || ![Configuration vendorID]) {
+    if (![Configuration pusherKey] || ![Configuration crittercismAppID] || ![Configuration localyticsAppID] || ![Configuration vendorID] || ![Configuration stripeKey]) {
 
         [[LEOSettingsService new] getConfigurationWithCompletion:^(BOOL success, NSError *error) {
 
