@@ -109,6 +109,7 @@ NSString *const kCopyEditPaymentsHeader = @"Update your credit or debit card";
 
     _managementMode = managementMode;
     self.paymentsView.managementMode = managementMode;
+    [self.stickyHeaderView reloadDataSourceViews];
 }
 
 -(UIView *)injectTitleView {

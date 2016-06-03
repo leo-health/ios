@@ -56,6 +56,6 @@ typedef void(^SubmitBlock)(void);
 - (CGFloat)transitionPercentageForScrollOffset:(CGPoint)offset;
 - (void)updateTransitionPercentageForScrollOffset:(CGPoint)offset;
 - (BOOL)scrollViewContentSizeSmallerThanScrollViewFrameIncludingInsets;
-- (void)reloadBodyView;
+- (void)reloadDataSourceViews;
 
 @end
