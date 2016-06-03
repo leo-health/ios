@@ -87,7 +87,7 @@
 - (void)notificationReceived:(NSNotification *)notification {
 
     if ([notification.name isEqualToString:kNotificationMembershipChanged]) {
-        [LEORouter routeWithAppDelegate:self];
+        [LEORouter routeUserWithAppDelegate:self];
     }
 
     if ([notification.name isEqualToString:kNotificationTokenInvalidated]) {
