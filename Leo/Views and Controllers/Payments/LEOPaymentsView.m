@@ -81,7 +81,7 @@
 
     NSString *updateString = @"The card we have on file for you is invalid. ";
 
-    NSString *baseString = @"We ask that you keep one active credit or debit card on file to cover your monthly subscription fee.";
+    NSString *baseString = @"We ask that you keep one active credit or debit card on file to cover your monthly membership fee.";
 
     if (self.managementMode == ManagementModeCreate) {
         _paymentInstructionsLabel.text = baseString;
