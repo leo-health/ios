@@ -30,7 +30,7 @@
 
 @implementation LEOProductOverviewViewController
 
-NSString * const kHeaderTitleText = @"Unlimited access, simple pricing.";
+NSString * const kHeaderTitleText = @"Unlimited access, simple pricing";
 
 NSString * const kSegueContinueWithExemption = @"SegueContinueWithExemption";
 NSString * const kSegueContinueWithPayment = @"SegueContinueWithPayment";
