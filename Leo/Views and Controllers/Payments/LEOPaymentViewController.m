@@ -33,6 +33,8 @@
 
 @implementation LEOPaymentViewController
 
+@synthesize feature = _feature;
+
 NSString *const kCopyCreatePaymentsHeader = @"Add a credit or debit card";
 NSString *const kCopyEditPaymentsHeader = @"Update your credit or debit card";
 
@@ -64,6 +66,13 @@ NSString *const kCopyEditPaymentsHeader = @"Update your credit or debit card";
 
     [Localytics tagScreen:kAnalyticScreenAddPaymentMethod];
 
+}
+
+-(void)setFeature:(Feature)feature {
+
+    _feature = feature;
+
+    [self setupNavigationBar];
 }
 
 - (void)setupNavigationBar {

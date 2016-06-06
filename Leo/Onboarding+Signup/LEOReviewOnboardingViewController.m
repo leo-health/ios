@@ -334,6 +334,9 @@ static NSString *const kReviewPaymentDetails = @"ReviewPaymentSegue";
                     [LEOAlertHelper alertForViewController:self error:error backupTitle:@"Something went wrong!" backupMessage:@"Please check your credit card details and your internet connection and try again."];
                 } else {
 
+                    [MBProgressHUD hideHUDForView:self.view animated:YES];
+                    button.enabled = YES;
+                    [LEOAlertHelper alertForViewController:self error:error backupTitle:@"Something went wrong!" backupMessage:@"Please check your credit card details and your internet connection and try again."];
                     [Localytics tagEvent:kAnalyticEventConfirmAccount];
                     [self.analyticSession completeSession];
                 }
