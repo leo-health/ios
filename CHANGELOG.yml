@@ -1,11 +1,15 @@
     upcoming:
+    - New! Payments -- ability for users to add a credit card
+    - Fixes to Localytics for better logging of data
+    - Bug fixes.
+
     releases:
     - version: 1.0.1
       build: 2016.05.13.11.33
       date: May 13 2016
       notes:
       - Bug fixes.
-    
+
     - version: 1.0.1
       build: 2016.05.13.09.33
       date: May 13 2016
