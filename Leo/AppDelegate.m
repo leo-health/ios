@@ -157,6 +157,10 @@
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
+
+    // source: http://stackoverflow.com/questions/9647931/nsuserdefaults-synchronize-method
+    [NSUserDefaults leo_saveDefaults];
+
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 

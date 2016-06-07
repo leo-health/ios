@@ -45,16 +45,25 @@ static NSString *const kBundleShortVersionString = @"CFBundleShortVersionString"
 
     NSDictionary *guardianDictionary = [[NSUserDefaults standardUserDefaults] objectForKey:LocalParamSessionUser];
 
-    _user = [[Guardian alloc] initWithJSONDictionary:guardianDictionary];
+    if (guardianDictionary) {
 
-    [_user incrementLoginCounter];
+        _user = [[Guardian alloc] initWithJSONDictionary:guardianDictionary];
 
-    _currentSession = [[LEOSession alloc] init];
+        [_user incrementLoginCounter];
+
+        _currentSession = [[LEOSession alloc] init];
+    }
+
 
     return _currentSession;
 }
 
 + (Guardian *)user {
+
+    if (!_currentSession) {
+        [LEOSession currentSession];
+    }
+    
     return _user;
 }
 
@@ -169,6 +178,10 @@ static NSString *const kBundleShortVersionString = @"CFBundleShortVersionString"
 }
 
 + (NSString *)authToken {
+
+    if (!_credentialStore) {
+        _credentialStore = [LEOCredentialStore new];
+    }
     return _credentialStore.authToken;
 }
 
