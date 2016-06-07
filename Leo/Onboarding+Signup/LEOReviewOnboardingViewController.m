@@ -277,6 +277,7 @@ static NSString *const kReviewPaymentDetails = @"ReviewPaymentSegue";
 
 -(void)updatePaymentWithPaymentDetails:(STPToken *)paymentDetails {
     self.reviewOnboardingView.paymentDetails = paymentDetails;
+    self.paymentDetails = paymentDetails;
 }
 
 - (void)continueTapped:(UIButton *)sender {

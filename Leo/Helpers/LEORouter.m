@@ -101,13 +101,19 @@
             break;
 
         case MembershipTypeDelinquent:
-        case MembershipTypeIncomplete:
             [LEORouter beginDelinquencyProcessWithAppDelegate:appDelegate];
             break;
 
         case MembershipTypeUnknown:
             [LEORouter appDelegate:appDelegate setRootViewControllerWithStoryboardName:kStoryboardLogin];
+            break;
 
+        case MembershipTypeIncomplete: {
+
+            if (!appDelegate.window.rootViewController) {
+                [LEORouter appDelegate:appDelegate setRootViewControllerWithStoryboardName:kStoryboardLogin];
+            }
+        }
             break;
     }
 }
