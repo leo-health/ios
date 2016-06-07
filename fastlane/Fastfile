@@ -283,12 +283,12 @@ lane :internal do |options|
       force: true,
       skip_screenshots: true,
       automatic_release: false,
-      metadata_path: "../metadata"
+      metadata_path: "./fastlane/metadata"
     )
 
     # Build and sign app
     gym(
-      scheme: "Leo AppStore",
+      scheme: "Leo App Store",
       workspace: "Leo.xcworkspace",
       output_directory: "./fastlane_build",
       output_name: "Leo-Production.ipa",
