@@ -334,13 +334,14 @@ static CGFloat kImageSideSizeScale3Avatar = 300.0;
             completionBlock(!error, error);
         }
 
-        //Have added this here so that when the currentUser is replaced, we also check for membership changes at that time (once object has been instantiated.)
-        [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationMembershipChanged object:self];
+        if (!error) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationMembershipChanged object:self];
+        }
     }];
 }
 
 - (void)logoutUserWithCompletion:(void (^)(BOOL success, NSError *error))completionBlock {
-
+    
     [[LEOUserService leoSessionManager] standardDELETERequestForJSONDictionaryToAPIWithEndpoint:@"logout" params:nil completion:^(NSDictionary *rawResults, NSError *error) {
 
         if (error) {
