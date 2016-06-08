@@ -1,7 +1,11 @@
     upcoming:
-      - Test of Crittercism. Changes made to crash app on "Schedule a Visit" from feed.
-
     releases:
+    - version: 1.1.0
+      build: 2016.06.08.15.21
+      date: June 08 2016
+      notes:
+      - Test of Crittercism. Changes made to crash app on "Schedule a Visit" from feed.
+    
     - version: 1.1.0
       build: 2016.06.07.14.42
       date: June 07 2016
@@ -427,6 +431,7 @@
       notes:
       - First test build using new Fastfile configuration for Alpha builds
       - Provides the basic functionality all created prior to our first releases
+
 
 
 
