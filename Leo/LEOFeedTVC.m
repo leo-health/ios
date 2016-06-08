@@ -67,6 +67,8 @@
 #import "LEOMessageService.h"
 #import "LEOStatusBarNotification.h"
 
+#import <Crashlytics/Crashlytics.h>
+
 typedef NS_ENUM(NSUInteger, TableViewSection) {
     TableViewSectionHeader,
     TableViewSectionBody,
@@ -890,7 +892,7 @@ static CGFloat const kFeedInsetTop = 20.0;
 }
 
 - (void)bookAppointmentTouchedUpInside {
-    
+
     [self beginSchedulingNewAppointment];
 }
 

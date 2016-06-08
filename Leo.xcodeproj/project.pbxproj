@@ -2196,7 +2196,7 @@
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zachary Drossman (C7TN5PHTLC)";
-				CURRENT_PROJECT_VERSION = 2016.06.07.14.42;
+				CURRENT_PROJECT_VERSION = 2016.06.08.15.21;
 				ENABLE_TESTABILITY = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				ONLY_ACTIVE_ARCH = YES;
@@ -2239,7 +2239,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 2016.06.07.14.42;
+				CURRENT_PROJECT_VERSION = 2016.06.08.15.21;
 				ENABLE_TESTABILITY = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				ONLY_ACTIVE_ARCH = YES;
@@ -2255,6 +2255,7 @@
 				INFOPLIST_FILE = Leo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "";
+				PROVISIONING_PROFILE = "65e3f751-f893-4663-a6fe-591388084505";
 			};
 			name = Staging;
 		};
@@ -2283,7 +2284,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 2016.06.07.14.42;
+				CURRENT_PROJECT_VERSION = 2016.06.08.15.21;
 				ENABLE_TESTABILITY = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				ONLY_ACTIVE_ARCH = YES;
@@ -2298,7 +2299,7 @@
 			buildSettings = {
 				INFOPLIST_FILE = Leo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
-				PRODUCT_BUNDLE_IDENTIFIER = "";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.leohealth.qa-consumer";
 			};
 			name = QA;
 		};
@@ -2318,6 +2319,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.leohealth.qa-consumer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Leo.app/Leo";
 			};
@@ -2327,7 +2329,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 2016.06.07.14.42;
+				CURRENT_PROJECT_VERSION = 2016.06.08.15.21;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				PROVISIONING_PROFILE = "";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -2340,7 +2342,7 @@
 			buildSettings = {
 				INFOPLIST_FILE = Leo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
-				PRODUCT_BUNDLE_IDENTIFIER = "";
+				PRODUCT_BUNDLE_IDENTIFIER = com.leohealth.leo;
 			};
 			name = AppStore;
 		};
@@ -2392,7 +2394,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 2016.06.07.14.42;
+				CURRENT_PROJECT_VERSION = 2016.06.08.15.21;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				PROVISIONING_PROFILE = "";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -2436,7 +2438,7 @@
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 2016.06.07.14.42;
+				CURRENT_PROJECT_VERSION = 2016.06.08.15.21;
 				ENABLE_TESTABILITY = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				ONLY_ACTIVE_ARCH = YES;

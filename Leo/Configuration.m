@@ -168,7 +168,10 @@ static NSString *const ConfigurationStripePublishableKey = @"StripePublishableKe
 + (void)updateCrittercismWithNewKeys {
 
     [Crittercism enableWithAppID:[Configuration crittercismAppID]];
-    [Crittercism setUsername:[Configuration vendorID]];
+
+    if ([Configuration vendorID]) {
+        [Crittercism setUsername:[Configuration vendorID]];
+    }
 }
 
 + (void)updateCrashlyticsWithNewKeys {

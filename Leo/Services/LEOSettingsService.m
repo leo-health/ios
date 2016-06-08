@@ -23,6 +23,8 @@
 
             NSDictionary *keyData = rawResults[APIParamData];
 
+            [Configuration updateCrittercismWithNewKeys];
+
             if (![[Configuration pusherKey] isEqualToString:[keyData leo_itemForKey:kConfigurationPusherAPIKey]]) {
                 [NSUserDefaults leo_setString:[keyData leo_itemForKey:kConfigurationPusherAPIKey] forKey:kConfigurationPusherAPIKey];
                 //Pusher will update as connections are made.
