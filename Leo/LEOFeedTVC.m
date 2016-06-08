@@ -893,8 +893,6 @@ static CGFloat const kFeedInsetTop = 20.0;
 
 - (void)bookAppointmentTouchedUpInside {
 
-    [[Crashlytics sharedInstance] crash];
-
     [self beginSchedulingNewAppointment];
 }
 
