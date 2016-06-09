@@ -65,6 +65,17 @@ static NSString * const reuseIdentifierFeature = @"reuseIdentifierFeature";
     self.collectionView.backgroundColor = [UIColor leo_white];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    
+    [super viewDidAppear:animated];
+    #ifdef INTERNAL
+    NSInteger section = [self numberOfSectionsInCollectionView:self.collectionView] - 1;
+    NSInteger item = [self collectionView:self.collectionView numberOfItemsInSection:section] - 1;
+    NSIndexPath *lastIndexPath = [NSIndexPath indexPathForItem:item inSection:section];
+    [self.collectionView scrollToItemAtIndexPath:lastIndexPath atScrollPosition:UICollectionViewScrollPositionBottom animated:YES];
+    #endif
+}
+
 #pragma mark <UICollectionViewDataSource>
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
