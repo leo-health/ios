@@ -19,10 +19,6 @@
 @property (weak, nonatomic) IBOutlet LEOUpdatePasswordView *updatePasswordView;
 @property (weak, nonatomic) IBOutlet UIButton *updatePasswordButton;
 
-@property (copy, nonatomic) NSString *passwordCurrent;
-@property (copy, nonatomic) NSString *passwordNew;
-@property (copy, nonatomic) NSString *passwordNewRetyped;
-
 @end
 
 @implementation LEOUpdatePasswordViewController
@@ -75,28 +71,9 @@
 
 - (void)updatePasswordTapped {
 
-    if ([self isValidNewPassword]) {
-
-        [self validateViewPrompts];
+    if ([self.updatePasswordView validatePage]) {
         [self updatePassword];
     }
-}
-
-- (BOOL)isValidNewPassword {
-
-    NSError *error;
-
-    BOOL valid = [self.updatePasswordView isValidPasswordWithError:&error];
-
-    if (!valid) {
-
-        [LEOAlertHelper alertForViewController:self
-                                     error:error
-                               backupTitle:kErrorDefaultTitle
-                             backupMessage:kErrorDefaultMessage];
-    }
-
-    return valid;
 }
 
 - (void)updatePassword {
@@ -108,7 +85,11 @@
 
     LEOUserService *userService = [LEOUserService new];
 
-    [userService changePasswordWithOldPassword:self.passwordCurrent newPassword:self.passwordNew retypedNewPassword:self.passwordNewRetyped withCompletion:^(BOOL success, NSError *error) {
+    NSString *passwordCurrent = self.updatePasswordView.passwordCurrent;
+    NSString *passwordNew = self.updatePasswordView.passwordNew;
+    NSString *passwordNewRetyped = self.updatePasswordView.passwordNewRetyped;
+
+    [userService changePasswordWithOldPassword:passwordCurrent newPassword:passwordNew retypedNewPassword:passwordNewRetyped withCompletion:^(BOOL success, NSError *error) {
 
         [MBProgressHUD hideHUDForView:self.updatePasswordView animated:YES];
 
@@ -133,25 +114,7 @@
     }];
 }
 
-- (NSString *)passwordNewRetyped {
-    return self.updatePasswordView.passwordNewRetyped;
-}
-
-- (NSString *)passwordCurrent {
-    return self.updatePasswordView.passwordCurrent;
-}
-
-- (NSString *)passwordNew {
-    return self.updatePasswordView.passwordNew;
-}
-
-- (void)validateViewPrompts {
-
-    [self.updatePasswordView isValidCurrentPassword:YES];
-}
-
 - (void)pop {
-    
     [self.navigationController popViewControllerAnimated:YES];
 }
 

@@ -104,6 +104,16 @@ IB_DESIGNABLE
     [self.retypePasswordPromptField.textField sizeToFit];
 }
 
+#pragma mark - Validation
+
+- (BOOL)validatePage {
+
+    BOOL validPassword = [LEOValidationsHelper isValidPassword:self.passwordNew];
+    BOOL validRetype = [self.passwordNew isEqualToString:self.passwordNewRetyped];
+    self.passwordPromptField.textField.valid = validPassword;
+    self.retypePasswordPromptField.textField.valid = validRetype;
+    return validPassword && validRetype;
+}
 
 #pragma mark - Autolayout
 
@@ -123,25 +133,6 @@ IB_DESIGNABLE
     [self addConstraint:[self leo_pin:loadedSubview attribute:NSLayoutAttributeRight]];
 }
 
-
-#pragma mark - Validation
-
-- (BOOL)isValidPasswordWithError:(NSError * __autoreleasing *)error {
-    
-    self.passwordNew = self.passwordPromptField.textField.text;
-    self.passwordNewRetyped = self.retypePasswordPromptField.textField.text;
-    
-    BOOL valid = [LEOValidationsHelper isValidPassword:self.passwordNew matching:self.passwordNewRetyped error:error];
-    
-    return valid;
-}
-
-- (void)isValidCurrentPassword:(BOOL)validCurrentPassword {
-    
-    self.currentPasswordPromptField.valid = validCurrentPassword ? YES : NO;
-}
-
-
 #pragma mark - <UITextFieldDelegate>
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
@@ -150,11 +141,12 @@ IB_DESIGNABLE
     
     [mutableText replaceCharactersInRange:range withString:string];
     
-    if (textField == self.passwordPromptField.textField) {
-        self.passwordNew = mutableText.string;
+    if (textField == self.passwordPromptField.textField && !self.passwordPromptField.textField.valid) {
+        self.passwordPromptField.textField.valid = [LEOValidationsHelper isValidPassword:mutableText.string];
     }
     
-    if (textField == self.retypePasswordPromptField.textField) {
+    if (textField == self.retypePasswordPromptField.textField && !self.retypePasswordPromptField.textField.valid) {
+        self.retypePasswordPromptField.textField.valid = [mutableText.string isEqualToString:self.passwordNew];
         self.passwordNewRetyped = mutableText.string;
     }
     
