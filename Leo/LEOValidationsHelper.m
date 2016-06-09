@@ -134,26 +134,28 @@ typedef NS_ENUM(NSInteger, LEOErrorCodeValidations) {
 }
 
 + (BOOL)isValidPassword:(NSString *)candidate matching:(NSString *)otherCandidate error:(NSError * __autoreleasing *)error {
-    
+
+    NSString *charCountMessage = @"Passwords must be at least eight characters.";
     NSDictionary *userInfo = @{
                                NSLocalizedDescriptionKey: NSLocalizedString(@"Password update unsuccessful.", nil),
                                NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Password is too short.", nil),
-                               NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Passwords must be at least eight characters.", nil)
+                               NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(charCountMessage, nil),
+                               @"message": @{@"user_message": charCountMessage}
                                };
     
     
     NSInteger code = LEOErrorCodeValidationsPasswordLength;
     
     if (candidate.length > 7) {
-        
+
+        NSString *notMatchingMessage = @"Your new password and confirmation of it do not match.";
         userInfo = @{
                      NSLocalizedDescriptionKey: NSLocalizedString(@"Password update unsuccessful.", nil),
                      NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Passwords do not match.", nil),
-                     NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Your new password and confirmation of it do not match.", nil)
+                     NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(notMatchingMessage, nil),
+                     @"message": @{@"user_message": notMatchingMessage}
                      };
-        
-        
-        
+
         code = LEOErrorCodeValidationsPasswordMismatch;
         
         if ([candidate isEqualToString:otherCandidate]) {
