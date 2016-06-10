@@ -555,6 +555,7 @@ static NSString *const kCopyManageMySubscription = @"Manage my membership";
 
         LEOSubscriptionManagementViewController *subscriptionManagementVC = (LEOSubscriptionManagementViewController *)segue.destinationViewController;
         subscriptionManagementVC.membershipType = self.user.membershipType;
+        subscriptionManagementVC.family = self.family;
     }
 }
 

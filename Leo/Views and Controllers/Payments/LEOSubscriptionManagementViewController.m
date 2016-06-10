@@ -10,10 +10,14 @@
 #import "UIFont+LeoFonts.h"
 #import "UIColor+LeoColors.h"
 #import "LEOStyleHelper.h"
+#import "LEOPromptView.h"
+#import "LEOPaymentViewController.h"
 
 
-@interface LEOSubscriptionManagementViewController ()
+@interface LEOSubscriptionManagementViewController () <LEOPromptDelegate>
 
+@property (weak, nonatomic) UILabel *editPaymentsTitleLabel;
+@property (weak, nonatomic) LEOPromptView *editPaymentsPromptView;
 @property (weak, nonatomic) UILabel *contactUsTitleLabel;
 @property (weak, nonatomic) UITextView *contactUsDetailTextView;
 
@@ -88,36 +92,120 @@ NSString *const kContactUsDetailForExemptedMembers = @"As a pre-existing custome
     return _contactUsTitleLabel;
 }
 
+- (UILabel *)editPaymentsTitleLabel {
+
+    if (!_editPaymentsTitleLabel) {
+
+        UILabel *strongLabel = [UILabel new];
+
+        _editPaymentsTitleLabel = strongLabel;
+
+        _editPaymentsTitleLabel.font = [UIFont leo_expandedCardHeaderFont];
+        _editPaymentsTitleLabel.textColor = [UIColor leo_grayStandard];
+        _editPaymentsTitleLabel.text = @"Manage Payment";
+
+        if (self.membershipType != MembershipTypeExempted) {
+            [self.view addSubview:_editPaymentsTitleLabel];
+        }
+    }
+    
+    return _editPaymentsTitleLabel;
+}
+
+
+- (LEOPromptView *)editPaymentsPromptView {
+
+    if (!_editPaymentsPromptView) {
+
+        LEOPromptView *strongView = [LEOPromptView new];
+
+        _editPaymentsPromptView = strongView;
+
+        _editPaymentsPromptView.tapGestureEnabled = YES;
+        _editPaymentsPromptView.accessoryImage = [UIImage imageNamed:@"Icon-ForwardArrow"];
+        _editPaymentsPromptView.textView.text = @"Edit my card";
+        _editPaymentsPromptView.textView.editable = NO;
+        _editPaymentsPromptView.textView.selectable = NO;
+        _editPaymentsPromptView.tintColor = [UIColor leo_orangeRed];
+        _editPaymentsPromptView.accessoryImageViewVisible = YES;
+        _editPaymentsPromptView.delegate = self;
+
+        if (self.membershipType != MembershipTypeExempted) {
+            [self.view addSubview:_editPaymentsPromptView];
+        }
+    }
+
+    return _editPaymentsPromptView;
+}
+
 - (void)updateViewConstraints {
 
     if (!self.alreadyUpdatedConstraints) {
 
+        self.editPaymentsTitleLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        self.editPaymentsPromptView.translatesAutoresizingMaskIntoConstraints = NO;
         self.contactUsTitleLabel.translatesAutoresizingMaskIntoConstraints = NO;
         self.contactUsDetailTextView.translatesAutoresizingMaskIntoConstraints = NO;
 
-        NSDictionary *bindings = NSDictionaryOfVariableBindings(_contactUsTitleLabel, _contactUsDetailTextView);
+        NSDictionary *bindings;
+        if (self.membershipType == MembershipTypeExempted) {
+            bindings = NSDictionaryOfVariableBindings(_contactUsTitleLabel, _contactUsDetailTextView);
+        } else {
+            bindings = NSDictionaryOfVariableBindings(_editPaymentsTitleLabel, _editPaymentsPromptView, _contactUsTitleLabel, _contactUsDetailTextView);
+        }
 
-        NSArray *horizontalLayoutConstraintsForDetailLabel =
-        [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(28)-[_contactUsDetailTextView]-(53)-|"
-                                                options:0
-                                                metrics:nil
-                                                  views:bindings];
 
-        NSArray *horizontalLayoutConstraintsForTitleLabel =
+        NSArray *verticalLayoutConstraints;
+        switch (self.membershipType) {
+            case MembershipTypeExempted: {
+                verticalLayoutConstraints =
+                [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(37)-[_contactUsTitleLabel]-(17)-[_contactUsDetailTextView(==300)]"
+                                                        options:0
+                                                        metrics:nil
+                                                          views:bindings];
+            }
+                break;
+                
+            default: {
+                NSArray *horizontalLayoutConstraintsForEditPaymentsTitleLabel =
+                [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(28)-[_editPaymentsTitleLabel]-(53)-|"
+                                                        options:0
+                                                        metrics:nil
+                                                          views:bindings];
+
+                NSArray *horizontalLayoutConstraintsForEditPaymentsPromptView =
+                [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(28)-[_editPaymentsPromptView]-(28)-|"
+                                                        options:0
+                                                        metrics:nil
+                                                          views:bindings];
+
+
+                verticalLayoutConstraints =
+                [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(37)-[_editPaymentsTitleLabel]-(17)-[_editPaymentsPromptView(==58)]-(58)-[_contactUsTitleLabel]-(17)-[_contactUsDetailTextView(==300)]"
+                                                        options:0
+                                                        metrics:nil
+                                                          views:bindings];
+
+                [self.view addConstraints:horizontalLayoutConstraintsForEditPaymentsTitleLabel];
+                [self.view addConstraints:horizontalLayoutConstraintsForEditPaymentsPromptView];
+            }
+                break;
+        }
+
+        NSArray *horizontalLayoutConstraintsForContactUsTitleLabel =
         [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(28)-[_contactUsTitleLabel]-(53)-|"
                                                 options:0
                                                 metrics:nil
                                                   views:bindings];
 
-
-        NSArray *verticalLayoutConstraints =
-        [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(58)-[_contactUsTitleLabel]-(17)-[_contactUsDetailTextView(==300)]"
+        NSArray *horizontalLayoutConstraintsForContactUsDetailLabel =
+        [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(28)-[_contactUsDetailTextView]-(53)-|"
                                                 options:0
                                                 metrics:nil
                                                   views:bindings];
 
-        [self.view addConstraints:horizontalLayoutConstraintsForTitleLabel];
-        [self.view addConstraints:horizontalLayoutConstraintsForDetailLabel];
+        [self.view addConstraints:horizontalLayoutConstraintsForContactUsTitleLabel];
+        [self.view addConstraints:horizontalLayoutConstraintsForContactUsDetailLabel];
         [self.view addConstraints:verticalLayoutConstraints];
 
         self.alreadyUpdatedConstraints = YES;
@@ -139,6 +227,15 @@ NSString *const kContactUsDetailForExemptedMembers = @"As a pre-existing custome
     [LEOStyleHelper styleLabel:navigationLabel forFeature:FeatureSettings];
     
     self.navigationItem.titleView = navigationLabel;
+}
+
+- (void)respondToPrompt:(id)sender {
+
+    LEOPaymentViewController *paymentVC = [LEOPaymentViewController new];
+    paymentVC.family = self.family;
+    paymentVC.feature = FeatureSettings;
+    paymentVC.managementMode = ManagementModeEdit;
+    [self.navigationController pushViewController:paymentVC animated:YES];
 }
 
 

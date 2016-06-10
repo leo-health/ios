@@ -169,7 +169,7 @@ NSString *const kCopyEditPaymentsHeader = @"Update your credit or debit card";
 
         _headerView.intrinsicHeight = @(kHeightOnboardingHeaders);
         [LEOStyleHelper styleExpandedTitleLabel:_headerView.titleLabel
-                                        feature:self.feature];
+                                        feature:FeatureOnboarding];
     }
 
     return _headerView;
@@ -244,6 +244,18 @@ NSString *const kCopyEditPaymentsHeader = @"Update your credit or debit card";
 
                                 [MBProgressHUD hideHUDForView:strongSelf.view
                                                      animated:YES];
+
+                                if (self.feature == FeatureSettings) {
+
+                                    UIAlertController *alert =
+                                    [LEOAlertHelper alertWithTitle:@"Thank you!"
+                                                           message:@"Thanks for updating your payment details with Leo. You should get a confirmation email shortly."
+                                                           handler:^(UIAlertAction *action) {
+                                                               [self pop];
+                                                           }
+                                     ];
+                                    [self presentViewController:alert animated:YES completion:nil];
+                                }
                             }];
                         }];
                     }
@@ -271,6 +283,12 @@ NSString *const kCopyEditPaymentsHeader = @"Update your credit or debit card";
     [[LEOUserService new] logoutUserWithCompletion:nil];
 }
 
+- (void)pop {
+
+    if (self.feature == FeatureSettings) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+}
 
 #pragma mark - Navigation
 

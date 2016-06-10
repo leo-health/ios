@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Family.h"
 
 @interface LEOSubscriptionManagementViewController : UIViewController
 
+@property (strong, nonatomic) Family *family;
 @property (nonatomic) MembershipType membershipType;
 
 @end

@@ -25,5 +25,9 @@
                  backupMessage:(NSString *)backupMessage
                        okBlock:(void (^)(UIAlertAction * action))okBlock;
 
++ (UIAlertController *)alertWithTitle:(NSString *)title
+                              message:(NSString *)message
+                              handler:(void (^ __nullable)(UIAlertAction *action))handler;
+
 
 @end
