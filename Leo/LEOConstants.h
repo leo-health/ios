@@ -526,6 +526,14 @@ extern NSString *const LEOErrorDomainValidation; // @"LEOErrorDomainValidation";
 extern NSString *const LEOErrorDomainContent; // @"LeoErrorDomainContent";
 
 
+#pragma mark - API Errors
+extern NSString *const APIParamErrorMessages; // @"message";
+extern NSString *const APIParamErrorUserMessage; // @"user_message";
+extern NSString *const APIParamErrorUserMessageTitle; // @"user_message_title";
+extern NSString *const APIParamErrorDebugMessage; // @"debug_message";
+extern NSString *const APIParamErrorCode; // @"error_code";
+
+
 #pragma mark - Phone Numbers
 extern NSString *const kFlatironPediatricsPhoneNumber; // @"2124605600"; //Flatiron Pediatrics
 

@@ -375,6 +375,12 @@ NSString *const kPromptFieldCellReuseIdentifier = @"LEOPromptFieldCell";
 NSString *const LEOErrorDomainValidation = @"LEOErrorDomainValidations";
 NSString *const LEOErrorDomainContent = @"LeoErrorDomainContent";
 
+#pragma mark - API Errors
+NSString *const APIParamErrorMessages = @"message";
+NSString *const APIParamErrorUserMessage = @"user_message";
+NSString *const APIParamErrorUserMessageTitle = @"user_message_title";
+NSString *const APIParamErrorDebugMessage = @"debug_message";
+NSString *const APIParamErrorCode = @"error_code";
 
 #pragma mark - Phone Numbers
 

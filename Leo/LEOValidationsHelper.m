@@ -133,39 +133,6 @@ typedef NS_ENUM(NSInteger, LEOErrorCodeValidations) {
     return candidate.length > 7;
 }
 
-+ (BOOL)isValidPassword:(NSString *)candidate matching:(NSString *)otherCandidate error:(NSError * __autoreleasing *)error {
-    
-    NSDictionary *userInfo = @{
-                               NSLocalizedDescriptionKey: NSLocalizedString(@"Password update unsuccessful.", nil),
-                               NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Password is too short.", nil),
-                               NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Passwords must be at least eight characters.", nil)
-                               };
-    
-    
-    NSInteger code = LEOErrorCodeValidationsPasswordLength;
-    
-    if (candidate.length > 7) {
-        
-        userInfo = @{
-                     NSLocalizedDescriptionKey: NSLocalizedString(@"Password update unsuccessful.", nil),
-                     NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Passwords do not match.", nil),
-                     NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Your new password and confirmation of it do not match.", nil)
-                     };
-        
-        
-        
-        code = LEOErrorCodeValidationsPasswordMismatch;
-        
-        if ([candidate isEqualToString:otherCandidate]) {
-            return YES;
-        }
-    }
-    
-    *error = [NSError errorWithDomain:LEOErrorDomainValidation code:LEOErrorCodeValidationsPasswordMismatch userInfo:userInfo];
-    
-    return NO;
-}
-
 #pragma mark - Internal
 + (BOOL)isValidNonZeroLength:(NSString *)candidate {
     return candidate.length > 0;

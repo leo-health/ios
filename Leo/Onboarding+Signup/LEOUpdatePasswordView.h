@@ -14,7 +14,6 @@
 @property (copy, nonatomic) NSString *passwordNew;
 @property (copy, nonatomic) NSString *passwordNewRetyped;
 
-- (BOOL)isValidPasswordWithError:(NSError * __autoreleasing *)error;
-- (void)isValidCurrentPassword:(BOOL)validCurrentPassword;
+- (BOOL)validatePage;
 
 @end
