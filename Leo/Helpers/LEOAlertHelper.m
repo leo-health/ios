@@ -35,7 +35,9 @@ NSString *const kStandardErrorAlertActionText = @"Got it.";
                  backupMessage:(NSString *)backupMessage
                        okBlock:(void (^)(UIAlertAction * action))okBlock {
 
-    NSString *error_title = [[error.userInfo leo_itemForKey:@"message"] leo_itemForKey:@"user_message_title"];
+    NSString *error_title =
+    [[error.userInfo leo_itemForKey:APIParamErrorMessages]
+     leo_itemForKey:APIParamErrorUserMessageTitle];
 
     if (!error_title) {
         error_title = backupTitle;
@@ -45,7 +47,9 @@ NSString *const kStandardErrorAlertActionText = @"Got it.";
         error_title = kErrorDefaultTitle;
     }
 
-    NSString *error_message = [[error.userInfo leo_itemForKey:@"message"] leo_itemForKey:@"user_message"];
+    NSString *error_message =
+    [[error.userInfo leo_itemForKey:APIParamErrorMessages]
+     leo_itemForKey:APIParamErrorUserMessage];
 
     if (!error_message) {
         error_message = backupMessage;
