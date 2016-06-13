@@ -1,8 +1,12 @@
     upcoming:
-    - New! Update your credit card from Settings.
-    - Bug fixing.
-
     releases:
+    - version: 1.1.1
+      build: 2016.06.13.11.53
+      date: June 13 2016
+      notes:
+      - New! Update your credit card from Settings.
+  - Bug fixing.
+    
     - version: 1.1.0
       build: 2016.06.08.15.21
       date: June 08 2016
@@ -434,6 +438,7 @@
       notes:
       - First test build using new Fastfile configuration for Alpha builds
       - Provides the basic functionality all created prior to our first releases
+
 
 
 
