@@ -76,13 +76,27 @@ NSString *const kStandardErrorAlertActionText = @"Got it.";
 
 + (void)alertForViewController:(UIViewController *)viewController title:(NSString *)title message:(NSString *)message {
 
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alertController = [self alertWithTitle:title message:message handler:nil];
+    [viewController presentViewController:alertController animated:YES completion:nil];
+}
 
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil];
++ (UIAlertController *)alertWithTitle:(NSString *)title
+                              message:(NSString *)message
+                              handler:(void (^ __nullable)(UIAlertAction *action))handler {
+
+    UIAlertController *alertController =
+    [UIAlertController alertControllerWithTitle:title
+                                        message:message
+                                 preferredStyle:UIAlertControllerStyleAlert];
+
+    UIAlertAction *okAction =
+    [UIAlertAction actionWithTitle:@"OK"
+                             style:UIAlertActionStyleCancel
+                           handler:handler];
 
     [alertController addAction:okAction];
 
-    [viewController presentViewController:alertController animated:YES completion:nil];
+    return alertController;
 }
 
 
