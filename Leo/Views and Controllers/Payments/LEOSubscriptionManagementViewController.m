@@ -13,7 +13,6 @@
 #import "LEOPromptView.h"
 #import "LEOPaymentViewController.h"
 
-
 @interface LEOSubscriptionManagementViewController () <LEOPromptDelegate>
 
 @property (weak, nonatomic) UILabel *editPaymentsTitleLabel;
@@ -26,6 +25,10 @@
 @end
 
 @implementation LEOSubscriptionManagementViewController
+
+
+NSString *const kCopyContactUsTitle = @"Contact Us";
+NSString *const kCopyManagePaymentTitle = @"Manage Payment";
 
 NSString *const kContactUsDetailForPaidMembers = @"Please contact us to make changes to your account or cancel your membership\n\nPlease email\nsupport@leohealth.com\n\nLive support available at leohealth.com\npowered by intercom";
 
@@ -84,7 +87,7 @@ NSString *const kContactUsDetailForExemptedMembers = @"As a pre-existing custome
 
         _contactUsTitleLabel.font = [UIFont leo_expandedCardHeaderFont];
         _contactUsTitleLabel.textColor = [UIColor leo_grayStandard];
-        _contactUsTitleLabel.text = @"Contact Us";
+        _contactUsTitleLabel.text = kCopyContactUsTitle;
 
         [self.view addSubview:_contactUsTitleLabel];
     }
@@ -102,7 +105,7 @@ NSString *const kContactUsDetailForExemptedMembers = @"As a pre-existing custome
 
         _editPaymentsTitleLabel.font = [UIFont leo_expandedCardHeaderFont];
         _editPaymentsTitleLabel.textColor = [UIColor leo_grayStandard];
-        _editPaymentsTitleLabel.text = @"Manage Payment";
+        _editPaymentsTitleLabel.text = kCopyManagePaymentTitle;
 
         if (self.membershipType != MembershipTypeExempted) {
             [self.view addSubview:_editPaymentsTitleLabel];
@@ -130,9 +133,7 @@ NSString *const kContactUsDetailForExemptedMembers = @"As a pre-existing custome
         _editPaymentsPromptView.accessoryImageViewVisible = YES;
         _editPaymentsPromptView.delegate = self;
 
-        if (self.membershipType != MembershipTypeExempted) {
-            [self.view addSubview:_editPaymentsPromptView];
-        }
+        [self.view addSubview:_editPaymentsPromptView];
     }
 
     return _editPaymentsPromptView;
@@ -142,15 +143,17 @@ NSString *const kContactUsDetailForExemptedMembers = @"As a pre-existing custome
 
     if (!self.alreadyUpdatedConstraints) {
 
-        self.editPaymentsTitleLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        self.editPaymentsPromptView.translatesAutoresizingMaskIntoConstraints = NO;
         self.contactUsTitleLabel.translatesAutoresizingMaskIntoConstraints = NO;
         self.contactUsDetailTextView.translatesAutoresizingMaskIntoConstraints = NO;
 
         NSDictionary *bindings;
         if (self.membershipType == MembershipTypeExempted) {
+
             bindings = NSDictionaryOfVariableBindings(_contactUsTitleLabel, _contactUsDetailTextView);
         } else {
+
+            self.editPaymentsTitleLabel.translatesAutoresizingMaskIntoConstraints = NO;
+            self.editPaymentsPromptView.translatesAutoresizingMaskIntoConstraints = NO;
             bindings = NSDictionaryOfVariableBindings(_editPaymentsTitleLabel, _editPaymentsPromptView, _contactUsTitleLabel, _contactUsDetailTextView);
         }
 

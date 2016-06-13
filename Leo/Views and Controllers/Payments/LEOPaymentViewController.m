@@ -285,9 +285,7 @@ NSString *const kCopyEditPaymentsHeader = @"Update your credit or debit card";
 
 - (void)pop {
 
-    if (self.feature == FeatureSettings) {
-        [self.navigationController popViewControllerAnimated:YES];
-    }
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - Navigation
