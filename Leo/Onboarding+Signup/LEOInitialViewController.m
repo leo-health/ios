@@ -10,6 +10,8 @@
 #import "UIImage+Extensions.h"
 #import "LEOHorizontalModalTransitioningDelegate.h"
 #import "Configuration.h"
+#import "LEOSession.h"
+#import "LEOAlertHelper.h"
 static NSString *const kSegueLogin = @"LoginSegue";
 static NSString *const kSegueSignUp = @"SignUpSegue";
 
@@ -26,6 +28,31 @@ static NSString *const kSegueSignUp = @"SignUpSegue";
 -(void)viewDidLoad {
     
     [super viewDidLoad];
+
+
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+
+    self.view.userInteractionEnabled = NO;
+
+    [Configuration downloadRemoteEnvironmentVariablesIfNeededWithCompletion:^(BOOL success, NSError *error) {
+
+        if ([Configuration minimumVersion] > [LEOSession appVersion]) {
+
+            UIAlertController *alertController = [LEOAlertHelper alertWithTitle:@"Please update your app."
+                                                                        message:@"The version of the app you are using is no longer supported. Please go to the app store and download the latest version."
+                                                                        handler:^(UIAlertAction *action) {
+
+                                                                            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://itunes.apple.com/app/id324684580"]];
+                                                                        }];
+
+            [self presentViewController:alertController animated:YES completion:nil];
+        } else {
+            
+            self.view.userInteractionEnabled = YES;
+        }
+    }];
 }
 
 - (void)viewDidAppear:(BOOL)animated {

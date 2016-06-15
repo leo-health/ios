@@ -19,6 +19,7 @@
 + (void)clearRemoteEnvironmentVariables;
 + (void)resetVendorID;
 + (void)resetStripeKey;
++ (NSString *)minimumVersion;
 
 + (NSString *)APIBaseURL;
 + (NSString *)providerBaseURL;
