@@ -124,6 +124,11 @@ dismissButtonTouchedUpInsideBlock:(void (^)(void))dismissButtonTouchedUpInsideBl
         _buttonOne.titleLabel.font =
         [UIFont leo_emergency911Label];
 
+        _buttonOne.titleLabel.lineBreakMode =
+        NSLineBreakByWordWrapping;
+        _buttonOne.titleLabel.textAlignment =
+        NSTextAlignmentCenter;
+
         _buttonOne.layer.borderWidth = 1.0;
         _buttonOne.layer.borderColor = [UIColor leo_blue].CGColor;
 

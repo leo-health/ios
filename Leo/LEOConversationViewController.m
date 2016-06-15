@@ -199,15 +199,6 @@ static NSString *const kDefaultPracticeID = @"0";
         [self scrollToBottomAnimated:NO];
         self.viewWillAppearOnce = YES;
     }
-
-    self.topContentAdditionalInset = CGRectGetHeight(self.headerNoticeView.frame);
-
-    self.collectionView.contentOffset =
-    CGPointMake(0, -self.topContentAdditionalInset);
-
-    //The below methods needed to ensure messaging window includes contentOffset includes the topContentAdditionalInset
-    [self.view setNeedsLayout];
-    [self.view layoutIfNeeded];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -399,11 +390,6 @@ static NSString *const kDefaultPracticeID = @"0";
                                   constant:0.0];
 
     [self.view addConstraint:self.verticalConstraintForNoticeView];
-
-    //    self.topContentAdditionalInset = noticeView.frame.size.height;
-    //
-    //    self.collectionView.contentOffset =
-    //    CGPointMake(0, -self.topContentAdditionalInset);
 }
 
 - (void)setupConstraintsForFullScreenNoticeView {
@@ -443,6 +429,13 @@ static NSString *const kDefaultPracticeID = @"0";
 
     [self.navigationController.view addConstraint:self.topConstraintForFullScreenNoticeView];
     [self.navigationController.view addConstraint:heightConstraint];
+}
+
+- (void)viewDidLayoutSubviews {
+
+    [super viewDidLayoutSubviews];
+
+    self.topContentAdditionalInset = CGRectGetHeight(self.headerNoticeView.frame);
 }
 
 - (void)animateToConversationView {
@@ -740,15 +733,6 @@ static NSString *const kDefaultPracticeID = @"0";
             [self.sendingIndicator startAnimating];
 
             [self setupNoticeView];
-
-            [self.view setNeedsLayout];
-            [self.view layoutIfNeeded];
-
-            self.topContentAdditionalInset = CGRectGetHeight(self.headerNoticeView.frame);
-
-            self.collectionView.contentOffset =
-            CGPointMake(0, -self.topContentAdditionalInset);
-
             [self setupFullScreenNotice];
 
             [self resetPusherAndGetMissedMessages];
