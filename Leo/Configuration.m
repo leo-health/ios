@@ -263,5 +263,9 @@ static NSString *const ConfigurationAPIProtocol = @"ApiProtocol";
     }];
 }
 
++ (void)resetConfiguration {
+    [self clearRemoteEnvironmentVariables];
+}
+
 
 @end

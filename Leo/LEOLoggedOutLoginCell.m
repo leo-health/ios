@@ -19,8 +19,6 @@
 
     self.swipeArrowsView.labelSwipe.hidden = NO;
     self.swipeArrowsView.arrowColor = LEOSwipeArrowsColorOptionOrangeRed;
-
-    [self.loginButton leo_styleDisabledState];
 }
 
 

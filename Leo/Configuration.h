@@ -24,6 +24,7 @@
 + (void)resetVendorID;
 + (void)resetStripeKey;
 + (NSString *)minimumVersion;
++ (void)resetConfiguration;
 
 + (NSString *)APIBaseURL;
 + (NSString *)providerBaseURL;

@@ -65,7 +65,7 @@ static NSString * const reuseIdentifierFeature = @"reuseIdentifierFeature";
 
     self.collectionView.backgroundColor = [UIColor leo_white];
 
-    [Configuration resetVendorID];
+    [Configuration resetConfiguration];
 }
 
 - (void)viewDidAppear:(BOOL)animated {

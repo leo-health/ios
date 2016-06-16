@@ -20,8 +20,6 @@
     [super awakeFromNib];
 
     self.swipeArrowsContainerView.hidden = YES;
-
-    [self.signUpButton leo_styleDisabledState];
 }
 
 @end
