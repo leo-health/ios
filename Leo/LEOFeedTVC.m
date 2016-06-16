@@ -334,8 +334,9 @@ static CGFloat const kFeedInsetTop = 20.0;
                                                              }];
         } else {
 
-            [LEOAlertHelper alertForViewController:self
-                                             error:nil
+            // FIXME: show generic error if server is unreachable
+            [LEOAlertHelper alertForViewController:strongSelf
+                                             error:error
                                        backupTitle:kErrorTitleMessagingDown
                                      backupMessage:kErrorBodyMessagingDown];
         }
