@@ -1,4 +1,6 @@
     upcoming:
+    - Bug fixes.
+
     releases:
     - version: 1.1.1
       build: 2016.06.13.11.53
@@ -6,7 +8,7 @@
       notes:
       - New! Update your credit card from Settings.
   - Bug fixing.
-    
+
     - version: 1.1.0
       build: 2016.06.08.15.21
       date: June 08 2016
