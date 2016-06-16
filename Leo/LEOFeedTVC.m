@@ -151,6 +151,12 @@ static CGFloat const kFeedInsetTop = 20.0;
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:^{
 
         self.enableButtonsInFeed = NO;
+
+        BOOL shouldEnableSettingsOffline = YES;
+        UINavigationItem* item = self.navigationBar.items.firstObject;
+        UIButton *settingsButton = item.leftBarButtonItem.customView;
+        settingsButton.enabled = shouldEnableSettingsOffline;
+
         [self.tableView reloadData];
 
     } withOnlineBlock:^{
@@ -226,10 +232,12 @@ static CGFloat const kFeedInsetTop = 20.0;
 
 - (void)willEnableNavigationButtons:(BOOL)enable {
 
-    UINavigationItem *item = self.navigationBar.items[0];
+    UINavigationItem *item = self.navigationBar.items.firstObject;
 
-    item.rightBarButtonItem.enabled = enable;
-    item.leftBarButtonItem.enabled = enable;
+    UIButton *right = item.rightBarButtonItem.customView;
+    UIButton *left = item.leftBarButtonItem.customView;
+    right.enabled = enable;
+    left.enabled = enable;
 }
 
 #pragma mark - Actions
