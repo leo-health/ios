@@ -26,6 +26,7 @@
 #import <Crashlytics/Crashlytics.h>
 #import <Crittercism/Crittercism.h>
 #import "Configuration.h"
+#import "LEOAlertHelper.h"
 
 @interface LEOLoginViewController ()
 
@@ -55,7 +56,7 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
 
     [self setupNavigationBar];
 
-    [LEOApiReachability startMonitoringForController:self];
+    [self addNotifications];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -74,7 +75,40 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
 
     [Localytics tagScreen:kAnalyticScreenLogin];
 
-    [LEOApiReachability startMonitoringForController:self withOfflineBlock:nil withOnlineBlock:nil];
+    [LEOApiReachability startMonitoringForController:self
+                                    withOfflineBlock:nil
+                                     withOnlineBlock:^{
+                                         [self checkMinimumVersionRequirementsMet];
+                                     }];
+}
+
+- (void)checkMinimumVersionRequirementsMet {
+
+    self.view.userInteractionEnabled = NO;
+
+    [Configuration checkVersionRequirementMetWithCompletion:^(BOOL meetsMinimumVersionRequirements, NSError *error) {
+
+        if (error) {
+
+            UIAlertController *alertController = [LEOAlertHelper alertWithTitle:kErrorDefaultTitle message:kErrorDefaultMessage handler:nil];
+            [self presentViewController:alertController animated:YES completion:nil];
+        }
+
+        if (!meetsMinimumVersionRequirements) {
+
+            UIAlertController *alertController = [LEOAlertHelper alertWithTitle:@"Please update your app."
+                                                                        message:@"The version of the app you are using is no longer supported. Please download the latest version from the app store."
+                                                                        handler:^(UIAlertAction *action) {
+
+                                                                            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://itunes.apple.com/app/id1051397244"]];
+                                                                        }];
+
+            [self presentViewController:alertController animated:YES completion:nil];
+            
+        } else {
+            self.view.userInteractionEnabled = YES;
+        }
+    }];
 }
 
 - (void)setupNavigationBar {
@@ -204,6 +238,7 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
     [self.view endEditing:YES];
 }
 
+
 #pragma mark - Shorthand Helpers
 
 - (LEOValidatedFloatLabeledTextField *)emailTextField {
@@ -213,6 +248,34 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
 - (LEOValidatedFloatLabeledTextField *)passwordTextField {
     return self.loginView.passwordPromptField.textField;
 }
+
+
+#pragma mark - Notifications
+
+- (void)addNotifications {
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(notificationReceived:)
+                                                 name:UIApplicationWillEnterForegroundNotification
+                                               object:nil];
+}
+
+- (void)notificationReceived:(NSNotification *)notification {
+
+    if ([notification.name isEqualToString:UIApplicationWillEnterForegroundNotification]) {
+        [self checkMinimumVersionRequirementsMet];
+    }
+}
+
+- (void)removeNotifications {
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
+}
+
+- (void)dealloc {
+    [self removeNotifications];
+}
+
 
 
 @end

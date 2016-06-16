@@ -88,7 +88,6 @@
 		314A405F1B83B1B400834BC2 /* Configuration.m in Sources */ = {isa = PBXBuildFile; fileRef = 314A405E1B83B1B400834BC2 /* Configuration.m */; };
 		314AC6101B85274000BF6869 /* LEOApiReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 314AC60F1B85274000BF6869 /* LEOApiReachability.m */; };
 		314BC36F1B94C817000A50D8 /* LEOCredentialStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 314BC36E1B94C817000A50D8 /* LEOCredentialStore.m */; };
-		3153C5EA1B949D90000A22B4 /* LEOInitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3153C5E91B949D90000A22B4 /* LEOInitialViewController.m */; };
 		3153C5EC1B94A0B3000A22B4 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3153C5EB1B94A0B3000A22B4 /* Login.storyboard */; };
 		3155888E1BBC314D0038E381 /* LEOManagePatientsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3155888C1BBC314D0038E381 /* LEOManagePatientsViewController.m */; };
 		31567CDC1CCECF1700715222 /* LEOCallManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 31567CDB1CCECF1700715222 /* LEOCallManager.m */; };
@@ -447,8 +446,6 @@
 		314AC60F1B85274000BF6869 /* LEOApiReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOApiReachability.m; path = APIs/LEOApiReachability.m; sourceTree = "<group>"; };
 		314BC36D1B94C817000A50D8 /* LEOCredentialStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOCredentialStore.h; path = "Data Stores/LEOCredentialStore.h"; sourceTree = "<group>"; };
 		314BC36E1B94C817000A50D8 /* LEOCredentialStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOCredentialStore.m; path = "Data Stores/LEOCredentialStore.m"; sourceTree = "<group>"; };
-		3153C5E81B949D90000A22B4 /* LEOInitialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOInitialViewController.h; path = "Onboarding+Signup/LEOInitialViewController.h"; sourceTree = "<group>"; };
-		3153C5E91B949D90000A22B4 /* LEOInitialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOInitialViewController.m; path = "Onboarding+Signup/LEOInitialViewController.m"; sourceTree = "<group>"; };
 		3153C5EB1B94A0B3000A22B4 /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Login.storyboard; path = Storyboards/Login.storyboard; sourceTree = "<group>"; };
 		3155888B1BBC314D0038E381 /* LEOManagePatientsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOManagePatientsViewController.h; path = "Onboarding+Signup/LEOManagePatientsViewController.h"; sourceTree = "<group>"; };
 		3155888C1BBC314D0038E381 /* LEOManagePatientsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOManagePatientsViewController.m; path = "Onboarding+Signup/LEOManagePatientsViewController.m"; sourceTree = "<group>"; };
@@ -1190,8 +1187,6 @@
 		31B9CF2B1BBC60E80002480C /* Starter */ = {
 			isa = PBXGroup;
 			children = (
-				3153C5E81B949D90000A22B4 /* LEOInitialViewController.h */,
-				3153C5E91B949D90000A22B4 /* LEOInitialViewController.m */,
 				312594B21BDFE9FE00A497C0 /* LEOHorizontalModalTransitioningDelegate.h */,
 				312594B31BDFE9FE00A497C0 /* LEOHorizontalModalTransitioningDelegate.m */,
 				312594B51BDFEA9C00A497C0 /* LEOHorizontalModalTransitionAnimator.h */,
@@ -2156,7 +2151,6 @@
 				31F5AA701B791B4A00F96D06 /* TimeCollectionController.m in Sources */,
 				31F5AA721B791B4B00F96D06 /* LEOCalendarDataSource.m in Sources */,
 				31E615E31CD8F4F40027B226 /* LEOPaymentService.m in Sources */,
-				3153C5EA1B949D90000A22B4 /* LEOInitialViewController.m in Sources */,
 				31339B121C21EE0100B53A86 /* LEOPromptView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2255,7 +2249,7 @@
 				INFOPLIST_FILE = Leo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "";
-				PROVISIONING_PROFILE = "65e3f751-f893-4663-a6fe-591388084505";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Staging;
 		};
@@ -2454,7 +2448,7 @@
 				INFOPLIST_FILE = Leo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				PRODUCT_BUNDLE_IDENTIFIER = $BUNDLE_IDENTIFIER;
-				PROVISIONING_PROFILE = "07edb380-acb1-42a7-a066-b54e34536369";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Development;
 		};

@@ -11,7 +11,11 @@
 
 @interface Configuration : NSObject
 
+
+
 + (void)downloadRemoteEnvironmentVariablesIfNeededWithCompletion:(void (^) (BOOL success, NSError *error))completionBlock;
++ (void)checkVersionRequirementMetWithCompletion:(void (^) (BOOL meetsMinimumVersionRequirements, NSError *error))completionBlock;
+
 + (void)updateCrittercismWithNewKeys;
 + (void)updateCrashlyticsWithNewKeys;
 + (void)updateLocalyticsWithNewKeys;
@@ -19,6 +23,8 @@
 + (void)clearRemoteEnvironmentVariables;
 + (void)resetVendorID;
 + (void)resetStripeKey;
++ (NSString *)minimumVersion;
++ (void)resetConfiguration;
 
 + (NSString *)APIBaseURL;
 + (NSString *)providerBaseURL;
@@ -32,5 +38,6 @@
 + (NSString *)localyticsAppID;
 + (NSString *)vendorID;
 + (NSString *)stripeKey;
+
 
 @end

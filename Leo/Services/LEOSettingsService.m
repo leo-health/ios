@@ -54,6 +54,10 @@
                 [Configuration updateStripeKey];
             }
 
+            if (![[Configuration minimumVersion] isEqualToString:[keyData leo_itemForKey:kConfigurationMinimumVersion]]) {
+                [NSUserDefaults leo_setString:[keyData leo_itemForKey:kConfigurationMinimumVersion] forKey:kConfigurationMinimumVersion];
+            }
+
             [NSUserDefaults leo_saveDefaults];
         }
 

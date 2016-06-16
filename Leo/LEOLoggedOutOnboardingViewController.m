@@ -13,6 +13,7 @@
 #import "LEOSettingsService.h"
 #import "Configuration.h"
 #import "LEOAlertHelper.h"
+#import "LEOSession.h"
 
 static NSString *const kSegueLogin = @"LoginSegue";
 static NSString *const kSegueSignUp = @"SignUpSegue";
@@ -63,6 +64,8 @@ static NSString * const reuseIdentifierFeature = @"reuseIdentifierFeature";
     layout.minimumLineSpacing = 0;
 
     self.collectionView.backgroundColor = [UIColor leo_white];
+
+    [Configuration resetConfiguration];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -206,6 +209,5 @@ static NSString * const reuseIdentifierFeature = @"reuseIdentifierFeature";
     navController.transitioningDelegate = self.transitioningDelegate;
     navController.modalPresentationStyle = UIModalPresentationFullScreen;
 }
-
 
 @end

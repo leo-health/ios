@@ -20,19 +20,18 @@
 
 #import "AppDelegate.h"
 
+//FIXME: Decide whether to move these to LEOConstants or move the ones in LEOConstants to here
 static NSString *const ConfigurationAPIEndpoint = @"ApiURL";
 static NSString *const ConfigurationProviderEndpoint = @"ProviderURL";
 static NSString *const ConfigurationAPIVersion = @"ApiVersion";
 static NSString *const ConfigurationContentURL = @"ContentURL";
 static NSString *const ConfigurationSelfSignedCertificate = @"SelfSignedCertificate";
 static NSString *const ConfigurationAPIProtocol = @"ApiProtocol";
-static NSString *const ConfigurationPusherKey = @"PusherKey";
-static NSString *const ConfigurationCrittercismAppID = @"CrittercismAppID";
-static NSString *const ConfigurationStripePublishableKey = @"StripePublishableKey";
 
 @interface Configuration ()
 
 @property (copy, nonatomic) NSDictionary *appSettings;
+@property (copy, nonatomic) NSString *minimumVersion;
 
 @end
 
@@ -41,6 +40,7 @@ static NSString *const ConfigurationStripePublishableKey = @"StripePublishableKe
 #pragma mark -
 #pragma mark Shared Configuration
 + (Configuration *)sharedConfiguration {
+    
     static Configuration *_sharedConfiguration = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -153,6 +153,10 @@ static NSString *const ConfigurationStripePublishableKey = @"StripePublishableKe
     return nil;
 }
 
++ (NSString *)minimumVersion {
+    return [NSUserDefaults leo_stringForKey:kConfigurationMinimumVersion];
+}
+
 + (NSString *)pusherKey {
     return [NSUserDefaults leo_stringForKey:kConfigurationPusherAPIKey];
 }
@@ -209,10 +213,11 @@ static NSString *const ConfigurationStripePublishableKey = @"StripePublishableKe
     [NSUserDefaults leo_removeObjectForKey:kConfigurationLocalyticsAppID];
     [NSUserDefaults leo_removeObjectForKey:kConfigurationVendorID];
     [NSUserDefaults leo_removeObjectForKey:kConfigurationStripePublishableKey];
+    [NSUserDefaults leo_removeObjectForKey:kConfigurationMinimumVersion];
 }
 
 + (BOOL)isMissingKeys {
-    return (![Configuration pusherKey] || ![Configuration crittercismAppID] || ![Configuration localyticsAppID] || ![Configuration vendorID] || ![Configuration stripeKey]);
+    return (![Configuration pusherKey] || ![Configuration crittercismAppID] || ![Configuration localyticsAppID] || ![Configuration vendorID] || ![Configuration stripeKey] || [Configuration minimumVersion]);
 }
 
 + (void)downloadRemoteEnvironmentVariablesIfNeededWithCompletion:(void (^) (BOOL success, NSError *error))completionBlock {
@@ -231,6 +236,35 @@ static NSString *const ConfigurationStripePublishableKey = @"StripePublishableKe
             completionBlock(YES, nil);
         }
     }
+}
+
++ (void)checkVersionRequirementMetWithCompletion:(void (^) (BOOL meetsMinimumVersionRequirements, NSError *error))completionBlock {
+
+    [Configuration downloadRemoteEnvironmentVariablesIfNeededWithCompletion:^(BOOL success, NSError *error) {
+
+        if (error) {
+            if (completionBlock) {
+                completionBlock(nil, error);
+            }
+        }
+
+        if ([Configuration minimumVersion] > [LEOSession appVersion]) {
+
+            if (completionBlock) {
+                completionBlock(NO, nil);
+                [LEOSession logout];
+            }
+        } else {
+
+            if (completionBlock) {
+                completionBlock(YES, nil);
+            }
+        }
+    }];
+}
+
++ (void)resetConfiguration {
+    [self clearRemoteEnvironmentVariables];
 }
 
 
