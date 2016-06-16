@@ -154,8 +154,8 @@ static CGFloat const kFeedInsetTop = 20.0;
 
         BOOL shouldEnableSettingsOffline = YES;
         UINavigationItem* item = self.navigationBar.items.firstObject;
-        UIButton *button = item.leftBarButtonItem.customView;
-        button.enabled = shouldEnableSettingsOffline;
+        UIButton *settingsButton = item.leftBarButtonItem.customView;
+        settingsButton.enabled = shouldEnableSettingsOffline;
 
         [self.tableView reloadData];
 
@@ -232,10 +232,12 @@ static CGFloat const kFeedInsetTop = 20.0;
 
 - (void)willEnableNavigationButtons:(BOOL)enable {
 
-    UINavigationItem *item = self.navigationBar.items[0];
+    UINavigationItem *item = self.navigationBar.items.firstObject;
 
-    [(UIButton*)item.rightBarButtonItem.customView setEnabled:enable];
-    [(UIButton*)item.leftBarButtonItem.customView setEnabled:enable];
+    UIButton *right = item.rightBarButtonItem.customView;
+    UIButton *left = item.leftBarButtonItem.customView;
+    right.enabled = enable;
+    left.enabled = enable;
 }
 
 #pragma mark - Actions
