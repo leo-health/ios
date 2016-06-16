@@ -59,7 +59,7 @@ static NSString * const kCopyCollapsedHeaderEnrollment = @"Create an account";
 
     [self setupNavigationBar];
 
-    [LEOApiReachability startMonitoringForController:self];
+    [self addNotifications];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -80,18 +80,54 @@ static NSString * const kCopyCollapsedHeaderEnrollment = @"Create an account";
 
     [Localytics tagScreen:kAnalyticScreenUserEnrollment];
 
+    __weak typeof(self) weakSelf = self;
+
     [LEOApiReachability startMonitoringForController:self
                                     withOfflineBlock:nil
-                                     withOnlineBlock:nil];
+                                     withOnlineBlock:^{
+
+                                         __strong typeof(self) strongSelf = weakSelf;
+                                         [strongSelf checkMinimumVersionRequirementsMet];
+                                     }];
 }
 
 - (void)setupNavigationBar {
-
+    
     [LEOStyleHelper styleNavigationBarForViewController:self
                                              forFeature:self.feature
                                           withTitleText:kCopyCollapsedHeaderEnrollment
                                               dismissal:NO
                                              backButton:YES];
+}
+
+
+- (void)checkMinimumVersionRequirementsMet {
+
+    self.view.userInteractionEnabled = NO;
+
+    [Configuration checkVersionRequirementMetWithCompletion:^(BOOL meetsMinimumVersionRequirements, NSError *error) {
+
+        if (error) {
+
+            UIAlertController *alertController = [LEOAlertHelper alertWithTitle:kErrorDefaultTitle message:kErrorDefaultMessage handler:nil];
+            [self presentViewController:alertController animated:YES completion:nil];
+        }
+
+        if (!meetsMinimumVersionRequirements) {
+
+            UIAlertController *alertController = [LEOAlertHelper alertWithTitle:@"Please update your app."
+                                                                        message:@"The version of the app you are using is no longer supported. Please download the latest version from the app store."
+                                                                        handler:^(UIAlertAction *action) {
+
+                                                                            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://itunes.apple.com/app/id1051397244"]];
+                                                                        }];
+
+            [self presentViewController:alertController animated:YES completion:nil];
+            
+        } else {
+            self.view.userInteractionEnabled = YES;
+        }
+    }];
 }
 
 
@@ -261,12 +297,40 @@ static NSString * const kCopyCollapsedHeaderEnrollment = @"Create an account";
     }
 }
 
+
 #pragma mark - Actions
 
 - (void)pop {
     
     [self dismissViewControllerAnimated:YES
                              completion:nil];
+}
+
+
+#pragma mark - Notifications
+
+- (void)addNotifications {
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(notificationReceived:)
+                                                 name:UIApplicationWillEnterForegroundNotification
+                                               object:nil];
+}
+
+- (void)notificationReceived:(NSNotification *)notification {
+
+    if ([notification.name isEqualToString:UIApplicationWillEnterForegroundNotification]) {
+        [self checkMinimumVersionRequirementsMet];
+    }
+}
+
+- (void)removeNotifications {
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
+}
+
+- (void)dealloc {
+    [self removeNotifications];
 }
 
 

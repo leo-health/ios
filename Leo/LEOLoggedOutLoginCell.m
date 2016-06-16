@@ -9,6 +9,7 @@
 #import "LEOLoggedOutLoginCell.h"
 #import "UIColor+LeoColors.h"
 #import "UIFont+LeoFonts.h"
+#import "UIButton+Extensions.h"
 
 @implementation LEOLoggedOutLoginCell
 
@@ -18,6 +19,8 @@
 
     self.swipeArrowsView.labelSwipe.hidden = NO;
     self.swipeArrowsView.arrowColor = LEOSwipeArrowsColorOptionOrangeRed;
+
+    [self.loginButton leo_styleDisabledState];
 }
 
 

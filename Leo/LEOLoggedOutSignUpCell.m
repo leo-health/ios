@@ -11,6 +11,7 @@
 #import "UIImage+Extensions.h"
 #import "UIColor+LeoColors.h"
 #import "UIFont+LeoFonts.h"
+#import "UIButton+Extensions.h"
 
 @implementation LEOLoggedOutSignUpCell
 
@@ -19,6 +20,8 @@
     [super awakeFromNib];
 
     self.swipeArrowsContainerView.hidden = YES;
+
+    [self.signUpButton leo_styleDisabledState];
 }
 
 @end

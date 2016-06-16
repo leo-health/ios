@@ -65,16 +65,7 @@ static NSString * const reuseIdentifierFeature = @"reuseIdentifierFeature";
 
     self.collectionView.backgroundColor = [UIColor leo_white];
 
-    [self addNotifications];
-
     [Configuration resetVendorID];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-
-    [super viewWillAppear:animated];
-
-    [self checkConfiguration];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -217,55 +208,6 @@ static NSString * const reuseIdentifierFeature = @"reuseIdentifierFeature";
 
     navController.transitioningDelegate = self.transitioningDelegate;
     navController.modalPresentationStyle = UIModalPresentationFullScreen;
-}
-
-- (void)checkConfiguration {
-
-    self.view.userInteractionEnabled = NO;
-
-    [Configuration downloadRemoteEnvironmentVariablesIfNeededWithCompletion:^(BOOL success, NSError *error) {
-
-        if ([Configuration minimumVersion] > [LEOSession appVersion]) {
-
-            UIAlertController *alertController = [LEOAlertHelper alertWithTitle:@"Please update your app."
-                                                                        message:@"The version of the app you are using is no longer supported. Please go to the app store and download the latest version."
-                                                                            handler:^(UIAlertAction *action) {
-
-                                                                            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://itunes.apple.com/app/id1051397244"]];
-                                                                        }];
-
-            [self presentViewController:alertController animated:YES completion:nil];
-        } else {
-            
-            self.view.userInteractionEnabled = YES;
-        }
-    }];
-}
-
-#pragma mark - Notifications
-
-- (void)addNotifications {
-
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(notificationReceived:)
-                                                 name:UIApplicationWillEnterForegroundNotification
-                                               object:nil];
-}
-
-- (void)notificationReceived:(NSNotification *)notification {
-
-    if ([notification.name isEqualToString:UIApplicationWillEnterForegroundNotification]) {
-        [self checkConfiguration];
-    }
-}
-
-- (void)removeNotifications {
-
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
-}
-
-- (void)dealloc {
-    [self removeNotifications];
 }
 
 @end
