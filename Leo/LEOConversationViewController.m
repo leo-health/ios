@@ -71,7 +71,7 @@
 @property (copy, nonatomic) NSString *senderFamily;
 @property (strong, nonatomic) UIButton *sendButton;
 @property (strong, nonatomic) UIButton *attachButton;
-@property (strong, nonatomic) NSMutableDictionary *avatarDictionary;
+@property (copy, nonatomic) NSMutableDictionary *avatarDictionary;
 @property (strong, nonatomic) LEOTransitioningDelegate *transitioningDelegate;
 @property (nonatomic) NSInteger offset;
 @property (nonatomic) NSInteger nextPage;
@@ -80,15 +80,15 @@
 
 @property (strong, nonatomic) UIActivityIndicatorView *sendingIndicator;
 @property (strong, nonatomic) LEOImageCropViewControllerDataSource *cropDataSource;
-@property (strong, nonatomic) NSMutableArray *notificationObservers;
-@property (strong, nonatomic) PTPusherEventBinding *pusherBinding;
+@property (copy, nonatomic) NSMutableArray *notificationObservers;
+@property (weak, nonatomic) PTPusherEventBinding *pusherBinding;
 @property (strong, nonatomic) LEOAnalyticSession *analyticSession;
 
 @property (strong, nonatomic) LEOConversationFullScreenNoticeView *fullScreenNoticeView;
-@property (strong, nonatomic) LEOConversationNoticeView *headerNoticeView;
+@property (weak, nonatomic) LEOConversationNoticeView *headerNoticeView;
 
 @property (strong, nonatomic) NSLayoutConstraint *topConstraintForFullScreenNoticeView;
-@property (strong, nonatomic) NSArray *horizontalConstraintsForNoticeView;
+@property (copy, nonatomic) NSArray *horizontalConstraintsForNoticeView;
 @property (strong, nonatomic) NSLayoutConstraint *verticalConstraintForNoticeView;
 
 @property (copy, nonatomic) NSArray *notices;
@@ -248,7 +248,7 @@ static NSString *const kDefaultPracticeID = @"0";
         return;
     }
 
-    self.headerNoticeView =
+    LEOConversationNoticeView *strongView =
     [[LEOConversationNoticeView alloc] initWithNotice:notice
                                      noticeButtonText:nil
                                     noticeButtonImage:noticeButtonImage
@@ -256,11 +256,13 @@ static NSString *const kDefaultPracticeID = @"0";
 
                           __strong typeof(self) strongSelf = weakSelf;
 
-                          [LEOCallManager alertToCallPractice:self.practice
+                          [LEOCallManager alertToCallPractice:strongSelf.practice
                                            fromViewController:strongSelf];
                       }];
 
-    [self.view addSubview:self.headerNoticeView];
+    [self.view addSubview:strongView];
+
+    self.headerNoticeView = strongView;
 
     [self setupConstraintsForHeaderNoticeView:self.headerNoticeView];
 }
@@ -343,12 +345,13 @@ static NSString *const kDefaultPracticeID = @"0";
 
                                               __strong typeof(self) strongSelf = weakSelf;
 
-                                              [LEOCallManager alertToCallPractice:self.practice
+                                              [LEOCallManager alertToCallPractice:strongSelf.practice
                                                                fromViewController:strongSelf];
 
                                           } dismissButtonTouchedUpInsideBlock:^{
 
-                                              [self dismissViewControllerAnimated:YES completion:nil];
+                                              __strong typeof(self) strongSelf = weakSelf;
+                                              [strongSelf dismiss];
                                           }];
 
         [self setupConstraintsForFullScreenNoticeView];
@@ -691,7 +694,7 @@ static NSString *const kDefaultPracticeID = @"0";
 
                                           __weak typeof(strongSelf) weakDoubleNestedSelf = strongNestedSelf;
 
-                                          [[strongSelf conversation] fetchMessageWithID:messageID completion:^{
+                                          [[strongNestedSelf conversation] fetchMessageWithID:messageID completion:^{
 
                                               __strong typeof(strongSelf) strongDoubleNestedSelf = weakDoubleNestedSelf;
                                               strongDoubleNestedSelf.offset++;
@@ -699,7 +702,7 @@ static NSString *const kDefaultPracticeID = @"0";
                                       }];
             }
         } else {
-            [LEOAlertHelper alertForViewController:self
+            [LEOAlertHelper alertForViewController:strongSelf
                                              error:nil
                                        backupTitle:kErrorTitleMessagingDown
                                      backupMessage:kErrorBodyMessagingDown];
@@ -1729,7 +1732,6 @@ static NSString *const kDefaultPracticeID = @"0";
 - (void)dismiss {
     
     [self.analyticSession completeSession];
-    
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
