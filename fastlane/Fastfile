@@ -35,6 +35,14 @@ before_all do
 
 end
 
+lane :badge do |options|
+
+      version = "#{get_version_number}"
+      badge(shield: "Version-#{version}-blue")
+      app_icon_files = Dir["../**/AppIcon-Development*.png"]
+      reset_git_repo(files: app_icon_files)
+end
+
 lane :internal do |options|
 
       scheme = options[:scheme]
@@ -315,14 +323,18 @@ lane :internal do |options|
     )
   end
 
-  after_all do |lane|
+  after_all do |lane, options|
     # This block is called, only if the executed lane was successful
 
-    slack(
-      message: "Successfully deployed new App Update."
+    should_report = options[:should_report]
 
-      #TODO: Add release notes, versioning
-    )
+    if should_report
+      slack(
+        message: "Successfully deployed new App Update."
+
+        #TODO: Add release notes, versioning
+      )
+    end
   end
 
   error do |lane, exception|
