@@ -10,7 +10,8 @@
 #include "SharedInternal.xcconfig"
 #include "Pods/Target Support Files/Pods-Leo/Pods-Leo.development.xcconfig"
 
-API_URL = 19k635-api-staging-leo-health.runnableapp.com
+
+API_URL = 267qjr-api-staging-leo-health.runnableapp.com
 PROVIDER_URL = provider-dev.leohealth.com
 API_VERSION = api/v1
 API_PROTOCOL = https
