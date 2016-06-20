@@ -83,7 +83,7 @@
 
 - (void)dismiss {
 
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (UIView *)navigationBar {
@@ -136,7 +136,7 @@
                     [Localytics tagEvent:kAnalyticEventSaveHealthRecordNotes];
 
                     self.editNoteCompletionBlock(updatedNote);
-                    [self dismissViewControllerAnimated:YES completion:nil];
+                    [self.navigationController popViewControllerAnimated:YES];
 
                 } else {
                     [LEOAlertHelper alertForViewController:self title:@"Something went wrong" message:@"We can't save your notes right now. Please try again in a little while."];
@@ -163,7 +163,7 @@
                     [Localytics tagEvent:kAnalyticEventSaveHealthRecordNotes];
 
                     self.editNoteCompletionBlock(updatedNote);
-                    [self dismissViewControllerAnimated:YES completion:nil];
+                    [self.navigationController popViewControllerAnimated:YES];
                 } else {
                     [LEOAlertHelper alertForViewController:self title:@"Something went wrong" message:@"We can't save your notes right now. Please try again in a little while."];
                 }
@@ -173,10 +173,10 @@
                 [MBProgressHUD hideHUDForView:self.view animated:YES];
             }];
         } else {
-            [self dismissViewControllerAnimated:YES completion:nil];
+            [self.navigationController popViewControllerAnimated:YES];
         }
     } else {
-        [self dismissViewControllerAnimated:YES completion:nil];
+        [self.navigationController popViewControllerAnimated:YES];
     }
 }
 

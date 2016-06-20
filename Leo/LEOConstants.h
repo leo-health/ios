@@ -17,6 +17,8 @@ typedef NS_ENUM(NSUInteger, DeviceModel) {
     DeviceModel6Plus,
 };
 
+typedef void(^DefaultVoidBlock)(void);
+
 typedef NS_ENUM(NSUInteger, CardLayout) {
     CardLayoutUndefined = 0,
     CardLayoutTwoButtonPrimaryAndSecondary = 1,

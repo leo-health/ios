@@ -30,8 +30,6 @@
 
     if (self) {
         _patients = patients;
-
-        [self.segmentControl addTarget:self action:@selector(segmentDidChange:) forControlEvents:UIControlEventValueChanged];
     }
 
     return self;
@@ -65,13 +63,22 @@
 
         _patientSelectorView.backgroundColor = [UIColor leo_orangeRed];
         _patientSelectorView.showsHorizontalScrollIndicator = NO;
+
+        __weak typeof(self) weakSelf = self;
+
+        _patientSelectorView.segmentDidChangeBlock = ^ {
+
+            __strong typeof(self) strongSelf = weakSelf;
+
+            [strongSelf segmentDidChange:nil];
+        };
     }
 
     return _patientSelectorView;
 }
 
--(GNZSegmentedControl *)segmentControl {
-    return self.patientSelectorView.segmentedControl;
+-(NSInteger)selectedSegment {
+    return self.patientSelectorView.segmentedControl.selectedSegmentIndex;
 }
 
 - (void)updateConstraints {
@@ -107,11 +114,13 @@
     [super updateConstraints];
 }
 
-- (void)segmentDidChange:(UISegmentedControl *)sender {
-    NSUInteger segmentIndex = [sender selectedSegmentIndex];
+- (void)segmentDidChange:(GNZSegmentedControl *)sender {
 
-    [self.patientSelectorView didChangeSegmentSelection:segmentIndex];
-    self.patientProfileView.patient = self.patients[segmentIndex];
+    self.patientProfileView.patient = self.patients[[self selectedSegment]];
+
+    if (self.segmentDidChangeBlock) {
+        self.segmentDidChangeBlock();
+    }
 }
 
 @end

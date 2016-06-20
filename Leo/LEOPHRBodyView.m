@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
-#import "LEORecordViewController.h"
+#import "LEOPHRBodyView.h"
 #import "LEOPHRViewController.h"
 
 // helpers
@@ -28,8 +28,9 @@
 // model
 #import "LEOHealthRecordService.h"
 #import "HealthRecord.h"
+#import "PatientNote.h"
 
-@interface LEORecordViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface LEOPHRBodyView () <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic) BOOL alreadyUpdatedConstraints;
 @property (weak, nonatomic) LEOIntrinsicSizeTableView *tableView;
@@ -38,12 +39,9 @@
 @property (strong, nonatomic) UITableViewCell *sizingCell;
 @property (strong, nonatomic) UITableViewHeaderFooterView *sizingHeader;
 
-@property (strong, nonatomic) HealthRecord *healthRecord;
-@property (strong, nonatomic) NSMutableArray *notes;
-
 @end
 
-@implementation LEORecordViewController
+@implementation LEOPHRBodyView
 
 static NSString * const kEditButtonText = @"EDIT";
 
@@ -78,12 +76,32 @@ NS_ENUM(NSInteger, TableViewRow) {
 
 #pragma mark - Accessors and Setup
 
+- (void)reloadDataForPatient {
+
+    [self.tableView reloadData];
+}
+
+//
+//- (void)setNotes:(NSArray *)notes {
+//
+//    _notes = notes;
+//
+//    [self.tableView reloadData];
+//}
+//
+//- (void)setHealthRecord:(HealthRecord *)healthRecord {
+//
+//    _healthRecord = healthRecord;
+//
+//    [self.tableView reloadData];
+//}
+
 - (UITableView *)tableView {
 
     if (!_tableView) {
 
         LEOIntrinsicSizeTableView *strongView = [LEOIntrinsicSizeTableView new];
-        [self.view addSubview:strongView];
+        [self addSubview:strongView];
         _tableView = strongView;
 
         _tableView.dataSource = self;
@@ -119,72 +137,20 @@ NS_ENUM(NSInteger, TableViewRow) {
     return _headerReuseIdentifier;
 }
 
-- (void)requestHealthRecord {
+- (void)setPatient:(Patient *)patient {
 
-    if (!self.healthRecord) {
+    _patient = patient;
 
-        // only show one HUD at a time
-        [MBProgressHUD hideHUDForView:self.phrViewController.view animated:YES];
-        [MBProgressHUD showHUDAddedTo:self.phrViewController.view animated:YES];
-
-        __block BOOL readyToHideHUD = NO;
-
-        LEOHealthRecordService *service = [LEOHealthRecordService new];
-
-        [service getNotesForPatient:self.patient withCompletion:^(NSArray<PatientNote *> *notes, NSError *error) {
-
-            if (error) {
-                [LEOAlertHelper alertForViewController:self
-                                                 error:error
-                                           backupTitle:kErrorDefaultTitle
-                                         backupMessage:kErrorDefaultMessage];
-            } else {
-
-                self.notes = [notes mutableCopy];
-
-                [self.tableView reloadData];
-            }
-
-            if (readyToHideHUD) {
-                [MBProgressHUD hideHUDForView:self.phrViewController.view animated:YES];
-            }
-
-            readyToHideHUD = YES;
-        }];
-
-        [service getHealthRecordForPatient:self.patient withCompletion:^(HealthRecord *healthRecord, NSError *error) {
-
-            if (error) {
-
-                [LEOAlertHelper alertForViewController:self
-                                                 error:error
-                                           backupTitle:kErrorDefaultTitle
-                                         backupMessage:kErrorDefaultMessage];
-            } else {
-
-                self.healthRecord = healthRecord;
-
-                //MARK: May be an issue if tableview is reloading at the same time as when the notes field updates. Watch for crashes.
-                [self.tableView reloadData];
-            }
-
-            if (readyToHideHUD) {
-                [MBProgressHUD hideHUDForView:self.phrViewController.view animated:YES];
-            }
-
-            readyToHideHUD = YES;
-        }];
-    }
+    [self.tableView reloadData];
 }
-
 
 #pragma mark - Layout
 
-- (void)updateViewConstraints {
+- (void)updateConstraints {
 
     if (!self.alreadyUpdatedConstraints) {
 
-        self.view.translatesAutoresizingMaskIntoConstraints = NO;
+        self.translatesAutoresizingMaskIntoConstraints = NO;
         self.tableView.translatesAutoresizingMaskIntoConstraints = NO;
 
         NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(_tableView);
@@ -192,19 +158,27 @@ NS_ENUM(NSInteger, TableViewRow) {
         NSArray *tableViewHorizontalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_tableView]|" options:0 metrics:nil views:viewsDictionary];
         NSArray *tableViewVerticalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_tableView]|" options:0 metrics:nil views:viewsDictionary];
 
-        [self.view addConstraints:tableViewHorizontalConstraints];
-        [self.view addConstraints:tableViewVerticalConstraints];
+        [self addConstraints:tableViewHorizontalConstraints];
+        [self addConstraints:tableViewVerticalConstraints];
 
         self.alreadyUpdatedConstraints = YES;
     }
 
-    [super updateViewConstraints];
+    [super updateConstraints];
 }
 
 #pragma mark - <UITableViewDataSource>
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return TableViewSectionCount;
+}
+
+- (HealthRecord *)healthRecord {
+    return self.patient.healthRecord;
+}
+
+- (NSArray *)notes {
+    return self.patient.notes;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -448,6 +422,10 @@ NS_ENUM(NSInteger, TableViewRow) {
 
 - (void)configureSectionHeader:(UITableViewHeaderFooterView *)sectionHeaderView forSection:(NSInteger)section {
 
+    for (UIView *subview in sectionHeaderView.contentView.subviews) {
+        [subview removeFromSuperview];
+    }
+
     UILabel *_titleLabel = [UILabel new];
     _titleLabel.font = [UIFont leo_fieldAndUserLabelsAndSecondaryButtonsFont];
     _titleLabel.textColor = [UIColor leo_grayStandard];
@@ -543,50 +521,12 @@ NS_ENUM(NSInteger, TableViewRow) {
     return _sizingCell;
 }
 
-#pragma mark - Actions
 
 - (void)editNoteTouchedUpInside {
 
-    PatientNote* note;
-
-    if (self.notes.count > 0) {
-        note = [self.notes lastObject]; // TODO: update to handle multiple notes
+    if (self.editNoteTouchedUpInsideBlock) {
+        self.editNoteTouchedUpInsideBlock(self.notes);
     }
-
-    [self presentEditNotesViewControllerWithNote:note];
-}
-
-- (void)presentEditNotesViewControllerWithNote:(PatientNote*)note {
-
-    LEORecordEditNotesViewController *vc = [LEORecordEditNotesViewController new];
-    vc.patient = self.patient;
-    vc.note = note;
-
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
-    [self.phrViewController presentViewController:nav animated:YES completion:nil];
-    
-    vc.editNoteCompletionBlock = ^(PatientNote *updatedNote) {
-        // update the in memory note
-        [self updateNote:updatedNote];
-        [self.tableView reloadData];
-    };
-}
-
-- (void)updateNote:(PatientNote *)updatedNote {
-    
-    int i = 0;
-    
-    for (PatientNote *note in self.notes) {
-        if ([note.objectID isEqualToString:updatedNote.objectID] || (!note.objectID && !updatedNote.objectID) ) {
-            
-            [self.notes[i] updateWithPatientNote:updatedNote];
-            return;
-        }
-        i++;
-    }
-    
-    // if not found, this is a newly created note.
-    [self.notes addObject:updatedNote];
 }
 
 

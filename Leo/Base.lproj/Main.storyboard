@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="gqz-pq-oK1">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="gqz-pq-oK1">
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <scenes>
-        <!--Record View Controller-->
+        <!--Body View-->
         <scene sceneID="vVv-Uw-HYb">
             <objects>
-                <viewController storyboardIdentifier="EHRViewController" id="pJM-8c-9lL" customClass="LEORecordViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="EHRViewController" id="pJM-8c-9lL" customClass="LEOPHRBodyView" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Idr-Ee-qtB"/>
                         <viewControllerLayoutGuide type="bottom" id="src-8I-9mk"/>

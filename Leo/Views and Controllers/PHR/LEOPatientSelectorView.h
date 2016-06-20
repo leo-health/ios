@@ -16,4 +16,6 @@
 - (GNZSegmentedControl *)segmentedControl;
 - (void)didChangeSegmentSelection:(NSUInteger)segmentIndex;
 
+@property (nonatomic) DefaultVoidBlock segmentDidChangeBlock;
+
 @end

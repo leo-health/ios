@@ -160,7 +160,7 @@
 		31CC12EA1BB062C40099AB60 /* Role.m in Sources */ = {isa = PBXBuildFile; fileRef = 31CC12D91BB062C40099AB60 /* Role.m */; };
 		31CC12ED1BB062E90099AB60 /* LEOS3ImageSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 31CC12EC1BB062E90099AB60 /* LEOS3ImageSessionManager.m */; };
 		31CF99111B17754B00BFAABE /* LEOTransitioningDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 31CF99101B17754B00BFAABE /* LEOTransitioningDelegate.m */; };
-		31D20ACC1B14C61F00F3351A /* LEORecordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D20ACB1B14C61F00F3351A /* LEORecordViewController.m */; };
+		31D20ACC1B14C61F00F3351A /* LEOPHRBodyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D20ACB1B14C61F00F3351A /* LEOPHRBodyView.m */; };
 		31D2753C1C3DB355005F8964 /* NSObject+XibAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D2753B1C3DB355005F8964 /* NSObject+XibAdditions.m */; };
 		31D2753F1C3DB676005F8964 /* LEOHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D2753E1C3DB676005F8964 /* LEOHeaderView.m */; };
 		31D275651C45520E005F8964 /* LEOForgotPasswordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D275641C45520E005F8964 /* LEOForgotPasswordView.m */; };
@@ -589,8 +589,8 @@
 		31CC12EC1BB062E90099AB60 /* LEOS3ImageSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOS3ImageSessionManager.m; path = APIs/LEOS3ImageSessionManager.m; sourceTree = "<group>"; };
 		31CF990F1B17754B00BFAABE /* LEOTransitioningDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOTransitioningDelegate.h; sourceTree = "<group>"; };
 		31CF99101B17754B00BFAABE /* LEOTransitioningDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOTransitioningDelegate.m; sourceTree = "<group>"; };
-		31D20ACA1B14C61F00F3351A /* LEORecordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEORecordViewController.h; sourceTree = "<group>"; };
-		31D20ACB1B14C61F00F3351A /* LEORecordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEORecordViewController.m; sourceTree = "<group>"; };
+		31D20ACA1B14C61F00F3351A /* LEOPHRBodyView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOPHRBodyView.h; sourceTree = "<group>"; };
+		31D20ACB1B14C61F00F3351A /* LEOPHRBodyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOPHRBodyView.m; sourceTree = "<group>"; };
 		31D2753A1C3DB355005F8964 /* NSObject+XibAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+XibAdditions.h"; path = "Helpers/NSObject+XibAdditions.h"; sourceTree = "<group>"; };
 		31D2753B1C3DB355005F8964 /* NSObject+XibAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+XibAdditions.m"; path = "Helpers/NSObject+XibAdditions.m"; sourceTree = "<group>"; };
 		31D2753D1C3DB676005F8964 /* LEOHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOHeaderView.h; path = "Views and Controllers/Generic/LEOHeaderView.h"; sourceTree = "<group>"; };
@@ -1449,8 +1449,8 @@
 				317B72B51C30A2E900F3620D /* LEOPatientProfileView.m */,
 				317B72B11C30A29A00F3620D /* LEOPHRViewController.h */,
 				317B72B21C30A29A00F3620D /* LEOPHRViewController.m */,
-				31D20ACA1B14C61F00F3351A /* LEORecordViewController.h */,
-				31D20ACB1B14C61F00F3351A /* LEORecordViewController.m */,
+				31D20ACA1B14C61F00F3351A /* LEOPHRBodyView.h */,
+				31D20ACB1B14C61F00F3351A /* LEOPHRBodyView.m */,
 				66A5DB3F1C3EE93D008AEC55 /* LEOPHRTableViewCell.h */,
 				66A5DB401C3EE93D008AEC55 /* LEOPHRTableViewCell.m */,
 				66A5DB411C3EE93D008AEC55 /* LEOPHRTableViewCell.xib */,
@@ -2068,6 +2068,8 @@
 				31D275761C517AF0005F8964 /* LEOManagePatientsView.m in Sources */,
 				3115F1FF1BC80E7D001BDF6A /* LEOAddCaregiverViewController.m in Sources */,
 				31D20ACC1B14C61F00F3351A /* LEORecordViewController.m in Sources */,
+				3115F1FF1BC80E7D001BDF6A /* LEOInviteViewController.m in Sources */,
+				31D20ACC1B14C61F00F3351A /* LEOPHRBodyView.m in Sources */,
 				31197A121B39D8FD00C773BA /* MenuView.m in Sources */,
 				662371F11C568C23001AB3E7 /* LEOLoggedOutLoginCell.m in Sources */,
 				313ECC2A1CA5BE340059C434 /* LEOBreadcrumb.m in Sources */,

@@ -35,8 +35,6 @@ static const CGFloat kDistanceSegments = 26.0;
 
     if (self) {
         _patients = patients;
-
-        [self.segmentedControl addTarget:self action:@selector(didChangeSegmentSelection:) forControlEvents:UIControlEventValueChanged];
     }
 
     return self;
@@ -94,7 +92,9 @@ static const CGFloat kDistanceSegments = 26.0;
                 }];
             }
         };
-        
+
+        [_segmentedControl addTarget:self action:@selector(didChangeSegmentSelection:) forControlEvents:UIControlEventValueChanged];
+
         [self.contentView addSubview:_segmentedControl];
 
         [self.patients enumerateObjectsUsingBlock:^(id  _Nonnull patient, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -172,11 +172,11 @@ static const CGFloat kDistanceSegments = 26.0;
     [super layoutSubviews];
 }
 
+-(void)didChangeSegmentSelection:(NSUInteger)segmentIndex {
 
-#pragma mark - Actions
-
-- (void)didChangeSegmentSelection:(NSUInteger)segmentIndex {
-    [self.segmentedControl adjustIndicatorForScroll:self];
+    if (self.segmentDidChangeBlock) {
+        self.segmentDidChangeBlock();
+    }
 }
 
 
