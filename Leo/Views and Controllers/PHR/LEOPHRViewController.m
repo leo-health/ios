@@ -17,7 +17,6 @@
 #import "UISegmentedControl+GNZCompatibility.h"
 
 #import "Patient.h"
-#import "LEOPHRBodyView.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 
 #import "LEOHealthRecordService.h"
@@ -31,16 +30,16 @@ static CGFloat const kHeightOfHeaderPHR = 200;
 @interface LEOPHRViewController () <LEOStickyHeaderDataSource, LEOStickyHeaderDelegate>
 
 @property (weak, nonatomic) LEOPHRHeaderView *headerView;
+@property (strong, nonatomic) LEOPHRBodyView *bodyView;
 
 @property (nonatomic) BOOL alreadyUpdatedConstraints;
 
-@property (strong, nonatomic) NSArray *patients;
-@property (strong, nonatomic) NSArray *healthRecords;
-@property (strong, nonatomic) NSArray *notes;
+@property (copy, nonatomic) NSArray *patients;
+@property (copy, nonatomic) NSArray *healthRecords;
+@property (copy, nonatomic) NSArray *notes;
 
 @property (strong, nonatomic) LEOAnalyticSession *analyticSession;
 
-@property (strong, nonatomic) LEOPHRBodyView *bodyView;
 
 @end
 
@@ -112,9 +111,6 @@ static CGFloat const kHeightOfHeaderPHR = 200;
         __block NSInteger notesCounter = 0;
         __block NSInteger healthRecordCounter = 0;
 
-        NSMutableArray *mutableNotes = [NSMutableArray new];
-        NSMutableArray *mutableHealthRecords = [NSMutableArray new];
-
         for (NSInteger i = 0; i < [self.patients count]; i++) {
 
             Patient *patient = self.patients[i];
@@ -135,8 +131,7 @@ static CGFloat const kHeightOfHeaderPHR = 200;
                 notesCounter++;
 
                 //TODO: This should be done with KVO etc.
-
-                if (i == [self selectedPatient]) {
+                if (i == [self selectedPatientIndex]) {
                     [self.bodyView reloadDataForPatient];
                 }
 
@@ -159,14 +154,13 @@ static CGFloat const kHeightOfHeaderPHR = 200;
                                              backupMessage:kErrorDefaultMessage];
                     return;
                 } else {
-
                     patient.healthRecord = healthRecord;
                 }
 
                 healthRecordCounter++;
 
                 //TODO: This should be done with KVO etc.
-                if (i == [self selectedPatient]) {
+                if (i == [self selectedPatientIndex]) {
                     [self.bodyView reloadDataForPatient];
                 }
                 
@@ -174,17 +168,15 @@ static CGFloat const kHeightOfHeaderPHR = 200;
                     readyToHideHUD = YES;
                 }
 
-
                 if (readyToHideHUD) {
                     [MBProgressHUD hideHUDForView:self.view animated:YES];
                 }
-
             }];
         }
     }
 }
 
-- (NSInteger)selectedPatient {
+- (NSInteger)selectedPatientIndex {
     return self.headerView.selectedSegment;
 }
 
@@ -209,14 +201,13 @@ static CGFloat const kHeightOfHeaderPHR = 200;
         _headerView = strongHeaderView;
         _headerView.backgroundColor = [UIColor leo_white];
 
-
         __weak typeof(self) weakSelf = self;
 
         _headerView.segmentDidChangeBlock = ^ {
 
             __strong typeof(self) strongSelf = weakSelf;
 
-            strongSelf.bodyView.patient = strongSelf.patients[[strongSelf selectedPatient]];
+            strongSelf.bodyView.patient = strongSelf.patients[[strongSelf selectedPatientIndex]];
         };
 
         // TODO: Remove when subview content is available to size view
@@ -232,7 +223,7 @@ static CGFloat const kHeightOfHeaderPHR = 200;
 
         _bodyView = [LEOPHRBodyView new];
 
-        _bodyView.patient = self.patients[[self selectedPatient]];
+        _bodyView.patient = self.patients[[self selectedPatientIndex]];
 
         __weak typeof(self) weakSelf = self;
 
@@ -242,9 +233,7 @@ static CGFloat const kHeightOfHeaderPHR = 200;
 
             PatientNote* note;
 
-            if (strongSelf.notes.count > 0) {
-                note = notes.lastObject; // TODO: update to handle multiple notes
-            }
+            note = notes.lastObject; // TODO: update to handle multiple notes
 
             [strongSelf presentEditNotesViewControllerWithNote:note];
         };
@@ -273,40 +262,44 @@ static CGFloat const kHeightOfHeaderPHR = 200;
 
 - (void)presentEditNotesViewControllerWithNote:(PatientNote*)note {
 
-    LEORecordEditNotesViewController *vc = [LEORecordEditNotesViewController new];
-    vc.patient = self.patients[[self selectedPatient]];
-    vc.note = note;
+    LEORecordEditNotesViewController *recordEditNotesVC = [LEORecordEditNotesViewController new];
+    recordEditNotesVC.patient = self.patients[[self selectedPatientIndex]];
+    recordEditNotesVC.note = note;
 
     __weak typeof(self) weakSelf = self;
 
-    vc.editNoteCompletionBlock = ^(PatientNote *updatedNote) {
+    recordEditNotesVC.editNoteCompletionBlock = ^(PatientNote *updatedNote) {
 
         __strong typeof(self) strongSelf = weakSelf;
 
         [strongSelf updateNote:updatedNote];
-        strongSelf.bodyView.notes = self.notes[[self selectedPatient]];
+        strongSelf.bodyView.notes = strongSelf.notes[[self selectedPatientIndex]];
     };
+
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:recordEditNotesVC];
     
-    [self.navigationController pushViewController:vc animated:YES];
+    [self presentViewController:navController animated:YES completion:nil];
 }
 
 - (void)updateNote:(PatientNote *)updatedNote {
     
     int i = 0;
     
-    NSMutableArray *notes =  self.notes[[self selectedPatient]];
+    NSMutableArray *notesForPatient =  self.notes[[self selectedPatientIndex]];
     
-    for (PatientNote *note in notes) {
+    for (PatientNote *note in notesForPatient) {
+
         if ([note.objectID isEqualToString:updatedNote.objectID] || (!note.objectID && !updatedNote.objectID) ) {
             
-            [notes[i] updateWithPatientNote:updatedNote];
+            [notesForPatient[i] updateWithPatientNote:updatedNote];
             return;
         }
+
         i++;
     }
     
     // if not found, this is a newly created note.
-    [notes addObject:updatedNote];
+    [notesForPatient addObject:updatedNote];
 }
 
 @end

@@ -13,6 +13,8 @@
 #import "LEOConstants.h"
 #import "NSDictionary+Extensions.h"
 #import <objc/runtime.h>
+#import "HealthRecord.h"
+#import "PatientNote.h"
 
 @implementation Patient
 

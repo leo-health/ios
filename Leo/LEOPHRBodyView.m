@@ -77,24 +77,8 @@ NS_ENUM(NSInteger, TableViewRow) {
 #pragma mark - Accessors and Setup
 
 - (void)reloadDataForPatient {
-
     [self.tableView reloadData];
 }
-
-//
-//- (void)setNotes:(NSArray *)notes {
-//
-//    _notes = notes;
-//
-//    [self.tableView reloadData];
-//}
-//
-//- (void)setHealthRecord:(HealthRecord *)healthRecord {
-//
-//    _healthRecord = healthRecord;
-//
-//    [self.tableView reloadData];
-//}
 
 - (UITableView *)tableView {
 
@@ -422,6 +406,7 @@ NS_ENUM(NSInteger, TableViewRow) {
 
 - (void)configureSectionHeader:(UITableViewHeaderFooterView *)sectionHeaderView forSection:(NSInteger)section {
 
+    //TODO: This is a patch; at the very least this should be refactored so objects aren't being created and added as subviews every single time this method gets run.
     for (UIView *subview in sectionHeaderView.contentView.subviews) {
         [subview removeFromSuperview];
     }

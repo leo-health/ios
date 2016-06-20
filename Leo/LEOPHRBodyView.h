@@ -18,10 +18,13 @@ typedef void(^EditNoteTouchedUpInsideBlock)(NSArray *notes);
 
 @property (weak, nonatomic) LEOPHRViewController* phrViewController;
 @property (strong, nonatomic) HealthRecord *healthRecord;
-@property (strong, nonatomic) NSArray *notes;
+@property (copy, nonatomic) NSArray *notes;
 @property (strong, nonatomic) Patient *patient;
-@property (nonatomic) EditNoteTouchedUpInsideBlock editNoteTouchedUpInsideBlock;
+@property (copy, nonatomic) EditNoteTouchedUpInsideBlock editNoteTouchedUpInsideBlock;
 
+
+//This method should not be necessary in a world where the model informs the controllers that something has changed.
+//It is a shortcut for now.
 - (void)reloadDataForPatient;
 
 NS_ASSUME_NONNULL_END

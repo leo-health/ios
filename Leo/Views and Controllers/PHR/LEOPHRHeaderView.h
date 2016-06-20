@@ -13,7 +13,7 @@
 @interface LEOPHRHeaderView : UIView
 
 @property (nonatomic) NSInteger selectedSegment;
-@property (nonatomic) DefaultVoidBlock segmentDidChangeBlock;
+@property (copy, nonatomic) DefaultVoidBlock segmentDidChangeBlock;
 
 - (instancetype)initWithPatients:(NSArray *)patients;
 

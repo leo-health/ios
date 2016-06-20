@@ -8,10 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import "User.h"
-#import "HealthRecord.h"
-#import "PatientNote.h"
 
-@class Family, LEOS3Image;
+@class Family, LEOS3Image, HealthRecord;
 
 @interface Patient : User <NSCopying>
 NS_ASSUME_NONNULL_BEGIN
