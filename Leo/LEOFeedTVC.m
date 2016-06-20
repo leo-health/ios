@@ -673,6 +673,9 @@ static CGFloat const kFeedInsetTop = 20.0;
                             [LEOValidationsHelper formattedPhoneNumberFromPhoneNumber:kFlatironPediatricsPhoneNumber]];
 
     Family *family = self.family;
+    Guardian *guardian = [LEOSession user];
+    InsurancePlan *insurance = guardian.insurancePlan;
+    
     
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:alertTitle message:nil preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:@"Call" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {

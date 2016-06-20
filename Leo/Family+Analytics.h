@@ -10,13 +10,13 @@
 
 @interface Family (Analytics)
 
-- (int)numberOfChildren;
-- (int)numberOfChildrenZeroToTwo;
-- (int)numberOfChildrenTwoToFive;
-- (int)numberOfChildrenFiveToThirteen;
-- (int)numberOfChildrenThirteenToEighteen;
-- (int)numberOfChildrenEighteenOrOlder;
-- (int)ageOfOldestChild;
-- (int)ageOfYoungestChild;
+- (NSInteger)numberOfChildren;
+- (NSInteger)numberOfChildrenZeroToTwo;
+- (NSInteger)numberOfChildrenTwoToFive;
+- (NSInteger)numberOfChildrenFiveToThirteen;
+- (NSInteger)numberOfChildrenThirteenToEighteen;
+- (NSInteger)numberOfChildrenEighteenOrOlder;
+- (NSInteger)ageOfOldestChild;
+- (NSInteger)ageOfYoungestChild;
 
 @end
