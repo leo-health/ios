@@ -1009,6 +1009,26 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		314877E91D1848890002E757 /* Modified 3PL */ = {
+			isa = PBXGroup;
+			children = (
+				319FB4C11BBA37A400EFF7B9 /* JVFloatLabeledTextField */,
+				DE6395141D18293D00D3DF71 /* TPKeyboardAvoiding */,
+				DE6395211D182AB300D3DF71 /* GNZSlidingSegment */,
+			);
+			name = "Modified 3PL";
+			path = Leo;
+			sourceTree = "<group>";
+		};
+		314877EA1D1848BE0002E757 /* Self signed certificates */ = {
+			isa = PBXGroup;
+			children = (
+				31FCDD6D1C5EAA5900BE4B78 /* *.leohealth.com.cer */,
+				31B5EC631BDA84720016F653 /* *.leoforkids.com.cer */,
+			);
+			name = "Self signed certificates";
+			sourceTree = "<group>";
+		};
 		314A40591B838B0E00834BC2 /* Build Configuration */ = {
 			isa = PBXGroup;
 			children = (
@@ -1128,6 +1148,7 @@
 				319FB4BD1BBA379E00EFF7B9 /* NSString+TextDirectionality.m */,
 			);
 			name = JVFloatLabeledTextField;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		319FFB401B7CEBF000259715 /* Calendar */ = {
@@ -1615,7 +1636,7 @@
 			isa = PBXGroup;
 			children = (
 				BCE1EC661B00E353007C8D0B /* Leo */,
-				319FB4C11BBA37A400EFF7B9 /* JVFloatLabeledTextField */,
+				314877E91D1848890002E757 /* Modified 3PL */,
 				BCE1EC6B1B00E353007C8D0B /* AppDelegate.h */,
 				BCE1EC6C1B00E353007C8D0B /* AppDelegate.m */,
 				BCE1EC9B1B01199E007C8D0B /* LEOPrefixHeader.pch */,
@@ -1639,10 +1660,6 @@
 		BCE1EC661B00E353007C8D0B /* Leo */ = {
 			isa = PBXGroup;
 			children = (
-				DE6395211D182AB300D3DF71 /* GNZSlidingSegment */,
-				DE6395141D18293D00D3DF71 /* TPKeyboardAvoiding */,
-				31FCDD6D1C5EAA5900BE4B78 /* *.leohealth.com.cer */,
-				31B5EC631BDA84720016F653 /* *.leoforkids.com.cer */,
 				3130B4911B0693D5006ACC80 /* Stoyboards & Xibs */,
 				BCA69A3D1B039ABC00C27B2B /* Views and Controllers */,
 				3130B4901B068CE7006ACC80 /* Helpers */,
@@ -1662,6 +1679,7 @@
 		BCE1EC671B00E353007C8D0B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				314877EA1D1848BE0002E757 /* Self signed certificates */,
 				314A40591B838B0E00834BC2 /* Build Configuration */,
 				BCE1EC761B00E353007C8D0B /* LaunchScreen.xib */,
 				BCA69A381B035CEF00C27B2B /* Leo-Prefix.pch */,
