@@ -10,7 +10,7 @@
 #import "UIImage+Extensions.h"
 #import "UIFont+LeoFonts.h"
 #import "UIColor+LeoColors.h"
-#import <TPKeyboardAvoiding/TPKeyboardAvoidingScrollView.h>
+#import "TPKeyboardAvoidingScrollView.h"
 @interface StickyView()
 
 

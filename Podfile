@@ -26,10 +26,8 @@ pod 'MBProgressHUD' #MIT
 
 #Should replace with our own implementations
 pod 'UIImage-Resize' #MIT
-pod 'TPKeyboardAvoiding' #Zlib
 pod 'ActionSheetPicker-3.0', '~> 2.0.1' #BSD
 pod 'RSKImageCropper' #MIT
-pod 'GNZSlidingSegment', :git => 'https://github.com/chrisgonzgonz/GNZSlidingSegment.git'  #MIT
 
 #Should review dependencies of these pods to ensure that all pods are compliant with their own licenses. e.g. Facebook Pop, etc.
 

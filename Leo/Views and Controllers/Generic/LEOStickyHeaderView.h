@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <TPKeyboardAvoiding/TPKeyboardAvoidingScrollView.h>
+#import "TPKeyboardAvoidingScrollView.h"
 
 /**
  *

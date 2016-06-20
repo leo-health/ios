@@ -44,7 +44,6 @@
 #import "LEOFeedNavigationHeaderView.h"
 #import "LEOFeedCell+ConfigureForCard.h"
 
-#import <VBFPopFlatButton/VBFPopFlatButton.h>
 #import "UIImageEffects.h"
 
 #import "AppDelegate.h"
@@ -55,7 +54,6 @@
 
 #import <UIImage+Resize.h>
 #import "UIImageEffects.h"
-#import <VBFPopFlatButton/VBFPopFlatButton.h>
 
 #import "LEOStyleHelper.h"
 #import "LEOValidationsHelper.h"

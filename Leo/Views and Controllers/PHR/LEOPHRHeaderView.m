@@ -10,7 +10,7 @@
 #import "LEOPatientProfileView.h"
 #import "LEOPatientSelectorView.h"
 #import "UIColor+LeoColors.h"
-#import <GNZSlidingSegment/GNZSegmentedControl.h>
+#import "GNZSegmentedControl.h"
 
 @interface LEOPHRHeaderView ()
 

@@ -134,11 +134,6 @@ typedef NS_ENUM(NSUInteger, RSKImageCropMode) {
 @property (readonly, nonatomic) CGFloat zoomScale;
 
 /**
- A Boolean value that determines whether the image can be zoomed in for cropping or just scrolled at zoomScale of 1.
- */
-@property (assign, nonatomic) BOOL zoomable;
-
-/**
  A Boolean value that determines whether the image will always fill the mask space. Default value is `NO`.
  */
 @property (assign, nonatomic) BOOL avoidEmptySpaceAroundImage;
