@@ -213,11 +213,7 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
                                  [[Crashlytics sharedInstance] setUserIdentifier:[Configuration vendorID]];
                                  
                                  Guardian *guardian = [LEOSession user];
-                                 NSString *familyID = guardian.familyID;
                                  NSString *membershipTypeString = [Guardian membershipStringFromType:guardian.membershipType];
-                                 [Localytics setValue:@45 forProfileAttribute:@"Age" withScope:LLProfileScopeOrganization];
-                                 [Localytics setValue:membershipTypeString forProfileAttribute:@"Membership Type" withScope:LLProfileScopeOrganization];
-                                 [Localytics setValue:familyID forProfileAttribute:@"Family ID" withScope:LLProfileScopeOrganization];
 
                                  [Localytics tagEvent:kAnalyticEventLogin
                                            attributes:@{@"Membership Type" : membershipTypeString}];

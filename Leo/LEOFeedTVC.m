@@ -26,6 +26,7 @@
 #import "Conversation.h"
 #import "Message.h"
 #import "Family.h"
+#import "Family+Analytics.h"
 #import "Practice.h"
 #import "LEOSession.h"
 #import "AppointmentStatus.h"
@@ -671,6 +672,8 @@ static CGFloat const kFeedInsetTop = 20.0;
     NSString *alertTitle = [NSString stringWithFormat:@"You are about to call \n%@\n%@", practiceName,
                             [LEOValidationsHelper formattedPhoneNumberFromPhoneNumber:kFlatironPediatricsPhoneNumber]];
 
+    Family *family = self.family;
+    
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:alertTitle message:nil preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:@"Call" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
 

@@ -265,6 +265,7 @@
 		BCE1EC9E1B012628007C8D0B /* UIColor+LeoColors.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE1EC9D1B012628007C8D0B /* UIColor+LeoColors.m */; };
 		BCE1ECA41B014613007C8D0B /* LEOConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE1ECA31B014613007C8D0B /* LEOConstants.m */; };
 		BCED00811B0150F4007653D6 /* LEOFeedTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = BCED00801B0150F4007653D6 /* LEOFeedTVC.m */; };
+		DE1CF7471D18680A00053BA3 /* Family+Analytics.m in Sources */ = {isa = PBXBuildFile; fileRef = DE1CF7461D18680A00053BA3 /* Family+Analytics.m */; };
 		DE63951D1D18296C00D3DF71 /* TPKeyboardAvoidingCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = DE6395161D18296C00D3DF71 /* TPKeyboardAvoidingCollectionView.m */; };
 		DE63951E1D18296C00D3DF71 /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = DE6395181D18296C00D3DF71 /* TPKeyboardAvoidingScrollView.m */; };
 		DE63951F1D18296C00D3DF71 /* TPKeyboardAvoidingTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = DE63951A1D18296C00D3DF71 /* TPKeyboardAvoidingTableView.m */; };
@@ -784,6 +785,8 @@
 		BCED00801B0150F4007653D6 /* LEOFeedTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = LEOFeedTVC.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		C9BFC97BBACAA8BBCAFB0684 /* libPods-LeoTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LeoTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE16AE561D2EB64D00EE7811 /* LEOFormatting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOFormatting.h; sourceTree = "<group>"; };
+		DE1CF7451D18680A00053BA3 /* Family+Analytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Family+Analytics.h"; path = "Leo/Family+Analytics.h"; sourceTree = SOURCE_ROOT; };
+		DE1CF7461D18680A00053BA3 /* Family+Analytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Family+Analytics.m"; path = "Leo/Family+Analytics.m"; sourceTree = SOURCE_ROOT; };
 		DE6395151D18296C00D3DF71 /* TPKeyboardAvoidingCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TPKeyboardAvoidingCollectionView.h; path = OPC/TPKeyboardAvoiding/TPKeyboardAvoidingCollectionView.h; sourceTree = "<group>"; };
 		DE6395161D18296C00D3DF71 /* TPKeyboardAvoidingCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TPKeyboardAvoidingCollectionView.m; path = OPC/TPKeyboardAvoiding/TPKeyboardAvoidingCollectionView.m; sourceTree = "<group>"; };
 		DE6395171D18296C00D3DF71 /* TPKeyboardAvoidingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TPKeyboardAvoidingScrollView.h; path = OPC/TPKeyboardAvoiding/TPKeyboardAvoidingScrollView.h; sourceTree = "<group>"; };
@@ -803,6 +806,7 @@
 		DE87E4CF1D21B7DB00871700 /* LEOAnalyticScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOAnalyticScreen.m; path = "Data Model/LEOAnalyticScreen.m"; sourceTree = "<group>"; };
 		DEF91861D13AACF04D176928 /* libPods-Leo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Leo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE91E49A1D11FFF5007EE79F /* DeveloperCodeSigning.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = DeveloperCodeSigning.xcconfig; path = xcconfig/DeveloperCodeSigning.xcconfig; sourceTree = "<group>"; };
+		DEF91861D13AACF04D176928 /* libPods-Leo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Leo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1634,6 +1638,8 @@
 				3146550F1BFD1FE700354181 /* AppointmentStatus.m */,
 				31D2756D1C4809AC005F8964 /* LEOS3Image.h */,
 				31D2756E1C4809AC005F8964 /* LEOS3Image.m */,
+				DE1CF7451D18680A00053BA3 /* Family+Analytics.h */,
+				DE1CF7461D18680A00053BA3 /* Family+Analytics.m */,
 			);
 			name = Objects;
 			path = "Data Model/Objects";
@@ -2057,6 +2063,7 @@
 				3138FC491B9A19A8000FE22C /* InsurancePlanCell.m in Sources */,
 				319FB4C01BBA379E00EFF7B9 /* NSString+TextDirectionality.m in Sources */,
 				31FDDE6F1B29EDF70009BBC2 /* ArrayDataSource.m in Sources */,
+				DE1CF7471D18680A00053BA3 /* Family+Analytics.m in Sources */,
 				662371E51C568A26001AB3E7 /* LEOLoggedOutOnboardingCell.m in Sources */,
 				31567CDC1CCECF1700715222 /* LEOCallManager.m in Sources */,
 				31CC12E51BB062C40099AB60 /* Family.m in Sources */,

@@ -1078,12 +1078,16 @@ static NSString *const kDefaultPracticeID = @"0";
     [self sendMessage:message withCompletion:^(Message *responseMessage, NSError *error){
 
         if (!error) {
-
+            
+            Guardian *guardian = [LEOSession user];
+            NSString *membershipTypeString = [Guardian membershipStringFromType:guardian.membershipType];
+            
             if ([message isKindOfClass:[MessageImage class]]) {
                 [Localytics tagEvent:kAnalyticEventSendImageMessage];
             }
             else if ([message isKindOfClass:[MessageText class]]) {
-                [Localytics tagEvent:kAnalyticEventSendTextMessage];
+                [Localytics tagEvent:kAnalyticEventSendTextMessage
+                          attributes:@{@"Membership Type" : membershipTypeString}];
             }
 
             [[self conversation] addMessage:responseMessage];
