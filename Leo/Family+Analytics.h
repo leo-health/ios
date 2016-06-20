@@ -16,5 +16,7 @@
 - (int)numberOfChildrenFiveToThirteen;
 - (int)numberOfChildrenThirteenToEighteen;
 - (int)numberOfChildrenEighteenOrOlder;
+- (int)ageOfOldestChild;
+- (int)ageOfYoungestChild;
 
 @end

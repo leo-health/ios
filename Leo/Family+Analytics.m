@@ -7,6 +7,7 @@
 //
 
 #import "Family+Analytics.h"
+#import "Patient.h"
 
 @implementation Family (Analytics)
 
@@ -53,6 +54,41 @@
 - (int)numberOfChildrenEighteenOrOlder{
     return [self numberOfPatientsBetweenAge:18 andAge: 26];
 }
+
+- (int)calculateAgeFromDOB:(NSDate*)dob{
+    NSDate *now = [NSDate date];
+    NSDateComponents *dobToPresent = [[NSCalendar currentCalendar]
+                                      components: NSCalendarUnitYear
+                                      fromDate:dob
+                                      toDate:now
+                                      options:0];
+    return (int)dobToPresent.year;
+}
+
+- (NSArray*)youngestToOldest{
+    NSArray *children = self.patients;
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"dob" ascending:NO];
+    NSArray *youngestToOldest = [children sortedArrayUsingDescriptors:[NSArray arrayWithObject:sortDescriptor]];
+    return youngestToOldest;
+}
+
+- (int)ageOfOldestChild{
+    NSArray *youngestToOldest = [self youngestToOldest];
+    Patient *oldest = [youngestToOldest lastObject];
+    NSDate *dob = [oldest dob];
+    int yearsOld = [self calculateAgeFromDOB:dob];
+    return yearsOld;
+}
+
+- (int)ageOfYoungestChild{
+    NSArray *youngestToOldest = [self youngestToOldest];
+    Patient *youngest = youngestToOldest[0];
+    NSDate *dob = [youngest dob];
+    int yearsOld = [self calculateAgeFromDOB:dob];
+    return yearsOld;
+}
+
+
 
 
 
