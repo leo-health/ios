@@ -1,1 +1,0 @@
-../../../GNZSlidingSegment/Pod/Classes/UISegmentedControl+GNZCompatibility.h

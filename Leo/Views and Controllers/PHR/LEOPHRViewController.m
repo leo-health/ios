@@ -12,10 +12,10 @@
 #import "LEOStyleHelper.h"
 #import "LEOAnalyticSession.h"
 
-#import <GNZSlidingSegment/GNZSegmentedControl.h>
-#import <GNZSlidingSegment/GNZSlidingSegmentView.h>
+#import "GNZSegmentedControl.h"
+#import "GNZSlidingSegmentView.h"
 #import "LEORecordViewController.h"
-#import <GNZSlidingSegment/UISegmentedControl+GNZCompatibility.h>
+#import "UISegmentedControl+GNZCompatibility.h"
 
 #import "Patient.h"
 

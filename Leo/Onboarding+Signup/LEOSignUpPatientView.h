@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "LEOPromptField.h"
 #import <RSKImageCropViewController.h>
-#import <TPKeyboardAvoiding/TPKeyboardAvoidingScrollView.h>
+#import "TPKeyboardAvoidingScrollView.h"
 @class Patient;
 
 @protocol LEOSignUpPatientProtocol <NSObject>

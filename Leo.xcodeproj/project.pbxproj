@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		18BA867E436F53B27026FDB3 /* libPods-LeoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E5BC0D4370F984698F4E074 /* libPods-LeoTests.a */; };
 		1E7306FB1B3F823800D029CC /* UIScrollView+LEOScrollToVisible.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E7306FA1B3F823800D029CC /* UIScrollView+LEOScrollToVisible.m */; };
 		3101F9411BF54D320075765B /* NSUserDefaults+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3101F9401BF54D320075765B /* NSUserDefaults+Extensions.m */; };
 		3101F9431BF556820075765B /* LeoUserDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3101F9421BF556820075765B /* LeoUserDefaults.plist */; };
@@ -249,7 +248,8 @@
 		66C7EF6B1C2A02C200F2FF56 /* LEOGradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C7EF6A1C2A02C200F2FF56 /* LEOGradientView.m */; };
 		66CB50BF1C59573D00A694AF /* LEORecordEditNotesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CB50BE1C59573D00A694AF /* LEORecordEditNotesViewController.m */; };
 		66E6E1D61C6B9FFB00B10178 /* LEOImagePreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E6E1D51C6B9FFB00B10178 /* LEOImagePreviewViewController.m */; };
-		80A98A7B253FC07906E88FF2 /* libPods-Leo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 35A5E688B99D6A1E2E30A645 /* libPods-Leo.a */; };
+		AB1DD31CA62AF2E9ACB9E277 /* libPods-Leo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DEF91861D13AACF04D176928 /* libPods-Leo.a */; };
+		B837B70D3800EE1F572523FB /* libPods-LeoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C9BFC97BBACAA8BBCAFB0684 /* libPods-LeoTests.a */; };
 		BC163B021B054E03000FB1CE /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC163B011B054E03000FB1CE /* QuartzCore.framework */; };
 		BCE1EC6A1B00E353007C8D0B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE1EC691B00E353007C8D0B /* main.m */; };
 		BCE1EC6D1B00E353007C8D0B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE1EC6C1B00E353007C8D0B /* AppDelegate.m */; };
@@ -259,6 +259,13 @@
 		BCE1EC9E1B012628007C8D0B /* UIColor+LeoColors.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE1EC9D1B012628007C8D0B /* UIColor+LeoColors.m */; };
 		BCE1ECA41B014613007C8D0B /* LEOConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE1ECA31B014613007C8D0B /* LEOConstants.m */; };
 		BCED00811B0150F4007653D6 /* LEOFeedTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = BCED00801B0150F4007653D6 /* LEOFeedTVC.m */; };
+		DE63951D1D18296C00D3DF71 /* TPKeyboardAvoidingCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = DE6395161D18296C00D3DF71 /* TPKeyboardAvoidingCollectionView.m */; };
+		DE63951E1D18296C00D3DF71 /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = DE6395181D18296C00D3DF71 /* TPKeyboardAvoidingScrollView.m */; };
+		DE63951F1D18296C00D3DF71 /* TPKeyboardAvoidingTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = DE63951A1D18296C00D3DF71 /* TPKeyboardAvoidingTableView.m */; };
+		DE6395201D18296C00D3DF71 /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DE63951C1D18296C00D3DF71 /* UIScrollView+TPKeyboardAvoidingAdditions.m */; };
+		DE6395291D182AD600D3DF71 /* GNZSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = DE6395241D182AD600D3DF71 /* GNZSegmentedControl.m */; };
+		DE63952A1D182AD600D3DF71 /* GNZSlidingSegmentView.m in Sources */ = {isa = PBXBuildFile; fileRef = DE6395261D182AD600D3DF71 /* GNZSlidingSegmentView.m */; };
+		DE63952B1D182AD600D3DF71 /* UISegmentedControl+GNZCompatibility.m in Sources */ = {isa = PBXBuildFile; fileRef = DE6395281D182AD600D3DF71 /* UISegmentedControl+GNZCompatibility.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -272,7 +279,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		00C21EAFFFDC7EA3B95241D1 /* Pods-LeoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LeoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-LeoTests/Pods-LeoTests.release.xcconfig"; sourceTree = "<group>"; };
 		1E7306F91B3F823800D029CC /* UIScrollView+LEOScrollToVisible.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+LEOScrollToVisible.h"; sourceTree = "<group>"; };
 		1E7306FA1B3F823800D029CC /* UIScrollView+LEOScrollToVisible.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+LEOScrollToVisible.m"; sourceTree = "<group>"; };
 		3101F93F1BF54D320075765B /* NSUserDefaults+Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSUserDefaults+Extensions.h"; path = "Helpers/NSUserDefaults+Extensions.h"; sourceTree = "<group>"; };
@@ -689,8 +695,6 @@
 		31FEF1531B0D073600AD14D2 /* LEOCard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOCard.m; path = "Data Model/LEOCard.m"; sourceTree = "<group>"; };
 		31FEF1551B0D09E700AD14D2 /* LEOCardUserView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOCardUserView.h; sourceTree = "<group>"; };
 		31FEF1561B0D09E700AD14D2 /* LEOCardUserView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOCardUserView.m; sourceTree = "<group>"; };
-		35A5E688B99D6A1E2E30A645 /* libPods-Leo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Leo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		3DBE2EB46C1BD8FF573DB996 /* Pods-Leo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Leo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Leo/Pods-Leo.debug.xcconfig"; sourceTree = "<group>"; };
 		660D77761C46ACBF00DCCB3C /* LEOIntrinsicSizeTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOIntrinsicSizeTableView.h; sourceTree = "<group>"; };
 		660D77771C46ACBF00DCCB3C /* LEOIntrinsicSizeTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOIntrinsicSizeTableView.m; sourceTree = "<group>"; };
 		662371DD1C5683A3001AB3E7 /* LEOLoggedOutOnboardingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOLoggedOutOnboardingViewController.h; sourceTree = "<group>"; };
@@ -745,11 +749,6 @@
 		66CB50BE1C59573D00A694AF /* LEORecordEditNotesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEORecordEditNotesViewController.m; sourceTree = "<group>"; };
 		66E6E1D41C6B9FFB00B10178 /* LEOImagePreviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOImagePreviewViewController.h; sourceTree = "<group>"; };
 		66E6E1D51C6B9FFB00B10178 /* LEOImagePreviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOImagePreviewViewController.m; sourceTree = "<group>"; };
-		68672CCCC55FDBB684C56186 /* Pods-Leo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Leo.release.xcconfig"; path = "Pods/Target Support Files/Pods-Leo/Pods-Leo.release.xcconfig"; sourceTree = "<group>"; };
-		7E5BC0D4370F984698F4E074 /* libPods-LeoTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LeoTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		8E925C5780DCA1FB4A55B841 /* Pods-LeoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LeoTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LeoTests/Pods-LeoTests.debug.xcconfig"; sourceTree = "<group>"; };
-		9229621B9525CD4A230A5927 /* Pods-LeoTests.testflight.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LeoTests.testflight.xcconfig"; path = "Pods/Target Support Files/Pods-LeoTests/Pods-LeoTests.testflight.xcconfig"; sourceTree = "<group>"; };
-		ABD22D246D8774D0259B9DDD /* Pods-LeoTests.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LeoTests.appstore.xcconfig"; path = "Pods/Target Support Files/Pods-LeoTests/Pods-LeoTests.appstore.xcconfig"; sourceTree = "<group>"; };
 		BC163B011B054E03000FB1CE /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		BCA69A381B035CEF00C27B2B /* Leo-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Leo-Prefix.pch"; path = "../Leo-Prefix.pch"; sourceTree = "<group>"; };
 		BCE1EC641B00E353007C8D0B /* Leo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Leo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -767,6 +766,23 @@
 		BCE1ECA31B014613007C8D0B /* LEOConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOConstants.m; sourceTree = "<group>"; };
 		BCED007F1B0150F4007653D6 /* LEOFeedTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOFeedTVC.h; sourceTree = "<group>"; };
 		BCED00801B0150F4007653D6 /* LEOFeedTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = LEOFeedTVC.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		C9BFC97BBACAA8BBCAFB0684 /* libPods-LeoTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LeoTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DE6395151D18296C00D3DF71 /* TPKeyboardAvoidingCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TPKeyboardAvoidingCollectionView.h; path = OPC/TPKeyboardAvoiding/TPKeyboardAvoidingCollectionView.h; sourceTree = "<group>"; };
+		DE6395161D18296C00D3DF71 /* TPKeyboardAvoidingCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TPKeyboardAvoidingCollectionView.m; path = OPC/TPKeyboardAvoiding/TPKeyboardAvoidingCollectionView.m; sourceTree = "<group>"; };
+		DE6395171D18296C00D3DF71 /* TPKeyboardAvoidingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TPKeyboardAvoidingScrollView.h; path = OPC/TPKeyboardAvoiding/TPKeyboardAvoidingScrollView.h; sourceTree = "<group>"; };
+		DE6395181D18296C00D3DF71 /* TPKeyboardAvoidingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TPKeyboardAvoidingScrollView.m; path = OPC/TPKeyboardAvoiding/TPKeyboardAvoidingScrollView.m; sourceTree = "<group>"; };
+		DE6395191D18296C00D3DF71 /* TPKeyboardAvoidingTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TPKeyboardAvoidingTableView.h; path = OPC/TPKeyboardAvoiding/TPKeyboardAvoidingTableView.h; sourceTree = "<group>"; };
+		DE63951A1D18296C00D3DF71 /* TPKeyboardAvoidingTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TPKeyboardAvoidingTableView.m; path = OPC/TPKeyboardAvoiding/TPKeyboardAvoidingTableView.m; sourceTree = "<group>"; };
+		DE63951B1D18296C00D3DF71 /* UIScrollView+TPKeyboardAvoidingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+TPKeyboardAvoidingAdditions.h"; sourceTree = "<group>"; };
+		DE63951C1D18296C00D3DF71 /* UIScrollView+TPKeyboardAvoidingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+TPKeyboardAvoidingAdditions.m"; sourceTree = "<group>"; };
+		DE6395221D182AD600D3DF71 /* GNZSegment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GNZSegment.h; path = OPC/GNZSlidingSegment/GNZSegment.h; sourceTree = "<group>"; };
+		DE6395231D182AD600D3DF71 /* GNZSegmentedControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GNZSegmentedControl.h; path = OPC/GNZSlidingSegment/GNZSegmentedControl.h; sourceTree = "<group>"; };
+		DE6395241D182AD600D3DF71 /* GNZSegmentedControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GNZSegmentedControl.m; path = OPC/GNZSlidingSegment/GNZSegmentedControl.m; sourceTree = "<group>"; };
+		DE6395251D182AD600D3DF71 /* GNZSlidingSegmentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GNZSlidingSegmentView.h; path = OPC/GNZSlidingSegment/GNZSlidingSegmentView.h; sourceTree = "<group>"; };
+		DE6395261D182AD600D3DF71 /* GNZSlidingSegmentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GNZSlidingSegmentView.m; path = OPC/GNZSlidingSegment/GNZSlidingSegmentView.m; sourceTree = "<group>"; };
+		DE6395271D182AD600D3DF71 /* UISegmentedControl+GNZCompatibility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UISegmentedControl+GNZCompatibility.h"; sourceTree = "<group>"; };
+		DE6395281D182AD600D3DF71 /* UISegmentedControl+GNZCompatibility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UISegmentedControl+GNZCompatibility.m"; sourceTree = "<group>"; };
+		DEF91861D13AACF04D176928 /* libPods-Leo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Leo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -774,7 +790,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				18BA867E436F53B27026FDB3 /* libPods-LeoTests.a in Frameworks */,
+				B837B70D3800EE1F572523FB /* libPods-LeoTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -783,13 +799,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC163B021B054E03000FB1CE /* QuartzCore.framework in Frameworks */,
-				80A98A7B253FC07906E88FF2 /* libPods-Leo.a in Frameworks */,
+				AB1DD31CA62AF2E9ACB9E277 /* libPods-Leo.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		206D8383CE128623F90C84D8 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		3101D6DB1B0CE08F00640C10 /* MiniCards */ = {
 			isa = PBXGroup;
 			children = (
@@ -1416,19 +1439,6 @@
 			name = PHR;
 			sourceTree = "<group>";
 		};
-		354D27DEC99358EDEA9677D6 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				3DBE2EB46C1BD8FF573DB996 /* Pods-Leo.debug.xcconfig */,
-				68672CCCC55FDBB684C56186 /* Pods-Leo.release.xcconfig */,
-				8E925C5780DCA1FB4A55B841 /* Pods-LeoTests.debug.xcconfig */,
-				00C21EAFFFDC7EA3B95241D1 /* Pods-LeoTests.release.xcconfig */,
-				9229621B9525CD4A230A5927 /* Pods-LeoTests.testflight.xcconfig */,
-				ABD22D246D8774D0259B9DDD /* Pods-LeoTests.appstore.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		662371DC1C56831D001AB3E7 /* Logged Out Flow */ = {
 			isa = PBXGroup;
 			children = (
@@ -1454,8 +1464,8 @@
 			isa = PBXGroup;
 			children = (
 				BC163B011B054E03000FB1CE /* QuartzCore.framework */,
-				35A5E688B99D6A1E2E30A645 /* libPods-Leo.a */,
-				7E5BC0D4370F984698F4E074 /* libPods-LeoTests.a */,
+				DEF91861D13AACF04D176928 /* libPods-Leo.a */,
+				C9BFC97BBACAA8BBCAFB0684 /* libPods-LeoTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1612,8 +1622,8 @@
 				3101F9421BF556820075765B /* LeoUserDefaults.plist */,
 				3132BEA31B84F9D200494727 /* LeoTests */,
 				BCE1EC651B00E353007C8D0B /* Products */,
-				354D27DEC99358EDEA9677D6 /* Pods */,
 				B8FA0B797E23BA25DF87DA78 /* Frameworks */,
+				206D8383CE128623F90C84D8 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1629,6 +1639,8 @@
 		BCE1EC661B00E353007C8D0B /* Leo */ = {
 			isa = PBXGroup;
 			children = (
+				DE6395211D182AB300D3DF71 /* GNZSlidingSegment */,
+				DE6395141D18293D00D3DF71 /* TPKeyboardAvoiding */,
 				31FCDD6D1C5EAA5900BE4B78 /* *.leohealth.com.cer */,
 				31B5EC631BDA84720016F653 /* *.leoforkids.com.cer */,
 				3130B4911B0693D5006ACC80 /* Stoyboards & Xibs */,
@@ -1684,6 +1696,35 @@
 			name = "Data Model";
 			sourceTree = "<group>";
 		};
+		DE6395141D18293D00D3DF71 /* TPKeyboardAvoiding */ = {
+			isa = PBXGroup;
+			children = (
+				DE6395151D18296C00D3DF71 /* TPKeyboardAvoidingCollectionView.h */,
+				DE6395161D18296C00D3DF71 /* TPKeyboardAvoidingCollectionView.m */,
+				DE6395171D18296C00D3DF71 /* TPKeyboardAvoidingScrollView.h */,
+				DE6395181D18296C00D3DF71 /* TPKeyboardAvoidingScrollView.m */,
+				DE6395191D18296C00D3DF71 /* TPKeyboardAvoidingTableView.h */,
+				DE63951A1D18296C00D3DF71 /* TPKeyboardAvoidingTableView.m */,
+				DE63951B1D18296C00D3DF71 /* UIScrollView+TPKeyboardAvoidingAdditions.h */,
+				DE63951C1D18296C00D3DF71 /* UIScrollView+TPKeyboardAvoidingAdditions.m */,
+			);
+			name = TPKeyboardAvoiding;
+			sourceTree = "<group>";
+		};
+		DE6395211D182AB300D3DF71 /* GNZSlidingSegment */ = {
+			isa = PBXGroup;
+			children = (
+				DE6395221D182AD600D3DF71 /* GNZSegment.h */,
+				DE6395231D182AD600D3DF71 /* GNZSegmentedControl.h */,
+				DE6395241D182AD600D3DF71 /* GNZSegmentedControl.m */,
+				DE6395251D182AD600D3DF71 /* GNZSlidingSegmentView.h */,
+				DE6395261D182AD600D3DF71 /* GNZSlidingSegmentView.m */,
+				DE6395271D182AD600D3DF71 /* UISegmentedControl+GNZCompatibility.h */,
+				DE6395281D182AD600D3DF71 /* UISegmentedControl+GNZCompatibility.m */,
+			);
+			name = GNZSlidingSegment;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1691,12 +1732,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3132BEAA1B84F9D200494727 /* Build configuration list for PBXNativeTarget "LeoTests" */;
 			buildPhases = (
-				C26558818F43BD88EF4763CC /* Check Pods Manifest.lock */,
+				80EC2A29940A61F814CD7588 /* [CP] Check Pods Manifest.lock */,
 				3132BE9E1B84F9D100494727 /* Sources */,
 				3132BE9F1B84F9D100494727 /* Frameworks */,
 				3132BEA01B84F9D100494727 /* Resources */,
-				5611AFAF01C6667A748C8808 /* Copy Pods Resources */,
-				92B0C6FAA7FBF9A2DE5582A1 /* Embed Pods Frameworks */,
+				F99046E87806F67327DD9CC2 /* [CP] Embed Pods Frameworks */,
+				1D567D83CB0F4C5408D9A8C8 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1712,13 +1753,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = BCE1EC871B00E353007C8D0B /* Build configuration list for PBXNativeTarget "Leo" */;
 			buildPhases = (
-				AD74AFBB7A78B2A607F83883 /* Check Pods Manifest.lock */,
+				29B68DC51B0C194D1850F2B2 /* [CP] Check Pods Manifest.lock */,
 				BCE1EC601B00E353007C8D0B /* Sources */,
 				BCE1EC611B00E353007C8D0B /* Frameworks */,
 				BCE1EC621B00E353007C8D0B /* Resources */,
-				CB7DB39BBE1DE6D4A4F9F218 /* Copy Pods Resources */,
-				7305E41372AF5CF04B09C7C2 /* Embed Pods Frameworks */,
 				313ECC271CA5B3690059C434 /* Upload Symbols to Crashlytics */,
+				534546A49AE150E47D798F2A /* [CP] Embed Pods Frameworks */,
+				E8DCB82B315522AEBCC37C15 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1829,6 +1870,36 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		1D567D83CB0F4C5408D9A8C8 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LeoTests/Pods-LeoTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		29B68DC51B0C194D1850F2B2 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
 		313ECC271CA5B3690059C434 /* Upload Symbols to Crashlytics */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1843,29 +1914,14 @@
 			shellPath = /bin/sh;
 			shellScript = "${SRCROOT}/build_scripts/crashlytics.sh -k ../private_keys -d ${PODS_ROOT}/Fabric -e ${ENVIRONMENT}";
 		};
-		5611AFAF01C6667A748C8808 /* Copy Pods Resources */ = {
+		534546A49AE150E47D798F2A /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LeoTests/Pods-LeoTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		7305E41372AF5CF04B09C7C2 /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1873,29 +1929,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Leo/Pods-Leo-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		92B0C6FAA7FBF9A2DE5582A1 /* Embed Pods Frameworks */ = {
+		80EC2A29940A61F814CD7588 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LeoTests/Pods-LeoTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		AD74AFBB7A78B2A607F83883 /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1903,34 +1944,34 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		C26558818F43BD88EF4763CC /* Check Pods Manifest.lock */ = {
+		E8DCB82B315522AEBCC37C15 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		CB7DB39BBE1DE6D4A4F9F218 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Leo/Pods-Leo-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F99046E87806F67327DD9CC2 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LeoTests/Pods-LeoTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1949,6 +1990,7 @@
 			files = (
 				31209FA71CA0845E00E8B749 /* LEOSettingsService.m in Sources */,
 				31F5AA661B791B4A00F96D06 /* LEOAPIPracticeOperation.m in Sources */,
+				DE6395291D182AD600D3DF71 /* GNZSegmentedControl.m in Sources */,
 				312FACE81CFF28740038A257 /* LEORouter.m in Sources */,
 				3138FC491B9A19A8000FE22C /* InsurancePlanCell.m in Sources */,
 				319FB4C01BBA379E00EFF7B9 /* NSString+TextDirectionality.m in Sources */,
@@ -1974,6 +2016,7 @@
 				31339B201C2264A300B53A86 /* LEOCardSubmissionControl.m in Sources */,
 				31254B771BAC99C500E8E150 /* LEOAppointmentService.m in Sources */,
 				31567CDF1CCFCCCB00715222 /* DailyPracticeSchedule.m in Sources */,
+				DE6395201D18296C00D3DF71 /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
 				31ECA3381B23C53500BC1D6B /* LEODateCell+ConfigureCell.m in Sources */,
 				3186DA121C88D7A200B71613 /* LEOFeedCell+ConfigureForConversationCard.m in Sources */,
 				31254B781BAC99C500E8E150 /* LEOHelperService.m in Sources */,
@@ -1991,6 +2034,7 @@
 				3115F2221BCEA998001BDF6A /* LEOUpdatePasswordViewController.m in Sources */,
 				66C7EF6B1C2A02C200F2FF56 /* LEOGradientView.m in Sources */,
 				31254B7D1BB050CD00E8E150 /* LEOUserService.m in Sources */,
+				DE63951D1D18296C00D3DF71 /* TPKeyboardAvoidingCollectionView.m in Sources */,
 				31CC12DF1BB062C40099AB60 /* Insurer.m in Sources */,
 				31F5AA691B791B4A00F96D06 /* LEOAPIAppointmentTypesOperation.m in Sources */,
 				3115F2021BC848F8001BDF6A /* LEOAddCaregiverView.m in Sources */,
@@ -2093,7 +2137,9 @@
 				BCE1EC6D1B00E353007C8D0B /* AppDelegate.m in Sources */,
 				315E12B51BB9BDA6001023F1 /* LEOSignUpUserView.m in Sources */,
 				31D2753F1C3DB676005F8964 /* LEOHeaderView.m in Sources */,
+				DE63952A1D182AD600D3DF71 /* GNZSlidingSegmentView.m in Sources */,
 				31CC12DA1BB062C40099AB60 /* Appointment.m in Sources */,
+				DE63952B1D182AD600D3DF71 /* UISegmentedControl+GNZCompatibility.m in Sources */,
 				3138FC321B9A1169000FE22C /* LEOValidatedFloatLabeledTextField.m in Sources */,
 				31B5097D1C7CBF3500CE33D4 /* LEOFeedHeaderCell.m in Sources */,
 				31FCDD5E1C56A64200BE4B78 /* LEOReviewOnboardingView.m in Sources */,
@@ -2105,7 +2151,9 @@
 				3128D4EF1B4313D000582710 /* LEOFeedCell+ConfigureForCard.m in Sources */,
 				66A5DB2A1C3D964C008AEC55 /* Allergy.m in Sources */,
 				66E6E1D61C6B9FFB00B10178 /* LEOImagePreviewViewController.m in Sources */,
+				DE63951E1D18296C00D3DF71 /* TPKeyboardAvoidingScrollView.m in Sources */,
 				313FA7261C0385E5008189B9 /* LEOStickyHeaderView.m in Sources */,
+				DE63951F1D18296C00D3DF71 /* TPKeyboardAvoidingTableView.m in Sources */,
 				66A5DB301C3D96B1008AEC55 /* Medication.m in Sources */,
 				3168997F1BC4858400B4C1EB /* LEOReviewPatientCell+ConfigureForCell.m in Sources */,
 				3192ACD91B0CC7C5007195F2 /* UIImage+Extensions.m in Sources */,

@@ -89,9 +89,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
         _applyMaskToCroppedImage = NO;
         _rotationEnabled = NO;
         _cropMode = RSKImageCropModeCircle;
-        _zoomable = YES;
     }
-
     return self;
 }
 
@@ -273,8 +271,6 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
         _imageScrollView = [[RSKImageScrollView alloc] init];
         _imageScrollView.clipsToBounds = NO;
         _imageScrollView.aspectFill = self.avoidEmptySpaceAroundImage;
-        _imageScrollView.minimumZoomScale == self.zoomable ? 0.0 : 1.0;
-        _imageScrollView.maximumZoomScale == self.zoomable ? 10.0 : 1.0;
     }
     return _imageScrollView;
 }
