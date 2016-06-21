@@ -13,7 +13,7 @@
 
 - (NSInteger)numberOfChildren {
     
-    NSInteger numberOfPatients = (NSInteger)[self.patients count];
+    NSInteger *numberOfPatients = [self.patients count];
     return numberOfPatients;
 }
 
