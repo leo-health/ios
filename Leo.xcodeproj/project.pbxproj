@@ -266,6 +266,7 @@
 		BCE1ECA41B014613007C8D0B /* LEOConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE1ECA31B014613007C8D0B /* LEOConstants.m */; };
 		BCED00811B0150F4007653D6 /* LEOFeedTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = BCED00801B0150F4007653D6 /* LEOFeedTVC.m */; };
 		DE1CF7471D18680A00053BA3 /* Family+Analytics.m in Sources */ = {isa = PBXBuildFile; fileRef = DE1CF7461D18680A00053BA3 /* Family+Analytics.m */; };
+		DE1CF74A1D19C41F00053BA3 /* Guardian+Analytics.m in Sources */ = {isa = PBXBuildFile; fileRef = DE1CF7491D19C41F00053BA3 /* Guardian+Analytics.m */; };
 		DE63951D1D18296C00D3DF71 /* TPKeyboardAvoidingCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = DE6395161D18296C00D3DF71 /* TPKeyboardAvoidingCollectionView.m */; };
 		DE63951E1D18296C00D3DF71 /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = DE6395181D18296C00D3DF71 /* TPKeyboardAvoidingScrollView.m */; };
 		DE63951F1D18296C00D3DF71 /* TPKeyboardAvoidingTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = DE63951A1D18296C00D3DF71 /* TPKeyboardAvoidingTableView.m */; };
@@ -787,6 +788,8 @@
 		DE16AE561D2EB64D00EE7811 /* LEOFormatting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOFormatting.h; sourceTree = "<group>"; };
 		DE1CF7451D18680A00053BA3 /* Family+Analytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Family+Analytics.h"; path = "Leo/Family+Analytics.h"; sourceTree = SOURCE_ROOT; };
 		DE1CF7461D18680A00053BA3 /* Family+Analytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Family+Analytics.m"; path = "Leo/Family+Analytics.m"; sourceTree = SOURCE_ROOT; };
+		DE1CF7481D19C41F00053BA3 /* Guardian+Analytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Guardian+Analytics.h"; path = "Leo/Guardian+Analytics.h"; sourceTree = SOURCE_ROOT; };
+		DE1CF7491D19C41F00053BA3 /* Guardian+Analytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Guardian+Analytics.m"; path = "Leo/Guardian+Analytics.m"; sourceTree = SOURCE_ROOT; };
 		DE6395151D18296C00D3DF71 /* TPKeyboardAvoidingCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TPKeyboardAvoidingCollectionView.h; path = OPC/TPKeyboardAvoiding/TPKeyboardAvoidingCollectionView.h; sourceTree = "<group>"; };
 		DE6395161D18296C00D3DF71 /* TPKeyboardAvoidingCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TPKeyboardAvoidingCollectionView.m; path = OPC/TPKeyboardAvoiding/TPKeyboardAvoidingCollectionView.m; sourceTree = "<group>"; };
 		DE6395171D18296C00D3DF71 /* TPKeyboardAvoidingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TPKeyboardAvoidingScrollView.h; path = OPC/TPKeyboardAvoiding/TPKeyboardAvoidingScrollView.h; sourceTree = "<group>"; };
@@ -1578,6 +1581,8 @@
 		BC4D685B1B04DAF10018DAB5 /* Objects */ = {
 			isa = PBXGroup;
 			children = (
+				DE1CF7481D19C41F00053BA3 /* Guardian+Analytics.h */,
+				DE1CF7491D19C41F00053BA3 /* Guardian+Analytics.m */,
 				310943741CCE5CA70015D52F /* Notice.h */,
 				310943751CCE5CA70015D52F /* Notice.m */,
 				66A5DB251C3D95FD008AEC55 /* HealthRecord.h */,
@@ -2086,6 +2091,7 @@
 				31339B201C2264A300B53A86 /* LEOCardSubmissionControl.m in Sources */,
 				31254B771BAC99C500E8E150 /* LEOAppointmentService.m in Sources */,
 				31567CDF1CCFCCCB00715222 /* DailyPracticeSchedule.m in Sources */,
+				DE1CF74A1D19C41F00053BA3 /* Guardian+Analytics.m in Sources */,
 				DE6395201D18296C00D3DF71 /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
 				31ECA3381B23C53500BC1D6B /* LEODateCell+ConfigureCell.m in Sources */,
 				3186DA121C88D7A200B71613 /* LEOFeedCell+ConfigureForConversationCard.m in Sources */,
