@@ -32,6 +32,7 @@
 #import "AppointmentStatus.h"
 #import "Guardian.h"
 #import "Guardian+Analytics.h"
+#import "LEOAnalyticIntent.h"
 
 #import "UIColor+LeoColors.h"
 #import "UIImage+Extensions.h"
@@ -675,23 +676,12 @@ static CGFloat const kFeedInsetTop = 20.0;
                             [LEOValidationsHelper formattedPhoneNumberFromPhoneNumber:kFlatironPediatricsPhoneNumber]];
 
     Family *family = self.family;
-    Guardian *guardian = [LEOSession user];
+    NSDictionary *eventAttributeDictionary = [LEOAnalyticIntent attributeDictionary:family];
     
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:alertTitle message:nil preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:@"Call" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-
         [Localytics tagEvent:kAnalyticEventCallUs
-                  attributes:@{@"Number of Children" : @([family numberOfChildren]),
-                               @"Age of oldest child" : @([family ageOfOldestChild]),
-                               @"Age of youngest child" : @([family ageOfYoungestChild]),
-                               @"Number of children older than 0 & younger than 2" : @([family numberOfChildrenZeroToTwo]),
-                               @"Number of children older than 2 & younger than 5" : @([family numberOfChildrenTwoToFive]),
-                               @"Number of children older than 5 & younger than 13": @([family numberOfChildrenFiveToThirteen]),
-                               @"Number of children older than 13 & younger than 18": @([family numberOfChildrenThirteenToEighteen]),
-                               @"Number of children older than 18": @([family numberOfChildrenEighteenOrOlder]),
-                               @"Primary guardian": [guardian isPrimaryString],
-                               @"Membership type": [guardian membershipTypeString],
-                               @"Number of times logged in": @(guardian.numTimesLoggedIn)}];
+                  attributes:eventAttributeDictionary];
 
         NSString *phoneCallNum = [NSString stringWithFormat:@"tel://%@",kFlatironPediatricsPhoneNumber];
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneCallNum]];
