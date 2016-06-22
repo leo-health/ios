@@ -25,7 +25,7 @@
 #import "LEOAlertHelper.h"
 #import "LEORecordEditNotesViewController.h"
 
-static CGFloat const kHeightOfHeaderPHR = 200;
+static CGFloat const kHeightOfHeaderPHR = 116;
 
 @interface LEOPHRViewController () <LEOStickyHeaderDataSource, LEOStickyHeaderDelegate>
 
@@ -185,8 +185,10 @@ static CGFloat const kHeightOfHeaderPHR = 200;
     [LEOStyleHelper styleBackButtonForViewController:self forFeature:FeatureSettings];
 
     self.navigationController.navigationBarHidden = NO;
-    self.navigationController.navigationBar.translucent = YES;
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+
+    //FIXME: When we replace the LEOPHRHeaderView with a subclass of LEOGradientView, set this to YES, and update the size of everything to reflect the additional 64 points (or as needed).
+    self.navigationController.navigationBar.translucent = NO;
+    [self.navigationController.navigationBar setBackgroundColor:[UIColor clearColor]];
     self.navigationController.navigationBar.tintColor = [UIColor leo_white];
     self.navigationController.navigationBar.shadowImage = [UIImage new];
 }

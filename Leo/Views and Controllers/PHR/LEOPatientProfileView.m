@@ -24,10 +24,12 @@
 
 @implementation LEOPatientProfileView
 
-static CGFloat const kAvatarProfileDiameter = 67;
+static CGFloat const kAvatarProfileDiameter = 61.5;
 static CGFloat const kAvatarProfileBorderWidth = 1.0;
-static CGFloat const kSpacerProfileTop = 50.0;
-static CGFloat const kSpacerProfileBottom = 4.0;
+static CGFloat const kSpacerProfileTop = 12.0;
+static CGFloat const kSpacerProfileBottom = 12.0;
+static CGFloat const kSpacerProfileLeft = 27.5;
+static CGFloat const kSpacerProfileMiddle = 34.0;
 
 - (instancetype)initWithPatient:(Patient *)patient {
     self = [super init];
@@ -89,17 +91,40 @@ static CGFloat const kSpacerProfileBottom = 4.0;
         self.patientNameLabel.translatesAutoresizingMaskIntoConstraints = NO;
         self.patientAvatarImageView.translatesAutoresizingMaskIntoConstraints = NO;
 
-        NSDictionary *bindings = NSDictionaryOfVariableBindings(_patientNameLabel, _patientAvatarImageView);
+        NSDictionary *bindings =
+        NSDictionaryOfVariableBindings(_patientNameLabel, _patientAvatarImageView);
 
-        NSLayoutConstraint *centerConstraintForPatientAvatarImageView = [NSLayoutConstraint constraintWithItem:self.patientAvatarImageView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0];
+        NSLayoutConstraint *centerConstraintForPatientNameLabel =
+        [NSLayoutConstraint constraintWithItem:self.patientNameLabel
+                                     attribute:NSLayoutAttributeCenterY
+                                     relatedBy:NSLayoutRelationEqual
+                                        toItem:self.patientAvatarImageView
+                                     attribute:NSLayoutAttributeCenterY
+                                    multiplier:1.0
+                                      constant:0];
 
-        NSLayoutConstraint *centerConstraintForPatientNameLabel = [NSLayoutConstraint constraintWithItem:self.patientNameLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0];
+        NSDictionary *metrics =
+        @{@"avatarDiameter" : @(kAvatarProfileDiameter),
+          @"topSpacer" : @(kSpacerProfileTop),
+          @"bottomSpacer" : @(kSpacerProfileBottom),
+          @"leftSpacer" : @(kSpacerProfileLeft),
+          @"middleSpacer" : @(kSpacerProfileMiddle)};
 
-        NSArray *verticalConstraintsForProfile = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(topSpacer)-[_patientAvatarImageView(avatarDiameter)][_patientNameLabel]-(bottomSpacer)-|" options:0 metrics:@{@"avatarDiameter" : @(kAvatarProfileDiameter), @"topSpacer" : @(kSpacerProfileTop), @"bottomSpacer" : @(kSpacerProfileBottom) } views:bindings];
+        NSArray *verticalConstraintsForProfile =
+        [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(topSpacer)-[_patientAvatarImageView(avatarDiameter)]-(bottomSpacer)-|"
+                                                options:0
+                                                metrics:metrics
+                                                  views:bindings];
+
+        NSArray *horizontalConstraintsForProfile =
+        [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(leftSpacer)-[_patientAvatarImageView]-(middleSpacer)-[_patientNameLabel]"
+                                                options:0
+                                                metrics:metrics
+                                                  views:bindings];
 
         [self addConstraints:verticalConstraintsForProfile];
+        [self addConstraints:horizontalConstraintsForProfile];
         [self addConstraint:centerConstraintForPatientNameLabel];
-        [self addConstraint:centerConstraintForPatientAvatarImageView];
 
         self.alreadyUpdatedConstraints = YES;
     }

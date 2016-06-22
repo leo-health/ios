@@ -94,7 +94,7 @@
         NSArray *verticalConstraints;
 
         if ([self.patients count] > 1) {
-            verticalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_patientProfileView]-(1)-[_patientSelectorView]|" options:0 metrics:nil views:bindings];
+            verticalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_patientSelectorView]-(0.5)-[_patientProfileView]|" options:0 metrics:nil views:bindings];
 
             NSArray *horizontalConstraintsForSelector = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_patientSelectorView]|" options:0 metrics:nil views:bindings];
             [self addConstraints:horizontalConstraintsForSelector];

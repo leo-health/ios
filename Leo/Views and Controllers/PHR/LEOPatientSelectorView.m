@@ -24,7 +24,7 @@
 
 @implementation LEOPatientSelectorView
 
-static const CGFloat kHeightSegmentControl = 45.0;
+static const CGFloat kHeightSegmentControl = 16.5;
 static const CGFloat kDistanceSegments = 26.0;
 
 #pragma mark - VFL & Helper Methods
@@ -50,8 +50,6 @@ static const CGFloat kDistanceSegments = 26.0;
         NSUInteger segmentCount = [self.patients count];
 
         GNZSegmentedControl *strongSegmentedControl = [[GNZSegmentedControl alloc] initWithSegmentCount:segmentCount indicatorStyle:GNZIndicatorStyleCustom options:@{GNZSegmentOptionControlBackgroundColor: [UIColor leo_white], GNZSegmentOptionDefaultSegmentTintColor: [[UIColor leo_white] colorWithAlphaComponent:0.5], GNZSegmentOptionSelectedSegmentTintColor: [[UIColor leo_white] colorWithAlphaComponent:1.0], GNZSegmentOptionIndicatorColor: [UIColor leo_white]}];
-
-        strongSegmentedControl.translatesAutoresizingMaskIntoConstraints = NO;
 
         _segmentedControl = strongSegmentedControl;
         _segmentedControl.backgroundColor = [UIColor clearColor];
@@ -137,13 +135,13 @@ static const CGFloat kDistanceSegments = 26.0;
         NSArray *horizontalConstraintsForContentView = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_contentView]|" options:0 metrics:nil views:bindings];
         NSArray *verticalConstraintsForContentView = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_contentView]|" options:0 metrics:nil views:bindings];
 
-        NSLayoutConstraint *bottomConstraintForContentView = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.superview attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0];
+        //NSLayoutConstraint *bottomConstraintForContentView = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.superview attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0];
 
-        [self.superview addConstraint:bottomConstraintForContentView];
+//        [self.superview addConstraint:bottomConstraintForContentView];
         [self addConstraints:horizontalConstraintsForContentView];
         [self addConstraints:verticalConstraintsForContentView];
         
-        NSArray *verticalConstraintsForSegmentedControl = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_segmentedControl]|" options:0 metrics:nil views:bindings];
+        NSArray *verticalConstraintsForSegmentedControl = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_segmentedControl]-(5)-|" options:0 metrics:nil views:bindings];
         NSArray *horizontalConstraintsForSegmentedControl = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_segmentedControl]|" options:0 metrics:nil views:bindings];
 
         //TODO: Center IF the segmentedControl is smaller than the width of the UIScreen...
