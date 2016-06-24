@@ -22,6 +22,8 @@
 
 @property (weak, nonatomic) TKChart *chart;
 
+@property (weak, nonatomic) UIView *timeframeView;
+@property (weak, nonatomic) UISegmentedControl *metricControl;
 @property (copy, nonatomic) NSArray *coordinateData;
 @property (copy, nonatomic) NSArray *placeholderData;
 
@@ -56,7 +58,7 @@ static NSInteger const kVitalGraphMinDaysBeforeOrAfter = 1;
 
     [super viewDidLoad];
 
-    self.dataSource = [[LEOVitalGraphDataSource alloc] initWithDataSet:[self dataSetToGraph] seriesIdentifier:@"series" configureSeriesBlock:self.seriesBlock dataXValue:@"takenAt" dataYValue:@"value"];
+    self.dataSource = [[LEOVitalGraphDataSource alloc] initWithDataSet:[self selectedDataSet] seriesIdentifier:@"series" configureSeriesBlock:self.seriesBlock dataXValue:@"takenAt" dataYValue:@"value"];
 
     self.chart.delegate = self;
     self.chart.dataSource = self.dataSource;
@@ -95,24 +97,57 @@ static NSInteger const kVitalGraphMinDaysBeforeOrAfter = 1;
     return _chart;
 }
 
+- (UISegmentedControl *)metricControl {
+
+    if (!_metricControl) {
+
+        UISegmentedControl *strongSegmentControl = [[UISegmentedControl alloc] initWithItems:@[@"Weight", @"Height"]];
+
+        _metricControl = strongSegmentControl;
+
+        _metricControl.selectedSegmentIndex = 0;
+
+        [_metricControl addTarget:self action:@selector(reloadWithUIUpdates) forControlEvents:UIControlEventValueChanged];
+
+        _metricControl.tintColor = [UIColor leo_orangeRed];
+
+        NSDictionary *normalAttributes = @{ NSFontAttributeName :
+                                                     [UIFont leo_standardFont], NSForegroundColorAttributeName :
+                                                     [UIColor leo_orangeRed]
+                                            };
+
+
+        [_metricControl setTitleTextAttributes:normalAttributes forState:UIControlStateNormal];
+
+        NSDictionary *highlightedAttributes = @{ NSFontAttributeName :
+                                                     [UIFont leo_standardFont], NSForegroundColorAttributeName :
+                                                     [UIColor leo_white]};
+
+        [_metricControl setTitleTextAttributes:highlightedAttributes forState:UIControlStateSelected];
+
+        [self.view addSubview:_metricControl];
+    }
+
+    return _metricControl;
+}
 
 #pragma mark - Dataset Helpers
 
-- (NSArray *)dataSetToGraph {
-    return [self selectedDataSet] ? [self selectedDataSet] : self.placeholderData;
-}
-
 -(NSArray *)coordinateData {
 
-    if (self.patient.healthRecord.weights.count) {
-        return self.patient.healthRecord.weights;
-    };
+    NSInteger countDataSets = self.patient.healthRecord.timeSeries.count;
+    NSInteger selectedSegmentIndex = self.metricControl.selectedSegmentIndex;
+
+    if (countDataSets > selectedSegmentIndex) {
+
+        return self.patient.healthRecord.timeSeries[selectedSegmentIndex];
+    }
 
     return nil;
 }
 
 - (NSArray *)selectedDataSet {
-   return self.coordinateData ? : nil;
+    return self.coordinateData ? : nil;
 }
 
 
@@ -135,7 +170,6 @@ static NSInteger const kVitalGraphMinDaysBeforeOrAfter = 1;
     NSInteger daysSinceBeginningOfRange = [startDate daysEarlierThan:endDate];
     return MAX(daysSinceBeginningOfRange/20, kVitalGraphMinDaysBeforeOrAfter);
 }
-
 
 - (CGFloat)graphYStartPoint {
 
@@ -162,11 +196,11 @@ static NSInteger const kVitalGraphMinDaysBeforeOrAfter = 1;
 }
 
 - (CGFloat)findMaxValueOfYAxis {
-    return [[[self dataSetToGraph] valueForKeyPath:@"@max.value"] floatValue];
+    return [[[self selectedDataSet] valueForKeyPath:@"@max.value"] floatValue];
 }
 
 - (CGFloat)findMinValueOfYAxis {
-    return [[[self dataSetToGraph] valueForKeyPath:@"@min.value"] floatValue];
+    return [[[self selectedDataSet] valueForKeyPath:@"@min.value"] floatValue];
 }
 
 
@@ -176,7 +210,7 @@ static NSInteger const kVitalGraphMinDaysBeforeOrAfter = 1;
 
     [self.chart removeAllAnnotations];
 
-    [self.dataSource updateDataSet:[self dataSetToGraph] seriesIdentifier:@"series"];
+    [self.dataSource updateDataSet:[self selectedDataSet] seriesIdentifier:@"series"];
 
     [self.chart reloadData];
 
@@ -226,13 +260,17 @@ static NSInteger const kVitalGraphMinDaysBeforeOrAfter = 1;
     if (!self.alreadyUpdatedConstraints) {
 
         self.chart.translatesAutoresizingMaskIntoConstraints = NO;
+        self.metricControl.translatesAutoresizingMaskIntoConstraints = NO;
 
-        NSDictionary *bindings = NSDictionaryOfVariableBindings(_chart);
+        NSDictionary *bindings = NSDictionaryOfVariableBindings(_chart, _metricControl);
 
         NSArray *horizontalLayoutConstraintsForChart = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_chart]|" options:0 metrics:nil views:bindings];
-        NSArray *verticalLayoutConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_chart]|" options:0 metrics:nil views:bindings];
+        NSArray *horizontalLayoutConstraintsForMetricControl = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_metricControl]|" options:0 metrics:nil views:bindings];
+        NSArray *verticalLayoutConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_metricControl][_chart]|" options:0 metrics:nil views:bindings];
 
         [self.view addConstraints:horizontalLayoutConstraintsForChart];
+        [self.view addConstraints:horizontalLayoutConstraintsForMetricControl];
+
         [self.view addConstraints:verticalLayoutConstraints];
 
         self.alreadyUpdatedConstraints = YES;
