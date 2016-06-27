@@ -62,6 +62,7 @@
 #import "Practice.h"
 #import "LEOHelperService.h"
 #import "LEONoticeService.h"
+#import "LEOAnalyticScreen.h"
 
 @interface LEOConversationViewController ()
 
@@ -205,7 +206,7 @@ static NSString *const kDefaultPracticeID = @"0";
 
     [super viewDidAppear:animated];
 
-    [Localytics tagScreen:kAnalyticScreenMessaging];
+    [LEOAnalyticScreen tagScreen:kAnalyticScreenMessaging];
 
     [LEOApiReachability startMonitoringForController:self
                                     withOfflineBlock:^{
@@ -673,7 +674,7 @@ static NSString *const kDefaultPracticeID = @"0";
 
     [Configuration downloadRemoteEnvironmentVariablesIfNeededWithCompletion:^(BOOL success, NSError *error) {
 
-        [Localytics tagScreen:kAnalyticScreenMessaging];
+        [LEOAnalyticScreen tagScreen:kAnalyticScreenMessaging];
 
         __strong typeof(self) strongSelf = weakSelf;
 

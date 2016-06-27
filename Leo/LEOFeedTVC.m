@@ -64,6 +64,7 @@
 #import "LEOAlertHelper.h"
 #import "LEOMessageService.h"
 #import "LEOStatusBarNotification.h"
+#import "LEOAnalyticScreen.h"
 
 typedef NS_ENUM(NSUInteger, TableViewSection) {
     TableViewSectionHeader,
@@ -137,7 +138,7 @@ static CGFloat const kFeedInsetTop = 20.0;
 
     [super viewDidAppear:animated];
 
-    [Localytics tagScreen:kAnalyticScreenFeed];
+    [LEOAnalyticScreen tagScreen:kAnalyticScreenFeed];
 
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
 
@@ -307,7 +308,7 @@ static CGFloat const kFeedInsetTop = 20.0;
 
     [Configuration downloadRemoteEnvironmentVariablesIfNeededWithCompletion:^(BOOL success, NSError *error) {
 
-        [Localytics tagScreen:kAnalyticScreenFeed];
+        [LEOAnalyticScreen tagScreen:kAnalyticScreenFeed];
 
         typeof(self) strongSelf = weakSelf;
 

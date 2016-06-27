@@ -22,6 +22,7 @@
 #import "UIFont+LeoFonts.h"
 #import "LEOStyleHelper.h"
 #import "LEOAlertHelper.h"
+#import "LEOAnalyticScreen.h"
 
 @interface LEOCalendarViewController ()
 
@@ -54,7 +55,7 @@
 
     [super viewDidAppear:animated];
 
-    [Localytics tagScreen:kAnalyticScreenAppointmentCalendar];
+    [LEOAnalyticScreen tagScreen:kAnalyticScreenAppointmentCalendar];
 
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:^{
 

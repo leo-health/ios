@@ -41,6 +41,7 @@
 #import "UIButton+Extensions.h"
 #import "LEOCachedDataStore.h"
 #import "LEOAnalyticSession.h"
+#import "LEOAnalyticScreen.h"
 
 @interface LEOAppointmentViewController ()
 
@@ -117,7 +118,7 @@ static NSString *const kKeySelectionVCDate = @"date";
 
     [super viewDidAppear:animated];
 
-    [Localytics tagScreen:kAnalyticScreenAppointmentScheduling];
+    [LEOAnalyticScreen tagScreen:kAnalyticScreenAppointmentScheduling];
 
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:nil withOnlineBlock:^{
         self.submissionButton.enabled = self.appointment.isValidForBooking;

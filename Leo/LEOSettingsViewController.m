@@ -27,6 +27,7 @@
 #import "Configuration.h"
 
 #import "LEOAnalyticSession.h"
+#import "LEOAnalyticScreen.h"
 
 typedef NS_ENUM(NSUInteger, SettingsSection) {
     
@@ -96,7 +97,7 @@ static NSString *const kCopyManageMySubscription = @"Manage my membership";
 
     [super viewDidAppear:animated];
 
-    [Localytics tagScreen:kAnalyticScreenSettings];
+    [LEOAnalyticScreen tagScreen:kAnalyticScreenSettings];
 }
 
 - (void)setupNavigationBar {

@@ -24,6 +24,7 @@
 #import "LEOAnalyticSession.h"
 #import "Configuration.h"
 #import "LEOAlertHelper.h"
+#import "LEOAnalyticScreen.h"
 
 @interface LEOEnrollmentViewController ()
 
@@ -78,7 +79,7 @@ static NSString * const kCopyCollapsedHeaderEnrollment = @"Create an account";
 
     [super viewDidAppear:animated];
 
-    [Localytics tagScreen:kAnalyticScreenUserEnrollment];
+    [LEOAnalyticScreen tagScreen:kAnalyticScreenUserEnrollment];
 
     __weak typeof(self) weakSelf = self;
 

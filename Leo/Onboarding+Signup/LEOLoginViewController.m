@@ -27,6 +27,7 @@
 #import <Crittercism/Crittercism.h>
 #import "Configuration.h"
 #import "LEOAlertHelper.h"
+#import "LEOAnalyticScreen.h"
 
 @interface LEOLoginViewController ()
 
@@ -73,7 +74,7 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
 
     [super viewDidAppear:animated];
 
-    [Localytics tagScreen:kAnalyticScreenLogin];
+    [LEOAnalyticScreen tagScreen:kAnalyticScreenLogin];
 
     [LEOApiReachability startMonitoringForController:self
                                     withOfflineBlock:nil

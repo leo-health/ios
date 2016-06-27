@@ -32,6 +32,7 @@
 #import "NSObject+XibAdditions.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <Photos/Photos.h>
+#import "LEOAnalyticScreen.h"
 
 @interface LEOSignUpPatientViewController ()
 
@@ -73,7 +74,7 @@ static NSString *const kStatusBarNotificationAvatarUploadSuccess = @"Child profi
 
     [super viewDidAppear:animated];
 
-    [Localytics tagScreen:kAnalyticScreenPatientProfile];
+    [LEOAnalyticScreen tagScreen:kAnalyticScreenPatientProfile];
 
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:nil withOnlineBlock:nil];
 }

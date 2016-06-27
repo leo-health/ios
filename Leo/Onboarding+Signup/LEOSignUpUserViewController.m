@@ -31,6 +31,7 @@
 #import "UIView+Extensions.h"
 #import <TPKeyboardAvoidingScrollView.h>
 #import "LEOProgressDotsHeaderView.h"
+#import "LEOAnalyticScreen.h"
 
 @interface LEOSignUpUserViewController ()
 
@@ -85,7 +86,7 @@ static NSString * const kCopyHeaderSignUpUser = @"Tell us a little about yoursel
 
     [super viewDidAppear:animated];
 
-    [Localytics tagScreen:kAnalyticScreenUserProfile];
+    [LEOAnalyticScreen tagScreen:kAnalyticScreenUserProfile];
 
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:nil withOnlineBlock:nil];
 }

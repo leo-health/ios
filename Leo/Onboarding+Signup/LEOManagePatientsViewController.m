@@ -26,6 +26,7 @@
 #import "LEOButtonCell.h"
 #import "LEOPromptFieldCell.h"
 #import "LEOProgressDotsHeaderView.h"
+#import "LEOAnalyticScreen.h"
 
 @interface LEOManagePatientsViewController ()
 
@@ -76,7 +77,7 @@ static NSString * const kSignUpPatientSegue = @"SignUpPatientSegue";
 
     [super viewDidAppear:animated];
 
-    [Localytics tagScreen:kAnalyticScreenManagePatients];
+    [LEOAnalyticScreen tagScreen:kAnalyticScreenManagePatients];
 
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:nil withOnlineBlock:nil];
 }
