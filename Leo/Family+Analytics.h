@@ -18,5 +18,6 @@
 - (NSInteger)numberOfChildrenEighteenOrOlder;
 - (NSInteger)ageOfOldestChild;
 - (NSInteger)ageOfYoungestChild;
+- (NSDictionary *)getAttributes;
 
 @end

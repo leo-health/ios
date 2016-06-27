@@ -12,4 +12,7 @@
 
 @interface LEOAnalyticIntent : LEOAnalyticEvent
 
++ (void)tagEvent:(NSString *)eventName
+  withAttributes:(NSDictionary *)attributeDictionary;
+
 @end

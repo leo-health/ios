@@ -11,14 +11,15 @@
 
 @interface LEOAnalyticEvent : NSObject
 
-+(NSDictionary *)getAttributeDictionaryWithFamily:(Family *)family;
-+(void)tagEvent:(NSString *)eventName
- withAttributes:(NSDictionary *)attributeDictionary
-      andFamily:(Family *)family;
-+(void)tagEvent:(NSString *)eventName
-     withFamily:(Family *)family;
-+(void)tagEvent:(NSString *)eventName
- withAttributes:(NSDictionary *)attributeDictionary;
-+(void)tagEvent:(NSString *)eventName;
++ (NSDictionary *)getAttributesWithFamily:(Family *)family;
++ (void)tagEvent:(NSString *)eventName
+  withAttributes:(NSDictionary *)attributeDictionary
+       andFamily:(Family *)family;
++ (void)tagEvent:(NSString *)eventName
+      withFamily:(Family *)family;
++ (void)tagEvent:(NSString *)eventName
+  withAttributes:(NSDictionary *)attributeDictionary;
++ (void)tagEvent:(NSString *)eventName;
+
 
 @end

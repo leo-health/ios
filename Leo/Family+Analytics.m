@@ -11,34 +11,49 @@
 
 @implementation Family (Analytics)
 
+- (NSDictionary *)getAttributes {
+
+    NSDictionary* attributeDictionary =
+    @{@"Number of Children" : @([self numberOfChildren]),
+      @"Age of oldest child" : @([self ageOfOldestChild]),
+      @"Age of youngest child" : @([self ageOfYoungestChild]),
+      @"Number of children older than 0 & younger than 2" : @([self numberOfChildrenZeroToTwo]),
+      @"Number of children older than 2 & younger than 5" : @([self numberOfChildrenTwoToFive]),
+      @"Number of children older than 5 & younger than 13": @([self numberOfChildrenFiveToThirteen]),
+      @"Number of children older than 13 & younger than 18": @([self numberOfChildrenThirteenToEighteen]),
+      @"Number of children older than 18": @([self numberOfChildrenEighteenOrOlder])};
+
+    return attributeDictionary;
+}
+
 - (NSInteger)numberOfChildren {
     
-    NSInteger *numberOfPatients = [self.patients count];
+    NSInteger numberOfPatients = [self.patients count];
     return numberOfPatients;
 }
 
-- (NSInteger)numberOfChildrenZeroToTwo{
+- (NSInteger)numberOfChildrenZeroToTwo {
     return [self numberOfPatientsGreaterThanOrEqualToAge:0 andUnderAge: 2];
 }
 
-- (NSInteger)numberOfChildrenTwoToFive{
+- (NSInteger)numberOfChildrenTwoToFive {
     return [self numberOfPatientsGreaterThanOrEqualToAge:2 andUnderAge:5];
 }
 
-- (NSInteger)numberOfChildrenFiveToThirteen{
+- (NSInteger)numberOfChildrenFiveToThirteen {
     return [self numberOfPatientsGreaterThanOrEqualToAge:5 andUnderAge:13];
 }
 
-- (NSInteger)numberOfChildrenThirteenToEighteen{
+- (NSInteger)numberOfChildrenThirteenToEighteen {
     return [self numberOfPatientsGreaterThanOrEqualToAge:13 andUnderAge:18];
 }
 
-- (NSInteger)numberOfChildrenEighteenOrOlder{
+- (NSInteger)numberOfChildrenEighteenOrOlder {
     return [self numberOfPatientsGreaterThanOrEqualToAge:13 andUnderAge:18];
 }
 
 - (NSInteger)numberOfPatientsGreaterThanOrEqualToAge:(NSInteger)olderThan
-                                         andUnderAge:(NSInteger)youngerThan{
+                                         andUnderAge:(NSInteger)youngerThan {
     
     NSArray *patients = self.patients;
     
@@ -64,7 +79,7 @@
     return [patientsInAgeRange count];
 }
 
-- (NSInteger)calculateAgeFromDOB:(NSDate*)dob{
+- (NSInteger)calculateAgeFromDOB:(NSDate*)dob {
     
     NSDateComponents *dobToPresent =
     [[NSCalendar currentCalendar] components: NSCalendarUnitYear
@@ -75,7 +90,7 @@
     return dobToPresent.year;
 }
 
-- (NSInteger)ageOfOldestChild{
+- (NSInteger)ageOfOldestChild {
     
     NSArray *youngestToOldest = [self patientsSortedByAscendingAge];
     Patient *oldest = youngestToOldest.lastObject;
@@ -83,7 +98,7 @@
     return [self calculateAgeFromDOB:oldest.dob];
 }
 
-- (NSInteger)ageOfYoungestChild{
+- (NSInteger)ageOfYoungestChild {
     
     NSArray *youngestToOldest = [self patientsSortedByAscendingAge];
     Patient *youngest = youngestToOldest.firstObject;
@@ -91,18 +106,12 @@
     return [self calculateAgeFromDOB:youngest.dob];
 }
 
-- (NSArray *)patientsSortedByAscendingAge{
+- (NSArray *)patientsSortedByAscendingAge {
     
     NSArray *patients = self.patients;
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"dob" ascending:NO];
     
     return [patients sortedArrayUsingDescriptors:@[sortDescriptor]];
 }
-
-
-
-
-
-
 
 @end

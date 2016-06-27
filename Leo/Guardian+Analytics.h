@@ -10,7 +10,8 @@
 
 @interface Guardian (Analytics)
 
--(NSString *)isPrimaryString;
--(NSString *)membershipTypeString;
+- (NSString *)isPrimaryString;
+- (NSString *)membershipTypeString;
+- (NSDictionary *)getAttributes;
 
 @end

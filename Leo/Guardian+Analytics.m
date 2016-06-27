@@ -10,14 +10,21 @@
 
 @implementation Guardian (Analytics)
 
--(NSString *)isPrimaryString{
-    if (self.primary) return @"YES";
-    return @"NO";
+- (NSDictionary *)getAttributes {
+
+    NSDictionary *attributeDictionary =
+    @{@"Primary guardian": [self isPrimaryString],
+      @"Membership type": [self membershipTypeString]};
+
+    return attributeDictionary;
 }
 
--(NSString *)membershipTypeString{
+- (NSString *)isPrimaryString {
+    return self.primary ? @"YES" : @"NO";
+}
+
+- (NSString *)membershipTypeString {
     return [Guardian membershipStringFromType:self.membershipType];
 }
-
 
 @end
