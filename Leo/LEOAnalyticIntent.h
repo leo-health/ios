@@ -8,9 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import "Family.h"
+#import "LEOAnalyticEvent.h"
 
-@interface LEOAnalyticIntent : NSObject
-
-+(NSDictionary *)attributeDictionary:(Family *)family;
+@interface LEOAnalyticIntent : LEOAnalyticEvent
 
 @end

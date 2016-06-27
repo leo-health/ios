@@ -276,6 +276,7 @@
 		DE63952A1D182AD600D3DF71 /* GNZSlidingSegmentView.m in Sources */ = {isa = PBXBuildFile; fileRef = DE6395261D182AD600D3DF71 /* GNZSlidingSegmentView.m */; };
 		DE63952B1D182AD600D3DF71 /* UISegmentedControl+GNZCompatibility.m in Sources */ = {isa = PBXBuildFile; fileRef = DE6395281D182AD600D3DF71 /* UISegmentedControl+GNZCompatibility.m */; };
 		DE87E4D01D21B7DB00871700 /* LEOAnalyticScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = DE87E4CF1D21B7DB00871700 /* LEOAnalyticScreen.m */; };
+		DE745A1D1D1D7FFA00C856E6 /* LEOAnalyticEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = DE745A1C1D1D7FFA00C856E6 /* LEOAnalyticEvent.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -811,6 +812,8 @@
 		DE87E4CE1D21B7DB00871700 /* LEOAnalyticScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOAnalyticScreen.h; path = "Data Model/LEOAnalyticScreen.h"; sourceTree = "<group>"; };
 		DE87E4CF1D21B7DB00871700 /* LEOAnalyticScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOAnalyticScreen.m; path = "Data Model/LEOAnalyticScreen.m"; sourceTree = "<group>"; };
 		DEF91861D13AACF04D176928 /* libPods-Leo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Leo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DE745A1B1D1D7FFA00C856E6 /* LEOAnalyticEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOAnalyticEvent.h; sourceTree = "<group>"; };
+		DE745A1C1D1D7FFA00C856E6 /* LEOAnalyticEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOAnalyticEvent.m; sourceTree = "<group>"; };
 		DE91E49A1D11FFF5007EE79F /* DeveloperCodeSigning.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = DeveloperCodeSigning.xcconfig; path = xcconfig/DeveloperCodeSigning.xcconfig; sourceTree = "<group>"; };
 		DEF91861D13AACF04D176928 /* libPods-Leo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Leo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -1167,6 +1170,8 @@
 				3130B48D1B068CE0006ACC80 /* ArrayDataSource.h */,
 				3130B48E1B068CE0006ACC80 /* ArrayDataSource.m */,
 				DE1CF7501D19F18100053BA3 /* LEOAnalyticIntent.h */,
+				DE745A1B1D1D7FFA00C856E6 /* LEOAnalyticEvent.h */,
+				DE745A1C1D1D7FFA00C856E6 /* LEOAnalyticEvent.m */,
 				DE1CF7511D19F18100053BA3 /* LEOAnalyticIntent.m */,
 			);
 			name = Model;
@@ -2111,6 +2116,7 @@
 				BCED00811B0150F4007653D6 /* LEOFeedTVC.m in Sources */,
 				31D275651C45520E005F8964 /* LEOForgotPasswordView.m in Sources */,
 				31E615DE1CD4068A0027B226 /* LEOPaymentsView.m in Sources */,
+				DE745A1D1D1D7FFA00C856E6 /* LEOAnalyticEvent.m in Sources */,
 				31FCDD751C65094100BE4B78 /* UIButton+Extensions.m in Sources */,
 				31339B271C29BEAC00B53A86 /* MessageText.m in Sources */,
 				3115F2221BCEA998001BDF6A /* LEOUpdatePasswordViewController.m in Sources */,
