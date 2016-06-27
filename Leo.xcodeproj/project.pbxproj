@@ -1136,6 +1136,8 @@
 		31920A461B0A8ACC006309C2 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				DE87E4CE1D21B7DB00871700 /* LEOAnalyticScreen.h */,
+				DE87E4CF1D21B7DB00871700 /* LEOAnalyticScreen.m */,
 				31BD16C11CAF088E002829EB /* LEOAnalyticSession.h */,
 				31BD16C21CAF088E002829EB /* LEOAnalyticSession.m */,
 				313ECC281CA5BE340059C434 /* LEOBreadcrumb.h */,
@@ -1746,8 +1748,6 @@
 			isa = PBXGroup;
 			children = (
 				31DD3C131CED199B002C4330 /* LEOSession.h */,
-				DE87E4CE1D21B7DB00871700 /* LEOAnalyticScreen.h */,
-				DE87E4CF1D21B7DB00871700 /* LEOAnalyticScreen.m */,
 				31DD3C141CED199B002C4330 /* LEOSession.m */,
 				31339B211C2491FE00B53A86 /* LEOCardProtocol.h */,
 				3177B9991B189F2D006AE360 /* Cards */,
