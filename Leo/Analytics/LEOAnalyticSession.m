@@ -16,12 +16,17 @@
 @property (copy, nonatomic) NSString *eventName;
 @property (nonatomic) UIBackgroundTaskIdentifier backgroundTaskToken;
 @property (strong, nonatomic) NSTimer *backgroundedTimer;
+@property (strong, nonatomic) NSString *backgroundedStatus;
 
 @end
 
 @implementation LEOAnalyticSession
 
 NSString *const kSessionLength = @"session_length";
+NSString *const kBackgroundedStatus = @"Backgrounded status";
+NSString *const kNotBackgrounded = @"Not backgrounded";
+NSString *const kTemporarilyBackgrounded = @"Backgrounded temporarily then reopened before session close";
+NSString *const kClosedDueToBackgrounding = @"Backgrounding caused session close";
 
 + (LEOAnalyticSession *)startSessionWithSessionEventName:(NSString *)sessionEventName {
 
@@ -29,6 +34,7 @@ NSString *const kSessionLength = @"session_length";
 
     session.startTime = [NSDate date];
     session.eventName = sessionEventName;
+    session.backgroundedStatus = kNotBackgrounded;
 
     return session;
 }
@@ -68,7 +74,8 @@ NSString *const kSessionLength = @"session_length";
 
 - (void)completeSession {
 
-    [Localytics tagEvent:self.eventName attributes:@{kSessionLength:[self sessionLength]}];
+    [Localytics tagEvent:self.eventName attributes: @{kSessionLength:[self sessionLength],
+                                                      kBackgroundedStatus:[self backgroundedStatus]}];
     [self removeNotifications];
 }
 
@@ -88,6 +95,7 @@ NSString *const kSessionLength = @"session_length";
 - (void)notificationReceived:(NSNotification *)notification {
 
     if ([notification.name isEqualToString:UIApplicationDidEnterBackgroundNotification]) {
+        self.backgroundedStatus = kTemporarilyBackgrounded;
         [self startTimingBackgrounding];
     }
 
@@ -119,6 +127,7 @@ NSString *const kSessionLength = @"session_length";
 - (void)timerDidFire:(NSTimer *)timer {
 
     self.startTime = [self.startTime dateByAddingSeconds:kAnalyticSessionBackgroundTimeLimit];
+    self.backgroundedStatus = kClosedDueToBackgrounding;
     [self completeSession];
 }
 
