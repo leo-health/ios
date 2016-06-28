@@ -8,11 +8,14 @@
 
 #import "LEOAnalyticSession.h"
 #import "NSDate+Extensions.h"
+#import "LEOConstants.h"
 
 @interface LEOAnalyticSession ()
 
 @property (strong, nonatomic) NSDate *startTime;
 @property (copy, nonatomic) NSString *eventName;
+@property (nonatomic) UIBackgroundTaskIdentifier backgroundTaskToken;
+@property (strong, nonatomic) NSTimer *backgroundedTimer;
 
 @end
 
@@ -72,21 +75,57 @@ NSString *const kSessionLength = @"session_length";
 - (void)addNotifications {
 
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                         selector:@selector(notificationReceived:)
-                                             name:UIApplicationDidEnterBackgroundNotification
-                                           object:nil];
+                                             selector:@selector(notificationReceived:)
+                                                 name:UIApplicationDidEnterBackgroundNotification
+                                               object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(notificationReceived:)
+                                                 name:UIApplicationWillEnterForegroundNotification
+                                               object:nil];
 }
 
 - (void)notificationReceived:(NSNotification *)notification {
 
     if ([notification.name isEqualToString:UIApplicationDidEnterBackgroundNotification]) {
-        [self completeSession];
+        [self startTimingBackgrounding];
     }
+
+    if ([notification.name isEqualToString:UIApplicationWillEnterForegroundNotification]) {
+        [self interruptTimingBackgrounding];
+    }
+}
+
+- (void)startTimingBackgrounding {
+
+    self.backgroundTaskToken =
+    [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+        [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTaskToken];
+    }];
+
+    self.backgroundedTimer = [NSTimer scheduledTimerWithTimeInterval:kAnalyticSessionBackgroundTimeLimit
+                                                              target:self
+                                                            selector:@selector(timerDidFire:)
+                                                            userInfo:nil
+                                                             repeats:NO];
+}
+
+- (void)interruptTimingBackgrounding {
+
+    [self.backgroundedTimer invalidate];
+    [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTaskToken];
+}
+
+- (void)timerDidFire:(NSTimer *)timer {
+
+    self.startTime = [self.startTime dateByAddingSeconds:kAnalyticSessionBackgroundTimeLimit];
+    [self completeSession];
 }
 
 - (void)removeNotifications {
 
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
 }
 
 - (void)dealloc {

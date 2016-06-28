@@ -497,6 +497,7 @@ extern CGFloat const kHeightDefaultToolbar; // 44;
 extern CGFloat const kNumberOfProgressDots; // 4;
 extern CGFloat const kHeightOnboardingHeaders; // 114;
 extern CGFloat const kChargePerChild; // 20;
+extern NSInteger const kAnalyticSessionBackgroundTimeLimit; // 30
 
 
 #pragma mark - Segues
