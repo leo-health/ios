@@ -20,4 +20,6 @@
 
 - (void)reloadWithUIUpdates;
 
+@property (strong, nonatomic) Patient *patient;
+
 @end
