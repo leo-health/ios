@@ -72,7 +72,6 @@
 - (id<TKChartData>)chart:(TKChart *)chart dataPointAtIndex:(NSUInteger)dataIndex forSeriesAtIndex:(NSUInteger)seriesIndex {
 
     id dataPoint = self.dataSet[dataIndex];
-
     
     TKChartDataPoint *point = [[TKChartDataPoint alloc] initWithX:[dataPoint valueForKey:self.dataXValue] Y:[dataPoint valueForKey:self.dataYValue]];
     

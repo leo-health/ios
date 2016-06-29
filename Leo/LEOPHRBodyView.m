@@ -18,7 +18,7 @@
 
 // views
 #import "LEOPHRTableViewCell.h"
-#import "LEOPHRVitalsCell+ConfigureForCell.h"
+#import "LEOPHRVitalChartCell+ConfigureForCell.h"
 
 #import "LEOIntrinsicSizeTableView.h"
 #import <MBProgressHUD.h>
@@ -53,6 +53,7 @@ const CGFloat kPHRSectionLayoutSpacing = 4;
 const CGFloat kPHRSectionLayoutHorizontalMargin = 28;
 const CGFloat kPHRSectionLayoutTopMargin = 25;
 const CGFloat kPHRSectionLayoutBottomMargin = 13;
+const CGFloat kHeightOfGraphDisplay = 200;
 
 static NSString * const kCopyEmptyNotesField = @"Use this area to record notes about your kids health. These notes will not be seen by your providers.";
 static NSString * const kCopyEmptyImmunizationField = @"Immunization history is not available at this time.";
@@ -106,7 +107,7 @@ NS_ENUM(NSInteger, TableViewRow) {
         _tableView.rowHeight = UITableViewAutomaticDimension;
 
         [_tableView registerNib:[LEOPHRTableViewCell nib] forCellReuseIdentifier:NSStringFromClass([LEOPHRTableViewCell class])];
-        [_tableView registerNib:[LEOPHRVitalsCell nib] forCellReuseIdentifier:NSStringFromClass([LEOPHRVitalsCell class])];
+        [_tableView registerNib:[LEOPHRVitalChartCell nib] forCellReuseIdentifier:NSStringFromClass([LEOPHRVitalChartCell class])];
         [_tableView registerClass:[UITableViewHeaderFooterView class] forHeaderFooterViewReuseIdentifier:@"headerView"];
     }
 
@@ -119,6 +120,18 @@ NS_ENUM(NSInteger, TableViewRow) {
 
     [self.graphViewController reloadWithUIUpdates];
     [self.tableView reloadData];
+}
+
+- (LEOVitalGraphViewController *)graphViewController {
+
+    if (!_graphViewController) {
+
+        LEOVitalGraphViewController *viewController = [[LEOVitalGraphViewController alloc] initWithPatient:self.patient];
+
+        _graphViewController = viewController;
+    }
+
+    return _graphViewController;
 }
 
 #pragma mark - Layout
@@ -151,18 +164,6 @@ NS_ENUM(NSInteger, TableViewRow) {
 }
 
 - (HealthRecord *)healthRecord {
-
-//Commented out because this is just temp testing code. Should remove before code review.
-//    HealthRecord *record = _patient.healthRecord;
-//
-//    PatientVitalMeasurement *weight = [[PatientVitalMeasurement alloc] initWithTakenAt:[NSDate date] value:@48 percentile:@95 unit:@"pounds" measurementType:PatientVitalMeasurementTypeWeight valueAndUnitFormatted:@"48 pounds"];
-//
-//    record.weights = @[weight];
-//    record.heights = @[weight];
-//    record.bmis = @[weight];
-
-//    return record;
-
     return _patient.healthRecord;
 }
 
@@ -179,15 +180,15 @@ NS_ENUM(NSInteger, TableViewRow) {
         switch (section) {
 
             case TableViewSectionAllergies:
-                rows = [self healthRecordContainsData] ? self.healthRecord.allergies.count ?: 1 : 0;
+                rows = [self.healthRecord containsData] ? self.healthRecord.allergies.count ?: 1 : 0;
                 break;
 
             case TableViewSectionMedications:
-                rows = [self healthRecordContainsData] ? self.healthRecord.medications.count ? : 1 : 0;
+                rows = [self.healthRecord containsData] ? self.healthRecord.medications.count ? : 1 : 0;
                 break;
 
             case TableViewSectionImmunizations:
-                rows = [self healthRecordContainsData] ? self.healthRecord.immunizations.count ? : 1 : 0;
+                rows = [self.healthRecord containsData] ? self.healthRecord.immunizations.count ? : 1 : 0;
                 break;
 
             case TableViewSectionNotes:
@@ -196,7 +197,7 @@ NS_ENUM(NSInteger, TableViewRow) {
 
             case TableViewSectionEmptyRecord:
 
-                rows = [self healthRecordContainsData] ? 0 : 1;
+                rows = [self.healthRecord containsData] ? 0 : 1;
                 break;
         }
     }
@@ -217,26 +218,15 @@ NS_ENUM(NSInteger, TableViewRow) {
 }
 
 - (BOOL)shouldDisplayLastVitalsOnly {
-    return self.healthRecord.weights.count == 1;
+    return [self.healthRecord hasSingleVitalMeasurement];
 }
 
 - (BOOL)shouldDisplayGraphOfVitals {
-    return self.healthRecord.weights.count > 1;
+    return [self.healthRecord hasManyVitalMeasurements];
 }
 
-/**
- *  If any data fields comes back from the API, the health record exists.
- *
- *  @return BOOL existence of health record
- */
-- (BOOL)healthRecordContainsData {
 
-    return (self.healthRecord.weights.count || self.healthRecord.heights.count || self.healthRecord.bmis.count || self.healthRecord.allergies.count || self.healthRecord.medications.count || self.healthRecord.immunizations.count);
-}
-
-- (BOOL)healthRecordContainsNoData {
-    return !(self.healthRecord.weights.count || self.healthRecord.heights.count || self.healthRecord.bmis.count || self.healthRecord.allergies.count || self.healthRecord.medications.count || self.healthRecord.immunizations.count) && self.healthRecord;
-}
+#pragma mark - <UITableViewDataSource>
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
@@ -244,8 +234,7 @@ NS_ENUM(NSInteger, TableViewRow) {
 
     if (indexPath.section == TableViewSectionRecentVitals && [self shouldDisplayGraphOfVitals]) {
 
-
-            LEOPHRVitalsCell *graphCell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([LEOPHRVitalsCell class]) forIndexPath:indexPath];
+            LEOPHRVitalChartCell *graphCell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([LEOPHRVitalChartCell class]) forIndexPath:indexPath];
 
             graphCell.hostedGraphView = self.graphViewController.view;
 
@@ -258,18 +247,6 @@ NS_ENUM(NSInteger, TableViewRow) {
 
 
     return cell;
-}
-
--(LEOVitalGraphViewController *)graphViewController {
-
-    if (!_graphViewController) {
-
-        LEOVitalGraphViewController *viewController = [[LEOVitalGraphViewController alloc] initWithPatient:self.patient];
-
-        _graphViewController = viewController;
-    }
-
-    return _graphViewController;
 }
 
 - (void)configureTextCell:(UITableViewCell *)cell forIndexPath:(NSIndexPath*)indexPath {
@@ -294,7 +271,6 @@ NS_ENUM(NSInteger, TableViewRow) {
         case TableViewSectionEmptyRecord:
             [textCell configureCellForEmptyRecordWithPatient:self.patient];
             break;
-
 
         case TableViewSectionRecentVitals: {
             [self configureCellForVital:textCell atIndexPath:indexPath];
@@ -321,7 +297,7 @@ NS_ENUM(NSInteger, TableViewRow) {
 
 - (void)configureChartCell:(UITableViewCell *)cell forIndexPath:(NSIndexPath *)indexPath {
 
-    LEOPHRVitalsCell *chartCell = (LEOPHRVitalsCell *)cell;
+    LEOPHRVitalChartCell *chartCell = (LEOPHRVitalChartCell *)cell;
 
     [chartCell configureCellWithData:nil];
 }
@@ -357,7 +333,7 @@ NS_ENUM(NSInteger, TableViewRow) {
 
 - (UITableViewCell *)configureCell:(LEOPHRTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath forWeights:(NSArray <PatientVitalMeasurement *>*)weights {
 
-    if (weights.count > 0) {
+    if (weights.count) {
         [cell configureCellWithVital:weights.lastObject title:@"Weight"];
     } else {
         [cell configureCellForEmptySectionWithMessage:kCopyEmptyWeightField];
@@ -368,7 +344,7 @@ NS_ENUM(NSInteger, TableViewRow) {
 
 - (UITableViewCell *)configureCell:(LEOPHRTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath forHeights:(NSArray <PatientVitalMeasurement *>*)heights {
 
-    if (heights.count > 0) {
+    if (heights.count) {
         [cell configureCellWithVital:heights.lastObject title:@"Height"];
     } else {
         [cell configureCellForEmptySectionWithMessage:kCopyEmptyHeightField];
@@ -379,7 +355,7 @@ NS_ENUM(NSInteger, TableViewRow) {
 
 - (UITableViewCell *)configureCell:(LEOPHRTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath forBMIs:(NSArray <PatientVitalMeasurement *>*)bmis {
 
-    if (bmis.count > 0) {
+    if (bmis.count) {
         [cell configureCellWithVital:bmis.lastObject title:@"BMI"];
     } else {
         [cell configureCellForEmptySectionWithMessage:kCopyEmptyBMIField];
@@ -390,7 +366,7 @@ NS_ENUM(NSInteger, TableViewRow) {
 
 - (UITableViewCell *)configureCell:(LEOPHRTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath forMedications:(NSArray <Medication *>*)medications {
 
-    if (medications.count > 0) {
+    if (medications.count) {
         [cell configureCellWithMedication:medications[indexPath.row]];
     } else {
         [cell configureCellForEmptySectionWithMessage:kCopyEmptyMedicationsField];
@@ -401,7 +377,7 @@ NS_ENUM(NSInteger, TableViewRow) {
 
 - (UITableViewCell *)configureCell:(LEOPHRTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath forImmunizations:(NSArray <Immunization *>*)immunizations {
 
-    if (immunizations.count > 0) {
+    if (immunizations.count) {
         [cell configureCellWithImmunization:immunizations[indexPath.row]];
     } else {
         [cell configureCellForEmptySectionWithMessage:kCopyEmptyImmunizationField];
@@ -450,26 +426,21 @@ NS_ENUM(NSInteger, TableViewRow) {
 
 - (UITableViewHeaderFooterView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
 
-    if (section != TableViewSectionRecentVitals) {
-        
-        // only show header if the section has rows
-        if ([self tableView:tableView numberOfRowsInSection:section] == 0) {
-            return nil;
-        }
-
-        UITableViewHeaderFooterView *sectionHeaderView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"headerView"];
-
-        [sectionHeaderView.contentView removeConstraints:sectionHeaderView.contentView.constraints];
-        for (UIView *subview in sectionHeaderView.contentView.subviews) {
-            [subview removeFromSuperview];
-        }
-
-        [self configureSectionHeader:sectionHeaderView forSection:section];
-
-        return sectionHeaderView;
+    if ([self tableView:tableView numberOfRowsInSection:section] == 0 || section == TableViewSectionRecentVitals) {
+        return nil;
     }
 
-    return nil;
+    UITableViewHeaderFooterView *sectionHeaderView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"headerView"];
+
+    [sectionHeaderView.contentView removeConstraints:sectionHeaderView.contentView.constraints];
+    
+    for (UIView *subview in sectionHeaderView.contentView.subviews) {
+        [subview removeFromSuperview];
+    }
+
+    [self configureSectionHeader:sectionHeaderView forSection:section];
+
+    return sectionHeaderView;
 }
 
 - (void)configureSectionHeader:(UITableViewHeaderFooterView *)sectionHeaderView forSection:(NSInteger)section {
@@ -559,10 +530,11 @@ NS_ENUM(NSInteger, TableViewRow) {
 
 - (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
 
+
     if (indexPath.section == TableViewSectionRecentVitals) {
 
         if ([self shouldDisplayGraphOfVitals]) {
-            return 100.0;
+            return kHeightOfGraphDisplay;
         }
 
         if ([self shouldDisplayLastVitalsOnly]) {
@@ -581,7 +553,7 @@ NS_ENUM(NSInteger, TableViewRow) {
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 
     if (indexPath.section == TableViewSectionRecentVitals && [self shouldDisplayGraphOfVitals]) {
-            return 200.0;
+            return kHeightOfGraphDisplay;
 
     } else {
         return UITableViewAutomaticDimension;

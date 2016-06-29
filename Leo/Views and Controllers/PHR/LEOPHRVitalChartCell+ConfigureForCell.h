@@ -1,14 +1,14 @@
 //
-//  LEOPHRVitalsCell+ConfigureForCell.h
+//  LEOPHRVitalChartCell+ConfigureForCell.h
 //  Leo
 //
 //  Created by Zachary Drossman on 4/7/16.
 //  Copyright © 2016 Leo Health. All rights reserved.
 //
 
-#import "LEOPHRVitalsCell.h"
+#import "LEOPHRVitalChartCell.h"
 
-@interface LEOPHRVitalsCell (ConfigureForCell)
+@interface LEOPHRVitalChartCell (ConfigureForCell)
 
 - (void)configureCellWithData:(NSArray *)data;
 

@@ -1,5 +1,5 @@
 //
-//  LEOPHRVitalsCell.h
+//  LEOPHRVitalChartCell.h
 //  Leo
 //
 //  Created by Zachary Drossman on 4/7/16.
@@ -8,12 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "LEOVitalGraphViewController.h"
+#import "UITableViewCell+Extensions.h"
 
-@interface LEOPHRVitalsCell : UITableViewCell
+@interface LEOPHRVitalChartCell : UITableViewCell
 
 @property (strong, nonatomic) NSArray *vitalData;
 @property (strong, nonatomic) UIView *hostedGraphView;
-
-+ (UINib *)nib;
 
 @end

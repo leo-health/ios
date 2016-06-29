@@ -1,29 +1,22 @@
 //
-//  LEOPHRVitalsCell.m
+//  LEOPHRVitalChartCell.m
 //  Leo
 //
 //  Created by Zachary Drossman on 4/7/16.
 //  Copyright © 2016 Leo Health. All rights reserved.
 //
 
-#import "LEOPHRVitalsCell.h"
+#import "LEOPHRVitalChartCell.h"
 #import "LEOVitalGraphViewController.h"
 
-@interface LEOPHRVitalsCell ()
+@interface LEOPHRVitalChartCell ()
 
 @property (nonatomic) BOOL alreadyUpdatedConstraints;
 
 @end
 
 
-@implementation LEOPHRVitalsCell
-
-- (void)awakeFromNib {
-}
-
-+ (UINib *)nib {
-    return [UINib nibWithNibName:NSStringFromClass(self) bundle:nil];
-}
+@implementation LEOPHRVitalChartCell
 
 - (void)setHostedGraphView:(UIView *)hostedGraphView {
 
@@ -33,13 +26,6 @@
 
     self.alreadyUpdatedConstraints = NO;
     [self setNeedsUpdateConstraints];
-}
-
-- (void)prepareForReuse {
-    
-    [super prepareForReuse];
-
-    self.hostedGraphView = nil;
 }
 
 - (void)updateConstraints {
@@ -63,5 +49,6 @@
 
     [super updateConstraints];
 }
+
 
 @end

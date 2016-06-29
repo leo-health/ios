@@ -21,7 +21,6 @@
 @interface LEOVitalGraphViewController ()
 
 @property (weak, nonatomic) TKChart *chart;
-//@property (weak, nonatomic) GNZSegmentedControl *segmentedControl;
 
 @property (copy, nonatomic) NSArray *coordinateData;
 @property (copy, nonatomic) NSArray *placeholderData;
@@ -36,8 +35,7 @@
 
 @implementation LEOVitalGraphViewController
 
-static NSInteger const kVitalGraphStartMinDaysBefore = 1;
-static NSInteger const kVitalGraphEndMinDaysAfter = 1;
+static NSInteger const kVitalGraphMinDaysBeforeOrAfter = 1;
 
 
 #pragma mark - View Controller Lifecycle
@@ -91,11 +89,6 @@ static NSInteger const kVitalGraphEndMinDaysAfter = 1;
         _chart = strongChart;
         _chart.allowAnimations = YES;
 
-        _chart.xAxis.allowPan = NO;
-        _chart.xAxis.allowZoom = NO;
-        _chart.yAxis.allowPan = NO;
-        _chart.yAxis.allowZoom = NO;
-
         [self.view addSubview:_chart];
     }
     
@@ -140,7 +133,7 @@ static NSInteger const kVitalGraphEndMinDaysAfter = 1;
 - (NSInteger)rangeInsetXWithStartDate:(NSDate *)startDate endDate:(NSDate *)endDate  {
 
     NSInteger daysSinceBeginningOfRange = [startDate daysEarlierThan:endDate];
-    return MAX(daysSinceBeginningOfRange/20, kVitalGraphEndMinDaysAfter);
+    return MAX(daysSinceBeginningOfRange/20, kVitalGraphMinDaysBeforeOrAfter);
 }
 
 
@@ -233,16 +226,13 @@ static NSInteger const kVitalGraphEndMinDaysAfter = 1;
     if (!self.alreadyUpdatedConstraints) {
 
         self.chart.translatesAutoresizingMaskIntoConstraints = NO;
-//        self.segmentedControl.translatesAutoresizingMaskIntoConstraints = NO;
 
         NSDictionary *bindings = NSDictionaryOfVariableBindings(_chart);
 
         NSArray *horizontalLayoutConstraintsForChart = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_chart]|" options:0 metrics:nil views:bindings];
-//        NSArray *horizontalLayoutConstraintsForSegmentedControl = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_segmentedControl]|" options:0 metrics:nil views:bindings];
         NSArray *verticalLayoutConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_chart]|" options:0 metrics:nil views:bindings];
 
         [self.view addConstraints:horizontalLayoutConstraintsForChart];
-//        [self.view addConstraints:horizontalLayoutConstraintsForSegmentedControl];
         [self.view addConstraints:verticalLayoutConstraints];
 
         self.alreadyUpdatedConstraints = YES;

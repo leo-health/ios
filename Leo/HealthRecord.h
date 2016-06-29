@@ -28,6 +28,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (BOOL)hasSingleVitalMeasurement;
 - (BOOL)hasNoVitalMeasurement;
+- (BOOL)hasManyVitalMeasurements;
+- (BOOL)containsData;
+- (BOOL)containsNoData;
 
 NS_ASSUME_NONNULL_END
 @end
