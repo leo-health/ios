@@ -344,7 +344,7 @@ CGFloat const kHeightDefaultToolbar = 44;
 CGFloat const kNumberOfProgressDots = 6;
 CGFloat const kHeightOnboardingHeaders = 114;
 CGFloat const kChargePerChild = 20;
-NSInteger const kAnalyticSessionBackgroundTimeLimit = 30;
+NSInteger const kAnalyticSessionBackgroundTimeLimit = 10;
 
 #pragma mark - Segues
 NSString *const kSegueContinue = @"ContinueSegue";

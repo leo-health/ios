@@ -17,6 +17,7 @@
 @property (nonatomic) UIBackgroundTaskIdentifier backgroundTaskToken;
 @property (strong, nonatomic) NSTimer *backgroundedTimer;
 @property (strong, nonatomic) NSString *backgroundedStatus;
+@property (nonatomic) BOOL isValid;
 
 @end
 
@@ -35,8 +36,17 @@ NSString *const kClosedDueToBackgrounding = @"Backgrounding caused session close
     session.startTime = [NSDate date];
     session.eventName = sessionEventName;
     session.backgroundedStatus = kNotBackgrounded;
+    session.isValid = YES;
 
     return session;
+}
+
+- (BOOL)isValid {
+    return _isValid;
+}
+
+- (void)setBackgroundedStatus:(NSString *)newValue {
+    _backgroundedStatus = newValue;
 }
 
 - (void)updateSessionWithNewStartTime {
@@ -74,6 +84,7 @@ NSString *const kClosedDueToBackgrounding = @"Backgrounding caused session close
 
 - (void)completeSession {
 
+    self.isValid = NO;
     [Localytics tagEvent:self.eventName attributes: @{kSessionLength:[self sessionLength],
                                                       kBackgroundedStatus:[self backgroundedStatus]}];
     [self removeNotifications];

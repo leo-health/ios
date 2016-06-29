@@ -67,6 +67,7 @@ static CGFloat const kRightTitleInsetAppointments = 100;
 static CGFloat const kBottomTitleInsetAppointments = 20;
 
 static NSString *const kCopySubmitAppointment = @"CONFIRM VISIT";
+static NSString *const kTemporarilyBackgrounded = @"Backgrounded temporarily then reopened before session close";
 
 // Appointment Segue constants
 static NSString *const kCopyTitleScheduleVisit = @"Let's schedule a visit";
@@ -97,6 +98,8 @@ static NSString *const kKeySelectionVCDate = @"date";
 
     self.didChangeMoreThanAppointmentTime = @"No";
     self.analyticSession = [LEOAnalyticSession startSessionWithSessionEventName:kAnalyticSessionScheduling];
+    [self addNotifications];
+
     self.feature = FeatureAppointmentScheduling;
 
     [self setupNavigationBar];
@@ -510,6 +513,30 @@ static NSString *const kKeySelectionVCDate = @"date";
     [self.analyticSession completeSession];
     [self.delegate takeResponsibilityForCard:self.card];
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)addNotifications {
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(notificationReceived:)
+                                                 name:UIApplicationWillEnterForegroundNotification
+                                               object:nil];
+}
+
+- (void)notificationReceived:(NSNotification *)notification {
+
+    if ([notification.name isEqualToString:UIApplicationWillEnterForegroundNotification]) {
+        [self startNewSessionIfInvalid];
+    }
+}
+
+- (void)startNewSessionIfInvalid {
+
+    if (!self.analyticSession.isValid) {
+
+        self.analyticSession = [LEOAnalyticSession startSessionWithSessionEventName:kAnalyticSessionScheduling];
+        self.analyticSession.backgroundedStatus = kTemporarilyBackgrounded;
+    }
 }
 
 

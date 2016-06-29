@@ -13,5 +13,7 @@
 + (LEOAnalyticSession *)startSessionWithSessionEventName:(NSString *)sessionEventName;
 - (NSNumber *)sessionLength;
 - (void)completeSession;
+- (BOOL)isValid;
+- (void)setBackgroundedStatus:(NSString *)newValue;
 
 @end
