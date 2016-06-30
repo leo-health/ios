@@ -182,15 +182,20 @@ static CGFloat const kHeightOfHeaderPHR = 116;
 
 -(void)setupNavigationBar {
 
-    [LEOStyleHelper styleBackButtonForViewController:self forFeature:FeatureSettings];
+    [LEOStyleHelper styleBackButtonForViewController:self
+                                          forFeature:FeatureSettings];
+
 
     self.navigationController.navigationBarHidden = NO;
 
     //FIXME: When we replace the LEOPHRHeaderView with a subclass of LEOGradientView, set this to YES, and update the size of everything to reflect the additional 64 points (or as needed).
-    self.navigationController.navigationBar.translucent = NO;
-    [self.navigationController.navigationBar setBackgroundColor:[UIColor clearColor]];
-    self.navigationController.navigationBar.tintColor = [UIColor leo_white];
-    self.navigationController.navigationBar.shadowImage = [UIImage new];
+
+    UINavigationBar *navBar = self.navigationController.navigationBar;
+
+    navBar.translucent = NO;
+    navBar.backgroundColor = [UIColor clearColor];
+    navBar.tintColor = [UIColor leo_white];
+    navBar.shadowImage = [UIImage new];
 }
 
 #pragma mark - Accessors
@@ -199,7 +204,9 @@ static CGFloat const kHeightOfHeaderPHR = 116;
 
     if (!_headerView) {
 
-        LEOPHRHeaderView *strongHeaderView = [[LEOPHRHeaderView alloc] initWithPatients:self.patients];
+        LEOPHRHeaderView *strongHeaderView =
+        [[LEOPHRHeaderView alloc] initWithPatients:self.patients];
+
         _headerView = strongHeaderView;
         _headerView.backgroundColor = [UIColor leo_white];
 
@@ -213,7 +220,10 @@ static CGFloat const kHeightOfHeaderPHR = 116;
         };
 
         // TODO: Remove when subview content is available to size view
-        [_headerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_headerView(height)]" options:0 metrics:@{@"height":@(kHeightOfHeaderPHR)} views:NSDictionaryOfVariableBindings(_headerView)]];
+        [_headerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_headerView(height)]"
+                                                                            options:0
+                                                                            metrics:@{@"height":@(kHeightOfHeaderPHR)}
+                                                                              views:NSDictionaryOfVariableBindings(_headerView)]];
     }
 
     return _headerView;
@@ -278,7 +288,8 @@ static CGFloat const kHeightOfHeaderPHR = 116;
         strongSelf.bodyView.notes = strongSelf.notes[[self selectedPatientIndex]];
     };
 
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:recordEditNotesVC];
+    UINavigationController *navController =
+    [[UINavigationController alloc] initWithRootViewController:recordEditNotesVC];
     
     [self presentViewController:navController animated:YES completion:nil];
 }
@@ -291,7 +302,8 @@ static CGFloat const kHeightOfHeaderPHR = 116;
     
     for (PatientNote *note in notesForPatient) {
 
-        if ([note.objectID isEqualToString:updatedNote.objectID] || (!note.objectID && !updatedNote.objectID) ) {
+        if ([note.objectID isEqualToString:updatedNote.objectID] ||
+            (!note.objectID && !updatedNote.objectID) ) {
             
             [notesForPatient[i] updateWithPatientNote:updatedNote];
             return;

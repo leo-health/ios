@@ -22,14 +22,11 @@
 
 @end
 
+static CGFloat const kAvatarProfileBorderWidth = 1.0;
+static CGFloat const kAvatarProfileDiameter = 62;
+
 @implementation LEOPatientProfileView
 
-static CGFloat const kAvatarProfileDiameter = 61.5;
-static CGFloat const kAvatarProfileBorderWidth = 1.0;
-static CGFloat const kSpacerProfileTop = 12.0;
-static CGFloat const kSpacerProfileBottom = 12.0;
-static CGFloat const kSpacerProfileLeft = 27.5;
-static CGFloat const kSpacerProfileMiddle = 34.0;
 
 - (instancetype)initWithPatient:(Patient *)patient {
     self = [super init];
@@ -87,6 +84,11 @@ static CGFloat const kSpacerProfileMiddle = 34.0;
 
         [self removeConstraints:self.constraints];
 
+        CGFloat spacerProfileTop = 12.0;
+        CGFloat spacerProfileBottom = 12.0;
+        CGFloat spacerProfileLeft = 27.5;
+        CGFloat spacerProfileMiddle = 34.0;
+
         self.translatesAutoresizingMaskIntoConstraints = NO;
         self.patientNameLabel.translatesAutoresizingMaskIntoConstraints = NO;
         self.patientAvatarImageView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -105,10 +107,10 @@ static CGFloat const kSpacerProfileMiddle = 34.0;
 
         NSDictionary *metrics =
         @{@"avatarDiameter" : @(kAvatarProfileDiameter),
-          @"topSpacer" : @(kSpacerProfileTop),
-          @"bottomSpacer" : @(kSpacerProfileBottom),
-          @"leftSpacer" : @(kSpacerProfileLeft),
-          @"middleSpacer" : @(kSpacerProfileMiddle)};
+          @"topSpacer" : @(spacerProfileTop),
+          @"bottomSpacer" : @(spacerProfileBottom),
+          @"leftSpacer" : @(spacerProfileLeft),
+          @"middleSpacer" : @(spacerProfileMiddle)};
 
         NSArray *verticalConstraintsForProfile =
         [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(topSpacer)-[_patientAvatarImageView(avatarDiameter)]-(bottomSpacer)-|"
@@ -117,7 +119,7 @@ static CGFloat const kSpacerProfileMiddle = 34.0;
                                                   views:bindings];
 
         NSArray *horizontalConstraintsForProfile =
-        [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(leftSpacer)-[_patientAvatarImageView]-(middleSpacer)-[_patientNameLabel]"
+        [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(leftSpacer)-[_patientAvatarImageView(avatarDiameter)]-(middleSpacer)-[_patientNameLabel]"
                                                 options:0
                                                 metrics:metrics
                                                   views:bindings];

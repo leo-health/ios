@@ -135,16 +135,13 @@ static const CGFloat kDistanceSegments = 26.0;
         NSArray *horizontalConstraintsForContentView = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_contentView]|" options:0 metrics:nil views:bindings];
         NSArray *verticalConstraintsForContentView = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_contentView]|" options:0 metrics:nil views:bindings];
 
-        //NSLayoutConstraint *bottomConstraintForContentView = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.superview attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0];
-
-//        [self.superview addConstraint:bottomConstraintForContentView];
         [self addConstraints:horizontalConstraintsForContentView];
         [self addConstraints:verticalConstraintsForContentView];
-        
-        NSArray *verticalConstraintsForSegmentedControl = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_segmentedControl]-(5)-|" options:0 metrics:nil views:bindings];
-        NSArray *horizontalConstraintsForSegmentedControl = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_segmentedControl]|" options:0 metrics:nil views:bindings];
 
-        //TODO: Center IF the segmentedControl is smaller than the width of the UIScreen...
+        NSDictionary *metrics = @{@"bottomSpacer" : @5};
+
+        NSArray *verticalConstraintsForSegmentedControl = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_segmentedControl]-(bottomSpacer)-|" options:0 metrics:metrics views:bindings];
+        NSArray *horizontalConstraintsForSegmentedControl = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_segmentedControl]|" options:0 metrics:nil views:bindings];
 
         [self.contentView addConstraints:verticalConstraintsForSegmentedControl];
         [self.contentView addConstraints:horizontalConstraintsForSegmentedControl

@@ -39,9 +39,11 @@
 
     if (!_patientProfileView) {
 
-        NSUInteger patientIndex = [self.patientSelectorView.segmentedControl selectedSegmentIndex];
+        NSUInteger patientIndex =
+        [self.patientSelectorView.segmentedControl selectedSegmentIndex];
 
-        LEOPatientProfileView *strongPatientProfileView = [[LEOPatientProfileView alloc] initWithPatient:self.patients[patientIndex]];
+        LEOPatientProfileView *strongPatientProfileView =
+        [[LEOPatientProfileView alloc] initWithPatient:self.patients[patientIndex]];
 
         _patientProfileView = strongPatientProfileView;
         _patientProfileView.backgroundColor = [UIColor leo_orangeRed];
@@ -55,7 +57,8 @@
 
     if (!_patientSelectorView) {
 
-        LEOPatientSelectorView *strongPatientSelectorView = [[LEOPatientSelectorView alloc] initWithPatients:self.patients];
+        LEOPatientSelectorView *strongPatientSelectorView =
+        [[LEOPatientSelectorView alloc] initWithPatients:self.patients];
 
         _patientSelectorView = strongPatientSelectorView;
 
@@ -93,17 +96,35 @@
 
         NSArray *verticalConstraints;
 
-        if ([self.patients count] > 1) {
-            verticalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_patientSelectorView]-(0.5)-[_patientProfileView]|" options:0 metrics:nil views:bindings];
+        NSDictionary *metrics = @{@"spacer" : @1};
 
-            NSArray *horizontalConstraintsForSelector = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_patientSelectorView]|" options:0 metrics:nil views:bindings];
+        if ([self.patients count] > 1) {
+            verticalConstraints =
+            [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_patientSelectorView]-(spacer)-[_patientProfileView]|"
+                                                    options:0
+                                                    metrics:metrics
+                                                      views:bindings];
+
+            NSArray *horizontalConstraintsForSelector =
+            [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_patientSelectorView]|"
+                                                    options:0
+                                                    metrics:nil
+                                                      views:bindings];
             [self addConstraints:horizontalConstraintsForSelector];
 
         } else {
-            verticalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_patientProfileView]|" options:0 metrics:nil views:bindings];
+            verticalConstraints =
+            [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_patientProfileView]|"
+                                                    options:0
+                                                    metrics:nil
+                                                      views:bindings];
         }
 
-        NSArray *horizontalConstraintsForProfile = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_patientProfileView]|" options:0 metrics:nil views:bindings];
+        NSArray *horizontalConstraintsForProfile =
+        [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_patientProfileView]|"
+                                                options:0
+                                                metrics:nil
+                                                  views:bindings];
 
         [self addConstraints:verticalConstraints];
         [self addConstraints:horizontalConstraintsForProfile];
