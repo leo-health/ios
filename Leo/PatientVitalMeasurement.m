@@ -8,12 +8,13 @@
 
 #import "PatientVitalMeasurement.h"
 #import "NSDictionary+Extensions.h"
-#import "NSDate+Extensions.h"
 #import "LEOConstants.h"
+#import <NSDate+DateTools.h>
+#import "Patient.h"
 
 @implementation PatientVitalMeasurement
 
-- (instancetype)initWithTakenAt:(NSDate *)takenAt value:(NSString *)value percentile:(NSString *)percentile unit:(NSString*)unit measurementType:(PatientVitalMeasurementType)measurementType valueAndUnitFormatted:(NSString*)valueAndUnitFormatted {
+- (instancetype)initWithTakenAt:(NSDate *)takenAt value:(NSNumber *)value percentile:(NSNumber *)percentile unit:(NSString*)unit measurementType:(PatientVitalMeasurementType)measurementType valueAndUnitFormatted:(NSString*)valueAndUnitFormatted {
 
     self = [super init];
     if (self) {
@@ -31,11 +32,19 @@
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonDictionary {
 
-    NSDate *takenAt = [NSDate leo_dateFromDateTimeString:[jsonDictionary leo_itemForKey:APIParamVitalMeasurementTakenAt]];
-    NSString *value = [NSString stringWithFormat:@"%@", [jsonDictionary leo_itemForKey:APIParamVitalMeasurementValue]];
+    //The backend should really decide on a format and stick with it, but for now, this uses a different method than slots to convert the string to a date.
+    NSDate *takenAt = [NSDate leo_dateFromAthenaDateTimeString:[jsonDictionary leo_itemForKey:APIParamVitalMeasurementTakenAt]];
+
+    NSString *valueString = [NSString stringWithFormat:@"%@", [jsonDictionary leo_itemForKey:APIParamVitalMeasurementValue]];
+    NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
+    f.numberStyle = NSNumberFormatterDecimalStyle;
+    NSNumber *value = [f numberFromString:valueString];
+
     NSString *unit = [NSString stringWithFormat:@"%@", [jsonDictionary leo_itemForKey:APIParamVitalMeasurementUnit]];
     NSString *valueAndUnitFormatted = [jsonDictionary leo_itemForKey:APIParamVitalMeasurementFormattedValueAndUnit];
-    NSString *percentile = [jsonDictionary leo_itemForKey:APIParamVitalMeasurementPercentile];
+
+    NSNumber *percentile = [jsonDictionary leo_itemForKey:APIParamVitalMeasurementPercentile];
+
     PatientVitalMeasurementType measurementType = [[jsonDictionary leo_itemForKey:APIParamType] integerValue];
 
     return [self initWithTakenAt:takenAt value:value percentile:percentile unit:unit measurementType:measurementType valueAndUnitFormatted:valueAndUnitFormatted];
@@ -52,5 +61,41 @@
     return [array copy];
 }
 
+- (void)setTakenAtSinceBasedOnTakenAtInUnits:(LEOTimeUnit)timeUnit sinceBirthOfPatient:(Patient *)patient {
+    _takenAtSince = [self takenAtInTimeUnits:timeUnit sinceBirthOfPatient:patient];
+}
+
+- (NSNumber *)takenAtInTimeUnits:(LEOTimeUnit)timeUnit sinceBirthOfPatient:(Patient *)patient {
+
+    switch (timeUnit) {
+        case LEOTimeUnitDays:
+            return @([self takenAtInDaysSinceBirthOfPatient:patient]);
+
+        case LEOTimeUnitWeeks:
+            return @([self takenAtInWeeksSinceBirthOfPatient:patient]);
+
+        case LEOTimeUnitMonths:
+            return @([self takenAtInMonthsSinceBirthOfPatient:patient]);
+
+        case LEOTimeUnitYears:
+            return @([self takenAtInYearsSinceBirthOfPatient:patient]);
+    }
+}
+
+- (NSInteger)takenAtInDaysSinceBirthOfPatient:(Patient *)patient {
+    return [self.takenAt daysFrom:patient.dob];
+}
+
+- (CGFloat)takenAtInWeeksSinceBirthOfPatient:(Patient *)patient {
+    return [self.takenAt daysFrom:patient.dob] / 7.0;
+}
+
+- (CGFloat)takenAtInMonthsSinceBirthOfPatient:(Patient *)patient {
+    return [self.takenAt daysFrom:patient.dob] / 30.0 ;
+}
+
+- (CGFloat)takenAtInYearsSinceBirthOfPatient:(Patient *)patient {
+    return [self.takenAt daysFrom:patient.dob] / 365.0;
+}
 
 @end

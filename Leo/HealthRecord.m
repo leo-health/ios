@@ -24,6 +24,7 @@
         _bmis = bmis;
         _heights = heights;
         _weights = weights;
+        _timeSeries = @[weights, heights, bmis];
     }
 
     return self;
@@ -44,6 +45,15 @@
     NSArray *allergies = [Allergy allergiesFromDictionaries:jsonDictionary[APIParamAllergies]];
 
     return [self initWithAllergies:allergies medications:medications immunizations:immunizations bmis:bmis heights:heights weights:weights];
+}
+
+- (BOOL)hasSingleVitalMeasurement {
+
+    return self.bmis.count == 1 || self.heights.count == 1 || self.weights.count == 1;
+}
+
+- (BOOL)hasNoVitalMeasurement {
+    return self.bmis.count == 0 || self.heights.count == 0 || self.weights.count == 0;
 }
 
 

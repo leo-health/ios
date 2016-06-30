@@ -12,6 +12,14 @@
 @interface NSDate (Extensions)
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NS_ENUM(NSUInteger, LEOTimeUnit) {
+
+    LEOTimeUnitDays,
+    LEOTimeUnitWeeks,
+    LEOTimeUnitMonths,
+    LEOTimeUnitYears
+};
+
 - (NSDate *)leo_endOfDay;
 - (NSDate *)leo_beginningOfDay;
 + (NSDate *)leo_todayAdjustedForLocalTimeZone;
