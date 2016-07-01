@@ -11,6 +11,8 @@
 #import "Family.h"
 #import "Family+Analytics.h"
 #import "Guardian+Analytics.h"
+#import "Appointment+Analytics.h"
+#import "Patient+Analytics.h"
 
 @implementation LEOAnalyticEvent
 
@@ -32,6 +34,56 @@
     [mutableAttributeDictionary addEntriesFromDictionary:attributeDictionary];
     [self tagEvent:eventName withAttributes:mutableAttributeDictionary];
 }
+
++ (void)tagEvent:(NSString *)eventName
+  withAttributes:(NSDictionary *)attributeDictionary
+       andPatient:(Patient *)patient {
+    
+    NSMutableDictionary *mutableAttributeDictionary = [attributeDictionary mutableCopy];
+    [mutableAttributeDictionary addEntriesFromDictionary:[patient getAttributes]];
+    [self tagEvent:eventName withAttributes:mutableAttributeDictionary];
+}
+
++ (void)tagEvent:(NSString *)eventName
+     withPatient:(Patient *)patient {
+    [self tagEvent:eventName withAttributes:[patient getAttributes]];
+}
+
++ (void)tagAppointment:(Appointment *)appointment
+        withAttributes:(NSDictionary *)attributeDictionary
+             andFamily:(Family *)family{
+    
+    NSMutableDictionary *mutableAttributeDictionary = [[self getAttributesWithFamily:family] mutableCopy];
+    [mutableAttributeDictionary addEntriesFromDictionary:attributeDictionary];
+    [mutableAttributeDictionary addEntriesFromDictionary:[appointment getAttributes]];
+    
+    [self tagEvent:kAnalyticEventBookVisit withAttributes:mutableAttributeDictionary];
+}
+
++ (void)tagAppointment:(Appointment *)appointment
+             andFamily:(Family *)family{
+    
+    
+    NSMutableDictionary *mutableAttributeDictionary = [[self getAttributesWithFamily:family] mutableCopy];
+    [mutableAttributeDictionary addEntriesFromDictionary:[appointment getAttributes]];
+
+    
+    [self tagEvent:kAnalyticEventBookVisit withAttributes:mutableAttributeDictionary];
+}
+
++ (void)tagAppointment:(Appointment *)appointment
+        withAttributes:(NSDictionary *)attributeDictionary{
+    
+    NSMutableDictionary *mutableAttributeDictionary = [attributeDictionary mutableCopy];
+    [mutableAttributeDictionary addEntriesFromDictionary:[appointment getAttributes]];
+    
+    [self tagEvent:kAnalyticEventBookVisit withAttributes:mutableAttributeDictionary];
+}
+
++ (void)tagAppointment:(Appointment *)appointment{
+    [self tagEvent:kAnalyticEventBookVisit withAttributes:[appointment getAttributes]];
+}
+
 
 + (void)tagEvent:(NSString *)eventName
       withFamily:(Family *)family {

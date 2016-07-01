@@ -507,4 +507,10 @@ NSString *const kAnalyticEventSwipeToFourthProductPreviewCell = @"Go To Fourth P
 NSString *const kAnalyticEventSwipeToFifthProductPreviewCell = @"Go To Fifth Product Preview Screen"; //NOT USED
 
 
+NSString *const kAnalyticAgeGroupZeroTwo = @"Older than 0 & younger than 2";
+NSString *const kAnalyticAgeGroupTwoFive = @"Older than 2 & younger than 5";
+NSString *const kAnalyticAgeGroupFiveThirteen = @"Older than 5 & younger than 13";
+NSString *const kAnalyticAgeGroupThirteenEighteen = @"Older than 13 & younger than 18";
+NSString *const kAnalyticAgeGroupEighteenPlus = @"Older than 18";
+
 @end

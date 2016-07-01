@@ -265,6 +265,8 @@
 		BCE1EC9E1B012628007C8D0B /* UIColor+LeoColors.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE1EC9D1B012628007C8D0B /* UIColor+LeoColors.m */; };
 		BCE1ECA41B014613007C8D0B /* LEOConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE1ECA31B014613007C8D0B /* LEOConstants.m */; };
 		BCED00811B0150F4007653D6 /* LEOFeedTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = BCED00801B0150F4007653D6 /* LEOFeedTVC.m */; };
+		DE10CAEC1D26AB5B00EA1057 /* Patient+Analytics.m in Sources */ = {isa = PBXBuildFile; fileRef = DE10CAEB1D26AB5B00EA1057 /* Patient+Analytics.m */; };
+		DE10CAEF1D26B16800EA1057 /* Appointment+Analytics.m in Sources */ = {isa = PBXBuildFile; fileRef = DE10CAEE1D26B16800EA1057 /* Appointment+Analytics.m */; };
 		DE1CF7471D18680A00053BA3 /* Family+Analytics.m in Sources */ = {isa = PBXBuildFile; fileRef = DE1CF7461D18680A00053BA3 /* Family+Analytics.m */; };
 		DE1CF74A1D19C41F00053BA3 /* Guardian+Analytics.m in Sources */ = {isa = PBXBuildFile; fileRef = DE1CF7491D19C41F00053BA3 /* Guardian+Analytics.m */; };
 		DE1CF7521D19F18100053BA3 /* LEOAnalyticIntent.m in Sources */ = {isa = PBXBuildFile; fileRef = DE1CF7511D19F18100053BA3 /* LEOAnalyticIntent.m */; };
@@ -788,6 +790,10 @@
 		BCED00801B0150F4007653D6 /* LEOFeedTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = LEOFeedTVC.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		C9BFC97BBACAA8BBCAFB0684 /* libPods-LeoTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LeoTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE16AE561D2EB64D00EE7811 /* LEOFormatting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOFormatting.h; sourceTree = "<group>"; };
+		DE10CAEA1D26AB5B00EA1057 /* Patient+Analytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Patient+Analytics.h"; path = "Leo/Patient+Analytics.h"; sourceTree = SOURCE_ROOT; };
+		DE10CAEB1D26AB5B00EA1057 /* Patient+Analytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Patient+Analytics.m"; path = "Leo/Patient+Analytics.m"; sourceTree = SOURCE_ROOT; };
+		DE10CAED1D26B16800EA1057 /* Appointment+Analytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Appointment+Analytics.h"; path = "Leo/Appointment+Analytics.h"; sourceTree = SOURCE_ROOT; };
+		DE10CAEE1D26B16800EA1057 /* Appointment+Analytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Appointment+Analytics.m"; path = "Leo/Appointment+Analytics.m"; sourceTree = SOURCE_ROOT; };
 		DE1CF7451D18680A00053BA3 /* Family+Analytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Family+Analytics.h"; path = "Leo/Family+Analytics.h"; sourceTree = SOURCE_ROOT; };
 		DE1CF7461D18680A00053BA3 /* Family+Analytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Family+Analytics.m"; path = "Leo/Family+Analytics.m"; sourceTree = SOURCE_ROOT; };
 		DE1CF7481D19C41F00053BA3 /* Guardian+Analytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Guardian+Analytics.h"; path = "Leo/Guardian+Analytics.h"; sourceTree = SOURCE_ROOT; };
@@ -1593,6 +1599,8 @@
 			children = (
 				DE1CF7481D19C41F00053BA3 /* Guardian+Analytics.h */,
 				DE1CF7491D19C41F00053BA3 /* Guardian+Analytics.m */,
+				DE10CAEA1D26AB5B00EA1057 /* Patient+Analytics.h */,
+				DE10CAEB1D26AB5B00EA1057 /* Patient+Analytics.m */,
 				310943741CCE5CA70015D52F /* Notice.h */,
 				310943751CCE5CA70015D52F /* Notice.m */,
 				66A5DB251C3D95FD008AEC55 /* HealthRecord.h */,
@@ -1614,6 +1622,8 @@
 				31957EE41C29DE0A00D0A1A0 /* MessageImage.h */,
 				31957EE51C29DE0A00D0A1A0 /* MessageImage.m */,
 				31CC12C91BB062C40099AB60 /* Appointment.h */,
+				DE10CAED1D26B16800EA1057 /* Appointment+Analytics.h */,
+				DE10CAEE1D26B16800EA1057 /* Appointment+Analytics.m */,
 				31CC12B91BB062C40099AB60 /* Appointment.m */,
 				31CC12BA1BB062C40099AB60 /* Slot.h */,
 				31CC12BB1BB062C40099AB60 /* Slot.m */,
@@ -2077,6 +2087,7 @@
 				312FACE81CFF28740038A257 /* LEORouter.m in Sources */,
 				3138FC491B9A19A8000FE22C /* InsurancePlanCell.m in Sources */,
 				319FB4C01BBA379E00EFF7B9 /* NSString+TextDirectionality.m in Sources */,
+				DE10CAEF1D26B16800EA1057 /* Appointment+Analytics.m in Sources */,
 				31FDDE6F1B29EDF70009BBC2 /* ArrayDataSource.m in Sources */,
 				DE1CF7471D18680A00053BA3 /* Family+Analytics.m in Sources */,
 				662371E51C568A26001AB3E7 /* LEOLoggedOutOnboardingCell.m in Sources */,
@@ -2228,6 +2239,7 @@
 				31D2753F1C3DB676005F8964 /* LEOHeaderView.m in Sources */,
 				DE63952A1D182AD600D3DF71 /* GNZSlidingSegmentView.m in Sources */,
 				31CC12DA1BB062C40099AB60 /* Appointment.m in Sources */,
+				DE10CAEC1D26AB5B00EA1057 /* Patient+Analytics.m in Sources */,
 				DE63952B1D182AD600D3DF71 /* UISegmentedControl+GNZCompatibility.m in Sources */,
 				3138FC321B9A1169000FE22C /* LEOValidatedFloatLabeledTextField.m in Sources */,
 				31B5097D1C7CBF3500CE33D4 /* LEOFeedHeaderCell.m in Sources */,

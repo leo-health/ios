@@ -29,6 +29,7 @@
 
 #import "AppointmentType.h"
 #import "Appointment.h"
+#import "Appointment+Analytics.h"
 #import "Patient.h"
 #import "Slot.h"
 #import "Practice.h"
@@ -458,9 +459,6 @@ static NSString *const kKeySelectionVCDate = @"date";
     self.submissionButton.enabled = NO;
 
     __weak LEOAppointmentViewController *weakself = self;
-
-    Guardian *guardian = [LEOSession user];
-    NSString *membershipTypeString = [Guardian membershipStringFromType:guardian.membershipType];
     
     if (!self.appointment.objectID) {
 
@@ -470,10 +468,9 @@ static NSString *const kKeySelectionVCDate = @"date";
             self.submissionButton.enabled = YES;
 
             if (!error) {
-
+                NSDictionary *dictionary = [self.appointment getAttributes];
                 [LEOAnalyticEvent tagEvent:kAnalyticEventBookVisit
-                            withAttributes:@{@"Membership Type" : membershipTypeString,
-                                             @"start date" : self.appointment.date}];
+                           withAppointment:self.appointment];
                 weakself.card = appointmentCard;
                 [self.appointment book];
             }

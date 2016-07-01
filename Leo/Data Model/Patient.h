@@ -24,7 +24,7 @@ typedef NS_ENUM(NSUInteger, PatientStatusCode) {
     PatientStatusActive = 2
 };
 
-@property (nonatomic, strong) NSDate * dob;
+@property (nonatomic, strong) NSDate *dob;
 @property (nonatomic, copy) NSString *gender;
 @property (nonatomic, copy) NSString *genderDisplayName;
 @property (nonatomic, copy) NSString *status; //FIXME: Should probably be using the PatientStatus instead of a string. Come back and update eventually!
