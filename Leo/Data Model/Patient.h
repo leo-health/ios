@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "User.h"
 
-@class Family, LEOS3Image;
+@class Family, LEOS3Image, HealthRecord;
 
 @interface Patient : User <NSCopying>
 NS_ASSUME_NONNULL_BEGIN
@@ -29,6 +29,8 @@ typedef NS_ENUM(NSUInteger, PatientStatusCode) {
 @property (nonatomic, copy) NSString *genderDisplayName;
 @property (nonatomic, copy) NSString *status; //FIXME: Should probably be using the PatientStatus instead of a string. Come back and update eventually!
 @property (nonatomic, copy, nullable) NSString *familyID;
+@property (strong, nonatomic) HealthRecord *healthRecord;
+@property (strong, nonatomic) NSArray *notes;
 
 
 

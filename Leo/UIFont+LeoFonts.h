@@ -34,6 +34,13 @@
 + (UIFont *)leo_buttonLabelsAndTimeStampsFont;
 
 /**
+ *  AvenirNext-Medium, Size 9
+ *
+ *  @return UIFont
+ */
++ (UIFont *)leo_graphOverlayDescriptions;
+
+/**
  *  AvenirNext-Medium, Size 15
  *
  *  @return UIFont

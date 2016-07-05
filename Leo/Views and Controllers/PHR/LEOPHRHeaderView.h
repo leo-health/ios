@@ -12,9 +12,9 @@
 
 @interface LEOPHRHeaderView : UIView
 
-@property (strong, nonatomic) GNZSegmentedControl *segmentControl;
+@property (nonatomic) NSInteger selectedSegment;
+@property (copy, nonatomic) DefaultVoidBlock segmentDidChangeBlock;
 
 - (instancetype)initWithPatients:(NSArray *)patients;
-//- (void)didChangeSegmentSelection:(NSUInteger)segmentIndex;
 
 @end

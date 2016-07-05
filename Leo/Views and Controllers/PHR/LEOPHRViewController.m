@@ -8,33 +8,38 @@
 
 #import "LEOPHRViewController.h"
 #import "LEOPHRHeaderView.h"
-#import "LEORecordViewController.h"
+#import "LEOPHRBodyView.h"
 #import "LEOStyleHelper.h"
 #import "LEOAnalyticSession.h"
 
 #import "GNZSegmentedControl.h"
 #import "GNZSlidingSegmentView.h"
-#import "LEORecordViewController.h"
 #import "UISegmentedControl+GNZCompatibility.h"
 
 #import "Patient.h"
+#import <MBProgressHUD/MBProgressHUD.h>
+
+#import "LEOHealthRecordService.h"
 
 #import "UIColor+LeoColors.h"
+#import "LEOAlertHelper.h"
+#import "LEORecordEditNotesViewController.h"
 
-static CGFloat const kHeightOfHeaderPHR = 200;
+static CGFloat const kHeightOfHeaderPHR = 116;
 
-@interface LEOPHRViewController () <GNZSlidingSegmentViewDatasource, GNZSlidingSegmentViewDelegate, LEOStickyHeaderDataSource, LEOStickyHeaderDelegate>
+@interface LEOPHRViewController () <LEOStickyHeaderDataSource, LEOStickyHeaderDelegate>
 
 @property (weak, nonatomic) LEOPHRHeaderView *headerView;
-
-@property (weak, nonatomic) GNZSegmentedControl *segmentedControl;
-@property (nonatomic) GNZSlidingSegmentView *slidingSegmentView;
-@property (nonatomic) NSArray *segmentViewControllers;
+@property (strong, nonatomic) LEOPHRBodyView *bodyView;
 
 @property (nonatomic) BOOL alreadyUpdatedConstraints;
-@property (strong, nonatomic) NSArray *patients;
+
+@property (copy, nonatomic) NSArray *patients;
+@property (copy, nonatomic) NSArray *healthRecords;
+@property (copy, nonatomic) NSArray *notes;
 
 @property (strong, nonatomic) LEOAnalyticSession *analyticSession;
+
 
 @end
 
@@ -43,7 +48,7 @@ static CGFloat const kHeightOfHeaderPHR = 200;
 #pragma mark - VCL & Helper
 
 - (instancetype)initWithPatients:(NSArray *)patients {
-    
+
     self = [super init];
     if (self) {
         _patients = patients;
@@ -88,22 +93,109 @@ static CGFloat const kHeightOfHeaderPHR = 200;
 
     [Localytics tagScreen:kAnalyticScreenHealthRecord];
 
-    // LEORecordViewController should handle its own data requests in viewDidAppear
-    // TODO: implement VCC (View Controller Containment) 
-    for (LEORecordViewController *recordVC in self.segmentViewControllers) {
-        [recordVC requestHealthRecord];
+    [self requestHealthRecord];
+}
+
+- (void)requestHealthRecord {
+
+    if (!self.healthRecords) {
+
+        // only show one HUD at a time
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+
+        __block BOOL readyToHideHUD = NO;
+
+        LEOHealthRecordService *service = [LEOHealthRecordService new];
+
+        __block NSInteger notesCounter = 0;
+        __block NSInteger healthRecordCounter = 0;
+
+        for (NSInteger i = 0; i < [self.patients count]; i++) {
+
+            Patient *patient = self.patients[i];
+
+            [service getNotesForPatient:patient withCompletion:^(NSArray<PatientNote *> *notes, NSError *error) {
+
+                if (error) {
+
+                    [LEOAlertHelper alertForViewController:self
+                                                     error:error
+                                               backupTitle:kErrorDefaultTitle
+                                             backupMessage:kErrorDefaultMessage];
+                    return;
+                } else {
+                    patient.notes = notes;
+                }
+
+                notesCounter++;
+
+                //TODO: This should be done with KVO etc.
+                if (i == [self selectedPatientIndex]) {
+                    [self.bodyView reloadDataForPatient];
+                }
+
+                if (healthRecordCounter == [self.patients count] && notesCounter == [self.patients count]) {
+                    readyToHideHUD = YES;
+                }
+
+                if (readyToHideHUD) {
+                    [MBProgressHUD hideHUDForView:self.view animated:YES];
+                }
+            }];
+
+            [service getHealthRecordForPatient:patient withCompletion:^(HealthRecord *healthRecord, NSError *error) {
+
+                if (error) {
+
+                    [LEOAlertHelper alertForViewController:self
+                                                     error:error
+                                               backupTitle:kErrorDefaultTitle
+                                             backupMessage:kErrorDefaultMessage];
+                    return;
+                } else {
+                    patient.healthRecord = healthRecord;
+                }
+
+                healthRecordCounter++;
+
+                //TODO: This should be done with KVO etc.
+                if (i == [self selectedPatientIndex]) {
+                    [self.bodyView reloadDataForPatient];
+                }
+                
+                if (healthRecordCounter == [self.patients count] && notesCounter == [self.patients count]) {
+                    readyToHideHUD = YES;
+                }
+
+                if (readyToHideHUD) {
+                    [MBProgressHUD hideHUDForView:self.view animated:YES];
+                }
+            }];
+        }
     }
+}
+
+- (NSInteger)selectedPatientIndex {
+    return self.headerView.selectedSegment;
 }
 
 -(void)setupNavigationBar {
 
-    [LEOStyleHelper styleBackButtonForViewController:self forFeature:FeatureSettings];
+    [LEOStyleHelper styleBackButtonForViewController:self
+                                          forFeature:FeatureSettings];
+
 
     self.navigationController.navigationBarHidden = NO;
-    self.navigationController.navigationBar.translucent = YES;
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
-    self.navigationController.navigationBar.tintColor = [UIColor leo_white];
-    self.navigationController.navigationBar.shadowImage = [UIImage new];
+
+    //FIXME: When we replace the LEOPHRHeaderView with a subclass of LEOGradientView, set this to YES, and update the size of everything to reflect the additional 64 points (or as needed).
+
+    UINavigationBar *navBar = self.navigationController.navigationBar;
+
+    navBar.translucent = NO;
+    navBar.backgroundColor = [UIColor clearColor];
+    navBar.tintColor = [UIColor leo_white];
+    navBar.shadowImage = [UIImage new];
 }
 
 #pragma mark - Accessors
@@ -112,93 +204,116 @@ static CGFloat const kHeightOfHeaderPHR = 200;
 
     if (!_headerView) {
 
-        LEOPHRHeaderView *strongHeaderView = [[LEOPHRHeaderView alloc] initWithPatients:self.patients];
+        LEOPHRHeaderView *strongHeaderView =
+        [[LEOPHRHeaderView alloc] initWithPatients:self.patients];
+
         _headerView = strongHeaderView;
         _headerView.backgroundColor = [UIColor leo_white];
 
+        __weak typeof(self) weakSelf = self;
+
+        _headerView.segmentDidChangeBlock = ^ {
+
+            __strong typeof(self) strongSelf = weakSelf;
+
+            strongSelf.bodyView.patient = strongSelf.patients[[strongSelf selectedPatientIndex]];
+        };
+
         // TODO: Remove when subview content is available to size view
-        [_headerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_headerView(height)]" options:0 metrics:@{@"height":@(kHeightOfHeaderPHR)} views:NSDictionaryOfVariableBindings(_headerView)]];
+        [_headerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_headerView(height)]"
+                                                                            options:0
+                                                                            metrics:@{@"height":@(kHeightOfHeaderPHR)}
+                                                                              views:NSDictionaryOfVariableBindings(_headerView)]];
     }
 
     return _headerView;
 }
 
-- (NSArray *)segmentViewControllers {
+-(LEOPHRBodyView *)bodyView {
 
-    if (!_segmentViewControllers) {
+    if (!_bodyView) {
 
-        NSMutableArray *recordVCs = [NSMutableArray new];
+        _bodyView = [LEOPHRBodyView new];
 
-        for (Patient *patient in self.patients) {
+        _bodyView.patient = self.patients[[self selectedPatientIndex]];
 
-            //TODO: ZSD Update once LEORecordViewController is actually built out.
-            LEORecordViewController *recordVC = [[LEORecordViewController alloc] init];
-            recordVC.patient = patient;
-            recordVC.phrViewController = self;
-            [recordVCs addObject:recordVC];
-        }
+        __weak typeof(self) weakSelf = self;
 
-        _segmentViewControllers = [recordVCs copy];
+        _bodyView.editNoteTouchedUpInsideBlock = ^(NSArray *notes) {
+
+            __strong typeof(self) strongSelf = weakSelf;
+
+            PatientNote* note;
+
+            note = notes.lastObject; // TODO: update to handle multiple notes
+
+            [strongSelf presentEditNotesViewControllerWithNote:note];
+        };
     }
 
-    return _segmentViewControllers;
-}
-
-
--(GNZSlidingSegmentView *)slidingSegmentView {
-
-    if (!_slidingSegmentView) {
-
-        GNZSlidingSegmentView *strongSlidingSegmentView = [GNZSlidingSegmentView new];
-        _slidingSegmentView = strongSlidingSegmentView;
-
-        _slidingSegmentView.dataSource = self;
-        _slidingSegmentView.delegate = self;
-    }
-    
-    return _slidingSegmentView;
+    return _bodyView;
 }
 
 #pragma mark - Sticky Header View DataSource
 
 -(UIView *)injectBodyView {
-    return self.slidingSegmentView;
+    return self.bodyView;
 }
 
 -(UIView *)injectTitleView {
     return self.headerView;
 }
 
-#pragma mark - GNZSlidingSegmentView Datasource
-
-- (id<GNZSegment>)segmentedControlForSlidingSegmentView:(GNZSlidingSegmentView *)segmentPageController {
-    return self.headerView.segmentControl;
-}
-
-- (UIViewController *)slidingSegmentView:(GNZSlidingSegmentView *)segmentPageController viewControllerForSegmentAtIndex:(NSUInteger)index {
-    UIViewController *vc;
-    if (index < self.segmentViewControllers.count) {
-        vc = self.segmentViewControllers[index];
-    }
-    return vc;
-}
-
-- (NSUInteger)numberOfSegmentsForSlidingSegmentViewController:(GNZSlidingSegmentView *)segmentPageController {
-    return self.segmentViewControllers.count;
-}
-
-#pragma mark - GNZSlidingSegmentView Delegate
-- (void)slidingSegmentView:(GNZSlidingSegmentView *)slidingSegmentView segmentDidChange:(NSUInteger)newSegmentIndex {
-
-    [LEOBreadcrumb crumbWithFunction:__PRETTY_FUNCTION__];
-
-    self.stickyHeaderView.scrollView.contentOffset = CGPointZero;
-}
-
 - (void)pop {
 
     [self.analyticSession completeSession];
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+#pragma mark - Actions
+
+- (void)presentEditNotesViewControllerWithNote:(PatientNote*)note {
+
+    LEORecordEditNotesViewController *recordEditNotesVC = [LEORecordEditNotesViewController new];
+    recordEditNotesVC.patient = self.patients[[self selectedPatientIndex]];
+    recordEditNotesVC.note = note;
+
+    __weak typeof(self) weakSelf = self;
+
+    recordEditNotesVC.editNoteCompletionBlock = ^(PatientNote *updatedNote) {
+
+        __strong typeof(self) strongSelf = weakSelf;
+
+        [strongSelf updateNote:updatedNote];
+        strongSelf.bodyView.notes = strongSelf.notes[[self selectedPatientIndex]];
+    };
+
+    UINavigationController *navController =
+    [[UINavigationController alloc] initWithRootViewController:recordEditNotesVC];
+    
+    [self presentViewController:navController animated:YES completion:nil];
+}
+
+- (void)updateNote:(PatientNote *)updatedNote {
+    
+    int i = 0;
+    
+    NSMutableArray *notesForPatient =  self.notes[[self selectedPatientIndex]];
+    
+    for (PatientNote *note in notesForPatient) {
+
+        if ([note.objectID isEqualToString:updatedNote.objectID] ||
+            (!note.objectID && !updatedNote.objectID) ) {
+            
+            [notesForPatient[i] updateWithPatientNote:updatedNote];
+            return;
+        }
+
+        i++;
+    }
+    
+    // if not found, this is a newly created note.
+    [notesForPatient addObject:updatedNote];
 }
 
 @end

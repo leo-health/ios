@@ -24,6 +24,7 @@
         _bmis = bmis;
         _heights = heights;
         _weights = weights;
+        _timeSeries = @[weights, heights, bmis];
     }
 
     return self;
@@ -46,5 +47,41 @@
     return [self initWithAllergies:allergies medications:medications immunizations:immunizations bmis:bmis heights:heights weights:weights];
 }
 
+- (BOOL)hasSingleVitalMeasurement {
+
+    return self.bmis.count == 1 || self.heights.count == 1 || self.weights.count == 1;
+}
+
+- (BOOL)hasNoVitalMeasurement {
+    return self.bmis.count == 0 || self.heights.count == 0 || self.weights.count == 0;
+}
+
+- (BOOL)hasManyVitalMeasurements {
+    return self.bmis.count > 1 || self.heights.count > 1 || self.weights.count > 1;
+}
+
+/**
+ *  If any data fields comes back from the API, the health record exists.
+ *
+ *  @return BOOL existence of health record
+ */
+- (BOOL)containsData {
+
+    return (self.weights.count ||
+            self.heights.count ||
+            self.bmis.count ||
+            self.allergies.count ||
+            self.medications.count ||
+            self.immunizations.count);
+}
+
+- (BOOL)containsNoData {
+    return !(self.weights.count ||
+             self.heights.count ||
+             self.bmis.count ||
+             self.allergies.count ||
+             self.medications.count ||
+             self.immunizations.count) && self;
+}
 
 @end
