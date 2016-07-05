@@ -23,8 +23,6 @@
       @"Time of day": [self timeOfDay],
       @"Number of days booked in advance": @([self daysBookedInAdvance]),
       @"Day of week": [self dayOfWeek],
-      @"Booked by primary": [self bookedByPrimary],
-      @"Membership type": [self membershipTypeString]
       };
     
     [mutableAttributeDictionary addEntriesFromDictionary:appointmentDictionary];
@@ -45,7 +43,7 @@
         return @"Morning";
     } else if (hour < 13) {
         return @"Midday";
-    } else if (hour < 17) {
+    } else if (hour < 16) {
         return @"Afternoon";
     }
     return @"Evening";
@@ -71,20 +69,6 @@
     [formatter setDateFormat:@"EEEE"];
     
     return [formatter stringFromDate:self.date];
-}
-
-- (NSString *)bookedByPrimary{
-    
-    Guardian *guardian = (Guardian *)self.bookedByUser;
-    
-    return (guardian.primary) ? @"YES" : @"NO";
-}
-
-- (NSString *)membershipTypeString{
-    
-    Guardian *guardian = (Guardian *)self.bookedByUser;
-    
-    return [Guardian membershipStringFromType:guardian.membershipType];
 }
 
 

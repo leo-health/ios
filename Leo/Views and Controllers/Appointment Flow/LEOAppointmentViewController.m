@@ -468,7 +468,7 @@ static NSString *const kKeySelectionVCDate = @"date";
             self.submissionButton.enabled = YES;
 
             if (!error) {
-                NSDictionary *dictionary = [self.appointment getAttributes];
+                
                 [LEOAnalyticEvent tagEvent:kAnalyticEventBookVisit
                            withAppointment:self.appointment];
                 weakself.card = appointmentCard;
@@ -483,12 +483,9 @@ static NSString *const kKeySelectionVCDate = @"date";
             self.submissionButton.enabled = YES;
 
             if (!error) {
-
-                Guardian *guardian = [LEOSession user];
-                NSString *membershipTypeString = [Guardian membershipStringFromType:guardian.membershipType];
                 
                 [LEOAnalyticIntent tagEvent:kAnalyticEventRescheduleVisit
-                             withAttributes:@{@"Membership Type" : membershipTypeString}];
+                            withAppointment:self.appointment];
                 
                 weakself.card = appointmentCard;
                 [self.appointment book];

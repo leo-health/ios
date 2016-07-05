@@ -653,8 +653,8 @@ extern NSString *const kAnalyticEventCancelPhotoForMessage; // @"Cancel Photo Fo
 extern NSString *const kAnalyticEventGoToHealthRecord; // @"Go To Health Records";
 extern NSString *const kAnalyticEventGoToHealthRecordNotes; // @"Go To Health Record Notes";
 extern NSString *const kAnalyticEventSaveHealthRecordNotes; // @"Save Health Record Notes";
-extern NSString *const kAnalyticEventAddPaymentMethod; // @"Add Payment Method";
-extern NSString *const kAnalyticEventUpdatePaymentMethod; // @"Update Payment Method";
+extern NSString *const kAnalyticEventChargeCard; // @"Charge card";
+extern NSString *const kAnalyticEventUpdatePaymentChargeCard; // @"Update Payment Method and Charge Card";
 
 extern NSString *const kAnalyticEventConfirmPatientsInOnboarding; // @"Confirm Patients";
 

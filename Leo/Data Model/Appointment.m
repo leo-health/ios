@@ -132,7 +132,6 @@
 }
 
 - (void)schedule {
-    [LEOAnalyticEvent tagEvent:kAnalyticEventScheduleVisit];
 
     self.priorStatus = self.status;
     self.status = [[AppointmentStatus alloc] initWithObjectID:nil name:@"Future" athenaCode:nil statusCode:AppointmentStatusCodeFuture];

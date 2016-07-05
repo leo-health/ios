@@ -220,7 +220,7 @@ NSString *const kCopyEditPaymentsHeader = @"Update your credit or debit card";
 
                         [strongSelf.navigationController popViewControllerAnimated:YES];
                         
-                        [LEOAnalyticEvent tagEvent:kAnalyticEventAddPaymentMethod
+                        [LEOAnalyticIntent tagEvent:kAnalyticEventChargeCard
                                         withFamily:self.family];
 
                     }
@@ -243,7 +243,7 @@ NSString *const kCopyEditPaymentsHeader = @"Update your credit or debit card";
 
                                 [LEOSession updateCurrentSessionWithGuardian:guardian];
 
-                                [LEOAnalyticEvent tagEvent:kAnalyticEventAddPaymentMethod
+                                [LEOAnalyticIntent tagEvent:kAnalyticEventChargeCard
                                                 withFamily:self.family];
 
                                 [MBProgressHUD hideHUDForView:strongSelf.view

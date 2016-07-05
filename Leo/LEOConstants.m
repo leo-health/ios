@@ -489,8 +489,8 @@ NSString *const kAnalyticEventTakePhotoForMessage = @"Take Photo For Message"; /
 NSString *const kAnalyticEventConfirmPhotoForMessage = @"Confirm Photo For Message"; //success not guaranteed
 NSString *const kAnalyticEventCancelPhotoForMessage = @"Cancel Photo For Message"; // only captures partial data
 NSString *const kAnalyticEventSaveHealthRecordNotes = @"Save Health Record Notes";
-NSString *const kAnalyticEventAddPaymentMethod = @"Add Payment Method";
-NSString *const kAnalyticEventUpdatePaymentMethod = @"Update Payment Method";
+NSString *const kAnalyticEventChargeCard = @"Charge card";
+NSString *const kAnalyticEventUpdatePaymentChargeCard = @"Update Payment Method and Charge Card";
 
 NSString *const kAnalyticEventConfirmPatientsInOnboarding = @"Confirm Patients";
 

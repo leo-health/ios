@@ -737,7 +737,8 @@ static CGFloat const kFeedInsetTop = 20.0;
 
                                         if (!error) {
                                             [LEOAnalyticEvent tagEvent:kAnalyticEventCancelVisit
-                                                            withFamily:self.family];
+                                                       withAppointment:card.associatedCardObject
+                                                             andFamily:self.family];
                                         }
 
                                         if (completionBlock) {
@@ -905,6 +906,7 @@ static CGFloat const kFeedInsetTop = 20.0;
 
 - (void)bookAppointmentTouchedUpInside {
 
+    [LEOAnalyticEvent tagEvent:kAnalyticEventScheduleVisit];
     [self beginSchedulingNewAppointment];
 }
 

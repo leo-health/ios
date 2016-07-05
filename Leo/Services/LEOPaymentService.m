@@ -21,7 +21,7 @@
         if (completionBlock) {
 
             if (!error) {
-                [LEOAnalyticEvent tagEvent:kAnalyticEventAddPaymentMethod];
+                [LEOAnalyticEvent tagEvent:kAnalyticEventChargeCard];
             }
 
             completionBlock (!error, error);
@@ -37,7 +37,7 @@
     NSURLSessionTask *task = [[LEOPaymentService leoSessionManager] standardPUTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointSubscriptions params:@{@"credit_card_token" : token.tokenId} completion:^(NSDictionary *rawResults, NSError *error) {
 
         if (!error) {
-            [LEOAnalyticEvent tagEvent:kAnalyticEventUpdatePaymentMethod];
+            [LEOAnalyticEvent tagEvent:kAnalyticEventUpdatePaymentChargeCard];
         }
 
         if (completionBlock) {

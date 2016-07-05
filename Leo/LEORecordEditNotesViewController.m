@@ -161,7 +161,8 @@
 
                 if (!error) {
 
-                    [LEOAnalyticEvent tagEvent:kAnalyticEventSaveHealthRecordNotes];
+                    [LEOAnalyticEvent tagEvent:kAnalyticEventSaveHealthRecordNotes
+                                   withPatient:self.patient];
 
                     self.editNoteCompletionBlock(updatedNote);
                     [self dismissViewControllerAnimated:YES completion:nil];

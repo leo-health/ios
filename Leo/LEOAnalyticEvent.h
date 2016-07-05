@@ -22,16 +22,21 @@
   withAttributes:(NSDictionary *)attributeDictionary;
 + (void)tagEvent:(NSString *)eventName;
 
++ (void)tagEvent:(NSString *)eventName
+     withPatient:(Patient *)patient;
 
-+ (void)tagAppointment:(Appointment *)appointment
-        withAttributes:(NSDictionary *)attributeDictionary
-             andFamily:(Family *)family;
-+ (void)tagAppointment:(Appointment *)appointment
-             withFamily:(Family *)family;
-+ (void)tagAppointment:(Appointment *)appointment
-        withAttributes:(NSDictionary *)attributeDictionary;
-+ (void)tagAppointment:(Appointment *)appointment;
-
++ (void)tagEvent:(NSString *)eventName
+ withAppointment:(Appointment *)appointment
+  withAttributes:(NSDictionary *)attributeDictionary
+       andFamily:(Family *)family;
++ (void)tagEvent:(NSString *)eventName
+ withAppointment:(Appointment *)appointment
+       andFamily:(Family *)family;
++ (void)tagEvent:(NSString *)eventName
+ withAppointment:(Appointment *)appointment
+   andAttributes:(NSDictionary *)attributeDictionary;
++ (void)tagEvent:(NSString *)eventName
+ withAppointment:(Appointment *)appointment;
 
 
 @end

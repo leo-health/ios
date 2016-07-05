@@ -37,7 +37,7 @@
 
 + (void)tagEvent:(NSString *)eventName
   withAttributes:(NSDictionary *)attributeDictionary
-       andPatient:(Patient *)patient {
+      andPatient:(Patient *)patient {
     
     NSMutableDictionary *mutableAttributeDictionary = [attributeDictionary mutableCopy];
     [mutableAttributeDictionary addEntriesFromDictionary:[patient getAttributes]];
@@ -49,39 +49,43 @@
     [self tagEvent:eventName withAttributes:[patient getAttributes]];
 }
 
-+ (void)tagAppointment:(Appointment *)appointment
-        withAttributes:(NSDictionary *)attributeDictionary
-             andFamily:(Family *)family{
++ (void)tagEvent:(NSString *)eventName
+ withAppointment:(Appointment *)appointment
+  withAttributes:(NSDictionary *)attributeDictionary
+       andFamily:(Family *)family{
     
     NSMutableDictionary *mutableAttributeDictionary = [[self getAttributesWithFamily:family] mutableCopy];
     [mutableAttributeDictionary addEntriesFromDictionary:attributeDictionary];
     [mutableAttributeDictionary addEntriesFromDictionary:[appointment getAttributes]];
     
-    [self tagEvent:kAnalyticEventBookVisit withAttributes:mutableAttributeDictionary];
+    [self tagEvent:eventName withAttributes:mutableAttributeDictionary];
 }
 
-+ (void)tagAppointment:(Appointment *)appointment
-             andFamily:(Family *)family{
++ (void)tagEvent:(NSString *)eventName
+ withAppointment:(Appointment *)appointment
+       andFamily:(Family *)family{
     
     
     NSMutableDictionary *mutableAttributeDictionary = [[self getAttributesWithFamily:family] mutableCopy];
     [mutableAttributeDictionary addEntriesFromDictionary:[appointment getAttributes]];
-
     
-    [self tagEvent:kAnalyticEventBookVisit withAttributes:mutableAttributeDictionary];
+    
+    [self tagEvent:eventName withAttributes:mutableAttributeDictionary];
 }
 
-+ (void)tagAppointment:(Appointment *)appointment
-        withAttributes:(NSDictionary *)attributeDictionary{
++ (void)tagEvent:(NSString *)eventName
+ withAppointment:(Appointment *)appointment
+   andAttributes:(NSDictionary *)attributeDictionary{
     
     NSMutableDictionary *mutableAttributeDictionary = [attributeDictionary mutableCopy];
     [mutableAttributeDictionary addEntriesFromDictionary:[appointment getAttributes]];
     
-    [self tagEvent:kAnalyticEventBookVisit withAttributes:mutableAttributeDictionary];
+    [self tagEvent:eventName withAttributes:mutableAttributeDictionary];
 }
 
-+ (void)tagAppointment:(Appointment *)appointment{
-    [self tagEvent:kAnalyticEventBookVisit withAttributes:[appointment getAttributes]];
++ (void)tagEvent:(NSString *)eventName
+ withAppointment:(Appointment *)appointment{
+    [self tagEvent:eventName withAttributes:[appointment getAttributes]];
 }
 
 
