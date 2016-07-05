@@ -17,18 +17,15 @@
 #import <GNZSlidingSegment/GNZSegmentedControl.h>
 #import "Patient.h"
 #import "HealthRecord.h"
-#import "LEOChartTimeFrameView.h"
-#import "LEOPHRGraphOverlayView.h"
-#import "LEOChartVerticalLineSelectorView.h"
+
 
 @interface LEOVitalGraphViewController ()
 
 @property (weak, nonatomic) TKChart *chart;
 
-@property (weak, nonatomic) LEOChartTimeFrameView *timeFrameView;
+@property (weak, nonatomic) UIView *timeframeView;
 @property (weak, nonatomic) UISegmentedControl *metricControl;
 @property (copy, nonatomic) NSArray *coordinateData;
-@property (copy, nonatomic) NSArray *filteredCoordinateData;
 @property (copy, nonatomic) NSArray *placeholderData;
 
 @property (nonatomic) BOOL alreadyUpdatedConstraints;
@@ -70,7 +67,6 @@ static NSInteger const kVitalGraphMinDaysBeforeOrAfter = 1;
     self.chart.dataSource = self.dataSource;
 
     [self formatChart];
-
     [self reloadWithUIUpdates];
 }
 
@@ -78,9 +74,6 @@ static NSInteger const kVitalGraphMinDaysBeforeOrAfter = 1;
 - (void)viewDidAppear:(BOOL)animated {
 
     [super viewDidAppear:animated];
-
-    [self.chart select:[[TKChartSelectionInfo alloc] initWithSeries:self.chart.series[0] dataPointIndex:self.filteredCoordinateData.count - 1]];
-
 }
 
 =======
@@ -176,55 +169,14 @@ static NSInteger const kVitalGraphMinDaysBeforeOrAfter = 1;
     return _metricControl;
 }
 
-- (LEOChartTimeFrameView *)timeFrameView {
-
-    if (!_timeFrameView) {
-
-        TimeFrameBlock timeFrameBlock = ^ (NSInteger startOfRangeInYearsInclusive, NSInteger endOfRangeInYearsExclusive) {
-
-            [self reloadWithUIUpdatesForAgeRangeStartingFrom:startOfRangeInYearsInclusive endingBefore:endOfRangeInYearsExclusive];
-        };
-
-        //TODO: ZSD - Deal with the fact that this doesn't account for us only covering through 12 years old at this time.
-        CGFloat ageOfChild = [[NSDate date] monthsLaterThan:self.patient.dob] / 12.0;
-
-        LEOChartTimeFrameView *strongTimeFrameView =
-        [[LEOChartTimeFrameView alloc] initWithAgeOfChild:ageOfChild
-                                     timeFrameActionBlock:timeFrameBlock];
-
-        _timeFrameView = strongTimeFrameView;
-
-        [self.view addSubview:_timeFrameView];
-    }
-
-    return _timeFrameView;
-}
-
 - (void)setPatient:(Patient *)patient {
 
     _patient = patient;
 
-    [self reloadWithUIUpdatesForAgeRangeStartingFrom:0 endingBefore:12];
+    [self reloadWithUIUpdates];
 }
-
 
 #pragma mark - Dataset Helpers
-
-- (void)filterCoordinateDataWithStartOfRangeInYearsInclusive:(NSInteger)startOfRangeInYearsInclusive
-                                  endOfRangeInYearsExclusive:(NSInteger)endOfRangeInYearsExclusive {
-
-    NSDate *beginningOfDateRange =
-    [self.patient.dob dateByAddingYears:startOfRangeInYearsInclusive];
-
-    NSDate *endOfDateRange =
-    [[self.patient.dob dateByAddingYears:endOfRangeInYearsExclusive] dateBySubtractingSeconds:1];
-
-    NSPredicate *ageFilter =
-    [NSPredicate predicateWithFormat:@"self.takenAt >= %@ AND self.takenAt < %@", beginningOfDateRange, endOfDateRange];
-
-    self.filteredCoordinateData =
-    [self.coordinateData filteredArrayUsingPredicate:ageFilter];
-}
 
 -(NSArray *)coordinateData {
 
@@ -240,7 +192,7 @@ static NSInteger const kVitalGraphMinDaysBeforeOrAfter = 1;
 }
 
 - (NSArray *)selectedDataSet {
-    return self.filteredCoordinateData ? : nil;
+    return self.coordinateData ? : nil;
 }
 
 
@@ -314,19 +266,9 @@ static NSInteger const kVitalGraphMinDaysBeforeOrAfter = 1;
 
 - (void)reloadWithUIUpdates {
 
-    [self reloadWithUIUpdatesForAgeRangeStartingFrom:0 endingBefore:12];
-}
-
-- (void)reloadWithUIUpdatesForAgeRangeStartingFrom:(NSInteger)startOfRangeInYearsInclusive
-                                      endingBefore:(NSInteger)endOfRangeInYearsExclusive {
-
-    [self filterCoordinateDataWithStartOfRangeInYearsInclusive:startOfRangeInYearsInclusive
-                                    endOfRangeInYearsExclusive:endOfRangeInYearsExclusive];
-
     [self.chart removeAllAnnotations];
 
-    [self.dataSource updateDataSet:[self selectedDataSet]
-                  seriesIdentifier:@"series"];
+    [self.dataSource updateDataSet:[self selectedDataSet] seriesIdentifier:@"series"];
 
     [self.chart reloadData];
 
@@ -361,12 +303,10 @@ static NSInteger const kVitalGraphMinDaysBeforeOrAfter = 1;
     TKChartDateTimeAxis *xAxis = (TKChartDateTimeAxis *)self.chart.xAxis;
     TKChartNumericAxis *yAxis = (TKChartNumericAxis *)self.chart.yAxis;
 
-    TKRange *xAxisRange = [[TKRange alloc] initWithMinimum:[self graphXStartPoint]
-                                                andMaximum:[self graphXEndPoint]];
+    TKRange *xAxisRange = [[TKRange alloc] initWithMinimum:[self graphXStartPoint] andMaximum:[self graphXEndPoint]];
     xAxis.range = xAxisRange;
 
-    TKRange *yAxisRange = [[TKRange alloc] initWithMinimum:@([self graphYStartPoint])
-                                                andMaximum:@([self graphYEndPoint])];
+    TKRange *yAxisRange = [[TKRange alloc] initWithMinimum:@([self graphYStartPoint]) andMaximum:@([self graphYEndPoint])];
     yAxis.range = yAxisRange;
 }
 
@@ -379,35 +319,13 @@ static NSInteger const kVitalGraphMinDaysBeforeOrAfter = 1;
 
         self.chart.translatesAutoresizingMaskIntoConstraints = NO;
         self.metricControl.translatesAutoresizingMaskIntoConstraints = NO;
-        self.timeFrameView.translatesAutoresizingMaskIntoConstraints = NO;
 
-        NSDictionary *bindings = NSDictionaryOfVariableBindings(_chart, _metricControl, _timeFrameView);
+        NSDictionary *bindings = NSDictionaryOfVariableBindings(_chart, _metricControl);
 
-        NSArray *horizontalLayoutConstraintsForChart =
-        [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_chart]|"
-                                                options:0
-                                                metrics:nil
-                                                  views:bindings];
+        NSArray *horizontalLayoutConstraintsForChart = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_chart]|" options:0 metrics:nil views:bindings];
+        NSArray *horizontalLayoutConstraintsForMetricControl = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_metricControl]|" options:0 metrics:nil views:bindings];
+        NSArray *verticalLayoutConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_metricControl][_chart]|" options:0 metrics:nil views:bindings];
 
-        NSArray *horizontalLayoutConstraintsForMetricControl =
-        [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_metricControl]|"
-                                                options:0
-                                                metrics:nil
-                                                  views:bindings];
-        NSArray *horizontalLayoutConstraintsForTimeFrameView =
-        [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_timeFrameView]|"
-                                                options:0
-                                                metrics:nil
-                                                  views:bindings];
-
-        NSArray *verticalLayoutConstraints =
-        [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_metricControl][_chart][_timeFrameView]|"
-                                                options:0
-                                                metrics:nil
-                                                  views:bindings];
-
-
-        [self.view addConstraints:horizontalLayoutConstraintsForTimeFrameView];
         [self.view addConstraints:horizontalLayoutConstraintsForChart];
         [self.view addConstraints:horizontalLayoutConstraintsForMetricControl];
 
@@ -463,7 +381,8 @@ static NSInteger const kVitalGraphMinDaysBeforeOrAfter = 1;
 - (NSNumber *)selectedDataPointIndex {
 
     if (!_selectedDataPointIndex) {
-        _selectedDataPointIndex = @(self.filteredCoordinateData.count - 1);
+
+        _selectedDataPointIndex = @(self.selectedDataSet.count - 1);
     }
 
     return _selectedDataPointIndex;

@@ -15,6 +15,7 @@
 // TODO: refactor to avoid duplicate typedef in LEOBasicSelectionViewController;
 typedef void (^GraphSeriesConfigureBlock)(TKChartSeries *series);
 
+
 - (id)initWithDataSet:(NSArray *)dataSet
      seriesIdentifier:(NSString *)seriesIdentifier
   configureSeriesBlock:(GraphSeriesConfigureBlock)configureSeriesBlock

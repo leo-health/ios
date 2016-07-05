@@ -135,8 +135,6 @@
 		319FB4BF1BBA379E00EFF7B9 /* JVFloatLabeledTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 319FB4BB1BBA379E00EFF7B9 /* JVFloatLabeledTextView.m */; };
 		319FB4C01BBA379E00EFF7B9 /* NSString+TextDirectionality.m in Sources */ = {isa = PBXBuildFile; fileRef = 319FB4BD1BBA379E00EFF7B9 /* NSString+TextDirectionality.m */; };
 		319FC6911C73C1ED00B53112 /* LEOPracticeDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 319FC68F1C73C1ED00B53112 /* LEOPracticeDetailView.m */; };
-		31B241781D219EEA001A944C /* LEOChartTimeFrameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 31B241771D219EEA001A944C /* LEOChartTimeFrameView.m */; };
-		31AF68DC1D3D5FBB00F406D6 /* LEOChartTimeFrameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 31AF68DB1D3D5FBB00F406D6 /* LEOChartTimeFrameView.m */; };
 		31B5097D1C7CBF3500CE33D4 /* LEOFeedHeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31B5097B1C7CBF3500CE33D4 /* LEOFeedHeaderCell.m */; };
 		31B5097E1C7CBF3500CE33D4 /* LEOFeedHeaderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 31B5097C1C7CBF3500CE33D4 /* LEOFeedHeaderCell.xib */; };
 		31B509811C7CC31900CE33D4 /* LEOFeedHeaderCell+ConfigureForCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31B509801C7CC31900CE33D4 /* LEOFeedHeaderCell+ConfigureForCell.m */; };
@@ -553,9 +551,6 @@
 		319FB4BD1BBA379E00EFF7B9 /* NSString+TextDirectionality.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+TextDirectionality.m"; sourceTree = "<group>"; };
 		319FC68F1C73C1ED00B53112 /* LEOPracticeDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOPracticeDetailView.m; sourceTree = "<group>"; };
 		319FC6901C73C1ED00B53112 /* LEOPracticeDetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOPracticeDetailView.h; sourceTree = "<group>"; };
-		31B241761D219EEA001A944C /* LEOChartTimeFrameView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOChartTimeFrameView.h; path = "Views and Controllers/PHR/LEOChartTimeFrameView.h"; sourceTree = "<group>"; };
-		31B241771D219EEA001A944C /* LEOChartTimeFrameView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOChartTimeFrameView.m; path = "Views and Controllers/PHR/LEOChartTimeFrameView.m"; sourceTree = "<group>"; };
-		31AF68DB1D3D5FBB00F406D6 /* LEOChartTimeFrameView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOChartTimeFrameView.m; path = "Views and Controllers/PHR/LEOChartTimeFrameView.m"; sourceTree = "<group>"; };
 		31B5097A1C7CBF3500CE33D4 /* LEOFeedHeaderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOFeedHeaderCell.h; path = "Views and Controllers/Feed/LEOFeedHeaderCell.h"; sourceTree = "<group>"; };
 		31B5097B1C7CBF3500CE33D4 /* LEOFeedHeaderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOFeedHeaderCell.m; path = "Views and Controllers/Feed/LEOFeedHeaderCell.m"; sourceTree = "<group>"; };
 		31B5097C1C7CBF3500CE33D4 /* LEOFeedHeaderCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LEOFeedHeaderCell.xib; path = "Views and Controllers/Feed/LEOFeedHeaderCell.xib"; sourceTree = "<group>"; };
@@ -1196,7 +1191,6 @@
 			children = (
 				31314A171CB69DFD00465310 /* LEOVitalGraphViewController.h */,
 				31314A161CB69DFD00465310 /* LEOVitalGraphViewController.m */,
-				31AF68DB1D3D5FBB00F406D6 /* LEOChartTimeFrameView.m */,
 				317C1BE71CBBE9190099AC4D /* LEOVitalGraphDataSource.h */,
 				317C1BE81CBBE9190099AC4D /* LEOVitalGraphDataSource.m */,
 			);
@@ -2206,7 +2200,6 @@
 				310943761CCE5CA70015D52F /* Notice.m in Sources */,
 				31339B1C1C2208A000B53A86 /* LEOPromptFieldCell.m in Sources */,
 				3115F2281BCEAA04001BDF6A /* LEOUpdatePasswordView.m in Sources */,
-				31AF68DC1D3D5FBB00F406D6 /* LEOChartTimeFrameView.m in Sources */,
 				312418851BC0638200E18176 /* LEOLoginView.m in Sources */,
 				31F5AA6C1B791B4A00F96D06 /* LEOBasicSelectionViewController.m in Sources */,
 				310740741B545EFD0098FD40 /* LEOCardConversation.m in Sources */,
@@ -2339,7 +2332,6 @@
 				31CC12DB1BB062C40099AB60 /* Slot.m in Sources */,
 				31F5AA701B791B4A00F96D06 /* TimeCollectionController.m in Sources */,
 				31F5AA721B791B4B00F96D06 /* LEOCalendarDataSource.m in Sources */,
-				31B241781D219EEA001A944C /* LEOChartTimeFrameView.m in Sources */,
 				31E615E31CD8F4F40027B226 /* LEOPaymentService.m in Sources */,
 				31339B121C21EE0100B53A86 /* LEOPromptView.m in Sources */,
 			);
