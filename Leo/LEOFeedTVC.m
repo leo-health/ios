@@ -652,6 +652,7 @@ static CGFloat const kFeedInsetTop = 20.0;
                 }
                 case ConversationStatusCodeOpen: {
 
+                    [LEOAnalyticEvent tagEvent:kAnalyticEventMessageUsFromChatNotification];
                     [LEOBreadcrumb crumbWithObject:[NSString stringWithFormat:@"%s conversation open", __PRETTY_FUNCTION__]];
                     [self loadChattingViewWithCard:card];
                     break;
@@ -912,6 +913,7 @@ static CGFloat const kFeedInsetTop = 20.0;
 
 - (void)messageUsTouchedUpInside {
     
+    [LEOAnalyticEvent tagEvent:kAnalyticEventMessageUsFromTopOfPage];
     LEOCardConversation *conversationCard = [self findConversationCard];
     [self loadChattingViewWithCard:conversationCard];
 }

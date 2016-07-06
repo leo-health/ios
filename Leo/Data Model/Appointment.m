@@ -154,6 +154,8 @@
 }
 
 - (void)cancelled {
+
+    [LEOAnalyticEvent tagEvent:kAnalyticEventDismissCancellationNotification];
     self.priorStatus = self.status;
     self.status = [[AppointmentStatus alloc] initWithObjectID:nil name:@"Cancelled" athenaCode:nil statusCode:AppointmentStatusCodeCancelled];
 }

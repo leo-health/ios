@@ -57,6 +57,7 @@
 
 @property (nonatomic) BOOL didLayoutSubviewsOnce;
 @property (strong, nonatomic) LEOAnalyticSession *analyticSession;
+@property (copy, nonatomic) NSString *didChangeMoreThanAppointmentTime;
 
 @end
 
@@ -94,6 +95,7 @@ static NSString *const kKeySelectionVCDate = @"date";
 
     [super viewDidLoad];
 
+    self.didChangeMoreThanAppointmentTime = @"No";
     self.analyticSession = [LEOAnalyticSession startSessionWithSessionEventName:kAnalyticSessionScheduling];
     self.feature = FeatureAppointmentScheduling;
 
@@ -405,6 +407,10 @@ static NSString *const kKeySelectionVCDate = @"date";
 
 -(void)didUpdateItem:(id)item forKey:(NSString *)key {
 
+    if (![key isEqualToString:kKeySelectionVCSlot]){
+        self.didChangeMoreThanAppointmentTime = @"Yes";
+    }
+
     if ([key isEqualToString:kKeySelectionVCAppointmentType]) {
         self.appointmentView.appointmentType = item;
     }
@@ -484,9 +490,10 @@ static NSString *const kKeySelectionVCDate = @"date";
 
             if (!error) {
                 
-                [LEOAnalyticIntent tagEvent:kAnalyticEventRescheduleVisit
-                            withAppointment:self.appointment];
-                
+                [LEOAnalyticEvent tagEvent:kAnalyticEventRescheduleVisit
+                           withAppointment:self.appointment
+                             andAttributes:@{@"Did change more than appointment time": self.didChangeMoreThanAppointmentTime}];
+
                 weakself.card = appointmentCard;
                 [self.appointment book];
             }

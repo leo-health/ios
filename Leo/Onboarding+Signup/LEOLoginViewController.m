@@ -31,6 +31,7 @@
 #import "LEOSession.h"
 #import "Guardian.h"
 #import "LEOAnalyticEvent.h"
+#import "LEOAnalyticIntent.h"
 
 @interface LEOLoginViewController ()
 
@@ -207,6 +208,8 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
                          withCompletion:^(BOOL success, NSError * error) {
 
                              [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+                             [LEOAnalyticIntent tagEvent:kAnalyticEventLogin];
+
                              if (success) {
 
                                  [Crittercism setUsername:[Configuration vendorID]];
