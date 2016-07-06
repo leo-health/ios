@@ -244,6 +244,7 @@ static NSString *const kStatusBarNotificationAvatarUploadSuccess = @"Child profi
         [LEOAnalyticEvent tagEvent:kAnalyticEventCancelPhotoForAvatar
                        withPatient:self.patient];
     }
+
     [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -265,7 +266,7 @@ static NSString *const kStatusBarNotificationAvatarUploadSuccess = @"Child profi
       willShowViewController:(UIViewController *)viewController
                     animated:(BOOL)animated {
 
-    [LEOStyleHelper imagePickerController:navigationController willShowViewController:viewController forFeature:self.feature forImagePickerWithDismissTarget:self action:@selector(dismiss)];
+    [LEOStyleHelper imagePickerController:navigationController willShowViewController:viewController forFeature:self.feature forImagePickerWithDismissTarget:self action:@selector(imagePreviewControllerDidCancel:)];
 }
 
 - (void)dismiss {
