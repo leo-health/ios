@@ -71,7 +71,7 @@
 
     UIButton *doneButton = [UIButton leo_newButtonWithDisabledStyling];
     [doneButton setTitle:@"Done" forState:UIControlStateNormal];
-    doneButton.titleLabel.font = [UIFont leo_fieldAndUserLabelsAndSecondaryButtonsFont];
+    doneButton.titleLabel.font = [UIFont leo_bold12];
     [doneButton setTitleColor:[UIColor leo_white] forState:UIControlStateNormal];
     [doneButton addTarget:self action:@selector(saveBBIAction) forControlEvents:UIControlEventTouchUpInside];
     [doneButton sizeToFit];
@@ -107,7 +107,7 @@
         _textView = strongView;
 
         _textView.text = self.note.text;
-        _textView.font = [UIFont leo_standardFont];
+        _textView.font = [UIFont leo_regular15];
         _textView.placeholder = @"Please enter some notes about your child";
         _textView.floatingLabelActiveTextColor = [UIColor leo_grayForPlaceholdersAndLines];
     }

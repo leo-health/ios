@@ -39,7 +39,7 @@ CGFloat const kCellHeightButton = 94;
 
     [self.button setTitleColor:[UIColor leo_white] forState:UIControlStateNormal];
     self.button.backgroundColor = [UIColor leo_orangeRed];
-    self.button.titleLabel.font = [UIFont leo_buttonLabelsAndTimeStampsFont];
+    self.button.titleLabel.font = [UIFont leo_medium12];
 
     [LEOStyleHelper roundCornersForView:self.button withCornerRadius:kCornerRadius];
 }

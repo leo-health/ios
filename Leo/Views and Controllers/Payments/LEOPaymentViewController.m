@@ -102,7 +102,7 @@ NSString *const kCopyEditPaymentsHeader = @"Update your credit or debit card";
                       forState:UIControlStateNormal];
 
         [logoutButton setTitleColor:[UIColor leo_orangeRed] forState:UIControlStateNormal];
-        logoutButton.titleLabel.font = [UIFont leo_standardFont];
+        logoutButton.titleLabel.font = [UIFont leo_regular15];
         logoutButton.tintColor = [LEOStyleHelper headerIconColorForFeature:self.feature];
 
         [logoutButton sizeToFit];

@@ -39,7 +39,7 @@ IB_DESIGNABLE
     
     self.valid = YES;
     self.placeholder = self.standardPlaceholder;
-    self.font = [UIFont leo_standardFont];
+    self.font = [UIFont leo_regular15];
     self.floatingLabelActiveTextColor = [UIColor leo_grayStandard];
     self.textColor = [UIColor leo_grayStandard];
     self.tintColor = [UIColor leo_orangeRed];

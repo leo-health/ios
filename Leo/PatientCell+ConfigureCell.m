@@ -19,7 +19,7 @@
 - (void)configureForPatient:(Patient *)patient {
     
     self.fullNameLabel.text = patient.fullName;
-    self.fullNameLabel.font = [UIFont leo_menuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
+    self.fullNameLabel.font = [UIFont leo_medium15];
     self.fullNameLabel.textColor = [UIColor leo_grayForTitlesAndHeadings];
 
     UIImage *avatar;

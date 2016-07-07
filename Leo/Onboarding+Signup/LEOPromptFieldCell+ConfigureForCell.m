@@ -41,12 +41,12 @@
 - (void)setPatientCopyFontAndColor {
     
     self.promptField.textField.textColor = [UIColor leo_orangeRed];
-    self.promptField.textField.font = [UIFont leo_standardFont];
+    self.promptField.textField.font = [UIFont leo_regular15];
 }
 
 - (void)setNewPatientCopyFontAndColor {
     self.promptField.textField.textColor = [UIColor leo_grayStandard];
-    self.promptField.textField.font = [UIFont leo_standardFont];
+    self.promptField.textField.font = [UIFont leo_regular15];
 }
 
 @end

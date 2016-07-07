@@ -27,7 +27,7 @@
 
 - (void)setCopyFontAndColor {
     
-    self.headerLabel.font = [UIFont leo_expandedCardHeaderFont];
+    self.headerLabel.font = [UIFont leo_ultraLight27];
     self.headerLabel.textColor = [UIColor leo_grayForTitlesAndHeadings]; //MARK: This will have to be dynamic.
 }
 

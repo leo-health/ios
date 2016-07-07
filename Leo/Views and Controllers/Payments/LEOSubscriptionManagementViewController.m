@@ -49,7 +49,7 @@ NSString *const kContactUsDetailForExemptedMembers = @"As a pre-existing custome
 
         _contactUsDetailTextView = strongTextView;
 
-        _contactUsDetailTextView.font = [UIFont leo_standardFont];
+        _contactUsDetailTextView.font = [UIFont leo_regular15];
         _contactUsDetailTextView.textColor = [UIColor leo_grayStandard];
 
         switch (self.membershipType) {
@@ -69,7 +69,7 @@ NSString *const kContactUsDetailForExemptedMembers = @"As a pre-existing custome
         @{
           NSForegroundColorAttributeName : [UIColor leo_grayStandard],
           NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle),
-          NSFontAttributeName : [UIFont leo_standardFont]
+          NSFontAttributeName : [UIFont leo_regular15]
           };
         [self.view addSubview:_contactUsDetailTextView];
     }
@@ -85,7 +85,7 @@ NSString *const kContactUsDetailForExemptedMembers = @"As a pre-existing custome
 
         _contactUsTitleLabel = strongLabel;
 
-        _contactUsTitleLabel.font = [UIFont leo_expandedCardHeaderFont];
+        _contactUsTitleLabel.font = [UIFont leo_ultraLight27];
         _contactUsTitleLabel.textColor = [UIColor leo_grayStandard];
         _contactUsTitleLabel.text = kCopyContactUsTitle;
 
@@ -103,7 +103,7 @@ NSString *const kContactUsDetailForExemptedMembers = @"As a pre-existing custome
 
         _editPaymentsTitleLabel = strongLabel;
 
-        _editPaymentsTitleLabel.font = [UIFont leo_expandedCardHeaderFont];
+        _editPaymentsTitleLabel.font = [UIFont leo_ultraLight27];
         _editPaymentsTitleLabel.textColor = [UIColor leo_grayStandard];
         _editPaymentsTitleLabel.text = kCopyManagePaymentTitle;
 

@@ -21,7 +21,7 @@
     NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
     [style setAlignment:NSTextAlignmentLeft];
     
-    UIFont *font1 = [UIFont leo_appointmentSlotsAndDateFields];
+    UIFont *font1 = [UIFont leo_demiBold17];
     UIColor *color1 = [UIColor leo_grayStandard];
     
     NSDictionary *attributedDictionary1 = @{NSForegroundColorAttributeName:color1,
@@ -37,7 +37,7 @@
     [attributedTime appendAttributedString:formattedTimeString];
 
 
-    UIFont *font2 = [UIFont leo_appointmentDayLabelAndTimePeriod];
+    UIFont *font2 = [UIFont leo_condensedRegular12];
     UIColor *color2 = [UIColor leo_grayStandard];
     
     NSDictionary *attributedDictionary2 = @{NSForegroundColorAttributeName:color2,

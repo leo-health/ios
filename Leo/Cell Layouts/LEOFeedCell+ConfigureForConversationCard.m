@@ -44,7 +44,7 @@
     }
 
     timestampLabel.textColor = [UIColor leo_grayForTimeStamps];
-    timestampLabel.font = [UIFont leo_buttonLabelsAndTimeStampsFont];
+    timestampLabel.font = [UIFont leo_medium12];
 }
 
 

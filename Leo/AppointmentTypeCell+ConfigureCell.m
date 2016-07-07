@@ -16,10 +16,10 @@
     
     self.nameLabel.text = [appointmentType.name capitalizedString];
     self.nameLabel.textColor = [UIColor leo_grayForTitlesAndHeadings];
-    self.nameLabel.font = [UIFont leo_menuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
+    self.nameLabel.font = [UIFont leo_medium15];
     self.descriptionLabel.text = appointmentType.shortDescription;
     self.descriptionLabel.textColor = [UIColor leo_grayStandard];
-    self.descriptionLabel.font = [UIFont leo_standardFont];
+    self.descriptionLabel.font = [UIFont leo_regular15];
 }
 
 @end

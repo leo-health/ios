@@ -17,98 +17,91 @@
  *
  *  @return UIFont
  */
-+ (UIFont *)leo_expandedCardHeaderFont;
++ (UIFont *)leo_ultraLight27;
 
 /**
  *  AvenirNext-Regular, Size 15
  *
  *  @return UIFont
  */
-+ (UIFont *)leo_standardFont;
++ (UIFont *)leo_regular15;
 
 /**
  *  AvenirNext-Medium, Size 12
  *
  *  @return UIFont
  */
-+ (UIFont *)leo_buttonLabelsAndTimeStampsFont;
++ (UIFont *)leo_medium12;
 
 /**
  *  AvenirNext-Medium, Size 9
  *
  *  @return UIFont
  */
-+ (UIFont *)leo_graphOverlayDescriptions;
++ (UIFont *)leo_medium9;
 
 /**
  *  AvenirNext-Medium, Size 15
  *
  *  @return UIFont
  */
-+ (UIFont *)leo_menuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont;
++ (UIFont *)leo_medium15;
 
 /**
  *  AvenirNext-Medium, Size 19
  *
  *  @return UIFont
  */
-+ (UIFont *)leo_collapsedCardTitlesFont;
++ (UIFont *)leo_medium19;
 
 /**
  *  AvenirNext-Bold, Size 12
  *
  *  @return UIFont
  */
-+ (UIFont *)leo_fieldAndUserLabelsAndSecondaryButtonsFont;
++ (UIFont *)leo_bold12;
 
 /**
  *  AvenirNext-DemiBold, Size 17
  *
  *  @return UIFont
  */
-+ (UIFont *)leo_appointmentSlotsAndDateFields;
++ (UIFont *)leo_demiBold17;
 
 /**
  *  AvenirNextCondensed-Regular, Size 12
  *
  *  @return UIFont
  */
-+ (UIFont *)leo_appointmentDayLabelAndTimePeriod;
++ (UIFont *)leo_condensedRegular12;
 
 /**
  *  AvenirNext-Regular, Size 12
  *
  *  @return UIFont
  */
-+ (UIFont *)leo_emergency911Label;
++ (UIFont *)leo_regular12;
 
 /**
  *  AvenirNextCondensed-Regular, Size 10
  *
  *  @return UIFont
  */
-+ (UIFont *)leo_chatBubbleInitials;
++ (UIFont *)leo_condensedRegular10;
 
 /**
  *  AvenirNext-Regular, Size 24
  *
  *  @return UIFont
  */
-+ (UIFont *)leo_valuePropOnboardingFont;
++ (UIFont *)leo_regular24;
 
 /**
  *  AvenirNext-Bold, Size 24
  *
  *  @return UIFont
  */
-+ (UIFont *)leo_fullScreenNoticeHeader;
-
-/**
- *  AvenirNext-Regular, Size 24
- *
- *  @return UIFont
- */
-+ (UIFont *)leo_fullScreenNoticeBody;
++ (UIFont *)leo_bold24;
 
 /**
  *  AvenirNext-UltraLight, Size 39

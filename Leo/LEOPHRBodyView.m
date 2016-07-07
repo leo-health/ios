@@ -451,7 +451,7 @@ NS_ENUM(NSInteger, TableViewRow) {
     }
 
     UILabel *_titleLabel = [UILabel new];
-    _titleLabel.font = [UIFont leo_fieldAndUserLabelsAndSecondaryButtonsFont];
+    _titleLabel.font = [UIFont leo_bold12];
     _titleLabel.textColor = [UIColor leo_grayStandard];
 
     UIView *_separatorLine = [UIView new];
@@ -459,7 +459,7 @@ NS_ENUM(NSInteger, TableViewRow) {
 
     UIButton *_editNoteButton = [UIButton new];
     [_editNoteButton setTitle:kEditButtonText forState:UIControlStateNormal];
-    _editNoteButton.titleLabel.font = [UIFont leo_buttonLabelsAndTimeStampsFont];
+    _editNoteButton.titleLabel.font = [UIFont leo_medium12];
     [_editNoteButton setTitleColor:[UIColor leo_orangeRed] forState:UIControlStateNormal];
     [_editNoteButton addTarget:self action:@selector(editNoteTouchedUpInside) forControlEvents:UIControlEventTouchUpInside];
     _editNoteButton.hidden = section != TableViewSectionNotes;

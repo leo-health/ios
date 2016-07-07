@@ -489,7 +489,7 @@ static NSString *const kCopyManageMySubscription = @"Manage my membership";
             
             UITableViewHeaderFooterView *headerView = (UITableViewHeaderFooterView *)view;
             headerView.textLabel.textColor = [UIColor leo_grayForTitlesAndHeadings];
-            headerView.textLabel.font = [UIFont leo_expandedCardHeaderFont];
+            headerView.textLabel.font = [UIFont leo_ultraLight27];
             headerView.textLabel.text = [headerView.textLabel.text capitalizedString];
             headerView.tintColor = [UIColor leo_white];
             break;

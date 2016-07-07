@@ -86,7 +86,7 @@ IB_DESIGNABLE
 
 - (void)setupExpandedTitleLabel {
     
-    self.expandedTitleLabel.font = [UIFont leo_expandedCardHeaderFont];
+    self.expandedTitleLabel.font = [UIFont leo_ultraLight27];
     self.expandedTitleLabel.textColor = [UIColor leo_grayForTitlesAndHeadings];
     self.expandedTitleLabel.numberOfLines = 0;
     self.expandedTitleLabel.lineBreakMode = NSLineBreakByWordWrapping;
@@ -95,7 +95,7 @@ IB_DESIGNABLE
 
 - (void)setupCollapsedTitleLabel {
     
-    self.collapsedTitleLabel.font = [UIFont leo_menuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
+    self.collapsedTitleLabel.font = [UIFont leo_medium15];
     self.collapsedTitleLabel.textColor = [UIColor leo_grayForTitlesAndHeadings];
     self.collapsedTitleLabel.text = [self.delegate collapsedTitleViewContent];
     self.collapsedTitleLabel.textAlignment = NSTextAlignmentCenter;
@@ -222,7 +222,7 @@ IB_DESIGNABLE
         self.continueButton.layer.borderColor = self.tintColor.CGColor;
         self.continueButton.layer.borderWidth = 1.0;
         
-        self.continueButton.titleLabel.font = [UIFont leo_buttonLabelsAndTimeStampsFont];
+        self.continueButton.titleLabel.font = [UIFont leo_medium12];
         [self.continueButton setTitleColor:[UIColor leo_white] forState:UIControlStateNormal];
         [self.continueButton setBackgroundImage:[UIImage leo_imageWithColor:self.tintColor] forState:UIControlStateNormal];
     }

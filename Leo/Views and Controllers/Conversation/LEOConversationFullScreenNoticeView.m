@@ -122,7 +122,7 @@ dismissButtonTouchedUpInsideBlock:(void (^)(void))dismissButtonTouchedUpInsideBl
         [_buttonOne setTitleColor:[UIColor leo_lightBlue] forState:UIControlStateNormal];
 
         _buttonOne.titleLabel.font =
-        [UIFont leo_emergency911Label];
+        [UIFont leo_regular12];
 
         _buttonOne.titleLabel.lineBreakMode =
         NSLineBreakByWordWrapping;
@@ -161,7 +161,7 @@ dismissButtonTouchedUpInsideBlock:(void (^)(void))dismissButtonTouchedUpInsideBl
         [_buttonTwo setTitleColor:[UIColor leo_blue] forState:UIControlStateNormal];
 
         _buttonTwo.titleLabel.font =
-        [UIFont leo_emergency911Label];
+        [UIFont leo_regular12];
         _buttonTwo.layer.borderWidth = 1.0;
         _buttonTwo.layer.borderColor = [UIColor leo_blue].CGColor;
 
@@ -199,11 +199,11 @@ dismissButtonTouchedUpInsideBlock:(void (^)(void))dismissButtonTouchedUpInsideBl
 }
 
 - (NSDictionary *)fullScreenNoticeHeaderTextAttributes {
-    return @{ NSForegroundColorAttributeName : [UIColor leo_blue], NSFontAttributeName : [UIFont leo_fullScreenNoticeHeader] };
+    return @{ NSForegroundColorAttributeName : [UIColor leo_blue], NSFontAttributeName : [UIFont leo_bold24] };
 }
 
 - (NSDictionary *)fullScreenNoticeBodyTextAttributes {
-    return @{ NSForegroundColorAttributeName : [UIColor leo_blue], NSFontAttributeName : [UIFont leo_fullScreenNoticeBody] };
+    return @{ NSForegroundColorAttributeName : [UIColor leo_blue], NSFontAttributeName : [UIFont leo_regular24] };
 }
 
 -(void)setAttributedHeaderText:(NSAttributedString *)attributedHeaderText {

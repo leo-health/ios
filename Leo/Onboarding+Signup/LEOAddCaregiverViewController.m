@@ -124,7 +124,7 @@ static NSString * const kCopyHeaderAddCaregiver = @"Add another parent or caregi
         [skipButton setTitle:@"Skip for now" forState:UIControlStateNormal];
         [skipButton setTitleColor:[UIColor leo_orangeRed] forState:UIControlStateNormal];
         [skipButton addTarget:self action:@selector(skipTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
-        skipButton.titleLabel.font = [UIFont leo_standardFont];
+        skipButton.titleLabel.font = [UIFont leo_regular15];
         [skipButton sizeToFit];
 
         UIBarButtonItem *backBBI = [[UIBarButtonItem alloc] initWithCustomView:skipButton];

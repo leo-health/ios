@@ -87,9 +87,9 @@ static NSString * const kValidationDateTimeOfVisit = @"Please complete the field
     _notesTextView.delegate = self;
     _notesTextView.scrollEnabled = NO;
     _notesTextView.placeholder = kQuestionReasonForVisit;
-    _notesTextView.floatingLabelFont = [UIFont leo_standardFont];
-    _notesTextView.placeholderLabel.font = [UIFont leo_standardFont];
-    _notesTextView.font = [UIFont leo_standardFont];
+    _notesTextView.floatingLabelFont = [UIFont leo_regular15];
+    _notesTextView.placeholderLabel.font = [UIFont leo_regular15];
+    _notesTextView.font = [UIFont leo_regular15];
     _notesTextView.floatingLabelActiveTextColor = [UIColor leo_grayForPlaceholdersAndLines]; //TODO: Check *again* this color is right.
     _notesTextView.textColor = [UIColor leo_green];
     _notesTextView.tintColor = [UIColor leo_green];
@@ -110,7 +110,7 @@ static NSString * const kValidationDateTimeOfVisit = @"Please complete the field
     _patientPromptView.textView.validationPlaceholder = @"";
     _patientPromptView.accessoryImage = [UIImage imageNamed:@"Icon-ForwardArrow"];
     _patientPromptView.accessoryImageViewVisible = YES;
-    _patientPromptView.textView.font = [UIFont leo_standardFont];
+    _patientPromptView.textView.font = [UIFont leo_regular15];
     _patientPromptView.tintColor = [UIColor leo_green];
 }
 
@@ -124,7 +124,7 @@ static NSString * const kValidationDateTimeOfVisit = @"Please complete the field
     _staffPromptView.textView.validationPlaceholder = @"";
     _staffPromptView.accessoryImage = [UIImage imageNamed:@"Icon-ForwardArrow"];
     _staffPromptView.accessoryImageViewVisible = YES;
-    _staffPromptView.textView.font = [UIFont leo_standardFont];
+    _staffPromptView.textView.font = [UIFont leo_regular15];
     _staffPromptView.tintColor = [UIColor leo_green];
 }
 
@@ -138,7 +138,7 @@ static NSString * const kValidationDateTimeOfVisit = @"Please complete the field
     _schedulePromptView.textView.validationPlaceholder = @"";
     _schedulePromptView.accessoryImage =  [UIImage imageNamed:@"Icon-ForwardArrow"];
     _schedulePromptView.accessoryImageViewVisible = YES;
-    _schedulePromptView.textView.font = [UIFont leo_standardFont];
+    _schedulePromptView.textView.font = [UIFont leo_regular15];
 }
 
 -(void)setVisitTypePromptView:(LEOPromptView *)visitTypePromptView {
@@ -150,7 +150,7 @@ static NSString * const kValidationDateTimeOfVisit = @"Please complete the field
     _visitTypePromptView.textView.validationPlaceholder = @"";
     _visitTypePromptView.accessoryImage = [UIImage imageNamed:@"Icon-ForwardArrow"];
     _visitTypePromptView.accessoryImageViewVisible = YES;
-    _visitTypePromptView.textView.font = [UIFont leo_standardFont];
+    _visitTypePromptView.textView.font = [UIFont leo_regular15];
     _visitTypePromptView.tintColor = [UIColor leo_green];
 }
 
@@ -225,8 +225,8 @@ static NSString * const kValidationDateTimeOfVisit = @"Please complete the field
     [style setAlignment:NSTextAlignmentLeft];
     [style setLineBreakMode:NSLineBreakByWordWrapping];
 
-    UIFont *baseFont = [UIFont leo_standardFont];
-    UIFont *variableFont = [UIFont leo_menuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
+    UIFont *baseFont = [UIFont leo_regular15];
+    UIFont *variableFont = [UIFont leo_medium15];
 
     UIColor *baseColor = [UIColor leo_grayStandard];
     UIColor *variableColor = [UIColor leo_green];
@@ -268,8 +268,8 @@ static NSString * const kValidationDateTimeOfVisit = @"Please complete the field
         [style setAlignment:NSTextAlignmentLeft];
         [style setLineBreakMode:NSLineBreakByWordWrapping];
 
-        UIFont *baseFont = [UIFont leo_standardFont];
-        UIFont *variableFont = [UIFont leo_menuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
+        UIFont *baseFont = [UIFont leo_regular15];
+        UIFont *variableFont = [UIFont leo_medium15];
 
         UIColor *baseColor = [UIColor leo_grayStandard];
         UIColor *variableColor = [UIColor leo_green];

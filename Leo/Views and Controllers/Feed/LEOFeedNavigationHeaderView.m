@@ -42,7 +42,7 @@ static NSString *const kScheduleAVisit = @"SCHEDULE A VISIT";
         NSString *capitalizedButtonTitle = [kScheduleAVisit uppercaseString];
         [_bookAppointmentButton setTitle:capitalizedButtonTitle forState:UIControlStateNormal];
         [_bookAppointmentButton setTitleColor:[UIColor leo_orangeRed] forState:UIControlStateNormal];
-        _bookAppointmentButton.titleLabel.font = [UIFont leo_fieldAndUserLabelsAndSecondaryButtonsFont];
+        _bookAppointmentButton.titleLabel.font = [UIFont leo_bold12];
 
         [_bookAppointmentButton addTarget:self action:@selector(bookAppointmentTouchedUpInside) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -63,7 +63,7 @@ static NSString *const kScheduleAVisit = @"SCHEDULE A VISIT";
         NSString *capitalizedButtonTitle = [kMessageUs uppercaseString];
         [_messageUsButton setTitle:capitalizedButtonTitle forState:UIControlStateNormal];
         [_messageUsButton setTitleColor:[UIColor leo_orangeRed] forState:UIControlStateNormal];
-        _messageUsButton.titleLabel.font = [UIFont leo_fieldAndUserLabelsAndSecondaryButtonsFont];
+        _messageUsButton.titleLabel.font = [UIFont leo_bold12];
 
         [_messageUsButton addTarget:self action:@selector(messageUsTouchedUpInside) forControlEvents:UIControlEventTouchUpInside];
     }

@@ -112,7 +112,7 @@ static NSInteger const kVitalGraphMinDaysBeforeOrAfter = 1;
         _metricControl.tintColor = [UIColor leo_orangeRed];
 
         NSDictionary *normalAttributes = @{ NSFontAttributeName :
-                                                     [UIFont leo_standardFont], NSForegroundColorAttributeName :
+                                                     [UIFont leo_regular15], NSForegroundColorAttributeName :
                                                      [UIColor leo_orangeRed]
                                             };
 
@@ -120,7 +120,7 @@ static NSInteger const kVitalGraphMinDaysBeforeOrAfter = 1;
         [_metricControl setTitleTextAttributes:normalAttributes forState:UIControlStateNormal];
 
         NSDictionary *highlightedAttributes = @{ NSFontAttributeName :
-                                                     [UIFont leo_standardFont], NSForegroundColorAttributeName :
+                                                     [UIFont leo_regular15], NSForegroundColorAttributeName :
                                                      [UIColor leo_white]};
 
         [_metricControl setTitleTextAttributes:highlightedAttributes forState:UIControlStateSelected];

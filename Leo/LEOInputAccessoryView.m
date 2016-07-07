@@ -23,7 +23,7 @@
 
     [super awakeFromNib];
 
-    self.doneButton.titleLabel.font = [UIFont leo_fieldAndUserLabelsAndSecondaryButtonsFont];
+    self.doneButton.titleLabel.font = [UIFont leo_bold12];
     self.doneButtonTrailingConstraint.constant = kPaddingHorizontalToolbarButtons;
     [self updateFeatureDependentAttributes];
 }

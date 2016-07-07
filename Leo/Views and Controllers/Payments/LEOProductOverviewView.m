@@ -154,19 +154,19 @@ secondPriceDetailAttributedString:secondPriceDetailAttributedString
     switch ([LEOSession deviceModel]) {
 
         case DeviceModel4OrLess:
-            return [UIFont leo_emergency911Label];
+            return [UIFont leo_regular12];
 
         case DeviceModel5:
-            return [UIFont leo_emergency911Label];
+            return [UIFont leo_regular12];
 
         case DeviceModel6:
-            return [UIFont leo_standardFont];
+            return [UIFont leo_regular15];
 
         case DeviceModel6Plus:
-            return [UIFont leo_standardFont];
+            return [UIFont leo_regular15];
 
         case DeviceModelUnsupported:
-            return [UIFont leo_emergency911Label];
+            return [UIFont leo_regular12];
     }
 }
 

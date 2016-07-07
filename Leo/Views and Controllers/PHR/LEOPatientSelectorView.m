@@ -53,7 +53,7 @@ static const CGFloat kDistanceSegments = 26.0;
 
         _segmentedControl = strongSegmentedControl;
         _segmentedControl.backgroundColor = [UIColor clearColor];
-        _segmentedControl.font = [UIFont leo_fieldAndUserLabelsAndSecondaryButtonsFont];
+        _segmentedControl.font = [UIFont leo_bold12];
         _segmentedControl.segmentDistance = kDistanceSegments;
         _segmentedControl.controlHeight = kHeightSegmentControl;
         

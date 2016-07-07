@@ -63,7 +63,7 @@
 
 - (void)setCopyFontAndColor {
 
-    self.bodyLabel.font = [UIFont leo_standardFont];
+    self.bodyLabel.font = [UIFont leo_regular15];
     self.bodyLabel.textColor = [UIColor leo_grayStandard];
 }
 
