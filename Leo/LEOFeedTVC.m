@@ -189,7 +189,7 @@ static CGFloat const kFeedInsetTop = 20.0;
 -(void)setGrayView:(UIView *)grayView {
 
     _grayView = grayView;
-    _grayView.backgroundColor = [UIColor leo_grayForMessageBubbles];
+    _grayView.backgroundColor = [UIColor leo_gray227];
 }
 
 - (void)setupNavigationBar {

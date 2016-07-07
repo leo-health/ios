@@ -43,7 +43,7 @@
         timestampLabel.text = [NSString stringWithFormat:@"Sent %@",[card.timestamp.timeAgoSinceNow lowercaseString]];
     }
 
-    timestampLabel.textColor = [UIColor leo_grayForTimeStamps];
+    timestampLabel.textColor = [UIColor leo_gray185];
     timestampLabel.font = [UIFont leo_medium12];
 }
 

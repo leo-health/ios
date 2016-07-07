@@ -156,7 +156,7 @@ NSString * const kCopyPhotoPreview = @"Photo Preview";
         [self.view addSubview:strongView];
         [_imageCropController didMoveToParentViewController:self];
         _imageCropView = strongView;
-        _imageCropView.backgroundColor = [UIColor leo_grayForMessageBubbles];
+        _imageCropView.backgroundColor = [UIColor leo_gray227];
     }
 
     return _imageCropView;
@@ -169,7 +169,7 @@ NSString * const kCopyPhotoPreview = @"Photo Preview";
 
     if (!self.alreadyUpdatedConstraints) {
 
-        self.view.backgroundColor = [UIColor leo_grayForMessageBubbles];
+        self.view.backgroundColor = [UIColor leo_gray227];
 
         self.imageCropView.translatesAutoresizingMaskIntoConstraints = NO;
         self.toolbar.translatesAutoresizingMaskIntoConstraints = NO;

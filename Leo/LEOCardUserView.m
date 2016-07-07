@@ -103,7 +103,7 @@
             _suffixCredentialLabel.text = support.jobTitle;
         }
 
-        _suffixCredentialLabel.textColor = [UIColor leo_grayStandard];
+        _suffixCredentialLabel.textColor = [UIColor leo_gray124];
         _suffixCredentialLabel.font = [UIFont leo_bold12];
 
         [self addSubview:_suffixCredentialLabel];

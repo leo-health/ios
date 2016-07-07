@@ -113,10 +113,10 @@
 
 + (void)stylePromptTextView:(LEOPromptTextView *)promptTextView forFeature:(Feature)feature {
 
-    promptTextView.textColor = [UIColor leo_grayStandard];
+    promptTextView.textColor = [UIColor leo_gray124];
     promptTextView.font = [UIFont leo_regular15];
 
-    promptTextView.floatingLabelActiveTextColor = [UIColor leo_grayStandard];
+    promptTextView.floatingLabelActiveTextColor = [UIColor leo_gray124];
     promptTextView.tintColor = [self tintColorForFeature:feature];
 }
 
@@ -200,7 +200,7 @@
     button.titleLabel.font = [UIFont leo_medium12];
     [button setTitleColor:[UIColor leo_white] forState:UIControlStateNormal];
     [button setBackgroundImage:[UIImage leo_imageWithColor:[self tintColorForFeature:feature]] forState:UIControlStateNormal];
-    [button setBackgroundImage:[UIImage leo_imageWithColor:[UIColor leo_grayForMessageBubbles]] forState:UIControlStateDisabled];
+    [button setBackgroundImage:[UIImage leo_imageWithColor:[UIColor leo_gray227]] forState:UIControlStateDisabled];
 }
 
 + (void)styleButton:(UIButton *)button forFeature:(Feature)feature {
@@ -298,7 +298,7 @@
 
     switch (feature) {
         case FeatureOnboarding:
-            return [UIColor leo_grayForTitlesAndHeadings];
+            return [UIColor leo_gray74];
 
         case FeatureSettings:
             return [UIColor leo_white];
@@ -310,7 +310,7 @@
             return [UIColor leo_white];
 
         case FeaturePayment:
-            return [UIColor leo_grayForTitlesAndHeadings];
+            return [UIColor leo_gray74];
 
         case FeatureUndefined:
             return [UIColor blackColor];

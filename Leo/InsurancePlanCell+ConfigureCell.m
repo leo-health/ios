@@ -22,8 +22,8 @@
     UIFont *font1 = [UIFont leo_medium15];
     UIFont *font2 = [UIFont leo_bold12];
     
-    UIColor *color1 = [UIColor leo_grayForTitlesAndHeadings];
-    UIColor *color2 = [UIColor leo_grayStandard];
+    UIColor *color1 = [UIColor leo_gray74];
+    UIColor *color2 = [UIColor leo_gray124];
     
     NSDictionary *attributedDictionary1 = @{NSForegroundColorAttributeName:color1,
                                             NSFontAttributeName:font1,

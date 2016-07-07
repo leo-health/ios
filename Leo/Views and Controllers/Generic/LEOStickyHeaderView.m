@@ -136,7 +136,7 @@ NSString * const kAnimationKeyPathStrokeColor = @"strokeColor";
 
         UIView *strongView = [UIView new];
         _separatorLine = strongView;
-        _separatorLine.backgroundColor = [UIColor leo_grayForPlaceholdersAndLines];
+        _separatorLine.backgroundColor = [UIColor leo_gray176];
         [self addSubview:_separatorLine];
     }
 

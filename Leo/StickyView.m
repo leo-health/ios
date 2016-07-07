@@ -87,7 +87,7 @@ IB_DESIGNABLE
 - (void)setupExpandedTitleLabel {
     
     self.expandedTitleLabel.font = [UIFont leo_ultraLight27];
-    self.expandedTitleLabel.textColor = [UIColor leo_grayForTitlesAndHeadings];
+    self.expandedTitleLabel.textColor = [UIColor leo_gray74];
     self.expandedTitleLabel.numberOfLines = 0;
     self.expandedTitleLabel.lineBreakMode = NSLineBreakByWordWrapping;
     self.expandedTitleLabel.text = [self.delegate expandedTitleViewContent];
@@ -96,7 +96,7 @@ IB_DESIGNABLE
 - (void)setupCollapsedTitleLabel {
     
     self.collapsedTitleLabel.font = [UIFont leo_medium15];
-    self.collapsedTitleLabel.textColor = [UIColor leo_grayForTitlesAndHeadings];
+    self.collapsedTitleLabel.textColor = [UIColor leo_gray74];
     self.collapsedTitleLabel.text = [self.delegate collapsedTitleViewContent];
     self.collapsedTitleLabel.textAlignment = NSTextAlignmentCenter;
     [self.collapsedTitleLabel sizeToFit];

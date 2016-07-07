@@ -109,7 +109,7 @@
         _textView.text = self.note.text;
         _textView.font = [UIFont leo_regular15];
         _textView.placeholder = @"Please enter some notes about your child";
-        _textView.floatingLabelActiveTextColor = [UIColor leo_grayForPlaceholdersAndLines];
+        _textView.floatingLabelActiveTextColor = [UIColor leo_gray176];
     }
 
     return _textView;

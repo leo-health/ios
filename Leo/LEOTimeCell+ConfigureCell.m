@@ -22,7 +22,7 @@
     [style setAlignment:NSTextAlignmentLeft];
     
     UIFont *font1 = [UIFont leo_demiBold17];
-    UIColor *color1 = [UIColor leo_grayStandard];
+    UIColor *color1 = [UIColor leo_gray124];
     
     NSDictionary *attributedDictionary1 = @{NSForegroundColorAttributeName:color1,
                                             NSFontAttributeName:font1,
@@ -38,7 +38,7 @@
 
 
     UIFont *font2 = [UIFont leo_condensedRegular12];
-    UIColor *color2 = [UIColor leo_grayStandard];
+    UIColor *color2 = [UIColor leo_gray124];
     
     NSDictionary *attributedDictionary2 = @{NSForegroundColorAttributeName:color2,
                                             NSFontAttributeName:font2,

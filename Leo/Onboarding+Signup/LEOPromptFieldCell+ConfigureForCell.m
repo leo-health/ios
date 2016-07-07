@@ -45,7 +45,7 @@
 }
 
 - (void)setNewPatientCopyFontAndColor {
-    self.promptField.textField.textColor = [UIColor leo_grayStandard];
+    self.promptField.textField.textColor = [UIColor leo_gray124];
     self.promptField.textField.font = [UIFont leo_regular15];
 }
 

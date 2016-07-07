@@ -51,7 +51,7 @@ static CGFloat const kSpacer = 2;
         _nameLabel = strongLabel;
 
         _nameLabel.text = self.practice.name;
-        _nameLabel.textColor = [UIColor leo_grayForTimeStamps];
+        _nameLabel.textColor = [UIColor leo_gray185];
         _nameLabel.font = [UIFont leo_bold12];
 
 
@@ -75,7 +75,7 @@ static CGFloat const kSpacer = 2;
         }
 
         _addressLabel.font = [UIFont leo_medium12];
-        _addressLabel.textColor = [UIColor leo_grayForTimeStamps];
+        _addressLabel.textColor = [UIColor leo_gray185];
 
         [self addSubview:_addressLabel];
     }
@@ -92,7 +92,7 @@ static CGFloat const kSpacer = 2;
 
         _dividerLabel.text = @"∙";
         _dividerLabel.font = [UIFont leo_bold12];
-        _dividerLabel.textColor = [UIColor leo_grayForTimeStamps];
+        _dividerLabel.textColor = [UIColor leo_gray185];
 
         [self addSubview:_dividerLabel];
     }

@@ -20,13 +20,13 @@
     
     self.fullNameLabel.text = patient.fullName;
     self.fullNameLabel.font = [UIFont leo_medium15];
-    self.fullNameLabel.textColor = [UIColor leo_grayForTitlesAndHeadings];
+    self.fullNameLabel.textColor = [UIColor leo_gray74];
 
     UIImage *avatar;
 
     if (!self.selected) {
 
-        avatar = [LEOMessagesAvatarImageFactory circularAvatarImage:patient.avatar.image withDiameter:40 borderColor:[UIColor leo_grayForPlaceholdersAndLines] borderWidth:3 renderingMode:UIImageRenderingModeAutomatic];
+        avatar = [LEOMessagesAvatarImageFactory circularAvatarImage:patient.avatar.image withDiameter:40 borderColor:[UIColor leo_gray176] borderWidth:3 renderingMode:UIImageRenderingModeAutomatic];
     } else {
 
         avatar = [LEOMessagesAvatarImageFactory circularAvatarImage:patient.avatar.image withDiameter:40 borderColor:[UIColor leo_green] borderWidth:3 renderingMode:UIImageRenderingModeAutomatic];

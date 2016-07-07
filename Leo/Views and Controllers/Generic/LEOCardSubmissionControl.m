@@ -31,7 +31,7 @@
         [self.buttonLayer removeFromSuperlayer];
         self.enabled = YES;
     } else {
-        [self setBackgroundColor:[UIColor leo_grayForMessageBubbles]];
+        [self setBackgroundColor:[UIColor leo_gray227]];
         [self.layer addSublayer:self.buttonLayer];
         self.enabled = NO;
     }
@@ -43,7 +43,7 @@
 
         _buttonLayer = [CALayer layer];
         _buttonLayer.frame = CGRectMake(0.0f, 0.0f, self.frame.size.width, 1.0);
-        _buttonLayer.borderColor = [UIColor leo_grayForPlaceholdersAndLines].CGColor;
+        _buttonLayer.borderColor = [UIColor leo_gray176].CGColor;
         _buttonLayer.borderWidth = 1.0;
     }
 

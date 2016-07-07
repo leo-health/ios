@@ -33,7 +33,7 @@
     _scheduleAVisitLabelButton = scheduleAVisitLabelButton;
     
     [_scheduleAVisitLabelButton setImage:[UIImage imageNamed:@"Menu-Scheduling"] forState:UIControlStateNormal];
-    [_scheduleAVisitLabelButton setTitleColor:[UIColor leo_grayForTitlesAndHeadings] forState:UIControlStateNormal];
+    [_scheduleAVisitLabelButton setTitleColor:[UIColor leo_gray74] forState:UIControlStateNormal];
     _scheduleAVisitLabelButton.tintColor = [UIColor leo_green];
 }
 
@@ -42,7 +42,7 @@
     _submitAFormLabelButton = submitAFormLabelButton;
     
     [_submitAFormLabelButton setImage:[UIImage imageNamed:@"Menu-Forms"] forState:UIControlStateNormal];
-    [_submitAFormLabelButton setTitleColor:[UIColor leo_grayForTitlesAndHeadings] forState:UIControlStateNormal];
+    [_submitAFormLabelButton setTitleColor:[UIColor leo_gray74] forState:UIControlStateNormal];
     _submitAFormLabelButton.tintColor = [UIColor leo_purple];
 }
 
@@ -51,7 +51,7 @@
     _contactLeoLabelButton = contactLeoLabelButton;
     
     [_contactLeoLabelButton setImage:[UIImage imageNamed:@"Menu-Chat"] forState:UIControlStateNormal];
-    [_contactLeoLabelButton setTitleColor:[UIColor leo_grayForTitlesAndHeadings] forState:UIControlStateNormal];
+    [_contactLeoLabelButton setTitleColor:[UIColor leo_gray74] forState:UIControlStateNormal];
     _contactLeoLabelButton.tintColor = [UIColor leo_blue];
 }
 

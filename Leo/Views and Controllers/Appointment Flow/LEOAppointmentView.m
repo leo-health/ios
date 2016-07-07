@@ -90,7 +90,7 @@ static NSString * const kValidationDateTimeOfVisit = @"Please complete the field
     _notesTextView.floatingLabelFont = [UIFont leo_regular15];
     _notesTextView.placeholderLabel.font = [UIFont leo_regular15];
     _notesTextView.font = [UIFont leo_regular15];
-    _notesTextView.floatingLabelActiveTextColor = [UIColor leo_grayForPlaceholdersAndLines]; //TODO: Check *again* this color is right.
+    _notesTextView.floatingLabelActiveTextColor = [UIColor leo_gray176]; //TODO: Check *again* this color is right.
     _notesTextView.textColor = [UIColor leo_green];
     _notesTextView.tintColor = [UIColor leo_green];
 
@@ -228,7 +228,7 @@ static NSString * const kValidationDateTimeOfVisit = @"Please complete the field
     UIFont *baseFont = [UIFont leo_regular15];
     UIFont *variableFont = [UIFont leo_medium15];
 
-    UIColor *baseColor = [UIColor leo_grayStandard];
+    UIColor *baseColor = [UIColor leo_gray124];
     UIColor *variableColor = [UIColor leo_green];
 
     NSDictionary *baseDictionary = @{NSForegroundColorAttributeName:baseColor,
@@ -271,7 +271,7 @@ static NSString * const kValidationDateTimeOfVisit = @"Please complete the field
         UIFont *baseFont = [UIFont leo_regular15];
         UIFont *variableFont = [UIFont leo_medium15];
 
-        UIColor *baseColor = [UIColor leo_grayStandard];
+        UIColor *baseColor = [UIColor leo_gray124];
         UIColor *variableColor = [UIColor leo_green];
 
         NSDictionary *baseDictionary = @{NSForegroundColorAttributeName:baseColor,
@@ -312,7 +312,7 @@ static NSString * const kValidationDateTimeOfVisit = @"Please complete the field
     } else {
 
         [self updatePromptView:promptView withBaseString:kValidationDateTimeOfVisit variableStrings:nil];
-        promptView.tintColor = [UIColor leo_grayForPlaceholdersAndLines];
+        promptView.tintColor = [UIColor leo_gray176];
         promptView.userInteractionEnabled = NO;
     }
 }

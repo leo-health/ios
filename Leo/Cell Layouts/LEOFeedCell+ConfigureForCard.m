@@ -23,7 +23,7 @@
 
 - (void)configureForCard:(id<LEOCardProtocol>)card {
 
-    self.contentView.backgroundColor = [UIColor leo_grayForMessageBubbles];
+    self.contentView.backgroundColor = [UIColor leo_gray227];
 
     self.iconImageView.image = [card icon];
     self.titleLabel.text = [card title];
@@ -64,7 +64,7 @@
 - (void)setCopyFontAndColor {
 
     self.bodyLabel.font = [UIFont leo_regular15];
-    self.bodyLabel.textColor = [UIColor leo_grayStandard];
+    self.bodyLabel.textColor = [UIColor leo_gray124];
 }
 
 

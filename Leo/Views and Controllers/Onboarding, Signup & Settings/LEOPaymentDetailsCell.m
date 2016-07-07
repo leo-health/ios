@@ -27,7 +27,7 @@
     _chargeDetailLabel.lineBreakMode = NSLineBreakByWordWrapping;
 
     _chargeDetailLabel.font = [UIFont leo_regular15];
-    _chargeDetailLabel.textColor = [UIColor leo_grayStandard];
+    _chargeDetailLabel.textColor = [UIColor leo_gray124];
 }
 
 - (void)setCardDetailLabel:(UILabel *)cardDetailLabel {
@@ -35,7 +35,7 @@
     _cardDetailLabel = cardDetailLabel;
 
     _cardDetailLabel.font = [UIFont leo_medium19];
-    _cardDetailLabel.textColor = [UIColor leo_grayStandard];
+    _cardDetailLabel.textColor = [UIColor leo_gray124];
 }
 
 //TODO: Remove "button, replace with UILabel, since we aren't actually using functionality of the control after all.

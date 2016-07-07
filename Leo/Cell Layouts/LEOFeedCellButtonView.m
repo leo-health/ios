@@ -119,12 +119,12 @@ static NSInteger const kLineThickness = 1;
     if (!self.alreadyUpdatedConstraints) {
 
         UIView *split = [UIView new];
-        split.backgroundColor = [UIColor leo_grayForTimeStamps];
+        split.backgroundColor = [UIColor leo_gray185];
         [self addSubview:split];
         split.translatesAutoresizingMaskIntoConstraints = NO;
 
         UIView *breaker = [UIView new];
-        breaker.backgroundColor = [UIColor leo_grayForTimeStamps];
+        breaker.backgroundColor = [UIColor leo_gray185];
         [self addSubview:breaker];
         breaker.translatesAutoresizingMaskIntoConstraints = NO;
 

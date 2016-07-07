@@ -102,7 +102,7 @@
     self.tableView.separatorInset = UIEdgeInsetsMake(0, 20, 0, 20);
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-    self.tableView.separatorColor = [UIColor leo_grayForPlaceholdersAndLines];
+    self.tableView.separatorColor = [UIColor leo_gray176];
 }
 
 - (void)requestDataAndUpdateView {

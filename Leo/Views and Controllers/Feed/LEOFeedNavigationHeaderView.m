@@ -118,7 +118,7 @@ static NSString *const kScheduleAVisit = @"SCHEDULE A VISIT";
         splitView.translatesAutoresizingMaskIntoConstraints = NO;
 
         UIView *breakerView = [UIView new];
-        breakerView.backgroundColor = [UIColor leo_grayForTimeStamps];
+        breakerView.backgroundColor = [UIColor leo_gray185];
         [self addSubview:breakerView];
         breakerView.translatesAutoresizingMaskIntoConstraints = NO;
 

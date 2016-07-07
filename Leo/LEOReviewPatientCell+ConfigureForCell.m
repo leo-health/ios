@@ -39,10 +39,10 @@
 - (void)setPatientCopyFontAndColor {
     
     self.nameLabel.font = [UIFont leo_medium19];
-    self.nameLabel.textColor = [UIColor leo_grayStandard];
+    self.nameLabel.textColor = [UIColor leo_gray124];
 
     self.birthDateLabel.font = [UIFont leo_regular15];
-    self.birthDateLabel.textColor = [UIColor leo_grayStandard];
+    self.birthDateLabel.textColor = [UIColor leo_gray124];
     
     self.editButton.titleLabel.font = [UIFont leo_bold12];
     [self.editButton setTitleColor:[UIColor leo_orangeRed] forState:UIControlStateNormal];

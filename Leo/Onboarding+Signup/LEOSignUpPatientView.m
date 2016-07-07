@@ -173,7 +173,7 @@ static NSString *const kPlaceholderValidationBirthDate = @"please add your child
     _avatarValidationLabel = avatarValidationLabel;
 
     _avatarValidationLabel.font = [UIFont leo_medium15];
-    _avatarValidationLabel.textColor = [UIColor leo_grayStandard];
+    _avatarValidationLabel.textColor = [UIColor leo_gray124];
 }
 
 -(void)setAvatarView:(UIControl *)avatarView {
@@ -264,7 +264,7 @@ static NSString *const kPlaceholderValidationBirthDate = @"please add your child
 
     _paymentAgreementLabel.text = @"";
     _paymentAgreementLabel.font = [UIFont leo_regular12];
-    _paymentAgreementLabel.textColor = [UIColor leo_grayStandard];
+    _paymentAgreementLabel.textColor = [UIColor leo_gray124];
     _paymentAgreementLabel.textAlignment = NSTextAlignmentCenter;
     _paymentAgreementLabel.numberOfLines = 0;
     _paymentAgreementLabel.lineBreakMode = NSLineBreakByWordWrapping;

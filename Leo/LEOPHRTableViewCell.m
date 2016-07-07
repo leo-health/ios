@@ -24,17 +24,17 @@
 - (void)awakeFromNib {
 
     self.recordTitleLabel.font = [UIFont leo_regular15];
-    self.recordTitleLabel.textColor = [UIColor leo_grayForTitlesAndHeadings];
+    self.recordTitleLabel.textColor = [UIColor leo_gray74];
     self.recordTitleLabel.numberOfLines = 0;
     self.recordTitleLabel.lineBreakMode = NSLineBreakByWordWrapping;
 
     self.recordSideLabel.font = [UIFont leo_regular15];
-    self.recordSideLabel.textColor = [UIColor leo_grayForTitlesAndHeadings];
+    self.recordSideLabel.textColor = [UIColor leo_gray74];
     self.recordSideLabel.numberOfLines = 0;
     self.recordSideLabel.lineBreakMode = NSLineBreakByWordWrapping;
 
     self.recordMainDetailLabel.font = [UIFont leo_regular15];
-    self.recordMainDetailLabel.textColor = [UIColor leo_grayStandard];
+    self.recordMainDetailLabel.textColor = [UIColor leo_gray124];
     self.recordMainDetailLabel.numberOfLines = 0;
     self.recordMainDetailLabel.lineBreakMode = NSLineBreakByWordWrapping;
 

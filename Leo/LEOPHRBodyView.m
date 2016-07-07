@@ -452,10 +452,10 @@ NS_ENUM(NSInteger, TableViewRow) {
 
     UILabel *_titleLabel = [UILabel new];
     _titleLabel.font = [UIFont leo_bold12];
-    _titleLabel.textColor = [UIColor leo_grayStandard];
+    _titleLabel.textColor = [UIColor leo_gray124];
 
     UIView *_separatorLine = [UIView new];
-    [_separatorLine setBackgroundColor:[UIColor leo_grayStandard]];
+    [_separatorLine setBackgroundColor:[UIColor leo_gray124]];
 
     UIButton *_editNoteButton = [UIButton new];
     [_editNoteButton setTitle:kEditButtonText forState:UIControlStateNormal];

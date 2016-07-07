@@ -252,7 +252,7 @@ static NSString * const kCopySignUp = @"SIGN UP";
         }
         else
         {
-            label.textColor = [UIColor leo_grayStandard];
+            label.textColor = [UIColor leo_gray124];
         }
 
         // 6. Lay out the labels so it forms a complete sentence again:
