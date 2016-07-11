@@ -265,7 +265,6 @@
 		BCE1EC9E1B012628007C8D0B /* UIColor+LeoColors.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE1EC9D1B012628007C8D0B /* UIColor+LeoColors.m */; };
 		BCE1ECA41B014613007C8D0B /* LEOConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE1ECA31B014613007C8D0B /* LEOConstants.m */; };
 		BCED00811B0150F4007653D6 /* LEOFeedTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = BCED00801B0150F4007653D6 /* LEOFeedTVC.m */; };
-		DE16AE581D2EB64D00EE7811 /* LEOFormatting.m in Sources */ = {isa = PBXBuildFile; fileRef = DE16AE571D2EB64D00EE7811 /* LEOFormatting.m */; };
 		DE63951D1D18296C00D3DF71 /* TPKeyboardAvoidingCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = DE6395161D18296C00D3DF71 /* TPKeyboardAvoidingCollectionView.m */; };
 		DE63951E1D18296C00D3DF71 /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = DE6395181D18296C00D3DF71 /* TPKeyboardAvoidingScrollView.m */; };
 		DE63951F1D18296C00D3DF71 /* TPKeyboardAvoidingTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = DE63951A1D18296C00D3DF71 /* TPKeyboardAvoidingTableView.m */; };
@@ -785,7 +784,6 @@
 		BCED00801B0150F4007653D6 /* LEOFeedTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = LEOFeedTVC.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		C9BFC97BBACAA8BBCAFB0684 /* libPods-LeoTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LeoTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE16AE561D2EB64D00EE7811 /* LEOFormatting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOFormatting.h; sourceTree = "<group>"; };
-		DE16AE571D2EB64D00EE7811 /* LEOFormatting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOFormatting.m; sourceTree = "<group>"; };
 		DE6395151D18296C00D3DF71 /* TPKeyboardAvoidingCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TPKeyboardAvoidingCollectionView.h; path = OPC/TPKeyboardAvoiding/TPKeyboardAvoidingCollectionView.h; sourceTree = "<group>"; };
 		DE6395161D18296C00D3DF71 /* TPKeyboardAvoidingCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TPKeyboardAvoidingCollectionView.m; path = OPC/TPKeyboardAvoiding/TPKeyboardAvoidingCollectionView.m; sourceTree = "<group>"; };
 		DE6395171D18296C00D3DF71 /* TPKeyboardAvoidingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TPKeyboardAvoidingScrollView.h; path = OPC/TPKeyboardAvoiding/TPKeyboardAvoidingScrollView.h; sourceTree = "<group>"; };
@@ -1735,7 +1733,6 @@
 				31B998C41B7BD4F40055DEEA /* UIFont+LeoFonts.h */,
 				31B998C51B7BD4F40055DEEA /* UIFont+LeoFonts.m */,
 				DE16AE561D2EB64D00EE7811 /* LEOFormatting.h */,
-				DE16AE571D2EB64D00EE7811 /* LEOFormatting.m */,
 				BCE1ECA21B014613007C8D0B /* LEOConstants.h */,
 				BCE1ECA31B014613007C8D0B /* LEOConstants.m */,
 			);
@@ -2086,7 +2083,6 @@
 				317B72C41C318B3B00F3620D /* LEOPHRHeaderView.m in Sources */,
 				310C63161BFBA16700028AF4 /* UserFactory.m in Sources */,
 				31DB400E1BFE733C005F1BF2 /* LEOWebViewController.m in Sources */,
-				DE16AE581D2EB64D00EE7811 /* LEOFormatting.m in Sources */,
 				66A5DB361C3D979B008AEC55 /* PatientVitalMeasurement.m in Sources */,
 				BCED00811B0150F4007653D6 /* LEOFeedTVC.m in Sources */,
 				31D275651C45520E005F8964 /* LEOForgotPasswordView.m in Sources */,
