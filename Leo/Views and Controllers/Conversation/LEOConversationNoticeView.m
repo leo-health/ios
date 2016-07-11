@@ -213,14 +213,14 @@ noticeButtonTappedUpInsideBlock:(void (^) (void))noticeButtonTappedUpInsideBlock
 - (NSDictionary *)defaultHeaderTextAttributes {
 
     return @{ NSForegroundColorAttributeName : [UIColor leo_blue],
-              NSFontAttributeName : [UIFont leo_fieldAndUserLabelsAndSecondaryButtonsFont]
+              NSFontAttributeName : [UIFont leo_bold12]
              };
 }
 
 - (NSDictionary *)defaultBodyTextAttributes {
 
     return @{ NSForegroundColorAttributeName : [UIColor leo_blue],
-              NSFontAttributeName : [UIFont leo_emergency911Label]
+              NSFontAttributeName : [UIFont leo_regular12]
             };
 }
 

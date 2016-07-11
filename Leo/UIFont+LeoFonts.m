@@ -27,7 +27,7 @@ static NSString *const AvenirNextCondensedRegular = @"AvenirNextCondensed-Regula
  *
  *  @return UIFont
  */
-+ (UIFont *)leo_expandedCardHeaderFont {
++ (UIFont *)leo_ultraLight27 {
     return [UIFont fontWithName:AvenirNextUltraLight size:27];
 }
 
@@ -36,7 +36,7 @@ static NSString *const AvenirNextCondensedRegular = @"AvenirNextCondensed-Regula
  *
  *  @return UIFont
  */
-+ (UIFont *)leo_standardFont {
++ (UIFont *)leo_regular15 {
     return [UIFont fontWithName:AvenirNextRegular size:15];
 }
 
@@ -45,7 +45,7 @@ static NSString *const AvenirNextCondensedRegular = @"AvenirNextCondensed-Regula
  *
  *  @return UIFont
  */
-+ (UIFont *)leo_buttonLabelsAndTimeStampsFont {
++ (UIFont *)leo_medium12 {
     return [UIFont fontWithName:AvenirNextMedium size:12];
 }
 
@@ -54,7 +54,7 @@ static NSString *const AvenirNextCondensedRegular = @"AvenirNextCondensed-Regula
  *
  *  @return UIFont
  */
-+ (UIFont *)leo_graphOverlayDescriptions {
++ (UIFont *)leo_medium9 {
     return [UIFont fontWithName:AvenirNextMedium size:9];
 }
 
@@ -63,7 +63,7 @@ static NSString *const AvenirNextCondensedRegular = @"AvenirNextCondensed-Regula
  *
  *  @return UIFont
  */
-+ (UIFont *)leo_menuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont {
++ (UIFont *)leo_medium15 {
     return [UIFont fontWithName:AvenirNextMedium size:15];
 }
 
@@ -72,7 +72,7 @@ static NSString *const AvenirNextCondensedRegular = @"AvenirNextCondensed-Regula
  *
  *  @return UIFont
  */
-+ (UIFont *)leo_collapsedCardTitlesFont {
++ (UIFont *)leo_medium19 {
     return [UIFont fontWithName:AvenirNextMedium size:19];
 }
 
@@ -81,7 +81,7 @@ static NSString *const AvenirNextCondensedRegular = @"AvenirNextCondensed-Regula
  *
  *  @return UIFont
  */
-+ (UIFont *)leo_fullScreenNoticeHeader {
++ (UIFont *)leo_bold24 {
     return [UIFont fontWithName:AvenirNextBold size:24];
 }
 
@@ -90,7 +90,7 @@ static NSString *const AvenirNextCondensedRegular = @"AvenirNextCondensed-Regula
  *
  *  @return UIFont
  */
-+ (UIFont *)leo_fullScreenNoticeBody {
++ (UIFont *)leo_regular24 {
     return [UIFont fontWithName:AvenirNextRegular size:24];
 }
 
@@ -99,7 +99,7 @@ static NSString *const AvenirNextCondensedRegular = @"AvenirNextCondensed-Regula
  *
  *  @return UIFont
  */
-+ (UIFont *)leo_fieldAndUserLabelsAndSecondaryButtonsFont {
++ (UIFont *)leo_bold12 {
     return [UIFont fontWithName:AvenirNextBold size:12];
 }
 
@@ -108,7 +108,7 @@ static NSString *const AvenirNextCondensedRegular = @"AvenirNextCondensed-Regula
  *
  *  @return UIFont
  */
-+ (UIFont *)leo_appointmentSlotsAndDateFields {
++ (UIFont *)leo_demiBold17 {
     return [UIFont fontWithName:AvenirNextDemiBold size:17];
 }
 
@@ -117,7 +117,7 @@ static NSString *const AvenirNextCondensedRegular = @"AvenirNextCondensed-Regula
  *
  *  @return UIFont
  */
-+ (UIFont *)leo_appointmentDayLabelAndTimePeriod {
++ (UIFont *)leo_condensedRegular12 {
     return [UIFont fontWithName:AvenirNextCondensedRegular size:12];
 }
 
@@ -126,7 +126,7 @@ static NSString *const AvenirNextCondensedRegular = @"AvenirNextCondensed-Regula
  *
  *  @return UIFont
  */
-+ (UIFont *)leo_emergency911Label {
++ (UIFont *)leo_regular12 {
     return [UIFont fontWithName:AvenirNextRegular size:12];
 }
 
@@ -135,17 +135,8 @@ static NSString *const AvenirNextCondensedRegular = @"AvenirNextCondensed-Regula
  *
  *  @return UIFont
  */
-+ (UIFont *)leo_chatBubbleInitials {
++ (UIFont *)leo_condensedRegular10 {
     return [UIFont fontWithName:AvenirNextCondensedRegular size:10];
-}
-
-/**
- *  AvenirNext-Regular, Size 24
- *
- *  @return UIFont
- */
-+ (UIFont *)leo_valuePropOnboardingFont {
-    return [UIFont fontWithName:AvenirNextRegular size:24];
 }
 
 /**

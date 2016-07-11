@@ -156,7 +156,7 @@ NSString * const kCopyPhotoPreview = @"Photo Preview";
         [self.view addSubview:strongView];
         [_imageCropController didMoveToParentViewController:self];
         _imageCropView = strongView;
-        _imageCropView.backgroundColor = [UIColor leo_grayForMessageBubbles];
+        _imageCropView.backgroundColor = [UIColor leo_gray227];
     }
 
     return _imageCropView;
@@ -169,7 +169,7 @@ NSString * const kCopyPhotoPreview = @"Photo Preview";
 
     if (!self.alreadyUpdatedConstraints) {
 
-        self.view.backgroundColor = [UIColor leo_grayForMessageBubbles];
+        self.view.backgroundColor = [UIColor leo_gray227];
 
         self.imageCropView.translatesAutoresizingMaskIntoConstraints = NO;
         self.toolbar.translatesAutoresizingMaskIntoConstraints = NO;
@@ -211,7 +211,7 @@ NSString * const kCopyPhotoPreview = @"Photo Preview";
         _leftToolbarButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_leftToolbarButton setTitle:@"CANCEL" forState:UIControlStateNormal];
         [_leftToolbarButton addTarget:self action:@selector(cancelBBIAction) forControlEvents:UIControlEventTouchUpInside];
-        _leftToolbarButton.titleLabel.font = [UIFont leo_fieldAndUserLabelsAndSecondaryButtonsFont];
+        _leftToolbarButton.titleLabel.font = [UIFont leo_bold12];
         [_leftToolbarButton setTitleColor:[LEOStyleHelper headerIconColorForFeature:self.feature] forState:UIControlStateNormal];
         [self.toolbar addSubview:_leftToolbarButton];
     }
@@ -226,7 +226,7 @@ NSString * const kCopyPhotoPreview = @"Photo Preview";
         _rightToolbarButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_rightToolbarButton setTitle:@"CONFIRM" forState:UIControlStateNormal];
         [_rightToolbarButton addTarget:self action:@selector(confirmBBIAction) forControlEvents:UIControlEventTouchUpInside];
-        _rightToolbarButton.titleLabel.font = [UIFont leo_fieldAndUserLabelsAndSecondaryButtonsFont];
+        _rightToolbarButton.titleLabel.font = [UIFont leo_bold12];
         [_rightToolbarButton setTitleColor:[LEOStyleHelper headerIconColorForFeature:self.feature] forState:UIControlStateNormal];
         [self.toolbar addSubview:_rightToolbarButton];
     }

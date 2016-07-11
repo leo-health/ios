@@ -153,7 +153,7 @@
 }
 - (void)setupExpandedTitleLabel {
     
-    self.expandedTitleLabel.font = [UIFont leo_expandedCardHeaderFont];
+    self.expandedTitleLabel.font = [UIFont leo_ultraLight27];
     self.expandedTitleLabel.textColor = [UIColor blackColor];
     self.expandedTitleLabel.numberOfLines = 0;
     self.expandedTitleLabel.lineBreakMode = NSLineBreakByWordWrapping;
@@ -162,7 +162,7 @@
 
 - (void)setupCollapsedTitleLabel {
     
-    self.collapsedTitleLabel.font = [UIFont leo_menuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
+    self.collapsedTitleLabel.font = [UIFont leo_medium15];
     self.collapsedTitleLabel.textColor = [UIColor blackColor];
     self.collapsedTitleLabel.text = [self.delegate collapsedTitleViewContent];
 }

@@ -73,10 +73,10 @@ static NSInteger const kVitalGraphMinDaysBeforeOrAfter = 1;
 
     TKChartGridStyle *gridStyle = _chart.gridStyle;
 
-    gridStyle.horizontalFill = [TKSolidFill solidFillWithColor:[UIColor leo_grayForMessageBubbles]];
-    gridStyle.horizontalAlternateFill = [TKSolidFill solidFillWithColor:[UIColor leo_grayForMessageBubbles]];
-    gridStyle.horizontalLineStroke = [TKStroke strokeWithColor:[UIColor leo_grayForTimeStamps]];
-    gridStyle.horizontalLineAlternateStroke = [TKStroke strokeWithColor:[UIColor leo_grayForTimeStamps]];
+    gridStyle.horizontalFill = [TKSolidFill solidFillWithColor:[UIColor leo_gray227]];
+    gridStyle.horizontalAlternateFill = [TKSolidFill solidFillWithColor:[UIColor leo_gray227]];
+    gridStyle.horizontalLineStroke = [TKStroke strokeWithColor:[UIColor leo_gray185]];
+    gridStyle.horizontalLineAlternateStroke = [TKStroke strokeWithColor:[UIColor leo_gray185]];
 }
 
 
@@ -112,7 +112,7 @@ static NSInteger const kVitalGraphMinDaysBeforeOrAfter = 1;
         _metricControl.tintColor = [UIColor leo_orangeRed];
 
         NSDictionary *normalAttributes = @{ NSFontAttributeName :
-                                                     [UIFont leo_standardFont], NSForegroundColorAttributeName :
+                                                     [UIFont leo_regular15], NSForegroundColorAttributeName :
                                                      [UIColor leo_orangeRed]
                                             };
 
@@ -120,7 +120,7 @@ static NSInteger const kVitalGraphMinDaysBeforeOrAfter = 1;
         [_metricControl setTitleTextAttributes:normalAttributes forState:UIControlStateNormal];
 
         NSDictionary *highlightedAttributes = @{ NSFontAttributeName :
-                                                     [UIFont leo_standardFont], NSForegroundColorAttributeName :
+                                                     [UIFont leo_regular15], NSForegroundColorAttributeName :
                                                      [UIColor leo_white]};
 
         [_metricControl setTitleTextAttributes:highlightedAttributes forState:UIControlStateSelected];
@@ -293,7 +293,7 @@ static NSInteger const kVitalGraphMinDaysBeforeOrAfter = 1;
 
     TKChartPaletteItem *seriesPaletteItem = [TKChartPaletteItem new];
     seriesPaletteItem.stroke = [TKStroke strokeWithColor:[UIColor leo_orangeRed] width:1.0];
-    seriesPaletteItem.fill = [TKLinearGradientFill linearGradientFillWithColors:@[[[UIColor leo_grayForPlaceholdersAndLines] colorWithAlphaComponent:0.6], [UIColor clearColor]] locations:@[@(0.0f),@(0.7f)] startPoint:CGPointMake(0.5f,0.f) endPoint:CGPointMake(0.5f, 1.f)];
+    seriesPaletteItem.fill = [TKLinearGradientFill linearGradientFillWithColors:@[[[UIColor leo_gray176] colorWithAlphaComponent:0.6], [UIColor clearColor]] locations:@[@(0.0f),@(0.7f)] startPoint:CGPointMake(0.5f,0.f) endPoint:CGPointMake(0.5f, 1.f)];
 
     return seriesPaletteItem;
 }

@@ -49,8 +49,8 @@ NSString *const kContactUsDetailForExemptedMembers = @"As a pre-existing custome
 
         _contactUsDetailTextView = strongTextView;
 
-        _contactUsDetailTextView.font = [UIFont leo_standardFont];
-        _contactUsDetailTextView.textColor = [UIColor leo_grayStandard];
+        _contactUsDetailTextView.font = [UIFont leo_regular15];
+        _contactUsDetailTextView.textColor = [UIColor leo_gray124];
 
         switch (self.membershipType) {
             case MembershipTypeExempted:
@@ -67,9 +67,9 @@ NSString *const kContactUsDetailForExemptedMembers = @"As a pre-existing custome
 
         _contactUsDetailTextView.linkTextAttributes =
         @{
-          NSForegroundColorAttributeName : [UIColor leo_grayStandard],
+          NSForegroundColorAttributeName : [UIColor leo_gray124],
           NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle),
-          NSFontAttributeName : [UIFont leo_standardFont]
+          NSFontAttributeName : [UIFont leo_regular15]
           };
         [self.view addSubview:_contactUsDetailTextView];
     }
@@ -85,8 +85,8 @@ NSString *const kContactUsDetailForExemptedMembers = @"As a pre-existing custome
 
         _contactUsTitleLabel = strongLabel;
 
-        _contactUsTitleLabel.font = [UIFont leo_expandedCardHeaderFont];
-        _contactUsTitleLabel.textColor = [UIColor leo_grayStandard];
+        _contactUsTitleLabel.font = [UIFont leo_ultraLight27];
+        _contactUsTitleLabel.textColor = [UIColor leo_gray124];
         _contactUsTitleLabel.text = kCopyContactUsTitle;
 
         [self.view addSubview:_contactUsTitleLabel];
@@ -103,8 +103,8 @@ NSString *const kContactUsDetailForExemptedMembers = @"As a pre-existing custome
 
         _editPaymentsTitleLabel = strongLabel;
 
-        _editPaymentsTitleLabel.font = [UIFont leo_expandedCardHeaderFont];
-        _editPaymentsTitleLabel.textColor = [UIColor leo_grayStandard];
+        _editPaymentsTitleLabel.font = [UIFont leo_ultraLight27];
+        _editPaymentsTitleLabel.textColor = [UIColor leo_gray124];
         _editPaymentsTitleLabel.text = kCopyManagePaymentTitle;
 
         if (self.membershipType != MembershipTypeExempted) {

@@ -103,7 +103,7 @@ secondPriceDetailAttributedString:secondPriceDetailAttributedString
 
         _firstFeatureLabel.text = kTextFeatureFirst;
         _firstFeatureLabel.font = [self fontForLabel];;
-        _firstFeatureLabel.textColor = [UIColor leo_grayStandard];
+        _firstFeatureLabel.textColor = [UIColor leo_gray124];
         _firstFeatureLabel.numberOfLines = 0;
         _firstFeatureLabel.lineBreakMode = NSLineBreakByWordWrapping;
 
@@ -139,7 +139,7 @@ secondPriceDetailAttributedString:secondPriceDetailAttributedString
 
         _secondFeatureLabel.text = kTextFeatureSecond;
         _secondFeatureLabel.font = [self fontForLabel];
-        _secondFeatureLabel.textColor = [UIColor leo_grayStandard];
+        _secondFeatureLabel.textColor = [UIColor leo_gray124];
         _secondFeatureLabel.numberOfLines = 0;
         _secondFeatureLabel.lineBreakMode = NSLineBreakByWordWrapping;
 
@@ -154,19 +154,19 @@ secondPriceDetailAttributedString:secondPriceDetailAttributedString
     switch ([LEOSession deviceModel]) {
 
         case DeviceModel4OrLess:
-            return [UIFont leo_emergency911Label];
+            return [UIFont leo_regular12];
 
         case DeviceModel5:
-            return [UIFont leo_emergency911Label];
+            return [UIFont leo_regular12];
 
         case DeviceModel6:
-            return [UIFont leo_standardFont];
+            return [UIFont leo_regular15];
 
         case DeviceModel6Plus:
-            return [UIFont leo_standardFont];
+            return [UIFont leo_regular15];
 
         case DeviceModelUnsupported:
-            return [UIFont leo_emergency911Label];
+            return [UIFont leo_regular12];
     }
 }
 
@@ -196,7 +196,7 @@ secondPriceDetailAttributedString:secondPriceDetailAttributedString
 
         _thirdFeatureLabel.text = kTextFeatureThird;
         _thirdFeatureLabel.font = [self fontForLabel];
-        _thirdFeatureLabel.textColor = [UIColor leo_grayStandard];
+        _thirdFeatureLabel.textColor = [UIColor leo_gray124];
         _thirdFeatureLabel.numberOfLines = 0;
         _thirdFeatureLabel.lineBreakMode = NSLineBreakByWordWrapping;
 
@@ -233,7 +233,7 @@ secondPriceDetailAttributedString:secondPriceDetailAttributedString
 
         _fourthFeatureLabel.text = kTextFeatureFourth;
         _fourthFeatureLabel.font = [self fontForLabel];
-        _fourthFeatureLabel.textColor = [UIColor leo_grayStandard];
+        _fourthFeatureLabel.textColor = [UIColor leo_gray124];
         _fourthFeatureLabel.numberOfLines = 0;
         _fourthFeatureLabel.lineBreakMode = NSLineBreakByWordWrapping;
 
@@ -269,7 +269,7 @@ secondPriceDetailAttributedString:secondPriceDetailAttributedString
 
         _fifthFeatureLabel.text = kTextFeatureFifth;
         _fifthFeatureLabel.font = [self fontForLabel];
-        _fifthFeatureLabel.textColor = [UIColor leo_grayStandard];
+        _fifthFeatureLabel.textColor = [UIColor leo_gray124];
         _fifthFeatureLabel.numberOfLines = 0;
         _fifthFeatureLabel.lineBreakMode = NSLineBreakByWordWrapping;
 

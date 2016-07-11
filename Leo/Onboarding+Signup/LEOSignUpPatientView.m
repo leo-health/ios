@@ -172,8 +172,8 @@ static NSString *const kPlaceholderValidationBirthDate = @"please add your child
 
     _avatarValidationLabel = avatarValidationLabel;
 
-    _avatarValidationLabel.font = [UIFont leo_menuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
-    _avatarValidationLabel.textColor = [UIColor leo_grayStandard];
+    _avatarValidationLabel.font = [UIFont leo_medium15];
+    _avatarValidationLabel.textColor = [UIColor leo_gray124];
 }
 
 -(void)setAvatarView:(UIControl *)avatarView {
@@ -263,8 +263,8 @@ static NSString *const kPlaceholderValidationBirthDate = @"please add your child
     _paymentAgreementLabel = paymentAgreementLabel;
 
     _paymentAgreementLabel.text = @"";
-    _paymentAgreementLabel.font = [UIFont leo_emergency911Label];
-    _paymentAgreementLabel.textColor = [UIColor leo_grayStandard];
+    _paymentAgreementLabel.font = [UIFont leo_regular12];
+    _paymentAgreementLabel.textColor = [UIColor leo_gray124];
     _paymentAgreementLabel.textAlignment = NSTextAlignmentCenter;
     _paymentAgreementLabel.numberOfLines = 0;
     _paymentAgreementLabel.lineBreakMode = NSLineBreakByWordWrapping;
@@ -352,7 +352,7 @@ static NSString *const kPlaceholderValidationBirthDate = @"please add your child
         UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [doneButton setTitleColor:[UIColor leo_orangeRed] forState:UIControlStateNormal];
         [doneButton setTitle:@"Done" forState:UIControlStateNormal];
-        doneButton.titleLabel.font = [UIFont leo_standardFont];
+        doneButton.titleLabel.font = [UIFont leo_regular15];
         [doneButton sizeToFit];
 
         UIBarButtonItem *doneBBI = [[UIBarButtonItem alloc] initWithCustomView:doneButton];
@@ -381,13 +381,13 @@ static NSString *const kPlaceholderValidationBirthDate = @"please add your child
         picker.pickerBackgroundColor = [UIColor leo_white];
 
         picker.pickerTextAttributes = @{NSForegroundColorAttributeName: [UIColor leo_orangeRed],
-                                        NSFontAttributeName:[UIFont leo_standardFont],
+                                        NSFontAttributeName:[UIFont leo_regular15],
                                         NSBackgroundColorAttributeName: [UIColor leo_white]};
 
         UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [doneButton setTitleColor:[UIColor leo_orangeRed] forState:UIControlStateNormal];
         [doneButton setTitle:@"Done" forState:UIControlStateNormal];
-        doneButton.titleLabel.font = [UIFont leo_standardFont];
+        doneButton.titleLabel.font = [UIFont leo_regular15];
         [doneButton sizeToFit];
         UIBarButtonItem *doneBBI = [[UIBarButtonItem alloc] initWithCustomView:doneButton];
 

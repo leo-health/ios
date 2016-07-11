@@ -180,9 +180,9 @@ static NSString *const kCopyManageMySubscription = @"Manage my membership";
                     
                     cell.promptField.textField.text = self.user.email;
                     cell.promptField.accessoryImageViewVisible = NO;
-                    cell.promptField.tintColor = [UIColor leo_grayStandard];
+                    cell.promptField.tintColor = [UIColor leo_gray124];
                     cell.promptField.textField.enabled = NO;
-                    cell.promptField.textField.textColor = [UIColor leo_grayStandard];
+                    cell.promptField.textField.textColor = [UIColor leo_gray124];
                     cell.promptField.tapGestureEnabled = NO;
                     cell.promptField.textField.standardPlaceholder = @"email";
 
@@ -196,7 +196,7 @@ static NSString *const kCopyManageMySubscription = @"Manage my membership";
                     cell.promptField.accessoryImage = [UIImage imageNamed:@"Icon-ForwardArrow"];
                     cell.promptField.tintColor = [UIColor leo_orangeRed];
                     cell.promptField.textField.enabled = NO;
-                    cell.promptField.textField.textColor = [UIColor leo_grayStandard];
+                    cell.promptField.textField.textColor = [UIColor leo_gray124];
                     cell.promptField.tapGestureEnabled = NO;
                     cell.promptField.textField.standardPlaceholder = @"";
                     break;
@@ -209,7 +209,7 @@ static NSString *const kCopyManageMySubscription = @"Manage my membership";
                     cell.promptField.accessoryImage = [UIImage imageNamed:@"Icon-ForwardArrow"];
                     cell.promptField.tintColor = [UIColor leo_orangeRed];
                     cell.promptField.textField.enabled = NO;
-                    cell.promptField.textField.textColor = [UIColor leo_grayStandard];
+                    cell.promptField.textField.textColor = [UIColor leo_gray124];
                     cell.promptField.textField.standardPlaceholder = @"";
                     cell.promptField.tapGestureEnabled = NO;
                     break;
@@ -222,7 +222,7 @@ static NSString *const kCopyManageMySubscription = @"Manage my membership";
                     cell.promptField.accessoryImage = [UIImage imageNamed:@"Icon-Add"];
                     cell.promptField.tintColor = [UIColor leo_orangeRed];
                     cell.promptField.textField.enabled = NO;
-                    cell.promptField.textField.textColor = [UIColor leo_grayStandard];
+                    cell.promptField.textField.textColor = [UIColor leo_gray124];
                     cell.promptField.tapGestureEnabled = NO;
                     cell.promptField.textField.standardPlaceholder = @"";
                     break;
@@ -251,7 +251,7 @@ static NSString *const kCopyManageMySubscription = @"Manage my membership";
                     cell.promptField.accessoryImageViewVisible = NO;
                     cell.promptField.textField.enabled = NO;
                     cell.promptField.tapGestureEnabled = NO;
-                    cell.promptField.textField.textColor = [UIColor leo_grayStandard];
+                    cell.promptField.textField.textColor = [UIColor leo_gray124];
                     cell.promptField.textField.standardPlaceholder = @"version | build";
                     break;
                 }
@@ -262,7 +262,7 @@ static NSString *const kCopyManageMySubscription = @"Manage my membership";
                     cell.promptField.accessoryImageViewVisible = NO;
                     cell.promptField.textField.enabled = NO;
                     cell.promptField.tapGestureEnabled = NO;
-                    cell.promptField.textField.textColor = [UIColor leo_grayStandard];
+                    cell.promptField.textField.textColor = [UIColor leo_gray124];
                     cell.promptField.textField.standardPlaceholder = @"Anonymous Customer Service ID";
                     break;
                 }
@@ -275,7 +275,7 @@ static NSString *const kCopyManageMySubscription = @"Manage my membership";
                     cell.promptField.textField.enabled = NO;
                     cell.promptField.tapGestureEnabled = NO;
                     cell.promptField.tintColor = [UIColor leo_orangeRed];
-                    cell.promptField.textField.textColor = [UIColor leo_grayStandard];
+                    cell.promptField.textField.textColor = [UIColor leo_gray124];
                     cell.promptField.textField.standardPlaceholder = @"";
                     break;
                 }
@@ -288,7 +288,7 @@ static NSString *const kCopyManageMySubscription = @"Manage my membership";
                     cell.promptField.textField.enabled = NO;
                     cell.promptField.tapGestureEnabled = NO;
                     cell.promptField.tintColor = [UIColor leo_orangeRed];
-                    cell.promptField.textField.textColor = [UIColor leo_grayStandard];
+                    cell.promptField.textField.textColor = [UIColor leo_gray124];
                     cell.promptField.textField.standardPlaceholder = @"";
                     break;
                 }
@@ -301,7 +301,7 @@ static NSString *const kCopyManageMySubscription = @"Manage my membership";
                     cell.promptField.textField.enabled = NO;
                     cell.promptField.tapGestureEnabled = NO;
                     cell.promptField.tintColor = [UIColor leo_orangeRed];
-                    cell.promptField.textField.textColor = [UIColor leo_grayStandard];
+                    cell.promptField.textField.textColor = [UIColor leo_gray124];
                     cell.promptField.textField.standardPlaceholder = @"";
                     break;
                 }
@@ -488,8 +488,8 @@ static NSString *const kCopyManageMySubscription = @"Manage my membership";
         case SettingsSectionAbout: {
             
             UITableViewHeaderFooterView *headerView = (UITableViewHeaderFooterView *)view;
-            headerView.textLabel.textColor = [UIColor leo_grayForTitlesAndHeadings];
-            headerView.textLabel.font = [UIFont leo_expandedCardHeaderFont];
+            headerView.textLabel.textColor = [UIColor leo_gray74];
+            headerView.textLabel.font = [UIFont leo_ultraLight27];
             headerView.textLabel.text = [headerView.textLabel.text capitalizedString];
             headerView.tintColor = [UIColor leo_white];
             break;

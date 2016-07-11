@@ -83,7 +83,7 @@ static NSInteger const kLineThickness = 1;
         //These lines creates a side effect that can mess with the user of this class. We may need to remove them. And consider not using lazy instantiation for side effects...?
         [_leadingButton setTitle:[self.card stringRepresentationOfActionsAvailableForState][0] forState:UIControlStateNormal];
         [_leadingButton setTitleColor:self.card.tintColor forState:UIControlStateNormal];
-        _leadingButton.titleLabel.font = [UIFont leo_buttonLabelsAndTimeStampsFont];
+        _leadingButton.titleLabel.font = [UIFont leo_medium12];
         [_leadingButton addTarget:self.card.associatedCardObject action:NSSelectorFromString([self.card actionsAvailableForState][0]) forControlEvents:UIControlEventTouchUpInside];
 
         [self addSubview:_leadingButton];
@@ -101,7 +101,7 @@ static NSInteger const kLineThickness = 1;
 
         [_trailingButton setTitle:[self.card stringRepresentationOfActionsAvailableForState][1] forState:UIControlStateNormal];
         [_trailingButton setTitleColor:self.card.tintColor forState:UIControlStateNormal];
-        _trailingButton.titleLabel.font = [UIFont leo_buttonLabelsAndTimeStampsFont];
+        _trailingButton.titleLabel.font = [UIFont leo_medium12];
 
         [_trailingButton addTarget:self.card.associatedCardObject action:NSSelectorFromString([self.card actionsAvailableForState][1]) forControlEvents:UIControlEventTouchUpInside];
 
@@ -119,12 +119,12 @@ static NSInteger const kLineThickness = 1;
     if (!self.alreadyUpdatedConstraints) {
 
         UIView *split = [UIView new];
-        split.backgroundColor = [UIColor leo_grayForTimeStamps];
+        split.backgroundColor = [UIColor leo_gray185];
         [self addSubview:split];
         split.translatesAutoresizingMaskIntoConstraints = NO;
 
         UIView *breaker = [UIView new];
-        breaker.backgroundColor = [UIColor leo_grayForTimeStamps];
+        breaker.backgroundColor = [UIColor leo_gray185];
         [self addSubview:breaker];
         breaker.translatesAutoresizingMaskIntoConstraints = NO;
 

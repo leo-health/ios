@@ -94,11 +94,11 @@
 - (void)formatCalendar {
     
     self.monthView.backgroundColor = [UIColor clearColor];
-    self.monthLabel.font = [UIFont leo_expandedCardHeaderFont];
+    self.monthLabel.font = [UIFont leo_ultraLight27];
     self.monthLabel.textColor = [UIColor leo_white];
     self.noSlotsLabel.text = @"We're all booked up this week!\nCheck out next week for more appointments.";
-    self.noSlotsLabel.textColor = [UIColor leo_grayStandard];
-    self.noSlotsLabel.font = [UIFont leo_standardFont];
+    self.noSlotsLabel.textColor = [UIColor leo_gray124];
+    self.noSlotsLabel.font = [UIFont leo_regular15];
     self.noSlotsLabel.lineBreakMode = NSLineBreakByWordWrapping;
     self.noSlotsLabel.numberOfLines = 0;
     self.noSlotsLabel.hidden = YES;

@@ -50,8 +50,8 @@
     _paymentInstructionsLabel.lineBreakMode = NSLineBreakByWordWrapping;
     _paymentInstructionsLabel.textAlignment = NSTextAlignmentLeft;
 
-    _paymentInstructionsLabel.font = [UIFont leo_standardFont];
-    _paymentInstructionsLabel.textColor = [UIColor leo_grayStandard];
+    _paymentInstructionsLabel.font = [UIFont leo_regular15];
+    _paymentInstructionsLabel.textColor = [UIColor leo_gray124];
 }
 
 - (void)setNumberOfChildren:(NSInteger)numberOfChildren {
@@ -113,9 +113,9 @@
     _paymentTextField = paymentTextField;
 
     _paymentTextField.borderColor = [UIColor clearColor];
-    _paymentTextField.font = [UIFont leo_fieldAndUserLabelsAndSecondaryButtonsFont];
-    _paymentTextField.placeholderColor = [UIColor leo_grayForPlaceholdersAndLines];
-    _paymentTextField.textColor = [UIColor leo_grayStandard];
+    _paymentTextField.font = [UIFont leo_bold12];
+    _paymentTextField.placeholderColor = [UIColor leo_gray176];
+    _paymentTextField.textColor = [UIColor leo_gray124];
 }
 
 -(void)setChargeDetailsLabel:(UILabel *)chargeDetailsLabel {
@@ -126,8 +126,8 @@
     _chargeDetailsLabel.lineBreakMode = NSLineBreakByWordWrapping;
     _chargeDetailsLabel.textAlignment = NSTextAlignmentLeft;
 
-    _chargeDetailsLabel.font = [UIFont leo_standardFont];
-    _chargeDetailsLabel.textColor = [UIColor leo_grayStandard];
+    _chargeDetailsLabel.font = [UIFont leo_regular15];
+    _chargeDetailsLabel.textColor = [UIColor leo_gray124];
 
     //TODO: ZSD Come back and refactor this out since we're doing this in multiple places across the app; should exist in some sort of payments object which we don't currently have.
 }
@@ -170,9 +170,9 @@
 
     _paymentCardHeaderLabel = paymentCardHeaderLabel;
 
-    _paymentCardHeaderLabel.font = [UIFont leo_fieldAndUserLabelsAndSecondaryButtonsFont];
+    _paymentCardHeaderLabel.font = [UIFont leo_bold12];
 
-    _paymentCardHeaderLabel.textColor = [UIColor leo_grayStandard];
+    _paymentCardHeaderLabel.textColor = [UIColor leo_gray124];
     _paymentCardHeaderLabel.text = @"CARD NUMBER";
 }
 

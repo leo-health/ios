@@ -39,9 +39,9 @@ IB_DESIGNABLE
     
     self.valid = YES;
     self.placeholder = self.standardPlaceholder;
-    self.font = [UIFont leo_standardFont];
-    self.floatingLabelActiveTextColor = [UIColor leo_grayStandard];
-    self.textColor = [UIColor leo_grayStandard];
+    self.font = [UIFont leo_regular15];
+    self.floatingLabelActiveTextColor = [UIColor leo_gray124];
+    self.textColor = [UIColor leo_gray124];
     self.tintColor = [UIColor leo_orangeRed];
 }
 
@@ -57,9 +57,9 @@ IB_DESIGNABLE
     
     if (valid) {
         self.placeholder = self.standardPlaceholder;
-        self.floatingLabelTextColor = [UIColor leo_grayForPlaceholdersAndLines];
-        self.floatingLabelActiveTextColor = [UIColor leo_grayForPlaceholdersAndLines];
-        [self updatePlaceholderWithColor:[UIColor leo_grayForPlaceholdersAndLines]];
+        self.floatingLabelTextColor = [UIColor leo_gray176];
+        self.floatingLabelActiveTextColor = [UIColor leo_gray176];
+        [self updatePlaceholderWithColor:[UIColor leo_gray176]];
         
     } else {
         self.placeholder = self.validationPlaceholder;

@@ -61,7 +61,7 @@
         }
 
         _nameLabel.textColor = self.cardColor;
-        _nameLabel.font = [UIFont leo_fieldAndUserLabelsAndSecondaryButtonsFont];
+        _nameLabel.font = [UIFont leo_bold12];
 
         [self addSubview:_nameLabel];
     }
@@ -103,8 +103,8 @@
             _suffixCredentialLabel.text = support.jobTitle;
         }
 
-        _suffixCredentialLabel.textColor = [UIColor leo_grayStandard];
-        _suffixCredentialLabel.font = [UIFont leo_fieldAndUserLabelsAndSecondaryButtonsFont];
+        _suffixCredentialLabel.textColor = [UIColor leo_gray124];
+        _suffixCredentialLabel.font = [UIFont leo_bold12];
 
         [self addSubview:_suffixCredentialLabel];
     }

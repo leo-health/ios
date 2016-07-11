@@ -46,27 +46,27 @@
     return [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1]; /*#FFF*/
 }
 
-+ (UIColor *)leo_grayForTitlesAndHeadings {
++ (UIColor *)leo_gray74 {
     return [UIColor colorWithRed:74.0/255.0 green:74.0/255.0 blue:74.0/255.0 alpha:1]; /*#4A4A4A*/
 }
 
-+ (UIColor *)leo_grayStandard {
++ (UIColor *)leo_gray124 {
     return [UIColor colorWithRed:124.0/255.0 green:124.0/255.0 blue:124.0/255.0 alpha:1]; /*#7C7C7C*/
 }
 
-+ (UIColor *)leo_grayForPlaceholdersAndLines {
++ (UIColor *)leo_gray176 {
     return [UIColor colorWithRed:176.0/255.0 green:176.0/255.0 blue:176.0/255.0 alpha:1]; /*#B0B0B0*/
 }
 
-+ (UIColor *)leo_grayForTimeStamps {
++ (UIColor *)leo_gray185 {
     return [UIColor colorWithRed:185.0/255.0 green:185.0/255.0 blue:185.0/255.0 alpha:1]; /*#B9B9B9*/
 }
 
-+ (UIColor *)leo_grayForMessageBubbles {
++ (UIColor *)leo_gray227 {
     return [UIColor colorWithRed:227.0/255.0 green:227.0/255.0 blue:227.0/255.0 alpha:1]; /*#E3E3E3*/
 }
 
-+ (UIColor *)leo_grayForInputAccessoryView {
++ (UIColor *)leo_gray245 {
     return [UIColor colorWithWhite:245.0/255.0 alpha:1];
 }
 

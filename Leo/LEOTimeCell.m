@@ -40,7 +40,7 @@
 - (void)setUnselectedFormat {
     
     [self.bottomBorder removeFromSuperlayer];
-    [self updateLabel:self.timeLabel withColor:[UIColor leo_grayStandard]];
+    [self updateLabel:self.timeLabel withColor:[UIColor leo_gray124]];
     self.checkImageView.hidden = YES;
 }
 

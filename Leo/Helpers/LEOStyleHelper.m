@@ -90,7 +90,7 @@
 
 + (void)styleLabel:(UILabel *)label forFeature:(Feature)feature {
 
-    label.font = [UIFont leo_menuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
+    label.font = [UIFont leo_medium15];
     label.textColor = [self headerLabelColorForFeature:feature];
 
     [label sizeToFit];
@@ -104,7 +104,7 @@
 
     //TODO: After merging with changes from chameleon issues (after sprint 12), rewrite this line to use the coloring methods.
     navBarTitleLabel.textColor = [self headerLabelColorForFeature:feature];
-    navBarTitleLabel.font = [UIFont leo_menuOptionsAndSelectedTextInFormFieldsAndCollapsedNavigationBarsFont];
+    navBarTitleLabel.font = [UIFont leo_medium15];
 
     [navBarTitleLabel sizeToFit]; //MARK: not sure this is useful anymore now that we have added autolayout.
 
@@ -113,10 +113,10 @@
 
 + (void)stylePromptTextView:(LEOPromptTextView *)promptTextView forFeature:(Feature)feature {
 
-    promptTextView.textColor = [UIColor leo_grayStandard];
-    promptTextView.font = [UIFont leo_standardFont];
+    promptTextView.textColor = [UIColor leo_gray124];
+    promptTextView.font = [UIFont leo_regular15];
 
-    promptTextView.floatingLabelActiveTextColor = [UIColor leo_grayStandard];
+    promptTextView.floatingLabelActiveTextColor = [UIColor leo_gray124];
     promptTextView.tintColor = [self tintColorForFeature:feature];
 }
 
@@ -134,7 +134,7 @@
 
 + (void)styleExpandedTitleLabel:(UILabel *)label feature:(Feature)feature {
 
-    label.font = [UIFont leo_expandedCardHeaderFont];
+    label.font = [UIFont leo_ultraLight27];
     label.textColor = [self headerLabelColorForFeature:feature];
     label.numberOfLines = 0;
     label.lineBreakMode = NSLineBreakByWordWrapping;
@@ -197,10 +197,10 @@
 
 + (void)styleSubmissionButton:(UIButton *)button forFeature:(Feature)feature {
 
-    button.titleLabel.font = [UIFont leo_buttonLabelsAndTimeStampsFont];
+    button.titleLabel.font = [UIFont leo_medium12];
     [button setTitleColor:[UIColor leo_white] forState:UIControlStateNormal];
     [button setBackgroundImage:[UIImage leo_imageWithColor:[self tintColorForFeature:feature]] forState:UIControlStateNormal];
-    [button setBackgroundImage:[UIImage leo_imageWithColor:[UIColor leo_grayForMessageBubbles]] forState:UIControlStateDisabled];
+    [button setBackgroundImage:[UIImage leo_imageWithColor:[UIColor leo_gray227]] forState:UIControlStateDisabled];
 }
 
 + (void)styleButton:(UIButton *)button forFeature:(Feature)feature {
@@ -208,7 +208,7 @@
     [self roundCornersForView:button withCornerRadius:kCornerRadius];
 
     [button leo_styleDisabledState];
-    button.titleLabel.font = [UIFont leo_buttonLabelsAndTimeStampsFont];
+    button.titleLabel.font = [UIFont leo_medium12];
     [button setTitleColor:[UIColor leo_white] forState:UIControlStateNormal];
     button.backgroundColor = [UIColor leo_orangeRed];
 }
@@ -298,7 +298,7 @@
 
     switch (feature) {
         case FeatureOnboarding:
-            return [UIColor leo_grayForTitlesAndHeadings];
+            return [UIColor leo_gray74];
 
         case FeatureSettings:
             return [UIColor leo_white];
@@ -310,7 +310,7 @@
             return [UIColor leo_white];
 
         case FeaturePayment:
-            return [UIColor leo_grayForTitlesAndHeadings];
+            return [UIColor leo_gray74];
 
         case FeatureUndefined:
             return [UIColor blackColor];

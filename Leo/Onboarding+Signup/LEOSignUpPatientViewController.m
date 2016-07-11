@@ -119,7 +119,7 @@ static NSString *const kStatusBarNotificationAvatarUploadSuccess = @"Child profi
 
         self.signUpPatientView.avatarImageView.image = circularAvatarImage;
 
-        self.signUpPatientView.avatarValidationLabel.textColor = [UIColor leo_grayStandard];
+        self.signUpPatientView.avatarValidationLabel.textColor = [UIColor leo_gray124];
         self.signUpPatientView.avatarValidationLabel.text = kAvatarCallToActionEdit;
     }
 }

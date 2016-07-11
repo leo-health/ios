@@ -53,7 +53,7 @@ static CGFloat const kAvatarProfileDiameter = 62;
         [self addSubview:_patientNameLabel];
 
         _patientNameLabel.text = self.patient.fullName;
-        _patientNameLabel.font = [UIFont leo_expandedCardHeaderFont];
+        _patientNameLabel.font = [UIFont leo_ultraLight27];
         _patientNameLabel.textColor = [UIColor leo_white];
     }
 

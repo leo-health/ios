@@ -19,7 +19,7 @@
     if (self) {
 
         self.notificationLabelBackgroundColor = [UIColor leo_white];
-        self.notificationLabelFont = [UIFont leo_standardFont];
+        self.notificationLabelFont = [UIFont leo_regular15];
         self.notificationLabelTextColor = [UIColor leo_orangeRed];
     }
 

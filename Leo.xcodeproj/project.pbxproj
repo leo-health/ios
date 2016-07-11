@@ -11,8 +11,6 @@
 		3101F9411BF54D320075765B /* NSUserDefaults+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3101F9401BF54D320075765B /* NSUserDefaults+Extensions.m */; };
 		3101F9431BF556820075765B /* LeoUserDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3101F9421BF556820075765B /* LeoUserDefaults.plist */; };
 		3101F9461BF664A60075765B /* NSDictionary+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3101F9451BF664A60075765B /* NSDictionary+Extensions.m */; };
-		3104EC5E1CBEAA50008D4C9E /* LEOChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 3104EC5D1CBEAA50008D4C9E /* LEOChart.m */; };
-		3104EC611CBFF344008D4C9E /* LEOSelectedPointView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3104EC601CBFF344008D4C9E /* LEOSelectedPointView.m */; };
 		310740741B545EFD0098FD40 /* LEOCardConversation.m in Sources */ = {isa = PBXBuildFile; fileRef = 310740731B545EFD0098FD40 /* LEOCardConversation.m */; };
 		310943701CC809A80015D52F /* LEOConversationNoticeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3109436F1CC809A80015D52F /* LEOConversationNoticeView.m */; };
 		310943731CC9471F0015D52F /* LEOConversationFullScreenNoticeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 310943721CC9471F0015D52F /* LEOConversationFullScreenNoticeView.m */; };
@@ -294,10 +292,6 @@
 		3101F9421BF556820075765B /* LeoUserDefaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = LeoUserDefaults.plist; path = Leo/LeoUserDefaults.plist; sourceTree = "<group>"; };
 		3101F9441BF664A60075765B /* NSDictionary+Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDictionary+Extensions.h"; path = "Helpers/NSDictionary+Extensions.h"; sourceTree = "<group>"; };
 		3101F9451BF664A60075765B /* NSDictionary+Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDictionary+Extensions.m"; path = "Helpers/NSDictionary+Extensions.m"; sourceTree = "<group>"; };
-		3104EC5C1CBEAA50008D4C9E /* LEOChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOChart.h; path = "Views and Controllers/PHR/LEOChart.h"; sourceTree = "<group>"; };
-		3104EC5D1CBEAA50008D4C9E /* LEOChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOChart.m; path = "Views and Controllers/PHR/LEOChart.m"; sourceTree = "<group>"; };
-		3104EC5F1CBFF344008D4C9E /* LEOSelectedPointView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOSelectedPointView.h; path = "Views and Controllers/PHR/LEOSelectedPointView.h"; sourceTree = "<group>"; };
-		3104EC601CBFF344008D4C9E /* LEOSelectedPointView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOSelectedPointView.m; path = "Views and Controllers/PHR/LEOSelectedPointView.m"; sourceTree = "<group>"; };
 		310740721B545EFD0098FD40 /* LEOCardConversation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOCardConversation.h; path = "Data Model/LEOCardConversation.h"; sourceTree = "<group>"; };
 		310740731B545EFD0098FD40 /* LEOCardConversation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOCardConversation.m; path = "Data Model/LEOCardConversation.m"; sourceTree = "<group>"; };
 		3109436E1CC809A80015D52F /* LEOConversationNoticeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOConversationNoticeView.h; path = "Views and Controllers/Conversation/LEOConversationNoticeView.h"; sourceTree = "<group>"; };
@@ -789,6 +783,7 @@
 		BCED007F1B0150F4007653D6 /* LEOFeedTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOFeedTVC.h; sourceTree = "<group>"; };
 		BCED00801B0150F4007653D6 /* LEOFeedTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = LEOFeedTVC.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		C9BFC97BBACAA8BBCAFB0684 /* libPods-LeoTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LeoTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DE16AE561D2EB64D00EE7811 /* LEOFormatting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOFormatting.h; sourceTree = "<group>"; };
 		DE6395151D18296C00D3DF71 /* TPKeyboardAvoidingCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TPKeyboardAvoidingCollectionView.h; path = OPC/TPKeyboardAvoiding/TPKeyboardAvoidingCollectionView.h; sourceTree = "<group>"; };
 		DE6395161D18296C00D3DF71 /* TPKeyboardAvoidingCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TPKeyboardAvoidingCollectionView.m; path = OPC/TPKeyboardAvoiding/TPKeyboardAvoidingCollectionView.m; sourceTree = "<group>"; };
 		DE6395171D18296C00D3DF71 /* TPKeyboardAvoidingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TPKeyboardAvoidingScrollView.h; path = OPC/TPKeyboardAvoiding/TPKeyboardAvoidingScrollView.h; sourceTree = "<group>"; };
@@ -1737,6 +1732,7 @@
 				BCE1EC9D1B012628007C8D0B /* UIColor+LeoColors.m */,
 				31B998C41B7BD4F40055DEEA /* UIFont+LeoFonts.h */,
 				31B998C51B7BD4F40055DEEA /* UIFont+LeoFonts.m */,
+				DE16AE561D2EB64D00EE7811 /* LEOFormatting.h */,
 				BCE1ECA21B014613007C8D0B /* LEOConstants.h */,
 				BCE1ECA31B014613007C8D0B /* LEOConstants.m */,
 			);

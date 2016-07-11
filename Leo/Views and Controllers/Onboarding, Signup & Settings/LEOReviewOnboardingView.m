@@ -230,7 +230,7 @@ static NSString * const kCopySignUp = @"SIGN UP";
 
         // 4. Create label, styling dependent on whether it's a link:
         UILabel *label = [UILabel new];
-        label.font = [UIFont leo_standardFont];
+        label.font = [UIFont leo_regular15];
         label.text = chunk;
         label.userInteractionEnabled = isLink;
 
@@ -252,7 +252,7 @@ static NSString * const kCopySignUp = @"SIGN UP";
         }
         else
         {
-            label.textColor = [UIColor leo_grayStandard];
+            label.textColor = [UIColor leo_gray124];
         }
 
         // 6. Lay out the labels so it forms a complete sentence again:
