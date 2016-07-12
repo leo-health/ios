@@ -6,8 +6,6 @@
 //  Copyright © 2016 Leo Health. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-
 @interface LEOAnalyticScreen : NSObject
 
 + (void)tagScreen:(NSString *)screenName;
