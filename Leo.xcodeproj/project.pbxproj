@@ -1175,10 +1175,6 @@
 				319F335C1B2201F900C1C526 /* CollectionViewLayout.m */,
 				3130B48D1B068CE0006ACC80 /* ArrayDataSource.h */,
 				3130B48E1B068CE0006ACC80 /* ArrayDataSource.m */,
-				DE1CF7501D19F18100053BA3 /* LEOAnalyticIntent.h */,
-				DE745A1B1D1D7FFA00C856E6 /* LEOAnalyticEvent.h */,
-				DE745A1C1D1D7FFA00C856E6 /* LEOAnalyticEvent.m */,
-				DE1CF7511D19F18100053BA3 /* LEOAnalyticIntent.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -1597,10 +1593,6 @@
 		BC4D685B1B04DAF10018DAB5 /* Objects */ = {
 			isa = PBXGroup;
 			children = (
-				DE1CF7481D19C41F00053BA3 /* Guardian+Analytics.h */,
-				DE1CF7491D19C41F00053BA3 /* Guardian+Analytics.m */,
-				DE10CAEA1D26AB5B00EA1057 /* Patient+Analytics.h */,
-				DE10CAEB1D26AB5B00EA1057 /* Patient+Analytics.m */,
 				310943741CCE5CA70015D52F /* Notice.h */,
 				310943751CCE5CA70015D52F /* Notice.m */,
 				66A5DB251C3D95FD008AEC55 /* HealthRecord.h */,
@@ -1622,8 +1614,6 @@
 				31957EE41C29DE0A00D0A1A0 /* MessageImage.h */,
 				31957EE51C29DE0A00D0A1A0 /* MessageImage.m */,
 				31CC12C91BB062C40099AB60 /* Appointment.h */,
-				DE10CAED1D26B16800EA1057 /* Appointment+Analytics.h */,
-				DE10CAEE1D26B16800EA1057 /* Appointment+Analytics.m */,
 				31CC12B91BB062C40099AB60 /* Appointment.m */,
 				31CC12BA1BB062C40099AB60 /* Slot.h */,
 				31CC12BB1BB062C40099AB60 /* Slot.m */,
@@ -1663,8 +1653,6 @@
 				3146550F1BFD1FE700354181 /* AppointmentStatus.m */,
 				31D2756D1C4809AC005F8964 /* LEOS3Image.h */,
 				31D2756E1C4809AC005F8964 /* LEOS3Image.m */,
-				DE1CF7451D18680A00053BA3 /* Family+Analytics.h */,
-				DE1CF7461D18680A00053BA3 /* Family+Analytics.m */,
 			);
 			name = Objects;
 			path = "Data Model/Objects";
@@ -1732,6 +1720,7 @@
 		BCE1EC661B00E353007C8D0B /* Leo */ = {
 			isa = PBXGroup;
 			children = (
+				DE31E5A31D344A8E00F028E4 /* Analytics */,
 				3130B4911B0693D5006ACC80 /* Stoyboards & Xibs */,
 				BCA69A3D1B039ABC00C27B2B /* Views and Controllers */,
 				3130B4901B068CE7006ACC80 /* Helpers */,
@@ -1785,6 +1774,25 @@
 				BC4D685B1B04DAF10018DAB5 /* Objects */,
 			);
 			name = "Data Model";
+			sourceTree = "<group>";
+		};
+		DE31E5A31D344A8E00F028E4 /* Analytics */ = {
+			isa = PBXGroup;
+			children = (
+				DE1CF7501D19F18100053BA3 /* LEOAnalyticIntent.h */,
+				DE745A1B1D1D7FFA00C856E6 /* LEOAnalyticEvent.h */,
+				DE745A1C1D1D7FFA00C856E6 /* LEOAnalyticEvent.m */,
+				DE1CF7511D19F18100053BA3 /* LEOAnalyticIntent.m */,
+				DE1CF7481D19C41F00053BA3 /* Guardian+Analytics.h */,
+				DE1CF7491D19C41F00053BA3 /* Guardian+Analytics.m */,
+				DE10CAEA1D26AB5B00EA1057 /* Patient+Analytics.h */,
+				DE10CAEB1D26AB5B00EA1057 /* Patient+Analytics.m */,
+				DE10CAED1D26B16800EA1057 /* Appointment+Analytics.h */,
+				DE10CAEE1D26B16800EA1057 /* Appointment+Analytics.m */,
+				DE1CF7451D18680A00053BA3 /* Family+Analytics.h */,
+				DE1CF7461D18680A00053BA3 /* Family+Analytics.m */,
+			);
+			name = Analytics;
 			sourceTree = "<group>";
 		};
 		DE6395141D18293D00D3DF71 /* TPKeyboardAvoiding */ = {
@@ -2353,11 +2361,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 312594B81BE2D2C100A497C0 /* Local.xcconfig */;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Annie Graham (HFK5GR375P)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Annie Graham (HFK5GR375P)";
 				INFOPLIST_FILE = Leo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "";
@@ -2498,11 +2506,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3126E59B1C8F3D8F0047189C /* AppStore.xcconfig */;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Annie Graham (HFK5GR375P)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Annie Graham (HFK5GR375P)";
 				INFOPLIST_FILE = Leo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.leohealth.leo;

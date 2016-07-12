@@ -6,10 +6,9 @@
 //  Copyright © 2016 Leo Health. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "Family.h"
 #import "Appointment.h"
 
+@class Family;
 @interface LEOAnalyticEvent : NSObject
 
 + (NSDictionary *)getAttributesWithFamily:(Family *)family;

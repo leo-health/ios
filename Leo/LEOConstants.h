@@ -685,4 +685,7 @@ extern NSString *const kAnalyticAgeGroupFiveThirteen; // @"Older than 5 & younge
 extern NSString *const kAnalyticAgeGroupThirteenEighteen; // @"Older than 13 & younger than 18";
 extern NSString *const kAnalyticAgeGroupEighteenPlus; // @"Older than 18";
 
+extern NSString *const kAnalyticAttributeChangedMoreThanAppointmentTime; // @"Did change more than appointment time";
+extern NSString *const kAnalyticAttributeMembershipType; // @"Membership type";
+
 @end

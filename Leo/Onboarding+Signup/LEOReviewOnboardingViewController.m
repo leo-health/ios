@@ -353,7 +353,7 @@ static NSString *const kReviewPaymentDetails = @"ReviewPaymentSegue";
                         }
 
                         attemptedAdditionOfCaregiver = YES;
-                        
+
                         if (success) {
                             [LEOAnalyticIntent tagEvent:kAnalyticEventAddCaregiverFromRegistration
                                              withFamily:self.family];

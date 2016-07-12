@@ -8,11 +8,10 @@
 
 #import "LEOAnalyticEvent.h"
 #import "LEOSession.h"
-#import "Family.h"
-#import "Family+Analytics.h"
 #import "Guardian+Analytics.h"
 #import "Appointment+Analytics.h"
 #import "Patient+Analytics.h"
+#import "Family+Analytics.h"
 
 @implementation LEOAnalyticEvent
 
@@ -30,9 +29,11 @@
   withAttributes:(NSDictionary *)attributeDictionary
        andFamily:(Family *)family {
 
-    NSMutableDictionary *mutableAttributeDictionary = [[self getAttributesWithFamily:family] mutableCopy];
+    NSMutableDictionary *mutableAttributeDictionary =
+    [[self getAttributesWithFamily:family] mutableCopy];
     [mutableAttributeDictionary addEntriesFromDictionary:attributeDictionary];
-    [self tagEvent:eventName withAttributes:mutableAttributeDictionary];
+    [self tagEvent:eventName
+    withAttributes:mutableAttributeDictionary];
 }
 
 + (void)tagEvent:(NSString *)eventName
@@ -41,12 +42,14 @@
     
     NSMutableDictionary *mutableAttributeDictionary = [attributeDictionary mutableCopy];
     [mutableAttributeDictionary addEntriesFromDictionary:[patient getAttributes]];
-    [self tagEvent:eventName withAttributes:mutableAttributeDictionary];
+    [self tagEvent:eventName
+    withAttributes:mutableAttributeDictionary];
 }
 
 + (void)tagEvent:(NSString *)eventName
      withPatient:(Patient *)patient {
-    [self tagEvent:eventName withAttributes:[patient getAttributes]];
+    [self tagEvent:eventName
+    withAttributes:[patient getAttributes]];
 }
 
 + (void)tagEvent:(NSString *)eventName
@@ -54,11 +57,13 @@
   withAttributes:(NSDictionary *)attributeDictionary
        andFamily:(Family *)family{
     
-    NSMutableDictionary *mutableAttributeDictionary = [[self getAttributesWithFamily:family] mutableCopy];
+    NSMutableDictionary *mutableAttributeDictionary =
+    [[self getAttributesWithFamily:family] mutableCopy];
     [mutableAttributeDictionary addEntriesFromDictionary:attributeDictionary];
     [mutableAttributeDictionary addEntriesFromDictionary:[appointment getAttributes]];
     
-    [self tagEvent:eventName withAttributes:mutableAttributeDictionary];
+    [self tagEvent:eventName
+    withAttributes:mutableAttributeDictionary];
 }
 
 + (void)tagEvent:(NSString *)eventName
@@ -70,7 +75,8 @@
     [mutableAttributeDictionary addEntriesFromDictionary:[appointment getAttributes]];
     
     
-    [self tagEvent:eventName withAttributes:mutableAttributeDictionary];
+    [self tagEvent:eventName
+    withAttributes:mutableAttributeDictionary];
 }
 
 + (void)tagEvent:(NSString *)eventName
@@ -80,7 +86,8 @@
     NSMutableDictionary *mutableAttributeDictionary = [attributeDictionary mutableCopy];
     [mutableAttributeDictionary addEntriesFromDictionary:[appointment getAttributes]];
     
-    [self tagEvent:eventName withAttributes:mutableAttributeDictionary];
+    [self tagEvent:eventName
+    withAttributes:mutableAttributeDictionary];
 }
 
 + (void)tagEvent:(NSString *)eventName
@@ -93,7 +100,8 @@
       withFamily:(Family *)family {
 
     NSDictionary *attributeDictionary = [self getAttributesWithFamily:family];
-    [self tagEvent:eventName withAttributes:attributeDictionary];
+    [self tagEvent:eventName
+    withAttributes:attributeDictionary];
 }
 
 + (void)tagEvent:(NSString *)eventName
@@ -104,7 +112,9 @@
 }
 
 + (void)tagEvent:(NSString *)eventName {
-    [self tagEvent:eventName withAttributes:nil];
+    [self tagEvent:eventName
+    withAttributes:nil];
 }
+
 
 @end

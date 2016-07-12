@@ -220,7 +220,7 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
                                  NSString *membershipTypeString = [Guardian membershipStringFromType:guardian.membershipType];
 
                                  [LEOAnalyticEvent tagEvent:kAnalyticEventLogin
-                                             withAttributes:@{@"Membership Type" : membershipTypeString}];
+                                             withAttributes:@{kAnalyticAttributeMembershipType : membershipTypeString}];
 
                                  // Response to successful login is handled by a @"membership-changed" notification listener in AppDelegate
 

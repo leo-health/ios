@@ -8,7 +8,6 @@
 
 #import "LEOAnalyticIntent.h"
 #import "LEOSession.h"
-#import "Family.h"
 #import "Family+Analytics.h"
 #import "Guardian+Analytics.h"
 
@@ -18,7 +17,8 @@
   withAttributes:(NSDictionary *)attributeDictionary {
     
     eventName = [@"Intent: " stringByAppendingString:eventName];
-    [super tagEvent:eventName withAttributes:attributeDictionary];
+    [super tagEvent:eventName
+     withAttributes:attributeDictionary];
 }
 
 

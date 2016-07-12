@@ -108,10 +108,9 @@
 
 - (NSArray *)patientsSortedByAscendingAge {
     
-    NSArray *patients = self.patients;
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"dob" ascending:NO];
     
-    return [patients sortedArrayUsingDescriptors:@[sortDescriptor]];
+    return [self.patients sortedArrayUsingDescriptors:@[sortDescriptor]];
 }
 
 @end

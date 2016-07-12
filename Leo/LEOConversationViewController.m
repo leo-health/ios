@@ -1086,11 +1086,11 @@ static NSString *const kDefaultPracticeID = @"0";
             
             if ([message isKindOfClass:[MessageImage class]]) {
                 [LEOAnalyticEvent tagEvent:kAnalyticEventSendImageMessage
-                            withAttributes:@{@"Membership Type" : membershipTypeString}];
+                            withAttributes:@{kAnalyticAttributeMembershipType : membershipTypeString}];
             }
             else if ([message isKindOfClass:[MessageText class]]) {
                 [LEOAnalyticEvent tagEvent:kAnalyticEventSendTextMessage
-                            withAttributes:@{@"Membership Type" : membershipTypeString}];
+                            withAttributes:@{kAnalyticAttributeMembershipType : membershipTypeString}];
             }
 
             [[self conversation] addMessage:responseMessage];

@@ -521,4 +521,7 @@ NSString *const kAnalyticAgeGroupFiveThirteen = @"Older than 5 & younger than 13
 NSString *const kAnalyticAgeGroupThirteenEighteen = @"Older than 13 & younger than 18";
 NSString *const kAnalyticAgeGroupEighteenPlus = @"Older than 18";
 
+NSString *const kAnalyticAttributeChangedMoreThanAppointmentTime = @"Did change more than appointment time";
+NSString *const kAnalyticAttributeMembershipType = @"Membership type";
+
 @end
