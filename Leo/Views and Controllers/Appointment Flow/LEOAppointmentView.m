@@ -402,7 +402,7 @@ static NSString * const kValidationDateTimeOfVisit = @"Please complete the field
 
 - (void)setupTouchEventForDismissingKeyboard {
 
-    UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(viewTapped)];
+    UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(leo_viewTapped)];
 
     tapGestureForTextFieldDismissal.cancelsTouchesInView = NO;
     [self addGestureRecognizer:tapGestureForTextFieldDismissal];

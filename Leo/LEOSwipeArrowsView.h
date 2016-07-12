@@ -15,7 +15,6 @@ typedef NS_ENUM(NSInteger, LEOSwipeArrowsColorOption) {
     LEOSwipeArrowsColorOptionOrangeRed,
 };
 
-@property (weak, nonatomic) IBOutlet UILabel *labelSwipe;
 @property (weak, nonatomic) IBOutlet UIImageView *arrowTop;
 @property (weak, nonatomic) IBOutlet UIImageView *arrowMiddle;
 @property (weak, nonatomic) IBOutlet UIImageView *arrowBottom;

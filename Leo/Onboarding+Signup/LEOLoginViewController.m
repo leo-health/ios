@@ -11,6 +11,7 @@
 #import "UIFont+LeoFonts.h"
 #import "UIColor+LeoColors.h"
 #import "LEOHeaderView.h"
+#import "LEOHorizontalModalTransitioningDelegate.h"
 
 #import "UIImage+Extensions.h"
 #import "LEOUserService.h"
@@ -33,8 +34,8 @@
 
 @interface LEOLoginViewController ()
 
-@property (strong, nonatomic) LEOLoginView *loginView;
-@property (strong, nonatomic) LEOHeaderView *headerView;
+@property (strong, nonatomic) LEOHorizontalModalTransitioningDelegate *transitioningDelegate;
+@property (nonatomic) BOOL alreadyUpdatedConstraints;
 
 @end
 
@@ -47,29 +48,25 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
 - (void)viewDidLoad {
 
     [super viewDidLoad];
-
-    [self.view setupTouchEventForDismissingKeyboard];
-
-    self.feature = FeatureOnboarding;
-    self.automaticallyAdjustsScrollViewInsets = NO;
-
-    self.stickyHeaderView.snapToHeight = @(0);
-    self.stickyHeaderView.datasource = self;
-    self.stickyHeaderView.delegate = self;
-
-    [self setupNavigationBar];
-
+    [self setupTouchEventForDismissingKeyboard];
     [self addNotifications];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)setupTouchEventForDismissingKeyboard {
 
-    [super viewWillAppear:animated];
-    [self setupNavigationBar];
+    UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(leo_viewTapped)];
+    tapGestureForTextFieldDismissal.cancelsTouchesInView = NO;
+    [self.view addGestureRecognizer:tapGestureForTextFieldDismissal];
+}
 
-    CGFloat percentage = [self transitionPercentageForScrollOffset:self.stickyHeaderView.scrollView.contentOffset];
+- (void)leo_viewTapped {
 
-    self.navigationItem.titleView.hidden = percentage == 0;
+    [self.view endEditing:YES];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self.view endEditing:YES];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -115,25 +112,6 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
     }];
 }
 
-- (void)setupNavigationBar {
-    [LEOStyleHelper styleNavigationBarForViewController:self forFeature:self.feature withTitleText:@"Login" dismissal:NO backButton:YES];
-}
-
-
-#pragma mark - Accessors
-
-- (LEOHeaderView *)headerView {
-
-    if (!_headerView) {
-
-        _headerView = [[LEOHeaderView alloc] initWithTitleText:@"Login to your Leo account"];
-        _headerView.intrinsicHeight = @(kHeightOnboardingHeaders);
-        [LEOStyleHelper styleExpandedTitleLabel:_headerView.titleLabel feature:self.feature];
-    }
-
-    return _headerView;
-}
-
 - (LEOLoginView *)loginView {
 
     if (!_loginView) {
@@ -145,28 +123,6 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
     return _loginView;
 }
 
-
-#pragma mark - <LEOStickyHeaderViewDataSource>
-
-- (UIView *)injectBodyView {
-    return self.loginView;
-}
-
-- (UIView *)injectTitleView {
-    return self.headerView;
-}
-
-
-#pragma mark - <LEOStickyHeaderViewDelegate>
-
--(void)updateTitleViewForScrollTransitionPercentage:(CGFloat)transitionPercentage {
-
-    self.headerView.currentTransitionPercentage = transitionPercentage;
-    self.navigationItem.titleView.hidden = NO;
-    self.navigationItem.titleView.alpha = transitionPercentage;
-}
-
-
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -174,16 +130,16 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
 
     if ([segue.identifier isEqualToString:kForgotPasswordSegue]) {
 
-        LEOForgotPasswordViewController *forgotPasswordVC = segue.destinationViewController;
+        UINavigationController *navController = segue.destinationViewController;
+
+        self.transitioningDelegate = [[LEOHorizontalModalTransitioningDelegate alloc] init];
+
+        navController.transitioningDelegate = self.transitioningDelegate;
+        navController.modalPresentationStyle = UIModalPresentationFullScreen;
+
+        LEOForgotPasswordViewController *forgotPasswordVC = navController.viewControllers.firstObject;
         forgotPasswordVC.email = self.emailTextField.text;
     }
-}
-
-
-#pragma mark - Actions
-
-- (void)pop {
-    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)continueTapped:(id)sender {
@@ -248,11 +204,6 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
                               sender:sender];
 }
 
--(void)viewWillDisappear:(BOOL)animated {
-    [self.view endEditing:YES];
-}
-
-
 #pragma mark - Shorthand Helpers
 
 - (LEOValidatedFloatLabeledTextField *)emailTextField {
@@ -262,7 +213,6 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
 - (LEOValidatedFloatLabeledTextField *)passwordTextField {
     return self.loginView.passwordPromptField.textField;
 }
-
 
 #pragma mark - Notifications
 
@@ -290,6 +240,32 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
     [self removeNotifications];
 }
 
+
+- (void)updateViewConstraints {
+
+    [super updateViewConstraints];
+
+    if (!self.alreadyUpdatedConstraints) {
+
+        self.loginView.translatesAutoresizingMaskIntoConstraints = NO;
+        [self.view addSubview:_loginView];
+
+        NSDictionary *bindings = NSDictionaryOfVariableBindings(_loginView);
+
+        [self.view addConstraints:
+         [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_loginView]|"
+                                                 options:0
+                                                 metrics:nil
+                                                   views:bindings]];
+        [self.view addConstraints:
+         [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_loginView]|"
+                                                 options:0
+                                                 metrics:nil
+                                                   views:bindings]];
+
+        self.alreadyUpdatedConstraints = YES;
+    }
+}
 
 
 @end

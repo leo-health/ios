@@ -246,7 +246,6 @@ static NSString * const kCopyHeaderSignUpUser = @"Tell us a little about yoursel
 }
 
 - (void)pop {
-
     [self.navigationController popViewControllerAnimated:YES];
 }
 

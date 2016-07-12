@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "LEOPromptField.h"
-#import "LEOStickyHeaderViewController.h"
+#import "LEOLoginView.h"
 
-@interface LEOLoginViewController : LEOStickyHeaderViewController <UITextFieldDelegate, UIScrollViewDelegate, LEOStickyHeaderDataSource, LEOStickyHeaderDelegate>
+@interface LEOLoginViewController : UIViewController <UITextFieldDelegate>
+
+@property (strong, nonatomic) LEOLoginView *loginView;
 
 @end

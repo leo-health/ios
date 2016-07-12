@@ -13,15 +13,15 @@
 #import "LEOSettingsService.h"
 #import "Configuration.h"
 #import "LEOAlertHelper.h"
-#import "LEOSession.h"
 #import "LEOAnalytic.h"
 
-static NSString *const kSegueLogin = @"LoginSegue";
 static NSString *const kSegueSignUp = @"SignUpSegue";
 
-@interface LEOLoggedOutOnboardingViewController () <UICollectionViewDelegateFlowLayout>
+@interface LEOLoggedOutOnboardingViewController () <UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, UICollectionViewDataSource, LEOLoginViewDelegate>
 
+@property (weak, nonatomic) UICollectionView *collectionView;
 @property (strong, nonatomic) LEOHorizontalModalTransitioningDelegate *transitioningDelegate;
+@property (nonatomic) BOOL alreadyUpdatedConstraints;
 
 @end
 
@@ -49,33 +49,69 @@ static NSString * const reuseIdentifierSignup = @"reuseIdentifierSignup";
 static NSString * const reuseIdentifierFeature = @"reuseIdentifierFeature";
 
 - (void)viewDidLoad {
-
     [super viewDidLoad];
 
     [LEOAnalytic tagType:LEOAnalyticTypeScreen
                     name:kAnalyticScreenProductPreview];
 
-    [self.collectionView registerNib:[LEOLoggedOutLoginCell nib] forCellWithReuseIdentifier:reuseIdentifierLogin];
-    [self.collectionView registerNib:[LEOLoggedOutSignUpCell nib] forCellWithReuseIdentifier:reuseIdentifierSignup];
-    [self.collectionView registerNib:[LEOLoggedOutOnboardingCell nib] forCellWithReuseIdentifier:reuseIdentifierFeature];
-
-    self.collectionView.pagingEnabled = YES;
-    self.collectionView.bounces = NO;
-    UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
-    layout.minimumInteritemSpacing = 0;
-    layout.minimumLineSpacing = 0;
-
-    self.collectionView.backgroundColor = [UIColor leo_white];
-
+    // NOTE: AF
+    // reset configuration to ensure that we don't attempt to re-use a vendor ID
+    // I don't think we actually need this (it only gets called once), but keeping it here to be safe
     [Configuration resetConfiguration];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    
-    [super viewDidAppear:animated];
-    #ifdef LOCAL
-    [self scrollToBottom];
-    #endif
+- (UICollectionView *)collectionView {
+
+    if (!_collectionView) {
+
+        UICollectionViewFlowLayout *layout = [UICollectionViewFlowLayout new];
+        layout.minimumInteritemSpacing = 0;
+        layout.minimumLineSpacing = 0;
+
+        UICollectionView *collectionView = [[UICollectionView alloc]
+                                            initWithFrame:CGRectZero
+                                            collectionViewLayout:layout];
+        _collectionView = collectionView;
+
+        _collectionView.delegate = self;
+        _collectionView.dataSource = self;
+        _collectionView.pagingEnabled = YES;
+        _collectionView.bounces = YES;
+        _collectionView.backgroundColor = [UIColor leo_white];
+
+        [_collectionView registerNib:[LEOLoggedOutLoginCell nib]
+          forCellWithReuseIdentifier:reuseIdentifierLogin];
+        [_collectionView registerNib:[LEOLoggedOutSignUpCell nib]
+          forCellWithReuseIdentifier:reuseIdentifierSignup];
+        [_collectionView registerNib:[LEOLoggedOutOnboardingCell nib]
+          forCellWithReuseIdentifier:reuseIdentifierFeature];
+
+        [self.view addSubview:_collectionView];
+    }
+
+    return _collectionView;
+}
+
+- (void)updateViewConstraints {
+
+    if (!self.alreadyUpdatedConstraints) {
+
+        self.collectionView.translatesAutoresizingMaskIntoConstraints = NO;
+        NSDictionary *views = NSDictionaryOfVariableBindings(_collectionView);
+        [self.view addConstraints:
+         [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_collectionView]|"
+                                                 options:0
+                                                 metrics:nil views:views]];
+        [self.view addConstraints:
+         [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_collectionView]|"
+                                                 options:0
+                                                 metrics:nil
+                                                   views:views]];
+
+        self.alreadyUpdatedConstraints = YES;
+    }
+
+    [super updateViewConstraints];
 }
 
 - (void)scrollToBottom {
@@ -95,9 +131,11 @@ static NSString * const reuseIdentifierFeature = @"reuseIdentifierFeature";
 
 }
 
-#pragma mark <UICollectionViewDataSource>
+#pragma mark UICollectionViewDataSource
 
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+- (CGSize)collectionView:(UICollectionView *)collectionView
+                  layout:(UICollectionViewLayout *)collectionViewLayout
+  sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     return collectionView.bounds.size;
 }
 
@@ -118,10 +156,8 @@ static NSString * const reuseIdentifierFeature = @"reuseIdentifierFeature";
         case OnboardingCellFeatureLogin: {
 
             LEOLoggedOutLoginCell *_cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifierLogin forIndexPath:indexPath];
-            [_cell.loginButton addTarget:self action:@selector(loginTouchedUpInside:) forControlEvents:UIControlEventTouchUpInside];
-
+            _cell.contentViewController.loginView.delegate = self;
             cell = _cell;
-
             break;
         }
 
@@ -187,13 +223,33 @@ static NSString * const reuseIdentifierFeature = @"reuseIdentifierFeature";
     return cell;
 }
 
+#pragma mark UICollectionViewDelegate
+
+- (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
+    if ([cell isKindOfClass:[LEOLoggedOutLoginCell class]]) {
+        [(LEOLoggedOutLoginCell *)cell addViewControllerToParentViewController:self];
+    }
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [self.view endEditing:YES];
+}
+
 # pragma mark  -  Navigation
+
+- (void)didTapArrowView:(id)sender {
+
+    NSIndexPath *path = [NSIndexPath indexPathForRow:1 inSection:0];
+    [self.collectionView scrollToItemAtIndexPath:path
+                                atScrollPosition:UICollectionViewScrollPositionTop
+                                        animated:YES];
+}
 
 - (void)loginTouchedUpInside:(UIButton *)sender {
 
     [LEOBreadcrumb crumbWithFunction:__PRETTY_FUNCTION__];
 
-    [self performSegueWithIdentifier:kSegueLogin sender:self];
+    [self.collectionView setContentOffset:CGPointZero animated:YES];
 }
 
 - (void)signupTouchedUpInside:(UIButton *)sender {
@@ -211,5 +267,6 @@ static NSString * const reuseIdentifierFeature = @"reuseIdentifierFeature";
     navController.transitioningDelegate = self.transitioningDelegate;
     navController.modalPresentationStyle = UIModalPresentationFullScreen;
 }
+
 
 @end

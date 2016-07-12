@@ -1,52 +1,52 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="EQF-WD-ZCd">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="8Fk-zu-V2f">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <scenes>
-        <!--Logged Out Onboarding View Controller-->
-        <scene sceneID="9wU-Mk-dSB">
+        <!--Navigation Controller-->
+        <scene sceneID="4oj-yX-Pcv">
             <objects>
-                <collectionViewController id="EQF-WD-ZCd" customClass="LEOLoggedOutOnboardingViewController" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="a8g-iD-zjK">
+                <navigationController id="9XK-cL-mWK" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Fd8-Fl-Iph">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="4pw-zj-vOi" kind="relationship" relationship="rootViewController" id="hJ5-iM-Zq4"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Vff-Rx-ied" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3016" y="461"/>
+        </scene>
+        <!--Logged Out Onboarding View Controller-->
+        <scene sceneID="tWF-0X-uqu">
+            <objects>
+                <viewController id="8Fk-zu-V2f" customClass="LEOLoggedOutOnboardingViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="zKk-Kq-Ujw"/>
+                        <viewControllerLayoutGuide type="bottom" id="F61-5r-M1H"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="35R-ly-qT8">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="RGE-45-AnW">
-                            <size key="itemSize" width="50" height="50"/>
-                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                        </collectionViewFlowLayout>
-                        <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Fty-h2-RIo">
-                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </view>
-                            </collectionViewCell>
-                        </cells>
-                        <connections>
-                            <outlet property="dataSource" destination="EQF-WD-ZCd" id="bTd-FM-CLv"/>
-                            <outlet property="delegate" destination="EQF-WD-ZCd" id="ufV-iy-jQK"/>
-                        </connections>
-                    </collectionView>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="qTr-Mv-x8y"/>
                     <connections>
-                        <segue destination="TwR-f4-TgJ" kind="presentation" identifier="LoginSegue" id="vWD-ov-4Y7"/>
-                        <segue destination="kAV-P1-N9G" kind="presentation" identifier="SignUpSegue" id="23i-lu-xHn"/>
+                        <segue destination="kAV-P1-N9G" kind="show" identifier="SignUpSegue" id="5Bo-80-doy"/>
                     </connections>
-                </collectionViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="fkN-gi-0qE" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gKh-Ah-5xx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2292" y="487"/>
+            <point key="canvasLocation" x="2231" y="486"/>
         </scene>
-        <!--Login View Controller-->
+        <!--LEOLoginViewController-->
         <scene sceneID="gHN-ct-g8B">
             <objects>
-                <viewController id="i2Y-Hm-pta" customClass="LEOLoginViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LEOLoginViewController" title="LEOLoginViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="i2Y-Hm-pta" customClass="LEOLoginViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="kdr-5b-iSi"/>
                         <viewControllerLayoutGuide type="bottom" id="hKc-RC-6Pn"/>
@@ -58,12 +58,12 @@
                     </view>
                     <navigationItem key="navigationItem" id="nHU-1O-OXd"/>
                     <connections>
-                        <segue destination="4pw-zj-vOi" kind="show" identifier="ForgotPasswordSegue" id="sJh-pU-17g"/>
+                        <segue destination="9XK-cL-mWK" kind="show" identifier="ForgotPasswordSegue" id="FQV-Eu-cIE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="09T-gF-OZs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3864" y="487"/>
+            <point key="canvasLocation" x="2153" y="-389"/>
         </scene>
         <!--Enrollment View Controller-->
         <scene sceneID="RkA-i5-hJz">
@@ -350,25 +350,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Aly-du-uYg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4790" y="487"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="gGK-ey-R9d">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="TwR-f4-TgJ" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="3ns-2U-3aS">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="i2Y-Hm-pta" kind="relationship" relationship="rootViewController" id="BWZ-OX-uyn"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="P7K-Zl-QiF" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3108" y="487"/>
+            <point key="canvasLocation" x="3798" y="461"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="uet-hk-eOV">

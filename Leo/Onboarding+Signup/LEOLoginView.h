@@ -8,12 +8,20 @@
 
 #import <UIKit/UIKit.h>
 #import "LEOPromptField.h"
+#import "LEOSwipeArrowsView.h"
+
+@protocol LEOLoginViewDelegate <NSObject>
+
+- (void)didTapArrowView:(id)sender;
+
+@end
 
 @interface LEOLoginView : UIView <UITextFieldDelegate>
 
+@property (weak, nonatomic) id<LEOLoginViewDelegate> delegate;
+
+// TODO: LATER: refactor to "return" data instead of publicly exposing these views
 @property (weak, nonatomic) IBOutlet LEOPromptField *emailPromptField;
 @property (weak, nonatomic) IBOutlet LEOPromptField *passwordPromptField;
-@property (weak, nonatomic) IBOutlet UIButton *forgotPasswordButton;
-@property (weak, nonatomic) IBOutlet UIButton *continueButton;
 
 @end

@@ -20,15 +20,15 @@
                                          constant:0.0];
 }
 
-- (void)viewTapped {
-    
+- (void)leo_viewTapped {
     [self endEditing:YES];
 }
 
-//TODO: Eventually should move into a protocol or superclass potentially.
 - (void)setupTouchEventForDismissingKeyboard {
     
-    UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:nil action:@selector(viewTapped)];
+    UITapGestureRecognizer *tapGestureForTextFieldDismissal =
+    [[UITapGestureRecognizer alloc] initWithTarget:nil
+                                            action:@selector(leo_viewTapped)];
     
     tapGestureForTextFieldDismissal.cancelsTouchesInView = NO;
     [self addGestureRecognizer:tapGestureForTextFieldDismissal];
@@ -44,9 +44,17 @@
 
     NSDictionary *bindings = NSDictionaryOfVariableBindings(viewToPin);
 
-    [superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[viewToPin]|" options:0 metrics:nil views:bindings]];
+    [superview addConstraints:
+     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[viewToPin]|"
+                                             options:0
+                                             metrics:nil
+                                               views:bindings]];
 
-    [superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[viewToPin]|" options:0 metrics:nil views:bindings]];
+    [superview addConstraints:
+     [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[viewToPin]|"
+                                             options:0
+                                             metrics:nil
+                                               views:bindings]];
 }
 
 
