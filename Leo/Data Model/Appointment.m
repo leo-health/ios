@@ -131,7 +131,6 @@
 }
 
 - (void)schedule {
-
     [Localytics tagEvent:kAnalyticEventScheduleVisit];
 
     self.priorStatus = self.status;

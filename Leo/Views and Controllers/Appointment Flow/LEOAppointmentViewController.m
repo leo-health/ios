@@ -42,6 +42,8 @@
 #import "LEOCachedDataStore.h"
 #import "LEOAnalyticSession.h"
 #import "LEOAnalyticScreen.h"
+#import "LEOSession.h"
+#import "Guardian.h"
 
 @interface LEOAppointmentViewController ()
 
@@ -455,6 +457,9 @@ static NSString *const kKeySelectionVCDate = @"date";
 
     __weak LEOAppointmentViewController *weakself = self;
 
+    Guardian *guardian = [LEOSession user];
+    NSString *membershipTypeString = [Guardian membershipStringFromType:guardian.membershipType];
+    
     if (!self.appointment.objectID) {
 
         [appointmentService createAppointmentWithAppointment:self.appointment withCompletion:^(LEOCardAppointment * appointmentCard, NSError * error) {
@@ -463,8 +468,9 @@ static NSString *const kKeySelectionVCDate = @"date";
             self.submissionButton.enabled = YES;
 
             if (!error) {
-
-                [Localytics tagEvent:kAnalyticEventBookVisit attributes:@{@"start date" : self.appointment.date}];
+                
+                [Localytics tagEvent:kAnalyticEventBookVisit
+                          attributes:@{@"Membership Type" : membershipTypeString, @"start date" : self.appointment.date}];
                 weakself.card = appointmentCard;
                 [self.appointment book];
             }
@@ -478,7 +484,12 @@ static NSString *const kKeySelectionVCDate = @"date";
 
             if (!error) {
 
-                [Localytics tagEvent:kAnalyticEventRescheduleVisit];
+                Guardian *guardian = [LEOSession user];
+                NSString *membershipTypeString = [Guardian membershipStringFromType:guardian.membershipType];
+                
+                
+                [Localytics tagEvent:kAnalyticEventRescheduleVisit
+                          attributes:@{@"Membership Type" : membershipTypeString}];
                 weakself.card = appointmentCard;
                 [self.appointment book];
             }

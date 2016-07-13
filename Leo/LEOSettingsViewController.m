@@ -374,8 +374,12 @@ static NSString *const kCopyManageMySubscription = @"Manage my membership";
             
         case SettingsSectionLogout: {
 
+            Guardian *guardian = [LEOSession user];
+            NSString *mstring = [Guardian membershipStringFromType:guardian.membershipType];
+            
             [LEOBreadcrumb crumbWithObject:[NSString stringWithFormat:@"%s user requested logout", __PRETTY_FUNCTION__]];
-            [Localytics tagEvent:kAnalyticEventLogout];
+            [Localytics tagEvent:kAnalyticEventLogout
+                      attributes:@{@"Membership Type" : mstring}];
             
             [[LEOUserService new] logoutUserWithCompletion:nil];
             
