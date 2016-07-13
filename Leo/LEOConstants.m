@@ -454,10 +454,10 @@ NSString *const kAnalyticScreenAppointmentScheduling = @"Appointment Scheduling"
 NSString *const kAnalyticScreenAppointmentCalendar = @"Appointment Calendar";
 NSString *const kAnalyticScreenMessaging = @"Messaging";
 NSString *const kAnalyticScreenSettings = @"Settings";
-NSString *const kAnalyticScreenUpdatePassword = @"Update Password";
 NSString *const kAnalyticScreenHealthRecord = @"Health Record";
 NSString *const kAnalyticScreenHealthRecordNotes = @"Health Record Notes";
 NSString *const kAnalyticScreenAddPaymentMethod = @"Add Payment Method";
+NSString *const kAnalyticScreenUpdatePassword = @"Update password";
 
 NSString *const kAnalyticEventLogin = @"Login";
 NSString *const kAnalyticEventLogout = @"Logout";
@@ -473,7 +473,7 @@ NSString *const kAnalyticEventSendImageMessage = @"Send Image Message";
 NSString *const kAnalyticEventUpdatePassword = @"Update Password";
 NSString *const kAnalyticEventConfirmAccount = @"Confirm Account Details";
 NSString *const kAnalyticEventEditUserProfile = @"Edit User Profile";
-NSString *const kAnalyticEventResetPassword = @"Reset Password"; //success not guaranteed
+NSString *const kAnalyticEventResetPasswordFromLogin = @"Reset password from login"; //success not guaranteed
 NSString *const kAnalyticEventAddCaregiverFromSettings = @"Add Caregiver User From Settings";
 NSString *const kAnalyticEventAddCaregiverFromRegistration = @"Add Caregiver User From Registration";
 NSString *const kAnalyticEventCallUs = @"Call Us"; //success not guaranteed
@@ -489,8 +489,16 @@ NSString *const kAnalyticEventTakePhotoForMessage = @"Take Photo For Message"; /
 NSString *const kAnalyticEventConfirmPhotoForMessage = @"Confirm Photo For Message"; //success not guaranteed
 NSString *const kAnalyticEventCancelPhotoForMessage = @"Cancel Photo For Message"; // only captures partial data
 NSString *const kAnalyticEventSaveHealthRecordNotes = @"Save Health Record Notes";
-NSString *const kAnalyticEventAddPaymentMethod = @"Add Payment Method";
-NSString *const kAnalyticEventUpdatePaymentMethod = @"Update Payment Method";
+NSString *const kAnalyticEventChargeCard = @"Charge card";
+NSString *const kAnalyticEventUpdatePaymentChargeCard = @"Update Payment Method and Charge Card";
+NSString *const kAnalyticEventForgotPassword = @"Forgot password";
+NSString *const kAnalyticEventMessageUsFromTopOfPage = @"Accessed chat from top of dashboard";
+NSString *const kAnalyticEventMessageUsFromChatNotification = @"Accessed chat from chat notification card";
+NSString *const kAnalyticEventMessageUs = @"Message us";
+NSString *const kAnalyticEventViewTermsOfService = @"View terms of service";
+NSString *const kAnalyticEventDismissCancellationNotification = @"Dismissed cancellation notification on dashboard";
+NSString *const kAnalyticEventUpdatePasswordInSettings = @"Update password in settings";
+
 
 NSString *const kAnalyticEventConfirmPatientsInOnboarding = @"Confirm Patients";
 
@@ -506,5 +514,14 @@ NSString *const kAnalyticEventSwipeToThirdProductPreviewCell = @"Go To Third Pro
 NSString *const kAnalyticEventSwipeToFourthProductPreviewCell = @"Go To Fourth Product Preview Screen"; //NOT USED
 NSString *const kAnalyticEventSwipeToFifthProductPreviewCell = @"Go To Fifth Product Preview Screen"; //NOT USED
 
+
+NSString *const kAnalyticAgeGroupOneandAHalfToTwo = @"Older than 18 months & younger than 2";
+NSString *const kAnalyticAgeGroupTwoFive = @"Older than 2 & younger than 5";
+NSString *const kAnalyticAgeGroupFiveThirteen = @"Older than 5 & younger than 13";
+NSString *const kAnalyticAgeGroupThirteenEighteen = @"Older than 13 & younger than 18";
+NSString *const kAnalyticAgeGroupEighteenPlus = @"Older than 18";
+
+NSString *const kAnalyticAttributeChangedMoreThanAppointmentTime = @"Did change more than appointment time";
+NSString *const kAnalyticAttributeMembershipType = @"Membership type";
 
 @end

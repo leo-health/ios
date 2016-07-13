@@ -18,6 +18,7 @@
 #import "LEOAlertHelper.h"
 #import "LEOApiReachability.h"
 #import "LEOAnalyticScreen.h"
+#import "LEOAnalyticEvent.h"
 
 #define _UIKeyboardFrameEndUserInfoKey (&UIKeyboardFrameEndUserInfoKey != NULL ? UIKeyboardFrameEndUserInfoKey : @"UIKeyboardBoundsUserInfoKey")
 
@@ -133,8 +134,7 @@
 
 
                 if (!error) {
-
-                    [Localytics tagEvent:kAnalyticEventSaveHealthRecordNotes];
+                    [LEOAnalyticEvent tagEvent:kAnalyticEventSaveHealthRecordNotes];
 
                     self.editNoteCompletionBlock(updatedNote);
                     [self dismissViewControllerAnimated:YES completion:nil];
@@ -161,7 +161,8 @@
 
                 if (!error) {
 
-                    [Localytics tagEvent:kAnalyticEventSaveHealthRecordNotes];
+                    [LEOAnalyticEvent tagEvent:kAnalyticEventSaveHealthRecordNotes
+                                   withPatient:self.patient];
 
                     self.editNoteCompletionBlock(updatedNote);
                     [self dismissViewControllerAnimated:YES completion:nil];

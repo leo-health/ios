@@ -25,6 +25,7 @@
 #import "Configuration.h"
 #import "LEOAlertHelper.h"
 #import "LEOAnalyticScreen.h"
+#import "LEOAnalyticEvent.h"
 
 @interface LEOEnrollmentViewController ()
 
@@ -209,9 +210,8 @@ static NSString * const kCopyCollapsedHeaderEnrollment = @"Create an account";
 
                     if (success) {
 
-                        [Localytics tagEvent:kAnalyticEventEnroll];
-
                         self.guardian = guardian;
+                        [LEOAnalyticEvent tagEvent:kAnalyticEventEnroll];
 
                         [self performSegueWithIdentifier:kSegueContinue
                                                   sender:sender];

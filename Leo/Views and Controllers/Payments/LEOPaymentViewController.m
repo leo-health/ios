@@ -21,6 +21,7 @@
 #import "LEOUserService.h"
 #import "LEOSession.h"
 #import "LEOAnalyticScreen.h"
+#import "LEOAnalyticIntent.h"
 
 #import <MBProgressHUD/MBProgressHUD.h>
 
@@ -218,8 +219,9 @@ NSString *const kCopyEditPaymentsHeader = @"Update your credit or debit card";
                                              animated:YES];
 
                         [strongSelf.navigationController popViewControllerAnimated:YES];
-
-                        [Localytics tagEvent:kAnalyticEventAddPaymentMethod];
+                        
+                        [LEOAnalyticIntent tagEvent:kAnalyticEventChargeCard
+                                        withFamily:self.family];
 
                     }
                         break;
@@ -241,7 +243,8 @@ NSString *const kCopyEditPaymentsHeader = @"Update your credit or debit card";
 
                                 [LEOSession updateCurrentSessionWithGuardian:guardian];
 
-                                [Localytics tagEvent:kAnalyticEventAddPaymentMethod];
+                                [LEOAnalyticIntent tagEvent:kAnalyticEventChargeCard
+                                                withFamily:self.family];
 
                                 [MBProgressHUD hideHUDForView:strongSelf.view
                                                      animated:YES];

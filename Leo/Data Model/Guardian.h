@@ -32,6 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSDictionary *)dictionaryFromUser:(Guardian *)guardian;
 
++ (NSString *)membershipStringFromType:(MembershipType)membershipType;
 - (void)incrementLoginCounter;
 - (void)saveToUserDefaults;
 + (void)removeFromUserDefaults;

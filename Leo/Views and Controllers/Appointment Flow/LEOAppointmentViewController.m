@@ -29,6 +29,7 @@
 
 #import "AppointmentType.h"
 #import "Appointment.h"
+#import "Appointment+Analytics.h"
 #import "Patient.h"
 #import "Slot.h"
 #import "Practice.h"
@@ -42,6 +43,10 @@
 #import "LEOCachedDataStore.h"
 #import "LEOAnalyticSession.h"
 #import "LEOAnalyticScreen.h"
+#import "LEOSession.h"
+#import "Guardian.h"
+#import "LEOAnalyticEvent.h"
+#import "LEOAnalyticIntent.h"
 
 @interface LEOAppointmentViewController ()
 
@@ -52,6 +57,7 @@
 
 @property (nonatomic) BOOL didLayoutSubviewsOnce;
 @property (strong, nonatomic) LEOAnalyticSession *analyticSession;
+@property (copy, nonatomic) NSString *didChangeMoreThanAppointmentTime;
 
 @end
 
@@ -89,6 +95,7 @@ static NSString *const kKeySelectionVCDate = @"date";
 
     [super viewDidLoad];
 
+    self.didChangeMoreThanAppointmentTime = @"No";
     self.analyticSession = [LEOAnalyticSession startSessionWithSessionEventName:kAnalyticSessionScheduling];
     self.feature = FeatureAppointmentScheduling;
 
@@ -400,6 +407,10 @@ static NSString *const kKeySelectionVCDate = @"date";
 
 -(void)didUpdateItem:(id)item forKey:(NSString *)key {
 
+    if (![key isEqualToString:kKeySelectionVCSlot]){
+        self.didChangeMoreThanAppointmentTime = @"Yes";
+    }
+
     if ([key isEqualToString:kKeySelectionVCAppointmentType]) {
         self.appointmentView.appointmentType = item;
     }
@@ -454,7 +465,7 @@ static NSString *const kKeySelectionVCDate = @"date";
     self.submissionButton.enabled = NO;
 
     __weak LEOAppointmentViewController *weakself = self;
-
+    
     if (!self.appointment.objectID) {
 
         [appointmentService createAppointmentWithAppointment:self.appointment withCompletion:^(LEOCardAppointment * appointmentCard, NSError * error) {
@@ -463,8 +474,9 @@ static NSString *const kKeySelectionVCDate = @"date";
             self.submissionButton.enabled = YES;
 
             if (!error) {
-
-                [Localytics tagEvent:kAnalyticEventBookVisit attributes:@{@"start date" : self.appointment.date}];
+                
+                [LEOAnalyticEvent tagEvent:kAnalyticEventBookVisit
+                           withAppointment:self.appointment];
                 weakself.card = appointmentCard;
                 [self.appointment book];
             }
@@ -477,8 +489,11 @@ static NSString *const kKeySelectionVCDate = @"date";
             self.submissionButton.enabled = YES;
 
             if (!error) {
+                
+                [LEOAnalyticEvent tagEvent:kAnalyticEventRescheduleVisit
+                           withAppointment:self.appointment
+                             andAttributes:@{@"Did change more than appointment time": self.didChangeMoreThanAppointmentTime}];
 
-                [Localytics tagEvent:kAnalyticEventRescheduleVisit];
                 weakself.card = appointmentCard;
                 [self.appointment book];
             }

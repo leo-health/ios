@@ -33,6 +33,8 @@
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <Photos/Photos.h>
 #import "LEOAnalyticScreen.h"
+#import "LEOAnalyticEvent.h"
+#import "LEOAnalyticIntent.h"
 
 @interface LEOSignUpPatientViewController ()
 
@@ -235,13 +237,27 @@ static NSString *const kStatusBarNotificationAvatarUploadSuccess = @"Child profi
 #pragma mark - <RSKImageCropViewControllerDelegate>
 - (void)imagePreviewControllerDidCancel:(LEOImagePreviewViewController *)imagePreviewController {
 
-    [Localytics tagEvent:kAnalyticEventCancelPhotoForAvatar];
+    if (self.managementMode == ManagementModeCreate) {
+
+        [LEOAnalyticEvent tagEvent:kAnalyticEventCancelPhotoForAvatar];
+    } else {
+        [LEOAnalyticEvent tagEvent:kAnalyticEventCancelPhotoForAvatar
+                       withPatient:self.patient];
+    }
+
     [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)imagePreviewControllerDidConfirm:(LEOImagePreviewViewController *)imagePreviewController {
 
-    [Localytics tagEvent:kAnalyticEventConfirmPhotoForAvatar];
+    if (self.managementMode == ManagementModeCreate) {
+
+        [LEOAnalyticEvent tagEvent:kAnalyticEventConfirmPhotoForAvatar];
+    } else {
+        [LEOAnalyticEvent tagEvent:kAnalyticEventConfirmPhotoForAvatar
+                       withPatient:self.patient];
+    }
+
     [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
     self.signUpPatientView.patient.avatar.image = imagePreviewController.image;
 }
@@ -250,7 +266,7 @@ static NSString *const kStatusBarNotificationAvatarUploadSuccess = @"Child profi
       willShowViewController:(UIViewController *)viewController
                     animated:(BOOL)animated {
 
-    [LEOStyleHelper imagePickerController:navigationController willShowViewController:viewController forFeature:self.feature forImagePickerWithDismissTarget:self action:@selector(dismiss)];
+    [LEOStyleHelper imagePickerController:navigationController willShowViewController:viewController forFeature:self.feature forImagePickerWithDismissTarget:self action:@selector(imagePreviewControllerDidCancel:)];
 }
 
 - (void)dismiss {
@@ -310,14 +326,10 @@ static NSString *const kStatusBarNotificationAvatarUploadSuccess = @"Child profi
 
                     case ManagementModeCreate:
 
-                        [Localytics tagEvent:kAnalyticEventSaveNewPatientInSettings];
-
                         [self postPatient];
                         break;
 
                     case ManagementModeEdit:
-
-                        [Localytics tagEvent:kAnalyticEventEditPatientInSettings];
 
                         [self putPatientByUpdatingData:patientNeedsUpdate andByUpdatingAvatar:avatarNeedsUpdate];
                         break;
@@ -335,7 +347,8 @@ static NSString *const kStatusBarNotificationAvatarUploadSuccess = @"Child profi
 
                     case ManagementModeCreate: {
 
-                        [Localytics tagEvent:kAnalyticEventSaveNewPatientInRegistration];
+                        [LEOAnalyticIntent tagEvent:kAnalyticEventSaveNewPatientInRegistration
+                                       withPatient:self.patient];
 
                         [self finishLocalUpdate];
                     }
@@ -343,7 +356,8 @@ static NSString *const kStatusBarNotificationAvatarUploadSuccess = @"Child profi
 
                     case ManagementModeEdit: {
 
-                        [Localytics tagEvent:kAnalyticEventEditPatientInRegistration];
+                        [LEOAnalyticIntent tagEvent:kAnalyticEventEditPatientInRegistration
+                                        withPatient:self.patient];
 
                         [self.navigationController popViewControllerAnimated:YES];
                     }
@@ -372,6 +386,9 @@ static NSString *const kStatusBarNotificationAvatarUploadSuccess = @"Child profi
         if (!error) {
 
             //TODO: Let user know that patient was created successfully or not created successfully in settings only
+
+            [LEOAnalyticEvent tagEvent:kAnalyticEventSaveNewPatientInSettings
+                           withPatient:self.patient];
 
             LEOStatusBarNotification *successNotification = [LEOStatusBarNotification new];
 
@@ -460,6 +477,9 @@ static NSString *const kStatusBarNotificationAvatarUploadSuccess = @"Child profi
 
             if (success) {
 
+                [LEOAnalyticEvent tagEvent:kAnalyticEventEditPatientInSettings
+                               withPatient:self.patient];
+
                 if (shouldUpdateBoth) {
 
                     avatarUpdateBlock();
@@ -510,8 +530,13 @@ static NSString *const kStatusBarNotificationAvatarUploadSuccess = @"Child profi
     [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
 
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            if (self.managementMode == ManagementModeCreate) {
 
-            [Localytics tagEvent:kAnalyticEventChoosePhotoForAvatar];
+                [LEOAnalyticIntent tagEvent:kAnalyticEventChoosePhotoForAvatar];
+            } else {
+                [LEOAnalyticIntent tagEvent:kAnalyticEventChoosePhotoForAvatar
+                                withPatient:self.patient];
+            }
 
             UIImagePickerController *pickerController = [[UIImagePickerController alloc] init];
             pickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;

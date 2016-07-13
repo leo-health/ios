@@ -26,9 +26,13 @@
 #import "Conversation.h"
 #import "Message.h"
 #import "Family.h"
+#import "Family+Analytics.h"
 #import "Practice.h"
 #import "LEOSession.h"
 #import "AppointmentStatus.h"
+#import "Guardian.h"
+#import "Guardian+Analytics.h"
+#import "LEOAnalyticIntent.h"
 
 #import "UIColor+LeoColors.h"
 #import "UIImage+Extensions.h"
@@ -65,6 +69,7 @@
 #import "LEOMessageService.h"
 #import "LEOStatusBarNotification.h"
 #import "LEOAnalyticScreen.h"
+#import "LEOAnalyticEvent.h"
 
 typedef NS_ENUM(NSUInteger, TableViewSection) {
     TableViewSectionHeader,
@@ -647,6 +652,7 @@ static CGFloat const kFeedInsetTop = 20.0;
                 }
                 case ConversationStatusCodeOpen: {
 
+                    [LEOAnalyticEvent tagEvent:kAnalyticEventMessageUsFromChatNotification];
                     [LEOBreadcrumb crumbWithObject:[NSString stringWithFormat:@"%s conversation open", __PRETTY_FUNCTION__]];
                     [self loadChattingViewWithCard:card];
                     break;
@@ -670,11 +676,11 @@ static CGFloat const kFeedInsetTop = 20.0;
     NSString *practiceName = @"Flatiron Pediatrics"; // FIXME: where is the practice object stored?
     NSString *alertTitle = [NSString stringWithFormat:@"You are about to call \n%@\n%@", practiceName,
                             [LEOValidationsHelper formattedPhoneNumberFromPhoneNumber:kFlatironPediatricsPhoneNumber]];
-
+    
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:alertTitle message:nil preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:@"Call" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
 
-        [Localytics tagEvent:kAnalyticEventCallUs];
+        [LEOAnalyticIntent tagEvent:kAnalyticEventCallUs withFamily:self.family];
 
         NSString *phoneCallNum = [NSString stringWithFormat:@"tel://%@",kFlatironPediatricsPhoneNumber];
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneCallNum]];
@@ -731,7 +737,9 @@ static CGFloat const kFeedInsetTop = 20.0;
                                     withCompletion:^(NSDictionary * response, NSError * error) {
 
                                         if (!error) {
-                                            [Localytics tagEvent:kAnalyticEventCancelVisit];
+                                            [LEOAnalyticEvent tagEvent:kAnalyticEventCancelVisit
+                                                       withAppointment:card.associatedCardObject
+                                                             andFamily:self.family];
                                         }
 
                                         if (completionBlock) {
@@ -899,11 +907,13 @@ static CGFloat const kFeedInsetTop = 20.0;
 
 - (void)bookAppointmentTouchedUpInside {
 
+    [LEOAnalyticEvent tagEvent:kAnalyticEventScheduleVisit];
     [self beginSchedulingNewAppointment];
 }
 
 - (void)messageUsTouchedUpInside {
     
+    [LEOAnalyticEvent tagEvent:kAnalyticEventMessageUsFromTopOfPage];
     LEOCardConversation *conversationCard = [self findConversationCard];
     [self loadChattingViewWithCard:conversationCard];
 }
