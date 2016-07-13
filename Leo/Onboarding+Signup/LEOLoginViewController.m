@@ -28,6 +28,7 @@
 #import "Configuration.h"
 #import "LEOAlertHelper.h"
 #import "LEOAnalyticScreen.h"
+#import "LEOSession.h"
 
 @interface LEOLoginViewController ()
 
@@ -209,8 +210,12 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
                                  [Crittercism setUsername:[Configuration vendorID]];
                                  [Localytics setCustomerId:[Configuration vendorID]];
                                  [[Crashlytics sharedInstance] setUserIdentifier:[Configuration vendorID]];
+                                 
+                                 Guardian *guardian = [LEOSession user];
+                                 NSString *phoneNumber = guardian.phoneNumber;
 
-                                 [Localytics tagEvent:kAnalyticEventLogin];
+                                 [Localytics tagEvent:kAnalyticEventLogin
+                                           attributes:@{@"TestAttrib" : @"Test1", @"Phone Number" : phoneNumber}];
 
                                  // Response to successful login is handled by a @"membership-changed" notification listener in AppDelegate
 
