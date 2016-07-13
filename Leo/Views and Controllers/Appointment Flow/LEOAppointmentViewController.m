@@ -44,6 +44,8 @@
 #import "LEOAnalyticScreen.h"
 #import "LEOSession.h"
 #import "Guardian.h"
+#import "LEOAnalyticEvent.h"
+#import "LEOAnalyticIntent.h"
 
 @interface LEOAppointmentViewController ()
 
@@ -468,9 +470,10 @@ static NSString *const kKeySelectionVCDate = @"date";
             self.submissionButton.enabled = YES;
 
             if (!error) {
-                
-                [Localytics tagEvent:kAnalyticEventBookVisit
-                          attributes:@{@"Membership Type" : membershipTypeString, @"start date" : self.appointment.date}];
+
+                [LEOAnalyticEvent tagEvent:kAnalyticEventBookVisit
+                            withAttributes:@{@"Membership Type" : membershipTypeString,
+                                             @"start date" : self.appointment.date}];
                 weakself.card = appointmentCard;
                 [self.appointment book];
             }
@@ -487,9 +490,9 @@ static NSString *const kKeySelectionVCDate = @"date";
                 Guardian *guardian = [LEOSession user];
                 NSString *membershipTypeString = [Guardian membershipStringFromType:guardian.membershipType];
                 
+                [LEOAnalyticIntent tagEvent:kAnalyticEventRescheduleVisit
+                             withAttributes:@{@"Membership Type" : membershipTypeString}];
                 
-                [Localytics tagEvent:kAnalyticEventRescheduleVisit
-                          attributes:@{@"Membership Type" : membershipTypeString}];
                 weakself.card = appointmentCard;
                 [self.appointment book];
             }

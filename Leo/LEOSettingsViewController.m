@@ -375,12 +375,10 @@ static NSString *const kCopyManageMySubscription = @"Manage my membership";
             
         case SettingsSectionLogout: {
             
-            Family *family = self.family;
-            NSDictionary *eventAttributeDictionary = [LEOAnalyticIntent attributeDictionary:family];
-            
             [LEOBreadcrumb crumbWithObject:[NSString stringWithFormat:@"%s user requested logout", __PRETTY_FUNCTION__]];
-            [Localytics tagEvent:kAnalyticEventLogout
-                      attributes:eventAttributeDictionary];
+
+            [LEOAnalyticEvent tagEvent:kAnalyticEventLogout
+                            withFamily:self.family];
             
             [[LEOUserService new] logoutUserWithCompletion:nil];
             

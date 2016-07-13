@@ -10,6 +10,7 @@
 
 #import "LEOValidationsHelper.h"
 #import "Practice.h"
+#import "LEOAnalyticIntent.h"
 
 @implementation LEOCallManager
 
@@ -62,7 +63,7 @@ static NSString *const kActionButtonCancel = @"Cancel";
 
 + (void)callPractice:(Practice *)practice {
 
-    [Localytics tagEvent:kAnalyticEventCallUs];
+    [LEOAnalyticIntent tagEvent:kAnalyticEventCallUs];
 
     NSString *phoneCallNum = [NSString stringWithFormat:@"tel://%@",practice.phone];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneCallNum]];

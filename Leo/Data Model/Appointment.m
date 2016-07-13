@@ -16,6 +16,7 @@
 #import "Practice.h"
 #import "NSDictionary+Extensions.h"
 #import "AppointmentStatus.h"
+#import "LEOAnalyticEvent.h"
 
 @implementation Appointment
 
@@ -131,7 +132,7 @@
 }
 
 - (void)schedule {
-    [Localytics tagEvent:kAnalyticEventScheduleVisit];
+    [LEOAnalyticEvent tagEvent:kAnalyticEventScheduleVisit];
 
     self.priorStatus = self.status;
     self.status = [[AppointmentStatus alloc] initWithObjectID:nil name:@"Future" athenaCode:nil statusCode:AppointmentStatusCodeFuture];

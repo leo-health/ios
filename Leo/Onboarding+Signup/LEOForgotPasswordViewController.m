@@ -20,6 +20,7 @@
 #import "LEOHeaderView.h"
 #import "NSObject+XibAdditions.h"
 #import "LEOAnalyticScreen.h"
+#import "LEOAnalyticEvent.h"
 
 @interface LEOForgotPasswordViewController ()
 
@@ -149,7 +150,7 @@ NSString * const kCopyResetPasswordSubmissionResponse = @"If you have an account
         [userService resetPasswordWithEmail:self.forgotPasswordView.emailPromptField.textField.text withCompletion:^(NSDictionary * response, NSError * error) {
 
             self.forgotPasswordView.submitButton.hidden = YES;
-            [Localytics tagEvent:kAnalyticEventUpdatePassword];
+            [LEOAnalyticEvent tagEvent:kAnalyticEventUpdatePassword];
             self.forgotPasswordView.responseLabel.text = kCopyResetPasswordSubmissionResponse;
         }];
     }

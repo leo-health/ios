@@ -63,6 +63,7 @@
 #import "LEOHelperService.h"
 #import "LEONoticeService.h"
 #import "LEOAnalyticScreen.h"
+#import "LEOAnalyticIntent.h"
 
 @interface LEOConversationViewController ()
 
@@ -889,7 +890,7 @@ static NSString *const kDefaultPracticeID = @"0";
 
     [LEOBreadcrumb crumbWithObject:[NSString stringWithFormat:@"%s choose photo", __PRETTY_FUNCTION__]];
 
-    [Localytics tagEvent:kAnalyticEventChoosePhotoForMessage];
+    [LEOAnalyticIntent tagEvent:kAnalyticEventChoosePhotoForMessage];
 
     LEOTransitioningDelegate *strongTransitioningDelegate =
     [[LEOTransitioningDelegate alloc] initWithTransitionAnimatorType:TransitionAnimatorTypeCardPush];;
@@ -993,7 +994,8 @@ static NSString *const kDefaultPracticeID = @"0";
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
 
             [LEOBreadcrumb crumbWithObject:[NSString stringWithFormat:@"%s take photo", __PRETTY_FUNCTION__]];
-            [Localytics tagEvent:kAnalyticEventTakePhotoForMessage];
+            [LEOAnalyticIntent tagEvent:kAnalyticEventTakePhotoForMessage];
+
             UIImagePickerController *pickerController = [UIImagePickerController new];
             pickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
             pickerController.delegate = self;
@@ -1042,7 +1044,7 @@ static NSString *const kDefaultPracticeID = @"0";
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
 
     [LEOBreadcrumb crumbWithFunction:__PRETTY_FUNCTION__];
-    [Localytics tagEvent:kAnalyticEventCancelPhotoForMessage];
+    [LEOAnalyticEvent tagEvent:kAnalyticEventCancelPhotoForMessage];
 
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
@@ -1050,7 +1052,7 @@ static NSString *const kDefaultPracticeID = @"0";
 - (void)imagePreviewControllerDidCancel:(LEOImagePreviewViewController *)imagePreviewController {
 
     [LEOBreadcrumb crumbWithFunction:__PRETTY_FUNCTION__];
-    [Localytics tagEvent:kAnalyticEventConfirmPhotoForMessage];
+    [LEOAnalyticEvent tagEvent:kAnalyticEventConfirmPhotoForMessage];
 
     [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
 }
@@ -1083,11 +1085,12 @@ static NSString *const kDefaultPracticeID = @"0";
             NSString *membershipTypeString = [Guardian membershipStringFromType:guardian.membershipType];
             
             if ([message isKindOfClass:[MessageImage class]]) {
-                [Localytics tagEvent:kAnalyticEventSendImageMessage];
+                [LEOAnalyticEvent tagEvent:kAnalyticEventSendImageMessage
+                            withAttributes:@{@"Membership Type" : membershipTypeString}];
             }
             else if ([message isKindOfClass:[MessageText class]]) {
-                [Localytics tagEvent:kAnalyticEventSendTextMessage
-                          attributes:@{@"Membership Type" : membershipTypeString}];
+                [LEOAnalyticEvent tagEvent:kAnalyticEventSendTextMessage
+                            withAttributes:@{@"Membership Type" : membershipTypeString}];
             }
 
             [[self conversation] addMessage:responseMessage];

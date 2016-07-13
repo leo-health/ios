@@ -163,10 +163,8 @@ static NSString * const kSignUpPatientSegue = @"SignUpPatientSegue";
 
     if ([self.family.patients count] > 0) {
 
-        Family *family = self.family;
-        NSDictionary *eventAttributeDictionary = [LEOAnalyticIntent attributeDictionary:family];
-        [Localytics tagEvent:kAnalyticEventConfirmPatientsInOnboarding
-                  attributes:eventAttributeDictionary];
+        [LEOAnalyticIntent tagEvent:kAnalyticEventConfirmPatientsInOnboarding
+                         withFamily:self.family];
 
         [self performSegueWithIdentifier:kSegueContinue sender:sender];
     } else {

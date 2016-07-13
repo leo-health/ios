@@ -33,6 +33,8 @@
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <Photos/Photos.h>
 #import "LEOAnalyticScreen.h"
+#import "LEOAnalyticEvent.h"
+#import "LEOAnalyticIntent.h"
 
 @interface LEOSignUpPatientViewController ()
 
@@ -235,13 +237,13 @@ static NSString *const kStatusBarNotificationAvatarUploadSuccess = @"Child profi
 #pragma mark - <RSKImageCropViewControllerDelegate>
 - (void)imagePreviewControllerDidCancel:(LEOImagePreviewViewController *)imagePreviewController {
 
-    [Localytics tagEvent:kAnalyticEventCancelPhotoForAvatar];
+    [LEOAnalyticEvent tagEvent:kAnalyticEventCancelPhotoForAvatar];
     [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)imagePreviewControllerDidConfirm:(LEOImagePreviewViewController *)imagePreviewController {
 
-    [Localytics tagEvent:kAnalyticEventConfirmPhotoForAvatar];
+    [LEOAnalyticEvent tagEvent:kAnalyticEventConfirmPhotoForAvatar];
     [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
     self.signUpPatientView.patient.avatar.image = imagePreviewController.image;
 }
@@ -310,14 +312,14 @@ static NSString *const kStatusBarNotificationAvatarUploadSuccess = @"Child profi
 
                     case ManagementModeCreate:
 
-                        [Localytics tagEvent:kAnalyticEventSaveNewPatientInSettings];
+                        [LEOAnalyticEvent tagEvent:kAnalyticEventSaveNewPatientInSettings];
 
                         [self postPatient];
                         break;
 
                     case ManagementModeEdit:
 
-                        [Localytics tagEvent:kAnalyticEventEditPatientInSettings];
+                        [LEOAnalyticEvent tagEvent:kAnalyticEventEditPatientInSettings];
 
                         [self putPatientByUpdatingData:patientNeedsUpdate andByUpdatingAvatar:avatarNeedsUpdate];
                         break;
@@ -335,7 +337,7 @@ static NSString *const kStatusBarNotificationAvatarUploadSuccess = @"Child profi
 
                     case ManagementModeCreate: {
 
-                        [Localytics tagEvent:kAnalyticEventSaveNewPatientInRegistration];
+                        [LEOAnalyticEvent tagEvent:kAnalyticEventSaveNewPatientInRegistration];
 
                         [self finishLocalUpdate];
                     }
@@ -343,7 +345,7 @@ static NSString *const kStatusBarNotificationAvatarUploadSuccess = @"Child profi
 
                     case ManagementModeEdit: {
 
-                        [Localytics tagEvent:kAnalyticEventEditPatientInRegistration];
+                        [LEOAnalyticIntent tagEvent:kAnalyticEventEditPatientInRegistration];
 
                         [self.navigationController popViewControllerAnimated:YES];
                     }
@@ -511,7 +513,7 @@ static NSString *const kStatusBarNotificationAvatarUploadSuccess = @"Child profi
 
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
 
-            [Localytics tagEvent:kAnalyticEventChoosePhotoForAvatar];
+            [LEOAnalyticIntent tagEvent:kAnalyticEventChoosePhotoForAvatar];
 
             UIImagePickerController *pickerController = [[UIImagePickerController alloc] init];
             pickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;

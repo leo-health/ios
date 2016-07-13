@@ -220,11 +220,8 @@ NSString *const kCopyEditPaymentsHeader = @"Update your credit or debit card";
 
                         [strongSelf.navigationController popViewControllerAnimated:YES];
                         
-                        Family *family = self.family;
-                        NSDictionary *eventAttributeDictionary = [LEOAnalyticIntent attributeDictionary:family];
-                        
-                        [Localytics tagEvent:kAnalyticEventAddPaymentMethod
-                                  attributes:eventAttributeDictionary];
+                        [LEOAnalyticEvent tagEvent:kAnalyticEventAddPaymentMethod
+                                        withFamily:self.family];
 
                     }
                         break;
@@ -246,11 +243,8 @@ NSString *const kCopyEditPaymentsHeader = @"Update your credit or debit card";
 
                                 [LEOSession updateCurrentSessionWithGuardian:guardian];
 
-                                Family *family = self.family;
-                                NSDictionary *eventAttributeDictionary = [LEOAnalyticIntent attributeDictionary:family];
-                                
-                                [Localytics tagEvent:kAnalyticEventAddPaymentMethod
-                                          attributes:eventAttributeDictionary];
+                                [LEOAnalyticEvent tagEvent:kAnalyticEventAddPaymentMethod
+                                                withFamily:self.family];
 
                                 [MBProgressHUD hideHUDForView:strongSelf.view
                                                      animated:YES];

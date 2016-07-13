@@ -14,6 +14,7 @@
 #import <MBProgressHUD.h>
 #import "LEOStatusBarNotification.h"
 #import "LEOAnalyticScreen.h"
+#import "LEOAnalyticEvent.h"
 
 @interface LEOUpdatePasswordViewController ()
 
@@ -96,7 +97,7 @@
 
         if (success) {
 
-            [Localytics tagEvent:kAnalyticEventUpdatePassword];
+            [LEOAnalyticEvent tagEvent:kAnalyticEventUpdatePassword];
 
             LEOStatusBarNotification *successNotification = [LEOStatusBarNotification new];
 

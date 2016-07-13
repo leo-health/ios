@@ -30,6 +30,7 @@
 #import "LEOAnalyticScreen.h"
 #import "LEOSession.h"
 #import "Guardian.h"
+#import "LEOAnalyticEvent.h"
 
 @interface LEOLoginViewController ()
 
@@ -215,8 +216,8 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
                                  Guardian *guardian = [LEOSession user];
                                  NSString *membershipTypeString = [Guardian membershipStringFromType:guardian.membershipType];
 
-                                 [Localytics tagEvent:kAnalyticEventLogin
-                                           attributes:@{@"Membership Type" : membershipTypeString}];
+                                 [LEOAnalyticEvent tagEvent:kAnalyticEventLogin
+                                             withAttributes:@{@"Membership Type" : membershipTypeString}];
 
                                  // Response to successful login is handled by a @"membership-changed" notification listener in AppDelegate
 

@@ -167,11 +167,8 @@ static NSString * const kCopyHeaderAddCaregiver = @"Add another parent or caregi
 
                     if (self.feature == FeatureSettings) {
                         
-                        Family *family = self.family;
-                         NSDictionary *eventAttributeDictionary = [LEOAnalyticIntent attributeDictionary:family];
-                        
-                        [Localytics tagEvent:kAnalyticEventAddCaregiverFromSettings
-                                  attributes:eventAttributeDictionary];
+                        [LEOAnalyticEvent tagEvent:kAnalyticEventAddCaregiverFromSettings
+                                        withFamily:self.family];
 
                         LEOStatusBarNotification *successNotification = [LEOStatusBarNotification new];
                         [successNotification displayNotificationWithMessage:@"Additional caregiver successfully added to your family!"

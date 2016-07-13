@@ -171,16 +171,12 @@ static NSString * const kCopyHeaderSignUpUser = @"Tell us a little about yoursel
     if ([self.signUpUserView validView]) {
 
         [self updateGuardian];
-        
-        Family *family = self.family;
-        NSDictionary *eventAttributeDictionary =
-        [LEOAnalyticIntent attributeDictionary:family];
 
         switch (self.managementMode) {
             case ManagementModeCreate: {
             
-                [Localytics tagEvent:kAnalyticEventCompleteNewUserProfile
-                          attributes:eventAttributeDictionary];
+                [LEOAnalyticIntent tagEvent:kAnalyticEventCompleteNewUserProfile
+                          withFamily:self.family];
 
                 [self.family addGuardian:self.guardian];
 
@@ -190,8 +186,8 @@ static NSString * const kCopyHeaderSignUpUser = @"Tell us a little about yoursel
 
             case ManagementModeEdit: {
 
-                [Localytics tagEvent:kAnalyticEventEditUserProfile
-                          attributes:eventAttributeDictionary];
+                [LEOAnalyticIntent tagEvent:kAnalyticEventEditUserProfile
+                          withFamily:self.family];
 
                 [self.navigationController popViewControllerAnimated:YES];
             }

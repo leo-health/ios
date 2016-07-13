@@ -355,11 +355,8 @@ static NSString *const kReviewPaymentDetails = @"ReviewPaymentSegue";
                         attemptedAdditionOfCaregiver = YES;
                         
                         if (success) {
-                            Family *family = self.family;
-                            NSDictionary *eventAttributeDictionary =
-                            [LEOAnalyticIntent attributeDictionary:family];
-                            [Localytics tagEvent:kAnalyticEventAddCaregiverFromRegistration
-                                      attributes:eventAttributeDictionary];
+                            [LEOAnalyticIntent tagEvent:kAnalyticEventAddCaregiverFromRegistration
+                                             withFamily:self.family];
                         }
 
                         if (attemptedPatientCreation) {
@@ -393,11 +390,9 @@ static NSString *const kReviewPaymentDetails = @"ReviewPaymentSegue";
                 }];
 
                 if (!error || errorCode == 422) {
-                    Family *family = self.family;
-                    NSDictionary *eventAttributeDictionary =
-                    [LEOAnalyticIntent attributeDictionary:family];
-                    [Localytics tagEvent:kAnalyticEventConfirmAccount
-                              attributes:eventAttributeDictionary];
+                    [LEOAnalyticEvent tagEvent:kAnalyticEventConfirmAccount
+                                    withFamily:self.family];
+
                     [self.analyticSession completeSession];
                 }
             }];
