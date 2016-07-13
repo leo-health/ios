@@ -676,11 +676,11 @@ static CGFloat const kFeedInsetTop = 20.0;
     NSString *practiceName = @"Flatiron Pediatrics"; // FIXME: where is the practice object stored?
     NSString *alertTitle = [NSString stringWithFormat:@"You are about to call \n%@\n%@", practiceName,
                             [LEOValidationsHelper formattedPhoneNumberFromPhoneNumber:kFlatironPediatricsPhoneNumber]];
-
-    [LEOAnalyticIntent tagEvent:kAnalyticEventCallUs withFamily:self.family];
     
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:alertTitle message:nil preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:@"Call" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+
+        [LEOAnalyticIntent tagEvent:kAnalyticEventCallUs withFamily:self.family];
 
         NSString *phoneCallNum = [NSString stringWithFormat:@"tel://%@",kFlatironPediatricsPhoneNumber];
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneCallNum]];
