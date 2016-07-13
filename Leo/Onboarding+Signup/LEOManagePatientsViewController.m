@@ -27,6 +27,7 @@
 #import "LEOPromptFieldCell.h"
 #import "LEOProgressDotsHeaderView.h"
 #import "LEOAnalyticScreen.h"
+#import "LEOAnalyticIntent.h"
 
 @interface LEOManagePatientsViewController ()
 
@@ -162,7 +163,10 @@ static NSString * const kSignUpPatientSegue = @"SignUpPatientSegue";
 
     if ([self.family.patients count] > 0) {
 
-        [Localytics tagEvent:kAnalyticEventConfirmPatientsInOnboarding];
+        Family *family = self.family;
+        NSDictionary *eventAttributeDictionary = [LEOAnalyticIntent attributeDictionary:family];
+        [Localytics tagEvent:kAnalyticEventConfirmPatientsInOnboarding
+                  attributes:eventAttributeDictionary];
 
         [self performSegueWithIdentifier:kSegueContinue sender:sender];
     } else {

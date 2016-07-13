@@ -28,6 +28,7 @@
 
 #import "LEOAnalyticSession.h"
 #import "LEOAnalyticScreen.h"
+#import "LEOAnalyticIntent.h"
 
 typedef NS_ENUM(NSUInteger, SettingsSection) {
     
@@ -373,13 +374,13 @@ static NSString *const kCopyManageMySubscription = @"Manage my membership";
         }
             
         case SettingsSectionLogout: {
-
-            Guardian *guardian = [LEOSession user];
-            NSString *mstring = [Guardian membershipStringFromType:guardian.membershipType];
+            
+            Family *family = self.family;
+            NSDictionary *eventAttributeDictionary = [LEOAnalyticIntent attributeDictionary:family];
             
             [LEOBreadcrumb crumbWithObject:[NSString stringWithFormat:@"%s user requested logout", __PRETTY_FUNCTION__]];
             [Localytics tagEvent:kAnalyticEventLogout
-                      attributes:@{@"Membership Type" : mstring}];
+                      attributes:eventAttributeDictionary];
             
             [[LEOUserService new] logoutUserWithCompletion:nil];
             

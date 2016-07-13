@@ -32,6 +32,7 @@
 #import <TPKeyboardAvoidingScrollView.h>
 #import "LEOProgressDotsHeaderView.h"
 #import "LEOAnalyticScreen.h"
+#import "LEOAnalyticIntent.h"
 
 @interface LEOSignUpUserViewController ()
 
@@ -170,11 +171,16 @@ static NSString * const kCopyHeaderSignUpUser = @"Tell us a little about yoursel
     if ([self.signUpUserView validView]) {
 
         [self updateGuardian];
+        
+        Family *family = self.family;
+        NSDictionary *eventAttributeDictionary =
+        [LEOAnalyticIntent attributeDictionary:family];
 
         switch (self.managementMode) {
             case ManagementModeCreate: {
-
-                [Localytics tagEvent:kAnalyticEventCompleteNewUserProfile];
+            
+                [Localytics tagEvent:kAnalyticEventCompleteNewUserProfile
+                          attributes:eventAttributeDictionary];
 
                 [self.family addGuardian:self.guardian];
 
@@ -184,7 +190,8 @@ static NSString * const kCopyHeaderSignUpUser = @"Tell us a little about yoursel
 
             case ManagementModeEdit: {
 
-                [Localytics tagEvent:kAnalyticEventEditUserProfile];
+                [Localytics tagEvent:kAnalyticEventEditUserProfile
+                          attributes:eventAttributeDictionary];
 
                 [self.navigationController popViewControllerAnimated:YES];
             }

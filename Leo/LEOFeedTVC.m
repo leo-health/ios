@@ -733,12 +733,16 @@ static CGFloat const kFeedInsetTop = 20.0;
 - (void)removeCard:(LEOCard *)card fromDatabaseWithCompletion:(void (^)(NSDictionary *response, NSError *error))completionBlock {
 
     //TODO: Include the progress hud while waiting for deletion.
+    
+    Family *family = self.family;
+    NSDictionary *eventAttributeDictionary = [LEOAnalyticIntent attributeDictionary:family];
 
     [[LEOAppointmentService new] cancelAppointment:card.associatedCardObject
                                     withCompletion:^(NSDictionary * response, NSError * error) {
 
                                         if (!error) {
-                                            [Localytics tagEvent:kAnalyticEventCancelVisit];
+                                            [Localytics tagEvent:kAnalyticEventCancelVisit
+                                                      attributes:eventAttributeDictionary];
                                         }
 
                                         if (completionBlock) {

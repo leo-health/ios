@@ -27,8 +27,7 @@
                            @"Number of children older than 13 & younger than 18": @([family numberOfChildrenThirteenToEighteen]),
                            @"Number of children older than 18": @([family numberOfChildrenEighteenOrOlder]),
                            @"Primary guardian": [guardian isPrimaryString],
-                           @"Membership type": [guardian membershipTypeString],
-                           @"Number of times logged in": @(guardian.numTimesLoggedIn)};
+                           @"Membership type": [guardian membershipTypeString]};
     return attributeDictionary;
 }
 

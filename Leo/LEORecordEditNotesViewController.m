@@ -133,7 +133,6 @@
 
 
                 if (!error) {
-
                     [Localytics tagEvent:kAnalyticEventSaveHealthRecordNotes];
 
                     self.editNoteCompletionBlock(updatedNote);

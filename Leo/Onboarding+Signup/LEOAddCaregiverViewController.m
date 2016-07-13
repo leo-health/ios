@@ -25,6 +25,7 @@
 #import "UIFont+LeoFonts.h"
 #import "LEOAnalyticScreen.h"
 #import "LEOSession.h"
+#import "LEOAnalyticIntent.h"
 
 @interface LEOAddCaregiverViewController () <LEOStickyHeaderDataSource, LEOStickyHeaderDelegate>
 
@@ -165,13 +166,12 @@ static NSString * const kCopyHeaderAddCaregiver = @"Add another parent or caregi
                 if (success) {
 
                     if (self.feature == FeatureSettings) {
-
-                        Guardian *guardian = [LEOSession user];
-                        NSString *membershipTypeString = [Guardian membershipStringFromType:guardian.membershipType];
                         
+                        Family *family = self.family;
+                         NSDictionary *eventAttributeDictionary = [LEOAnalyticIntent attributeDictionary:family];
                         
                         [Localytics tagEvent:kAnalyticEventAddCaregiverFromSettings
-                                  attributes:@{@"Membership Type" : membershipTypeString}];
+                                  attributes:eventAttributeDictionary];
 
                         LEOStatusBarNotification *successNotification = [LEOStatusBarNotification new];
                         [successNotification displayNotificationWithMessage:@"Additional caregiver successfully added to your family!"
