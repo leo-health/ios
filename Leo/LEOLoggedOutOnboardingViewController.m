@@ -14,6 +14,7 @@
 #import "Configuration.h"
 #import "LEOAlertHelper.h"
 #import "LEOSession.h"
+#import "LEOAnalyticScreen.h"
 
 static NSString *const kSegueLogin = @"LoginSegue";
 static NSString *const kSegueSignUp = @"SignUpSegue";
@@ -51,7 +52,7 @@ static NSString * const reuseIdentifierFeature = @"reuseIdentifierFeature";
 
     [super viewDidLoad];
 
-    [Localytics tagScreen:kAnalyticScreenProductPreview];
+    [LEOAnalyticScreen tagScreen:kAnalyticScreenProductPreview];
 
     [self.collectionView registerNib:[LEOLoggedOutLoginCell nib] forCellWithReuseIdentifier:reuseIdentifierLogin];
     [self.collectionView registerNib:[LEOLoggedOutSignUpCell nib] forCellWithReuseIdentifier:reuseIdentifierSignup];

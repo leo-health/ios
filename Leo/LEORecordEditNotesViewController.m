@@ -17,6 +17,7 @@
 #import "UIButton+Extensions.h"
 #import "LEOAlertHelper.h"
 #import "LEOApiReachability.h"
+#import "LEOAnalyticScreen.h"
 
 #define _UIKeyboardFrameEndUserInfoKey (&UIKeyboardFrameEndUserInfoKey != NULL ? UIKeyboardFrameEndUserInfoKey : @"UIKeyboardBoundsUserInfoKey")
 
@@ -49,7 +50,7 @@
 
     [super viewDidAppear:animated];
 
-    [Localytics tagScreen:kAnalyticScreenHealthRecordNotes];
+    [LEOAnalyticScreen tagScreen:kAnalyticScreenHealthRecordNotes];
 
     [self.textView becomeFirstResponder];
 }

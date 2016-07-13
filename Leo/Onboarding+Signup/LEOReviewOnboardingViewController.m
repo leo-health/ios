@@ -47,6 +47,7 @@
 #import "LEOAlertHelper.h"
 
 #import "LEOSession.h"
+#import "LEOAnalyticScreen.h"
 
 @interface LEOReviewOnboardingViewController ()
 
@@ -101,7 +102,7 @@ static NSString *const kReviewPaymentDetails = @"ReviewPaymentSegue";
 
     [super viewDidAppear:animated];
 
-    [Localytics tagScreen:kAnalyticScreenReviewRegistration];
+    [LEOAnalyticScreen tagScreen:kAnalyticScreenReviewRegistration];
 
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:nil withOnlineBlock:nil];
 }

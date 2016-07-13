@@ -23,6 +23,7 @@
 #import "Guardian.h"
 #import "LEOAlertHelper.h"
 #import "UIFont+LeoFonts.h"
+#import "LEOAnalyticScreen.h"
 
 @interface LEOAddCaregiverViewController () <LEOStickyHeaderDataSource, LEOStickyHeaderDelegate>
 
@@ -63,7 +64,7 @@ static NSString * const kCopyHeaderAddCaregiver = @"Add another parent or caregi
 
     [super viewDidAppear:animated];
 
-    [Localytics tagScreen:kAnalyticScreenAddCaregiver];
+    [LEOAnalyticScreen tagScreen:kAnalyticScreenAddCaregiver];
 
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:nil withOnlineBlock:nil];
 }

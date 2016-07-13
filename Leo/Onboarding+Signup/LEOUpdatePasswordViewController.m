@@ -13,6 +13,7 @@
 #import "LEOAlertHelper.h"
 #import <MBProgressHUD.h>
 #import "LEOStatusBarNotification.h"
+#import "LEOAnalyticScreen.h"
 
 @interface LEOUpdatePasswordViewController ()
 
@@ -37,7 +38,7 @@
 
     [super viewDidAppear:animated];
 
-    [Localytics tagScreen:kAnalyticScreenUpdatePassword];
+    [LEOAnalyticScreen tagScreen:kAnalyticScreenUpdatePassword];
 
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:nil withOnlineBlock:nil];
 }

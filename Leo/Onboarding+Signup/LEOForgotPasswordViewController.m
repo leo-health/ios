@@ -19,6 +19,7 @@
 #import "LEOStyleHelper.h"
 #import "LEOHeaderView.h"
 #import "NSObject+XibAdditions.h"
+#import "LEOAnalyticScreen.h"
 
 @interface LEOForgotPasswordViewController ()
 
@@ -73,7 +74,7 @@ NSString * const kCopyResetPasswordSubmissionResponse = @"If you have an account
 
     [super viewDidAppear:animated];
 
-    [Localytics tagScreen:kAnalyticScreenForgotPassword];
+    [LEOAnalyticScreen tagScreen:kAnalyticScreenForgotPassword];
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:nil withOnlineBlock:nil];
 }
 

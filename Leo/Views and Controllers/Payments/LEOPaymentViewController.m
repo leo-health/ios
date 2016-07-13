@@ -20,6 +20,7 @@
 #import "NSObject+XibAdditions.h"
 #import "LEOUserService.h"
 #import "LEOSession.h"
+#import "LEOAnalyticScreen.h"
 
 #import <MBProgressHUD/MBProgressHUD.h>
 
@@ -64,7 +65,7 @@ NSString *const kCopyEditPaymentsHeader = @"Update your credit or debit card";
 
     [super viewDidAppear:animated];
 
-    [Localytics tagScreen:kAnalyticScreenAddPaymentMethod];
+    [LEOAnalyticScreen tagScreen:kAnalyticScreenAddPaymentMethod];
 
 }
 
