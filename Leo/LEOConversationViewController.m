@@ -1085,12 +1085,10 @@ static NSString *const kDefaultPracticeID = @"0";
             NSString *membershipTypeString = [Guardian membershipStringFromType:guardian.membershipType];
             
             if ([message isKindOfClass:[MessageImage class]]) {
-                [LEOAnalyticEvent tagEvent:kAnalyticEventSendImageMessage
-                            withMessage:message];
+                [LEOAnalyticEvent tagEvent:kAnalyticEventSendImageMessage];
             }
             else if ([message isKindOfClass:[MessageText class]]) {
-                [LEOAnalyticEvent tagEvent:kAnalyticEventSendTextMessage
-                            withMessage:message];
+                [LEOAnalyticEvent tagEvent:kAnalyticEventSendTextMessage];
             }
 
             [[self conversation] addMessage:responseMessage];

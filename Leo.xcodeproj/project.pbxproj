@@ -271,7 +271,6 @@
 		DE31E5EC1D36B9A800F028E4 /* Family+Analytics.m in Sources */ = {isa = PBXBuildFile; fileRef = DE31E5E61D36B9A800F028E4 /* Family+Analytics.m */; };
 		DE31E5ED1D36B9A800F028E4 /* Guardian+Analytics.m in Sources */ = {isa = PBXBuildFile; fileRef = DE31E5E81D36B9A800F028E4 /* Guardian+Analytics.m */; };
 		DE31E5EE1D36B9A800F028E4 /* Patient+Analytics.m in Sources */ = {isa = PBXBuildFile; fileRef = DE31E5EA1D36B9A800F028E4 /* Patient+Analytics.m */; };
-		DE31E5F11D36BC4E00F028E4 /* Message+Analytics.m in Sources */ = {isa = PBXBuildFile; fileRef = DE31E5F01D36BC4E00F028E4 /* Message+Analytics.m */; };
 		DE63951D1D18296C00D3DF71 /* TPKeyboardAvoidingCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = DE6395161D18296C00D3DF71 /* TPKeyboardAvoidingCollectionView.m */; };
 		DE63951E1D18296C00D3DF71 /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = DE6395181D18296C00D3DF71 /* TPKeyboardAvoidingScrollView.m */; };
 		DE63951F1D18296C00D3DF71 /* TPKeyboardAvoidingTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = DE63951A1D18296C00D3DF71 /* TPKeyboardAvoidingTableView.m */; };
@@ -816,8 +815,6 @@
 		DE31E5E81D36B9A800F028E4 /* Guardian+Analytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Guardian+Analytics.m"; path = "Data Model/Object Helpers/Guardian+Analytics.m"; sourceTree = "<group>"; };
 		DE31E5E91D36B9A800F028E4 /* Patient+Analytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Patient+Analytics.h"; path = "Data Model/Object Helpers/Patient+Analytics.h"; sourceTree = "<group>"; };
 		DE31E5EA1D36B9A800F028E4 /* Patient+Analytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Patient+Analytics.m"; path = "Data Model/Object Helpers/Patient+Analytics.m"; sourceTree = "<group>"; };
-		DE31E5EF1D36BC4E00F028E4 /* Message+Analytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Message+Analytics.h"; sourceTree = "<group>"; };
-		DE31E5F01D36BC4E00F028E4 /* Message+Analytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Message+Analytics.m"; sourceTree = "<group>"; };
 		DE6395151D18296C00D3DF71 /* TPKeyboardAvoidingCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TPKeyboardAvoidingCollectionView.h; path = OPC/TPKeyboardAvoiding/TPKeyboardAvoidingCollectionView.h; sourceTree = "<group>"; };
 		DE6395161D18296C00D3DF71 /* TPKeyboardAvoidingCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TPKeyboardAvoidingCollectionView.m; path = OPC/TPKeyboardAvoiding/TPKeyboardAvoidingCollectionView.m; sourceTree = "<group>"; };
 		DE6395171D18296C00D3DF71 /* TPKeyboardAvoidingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TPKeyboardAvoidingScrollView.h; path = OPC/TPKeyboardAvoiding/TPKeyboardAvoidingScrollView.h; sourceTree = "<group>"; };
@@ -1813,8 +1810,6 @@
 			children = (
 				DE31E5E31D36B9A800F028E4 /* Appointment+Analytics.h */,
 				DE31E5E41D36B9A800F028E4 /* Appointment+Analytics.m */,
-				DE31E5EF1D36BC4E00F028E4 /* Message+Analytics.h */,
-				DE31E5F01D36BC4E00F028E4 /* Message+Analytics.m */,
 				DE31E5E51D36B9A800F028E4 /* Family+Analytics.h */,
 				DE31E5E61D36B9A800F028E4 /* Family+Analytics.m */,
 				DE31E5E71D36B9A800F028E4 /* Guardian+Analytics.h */,
@@ -2320,7 +2315,6 @@
 				3115F1FC1BC71683001BDF6A /* LEOSettingsViewController.m in Sources */,
 				314AC6101B85274000BF6869 /* LEOApiReachability.m in Sources */,
 				315E12B01BB9B2B8001023F1 /* StickyView.m in Sources */,
-				DE31E5F11D36BC4E00F028E4 /* Message+Analytics.m in Sources */,
 				3138FC511B9A1A9B000FE22C /* LEOAPIInsuranceOperation.m in Sources */,
 				3138FC4E1B9A1A2E000FE22C /* LEOPromptField.m in Sources */,
 				31D62ED01B1D3ED500B4150A /* LEODateCell.m in Sources */,

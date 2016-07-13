@@ -11,8 +11,7 @@
 @implementation Patient (Analytics)
 
 - (NSDictionary *)getAttributes {
-    
-    
+
     NSDictionary *attributeDictionary =
     @{@"Age group": [self ageGroup],
       @"Gender": self.gender};
@@ -21,9 +20,15 @@
 }
 
 - (NSString *)ageGroup{
-    if ([self patientIsGreaterThanOrEqualToAge:0 andUnderAge:2]) {
+
+    for (NSInteger i=0; i<19; i++){
+        if ([self patientIsGreaterThanOrEqualToAgeInMonths:i andUnderAgeInMonths:i+1]){
+            return [NSString stringWithFormat:@"%ld months", (long)i];
+        }
+    }
+    if ([self patientIsGreaterThanOrEqualToAge:1 andUnderAge:2]) {
         
-        return kAnalyticAgeGroupZeroTwo;
+        return kAnalyticAgeGroupOneandAHalfToTwo;
     } else if ([self patientIsGreaterThanOrEqualToAge:2 andUnderAge:5]){
         
         return kAnalyticAgeGroupTwoFive;
@@ -48,6 +53,27 @@
     dateBornAfter.year = youngerThan * -1;
     dateBornBefore.year = olderThan * -1;
     
+    NSDate *bornAfter =
+    [[NSCalendar currentCalendar] dateByAddingComponents: dateBornAfter
+                                                  toDate: now
+                                                 options:0];
+    NSDate *bornBefore =
+    [[NSCalendar currentCalendar] dateByAddingComponents: dateBornBefore
+                                                  toDate: now
+                                                 options:0];
+
+    return ([self.dob timeIntervalSinceDate:bornAfter] > 0 && [bornBefore timeIntervalSinceDate:self.dob] > 0);
+}
+
+- (BOOL)patientIsGreaterThanOrEqualToAgeInMonths:(NSInteger)olderThan
+                             andUnderAgeInMonths:(NSInteger)youngerThan {
+
+    NSDate *now = [NSDate date];
+    NSDateComponents *dateBornAfter = [NSDateComponents new];
+    NSDateComponents *dateBornBefore = [NSDateComponents new];
+    dateBornAfter.month = youngerThan * -1;
+    dateBornBefore.month = olderThan * -1;
+
     NSDate *bornAfter =
     [[NSCalendar currentCalendar] dateByAddingComponents: dateBornAfter
                                                   toDate: now

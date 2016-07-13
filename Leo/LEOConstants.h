@@ -679,7 +679,7 @@ extern NSString *const kAnalyticEventSwipeToFourthProductPreviewCell; // @"Go To
 extern NSString *const kAnalyticEventSwipeToFifthProductPreviewCell; // @"Go To Fifth Product Preview Screen";
 
 
-extern NSString *const kAnalyticAgeGroupZeroTwo; // @"Older than 0 & younger than 2";
+extern NSString *const kAnalyticAgeGroupOneandAHalfToTwo; // @"Older than 18 months & younger than 2";
 extern NSString *const kAnalyticAgeGroupTwoFive; // @"Older than 2 & younger than 5";
 extern NSString *const kAnalyticAgeGroupFiveThirteen; // @"Older than 5 & younger than 13";
 extern NSString *const kAnalyticAgeGroupThirteenEighteen; // @"Older than 13 & younger than 18";

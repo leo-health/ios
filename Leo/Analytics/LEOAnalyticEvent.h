@@ -8,7 +8,7 @@
 
 #import "Appointment.h"
 
-@class Family, Message;
+@class Family;
 @interface LEOAnalyticEvent : NSObject
 
 + (NSDictionary *)getAttributesWithFamily:(Family *)family;
@@ -36,8 +36,5 @@
    andAttributes:(NSDictionary *)attributeDictionary;
 + (void)tagEvent:(NSString *)eventName
  withAppointment:(Appointment *)appointment;
-+ (void)tagEvent:(NSString *)eventName
-     withMessage:(Message *)message;
-
 
 @end
