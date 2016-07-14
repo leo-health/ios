@@ -58,6 +58,7 @@ NSString *const kAnalyticEventBookVisit = @"Book Visit";
 NSString *const kAnalyticEventRescheduleVisit = @"Reschedule Visit";
 NSString *const kAnalyticEventScheduleVisit = @"Schedule Visit"; //success not guaranteed - marks the start of the process of scheduling a NEW visit
 NSString *const kAnalyticEventCancelVisit = @"Cancel Visit";
+NSString *const kAnalyticEventChargeCard = @"Charge card";
 NSString *const kAnalyticEventChoosePhotoForAvatar = @"Choose Photo For Avatar";
 NSString *const kAnalyticEventConfirmPhotoForAvatar = @"Confirm Photo For Avatar"; //success not guaranteed
 NSString *const kAnalyticEventCancelPhotoForAvatar = @"Cancel Photo For Avatar"; //only captures partial data
@@ -65,9 +66,15 @@ NSString *const kAnalyticEventChoosePhotoForMessage = @"Choose Photo For Message
 NSString *const kAnalyticEventTakePhotoForMessage = @"Take Photo For Message"; //success not guaranteed
 NSString *const kAnalyticEventConfirmPhotoForMessage = @"Confirm Photo For Message"; //success not guaranteed
 NSString *const kAnalyticEventCancelPhotoForMessage = @"Cancel Photo For Message"; // only captures partial data
+NSString *const kAnalyticEventDismissCancellationNotification = @"Dismiss Appointment Cancellation Notification";
 NSString *const kAnalyticEventSaveHealthRecordNotes = @"Save Health Record Notes";
 NSString *const kAnalyticEventAddPaymentMethod = @"Add Payment Method";
+NSString *const kAnalyticEventMessageUsFromChatNotification = @"Message Us From Chat Notification";
+NSString *const kAnalyticEventMessageUsFromTopOfPage = @"Message Us From Top Of Dashboard";
+NSString *const kAnalyticEventResetPasswordFromLogin = @"Reset Password From Login";
 NSString *const kAnalyticEventUpdatePaymentMethod = @"Update Payment Method";
+NSString *const kAnalyticEventUpdatePasswordInSettings = @"Update Password In Settings";
+NSString *const kAnalyticEventUpdatePaymentChargeCard = @"Update Payment Method and Charge Card";
 
 NSString *const kAnalyticEventConfirmPatientsInOnboarding = @"Confirm Patients";
 
@@ -82,5 +89,14 @@ NSString *const kAnalyticEventSwipeToSecondProductPreviewCell = @"Go To Second P
 NSString *const kAnalyticEventSwipeToThirdProductPreviewCell = @"Go To Third Product Preview Screen"; //NOT USED
 NSString *const kAnalyticEventSwipeToFourthProductPreviewCell = @"Go To Fourth Product Preview Screen"; //NOT USED
 NSString *const kAnalyticEventSwipeToFifthProductPreviewCell = @"Go To Fifth Product Preview Screen"; //NOT USED
+
+NSString *const kAnalyticAgeGroupOneandAHalfToTwo = @"Older than 18 months & younger than 2";
+NSString *const kAnalyticAgeGroupTwoFive = @"Older than 2 & younger than 5";
+NSString *const kAnalyticAgeGroupFiveThirteen = @"Older than 5 & younger than 13";
+NSString *const kAnalyticAgeGroupThirteenEighteen = @"Older than 13 & younger than 18";
+NSString *const kAnalyticAgeGroupEighteenPlus = @"Older than 18";
+
+NSString *const kAnalyticAttributeMembershipType = @"Membership Type";
+
 
 @end

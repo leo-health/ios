@@ -67,15 +67,22 @@ extern NSString *const kAnalyticEventChoosePhotoForAvatar; // @"Choose Photo For
 extern NSString *const kAnalyticEventTakePhotoForAvatar; // @"Take Photo For Avatar";
 extern NSString *const kAnalyticEventConfirmPhotoForAvatar; // @"Confirm Photo For Avatar";
 extern NSString *const kAnalyticEventCancelPhotoForAvatar; // @"Cancel Photo For Avatar";
+extern NSString *const kAnalyticEventChargeCard; // @"Charge card";
 extern NSString *const kAnalyticEventChoosePhotoForMessage; // @"Choose Photo For Message";
 extern NSString *const kAnalyticEventTakePhotoForMessage; // @"Take Photo For Message";
 extern NSString *const kAnalyticEventConfirmPhotoForMessage; // @"Confirm Photo For Message";
 extern NSString *const kAnalyticEventCancelPhotoForMessage; // @"Cancel Photo For Message";
 extern NSString *const kAnalyticEventGoToHealthRecord; // @"Go To Health Records";
 extern NSString *const kAnalyticEventGoToHealthRecordNotes; // @"Go To Health Record Notes";
+extern NSString *const kAnalyticEventDismissCancellationNotification; // @"Dismiss Appointment Cancellation Notification";
 extern NSString *const kAnalyticEventSaveHealthRecordNotes; // @"Save Health Record Notes";
 extern NSString *const kAnalyticEventAddPaymentMethod; // @"Add Payment Method";
+extern NSString *const kAnalyticEventMessageUsFromChatNotification; // @"Message Us From Chat Notification";
+extern NSString *const kAnalyticEventMessageUsFromTopOfPage; // @"Message Us From Top Of Dashboard";
+extern NSString *const kAnalyticEventResetPasswordFromLogin; // @"Reset Password From Login";
 extern NSString *const kAnalyticEventUpdatePaymentMethod; // @"Update Payment Method";
+extern NSString *const kAnalyticEventUpdatePasswordInSettings; // @"Update Password In Settings";
+extern NSString *const kAnalyticEventUpdatePaymentChargeCard; // @"Update Payment Method and Charge Card";
 
 extern NSString *const kAnalyticEventConfirmPatientsInOnboarding; // @"Confirm Patients";
 
@@ -91,5 +98,12 @@ extern NSString *const kAnalyticEventSwipeToThirdProductPreviewCell; // @"Go To 
 extern NSString *const kAnalyticEventSwipeToFourthProductPreviewCell; // @"Go To Fourth Product Preview Screen";
 extern NSString *const kAnalyticEventSwipeToFifthProductPreviewCell; // @"Go To Fifth Product Preview Screen";
 
+extern NSString *const kAnalyticAgeGroupOneandAHalfToTwo; // @"Older than 18 months & younger than 2";
+extern NSString *const kAnalyticAgeGroupTwoFive; // @"Older than 2 & younger than 5";
+extern NSString *const kAnalyticAgeGroupFiveThirteen; // @"Older than 5 & younger than 13";
+extern NSString *const kAnalyticAgeGroupThirteenEighteen; // @"Older than 13 & younger than 18";
+extern NSString *const kAnalyticAgeGroupEighteenPlus; // @"Older than 18";
+
+extern NSString *const kAnalyticAttributeMembershipType; // @"Membership Type";
 
 @end
