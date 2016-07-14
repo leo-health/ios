@@ -12,6 +12,7 @@
 #import "Appointment+Analytics.h"
 #import "Patient+Analytics.h"
 #import "Family+Analytics.h"
+#import "Message+Analytics.h"
 
 @implementation LEOAnalyticEvent
 
@@ -114,6 +115,14 @@
 + (void)tagEvent:(NSString *)eventName {
     [self tagEvent:eventName
     withAttributes:nil];
+}
+
++ (void)tagEvent:(NSString *)eventName
+     withMessage:(Message *)message{
+
+    NSDictionary *attributeDictionary = [message getAttributes];
+    [self tagEvent:eventName
+    withAttributes:attributeDictionary];
 }
 
 

@@ -1082,15 +1082,14 @@ static NSString *const kDefaultPracticeID = @"0";
     [self sendMessage:message withCompletion:^(Message *responseMessage, NSError *error){
 
         if (!error) {
-            
-            Guardian *guardian = [LEOSession user];
-            NSString *membershipTypeString = [Guardian membershipStringFromType:guardian.membershipType];
-            
+
             if ([message isKindOfClass:[MessageImage class]]) {
-                [LEOAnalyticEvent tagEvent:kAnalyticEventSendImageMessage];
+                [LEOAnalyticEvent tagEvent:kAnalyticEventSendImageMessage
+                               withMessage:message];
             }
             else if ([message isKindOfClass:[MessageText class]]) {
-                [LEOAnalyticEvent tagEvent:kAnalyticEventSendTextMessage];
+                [LEOAnalyticEvent tagEvent:kAnalyticEventSendTextMessage
+                               withMessage:message];
             }
 
             [[self conversation] addMessage:responseMessage];
