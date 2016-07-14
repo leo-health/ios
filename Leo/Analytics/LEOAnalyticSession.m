@@ -8,17 +8,18 @@
 
 #import "LEOAnalyticSession.h"
 #import "NSDate+Extensions.h"
+#import "LEOConstants.h"
 
 @interface LEOAnalyticSession ()
 
-@property (strong, nonatomic) NSDate *startTime;
 @property (copy, nonatomic) NSString *eventName;
+@property (nonatomic) UIBackgroundTaskIdentifier backgroundTaskToken;
+@property (strong, nonatomic) NSTimer *backgroundedTimer;
+
 
 @end
 
 @implementation LEOAnalyticSession
-
-NSString *const kSessionLength = @"session_length";
 
 + (LEOAnalyticSession *)startSessionWithSessionEventName:(NSString *)sessionEventName {
 
@@ -26,26 +27,18 @@ NSString *const kSessionLength = @"session_length";
 
     session.startTime = [NSDate date];
     session.eventName = sessionEventName;
+    session.backgroundedStatus = kNotBackgrounded;
+    session.isValid = YES;
 
     return session;
-}
-
-- (void)updateSessionWithNewStartTime {
-    self.startTime = [NSDate date];
 }
 
 - (instancetype)init {
 
     self = [super init];
 
-    if (self) {
-
-        [self addNotifications];
-    }
-
     return self;
 }
-
 
 //MARK: There has to be a less clutzy way of accomplishing this. I'm probably
 // just forgetting an old trick, but for now, this should work.
@@ -65,33 +58,10 @@ NSString *const kSessionLength = @"session_length";
 
 - (void)completeSession {
 
-    [Localytics tagEvent:self.eventName attributes:@{kSessionLength:[self sessionLength]}];
-    [self removeNotifications];
+    self.isValid = NO;
+    [Localytics tagEvent:self.eventName
+              attributes: @{kSessionLength:[self sessionLength],
+                           kBackgroundedStatus:[self backgroundedStatus]}];
 }
-
-- (void)addNotifications {
-
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                         selector:@selector(notificationReceived:)
-                                             name:UIApplicationDidEnterBackgroundNotification
-                                           object:nil];
-}
-
-- (void)notificationReceived:(NSNotification *)notification {
-
-    if ([notification.name isEqualToString:UIApplicationDidEnterBackgroundNotification]) {
-        [self completeSession];
-    }
-}
-
-- (void)removeNotifications {
-
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
-}
-
-- (void)dealloc {
-    [self removeNotifications];
-}
-
 
 @end

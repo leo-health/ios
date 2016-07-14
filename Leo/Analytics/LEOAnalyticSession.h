@@ -8,10 +8,26 @@
 
 #import <Foundation/Foundation.h>
 
-@interface LEOAnalyticSession : NSObject
+@interface LEOAnalyticSession : NSObject {
+    NSDate * _startTime;
+}
 
+@property (strong, nonatomic) NSDate *startTime;
+@property (copy, nonatomic) NSString *backgroundedStatus;
+@property (nonatomic) BOOL isValid;
+
+/**
+ *  Starts an analytics session that will be sent to Localytics.
+ *
+ *  @param sessionEventName name of the analytic event in Localytics
+ *
+ *  @return the analytic session
+ */
 + (LEOAnalyticSession *)startSessionWithSessionEventName:(NSString *)sessionEventName;
-- (NSNumber *)sessionLength;
+
+/**
+ *  Sends the analytic session to Localytics.
+ */
 - (void)completeSession;
 
 @end

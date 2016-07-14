@@ -26,9 +26,9 @@
 #import "LEOUserService.h"
 #import "Configuration.h"
 
-#import "LEOAnalyticSession.h"
 #import "LEOAnalyticScreen.h"
 #import "LEOAnalyticIntent.h"
+#import "LEOAnalyticSessionManager.h"
 
 typedef NS_ENUM(NSUInteger, SettingsSection) {
     
@@ -59,7 +59,7 @@ typedef NS_ENUM(NSUInteger, AboutSettings) {
 @interface LEOSettingsViewController ()
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (strong, nonatomic) LEOAnalyticSession *analyticSession;
+@property (strong, nonatomic) LEOAnalyticSessionManager *analyticSessionManager;
 
 @end
 
@@ -81,7 +81,8 @@ static NSString *const kCopyManageMySubscription = @"Manage my membership";
     
     [super viewDidLoad];
 
-    self.analyticSession = [LEOAnalyticSession startSessionWithSessionEventName:kAnalyticSessionSettings];
+    self.analyticSessionManager = [LEOAnalyticSessionManager new];
+    [self.analyticSessionManager startMonitoringWithName:kAnalyticSessionSettings];
 
     [self setupTableView];
     [self setupNavigationBar];
@@ -571,7 +572,7 @@ static NSString *const kCopyManageMySubscription = @"Manage my membership";
 
 - (void)pop {
 
-    [self.analyticSession completeSession];
+    [self.analyticSessionManager stopMonitoring];
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 

@@ -11,6 +11,7 @@
 #import "LEOPHRBodyView.h"
 #import "LEOStyleHelper.h"
 #import "LEOAnalyticSession.h"
+#import "LEOAnalyticSessionManager.h"
 
 #import "GNZSegmentedControl.h"
 #import "GNZSlidingSegmentView.h"
@@ -40,7 +41,7 @@ static CGFloat const kHeightOfHeaderPHR = 116;
 @property (copy, nonatomic) NSArray *healthRecords;
 @property (copy, nonatomic) NSArray *notes;
 
-@property (strong, nonatomic) LEOAnalyticSession *analyticSession;
+@property (strong, nonatomic) LEOAnalyticSessionManager *analyticSessionManager;
 
 
 @end
@@ -62,7 +63,8 @@ static CGFloat const kHeightOfHeaderPHR = 116;
 
     [super viewDidLoad];
 
-    self.analyticSession = [LEOAnalyticSession startSessionWithSessionEventName:kAnalyticSessionHealthRecord];
+    self.analyticSessionManager = [LEOAnalyticSessionManager new];
+    [self.analyticSessionManager startMonitoringWithName:kAnalyticSessionHealthRecord];
 
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.stickyHeaderView.delegate = self;
@@ -268,7 +270,6 @@ static CGFloat const kHeightOfHeaderPHR = 116;
 
 - (void)pop {
 
-    [self.analyticSession completeSession];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -316,6 +317,8 @@ static CGFloat const kHeightOfHeaderPHR = 116;
     
     // if not found, this is a newly created note.
     [notesForPatient addObject:updatedNote];
+    [self.analyticSessionManager stopMonitoring];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

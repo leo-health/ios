@@ -47,6 +47,7 @@
 #import "Guardian.h"
 #import "LEOAnalyticEvent.h"
 #import "LEOAnalyticIntent.h"
+#import "LEOAnalyticSessionManager.h"
 
 @interface LEOAppointmentViewController ()
 
@@ -54,10 +55,9 @@
 @property (strong, nonatomic) LEOGradientView *gradientView;
 @property (strong, nonatomic) UIButton *submissionButton;
 @property (strong, nonatomic) Appointment *appointment;
-
 @property (nonatomic) BOOL didLayoutSubviewsOnce;
-@property (strong, nonatomic) LEOAnalyticSession *analyticSession;
 @property (copy, nonatomic) NSString *didChangeMoreThanAppointmentTime;
+@property (strong, nonatomic) LEOAnalyticSessionManager *analyticSessionManager;
 
 @end
 
@@ -96,7 +96,9 @@ static NSString *const kKeySelectionVCDate = @"date";
     [super viewDidLoad];
 
     self.didChangeMoreThanAppointmentTime = @"No";
-    self.analyticSession = [LEOAnalyticSession startSessionWithSessionEventName:kAnalyticSessionScheduling];
+    self.analyticSessionManager = [LEOAnalyticSessionManager new];
+    [self.analyticSessionManager startMonitoringWithName:kAnalyticSessionScheduling];
+
     self.feature = FeatureAppointmentScheduling;
 
     [self setupNavigationBar];
@@ -507,10 +509,9 @@ static NSString *const kKeySelectionVCDate = @"date";
 
 -(void)dismiss {
 
-    [self.analyticSession completeSession];
+    [self.analyticSessionManager stopMonitoring];
     [self.delegate takeResponsibilityForCard:self.card];
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
-
 
 @end

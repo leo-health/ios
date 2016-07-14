@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "LEOAnalyticConstants.h"
 
 typedef NS_ENUM(NSUInteger, DeviceModel) {
 
@@ -593,99 +594,5 @@ extern NSString *const kConfigurationLocalyticsAppID; // @"LOCALYTICS_APP_ID";
 extern NSString *const kConfigurationVendorID; // @"vendor_id";
 extern NSString *const kConfigurationStripePublishableKey; // @"STRIPE_PUBLISHABLE_KEY";
 extern NSString *const kConfigurationMinimumVersion; // = @"MINIMUM_VERSION_REQUIREMENT"; #major.minor.patch (no 'v' in front of the version number)
-
-
-#pragma mark - Analytics
-extern NSString *const kAnalyticScreenLogin; // @"User Login";
-extern NSString *const kAnalyticScreenForgotPassword; // @"Forgot Password";
-extern NSString *const kAnalyticScreenProductPreview; // @"Product Preview";
-extern NSString *const kAnalyticScreenUserEnrollment; // @"User Enrollment";
-extern NSString *const kAnalyticScreenUserProfile; // @"User Profile";
-extern NSString *const kAnalyticScreenPatientProfile; // @"Patient Profile";
-extern NSString *const kAnalyticScreenAddCaregiver; // @"Add Caregiver";
-extern NSString *const kAnalyticScreenManagePatients; // @"Manage Patients";
-extern NSString *const kAnalyticScreenReviewRegistration; // @"Review Registration";
-extern NSString *const kAnalyticScreenFeed; // @"Feed";
-extern NSString *const kAnalyticScreenAppointmentScheduling; // @"Appointment Scheduling";
-extern NSString *const kAnalyticScreenAppointmentCalendar; // @"Appointment Calendar";
-extern NSString *const kAnalyticScreenMessaging; // @"Messaging";
-extern NSString *const kAnalyticScreenSettings; // @"Settings";
-extern NSString *const kAnalyticScreenHealthRecord; // @"Health Record";
-extern NSString *const kAnalyticScreenHealthRecordNotes; // @"Health Record Notes";
-extern NSString *const kAnalyticScreenTermsOfService; // @"Terms of Service";
-extern NSString *const kAnalyticScreenPrivacyPolicy; // @"Privacy Policy";
-extern NSString *const kAnalyticScreenWebView; // @"Web View";
-extern NSString *const kAnalyticScreenAddPaymentMethod; // @"Add Payment Method";
-extern NSString *const kAnalyticScreenUpdatePassword; // @"Update password";
-
-extern NSString *const kAnalyticEventLogin; // @"Login";
-extern NSString *const kAnalyticEventLogout; // @"Logout";
-
-extern NSString *const kAnalyticEventReviewProductPreview; // @"Review Product Preview";
-extern NSString *const kAnalyticEventEnroll; // @"Enroll";
-extern NSString *const kAnalyticEventCompleteNewUserProfile; // @"Complete New User Profile";
-extern NSString *const kAnalyticEventSaveNewPatientInRegistration; // @"Add New Patient In Registration";
-extern NSString *const kAnalyticEventSaveNewPatientInSettings; // @"Add New Patient In Settings";
-extern NSString *const kAnalyticEventEditPatientInRegistration; // @"Edit Patient In Registration";
-extern NSString *const kAnalyticEventEditPatientInSettings; // @"Edit Patient In Settings";
-extern NSString *const kAnalyticEventSendTextMessage; // @"Send Text Message";
-extern NSString *const kAnalyticEventSendImageMessage; // @"Send Image Message";
-extern NSString *const kAnalyticEventUpdatePassword; // @"Update Password";
-extern NSString *const kAnalyticEventConfirmAccount; // @"Confirm Account Details";
-extern NSString *const kAnalyticEventEditUserProfile; // @"Edit User Profile";
-extern NSString *const kAnalyticEventResetPasswordFromLogin; // @"Reset Password from login";
-extern NSString *const kAnalyticEventAddCaregiverFromSettings; // @"Add Caregiver From Settings";
-extern NSString *const kAnalyticEventAddCaregiverFromRegistration; // @"Add Caregiver From Onboarding";
-extern NSString *const kAnalyticEventCallUs; // @"Call Us";
-
-extern NSString *const kAnalyticEventBookVisit; // @"Book Visit";
-extern NSString *const kAnalyticEventRescheduleVisit; // @"Reschedule Visit";
-extern NSString *const kAnalyticEventScheduleVisit; // @"Schedule Visit";
-extern NSString *const kAnalyticEventCancelVisit; // @"Cancel Visit";
-extern NSString *const kAnalyticEventChoosePhotoForAvatar; // @"Choose Photo For Avatar";
-extern NSString *const kAnalyticEventTakePhotoForAvatar; // @"Take Photo For Avatar";
-extern NSString *const kAnalyticEventConfirmPhotoForAvatar; // @"Confirm Photo For Avatar";
-extern NSString *const kAnalyticEventCancelPhotoForAvatar; // @"Cancel Photo For Avatar";
-extern NSString *const kAnalyticEventChoosePhotoForMessage; // @"Choose Photo For Message";
-extern NSString *const kAnalyticEventTakePhotoForMessage; // @"Take Photo For Message";
-extern NSString *const kAnalyticEventConfirmPhotoForMessage; // @"Confirm Photo For Message";
-extern NSString *const kAnalyticEventCancelPhotoForMessage; // @"Cancel Photo For Message";
-extern NSString *const kAnalyticEventGoToHealthRecord; // @"Go To Health Records";
-extern NSString *const kAnalyticEventGoToHealthRecordNotes; // @"Go To Health Record Notes";
-extern NSString *const kAnalyticEventSaveHealthRecordNotes; // @"Save Health Record Notes";
-extern NSString *const kAnalyticEventChargeCard; // @"Charge card";
-extern NSString *const kAnalyticEventUpdatePaymentChargeCard; // @"Update Payment Method and Charge Card";
-extern NSString *const kAnalyticEventForgotPassword; // @"Forgot password";
-extern NSString *const kAnalyticEventMessageUsFromTopOfPage; // @"Accessed chat from top of dashboard";
-extern NSString *const kAnalyticEventMessageUsFromChatNotification; // @"Accessed chat from chat notification card";
-extern NSString *const kAnalyticEventMessageUs; // @"Message us";
-extern NSString *const kAnalyticEventViewTermsOfService; // @"View terms of service";
-extern NSString *const kAnalyticEventDismissCancellationNotification; // @"Dismissed cancellation notification on dashboard";
-extern NSString *const kAnalyticEventUpdatePasswordInSettings; // @"Update password in settings";
-
-
-extern NSString *const kAnalyticEventConfirmPatientsInOnboarding; // @"Confirm Patients";
-
-extern NSString *const kAnalyticSessionMessaging; // @"Messaging Session";
-extern NSString *const kAnalyticSessionScheduling; // @"Scheduling Session";
-extern NSString *const kAnalyticSessionHealthRecord; // @"Health Record Session";
-extern NSString *const kAnalyticSessionSettings; // @"Settings Session";
-extern NSString *const kAnalyticSessionRegistration; // = @"Registration Session";
-
-extern NSString *const kAnalyticEventSwipeToFirstProductPreviewCell; // @"Go To First Product Preview Screen";
-extern NSString *const kAnalyticEventSwipeToSecondProductPreviewCell; // @"Go To Second Product Preview Screen";
-extern NSString *const kAnalyticEventSwipeToThirdProductPreviewCell; // @"Go To Third Product Preview Screen";
-extern NSString *const kAnalyticEventSwipeToFourthProductPreviewCell; // @"Go To Fourth Product Preview Screen";
-extern NSString *const kAnalyticEventSwipeToFifthProductPreviewCell; // @"Go To Fifth Product Preview Screen";
-
-
-extern NSString *const kAnalyticAgeGroupOneandAHalfToTwo; // @"Older than 18 months & younger than 2";
-extern NSString *const kAnalyticAgeGroupTwoFive; // @"Older than 2 & younger than 5";
-extern NSString *const kAnalyticAgeGroupFiveThirteen; // @"Older than 5 & younger than 13";
-extern NSString *const kAnalyticAgeGroupThirteenEighteen; // @"Older than 13 & younger than 18";
-extern NSString *const kAnalyticAgeGroupEighteenPlus; // @"Older than 18";
-
-extern NSString *const kAnalyticAttributeChangedMoreThanAppointmentTime; // @"Did change more than appointment time";
-extern NSString *const kAnalyticAttributeMembershipType; // @"Membership type";
 
 @end

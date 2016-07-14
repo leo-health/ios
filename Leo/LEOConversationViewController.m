@@ -64,6 +64,7 @@
 #import "LEONoticeService.h"
 #import "LEOAnalyticScreen.h"
 #import "LEOAnalyticIntent.h"
+#import "LEOAnalyticSessionManager.h"
 
 @interface LEOConversationViewController ()
 
@@ -84,7 +85,6 @@
 @property (strong, nonatomic) LEOImageCropViewControllerDataSource *cropDataSource;
 @property (copy, nonatomic) NSMutableArray *notificationObservers;
 @property (weak, nonatomic) PTPusherEventBinding *pusherBinding;
-@property (strong, nonatomic) LEOAnalyticSession *analyticSession;
 
 @property (strong, nonatomic) LEOConversationFullScreenNoticeView *fullScreenNoticeView;
 @property (weak, nonatomic) LEOConversationNoticeView *headerNoticeView;
@@ -95,6 +95,8 @@
 
 @property (copy, nonatomic) NSArray *notices;
 @property (strong, nonatomic) Practice *practice;
+
+@property (strong, nonatomic) LEOAnalyticSessionManager *analyticSessionManager;
 
 @end
 
@@ -146,8 +148,8 @@ static NSString *const kDefaultPracticeID = @"0";
         self.notices = notices;
         self.practice = practice;
 
-        self.analyticSession =
-        [LEOAnalyticSession startSessionWithSessionEventName:kAnalyticSessionMessaging];
+        self.analyticSessionManager = [LEOAnalyticSessionManager new];
+        [self.analyticSessionManager startMonitoringWithName:kAnalyticSessionMessaging];
 
         [self setupPusher];
         [self constructNotifications];
@@ -1737,7 +1739,7 @@ static NSString *const kDefaultPracticeID = @"0";
  */
 - (void)dismiss {
     
-    [self.analyticSession completeSession];
+    [self.analyticSessionManager stopMonitoring];
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
