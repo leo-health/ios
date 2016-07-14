@@ -19,6 +19,5 @@
 
 @property (weak, nonatomic) id<LEOExpandedCardViewDelegate>delegate;
 @property (strong, nonatomic) LEOCardAppointment *card;
-@property (strong, nonatomic, readwrite) LEOAnalyticSession *analyticSession;
 
 @end

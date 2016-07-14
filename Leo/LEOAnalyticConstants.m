@@ -15,7 +15,7 @@ NSString *const kBackgroundedStatus = @"Backgrounded status";
 NSString *const kNotBackgrounded = @"Not backgrounded";
 NSString *const kTemporarilyBackgrounded = @"Backgrounded temporarily then closed by user";
 NSString *const kClosedDueToBackgrounding = @"Closed due to backgrounding";
-NSInteger const kAnalyticSessionBackgroundTimeLimit = 30;
+NSInteger const kAnalyticSessionBackgroundTimeLimit = 10;
 
 NSString *const kAnalyticScreenLogin = @"User Login";
 NSString *const kAnalyticScreenForgotPassword = @"Forgot Password";
