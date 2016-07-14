@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "LEOAnalyticSession.h"
 
 @interface LEOAnalyticSessionManager : NSObject
 

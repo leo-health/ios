@@ -59,8 +59,9 @@
 - (void)completeSession {
 
     self.isValid = NO;
-    [Localytics tagEvent:self.eventName attributes: @{kSessionLength:[self sessionLength],
-                                                      kBackgroundedStatus:[self backgroundedStatus]}];
+    [Localytics tagEvent:self.eventName
+              attributes: @{kSessionLength:[self sessionLength],
+                           kBackgroundedStatus:[self backgroundedStatus]}];
 }
 
 @end

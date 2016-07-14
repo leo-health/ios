@@ -7,7 +7,6 @@
 //
 #import "LEOAnalyticSessionManager.h"
 #import "NSDate+Extensions.h"
-#import "LEOAnalyticSession.h"
 
 @interface LEOAnalyticSessionManager ()
 
@@ -109,7 +108,6 @@
         self.session.backgroundedStatus = kTemporarilyBackgrounded;
     }
 }
-
 
 
 @end
