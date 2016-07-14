@@ -271,6 +271,7 @@
 		DE31E5EC1D36B9A800F028E4 /* Family+Analytics.m in Sources */ = {isa = PBXBuildFile; fileRef = DE31E5E61D36B9A800F028E4 /* Family+Analytics.m */; };
 		DE31E5ED1D36B9A800F028E4 /* Guardian+Analytics.m in Sources */ = {isa = PBXBuildFile; fileRef = DE31E5E81D36B9A800F028E4 /* Guardian+Analytics.m */; };
 		DE31E5EE1D36B9A800F028E4 /* Patient+Analytics.m in Sources */ = {isa = PBXBuildFile; fileRef = DE31E5EA1D36B9A800F028E4 /* Patient+Analytics.m */; };
+		DE53424C1D25A6F300F0B695 /* LEOAnalyticConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = DE53424B1D25A6F300F0B695 /* LEOAnalyticConstants.m */; };
 		DE63951D1D18296C00D3DF71 /* TPKeyboardAvoidingCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = DE6395161D18296C00D3DF71 /* TPKeyboardAvoidingCollectionView.m */; };
 		DE63951E1D18296C00D3DF71 /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = DE6395181D18296C00D3DF71 /* TPKeyboardAvoidingScrollView.m */; };
 		DE63951F1D18296C00D3DF71 /* TPKeyboardAvoidingTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = DE63951A1D18296C00D3DF71 /* TPKeyboardAvoidingTableView.m */; };
@@ -280,6 +281,7 @@
 		DE63952B1D182AD600D3DF71 /* UISegmentedControl+GNZCompatibility.m in Sources */ = {isa = PBXBuildFile; fileRef = DE6395281D182AD600D3DF71 /* UISegmentedControl+GNZCompatibility.m */; };
 		DE87E4D01D21B7DB00871700 /* LEOAnalyticScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = DE87E4CF1D21B7DB00871700 /* LEOAnalyticScreen.m */; };
 		DE745A1D1D1D7FFA00C856E6 /* LEOAnalyticEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = DE745A1C1D1D7FFA00C856E6 /* LEOAnalyticEvent.m */; };
+		DE8810101D24615800558046 /* LEOAnalyticSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DE88100F1D24615800558046 /* LEOAnalyticSessionManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -815,6 +817,8 @@
 		DE31E5E81D36B9A800F028E4 /* Guardian+Analytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Guardian+Analytics.m"; path = "Data Model/Object Helpers/Guardian+Analytics.m"; sourceTree = "<group>"; };
 		DE31E5E91D36B9A800F028E4 /* Patient+Analytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Patient+Analytics.h"; path = "Data Model/Object Helpers/Patient+Analytics.h"; sourceTree = "<group>"; };
 		DE31E5EA1D36B9A800F028E4 /* Patient+Analytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Patient+Analytics.m"; path = "Data Model/Object Helpers/Patient+Analytics.m"; sourceTree = "<group>"; };
+		DE53424A1D25A6F300F0B695 /* LEOAnalyticConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOAnalyticConstants.h; sourceTree = "<group>"; };
+		DE53424B1D25A6F300F0B695 /* LEOAnalyticConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOAnalyticConstants.m; sourceTree = "<group>"; };
 		DE6395151D18296C00D3DF71 /* TPKeyboardAvoidingCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TPKeyboardAvoidingCollectionView.h; path = OPC/TPKeyboardAvoiding/TPKeyboardAvoidingCollectionView.h; sourceTree = "<group>"; };
 		DE6395161D18296C00D3DF71 /* TPKeyboardAvoidingCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TPKeyboardAvoidingCollectionView.m; path = OPC/TPKeyboardAvoiding/TPKeyboardAvoidingCollectionView.m; sourceTree = "<group>"; };
 		DE6395171D18296C00D3DF71 /* TPKeyboardAvoidingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TPKeyboardAvoidingScrollView.h; path = OPC/TPKeyboardAvoiding/TPKeyboardAvoidingScrollView.h; sourceTree = "<group>"; };
@@ -836,6 +840,8 @@
 		DE745A1B1D1D7FFA00C856E6 /* LEOAnalyticEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOAnalyticEvent.h; sourceTree = "<group>"; };
 		DE745A1C1D1D7FFA00C856E6 /* LEOAnalyticEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOAnalyticEvent.m; sourceTree = "<group>"; };
 		DE91E49A1D11FFF5007EE79F /* DeveloperCodeSigning.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = DeveloperCodeSigning.xcconfig; path = xcconfig/DeveloperCodeSigning.xcconfig; sourceTree = "<group>"; };
+		DE88100E1D24615800558046 /* LEOAnalyticSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOAnalyticSessionManager.h; sourceTree = "<group>"; };
+		DE88100F1D24615800558046 /* LEOAnalyticSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOAnalyticSessionManager.m; sourceTree = "<group>"; };
 		DEF91861D13AACF04D176928 /* libPods-Leo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Leo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -1489,6 +1495,8 @@
 				3138FC301B9A1169000FE22C /* LEOValidatedFloatLabeledTextField.h */,
 				3138FC311B9A1169000FE22C /* LEOValidatedFloatLabeledTextField.m */,
 				3138FC5B1B9F87E5000FE22C /* LEOExpandedCardViewProtocol.h */,
+				DE88100E1D24615800558046 /* LEOAnalyticSessionManager.h */,
+				DE88100F1D24615800558046 /* LEOAnalyticSessionManager.m */,
 				31F5AA461B791B4A00F96D06 /* LEOBasicSelectionViewController.h */,
 				31F5AA471B791B4A00F96D06 /* LEOBasicSelectionViewController.m */,
 				31F5AA481B791B4A00F96D06 /* SingleSelectionProtocol.h */,
@@ -1515,6 +1523,7 @@
 				31314A1E1CB6A90D00465310 /* LEOPHRVitalChartCell.xib */,
 				31314A211CB6B06B00465310 /* LEOPHRVitalChartCell+ConfigureForCell.h */,
 				31314A221CB6B06B00465310 /* LEOPHRVitalChartCell+ConfigureForCell.m */,
+				3101D6DB1B0CE08F00640C10 /* MiniCards */,
 				317B72691C308EB500F3620D /* LEOPatientSelectorView.h */,
 				317B726A1C308EB500F3620D /* LEOPatientSelectorView.m */,
 				317B72C21C318B3B00F3620D /* LEOPHRHeaderView.h */,
@@ -1702,7 +1711,6 @@
 				31BA405F1B30BF8800A11AEE /* SectionSeparator */,
 				3177B99A1B189F41006AE360 /* Navigation */,
 				31F5AA831B794BE800F96D06 /* PHR */,
-				3101D6DB1B0CE08F00640C10 /* MiniCards */,
 			);
 			name = "Views and Controllers";
 			sourceTree = "<group>";
@@ -1775,6 +1783,8 @@
 				DE16AE561D2EB64D00EE7811 /* LEOFormatting.h */,
 				BCE1ECA21B014613007C8D0B /* LEOConstants.h */,
 				BCE1ECA31B014613007C8D0B /* LEOConstants.m */,
+				DE53424A1D25A6F300F0B695 /* LEOAnalyticConstants.h */,
+				DE53424B1D25A6F300F0B695 /* LEOAnalyticConstants.m */,
 			);
 			name = Constants;
 			sourceTree = "<group>";
@@ -2138,6 +2148,7 @@
 				31254B831BB0599D00E8E150 /* LEOCardService.m in Sources */,
 				310943701CC809A80015D52F /* LEOConversationNoticeView.m in Sources */,
 				319FB4BF1BBA379E00EFF7B9 /* JVFloatLabeledTextView.m in Sources */,
+				DE8810101D24615800558046 /* LEOAnalyticSessionManager.m in Sources */,
 				31E615DA1CD406630027B226 /* LEOPaymentViewController.m in Sources */,
 				313FA71B1C036E22008189B9 /* LEOAppointmentView.m in Sources */,
 				317B726B1C308EB500F3620D /* LEOPatientSelectorView.m in Sources */,
@@ -2314,6 +2325,7 @@
 				31314A231CB6B06B00465310 /* LEOPHRVitalChartCell+ConfigureForCell.m in Sources */,
 				3115F1FC1BC71683001BDF6A /* LEOSettingsViewController.m in Sources */,
 				314AC6101B85274000BF6869 /* LEOApiReachability.m in Sources */,
+				DE53424C1D25A6F300F0B695 /* LEOAnalyticConstants.m in Sources */,
 				315E12B01BB9B2B8001023F1 /* StickyView.m in Sources */,
 				3138FC511B9A1A9B000FE22C /* LEOAPIInsuranceOperation.m in Sources */,
 				3138FC4E1B9A1A2E000FE22C /* LEOPromptField.m in Sources */,

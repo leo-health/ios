@@ -47,6 +47,7 @@
 #import "Guardian.h"
 #import "LEOAnalyticEvent.h"
 #import "LEOAnalyticIntent.h"
+#import "LEOAnalyticSessionManager.h"
 
 @interface LEOAppointmentViewController ()
 
@@ -54,10 +55,9 @@
 @property (strong, nonatomic) LEOGradientView *gradientView;
 @property (strong, nonatomic) UIButton *submissionButton;
 @property (strong, nonatomic) Appointment *appointment;
-
 @property (nonatomic) BOOL didLayoutSubviewsOnce;
-@property (strong, nonatomic) LEOAnalyticSession *analyticSession;
 @property (copy, nonatomic) NSString *didChangeMoreThanAppointmentTime;
+@property (strong, nonatomic) LEOAnalyticSessionManager *analyticSessionManager;
 
 @end
 
@@ -67,7 +67,6 @@ static CGFloat const kRightTitleInsetAppointments = 100;
 static CGFloat const kBottomTitleInsetAppointments = 20;
 
 static NSString *const kCopySubmitAppointment = @"CONFIRM VISIT";
-static NSString *const kTemporarilyBackgrounded = @"Backgrounded temporarily then reopened before session close";
 
 // Appointment Segue constants
 static NSString *const kCopyTitleScheduleVisit = @"Let's schedule a visit";
@@ -97,8 +96,8 @@ static NSString *const kKeySelectionVCDate = @"date";
     [super viewDidLoad];
 
     self.didChangeMoreThanAppointmentTime = @"No";
-    self.analyticSession = [LEOAnalyticSession startSessionWithSessionEventName:kAnalyticSessionScheduling];
-    [self addNotifications];
+    self.analyticSessionManager = [LEOAnalyticSessionManager new];
+    [self.analyticSessionManager startMonitoringWithName:kAnalyticSessionScheduling];
 
     self.feature = FeatureAppointmentScheduling;
 
@@ -510,34 +509,9 @@ static NSString *const kKeySelectionVCDate = @"date";
 
 -(void)dismiss {
 
-    [self.analyticSession completeSession];
+    [self.analyticSessionManager stopMonitoring];
     [self.delegate takeResponsibilityForCard:self.card];
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
-
-- (void)addNotifications {
-
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(notificationReceived:)
-                                                 name:UIApplicationWillEnterForegroundNotification
-                                               object:nil];
-}
-
-- (void)notificationReceived:(NSNotification *)notification {
-
-    if ([notification.name isEqualToString:UIApplicationWillEnterForegroundNotification]) {
-        [self startNewSessionIfInvalid];
-    }
-}
-
-- (void)startNewSessionIfInvalid {
-
-    if (!self.analyticSession.isValid) {
-
-        self.analyticSession = [LEOAnalyticSession startSessionWithSessionEventName:kAnalyticSessionScheduling];
-        self.analyticSession.backgroundedStatus = kTemporarilyBackgrounded;
-    }
-}
-
 
 @end

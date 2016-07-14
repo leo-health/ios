@@ -6,17 +6,19 @@
 //  Copyright © 2015 Leo Health. All rights reserved.
 //
 
-@class LEOCardAppointment;
+@class LEOCardAppointment, LEOAnalyticSession;
 
 #import "LEOStickyHeaderViewController.h"
 #import "LEOAppointmentView.h"
 #import "LEOBasicSelectionViewController.h"
 #import "LEOExpandedCardViewProtocol.h"
 #import "CardActivityProtocol.h"
+#import "LEOAnalyticSessionManager.h"
 
 @interface LEOAppointmentViewController : LEOStickyHeaderViewController <LEOStickyHeaderDataSource, LEOStickyHeaderDelegate, LEOAppointmentViewDelegate, SingleSelectionProtocol, LEOExpandedCardViewDelegate, CardActivityProtocol>
 
 @property (weak, nonatomic) id<LEOExpandedCardViewDelegate>delegate;
 @property (strong, nonatomic) LEOCardAppointment *card;
+@property (strong, nonatomic, readwrite) LEOAnalyticSession *analyticSession;
 
 @end
