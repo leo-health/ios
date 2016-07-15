@@ -9,7 +9,7 @@
 #import "LEOPaymentService.h"
 #import "LEOAPISessionManager.h"
 #import "LEOSession.h"
-#import "LEOAnalyticEvent.h"
+#import "LEOAnalytic+Extension.h"
 
 @implementation LEOPaymentService
 
@@ -21,7 +21,8 @@
         if (completionBlock) {
 
             if (!error) {
-                [LEOAnalyticEvent tagEvent:kAnalyticEventChargeCard];
+                [LEOAnalytic tagType:LEOAnalyticTypeEvent
+                           eventName:kAnalyticEventChargeCard];
             }
 
             completionBlock (!error, error);
@@ -37,7 +38,8 @@
     NSURLSessionTask *task = [[LEOPaymentService leoSessionManager] standardPUTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointSubscriptions params:@{@"credit_card_token" : token.tokenId} completion:^(NSDictionary *rawResults, NSError *error) {
 
         if (!error) {
-            [LEOAnalyticEvent tagEvent:kAnalyticEventUpdatePaymentChargeCard];
+            [LEOAnalytic tagType:LEOAnalyticTypeEvent
+                        eventName:kAnalyticEventUpdatePaymentChargeCard];
         }
 
         if (completionBlock) {

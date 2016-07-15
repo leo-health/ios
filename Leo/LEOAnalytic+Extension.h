@@ -8,7 +8,7 @@
 
 #import "LEOAnalytic.h"
 
-@class Family, Appointment, Patient, Guardian;
+@class Family, Appointment, Patient, Guardian, Message;
 
 @interface LEOAnalytic (Extension)
 
@@ -176,5 +176,17 @@
       eventName:(NSString *)eventName
        guardian:(Guardian *)guardian;
 
+
+/**
+ *  Captures analytic data of a screen, event or intent
+ *  associated with a message.
+ *
+ *  @param type      The type of analytic (screen, event, intent)
+ *  @param eventName The name of the event
+ *  @param message   Message associated with the event
+ */
++ (void)tagType:(LEOAnalyticType)type
+      eventName:(NSString *)eventName
+        message:(Message *)message;
 
 @end

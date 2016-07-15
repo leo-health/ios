@@ -14,4 +14,5 @@
 - (NSString *)membershipTypeString;
 - (NSDictionary *)attributes;
 
+
 @end

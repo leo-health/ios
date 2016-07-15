@@ -24,8 +24,7 @@
 #import "LEOAnalyticSession.h"
 #import "Configuration.h"
 #import "LEOAlertHelper.h"
-#import "LEOAnalyticScreen.h"
-#import "LEOAnalyticEvent.h"
+#import "LEOAnalytic+Extension.h"
 
 @interface LEOEnrollmentViewController ()
 
@@ -80,7 +79,8 @@ static NSString * const kCopyCollapsedHeaderEnrollment = @"Create an account";
 
     [super viewDidAppear:animated];
 
-    [LEOAnalyticScreen tagScreen:kAnalyticScreenUserEnrollment];
+    [LEOAnalytic tagType:LEOAnalyticTypeScreen
+               eventName:kAnalyticScreenUserEnrollment];
 
     __weak typeof(self) weakSelf = self;
 
@@ -211,7 +211,8 @@ static NSString * const kCopyCollapsedHeaderEnrollment = @"Create an account";
                     if (success) {
 
                         self.guardian = guardian;
-                        [LEOAnalyticEvent tagEvent:kAnalyticEventEnroll];
+                        [LEOAnalytic tagType:LEOAnalyticTypeEvent
+                                   eventName:kAnalyticEventEnroll];
 
                         [self performSegueWithIdentifier:kSegueContinue
                                                   sender:sender];

@@ -15,9 +15,5 @@
       attributes:(NSDictionary *)attributeDictionary;
 + (void)tagEvent:(NSString *)eventName;
 
-//TODO: ABG fix this
-+ (void)tagEvent:(NSString *)eventName
-     withMessage:(Message *)message;
-
 
 @end

@@ -11,7 +11,7 @@
 #import "LEOWebViewController.h"
 #import "LEOStyleHelper.h"
 #import <MBProgressHUD/MBProgressHUD.h>
-#import "LEOAnalyticScreen.h"
+#import "LEOAnalytic.h"
 
 @interface LEOWebViewController () <UIWebViewDelegate>
 
@@ -36,7 +36,8 @@
 
     [super viewDidAppear:animated];
 
-    [LEOAnalyticScreen tagScreen:self.titleString];
+    [LEOAnalytic tagType:LEOAnalyticTypeScreen
+               eventName:self.titleString];
 
     [LEOApiReachability startMonitoringForController:self];
 }

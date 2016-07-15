@@ -28,13 +28,5 @@
         attributes:nil];
 }
 
-+ (void)tagEvent:(NSString *)eventName
-     withMessage:(Message *)message{
-
-    NSDictionary *attributeDictionary = [message getAttributes];
-    [self tagEvent:eventName
-    attributes:attributeDictionary];
-}
-
 
 @end

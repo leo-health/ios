@@ -14,6 +14,7 @@
 #import "LEOAnalyticIntent.h"
 #import "LEOAnalyticScreen.h"
 #import "Guardian+Analytics.h"
+#import "Message+Analytics.h"
 
 @implementation LEOAnalytic (Extension)
 
@@ -317,7 +318,7 @@
 
 + (void)tagType:(LEOAnalyticType)type
       eventName:(NSString *)eventName
-       guardian:(Guardian *)guardian{
+       guardian:(Guardian *)guardian {
 
     switch(type){
 
@@ -331,6 +332,31 @@
 
             [LEOAnalyticIntent tagEvent:eventName
                              attributes:[guardian attributes]];
+            break;
+
+        case LEOAnalyticTypeScreen:
+
+            [LEOAnalyticScreen tagScreen:eventName];
+            break;
+    }
+}
+
++ (void)tagType:(LEOAnalyticType)type
+      eventName:(NSString *)eventName
+       message:(Message *)message {
+
+    switch(type){
+
+        case LEOAnalyticTypeEvent:
+
+            [LEOAnalyticEvent tagEvent:eventName
+                            attributes:[message attributes]];
+            break;
+
+        case LEOAnalyticTypeIntent:
+
+            [LEOAnalyticIntent tagEvent:eventName
+                             attributes:[message attributes]];
             break;
 
         case LEOAnalyticTypeScreen:

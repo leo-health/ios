@@ -19,9 +19,7 @@
 #import "LEOStyleHelper.h"
 #import "LEOHeaderView.h"
 #import "NSObject+XibAdditions.h"
-#import "LEOAnalyticScreen.h"
-#import "LEOAnalyticEvent.h"
-#import "LEOAnalyticIntent.h"
+#import "LEOAnalytic+Extension.h"
 
 @interface LEOForgotPasswordViewController ()
 
@@ -76,7 +74,8 @@ NSString * const kCopyResetPasswordSubmissionResponse = @"If you have an account
 
     [super viewDidAppear:animated];
 
-    [LEOAnalyticScreen tagScreen:kAnalyticScreenForgotPassword];
+    [LEOAnalytic tagType:LEOAnalyticTypeScreen
+               eventName:kAnalyticScreenForgotPassword];
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:nil withOnlineBlock:nil];
 }
 
@@ -138,7 +137,8 @@ NSString * const kCopyResetPasswordSubmissionResponse = @"If you have an account
 
 - (IBAction)submitTapped:(UIButton *)sender {
 
-    [LEOAnalyticIntent tagEvent:kAnalyticEventResetPasswordFromLogin];
+    [LEOAnalytic tagType:LEOAnalyticTypeIntent
+               eventName:kAnalyticEventResetPasswordFromLogin];
     [LEOBreadcrumb crumbWithFunction:__PRETTY_FUNCTION__];
 
     BOOL validEmail = [LEOValidationsHelper isValidEmail:self.forgotPasswordView.emailPromptField.textField.text];
@@ -152,7 +152,8 @@ NSString * const kCopyResetPasswordSubmissionResponse = @"If you have an account
         [userService resetPasswordWithEmail:self.forgotPasswordView.emailPromptField.textField.text withCompletion:^(NSDictionary * response, NSError * error) {
 
             self.forgotPasswordView.submitButton.hidden = YES;
-            [LEOAnalyticEvent tagEvent:kAnalyticEventResetPasswordFromLogin];
+            [LEOAnalytic tagType:LEOAnalyticTypeEvent
+                       eventName:kAnalyticEventResetPasswordFromLogin];
             self.forgotPasswordView.responseLabel.text = kCopyResetPasswordSubmissionResponse;
         }];
     }

@@ -15,7 +15,7 @@
 #import "LEOStyleHelper.h"
 #import "NSObject+TableViewAccurateEstimatedCellHeight.h"
 #import "LEOAlertHelper.h"
-#import "LEOAnalyticScreen.h"
+#import "LEOAnalytic.h"
 
 @interface LEOBasicSelectionViewController ()
 
@@ -53,7 +53,8 @@
 
     [super viewDidAppear:animated];
 
-    [LEOAnalyticScreen tagScreen:self.titleText];
+    [LEOAnalytic tagType:LEOAnalyticTypeScreen
+               eventName:self.titleText];
 
     __weak typeof(self) weakSelf = self;
 

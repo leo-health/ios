@@ -47,8 +47,7 @@
 #import "LEOAlertHelper.h"
 
 #import "LEOSession.h"
-#import "LEOAnalyticScreen.h"
-#import "LEOAnalyticIntent.h"
+#import "LEOAnalytic+Extension.h"
 
 @interface LEOReviewOnboardingViewController ()
 
@@ -103,7 +102,8 @@ static NSString *const kReviewPaymentDetails = @"ReviewPaymentSegue";
 
     [super viewDidAppear:animated];
 
-    [LEOAnalyticScreen tagScreen:kAnalyticScreenReviewRegistration];
+    [LEOAnalytic tagType:LEOAnalyticTypeScreen
+               eventName:kAnalyticScreenReviewRegistration];
 
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:nil withOnlineBlock:nil];
 }
@@ -355,8 +355,9 @@ static NSString *const kReviewPaymentDetails = @"ReviewPaymentSegue";
                         attemptedAdditionOfCaregiver = YES;
 
                         if (success) {
-                            [LEOAnalyticIntent tagEvent:kAnalyticEventAddCaregiverFromRegistration
-                                             withFamily:self.family];
+                            [LEOAnalytic tagType:LEOAnalyticTypeIntent
+                                       eventName:kAnalyticEventAddCaregiverFromRegistration
+                                          family:self.family];
                         }
 
                         if (attemptedPatientCreation) {
@@ -390,8 +391,9 @@ static NSString *const kReviewPaymentDetails = @"ReviewPaymentSegue";
                 }];
 
                 if (!error || errorCode == 422) {
-                    [LEOAnalyticEvent tagEvent:kAnalyticEventConfirmAccount
-                                    withFamily:self.family];
+                    [LEOAnalytic tagType:LEOAnalyticTypeEvent
+                               eventName:kAnalyticEventConfirmAccount
+                                  family:self.family];
 
                     [self.analyticSession completeSession];
                 }

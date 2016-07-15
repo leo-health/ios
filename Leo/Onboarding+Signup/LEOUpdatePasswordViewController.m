@@ -13,9 +13,7 @@
 #import "LEOAlertHelper.h"
 #import <MBProgressHUD.h>
 #import "LEOStatusBarNotification.h"
-#import "LEOAnalyticScreen.h"
-#import "LEOAnalyticEvent.h"
-#import "LEOAnalyticIntent.h"
+#import "LEOAnalytic+Extension.h"
 
 @interface LEOUpdatePasswordViewController ()
 
@@ -40,7 +38,8 @@
 
     [super viewDidAppear:animated];
 
-    [LEOAnalyticScreen tagScreen:kAnalyticScreenUpdatePassword];
+    [LEOAnalytic tagType:LEOAnalyticTypeScreen
+               eventName:kAnalyticScreenUpdatePassword];
 
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:nil withOnlineBlock:nil];
 }
@@ -74,7 +73,8 @@
 
 - (void)updatePasswordTapped {
 
-    [LEOAnalyticIntent tagEvent:kAnalyticEventUpdatePasswordInSettings];
+    [LEOAnalytic tagType:LEOAnalyticTypeIntent
+               eventName:kAnalyticEventUpdatePasswordInSettings];
     if ([self.updatePasswordView validatePage]) {
 
         [self updatePassword];
@@ -100,7 +100,8 @@
 
         if (success) {
 
-            [LEOAnalyticEvent tagEvent:kAnalyticEventUpdatePasswordInSettings];
+            [LEOAnalytic tagType:LEOAnalyticTypeEvent
+                       eventName:kAnalyticEventUpdatePasswordInSettings];
 
             LEOStatusBarNotification *successNotification = [LEOStatusBarNotification new];
 
