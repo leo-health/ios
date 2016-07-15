@@ -65,6 +65,7 @@
 #import "LEOAnalyticScreen.h"
 #import "LEOAnalyticIntent.h"
 #import "LEOAnalyticSessionManager.h"
+#import "LEOAnalytic.h"
 
 @interface LEOConversationViewController ()
 
@@ -1082,14 +1083,16 @@ static NSString *const kDefaultPracticeID = @"0";
     [self sendMessage:message withCompletion:^(Message *responseMessage, NSError *error){
 
         if (!error) {
-
             if ([message isKindOfClass:[MessageImage class]]) {
-                [LEOAnalyticEvent tagEvent:kAnalyticEventSendImageMessage
-                               withMessage:message];
+//                [LEOAnalytic tagType:LEOAnalyticTypeEvent
+//                            tagEvent:kAnalyticEventSendImageMessage
+//                               withMessage:message];
+                //TODO: ABG
             }
             else if ([message isKindOfClass:[MessageText class]]) {
-                [LEOAnalyticEvent tagEvent:kAnalyticEventSendTextMessage
-                               withMessage:message];
+//                [LEOAnalyticEvent tagEvent:kAnalyticEventSendTextMessage
+//                               withMessage:message];
+                //TODO:ABG
             }
 
             [[self conversation] addMessage:responseMessage];
