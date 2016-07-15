@@ -14,9 +14,9 @@
 
 @implementation Appointment (Analytics)
 
-- (NSDictionary *)getAttributes {
+- (NSDictionary *)attributes {
     
-    NSMutableDictionary *mutableAttributeDictionary= [[self.patient getAttributes] mutableCopy];
+    NSMutableDictionary *mutableAttributeDictionary= [[self.patient attributes] mutableCopy];
     
     NSDictionary *appointmentDictionary =
     @{@"Visit type": self.appointmentType.name,

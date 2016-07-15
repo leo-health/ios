@@ -10,6 +10,6 @@
 
 @interface Appointment (Analytics)
 
-- (NSDictionary *)getAttributes;
+- (NSDictionary *)attributes;
 
 @end

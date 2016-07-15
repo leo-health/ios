@@ -13,6 +13,7 @@
 
 
 + (void)tagEvent:(NSString *)eventName
-  withAttributes:(NSDictionary *)attributeDictionary;
+      attributes:(NSDictionary *)attributeDictionary;
+
 
 @end

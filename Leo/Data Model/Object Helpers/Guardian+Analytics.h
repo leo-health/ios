@@ -12,6 +12,6 @@
 
 - (NSString *)isPrimaryString;
 - (NSString *)membershipTypeString;
-- (NSDictionary *)getAttributes;
+- (NSDictionary *)attributes;
 
 @end

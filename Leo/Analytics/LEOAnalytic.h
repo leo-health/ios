@@ -10,14 +10,32 @@
 
 @interface LEOAnalytic : NSObject
 
-typedef enum {
+typedef NS_ENUM(NSInteger, LEOAnalyticType) {
     LEOAnalyticTypeEvent,
     LEOAnalyticTypeIntent,
     LEOAnalyticTypeScreen,
-} LEOAnalyticType;
+};
+
+/**
+ *  Tags an analytic action
+ *
+ *  @param type      The type of analytic (screen, event, intent)
+ *  @param eventName The name of the event
+ */
 
 + (void)tagType:(LEOAnalyticType)type
-withName:(NSString *)eventName;
+      eventName:(NSString *)eventName;
+
+/**
+ *  Tags an analytic action that has certain attributes.
+ *
+ *  @param type       The type of analytic (screen, event, intent)
+ *  @param eventName  The name of the event
+ *  @param attributes Attributes associated with the event
+ */
++ (void)tagType:(LEOAnalyticType)type
+      eventName:(NSString *)eventName
+     attributes:(NSDictionary *)attributes;
 
 
 @end
