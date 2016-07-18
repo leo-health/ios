@@ -18,6 +18,8 @@
 #import "Patient.h"
 #import "HealthRecord.h"
 #import "LEOChartTimeFrameView.h"
+#import "LEOPHRGraphOverlayView.h"
+#import "LEOChartVerticalLineSelectorView.h"
 
 @interface LEOVitalGraphViewController ()
 
@@ -35,6 +37,7 @@
 @property (strong, nonatomic) TKChartBalloonAnnotation *balloonAnnotation;
 @property (strong, nonatomic) TKChartViewAnnotation *viewAnnotation;
 @property (copy, nonatomic) NSArray *selectedDataSet;
+@property (strong, nonatomic) NSNumber *selectedDataPointIndex;
 
 @end
 
@@ -71,6 +74,17 @@ static NSInteger const kVitalGraphMinDaysBeforeOrAfter = 1;
     [self reloadWithUIUpdates];
 }
 
+<<<<<<< Updated upstream
+- (void)viewDidAppear:(BOOL)animated {
+
+    [super viewDidAppear:animated];
+
+    [self.chart select:[[TKChartSelectionInfo alloc] initWithSeries:self.chart.series[0] dataPointIndex:self.filteredCoordinateData.count - 1]];
+
+}
+
+=======
+>>>>>>> Stashed changes
 - (void)formatChart {
 
     self.chart.insets = UIEdgeInsetsZero;
@@ -94,11 +108,38 @@ static NSInteger const kVitalGraphMinDaysBeforeOrAfter = 1;
 
         _chart = strongChart;
         _chart.allowAnimations = YES;
+        _chart.allowTrackball = YES;
+        _chart.trackball.minimumPressDuration = 0.01;
+
+        [self setupTrackball:_chart.trackball];
 
         [self.view addSubview:_chart];
     }
     
     return _chart;
+}
+
+- (void)setupTrackball:(TKChartTrackball *)trackball {
+
+    CGSize size = CGSizeMake(8, 8);
+    TKPredefinedShape *shape =
+    [[TKPredefinedShape alloc] initWithType:TKShapeTypeCircle
+                                    andSize:size];
+
+    TKChartCrossLineAnnotationStyle *style = trackball.line.style;
+
+    style.verticalLineStroke =
+    [TKStroke strokeWithColor:[UIColor leo_orangeRed]
+                        width:1.0];
+    style.pointShapeFill =
+    [TKSolidFill solidFillWithColor:[UIColor leo_orangeRed]];
+
+    style.pointShapeStroke =
+    [TKStroke strokeWithColor:[UIColor leo_orangeRed]];
+
+    style.pointShape = shape;
+
+    trackball.tooltip.hidden = YES;
 }
 
 - (UISegmentedControl *)metricControl {
@@ -144,6 +185,7 @@ static NSInteger const kVitalGraphMinDaysBeforeOrAfter = 1;
             [self reloadWithUIUpdatesForAgeRangeStartingFrom:startOfRangeInYearsInclusive endingBefore:endOfRangeInYearsExclusive];
         };
 
+        //TODO: ZSD - Deal with the fact that this doesn't account for us only covering through 12 years old at this time.
         CGFloat ageOfChild = [[NSDate date] monthsLaterThan:self.patient.dob] / 12.0;
 
         LEOChartTimeFrameView *strongTimeFrameView =
@@ -164,6 +206,7 @@ static NSInteger const kVitalGraphMinDaysBeforeOrAfter = 1;
 
     [self reloadWithUIUpdatesForAgeRangeStartingFrom:0 endingBefore:12];
 }
+
 
 #pragma mark - Dataset Helpers
 
@@ -337,20 +380,39 @@ static NSInteger const kVitalGraphMinDaysBeforeOrAfter = 1;
         self.chart.translatesAutoresizingMaskIntoConstraints = NO;
         self.metricControl.translatesAutoresizingMaskIntoConstraints = NO;
         self.timeFrameView.translatesAutoresizingMaskIntoConstraints = NO;
-            
+
         NSDictionary *bindings = NSDictionaryOfVariableBindings(_chart, _metricControl, _timeFrameView);
 
-        NSArray *horizontalLayoutConstraintsForChart = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_chart]|" options:0 metrics:nil views:bindings];
-        NSArray *horizontalLayoutConstraintsForMetricControl = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_metricControl]|" options:0 metrics:nil views:bindings];
-        NSArray *horizontalLayoutConstraintsForTimeFrameView = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_timeFrameView]|" options:0 metrics:nil views:bindings];
+        NSArray *horizontalLayoutConstraintsForChart =
+        [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_chart]|"
+                                                options:0
+                                                metrics:nil
+                                                  views:bindings];
 
-        NSArray *verticalLayoutConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_metricControl][_chart][_timeFrameView]|" options:0 metrics:nil views:bindings];
+        NSArray *horizontalLayoutConstraintsForMetricControl =
+        [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_metricControl]|"
+                                                options:0
+                                                metrics:nil
+                                                  views:bindings];
+        NSArray *horizontalLayoutConstraintsForTimeFrameView =
+        [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_timeFrameView]|"
+                                                options:0
+                                                metrics:nil
+                                                  views:bindings];
+
+        NSArray *verticalLayoutConstraints =
+        [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_metricControl][_chart][_timeFrameView]|"
+                                                options:0
+                                                metrics:nil
+                                                  views:bindings];
+
 
         [self.view addConstraints:horizontalLayoutConstraintsForTimeFrameView];
         [self.view addConstraints:horizontalLayoutConstraintsForChart];
         [self.view addConstraints:horizontalLayoutConstraintsForMetricControl];
 
         [self.view addConstraints:verticalLayoutConstraints];
+
 
         self.alreadyUpdatedConstraints = YES;
     }
@@ -361,7 +423,9 @@ static NSInteger const kVitalGraphMinDaysBeforeOrAfter = 1;
 
 #pragma mark - <TKChartDelegate>
 
--(TKChartPaletteItem *)chart:(TKChart *)chart paletteItemForSeries:(TKChartSeries *)series atIndex:(NSInteger)index {
+-(TKChartPaletteItem *)chart:(TKChart *)chart
+        paletteItemForSeries:(TKChartSeries *)series
+                     atIndex:(NSInteger)index {
 
     TKChartLineSeries *lineSeries = (TKChartLineSeries *)series;
 
@@ -372,17 +436,60 @@ static NSInteger const kVitalGraphMinDaysBeforeOrAfter = 1;
 
     TKChartPaletteItem *seriesPaletteItem = [TKChartPaletteItem new];
     seriesPaletteItem.stroke = [TKStroke strokeWithColor:[UIColor leo_orangeRed] width:1.0];
-    seriesPaletteItem.fill = [TKLinearGradientFill linearGradientFillWithColors:@[[[UIColor leo_gray176] colorWithAlphaComponent:0.6], [UIColor clearColor]] locations:@[@(0.0f),@(0.7f)] startPoint:CGPointMake(0.5f,0.f) endPoint:CGPointMake(0.5f, 1.f)];
+
+    NSArray *colors = @[[[UIColor leo_gray176] colorWithAlphaComponent:0.6], [UIColor clearColor]];
+    seriesPaletteItem.fill = [TKLinearGradientFill linearGradientFillWithColors:colors
+                                                                      locations:@[@(0.0f),@(0.7f)]
+                                                                     startPoint:CGPointMake(0.5f,0.f)
+                                                                       endPoint:CGPointMake(0.5f, 1.f)];
 
     return seriesPaletteItem;
 }
 
--(TKChartPaletteItem *)chart:(TKChart *)chart paletteItemForPoint:(NSUInteger)index inSeries:(TKChartSeries *)series {
+- (TKChartPaletteItem *)chart:(TKChart *)chart
+          paletteItemForPoint:(NSUInteger)index
+                     inSeries:(TKChartSeries *)series {
 
     TKChartPaletteItem *pointPaletteItem = [TKChartPaletteItem new];
     pointPaletteItem.stroke = [TKStroke strokeWithColor:[UIColor leo_orangeRed] width:3.0];
-    pointPaletteItem.fill = [TKSolidFill solidFillWithColor:[UIColor leo_white]];
+
+    UIColor *fillColor = [self.selectedDataPointIndex  isEqual:@(index)] ? [UIColor leo_orangeRed] : [UIColor leo_white];
+
+    pointPaletteItem.fill = [TKSolidFill solidFillWithColor:fillColor];
+
     return pointPaletteItem;
+}
+
+- (NSNumber *)selectedDataPointIndex {
+
+    if (!_selectedDataPointIndex) {
+        _selectedDataPointIndex = @(self.filteredCoordinateData.count - 1);
+    }
+
+    return _selectedDataPointIndex;
+}
+
+#pragma mark - Overlay annotations
+
+- (void)chart:(TKChart *)chart trackballDidTrackSelection:(NSArray *)selection {
+
+    [self.chart select:selection.firstObject];
+}
+
+- (void)chart:(TKChart *__nonnull)chart
+didSelectPoint:(id<TKChartData> __nonnull)point
+     inSeries:(TKChartSeries *__nonnull)series
+      atIndex:(NSInteger)index {
+
+    self.selectedDataPointIndex = @(index);
+
+    [chart removeAllAnnotations];
+
+    TKChartGridLineAnnotation *lineAnnotation = [[TKChartGridLineAnnotation alloc] initWithValue:point.dataXValue
+                                                                                         forAxis:chart.xAxis];
+
+    lineAnnotation.style.stroke = [TKStroke strokeWithColor:[UIColor leo_orangeRed] width:1.0];
+    [chart addAnnotation:lineAnnotation];
 }
 
 

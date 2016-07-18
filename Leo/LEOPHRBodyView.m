@@ -84,7 +84,8 @@ NS_ENUM(NSInteger, TableViewRow) {
 - (void)reloadDataForPatient {
 
     [self.tableView reloadData];
-    [self.graphViewController reloadWithUIUpdates];
+
+    self.graphViewController.patient = self.patient;
 }
 
 - (UITableView *)tableView {

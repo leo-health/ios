@@ -18,6 +18,10 @@
 
 @implementation LEOPHRVitalChartCell
 
+- (void)awakeFromNib {
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
+}
+
 - (void)setHostedGraphView:(UIView *)hostedGraphView {
 
     _hostedGraphView = hostedGraphView;

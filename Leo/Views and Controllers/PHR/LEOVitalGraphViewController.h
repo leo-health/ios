@@ -18,8 +18,6 @@
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil NS_UNAVAILABLE;
 
-- (void)reloadWithUIUpdates;
-
 @property (strong, nonatomic) Patient *patient;
 
 @end

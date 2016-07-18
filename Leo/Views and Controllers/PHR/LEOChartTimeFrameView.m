@@ -90,9 +90,6 @@
 
         _zeroToTwoTimeFrameButton = strongButton;
 
-        [_zeroToTwoTimeFrameButton setTitle:@"0-2 YEARS"
-                                   forState:UIControlStateNormal];
-
         [self formatTimeFrameButton:_zeroToTwoTimeFrameButton
                               title:@"0-2 YEARS"
                            selector:@selector(zeroToTwoTimeFrameTouchedUpInside)
@@ -113,9 +110,6 @@
 
         _twoToFiveYearsTimeFrameButton = strongButton;
 
-        [_twoToFiveYearsTimeFrameButton setTitle:@"2-5 YEARS"
-                                        forState:UIControlStateNormal];
-
         [self formatTimeFrameButton:_twoToFiveYearsTimeFrameButton
                               title:@"2-5 YEARS"
                            selector:@selector(twoToFiveTimeFrameTouchedUpInside)
@@ -135,9 +129,6 @@
         UIButton *strongButton = [UIButton buttonWithType:UIButtonTypeCustom];
 
         _fivePlusTimeFrameButton = strongButton;
-
-        [_fivePlusTimeFrameButton setTitle:@"5-12 YEARS"
-                                  forState:UIControlStateNormal];
 
         [self formatTimeFrameButton:_fivePlusTimeFrameButton
                               title:@"5-12 YEARS"
