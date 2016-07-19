@@ -59,6 +59,15 @@ static NSString *const AvenirNextCondensedRegular = @"AvenirNextCondensed-Regula
 }
 
 /**
+ *  AvenirNext-Medium, Size 10
+ *
+ *  @return UIFont
+ */
++ (UIFont *)leo_medium10 {
+    return [UIFont fontWithName:AvenirNextMedium size:10];
+}
+
+/**
  *  AvenirNext-Medium, Size 15
  *
  *  @return UIFont
@@ -74,6 +83,15 @@ static NSString *const AvenirNextCondensedRegular = @"AvenirNextCondensed-Regula
  */
 + (UIFont *)leo_medium19 {
     return [UIFont fontWithName:AvenirNextMedium size:19];
+}
+
+/**
+ *  AvenirNext-Medium, Size 16
+ *
+ *  @return UIFont
+ */
++ (UIFont *)leo_medium21 {
+    return [UIFont fontWithName:AvenirNextMedium size:21];
 }
 
 /**
@@ -110,6 +128,24 @@ static NSString *const AvenirNextCondensedRegular = @"AvenirNextCondensed-Regula
  */
 + (UIFont *)leo_demiBold17 {
     return [UIFont fontWithName:AvenirNextDemiBold size:17];
+}
+
+/**
+ *  AvenirNext-DemiBold, Size 6
+ *
+ *  @return UIFont
+ */
++ (UIFont *)leo_demiBold6 {
+    return [UIFont fontWithName:AvenirNextDemiBold size:6];
+}
+
+/**
+ *  AvenirNext-DemiBold, Size 8
+ *
+ *  @return UIFont
+ */
++ (UIFont *)leo_demiBold10 {
+    return [UIFont fontWithName:AvenirNextDemiBold size:10];
 }
 
 /**

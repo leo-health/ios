@@ -8,6 +8,7 @@
 
 #import "LEOPHRVitalChartCell.h"
 #import "LEOVitalGraphViewController.h"
+#import "LEOSession.h"
 
 @interface LEOPHRVitalChartCell ()
 
@@ -36,14 +37,15 @@
 
     if (!self.alreadyUpdatedConstraints) {
 
-        self.contentView.translatesAutoresizingMaskIntoConstraints = NO;
         self.hostedGraphView.translatesAutoresizingMaskIntoConstraints = NO;
 
         NSDictionary *bindings = NSDictionaryOfVariableBindings(_hostedGraphView);
 
-        NSArray *horizontalLayoutConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_hostedGraphView(==375)]|" options:0 metrics:nil views:bindings];
+        NSDictionary *metrics = @{@"width" : [self chartWidthMetric], @"height" : [self chartHeightMetric]};
 
-        NSArray *verticalLayoutConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_hostedGraphView(==200)]|" options:0 metrics:nil views:bindings];
+        NSArray *horizontalLayoutConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_hostedGraphView(width)]|" options:0 metrics:metrics views:bindings];
+
+        NSArray *verticalLayoutConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_hostedGraphView(height)]|" options:0 metrics:metrics views:bindings];
 
         [self.contentView addConstraints:horizontalLayoutConstraints];
         [self.contentView addConstraints:verticalLayoutConstraints];
@@ -54,5 +56,45 @@
     [super updateConstraints];
 }
 
+- (NSNumber *)chartWidthMetric {
+
+    switch ([LEOSession deviceModel]) {
+
+        case DeviceModel4OrLess:
+            return @320;
+
+        case DeviceModel5:
+            return @320;
+
+        case DeviceModel6:
+            return @375;
+
+        case DeviceModel6Plus:
+            return @414;
+
+        case DeviceModelUnsupported:
+            return @320;
+    }
+}
+
+- (NSNumber *)chartHeightMetric {
+
+    switch ([LEOSession deviceModel]) {
+        case DeviceModel5:
+            return @260;
+
+        case DeviceModel6:
+            return @260;
+
+        case DeviceModel6Plus:
+            return @260;
+
+        case DeviceModelUnsupported:
+            return @260;
+
+        default:
+            return @260;
+    }
+}
 
 @end

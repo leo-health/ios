@@ -187,21 +187,21 @@
 + (NSString *)leo_stringifiedShortDate:(NSDate *)date {
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
-    dateFormatter.dateFormat = @"MM/dd/YYYY";
+    dateFormatter.dateFormat = @"MM/dd/yyyy";
     return [dateFormatter stringFromDate:date];
 }
 
 + (NSString *)leo_stringifiedDashedShortDate:(NSDate *)date {
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
-    dateFormatter.dateFormat = @"dd-MM-YYYY";
+    dateFormatter.dateFormat = @"dd-MM-yyyy";
     return [dateFormatter stringFromDate:date];
 }
 
 + (NSString *)leo_stringifiedDashedShortDateYearMonthDay:(NSDate *)date {
 
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
-    dateFormatter.dateFormat = @"YYYY-MM-dd";
+    dateFormatter.dateFormat = @"yyyy-MM-dd";
     return [dateFormatter stringFromDate:date];
 }
 /**

@@ -17,11 +17,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSInteger, PatientVitalMeasurementType) {
+typedef NS_ENUM(NSInteger, LEOPatientVitalMeasurementType) {
 
-    PatientVitalMeasurementTypeBMI,
-    PatientVitalMeasurementTypeHeight,
-    PatientVitalMeasurementTypeWeight,
+    LEOPatientVitalMeasurementTypeUnknown,
+    LEOPatientVitalMeasurementTypeBMI,
+    LEOPatientVitalMeasurementTypeHeight,
+    LEOPatientVitalMeasurementTypeWeight,
 };
 
 @property (strong, nonatomic) NSDate *takenAt;
@@ -30,19 +31,27 @@ typedef NS_ENUM(NSInteger, PatientVitalMeasurementType) {
 @property (strong, nonatomic) NSNumber *percentile;
 @property (copy, nonatomic) NSString *unit;
 @property (copy, nonatomic) NSString *valueAndUnitFormatted;
-@property (nonatomic) PatientVitalMeasurementType measurementType;
+@property (nonatomic) LEOPatientVitalMeasurementType measurementType;
+@property (copy, nonatomic) NSArray *formattedValues;
+@property (copy, nonatomic) NSArray *formattedUnits;
 
 - (instancetype)initWithTakenAt:(NSDate *)takenAt
                           value:(NSNumber *)value
                      percentile:(NSNumber *)percentile
                            unit:(NSString *)unit
-                measurementType:(PatientVitalMeasurementType)measurementType
-          valueAndUnitFormatted:(NSString *)valueAndUnitFormatted;
+                measurementType:(LEOPatientVitalMeasurementType)measurementType
+          valueAndUnitFormatted:(NSString *)valueAndUnitFormatted
+                formattedValues:(NSArray *)formattedValues
+                 formattedUnits:(NSArray *)formattedUnits;
+
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonDictionary;
 + (NSArray *)patientVitalsFromDictionaries:(NSArray *)dictionaries;
 
-- (NSNumber *)takenAtInTimeUnits:(LEOTimeUnit)timeUnit sinceBirthOfPatient:(Patient *)patient;
-- (void)setTakenAtSinceBasedOnTakenAtInUnits:(LEOTimeUnit)timeUnit sinceBirthOfPatient:(Patient *)patient;
+- (NSDictionary *)takenAtInAppropriateTimeUnitsSinceBirthOfPatient:(nonnull NSDate *)dob;
+- (NSString *)percentileWithSuffix;
+
++ (NSString *)stringFromMeasurementType:(LEOPatientVitalMeasurementType)measurementType;
++ (LEOPatientVitalMeasurementType)measurementTypeFromString:(NSString *)measurementTypeString;
 
 NS_ASSUME_NONNULL_END
 @end

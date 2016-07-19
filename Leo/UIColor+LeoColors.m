@@ -11,7 +11,7 @@
 @implementation UIColor (LeoColors)
 
 + (UIColor *)leo_orangeRed {
-    return [UIColor colorWithRed:255/255.0 green:95/255.0 blue:64/255.0 alpha:1]; /*#FF5F40*/
+    return [UIColor colorWithRed:255.0/255.0 green:95.0/255.0 blue:64.0/255.0 alpha:1]; /*#FF5F40*/
 }
 
 + (UIColor *)leo_grayBlueForBackgrounds {
@@ -50,6 +50,10 @@
     return [UIColor colorWithRed:74.0/255.0 green:74.0/255.0 blue:74.0/255.0 alpha:1]; /*#4A4A4A*/
 }
 
++ (UIColor *)leo_gray87 {
+    return [UIColor colorWithRed:87.0/255.0 green:87.0/255.0 blue:87.0/255.0 alpha:1]; /*#7C7C7C*/
+}
+
 + (UIColor *)leo_gray124 {
     return [UIColor colorWithRed:124.0/255.0 green:124.0/255.0 blue:124.0/255.0 alpha:1]; /*#7C7C7C*/
 }
@@ -60,6 +64,14 @@
 
 + (UIColor *)leo_gray185 {
     return [UIColor colorWithRed:185.0/255.0 green:185.0/255.0 blue:185.0/255.0 alpha:1]; /*#B9B9B9*/
+}
+
++ (UIColor *)leo_gray211 {
+    return [UIColor colorWithRed:211.0/255.0 green:211.0/255.0 blue:211.0/255.0 alpha:1]; /*#*/
+}
+
++ (UIColor *)leo_gray251 {
+    return [UIColor colorWithRed:251.9/255.0 green:251.0/255.0 blue:251.0/255.0 alpha:1]; /*#FFF*/
 }
 
 + (UIColor *)leo_gray227 {
