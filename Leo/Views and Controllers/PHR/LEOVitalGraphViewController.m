@@ -70,14 +70,6 @@ static NSInteger const kVitalGraphMinDaysBeforeOrAfter = 1;
     [self reloadWithUIUpdates];
 }
 
-<<<<<<< Updated upstream
-- (void)viewDidAppear:(BOOL)animated {
-
-    [super viewDidAppear:animated];
-}
-
-=======
->>>>>>> Stashed changes
 - (void)formatChart {
 
     self.chart.insets = UIEdgeInsetsZero;
@@ -222,6 +214,14 @@ static NSInteger const kVitalGraphMinDaysBeforeOrAfter = 1;
     return [finalDateOfDataToPlot dateByAddingDays:daysInset];
 }
 
+/**
+ *  Creates an inset for the x axis in order to ensure points do not start from edge of graph
+ *
+ *  @param startDate date of first datapoint
+ *  @param endDate   date of last datapoint
+ *
+ *  @return NSInteger inset width
+ */
 - (NSInteger)rangeInsetXWithStartDate:(NSDate *)startDate
                               endDate:(NSDate *)endDate  {
 
@@ -328,9 +328,7 @@ static NSInteger const kVitalGraphMinDaysBeforeOrAfter = 1;
 
         [self.view addConstraints:horizontalLayoutConstraintsForChart];
         [self.view addConstraints:horizontalLayoutConstraintsForMetricControl];
-
         [self.view addConstraints:verticalLayoutConstraints];
-
 
         self.alreadyUpdatedConstraints = YES;
     }
@@ -371,7 +369,8 @@ static NSInteger const kVitalGraphMinDaysBeforeOrAfter = 1;
     TKChartPaletteItem *pointPaletteItem = [TKChartPaletteItem new];
     pointPaletteItem.stroke = [TKStroke strokeWithColor:[UIColor leo_orangeRed] width:3.0];
 
-    UIColor *fillColor = [self.selectedDataPointIndex  isEqual:@(index)] ? [UIColor leo_orangeRed] : [UIColor leo_white];
+    UIColor *fillColor =
+    [self.selectedDataPointIndex  isEqual:@(index)] ? [UIColor leo_orangeRed] : [UIColor leo_white];
 
     pointPaletteItem.fill = [TKSolidFill solidFillWithColor:fillColor];
 
@@ -391,7 +390,6 @@ static NSInteger const kVitalGraphMinDaysBeforeOrAfter = 1;
 #pragma mark - Overlay annotations
 
 - (void)chart:(TKChart *)chart trackballDidTrackSelection:(NSArray *)selection {
-
     [self.chart select:selection.firstObject];
 }
 
@@ -406,7 +404,6 @@ didSelectPoint:(id<TKChartData> __nonnull)point
 
     TKChartGridLineAnnotation *lineAnnotation = [[TKChartGridLineAnnotation alloc] initWithValue:point.dataXValue
                                                                                          forAxis:chart.xAxis];
-
     lineAnnotation.style.stroke = [TKStroke strokeWithColor:[UIColor leo_orangeRed] width:1.0];
     [chart addAnnotation:lineAnnotation];
 }

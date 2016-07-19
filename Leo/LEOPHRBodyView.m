@@ -119,9 +119,7 @@ NS_ENUM(NSInteger, TableViewRow) {
 
     _patient = patient;
 
-    _graphViewController.patient = self.patient;
-
-    [self.tableView reloadData];
+    [self reloadDataForPatient];
 }
 
 - (LEOVitalGraphViewController *)graphViewController {
