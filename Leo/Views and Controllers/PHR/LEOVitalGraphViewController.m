@@ -18,6 +18,7 @@
 #import "Patient.h"
 #import "HealthRecord.h"
 
+
 @interface LEOVitalGraphViewController ()
 
 @property (weak, nonatomic) TKChart *chart;
@@ -32,7 +33,9 @@
 @property (copy, nonatomic) GraphSeriesConfigureBlock seriesBlock;
 @property (strong, nonatomic) TKChartBalloonAnnotation *balloonAnnotation;
 @property (strong, nonatomic) TKChartViewAnnotation *viewAnnotation;
-@property (strong, nonatomic) Patient *patient;
+@property (copy, nonatomic) NSArray *selectedDataSet;
+@property (strong, nonatomic) NSNumber *selectedDataPointIndex;
+
 @end
 
 @implementation LEOVitalGraphViewController
@@ -90,11 +93,38 @@ static NSInteger const kVitalGraphMinDaysBeforeOrAfter = 1;
 
         _chart = strongChart;
         _chart.allowAnimations = YES;
+        _chart.allowTrackball = YES;
+        _chart.trackball.minimumPressDuration = 0.01;
+
+        [self setupTrackball:_chart.trackball];
 
         [self.view addSubview:_chart];
     }
     
     return _chart;
+}
+
+- (void)setupTrackball:(TKChartTrackball *)trackball {
+
+    CGSize size = CGSizeMake(8, 8);
+    TKPredefinedShape *shape =
+    [[TKPredefinedShape alloc] initWithType:TKShapeTypeCircle
+                                    andSize:size];
+
+    TKChartCrossLineAnnotationStyle *style = trackball.line.style;
+
+    style.verticalLineStroke =
+    [TKStroke strokeWithColor:[UIColor leo_orangeRed]
+                        width:1.0];
+    style.pointShapeFill =
+    [TKSolidFill solidFillWithColor:[UIColor leo_orangeRed]];
+
+    style.pointShapeStroke =
+    [TKStroke strokeWithColor:[UIColor leo_orangeRed]];
+
+    style.pointShape = shape;
+
+    trackball.tooltip.hidden = YES;
 }
 
 - (UISegmentedControl *)metricControl {
@@ -131,6 +161,13 @@ static NSInteger const kVitalGraphMinDaysBeforeOrAfter = 1;
     return _metricControl;
 }
 
+- (void)setPatient:(Patient *)patient {
+
+    _patient = patient;
+
+    [self reloadWithUIUpdates];
+}
+
 #pragma mark - Dataset Helpers
 
 -(NSArray *)coordinateData {
@@ -155,17 +192,38 @@ static NSInteger const kVitalGraphMinDaysBeforeOrAfter = 1;
 
 - (id)graphXStartPoint {
 
-    NSInteger daysToSubtractFromStartPoint = [self rangeInsetXWithStartDate:[[self selectedDataSet].firstObject takenAt] endDate:[[self selectedDataSet].lastObject takenAt]];
-    return [[(PatientVitalMeasurement *)[self selectedDataSet].firstObject takenAt] dateBySubtractingDays:daysToSubtractFromStartPoint];
+    NSInteger daysInset =
+    [self rangeInsetXWithStartDate:[[self selectedDataSet].firstObject takenAt]
+                           endDate:[[self selectedDataSet].lastObject takenAt]];
+
+    NSDate *initialDateOfDataToPlot =
+    [(PatientVitalMeasurement *)[self selectedDataSet].firstObject takenAt];
+
+    return [initialDateOfDataToPlot dateBySubtractingDays:daysInset];
 }
 
 - (id)graphXEndPoint {
 
-    NSInteger daysToAddToEndPoint = [self rangeInsetXWithStartDate:[[self selectedDataSet].firstObject takenAt] endDate:[[self selectedDataSet].lastObject takenAt]];
-    return [[(PatientVitalMeasurement *)[self selectedDataSet].lastObject takenAt] dateByAddingDays:daysToAddToEndPoint];
+    NSInteger daysInset =
+    [self rangeInsetXWithStartDate:[[self selectedDataSet].firstObject takenAt]
+                           endDate:[[self selectedDataSet].lastObject takenAt]];
+
+    NSDate *finalDateOfDataToPlot =
+    [(PatientVitalMeasurement *)[self selectedDataSet].lastObject takenAt];
+
+    return [finalDateOfDataToPlot dateByAddingDays:daysInset];
 }
 
-- (NSInteger)rangeInsetXWithStartDate:(NSDate *)startDate endDate:(NSDate *)endDate  {
+/**
+ *  Creates an inset for the x axis in order to ensure points do not start from edge of graph
+ *
+ *  @param startDate date of first datapoint
+ *  @param endDate   date of last datapoint
+ *
+ *  @return NSInteger inset width
+ */
+- (NSInteger)rangeInsetXWithStartDate:(NSDate *)startDate
+                              endDate:(NSDate *)endDate  {
 
     NSInteger daysSinceBeginningOfRange = [startDate daysEarlierThan:endDate];
     return MAX(daysSinceBeginningOfRange/20, kVitalGraphMinDaysBeforeOrAfter);
@@ -270,7 +328,6 @@ static NSInteger const kVitalGraphMinDaysBeforeOrAfter = 1;
 
         [self.view addConstraints:horizontalLayoutConstraintsForChart];
         [self.view addConstraints:horizontalLayoutConstraintsForMetricControl];
-
         [self.view addConstraints:verticalLayoutConstraints];
 
         self.alreadyUpdatedConstraints = YES;
@@ -282,7 +339,9 @@ static NSInteger const kVitalGraphMinDaysBeforeOrAfter = 1;
 
 #pragma mark - <TKChartDelegate>
 
--(TKChartPaletteItem *)chart:(TKChart *)chart paletteItemForSeries:(TKChartSeries *)series atIndex:(NSInteger)index {
+-(TKChartPaletteItem *)chart:(TKChart *)chart
+        paletteItemForSeries:(TKChartSeries *)series
+                     atIndex:(NSInteger)index {
 
     TKChartLineSeries *lineSeries = (TKChartLineSeries *)series;
 
@@ -293,17 +352,60 @@ static NSInteger const kVitalGraphMinDaysBeforeOrAfter = 1;
 
     TKChartPaletteItem *seriesPaletteItem = [TKChartPaletteItem new];
     seriesPaletteItem.stroke = [TKStroke strokeWithColor:[UIColor leo_orangeRed] width:1.0];
-    seriesPaletteItem.fill = [TKLinearGradientFill linearGradientFillWithColors:@[[[UIColor leo_gray176] colorWithAlphaComponent:0.6], [UIColor clearColor]] locations:@[@(0.0f),@(0.7f)] startPoint:CGPointMake(0.5f,0.f) endPoint:CGPointMake(0.5f, 1.f)];
+
+    NSArray *colors = @[[[UIColor leo_gray176] colorWithAlphaComponent:0.6], [UIColor clearColor]];
+    seriesPaletteItem.fill = [TKLinearGradientFill linearGradientFillWithColors:colors
+                                                                      locations:@[@(0.0f),@(0.7f)]
+                                                                     startPoint:CGPointMake(0.5f,0.f)
+                                                                       endPoint:CGPointMake(0.5f, 1.f)];
 
     return seriesPaletteItem;
 }
 
--(TKChartPaletteItem *)chart:(TKChart *)chart paletteItemForPoint:(NSUInteger)index inSeries:(TKChartSeries *)series {
+- (TKChartPaletteItem *)chart:(TKChart *)chart
+          paletteItemForPoint:(NSUInteger)index
+                     inSeries:(TKChartSeries *)series {
 
     TKChartPaletteItem *pointPaletteItem = [TKChartPaletteItem new];
     pointPaletteItem.stroke = [TKStroke strokeWithColor:[UIColor leo_orangeRed] width:3.0];
-    pointPaletteItem.fill = [TKSolidFill solidFillWithColor:[UIColor leo_white]];
+
+    UIColor *fillColor =
+    [self.selectedDataPointIndex  isEqual:@(index)] ? [UIColor leo_orangeRed] : [UIColor leo_white];
+
+    pointPaletteItem.fill = [TKSolidFill solidFillWithColor:fillColor];
+
     return pointPaletteItem;
+}
+
+- (NSNumber *)selectedDataPointIndex {
+
+    if (!_selectedDataPointIndex) {
+
+        _selectedDataPointIndex = @(self.selectedDataSet.count - 1);
+    }
+
+    return _selectedDataPointIndex;
+}
+
+#pragma mark - Overlay annotations
+
+- (void)chart:(TKChart *)chart trackballDidTrackSelection:(NSArray *)selection {
+    [self.chart select:selection.firstObject];
+}
+
+- (void)chart:(TKChart *__nonnull)chart
+didSelectPoint:(id<TKChartData> __nonnull)point
+     inSeries:(TKChartSeries *__nonnull)series
+      atIndex:(NSInteger)index {
+
+    self.selectedDataPointIndex = @(index);
+
+    [chart removeAllAnnotations];
+
+    TKChartGridLineAnnotation *lineAnnotation = [[TKChartGridLineAnnotation alloc] initWithValue:point.dataXValue
+                                                                                         forAxis:chart.xAxis];
+    lineAnnotation.style.stroke = [TKStroke strokeWithColor:[UIColor leo_orangeRed] width:1.0];
+    [chart addAnnotation:lineAnnotation];
 }
 
 
