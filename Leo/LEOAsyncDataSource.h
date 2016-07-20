@@ -7,9 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "LEOPromise.h"
+#import "LEOAsyncReadOnlyDataSource.h"
 
-@protocol LEOAsyncDataSource <NSObject>
+@protocol LEOAsyncDataSource <LEOAsyncReadOnlyDataSource>
 
 - (LEOPromise *)get:(NSString*)endpoint params:(NSDictionary*)params completion:(LEODictionaryErrorBlock)completion;
 - (LEOPromise *)put:(NSString*)endpoint params:(NSDictionary*)params completion:(LEODictionaryErrorBlock)completion;

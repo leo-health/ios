@@ -372,9 +372,13 @@ extern NSString *const APIParamFormNotes; // @"notes";
 
 
 #pragma mark - Images
+extern NSString *const APIEndpointImage; // @"image";
+extern NSString *const APIParamImage; // @"image";
+extern NSString *const APIParamImagePlaceholder; // @"placeholder";
 extern NSString *const APIParamImageURL; // @"url";
 extern NSString *const APIParamImageBaseURL; // @"base_url";
 extern NSString *const APIParamImageURLParameters; // @"parameters";
+extern NSString *const APIParamAvatarOwnerID; // @"owner_id";
 
 
 #pragma mark - Card
@@ -539,6 +543,8 @@ extern NSString *const kPromptFieldCellReuseIdentifier; // @"LEOPromptFieldCell"
 #pragma mark - LEO Error Domains
 extern NSString *const LEOErrorDomainValidation; // @"LEOErrorDomainValidation";
 extern NSString *const LEOErrorDomainContent; // @"LeoErrorDomainContent";
+extern NSString *const LEOErrorDomainNotImplemented; // @"LEOErrorDomainNotImplemented";
+extern NSInteger const LEOErrorCodeDefault; // 1622;
 
 #pragma mark - API Errors
 extern NSString *const APIParamErrorMessages; // @"message";

@@ -44,8 +44,8 @@ static CGFloat kImageSideSizeScale3Avatar = 300.0;
     NSString *baseURL = [jsonDictionary leo_itemForKey:APIParamImageBaseURL];
     NSDictionary *parameters = [jsonDictionary leo_itemForKey:APIParamImageURLParameters];
 
-    UIImage *image = [jsonDictionary leo_itemForKey:@"image"];
-    UIImage *placeholder = [jsonDictionary leo_itemForKey:@"placeholder"];
+    UIImage *image = [jsonDictionary leo_itemForKey:APIParamImage];
+    UIImage *placeholder = [jsonDictionary leo_itemForKey:APIParamImagePlaceholder];
 
     return [self initWithBaseURL:baseURL parameters:parameters placeholder:placeholder image:image];
 }
@@ -66,14 +66,15 @@ static CGFloat kImageSideSizeScale3Avatar = 300.0;
     jsonDictionary[APIParamImageBaseURL] = image.baseURL;
     jsonDictionary[APIParamImageURLParameters] = image.parameters;
 
-    jsonDictionary[@"image"] = image.underlyingImage;
-    jsonDictionary[@"placeholder"] = image.placeholder;
+    jsonDictionary[APIParamImage] = image.underlyingImage;
+    jsonDictionary[APIParamImagePlaceholder] = image.placeholder;
 
     return [jsonDictionary copy];
 }
 
 - (BOOL)isPlaceholder {
 
+    [self refreshIfNeeded];
     return !self.underlyingImage;
 }
 
@@ -83,17 +84,20 @@ static CGFloat kImageSideSizeScale3Avatar = 300.0;
 
 - (void)refreshIfNeeded {
 
-    if (!self.underlyingImage && self.baseURL && !self.downloadTask) {
+    if (!self.underlyingImage && self.baseURL && !self.downloadPromise) {
 
         __weak typeof(self) weakSelf = self;
-        self.downloadTask = [[LEOMediaService new] getImageForS3Image:self withCompletion:^(UIImage * rawImage, NSError * error) {
+        self.downloadPromise = [[LEOMediaService new] getImageForS3Image:self withCompletion:^(UIImage * rawImage, NSError * error) {
             __strong typeof(self) strongSelf = weakSelf;
             if (!error && rawImage) {
 
                 strongSelf.underlyingImage = rawImage;
-                strongSelf.downloadTask = nil;
 
-                [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationDownloadedImageUpdated object:strongSelf];
+                if (strongSelf.downloadPromise) {
+                    // Only send the notification if we are waiting for completion
+                    [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationDownloadedImageUpdated object:strongSelf];
+                }
+                strongSelf.downloadPromise = nil;
             }
         }];
     }

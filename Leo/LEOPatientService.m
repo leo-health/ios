@@ -163,16 +163,24 @@
 
     NSString *avatarData = [UIImageJPEGRepresentation(avatarImage, kImageCompressionFactor) base64EncodedStringWithOptions:0];
 
-    NSDictionary *avatarParams = @{@"avatar":avatarData, @"patient_id":@([patient.objectID integerValue])};
+    NSDictionary *avatarParams = @{
+                                   APIParamUserAvatar:avatarData,
+                                   APIParamUserPatientID:@([patient.objectID integerValue])};
 
-    [self.cachedService post:APIEndpointAvatars params:avatarParams completion:^(NSDictionary *rawResults, NSError *error) {
+    [self.cachedService post:APIEndpointAvatars
+                      params:avatarParams
+                  completion:^(NSDictionary *rawResults, NSError *error) {
 
         if (!error) {
-            
-            NSDictionary *rawAvatarUrlData = rawResults[@"url"];
-            patient.avatar = [[LEOS3Image alloc] initWithJSONDictionary:rawAvatarUrlData];
-            patient.avatar.image = [LEOS3Image resizeLocalAvatarImageBasedOnScreenScale:avatarImage];
-            patient.avatar.placeholder = placeholderImage;
+
+            NSDictionary *s3ImageJSON = rawResults[APIParamImageURL];
+            LEOS3Image *s3Image = [[LEOS3Image alloc] initWithJSONDictionary:s3ImageJSON];
+            s3Image.image = [LEOS3Image resizeLocalAvatarImageBasedOnScreenScale:avatarImage];
+            s3Image.placeholder = placeholderImage;
+
+
+            [self.cachedService put:APIEndpointImage params:[s3Image serializeToJSON]];
+            patient.avatar = s3Image;
         }
 
         if (completionBlock) {

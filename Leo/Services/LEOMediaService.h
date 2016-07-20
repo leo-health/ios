@@ -9,9 +9,11 @@
 @class LEOS3Image;
 
 #import <Foundation/Foundation.h>
+#import "LEOModelService.h"
 
-@interface LEOMediaService : NSObject
+@interface LEOMediaService : LEOModelService
 
-- (NSURLSessionDataTask *)getImageForS3Image:(LEOS3Image *)s3Image withCompletion:(void (^)(UIImage *rawImage, NSError *error))completionBlock;
+- (LEOPromise *)getImageForS3Image:(LEOS3Image *)s3Image
+                    withCompletion:(void (^)(UIImage *rawImage, NSError *error))completionBlock;
 
 @end
