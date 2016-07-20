@@ -22,4 +22,8 @@ typedef NS_ENUM(NSInteger, LEOStatFormat) {
                          units:(NSArray *)units
                           type:(NSString *)type;
 
+- (instancetype)initWithCoder:(NSCoder *)aDecoder NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil NS_UNAVAILABLE;
+
 @end

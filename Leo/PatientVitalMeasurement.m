@@ -26,6 +26,7 @@ static NSString * const kYear = @"year";
 
 static NSString * const kMeasurementTypeWeight = @"weight";
 static NSString * const kMeasurementTypeHeight = @"height";
+static NSString * const kMeasurementTypeUnknown = @"unknown";
 
 - (instancetype)initWithTakenAt:(NSDate *)takenAt
                           value:(NSNumber *)value
@@ -75,9 +76,12 @@ static NSString * const kMeasurementTypeHeight = @"height";
         case LEOPatientVitalMeasurementTypeWeight:
             return kMeasurementTypeWeight;
 
-        default:
-            return @"unknown";
+        case LEOPatientVitalMeasurementTypeBMI:
+        case LEOPatientVitalMeasurementTypeUnknown:
+            break;
     }
+
+    return kMeasurementTypeUnknown;
 }
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonDictionary {

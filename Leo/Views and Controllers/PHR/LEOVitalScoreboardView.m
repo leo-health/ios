@@ -45,18 +45,6 @@
     return self;
 }
 
-//-(void)setPatient:(Patient *)patient {
-//
-//    _patient = patient;
-//}
-//
-//-(void)setVital:(PatientVitalMeasurement *)vital {
-//
-//    _vital = vital;
-//
-//    [self shouldUseFormattedValueAndUnit];
-//}
-
 - (LEOStatWithTypeView *)vitalStatView {
 
     if (!_vitalStatView) {
@@ -139,29 +127,6 @@
     return _ageStatView;
 }
 
-//- (UILabel *)recordedAtLabel {
-//
-//    if (!_recordedAtLabel) {
-//
-//        UILabel *strongLabel = [UILabel new];
-//
-//        _recordedAtLabel = strongLabel;
-//
-//        _recordedAtLabel.font = [UIFont leo_emergency911Label];
-//        _recordedAtLabel.textColor = [UIColor leo_grayForPlaceholdersAndLines];
-//
-//        [self addSubview:_recordedAtLabel];
-//    }
-//
-//    return _recordedAtLabel;
-//}
-
-//- (void)updatedRecordedAtLabel:(UILabel *)label {
-//
-//    NSString *dateString = [NSDate leo_stringifiedDate:self.vital.takenAt withFormat:@"MMMM' 'd', ' yyyy"];
-//    label.text = [NSString stringWithFormat:@"recorded %@", dateString];
-//}
-
 - (NSArray *)ageStatValues {
 
     if (self.patient.dob) {
@@ -179,39 +144,6 @@
 
     return nil;
 }
-
-//- (void)reloadData {
-//
-////    [self loadAgeData];
-////    [self loadVitalData];
-////    [self loadPercentileData];
-//
-////    [self updatedRecordedAtLabel:self.recordedAtLabel];
-//}
-
-//- (void)loadAgeData {
-//
-//    self.ageStatView.values = [self ageStatValues];
-//    self.ageStatView.units = [self ageStatUnits];
-//
-//    self.ageStatView.type = @"age";
-//
-//}
-//
-//- (void)loadVitalData {
-//
-//
-//    self.vitalStatView.values = self.vital.formattedValues;
-//    self.vitalStatView.units = self.vital.formattedUnits;
-//
-//    self.vitalStatView.type = ;
-//}
-//
-//- (void)loadPercentileData {
-//
-//    self.percentileStatView.formattedValueAndUnits = self.vital.percentileWithSuffix;
-//    self.percentileStatView.type = @"percentile";
-//}
 
 - (BOOL)shouldUseFormattedValueAndUnit {
 
@@ -239,7 +171,6 @@
         self.vitalStatView.translatesAutoresizingMaskIntoConstraints = NO;
         self.percentileStatView.translatesAutoresizingMaskIntoConstraints = NO;
         self.ageStatView.translatesAutoresizingMaskIntoConstraints = NO;
-//        self.recordedAtLabel.translatesAutoresizingMaskIntoConstraints = NO;
 
         NSDictionary *bindings = NSDictionaryOfVariableBindings(_vitalStatView, _percentileStatView, _ageStatView);
 
@@ -270,35 +201,15 @@
                                     multiplier:1.0
                                       constant:0];
 
-//        NSLayoutConstraint *bottomConstraintForRecordedAtLabel =
-//        [NSLayoutConstraint constraintWithItem:self.recordedAtLabel
-//                                     attribute:NSLayoutAttributeBottom
-//                                     relatedBy:NSLayoutRelationEqual
-//                                        toItem:self
-//                                     attribute:NSLayoutAttributeBottom
-//                                    multiplier:1.0
-//                                      constant:0];
-
         NSArray *horizontalConstraintForStatViews =
         [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_ageStatView(_vitalStatView)]-[_vitalStatView]-[_percentileStatView(_vitalStatView)]-|"
                                                 options:0
                                                 metrics:nil
                                                   views:bindings];
 
-//        NSLayoutConstraint *centerXConstraintForRecordedAtLabel =
-//        [NSLayoutConstraint constraintWithItem:self.recordedAtLabel
-//                                     attribute:NSLayoutAttributeCenterX
-//                                     relatedBy:NSLayoutRelationEqual
-//                                        toItem:self
-//                                     attribute:NSLayoutAttributeCenterX
-//                                    multiplier:1.0
-//                                      constant:0];
-
         [self addConstraint:centerYConstraintForVitalStatView];
         [self addConstraint:centerYConstraintForPercentileStatView];
         [self addConstraint:centerYConstraintForAgeStatView];
-//        [self addConstraint:bottomConstraintForRecordedAtLabel];
-//        [self addConstraint:centerXConstraintForRecordedAtLabel];
 
         [self addConstraints:horizontalConstraintForStatViews];
 
@@ -307,8 +218,6 @@
 
     [super updateConstraints];
 }
-
-
 
 
 @end

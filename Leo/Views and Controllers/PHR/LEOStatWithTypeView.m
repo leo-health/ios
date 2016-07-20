@@ -163,9 +163,6 @@
                                     multiplier:1.0
                                       constant:0];
 
-//        [self.valueAndUnitView setContentHuggingPriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisHorizontal];
-//        [self.typeLabel setContentHuggingPriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisHorizontal];
-
         NSArray *horizontalConstraintsForTypeLabel =
         [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_typeLabel]|"
                                                 options:0
@@ -182,10 +179,5 @@
     [super updateConstraints];
 }
 
-- (void)layoutSubviews {
-
-    [super layoutSubviews];
-
-}
 
 @end

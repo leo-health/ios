@@ -249,13 +249,6 @@ NS_ENUM(NSInteger, TableViewRow) {
     return cell;
 }
 
--(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-
-//    if (indexPath.section == TableViewSectionRecentVitals && [self shouldDisplayGraphOfVitals]) {
-////        [self.graphViewController didMoveToParentViewController:];
-//    }
-}
-
 - (void)configureTextCell:(UITableViewCell *)cell forIndexPath:(NSIndexPath*)indexPath {
 
     LEOPHRTableViewCell *textCell = (LEOPHRTableViewCell *)cell;

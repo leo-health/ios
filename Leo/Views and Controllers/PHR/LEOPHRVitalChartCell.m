@@ -41,11 +41,20 @@
 
         NSDictionary *bindings = NSDictionaryOfVariableBindings(_hostedGraphView);
 
-        NSDictionary *metrics = @{@"width" : [self chartWidthMetric], @"height" : [self chartHeightMetric]};
+        NSDictionary *metrics = @{@"width" : [self chartWidthMetric],
+                                  @"height" : [self chartHeightMetric]};
 
-        NSArray *horizontalLayoutConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_hostedGraphView(width)]|" options:0 metrics:metrics views:bindings];
+        NSArray *horizontalLayoutConstraints =
+        [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_hostedGraphView(width)]|"
+                                                options:0
+                                                metrics:metrics
+                                                  views:bindings];
 
-        NSArray *verticalLayoutConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_hostedGraphView(height)]|" options:0 metrics:metrics views:bindings];
+        NSArray *verticalLayoutConstraints =
+        [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_hostedGraphView(height)]|"
+                                                options:0
+                                                metrics:metrics
+                                                  views:bindings];
 
         [self.contentView addConstraints:horizontalLayoutConstraints];
         [self.contentView addConstraints:verticalLayoutConstraints];

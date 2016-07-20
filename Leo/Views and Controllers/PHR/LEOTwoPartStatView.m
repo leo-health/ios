@@ -207,10 +207,5 @@
     [super updateConstraints];
 }
 
-- (void)layoutSubviews {
-
-    [super layoutSubviews];
-
-}
 
 @end

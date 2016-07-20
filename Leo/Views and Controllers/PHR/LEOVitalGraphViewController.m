@@ -42,7 +42,10 @@
 @implementation LEOVitalGraphViewController
 
 static NSInteger const kVitalGraphMinDaysBeforeOrAfter = 1;
+static CGFloat const kNumberOfSectionsSeparatedByLinesOnGraph = 3.0;
 
+static NSInteger const kScoreboardHeight = 65;
+static NSInteger const kChartHeight = 160;
 
 #pragma mark - View Controller Lifecycle
 
@@ -320,7 +323,7 @@ static NSInteger const kVitalGraphMinDaysBeforeOrAfter = 1;
 }
 
 - (NSNumber *)yAxisMajorTickInterval {
-    return @(([self graphYEndPoint] - [self graphYStartPoint]) / 3.0);
+    return @(([self graphYEndPoint] - [self graphYStartPoint]) / kNumberOfSectionsSeparatedByLinesOnGraph);
 }
 
 - (void)setupRanges {
@@ -355,10 +358,13 @@ static NSInteger const kVitalGraphMinDaysBeforeOrAfter = 1;
                                             metrics:nil
                                               views:bindings];
 
+
+    NSDictionary *metrics = @{ @"scoreboardHeight" : @(kScoreboardHeight), @"chartHeight" : @(kChartHeight) };
+
     self.verticalLayoutConstraints =
-    [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_metricControl][_scoreboardView(==65)][_chart(==160)]|"
+    [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_metricControl][_scoreboardView(scoreboardHeight)][_chart(chartHeight)]|"
                                             options:0
-                                            metrics:nil
+                                            metrics:metrics
                                               views:bindings];
 
     [self.view addConstraints:self.horizontalLayoutConstraintsForScoreboardView];
@@ -464,8 +470,9 @@ didSelectPoint:(id<TKChartData> __nonnull)point
 
     [chart removeAllAnnotations];
 
-    TKChartGridLineAnnotation *lineAnnotation = [[TKChartGridLineAnnotation alloc] initWithValue:point.dataXValue
-                                                                                         forAxis:chart.xAxis];
+    TKChartGridLineAnnotation *lineAnnotation =
+    [[TKChartGridLineAnnotation alloc] initWithValue:point.dataXValue
+                                             forAxis:chart.xAxis];
 
     lineAnnotation.style.stroke = [TKStroke strokeWithColor:[UIColor leo_orangeRed]
                                                       width:1.0];
@@ -473,16 +480,9 @@ didSelectPoint:(id<TKChartData> __nonnull)point
 
     [self setupScoreboardViewWithVital:self.selectedDataSet[index]];
 
-        [self.view setNeedsUpdateConstraints];
-        [self.view updateConstraintsIfNeeded];
-
-}
-
--(void)viewDidLayoutSubviews {
-
-
-    [super viewDidLayoutSubviews];
-    
+    //HACK: Required for iOS8
+    [self.view setNeedsUpdateConstraints];
+    [self.view updateConstraintsIfNeeded];
 }
 
 
