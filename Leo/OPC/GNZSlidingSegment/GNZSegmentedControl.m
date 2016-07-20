@@ -12,6 +12,8 @@ NSString * const GNZSegmentOptionControlBackgroundColor = @"SEGMENT_OPTION_BACKG
 NSString * const GNZSegmentOptionSelectedSegmentTintColor = @"SEGMENT_OPTION_SELECTED_COLOR";
 NSString * const GNZSegmentOptionDefaultSegmentTintColor = @"SEGMENT_OPTION_DEFAULT_COLOR";
 NSString * const GNZSegmentOptionIndicatorColor = @"SEGMENT_INDICATOR_COLOR";
+NSString * const GNZSegmentOptionDefaultSegmentFont = @"SEGMENT_OPTION_DEFAULT_FONT";
+NSString * const GNZSegmentOptionSelectedSegmentFont = @"SEGMENT_OPTION_SELECTED_FONT";
 
 @interface GNZSegmentedControl ()
 @property (nonatomic) NSUInteger selectedSegmentIndex;
@@ -19,6 +21,8 @@ NSString * const GNZSegmentOptionIndicatorColor = @"SEGMENT_INDICATOR_COLOR";
 @property (nonatomic) UIColor *controlBackgroundColor;
 @property (nonatomic) UIColor *segmentDefaultColor;
 @property (nonatomic) UIColor *segmentSelectedColor;
+@property (nonatomic) UIFont *segmentDefaultFont;
+@property (nonatomic) UIFont *segmentSelectedFont;
 @property (nonatomic) UIColor *indicatorColor;
 @property (nonatomic) UIColor *hairlineShadowColor;
 @property (nonatomic) GNZIndicatorStyle indicatorStyle;
@@ -36,7 +40,7 @@ NSString * const GNZSegmentOptionIndicatorColor = @"SEGMENT_INDICATOR_COLOR";
 @implementation GNZSegmentedControl
 
 #pragma mark - Initializers
-- (instancetype)initWithSegmentCount:(NSUInteger)count indicatorStyle:(GNZIndicatorStyle)style options:(NSDictionary<NSString *,UIColor *> *)segmentOptions {
+- (instancetype)initWithSegmentCount:(NSUInteger)count indicatorStyle:(GNZIndicatorStyle)style options:(NSDictionary<NSString *,id> *)segmentOptions {
     if (self = [super initWithFrame:CGRectZero]) {
 
 
@@ -45,6 +49,9 @@ NSString * const GNZSegmentOptionIndicatorColor = @"SEGMENT_INDICATOR_COLOR";
         _controlBackgroundColor = segmentOptions[GNZSegmentOptionControlBackgroundColor];
         _segmentDefaultColor = segmentOptions[GNZSegmentOptionDefaultSegmentTintColor];
         _segmentSelectedColor = segmentOptions[GNZSegmentOptionSelectedSegmentTintColor];
+        _segmentDefaultFont = segmentOptions[GNZSegmentOptionDefaultSegmentFont];
+        _segmentSelectedFont = segmentOptions[GNZSegmentOptionSelectedSegmentFont];
+
         _indicatorColor = segmentOptions[GNZSegmentOptionIndicatorColor];
         _segmentCount = count;
 
@@ -59,7 +66,12 @@ NSString * const GNZSegmentOptionIndicatorColor = @"SEGMENT_INDICATOR_COLOR";
 
     self.backgroundColor = self.controlBackgroundColor;
     _selectedSegmentIndex = 0;
-    [self activateSelectedSegment];
+
+    for (NSInteger i = 0; i < _segmentCount; i++) {
+        [self deactivateSelectedSegmentAtIndex:i];
+    }
+
+    [self activateSelectedSegmentAtIndex:_selectedSegmentIndex];
 }
 
 #pragma mark - Layout and Defaults
@@ -143,6 +155,37 @@ NSString * const GNZSegmentOptionIndicatorColor = @"SEGMENT_INDICATOR_COLOR";
 
         }];
 
+        switch (self.indicatorStyle) {
+            case GNZIndicatorStyleElevator:
+                [self createElevatorIndicatorConstraints];
+                break;
+            case GNZIndicatorStyleDefault:
+                [self createDefaultIndicatorConstraints];
+                break;
+        }
+
+        if (self.indicatorStyle == GNZIndicatorStyleDefault) {
+
+            [self.segments enumerateObjectsUsingBlock:^(id  _Nonnull segmentButton, NSUInteger idx, BOOL * _Nonnull stop) {
+
+                if (idx > 0) {
+
+                    UIButton *priorSegmentButton = self.segments[idx -1];
+
+                    NSLayoutConstraint *widthConstraint =
+                    [NSLayoutConstraint constraintWithItem:segmentButton
+                                                 attribute:NSLayoutAttributeWidth
+                                                 relatedBy:NSLayoutRelationEqual
+                                                    toItem:priorSegmentButton
+                                                 attribute:NSLayoutAttributeWidth
+                                                multiplier:1.0
+                                                  constant:0];
+
+                    [self addConstraint:widthConstraint];
+                }
+            }];
+        }
+
         self.alreadyUpdatedConstraints = YES;
     }
 
@@ -158,26 +201,14 @@ NSString * const GNZSegmentOptionIndicatorColor = @"SEGMENT_INDICATOR_COLOR";
 
 }
 
-- (void)setIndicatorConstraintsForStyle:(GNZIndicatorStyle)style {
-    switch (style) {
-        case GNZIndicatorStyleElevator:
-            [self createElevatorIndicatorConstraints];
-            break;
-        default:
-            [self createDefaultIndicatorConstraints];
-            break;
-    }
-}
-
 - (void)createDefaultIndicatorConstraints {
-    NSLayoutConstraint *segmentRightConstraint = [NSLayoutConstraint constraintWithItem:self.defaultSelectionIndicator attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.segments.firstObject attribute:NSLayoutAttributeRight multiplier:1.0 constant:0];
-    [self addConstraint:segmentRightConstraint];
-    self.defaultIndicatorConstraint = segmentRightConstraint;
+    NSLayoutConstraint *segmentLeftConstraint = [NSLayoutConstraint constraintWithItem:self.defaultSelectionIndicator attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.segments.firstObject attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0];
+    [self addConstraint:segmentLeftConstraint];
+    self.defaultIndicatorConstraint = segmentLeftConstraint;
 
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.defaultSelectionIndicator attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.segments.firstObject attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0.0]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.defaultSelectionIndicator attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:5.0]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.defaultSelectionIndicator attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:2.0]];
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.defaultSelectionIndicator attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0]];
-    [self layoutIfNeeded];
 }
 
 - (void)createElevatorIndicatorConstraints {
@@ -241,22 +272,23 @@ NSString * const GNZSegmentOptionIndicatorColor = @"SEGMENT_INDICATOR_COLOR";
 - (void)setSelectedSegmentIndex:(NSUInteger)selectedSegmentIndex {
     if (![self validSegmentIndex:selectedSegmentIndex]) return;
 
-    [self deactivateSelectedSegment];
+    [self deactivateSelectedSegmentAtIndex:_selectedSegmentIndex];
     _selectedSegmentIndex = selectedSegmentIndex;
     [self sendActionsForControlEvents:UIControlEventValueChanged];
-    [self activateSelectedSegment];
+    [self activateSelectedSegmentAtIndex:selectedSegmentIndex];
 }
+
 
 
 #pragma mark - Overrides
 
-- (void)setFont:(UIFont *)font {
-    if (font) {
-        for (UIButton *button in self.segments) {
-            [button.titleLabel setFont:font];
-        }
-        _font = font;
+-(void)setFont:(UIFont *)font {
+
+    for (UIButton *button in self.segments) {
+        button.titleLabel.font = font;
     }
+
+    _font = font;
 }
 
 - (UIView *)defaultSelectionIndicator {
@@ -283,6 +315,10 @@ NSString * const GNZSegmentOptionIndicatorColor = @"SEGMENT_INDICATOR_COLOR";
     NSUInteger currentSelectedIndex = [self.segments indexOfObject:sender];
 
     self.selectedSegmentIndex = currentSelectedIndex;
+
+    if (self.indicatorStyle == GNZIndicatorStyleDefault) {
+        [self adjustDefaultIndicatorsWithTapOnSegmentIndex:currentSelectedIndex];
+    }
 }
 
 //- (void)segmentChanged:(UIButton *)sender {
@@ -318,16 +354,26 @@ NSString * const GNZSegmentOptionIndicatorColor = @"SEGMENT_INDICATOR_COLOR";
     return segmentIndex < self.segments.count;
 }
 
-- (void)deactivateSelectedSegment {
-    UIButton *previousSelected = self.segments[_selectedSegmentIndex];
+- (void)deactivateSelectedSegmentAtIndex:(NSInteger)index {
+
+    UIButton *previousSelected = self.segments[index];
     [previousSelected setTitleColor:self.segmentDefaultColor forState:UIControlStateNormal];
     [previousSelected setTintColor:self.segmentDefaultColor];
+
+    if (_segmentDefaultFont) {
+        previousSelected.titleLabel.font = self.segmentDefaultFont;
+    }
 }
 
-- (void)activateSelectedSegment {
-    UIButton *currentSelected = self.segments[_selectedSegmentIndex];
+- (void)activateSelectedSegmentAtIndex:(NSInteger)index {
+
+    UIButton *currentSelected = self.segments[index];
     [currentSelected setTitleColor:self.segmentSelectedColor forState:UIControlStateNormal];
     [currentSelected setTintColor:self.segmentSelectedColor];
+
+    if (_segmentSelectedFont) {
+        currentSelected.titleLabel.font = self.segmentSelectedFont;
+    }
 }
 
 - (void)adjustIndicatorForScroll:(UIScrollView *)scrollView {
@@ -367,16 +413,27 @@ NSString * const GNZSegmentOptionIndicatorColor = @"SEGMENT_INDICATOR_COLOR";
     }
 }
 
+- (void)adjustDefaultIndicatorsWithTapOnSegmentIndex:(NSInteger)segmentIndex {
+
+    self.defaultIndicatorConstraint.constant = segmentIndex * (self.frame.size.width / self.segmentCount);
+
+    [UIView animateWithDuration:0.2 delay:0.0
+                        options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         [self layoutIfNeeded];
+                     } completion:nil];
+}
+
 -(void)setControlHeight:(CGFloat)controlHeight {
     _controlHeight = controlHeight;
-    
+
     [self invalidateIntrinsicContentSize];
 }
 
 -(CGSize)intrinsicContentSize {
-    
+
     CGSize intrinsicContentSize;
-    
+
     if (self.controlHeight) {
         intrinsicContentSize = CGSizeMake(UIViewNoIntrinsicMetric, self.controlHeight);
     } else {

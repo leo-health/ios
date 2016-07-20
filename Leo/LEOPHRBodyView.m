@@ -550,16 +550,6 @@ NS_ENUM(NSInteger, TableViewRow) {
     return size.height;
 }
 
-//-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-//
-////    if (indexPath.section == TableViewSectionRecentVitals && [self shouldDisplayGraphOfVitals]) {
-////            return kHeightOfGraphDisplay;
-////
-////    } else {
-////        return UITableViewAutomaticDimension;
-////    }
-//}
-
 - (UITableViewCell *)sizingCell {
 
     if (!_sizingCell) {

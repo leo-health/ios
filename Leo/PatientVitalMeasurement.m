@@ -148,8 +148,8 @@ static NSString * const kMeasurementTypeUnknown = @"unknown";
     NSInteger months = [components month];
     NSInteger days = [components day];
 
-    NSString *monthKey = months > 1 ? kMonths : kMonth;
-    NSString *dayKey = days > 1 ? kDays : kDay;
+    NSString *monthKey = months == 1 ? kMonth : kMonths;
+    NSString *dayKey = days == 1 ? kDay : kDays;
 
     return @{ @"units" : @[monthKey, dayKey] , @"values" : @[@(months), @(days)] };
 }
@@ -159,8 +159,8 @@ static NSString * const kMeasurementTypeUnknown = @"unknown";
     NSInteger weeks = [self.takenAt daysFrom:dob] / 7.0;
     NSInteger days = [self.takenAt daysFrom:dob] - (weeks * 7);
 
-    NSString *weekKey = weeks > 1 ? kWeeks : kWeek;
-    NSString *dayKey = days > 1 ? kDays : kDay;
+    NSString *weekKey = weeks == 1 ? kWeek : kWeeks;
+    NSString *dayKey = days == 1 ? kDay : kDays;
 
     return @{ @"units" : @[weekKey, dayKey] , @"values" : @[@(weeks), @(days)] };
 }
@@ -169,7 +169,7 @@ static NSString * const kMeasurementTypeUnknown = @"unknown";
 
     NSInteger days = [self.takenAt daysFrom:dob];
 
-    NSString *dayKey = days > 1 ? kDays : kDay;
+    NSString *dayKey = days == 1 ? kDay : kDays;
 
     return @{ @"units" : @[dayKey] , @"values" : @[@(days)] };
 }
