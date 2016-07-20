@@ -53,7 +53,7 @@ const CGFloat kPHRSectionLayoutSpacing = 4;
 const CGFloat kPHRSectionLayoutHorizontalMargin = 28;
 const CGFloat kPHRSectionLayoutTopMargin = 25;
 const CGFloat kPHRSectionLayoutBottomMargin = 13;
-const CGFloat kHeightOfGraphDisplay = 200;
+const CGFloat kHeightOfGraphDisplay = 260;
 
 static NSString * const kCopyEmptyNotesField = @"Use this area to record notes about your kids health. These notes will not be seen by your providers.";
 static NSString * const kCopyEmptyImmunizationField = @"Immunization history is not available at this time.";
@@ -550,15 +550,15 @@ NS_ENUM(NSInteger, TableViewRow) {
     return size.height;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-
-    if (indexPath.section == TableViewSectionRecentVitals && [self shouldDisplayGraphOfVitals]) {
-            return kHeightOfGraphDisplay;
-
-    } else {
-        return UITableViewAutomaticDimension;
-    }
-}
+//-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+//
+////    if (indexPath.section == TableViewSectionRecentVitals && [self shouldDisplayGraphOfVitals]) {
+////            return kHeightOfGraphDisplay;
+////
+////    } else {
+////        return UITableViewAutomaticDimension;
+////    }
+//}
 
 - (UITableViewCell *)sizingCell {
 

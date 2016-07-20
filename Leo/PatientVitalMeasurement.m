@@ -11,12 +11,34 @@
 #import "LEOConstants.h"
 #import <NSDate+DateTools.h>
 #import "Patient.h"
+#import "NSString+Extensions.h"
 
 @implementation PatientVitalMeasurement
 
-- (instancetype)initWithTakenAt:(NSDate *)takenAt value:(NSNumber *)value percentile:(NSNumber *)percentile unit:(NSString*)unit measurementType:(PatientVitalMeasurementType)measurementType valueAndUnitFormatted:(NSString*)valueAndUnitFormatted {
+static NSString * const kMonth = @"month";
+static NSString * const kMonths = @"months";
+static NSString * const kDay = @"day";
+static NSString * const kDays = @"days";
+static NSString * const kWeeks = @"weeks";
+static NSString * const kWeek = @"week";
+static NSString * const kYears = @"years";
+static NSString * const kYear = @"year";
+
+static NSString * const kMeasurementTypeWeight = @"weight";
+static NSString * const kMeasurementTypeHeight = @"height";
+static NSString * const kMeasurementTypeUnknown = @"unknown";
+
+- (instancetype)initWithTakenAt:(NSDate *)takenAt
+                          value:(NSNumber *)value
+                     percentile:(NSNumber *)percentile
+                           unit:(NSString *)unit
+                measurementType:(LEOPatientVitalMeasurementType)measurementType
+          valueAndUnitFormatted:(NSString *)valueAndUnitFormatted
+                formattedValues:(NSArray *)formattedValues
+                 formattedUnits:(NSArray *)formattedUnits {
 
     self = [super init];
+
     if (self) {
 
         _takenAt = takenAt;
@@ -25,9 +47,41 @@
         _measurementType = measurementType;
         _unit = unit;
         _valueAndUnitFormatted = valueAndUnitFormatted;
+        _formattedValues = formattedValues;
+        _formattedUnits = formattedUnits;
     }
 
     return self;
+}
+
++ (LEOPatientVitalMeasurementType)measurementTypeFromString:(NSString *)measurementTypeString {
+
+    if ([measurementTypeString isEqualToString:kMeasurementTypeHeight]) {
+        return LEOPatientVitalMeasurementTypeHeight;
+    }
+
+    if ([measurementTypeString isEqualToString:kMeasurementTypeWeight]) {
+        return LEOPatientVitalMeasurementTypeWeight;
+    }
+
+    return LEOPatientVitalMeasurementTypeUnknown;
+}
+
++ (NSString *)stringFromMeasurementType:(LEOPatientVitalMeasurementType)measurementType {
+
+    switch (measurementType) {
+        case LEOPatientVitalMeasurementTypeHeight:
+            return kMeasurementTypeHeight;
+
+        case LEOPatientVitalMeasurementTypeWeight:
+            return kMeasurementTypeWeight;
+
+        case LEOPatientVitalMeasurementTypeBMI:
+        case LEOPatientVitalMeasurementTypeUnknown:
+            break;
+    }
+
+    return kMeasurementTypeUnknown;
 }
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonDictionary {
@@ -45,9 +99,12 @@
 
     NSNumber *percentile = [jsonDictionary leo_itemForKey:APIParamVitalMeasurementPercentile];
 
-    PatientVitalMeasurementType measurementType = [[jsonDictionary leo_itemForKey:APIParamType] integerValue];
+    LEOPatientVitalMeasurementType measurementType = [PatientVitalMeasurement measurementTypeFromString:[jsonDictionary leo_itemForKey:APIParamType]];
 
-    return [self initWithTakenAt:takenAt value:value percentile:percentile unit:unit measurementType:measurementType valueAndUnitFormatted:valueAndUnitFormatted];
+    NSArray *formattedValues = [jsonDictionary leo_itemForKey:@"formatted_values"];
+    NSArray *formattedUnits = [jsonDictionary leo_itemForKey:@"formatted_units"];
+
+    return [self initWithTakenAt:takenAt value:value percentile:percentile unit:unit measurementType:measurementType valueAndUnitFormatted:valueAndUnitFormatted formattedValues:formattedValues formattedUnits:formattedUnits];
 }
 
 + (NSArray *)patientVitalsFromDictionaries:(NSArray *)dictionaries {
@@ -57,45 +114,131 @@
     for (NSDictionary *dict in dictionaries) {
         [array addObject:[[self alloc] initWithJSONDictionary:dict]];
     }
-
+    
     return [array copy];
 }
 
-- (void)setTakenAtSinceBasedOnTakenAtInUnits:(LEOTimeUnit)timeUnit sinceBirthOfPatient:(Patient *)patient {
-    _takenAtSince = [self takenAtInTimeUnits:timeUnit sinceBirthOfPatient:patient];
+- (NSDictionary *)takenAtInYearsAndMonthsSinceBirthOfPatient:(NSDate *)dob {
+
+    NSCalendar *gregorian = [[NSCalendar alloc]initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+
+    // pass as many or as little units as you like here, separated by pipes
+    NSUInteger units = NSCalendarUnitYear | NSCalendarUnitMonth;
+
+    NSDateComponents *components = [gregorian components:units fromDate:dob toDate:self.takenAt options:0];
+
+    NSInteger years = [components year];
+    NSInteger months = [components month];
+
+    NSString *yearKey = years == 1 ? kYear : kYears;
+    NSString *monthKey = months == 1 ? kMonth : kMonths;
+
+    return @{ @"units" : @[yearKey, monthKey] , @"values" : @[@(years), @(months)] };
 }
 
-- (NSNumber *)takenAtInTimeUnits:(LEOTimeUnit)timeUnit sinceBirthOfPatient:(Patient *)patient {
+- (NSDictionary *)takenAtInMonthsAndDaysSinceBirthOfPatient:(NSDate *)dob {
 
-    switch (timeUnit) {
-        case LEOTimeUnitDays:
-            return @([self takenAtInDaysSinceBirthOfPatient:patient]);
+    NSCalendar *gregorian = [[NSCalendar alloc]initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
 
-        case LEOTimeUnitWeeks:
-            return @([self takenAtInWeeksSinceBirthOfPatient:patient]);
+    // pass as many or as little units as you like here, separated by pipes
+    NSUInteger units = NSCalendarUnitMonth | NSCalendarUnitDay;
 
-        case LEOTimeUnitMonths:
-            return @([self takenAtInMonthsSinceBirthOfPatient:patient]);
+    NSDateComponents *components = [gregorian components:units fromDate:dob toDate:self.takenAt options:0];
 
-        case LEOTimeUnitYears:
-            return @([self takenAtInYearsSinceBirthOfPatient:patient]);
+    NSInteger months = [components month];
+    NSInteger days = [components day];
+
+    NSString *monthKey = months > 1 ? kMonths : kMonth;
+    NSString *dayKey = days > 1 ? kDays : kDay;
+
+    return @{ @"units" : @[monthKey, dayKey] , @"values" : @[@(months), @(days)] };
+}
+
+- (NSDictionary *)takenAtInWeeksAndDaysSinceBirthOfPatient:(NSDate *)dob {
+
+    NSInteger weeks = [self.takenAt daysFrom:dob] / 7.0;
+    NSInteger days = [self.takenAt daysFrom:dob] - (weeks * 7);
+
+    NSString *weekKey = weeks > 1 ? kWeeks : kWeek;
+    NSString *dayKey = days > 1 ? kDays : kDay;
+
+    return @{ @"units" : @[weekKey, dayKey] , @"values" : @[@(weeks), @(days)] };
+}
+
+- (NSDictionary *)takenAtInDaysOnlySinceBirthOfPatient:(NSDate *)dob {
+
+    NSInteger days = [self.takenAt daysFrom:dob];
+
+    NSString *dayKey = days > 1 ? kDays : kDay;
+
+    return @{ @"units" : @[dayKey] , @"values" : @[@(days)] };
+}
+
+- (NSDictionary *)takenAtInAppropriateTimeUnitsSinceBirthOfPatient:(nonnull NSDate *)dob {
+
+    NSInteger years = [[self takenAtInTimeUnits:LEOTimeUnitYears sinceBirthOfPatient:dob] integerValue];
+
+    if (years > 0) {
+        return [self takenAtInYearsAndMonthsSinceBirthOfPatient:dob];
+    } else {
+
+        NSInteger months = [[self takenAtInTimeUnits:LEOTimeUnitMonths sinceBirthOfPatient:dob] integerValue];
+
+        if (months > 0) {
+            return [self takenAtInMonthsAndDaysSinceBirthOfPatient:dob];
+        } else {
+
+            NSInteger weeks = [[self takenAtInTimeUnits:LEOTimeUnitWeeks sinceBirthOfPatient:dob] integerValue];
+
+            if (weeks > 0) {
+                return [self takenAtInWeeksAndDaysSinceBirthOfPatient:dob];
+            } else {
+
+                return [self takenAtInDaysOnlySinceBirthOfPatient:dob];
+            }
+        }
     }
 }
 
-- (NSInteger)takenAtInDaysSinceBirthOfPatient:(Patient *)patient {
-    return [self.takenAt daysFrom:patient.dob];
+- (void)setTakenAtSinceBasedOnTakenAtInUnits:(LEOTimeUnit)timeUnit sinceBirthOfPatient:(NSDate *)dob {
+    _takenAtSince = [self takenAtInTimeUnits:timeUnit sinceBirthOfPatient:dob];
 }
 
-- (CGFloat)takenAtInWeeksSinceBirthOfPatient:(Patient *)patient {
-    return [self.takenAt daysFrom:patient.dob] / 7.0;
+- (NSNumber *)takenAtInTimeUnits:(LEOTimeUnit)timeUnit sinceBirthOfPatient:(NSDate *)dob {
+    
+    switch (timeUnit) {
+        case LEOTimeUnitDays:
+            return @([self takenAtInDaysSinceBirthOfPatient:dob]);
+
+        case LEOTimeUnitWeeks:
+            return @([self takenAtInWeeksSinceBirthOfPatient:dob]);
+
+        case LEOTimeUnitMonths:
+            return @([self takenAtInMonthsSinceBirthOfPatient:dob]);
+
+        case LEOTimeUnitYears:
+            return @([self takenAtInYearsSinceBirthOfPatient:dob]);
+    }
 }
 
-- (CGFloat)takenAtInMonthsSinceBirthOfPatient:(Patient *)patient {
-    return [self.takenAt daysFrom:patient.dob] / 30.0 ;
+- (NSInteger)takenAtInDaysSinceBirthOfPatient:(NSDate *)dob {
+    return [self.takenAt daysFrom:dob];
 }
 
-- (CGFloat)takenAtInYearsSinceBirthOfPatient:(Patient *)patient {
-    return [self.takenAt daysFrom:patient.dob] / 365.0;
+- (NSInteger)takenAtInWeeksSinceBirthOfPatient:(NSDate *)dob {
+    return [self.takenAt weeksFrom:dob];
+}
+
+- (NSInteger)takenAtInMonthsSinceBirthOfPatient:(NSDate *)dob {
+    return [self.takenAt monthsFrom:dob];
+}
+
+- (NSInteger)takenAtInYearsSinceBirthOfPatient:(NSDate *)dob {
+    return [self.takenAt yearsFrom:dob];
+}
+
+- (NSString *)percentileWithSuffix {
+    return [NSString stringWithFormat:@"%@%@", self.percentile, [NSString leo_numericSuffix:[self.percentile integerValue]]];
 }
 
 @end

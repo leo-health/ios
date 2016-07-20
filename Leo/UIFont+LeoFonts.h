@@ -126,4 +126,33 @@
 
 + (UIFont *)leo_ultraLightItalic14;
 
+/**
+ *  AvenirNext-DemiBold, Size 6
+ *
+ *  @return UIFont
+ */
++ (UIFont *)leo_demiBold6;
+
+/**
+ *  AvenirNext-DemiBold, Size 8
+ *
+ *  @return UIFont
+ */
++ (UIFont *)leo_demiBold10;
+
+/**
+ *  AvenirNext-Medium, Size 10
+ *
+ *  @return UIFont
+ */
++ (UIFont *)leo_medium10;
+
+/**
+ *  AvenirNext-Medium, Size 16
+ *
+ *  @return UIFont
+ */
++ (UIFont *)leo_medium21;
+
+
 @end

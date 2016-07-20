@@ -1,4 +1,4 @@
-//
+ //
 //  LEOVitalGraphViewController.m
 //  Leo
 //
@@ -17,31 +17,35 @@
 #import <GNZSlidingSegment/GNZSegmentedControl.h>
 #import "Patient.h"
 #import "HealthRecord.h"
-
+#import "LEOVitalScoreboardView.h"
 
 @interface LEOVitalGraphViewController ()
 
 @property (weak, nonatomic) TKChart *chart;
-
-@property (weak, nonatomic) UIView *timeframeView;
 @property (weak, nonatomic) UISegmentedControl *metricControl;
+@property (weak, nonatomic) LEOVitalScoreboardView *scoreboardView;
+
 @property (copy, nonatomic) NSArray *coordinateData;
 @property (copy, nonatomic) NSArray *placeholderData;
-
-@property (nonatomic) BOOL alreadyUpdatedConstraints;
-@property (strong, nonatomic) LEOVitalGraphDataSource *dataSource;
-@property (copy, nonatomic) GraphSeriesConfigureBlock seriesBlock;
-@property (strong, nonatomic) TKChartBalloonAnnotation *balloonAnnotation;
-@property (strong, nonatomic) TKChartViewAnnotation *viewAnnotation;
 @property (copy, nonatomic) NSArray *selectedDataSet;
 @property (strong, nonatomic) NSNumber *selectedDataPointIndex;
+@property (strong, nonatomic) LEOVitalGraphDataSource *dataSource;
+@property (copy, nonatomic) GraphSeriesConfigureBlock seriesBlock;
+
+@property (copy, nonatomic) NSArray *horizontalLayoutConstraintsForScoreboardView;
+@property (copy, nonatomic) NSArray *verticalLayoutConstraints;
+
+@property (nonatomic) BOOL alreadyUpdatedConstraints;
 
 @end
 
 @implementation LEOVitalGraphViewController
 
 static NSInteger const kVitalGraphMinDaysBeforeOrAfter = 1;
+static CGFloat const kNumberOfSectionsSeparatedByLinesOnGraph = 3.0;
 
+static NSInteger const kScoreboardHeight = 65;
+static NSInteger const kChartHeight = 160;
 
 #pragma mark - View Controller Lifecycle
 
@@ -52,6 +56,7 @@ static NSInteger const kVitalGraphMinDaysBeforeOrAfter = 1;
     if (self) {
 
         _patient = patient;
+
     }
 
     return self;
@@ -68,6 +73,21 @@ static NSInteger const kVitalGraphMinDaysBeforeOrAfter = 1;
 
     [self formatChart];
     [self reloadWithUIUpdates];
+
+    [self setupScoreboardViewWithVital:self.selectedDataSet.firstObject];
+}
+
+- (void)setupScoreboardViewWithVital:(PatientVitalMeasurement *)vital {
+
+    [self.scoreboardView removeFromSuperview];
+
+    self.scoreboardView = nil;
+
+    LEOVitalScoreboardView *strongVitalStatView = [[LEOVitalScoreboardView alloc] initWithVital:vital forPatient:self.patient];
+
+    self.scoreboardView = strongVitalStatView;
+
+    [self.view addSubview:self.scoreboardView];
 }
 
 - (void)formatChart {
@@ -76,10 +96,10 @@ static NSInteger const kVitalGraphMinDaysBeforeOrAfter = 1;
 
     TKChartGridStyle *gridStyle = _chart.gridStyle;
 
-    gridStyle.horizontalFill = [TKSolidFill solidFillWithColor:[UIColor leo_gray227]];
-    gridStyle.horizontalAlternateFill = [TKSolidFill solidFillWithColor:[UIColor leo_gray227]];
-    gridStyle.horizontalLineStroke = [TKStroke strokeWithColor:[UIColor leo_gray185]];
-    gridStyle.horizontalLineAlternateStroke = [TKStroke strokeWithColor:[UIColor leo_gray185]];
+    gridStyle.horizontalFill = [TKSolidFill solidFillWithColor:[UIColor leo_gray251]];
+    gridStyle.horizontalAlternateFill = [TKSolidFill solidFillWithColor:[UIColor leo_gray251]];
+    gridStyle.horizontalLineStroke = [TKStroke strokeWithColor:[UIColor leo_gray211]];
+    gridStyle.horizontalLineAlternateStroke = [TKStroke strokeWithColor:[UIColor leo_gray211]];
 }
 
 
@@ -266,6 +286,12 @@ static NSInteger const kVitalGraphMinDaysBeforeOrAfter = 1;
 
 - (void)reloadWithUIUpdates {
 
+    if (self.selectedDataPointIndex && self.selectedDataSet.count > 0) {
+
+        PatientVitalMeasurement *vital = self.selectedDataSet[[[self selectedDataPointIndex] integerValue]];
+        [self setupScoreboardViewWithVital:vital];
+    }
+
     [self.chart removeAllAnnotations];
 
     [self.dataSource updateDataSet:[self selectedDataSet] seriesIdentifier:@"series"];
@@ -275,6 +301,8 @@ static NSInteger const kVitalGraphMinDaysBeforeOrAfter = 1;
     self.chart.delegate = self;
 
     [self updateAxes];
+
+    self.alreadyUpdatedConstraints = NO;
 }
 
 - (void)updateAxes {
@@ -295,7 +323,7 @@ static NSInteger const kVitalGraphMinDaysBeforeOrAfter = 1;
 }
 
 - (NSNumber *)yAxisMajorTickInterval {
-    return @(([self graphYEndPoint] - [self graphYStartPoint]) / 5.0);
+    return @(([self graphYEndPoint] - [self graphYStartPoint]) / kNumberOfSectionsSeparatedByLinesOnGraph);
 }
 
 - (void)setupRanges {
@@ -315,20 +343,49 @@ static NSInteger const kVitalGraphMinDaysBeforeOrAfter = 1;
 
 - (void)updateViewConstraints {
 
+    self.chart.translatesAutoresizingMaskIntoConstraints = NO;
+    self.metricControl.translatesAutoresizingMaskIntoConstraints = NO;
+    self.scoreboardView.translatesAutoresizingMaskIntoConstraints = NO;
+
+    NSDictionary *bindings = NSDictionaryOfVariableBindings(_chart, _metricControl, _scoreboardView);
+
+    [self.view removeConstraints:self.horizontalLayoutConstraintsForScoreboardView];
+    [self.view removeConstraints:self.verticalLayoutConstraints];
+
+    self.horizontalLayoutConstraintsForScoreboardView =
+    [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_scoreboardView]|"
+                                            options:0
+                                            metrics:nil
+                                              views:bindings];
+
+
+    NSDictionary *metrics = @{ @"scoreboardHeight" : @(kScoreboardHeight), @"chartHeight" : @(kChartHeight) };
+
+    self.verticalLayoutConstraints =
+    [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_metricControl][_scoreboardView(scoreboardHeight)][_chart(chartHeight)]|"
+                                            options:0
+                                            metrics:metrics
+                                              views:bindings];
+
+    [self.view addConstraints:self.horizontalLayoutConstraintsForScoreboardView];
+    [self.view addConstraints:self.verticalLayoutConstraints];
+
     if (!self.alreadyUpdatedConstraints) {
 
-        self.chart.translatesAutoresizingMaskIntoConstraints = NO;
-        self.metricControl.translatesAutoresizingMaskIntoConstraints = NO;
+        NSArray *horizontalLayoutConstraintsForChart =
+        [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_chart]|"
+                                                options:0
+                                                metrics:nil
+                                                  views:bindings];
 
-        NSDictionary *bindings = NSDictionaryOfVariableBindings(_chart, _metricControl);
-
-        NSArray *horizontalLayoutConstraintsForChart = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_chart]|" options:0 metrics:nil views:bindings];
-        NSArray *horizontalLayoutConstraintsForMetricControl = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_metricControl]|" options:0 metrics:nil views:bindings];
-        NSArray *verticalLayoutConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_metricControl][_chart]|" options:0 metrics:nil views:bindings];
+        NSArray *horizontalLayoutConstraintsForMetricControl =
+        [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_metricControl]|"
+                                                options:0
+                                                metrics:nil
+                                                  views:bindings];
 
         [self.view addConstraints:horizontalLayoutConstraintsForChart];
         [self.view addConstraints:horizontalLayoutConstraintsForMetricControl];
-        [self.view addConstraints:verticalLayoutConstraints];
 
         self.alreadyUpdatedConstraints = YES;
     }
@@ -381,6 +438,17 @@ static NSInteger const kVitalGraphMinDaysBeforeOrAfter = 1;
 
     if (!_selectedDataPointIndex) {
 
+        if (self.selectedDataSet.count > 0) {
+            _selectedDataPointIndex = @(self.selectedDataSet.count - 1);
+        }
+    }
+
+    /**
+     *  ZSD
+     *  Protects against array out of bounds if refreshing the chart with a
+     *  new dataset that has fewer data points than the last
+     */
+    if ([_selectedDataPointIndex integerValue] >= self.selectedDataSet.count && self.selectedDataSet.count > 0) {
         _selectedDataPointIndex = @(self.selectedDataSet.count - 1);
     }
 
@@ -402,10 +470,19 @@ didSelectPoint:(id<TKChartData> __nonnull)point
 
     [chart removeAllAnnotations];
 
-    TKChartGridLineAnnotation *lineAnnotation = [[TKChartGridLineAnnotation alloc] initWithValue:point.dataXValue
-                                                                                         forAxis:chart.xAxis];
-    lineAnnotation.style.stroke = [TKStroke strokeWithColor:[UIColor leo_orangeRed] width:1.0];
+    TKChartGridLineAnnotation *lineAnnotation =
+    [[TKChartGridLineAnnotation alloc] initWithValue:point.dataXValue
+                                             forAxis:chart.xAxis];
+
+    lineAnnotation.style.stroke = [TKStroke strokeWithColor:[UIColor leo_orangeRed]
+                                                      width:1.0];
     [chart addAnnotation:lineAnnotation];
+
+    [self setupScoreboardViewWithVital:self.selectedDataSet[index]];
+
+    //HACK: Required for iOS8
+    [self.view setNeedsUpdateConstraints];
+    [self.view updateConstraintsIfNeeded];
 }
 
 
