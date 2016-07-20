@@ -11,7 +11,7 @@
 
 @implementation Family (Analytics)
 
-- (NSDictionary *)attributes {
+- (NSDictionary *)analyticAttributes {
 
     NSDictionary* attributeDictionary =
     @{@"Number of Children" : @([self numberOfChildren]),

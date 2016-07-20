@@ -29,7 +29,7 @@
 #import "LEOAlertHelper.h"
 #import "LEOSession.h"
 #import "Guardian.h"
-#import "LEOAnalytic+Extension.h"
+#import "LEOAnalytic+Extensions.h"
 
 @interface LEOLoginViewController ()
 
@@ -77,7 +77,7 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
     [super viewDidAppear:animated];
 
     [LEOAnalytic tagType:LEOAnalyticTypeScreen
-               eventName:kAnalyticScreenLogin];
+                    name:kAnalyticScreenLogin];
 
     [LEOApiReachability startMonitoringForController:self
                                     withOfflineBlock:nil
@@ -208,7 +208,7 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
 
                              [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
                              [LEOAnalytic tagType:LEOAnalyticTypeIntent
-                                        eventName:kAnalyticEventLogin];
+                                             name:kAnalyticEventLogin];
 
                              if (success) {
 
@@ -217,7 +217,7 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
                                  [[Crashlytics sharedInstance] setUserIdentifier:[Configuration vendorID]];
 
                                  [LEOAnalytic tagType:LEOAnalyticTypeEvent
-                                            eventName:kAnalyticEventLogin
+                                                 name:kAnalyticEventLogin
                                              guardian:[LEOSession user]];
 
                                  // Response to successful login is handled by a @"membership-changed" notification listener in AppDelegate

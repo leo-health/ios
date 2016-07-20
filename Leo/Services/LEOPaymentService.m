@@ -9,7 +9,7 @@
 #import "LEOPaymentService.h"
 #import "LEOAPISessionManager.h"
 #import "LEOSession.h"
-#import "LEOAnalytic+Extension.h"
+#import "LEOAnalytic+Extensions.h"
 
 @implementation LEOPaymentService
 
@@ -22,7 +22,7 @@
 
             if (!error) {
                 [LEOAnalytic tagType:LEOAnalyticTypeEvent
-                           eventName:kAnalyticEventChargeCard];
+                                name:kAnalyticEventChargeCard];
             }
 
             completionBlock (!error, error);
@@ -39,7 +39,7 @@
 
         if (!error) {
             [LEOAnalytic tagType:LEOAnalyticTypeEvent
-                        eventName:kAnalyticEventUpdatePaymentChargeCard];
+                            name:kAnalyticEventUpdatePaymentChargeCard];
         }
 
         if (completionBlock) {

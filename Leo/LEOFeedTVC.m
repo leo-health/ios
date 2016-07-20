@@ -66,7 +66,7 @@
 #import "LEOAlertHelper.h"
 #import "LEOMessageService.h"
 #import "LEOStatusBarNotification.h"
-#import "LEOAnalytic+Extension.h"
+#import "LEOAnalytic+Extensions.h"
 
 typedef NS_ENUM(NSUInteger, TableViewSection) {
     TableViewSectionHeader,
@@ -141,7 +141,7 @@ static CGFloat const kFeedInsetTop = 20.0;
     [super viewDidAppear:animated];
 
     [LEOAnalytic tagType:LEOAnalyticTypeScreen
-               eventName:kAnalyticScreenFeed];
+                    name:kAnalyticScreenFeed];
 
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
 
@@ -312,7 +312,7 @@ static CGFloat const kFeedInsetTop = 20.0;
     [Configuration downloadRemoteEnvironmentVariablesIfNeededWithCompletion:^(BOOL success, NSError *error) {
 
         [LEOAnalytic tagType:LEOAnalyticTypeScreen
-                   eventName:kAnalyticScreenFeed];
+                        name:kAnalyticScreenFeed];
 
         typeof(self) strongSelf = weakSelf;
 
@@ -652,7 +652,7 @@ static CGFloat const kFeedInsetTop = 20.0;
                 case ConversationStatusCodeOpen: {
 
                     [LEOAnalytic tagType:LEOAnalyticTypeEvent
-                               eventName:kAnalyticEventMessageUsFromChatNotification];
+                                    name:kAnalyticEventMessageUsFromChatNotification];
                     [LEOBreadcrumb crumbWithObject:[NSString stringWithFormat:@"%s conversation open", __PRETTY_FUNCTION__]];
                     [self loadChattingViewWithCard:card];
                     break;
@@ -681,7 +681,7 @@ static CGFloat const kFeedInsetTop = 20.0;
     [alert addAction:[UIAlertAction actionWithTitle:@"Call" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
 
         [LEOAnalytic tagType:LEOAnalyticTypeIntent
-                   eventName:kAnalyticEventCallUs
+                        name:kAnalyticEventCallUs
                       family:self.family];
 
         NSString *phoneCallNum = [NSString stringWithFormat:@"tel://%@",kFlatironPediatricsPhoneNumber];
@@ -740,7 +740,7 @@ static CGFloat const kFeedInsetTop = 20.0;
 
                                         if (!error) {
                                             [LEOAnalytic tagType:LEOAnalyticTypeEvent
-                                                       eventName:kAnalyticEventCancelVisit
+                                                            name:kAnalyticEventCancelVisit
                                                      appointment:card.associatedCardObject
                                                           family:self.family];
                                         }
@@ -911,14 +911,14 @@ static CGFloat const kFeedInsetTop = 20.0;
 - (void)bookAppointmentTouchedUpInside {
 
     [LEOAnalytic tagType:LEOAnalyticTypeEvent
-               eventName:kAnalyticEventScheduleVisit];
+                    name:kAnalyticEventScheduleVisit];
     [self beginSchedulingNewAppointment];
 }
 
 - (void)messageUsTouchedUpInside {
     
     [LEOAnalytic tagType:LEOAnalyticTypeEvent
-               eventName:kAnalyticEventMessageUsFromTopOfPage];
+                    name:kAnalyticEventMessageUsFromTopOfPage];
     LEOCardConversation *conversationCard = [self findConversationCard];
     [self loadChattingViewWithCard:conversationCard];
 }

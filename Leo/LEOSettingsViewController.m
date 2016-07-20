@@ -26,7 +26,7 @@
 #import "LEOUserService.h"
 #import "Configuration.h"
 
-#import "LEOAnalytic+Extension.h"
+#import "LEOAnalytic+Extensions.h"
 #import "LEOAnalyticSessionManager.h"
 
 typedef NS_ENUM(NSUInteger, SettingsSection) {
@@ -99,7 +99,7 @@ static NSString *const kCopyManageMySubscription = @"Manage my membership";
     [super viewDidAppear:animated];
 
     [LEOAnalytic tagType:LEOAnalyticTypeScreen
-               eventName:kAnalyticScreenSettings];
+                    name:kAnalyticScreenSettings];
 }
 
 - (void)setupNavigationBar {
@@ -379,7 +379,7 @@ static NSString *const kCopyManageMySubscription = @"Manage my membership";
             [LEOBreadcrumb crumbWithObject:[NSString stringWithFormat:@"%s user requested logout", __PRETTY_FUNCTION__]];
 
             [LEOAnalytic tagType:LEOAnalyticTypeEvent
-                       eventName:kAnalyticEventLogout
+                            name:kAnalyticEventLogout
                           family:self.family];
 
             [[LEOUserService new] logoutUserWithCompletion:nil];

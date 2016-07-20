@@ -44,7 +44,7 @@
 #import "LEOSession.h"
 #import "Guardian.h"
 #import "LEOAnalyticSessionManager.h"
-#import "LEOAnalytic+Extension.h"
+#import "LEOAnalytic+Extensions.h"
 
 @interface LEOAppointmentViewController ()
 
@@ -125,7 +125,7 @@ static NSString *const kKeySelectionVCDate = @"date";
     [super viewDidAppear:animated];
 
     [LEOAnalytic tagType:LEOAnalyticTypeScreen
-               eventName:kAnalyticScreenAppointmentScheduling];
+                    name:kAnalyticScreenAppointmentScheduling];
 
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:nil withOnlineBlock:^{
         self.submissionButton.enabled = self.appointment.isValidForBooking;
@@ -476,7 +476,7 @@ static NSString *const kKeySelectionVCDate = @"date";
             if (!error) {
                 
                 [LEOAnalytic tagType:LEOAnalyticTypeEvent
-                           eventName:kAnalyticEventBookVisit
+                                name:kAnalyticEventBookVisit
                          appointment:self.appointment];
                 weakself.card = appointmentCard;
                 [self.appointment book];
@@ -492,7 +492,7 @@ static NSString *const kKeySelectionVCDate = @"date";
             if (!error) {
                 
                 [LEOAnalytic tagType:LEOAnalyticTypeEvent
-                           eventName:kAnalyticEventRescheduleVisit
+                                name:kAnalyticEventRescheduleVisit
                          appointment:self.appointment
                           attributes:@{@"Did change more than appointment time": self.didChangeMoreThanAppointmentTime}];
 

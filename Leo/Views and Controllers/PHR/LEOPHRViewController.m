@@ -95,7 +95,7 @@ static CGFloat const kHeightOfHeaderPHR = 116;
     [super viewDidAppear:animated];
 
     [LEOAnalytic tagType:LEOAnalyticTypeScreen
-               eventName:kAnalyticScreenHealthRecord];
+                    name:kAnalyticScreenHealthRecord];
 
     [self requestHealthRecord];
 }

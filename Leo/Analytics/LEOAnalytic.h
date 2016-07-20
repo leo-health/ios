@@ -24,7 +24,7 @@ typedef NS_ENUM(NSInteger, LEOAnalyticType) {
  */
 
 + (void)tagType:(LEOAnalyticType)type
-      eventName:(NSString *)eventName;
+           name:(NSString *)eventName;
 
 /**
  *  Tags an analytic action that has certain attributes.
@@ -34,7 +34,7 @@ typedef NS_ENUM(NSInteger, LEOAnalyticType) {
  *  @param attributes Attributes associated with the event
  */
 + (void)tagType:(LEOAnalyticType)type
-      eventName:(NSString *)eventName
+           name:(NSString *)eventName
      attributes:(NSDictionary *)attributes;
 
 

@@ -10,7 +10,7 @@
 
 @class Family, Appointment, Patient, Guardian, Message;
 
-@interface LEOAnalytic (Extension)
+@interface LEOAnalytic (Extensions)
 
 /**
  *  Captures analytic data of a screen, event or intent
@@ -21,7 +21,7 @@
  *  @param family    Family associated with the event
  */
 + (void)tagType:(LEOAnalyticType)type
-      eventName:(NSString *)eventName
+           name:(NSString *)eventName
          family:(Family *)family;
 
 /**
@@ -34,7 +34,7 @@
  *  @param guardian  Guardian associated with the event
  */
 + (void)tagType:(LEOAnalyticType)type
-      eventName:(NSString *)eventName
+           name:(NSString *)eventName
          family:(Family *)family
        guardian:(Guardian *)guardian;
 
@@ -47,7 +47,7 @@
  *  @param appointment Appointment associated with the event
  */
 + (void)tagType:(LEOAnalyticType)type
-      eventName:(NSString *)eventName
+           name:(NSString *)eventName
     appointment:(Appointment *)appointment;
 
 /**
@@ -60,7 +60,7 @@
  *  @param attributes  Attributes associated with the event
  */
 + (void)tagType:(LEOAnalyticType)type
-      eventName:(NSString *)eventName
+           name:(NSString *)eventName
     appointment:(Appointment *)appointment
      attributes:(NSDictionary *)attributes;
 
@@ -74,7 +74,7 @@
  *  @param guardian    Guardian associated with the event
  */
 + (void)tagType:(LEOAnalyticType)type
-      eventName:(NSString *)eventName
+           name:(NSString *)eventName
     appointment:(Appointment *)appointment
        guardian:(Guardian *)guardian;
 
@@ -87,7 +87,7 @@
  *  @param patient   Patient associated with the event
  */
 + (void)tagType:(LEOAnalyticType)type
-      eventName:(NSString *)eventName
+           name:(NSString *)eventName
         patient:(Patient *)patient;
 
 /**
@@ -100,7 +100,7 @@
  *  @param guardian  Guardian associated with the event
  */
 + (void)tagType:(LEOAnalyticType)type
-      eventName:(NSString *)eventName
+           name:(NSString *)eventName
         patient:(Patient *)patient
        guardian:(Guardian *)guardian;
 
@@ -114,7 +114,7 @@
  *  @param family      Family associated with the event
  */
 + (void)tagType:(LEOAnalyticType)type
-      eventName:(NSString *)eventName
+           name:(NSString *)eventName
     appointment:(Appointment *)appointment
          family:(Family *)family;
 
@@ -129,7 +129,7 @@
  *  @param guardian    Guardian associated with the event
  */
 + (void)tagType:(LEOAnalyticType)type
-      eventName:(NSString *)eventName
+           name:(NSString *)eventName
     appointment:(Appointment *)appointment
          family:(Family *)family
        guardian:(Guardian *)guardian;
@@ -144,7 +144,7 @@
  *  @param patient   Patient associated with the event
  */
 + (void)tagType:(LEOAnalyticType)type
-      eventName:(NSString *)eventName
+           name:(NSString *)eventName
          family:(Family *)family
         patient:(Patient *)patient;
 
@@ -159,7 +159,7 @@
  *  @param guardian  Guardian associated with the event
  */
 + (void)tagType:(LEOAnalyticType)type
-      eventName:(NSString *)eventName
+           name:(NSString *)eventName
          family:(Family *)family
         patient:(Patient *)patient
        guardian:(Guardian *)guardian;
@@ -173,7 +173,7 @@
  *  @param guardian  Guardian associated with the event
  */
 + (void)tagType:(LEOAnalyticType)type
-      eventName:(NSString *)eventName
+           name:(NSString *)eventName
        guardian:(Guardian *)guardian;
 
 
@@ -186,7 +186,7 @@
  *  @param message   Message associated with the event
  */
 + (void)tagType:(LEOAnalyticType)type
-      eventName:(NSString *)eventName
+           name:(NSString *)eventName
         message:(Message *)message;
 
 @end

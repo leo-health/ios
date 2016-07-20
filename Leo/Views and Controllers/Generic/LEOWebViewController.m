@@ -37,7 +37,7 @@
     [super viewDidAppear:animated];
 
     [LEOAnalytic tagType:LEOAnalyticTypeScreen
-               eventName:self.titleString];
+                    name:self.titleString];
 
     [LEOApiReachability startMonitoringForController:self];
 }

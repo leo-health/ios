@@ -17,7 +17,7 @@
 #import "UIButton+Extensions.h"
 #import "LEOAlertHelper.h"
 #import "LEOApiReachability.h"
-#import "LEOAnalytic+Extension.h"
+#import "LEOAnalytic+Extensions.h"
 
 #define _UIKeyboardFrameEndUserInfoKey (&UIKeyboardFrameEndUserInfoKey != NULL ? UIKeyboardFrameEndUserInfoKey : @"UIKeyboardBoundsUserInfoKey")
 
@@ -51,7 +51,7 @@
     [super viewDidAppear:animated];
 
     [LEOAnalytic tagType:LEOAnalyticTypeScreen
-               eventName:kAnalyticScreenHealthRecordNotes];
+                    name:kAnalyticScreenHealthRecordNotes];
 
     [self.textView becomeFirstResponder];
 }
@@ -135,7 +135,7 @@
 
                 if (!error) {
                     [LEOAnalytic tagType:LEOAnalyticTypeEvent
-                               eventName:kAnalyticEventSaveHealthRecordNotes];
+                                    name:kAnalyticEventSaveHealthRecordNotes];
 
                     self.editNoteCompletionBlock(updatedNote);
                     [self dismissViewControllerAnimated:YES completion:nil];
@@ -163,7 +163,7 @@
                 if (!error) {
 
                     [LEOAnalytic tagType:LEOAnalyticTypeEvent
-                               eventName:kAnalyticEventSaveHealthRecordNotes
+                                    name:kAnalyticEventSaveHealthRecordNotes
                                  patient:self.patient];
 
                     self.editNoteCompletionBlock(updatedNote);

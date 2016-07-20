@@ -14,7 +14,7 @@
     return [Guardian membershipStringFromType:self.membershipType];
 }
 
-- (NSDictionary *)attributes {
+- (NSDictionary *)analyticAttributes {
 
     NSDictionary *attributeDictionary =
     @{kAnalyticAttributeMembershipType: [self membershipTypeString]};

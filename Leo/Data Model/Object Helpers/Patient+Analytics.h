@@ -15,7 +15,7 @@
  *
  *  @return Dictionary of patient analytic attributes.
  */
-- (NSDictionary *)attributes;
+- (NSDictionary *)analyticAttributes;
 
 
 @end

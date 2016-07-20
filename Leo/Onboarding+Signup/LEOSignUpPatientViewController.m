@@ -32,7 +32,7 @@
 #import "NSObject+XibAdditions.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <Photos/Photos.h>
-#import "LEOAnalytic+Extension.h"
+#import "LEOAnalytic+Extensions.h"
 
 @interface LEOSignUpPatientViewController ()
 
@@ -75,7 +75,7 @@ static NSString *const kStatusBarNotificationAvatarUploadSuccess = @"Child profi
     [super viewDidAppear:animated];
 
     [LEOAnalytic tagType:LEOAnalyticTypeScreen
-               eventName:kAnalyticScreenPatientProfile];
+                    name:kAnalyticScreenPatientProfile];
 
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:nil withOnlineBlock:nil];
 }
@@ -239,10 +239,10 @@ static NSString *const kStatusBarNotificationAvatarUploadSuccess = @"Child profi
     if (self.managementMode == ManagementModeCreate) {
 
         [LEOAnalytic tagType:LEOAnalyticTypeEvent
-                   eventName:kAnalyticEventCancelPhotoForAvatar];
+                        name:kAnalyticEventCancelPhotoForAvatar];
     } else {
         [LEOAnalytic tagType:LEOAnalyticTypeEvent
-                   eventName:kAnalyticEventCancelPhotoForAvatar
+                        name:kAnalyticEventCancelPhotoForAvatar
                      patient:self.patient];
     }
 
@@ -254,10 +254,10 @@ static NSString *const kStatusBarNotificationAvatarUploadSuccess = @"Child profi
     if (self.managementMode == ManagementModeCreate) {
 
         [LEOAnalytic tagType:LEOAnalyticTypeEvent
-                   eventName:kAnalyticEventConfirmPhotoForAvatar];
+                        name:kAnalyticEventConfirmPhotoForAvatar];
     } else {
         [LEOAnalytic tagType:LEOAnalyticTypeEvent
-                   eventName:kAnalyticEventConfirmPhotoForAvatar
+                        name:kAnalyticEventConfirmPhotoForAvatar
                      patient:self.patient];
     }
 
@@ -351,7 +351,7 @@ static NSString *const kStatusBarNotificationAvatarUploadSuccess = @"Child profi
                     case ManagementModeCreate: {
 
                         [LEOAnalytic tagType:LEOAnalyticTypeIntent
-                                   eventName:kAnalyticEventSaveNewPatientInRegistration
+                                        name:kAnalyticEventSaveNewPatientInRegistration
                                      patient:self.patient];
 
                         [self finishLocalUpdate];
@@ -361,7 +361,7 @@ static NSString *const kStatusBarNotificationAvatarUploadSuccess = @"Child profi
                     case ManagementModeEdit: {
 
                         [LEOAnalytic tagType:LEOAnalyticTypeIntent
-                                   eventName:kAnalyticEventEditPatientInRegistration
+                                        name:kAnalyticEventEditPatientInRegistration
                                      patient:self.patient];
 
                         [self.navigationController popViewControllerAnimated:YES];
@@ -393,7 +393,7 @@ static NSString *const kStatusBarNotificationAvatarUploadSuccess = @"Child profi
             //TODO: Let user know that patient was created successfully or not created successfully in settings only
 
             [LEOAnalytic tagType:LEOAnalyticTypeEvent
-                       eventName:kAnalyticEventSaveNewPatientInSettings
+                            name:kAnalyticEventSaveNewPatientInSettings
                          patient:self.patient];
 
             LEOStatusBarNotification *successNotification = [LEOStatusBarNotification new];
@@ -484,7 +484,7 @@ static NSString *const kStatusBarNotificationAvatarUploadSuccess = @"Child profi
             if (success) {
 
                 [LEOAnalytic tagType:LEOAnalyticTypeEvent
-                           eventName:kAnalyticEventEditPatientInSettings
+                                name:kAnalyticEventEditPatientInSettings
                              patient:self.patient];
 
                 if (shouldUpdateBoth) {
@@ -540,11 +540,11 @@ static NSString *const kStatusBarNotificationAvatarUploadSuccess = @"Child profi
             if (self.managementMode == ManagementModeCreate) {
 
                 [LEOAnalytic tagType:LEOAnalyticTypeIntent
-                           eventName:kAnalyticEventChoosePhotoForAvatar];
+                                name:kAnalyticEventChoosePhotoForAvatar];
             } else {
 
                 [LEOAnalytic tagType:LEOAnalyticTypeIntent
-                           eventName:kAnalyticEventChoosePhotoForAvatar
+                                name:kAnalyticEventChoosePhotoForAvatar
                              patient:self.patient];
             }
 

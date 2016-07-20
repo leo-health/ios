@@ -10,7 +10,7 @@
 
 @implementation Message (Analytics)
 
-- (NSDictionary *)attributes {
+- (NSDictionary *)analyticAttributes {
 
     NSDictionary *attributeDictionary =
     @{ @"Time of day": [self timeOfDay],

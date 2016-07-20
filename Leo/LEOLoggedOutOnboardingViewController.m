@@ -53,7 +53,7 @@ static NSString * const reuseIdentifierFeature = @"reuseIdentifierFeature";
     [super viewDidLoad];
 
     [LEOAnalytic tagType:LEOAnalyticTypeScreen
-               eventName:kAnalyticScreenProductPreview];
+                    name:kAnalyticScreenProductPreview];
 
     [self.collectionView registerNib:[LEOLoggedOutLoginCell nib] forCellWithReuseIdentifier:reuseIdentifierLogin];
     [self.collectionView registerNib:[LEOLoggedOutSignUpCell nib] forCellWithReuseIdentifier:reuseIdentifierSignup];

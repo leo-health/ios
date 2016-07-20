@@ -56,7 +56,7 @@
     [super viewDidAppear:animated];
 
     [LEOAnalytic tagType:LEOAnalyticTypeScreen
-               eventName:kAnalyticScreenAppointmentCalendar];
+                    name:kAnalyticScreenAppointmentCalendar];
 
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:^{
 

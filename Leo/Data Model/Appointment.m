@@ -16,7 +16,7 @@
 #import "Practice.h"
 #import "NSDictionary+Extensions.h"
 #import "AppointmentStatus.h"
-#import "LEOAnalytic+Extension.h"
+#import "LEOAnalytic+Extensions.h"
 
 @implementation Appointment
 
@@ -156,7 +156,7 @@
 - (void)cancelled {
 
     [LEOAnalytic tagType:LEOAnalyticTypeEvent
-               eventName:kAnalyticEventDismissCancellationNotification];
+                    name:kAnalyticEventDismissCancellationNotification];
     self.priorStatus = self.status;
     self.status = [[AppointmentStatus alloc] initWithObjectID:nil name:@"Cancelled" athenaCode:nil statusCode:AppointmentStatusCodeCancelled];
 }

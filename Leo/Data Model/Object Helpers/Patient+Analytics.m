@@ -10,7 +10,7 @@
 
 @implementation Patient (Analytics)
 
-- (NSDictionary *)attributes {
+- (NSDictionary *)analyticAttributes {
 
     NSDictionary *attributeDictionary =
     @{@"Age group": [self ageGroup],

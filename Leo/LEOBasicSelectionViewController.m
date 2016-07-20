@@ -54,7 +54,7 @@
     [super viewDidAppear:animated];
 
     [LEOAnalytic tagType:LEOAnalyticTypeScreen
-               eventName:self.titleText];
+                    name:self.titleText];
 
     __weak typeof(self) weakSelf = self;
 

@@ -63,7 +63,7 @@
 #import "LEOHelperService.h"
 #import "LEONoticeService.h"
 #import "LEOAnalyticSessionManager.h"
-#import "LEOAnalytic+Extension.h"
+#import "LEOAnalytic+Extensions.h"
 
 @interface LEOConversationViewController ()
 
@@ -209,7 +209,7 @@ static NSString *const kDefaultPracticeID = @"0";
     [super viewDidAppear:animated];
 
     [LEOAnalytic tagType:LEOAnalyticTypeScreen
-               eventName:kAnalyticScreenMessaging];
+                    name:kAnalyticScreenMessaging];
 
     [LEOApiReachability startMonitoringForController:self
                                     withOfflineBlock:^{
@@ -678,7 +678,7 @@ static NSString *const kDefaultPracticeID = @"0";
     [Configuration downloadRemoteEnvironmentVariablesIfNeededWithCompletion:^(BOOL success, NSError *error) {
 
         [LEOAnalytic tagType:LEOAnalyticTypeScreen
-                   eventName:kAnalyticScreenMessaging];
+                        name:kAnalyticScreenMessaging];
 
         __strong typeof(self) strongSelf = weakSelf;
 
@@ -894,7 +894,7 @@ static NSString *const kDefaultPracticeID = @"0";
     [LEOBreadcrumb crumbWithObject:[NSString stringWithFormat:@"%s choose photo", __PRETTY_FUNCTION__]];
 
     [LEOAnalytic tagType:LEOAnalyticTypeIntent
-               eventName:kAnalyticEventChoosePhotoForMessage];
+                    name:kAnalyticEventChoosePhotoForMessage];
 
     LEOTransitioningDelegate *strongTransitioningDelegate =
     [[LEOTransitioningDelegate alloc] initWithTransitionAnimatorType:TransitionAnimatorTypeCardPush];;
@@ -999,7 +999,7 @@ static NSString *const kDefaultPracticeID = @"0";
 
             [LEOBreadcrumb crumbWithObject:[NSString stringWithFormat:@"%s take photo", __PRETTY_FUNCTION__]];
             [LEOAnalytic tagType:LEOAnalyticTypeIntent
-                       eventName:kAnalyticEventTakePhotoForMessage];
+                            name:kAnalyticEventTakePhotoForMessage];
 
             UIImagePickerController *pickerController = [UIImagePickerController new];
             pickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
@@ -1050,7 +1050,7 @@ static NSString *const kDefaultPracticeID = @"0";
 
     [LEOBreadcrumb crumbWithFunction:__PRETTY_FUNCTION__];
     [LEOAnalytic tagType:LEOAnalyticTypeEvent
-               eventName:kAnalyticEventCancelPhotoForMessage];
+                    name:kAnalyticEventCancelPhotoForMessage];
 
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
@@ -1059,7 +1059,7 @@ static NSString *const kDefaultPracticeID = @"0";
 
     [LEOBreadcrumb crumbWithFunction:__PRETTY_FUNCTION__];
     [LEOAnalytic tagType:LEOAnalyticTypeEvent
-               eventName:kAnalyticEventConfirmPhotoForMessage];
+                    name:kAnalyticEventConfirmPhotoForMessage];
 
     [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
 }
@@ -1089,12 +1089,12 @@ static NSString *const kDefaultPracticeID = @"0";
         if (!error) {
             if ([message isKindOfClass:[MessageImage class]]) {
                 [LEOAnalytic tagType:LEOAnalyticTypeEvent
-                           eventName:kAnalyticEventSendImageMessage
+                                name:kAnalyticEventSendImageMessage
                              message:message];
             }
             else if ([message isKindOfClass:[MessageText class]]) {
                 [LEOAnalytic tagType:LEOAnalyticTypeEvent
-                           eventName:kAnalyticEventSendImageMessage
+                                name:kAnalyticEventSendImageMessage
                              message:message];
             }
 

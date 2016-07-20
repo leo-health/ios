@@ -25,7 +25,7 @@
 #import "UIFont+LeoFonts.h"
 #import "LEOAnalyticScreen.h"
 #import "LEOSession.h"
-#import "LEOAnalytic+Extension.h"
+#import "LEOAnalytic+Extensions.h"
 
 @interface LEOAddCaregiverViewController () <LEOStickyHeaderDataSource, LEOStickyHeaderDelegate>
 
@@ -67,7 +67,7 @@ static NSString * const kCopyHeaderAddCaregiver = @"Add another parent or caregi
     [super viewDidAppear:animated];
 
     [LEOAnalytic tagType:LEOAnalyticTypeScreen
-               eventName:kAnalyticScreenAddCaregiver];
+                    name:kAnalyticScreenAddCaregiver];
 
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:nil withOnlineBlock:nil];
 }
@@ -169,7 +169,7 @@ static NSString * const kCopyHeaderAddCaregiver = @"Add another parent or caregi
                     if (self.feature == FeatureSettings) {
                         
                         [LEOAnalytic tagType:LEOAnalyticTypeEvent
-                                   eventName:kAnalyticEventAddCaregiverFromSettings
+                                        name:kAnalyticEventAddCaregiverFromSettings
                                       family:self.family];
 
                         LEOStatusBarNotification *successNotification = [LEOStatusBarNotification new];
