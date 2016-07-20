@@ -19,9 +19,6 @@
 
 @implementation Patient
 
-static void * XXContext = &XXContext;
-static NSArray * _propertyNames = nil;
-
 @synthesize genderDisplayName = _genderDisplayName;
 
 - (instancetype)initWithObjectID:(nullable NSString *)objectID familyID:(NSString *)familyID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(nullable NSString *)email avatar:(nullable LEOS3Image *)avatar dob:(NSDate *)dob gender:(NSString *)gender status:(NSString *)status {
@@ -62,6 +59,8 @@ static NSArray * _propertyNames = nil;
         _gender = [jsonResponse leo_itemForKey:APIParamUserSex];
         _status = [jsonResponse leo_itemForKey:APIParamUserStatus];
 
+        super.avatar.placeholder = [UIImage imageNamed:@"Icon-Camera-Avatars"];
+
         [self commonInit];
     }
 
@@ -70,8 +69,9 @@ static NSArray * _propertyNames = nil;
 
 - (void)commonInit {
 
-    [self setPatientAvatarPlaceholder];
-    [self addObserverForAllProperties:self options:NSKeyValueObservingOptionNew context:XXContext];
+    if (_gender) {
+        [self setPatientAvatarPlaceholder];
+    }
 }
 
 - (void)setPatientAvatarPlaceholder {
@@ -90,12 +90,12 @@ static NSArray * _propertyNames = nil;
     else return @"Avatar_Patient_Son";
 }
 
-+ (NSDictionary *)dictionaryFromUser:(Patient *)patient {
++ (NSDictionary *)serializeToJSON:(Patient *)patient {
 
-    NSMutableDictionary *userDictionary = [[super dictionaryFromUser:patient] mutableCopy];
+    NSMutableDictionary *userDictionary = [[super serializeToJSON:patient] mutableCopy];
 
     userDictionary[APIParamFamilyID] = patient.familyID;
-    userDictionary[APIParamUserBirthDate] = [NSDate leo_stringifiedDashedShortDate:patient.dob];
+    userDictionary[APIParamUserBirthDate] = [NSDate leo_stringifiedDashedShortDateYearMonthDay:patient.dob];
     userDictionary[APIParamUserSex] = patient.gender;
     userDictionary[APIParamUserStatus] = patient.status;
 
@@ -206,17 +206,6 @@ static NSArray * _propertyNames = nil;
     return validFirstName && validLastName && validBirthDate && validGender;
 }
 
-- (BOOL)hasAvatarDifferentFromPlaceholder {
-
-    UIImage *placeholderImage = [UIImage imageNamed:[self avatarPlaceholderImageName]];
-
-    NSData *imageData = UIImagePNGRepresentation(self.avatar.image);
-
-    NSData *placeholderData = UIImagePNGRepresentation(placeholderImage);
-
-    return ![imageData isEqualToData:placeholderData];
-}
-
 //FIXME: This is not completely built out. Will work where currently used and probably nowhere else...
 -(id)copyWithZone:(NSZone *)zone {
     
@@ -227,76 +216,14 @@ static NSArray * _propertyNames = nil;
 
 - (void)copyFrom:(Patient *)otherPatient {
 
-    self.firstName = otherPatient.firstName;
-    self.lastName = otherPatient.lastName;
-    self.avatar = otherPatient.avatar;
+    [super copyFrom:otherPatient];
+
+    
     self.dob = otherPatient.dob;
     self.gender = otherPatient.gender;
+    self.familyID = otherPatient.familyID;
+    self.status = otherPatient.status;
 }
 
-
-
-#pragma mark - KVO
--(void)observeValueForKeyPath:(NSString *)keyPath
-                     ofObject:(id)object
-                       change:(NSDictionary<NSString *,id> *)change
-                      context:(void *)context {
-
-    self.updatedAtLocal = [NSDate date];
-}
-
-//Source: http://stackoverflow.com/questions/6615826/get-property-name-as-a-string
-- (NSArray *)propertyNames {
-
-    unsigned int propertyCount = 0;
-    objc_property_t * properties = class_copyPropertyList([self class], &propertyCount);
-
-    NSMutableArray * propertyNames = [NSMutableArray array];
-
-    for (unsigned int i = 0; i < propertyCount; ++i) {
-        objc_property_t property = properties[i];
-        const char * name = property_getName(property);
-
-        NSString * propertyName = [NSString stringWithUTF8String:name];
-
-        if (![propertyName isEqualToString:@"updatedAtLocal"]) {
-            [propertyNames addObject:propertyName];
-        }
-    }
-
-    free(properties);
-    return propertyNames;
-}
-
-//Source: http://stackoverflow.com/questions/12673356/kvo-for-whole-object-properties
-- (void)addObserverForAllProperties:(NSObject *)observer
-                            options:(NSKeyValueObservingOptions)options
-                            context:(void *)context {
-
-    _propertyNames = [self propertyNames];
-
-    for (NSString *property in _propertyNames) {
-        [self addObserver:observer forKeyPath:property
-                  options:options context:context];
-    }
-}
-
-//Source: http://nshipster.com/key-value-observing/
-- (void)removeObserverForAllProperties:(NSObject *)observer
-                               context:(void *)context {
-
-    for (NSString *property in _propertyNames) {
-
-        @try {
-            [self removeObserver:observer forKeyPath:property context:XXContext];
-        }
-        @catch (NSException * __unused exception) {}
-    }
-}
-
--(void)dealloc {
-
-    [self removeObserverForAllProperties:self context:XXContext];
-}
 
 @end

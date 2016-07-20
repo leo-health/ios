@@ -28,6 +28,10 @@
 
 -(instancetype)initWithJSONDictionary:(NSDictionary *)jsonDictionary {
 
+    if (!jsonDictionary) {
+        return nil;
+    }
+
     NSDate *onsetAt = [NSDate leo_dateFromDateTimeString:[jsonDictionary leo_itemForKey:APIParamAllergyOnsetAt]];
     NSString *allergen = [jsonDictionary leo_itemForKey:APIParamAllergyAllergen];
     NSString *severity = [jsonDictionary leo_itemForKey:APIParamAllergySeverity];

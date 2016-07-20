@@ -11,10 +11,18 @@
 #import <UIKit/UIKit.h>
 #import "LEOStickyHeaderViewController.h"
 #import "LEOAnalyticSession.h"
+#import "LEOCachedDataStore.h"
+
+NS_ASSUME_NONNULL_BEGIN
+
+@class LEOUserService;
 
 @interface LEOAddCaregiverViewController : LEOStickyHeaderViewController
 
-@property (strong, nonatomic) Family *family;
+@property (strong, nonatomic) LEOUserService *userDataSource;
 @property (strong, nonatomic) LEOAnalyticSession *analyticSession;
+
+NS_ASSUME_NONNULL_END
+
 
 @end

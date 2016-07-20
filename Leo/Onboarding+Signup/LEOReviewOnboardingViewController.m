@@ -10,6 +10,8 @@
 #import "Configuration.h"
 
 #import "LEOUserService.h"
+#import "LEOPatientService.h"
+#import "LEOPracticeService.h"
 #import "LEOPaymentService.h"
 
 #import "Family.h"
@@ -55,6 +57,7 @@
 @property (weak, nonatomic) UILabel *navTitleLabel;
 @property (strong, nonatomic) LEOReviewOnboardingView *reviewOnboardingView;
 @property (strong, nonatomic) LEOProgressDotsHeaderView *headerView;
+@property (strong, nonatomic) Family *family;
 
 @end
 
@@ -85,6 +88,10 @@ static NSString *const kReviewPaymentDetails = @"ReviewPaymentSegue";
 
     [self setupNavigationBar];
 
+    Family *family = [self.familyDataSource getFamily];
+    self.family = family;
+    self.reviewOnboardingView.family = self.family;
+
     [LEOApiReachability startMonitoringForController:self];
 }
 
@@ -92,9 +99,10 @@ static NSString *const kReviewPaymentDetails = @"ReviewPaymentSegue";
 
     [super viewWillAppear:animated];
     [self setupNavigationBar];
-    [self.reviewOnboardingView.tableView reloadData];
 
     CGFloat percentage = [self transitionPercentageForScrollOffset:self.stickyHeaderView.scrollView.contentOffset];
+
+    [self.reviewOnboardingView.tableView reloadData];
 
     self.navigationItem.titleView.hidden = percentage == 0;
 }
@@ -232,6 +240,25 @@ static NSString *const kReviewPaymentDetails = @"ReviewPaymentSegue";
     }
 }
 
+// HACK: TODO: Use local identifiers instead of memory addresses to access these objects in the cache
+- (LEOPromise *)putPatient:(Patient *)patient withCompletion:(void (^)(Patient *, NSError *))completionBlock {
+
+    [self.reviewOnboardingView.tableView reloadData];
+    if (completionBlock) {
+        completionBlock(patient, nil);
+    }
+    return [LEOPromise finishedCompletion];
+}
+
+- (LEOPromise *)putCurrentUser:(Guardian *)guardian withCompletion:(void (^)(Guardian *, NSError *))completionBlock {
+
+    [self.reviewOnboardingView.tableView reloadData];
+    if (completionBlock) {
+        completionBlock(guardian, nil);
+    }
+    return [LEOPromise finishedCompletion];
+}
+
 
 #pragma mark - Navigation
 
@@ -241,15 +268,17 @@ static NSString *const kReviewPaymentDetails = @"ReviewPaymentSegue";
 
         LEOSignUpUserViewController *signUpUserVC = segue.destinationViewController;
         signUpUserVC.guardian = sender;
+        signUpUserVC.userDataSource = self;
         signUpUserVC.managementMode = ManagementModeEdit;
     }
 
     if ([segue.identifier isEqualToString:kReviewPatientSegue]) {
 
         LEOSignUpPatientViewController *signUpPatientVC = segue.destinationViewController;
-        signUpPatientVC.patient = sender;
         signUpPatientVC.feature = FeatureOnboarding;
         signUpPatientVC.managementMode = ManagementModeEdit;
+        signUpPatientVC.patientDataSource = self;
+        signUpPatientVC.patient = sender;
     }
 
     if ([segue.identifier isEqualToString:kSegueTermsAndConditions]) {
@@ -282,122 +311,153 @@ static NSString *const kReviewPaymentDetails = @"ReviewPaymentSegue";
     self.paymentDetails = paymentDetails;
 }
 
+
+#pragma mark - Actions
+
 - (void)continueTapped:(UIButton *)sender {
 
     [LEOBreadcrumb crumbWithFunction:__PRETTY_FUNCTION__];
 
-    BOOL isSecondGuardian = self.family.guardians.count > 1;
-    __block BOOL attemptedAdditionOfCaregiver;
-    __block BOOL attemptedPatientCreation;
-
-    __block UIButton *button = sender;
-
-    button.enabled = NO;
-
-    NSArray *patients = [self.family.patients copy];
-    self.family.patients = @[];
-
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 
-    LEOUserService *userService = [LEOUserService new];
+    [self updateCurrentUser:self.family.guardians.firstObject withCompletion:^{
 
-    [userService updateUser:self.family.guardians.firstObject withCompletion:^(BOOL success, NSError *error) {
+        [self createOrUpdatePatientsWithCompletion:^(NSArray *patients) {
 
-        if (error) {
+            __weak typeof(self) weakSelf = self;
 
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-            button.enabled = YES;
-            [LEOAlertHelper alertForViewController:self error:error backupTitle:@"Something went wrong!" backupMessage:@"Please check your user information and your internet connection and try again."];
+            [self addSecondGuardianIfNeededWithCompletion:^(NSError *error) {
 
-            return;
-        }
+                __strong typeof(self) strongSelf = weakSelf;
 
-        [userService createOrUpdatePatients:patients withCompletion:^(NSArray<Patient *> *responsePatients, NSError *error) {
+                [strongSelf createChargeWithToken:strongSelf.paymentDetails completion:^{
 
-            attemptedPatientCreation = YES;
-
-            if (error) {
-
-                [MBProgressHUD hideHUDForView:self.view animated:YES];
-                button.enabled = YES;
-                [LEOAlertHelper alertForViewController:self error:error backupTitle:@"Something went wrong!" backupMessage:@"Please review the details for your children and your internet connection and try again."];
-
-                return;
-            }
-
-
-            [[LEOPaymentService new] createChargeWithToken:self.paymentDetails completion:^(BOOL success, NSError *error) {
-
-                NSInteger errorCode = [((NSNumber *)error.userInfo[APIParamErrorMessages][APIParamErrorCode]) integerValue];
-
-                if (error) {
-
-                    [MBProgressHUD hideHUDForView:self.view animated:YES];
-                    button.enabled = YES;
-                    [LEOAlertHelper alertForViewController:self error:error backupTitle:@"Something went wrong!" backupMessage:@"Please check your credit card details and your internet connection and try again."];
-                }
-
-                if (isSecondGuardian) {
-
-                    Guardian *otherGuardian = self.family.guardians.lastObject;
-
-                    [userService addCaregiver:otherGuardian withCompletion:^(BOOL success, NSError *error) {
-
-                        if (error) {
-
-                            [MBProgressHUD hideHUDForView:self.view animated:YES];
-                            button.enabled = YES;
-                            [LEOAlertHelper alertForViewController:self error:error backupTitle:@"Something went wrong!" backupMessage:@"Please check your information and your internet connection and try again."];
-                            
-                            return;
-                        }
-
-                        attemptedAdditionOfCaregiver = YES;
-
-                        if (success) {
-                            [LEOAnalyticIntent tagEvent:kAnalyticEventAddCaregiverFromRegistration
-                                             withFamily:self.family];
-                        }
-
-                        if (attemptedPatientCreation) {
-
-                            [MBProgressHUD hideHUDForView:self.view animated:YES];
-                            button.enabled = YES;
-                        }
-                    }];
-                }
-
-                [userService postAvatarsForUsers:responsePatients withCompletion:^(BOOL success, NSError *error) {
-                    [LEOCachedDataStore sharedInstance].family = self.family;
+                    [strongSelf putAvatarForPatients:patients];
+                    [strongSelf loginUserIfNeeded];
                 }];
-
-                [[LEOUserService new] getUserWithID:[LEOSession user].objectID withCompletion:^(Guardian *guardian, NSError *error) {
-
-                    if (error) {
-
-                        [MBProgressHUD hideHUDForView:self.view animated:YES];
-                        button.enabled = YES;
-                        return;
-                    }
-                    
-                    if (isSecondGuardian && attemptedAdditionOfCaregiver) {
-                        
-                        [MBProgressHUD hideHUDForView:self.view animated:YES];
-                        button.enabled = YES;
-                    }
-                    
-                    [LEOSession updateCurrentSessionWithGuardian:guardian];
-                }];
-
-                if (!error || errorCode == 422) {
-                    [LEOAnalyticEvent tagEvent:kAnalyticEventConfirmAccount
-                                    withFamily:self.family];
-
-                    [self.analyticSession completeSession];
-                }
             }];
         }];
     }];
+}
+
+
+#pragma mark - Service Layer Helpers
+
+- (LEOPromise *)putAvatarForPatients:(NSArray *)patients {
+
+    return [[LEOPatientService new] putAvatarForPatients:patients
+                                          withCompletion:nil];
+}
+
+- (void)updateCurrentUser:(Guardian *)user withCompletion:(LEOVoidBlock)completionBlock {
+
+    [self.userDataSource putCurrentUser:user withCompletion:^(Guardian *guardian, NSError *error) {
+
+        if (error) {
+
+            [LEOAlertHelper alertForViewController:self
+                                             error:error
+                                       backupTitle:@"Something went wrong!"
+                                     backupMessage:@"Please check your user information and your internet connection and try again."];
+        } else {
+
+            if (completionBlock) {
+                completionBlock();
+            }
+        }
+    }];
+}
+
+- (void)createOrUpdatePatientsWithCompletion:(LEOArrayBlock)completionBlock {
+
+    NSArray *patients = [self.family.patients copy];
+
+    [self.patientDataSource createOrUpdatePatientList:patients withCompletion:^(NSArray<Patient *> *responsePatients, NSError *error) {
+
+        if (error) {
+
+            [LEOAlertHelper alertForViewController:self
+                                             error:error
+                                       backupTitle:@"Something went wrong!"
+                                     backupMessage:@"Please review the details for your children and your internet connection and try again."];
+            return;
+        } else {
+            if (completionBlock) {
+                completionBlock(responsePatients);
+            }
+        }
+    }];
+}
+
+- (void)createChargeWithToken:(STPToken *)token completion:(LEOVoidBlock)completionBlock {
+
+    [[LEOPaymentService new] createChargeWithToken:self.paymentDetails completion:^(BOOL success, NSError *error) {
+
+        NSError *paymentError = error;
+
+        if (paymentError) {
+
+            [LEOAlertHelper alertForViewController:self
+                                             error:error
+                                       backupTitle:@"Something went wrong!"
+                                     backupMessage:@"Please check your credit card details and your internet connection and try again."];
+        }
+
+        if (completionBlock) {
+            completionBlock();
+        }
+
+        NSInteger errorCode = [((NSNumber *)error.userInfo[@"message"][@"error_code"]) integerValue];
+
+        if (!error || errorCode == 422) {
+            [LEOAnalyticEvent tagEvent:kAnalyticEventConfirmAccount
+                            withFamily:self.family];
+
+            [self.analyticSession completeSession];
+        }
+    }];
+}
+
+- (void)loginUserIfNeeded {
+
+    [self.userDataSource getCurrentUserWithCompletion:^(Guardian *guardian, NSError *error) {
+
+        if (error) {
+
+            [LEOAlertHelper alertForViewController:self error:error backupTitle:@"Something went wrong!" backupMessage:@"Please check your information and your internet connection and try again."];
+            return;
+        }
+
+        [self.analyticSession completeSession];
+
+        [Localytics tagEvent:kAnalyticEventConfirmAccount];
+
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    }];
+}
+
+//MARK: ZSD - Something of note here -- I have removed the success term; it doesn't actually add anything...perhaps something to consider more broadly as part of a style guide
+- (void)addSecondGuardianIfNeededWithCompletion:(LEOErrorBlock)completionBlock {
+
+    if (self.family.hasAdditionalCaregivers) {
+
+        Guardian *otherGuardian = self.family.guardians.lastObject;
+        __weak typeof(self) weakSelf = self;
+        [self.userDataSource addCaregiver:otherGuardian withCompletion:^(Guardian *guardian, NSError *error) {
+            __strong typeof(self) strongSelf = weakSelf;
+            if (error) {
+
+                [LEOAlertHelper alertForViewController:strongSelf error:error backupTitle:@"Something went wrong!" backupMessage:@"Please check your information and your internet connection and try again."];
+            } else {
+
+                [LEOAnalyticIntent tagEvent:kAnalyticEventAddCaregiverFromRegistration
+                                     withFamily:self.family];
+                completionBlock(error);
+            }
+        }];
+    } else {
+        completionBlock(nil);
+    }
 }
 
 @end

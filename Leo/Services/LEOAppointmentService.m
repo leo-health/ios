@@ -13,8 +13,10 @@
 #import "LEOCardAppointment.h"
 #import "NSDate+Extensions.h"
 #import "AppointmentType.h"
-#import "LEOCachedDataStore.h"
+#import "LEOSession.h"
 #import "Practice.h"
+#import "LEOPracticeService.h"
+#import "LEOPromise.h"
 
 @implementation LEOAppointmentService
 
@@ -22,7 +24,7 @@
     
     NSDictionary *apptParams = [Appointment dictionaryFromAppointment:appointment];
 
-    NSURLSessionTask *task = [[LEOAppointmentService leoSessionManager] standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointAppointments params:apptParams completion:^(NSDictionary *rawResults, NSError *error) {
+    NSURLSessionTask *task = [[self leoSessionManager] standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointAppointments params:apptParams completion:^(NSDictionary *rawResults, NSError *error) {
 
         LEOCardAppointment *card = [[LEOCardAppointment alloc] initWithJSONDictionary:rawResults[@"data"]];
         if (completionBlock) {
@@ -40,7 +42,7 @@
 
     NSString *cancelAppointmentURLString = [NSString stringWithFormat:@"%@/%@",APIEndpointAppointments, apptParams[APIParamID]];
     
-    NSURLSessionTask *task = [[LEOAppointmentService leoSessionManager] standardDELETERequestForJSONDictionaryToAPIWithEndpoint:cancelAppointmentURLString params:apptParams completion:^(NSDictionary *rawResults, NSError *error) {
+    NSURLSessionTask *task = [[self leoSessionManager] standardDELETERequestForJSONDictionaryToAPIWithEndpoint:cancelAppointmentURLString params:apptParams completion:^(NSDictionary *rawResults, NSError *error) {
         if (completionBlock) {
             completionBlock(rawResults, error);
         }
@@ -55,7 +57,7 @@
 
     NSString *rescheduleAppointmentURLString = [NSString stringWithFormat:@"%@/%@",APIEndpointAppointments, apptParams[APIParamID]];
 
-    NSURLSessionTask *task = [[LEOAppointmentService leoSessionManager] standardPUTRequestForJSONDictionaryToAPIWithEndpoint:rescheduleAppointmentURLString params:apptParams completion:^(NSDictionary *rawResults, NSError *error) {
+    NSURLSessionTask *task = [[self leoSessionManager] standardPUTRequestForJSONDictionaryToAPIWithEndpoint:rescheduleAppointmentURLString params:apptParams completion:^(NSDictionary *rawResults, NSError *error) {
 
         LEOCardAppointment *card = [[LEOCardAppointment alloc] initWithJSONDictionary:rawResults[@"data"]];
 
@@ -67,19 +69,15 @@
     return task;
 }
 
-- (NSURLSessionTask *)getSlotsForAppointment:(Appointment *)appointment withCompletion:(void (^)(NSArray *slots, NSError *error))completionBlock {
+- (LEOPromise *)getSlotsForAppointment:(Appointment *)appointment withCompletion:(void (^)(NSArray *slots, NSError *error))completionBlock {
 
     if (!appointment.provider) {
-        // TODO: eventually this should be a back end task, i.e. if no provider parameter is provided, return all slots
-
-        // if no provider is selected, get slots for all providers
         return [self getSlotsForAppointmentType:appointment.appointmentType
                                       startDate:[self defaultStartDateForSlotsRequest]
                                         endDate:[self defaultEndDateForSlotsRequest]
                                        practiceID:appointment.practice.objectID
                           existingAppointmentID:appointment.objectID
                                  withCompletion:completionBlock];
-
     }
 
     return [self getSlotsForAppointmentType:appointment.appointmentType
@@ -101,51 +99,48 @@
     return twelveWeeksFromTheBeginningOfThisWeek;
 }
 
-- (NSURLSessionTask *)getSlotsForAppointmentType:(AppointmentType *)appointmentType startDate:(NSDate *)startDate endDate:(NSDate *)endDate practiceID:(NSString *)practiceID existingAppointmentID:(NSString*)appointmentID withCompletion:(void (^)(NSArray *slots, NSError *error))completionBlock {
+- (LEOPromise *)getSlotsForAppointmentType:(AppointmentType *)appointmentType startDate:(NSDate *)startDate endDate:(NSDate *)endDate practiceID:(NSString *)practiceID existingAppointmentID:(NSString*)appointmentID withCompletion:(void (^)(NSArray *slots, NSError *error))completionBlock {
 
-    //FIXME: This is potentially a major bug. Must be reviewed to determine if it is for the next release. (It could be nil and the rest of this will fail.)
-    NSArray *providers = [LEOCachedDataStore sharedInstance].practice.providers;
+    LEOCachePolicy *policy = [LEOCachePolicy new];
+    policy.get = LEOCachePolicyGETCacheElseGETNetwork;
+    return [[LEOPracticeService serviceWithCachePolicy:policy] getProvidersWithCompletion:^(NSArray<Provider *> *providers, NSError *error) {
 
-    __block NSMutableArray *allSlots = [NSMutableArray new];
-    __block NSInteger counter = 0;
-    __block NSError *finalError;
+        __block NSMutableArray *allSlots = [NSMutableArray new];
+        __block NSInteger counter = 0;
+        __block NSError *finalError;
 
-    [providers enumerateObjectsUsingBlock:^(Provider * provider, NSUInteger idx, BOOL *stop) {
+        [providers enumerateObjectsUsingBlock:^(Provider * provider, NSUInteger idx, BOOL *stop) {
 
-        [self getSlotsForAppointmentType:appointmentType startDate:startDate endDate:endDate provider:provider existingAppointmentID:appointmentID withCompletion:^(NSArray *slots, NSError *error) {
+            [self getSlotsForAppointmentType:appointmentType startDate:startDate endDate:endDate provider:provider existingAppointmentID:appointmentID withCompletion:^(NSArray *slots, NSError *error) {
 
-            counter++;
+                counter++;
 
-            [allSlots addObjectsFromArray:slots];
-            finalError = error;
+                [allSlots addObjectsFromArray:slots];
+                finalError = error;
 
-            if (counter == providers.count) {
+                if (counter == providers.count) {
 
-                NSArray *dedupedSlots = [Slot slotsWithNoDuplicateTimesByRandomlyChoosingProviderFromSlots:allSlots];
-
-                completionBlock(dedupedSlots, finalError);
-            }
+                    NSArray *dedupedSlots = [Slot slotsWithNoDuplicateTimesByRandomlyChoosingProviderFromSlots:allSlots];
+                    
+                    completionBlock(dedupedSlots, finalError);
+                }
+            }];
         }];
     }];
-
-    return nil; // ????: what is the right return value here?
 }
 
-- (NSURLSessionTask *)getSlotsForAppointmentType:(AppointmentType *)appointmentType startDate:(NSDate *)startDate endDate:(NSDate *)endDate provider:(Provider *)provider existingAppointmentID:(NSString*)appointmentID withCompletion:(void (^)(NSArray *slots, NSError *error))completionBlock {
+- (LEOPromise *)getSlotsForAppointmentType:(AppointmentType *)appointmentType startDate:(NSDate *)startDate endDate:(NSDate *)endDate provider:(Provider *)provider existingAppointmentID:(NSString*)appointmentID withCompletion:(void (^)(NSArray *slots, NSError *error))completionBlock {
 
-    NSMutableDictionary *params = [@{
-                             APIParamAppointmentTypeID : appointmentType.objectID,
-                             APIParamStartDate : [NSDate leo_stringifiedShortDate:startDate],
-                             APIParamEndDate: [NSDate leo_stringifiedShortDate:endDate],
-                             APIParamUserProviderID : provider.objectID
-                             } mutableCopy];
-    if (appointmentID) {
-        [params setObject:appointmentID forKey:APIParamAppointmentID];
-    }
+    NSMutableDictionary *params = [NSMutableDictionary new];
+    params[APIParamAppointmentTypeID] = appointmentType.objectID;
+    params[APIParamStartDate] = [NSDate leo_stringifiedShortDate:startDate];
+    params[APIParamEndDate] = [NSDate leo_stringifiedShortDate:endDate];
+    params[APIParamUserProviderID] = provider.objectID;
+    params[APIParamAppointmentID] = appointmentID;
 
     NSString *slotsEndpointForTestProvider = [NSString stringWithFormat:@"%@",APIEndpointSlots];
 
-    NSURLSessionTask *task = [[LEOAppointmentService leoSessionManager] standardGETRequestForJSONDictionaryFromAPIWithEndpoint:slotsEndpointForTestProvider params:params completion:^(NSDictionary *rawResults, NSError *error) {
+    [[self leoSessionManager] standardGETRequestForJSONDictionaryFromAPIWithEndpoint:slotsEndpointForTestProvider params:params completion:^(NSDictionary *rawResults, NSError *error) {
 
         NSArray *slotDictionaries = rawResults[APIParamData][0][APIParamSlots];
 
@@ -166,10 +161,10 @@
         }
     }];
 
-    return task;
+    return [LEOPromise waitingForCompletion];
 }
 
-+ (LEOAPISessionManager *)leoSessionManager {
+- (LEOAPISessionManager *)leoSessionManager {
     return [LEOAPISessionManager sharedClient];
 }
 

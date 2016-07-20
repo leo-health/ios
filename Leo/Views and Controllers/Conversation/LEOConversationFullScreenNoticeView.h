@@ -22,13 +22,4 @@
                buttonTwoTouchedUpInsideBlock:(void (^) (void))buttonTwoTouchedUpInsideBlock
            dismissButtonTouchedUpInsideBlock:(void (^) (void))dismissButtonTouchedUpInsideBlock;
 
-- (void)updateAttributedHeaderText:(NSAttributedString *)attributedHeaderText
-                attributedBodyText:(NSAttributedString *)attributedBodyText;
-- (void)updateAttributedHeaderText:(NSAttributedString *)attributedHeaderText;
-- (void)updateAttributedBodyText:(NSAttributedString *)attributedBodyText;
-
-- (void)updateHeaderText:(NSString *)headerText bodyText:(NSString *)bodyText;
-- (void)updateHeaderText:(NSString *)headerText;
-- (void)updateBodyText:(NSString *)bodyText;
-
 @end

@@ -6,11 +6,13 @@
 //  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
+#import "LEOCachedDataStore.h"
+
 @class Family, Patient;
 
 @protocol SignUpPatientProtocol <NSObject>
 
-- (void)addPatient:(Patient *)patient;
+- (void)addPatient:(nonnull Patient *)patient;
 
 @end
 
@@ -19,13 +21,23 @@
 #import <RSKImageCropper/RSKImageCropper.h>
 #import "LEOSignUpPatientView.h"
 #import "LEOImagePreviewViewController.h"
+#import "LEOPatientService.h"
 
-@interface LEOSignUpPatientViewController : UIViewController <UITextFieldDelegate, UIScrollViewDelegate, LEOSignUpPatientProtocol, UIPickerViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, LEOImagePreviewDelegate>
+@interface LEOSignUpPatientViewController : UIViewController <
+UITextFieldDelegate,
+UIScrollViewDelegate, 
+LEOSignUpPatientProtocol,
+UIPickerViewDelegate,
+UIImagePickerControllerDelegate,
+UINavigationControllerDelegate,
+LEOImagePreviewDelegate
+>
 
-@property (weak, nonatomic) id<SignUpPatientProtocol>delegate;
-@property (strong, nonatomic) Patient *patient;
-@property (copy, nonatomic) NSString *enrollmentToken;
+@property (weak, nonatomic, nullable) id<SignUpPatientProtocol>delegate;
+@property (strong, nonatomic, nonnull) LEOPatientService *patientDataSource;
+@property (strong, nonatomic, nullable) Patient *patient;
 @property (nonatomic) ManagementMode managementMode;
 @property (nonatomic) Feature feature;
+
 
 @end

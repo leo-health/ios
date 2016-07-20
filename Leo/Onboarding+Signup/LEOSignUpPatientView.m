@@ -110,7 +110,7 @@ static NSString *const kPlaceholderValidationBirthDate = @"please add your child
 - (void)updatePaymentTermsLabel {
 
     //TODO: This is starting to add a ton of state (and conditions) -- we should rethink the architecture around this, particularly as we add exempted users to the mix (not to mention the fact that the view probably shouldn't have to know all of this...)
-    if (self.feature == FeatureSettings && [LEOSession user].membershipType != MembershipTypeExempted) {
+    if (self.feature == FeatureSettings && self.willPayForPatient) {
         if (self.managementMode == ManagementModeCreate) {
             self.paymentAgreementLabel.text = [NSString stringWithFormat:@"By adding %@ to your family, you agree to pay $20 per month to manage %@ care with Leo.", self.patient.firstName, [self.patient possessiveSingularGender]];
         } else {
@@ -233,9 +233,14 @@ static NSString *const kPlaceholderValidationBirthDate = @"please add your child
     self.firstNamePromptField.textField.text = _patient.firstName;
     self.genderPromptField.textField.text = _patient.genderDisplayName;
 
-    if (_patient.avatar.image) {
+    [self updateAvatarImageViewWithImage:_patient.avatar.image];
+}
 
-        UIImage *circularAvatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:_patient.avatar.image withDiameter:67 borderColor:[UIColor leo_orangeRed] borderWidth:1.0 renderingMode:UIImageRenderingModeAutomatic];
+- (void)updateAvatarImageViewWithImage:(UIImage *)image {
+
+    if (image) {
+
+        UIImage *circularAvatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:image withDiameter:67 borderColor:[UIColor leo_orangeRed] borderWidth:1.0 renderingMode:UIImageRenderingModeAutomatic];
 
         self.avatarValidationLabel.text = kAvatarCallToActionEdit;
         self.avatarImageView.image = circularAvatarImage;
@@ -410,7 +415,6 @@ static NSString *const kPlaceholderValidationBirthDate = @"please add your child
     self.patient.gender = ([selectedGender isEqualToNumber:@0]) ? kGenderFemale : kGenderMale;
 
     if (self.patient.firstName) {
-
         [self updatePaymentTermsLabel];
     }
 }

@@ -146,7 +146,7 @@ static CGFloat const kAvatarProfileDiameter = 62;
 
 - (void)updateAvatarImageViewForPatient:(Patient *)patient {
 
-    if ([_patient hasAvatarDifferentFromPlaceholder]) {
+    if (!_patient.avatar.isPlaceholder) {
 
         self.patientAvatarImageView.tintColor = [UIColor clearColor];
 

@@ -26,6 +26,7 @@
 #import "LEOAPIAppointmentTypesOperation.h"
 #import "LEOAPIFamilyOperation.h"
 #import "LEOAPIPracticeOperation.h"
+#import "LEOPracticeService.h"
 
 #import "AppointmentType.h"
 #import "Appointment.h"
@@ -40,7 +41,7 @@
 #import "LEOGradientView.h"
 #import "LEOAppointmentService.h"
 #import "UIButton+Extensions.h"
-#import "LEOCachedDataStore.h"
+#import "LEOSession.h"
 #import "LEOAnalyticSession.h"
 #import "LEOAnalyticScreen.h"
 #import "LEOSession.h"
@@ -432,18 +433,7 @@ static NSString *const kKeySelectionVCDate = @"date";
     else if ([key isEqualToString:kKeySelectionVCSlot]) {
 
         Slot *slot = (Slot *)item;
-
-        //FIXME: This is potentially a major bug. Must be reviewed to determine if it is for the next release. (It could be nil and the rest of this will fail.)
-        NSArray *providers = [LEOCachedDataStore sharedInstance].practice.providers;
-        Provider *provider;
-        for (Provider *p in providers) {
-
-            if ([p.objectID isEqualToString:slot.providerID]) {
-
-                provider = p;
-                break;
-            }
-        }
+        Provider *provider = [[LEOPracticeService new] getProviderWithID:slot.providerID];
         self.appointmentView.provider = provider;
         self.appointmentView.date = slot.startDateTime;
     }

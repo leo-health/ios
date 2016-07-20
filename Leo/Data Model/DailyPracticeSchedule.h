@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "LEOJSONSerializable.h"
 
 typedef NS_ENUM(NSUInteger, DayOfWeek) {
 
@@ -20,7 +21,7 @@ typedef NS_ENUM(NSUInteger, DayOfWeek) {
     DayOfWeekSaturday = 7,
 };
 
-@interface DailyPracticeSchedule : NSObject
+@interface DailyPracticeSchedule : LEOJSONSerializable
 NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic) DayOfWeek dayOfWeek;
@@ -31,11 +32,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithDayOfWeekName:(NSString *)dayOfWeekName
                       startTimeString:(NSString *)startTimeString
                         endTimeString:(NSString *)endTimeString;
-
-- (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse;
-
-+ (NSArray *)dailySchedulesFromJSONArray:(NSArray *)jsonResponse;
-
 
 NS_ASSUME_NONNULL_END
 @end

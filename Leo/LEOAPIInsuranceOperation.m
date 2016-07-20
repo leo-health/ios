@@ -9,33 +9,24 @@
 #import "LEOAPIInsuranceOperation.h"
 #import "InsurancePlan.h"
 #import "Insurer.h"
-#import "LEOHelperService.h"
+#import "LEOPracticeService.h"
 @implementation LEOAPIInsuranceOperation
 
 
 -(void)main {
     
-//    InsurancePlan *plan = [[InsurancePlan alloc] initWithObjectID:@"1" insurerID:@"0" insurerName:@"Aetna" name:@"PPO"];
-//    
-//    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-//        self.requestBlock(@[plan], nil);
-//    }];
-//    
-//    TODO:Replace the above with this once the endpoint no longer requires an auth token.
-    LEOHelperService *helperService = [[LEOHelperService alloc] init];
-    
-    [helperService getInsurersAndPlansWithCompletion:^(NSArray *insurersAndPlans, NSError *error) {
-        
+    [[LEOPracticeService new] getInsurersAndPlansWithCompletion:^(NSArray *insurers, NSError *error) {
+
         NSMutableArray *insurancePlans = [NSMutableArray new];
-        
-        for (Insurer *insurer in insurersAndPlans) {
-            
+        for (Insurer *insurer in insurers) {
             [insurancePlans addObjectsFromArray:insurer.plans];
         }
 
-        NSSortDescriptor *sortByName = [NSSortDescriptor sortDescriptorWithKey:@"combinedName" ascending:YES];
-
-        NSArray *sortedInsurancePlans = [insurancePlans sortedArrayUsingDescriptors:@[sortByName]];
+        NSSortDescriptor *sortByName =
+        [NSSortDescriptor sortDescriptorWithKey:NSStringFromSelector(@selector(combinedName))
+                                      ascending:YES];
+        NSArray *sortedInsurancePlans =
+        [insurancePlans sortedArrayUsingDescriptors:@[sortByName]];
 
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             self.requestBlock(sortedInsurancePlans, nil);

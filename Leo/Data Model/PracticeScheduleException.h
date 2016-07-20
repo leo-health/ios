@@ -7,18 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "LEOJSONSerializable.h"
 
-@interface PracticeScheduleException : NSObject
+@interface PracticeScheduleException : LEOJSONSerializable
 NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) NSDate *startDate;
 @property (strong, nonatomic) NSDate *endDate;
-
-- (instancetype)initWithStartDate:(NSDate *)startDate endDate:(NSDate *)endDate;
-
-- (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse;
-
-+ (NSArray *)exceptionsWithJSONArray:(NSArray *)jsonResponse;
 
 NS_ASSUME_NONNULL_END
 @end
