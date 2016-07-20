@@ -8,14 +8,14 @@
 
 #import "LEOAPIFamilyOperation.h"
 #import "Family.h"
-#import "LEOHelperService.h"
-#import "LEOCachedDataStore.h"
+#import "LEOFamilyService.h"
+#import "LEOSession.h"
 
 @implementation LEOAPIFamilyOperation
 
 -(void)main {
 
-    void(^completion)(Family *, NSError *) = ^(Family * family, NSError *error) {
+    [[LEOFamilyService new] getFamilyWithCompletion:^(Family *family, NSError *error) {
 
         // for appointments, sort by youngest to oldest
         NSArray *data = [family.patients sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"dob" ascending:NO],[NSSortDescriptor sortDescriptorWithKey:@"firstName" ascending:YES]]];
@@ -23,18 +23,7 @@
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             self.requestBlock(data, error);
         }];
-    };
-
-    Family *cachedFamily = [LEOCachedDataStore sharedInstance].family;
-
-    if (!cachedFamily) {
-
-        [[LEOHelperService new] getFamilyWithCompletion:completion];
-    } else {
-
-        completion(cachedFamily, nil);
-    }
-
+    }];
 }
 
 @end

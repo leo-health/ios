@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
+#import "LEOApp.h"
 #import "LEOSettingsViewController.h"
 #import "Family.h"
 #import "LEOPromptFieldCell+ConfigureForCell.h"
@@ -15,8 +16,9 @@
 #import "UIFont+LeoFonts.h"
 #import "UIImage+Extensions.h"
 #import "LEOStyleHelper.h"
-
-#import "LEOUpdateEmailViewController.h"
+#import "LEOPatientService.h"
+#import "LEOUserService.h"
+#import "LEOFamilyService.h"
 #import "LEOUpdatePasswordViewController.h"
 #import "LEOAddCaregiverViewController.h"
 #import "LEOWebViewController.h"
@@ -58,6 +60,8 @@ typedef NS_ENUM(NSUInteger, AboutSettings) {
 
 @interface LEOSettingsViewController ()
 
+@property (strong, nonatomic) Family *family;
+@property (strong, nonatomic) Guardian *user;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) LEOAnalyticSessionManager *analyticSessionManager;
 
@@ -91,7 +95,8 @@ static NSString *const kCopyManageMySubscription = @"Manage my membership";
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
-    
+    self.family = [self.familyService getFamily];
+    self.user = [self.userService getCurrentUser];
     [self.tableView reloadData];
 }
 
@@ -421,8 +426,8 @@ static NSString *const kCopyManageMySubscription = @"Manage my membership";
 
 - (NSString *)buildVersionString {
 
-    NSString *appBuild = [LEOSession appBuild];
-    NSString *appVersion = [LEOSession appVersion];
+    NSString *appBuild = [LEOApp appBuild];
+    NSString *appVersion = [LEOApp appVersion];
 
     return [NSString stringWithFormat:@"%@ | %@", appVersion, appBuild];
 }
@@ -529,9 +534,9 @@ static NSString *const kCopyManageMySubscription = @"Manage my membership";
         } else {
             signUpPatientVC.managementMode = ManagementModeCreate;
         }
-        
-        signUpPatientVC.delegate = self;
 
+        signUpPatientVC.patientDataSource = [LEOPatientService new];
+        signUpPatientVC.delegate = self;
     }
     
     if ([segue.identifier isEqualToString:kSegueTermsAndConditions]) {
@@ -554,6 +559,7 @@ static NSString *const kCopyManageMySubscription = @"Manage my membership";
 
         LEOAddCaregiverViewController *addCaregiverVC = (LEOAddCaregiverViewController *)segue.destinationViewController;
         addCaregiverVC.feature = FeatureSettings;
+        addCaregiverVC.userDataSource = [LEOUserService new];
     }
 
     if ([segue.identifier isEqualToString:kSegueManageMySubscription]) {

@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse;
 
+
 NS_ASSUME_NONNULL_END
 
 @end

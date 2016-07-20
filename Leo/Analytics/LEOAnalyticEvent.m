@@ -13,12 +13,13 @@
 #import "Patient+Analytics.h"
 #import "Family+Analytics.h"
 #import "Message+Analytics.h"
+#import "LEOUserService.h"
 
 @implementation LEOAnalyticEvent
 
 + (NSDictionary *)getAttributesWithFamily:(Family *)family {
 
-    Guardian *guardian = [LEOSession user];
+    Guardian *guardian = [[LEOUserService new] getCurrentUser];
 
     NSMutableDictionary *attributeDictionary = [[family getAttributes] mutableCopy];
     [attributeDictionary addEntriesFromDictionary:[guardian getAttributes]];

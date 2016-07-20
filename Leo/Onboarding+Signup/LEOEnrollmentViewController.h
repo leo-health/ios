@@ -8,7 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "LEOStickyHeaderViewController.h"
+#import "LEOUserService.h"
+
 @interface LEOEnrollmentViewController : LEOStickyHeaderViewController <LEOStickyHeaderDelegate, LEOStickyHeaderDataSource>
+
+@property (strong, nonnull) LEOUserService *userDataSource;
 
 @end
  

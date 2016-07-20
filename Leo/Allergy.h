@@ -22,5 +22,4 @@ NS_ASSUME_NONNULL_BEGIN
 +(NSArray *)allergiesFromDictionaries:(NSArray *)dictionaries;
 
 NS_ASSUME_NONNULL_END
-
 @end

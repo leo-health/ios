@@ -7,21 +7,16 @@
 //
 
 #import "LEOAPIAppointmentTypesOperation.h"
-#import "LEOHelperService.h"
+#import "LEOPracticeService.h"
 
 @implementation LEOAPIAppointmentTypesOperation
 
 -(void)main {
-    
-    LEOHelperService *helperService = [[LEOHelperService alloc] init];
-    
-    __block id data;
-    
-    [helperService getAppointmentTypesWithCompletion:^(NSArray * appointmentTypes, NSError *error) {
-        data = appointmentTypes;
+
+    [[LEOPracticeService new] getAppointmentTypesWithCompletion:^(NSArray * appointmentTypes, NSError *error) {
         
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            self.requestBlock(data, error);
+            self.requestBlock(appointmentTypes, error);
         }];
     }];
 }

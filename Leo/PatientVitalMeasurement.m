@@ -86,6 +86,10 @@ static NSString * const kMeasurementTypeUnknown = @"unknown";
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonDictionary {
 
+    if (!jsonDictionary) {
+        return nil;
+    }
+
     //The backend should really decide on a format and stick with it, but for now, this uses a different method than slots to convert the string to a date.
     NSDate *takenAt = [NSDate leo_dateFromAthenaDateTimeString:[jsonDictionary leo_itemForKey:APIParamVitalMeasurementTakenAt]];
 

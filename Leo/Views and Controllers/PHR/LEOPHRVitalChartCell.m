@@ -8,7 +8,7 @@
 
 #import "LEOPHRVitalChartCell.h"
 #import "LEOVitalGraphViewController.h"
-#import "LEOSession.h"
+#import "LEODevice.h"
 
 @interface LEOPHRVitalChartCell ()
 
@@ -67,7 +67,7 @@
 
 - (NSNumber *)chartWidthMetric {
 
-    switch ([LEOSession deviceModel]) {
+    switch ([LEODevice deviceModel]) {
 
         case DeviceModel4OrLess:
             return @320;
@@ -88,7 +88,8 @@
 
 - (NSNumber *)chartHeightMetric {
 
-    switch ([LEOSession deviceModel]) {
+    switch ([LEODevice deviceModel]) {
+            
         case DeviceModel5:
             return @260;
 

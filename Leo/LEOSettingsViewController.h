@@ -11,9 +11,11 @@
 #import <UIKit/UIKit.h>
 #import "LEOSignUpPatientViewController.h"
 
+@class LEOFamilyService, LEOUserService;
+
 @interface LEOSettingsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, SignUpPatientProtocol>
 
-@property (strong, nonatomic) Family *family;
-@property (strong, nonatomic) Guardian *user;
+@property (strong, nonatomic) LEOFamilyService *familyService;
+@property (strong, nonatomic) LEOUserService *userService;
 
 @end

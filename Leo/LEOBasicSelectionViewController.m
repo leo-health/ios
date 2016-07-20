@@ -73,7 +73,10 @@
 }
 
 - (void)dealloc {
+    [self removeObservers];
+}
 
+- (void)removeObservers {
     for (id observer in self.notificationObservers) {
         [[NSNotificationCenter defaultCenter] removeObserver:observer];
     }
@@ -219,7 +222,6 @@
 #pragma mark - Navigation
 
 - (void)pop {
-    
     [self.navigationController popViewControllerAnimated:YES];
 }
 

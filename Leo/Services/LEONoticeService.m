@@ -11,19 +11,20 @@
 #import "NSDate+Extensions.h"
 #import "NSDictionary+Extensions.h"
 #import "Configuration.h"
-#import "LEOCachedDataStore.h"
+#import "LEOSession.h"
 #import "Notice.h"
+#import "LEOCachedService.h"
 
 @implementation LEONoticeService
 
 static NSString *const kDefaultMessage = @"Welcome to Leo + Flatiron Pediatrics. Say hello. Book an appointment. Review your child's health record.";
 
-- (NSURLSessionTask *)getFeedNoticeForDate:(NSDate *)date withCompletion:(void (^)(NSString *feedMessage, NSError *error))completionBlock {
+- (LEOPromise *)getFeedNoticeForDate:(NSDate *)date withCompletion:(LEOObjectErrorBlock)completionBlock {
 
     NSString *dateString = [NSDate leo_stringifiedDashedShortDateYearMonthDay:date];
     NSString *endpoint = [NSString stringWithFormat:@"http://%@/%@.json",[Configuration contentURL],dateString];
 
-    NSURLSessionTask *task = [[self sessionManager] unauthenticatedGETRequestForJSONDictionaryFromS3WithURLString:endpoint params:nil completion:^(NSDictionary *rawResults, NSError *error) {
+    [self.S3Network unauthenticatedGETRequestForJSONDictionaryFromS3WithURLString:endpoint params:nil completion:^(NSDictionary *rawResults, NSError *error) {
 
         NSString *feedString;
 
@@ -39,46 +40,29 @@ static NSString *const kDefaultMessage = @"Welcome to Leo + Flatiron Pediatrics.
 
     }];
     
-    return task;
+    return [LEOPromise waitingForCompletion];
 }
 
-- (NSURLSessionTask *)getConversationNoticesWithCompletion:(void (^)(NSArray *notices, NSError *error)) completionBlock {
+- (LEOPromise *)getConversationNoticesWithCompletion:(LEOArrayErrorBlock)completionBlock {
 
-    NSString *endpoint = [NSString stringWithFormat:@"http://%@/%@.json",[Configuration contentURL],APIEndpointConversationNotices];
+    return [self.cachedService get:APIEndpointConversationNotices params:nil completion:^(NSDictionary *response, NSError *error) {
 
-    if ([LEOCachedDataStore sharedInstance].notices) {
-        completionBlock([LEOCachedDataStore sharedInstance].notices, nil);
-    } else {
+        NSArray *notices;
+        if (!error) {
 
-        NSURLSessionTask *task =
-        [[self sessionManager] unauthenticatedGETRequestForJSONDictionaryFromS3WithURLString:endpoint params:nil completion:^(NSDictionary *rawResults, NSError *error) {
-
-            if (!error) {
-
-                NSArray *notices =
-                [Notice noticesFromJSONArray:rawResults[APIParamData]];
-
-                [LEOCachedDataStore sharedInstance].notices = notices;
-
-                if (completionBlock) {
-                    completionBlock(notices, error);
-                }
-
-            } else {
-                if (completionBlock) {
-                    completionBlock(nil, error);
-                }
+            NSArray *rawNotices = response[@"notices"];
+            if (rawNotices) {
+                notices = [Notice deserializeManyFromJSON:rawNotices];
             }
-        }];
+        }
 
-        return task;
-    }
-
-    return nil;
+        if (completionBlock) {
+            completionBlock(notices, error);
+        }
+    }];
 }
 
-
-- (LEOS3JSONSessionManager *)sessionManager {
+- (LEOS3JSONSessionManager *)S3Network {
     return [LEOS3JSONSessionManager sharedClient];
 }
 @end

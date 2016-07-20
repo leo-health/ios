@@ -143,47 +143,48 @@ static NSString * const kCopyHeaderAddCaregiver = @"Add another parent or caregi
     [self.view endEditing:YES];
     if ([self.addCaregiverView isValidInvite]) {
 
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        self.addCaregiverView.userInteractionEnabled = NO;
+        Guardian *secondaryGuardian = [[Guardian alloc] initWithObjectID:nil title:nil firstName:self.addCaregiverView.firstName middleInitial:nil lastName:self.addCaregiverView.lastName suffix:nil email:self.addCaregiverView.email avatar:nil];
 
-        Guardian *configUser = [[Guardian alloc] initWithObjectID:nil title:nil firstName:self.addCaregiverView.firstName middleInitial:nil lastName:self.addCaregiverView.lastName suffix:nil email:self.addCaregiverView.email avatar:nil];
-        
+        __weak typeof(self) weakSelf = self;
+
         if (self.feature == FeatureOnboarding) {
 
-            [self.family addGuardian:configUser];
+            [self.userDataSource addCaregiver:secondaryGuardian];
             [self performSegueWithIdentifier:kSegueContinue sender:self];
         }
 
         else if (self.feature == FeatureSettings) {
 
-            LEOUserService *userService = [[LEOUserService alloc] init];
-            [userService addCaregiver:configUser withCompletion:^(BOOL success, NSError *error) {
+            LEOPromise *promise = [self.userDataSource addCaregiver:secondaryGuardian withCompletion:^(Guardian *guardian, NSError *error) {
 
+                __strong typeof(self) strongSelf = weakSelf;
 
-                [MBProgressHUD hideHUDForView:self.view animated:YES];
-                self.addCaregiverView.userInteractionEnabled = YES;
+                [MBProgressHUD hideHUDForView:strongSelf.view animated:YES];
+                strongSelf.addCaregiverView.userInteractionEnabled = YES;
 
-                if (success) {
+                if (!error) {
 
                     if (self.feature == FeatureSettings) {
-                        
-                        [LEOAnalyticEvent tagEvent:kAnalyticEventAddCaregiverFromSettings
-                                        withFamily:self.family];
+
+                        // TODO: GET family from cache
+//                        [LEOAnalyticEvent tagEvent:kAnalyticEventAddCaregiverFromSettings
+//                                        withFamily:self.family];
 
                         LEOStatusBarNotification *successNotification = [LEOStatusBarNotification new];
                         [successNotification displayNotificationWithMessage:@"Additional caregiver successfully added to your family!"
-                                                                       forDuration:1.0f];
+                                                                forDuration:1.0f];
 
-                        [self.navigationController popViewControllerAnimated:YES];
-                    } else {
-
-                        [self.family addGuardian:configUser];
-                        [self performSegueWithIdentifier:kSegueContinue sender:self];
+                        [strongSelf.navigationController popViewControllerAnimated:YES];
                     }
                 } else {
-                    [LEOAlertHelper alertForViewController:self error:error backupTitle:kErrorDefaultTitle backupMessage:kErrorDefaultMessage];
+                    [LEOAlertHelper alertForViewController:strongSelf error:error backupTitle:kErrorDefaultTitle backupMessage:kErrorDefaultMessage];
                 }
             }];
+
+            if (promise.executing) {
+                [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                self.addCaregiverView.userInteractionEnabled = NO;
+            }
         }
     }
 }
@@ -197,7 +198,7 @@ static NSString * const kCopyHeaderAddCaregiver = @"Add another parent or caregi
 }
 
 - (void)pop {
-    
+
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -206,7 +207,9 @@ static NSString * const kCopyHeaderAddCaregiver = @"Add another parent or caregi
     if ([segue.identifier isEqualToString:kSegueContinue]) {
 
         LEOProductOverviewViewController *productOverviewVC = segue.destinationViewController;
-        productOverviewVC.family = self.family;
+
+        productOverviewVC.family = [[Family alloc] initWithJSONDictionary:
+                                    [[LEOCachedService new] get:APIEndpointFamily params:nil]];
         productOverviewVC.analyticSession = self.analyticSession;
         productOverviewVC.feature = FeatureOnboarding;
     }

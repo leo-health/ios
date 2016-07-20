@@ -18,9 +18,5 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithObjectID:(nullable NSString *)objectID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email avatar:(LEOS3Image *)avatar credentialSuffixes:(NSArray *)credentials specialties:(NSArray *)specialties;
 
-- (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse;
-
-+ (NSDictionary *)dictionaryFromUser:(Provider *)provider;
-
 NS_ASSUME_NONNULL_END
 @end

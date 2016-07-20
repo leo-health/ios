@@ -19,10 +19,12 @@
 #import "Family.h"
 #import "NSObject+XibAdditions.h"
 #import "LEOUserService.h"
+#import "LEOPatientService.h"
 #import "LEOSession.h"
 #import "LEOAnalyticScreen.h"
 #import "LEOAnalyticIntent.h"
-
+#import "LEOPracticeService.h"
+#import "Guardian.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 
 @interface LEOPaymentViewController ()
@@ -65,9 +67,7 @@ NSString *const kCopyEditPaymentsHeader = @"Update your credit or debit card";
 - (void)viewDidAppear:(BOOL)animated {
 
     [super viewDidAppear:animated];
-
     [LEOAnalyticScreen tagScreen:kAnalyticScreenAddPaymentMethod];
-
 }
 
 -(void)setFeature:(Feature)feature {
@@ -81,7 +81,7 @@ NSString *const kCopyEditPaymentsHeader = @"Update your credit or debit card";
 
     BOOL backButton = YES;
 
-    if ([LEOSession user].membershipType == MembershipTypeDelinquent) {
+    if (self.user.membershipType == MembershipTypeDelinquent) {
         backButton = NO;
     }
 
@@ -91,7 +91,7 @@ NSString *const kCopyEditPaymentsHeader = @"Update your credit or debit card";
                                               dismissal:NO
                                              backButton:backButton];
 
-    if ([LEOSession user].membershipType == MembershipTypeDelinquent) {
+    if (self.user.membershipType == MembershipTypeDelinquent) {
 
         UIButton *logoutButton = [UIButton buttonWithType:UIButtonTypeCustom];
 
@@ -137,6 +137,7 @@ NSString *const kCopyEditPaymentsHeader = @"Update your credit or debit card";
     
     self.paymentsView.numberOfChildren = family.patients.count;
 }
+
 - (LEOPaymentsView *)paymentsView {
 
     if (!_paymentsView) {
@@ -231,17 +232,18 @@ NSString *const kCopyEditPaymentsHeader = @"Update your credit or debit card";
                         [[LEOPaymentService new] updateAndChargeCardWithToken:strongSelf.paymentDetails completion:^(BOOL success, NSError *error) {
 
                             if (error) {
+
                                 [self handleError:error];
-
-                                [MBProgressHUD hideHUDForView:strongSelf.view
-                                                     animated:YES];
-
                                 return;
                             }
                             
-                            [[LEOUserService new] getUserWithID:[LEOSession user].objectID withCompletion:^(Guardian *guardian, NSError *error) {
+                            [[LEOUserService new] getCurrentUserWithCompletion:^(Guardian *guardian, NSError *error) {
 
-                                [LEOSession updateCurrentSessionWithGuardian:guardian];
+                                if (error) {
+
+                                    [self handleError:error];
+                                    return;
+                                }
 
                                 [LEOAnalyticIntent tagEvent:kAnalyticEventChargeCard
                                                 withFamily:self.family];
@@ -300,7 +302,11 @@ NSString *const kCopyEditPaymentsHeader = @"Update your credit or debit card";
     if ([segue.identifier isEqualToString:kSegueContinue]) {
 
         LEOReviewOnboardingViewController *reviewOnboardingVC = segue.destinationViewController;
-        reviewOnboardingVC.family = self.family;
+
+        reviewOnboardingVC.familyDataSource = [LEOFamilyService serviceWithCachePolicy:[LEOCachePolicy cacheOnly]];
+        reviewOnboardingVC.userDataSource = [LEOUserService new];
+        reviewOnboardingVC.patientDataSource = [LEOPatientService new];
+
         reviewOnboardingVC.analyticSession = self.analyticSession;
         reviewOnboardingVC.paymentDetails = self.paymentDetails;
     }
