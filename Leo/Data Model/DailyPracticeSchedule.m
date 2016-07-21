@@ -30,30 +30,33 @@
     return self;
 }
 
-- (instancetype)initWithJSONDictionary:(NSDictionary *)jsonDictionary {
+- (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
 
-    if (!jsonDictionary) {
-        return nil;
-    }
-
-    NSString *dayOfWeekName = [jsonDictionary leo_itemForKey:APIParamDailyScheduleDayOfWeek];
-    NSString *startTimeString = [jsonDictionary leo_itemForKey:APIParamDailyScheduleStartTime];
-    NSString *endTimeString = [jsonDictionary leo_itemForKey:APIParamDailyScheduleEndTime];
+    NSString *dayOfWeekName = [jsonResponse leo_itemForKey:APIParamDailyScheduleDayOfWeek];
+    NSString *startTimeString = [jsonResponse leo_itemForKey:APIParamDailyScheduleStartTime];
+    NSString *endTimeString = [jsonResponse leo_itemForKey:APIParamDailyScheduleEndTime];
 
     return [self initWithDayOfWeekName:dayOfWeekName
                        startTimeString:startTimeString
                          endTimeString:endTimeString];
 }
 
-+ (NSDictionary *)serializeToJSON:(DailyPracticeSchedule *)object {
++ (NSArray *)dailySchedulesFromJSONArray:(NSDictionary *)jsonResponse {
 
-    NSMutableDictionary *json = [NSMutableDictionary new];
+    NSArray *dailyPracticeSchedules =
+    [jsonResponse leo_itemForKey:APIParamPracticeDailyHours];
 
-    json[APIParamDailyScheduleDayOfWeek] = object.dayOfWeekName;
-    json[APIParamDailyScheduleStartTime] = object.startTimeString;
-    json[APIParamDailyScheduleEndTime] = object.endTimeString;
+    NSMutableArray *mutableSchedules = [NSMutableArray new];
 
-    return [json copy];
+    for (NSDictionary *dailyPracticeSchedule in dailyPracticeSchedules) {
+
+        DailyPracticeSchedule *dailySchedule =
+        [[self alloc] initWithJSONDictionary:dailyPracticeSchedule];
+
+        [mutableSchedules addObject:dailySchedule];
+    }
+
+    return [mutableSchedules copy];
 }
 
 + (DayOfWeek)convertDayOfWeekName:(NSString *)dayOfWeekName {

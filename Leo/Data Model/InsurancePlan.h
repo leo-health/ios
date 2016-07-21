@@ -7,20 +7,21 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "LEOJSONSerializable.h"
 
 @class Insurer;
 
-@interface InsurancePlan : LEOJSONSerializable <NSCopying>
+@interface InsurancePlan : NSObject <NSCopying>
 
 @property (strong, nonatomic) NSString *objectID;
 @property (strong, nonatomic) NSString *insurerID;
 @property (strong, nonatomic) NSString *insurerName;
 @property (strong, nonatomic) NSString *name;
+@property (strong, nonatomic) NSString *combinedName;
 
-- (NSString *)combinedName;
+@property (nonatomic) BOOL supported;
 
+- (instancetype)initSupportedPlanWithJSONDictionary:(NSDictionary *)jsonDictionary;
 - (instancetype)initWithObjectID:(NSString *)objectID insurerID:(NSString *)insurerID insurerName:(NSString *)insurerName name:(NSString *)name;
-
++ (NSDictionary *)dictionaryFromInsurancePlan:(InsurancePlan *)insurancePlan;
 
 @end

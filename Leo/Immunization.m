@@ -26,10 +26,6 @@
 
 -(instancetype)initWithJSONDictionary:(NSDictionary *)jsonDictionary {
 
-    if (!jsonDictionary) {
-        return nil;
-    }
-
     NSDate *administeredAt = [NSDate leo_dateFromAthenaDateTimeString:[jsonDictionary leo_itemForKey:APIParamImmunizationAdministeredAt]];
     NSString *vaccine = [jsonDictionary leo_itemForKey:APIParamImmunizationVaccine];
     return [self initWithAdministeredAt:administeredAt vaccine:vaccine];

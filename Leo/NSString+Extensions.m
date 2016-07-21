@@ -10,10 +10,6 @@
 
 @implementation NSString (Extensions)
 
-- (NSString *)stringValue {
-    return self;
-}
-
 - (NSString *)leo_stringByTrimmingWhitespace {
 
     return [self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];

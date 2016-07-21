@@ -11,12 +11,10 @@
 @interface LEODevice : NSObject
 
 + (instancetype)createTokenWithString:(NSString *)token;
-
 + (NSString *)deviceToken;
 + (NSString *)deviceType;
 + (DeviceModel)deviceModel;
 + (NSString *)osVersionString;
-
-+ (NSDictionary *)serializeToJSON;
++ (NSDictionary *)jsonDictionary;
 
 @end

@@ -60,12 +60,11 @@
 #import "LEOCallManager.h"
 #import "LEOCachedDataStore.h"
 #import "Practice.h"
-#import "LEOPracticeService.h"
+#import "LEOHelperService.h"
 #import "LEONoticeService.h"
 #import "LEOAnalyticScreen.h"
 #import "LEOAnalyticIntent.h"
 #import "LEOAnalyticSessionManager.h"
-#import "LEOCachePolicy.h"
 
 @interface LEOConversationViewController ()
 
@@ -170,7 +169,7 @@ static NSString *const kDefaultPracticeID = @"0";
 
 - (void)fetchRequiredDataWithCompletion:(void (^)(NSArray *notices, Practice *practice, NSError *error))completionBlock {
 
-    [[LEOPracticeService new] getPracticeWithCompletion:^(Practice *practice, NSError *error) {
+    [[LEOHelperService new] getPracticeWithID:kDefaultPracticeID withCompletion:^(Practice *practice, NSError *error) {
 
         if (error) {
             completionBlock(nil, nil, error);
@@ -339,8 +338,8 @@ static NSString *const kDefaultPracticeID = @"0";
 
 
         self.fullScreenNoticeView =
-        [[LEOConversationFullScreenNoticeView alloc] initWithHeaderText:notice.headerText
-                                                               bodyText:notice.bodyText
+        [[LEOConversationFullScreenNoticeView alloc] initWithHeaderText:notice.attributedHeaderText.string
+                                                               bodyText:notice.attributedBodyText.string
                                           buttonOneTouchedUpInsideBlock:^{
 
                                               __strong typeof(self) strongSelf = weakSelf;
@@ -589,7 +588,7 @@ static NSString *const kDefaultPracticeID = @"0";
 
 - (void)clearPusher {
 
-    NSString *channelString = [NSString stringWithFormat:@"%@",[[LEOUserService new] getCurrentUser].objectID];
+    NSString *channelString = [NSString stringWithFormat:@"%@",[LEOSession user].objectID];
     [[LEOPusherHelper sharedPusher] removeBinding:self.pusherBinding
                        fromPrivateChannelWithName:channelString];
     self.pusherBinding = nil;
@@ -597,9 +596,9 @@ static NSString *const kDefaultPracticeID = @"0";
 
 - (void)setupRequiredMessagingProperties {
 
-    self.senderId = [NSString stringWithFormat:@"%@F",[[LEOUserService new] getCurrentUser].familyID];
-    self.senderDisplayName = [[LEOUserService new] getCurrentUser].fullName;
-    self.senderFamily = [[LEOUserService new] getCurrentUser].familyID;
+    self.senderId = [NSString stringWithFormat:@"%@F",[LEOSession user].familyID];
+    self.senderDisplayName = [LEOSession user].fullName;
+    self.senderFamily = [LEOSession user].familyID;
 }
 
 - (void)setupMessageBubbles {
@@ -667,7 +666,7 @@ static NSString *const kDefaultPracticeID = @"0";
 - (void)setupPusher {
 
     NSString *channelString =
-    [NSString stringWithFormat:@"%@",[[LEOUserService new] getCurrentUser].objectID];
+    [NSString stringWithFormat:@"%@",[LEOSession user].objectID];
 
     NSString *event = @"new_message";
 
@@ -845,7 +844,7 @@ static NSString *const kDefaultPracticeID = @"0";
 
     Message *message = [MessageText messageWithObjectID:nil
                                                    text:text
-                                                 sender:[[LEOUserService new] getCurrentUser]
+                                                 sender:[LEOSession user]
                                             escalatedTo:nil
                                             escalatedBy:nil
                                                  status:nil
@@ -1111,7 +1110,7 @@ static NSString *const kDefaultPracticeID = @"0";
 
     JSQPhotoMediaItem *photoItem = [[JSQPhotoMediaItem alloc] initWithImage:image];
 
-    MessageImage *message = [MessageImage messageWithObjectID:nil media:photoItem sender:[[LEOUserService new] getCurrentUser] escalatedTo:nil escalatedBy:nil status:nil statusCode:MessageStatusCodeUndefined createdAt:[NSDate date] escalatedAt:nil leoMedia:nil];
+    MessageImage *message = [MessageImage messageWithObjectID:nil media:photoItem sender:[LEOSession user] escalatedTo:nil escalatedBy:nil status:nil statusCode:MessageStatusCodeUndefined createdAt:[NSDate date] escalatedAt:nil leoMedia:nil];
 
     self.inputToolbar.contentView.userInteractionEnabled = NO;
 
@@ -1337,6 +1336,7 @@ static NSString *const kDefaultPracticeID = @"0";
     if ([self isFamilyMessage:message]) {
 
         NSString *dateString = [NSString stringWithFormat:@"%@ ∙ ", [NSDate leo_stringifiedTime:message.createdAt]];
+
 
         NSDictionary *attributes = @{NSFontAttributeName : [UIFont leo_medium12], NSForegroundColorAttributeName : [UIColor leo_gray185]};
         NSAttributedString *timestampAttributedString = [[NSAttributedString alloc] initWithString:dateString attributes:attributes];

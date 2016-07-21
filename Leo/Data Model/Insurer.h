@@ -7,12 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "LEOJSONSerializable.h"
 
-@interface Insurer : LEOJSONSerializable
+@interface Insurer : NSObject
 
-@property (strong, nonatomic, readonly) NSString *name;
-@property (strong, nonatomic, readonly) NSString *objectID;
-@property (strong, nonatomic, readonly) NSArray *plans;
+@property (strong, nonatomic) NSString *name;
+@property (strong, nonatomic) NSString *objectID;
+@property (strong, nonatomic) NSString *phone;
+@property (strong, nonatomic) NSString *fax;
+@property (strong, nonatomic) NSArray *plans;
+
+- (instancetype)initWithJSONDictionary:(NSDictionary *)jsonDictionary;
 
 @end

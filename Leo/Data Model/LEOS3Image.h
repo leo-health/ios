@@ -7,30 +7,20 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "LEOJSONSerializable.h"
 
-@interface LEOS3Image : LEOJSONSerializable <NSCopying>
+@interface LEOS3Image : NSObject <NSCopying>
 
 @property (copy, nonatomic) NSString *baseURL;
 @property (copy, nonatomic) NSDictionary *parameters;
 @property (strong, nonatomic) UIImage *image;
-@property (strong, nonatomic) UIImage *underlyingImage;
 @property (strong, nonatomic) UIImage *placeholder;
-@property (strong, nonatomic) NSURLSessionDataTask *downloadTask;
 @property (nonatomic, readonly) BOOL isPlaceholder;
 
-- (instancetype)initWithBaseURL:(NSString *)baseURL
-                     parameters:(NSDictionary *)parameters
-                    placeholder:(UIImage *)placeholder
-                          image:(UIImage *)image;
-
-- (instancetype)initWithBaseURL:(NSString *)baseURL
-                     parameters:(NSDictionary *)parameters
-                    placeholder:(UIImage *)placeholder;
+- (instancetype)initWithBaseURL:(NSString *)baseURL parameters:(NSDictionary *)parameters placeholder:(UIImage *)placeholder;
+- (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse;
+- (void)getS3ImageDataForS3ImageWithCompletion:(void (^) (void))completion;
 
 - (void)setNeedsRefresh;
 - (void)refreshIfNeeded;
-
-+ (UIImage *)resizeLocalAvatarImageBasedOnScreenScale:(UIImage *)avatarImage;
 
 @end

@@ -1,17 +1,15 @@
 //
-//  LEOSignUpUserViewController.m
+//  LEOSIgnUpUserViewController.m
 //  Leo
 //
 //  Created by Zachary Drossman on 9/2/15.
 //  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
-#import "LEOCachedService.h"
 #import "LEOSignUpUserViewController.h"
 #import "UIImage+Extensions.h"
 #import "NSObject+XibAdditions.h"
 #import "UIColor+LeoColors.h"
-#import "LEOPatientService.h"
 
 #import "LEOSignUpUserView.h"
 #import "LEOPromptField.h"
@@ -40,12 +38,17 @@
 
 @property (strong, nonatomic) LEOProgressDotsHeaderView *headerView;
 @property (strong, nonatomic) LEOSignUpUserView *signUpUserView;
+@property (nonatomic) BOOL breakerPreviouslyDrawn;
+@property (strong, nonatomic) CAShapeLayer *pathLayer;
+
 
 @end
 
 @implementation LEOSignUpUserViewController
 
 static NSString * const kCopyHeaderSignUpUser = @"Tell us a little about yourself";
+
+@synthesize guardian = _guardian;
 
 #pragma mark - View Controller Lifecycle & Helper Methods
 
@@ -63,6 +66,8 @@ static NSString * const kCopyHeaderSignUpUser = @"Tell us a little about yoursel
 
     self.automaticallyAdjustsScrollViewInsets = NO;
 
+    self.signUpUserView.guardian = self.guardian;
+    self.signUpUserView.insurancePlan = self.guardian.insurancePlan;
     self.signUpUserView.insurerPromptField.delegate = self;
 
     [LEOApiReachability startMonitoringForController:self];
@@ -97,6 +102,15 @@ static NSString * const kCopyHeaderSignUpUser = @"Tell us a little about yoursel
 - (void)setupButton {
 
     [self.signUpUserView.continueButton addTarget:self action:@selector(continueTapped:) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (Family *)family {
+
+    if (!_family) {
+        _family = [Family new];
+    }
+
+    return _family;
 }
 
 - (UIView *)injectBodyView {
@@ -156,39 +170,48 @@ static NSString * const kCopyHeaderSignUpUser = @"Tell us a little about yoursel
 
     if ([self.signUpUserView validView]) {
 
-        [self.userDataSource putCurrentUser:self.signUpUserView.guardian withCompletion:^(Guardian *guardian, NSError *error) {
+        [self updateGuardian];
 
-            switch (self.managementMode) {
-                case ManagementModeCreate: {
+        switch (self.managementMode) {
+            case ManagementModeCreate: {
+            
+                [LEOAnalyticIntent tagEvent:kAnalyticEventCompleteNewUserProfile
+                          withFamily:self.family];
 
-                    [LEOAnalyticIntent tagEvent:kAnalyticEventCompleteNewUserProfile];
+                [self.family addGuardian:self.guardian];
 
-                    [self performSegueWithIdentifier:kSegueContinue sender:sender];
-                }
-                    break;
-
-                case ManagementModeEdit: {
-
-                    // TODO: get family from cache
-                    //                    [LEOAnalyticIntent tagEvent:kAnalyticEventEditUserProfile
-                    //                                     withFamily:self.family];
-
-                    [self.navigationController popViewControllerAnimated:YES];
-                }
-                    break;
-
-                case ManagementModeUndefined:
-                    break;
+                [self performSegueWithIdentifier:kSegueContinue sender:sender];
             }
-        }];
+                break;
+
+            case ManagementModeEdit: {
+
+                [LEOAnalyticIntent tagEvent:kAnalyticEventEditUserProfile
+                          withFamily:self.family];
+
+                [self.navigationController popViewControllerAnimated:YES];
+            }
+                break;
+
+            case ManagementModeUndefined:
+                break;
+        }
     }
+}
+
+- (void)updateGuardian {
+
+    _guardian.firstName = self.signUpUserView.guardian.firstName;
+    _guardian.lastName = self.signUpUserView.guardian.lastName;
+    _guardian.insurancePlan = self.signUpUserView.guardian.insurancePlan;
+    _guardian.phoneNumber = self.signUpUserView.guardian.phoneNumber;
 }
 
 - (void)setGuardian:(Guardian *)guardian {
 
     _guardian = guardian;
-    self.signUpUserView.guardian = guardian;
-    self.signUpUserView.insurancePlan = guardian.insurancePlan;
+    self.signUpUserView.guardian = [guardian copy];
+    self.signUpUserView.insurancePlan = [guardian.insurancePlan copy];
 }
 
 
@@ -204,9 +227,9 @@ static NSString * const kCopyHeaderSignUpUser = @"Tell us a little about yoursel
     if ([segue.identifier isEqualToString:kSegueContinue]) {
 
         LEOManagePatientsViewController *manageChildrenVC = segue.destinationViewController;
-        manageChildrenVC.patients = @[];
 
-        manageChildrenVC.patientDataSource = [LEOPatientService new];
+        manageChildrenVC.family = self.family;
+        manageChildrenVC.enrollmentToken = self.enrollmentToken;
         manageChildrenVC.analyticSession = self.analyticSession;
     }
 

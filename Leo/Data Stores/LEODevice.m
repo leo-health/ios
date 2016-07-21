@@ -152,18 +152,20 @@ static dispatch_once_t onceToken;
 
     // SOURCE: http://stackoverflow.com/questions/3339722/how-to-check-ios-version
     NSOperatingSystemVersion osVersion = [[NSProcessInfo processInfo] operatingSystemVersion];
-    NSString *oSVersionString = [NSString stringWithFormat:@"%ld.%ld.%ld",(long)osVersion.majorVersion, (long)osVersion.minorVersion, (long)osVersion.patchVersion];
+    NSString *oSVersionString = [NSString stringWithFormat:@"%ld.%ld.%ld",osVersion.majorVersion, osVersion.minorVersion, osVersion.patchVersion];
     return oSVersionString;
 }
 
-+ (NSDictionary *)serializeToJSON {
++ (NSDictionary *)jsonDictionary {
 
-    NSMutableDictionary *json = [NSMutableDictionary new];
-    json[APIParamSessionPlatform] = @"ios";
-    json[APIParamSessionDeviceType] = [self deviceType];
-    json[APIParamSessionOSVersion] = [self osVersionString];
-    json[APIParamSessionDeviceToken] = [self deviceToken];
-    return [json copy];
+    NSMutableDictionary *dict = [@{
+                                   APIParamSessionDeviceType : [self deviceType],
+                                   APIParamSessionOSVersion  : [self osVersionString] } mutableCopy];
+
+    if ([self deviceToken]) {
+        [dict setObject:[self deviceToken] forKey:APIParamSessionDeviceToken];
+    }
+    return [dict copy];
 }
 
 @end

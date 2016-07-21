@@ -12,6 +12,6 @@
 
 @interface LEOMediaService : NSObject
 
-- (NSURLSessionDataTask *)getImageForS3Image:(LEOS3Image *)s3Image withCompletion:(void (^)(UIImage *rawImage, NSError *error))completionBlock;
+- (void)getImageForS3Image:(LEOS3Image *)s3Image withCompletion:(void (^)(UIImage *rawImage, NSError *error))completionBlock;
 
 @end

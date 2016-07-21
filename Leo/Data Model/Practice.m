@@ -126,15 +126,11 @@
     return NO;
 }
 
-- (instancetype)initWithJSONDictionary:(NSDictionary *)jsonDictionary {
-
-    if (!jsonDictionary) {
-        return nil;
-    }
+- (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
     
-    NSString *objectID = [[jsonDictionary leo_itemForKey:APIParamID] stringValue];
+    NSString *objectID = [[jsonResponse leo_itemForKey:APIParamID] stringValue];
     
-    NSArray *staffDictionaries = [jsonDictionary leo_itemForKey:APIParamUserStaff];
+    NSArray *staffDictionaries = [jsonResponse leo_itemForKey:APIParamUserStaff];
 
     NSMutableArray *staff = [[NSMutableArray alloc] init];
     
@@ -144,28 +140,28 @@
         [staff addObject:staffMember];
     }
     
-    NSString *name = [jsonDictionary leo_itemForKey:APIParamPracticeName];
-    NSString *fax = [jsonDictionary leo_itemForKey:APIParamPracticeFax];
+    NSString *name = [jsonResponse leo_itemForKey:APIParamPracticeName];
+    NSString *fax = [jsonResponse leo_itemForKey:APIParamPracticeFax];
     
-    NSString *addressLine1 = [jsonDictionary leo_itemForKey:APIParamPracticeLocationAddressLine1];
-    NSString *addressLine2 = [jsonDictionary leo_itemForKey:APIParamPracticeLocationAddressLine2];
-    NSString *city = [jsonDictionary leo_itemForKey:APIParamPracticeLocationCity];
-    NSString *state = [jsonDictionary leo_itemForKey:APIParamPracticeLocationState];
-    NSString *zip = [jsonDictionary leo_itemForKey:APIParamPracticeLocationZip];
-    NSString *phone = [jsonDictionary leo_itemForKey:APIParamPracticePhone];
-    NSString *email = [jsonDictionary leo_itemForKey:APIParamPracticeEmail];
-    NSTimeZone *timeZone = [NSTimeZone timeZoneWithName:[jsonDictionary leo_itemForKey:APIParamPracticeTimeZone]];
+    NSString *addressLine1 = [jsonResponse leo_itemForKey:APIParamPracticeLocationAddressLine1];
+    NSString *addressLine2 = [jsonResponse leo_itemForKey:APIParamPracticeLocationAddressLine2];
+    NSString *city = [jsonResponse leo_itemForKey:APIParamPracticeLocationCity];
+    NSString *state = [jsonResponse leo_itemForKey:APIParamPracticeLocationState];
+    NSString *zip = [jsonResponse leo_itemForKey:APIParamPracticeLocationZip];
+    NSString *phone = [jsonResponse leo_itemForKey:APIParamPracticePhone];
+    NSString *email = [jsonResponse leo_itemForKey:APIParamPracticeEmail];
+    NSTimeZone *timeZone = [NSTimeZone timeZoneWithName:[jsonResponse leo_itemForKey:APIParamPracticeTimeZone]];
 
     //FIXME: Need to get APIParams for above to complete this and remove warning.
 
-    NSArray *activeScheduleJSON = [[jsonDictionary leo_itemForKey:APIParamPracticeActiveSchedule] leo_itemForKey:APIParamPracticeDailyHours];
+    NSArray *activeScheduleJSON = [jsonResponse leo_itemForKey:APIParamPracticeActiveSchedule];
 
     NSArray *activeSchedulesByDayOfWeek =
-    [DailyPracticeSchedule deserializeManyFromJSON:activeScheduleJSON];
+    [DailyPracticeSchedule dailySchedulesFromJSONArray:activeScheduleJSON];
 
-    NSArray *scheduleExceptionsJSON = [jsonDictionary leo_itemForKey:APIParamPracticeScheduleExceptions];
+    NSArray *scheduleExceptionsJSON = [jsonResponse leo_itemForKey:APIParamPracticeScheduleExceptions];
 
-    NSArray *scheduleExceptions = [PracticeScheduleException deserializeManyFromJSON:scheduleExceptionsJSON];
+    NSArray *scheduleExceptions = [PracticeScheduleException exceptionsWithJSONArray:scheduleExceptionsJSON];
 
     return [self initWithObjectID:objectID
                              name:name
@@ -189,31 +185,6 @@
     [NSPredicate predicateWithFormat:@"self isKindOfClass:%@",[Provider class]];
 
     return [self.staff filteredArrayUsingPredicate:providerFilter];
-}
-
-+ (NSDictionary *)serializeToJSON:(Practice *)practice {
-
-    NSMutableDictionary *json = [NSMutableDictionary new];
-
-    json[APIParamID] = practice.objectID;
-    json[APIParamPracticeName] = practice.name;
-    json[APIParamPracticeFax] = practice.fax;
-    json[APIParamPracticeLocationAddressLine1] = practice.addressLine1;
-    json[APIParamPracticeLocationAddressLine2] = practice.addressLine2;
-    json[APIParamPracticeLocationCity] = practice.city;
-    json[APIParamPracticeLocationState] = practice.state;
-    json[APIParamPracticeLocationZip] = practice.zip;
-    json[APIParamPracticePhone] = practice.phone;
-    json[APIParamPracticeEmail] = practice.email;
-    json[APIParamPracticeTimeZone] = practice.timeZone.name;
-    json[APIParamUserStaff] = [User serializeManyToJSON:practice.staff];
-    json[APIParamPracticeScheduleExceptions] = [PracticeScheduleException serializeManyToJSON:practice.scheduleExceptions];
-    NSArray *schedules = [DailyPracticeSchedule serializeManyToJSON:practice.activeSchedulesByDayOfWeek];
-    if (schedules) {
-        json[APIParamPracticeActiveSchedule] = @{APIParamPracticeDailyHours: schedules};
-    }
-
-    return [json copy];
 }
 
 @end

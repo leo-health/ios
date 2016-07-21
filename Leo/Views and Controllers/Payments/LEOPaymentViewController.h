@@ -8,12 +8,9 @@
 
 @class LEOAnalyticSession, Family;
 
-#import "LEOCachedDataStore.h"
 #import "LEOStickyHeaderViewController.h"
 #import <Stripe/STPCard.h>
 #import "LEOPaymentsView.h"
-
-NS_ASSUME_NONNULL_BEGIN
 
 @protocol LEOUpdatePaymentProtocol
 
@@ -23,13 +20,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface LEOPaymentViewController : LEOStickyHeaderViewController <LEOStickyHeaderDataSource, LEOStickyHeaderDelegate, STPPaymentCardTextFieldDelegate, LEOPaymentViewProtocol>
 
-@property (strong, nonnull) Family *family;
-@property (strong, nonnull) Guardian *user;
 @property (strong, nonatomic) LEOAnalyticSession *analyticSession;
+@property (strong, nonatomic) Family *family;
 @property (nonatomic) ManagementMode managementMode;
 
 @property (weak, nonatomic) id<LEOUpdatePaymentProtocol>delegate;
-
-NS_ASSUME_NONNULL_END
 
 @end

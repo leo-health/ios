@@ -8,7 +8,6 @@
 
 #import "Insurer.h"
 #import "InsurancePlan.h"
-#import "NSDictionary+Extensions.h"
 
 @implementation Insurer
 
@@ -29,37 +28,23 @@
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonDictionary {
 
-    if (!jsonDictionary) {
-        return nil;
+    NSString *objectID = [jsonDictionary[APIParamID] stringValue];
+    NSString *name = jsonDictionary[APIParamInsurerName];
+    
+    NSMutableArray *mutablePlans = [[NSMutableArray alloc] init];
+    
+    for (NSDictionary *planDictionary in jsonDictionary[APIParamInsurancePlans]) {
+        
+        NSMutableDictionary *mutablePlanDictionary = [planDictionary mutableCopy];
+        mutablePlanDictionary[APIParamInsurerName] = name;
+
+        InsurancePlan *plan = [[InsurancePlan alloc] initSupportedPlanWithJSONDictionary:mutablePlanDictionary];
+        [mutablePlans addObject:plan];
     }
-
-    NSString *objectID = [[jsonDictionary leo_itemForKey:APIParamID] stringValue];
-    NSString *name = [jsonDictionary leo_itemForKey:APIParamInsurerName];
-
-    NSArray *plansJSON = [jsonDictionary leo_itemForKey:APIParamInsurancePlans];
-    NSMutableArray *modifiedPlansJSON = [NSMutableArray new];
-    for (NSDictionary *planJSON in plansJSON) {
-        NSMutableDictionary *modifiedPlanJSON = [planJSON mutableCopy];
-
-        modifiedPlanJSON[APIParamInsurerName] = name;
-
-        [modifiedPlansJSON addObject:[modifiedPlanJSON copy]];
-    }
-    NSArray *plans = [InsurancePlan deserializeManyFromJSON:[modifiedPlansJSON copy]];
 
     return [self initWithObjectID:objectID
                              name:name
-                            plans:plans];
-}
-
-+ (NSDictionary *)serializeToJSON:(Insurer *)object {
-
-    NSMutableDictionary *json = [NSMutableDictionary new];
-    json[APIParamID] = object.objectID;
-    json[APIParamInsurerName] = object.name;
-    json[APIParamInsurancePlans] = [InsurancePlan serializeManyToJSON:object.plans];
-
-    return [json copy];
+                            plans:[mutablePlans copy]];
 }
 
 @end

@@ -10,8 +10,10 @@
 
 @interface LEOCredentialStore : NSObject
 
-+ (void)clearSavedCredentials;
-+ (NSString *)authToken;
-+ (void)setAuthToken:(NSString *)authToken;
+//- (instancetype)initWithAuthToken:(NSString *)authToken;
+
+- (void)clearSavedCredentials;
+- (NSString *)authToken;
+- (void)setAuthToken:(NSString *)authToken;
 
 @end

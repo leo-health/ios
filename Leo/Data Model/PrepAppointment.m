@@ -29,26 +29,22 @@
 }
 
 //MARK: Not sure this method will ever be used for a prep appointment.
-- (instancetype)initWithJSONDictionary:(nonnull NSDictionary *)jsonDictionary {
+- (instancetype)initWithJSONDictionary:(nonnull NSDictionary *)jsonResponse {
 
-    if (!jsonDictionary) {
-        return nil;
-    }
-    
-    NSDate *date = jsonDictionary[APIParamAppointmentStartDateTime];
-    Patient *patient = jsonDictionary[APIParamUserPatient];
-    Provider *provider = jsonDictionary[APIParamUserProvider];
-    //    Practice *practice = jsonDictionary[APIParamPractice];
-    User *bookedByUser = jsonDictionary[APIParamAppointmentBookedBy];
+    NSDate *date = jsonResponse[APIParamAppointmentStartDateTime];
+    Patient *patient = jsonResponse[APIParamUserPatient];
+    Provider *provider = jsonResponse[APIParamUserProvider];
+    //    Practice *practice = jsonResponse[APIParamPractice];
+    User *bookedByUser = jsonResponse[APIParamAppointmentBookedBy];
     //FIXME: This should really go looking for the appointment type via ID as opposed to trying to pull it from this JSON response most likely (hence why we get a warning here because that isn't passed as part of the API endpoint.)
 
-    AppointmentType *appointmentType = [[AppointmentType alloc] initWithObjectID:@"0" name:jsonDictionary[APIParamAppointmentType] typeCode:AppointmentTypeCodeWellVisit duration:@15 longDescription:jsonDictionary[APIParamAppointmentTypeLongDescription] shortDescription:jsonDictionary[APIParamAppointmentTypeShortDescription]]; //FIXME: Constant
+    AppointmentType *appointmentType = [[AppointmentType alloc] initWithObjectID:@"0" name:jsonResponse[APIParamAppointmentType] typeCode:AppointmentTypeCodeWellVisit duration:@15 longDescription:jsonResponse[APIParamAppointmentTypeLongDescription] shortDescription:jsonResponse[APIParamAppointmentTypeShortDescription]]; //FIXME: Constant
 
-    AppointmentStatus *status = [[AppointmentStatus alloc] initWithJSONDictionary:[jsonDictionary leo_itemForKey:APIParamStatus]];
-    NSString *objectID = [jsonDictionary[APIParamID] stringValue];
-    NSString *note = jsonDictionary[APIParamAppointmentNotes];
+    AppointmentStatus *status = [[AppointmentStatus alloc] initWithJSONDictionary:[jsonResponse leo_itemForKey:APIParamStatus]];
+    NSString *objectID = [jsonResponse[APIParamID] stringValue];
+    NSString *note = jsonResponse[APIParamAppointmentNotes];
 
-    Practice *practice = [[Practice alloc] initWithJSONDictionary:[jsonDictionary leo_itemForKey:APIParamPractice]];
+    Practice *practice = [[Practice alloc] initWithJSONDictionary:[jsonResponse leo_itemForKey:APIParamPractice]];
 
     return [self initWithObjectID:objectID date:date appointmentType:appointmentType  patient:patient provider:provider practice:practice bookedByUser:bookedByUser note:note status:status];
 }

@@ -14,7 +14,7 @@
 #import "UIFont+LeoFonts.h"
 #import "UIColor+LeoColors.h"
 #import "LEOStyleHelper.h"
-#import "LEODevice.h"
+#import "LEOSession.h"
 
 @interface LEOProductOverviewView ()
 
@@ -151,7 +151,7 @@ secondPriceDetailAttributedString:secondPriceDetailAttributedString
 
 - (UIFont *)fontForLabel {
 
-    switch ([LEODevice deviceModel]) {
+    switch ([LEOSession deviceModel]) {
 
         case DeviceModel4OrLess:
             return [UIFont leo_regular12];
@@ -369,7 +369,7 @@ secondPriceDetailAttributedString:secondPriceDetailAttributedString
                                   @"featureSpacer" : spaceBetweenFeatures};
 
         NSArray *verticalConstraints;
-        switch ([LEODevice deviceModel]) {
+        switch ([LEOSession deviceModel]) {
 
             case DeviceModel4OrLess:
             case DeviceModelUnsupported:
@@ -664,7 +664,7 @@ secondPriceDetailAttributedString:secondPriceDetailAttributedString
 
 - (NSNumber *)spaceBetweenFeaturesByDevice {
 
-    switch ([LEODevice deviceModel]) {
+    switch ([LEOSession deviceModel]) {
 
         case DeviceModel4OrLess:
         case DeviceModel5:

@@ -36,9 +36,9 @@
     return self;
 }
 
-+ (NSDictionary *)serializeToJSON:(Provider *)provider {
++ (NSDictionary *)dictionaryFromUser:(Provider *)provider {
     
-    NSMutableDictionary *userDictionary = [[super serializeToJSON:provider] mutableCopy];
+    NSMutableDictionary *userDictionary = [[super dictionaryFromUser:provider] mutableCopy];
     
     userDictionary[APIParamUserCredentials] = provider.credentials;
     userDictionary[APIParamUserSpecialties] = provider.specialties;

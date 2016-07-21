@@ -13,15 +13,10 @@
 #import "LEOAnalyticSession.h"
 #import <Stripe/Stripe.h>
 #import "LEOPaymentViewController.h"
-#import "LEOFamilyService.h"
-#import "LEOUserService.h"
-#import "LEOPatientService.h"
 
-@interface LEOReviewOnboardingViewController : LEOStickyHeaderViewController <LEOStickyHeaderDataSource, LEOStickyHeaderDelegate, UITableViewDelegate, LEOUpdatePaymentProtocol, LEOPatientDataSource, LEOUserDataSource>
+@interface LEOReviewOnboardingViewController : LEOStickyHeaderViewController <LEOStickyHeaderDataSource, LEOStickyHeaderDelegate, UITableViewDelegate, LEOUpdatePaymentProtocol>
 
-@property (strong, nonatomic) LEOFamilyService *familyDataSource;
-@property (strong, nonatomic) LEOUserService *userDataSource;
-@property (strong, nonatomic) LEOPatientService *patientDataSource;
+@property (strong, nonatomic) Family *family;
 @property (strong, nonatomic) LEOAnalyticSession *analyticSession;
 @property (strong, nonatomic) STPToken *paymentDetails;
 

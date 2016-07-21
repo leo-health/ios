@@ -8,22 +8,24 @@
 
 #import "LEORouter.h"
 
-#import "LEOPracticeService.h"
+#import "LEOHelperService.h"
 #import "LEOStyleHelper.h"
 #import "LEOPaymentViewController.h"
-#import "LEOUserService.h"
-#import "Guardian.h"
+#import "LEOSession.h"
 
 @implementation LEORouter
 
 + (void)beginDelinquencyProcessWithAppDelegate:(id<UIApplicationDelegate>)appDelegate  {
 
+    [[LEOHelperService new] getFamilyWithCompletion:^(Family *family, NSError *error) {
         LEOPaymentViewController *paymentVC = [[LEOPaymentViewController alloc] init];
         paymentVC.managementMode = ManagementModeEdit;
         paymentVC.feature = FeaturePayment;
+        paymentVC.family = family;
 
         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:paymentVC];
         [self appDelegate:appDelegate setRootViewController:navController];
+    }];
 }
 
 + (void)appDelegate:(id<UIApplicationDelegate>)appDelegate setRootViewController:(UIViewController *)viewController {
@@ -89,7 +91,7 @@
 
 + (void)routeUserWithAppDelegate:(id<UIApplicationDelegate>)appDelegate  {
 
-    switch ([[LEOUserService new] getCurrentUser].membershipType) {
+    switch ([LEOSession user].membershipType) {
         case MembershipTypeMember:
             [self appDelegate:appDelegate setRootViewControllerWithStoryboardName:kStoryboardFeed];
             break;

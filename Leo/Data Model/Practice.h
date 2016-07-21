@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "LEOJSONSerializable.h"
 
 typedef NS_ENUM(NSUInteger, PracticeStatus) {
 
@@ -15,7 +14,7 @@ typedef NS_ENUM(NSUInteger, PracticeStatus) {
     PracticeStatusClosed
 };
 
-@interface Practice : LEOJSONSerializable
+@interface Practice : NSObject
 NS_ASSUME_NONNULL_BEGIN
 
 @property (copy, nonatomic) NSString *objectID;
@@ -36,6 +35,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) PracticeStatus status;
 
 - (instancetype)initWithObjectID:(NSString *)objectID name:(NSString *)name staff:(NSArray *)staff addressLine1:(NSString *)addressLine1 addressLine2:(NSString *)addressLine2 city:(NSString *)city state:(NSString *)state zip:(NSString *)zip phone:(NSString *)phone email:(NSString *)email fax:(NSString *)fax timeZone:(NSTimeZone *)timeZone activeSchedulesByDayOfWeek:(NSArray *)activeSchedulesByDayOfWeek scheduleExceptions:(NSArray *)scheduleExceptions;
+
+- (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse;
 
 NS_ASSUME_NONNULL_END
 @end

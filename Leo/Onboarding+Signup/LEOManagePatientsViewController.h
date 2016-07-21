@@ -13,18 +13,12 @@
 #import "LEOSignUpPatientViewController.h"
 #import "LEOStickyHeaderViewController.h"
 #import "LEOAnalyticSession.h"
-#import "LEOCachedDataStore.h"
 
-@interface LEOManagePatientsViewController : LEOStickyHeaderViewController <
-UITextFieldDelegate,
-LEOPatientDataSource,
-LEOStickyHeaderDataSource,
-LEOStickyHeaderDelegate,
-UITableViewDelegate>
 
-@property (strong, nonatomic) NSArray *patients;
-@property (strong, nonatomic) id<LEOPatientDataSource> patientDataSource;
+@interface LEOManagePatientsViewController : LEOStickyHeaderViewController <UITextFieldDelegate, SignUpPatientProtocol, LEOStickyHeaderDataSource, LEOStickyHeaderDelegate, UITableViewDelegate>
+
+@property (strong, nonatomic) Family *family;
+@property (copy, nonatomic) NSString *enrollmentToken;
 @property (strong, nonatomic) LEOAnalyticSession *analyticSession;
 
 @end
-

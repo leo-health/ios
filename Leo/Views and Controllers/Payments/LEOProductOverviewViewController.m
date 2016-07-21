@@ -18,9 +18,6 @@
 #import "LEOReviewOnboardingViewController.h"
 #import "LEOStyleHelper.h"
 #import "LEOSession.h"
-#import "LEOPatientService.h"
-#import "LEOUserService.h"
-#import "LEOFamilyService.h"
 
 @interface LEOProductOverviewViewController ()
 
@@ -108,7 +105,7 @@ NSString * const kSegueContinueWithPayment = @"SegueContinueWithPayment";
 
         __strong typeof(self) strongSelf = weakSelf;
 
-        if ([[LEOUserService new] getCurrentUser].membershipType == MembershipTypeExempted) {
+        if ([LEOSession user].membershipType == MembershipTypeExempted) {
             [strongSelf performSegueWithIdentifier:kSegueContinueWithExemption
                                             sender:nil];
         } else {
@@ -198,22 +195,15 @@ NSString * const kSegueContinueWithPayment = @"SegueContinueWithPayment";
     if ([segue.identifier isEqualToString:kSegueContinueWithExemption]) {
 
         LEOReviewOnboardingViewController *reviewOnboardingVC = segue.destinationViewController;
-        reviewOnboardingVC.familyDataSource = [LEOCachedDataStore sharedInstance];
-
-        LEOCachePolicy *policy = [LEOCachePolicy new];
-        policy.post = LEOCachePolicyPOSTNetworkThenPUTCache;
-        reviewOnboardingVC.userDataSource = [LEOUserService serviceWithCachePolicy:policy];
-        reviewOnboardingVC.patientDataSource = [LEOPatientService serviceWithCachePolicy:policy];
-
+        reviewOnboardingVC.family = self.family;
         reviewOnboardingVC.analyticSession = self.analyticSession;
         reviewOnboardingVC.feature = FeatureOnboarding;
-    }
 
+    }
     if ([segue.identifier isEqualToString:kSegueContinueWithPayment]) {
 
         LEOPaymentViewController *paymentVC = segue.destinationViewController;
-        paymentVC.family = [[LEOFamilyService new] getFamily];
-        paymentVC.user = [[LEOUserService new] getCurrentUser];
+        paymentVC.family = self.family;
         paymentVC.analyticSession = self.analyticSession;
         paymentVC.feature = FeatureOnboarding;
         paymentVC.managementMode = ManagementModeCreate;

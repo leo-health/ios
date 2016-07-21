@@ -11,7 +11,6 @@
 #import "LEOCredentialStore.h"
 #import "LEOSession.h"
 #import "Configuration.h"
-#import "LEOUserService.h"
 
 @implementation LEOAPISessionManager
 
@@ -78,7 +77,8 @@
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)task.response;
 
         if (httpResponse.statusCode == 401) {
-            [[LEOUserService new] logout];
+
+            [LEOSession logout];
         }
 
         [self formattedErrorFromError:&error];
@@ -316,7 +316,7 @@
     
     NSMutableDictionary *authenticatedParams = [params mutableCopy];
     
-    [authenticatedParams setValue:[LEOCredentialStore authToken] forKey:APIParamToken];
+    [authenticatedParams setValue:[LEOAPISessionManager authToken] forKey:APIParamToken];
     
     return authenticatedParams;
 }
@@ -343,6 +343,11 @@
             *error = [NSError errorWithDomain:errorPointer.domain code:errorPointer.code userInfo:[userInfo copy]];
         }
     }
+}
+
+//FIXME: To be updated with the actual user token via keychain at some point.
++ (NSString *)authToken {
+    return [LEOSession authToken];
 }
 
 

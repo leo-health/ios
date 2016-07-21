@@ -55,10 +55,6 @@
         }
     }];
 
-    if (![[[LEOUserService new] getCurrentUser] hasFeedAccess]) {
-        [[LEOCachedDataStore sharedInstance] reset];
-    }
-
     [LEORouter routeUserWithAppDelegate:self];
 
     return YES;
@@ -149,8 +145,12 @@
     // TODO: remove this when adding feature: use badge on chat mini card
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
 
-    // NOTE: af I think this is used to log someone out before taking local actions
-    [[LEOUserService new] getCurrentUserWithCompletion:nil];
+    if ([LEOSession user]) {
+        [[LEOUserService new] getUserWithID:[LEOSession user].objectID withCompletion:^(Guardian *guardian, NSError *error) {
+
+            [LEOSession updateCurrentSessionWithGuardian:guardian];
+        }];
+    }
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
@@ -209,7 +209,7 @@
 
     if ([url.scheme isEqualToString:kDeepLinkDefaultScheme]) {
 
-        if ([[[LEOUserService new] getCurrentUser] hasFeedAccess]) {
+        if ([LEOSession isLoggedIn]) {
 
             if ([url.host isEqualToString:kDeepLinkPathFeed]) {
 

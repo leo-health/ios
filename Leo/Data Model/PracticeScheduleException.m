@@ -8,7 +8,6 @@
 
 #import "PracticeScheduleException.h"
 #import "NSDictionary+Extensions.h"
-#import "NSDate+Extensions.h"
 
 @implementation PracticeScheduleException
 
@@ -26,25 +25,28 @@
     return self;
 }
 
-- (instancetype)initWithJSONDictionary:(NSDictionary *)jsonDictionary {
+- (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
 
-    if (!jsonDictionary) {
-        return nil;
-    }
-    
-    NSDate *startDate = [NSDate leo_dateFromDateTimeString:[jsonDictionary leo_itemForKey:APIParamStartDateTime]];
-    NSDate *endDate = [NSDate leo_dateFromDateTimeString:[jsonDictionary leo_itemForKey:APIParamEndDateTime]];
+    NSDate *startDate = [jsonResponse leo_itemForKey:@"start_date"];
+    NSDate *endDate = [jsonResponse leo_itemForKey:@"end_date"];
 
     return [self initWithStartDate:startDate
                            endDate:endDate];
 }
 
-+ (NSDictionary *)serializeToJSON:(PracticeScheduleException *)object {
++ (NSArray *)exceptionsWithJSONArray:(NSArray *)jsonResponse {
 
-    NSMutableDictionary *json = [NSMutableDictionary new];
-    json[APIParamStartDateTime] = [NSDate leo_stringifiedDateTime:object.startDate];
-    json[APIParamEndDateTime] = [NSDate leo_stringifiedDateTime:object.endDate];
-    return [json copy];
+    NSMutableArray *mutableExceptions = [NSMutableArray new];
+
+    for (NSDictionary *exceptionDictionary in jsonResponse) {
+
+        PracticeScheduleException *exception =
+        [[self alloc] initWithJSONDictionary:exceptionDictionary];
+        
+        [mutableExceptions addObject:exception];
+    }
+
+    return [mutableExceptions copy];
 }
 
 @end
