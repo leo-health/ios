@@ -121,9 +121,7 @@ static const CGFloat kDistanceSegments = 26.0;
 
 #pragma mark - Layout
 
-- (void)updateConstraints {
-
-    [super updateConstraints];
+- (void)updateConstraints {d
 
     if (!self.alreadyUpdatedConstraints) {
 
@@ -135,14 +133,30 @@ static const CGFloat kDistanceSegments = 26.0;
 
         NSDictionary *bindings = NSDictionaryOfVariableBindings(_contentView, _segmentedControl);
 
-        NSArray *horizontalConstraintsForContentView = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_contentView]|" options:0 metrics:nil views:bindings];
-        NSArray *verticalConstraintsForContentView = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_contentView]|" options:0 metrics:nil views:bindings];
+        NSArray *horizontalConstraintsForContentView =
+        [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_contentView]|"
+                                                options:0
+                                                metrics:nil
+                                                  views:bindings];
+        NSArray *verticalConstraintsForContentView =
+        [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_contentView]|"
+                                                options:0
+                                                metrics:nil
+                                                  views:bindings];
 
         [self addConstraints:horizontalConstraintsForContentView];
         [self addConstraints:verticalConstraintsForContentView];
 
-        NSArray *verticalConstraintsForSegmentedControl = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_segmentedControl]|" options:0 metrics:nil views:bindings];
-        NSArray *horizontalConstraintsForSegmentedControl = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_segmentedControl]|" options:0 metrics:nil views:bindings];
+        NSArray *verticalConstraintsForSegmentedControl =
+        [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_segmentedControl]|"
+                                                options:0
+                                                metrics:nil
+                                                  views:bindings];
+        NSArray *horizontalConstraintsForSegmentedControl =
+        [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_segmentedControl]|"
+                                                options:0
+                                                metrics:nil
+                                                  views:bindings];
 
         NSLayoutConstraint *heightConstraintForSelf =
         [NSLayoutConstraint constraintWithItem:self.segmentedControl

@@ -23,7 +23,7 @@
 @end
 
 static CGFloat const kAvatarProfileBorderWidth = 2.0;
-static CGFloat const kAvatarProfileDiameter = 53;
+static CGFloat const kAvatarProfileDiameter = 53.0;
 
 @implementation LEOPatientProfileView
 
@@ -55,7 +55,6 @@ static CGFloat const kAvatarProfileDiameter = 53;
         _patientNameLabel.text = self.patient.fullName;
         _patientNameLabel.numberOfLines = 0;
         _patientNameLabel.lineBreakMode = NSLineBreakByWordWrapping;
-
         _patientNameLabel.font = [UIFont leo_medium23];
         _patientNameLabel.textColor = [UIColor leo_white];
     }
@@ -115,17 +114,16 @@ static CGFloat const kAvatarProfileDiameter = 53;
                                     multiplier:1.0
                                       constant:0];
 
-
         NSDictionary *metrics =
         @{@"avatarDiameter" : @(kAvatarProfileDiameter),
           @"leftSpacer" : @(spacerProfileLeft),
-          @"middleSpacer" : @(spacerProfileMiddle)};
-
+          @"middleSpacer" : @(spacerProfileMiddle),
+          @"horizontalSpacer" : @(21)};
 
         [self.patientAvatarImageView setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
 
         NSArray *verticalConstraintsForProfile =
-        [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(21)-[_patientAvatarImageView(avatarDiameter)]-(21)-|"
+        [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(horizontalSpacer)-[_patientAvatarImageView(avatarDiameter)]-(horizontalSpacer)-|"
                                                 options:0
                                                 metrics:metrics
                                                   views:bindings];
@@ -192,7 +190,12 @@ static CGFloat const kAvatarProfileDiameter = 53;
 
 - (void)notificationReceivedForDownloadedImage:(NSNotification *)notification {
 
-    UIImage *circularAvatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:self.patient.avatar.image withDiameter:67 borderColor:[UIColor leo_white] borderWidth:kAvatarProfileBorderWidth renderingMode:UIImageRenderingModeAlwaysOriginal];
+    UIImage *circularAvatarImage =
+    [LEOMessagesAvatarImageFactory circularAvatarImage:self.patient.avatar.image
+                                          withDiameter:67
+                                           borderColor:[UIColor leo_white]
+                                           borderWidth:kAvatarProfileBorderWidth
+                                         renderingMode:UIImageRenderingModeAlwaysOriginal];
 
     _patientAvatarImageView.image = circularAvatarImage;
 }

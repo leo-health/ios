@@ -223,26 +223,14 @@ static CGFloat const kHeightOfHeaderPHR = 97;
             strongSelf.bodyView.patient = strongSelf.patients[[strongSelf selectedPatientIndex]];
         };
 
-        NSDictionary *metrics = @{@"height":@(kHeightOfHeaderPHR)};
-
-        // TODO: Remove when subview content is available to size view
         [_headerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_headerView]"
                                                                             options:0
-                                                                            metrics:metrics
+                                                                            metrics:nil
                                                                               views:NSDictionaryOfVariableBindings(_headerView)]];
     }
 
     return _headerView;
 }
-
-//- (NSNumber *)heightOfHeaderPHR {
-//
-//    if (self.patients.count == 1) {
-//        return @96;
-//    } else {
-//        return @(kHeightOfHeaderPHR);
-//    }
-//}
 
 -(LEOPHRBodyView *)bodyView {
 
