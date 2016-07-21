@@ -15,10 +15,8 @@
 @interface LEOConversationNoticeView()
 
 @property (strong, nonatomic) Notice *notice;
-
-@property (copy, nonatomic) NSAttributedString *attributedHeaderText;
-@property (copy, nonatomic) NSAttributedString *attributedBodyText;
 @property (copy, nonatomic) NSAttributedString *attributedText;
+
 @property (strong, nonatomic) UIImage *noticeButtonImage;
 @property (copy, nonatomic) NSString *noticeButtonText;
 @property (copy, nonatomic) void (^noticeButtonTappedUpInsideBlock)(void);
@@ -44,56 +42,96 @@ noticeButtonTappedUpInsideBlock:(void (^) (void))noticeButtonTappedUpInsideBlock
         _noticeButtonImage = noticeButtonImage;
         _noticeButtonTappedUpInsideBlock = noticeButtonTappedUpInsideBlock;
 
-        [self updateNotice:_notice];
-
         self.backgroundColor = [UIColor leo_lightBlue];
     }
 
     return self;
 }
 
-- (instancetype)initWithAttributedHeaderText:(NSAttributedString *)attributedHeaderText
-                          attributedBodyText:(NSAttributedString *)attributedBodyText
-                            noticeButtonText:(NSString *)noticeButtonText
-                           noticeButtonImage:(UIImage *)noticeButtonImage
-             noticeButtonTappedUpInsideBlock:(void (^) (void))noticeButtonTappedUpInsideBlock {
+- (NSAttributedString *)buildAttributedHeader {
 
-    self = [super init];
-
-    if (self) {
-
-        _attributedHeaderText = attributedHeaderText;
-        _attributedBodyText = attributedBodyText;
-        _noticeButtonText = noticeButtonText;
-        _noticeButtonImage = noticeButtonImage;
-        _noticeButtonTappedUpInsideBlock = noticeButtonTappedUpInsideBlock;
-
-        [self concatenateAttributedHeaderText:_attributedHeaderText
-                           attributedBodyText:_attributedBodyText];
-
-        self.backgroundColor = [UIColor leo_lightBlue];
-    }
-
-    return self;
+    return [self attributedStringWithString:self.notice.headerText
+                                 attributes:self.notice.headerAttributes
+                          defaultAttributes:[self defaultHeaderTextAttributes]];
 }
 
-- (instancetype)initWithHeaderText:(NSString *)headerText
-                          bodyText:(NSString *)bodyText
-                  noticeButtonText:(NSString *)noticeButtonText
-                 noticeButtonImage:(UIImage *)noticeButtonImage
-   noticeButtonTappedUpInsideBlock:(void (^)(void))noticeButtonTappedUpInsideBlock {
+- (NSAttributedString *)buildAttributedBody {
 
-    NSAttributedString *attributedHeaderText = [[NSAttributedString alloc] initWithString:headerText
-                                                                               attributes:[self defaultHeaderTextAttributes]];
+    return [self attributedStringWithString:self.notice.bodyText
+                                 attributes:self.notice.bodyAttributes
+                          defaultAttributes:[self defaultBodyTextAttributes]];
+}
 
-    NSAttributedString *attributedBodyText = [[NSAttributedString alloc] initWithString:bodyText
-                                                                             attributes:[self defaultBodyTextAttributes]];
+- (NSAttributedString *)attributedStringWithString:(NSString *)string attributes:(NSDictionary *)attributes defaultAttributes:(NSDictionary *)defaultAttributes {
 
-    return [self initWithAttributedHeaderText:attributedHeaderText
-                           attributedBodyText:attributedBodyText
-                             noticeButtonText:noticeButtonText
-                            noticeButtonImage:noticeButtonImage
-              noticeButtonTappedUpInsideBlock:noticeButtonTappedUpInsideBlock];
+    if (!string) {
+        return nil;
+    }
+
+    NSDictionary *_attributes = attributes;
+
+    if (!_attributes) {
+        _attributes = defaultAttributes;
+    }
+
+    if (!_attributes) {
+        return [[NSAttributedString alloc] initWithString:string];
+    }
+
+    return [[NSAttributedString alloc] initWithString:string attributes:_attributes];
+}
+
+- (NSAttributedString *)attributedText {
+
+    if (!_attributedText) {
+
+        NSAttributedString *attributedHeaderText = [self buildAttributedHeader];
+        NSAttributedString *attributedBodyText = [self buildAttributedBody];
+        NSMutableAttributedString *attributedText = [NSMutableAttributedString new];
+        [attributedText appendAttributedString:attributedHeaderText];
+
+        if (attributedBodyText) {
+
+            NSAttributedString *spacer = [[NSAttributedString alloc] initWithString:@" "];
+            [attributedText appendAttributedString:spacer];
+            [attributedText appendAttributedString:attributedBodyText];
+        }
+
+        _attributedText = [attributedText copy];
+    }
+    return _attributedText;
+}
+
+- (UILabel *)noticeLabel {
+
+    if (!_noticeLabel) {
+
+        UILabel *strongLabel = [UILabel new];
+
+        _noticeLabel = strongLabel;
+        _noticeLabel.attributedText = self.attributedText;
+        _noticeLabel.numberOfLines = 0;
+        _noticeLabel.lineBreakMode = NSLineBreakByWordWrapping;
+        _noticeLabel.textAlignment = NSTextAlignmentCenter;
+
+        [self addSubview:_noticeLabel];
+    }
+
+    return _noticeLabel;
+}
+
+- (NSDictionary *)defaultBodyTextAttributes {
+
+    return @{ NSForegroundColorAttributeName : [UIColor leo_blue],
+              NSFontAttributeName : [UIFont leo_regular12]
+              };
+}
+
+- (NSDictionary *)defaultHeaderTextAttributes {
+
+    return @{ NSForegroundColorAttributeName : [UIColor leo_blue],
+              NSFontAttributeName : [UIFont leo_bold12]
+             };
 }
 
 - (UIButton *)noticeButton {
@@ -115,149 +153,15 @@ noticeButtonTappedUpInsideBlock:(void (^) (void))noticeButtonTappedUpInsideBlock
 
         [self addSubview:_noticeButton];
     }
-
+    
     return _noticeButton;
 }
 
-- (void)updateNotice:(Notice *)notice {
+- (void)noticeButtonTappedUpInside {
 
-    _notice = notice;
-
-    __block BOOL headerAttributes;
-
-    [_notice.attributedHeaderText enumerateAttributesInRange:NSMakeRange(0, _notice.attributedHeaderText.length)
-                                                     options:0
-                                                  usingBlock:^(NSDictionary<NSString *,id> * _Nonnull attrs, NSRange range, BOOL * _Nonnull stop) {
-
-                                                      headerAttributes = attrs.count > 0;
-                                                  }];
-    
-    __block BOOL bodyAttributes;
-    
-    [_notice.attributedBodyText enumerateAttributesInRange:NSMakeRange(0, _notice.attributedBodyText.length)
-                                                   options:0
-                                                usingBlock:^(NSDictionary<NSString *,id> * _Nonnull attrs, NSRange range, BOOL * _Nonnull stop) {
-
-                                                    bodyAttributes = attrs.count > 0;
-                                                }];
-    
-    if (!headerAttributes) {
-        notice.attributedHeaderText = [[NSAttributedString alloc] initWithString:notice.attributedHeaderText.string
-                                                                      attributes:[self defaultHeaderTextAttributes]];
+    if (self.noticeButtonTappedUpInsideBlock) {
+        self.noticeButtonTappedUpInsideBlock();
     }
-
-    if (!bodyAttributes) {
-        notice.attributedBodyText = [[NSAttributedString alloc] initWithString:notice.attributedBodyText.string
-                                                                    attributes:[self defaultBodyTextAttributes]];
-    }
-
-    [self updateAttributedHeaderText:notice.attributedHeaderText
-                  attributedBodyText:notice.attributedBodyText];
-}
-
-- (void)updateAttributedHeaderText:(NSAttributedString *)attributedHeaderText
-                attributedBodyText:(NSAttributedString *)attributedBodyText {
-
-    [self updateAttributedHeaderText:attributedHeaderText];
-    [self updateAttributedBodyText:attributedBodyText];
-}
-
-- (void)updateAttributedHeaderText:(NSAttributedString *)attributedHeaderText {
-    self.attributedHeaderText = attributedHeaderText;
-}
-
-- (void)updateAttributedBodyText:(NSAttributedString *)attributedBodyText {
-    self.attributedBodyText = attributedBodyText;
-}
-
--(void)updateHeaderText:(NSString *)headerText {
-    self.attributedHeaderText = [[NSAttributedString alloc] initWithString:headerText];
-}
-
-- (void)updateBodyText:(NSString *)bodyText {
-    self.attributedBodyText = [[NSAttributedString alloc] initWithString:bodyText];
-}
-
--(void)updateHeaderText:(NSString *)headerText
-               bodyText:(NSString *)bodyText {
-
-    [self updateHeaderText:headerText];
-    [self updateBodyText:bodyText];
-}
-
--(void)setAttributedHeaderText:(NSAttributedString *)attributedHeaderText {
-
-    _attributedHeaderText = attributedHeaderText;
-
-    [self concatenateAttributedHeaderText:attributedHeaderText
-                       attributedBodyText:self.attributedBodyText];
-}
-
--(void)setAttributedBodyText:(NSAttributedString *)attributedBodyText {
-
-    _attributedBodyText = attributedBodyText;
-
-    [self concatenateAttributedHeaderText:self.attributedHeaderText
-                       attributedBodyText:attributedBodyText];
-}
-
--(void)setAttributedText:(NSAttributedString *)attributedText {
-
-    _attributedText = attributedText;
-
-    self.noticeLabel.attributedText = attributedText;
-    [self.noticeLabel sizeToFit]; //Still necessary?
-    [self setNeedsUpdateConstraints];
-}
-
-- (NSDictionary *)defaultHeaderTextAttributes {
-
-    return @{ NSForegroundColorAttributeName : [UIColor leo_blue],
-              NSFontAttributeName : [UIFont leo_bold12]
-             };
-}
-
-- (NSDictionary *)defaultBodyTextAttributes {
-
-    return @{ NSForegroundColorAttributeName : [UIColor leo_blue],
-              NSFontAttributeName : [UIFont leo_regular12]
-            };
-}
-
-- (void)concatenateAttributedHeaderText:(NSAttributedString *)attributedHeaderText
-                     attributedBodyText:(NSAttributedString *)attributedBodyText {
-
-    NSMutableAttributedString *attributedText = [NSMutableAttributedString new];
-
-    [attributedText appendAttributedString:attributedHeaderText];
-
-    if (attributedHeaderText) {
-        NSAttributedString *spacer = [[NSAttributedString alloc] initWithString:@" "];
-        [attributedText appendAttributedString:spacer];
-    }
-
-    if (attributedBodyText) {
-        [attributedText appendAttributedString:attributedBodyText];
-    }
-
-    self.attributedText = attributedText;
-}
-
-- (UILabel *)noticeLabel {
-
-    if (!_noticeLabel) {
-
-        UILabel *strongLabel = [UILabel new];
-
-        _noticeLabel = strongLabel;
-        _noticeLabel.numberOfLines = 0;
-        _noticeLabel.lineBreakMode = NSLineBreakByWordWrapping;
-        _noticeLabel.textAlignment = NSTextAlignmentCenter;
-
-        [self addSubview:_noticeLabel];
-    }
-
-    return _noticeLabel;
 }
 
 - (void)updateConstraints {
@@ -341,15 +245,8 @@ noticeButtonTappedUpInsideBlock:(void (^) (void))noticeButtonTappedUpInsideBlock
     [super layoutSubviews];
 }
 
-+(BOOL)requiresConstraintBasedLayout {
++ (BOOL)requiresConstraintBasedLayout {
     return YES;
-}
-
-- (void)noticeButtonTappedUpInside {
-
-    if (self.noticeButtonTappedUpInsideBlock) {
-        self.noticeButtonTappedUpInsideBlock();
-    }
 }
 
 - (CGSize)intrinsicContentSize {

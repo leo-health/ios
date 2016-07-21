@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
-@class Appointment, AppointmentType, Provider, LEOCardAppointment;
+@class Appointment, AppointmentType, Provider, LEOCardAppointment, LEOPromise;
 
 #import <Foundation/Foundation.h>
 
@@ -18,6 +18,6 @@
 
 - (NSURLSessionTask *)cancelAppointment:(Appointment *)appointment withCompletion:(void (^)(NSDictionary *rawResults, NSError *error))completionBlock;
 
-- (NSURLSessionTask *)getSlotsForAppointment:(Appointment *)appointment withCompletion:(void (^)(NSArray *slots, NSError *error))completionBlock;
+- (LEOPromise *)getSlotsForAppointment:(Appointment *)appointment withCompletion:(void (^)(NSArray *slots, NSError *error))completionBlock;
 
 @end

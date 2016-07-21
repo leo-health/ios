@@ -7,6 +7,7 @@
 //
 
 #import "Role.h"
+#import "NSDictionary+Extensions.h"
 
 @interface Role()
 
@@ -34,13 +35,28 @@
 }
 
 
-- (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
-    NSString *objectID = [jsonResponse[APIParamID] stringValue];
-    RoleCode roleCode = [jsonResponse[APIParamID] integerValue];
-    NSString *name = jsonResponse[APIParamName];
-    NSString *displayName = jsonResponse[APIParamRoleDisplayName];
+- (instancetype)initWithJSONDictionary:(NSDictionary *)jsonDictionary {
+
+    if (!jsonDictionary) {
+        return nil;
+    }
+    
+    NSString *objectID = [[jsonDictionary leo_itemForKey:APIParamID] stringValue];
+    RoleCode roleCode = [[jsonDictionary leo_itemForKey:APIParamID] integerValue];
+    NSString *name = [jsonDictionary leo_itemForKey:APIParamName];
+    NSString *displayName = [jsonDictionary leo_itemForKey:APIParamRoleDisplayName];
 
     return [self initWithObjectID:objectID roleCode:roleCode name:name displayName:displayName];
+}
+
++ (NSDictionary *)serializeToJSON:(Role *)object {
+
+    NSMutableDictionary *json = [NSMutableDictionary new];
+    json[APIParamID] = object.objectID;
+    json[APIParamName] = object.name;
+    json[APIParamRoleDisplayName] = object.displayName;
+
+    return json;
 }
 
 @end

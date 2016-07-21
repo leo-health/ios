@@ -7,18 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "LEOPromise.h"
+#import "LEOSyncronousDataSource.h"
+#import "LEOAsyncDataSource.h"
 
-@class Practice, Family;
+@class Practice, Family, Guardian, Patient, User;
 
-@interface LEOCachedDataStore : NSObject
 NS_ASSUME_NONNULL_BEGIN
 
-@property (strong, nonatomic, nullable) Practice *practice;
-@property (strong, nonatomic, nullable) Family *family;
-@property (strong, nonatomic, nullable) NSArray *notices;
-
-@property (strong, nonatomic, nullable) NSDate *lastCachedDateForPractice;
-@property (strong, nonatomic, nullable) NSDate *lastCachedDateForNotices;
+@interface LEOCachedDataStore : NSObject <LEOAsyncDataSource, LEOSyncronousDataSource>
 
 + (instancetype)sharedInstance;
 - (void)reset;

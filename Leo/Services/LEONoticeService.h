@@ -7,10 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "LEOModelService.h"
 
-@interface LEONoticeService : NSObject
+@interface LEONoticeService : LEOModelService
 
-- (NSURLSessionTask *)getFeedNoticeForDate:(NSDate *)date withCompletion:(void (^)(NSString *feedMessage, NSError *error))completionBlock;
-- (NSURLSessionTask *)getConversationNoticesWithCompletion:(void (^)(NSArray *notices, NSError *error)) completionBlock;
+- (LEOPromise *)getFeedNoticeForDate:(NSDate *)date withCompletion:(LEOObjectErrorBlock)completionBlock;
+- (LEOPromise *)getConversationNoticesWithCompletion:(LEOArrayErrorBlock)completionBlock;
+- (LEOPromise *)putConversationNotices:(NSArray *)notices withCompletion:(LEOArrayErrorBlock)completionBlock;
 
 @end

@@ -8,6 +8,7 @@
 
 #import "LEOAlertHelper.h"
 #import "NSDictionary+Extensions.h"
+#import <MBProgressHUD/MBProgressHUD.h>
 
 @implementation LEOAlertHelper
 
@@ -38,6 +39,9 @@ NSString *const kStandardErrorAlertActionText = @"Got it.";
     NSString *error_title =
     [[error.userInfo leo_itemForKey:APIParamErrorMessages]
      leo_itemForKey:APIParamErrorUserMessageTitle];
+
+    [MBProgressHUD hideHUDForView:viewController.view
+                         animated:YES];
 
     if (!error_title) {
         error_title = backupTitle;
@@ -78,6 +82,9 @@ NSString *const kStandardErrorAlertActionText = @"Got it.";
 
     UIAlertController *alertController = [self alertWithTitle:title message:message handler:nil];
     [viewController presentViewController:alertController animated:YES completion:nil];
+
+    [MBProgressHUD hideHUDForView:viewController.view
+                         animated:YES];
 }
 
 + (UIAlertController *)alertWithTitle:(NSString *)title

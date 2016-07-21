@@ -12,12 +12,6 @@
 #import "LEOValidationsHelper.h"
 #import "LEOS3Image.h"
 
-@interface Guardian ()
-
-@property (copy, nonatomic, readwrite, nullable) NSString *anonymousCustomerServiceID;
-
-@end
-
 @implementation Guardian
 
 static NSString *const kMembershipTypeUnknown = @"unknown";
@@ -26,8 +20,6 @@ static NSString *const kMembershipTypeExempted = @"exempted";
 static NSString *const kMembershipTypeDelinquent = @"delinquent";
 static NSString *const kMembershipTypeIncomplete = @"incomplete";
 static NSString *const kUserDefaultsKeyLoginCounts = @"loginCounter";
-
-@synthesize anonymousCustomerServiceID = _anonymousCustomerServiceID;
 
 - (instancetype)initWithObjectID:(nullable NSString *)objectID familyID:(NSString *)familyID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email avatar:(nullable LEOS3Image *)avatar phoneNumber:(NSString *)phoneNumber insurancePlan:(InsurancePlan *)insurancePlan primary:(BOOL)primary membershipType:(MembershipType)membershipType {
 
@@ -52,7 +44,12 @@ static NSString *const kUserDefaultsKeyLoginCounts = @"loginCounter";
 
         if (self) {
 
-            [self updateWithJSONDictionary:jsonResponse];
+            _familyID = [[jsonResponse leo_itemForKey:APIParamFamilyID] stringValue];
+            _primary = [[jsonResponse leo_itemForKey:APIParamUserPrimary] boolValue];
+            _insurancePlan = [[InsurancePlan alloc] initWithJSONDictionary:[jsonResponse leo_itemForKey:APIParamInsurancePlan]];
+            _phoneNumber = [jsonResponse leo_itemForKey:APIParamPhone];
+            _membershipType = [Guardian membershipTypeFromString:[jsonResponse leo_itemForKey:APIParamUserMembershipType]];
+            _anonymousCustomerServiceID = [jsonResponse leo_itemForKey:APIParamUserVendorID];
         }
 
         return self;
@@ -61,100 +58,28 @@ static NSString *const kUserDefaultsKeyLoginCounts = @"loginCounter";
     return nil;
 }
 
++ (NSDictionary *)serializeToJSON:(Guardian *)guardian {
 
-- (void)incrementLoginCounter {
-
-    NSMutableDictionary *loginCounter = [[[NSUserDefaults standardUserDefaults] objectForKey:kUserDefaultsKeyLoginCounts] mutableCopy];
-    if (!loginCounter) {
-        loginCounter = [NSMutableDictionary new];
-    }
-    NSInteger count = [loginCounter[self.objectID] integerValue];
-    count++;
-    loginCounter[self.objectID] = @(count);
-
-    self.numTimesLoggedIn = count;
-
-    [[NSUserDefaults standardUserDefaults] setObject:loginCounter forKey:kUserDefaultsKeyLoginCounts];
-}
-
-- (void)saveToUserDefaults {
-
-    NSDictionary *guardianDictionary = [Guardian plistFromUser:self];
-    [[NSUserDefaults standardUserDefaults] setObject:guardianDictionary forKey:NSStringFromClass([self class])];
-}
-
-- (instancetype)initFromUserDefaults {
-
-    NSDictionary *guardianDictionary = [[NSUserDefaults standardUserDefaults] objectForKey:NSStringFromClass([self class])];
-    Guardian *guardian = [[Guardian alloc] initWithJSONDictionary:guardianDictionary];
-
-    [guardian incrementLoginCounter];
-    
-    return guardian;
-}
-
-- (NSString *)generateRandomUserIDForCrittercism {
-
-    NSUInteger r = arc4random_uniform(pow(10, 10));
-    NSNumberFormatter *f = [NSNumberFormatter new];
-    f.numberStyle = NSNumberFormatterDecimalStyle;
-    NSNumber *userId = [f numberFromString:self.objectID];
-    if (userId) {
-        r = r * [userId integerValue];
-    }
-    return [NSString stringWithFormat:@"%ld", r];
-}
-
-+ (void)removeFromUserDefaults {
-    [NSUserDefaults leo_removeAllDefaults];
-}
-
-- (void)updateWithJSONDictionary:(NSDictionary *)jsonResponse {
-
-    id familyID = [jsonResponse leo_itemForKey:APIParamFamilyID];
-
-    if ([familyID isKindOfClass:[NSString class]]) {
-        _familyID = familyID;
-    } else if ([familyID respondsToSelector:@selector(stringValue)]) {
-        _familyID = [familyID stringValue];
-    } else {
-        _familyID = familyID;
-    }
-    _primary = [jsonResponse leo_itemForKey:APIParamUserPrimary];
-    _insurancePlan = [jsonResponse leo_itemForKey:APIParamUserInsurancePlan];
-    _phoneNumber = [jsonResponse leo_itemForKey:APIParamPhone];
-    _membershipType = [Guardian membershipTypeFromString:[jsonResponse leo_itemForKey:APIParamUserMembershipType]];
-    _anonymousCustomerServiceID = [jsonResponse leo_itemForKey:APIParamUserVendorID];
-
-
-    //Cannot call notification re: membershiptype changing because object hasn't been fully formed. Must do so either via alternative pattern or via class calling this once creation is complete. For now we will do the latter. Code smell should be reviewed.
-}
-
-+ (NSDictionary *)dictionaryFromUser:(Guardian *)guardian {
-
-    NSMutableDictionary *userDictionary = [[super dictionaryFromUser:guardian] mutableCopy];
+    NSMutableDictionary *userDictionary = [[super serializeToJSON:guardian] mutableCopy];
 
     userDictionary[APIParamFamilyID] = guardian.familyID;
     userDictionary[APIParamUserPrimary] = @(guardian.primary);
     userDictionary[APIParamPhone] = guardian.phoneNumber;
-    userDictionary[APIParamInsurancePlanID] = guardian.insurancePlan.objectID; //FIXME: This should probably break since insurancePlan is a custom object.
+    userDictionary[APIParamInsurancePlanID] = guardian.insurancePlan.objectID;
+    userDictionary[APIParamInsurancePlan] = [guardian.insurancePlan serializeToJSON];
     userDictionary[APIParamUserMembershipType] = guardian.membershipType ? [Guardian membershipStringFromType:guardian.membershipType] : Nil;
     userDictionary[APIParamUserVendorID] = guardian.anonymousCustomerServiceID;
 
     return userDictionary;
 }
 
-+ (NSDictionary *)plistFromUser:(Guardian *)guardian {
++ (NSDictionary *)serializeToPlist:(Guardian *)user {
 
-    NSMutableDictionary *userDictionary = [[super plistFromUser:guardian] mutableCopy];
-
-    userDictionary[APIParamFamilyID] = guardian.familyID;
-    userDictionary[APIParamUserPrimary] = @(guardian.primary);
-    userDictionary[APIParamPhone] = guardian.phoneNumber;
-    userDictionary[APIParamUserMembershipType] = [Guardian membershipStringFromType:guardian.membershipType];
-    userDictionary[APIParamUserVendorID] = guardian.anonymousCustomerServiceID;
-
-    return userDictionary;
+    NSMutableDictionary *json = [[self serializeToJSON:user] mutableCopy];
+    // HACK: can't store UIImage in Plist format
+    // TODO: move to URL based references
+    [json removeObjectForKey:APIParamUserAvatar];
+    return [json copy];
 }
 
 + (MembershipType)membershipTypeFromString:(NSString *)membershipTypeString {
@@ -175,7 +100,7 @@ static NSString *const kUserDefaultsKeyLoginCounts = @"loginCounter";
         return MembershipTypeDelinquent;
     }
 
-    return MembershipTypeUnknown; //As mentioned elsewhere, we don't use MembershipTypeUnknown for anything except to be exhaustive.
+    return MembershipTypeUnknown;
 }
 
 + (NSString *)membershipStringFromType:(MembershipType)membershipType {
@@ -203,9 +128,17 @@ static NSString *const kUserDefaultsKeyLoginCounts = @"loginCounter";
 
 -(void)setMembershipType:(MembershipType)membershipType {
 
+    MembershipType originalMembershipType = _membershipType;
+
     _membershipType = membershipType;
 
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"membership-changed" object:self];
+    if (originalMembershipType != _membershipType) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"membership-changed" object:self];
+    }
+}
+
+- (void)resetAnonymousCustomerServiceID {
+    _anonymousCustomerServiceID = nil;
 }
 
 - (NSString *)description {
@@ -215,10 +148,6 @@ static NSString *const kUserDefaultsKeyLoginCounts = @"loginCounter";
     NSString *subDesc = [NSString stringWithFormat:@"\nName: %@ %@",self.firstName, self.lastName];
 
     return [superDesc stringByAppendingString:subDesc];
-}
-
-- (void)resetAnonymousCustomerServiceID {
-    self.anonymousCustomerServiceID = nil;
 }
 
 - (BOOL)validFirstName {
@@ -267,5 +196,29 @@ static NSString *const kUserDefaultsKeyLoginCounts = @"loginCounter";
     }
 }
 
+- (void)copyFrom:(Guardian *)otherGuardian {
+
+    [super copyFrom:otherGuardian];
+
+    self.phoneNumber = otherGuardian.phoneNumber;
+    self.insurancePlan = otherGuardian.insurancePlan;
+    self.familyID = otherGuardian.familyID;
+    self.primary = otherGuardian.primary;
+
+    if (otherGuardian.membershipType != MembershipTypeUnknown) {
+        self.membershipType = otherGuardian.membershipType;
+    }
+}
+
+-(BOOL)complete {
+
+    BOOL complete = [super complete];
+
+    return complete && self.phoneNumber && self.membershipType && self.familyID && self.insurancePlan;
+}
+
+- (BOOL)hasFeedAccess {
+    return self.membershipType == MembershipTypeMember || self.membershipType == MembershipTypeExempted;
+}
 
 @end

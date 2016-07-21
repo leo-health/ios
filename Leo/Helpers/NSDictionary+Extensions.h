@@ -10,7 +10,6 @@
 
 @interface NSDictionary (Extensions)
 
-
 //Ensures that we can never fill a dictionary with NSNull. Always returns an NSString or nil.
 - (id)leo_itemForKey:(NSString *)key;
 
