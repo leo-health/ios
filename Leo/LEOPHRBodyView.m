@@ -223,7 +223,6 @@ NS_ENUM(NSInteger, TableViewRow) {
     return [self.healthRecord hasManyVitalMeasurements];
 }
 
-
 #pragma mark - <UITableViewDataSource>
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -388,7 +387,7 @@ NS_ENUM(NSInteger, TableViewRow) {
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
 
     // only show header if the section has rows
-    if ([self tableView:tableView numberOfRowsInSection:section] == 0 || section == TableViewSectionRecentVitals) {
+    if ([self tableView:tableView numberOfRowsInSection:section] == 0 || (section == TableViewSectionRecentVitals && [self shouldDisplayGraphOfVitals])) {
         return CGFLOAT_MIN;
     }
 
@@ -409,7 +408,7 @@ NS_ENUM(NSInteger, TableViewRow) {
 
 - (UITableViewHeaderFooterView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
 
-    if ([self tableView:tableView numberOfRowsInSection:section] == 0 || section == TableViewSectionRecentVitals) {
+    if ([self tableView:tableView numberOfRowsInSection:section] == 0 || (section == TableViewSectionRecentVitals && [self shouldDisplayGraphOfVitals])) {
         return nil;
     }
 
