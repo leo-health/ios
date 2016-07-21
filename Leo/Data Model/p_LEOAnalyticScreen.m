@@ -6,9 +6,9 @@
 //  Copyright © 2016 Leo Health. All rights reserved.
 //
 
-#import "LEOAnalyticScreen.h"
+#import "p_LEOAnalyticScreen.h"
 
-@implementation LEOAnalyticScreen
+@implementation p_LEOAnalyticScreen
 
 + (void)tagScreen:(NSString *)screenName {
     [Localytics tagScreen:screenName];

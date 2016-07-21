@@ -6,12 +6,12 @@
 //  Copyright © 2016 Leo Health. All rights reserved.
 //
 
-#import "LEOAnalyticIntent.h"
+#import "p_LEOAnalyticIntent.h"
 #import "LEOSession.h"
 #import "Family+Analytics.h"
 #import "Guardian+Analytics.h"
 
-@implementation LEOAnalyticIntent
+@implementation p_LEOAnalyticIntent
 
 + (void)tagEvent:(NSString *)eventName
       attributes:(NSDictionary *)attributeDictionary {
