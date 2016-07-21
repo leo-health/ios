@@ -27,7 +27,7 @@
     
     [mutableAttributeDictionary addEntriesFromDictionary:appointmentDictionary];
     
-    return mutableAttributeDictionary;
+    return [mutableAttributeDictionary copy];
 }
 
 - (NSString *)timeOfDay {
