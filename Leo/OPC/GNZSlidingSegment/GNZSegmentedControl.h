@@ -15,6 +15,8 @@ extern NSString * const GNZSegmentOptionControlBackgroundColor;
 extern NSString * const GNZSegmentOptionSelectedSegmentTintColor;
 extern NSString * const GNZSegmentOptionDefaultSegmentTintColor;
 extern NSString * const GNZSegmentOptionIndicatorColor;
+extern NSString * const GNZSegmentOptionDefaultSegmentFont;
+extern NSString * const GNZSegmentOptionSelectedSegmentFont;
 
 typedef NS_ENUM(NSUInteger, GNZIndicatorStyle) {
     GNZIndicatorStyleDefault,

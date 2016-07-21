@@ -14,7 +14,7 @@
 #import "PatientVitalMeasurement.h"
 #import "NSDate+Extensions.h"
 #import "NSString+Extensions.h"
-#import <GNZSlidingSegment/GNZSegmentedControl.h>
+#import "GNZSegmentedControl.h"
 #import "Patient.h"
 #import "HealthRecord.h"
 #import "LEOVitalScoreboardView.h"
@@ -22,7 +22,7 @@
 @interface LEOVitalGraphViewController ()
 
 @property (weak, nonatomic) TKChart *chart;
-@property (weak, nonatomic) UISegmentedControl *metricControl;
+@property (weak, nonatomic) GNZSegmentedControl *metricControl;
 @property (weak, nonatomic) LEOVitalScoreboardView *scoreboardView;
 
 @property (copy, nonatomic) NSArray *coordinateData;
@@ -147,33 +147,34 @@ static NSInteger const kChartHeight = 160;
     trackball.tooltip.hidden = YES;
 }
 
-- (UISegmentedControl *)metricControl {
+- (GNZSegmentedControl *)metricControl {
 
     if (!_metricControl) {
 
-        UISegmentedControl *strongSegmentControl = [[UISegmentedControl alloc] initWithItems:@[@"Weight", @"Height"]];
+        NSDictionary *segmentedControlFormatting =
+        @{GNZSegmentOptionControlBackgroundColor: [UIColor leo_gray251],
+          GNZSegmentOptionDefaultSegmentTintColor: [UIColor leo_gray124] ,
+          GNZSegmentOptionSelectedSegmentTintColor: [[UIColor leo_orangeRed] colorWithAlphaComponent:1.0],
+          GNZSegmentOptionIndicatorColor: [UIColor leo_orangeRed],
+          GNZSegmentOptionIndicatorColor: [UIColor leo_orangeRed],
+          GNZSegmentOptionSelectedSegmentFont : [UIFont leo_demiBold12],
+          GNZSegmentOptionDefaultSegmentFont : [UIFont leo_regular12]};
+
+        GNZSegmentedControl *strongSegmentControl =
+        [[GNZSegmentedControl alloc] initWithSegmentCount:2
+                                           indicatorStyle:GNZIndicatorStyleDefault
+                                                  options:segmentedControlFormatting];
 
         _metricControl = strongSegmentControl;
-
         _metricControl.selectedSegmentIndex = 0;
+        _metricControl.controlHeight = 15;
 
         [_metricControl addTarget:self action:@selector(reloadWithUIUpdates) forControlEvents:UIControlEventValueChanged];
 
         _metricControl.tintColor = [UIColor leo_orangeRed];
 
-        NSDictionary *normalAttributes = @{ NSFontAttributeName :
-                                                     [UIFont leo_regular15], NSForegroundColorAttributeName :
-                                                     [UIColor leo_orangeRed]
-                                            };
-
-
-        [_metricControl setTitleTextAttributes:normalAttributes forState:UIControlStateNormal];
-
-        NSDictionary *highlightedAttributes = @{ NSFontAttributeName :
-                                                     [UIFont leo_regular15], NSForegroundColorAttributeName :
-                                                     [UIColor leo_white]};
-
-        [_metricControl setTitleTextAttributes:highlightedAttributes forState:UIControlStateSelected];
+        [_metricControl setTitle:@"WEIGHT" forSegmentAtIndex:0];
+        [_metricControl setTitle:@"HEIGHT" forSegmentAtIndex:1];
 
         [self.view addSubview:_metricControl];
     }
@@ -357,7 +358,6 @@ static NSInteger const kChartHeight = 160;
                                             options:0
                                             metrics:nil
                                               views:bindings];
-
 
     NSDictionary *metrics = @{ @"scoreboardHeight" : @(kScoreboardHeight), @"chartHeight" : @(kChartHeight) };
 

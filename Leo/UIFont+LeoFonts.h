@@ -154,5 +154,13 @@
  */
 + (UIFont *)leo_medium21;
 
+/**
+ *  AvenirNext-DemiBold, Size 12
+ *
+ *  @return UIFont
+ */
+
++ (UIFont *)leo_demiBold12;
+
 
 @end
