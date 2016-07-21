@@ -53,9 +53,10 @@ static const CGFloat kDistanceSegments = 26.0;
 
         _segmentedControl = strongSegmentedControl;
         _segmentedControl.backgroundColor = [UIColor clearColor];
-        _segmentedControl.font = [UIFont leo_bold12];
+
+        //FIXME: Use LEOFormatting methods.
+        _segmentedControl.font = [UIFont fontWithName:@"AvenirNext-Regular" size:10];
         _segmentedControl.segmentDistance = kDistanceSegments;
-        _segmentedControl.controlHeight = kHeightSegmentControl;
         
         _segmentedControl.customIndicatorAnimatorBlock = ^void(UIScrollView *scrollView) {
 
@@ -122,6 +123,8 @@ static const CGFloat kDistanceSegments = 26.0;
 
 - (void)updateConstraints {
 
+    [super updateConstraints];
+
     if (!self.alreadyUpdatedConstraints) {
 
         [self.contentView removeConstraints:self.contentView.constraints];
@@ -138,15 +141,22 @@ static const CGFloat kDistanceSegments = 26.0;
         [self addConstraints:horizontalConstraintsForContentView];
         [self addConstraints:verticalConstraintsForContentView];
 
-        NSDictionary *metrics = @{@"bottomSpacer" : @5};
-
-        NSArray *verticalConstraintsForSegmentedControl = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_segmentedControl]-(bottomSpacer)-|" options:0 metrics:metrics views:bindings];
+        NSArray *verticalConstraintsForSegmentedControl = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_segmentedControl]|" options:0 metrics:nil views:bindings];
         NSArray *horizontalConstraintsForSegmentedControl = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_segmentedControl]|" options:0 metrics:nil views:bindings];
 
-        [self.contentView addConstraints:verticalConstraintsForSegmentedControl];
-        [self.contentView addConstraints:horizontalConstraintsForSegmentedControl
-         ];
+        NSLayoutConstraint *heightConstraintForSelf =
+        [NSLayoutConstraint constraintWithItem:self.segmentedControl
+                                     attribute:NSLayoutAttributeHeight
+                                     relatedBy:NSLayoutRelationEqual
+                                        toItem:self
+                                     attribute:NSLayoutAttributeHeight
+                                    multiplier:1.0
+                                      constant:0];
 
+        [self addConstraint:heightConstraintForSelf];
+
+        [self.contentView addConstraints:verticalConstraintsForSegmentedControl];
+        [self.contentView addConstraints:horizontalConstraintsForSegmentedControl];
 
         self.alreadyUpdatedConstraints = YES;
     }

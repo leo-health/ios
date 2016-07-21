@@ -214,5 +214,14 @@ static NSString *const AvenirNextCondensedRegular = @"AvenirNextCondensed-Regula
     return [UIFont fontWithName:AvenirNextDemiBold size:12];
 }
 
+/**
+ *  AvenirNext-Medium, Size 23
+ *
+ *  @return UIFont
+ */
++ (UIFont *)leo_medium23 {
+    return [UIFont fontWithName:AvenirNextMedium size:23];
+}
+
 
 @end
