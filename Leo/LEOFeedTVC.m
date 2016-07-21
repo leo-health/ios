@@ -30,9 +30,7 @@
 #import "Practice.h"
 #import "LEOSession.h"
 #import "AppointmentStatus.h"
-#import "Guardian.h"
 #import "Guardian+Analytics.h"
-#import "LEOAnalyticIntent.h"
 
 #import "UIColor+LeoColors.h"
 #import "UIImage+Extensions.h"
@@ -68,8 +66,7 @@
 #import "LEOAlertHelper.h"
 #import "LEOMessageService.h"
 #import "LEOStatusBarNotification.h"
-#import "LEOAnalyticScreen.h"
-#import "LEOAnalyticEvent.h"
+#import "LEOAnalytic+Extensions.h"
 
 typedef NS_ENUM(NSUInteger, TableViewSection) {
     TableViewSectionHeader,
@@ -143,7 +140,8 @@ static CGFloat const kFeedInsetTop = 20.0;
 
     [super viewDidAppear:animated];
 
-    [LEOAnalyticScreen tagScreen:kAnalyticScreenFeed];
+    [LEOAnalytic tagType:LEOAnalyticTypeScreen
+                    name:kAnalyticScreenFeed];
 
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
 
@@ -313,7 +311,8 @@ static CGFloat const kFeedInsetTop = 20.0;
 
     [Configuration downloadRemoteEnvironmentVariablesIfNeededWithCompletion:^(BOOL success, NSError *error) {
 
-        [LEOAnalyticScreen tagScreen:kAnalyticScreenFeed];
+        [LEOAnalytic tagType:LEOAnalyticTypeScreen
+                        name:kAnalyticScreenFeed];
 
         typeof(self) strongSelf = weakSelf;
 
@@ -652,7 +651,8 @@ static CGFloat const kFeedInsetTop = 20.0;
                 }
                 case ConversationStatusCodeOpen: {
 
-                    [LEOAnalyticEvent tagEvent:kAnalyticEventMessageUsFromChatNotification];
+                    [LEOAnalytic tagType:LEOAnalyticTypeEvent
+                                    name:kAnalyticEventMessageUsFromChatNotification];
                     [LEOBreadcrumb crumbWithObject:[NSString stringWithFormat:@"%s conversation open", __PRETTY_FUNCTION__]];
                     [self loadChattingViewWithCard:card];
                     break;
@@ -680,7 +680,9 @@ static CGFloat const kFeedInsetTop = 20.0;
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:alertTitle message:nil preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:@"Call" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
 
-        [LEOAnalyticIntent tagEvent:kAnalyticEventCallUs withFamily:self.family];
+        [LEOAnalytic tagType:LEOAnalyticTypeIntent
+                        name:kAnalyticEventCallUs
+                      family:self.family];
 
         NSString *phoneCallNum = [NSString stringWithFormat:@"tel://%@",kFlatironPediatricsPhoneNumber];
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneCallNum]];
@@ -737,9 +739,10 @@ static CGFloat const kFeedInsetTop = 20.0;
                                     withCompletion:^(NSDictionary * response, NSError * error) {
 
                                         if (!error) {
-                                            [LEOAnalyticEvent tagEvent:kAnalyticEventCancelVisit
-                                                       withAppointment:card.associatedCardObject
-                                                             andFamily:self.family];
+                                            [LEOAnalytic tagType:LEOAnalyticTypeEvent
+                                                            name:kAnalyticEventCancelVisit
+                                                     appointment:card.associatedCardObject
+                                                          family:self.family];
                                         }
 
                                         if (completionBlock) {
@@ -907,13 +910,15 @@ static CGFloat const kFeedInsetTop = 20.0;
 
 - (void)bookAppointmentTouchedUpInside {
 
-    [LEOAnalyticEvent tagEvent:kAnalyticEventScheduleVisit];
+    [LEOAnalytic tagType:LEOAnalyticTypeEvent
+                    name:kAnalyticEventScheduleVisit];
     [self beginSchedulingNewAppointment];
 }
 
 - (void)messageUsTouchedUpInside {
     
-    [LEOAnalyticEvent tagEvent:kAnalyticEventMessageUsFromTopOfPage];
+    [LEOAnalytic tagType:LEOAnalyticTypeEvent
+                    name:kAnalyticEventMessageUsFromTopOfPage];
     LEOCardConversation *conversationCard = [self findConversationCard];
     [self loadChattingViewWithCard:conversationCard];
 }

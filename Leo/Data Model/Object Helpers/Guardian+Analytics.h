@@ -12,6 +12,7 @@
 
 - (NSString *)isPrimaryString;
 - (NSString *)membershipTypeString;
-- (NSDictionary *)getAttributes;
+- (NSDictionary *)analyticAttributes;
+
 
 @end

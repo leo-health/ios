@@ -14,11 +14,11 @@
 @implementation LEOAnalyticIntent
 
 + (void)tagEvent:(NSString *)eventName
-  withAttributes:(NSDictionary *)attributeDictionary {
+      attributes:(NSDictionary *)attributeDictionary {
     
-    eventName = [@"Intent: " stringByAppendingString:eventName];
+    NSString *intentName = [@"Intent: " stringByAppendingString:eventName];
     [super tagEvent:eventName
-     withAttributes:attributeDictionary];
+         attributes:attributeDictionary];
 }
 
 

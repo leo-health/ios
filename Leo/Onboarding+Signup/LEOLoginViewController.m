@@ -27,11 +27,9 @@
 #import <Crittercism/Crittercism.h>
 #import "Configuration.h"
 #import "LEOAlertHelper.h"
-#import "LEOAnalyticScreen.h"
 #import "LEOSession.h"
 #import "Guardian.h"
-#import "LEOAnalyticEvent.h"
-#import "LEOAnalyticIntent.h"
+#import "LEOAnalytic+Extensions.h"
 
 @interface LEOLoginViewController ()
 
@@ -78,7 +76,8 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
 
     [super viewDidAppear:animated];
 
-    [LEOAnalyticScreen tagScreen:kAnalyticScreenLogin];
+    [LEOAnalytic tagType:LEOAnalyticTypeScreen
+                    name:kAnalyticScreenLogin];
 
     [LEOApiReachability startMonitoringForController:self
                                     withOfflineBlock:nil
@@ -208,19 +207,18 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
                          withCompletion:^(BOOL success, NSError * error) {
 
                              [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-                             [LEOAnalyticIntent tagEvent:kAnalyticEventLogin];
+                             [LEOAnalytic tagType:LEOAnalyticTypeIntent
+                                             name:kAnalyticEventLogin];
 
                              if (success) {
 
                                  [Crittercism setUsername:[Configuration vendorID]];
                                  [Localytics setCustomerId:[Configuration vendorID]];
                                  [[Crashlytics sharedInstance] setUserIdentifier:[Configuration vendorID]];
-                                 
-                                 Guardian *guardian = [LEOSession user];
-                                 NSString *membershipTypeString = [Guardian membershipStringFromType:guardian.membershipType];
 
-                                 [LEOAnalyticEvent tagEvent:kAnalyticEventLogin
-                                             withAttributes:@{kAnalyticAttributeMembershipType : membershipTypeString}];
+                                 [LEOAnalytic tagType:LEOAnalyticTypeEvent
+                                                 name:kAnalyticEventLogin
+                                             guardian:[LEOSession user]];
 
                                  // Response to successful login is handled by a @"membership-changed" notification listener in AppDelegate
 

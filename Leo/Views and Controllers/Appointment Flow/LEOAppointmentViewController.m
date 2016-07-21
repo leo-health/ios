@@ -29,7 +29,6 @@
 
 #import "AppointmentType.h"
 #import "Appointment.h"
-#import "Appointment+Analytics.h"
 #import "Patient.h"
 #import "Slot.h"
 #import "Practice.h"
@@ -42,12 +41,10 @@
 #import "UIButton+Extensions.h"
 #import "LEOCachedDataStore.h"
 #import "LEOAnalyticSession.h"
-#import "LEOAnalyticScreen.h"
 #import "LEOSession.h"
 #import "Guardian.h"
-#import "LEOAnalyticEvent.h"
-#import "LEOAnalyticIntent.h"
 #import "LEOAnalyticSessionManager.h"
+#import "LEOAnalytic+Extensions.h"
 
 @interface LEOAppointmentViewController ()
 
@@ -127,7 +124,8 @@ static NSString *const kKeySelectionVCDate = @"date";
 
     [super viewDidAppear:animated];
 
-    [LEOAnalyticScreen tagScreen:kAnalyticScreenAppointmentScheduling];
+    [LEOAnalytic tagType:LEOAnalyticTypeScreen
+                    name:kAnalyticScreenAppointmentScheduling];
 
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:nil withOnlineBlock:^{
         self.submissionButton.enabled = self.appointment.isValidForBooking;
@@ -477,8 +475,9 @@ static NSString *const kKeySelectionVCDate = @"date";
 
             if (!error) {
                 
-                [LEOAnalyticEvent tagEvent:kAnalyticEventBookVisit
-                           withAppointment:self.appointment];
+                [LEOAnalytic tagType:LEOAnalyticTypeEvent
+                                name:kAnalyticEventBookVisit
+                         appointment:self.appointment];
                 weakself.card = appointmentCard;
                 [self.appointment book];
             }
@@ -492,9 +491,10 @@ static NSString *const kKeySelectionVCDate = @"date";
 
             if (!error) {
                 
-                [LEOAnalyticEvent tagEvent:kAnalyticEventRescheduleVisit
-                           withAppointment:self.appointment
-                             andAttributes:@{@"Did change more than appointment time": self.didChangeMoreThanAppointmentTime}];
+                [LEOAnalytic tagType:LEOAnalyticTypeEvent
+                                name:kAnalyticEventRescheduleVisit
+                         appointment:self.appointment
+                          attributes:@{@"Did change more than appointment time": self.didChangeMoreThanAppointmentTime}];
 
                 weakself.card = appointmentCard;
                 [self.appointment book];

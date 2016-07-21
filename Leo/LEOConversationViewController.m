@@ -62,9 +62,8 @@
 #import "Practice.h"
 #import "LEOHelperService.h"
 #import "LEONoticeService.h"
-#import "LEOAnalyticScreen.h"
-#import "LEOAnalyticIntent.h"
 #import "LEOAnalyticSessionManager.h"
+#import "LEOAnalytic+Extensions.h"
 
 @interface LEOConversationViewController ()
 
@@ -209,7 +208,8 @@ static NSString *const kDefaultPracticeID = @"0";
 
     [super viewDidAppear:animated];
 
-    [LEOAnalyticScreen tagScreen:kAnalyticScreenMessaging];
+    [LEOAnalytic tagType:LEOAnalyticTypeScreen
+                    name:kAnalyticScreenMessaging];
 
     [LEOApiReachability startMonitoringForController:self
                                     withOfflineBlock:^{
@@ -677,7 +677,8 @@ static NSString *const kDefaultPracticeID = @"0";
 
     [Configuration downloadRemoteEnvironmentVariablesIfNeededWithCompletion:^(BOOL success, NSError *error) {
 
-        [LEOAnalyticScreen tagScreen:kAnalyticScreenMessaging];
+        [LEOAnalytic tagType:LEOAnalyticTypeScreen
+                        name:kAnalyticScreenMessaging];
 
         __strong typeof(self) strongSelf = weakSelf;
 
@@ -892,7 +893,8 @@ static NSString *const kDefaultPracticeID = @"0";
 
     [LEOBreadcrumb crumbWithObject:[NSString stringWithFormat:@"%s choose photo", __PRETTY_FUNCTION__]];
 
-    [LEOAnalyticIntent tagEvent:kAnalyticEventChoosePhotoForMessage];
+    [LEOAnalytic tagType:LEOAnalyticTypeIntent
+                    name:kAnalyticEventChoosePhotoForMessage];
 
     LEOTransitioningDelegate *strongTransitioningDelegate =
     [[LEOTransitioningDelegate alloc] initWithTransitionAnimatorType:TransitionAnimatorTypeCardPush];;
@@ -996,7 +998,8 @@ static NSString *const kDefaultPracticeID = @"0";
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
 
             [LEOBreadcrumb crumbWithObject:[NSString stringWithFormat:@"%s take photo", __PRETTY_FUNCTION__]];
-            [LEOAnalyticIntent tagEvent:kAnalyticEventTakePhotoForMessage];
+            [LEOAnalytic tagType:LEOAnalyticTypeIntent
+                            name:kAnalyticEventTakePhotoForMessage];
 
             UIImagePickerController *pickerController = [UIImagePickerController new];
             pickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
@@ -1046,7 +1049,8 @@ static NSString *const kDefaultPracticeID = @"0";
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
 
     [LEOBreadcrumb crumbWithFunction:__PRETTY_FUNCTION__];
-    [LEOAnalyticEvent tagEvent:kAnalyticEventCancelPhotoForMessage];
+    [LEOAnalytic tagType:LEOAnalyticTypeEvent
+                    name:kAnalyticEventCancelPhotoForMessage];
 
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
@@ -1054,7 +1058,8 @@ static NSString *const kDefaultPracticeID = @"0";
 - (void)imagePreviewControllerDidCancel:(LEOImagePreviewViewController *)imagePreviewController {
 
     [LEOBreadcrumb crumbWithFunction:__PRETTY_FUNCTION__];
-    [LEOAnalyticEvent tagEvent:kAnalyticEventConfirmPhotoForMessage];
+    [LEOAnalytic tagType:LEOAnalyticTypeEvent
+                    name:kAnalyticEventConfirmPhotoForMessage];
 
     [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
 }
@@ -1082,14 +1087,15 @@ static NSString *const kDefaultPracticeID = @"0";
     [self sendMessage:message withCompletion:^(Message *responseMessage, NSError *error){
 
         if (!error) {
-
             if ([message isKindOfClass:[MessageImage class]]) {
-                [LEOAnalyticEvent tagEvent:kAnalyticEventSendImageMessage
-                               withMessage:message];
+                [LEOAnalytic tagType:LEOAnalyticTypeEvent
+                                name:kAnalyticEventSendImageMessage
+                             message:message];
             }
             else if ([message isKindOfClass:[MessageText class]]) {
-                [LEOAnalyticEvent tagEvent:kAnalyticEventSendTextMessage
-                               withMessage:message];
+                [LEOAnalytic tagType:LEOAnalyticTypeEvent
+                                name:kAnalyticEventSendImageMessage
+                             message:message];
             }
 
             [[self conversation] addMessage:responseMessage];

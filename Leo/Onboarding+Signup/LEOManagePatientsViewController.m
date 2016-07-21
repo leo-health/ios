@@ -26,8 +26,7 @@
 #import "LEOButtonCell.h"
 #import "LEOPromptFieldCell.h"
 #import "LEOProgressDotsHeaderView.h"
-#import "LEOAnalyticScreen.h"
-#import "LEOAnalyticIntent.h"
+#import "LEOAnalytic+Extensions.h"
 
 @interface LEOManagePatientsViewController ()
 
@@ -78,7 +77,8 @@ static NSString * const kSignUpPatientSegue = @"SignUpPatientSegue";
 
     [super viewDidAppear:animated];
 
-    [LEOAnalyticScreen tagScreen:kAnalyticScreenManagePatients];
+    [LEOAnalytic tagType:LEOAnalyticTypeScreen
+                    name:kAnalyticScreenManagePatients];
 
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:nil withOnlineBlock:nil];
 }
@@ -163,8 +163,9 @@ static NSString * const kSignUpPatientSegue = @"SignUpPatientSegue";
 
     if ([self.family.patients count] > 0) {
 
-        [LEOAnalyticIntent tagEvent:kAnalyticEventConfirmPatientsInOnboarding
-                         withFamily:self.family];
+        [LEOAnalytic tagType:LEOAnalyticTypeIntent
+                        name:kAnalyticEventConfirmPatientsInOnboarding
+                      family:self.family];
 
         [self performSegueWithIdentifier:kSegueContinue sender:sender];
     } else {

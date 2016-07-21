@@ -10,7 +10,7 @@
 
 @interface Message (Analytics)
 
-- (NSDictionary *)getAttributes;
+- (NSDictionary *)analyticAttributes;
 
 
 @end

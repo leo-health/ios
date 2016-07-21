@@ -25,8 +25,7 @@
 #import "UIColor+LeoColors.h"
 #import "LEOAlertHelper.h"
 #import "LEORecordEditNotesViewController.h"
-#import "LEOAnalyticScreen.h"
-
+#import "LEOAnalytic.h"
 
 static CGFloat const kHeightOfHeaderPHR = 116;
 
@@ -95,7 +94,8 @@ static CGFloat const kHeightOfHeaderPHR = 116;
 
     [super viewDidAppear:animated];
 
-    [LEOAnalyticScreen tagScreen:kAnalyticScreenHealthRecord];
+    [LEOAnalytic tagType:LEOAnalyticTypeScreen
+                    name:kAnalyticScreenHealthRecord];
 
     [self requestHealthRecord];
 }

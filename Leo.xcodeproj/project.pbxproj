@@ -276,6 +276,9 @@
 		DE31E5EC1D36B9A800F028E4 /* Family+Analytics.m in Sources */ = {isa = PBXBuildFile; fileRef = DE31E5E61D36B9A800F028E4 /* Family+Analytics.m */; };
 		DE31E5ED1D36B9A800F028E4 /* Guardian+Analytics.m in Sources */ = {isa = PBXBuildFile; fileRef = DE31E5E81D36B9A800F028E4 /* Guardian+Analytics.m */; };
 		DE31E5EE1D36B9A800F028E4 /* Patient+Analytics.m in Sources */ = {isa = PBXBuildFile; fileRef = DE31E5EA1D36B9A800F028E4 /* Patient+Analytics.m */; };
+		DE31E5FC1D381DEC00F028E4 /* LEOAnalytic.m in Sources */ = {isa = PBXBuildFile; fileRef = DE31E5FB1D381DEC00F028E4 /* LEOAnalytic.m */; };
+		DE31E5FF1D38254200F028E4 /* LEOAnalytic+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = DE31E5FE1D38254200F028E4 /* LEOAnalytic+Extensions.m */; };
+		DE31E6021D393CDC00F028E4 /* Message+Analytics.m in Sources */ = {isa = PBXBuildFile; fileRef = DE31E6011D393CDC00F028E4 /* Message+Analytics.m */; };
 		DE53424C1D25A6F300F0B695 /* LEOAnalyticConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = DE53424B1D25A6F300F0B695 /* LEOAnalyticConstants.m */; };
 		DE63951D1D18296C00D3DF71 /* TPKeyboardAvoidingCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = DE6395161D18296C00D3DF71 /* TPKeyboardAvoidingCollectionView.m */; };
 		DE63951E1D18296C00D3DF71 /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = DE6395181D18296C00D3DF71 /* TPKeyboardAvoidingScrollView.m */; };
@@ -587,8 +590,8 @@
 		31BA40541B30A5F900A11AEE /* LEOSectionSeparator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOSectionSeparator.h; sourceTree = "<group>"; };
 		31BA40551B30A5F900A11AEE /* LEOSectionSeparator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOSectionSeparator.m; sourceTree = "<group>"; };
 		31BB45EB1C17757A0036224C /* Testflight.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Testflight.xcconfig; path = xcconfig/Testflight.xcconfig; sourceTree = "<group>"; };
-		31BD16C11CAF088E002829EB /* LEOAnalyticSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOAnalyticSession.h; path = Helpers/LEOAnalyticSession.h; sourceTree = "<group>"; };
-		31BD16C21CAF088E002829EB /* LEOAnalyticSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOAnalyticSession.m; path = Helpers/LEOAnalyticSession.m; sourceTree = "<group>"; };
+		31BD16C11CAF088E002829EB /* LEOAnalyticSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOAnalyticSession.h; path = Analytics/LEOAnalyticSession.h; sourceTree = "<group>"; };
+		31BD16C21CAF088E002829EB /* LEOAnalyticSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOAnalyticSession.m; path = Analytics/LEOAnalyticSession.m; sourceTree = "<group>"; };
 		31BF23401BBAEA0A005856E5 /* LEOSignUpPatientView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOSignUpPatientView.h; path = "Onboarding+Signup/LEOSignUpPatientView.h"; sourceTree = "<group>"; };
 		31BF23411BBAEA0A005856E5 /* LEOSignUpPatientView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOSignUpPatientView.m; path = "Onboarding+Signup/LEOSignUpPatientView.m"; sourceTree = "<group>"; };
 		31BF23421BBAEA0A005856E5 /* LEOSignUpPatientView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LEOSignUpPatientView.xib; path = "Onboarding+Signup/LEOSignUpPatientView.xib"; sourceTree = "<group>"; };
@@ -823,6 +826,12 @@
 		DE31E5E81D36B9A800F028E4 /* Guardian+Analytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Guardian+Analytics.m"; path = "Data Model/Object Helpers/Guardian+Analytics.m"; sourceTree = "<group>"; };
 		DE31E5E91D36B9A800F028E4 /* Patient+Analytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Patient+Analytics.h"; path = "Data Model/Object Helpers/Patient+Analytics.h"; sourceTree = "<group>"; };
 		DE31E5EA1D36B9A800F028E4 /* Patient+Analytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Patient+Analytics.m"; path = "Data Model/Object Helpers/Patient+Analytics.m"; sourceTree = "<group>"; };
+		DE31E5FA1D381DEC00F028E4 /* LEOAnalytic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOAnalytic.h; path = Analytics/LEOAnalytic.h; sourceTree = "<group>"; };
+		DE31E5FB1D381DEC00F028E4 /* LEOAnalytic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOAnalytic.m; path = Analytics/LEOAnalytic.m; sourceTree = "<group>"; };
+		DE31E5FD1D38254200F028E4 /* LEOAnalytic+Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LEOAnalytic+Extensions.h"; sourceTree = "<group>"; };
+		DE31E5FE1D38254200F028E4 /* LEOAnalytic+Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LEOAnalytic+Extensions.m"; sourceTree = "<group>"; };
+		DE31E6001D393CDC00F028E4 /* Message+Analytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Message+Analytics.h"; path = "Data Model/Object Helpers/Message+Analytics.h"; sourceTree = "<group>"; };
+		DE31E6011D393CDC00F028E4 /* Message+Analytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Message+Analytics.m"; path = "Data Model/Object Helpers/Message+Analytics.m"; sourceTree = "<group>"; };
 		DE53424A1D25A6F300F0B695 /* LEOAnalyticConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOAnalyticConstants.h; sourceTree = "<group>"; };
 		DE53424B1D25A6F300F0B695 /* LEOAnalyticConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOAnalyticConstants.m; sourceTree = "<group>"; };
 		DE6395151D18296C00D3DF71 /* TPKeyboardAvoidingCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TPKeyboardAvoidingCollectionView.h; path = OPC/TPKeyboardAvoiding/TPKeyboardAvoidingCollectionView.h; sourceTree = "<group>"; };
@@ -1179,10 +1188,6 @@
 		31920A461B0A8ACC006309C2 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				DE87E4CE1D21B7DB00871700 /* LEOAnalyticScreen.h */,
-				DE87E4CF1D21B7DB00871700 /* LEOAnalyticScreen.m */,
-				31BD16C11CAF088E002829EB /* LEOAnalyticSession.h */,
-				31BD16C21CAF088E002829EB /* LEOAnalyticSession.m */,
 				313ECC281CA5BE340059C434 /* LEOBreadcrumb.h */,
 				313ECC291CA5BE340059C434 /* LEOBreadcrumb.m */,
 				31209F9F1C9F584700E8B749 /* NSString+Extensions.h */,
@@ -1819,11 +1824,19 @@
 			isa = PBXGroup;
 			children = (
 				DE31E5DA1D36AD1000F028E4 /* LEOAnalyticSession.h */,
+				DE31E5FA1D381DEC00F028E4 /* LEOAnalytic.h */,
+				DE31E5FB1D381DEC00F028E4 /* LEOAnalytic.m */,
+				DE31E5FD1D38254200F028E4 /* LEOAnalytic+Extensions.h */,
+				DE31E5FE1D38254200F028E4 /* LEOAnalytic+Extensions.m */,
 				DE31E5DB1D36AD1000F028E4 /* LEOAnalyticSession.m */,
 				DE31E5DD1D36AD9900F028E4 /* LEOAnalyticEvent.h */,
 				DE31E5DE1D36AD9900F028E4 /* LEOAnalyticEvent.m */,
 				DE31E5DF1D36AD9900F028E4 /* LEOAnalyticIntent.h */,
 				DE31E5E01D36AD9900F028E4 /* LEOAnalyticIntent.m */,
+				DE87E4CE1D21B7DB00871700 /* LEOAnalyticScreen.h */,
+				DE87E4CF1D21B7DB00871700 /* LEOAnalyticScreen.m */,
+				31BD16C11CAF088E002829EB /* LEOAnalyticSession.h */,
+				31BD16C21CAF088E002829EB /* LEOAnalyticSession.m */,
 			);
 			name = Analytics;
 			sourceTree = "<group>";
@@ -1831,6 +1844,8 @@
 		DE31E5A51D3692CE00F028E4 /* Object Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				DE31E6001D393CDC00F028E4 /* Message+Analytics.h */,
+				DE31E6011D393CDC00F028E4 /* Message+Analytics.m */,
 				DE31E5E31D36B9A800F028E4 /* Appointment+Analytics.h */,
 				DE31E5E41D36B9A800F028E4 /* Appointment+Analytics.m */,
 				DE31E5E51D36B9A800F028E4 /* Family+Analytics.h */,
@@ -2280,6 +2295,7 @@
 				317B72B61C30A2E900F3620D /* LEOPatientProfileView.m in Sources */,
 				3177B9981B17A1B7006AE360 /* LEOCardAppointment.m in Sources */,
 				31254B801BB0576500E8E150 /* LEOMessageService.m in Sources */,
+				DE31E6021D393CDC00F028E4 /* Message+Analytics.m in Sources */,
 				66A5DB271C3D95FD008AEC55 /* HealthRecord.m in Sources */,
 				310943731CC9471F0015D52F /* LEOConversationFullScreenNoticeView.m in Sources */,
 				66A5DB421C3EE93D008AEC55 /* LEOPHRTableViewCell.m in Sources */,
@@ -2305,6 +2321,7 @@
 				31FCDD5E1C56A64200BE4B78 /* LEOReviewOnboardingView.m in Sources */,
 				BCE1EC6A1B00E353007C8D0B /* main.m in Sources */,
 				3186DA0F1C88D6E500B71613 /* LEOFeedCell+ConfigureForAppointmentCard.m in Sources */,
+				DE31E5FF1D38254200F028E4 /* LEOAnalytic+Extensions.m in Sources */,
 				31209FA41CA03DF100E8B749 /* LEOStatusBarNotification.m in Sources */,
 				3144179D1D2D66BF0006736F /* LEOStatWithTypeView.m in Sources */,
 				3182E55E1B20C8F5004DECF8 /* NSDate+Extensions.m in Sources */,
@@ -2335,6 +2352,7 @@
 				3168996A1BC4851200B4C1EB /* LEOReviewUserCell+ConfigureForCell.m in Sources */,
 				319FC6911C73C1ED00B53112 /* LEOPracticeDetailView.m in Sources */,
 				3168997A1BC4858400B4C1EB /* LEOBasicHeaderCell+ConfigureForCell.m in Sources */,
+				DE31E5FC1D381DEC00F028E4 /* LEOAnalytic.m in Sources */,
 				DE31E5DC1D36AD1000F028E4 /* LEOAnalyticSession.m in Sources */,
 				31CC12E01BB062C40099AB60 /* Message.m in Sources */,
 				31D62EC51B1CBA7400B4150A /* LEOTimeCell.m in Sources */,

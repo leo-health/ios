@@ -31,8 +31,7 @@
 #import "UIView+Extensions.h"
 #import <TPKeyboardAvoidingScrollView.h>
 #import "LEOProgressDotsHeaderView.h"
-#import "LEOAnalyticScreen.h"
-#import "LEOAnalyticIntent.h"
+#import "LEOAnalytic+Extensions.h"
 
 @interface LEOSignUpUserViewController ()
 
@@ -87,7 +86,8 @@ static NSString * const kCopyHeaderSignUpUser = @"Tell us a little about yoursel
 
     [super viewDidAppear:animated];
 
-    [LEOAnalyticScreen tagScreen:kAnalyticScreenUserProfile];
+    [LEOAnalytic tagType:LEOAnalyticTypeScreen
+                    name:kAnalyticScreenUserProfile];
 
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:nil withOnlineBlock:nil];
 }
@@ -175,8 +175,9 @@ static NSString * const kCopyHeaderSignUpUser = @"Tell us a little about yoursel
         switch (self.managementMode) {
             case ManagementModeCreate: {
             
-                [LEOAnalyticIntent tagEvent:kAnalyticEventCompleteNewUserProfile
-                          withFamily:self.family];
+                [LEOAnalytic tagType:LEOAnalyticTypeIntent
+                                name:kAnalyticEventCompleteNewUserProfile
+                              family:self.family];
 
                 [self.family addGuardian:self.guardian];
 
@@ -186,8 +187,9 @@ static NSString * const kCopyHeaderSignUpUser = @"Tell us a little about yoursel
 
             case ManagementModeEdit: {
 
-                [LEOAnalyticIntent tagEvent:kAnalyticEventEditUserProfile
-                          withFamily:self.family];
+                [LEOAnalytic tagType:LEOAnalyticTypeIntent
+                                name:kAnalyticEventEditUserProfile
+                              family:self.family];
 
                 [self.navigationController popViewControllerAnimated:YES];
             }

@@ -10,7 +10,7 @@
 
 @implementation Patient (Analytics)
 
-- (NSDictionary *)getAttributes {
+- (NSDictionary *)analyticAttributes {
 
     NSDictionary *attributeDictionary =
     @{@"Age group": [self ageGroup],
@@ -85,5 +85,6 @@
 
     return ([self.dob timeIntervalSinceDate:bornAfter] > 0 && [bornBefore timeIntervalSinceDate:self.dob] > 0);
 }
+
 
 @end

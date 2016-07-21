@@ -11,7 +11,7 @@
 
 @implementation Family (Analytics)
 
-- (NSDictionary *)getAttributes {
+- (NSDictionary *)analyticAttributes {
 
     NSDictionary* attributeDictionary =
     @{@"Number of Children" : @([self numberOfChildren]),
@@ -112,5 +112,6 @@
     
     return [self.patients sortedArrayUsingDescriptors:@[sortDescriptor]];
 }
+
 
 @end
