@@ -151,7 +151,14 @@ static NSInteger const kChartHeight = 160;
 
     if (!_metricControl) {
 
-        NSDictionary *segmentedControlFormatting = @{GNZSegmentOptionControlBackgroundColor: [UIColor leo_gray251], GNZSegmentOptionDefaultSegmentTintColor: [UIColor leo_gray124] , GNZSegmentOptionSelectedSegmentTintColor: [[UIColor leo_orangeRed] colorWithAlphaComponent:1.0], GNZSegmentOptionIndicatorColor: [UIColor leo_orangeRed], GNZSegmentOptionIndicatorColor: [UIColor leo_orangeRed], GNZSegmentOptionSelectedSegmentFont : [UIFont leo_demiBold12], GNZSegmentOptionDefaultSegmentFont : [UIFont leo_regular12]};
+        NSDictionary *segmentedControlFormatting =
+        @{GNZSegmentOptionControlBackgroundColor: [UIColor leo_gray251],
+          GNZSegmentOptionDefaultSegmentTintColor: [UIColor leo_gray124] ,
+          GNZSegmentOptionSelectedSegmentTintColor: [[UIColor leo_orangeRed] colorWithAlphaComponent:1.0],
+          GNZSegmentOptionIndicatorColor: [UIColor leo_orangeRed],
+          GNZSegmentOptionIndicatorColor: [UIColor leo_orangeRed],
+          GNZSegmentOptionSelectedSegmentFont : [UIFont leo_demiBold12],
+          GNZSegmentOptionDefaultSegmentFont : [UIFont leo_regular12]};
 
         GNZSegmentedControl *strongSegmentControl =
         [[GNZSegmentedControl alloc] initWithSegmentCount:2
@@ -161,7 +168,7 @@ static NSInteger const kChartHeight = 160;
         _metricControl = strongSegmentControl;
         _metricControl.selectedSegmentIndex = 0;
         _metricControl.controlHeight = 15;
-        
+
         [_metricControl addTarget:self action:@selector(reloadWithUIUpdates) forControlEvents:UIControlEventValueChanged];
 
         _metricControl.tintColor = [UIColor leo_orangeRed];

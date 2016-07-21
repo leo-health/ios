@@ -415,6 +415,7 @@ NSString * const GNZSegmentOptionSelectedSegmentFont = @"SEGMENT_OPTION_SELECTED
 
 - (void)adjustDefaultIndicatorsWithTapOnSegmentIndex:(NSInteger)segmentIndex {
 
+    //TODO: Will break if we add margins between segments
     self.defaultIndicatorConstraint.constant = segmentIndex * (self.frame.size.width / self.segmentCount);
 
     [UIView animateWithDuration:0.2 delay:0.0
