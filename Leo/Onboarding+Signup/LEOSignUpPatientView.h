@@ -23,7 +23,6 @@
 @interface LEOSignUpPatientView : UIView <UITextFieldDelegate, UIPickerViewDelegate, LEOPromptDelegate>
 
 @property (strong, nonatomic) Patient *patient;
-@property (nonatomic) BOOL willPayForPatient;
 @property (nonatomic) ManagementMode managementMode;
 @property (nonatomic) Feature feature;
 
@@ -36,6 +35,5 @@
 @property (weak, nonatomic) id<LEOSignUpPatientProtocol, UIImagePickerControllerDelegate>delegate;
 
 - (void)validateFields;
-- (void)updateAvatarImageViewWithImage:(UIImage *)image;
 
 @end

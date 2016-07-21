@@ -32,10 +32,6 @@
 
 -(instancetype)initWithJSONDictionary:(NSDictionary *)jsonDictionary {
 
-    if (!jsonDictionary) {
-        return nil;
-    }
-
     NSDate *startedAt = [NSDate leo_dateFromDateTimeString:[jsonDictionary leo_itemForKey:APIParamMedicationStartedAt]];
     NSDate *enteredAt = [NSDate leo_dateFromDateTimeString:[jsonDictionary leo_itemForKey:APIParamMedicationEnteredAt]];
     NSString *medication = [jsonDictionary leo_itemForKey:APIParamMedicationMedication];

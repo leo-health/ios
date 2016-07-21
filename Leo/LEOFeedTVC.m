@@ -10,15 +10,13 @@
 #import "LEOFeedTVC.h"
 #import "LEOConstants.h"
 #import <NSDate+DateTools.h>
-#import "LEOUserService.h"
+#import "LEOCachedDataStore.h"
 #import "ArrayDataSource.h"
 #import "LEOCard.h"
 #import "LEOCardConversation.h"
-#import "Guardian.h"
 
 #import "LEOCardService.h"
-#import "LEOPracticeService.h"
-#import "LEOFamilyService.h"
+#import "LEOHelperService.h"
 #import "LEOAppointmentService.h"
 #import "LEONoticeService.h"
 
@@ -30,6 +28,7 @@
 #import "Family.h"
 #import "Family+Analytics.h"
 #import "Practice.h"
+#import "LEOSession.h"
 #import "AppointmentStatus.h"
 #import "Guardian.h"
 #import "Guardian+Analytics.h"
@@ -305,7 +304,7 @@ static CGFloat const kFeedInsetTop = 20.0;
 //MARK: Most likely doesn't belong in this class; no longer tied to it except for completion block which can be passed in.
 - (void)pushNewMessageToConversation {
 
-    NSString *channelString = [NSString stringWithFormat:@"%@", [[LEOUserService new] getCurrentUser].objectID];
+    NSString *channelString = [NSString stringWithFormat:@"%@",[LEOSession user].objectID];
     NSString *event = @"new_message";
 
     LEOPusherHelper *pusherHelper = [LEOPusherHelper sharedPusher];
@@ -351,13 +350,14 @@ static CGFloat const kFeedInsetTop = 20.0;
 - (void)viewWillDisappear:(BOOL)animated {
 
     [super viewWillDisappear:animated];
-    NSString *channelString = [NSString stringWithFormat:@"%@",[[LEOUserService new] getCurrentUser].objectID];
+    NSString *channelString = [NSString stringWithFormat:@"%@",[LEOSession user].objectID];
     [[LEOPusherHelper sharedPusher] removeBinding:self.pusherBinding fromPrivateChannelWithName:channelString];
 }
 
-- (void)fetchFamilyWithCompletion:(LEOErrorBlock)completionBlock {
+- (void)fetchFamilyWithCompletion:(void (^) (NSError *error))completionBlock {
 
-    [[LEOFamilyService new] getFamilyWithCompletion:^(Family *family, NSError *error) {
+    LEOHelperService *helperService = [LEOHelperService new];
+    [helperService getFamilyWithCompletion:^(Family *family, NSError *error) {
 
         if (!error) {
             self.family = family;
@@ -409,7 +409,7 @@ static CGFloat const kFeedInsetTop = 20.0;
             //MARK: temp fix for not allowing user to go to settings or phr until family has downloaded as needed for these functions to work
             [self willEnableNavigationButtons:YES];
 
-            [[LEOPracticeService new] getPracticesWithCompletion:^(NSArray *practices, NSError *error) {
+            [[LEOHelperService new] getPracticesWithCompletion:^(NSArray *practices, NSError *error) {
 
                 if (error) {
                     [self handleNetworkError:error];
@@ -706,7 +706,7 @@ static CGFloat const kFeedInsetTop = 20.0;
                                                              patient:patient
                                                             provider:nil
                                                             practice:self.practice
-                                                        bookedByUser:[[LEOUserService new] getCurrentUser]
+                                                        bookedByUser:[LEOSession user]
                                                                 note:nil
                                                               status:appointmentStatus];
 
@@ -721,11 +721,8 @@ static CGFloat const kFeedInsetTop = 20.0;
                                                                  bundle:nil];
 
     LEOSettingsViewController *settingsVC = [settingsStoryboard instantiateInitialViewController];
-
-    LEOCachePolicy *policy = [LEOCachePolicy new];
-    policy.get = LEOCachePolicyGETCacheOnly;
-    settingsVC.familyService = [LEOFamilyService serviceWithCachePolicy:policy];
-    settingsVC.userService = [LEOUserService serviceWithCachePolicy:policy];
+    settingsVC.family = self.family;
+    settingsVC.user = [LEOSession user];
 
     [self.navigationController pushViewController:settingsVC animated:YES];
 }

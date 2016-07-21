@@ -36,10 +36,6 @@
 
 -(instancetype)initWithJSONDictionary:(NSDictionary *)jsonDictionary {
 
-    if (!jsonDictionary) {
-        return nil;
-    }
-
     NSString *objectID = [[jsonDictionary leo_itemForKey:APIParamPatientNoteID] stringValue];
     User *user = [[User alloc] initWithJSONDictionary:[jsonDictionary leo_itemForKey:APIParamPatientNoteUser]];
     NSDate *createdAt = [NSDate leo_dateFromDateTimeString:[jsonDictionary leo_itemForKey:APIParamPatientNoteCreatedAt]];

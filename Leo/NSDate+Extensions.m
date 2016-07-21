@@ -75,8 +75,6 @@
     return [self dateBySubtractingDays:daysSinceBeginningOfWeek];
 }
 
-# pragma mark - String to Date
-
 + (NSDate *)leo_dateFromDateTimeString:(NSString *)dateTimeString {
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -123,16 +121,6 @@
     [dateFormatter setDateFormat:@"MM/dd/yyyy"];
     
     return [dateFormatter dateFromString:dateString];
-}
-
-# pragma mark - Date to String
-
-+ (NSString *)leo_stringifiedDateTime:(NSDate *)dateTime {
-
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZ"];
-    dateFormatter.timeZone = [NSTimeZone timeZoneWithName:@"US/Eastern"];
-    return [dateFormatter stringFromDate:dateTime];
 }
 
 + (NSString *)leo_stringifiedDate:(NSDate*)date withFormat:(NSString *)formatString {
@@ -216,6 +204,24 @@
     dateFormatter.dateFormat = @"yyyy-MM-dd";
     return [dateFormatter stringFromDate:date];
 }
+/**
+ *  Turns an NSDate into an NSString with the following format: January 1, 12:30am
+ *
+ *  @param dateTime unformatted NSDate object
+ *
+ *  @return formatted stringified date
+ */
++ (NSString *)leo_stringifiedDateTime:(NSDate *)dateTime {
+    
+    NSDateFormatter *fullDateFormatter = [[NSDateFormatter alloc] init];
+    fullDateFormatter.dateFormat = @"MMMM' 'd', 'h':'mma";
+    [fullDateFormatter setAMSymbol:@"am"];
+    [fullDateFormatter setPMSymbol:@"pm"];
+    NSString *formattedDateTime = [fullDateFormatter stringFromDate:dateTime];
+    
+    return formattedDateTime;
+}
+
 
 
 @end

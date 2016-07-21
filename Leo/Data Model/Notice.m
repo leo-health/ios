@@ -12,68 +12,79 @@
 @implementation Notice
 
 - (instancetype)initWithName:(NSString *)name
-        headerText:(NSString *)headerString
-          bodyText:(NSString *)bodyString
-            headerAttributes:(NSDictionary *)headerAttributes
-              bodyAttributes:(NSDictionary *)bodyAttributes
-             actionAvailable:(BOOL)actionAvailable {
+        attributedHeaderText:(NSAttributedString *)attributedHeaderString
+          attributedBodyText:(NSAttributedString *)attributedBodyString
+                actionAvailable:(BOOL)actionAvailable {
 
     self = [super init];
 
     if (self) {
 
         _name = name;
-        _headerText = headerString;
-        _bodyText = bodyString;
-        _headerAttributes = headerAttributes;
-        _bodyAttributes = bodyAttributes;
+        _attributedHeaderText = attributedHeaderString;
+        _attributedBodyText = attributedBodyString;
         _actionAvailable = actionAvailable;
     }
 
     return self;
 }
 
-#pragma mark - LEOJSONSerializable
-
-- (instancetype)initWithJSONDictionary:(NSDictionary *)jsonDictionary {
-
-    if (!jsonDictionary) {
-        return nil;
-    }
-
-    NSString *name = [jsonDictionary leo_itemForKey:APIParamNoticeName];
-    NSString *headerString = [jsonDictionary leo_itemForKey:APIParamNoticeHeaderString];
-    NSString *bodyString = [jsonDictionary leo_itemForKey:APIParamNoticeBodyString];
-
-    NSDictionary *headerAttributes = [jsonDictionary leo_itemForKey:APIParamNoticeHeaderAttributes];
-    NSDictionary *bodyAttributes = [jsonDictionary leo_itemForKey:APIParamNoticeBodyAttributes];
-
-    BOOL actionAvailable =  [[jsonDictionary leo_itemForKey:APIParamNoticeActionAvailable] boolValue];
+- (instancetype)initWithName:(NSString *)name
+                  headerText:(NSString *)headerString
+                    bodyText:(NSString *)bodyString
+                actionAvailable:(BOOL)actionAvailable {
+    
+    NSAttributedString *attributedHeaderString = [[NSAttributedString alloc] initWithString:headerString];
+    NSAttributedString *attributedBodyString = [[NSAttributedString alloc] initWithString:bodyString];
 
     return [self initWithName:name
-                   headerText:headerString
-                     bodyText:bodyString
-             headerAttributes:headerAttributes
-               bodyAttributes:bodyAttributes
-              actionAvailable:actionAvailable];
+         attributedHeaderText:attributedHeaderString
+           attributedBodyText:attributedBodyString
+            actionAvailable:actionAvailable];
 }
 
-+ (NSDictionary *)serializeToJSON:(Notice *)notice {
+- (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
 
-    if (!notice) {
-        return nil;
+    NSString *name = [jsonResponse leo_itemForKey:APIParamNoticeName];
+    NSString *headerString = [jsonResponse leo_itemForKey:APIParamNoticeHeaderString];
+    NSString *bodyString = [jsonResponse leo_itemForKey:APIParamNoticeBodyString];
+
+    NSDictionary *headerAttributes = [jsonResponse leo_itemForKey:APIParamNoticeHeaderAttributes];
+    NSDictionary *bodyAttributes = [jsonResponse leo_itemForKey:APIParamNoticeBodyAttributes];
+
+    NSAttributedString *attributedHeaderText;
+    NSAttributedString *attributedBodyText;
+
+    BOOL actionAvailable =  [[jsonResponse leo_itemForKey:APIParamNoticeActionAvailable] boolValue];
+
+    if (headerAttributes) {
+        attributedHeaderText = [[NSAttributedString alloc] initWithString:headerString
+                                                               attributes:headerAttributes];
+    } else {
+        attributedHeaderText = [[NSAttributedString alloc] initWithString:headerString];
     }
 
-    NSMutableDictionary *noticeJSON = [NSMutableDictionary new];
-    noticeJSON[APIParamNoticeName] = notice.name;
-    noticeJSON[APIParamNoticeHeaderString] = notice.headerText;
-    noticeJSON[APIParamNoticeBodyString] = notice.bodyText;
-    noticeJSON[APIParamNoticeHeaderAttributes] = notice.headerAttributes;
-    noticeJSON[APIParamNoticeBodyAttributes] = notice.bodyAttributes;
-    noticeJSON[APIParamNoticeActionAvailable] = @(notice.actionAvailable);
+    if (bodyAttributes) {
+        attributedBodyText = [[NSAttributedString alloc] initWithString:bodyString
+                                                             attributes:bodyAttributes];
+    } else {
+        attributedBodyText = [[NSAttributedString alloc] initWithString:bodyString];
+    }
 
-    return noticeJSON;
+    return [self initWithName:name attributedHeaderText:attributedHeaderText attributedBodyText:attributedBodyText actionAvailable:actionAvailable];
 }
 
++ (NSArray *)noticesFromJSONArray:(NSArray *)jsonResponse {
+
+    NSMutableArray *mutableNotices = [NSMutableArray new];
+
+    for (NSDictionary *noticeDictionary in jsonResponse) {
+
+        Notice *notice = [[self alloc] initWithJSONDictionary:noticeDictionary];
+        [mutableNotices addObject:notice];
+    }
+
+    return [mutableNotices copy];
+}
 
 @end

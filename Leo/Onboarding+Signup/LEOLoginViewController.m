@@ -17,7 +17,7 @@
 #import "LEOValidationsHelper.h"
 #import "LEOForgotPasswordViewController.h"
 #import "LEOLoginView.h"
-#import "LEOPracticeService.h"
+#import "LEOHelperService.h"
 #import "LEOFeedTVC.h"
 #import "LEOStyleHelper.h"
 #import "NSObject+XibAdditions.h"
@@ -205,19 +205,18 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
 
         [[LEOUserService new] loginUserWithEmail:[self emailTextField].text
                                password:[self passwordTextField].text
-                         withCompletion:^(Guardian *guardian, NSError * error) {
+                         withCompletion:^(BOOL success, NSError * error) {
 
                              [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
                              [LEOAnalyticIntent tagEvent:kAnalyticEventLogin];
 
-                             if (!error) {
+                             if (success) {
 
-                                 // TODO: move into service layer?
                                  [Crittercism setUsername:[Configuration vendorID]];
                                  [Localytics setCustomerId:[Configuration vendorID]];
                                  [[Crashlytics sharedInstance] setUserIdentifier:[Configuration vendorID]];
                                  
-                                 Guardian *guardian = [[LEOUserService new] getCurrentUser];
+                                 Guardian *guardian = [LEOSession user];
                                  NSString *membershipTypeString = [Guardian membershipStringFromType:guardian.membershipType];
 
                                  [LEOAnalyticEvent tagEvent:kAnalyticEventLogin
@@ -228,8 +227,6 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
                                  //TODO: ZSD Determine whether we really have a flow when there is no error. Otherwise just use if (error) below.
                              } else {
 
-
-                                 // TODO: move copy to backend
                                  UIAlertController *loginAlert = [UIAlertController alertControllerWithTitle:@"Invalid login" message:@"Looks like your email or password isn't one we recognize. Try entering them again, or reset your password." preferredStyle:UIAlertControllerStyleAlert];
 
                                  UIAlertAction *continueAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil];

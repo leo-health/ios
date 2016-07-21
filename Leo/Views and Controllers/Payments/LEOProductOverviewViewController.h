@@ -6,16 +6,14 @@
 //  Copyright © 2016 Leo Health. All rights reserved.
 //
 
-@class LEOAnalyticSession;
+@class LEOAnalyticSession, Family;
 
 #import <UIKit/UIKit.h>
-
-@class Family;
 
 @interface LEOProductOverviewViewController : UIViewController
 
 @property (strong, nonatomic) LEOAnalyticSession *analyticSession;
-@property (strong, nonnull) Family *family;
+@property (strong, nonatomic) Family *family;
 @property (nonatomic) Feature feature;
 
 @end

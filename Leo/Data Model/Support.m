@@ -12,16 +12,16 @@
 @implementation Support
 
 //FIXME: Update with correct constants.
-- (instancetype)initWithJSONDictionary:(NSDictionary *)jsonDictionary {
+- (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
     
-    self = [super initWithJSONDictionary:jsonDictionary];
+    self = [super initWithJSONDictionary:jsonResponse];
     
     if (self) {
-        _jobTitle = [jsonDictionary leo_itemForKey:APIParamUserJobTitle];
+        _jobTitle = jsonResponse[APIParamUserJobTitle];
 
         // handle the case where job title is not included in the API response. From a data modeling perspective, the credentials feild is overloaded here, but allow for it as a fail safe
         if (!_jobTitle) {
-            NSArray *credentials = [jsonDictionary leo_itemForKey:APIParamUserCredentials];
+            NSArray *credentials = [jsonResponse leo_itemForKey:APIParamUserCredentials];
             if (credentials.count > 0) {
                 _jobTitle = credentials[0];
             }

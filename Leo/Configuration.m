@@ -7,21 +7,18 @@
 //
 //  Adapted from source: http://code.tutsplus.com/tutorials/ios-quick-tip-managing-configurations-with-ease--mobile-18324
 
-#import "LEOApp.h"
 #import "Configuration.h"
 #import "NSUserDefaults+Extensions.h"
 #import <Crittercism/Crittercism.h>
 #import "LEOSettingsService.h"
 #import "LEOPusherHelper.h"
-#import "LEOUserService.h"
 #import "LEOSession.h"
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
 #import <Localytics/Localytics.h>
 #import <Stripe/Stripe.h>
-#import "AppDelegate.h"
-#import "Guardian.h"
 
+#import "AppDelegate.h"
 
 //FIXME: Decide whether to move these to LEOConstants or move the ones in LEOConstants to here
 static NSString *const ConfigurationAPIEndpoint = @"ApiURL";
@@ -188,15 +185,13 @@ static NSString *const ConfigurationAPIProtocol = @"ApiProtocol";
 }
 
 + (NSString *)vendorID {
-    return [[[LEOUserService new] getCurrentUser] anonymousCustomerServiceID] ?: [NSUserDefaults leo_stringForKey:kConfigurationVendorID];
+
+    return [LEOSession user].anonymousCustomerServiceID ? : [NSUserDefaults leo_stringForKey:kConfigurationVendorID];
 }
 
 + (void)resetVendorID {
-    LEOUserService *service = [LEOUserService new];
-    Guardian *guardian = [service getCurrentUser];
-    [guardian resetAnonymousCustomerServiceID];
-    [service putCurrentUser:guardian];
     [NSUserDefaults leo_removeObjectForKey:kConfigurationVendorID];
+    [[LEOSession user] resetAnonymousCustomerServiceID];
 }
 
 + (NSString *)stripeKey {
@@ -253,13 +248,11 @@ static NSString *const ConfigurationAPIProtocol = @"ApiProtocol";
             }
         }
 
-        if ([Configuration minimumVersion] > [LEOApp appVersion]) {
+        if ([Configuration minimumVersion] > [LEOSession appVersion]) {
 
             if (completionBlock) {
                 completionBlock(NO, nil);
-                LEOCachePolicy *policy = [LEOCachePolicy new];
-                policy.destroy = LEOCachePolicyDESTROYNetworkThenDESTROYCache;
-                [[LEOUserService serviceWithCachePolicy:policy] logoutUserWithCompletion:nil];
+                [LEOSession logout];
             }
         } else {
 

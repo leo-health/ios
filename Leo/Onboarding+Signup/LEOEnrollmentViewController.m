@@ -26,7 +26,6 @@
 #import "LEOAlertHelper.h"
 #import "LEOAnalyticScreen.h"
 #import "LEOAnalyticEvent.h"
-#import "LEOCachedDataStore.h"
 
 @interface LEOEnrollmentViewController ()
 
@@ -54,8 +53,6 @@ static NSString * const kCopyCollapsedHeaderEnrollment = @"Create an account";
     self.analyticSession =
     [LEOAnalyticSession startSessionWithSessionEventName:kAnalyticSessionRegistration];
 
-    self.userDataSource = [LEOUserService new];
-
     self.feature = FeatureOnboarding;
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.stickyHeaderView.snapToHeight = @(0);
@@ -82,6 +79,7 @@ static NSString * const kCopyCollapsedHeaderEnrollment = @"Create an account";
 - (void)viewDidAppear:(BOOL)animated {
 
     [super viewDidAppear:animated];
+
     [LEOAnalyticScreen tagScreen:kAnalyticScreenUserEnrollment];
 
     __weak typeof(self) weakSelf = self;
@@ -186,89 +184,70 @@ static NSString * const kCopyCollapsedHeaderEnrollment = @"Create an account";
 }
 
 
-#pragma mark - Actions
+#pragma mark - Navigation & Helper Methods
 
 - (void)continueTapped:(UIButton *)sender {
 
     [LEOBreadcrumb crumbWithFunction:__PRETTY_FUNCTION__];
 
-    if ([self viewHasValidAndCompleteFields]) {
+    [MBProgressHUD showHUDAddedTo:self.view
+                         animated:YES]; //TODO: Create separate class to set these up for all use cases with two methods that support showing and hiding our customized HUD.
 
-        [MBProgressHUD showHUDAddedTo:self.view
-                             animated:YES];
+    self.enrollmentView.continueButton.enabled = NO;
 
-        [self downloadRemoteEnvironmentVariablesIfNeededWithCompletion:^(NSError *error){
+    if ([self validatePage]) {
 
-            if (!error) {
-                [self createUser:self.guardian
-                    withPassword:self.enrollmentView.passwordPromptField.textField.text
-                  withCompletion:^(NSError *error){
+        [self addOnboardingData];
 
-                      [MBProgressHUD hideHUDForView:self.view
-                                           animated:YES];
-                      if (!error) {
-                          [self performSegueWithIdentifier:kSegueContinue
-                                                    sender:nil];
-                      }
-                  }];
-            } else {
+        [Configuration resetVendorID];
+
+        [Configuration downloadRemoteEnvironmentVariablesIfNeededWithCompletion:^(BOOL success, NSError *error) {
+
+            LEOUserService *userService = [[LEOUserService alloc] init];
+            [userService createUser:self.guardian withPassword:self.enrollmentView.passwordPromptField.textField.text withCompletion:^(Guardian *guardian, NSError *error) {
+
+                if (!error) {
+
+                    if (success) {
+
+                        self.guardian = guardian;
+                        [LEOAnalyticEvent tagEvent:kAnalyticEventEnroll];
+
+                        [self performSegueWithIdentifier:kSegueContinue
+                                                  sender:sender];
+
+                    } else {
+
+                        [LEOAlertHelper alertForViewController:self
+                                                         error:error
+                                                   backupTitle:kErrorDefaultTitle
+                                                 backupMessage:kErrorDefaultMessage];
+                    }
+                } else {
+
+                    NSString *backupTitle = @"Minor hiccup!";
+                    NSString *backupMessage = @"Looks like something went wrong. Perhaps you entered an email address that is already taken?";
+
+                    [LEOAlertHelper alertForViewController:self
+                                                     error:error
+                                               backupTitle:backupTitle
+                                             backupMessage:backupMessage];
+                }
+
                 [MBProgressHUD hideHUDForView:self.view
                                      animated:YES];
-            }
+
+                self.enrollmentView.continueButton.enabled = YES;
+            }];
+
         }];
+    } else {
+
+        [MBProgressHUD hideHUDForView:self.view
+                             animated:YES];
+
+        self.enrollmentView.continueButton.enabled = YES;
     }
-}
-
-
-#pragma mark - Service Layer Helpers
-
-- (void)downloadRemoteEnvironmentVariablesIfNeededWithCompletion:(LEOErrorBlock)completionBlock {
-
-    [Configuration resetVendorID]; // NOTE: probably should remove the "IfNeeded" part of this mehtod. doesn't this line force a re-download?
-
-    [Configuration downloadRemoteEnvironmentVariablesIfNeededWithCompletion:^(BOOL success, NSError *error) {
-
-        if (error) {
-
-            [LEOAlertHelper alertForViewController:self
-                                             error:error
-                                       backupTitle:kErrorDefaultTitle
-                                     backupMessage:kErrorDefaultMessage];
-
-        }
-        if (completionBlock) {
-            completionBlock(error);
-        }
-    }];
-}
-
-- (void)createUser:(User *)user withPassword:(NSString *)password withCompletion:(LEOErrorBlock)completionBlock {
-
-    [self addOnboardingData];
-
-    // TODO: LEOAnalyticIntent goes here?
-
-    [self.userDataSource createUser:self.guardian withPassword:self.enrollmentView.passwordPromptField.textField.text withCompletion:^(Guardian *guardian, NSError *error) {
-
-        if (error) {
-
-            NSString *backupTitle = @"Minor hiccup!";
-            NSString *backupMessage = @"Looks like something went wrong. Perhaps you entered an email address that is already taken?";
-
-            [LEOAlertHelper alertForViewController:self
-                                             error:error
-                                       backupTitle:backupTitle
-                                     backupMessage:backupMessage];
-        } else {
-
-            [LEOAnalyticEvent tagEvent:kAnalyticEventEnroll];
-            self.guardian = guardian;
-        }
-
-        if (completionBlock) {
-            completionBlock(error);
-        }
-    }];
 }
 
 - (void)addOnboardingData {
@@ -290,7 +269,7 @@ static NSString * const kCopyCollapsedHeaderEnrollment = @"Create an account";
                                         membershipType:MembershipTypeIncomplete];
 }
 
-- (BOOL)viewHasValidAndCompleteFields {
+- (BOOL)validatePage {
 
     NSString *email = self.enrollmentView.emailPromptField.textField.text;
     BOOL validEmail =
@@ -307,22 +286,20 @@ static NSString * const kCopyCollapsedHeaderEnrollment = @"Create an account";
     return validEmail && validPassword;
 }
 
-
-#pragma mark - Navigation
-
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
 
     if ([segue.identifier isEqualToString:kSegueContinue]) {
 
         LEOSignUpUserViewController *signUpUserVC = segue.destinationViewController;
-
-        signUpUserVC.userDataSource = [LEOUserService serviceWithCachePolicy:[LEOCachePolicy cacheOnly]];
         signUpUserVC.guardian = self.guardian;
         signUpUserVC.managementMode = ManagementModeCreate;
         signUpUserVC.view.tintColor = [LEOStyleHelper tintColorForFeature:FeatureOnboarding];
         signUpUserVC.analyticSession = self.analyticSession;
     }
 }
+
+
+#pragma mark - Actions
 
 - (void)pop {
     

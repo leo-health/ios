@@ -11,11 +11,11 @@
 #import "Guardian.h"
 #import <objc/runtime.h>
 #import <NSDate+DateTools.h>
-#import "NSDictionary+Extensions.h"
 
 @implementation Family
 
-@synthesize patients = _patients;
+static void * XXContext = &XXContext;
+static NSArray * _propertyNames = nil;
 
 -(instancetype)init {
     
@@ -32,20 +32,23 @@
         _guardians = guardians;
         _patients = patients;
 
+        _shouldSyncUp = YES;
+        _shouldSyncDown = YES;
+
         [self sortPatients];
+
+        [self addObserverForAllProperties:self options:NSKeyValueObservingOptionNew context:XXContext];
     }
 
     return self;
 }
 
-- (instancetype)initWithJSONDictionary:(NSDictionary *)jsonDictionary {
+- (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
 
-    if (!jsonDictionary) {
-        return nil;
-    }
+    NSString *objectID = jsonResponse[APIParamFamily][APIParamID];
 
-    NSString *objectID = [[jsonDictionary leo_itemForKey:APIParamID] stringValue];
-    NSArray *patientDictionaries = [jsonDictionary leo_itemForKey:APIParamUserPatients];
+    NSArray *patientDictionaries = jsonResponse[APIParamFamily][APIParamUserPatients];
+    
     NSMutableArray *patients = [[NSMutableArray alloc] init];
     
     for (NSDictionary *patientDictionary in patientDictionaries) {
@@ -53,7 +56,7 @@
         [patients addObject:patient];
     }
     
-    NSArray *guardianDictionaries = [jsonDictionary leo_itemForKey:APIParamUserGuardians];
+    NSArray *guardianDictionaries = jsonResponse[APIParamFamily][APIParamUserGuardians];
     NSMutableArray *guardians = [[NSMutableArray alloc] init];
     
     for (NSDictionary *guardianDictionary in guardianDictionaries) {
@@ -64,14 +67,32 @@
     return [self initWithObjectID:objectID guardians:[guardians copy] patients:[patients copy]];
 }
 
-+ (NSDictionary *)serializeToJSON:(Family *)family {
-
-    NSMutableDictionary *jsonDictionary = [NSMutableDictionary new];
-    jsonDictionary[APIParamID] = family.objectID;
-    jsonDictionary[APIParamUserPatients] = [Patient serializeManyToJSON:family.patients];
-    jsonDictionary[APIParamUserGuardians] = [Guardian serializeManyToJSON: family.guardians];
-
-    return [jsonDictionary copy];
++ (NSDictionary *)dictionaryWithPrimaryUserAndInsuranceOnlyFromFamily:(Family *)family {
+    
+    NSMutableDictionary *familyDictionary = [[NSMutableDictionary alloc] init];
+    NSMutableArray *patientsArray = [[NSMutableArray alloc] init];
+    
+    for (Guardian *guardian in family.guardians) {
+        
+        if (guardian.primary) {
+            NSDictionary *guardianDictionary = [Guardian dictionaryFromUser:guardian];
+            familyDictionary[APIParamUserGuardian] = guardianDictionary;
+            
+            NSDictionary *insurancePlanDictionary = [InsurancePlan dictionaryFromInsurancePlan:guardian.insurancePlan];
+            
+            familyDictionary[APIParamInsurancePlan] = insurancePlanDictionary  ;
+        }
+    }
+    
+    for (Patient *patient in family.patients) {
+        
+        NSDictionary *patientDictionary = [Patient dictionaryFromUser:patient];
+        [patientsArray addObject:patientDictionary];
+    }
+    
+    familyDictionary[APIParamUserPatients] = patientsArray;
+    
+    return [familyDictionary copy];
 }
 
 - (void)addPatient:(nonnull Patient *)patient {
@@ -84,15 +105,6 @@
         
         self.patients = mutablePatients;
     }
-}
-
--(NSArray *)patients {
-
-    if (!_patients) {
-        _patients = [NSArray new];
-    }
-
-    return _patients;
 }
 
 - (void)setPatients:(NSArray *)patients {
@@ -139,30 +151,81 @@
     _patients = [_patients sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"dob" ascending:YES], [NSSortDescriptor sortDescriptorWithKey:@"firstName" ascending:YES]]];
 }
 
-- (BOOL)hasAdditionalCaregivers {
-   return self.guardians.count > 1;
+
+#pragma mark - Sync
+
+- (BOOL)isAheadOfRemote {
+    return [self.updatedAtLocal isLaterThan:self.updatedAtRemote];
 }
 
-- (NSArray *)guardiansExceptGuardianWithID:(NSString *)objectID {
+- (BOOL)isBehindRemote {
+    return [self.updatedAtRemote isLaterThan:self.updatedAtLocal];
+}
 
-    NSMutableArray *guardians = [NSMutableArray new];
-    for (Guardian *guardian in self.guardians) {
-        if (![guardian.objectID isEqualToString:objectID]) {
-            [guardians addObject:guardian];
+
+#pragma mark - KVO
+-(void)observeValueForKeyPath:(NSString *)keyPath
+                     ofObject:(id)object
+                       change:(NSDictionary<NSString *,id> *)change
+                      context:(void *)context {
+
+    if (context == XXContext) {
+        self.updatedAtLocal = [NSDate date];
+    }
+}
+
+//Source: http://stackoverflow.com/questions/6615826/get-property-name-as-a-string
+- (NSArray *)propertyNames {
+
+    unsigned int propertyCount = 0;
+    objc_property_t * properties = class_copyPropertyList([self class], &propertyCount);
+
+    NSMutableArray * propertyNames = [NSMutableArray array];
+
+    for (unsigned int i = 0; i < propertyCount; ++i) {
+        objc_property_t property = properties[i];
+        const char * name = property_getName(property);
+
+        NSString * propertyName = [NSString stringWithUTF8String:name];
+
+        if (![propertyName isEqualToString:NSStringFromSelector(@selector(updatedAtLocal))]) {
+            [propertyNames addObject:propertyName];
         }
     }
-    return [guardians copy];
+
+    free(properties);
+    return [propertyNames copy];
 }
 
-- (Guardian *)guardianWithID:(NSString *)objectID {
+//Source: http://stackoverflow.com/questions/12673356/kvo-for-whole-object-properties
+- (void)addObserverForAllProperties:(NSObject *)observer
+                            options:(NSKeyValueObservingOptions)options
+                            context:(void *)context {
 
-    for (Guardian * guardian in self.guardians) {
-        if ([guardian.objectID isEqualToString:objectID]) {
-            return guardian;
-        }
+   _propertyNames = [self propertyNames];
+
+    for (NSString *property in _propertyNames) {
+        [self addObserver:observer forKeyPath:property
+                  options:options context:context];
     }
-    return nil;
 }
 
+//Source: http://nshipster.com/key-value-observing/
+- (void)removeObserverForAllProperties:(NSObject *)observer
+                               context:(void *)context {
+
+    for (NSString *property in _propertyNames) {
+
+        @try {
+            [self removeObserver:observer forKeyPath:property context:XXContext];
+        }
+        @catch (NSException * __unused exception) {}
+    }
+}
+
+-(void)dealloc {
+
+    [self removeObserverForAllProperties:self context:XXContext];
+}
 
 @end

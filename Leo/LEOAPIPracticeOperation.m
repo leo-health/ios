@@ -7,15 +7,16 @@
 //
 
 #import "LEOAPIPracticeOperation.h"
-#import "LEOPracticeService.h"
+#import "LEOHelperService.h"
 #import "Provider.h"
 #import "Practice.h"
-
 @implementation LEOAPIPracticeOperation
 
 -(void)main {
     
-    [[LEOPracticeService new] getPracticeWithCompletion:^(Practice *practice, NSError *error) {
+    LEOHelperService *helperService = [[LEOHelperService alloc] init];
+    
+    [helperService getPracticeWithID:@"0" withCompletion:^(Practice *practice, NSError *error) {
 
         id data = practice.providers;
         

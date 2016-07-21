@@ -13,17 +13,37 @@
 #define SERVICE_NAME @"LEO-AuthClient"
 #define AUTH_TOKEN_KEY @"auth_token"
 
+@interface LEOCredentialStore ()
+
+@property (copy, nonatomic) NSString *authToken;
+
+@end
+
 @implementation LEOCredentialStore
 
-+ (void)clearSavedCredentials {
+//@synthesize authToken = _authToken;
+
+//- (instancetype)initWithAuthToken:(NSString *)authToken {
+//    
+//    self = [super init];
+//    
+//    if (self) {
+//        
+//        _authToken = authToken;
+//    }
+//    
+//    return self;
+//}
+
+- (void)clearSavedCredentials {
     [self setAuthToken:nil];
 }
 
-+ (NSString *)authToken {
+- (NSString *)authToken {
     return [self secureValueForKey:AUTH_TOKEN_KEY];
 }
 
-+ (void)setAuthToken:(NSString *)authToken {
+- (void)setAuthToken:(NSString *)authToken {
     [self setSecureValue:authToken forKey:AUTH_TOKEN_KEY];
     
     if (!authToken) {
@@ -31,7 +51,8 @@
     }
 }
 
-+ (void)setSecureValue:(NSString *)value forKey:(NSString *)key {
+
+- (void)setSecureValue:(NSString *)value forKey:(NSString *)key {
     if (value) {
         [SSKeychain setPassword:value
                      forService:SERVICE_NAME
@@ -41,7 +62,7 @@
     }
 }
 
-+ (NSString *)secureValueForKey:(NSString *)key {
+- (NSString *)secureValueForKey:(NSString *)key {
     return [SSKeychain passwordForService:SERVICE_NAME account:key];
 }
 
