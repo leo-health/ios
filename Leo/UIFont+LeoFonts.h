@@ -168,4 +168,10 @@
 
 + (UIFont *)leo_medium23;
 
+/**
+ *  AvenirNext-Medium, Size 23
+ */
++ (UIFont *)leo_regular14;
+
+
 @end

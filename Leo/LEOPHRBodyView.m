@@ -426,7 +426,7 @@ NS_ENUM(NSInteger, TableViewRow) {
 
 - (BOOL)tableView:(UITableView *)tableView shouldHaveHeaderInSection:(NSInteger)section {
 
-    return [self tableView:tableView numberOfRowsInSection:section] == 0 || (section == TableViewSectionRecentVitals && [self shouldDisplayGraphOfVitals]);
+    return ([self tableView:tableView numberOfRowsInSection:section] > 0 && section != TableViewSectionRecentVitals) || (section == TableViewSectionRecentVitals && [self shouldDisplayLastVitalsOnly]);
 }
 
 - (void)configureSectionHeader:(UITableViewHeaderFooterView *)sectionHeaderView forSection:(NSInteger)section {

@@ -9,8 +9,7 @@
 #import "LEOPatientSelectorView.h"
 #import "Patient.h"
 #import <GNZSegmentedControl.h>
-#import "UIColor+LeoColors.h"
-#import "UIFont+LeoFonts.h"
+#import "LEOFormatting.h"
 
 @interface LEOPatientSelectorView ()
 
@@ -55,7 +54,7 @@ static const CGFloat kDistanceSegments = 26.0;
         _segmentedControl.backgroundColor = [UIColor clearColor];
 
         //FIXME: Use LEOFormatting methods.
-        _segmentedControl.font = [UIFont fontWithName:@"AvenirNext-Regular" size:10];
+        _segmentedControl.font = [UIFont leo_regular14];
         _segmentedControl.segmentDistance = kDistanceSegments;
         
         _segmentedControl.customIndicatorAnimatorBlock = ^void(UIScrollView *scrollView) {
