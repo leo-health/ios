@@ -22,8 +22,8 @@
 
 @end
 
-static CGFloat const kAvatarProfileBorderWidth = 1.0;
-static CGFloat const kAvatarProfileDiameter = 62;
+static CGFloat const kAvatarProfileBorderWidth = 2.0;
+static CGFloat const kAvatarProfileDiameter = 53.0;
 
 @implementation LEOPatientProfileView
 
@@ -53,7 +53,9 @@ static CGFloat const kAvatarProfileDiameter = 62;
         [self addSubview:_patientNameLabel];
 
         _patientNameLabel.text = self.patient.fullName;
-        _patientNameLabel.font = [UIFont leo_ultraLight27];
+        _patientNameLabel.numberOfLines = 0;
+        _patientNameLabel.lineBreakMode = NSLineBreakByWordWrapping;
+        _patientNameLabel.font = [UIFont leo_medium23];
         _patientNameLabel.textColor = [UIColor leo_white];
     }
 
@@ -84,10 +86,8 @@ static CGFloat const kAvatarProfileDiameter = 62;
 
         [self removeConstraints:self.constraints];
 
-        CGFloat spacerProfileTop = 12.0;
-        CGFloat spacerProfileBottom = 12.0;
-        CGFloat spacerProfileLeft = 27.5;
-        CGFloat spacerProfileMiddle = 34.0;
+        CGFloat spacerProfileLeft = 24;
+        CGFloat spacerProfileMiddle = 28.0;
 
         self.translatesAutoresizingMaskIntoConstraints = NO;
         self.patientNameLabel.translatesAutoresizingMaskIntoConstraints = NO;
@@ -96,24 +96,34 @@ static CGFloat const kAvatarProfileDiameter = 62;
         NSDictionary *bindings =
         NSDictionaryOfVariableBindings(_patientNameLabel, _patientAvatarImageView);
 
+        NSLayoutConstraint *centerConstraintForPatientAvatarImageView =
+        [NSLayoutConstraint constraintWithItem:self.patientAvatarImageView
+                                     attribute:NSLayoutAttributeCenterY
+                                     relatedBy:NSLayoutRelationEqual
+                                        toItem:self
+                                     attribute:NSLayoutAttributeCenterY
+                                    multiplier:1.0
+                                      constant:0];
+
         NSLayoutConstraint *centerConstraintForPatientNameLabel =
         [NSLayoutConstraint constraintWithItem:self.patientNameLabel
                                      attribute:NSLayoutAttributeCenterY
                                      relatedBy:NSLayoutRelationEqual
-                                        toItem:self.patientAvatarImageView
+                                        toItem:self
                                      attribute:NSLayoutAttributeCenterY
                                     multiplier:1.0
                                       constant:0];
 
         NSDictionary *metrics =
         @{@"avatarDiameter" : @(kAvatarProfileDiameter),
-          @"topSpacer" : @(spacerProfileTop),
-          @"bottomSpacer" : @(spacerProfileBottom),
           @"leftSpacer" : @(spacerProfileLeft),
-          @"middleSpacer" : @(spacerProfileMiddle)};
+          @"middleSpacer" : @(spacerProfileMiddle),
+          @"horizontalSpacer" : @(21)};
+
+        [self.patientAvatarImageView setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
 
         NSArray *verticalConstraintsForProfile =
-        [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(topSpacer)-[_patientAvatarImageView(avatarDiameter)]-(bottomSpacer)-|"
+        [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(horizontalSpacer)-[_patientAvatarImageView(avatarDiameter)]-(horizontalSpacer)-|"
                                                 options:0
                                                 metrics:metrics
                                                   views:bindings];
@@ -127,6 +137,7 @@ static CGFloat const kAvatarProfileDiameter = 62;
         [self addConstraints:verticalConstraintsForProfile];
         [self addConstraints:horizontalConstraintsForProfile];
         [self addConstraint:centerConstraintForPatientNameLabel];
+        [self addConstraint:centerConstraintForPatientAvatarImageView];
 
         self.alreadyUpdatedConstraints = YES;
     }
@@ -179,7 +190,12 @@ static CGFloat const kAvatarProfileDiameter = 62;
 
 - (void)notificationReceivedForDownloadedImage:(NSNotification *)notification {
 
-    UIImage *circularAvatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:self.patient.avatar.image withDiameter:67 borderColor:[UIColor leo_white] borderWidth:1.0 renderingMode:UIImageRenderingModeAlwaysOriginal];
+    UIImage *circularAvatarImage =
+    [LEOMessagesAvatarImageFactory circularAvatarImage:self.patient.avatar.image
+                                          withDiameter:67
+                                           borderColor:[UIColor leo_white]
+                                           borderWidth:kAvatarProfileBorderWidth
+                                         renderingMode:UIImageRenderingModeAlwaysOriginal];
 
     _patientAvatarImageView.image = circularAvatarImage;
 }

@@ -30,6 +30,12 @@
 
     if (self) {
         _patients = patients;
+
+        self.layer.masksToBounds = NO;
+        self.layer.shadowColor = [UIColor blackColor].CGColor;
+        self.layer.shadowOffset = CGSizeMake(0.0, 2.0);
+        self.layer.shadowRadius = 1.0;
+        self.layer.shadowOpacity = 0.25;
     }
 
     return self;
@@ -114,9 +120,9 @@
 
         } else {
             verticalConstraints =
-            [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_patientProfileView]|"
+            [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(spacer)-[_patientProfileView]|"
                                                     options:0
-                                                    metrics:nil
+                                                    metrics:metrics
                                                       views:bindings];
         }
 

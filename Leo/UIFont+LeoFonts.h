@@ -162,5 +162,10 @@
 
 + (UIFont *)leo_demiBold12;
 
+/**
+ *  AvenirNext-Medium, Size 23
+ */
+
++ (UIFont *)leo_medium23;
 
 @end

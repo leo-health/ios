@@ -27,7 +27,7 @@
 #import "LEORecordEditNotesViewController.h"
 #import "LEOAnalytic.h"
 
-static CGFloat const kHeightOfHeaderPHR = 116;
+static CGFloat const kHeightOfHeaderPHR = 97;
 
 @interface LEOPHRViewController () <LEOStickyHeaderDataSource, LEOStickyHeaderDelegate>
 
@@ -223,10 +223,9 @@ static CGFloat const kHeightOfHeaderPHR = 116;
             strongSelf.bodyView.patient = strongSelf.patients[[strongSelf selectedPatientIndex]];
         };
 
-        // TODO: Remove when subview content is available to size view
-        [_headerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_headerView(height)]"
+        [_headerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_headerView]"
                                                                             options:0
-                                                                            metrics:@{@"height":@(kHeightOfHeaderPHR)}
+                                                                            metrics:nil
                                                                               views:NSDictionaryOfVariableBindings(_headerView)]];
     }
 
