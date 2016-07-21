@@ -3726,6 +3726,7 @@
 				STRIP_INSTALLED_PRODUCT = NO;
 				SYMROOT = "${SRCROOT}/../build";
 				VALIDATE_PRODUCT = YES;
+				WARNING_CFLAGS = " -Wno-nullability-completeness";
 			};
 			name = Release;
 		};
@@ -4288,6 +4289,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				STRIP_INSTALLED_PRODUCT = NO;
 				VALIDATE_PRODUCT = YES;
+				WARNING_CFLAGS = " -Wno-nullability-completeness";
 			};
 			name = AppStore;
 		};
@@ -4913,6 +4915,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				STRIP_INSTALLED_PRODUCT = NO;
 				VALIDATE_PRODUCT = YES;
+				WARNING_CFLAGS = " -Wno-nullability-completeness";
 			};
 			name = Development;
 		};
@@ -5055,6 +5058,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				STRIP_INSTALLED_PRODUCT = NO;
 				VALIDATE_PRODUCT = YES;
+				WARNING_CFLAGS = " -Wno-nullability-completeness";
 			};
 			name = Testflight;
 		};
@@ -5701,6 +5705,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				STRIP_INSTALLED_PRODUCT = NO;
 				VALIDATE_PRODUCT = YES;
+				WARNING_CFLAGS = " -Wno-nullability-completeness";
 			};
 			name = QA;
 		};
@@ -5906,6 +5911,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				STRIP_INSTALLED_PRODUCT = NO;
 				VALIDATE_PRODUCT = YES;
+				WARNING_CFLAGS = " -Wno-nullability-completeness";
 			};
 			name = Staging;
 		};
@@ -6011,6 +6017,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				STRIP_INSTALLED_PRODUCT = NO;
 				SYMROOT = "${SRCROOT}/../build";
+				WARNING_CFLAGS = " -Wno-nullability-completeness";
 			};
 			name = Debug;
 		};
@@ -6573,6 +6580,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				STRIP_INSTALLED_PRODUCT = NO;
 				VALIDATE_PRODUCT = YES;
+				WARNING_CFLAGS = " -Wno-nullability-completeness";
 			};
 			name = Local;
 		};

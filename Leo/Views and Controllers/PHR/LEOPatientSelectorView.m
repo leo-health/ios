@@ -121,7 +121,7 @@ static const CGFloat kDistanceSegments = 26.0;
 
 #pragma mark - Layout
 
-- (void)updateConstraints {d
+- (void)updateConstraints {
 
     if (!self.alreadyUpdatedConstraints) {
 
