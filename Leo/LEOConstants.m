@@ -18,6 +18,7 @@ NSString *const kUserToken = @"";
 #pragma mark - URL & endpoints
 NSString *const APIVersion = @"/api/v1";
 NSString *const APIEndpointUsers = @"users";
+NSString *const APIEndpointCurrentUser = @"users/current";
 NSString *const APIEndpointPatients = @"patients";
 NSString *const APIEndpointSessions = @"sessions";
 NSString *const APIEndpointResetPassword = @"passwords/send_reset_email";
@@ -32,11 +33,12 @@ NSString *const APIEndpointPractices = @"practices";
 NSString *const APIEndpointPractice = @"practice";
 NSString *const APIEndpointSlots = @"appointment_slots";
 NSString *const APIEndpointFamily = @"family";
+NSString *const APIEndpointPatientList = @"family/patients";
 NSString *const APIEndpointInsurers = @"insurers";
 NSString *const APIEndpointUserEnrollments = @"enrollments";
 NSString *const APIEndpointPatientEnrollments = @"patient_enrollments";
 NSString *const APIEndpointAvatars = @"avatars";
-NSString *const APIEndpointAddCaregiver = @"invite";
+NSString *const APIEndpointAddCaregiver = @"family/invite";
 NSString *const APIEndpointHealthRecord = @"patients";
 NSString *const APIEndpointNotes = @"notes";
 NSString *const APIEndpointMedications = @"medications";
@@ -91,6 +93,8 @@ NSString *const APIParamPracticeFax = @"fax";
 NSString *const APIParamPracticeTimeZone = @"time_zone";
 NSString *const APIParamPracticeActiveSchedule = @"active_schedule";
 NSString *const APIParamPracticeScheduleExceptions = @"schedule_exceptions";
+NSString *const APIParamStartDateTime = @"start_datetime";
+NSString *const APIParamEndDateTime = @"end_datetime";
 NSString *const APIParamPracticeScheduleType = @"schedule_type";
 NSString *const APIParamPracticeDailyHours = @"daily_hours";
 
@@ -122,7 +126,6 @@ NSString *const APIParamUserCredentials = @"credentials";
 NSString *const APIParamUserSpecialties = @"specialties";
 NSString *const APIParamUserPrimary = @"primary";
 NSString *const APIParamUserStatus = @"status";
-NSString *const APIParamUserInsurancePlan = @"insurancePlan";
 NSString *const APIParamUserMembershipType = @"membership_type";
 NSString *const APIParamUserBirthDate = @"birth_date";
 NSString *const APIParamUserSex = @"sex";
@@ -375,12 +378,15 @@ NSString *const kPromptFieldCellReuseIdentifier = @"LEOPromptFieldCell";
 NSString *const LEOErrorDomainValidation = @"LEOErrorDomainValidations";
 NSString *const LEOErrorDomainContent = @"LeoErrorDomainContent";
 
+
 #pragma mark - API Errors
 NSString *const APIParamErrorMessages = @"message";
 NSString *const APIParamErrorUserMessage = @"user_message";
 NSString *const APIParamErrorUserMessageTitle = @"user_message_title";
 NSString *const APIParamErrorDebugMessage = @"debug_message";
 NSString *const APIParamErrorCode = @"error_code";
+NSString *const LEOErrorDomainNoDetail = @"LeoErrorDomainNoDetail";
+
 
 #pragma mark - Phone Numbers
 

@@ -164,6 +164,15 @@ typedef NS_ENUM(NSUInteger, LEOErrorDomainContentCodes) {
     LEOErrorDomainContentCodeMissingContent,
 };
 
+typedef void(^LEOVoidBlock)(void);
+typedef void(^LEOErrorBlock)(NSError *error);
+typedef void(^LEOArrayBlock)(NSArray *objects);
+typedef void(^LEODictionaryBlock)(NSDictionary *hash);
+typedef void(^LEOArrayErrorBlock)(NSArray *objects, NSError *error);
+typedef void(^LEODictionaryErrorBlock)(NSDictionary *hash, NSError *error);
+typedef void(^LEOObjectBlock)(id object);
+typedef void(^LEOObjectErrorBlock)(id object, NSError *error);
+
 @interface LEOConstants : NSObject
 
 
@@ -173,6 +182,7 @@ extern NSString *const kUserToken; // @"";
 
 #pragma mark - URL & endpoints
 extern NSString *const APIEndpointUsers; // @"users";
+extern NSString *const APIEndpointCurrentUser; // @"users/current";
 extern NSString *const APIEndpointPatients; // @"patients";
 extern NSString *const APIEndpointSessions; // @"sessions";
 extern NSString *const APIEndpointResetPassword; // @"sessions/password";
@@ -187,6 +197,7 @@ extern NSString *const APIEndpointPractices; // @"practices";
 extern NSString *const APIEndpointPractice; // @"practice";
 extern NSString *const APIEndpointSlots; // @"slots";
 extern NSString *const APIEndpointFamily; // @"family";
+extern NSString *const APIEndpointPatientList; // @"family/patients";
 extern NSString *const APIEndpointInsurers; // @"insurers";
 extern NSString *const APIEndpointUserEnrollments; // @"enrollments";
 extern NSString *const APIEndpointPatientEnrollments; // @"patient_enrollments";
@@ -245,6 +256,8 @@ extern NSString *const APIParamPracticeFax; // @"fax";
 extern NSString *const APIParamPracticeTimeZone; // @"time_zone";
 extern NSString *const APIParamPracticeActiveSchedule; // @"active_schedule";
 extern NSString *const APIParamPracticeScheduleExceptions; // @"schedule_exceptions";
+extern NSString *const APIParamStartDateTime; // @"start_datetime";
+extern NSString *const APIParamEndDateTime; // @"end_datetime";
 extern NSString *const APIParamPracticeScheduleType; // @"schedule_type"
 extern NSString *const APIParamPracticeDailyHours; // @"daily_hours"
 
@@ -276,7 +289,6 @@ extern NSString *const APIParamUserCredentials; // @"credentials";
 extern NSString *const APIParamUserSpecialties; // @"specialties";
 extern NSString *const APIParamUserPrimary; // @"primary";
 extern NSString *const APIParamUserStatus; // @"status";
-extern NSString *const APIParamUserInsurancePlan; // @"insurancePlan";
 extern NSString *const APIParamUserMembershipType; // @"membership_type";
 extern NSString *const APIParamUserBirthDate; // @"birth_date";
 extern NSString *const APIParamUserSex; // @"sex";
@@ -527,7 +539,6 @@ extern NSString *const kPromptFieldCellReuseIdentifier; // @"LEOPromptFieldCell"
 #pragma mark - LEO Error Domains
 extern NSString *const LEOErrorDomainValidation; // @"LEOErrorDomainValidation";
 extern NSString *const LEOErrorDomainContent; // @"LeoErrorDomainContent";
-
 
 #pragma mark - API Errors
 extern NSString *const APIParamErrorMessages; // @"message";

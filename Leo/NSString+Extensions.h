@@ -10,6 +10,8 @@
 
 @interface NSString (Extensions)
 
+- (NSString *)stringValue;
+
 - (NSString *)leo_stringByTrimmingWhitespace;
 - (BOOL)leo_isWhitespace;
 

@@ -32,6 +32,10 @@
 
 -(instancetype)initWithJSONDictionary:(NSDictionary *)jsonDictionary {
 
+    if (!jsonDictionary) {
+        return nil;
+    }
+
     NSArray *heights = [PatientVitalMeasurement patientVitalsFromDictionaries:jsonDictionary[APIParamHeights]];
 
     NSArray *weights = [PatientVitalMeasurement patientVitalsFromDictionaries:jsonDictionary[APIParamWeights]];

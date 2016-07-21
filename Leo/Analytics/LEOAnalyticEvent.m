@@ -13,6 +13,7 @@
 #import "Patient+Analytics.h"
 #import "Family+Analytics.h"
 #import "Message+Analytics.h"
+#import "LEOUserService.h"
 
 @implementation LEOAnalyticEvent
 

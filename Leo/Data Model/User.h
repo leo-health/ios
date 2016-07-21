@@ -9,9 +9,11 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 #import "LEOS3Image.h"
+#import "LEOJSONSerializable.h"
+
 @class Appointment, ConversationParticipant, Role;
 
-@interface User : NSObject
+@interface User : LEOJSONSerializable
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -22,29 +24,20 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy, nullable) NSString * suffix;
 @property (nonatomic, copy, nullable) NSString * title;
 @property (nonatomic, copy, nullable) NSString *email;
+@property (strong, nonatomic) Role *role;
 @property (nonatomic, strong, nullable) LEOS3Image *avatar;
 
-@property (strong, nonatomic) NSDate *updatedAtRemote;
-@property (strong, nonatomic) NSDate *updatedAtLocal;
-@property (nonatomic) BOOL shouldSyncUp;
-@property (nonatomic) BOOL shouldSyncDown;
-
-- (BOOL)isAheadOfRemote;
-- (BOOL)isBehindRemote;
-
-//- (instancetype)init MSDesignatedInitializer(initWithObjectID:title:firstName:middleInitial:lastName:suffix:email:avatar:);
-//- (instancetype)new MSDesignatedInitializer(initWithObjectID:title:firstName:middleInitial:lastName:suffix:email:avatar:);
+- (instancetype)init MSDesignatedInitializer(initWithObjectID:title:firstName:middleInitial:lastName:suffix:email:avatar:);
+- (instancetype)new MSDesignatedInitializer(initWithObjectID:title:firstName:middleInitial:lastName:suffix:email:avatar:);
 
 - (instancetype)initWithObjectID:(nullable NSString*)objectID title:(nullable NSString *)title firstName:(NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email avatar:(nullable LEOS3Image *)avatar NS_DESIGNATED_INITIALIZER;
-
-- (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse;
-
-+ (NSDictionary *)dictionaryFromUser:(User*)user;
-+ (NSDictionary *)plistFromUser:(User *)user;
 
 - (NSString *)fullName;
 - (NSString *)firstAndLastName;
 - (NSString *)initials;
+
+- (void)copyFrom:(User *)otherUser;
+- (BOOL)complete;
 
 NS_ASSUME_NONNULL_END
 @end

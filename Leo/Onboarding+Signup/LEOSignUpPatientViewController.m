@@ -25,7 +25,7 @@
 #import "Family.h"
 #import "Patient.h"
 #import "LEOStyleHelper.h"
-#import "LEOUserService.h"
+#import "LEOPatientService.h"
 #import "LEOImageCropViewController.h"
 #import "LEOAlertHelper.h"
 #import "LEOStatusBarNotification.h"
@@ -33,6 +33,9 @@
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <Photos/Photos.h>
 #import "LEOAnalytic+Extensions.h"
+#import "LEOPracticeService.h"
+#import "LEOUserService.h"
+#import "Guardian.h"
 
 @interface LEOSignUpPatientViewController ()
 
@@ -152,7 +155,7 @@ static NSString *const kStatusBarNotificationAvatarUploadSuccess = @"Child profi
         _signUpPatientView.patient = self.patient;
         _signUpPatientView.managementMode = self.managementMode;
         _signUpPatientView.feature = self.feature;
-        
+        _signUpPatientView.willPayForPatient = [[LEOUserService new] getCurrentUser].membershipType != MembershipTypeExempted;
         [self.view removeConstraints:self.view.constraints];
         _signUpPatientView.translatesAutoresizingMaskIntoConstraints = NO;
         [self.view addSubview:_signUpPatientView];
@@ -177,11 +180,12 @@ static NSString *const kStatusBarNotificationAvatarUploadSuccess = @"Child profi
 
 - (void)setPatient:(Patient *)patient {
 
+    // if patient is nil, original patient should be nil,
+    //  but self.patient and self.signupPatientView.patient should be [Patient new]
     _patient = patient;
     self.originalPatient = [_patient copy];
-    self.signUpPatientView.patient = patient ? patient : [Patient new]; // if patient is nil, original patient should be nil, but self.patient and self.signupPatientView.patient should be [Patient new]
+    self.signUpPatientView.patient = patient ? patient : [Patient new];
 }
-
 
 #pragma mark - Other setup helpers
 
@@ -263,6 +267,7 @@ static NSString *const kStatusBarNotificationAvatarUploadSuccess = @"Child profi
 
     [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
     self.signUpPatientView.patient.avatar.image = imagePreviewController.image;
+    [self.signUpPatientView updateAvatarImageViewWithImage:imagePreviewController.image];
 }
 
 - (void)navigationController:(UINavigationController *)navigationController
@@ -312,14 +317,15 @@ static NSString *const kStatusBarNotificationAvatarUploadSuccess = @"Child profi
 
     NSData *avatarImageData = UIImageJPEGRepresentation(self.patient.avatar.image, kImageCompressionFactor);
     NSData *originalAvatarImageData = UIImageJPEGRepresentation(self.originalPatient.avatar.image, kImageCompressionFactor);
-
     BOOL avatarNeedsUpdate = ![avatarImageData isEqualToData:originalAvatarImageData];
 
-    if (!patientNeedsUpdate && !avatarNeedsUpdate) {
+    BOOL patientDataWasChanged = patientNeedsUpdate || avatarNeedsUpdate;
+
+    if (!patientDataWasChanged) {
 
         [self.navigationController popViewControllerAnimated:YES];
         
-    } else { // patient data was changed
+    } else {
 
         switch (self.feature) {
 
@@ -354,7 +360,9 @@ static NSString *const kStatusBarNotificationAvatarUploadSuccess = @"Child profi
                                         name:kAnalyticEventSaveNewPatientInRegistration
                                      patient:self.patient];
 
-                        [self finishLocalUpdate];
+                        [self.patientDataSource postPatient:self.patient withCompletion:^(Patient *patient, NSError *error) {
+                            [self.navigationController popViewControllerAnimated:YES];
+                        }];
                     }
                         break;
 
@@ -364,7 +372,9 @@ static NSString *const kStatusBarNotificationAvatarUploadSuccess = @"Child profi
                                         name:kAnalyticEventEditPatientInRegistration
                                      patient:self.patient];
 
-                        [self.navigationController popViewControllerAnimated:YES];
+                        [self.patientDataSource putPatient:self.patient withCompletion:^(Patient *patient, NSError *error) {
+                            [self.navigationController popViewControllerAnimated:YES];
+                        }];
                     }
                         break;
 
@@ -385,12 +395,11 @@ static NSString *const kStatusBarNotificationAvatarUploadSuccess = @"Child profi
     self.signUpPatientView.updateButton.enabled = NO;
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 
-    LEOUserService *userService = [LEOUserService new];
-    [userService createPatient:self.patient withCompletion:^(Patient *patient, NSError *error) {
+    [self.patientDataSource postPatient:self.patient withCompletion:^(Patient *patient, NSError *error) {
 
         if (!error) {
 
-            //TODO: Let user know that patient was created successfully or not created successfully in settings only
+            self.patient.objectID = patient.objectID;
 
             [LEOAnalytic tagType:LEOAnalyticTypeEvent
                             name:kAnalyticEventSaveNewPatientInSettings
@@ -398,18 +407,8 @@ static NSString *const kStatusBarNotificationAvatarUploadSuccess = @"Child profi
 
             LEOStatusBarNotification *successNotification = [LEOStatusBarNotification new];
 
-            [successNotification displayNotificationWithMessage:kStatusBarNotificationAvatarUploadSuccess
-                                                           forDuration:1.0f];
-
-            self.patient.objectID = patient.objectID;
-
             if (!self.patient.avatar.isPlaceholder) {
-
-                [userService updateAvatarImageForUser:self.patient withLocalUser:self.patient];
-
-                [self finishLocalUpdate];
-
-                [userService postAvatarForUser:self.patient withCompletion:^(BOOL success, NSError *error) {
+                [self.patientDataSource putAvatarForPatient:self.patient withCompletion:^(Patient *patient, NSError *error) {
 
                     if (!error) {
 
@@ -419,6 +418,7 @@ static NSString *const kStatusBarNotificationAvatarUploadSuccess = @"Child profi
                                                                 forDuration:1.0f];
 
                         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+                        [self.navigationController popViewControllerAnimated:YES];
                     } else {
 
                         [successNotification displayNotificationWithMessage:kStatusBarNotificationAvatarUploadFailure
@@ -427,10 +427,12 @@ static NSString *const kStatusBarNotificationAvatarUploadSuccess = @"Child profi
                 }];
             } else {
 
-                [self finishLocalUpdate];
+                [successNotification displayNotificationWithMessage:kStatusBarNotificationAvatarUploadSuccess
+                                                        forDuration:1.0f];
 
                 self.signUpPatientView.updateButton.enabled = YES;
                 [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+                [self.navigationController popViewControllerAnimated:YES];
             }
 
         } else {
@@ -446,19 +448,15 @@ static NSString *const kStatusBarNotificationAvatarUploadSuccess = @"Child profi
     self.signUpPatientView.updateButton.enabled = NO;
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 
-    LEOUserService *userService = [LEOUserService new];
-
     BOOL shouldUpdateBoth = patientNeedsUpdate && avatarNeedsUpdate;
 
     void (^avatarUpdateBlock)() = ^{
 
-        [userService updateAvatarImageForUser:self.patient withLocalUser:self.patient];
-
-        [userService postAvatarForUser:self.patient withCompletion:^(BOOL success, NSError *error) {
+        [self.patientDataSource putAvatarForPatient:self.patient withCompletion:^(Patient *patient, NSError *error) {
 
             LEOStatusBarNotification *successNotification = [LEOStatusBarNotification new];
 
-            if (success) {
+            if (!error) {
 
                 [successNotification displayNotificationWithMessage:kStatusBarNotificationAvatarUploadSuccess
                                                         forDuration:1.0f];
@@ -470,18 +468,22 @@ static NSString *const kStatusBarNotificationAvatarUploadSuccess = @"Child profi
 
             self.signUpPatientView.updateButton.enabled = YES;
             [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+            [self.navigationController popViewControllerAnimated:YES];
         }];
-
-        [self.navigationController popViewControllerAnimated:YES];
     };
 
     if (patientNeedsUpdate) {
 
-        [userService updatePatient:self.patient withCompletion:^(BOOL success, NSError *error) {
+        [self.patientDataSource putPatient:self.patient withCompletion:^(Patient *patient, NSError *error) {
 
             //TODO: Let user know that patient was updated successfully or not IF in settings only
 
-            if (success) {
+            self.signUpPatientView.updateButton.enabled = YES;
+            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+
+            if (error) {
+                [LEOAlertHelper alertForViewController:self error:error backupTitle:kErrorDefaultTitle backupMessage:kErrorDefaultMessage];
+            } else {
 
                 [LEOAnalytic tagType:LEOAnalyticTypeEvent
                                 name:kAnalyticEventEditPatientInSettings
@@ -493,16 +495,12 @@ static NSString *const kStatusBarNotificationAvatarUploadSuccess = @"Child profi
 
                 } else {
 
-                    self.signUpPatientView.updateButton.enabled = YES;
-                    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-
                     LEOStatusBarNotification *successNotification =[LEOStatusBarNotification new];
                     [successNotification displayNotificationWithMessage:kStatusBarNotificationAvatarUploadSuccess
                                                                    forDuration:1.0f];
                     [self.navigationController popViewControllerAnimated:YES];
                 }
             }
-
         }];
     }
 
@@ -523,12 +521,6 @@ static NSString *const kStatusBarNotificationAvatarUploadSuccess = @"Child profi
 - (void)pop {
     // reset the patient if the user clicks back, not with continue
     [self.patient copyFrom:self.originalPatient];
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
-- (void)finishLocalUpdate {
-    
-    [self.delegate addPatient:self.patient];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

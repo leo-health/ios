@@ -10,14 +10,14 @@
 
 #import "UIFont+LeoFonts.h"
 #import "UIColor+LeoColors.h"
-
-#import "LEOSession.h"
+#import "LEOUserService.h"
+#import "Guardian.h"
 
 @implementation LEOFeedHeaderCell (ConfigureForCell)
 
 - (void)configureForCurrentUserWithMessage:(NSString *)message {
 
-    NSString *firstNameOfCurrentUser = [LEOSession user].firstName;
+    NSString *firstNameOfCurrentUser = [[LEOUserService new] getCurrentUser].firstName;
 
     self.salutationLabel.text = [NSString stringWithFormat:@"Hey %@,", firstNameOfCurrentUser];
     self.messageTextView.text = message;

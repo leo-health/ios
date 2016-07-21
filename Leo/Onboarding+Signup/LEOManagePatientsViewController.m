@@ -7,6 +7,7 @@
 //
 
 #import "LEOManagePatientsViewController.h"
+#import "LEOCachedService.h"
 
 //TODO: Remove these from this class when possible!
 #import "UIFont+LeoFonts.h"
@@ -27,6 +28,9 @@
 #import "LEOPromptFieldCell.h"
 #import "LEOProgressDotsHeaderView.h"
 #import "LEOAnalytic+Extensions.h"
+#import "LEOPracticeService.h"
+#import "LEOUserService.h"
+#import "LEOFamilyService.h"
 
 @interface LEOManagePatientsViewController ()
 
@@ -66,7 +70,6 @@ static NSString * const kSignUpPatientSegue = @"SignUpPatientSegue";
 
     [super viewWillAppear:animated];
     [self setupNavigationBar];
-    [self.managePatientsView.tableView reloadData];
 
     CGFloat percentage = [self transitionPercentageForScrollOffset:self.stickyHeaderView.scrollView.contentOffset];
 
@@ -106,11 +109,24 @@ static NSString * const kSignUpPatientSegue = @"SignUpPatientSegue";
     if (!_managePatientsView) {
 
         _managePatientsView = [self leo_loadViewFromNibForClass:[LEOManagePatientsView class]];
-        _managePatientsView.patients = self.family.patients;
+        _managePatientsView.patients = self.patients;
         _managePatientsView.tableView.delegate = self;
     }
 
+
     return _managePatientsView;
+}
+
+-(void)setPatients:(NSArray *)patients {
+
+    _patients = patients;
+    [self reloadData];
+}
+
+- (void)reloadData {
+
+    self.managePatientsView.patients = self.patients;
+    [self.managePatientsView.tableView reloadData];
 }
 
 - (LEOProgressDotsHeaderView *)headerView {
@@ -125,6 +141,25 @@ static NSString * const kSignUpPatientSegue = @"SignUpPatientSegue";
     return _headerView;
 }
 
+// HACK: TODO: Use local identifiers instead of memory addresses to access these objects in the cache
+#pragma mark - Patient Data Source
+- (LEOPromise *)postPatient:(Patient *)newPatient withCompletion:(void (^)(Patient *, NSError *))completionBlock {
+
+    self.patients = [self.patients arrayByAddingObject:newPatient];
+    if (completionBlock) {
+        completionBlock(newPatient, nil);
+    }
+    return [LEOPromise finishedCompletion];
+}
+
+- (LEOPromise *)putPatient:(Patient *)patient withCompletion:(void (^)(Patient *, NSError *))completionBlock {
+
+    [self reloadData];
+    if (completionBlock) {
+        completionBlock(patient, nil);
+    }
+    return [LEOPromise finishedCompletion];
+}
 
 #pragma mark - Navigation
 
@@ -140,16 +175,16 @@ static NSString * const kSignUpPatientSegue = @"SignUpPatientSegue";
         } else {
             signUpPatientVC.managementMode = ManagementModeCreate;
         }
-                
+
+        signUpPatientVC.patientDataSource = self;
         signUpPatientVC.feature = FeatureOnboarding;
-        signUpPatientVC.delegate = self;
     }
     
     if ([segue.identifier isEqualToString:kSegueContinue]) {
 
         LEOAddCaregiverViewController *addCaregiverVC = segue.destinationViewController;
+        addCaregiverVC.userDataSource = [LEOUserService serviceWithCachePolicy:[LEOCachePolicy cacheOnly]];
         addCaregiverVC.feature = self.feature;
-        addCaregiverVC.family = self.family;
         addCaregiverVC.analyticSession = self.analyticSession;
     }
 }
@@ -161,13 +196,14 @@ static NSString * const kSignUpPatientSegue = @"SignUpPatientSegue";
 
     [LEOBreadcrumb crumbWithFunction:__PRETTY_FUNCTION__];
 
-    if ([self.family.patients count] > 0) {
+    if ([self.patients count] > 0) {
 
+        [self.patientDataSource createOrUpdatePatientList:self.patients];
+        [self performSegueWithIdentifier:kSegueContinue sender:sender];
+        Family *family = [[LEOFamilyService new] getFamily];
         [LEOAnalytic tagType:LEOAnalyticTypeIntent
                         name:kAnalyticEventConfirmPatientsInOnboarding
-                      family:self.family];
-
-        [self performSegueWithIdentifier:kSegueContinue sender:sender];
+                      family:family];
     } else {
 
 
@@ -190,7 +226,7 @@ static NSString * const kSignUpPatientSegue = @"SignUpPatientSegue";
     switch (indexPath.section) {
         case TableViewSectionPatients: {
 
-            Patient *patient = self.family.patients[indexPath.row];
+            Patient *patient = self.patients[indexPath.row];
             [self performSegueWithIdentifier:kSignUpPatientSegue sender:patient];
             break;
         }
@@ -217,16 +253,6 @@ static NSString * const kSignUpPatientSegue = @"SignUpPatientSegue";
             return [[LEOPromptFieldCell new] intrinsicContentSize].height;
     }
     return 0;
-}
-
-
-#pragma mark - <LEOSignUpPatientDelegate>
-
-- (void)addPatient:(Patient *)patient {
-
-    [self.family addPatient:patient];
-    self.managePatientsView.patients = self.family.patients;
-    [self.managePatientsView.tableView reloadData];
 }
 
 

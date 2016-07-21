@@ -12,16 +12,14 @@
 #import "Family.h"
 #import "LEOStickyHeaderViewController.h"
 #import "LEOAnalyticSession.h"
+#import "LEOUserDataSource.h"
 
 @interface LEOSignUpUserViewController : LEOStickyHeaderViewController <UITextFieldDelegate, LEOPromptDelegate, SingleSelectionProtocol, UIScrollViewDelegate, LEOStickyHeaderDataSource, LEOStickyHeaderDelegate>
 
-@property (strong, nonatomic) Family *family;
-@property (strong, nonatomic) Guardian *guardian;
-@property (copy, nonatomic) NSString *enrollmentToken;
+@property (strong, nonatomic) id<LEOUserDataSource> userDataSource;
+@property (strong, nonatomic, nonnull) Guardian *guardian;
 @property (strong, nonatomic) NSArray *insurancePlans;
-
 @property (nonatomic) ManagementMode managementMode;
-
 @property (strong, nonatomic) LEOAnalyticSession *analyticSession;
 
 @end
