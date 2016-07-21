@@ -12,16 +12,30 @@
 
 @implementation LEOMediaService
 
-- (NSURLSessionDataTask *)getImageForS3Image:(LEOS3Image *)s3Image withCompletion:(void (^)(UIImage *rawImage, NSError *error))completionBlock {
+- (instancetype)init {
+
+    self = [super init];
+    if (self) {
+        self.cachedService.cachePolicy.get = LEOCachePolicyGETCacheElseGETNetworkThenPUTCache;
+    }
+    return self;
+}
+
+- (LEOPromise *)getImageForS3Image:(LEOS3Image *)s3Image
+                    withCompletion:(void (^)(UIImage *rawImage, NSError *error))completionBlock {
 
     if (s3Image.baseURL && s3Image.parameters) {
 
-        return [[LEOMediaService leoMediaSessionManager] presignedGETRequestForImageFromS3WithURL:s3Image.baseURL params:s3Image.parameters completion:^(UIImage *rawImage, NSError *error) {
-            completionBlock ? completionBlock(rawImage, error) : nil;
-        }];
+        return [self.cachedService get:APIEndpointImage
+                                params:[s3Image serializeToJSON]
+                            completion:^(NSDictionary *response, NSError *error) {
 
+            if (completionBlock) {
+                completionBlock(response[APIParamImage], error);
+            }
+        }];
     }
-    completionBlock ? completionBlock(nil, nil) : nil;
+
     return nil;
 }
 

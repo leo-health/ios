@@ -208,9 +208,13 @@ NSString *const APIParamFormNotes = @"notes";
 
 
 #pragma mark - Images
+NSString *const APIEndpointImage = @"image";
+NSString *const APIParamImage = @"image";
+NSString *const APIParamImagePlaceholder = @"placeholder";
 NSString *const APIParamImageURL = @"url";
 NSString *const APIParamImageBaseURL = @"base_url";
 NSString *const APIParamImageURLParameters = @"parameters";
+NSString *const APIParamAvatarOwnerID = @"owner_id";
 
 
 #pragma mark - Card
@@ -377,6 +381,8 @@ NSString *const kPromptFieldCellReuseIdentifier = @"LEOPromptFieldCell";
 #pragma mark - LEO Error Domains
 NSString *const LEOErrorDomainValidation = @"LEOErrorDomainValidations";
 NSString *const LEOErrorDomainContent = @"LeoErrorDomainContent";
+NSString *const LEOErrorDomainNotImplemented = @"LEOErrorDomainNotImplemented";
+NSInteger const LEOErrorCodeDefault = 1622;
 
 
 #pragma mark - API Errors

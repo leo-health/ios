@@ -11,6 +11,7 @@
 #import "LEOS3JSONSessionManager.h"
 #import "LEOPromise.h"
 #import "Configuration.h"
+#import "LEOMediaStore.h"
 
 @implementation LEONetworkStore
 
@@ -18,6 +19,10 @@
 
     if ([endpoint isEqualToString:APIEndpointConversationNotices]) {
         return [self getConversationNoticesWithCompletion:completion];
+    }
+
+    if ([endpoint isEqualToString:APIEndpointImage]) {
+        return [[LEOMediaStore new] get:endpoint params:params completion:completion];
     }
 
     [self.network standardGETRequestForJSONDictionaryFromAPIWithEndpoint:endpoint

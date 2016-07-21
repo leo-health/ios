@@ -6,6 +6,8 @@
 //  Copyright © 2016 Leo Health. All rights reserved.
 //
 
+@class LEOPromise;
+
 #import <Foundation/Foundation.h>
 #import "LEOJSONSerializable.h"
 
@@ -16,7 +18,7 @@
 @property (strong, nonatomic) UIImage *image;
 @property (strong, nonatomic) UIImage *underlyingImage;
 @property (strong, nonatomic) UIImage *placeholder;
-@property (strong, nonatomic) NSURLSessionDataTask *downloadTask;
+@property (strong, nonatomic) LEOPromise *downloadPromise;
 @property (nonatomic, readonly) BOOL isPlaceholder;
 
 - (instancetype)initWithBaseURL:(NSString *)baseURL

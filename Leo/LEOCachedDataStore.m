@@ -16,6 +16,7 @@
 #import "LEOCredentialStore.h"
 #import "NSUserDefaults+Extensions.h"
 #import "Configuration.h"
+#import "NSDictionary+Extensions.h"
 
 @interface LEOCachedDataStore ()
 
@@ -23,6 +24,7 @@
 @property (strong, nonatomic, nullable) Family *family;
 @property (strong, nonatomic, nullable) Practice *practice;
 @property (copy, nonatomic, nullable) NSArray<Notice *> *notices;
+@property (strong, nonatomic) NSMutableDictionary *rawResources;
 
 @end
 
@@ -50,6 +52,7 @@
     self.family = nil;
     self.practice = nil;
     self.notices = nil;
+    self.rawResources = [NSMutableDictionary new];
 }
 
 - (Guardian *)user {
@@ -72,6 +75,14 @@
 
         [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationMembershipChanged object:nil];
     }
+}
+
+- (NSMutableDictionary *)rawResources {
+
+    if (!_rawResources) {
+        _rawResources = [NSMutableDictionary new];
+    }
+    return _rawResources;
 }
 
 - (NSDictionary *)post:(NSString *)endpoint params:(NSDictionary *)params {
@@ -120,34 +131,36 @@
          */
 
         // sanitize params to match api response
-        NSMutableDictionary *leos3ImageJSON = [params mutableCopy];
-        NSString *patientID = [leos3ImageJSON[@"patient_id"] stringValue];
+        NSMutableDictionary *serverResponse = [params mutableCopy];
+        NSString *patientID = [serverResponse[APIParamUserPatientID] stringValue];
         if (patientID) {
-            leos3ImageJSON[@"owner_id"] = patientID;
+            serverResponse[APIParamAvatarOwnerID] = patientID;
         }
 
         // parse optional image
-        NSString *avatarString = params[@"avatar"];
+        NSMutableDictionary *leos3ImageJSON = serverResponse[APIParamImageURL];
+        NSString *avatarString = params[APIParamUserAvatar];
         if (avatarString) {
             NSData *data = [[NSData alloc] initWithBase64EncodedString:avatarString options:0];
-            leos3ImageJSON[@"image"] = [UIImage imageWithData:data];
+            leos3ImageJSON[APIParamImage] = [UIImage imageWithData:data];
         }
 
-        LEOS3Image *image = [[LEOS3Image alloc] initWithJSONDictionary:leos3ImageJSON[@"url"]];
+        LEOS3Image *image = [[LEOS3Image alloc] initWithJSONDictionary:leos3ImageJSON];
 
-        NSString *objectID = [leos3ImageJSON[@"owner_id"] stringValue];
+        patientID = [serverResponse[APIParamAvatarOwnerID] stringValue];
         NSNumber *existingPatientIndex;
         int i = 0;
         for (Patient *patient in self.family.patients) {
-            if ([patient.objectID isEqualToString:objectID]) {
+            if ([patient.objectID isEqualToString:patientID]) {
                 existingPatientIndex = @(i);
                 break;
             }
             i++;
         }
 
+        Patient *patient;
         if (existingPatientIndex) {
-            Patient *patient = self.family.patients[[existingPatientIndex integerValue]];
+            patient = self.family.patients[[existingPatientIndex integerValue]];
             patient.avatar = image;
         }
 
@@ -187,6 +200,14 @@
             return nil;
         }
         return @{@"notices": [Notice serializeManyToJSON:self.notices]};
+    }
+    else if ([endpoint isEqualToString:APIEndpointImage]) {
+
+        NSString *key = params[APIParamImageBaseURL];
+        if (key) {
+            NSDictionary *imageJSON = [self.rawResources leo_itemForKey:key];
+            return imageJSON;
+        }
     }
 
     return nil;
@@ -271,6 +292,15 @@
         // TODO: standardize JSON results from network and cache
         self.notices = [Notice deserializeManyFromJSON:params[@"notices"]];
         return @{@"notices": [Notice serializeManyToJSON:self.notices]};
+    }
+    else if ([endpoint isEqualToString:APIEndpointImage]) {
+
+        NSString *key = params[APIParamImageBaseURL];
+        if (key) {
+            self.rawResources[key] = params;
+            return params;
+        }
+        return nil;
     }
 
     return nil;
