@@ -59,7 +59,6 @@ static NSString * const kCopyEmptyNotesField = @"Use this area to record notes a
 static NSString * const kCopyEmptyImmunizationField = @"Immunization history is not available at this time.";
 static NSString * const kCopyEmptyWeightField = @"Weight data unavailable.";
 static NSString * const kCopyEmptyHeightField = @"Height data unavailable.";
-static NSString * const kCopyEmptyBMIField = @"BMI data unavailable.";
 static NSString * const kCopyEmptyAllergyField = @"No known allergies.";
 static NSString * const kCopyEmptyMedicationsField = @"No active medications.";
 
@@ -76,7 +75,6 @@ NS_ENUM(NSInteger, TableViewSection) {
 NS_ENUM(NSInteger, TableViewRow) {
     TableViewRowVitalHeight,
     TableViewRowVitalWeight,
-    TableViewRowVitalBMI,
 };
 
 #pragma mark - Accessors and Setup
@@ -209,7 +207,7 @@ NS_ENUM(NSInteger, TableViewRow) {
         }
 
         else if ([self shouldDisplayLastVitalsOnly]) {
-            rows = 3;
+            rows = 2;
         }
     }
 
@@ -313,10 +311,6 @@ NS_ENUM(NSInteger, TableViewRow) {
         case 1:
             [self configureCell:cell atIndexPath:indexPath forHeights:self.healthRecord.heights];
             break;
-
-        case 2:
-            [self configureCell:cell atIndexPath:indexPath forBMIs:self.healthRecord.bmis];
-            break;
     }
 }
 
@@ -348,17 +342,6 @@ NS_ENUM(NSInteger, TableViewRow) {
         [cell configureCellWithVital:heights.lastObject title:@"Height"];
     } else {
         [cell configureCellForEmptySectionWithMessage:kCopyEmptyHeightField];
-    }
-
-    return cell;
-}
-
-- (UITableViewCell *)configureCell:(LEOPHRTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath forBMIs:(NSArray <PatientVitalMeasurement *>*)bmis {
-
-    if (bmis.count) {
-        [cell configureCellWithVital:bmis.lastObject title:@"BMI"];
-    } else {
-        [cell configureCellForEmptySectionWithMessage:kCopyEmptyBMIField];
     }
 
     return cell;
