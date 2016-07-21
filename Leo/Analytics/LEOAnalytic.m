@@ -7,9 +7,9 @@
 //
 
 #import "LEOAnalytic.h"
-#import "LEOAnalyticEvent.h"
-#import "LEOAnalyticIntent.h"
-#import "LEOAnalyticScreen.h"
+#import "p_LEOAnalyticEvent.h"
+#import "p_LEOAnalyticIntent.h"
+#import "p_LEOAnalyticScreen.h"
 
 @implementation LEOAnalytic
 
@@ -19,15 +19,15 @@
     switch(type){
 
         case LEOAnalyticTypeEvent:
-            [LEOAnalyticEvent tagEvent:eventName];
+            [p_LEOAnalyticEvent tagEvent:eventName];
             break;
 
         case LEOAnalyticTypeIntent:
-            [LEOAnalyticIntent tagEvent:eventName];
+            [p_LEOAnalyticIntent tagEvent:eventName];
             break;
 
         case LEOAnalyticTypeScreen:
-            [LEOAnalyticScreen tagScreen:eventName];
+            [p_LEOAnalyticScreen tagScreen:eventName];
             break;
     }
 }
@@ -39,17 +39,17 @@
     switch(type){
 
         case LEOAnalyticTypeEvent:
-            [LEOAnalyticEvent tagEvent:eventName
+            [p_LEOAnalyticEvent tagEvent:eventName
                             attributes:attributes];
             break;
 
         case LEOAnalyticTypeIntent:
-            [LEOAnalyticIntent tagEvent:eventName
+            [p_LEOAnalyticIntent tagEvent:eventName
                              attributes:attributes];
             break;
             
         case LEOAnalyticTypeScreen:
-            [LEOAnalyticScreen tagScreen:eventName];
+            [p_LEOAnalyticScreen tagScreen:eventName];
             break;
     }
 }

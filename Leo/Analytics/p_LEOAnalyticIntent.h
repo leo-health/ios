@@ -6,10 +6,10 @@
 //  Copyright © 2016 Leo Health. All rights reserved.
 //
 
-#import "LEOAnalyticEvent.h"
+#import "p_LEOAnalyticEvent.h"
 
 @class Family;
-@interface LEOAnalyticIntent : LEOAnalyticEvent
+@interface p_LEOAnalyticIntent : p_LEOAnalyticEvent
 
 
 + (void)tagEvent:(NSString *)eventName

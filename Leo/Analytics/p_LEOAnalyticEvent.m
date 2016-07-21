@@ -6,7 +6,7 @@
 //  Copyright © 2016 Leo Health. All rights reserved.
 //
 
-#import "LEOAnalyticEvent.h"
+#import "p_LEOAnalyticEvent.h"
 #import "LEOSession.h"
 #import "Guardian+Analytics.h"
 #import "Appointment+Analytics.h"
@@ -15,7 +15,7 @@
 #import "Message+Analytics.h"
 #import "LEOUserService.h"
 
-@implementation LEOAnalyticEvent
+@implementation p_LEOAnalyticEvent
 
 + (void)tagEvent:(NSString *)eventName
       attributes:(NSDictionary *)attributeDictionary {

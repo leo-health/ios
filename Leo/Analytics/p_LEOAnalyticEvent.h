@@ -9,7 +9,7 @@
 #import "Appointment.h"
 
 @class Family, Message;
-@interface LEOAnalyticEvent : NSObject
+@interface p_LEOAnalyticEvent : NSObject
 
 + (void)tagEvent:(NSString *)eventName
       attributes:(NSDictionary *)attributeDictionary;

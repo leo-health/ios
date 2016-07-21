@@ -10,9 +10,9 @@
 #import "Patient+Analytics.h"
 #import "Appointment+Analytics.h"
 #import "Family+Analytics.h"
-#import "LEOAnalyticEvent.h"
-#import "LEOAnalyticIntent.h"
-#import "LEOAnalyticScreen.h"
+#import "p_LEOAnalyticEvent.h"
+#import "p_LEOAnalyticIntent.h"
+#import "p_LEOAnalyticScreen.h"
 #import "Guardian+Analytics.h"
 #import "Message+Analytics.h"
 
