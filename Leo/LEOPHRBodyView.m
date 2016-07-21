@@ -386,8 +386,7 @@ NS_ENUM(NSInteger, TableViewRow) {
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
 
-    // only show header if the section has rows
-    if ([self tableView:tableView numberOfRowsInSection:section] == 0 || (section == TableViewSectionRecentVitals && [self shouldDisplayGraphOfVitals])) {
+    if (![self tableView:tableView shouldHaveHeaderInSection:section]) {
         return CGFLOAT_MIN;
     }
 
@@ -408,7 +407,7 @@ NS_ENUM(NSInteger, TableViewRow) {
 
 - (UITableViewHeaderFooterView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
 
-    if ([self tableView:tableView numberOfRowsInSection:section] == 0 || (section == TableViewSectionRecentVitals && [self shouldDisplayGraphOfVitals])) {
+    if (![self tableView:tableView shouldHaveHeaderInSection:section]) {
         return nil;
     }
 
@@ -423,6 +422,11 @@ NS_ENUM(NSInteger, TableViewRow) {
     [self configureSectionHeader:sectionHeaderView forSection:section];
 
     return sectionHeaderView;
+}
+
+- (BOOL)tableView:(UITableView *)tableView shouldHaveHeaderInSection:(NSInteger)section {
+
+    return [self tableView:tableView numberOfRowsInSection:section] == 0 || (section == TableViewSectionRecentVitals && [self shouldDisplayGraphOfVitals]);
 }
 
 - (void)configureSectionHeader:(UITableViewHeaderFooterView *)sectionHeaderView forSection:(NSInteger)section {
