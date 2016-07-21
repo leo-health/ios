@@ -47,7 +47,7 @@ NSString * const kCopyResetPasswordSubmissionResponse = @"If you have an account
     self.stickyHeaderView.datasource = self;
     self.stickyHeaderView.delegate = self;
 
-    [self setupNavigationBar];
+    [LEOStyleHelper styleNavigationBarForViewController:self forFeature:self.feature withTitleText:@"Reset Password" dismissal:NO backButton:YES];
 
     [LEOApiReachability startMonitoringForController:self];
 }
@@ -62,8 +62,6 @@ NSString * const kCopyResetPasswordSubmissionResponse = @"If you have an account
 - (void)viewWillAppear:(BOOL)animated {
 
     [super viewWillAppear:animated];
-
-    [self setupNavigationBar];
 
     CGFloat percentage = [self transitionPercentageForScrollOffset:self.stickyHeaderView.scrollView.contentOffset];
 
@@ -124,15 +122,8 @@ NSString * const kCopyResetPasswordSubmissionResponse = @"If you have an account
     self.navigationItem.titleView.alpha = transitionPercentage;
 }
 
-
-
-- (void)setupNavigationBar {
-    [LEOStyleHelper styleNavigationBarForViewController:self forFeature:self.feature withTitleText:@"Reset Password" dismissal:NO backButton:YES];
-}
-
-
 - (void)pop {
-    [self.navigationController popViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)submitTapped:(UIButton *)sender {

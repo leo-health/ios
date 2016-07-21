@@ -27,7 +27,6 @@
     switch (arrowColor) {
         case LEOSwipeArrowsColorOptionGray: {
 
-            self.labelSwipe.textColor = [UIColor leo_white];
             self.arrowTop.image = [UIImage imageNamed:@"Triangle White - Top"];
             self.arrowMiddle.image = [UIImage imageNamed:@"Triangle White - Middle"];
             self.arrowBottom.image = [UIImage imageNamed:@"Triangle White - Bottom"];
@@ -36,7 +35,6 @@
 
         case LEOSwipeArrowsColorOptionOrangeRed: {
 
-            self.labelSwipe.textColor = [UIColor leo_orangeRed];
             self.arrowTop.image = [UIImage imageNamed:@"Triangle Orange - Top"];
             self.arrowMiddle.image = [UIImage imageNamed:@"Triangle Orange - Middle"];
             self.arrowBottom.image = [UIImage imageNamed:@"Triangle Orange - Bottom"];

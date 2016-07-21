@@ -8,8 +8,9 @@
 
 #import "LEOLoggedOutLoginCell.h"
 
-@interface LEOLoggedOutSignUpCell : LEOLoggedOutLoginCell
+@interface LEOLoggedOutSignUpCell : LEOLoggedOutOnboardingCell
 
+@property (weak, nonatomic) IBOutlet UIButton *loginButton;
 @property (weak, nonatomic) IBOutlet UIButton *signUpButton;
 
 @end

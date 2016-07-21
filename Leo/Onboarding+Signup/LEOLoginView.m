@@ -12,8 +12,17 @@
 #import "LEOStyleHelper.h"
 #import "LEOValidationsHelper.h"
 #import "UIButton+Extensions.h"
+#import "LEOFormatting.h"
 
 @interface LEOLoginView ()
+
+@property (nonatomic) BOOL alreadyUpdatedConstraints;
+
+@property (weak, nonatomic) IBOutlet UIButton *forgotPasswordButton;
+@property (weak, nonatomic) IBOutlet UIButton *continueButton;
+@property (weak, nonatomic) IBOutlet UIView *swipeArrowsContainerView;
+@property (weak, nonatomic) LEOSwipeArrowsView *swipeArrowsView;
+@property (weak, nonatomic) IBOutlet UILabel *labelLearnMore;
 
 @end
 
@@ -21,32 +30,28 @@
 
 #pragma mark - Initialization
 
-- (instancetype)initWithCoder:(NSCoder *)aDecoder
-{
-    self = [super initWithCoder:aDecoder];
-    
-    if (self) {
-        [self commonInit];
-    }
-    
-    return self;
+- (void)setSwipeArrowsContainerView:(UIView *)swipeArrowsContainerView {
+
+    _swipeArrowsContainerView = swipeArrowsContainerView;
+    LEOSwipeArrowsView *strongView = [LEOSwipeArrowsView loadFromNib];
+    [_swipeArrowsContainerView addSubview:strongView];
+    self.swipeArrowsView = strongView;
 }
 
--(instancetype)init {
-    
-    self = [super init];
-    
-    if (self) {
-        [self commonInit];
-    }
-    
-    return self;
+- (void)setLabelLearnMore:(UILabel *)labelLearnMore {
+
+    _labelLearnMore = labelLearnMore;
+    _labelLearnMore.font = [UIFont leo_bold12];
+    _labelLearnMore.textColor = [UIColor leo_orangeRed];
+    _labelLearnMore.text = @"NOT A MEMBER YET?\nSWIPE UP TO LEARN MORE";
+    _labelLearnMore.numberOfLines = 2;
+    _labelLearnMore.textAlignment = NSTextAlignmentCenter;
 }
 
-- (void)commonInit {
+- (void)setSwipeArrowsView:(LEOSwipeArrowsView *)swipeArrowsView {
 
-    [self setupTouchEventForDismissingKeyboard];
-
+    _swipeArrowsView = swipeArrowsView;
+    _swipeArrowsView.arrowColor = LEOSwipeArrowsColorOptionOrangeRed;
 }
 
 - (void)setEmailPromptField:(LEOPromptField *)emailPromptField {
@@ -81,14 +86,18 @@
 
     [LEOStyleHelper styleButton:_continueButton forFeature:FeatureOnboarding];
     [_continueButton setTitle:@"LOG IN" forState:UIControlStateNormal];
-    [_continueButton addTarget:nil action:@selector(continueTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [_continueButton addTarget:nil
+                        action:@selector(continueTapped:)
+              forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)setForgotPasswordButton:(UIButton *)forgotPasswordButton {
 
     _forgotPasswordButton = forgotPasswordButton;
 
-    [_forgotPasswordButton addTarget:nil action:@selector(forgotPasswordTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [_forgotPasswordButton addTarget:nil
+                              action:@selector(forgotPasswordTapped:)
+                    forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
@@ -119,6 +128,26 @@
     }
 
     return YES;
+}
+
+- (IBAction)didTapArrowView:(id)sender {
+    if ([self.delegate respondsToSelector:@selector(didTapArrowView:)]) {
+        [self.delegate didTapArrowView:sender];
+    }
+}
+
+- (void)updateConstraints {
+
+    if (!self.alreadyUpdatedConstraints) {
+
+        NSDictionary *views = NSDictionaryOfVariableBindings(_swipeArrowsView);
+        [_swipeArrowsContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_swipeArrowsView]|" options:0 metrics:nil views:views]];
+        [_swipeArrowsContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_swipeArrowsView]|" options:0 metrics:nil views:views]];
+
+        self.alreadyUpdatedConstraints = YES;
+    }
+
+    [super updateConstraints];
 }
 
 

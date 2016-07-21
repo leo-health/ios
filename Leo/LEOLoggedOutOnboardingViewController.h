@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LEOLoggedOutOnboardingViewController : UICollectionViewController
+@interface LEOLoggedOutOnboardingViewController : UIViewController
 
 @end

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -16,15 +16,11 @@
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="g4j-dF-Zae">
                         <rect key="frame" x="0.0" y="0.0" width="653" height="579"/>
                     </imageView>
-                    <view contentMode="scaleToFill" verticalCompressionResistancePriority="1000" placeholderIntrinsicWidth="240" placeholderIntrinsicHeight="100" translatesAutoresizingMaskIntoConstraints="NO" id="n2F-o7-wtE" userLabel="Swipe Arrows Container">
-                        <rect key="frame" x="206" y="459" width="240" height="100"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kdm-iu-ROb" userLabel="Content View">
-                        <rect key="frame" x="1" y="60" width="652" height="369"/>
+                        <rect key="frame" x="1" y="60" width="652" height="399"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="249" verticalHuggingPriority="249" placeholderIntrinsicWidth="240" placeholderIntrinsicHeight="128" translatesAutoresizingMaskIntoConstraints="NO" id="Hwu-uW-Jhb">
-                                <rect key="frame" x="0.0" y="104" width="652" height="265"/>
+                                <rect key="frame" x="0.0" y="104" width="652" height="295"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="Detail label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="1nN-yj-CnO">
                                 <rect key="frame" x="30" y="43" width="592" height="21"/>
@@ -59,11 +55,15 @@
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
-                                <exclude reference="TC5-x8-86H"/>
                                 <exclude reference="rhG-CF-znu"/>
                                 <exclude reference="Uj0-Zo-v1l"/>
+                                <exclude reference="TC5-x8-86H"/>
                             </mask>
                         </variation>
+                    </view>
+                    <view contentMode="scaleToFill" verticalCompressionResistancePriority="1000" placeholderIntrinsicWidth="240" placeholderIntrinsicHeight="100" translatesAutoresizingMaskIntoConstraints="NO" id="n2F-o7-wtE" userLabel="Swipe Arrows Container">
+                        <rect key="frame" x="206" y="459" width="240" height="100"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -84,7 +84,7 @@
                 <constraint firstAttribute="trailing" secondItem="g4j-dF-Zae" secondAttribute="trailing" id="f4a-hd-NB7"/>
                 <constraint firstItem="kdm-iu-ROb" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" priority="999" id="fgH-0b-c5C"/>
                 <constraint firstItem="kdm-iu-ROb" firstAttribute="top" relation="greaterThanOrEqual" secondItem="gTV-IL-0wX" secondAttribute="top" constant="60" id="iCE-p3-OE9"/>
-                <constraint firstItem="n2F-o7-wtE" firstAttribute="top" relation="greaterThanOrEqual" secondItem="kdm-iu-ROb" secondAttribute="bottom" constant="30" id="lVc-D8-Aw7"/>
+                <constraint firstItem="n2F-o7-wtE" firstAttribute="top" relation="greaterThanOrEqual" secondItem="kdm-iu-ROb" secondAttribute="bottom" id="lVc-D8-Aw7"/>
                 <constraint firstAttribute="trailing" secondItem="kdm-iu-ROb" secondAttribute="trailing" priority="999" id="uJm-N0-u8g"/>
                 <constraint firstItem="kdm-iu-ROb" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="x2G-cc-WEe"/>
                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="kdm-iu-ROb" secondAttribute="trailing" id="zB4-i8-dk4"/>

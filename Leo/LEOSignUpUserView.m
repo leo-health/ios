@@ -83,7 +83,7 @@ IB_DESIGNABLE
 
     _phoneNumberPromptField = phoneNumberPromptField;
 
-    _phoneNumberPromptField.textField.standardPlaceholder = @"phone number";
+    _phoneNumberPromptField.textField.standardPlaceholder = @"mobile phone";
     _phoneNumberPromptField.textField.validationPlaceholder = @"please enter a valid phone number";
     _phoneNumberPromptField.textField.keyboardType = UIKeyboardTypePhonePad;
     _phoneNumberPromptField.textField.delegate = self;
@@ -138,7 +138,7 @@ IB_DESIGNABLE
     _insurerPromptField.textField.text = guardian.insurancePlan.combinedName;
 }
 
-- (void)viewTapped {
+- (void)leo_viewTapped {
 
     [self endEditing:YES];
 }

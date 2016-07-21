@@ -8,9 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "LEOLoggedOutOnboardingCell.h"
+#import "LEOLoginViewController.h"
 
 @interface LEOLoggedOutLoginCell : LEOLoggedOutOnboardingCell
 
-@property (weak, nonatomic) IBOutlet UIButton *loginButton;
+@property (strong, nonatomic) LEOLoginViewController *contentViewController;
+
+- (void)addViewControllerToParentViewController:(UIViewController *)parentViewController;
 
 @end

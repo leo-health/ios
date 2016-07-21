@@ -64,13 +64,13 @@ IB_DESIGNABLE
 
 - (void)setupTouchEventForDismissingKeyboard {
     
-    UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(viewTapped)];
+    UITapGestureRecognizer *tapGestureForTextFieldDismissal = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(leo_viewTapped)];
     
     tapGestureForTextFieldDismissal.cancelsTouchesInView = NO;
     [self addGestureRecognizer:tapGestureForTextFieldDismissal];
 }
 
-- (void)viewTapped {
+- (void)leo_viewTapped {
     
     [self endEditing:YES];
 }
