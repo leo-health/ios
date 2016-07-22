@@ -115,7 +115,7 @@ static NSString *const kCopyManageMySubscription = @"Manage my membership";
 
     UILabel *navTitleLabel = [[UILabel alloc] init];
     navTitleLabel.text = @"Settings";
-    
+
     self.view.tintColor = [UIColor whiteColor];
     [LEOStyleHelper styleBackButtonForViewController:self forFeature:FeatureSettings];
     [LEOStyleHelper styleLabel:navTitleLabel forFeature:FeatureSettings];

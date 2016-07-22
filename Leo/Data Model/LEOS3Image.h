@@ -33,6 +33,7 @@
                      parameters:(NSDictionary *)parameters
                     placeholder:(UIImage *)placeholder;
 
+- (void)setNeedsRefresh;
 - (LEOPromise *)refreshIfNeeded;
 
 + (UIImage *)resizeLocalAvatarImageBasedOnScreenScale:(UIImage *)avatarImage;

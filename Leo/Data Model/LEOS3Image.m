@@ -80,11 +80,16 @@ static CGFloat kImageSideSizeScale3Avatar = 300.0;
 
 - (LEOCachePolicy *)cachePolicy {
 
-    if (_cachePolicy == nil) {
+    if (!_cachePolicy) {
         _cachePolicy = [LEOCachePolicy new];
         _cachePolicy.get = LEOCachePolicyGETCacheElseGETNetworkThenPUTCache;
     }
     return _cachePolicy;
+}
+
+- (void)setNeedsRefresh {
+
+    self.underlyingImage = nil;
 }
 
 - (LEOPromise *)refreshIfNeeded {
@@ -99,7 +104,6 @@ static CGFloat kImageSideSizeScale3Avatar = 300.0;
             if (!error && rawImage) {
 
                 strongSelf.underlyingImage = rawImage;
-
                 if (strongSelf.downloadPromise.executing) {
                     // Only send the notification if we are waiting for completion
                     [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationDownloadedImageUpdated object:strongSelf];

@@ -1681,7 +1681,7 @@ static NSString *const kDefaultPracticeID = @"0";
             });
 
         }];
-        
+
         [self.notificationObservers addObjectsFromArray:@[observerDownload, observerChanged]];
     }
 }
