@@ -22,8 +22,6 @@
 #import "LEOPatientService.h"
 #import "LEOSession.h"
 #import "LEOAnalytic+Extensions.h"
-#import "LEOAnalyticScreen.h"
-#import "LEOAnalyticIntent.h"
 #import "LEOPracticeService.h"
 #import "Guardian.h"
 #import <MBProgressHUD/MBProgressHUD.h>
@@ -71,8 +69,6 @@ NSString *const kCopyEditPaymentsHeader = @"Update your credit or debit card";
 
     [LEOAnalytic tagType:LEOAnalyticTypeScreen
                     name:kAnalyticScreenAddPaymentMethod];
-
-    [LEOAnalyticScreen tagScreen:kAnalyticScreenAddPaymentMethod];
 }
 
 -(void)setFeature:(Feature)feature {
