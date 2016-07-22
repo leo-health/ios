@@ -20,28 +20,6 @@
 
 + (void)tagType:(LEOAnalyticType)type
            name:(NSString *)eventName
-         family:(Family *)family {
-
-    [self tagType:type
-             name:eventName
-       attributes:[family analyticAttributes]];
-}
-
-+ (void)tagType:(LEOAnalyticType)type
-           name:(NSString *)eventName
-         family:(Family *)family
-       guardian:(Guardian *)guardian {
-
-    NSMutableDictionary *mutableAttributeDictionary = [[family analyticAttributes] mutableCopy];
-    [mutableAttributeDictionary addEntriesFromDictionary:[guardian analyticAttributes]];
-
-    [self tagType:type
-             name:eventName
-       attributes:mutableAttributeDictionary];
-}
-
-+ (void)tagType:(LEOAnalyticType)type
-           name:(NSString *)eventName
     appointment:(Appointment *)appointment {
 
     [self tagType:type
@@ -90,62 +68,6 @@
        guardian:(Guardian *)guardian {
 
     NSMutableDictionary *mutableAttributeDictionary = [[patient analyticAttributes] mutableCopy];
-    [mutableAttributeDictionary addEntriesFromDictionary:[guardian analyticAttributes]];
-
-    [self tagType:type
-             name:eventName
-       attributes:mutableAttributeDictionary];
-}
-
-+ (void)tagType:(LEOAnalyticType)type
-           name:(NSString *)eventName
-    appointment:(Appointment *)appointment
-         family:(Family *)family {
-
-    NSMutableDictionary *mutableAttributeDictionary = [[family analyticAttributes] mutableCopy];
-    [mutableAttributeDictionary addEntriesFromDictionary:[appointment analyticAttributes]];
-
-    [self tagType:type
-             name:eventName
-       attributes:mutableAttributeDictionary];
-}
-
-+ (void)tagType:(LEOAnalyticType)type
-           name:(NSString *)eventName
-    appointment:(Appointment *)appointment
-         family:(Family *)family
-       guardian:(Guardian *)guardian {
-
-    NSMutableDictionary *mutableAttributeDictionary = [[family analyticAttributes] mutableCopy];
-    [mutableAttributeDictionary addEntriesFromDictionary:[appointment analyticAttributes]];
-    [mutableAttributeDictionary addEntriesFromDictionary:[guardian analyticAttributes]];
-
-    [self tagType:type
-             name:eventName
-       attributes:mutableAttributeDictionary];
-}
-
-+ (void)tagType:(LEOAnalyticType)type
-           name:(NSString *)eventName
-         family:(Family *)family
-        patient:(Patient *)patient {
-
-    NSMutableDictionary *mutableAttributeDictionary = [[family analyticAttributes] mutableCopy];
-    [mutableAttributeDictionary addEntriesFromDictionary:[patient analyticAttributes]];
-
-    [self tagType:type
-             name:eventName
-       attributes:mutableAttributeDictionary];
-}
-
-+ (void)tagType:(LEOAnalyticType)type
-           name:(NSString *)eventName
-         family:(Family *)family
-        patient:(Patient *)patient
-       guardian:(Guardian *)guardian {
-
-    NSMutableDictionary *mutableAttributeDictionary = [[family analyticAttributes] mutableCopy];
-    [mutableAttributeDictionary addEntriesFromDictionary:[patient analyticAttributes]];
     [mutableAttributeDictionary addEntriesFromDictionary:[guardian analyticAttributes]];
 
     [self tagType:type
