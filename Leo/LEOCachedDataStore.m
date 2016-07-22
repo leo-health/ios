@@ -205,13 +205,14 @@
 
         NSString *key = params[APIParamImageBaseURL];
         if (key) {
+
             NSDictionary *imageJSON = [self.rawResources leo_itemForKey:key];
 
-            if (imageJSON[APIParamImage]) {
-                return imageJSON;
-            } else {
+            if(!imageJSON[APIParamImage]) {
                 return nil;
             }
+
+            return imageJSON;
         }
     }
 
