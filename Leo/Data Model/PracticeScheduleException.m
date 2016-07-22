@@ -41,6 +41,10 @@
 
 + (NSDictionary *)serializeToJSON:(PracticeScheduleException *)object {
 
+    if (!object) {
+        return nil;
+    }
+
     NSMutableDictionary *json = [NSMutableDictionary new];
     json[APIParamStartDateTime] = [NSDate leo_stringifiedDateTime:object.startDate];
     json[APIParamEndDateTime] = [NSDate leo_stringifiedDateTime:object.endDate];

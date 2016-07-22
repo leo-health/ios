@@ -91,6 +91,10 @@
 
 + (NSDictionary *)serializeToJSON:(User *)user {
 
+    if (!user) {
+        return nil;
+    }
+
     NSMutableDictionary *userDictionary = [[NSMutableDictionary alloc] init];
 
     userDictionary[APIParamUserTitle] = user.title;

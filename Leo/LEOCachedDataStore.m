@@ -257,7 +257,9 @@
         // HACK: related entities should be stored in their own unique place (db table?)
         // Family should then query that relationship to get its guardians and patients
         NSArray *additionalGuardians = [self.family guardiansExceptGuardianWithID:self.user.objectID];
-        self.family.guardians = [@[self.user] arrayByAddingObjectsFromArray:additionalGuardians];
+        if (self.user) {
+            self.family.guardians = [@[self.user] arrayByAddingObjectsFromArray:additionalGuardians];
+        }
 
         return [self.user serializeToJSON];
     }

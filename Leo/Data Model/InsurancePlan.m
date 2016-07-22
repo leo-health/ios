@@ -51,6 +51,10 @@
 
 + (NSDictionary *)serializeToJSON:(InsurancePlan *)insurancePlan {
 
+    if (!insurancePlan) {
+        return nil;
+    }
+
     NSMutableDictionary *insurancePlanDictionary = [[NSMutableDictionary alloc] init];
 
     insurancePlanDictionary[APIParamPlanName] = insurancePlan.name;

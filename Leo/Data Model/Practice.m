@@ -193,6 +193,10 @@
 
 + (NSDictionary *)serializeToJSON:(Practice *)practice {
 
+    if (!practice) {
+        return nil;
+    }
+
     NSMutableDictionary *json = [NSMutableDictionary new];
 
     json[APIParamID] = practice.objectID;

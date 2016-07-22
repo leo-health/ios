@@ -47,6 +47,10 @@
 
 + (NSDictionary *)serializeToJSON:(DailyPracticeSchedule *)object {
 
+    if (!object) {
+        return nil;
+    }
+
     NSMutableDictionary *json = [NSMutableDictionary new];
 
     json[APIParamDailyScheduleDayOfWeek] = object.dayOfWeekName;

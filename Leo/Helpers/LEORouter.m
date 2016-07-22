@@ -136,6 +136,10 @@
     UIViewController *rootVC = appDelegate.window.rootViewController;
     UIViewController *topVC = rootVC;
 
+    // FIXME: We need a better way to check if we are transitioning from the same VC
+    //  currently if this gets called before the animation finishes,
+    //  the window.rootViewController will still be the previous one,
+    //  so we end up flipping twice. 
     BOOL sameClass = NO;
 
     if ([rootVC class] == [UINavigationController class] && [initialVC class] == [UINavigationController class]) {

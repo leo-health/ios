@@ -51,6 +51,10 @@
 
 + (NSDictionary *)serializeToJSON:(Role *)object {
 
+    if (!object) {
+        return nil;
+    }
+
     NSMutableDictionary *json = [NSMutableDictionary new];
     json[APIParamID] = object.objectID;
     json[APIParamName] = object.name;

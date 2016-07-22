@@ -62,6 +62,10 @@ static CGFloat kImageSideSizeScale3Avatar = 300.0;
 
 + (NSDictionary *)serializeToJSON:(LEOS3Image *)image {
 
+    if (!image) {
+        return nil;
+    }
+
     NSMutableDictionary *jsonDictionary = [NSMutableDictionary new];
     jsonDictionary[APIParamImageBaseURL] = image.baseURL;
     jsonDictionary[APIParamImageURLParameters] = image.parameters;
