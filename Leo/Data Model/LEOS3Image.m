@@ -92,7 +92,7 @@ static CGFloat kImageSideSizeScale3Avatar = 300.0;
     if (!self.underlyingImage && self.baseURL && !self.downloadPromise.executing) {
 
         LEOMediaService *service = [LEOMediaService serviceWithCachePolicy:self.cachePolicy];
-
+ 
         __weak typeof(self) weakSelf = self;
         self.downloadPromise = [service getImageForS3Image:self withCompletion:^(UIImage * rawImage, NSError * error) {
             __strong typeof(self) strongSelf = weakSelf;
@@ -103,9 +103,10 @@ static CGFloat kImageSideSizeScale3Avatar = 300.0;
                 if (strongSelf.downloadPromise.executing) {
                     // Only send the notification if we are waiting for completion
                     [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationDownloadedImageUpdated object:strongSelf];
-                    strongSelf.downloadPromise = [LEOPromise finishedCompletion];
                 }
             }
+
+            strongSelf.downloadPromise = [LEOPromise finishedCompletion];
         }];
     }
 
