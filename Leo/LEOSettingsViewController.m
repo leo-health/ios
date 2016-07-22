@@ -115,7 +115,7 @@ static NSString *const kCopyManageMySubscription = @"Manage my membership";
 
     UILabel *navTitleLabel = [[UILabel alloc] init];
     navTitleLabel.text = @"Settings";
-    
+
     self.view.tintColor = [UIColor whiteColor];
     [LEOStyleHelper styleBackButtonForViewController:self forFeature:FeatureSettings];
     [LEOStyleHelper styleLabel:navTitleLabel forFeature:FeatureSettings];
@@ -185,7 +185,7 @@ static NSString *const kCopyManageMySubscription = @"Manage my membership";
             switch (indexPath.row) {
                     
                 case AccountSettingsEmail: {
-                    
+
                     cell.promptField.textField.text = self.user.email;
                     cell.promptField.accessoryImageViewVisible = NO;
                     cell.promptField.tintColor = [UIColor leo_gray124];
@@ -193,7 +193,6 @@ static NSString *const kCopyManageMySubscription = @"Manage my membership";
                     cell.promptField.textField.textColor = [UIColor leo_gray124];
                     cell.promptField.tapGestureEnabled = NO;
                     cell.promptField.textField.standardPlaceholder = @"email";
-
                     break;
                 }
                     

@@ -12,15 +12,6 @@
 
 @implementation LEOMediaService
 
-- (instancetype)init {
-
-    self = [super init];
-    if (self) {
-        self.cachedService.cachePolicy.get = LEOCachePolicyGETCacheElseGETNetworkThenPUTCache;
-    }
-    return self;
-}
-
 - (LEOPromise *)getImageForS3Image:(LEOS3Image *)s3Image
                     withCompletion:(void (^)(UIImage *rawImage, NSError *error))completionBlock {
 

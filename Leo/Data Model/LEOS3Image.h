@@ -10,9 +10,12 @@
 
 #import <Foundation/Foundation.h>
 #import "LEOJSONSerializable.h"
+#import "LEOCachePolicy.h"
+
 
 @interface LEOS3Image : LEOJSONSerializable <NSCopying>
 
+@property (strong, nonatomic) LEOCachePolicy *cachePolicy;
 @property (copy, nonatomic) NSString *baseURL;
 @property (copy, nonatomic) NSDictionary *parameters;
 @property (strong, nonatomic) UIImage *image;
@@ -31,7 +34,7 @@
                     placeholder:(UIImage *)placeholder;
 
 - (void)setNeedsRefresh;
-- (void)refreshIfNeeded;
+- (LEOPromise *)refreshIfNeeded;
 
 + (UIImage *)resizeLocalAvatarImageBasedOnScreenScale:(UIImage *)avatarImage;
 

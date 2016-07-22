@@ -88,7 +88,7 @@ typedef NS_ENUM(NSUInteger, LEORequestMethod) {
         }];
     }
 
-    if (self.cachePolicy == LEOCachePolicyGETCacheOnly) {
+    if (cachePolicy == LEOCachePolicyGETCacheOnly) {
         [self safeCompletion:completion](cacheResponse, nil);
         return [LEOPromise finishedCompletion];
     }
@@ -130,7 +130,7 @@ typedef NS_ENUM(NSUInteger, LEORequestMethod) {
         }];
     }
 
-    if (self.cachePolicy == LEOCachePolicyPOSTCacheOnly) {
+    if (cachePolicy == LEOCachePolicyPOSTCacheOnly) {
         [self safeCompletion:completion](response, nil);
         return [LEOPromise finishedCompletion];
     }
