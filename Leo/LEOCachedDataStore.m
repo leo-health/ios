@@ -285,6 +285,9 @@
         // TODO: LATER: handle multiple practices
         NSArray *practices = [Practice deserializeManyFromJSON:params[@"practices"]];
         self.practice = practices.firstObject;
+        if (!self.practice) {
+            return nil;
+        }
         return @{@"practices": @[[self.practice serializeToJSON]]};
     }
     else if ([endpoint isEqualToString:APIEndpointConversationNotices]) {

@@ -78,29 +78,38 @@ static CGFloat kImageSideSizeScale3Avatar = 300.0;
     return !self.underlyingImage;
 }
 
-- (void)setNeedsRefresh {
-    self.underlyingImage = nil;
+- (LEOCachePolicy *)cachePolicy {
+
+    if (_cachePolicy == nil) {
+        _cachePolicy = [LEOCachePolicy new];
+        _cachePolicy.get = LEOCachePolicyGETCacheElseGETNetworkThenPUTCache;
+    }
+    return _cachePolicy;
 }
 
-- (void)refreshIfNeeded {
+- (LEOPromise *)refreshIfNeeded {
 
-    if (!self.underlyingImage && self.baseURL && !self.downloadPromise) {
+    if (!self.underlyingImage && self.baseURL && !self.downloadPromise.executing) {
+
+        LEOMediaService *service = [LEOMediaService serviceWithCachePolicy:self.cachePolicy];
 
         __weak typeof(self) weakSelf = self;
-        self.downloadPromise = [[LEOMediaService new] getImageForS3Image:self withCompletion:^(UIImage * rawImage, NSError * error) {
+        self.downloadPromise = [service getImageForS3Image:self withCompletion:^(UIImage * rawImage, NSError * error) {
             __strong typeof(self) strongSelf = weakSelf;
             if (!error && rawImage) {
 
                 strongSelf.underlyingImage = rawImage;
 
-                if (strongSelf.downloadPromise) {
+                if (strongSelf.downloadPromise.executing) {
                     // Only send the notification if we are waiting for completion
                     [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationDownloadedImageUpdated object:strongSelf];
+                    strongSelf.downloadPromise = [LEOPromise finishedCompletion];
                 }
-                strongSelf.downloadPromise = nil;
             }
         }];
     }
+
+    return self.downloadPromise;
 }
 
 -(void)setImage:(UIImage *)image {

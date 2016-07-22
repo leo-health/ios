@@ -162,7 +162,6 @@ static NSString *const kDefaultPracticeID = @"0";
 }
 
 - (void)setupStyling {
-
     [LEOStyleHelper roundCornersForView:self.navigationController.view
                        withCornerRadius:kCornerRadius];
 }
@@ -1474,9 +1473,9 @@ static NSString *const kDefaultPracticeID = @"0";
         JSQPhotoMediaItem *photoMediaItem = (JSQPhotoMediaItem *)messageImage.media;
 
         if (!photoMediaItem.image) {
-
-            [self addMessageNotificationForMessage:messageImage atIndexPath:indexPath];
-            photoMediaItem.image = messageImage.s3Image.image;
+            if (messageImage.s3Image.isPlaceholder) {
+                [self addMessageNotificationForMessage:messageImage atIndexPath:indexPath];
+            }
         }
     }
 
@@ -1565,11 +1564,8 @@ static NSString *const kDefaultPracticeID = @"0";
 
 - (void)retryImageLoadForMessageImage:(MessageImage *)messageImage forIndexPath:(NSIndexPath *)indexPath {
 
-    [messageImage.s3Image setNeedsRefresh];
     [messageImage.s3Image refreshIfNeeded];
-
     messageImage.media = [[JSQPhotoMediaItem alloc] initWithImage:nil];
-
     [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
 }
 
@@ -1658,7 +1654,7 @@ static NSString *const kDefaultPracticeID = @"0";
 
         //Notification for downloading an image from the server
         __weak typeof(self) weakSelf = self;
-        id observerDownload = [[NSNotificationCenter defaultCenter] addObserverForName:kNotificationDownloadedImageUpdated object:messageImage.s3Image queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull notification) {
+        id observerDownload = [[NSNotificationCenter defaultCenter] addObserverForName:kNotificationDownloadedImageUpdated object:messageImage.s3Image queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
 
             __strong typeof(self) strongSelf = weakSelf;
             JSQPhotoMediaItem *photoMediaItem = (JSQPhotoMediaItem *)messageImage.media;
@@ -1685,7 +1681,7 @@ static NSString *const kDefaultPracticeID = @"0";
             });
 
         }];
-
+        
         [self.notificationObservers addObjectsFromArray:@[observerDownload, observerChanged]];
     }
 }

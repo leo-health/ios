@@ -21,7 +21,7 @@
 #import "LEOUserService.h"
 #import "LEOPatientService.h"
 #import "LEOSession.h"
-#import "LEOAnalytic+Extensions.h"
+#import "LEOAnalytic.h"
 #import "LEOPracticeService.h"
 #import "Guardian.h"
 #import <MBProgressHUD/MBProgressHUD.h>
@@ -224,8 +224,7 @@ NSString *const kCopyEditPaymentsHeader = @"Update your credit or debit card";
                         
                         [LEOAnalytic tagType:LEOAnalyticTypeIntent
                                         name:kAnalyticEventChargeCard
-                                      family:self.family];
-
+                                  attributes:[self.family serializeToJSON]];
                     }
                         break;
 
@@ -249,7 +248,7 @@ NSString *const kCopyEditPaymentsHeader = @"Update your credit or debit card";
 
                                 [LEOAnalytic tagType:LEOAnalyticTypeIntent
                                                 name:kAnalyticEventChargeCard
-                                              family:self.family];
+                                          attributes:[self.family serializeToJSON]];
 
                                 [MBProgressHUD hideHUDForView:strongSelf.view
                                                      animated:YES];
