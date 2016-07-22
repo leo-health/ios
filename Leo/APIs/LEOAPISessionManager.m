@@ -78,7 +78,9 @@
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)task.response;
 
         if (httpResponse.statusCode == 401) {
-            [[LEOUserService new] logout];
+            if ([[LEOUserService new] getCurrentUser]) {
+                [[LEOUserService new] logout];
+            }
         }
 
         [self formattedErrorFromError:&error];

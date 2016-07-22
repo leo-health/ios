@@ -60,6 +60,10 @@ static NSString *const kUserDefaultsKeyLoginCounts = @"loginCounter";
 
 + (NSDictionary *)serializeToJSON:(Guardian *)guardian {
 
+    if (!guardian) {
+        return nil;
+    }
+
     NSMutableDictionary *userDictionary = [[super serializeToJSON:guardian] mutableCopy];
 
     userDictionary[APIParamFamilyID] = guardian.familyID;

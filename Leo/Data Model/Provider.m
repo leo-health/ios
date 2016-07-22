@@ -37,7 +37,11 @@
 }
 
 + (NSDictionary *)serializeToJSON:(Provider *)provider {
-    
+
+    if (!provider) {
+        return nil;
+    }
+
     NSMutableDictionary *userDictionary = [[super serializeToJSON:provider] mutableCopy];
     
     userDictionary[APIParamUserCredentials] = provider.credentials;

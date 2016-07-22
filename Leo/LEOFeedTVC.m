@@ -173,6 +173,7 @@ static CGFloat const kFeedInsetTop = 20.0;
             [self willEnableNavigationButtons:NO];
         }
 
+        // FIXME: I found that this sometimes gets called twice in a row.. use LEOPromise to only fetch if not currently waiting for a response
         [self fetchData];
         [self.tableView reloadData];
     }];

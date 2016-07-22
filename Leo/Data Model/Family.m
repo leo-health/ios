@@ -66,6 +66,10 @@
 
 + (NSDictionary *)serializeToJSON:(Family *)family {
 
+    if (!family) {
+        return nil;
+    }
+
     NSMutableDictionary *jsonDictionary = [NSMutableDictionary new];
     jsonDictionary[APIParamID] = family.objectID;
     jsonDictionary[APIParamUserPatients] = [Patient serializeManyToJSON:family.patients];

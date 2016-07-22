@@ -150,7 +150,7 @@
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
 
     // NOTE: af I think this is used to log someone out before taking local actions
-    [[LEOUserService new] getCurrentUserWithCompletion:nil];
+    [[LEOUserService serviceWithCachePolicy:[LEOCachePolicy networkOnly]] getCurrentUserWithCompletion:nil];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {

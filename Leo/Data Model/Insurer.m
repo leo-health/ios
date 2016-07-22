@@ -54,6 +54,10 @@
 
 + (NSDictionary *)serializeToJSON:(Insurer *)object {
 
+    if (!object) {
+        return nil;
+    }
+
     NSMutableDictionary *json = [NSMutableDictionary new];
     json[APIParamID] = object.objectID;
     json[APIParamInsurerName] = object.name;
