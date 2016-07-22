@@ -173,5 +173,10 @@
  */
 + (UIFont *)leo_regular14;
 
+/**
+ *  AvenirNext-Regular, Size 10
+ */
++ (UIFont *)leo_regular10;
+
 
 @end

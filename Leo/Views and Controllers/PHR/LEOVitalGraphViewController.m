@@ -318,6 +318,24 @@ static NSInteger const kChartHeight = 160;
     yAxis.style.majorTickStyle.ticksHidden = YES;
     yAxis.style.minorTickStyle.ticksHidden = YES;
 
+    if (self.metricControl.selectedSegmentIndex == 0) {
+        yAxis.title = @"WEIGHT";
+    } else if (self.metricControl.selectedSegmentIndex == 1) {
+        yAxis.title = @"HEIGHT";
+    }
+
+    yAxis.style.titleStyle.alignment = TKChartAxisTitleAlignmentCenter;
+    yAxis.style.titleStyle.font = [UIFont leo_regular10];
+    yAxis.style.titleStyle.rotationAngle = 1.5 * M_PI;
+    yAxis.style.titleStyle.textOffset = -15;
+    yAxis.style.titleStyle.textColor = [UIColor leo_gray124];
+
+    xAxis.title = @"AGE";
+    xAxis.style.titleStyle.alignment = TKChartAxisTitleAlignmentCenter;
+    xAxis.style.titleStyle.font = [UIFont leo_regular10];
+    xAxis.style.titleStyle.textOffset = -15;
+    xAxis.style.titleStyle.textColor = [UIColor leo_gray124];
+
     yAxis.majorTickInterval = [self yAxisMajorTickInterval];
 
     [self setupRanges];
