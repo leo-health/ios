@@ -570,8 +570,10 @@ didSelectPoint:(id<TKChartData> __nonnull)point
     group.duration = duration;
     group.animations = animations;
 
-    TKChartVisualPoint *lastPoint = (TKChartVisualPoint *)state.points[state.points.count-1];
-    self.lineContainer.lineXPositionConstraint.constant = lastPoint.x;
+    if (state.points.count > 0){
+        TKChartVisualPoint *lastPoint = (TKChartVisualPoint *)state.points[state.points.count-1];
+        self.lineContainer.lineXPositionConstraint.constant = lastPoint.x;
+    }
     
     return group;
 }
