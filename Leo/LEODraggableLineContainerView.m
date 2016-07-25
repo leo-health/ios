@@ -56,10 +56,8 @@
     [self addConstraint:self.lineXPositionConstraint];
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(handleTap:)];
     [self addGestureRecognizer:tapRecognizer];
-    UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePanGestures:)];
-    [self addGestureRecognizer:panRecognizer];
     UILongPressGestureRecognizer *longPressRecognizer = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(handleLongPress:)];
-    longPressRecognizer.minimumPressDuration = 0.15f;
+    longPressRecognizer.minimumPressDuration = 0.03f;
     [self addGestureRecognizer:longPressRecognizer];
 }
 
@@ -68,18 +66,6 @@
     CGPoint pointPressed = [sender locationInView:self];
     self.lineXPositionConstraint.constant = [self xValueOfNearestPointTo:pointPressed];
     [self selectPointNearestTo:pointPressed];
-}
-
-- (void)handlePanGestures:(UIPanGestureRecognizer *)sender {
-
-    CGPoint pointPressed = [sender locationInView:self];
-    self.lineXPositionConstraint.constant = pointPressed.x;
-    [self selectPointNearestTo:pointPressed];
-
-    if (sender.state == UIGestureRecognizerStateEnded) {
-        self.lineXPositionConstraint.constant = [self xValueOfNearestPointTo:pointPressed];
-        [self selectPointNearestTo:pointPressed];
-    }
 }
 
 - (void)handleLongPress:(UIPanGestureRecognizer *)sender {
