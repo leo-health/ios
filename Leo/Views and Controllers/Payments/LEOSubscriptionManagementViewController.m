@@ -237,6 +237,7 @@ NSString *const kContactUsDetailForExemptedMembers = @"As a pre-existing custome
     LEOPaymentViewController *paymentVC = [LEOPaymentViewController new];
     paymentVC.feature = FeatureSettings;
     paymentVC.managementMode = ManagementModeEdit;
+    paymentVC.family = self.family;
     [self.navigationController pushViewController:paymentVC animated:YES];
 }
 
