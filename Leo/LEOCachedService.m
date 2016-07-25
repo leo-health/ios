@@ -35,6 +35,14 @@ typedef NS_ENUM(NSUInteger, LEORequestMethod) {
     return self;
 }
 
+- (LEOCachePolicy *)cachePolicy {
+
+    if (!_cachePolicy) {
+        _cachePolicy = [LEOCachePolicy new];
+    }
+    return _cachePolicy;
+}
+
 - (void(^)(id, NSError*))safeCompletion:(void(^)(id, NSError*))completion {
 
     return ^(id response, NSError *error){

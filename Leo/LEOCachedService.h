@@ -15,9 +15,9 @@
 
 @interface LEOCachedService : NSObject<LEOAsyncDataSource, LEOSyncronousDataSource>
 
-@property LEOCachedDataStore *cache;
-@property LEONetworkStore *network;
-@property LEOCachePolicy *cachePolicy;
+@property (strong, nonatomic) LEOCachedDataStore *cache;
+@property (strong, nonatomic) LEONetworkStore *network;
+@property (strong, nonatomic) LEOCachePolicy *cachePolicy;
 
 + (instancetype)serviceWithCachePolicy:(LEOCachePolicy *)cachePolicy;
 
