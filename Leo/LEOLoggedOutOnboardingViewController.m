@@ -226,8 +226,14 @@ static NSString * const reuseIdentifierFeature = @"reuseIdentifierFeature";
 #pragma mark UICollectionViewDelegate
 
 - (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
+
     if ([cell isKindOfClass:[LEOLoggedOutLoginCell class]]) {
+        
         [(LEOLoggedOutLoginCell *)cell addViewControllerToParentViewController:self];
+
+        // MARK: neccessary only on IOS 8
+        [cell.contentView setNeedsUpdateConstraints];
+        [cell.contentView updateConstraintsIfNeeded];
     }
 }
 
