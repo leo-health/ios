@@ -77,7 +77,8 @@
     [self selectPointNearestTo:pointPressed];
 
     if (sender.state == UIGestureRecognizerStateEnded) {
-        self.lineXPositionConstraint.constant = [self xValueOfNearestPointTo:self.line.center];
+        self.lineXPositionConstraint.constant = [self xValueOfNearestPointTo:pointPressed];
+        [self selectPointNearestTo:pointPressed];
     }
 }
 
@@ -87,7 +88,8 @@
     self.lineXPositionConstraint.constant = pointPressed.x;
     [self selectPointNearestTo:pointPressed];
     if (sender.state == UIGestureRecognizerStateEnded) {
-        self.lineXPositionConstraint.constant = [self xValueOfNearestPointTo:self.line.center];
+        self.lineXPositionConstraint.constant = [self xValueOfNearestPointTo:pointPressed];
+        [self selectPointNearestTo:pointPressed];
     }
 }
 
