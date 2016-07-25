@@ -44,7 +44,7 @@
 /**
  A delegate for customizing the import process when reading events from EventKit.
  */
-@property (nonatomic, weak) id<TKCalendarEventKitDataSourceDelegate> delegate;
+@property (nonatomic, weak, nullable) id<TKCalendarEventKitDataSourceDelegate> delegate;
 
 /**
  Returns a list with calendars available when using EventKit.

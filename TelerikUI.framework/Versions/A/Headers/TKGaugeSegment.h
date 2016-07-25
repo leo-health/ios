@@ -40,7 +40,7 @@ typedef NS_ENUM(NSInteger, TKGaugeSegmentCap)
 /**
  The scale that owns this segment.
  */
-@property (nonatomic, weak) TKGaugeScale* owner;
+@property (nonatomic, weak, nullable) TKGaugeScale* owner;
 
 /**
  An object representing the minimum and maximum value of the segment.

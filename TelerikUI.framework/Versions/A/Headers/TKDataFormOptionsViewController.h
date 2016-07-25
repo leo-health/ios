@@ -20,6 +20,6 @@
 /**
  An instance of TKDataFormOptionsEditor.
  */
-@property (nonatomic, weak) TKDataFormOptionsEditor *editor;
+@property (nonatomic, weak, nullable) TKDataFormOptionsEditor *editor;
 
 @end

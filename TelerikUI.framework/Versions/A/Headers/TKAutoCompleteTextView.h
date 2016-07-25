@@ -78,12 +78,12 @@ typedef NS_ENUM(int, TKAutoCompleteLayoutMode)
 /**
  TKAutoCompleteDataSource object providing means to filter the suggestion items and populate the suggestion view.
  */
-@property (nonatomic, weak) id<TKAutoCompleteDataSource> dataSource;
+@property (nonatomic, weak, nullable)  id<TKAutoCompleteDataSource> dataSource;
 
 /**
  TKAutoCompleteDelegate object allows easy managing of the autocomplete components and the interaction with them.
  */
-@property (nonatomic, weak) id<TKAutoCompleteDelegate> delegate;
+@property (nonatomic, weak, nullable) id<TKAutoCompleteDelegate> delegate;
 
 /**
  Collection of symbols used in Append and SuggestAppend mode to tokenize or complete the typed text.

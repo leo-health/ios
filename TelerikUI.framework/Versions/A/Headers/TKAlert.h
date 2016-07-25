@@ -123,7 +123,7 @@ Returns the UIButton object for the specified TKAlertAction.
 /**
  TKAlert's delegate.
  */
-@property (nonatomic, weak) id <TKAlertDelegate> delegate;
+@property (nonatomic, weak, nullable) id <TKAlertDelegate> delegate;
 
 /**
  The title used by the header view.

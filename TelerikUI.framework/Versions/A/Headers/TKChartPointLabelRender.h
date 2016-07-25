@@ -21,10 +21,10 @@
 /**
  The corresponding series render.
  */
-@property (nonatomic, readonly, weak) TKChartSeriesRender *render;
+@property (nonatomic, readonly, weak, null_unspecified) TKChartSeriesRender *render;
 
 
-@property (nonatomic, readonly, weak) id<TKChartDelegate> chartDelegate;
+@property (nonatomic, readonly, weak, nullable) id<TKChartDelegate> chartDelegate;
 /**
  Initializes the point label's render with corresponding series render.
  @param render The series render.

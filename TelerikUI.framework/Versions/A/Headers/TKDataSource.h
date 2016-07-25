@@ -99,7 +99,7 @@ typedef BOOL (^TKDataSourceFilterBlock)(id __nonnull item);
 /**
  The current item. It is syncronized among all consumers of this class.
  */
-@property (nonatomic, weak) id currentItem;
+@property (nonatomic, weak, null_unspecified) id currentItem;
 
 /**
  The display key used when extracting text from a single item.

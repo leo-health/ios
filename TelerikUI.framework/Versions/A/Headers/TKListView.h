@@ -266,12 +266,12 @@ typedef NS_ENUM(NSInteger, TKListViewLoadOnDemandMode)
 /**
  A delegate used to manage the selection of items in TKListView, perform actions on those items and respond to interaction with those items.
  */
-@property (nonatomic, weak) id<TKListViewDelegate> delegate;
+@property (nonatomic, weak, nullable) id<TKListViewDelegate> delegate;
 
 /**
  A datasource delegate used to provide data for the cells, headers and footers.
  */
-@property (nonatomic, weak) id<TKListViewDataSource> dataSource;
+@property (nonatomic, weak, nullable) id<TKListViewDataSource> dataSource;
 
 /**
  The layout object used to arrange cells.

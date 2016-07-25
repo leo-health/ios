@@ -52,7 +52,6 @@
 		312A82571B56EEBE00E1FB38 /* LEOConversationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 312A82541B56EEBE00E1FB38 /* LEOConversationViewController.m */; };
 		312F35451BA212B700F64DAA /* LEOPusherHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 312F35441BA212B700F64DAA /* LEOPusherHelper.m */; };
 		312FACE81CFF28740038A257 /* LEORouter.m in Sources */ = {isa = PBXBuildFile; fileRef = 312FACE71CFF28740038A257 /* LEORouter.m */; };
-		31314A121CB69A4C00465310 /* TelerikUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31314A111CB69A4C00465310 /* TelerikUI.framework */; };
 		31314A181CB69DFD00465310 /* LEOVitalGraphViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31314A161CB69DFD00465310 /* LEOVitalGraphViewController.m */; };
 		31314A1F1CB6A90D00465310 /* LEOPHRVitalChartCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31314A1D1CB6A90D00465310 /* LEOPHRVitalChartCell.m */; };
 		31314A201CB6A90D00465310 /* LEOPHRVitalChartCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 31314A1E1CB6A90D00465310 /* LEOPHRVitalChartCell.xib */; };
@@ -103,6 +102,7 @@
 		315E12B01BB9B2B8001023F1 /* StickyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 315E12AC1BB9B2B8001023F1 /* StickyView.m */; };
 		315E12B51BB9BDA6001023F1 /* LEOSignUpUserView.m in Sources */ = {isa = PBXBuildFile; fileRef = 315E12B41BB9BDA6001023F1 /* LEOSignUpUserView.m */; };
 		315E12B71BB9BDBD001023F1 /* LEOSignUpUserView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 315E12B61BB9BDBD001023F1 /* LEOSignUpUserView.xib */; };
+		31607C771D468EB800FE0A31 /* TelerikUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31607C761D468EB800FE0A31 /* TelerikUI.framework */; };
 		316899671BC4851200B4C1EB /* LEOReviewOnboardingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 316899611BC4851200B4C1EB /* LEOReviewOnboardingViewController.m */; };
 		316899681BC4851200B4C1EB /* LEOReviewUserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 316899631BC4851200B4C1EB /* LEOReviewUserCell.m */; };
 		316899691BC4851200B4C1EB /* LEOReviewUserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 316899641BC4851200B4C1EB /* LEOReviewUserCell.xib */; };
@@ -408,7 +408,6 @@
 		312FACE71CFF28740038A257 /* LEORouter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEORouter.m; path = Helpers/LEORouter.m; sourceTree = "<group>"; };
 		3130B48D1B068CE0006ACC80 /* ArrayDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrayDataSource.h; sourceTree = "<group>"; };
 		3130B48E1B068CE0006ACC80 /* ArrayDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrayDataSource.m; sourceTree = "<group>"; };
-		31314A111CB69A4C00465310 /* TelerikUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TelerikUI.framework; sourceTree = "<group>"; };
 		31314A161CB69DFD00465310 /* LEOVitalGraphViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOVitalGraphViewController.m; path = "Views and Controllers/PHR/LEOVitalGraphViewController.m"; sourceTree = "<group>"; };
 		31314A171CB69DFD00465310 /* LEOVitalGraphViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOVitalGraphViewController.h; path = "Views and Controllers/PHR/LEOVitalGraphViewController.h"; sourceTree = "<group>"; };
 		31314A1C1CB6A90D00465310 /* LEOPHRVitalChartCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOPHRVitalChartCell.h; path = "Views and Controllers/PHR/LEOPHRVitalChartCell.h"; sourceTree = "<group>"; };
@@ -513,6 +512,7 @@
 		315E12B31BB9BDA6001023F1 /* LEOSignUpUserView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOSignUpUserView.h; sourceTree = "<group>"; };
 		315E12B41BB9BDA6001023F1 /* LEOSignUpUserView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOSignUpUserView.m; sourceTree = "<group>"; };
 		315E12B61BB9BDBD001023F1 /* LEOSignUpUserView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LEOSignUpUserView.xib; path = "Onboarding+Signup/LEOSignUpUserView.xib"; sourceTree = "<group>"; };
+		31607C761D468EB800FE0A31 /* TelerikUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TelerikUI.framework; sourceTree = "<group>"; };
 		316899601BC4851200B4C1EB /* LEOReviewOnboardingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOReviewOnboardingViewController.h; path = "Onboarding+Signup/LEOReviewOnboardingViewController.h"; sourceTree = "<group>"; };
 		316899611BC4851200B4C1EB /* LEOReviewOnboardingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOReviewOnboardingViewController.m; path = "Onboarding+Signup/LEOReviewOnboardingViewController.m"; sourceTree = "<group>"; };
 		316899621BC4851200B4C1EB /* LEOReviewUserCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOReviewUserCell.h; path = "Onboarding+Signup/LEOReviewUserCell.h"; sourceTree = "<group>"; };
@@ -898,8 +898,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC163B021B054E03000FB1CE /* QuartzCore.framework in Frameworks */,
+				31607C771D468EB800FE0A31 /* TelerikUI.framework in Frameworks */,
 				AB1DD31CA62AF2E9ACB9E277 /* libPods-Leo.a in Frameworks */,
-				31314A121CB69A4C00465310 /* TelerikUI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1627,7 +1627,7 @@
 		B8FA0B797E23BA25DF87DA78 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				31314A111CB69A4C00465310 /* TelerikUI.framework */,
+				31607C761D468EB800FE0A31 /* TelerikUI.framework */,
 				BC163B011B054E03000FB1CE /* QuartzCore.framework */,
 				DEF91861D13AACF04D176928 /* libPods-Leo.a */,
 				C9BFC97BBACAA8BBCAFB0684 /* libPods-LeoTests.a */,
