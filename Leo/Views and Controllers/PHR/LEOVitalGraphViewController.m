@@ -18,6 +18,7 @@
 #import "Patient.h"
 #import "HealthRecord.h"
 #import "LEOVitalScoreboardView.h"
+#import "LEODraggableLineContainerView.h"
 
 @interface LEOVitalGraphViewController ()
 
@@ -36,6 +37,8 @@
 @property (copy, nonatomic) NSArray *verticalLayoutConstraints;
 
 @property (nonatomic) BOOL alreadyUpdatedConstraints;
+@property (strong, nonatomic) LEODraggableLineContainerView *lineContainer;
+
 
 @end
 
@@ -75,6 +78,37 @@ static NSInteger const kChartHeight = 160;
     [self reloadWithUIUpdates];
 
     [self setupScoreboardViewWithVital:self.selectedDataSet.firstObject];
+    [self initializeDraggableLine];
+}
+
+- (void)initializeDraggableLine {
+
+    self.lineContainer = [LEODraggableLineContainerView new];
+    [self.lineContainer initContainer];
+    self.lineContainer.chart = self.chart;
+    [self.view addSubview:self.lineContainer];
+
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.lineContainer
+                                                          attribute:NSLayoutAttributeHeight
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.chart
+                                                          attribute:NSLayoutAttributeHeight
+                                                         multiplier:1.0
+                                                           constant:0.0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.lineContainer
+                                                          attribute:NSLayoutAttributeWidth
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.chart
+                                                          attribute:NSLayoutAttributeWidth
+                                                         multiplier:1.0
+                                                           constant:0.0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.lineContainer
+                                                          attribute:NSLayoutAttributeBottom
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.chart
+                                                          attribute:NSLayoutAttributeBottom
+                                                         multiplier:1.0
+                                                           constant:0.0]];
 }
 
 - (void)setupScoreboardViewWithVital:(PatientVitalMeasurement *)vital {
@@ -304,6 +338,7 @@ static NSInteger const kChartHeight = 160;
     [self updateAxes];
 
     self.alreadyUpdatedConstraints = NO;
+    self.lineContainer.chart = self.chart;
 }
 
 - (void)updateAxes {
@@ -486,21 +521,59 @@ didSelectPoint:(id<TKChartData> __nonnull)point
 
     self.selectedDataPointIndex = @(index);
 
-    [chart removeAllAnnotations];
-
-    TKChartGridLineAnnotation *lineAnnotation =
-    [[TKChartGridLineAnnotation alloc] initWithValue:point.dataXValue
-                                             forAxis:chart.xAxis];
-
-    lineAnnotation.style.stroke = [TKStroke strokeWithColor:[UIColor leo_orangeRed]
-                                                      width:1.0];
-    [chart addAnnotation:lineAnnotation];
-
     [self setupScoreboardViewWithVital:self.selectedDataSet[index]];
 
     //HACK: Required for iOS8
     [self.view setNeedsUpdateConstraints];
     [self.view updateConstraintsIfNeeded];
+}
+
+- (CAAnimation *)chart:(TKChart *)chart animationForSeries:(TKChartSeries *)series withState:(TKChartSeriesRenderState *)state inRect:(CGRect)rect
+{
+
+    CFTimeInterval duration = 0;
+    NSMutableArray *animations = [[NSMutableArray alloc] init];
+    NSMutableArray *xValues = [NSMutableArray new];
+
+    for (int i = 0; i<state.points.count; i++) {
+
+        TKChartVisualPoint *point1 = (TKChartVisualPoint *)state.points[i];
+        CGFloat xValue = point1.x;
+        NSNumber *num = [NSNumber numberWithFloat:xValue];
+        [xValues addObject:num];
+
+        NSString *pointKeyPath = [state animationKeyPathForPointAtIndex:i];
+
+        NSString *keyPath = [NSString stringWithFormat:@"%@.y", pointKeyPath];
+        TKChartVisualPoint *point = [state.points objectAtIndex:i];
+        CGFloat oldY = rect.size.height;
+
+        if (i > 0) {
+            CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:keyPath];
+            animation.duration = 0.1* (i + 1);
+            animation.values = @[ @(oldY), @(oldY), @(point.y) ];
+            animation.keyTimes = @[ @0, @(i/(i+1.)), @1 ];
+            [animations addObject:animation];
+
+            duration = animation.duration;
+        }
+        else {
+            CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:keyPath];
+            animation.fromValue = @(oldY);
+            animation.toValue = @(point.y);
+            animation.duration = 0.1f;
+            [animations addObject:animation];
+        }
+    }
+    self.lineContainer.centerXValuesOfPointsOnGraph = xValues;
+    CAAnimationGroup *group = [[CAAnimationGroup alloc] init];
+    group.duration = duration;
+    group.animations = animations;
+
+    TKChartVisualPoint *lastPoint = (TKChartVisualPoint *)state.points[state.points.count-1];
+    self.lineContainer.lineXPositionConstraint.constant = lastPoint.x;
+    
+    return group;
 }
 
 

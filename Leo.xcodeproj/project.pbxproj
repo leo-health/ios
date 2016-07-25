@@ -296,6 +296,8 @@
 		DE63952B1D182AD600D3DF71 /* UISegmentedControl+GNZCompatibility.m in Sources */ = {isa = PBXBuildFile; fileRef = DE6395281D182AD600D3DF71 /* UISegmentedControl+GNZCompatibility.m */; };
 		DE87E4D01D21B7DB00871700 /* p_LEOAnalyticScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = DE87E4CF1D21B7DB00871700 /* p_LEOAnalyticScreen.m */; };
 		DE8810101D24615800558046 /* LEOAnalyticSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DE88100F1D24615800558046 /* LEOAnalyticSessionManager.m */; };
+		DEF9B1B91D46705400485AAE /* LEODraggableLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = DEF9B1B81D46705400485AAE /* LEODraggableLineView.m */; };
+		DEF9B1BC1D4670C700485AAE /* LEODraggableLineContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = DEF9B1BB1D4670C700485AAE /* LEODraggableLineContainerView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -882,6 +884,10 @@
 		DE88100F1D24615800558046 /* LEOAnalyticSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOAnalyticSessionManager.m; sourceTree = "<group>"; };
 		DE91E49A1D11FFF5007EE79F /* DeveloperCodeSigning.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = DeveloperCodeSigning.xcconfig; path = xcconfig/DeveloperCodeSigning.xcconfig; sourceTree = "<group>"; };
 		DEF91861D13AACF04D176928 /* libPods-Leo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Leo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DEF9B1B71D46705400485AAE /* LEODraggableLineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEODraggableLineView.h; sourceTree = "<group>"; };
+		DEF9B1B81D46705400485AAE /* LEODraggableLineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEODraggableLineView.m; sourceTree = "<group>"; };
+		DEF9B1BA1D4670C700485AAE /* LEODraggableLineContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEODraggableLineContainerView.h; sourceTree = "<group>"; };
+		DEF9B1BB1D4670C700485AAE /* LEODraggableLineContainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEODraggableLineContainerView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1235,6 +1241,10 @@
 				314417991D2C6DA30006736F /* LEOVitalScoreboardView.m */,
 				3144179B1D2D66BF0006736F /* LEOStatWithTypeView.h */,
 				3144179C1D2D66BF0006736F /* LEOStatWithTypeView.m */,
+				DEF9B1B71D46705400485AAE /* LEODraggableLineView.h */,
+				DEF9B1B81D46705400485AAE /* LEODraggableLineView.m */,
+				DEF9B1BA1D4670C700485AAE /* LEODraggableLineContainerView.h */,
+				DEF9B1BB1D4670C700485AAE /* LEODraggableLineContainerView.m */,
 				310709D51D382E3500337995 /* LEOOnePartStatView.h */,
 				310709D61D382E3500337995 /* LEOOnePartStatView.m */,
 				3144179E1D2D66D00006736F /* LEOTwoPartStatView.h */,
@@ -2269,11 +2279,13 @@
 				312594B71BDFEA9C00A497C0 /* LEOHorizontalModalTransitionAnimator.m in Sources */,
 				31D275761C517AF0005F8964 /* LEOManagePatientsView.m in Sources */,
 				DE31E5EC1D36B9A800F028E4 /* Family+Analytics.m in Sources */,
+				DEF9B1B91D46705400485AAE /* LEODraggableLineView.m in Sources */,
 				31197A121B39D8FD00C773BA /* MenuView.m in Sources */,
 				662371F11C568C23001AB3E7 /* LEOLoggedOutLoginCell.m in Sources */,
 				317C1BE91CBBE9190099AC4D /* LEOVitalGraphDataSource.m in Sources */,
 				313ECC2A1CA5BE340059C434 /* LEOBreadcrumb.m in Sources */,
 				31B998C61B7BD4F40055DEEA /* UIFont+LeoFonts.m in Sources */,
+				DEF9B1BC1D4670C700485AAE /* LEODraggableLineContainerView.m in Sources */,
 				312946091C0E0B8200AE5BB1 /* LEOAlertHelper.m in Sources */,
 				31339B241C285AEE00B53A86 /* LEOCardModalTransitionAnimator.m in Sources */,
 				3138FC4B1B9A19A8000FE22C /* InsurancePlanCell+ConfigureCell.m in Sources */,
