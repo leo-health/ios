@@ -110,13 +110,13 @@
 
             strongStatView =
             [[LEOStatWithTypeView alloc] initWithPreformattedString:preformattedString
-                                                               type:@"age"];
+                                                               type:@"taken at"];
         } else {
 
             strongStatView =
             [[LEOStatWithTypeView alloc] initWithValues:[self ageStatValues]
                                                   units:[self ageStatUnits]
-                                                   type:@"age"];
+                                                   type:@"taken at"];
         }
 
         _ageStatView = strongStatView;
@@ -202,7 +202,7 @@
                                       constant:0];
 
         NSArray *horizontalConstraintForStatViews =
-        [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_ageStatView(_vitalStatView)]-[_vitalStatView]-[_percentileStatView(_vitalStatView)]-|"
+        [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_vitalStatView]-[_ageStatView(_vitalStatView)]-[_percentileStatView(_vitalStatView)]-|"
                                                 options:0
                                                 metrics:nil
                                                   views:bindings];
