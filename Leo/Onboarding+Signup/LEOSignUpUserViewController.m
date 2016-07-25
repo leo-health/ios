@@ -159,13 +159,11 @@ static NSString * const kCopyHeaderSignUpUser = @"Tell us a little about yoursel
 
         [self.userDataSource putCurrentUser:self.signUpUserView.guardian withCompletion:^(Guardian *guardian, NSError *error) {
 
-             Family *family = [[LEOFamilyService new] getFamily];
             switch (self.managementMode) {
                 case ManagementModeCreate: {
 
                     [LEOAnalytic tagType:LEOAnalyticTypeIntent
-                                    name:kAnalyticEventCompleteNewUserProfile
-                                  family:family];
+                                    name:kAnalyticEventCompleteNewUserProfile];
 
                     [self performSegueWithIdentifier:kSegueContinue sender:sender];
                 }
@@ -174,8 +172,7 @@ static NSString * const kCopyHeaderSignUpUser = @"Tell us a little about yoursel
                 case ManagementModeEdit: {
 
                 [LEOAnalytic tagType:LEOAnalyticTypeIntent
-                                name:kAnalyticEventEditUserProfile
-                              family:family];
+                                name:kAnalyticEventEditUserProfile];
 
                     [self.navigationController popViewControllerAnimated:YES];
                 }

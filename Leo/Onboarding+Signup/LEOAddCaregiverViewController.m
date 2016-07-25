@@ -145,6 +145,9 @@ static NSString * const kCopyHeaderAddCaregiver = @"Add another parent or caregi
     [self.view endEditing:YES];
     if ([self.addCaregiverView isValidInvite]) {
 
+        [LEOAnalytic tagType:LEOAnalyticTypeIntent
+                        name:kAnalyticEventInviteCaregiver];
+
         Guardian *secondaryGuardian = [[Guardian alloc] initWithObjectID:nil title:nil firstName:self.addCaregiverView.firstName middleInitial:nil lastName:self.addCaregiverView.lastName suffix:nil email:self.addCaregiverView.email avatar:nil];
 
         __weak typeof(self) weakSelf = self;
@@ -168,10 +171,8 @@ static NSString * const kCopyHeaderAddCaregiver = @"Add another parent or caregi
 
                     if (self.feature == FeatureSettings) {
 
-                        Family *family = [[LEOFamilyService new] getFamily];
                         [LEOAnalytic tagType:LEOAnalyticTypeEvent
-                                        name:kAnalyticEventAddCaregiverFromSettings
-                                      family:family];
+                                        name:kAnalyticEventAddCaregiverFromSettings];
 
                         LEOStatusBarNotification *successNotification = [LEOStatusBarNotification new];
                         [successNotification displayNotificationWithMessage:@"Additional caregiver successfully added to your family!"

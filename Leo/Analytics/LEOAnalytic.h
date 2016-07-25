@@ -27,7 +27,8 @@ typedef NS_ENUM(NSInteger, LEOAnalyticType) {
            name:(NSString *)eventName;
 
 /**
- *  Tags an analytic action that has certain attributes.
+ *  Tags an analytic action that has certain attributes. Will automatically
+ *  include a number of attributes associated with the family and guardian.
  *
  *  @param type       The type of analytic (screen, event, intent)
  *  @param eventName  The name of the event

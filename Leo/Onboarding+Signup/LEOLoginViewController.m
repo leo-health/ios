@@ -173,11 +173,8 @@ static NSString *const kForgotPasswordSegue = @"ForgotPasswordSegue";
                                  [Localytics setCustomerId:[Configuration vendorID]];
                                  [[Crashlytics sharedInstance] setUserIdentifier:[Configuration vendorID]];
 
-
-                                 Guardian *currentUser = [[LEOUserService new] getCurrentUser];
                                  [LEOAnalytic tagType:LEOAnalyticTypeEvent
-                                                 name:kAnalyticEventLogin
-                                             guardian:currentUser];
+                                                 name:kAnalyticEventLogin];
 
                                  // Response to successful login is handled by a @"membership-changed" notification listener in AppDelegate
 

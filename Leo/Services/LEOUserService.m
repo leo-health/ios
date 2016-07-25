@@ -17,6 +17,7 @@
 #import <Crashlytics/Crashlytics.h>
 #import <Crittercism/Crittercism.h>
 #import "LEOCachedService.h"
+#import "LEOAnalytic.h"
 
 @implementation LEOUserService
 
@@ -132,8 +133,8 @@
 
         Guardian *guardian;
         if (!error) {
-
-            [Localytics tagEvent:kAnalyticEventLogin];
+            [LEOAnalytic tagType:LEOAnalyticTypeEvent
+                            name:kAnalyticEventLogin];
 
             NSDictionary *userDictionary = rawResults[APIParamUser];
             guardian = [[Guardian alloc] initWithJSONDictionary:userDictionary];

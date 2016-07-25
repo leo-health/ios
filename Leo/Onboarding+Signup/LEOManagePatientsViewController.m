@@ -200,10 +200,8 @@ static NSString * const kSignUpPatientSegue = @"SignUpPatientSegue";
 
         [self.patientDataSource createOrUpdatePatientList:self.patients];
         [self performSegueWithIdentifier:kSegueContinue sender:sender];
-        Family *family = [[LEOFamilyService new] getFamily];
         [LEOAnalytic tagType:LEOAnalyticTypeIntent
-                        name:kAnalyticEventConfirmPatientsInOnboarding
-                      family:family];
+                        name:kAnalyticEventConfirmPatientsInOnboarding];
     } else {
 
 
