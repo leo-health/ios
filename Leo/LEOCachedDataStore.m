@@ -61,6 +61,7 @@
         NSDictionary *user = [[NSUserDefaults standardUserDefaults] objectForKey:APIEndpointCurrentUser];
         _user = [[Guardian alloc] initWithJSONDictionary:user];
     }
+
     return _user;
 }
 
@@ -82,6 +83,7 @@
     if (!_rawResources) {
         _rawResources = [NSMutableDictionary new];
     }
+
     return _rawResources;
 }
 
@@ -105,6 +107,7 @@
     else if ([endpoint isEqualToString:APIEndpointAddCaregiver]) {
         Guardian *guardian = [[Guardian alloc] initWithJSONDictionary:params];
         [self.family addGuardian:guardian];
+
         return [guardian serializeToJSON];
     }
 
@@ -113,8 +116,10 @@
         Patient *patient = [[Patient alloc] initWithJSONDictionary:params];
         if (patient) {
             [self.family addPatient:patient];
+
             return [patient serializeToJSON];
         }
+
         return nil;
 
     } else if ([endpoint isEqualToString:APIEndpointAvatars]) {
@@ -177,6 +182,7 @@
         if ([LEOCredentialStore authToken]) {
             return [self.user serializeToJSON];
         }
+
         return nil;
     }
     else if ([endpoint isEqualToString:APIEndpointFamily]) {
@@ -192,6 +198,7 @@
         if (!self.practice) {
             return nil;
         }
+
         return @{@"practices": [Practice serializeManyToJSON:@[self.practice]]};
     }
     else if ([endpoint isEqualToString:APIEndpointConversationNotices]) {
@@ -199,6 +206,7 @@
         if (self.notices.count == 0) {
             return nil;
         }
+
         return @{@"notices": [Notice serializeManyToJSON:self.notices]};
     }
     else if ([endpoint isEqualToString:APIEndpointImage]) {
@@ -224,10 +232,8 @@
     // TODO: find a cleaner way to handle route parameters
     NSArray *path = [endpoint componentsSeparatedByString:@"/"];
     if ([path.firstObject isEqualToString:APIEndpointPatients]) {
-
         if (path.count == 2) {
             NSString *objectID = path[1];
-
             Patient *updatedPatient = [[Patient alloc] initWithJSONDictionary:params];
             NSNumber *existingPatientIndex;
             int i = 0;
@@ -244,8 +250,10 @@
                 NSMutableArray *mutablePatients = [self.family.patients mutableCopy];
                 mutablePatients[[existingPatientIndex integerValue]] = updatedPatient;
                 self.family.patients = [mutablePatients copy];
+
                 return [updatedPatient serializeToJSON];
             }
+
             return nil;
         }
     }
@@ -266,6 +274,7 @@
     else if ([endpoint isEqualToString:APIEndpointPatientList]) {
 
         self.family.patients = [Patient deserializeManyFromJSON:params[APIParamUserPatients]];
+
         return @{APIParamUserPatients: [Patient serializeManyToJSON:self.family.patients]};
     }
     else if ([endpoint isEqualToString:APIEndpointFamily]) {
@@ -286,6 +295,7 @@
     else if ([endpoint isEqualToString:APIEndpointPractice]) {
 
         self.practice = [[Practice alloc] initWithJSONDictionary:params];
+
         return [self.practice serializeToJSON];
     }
     else if ([endpoint isEqualToString:APIEndpointPractices]) {
@@ -293,15 +303,22 @@
         // TODO: LATER: handle multiple practices
         NSArray *practices = [Practice deserializeManyFromJSON:params[@"practices"]];
         self.practice = practices.firstObject;
+
         if (!self.practice) {
             return nil;
         }
+
         return @{@"practices": @[[self.practice serializeToJSON]]};
     }
     else if ([endpoint isEqualToString:APIEndpointConversationNotices]) {
 
         // TODO: standardize JSON results from network and cache
         self.notices = [Notice deserializeManyFromJSON:params[@"notices"]];
+
+        if (!self.notices) {
+            return nil;
+        }
+
         return @{@"notices": [Notice serializeManyToJSON:self.notices]};
     }
     else if ([endpoint isEqualToString:APIEndpointImage]) {
@@ -309,8 +326,10 @@
         NSString *key = params[APIParamImageBaseURL];
         if (key) {
             self.rawResources[key] = params;
+
             return params;
         }
+
         return nil;
     }
 
@@ -324,6 +343,7 @@
         [Configuration clearRemoteEnvironmentVariables];
         [LEOCredentialStore clearSavedCredentials];
         [self reset];
+
         return @{@"success": @(YES)};
     }
 
@@ -334,6 +354,7 @@
 
     id response = [self get:endpoint params:params];
     completion(response, nil);
+
     return [LEOPromise finishedCompletion];
 }
 
@@ -341,6 +362,7 @@
 
     id response = [self put:endpoint params:params];
     completion(response, nil);
+
     return [LEOPromise finishedCompletion];
 }
 
@@ -348,6 +370,7 @@
 
     id response = [self post:endpoint params:params];
     completion(response, nil);
+
     return [LEOPromise finishedCompletion];
 }
 
@@ -355,6 +378,7 @@
 
     id response = [self destroy:endpoint params:params];
     completion(response, nil);
+
     return [LEOPromise finishedCompletion];
 }
 
