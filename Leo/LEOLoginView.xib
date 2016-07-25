@@ -147,8 +147,8 @@
                                 <constraint firstAttribute="trailing" secondItem="eCa-38-B32" secondAttribute="trailing" id="uEe-58-W0a"/>
                             </constraints>
                         </view>
-                        <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Idf-QZ-wJh">
-                            <rect key="frame" x="280" y="487" width="42" height="93"/>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Idf-QZ-wJh">
+                            <rect key="frame" x="279" y="487" width="42" height="93"/>
                             <subviews>
                                 <view contentMode="scaleToFill" verticalCompressionResistancePriority="1000" misplaced="YES" placeholderIntrinsicWidth="55" placeholderIntrinsicHeight="68" translatesAutoresizingMaskIntoConstraints="NO" id="idd-rw-EiP" userLabel="Swipe Arrows View">
                                     <rect key="frame" x="-7" y="25" width="56" height="68"/>
