@@ -573,6 +573,8 @@ didSelectPoint:(id<TKChartData> __nonnull)point
     if (state.points.count > 0){
         TKChartVisualPoint *lastPoint = (TKChartVisualPoint *)state.points[state.points.count-1];
         self.lineContainer.lineXPositionConstraint.constant = lastPoint.x;
+        [self.chart select:[[TKChartSelectionInfo alloc] initWithSeries:self.chart.series[0]
+                                                         dataPointIndex:(state.points.count-1)]];
     }
     
     return group;
