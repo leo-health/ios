@@ -20,7 +20,7 @@
 /**
  The TKDataForm which owns the editor.
  */
-@property (nonatomic, weak) TKDataForm *owner;
+@property (nonatomic, weak, null_unspecified) TKDataForm *owner;
 
 /**
  The grid layout used to layout the editor.

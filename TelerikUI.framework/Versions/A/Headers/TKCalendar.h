@@ -341,12 +341,12 @@ typedef NS_ENUM(NSInteger, TKCalendarCellType) {
 /**
  A delegate for styling the calendar component and receiving notifications.
  */
-@property (nonatomic, weak) id<TKCalendarDelegate> delegate;
+@property (nonatomic, weak, nullable) id<TKCalendarDelegate> delegate;
 
 /**
  A data-source delegate used to provide events for calendar cells.
  */
-@property (nonatomic, weak) id<TKCalendarDataSource> dataSource;
+@property (nonatomic, weak, nullable) id<TKCalendarDataSource> dataSource;
 
 /**
  The minimal date that will be visible when navigating between calendar screens.

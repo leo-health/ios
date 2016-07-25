@@ -85,7 +85,7 @@ typedef NS_ENUM(NSInteger, TKCalendarTransitionMode) {
 /**
  A delegate for handling presenter notifications.
  */
-@property (nonatomic, weak) id<TKCalendarPresenterDelegate> delegate;
+@property (nonatomic, weak, nullable) id<TKCalendarPresenterDelegate> delegate;
 
 /**
  The transition effect.

@@ -27,6 +27,6 @@
 /**
  The alert instance owner of this content view.
  */
-@property (nonatomic, weak) TKAlert *alert;
+@property (nonatomic, weak, null_unspecified) TKAlert *alert;
 
 @end

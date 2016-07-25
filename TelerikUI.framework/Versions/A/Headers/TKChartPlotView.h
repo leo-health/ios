@@ -22,7 +22,7 @@
 /**
  The associated TKChart instance.
  */
-@property (nonatomic, weak, readonly) TKChart *chart;
+@property (nonatomic, weak, readonly, null_unspecified) TKChart *chart;
 
 /**
  Returns the plot view grid.

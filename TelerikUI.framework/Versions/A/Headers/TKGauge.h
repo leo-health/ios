@@ -73,7 +73,7 @@
 /**
  Represents TKGauge delegate.
  */
-@property (nonatomic, weak) id<TKGaugeDelegate> delegate;
+@property (nonatomic, weak, nullable) id<TKGaugeDelegate> delegate;
 
 /**
  Contains all the scales in given TKGauge.
