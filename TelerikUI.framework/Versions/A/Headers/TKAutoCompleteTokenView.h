@@ -49,7 +49,7 @@
 /**
  The TKAutoCompleteView in which the token presents.
  */
-@property (nonatomic, weak) TKAutoCompleteTextView *owner;
+@property (nonatomic, weak, nullable) TKAutoCompleteTextView *owner;
 
 /**
  The data model object.

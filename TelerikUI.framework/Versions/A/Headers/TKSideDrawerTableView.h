@@ -17,7 +17,7 @@
 /**
  The TKSideDrawer that displays the TKSideDrawerTableView.
  */
-@property (nonatomic, weak) TKSideDrawer *sideDrawer;
+@property (nonatomic, weak, null_unspecified) TKSideDrawer *sideDrawer;
 
 /**
  Initilizes the TKSideDrawerTableView with a TKSideDrawer instance.

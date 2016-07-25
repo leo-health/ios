@@ -17,7 +17,7 @@
 /**
  The scale that owns the indicator.
  */
-@property (nonatomic, weak) TKGaugeScale* owner;
+@property (nonatomic, weak, null_unspecified) TKGaugeScale* owner;
 
 /**
  The indicator value. It determines its position on the scale.

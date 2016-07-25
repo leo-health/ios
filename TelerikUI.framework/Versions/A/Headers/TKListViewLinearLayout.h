@@ -86,9 +86,9 @@ typedef NS_ENUM(NSInteger, TKListViewItemAnimation)
  */
 @interface TKListViewLinearLayout : UICollectionViewLayout
 
-@property (nonatomic, weak) id<TKListViewLinearLayoutDelegate> delegate;
+@property (nonatomic, weak, nullable) id<TKListViewLinearLayoutDelegate> delegate;
 
-@property (nonatomic, weak) TKListView *owner;
+@property (nonatomic, weak, nullable) TKListView *owner;
 
 /**
  The scroll direction.

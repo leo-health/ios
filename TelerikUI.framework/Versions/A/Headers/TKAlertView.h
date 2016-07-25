@@ -19,7 +19,7 @@
 /**
  The alert object containing TKAlertView.
  */
-@property (nonatomic, weak) TKAlert *alert;
+@property (nonatomic, weak, null_unspecified) TKAlert *alert;
 
 /**
  TKAlert's header view.

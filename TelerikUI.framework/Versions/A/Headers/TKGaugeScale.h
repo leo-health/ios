@@ -23,7 +23,7 @@
 /**
  Represents the instance of TKGauge that owns this scale.
  */
-@property (nonatomic, weak) TKGauge* owner;
+@property (nonatomic, weak, null_unspecified) TKGauge* owner;
 
 /**
  Defines the minimum and maximum value of the scale.

@@ -68,12 +68,12 @@ typedef NS_ENUM(int, TKDataFormValidationMode)
 /**
  TKDataForm's data source.
  */
-@property (nonatomic, weak) id<TKDataFormDataSource> dataSource;
+@property (nonatomic, weak, nullable) id<TKDataFormDataSource> dataSource;
 
 /**
  TKDataForm's delegate.
  */
-@property (nonatomic, weak) id<TKDataFormDelegate> delegate;
+@property (nonatomic, weak, nullable) id<TKDataFormDelegate> delegate;
 
 /**
  TKDataForm's commit mode. It determines when the data the user has just entered will be reflected on the underlying business object.

@@ -15,7 +15,7 @@
 /**
  TKSideDrawer that will be show or dismissed.
  */
-@property (nonatomic, weak) TKSideDrawer *sideDrawer;
+@property (nonatomic, weak, null_unspecified) TKSideDrawer *sideDrawer;
 
 /**
  Creates new TKSideDrawerTransition instance.

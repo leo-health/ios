@@ -21,7 +21,7 @@
 /**
  The TKAutoCompleteTextView objec owning the instance.
  */
-@property (weak, nonatomic) TKAutoCompleteTextView *owner;
+@property (weak, nonatomic, nullable) TKAutoCompleteTextView *owner;
 
 /**
  The selected item.

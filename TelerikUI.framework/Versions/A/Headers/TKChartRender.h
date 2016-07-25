@@ -15,7 +15,7 @@
 /**
  Returns the chart associated with the renderer (read-only).
  */
-@property (nonatomic, weak, readonly) TKChart* chart;
+@property (nonatomic, weak, readonly, null_unspecified) TKChart* chart;
 
 /**
  Initializes the render with chart.

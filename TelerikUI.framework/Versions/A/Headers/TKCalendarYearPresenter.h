@@ -83,6 +83,6 @@
 /**
  The delegate allowing control over the appereance of the year view.
  */
-@property (nonatomic, weak) id<TKCalendarYearPresenterDelegate> delegate;
+@property (nonatomic, weak, nullable) id<TKCalendarYearPresenterDelegate> delegate;
 
 @end
