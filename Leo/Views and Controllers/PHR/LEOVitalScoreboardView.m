@@ -103,10 +103,10 @@
 
         LEOStatWithTypeView *strongStatView;
 
-        if ([[self ageStatUnits].firstObject isEqualToString:@"days"]) {
+        if ([[self ageStatUnits].firstObject isEqualToString:@"days"] || [[self ageStatUnits].firstObject isEqualToString:@"day"]) {
 
             NSString *preformattedString =
-            [NSString stringWithFormat:@"%@ days", [self ageStatValues].firstObject];
+            [NSString stringWithFormat:@"%@ %@", [self ageStatValues].firstObject, [self ageStatUnits].firstObject];
 
             strongStatView =
             [[LEOStatWithTypeView alloc] initWithPreformattedString:preformattedString
