@@ -95,14 +95,15 @@ availableFamilyAndGuardianAttributes:(NSDictionary *)attributes {
 }
 
 + (NSDictionary *)availableFamilyAndGuardianAttributes {
+
     Family *family = [LEOFamilyService new].getFamily;
     Guardian *guardian = [LEOUserService new].getCurrentUser;
     NSMutableDictionary *mutableAttributes = [NSMutableDictionary new];
 
-    if (family != nil && family.numberOfChildren > 0 && guardian != nil && guardian.membershipType!=MembershipTypeIncomplete) {
+    if (family && family.numberOfChildren > 0 && guardian != nil && guardian.membershipType!=MembershipTypeIncomplete) {
         [mutableAttributes addEntriesFromDictionary:[family analyticAttributes]];
     }
-    if (guardian != nil) {
+    if (guardian) {
         [mutableAttributes addEntriesFromDictionary:[guardian analyticAttributes]];
     }
 
