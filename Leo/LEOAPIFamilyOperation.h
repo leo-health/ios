@@ -7,7 +7,10 @@
 //
 
 #import "LEOAPIOperation.h"
+#import "LEOCachePolicy.h"
 
 @interface LEOAPIFamilyOperation : LEOAPIOperation
+
+- (instancetype)initWithCachePolicy:(LEOCachePolicy *)cachePolicy;
 
 @end

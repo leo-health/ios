@@ -375,8 +375,10 @@ static NSString *const kKeySelectionVCDate = @"date";
             }];
             [strongVC.notificationObservers addObject:observer];
         };
-        
-        selectionVC.requestOperation = [[LEOAPIFamilyOperation alloc] init];
+
+        LEOCachePolicy *policy = [LEOCachePolicy new];
+        policy.get = LEOCachePolicyGETCacheElseGETNetworkThenPUTCache;
+        selectionVC.requestOperation = [[LEOAPIFamilyOperation alloc] initWithCachePolicy:policy];
         selectionVC.delegate = self;
 
     } else if ([segue.identifier isEqualToString:kSegueStaff]) {
