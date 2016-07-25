@@ -16,10 +16,10 @@
                     <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hrG-Bq-AQN">
-                            <rect key="frame" x="28" y="0.0" width="544" height="467"/>
+                            <rect key="frame" x="28" y="0.0" width="544" height="457"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eCa-38-B32">
-                                    <rect key="frame" x="0.0" y="120" width="544" height="227"/>
+                                    <rect key="frame" x="0.0" y="115" width="544" height="227"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="8dN-vK-tZY" userLabel="Logo">
                                             <rect key="frame" x="185" y="0.0" width="174" height="72"/>
@@ -148,10 +148,10 @@
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Idf-QZ-wJh">
-                            <rect key="frame" x="279" y="487" width="42" height="93"/>
+                            <rect key="frame" x="279" y="477" width="42" height="103"/>
                             <subviews>
-                                <view contentMode="scaleToFill" verticalCompressionResistancePriority="1000" misplaced="YES" placeholderIntrinsicWidth="55" placeholderIntrinsicHeight="68" translatesAutoresizingMaskIntoConstraints="NO" id="idd-rw-EiP" userLabel="Swipe Arrows View">
-                                    <rect key="frame" x="-7" y="25" width="56" height="68"/>
+                                <view contentMode="scaleToFill" verticalCompressionResistancePriority="1000" placeholderIntrinsicWidth="55" placeholderIntrinsicHeight="68" translatesAutoresizingMaskIntoConstraints="NO" id="idd-rw-EiP" userLabel="Swipe Arrows View">
+                                    <rect key="frame" x="-6.5" y="35" width="55" height="68"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="55" id="D4W-Rr-nYd"/>
@@ -176,7 +176,7 @@
                                 <constraint firstAttribute="trailing" secondItem="idd-rw-EiP" secondAttribute="trailing" id="6tP-cb-SI2"/>
                                 <constraint firstAttribute="bottom" secondItem="idd-rw-EiP" secondAttribute="bottom" id="WYJ-gd-qY3"/>
                                 <constraint firstItem="idd-rw-EiP" firstAttribute="centerX" secondItem="Idf-QZ-wJh" secondAttribute="centerX" id="Xyu-yj-qlX"/>
-                                <constraint firstItem="idd-rw-EiP" firstAttribute="top" secondItem="Y81-nC-hfD" secondAttribute="bottom" constant="5" id="YuV-sA-W2v"/>
+                                <constraint firstItem="idd-rw-EiP" firstAttribute="top" secondItem="Y81-nC-hfD" secondAttribute="bottom" constant="15" id="YuV-sA-W2v"/>
                                 <constraint firstItem="idd-rw-EiP" firstAttribute="leading" secondItem="Idf-QZ-wJh" secondAttribute="leading" id="aZf-d1-G6q"/>
                                 <constraint firstItem="Y81-nC-hfD" firstAttribute="leading" secondItem="Idf-QZ-wJh" secondAttribute="leading" id="fsD-pI-dGR"/>
                                 <constraint firstAttribute="trailing" secondItem="Y81-nC-hfD" secondAttribute="trailing" id="oQc-KI-NIN"/>
