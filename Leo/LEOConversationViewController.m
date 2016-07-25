@@ -134,7 +134,9 @@ static NSString *const kDefaultPracticeID = @"0";
     [self setupMessageBubbles];
     [self setupRequiredMessagingProperties];
 
-    [self fetchRequiredDataWithCompletion:^(NSArray *notices, Practice *practice, NSError *error) {
+    LEOCachePolicy *policy = [LEOCachePolicy new];
+    policy.get = LEOCachePolicyGETCacheElseGETNetworkThenPUTCache;
+    [self fetchRequiredDataWithCachePolicy:policy completion:^(NSArray *notices, Practice *practice, NSError *error) {
 
         if (error) {
 
@@ -168,14 +170,19 @@ static NSString *const kDefaultPracticeID = @"0";
 
 - (void)fetchRequiredDataWithCompletion:(void (^)(NSArray *notices, Practice *practice, NSError *error))completionBlock {
 
-    [[LEOPracticeService new] getPracticeWithCompletion:^(Practice *practice, NSError *error) {
+    [self fetchRequiredDataWithCachePolicy:[LEOCachePolicy new] completion:completionBlock];
+}
+
+- (void)fetchRequiredDataWithCachePolicy:(LEOCachePolicy *)cachePolicy completion:(void (^)(NSArray *notices, Practice *practice, NSError *error))completionBlock {
+
+    [[LEOPracticeService serviceWithCachePolicy:cachePolicy] getPracticeWithCompletion:^(Practice *practice, NSError *error) {
 
         if (error) {
             completionBlock(nil, nil, error);
             return;
         }
 
-        [[LEONoticeService new] getConversationNoticesWithCompletion:^(NSArray *notices, NSError *error) {
+        [[LEONoticeService serviceWithCachePolicy:cachePolicy] getConversationNoticesWithCompletion:^(NSArray *notices, NSError *error) {
 
             if (error) {
                 completionBlock(nil, practice, error);
