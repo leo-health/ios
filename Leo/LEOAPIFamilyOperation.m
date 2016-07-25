@@ -11,11 +11,26 @@
 #import "LEOFamilyService.h"
 #import "LEOSession.h"
 
+@interface LEOAPIFamilyOperation ()
+
+@property (strong, nonatomic) LEOCachePolicy *cachePolicy;
+
+@end
+
 @implementation LEOAPIFamilyOperation
+
+- (instancetype)initWithCachePolicy:(LEOCachePolicy *)cachePolicy {
+
+    self = [super init];
+    if (self) {
+        _cachePolicy = cachePolicy;
+    }
+    return self;
+}
 
 -(void)main {
 
-    [[LEOFamilyService new] getFamilyWithCompletion:^(Family *family, NSError *error) {
+    [[LEOFamilyService serviceWithCachePolicy:self.cachePolicy] getFamilyWithCompletion:^(Family *family, NSError *error) {
 
         // for appointments, sort by youngest to oldest
         NSArray *data = [family.patients sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"dob" ascending:NO],[NSSortDescriptor sortDescriptorWithKey:@"firstName" ascending:YES]]];
