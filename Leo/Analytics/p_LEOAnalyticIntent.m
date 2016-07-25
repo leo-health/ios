@@ -17,7 +17,7 @@
       attributes:(NSDictionary *)attributeDictionary {
     
     NSString *intentName = [@"Intent: " stringByAppendingString:eventName];
-    [super tagEvent:eventName
+    [super tagEvent:intentName
          attributes:attributeDictionary];
 }
 

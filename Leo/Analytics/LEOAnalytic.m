@@ -20,29 +20,47 @@
 + (void)tagType:(LEOAnalyticType)type
            name:(NSString *)eventName {
 
-    Family *family = [LEOFamilyService new].getFamily;
-    Guardian *guardian = [LEOUserService new].getCurrentUser;
-    NSMutableDictionary *attributes = [NSMutableDictionary new];
-    if (family != nil) {
-       [attributes addEntriesFromDictionary:[family analyticAttributes]];
-    }
-    if (guardian != nil) {
-        [attributes addEntriesFromDictionary:[guardian analyticAttributes]];
-    }
+    NSDictionary *attributes = [self availableFamilyAndGuardianAttributes];
+
     if ([attributes count] > 0) {
+
         [self tagType:type
                  name:eventName
-           attributes:attributes];
+availableFamilyAndGuardianAttributes:attributes];
+    } else {
+
+        switch (type) {
+
+            case LEOAnalyticTypeEvent:
+                [p_LEOAnalyticEvent tagEvent:eventName];
+                break;
+
+            case LEOAnalyticTypeIntent:
+                [p_LEOAnalyticIntent tagEvent:eventName];
+                break;
+
+            case LEOAnalyticTypeScreen:
+                [p_LEOAnalyticScreen tagScreen:eventName];
+                break;
+        }
     }
     
+}
+
++ (void)tagType:(LEOAnalyticType)type
+           name:(NSString *)eventName
+availableFamilyAndGuardianAttributes:(NSDictionary *)attributes {
+
     switch (type) {
 
         case LEOAnalyticTypeEvent:
-            [p_LEOAnalyticEvent tagEvent:eventName];
+            [p_LEOAnalyticEvent tagEvent:eventName
+                              attributes:attributes];
             break;
 
         case LEOAnalyticTypeIntent:
-            [p_LEOAnalyticIntent tagEvent:eventName];
+            [p_LEOAnalyticIntent tagEvent:eventName
+                               attributes:attributes];
             break;
 
         case LEOAnalyticTypeScreen:
@@ -55,22 +73,8 @@
            name:(NSString *)eventName
      attributes:(NSDictionary *)attributes {
 
-    NSMutableDictionary *mutableDictionary = [attributes mutableCopy];
-    if ([attributes objectForKey:@"Number of Children"]==nil) {
-
-        Family *family = [LEOFamilyService new].getFamily;
-        if (family != nil) {
-            [mutableDictionary addEntriesFromDictionary:[family analyticAttributes]];
-        }
-    }
-
-    if ([attributes objectForKey:kAnalyticAttributeMembershipType]==nil) {
-
-        Guardian *guardian = [LEOUserService new].getCurrentUser;
-        if (guardian != nil) {
-            [mutableDictionary addEntriesFromDictionary:[guardian analyticAttributes]];
-        }
-    }
+    NSMutableDictionary *mutableDictionary = [[self availableFamilyAndGuardianAttributes] mutableCopy];
+    [mutableDictionary addEntriesFromDictionary:attributes];
 
     switch (type) {
 
@@ -88,6 +92,21 @@
             [p_LEOAnalyticScreen tagScreen:eventName];
             break;
     }
+}
+
++ (NSDictionary *)availableFamilyAndGuardianAttributes {
+    Family *family = [LEOFamilyService new].getFamily;
+    Guardian *guardian = [LEOUserService new].getCurrentUser;
+    NSMutableDictionary *mutableAttributes = [NSMutableDictionary new];
+
+    if (family != nil && family.numberOfChildren > 0 && guardian != nil && guardian.membershipType!=MembershipTypeIncomplete) {
+        [mutableAttributes addEntriesFromDictionary:[family analyticAttributes]];
+    }
+    if (guardian != nil) {
+        [mutableAttributes addEntriesFromDictionary:[guardian analyticAttributes]];
+    }
+
+    return [mutableAttributes copy];
 }
 
 

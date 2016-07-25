@@ -16,7 +16,7 @@
 #import "UIColor+LeoColors.h"
 #import "LEOPaymentService.h"
 #import "LEOReviewOnboardingViewController.h"
-#import "Family.h"
+#import "Family+Analytics.h"
 #import "NSObject+XibAdditions.h"
 #import "LEOUserService.h"
 #import "LEOPatientService.h"
@@ -213,6 +213,7 @@ NSString *const kCopyEditPaymentsHeader = @"Update your credit or debit card";
             else if (strongSelf.managementMode == ManagementModeEdit) {
 
                 [strongSelf.delegate updatePaymentWithPaymentDetails:token];
+                Family *family = [[LEOFamilyService new] getFamily];
 
                 switch (self.feature) {
                     case FeatureOnboarding: {
@@ -221,10 +222,11 @@ NSString *const kCopyEditPaymentsHeader = @"Update your credit or debit card";
                                              animated:YES];
 
                         [strongSelf.navigationController popViewControllerAnimated:YES];
-                        
+
+                        Family *family = [[LEOFamilyService new] getFamily];
                         [LEOAnalytic tagType:LEOAnalyticTypeIntent
                                         name:kAnalyticEventChargeCard
-                                  attributes:[self.family serializeToJSON]];
+                                  attributes:[family analyticAttributes]];
                     }
                         break;
 
@@ -241,14 +243,14 @@ NSString *const kCopyEditPaymentsHeader = @"Update your credit or debit card";
                             [[LEOUserService new] getCurrentUserWithCompletion:^(Guardian *guardian, NSError *error) {
 
                                 if (error) {
-
                                     [self handleError:error];
                                     return;
                                 }
 
                                 [LEOAnalytic tagType:LEOAnalyticTypeIntent
                                                 name:kAnalyticEventChargeCard
-                                          attributes:[self.family serializeToJSON]];
+                                          attributes:[family analyticAttributes]];
+
 
                                 [MBProgressHUD hideHUDForView:strongSelf.view
                                                      animated:YES];

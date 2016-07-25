@@ -383,8 +383,7 @@ static NSString *const kCopyManageMySubscription = @"Manage my membership";
             [LEOBreadcrumb crumbWithObject:[NSString stringWithFormat:@"%s user requested logout", __PRETTY_FUNCTION__]];
 
             [LEOAnalytic tagType:LEOAnalyticTypeEvent
-                            name:kAnalyticEventLogout
-                          family:self.family];
+                            name:kAnalyticEventLogout];
 
             [[LEOUserService new] logoutUserWithCompletion:nil];
             

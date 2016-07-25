@@ -42,46 +42,11 @@
 
 + (void)tagType:(LEOAnalyticType)type
            name:(NSString *)eventName
-    appointment:(Appointment *)appointment
-       guardian:(Guardian *)guardian {
-
-    NSMutableDictionary *mutableAttributeDictionary = [[appointment analyticAttributes] mutableCopy];
-    [mutableAttributeDictionary addEntriesFromDictionary:[guardian analyticAttributes]];
-
-    [self tagType:type
-             name:eventName
-       attributes:mutableAttributeDictionary];
-}
-
-+ (void)tagType:(LEOAnalyticType)type
-           name:(NSString *)eventName
         patient:(Patient *)patient {
 
     [self tagType:type
              name:eventName
        attributes:[patient analyticAttributes]];
-}
-
-+ (void)tagType:(LEOAnalyticType)type
-           name:(NSString *)eventName
-        patient:(Patient *)patient
-       guardian:(Guardian *)guardian {
-
-    NSMutableDictionary *mutableAttributeDictionary = [[patient analyticAttributes] mutableCopy];
-    [mutableAttributeDictionary addEntriesFromDictionary:[guardian analyticAttributes]];
-
-    [self tagType:type
-             name:eventName
-       attributes:mutableAttributeDictionary];
-}
-
-+ (void)tagType:(LEOAnalyticType)type
-           name:(NSString *)eventName
-       guardian:(Guardian *)guardian {
-
-    [self tagType:type
-             name:eventName
-       attributes:[guardian analyticAttributes]];
 }
 
 + (void)tagType:(LEOAnalyticType)type

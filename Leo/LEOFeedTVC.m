@@ -682,8 +682,7 @@ static CGFloat const kFeedInsetTop = 20.0;
     [alert addAction:[UIAlertAction actionWithTitle:@"Call" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
 
         [LEOAnalytic tagType:LEOAnalyticTypeIntent
-                        name:kAnalyticEventCallUs
-                      family:self.family];
+                        name:kAnalyticEventCallUs];
 
         NSString *phoneCallNum = [NSString stringWithFormat:@"tel://%@",kFlatironPediatricsPhoneNumber];
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneCallNum]];
@@ -745,8 +744,7 @@ static CGFloat const kFeedInsetTop = 20.0;
                                         if (!error) {
                                             [LEOAnalytic tagType:LEOAnalyticTypeEvent
                                                             name:kAnalyticEventCancelVisit
-                                                     appointment:card.associatedCardObject
-                                                          family:self.family];
+                                                     appointment:card.associatedCardObject];
                                         }
 
                                         if (completionBlock) {

@@ -14,7 +14,7 @@
 #import "LEOPracticeService.h"
 #import "LEOPaymentService.h"
 
-#import "Family.h"
+#import "Family+Analytics.h"
 #import "Patient.h"
 #import "Guardian.h"
 #import "InsurancePlan.h"
@@ -410,9 +410,11 @@ static NSString *const kReviewPaymentDetails = @"ReviewPaymentSegue";
         NSInteger errorCode = [((NSNumber *)error.userInfo[@"message"][@"error_code"]) integerValue];
 
         if (!error || errorCode == 422) {
+            Family *family = [[LEOFamilyService new] getFamily];
             [LEOAnalytic tagType:LEOAnalyticTypeEvent
                             name:kAnalyticEventConfirmAccount
-                          family:self.family];
+                      attributes:[family analyticAttributes]
+             ];
 
             [self.analyticSession completeSession];
         }
@@ -429,15 +431,12 @@ static NSString *const kReviewPaymentDetails = @"ReviewPaymentSegue";
             return;
         } else {
             [LEOAnalytic tagType:LEOAnalyticTypeIntent
-                            name:kAnalyticEventAddCaregiverFromRegistration
-                          family:self.family];
+                            name:kAnalyticEventAddCaregiverFromRegistration];
         }
 
 
 
         [self.analyticSession completeSession];
-
-        [Localytics tagEvent:kAnalyticEventConfirmAccount];
 
         [MBProgressHUD hideHUDForView:self.view animated:YES];
     }];
@@ -456,11 +455,9 @@ static NSString *const kReviewPaymentDetails = @"ReviewPaymentSegue";
 
                 [LEOAlertHelper alertForViewController:strongSelf error:error backupTitle:@"Something went wrong!" backupMessage:@"Please check your information and your internet connection and try again."];
             } else {
-                Family *family = [[LEOFamilyService new] getFamily];
 
                 [LEOAnalytic tagType:LEOAnalyticTypeIntent
-                                name:kAnalyticEventAddCaregiverFromRegistration
-                              family:family];
+                                name:kAnalyticEventAddCaregiverFromRegistration];
                 completionBlock(error);
             }
         }];

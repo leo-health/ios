@@ -1094,7 +1094,7 @@ static NSString *const kDefaultPracticeID = @"0";
             }
             else if ([message isKindOfClass:[MessageText class]]) {
                 [LEOAnalytic tagType:LEOAnalyticTypeEvent
-                                name:kAnalyticEventSendImageMessage
+                                name:kAnalyticEventSendTextMessage
                              message:message];
             }
 

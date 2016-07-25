@@ -83,6 +83,7 @@ extern NSString *const kAnalyticEventResetPasswordFromLogin; // @"Reset Password
 extern NSString *const kAnalyticEventUpdatePaymentMethod; // @"Update Payment Method";
 extern NSString *const kAnalyticEventUpdatePasswordInSettings; // @"Update Password In Settings";
 extern NSString *const kAnalyticEventUpdatePaymentChargeCard; // @"Update Payment Method and Charge Card";
+extern NSString *const kAnalyticEventInviteCaregiver; // @"Invite caregiver";
 
 extern NSString *const kAnalyticEventConfirmPatientsInOnboarding; // @"Confirm Patients";
 
