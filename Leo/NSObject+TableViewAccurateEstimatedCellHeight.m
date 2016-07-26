@@ -12,16 +12,22 @@
 
 - (CGFloat)leo_tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    UITableViewCell *cell = [tableView.dataSource tableView:tableView cellForRowAtIndexPath:indexPath];
+    UITableViewCell *cell = [tableView.dataSource tableView:tableView
+                                      cellForRowAtIndexPath:indexPath];
 
     UIEdgeInsets inset = tableView.contentInset;
-    CGFloat margins = inset.right + inset.left + CGRectGetWidth(tableView.superview.bounds) - CGRectGetWidth(tableView.bounds);
+    CGFloat margins =
+    inset.right + inset.left
+    + CGRectGetWidth(tableView.superview.bounds)
+    - CGRectGetWidth(tableView.bounds);
     CGFloat w = CGRectGetWidth(tableView.bounds) - margins;
 
     // get size
     CGSize fittingSize = UILayoutFittingCompressedSize;
     fittingSize.width = w;
-    CGSize size = [cell.contentView systemLayoutSizeFittingSize:fittingSize withHorizontalFittingPriority:UILayoutPriorityDefaultHigh verticalFittingPriority:UILayoutPriorityDefaultLow];
+    CGSize size = [cell.contentView systemLayoutSizeFittingSize:fittingSize
+                                  withHorizontalFittingPriority:UILayoutPriorityRequired
+                                        verticalFittingPriority:UILayoutPriorityDefaultLow];
 
     return size.height;
 }

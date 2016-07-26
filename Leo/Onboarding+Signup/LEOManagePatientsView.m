@@ -8,7 +8,6 @@
 
 #import "LEOManagePatientsView.h"
 #import "UIView+Extensions.h"
-#import "LEOBasicHeaderCell+ConfigureForCell.h"
 #import "LEOPromptFieldCell+ConfigureForCell.h"
 #import "LEOButtonCell.h"
 #import "LEOIntrinsicSizeTableView.h"

@@ -15,8 +15,12 @@
 
 @property (weak, nonatomic) id<LEOPromptDelegate>delegate;
 @property (strong, nonatomic) LEOValidatedFloatLabeledTextView *textView;
+@property (strong, nonatomic) UIView *accessoryView;
+// TODO: break this out into a subclass or specialized class where accessoryView is always an image
+// defaults to UIImageView accessory
 @property (nonatomic) BOOL accessoryImageViewVisible;
 @property (strong, nonatomic) UIImage *accessoryImage;
+
 @property (nonatomic) BOOL tapGestureEnabled;
 @property (nonatomic) BOOL valid;
 

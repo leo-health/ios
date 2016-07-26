@@ -10,13 +10,22 @@
 
 #import <Stripe.h>
 #import <Foundation/Foundation.h>
+#import "LEOModelService.h"
+#import "Coupon.h"
 
-@interface LEOPaymentService : NSObject
+@interface LEOPaymentService : LEOModelService
 
-- (NSURLSessionTask *)createChargeWithToken:(STPToken *)token
-                   completion:(void (^)(BOOL success, NSError *error))completionBlock;
+- (LEOPromise *)createChargeWithToken:(STPToken *)token
+                            promoCode:(NSString *)promoCode
+                           completion:(LEODictionaryErrorBlock)completionBlock;
 
-- (NSURLSessionTask *)updateAndChargeCardWithToken:(STPToken *)token
-                                        completion:(void (^)(BOOL success, NSError *error))completionBlock;
+- (LEOPromise *)updateAndChargeCardWithToken:(STPToken *)token
+                                        completion:(LEODictionaryErrorBlock)completionBlock;
+
+- (LEOPromise *)validatePromoCode:(NSString *)promoCode
+                             completion:(void (^)(Coupon *coupon, NSError *error))completionBlock;
+
+- (Coupon *)getValidatedCoupon;
+
 
 @end

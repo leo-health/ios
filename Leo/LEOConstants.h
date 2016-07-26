@@ -218,6 +218,7 @@ extern NSString *const APIEndpointConversationNotices; // @"conversation_notices
 
 
 extern NSString *const APIEndpointSubscriptions; // @"subscriptions";
+extern NSString *const APIEndpointValidatePromoCode; // @"validate_coupon";
 
 #pragma mark - Common
 extern NSString *const APIParamID; // @"id";
@@ -352,6 +353,10 @@ extern NSString *const APIParamMessageEscalatedBy; // @"escalated_by";
 
 
 #pragma mark - Payment & Stripe
+extern NSString *const APIParamPaymentToken; // @"credit_card_token";
+extern NSString *const APIParamCouponID; // @"coupon_id";
+extern NSString *const APIParamCouponSuccessMessage; // @"text";
+extern NSString *const APIParamFullStripeCoupon; // @"coupon";
 extern NSString *const APIParamPaymentBalance; // @"balance";
 extern NSString *const APIParamPaymentDueDateTime; // @"due_datetime";
 extern NSString *const APIParamPaymentPaidBy; // @"paid_by";
@@ -532,7 +537,6 @@ extern NSString *const kStoryboardAppointment; // @"Appointment";
 
 
 #pragma mark - Cell Reuse Identifiers
-extern NSString *const kHeaderCellReuseIdentifier; // @"LEOBasicHeaderCell";
 extern NSString *const kReviewUserCellReuseIdentifer; // @"ReviewUserCell";
 extern NSString *const kReviewPatientCellReuseIdentifer; // @"ReviewPatientCell";
 extern NSString *const kPaymentDetailsCellReuseIdentifier; // @"PaymentDetailsCell";

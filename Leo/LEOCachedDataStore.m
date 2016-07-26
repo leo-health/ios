@@ -13,6 +13,7 @@
 #import "Guardian.h"
 #import "Patient.h"
 #import "Practice.h"
+#import "Coupon.h"
 #import "LEOCredentialStore.h"
 #import "NSUserDefaults+Extensions.h"
 #import "Configuration.h"
@@ -24,6 +25,7 @@
 @property (strong, nonatomic, nullable) Family *family;
 @property (strong, nonatomic, nullable) Practice *practice;
 @property (copy, nonatomic, nullable) NSArray<Notice *> *notices;
+@property (strong, nonatomic, nullable) Coupon *coupon;
 @property (strong, nonatomic) NSMutableDictionary *rawResources;
 
 @end
@@ -223,6 +225,10 @@
             return imageJSON;
         }
     }
+    else if ([endpoint isEqualToString:APIEndpointValidatePromoCode]) {
+
+        return [self.coupon serializeToJSON];
+    }
 
     return nil;
 }
@@ -331,6 +337,11 @@
         }
 
         return nil;
+    }
+    else if ([endpoint isEqualToString:APIEndpointValidatePromoCode]) {
+
+        self.coupon = [[Coupon alloc] initWithJSONDictionary:params];
+        return [self.coupon serializeToJSON];
     }
 
     return nil;

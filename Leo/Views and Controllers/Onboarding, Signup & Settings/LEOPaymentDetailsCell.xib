@@ -3,15 +3,16 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PaymentDetailsCell" rowHeight="79" id="L72-6E-y9G" userLabel="LEOPaymentDetailsCell" customClass="LEOPaymentDetailsCell">
-            <rect key="frame" x="0.0" y="0.0" width="501" height="66"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PaymentDetailsCell" rowHeight="173" id="L72-6E-y9G" userLabel="LEOPaymentDetailsCell" customClass="LEOPaymentDetailsCell">
+            <rect key="frame" x="0.0" y="0.0" width="386" height="160"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="L72-6E-y9G" id="zrb-UO-UBS">
-                <rect key="frame" x="0.0" y="0.0" width="501" height="66"/>
+                <rect key="frame" x="0.0" y="0.0" width="386" height="159.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="999" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text=" **************** 0000" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rGt-EW-6hF" userLabel="Card Details Label">
@@ -37,7 +38,7 @@
                         </state>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="999" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="Your card will be charged $xx" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TSD-v5-53h" userLabel="Charge Details Label">
-                        <rect key="frame" x="80" y="24" width="221" height="42"/>
+                        <rect key="frame" x="80" y="24" width="221" height="121"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="100" id="RuZ-MY-PID"/>
                         </constraints>
@@ -50,25 +51,47 @@
                             </mask>
                         </variation>
                     </label>
+                    <view hidden="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="0.0" placeholderIntrinsicHeight="infinite" translatesAutoresizingMaskIntoConstraints="NO" id="qPT-Ao-RJv" customClass="LEOPromoCodeSuccessView">
+                        <rect key="frame" x="80" y="152" width="221" height="0.0"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="height" id="RNI-5L-MKH"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <constraints>
+                    <constraint firstAttribute="bottomMargin" secondItem="qPT-Ao-RJv" secondAttribute="bottom" id="3o7-yA-utJ"/>
+                    <constraint firstItem="qPT-Ao-RJv" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="f6w-bA-oAb" secondAttribute="leading" id="572-kj-kOi"/>
                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="rGt-EW-6hF" secondAttribute="trailing" constant="30" id="6ob-bk-Muc"/>
                     <constraint firstItem="f6w-bA-oAb" firstAttribute="leading" secondItem="zrb-UO-UBS" secondAttribute="leading" constant="30" id="Cat-d7-dEy"/>
                     <constraint firstAttribute="bottom" secondItem="TSD-v5-53h" secondAttribute="bottom" id="Cwd-BU-JAX"/>
                     <constraint firstItem="f6w-bA-oAb" firstAttribute="top" secondItem="zrb-UO-UBS" secondAttribute="top" id="E9U-1T-Axb"/>
+                    <constraint firstItem="qPT-Ao-RJv" firstAttribute="trailing" secondItem="TSD-v5-53h" secondAttribute="trailing" id="GEZ-ae-Bjt"/>
+                    <constraint firstItem="qPT-Ao-RJv" firstAttribute="top" relation="greaterThanOrEqual" secondItem="f6w-bA-oAb" secondAttribute="bottom" id="HkJ-Cx-yOv"/>
+                    <constraint firstItem="qPT-Ao-RJv" firstAttribute="leading" secondItem="TSD-v5-53h" secondAttribute="leading" id="Upn-Do-dBw"/>
                     <constraint firstItem="rGt-EW-6hF" firstAttribute="top" secondItem="f6w-bA-oAb" secondAttribute="top" id="aqt-j3-GwU"/>
                     <constraint firstItem="TSD-v5-53h" firstAttribute="trailing" secondItem="rGt-EW-6hF" secondAttribute="trailing" id="kHa-aB-N7c"/>
                     <constraint firstItem="rGt-EW-6hF" firstAttribute="leading" secondItem="f6w-bA-oAb" secondAttribute="trailing" constant="20" id="m5Y-Nc-Y7i"/>
+                    <constraint firstItem="qPT-Ao-RJv" firstAttribute="leading" secondItem="TSD-v5-53h" secondAttribute="leading" priority="750" id="mya-LV-MOY"/>
                     <constraint firstItem="TSD-v5-53h" firstAttribute="top" secondItem="rGt-EW-6hF" secondAttribute="bottom" id="qAU-e8-TH7"/>
+                    <constraint firstItem="qPT-Ao-RJv" firstAttribute="top" secondItem="TSD-v5-53h" secondAttribute="bottom" constant="7" id="sKR-dc-eWR"/>
                     <constraint firstItem="TSD-v5-53h" firstAttribute="leading" secondItem="rGt-EW-6hF" secondAttribute="leading" id="uSt-wc-2wU"/>
                 </constraints>
+                <variation key="default">
+                    <mask key="constraints">
+                        <exclude reference="Cwd-BU-JAX"/>
+                        <exclude reference="Upn-Do-dBw"/>
+                    </mask>
+                </variation>
             </tableViewCellContentView>
             <connections>
                 <outlet property="cardDetailLabel" destination="rGt-EW-6hF" id="cTI-Kb-0cD"/>
                 <outlet property="chargeDetailLabel" destination="TSD-v5-53h" id="qj1-dE-pT6"/>
                 <outlet property="editButton" destination="f6w-bA-oAb" id="HYr-bx-jM5"/>
+                <outlet property="heightPromoCodeSuccessView" destination="RNI-5L-MKH" id="3Sd-nD-JVy"/>
+                <outlet property="promoCodeSuccessView" destination="qPT-Ao-RJv" id="Sc6-i0-Rk9"/>
             </connections>
-            <point key="canvasLocation" x="797.5" y="681"/>
+            <point key="canvasLocation" x="740" y="728"/>
         </tableViewCell>
     </objects>
 </document>

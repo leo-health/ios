@@ -60,6 +60,15 @@ static NSString * const reuseIdentifierFeature = @"reuseIdentifierFeature";
     [Configuration resetConfiguration];
 }
 
+#if LOCAL
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self scrollToBottom];
+}
+
+#endif
+
 - (UICollectionView *)collectionView {
 
     if (!_collectionView) {
