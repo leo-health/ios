@@ -90,7 +90,6 @@ static NSInteger const kChartHeight = 160;
 
         _lineContainer = strongView;
 
-        [_lineContainer initGestureRecognizers];
         _lineContainer.chart = self.chart;
 
     }

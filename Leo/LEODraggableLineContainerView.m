@@ -19,13 +19,15 @@
 
 @implementation LEODraggableLineContainerView
 
-- (void)initGestureRecognizers {
-
+- (LEODraggableLineContainerView *)init {
+    self = [super init];
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(handleTap:)];
     [self addGestureRecognizer:tapRecognizer];
     UILongPressGestureRecognizer *longPressRecognizer = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(handleLongPress:)];
     longPressRecognizer.minimumPressDuration = 0.03f;
     [self addGestureRecognizer:longPressRecognizer];
+
+    return self;
 }
 
 - (UIView *)line {
