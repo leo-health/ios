@@ -338,27 +338,63 @@ static NSInteger const kChartHeight = 160;
     yAxis.style.majorTickStyle.ticksHidden = YES;
     yAxis.style.minorTickStyle.ticksHidden = YES;
 
-    if (self.metricControl.selectedSegmentIndex == 0) {
-        yAxis.title = @"WEIGHT";
-    } else if (self.metricControl.selectedSegmentIndex == 1) {
-        yAxis.title = @"HEIGHT";
-    }
-
-    yAxis.style.titleStyle.alignment = TKChartAxisTitleAlignmentCenter;
-    yAxis.style.titleStyle.font = [UIFont leo_regular10];
-    yAxis.style.titleStyle.rotationAngle = 1.5 * M_PI;
-    yAxis.style.titleStyle.textOffset = -15;
-    yAxis.style.titleStyle.textColor = [UIColor leo_gray124];
-
-    xAxis.title = @"AGE";
-    xAxis.style.titleStyle.alignment = TKChartAxisTitleAlignmentCenter;
-    xAxis.style.titleStyle.font = [UIFont leo_regular10];
-    xAxis.style.titleStyle.textOffset = -15;
-    xAxis.style.titleStyle.textColor = [UIColor leo_gray124];
-
     yAxis.majorTickInterval = [self yAxisMajorTickInterval];
+    [self initAxisLabels];
 
     [self setupRanges];
+}
+
+- (void)initAxisLabels {
+    UILabel *xAxis = [UILabel new];
+    xAxis.translatesAutoresizingMaskIntoConstraints = NO;
+    xAxis.text = @"AGE";
+    xAxis.textColor = [UIColor leo_gray87];
+    xAxis.font = [UIFont leo_regular12];
+    [self.view addSubview:xAxis];
+    self.view.backgroundColor = [UIColor leo_lightBlue];
+
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:xAxis
+                                                          attribute:NSLayoutAttributeBottom
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeBottom
+                                                         multiplier:1.0
+                                                           constant:0.0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:xAxis
+                                                          attribute:NSLayoutAttributeCenterX
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeCenterX
+                                                         multiplier:1.0
+                                                           constant:0.0]];
+
+    UILabel *yAxis = [UILabel new];
+    yAxis.translatesAutoresizingMaskIntoConstraints = NO;
+    if (self.metricControl.selectedSegmentIndex == 0) {
+        yAxis.text = @"WEIGHT";
+    } else if (self.metricControl.selectedSegmentIndex == 1) {
+        yAxis.text = @"HEIGHT";
+    }
+    yAxis.textColor = [UIColor leo_gray87];
+    yAxis.font = [UIFont leo_regular12];
+    [self.view addSubview:yAxis];
+    self.view.backgroundColor = [UIColor leo_lightBlue];
+    yAxis.transform = CGAffineTransformMakeRotation(-M_PI_2);
+
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:yAxis
+                                                          attribute:NSLayoutAttributeLeft
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeLeft
+                                                         multiplier:1.0
+                                                           constant:0.0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:yAxis
+                                                          attribute:NSLayoutAttributeCenterY
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeCenterY
+                                                         multiplier:1.0
+                                                           constant:0.0]];
 }
 
 - (NSNumber *)yAxisMajorTickInterval {
