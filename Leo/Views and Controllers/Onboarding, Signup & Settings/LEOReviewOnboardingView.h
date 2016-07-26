@@ -10,6 +10,7 @@
 
 #import <UIKit/UIKit.h>
 #import <Stripe/STPToken.h>
+#import "Coupon.h"
 
 typedef NS_ENUM(NSUInteger, TableViewSection) {
 
@@ -26,5 +27,6 @@ typedef NS_ENUM(NSUInteger, TableViewSection) {
 @property (weak, nonatomic) LEOReviewOnboardingViewController *controller;
 @property (strong, nonatomic) Family *family;
 @property (strong, nonatomic) STPToken *paymentDetails;
+@property (strong, nonatomic) Coupon *coupon;
 
 @end

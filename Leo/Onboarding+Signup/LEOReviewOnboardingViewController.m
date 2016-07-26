@@ -50,6 +50,7 @@
 
 #import "LEOSession.h"
 #import "LEOAnalytic+Extensions.h"
+#import "NSObject+TableViewAccurateEstimatedCellHeight.h"
 
 @interface LEOReviewOnboardingViewController ()
 
@@ -99,10 +100,8 @@ static NSString *const kReviewPaymentDetails = @"ReviewPaymentSegue";
     [super viewWillAppear:animated];
     [self setupNavigationBar];
 
-    CGFloat percentage = [self transitionPercentageForScrollOffset:self.stickyHeaderView.scrollView.contentOffset];
-
     [self.reviewOnboardingView.tableView reloadData];
-
+    CGFloat percentage = [self transitionPercentageForScrollOffset:self.stickyHeaderView.scrollView.contentOffset];
     self.navigationItem.titleView.hidden = percentage == 0;
 }
 
@@ -146,6 +145,7 @@ static NSString *const kReviewPaymentDetails = @"ReviewPaymentSegue";
         _reviewOnboardingView.tableView.delegate = self;
         _reviewOnboardingView.controller = self;
         _reviewOnboardingView.paymentDetails = self.paymentDetails;
+        _reviewOnboardingView.coupon = [[LEOPaymentService new] getValidatedCoupon];
     }
 
     return _reviewOnboardingView;
@@ -166,21 +166,7 @@ static NSString *const kReviewPaymentDetails = @"ReviewPaymentSegue";
 #pragma mark - <UITableViewDelegate>
 
 - (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
-
-    switch (indexPath.section) {
-        case TableViewSectionButton:
-            return [[LEOButtonCell new] intrinsicContentSize].height;
-
-        case TableViewSectionGuardians:
-            return [[LEOReviewUserCell new] intrinsicContentSize].height;
-
-        case TableViewSectionPaymentDetails:
-            return [[LEOPaymentDetailsCell new] intrinsicContentSize].height;
-
-        case TableViewSectionPatients:
-            return [[LEOReviewPatientCell new] intrinsicContentSize].height;
-    }
-    return 0;
+    return [self leo_tableView:tableView estimatedHeightForRowAtIndexPath:indexPath];
 }
 
 - (void)editButtonTouchUpInside:(UIButton *)sender {
@@ -391,7 +377,8 @@ static NSString *const kReviewPaymentDetails = @"ReviewPaymentSegue";
 
 - (void)createChargeWithToken:(STPToken *)token completion:(LEOVoidBlock)completionBlock {
 
-    [[LEOPaymentService new] createChargeWithToken:self.paymentDetails completion:^(BOOL success, NSError *error) {
+    Coupon *validatedCoupon = [[LEOPaymentService new] getValidatedCoupon];
+    [[LEOPaymentService new] createChargeWithToken:self.paymentDetails promoCode:validatedCoupon.promoCode completion:^(NSDictionary *result, NSError *error) {
 
         NSError *paymentError = error;
 

@@ -44,9 +44,5 @@ CGFloat const kCellHeightButton = 94;
     [LEOStyleHelper roundCornersForView:self.button withCornerRadius:kCornerRadius];
 }
 
-- (CGSize)intrinsicContentSize {
-
-    return CGSizeMake(UIViewNoIntrinsicMetric, kCellHeightButton);
-}
 
 @end

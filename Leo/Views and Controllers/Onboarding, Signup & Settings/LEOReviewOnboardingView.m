@@ -56,13 +56,6 @@ static NSString * const kCopySignUp = @"SIGN UP";
     [self setupTouchEventForDismissingKeyboard];
 }
 
-//-(void)setPaymentDetails:(STPCardParams *)paymentDetails {
-//
-//    _paymentDetails = paymentDetails;
-//
-//    [self.tableView reloadData];
-//}
-
 - (void)setTableView:(LEOIntrinsicSizeTableView *)tableView {
 
     _tableView = tableView;
@@ -178,6 +171,7 @@ static NSString * const kCopySignUp = @"SIGN UP";
 
             [paymentDetailsCell configureForCard:self.paymentDetails.card
                                           charge:chargeAmount
+                                          coupon:self.coupon
                                 numberOfChildren:@(self.family.patients.count)];
 
             return paymentDetailsCell;

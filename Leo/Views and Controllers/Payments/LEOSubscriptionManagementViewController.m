@@ -233,11 +233,16 @@ NSString *const kContactUsDetailForExemptedMembers = @"As a pre-existing custome
 }
 
 - (void)respondToPrompt:(id)sender {
+    [self showPaymentVC];
+}
+
+- (void)showPaymentVC {
 
     LEOPaymentViewController *paymentVC = [LEOPaymentViewController new];
     paymentVC.feature = FeatureSettings;
     paymentVC.managementMode = ManagementModeEdit;
     paymentVC.family = self.family;
+    paymentVC.promoPromptViewHidden = YES;
     [self.navigationController pushViewController:paymentVC animated:YES];
 }
 

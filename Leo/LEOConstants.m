@@ -53,6 +53,8 @@ NSString *const APIEndpointPusherAuth = @"pusher/auth";
 NSString *const APIEndpointConversationNotices = @"conversation_notices";
 NSString *const APIEndpointPaymentToken = @"payment_token";
 NSString *const APIEndpointSubscriptions = @"subscriptions";
+NSString *const APIEndpointValidatePromoCode = @"subscriptions/validate_coupon";
+
 
 #pragma mark - Common
 NSString *const APIParamID = @"id";
@@ -188,6 +190,10 @@ NSString *const APIParamMessageEscalatedBy = @"escalated_by";
 
 
 #pragma mark - Payment & Stripe
+NSString *const APIParamPaymentToken = @"credit_card_token";
+NSString *const APIParamCouponID = @"coupon_id";
+NSString *const APIParamCouponSuccessMessage = @"text";
+NSString *const APIParamFullStripeCoupon = @"coupon";
 NSString *const APIParamPaymentBalance = @"balance";
 NSString *const APIParamPaymentDueDateTime = @"due_datetime";
 NSString *const APIParamPaymentPaidBy = @"paid_by";
@@ -370,7 +376,6 @@ NSString *const kStoryboardPHR = @"PHR";
 
 
 #pragma mark - Cell Reuse Identifiers 
-NSString *const kHeaderCellReuseIdentifier = @"LEOBasicHeaderCell";
 NSString *const kReviewUserCellReuseIdentifer = @"ReviewUserCell";
 NSString *const kReviewPatientCellReuseIdentifer = @"ReviewPatientCell";
 NSString *const kButtonCellReuseIdentifier = @"ButtonCell";
