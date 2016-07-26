@@ -113,6 +113,8 @@ NSString * const GNZSegmentOptionSelectedSegmentFont = @"SEGMENT_OPTION_SELECTED
 
             UIButton *button = segmentButton;
 
+            button.contentEdgeInsets = UIEdgeInsetsMake(15, 10, 5, 10);
+
             self.translatesAutoresizingMaskIntoConstraints = NO;
             button.translatesAutoresizingMaskIntoConstraints = NO;
 
