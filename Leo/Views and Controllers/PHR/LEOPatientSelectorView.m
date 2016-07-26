@@ -55,7 +55,7 @@ static const CGFloat kDistanceSegments = 26.0;
 
         //FIXME: Use LEOFormatting methods.
         _segmentedControl.font = [UIFont leo_regular14];
-        _segmentedControl.segmentDistance = kDistanceSegments;
+        _segmentedControl.segmentDistance = 1;
         
         _segmentedControl.customIndicatorAnimatorBlock = ^void(UIScrollView *scrollView) {
 
