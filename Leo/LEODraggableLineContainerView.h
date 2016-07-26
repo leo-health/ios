@@ -9,15 +9,13 @@
 #import <UIKit/UIKit.h>
 #import <TelerikUI/TelerikUI.h>
 
-@class LEOStickyHeaderView;
-
 @interface LEODraggableLineContainerView : UIView
 
-@property(strong, nonatomic) NSMutableArray *centerXValuesOfPointsOnGraph;
-@property(strong, nonatomic) TKChart *chart;
-@property(strong, nonatomic)NSLayoutConstraint *lineXPositionConstraint;
+@property (strong, nonatomic) NSMutableArray *centerXValuesOfPointsOnGraph;
+@property (strong, nonatomic) TKChart *chart;
+@property (strong, nonatomic) NSLayoutConstraint *lineXPositionConstraint;
 
-- (void)initContainer;
+- (void)initGestureRecognizers;
 
 
 @end

@@ -7,27 +7,48 @@
 //
 
 #import "LEODraggableLineContainerView.h"
-#import "LEODraggableLineView.h"
 #import "LEOStickyHeaderView.h"
 #import "UIColor+LEOColors.h"
 
 @interface LEODraggableLineContainerView ()
 
-@property(strong, nonatomic)LEODraggableLineView *line;
+@property(strong, nonatomic)UIView *line;
 @property(nonatomic)CGFloat initialYTouched;
 
 @end
 
 @implementation LEODraggableLineContainerView
 
-- (void)initContainer {
+- (void)initGestureRecognizers {
 
-    self.backgroundColor = [UIColor clearColor];
-    [self setTranslatesAutoresizingMaskIntoConstraints:NO];
+    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(handleTap:)];
+    [self addGestureRecognizer:tapRecognizer];
+    UILongPressGestureRecognizer *longPressRecognizer = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(handleLongPress:)];
+    longPressRecognizer.minimumPressDuration = 0.03f;
+    [self addGestureRecognizer:longPressRecognizer];
+}
 
-    self.line = [LEODraggableLineView new];
-    [self.line initAsLine];
-    [self addSubview:self.line];
+- (UIView *)line {
+    if (!_line) {
+        UIView *strongLine = [UIView new];
+        [self addSubview:strongLine];
+        _line = strongLine;
+        _line.backgroundColor = [UIColor leo_orangeRed];
+    }
+
+    return _line;
+}
+
+- (void)updateConstraints {
+
+    self.line.translatesAutoresizingMaskIntoConstraints = NO;
+
+    NSArray *widthConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:[line(2)]"
+                                                                        options:0
+                                                                        metrics:nil
+                                                                          views:@{@"line": self.line}];
+
+    [self addConstraints:widthConstraints];
 
     [self addConstraint:[NSLayoutConstraint
                          constraintWithItem:self.line
@@ -54,11 +75,8 @@
                                                                multiplier:1.0
                                                                  constant:0.0];
     [self addConstraint:self.lineXPositionConstraint];
-    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(handleTap:)];
-    [self addGestureRecognizer:tapRecognizer];
-    UILongPressGestureRecognizer *longPressRecognizer = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(handleLongPress:)];
-    longPressRecognizer.minimumPressDuration = 0.03f;
-    [self addGestureRecognizer:longPressRecognizer];
+
+    [super updateConstraints];
 }
 
 - (void)handleTap:(UITapGestureRecognizer *)sender {
@@ -86,7 +104,7 @@
 - (CGFloat)xValueOfNearestPointTo:(CGPoint)point {
     NSInteger indexOfNearestPoint = [self indexOfNearestPointTo:point];
 
-    return [[self.centerXValuesOfPointsOnGraph objectAtIndex:indexOfNearestPoint]doubleValue];
+    return [[self.centerXValuesOfPointsOnGraph objectAtIndex:indexOfNearestPoint] floatValue];
 }
 
 - (void)selectPointWithIndex:(NSInteger)index {
@@ -96,13 +114,13 @@
 
 - (NSInteger)indexOfNearestPointTo:(CGPoint)point {
 
-    self.centerXValuesOfPointsOnGraph = [[self.centerXValuesOfPointsOnGraph sortedArrayUsingSelector:@selector(compare:)] mutableCopy];
-    CGFloat lowestDifference = fabs([[self.centerXValuesOfPointsOnGraph objectAtIndex:0]floatValue] - point.x);
+    [self.centerXValuesOfPointsOnGraph sortUsingSelector:@selector(compare:)];
+    CGFloat lowestDifference = fabs([self.centerXValuesOfPointsOnGraph.firstObject floatValue] - point.x);
     NSInteger newXValueIndex = 0;
 
     for (NSInteger i=1; i<self.centerXValuesOfPointsOnGraph.count; i++) {
 
-        double xValue = [[self.centerXValuesOfPointsOnGraph objectAtIndex:i]doubleValue];
+        CGFloat xValue = [[self.centerXValuesOfPointsOnGraph objectAtIndex:i] floatValue];
         if (fabs(xValue - point.x) < lowestDifference) {
 
             newXValueIndex = i;

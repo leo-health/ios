@@ -37,7 +37,7 @@
 @property (copy, nonatomic) NSArray *verticalLayoutConstraints;
 
 @property (nonatomic) BOOL alreadyUpdatedConstraints;
-@property (strong, nonatomic) LEODraggableLineContainerView *lineContainer;
+@property (weak, nonatomic) LEODraggableLineContainerView *lineContainer;
 
 
 @end
@@ -78,37 +78,24 @@ static NSInteger const kChartHeight = 160;
     [self reloadWithUIUpdates];
 
     [self setupScoreboardViewWithVital:self.selectedDataSet.firstObject];
-    [self initializeDraggableLine];
 }
 
-- (void)initializeDraggableLine {
+- (LEODraggableLineContainerView *)lineContainer {
 
-    self.lineContainer = [LEODraggableLineContainerView new];
-    [self.lineContainer initContainer];
-    self.lineContainer.chart = self.chart;
-    [self.view addSubview:self.lineContainer];
+    if (!_lineContainer) {
 
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.lineContainer
-                                                          attribute:NSLayoutAttributeHeight
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.chart
-                                                          attribute:NSLayoutAttributeHeight
-                                                         multiplier:1.0
-                                                           constant:0.0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.lineContainer
-                                                          attribute:NSLayoutAttributeWidth
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.chart
-                                                          attribute:NSLayoutAttributeWidth
-                                                         multiplier:1.0
-                                                           constant:0.0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.lineContainer
-                                                          attribute:NSLayoutAttributeBottom
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.chart
-                                                          attribute:NSLayoutAttributeBottom
-                                                         multiplier:1.0
-                                                           constant:0.0]];
+        LEODraggableLineContainerView *strongView = [LEODraggableLineContainerView new];
+
+        [self.view addSubview:strongView];
+
+        _lineContainer = strongView;
+
+        [_lineContainer initGestureRecognizers];
+        _lineContainer.chart = self.chart;
+
+    }
+
+    return _lineContainer;
 }
 
 - (void)setupScoreboardViewWithVital:(PatientVitalMeasurement *)vital {
@@ -338,7 +325,6 @@ static NSInteger const kChartHeight = 160;
     [self updateAxes];
 
     self.alreadyUpdatedConstraints = NO;
-    self.lineContainer.chart = self.chart;
 }
 
 - (void)updateAxes {
@@ -400,6 +386,7 @@ static NSInteger const kChartHeight = 160;
     self.chart.translatesAutoresizingMaskIntoConstraints = NO;
     self.metricControl.translatesAutoresizingMaskIntoConstraints = NO;
     self.scoreboardView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.lineContainer.translatesAutoresizingMaskIntoConstraints = NO;
 
     NSDictionary *bindings = NSDictionaryOfVariableBindings(_chart, _metricControl, _scoreboardView);
 
@@ -439,6 +426,28 @@ static NSInteger const kChartHeight = 160;
 
         [self.view addConstraints:horizontalLayoutConstraintsForChart];
         [self.view addConstraints:horizontalLayoutConstraintsForMetricControl];
+
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.lineContainer
+                                                              attribute:NSLayoutAttributeHeight
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self.chart
+                                                              attribute:NSLayoutAttributeHeight
+                                                             multiplier:1.0
+                                                               constant:0.0]];
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.lineContainer
+                                                              attribute:NSLayoutAttributeWidth
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self.chart
+                                                              attribute:NSLayoutAttributeWidth
+                                                             multiplier:1.0
+                                                               constant:0.0]];
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.lineContainer
+                                                              attribute:NSLayoutAttributeBottom
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self.chart
+                                                              attribute:NSLayoutAttributeBottom
+                                                             multiplier:1.0
+                                                               constant:0.0]];
 
         self.alreadyUpdatedConstraints = YES;
     }
@@ -537,15 +546,12 @@ didSelectPoint:(id<TKChartData> __nonnull)point
 
     for (int i = 0; i<state.points.count; i++) {
 
-        TKChartVisualPoint *point1 = (TKChartVisualPoint *)state.points[i];
-        CGFloat xValue = point1.x;
-        NSNumber *num = [NSNumber numberWithFloat:xValue];
-        [xValues addObject:num];
+        TKChartVisualPoint *point = [state.points objectAtIndex:i];
+        [xValues addObject:@(point.x)];
 
         NSString *pointKeyPath = [state animationKeyPathForPointAtIndex:i];
 
         NSString *keyPath = [NSString stringWithFormat:@"%@.y", pointKeyPath];
-        TKChartVisualPoint *point = [state.points objectAtIndex:i];
         CGFloat oldY = rect.size.height;
 
         if (i > 0) {
