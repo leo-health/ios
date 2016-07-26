@@ -15,9 +15,9 @@ Installs xcode plugin FixCode to prevent xcode from automatically 'Fixing issues
 ----
 
 ## iOS
-### ios internal
+### ios badge
 ```
-fastlane ios internal
+fastlane ios badge
 ```
 Submit a new development version for internal testing
 
@@ -40,6 +40,11 @@ This action does the following:
 - 7) Commit the version bump
 
 - Post a message to slack whether success or failure
+### ios internal
+```
+fastlane ios internal
+```
+
 ### ios testflight
 ```
 fastlane ios testflight
