@@ -40,6 +40,9 @@
 @property (weak, nonatomic) LEODraggableLineContainerView *lineContainer;
 
 
+@property (weak, nonatomic) UILabel *yAxis;
+@property (weak, nonatomic) UILabel *xAxis;
+
 @end
 
 @implementation LEOVitalGraphViewController
@@ -339,62 +342,42 @@ static NSInteger const kChartHeight = 160;
     yAxis.style.minorTickStyle.ticksHidden = YES;
 
     yAxis.majorTickInterval = [self yAxisMajorTickInterval];
-    [self initAxisLabels];
+    if (self.metricControl.selectedSegmentIndex == 0) {
+        self.yAxis.text = @"WEIGHT";
+    } else if (self.metricControl.selectedSegmentIndex == 1) {
+        self.yAxis.text = @"HEIGHT";
+    }
 
     [self setupRanges];
 }
 
-- (void)initAxisLabels {
-    UILabel *xAxis = [UILabel new];
-    xAxis.translatesAutoresizingMaskIntoConstraints = NO;
-    xAxis.text = @"AGE";
-    xAxis.textColor = [UIColor leo_gray87];
-    xAxis.font = [UIFont leo_regular12];
-    [self.view addSubview:xAxis];
-    self.view.backgroundColor = [UIColor leo_lightBlue];
+- (UILabel *)xAxis {
 
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:xAxis
-                                                          attribute:NSLayoutAttributeBottom
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.view
-                                                          attribute:NSLayoutAttributeBottom
-                                                         multiplier:1.0
-                                                           constant:0.0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:xAxis
-                                                          attribute:NSLayoutAttributeCenterX
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.view
-                                                          attribute:NSLayoutAttributeCenterX
-                                                         multiplier:1.0
-                                                           constant:0.0]];
-
-    UILabel *yAxis = [UILabel new];
-    yAxis.translatesAutoresizingMaskIntoConstraints = NO;
-    if (self.metricControl.selectedSegmentIndex == 0) {
-        yAxis.text = @"WEIGHT";
-    } else if (self.metricControl.selectedSegmentIndex == 1) {
-        yAxis.text = @"HEIGHT";
+    if (!_xAxis) {
+        UILabel *strongLabel = [UILabel new];
+        [self.view addSubview:strongLabel];
+        _xAxis = strongLabel;
+        _xAxis.text = @"AGE";
+        _xAxis.textColor = [UIColor leo_gray124];
+        _xAxis.font = [UIFont leo_regular10];
     }
-    yAxis.textColor = [UIColor leo_gray87];
-    yAxis.font = [UIFont leo_regular12];
-    [self.view addSubview:yAxis];
-    self.view.backgroundColor = [UIColor leo_lightBlue];
-    yAxis.transform = CGAffineTransformMakeRotation(-M_PI_2);
 
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:yAxis
-                                                          attribute:NSLayoutAttributeLeft
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.view
-                                                          attribute:NSLayoutAttributeLeft
-                                                         multiplier:1.0
-                                                           constant:0.0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:yAxis
-                                                          attribute:NSLayoutAttributeCenterY
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.view
-                                                          attribute:NSLayoutAttributeCenterY
-                                                         multiplier:1.0
-                                                           constant:0.0]];
+    return _xAxis;
+}
+
+- (UILabel *)yAxis {
+
+    if (!_yAxis) {
+        UILabel *strongLabel = [UILabel new];
+        [self.view addSubview:strongLabel];
+        _yAxis = strongLabel;
+        _yAxis.transform = CGAffineTransformMakeRotation(-M_PI_2);
+        _yAxis.text = @"AGE";
+        _yAxis.textColor = [UIColor leo_gray124];
+        _yAxis.font = [UIFont leo_regular10];
+    }
+
+    return _yAxis;
 }
 
 - (NSNumber *)yAxisMajorTickInterval {
@@ -422,6 +405,8 @@ static NSInteger const kChartHeight = 160;
     self.metricControl.translatesAutoresizingMaskIntoConstraints = NO;
     self.scoreboardView.translatesAutoresizingMaskIntoConstraints = NO;
     self.lineContainer.translatesAutoresizingMaskIntoConstraints = NO;
+    self.xAxis.translatesAutoresizingMaskIntoConstraints = NO;
+    self.yAxis.translatesAutoresizingMaskIntoConstraints = NO;
 
     NSDictionary *bindings = NSDictionaryOfVariableBindings(_chart, _metricControl, _scoreboardView);
 
@@ -484,6 +469,35 @@ static NSInteger const kChartHeight = 160;
                                                              multiplier:1.0
                                                                constant:0.0]];
 
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.xAxis
+                                                              attribute:NSLayoutAttributeBottom
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self.view
+                                                              attribute:NSLayoutAttributeBottom
+                                                             multiplier:1.0
+                                                               constant:0.0]];
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.xAxis
+                                                              attribute:NSLayoutAttributeCenterX
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self.view
+                                                              attribute:NSLayoutAttributeCenterX
+                                                             multiplier:1.0
+                                                               constant:0.0]];
+
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.yAxis
+                                                              attribute:NSLayoutAttributeLeft
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self.chart.plotView
+                                                              attribute:NSLayoutAttributeLeft
+                                                             multiplier:1.0
+                                                               constant:(-10.0)]];
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.yAxis
+                                                              attribute:NSLayoutAttributeCenterY
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self.chart.plotView
+                                                              attribute:NSLayoutAttributeCenterY
+                                                             multiplier:1.0
+                                                               constant:0.0]];
         self.alreadyUpdatedConstraints = YES;
     }
 
