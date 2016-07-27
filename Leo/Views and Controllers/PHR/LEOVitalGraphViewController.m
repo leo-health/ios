@@ -316,6 +316,8 @@ static NSInteger const kChartHeight = 160;
         [self setupScoreboardViewWithVital:vital];
     }
 
+    [self.chart removeAllAnnotations];
+
     [self.dataSource updateDataSet:[self selectedDataSet] seriesIdentifier:@"series"];
 
     [self.chart reloadData];
