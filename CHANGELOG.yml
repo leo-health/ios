@@ -1,16 +1,19 @@
     upcoming:
+    - New! More elegant animation of chart touch gesture line
+    - Bug fixes
+
     releases:
     - version: 1.2.0
       build: 2016.07.25.16.06
       date: July 25 2016
       notes:
-      - NEW! Graphing of weight and height vitals
-  - NEW! Layout of header for children in PHR
-  - NEW! Caching of data
-  - Update of analytics
-  - Update to logged out first screen for direct login
-  - Bug fixes
-    
+      - New! Graphing of weight and height vitals
+      - New! Layout of header for children in PHR
+      - New! Caching of data
+      - Update of analytics
+      - Update to logged out first screen for direct login
+      - Bug fixes
+
     - version: 1.1.2
       build: 2016.06.16.15.40
       date: June 16 2016
