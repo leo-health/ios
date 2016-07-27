@@ -314,6 +314,10 @@ static NSInteger const kChartHeight = 160;
 
         PatientVitalMeasurement *vital = self.selectedDataSet[[[self selectedDataPointIndex] integerValue]];
         [self setupScoreboardViewWithVital:vital];
+
+        //HACK: Required for iOS8
+        [self.view setNeedsUpdateConstraints];
+        [self.view updateConstraintsIfNeeded];
     }
 
     [self.chart removeAllAnnotations];
