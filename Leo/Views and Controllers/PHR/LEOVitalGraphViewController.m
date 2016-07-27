@@ -380,7 +380,6 @@ static NSInteger const kChartHeight = 160;
         _yAxis = strongLabel;
         _yAxis.textColor = [UIColor leo_gray124];
         _yAxis.font = [UIFont leo_regular10];
-        _yAxis.text = @"HEIGHT";
         _yAxis.transform = CGAffineTransformMakeRotation(-M_PI_2);
 
         [self.view addSubview:_yAxis];
@@ -521,7 +520,6 @@ static NSInteger const kChartHeight = 160;
 - (void)viewDidLayoutSubviews {
 
     [super viewDidLayoutSubviews];
-
 
     //HAX: ZSD / AG - Included to manage anti-aliasing of the height label text
     //              - Should likely be addressed at the superview level if it also
