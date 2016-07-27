@@ -39,7 +39,6 @@
 @property (nonatomic) BOOL alreadyUpdatedConstraints;
 @property (weak, nonatomic) LEODraggableLineContainerView *lineContainer;
 
-
 @property (weak, nonatomic) UILabel *yAxis;
 @property (weak, nonatomic) UILabel *xAxis;
 
@@ -346,6 +345,7 @@ static NSInteger const kChartHeight = 160;
     yAxis.style.minorTickStyle.ticksHidden = YES;
 
     yAxis.majorTickInterval = [self yAxisMajorTickInterval];
+
     if (self.metricControl.selectedSegmentIndex == 0) {
         self.yAxis.text = @"WEIGHT";
     } else if (self.metricControl.selectedSegmentIndex == 1) {
@@ -358,12 +358,15 @@ static NSInteger const kChartHeight = 160;
 - (UILabel *)xAxis {
 
     if (!_xAxis) {
+
         UILabel *strongLabel = [UILabel new];
-        [self.view addSubview:strongLabel];
         _xAxis = strongLabel;
+
         _xAxis.text = @"AGE";
         _xAxis.textColor = [UIColor leo_gray124];
         _xAxis.font = [UIFont leo_regular10];
+
+        [self.view addSubview:_xAxis];
     }
 
     return _xAxis;
@@ -372,13 +375,15 @@ static NSInteger const kChartHeight = 160;
 - (UILabel *)yAxis {
 
     if (!_yAxis) {
+
         UILabel *strongLabel = [UILabel new];
-        [self.view addSubview:strongLabel];
         _yAxis = strongLabel;
-        _yAxis.transform = CGAffineTransformMakeRotation(-M_PI_2);
-        _yAxis.text = @"AGE";
         _yAxis.textColor = [UIColor leo_gray124];
         _yAxis.font = [UIFont leo_regular10];
+        _yAxis.text = @"HEIGHT";
+        _yAxis.transform = CGAffineTransformMakeRotation(-M_PI_2);
+
+        [self.view addSubview:_yAxis];
     }
 
     return _yAxis;
@@ -458,6 +463,7 @@ static NSInteger const kChartHeight = 160;
                                                               attribute:NSLayoutAttributeHeight
                                                              multiplier:1.0
                                                                constant:0.0]];
+
         [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.lineContainer
                                                               attribute:NSLayoutAttributeWidth
                                                               relatedBy:NSLayoutRelationEqual
@@ -465,6 +471,7 @@ static NSInteger const kChartHeight = 160;
                                                               attribute:NSLayoutAttributeWidth
                                                              multiplier:1.0
                                                                constant:0.0]];
+
         [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.lineContainer
                                                               attribute:NSLayoutAttributeBottom
                                                               relatedBy:NSLayoutRelationEqual
@@ -480,6 +487,7 @@ static NSInteger const kChartHeight = 160;
                                                               attribute:NSLayoutAttributeBottom
                                                              multiplier:1.0
                                                                constant:0.0]];
+
         [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.xAxis
                                                               attribute:NSLayoutAttributeCenterX
                                                               relatedBy:NSLayoutRelationEqual
@@ -491,23 +499,39 @@ static NSInteger const kChartHeight = 160;
         [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.yAxis
                                                               attribute:NSLayoutAttributeLeft
                                                               relatedBy:NSLayoutRelationEqual
-                                                                 toItem:self.chart.plotView
+                                                                 toItem:self.chart
                                                               attribute:NSLayoutAttributeLeft
                                                              multiplier:1.0
                                                                constant:(-10.0)]];
+
         [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.yAxis
                                                               attribute:NSLayoutAttributeCenterY
                                                               relatedBy:NSLayoutRelationEqual
-                                                                 toItem:self.chart.plotView
+                                                                 toItem:self.chart
                                                               attribute:NSLayoutAttributeCenterY
                                                              multiplier:1.0
                                                                constant:0.0]];
+
         self.alreadyUpdatedConstraints = YES;
     }
 
     [super updateViewConstraints];
 }
 
+- (void)viewDidLayoutSubviews {
+
+    [super viewDidLayoutSubviews];
+
+
+    //HAX: ZSD / AG - Included to manage anti-aliasing of the height label text
+    //              - Should likely be addressed at the superview level if it also
+    //              - is centered between pixels
+    NSInteger roundedCenterY = ceil(self.yAxis.center.y);
+    NSInteger roundedCenterX = ceil(self.yAxis.center.x);
+
+    self.yAxis.center = CGPointMake(roundedCenterX, roundedCenterY);
+    self.yAxis.frame = CGRectIntegral(self.yAxis.frame);
+}
 
 #pragma mark - <TKChartDelegate>
 
