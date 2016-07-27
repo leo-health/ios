@@ -316,8 +316,6 @@ static NSInteger const kChartHeight = 160;
         [self setupScoreboardViewWithVital:vital];
     }
 
-    [self.chart removeAllAnnotations];
-
     [self.dataSource updateDataSet:[self selectedDataSet] seriesIdentifier:@"series"];
 
     [self.chart reloadData];
@@ -538,7 +536,7 @@ static NSInteger const kChartHeight = 160;
     pointPaletteItem.stroke = [TKStroke strokeWithColor:[UIColor leo_orangeRed] width:3.0];
 
     UIColor *fillColor =
-    [self.selectedDataPointIndex  isEqual:@(index)] ? [UIColor leo_orangeRed] : [UIColor leo_white];
+    [self.selectedDataPointIndex  isEqual:@(index)] ? [UIColor leo_orangeRed] : [UIColor leo_gray251];
 
     pointPaletteItem.fill = [TKSolidFill solidFillWithColor:fillColor];
 
