@@ -69,6 +69,8 @@
 #import "LEOStatusBarNotification.h"
 #import "LEOAnalytic+Extensions.h"
 
+#import "LEONavigationControllerViewController.h"
+
 typedef NS_ENUM(NSUInteger, TableViewSection) {
     TableViewSectionHeader,
     TableViewSectionBody,
@@ -730,7 +732,18 @@ static CGFloat const kFeedInsetTop = 20.0;
     settingsVC.familyService = [LEOFamilyService serviceWithCachePolicy:policy];
     settingsVC.userService = [LEOUserService serviceWithCachePolicy:policy];
 
-    [self.navigationController pushViewController:settingsVC animated:YES];
+    //[self.navigationController pushViewController:settingsVC animated:YES];
+
+    LEOTransitioningDelegate *strongTransitioningDelegate = [[LEOTransitioningDelegate alloc] initWithTransitionAnimatorType:TransitionAnimatorTypeFromLeft];
+    self.transitionDelegate = strongTransitioningDelegate;
+    settingsVC.modalPresentationStyle = UIModalPresentationCustom;
+    settingsVC.transitioningDelegate = strongTransitioningDelegate;
+
+    [self presentViewController:settingsVC
+                       animated:YES
+                     completion:nil];
+//    [self.navigationController pushViewController:settingsVC
+//                       animated:YES];
 }
 
 

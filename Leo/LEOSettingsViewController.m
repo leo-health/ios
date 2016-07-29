@@ -94,6 +94,21 @@ static NSString *const kCopyManageMySubscription = @"Manage my membership";
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
+
+//    CATransition *animation = [CATransition animation];
+//
+//    [animation setDelegate:self];
+//    [animation setType:kCATransitionPush];
+//    [animation setSubtype:kCATransitionFromLeft];
+//
+//    [animation setDuration:0.40];
+//    [animation setTimingFunction:
+//     [CAMediaTimingFunction functionWithName:
+//      kCAMediaTimingFunctionEaseInEaseOut]];
+//
+//
+//    [self.view.layer addAnimation:animation forKey:kCATransition];
+
     self.family = [self.familyService getFamily];
     self.user = [self.userService getCurrentUser];
     [self.tableView reloadData];

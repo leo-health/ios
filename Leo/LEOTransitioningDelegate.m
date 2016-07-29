@@ -9,6 +9,7 @@
 #import "LEOTransitioningDelegate.h"
 #import "LEOCardModalTransitionAnimator.h"
 #import "LEOCardPushTransitionAnimator.h"
+#import "LEOFromLeftTransitionAnimator.h"
 
 #import "LEOViewControllerAnimatedTransitioningProtocol.h"
 
@@ -46,6 +47,9 @@
         case TransitionAnimatorTypeCardPush:
             animator = [LEOCardPushTransitionAnimator new];
             break;
+
+        case TransitionAnimatorTypeFromLeft:
+            animator = [LEOFromLeftTransitionAnimator new];
 
         case TransitionAnimatorTypeUndefined:
             break;

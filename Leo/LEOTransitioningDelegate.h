@@ -14,6 +14,7 @@ typedef NS_ENUM(NSInteger, TransitionAnimatorType) {
     TransitionAnimatorTypeUndefined,
     TransitionAnimatorTypeCardModal,
     TransitionAnimatorTypeCardPush,
+    TransitionAnimatorTypeFromLeft,
 };
 
 @interface LEOTransitioningDelegate : NSObject <UIViewControllerTransitioningDelegate>
