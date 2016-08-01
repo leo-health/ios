@@ -19,9 +19,5 @@
     self.editButton.enabled = NO;
 }
 
-- (CGSize)intrinsicContentSize {
-    
-    return CGSizeMake(UIViewNoIntrinsicMetric, 68);
-}
 
 @end

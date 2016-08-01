@@ -10,7 +10,15 @@
 #import "UIFont+LeoFonts.h"
 #import "UIColor+LeoColors.h"
 
+@interface LEOPaymentDetailsCell ()
+
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *heightPromoCodeSuccessView;
+
+@end
+
 @implementation LEOPaymentDetailsCell
+
+@dynamic promoCodeSuccessViewVisible;
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -49,8 +57,21 @@
     _editButton.enabled = NO;
 }
 
-- (CGSize)intrinsicContentSize {
-    return CGSizeMake(UIViewNoIntrinsicMetric, 68);
+- (BOOL)promoCodeSuccessViewVisible {
+    return !self.promoCodeSuccessView.hidden;
+}
+
+- (void)setPromoCodeSuccessViewVisible:(BOOL)promoCodeSuccessViewVisible {
+
+    if (promoCodeSuccessViewVisible != self.promoCodeSuccessViewVisible) {
+        if (promoCodeSuccessViewVisible) {
+            [self.promoCodeSuccessView removeConstraint:self.heightPromoCodeSuccessView];
+        } else {
+            [self.promoCodeSuccessView addConstraint:self.heightPromoCodeSuccessView];
+        }
+
+        self.promoCodeSuccessView.hidden = !promoCodeSuccessViewVisible;
+    }
 }
 
 

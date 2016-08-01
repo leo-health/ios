@@ -9,10 +9,8 @@
 #import "LEOManagePatientsViewController.h"
 #import "LEOCachedService.h"
 
-//TODO: Remove these from this class when possible!
-#import "UIFont+LeoFonts.h"
-#import "UIColor+LeoColors.h"
-#import "UIImage+Extensions.h"
+#import "LEOFormatting.h"
+#import "NSObject+TableViewAccurateEstimatedCellHeight.h"
 
 #import "Patient.h"
 #import "Family.h"
@@ -241,16 +239,7 @@ static NSString * const kSignUpPatientSegue = @"SignUpPatientSegue";
 }
 
 - (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
-
-    switch (indexPath.section) {
-        case TableViewSectionButton:
-            return [[LEOButtonCell new] intrinsicContentSize].height;
-        case TableViewSectionAddPatient:
-            return [[LEOPromptFieldCell new] intrinsicContentSize].height;
-        case TableViewSectionPatients:
-            return [[LEOPromptFieldCell new] intrinsicContentSize].height;
-    }
-    return 0;
+    return [self leo_tableView:tableView estimatedHeightForRowAtIndexPath:indexPath];
 }
 
 

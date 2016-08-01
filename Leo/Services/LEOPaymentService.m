@@ -10,13 +10,22 @@
 #import "LEOAPISessionManager.h"
 #import "LEOSession.h"
 #import "LEOAnalytic+Extensions.h"
+#import "LEONetworkStore.h"
 
 @implementation LEOPaymentService
 
-- (NSURLSessionTask *)createChargeWithToken:(STPToken *)token
-                   completion:(void (^)(BOOL success, NSError *error))completionBlock {
+- (LEOPromise *)createChargeWithToken:(STPToken *)token
+                            promoCode:(NSString *)promoCode
+                   completion:(LEODictionaryErrorBlock)completionBlock {
 
-    NSURLSessionTask *task = [[LEOPaymentService leoSessionManager] standardPOSTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointSubscriptions params:@{@"credit_card_token" : token.tokenId} completion:^(NSDictionary *rawResults, NSError *error) {
+    NSMutableDictionary *params = [NSMutableDictionary new];
+    params[APIParamPaymentToken] = token.tokenId;
+    params[APIParamCouponID] = promoCode;
+
+    return [self.cachedService
+            post:APIEndpointSubscriptions
+            params:params
+            completion:^(NSDictionary *rawResults, NSError *error) {
 
         if (completionBlock) {
 
@@ -25,17 +34,21 @@
                                 name:kAnalyticEventChargeCard];
             }
 
-            completionBlock (!error, error);
+            completionBlock (rawResults, error);
         }
     }];
-
-    return task;
 }
 
-- (NSURLSessionTask *)updateAndChargeCardWithToken:(STPToken *)token
-                                        completion:(void (^)(BOOL success, NSError *error))completionBlock {
+- (LEOPromise *)updateAndChargeCardWithToken:(STPToken *)token
+                                        completion:(LEODictionaryErrorBlock)completionBlock {
 
-    NSURLSessionTask *task = [[LEOPaymentService leoSessionManager] standardPUTRequestForJSONDictionaryToAPIWithEndpoint:APIEndpointSubscriptions params:@{@"credit_card_token" : token.tokenId} completion:^(NSDictionary *rawResults, NSError *error) {
+    NSMutableDictionary *params = [NSMutableDictionary new];
+    params[APIParamPaymentToken] = token.tokenId;
+
+    return [self.cachedService
+            put:APIEndpointSubscriptions
+            params:params
+            completion:^(NSDictionary *rawResults, NSError *error) {
 
         if (!error) {
             [LEOAnalytic tagType:LEOAnalyticTypeEvent
@@ -43,14 +56,39 @@
         }
 
         if (completionBlock) {
-            completionBlock (!error, error);
+            completionBlock (rawResults, error);
         }
     }];
-
-    return task;
 }
 
-+ (LEOAPISessionManager *)leoSessionManager {
+- (LEOPromise *)validatePromoCode:(NSString *)promoCode
+                             completion:(void (^)(Coupon *, NSError *))completionBlock {
+
+    NSMutableDictionary *params = [NSMutableDictionary new];
+    params[APIParamCouponID] = promoCode;
+
+    return [self.cachedService get:APIEndpointValidatePromoCode
+                            params:params
+                        completion:^(NSDictionary *rawResults, NSError *error) {
+
+        if (!error) {
+            [LEOAnalytic tagType:LEOAnalyticTypeEvent
+                            name:kAnalyticEventUpdatePaymentChargeCard];
+        }
+
+        if (completionBlock) {
+
+            Coupon *coupon = [[Coupon alloc] initWithJSONDictionary:rawResults];
+            completionBlock(coupon, error);
+        }
+    }];
+}
+
+- (Coupon *)getValidatedCoupon {
+    return [[Coupon alloc] initWithJSONDictionary:[self.cachedService get:APIEndpointValidatePromoCode params:nil]];
+}
+
+- (LEOAPISessionManager *)leoSessionManager {
     return [LEOAPISessionManager sharedClient];
 }
 

@@ -10,10 +10,6 @@
 #import "UIColor+LeoColors.h"
 @implementation LEOSectionSeparator
 
-//- (void)awakeFromNib {
-//    
-//}
-
 - (instancetype)initWithCoder:(NSCoder *)coder
 {
     self = [super initWithCoder:coder];

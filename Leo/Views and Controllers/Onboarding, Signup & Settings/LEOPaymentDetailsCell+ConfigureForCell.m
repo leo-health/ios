@@ -9,11 +9,15 @@
 #import "LEOPaymentDetailsCell+ConfigureForCell.h"
 #import <Stripe/STPCard.h>
 #import "UIFont+LeoFonts.h"
+#import "Coupon.h"
 #import "UIColor+LeoColors.h"
 
 @implementation LEOPaymentDetailsCell (ConfigureForCell)
 
-- (void)configureForCard:(STPCard *)paymentDetails charge:(NSNumber *)charge numberOfChildren:(NSNumber *)numberOfChildren {
+- (void)configureForCard:(STPCard *)paymentDetails
+                  charge:(NSNumber *)charge
+                  coupon:(Coupon *)coupon
+        numberOfChildren:(NSNumber *)numberOfChildren {
 
     NSString *cardBrandDescription = [self descriptionFromCardBrand:paymentDetails.brand];
 
@@ -22,6 +26,12 @@
     NSString *childOrChildren = [numberOfChildren integerValue] > 1 ? @"children" : @"child";
 
     self.chargeDetailLabel.text = [NSString stringWithFormat:@"Your card will be charged $%@ on a monthly basis for %@ %@.", charge, numberOfChildren, childOrChildren];
+
+    if (coupon) {
+
+        self.promoCodeSuccessViewVisible = YES;
+        self.promoCodeSuccessView.successMessageLabel.text = coupon.userMessage;
+    }
 }
 
 - (NSString *)descriptionFromCardBrand:(STPCardBrand)brand {

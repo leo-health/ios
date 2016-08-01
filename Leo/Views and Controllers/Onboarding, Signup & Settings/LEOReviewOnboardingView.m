@@ -15,7 +15,7 @@
 #import "LEOPaymentDetailsCell+ConfigureForCell.h"
 #import "LEOSession.h"
 #import "LEOReviewOnboardingViewController.h"
-
+#import "LEOPaymentService.h"
 #import "UIColor+LeoColors.h"
 #import "UIFont+LeoFonts.h"
 #import "UIView+Extensions.h"
@@ -55,13 +55,6 @@ static NSString * const kCopySignUp = @"SIGN UP";
 
     [self setupTouchEventForDismissingKeyboard];
 }
-
-//-(void)setPaymentDetails:(STPCardParams *)paymentDetails {
-//
-//    _paymentDetails = paymentDetails;
-//
-//    [self.tableView reloadData];
-//}
 
 - (void)setTableView:(LEOIntrinsicSizeTableView *)tableView {
 
@@ -178,6 +171,7 @@ static NSString * const kCopySignUp = @"SIGN UP";
 
             [paymentDetailsCell configureForCard:self.paymentDetails.card
                                           charge:chargeAmount
+                                          coupon:[[LEOPaymentService new] getValidatedCoupon]
                                 numberOfChildren:@(self.family.patients.count)];
 
             return paymentDetailsCell;

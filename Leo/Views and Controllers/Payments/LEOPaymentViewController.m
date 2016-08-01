@@ -25,6 +25,7 @@
 #import "LEOPracticeService.h"
 #import "Guardian.h"
 #import <MBProgressHUD/MBProgressHUD.h>
+#import "NSString+Extensions.h"
 
 @interface LEOPaymentViewController ()
 
@@ -37,6 +38,7 @@
 @implementation LEOPaymentViewController
 
 @synthesize feature = _feature;
+@dynamic promoPromptViewHidden;
 
 NSString *const kCopyCreatePaymentsHeader = @"Add a credit or debit card";
 NSString *const kCopyEditPaymentsHeader = @"Update your credit or debit card";
@@ -61,6 +63,11 @@ NSString *const kCopyEditPaymentsHeader = @"Update your credit or debit card";
     [super viewWillAppear:animated];
 
     [self setupNavigationBar];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self.view endEditing:YES];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -148,12 +155,60 @@ NSString *const kCopyEditPaymentsHeader = @"Update your credit or debit card";
         _paymentsView.numberOfChildren = self.family.patients.count;
         _paymentsView.chargePerChild = kChargePerChild;
         _paymentsView.managementMode = self.managementMode;
-
         _paymentsView.tintColor = [UIColor leo_orangeRed];
         _paymentsView.delegate = self;
+
+        [self showPromoPromptViewIfNeeded];
     }
 
     return _paymentsView;
+}
+
+- (void)setValidatedCoupon:(Coupon *)validatedCoupon {
+
+    _validatedCoupon = validatedCoupon;
+    [self showPromoPromptViewIfNeeded];
+}
+
+- (void)showPromoPromptViewIfNeeded {
+
+    if (self.validatedCoupon) {
+        _paymentsView.promoPromptView.hidden = YES;
+        _paymentsView.promoSuccessView.hidden = NO;
+        _paymentsView.promoSuccessView.successMessageLabel.text = self.validatedCoupon.userMessage;
+    }
+}
+
+- (void)setPromoPromptViewHidden:(BOOL)promoPromptViewHidden {
+    self.paymentsView.promoPromptViewHidden = promoPromptViewHidden;
+}
+
+- (BOOL)promoPromptViewHidden {
+    return self.paymentsView.promoPromptViewHidden;
+}
+
+- (void)applyPromoCodeTapped:(LEOPromptView *)sender {
+
+    NSString *promoCode = sender.textView.text;
+
+    [self.paymentsView.hud startAnimating];
+    self.paymentsView.applyPromoButton.hidden = YES;
+
+    __weak typeof(self) weakSelf = self;
+    [[LEOPaymentService new] validatePromoCode:promoCode completion:^(Coupon *coupon, NSError *error) {
+        __strong typeof(self) strongSelf = weakSelf;
+
+        strongSelf.validatedCoupon = coupon;
+
+        [strongSelf.paymentsView.hud stopAnimating];
+        strongSelf.paymentsView.applyPromoButton.hidden = NO;
+
+        BOOL successfulPromoCode = !error && coupon.userMessage;
+        strongSelf.paymentsView.promoPromptView.valid = successfulPromoCode;
+        strongSelf.paymentsView.promoPromptView.hidden = successfulPromoCode;
+        strongSelf.paymentsView.promoSuccessView.hidden = !successfulPromoCode;
+        strongSelf.paymentsView.promoSuccessView.successMessageLabel.text = coupon.userMessage;
+    }];
 }
 
 - (LEOHeaderView *)headerView {
@@ -183,13 +238,40 @@ NSString *const kCopyEditPaymentsHeader = @"Update your credit or debit card";
 - (void)saveButtonTouchedUpInside:(UIButton *)sender
                        parameters:(STPCardParams *)cardParams {
 
-    [MBProgressHUD showHUDAddedTo:self.view
-                         animated:YES];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+
+    NSString *promoCode = self.paymentsView.promoPromptView.textView.text;
+    if ([promoCode leo_isWhitespace]) {
+        promoCode = nil;
+    }
+    BOOL alreadyValidatedPromoCode = !!self.validatedCoupon;
+    BOOL shouldValidatePromoCode = promoCode && !alreadyValidatedPromoCode;
+
+    if (shouldValidatePromoCode) {
+
+        __weak typeof(self) weakSelf = self;
+        [[LEOPaymentService new] validatePromoCode:promoCode completion:^(Coupon *coupon, NSError *error) {
+            __strong typeof(self) strongSelf = weakSelf;
+
+            if (error) {
+
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                strongSelf.paymentsView.promoPromptView.valid = NO;
+
+            } else {
+                [strongSelf requestPaymentToken:cardParams];
+            }
+        }];
+
+    } else {
+        [self requestPaymentToken:cardParams];
+    }
+}
+
+- (void)requestPaymentToken:(STPCardParams *)cardParams {
 
     __weak typeof(self) weakSelf = self;
-
     void (^paymentDetailsBlock)(STPToken *token, NSError *error) = ^(STPToken *token, NSError *error) {
-
         __strong typeof(self) strongSelf = weakSelf;
 
         if (error) {
@@ -200,80 +282,83 @@ NSString *const kCopyEditPaymentsHeader = @"Update your credit or debit card";
             return;
         }
 
-            strongSelf.paymentDetails = token;
+        strongSelf.paymentDetails = token;
 
-            if (strongSelf.managementMode == ManagementModeCreate) {
+        if (strongSelf.managementMode == ManagementModeCreate) {
 
-                [strongSelf performSegueWithIdentifier:kSegueContinue sender:nil];
+            [strongSelf performSegueWithIdentifier:kSegueContinue sender:nil];
 
-                [MBProgressHUD hideHUDForView:strongSelf.view
-                                     animated:YES];
-            }
+            [MBProgressHUD hideHUDForView:strongSelf.view
+                                 animated:YES];
+        }
 
-            else if (strongSelf.managementMode == ManagementModeEdit) {
+        else if (strongSelf.managementMode == ManagementModeEdit) {
 
-                [strongSelf.delegate updatePaymentWithPaymentDetails:token];
-                Family *family = [[LEOFamilyService new] getFamily];
+            [strongSelf.delegate updatePaymentWithPaymentDetails:token];
+            Family *family = [[LEOFamilyService new] getFamily];
 
-                switch (self.feature) {
-                    case FeatureOnboarding: {
+            switch (self.feature) {
+                case FeatureOnboarding: {
 
-                        [MBProgressHUD hideHUDForView:strongSelf.view
-                                             animated:YES];
+                    [MBProgressHUD hideHUDForView:strongSelf.view
+                                         animated:YES];
 
-                        [strongSelf.navigationController popViewControllerAnimated:YES];
+                    [strongSelf.navigationController popViewControllerAnimated:YES];
 
-                        Family *family = [[LEOFamilyService new] getFamily];
-                        [LEOAnalytic tagType:LEOAnalyticTypeIntent
-                                        name:kAnalyticEventChargeCard
-                                  attributes:[family analyticAttributes]];
-                    }
-                        break;
+                    Family *family = [[LEOFamilyService new] getFamily];
+                    [LEOAnalytic tagType:LEOAnalyticTypeIntent
+                                    name:kAnalyticEventChargeCard
+                              attributes:[family analyticAttributes]];
+                }
+                    break;
 
-                    default: {
+                default: {
 
-                        [[LEOPaymentService new] updateAndChargeCardWithToken:strongSelf.paymentDetails completion:^(BOOL success, NSError *error) {
+                    LEOPaymentService *service =
+                    [LEOPaymentService serviceWithCachePolicy:[LEOCachePolicy networkOnly]];
+                    [service updateAndChargeCardWithToken:strongSelf.paymentDetails
+                                               completion:^(NSDictionary *result, NSError *error) {
+
+                        if (error) {
+
+                            [self handleError:error];
+                            return;
+                        }
+
+                        [[LEOUserService new] getCurrentUserWithCompletion:^(Guardian *guardian, NSError *error) {
 
                             if (error) {
-
                                 [self handleError:error];
                                 return;
                             }
-                            
-                            [[LEOUserService new] getCurrentUserWithCompletion:^(Guardian *guardian, NSError *error) {
 
-                                if (error) {
-                                    [self handleError:error];
-                                    return;
-                                }
-
-                                [LEOAnalytic tagType:LEOAnalyticTypeIntent
-                                                name:kAnalyticEventChargeCard
-                                          attributes:[family analyticAttributes]];
+                            [LEOAnalytic tagType:LEOAnalyticTypeIntent
+                                            name:kAnalyticEventChargeCard
+                                      attributes:[family analyticAttributes]];
 
 
-                                [MBProgressHUD hideHUDForView:strongSelf.view
-                                                     animated:YES];
+                            [MBProgressHUD hideHUDForView:strongSelf.view
+                                                 animated:YES];
 
-                                if (self.feature == FeatureSettings) {
+                            if (self.feature == FeatureSettings) {
 
-                                    UIAlertController *alert =
-                                    [LEOAlertHelper alertWithTitle:@"Thank you!"
-                                                           message:@"Thanks for updating your payment details with Leo. You should get a confirmation email shortly."
-                                                           handler:^(UIAlertAction *action) {
-                                                               [self pop];
-                                                           }
-                                     ];
-                                    [self presentViewController:alert animated:YES completion:nil];
-                                }
-                            }];
+                                UIAlertController *alert =
+                                [LEOAlertHelper alertWithTitle:@"Thank you!"
+                                                       message:@"Thanks for updating your payment details with Leo. You should get a confirmation email shortly."
+                                                       handler:^(UIAlertAction *action) {
+                                                           [self pop];
+                                                       }
+                                 ];
+                                [self presentViewController:alert animated:YES completion:nil];
+                            }
                         }];
-                    }
-                        break;
+                    }];
                 }
+                    break;
             }
+        }
     };
-
+    
     [[STPAPIClient sharedClient] createTokenWithCard:cardParams
                                           completion:paymentDetailsBlock];
 }

@@ -10,6 +10,14 @@
 
 @implementation LEOJSONSerializable
 
+- (instancetype)initWithJSONDictionary:(NSDictionary *)json {
+
+    if (!json) {
+        return nil;
+    }
+    return [super init];
+}
+
 - (NSDictionary *)serializeToJSON {
     return [[self class] serializeToJSON:self];
 }

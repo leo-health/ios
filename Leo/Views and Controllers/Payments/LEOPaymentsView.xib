@@ -47,18 +47,37 @@
                             </constraints>
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Nf-gl-9yi">
-                            <rect key="frame" x="20" y="225" width="520" height="54"/>
+                            <rect key="frame" x="20" y="276" width="520" height="54"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="54" id="Kax-Tw-XN6"/>
                             </constraints>
                             <state key="normal" title="Button"/>
                         </button>
+                        <view contentMode="scaleToFill" placeholderIntrinsicWidth="infinite" placeholderIntrinsicHeight="50" translatesAutoresizingMaskIntoConstraints="NO" id="KMw-3d-Moo" customClass="LEOPromptView">
+                            <rect key="frame" x="20" y="206" width="520" height="50"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="50" id="8BJ-vD-PFQ"/>
+                            </constraints>
+                            <variation key="default">
+                                <mask key="constraints">
+                                    <exclude reference="8BJ-vD-PFQ"/>
+                                </mask>
+                            </variation>
+                        </view>
+                        <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eJ2-tg-ftQ" customClass="LEOPromoCodeSuccessView">
+                            <rect key="frame" x="20" y="206" width="520" height="50"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstItem="Zed-nb-N6B" firstAttribute="leading" secondItem="qi2-c2-zTs" secondAttribute="leading" id="0OV-FE-2Z7"/>
                         <constraint firstItem="6Nf-gl-9yi" firstAttribute="leading" secondItem="qi2-c2-zTs" secondAttribute="leading" id="1Fc-PY-ybD"/>
+                        <constraint firstItem="eJ2-tg-ftQ" firstAttribute="trailing" secondItem="KMw-3d-Moo" secondAttribute="trailing" id="4ZU-IG-a3q"/>
+                        <constraint firstItem="eJ2-tg-ftQ" firstAttribute="leading" secondItem="KMw-3d-Moo" secondAttribute="leading" id="7aA-TW-ggi"/>
                         <constraint firstItem="6Nf-gl-9yi" firstAttribute="trailing" secondItem="qi2-c2-zTs" secondAttribute="trailing" id="7xv-UT-f1F"/>
+                        <constraint firstItem="KMw-3d-Moo" firstAttribute="top" secondItem="8xw-fF-w43" secondAttribute="bottom" constant="20" id="BFf-eN-RCQ"/>
                         <constraint firstItem="qi2-c2-zTs" firstAttribute="top" secondItem="iv7-8J-FEa" secondAttribute="top" constant="20" id="CMb-yB-1Dv"/>
                         <constraint firstItem="CHh-if-gGU" firstAttribute="leading" secondItem="qi2-c2-zTs" secondAttribute="leading" id="G17-Dm-ya4"/>
                         <constraint firstItem="qi2-c2-zTs" firstAttribute="leading" secondItem="iv7-8J-FEa" secondAttribute="leading" constant="20" id="GuV-Fq-9M7"/>
@@ -68,17 +87,23 @@
                         <constraint firstItem="Zed-nb-N6B" firstAttribute="top" secondItem="qi2-c2-zTs" secondAttribute="bottom" constant="28" id="SF2-vN-t3E"/>
                         <constraint firstItem="Pmi-gc-dUK" firstAttribute="top" secondItem="qi2-c2-zTs" secondAttribute="bottom" constant="28" id="UEN-Kj-q1I"/>
                         <constraint firstItem="6Nf-gl-9yi" firstAttribute="top" secondItem="CHh-if-gGU" secondAttribute="bottom" constant="40" id="WTY-tD-Qm7"/>
+                        <constraint firstItem="eJ2-tg-ftQ" firstAttribute="bottom" secondItem="KMw-3d-Moo" secondAttribute="bottom" id="Ytz-78-hy1"/>
+                        <constraint firstItem="KMw-3d-Moo" firstAttribute="trailing" secondItem="qi2-c2-zTs" secondAttribute="trailing" id="aTy-Wo-LkN"/>
+                        <constraint firstItem="6Nf-gl-9yi" firstAttribute="top" secondItem="KMw-3d-Moo" secondAttribute="bottom" constant="20" id="c8v-nW-NJG"/>
                         <constraint firstItem="CHh-if-gGU" firstAttribute="trailing" secondItem="qi2-c2-zTs" secondAttribute="trailing" id="d2y-BN-YfK"/>
                         <constraint firstItem="Pmi-gc-dUK" firstAttribute="trailing" secondItem="qi2-c2-zTs" secondAttribute="trailing" id="dJh-Ww-rUe"/>
                         <constraint firstItem="Zed-nb-N6B" firstAttribute="top" secondItem="Pmi-gc-dUK" secondAttribute="bottom" constant="28" id="eno-SI-k4U"/>
                         <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="6Nf-gl-9yi" secondAttribute="bottom" constant="30" id="fnm-u7-XwY"/>
                         <constraint firstAttribute="trailing" secondItem="qi2-c2-zTs" secondAttribute="trailing" constant="20" id="gu2-fv-WqY"/>
                         <constraint firstItem="CHh-if-gGU" firstAttribute="top" secondItem="Zed-nb-N6B" secondAttribute="bottom" constant="4" id="iiX-kq-9tR"/>
+                        <constraint firstItem="KMw-3d-Moo" firstAttribute="leading" secondItem="qi2-c2-zTs" secondAttribute="leading" id="kyl-gc-vri"/>
+                        <constraint firstItem="eJ2-tg-ftQ" firstAttribute="top" secondItem="KMw-3d-Moo" secondAttribute="top" id="mW2-vH-moB"/>
                         <constraint firstItem="8xw-fF-w43" firstAttribute="trailing" secondItem="qi2-c2-zTs" secondAttribute="trailing" id="zWY-xl-OJ6"/>
                     </constraints>
                     <variation key="default">
                         <mask key="constraints">
                             <exclude reference="SF2-vN-t3E"/>
+                            <exclude reference="WTY-tD-Qm7"/>
                         </mask>
                     </variation>
                 </view>
@@ -97,6 +122,9 @@
                 <outlet property="paymentCardHeaderLabel" destination="Zed-nb-N6B" id="Pha-94-9Qh"/>
                 <outlet property="paymentInstructionsLabel" destination="qi2-c2-zTs" id="ee8-st-oKu"/>
                 <outlet property="paymentTextField" destination="CHh-if-gGU" id="bvw-Uf-pEw"/>
+                <outlet property="promoFieldTopSpaceConstraint" destination="BFf-eN-RCQ" id="HA5-kE-ADH"/>
+                <outlet property="promoPromptView" destination="KMw-3d-Moo" id="uoM-Wy-dnA"/>
+                <outlet property="promoSuccessView" destination="eJ2-tg-ftQ" id="9fk-WX-VbE"/>
             </connections>
         </view>
     </objects>
