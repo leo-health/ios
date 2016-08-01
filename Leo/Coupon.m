@@ -29,7 +29,7 @@
     json[APIParamCouponSuccessMessage] = object.userMessage;
     json[APIParamFullStripeCoupon] = object.stripeCoupon;
 
-    return json;
+    return [json copy];
 }
 
 @end

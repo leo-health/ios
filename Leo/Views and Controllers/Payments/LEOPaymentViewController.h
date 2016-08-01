@@ -6,7 +6,7 @@
 //  Copyright © 2016 Leo Health. All rights reserved.
 //
 
-@class LEOAnalyticSession, Family;
+@class LEOAnalyticSession, Family, Coupon;
 
 #import "LEOCachedDataStore.h"
 #import "LEOStickyHeaderViewController.h"
@@ -28,6 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) LEOAnalyticSession *analyticSession;
 @property (nonatomic) ManagementMode managementMode;
 
+@property (strong, nonatomic) Coupon *validatedCoupon;
 @property (nonatomic) BOOL promoPromptViewHidden;
 
 @property (weak, nonatomic) id<LEOUpdatePaymentProtocol>delegate;

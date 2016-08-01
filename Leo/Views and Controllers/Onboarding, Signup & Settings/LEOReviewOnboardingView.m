@@ -15,7 +15,7 @@
 #import "LEOPaymentDetailsCell+ConfigureForCell.h"
 #import "LEOSession.h"
 #import "LEOReviewOnboardingViewController.h"
-
+#import "LEOPaymentService.h"
 #import "UIColor+LeoColors.h"
 #import "UIFont+LeoFonts.h"
 #import "UIView+Extensions.h"
@@ -171,7 +171,7 @@ static NSString * const kCopySignUp = @"SIGN UP";
 
             [paymentDetailsCell configureForCard:self.paymentDetails.card
                                           charge:chargeAmount
-                                          coupon:self.coupon
+                                          coupon:[[LEOPaymentService new] getValidatedCoupon]
                                 numberOfChildren:@(self.family.patients.count)];
 
             return paymentDetailsCell;

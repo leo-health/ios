@@ -32,7 +32,6 @@
 @property (strong, nonatomic) LEOHeaderView *headerView;
 @property (strong, nonatomic) LEOPaymentsView *paymentsView;
 @property (strong, nonatomic) STPToken *paymentDetails;
-@property (strong, nonatomic) Coupon *validatedCoupon;
 
 @end
 
@@ -158,9 +157,26 @@ NSString *const kCopyEditPaymentsHeader = @"Update your credit or debit card";
         _paymentsView.managementMode = self.managementMode;
         _paymentsView.tintColor = [UIColor leo_orangeRed];
         _paymentsView.delegate = self;
+
+        [self showPromoPromptViewIfNeeded];
     }
 
     return _paymentsView;
+}
+
+- (void)setValidatedCoupon:(Coupon *)validatedCoupon {
+
+    _validatedCoupon = validatedCoupon;
+    [self showPromoPromptViewIfNeeded];
+}
+
+- (void)showPromoPromptViewIfNeeded {
+
+    if (self.validatedCoupon) {
+        _paymentsView.promoPromptView.hidden = YES;
+        _paymentsView.promoSuccessView.hidden = NO;
+        _paymentsView.promoSuccessView.successMessageLabel.text = self.validatedCoupon.userMessage;
+    }
 }
 
 - (void)setPromoPromptViewHidden:(BOOL)promoPromptViewHidden {
@@ -298,7 +314,10 @@ NSString *const kCopyEditPaymentsHeader = @"Update your credit or debit card";
 
                 default: {
 
-                    [[LEOPaymentService new] updateAndChargeCardWithToken:strongSelf.paymentDetails completion:^(NSDictionary *result, NSError *error) {
+                    LEOPaymentService *service =
+                    [LEOPaymentService serviceWithCachePolicy:[LEOCachePolicy networkOnly]];
+                    [service updateAndChargeCardWithToken:strongSelf.paymentDetails
+                                               completion:^(NSDictionary *result, NSError *error) {
 
                         if (error) {
 

@@ -145,7 +145,6 @@ static NSString *const kReviewPaymentDetails = @"ReviewPaymentSegue";
         _reviewOnboardingView.tableView.delegate = self;
         _reviewOnboardingView.controller = self;
         _reviewOnboardingView.paymentDetails = self.paymentDetails;
-        _reviewOnboardingView.coupon = [[LEOPaymentService new] getValidatedCoupon];
     }
 
     return _reviewOnboardingView;
@@ -263,7 +262,7 @@ static NSString *const kReviewPaymentDetails = @"ReviewPaymentSegue";
         LEOSignUpPatientViewController *signUpPatientVC = segue.destinationViewController;
         signUpPatientVC.feature = FeatureOnboarding;
         signUpPatientVC.managementMode = ManagementModeEdit;
-        signUpPatientVC.patientDataSource = self;
+        signUpPatientVC.patientDataSource = self; // currently works because this VC implements the same methods as LEOPatientService
         signUpPatientVC.patient = sender;
     }
 
@@ -289,6 +288,7 @@ static NSString *const kReviewPaymentDetails = @"ReviewPaymentSegue";
         paymentVC.feature = FeatureOnboarding;
         paymentVC.managementMode = ManagementModeEdit;
         paymentVC.delegate = self;
+        paymentVC.validatedCoupon = [[LEOPaymentService new] getValidatedCoupon];
     }
 }
 
@@ -378,7 +378,11 @@ static NSString *const kReviewPaymentDetails = @"ReviewPaymentSegue";
 - (void)createChargeWithToken:(STPToken *)token completion:(LEOVoidBlock)completionBlock {
 
     Coupon *validatedCoupon = [[LEOPaymentService new] getValidatedCoupon];
-    [[LEOPaymentService new] createChargeWithToken:self.paymentDetails promoCode:validatedCoupon.promoCode completion:^(NSDictionary *result, NSError *error) {
+    LEOPaymentService *service =
+    [LEOPaymentService serviceWithCachePolicy:[LEOCachePolicy networkOnly]];
+    [service createChargeWithToken:self.paymentDetails
+                         promoCode:validatedCoupon.promoCode
+                        completion:^(NSDictionary *result, NSError *error) {
 
         NSError *paymentError = error;
 
