@@ -64,6 +64,9 @@ IB_DESIGNABLE
 
 -(void)setValid:(BOOL)valid {
     self.textView.valid = valid;
+    if ([self.delegate respondsToSelector:@selector(promptViewDidChangeValid:)]) {
+        [self.delegate promptViewDidChangeValid:self];
+    }
 }
 
 - (void)setupTapGesture {

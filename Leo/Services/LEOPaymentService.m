@@ -22,7 +22,7 @@
     params[APIParamPaymentToken] = token.tokenId;
     params[APIParamCouponID] = promoCode;
 
-    return [[LEOCachedService serviceWithCachePolicy:[LEOCachePolicy networkOnly]]
+    return [self.cachedService
             post:APIEndpointSubscriptions
             params:params
             completion:^(NSDictionary *rawResults, NSError *error) {
@@ -45,7 +45,7 @@
     NSMutableDictionary *params = [NSMutableDictionary new];
     params[APIParamPaymentToken] = token.tokenId;
 
-    return [[LEOCachedService serviceWithCachePolicy:[LEOCachePolicy networkOnly]]
+    return [self.cachedService
             put:APIEndpointSubscriptions
             params:params
             completion:^(NSDictionary *rawResults, NSError *error) {
@@ -67,7 +67,9 @@
     NSMutableDictionary *params = [NSMutableDictionary new];
     params[APIParamCouponID] = promoCode;
 
-    return [self.cachedService get:APIEndpointValidatePromoCode params:params completion:^(NSDictionary *rawResults, NSError *error) {
+    return [self.cachedService get:APIEndpointValidatePromoCode
+                            params:params
+                        completion:^(NSDictionary *rawResults, NSError *error) {
 
         if (!error) {
             [LEOAnalytic tagType:LEOAnalyticTypeEvent

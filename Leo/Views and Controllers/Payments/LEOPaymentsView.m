@@ -12,8 +12,9 @@
 #import "UIFont+LEOFonts.h"
 #import "UIColor+LEOColors.h"
 #import "UIButton+Extensions.h"
+#import "NSString+Extensions.h"
 
-@interface LEOPaymentsView () <UITextViewDelegate>
+@interface LEOPaymentsView () <UITextViewDelegate, LEOPromptDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *paymentInstructionsLabel;
 @property (weak, nonatomic) IBOutlet UILabel *chargeDetailsLabel;
@@ -49,7 +50,7 @@
 - (void)setPromoPromptView:(LEOPromptView *)promoPromptView {
 
     _promoPromptView = promoPromptView;
-    _promoPromptView.textView.standardPlaceholder = @"Referral Code";
+    _promoPromptView.textView.standardPlaceholder = @"Referral Code (optional)";
     _promoPromptView.textView.validationPlaceholder = @"Invalid promo code";
     _promoPromptView.textView.delegate = self;
     _promoPromptView.textView.returnKeyType = UIReturnKeyDone;
@@ -58,6 +59,7 @@
     _promoPromptView.textView.floatingLabelFont = [UIFont leo_bold12];
     _promoPromptView.textView.font = [UIFont leo_medium15];
     _promoPromptView.textView.floatingLabelTextColor = [UIColor leo_gray124];
+    _promoPromptView.delegate = self;
 
     UIButton *applyButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [applyButton setTitle:@"APPLY" forState:UIControlStateNormal];
@@ -147,7 +149,9 @@
     return self.promoPromptView.hidden;
 }
 
-- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+- (BOOL)textView:(UITextView *)textView
+    shouldChangeTextInRange:(NSRange)range
+    replacementText:(NSString *)text {
 
     if (textView == self.promoPromptView.textView) {
         if ([text isEqualToString:@"\n"]) {
@@ -158,10 +162,33 @@
     return YES;
 }
 
+- (void)textViewDidChange:(UITextView *)textView {
+
+    if (textView == self.promoPromptView.textView) {
+        if (textView.text.length == 0) {
+            self.promoPromptView.valid = YES;
+        }
+    }
+}
+
 - (void)applyTapped:(id)sender {
 
-    if ([self.delegate respondsToSelector:@selector(applyPromoCodeTapped:)]) {
-        [self.delegate applyPromoCodeTapped:self.promoPromptView];
+    if (self.promoPromptView.valid) {
+        if ([self.delegate respondsToSelector:@selector(applyPromoCodeTapped:)]) {
+            [self.delegate applyPromoCodeTapped:self.promoPromptView];
+        }
+    } else {
+        self.promoPromptView.textView.text = @"";
+        self.promoPromptView.valid = YES;
+    }
+}
+
+- (void)promptViewDidChangeValid:(LEOPromptView *)promptView {
+
+    if (promptView.valid) {
+        [self.applyPromoButton setTitle:@"APPLY" forState:UIControlStateNormal];
+    } else {
+        [self.applyPromoButton setTitle:@"CLEAR" forState:UIControlStateNormal];
     }
 }
 
