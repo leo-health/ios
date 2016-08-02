@@ -1,8 +1,12 @@
     upcoming:
-    - New! More elegant animation of chart touch gesture line
-    - Bug fixes
-
     releases:
+    - version: 1.2.0
+      build: 2016.07.27.12.59
+      date: July 27 2016
+      notes:
+      - New! More elegant animation of chart touch gesture line
+  - Bug fixes
+    
     - version: 1.2.0
       build: 2016.07.25.16.06
       date: July 25 2016
@@ -458,6 +462,7 @@
       notes:
       - First test build using new Fastfile configuration for Alpha builds
       - Provides the basic functionality all created prior to our first releases
+
 
 
 
