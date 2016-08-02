@@ -262,6 +262,7 @@
 		66A5DB431C3EE93D008AEC55 /* LEOPHRTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66A5DB411C3EE93D008AEC55 /* LEOPHRTableViewCell.xib */; };
 		66ACE0B61D36B0CF007E3B8D /* LEOJSONSerializable.m in Sources */ = {isa = PBXBuildFile; fileRef = 66ACE0B51D36B0CF007E3B8D /* LEOJSONSerializable.m */; };
 		66ACE0B91D36D519007E3B8D /* LEOModelService.m in Sources */ = {isa = PBXBuildFile; fileRef = 66ACE0B81D36D519007E3B8D /* LEOModelService.m */; };
+		66C6725A1D510D8C00C0D0A9 /* LEOReferralViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66C672591D510D8C00C0D0A9 /* LEOReferralViewController.swift */; };
 		66C7EF6B1C2A02C200F2FF56 /* LEOGradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C7EF6A1C2A02C200F2FF56 /* LEOGradientView.m */; };
 		66CB50BF1C59573D00A694AF /* LEORecordEditNotesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CB50BE1C59573D00A694AF /* LEORecordEditNotesViewController.m */; };
 		66E6E1D61C6B9FFB00B10178 /* LEOImagePreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E6E1D51C6B9FFB00B10178 /* LEOImagePreviewViewController.m */; };
@@ -813,6 +814,8 @@
 		66ACE0B51D36B0CF007E3B8D /* LEOJSONSerializable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOJSONSerializable.m; path = Leo/LEOJSONSerializable.m; sourceTree = SOURCE_ROOT; };
 		66ACE0B71D36D519007E3B8D /* LEOModelService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOModelService.h; sourceTree = "<group>"; };
 		66ACE0B81D36D519007E3B8D /* LEOModelService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOModelService.m; sourceTree = "<group>"; };
+		66C672561D510D0D00C0D0A9 /* Leo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Leo-Bridging-Header.h"; sourceTree = "<group>"; };
+		66C672591D510D8C00C0D0A9 /* LEOReferralViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LEOReferralViewController.swift; sourceTree = "<group>"; };
 		66C7EF691C2A02C200F2FF56 /* LEOGradientView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOGradientView.h; sourceTree = "<group>"; };
 		66C7EF6A1C2A02C200F2FF56 /* LEOGradientView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOGradientView.m; sourceTree = "<group>"; };
 		66CB50BD1C59573D00A694AF /* LEORecordEditNotesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEORecordEditNotesViewController.h; sourceTree = "<group>"; };
@@ -966,6 +969,7 @@
 			children = (
 				3115F1FA1BC71683001BDF6A /* LEOSettingsViewController.h */,
 				3115F1FB1BC71683001BDF6A /* LEOSettingsViewController.m */,
+				66C672591D510D8C00C0D0A9 /* LEOReferralViewController.swift */,
 				3115F21F1BCEA973001BDF6A /* Update Password */,
 				3115F21E1BCEA326001BDF6A /* Add Caregiver */,
 			);
@@ -1787,6 +1791,7 @@
 				314877E91D1848890002E757 /* Modified 3PL */,
 				BCE1EC6B1B00E353007C8D0B /* AppDelegate.h */,
 				BCE1EC6C1B00E353007C8D0B /* AppDelegate.m */,
+				66C672561D510D0D00C0D0A9 /* Leo-Bridging-Header.h */,
 				BCE1EC9B1B01199E007C8D0B /* LEOPrefixHeader.pch */,
 				3101F9421BF556820075765B /* LeoUserDefaults.plist */,
 				3132BEA31B84F9D200494727 /* LeoTests */,
@@ -1992,6 +1997,7 @@
 		BCE1EC5C1B00E353007C8D0B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = "Leo Health";
 				TargetAttributes = {
@@ -2462,6 +2468,7 @@
 				314655101BFD1FE700354181 /* AppointmentStatus.m in Sources */,
 				31DB40111BFF9CC8005F1BF2 /* LEODevice.m in Sources */,
 				DE87E4D01D21B7DB00871700 /* p_LEOAnalyticScreen.m in Sources */,
+				66C6725A1D510D8C00C0D0A9 /* LEOReferralViewController.swift in Sources */,
 				312A82571B56EEBE00E1FB38 /* LEOConversationViewController.m in Sources */,
 				66A5DB391C3DAEEE008AEC55 /* LEOHealthRecordService.m in Sources */,
 				319F335D1B2201F900C1C526 /* CollectionViewLayout.m in Sources */,
@@ -2527,6 +2534,7 @@
 			baseConfigurationReference = 312594B81BE2D2C100A497C0 /* Local.xcconfig */;
 			buildSettings = {
 				BUNDLE_IDENTIFIER = "com.leohealth.dev-consumer";
+				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2534,7 +2542,10 @@
 				);
 				INFOPLIST_FILE = Leo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "Leo-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Local;
 		};
@@ -2576,14 +2587,18 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3126E59A1C8F3CC00047189C /* Staging.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = Leo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "Leo-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Staging;
 		};
@@ -2625,13 +2640,17 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3126E59C1C8F3F470047189C /* QA.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = Leo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.leohealth.qa-consumer";
+				SWIFT_OBJC_BRIDGING_HEADER = "Leo-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = QA;
 		};
@@ -2672,6 +2691,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3126E59B1C8F3D8F0047189C /* AppStore.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: LEO HEALTH, INC. (4Q3R8E5P59)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: LEO HEALTH, INC. (4Q3R8E5P59)";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2680,7 +2700,10 @@
 				);
 				INFOPLIST_FILE = Leo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.leohealth.leo;
+				SWIFT_OBJC_BRIDGING_HEADER = "Leo-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = AppStore;
 		};
@@ -2743,13 +2766,17 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 31BB45EB1C17757A0036224C /* Testflight.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = Leo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "Leo-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Testflight;
 		};
@@ -2793,14 +2820,18 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40561B838AE700834BC2 /* Development.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = Leo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = $BUNDLE_IDENTIFIER;
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "Leo-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Development;
 		};

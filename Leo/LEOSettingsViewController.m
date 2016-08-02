@@ -45,6 +45,7 @@ typedef NS_ENUM(NSUInteger, AccountSettings) {
     AccountSettingsEmail,
     AccountSettingsPassword,
     AccountSettingsSubscriptionManagement,
+    AccountSettingsReferAFriend,
     AccountSettingsAddCaregiver,
 };
 
@@ -75,6 +76,7 @@ static NSString *const kSegueChangePassword = @"UpdatePasswordSegue";
 static NSString *const kSegueAddCaregiver = @"AddCaregiverSegue";
 static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
 static NSString *const kSegueManageMySubscription = @"ManageSubscriptionSegue";
+static NSString *const kSegueReferAFriend = @"ReferAFriendSegue";
 
 static NSString *const kCopyManageMySubscription = @"Manage my membership";
 
@@ -151,7 +153,7 @@ static NSString *const kCopyManageMySubscription = @"Manage my membership";
     
     switch (section) {
         case SettingsSectionAccounts:
-            return 4;
+            return 5;
             
         case SettingsSectionPatients:
             return [self.family.patients count];
@@ -212,6 +214,19 @@ static NSString *const kCopyManageMySubscription = @"Manage my membership";
                 case AccountSettingsSubscriptionManagement: {
 
                     cell.promptField.textField.text = kCopyManageMySubscription;
+                    cell.promptField.accessoryImageViewVisible = YES;
+                    cell.promptField.accessoryImage = [UIImage imageNamed:@"Icon-ForwardArrow"];
+                    cell.promptField.tintColor = [UIColor leo_orangeRed];
+                    cell.promptField.textField.enabled = NO;
+                    cell.promptField.textField.textColor = [UIColor leo_gray124];
+                    cell.promptField.textField.standardPlaceholder = @"";
+                    cell.promptField.tapGestureEnabled = NO;
+                    break;
+                }
+
+                case AccountSettingsReferAFriend: {
+
+                    cell.promptField.textField.text = @"Refer a Friend";
                     cell.promptField.accessoryImageViewVisible = YES;
                     cell.promptField.accessoryImage = [UIImage imageNamed:@"Icon-ForwardArrow"];
                     cell.promptField.tintColor = [UIColor leo_orangeRed];
@@ -353,7 +368,11 @@ static NSString *const kCopyManageMySubscription = @"Manage my membership";
                 case AccountSettingsSubscriptionManagement:
                     [self performSegueWithIdentifier:kSegueManageMySubscription sender:indexPath];
                     break;
-                    
+
+                case AccountSettingsReferAFriend:
+                    [self performSegueWithIdentifier:kSegueReferAFriend sender:indexPath];
+                    break;
+
                 case AccountSettingsAddCaregiver:
                     [self performSegueWithIdentifier:kSegueAddCaregiver sender:indexPath];
                     break;
