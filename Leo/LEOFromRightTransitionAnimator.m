@@ -1,22 +1,14 @@
 //
-//  LEOFromLeftTransitionAnimator.m
+//  LEOFromRightTransitionAnimator.m
 //  Leo
 //
-//  Created by Annie Graham on 7/29/16.
+//  Created by Annie Graham on 8/1/16.
 //  Copyright © 2016 Leo Health. All rights reserved.
 //
 
-//
-//  LEOFromLeftTransitionAnimator.m
-//  Leo
-//
-//  Created by Zachary Drossman on 12/10/15.
-//  Copyright © 2015 Leo Health. All rights reserved.
-//
+#import "LEOFromRightTransitionAnimator.h"
 
-#import "LEOFromLeftTransitionAnimator.h"
-
-@implementation LEOFromLeftTransitionAnimator
+@implementation LEOFromRightTransitionAnimator
 
 - (NSTimeInterval)transitionDuration:(id <UIViewControllerContextTransitioning>)transitionContext {
 
@@ -31,15 +23,13 @@
     [[transitionContext containerView] insertSubview:toViewController.view aboveSubview:fromViewController.view];
     UIView *toView = toViewController.view;
     UIView *fromView = fromViewController.view;
-    toView.frame = CGRectOffset(toView.frame, -fromView.frame.size.width, [[UIApplication sharedApplication]statusBarFrame].size.height+15);
-
+    toView.frame = CGRectOffset(toView.frame, fromView.frame.size.width, -[[UIApplication sharedApplication]statusBarFrame].size.height-20);
     [UIView animateWithDuration:[self transitionDuration:transitionContext] animations:^{
 
-        toView.frame = CGRectOffset(fromView.frame, 0,([[UIApplication sharedApplication]statusBarFrame].size.height+15));
+        toView.frame = CGRectOffset(fromView.frame, 0, -[[UIApplication sharedApplication]statusBarFrame].size.height-20);
     } completion:^(BOOL finished) {
         [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
     }];
 }
-
 
 @end

@@ -15,7 +15,7 @@
 #import "LEOStickyHeaderViewController.h"
 #import "LEOFeedNavigationHeaderView.h"
 
-@interface LEOFeedTVC : UIViewController <UITableViewDelegate, UITableViewDataSource, CardActivityProtocol, LEOExpandedCardViewDelegate, LEONavigatorDelegate>
+@interface LEOFeedTVC : UIViewController <UITableViewDelegate, UITableViewDataSource, CardActivityProtocol, LEOExpandedCardViewDelegate, LEONavigatorDelegate, UINavigationControllerDelegate>
 
 @property (strong, nonatomic) Family *family;
 @property (strong, nonatomic) NSString *cardInFocusObjectID;

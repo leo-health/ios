@@ -297,6 +297,7 @@
 		DE8810101D24615800558046 /* LEOAnalyticSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DE88100F1D24615800558046 /* LEOAnalyticSessionManager.m */; };
 		DEA2B9421D4BBED000F353F6 /* LEOFromLeftTransitionAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = DEA2B9411D4BBED000F353F6 /* LEOFromLeftTransitionAnimator.m */; };
 		DEA2B9451D4BC49900F353F6 /* LEONavigationControllerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DEA2B9441D4BC49900F353F6 /* LEONavigationControllerViewController.m */; };
+		DEA2B9541D4FFC6600F353F6 /* LEOFromRightTransitionAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = DEA2B9531D4FFC6600F353F6 /* LEOFromRightTransitionAnimator.m */; };
 		DEF9B1BC1D4670C700485AAE /* LEODraggableLineContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = DEF9B1BB1D4670C700485AAE /* LEODraggableLineContainerView.m */; };
 /* End PBXBuildFile section */
 
@@ -886,6 +887,8 @@
 		DEA2B9411D4BBED000F353F6 /* LEOFromLeftTransitionAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOFromLeftTransitionAnimator.m; sourceTree = "<group>"; };
 		DEA2B9431D4BC49900F353F6 /* LEONavigationControllerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEONavigationControllerViewController.h; sourceTree = "<group>"; };
 		DEA2B9441D4BC49900F353F6 /* LEONavigationControllerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEONavigationControllerViewController.m; sourceTree = "<group>"; };
+		DEA2B9521D4FFC6600F353F6 /* LEOFromRightTransitionAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOFromRightTransitionAnimator.h; sourceTree = "<group>"; };
+		DEA2B9531D4FFC6600F353F6 /* LEOFromRightTransitionAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOFromRightTransitionAnimator.m; sourceTree = "<group>"; };
 		DEF91861D13AACF04D176928 /* libPods-Leo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Leo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEF9B1BA1D4670C700485AAE /* LEODraggableLineContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEODraggableLineContainerView.h; sourceTree = "<group>"; };
 		DEF9B1BB1D4670C700485AAE /* LEODraggableLineContainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEODraggableLineContainerView.m; sourceTree = "<group>"; };
@@ -1646,6 +1649,8 @@
 			children = (
 				31E615EC1CDA429C0027B226 /* UITableViewCell+Extensions.h */,
 				DEA2B9401D4BBED000F353F6 /* LEOFromLeftTransitionAnimator.h */,
+				DEA2B9521D4FFC6600F353F6 /* LEOFromRightTransitionAnimator.h */,
+				DEA2B9531D4FFC6600F353F6 /* LEOFromRightTransitionAnimator.m */,
 				DEA2B9411D4BBED000F353F6 /* LEOFromLeftTransitionAnimator.m */,
 				DEA2B9431D4BC49900F353F6 /* LEONavigationControllerViewController.h */,
 				DEA2B9441D4BC49900F353F6 /* LEONavigationControllerViewController.m */,
@@ -2230,6 +2235,7 @@
 				6627E7291C87918600B8F936 /* LEOInputAccessoryView.m in Sources */,
 				31314A181CB69DFD00465310 /* LEOVitalGraphViewController.m in Sources */,
 				31F5AA651B791B4A00F96D06 /* LEOAPISlotsOperation.m in Sources */,
+				DEA2B9541D4FFC6600F353F6 /* LEOFromRightTransitionAnimator.m in Sources */,
 				66A5DB331C3D96F7008AEC55 /* PatientNote.m in Sources */,
 				31CF99111B17754B00BFAABE /* LEOTransitioningDelegate.m in Sources */,
 				31254B831BB0599D00E8E150 /* LEOCardService.m in Sources */,

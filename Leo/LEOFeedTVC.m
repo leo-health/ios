@@ -70,6 +70,7 @@
 #import "LEOAnalytic+Extensions.h"
 
 #import "LEONavigationControllerViewController.h"
+#import "LEOFromLeftTransitionAnimator.h"
 
 typedef NS_ENUM(NSUInteger, TableViewSection) {
     TableViewSectionHeader,
@@ -100,6 +101,7 @@ typedef NS_ENUM(NSUInteger, TableViewSection) {
 @property (weak, nonatomic) IBOutlet UIView *grayView;
 
 @property (nonatomic) BOOL enableButtonsInFeed;
+@property (nonatomic) BOOL settingsTransition;
 
 @end
 
@@ -117,6 +119,9 @@ static CGFloat const kFeedInsetTop = 20.0;
 - (void)viewDidLoad {
 
     [super viewDidLoad];
+
+    self.navigationController.delegate = nil;
+    self.settingsTransition = NO;
 
     self.view.tintColor = [UIColor leo_white];
     self.view.backgroundColor = [UIColor leo_orangeRed];
@@ -720,8 +725,23 @@ static CGFloat const kFeedInsetTop = 20.0;
     [self loadBookingViewWithCard:card];
 }
 
+- (id<UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController
+                                  animationControllerForOperation:(UINavigationControllerOperation)operation
+                                               fromViewController:(UIViewController*)fromVC
+                                                 toViewController:(UIViewController*)toVC
+{
+    if (operation == UINavigationControllerOperationPush)
+        return [[LEOFromLeftTransitionAnimator alloc] init];
+
+    if (operation == UINavigationControllerOperationPop)
+        return [[LEOFromLeftTransitionAnimator alloc] init];
+
+    return nil;
+}
+
 - (void)loadSettings {
 
+    self.navigationController.delegate = self;
     UIStoryboard *settingsStoryboard = [UIStoryboard storyboardWithName:kStoryboardSettings
                                                                  bundle:nil];
 
@@ -732,18 +752,8 @@ static CGFloat const kFeedInsetTop = 20.0;
     settingsVC.familyService = [LEOFamilyService serviceWithCachePolicy:policy];
     settingsVC.userService = [LEOUserService serviceWithCachePolicy:policy];
 
-    //[self.navigationController pushViewController:settingsVC animated:YES];
-
-    LEOTransitioningDelegate *strongTransitioningDelegate = [[LEOTransitioningDelegate alloc] initWithTransitionAnimatorType:TransitionAnimatorTypeFromLeft];
-    self.transitionDelegate = strongTransitioningDelegate;
-    settingsVC.modalPresentationStyle = UIModalPresentationCustom;
-    settingsVC.transitioningDelegate = strongTransitioningDelegate;
-
-    [self presentViewController:settingsVC
-                       animated:YES
-                     completion:nil];
-//    [self.navigationController pushViewController:settingsVC
-//                       animated:YES];
+    [self.navigationController pushViewController:settingsVC animated:YES];
+    self.navigationController.delegate = nil;
 }
 
 

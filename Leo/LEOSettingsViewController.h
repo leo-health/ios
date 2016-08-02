@@ -13,7 +13,7 @@
 
 @class LEOFamilyService, LEOUserService;
 
-@interface LEOSettingsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, SignUpPatientProtocol>
+@interface LEOSettingsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, SignUpPatientProtocol, UINavigationControllerDelegate>
 
 @property (strong, nonatomic) LEOFamilyService *familyService;
 @property (strong, nonatomic) LEOUserService *userService;

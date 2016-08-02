@@ -30,6 +30,8 @@
 
 #import "LEOAnalytic+Extensions.h"
 #import "LEOAnalyticSessionManager.h"
+#import "LEOFromRightTransitionAnimator.h"
+#import "LEOFromLeftTransitionAnimator.h"
 
 typedef NS_ENUM(NSUInteger, SettingsSection) {
     
@@ -84,6 +86,7 @@ static NSString *const kCopyManageMySubscription = @"Manage my membership";
     
     [super viewDidLoad];
 
+    self.navigationController.delegate = nil;
     self.analyticSessionManager = [LEOAnalyticSessionManager new];
     [self.analyticSessionManager startMonitoringWithName:kAnalyticSessionSettings];
 
@@ -592,8 +595,23 @@ static NSString *const kCopyManageMySubscription = @"Manage my membership";
 
 - (void)pop {
 
+    //self.navigationController.delegate = self;
     [self.analyticSessionManager stopMonitoring];
     [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+- (id<UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController
+                                  animationControllerForOperation:(UINavigationControllerOperation)operation
+                                               fromViewController:(UIViewController*)fromVC
+                                                 toViewController:(UIViewController*)toVC
+{
+    if (operation == UINavigationControllerOperationPush)
+        return [[LEOFromLeftTransitionAnimator alloc] init];
+
+    if (operation == UINavigationControllerOperationPop)
+        return [[LEOFromRightTransitionAnimator alloc] init];
+
+    return nil;
 }
 
 
