@@ -15,23 +15,39 @@
 @property(strong, nonatomic)UIView *line;
 @property(nonatomic)CGFloat initialYTouched;
 
+@property (strong, nonatomic) NSMutableArray *centerXValuesOfPointsOnGraph;
+
 @end
 
 @implementation LEODraggableLineContainerView
 
 - (LEODraggableLineContainerView *)init {
+
     self = [super init];
-    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(handleTap:)];
-    [self addGestureRecognizer:tapRecognizer];
-    UILongPressGestureRecognizer *longPressRecognizer = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(handleLongPress:)];
-    longPressRecognizer.minimumPressDuration = 0.03f;
-    [self addGestureRecognizer:longPressRecognizer];
+
+    if (self) {
+
+        UITapGestureRecognizer *tapRecognizer =
+        [[UITapGestureRecognizer alloc]initWithTarget:self
+                                               action:@selector(handleTap:)];
+
+        [self addGestureRecognizer:tapRecognizer];
+
+        UILongPressGestureRecognizer *longPressRecognizer =
+        [[UILongPressGestureRecognizer alloc]initWithTarget:self
+                                                     action:@selector(handleLongPress:)];
+        
+        longPressRecognizer.minimumPressDuration = 0.03f;
+        [self addGestureRecognizer:longPressRecognizer];
+    }
 
     return self;
 }
 
 - (UIView *)line {
+
     if (!_line) {
+
         UIView *strongLine = [UIView new];
         [self addSubview:strongLine];
         _line = strongLine;
@@ -43,12 +59,14 @@
 
 - (void)updateConstraints {
 
+    //FIXME: ZSD - There should really be some safety around this using our standard pattern, even though I think our current use case *might* not require it.
     self.line.translatesAutoresizingMaskIntoConstraints = NO;
 
-    NSArray *widthConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:[line(2)]"
-                                                                        options:0
-                                                                        metrics:nil
-                                                                          views:@{@"line": self.line}];
+    NSArray *widthConstraints =
+    [NSLayoutConstraint constraintsWithVisualFormat:@"H:[line(2)]"
+                                            options:0
+                                            metrics:nil
+                                              views:@{@"line": self.line}];
 
     [self addConstraints:widthConstraints];
 
@@ -60,6 +78,7 @@
                          attribute:NSLayoutAttributeHeight
                          multiplier:1.0
                          constant:0.0]];
+
     [self addConstraint:[NSLayoutConstraint
                          constraintWithItem:self.line
                          attribute:NSLayoutAttributeBottom
@@ -69,13 +88,15 @@
                          multiplier:1.0
                          constant:0.0]];
 
-    self.lineXPositionConstraint = [NSLayoutConstraint constraintWithItem:self.line
-                                                                attribute:NSLayoutAttributeCenterX
-                                                                relatedBy:NSLayoutRelationEqual
-                                                                   toItem:self
-                                                                attribute:NSLayoutAttributeLeft
-                                                               multiplier:1.0
-                                                                 constant:0.0];
+    self.lineXPositionConstraint =
+    [NSLayoutConstraint constraintWithItem:self.line
+                                 attribute:NSLayoutAttributeCenterX
+                                 relatedBy:NSLayoutRelationEqual
+                                    toItem:self
+                                 attribute:NSLayoutAttributeLeft
+                                multiplier:1.0
+                                  constant:0.0];
+
     [self addConstraint:self.lineXPositionConstraint];
 
     [super updateConstraints];
@@ -93,7 +114,9 @@
     CGPoint pointPressed = [sender locationInView:self];
     self.lineXPositionConstraint.constant = pointPressed.x;
     [self selectPointNearestTo:pointPressed];
+
     if (sender.state == UIGestureRecognizerStateEnded) {
+
         self.lineXPositionConstraint.constant = [self xValueOfNearestPointTo:pointPressed];
         [self selectPointNearestTo:pointPressed];
     }
@@ -109,9 +132,28 @@
     return [[self.centerXValuesOfPointsOnGraph objectAtIndex:indexOfNearestPoint] floatValue];
 }
 
+-(NSMutableArray *)centerXValuesOfPointsOnGraph {
+
+    if (!_centerXValuesOfPointsOnGraph) {
+
+        _centerXValuesOfPointsOnGraph = [NSMutableArray new];
+
+        NSArray *visualPoints = [self.chart visualPointsForSeries:self.chart.series.firstObject];
+
+        for (TKChartVisualPoint *point in visualPoints) {
+            [_centerXValuesOfPointsOnGraph addObject:@(point.x)];
+        }
+    }
+
+    return _centerXValuesOfPointsOnGraph;
+}
+
 - (void)selectPointWithIndex:(NSInteger)index {
-    [self.chart select:[[TKChartSelectionInfo alloc] initWithSeries:self.chart.series[0]
-                                                     dataPointIndex:index]];
+
+    TKChartSelectionInfo *selectionInfo =
+    [[TKChartSelectionInfo alloc] initWithSeries:self.chart.series[0]
+                                  dataPointIndex:index];
+    [self.chart select:selectionInfo];
 }
 
 - (NSInteger)indexOfNearestPointTo:(CGPoint)point {

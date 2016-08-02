@@ -11,7 +11,6 @@
 
 @interface LEODraggableLineContainerView : UIView
 
-@property (strong, nonatomic) NSMutableArray *centerXValuesOfPointsOnGraph;
 @property (strong, nonatomic) TKChart *chart;
 @property (strong, nonatomic) NSLayoutConstraint *lineXPositionConstraint;
 

@@ -320,8 +320,6 @@
 		310709D61D382E3500337995 /* LEOOnePartStatView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOOnePartStatView.m; path = "Views and Controllers/PHR/LEOOnePartStatView.m"; sourceTree = "<group>"; };
 		310740721B545EFD0098FD40 /* LEOCardConversation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOCardConversation.h; path = "Data Model/LEOCardConversation.h"; sourceTree = "<group>"; };
 		310740731B545EFD0098FD40 /* LEOCardConversation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOCardConversation.m; path = "Data Model/LEOCardConversation.m"; sourceTree = "<group>"; };
-		310816BF1D25A8E600F38933 /* LEOChartVerticalLineSelectorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOChartVerticalLineSelectorView.h; path = "Views and Controllers/PHR/LEOChartVerticalLineSelectorView.h"; sourceTree = "<group>"; };
-		310816C01D25A8E600F38933 /* LEOChartVerticalLineSelectorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOChartVerticalLineSelectorView.m; path = "Views and Controllers/PHR/LEOChartVerticalLineSelectorView.m"; sourceTree = "<group>"; };
 		3109436E1CC809A80015D52F /* LEOConversationNoticeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOConversationNoticeView.h; path = "Views and Controllers/Conversation/LEOConversationNoticeView.h"; sourceTree = "<group>"; };
 		3109436F1CC809A80015D52F /* LEOConversationNoticeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOConversationNoticeView.m; path = "Views and Controllers/Conversation/LEOConversationNoticeView.m"; sourceTree = "<group>"; };
 		310943711CC9471F0015D52F /* LEOConversationFullScreenNoticeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOConversationFullScreenNoticeView.h; path = "Views and Controllers/Conversation/LEOConversationFullScreenNoticeView.h"; sourceTree = "<group>"; };
@@ -1242,8 +1240,6 @@
 				310709D61D382E3500337995 /* LEOOnePartStatView.m */,
 				3144179E1D2D66D00006736F /* LEOTwoPartStatView.h */,
 				3144179F1D2D66D00006736F /* LEOTwoPartStatView.m */,
-				310816BF1D25A8E600F38933 /* LEOChartVerticalLineSelectorView.h */,
-				310816C01D25A8E600F38933 /* LEOChartVerticalLineSelectorView.m */,
 				31314A171CB69DFD00465310 /* LEOVitalGraphViewController.h */,
 				31314A161CB69DFD00465310 /* LEOVitalGraphViewController.m */,
 				317C1BE71CBBE9190099AC4D /* LEOVitalGraphDataSource.h */,
