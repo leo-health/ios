@@ -23,6 +23,7 @@ pod 'SSKeychain' #MIT
 pod 'DateTools' #MIT
 pod 'CWStatusBarNotification', '~> 2.3.4' #MIT
 pod 'MBProgressHUD' #MIT
+pod 'TTTAttributedLabel' #MIT
 
 #Should replace with our own implementations
 pod 'UIImage-Resize' #MIT

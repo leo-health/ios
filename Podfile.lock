@@ -57,6 +57,7 @@ PODS:
   - Stripe (7.0.0):
     - Stripe/Core (= 7.0.0)
   - Stripe/Core (7.0.0)
+  - TTTAttributedLabel (2.0.0)
   - UIImage-Resize (1.0.1)
 
 DEPENDENCIES:
@@ -77,6 +78,7 @@ DEPENDENCIES:
   - Specta (from `https://github.com/specta/specta.git`, commit `c07c003cfe3a41fa510567e2e0a9fd7f5ae3b098`)
   - SSKeychain
   - Stripe
+  - TTTAttributedLabel
   - UIImage-Resize
 
 EXTERNAL SOURCES:
@@ -109,8 +111,7 @@ SPEC CHECKSUMS:
   Specta: 69bb134672aae190a1379ff91df07dad8dd1f869
   SSKeychain: 3f42991739c6c60a9cf1bbd4dff6c0d3694bcf3d
   Stripe: 147bbff1ba7cf3422e4ed14f6e1fbbc72471ce6c
+  TTTAttributedLabel: 8cffe8e127e4e82ff3af1e5386d4cd0ad000b656
   UIImage-Resize: fa776860f10e6900bbaf53a73e494bdceaaccc77
 
-PODFILE CHECKSUM: e034740a286f72a2b4aece0b74a1f5d77b300b7f
-
-COCOAPODS: 1.0.1
+COCOAPODS: 0.39.0
