@@ -880,6 +880,7 @@
 		DE88100E1D24615800558046 /* LEOAnalyticSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOAnalyticSessionManager.h; sourceTree = "<group>"; };
 		DE88100F1D24615800558046 /* LEOAnalyticSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOAnalyticSessionManager.m; sourceTree = "<group>"; };
 		DE91E49A1D11FFF5007EE79F /* DeveloperCodeSigning.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = DeveloperCodeSigning.xcconfig; path = xcconfig/DeveloperCodeSigning.xcconfig; sourceTree = "<group>"; };
+		DEF2D6FB1D5150060023137F /* LEONavigateToEditPatient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEONavigateToEditPatient.h; sourceTree = "<group>"; };
 		DEF91861D13AACF04D176928 /* libPods-Leo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Leo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEF9B1BA1D4670C700485AAE /* LEODraggableLineContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEODraggableLineContainerView.h; sourceTree = "<group>"; };
 		DEF9B1BB1D4670C700485AAE /* LEODraggableLineContainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEODraggableLineContainerView.m; sourceTree = "<group>"; };
@@ -1638,6 +1639,7 @@
 		BC163B001B054CCF000FB1CE /* View */ = {
 			isa = PBXGroup;
 			children = (
+				DEF2D6FB1D5150060023137F /* LEONavigateToEditPatient.h */,
 				31E615EC1CDA429C0027B226 /* UITableViewCell+Extensions.h */,
 				31E615ED1CDA429C0027B226 /* UITableViewCell+Extensions.m */,
 				31FCDD731C65094100BE4B78 /* UIButton+Extensions.m */,

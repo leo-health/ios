@@ -53,6 +53,7 @@
 
         _patientProfileView = strongPatientProfileView;
         _patientProfileView.backgroundColor = [UIColor leo_orangeRed];
+        _patientProfileView.delegate = self.delegate;
         [self addSubview:_patientProfileView];
     }
 

@@ -9,11 +9,15 @@
 @class Patient;
 
 #import <UIKit/UIKit.h>
+#import "LEOSignUpPatientViewController.h"
+#import "LEONavigateToEditPatient.h"
 
-@interface LEOPatientProfileView : UIView
+@interface LEOPatientProfileView : UIView <SignUpPatientProtocol>
 
 - (instancetype)initWithPatient:(Patient *)patient;
 
 @property (strong, nonatomic) Patient *patient;
+@property (weak, nonatomic) id <LEONavigateToEditPatient>  delegate;
+
 
 @end

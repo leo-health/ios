@@ -8,8 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "LEOStickyHeaderViewController.h"
+#import "LEONavigateToEditPatient.h"
+#import "LEOSignUpPatientViewController.h"
 
-@interface LEOPHRViewController : LEOStickyHeaderViewController
+
+@interface LEOPHRViewController : LEOStickyHeaderViewController <LEONavigateToEditPatient, SignUpPatientProtocol>
 
 - (instancetype)initWithPatients:(NSArray *)patients;
 

@@ -9,11 +9,13 @@
 @class GNZSegmentedControl;
 
 #import <UIKit/UIKit.h>
+#import "LEONavigateToEditPatient.h"
 
 @interface LEOPHRHeaderView : UIView
 
 @property (nonatomic) NSInteger selectedSegment;
 @property (copy, nonatomic) DefaultVoidBlock segmentDidChangeBlock;
+@property (weak, nonatomic) id  <LEONavigateToEditPatient> delegate;
 
 - (instancetype)initWithPatients:(NSArray *)patients;
 

@@ -26,6 +26,7 @@
 #import "LEOAlertHelper.h"
 #import "LEORecordEditNotesViewController.h"
 #import "LEOAnalytic.h"
+#import "LEOSignUpPatientViewController.h"
 
 static CGFloat const kHeightOfHeaderPHR = 97;
 
@@ -213,6 +214,7 @@ static CGFloat const kHeightOfHeaderPHR = 97;
 
         _headerView = strongHeaderView;
         _headerView.backgroundColor = [UIColor leo_white];
+        _headerView.delegate = self;
 
         __weak typeof(self) weakSelf = self;
 
@@ -318,6 +320,19 @@ static CGFloat const kHeightOfHeaderPHR = 97;
     [notesForPatient addObject:updatedNote];
     [self.analyticSessionManager stopMonitoring];
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)navigateToEditPatient {
+
+    NSLog(@"Navigate to edit patient");
+    LEOSignUpPatientViewController *signUpPatientVC = [LEOSignUpPatientViewController new];
+    signUpPatientVC.patient = self.patients[[self selectedPatientIndex]];
+    signUpPatientVC.feature = FeatureSettings;
+    signUpPatientVC.managementMode = ManagementModeEdit;
+    signUpPatientVC.patientDataSource = [LEOPatientService new];
+    signUpPatientVC.delegate = self;
+
+    [self.navigationController pushViewController:signUpPatientVC animated:YES];
 }
 
 @end

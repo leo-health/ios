@@ -13,6 +13,8 @@
 #import "User.h"
 #import "LEOUserService.h"
 #import "LEOMessagesAvatarImageFactory.h"
+#import "LEOPatientService.h"
+#import "LEOSignUpPatientViewController.h"
 
 @interface LEOPatientProfileView ()
 
@@ -24,6 +26,7 @@
 
 static CGFloat const kAvatarProfileBorderWidth = 2.0;
 static CGFloat const kAvatarProfileDiameter = 53.0;
+static NSString *const kSegueUpdatePatient = @"UpdatePatientSegue";
 
 @implementation LEOPatientProfileView
 
@@ -73,12 +76,41 @@ static CGFloat const kAvatarProfileDiameter = 53.0;
         _patientAvatarImageView = strongImageView;
         _patientAvatarImageView.tintColor = [UIColor leo_white];
         _patientAvatarImageView.image = profileImage;
+        _patientAvatarImageView.userInteractionEnabled = YES;
+        UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc]
+                                                 initWithTarget:self action:@selector(handleTap:)];
+        [_patientAvatarImageView addGestureRecognizer:tapRecognizer];
 
         [self addSubview:_patientAvatarImageView];
     }
 
     return _patientAvatarImageView;
 }
+
+- (void)handleTap:(UITapGestureRecognizer *)tapGestureRecognizer {
+    NSLog(@"Avatar tapped");
+    [self.delegate navigateToEditPatient];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+
+    if ([segue.identifier isEqualToString:kSegueUpdatePatient]) {
+
+        LEOSignUpPatientViewController *signUpPatientVC = segue.destinationViewController;
+        signUpPatientVC.patient = (Patient *)sender;
+        signUpPatientVC.feature = FeatureSettings;
+
+        if (sender) {
+            signUpPatientVC.managementMode = ManagementModeEdit;
+        } else {
+            signUpPatientVC.managementMode = ManagementModeCreate;
+        }
+
+        signUpPatientVC.patientDataSource = [LEOPatientService new];
+        signUpPatientVC.delegate = self;
+    }
+}
+
 
 -(void)updateConstraints {
 
