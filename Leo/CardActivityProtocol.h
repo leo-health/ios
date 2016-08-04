@@ -15,6 +15,6 @@
 
 @protocol CardActivityProtocol <NSObject>
 
-- (void) didUpdateObjectStateForCard:(id<LEOCardProtocol>)card;
+- (void)didUpdateObjectStateForCard:(id<LEOCardProtocol>)card;
 
 @end

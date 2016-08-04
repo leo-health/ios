@@ -52,7 +52,7 @@
         <!--Referral View Controller-->
         <scene sceneID="s4w-rn-Zhq">
             <objects>
-                <viewController id="9f9-Mb-9Zl" customClass="LEOReferralViewController" customModule="Leo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LEOReferralViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="9f9-Mb-9Zl" customClass="LEOReferralViewController" customModule="Leo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="aDv-uj-Pdu"/>
                         <viewControllerLayoutGuide type="bottom" id="ArQ-5b-HDq"/>
@@ -67,13 +67,13 @@
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="22f-80-T37">
                                         <rect key="frame" x="28" y="57" width="544" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7q3-Fr-l7h">
                                         <rect key="frame" x="28" y="106" width="544" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9yN-Ed-JDo">

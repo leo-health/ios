@@ -10,7 +10,7 @@
 #import "LEOAPISessionManager.h"
 #import "LEOCardAppointment.h"
 #import "LEOCardConversation.h"
-
+#import "LEOCardDeepLink.h"
 
 @implementation LEOCardService
 
@@ -28,18 +28,35 @@
             
             NSString *cardType = jsonCard[APIParamType];
             
-            if ([cardType isEqualToString:@"appointment"]) {
+            if ([cardType isEqualToString:CardTypeNameAppointment]) {
                 LEOCardAppointment *card = [[LEOCardAppointment alloc] initWithJSONDictionary:jsonCard];
                 [cards addObject:card];
             }
             
-            if ([cardType isEqualToString:@"conversation"]) {
+            if ([cardType isEqualToString:CardTypeNameConversation]) {
                 LEOCardConversation *card = [[LEOCardConversation alloc] initWithJSONDictionary:jsonCard];
                 [cards addObject:card];
+            }
+
+            if ([cardType isEqualToString:CardTypeNameDeepLink]) {
+                [cards addObject:[[LEOCardDeepLink alloc] initWithJSONDictionary:jsonCard]];
             }
         }
         if (completionBlock) {
             completionBlock(cards, error);
+        }
+    }];
+}
+
+- (void)deleteCardWithID:(NSString *)objectID completion:(void (^)(NSError *error))completionBlock {
+
+    NSMutableDictionary *params = [NSMutableDictionary new];
+    params[APIParamID] = objectID;
+
+    [[LEOCardService leoSessionManager] standardDELETERequestForJSONDictionaryToAPIWithEndpoint:APIEndpointCards params:params completion:^(NSDictionary *rawResults, NSError *error) {
+
+        if (completionBlock) {
+            completionBlock(error);
         }
     }];
 }
