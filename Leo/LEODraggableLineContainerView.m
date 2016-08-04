@@ -12,8 +12,8 @@
 
 @interface LEODraggableLineContainerView ()
 
-@property(strong, nonatomic)UIView *line;
-@property(nonatomic)CGFloat initialYTouched;
+@property (strong, nonatomic) UIView *lineView;
+@property (nonatomic) CGFloat initialYTouched;
 
 @property (strong, nonatomic) NSMutableArray *centerXValuesOfPointsOnGraph;
 
@@ -44,34 +44,35 @@
     return self;
 }
 
-- (UIView *)line {
+- (UIView *)lineView {
 
-    if (!_line) {
+    if (!_lineView) {
 
-        UIView *strongLine = [UIView new];
-        [self addSubview:strongLine];
-        _line = strongLine;
-        _line.backgroundColor = [UIColor leo_orangeRed];
+        UIView *strongView = [UIView new];
+        _lineView = strongView;
+        _lineView.backgroundColor = [UIColor leo_orangeRed];
+
+        [self addSubview:_lineView];
     }
 
-    return _line;
+    return _lineView;
 }
 
 - (void)updateConstraints {
 
     //FIXME: ZSD - There should really be some safety around this using our standard pattern, even though I think our current use case *might* not require it.
-    self.line.translatesAutoresizingMaskIntoConstraints = NO;
+    self.lineView.translatesAutoresizingMaskIntoConstraints = NO;
 
     NSArray *widthConstraints =
     [NSLayoutConstraint constraintsWithVisualFormat:@"H:[line(2)]"
                                             options:0
                                             metrics:nil
-                                              views:@{@"line": self.line}];
+                                              views:@{@"line": self.lineView}];
 
     [self addConstraints:widthConstraints];
 
     [self addConstraint:[NSLayoutConstraint
-                         constraintWithItem:self.line
+                         constraintWithItem:self.lineView
                          attribute:NSLayoutAttributeHeight
                          relatedBy:NSLayoutRelationEqual
                          toItem:self
@@ -80,7 +81,7 @@
                          constant:0.0]];
 
     [self addConstraint:[NSLayoutConstraint
-                         constraintWithItem:self.line
+                         constraintWithItem:self.lineView
                          attribute:NSLayoutAttributeBottom
                          relatedBy:NSLayoutRelationEqual
                          toItem:self
@@ -89,7 +90,7 @@
                          constant:0.0]];
 
     self.lineXPositionConstraint =
-    [NSLayoutConstraint constraintWithItem:self.line
+    [NSLayoutConstraint constraintWithItem:self.lineView
                                  attribute:NSLayoutAttributeCenterX
                                  relatedBy:NSLayoutRelationEqual
                                     toItem:self
@@ -105,7 +106,9 @@
 - (void)handleTap:(UITapGestureRecognizer *)sender {
 
     CGPoint pointPressed = [sender locationInView:self];
-    self.lineXPositionConstraint.constant = [self xValueOfNearestPointTo:pointPressed];
+    self.lineXPositionConstraint.constant =
+    [self xValueOfNearestPointTo:pointPressed];
+
     [self selectPointNearestTo:pointPressed];
 }
 
@@ -117,7 +120,8 @@
 
     if (sender.state == UIGestureRecognizerStateEnded) {
 
-        self.lineXPositionConstraint.constant = [self xValueOfNearestPointTo:pointPressed];
+        self.lineXPositionConstraint.constant =
+        [self xValueOfNearestPointTo:pointPressed];
         [self selectPointNearestTo:pointPressed];
     }
 }
@@ -127,6 +131,7 @@
 }
 
 - (CGFloat)xValueOfNearestPointTo:(CGPoint)point {
+
     NSInteger indexOfNearestPoint = [self indexOfNearestPointTo:point];
 
     return [[self.centerXValuesOfPointsOnGraph objectAtIndex:indexOfNearestPoint] floatValue];
@@ -162,6 +167,7 @@
     CGFloat lowestDifference = fabs([self.centerXValuesOfPointsOnGraph.firstObject floatValue] - point.x);
     NSInteger newXValueIndex = 0;
 
+    //???: ZSD - At some point try to comment on why this starts at 1 instead of 0?
     for (NSInteger i=1; i<self.centerXValuesOfPointsOnGraph.count; i++) {
 
         CGFloat xValue = [[self.centerXValuesOfPointsOnGraph objectAtIndex:i] floatValue];

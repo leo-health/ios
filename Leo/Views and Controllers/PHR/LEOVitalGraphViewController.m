@@ -88,12 +88,11 @@ static NSInteger const kChartHeight = 160;
 
         LEODraggableLineContainerView *strongView = [LEODraggableLineContainerView new];
 
-        [self.view addSubview:strongView];
-
         _lineContainer = strongView;
 
         _lineContainer.chart = self.chart;
 
+        [self.view addSubview:_lineContainer];
     }
 
     return _lineContainer;
@@ -427,7 +426,8 @@ static NSInteger const kChartHeight = 160;
                                             metrics:nil
                                               views:bindings];
 
-    NSDictionary *metrics = @{ @"scoreboardHeight" : @(kScoreboardHeight), @"chartHeight" : @(kChartHeight) };
+    NSDictionary *metrics = @{ @"scoreboardHeight" : @(kScoreboardHeight),
+                               @"chartHeight" : @(kChartHeight) };
 
     self.verticalLayoutConstraints =
     [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_metricControl][_scoreboardView(scoreboardHeight)][_chart(chartHeight)]|"
@@ -548,6 +548,7 @@ static NSInteger const kChartHeight = 160;
     seriesPaletteItem.stroke = [TKStroke strokeWithColor:[UIColor leo_orangeRed] width:1.0];
 
     NSArray *colors = @[[[UIColor leo_gray176] colorWithAlphaComponent:0.6], [UIColor clearColor]];
+
     seriesPaletteItem.fill = [TKLinearGradientFill linearGradientFillWithColors:colors
                                                                       locations:@[@(0.0f),@(0.7f)]
                                                                      startPoint:CGPointMake(0.5f,0.f)
@@ -561,12 +562,14 @@ static NSInteger const kChartHeight = 160;
                      inSeries:(TKChartSeries *)series {
 
     TKChartPaletteItem *pointPaletteItem = [TKChartPaletteItem new];
-    pointPaletteItem.stroke = [TKStroke strokeWithColor:[UIColor leo_orangeRed] width:3.0];
+    pointPaletteItem.stroke =
+    [TKStroke strokeWithColor:[UIColor leo_orangeRed] width:3.0];
 
     UIColor *fillColor =
-    [self.selectedDataPointIndex  isEqual:@(index)] ? [UIColor leo_orangeRed] : [UIColor leo_gray251];
+    [self.selectedDataPointIndex isEqual:@(index)] ? [UIColor leo_orangeRed] : [UIColor leo_gray251];
 
-    pointPaletteItem.fill = [TKSolidFill solidFillWithColor:fillColor];
+    pointPaletteItem.fill =
+    [TKSolidFill solidFillWithColor:fillColor];
 
     return pointPaletteItem;
 }
@@ -595,6 +598,7 @@ static NSInteger const kChartHeight = 160;
 #pragma mark - Overlay annotations
 
 - (void)chart:(TKChart *)chart trackballDidTrackSelection:(NSArray *)selection {
+
     [self.chart select:selection.firstObject];
 }
 
@@ -612,8 +616,7 @@ didSelectPoint:(id<TKChartData> __nonnull)point
     [self.view updateConstraintsIfNeeded];
 }
 
-- (CAAnimation *)chart:(TKChart *)chart animationForSeries:(TKChartSeries *)series withState:(TKChartSeriesRenderState *)state inRect:(CGRect)rect
-{
+- (CAAnimation *)chart:(TKChart *)chart animationForSeries:(TKChartSeries *)series withState:(TKChartSeriesRenderState *)state inRect:(CGRect)rect {
 
     CFTimeInterval duration = 0;
     NSMutableArray *animations = [[NSMutableArray alloc] init];
@@ -630,6 +633,7 @@ didSelectPoint:(id<TKChartData> __nonnull)point
         CGFloat oldY = rect.size.height;
 
         if (i > 0) {
+
             CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:keyPath];
             animation.duration = 0.1* (i + 1);
             animation.values = @[ @(oldY), @(oldY), @(point.y) ];
@@ -639,6 +643,7 @@ didSelectPoint:(id<TKChartData> __nonnull)point
             duration = animation.duration;
         }
         else {
+
             CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:keyPath];
             animation.fromValue = @(oldY);
             animation.toValue = @(point.y);
@@ -654,7 +659,8 @@ didSelectPoint:(id<TKChartData> __nonnull)point
     //FIXME: This doesn't actually address the animation of the annotation line on screen (nor should it do that in line here, but we should be addressing that somewhere, and this is a good reminder that we've missed something.)\
 
     if (state.points.count > 0){
-        [self.chart select:[[TKChartSelectionInfo alloc] initWithSeries:self.chart.series[0]
+
+        [self.chart select:[[TKChartSelectionInfo alloc] initWithSeries:self.chart.series.firstObject
                                                          dataPointIndex:(state.points.count-1)]];
     }
     
