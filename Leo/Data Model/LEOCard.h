@@ -27,8 +27,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) id<CardActivityProtocol> activityDelegate;
 @property (weak, nonatomic) id<LEOCardProtocol> cardDelegate;
 
-- (instancetype)initWithObjectID:(NSString *)objectID priority:(NSNumber *)priority type:(CardType)type associatedCardObject:(id)associatedCardObject;
+// designated
+- (instancetype)initWithObjectID:(NSString *)objectID priority:(NSNumber *)priority type:(CardType)type associatedCardObject:(_Nullable id)associatedCardObject;
 
+// convenience
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse;
 
 + (instancetype)cardWithCardType:(CardType)cardType;
@@ -36,6 +38,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (CardType)cardTypeWithString:(NSString *)cardTypeString;
 + (NSString *)stringWithCardType:(CardType)cardType;
+
+- (id)targetForState; // default button target to self.associatedCardObject
 
 NS_ASSUME_NONNULL_END
 @end

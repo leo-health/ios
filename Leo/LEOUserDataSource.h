@@ -12,7 +12,9 @@
 
 @protocol LEOUserDataSource <NSObject>
 
-- (Guardian *)getCurrentUser;
+NS_ASSUME_NONNULL_BEGIN
+
+- (Guardian * _Nullable)getCurrentUser;
 - (Guardian *)putCurrentUser:(Guardian *)guardian;
 - (void)logout;
 
@@ -44,4 +46,5 @@
 - (Guardian *)addCaregiver:(Guardian *)user;
 
 
+NS_ASSUME_NONNULL_END
 @end

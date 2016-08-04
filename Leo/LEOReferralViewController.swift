@@ -16,6 +16,7 @@ final class LEOReferralViewController :
 
     let headerText = "Refer a friend"
     let bodyText = "Tell your friends about Leo and invite them to schedule a consult with us. When they sign up they will receive 3 months of membership for free"
+    let emailSubject = "You should check out Leo + Flatiron Pediatrics"
 
     @IBOutlet weak var headerLabel: UILabel! {
         didSet {
@@ -53,32 +54,60 @@ final class LEOReferralViewController :
     }
 
 
+    // MARK: Data
+
+    // NOTE: AF maybe this is overkill here. could just use let, but then it gets immediately initialized non-lazily
+    private(set) lazy var referralURL: String = {
+
+        let user = LEOUserService().getCurrentUser()
+        guard let vendorID = user?.anonymousCustomerServiceID else {
+            return ""
+        }
+
+        return "https://calendly.com/leoflatiron?utm_campaign=\(vendorID)"
+    }()
+
+    func messageBody() -> String {
+        return "Schedule a consult to learn more about Leo + Flatiron Pediatrics! \(referralURL)"
+    }
+
+    func emailBody() -> String {
+        return "We’re current members of Leo + Flatiron Pediatrics and it’s been a great experience so far.  On top of providing the highest quality clinical care (the team there has been amazing!) they have a ton of features that make managing my child’s care so much easier.  There is a mobile app where you can message the care team directly, schedule/reschedule appointments, and access your child’s health record.  You can also book same-day appointments, get prescriptions delivered, and even participate in appointments virtually. You can easily <strong><a href=\"\(referralURL)\">schedule a consult</a></strong> to learn more or <strong><a href=\"www.leohealth.com\">check out their website</a></strong>."
+    }
+
     // MARK: Button Actions
 
     @IBAction func inviteButtonEmailAction() {
 
-        guard MFMailComposeViewController.canSendMail() else {
-            LEOAlertHelper.alertWithTitle("Oops! We couldn't compose a new email",
+        // NOTE: leaving both options in here to come back and decide which is swiftier
+        let vc: UIViewController
+        if MFMailComposeViewController.canSendMail() {
+            vc = configuredMailComposeViewController()
+        } else {
+            vc = LEOAlertHelper.alertWithTitle("Oops! We couldn't compose a new email",
                                           message: "Make sure your device is set up to send emails",
                                           handler: nil)
-            return
         }
 
-        self.presentViewController(configuredMailComposeViewController(),
+        self.presentViewController(vc,
                                    animated: true,
                                    completion: nil)
     }
 
     @IBAction func inviteButtonTextAction() {
 
-        guard MFMessageComposeViewController.canSendText() else {
-            LEOAlertHelper.alertWithTitle("Oops! We couldn't compose a new message",
-                                          message: "Make sure your device is set up to send text messages",
-                                          handler: nil)
-            return
+        // NOTE: leaving both options in here to come back and decide which is swiftier
+        func composerOrAlert() -> UIViewController {
+            if MFMessageComposeViewController.canSendText() {
+                return configuredMessageComposeViewController()
+            } else {
+                return LEOAlertHelper.alertWithTitle("Oops! We couldn't compose a new message",
+                                                   message: "Make sure your device is set up to send text messages",
+                                                   handler: nil)
+            }
         }
 
-        self.presentViewController(configuredMessageComposeViewController(),
+        self.presentViewController(composerOrAlert(),
                                    animated: true,
                                    completion: nil)
     }
@@ -92,7 +121,7 @@ final class LEOReferralViewController :
 
         let messageComposerVC = MFMessageComposeViewController()
         messageComposerVC.messageComposeDelegate = self
-        messageComposerVC.body = "Insert biz-team approved copy here"
+        messageComposerVC.body = messageBody()
 
         return messageComposerVC
     }
@@ -111,9 +140,8 @@ final class LEOReferralViewController :
 
         let mailComposerVC = MFMailComposeViewController()
         mailComposerVC.mailComposeDelegate = self
-        mailComposerVC.setSubject("Insert biz-team approved copy here")
-        mailComposerVC.setMessageBody("Insert biz-team approved copy here",
-                                      isHTML: false)
+        mailComposerVC.setSubject(emailSubject)
+        mailComposerVC.setMessageBody(emailBody(), isHTML: true)
 
         return mailComposerVC
     }
@@ -133,6 +161,7 @@ final class LEOReferralViewController :
 
     func setupNavigationBar() {
 
+        navigationController?.navigationBarHidden = false
         navigationController?.navigationBar.setBackgroundImage(UIImage.leo_imageWithColor(UIColor.leo_orangeRed()), forBarMetrics: .Default)
         LEOStyleHelper.styleBackButtonForViewController(self, forFeature: .Settings)
         LEOStyleHelper.styleViewController(self, navigationTitleText: headerText, forFeature: .Settings)

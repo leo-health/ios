@@ -51,10 +51,9 @@ typedef NS_ENUM(NSUInteger, CardConfiguration) {
 - (NSString *)body;
 - (NSArray *)stringRepresentationOfActionsAvailableForState;
 - (NSDate *)timestamp;
+- (id)targetForState;
 - (NSArray *)actionsAvailableForState;
 - (CardConfiguration)configuration;
-
-//- (void)returnToPriorState;
 
 @optional
 - (nullable Practice *)practice;

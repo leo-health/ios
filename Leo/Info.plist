@@ -124,5 +124,11 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>${URL_SCHEME}</string>
+	</array>
+	<key>URL_SCHEME</key>
+	<string>${URL_SCHEME}</string>
 </dict>
 </plist>
