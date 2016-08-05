@@ -63,6 +63,15 @@
 
 - (void)setCopyFontAndColor {
 
+    NSDictionary *linkAttributes =
+    @{NSForegroundColorAttributeName: [UIColor leo_gray124],
+      NSFontAttributeName: [UIFont leo_regular15],
+      NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle),
+      NSUnderlineColorAttributeName: [UIColor leo_gray124] };
+
+    self.bodyLabel.linkAttributes = linkAttributes;
+    self.bodyLabel.inactiveLinkAttributes = linkAttributes;
+
     self.bodyLabel.font = [UIFont leo_regular15];
     self.bodyLabel.textColor = [UIColor leo_gray124];
 }

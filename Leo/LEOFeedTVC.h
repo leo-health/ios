@@ -14,8 +14,10 @@
 #import "LEOExpandedCardViewProtocol.h"
 #import "LEOStickyHeaderViewController.h"
 #import "LEOFeedNavigationHeaderView.h"
+#import <EventKitUI/EventKitUI.h>
+#import "LEOFeedCell+ConfigureForCard.h"
 
-@interface LEOFeedTVC : UIViewController <UITableViewDelegate, UITableViewDataSource, CardActivityProtocol, LEOExpandedCardViewDelegate, LEONavigatorDelegate>
+@interface LEOFeedTVC : UIViewController <UITableViewDelegate, UITableViewDataSource, CardActivityProtocol, LEOExpandedCardViewDelegate, LEONavigatorDelegate, LEOFeedCellDelegate, EKEventEditViewDelegate>
 
 @property (strong, nonatomic) Family *family;
 @property (strong, nonatomic) NSString *cardInFocusObjectID;

@@ -45,7 +45,6 @@
 
 #import "LEOFeedHeaderCell+ConfigureForCell.h"
 #import "LEOFeedNavigationHeaderView.h"
-#import "LEOFeedCell+ConfigureForCard.h"
 
 #import "UIImageEffects.h"
 
@@ -68,6 +67,8 @@
 #import "LEOMessageService.h"
 #import "LEOStatusBarNotification.h"
 #import "LEOAnalytic+Extensions.h"
+
+#import "LEOFormatting.h"
 
 typedef NS_ENUM(NSUInteger, TableViewSection) {
     TableViewSectionHeader,
@@ -678,7 +679,7 @@ static CGFloat const kFeedInsetTop = 20.0;
     NSString *practiceName = @"Flatiron Pediatrics"; // FIXME: where is the practice object stored?
     NSString *alertTitle = [NSString stringWithFormat:@"You are about to call \n%@\n%@", practiceName,
                             [LEOValidationsHelper formattedPhoneNumberFromPhoneNumber:kFlatironPediatricsPhoneNumber]];
-    
+
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:alertTitle message:nil preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:@"Call" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
 
@@ -879,6 +880,8 @@ static CGFloat const kFeedInsetTop = 20.0;
 
     cell.unreadState = [indexPath isEqual:self.cardInFocusIndexPath];
 
+    cell.delegate = self;
+
     return cell;
 }
 
@@ -891,23 +894,23 @@ static CGFloat const kFeedInsetTop = 20.0;
         case TableViewSectionBody:
             self.feedNavigatorHeaderView.userInteractionEnabled = self.enableButtonsInFeed;
             return self.feedNavigatorHeaderView;
-            
+
         default:
             return nil;
     }
 }
 
 - (LEOFeedNavigationHeaderView *)feedNavigatorHeaderView {
-    
+
     if (!_feedNavigatorHeaderView) {
-        
+
         _feedNavigatorHeaderView = [LEOFeedNavigationHeaderView new];
-        
+
         _feedNavigatorHeaderView.backgroundColor = [UIColor leo_white];
-        
+
         _feedNavigatorHeaderView.delegate = self;
     }
-    
+
     return _feedNavigatorHeaderView;
 }
 
@@ -919,7 +922,7 @@ static CGFloat const kFeedInsetTop = 20.0;
 }
 
 - (void)messageUsTouchedUpInside {
-    
+
     [LEOAnalytic tagType:LEOAnalyticTypeEvent
                     name:kAnalyticEventMessageUsFromTopOfPage];
     LEOCardConversation *conversationCard = [self findConversationCard];
@@ -927,12 +930,12 @@ static CGFloat const kFeedInsetTop = 20.0;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    
+
     switch (section) {
-            
+
         case TableViewSectionBody:
             return 45;
-            
+
         case TableViewSectionHeader:
         default:
             return CGFLOAT_MIN;
@@ -940,28 +943,133 @@ static CGFloat const kFeedInsetTop = 20.0;
 }
 
 - (LEOCardConversation *)findConversationCard {
-    
+
     for (LEOCard *card in self.cards) {
-        
+
         if ([card isKindOfClass:[LEOCardConversation class]]) {
             return (LEOCardConversation *)card;
         }
     }
-    
+
     return nil;
 }
 
 - (void)showSomethingWentWrong {
-    
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Oops! Looks like we had a boo boo." message:@"We're working on a fix. Check back later!" preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction *action = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }];
+
+    UIAlertController *alertController =
+    [UIAlertController alertControllerWithTitle:@"Oops! Looks like we had a boo boo."
+                                        message:@"We're working on a fix. Check back later!"
+                                 preferredStyle:UIAlertControllerStyleAlert];
+
+    UIAlertAction *action =
+    [UIAlertAction actionWithTitle:@"OK"
+                             style:UIAlertActionStyleDefault
+                           handler:^(UIAlertAction * _Nonnull action) {
+                               [self dismissViewControllerAnimated:YES
+                                                        completion:nil];
+                           }];
     
     [alertController addAction:action];
     
-    [self presentViewController:alertController animated:YES completion:nil];
+    [self presentViewController:alertController
+                       animated:YES
+                     completion:nil];
+}
+
+-(void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithDate:(NSDate *)date {
+
+    UIAlertController *alertController =
+    [UIAlertController alertControllerWithTitle:nil
+                                        message:nil
+                                 preferredStyle:UIAlertControllerStyleActionSheet];
+
+    UIAlertAction *addToCalendarAction =
+    [UIAlertAction actionWithTitle:@"Add to Calendar"
+                             style:UIAlertActionStyleDefault
+                           handler:^(UIAlertAction * _Nonnull action) {
+                               [self prepareForAddingToCalendarWithDate:date];
+                           }];
+
+    UIAlertAction *cancelAction =
+    [UIAlertAction actionWithTitle:@"Cancel"
+                             style:UIAlertActionStyleCancel
+                           handler:nil];
+
+    [alertController addAction:addToCalendarAction];
+    [alertController addAction:cancelAction];
+
+    [self presentViewController:alertController
+                       animated:YES
+                     completion:nil];
+};
+
+- (void)prepareForAddingToCalendarWithDate:(NSDate *)date {
+
+    EKEventStore *store = [EKEventStore new];
+
+    BOOL accessible =
+    [store respondsToSelector:@selector(requestAccessToEntityType:completion:)];
+
+    if(accessible) {
+
+        [store requestAccessToEntityType:EKEntityTypeEvent completion:^(BOOL granted, NSError *error) {
+
+            if (granted) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self eventStore:store
+                 createEventWithDate:date];
+                });
+            }
+        }];
+    }
+}
+
+- (void)eventStore:(EKEventStore *)eventStore
+createEventWithDate:(NSDate *)date {
+
+    EKCalendar *calendar = [eventStore defaultCalendarForNewEvents];
+    EKEvent *event = [EKEvent eventWithEventStore:eventStore];
+    event.title = @"Appointment with pediatrician";
+    event.calendar = calendar;
+    event.location = self.practice.name;
+    event.startDate = date;
+    event.endDate = [date dateByAddingMinutes:30];
+
+    //FIXME: These next few lines should be in a helper somewhere, potentially worth waiting until after we have discussion re: LEOStyleHelper updates to make changes here.
+    NSDictionary *navigationBarAttributes =
+    @{NSForegroundColorAttributeName:
+          [UIColor leo_white],
+      NSFontAttributeName:
+          [UIFont leo_medium15]};
+
+    NSDictionary *barButtonItemAttributes =
+    @{ NSForegroundColorAttributeName:[UIColor leo_white],
+       NSFontAttributeName : [UIFont leo_medium12]};
+
+    [[UIBarButtonItem appearanceWhenContainedIn:[EKEventEditViewController class], nil] setTitleTextAttributes: barButtonItemAttributes
+                                                                                                    forState:UIControlStateNormal];
+
+    EKEventEditViewController *eventViewController = [EKEventEditViewController new];
+
+    eventViewController.navigationBar.titleTextAttributes =navigationBarAttributes;
+    eventViewController.event = event;
+    eventViewController.eventStore=eventStore;
+    eventViewController.editViewDelegate = self;
+
+    [self presentViewController:eventViewController
+                       animated:YES
+                     completion:nil];
+}
+
+-(void)attributedLabel:(TTTAttributedLabel *)label
+  didSelectLinkWithURL:(NSURL *)url {
+    [[UIApplication sharedApplication] openURL:url];
+}
+
+- (void)eventEditViewController:(EKEventEditViewController *)controller
+          didCompleteWithAction:(EKEventEditViewAction)action {
+    [self dismissViewControllerAnimated:YES
+                             completion:nil];
 }
 
 
