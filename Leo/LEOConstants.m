@@ -220,6 +220,7 @@ NSString *const APIParamImagePlaceholder = @"placeholder";
 NSString *const APIParamImageURL = @"url";
 NSString *const APIParamImageBaseURL = @"base_url";
 NSString *const APIParamImageURLParameters = @"parameters";
+NSString *const APIParamImageNonClinical = @"non_clinical";
 NSString *const APIParamAvatarOwnerID = @"owner_id";
 
 
