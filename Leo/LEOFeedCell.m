@@ -8,6 +8,7 @@
 
 #import "LEOFeedCell.h"
 #import "LEOStyleHelper.h"
+#import "LEOFormatting.h"
 
 @implementation LEOFeedCell
 
@@ -27,6 +28,13 @@
     }
     
     return self;
+}
+
+-(void)setDelegate:(id<LEOFeedCellDelegate>)delegate {
+
+    _delegate = delegate;
+
+    self.bodyLabel.delegate = self.delegate;
 }
 
 - (void)setUnreadState:(BOOL)unreadState animated:(BOOL)animated {
@@ -62,6 +70,13 @@
 
         // TODO: design normal state
     }
+}
+
+- (void)setBodyLabel:(TTTAttributedLabel *)bodyLabel {
+
+    _bodyLabel = bodyLabel;
+
+    _bodyLabel.enabledTextCheckingTypes = NSTextCheckingAllTypes;
 }
 
 - (void)awakeFromNib {

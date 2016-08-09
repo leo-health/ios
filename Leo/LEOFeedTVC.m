@@ -45,7 +45,6 @@
 
 #import "LEOFeedHeaderCell+ConfigureForCell.h"
 #import "LEOFeedNavigationHeaderView.h"
-#import "LEOFeedCell+ConfigureForCard.h"
 
 #import "UIImageEffects.h"
 
@@ -68,6 +67,10 @@
 #import "LEOMessageService.h"
 #import "LEOStatusBarNotification.h"
 #import "LEOAnalytic+Extensions.h"
+
+#import <TTTAttributedLabel.h>
+#import "LEOFormatting.h"
+#import "LEOAttributedLabelDelegate.h"
 
 typedef NS_ENUM(NSUInteger, TableViewSection) {
     TableViewSectionHeader,
@@ -98,6 +101,8 @@ typedef NS_ENUM(NSUInteger, TableViewSection) {
 @property (weak, nonatomic) IBOutlet UIView *grayView;
 
 @property (nonatomic) BOOL enableButtonsInFeed;
+
+@property (strong, nonatomic) id<LEOFeedCellDelegate>feedCellDelegate;
 
 @end
 
@@ -678,7 +683,7 @@ static CGFloat const kFeedInsetTop = 20.0;
     NSString *practiceName = @"Flatiron Pediatrics"; // FIXME: where is the practice object stored?
     NSString *alertTitle = [NSString stringWithFormat:@"You are about to call \n%@\n%@", practiceName,
                             [LEOValidationsHelper formattedPhoneNumberFromPhoneNumber:kFlatironPediatricsPhoneNumber]];
-    
+
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:alertTitle message:nil preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:@"Call" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
 
@@ -879,7 +884,34 @@ static CGFloat const kFeedInsetTop = 20.0;
 
     cell.unreadState = [indexPath isEqual:self.cardInFocusIndexPath];
 
+    cell.bodyLabel.enabledTextCheckingTypes = NSTextCheckingTypeLink | NSTextCheckingTypeDate | NSTextCheckingTypePhoneNumber;
+
+
+    __weak typeof(self) weakSelf = self;
+    LEOAttributedLabelDelegate *attributedLabelDelegate = [[LEOAttributedLabelDelegate alloc] initWithViewController:self setupEventBlock:^EKEvent *(EKEventStore *eventStore, NSDate *startDate) {
+        __strong typeof(self) strongSelf = weakSelf;
+
+        //TODO: ZSD - Eventually send additional information to this private method to support more custom implementation (e.g. length of appt)
+        return [strongSelf createEventWithEventStore:eventStore startDate:startDate];
+    }];
+
+    cell.delegate = attributedLabelDelegate;
+    
     return cell;
+}
+
+- (EKEvent *)createEventWithEventStore:eventStore startDate:startDate {
+
+    EKEvent *event = [EKEvent eventWithEventStore:eventStore];
+    EKCalendar *calendar = [eventStore defaultCalendarForNewEvents];
+
+    event.startDate = startDate;
+    event.endDate = [startDate dateByAddingMinutes:30];
+    event.title = @"Appointment with pediatrician";
+    event.calendar = calendar;
+    event.location = self.practice.name;
+
+    return event;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
@@ -891,23 +923,23 @@ static CGFloat const kFeedInsetTop = 20.0;
         case TableViewSectionBody:
             self.feedNavigatorHeaderView.userInteractionEnabled = self.enableButtonsInFeed;
             return self.feedNavigatorHeaderView;
-            
+
         default:
             return nil;
     }
 }
 
 - (LEOFeedNavigationHeaderView *)feedNavigatorHeaderView {
-    
+
     if (!_feedNavigatorHeaderView) {
-        
+
         _feedNavigatorHeaderView = [LEOFeedNavigationHeaderView new];
-        
+
         _feedNavigatorHeaderView.backgroundColor = [UIColor leo_white];
-        
+
         _feedNavigatorHeaderView.delegate = self;
     }
-    
+
     return _feedNavigatorHeaderView;
 }
 
@@ -919,7 +951,7 @@ static CGFloat const kFeedInsetTop = 20.0;
 }
 
 - (void)messageUsTouchedUpInside {
-    
+
     [LEOAnalytic tagType:LEOAnalyticTypeEvent
                     name:kAnalyticEventMessageUsFromTopOfPage];
     LEOCardConversation *conversationCard = [self findConversationCard];
@@ -927,12 +959,12 @@ static CGFloat const kFeedInsetTop = 20.0;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    
+
     switch (section) {
-            
+
         case TableViewSectionBody:
             return 45;
-            
+
         case TableViewSectionHeader:
         default:
             return CGFLOAT_MIN;
@@ -940,28 +972,37 @@ static CGFloat const kFeedInsetTop = 20.0;
 }
 
 - (LEOCardConversation *)findConversationCard {
-    
+
     for (LEOCard *card in self.cards) {
-        
+
         if ([card isKindOfClass:[LEOCardConversation class]]) {
             return (LEOCardConversation *)card;
         }
     }
-    
+
     return nil;
 }
 
 - (void)showSomethingWentWrong {
-    
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Oops! Looks like we had a boo boo." message:@"We're working on a fix. Check back later!" preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction *action = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }];
+
+    UIAlertController *alertController =
+    [UIAlertController alertControllerWithTitle:@"Oops! Looks like we had a boo boo."
+                                        message:@"We're working on a fix. Check back later!"
+                                 preferredStyle:UIAlertControllerStyleAlert];
+
+    UIAlertAction *action =
+    [UIAlertAction actionWithTitle:@"OK"
+                             style:UIAlertActionStyleDefault
+                           handler:^(UIAlertAction * _Nonnull action) {
+                               [self dismissViewControllerAnimated:YES
+                                                        completion:nil];
+                           }];
     
     [alertController addAction:action];
     
-    [self presentViewController:alertController animated:YES completion:nil];
+    [self presentViewController:alertController
+                       animated:YES
+                     completion:nil];
 }
 
 

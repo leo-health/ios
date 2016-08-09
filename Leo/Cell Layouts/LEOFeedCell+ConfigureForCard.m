@@ -9,8 +9,7 @@
 #import "LEOFeedCell+ConfigureForCard.h"
 #import "LEOCardConversation.h"
 #import "LEOCardAppointment.h"
-#import "UIFont+LeoFonts.h"
-#import "UIColor+LeoColors.h"
+#import "LEOFormatting.h"
 #import "LEOCardUserView.h"
 #import "LEOFeedCellButtonView.h"
 #import "UIView+Extensions.h"
@@ -63,6 +62,16 @@
 
 - (void)setCopyFontAndColor {
 
+    NSDictionary *linkAttributes =
+    @{NSForegroundColorAttributeName: [UIColor leo_gray124],
+      NSFontAttributeName: [UIFont leo_regular15],
+      NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle),
+      NSUnderlineColorAttributeName: [UIColor leo_gray124] };
+
+    self.bodyLabel.linkAttributes = linkAttributes;
+    self.bodyLabel.inactiveLinkAttributes = linkAttributes;
+    self.bodyLabel.activeLinkAttributes = linkAttributes;
+    
     self.bodyLabel.font = [UIFont leo_regular15];
     self.bodyLabel.textColor = [UIColor leo_gray124];
 }

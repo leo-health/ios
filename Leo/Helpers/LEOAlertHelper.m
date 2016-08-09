@@ -91,17 +91,38 @@ NSString *const kStandardErrorAlertActionText = @"Got it.";
                               message:(NSString *)message
                               handler:(void (^ __nullable)(UIAlertAction *action))handler {
 
+    return [self alertWithTitle:title message:message actionTitle:@"OK" actionStyle:UIAlertActionStyleCancel handler:handler cancellable:NO];
+}
+
++ (UIAlertController *)alertWithTitle:(NSString *)title
+                              message:(NSString *)message
+                          actionTitle:(NSString *)actionTitle
+                          actionStyle:(UIAlertActionStyle)style
+                              handler:(void (^ __nullable)(UIAlertAction *action))handler
+                          cancellable:(BOOL)cancellable {
+
     UIAlertController *alertController =
     [UIAlertController alertControllerWithTitle:title
                                         message:message
                                  preferredStyle:UIAlertControllerStyleAlert];
 
-    UIAlertAction *okAction =
-    [UIAlertAction actionWithTitle:@"OK"
-                             style:UIAlertActionStyleCancel
+    UIAlertAction *action =
+    [UIAlertAction actionWithTitle:actionTitle
+                             style:style
                            handler:handler];
 
-    [alertController addAction:okAction];
+    [alertController addAction:action];
+
+    if (cancellable) {
+
+
+        UIAlertAction *cancelAction =
+        [UIAlertAction actionWithTitle:@"Cancel"
+                                 style:UIAlertActionStyleCancel
+                               handler:nil];
+
+        [alertController addAction:cancelAction];
+    }
 
     return alertController;
 }
