@@ -383,6 +383,7 @@ extern NSString *const APIParamImagePlaceholder; // @"placeholder";
 extern NSString *const APIParamImageURL; // @"url";
 extern NSString *const APIParamImageBaseURL; // @"base_url";
 extern NSString *const APIParamImageURLParameters; // @"parameters";
+extern NSString *const APIParamImageNonClinical; // @"non_clinical";
 extern NSString *const APIParamAvatarOwnerID; // @"owner_id";
 
 
