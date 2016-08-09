@@ -888,17 +888,14 @@ static CGFloat const kFeedInsetTop = 20.0;
 
 
     __weak typeof(self) weakSelf = self;
-
     LEOAttributedLabelDelegate *attributedLabelDelegate = [[LEOAttributedLabelDelegate alloc] initWithViewController:self setupEventBlock:^EKEvent *(EKEventStore *eventStore, NSDate *startDate) {
-
         __strong typeof(self) strongSelf = weakSelf;
 
         //TODO: ZSD - Eventually send additional information to this private method to support more custom implementation (e.g. length of appt)
         return [strongSelf createEventWithEventStore:eventStore startDate:startDate];
     }];
 
-    self.feedCellDelegate = attributedLabelDelegate;
-    cell.delegate = self.feedCellDelegate;
+    cell.delegate = attributedLabelDelegate;
     
     return cell;
 }

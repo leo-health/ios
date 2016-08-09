@@ -27,7 +27,7 @@
 @property (weak, nonatomic) IBOutlet UIView *borderViewAtTopOfBodyView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicatorView;
 @property (nonatomic) BOOL unreadState;
-@property (weak, nonatomic) id<LEOFeedCellDelegate>delegate;
+@property (strong, nonatomic) id<LEOFeedCellDelegate>delegate;
 
 + (UINib *)nib;
 - (void)setUnreadState:(BOOL)unreadState animated:(BOOL)animated;
