@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface LEOAlertHelper : NSObject
+NS_ASSUME_NONNULL_BEGIN
 
 + (void)alertForViewController:(UIViewController *)viewController
                          title:(NSString *)title
@@ -29,5 +30,13 @@
                               message:(NSString *)message
                               handler:(void (^ __nullable)(UIAlertAction *action))handler;
 
++ (UIAlertController *)alertWithTitle:(NSString *)title
+                              message:(NSString *)message
+                          actionTitle:(NSString *)actionTitle
+                          actionStyle:(UIAlertActionStyle)style
+                              handler:(void (^ __nullable)(UIAlertAction *action))handler
+                          cancellable:(BOOL)cancellable;
 
+
+NS_ASSUME_NONNULL_END
 @end

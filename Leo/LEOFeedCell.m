@@ -8,8 +8,7 @@
 
 #import "LEOFeedCell.h"
 #import "LEOStyleHelper.h"
-#import "UIFont+LeoFonts.h"
-#import "UIColor+LeoColors.h"
+#import "LEOFormatting.h"
 
 @implementation LEOFeedCell
 

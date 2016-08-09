@@ -68,7 +68,9 @@
 #import "LEOStatusBarNotification.h"
 #import "LEOAnalytic+Extensions.h"
 
+#import <TTTAttributedLabel.h>
 #import "LEOFormatting.h"
+#import "LEOAttributedLabelDelegate.h"
 
 typedef NS_ENUM(NSUInteger, TableViewSection) {
     TableViewSectionHeader,
@@ -99,6 +101,8 @@ typedef NS_ENUM(NSUInteger, TableViewSection) {
 @property (weak, nonatomic) IBOutlet UIView *grayView;
 
 @property (nonatomic) BOOL enableButtonsInFeed;
+
+@property (strong, nonatomic) id<LEOFeedCellDelegate>feedCellDelegate;
 
 @end
 
@@ -880,9 +884,37 @@ static CGFloat const kFeedInsetTop = 20.0;
 
     cell.unreadState = [indexPath isEqual:self.cardInFocusIndexPath];
 
-    cell.delegate = self;
+    cell.bodyLabel.enabledTextCheckingTypes = NSTextCheckingTypeLink | NSTextCheckingTypeDate | NSTextCheckingTypePhoneNumber;
 
+
+    __weak typeof(self) weakSelf = self;
+
+    LEOAttributedLabelDelegate *attributedLabelDelegate = [[LEOAttributedLabelDelegate alloc] initWithViewController:self setupEventBlock:^EKEvent *(EKEventStore *eventStore, NSDate *startDate) {
+
+        __strong typeof(self) strongSelf = weakSelf;
+
+        //TODO: ZSD - Eventually send additional information to this private method to support more custom implementation (e.g. length of appt)
+        return [strongSelf createEventWithEventStore:eventStore startDate:startDate];
+    }];
+
+    self.feedCellDelegate = attributedLabelDelegate;
+    cell.delegate = self.feedCellDelegate;
+    
     return cell;
+}
+
+- (EKEvent *)createEventWithEventStore:eventStore startDate:startDate {
+
+    EKEvent *event = [EKEvent eventWithEventStore:eventStore];
+    EKCalendar *calendar = [eventStore defaultCalendarForNewEvents];
+
+    event.startDate = startDate;
+    event.endDate = [startDate dateByAddingMinutes:30];
+    event.title = @"Appointment with pediatrician";
+    event.calendar = calendar;
+    event.location = self.practice.name;
+
+    return event;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
@@ -974,102 +1006,6 @@ static CGFloat const kFeedInsetTop = 20.0;
     [self presentViewController:alertController
                        animated:YES
                      completion:nil];
-}
-
--(void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithDate:(NSDate *)date {
-
-    UIAlertController *alertController =
-    [UIAlertController alertControllerWithTitle:nil
-                                        message:nil
-                                 preferredStyle:UIAlertControllerStyleActionSheet];
-
-    UIAlertAction *addToCalendarAction =
-    [UIAlertAction actionWithTitle:@"Add to Calendar"
-                             style:UIAlertActionStyleDefault
-                           handler:^(UIAlertAction * _Nonnull action) {
-                               [self prepareForAddingToCalendarWithDate:date];
-                           }];
-
-    UIAlertAction *cancelAction =
-    [UIAlertAction actionWithTitle:@"Cancel"
-                             style:UIAlertActionStyleCancel
-                           handler:nil];
-
-    [alertController addAction:addToCalendarAction];
-    [alertController addAction:cancelAction];
-
-    [self presentViewController:alertController
-                       animated:YES
-                     completion:nil];
-};
-
-- (void)prepareForAddingToCalendarWithDate:(NSDate *)date {
-
-    EKEventStore *store = [EKEventStore new];
-
-    BOOL accessible =
-    [store respondsToSelector:@selector(requestAccessToEntityType:completion:)];
-
-    if(accessible) {
-
-        [store requestAccessToEntityType:EKEntityTypeEvent completion:^(BOOL granted, NSError *error) {
-
-            if (granted) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self eventStore:store
-                 createEventWithDate:date];
-                });
-            }
-        }];
-    }
-}
-
-- (void)eventStore:(EKEventStore *)eventStore
-createEventWithDate:(NSDate *)date {
-
-    EKCalendar *calendar = [eventStore defaultCalendarForNewEvents];
-    EKEvent *event = [EKEvent eventWithEventStore:eventStore];
-    event.title = @"Appointment with pediatrician";
-    event.calendar = calendar;
-    event.location = self.practice.name;
-    event.startDate = date;
-    event.endDate = [date dateByAddingMinutes:30];
-
-    //FIXME: These next few lines should be in a helper somewhere, potentially worth waiting until after we have discussion re: LEOStyleHelper updates to make changes here.
-    NSDictionary *navigationBarAttributes =
-    @{NSForegroundColorAttributeName:
-          [UIColor leo_white],
-      NSFontAttributeName:
-          [UIFont leo_medium15]};
-
-    NSDictionary *barButtonItemAttributes =
-    @{ NSForegroundColorAttributeName:[UIColor leo_white],
-       NSFontAttributeName : [UIFont leo_medium12]};
-
-    [[UIBarButtonItem appearanceWhenContainedIn:[EKEventEditViewController class], nil] setTitleTextAttributes: barButtonItemAttributes
-                                                                                                    forState:UIControlStateNormal];
-
-    EKEventEditViewController *eventViewController = [EKEventEditViewController new];
-
-    eventViewController.navigationBar.titleTextAttributes =navigationBarAttributes;
-    eventViewController.event = event;
-    eventViewController.eventStore=eventStore;
-    eventViewController.editViewDelegate = self;
-
-    [self presentViewController:eventViewController
-                       animated:YES
-                     completion:nil];
-}
-
--(void)attributedLabel:(TTTAttributedLabel *)label
-  didSelectLinkWithURL:(NSURL *)url {
-    [[UIApplication sharedApplication] openURL:url];
-}
-
-- (void)eventEditViewController:(EKEventEditViewController *)controller
-          didCompleteWithAction:(EKEventEditViewAction)action {
-    [self dismissViewControllerAnimated:YES
-                             completion:nil];
 }
 
 
