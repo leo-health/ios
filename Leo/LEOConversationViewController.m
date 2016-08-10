@@ -802,7 +802,19 @@ static NSString *const kDefaultPracticeID = @"0";
 - (void)finishSendingMessage:(Message *)message {
 
     if ([self isFamilyMessage:message]) {
+
+        NSString *savedText;
+
+        if ([message isKindOfClass:[MessageImage class]]) {
+            savedText = self.inputToolbar.contentView.textView.text;
+        }
+
         [self finishSendingMessageAnimated:YES];
+
+        if (savedText) {
+            self.inputToolbar.contentView.textView.text = savedText;
+        }
+        
     } else {
         [self finishReceivingMessageAnimated:YES];
     }
@@ -1107,6 +1119,7 @@ static NSString *const kDefaultPracticeID = @"0";
 
             [[self conversation] addMessage:responseMessage];
             self.offset++;
+            
             [self finishSendingMessage:responseMessage];
         }
 
