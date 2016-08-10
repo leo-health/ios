@@ -99,6 +99,7 @@ NSString *const APIParamStartDateTime = @"start_datetime";
 NSString *const APIParamEndDateTime = @"end_datetime";
 NSString *const APIParamPracticeScheduleType = @"schedule_type";
 NSString *const APIParamPracticeDailyHours = @"daily_hours";
+NSString *const APIParamPracticeMessagingAvailable = @"available";
 
 
 #pragma mark - Family
@@ -422,6 +423,10 @@ NSString *const kNotificationMembershipChanged = @"membership-changed";
 NSString *const kNotificationTokenInvalidated = @"token-invalidated";
 NSString *const kNotificationConversationAddedMessage = @"Conversation-AddedMessage";
 NSString *const kNotificationCardUpdated = @"Card-Updated";
+
+
+#pragma mark - Pusher Events
+NSString *const APIChangeEventPracticeMessagingAvailable = @"availability_changed";
 
 
 #pragma mark - Push Notifications

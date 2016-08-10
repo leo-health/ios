@@ -21,6 +21,9 @@
 
 @implementation LEOPracticeService
 
+
+# pragma mark  -  Asynchronous requests
+
 - (LEOPromise *)getPracticeWithCompletion:(void (^)(Practice *practice, NSError *error))completionBlock {
 
     // TODO: LATER: handle multiple practices
@@ -88,7 +91,26 @@
     }];
 }
 
+- (LEOPromise *)getProvidersWithCompletion:(void (^)(NSArray<Provider *> *, NSError *))completionBlock {
+    return [self getPracticeWithCompletion:^(Practice *practice, NSError *error) {
+
+        NSArray<Provider *> *providers = practice.providers;
+        if (completionBlock) {
+            completionBlock(providers, error);
+        }
+    }];
+}
+
+
+# pragma mark  -  Synchronous requests
+
+- (Practice *)getCurrentPractice {
+    return [[Practice alloc] initWithJSONDictionary:
+            [self.cachedService get:APIEndpointPractice params:nil]];
+}
+
 - (Provider *)getProviderWithID:(NSString *)objectID {
+
     NSArray *providers = [self getProviders];
     for (Provider *provider in providers) {
         if ([provider.objectID isEqualToString:objectID]) {
@@ -99,19 +121,22 @@
 }
 
 - (NSArray<Provider *> *)getProviders {
-
-    Practice *practice = [[Practice alloc] initWithJSONDictionary:[self.cachedService get:APIEndpointPractice params:nil]];
-    return practice.providers;
+    return [self getCurrentPractice].providers;
 }
 
-- (LEOPromise *)getProvidersWithCompletion:(void (^)(NSArray<Provider *> *, NSError *))completionBlock {
-    return [self getPracticeWithCompletion:^(Practice *practice, NSError *error) {
 
-        NSArray<Provider *> *providers = practice.providers;
-        if (completionBlock) {
-            completionBlock(providers, error);
+#pragma mark  -  LEOChangeEventRequestHandler
+
+- (void)observer:(LEOChangeEventObserver *)observer
+fetchFullDataForEvent:(NSDictionary *)eventData
+      completion:(LEODictionaryErrorBlock)completion {
+
+    [self getPracticeWithCompletion:^(Practice *practice, NSError *error) {
+        if (completion) {
+            completion([practice serializeToJSON], error);
         }
     }];
 }
+
 
 @end

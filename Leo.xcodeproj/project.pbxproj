@@ -236,6 +236,7 @@
 		6637D23B1D539DFB001E9F34 /* LEOCardDeepLink.m in Sources */ = {isa = PBXBuildFile; fileRef = 6637D23A1D539DFB001E9F34 /* LEOCardDeepLink.m */; };
 		6637D23D1D53A50A001E9F34 /* UIColor+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6637D23C1D53A50A001E9F34 /* UIColor+Helper.swift */; };
 		6637D2451D53D04B001E9F34 /* LEOFeedCell+ConfigureForDeepLinkCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 6637D2441D53D04B001E9F34 /* LEOFeedCell+ConfigureForDeepLinkCard.m */; };
+		6647A1B91D4FC53F00599D41 /* LEOChangeEventObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 6647A1B81D4FC53F00599D41 /* LEOChangeEventObserver.m */; };
 		664831561D4026F300B5C73D /* LEOMediaStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 664831551D4026F300B5C73D /* LEOMediaStore.m */; };
 		664B6B511D4A4C0F0091AC57 /* Coupon.m in Sources */ = {isa = PBXBuildFile; fileRef = 664B6B501D4A4C0F0091AC57 /* Coupon.m */; };
 		664B6B541D4A5A4E0091AC57 /* LEOPromoCodeSuccessView.m in Sources */ = {isa = PBXBuildFile; fileRef = 664B6B531D4A5A4E0091AC57 /* LEOPromoCodeSuccessView.m */; };
@@ -765,6 +766,8 @@
 		6637D2431D53D04B001E9F34 /* LEOFeedCell+ConfigureForDeepLinkCard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LEOFeedCell+ConfigureForDeepLinkCard.h"; sourceTree = "<group>"; };
 		6637D2441D53D04B001E9F34 /* LEOFeedCell+ConfigureForDeepLinkCard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LEOFeedCell+ConfigureForDeepLinkCard.m"; sourceTree = "<group>"; };
 		6644DC3D1D398D9B00CA286C /* LEOUserDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOUserDataSource.h; sourceTree = "<group>"; };
+		6647A1B71D4FC53F00599D41 /* LEOChangeEventObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOChangeEventObserver.h; sourceTree = "<group>"; };
+		6647A1B81D4FC53F00599D41 /* LEOChangeEventObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOChangeEventObserver.m; sourceTree = "<group>"; };
 		664831541D4026F300B5C73D /* LEOMediaStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOMediaStore.h; sourceTree = "<group>"; };
 		664831551D4026F300B5C73D /* LEOMediaStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOMediaStore.m; sourceTree = "<group>"; };
 		664B6B4F1D4A4C0F0091AC57 /* Coupon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Coupon.h; path = Leo/Coupon.h; sourceTree = SOURCE_ROOT; };
@@ -1017,6 +1020,8 @@
 			children = (
 				66ACE0B71D36D519007E3B8D /* LEOModelService.h */,
 				66ACE0B81D36D519007E3B8D /* LEOModelService.m */,
+				6647A1B71D4FC53F00599D41 /* LEOChangeEventObserver.h */,
+				6647A1B81D4FC53F00599D41 /* LEOChangeEventObserver.m */,
 				66A59F621D246B7300B1C43B /* LEOFamilyService.h */,
 				66A59F631D246B7300B1C43B /* LEOFamilyService.m */,
 				31254B741BAC99C500E8E150 /* LEOPracticeService.h */,
@@ -2265,6 +2270,7 @@
 				319FB4C01BBA379E00EFF7B9 /* NSString+TextDirectionality.m in Sources */,
 				31FDDE6F1B29EDF70009BBC2 /* ArrayDataSource.m in Sources */,
 				662371E51C568A26001AB3E7 /* LEOLoggedOutOnboardingCell.m in Sources */,
+				6647A1B91D4FC53F00599D41 /* LEOChangeEventObserver.m in Sources */,
 				31567CDC1CCECF1700715222 /* LEOCallManager.m in Sources */,
 				31CC12E51BB062C40099AB60 /* Family.m in Sources */,
 				31DD3C121CEBB40D002C4330 /* LEOProductOverviewPriceView.m in Sources */,
