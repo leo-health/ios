@@ -10,10 +10,14 @@
 
 #import <Foundation/Foundation.h>
 #import "LEOModelService.h"
+#import "LEOChangeEventObserver.h"
 
-@interface LEOPracticeService : LEOModelService
+@interface LEOPracticeService : LEOModelService <LEOChangeEventRequestHandler>
 
-- (LEOPromise *)getPracticeWithCompletion:(void (^)(Practice *practices, NSError *error))completionBlock;
+
+# pragma mark  -  Asynchronous requests
+
+- (LEOPromise *)getPracticeWithCompletion:(void (^)(Practice *practice, NSError *error))completionBlock;
 - (LEOPromise *)putPractice:(Practice *)practice withCompletion:(void (^)(Practice *practice, NSError *error))completionBlock;
 
 - (LEOPromise *)getPracticesWithCompletion:(void (^)(NSArray<Practice *> *practices, NSError *error))completionBlock;
@@ -23,6 +27,10 @@
 - (LEOPromise *)getAppointmentTypesWithCompletion:(void (^)(NSArray *appointmentTypes, NSError *error))completionBlock;
 - (LEOPromise *)getInsurersAndPlansWithCompletion:(void (^)(NSArray *insurersAndPlans, NSError *error))completionBlock;
 
+
+# pragma mark  -  Synchronous requests
+
+- (Practice *)getCurrentPractice;
 - (NSArray<Provider *> *)getProviders;
 - (Provider *)getProviderWithID:(NSString *)objectID;
 

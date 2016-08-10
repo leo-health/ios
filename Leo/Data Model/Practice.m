@@ -31,7 +31,8 @@
                              fax:(NSString *)fax
                         timeZone:(NSTimeZone *)timeZone
       activeSchedulesByDayOfWeek:(NSArray *)activeSchedulesByDayOfWeek
-              scheduleExceptions:(NSArray *)scheduleExceptions {
+              scheduleExceptions:(NSArray *)scheduleExceptions
+                          status:(PracticeStatus)status {
 
     self = [super init];
     
@@ -51,24 +52,19 @@
         _timeZone = timeZone;
         _activeSchedulesByDayOfWeek = activeSchedulesByDayOfWeek;
         _scheduleExceptions = scheduleExceptions;
+        _status = status;
     }
     
     return self;
 }
 
-- (PracticeStatus)status {
+/*
+        NOTE: AF
 
-    if ([self isClosedAtThisTimeBasedOnTheActiveSchedule:[NSDate date]]) {
-        return PracticeStatusClosed;
-    }
-
-    if ([self isClosedForAnExceptionAtThisTime:[NSDate date]]) {
-        return PracticeStatusClosed;
-    }
-
-    return PracticeStatusOpen;
-}
-
+        isClosedAtThisTimeBasedOnTheActiveSchedule: and isClosedForAnExceptionAtThisTime:
+        are no longer used since implementing practice change pusher events.
+        Leaving them in for now in case we need them
+ */
 - (BOOL)isClosedAtThisTimeBasedOnTheActiveSchedule:(NSDate *)date {
 
     NSPredicate *dayOfWeekFilter =
@@ -146,7 +142,6 @@
     
     NSString *name = [jsonDictionary leo_itemForKey:APIParamPracticeName];
     NSString *fax = [jsonDictionary leo_itemForKey:APIParamPracticeFax];
-    
     NSString *addressLine1 = [jsonDictionary leo_itemForKey:APIParamPracticeLocationAddressLine1];
     NSString *addressLine2 = [jsonDictionary leo_itemForKey:APIParamPracticeLocationAddressLine2];
     NSString *city = [jsonDictionary leo_itemForKey:APIParamPracticeLocationCity];
@@ -156,16 +151,16 @@
     NSString *email = [jsonDictionary leo_itemForKey:APIParamPracticeEmail];
     NSTimeZone *timeZone = [NSTimeZone timeZoneWithName:[jsonDictionary leo_itemForKey:APIParamPracticeTimeZone]];
 
-    //FIXME: Need to get APIParams for above to complete this and remove warning.
-
     NSArray *activeScheduleJSON = [[jsonDictionary leo_itemForKey:APIParamPracticeActiveSchedule] leo_itemForKey:APIParamPracticeDailyHours];
-
     NSArray *activeSchedulesByDayOfWeek =
     [DailyPracticeSchedule deserializeManyFromJSON:activeScheduleJSON];
 
     NSArray *scheduleExceptionsJSON = [jsonDictionary leo_itemForKey:APIParamPracticeScheduleExceptions];
-
     NSArray *scheduleExceptions = [PracticeScheduleException deserializeManyFromJSON:scheduleExceptionsJSON];
+
+    PracticeStatus status =
+    [[jsonDictionary leo_itemForKey:APIParamPracticeMessagingAvailable] boolValue] ?
+    PracticeStatusOpen : PracticeStatusClosed;
 
     return [self initWithObjectID:objectID
                              name:name
@@ -180,7 +175,8 @@
                               fax:fax
                          timeZone:timeZone
        activeSchedulesByDayOfWeek:activeSchedulesByDayOfWeek
-               scheduleExceptions:scheduleExceptions];
+               scheduleExceptions:scheduleExceptions
+                           status:status];
 }
 
 - (NSArray *)providers {
@@ -212,6 +208,7 @@
     json[APIParamPracticeTimeZone] = practice.timeZone.name;
     json[APIParamUserStaff] = [User serializeManyToJSON:practice.staff];
     json[APIParamPracticeScheduleExceptions] = [PracticeScheduleException serializeManyToJSON:practice.scheduleExceptions];
+    json[APIParamPracticeMessagingAvailable] = @(practice.status == PracticeStatusOpen);
     NSArray *schedules = [DailyPracticeSchedule serializeManyToJSON:practice.activeSchedulesByDayOfWeek];
     if (schedules) {
         json[APIParamPracticeActiveSchedule] = @{APIParamPracticeDailyHours: schedules};
