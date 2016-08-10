@@ -17,7 +17,11 @@ static CGFloat kImageSideSizeScale1Avatar = 100.0;
 static CGFloat kImageSideSizeScale2Avatar = 200.0;
 static CGFloat kImageSideSizeScale3Avatar = 300.0;
 
-- (instancetype)initWithBaseURL:(NSString *)baseURL parameters:(NSDictionary *)parameters placeholder:(UIImage *)placeholder image:(UIImage *)image {
+- (instancetype)initWithBaseURL:(NSString *)baseURL
+                     parameters:(NSDictionary *)parameters
+                    placeholder:(UIImage *)placeholder
+                          image:(UIImage *)image
+                    nonClinical:(BOOL)nonClinical {
 
     self = [super init];
     if (self) {
@@ -26,13 +30,22 @@ static CGFloat kImageSideSizeScale3Avatar = 300.0;
         _parameters = [parameters copy];
         _placeholder = placeholder;
         _underlyingImage = image;
+        _nonClinical = nonClinical;
     }
+
     return self;
 }
 
-- (instancetype)initWithBaseURL:(NSString *)baseURL parameters:(NSDictionary *)parameters placeholder:(UIImage *)placeholder {
-    
-    return [self initWithBaseURL:baseURL parameters:parameters placeholder:placeholder image:nil];
+- (instancetype)initWithBaseURL:(NSString *)baseURL
+                     parameters:(NSDictionary *)parameters
+                    placeholder:(UIImage *)placeholder
+                    nonClinical:(BOOL)nonClinical {
+
+    return [self initWithBaseURL:baseURL
+                      parameters:parameters
+                     placeholder:placeholder
+                           image:nil
+                     nonClinical:nonClinical];
 }
 
 -(instancetype)initWithJSONDictionary:(NSDictionary *)jsonDictionary {
@@ -44,10 +57,16 @@ static CGFloat kImageSideSizeScale3Avatar = 300.0;
     NSString *baseURL = [jsonDictionary leo_itemForKey:APIParamImageBaseURL];
     NSDictionary *parameters = [jsonDictionary leo_itemForKey:APIParamImageURLParameters];
 
+    BOOL nonClinical = [[jsonDictionary leo_itemForKey:APIParamImageNonClinical] boolValue];
+
     UIImage *image = [jsonDictionary leo_itemForKey:APIParamImage];
     UIImage *placeholder = [jsonDictionary leo_itemForKey:APIParamImagePlaceholder];
 
-    return [self initWithBaseURL:baseURL parameters:parameters placeholder:placeholder image:image];
+    return [self initWithBaseURL:baseURL
+                      parameters:parameters
+                     placeholder:placeholder
+                           image:image
+                     nonClinical:nonClinical];
 }
 
 - (UIImage *)image {
@@ -69,6 +88,7 @@ static CGFloat kImageSideSizeScale3Avatar = 300.0;
     NSMutableDictionary *jsonDictionary = [NSMutableDictionary new];
     jsonDictionary[APIParamImageBaseURL] = image.baseURL;
     jsonDictionary[APIParamImageURLParameters] = image.parameters;
+    jsonDictionary[APIParamImageNonClinical] = @(image.nonClinical);
 
     jsonDictionary[APIParamImage] = image.underlyingImage;
     jsonDictionary[APIParamImagePlaceholder] = image.placeholder;
@@ -101,7 +121,7 @@ static CGFloat kImageSideSizeScale3Avatar = 300.0;
     if (!self.underlyingImage && self.baseURL && !self.downloadPromise.executing) {
 
         LEOMediaService *service = [LEOMediaService serviceWithCachePolicy:self.cachePolicy];
- 
+
         __weak typeof(self) weakSelf = self;
         self.downloadPromise = [service getImageForS3Image:self withCompletion:^(UIImage * rawImage, NSError * error) {
             __strong typeof(self) strongSelf = weakSelf;
@@ -135,7 +155,7 @@ static CGFloat kImageSideSizeScale3Avatar = 300.0;
     if (self.underlyingImage) {
         s3Copy.underlyingImage = [self.underlyingImage copy];
     }
-    
+
     return s3Copy;
 }
 
@@ -159,7 +179,7 @@ static CGFloat kImageSideSizeScale3Avatar = 300.0;
             resizedImageSideSize = kImageSideSizeScale3Avatar;
             break;
     }
-
+    
     return [avatarImage resizedImageToSize:CGSizeMake(resizedImageSideSize, resizedImageSideSize)];
 }
 

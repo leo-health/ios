@@ -220,6 +220,7 @@ NSString *const APIParamImagePlaceholder = @"placeholder";
 NSString *const APIParamImageURL = @"url";
 NSString *const APIParamImageBaseURL = @"base_url";
 NSString *const APIParamImageURLParameters = @"parameters";
+NSString *const APIParamImageNonClinical = @"non_clinical";
 NSString *const APIParamAvatarOwnerID = @"owner_id";
 
 
@@ -227,6 +228,12 @@ NSString *const APIParamAvatarOwnerID = @"owner_id";
 NSString *const APIParamCardCount = @"count";
 NSString *const APIParamCardData = @"card_data";
 NSString *const APIParamCardPriority = @"priority";
+
+
+#pragma mark - Card Types
+NSString *const CardTypeNameAppointment = @"appointment";
+NSString *const CardTypeNameConversation = @"conversation";
+NSString *const CardTypeNameDeepLink = @"deep_link";
 
 
 #pragma mark - Appointment type
@@ -422,8 +429,8 @@ NSString *const kPushNotificationParamDeepLink = @"deep_link_url";
 
 
 #pragma mark - Deep Linking
-NSString *const kDeepLinkDefaultScheme = @"leohealth";
 NSString *const kDeepLinkPathFeed = @"feed";
+NSString *const kDeepLinkPathReferral = @"referral";
 
 
 #pragma mark - Images

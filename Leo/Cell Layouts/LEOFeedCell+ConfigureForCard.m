@@ -10,6 +10,7 @@
 #import "LEOCardConversation.h"
 #import "LEOCardAppointment.h"
 #import "LEOFormatting.h"
+#import "LEOCardDeepLink.h"
 #import "LEOCardUserView.h"
 #import "LEOFeedCellButtonView.h"
 #import "UIView+Extensions.h"
@@ -17,6 +18,7 @@
 #import <NSDate+DateTools.h>
 #import "LEOFeedCell+ConfigureForConversationCard.h"
 #import "LEOFeedCell+ConfigureForAppointmentCard.h"
+#import "LEOFeedCell+ConfigureForDeepLinkCard.h"
 
 @implementation LEOFeedCell (ConfigureForCard)
 
@@ -39,6 +41,10 @@
 
     if ([card isKindOfClass:[LEOCardConversation class]]) {
         [self configureSubviewsForConversationCard:card];
+    }
+
+    if ([card isKindOfClass:[LEOCardDeepLink class]]) {
+        [self configureSubviewsForDeepLinkCard:card];
     }
 
     [self configureButtonViewForCard:card];

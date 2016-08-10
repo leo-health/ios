@@ -41,6 +41,7 @@
 #import "LEOPHRViewController.h"
 
 #import "LEOCardAppointment.h"
+#import "LEOCardDeepLink.h"
 #import "LEOTransitioningDelegate.h"
 
 #import "LEOFeedHeaderCell+ConfigureForCell.h"
@@ -673,6 +674,23 @@ static CGFloat const kFeedInsetTop = 20.0;
                 case ConversationStatusCodeUndefined:
                     [LEOBreadcrumb crumbWithObject:[NSString stringWithFormat:@"%s conversation undefined", __PRETTY_FUNCTION__]];
                     break;
+            }
+        }
+
+        if ([card isKindOfClass:[LEOCardDeepLink class]]) {
+
+            LEOCardDeepLink *deepLinkCard = (LEOCardDeepLink *)card;
+            NSInteger index = [deepLinkCard.priority integerValue];
+            NSIndexPath *indexPath =
+            [NSIndexPath indexPathForRow:index inSection:TableViewSectionBody];
+
+            if (deepLinkCard.wasDismissed) {
+
+                [self.cards removeObject:card];
+                [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            } else {
+                
+                [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
             }
         }
     }];

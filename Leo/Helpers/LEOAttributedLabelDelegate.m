@@ -106,23 +106,20 @@
     EKEvent *event = self.createEventBlock(eventStore, startDate);
 
     //FIXME: These next few lines should be in a helper somewhere, potentially worth waiting until after we have discussion re: LEOStyleHelper updates to make changes here.
-    NSDictionary *navigationBarAttributes =
-    @{NSForegroundColorAttributeName:
-          [UIColor leo_white],
-      NSFontAttributeName:
-          [UIFont leo_medium15]};
-
-    NSDictionary *barButtonItemAttributes =
-    @{ NSForegroundColorAttributeName:[UIColor leo_white],
-       NSFontAttributeName : [UIFont leo_bold12]};
 
     [[UIBarButtonItem appearanceWhenContainedIn:[EKEventEditViewController class], nil]
-     setTitleTextAttributes: barButtonItemAttributes
+     setTitleTextAttributes: nil
      forState:UIControlStateNormal];
 
-    EKEventEditViewController *eventViewController = [EKEventEditViewController new];
+    [[UINavigationBar appearanceWhenContainedIn:[EKEventEditViewController class], nil]
+     setBackgroundImage:nil
+     forBarPosition:UIBarPositionAny
+     barMetrics:UIBarMetricsDefault];
 
-    eventViewController.navigationBar.titleTextAttributes = navigationBarAttributes;
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault
+                                                animated:YES];
+
+    EKEventEditViewController *eventViewController = [EKEventEditViewController new];
     eventViewController.event = event;
     eventViewController.eventStore = eventStore;
     eventViewController.editViewDelegate = self;
@@ -140,6 +137,8 @@
 - (void)eventEditViewController:(EKEventEditViewController *)controller
           didCompleteWithAction:(EKEventEditViewAction)action {
 
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent
+                                                animated:YES];
     [self.viewController dismissViewControllerAnimated:YES
                              completion:nil];
 

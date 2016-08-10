@@ -18,6 +18,7 @@
 @property (strong, nonatomic) LEOCachePolicy *cachePolicy;
 @property (copy, nonatomic) NSString *baseURL;
 @property (copy, nonatomic) NSDictionary *parameters;
+@property (nonatomic) BOOL nonClinical;
 @property (strong, nonatomic) UIImage *image;
 @property (strong, nonatomic) UIImage *underlyingImage;
 @property (strong, nonatomic) UIImage *placeholder;

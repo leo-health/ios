@@ -75,7 +75,7 @@ static NSInteger const kLineThickness = 1;
 
 - (UIButton *)leadingButton {
     
-        if (!_leadingButton) {
+    if (!_leadingButton) {
             
         UIButton *strongButton = [UIButton leo_newButtonWithDisabledStyling];
         _leadingButton = strongButton;
@@ -84,7 +84,7 @@ static NSInteger const kLineThickness = 1;
         [_leadingButton setTitle:[self.card stringRepresentationOfActionsAvailableForState][0] forState:UIControlStateNormal];
         [_leadingButton setTitleColor:self.card.tintColor forState:UIControlStateNormal];
         _leadingButton.titleLabel.font = [UIFont leo_medium12];
-        [_leadingButton addTarget:self.card.associatedCardObject action:NSSelectorFromString([self.card actionsAvailableForState][0]) forControlEvents:UIControlEventTouchUpInside];
+        [_leadingButton addTarget:[self.card targetForState] action:NSSelectorFromString([self.card actionsAvailableForState][0]) forControlEvents:UIControlEventTouchUpInside];
 
         [self addSubview:_leadingButton];
     }
@@ -103,7 +103,7 @@ static NSInteger const kLineThickness = 1;
         [_trailingButton setTitleColor:self.card.tintColor forState:UIControlStateNormal];
         _trailingButton.titleLabel.font = [UIFont leo_medium12];
 
-        [_trailingButton addTarget:self.card.associatedCardObject action:NSSelectorFromString([self.card actionsAvailableForState][1]) forControlEvents:UIControlEventTouchUpInside];
+        [_trailingButton addTarget:[self.card targetForState] action:NSSelectorFromString([self.card actionsAvailableForState][1]) forControlEvents:UIControlEventTouchUpInside];
 
         [self addSubview:_trailingButton];
     }

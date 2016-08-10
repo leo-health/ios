@@ -18,6 +18,7 @@
 #import "NSUserDefaults+Extensions.h"
 #import "Configuration.h"
 #import "NSDictionary+Extensions.h"
+#import "LEO-Swift.h"
 
 @interface LEOCachedDataStore ()
 
@@ -218,8 +219,19 @@
 
             NSDictionary *imageJSON = [self.rawResources leo_itemForKey:key];
 
-            if(!imageJSON[APIParamImage]) {
-                return nil;
+            // get image from memory or disk
+            UIImage *image = imageJSON[APIParamImage];
+            if (!image) {
+
+                image = [self loadImageFromDisk:key];
+                if (!image) {
+                    return nil;
+                }
+
+                NSMutableDictionary *newImageJSON = [params mutableCopy];
+                newImageJSON[APIParamImage] = image;
+                imageJSON = [newImageJSON copy];
+                [self put:APIEndpointImage params:imageJSON];
             }
 
             return imageJSON;
@@ -331,7 +343,15 @@
 
         NSString *key = params[APIParamImageBaseURL];
         if (key) {
+
+            // save image to memory and disk
             self.rawResources[key] = params;
+            UIImage *image = params[APIParamImage];
+
+            BOOL shouldSaveImageToDisk = image && [params[APIParamImageNonClinical] boolValue];
+            if (shouldSaveImageToDisk) {
+                [self saveImageToDisk:image filename:key];
+            }
 
             return params;
         }

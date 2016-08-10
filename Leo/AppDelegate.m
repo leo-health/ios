@@ -20,6 +20,7 @@
 #import "Guardian.h"
 #import "LEORouter.h"
 #import <NSDate+DateTools.h>
+#import "Leo-Swift.h"
 
 @interface AppDelegate ()
 
@@ -207,7 +208,9 @@
 
 - (BOOL)leo_application:(UIApplication * )application openURL:(NSURL *)url options:(NSDictionary<NSString *,id> *)options {
 
-    if ([url.scheme isEqualToString:kDeepLinkDefaultScheme]) {
+    NSString *scheme = [[[NSBundle mainBundle] infoDictionary] valueForKey:@"URL_SCHEME"];
+
+    if ([url.scheme isEqualToString:scheme]) {
 
         if ([[[LEOUserService new] getCurrentUser] hasFeedAccess]) {
 
@@ -222,6 +225,17 @@
 
                     return YES;
                 }
+            }
+
+            if ([url.host isEqualToString:kDeepLinkPathReferral]) {
+
+                UIStoryboard *storyboard =
+                [UIStoryboard storyboardWithName:kStoryboardSettings
+                                          bundle:nil];
+                NSString *class = @"LEOReferralViewController"; // NSStringFromClass([LEOReferralViewController class]);
+                LEOReferralViewController *referralVC =
+                [storyboard instantiateViewControllerWithIdentifier:class];
+                [[self feedTVC].navigationController pushViewController:referralVC animated:YES];
             }
         }
     }

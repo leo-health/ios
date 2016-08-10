@@ -61,8 +61,8 @@
     // ????: Changing cardTypes requires this to change. There must be a safer way to do this
     return @[
              @"CardTypeUndefined",
-             @"appointment",
-             @"conversation",
+             CardTypeNameAppointment,
+             CardTypeNameConversation,
              @"payment",
              @"form",
              @"visit_summary",
@@ -86,19 +86,9 @@
     return cardTypes[0]; //CardTypeUndefined
 }
 
+- (id)targetForState {
+    return self.associatedCardObject;
+}
 
-//+ (NSArray *)cardsFromJSONDictionary:(NSDictionary *)jsonResponse {
-//
-//    NSArray *jsonCards = jsonResponse[@"cards"];
-//
-//    NSMutableArray *cards = [[NSMutableArray alloc] init];
-//
-//    for (NSDictionary *jsonCard in jsonCards) {
-//        LEOCard *card = [self cardFromCardDictionary:jsonCard];
-//        [cards addObject:card];
-//    }
-//
-//    return cards;
-//}
 
 @end

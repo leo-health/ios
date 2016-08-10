@@ -11,5 +11,6 @@
 @interface LEOCardService : NSObject
 
 - (void)getCardsWithCompletion:(void (^)(NSArray *cards, NSError *error))completionBlock;
+- (void)deleteCardWithID:(NSString *)objectID completion:(void (^)(NSError *error))completionBlock;
 
 @end
