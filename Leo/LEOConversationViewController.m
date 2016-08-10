@@ -65,8 +65,9 @@
 #import "LEOAnalyticSessionManager.h"
 #import "LEOAnalytic+Extensions.h"
 #import "LEOCachePolicy.h"
+#import "LEOChangeEventObserver.h"
 
-@interface LEOConversationViewController ()
+@interface LEOConversationViewController () <LEOChangeEventDelegate>
 
 @property (strong, nonatomic) JSQMessagesBubbleImage *outgoingBubbleImageData;
 @property (strong, nonatomic) JSQMessagesBubbleImage *incomingBubbleImageData;
@@ -84,7 +85,10 @@
 @property (strong, nonatomic) UIActivityIndicatorView *sendingIndicator;
 @property (strong, nonatomic) LEOImageCropViewControllerDataSource *cropDataSource;
 @property (copy, nonatomic) NSMutableArray *notificationObservers;
+
 @property (weak, nonatomic) PTPusherEventBinding *pusherBinding;
+@property (strong, nonatomic) LEOPracticeService *practiceService;
+@property (strong, nonatomic) LEOChangeEventObserver *practiceObserver;
 
 @property (strong, nonatomic) LEOConversationFullScreenNoticeView *fullScreenNoticeView;
 @property (weak, nonatomic) LEOConversationNoticeView *headerNoticeView;
@@ -133,34 +137,35 @@ static NSString *const kDefaultPracticeID = @"0";
     [self setupCollectionViewFormatting];
     [self setupMessageBubbles];
     [self setupRequiredMessagingProperties];
-
-    LEOCachePolicy *policy = [LEOCachePolicy new];
-    policy.get = LEOCachePolicyGETCacheElseGETNetworkThenPUTCache;
-    [self fetchRequiredDataWithCachePolicy:policy completion:^(NSArray *notices, Practice *practice, NSError *error) {
-
-        if (error) {
-
-            [LEOAlertHelper alertForViewController:self
-                                             error:nil
-                                       backupTitle:kErrorTitleMessagingDown
-                                     backupMessage:kErrorBodyMessagingDown];
-            return;
-        }
-
-        self.notices = notices;
-        self.practice = practice;
-
-        self.analyticSessionManager = [LEOAnalyticSessionManager new];
-        [self.analyticSessionManager startMonitoringWithName:kAnalyticSessionMessaging];
-
-        [self setupPusher];
-        [self constructNotifications];
-        [self setupNoticeView];
-
-        [self setupFullScreenNotice];
-    }];
-
     [self setupStyling];
+}
+
+- (void)setupPracticeChangeEventObserver {
+
+    self.practiceObserver =
+    [LEOChangeEventObserver subscribeToChannel:APIEndpointPractice
+                                     withEvent:APIChangeEventPracticeMessagingAvailable
+                                       handler:self.practiceService
+                                      delegate:self];
+}
+
+- (LEOPracticeService *)practiceService {
+
+    if (!_practiceService) {
+        _practiceService = [LEOPracticeService new];
+    }
+    return _practiceService;
+}
+
+- (void)observer:(LEOChangeEventObserver *)observer
+didReceiveResponseFromRemote:(NSDictionary *)remoteResponse
+           error:(NSError *)error {
+
+    if (observer == self.practiceObserver) {
+
+        self.practice = [[Practice alloc] initWithJSONDictionary:remoteResponse];
+        [self setupNoticeViewsAnimated:YES];
+    }
 }
 
 - (void)setupStyling {
@@ -173,7 +178,8 @@ static NSString *const kDefaultPracticeID = @"0";
     [self fetchRequiredDataWithCachePolicy:[LEOCachePolicy new] completion:completionBlock];
 }
 
-- (void)fetchRequiredDataWithCachePolicy:(LEOCachePolicy *)cachePolicy completion:(void (^)(NSArray *notices, Practice *practice, NSError *error))completionBlock {
+- (void)fetchRequiredDataWithCachePolicy:(LEOCachePolicy *)cachePolicy
+                              completion:(void (^)(NSArray *notices, Practice *practice, NSError *error))completionBlock {
 
     [[LEOPracticeService serviceWithCachePolicy:cachePolicy] getPracticeWithCompletion:^(Practice *practice, NSError *error) {
 
@@ -192,90 +198,6 @@ static NSString *const kDefaultPracticeID = @"0";
             completionBlock(notices, practice, nil);
         }];
     }];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-
-    // JSQ will always scroll to bottom if this is set to YES. We want it to happen in other places, but not here
-    self.automaticallyScrollsToMostRecentMessage = NO;
-    [super viewWillAppear:animated];
-    self.automaticallyScrollsToMostRecentMessage = YES;
-
-    [self setupNavigationBar];
-
-    if (!self.viewWillAppearOnce) {
-
-        // scroll to bottom to avoid flicker on first load
-        [self scrollToBottomAnimated:NO];
-        self.viewWillAppearOnce = YES;
-    }
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-
-    [super viewDidAppear:animated];
-
-    [LEOAnalytic tagType:LEOAnalyticTypeScreen
-                    name:kAnalyticScreenMessaging];
-
-    [LEOApiReachability startMonitoringForController:self
-                                    withOfflineBlock:^{
-                                        [self clearPusher];
-                                    }
-                                     withOnlineBlock:^{
-                                         [self resetPusherAndGetMissedMessages];
-                                     }];
-}
-
-- (BOOL)shouldShowFullScreenNotice {
-
-    if (self.practice.status == PracticeStatusOpen) {
-        return NO;
-    }
-
-    return YES;
-}
-
-- (void)setupNoticeView {
-
-    [self.headerNoticeView removeFromSuperview];
-
-    __weak typeof(self) weakSelf = self;
-
-    UIImage *noticeButtonImage =
-    [UIImage imageNamed:@"Button-Conversation-Notice"];
-
-    NSError *noticeError;
-    Notice *notice = [self fetchAppropriateNoticeWithError:&noticeError];
-
-    //TODO: Bubble up error from API if possible in order to avoid confusion as to what the issue actually is.
-    if(noticeError) {
-
-        [LEOAlertHelper alertForViewController:self
-                                         error:nil
-                                   backupTitle:kErrorTitleMessagingDown
-                                 backupMessage:kErrorBodyMessagingDown];
-
-        return;
-    }
-
-    LEOConversationNoticeView *strongView =
-    [[LEOConversationNoticeView alloc] initWithNotice:notice
-                                     noticeButtonText:nil
-                                    noticeButtonImage:noticeButtonImage
-                      noticeButtonTappedUpInsideBlock:^{
-
-                          __strong typeof(self) strongSelf = weakSelf;
-
-                          [LEOCallManager alertToCallPractice:strongSelf.practice
-                                           fromViewController:strongSelf];
-                      }];
-
-    [self.view addSubview:strongView];
-
-    self.headerNoticeView = strongView;
-
-    [self setupConstraintsForHeaderNoticeView:self.headerNoticeView];
 }
 
 - (Notice *)fetchAppropriateNoticeWithError:(NSError **)error {
@@ -317,11 +239,130 @@ static NSString *const kDefaultPracticeID = @"0";
                                      userInfo:nil];
         }
     };
-
+    
     return appropriateNotice;
 }
 
-- (void)setupFullScreenNotice {
+- (void)viewWillAppear:(BOOL)animated {
+
+    // JSQ will always scroll to bottom if this is set to YES. We want it to happen in other places, but not here
+    self.automaticallyScrollsToMostRecentMessage = NO;
+    [super viewWillAppear:animated];
+    self.automaticallyScrollsToMostRecentMessage = YES;
+
+    [self setupNavigationBar];
+
+    if (!self.viewWillAppearOnce) {
+
+
+
+        // get practice from cache so we can show out-of-office message immediately if needed
+        LEOCachePolicy *policy = [LEOCachePolicy new];
+        policy.get = LEOCachePolicyGETCacheElseGETNetworkThenPUTCache;
+        [self fetchRequiredDataWithCachePolicy:policy completion:^(NSArray *notices, Practice *practice, NSError *error) {
+
+            if (error) {
+
+                [LEOAlertHelper alertForViewController:self
+                                                 error:nil
+                                           backupTitle:kErrorTitleMessagingDown
+                                         backupMessage:kErrorBodyMessagingDown];
+                return;
+            }
+
+            self.notices = notices;
+            self.practice = practice;
+
+            self.analyticSessionManager = [LEOAnalyticSessionManager new];
+            [self.analyticSessionManager startMonitoringWithName:kAnalyticSessionMessaging];
+
+            [self setupPusher];
+            [self constructNotifications];
+            [self setupNoticeViewsAnimated:NO];
+            [self setupPracticeChangeEventObserver];
+        }];
+
+
+        // scroll to bottom to avoid flicker on first load
+        [self scrollToBottomAnimated:NO];
+        self.viewWillAppearOnce = YES;
+    }
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+
+    [super viewDidAppear:animated];
+
+    [LEOAnalytic tagType:LEOAnalyticTypeScreen
+                    name:kAnalyticScreenMessaging];
+
+    [LEOApiReachability startMonitoringForController:self
+                                    withOfflineBlock:^{
+                                        [self clearPusher];
+                                    }
+                                     withOnlineBlock:^{
+                                         [self resetPusherAndGetMissedMessages];
+                                     }];
+}
+
+- (BOOL)shouldShowFullScreenNotice {
+
+    if (self.practice.status == PracticeStatusOpen) {
+        return NO;
+    }
+
+    return YES;
+}
+
+- (void)setupNoticeViewsAnimated:(BOOL)animated {
+
+    [self setupNavBarNoticeView];
+    [self setupFullScreenNoticeAnimated:animated];
+}
+
+- (void)setupNavBarNoticeView {
+
+    [self.headerNoticeView removeFromSuperview];
+
+    __weak typeof(self) weakSelf = self;
+
+    UIImage *noticeButtonImage =
+    [UIImage imageNamed:@"Button-Conversation-Notice"];
+
+    NSError *noticeError;
+    Notice *notice = [self fetchAppropriateNoticeWithError:&noticeError];
+
+    //TODO: Bubble up error from API if possible in order to avoid confusion as to what the issue actually is.
+    if(noticeError) {
+
+        [LEOAlertHelper alertForViewController:self
+                                         error:nil
+                                   backupTitle:kErrorTitleMessagingDown
+                                 backupMessage:kErrorBodyMessagingDown];
+
+        return;
+    }
+
+    LEOConversationNoticeView *strongView =
+    [[LEOConversationNoticeView alloc] initWithNotice:notice
+                                     noticeButtonText:nil
+                                    noticeButtonImage:noticeButtonImage
+                      noticeButtonTappedUpInsideBlock:^{
+
+                          __strong typeof(self) strongSelf = weakSelf;
+
+                          [LEOCallManager alertToCallPractice:strongSelf.practice
+                                           fromViewController:strongSelf];
+                      }];
+
+    [self.view addSubview:strongView];
+
+    self.headerNoticeView = strongView;
+
+    [self setupConstraintsForHeaderNoticeView:self.headerNoticeView];
+}
+
+- (void)setupFullScreenNoticeAnimated:(BOOL)animated {
 
     if ([self shouldShowFullScreenNotice] && !self.fullScreenNoticeView) {
 
@@ -351,7 +392,7 @@ static NSString *const kDefaultPracticeID = @"0";
 
                                               __strong typeof(self) strongSelf = weakSelf;
 
-                                              [strongSelf animateToConversationView];
+                                              [strongSelf toggleFullScreenNoticeViewHidden:YES animated:YES];
                                           } buttonTwoTouchedUpInsideBlock:^{
 
                                               __strong typeof(self) strongSelf = weakSelf;
@@ -364,12 +405,16 @@ static NSString *const kDefaultPracticeID = @"0";
                                               __strong typeof(self) strongSelf = weakSelf;
                                               [strongSelf dismiss];
                                           }];
+        [self setupInitialConstraintsForFullScreenNoticeView];
 
-        [self setupConstraintsForFullScreenNoticeView];
+        [self.navigationController.view layoutIfNeeded];
+        [self toggleFullScreenNoticeViewHidden:NO animated:animated];
     }
 
     if ([self fullScreenNoticeIsShowingButShouldBeHidden]) {
-        [self animateToConversationView];
+
+        [self.navigationController.view layoutIfNeeded];
+        [self toggleFullScreenNoticeViewHidden:YES animated:animated];
     }
 }
 
@@ -406,7 +451,7 @@ static NSString *const kDefaultPracticeID = @"0";
     [self.view addConstraint:self.verticalConstraintForNoticeView];
 }
 
-- (void)setupConstraintsForFullScreenNoticeView {
+- (void)setupInitialConstraintsForFullScreenNoticeView {
 
     [self.navigationController.view addSubview:self.fullScreenNoticeView];
     NSDictionary *bindings = NSDictionaryOfVariableBindings(_fullScreenNoticeView);
@@ -434,7 +479,7 @@ static NSString *const kDefaultPracticeID = @"0";
                                  attribute:NSLayoutAttributeTop
                                  relatedBy:NSLayoutRelationEqual
                                     toItem:self.navigationController.view
-                                 attribute:NSLayoutAttributeTop
+                                 attribute:NSLayoutAttributeBottom
                                 multiplier:1.0
                                   constant:0];
 
@@ -452,11 +497,47 @@ static NSString *const kDefaultPracticeID = @"0";
     self.topContentAdditionalInset = CGRectGetHeight(self.headerNoticeView.frame);
 }
 
-- (void)animateToConversationView {
+- (void)toggleFullScreenNoticeViewHidden:(BOOL)hidden animated:(BOOL)animated {
+
+    void(^completion)(BOOL);
+    if (hidden) {
+        [self setupConstraintsForDismissingFullScreenNoticeView];
+        completion = ^(BOOL finished){
+            if (finished) {
+                [self.fullScreenNoticeView removeFromSuperview];
+                self.fullScreenNoticeView = nil;
+            }
+        };
+    } else {
+        [self setupConstraintsForPresentingFullScreenNoticeView];
+    }
+
+    [self layoutFullScreenNoticeViewAnimated:animated completion:completion];
+}
+
+- (void)layoutFullScreenNoticeViewAnimated:(BOOL)animated
+                                completion:(void(^)(BOOL))completion {
+
+    void(^animations)() = ^{
+        [self.navigationController.view layoutIfNeeded];
+    };
+    if (animated) {
+        [UIView animateWithDuration:0.3
+                         animations:animations
+                         completion:completion];
+    } else {
+        animations();
+        if (completion) {
+            completion(YES);
+        }
+    }
+}
+
+- (void)setupConstraintsForDismissingFullScreenNoticeView {
 
     [self.navigationController.view removeConstraint:self.topConstraintForFullScreenNoticeView];
 
-    NSLayoutConstraint * updatedTopConstraint =
+    self.topConstraintForFullScreenNoticeView =
     [NSLayoutConstraint constraintWithItem:self.fullScreenNoticeView
                                  attribute:NSLayoutAttributeTop
                                  relatedBy:NSLayoutRelationEqual
@@ -465,20 +546,25 @@ static NSString *const kDefaultPracticeID = @"0";
                                 multiplier:1.0
                                   constant:0];
 
-    [self.navigationController.view addConstraint:updatedTopConstraint];
-
-    [UIView animateWithDuration:0.3 animations:^{
-
-        [self.navigationController.view layoutIfNeeded];
-
-    } completion:^(BOOL finished) {
-
-        if (finished) {
-            [self.fullScreenNoticeView removeFromSuperview];
-            self.fullScreenNoticeView = nil;
-        }
-    }];
+    [self.navigationController.view addConstraint:self.topConstraintForFullScreenNoticeView];
 }
+
+- (void)setupConstraintsForPresentingFullScreenNoticeView {
+
+    [self.navigationController.view removeConstraint:self.topConstraintForFullScreenNoticeView];
+
+    self.topConstraintForFullScreenNoticeView =
+    [NSLayoutConstraint constraintWithItem:self.fullScreenNoticeView
+                                 attribute:NSLayoutAttributeTop
+                                 relatedBy:NSLayoutRelationEqual
+                                    toItem:self.navigationController.view
+                                 attribute:NSLayoutAttributeTop
+                                multiplier:1.0
+                                  constant:0];
+
+    [self.navigationController.view addConstraint:self.topConstraintForFullScreenNoticeView];
+}
+
 
 - (void)setupNavigationBar {
 
@@ -747,8 +833,7 @@ static NSString *const kDefaultPracticeID = @"0";
 
             [self.sendingIndicator startAnimating];
 
-            [self setupNoticeView];
-            [self setupFullScreenNotice];
+            [self setupNoticeViewsAnimated:YES];
 
             [self resetPusherAndGetMissedMessages];
 

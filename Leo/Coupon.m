@@ -24,6 +24,10 @@
 
 + (NSDictionary *)serializeToJSON:(Coupon *)object {
 
+    if (!object) {
+        return nil;
+    }
+
     NSMutableDictionary *json = [NSMutableDictionary new];
     json[APIParamCouponID] = object.promoCode;
     json[APIParamCouponSuccessMessage] = object.userMessage;

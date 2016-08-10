@@ -53,6 +53,8 @@
 
 #import <MBProgressHUD/MBProgressHUD.h>
 #import "Configuration.h"
+
+#import "LEOChangeEventObserver.h"
 #import "LEOPusherHelper.h"
 
 #import <UIImage+Resize.h>
@@ -80,15 +82,18 @@ typedef NS_ENUM(NSUInteger, TableViewSection) {
 };
 
 
-@interface LEOFeedTVC ()
+@interface LEOFeedTVC () <LEOChangeEventDelegate>
 
+// TODO: migrate to new pusher architecture, see below
 @property (strong, nonatomic) PTPusherEventBinding *pusherBinding;
+@property (strong, nonatomic) LEOChangeEventObserver *practiceObserver;
+@property (strong, nonatomic) LEOPracticeService *practiceService;
+
 @property (nonatomic, strong) ArrayDataSource *cardsArrayDataSource;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) LEOTransitioningDelegate *transitionDelegate;
 
 @property (retain, nonatomic) NSMutableArray *cards;
-@property (strong, nonatomic) Practice *practice;
 @property (copy, nonatomic) NSArray *appointmentTypes;
 
 @property (weak, nonatomic) IBOutlet UINavigationBar *navigationBar;
@@ -294,6 +299,21 @@ static CGFloat const kFeedInsetTop = 20.0;
                                              selector:@selector(notificationReceived:)
                                                  name:UIApplicationDidBecomeActiveNotification
                                                object:nil];
+
+    self.practiceObserver =
+    [LEOChangeEventObserver subscribeToChannel:APIEndpointPractice
+                                     withEvent:APIChangeEventPracticeMessagingAvailable
+                                       handler:self.practiceService
+                                      delegate:nil];
+
+}
+
+- (LEOPracticeService *)practiceService {
+
+    if (!_practiceService) {
+        _practiceService = [LEOPracticeService new];
+    }
+    return _practiceService;
 }
 
 - (void)removeObservers {
@@ -301,6 +321,8 @@ static CGFloat const kFeedInsetTop = 20.0;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotificationCardUpdated object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotificationConversationAddedMessage object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
+
+    [self.practiceObserver unsubscribe];
 }
 
 - (void)dealloc {
@@ -416,14 +438,14 @@ static CGFloat const kFeedInsetTop = 20.0;
             //MARK: temp fix for not allowing user to go to settings or phr until family has downloaded as needed for these functions to work
             [self willEnableNavigationButtons:YES];
 
-            [[LEOPracticeService new] getPracticesWithCompletion:^(NSArray *practices, NSError *error) {
+            LEOCachePolicy *policy = [LEOCachePolicy new];
+            policy.get = LEOCachePolicyGETCacheElseGETNetworkThenPUTCache;
+            LEOPracticeService *practiceService = [LEOPracticeService serviceWithCachePolicy:policy];
+            [practiceService getPracticesWithCompletion:^(NSArray *practices, NSError *error) {
 
                 if (error) {
                     [self handleNetworkError:error];
                 } else {
-
-                    //MARK: Until we have more than one practice, this is required for creating new appointments with a default practice
-                    self.practice = practices.firstObject;
 
                     [[LEONoticeService new] getConversationNoticesWithCompletion:^(NSArray *notices, NSError *error) {
 
@@ -731,7 +753,7 @@ static CGFloat const kFeedInsetTop = 20.0;
                                                      appointmentType:nil
                                                              patient:patient
                                                             provider:nil
-                                                            practice:self.practice
+                                                            practice:[self.practiceService getCurrentPractice]
                                                         bookedByUser:[[LEOUserService new] getCurrentUser]
                                                                 note:nil
                                                               status:appointmentStatus];
@@ -927,7 +949,7 @@ static CGFloat const kFeedInsetTop = 20.0;
     event.endDate = [startDate dateByAddingMinutes:30];
     event.title = @"Appointment with pediatrician";
     event.calendar = calendar;
-    event.location = self.practice.name;
+    event.location = [[LEOPracticeService new] getCurrentPractice].name;
 
     return event;
 }

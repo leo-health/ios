@@ -173,6 +173,7 @@ typedef void(^LEODictionaryErrorBlock)(NSDictionary *hash, NSError *error);
 typedef void(^LEOObjectBlock)(id object);
 typedef void(^LEOObjectErrorBlock)(id object, NSError *error);
 
+
 @interface LEOConstants : NSObject
 
 
@@ -261,6 +262,7 @@ extern NSString *const APIParamStartDateTime; // @"start_datetime";
 extern NSString *const APIParamEndDateTime; // @"end_datetime";
 extern NSString *const APIParamPracticeScheduleType; // @"schedule_type"
 extern NSString *const APIParamPracticeDailyHours; // @"daily_hours"
+extern NSString *const APIParamPracticeMessagingAvailable; // @"available";
 
 
 #pragma mark - Family
@@ -581,6 +583,10 @@ extern NSString *const kNotificationMembershipChanged; // @"membership-changed";
 extern NSString *const kNotificationTokenInvalidated; // @"token-invalidated";
 extern NSString *const kNotificationConversationAddedMessage; // @"Conversation-AddedMessage";
 extern NSString *const kNotificationCardUpdated; // @"Card-Updated";
+
+
+#pragma mark - Pusher Events
+extern NSString *const APIChangeEventPracticeMessagingAvailable; // @"availability_changed";
 
 
 #pragma mark - Push Notifications
