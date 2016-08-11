@@ -40,8 +40,8 @@ typedef NS_ENUM(NSUInteger, CardConfiguration) {
 
 @required
 
-@property (nonatomic, retain) id associatedCardObject;
-@property (nonatomic, retain) id activityDelegate;
+@property (nonatomic, weak) id associatedCardObject;
+@property (nonatomic, weak) id activityDelegate;
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse;
 

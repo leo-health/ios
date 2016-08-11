@@ -93,7 +93,7 @@ typedef NS_ENUM(NSUInteger, TableViewSection) {
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) LEOTransitioningDelegate *transitionDelegate;
 
-@property (retain, nonatomic) NSMutableArray *cards;
+@property (copy, nonatomic) NSArray *cards;
 @property (copy, nonatomic) NSArray *appointmentTypes;
 
 @property (weak, nonatomic) IBOutlet UINavigationBar *navigationBar;
@@ -481,25 +481,22 @@ static CGFloat const kFeedInsetTop = 20.0;
 
 - (void)fetchDataForCard:(id<LEOCardProtocol>)card completion:(void (^)(NSArray *, NSError *))completionBlock {
 
-    dispatch_queue_t queue = dispatch_queue_create("loadingQueue", NULL);
+    __weak typeof(self) weakSelf = self;
+    LEOCardService *cardService = [LEOCardService new];
+    [cardService getCardsWithCompletion:^(NSArray *cards, NSError *error) {
+        __strong typeof(self) strongSelf = weakSelf;
 
-    dispatch_async(queue, ^{
+        if (!error) {
+            strongSelf.cards = cards;
+        }
 
-        LEOCardService *cardService = [LEOCardService new];
-        [cardService getCardsWithCompletion:^(NSArray *cards, NSError *error) {
+        [strongSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:TableViewSectionBody] withRowAnimation:UITableViewRowAnimationNone];
 
-            if (!error) {
-                self.cards = [cards mutableCopy];
-            }
+        [strongSelf activateCardInFocus];
 
-            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:TableViewSectionBody] withRowAnimation:UITableViewRowAnimationNone];
+        completionBlock ? completionBlock(cards, error) : nil;
 
-            [self activateCardInFocus];
-
-            completionBlock ? completionBlock(cards, error) : nil;
-
-        }];
-    });
+    }];
 }
 
 - (NSIndexPath *)cardInFocusIndexPath {
@@ -576,10 +573,6 @@ static CGFloat const kFeedInsetTop = 20.0;
 }
 
 - (void)didUpdateObjectStateForCard:(id<LEOCardProtocol>)card {
-
-    [UIView animateWithDuration:0.2 animations:^{
-
-    } completion:^(BOOL finished) {
 
         if ([card isKindOfClass:[LEOCardAppointment class]]) {
 
@@ -708,14 +701,13 @@ static CGFloat const kFeedInsetTop = 20.0;
 
             if (deepLinkCard.wasDismissed) {
 
-                [self.cards removeObject:card];
+                [self removeCard:card];
                 [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
             } else {
                 
                 [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
             }
         }
-    }];
 }
 
 - (void)confirmCallUs {

@@ -37,15 +37,15 @@ final class LEOReferralViewController :
 
     @IBOutlet weak var inviteButtonEmail: UIButton! {
         didSet {
-            styleButton(inviteButtonEmail)
             inviteButtonEmail.setTitle("INVITE BY EMAIL", forState: .Normal)
+            styleButton(inviteButtonEmail)
         }
     }
 
     @IBOutlet weak var inviteButtonText: UIButton! {
         didSet {
-            styleButton(inviteButtonText)
             inviteButtonText.setTitle("INVITE BY TEXT MESSAGE", forState: .Normal)
+            styleButton(inviteButtonText)
         }
     }
 
