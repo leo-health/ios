@@ -62,6 +62,16 @@
                                                object:nil];
 }
 
+- (void)removeObservers {
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIApplicationDidBecomeActiveNotification
+                                                  object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIApplicationDidEnterBackgroundNotification
+                                                  object:nil];
+}
+
 - (void)notificationReceived:(NSNotification *)notification {
 
     if ([notification.name isEqualToString:UIApplicationDidEnterBackgroundNotification] ||
@@ -126,6 +136,12 @@
     [[LEOPusherHelper sharedPusher] removeBinding:self.binding
                        fromPrivateChannelWithName:self.channel];
     self.binding = nil;
+}
+
+- (void)dealloc
+{
+    [self unsubscribe];
+    [self removeObservers];
 }
 
 - (BOOL)isSubscribed {
