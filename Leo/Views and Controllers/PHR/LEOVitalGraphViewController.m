@@ -658,10 +658,19 @@ didSelectPoint:(id<TKChartData> __nonnull)point
 
     //FIXME: This doesn't actually address the animation of the annotation line on screen (nor should it do that in line here, but we should be addressing that somewhere, and this is a good reminder that we've missed something.)\
 
+
+    NSInteger dataPointIndex;
+
+    if ([self.selectedDataPointIndex integerValue] >= state.points.count) {
+        dataPointIndex = state.points.count-1;
+    } else {
+        dataPointIndex = [self.selectedDataPointIndex integerValue];
+    }
+
     if (state.points.count > 0){
 
         [self.chart select:[[TKChartSelectionInfo alloc] initWithSeries:self.chart.series.firstObject
-                                                         dataPointIndex:(state.points.count-1)]];
+                                                         dataPointIndex:dataPointIndex]];
     }
     
     return group;
