@@ -28,11 +28,13 @@
 - (instancetype)initWithBaseURL:(NSString *)baseURL
                      parameters:(NSDictionary *)parameters
                     placeholder:(UIImage *)placeholder
-                          image:(UIImage *)image;
+                          image:(UIImage *)image
+                    nonClinical:(BOOL)nonClinical;
 
 - (instancetype)initWithBaseURL:(NSString *)baseURL
                      parameters:(NSDictionary *)parameters
-                    placeholder:(UIImage *)placeholder;
+                    placeholder:(UIImage *)placeholder
+                    nonClinical:(BOOL)nonClinical;
 
 - (void)setNeedsRefresh;
 - (LEOPromise *)refreshIfNeeded;
