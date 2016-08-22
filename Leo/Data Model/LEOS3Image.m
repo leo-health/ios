@@ -150,7 +150,7 @@ static CGFloat kImageSideSizeScale3Avatar = 300.0;
 
 - (id)copyWithZone:(NSZone *)zone {
 
-    LEOS3Image *s3Copy = [[LEOS3Image allocWithZone:zone] initWithBaseURL:[self.baseURL copy] parameters:[self.parameters copy] placeholder:[self.placeholder copy]];
+    LEOS3Image *s3Copy = [[LEOS3Image allocWithZone:zone] initWithBaseURL:[self.baseURL copy] parameters:[self.parameters copy] placeholder:[self.placeholder copy] nonClinical:self.nonClinical];
 
     if (self.underlyingImage) {
         s3Copy.underlyingImage = [self.underlyingImage copy];
