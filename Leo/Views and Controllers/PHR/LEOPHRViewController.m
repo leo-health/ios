@@ -317,7 +317,6 @@ static CGFloat const kHeightOfHeaderPHR = 97;
     // if not found, this is a newly created note.
     [notesForPatient addObject:updatedNote];
     [self.analyticSessionManager stopMonitoring];
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end
