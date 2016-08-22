@@ -17,6 +17,8 @@
 
 @property (strong, nonatomic) NSMutableArray *centerXValuesOfPointsOnGraph;
 
+@property (nonatomic) BOOL alreadyUpdatedConstraints;
+
 @end
 
 @implementation LEODraggableLineContainerView
@@ -60,45 +62,49 @@
 
 - (void)updateConstraints {
 
-    //FIXME: ZSD - There should really be some safety around this using our standard pattern, even though I think our current use case *might* not require it.
-    self.lineView.translatesAutoresizingMaskIntoConstraints = NO;
+    if (!self.alreadyUpdatedConstraints) {
 
-    NSArray *widthConstraints =
-    [NSLayoutConstraint constraintsWithVisualFormat:@"H:[line(2)]"
-                                            options:0
-                                            metrics:nil
-                                              views:@{@"line": self.lineView}];
+        self.lineView.translatesAutoresizingMaskIntoConstraints = NO;
 
-    [self addConstraints:widthConstraints];
+        NSArray *widthConstraints =
+        [NSLayoutConstraint constraintsWithVisualFormat:@"H:[line(2)]"
+                                                options:0
+                                                metrics:nil
+                                                  views:@{@"line": self.lineView}];
 
-    [self addConstraint:[NSLayoutConstraint
-                         constraintWithItem:self.lineView
-                         attribute:NSLayoutAttributeHeight
-                         relatedBy:NSLayoutRelationEqual
-                         toItem:self
-                         attribute:NSLayoutAttributeHeight
-                         multiplier:1.0
-                         constant:0.0]];
+        [self addConstraints:widthConstraints];
 
-    [self addConstraint:[NSLayoutConstraint
-                         constraintWithItem:self.lineView
-                         attribute:NSLayoutAttributeBottom
-                         relatedBy:NSLayoutRelationEqual
-                         toItem:self
-                         attribute:NSLayoutAttributeBottom
-                         multiplier:1.0
-                         constant:0.0]];
+        [self addConstraint:[NSLayoutConstraint
+                             constraintWithItem:self.lineView
+                             attribute:NSLayoutAttributeHeight
+                             relatedBy:NSLayoutRelationEqual
+                             toItem:self
+                             attribute:NSLayoutAttributeHeight
+                             multiplier:1.0
+                             constant:0.0]];
 
-    self.lineXPositionConstraint =
-    [NSLayoutConstraint constraintWithItem:self.lineView
-                                 attribute:NSLayoutAttributeCenterX
-                                 relatedBy:NSLayoutRelationEqual
-                                    toItem:self
-                                 attribute:NSLayoutAttributeLeft
-                                multiplier:1.0
-                                  constant:0.0];
+        [self addConstraint:[NSLayoutConstraint
+                             constraintWithItem:self.lineView
+                             attribute:NSLayoutAttributeBottom
+                             relatedBy:NSLayoutRelationEqual
+                             toItem:self
+                             attribute:NSLayoutAttributeBottom
+                             multiplier:1.0
+                             constant:0.0]];
 
-    [self addConstraint:self.lineXPositionConstraint];
+        self.lineXPositionConstraint =
+        [NSLayoutConstraint constraintWithItem:self.lineView
+                                     attribute:NSLayoutAttributeCenterX
+                                     relatedBy:NSLayoutRelationEqual
+                                        toItem:self
+                                     attribute:NSLayoutAttributeLeft
+                                    multiplier:1.0
+                                      constant:0.0];
+        
+        [self addConstraint:self.lineXPositionConstraint];
+
+        self.alreadyUpdatedConstraints = YES;
+    }
 
     [super updateConstraints];
 }
