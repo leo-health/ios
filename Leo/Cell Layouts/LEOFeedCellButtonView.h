@@ -11,7 +11,7 @@
 
 @interface LEOFeedCellButtonView : UIView
 
-@property (nonatomic) id<LEOCardProtocol> card;
+@property (weak, nonatomic) id<LEOCardProtocol> card;
 
 -(instancetype)initWithCard:(id<LEOCardProtocol>)card;
 
