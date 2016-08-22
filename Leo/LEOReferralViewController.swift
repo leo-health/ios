@@ -14,13 +14,9 @@ final class LEOReferralViewController :
     MFMailComposeViewControllerDelegate,
     MFMessageComposeViewControllerDelegate {
 
-    let headerText = "Refer a friend"
-    let bodyText = "Tell your friends about Leo and invite them to schedule a consult with us. When they sign up they will receive 3 months of membership for free"
-    let emailSubject = "You should check out Leo + Flatiron Pediatrics"
-
     @IBOutlet weak var headerLabel: UILabel! {
         didSet {
-            headerLabel.text = headerText
+            headerLabel.text = "Share the love!"
             headerLabel.font = UIFont.leo_ultraLight27()
             headerLabel.textColor = UIColor.leo_gray124()
         }
@@ -28,7 +24,8 @@ final class LEOReferralViewController :
 
     @IBOutlet weak var bodyLabel: UILabel! {
         didSet {
-            bodyLabel.text = bodyText
+            bodyLabel.text
+                = "Leo membership with Flatiron Pediatrics is $20/month per child. If your friend becomes a Leo member, they will get their first month free. Invite them to come to an Open House to meet the team and learn more. Thanks for spreading the word!"
             bodyLabel.font = UIFont.leo_regular15()
             bodyLabel.textColor = UIColor.leo_gray124()
             bodyLabel.numberOfLines = 0
@@ -68,11 +65,11 @@ final class LEOReferralViewController :
     }()
 
     func messageBody() -> String {
-        return "Schedule a consult to learn more about Leo + Flatiron Pediatrics! \(referralURL)"
+        return "I love our pediatric practice, Leo + Flatiron Pediatrics! Come to an Open House \(referralURL)"
     }
 
     func emailBody() -> String {
-        return "We’re current members of Leo + Flatiron Pediatrics and it’s been a great experience so far.  On top of providing the highest quality clinical care (the team there has been amazing!) they have a ton of features that make managing my child’s care so much easier.  There is a mobile app where you can message the care team directly, schedule/reschedule appointments, and access your child’s health record.  You can also book same-day appointments, get prescriptions delivered, and even participate in appointments virtually. You can easily <strong><a href=\"\(referralURL)\">schedule a consult</a></strong> to learn more or <strong><a href=\"www.leohealth.com\">check out their website</a></strong>."
+        return "Hi,<br/><br/>We are members of Leo + Flatiron Pediatrics and love our experience. In addition to providing great clinical care they have a ton of features that make managing my family’s care so much easier. There is a mobile app where I can message the care team directly, schedule/reschedule appointments, and access my child’s health record.  I can also book same-day appointments, get prescriptions delivered for free, and even participate in appointments virtually.<br/><br/>Leo membership with Flatiron Pediatrics is $20/month per child.<br/><br/>To learn more, <strong><a href=\"www.leohealth.com\">check out their website</a></strong> and sign up for an Open House using the referral link below. If you decide to become a member you'll get your first month free!<br/><strong><a href=\"\(referralURL)\">\(referralURL)</a></strong>"
     }
 
     // MARK: Button Actions
@@ -140,7 +137,7 @@ final class LEOReferralViewController :
 
         let mailComposerVC = MFMailComposeViewController()
         mailComposerVC.mailComposeDelegate = self
-        mailComposerVC.setSubject(emailSubject)
+        mailComposerVC.setSubject("Learn more about Leo + Flatiron Pediatrics")
         mailComposerVC.setMessageBody(emailBody(), isHTML: true)
 
         return mailComposerVC
@@ -162,9 +159,14 @@ final class LEOReferralViewController :
     func setupNavigationBar() {
 
         navigationController?.navigationBarHidden = false
-        navigationController?.navigationBar.setBackgroundImage(UIImage.leo_imageWithColor(UIColor.leo_orangeRed()), forBarMetrics: .Default)
-        LEOStyleHelper.styleBackButtonForViewController(self, forFeature: .Settings)
-        LEOStyleHelper.styleViewController(self, navigationTitleText: headerText, forFeature: .Settings)
+        let backgroundImage = UIImage.leo_imageWithColor(UIColor.leo_orangeRed())
+        navigationController?.navigationBar.setBackgroundImage(backgroundImage,
+                                                               forBarMetrics: .Default)
+        LEOStyleHelper.styleBackButtonForViewController(self,
+                                                        forFeature: .Settings)
+        LEOStyleHelper.styleViewController(self,
+                                           navigationTitleText: "Refer a friend",
+                                           forFeature: .Settings)
     }
 }
 
