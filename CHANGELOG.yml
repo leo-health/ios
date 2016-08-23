@@ -1,17 +1,21 @@
     upcoming:
-    - New! Referrals added to provide friends with access
-    - New! Ability to enter a promo code
-    - New! Messaging updated to support hours based on whether users are online
-    - New! Add to calendar and go to links from feed
-    - Bug fixes
-
     releases:
+    - version: 1.3.0
+      build: 2016.08.22.22.17
+      date: August 22 2016
+      notes:
+      - New! Referrals added to provide friends with access
+      - New! Ability to enter a promo code
+      - New! Messaging updated to support hours based on whether users are online
+      - New! Add to calendar and go to links from feed
+      - Bug fixes
+
     - version: 1.2.0
       build: 2016.07.27.12.59
       date: July 27 2016
       notes:
       - New! More elegant animation of chart touch gesture line
-  - Bug fixes
+      - Bug fixes
 
     - version: 1.2.0
       build: 2016.07.25.16.06
@@ -35,7 +39,7 @@
       date: June 13 2016
       notes:
       - New! Update your credit card from Settings.
-  - Bug fixing.
+      - Bug fixing.
 
     - version: 1.1.0
       build: 2016.06.08.15.21
@@ -468,6 +472,7 @@
       notes:
       - First test build using new Fastfile configuration for Alpha builds
       - Provides the basic functionality all created prior to our first releases
+
 
 
 
