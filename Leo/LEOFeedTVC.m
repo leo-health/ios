@@ -176,7 +176,7 @@ static CGFloat const kFeedInsetTop = 20.0;
     } withOnlineBlock:^{
 
         [self pushNewMessageToConversation];
-
+        [[LEOPusherHelper sharedPusher] connectClient];
         self.enableButtonsInFeed = YES;
 
         //MARK: temp fix for not allowing user to go to settings or phr until family has downloaded as needed for these functions to work

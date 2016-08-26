@@ -301,6 +301,8 @@ didReceiveResponseFromRemote:(NSDictionary *)remoteResponse
                                         [self clearPusher];
                                     }
                                      withOnlineBlock:^{
+
+                                         [[LEOPusherHelper sharedPusher] connectClient];
                                          [self resetPusherAndGetMissedMessages];
                                      }];
 }
