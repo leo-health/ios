@@ -32,6 +32,7 @@
 #import "Practice.h"
 #import "AppointmentStatus.h"
 #import "Guardian+Analytics.h"
+#import "LEOCardDeepLink+Analytics.h"
 
 #import "UIColor+LeoColors.h"
 #import "UIImage+Extensions.h"
@@ -700,6 +701,10 @@ static CGFloat const kFeedInsetTop = 20.0;
             [NSIndexPath indexPathForRow:index inSection:TableViewSectionBody];
 
             if (deepLinkCard.wasDismissed) {
+
+                [LEOAnalytic tagType:LEOAnalyticTypeEvent
+                                name:kAnalyticEventDismissLink
+                          attributes:deepLinkCard.analyticAttributes];
 
                 [self removeCard:card];
                 [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];

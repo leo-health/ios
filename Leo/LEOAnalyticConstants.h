@@ -84,8 +84,9 @@ extern NSString *const kAnalyticEventUpdatePaymentMethod; // @"Update Payment Me
 extern NSString *const kAnalyticEventUpdatePasswordInSettings; // @"Update Password In Settings";
 extern NSString *const kAnalyticEventUpdatePaymentChargeCard; // @"Update Payment Method and Charge Card";
 extern NSString *const kAnalyticEventInviteCaregiver; // @"Invite caregiver";
-
 extern NSString *const kAnalyticEventConfirmPatientsInOnboarding; // @"Confirm Patients";
+extern NSString *const kAnalyticEventVisitLink; // @"Visit Link";
+extern NSString *const kAnalyticEventDismissLink; // @"Dismiss Link";
 
 extern NSString *const kAnalyticSessionMessaging; // @"Messaging Session";
 extern NSString *const kAnalyticSessionScheduling; // @"Scheduling Session";

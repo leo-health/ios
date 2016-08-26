@@ -20,6 +20,7 @@
 @property (copy, nonatomic, readonly) NSString *dismissButtonText;
 @property (copy, nonatomic, readonly) NSString *deepLinkButtonText;
 @property (copy, nonatomic, readonly) NSString *deepLink;
+@property (copy, nonatomic, readonly) NSString *category;
 
 @property (nonatomic) BOOL wasDismissed;
 
