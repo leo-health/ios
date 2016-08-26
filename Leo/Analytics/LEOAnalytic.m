@@ -96,6 +96,9 @@ availableFamilyAndGuardianAttributes:(NSDictionary *)attributes {
 
 + (NSDictionary *)availableFamilyAndGuardianAttributes {
 
+    // TODO: add block to atuo-generate base attributes
+    //  will allow us to remove dependency on LEOModelService/Cache
+
     Family *family = [LEOFamilyService new].getFamily;
     Guardian *guardian = [LEOUserService new].getCurrentUser;
     NSMutableDictionary *mutableAttributes = [NSMutableDictionary new];

@@ -12,6 +12,8 @@
 #import "LEOFormatting.h"
 #import "NSDictionary+Extensions.h"
 #import "LEOCardService.h"
+#import "LEOAnalytic.h"
+#import "LEOCardDeepLink+Analytics.h"
 
 @implementation LEOCardDeepLink
 
@@ -35,6 +37,7 @@
         _tintedHeaderText = [json leo_itemForKey:@"tinted_header_text"];
         _title = [json leo_itemForKey:@"title"];
         _body = [json leo_itemForKey:@"body"];
+        _category = [json leo_itemForKey:@"category"];
 
         NSDictionary *iconJSON = [json leo_itemForKey:@"icon"];
         _iconImage = [[LEOS3Image alloc] initWithJSONDictionary:iconJSON];
@@ -139,8 +142,11 @@
     [self.activityDelegate didUpdateObjectStateForCard:self];
 }
 
-
 - (void)routeToURL {
+
+    [LEOAnalytic tagType:LEOAnalyticTypeEvent
+                    name:kAnalyticEventVisitLink
+              attributes:self.analyticAttributes];
 
     NSURL *url = [NSURL URLWithString:self.deepLink];
     if (!url) {
@@ -162,8 +168,6 @@
     self.wasDismissed = YES;
     [self.activityDelegate didUpdateObjectStateForCard:self];
 }
-
-
 
 
 @end

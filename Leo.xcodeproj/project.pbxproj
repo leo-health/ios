@@ -249,6 +249,7 @@
 		6677AE3A1C61665B002CA27C /* LEOSwipeArrowsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6677AE391C61665B002CA27C /* LEOSwipeArrowsView.xib */; };
 		6677AE3D1C61689D002CA27C /* LEOSwipeArrowsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6677AE3C1C61689D002CA27C /* LEOSwipeArrowsView.m */; };
 		6677AE3F1C62B71F002CA27C /* LEOLoggedOutLoginCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6677AE3E1C62B71F002CA27C /* LEOLoggedOutLoginCell.xib */; };
+		668DB6871D709422002D3542 /* LEOCardDeepLink+Analytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 668DB6861D709422002D3542 /* LEOCardDeepLink+Analytics.m */; };
 		66A0D4D41D4018E1007FCB4E /* LEOApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A0D4D31D4018E1007FCB4E /* LEOApp.m */; };
 		66A402581D2DA22B00276132 /* LEOCachePolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A402571D2DA22B00276132 /* LEOCachePolicy.m */; };
 		66A59F5E1D231E7500B1C43B /* LEOCachedService.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A59F5D1D231E7500B1C43B /* LEOCachedService.m */; };
@@ -792,6 +793,9 @@
 		6677AE3B1C61689D002CA27C /* LEOSwipeArrowsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOSwipeArrowsView.h; sourceTree = "<group>"; };
 		6677AE3C1C61689D002CA27C /* LEOSwipeArrowsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOSwipeArrowsView.m; sourceTree = "<group>"; };
 		6677AE3E1C62B71F002CA27C /* LEOLoggedOutLoginCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LEOLoggedOutLoginCell.xib; sourceTree = "<group>"; };
+		668DB6851D709422002D3542 /* LEOCardDeepLink+Analytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LEOCardDeepLink+Analytics.h"; sourceTree = "<group>"; };
+		668DB6861D709422002D3542 /* LEOCardDeepLink+Analytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LEOCardDeepLink+Analytics.m"; sourceTree = "<group>"; };
+		668DB68A1D70950C002D3542 /* LEOAnalyticAttributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOAnalyticAttributes.h; sourceTree = "<group>"; };
 		66A0D4D21D4018E1007FCB4E /* LEOApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOApp.h; sourceTree = "<group>"; };
 		66A0D4D31D4018E1007FCB4E /* LEOApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOApp.m; sourceTree = "<group>"; };
 		66A402561D2DA22B00276132 /* LEOCachePolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOCachePolicy.h; sourceTree = "<group>"; };
@@ -1920,6 +1924,7 @@
 		DE31E5A51D3692CE00F028E4 /* Object Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				668DB68A1D70950C002D3542 /* LEOAnalyticAttributes.h */,
 				DE31E6001D393CDC00F028E4 /* Message+Analytics.h */,
 				DE31E6011D393CDC00F028E4 /* Message+Analytics.m */,
 				DE31E5E31D36B9A800F028E4 /* Appointment+Analytics.h */,
@@ -1932,6 +1937,8 @@
 				DE31E5EA1D36B9A800F028E4 /* Patient+Analytics.m */,
 				661451AB1D3E9966006AA480 /* Message+Analytics.h */,
 				661451AC1D3E9966006AA480 /* Message+Analytics.m */,
+				668DB6851D709422002D3542 /* LEOCardDeepLink+Analytics.h */,
+				668DB6861D709422002D3542 /* LEOCardDeepLink+Analytics.m */,
 			);
 			name = "Object Helpers";
 			sourceTree = "<group>";
@@ -2457,6 +2464,7 @@
 				3168997F1BC4858400B4C1EB /* LEOReviewPatientCell+ConfigureForCell.m in Sources */,
 				3192ACD91B0CC7C5007195F2 /* UIImage+Extensions.m in Sources */,
 				31CC12ED1BB062E90099AB60 /* LEOS3ImageSessionManager.m in Sources */,
+				668DB6871D709422002D3542 /* LEOCardDeepLink+Analytics.m in Sources */,
 				312946121C0F462600AE5BB1 /* LEODateActionPicker.m in Sources */,
 				312418881BC066E200E18176 /* LEOLoginViewController.m in Sources */,
 				31CC12E41BB062C40099AB60 /* AppointmentType.m in Sources */,

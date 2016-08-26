@@ -76,8 +76,9 @@ NSString *const kAnalyticEventUpdatePaymentMethod = @"Update Payment Method";
 NSString *const kAnalyticEventUpdatePasswordInSettings = @"Update Password In Settings";
 NSString *const kAnalyticEventUpdatePaymentChargeCard = @"Update Payment Method and Charge Card";
 NSString *const kAnalyticEventInviteCaregiver = @"Invite caregiver";
-
 NSString *const kAnalyticEventConfirmPatientsInOnboarding = @"Confirm Patients";
+NSString *const kAnalyticEventVisitLink = @"Visit Link";
+NSString *const kAnalyticEventDismissLink = @"Dismiss Link";
 
 NSString *const kAnalyticSessionMessaging = @"Messaging Session";
 NSString *const kAnalyticSessionScheduling = @"Scheduling Session";
