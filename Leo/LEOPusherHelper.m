@@ -47,6 +47,10 @@
     [_client connect];
 }
 
+- (void)connectClient {
+    [self updateClientForNewKeys];
+}
+
 - (PTPusherEventBinding *)connectToPusherChannel:(NSString *)channel withEvent:(NSString *)event sender:(id)sender withCompletion:(void (^)(NSDictionary *channelData))completionBlock {
     
     __weak id blockSender = sender;

@@ -12,6 +12,7 @@
 #import "NSDictionary+Extensions.h"
 #import "Configuration.h"
 #import "AppDelegate.h"
+#import "LEOPusherHelper.h"
 
 @implementation LEOSettingsService
 
@@ -27,7 +28,7 @@
 
             if (![[Configuration pusherKey] isEqualToString:[keyData leo_itemForKey:kConfigurationPusherAPIKey]]) {
                 [NSUserDefaults leo_setString:[keyData leo_itemForKey:kConfigurationPusherAPIKey] forKey:kConfigurationPusherAPIKey];
-                //Pusher will update as connections are made.
+                [[LEOPusherHelper sharedPusher] updateClientForNewKeys];
             }
 
             if (![[Configuration vendorID] isEqualToString:[keyData leo_itemForKey:kConfigurationVendorID]]) {
