@@ -26,6 +26,9 @@
 #import "LEOAlertHelper.h"
 #import "LEORecordEditNotesViewController.h"
 #import "LEOAnalytic.h"
+#import "LEOWebViewController.h"
+#import "Configuration.h"
+#import "LEOCredentialStore.h"
 
 static CGFloat const kHeightOfHeaderPHR = 97;
 
@@ -105,8 +108,11 @@ static CGFloat const kHeightOfHeaderPHR = 97;
     if (!self.healthRecords) {
 
         // only show one HUD at a time
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [MBProgressHUD hideHUDForView:self.view
+                             animated:YES];
+
+        [MBProgressHUD showHUDAddedTo:self.view
+                             animated:YES];
 
         __block BOOL readyToHideHUD = NO;
 
@@ -186,9 +192,11 @@ static CGFloat const kHeightOfHeaderPHR = 97;
 
 -(void)setupNavigationBar {
 
+    [LEOStyleHelper styleNavigationBar:self.navigationController.navigationBar
+                            forFeature:FeaturePHR];
+
     [LEOStyleHelper styleBackButtonForViewController:self
                                           forFeature:FeatureSettings];
-
 
     self.navigationController.navigationBarHidden = NO;
 
@@ -252,8 +260,37 @@ static CGFloat const kHeightOfHeaderPHR = 97;
 
             [strongSelf presentEditNotesViewControllerWithNote:note];
         };
-    }
 
+        _bodyView.loadShareableImmunizationsPDFBlock = ^(void) {
+
+            __strong typeof(self) strongSelf = weakSelf;
+
+            [MBProgressHUD showHUDAddedTo:strongSelf.view animated:YES];
+
+            [[LEOHealthRecordService new] getShareableImmunizationsPDFForPatient:strongSelf.patients[[strongSelf selectedPatientIndex]] withCompletion:^(NSData *shareableData, NSError *error) {
+
+                [MBProgressHUD hideHUDForView:strongSelf.view animated:YES];
+
+                if (error) {
+
+                    [LEOAlertHelper alertForViewController:self
+                                                     error:error
+                                               backupTitle:kErrorDefaultTitle
+                                             backupMessage:kErrorDefaultMessage];
+                    return;
+                }
+
+                Patient *patient = strongSelf.patients[[strongSelf selectedPatientIndex]];
+
+                NSString *subject = [NSString stringWithFormat:@"%@'s immunization record", patient.firstAndLastName];
+                NSString *body = @"Please find attached a copy of my child's immunization record.";
+                [strongSelf presentWebViewOfShareableImmunizationsPDFWithData:shareableData
+                                                                 shareSubject:subject
+                                                                    shareBody:body];
+            }];
+        };
+    }
+    
     return _bodyView;
 }
 
@@ -268,11 +305,28 @@ static CGFloat const kHeightOfHeaderPHR = 97;
 }
 
 - (void)pop {
-
     [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - Actions
+
+- (void)presentWebViewOfShareableImmunizationsPDFWithData:(NSData *)data
+                                             shareSubject:(NSString *)subject
+                                                shareBody:(NSString *)body {
+
+    LEOWebViewController *webViewController = [LEOWebViewController new];
+
+    webViewController.titleString = @"Attachment Preview";
+    webViewController.feature = FeatureSettings;
+    webViewController.shareData = data;
+    webViewController.shareSubject = subject;
+    webViewController.shareBody = body;
+
+    UINavigationController *navController =
+    [[UINavigationController alloc] initWithRootViewController:webViewController];
+
+    [self presentViewController:navController animated:YES completion:nil];
+}
 
 - (void)presentEditNotesViewControllerWithNote:(PatientNote*)note {
 
@@ -319,4 +373,11 @@ static CGFloat const kHeightOfHeaderPHR = 97;
     [self.analyticSessionManager stopMonitoring];
 }
 
+//-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
+//
+//    if ([keyPath isEqualToString:@"fractionCompleted"]) {
+//        NSProgress *progress = (NSProgress *)object;
+//        NSLog(@"Progress… %f", progress.fractionCompleted);
+//    }
+//}
 @end

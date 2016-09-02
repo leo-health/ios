@@ -13,6 +13,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 typedef void(^EditNoteTouchedUpInsideBlock)(NSArray *notes);
+typedef void(^PreviewShareablePDFTouchedUpInsideBlock)(NSData *shareableDataForPDF);
 
 @interface LEOPHRBodyView : UIView
 
@@ -21,7 +22,7 @@ typedef void(^EditNoteTouchedUpInsideBlock)(NSArray *notes);
 @property (copy, nonatomic) NSArray *notes;
 @property (strong, nonatomic) Patient *patient;
 @property (copy, nonatomic) EditNoteTouchedUpInsideBlock editNoteTouchedUpInsideBlock;
-
+@property (copy, nonatomic) LEOVoidBlock loadShareableImmunizationsPDFBlock;
 
 //This method should not be necessary in a world where the model informs the controllers that something has changed.
 //It is a shortcut for now.

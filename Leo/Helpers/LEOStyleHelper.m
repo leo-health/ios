@@ -242,6 +242,9 @@
         case FeaturePayment:
             return [UIColor leo_orangeRed];
 
+        case FeaturePHR:
+            return [UIColor leo_orangeRed];
+
         case FeatureUndefined:
             return [UIColor blackColor];
     }
@@ -264,6 +267,9 @@
 
         case FeaturePayment:
             return [UIColor leo_orangeRed];
+
+        case FeaturePHR:
+            return [UIColor leo_white];
 
         case FeatureUndefined:
             return [UIColor blackColor];
@@ -289,6 +295,9 @@
         case FeaturePayment:
             return [UIColor leo_white];
 
+        case FeaturePHR:
+            return [UIColor leo_orangeRed];
+
         case FeatureUndefined:
             return [UIColor blackColor];
     }
@@ -311,6 +320,9 @@
 
         case FeaturePayment:
             return [UIColor leo_gray74];
+
+        case FeaturePHR:
+            return [UIColor leo_white];
 
         case FeatureUndefined:
             return [UIColor blackColor];
@@ -335,6 +347,9 @@
         case FeaturePayment:
             return [UIColor blackColor];
 
+        case FeaturePHR:
+            return [UIColor blackColor];
+
         case FeatureUndefined:
             return [UIColor blackColor];
     }
@@ -356,6 +371,9 @@
             return [UIColor blackColor];
 
         case FeaturePayment:
+            return [UIColor blackColor];
+
+        case FeaturePHR:
             return [UIColor blackColor];
 
         case FeatureUndefined:

@@ -7,11 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+@import MessageUI;
 
-@interface LEOWebViewController : UIViewController
+@interface LEOWebViewController : UIViewController <MFMailComposeViewControllerDelegate>
+NS_ASSUME_NONNULL_BEGIN
 
 @property (copy, nonatomic) NSString *urlString;
 @property (copy, nonatomic) NSString *titleString;
 @property (nonatomic) Feature feature;
+@property (strong, nonatomic) NSData* shareData;
+@property (copy, nonatomic) NSString *shareSubject;
+@property (copy, nonatomic) NSString *shareBody;
 
+NS_ASSUME_NONNULL_END
 @end

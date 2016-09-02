@@ -443,43 +443,47 @@ NS_ENUM(NSInteger, TableViewRow) {
     UIView *_separatorLine = [UIView new];
     [_separatorLine setBackgroundColor:[UIColor leo_gray124]];
 
-    UIButton *_editNoteButton = [UIButton new];
-    [_editNoteButton setTitle:kEditButtonText forState:UIControlStateNormal];
-    _editNoteButton.titleLabel.font = [UIFont leo_medium12];
-    [_editNoteButton setTitleColor:[UIColor leo_orangeRed] forState:UIControlStateNormal];
-    [_editNoteButton addTarget:self action:@selector(editNoteTouchedUpInside) forControlEvents:UIControlEventTouchUpInside];
-    _editNoteButton.hidden = section != TableViewSectionNotes;
+    UIButton *_sectionAccessoryButton = [UIButton new];
+    _sectionAccessoryButton.titleLabel.font = [UIFont leo_medium12];
+    [_sectionAccessoryButton setTitleColor:[UIColor leo_orangeRed] forState:UIControlStateNormal];
+    _sectionAccessoryButton.hidden = YES;
 
-    if (section != TableViewSectionNotes) {
-        _editNoteButton.hidden = YES;
+    if (section == TableViewSectionNotes) {
+        [_sectionAccessoryButton setTitle:kEditButtonText forState:UIControlStateNormal];
+        [_sectionAccessoryButton addTarget:self action:@selector(editNoteTouchedUpInside) forControlEvents:UIControlEventTouchUpInside];
+        _sectionAccessoryButton.hidden = NO;
+    } else if (section == TableViewSectionImmunizations && self.healthRecord.immunizations.count > 0) {
+        [_sectionAccessoryButton setTitle:@"SHARE" forState:UIControlStateNormal];
+        [_sectionAccessoryButton addTarget:self action:@selector(previewShareablePDF) forControlEvents:UIControlEventTouchUpInside];
+        _sectionAccessoryButton.hidden = NO;
     }
 
     sectionHeaderView.contentView.backgroundColor = [UIColor clearColor];
 
     [sectionHeaderView.contentView addSubview:_titleLabel];
     [sectionHeaderView.contentView addSubview:_separatorLine];
-    [sectionHeaderView.contentView addSubview:_editNoteButton];
+    [sectionHeaderView.contentView addSubview:_sectionAccessoryButton];
 
     sectionHeaderView.backgroundView = [UIView new];
 
     sectionHeaderView.contentView.translatesAutoresizingMaskIntoConstraints = NO;
     _titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
     _separatorLine.translatesAutoresizingMaskIntoConstraints = NO;
-    _editNoteButton.translatesAutoresizingMaskIntoConstraints = NO;
+    _sectionAccessoryButton.translatesAutoresizingMaskIntoConstraints = NO;
 
     NSNumber *spacing = @(kPHRSectionLayoutSpacing);
     NSNumber *horizontalMargin = @(kPHRSectionLayoutHorizontalMargin);
     NSNumber *topMargin = @(kPHRSectionLayoutTopMargin);
     NSNumber *bottomMargin = @(kPHRSectionLayoutBottomMargin);
     UIView* _contentView = sectionHeaderView.contentView;
-    NSDictionary *views = NSDictionaryOfVariableBindings(_titleLabel, _separatorLine, _editNoteButton, _contentView);
+    NSDictionary *views = NSDictionaryOfVariableBindings(_titleLabel, _separatorLine, _sectionAccessoryButton, _contentView);
     NSDictionary *metrics = NSDictionaryOfVariableBindings(spacing, horizontalMargin, topMargin, bottomMargin);
 
     [sectionHeaderView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_contentView]|" options:0 metrics:nil views:views]];
     [sectionHeaderView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_contentView]|" options:0 metrics:nil views:views]];
-    [sectionHeaderView.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(topMargin)-[_editNoteButton]-(spacing)-[_separatorLine]" options:0 metrics:metrics views:views]];
+    [sectionHeaderView.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(topMargin)-[_sectionAccessoryButton]-(spacing)-[_separatorLine]" options:0 metrics:metrics views:views]];
     [sectionHeaderView.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(topMargin)-[_titleLabel]-(spacing)-[_separatorLine(1)]-(bottomMargin)-|" options:0 metrics:metrics views:views]];
-    [sectionHeaderView.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(horizontalMargin)-[_titleLabel]-(>=horizontalMargin)-[_editNoteButton]-(horizontalMargin)-|" options:0 metrics:metrics views:views]];
+    [sectionHeaderView.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(horizontalMargin)-[_titleLabel]-(>=horizontalMargin)-[_sectionAccessoryButton]-(horizontalMargin)-|" options:0 metrics:metrics views:views]];
     [sectionHeaderView.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(horizontalMargin)-[_separatorLine]-(horizontalMargin)-|" options:0 metrics:metrics views:views]];
 
     NSString *title;
@@ -553,5 +557,9 @@ NS_ENUM(NSInteger, TableViewRow) {
     }
 }
 
+- (void)previewShareablePDF {
+
+    self.loadShareableImmunizationsPDFBlock();
+}
 
 @end

@@ -44,6 +44,7 @@ NSString *const APIEndpointNotes = @"notes";
 NSString *const APIEndpointMedications = @"medications";
 NSString *const APIEndpointAllergies = @"allergies";
 NSString *const APIEndpointImmunizations = @"immunizations";
+NSString *const APIEndpointVaccines = @"vaccines";
 NSString *const APIEndpointBMIs = @"vitals/bmis";
 NSString *const APIEndpointHeights = @"vitals/height";
 NSString *const APIEndpointWeights = @"vitals/weight";
