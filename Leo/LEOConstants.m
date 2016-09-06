@@ -412,8 +412,8 @@ NSString *const LEOErrorDomainNoDetail = @"LeoErrorDomainNoDetail";
 NSString *const kFlatironPediatricsPhoneNumber = @"2124605600"; //Flatiron Pediatrics
 
 #pragma mark - URLs
-NSString *const kURLTermsOfService = @"/#/terms";
-NSString *const kURLPrivacyPolicy = @"/#/privacy";
+NSString *const kURLTermsOfService = @"/terms";
+NSString *const kURLPrivacyPolicy = @"/privacy";
 
 #pragma mark - Notifications
 NSString *const kNotificationDownloadedImageUpdated = @"DownloadedImage-Updated";

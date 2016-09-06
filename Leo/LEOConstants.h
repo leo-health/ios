@@ -571,8 +571,8 @@ extern NSString *const kFlatironPediatricsPhoneNumber; // @"2124605600"; //Flati
 
 
 #pragma mark - URLs
-extern NSString *const kURLTermsOfService; // @"/#/terms";
-extern NSString *const kURLPrivacyPolicy; // @"/#/privacy";
+extern NSString *const kURLTermsOfService; // @"/terms";
+extern NSString *const kURLPrivacyPolicy; // @"/privacy";
 
 
 #pragma mark - Notifications
