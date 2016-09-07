@@ -26,6 +26,6 @@
 -(NSURLSessionTask *)putNote:(PatientNote *)noteText forPatient:(Patient *)patient withCompletion:(void (^)(PatientNote *, NSError *))completionBlock;
 -(NSURLSessionTask *)postNote:(NSString *)noteText forPatient:(Patient *)patient withCompletion:(void (^)(PatientNote *, NSError *))completionBlock;
 
-- (NSURLSessionTask *)getShareableImmunizationsPDFForPatient:(Patient *)patient withCompletion:(void (^)(NSData *, NSError *))completionBlock;
+- (NSURLSessionTask *)getShareableImmunizationsPDFForPatient:(Patient *)patient progress:(void (^)(NSProgress *progress))progressBlock withCompletion:(void (^)(NSData *, NSError *))completionBlock;
 
 @end

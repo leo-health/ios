@@ -51,46 +51,54 @@
     return _sharedClient;
 }
 
-- (NSURLSessionDataTask *)standardGETRequestForJSONDictionaryFromAPIWithEndpoint:(NSString *)urlString params:(NSDictionary *)params completion:(void (^)(NSString *binaryString, NSError *error))completionBlock {
+- (NSURLSessionDataTask *)standardGETRequestForJSONDictionaryFromAPIWithEndpoint:(NSString *)urlString params:(NSDictionary *)params progressBlock:(void (^)(NSProgress *downloadProgress))progressBlock completion:(void (^)(NSData *binaryData, NSError *error))completionBlock  {
 
     if (!params) {
         params = [[NSDictionary alloc] init];
     }
 
-    NSURLSessionDataTask *task = [self GET:urlString parameters:[self authenticatedParamsWithParams:params] success:^(NSURLSessionDataTask *task, id responseObject) {
+    NSURLSessionDataTask *task =
+    [self GET:urlString
+   parameters:[self authenticatedParamsWithParams:params]
+     progress:^(NSProgress * _Nonnull downloadProgress) {
+         if (progressBlock) {
+             progressBlock(downloadProgress);
+         }
+     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
 
-        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)task.response;
 
-        if (httpResponse.statusCode == 200) {
-            NSLog(@"Received HTTP %ld - %@", (long)httpResponse.statusCode, responseObject);
-            dispatch_async(dispatch_get_main_queue(), ^{
-                completionBlock(responseObject, nil);
-            });
-        } else {
-            NSLog(@"Received HTTP %ld - %@", (long)httpResponse.statusCode, responseObject);
-            dispatch_async(dispatch_get_main_queue(), ^{
-                completionBlock(nil, nil);
-            });
-        }
+         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)task.response;
 
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+         if (httpResponse.statusCode == 200) {
+             NSLog(@"Received HTTP %ld - %@", (long)httpResponse.statusCode, responseObject);
+             dispatch_async(dispatch_get_main_queue(), ^{
+                 completionBlock(responseObject, nil);
+             });
+         } else {
+             NSLog(@"Received HTTP %ld - %@", (long)httpResponse.statusCode, responseObject);
+             dispatch_async(dispatch_get_main_queue(), ^{
+                 completionBlock(nil, nil);
+             });
+         }
 
-        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)task.response;
+     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
 
-        if (httpResponse.statusCode == 401) {
-            if ([[LEOUserService new] getCurrentUser]) {
-                [[LEOUserService new] logout];
-            }
-        }
+         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)task.response;
 
-        [self formattedErrorFromError:&error];
+         if (httpResponse.statusCode == 401) {
+             if ([[LEOUserService new] getCurrentUser]) {
+                 [[LEOUserService new] logout];
+             }
+         }
 
-        NSLog(@"Fail: %@",error.userInfo);
-        dispatch_async(dispatch_get_main_queue(), ^{
-            completionBlock(nil, error);
-        });
-    }];
+         [self formattedErrorFromError:&error];
 
+         NSLog(@"Fail: %@",error.userInfo);
+         dispatch_async(dispatch_get_main_queue(), ^{
+             completionBlock(nil, error);
+         });
+     }];
+    
     return task;
 }
 

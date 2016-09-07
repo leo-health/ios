@@ -444,7 +444,7 @@ NS_ENUM(NSInteger, TableViewRow) {
     [_separatorLine setBackgroundColor:[UIColor leo_gray124]];
 
     UIButton *_sectionAccessoryButton = [UIButton new];
-    _sectionAccessoryButton.titleLabel.font = [UIFont leo_medium12];
+    _sectionAccessoryButton.titleLabel.font = [UIFont leo_bold12];
     [_sectionAccessoryButton setTitleColor:[UIColor leo_orangeRed] forState:UIControlStateNormal];
     _sectionAccessoryButton.hidden = YES;
 

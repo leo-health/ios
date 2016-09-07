@@ -39,13 +39,13 @@
     return task;
 }
 
-- (NSURLSessionTask *)getShareableImmunizationsPDFForPatient:(Patient *)patient withCompletion:(void (^)(NSData *, NSError *))completionBlock {
+- (NSURLSessionTask *)getShareableImmunizationsPDFForPatient:(Patient *)patient progress:(void (^)(NSProgress *progress))progressBlock withCompletion:(void (^)(NSData *, NSError *))completionBlock {
 
     NSString *endpoint = [NSString stringWithFormat:@"%@/%@/%@", APIEndpointPatients, patient.objectID, APIEndpointImmunizations];
 
     NSDictionary *params = @{@"response_type" : @"pdf"};
 
-    NSURLSessionTask *task = [[LEOHTTPSerializedSessionManager sharedClient] standardGETRequestForJSONDictionaryFromAPIWithEndpoint:endpoint params:params completion:^(NSData *binaryData, NSError *error) {
+    NSURLSessionTask *task = [[LEOHTTPSerializedSessionManager sharedClient] standardGETRequestForJSONDictionaryFromAPIWithEndpoint:endpoint params:params progressBlock:progressBlock completion:^(NSData *binaryData, NSError *error) {
 
         if (completionBlock) {
             completionBlock(binaryData, error);

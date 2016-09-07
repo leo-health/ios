@@ -45,6 +45,7 @@ static CGFloat const kHeightOfHeaderPHR = 97;
 
 @property (strong, nonatomic) LEOAnalyticSessionManager *analyticSessionManager;
 
+@property (strong, nonatomic) MBProgressHUD *hud;
 
 @end
 
@@ -265,9 +266,26 @@ static CGFloat const kHeightOfHeaderPHR = 97;
 
             __strong typeof(self) strongSelf = weakSelf;
 
-            [MBProgressHUD showHUDAddedTo:strongSelf.view animated:YES];
+            strongSelf.hud = [MBProgressHUD showHUDAddedTo:strongSelf.view animated:YES];
+            strongSelf.hud.mode = MBProgressHUDModeDeterminateHorizontalBar;
+            strongSelf.hud.label.text = @"Creating PDF...";
 
-            [[LEOHealthRecordService new] getShareableImmunizationsPDFForPatient:strongSelf.patients[[strongSelf selectedPatientIndex]] withCompletion:^(NSData *shareableData, NSError *error) {
+           __block NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:0.8
+                                             target:strongSelf
+                                           selector:@selector(upProgress)
+                                           userInfo:nil
+                                            repeats:YES];
+
+            [[LEOHealthRecordService new] getShareableImmunizationsPDFForPatient:strongSelf.patients[[strongSelf selectedPatientIndex]] progress:^(NSProgress *progress) {
+
+                [timer invalidate];
+                timer = nil;
+
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    strongSelf.hud.progress = progress.fractionCompleted;
+                });
+
+            } withCompletion:^(NSData *shareableData, NSError *error) {  
 
                 [MBProgressHUD hideHUDForView:strongSelf.view animated:YES];
 
@@ -292,6 +310,11 @@ static CGFloat const kHeightOfHeaderPHR = 97;
     }
     
     return _bodyView;
+}
+
+- (void)upProgress {
+
+    self.hud.progress += 0.1;
 }
 
 #pragma mark - Sticky Header View DataSource
