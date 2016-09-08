@@ -149,7 +149,7 @@
     MFMailComposeViewController *mailVC = [MFMailComposeViewController new];
 
     mailVC.mailComposeDelegate = self;
-    [mailVC addAttachmentData:self.shareData mimeType:@"application/pdf" fileName:@"immunization_record"];
+    [mailVC addAttachmentData:self.shareData mimeType:@"application/pdf" fileName:self.shareAttachmentName];
     [mailVC setSubject:self.shareSubject];
     [mailVC setMessageBody:self.shareBody isHTML:NO];
 

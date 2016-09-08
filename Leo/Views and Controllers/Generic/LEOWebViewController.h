@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) Feature feature;
 @property (strong, nonatomic) NSData* shareData;
 @property (copy, nonatomic) NSString *shareSubject;
+@property (copy, nonatomic) NSString *shareAttachmentName;
 @property (copy, nonatomic) NSString *shareBody;
 
 NS_ASSUME_NONNULL_END

@@ -29,6 +29,7 @@
 #import "LEOWebViewController.h"
 #import "Configuration.h"
 #import "LEOCredentialStore.h"
+#import "NSDate+Extensions.h"
 
 static CGFloat const kHeightOfHeaderPHR = 97;
 
@@ -206,7 +207,6 @@ static CGFloat const kHeightOfHeaderPHR = 97;
     UINavigationBar *navBar = self.navigationController.navigationBar;
 
     navBar.translucent = NO;
-    navBar.backgroundColor = [UIColor clearColor];
     navBar.tintColor = [UIColor leo_white];
     navBar.shadowImage = [UIImage new];
 }
@@ -266,50 +266,74 @@ static CGFloat const kHeightOfHeaderPHR = 97;
 
             __strong typeof(self) strongSelf = weakSelf;
 
-            strongSelf.hud = [MBProgressHUD showHUDAddedTo:strongSelf.view animated:YES];
-            strongSelf.hud.mode = MBProgressHUDModeDeterminateHorizontalBar;
-            strongSelf.hud.label.text = @"Creating PDF...";
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Blah blah blah" message:@"You are about to download a copy of your health record. By sharing this information, you agree to take on the risk blah blah blah" preferredStyle:UIAlertControllerStyleAlert];
 
-           __block NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:0.8
-                                             target:strongSelf
-                                           selector:@selector(upProgress)
-                                           userInfo:nil
-                                            repeats:YES];
-
-            [[LEOHealthRecordService new] getShareableImmunizationsPDFForPatient:strongSelf.patients[[strongSelf selectedPatientIndex]] progress:^(NSProgress *progress) {
-
-                [timer invalidate];
-                timer = nil;
-
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    strongSelf.hud.progress = progress.fractionCompleted;
-                });
-
-            } withCompletion:^(NSData *shareableData, NSError *error) {  
-
-                [MBProgressHUD hideHUDForView:strongSelf.view animated:YES];
-
-                if (error) {
-
-                    [LEOAlertHelper alertForViewController:self
-                                                     error:error
-                                               backupTitle:kErrorDefaultTitle
-                                             backupMessage:kErrorDefaultMessage];
-                    return;
-                }
-
-                Patient *patient = strongSelf.patients[[strongSelf selectedPatientIndex]];
-
-                NSString *subject = [NSString stringWithFormat:@"%@'s immunization record", patient.firstAndLastName];
-                NSString *body = @"Please find attached a copy of my child's immunization record.";
-                [strongSelf presentWebViewOfShareableImmunizationsPDFWithData:shareableData
-                                                                 shareSubject:subject
-                                                                    shareBody:body];
+            UIAlertAction *continueAction = [UIAlertAction actionWithTitle:@"Continue" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                [strongSelf shareImmunizationsPDF];
             }];
+
+            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
+
+            [alertController addAction:continueAction];
+            [alertController addAction:cancelAction];
+
+            [strongSelf presentViewController:alertController animated:YES completion:nil];
         };
     }
     
     return _bodyView;
+}
+
+- (void)shareImmunizationsPDF {
+
+    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.hud.mode = MBProgressHUDModeDeterminateHorizontalBar;
+    self.hud.label.text = @"Creating PDF...";
+
+    __block NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:0.8
+                                                              target:self
+                                                            selector:@selector(upProgress)
+                                                            userInfo:nil
+                                                             repeats:YES];
+
+    [[LEOHealthRecordService new] getShareableImmunizationsPDFForPatient:self.patients[[self selectedPatientIndex]] progress:^(NSProgress *progress) {
+
+        [timer invalidate];
+        timer = nil;
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.hud.progress = progress.fractionCompleted;
+        });
+
+    } withCompletion:^(NSData *shareableData, NSError *error) {
+
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+
+        if (error) {
+
+            [LEOAlertHelper alertForViewController:self
+                                             error:error
+                                       backupTitle:kErrorDefaultTitle
+                                     backupMessage:kErrorDefaultMessage];
+            return;
+        }
+
+        Patient *patient = self.patients[[self selectedPatientIndex]];
+
+        NSString *dateOfPDFCreation =
+        [NSDate leo_stringifiedDate:[NSDate date] withFormat:@"MMM-dd-yyyy"];
+
+        NSString *subject = [NSString stringWithFormat:@"%@'s immunization record", patient.firstAndLastName];
+        NSString *body = @"Please find attached a copy of my child's immunization record.";
+
+        NSString *attachmentName =
+        [NSString stringWithFormat:@"%@_%@_Immunization_History_as_of_%@", patient.firstName, patient.lastName, dateOfPDFCreation];
+
+        [self presentWebViewOfShareableImmunizationsPDFWithData:shareableData
+                                                         shareSubject:subject
+                                                            shareBody:body
+                                                  shareAttachmentName:attachmentName];
+    }];
 }
 
 - (void)upProgress {
@@ -335,7 +359,8 @@ static CGFloat const kHeightOfHeaderPHR = 97;
 
 - (void)presentWebViewOfShareableImmunizationsPDFWithData:(NSData *)data
                                              shareSubject:(NSString *)subject
-                                                shareBody:(NSString *)body {
+                                                shareBody:(NSString *)body
+                                      shareAttachmentName:(NSString *)attachmentName {
 
     LEOWebViewController *webViewController = [LEOWebViewController new];
 
@@ -344,6 +369,7 @@ static CGFloat const kHeightOfHeaderPHR = 97;
     webViewController.shareData = data;
     webViewController.shareSubject = subject;
     webViewController.shareBody = body;
+    webViewController.shareAttachmentName = attachmentName;
 
     UINavigationController *navController =
     [[UINavigationController alloc] initWithRootViewController:webViewController];
