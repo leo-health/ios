@@ -112,17 +112,7 @@ static NSString *const kCopyManageMySubscription = @"Manage my membership";
 - (void)setupNavigationBar {
     
     self.navigationController.navigationBarHidden = NO;
-
-    [LEOStyleHelper styleNavigationBar:self.navigationController.navigationBar forFeature:FeatureSettings];
-
-    UILabel *navTitleLabel = [[UILabel alloc] init];
-    navTitleLabel.text = @"Settings";
-
-    self.view.tintColor = [UIColor whiteColor];
-    [LEOStyleHelper styleBackButtonForViewController:self forFeature:FeatureSettings];
-    [LEOStyleHelper styleLabel:navTitleLabel forFeature:FeatureSettings];
-    
-    self.navigationItem.titleView = navTitleLabel;
+    [LEOStyleHelper styleNavigationBarForViewController:self forFeature:FeatureSettings withTitleText:@"Settings" dismissal:NO backButton:YES];
 }
 
 - (void)setupTableView {

@@ -27,7 +27,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    [self setupView];
     [self setupButton];
     [self setupNavigationBar];
 
@@ -44,11 +43,6 @@
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:nil withOnlineBlock:nil];
 }
 
-- (void)setupView {
-
-    [LEOStyleHelper styleSettingsViewController:self];
-}
-
 - (void)setupButton {
 
     [LEOStyleHelper styleButton:self.updatePasswordButton forFeature:FeatureSettings];
@@ -56,19 +50,7 @@
 }
 
 - (void)setupNavigationBar {
-
-    self.view.tintColor = [LEOStyleHelper tintColorForFeature:FeatureSettings];
-
-    [LEOStyleHelper styleNavigationBarForFeature:FeatureSettings];
-
-    UILabel *navTitleLabel = [[UILabel alloc] init];
-    navTitleLabel.text = @"Change Password";
-
-    [LEOStyleHelper styleLabel:navTitleLabel forFeature:FeatureSettings];
-
-    self.navigationItem.titleView = navTitleLabel;
-
-    [LEOStyleHelper styleBackButtonForViewController:self forFeature:FeatureSettings];
+    [LEOStyleHelper styleNavigationBarForViewController:self forFeature:FeatureSettings withTitleText:@"Change Password" dismissal:NO backButton:YES];
 }
 
 - (void)updatePasswordTapped {

@@ -193,22 +193,8 @@ static CGFloat const kHeightOfHeaderPHR = 97;
 }
 
 -(void)setupNavigationBar {
-
-    [LEOStyleHelper styleNavigationBar:self.navigationController.navigationBar
-                            forFeature:FeaturePHR];
-
-    [LEOStyleHelper styleBackButtonForViewController:self
-                                          forFeature:FeaturePHR];
-
+    [LEOStyleHelper styleNavigationBarForViewController:self forFeature:FeaturePHR withTitleText:@"" dismissal:NO backButton:YES];
     self.navigationController.navigationBarHidden = NO;
-
-    //FIXME: When we replace the LEOPHRHeaderView with a subclass of LEOGradientView, set this to YES, and update the size of everything to reflect the additional 64 points (or as needed).
-
-    UINavigationBar *navBar = self.navigationController.navigationBar;
-
-    navBar.translucent = NO;
-    navBar.tintColor = [UIColor leo_white];
-    navBar.shadowImage = [UIImage new];
 }
 
 #pragma mark - Accessors

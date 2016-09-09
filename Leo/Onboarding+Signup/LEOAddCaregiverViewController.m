@@ -49,7 +49,6 @@ static NSString * const kCopyHeaderAddCaregiver = @"Add another parent or caregi
     self.stickyHeaderView.datasource = self;
     self.stickyHeaderView.delegate = self;
 
-    [LEOStyleHelper styleSettingsViewController:self];
     [LEOApiReachability startMonitoringForController:self];
 }
 

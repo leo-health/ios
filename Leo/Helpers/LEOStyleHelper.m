@@ -49,20 +49,10 @@
     }
 }
 
-+ (void)styleSettingsViewController:(UIViewController *)viewController {
-
-    viewController.view.tintColor = [self tintColorForFeature:FeatureSettings];
-
-    [self styleNavigationBarForFeature:FeatureSettings];
-    [self styleBackButtonForViewController:viewController forFeature:FeatureSettings];
-}
-
 + (void)styleNavigationBar:(UINavigationBar*)navigationBar forFeature:(Feature)feature {
 
     navigationBar.backItem.hidesBackButton = YES;
     [navigationBar setBackgroundImage:[UIImage leo_imageWithColor:[self backgroundColorForFeature:feature]] forBarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
-
-    //[navigationBar setBackgroundImage:[UIImage leo_imageWithColor:[self backgroundColorForFeature:feature]] forBarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
 
     BOOL translucent = NO;
     if (feature == FeatureAppointmentScheduling) {
@@ -71,22 +61,6 @@
     navigationBar.translucent = translucent;
 
     [navigationBar setShadowImage:[UIImage new]];
-}
-
-+ (void)styleNavigationBarForFeature:(Feature)feature {
-
-    [UINavigationBar appearance].backItem.hidesBackButton = YES;
-
-    [[UINavigationBar appearance] setBackgroundImage:[UIImage leo_imageWithColor:[self backgroundColorForFeature:feature]] forBarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
-
-
-    BOOL translucent = NO;
-    if (feature == FeatureAppointmentScheduling) {
-        translucent = YES;
-    }
-    [UINavigationBar appearance].translucent = translucent;
-
-    [[UINavigationBar appearance] setShadowImage:[UIImage new]];
 }
 
 + (void)styleLabel:(UILabel *)label forFeature:(Feature)feature {

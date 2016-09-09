@@ -117,9 +117,6 @@ static NSString *const kReviewPaymentDetails = @"ReviewPaymentSegue";
 
 - (void)setupNavigationBar {
     [LEOStyleHelper styleNavigationBarForViewController:self forFeature:self.feature withTitleText:@"Confirm Your Data" dismissal:NO backButton:NO];
-
-    [LEOStyleHelper styleNavigationBar:self.navigationController.navigationBar forFeature:FeatureOnboarding];
-    self.navigationItem.hidesBackButton = YES;
 }
 
 
