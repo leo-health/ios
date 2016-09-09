@@ -89,14 +89,10 @@ static NSString * const kCopyHeaderSignUpUser = @"Tell us a little about yoursel
 }
 
 - (void)setupNavigationBar {
-
-    self.view.tintColor = [LEOStyleHelper tintColorForFeature:FeatureOnboarding];
     [LEOStyleHelper styleNavigationBarForViewController:self forFeature:FeatureOnboarding withTitleText:@"About Me" dismissal:NO backButton:YES];
-    [LEOStyleHelper styleBackButtonForViewController:self forFeature:FeatureOnboarding];
 }
 
 - (void)setupButton {
-
     [self.signUpUserView.continueButton addTarget:self action:@selector(continueTapped:) forControlEvents:UIControlEventTouchUpInside];
 }
 

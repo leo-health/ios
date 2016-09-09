@@ -12,40 +12,86 @@
 
 @interface LEOStyleHelper : NSObject
 
-#pragma mark - Depricated
-// TODO: remove this method when possible
-+ (void)styleNavigationBarForFeature:(Feature)feature __attribute__((deprecated));
-
 #pragma mark - Onboarding & Login
 
-+ (void)styleSettingsViewController:(UIViewController *)viewController;
-+ (void)styleNavigationBar:(UINavigationBar*)navigationBar forFeature:(Feature)feature;
-+ (void)styleLabel:(UILabel *)label forFeature:(Feature)feature;
-+ (void)stylePromptTextView:(LEOPromptTextView *)promptTextView forFeature:(Feature)feature;
-+ (void)styleBackButtonForViewController:(UIViewController *)viewController forFeature:(Feature)feature;
-+ (void)styleSubmissionButton:(UIButton *)button forFeature:(Feature)feature;
-+ (void)styleButton:(UIButton *)button forFeature:(Feature)feature;
-+ (UIColor *)tintColorForFeature:(Feature)feature;
-+ (UIColor *)headerIconColorForFeature:(Feature)feature;
-+ (UIColor *)backgroundColorForFeature:(Feature)feature;
-+ (void)styleNavigationBarShadowLineForViewController:(UIViewController *)viewController feature:(Feature)feature;
++ (void)styleLabel:(UILabel *)label
+        forFeature:(Feature)feature;
+
++ (void)stylePromptTextView:(LEOPromptTextView *)promptTextView
+                 forFeature:(Feature)feature;
+
+
++ (void)styleSubmissionButton:(UIButton *)button
+                   forFeature:(Feature)feature;
+
++ (void)styleButton:(UIButton *)button
+         forFeature:(Feature)feature;
+
++ (void)styleNavigationBarShadowLineForViewController:(UIViewController *)viewController
+                                              feature:(Feature)feature;
 + (void)removeNavigationBarShadowLineForViewController:(UIViewController *)viewController;
-+ (void)styleDismissButtonForViewController:(UIViewController *)viewController feature:(Feature)feature;
++ (void)styleDismissButtonForViewController:(UIViewController *)viewController
+                                    feature:(Feature)feature;
 
-+ (void)styleNavigationBarForViewController:(UIViewController *)viewController forFeature:(Feature)feature withTitleText:(NSString *)titleText dismissal:(BOOL)dismissAvailable backButton:(BOOL)backAvailable;
-+ (void)styleNavigationBarForViewController:(UIViewController *)viewController forFeature:(Feature)feature withTitleText:(NSString *)titleText dismissal:(BOOL)dismissAvailable backButton:(BOOL)backAvailable shadow:(BOOL)shadow;
++ (void)styleNavigationBarForViewController:(UIViewController *)viewController
+                                 forFeature:(Feature)feature
+                              withTitleText:(NSString *)titleText
+                                  dismissal:(BOOL)dismissAvailable
+                                 backButton:(BOOL)backAvailable;
 
-+ (void)styleViewController:(UIViewController *)viewController navigationTitleText:(NSString *)titleText forFeature:(Feature)feature;
++ (void)styleNavigationBarForViewController:(UIViewController *)viewController
+                                 forFeature:(Feature)feature
+                              withTitleText:(NSString *)titleText
+                                  dismissal:(BOOL)dismissAvailable
+                                 backButton:(BOOL)backAvailable
+                                     shadow:(BOOL)shadow;
 
-+ (void)roundCornersForView:(UIView*)view withCornerRadius:(CGFloat)radius;
++ (void)roundCornersForView:(UIView*)view
+           withCornerRadius:(CGFloat)radius;
 
-+ (void)styleExpandedTitleLabel:(UILabel *)label feature:(Feature)feature;
++ (void)styleExpandedTitleLabel:(UILabel *)label
+                        feature:(Feature)feature;
 
 + (UIColor *)gradientStartColorForFeature:(Feature)feature;
 + (UIColor *)gradientEndColorForFeature:(Feature)feature;
 
 + (void)imagePickerController:(UINavigationController *)navigationController
        willShowViewController:(UIViewController *)viewController
-                   forFeature:(Feature)feature forImagePickerWithDismissTarget:(id)target action:(SEL)action;
+                   forFeature:(Feature)feature
+forImagePickerWithDismissTarget:(id)target
+                       action:(SEL)action;
+
++ (void)styleNavigationBarShadowLineForViewController:(UIViewController *)viewController
+                                              feature:(Feature)feature
+                                               shadow:(BOOL)shadow;
+
+
+
+/**
+ *  Will style a navigation bar based on a feature
+ *
+ *  @param navigationBar A user initialized navigation bar, not the UINavigationController's navigation bar unless other methods will not suffice.
+ *  @param feature       See enum for details
+ */
++ (void)styleNavigationBar:(UINavigationBar*)navigationBar
+                forFeature:(Feature)feature;
+
+
+/**
+ *  Will style a navigation bar back button based on a feature. Do not use if a higher level function will suffice.
+ *
+ *  @param navigationBar A user initialized navigation bar, not the UINavigationController's navigation bar unless other methods will not suffice.
+ *  @param feature       See enum for details
+ */
+
++ (void)styleBackButtonForViewController:(UIViewController *)viewController
+                              forFeature:(Feature)feature;
+
+
+//TODO: These should probably be in their own class somewhere that defines color and font expectations
++ (UIColor *)tintColorForFeature:(Feature)feature;
++ (UIColor *)headerIconColorForFeature:(Feature)feature;
++ (UIColor *)backgroundColorForFeature:(Feature)feature;
+
 
 @end

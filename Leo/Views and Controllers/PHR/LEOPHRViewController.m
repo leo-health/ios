@@ -26,6 +26,10 @@
 #import "LEOAlertHelper.h"
 #import "LEORecordEditNotesViewController.h"
 #import "LEOAnalytic.h"
+#import "LEOWebViewController.h"
+#import "Configuration.h"
+#import "LEOCredentialStore.h"
+#import "NSDate+Extensions.h"
 
 static CGFloat const kHeightOfHeaderPHR = 97;
 
@@ -42,6 +46,7 @@ static CGFloat const kHeightOfHeaderPHR = 97;
 
 @property (strong, nonatomic) LEOAnalyticSessionManager *analyticSessionManager;
 
+@property (strong, nonatomic) MBProgressHUD *hud;
 
 @end
 
@@ -105,8 +110,11 @@ static CGFloat const kHeightOfHeaderPHR = 97;
     if (!self.healthRecords) {
 
         // only show one HUD at a time
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [MBProgressHUD hideHUDForView:self.view
+                             animated:YES];
+
+        [MBProgressHUD showHUDAddedTo:self.view
+                             animated:YES];
 
         __block BOOL readyToHideHUD = NO;
 
@@ -185,21 +193,8 @@ static CGFloat const kHeightOfHeaderPHR = 97;
 }
 
 -(void)setupNavigationBar {
-
-    [LEOStyleHelper styleBackButtonForViewController:self
-                                          forFeature:FeatureSettings];
-
-
+    [LEOStyleHelper styleNavigationBarForViewController:self forFeature:FeaturePHR withTitleText:@"" dismissal:NO backButton:YES];
     self.navigationController.navigationBarHidden = NO;
-
-    //FIXME: When we replace the LEOPHRHeaderView with a subclass of LEOGradientView, set this to YES, and update the size of everything to reflect the additional 64 points (or as needed).
-
-    UINavigationBar *navBar = self.navigationController.navigationBar;
-
-    navBar.translucent = NO;
-    navBar.backgroundColor = [UIColor clearColor];
-    navBar.tintColor = [UIColor leo_white];
-    navBar.shadowImage = [UIImage new];
 }
 
 #pragma mark - Accessors
@@ -252,9 +247,96 @@ static CGFloat const kHeightOfHeaderPHR = 97;
 
             [strongSelf presentEditNotesViewControllerWithNote:note];
         };
-    }
 
+        _bodyView.loadShareableImmunizationsPDFBlock = ^(void) {
+
+            __strong typeof(self) strongSelf = weakSelf;
+
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Heads Up!" message:@"You are about to export a copy of your child's immunization record. For the sake of your child's privacy, we recommend sharing this document with only those who need it." preferredStyle:UIAlertControllerStyleAlert];
+
+            UIAlertAction *continueAction = [UIAlertAction actionWithTitle:@"Continue" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                [strongSelf shareImmunizationsPDF];
+            }];
+
+            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
+
+            [alertController addAction:continueAction];
+            [alertController addAction:cancelAction];
+
+            [strongSelf presentViewController:alertController animated:YES completion:nil];
+        };
+    }
+    
     return _bodyView;
+}
+
+- (void)shareImmunizationsPDF {
+
+    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.hud.mode = MBProgressHUDModeDeterminateHorizontalBar;
+    self.hud.label.text = @"Creating PDF...";
+
+    __block NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:0.8
+                                                              target:self
+                                                            selector:@selector(upProgress)
+                                                            userInfo:nil
+                                                             repeats:YES];
+
+    __block CGFloat startingDownloadProgressPoint;
+    __block CGFloat remainderDownloadProgress;
+
+    Patient *patient = self.patients[[self selectedPatientIndex]];
+
+    [[LEOHealthRecordService new] getShareableImmunizationsPDFForPatient:patient progress:^(NSProgress *progress) {
+
+        [timer invalidate];
+        timer = nil;
+
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+
+            if (!startingDownloadProgressPoint) {
+                startingDownloadProgressPoint = self.hud.progress;
+                remainderDownloadProgress = 1 - startingDownloadProgressPoint;
+            }
+
+            self.hud.progress = (progress.fractionCompleted * remainderDownloadProgress) + startingDownloadProgressPoint;
+        });
+
+    } withCompletion:^(NSData *shareableData, NSError *error) {
+
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        self.hud = nil;
+
+        if (error) {
+
+            [LEOAlertHelper alertForViewController:self
+                                             error:error
+                                       backupTitle:kErrorDefaultTitle
+                                     backupMessage:kErrorDefaultMessage];
+            return;
+        }
+
+
+        NSString *dateOfPDFCreation =
+        [NSDate leo_stringifiedDate:[NSDate date] withFormat:@"MMM-dd-yyyy"];
+
+        NSString *subject = [NSString stringWithFormat:@"%@'s immunization record", patient.firstAndLastName];
+        NSString *body = @"Please find attached a copy of my child's immunization record.";
+        NSString *MIMEType = @"Application/PDF";
+        NSString *attachmentName =
+        [NSString stringWithFormat:@"%@_%@_Immunization_History_as_of_%@", patient.firstName, patient.lastName, dateOfPDFCreation];
+
+        [self presentWebViewOfShareableImmunizationsPDFWithData:shareableData
+                                                         shareSubject:subject
+                                                            shareBody:body
+                                                  shareAttachmentName:attachmentName
+                                                        shareMIMEType:MIMEType];
+    }];
+}
+
+- (void)upProgress {
+    self.hud.progress += 0.1;
 }
 
 #pragma mark - Sticky Header View DataSource
@@ -268,11 +350,32 @@ static CGFloat const kHeightOfHeaderPHR = 97;
 }
 
 - (void)pop {
-
     [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - Actions
+
+- (void)presentWebViewOfShareableImmunizationsPDFWithData:(NSData *)data
+                                             shareSubject:(NSString *)subject
+                                                shareBody:(NSString *)body
+                                      shareAttachmentName:(NSString *)attachmentName
+                                            shareMIMEType:(NSString *)MIMEType {
+
+    LEOWebViewController *webViewController = [LEOWebViewController new];
+
+    webViewController.titleString = @"Attachment Preview";
+    webViewController.feature = FeatureSettings;
+    webViewController.shareData = data;
+    webViewController.shareSubject = subject;
+    webViewController.shareBody = body;
+    webViewController.shareAttachmentName = attachmentName;
+    webViewController.shareMIMEType = MIMEType;
+
+    UINavigationController *navController =
+    [[UINavigationController alloc] initWithRootViewController:webViewController];
+
+    [self presentViewController:navController animated:YES completion:nil];
+}
 
 - (void)presentEditNotesViewControllerWithNote:(PatientNote*)note {
 
@@ -318,5 +421,7 @@ static CGFloat const kHeightOfHeaderPHR = 97;
     [notesForPatient addObject:updatedNote];
     [self.analyticSessionManager stopMonitoring];
 }
+
+
 
 @end

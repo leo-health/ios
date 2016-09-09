@@ -77,6 +77,7 @@
 		3138FC511B9A1A9B000FE22C /* LEOAPIInsuranceOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3138FC501B9A1A9B000FE22C /* LEOAPIInsuranceOperation.m */; };
 		3138FC541B9A1AF1000FE22C /* LEOValidationsHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3138FC531B9A1AF1000FE22C /* LEOValidationsHelper.m */; };
 		3138FC571B9A1B7D000FE22C /* LEOSignUpUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3138FC561B9A1B7D000FE22C /* LEOSignUpUserViewController.m */; };
+		313995D71D7769D500870155 /* LEOHTTPSerializedSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 313995D61D7769D500870155 /* LEOHTTPSerializedSessionManager.m */; };
 		313ECC2A1CA5BE340059C434 /* LEOBreadcrumb.m in Sources */ = {isa = PBXBuildFile; fileRef = 313ECC291CA5BE340059C434 /* LEOBreadcrumb.m */; };
 		313FA71B1C036E22008189B9 /* LEOAppointmentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 313FA71A1C036E22008189B9 /* LEOAppointmentView.m */; };
 		313FA71E1C036E7F008189B9 /* UIView+XibAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 313FA71D1C036E7F008189B9 /* UIView+XibAdditions.m */; };
@@ -468,6 +469,8 @@
 		3138FC551B9A1B7D000FE22C /* LEOSignUpUserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOSignUpUserViewController.h; path = "Onboarding+Signup/LEOSignUpUserViewController.h"; sourceTree = "<group>"; };
 		3138FC561B9A1B7D000FE22C /* LEOSignUpUserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOSignUpUserViewController.m; path = "Onboarding+Signup/LEOSignUpUserViewController.m"; sourceTree = "<group>"; };
 		3138FC5B1B9F87E5000FE22C /* LEOExpandedCardViewProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOExpandedCardViewProtocol.h; sourceTree = "<group>"; };
+		313995D51D7769D500870155 /* LEOHTTPSerializedSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOHTTPSerializedSessionManager.h; path = APIs/LEOHTTPSerializedSessionManager.h; sourceTree = "<group>"; };
+		313995D61D7769D500870155 /* LEOHTTPSerializedSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOHTTPSerializedSessionManager.m; path = APIs/LEOHTTPSerializedSessionManager.m; sourceTree = "<group>"; };
 		313ECC281CA5BE340059C434 /* LEOBreadcrumb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOBreadcrumb.h; path = Helpers/LEOBreadcrumb.h; sourceTree = "<group>"; };
 		313ECC291CA5BE340059C434 /* LEOBreadcrumb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOBreadcrumb.m; path = Helpers/LEOBreadcrumb.m; sourceTree = "<group>"; };
 		313FA7191C036E22008189B9 /* LEOAppointmentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOAppointmentView.h; path = "Views and Controllers/Appointment Flow/LEOAppointmentView.h"; sourceTree = "<group>"; };
@@ -1778,6 +1781,8 @@
 		BCA69A371B02AE5500C27B2B /* API */ = {
 			isa = PBXGroup;
 			children = (
+				313995D51D7769D500870155 /* LEOHTTPSerializedSessionManager.h */,
+				313995D61D7769D500870155 /* LEOHTTPSerializedSessionManager.m */,
 				31B5098B1C7E4F8C00CE33D4 /* LEOS3JSONSessionManager.h */,
 				31B5098C1C7E4F8C00CE33D4 /* LEOS3JSONSessionManager.m */,
 				31CC12EB1BB062E90099AB60 /* LEOS3ImageSessionManager.h */,
@@ -2366,6 +2371,7 @@
 				312418851BC0638200E18176 /* LEOLoginView.m in Sources */,
 				31F5AA6C1B791B4A00F96D06 /* LEOBasicSelectionViewController.m in Sources */,
 				310740741B545EFD0098FD40 /* LEOCardConversation.m in Sources */,
+				313995D71D7769D500870155 /* LEOHTTPSerializedSessionManager.m in Sources */,
 				661451AD1D3E9966006AA480 /* Message+Analytics.m in Sources */,
 				31FDDE5C1B29CF8C0009BBC2 /* LEOFeedCell.m in Sources */,
 				31F5AA671B791B4A00F96D06 /* LEOAPIFamilyOperation.m in Sources */,

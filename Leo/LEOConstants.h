@@ -146,6 +146,7 @@ typedef NS_ENUM(NSUInteger, Feature) {
     FeatureAppointmentScheduling = 3,
     FeatureMessaging = 4,
     FeaturePayment = 5,
+    FeaturePHR = 6,
 };
 
 typedef NS_ENUM(NSUInteger, MembershipType) {

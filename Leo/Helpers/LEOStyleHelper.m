@@ -21,7 +21,7 @@
 //TODO: Remove this method and replace it's use across the app with the method that includes shadow. This is effectively deprecated.
 + (void)styleNavigationBarForViewController:(UIViewController *)viewController forFeature:(Feature)feature withTitleText:(NSString *)titleText dismissal:(BOOL)dismissAvailable backButton:(BOOL)backAvailable {
 
-    [self styleNavigationBarForFeature:feature];
+    [self styleNavigationBar:viewController.navigationController.navigationBar forFeature:feature];
     [self styleNavigationBarShadowLineForViewController:viewController feature:feature shadow:NO];
     [self styleViewController:viewController navigationTitleText:titleText forFeature:feature];
 
@@ -36,7 +36,7 @@
 
 + (void)styleNavigationBarForViewController:(UIViewController *)viewController forFeature:(Feature)feature withTitleText:(NSString *)titleText dismissal:(BOOL)dismissAvailable backButton:(BOOL)backAvailable shadow:(BOOL)shadow {
 
-    [self styleNavigationBarForFeature:feature];
+    [self styleNavigationBar:viewController.navigationController.navigationBar forFeature:feature];
     [self styleNavigationBarShadowLineForViewController:viewController feature:feature shadow:shadow];
     [self styleViewController:viewController navigationTitleText:titleText forFeature:feature];
 
@@ -49,18 +49,9 @@
     }
 }
 
-+ (void)styleSettingsViewController:(UIViewController *)viewController {
-
-    viewController.view.tintColor = [self tintColorForFeature:FeatureSettings];
-
-    [self styleNavigationBarForFeature:FeatureSettings];
-    [self styleBackButtonForViewController:viewController forFeature:FeatureSettings];
-}
-
 + (void)styleNavigationBar:(UINavigationBar*)navigationBar forFeature:(Feature)feature {
 
     navigationBar.backItem.hidesBackButton = YES;
-
     [navigationBar setBackgroundImage:[UIImage leo_imageWithColor:[self backgroundColorForFeature:feature]] forBarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
 
     BOOL translucent = NO;
@@ -70,22 +61,6 @@
     navigationBar.translucent = translucent;
 
     [navigationBar setShadowImage:[UIImage new]];
-}
-
-+ (void)styleNavigationBarForFeature:(Feature)feature {
-
-    [UINavigationBar appearance].backItem.hidesBackButton = YES;
-
-    [[UINavigationBar appearance] setBackgroundImage:[UIImage leo_imageWithColor:[self backgroundColorForFeature:feature]] forBarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
-
-
-    BOOL translucent = NO;
-    if (feature == FeatureAppointmentScheduling) {
-        translucent = YES;
-    }
-    [UINavigationBar appearance].translucent = translucent;
-
-    [[UINavigationBar appearance] setShadowImage:[UIImage new]];
 }
 
 + (void)styleLabel:(UILabel *)label forFeature:(Feature)feature {
@@ -242,6 +217,9 @@
         case FeaturePayment:
             return [UIColor leo_orangeRed];
 
+        case FeaturePHR:
+            return [UIColor leo_orangeRed];
+
         case FeatureUndefined:
             return [UIColor blackColor];
     }
@@ -264,6 +242,9 @@
 
         case FeaturePayment:
             return [UIColor leo_orangeRed];
+
+        case FeaturePHR:
+            return [UIColor leo_white];
 
         case FeatureUndefined:
             return [UIColor blackColor];
@@ -289,6 +270,9 @@
         case FeaturePayment:
             return [UIColor leo_white];
 
+        case FeaturePHR:
+            return [UIColor leo_orangeRed];
+
         case FeatureUndefined:
             return [UIColor blackColor];
     }
@@ -311,6 +295,9 @@
 
         case FeaturePayment:
             return [UIColor leo_gray74];
+
+        case FeaturePHR:
+            return [UIColor leo_white];
 
         case FeatureUndefined:
             return [UIColor blackColor];
@@ -335,6 +322,9 @@
         case FeaturePayment:
             return [UIColor blackColor];
 
+        case FeaturePHR:
+            return [UIColor blackColor];
+
         case FeatureUndefined:
             return [UIColor blackColor];
     }
@@ -356,6 +346,9 @@
             return [UIColor blackColor];
 
         case FeaturePayment:
+            return [UIColor blackColor];
+
+        case FeaturePHR:
             return [UIColor blackColor];
 
         case FeatureUndefined:

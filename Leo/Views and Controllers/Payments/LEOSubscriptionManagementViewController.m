@@ -218,18 +218,7 @@ NSString *const kContactUsDetailForExemptedMembers = @"As a pre-existing custome
 }
 
 - (void)setupNavigationBar {
-
-    [LEOStyleHelper styleNavigationBar:self.navigationController.navigationBar
-                            forFeature:FeatureSettings];
-    [LEOStyleHelper styleBackButtonForViewController:self
-                                          forFeature:FeatureSettings];
-
-    UILabel *navigationLabel = [UILabel new];
-    navigationLabel.text = @"Manage Membership";
-    
-    [LEOStyleHelper styleLabel:navigationLabel forFeature:FeatureSettings];
-    
-    self.navigationItem.titleView = navigationLabel;
+    [LEOStyleHelper styleNavigationBarForViewController:self forFeature:FeatureSettings withTitleText:@"Manage Membership" dismissal:NO backButton:YES];
 }
 
 - (void)respondToPrompt:(id)sender {

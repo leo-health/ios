@@ -13,6 +13,7 @@
 #import "HealthRecord.h"
 #import "Patient.h"
 #import "PatientNote.h"
+#import "LEOHTTPSerializedSessionManager.h"
 
 @implementation LEOHealthRecordService
 
@@ -35,6 +36,22 @@
         }
     }];
     
+    return task;
+}
+
+- (NSURLSessionTask *)getShareableImmunizationsPDFForPatient:(Patient *)patient progress:(void (^)(NSProgress *progress))progressBlock withCompletion:(void (^)(NSData *, NSError *))completionBlock {
+
+    NSString *endpoint = [NSString stringWithFormat:@"%@/%@/%@", APIEndpointPatients, patient.objectID, APIEndpointImmunizations];
+
+    NSDictionary *params = @{@"response_type" : @"pdf"};
+
+    NSURLSessionTask *task = [[LEOHTTPSerializedSessionManager sharedClient] standardGETRequestForJSONDictionaryFromAPIWithEndpoint:endpoint params:params progressBlock:progressBlock completion:^(NSData *binaryData, NSError *error) {
+
+        if (completionBlock) {
+            completionBlock(binaryData, error);
+        }
+    }];
+
     return task;
 }
 

@@ -1,25 +1,19 @@
 PODS:
   - ActionSheetPicker-3.0 (2.0.3)
-  - AFNetworking (2.6.1):
-    - AFNetworking/NSURLConnection (= 2.6.1)
-    - AFNetworking/NSURLSession (= 2.6.1)
-    - AFNetworking/Reachability (= 2.6.1)
-    - AFNetworking/Security (= 2.6.1)
-    - AFNetworking/Serialization (= 2.6.1)
-    - AFNetworking/UIKit (= 2.6.1)
-  - AFNetworking/NSURLConnection (2.6.1):
+  - AFNetworking (3.1.0):
+    - AFNetworking/NSURLSession (= 3.1.0)
+    - AFNetworking/Reachability (= 3.1.0)
+    - AFNetworking/Security (= 3.1.0)
+    - AFNetworking/Serialization (= 3.1.0)
+    - AFNetworking/UIKit (= 3.1.0)
+  - AFNetworking/NSURLSession (3.1.0):
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
-  - AFNetworking/NSURLSession (2.6.1):
-    - AFNetworking/Reachability
-    - AFNetworking/Security
-    - AFNetworking/Serialization
-  - AFNetworking/Reachability (2.6.1)
-  - AFNetworking/Security (2.6.1)
-  - AFNetworking/Serialization (2.6.1)
-  - AFNetworking/UIKit (2.6.1):
-    - AFNetworking/NSURLConnection
+  - AFNetworking/Reachability (3.1.0)
+  - AFNetworking/Security (3.1.0)
+  - AFNetworking/Serialization (3.1.0)
+  - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
   - Crashlytics (3.7.0):
     - Fabric (~> 1.6.3)
@@ -36,7 +30,7 @@ PODS:
   - libPusher/Core (1.6.1):
     - SocketRocket (= 0.4.1)
   - Localytics (3.8.0)
-  - MBProgressHUD (0.9.1)
+  - MBProgressHUD (1.0.0)
   - OHHTTPStubs (4.3.0):
     - OHHTTPStubs/Default (= 4.3.0)
   - OHHTTPStubs/Core (4.3.0)
@@ -93,7 +87,7 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   ActionSheetPicker-3.0: 11f2053085d3088dc1ef9d38a9f11c18b528dd9e
-  AFNetworking: 8e4e60500beb8bec644cf575beee72990a76d399
+  AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   Crashlytics: c3a2333dea9e2733d2777f730910321fc9e25c0d
   CrittercismSDK: 74d8e8ce05b79a89dd6d35110b57960490182862
   CWStatusBarNotification: 3fec41edcb0ae3677d9febfcb9632d8bdf52294c
@@ -104,7 +98,7 @@ SPEC CHECKSUMS:
   JSQSystemSoundPlayer: c5850e77a4363ffd374cd851154b9af93264ed8d
   libPusher: 5ea58aeb83fa4ac1f5d8ef8543b1def6ace997b8
   Localytics: 8fd8455e92c5d5d507d1302e704e7db5ca2a33bf
-  MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
+  MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   OHHTTPStubs: 0aec5755528693a165bd616cb79f69387de306a8
   RSKImageCropper: 28632b527aac06bb2c289c71c5c800c1b81326ed
   SocketRocket: ee0b5c34182d37bb4f1f8d628bbe737718126daa

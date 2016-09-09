@@ -214,7 +214,8 @@ static CGFloat const kFeedInsetTop = 20.0;
 
     [self.navigationController setNavigationBarHidden:YES animated:YES];
 
-    [LEOStyleHelper styleNavigationBarForFeature:FeatureSettings];
+    [LEOStyleHelper styleNavigationBar:self.navigationBar forFeature:FeatureSettings];
+    [LEOStyleHelper styleNavigationBarShadowLineForViewController:self feature:FeatureSettings shadow:NO];
 
     self.navigationBar.barTintColor = [UIColor leo_orangeRed];
     self.navigationBar.translucent = NO;
