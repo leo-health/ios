@@ -8,7 +8,6 @@
 
 @import WebKit;
 
-
 #import "LEOWebViewController.h"
 #import "LEOStyleHelper.h"
 #import <MBProgressHUD/MBProgressHUD.h>
@@ -18,7 +17,6 @@
 @interface LEOWebViewController () <UIWebViewDelegate>
 
 @property (weak, nonatomic) UIWebView *webView;
-@property (nonatomic) BOOL alreadyUpdatedConstraints;
 
 @end
 
@@ -97,17 +95,24 @@
 }
 
 - (void)finishLoading {
-    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    [MBProgressHUD hideAllHUDsForView:self.view
+                             animated:YES];
 }
 
 - (void)setupNavigationBar {
 
     if ([self isModal]) {
-
-        [LEOStyleHelper styleNavigationBarForViewController:self forFeature:self.feature withTitleText:@"Share Preview" dismissal:YES backButton:NO];
+        [LEOStyleHelper styleNavigationBarForViewController:self
+                                                 forFeature:self.feature
+                                              withTitleText:@"Share Preview"
+                                                  dismissal:YES
+                                                 backButton:NO];
     } else {
-
-        [LEOStyleHelper styleNavigationBarForViewController:self forFeature:self.feature withTitleText:@"Share Preview" dismissal:NO backButton:YES];
+        [LEOStyleHelper styleNavigationBarForViewController:self
+                                                 forFeature:self.feature
+                                              withTitleText:@"Share Preview"
+                                                  dismissal:NO
+                                                 backButton:YES];
     }
 
     UILabel *navigationLabel = [UILabel new];
@@ -134,22 +139,22 @@
     [self presentViewController:mailVC
                        animated:YES
                      completion:nil];
+
+//    [LEOStyleHelper styleNavigationBarForViewController:mailVC forFeature:FeatureUndefined withTitleText:nil dismissal:NO backButton:NO];
+
 }
 
 -(void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error {
 
-    [[[self presentingViewController] presentingViewController] dismissViewControllerAnimated:YES completion:nil];
-    [[self presentingViewController] dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (MFMailComposeViewController *)configureMailComposeViewController {
 
-    [[UINavigationBar appearance] setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
-
     MFMailComposeViewController *mailVC = [MFMailComposeViewController new];
 
     mailVC.mailComposeDelegate = self;
-    [mailVC addAttachmentData:self.shareData mimeType:@"application/pdf" fileName:self.shareAttachmentName];
+    [mailVC addAttachmentData:self.shareData mimeType:self.shareMIMEType fileName:self.shareAttachmentName];
     [mailVC setSubject:self.shareSubject];
     [mailVC setMessageBody:self.shareBody isHTML:NO];
 
@@ -159,14 +164,18 @@
 
 //Source: http://stackoverflow.com/questions/23620276/check-if-view-controller-is-presented-modally-or-pushed-on-a-navigation-stack
 - (BOOL)isModal {
-    if([self presentingViewController])
+
+    if([self presentingViewController]) {
         return YES;
-    if([[self presentingViewController] presentedViewController] == self)
+    }
+
+    if([[[self navigationController] presentingViewController] presentedViewController] == [self navigationController]) {
         return YES;
-    if([[[self navigationController] presentingViewController] presentedViewController] == [self navigationController])
+    }
+
+    if([[[self tabBarController] presentingViewController] isKindOfClass:[UITabBarController class]]) {
         return YES;
-    if([[[self tabBarController] presentingViewController] isKindOfClass:[UITabBarController class]])
-        return YES;
+    }
 
     return NO;
 }

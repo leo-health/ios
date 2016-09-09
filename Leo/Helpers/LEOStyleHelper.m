@@ -21,7 +21,7 @@
 //TODO: Remove this method and replace it's use across the app with the method that includes shadow. This is effectively deprecated.
 + (void)styleNavigationBarForViewController:(UIViewController *)viewController forFeature:(Feature)feature withTitleText:(NSString *)titleText dismissal:(BOOL)dismissAvailable backButton:(BOOL)backAvailable {
 
-    [self styleNavigationBarForFeature:feature];
+    [self styleNavigationBar:viewController.navigationController.navigationBar forFeature:feature];
     [self styleNavigationBarShadowLineForViewController:viewController feature:feature shadow:NO];
     [self styleViewController:viewController navigationTitleText:titleText forFeature:feature];
 
@@ -36,7 +36,7 @@
 
 + (void)styleNavigationBarForViewController:(UIViewController *)viewController forFeature:(Feature)feature withTitleText:(NSString *)titleText dismissal:(BOOL)dismissAvailable backButton:(BOOL)backAvailable shadow:(BOOL)shadow {
 
-    [self styleNavigationBarForFeature:feature];
+    [self styleNavigationBar:viewController.navigationController.navigationBar forFeature:feature];
     [self styleNavigationBarShadowLineForViewController:viewController feature:feature shadow:shadow];
     [self styleViewController:viewController navigationTitleText:titleText forFeature:feature];
 
@@ -60,8 +60,9 @@
 + (void)styleNavigationBar:(UINavigationBar*)navigationBar forFeature:(Feature)feature {
 
     navigationBar.backItem.hidesBackButton = YES;
-
     [navigationBar setBackgroundImage:[UIImage leo_imageWithColor:[self backgroundColorForFeature:feature]] forBarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
+
+    //[navigationBar setBackgroundImage:[UIImage leo_imageWithColor:[self backgroundColorForFeature:feature]] forBarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
 
     BOOL translucent = NO;
     if (feature == FeatureAppointmentScheduling) {

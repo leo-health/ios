@@ -453,7 +453,7 @@ NS_ENUM(NSInteger, TableViewRow) {
         [_sectionAccessoryButton addTarget:self action:@selector(editNoteTouchedUpInside) forControlEvents:UIControlEventTouchUpInside];
         _sectionAccessoryButton.hidden = NO;
     } else if (section == TableViewSectionImmunizations && self.healthRecord.immunizations.count > 0) {
-        [_sectionAccessoryButton setTitle:@"SHARE" forState:UIControlStateNormal];
+        [_sectionAccessoryButton setTitle:@"EXPORT" forState:UIControlStateNormal];
         [_sectionAccessoryButton addTarget:self action:@selector(previewShareablePDF) forControlEvents:UIControlEventTouchUpInside];
         _sectionAccessoryButton.hidden = NO;
     }
@@ -558,8 +558,9 @@ NS_ENUM(NSInteger, TableViewRow) {
 }
 
 - (void)previewShareablePDF {
-
-    self.loadShareableImmunizationsPDFBlock();
+    if (self.loadShareableImmunizationsPDFBlock) {
+        self.loadShareableImmunizationsPDFBlock();
+    }
 }
 
 @end

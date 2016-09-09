@@ -13,7 +13,6 @@
 NS_ASSUME_NONNULL_BEGIN
 
 typedef void(^EditNoteTouchedUpInsideBlock)(NSArray *notes);
-typedef void(^PreviewShareablePDFTouchedUpInsideBlock)(NSData *shareableDataForPDF);
 
 @interface LEOPHRBodyView : UIView
 

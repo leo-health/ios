@@ -35,8 +35,6 @@
 + (void)styleNavigationBarForViewController:(UIViewController *)viewController forFeature:(Feature)feature withTitleText:(NSString *)titleText dismissal:(BOOL)dismissAvailable backButton:(BOOL)backAvailable;
 + (void)styleNavigationBarForViewController:(UIViewController *)viewController forFeature:(Feature)feature withTitleText:(NSString *)titleText dismissal:(BOOL)dismissAvailable backButton:(BOOL)backAvailable shadow:(BOOL)shadow;
 
-+ (void)styleViewController:(UIViewController *)viewController navigationTitleText:(NSString *)titleText forFeature:(Feature)feature;
-
 + (void)roundCornersForView:(UIView*)view withCornerRadius:(CGFloat)radius;
 
 + (void)styleExpandedTitleLabel:(UILabel *)label feature:(Feature)feature;
@@ -47,5 +45,7 @@
 + (void)imagePickerController:(UINavigationController *)navigationController
        willShowViewController:(UIViewController *)viewController
                    forFeature:(Feature)feature forImagePickerWithDismissTarget:(id)target action:(SEL)action;
+
++ (void)styleNavigationBarShadowLineForViewController:(UIViewController *)viewController feature:(Feature)feature shadow:(BOOL)shadow;
 
 @end

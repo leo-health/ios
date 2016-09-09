@@ -198,7 +198,7 @@ static CGFloat const kHeightOfHeaderPHR = 97;
                             forFeature:FeaturePHR];
 
     [LEOStyleHelper styleBackButtonForViewController:self
-                                          forFeature:FeatureSettings];
+                                          forFeature:FeaturePHR];
 
     self.navigationController.navigationBarHidden = NO;
 
@@ -266,7 +266,7 @@ static CGFloat const kHeightOfHeaderPHR = 97;
 
             __strong typeof(self) strongSelf = weakSelf;
 
-            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Blah blah blah" message:@"You are about to download a copy of your health record. By sharing this information, you agree to take on the risk blah blah blah" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Heads Up!" message:@"You are about to export a copy of your child's immunization record. For the sake of your child's privacy, we recommend sharing this document with only those who need it." preferredStyle:UIAlertControllerStyleAlert];
 
             UIAlertAction *continueAction = [UIAlertAction actionWithTitle:@"Continue" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                 [strongSelf shareImmunizationsPDF];
@@ -296,18 +296,31 @@ static CGFloat const kHeightOfHeaderPHR = 97;
                                                             userInfo:nil
                                                              repeats:YES];
 
-    [[LEOHealthRecordService new] getShareableImmunizationsPDFForPatient:self.patients[[self selectedPatientIndex]] progress:^(NSProgress *progress) {
+    __block CGFloat startingDownloadProgressPoint;
+    __block CGFloat remainderDownloadProgress;
+
+    Patient *patient = self.patients[[self selectedPatientIndex]];
+
+    [[LEOHealthRecordService new] getShareableImmunizationsPDFForPatient:patient progress:^(NSProgress *progress) {
 
         [timer invalidate];
         timer = nil;
 
+
         dispatch_async(dispatch_get_main_queue(), ^{
-            self.hud.progress = progress.fractionCompleted;
+
+            if (!startingDownloadProgressPoint) {
+                startingDownloadProgressPoint = self.hud.progress;
+                remainderDownloadProgress = 1 - startingDownloadProgressPoint;
+            }
+
+            self.hud.progress = (progress.fractionCompleted * remainderDownloadProgress) + startingDownloadProgressPoint;
         });
 
     } withCompletion:^(NSData *shareableData, NSError *error) {
 
         [MBProgressHUD hideHUDForView:self.view animated:YES];
+        self.hud = nil;
 
         if (error) {
 
@@ -318,26 +331,25 @@ static CGFloat const kHeightOfHeaderPHR = 97;
             return;
         }
 
-        Patient *patient = self.patients[[self selectedPatientIndex]];
 
         NSString *dateOfPDFCreation =
         [NSDate leo_stringifiedDate:[NSDate date] withFormat:@"MMM-dd-yyyy"];
 
         NSString *subject = [NSString stringWithFormat:@"%@'s immunization record", patient.firstAndLastName];
         NSString *body = @"Please find attached a copy of my child's immunization record.";
-
+        NSString *MIMEType = @"Application/PDF";
         NSString *attachmentName =
         [NSString stringWithFormat:@"%@_%@_Immunization_History_as_of_%@", patient.firstName, patient.lastName, dateOfPDFCreation];
 
         [self presentWebViewOfShareableImmunizationsPDFWithData:shareableData
                                                          shareSubject:subject
                                                             shareBody:body
-                                                  shareAttachmentName:attachmentName];
+                                                  shareAttachmentName:attachmentName
+                                                        shareMIMEType:MIMEType];
     }];
 }
 
 - (void)upProgress {
-
     self.hud.progress += 0.1;
 }
 
@@ -360,7 +372,8 @@ static CGFloat const kHeightOfHeaderPHR = 97;
 - (void)presentWebViewOfShareableImmunizationsPDFWithData:(NSData *)data
                                              shareSubject:(NSString *)subject
                                                 shareBody:(NSString *)body
-                                      shareAttachmentName:(NSString *)attachmentName {
+                                      shareAttachmentName:(NSString *)attachmentName
+                                            shareMIMEType:(NSString *)MIMEType {
 
     LEOWebViewController *webViewController = [LEOWebViewController new];
 
@@ -370,6 +383,7 @@ static CGFloat const kHeightOfHeaderPHR = 97;
     webViewController.shareSubject = subject;
     webViewController.shareBody = body;
     webViewController.shareAttachmentName = attachmentName;
+    webViewController.shareMIMEType = MIMEType;
 
     UINavigationController *navController =
     [[UINavigationController alloc] initWithRootViewController:webViewController];
@@ -422,11 +436,6 @@ static CGFloat const kHeightOfHeaderPHR = 97;
     [self.analyticSessionManager stopMonitoring];
 }
 
-//-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
-//
-//    if ([keyPath isEqualToString:@"fractionCompleted"]) {
-//        NSProgress *progress = (NSProgress *)object;
-//        NSLog(@"Progress… %f", progress.fractionCompleted);
-//    }
-//}
+
+
 @end

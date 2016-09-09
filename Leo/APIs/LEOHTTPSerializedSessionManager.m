@@ -23,12 +23,12 @@
         NSURL *baseURL = [NSURL URLWithString:[Configuration APIBaseURL]];
 
         _sharedClient = [[LEOHTTPSerializedSessionManager alloc] initWithBaseURL:baseURL
-                                                 sessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+                                                            sessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
 
         _sharedClient.responseSerializer = [AFHTTPResponseSerializer serializer];
 
         AFSecurityPolicy *securityPolicy;
-
+        
 #if defined(LOCAL)
         securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeCertificate];
         securityPolicy.validatesDomainName = NO;

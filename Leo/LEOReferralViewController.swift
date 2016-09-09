@@ -114,8 +114,6 @@ final class LEOReferralViewController :
 
     func configuredMessageComposeViewController() -> MFMessageComposeViewController {
 
-        UINavigationBar.appearance().setBackgroundImage(nil, forBarMetrics: .Default)
-
         let messageComposerVC = MFMessageComposeViewController()
         messageComposerVC.messageComposeDelegate = self
         messageComposerVC.body = messageBody()
@@ -132,8 +130,6 @@ final class LEOReferralViewController :
     // MARK: MFMailComposeViewController
 
     func configuredMailComposeViewController() -> MFMailComposeViewController {
-
-        UINavigationBar.appearance().setBackgroundImage(nil, forBarMetrics: .Default)
 
         let mailComposerVC = MFMailComposeViewController()
         mailComposerVC.mailComposeDelegate = self
@@ -157,16 +153,7 @@ final class LEOReferralViewController :
     }
 
     func setupNavigationBar() {
-
-        navigationController?.navigationBarHidden = false
-        let backgroundImage = UIImage.leo_imageWithColor(UIColor.leo_orangeRed())
-        navigationController?.navigationBar.setBackgroundImage(backgroundImage,
-                                                               forBarMetrics: .Default)
-        LEOStyleHelper.styleBackButtonForViewController(self,
-                                                        forFeature: .Settings)
-        LEOStyleHelper.styleViewController(self,
-                                           navigationTitleText: "Refer a friend",
-                                           forFeature: .Settings)
+        LEOStyleHelper.styleNavigationBarForViewController(self, forFeature: .Settings, withTitleText: "Refer a friend", dismissal: false, backButton: true);
     }
 }
 
