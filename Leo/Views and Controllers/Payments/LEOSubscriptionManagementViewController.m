@@ -30,9 +30,9 @@
 NSString *const kCopyContactUsTitle = @"Contact Us";
 NSString *const kCopyManagePaymentTitle = @"Manage Payment";
 
-NSString *const kContactUsDetailForPaidMembers = @"Please contact us to make changes to your account or cancel your membership\n\nPlease email\nsupport@leohealth.com\n\nLive support available at leohealth.com\npowered by intercom";
+NSString *const kContactUsDetailForPaidMembers = @"Please contact us to make changes to your account or cancel your membership\n\nPlease email\nsupport@leohealth.com\n\nLive support available at leohealth.com.";
 
-NSString *const kContactUsDetailForExemptedMembers = @"As a pre-existing customer of Flatiron Pediatrics, your membership fee has been waived. However, if you have any questions or concerns about your account or to cancel your membership, please email us at:\n\nsupport@leohealth.com\n\nLive support available at leohealth.com\npowered by intercom";
+NSString *const kContactUsDetailForExemptedMembers = @"As a pre-existing customer of Flatiron Pediatrics, your membership fee has been waived. However, if you have any questions or concerns about your account or to cancel your membership, please email us at:\n\nsupport@leohealth.com\n\nLive support available at leohealth.com.";
 
 - (void)viewDidLoad {
 
