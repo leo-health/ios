@@ -14,5 +14,6 @@
 @property (strong, nonatomic) TKChart *chart;
 @property (strong, nonatomic) NSLayoutConstraint *lineXPositionConstraint;
 
+- (void)reloadLine;
 
 @end
