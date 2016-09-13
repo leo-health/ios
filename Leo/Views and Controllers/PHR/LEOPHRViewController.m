@@ -252,7 +252,7 @@ static CGFloat const kHeightOfHeaderPHR = 97;
 
             __strong typeof(self) strongSelf = weakSelf;
 
-            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Heads Up!" message:@"You are about to export a copy of your child's immunization record. For the sake of your child's privacy, we recommend sharing this document with only those who need it." preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Heads Up!" message:@"You have opted to share your child’s immunization record.  This data will be shared from the Leo Health system to recipients that you designate via your personal email.\n\nDue to the security nature of email there is some risk that the information may be read by a third party." preferredStyle:UIAlertControllerStyleAlert];
 
             UIAlertAction *continueAction = [UIAlertAction actionWithTitle:@"Continue" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                 [strongSelf shareImmunizationsPDF];
