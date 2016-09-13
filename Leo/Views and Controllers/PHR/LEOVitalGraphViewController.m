@@ -78,7 +78,6 @@ static NSInteger const kChartHeight = 160;
 
     [self formatChart];
     [self reloadWithUIUpdates];
-
     [self setupScoreboardViewWithVital:self.selectedDataSet.firstObject];
 }
 
@@ -328,6 +327,8 @@ static NSInteger const kChartHeight = 160;
 
     [self updateAxes];
 
+    [self.lineContainer reloadLine];
+    self.selectedDataPointIndex = nil;
     self.alreadyUpdatedConstraints = NO;
 }
 

@@ -133,6 +133,9 @@
 }
 
 - (void)selectPointNearestTo:(CGPoint)point {
+
+    self.lineView.hidden = NO;
+
     [self selectPointWithIndex:[self indexOfNearestPointTo:point]];
 }
 
@@ -157,6 +160,12 @@
     }
 
     return _centerXValuesOfPointsOnGraph;
+}
+
+- (void)reloadLine {
+
+    self.lineView.hidden = YES;
+    _centerXValuesOfPointsOnGraph = nil;
 }
 
 - (void)selectPointWithIndex:(NSInteger)index {
