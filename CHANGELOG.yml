@@ -1,11 +1,12 @@
     upcoming:
+    - Bug fix for missing navigation bar on referrals screen in some scenarios
     releases:
     - version: 1.4.0
       build: 2016.09.13.16.45
       date: September 13 2016
       notes:
       - Fixes a crash when user has multiple children and attempts to move the line on the graph
-    
+
     - version: 1.4.0
       build: 2016.09.09.17.03
       date: September 09 2016
