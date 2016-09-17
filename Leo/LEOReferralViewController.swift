@@ -153,6 +153,9 @@ final class LEOReferralViewController :
     }
 
     func setupNavigationBar() {
+
+        navigationController?.navigationBarHidden = false
+
         LEOStyleHelper.styleNavigationBarForViewController(self, forFeature: .Settings, withTitleText: "Refer a friend", dismissal: false, backButton: true);
     }
 }
