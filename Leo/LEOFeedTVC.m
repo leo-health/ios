@@ -707,8 +707,7 @@ static CGFloat const kFeedInsetTop = 20.0;
                                 name:kAnalyticEventDismissLink
                           attributes:deepLinkCard.analyticAttributes];
 
-                [self removeCard:card];
-                [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+                [self removeCardFromFeed:card];
             } else {
                 
                 [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
@@ -802,6 +801,12 @@ static CGFloat const kFeedInsetTop = 20.0;
     [self.tableView beginUpdates];
     NSUInteger cardRow = [self.cards indexOfObject:card];
     [self removeCard:card];
+
+    for (LEOCard *remainingCard in self.cards) {
+        if (remainingCard.priority > card.priority) {
+            remainingCard.priority = @([remainingCard.priority integerValue] - 1);
+        }
+    }
 
     NSArray *indexPaths = @[[NSIndexPath indexPathForRow:cardRow
                                                inSection:TableViewSectionBody]];
