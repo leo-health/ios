@@ -21,6 +21,8 @@
 #import "LEORouter.h"
 #import <NSDate+DateTools.h>
 #import "Leo-Swift.h"
+#import "LEOApp.h"
+#import "LEOCredentialStore.h"
 
 @interface AppDelegate ()
 
@@ -152,10 +154,15 @@
 
     // NOTE: af I think this is used to log someone out before taking local actions
     [[LEOUserService serviceWithCachePolicy:[LEOCachePolicy networkOnly]] getCurrentUserWithCompletion:nil];
+    
+
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    if ([LEOCredentialStore authToken]) {
+        [self checkVersion];
+    }
 
 }
 
@@ -262,6 +269,18 @@
         return [[nav viewControllers] firstObject];
     }
     return nil;
+}
+
+- (void)checkVersion {
+    
+    [Configuration checkIfVersionHasChanged:^(NSError *error) {
+
+        if (error) {
+            return;
+        }
+        
+        [NSUserDefaults leo_setString:[LEOApp appVersion] forKey:@"version"];
+    }];
 }
 
 

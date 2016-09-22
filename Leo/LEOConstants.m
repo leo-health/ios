@@ -55,7 +55,6 @@ NSString *const APIEndpointPaymentToken = @"payment_token";
 NSString *const APIEndpointSubscriptions = @"subscriptions";
 NSString *const APIEndpointValidatePromoCode = @"subscriptions/validate_coupon";
 
-
 #pragma mark - Common
 NSString *const APIParamID = @"id";
 

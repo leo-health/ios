@@ -79,7 +79,7 @@ NSString *const kAnalyticEventInviteCaregiver = @"Invite caregiver";
 NSString *const kAnalyticEventConfirmPatientsInOnboarding = @"Confirm Patients";
 NSString *const kAnalyticEventVisitLink = @"Visit Link";
 NSString *const kAnalyticEventDismissLink = @"Dismiss Link";
-
+NSString *const kAnalyticEventNewUserSession = @"New User Session";
 NSString *const kAnalyticSessionMessaging = @"Messaging Session";
 NSString *const kAnalyticSessionScheduling = @"Scheduling Session";
 NSString *const kAnalyticSessionHealthRecord = @"Health Record Session";

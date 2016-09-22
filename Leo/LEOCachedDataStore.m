@@ -93,7 +93,8 @@
 - (NSDictionary *)post:(NSString *)endpoint params:(NSDictionary *)params {
 
     if ([endpoint isEqualToString:APIEndpointUsers] ||
-        [endpoint isEqualToString:APIEndpointLogin]) {
+        [endpoint isEqualToString:APIEndpointLogin] ||
+        [endpoint isEqualToString:APIEndpointSessions]) {
 
         NSDictionary *userDictionary = params[APIParamUser];
         NSString *authenticationToken = params[APIParamSession][APIParamToken];

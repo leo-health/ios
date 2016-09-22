@@ -38,7 +38,7 @@
 @property (weak, nonatomic) UIButton *continueButton;
 
 @property (nonatomic) BOOL alreadyUpdatedConstraints;
-@property (nonatomic) void (^continueTappedUpInsideBlock) (void);
+@property (copy, nonatomic) void (^continueTappedUpInsideBlock) (void);
 @property (nonatomic) Feature feature;
 
 @property (strong, nonatomic) NSNumber *price;

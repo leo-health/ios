@@ -45,6 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (Guardian *)addCaregiver:(Guardian *)user;
 
+- (void)createSessionWithCompletion:(LEOErrorBlock)completionBlock;
 
 NS_ASSUME_NONNULL_END
 @end

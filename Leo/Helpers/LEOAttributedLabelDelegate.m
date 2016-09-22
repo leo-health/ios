@@ -16,7 +16,7 @@
 @interface LEOAttributedLabelDelegate()
 
 @property (weak, nonatomic) UIViewController *viewController;
-@property (nonatomic) CreateEventBlock createEventBlock;
+@property (copy, nonatomic) CreateEventBlock createEventBlock;
 
 @end
 

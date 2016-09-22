@@ -243,6 +243,24 @@ static NSString *const ConfigurationAPIProtocol = @"ApiProtocol";
     }
 }
 
++ (void)checkIfVersionHasChanged:(void (^) (NSError *error))completionBlock {
+    
+    NSString *storedVersion = [NSUserDefaults leo_stringForKey:@"version"];
+    
+    if ([[LEOApp appVersion] compare:storedVersion options:NSNumericSearch] == NSOrderedDescending) {
+        
+        LEOCachePolicy *policy = [LEOCachePolicy new];
+        policy.post = LEOCachePolicyPOSTNetworkThenPOSTCache;
+        [[LEOUserService serviceWithCachePolicy:policy] createSessionWithCompletion:^(NSError *error) {
+            
+            if (completionBlock) {
+                error ?  completionBlock(error) : completionBlock(nil);
+            }
+        }];
+    }
+}
+
+
 + (void)checkVersionRequirementMetWithCompletion:(void (^) (BOOL meetsMinimumVersionRequirements, NSError *error))completionBlock {
 
     [Configuration downloadRemoteEnvironmentVariablesIfNeededWithCompletion:^(BOOL success, NSError *error) {
@@ -253,7 +271,7 @@ static NSString *const ConfigurationAPIProtocol = @"ApiProtocol";
             }
         }
 
-        if ([Configuration minimumVersion] > [LEOApp appVersion]) {
+        if ([[Configuration minimumVersion] compare:[LEOApp appVersion] options:NSNumericSearch] == NSOrderedDescending) {
 
             if (completionBlock) {
                 completionBlock(NO, nil);
@@ -267,6 +285,8 @@ static NSString *const ConfigurationAPIProtocol = @"ApiProtocol";
                 completionBlock(YES, nil);
             }
         }
+        
+        
     }];
 }
 

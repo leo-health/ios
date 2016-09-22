@@ -87,6 +87,7 @@ extern NSString *const kAnalyticEventInviteCaregiver; // @"Invite caregiver";
 extern NSString *const kAnalyticEventConfirmPatientsInOnboarding; // @"Confirm Patients";
 extern NSString *const kAnalyticEventVisitLink; // @"Visit Link";
 extern NSString *const kAnalyticEventDismissLink; // @"Dismiss Link";
+extern NSString *const kAnalyticEventNewUserSession; // @"New User Session";
 
 extern NSString *const kAnalyticSessionMessaging; // @"Messaging Session";
 extern NSString *const kAnalyticSessionScheduling; // @"Scheduling Session";
