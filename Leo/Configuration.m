@@ -260,7 +260,6 @@ static NSString *const ConfigurationAPIProtocol = @"ApiProtocol";
     }
 }
 
-
 + (void)checkVersionRequirementMetWithCompletion:(void (^) (BOOL meetsMinimumVersionRequirements, NSError *error))completionBlock {
 
     [Configuration downloadRemoteEnvironmentVariablesIfNeededWithCompletion:^(BOOL success, NSError *error) {
