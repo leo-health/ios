@@ -21,7 +21,6 @@
 #import "LEORouter.h"
 #import <NSDate+DateTools.h>
 #import "Leo-Swift.h"
-#import "LEOApp.h"
 #import "LEOCredentialStore.h"
 
 @interface AppDelegate ()
@@ -159,7 +158,7 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     if ([LEOCredentialStore authToken]) {
-        [self checkVersion];
+        [self updateStoredVersionNumberIfNeeded];
     }
 }
 
@@ -268,15 +267,14 @@
     return nil;
 }
 
-- (void)checkVersion {
+- (void)updateStoredVersionNumberIfNeeded {
     
     [Configuration checkIfVersionHasChanged:^(NSError *error) {
 
+        //TODO: Determine appropriate error response.
         if (error) {
             return;
         }
-        
-        [NSUserDefaults leo_setString:[LEOApp appVersion] forKey:kConfigurationCurrentVersion];
     }];
 }
 
