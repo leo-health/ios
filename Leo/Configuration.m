@@ -245,7 +245,7 @@ static NSString *const ConfigurationAPIProtocol = @"ApiProtocol";
 
 + (void)checkIfVersionHasChanged:(void (^) (NSError *error))completionBlock {
     
-    NSString *storedVersion = [NSUserDefaults leo_stringForKey:@"version"];
+    NSString *storedVersion = [NSUserDefaults leo_stringForKey:kConfigurationCurrentVersion];
     
     if ([[LEOApp appVersion] compare:storedVersion options:NSNumericSearch] == NSOrderedDescending) {
         
@@ -266,6 +266,7 @@ static NSString *const ConfigurationAPIProtocol = @"ApiProtocol";
     [Configuration downloadRemoteEnvironmentVariablesIfNeededWithCompletion:^(BOOL success, NSError *error) {
 
         if (error) {
+            
             if (completionBlock) {
                 completionBlock(nil, error);
             }
@@ -274,6 +275,7 @@ static NSString *const ConfigurationAPIProtocol = @"ApiProtocol";
         if ([[Configuration minimumVersion] compare:[LEOApp appVersion] options:NSNumericSearch] == NSOrderedDescending) {
 
             if (completionBlock) {
+                
                 completionBlock(NO, nil);
                 LEOCachePolicy *policy = [LEOCachePolicy new];
                 policy.destroy = LEOCachePolicyDESTROYNetworkThenDESTROYCache;
@@ -285,8 +287,6 @@ static NSString *const ConfigurationAPIProtocol = @"ApiProtocol";
                 completionBlock(YES, nil);
             }
         }
-        
-        
     }];
 }
 

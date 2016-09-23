@@ -466,5 +466,5 @@ NSString *const kConfigurationLocalyticsAppID = @"LOCALYTICS_APP_ID";
 NSString *const kConfigurationVendorID = @"vendor_id";
 NSString *const kConfigurationStripePublishableKey = @"STRIPE_PUBLISHABLE_KEY";
 NSString *const kConfigurationMinimumVersion = @"MINIMUM_VERSION_REQUIREMENT"; //major.minor.patch (no 'v' in front of the version number)
-
+NSString *const kConfigurationCurrentVersion = @"version";
 @end

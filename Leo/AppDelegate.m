@@ -154,8 +154,6 @@
 
     // NOTE: af I think this is used to log someone out before taking local actions
     [[LEOUserService serviceWithCachePolicy:[LEOCachePolicy networkOnly]] getCurrentUserWithCompletion:nil];
-    
-
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
@@ -163,7 +161,6 @@
     if ([LEOCredentialStore authToken]) {
         [self checkVersion];
     }
-
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
@@ -279,7 +276,7 @@
             return;
         }
         
-        [NSUserDefaults leo_setString:[LEOApp appVersion] forKey:@"version"];
+        [NSUserDefaults leo_setString:[LEOApp appVersion] forKey:kConfigurationCurrentVersion];
     }];
 }
 
