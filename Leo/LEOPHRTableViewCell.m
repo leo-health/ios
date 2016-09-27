@@ -96,7 +96,7 @@
     self.recordTitleLabel.text = immunization.vaccine;
     self.recordMainDetailLabel.text = nil;
     // TODO: date formatting
-    self.recordSideLabel.text = [NSDate leo_stringifiedDate:immunization.administeredAt withFormat:@"M/d/YY"];
+    self.recordSideLabel.text = [NSDate leo_stringifiedDate:immunization.administeredAt withFormat:@"M/d/yy"];
 }
 
 - (void)configureCellWithNote:(PatientNote *)note {
