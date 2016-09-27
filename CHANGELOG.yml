@@ -1,6 +1,11 @@
     upcoming:
-    - Bug fix for missing navigation bar on referrals screen in some scenarios
     releases:
+    - version: 1.4.1
+      build: 2016.09.17.15.02
+      date: September 17 2016
+      notes:
+      - Bug fix for missing navigation bar on referrals screen in some scenarios
+    
     - version: 1.4.0
       build: 2016.09.13.16.45
       date: September 13 2016
@@ -492,6 +497,7 @@
       notes:
       - First test build using new Fastfile configuration for Alpha builds
       - Provides the basic functionality all created prior to our first releases
+
 
 
 
