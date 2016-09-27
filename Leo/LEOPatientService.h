@@ -13,4 +13,5 @@
 
 @interface LEOPatientService : LEOModelService <LEOPatientDataSource>
 
+//FIXME: ZSD - LEOPatientDataSource conformance allows us to not declare the methods that have been defined in the .m. This is so that a view controller can act as the datasource instead of the LEOPatientService. However, we should think on how to implement this such that this is self-explanatory.
 @end

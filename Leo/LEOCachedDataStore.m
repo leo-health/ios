@@ -19,6 +19,7 @@
 #import "Configuration.h"
 #import "NSDictionary+Extensions.h"
 #import "LEO-Swift.h"
+#import "LEOApp.h"
 
 @interface LEOCachedDataStore ()
 
@@ -93,7 +94,8 @@
 - (NSDictionary *)post:(NSString *)endpoint params:(NSDictionary *)params {
 
     if ([endpoint isEqualToString:APIEndpointUsers] ||
-        [endpoint isEqualToString:APIEndpointLogin]) {
+        [endpoint isEqualToString:APIEndpointLogin] ||
+        [endpoint isEqualToString:APIEndpointSessions]) {
 
         NSDictionary *userDictionary = params[APIParamUser];
         NSString *authenticationToken = params[APIParamSession][APIParamToken];
@@ -101,6 +103,8 @@
         [LEOCredentialStore setAuthToken:authenticationToken];
 
         Guardian *user = [[Guardian alloc] initWithJSONDictionary:userDictionary];
+
+        [NSUserDefaults leo_setString:[LEOApp appVersion] forKey:kConfigurationCurrentVersion];
 
         self.family = [Family new];
         [self.family addGuardian:user];

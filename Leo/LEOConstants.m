@@ -55,7 +55,6 @@ NSString *const APIEndpointPaymentToken = @"payment_token";
 NSString *const APIEndpointSubscriptions = @"subscriptions";
 NSString *const APIEndpointValidatePromoCode = @"subscriptions/validate_coupon";
 
-
 #pragma mark - Common
 NSString *const APIParamID = @"id";
 
@@ -467,5 +466,5 @@ NSString *const kConfigurationLocalyticsAppID = @"LOCALYTICS_APP_ID";
 NSString *const kConfigurationVendorID = @"vendor_id";
 NSString *const kConfigurationStripePublishableKey = @"STRIPE_PUBLISHABLE_KEY";
 NSString *const kConfigurationMinimumVersion = @"MINIMUM_VERSION_REQUIREMENT"; //major.minor.patch (no 'v' in front of the version number)
-
+NSString *const kConfigurationCurrentVersion = @"version";
 @end

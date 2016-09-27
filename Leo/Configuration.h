@@ -15,6 +15,7 @@
 
 + (void)downloadRemoteEnvironmentVariablesIfNeededWithCompletion:(void (^) (BOOL success, NSError *error))completionBlock;
 + (void)checkVersionRequirementMetWithCompletion:(void (^) (BOOL meetsMinimumVersionRequirements, NSError *error))completionBlock;
++ (void)checkIfVersionHasChanged:(void (^) (NSError *error))completionBlock;
 
 + (void)updateCrittercismWithNewKeys;
 + (void)updateCrashlyticsWithNewKeys;
