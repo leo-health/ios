@@ -62,9 +62,6 @@
         [[LEOCachedDataStore sharedInstance] reset];
     }
 
-   // [SAMKeychain setAccessibilityType:kSecAttrAccessibleAfterFirstUnlock];
-
-
     [LEORouter routeUserWithAppDelegate:self];
 
     return YES;

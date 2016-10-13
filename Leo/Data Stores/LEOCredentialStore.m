@@ -20,14 +20,16 @@
 }
 
 + (NSString *)authToken {
-    return [self secureValueForKey:SERVICE_NAME];
+    return [self secureValueForKey:AUTH_TOKEN_KEY];
 }
 
 + (void)setAuthToken:(NSString *)authToken {
-    [self setSecureValue:authToken forKey:SERVICE_NAME];
+    [self setSecureValue:authToken
+                  forKey:AUTH_TOKEN_KEY];
     
     if (!authToken) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationTokenInvalidated object:self];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationTokenInvalidated
+                                                            object:self];
     }
 }
 
@@ -37,21 +39,21 @@
         NSError *error;
 
         [SAMKeychain setPassword:value
-                     forService:AUTH_TOKEN_KEY
+                     forService:SERVICE_NAME
                         account:key
          error:&error];
 
         if (error) {
- 
+            //TODO: Add a log here but use CocoaLumberjack or another tool. Should only get logging when in debug mode / developer mode.
         }
+        
     } else {
-        [SAMKeychain deletePasswordForService:AUTH_TOKEN_KEY account:key];
+        [SAMKeychain deletePasswordForService:SERVICE_NAME account:key];
     }
 }
 
 + (NSString *)secureValueForKey:(NSString *)key {
-    return [SAMKeychain passwordForService:AUTH_TOKEN_KEY account:key];
+    return [SAMKeychain passwordForService:SERVICE_NAME account:key];
 }
-
 
 @end
