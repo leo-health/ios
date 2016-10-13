@@ -447,6 +447,7 @@
 		31339B231C285AEE00B53A86 /* LEOCardModalTransitionAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOCardModalTransitionAnimator.m; sourceTree = "<group>"; };
 		31339B251C29BEAC00B53A86 /* MessageText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MessageText.h; path = "Leo/Data Model/MessageText.h"; sourceTree = SOURCE_ROOT; };
 		31339B261C29BEAC00B53A86 /* MessageText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MessageText.m; path = "Leo/Data Model/MessageText.m"; sourceTree = SOURCE_ROOT; };
+		3138F4041DAFE7B500FF8497 /* Leo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Leo.entitlements; sourceTree = "<group>"; };
 		3138FC301B9A1169000FE22C /* LEOValidatedFloatLabeledTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOValidatedFloatLabeledTextField.h; sourceTree = "<group>"; };
 		3138FC311B9A1169000FE22C /* LEOValidatedFloatLabeledTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOValidatedFloatLabeledTextField.m; sourceTree = "<group>"; };
 		3138FC331B9A1294000FE22C /* LEOScrollableContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOScrollableContainerView.h; sourceTree = "<group>"; };
@@ -1842,6 +1843,7 @@
 		BCE1EC661B00E353007C8D0B /* Leo */ = {
 			isa = PBXGroup;
 			children = (
+				3138F4041DAFE7B500FF8497 /* Leo.entitlements */,
 				DE31E5A31D344A8E00F028E4 /* Analytics */,
 				3130B4911B0693D5006ACC80 /* Stoyboards & Xibs */,
 				BCA69A3D1B039ABC00C27B2B /* Views and Controllers */,
@@ -2042,6 +2044,11 @@
 						CreatedOnToolsVersion = 6.3.1;
 						DevelopmentTeam = 4Q3R8E5P59;
 						LastSwiftMigration = 0800;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -2577,6 +2584,7 @@
 			buildSettings = {
 				BUNDLE_IDENTIFIER = "com.leohealth.dev-consumer";
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Leo/Leo.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2632,6 +2640,7 @@
 			baseConfigurationReference = 3126E59A1C8F3CC00047189C /* Staging.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Leo/Leo.entitlements;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -2687,6 +2696,7 @@
 			baseConfigurationReference = 3126E59C1C8F3F470047189C /* QA.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Leo/Leo.entitlements;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -2740,6 +2750,7 @@
 			baseConfigurationReference = 3126E59B1C8F3D8F0047189C /* AppStore.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Leo/Leo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: LEO HEALTH, INC. (4Q3R8E5P59)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: LEO HEALTH, INC. (4Q3R8E5P59)";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2817,6 +2828,7 @@
 			baseConfigurationReference = 31BB45EB1C17757A0036224C /* Testflight.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Leo/Leo.entitlements;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -2873,6 +2885,7 @@
 			baseConfigurationReference = 314A40561B838AE700834BC2 /* Development.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Leo/Leo.entitlements;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",

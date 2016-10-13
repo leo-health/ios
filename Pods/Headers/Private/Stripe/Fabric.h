@@ -1,1 +1,1 @@
-../../../Stripe/Stripe/Fabric/Fabric.h
+../../../Stripe/Stripe/Fabric.h

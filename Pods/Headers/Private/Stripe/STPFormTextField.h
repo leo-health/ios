@@ -1,1 +1,1 @@
-../../../Stripe/Stripe/UI/STPFormTextField.h
+../../../Stripe/Stripe/STPFormTextField.h

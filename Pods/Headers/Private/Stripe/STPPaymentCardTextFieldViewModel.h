@@ -1,1 +1,1 @@
-../../../Stripe/Stripe/UI/STPPaymentCardTextFieldViewModel.h
+../../../Stripe/Stripe/STPPaymentCardTextFieldViewModel.h

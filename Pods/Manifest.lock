@@ -1,5 +1,5 @@
 PODS:
-  - ActionSheetPicker-3.0 (2.0.3)
+  - ActionSheetPicker-3.0 (2.0.5)
   - AFNetworking (3.1.0):
     - AFNetworking/NSURLSession (= 3.1.0)
     - AFNetworking/Reachability (= 3.1.0)
@@ -15,42 +15,40 @@ PODS:
   - AFNetworking/Serialization (3.1.0)
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
-  - Crashlytics (3.7.0):
+  - Crashlytics (3.8.2):
     - Fabric (~> 1.6.3)
   - CrittercismSDK (5.5.0)
-  - CWStatusBarNotification (2.3.4)
+  - CWStatusBarNotification (2.3.5)
   - DateTools (1.7.0)
-  - Expecta (0.2.4)
-  - Fabric (1.6.7)
-  - JSQMessagesViewController (7.2.0):
+  - Expecta (1.0.5)
+  - Fabric (1.6.10)
+  - JSQMessagesViewController (7.3.4):
     - JSQSystemSoundPlayer (~> 2.0.1)
   - JSQSystemSoundPlayer (2.0.1)
-  - libPusher (1.6.1):
-    - libPusher/Core (= 1.6.1)
-  - libPusher/Core (1.6.1):
-    - SocketRocket (= 0.4.1)
+  - libPusher (1.6.2):
+    - libPusher/Core (= 1.6.2)
+  - libPusher/Core (1.6.2):
+    - SocketRocket (= 0.5.1)
   - Localytics (3.8.0)
   - MBProgressHUD (1.0.0)
-  - OHHTTPStubs (4.3.0):
-    - OHHTTPStubs/Default (= 4.3.0)
-  - OHHTTPStubs/Core (4.3.0)
-  - OHHTTPStubs/Default (4.3.0):
+  - OHHTTPStubs (5.2.1):
+    - OHHTTPStubs/Default (= 5.2.1)
+  - OHHTTPStubs/Core (5.2.1)
+  - OHHTTPStubs/Default (5.2.1):
     - OHHTTPStubs/Core
     - OHHTTPStubs/JSON
     - OHHTTPStubs/NSURLSession
     - OHHTTPStubs/OHPathHelpers
-  - OHHTTPStubs/JSON (4.3.0):
+  - OHHTTPStubs/JSON (5.2.1):
     - OHHTTPStubs/Core
-  - OHHTTPStubs/NSURLSession (4.3.0):
+  - OHHTTPStubs/NSURLSession (5.2.1):
     - OHHTTPStubs/Core
-  - OHHTTPStubs/OHPathHelpers (4.3.0)
-  - RSKImageCropper (1.3.2)
-  - SocketRocket (0.4.1)
+  - OHHTTPStubs/OHPathHelpers (5.2.1)
+  - RSKImageCropper (1.5.1)
+  - SAMKeychain (1.5.2)
+  - SocketRocket (0.5.1)
   - Specta (1.0.4)
-  - SSKeychain (1.2.3)
-  - Stripe (7.0.0):
-    - Stripe/Core (= 7.0.0)
-  - Stripe/Core (7.0.0)
+  - Stripe (9.0.0)
   - TTTAttributedLabel (2.0.0)
   - UIImage-Resize (1.0.1)
 
@@ -59,7 +57,7 @@ DEPENDENCIES:
   - AFNetworking
   - Crashlytics
   - CrittercismSDK (= 5.5.0)
-  - CWStatusBarNotification (~> 2.3.4)
+  - CWStatusBarNotification (~> 2.3.5)
   - DateTools
   - Expecta
   - Fabric
@@ -69,8 +67,8 @@ DEPENDENCIES:
   - MBProgressHUD
   - OHHTTPStubs
   - RSKImageCropper
+  - SAMKeychain
   - Specta (from `https://github.com/specta/specta.git`, commit `c07c003cfe3a41fa510567e2e0a9fd7f5ae3b098`)
-  - SSKeychain
   - Stripe
   - TTTAttributedLabel
   - UIImage-Resize
@@ -86,25 +84,25 @@ CHECKOUT OPTIONS:
     :git: https://github.com/specta/specta.git
 
 SPEC CHECKSUMS:
-  ActionSheetPicker-3.0: 11f2053085d3088dc1ef9d38a9f11c18b528dd9e
+  ActionSheetPicker-3.0: 8312778b6815578e6a86d630fbcf31dc94c534e7
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
-  Crashlytics: c3a2333dea9e2733d2777f730910321fc9e25c0d
+  Crashlytics: 27acca95a01b042a8294291dd6dff27f8f6af6d7
   CrittercismSDK: 74d8e8ce05b79a89dd6d35110b57960490182862
-  CWStatusBarNotification: 3fec41edcb0ae3677d9febfcb9632d8bdf52294c
+  CWStatusBarNotification: 3d2738b25c3207f60cc50201388d3c96182545ff
   DateTools: 53288ee8b905fdc75897a1e6b5cc0144b14cba60
-  Expecta: cfaf1d3e2e194ca704a25e997093d30a1ce70b61
-  Fabric: caf7580c725e64db144f610ac65cd60956911dc7
-  JSQMessagesViewController: 73cab48aa92fc2d512f3b6724f3425cc47a19eb5
+  Expecta: e1c022fcd33910b6be89c291d2775b3fe27a89fe
+  Fabric: c73f371ee543e3f0b80608f2674750e4910d1669
+  JSQMessagesViewController: 39fed975e3c9f8eba7292071e29eeb541d105e66
   JSQSystemSoundPlayer: c5850e77a4363ffd374cd851154b9af93264ed8d
-  libPusher: 5ea58aeb83fa4ac1f5d8ef8543b1def6ace997b8
+  libPusher: 21c6209fa84a829e963f1b2fe5bff34722f3f3f4
   Localytics: 8fd8455e92c5d5d507d1302e704e7db5ca2a33bf
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
-  OHHTTPStubs: 0aec5755528693a165bd616cb79f69387de306a8
-  RSKImageCropper: 28632b527aac06bb2c289c71c5c800c1b81326ed
-  SocketRocket: ee0b5c34182d37bb4f1f8d628bbe737718126daa
+  OHHTTPStubs: 3a42f25c00563b71355ac73112ba2324e9e6cef4
+  RSKImageCropper: edd65fedb3734332818deb139906d6b7f54b8a44
+  SAMKeychain: 1865333198217411f35327e8da61b43de79b635b
+  SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
   Specta: 69bb134672aae190a1379ff91df07dad8dd1f869
-  SSKeychain: 3f42991739c6c60a9cf1bbd4dff6c0d3694bcf3d
-  Stripe: 147bbff1ba7cf3422e4ed14f6e1fbbc72471ce6c
+  Stripe: 935c6deb5e96cbd29d247074bf3aa98a8438e22c
   TTTAttributedLabel: 8cffe8e127e4e82ff3af1e5386d4cd0ad000b656
   UIImage-Resize: fa776860f10e6900bbaf53a73e494bdceaaccc77
 

@@ -1,1 +1,1 @@
-../../../Stripe/Stripe/Fabric/FABKitProtocol.h
+../../../Stripe/Stripe/FABKitProtocol.h
