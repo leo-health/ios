@@ -2041,6 +2041,7 @@
 					BCE1EC631B00E353007C8D0B = {
 						CreatedOnToolsVersion = 6.3.1;
 						DevelopmentTeam = 4Q3R8E5P59;
+						LastSwiftMigration = 0800;
 					};
 				};
 			};
@@ -2587,6 +2588,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Leo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Local;
 		};
@@ -2641,6 +2643,7 @@
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Leo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Staging;
 		};
@@ -2694,6 +2697,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.leohealth.qa-consumer";
 				SWIFT_OBJC_BRIDGING_HEADER = "Leo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = QA;
 		};
@@ -2748,6 +2752,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.leohealth.leo;
 				SWIFT_OBJC_BRIDGING_HEADER = "Leo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = AppStore;
 		};
@@ -2822,6 +2827,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Leo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Testflight;
 		};
@@ -2878,6 +2884,7 @@
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Leo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Development;
 		};
