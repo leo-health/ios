@@ -11,6 +11,8 @@
 #import "NSDictionary+Extensions.h"
 #import "LEOValidationsHelper.h"
 #import "LEOS3Image.h"
+#import "Configuration.h"
+#import "LEOUserService.h"
 
 @implementation Guardian
 
@@ -49,7 +51,8 @@ static NSString *const kUserDefaultsKeyLoginCounts = @"loginCounter";
             _insurancePlan = [[InsurancePlan alloc] initWithJSONDictionary:[jsonResponse leo_itemForKey:APIParamInsurancePlan]];
             _phoneNumber = [jsonResponse leo_itemForKey:APIParamPhone];
             _membershipType = [Guardian membershipTypeFromString:[jsonResponse leo_itemForKey:APIParamUserMembershipType]];
-            _anonymousCustomerServiceID = [jsonResponse leo_itemForKey:APIParamUserVendorID];
+            _vendorID = [jsonResponse leo_itemForKey:APIParamUserVendorID];
+
         }
 
         return self;
@@ -72,7 +75,7 @@ static NSString *const kUserDefaultsKeyLoginCounts = @"loginCounter";
     userDictionary[APIParamInsurancePlanID] = guardian.insurancePlan.objectID;
     userDictionary[APIParamInsurancePlan] = [guardian.insurancePlan serializeToJSON];
     userDictionary[APIParamUserMembershipType] = guardian.membershipType ? [Guardian membershipStringFromType:guardian.membershipType] : Nil;
-    userDictionary[APIParamUserVendorID] = guardian.anonymousCustomerServiceID;
+    userDictionary[APIParamUserVendorID] = guardian.vendorID;
 
     return userDictionary;
 }
@@ -139,10 +142,6 @@ static NSString *const kUserDefaultsKeyLoginCounts = @"loginCounter";
     if (originalMembershipType != _membershipType) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"membership-changed" object:self];
     }
-}
-
-- (void)resetAnonymousCustomerServiceID {
-    _anonymousCustomerServiceID = nil;
 }
 
 - (NSString *)description {

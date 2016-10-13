@@ -38,7 +38,6 @@
     [self setupRemoteNotificationsForApplication:application];
     [self setupObservers];
 
-    [Configuration resetVendorID];
     [Configuration resetStripeKey];
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
@@ -50,7 +49,7 @@
     [Configuration downloadRemoteEnvironmentVariablesIfNeededWithCompletion:^(BOOL success, NSError *error) {
 
         if (success) {
-            [Localytics autoIntegrate:[Configuration localyticsAppID] launchOptions:launchOptions];
+            [Localytics autoIntegrate:[Configuration vendorID] launchOptions:launchOptions];
 
             #if defined(INTERNAL) || defined(RUNNABLE)
                 [Localytics setLoggingEnabled:YES];

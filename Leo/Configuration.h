@@ -22,7 +22,6 @@
 + (void)updateLocalyticsWithNewKeys;
 + (void)updateStripeKey;
 + (void)clearRemoteEnvironmentVariables;
-+ (void)resetVendorID;
 + (void)resetStripeKey;
 + (NSString *)minimumVersion;
 + (void)resetConfiguration;
@@ -36,7 +35,6 @@
 + (NSString *)selfSignedCertificate;
 + (NSString *)pusherKey;
 + (NSString *)crittercismAppID;
-+ (NSString *)localyticsAppID;
 + (NSString *)vendorID;
 + (NSString *)stripeKey;
 

@@ -13,6 +13,7 @@
 #import "Configuration.h"
 #import "AppDelegate.h"
 #import "LEOPusherHelper.h"
+#import "LEOUserService.h"
 
 @implementation LEOSettingsService
 
@@ -27,20 +28,16 @@
             [Configuration updateCrittercismWithNewKeys];
 
             if (![[Configuration pusherKey] isEqualToString:[keyData leo_itemForKey:kConfigurationPusherAPIKey]]) {
+
                 [NSUserDefaults leo_setString:[keyData leo_itemForKey:kConfigurationPusherAPIKey] forKey:kConfigurationPusherAPIKey];
                 [[LEOPusherHelper sharedPusher] updateClientForNewKeys];
             }
 
-            if (![[Configuration vendorID] isEqualToString:[keyData leo_itemForKey:kConfigurationVendorID]]) {
+            if ([Configuration vendorID] == nil) {
 
                 [NSUserDefaults leo_setString:[keyData leo_itemForKey:kConfigurationVendorID] forKey:kConfigurationVendorID];
-                [Configuration updateCrashlyticsWithNewKeys];
-            }
-
-            if (![[Configuration localyticsAppID] isEqualToString:[keyData leo_itemForKey:kConfigurationLocalyticsAppID]]) {
-
-                [NSUserDefaults leo_setString:[keyData leo_itemForKey:kConfigurationLocalyticsAppID] forKey:kConfigurationLocalyticsAppID];
                 [Localytics setCustomerId:[Configuration vendorID]];
+                [Configuration updateCrashlyticsWithNewKeys];
             }
 
             if (![[Configuration crittercismAppID] isEqualToString:[keyData leo_itemForKey:kConfigurationCrittercismAppID]]) {

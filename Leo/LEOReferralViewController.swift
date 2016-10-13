@@ -57,7 +57,7 @@ final class LEOReferralViewController :
     fileprivate(set) lazy var referralURL: String = {
 
         let user = LEOUserService().getCurrentUser()
-        guard let vendorID = user?.anonymousCustomerServiceID else {
+        guard let vendorID = user?.vendorID else {
             return ""
         }
 

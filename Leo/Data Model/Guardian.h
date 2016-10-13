@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) InsurancePlan *insurancePlan;
 @property (nonatomic) MembershipType membershipType;
 @property (nonatomic) BOOL valid;
-@property (copy, nonatomic, readonly, nullable) NSString *anonymousCustomerServiceID;
+@property (copy, nonatomic, readonly, nullable) NSString *vendorID;
 
 - (instancetype)initWithObjectID:(nullable NSString *)objectID familyID:(nullable NSString *)familyID title:(nullable NSString *)title firstName:(nullable NSString *)firstName middleInitial:(nullable NSString *)middleInitial lastName:(nullable NSString *)lastName suffix:(nullable NSString *)suffix email:(NSString *)email avatar:(nullable LEOS3Image *)avatar phoneNumber:(nullable NSString *)phoneNumber insurancePlan:(nullable InsurancePlan *)insurancePlan primary:(BOOL)primary membershipType:(MembershipType)membershipType;
 
@@ -28,7 +28,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)copyFrom:(Guardian *)otherGuardian;
 
-- (void)resetAnonymousCustomerServiceID;
 + (NSString *)membershipStringFromType:(MembershipType)membershipType;
 
 - (BOOL)isAPaidMember;

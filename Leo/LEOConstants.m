@@ -462,7 +462,6 @@ NSString *const kErrorBodyMessagingDown = @"We are experiencing technical diffic
 #pragma mark - Configuration Parameters
 NSString *const kConfigurationPusherAPIKey = @"PUSHER_KEY";
 NSString *const kConfigurationCrittercismAppID = @"CRITTERCISM_APP_ID";
-NSString *const kConfigurationLocalyticsAppID = @"LOCALYTICS_APP_ID";
 NSString *const kConfigurationVendorID = @"vendor_id";
 NSString *const kConfigurationStripePublishableKey = @"STRIPE_PUBLISHABLE_KEY";
 NSString *const kConfigurationMinimumVersion = @"MINIMUM_VERSION_REQUIREMENT"; //major.minor.patch (no 'v' in front of the version number)
