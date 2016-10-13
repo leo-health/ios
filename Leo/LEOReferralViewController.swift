@@ -34,19 +34,19 @@ final class LEOReferralViewController :
 
     @IBOutlet weak var inviteButtonEmail: UIButton! {
         didSet {
-            inviteButtonEmail.setTitle("INVITE BY EMAIL", forState: .Normal)
+            inviteButtonEmail.setTitle("INVITE BY EMAIL", for: UIControlState())
             styleButton(inviteButtonEmail)
         }
     }
 
     @IBOutlet weak var inviteButtonText: UIButton! {
         didSet {
-            inviteButtonText.setTitle("INVITE BY TEXT MESSAGE", forState: .Normal)
+            inviteButtonText.setTitle("INVITE BY TEXT MESSAGE", for: UIControlState())
             styleButton(inviteButtonText)
         }
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         setupNavigationBar()
     }
 
@@ -54,7 +54,7 @@ final class LEOReferralViewController :
     // MARK: Data
 
     // NOTE: AF maybe this is overkill here. could just use let, but then it gets immediately initialized non-lazily
-    private(set) lazy var referralURL: String = {
+    fileprivate(set) lazy var referralURL: String = {
 
         let user = LEOUserService().getCurrentUser()
         guard let vendorID = user?.anonymousCustomerServiceID else {
@@ -81,12 +81,12 @@ final class LEOReferralViewController :
         if MFMailComposeViewController.canSendMail() {
             vc = configuredMailComposeViewController()
         } else {
-            vc = LEOAlertHelper.alertWithTitle("Oops! We couldn't compose a new email",
+            vc = LEOAlertHelper.alert(withTitle: "Oops! We couldn't compose a new email",
                                           message: "Make sure your device is set up to send emails",
                                           handler: nil)
         }
 
-        self.presentViewController(vc,
+        self.present(vc,
                                    animated: true,
                                    completion: nil)
     }
@@ -98,13 +98,13 @@ final class LEOReferralViewController :
             if MFMessageComposeViewController.canSendText() {
                 return configuredMessageComposeViewController()
             } else {
-                return LEOAlertHelper.alertWithTitle("Oops! We couldn't compose a new message",
+                return LEOAlertHelper.alert(withTitle: "Oops! We couldn't compose a new message",
                                                    message: "Make sure your device is set up to send text messages",
                                                    handler: nil)
             }
         }
 
-        self.presentViewController(composerOrAlert(),
+        self.present(composerOrAlert(),
                                    animated: true,
                                    completion: nil)
     }
@@ -121,9 +121,9 @@ final class LEOReferralViewController :
         return messageComposerVC
     }
 
-    func messageComposeViewController(controller: MFMessageComposeViewController,
-                                      didFinishWithResult result: MessageComposeResult) {
-        controller.dismissViewControllerAnimated(true, completion: nil)
+    func messageComposeViewController(_ controller: MFMessageComposeViewController,
+                                      didFinishWith result: MessageComposeResult) {
+        controller.dismiss(animated: true, completion: nil)
     }
 
 
@@ -139,24 +139,24 @@ final class LEOReferralViewController :
         return mailComposerVC
     }
 
-    func mailComposeController(controller: MFMailComposeViewController,
-                               didFinishWithResult result: MFMailComposeResult,
-                                                   error: NSError?) {
-        controller.dismissViewControllerAnimated(true, completion: nil)
+    func mailComposeController(_ controller: MFMailComposeViewController,
+                               didFinishWith result: MFMailComposeResult,
+                                                   error: Error?) {
+        controller.dismiss(animated: true, completion: nil)
     }
 
 
     // MARK: Styling
 
-    func styleButton(button: UIButton) {
-        LEOStyleHelper.styleButton(button, forFeature: .Settings)
+    func styleButton(_ button: UIButton) {
+        LEOStyleHelper.styleButton(button, for: .settings)
     }
 
     func setupNavigationBar() {
 
-        navigationController?.navigationBarHidden = false
+        navigationController?.isNavigationBarHidden = false
 
-        LEOStyleHelper.styleNavigationBarForViewController(self, forFeature: .Settings, withTitleText: "Refer a friend", dismissal: false, backButton: true);
+        LEOStyleHelper.styleNavigationBar(for: self, for: .settings, withTitleText: "Refer a friend", dismissal: false, backButton: true);
     }
 }
 

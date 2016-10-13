@@ -1,1 +1,1 @@
-../../../Stripe/Stripe/PublicHeaders/UI/STPPaymentCardTextField.h
+../../../Stripe/Stripe/PublicHeaders/STPPaymentCardTextField.h

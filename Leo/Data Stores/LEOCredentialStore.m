@@ -7,7 +7,7 @@
 //  Adopted from Ben Scheirman (Fickle Bits, LLC) and NSScreencast (http://www.nsscreencast.com/episodes/41-authentication-with-afnetworking)
 
 #import "LEOCredentialStore.h"
-#import "SSKeychain.h"
+#import "SAMKeychain.h"
 #import "LEOConstants.h"
 
 #define SERVICE_NAME @"LEO-AuthClient"
@@ -24,27 +24,36 @@
 }
 
 + (void)setAuthToken:(NSString *)authToken {
-    [self setSecureValue:authToken forKey:AUTH_TOKEN_KEY];
+    [self setSecureValue:authToken
+                  forKey:AUTH_TOKEN_KEY];
     
     if (!authToken) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationTokenInvalidated object:self];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationTokenInvalidated
+                                                            object:self];
     }
 }
 
 + (void)setSecureValue:(NSString *)value forKey:(NSString *)key {
     if (value) {
-        [SSKeychain setPassword:value
+
+        NSError *error;
+
+        [SAMKeychain setPassword:value
                      forService:SERVICE_NAME
-                        account:key];
+                        account:key
+         error:&error];
+
+        if (error) {
+            //TODO: Add a log here but use CocoaLumberjack or another tool. Should only get logging when in debug mode / developer mode.
+        }
+        
     } else {
-        [SSKeychain deletePasswordForService:SERVICE_NAME account:key];
+        [SAMKeychain deletePasswordForService:SERVICE_NAME account:key];
     }
 }
 
 + (NSString *)secureValueForKey:(NSString *)key {
-    return [SSKeychain passwordForService:SERVICE_NAME account:key];
+    return [SAMKeychain passwordForService:SERVICE_NAME account:key];
 }
-
-
 
 @end

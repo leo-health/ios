@@ -1,1 +1,1 @@
-../../../Stripe/Stripe/ApplePay/PKPayment+Stripe.h
+../../../Stripe/Stripe/PKPayment+Stripe.h

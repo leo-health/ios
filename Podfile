@@ -19,9 +19,9 @@ pod 'libPusher', '~> 1.5' #MIT
 
 #Good to have, but could rewrite; not worth it for now
 pod 'AFNetworking' #MIT
-pod 'SSKeychain' #MIT
+pod 'SAMKeychain' #MIT
 pod 'DateTools' #MIT
-pod 'CWStatusBarNotification', '~> 2.3.4' #MIT
+pod 'CWStatusBarNotification', '~> 2.3.5' #MIT
 pod 'MBProgressHUD' #MIT
 pod 'TTTAttributedLabel' #MIT
 

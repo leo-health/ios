@@ -1,1 +1,1 @@
-../../../Stripe/Stripe/PublicHeaders/ApplePay/STPAPIClient+ApplePay.h
+../../../Stripe/Stripe/PublicHeaders/STPAPIClient+ApplePay.h
