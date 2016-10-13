@@ -276,6 +276,14 @@ static NSString *const ConfigurationAPIProtocol = @"ApiProtocol";
     }];
 }
 
++ (BOOL)hasReviewedVendorID {
+    return [NSUserDefaults leo_stringForKey:kConfigurationHasReviewedVendorID];
+}
+
++ (void)setHasReviewedVendorID:(NSString *)hasReviewedVendorID {
+    [NSUserDefaults leo_setString:hasReviewedVendorID forKey:kConfigurationHasReviewedVendorID];
+}
+
 + (void)resetConfiguration {
     [self clearRemoteEnvironmentVariables];
 }

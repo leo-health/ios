@@ -26,6 +26,9 @@
 + (NSString *)minimumVersion;
 + (void)resetConfiguration;
 
++ (BOOL)hasReviewedVendorID;
++ (void)setHasReviewedVendorID:(NSString *)hasReviewedVendorID;
+
 + (NSString *)APIBaseURL;
 + (NSString *)providerBaseURL;
 + (NSString *)APIEndpoint;

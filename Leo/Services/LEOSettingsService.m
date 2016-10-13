@@ -33,11 +33,12 @@
                 [[LEOPusherHelper sharedPusher] updateClientForNewKeys];
             }
 
-            if ([Configuration vendorID] == nil) {
+            if ([Configuration vendorID] == nil || ![Configuration hasReviewedVendorID]) {
 
                 [NSUserDefaults leo_setString:[keyData leo_itemForKey:kConfigurationVendorID] forKey:kConfigurationVendorID];
                 [Localytics setCustomerId:[Configuration vendorID]];
                 [Configuration updateCrashlyticsWithNewKeys];
+                [Configuration setHasReviewedVendorID:@"YES"];
             }
 
             if (![[Configuration crittercismAppID] isEqualToString:[keyData leo_itemForKey:kConfigurationCrittercismAppID]]) {
