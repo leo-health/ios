@@ -22,6 +22,7 @@
 #import <NSDate+DateTools.h>
 #import "Leo-Swift.h"
 #import "LEOCredentialStore.h"
+#import "SAMKeychain.h"
 
 @interface AppDelegate ()
 
@@ -60,6 +61,9 @@
     if (![[[LEOUserService new] getCurrentUser] hasFeedAccess]) {
         [[LEOCachedDataStore sharedInstance] reset];
     }
+
+   // [SAMKeychain setAccessibilityType:kSecAttrAccessibleAfterFirstUnlock];
+
 
     [LEORouter routeUserWithAppDelegate:self];
 

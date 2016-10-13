@@ -7,7 +7,7 @@
 //  Adopted from Ben Scheirman (Fickle Bits, LLC) and NSScreencast (http://www.nsscreencast.com/episodes/41-authentication-with-afnetworking)
 
 #import "LEOCredentialStore.h"
-#import "SSKeychain.h"
+#import "SAMKeychain.h"
 #import "LEOConstants.h"
 
 #define SERVICE_NAME @"LEO-AuthClient"
@@ -20,11 +20,11 @@
 }
 
 + (NSString *)authToken {
-    return [self secureValueForKey:AUTH_TOKEN_KEY];
+    return [self secureValueForKey:SERVICE_NAME];
 }
 
 + (void)setAuthToken:(NSString *)authToken {
-    [self setSecureValue:authToken forKey:AUTH_TOKEN_KEY];
+    [self setSecureValue:authToken forKey:SERVICE_NAME];
     
     if (!authToken) {
         [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationTokenInvalidated object:self];
@@ -33,18 +33,25 @@
 
 + (void)setSecureValue:(NSString *)value forKey:(NSString *)key {
     if (value) {
-        [SSKeychain setPassword:value
-                     forService:SERVICE_NAME
-                        account:key];
+
+        NSError *error;
+
+        [SAMKeychain setPassword:value
+                     forService:AUTH_TOKEN_KEY
+                        account:key
+         error:&error];
+
+        if (error) {
+ 
+        }
     } else {
-        [SSKeychain deletePasswordForService:SERVICE_NAME account:key];
+        [SAMKeychain deletePasswordForService:AUTH_TOKEN_KEY account:key];
     }
 }
 
 + (NSString *)secureValueForKey:(NSString *)key {
-    return [SSKeychain passwordForService:SERVICE_NAME account:key];
+    return [SAMKeychain passwordForService:AUTH_TOKEN_KEY account:key];
 }
-
 
 
 @end
