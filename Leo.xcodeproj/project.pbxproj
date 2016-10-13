@@ -2591,7 +2591,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = Leo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Leo-Bridging-Header.h";
@@ -2646,7 +2646,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = Leo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "";
 				PROVISIONING_PROFILE = "";
@@ -2702,7 +2702,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = Leo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.leohealth.qa-consumer";
 				SWIFT_OBJC_BRIDGING_HEADER = "Leo-Bridging-Header.h";
@@ -2758,7 +2758,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = Leo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.leohealth.leo;
 				SWIFT_OBJC_BRIDGING_HEADER = "Leo-Bridging-Header.h";
@@ -2834,7 +2834,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = Leo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Leo-Bridging-Header.h";
@@ -2891,7 +2891,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = Leo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = $BUNDLE_IDENTIFIER;
 				PROVISIONING_PROFILE = "";
