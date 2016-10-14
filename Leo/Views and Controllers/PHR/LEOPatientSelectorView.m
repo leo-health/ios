@@ -8,7 +8,7 @@
 
 #import "LEOPatientSelectorView.h"
 #import "Patient.h"
-#import <GNZSegmentedControl.h>
+#import "GNZSegmentedControl.h"
 #import "LEOFormatting.h"
 
 @interface LEOPatientSelectorView ()

@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <JVFloatLabeledTextView.h>
+#import "JVFloatLabeledTextView.h"
 
 @interface LEOValidatedFloatLabeledTextView : JVFloatLabeledTextView
 

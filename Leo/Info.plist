@@ -2,10 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSCalendarsUsageDescription</key>
+	<string>${PRODUCT_NAME} asks for use of the calendar so that you may save appointment details to your device.</string>
 	<key>NSCameraUsageDescription</key>
-	<string>$(PRODUCT_NAME) camera use</string>
+	<string>$(PRODUCT_NAME) requests use of the camera so that you can share photos with your doctor and add avatars.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>$(PRODUCT_NAME) photo use</string>
+	<string>$(PRODUCT_NAME) requests use of the photo library so that you can share photos with your doctor and add avatars.</string>
 	<key>AppSettings</key>
 	<dict>
 		<key>ApiProtocol</key>

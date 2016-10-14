@@ -2039,6 +2039,7 @@
 					3132BEA11B84F9D100494727 = {
 						CreatedOnToolsVersion = 6.3.1;
 						DevelopmentTeam = 4Q3R8E5P59;
+						ProvisioningStyle = Manual;
 						TestTargetID = BCE1EC631B00E353007C8D0B;
 					};
 					BCE1EC631B00E353007C8D0B = {
@@ -2590,6 +2591,7 @@
 				CODE_SIGN_ENTITLEMENTS = Leo/Leo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 4Q3R8E5P59;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -2649,6 +2651,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Leo/Leo.entitlements;
+				DEVELOPMENT_TEAM = 4Q3R8E5P59;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -2658,6 +2661,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "";
 				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "com.leohealth.staging-consumer.distribution";
 				SWIFT_OBJC_BRIDGING_HEADER = "Leo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -2709,6 +2713,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Leo/Leo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = 4Q3R8E5P59;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -2768,6 +2773,7 @@
 				CODE_SIGN_ENTITLEMENTS = Leo/Leo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: LEO HEALTH, INC. (4Q3R8E5P59)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: LEO HEALTH, INC. (4Q3R8E5P59)";
+				DEVELOPMENT_TEAM = 4Q3R8E5P59;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -2776,6 +2782,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.leohealth.leo;
+				PROVISIONING_PROFILE = "6c1b1270-030b-40cb-8574-fb91b9f1e366";
+				PROVISIONING_PROFILE_SPECIFIER = "com.leohealth.leo.production-consumer";
 				SWIFT_OBJC_BRIDGING_HEADER = "Leo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -2849,6 +2857,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Leo/Leo.entitlements;
+				DEVELOPMENT_TEAM = 4Q3R8E5P59;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -2910,6 +2919,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Leo/Leo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = 4Q3R8E5P59;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
