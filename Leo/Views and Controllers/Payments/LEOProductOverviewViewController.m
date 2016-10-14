@@ -71,7 +71,7 @@ NSString * const kSegueContinueWithPayment = @"SegueContinueWithPayment";
                                         };
 
             firstDetailString = @"membership fee waived";
-            secondDetailString = @"valued at $240/yr";
+            secondDetailString = @"valued at $120/yr";
 
             price = @0;
 
@@ -92,7 +92,7 @@ NSString * const kSegueContinueWithPayment = @"SegueContinueWithPayment";
             firstDetailString = @"per child";
             secondDetailString = @"billed monthly";
 
-            price = @20;
+            price = @10;
         }
             break;
     }
