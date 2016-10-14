@@ -225,8 +225,6 @@ static NSString * const kCopyCollapsedHeaderEnrollment = @"Create an account";
 
 - (void)downloadRemoteEnvironmentVariablesIfNeededWithCompletion:(LEOErrorBlock)completionBlock {
 
-    [Configuration resetVendorID]; // NOTE: probably should remove the "IfNeeded" part of this mehtod. doesn't this line force a re-download?
-
     [Configuration downloadRemoteEnvironmentVariablesIfNeededWithCompletion:^(BOOL success, NSError *error) {
 
         if (error) {

@@ -168,10 +168,6 @@ static NSString *const ConfigurationAPIProtocol = @"ApiProtocol";
     return [NSUserDefaults leo_stringForKey:kConfigurationCrittercismAppID];
 }
 
-+ (NSString *)localyticsAppID {
-    return [NSUserDefaults leo_stringForKey:kConfigurationLocalyticsAppID];
-}
-
 + (void)updateCrittercismWithNewKeys {
 
     [Crittercism enableWithAppID:[Configuration crittercismAppID]];
@@ -188,15 +184,7 @@ static NSString *const ConfigurationAPIProtocol = @"ApiProtocol";
 }
 
 + (NSString *)vendorID {
-    return [[[LEOUserService new] getCurrentUser] anonymousCustomerServiceID] ?: [NSUserDefaults leo_stringForKey:kConfigurationVendorID];
-}
-
-+ (void)resetVendorID {
-    LEOUserService *service = [LEOUserService new];
-    Guardian *guardian = [service getCurrentUser];
-    [guardian resetAnonymousCustomerServiceID];
-    [service putCurrentUser:guardian];
-    [NSUserDefaults leo_removeObjectForKey:kConfigurationVendorID];
+    return [NSUserDefaults leo_stringForKey:kConfigurationVendorID];
 }
 
 + (NSString *)stripeKey {
@@ -215,14 +203,13 @@ static NSString *const ConfigurationAPIProtocol = @"ApiProtocol";
 
     [NSUserDefaults leo_removeObjectForKey:kConfigurationPusherAPIKey];
     [NSUserDefaults leo_removeObjectForKey:kConfigurationCrittercismAppID];
-    [NSUserDefaults leo_removeObjectForKey:kConfigurationLocalyticsAppID];
     [NSUserDefaults leo_removeObjectForKey:kConfigurationVendorID];
     [NSUserDefaults leo_removeObjectForKey:kConfigurationStripePublishableKey];
     [NSUserDefaults leo_removeObjectForKey:kConfigurationMinimumVersion];
 }
 
 + (BOOL)isMissingKeys {
-    return (![Configuration pusherKey] || ![Configuration crittercismAppID] || ![Configuration localyticsAppID] || ![Configuration vendorID] || ![Configuration stripeKey] || [Configuration minimumVersion]);
+    return (![Configuration pusherKey] || ![Configuration crittercismAppID] || ![Configuration vendorID] || ![Configuration stripeKey] || [Configuration minimumVersion]);
 }
 
 + (void)downloadRemoteEnvironmentVariablesIfNeededWithCompletion:(void (^) (BOOL success, NSError *error))completionBlock {
@@ -287,6 +274,14 @@ static NSString *const ConfigurationAPIProtocol = @"ApiProtocol";
             }
         }
     }];
+}
+
++ (BOOL)hasReviewedVendorID {
+    return [NSUserDefaults leo_stringForKey:kConfigurationHasReviewedVendorID];
+}
+
++ (void)setHasReviewedVendorID:(NSString *)hasReviewedVendorID {
+    [NSUserDefaults leo_setString:hasReviewedVendorID forKey:kConfigurationHasReviewedVendorID];
 }
 
 + (void)resetConfiguration {

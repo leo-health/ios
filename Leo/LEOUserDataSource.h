@@ -15,6 +15,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 - (Guardian * _Nullable)getCurrentUser;
+- (NSDictionary * _Nullable)currentUserDictionary;
+
 - (Guardian *)putCurrentUser:(Guardian *)guardian;
 - (void)logout;
 

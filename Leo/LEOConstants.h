@@ -625,10 +625,10 @@ extern NSString *const kErrorBodyMessagingDown; // @"We are experiencing technic
 #pragma mark - Configuration Parameters
 extern NSString *const kConfigurationPusherAPIKey; // @"PUSHER_KEY";
 extern NSString *const kConfigurationCrittercismAppID; // @"CRITTERCISM_APP_ID";
-extern NSString *const kConfigurationLocalyticsAppID; // @"LOCALYTICS_APP_ID";
 extern NSString *const kConfigurationVendorID; // @"vendor_id";
 extern NSString *const kConfigurationStripePublishableKey; // @"STRIPE_PUBLISHABLE_KEY";
 extern NSString *const kConfigurationMinimumVersion; // @"MINIMUM_VERSION_REQUIREMENT"; #major.minor.patch (no 'v' in front of the version number)
 extern NSString *const kConfigurationCurrentVersion; // @"version";
+extern NSString *const kConfigurationHasReviewedVendorID; // @"hasReviewedVendorID";
 
 @end

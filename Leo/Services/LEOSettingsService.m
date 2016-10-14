@@ -13,6 +13,7 @@
 #import "Configuration.h"
 #import "AppDelegate.h"
 #import "LEOPusherHelper.h"
+#import "LEOUserService.h"
 
 @implementation LEOSettingsService
 
@@ -27,20 +28,27 @@
             [Configuration updateCrittercismWithNewKeys];
 
             if (![[Configuration pusherKey] isEqualToString:[keyData leo_itemForKey:kConfigurationPusherAPIKey]]) {
+
                 [NSUserDefaults leo_setString:[keyData leo_itemForKey:kConfigurationPusherAPIKey] forKey:kConfigurationPusherAPIKey];
                 [[LEOPusherHelper sharedPusher] updateClientForNewKeys];
             }
 
-            if (![[Configuration vendorID] isEqualToString:[keyData leo_itemForKey:kConfigurationVendorID]]) {
+            if ([Configuration vendorID] == nil) {
 
                 [NSUserDefaults leo_setString:[keyData leo_itemForKey:kConfigurationVendorID] forKey:kConfigurationVendorID];
+                [Localytics setCustomerId:[Configuration vendorID]];
                 [Configuration updateCrashlyticsWithNewKeys];
+                [Configuration setHasReviewedVendorID:@"YES"];
             }
 
-            if (![[Configuration localyticsAppID] isEqualToString:[keyData leo_itemForKey:kConfigurationLocalyticsAppID]]) {
+            //HAX: ZSD - This is a patch for an issue prior to v1.4.2 where the vendorID was incorrect. The `hasReviewedVendorID` would be nil since it was created just for this purpose, so any user on a version prior to v1.4.2 would experience this path forward because they would have a prior vendorID but it would not be a reviewed one. Once all users are on v1.4.2 or later, this condition can be removed from the code base as it should no longer be relevant.
+            if (![Configuration hasReviewedVendorID] && [Configuration vendorID]) {
 
-                [NSUserDefaults leo_setString:[keyData leo_itemForKey:kConfigurationLocalyticsAppID] forKey:kConfigurationLocalyticsAppID];
+                NSDictionary *userDictionary = [[NSUserDefaults standardUserDefaults] objectForKey:APIEndpointCurrentUser];
+                [NSUserDefaults leo_setString:[userDictionary leo_itemForKey:kConfigurationVendorID] forKey:kConfigurationVendorID];
                 [Localytics setCustomerId:[Configuration vendorID]];
+                [Configuration updateCrashlyticsWithNewKeys];
+                [Configuration setHasReviewedVendorID:@"YES"];
             }
 
             if (![[Configuration crittercismAppID] isEqualToString:[keyData leo_itemForKey:kConfigurationCrittercismAppID]]) {

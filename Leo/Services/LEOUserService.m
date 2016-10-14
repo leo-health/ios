@@ -54,8 +54,14 @@
     }];
 }
 
+//FIXME: ZSD - Should this method exist given it is needed in the initializer of Guardian? This causes an infinite loop, but we also don't want to call the cachedService from the model layer directly, do we? So I've added the below `currentUserDictionary` to the class for us to get by for now. Thoughts?
+
 - (Guardian *)getCurrentUser {
     return [[Guardian alloc] initWithJSONDictionary:[self.cachedService get:APIEndpointCurrentUser params:nil]];
+}
+
+- (NSDictionary *)currentUserDictionary {
+    return [self.cachedService get:APIEndpointCurrentUser params:nil];
 }
 
 - (Guardian *)putCurrentUser:(Guardian *)guardian {
@@ -138,6 +144,11 @@
 
             NSDictionary *userDictionary = rawResults[APIParamUser];
             guardian = [[Guardian alloc] initWithJSONDictionary:userDictionary];
+
+            [NSUserDefaults leo_setString:guardian.vendorID forKey:APIParamUserVendorID];
+
+            [Localytics setCustomerId:[Configuration vendorID]];
+            [Configuration updateCrashlyticsWithNewKeys];
 
             [((AppDelegate *)[UIApplication sharedApplication].delegate) setupRemoteNotificationsForApplication:[UIApplication sharedApplication]];
         }
