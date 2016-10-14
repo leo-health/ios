@@ -25,7 +25,7 @@ final class LEOReferralViewController :
     @IBOutlet weak var bodyLabel: UILabel! {
         didSet {
             bodyLabel.text
-                = "Leo membership with Flatiron Pediatrics is $20/month per child. If your friend becomes a Leo member, they will get their first month free. Invite them to come to an Open House to meet the team and learn more. Thanks for spreading the word!"
+                = "Leo membership with Flatiron Pediatrics is $10/month per child. If your friend becomes a Leo member, they will get their first month free. Invite them to come to an Open House to meet the team and learn more. Thanks for spreading the word!"
             bodyLabel.font = UIFont.leo_regular15()
             bodyLabel.textColor = UIColor.leo_gray124()
             bodyLabel.numberOfLines = 0
@@ -69,7 +69,7 @@ final class LEOReferralViewController :
     }
 
     func emailBody() -> String {
-        return "Hi,<br/><br/>We are members of Leo + Flatiron Pediatrics and love our experience. In addition to providing great clinical care they have a ton of features that make managing my family’s care so much easier. There is a mobile app where I can message the care team directly, schedule/reschedule appointments, and access my child’s health record.  I can also book same-day appointments, get prescriptions delivered for free, and even participate in appointments virtually.<br/><br/>Leo membership with Flatiron Pediatrics is $20/month per child.<br/><br/>To learn more, <strong><a href=\"www.leohealth.com\">check out their website</a></strong> and sign up for an Open House using the referral link below. If you decide to become a member you'll get your first month free!<br/><strong><a href=\"\(referralURL)\">\(referralURL)</a></strong>"
+        return "Hi,<br/><br/>We are members of Leo + Flatiron Pediatrics and love our experience. In addition to providing great clinical care they have a ton of features that make managing my family’s care so much easier. There is a mobile app where I can message the care team directly, schedule/reschedule appointments, and access my child’s health record.  I can also book same-day appointments, get prescriptions delivered for free, and even participate in appointments virtually.<br/><br/>Leo membership with Flatiron Pediatrics is $10/month per child.<br/><br/>To learn more, <strong><a href=\"www.leohealth.com\">check out their website</a></strong> and sign up for an Open House using the referral link below. If you decide to become a member you'll get your first month free!<br/><strong><a href=\"\(referralURL)\">\(referralURL)</a></strong>"
     }
 
     // MARK: Button Actions

@@ -363,7 +363,7 @@ CGFloat const kPaddingHorizontalToolbarButtons = 20;
 CGFloat const kHeightDefaultToolbar = 44;
 CGFloat const kNumberOfProgressDots = 6;
 CGFloat const kHeightOnboardingHeaders = 114;
-CGFloat const kChargePerChild = 20;
+CGFloat const kChargePerChild = 10;
 
 #pragma mark - Segues
 NSString *const kSegueContinue = @"ContinueSegue";
