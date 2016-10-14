@@ -250,19 +250,6 @@ NS_ENUM(NSInteger, TableViewRow) {
 
     LEOPHRTableViewCell *textCell = (LEOPHRTableViewCell *)cell;
 
-    // MARK: IOS8 only
-    // get margins from the nib to determine the preferred max layout width
-    // ????: HAX: is there a less hacky way of doing this?
-    UILabel *growingLabel = textCell.recordMainDetailLabel;
-    CGFloat margins = CGRectGetWidth(textCell.contentView.bounds) - CGRectGetWidth(growingLabel.bounds);
-    CGFloat finalWidth = CGRectGetWidth(self.tableView.bounds) - margins;
-    [growingLabel setPreferredMaxLayoutWidth:finalWidth];
-
-    UILabel *othergrowingLabel = textCell.recordTitleLabel;
-    CGFloat othermargins = CGRectGetWidth(textCell.contentView.bounds) - CGRectGetWidth(othergrowingLabel.bounds);
-    CGFloat otherfinalWidth = CGRectGetWidth(self.tableView.bounds) - othermargins;
-    [othergrowingLabel setPreferredMaxLayoutWidth:otherfinalWidth];
-
     switch (indexPath.section) {
 
         case TableViewSectionEmptyRecord:
@@ -410,11 +397,9 @@ NS_ENUM(NSInteger, TableViewRow) {
     if (![self tableView:tableView shouldHaveHeaderInSection:section]) {
         return nil;
     }
-
+    
     UITableViewHeaderFooterView *sectionHeaderView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"headerView"];
 
-    [sectionHeaderView.contentView removeConstraints:sectionHeaderView.contentView.constraints];
-    
     for (UIView *subview in sectionHeaderView.contentView.subviews) {
         [subview removeFromSuperview];
     }
