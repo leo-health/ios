@@ -101,16 +101,16 @@
 
 - (void)setupNavigationBar {
 
-    if ([self isModal]) {
+    if ([self isModal] && self.feature != FeatureOnboarding) {
         [LEOStyleHelper styleNavigationBarForViewController:self
                                                  forFeature:self.feature
-                                              withTitleText:@"Share Preview"
+                                              withTitleText:self.titleString
                                                   dismissal:YES
                                                  backButton:NO];
     } else {
         [LEOStyleHelper styleNavigationBarForViewController:self
                                                  forFeature:self.feature
-                                              withTitleText:@"Share Preview"
+                                              withTitleText:self.titleString
                                                   dismissal:NO
                                                  backButton:YES];
     }

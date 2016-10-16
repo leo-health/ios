@@ -152,6 +152,9 @@ NSString *const kCopyEditPaymentsHeader = @"Update your credit or debit card";
 
         _paymentsView = [self leo_loadViewFromNibForClass:[LEOPaymentsView class]];
 
+        if (!self.family) {
+            self.family = [[LEOFamilyService new] getFamily];
+        }
         _paymentsView.numberOfChildren = self.family.patients.count;
         _paymentsView.chargePerChild = kChargePerChild;
         _paymentsView.managementMode = self.managementMode;
