@@ -2047,7 +2047,13 @@
 						DevelopmentTeam = 4Q3R8E5P59;
 						LastSwiftMigration = 0800;
 						SystemCapabilities = {
+							com.apple.InAppPurchase = {
+								enabled = 0;
+							};
 							com.apple.Keychain = {
+								enabled = 0;
+							};
+							com.apple.Push = {
 								enabled = 1;
 							};
 						};
