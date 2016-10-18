@@ -1,6 +1,11 @@
     upcoming:
-    - Addition of push notifications entitlement; removal of keychain sharing entitlement.
     releases:
+    - version: 1.4.2
+      build: 2016.10.16.20.30
+      date: October 16 2016
+      notes:
+      - Addition of push notifications entitlement; removal of keychain sharing entitlement.
+    
 
     - version: 1.4.2
       build: 2016.10.16.19.17
@@ -514,6 +519,7 @@
       notes:
       - First test build using new Fastfile configuration for Alpha builds
       - Provides the basic functionality all created prior to our first releases
+
 
 
 
