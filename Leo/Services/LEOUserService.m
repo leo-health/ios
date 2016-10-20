@@ -161,7 +161,10 @@
 
 - (LEOPromise *)logoutUserWithCompletion:(void (^)(BOOL success, NSError *error))completionBlock {
 
-    return [self.cachedService destroy:@"logout" params:nil completion:^(NSDictionary *rawResults, NSError *error) {
+    LEOCachePolicy *policy = [LEOCachePolicy new];
+    policy.destroy = LEOCachePolicyDESTROYCacheThenDESTROYNetwork;
+    LEOCachedService *service = [LEOCachedService serviceWithCachePolicy:policy];
+    return [service destroy:@"logout" params:nil completion:^(NSDictionary *rawResults, NSError *error) {
 
         if (error) {
             [[UIApplication sharedApplication] unregisterForRemoteNotifications];
