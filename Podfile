@@ -15,7 +15,7 @@ pod 'Crashlytics' #non-standard license; https://fabric.io/privacy
 pod 'Localytics',  '~> 3.0' #License needed?
 pod 'Stripe' #License needed?
 pod 'JSQMessagesViewController' #MIT
-pod 'libPusher', '~> 1.5' #MIT
+pod 'libPusher', '1.6.1' #MIT
 
 #Good to have, but could rewrite; not worth it for now
 pod 'AFNetworking' #MIT

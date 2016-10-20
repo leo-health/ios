@@ -25,10 +25,10 @@ PODS:
   - JSQMessagesViewController (7.3.4):
     - JSQSystemSoundPlayer (~> 2.0.1)
   - JSQSystemSoundPlayer (2.0.1)
-  - libPusher (1.6.2):
-    - libPusher/Core (= 1.6.2)
-  - libPusher/Core (1.6.2):
-    - SocketRocket (= 0.5.1)
+  - libPusher (1.6.1):
+    - libPusher/Core (= 1.6.1)
+  - libPusher/Core (1.6.1):
+    - SocketRocket (= 0.4.1)
   - Localytics (3.8.0)
   - MBProgressHUD (1.0.0)
   - OHHTTPStubs (5.2.1):
@@ -46,7 +46,7 @@ PODS:
   - OHHTTPStubs/OHPathHelpers (5.2.1)
   - RSKImageCropper (1.5.1)
   - SAMKeychain (1.5.2)
-  - SocketRocket (0.5.1)
+  - SocketRocket (0.4.1)
   - Specta (1.0.4)
   - Stripe (9.0.0)
   - TTTAttributedLabel (2.0.0)
@@ -62,7 +62,7 @@ DEPENDENCIES:
   - Expecta
   - Fabric
   - JSQMessagesViewController
-  - libPusher (~> 1.5)
+  - libPusher (= 1.6.1)
   - Localytics (~> 3.0)
   - MBProgressHUD
   - OHHTTPStubs
@@ -94,13 +94,13 @@ SPEC CHECKSUMS:
   Fabric: c73f371ee543e3f0b80608f2674750e4910d1669
   JSQMessagesViewController: 39fed975e3c9f8eba7292071e29eeb541d105e66
   JSQSystemSoundPlayer: c5850e77a4363ffd374cd851154b9af93264ed8d
-  libPusher: 21c6209fa84a829e963f1b2fe5bff34722f3f3f4
+  libPusher: 5ea58aeb83fa4ac1f5d8ef8543b1def6ace997b8
   Localytics: 8fd8455e92c5d5d507d1302e704e7db5ca2a33bf
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   OHHTTPStubs: 3a42f25c00563b71355ac73112ba2324e9e6cef4
   RSKImageCropper: edd65fedb3734332818deb139906d6b7f54b8a44
   SAMKeychain: 1865333198217411f35327e8da61b43de79b635b
-  SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
+  SocketRocket: ee0b5c34182d37bb4f1f8d628bbe737718126daa
   Specta: 69bb134672aae190a1379ff91df07dad8dd1f869
   Stripe: 935c6deb5e96cbd29d247074bf3aa98a8438e22c
   TTTAttributedLabel: 8cffe8e127e4e82ff3af1e5386d4cd0ad000b656

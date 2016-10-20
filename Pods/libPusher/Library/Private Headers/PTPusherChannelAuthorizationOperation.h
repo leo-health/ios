@@ -7,19 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "PTPusherChannelAuthorizationDelegate.h"
 #import "PTURLRequestOperation.h"
-
-@class PTPusherChannelAuthorizationOperation;
-
-@interface PTPusherChannelServerBasedAuthorization : NSObject <PTPusherChannelAuthorizationDelegate>
-
-@property (nonatomic, readonly) NSURL *authorizationURL;
-
-- (id)initWithAuthorizationURL:(NSURL *)URL;
-- (void)customizeOperationsWithBlock:(void (^)(PTPusherChannelAuthorizationOperation *request, PTPusherChannel *))requestBlock;
-
-@end
 
 typedef enum {
   PTPusherChannelAuthorizationConnectionError = 100,
@@ -31,8 +19,7 @@ typedef enum {
 @property (nonatomic, copy) void (^completionHandler)(PTPusherChannelAuthorizationOperation *);
 @property (nonatomic, readonly, getter=isAuthorized) BOOL authorized;
 @property (nonatomic, strong, readonly) NSDictionary *authorizationData;
-@property (nonatomic, copy) NSDictionary *customRequestParameters;
-@property (unsafe_unretained, nonatomic, readonly) NSMutableURLRequest *mutableURLRequest;
+@property (weak, nonatomic, readonly) NSMutableURLRequest *mutableURLRequest;
 @property (nonatomic, readonly) NSError *error;
 
 + (id)operationWithAuthorizationURL:(NSURL *)URL channelName:(NSString *)channelName socketID:(NSString *)socketID;
