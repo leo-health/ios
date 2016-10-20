@@ -1,11 +1,13 @@
     upcoming:
+    - Fixes bug related to real time messaging.
+
     releases:
     - version: 1.4.2
       build: 2016.10.16.20.30
       date: October 16 2016
       notes:
       - Addition of push notifications entitlement; removal of keychain sharing entitlement.
-    
+
 
     - version: 1.4.2
       build: 2016.10.16.19.17
