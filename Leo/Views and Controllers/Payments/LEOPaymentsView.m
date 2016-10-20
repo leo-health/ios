@@ -13,16 +13,18 @@
 #import "UIColor+LEOColors.h"
 #import "UIButton+Extensions.h"
 #import "NSString+Extensions.h"
+#import "LEOUserService.h"
+#import "Guardian.h"
 
 @interface LEOPaymentsView () <UITextViewDelegate, LEOPromptDelegate>
 
-@property (weak, nonatomic) IBOutlet UILabel *paymentInstructionsLabel;
-@property (weak, nonatomic) IBOutlet UILabel *chargeDetailsLabel;
-@property (weak, nonatomic) IBOutlet UIButton *continueButton;
-@property (weak, nonatomic) IBOutlet STPPaymentCardTextField *paymentTextField;
-@property (weak, nonatomic) IBOutlet UILabel *paymentCardHeaderLabel;
+@property (weak, nonatomic) UILabel *paymentInstructionsLabel;
+@property (weak, nonatomic) UILabel *chargeDetailsLabel;
+@property (weak, nonatomic) UIButton *continueButton;
+@property (weak, nonatomic) STPPaymentCardTextField *paymentTextField;
+@property (weak, nonatomic) UILabel *paymentCardHeaderLabel;
 
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *promoFieldTopSpaceConstraint;
+@property (weak, nonatomic) NSLayoutConstraint *promoFieldTopSpaceConstraint;
 @property (strong, nonatomic) NSLayoutConstraint *promoFieldHeightConstraint;
 
 @end
@@ -219,11 +221,15 @@
 
     NSString *baseString = @"We ask that you keep one active credit or debit card on file to cover your monthly membership fee.";
 
+    Guardian *guardian = [[LEOUserService new] getCurrentUser];
+
     if (self.managementMode == ManagementModeCreate) {
         _paymentInstructionsLabel.text = baseString;
-    } else if (self.managementMode == ManagementModeEdit){
+    } else if (guardian.membershipType == MembershipTypeMember) {
+        _paymentInstructionsLabel.text = [NSString stringWithFormat:@"You may change the card you use with Leo at any time by entering a new card number below. %@", baseString];
+    } else if (self.managementMode == ManagementModeEdit) {
         _paymentInstructionsLabel.text =
-        [NSString stringWithFormat:@"The card we have on file for you is invalid. %@", baseString];
+        [NSString stringWithFormat:@"The card we have on file for you is invalid or we do not currently have a card on file for you. %@", baseString];
     }
 }
 

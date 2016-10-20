@@ -14,6 +14,7 @@
 #import "AppDelegate.h"
 #import "LEOPusherHelper.h"
 #import "LEOUserService.h"
+#import "LEOCredentialStore.h"
 
 @implementation LEOSettingsService
 
@@ -33,7 +34,7 @@
                 [[LEOPusherHelper sharedPusher] updateClientForNewKeys];
             }
 
-            if ([Configuration vendorID] == nil) {
+            if ([Configuration vendorID] == nil || [LEOCredentialStore authToken] == nil) {
 
                 [NSUserDefaults leo_setString:[keyData leo_itemForKey:kConfigurationVendorID] forKey:kConfigurationVendorID];
                 [Localytics setCustomerId:[Configuration vendorID]];

@@ -15,7 +15,7 @@
 
 @interface LEOSignUpUserView ()
 
-@property (weak, nonatomic) IBOutlet UIView *contentView;
+@property (weak, nonatomic) UIView *contentView;
 
 @end
 

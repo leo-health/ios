@@ -25,6 +25,8 @@
     [self styleNavigationBarShadowLineForViewController:viewController feature:feature shadow:NO];
     [self styleViewController:viewController navigationTitleText:titleText forFeature:feature];
 
+    viewController.navigationItem.hidesBackButton = YES;
+
     if (backAvailable) {
         [self styleBackButtonForViewController:viewController forFeature:feature];
     }
@@ -39,6 +41,8 @@
     [self styleNavigationBar:viewController.navigationController.navigationBar forFeature:feature];
     [self styleNavigationBarShadowLineForViewController:viewController feature:feature shadow:shadow];
     [self styleViewController:viewController navigationTitleText:titleText forFeature:feature];
+
+    viewController.navigationItem.hidesBackButton = YES;
 
     if (backAvailable) {
         [self styleBackButtonForViewController:viewController forFeature:feature];

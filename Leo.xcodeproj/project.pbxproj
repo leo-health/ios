@@ -2039,6 +2039,7 @@
 					3132BEA11B84F9D100494727 = {
 						CreatedOnToolsVersion = 6.3.1;
 						DevelopmentTeam = 4Q3R8E5P59;
+						ProvisioningStyle = Manual;
 						TestTargetID = BCE1EC631B00E353007C8D0B;
 					};
 					BCE1EC631B00E353007C8D0B = {
@@ -2046,7 +2047,13 @@
 						DevelopmentTeam = 4Q3R8E5P59;
 						LastSwiftMigration = 0800;
 						SystemCapabilities = {
+							com.apple.InAppPurchase = {
+								enabled = 0;
+							};
 							com.apple.Keychain = {
+								enabled = 0;
+							};
+							com.apple.Push = {
 								enabled = 1;
 							};
 						};
@@ -2569,8 +2576,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zachary Drossman (C7TN5PHTLC)";
-				CURRENT_PROJECT_VERSION = 2016.09.28.12.19;
+				CURRENT_PROJECT_VERSION = 2016.10.16.20.30;
 				DEFINES_MODULE = YES;
 				ENABLE_TESTABILITY = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
@@ -2583,11 +2591,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 312594B81BE2D2C100A497C0 /* Local.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				BUNDLE_IDENTIFIER = "com.leohealth.dev-consumer";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Leo/Leo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 4Q3R8E5P59;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -2629,7 +2639,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 2016.09.28.12.19;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CURRENT_PROJECT_VERSION = 2016.10.16.20.30;
 				DEFINES_MODULE = YES;
 				ENABLE_TESTABILITY = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
@@ -2643,8 +2654,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3126E59A1C8F3CC00047189C /* Staging.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Leo/Leo.entitlements;
+				DEVELOPMENT_TEAM = 4Q3R8E5P59;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -2654,6 +2667,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "";
 				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "com.leohealth.staging-consumer.distribution";
 				SWIFT_OBJC_BRIDGING_HEADER = "Leo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -2686,7 +2700,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 2016.09.28.12.19;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CURRENT_PROJECT_VERSION = 2016.10.16.20.30;
 				DEFINES_MODULE = YES;
 				ENABLE_TESTABILITY = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
@@ -2700,9 +2715,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3126E59C1C8F3F470047189C /* QA.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Leo/Leo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = 4Q3R8E5P59;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -2744,7 +2761,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 2016.09.28.12.19;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CURRENT_PROJECT_VERSION = 2016.10.16.20.30;
 				DEFINES_MODULE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				PROVISIONING_PROFILE = "";
@@ -2756,10 +2774,12 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3126E59B1C8F3D8F0047189C /* AppStore.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Leo/Leo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: LEO HEALTH, INC. (4Q3R8E5P59)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: LEO HEALTH, INC. (4Q3R8E5P59)";
+				DEVELOPMENT_TEAM = 4Q3R8E5P59;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -2768,6 +2788,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.leohealth.leo;
+				PROVISIONING_PROFILE = "6c1b1270-030b-40cb-8574-fb91b9f1e366";
+				PROVISIONING_PROFILE_SPECIFIER = "com.leohealth.leo.production-consumer";
 				SWIFT_OBJC_BRIDGING_HEADER = "Leo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -2825,7 +2847,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 2016.09.28.12.19;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CURRENT_PROJECT_VERSION = 2016.10.16.20.30;
 				DEFINES_MODULE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				PROVISIONING_PROFILE = "";
@@ -2837,8 +2860,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 31BB45EB1C17757A0036224C /* Testflight.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Leo/Leo.entitlements;
+				DEVELOPMENT_TEAM = 4Q3R8E5P59;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -2880,8 +2905,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40551B838AD000834BC2 /* Application.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 2016.09.28.12.19;
+				CURRENT_PROJECT_VERSION = 2016.10.16.20.30;
 				DEFINES_MODULE = YES;
 				ENABLE_TESTABILITY = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
@@ -2895,9 +2921,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 314A40561B838AE700834BC2 /* Development.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Leo/Leo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = 4Q3R8E5P59;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",

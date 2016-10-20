@@ -191,9 +191,12 @@ static NSString * const kCopyCollapsedHeaderEnrollment = @"Create an account";
 
 - (void)continueTapped:(UIButton *)sender {
 
+
     [LEOBreadcrumb crumbWithFunction:__PRETTY_FUNCTION__];
 
     if ([self viewHasValidAndCompleteFields]) {
+
+        [Configuration resetConfiguration];
 
         [MBProgressHUD showHUDAddedTo:self.view
                              animated:YES];

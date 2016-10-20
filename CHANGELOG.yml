@@ -1,11 +1,27 @@
     upcoming:
     releases:
+    - version: 1.4.2
+      build: 2016.10.16.20.30
+      date: October 16 2016
+      notes:
+      - Addition of push notifications entitlement; removal of keychain sharing entitlement.
+    
+
+    - version: 1.4.2
+      build: 2016.10.16.19.17
+      date: October 16 2016
+      notes:
+      - Transitions to iOS 10 / Xcode 8
+      - Fixes bug associated with constant vendor id
+      - Fixes bug associated with PHR layout
+      - Updates pricing copy to $10/month
+
     - version: 1.4.1
       build: 2016.09.28.12.19
       date: September 28 2016
       notes:
       - Bug fixes
-    
+
     - version: 1.4.1
       build: 2016.09.17.15.02
       date: September 17 2016
@@ -503,6 +519,8 @@
       notes:
       - First test build using new Fastfile configuration for Alpha builds
       - Provides the basic functionality all created prior to our first releases
+
+
 
 
 
