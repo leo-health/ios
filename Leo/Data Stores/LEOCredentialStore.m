@@ -12,11 +12,20 @@
 
 #define SERVICE_NAME @"LEO-AuthClient"
 #define AUTH_TOKEN_KEY @"auth_token"
+#define DEVICE_TOKEN_KEY @"device_token"
 
 @implementation LEOCredentialStore
 
 + (void)clearSavedCredentials {
     [self setAuthToken:nil];
+}
+
++ (NSString *)deviceToken {
+    return [self secureValueForKey:DEVICE_TOKEN_KEY];
+}
+
++ (void)setDeviceToken:(NSString *)deviceToken {
+    [self setSecureValue:deviceToken forKey:DEVICE_TOKEN_KEY];
 }
 
 + (NSString *)authToken {

@@ -7,6 +7,7 @@
 //
 
 #import "LEODevice.h"
+#import "LEOCredentialStore.h"
 #import <sys/utsname.h>
 
 //Source: http://stackoverflow.com/questions/25780283/ios-how-to-detect-iphone-6-plus-iphone-6-iphone-5-by-macro
@@ -25,36 +26,6 @@
 #define IS_IPHONE_6P (IS_IPHONE && SCREEN_MAX_LENGTH == 736.0)
 
 @implementation LEODevice
-
-static LEODevice *_device = nil;
-static NSString *_token = nil;
-static dispatch_once_t onceToken;
-
-+ (void)resetDeviceToken {
-    
-    onceToken = 0;
-    _device = nil;
-}
-
-+ (NSString *)deviceToken {
-    
-    return _token;
-}
-
-+ (instancetype)createTokenWithString:(NSString *)token {
-    
-    if (onceToken) {
-        _token = token;
-    }
-    
-    dispatch_once(&onceToken, ^{
-        
-        _device = [[self alloc] init];
-        _token = token;
-    });
-    
-    return _device;
-}
 
 // SOURCE: http://stackoverflow.com/questions/11197509/ios-how-to-get-device-make-and-model
 + (NSString*) deviceType {
@@ -97,6 +68,11 @@ static dispatch_once_t onceToken;
                               @"iPhone7,2" :@"iPhone 6",        //
                               @"iPhone8,1" :@"iPhone 6S",       //
                               @"iPhone8,2" :@"iPhone 6S Plus",  //
+                              @"iPhone8,4" :@"iPhone SE",
+                              @"iPhone9,1" :@"iPhone 7",
+                              @"iPhone9,3" :@"iPhone 7",
+                              @"iPhone9,2" :@"iPhone 7 Plus",
+                              @"iPhone9,4" :@"iPhone 7 Plus",
                               @"iPad4,1"   :@"iPad Air",        // 5th Generation iPad (iPad Air) - Wifi
                               @"iPad4,2"   :@"iPad Air",        // 5th Generation iPad (iPad Air) - Cellular
                               @"iPad4,4"   :@"iPad Mini",       // (2nd Generation iPad Mini - Wifi)
@@ -156,13 +132,20 @@ static dispatch_once_t onceToken;
     return oSVersionString;
 }
 
++ (BOOL)apnsPermissions {
+
+    UIUserNotificationSettings *grantedSettings = [[UIApplication sharedApplication] currentUserNotificationSettings];
+    return grantedSettings.types != UIUserNotificationTypeNone;
+}
+
 + (NSDictionary *)serializeToJSON {
 
     NSMutableDictionary *json = [NSMutableDictionary new];
     json[APIParamSessionPlatform] = @"ios";
     json[APIParamSessionDeviceType] = [self deviceType];
     json[APIParamSessionOSVersion] = [self osVersionString];
-    json[APIParamSessionDeviceToken] = [self deviceToken];
+    json[APIParamSessionDeviceToken] = [LEOCredentialStore deviceToken];
+    json[APIParamSessionAPNSPermissions] = @([self apnsPermissions]);
     return [json copy];
 }
 

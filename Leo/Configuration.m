@@ -230,21 +230,12 @@ static NSString *const ConfigurationAPIProtocol = @"ApiProtocol";
     }
 }
 
-+ (void)checkIfVersionHasChanged:(void (^) (NSError *error))completionBlock {
-    
-    NSString *storedVersion = [NSUserDefaults leo_stringForKey:kConfigurationCurrentVersion];
-    
-    if ([[LEOApp appVersion] compare:storedVersion options:NSNumericSearch] == NSOrderedDescending) {
-        
-        LEOCachePolicy *policy = [LEOCachePolicy new];
-        policy.post = LEOCachePolicyPOSTNetworkThenPOSTCache;
-        [[LEOUserService serviceWithCachePolicy:policy] createSessionWithCompletion:^(NSError *error) {
-            
-            if (completionBlock) {
-                error ?  completionBlock(error) : completionBlock(nil);
-            }
-        }];
-    }
++ (BOOL)hasVersionChanged {
+    NSString *storedVersion =
+    [NSUserDefaults leo_stringForKey:kConfigurationCurrentVersion];
+     return [[LEOApp appVersion] compare:storedVersion options:NSNumericSearch]
+    == NSOrderedDescending;
+
 }
 
 + (void)checkVersionRequirementMetWithCompletion:(void (^) (BOOL meetsMinimumVersionRequirements, NSError *error))completionBlock {

@@ -156,6 +156,7 @@ NSString *const APIParamUserStaff = @"staff";
 
 #pragma mark - Session
 NSString *const APIParamSessionDeviceToken = @"device_token";
+NSString *const APIParamSessionAPNSPermissions = @"apns_permissions";
 NSString *const APIParamSessionDeviceType = @"device_type";
 NSString *const APIParamSessionPlatform = @"platform";
 NSString *const APIParamSessionOSVersion = @"os_version";

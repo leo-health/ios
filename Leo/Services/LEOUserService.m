@@ -204,7 +204,7 @@
 - (void)createSessionWithCompletion:(LEOErrorBlock)completionBlock {
 
     NSDictionary *params = [LEOSession serializeToJSON];
-    
+
     [self.cachedService post:APIEndpointSessions params:params completion:^(NSDictionary *rawResults, NSError *error) {
         
         if (!error) {

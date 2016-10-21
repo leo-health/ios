@@ -35,6 +35,7 @@
     
     [self setupGlobalFormatting];
 
+    [SAMKeychain setAccessibilityType:kSecAttrAccessibleWhenUnlockedThisDeviceOnly];
     [self setupRemoteNotificationsForApplication:application];
     [self setupObservers];
 
@@ -153,13 +154,12 @@
 
     // NOTE: af I think this is used to log someone out before taking local actions
     [[LEOUserService serviceWithCachePolicy:[LEOCachePolicy networkOnly]] getCurrentUserWithCompletion:nil];
+
+    [self setupRemoteNotificationsForApplication:application];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    if ([LEOCredentialStore authToken]) {
-        [self updateStoredVersionNumberIfNeeded];
-    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
@@ -170,6 +170,25 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+- (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
+
+    if (notificationSettings.types != UIUserNotificationTypeNone) {
+        return;
+    }
+
+    BOOL permissionsRevoked = [LEOCredentialStore deviceToken];
+
+    if (permissionsRevoked) {
+        [LEOCredentialStore setDeviceToken:nil];
+    }
+
+    BOOL sessionNeedsUpdate = [LEOCredentialStore authToken]
+        && (permissionsRevoked || [Configuration hasVersionChanged]);
+    if (sessionNeedsUpdate) {
+        [[LEOUserService new] createSessionWithCompletion:nil];
+    }
+}
+
 - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken {
     
     // Prepare the Device Token for Registration (remove spaces and < >)
@@ -178,7 +197,16 @@
                                     stringByReplacingOccurrencesOfString:@">" withString:@""]
                                    stringByReplacingOccurrencesOfString: @" " withString: @""];
 
-    [LEODevice createTokenWithString:deviceTokenString];
+    NSString *previousDeviceToken = [LEOCredentialStore deviceToken];
+
+    [LEOCredentialStore setDeviceToken:deviceTokenString];
+    BOOL deviceTokenChanged = ![deviceTokenString isEqualToString:previousDeviceToken];
+    BOOL sessionNeedsUpdate = [LEOCredentialStore authToken]
+        && (deviceTokenChanged || [Configuration hasVersionChanged]);
+
+    if (sessionNeedsUpdate) {
+        [[LEOUserService new] createSessionWithCompletion:nil];
+    }
 }
 
 - (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error {
@@ -265,17 +293,6 @@
         return [[nav viewControllers] firstObject];
     }
     return nil;
-}
-
-- (void)updateStoredVersionNumberIfNeeded {
-    
-    [Configuration checkIfVersionHasChanged:^(NSError *error) {
-
-        //TODO: Determine appropriate error response.
-        if (error) {
-            return;
-        }
-    }];
 }
 
 
