@@ -1,11 +1,13 @@
     upcoming:
+    - Fixes a bug related to push notification permissions.
+
     releases:
     - version: 1.4.2
       build: 2016.10.20.13.20
       date: October 20 2016
       notes:
       - Fixes bug related to real time messaging.
-    
+
     - version: 1.4.2
       build: 2016.10.16.20.30
       date: October 16 2016
