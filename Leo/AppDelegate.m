@@ -36,6 +36,7 @@
     [self setupGlobalFormatting];
 
     [SAMKeychain setAccessibilityType:kSecAttrAccessibleWhenUnlockedThisDeviceOnly];
+    [self setupRemoteNotificationsForApplication:application];
     [self setupObservers];
 
     [Configuration resetStripeKey];
@@ -153,11 +154,12 @@
 
     // NOTE: af I think this is used to log someone out before taking local actions
     [[LEOUserService serviceWithCachePolicy:[LEOCachePolicy networkOnly]] getCurrentUserWithCompletion:nil];
+
+    [self setupRemoteNotificationsForApplication:application];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    [self setupRemoteNotificationsForApplication:application];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
@@ -170,16 +172,18 @@
 
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
 
-    BOOL permissionsRevoked =
-    [LEOCredentialStore deviceToken] &&
-    notificationSettings.types == UIUserNotificationTypeNone;
+    if (notificationSettings.types != UIUserNotificationTypeNone) {
+        return;
+    }
+
+    BOOL permissionsRevoked = [LEOCredentialStore deviceToken];
 
     if (permissionsRevoked) {
         [LEOCredentialStore setDeviceToken:nil];
     }
 
     BOOL sessionNeedsUpdate = [LEOCredentialStore authToken]
-    && (permissionsRevoked || [Configuration hasVersionChanged]);
+        && (permissionsRevoked || [Configuration hasVersionChanged]);
     if (sessionNeedsUpdate) {
         [[LEOUserService new] createSessionWithCompletion:nil];
     }
@@ -193,13 +197,12 @@
                                     stringByReplacingOccurrencesOfString:@">" withString:@""]
                                    stringByReplacingOccurrencesOfString: @" " withString: @""];
 
-
     NSString *previousDeviceToken = [LEOCredentialStore deviceToken];
 
     [LEOCredentialStore setDeviceToken:deviceTokenString];
     BOOL deviceTokenChanged = ![deviceTokenString isEqualToString:previousDeviceToken];
     BOOL sessionNeedsUpdate = [LEOCredentialStore authToken]
-    && (deviceTokenChanged || [Configuration hasVersionChanged]);
+        && (deviceTokenChanged || [Configuration hasVersionChanged]);
 
     if (sessionNeedsUpdate) {
         [[LEOUserService new] createSessionWithCompletion:nil];
