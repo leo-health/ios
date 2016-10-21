@@ -13,5 +13,7 @@
 + (void)clearSavedCredentials;
 + (NSString *)authToken;
 + (void)setAuthToken:(NSString *)authToken;
++ (NSString *)deviceToken;
++ (void)setDeviceToken:(NSString *)deviceToken;
 
 @end
