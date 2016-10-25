@@ -1,11 +1,13 @@
     upcoming:
+    - Updates SSL certificate
+
     releases:
     - version: 1.4.3
       build: 2016.10.24.10.38
       date: October 24 2016
       notes:
       - Fixes a bug related to logout that doesn't update the local state.
-    
+
     - version: 1.4.3
       build: 2016.10.24.10.21
       date: October 24 2016
