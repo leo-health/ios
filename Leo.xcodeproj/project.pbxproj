@@ -89,6 +89,7 @@
 		3144179A1D2C6DA30006736F /* LEOVitalScoreboardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 314417991D2C6DA30006736F /* LEOVitalScoreboardView.m */; };
 		3144179D1D2D66BF0006736F /* LEOStatWithTypeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3144179C1D2D66BF0006736F /* LEOStatWithTypeView.m */; };
 		314417A01D2D66D00006736F /* LEOTwoPartStatView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3144179F1D2D66D00006736F /* LEOTwoPartStatView.m */; };
+		31442B351DBFA58900A51B64 /* *.leohealth.com.cer in Resources */ = {isa = PBXBuildFile; fileRef = 31442B341DBFA58900A51B64 /* *.leohealth.com.cer */; };
 		314655101BFD1FE700354181 /* AppointmentStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 3146550F1BFD1FE700354181 /* AppointmentStatus.m */; };
 		314A405F1B83B1B400834BC2 /* Configuration.m in Sources */ = {isa = PBXBuildFile; fileRef = 314A405E1B83B1B400834BC2 /* Configuration.m */; };
 		314AC6101B85274000BF6869 /* LEOApiReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 314AC60F1B85274000BF6869 /* LEOApiReachability.m */; };
@@ -218,7 +219,6 @@
 		31F5AA801B7920B700F96D06 /* Appointment.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 31F5AA7F1B7920B700F96D06 /* Appointment.storyboard */; };
 		31FCDD5E1C56A64200BE4B78 /* LEOReviewOnboardingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FCDD5D1C56A64200BE4B78 /* LEOReviewOnboardingView.m */; };
 		31FCDD601C56A65E00BE4B78 /* LEOReviewOnboardingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 31FCDD5F1C56A65E00BE4B78 /* LEOReviewOnboardingView.xib */; };
-		31FCDD6E1C5EABE600BE4B78 /* *.leohealth.com.cer in Resources */ = {isa = PBXBuildFile; fileRef = 31FCDD6D1C5EAA5900BE4B78 /* *.leohealth.com.cer */; };
 		31FCDD751C65094100BE4B78 /* UIButton+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FCDD731C65094100BE4B78 /* UIButton+Extensions.m */; };
 		31FDDE5C1B29CF8C0009BBC2 /* LEOFeedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FDDE5B1B29CF8C0009BBC2 /* LEOFeedCell.m */; };
 		31FDDE6F1B29EDF70009BBC2 /* ArrayDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 3130B48E1B068CE0006ACC80 /* ArrayDataSource.m */; };
@@ -493,6 +493,7 @@
 		3144179C1D2D66BF0006736F /* LEOStatWithTypeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOStatWithTypeView.m; path = "Views and Controllers/PHR/LEOStatWithTypeView.m"; sourceTree = "<group>"; };
 		3144179E1D2D66D00006736F /* LEOTwoPartStatView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOTwoPartStatView.h; path = "Views and Controllers/PHR/LEOTwoPartStatView.h"; sourceTree = "<group>"; };
 		3144179F1D2D66D00006736F /* LEOTwoPartStatView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOTwoPartStatView.m; path = "Views and Controllers/PHR/LEOTwoPartStatView.m"; sourceTree = "<group>"; };
+		31442B341DBFA58900A51B64 /* *.leohealth.com.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = "*.leohealth.com.cer"; sourceTree = "<group>"; };
 		3146550E1BFD1FE700354181 /* AppointmentStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppointmentStatus.h; path = "Leo/Data Model/AppointmentStatus.h"; sourceTree = SOURCE_ROOT; };
 		3146550F1BFD1FE700354181 /* AppointmentStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppointmentStatus.m; path = "Leo/Data Model/AppointmentStatus.m"; sourceTree = SOURCE_ROOT; };
 		314A40551B838AD000834BC2 /* Application.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Application.xcconfig; path = xcconfig/Application.xcconfig; sourceTree = "<group>"; };
@@ -738,7 +739,6 @@
 		31FCDD5C1C56A64200BE4B78 /* LEOReviewOnboardingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOReviewOnboardingView.h; path = "Views and Controllers/Onboarding, Signup & Settings/LEOReviewOnboardingView.h"; sourceTree = "<group>"; };
 		31FCDD5D1C56A64200BE4B78 /* LEOReviewOnboardingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOReviewOnboardingView.m; path = "Views and Controllers/Onboarding, Signup & Settings/LEOReviewOnboardingView.m"; sourceTree = "<group>"; };
 		31FCDD5F1C56A65E00BE4B78 /* LEOReviewOnboardingView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LEOReviewOnboardingView.xib; path = "Views and Controllers/Onboarding, Signup & Settings/LEOReviewOnboardingView.xib"; sourceTree = "<group>"; };
-		31FCDD6D1C5EAA5900BE4B78 /* *.leohealth.com.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = "*.leohealth.com.cer"; sourceTree = "<group>"; };
 		31FCDD731C65094100BE4B78 /* UIButton+Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIButton+Extensions.m"; path = "Helpers/UIButton+Extensions.m"; sourceTree = "<group>"; };
 		31FCDD741C65094100BE4B78 /* UIButton+Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIButton+Extensions.h"; path = "Helpers/UIButton+Extensions.h"; sourceTree = "<group>"; };
 		31FDDE5A1B29CF8C0009BBC2 /* LEOFeedCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOFeedCell.h; sourceTree = "<group>"; };
@@ -1147,7 +1147,7 @@
 		314877EA1D1848BE0002E757 /* Self signed certificates */ = {
 			isa = PBXGroup;
 			children = (
-				31FCDD6D1C5EAA5900BE4B78 /* *.leohealth.com.cer */,
+				31442B341DBFA58900A51B64 /* *.leohealth.com.cer */,
 				31B5EC631BDA84720016F653 /* *.leoforkids.com.cer */,
 			);
 			name = "Self signed certificates";
@@ -2106,6 +2106,7 @@
 				311CBB3E1B56B0F50009BD7A /* Conversation.storyboard in Resources */,
 				315E12B71BB9BDBD001023F1 /* LEOSignUpUserView.xib in Resources */,
 				316899691BC4851200B4C1EB /* LEOReviewUserCell.xib in Resources */,
+				31442B351DBFA58900A51B64 /* *.leohealth.com.cer in Resources */,
 				31314A201CB6A90D00465310 /* LEOPHRVitalChartCell.xib in Resources */,
 				31339B1D1C2208A000B53A86 /* LEOPromptFieldCell.xib in Resources */,
 				3124187F1BC0634E00E18176 /* LEOLoginView.xib in Resources */,
@@ -2117,7 +2118,6 @@
 				31B5EC641BDA84720016F653 /* *.leoforkids.com.cer in Resources */,
 				31F5AA751B791B4B00F96D06 /* ProviderCell.xib in Resources */,
 				3101F9431BF556820075765B /* LeoUserDefaults.plist in Resources */,
-				31FCDD6E1C5EABE600BE4B78 /* *.leohealth.com.cer in Resources */,
 				3115F22A1BCEAAC1001BDF6A /* LEOUpdatePasswordView.xib in Resources */,
 				6627E7261C8790BA00B8F936 /* LEOInputAccessoryView.xib in Resources */,
 				31D275771C517AF0005F8964 /* LEOManagePatientsView.xib in Resources */,
