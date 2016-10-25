@@ -39,6 +39,8 @@
     [self setupRemoteNotificationsForApplication:application];
     [self setupObservers];
 
+    [self setupCocoaLumberjack];
+
     [Configuration resetStripeKey];
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
@@ -65,6 +67,20 @@
     [LEORouter routeUserWithAppDelegate:self];
 
     return YES;
+}
+
+- (void)setupCocoaLumberjack {
+
+    [DDLog addLogger:[DDASLLogger sharedInstance]];
+    [DDLog addLogger:[DDTTYLogger sharedInstance]];
+
+#if defined(INTERNAL) || defined(RUNNABLE)
+    DDFileLogger *fileLogger = [[DDFileLogger alloc] init];
+    fileLogger.rollingFrequency = 60 * 60 * 24; // 24 hour rolling
+    fileLogger.logFileManager.maximumNumberOfLogFiles = 7;
+
+    [DDLog addLogger:fileLogger];
+#endif
 }
 
 - (void)setupObservers {
@@ -207,16 +223,18 @@
     if (sessionNeedsUpdate) {
         [[LEOUserService new] createSessionWithCompletion:nil];
     }
+
+    DDLogInfo(@"DidRegisterForRemoteNotificationsWithDeviceToken:%@",application.description, deviceTokenString);
 }
 
 - (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error {
     
-    NSLog(@"Failed to get token, error: %@", error);
+    DDLogError(@"Failed to get token, error: %@", error);
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     
-    NSLog(@"%s..userInfo=%@",__FUNCTION__,userInfo);
+    DDLogInfo(@"%s..userInfo=%@",__FUNCTION__,userInfo);
     
     UIApplicationState state = [application applicationState];
     
@@ -272,7 +290,7 @@
     }
 
     // explicitly return YES in all valid url structures
-    NSLog(@"An unknown action was passed.");
+    DDLogWarn(@"An unknown action was passed.");
     return NO;
 }
 

@@ -16,6 +16,7 @@ pod 'Localytics',  '~> 3.0' #License needed?
 pod 'Stripe' #License needed?
 pod 'JSQMessagesViewController' #MIT
 pod 'libPusher', '1.6.1' #MIT
+pod 'CocoaLumberjack' #BSD License
 
 #Good to have, but could rewrite; not worth it for now
 pod 'AFNetworking' #MIT

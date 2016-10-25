@@ -15,6 +15,14 @@ PODS:
   - AFNetworking/Serialization (3.1.0)
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
+  - CocoaLumberjack (3.0.0):
+    - CocoaLumberjack/Default (= 3.0.0)
+    - CocoaLumberjack/Extensions (= 3.0.0)
+  - CocoaLumberjack/Core (3.0.0)
+  - CocoaLumberjack/Default (3.0.0):
+    - CocoaLumberjack/Core
+  - CocoaLumberjack/Extensions (3.0.0):
+    - CocoaLumberjack/Default
   - Crashlytics (3.8.2):
     - Fabric (~> 1.6.3)
   - CrittercismSDK (5.5.0)
@@ -55,6 +63,7 @@ PODS:
 DEPENDENCIES:
   - ActionSheetPicker-3.0 (~> 2.0.1)
   - AFNetworking
+  - CocoaLumberjack
   - Crashlytics
   - CrittercismSDK (= 5.5.0)
   - CWStatusBarNotification (~> 2.3.5)
@@ -86,6 +95,7 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   ActionSheetPicker-3.0: 8312778b6815578e6a86d630fbcf31dc94c534e7
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
+  CocoaLumberjack: c823149bccc5519a9447aeb433be7b1212a7d6a5
   Crashlytics: 27acca95a01b042a8294291dd6dff27f8f6af6d7
   CrittercismSDK: 74d8e8ce05b79a89dd6d35110b57960490182862
   CWStatusBarNotification: 3d2738b25c3207f60cc50201388d3c96182545ff
@@ -106,4 +116,6 @@ SPEC CHECKSUMS:
   TTTAttributedLabel: 8cffe8e127e4e82ff3af1e5386d4cd0ad000b656
   UIImage-Resize: fa776860f10e6900bbaf53a73e494bdceaaccc77
 
-COCOAPODS: 0.39.0
+PODFILE CHECKSUM: efeb65423ae28b41e7828bfa6bdb56f5cd7309af
+
+COCOAPODS: 1.1.1
