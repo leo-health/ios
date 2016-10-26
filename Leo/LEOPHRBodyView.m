@@ -504,25 +504,7 @@ NS_ENUM(NSInteger, TableViewRow) {
 }
 
 - (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
-
-
-    if (indexPath.section == TableViewSectionRecentVitals) {
-
-        if ([self shouldDisplayGraphOfVitals]) {
-            return kHeightOfGraphDisplay;
-        }
-
-        if ([self shouldDisplayLastVitalsOnly]) {
-            [self configureTextCell:self.sizingCell forIndexPath:indexPath];
-        }
-
-    } else {
-        [self configureTextCell:self.sizingCell forIndexPath:indexPath];
-    }
-
-    CGSize size = [self.sizingCell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
-
-    return size.height;
+    return [self leo_tableView:tableView estimatedHeightForRowAtIndexPath:indexPath];
 }
 
 - (UITableViewCell *)sizingCell {
