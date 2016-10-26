@@ -13,6 +13,7 @@
 #import "LEOCachedDataStore.h"
 #import "LEOUserService.h"
 #import "Guardian.h"
+#import "Appointment.h"
 
 #import "AppDelegate.h"
 #import "LEOAppointmentViewController.h"

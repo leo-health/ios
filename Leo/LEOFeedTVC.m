@@ -290,6 +290,11 @@ static CGFloat const kFeedInsetTop = 20.0;
 
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(notificationReceived:)
+                                                 name:FeedState.changeNotificationName
+                                               object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(notificationReceived:)
                                                  name:kNotificationCardUpdated
                                                object:nil];
 
@@ -400,6 +405,10 @@ static CGFloat const kFeedInsetTop = 20.0;
 }
 
 - (void)notificationReceived:(NSNotification *)notification {
+
+    if ([notification.name isEqualToString:FeedState.changeNotificationName]) {
+        [self.tableView reloadData];
+    }
 
     if ([notification.name isEqualToString:kNotificationConversationAddedMessage] || [notification.name isEqualToString:kNotificationCardUpdated]) {
         [self fetchDataForCard:notification.object completion:nil];
@@ -558,7 +567,10 @@ static CGFloat const kFeedInsetTop = 20.0;
     [_tableView registerNib:[LEOFeedHeaderCell nib]
      forCellReuseIdentifier:kCellIdentifierLEOHeaderCell];
 
-    [self.tableView registerNib:[LEOFeedCell nib]
+//    [_tableView registerNib:[LEOFeedCell nib]
+//         forCellReuseIdentifier:kCellIdentifierLEOFeed];
+
+    [_tableView registerNib:[CardCell nib]
          forCellReuseIdentifier:kCellIdentifierLEOFeed];
 }
 
@@ -710,7 +722,7 @@ static CGFloat const kFeedInsetTop = 20.0;
 
                 [self removeCardFromFeed:card];
             } else {
-                
+
                 [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
             }
         }
@@ -880,7 +892,7 @@ static CGFloat const kFeedInsetTop = 20.0;
             return 1;
 
         case TableViewSectionBody:
-            return self.cards.count;
+            return 1; //self.cards.count;
 
         default:
             return 0;
@@ -914,34 +926,51 @@ static CGFloat const kFeedInsetTop = 20.0;
     return cell;
 }
 
+- (void)feedState {
+
+    CardState *stateOne = [[CardState alloc] initWithCardStateType:@"stateOne" title:@"State One" tintedHeader:@"None" body:@"Body one" footer:@"footer one" buttonActions:@[]];
+    CardState *stateTwo = [[CardState alloc] initWithCardStateType:@"stateTwo" title:@"State Two" tintedHeader:@"None" body:@"Body Two" footer:@"footer Two" buttonActions:@[]];
+
+    Card *card = [[Card alloc] initWithCardType:@"MyCard" associatedData:nil states:@[stateOne, stateTwo] currentState:stateOne];
+
+    [FeedState setCards:@[card]];
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForBodyRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    id<LEOCardProtocol>card = self.cards[indexPath.row];
-    card.activityDelegate = self;
 
-    LEOFeedCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifierLEOFeed
-                                                        forIndexPath:indexPath];;
+    CardCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifierLEOFeed forIndexPath:indexPath];
 
-    cell.userInteractionEnabled = self.enableButtonsInFeed;
-
-    [cell configureForCard:card];
-
-    cell.unreadState = [indexPath isEqual:self.cardInFocusIndexPath];
-
-    cell.bodyLabel.enabledTextCheckingTypes = NSTextCheckingTypeLink | NSTextCheckingTypeDate | NSTextCheckingTypePhoneNumber;
-
-
-    __weak typeof(self) weakSelf = self;
-    LEOAttributedLabelDelegate *attributedLabelDelegate = [[LEOAttributedLabelDelegate alloc] initWithViewController:self setupEventBlock:^EKEvent *(EKEventStore *eventStore, NSDate *startDate) {
-        __strong typeof(self) strongSelf = weakSelf;
-
-        //TODO: ZSD - Eventually send additional information to this private method to support more custom implementation (e.g. length of appt)
-        return [strongSelf createEventWithEventStore:eventStore startDate:startDate];
-    }];
-
-    cell.delegate = attributedLabelDelegate;
     
+
     return cell;
+
+//    id<LEOCardProtocol>card = self.cards[indexPath.row];
+//    card.activityDelegate = self;
+//
+//    LEOFeedCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifierLEOFeed
+//                                                        forIndexPath:indexPath];;
+//
+//    cell.userInteractionEnabled = self.enableButtonsInFeed;
+//
+//    [cell configureForCard:card];
+//
+//    cell.unreadState = [indexPath isEqual:self.cardInFocusIndexPath];
+//
+//    cell.bodyLabel.enabledTextCheckingTypes = NSTextCheckingTypeLink | NSTextCheckingTypeDate | NSTextCheckingTypePhoneNumber;
+//
+//
+//    __weak typeof(self) weakSelf = self;
+//    LEOAttributedLabelDelegate *attributedLabelDelegate = [[LEOAttributedLabelDelegate alloc] initWithViewController:self setupEventBlock:^EKEvent *(EKEventStore *eventStore, NSDate *startDate) {
+//        __strong typeof(self) strongSelf = weakSelf;
+//
+//        //TODO: ZSD - Eventually send additional information to this private method to support more custom implementation (e.g. length of appt)
+//        return [strongSelf createEventWithEventStore:eventStore startDate:startDate];
+//    }];
+//
+//    cell.delegate = attributedLabelDelegate;
+//
+//    return cell;
 }
 
 - (EKEvent *)createEventWithEventStore:eventStore startDate:startDate {
@@ -1043,9 +1072,9 @@ static CGFloat const kFeedInsetTop = 20.0;
                                [self dismissViewControllerAnimated:YES
                                                         completion:nil];
                            }];
-    
+
     [alertController addAction:action];
-    
+
     [self presentViewController:alertController
                        animated:YES
                      completion:nil];

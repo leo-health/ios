@@ -246,6 +246,10 @@
 		665E5BA01D2C4CF00079FD5F /* LEONetworkStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 665E5B9F1D2C4CF00079FD5F /* LEONetworkStore.m */; };
 		6660C93E1C3AF92800C2657B /* LEOGradientHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6660C93D1C3AF92800C2657B /* LEOGradientHelper.m */; };
 		666130801DC117FC00DC7523 /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6661307F1DC117FC00DC7523 /* AppRouter.swift */; };
+		666130821DC146C900DC7523 /* Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666130811DC146C900DC7523 /* Actions.swift */; };
+		666130841DC1470E00DC7523 /* FeedState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666130831DC1470E00DC7523 /* FeedState.swift */; };
+		666130861DC158F100DC7523 /* CardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666130851DC158F100DC7523 /* CardCell.swift */; };
+		6661308A1DC167C000DC7523 /* CardCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 666130891DC167C000DC7523 /* CardCell.xib */; };
 		666477BC1C7CDA1300713264 /* LEOCachedDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 666477BB1C7CDA1300713264 /* LEOCachedDataStore.m */; };
 		667713521C73C67C00735B74 /* LEOProgressDotsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 667713511C73C67C00735B74 /* LEOProgressDotsView.m */; };
 		667713551C74EA7100735B74 /* LEOProgressDotsHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 667713541C74EA7100735B74 /* LEOProgressDotsHeaderView.m */; };
@@ -789,6 +793,10 @@
 		6660C93C1C3AF92800C2657B /* LEOGradientHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOGradientHelper.h; sourceTree = "<group>"; };
 		6660C93D1C3AF92800C2657B /* LEOGradientHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOGradientHelper.m; sourceTree = "<group>"; };
 		6661307F1DC117FC00DC7523 /* AppRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
+		666130811DC146C900DC7523 /* Actions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Actions.swift; sourceTree = "<group>"; };
+		666130831DC1470E00DC7523 /* FeedState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedState.swift; sourceTree = "<group>"; };
+		666130851DC158F100DC7523 /* CardCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardCell.swift; sourceTree = "<group>"; };
+		666130891DC167C000DC7523 /* CardCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CardCell.xib; sourceTree = "<group>"; };
 		666477BA1C7CDA1300713264 /* LEOCachedDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOCachedDataStore.h; sourceTree = "<group>"; };
 		666477BB1C7CDA1300713264 /* LEOCachedDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOCachedDataStore.m; sourceTree = "<group>"; };
 		667713501C73C67C00735B74 /* LEOProgressDotsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOProgressDotsView.h; sourceTree = "<group>"; };
@@ -1091,6 +1099,10 @@
 			isa = PBXGroup;
 			children = (
 				6661307F1DC117FC00DC7523 /* AppRouter.swift */,
+				666130811DC146C900DC7523 /* Actions.swift */,
+				666130831DC1470E00DC7523 /* FeedState.swift */,
+				666130851DC158F100DC7523 /* CardCell.swift */,
+				666130891DC167C000DC7523 /* CardCell.xib */,
 				3132D9E01C19EE1A00A3E9AA /* LEOViewControllerAnimatedTransitioningProtocol.h */,
 				3101F9441BF664A60075765B /* NSDictionary+Extensions.h */,
 				3101F9451BF664A60075765B /* NSDictionary+Extensions.m */,
@@ -2103,6 +2115,7 @@
 				313FA7201C0374DE008189B9 /* LEOAppointmentView.xib in Resources */,
 				BCE1EC731B00E353007C8D0B /* Main.storyboard in Resources */,
 				31D275691C45A1DF005F8964 /* LEOEnrollmentView.xib in Resources */,
+				6661308A1DC167C000DC7523 /* CardCell.xib in Resources */,
 				662371F71C568E51001AB3E7 /* LEOLoggedOutSignUpCell.xib in Resources */,
 				311CBB3E1B56B0F50009BD7A /* Conversation.storyboard in Resources */,
 				315E12B71BB9BDBD001023F1 /* LEOSignUpUserView.xib in Resources */,
@@ -2264,6 +2277,7 @@
 				31F5AA661B791B4A00F96D06 /* LEOAPIPracticeOperation.m in Sources */,
 				DE6395291D182AD600D3DF71 /* GNZSegmentedControl.m in Sources */,
 				DE31E5EE1D36B9A800F028E4 /* Patient+Analytics.m in Sources */,
+				666130821DC146C900DC7523 /* Actions.swift in Sources */,
 				312FACE81CFF28740038A257 /* LEORouter.m in Sources */,
 				3138FC491B9A19A8000FE22C /* InsurancePlanCell.m in Sources */,
 				319FB4C01BBA379E00EFF7B9 /* NSString+TextDirectionality.m in Sources */,
@@ -2339,6 +2353,7 @@
 				31B998C61B7BD4F40055DEEA /* UIFont+LeoFonts.m in Sources */,
 				DEF9B1BC1D4670C700485AAE /* LEODraggableLineContainerView.m in Sources */,
 				312946091C0E0B8200AE5BB1 /* LEOAlertHelper.m in Sources */,
+				666130841DC1470E00DC7523 /* FeedState.swift in Sources */,
 				31339B241C285AEE00B53A86 /* LEOCardModalTransitionAnimator.m in Sources */,
 				3138FC4B1B9A19A8000FE22C /* InsurancePlanCell+ConfigureCell.m in Sources */,
 				319261501D19F841007E4914 /* LEOAddCaregiverViewController.m in Sources */,
@@ -2382,6 +2397,7 @@
 				31CC12DC1BB062C40099AB60 /* Conversation.m in Sources */,
 				31B509841C7CE27B00CE33D4 /* LEOFeedNavigationHeaderView.m in Sources */,
 				31ECA3351B23C39000BC1D6B /* LEOTimeCell+ConfigureCell.m in Sources */,
+				666130861DC158F100DC7523 /* CardCell.swift in Sources */,
 				314A405F1B83B1B400834BC2 /* Configuration.m in Sources */,
 				1E7306FB1B3F823800D029CC /* UIScrollView+LEOScrollToVisible.m in Sources */,
 				31CC12E71BB062C40099AB60 /* PrepAppointment.m in Sources */,
