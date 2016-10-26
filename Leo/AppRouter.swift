@@ -8,48 +8,79 @@
 
 import UIKit
 
+public class ActionTypes {
+    static let ScheduleNewAppointment = "SCHEDULE_NEW_APPOINTMENT"
+    static let TryCancelAppointment = "TRY_CANCEL_APPOINTMENT"
+}
+
+
 public struct Action {
-    let actionType: Action.ActionType
+    let actionType: String
     let payload: [String : Any]
     let displayName: String?
+}
 
-    enum ActionType: String {
-        case ScheduleNewAppointment = "SCHEDULE_NEW_APPOINTMENT"
+public class ActionCreators {
+    class func action(json: [String : Any]) -> Action {
+        return Action(
+            actionType: json["action_type"] as! String,
+            payload: json["payload"] as! [String : Any],
+            displayName: json["display_name"] as! String?
+        )
+    }
+
+    class func scheduleNewAppointment() -> Action {
+        return Action(
+            actionType: ActionTypes.ScheduleNewAppointment,
+            payload: [:],
+            displayName: nil
+        )
     }
 }
 
 public class ActionHandler: NSObject {
+
+    class func handle(url: URL) {
+        if url.pathComponents.count < 2 { return }
+        let endpoint = url.pathComponents[1]
+
+        switch endpoint {
+        case "schedule":
+            handle(action: ActionCreators.scheduleNewAppointment())
+        default:
+            break
+        }
+    }
+
     class func handle(action: Action) {
+
         switch action.actionType {
-        case .ScheduleNewAppointment:
+        case ActionTypes.ScheduleNewAppointment:
             // TODO: ????: how to take advantage of type safety here?
             AppRouter.router.pushScheduling()
+        case ActionTypes.TryCancelAppointment:
+
+        default:
+            break
         }
     }
 }
 
-
-
+public struct CardState {
+    
+}
 
 public class AppRouter: NSObject {
 
     public static let router = AppRouter()
 
-//    var navigationController: UINavigationController?
-
     var feedTVC: LEOFeedTVC?
 
-//    override init() {
-//        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-//        navigationController = appDelegate.window.rootViewController as! UINavigationController
-//        super.init()
-//    }
-
-    public func setFeedRootVC(feedTVC: LEOFeedTVC) {
+    public func setRootVC(feedTVC: LEOFeedTVC) {
 
         feedTVC.scheduleNewAppointment = {
             ActionHandler.handle(action: Action(
-                actionType: Action.ActionType.ScheduleNewAppointment,
+                actionType: ActionTypes.ScheduleNewAppointment,
                 payload: [:],
                 displayName: nil
             ))

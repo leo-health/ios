@@ -285,6 +285,10 @@
                 [storyboard instantiateViewControllerWithIdentifier:class];
                 [[self feedTVC].navigationController pushViewController:referralVC animated:YES];
             }
+
+            if ([url.host isEqualToString:@"route_actions"]) {
+                [ActionHandler handleWithUrl:url];
+            }
         }
     }
 

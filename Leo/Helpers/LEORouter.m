@@ -187,7 +187,7 @@
 
     if ([storyboardName isEqualToString:kStoryboardFeed]) {
         LEOFeedTVC *feed = [(AppDelegate *)appDelegate feedTVC];
-        [AppRouter.router setFeedRootVCWithFeedTVC:feed];
+        [AppRouter.router setRootVCWithFeedTVC:feed];
     }
 }
 
