@@ -7,6 +7,7 @@
 //  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
+#import "Leo-Swift.h"
 #import "LEOFeedTVC.h"
 #import "LEOConstants.h"
 #import <NSDate+DateTools.h>
@@ -990,7 +991,9 @@ static CGFloat const kFeedInsetTop = 20.0;
 
     [LEOAnalytic tagType:LEOAnalyticTypeEvent
                     name:kAnalyticEventScheduleVisit];
-    [self beginSchedulingNewAppointment];
+
+    // ????: We can decide to pull this out into a function parameter on the VC
+    self.scheduleNewAppointment();
 }
 
 - (void)messageUsTouchedUpInside {

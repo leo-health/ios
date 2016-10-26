@@ -245,6 +245,7 @@
 		664B6B541D4A5A4E0091AC57 /* LEOPromoCodeSuccessView.m in Sources */ = {isa = PBXBuildFile; fileRef = 664B6B531D4A5A4E0091AC57 /* LEOPromoCodeSuccessView.m */; };
 		665E5BA01D2C4CF00079FD5F /* LEONetworkStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 665E5B9F1D2C4CF00079FD5F /* LEONetworkStore.m */; };
 		6660C93E1C3AF92800C2657B /* LEOGradientHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6660C93D1C3AF92800C2657B /* LEOGradientHelper.m */; };
+		666130801DC117FC00DC7523 /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6661307F1DC117FC00DC7523 /* AppRouter.swift */; };
 		666477BC1C7CDA1300713264 /* LEOCachedDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 666477BB1C7CDA1300713264 /* LEOCachedDataStore.m */; };
 		667713521C73C67C00735B74 /* LEOProgressDotsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 667713511C73C67C00735B74 /* LEOProgressDotsView.m */; };
 		667713551C74EA7100735B74 /* LEOProgressDotsHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 667713541C74EA7100735B74 /* LEOProgressDotsHeaderView.m */; };
@@ -787,6 +788,7 @@
 		665E5B9F1D2C4CF00079FD5F /* LEONetworkStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEONetworkStore.m; sourceTree = "<group>"; };
 		6660C93C1C3AF92800C2657B /* LEOGradientHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOGradientHelper.h; sourceTree = "<group>"; };
 		6660C93D1C3AF92800C2657B /* LEOGradientHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOGradientHelper.m; sourceTree = "<group>"; };
+		6661307F1DC117FC00DC7523 /* AppRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
 		666477BA1C7CDA1300713264 /* LEOCachedDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOCachedDataStore.h; sourceTree = "<group>"; };
 		666477BB1C7CDA1300713264 /* LEOCachedDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOCachedDataStore.m; sourceTree = "<group>"; };
 		667713501C73C67C00735B74 /* LEOProgressDotsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOProgressDotsView.h; sourceTree = "<group>"; };
@@ -1088,6 +1090,7 @@
 		3130B4901B068CE7006ACC80 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				6661307F1DC117FC00DC7523 /* AppRouter.swift */,
 				3132D9E01C19EE1A00A3E9AA /* LEOViewControllerAnimatedTransitioningProtocol.h */,
 				3101F9441BF664A60075765B /* NSDictionary+Extensions.h */,
 				3101F9451BF664A60075765B /* NSDictionary+Extensions.m */,
@@ -2288,6 +2291,7 @@
 				313FA71B1C036E22008189B9 /* LEOAppointmentView.m in Sources */,
 				317B726B1C308EB500F3620D /* LEOPatientSelectorView.m in Sources */,
 				31339B201C2264A300B53A86 /* LEOCardSubmissionControl.m in Sources */,
+				666130801DC117FC00DC7523 /* AppRouter.swift in Sources */,
 				31254B771BAC99C500E8E150 /* LEOAppointmentService.m in Sources */,
 				31567CDF1CCFCCCB00715222 /* DailyPracticeSchedule.m in Sources */,
 				DE6395201D18296C00D3DF71 /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,

@@ -7,6 +7,8 @@
 //
 
 #import "LEORouter.h"
+#import "LEOFeedTVC.h"
+#import "Leo-Swift.h"
 
 #import "LEOPracticeService.h"
 #import "LEOStyleHelper.h"
@@ -180,6 +182,12 @@
 
         appDelegate.window.rootViewController = initialVC;
         [appDelegate.window makeKeyAndVisible];
+    }
+
+
+    if ([storyboardName isEqualToString:kStoryboardFeed]) {
+        LEOFeedTVC *feed = [(AppDelegate *)appDelegate feedTVC];
+        [AppRouter.router setFeedRootVCWithFeedTVC:feed];
     }
 }
 

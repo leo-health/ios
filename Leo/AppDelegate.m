@@ -10,7 +10,6 @@
 #import "AppDelegate.h"
 #import "UIFont+LeoFonts.h"
 #import "UIColor+LeoColors.h"
-#import "LEOFeedTVC.h"
 #import "LEOSession.h"
 #import "LEODevice.h"
 #import "Configuration.h"
