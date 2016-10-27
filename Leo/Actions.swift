@@ -11,7 +11,7 @@ import Foundation
 
 public class ActionTypes : NSObject {
     static let ScheduleNewAppointment = "SCHEDULE_NEW_APPOINTMENT"
-    static let TryCancelAppointment = "TRY_CANCEL_APPOINTMENT"
+    static let ChangeCardState = "CHANGE_CARD_STATE"
 }
 
 public class Action : NSObject {
@@ -70,8 +70,10 @@ public class ActionHandler: NSObject {
         case ActionTypes.ScheduleNewAppointment:
             // TODO: ????: how to take advantage of type safety here?
             AppRouter.router.pushScheduling()
-        case ActionTypes.TryCancelAppointment:
-            break
+        case ActionTypes.ChangeCardState:
+            let index = action.payload["index"] as! Int
+            let stateType = action.payload["next_state_name"] as! String
+            FeedState.updateCard(at: index, withStateType: stateType)
         default:
             break
         }

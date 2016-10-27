@@ -7,32 +7,48 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="CardCell" customModule="Leo" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="449" height="282"/>
-            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-            <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Avm-Nl-62S">
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <nil key="textColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WMM-gM-IFg">
-                    <state key="normal" title="Button"/>
-                </button>
-            </subviews>
-            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-            <constraints>
-                <constraint firstItem="Avm-Nl-62S" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="94d-OK-Upz"/>
-                <constraint firstItem="WMM-gM-IFg" firstAttribute="top" secondItem="Avm-Nl-62S" secondAttribute="bottom" id="CyI-QO-UJW"/>
-                <constraint firstItem="Avm-Nl-62S" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="aYz-UK-KWP"/>
-                <constraint firstItem="WMM-gM-IFg" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="gXn-nI-6ju"/>
-                <constraint firstAttribute="trailing" secondItem="WMM-gM-IFg" secondAttribute="trailing" id="pbm-en-acW"/>
-                <constraint firstAttribute="trailing" secondItem="Avm-Nl-62S" secondAttribute="trailing" id="tir-0r-9ze"/>
-                <constraint firstAttribute="bottom" secondItem="WMM-gM-IFg" secondAttribute="bottom" id="yhU-8n-thL"/>
-            </constraints>
-            <nil key="simulatedStatusBarMetrics"/>
-            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="71.5" y="-135"/>
-        </view>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="184" id="XE7-UG-Xo2" customClass="CardCell" customModule="Leo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="184"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="XE7-UG-Xo2" id="PDe-0U-6QA">
+                <frame key="frameInset" width="375" height="183.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iN0-l3-epB">
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Avm-Nl-62S">
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="252" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WMM-gM-IFg">
+                                <state key="normal" title="Button"/>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="Avm-Nl-62S" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="94d-OK-Upz"/>
+                            <constraint firstItem="WMM-gM-IFg" firstAttribute="top" secondItem="Avm-Nl-62S" secondAttribute="bottom" id="CyI-QO-UJW"/>
+                            <constraint firstItem="Avm-Nl-62S" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="aYz-UK-KWP"/>
+                            <constraint firstItem="WMM-gM-IFg" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="gXn-nI-6ju"/>
+                            <constraint firstAttribute="trailing" secondItem="WMM-gM-IFg" secondAttribute="trailing" id="pbm-en-acW"/>
+                            <constraint firstAttribute="trailing" secondItem="Avm-Nl-62S" secondAttribute="trailing" id="tir-0r-9ze"/>
+                            <constraint firstAttribute="bottom" secondItem="WMM-gM-IFg" secondAttribute="bottom" id="yhU-8n-thL"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="iN0-l3-epB" secondAttribute="bottom" id="2q0-wS-P5I"/>
+                    <constraint firstItem="iN0-l3-epB" firstAttribute="top" secondItem="PDe-0U-6QA" secondAttribute="top" id="g5d-xA-dGx"/>
+                    <constraint firstAttribute="trailing" secondItem="iN0-l3-epB" secondAttribute="trailing" id="uK5-ll-D1w"/>
+                    <constraint firstItem="iN0-l3-epB" firstAttribute="leading" secondItem="PDe-0U-6QA" secondAttribute="leading" id="waw-JA-9kA"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="button" destination="WMM-gM-IFg" id="4T0-yz-VqZ"/>
+                <outlet property="titleLabel" destination="Avm-Nl-62S" id="WWr-OB-ThB"/>
+            </connections>
+            <point key="canvasLocation" x="199.5" y="103"/>
+        </tableViewCell>
     </objects>
 </document>

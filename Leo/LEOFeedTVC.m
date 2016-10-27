@@ -498,13 +498,14 @@ static CGFloat const kFeedInsetTop = 20.0;
     [cardService getCardsWithCompletion:^(NSArray *cards, NSError *error) {
         __strong typeof(self) strongSelf = weakSelf;
 
-        if (!error) {
-            strongSelf.cards = cards;
-        }
-
-        [strongSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:TableViewSectionBody] withRowAnimation:UITableViewRowAnimationNone];
-
-        [strongSelf activateCardInFocus];
+        [self feedState];
+//        if (!error) {
+//            strongSelf.cards = cards;
+//        }
+//
+//        [strongSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:TableViewSectionBody] withRowAnimation:UITableViewRowAnimationNone];
+//
+//        [strongSelf activateCardInFocus];
 
         completionBlock ? completionBlock(cards, error) : nil;
 
@@ -928,7 +929,9 @@ static CGFloat const kFeedInsetTop = 20.0;
 
 - (void)feedState {
 
-    CardState *stateOne = [[CardState alloc] initWithCardStateType:@"stateOne" title:@"State One" tintedHeader:@"None" body:@"Body one" footer:@"footer one" buttonActions:@[]];
+    Action *action = [[Action alloc] initWithActionType:ActionTypes.ScheduleNewAppointment payload:@{} displayName:@"SCHEDULE"];
+
+    CardState *stateOne = [[CardState alloc] initWithCardStateType:@"stateOne" title:@"State One" tintedHeader:@"None" body:@"Body one" footer:@"footer one" buttonActions:@[action]];
     CardState *stateTwo = [[CardState alloc] initWithCardStateType:@"stateTwo" title:@"State Two" tintedHeader:@"None" body:@"Body Two" footer:@"footer Two" buttonActions:@[]];
 
     Card *card = [[Card alloc] initWithCardType:@"MyCard" associatedData:nil states:@[stateOne, stateTwo] currentState:stateOne];
@@ -938,10 +941,13 @@ static CGFloat const kFeedInsetTop = 20.0;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForBodyRowAtIndexPath:(NSIndexPath *)indexPath {
 
-
     CardCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifierLEOFeed forIndexPath:indexPath];
 
-    
+    NSArray<Card *> *cards = [FeedState cards];
+    Card *card = cards.firstObject;
+    CardState *state = card.currentState;
+
+    cell.cardState = state;
 
     return cell;
 
