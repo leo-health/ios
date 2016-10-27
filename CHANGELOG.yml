@@ -1,7 +1,11 @@
     upcoming:
-    - Updates SSL certificate
-
     releases:
+    - version: 1.4.4
+      build: 2016.10.26.11.24
+      date: October 26 2016
+      notes:
+      - Updates SSL certificate
+    
     - version: 1.4.3
       build: 2016.10.24.10.38
       date: October 24 2016
@@ -539,6 +543,7 @@
       notes:
       - First test build using new Fastfile configuration for Alpha builds
       - Provides the basic functionality all created prior to our first releases
+
 
 
 
