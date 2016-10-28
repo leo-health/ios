@@ -119,6 +119,7 @@ typedef NS_ENUM(NSUInteger, TableViewSection) {
 
 static NSString *const kCellIdentifierLEOHeaderCell = @"LEOFeedHeaderCell";
 static NSString *const kCellIdentifierLEOFeed = @"LEOFeedCell";
+static NSString *const kCellIdentifierRouteCard = @"kCellIdentifierRouteCard";
 
 static CGFloat const kFeedInsetTop = 20.0;
 
@@ -567,11 +568,11 @@ static CGFloat const kFeedInsetTop = 20.0;
     [_tableView registerNib:[LEOFeedHeaderCell nib]
      forCellReuseIdentifier:kCellIdentifierLEOHeaderCell];
 
-//    [_tableView registerNib:[LEOFeedCell nib]
-//         forCellReuseIdentifier:kCellIdentifierLEOFeed];
+    [_tableView registerNib:[LEOFeedCell nib]
+         forCellReuseIdentifier:kCellIdentifierLEOFeed];
 
     [_tableView registerNib:[CardCell nib]
-         forCellReuseIdentifier:kCellIdentifierLEOFeed];
+         forCellReuseIdentifier:kCellIdentifierRouteCard];
 }
 
 
@@ -892,7 +893,7 @@ static CGFloat const kFeedInsetTop = 20.0;
             return 1;
 
         case TableViewSectionBody:
-            return 1; //self.cards.count;
+            return 1 + self.cards.count;
 
         default:
             return 0;
@@ -909,8 +910,12 @@ static CGFloat const kFeedInsetTop = 20.0;
         case TableViewSectionHeader:
             return [self tableView:tableView cellForHeaderRowAtIndexPath:indexPath];
 
-        case TableViewSectionBody:
+        case TableViewSectionBody: {
+            if (indexPath.row == self.cards.count) {
+                return [self tableView:tableView routeCellForIndexPath:indexPath];
+            }
             return [self tableView:tableView cellForBodyRowAtIndexPath:indexPath];
+        }
 
         default:
             return nil;
@@ -926,44 +931,45 @@ static CGFloat const kFeedInsetTop = 20.0;
     return cell;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForBodyRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)tableView routeCellForIndexPath:(NSIndexPath *)indexPath {
 
-    CardCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifierLEOFeed forIndexPath:indexPath];
+    CardCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifierRouteCard forIndexPath:indexPath];
 
-//    NSArray<Card *> *cards = [FeedState cards];
-//    Card *card = cards.firstObject;
-//    CardState *state = card.currentState;
+    NSInteger cardID = indexPath.row - self.cards.count;
 
-    cell.cardState = [[CardService cacheOnly] getCurrentStateWithCardID:indexPath.row];;
+    cell.cardState = [[CardService cacheOnly] getCurrentStateWithCardID:cardID];
 
     return cell;
+}
 
-//    id<LEOCardProtocol>card = self.cards[indexPath.row];
-//    card.activityDelegate = self;
-//
-//    LEOFeedCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifierLEOFeed
-//                                                        forIndexPath:indexPath];;
-//
-//    cell.userInteractionEnabled = self.enableButtonsInFeed;
-//
-//    [cell configureForCard:card];
-//
-//    cell.unreadState = [indexPath isEqual:self.cardInFocusIndexPath];
-//
-//    cell.bodyLabel.enabledTextCheckingTypes = NSTextCheckingTypeLink | NSTextCheckingTypeDate | NSTextCheckingTypePhoneNumber;
-//
-//
-//    __weak typeof(self) weakSelf = self;
-//    LEOAttributedLabelDelegate *attributedLabelDelegate = [[LEOAttributedLabelDelegate alloc] initWithViewController:self setupEventBlock:^EKEvent *(EKEventStore *eventStore, NSDate *startDate) {
-//        __strong typeof(self) strongSelf = weakSelf;
-//
-//        //TODO: ZSD - Eventually send additional information to this private method to support more custom implementation (e.g. length of appt)
-//        return [strongSelf createEventWithEventStore:eventStore startDate:startDate];
-//    }];
-//
-//    cell.delegate = attributedLabelDelegate;
-//
-//    return cell;
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForBodyRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    id<LEOCardProtocol>card = self.cards[indexPath.row];
+    card.activityDelegate = self;
+
+    LEOFeedCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifierLEOFeed
+                                                        forIndexPath:indexPath];
+
+    cell.userInteractionEnabled = self.enableButtonsInFeed;
+
+    [cell configureForCard:card];
+
+    cell.unreadState = [indexPath isEqual:self.cardInFocusIndexPath];
+
+    cell.bodyLabel.enabledTextCheckingTypes = NSTextCheckingTypeLink | NSTextCheckingTypeDate | NSTextCheckingTypePhoneNumber;
+
+
+    __weak typeof(self) weakSelf = self;
+    LEOAttributedLabelDelegate *attributedLabelDelegate = [[LEOAttributedLabelDelegate alloc] initWithViewController:self setupEventBlock:^EKEvent *(EKEventStore *eventStore, NSDate *startDate) {
+        __strong typeof(self) strongSelf = weakSelf;
+
+        //TODO: ZSD - Eventually send additional information to this private method to support more custom implementation (e.g. length of appt)
+        return [strongSelf createEventWithEventStore:eventStore startDate:startDate];
+    }];
+
+    cell.delegate = attributedLabelDelegate;
+
+    return cell;
 }
 
 - (EKEvent *)createEventWithEventStore:eventStore startDate:startDate {

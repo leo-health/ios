@@ -318,7 +318,7 @@
 
         CardState *stateThree = [[CardState alloc] initWithCardStateType:@"stateThree" title:@"State Three" tintedHeader:@"None" body:@"Body Three" footer:@"footer Three" buttonActions:@[actionToOne]];
 
-        Card *card = [[Card alloc] initWithCardType:@"MyCard" associatedData:nil currentState:stateOne states:@[stateOne, stateTwo]];
+        Card *card = [[Card alloc] initWithCardType:@"MyCard" associatedData:nil currentState:stateOne states:@[stateOne, stateTwo, stateThree]];
 
         _cards = @[card];
     }
