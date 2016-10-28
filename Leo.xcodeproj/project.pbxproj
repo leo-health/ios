@@ -254,6 +254,7 @@
 		666130841DC1470E00DC7523 /* FeedState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666130831DC1470E00DC7523 /* FeedState.swift */; };
 		666130861DC158F100DC7523 /* CardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666130851DC158F100DC7523 /* CardCell.swift */; };
 		6661308A1DC167C000DC7523 /* CardCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 666130891DC167C000DC7523 /* CardCell.xib */; };
+		66640B741DC3D208007FFBD1 /* ActionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66640B731DC3D208007FFBD1 /* ActionHandler.swift */; };
 		666477BC1C7CDA1300713264 /* LEOCachedDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 666477BB1C7CDA1300713264 /* LEOCachedDataStore.m */; };
 		667713521C73C67C00735B74 /* LEOProgressDotsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 667713511C73C67C00735B74 /* LEOProgressDotsView.m */; };
 		667713551C74EA7100735B74 /* LEOProgressDotsHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 667713541C74EA7100735B74 /* LEOProgressDotsHeaderView.m */; };
@@ -805,6 +806,7 @@
 		666130831DC1470E00DC7523 /* FeedState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedState.swift; sourceTree = "<group>"; };
 		666130851DC158F100DC7523 /* CardCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardCell.swift; sourceTree = "<group>"; };
 		666130891DC167C000DC7523 /* CardCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CardCell.xib; sourceTree = "<group>"; };
+		66640B731DC3D208007FFBD1 /* ActionHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionHandler.swift; sourceTree = "<group>"; };
 		666477BA1C7CDA1300713264 /* LEOCachedDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOCachedDataStore.h; sourceTree = "<group>"; };
 		666477BB1C7CDA1300713264 /* LEOCachedDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOCachedDataStore.m; sourceTree = "<group>"; };
 		667713501C73C67C00735B74 /* LEOProgressDotsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOProgressDotsView.h; sourceTree = "<group>"; };
@@ -1663,10 +1665,11 @@
 				666130811DC146C900DC7523 /* Actions.swift */,
 				666130831DC1470E00DC7523 /* FeedState.swift */,
 				666130851DC158F100DC7523 /* CardCell.swift */,
+				666130891DC167C000DC7523 /* CardCell.xib */,
 				666086C71DC244B10084DA1C /* CardService.swift */,
+				66640B731DC3D208007FFBD1 /* ActionHandler.swift */,
 				666086C91DC2758F0084DA1C /* JSONSerializable.swift */,
 				666086C21DC243E00084DA1C /* CardState.swift */,
-				666130891DC167C000DC7523 /* CardCell.xib */,
 				666086C41DC244030084DA1C /* Card.swift */,
 			);
 			name = "Feed State Manager";
@@ -2530,6 +2533,7 @@
 				31F5AA741B791B4B00F96D06 /* ProviderCell+ConfigureCell.m in Sources */,
 				666086C81DC244B10084DA1C /* CardService.swift in Sources */,
 				BCE1EC9E1B012628007C8D0B /* UIColor+LeoColors.m in Sources */,
+				66640B741DC3D208007FFBD1 /* ActionHandler.swift in Sources */,
 				664B6B511D4A4C0F0091AC57 /* Coupon.m in Sources */,
 				31D2756F1C4809AC005F8964 /* LEOS3Image.m in Sources */,
 				314655101BFD1FE700354181 /* AppointmentStatus.m in Sources */,

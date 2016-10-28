@@ -312,11 +312,26 @@
 
 
 
-        CardState *stateOne = [[CardState alloc] initWithCardStateType:@"stateOne" title:@"State One" tintedHeader:@"None" body:@"Body one" footer:@"footer one" buttonActions:@[actionToTwo]];
+        CardState *stateOne = [[CardState alloc] initWithCardStateType:@"stateOne"
+                                                                 title:@"MCHAT"
+                                                          tintedHeader:@"Screenings"
+                                                                  body:@"Please take this autism screening before your next visit. We will discuss the results then."
+                                                                footer:@"" // should this be nullable?
+                                                         buttonActions:@[actionToTwo]];
         
-        CardState *stateTwo = [[CardState alloc] initWithCardStateType:@"stateTwo" title:@"State Two" tintedHeader:@"None" body:@"Body Two" footer:@"footer Two" buttonActions:@[actionToOne]];
+        CardState *stateTwo = [[CardState alloc] initWithCardStateType:@"stateTwo"
+                                                                 title:@"MCHAT in progress"
+                                                          tintedHeader:@"Screenings"
+                                                                  body:@"Continue your survey!"
+                                                                footer:@""
+                                                         buttonActions:@[actionToOne]];
 
-        CardState *stateThree = [[CardState alloc] initWithCardStateType:@"stateThree" title:@"State Three" tintedHeader:@"None" body:@"Body Three" footer:@"footer Three" buttonActions:@[actionToOne]];
+        CardState *stateThree = [[CardState alloc] initWithCardStateType:@"stateThree"
+                                                                   title:@"State Three"
+                                                            tintedHeader:@"None"
+                                                                    body:@"Body Three"
+                                                                  footer:@"footer Three"
+                                                           buttonActions:@[actionToOne]];
 
         Card *card = [[Card alloc] initWithCardType:@"MyCard" associatedData:nil currentState:stateOne states:@[stateOne, stateTwo, stateThree]];
 

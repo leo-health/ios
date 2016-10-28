@@ -14,6 +14,7 @@ class CardState : NSObject, JSONSerializable {
     // TODO: Boilerplate reduction, code generation?
 
     let cardStateType: String
+    let color: UIColor = .purple // TODO: pull from json
     let title: String
     let tintedHeader: String
     let body: String
