@@ -34,14 +34,21 @@ class Card : NSObject, JSONSerializable {
     }
 
     // TODO: find a way to use swift protocol features in combination with objc
-    @objc static func json(_ objects: [Card]) -> [JSON] {
+    static func json(_ objects: [Card]) -> [JSON] {
         return objects.map({object in object.json()})
+    }
+
+    static func initMany(_ jsonArray: [JSON]) -> [Card] {
+        return jsonArray
+            .map({ Card(json: $0) })
+            .filter({ $0 != nil })
+            .map({ $0! })
     }
 
     func json() -> JSON {
         return [
             "card_type" : cardType,
-            "currentState": currentState.json(),
+            "current_state": currentState.json(),
             "states": CardState.json(states)
         ]
     }

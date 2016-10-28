@@ -18,7 +18,8 @@ public class ActionHandler: NSObject {
             AppRouter.router.pushScheduling()
         case ActionTypes.ChangeCardState:
 
-            // TODO: ????: These casts should probably be guards. We want to fail gracefully here, and currently the app will crash
+            // TODO: ????: How do we validate payload types with these actions?
+
             guard let cardID = action.payload["card_id"] as? Int else { return }
             guard let nextStateID = action.payload["next_state_id"] as? String else { return }
 
@@ -26,6 +27,14 @@ public class ActionHandler: NSObject {
                 cardID: cardID,
                 stateID: nextStateID
             )
+
+        case ActionTypes.DismissCard:
+            guard let cardID = action.payload["card_id"] as? Int else { return }
+
+            CardService.cacheOnly().deleteCard(
+                cardID: cardID
+            )
+
         default:
             break
         }

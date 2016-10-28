@@ -131,7 +131,9 @@
 
         return nil;
 
-    } else if ([endpoint isEqualToString:APIEndpointAvatars]) {
+    }
+
+    else if ([endpoint isEqualToString:APIEndpointAvatars]) {
 
         /*
          
@@ -249,8 +251,8 @@
     }
     else if ([endpoint isEqualToString:APIEndpointRouteCards]) {
 
-        NSNumber *cardID = params[@"cardID"];
-        NSString *stateID = params[@"stateID"];
+        NSNumber *cardID = params[@"card_id"];
+        NSString *stateID = params[@"state_id"];
 
         if (cardID && stateID) {
             return [[self stateWithCardID:[cardID integerValue] stateID:stateID] json];
@@ -310,6 +312,12 @@
                                                               }
                                                 displayName:@"Go to state one"];
 
+        Action *actionDismiss = [[Action alloc] initWithActionType:ActionTypes.DismissCard
+                                                           payload:@{@"card_id": @(0)}
+                                                       displayName:@"DISMISS"];
+
+
+
 
 
         CardState *stateOne = [[CardState alloc] initWithCardStateType:@"stateOne"
@@ -324,7 +332,7 @@
                                                           tintedHeader:@"Screenings"
                                                                   body:@"Continue your survey!"
                                                                 footer:@""
-                                                         buttonActions:@[actionToOne]];
+                                                         buttonActions:@[actionDismiss]];
 
         CardState *stateThree = [[CardState alloc] initWithCardStateType:@"stateThree"
                                                                    title:@"State Three"
@@ -461,20 +469,21 @@
     }
     else if ([endpoint isEqualToString:APIEndpointRouteCards]) {
 
-        NSNumber *cardID = params[@"cardID"];
-        NSString *stateID = params[@"stateID"];
+        NSArray *cards = params[@"cards"];
+        NSNumber *cardID = params[@"card_id"];
+        NSString *stateID = params[@"state_id"];
 
-        if (!cardID || !stateID) {
-            return nil;
+        if (cards) {
+            self.cards = [Card initMany:cards];
+            return [self allCardsJSON];
         }
 
-        if ([cardID integerValue] >= self.cards.count) {
-            return nil;
+        BOOL singleCard = cardID && stateID && [cardID integerValue] < self.cards.count;
+
+        if (singleCard) {
+            [self.cards[[cardID integerValue]] setCurrentStateWithStateType:stateID];
+            [self notifyObservers:endpoint];
         }
-
-        [self.cards[[cardID integerValue]] setCurrentStateWithStateType:stateID];
-
-        [self notifyObservers:APIEndpointRouteCards];
     }
 
     return nil;
@@ -493,6 +502,20 @@
         [self reset];
 
         return @{@"success": @(YES)};
+    }
+    else if ([endpoint isEqualToString:APIEndpointRouteCards]) {
+
+        NSNumber *cardID = params[@"card_id"];
+        if (!cardID || [cardID integerValue] >= self.cards.count) {
+            return nil;
+        }
+
+        NSMutableArray *m_cards = [self.cards mutableCopy];
+        [m_cards removeObjectAtIndex:[cardID integerValue]];
+        self.cards = [m_cards copy];
+
+        [self notifyObservers:endpoint];
+        return [self allCardsJSON];
     }
 
     return nil;

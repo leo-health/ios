@@ -24,11 +24,33 @@ class CardService : LEOModelService {
 
 //    MARK: service methods
 
+    public func getCards(completion: (([Card]?, NSError?)->Void)?) -> LEOPromise {
+        return cachedService.get(CardService.endpointName, params: [:]) {
+            jsonResponse, error in
+
+            guard let completion = completion else { return }
+
+            guard let jsonResponse = jsonResponse as? JSON else {
+                completion(nil, error as NSError?)
+                return
+            }
+
+            guard let cardsJSON = jsonResponse["cards"] as? [JSON] else {
+                completion(nil, error as NSError?)
+                return
+            }
+
+            let cards = Card.initMany(cardsJSON)
+
+            completion(cards, error as NSError?)
+        }
+    }
+
     public func getFeedState() -> FeedState?  {
         // probably should use a different endpoint here
         guard let json = cachedService.get(CardService.endpointName, params: [:]) as? [String : Any] else { return nil }
         guard let cardsJSON = json["cards"] as? [JSON] else { return nil }
-        let currentStatesJSON = cardsJSON.map({ return $0["currentState"] })
+        let currentStatesJSON = cardsJSON.map({ return $0["current_state"] })
 
         return FeedState(json: ["card_states" : currentStatesJSON])
     }
@@ -46,10 +68,17 @@ class CardService : LEOModelService {
         if cardID >= cardStates.count { return }
 
         cachedService.put(CardService.endpointName, params: [
-            "cardID": cardID,
-            "stateID": stateID
+            "card_id": cardID,
+            "state_id": stateID
             ]
         )
+    }
+
+    public func deleteCard(cardID: Int) {
+        guard let cardStates = getFeedState()?.cardStates else { return }
+        if cardID >= cardStates.count { return }
+
+        cachedService.destroy(CardService.endpointName, params: ["card_id": cardID])
     }
 
     public func cardsEndpoint(cardID: Int?, stateID: String?) -> CardState? {
@@ -59,11 +88,11 @@ class CardService : LEOModelService {
         var params: [String : Any] = [:]
 
         if let cardID = cardID {
-            params["cardID"] = cardID
+            params["card_id"] = cardID
         }
 
         if let stateID = stateID {
-            params["stateID"] = stateID
+            params["state_id"] = stateID
         }
 
         guard let json = cachedService.get(

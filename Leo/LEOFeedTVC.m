@@ -495,7 +495,7 @@ static CGFloat const kFeedInsetTop = 20.0;
 - (void)fetchDataForCard:(id<LEOCardProtocol>)card completion:(void (^)(NSArray *, NSError *))completionBlock {
 
     __weak typeof(self) weakSelf = self;
-    LEOCardService *cardService = [LEOCardService new];
+    CardService *cardService = [CardService new];
     [cardService getCardsWithCompletion:^(NSArray *cards, NSError *error) {
         __strong typeof(self) strongSelf = weakSelf;
 
@@ -893,7 +893,7 @@ static CGFloat const kFeedInsetTop = 20.0;
             return 1;
 
         case TableViewSectionBody:
-            return 1 + self.cards.count;
+            return [[CardService cacheOnly] getFeedState].cardStates.count;
 
         default:
             return 0;
@@ -911,10 +911,7 @@ static CGFloat const kFeedInsetTop = 20.0;
             return [self tableView:tableView cellForHeaderRowAtIndexPath:indexPath];
 
         case TableViewSectionBody: {
-            if (indexPath.row == self.cards.count) {
-                return [self tableView:tableView routeCellForIndexPath:indexPath];
-            }
-            return [self tableView:tableView cellForBodyRowAtIndexPath:indexPath];
+            return [self tableView:tableView routeCellForIndexPath:indexPath];
         }
 
         default:
@@ -935,7 +932,7 @@ static CGFloat const kFeedInsetTop = 20.0;
 
     CardCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifierRouteCard forIndexPath:indexPath];
 
-    NSInteger cardID = indexPath.row - self.cards.count;
+    NSInteger cardID = indexPath.row;
 
     cell.cardState = [[CardService cacheOnly] getCurrentStateWithCardID:cardID];
 

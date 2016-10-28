@@ -46,7 +46,9 @@ class CardState : NSObject, JSONSerializable {
         guard let tintedHeader = json["tinted_header"] as? String else { return nil }
         guard let body = json["body"] as? String else { return nil }
         guard let footer = json["footer"] as? String else { return nil }
-        guard let buttonActions = json["button_actions"] as? [Action] else { return nil }
+        guard let buttonActionsJSON = json["button_actions"] as? [JSON] else { return nil }
+
+        let buttonActions = Action.initMany(jsonArray: buttonActionsJSON)
 
         self.init(cardStateType: cardStateType,
                   title: title,
@@ -64,7 +66,7 @@ class CardState : NSObject, JSONSerializable {
         "tinted_header": tintedHeader,
         "body": body,
         "footer": footer,
-        "button_actions": buttonActions
+        "button_actions": Action.json(buttonActions)
       ]
 
 //        // For optional members
