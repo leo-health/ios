@@ -47,14 +47,18 @@ class Card : NSObject, JSONSerializable {
 
     func json() -> JSON {
         return [
-            "card_type" : cardType,
+            "card_type": cardType,
             "current_state": currentState.json(),
             "states": CardState.json(states)
         ]
     }
 
-    // Why must I still do this...
-    init(cardType: String, associatedData: Any?, currentState: CardState, states: [CardState]) {
+    init(
+        cardType: String,
+        associatedData: Any?,
+        currentState: CardState, 
+        states: [CardState]
+        ) {
         self.cardType = cardType
         self.associatedData = associatedData
         self.currentState = currentState

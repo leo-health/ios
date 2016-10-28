@@ -322,13 +322,15 @@
 
         CardState *stateOne = [[CardState alloc] initWithCardStateType:@"stateOne"
                                                                  title:@"MCHAT"
+                                                                 color:[UIColor colorWithHex:@"#8A2BE2"]
                                                           tintedHeader:@"Screenings"
                                                                   body:@"Please take this autism screening before your next visit. We will discuss the results then."
                                                                 footer:@"" // should this be nullable?
                                                          buttonActions:@[actionToTwo]];
-        
+
         CardState *stateTwo = [[CardState alloc] initWithCardStateType:@"stateTwo"
                                                                  title:@"MCHAT in progress"
+                                                                 color:[UIColor colorWithHex:@"#8A2BE2"]
                                                           tintedHeader:@"Screenings"
                                                                   body:@"Continue your survey!"
                                                                 footer:@""
@@ -336,13 +338,14 @@
 
         CardState *stateThree = [[CardState alloc] initWithCardStateType:@"stateThree"
                                                                    title:@"State Three"
+                                                                   color:[UIColor colorWithHex:@"#8A2BE2"]
                                                             tintedHeader:@"None"
                                                                     body:@"Body Three"
                                                                   footer:@"footer Three"
                                                            buttonActions:@[actionToOne]];
 
         Card *card = [[Card alloc] initWithCardType:@"MyCard" associatedData:nil currentState:stateOne states:@[stateOne, stateTwo, stateThree]];
-
+        
         _cards = @[card];
     }
 

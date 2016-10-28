@@ -50,6 +50,8 @@ class CardCell : UITableViewCell {
         bodyLabel?.textColor = .leo_gray124()
 
         footerLabel?.backgroundColor = .clear
+        footerLabel?.textColor = .leo_gray185()
+        footerLabel?.font = .leo_bold12()
 
         buttonContainerView?.backgroundColor = .clear
     }

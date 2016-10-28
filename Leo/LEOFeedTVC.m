@@ -892,8 +892,9 @@ static CGFloat const kFeedInsetTop = 20.0;
         case TableViewSectionHeader:
             return 1;
 
-        case TableViewSectionBody:
+        case TableViewSectionBody: {
             return [[CardService cacheOnly] getFeedState].cardStates.count;
+        }
 
         default:
             return 0;
