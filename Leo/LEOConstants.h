@@ -195,6 +195,7 @@ extern NSString *const APIEndpointMessages; // @"messages";
 extern NSString *const APIEndpointAppointmentTypes; // @"appointmentTypes";
 extern NSString *const APIEndpointLogin; // @"login";
 extern NSString *const APIEndpointCards; // @"cards";
+extern NSString *const APIEndpointRouteCards; // @"route_cards";
 extern NSString *const APIEndpointPractices; // @"practices";
 extern NSString *const APIEndpointPractice; // @"practice";
 extern NSString *const APIEndpointSlots; // @"slots";

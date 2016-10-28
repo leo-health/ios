@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Leo Health. All rights reserved.
 //
 
+#import "Leo-Swift.h"
 #import "LEOPusherHelper.h"
 #import "LEOCredentialStore.h"
 #import "Configuration.h"
@@ -65,6 +66,14 @@
     return [chatChannel bindToEventNamed:event handleWithBlock:^(PTPusherEvent *channelEvent) {
 
         NSLog(@"pusher activated by: %@", blockSender);
+
+        Action *action = [[Action alloc] initWithActionType:ActionTypes.ChangeCardState
+                                                    payload:@{
+                                                              @"card_id":@(0),
+                                                              @"next_state_id":@"stateThree"
+                                                              }
+                                                displayName:nil];
+        [ActionHandler handleWithAction:action];
         
         if (completionBlock) {
             completionBlock(channelEvent.data);

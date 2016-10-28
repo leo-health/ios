@@ -26,7 +26,7 @@
     return self;
 }
 
-- (instancetype)init {
+- (nonnull instancetype)init {
 
     return [self initWithGet:defaultGET
                          put:defaultPUT
@@ -34,14 +34,14 @@
                      destroy:defaultDESTROY];
 }
 
-+ (instancetype)cacheOnly {
++ (nonnull instancetype)cacheOnly {
     return [[self alloc] initWithGet:LEOCachePolicyGETCacheOnly
                                  put:LEOCachePolicyPUTCacheOnly
                                 post:LEOCachePolicyPOSTCacheOnly
                              destroy:LEOCachePolicyDESTROYCacheOnly];
 }
 
-+ (instancetype)networkOnly {
++ (nonnull instancetype)networkOnly {
     return [[self alloc] initWithGet:LEOCachePolicyGETNetworkOnly
                                  put:LEOCachePolicyPUTNetworkOnly
                                 post:LEOCachePolicyPOSTNetworkOnly

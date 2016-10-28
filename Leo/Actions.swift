@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 public class ActionTypes : NSObject {
     static let ScheduleNewAppointment = "SCHEDULE_NEW_APPOINTMENT"
     static let ChangeCardState = "CHANGE_CARD_STATE"
@@ -52,18 +51,6 @@ public class ActionCreators {
 
 public class ActionHandler: NSObject {
 
-    class func handle(url: URL) {
-        if url.pathComponents.count < 2 { return }
-        let endpoint = url.pathComponents[1]
-
-        switch endpoint {
-        case "schedule":
-            handle(action: ActionCreators.scheduleNewAppointment())
-        default:
-            break
-        }
-    }
-
     class func handle(action: Action) {
 
         switch action.actionType {
@@ -71,9 +58,27 @@ public class ActionHandler: NSObject {
             // TODO: ????: how to take advantage of type safety here?
             AppRouter.router.pushScheduling()
         case ActionTypes.ChangeCardState:
-            let index = action.payload["index"] as! Int
-            let stateType = action.payload["next_state_name"] as! String
-            FeedState.updateCard(at: index, withStateType: stateType)
+
+            // TODO: ????: These casts should probably be guards. We want to fail gracefully here, and currently the app will crash
+            guard let cardID = action.payload["card_id"] as? Int else { return }
+            guard let nextStateID = action.payload["next_state_id"] as? String else { return }
+
+            CardService.cacheOnly().updateCard(
+                cardID: cardID,
+                stateID: nextStateID
+            )
+        default:
+            break
+        }
+    }
+
+    class func handle(url: URL) {
+        if url.pathComponents.count < 2 { return }
+        let endpoint = url.pathComponents[1]
+
+        switch endpoint {
+        case "schedule":
+            handle(action: ActionCreators.scheduleNewAppointment())
         default:
             break
         }

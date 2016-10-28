@@ -29,6 +29,7 @@ NSString *const APIEndpointMessages = @"messages";
 NSString *const APIEndpointAppointmentTypes = @"appointment_types";
 NSString *const APIEndpointLogin = @"login";
 NSString *const APIEndpointCards = @"cards";
+NSString *const APIEndpointRouteCards = @"route_cards";
 NSString *const APIEndpointPractices = @"practices";
 NSString *const APIEndpointPractice = @"practice";
 NSString *const APIEndpointSlots = @"appointment_slots";

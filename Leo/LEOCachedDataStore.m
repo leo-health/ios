@@ -30,6 +30,8 @@
 @property (strong, nonatomic, nullable) Coupon *coupon;
 @property (strong, nonatomic) NSMutableDictionary *rawResources;
 
+@property (strong, nonatomic) NSArray<Card *> *cards;
+
 @end
 
 @implementation LEOCachedDataStore
@@ -245,8 +247,83 @@
 
         return [self.coupon serializeToJSON];
     }
+    else if ([endpoint isEqualToString:APIEndpointRouteCards]) {
+
+        NSNumber *cardID = params[@"cardID"];
+        NSString *stateID = params[@"stateID"];
+
+        if (cardID && stateID) {
+            return [[self stateWithCardID:[cardID integerValue] stateID:stateID] json];
+        } else if (cardID) {
+            return [[[self cardWithID:[cardID integerValue]] currentState] json];
+        } else {
+            return [self allCardsJSON];
+        }
+    }
 
     return nil;
+}
+
+- (nullable NSDictionary<NSString *, id> *)allCardsJSON {
+    return @{@"cards": [Card json:self.cards]};
+}
+
+- (nullable CardState *)stateWithCardID:(NSInteger)cardID stateID:(NSString *)stateID {
+
+    Card *card = [self cardWithID:cardID];
+    if (!card) {
+        return nil;
+    }
+
+    for (CardState *state in card.states) {
+        if ([state.cardStateType isEqualToString:stateID]) {
+            return state;
+        }
+    }
+    return nil;
+}
+
+- (Card *)cardWithID:(NSInteger)cardID {
+
+    NSInteger index = cardID; // ????: Should we have more stable card IDs?
+    if (cardID >= self.cards.count) {
+        return nil;
+    }
+
+    return self.cards[index];
+}
+
+- (NSArray<Card *> *)cards {
+
+    if (!_cards) {
+        Action *actionToTwo = [[Action alloc] initWithActionType:ActionTypes.ChangeCardState
+                                                    payload:@{
+                                                              @"card_id": @(0),
+                                                              @"next_state_id": @"stateTwo"
+                                                              }
+                                                displayName:@"Go to state two"];
+
+        Action *actionToOne = [[Action alloc] initWithActionType:ActionTypes.ChangeCardState
+                                                    payload:@{
+                                                              @"card_id": @(0),
+                                                              @"next_state_id": @"stateOne"
+                                                              }
+                                                displayName:@"Go to state one"];
+
+
+
+        CardState *stateOne = [[CardState alloc] initWithCardStateType:@"stateOne" title:@"State One" tintedHeader:@"None" body:@"Body one" footer:@"footer one" buttonActions:@[actionToTwo]];
+        
+        CardState *stateTwo = [[CardState alloc] initWithCardStateType:@"stateTwo" title:@"State Two" tintedHeader:@"None" body:@"Body Two" footer:@"footer Two" buttonActions:@[actionToOne]];
+
+        CardState *stateThree = [[CardState alloc] initWithCardStateType:@"stateThree" title:@"State Three" tintedHeader:@"None" body:@"Body Three" footer:@"footer Three" buttonActions:@[actionToOne]];
+
+        Card *card = [[Card alloc] initWithCardType:@"MyCard" associatedData:nil currentState:stateOne states:@[stateOne, stateTwo]];
+
+        _cards = @[card];
+    }
+
+    return _cards;
 }
 
 - (NSDictionary *)put:(NSString *)endpoint params:(NSDictionary *)params {
@@ -367,8 +444,29 @@
         self.coupon = [[Coupon alloc] initWithJSONDictionary:params];
         return [self.coupon serializeToJSON];
     }
+    else if ([endpoint isEqualToString:APIEndpointRouteCards]) {
+
+        NSNumber *cardID = params[@"cardID"];
+        NSString *stateID = params[@"stateID"];
+
+        if (!cardID || !stateID) {
+            return nil;
+        }
+
+        if ([cardID integerValue] >= self.cards.count) {
+            return nil;
+        }
+
+        [self.cards[[cardID integerValue]] setCurrentStateWithStateType:stateID];
+
+        [self notifyObservers:APIEndpointRouteCards];
+    }
 
     return nil;
+}
+
+- (void)notifyObservers:(NSString *)endpoint {
+    [[NSNotificationCenter defaultCenter] postNotificationName:APIEndpointRouteCards object:nil];
 }
 
 - (NSDictionary *)destroy:(NSString *)endpoint params:(NSDictionary *)params {

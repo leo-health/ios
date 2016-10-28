@@ -59,7 +59,7 @@ static const LEOCachePolicyDESTROY defaultDESTROY = LEOCachePolicyDESTROYNetwork
  
  */
 
-+ (instancetype)cacheOnly;
-+ (instancetype)networkOnly;
++ (nonnull instancetype)cacheOnly;
++ (nonnull instancetype)networkOnly;
 
 @end

@@ -290,7 +290,7 @@ static CGFloat const kFeedInsetTop = 20.0;
 
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(notificationReceived:)
-                                                 name:FeedState.changeNotificationName
+                                                 name:APIEndpointRouteCards
                                                object:nil];
 
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -406,7 +406,7 @@ static CGFloat const kFeedInsetTop = 20.0;
 
 - (void)notificationReceived:(NSNotification *)notification {
 
-    if ([notification.name isEqualToString:FeedState.changeNotificationName]) {
+    if ([notification.name isEqualToString:APIEndpointRouteCards]) {
         [self.tableView reloadData];
     }
 
@@ -498,14 +498,13 @@ static CGFloat const kFeedInsetTop = 20.0;
     [cardService getCardsWithCompletion:^(NSArray *cards, NSError *error) {
         __strong typeof(self) strongSelf = weakSelf;
 
-        [self feedState];
-//        if (!error) {
-//            strongSelf.cards = cards;
-//        }
-//
-//        [strongSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:TableViewSectionBody] withRowAnimation:UITableViewRowAnimationNone];
-//
-//        [strongSelf activateCardInFocus];
+        if (!error) {
+            strongSelf.cards = cards;
+        }
+
+        [strongSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:TableViewSectionBody] withRowAnimation:UITableViewRowAnimationNone];
+
+        [strongSelf activateCardInFocus];
 
         completionBlock ? completionBlock(cards, error) : nil;
 
@@ -927,27 +926,15 @@ static CGFloat const kFeedInsetTop = 20.0;
     return cell;
 }
 
-- (void)feedState {
-
-    Action *action = [[Action alloc] initWithActionType:ActionTypes.ScheduleNewAppointment payload:@{} displayName:@"SCHEDULE"];
-
-    CardState *stateOne = [[CardState alloc] initWithCardStateType:@"stateOne" title:@"State One" tintedHeader:@"None" body:@"Body one" footer:@"footer one" buttonActions:@[action]];
-    CardState *stateTwo = [[CardState alloc] initWithCardStateType:@"stateTwo" title:@"State Two" tintedHeader:@"None" body:@"Body Two" footer:@"footer Two" buttonActions:@[]];
-
-    Card *card = [[Card alloc] initWithCardType:@"MyCard" associatedData:nil states:@[stateOne, stateTwo] currentState:stateOne];
-
-    [FeedState setCards:@[card]];
-}
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForBodyRowAtIndexPath:(NSIndexPath *)indexPath {
 
     CardCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifierLEOFeed forIndexPath:indexPath];
 
-    NSArray<Card *> *cards = [FeedState cards];
-    Card *card = cards.firstObject;
-    CardState *state = card.currentState;
+//    NSArray<Card *> *cards = [FeedState cards];
+//    Card *card = cards.firstObject;
+//    CardState *state = card.currentState;
 
-    cell.cardState = state;
+    cell.cardState = [[CardService cacheOnly] getCurrentStateWithCardID:indexPath.row];;
 
     return cell;
 
