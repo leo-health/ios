@@ -572,7 +572,7 @@ didReceiveResponseFromRemote:(NSDictionary *)remoteResponse
 
     UINavigationBar *navigationBar = self.navigationController.navigationBar;
 
-    UIImage *tintColorImage = [UIImage leo_imageWithColor:self.card.tintColor];
+    UIImage *tintColorImage = [UIImage leo_imageWithColor:self.tintColor];
 
     [navigationBar setBackgroundImage:tintColorImage
                         forBarMetrics:UIBarMetricsDefault];
@@ -1082,7 +1082,7 @@ didReceiveResponseFromRemote:(NSDictionary *)remoteResponse
                                                                                                                   forState:UIControlStateNormal
                                                                                                                 barMetrics:UIBarMetricsDefault];
 
-            [pickerController.navigationBar setBackgroundImage:[UIImage leo_imageWithColor:self.card.tintColor]
+            [pickerController.navigationBar setBackgroundImage:[UIImage leo_imageWithColor:self.tintColor]
                                                  forBarMetrics:UIBarMetricsDefault];
 
             pickerController.transitioningDelegate = self.transitioningDelegate;
@@ -1348,11 +1348,6 @@ didReceiveResponseFromRemote:(NSDictionary *)remoteResponse
     combinedImages.avatarImage = [LEOMessagesAvatarImageFactory circularAvatarImage:user.avatar.image withDiameter:kJSQMessagesCollectionViewAvatarSizeDefault borderColor:[UIColor leo_gray176] borderWidth:2 renderingMode:UIImageRenderingModeAutomatic];
 
     return combinedImages;
-}
-
-- (Conversation *)conversation {
-
-    return (Conversation *)self.card.associatedCardObject;
 }
 
 - (NSAttributedString *)collectionView:(JSQMessagesCollectionView *)collectionView attributedTextForCellTopLabelAtIndexPath:(NSIndexPath *)indexPath

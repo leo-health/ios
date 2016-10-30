@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import <JSQMessagesViewController/JSQMessageData.h>
+#import "LEOJSONSerializable.h"
+
 @class User;
 
 typedef NS_ENUM(NSUInteger, LEOMessageType) {
@@ -17,7 +19,7 @@ typedef NS_ENUM(NSUInteger, LEOMessageType) {
     LEOMessageTypeVideo,
 };
 
-@interface Message : NSObject <JSQMessageData>
+@interface Message : LEOJSONSerializable <JSQMessageData>
 NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy) NSString *objectID;
@@ -51,7 +53,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return A complete `NSDictionary` of `Message` data. Field names to match those of server. See `LEOConstants.h` for more detail.
  */
-//+ (NSDictionary *)dictionaryFromMessage:(Message *)message;
+
++ (NSString *)typeFromTypeCode:(MessageTypeCode)code;
++ (NSDictionary *)serializeToJSON:(Message *)object;
 
 NS_ASSUME_NONNULL_END
 @end

@@ -32,13 +32,22 @@
     if (self) {
         _objectID = objectID;
         _messages = messages;
-        _participants = participants;
+//        _participants = participants;
     }
     
     return self;
 }
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
+
+    /*
+
+     objectID:
+     messages:
+     staff:
+     users: guardians:
+
+    */
 
     NSString  *objectID = [jsonResponse[APIParamID] stringValue];
     
@@ -76,6 +85,22 @@
     //TODO: May need to protect against nil values...
     return [self initWithObjectID:objectID messages:sortedMessages participants:participants statusCode:statusCode];
 }
+
+
++ (NSDictionary *)serializeToJSON:(Conversation *)object {
+
+    if (!object) {
+        return nil;
+    }
+
+    NSMutableDictionary *json = [NSMutableDictionary new];
+    json[APIParamID] = object.objectID;
+    json[APIParamMessages] = [Message serializeManyToJSON:object.messages];
+//    json[APIParamUserStaff] = [User serializeManyToJSON:object.staff];
+
+    return [json copy];
+}
+
 
 + (NSDictionary *)dictionaryFromConversation:(Conversation *)conversation {
     

@@ -28,6 +28,7 @@
 @property (strong, nonatomic, nullable) Practice *practice;
 @property (copy, nonatomic, nullable) NSArray<Notice *> *notices;
 @property (strong, nonatomic, nullable) Coupon *coupon;
+@property (strong, nonatomic, nullable) Conversation *conversation;
 @property (strong, nonatomic) NSMutableDictionary *rawResources;
 
 @property (strong, nonatomic) NSArray<Card *> *cards;
@@ -196,14 +197,17 @@
 
         return nil;
     }
+
     else if ([endpoint isEqualToString:APIEndpointFamily]) {
 
         return [self.family serializeToJSON];
     }
+
     else if ([endpoint isEqualToString:APIEndpointPractice]) {
 
         return [self.practice serializeToJSON];
     }
+
     else if ([endpoint isEqualToString:APIEndpointPractices]) {
 
         if (!self.practice) {
@@ -212,6 +216,7 @@
 
         return @{@"practices": [Practice serializeManyToJSON:@[self.practice]]};
     }
+
     else if ([endpoint isEqualToString:APIEndpointConversationNotices]) {
 
         if (self.notices.count == 0) {
@@ -220,6 +225,7 @@
 
         return @{@"notices": [Notice serializeManyToJSON:self.notices]};
     }
+
     else if ([endpoint isEqualToString:APIEndpointImage]) {
 
         NSString *key = params[APIParamImageBaseURL];
@@ -245,10 +251,18 @@
             return imageJSON;
         }
     }
+
     else if ([endpoint isEqualToString:APIEndpointValidatePromoCode]) {
 
         return [self.coupon serializeToJSON];
     }
+
+    else if ([endpoint isEqualToString:APIEndpointConversations]) {
+
+        NSDictionary *response = [self.conversation serializeToJSON];
+        return response;
+    }
+
     else if ([endpoint isEqualToString:APIEndpointRouteCards]) {
 
         NSNumber *cardID = params[@"card_id"];
@@ -283,6 +297,26 @@
         }
     }
     return nil;
+}
+
+- (void)putAssociatedObjectsForCards:(NSArray <NSDictionary *> *)cards {
+
+    // store associated objects. this probably should be done through a separate endpoint for simplicity, but it's more efficient this way (single network request). It might be more efficient to use separate endpoints so that a feed refresh only sends diffs/card updates, not underlying model data changes
+
+    for (NSDictionary *cardJSON in cards) {
+
+        NSString *cardType = cardJSON[@"card_type"];
+        NSDictionary *associatedData = cardJSON[@"associated_data"];
+
+        if ([cardType isEqualToString:@"conversation"]) {
+            // put conversation endpoint?
+            [self put:APIEndpointConversations params:cardJSON[@"associated_data"]];
+        }
+        else if ([cardType isEqualToString:@"appointment"]) {
+            // put appointment endpoint?
+//            [self put:APIEndpointAppointments params:cardJSON[@"associated_data"]];
+        }
+    }
 }
 
 - (Card *)cardWithID:(NSInteger)cardID {
@@ -392,12 +426,14 @@
 
         return [self.user serializeToJSON];
     }
+
     else if ([endpoint isEqualToString:APIEndpointPatientList]) {
 
         self.family.patients = [Patient deserializeManyFromJSON:params[APIParamUserPatients]];
 
         return @{APIParamUserPatients: [Patient serializeManyToJSON:self.family.patients]};
     }
+
     else if ([endpoint isEqualToString:APIEndpointFamily]) {
 
         self.family = [[Family alloc] initWithJSONDictionary:params];
@@ -413,12 +449,14 @@
 
         return [self.family serializeToJSON];
     }
+
     else if ([endpoint isEqualToString:APIEndpointPractice]) {
 
         self.practice = [[Practice alloc] initWithJSONDictionary:params];
 
         return [self.practice serializeToJSON];
     }
+
     else if ([endpoint isEqualToString:APIEndpointPractices]) {
 
         // TODO: LATER: handle multiple practices
@@ -431,6 +469,7 @@
 
         return @{@"practices": @[[self.practice serializeToJSON]]};
     }
+
     else if ([endpoint isEqualToString:APIEndpointConversationNotices]) {
 
         // TODO: standardize JSON results from network and cache
@@ -442,6 +481,7 @@
 
         return @{@"notices": [Notice serializeManyToJSON:self.notices]};
     }
+
     else if ([endpoint isEqualToString:APIEndpointImage]) {
 
         NSString *key = params[APIParamImageBaseURL];
@@ -461,11 +501,21 @@
 
         return nil;
     }
+
     else if ([endpoint isEqualToString:APIEndpointValidatePromoCode]) {
 
         self.coupon = [[Coupon alloc] initWithJSONDictionary:params];
         return [self.coupon serializeToJSON];
     }
+
+    else if ([endpoint isEqualToString:APIEndpointConversations]) {
+
+        Conversation *conversation = [[Conversation alloc] initWithJSONDictionary:params];
+        self.conversation = conversation;
+        NSDictionary *response = [conversation serializeToJSON];
+        return response;
+    }
+
     else if ([endpoint isEqualToString:APIEndpointRouteCards]) {
 
         NSArray *cards = params[@"cards"];
@@ -473,6 +523,9 @@
         NSString *stateID = params[@"state_id"];
 
         if (cards) {
+
+            [self putAssociatedObjectsForCards:cards];
+
             self.cards = [Card initMany:cards];
             return [self allCardsJSON];
         }
@@ -482,6 +535,7 @@
         if (singleCard) {
             [self.cards[[cardID integerValue]] setCurrentStateWithStateType:stateID];
             [self notifyObservers:endpoint];
+            // should we return something here?
         }
     }
 

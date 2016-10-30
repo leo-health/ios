@@ -13,6 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy, readonly) NSString *text;
 
++ (NSDictionary *)serializeToJSON:(MessageText *)object;
+
 /**
  *  Initializes and returns a message object having the given sender, escalatedTo user, escalatedBy user, status, statusCode, current
  *  system date (or the date on which the message was created) and escalatedAt date.

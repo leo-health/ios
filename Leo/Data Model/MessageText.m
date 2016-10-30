@@ -35,4 +35,18 @@
             [self class], self.senderId, self.senderDisplayName, self.date, self.text];
 }
 
++ (NSDictionary *)serializeToJSON:(MessageText *)object {
+
+    if (!object) {
+        return nil;
+    }
+
+    NSMutableDictionary *json = [[super serializeToJSON:object] mutableCopy];
+
+    json[APIParamType] = [super typeFromTypeCode:MessageTypeCodeText];
+    json[APIParamMessageBody] = object.text;
+
+    return [json copy];
+}
+
 @end

@@ -25,6 +25,7 @@
 
 @interface LEOConversationViewController : JSQMessagesViewController <UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, RSKImageCropViewControllerDelegate, LEOImagePreviewDelegate, JSQMessagesCollectionViewCellDelegate>
 
-@property (strong, nonatomic) LEOCardConversation *card;
+@property (strong, nonatomic) UIColor *tintColor; // TODO: find a better place for this?
+@property (strong, nonatomic) Conversation *conversation;
 
 @end

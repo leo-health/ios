@@ -39,11 +39,6 @@
             parsedResult = rawResults[APIParamUser];
         }
 
-        if ([endpoint isEqualToString:APIEndpointRouteCards]) {
-
-            NSLog(@"im done");
-        }
-
         if (completion) {
             completion(parsedResult, error);
         }

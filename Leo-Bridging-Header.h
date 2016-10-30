@@ -14,7 +14,10 @@
 #import "LEOUserService.h"
 #import "Guardian.h"
 #import "Appointment.h"
+#import "Conversation.h"
 
 #import "AppDelegate.h"
+#import "LEOTransitioningDelegate.h"
 #import "LEOAppointmentViewController.h"
+#import "LEOConversationViewController.h"
 #import "LEOFeedTVC.h"

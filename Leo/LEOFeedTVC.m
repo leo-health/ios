@@ -868,11 +868,16 @@ static CGFloat const kFeedInsetTop = 20.0;
 
 - (void)loadChattingViewWithCard:(LEOCard *)card {
 
+    Conversation *conversation = (Conversation *)card.associatedCardObject;
+
+
+
+
     UIStoryboard *conversationStoryboard = [UIStoryboard storyboardWithName:@"Conversation" bundle:nil];
     UINavigationController *conversationNavController = [conversationStoryboard instantiateInitialViewController];
 
     LEOConversationViewController *messagesVC = conversationNavController.viewControllers.firstObject;
-    messagesVC.card = (LEOCardConversation *)card;
+    messagesVC.conversation = conversation;
 
     self.transitionDelegate = [[LEOTransitioningDelegate alloc] initWithTransitionAnimatorType:TransitionAnimatorTypeCardModal];
     conversationNavController.transitioningDelegate = self.transitionDelegate;

@@ -16,7 +16,14 @@ public class ActionHandler: NSObject {
 
         case ActionTypes.ScheduleNewAppointment:
             // TODO: ????: how to take advantage of type safety here?
-            AppRouter.router.pushScheduling()
+            AppRouter.router.presentExpandedCardScheduling()
+
+        case ActionTypes.OpenPracticeConversation:
+
+            // TODO: LATER: handle conversation by id in cache
+            guard let conversation = ConversationService.cacheOnly().getConversation() else { return }
+
+            AppRouter.router.presentExpandedCardConversation(conversation: conversation)
 
         case ActionTypes.ChangeCardState:
 

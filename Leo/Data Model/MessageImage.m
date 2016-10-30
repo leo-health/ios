@@ -38,4 +38,19 @@
             [self class], self.senderId, self.senderDisplayName, self.date, self.media];
 }
 
+
++ (NSDictionary *)serializeToJSON:(MessageImage *)object {
+
+    if (!object) {
+        return nil;
+    }
+
+    NSMutableDictionary *json = [[super serializeToJSON:object] mutableCopy];
+
+    json[APIParamType] = [super typeFromTypeCode:MessageTypeCodeImage];
+    json[APIParamMessageBody] = [object.s3Image serializeToJSON];
+
+    return [json copy];
+}
+
 @end

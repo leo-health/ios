@@ -86,6 +86,23 @@ static NSString *const kMessageID = @"message_id";
     return [[channelData objectForKey:kMessageID] stringValue];
 }
 
++ (NSDictionary *)serializeToJSON:(Message *)object {
+
+    if (!object) {
+        return nil;
+    }
+
+    NSMutableDictionary *json = [NSMutableDictionary new];
+    json[APIParamID] = object.objectID;
+    json[APIParamMessageSender] = [object.sender serializeToJSON];
+    json[APIParamStatus] = object.status;
+    json[APIParamStatusID] = @(object.statusCode);
+    json[APIParamCreatedDateTime] = [NSDate leo_stringifiedDateTime:object.createdAt];
+
+    return [json copy];
+}
+
+
 //FIXME: LeoConstants missing some of these hence they have been commented out for the time-being.
 + (instancetype)messageWithJSONDictionary:(NSDictionary *)jsonResponse {
 
@@ -148,6 +165,19 @@ static NSString *const kMessageID = @"message_id";
     }
     
     return MessageTypeCodeUndefined;
+}
+
++ (NSString *)typeFromTypeCode:(MessageTypeCode)code {
+    switch (code) {
+        case MessageTypeCodeText:
+            return kText;
+
+        case MessageTypeCodeImage:
+            return kImage;
+
+        default:
+            return nil;
+    }
 }
 
 - (NSUInteger)messageHash {

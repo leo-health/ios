@@ -16,6 +16,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic) id<JSQMessageMediaData> media;
 @property (strong, nonatomic) LEOS3Image *s3Image;
 
++ (NSDictionary *)serializeToJSON:(MessageImage *)object;
+
+
 /**
  *  Initializes and returns a `Message` object having the given sender, escalatedTo user, escalatedBy user, status, statusCode, current
  *  system date (or the date on which the message was created) and escalatedAt date.
