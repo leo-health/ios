@@ -13,9 +13,11 @@ public class ActionHandler: NSObject {
     class func handle(action: Action) {
 
         switch action.actionType {
+
         case ActionTypes.ScheduleNewAppointment:
             // TODO: ????: how to take advantage of type safety here?
             AppRouter.router.pushScheduling()
+
         case ActionTypes.ChangeCardState:
 
             // TODO: ????: How do we validate payload types with these actions?

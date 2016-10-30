@@ -287,69 +287,65 @@
 
 - (Card *)cardWithID:(NSInteger)cardID {
 
-    NSInteger index = cardID; // ????: Should we have more stable card IDs?
-    if (cardID >= self.cards.count) {
-        return nil;
+    for (Card *card in self.cards) {
+        if (card.cardID == cardID) {
+            return card;
+        }
     }
-
-    return self.cards[index];
+    return nil;
 }
 
-- (NSArray<Card *> *)cards {
+- (NSArray<Card *> *)mockCards {
 
-    if (!_cards) {
-        Action *actionToTwo = [[Action alloc] initWithActionType:ActionTypes.ChangeCardState
-                                                    payload:@{
-                                                              @"card_id": @(0),
-                                                              @"next_state_id": @"stateTwo"
-                                                              }
-                                                displayName:@"Go to state two"];
+    Action *actionToTwo = [[Action alloc] initWithActionType:ActionTypes.ChangeCardState
+                                                     payload:@{
+                                                               @"card_id": @(0),
+                                                               @"next_state_id": @"stateTwo"
+                                                               }
+                                                 displayName:@"Go to state two"];
 
-        Action *actionToOne = [[Action alloc] initWithActionType:ActionTypes.ChangeCardState
-                                                    payload:@{
-                                                              @"card_id": @(0),
-                                                              @"next_state_id": @"stateOne"
-                                                              }
-                                                displayName:@"Go to state one"];
+    Action *actionToOne = [[Action alloc] initWithActionType:ActionTypes.ChangeCardState
+                                                     payload:@{
+                                                               @"card_id": @(0),
+                                                               @"next_state_id": @"stateOne"
+                                                               }
+                                                 displayName:@"Go to state one"];
 
-        Action *actionDismiss = [[Action alloc] initWithActionType:ActionTypes.DismissCard
-                                                           payload:@{@"card_id": @(0)}
-                                                       displayName:@"DISMISS"];
-
+    Action *actionDismiss = [[Action alloc] initWithActionType:ActionTypes.DismissCard
+                                                       payload:@{@"card_id": @(0)}
+                                                   displayName:@"DISMISS"];
 
 
 
 
-        CardState *stateOne = [[CardState alloc] initWithCardStateType:@"stateOne"
-                                                                 title:@"MCHAT"
-                                                                 color:[UIColor colorWithHex:@"#8A2BE2"]
-                                                          tintedHeader:@"Screenings"
-                                                                  body:@"Please take this autism screening before your next visit. We will discuss the results then."
-                                                                footer:@"" // should this be nullable?
-                                                         buttonActions:@[actionToTwo]];
 
-        CardState *stateTwo = [[CardState alloc] initWithCardStateType:@"stateTwo"
-                                                                 title:@"MCHAT in progress"
-                                                                 color:[UIColor colorWithHex:@"#8A2BE2"]
-                                                          tintedHeader:@"Screenings"
-                                                                  body:@"Continue your survey!"
-                                                                footer:@""
-                                                         buttonActions:@[actionDismiss]];
+    CardState *stateOne = [[CardState alloc] initWithCardStateType:@"stateOne"
+                                                             title:@"MCHAT"
+                                                             color:[UIColor colorWithHex:@"#8A2BE2"]
+                                                      tintedHeader:@"Screenings"
+                                                              body:@"Please take this autism screening before your next visit. We will discuss the results then."
+                                                            footer:@"" // should this be nullable?
+                                                     buttonActions:@[actionToTwo]];
 
-        CardState *stateThree = [[CardState alloc] initWithCardStateType:@"stateThree"
-                                                                   title:@"State Three"
-                                                                   color:[UIColor colorWithHex:@"#8A2BE2"]
-                                                            tintedHeader:@"None"
-                                                                    body:@"Body Three"
-                                                                  footer:@"footer Three"
-                                                           buttonActions:@[actionToOne]];
+    CardState *stateTwo = [[CardState alloc] initWithCardStateType:@"stateTwo"
+                                                             title:@"MCHAT in progress"
+                                                             color:[UIColor colorWithHex:@"#8A2BE2"]
+                                                      tintedHeader:@"Screenings"
+                                                              body:@"Continue your survey!"
+                                                            footer:@""
+                                                     buttonActions:@[actionDismiss]];
 
-        Card *card = [[Card alloc] initWithCardType:@"MyCard" associatedData:nil currentState:stateOne states:@[stateOne, stateTwo, stateThree]];
-        
-        _cards = @[card];
-    }
+    CardState *stateThree = [[CardState alloc] initWithCardStateType:@"stateThree"
+                                                               title:@"State Three"
+                                                               color:[UIColor colorWithHex:@"#8A2BE2"]
+                                                        tintedHeader:@"None"
+                                                                body:@"Body Three"
+                                                              footer:@"footer Three"
+                                                       buttonActions:@[actionToOne]];
 
-    return _cards;
+    Card *card = [[Card alloc] initWithCardID:0 cardType:@"MyCard" associatedData:nil currentState:stateOne states:@[stateOne, stateTwo, stateThree]];
+
+    return @[card];
 }
 
 - (NSDictionary *)put:(NSString *)endpoint params:(NSDictionary *)params {

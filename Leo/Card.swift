@@ -9,6 +9,7 @@
 import Foundation
 
 class Card : NSObject, JSONSerializable {
+    let cardID: Int
     let cardType: String
     let associatedData: Any? // TODO: type safety
     var currentState: CardState
@@ -17,6 +18,7 @@ class Card : NSObject, JSONSerializable {
     // TODO: how to handle associatedData? subclasses?
 
     required convenience init?(json: JSON) {
+        guard let cardID = json["card_id"] as? Int else { return nil }
         guard let cardType = json["card_type"] as? String else { return nil }
         guard let associatedData = json["associated_data"] as? JSON else { return nil }
         // TODO: incorporate objc json serialization
@@ -26,6 +28,7 @@ class Card : NSObject, JSONSerializable {
         let states = CardState.initMany(jsonArray: statesJSON)
 
         self.init(
+            cardID: cardID,
             cardType: cardType,
             associatedData: associatedData,
             currentState: currentState,
@@ -47,6 +50,7 @@ class Card : NSObject, JSONSerializable {
 
     func json() -> JSON {
         return [
+            "card_id": cardID,
             "card_type": cardType,
             "current_state": currentState.json(),
             "states": CardState.json(states)
@@ -54,11 +58,13 @@ class Card : NSObject, JSONSerializable {
     }
 
     init(
+        cardID: Int,
         cardType: String,
         associatedData: Any?,
         currentState: CardState, 
         states: [CardState]
         ) {
+        self.cardID = cardID
         self.cardType = cardType
         self.associatedData = associatedData
         self.currentState = currentState
