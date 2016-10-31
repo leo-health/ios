@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -11,7 +11,7 @@
             <rect key="frame" x="0.0" y="0.0" width="466" height="265"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="XE7-UG-Xo2" id="PDe-0U-6QA">
-                <frame key="frameInset" width="466" height="265"/>
+                <frame key="frameInset" width="466" height="264"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u4n-DY-406" userLabel="Transparent Border View">
@@ -54,17 +54,15 @@
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kfH-zc-7A2">
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CGY-yl-8OE">
-                                                <state key="normal" title="Button"/>
-                                            </button>
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="3h9-0Y-Ueb"/>
                                         </subviews>
                                         <color key="backgroundColor" red="0.26116901100000001" green="0.7116034738" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="45" id="3VQ-4z-82F"/>
-                                            <constraint firstAttribute="bottom" secondItem="CGY-yl-8OE" secondAttribute="bottom" id="CSv-oG-0un"/>
-                                            <constraint firstAttribute="trailing" secondItem="CGY-yl-8OE" secondAttribute="trailing" id="ldT-sP-yz5"/>
-                                            <constraint firstItem="CGY-yl-8OE" firstAttribute="leading" secondItem="kfH-zc-7A2" secondAttribute="leading" id="oEr-CN-xJT"/>
-                                            <constraint firstItem="CGY-yl-8OE" firstAttribute="top" secondItem="kfH-zc-7A2" secondAttribute="top" id="yoq-FZ-9at"/>
+                                            <constraint firstAttribute="trailing" secondItem="3h9-0Y-Ueb" secondAttribute="trailing" constant="1" id="54J-mg-hMu"/>
+                                            <constraint firstItem="3h9-0Y-Ueb" firstAttribute="top" secondItem="kfH-zc-7A2" secondAttribute="top" constant="1" id="5yS-IE-RU8"/>
+                                            <constraint firstAttribute="bottom" secondItem="3h9-0Y-Ueb" secondAttribute="bottom" constant="1" id="7A9-YN-BbN"/>
+                                            <constraint firstItem="3h9-0Y-Ueb" firstAttribute="leading" secondItem="kfH-zc-7A2" secondAttribute="leading" constant="1" id="XcR-6t-yVX"/>
                                         </constraints>
                                     </view>
                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="eYb-HK-cKj"/>
@@ -122,8 +120,8 @@
             <connections>
                 <outlet property="activityIndicatorView" destination="eYb-HK-cKj" id="QbF-tL-BOh"/>
                 <outlet property="bodyLabel" destination="Yfs-jN-ej9" id="RrM-Jx-UHU"/>
-                <outlet property="button" destination="CGY-yl-8OE" id="6fF-en-aiC"/>
                 <outlet property="buttonContainerView" destination="kfH-zc-7A2" id="VA6-TP-fdH"/>
+                <outlet property="buttonStack" destination="3h9-0Y-Ueb" id="e4c-vW-VHd"/>
                 <outlet property="footerLabel" destination="DQV-MM-PLi" id="yBM-DI-cu6"/>
                 <outlet property="iconImageView" destination="Kpq-qb-T0l" id="1vK-ZV-kyz"/>
                 <outlet property="tintedHeaderLabel" destination="sTU-MT-ryP" id="ggd-td-PUw"/>

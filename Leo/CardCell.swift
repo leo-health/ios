@@ -22,7 +22,7 @@ class CardCell : UITableViewCell {
     @IBOutlet private weak var bodyLabel: UILabel?
     @IBOutlet private weak var footerLabel: UILabel?
     @IBOutlet private weak var buttonContainerView: UIView?
-    @IBOutlet private weak var button: UIButton?
+    @IBOutlet private weak var buttonStack: UIStackView?
 
     public var cardState: CardState? {
         didSet {
@@ -67,7 +67,7 @@ class CardCell : UITableViewCell {
 
     public func render() {
 
-        contentView.backgroundColor = UIColor.leo_gray227()
+        contentView.backgroundColor = .leo_gray227()
 
         renderIconImageView()
         renderTitleLabel()
@@ -108,12 +108,46 @@ class CardCell : UITableViewCell {
 
     private func renderButtonView() {
 
-        if let buttonAction = cardState?.buttonActions.first {
-            button?.tintColor = cardState?.color
-            button?.setTitle(buttonAction.displayName, for: .normal)
-            button?.tag = 0
-            button?.removeTarget(nil, action: nil, for: .touchUpInside)
-            button?.addTarget(self, action: #selector(self.buttonTapped(sender:)), for: .touchUpInside)
+        guard let buttonStack = buttonStack else { return }
+        guard let cardState = cardState else { return }
+
+        // add if needed, configure buttons
+        var index = 0
+        while index < cardState.buttonActions.count {
+
+            let action = cardState.buttonActions[index]
+            let button = getOrCreateButton(index: index, stackView: buttonStack)
+            configure(button: button, index: index, action: action)
+            index += 1
         }
+
+        // remove extra arranged subviews if needed
+        while index < buttonStack.arrangedSubviews.count {
+
+            let view = buttonStack.arrangedSubviews[index]
+            buttonStack.removeArrangedSubview(view)
+            index += 1
+        }
+    }
+
+    private func getOrCreateButton(index: Int, stackView: UIStackView) -> UIButton {
+
+        if index < stackView.arrangedSubviews.count {
+            return stackView.arrangedSubviews[index] as! UIButton
+        }
+
+        let button = UIButton()
+        stackView.addArrangedSubview(button)
+        return button
+    }
+
+    private func configure(button: UIButton, index: Int, action: Action) {
+
+        button.setTitleColor(cardState?.color, for: .normal)
+        button.titleLabel?.font = .leo_medium12()
+        button.setTitle(action.displayName, for: .normal)
+        button.tag = index
+        button.removeTarget(nil, action: nil, for: .touchUpInside)
+        button.addTarget(self, action: #selector(self.buttonTapped(sender:)), for: .touchUpInside)
     }
 }
