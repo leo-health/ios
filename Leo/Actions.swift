@@ -10,6 +10,7 @@ import Foundation
 
 class ActionTypes : NSObject {
     static let ScheduleNewAppointment = "SCHEDULE_NEW_APPOINTMENT"
+    static let RescheduleAppointment = "RESCHEDULE"
     static let ChangeCardState = "CHANGE_CARD_STATE"
     static let DismissCard = "DISMISS_CARD"
     static let OpenPracticeConversation = "OPEN_PRACTICE_CONVERSATION"

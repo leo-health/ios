@@ -17,7 +17,7 @@
 
 @interface LEOAppointmentViewController : LEOStickyHeaderViewController <LEOStickyHeaderDataSource, LEOStickyHeaderDelegate, LEOAppointmentViewDelegate, SingleSelectionProtocol, LEOExpandedCardViewDelegate, CardActivityProtocol>
 
-@property (weak, nonatomic) id<LEOExpandedCardViewDelegate>delegate;
-@property (strong, nonatomic) LEOCardAppointment *card;
+@property (strong, nonatomic) UIColor *tintColor;
+@property (strong, nonatomic) Appointment *appointment;
 
 @end

@@ -52,7 +52,6 @@
 @property (weak, nonatomic) LEOAppointmentView *appointmentView;
 @property (strong, nonatomic) LEOGradientView *gradientView;
 @property (strong, nonatomic) UIButton *submissionButton;
-@property (strong, nonatomic) Appointment *appointment;
 @property (nonatomic) BOOL didLayoutSubviewsOnce;
 @property (copy, nonatomic) NSString *didChangeMoreThanAppointmentTime;
 @property (strong, nonatomic) LEOAnalyticSessionManager *analyticSessionManager;
@@ -285,14 +284,10 @@ static NSString *const kKeySelectionVCDate = @"date";
 
         _appointmentView = [loadedViews firstObject];
 
-        _appointmentView.appointment = self.card.associatedCardObject;
+        _appointmentView.appointment = self.appointment;
     }
 
     return _appointmentView;
-}
-
--(Appointment *)appointment {
-    return self.appointmentView.appointment;
 }
 
 -(void)leo_performSegueWithIdentifier:(NSString *)segueIdentifier {
@@ -327,13 +322,13 @@ static NSString *const kKeySelectionVCDate = @"date";
         selectionVC.titleText = kPromptTypeOfVisit;
 
         selectionVC.configureCellBlock = ^(AppointmentTypeCell *cell, AppointmentType *appointmentType) {
-            cell.selectedColor = self.card.tintColor;
+            cell.selectedColor = self.tintColor;
 
             [cell configureForAppointmentType:appointmentType];
 
             shouldSelect = NO;
 
-            if ([appointmentType.objectID isEqualToString:[self appointment].appointmentType.objectID]) {
+            if ([appointmentType.objectID isEqualToString:self.appointment.appointmentType.objectID]) {
                 shouldSelect = YES;
             }
 
@@ -351,13 +346,13 @@ static NSString *const kKeySelectionVCDate = @"date";
 
         selectionVC.configureCellBlock = ^(PatientCell *cell, Patient *patient) {
 
-            cell.selectedColor = self.card.tintColor;
+            cell.selectedColor = self.tintColor;
 
             shouldSelect = NO;
 
             [cell configureForPatient:patient];
 
-            if ([patient.objectID isEqualToString:[self appointment].patient.objectID]) {
+            if ([patient.objectID isEqualToString:self.appointment.patient.objectID]) {
                 shouldSelect = YES;
             }
 
@@ -388,11 +383,11 @@ static NSString *const kKeySelectionVCDate = @"date";
         selectionVC.titleText = kPromptProvider;
         selectionVC.configureCellBlock = ^(ProviderCell *cell, Provider *provider) {
 
-            cell.selectedColor = self.card.tintColor;
+            cell.selectedColor = self.tintColor;
 
             shouldSelect = NO;
 
-            if ([provider.objectID isEqualToString:[self appointment].provider.objectID]) {
+            if ([provider.objectID isEqualToString:self.appointment.provider.objectID]) {
                 shouldSelect = YES;
             }
 
@@ -441,12 +436,6 @@ static NSString *const kKeySelectionVCDate = @"date";
     self.submissionButton.enabled = self.appointment.isValidForBooking;
 }
 
--(void)setCard:(LEOCardAppointment *)card {
-
-    _card = card;
-    _card.activityDelegate = self;
-}
-
 -(void)submitCardUpdates {
 
     LEOAppointmentService *appointmentService = [LEOAppointmentService new];
@@ -470,7 +459,7 @@ static NSString *const kKeySelectionVCDate = @"date";
                 [LEOAnalytic tagType:LEOAnalyticTypeEvent
                                 name:kAnalyticEventBookVisit
                          appointment:self.appointment];
-                weakself.card = appointmentCard;
+//                weakself.card = appointmentCard;
                 [self.appointment book];
             }
         }];
@@ -488,7 +477,7 @@ static NSString *const kKeySelectionVCDate = @"date";
                          appointment:self.appointment
                           attributes:@{@"Did change more than appointment time": self.didChangeMoreThanAppointmentTime}];
 
-                weakself.card = appointmentCard;
+//                weakself.card = appointmentCard;
                 [self.appointment book];
             }
         }];
@@ -502,7 +491,6 @@ static NSString *const kKeySelectionVCDate = @"date";
 -(void)dismiss {
 
     [self.analyticSessionManager stopMonitoring];
-    [self.delegate takeResponsibilityForCard:self.card];
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 

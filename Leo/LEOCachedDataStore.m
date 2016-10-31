@@ -29,6 +29,7 @@
 @property (copy, nonatomic, nullable) NSArray<Notice *> *notices;
 @property (strong, nonatomic, nullable) Coupon *coupon;
 @property (strong, nonatomic, nullable) Conversation *conversation;
+@property (strong, nonatomic, nullable) NSMutableDictionary<NSString *, Appointment *> *appointmnents;
 @property (strong, nonatomic) NSMutableDictionary *rawResources;
 
 @property (strong, nonatomic) NSArray<Card *> *cards;
@@ -70,6 +71,13 @@
     }
 
     return _user;
+}
+
+- (NSMutableDictionary<NSString *,Appointment *> *)appointmnents {
+    if (!_appointmnents) {
+        _appointmnents = [NSMutableDictionary new];
+    }
+    return _appointmnents;
 }
 
 - (void)setUser:(Guardian *)user {
@@ -263,6 +271,18 @@
         return response;
     }
 
+    else if ([endpoint isEqualToString:APIEndpointAppointments]) {
+
+        NSString *objectID = params[@"appointment_id"];
+        if (!objectID) {
+            return nil;
+        }
+
+        Appointment *appointment = self.appointmnents[objectID];
+        NSDictionary *response = [appointment serializeToJSON];
+        return response;
+    }
+
     else if ([endpoint isEqualToString:APIEndpointRouteCards]) {
 
         NSNumber *cardID = params[@"card_id"];
@@ -308,13 +328,11 @@
         NSString *cardType = cardJSON[@"card_type"];
         NSDictionary *associatedData = cardJSON[@"associated_data"];
 
-        if ([cardType isEqualToString:@"conversation"]) {
-            // put conversation endpoint?
+        if ([cardType isEqualToString:@"conversation"]) { // ????: should this be the same endpoint? how important is it that these are consistent naming? whats the pattern?
             [self put:APIEndpointConversations params:cardJSON[@"associated_data"]];
         }
         else if ([cardType isEqualToString:@"appointment"]) {
-            // put appointment endpoint?
-//            [self put:APIEndpointAppointments params:cardJSON[@"associated_data"]];
+            [self put:APIEndpointAppointments params:cardJSON[@"associated_data"]];
         }
     }
 }
@@ -327,62 +345,6 @@
         }
     }
     return nil;
-}
-
-- (NSArray<Card *> *)mockCards {
-
-    Action *actionToTwo = [[Action alloc] initWithActionType:ActionTypes.ChangeCardState
-                                                     payload:@{
-                                                               @"card_id": @(0),
-                                                               @"next_state_id": @"stateTwo"
-                                                               }
-                                                 displayName:@"Go to state two"];
-
-    Action *actionToOne = [[Action alloc] initWithActionType:ActionTypes.ChangeCardState
-                                                     payload:@{
-                                                               @"card_id": @(0),
-                                                               @"next_state_id": @"stateOne"
-                                                               }
-                                                 displayName:@"Go to state one"];
-
-    Action *actionDismiss = [[Action alloc] initWithActionType:ActionTypes.DismissCard
-                                                       payload:@{@"card_id": @(0)}
-                                                   displayName:@"DISMISS"];
-
-
-
-
-
-    CardState *stateOne = [[CardState alloc] initWithCardStateType:@"stateOne"
-                                                             title:@"MCHAT"
-                                                              icon: nil
-                                                             color:[UIColor colorWithHex:@"#8A2BE2"]
-                                                      tintedHeader:@"Screenings"
-                                                              body:@"Please take this autism screening before your next visit. We will discuss the results then."
-                                                            footer:@"" // should this be nullable?
-                                                     buttonActions:@[actionToTwo]];
-
-    CardState *stateTwo = [[CardState alloc] initWithCardStateType:@"stateTwo"
-                                                             title:@"MCHAT in progress"
-                                                              icon: nil
-                                                             color:[UIColor colorWithHex:@"#8A2BE2"]
-                                                      tintedHeader:@"Screenings"
-                                                              body:@"Continue your survey!"
-                                                            footer:@""
-                                                     buttonActions:@[actionDismiss]];
-
-    CardState *stateThree = [[CardState alloc] initWithCardStateType:@"stateThree"
-                                                               title:@"State Three"
-                                                                icon: nil
-                                                               color:[UIColor colorWithHex:@"#8A2BE2"]
-                                                        tintedHeader:@"None"
-                                                                body:@"Body Three"
-                                                              footer:@"footer Three"
-                                                       buttonActions:@[actionToOne]];
-
-    Card *card = [[Card alloc] initWithCardID:0 cardType:@"MyCard" associatedData:nil currentState:stateOne states:@[stateOne, stateTwo, stateThree]];
-
-    return @[card];
 }
 
 - (NSDictionary *)put:(NSString *)endpoint params:(NSDictionary *)params {
@@ -519,6 +481,35 @@
         return response;
     }
 
+    else if ([endpoint isEqualToString:APIEndpointAppointments]) {
+
+        NSString *appointmentID = params[APIParamID];
+        NSArray<NSDictionary *> *appointmentsJSON = params[APIEndpointAppointments];
+
+        if (appointmentID) {
+
+            Appointment *appointment = [Appointment deserializeFromJSON:params];
+            if (!appointment) {
+                return nil;
+            }
+
+            self.appointmnents[appointment.objectID] = appointment;
+
+            NSDictionary *response = [appointment serializeToJSON];
+            return response;
+        }
+
+        NSArray<Appointment *> *appointmnents = [Appointment deserializeManyFromJSON:appointmentsJSON];
+
+        for (Appointment *appointmnent in appointmnents) {
+            self.appointmnents[appointmnent.objectID] = appointmnent;
+        }
+
+        NSArray<NSDictionary *> *response = [Appointment serializeManyToJSON:appointmnents];
+
+        return @{endpoint: response};
+    }
+
     else if ([endpoint isEqualToString:APIEndpointRouteCards]) {
 
         NSArray *cards = params[@"cards"];
@@ -546,7 +537,7 @@
 }
 
 - (void)notifyObservers:(NSString *)endpoint {
-    [[NSNotificationCenter defaultCenter] postNotificationName:APIEndpointRouteCards object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:endpoint object:nil];
 }
 
 - (NSDictionary *)destroy:(NSString *)endpoint params:(NSDictionary *)params {

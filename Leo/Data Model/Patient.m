@@ -92,6 +92,10 @@
 
 + (NSDictionary *)serializeToJSON:(Patient *)patient {
 
+    if (!patient) {
+        return nil;
+    }
+
     NSMutableDictionary *userDictionary = [[super serializeToJSON:patient] mutableCopy];
 
     userDictionary[APIParamFamilyID] = patient.familyID;

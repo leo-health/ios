@@ -859,8 +859,7 @@ static CGFloat const kFeedInsetTop = 20.0;
 
     LEOAppointmentViewController *appointmentBookingVC = appointmentNavController.viewControllers.firstObject;
 
-    appointmentBookingVC.card = (LEOCardAppointment *)card;
-    appointmentBookingVC.delegate = self;
+//    appointmentBookingVC.appointment = (Appointment *)card.associatedCardObject;
 
     [self presentViewController:appointmentNavController animated:YES completion:nil];
 }
@@ -873,16 +872,16 @@ static CGFloat const kFeedInsetTop = 20.0;
 
 
 
-    UIStoryboard *conversationStoryboard = [UIStoryboard storyboardWithName:@"Conversation" bundle:nil];
-    UINavigationController *conversationNavController = [conversationStoryboard instantiateInitialViewController];
-
-    LEOConversationViewController *messagesVC = conversationNavController.viewControllers.firstObject;
-    messagesVC.conversation = conversation;
-
-    self.transitionDelegate = [[LEOTransitioningDelegate alloc] initWithTransitionAnimatorType:TransitionAnimatorTypeCardModal];
-    conversationNavController.transitioningDelegate = self.transitionDelegate;
-    conversationNavController.modalPresentationStyle = UIModalPresentationFullScreen;
-    [self presentViewController:conversationNavController animated:YES completion:nil];
+//    UIStoryboard *conversationStoryboard = [UIStoryboard storyboardWithName:@"Conversation" bundle:nil];
+//    UINavigationController *conversationNavController = [conversationStoryboard instantiateInitialViewController];
+//
+//    LEOConversationViewController *messagesVC = conversationNavController.viewControllers.firstObject;
+//    messagesVC.conversation = conversation;
+//
+//    self.transitionDelegate = [[LEOTransitioningDelegate alloc] initWithTransitionAnimatorType:TransitionAnimatorTypeCardModal];
+//    conversationNavController.transitioningDelegate = self.transitionDelegate;
+//    conversationNavController.modalPresentationStyle = UIModalPresentationFullScreen;
+//    [self presentViewController:conversationNavController animated:YES completion:nil];
 }
 
 #pragma mark - <UITableViewDataSource>

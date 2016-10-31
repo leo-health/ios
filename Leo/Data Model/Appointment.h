@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
+#import "LEOJSONSerializable.h"
 
 @class Patient;
 @class Provider;
@@ -17,7 +18,7 @@
 @class Practice;
 @class AppointmentStatus;
 
-@interface Appointment : NSObject
+@interface Appointment : LEOJSONSerializable
 NS_ASSUME_NONNULL_BEGIN
 
 

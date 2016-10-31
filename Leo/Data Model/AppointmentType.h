@@ -7,11 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "LEOJSONSerializable.h"
 
 /**
  *  Unclear whether this object is going to be used at all at this point.
  */
-@interface AppointmentType : NSObject
+@interface AppointmentType : LEOJSONSerializable
 NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy) NSString *objectID;

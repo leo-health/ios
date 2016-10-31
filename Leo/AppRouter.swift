@@ -31,11 +31,19 @@ public class AppRouter: NSObject {
         self.feedTVC = feedTVC
     }
 
-    public func presentExpandedCardScheduling() {
+    public func presentExpandedCardScheduling(appointment: Appointment?) {
 
-        // TODO: configure appointment VC here
+        guard let appointment = appointment else {
 
-        feedTVC?.beginSchedulingNewAppointment()
+            // TODO: refactor appointmentVC to handle nil appointment
+
+            feedTVC?.beginSchedulingNewAppointment()
+            return
+        }
+
+        guard let viewController = configureAppointmentViewController(appointment: appointment) else { return }
+
+        presentExpandedCard(viewController: viewController)
     }
 
     public func presentExpandedCardConversation(conversation: Conversation) {
@@ -66,4 +74,17 @@ public class AppRouter: NSObject {
 
         return conversationNavController
     }
+
+    private func configureAppointmentViewController(appointment: Appointment) -> UIViewController? {
+
+        let appointmentStoryboard = UIStoryboard(name: "Appointment", bundle: nil)
+        guard let appointmentNavController = appointmentStoryboard.instantiateInitialViewController() as? UINavigationController else { return nil }
+        guard let appointmentVC = appointmentNavController.viewControllers.first as? LEOAppointmentViewController else { return nil }
+
+        appointmentVC.appointment = appointment
+        appointmentVC.tintColor = .leo_green()
+
+        return appointmentNavController
+    }
+
 }

@@ -15,13 +15,27 @@ public class ActionHandler: NSObject {
         switch action.actionType {
 
         case ActionTypes.ScheduleNewAppointment:
-            // TODO: ????: how to take advantage of type safety here?
-            AppRouter.router.presentExpandedCardScheduling()
+
+            AppRouter.router.presentExpandedCardScheduling(appointment: nil)
+
+        case ActionTypes.RescheduleAppointment:
+
+            guard let appointmentID =
+                action.payload["appointment_id"] as? Int
+                else { return }
+
+            guard let appointment =
+                AppointmentService.cacheOnly().getAppointment(appointmentID: String(appointmentID))
+                else { return }
+
+            AppRouter.router.presentExpandedCardScheduling(appointment: appointment)
 
         case ActionTypes.OpenPracticeConversation:
 
             // TODO: LATER: handle conversation by id in cache
-            guard let conversation = ConversationService.cacheOnly().getConversation() else { return }
+            guard let conversation =
+                ConversationService.cacheOnly().getConversation()
+                else { return }
 
             AppRouter.router.presentExpandedCardConversation(conversation: conversation)
 
@@ -29,8 +43,10 @@ public class ActionHandler: NSObject {
 
             // TODO: ????: How do we validate payload types with these actions?
 
-            guard let cardID = action.payload["card_id"] as? Int else { return }
-            guard let nextStateID = action.payload["next_state_id"] as? String else { return }
+            guard let cardID = action.payload["card_id"] as? Int
+                else { return }
+            guard let nextStateID = action.payload["next_state_id"] as? String
+                else { return }
 
             CardService.cacheOnly().updateCard(
                 cardID: cardID,
@@ -61,4 +77,3 @@ public class ActionHandler: NSObject {
         }
     }
 }
-

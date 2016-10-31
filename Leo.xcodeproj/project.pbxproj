@@ -236,6 +236,7 @@
 		662371F91C569F72001AB3E7 /* Signed-Out.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 662371F81C569F72001AB3E7 /* Signed-Out.xcassets */; };
 		6627E7261C8790BA00B8F936 /* LEOInputAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6627E7251C8790BA00B8F936 /* LEOInputAccessoryView.xib */; };
 		6627E7291C87918600B8F936 /* LEOInputAccessoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6627E7281C87918600B8F936 /* LEOInputAccessoryView.m */; };
+		663050731DC7031A0083BA9C /* AppointmentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663050721DC7031A0083BA9C /* AppointmentService.swift */; };
 		6637D23B1D539DFB001E9F34 /* LEOCardDeepLink.m in Sources */ = {isa = PBXBuildFile; fileRef = 6637D23A1D539DFB001E9F34 /* LEOCardDeepLink.m */; };
 		6637D23D1D53A50A001E9F34 /* UIColor+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6637D23C1D53A50A001E9F34 /* UIColor+Helper.swift */; };
 		6637D2451D53D04B001E9F34 /* LEOFeedCell+ConfigureForDeepLinkCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 6637D2441D53D04B001E9F34 /* LEOFeedCell+ConfigureForDeepLinkCard.m */; };
@@ -778,6 +779,7 @@
 		6627E7251C8790BA00B8F936 /* LEOInputAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LEOInputAccessoryView.xib; sourceTree = "<group>"; };
 		6627E7271C87918600B8F936 /* LEOInputAccessoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOInputAccessoryView.h; sourceTree = "<group>"; };
 		6627E7281C87918600B8F936 /* LEOInputAccessoryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOInputAccessoryView.m; sourceTree = "<group>"; };
+		663050721DC7031A0083BA9C /* AppointmentService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppointmentService.swift; sourceTree = "<group>"; };
 		6637D2391D539DFB001E9F34 /* LEOCardDeepLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOCardDeepLink.h; sourceTree = "<group>"; };
 		6637D23A1D539DFB001E9F34 /* LEOCardDeepLink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOCardDeepLink.m; sourceTree = "<group>"; };
 		6637D23C1D53A50A001E9F34 /* UIColor+Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Helper.swift"; sourceTree = "<group>"; };
@@ -1670,6 +1672,7 @@
 				666130891DC167C000DC7523 /* CardCell.xib */,
 				666086C71DC244B10084DA1C /* CardService.swift */,
 				66E369F71DC6A65C00340012 /* ConversationService.swift */,
+				663050721DC7031A0083BA9C /* AppointmentService.swift */,
 				66640B731DC3D208007FFBD1 /* ActionHandler.swift */,
 				666086C91DC2758F0084DA1C /* JSONSerializable.swift */,
 				666086C21DC243E00084DA1C /* CardState.swift */,
@@ -2545,6 +2548,7 @@
 				DE87E4D01D21B7DB00871700 /* p_LEOAnalyticScreen.m in Sources */,
 				66C6725A1D510D8C00C0D0A9 /* LEOReferralViewController.swift in Sources */,
 				312A82571B56EEBE00E1FB38 /* LEOConversationViewController.m in Sources */,
+				663050731DC7031A0083BA9C /* AppointmentService.swift in Sources */,
 				66A5DB391C3DAEEE008AEC55 /* LEOHealthRecordService.m in Sources */,
 				319F335D1B2201F900C1C526 /* CollectionViewLayout.m in Sources */,
 				66A59F5E1D231E7500B1C43B /* LEOCachedService.m in Sources */,

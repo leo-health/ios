@@ -21,14 +21,14 @@
         _typeCode = typeCode;
         _longDescription = longDescription;
         _shortDescription = shortDescription;
-        
+
     }
-    
+
     return self;
 }
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
-    
+
     NSString *objectID = [[jsonResponse leo_itemForKey:APIParamID] stringValue];
     NSString *name = [jsonResponse leo_itemForKey:APIParamName];
     AppointmentTypeCode typeCode = [[jsonResponse leo_itemForKey:APIParamAppointmentTypeID] integerValue];
@@ -37,6 +37,24 @@
     NSString *shortDescription = [jsonResponse leo_itemForKey:APIParamAppointmentTypeShortDescription];
 
     return [self initWithObjectID:objectID name:name typeCode:typeCode duration:duration longDescription:longDescription shortDescription:shortDescription];
+}
+
++ (NSDictionary *)serializeToJSON:(AppointmentType *)object {
+
+    if (!object) {
+        return nil;
+    }
+
+    NSMutableDictionary *json = [NSMutableDictionary new];
+
+    json[APIParamID] = object.objectID;
+    json[APIParamName] = object.name;
+    json[APIParamAppointmentTypeID] = @(object.typeCode);
+    json[APIParamAppointmentTypeDuration] = object.duration;
+    json[APIParamAppointmentTypeLongDescription] = object.longDescription;
+    json[APIParamAppointmentTypeShortDescription] = object.shortDescription;
+
+    return [json copy];
 }
 
 

@@ -40,15 +40,35 @@
     return self;
 }
 
++ (NSDictionary *)serializeToJSON:(Appointment *)object {
+
+    if (!object) {
+        return nil;
+    }
+
+    NSMutableDictionary *json = [NSMutableDictionary new];
+    
+    json[APIParamID] = object.objectID;
+    json[APIParamAppointmentStartDateTime] = [NSDate leo_stringifiedDateTime:object.date];
+    json[APIParamUserPatient] = [object.patient serializeToJSON];
+    json[APIParamUserProvider] = [object.provider serializeToJSON];
+    json[APIParamAppointmentBookedBy] = [object.bookedByUser serializeToJSON];
+    json[APIParamAppointmentType] = [object.appointmentType serializeToJSON];
+    json[APIParamStatus] = [object.status serializeToJSON];
+    json[APIParamAppointmentNotes] = object.note;
+    json[APIParamPractice] = [object.practice serializeToJSON];
+
+    return [json copy];
+}
 
 - (instancetype)initWithJSONDictionary:(nonnull NSDictionary *)jsonResponse {
-    
+
     NSDate *date = [NSDate leo_dateFromDateTimeString:[jsonResponse leo_itemForKey:APIParamAppointmentStartDateTime]];
     Patient *patient = [[Patient alloc] initWithJSONDictionary:[jsonResponse leo_itemForKey:APIParamUserPatient]];
     Provider *provider = [[Provider alloc] initWithJSONDictionary:[jsonResponse leo_itemForKey:APIParamUserProvider]];
     User *bookedByUser = [[User alloc] initWithJSONDictionary:[jsonResponse leo_itemForKey:APIParamAppointmentBookedBy]];
     AppointmentType *appointmentType = [[AppointmentType alloc] initWithJSONDictionary:[jsonResponse leo_itemForKey:APIParamAppointmentType]];
-    
+
     AppointmentStatus *status = [[AppointmentStatus alloc] initWithJSONDictionary:[jsonResponse leo_itemForKey:APIParamStatus]];
     NSString *objectID = [[jsonResponse leo_itemForKey:APIParamID] stringValue];
     NSString *note = [jsonResponse leo_itemForKey:APIParamAppointmentNotes];
