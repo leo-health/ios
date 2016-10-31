@@ -226,6 +226,8 @@
 		31FEF1571B0D09E700AD14D2 /* LEOCardUserView.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FEF1561B0D09E700AD14D2 /* LEOCardUserView.m */; };
 		590BA281EC72F5CC58B876B8 /* libPods-Leo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 42C9066D8D7270292F058A56 /* libPods-Leo.a */; };
 		660D77781C46ACBF00DCCB3C /* LEOIntrinsicSizeTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 660D77771C46ACBF00DCCB3C /* LEOIntrinsicSizeTableView.m */; };
+		6612CFA61DC792ED00444384 /* Survey.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6612CFA51DC792ED00444384 /* Survey.storyboard */; };
+		6612CFA81DC7931000444384 /* SurveyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6612CFA71DC7931000444384 /* SurveyViewController.swift */; };
 		661451AD1D3E9966006AA480 /* Message+Analytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 661451AC1D3E9966006AA480 /* Message+Analytics.m */; };
 		662371DF1C5683A3001AB3E7 /* LEOLoggedOutOnboardingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 662371DE1C5683A3001AB3E7 /* LEOLoggedOutOnboardingViewController.m */; };
 		662371E51C568A26001AB3E7 /* LEOLoggedOutOnboardingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 662371E31C568A26001AB3E7 /* LEOLoggedOutOnboardingCell.m */; };
@@ -763,6 +765,8 @@
 		42C9066D8D7270292F058A56 /* libPods-Leo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Leo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		660D77761C46ACBF00DCCB3C /* LEOIntrinsicSizeTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOIntrinsicSizeTableView.h; sourceTree = "<group>"; };
 		660D77771C46ACBF00DCCB3C /* LEOIntrinsicSizeTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEOIntrinsicSizeTableView.m; sourceTree = "<group>"; };
+		6612CFA51DC792ED00444384 /* Survey.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Survey.storyboard; sourceTree = "<group>"; };
+		6612CFA71DC7931000444384 /* SurveyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SurveyViewController.swift; sourceTree = "<group>"; };
 		661451AB1D3E9966006AA480 /* Message+Analytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Message+Analytics.h"; path = "Data Model/Object Helpers/Message+Analytics.h"; sourceTree = "<group>"; };
 		661451AC1D3E9966006AA480 /* Message+Analytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Message+Analytics.m"; path = "Data Model/Object Helpers/Message+Analytics.m"; sourceTree = "<group>"; };
 		662371DD1C5683A3001AB3E7 /* LEOLoggedOutOnboardingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEOLoggedOutOnboardingViewController.h; sourceTree = "<group>"; };
@@ -1129,6 +1133,7 @@
 				3153C5EB1B94A0B3000A22B4 /* Login.storyboard */,
 				BCE1EC711B00E353007C8D0B /* Main.storyboard */,
 				31F5AA7F1B7920B700F96D06 /* Appointment.storyboard */,
+				6612CFA51DC792ED00444384 /* Survey.storyboard */,
 				311CBB3D1B56B0F50009BD7A /* Conversation.storyboard */,
 			);
 			name = "Stoyboards & Xibs";
@@ -1677,6 +1682,7 @@
 				666086C91DC2758F0084DA1C /* JSONSerializable.swift */,
 				666086C21DC243E00084DA1C /* CardState.swift */,
 				666086C41DC244030084DA1C /* Card.swift */,
+				6612CFA71DC7931000444384 /* SurveyViewController.swift */,
 			);
 			name = "Feed State Manager";
 			sourceTree = "<group>";
@@ -2177,6 +2183,7 @@
 				31197A141B39DA3000C773BA /* MenuView.xib in Resources */,
 				31E615E81CD9983A0027B226 /* LEOPaymentDetailsCell.xib in Resources */,
 				66A5DB431C3EE93D008AEC55 /* LEOPHRTableViewCell.xib in Resources */,
+				6612CFA61DC792ED00444384 /* Survey.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2461,6 +2468,7 @@
 				31254B801BB0576500E8E150 /* LEOMessageService.m in Sources */,
 				DE31E6021D393CDC00F028E4 /* Message+Analytics.m in Sources */,
 				66A5DB271C3D95FD008AEC55 /* HealthRecord.m in Sources */,
+				6612CFA81DC7931000444384 /* SurveyViewController.swift in Sources */,
 				310943731CC9471F0015D52F /* LEOConversationFullScreenNoticeView.m in Sources */,
 				66A5DB421C3EE93D008AEC55 /* LEOPHRTableViewCell.m in Sources */,
 				31F5AA791B791B4B00F96D06 /* AppointmentTypeCell.m in Sources */,

@@ -10,15 +10,14 @@ import UIKit
 
 public class AppRouter: NSObject {
 
-    public static let router = AppRouter()
-    private override init() {
-        super.init()
-    }
+    static let router = AppRouter()
 
     var feedTVC: LEOFeedTVC?
+    var currentNav: UINavigationController?
+
     private var transitioningDelegate: LEOTransitioningDelegate?
 
-    public func setRootVC(feedTVC: LEOFeedTVC) {
+    func setRootVC(feedTVC: LEOFeedTVC) {
 
         feedTVC.scheduleNewAppointment = {
             ActionHandler.handle(action: Action(
@@ -29,9 +28,33 @@ public class AppRouter: NSObject {
         }
 
         self.feedTVC = feedTVC
+        self.currentNav = feedTVC.navigationController
     }
 
-    public func presentExpandedCardScheduling(appointment: Appointment?) {
+//    MARK: FeedTVC
+    private func presentExpandedCard(viewController: UINavigationController) {
+
+        // TODO: Add a method to ensure the feed is available to present the expanded card
+
+        currentNav = viewController
+
+        transitioningDelegate = LEOTransitioningDelegate(transitionAnimatorType: .cardModal)
+        viewController.transitioningDelegate = transitioningDelegate
+        viewController.modalPresentationStyle = .fullScreen
+        feedTVC?.present(viewController, animated: true, completion: nil)
+    }
+
+//    MARK: Navigation Controller
+    private func pushOntoCurrentNavStack(viewController: UIViewController) {
+        currentNav?.pushViewController(viewController, animated: true)
+    }
+
+    private func resetNavStateThenPush(viewController: UIViewController) {
+
+    }
+
+//    MARK: present specific expanded cards
+    func presentExpandedCardScheduling(appointment: Appointment?) {
 
         guard let appointment = appointment else {
 
@@ -46,24 +69,57 @@ public class AppRouter: NSObject {
         presentExpandedCard(viewController: viewController)
     }
 
-    public func presentExpandedCardConversation(conversation: Conversation) {
+    func presentExpandedCardConversation(conversation: Conversation) {
 
         guard let viewController = configureConversationViewController(conversation: conversation) else { return }
 
         presentExpandedCard(viewController: viewController)
     }
 
-    private func presentExpandedCard(viewController: UIViewController) {
+    func presentExpandedCardSurvey(survey: Survey) {
 
-        // TODO: Add a method to ensure the feed is available to present the expanded card
-
-        transitioningDelegate = LEOTransitioningDelegate(transitionAnimatorType: .cardModal)
-        viewController.transitioningDelegate = transitioningDelegate
-        viewController.modalPresentationStyle = .fullScreen
-        feedTVC?.present(viewController, animated: true, completion: nil)
+        guard let viewController = configureSurveyNavigationController(survey: survey) else { return }
+        
+        presentExpandedCard(viewController: viewController)
     }
 
-    private func configureConversationViewController(conversation: Conversation) -> UIViewController? {
+//    MARK: configure expanded card VCs
+    private func configureSurveyViewController(survey: Survey, index: Int) -> SurveyViewController? {
+
+        let surveyStoryboard = UIStoryboard(name: "Survey", bundle: nil)
+        guard let surveyVC = surveyStoryboard.instantiateInitialViewController() as? SurveyViewController
+            else { return nil }
+
+        guard index < survey.questions.count else { return nil }
+
+        surveyVC.question = survey.questions[index]
+
+        surveyVC.routeNext = {
+
+            guard let nextQuestionVC =
+                self.configureSurveyViewController(
+                    survey: survey,
+                    index: index + 1
+                ) else { return }
+
+            self.pushOntoCurrentNavStack(viewController: nextQuestionVC)
+        }
+
+        surveyVC.routeDismissExpandedCard = {
+            self.feedTVC?.dismiss(animated: true, completion: nil)
+        }
+        return surveyVC
+    }
+
+    private func configureSurveyNavigationController(survey: Survey) -> UINavigationController? {
+
+        guard let surveyVC = configureSurveyViewController(survey: survey, index: 0) else { return nil }
+
+        let surveyNavController = UINavigationController(rootViewController: surveyVC)
+        return surveyNavController
+    }
+
+    private func configureConversationViewController(conversation: Conversation) -> UINavigationController? {
 
         let conversationStoryboard = UIStoryboard(name: "Conversation", bundle: nil)
         guard let conversationNavController = conversationStoryboard.instantiateInitialViewController() as? UINavigationController else { return nil }
@@ -75,7 +131,7 @@ public class AppRouter: NSObject {
         return conversationNavController
     }
 
-    private func configureAppointmentViewController(appointment: Appointment) -> UIViewController? {
+    private func configureAppointmentViewController(appointment: Appointment) -> UINavigationController? {
 
         let appointmentStoryboard = UIStoryboard(name: "Appointment", bundle: nil)
         guard let appointmentNavController = appointmentStoryboard.instantiateInitialViewController() as? UINavigationController else { return nil }

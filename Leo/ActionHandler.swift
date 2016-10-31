@@ -14,6 +14,17 @@ public class ActionHandler: NSObject {
 
         switch action.actionType {
 
+        case ActionTypes.BeginSurvey:
+            AppRouter.router.presentExpandedCardSurvey(
+                survey: Survey(
+                    questions: [
+                        Question(question: "one"),
+                        Question(question: "two"),
+                        Question(question: "three")
+                    ]
+                )
+            )
+
         case ActionTypes.ScheduleNewAppointment:
 
             AppRouter.router.presentExpandedCardScheduling(appointment: nil)
