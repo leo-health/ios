@@ -140,11 +140,8 @@ static NSString *const kMessageID = @"message_id";
             LEOS3Image *media = [[LEOS3Image alloc] initWithJSONDictionary:jsonResponse[APIParamMessageBody]];
             media.placeholder = [UIImage imageNamed:@"retry-placeholder"];
 
-            // HACK: ????: init the media item with the cached image if it exists
-            media.cachePolicy = [LEOCachePolicy cacheOnly];
-            [media refreshIfNeeded]; // update the underlyingImage
-            media.cachePolicy = nil; // reset the default policy to ensure the image is loaded from the remote if it doesn't exist in the cache
-            
+            [media refreshWithCachedImage];
+
             JSQPhotoMediaItem *photoMediaItem = [[JSQPhotoMediaItem alloc] initWithImage:media.underlyingImage];
 
             return [MessageImage messageWithObjectID:objectID media:photoMediaItem sender:sender escalatedTo:escalatedTo escalatedBy:escalatedBy status:status statusCode:statusCode createdAt:createdAt escalatedAt:nil leoMedia:media];

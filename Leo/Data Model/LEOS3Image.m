@@ -183,5 +183,13 @@ static CGFloat kImageSideSizeScale3Avatar = 300.0;
     return [avatarImage resizedImageToSize:CGSizeMake(resizedImageSideSize, resizedImageSideSize)];
 }
 
+- (void)refreshWithCachedImage {
+    // HACK: ????: init the media item with the cached image if it exists
+    LEOCachePolicy *initialCachePolicy = self.cachePolicy;
+    self.cachePolicy = [LEOCachePolicy cacheOnly];
+    [self refreshIfNeeded]; // update the underlyingImage
+    self.cachePolicy = initialCachePolicy; // reset the default policy to ensure the image is loaded from the remote if it doesn't exist in the cache
+}
+
 
 @end

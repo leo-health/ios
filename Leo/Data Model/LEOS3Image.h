@@ -39,6 +39,8 @@
 - (void)setNeedsRefresh;
 - (LEOPromise *)refreshIfNeeded;
 
+- (void)refreshWithCachedImage;
+
 + (UIImage *)resizeLocalAvatarImageBasedOnScreenScale:(UIImage *)avatarImage;
 
 @end

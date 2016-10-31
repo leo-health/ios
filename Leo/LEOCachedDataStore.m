@@ -355,6 +355,7 @@
 
     CardState *stateOne = [[CardState alloc] initWithCardStateType:@"stateOne"
                                                              title:@"MCHAT"
+                                                              icon: nil
                                                              color:[UIColor colorWithHex:@"#8A2BE2"]
                                                       tintedHeader:@"Screenings"
                                                               body:@"Please take this autism screening before your next visit. We will discuss the results then."
@@ -363,6 +364,7 @@
 
     CardState *stateTwo = [[CardState alloc] initWithCardStateType:@"stateTwo"
                                                              title:@"MCHAT in progress"
+                                                              icon: nil
                                                              color:[UIColor colorWithHex:@"#8A2BE2"]
                                                       tintedHeader:@"Screenings"
                                                               body:@"Continue your survey!"
@@ -371,6 +373,7 @@
 
     CardState *stateThree = [[CardState alloc] initWithCardStateType:@"stateThree"
                                                                title:@"State Three"
+                                                                icon: nil
                                                                color:[UIColor colorWithHex:@"#8A2BE2"]
                                                         tintedHeader:@"None"
                                                                 body:@"Body Three"

@@ -78,7 +78,7 @@ class CardCell : UITableViewCell {
     }
 
     private func renderIconImageView() {
-//        iconImageView?.image = cardState?.icon
+        iconImageView?.image = cardState?.icon?.image
     }
 
     private func renderTopBorderLine() {
