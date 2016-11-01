@@ -8,6 +8,7 @@
 
 #import "Appointment.h"
 #import "User.h"
+#import "Family.h"
 #import "Provider.h"
 #import "Patient.h"
 #import "PrepAppointment.h"
@@ -38,6 +39,24 @@
     }
 
     return self;
+}
+
+- (instancetype)initWithPatient:(Patient *)patient
+                       practice:(Practice *)practice
+                   bookedByUser:(User *)bookedByUser  {
+
+    AppointmentStatus *appointmentStatus = [AppointmentStatus new];
+    appointmentStatus.statusCode = AppointmentStatusCodeFuture;
+
+    return [self initWithObjectID:nil
+                             date:nil
+                  appointmentType:nil
+                          patient:patient
+                         provider:nil
+                         practice:practice
+                     bookedByUser:bookedByUser
+                             note:nil
+                           status:appointmentStatus];
 }
 
 + (NSDictionary *)serializeToJSON:(Appointment *)object {

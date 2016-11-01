@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (copy, nonatomic, nullable) NSString *objectID;
 @property (copy, nonatomic) NSArray *guardians;
-@property (copy, nonatomic) NSArray *patients;
+@property (copy, nonatomic) NSArray<Patient *> *patients;
 
 - (instancetype)initWithObjectID:(nullable NSString *)objectID guardians:(NSArray *)guardians patients:(NSArray *)patients;
 

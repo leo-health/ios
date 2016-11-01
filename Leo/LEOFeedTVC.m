@@ -744,31 +744,6 @@ static CGFloat const kFeedInsetTop = 20.0;
     [self presentViewController:alert animated:YES completion:nil];
 }
 
-- (void)beginSchedulingNewAppointment {
-
-    AppointmentStatus *appointmentStatus = [AppointmentStatus new];
-    appointmentStatus.statusCode = AppointmentStatusCodeFuture;
-
-    Patient *patient;
-    if (self.family.patients.count == 1) {
-        patient = [self.family.patients firstObject];
-    }
-
-    Appointment *appointment = [[Appointment alloc] initWithObjectID:nil
-                                                                date:nil
-                                                     appointmentType:nil
-                                                             patient:patient
-                                                            provider:nil
-                                                            practice:[self.practiceService getCurrentPractice]
-                                                        bookedByUser:[[LEOUserService new] getCurrentUser]
-                                                                note:nil
-                                                              status:appointmentStatus];
-
-    LEOCardAppointment *card = [[LEOCardAppointment alloc] initWithObjectID:@"999" priority:@0 associatedCardObject:appointment];
-
-    [self loadBookingViewWithCard:card];
-}
-
 - (void)loadSettings {
 
     UIStoryboard *settingsStoryboard = [UIStoryboard storyboardWithName:kStoryboardSettings

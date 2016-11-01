@@ -12,7 +12,13 @@
 
 #import "LEOCachedDataStore.h"
 #import "LEOUserService.h"
+#import "LEOPracticeService.h"
+#import "LEOFamilyService.h"
 #import "Guardian.h"
+#import "User.h"
+#import "Practice.h"
+#import "Family.h"
+#import "Patient.h"
 #import "Appointment.h"
 #import "Conversation.h"
 

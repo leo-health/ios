@@ -12,6 +12,7 @@ class ActionTypes : NSObject {
     static let BeginSurvey = "BEGIN_SURVEY"
     static let ScheduleNewAppointment = "SCHEDULE_NEW_APPOINTMENT"
     static let RescheduleAppointment = "RESCHEDULE"
+    static let CancelAppointmentCard = "CANCEL_APPOINTMENT_CARD"
     static let ChangeCardState = "CHANGE_CARD_STATE"
     static let DismissCard = "DISMISS_CARD"
     static let OpenPracticeConversation = "OPEN_PRACTICE_CONVERSATION"
@@ -34,6 +35,17 @@ class Action : NSObject, JSONSerializable {
       super.init()
     }
 
+    convenience init(
+        actionType: String,
+        payload: [String : Any]
+    ) {
+        self.init(
+            actionType: actionType,
+            payload: payload,
+            displayName: nil
+        )
+    }
+
     static func json(_ objects: [Action]) -> [JSON] {
         return objects.map({object in object.json()})
     }
@@ -48,7 +60,7 @@ class Action : NSObject, JSONSerializable {
     required convenience init?(json: JSON) {
         guard let actionType = json["action_type"] as? String else { return nil }
         guard let payload = json["payload"] as? JSON else { return nil }
-        guard let displayName = json["display_name"] as? String? else { return nil }
+        let displayName = json["display_name"] as? String
 
         self.init(
             actionType: actionType,
@@ -78,8 +90,7 @@ class ActionCreators {
     class func scheduleNewAppointment() -> Action {
         return Action(
             actionType: ActionTypes.ScheduleNewAppointment,
-            payload: [:],
-            displayName: nil
+            payload: [:]
         )
     }
 }

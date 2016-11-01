@@ -24,6 +24,15 @@ class AppointmentService : LEOModelService {
 
     //    MARK: service methods
 
+    public func cancel(appointmentID: String, completion: ((NSError?)->Void)?) -> LEOPromise {
+        return cachedService.destroy(AppointmentService.endpointName, params: ["id":appointmentID]) {
+            _, error in
+
+            guard let completion = completion else { return }
+            completion(error as NSError?)
+        }
+    }
+
     public func getAppointment(appointmentID: String, completion: ((Appointment?, NSError?)->Void)?) -> LEOPromise {
         return cachedService.get(AppointmentService.endpointName, params: ["appointment_id":appointmentID]) {
             jsonResponse, error in

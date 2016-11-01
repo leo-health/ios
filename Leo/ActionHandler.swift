@@ -36,6 +36,20 @@ public class ActionHandler: NSObject {
 
             AppRouter.router.presentExpandedCardScheduling(appointment: appointment)
 
+        case ActionTypes.CancelAppointmentCard:
+
+            guard let appointmentID =
+                (action.payload["appointment_id"] as? Int).map({String($0)})
+                else { return }
+
+            let _ = AppointmentService().cancel(appointmentID: appointmentID) { _ in
+                ActionHandler.handle(action: Action(
+                    actionType: ActionTypes.ChangeCardState,
+                    payload: action.payload
+                ))
+            }
+
+
         case ActionTypes.OpenPracticeConversation:
 
             // TODO: LATER: handle conversation by id in cache
@@ -46,8 +60,6 @@ public class ActionHandler: NSObject {
             AppRouter.router.presentExpandedCardConversation(conversation: conversation)
 
         case ActionTypes.ChangeCardState:
-
-            // TODO: ????: How do we validate payload types with these actions?
 
             guard let cardID = action.payload["card_id"] as? Int
                 else { return }
@@ -60,6 +72,7 @@ public class ActionHandler: NSObject {
             )
 
         case ActionTypes.DismissCard:
+
             guard let cardID = action.payload["card_id"] as? Int else { return }
 
             CardService.cacheOnly().deleteCard(

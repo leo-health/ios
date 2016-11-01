@@ -56,14 +56,16 @@ public class AppRouter: NSObject {
 //    MARK: present specific expanded cards
     func presentExpandedCardScheduling(appointment: Appointment?) {
 
-        guard let appointment = appointment else {
-
-            // TODO: refactor appointmentVC to handle nil appointment
-
-            feedTVC?.beginSchedulingNewAppointment()
-            return
+        let emptyAppointment: ()->(Appointment?) = {
+            let policy = LEOCachePolicy.cacheOnly()
+            guard let practice = LEOPracticeService(cachePolicy: policy).getCurrentPractice() else { return nil }
+            guard let bookedBy = LEOUserService(cachePolicy: policy).getCurrentUser() else { return nil }
+            guard let family = LEOFamilyService(cachePolicy: policy).getFamily() else { return nil }
+            let patient = family.patients.count == 1 ? family.patients.first : nil
+            return Appointment(patient: patient, practice: practice, bookedBy: bookedBy)
         }
 
+        guard let appointment = appointment ?? emptyAppointment() else { return }
         guard let viewController = configureAppointmentViewController(appointment: appointment) else { return }
 
         presentExpandedCard(viewController: viewController)
