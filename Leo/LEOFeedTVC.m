@@ -367,13 +367,8 @@ static CGFloat const kFeedInsetTop = 20.0;
 
                                                                  typeof(self) strongNestedSelf = weakNestedSelf;
 
-                                                                 NSString *messageID = [Message extractObjectIDFromChannelData:channelData];
-
-                                                                 Conversation *conversation = [strongNestedSelf conversation].associatedCardObject;
-
-                                                                 [conversation fetchMessageWithID:messageID completion:^{
-                                                                     [strongNestedSelf.tableView reloadData];
-                                                                 }];
+                                                                 // TODO: fetch only the necessary data
+                                                                 [strongNestedSelf fetchDataForCard:nil completion:nil];
                                                              }];
         } else {
 
