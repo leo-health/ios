@@ -290,6 +290,14 @@ static NSString *const kKeySelectionVCDate = @"date";
     return _appointmentView;
 }
 
+-(Appointment *)appointment {
+    return self.appointmentView.appointment;
+}
+
+-(void)setAppointment:(Appointment *)appointment {
+    self.appointmentView.appointment = appointment;
+}
+
 -(void)leo_performSegueWithIdentifier:(NSString *)segueIdentifier {
     [self performSegueWithIdentifier:segueIdentifier sender:nil];
 }
@@ -459,7 +467,8 @@ static NSString *const kKeySelectionVCDate = @"date";
                 [LEOAnalytic tagType:LEOAnalyticTypeEvent
                                 name:kAnalyticEventBookVisit
                          appointment:self.appointment];
-//                weakself.card = appointmentCard;
+
+                [self dismiss];
                 [self.appointment book];
             }
         }];
@@ -477,7 +486,7 @@ static NSString *const kKeySelectionVCDate = @"date";
                          appointment:self.appointment
                           attributes:@{@"Did change more than appointment time": self.didChangeMoreThanAppointmentTime}];
 
-//                weakself.card = appointmentCard;
+                [self dismiss];
                 [self.appointment book];
             }
         }];

@@ -35,8 +35,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, nullable) Practice *practice;
 
 - (instancetype)initWithPatient:(nullable Patient *)patient
-                    practice:(Practice *)practice
-                bookedByUser:(User *)bookedByUser;
+                    practice:(nonnull Practice *)practice
+                bookedByUser:(nonnull User *)bookedByUser;
 
 -(instancetype)initWithObjectID:(nullable NSString *)objectID date:(nullable NSDate *)date appointmentType:(nullable AppointmentType *)appointmentType patient:(nullable Patient *)patient provider:(nullable Provider *)provider practice:(Practice *)practice bookedByUser:(User *)bookedByUser note:(nullable NSString *)note status:(AppointmentStatus *)status;
 
