@@ -18,6 +18,6 @@
 @interface LEOAppointmentViewController : LEOStickyHeaderViewController <LEOStickyHeaderDataSource, LEOStickyHeaderDelegate, LEOAppointmentViewDelegate, SingleSelectionProtocol, LEOExpandedCardViewDelegate, CardActivityProtocol>
 
 @property (strong, nonatomic) UIColor *tintColor;
-@property (strong, nonatomic) Appointment *appointment;
+@property (strong, nonatomic) Appointment *associatedAppointment;
 
 @end

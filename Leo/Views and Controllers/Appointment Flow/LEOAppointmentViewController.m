@@ -284,7 +284,7 @@ static NSString *const kKeySelectionVCDate = @"date";
 
         _appointmentView = [loadedViews firstObject];
 
-        _appointmentView.appointment = self.appointment;
+        _appointmentView.appointment = self.associatedAppointment;
     }
 
     return _appointmentView;
@@ -294,8 +294,8 @@ static NSString *const kKeySelectionVCDate = @"date";
     return self.appointmentView.appointment;
 }
 
--(void)setAppointment:(Appointment *)appointment {
-    self.appointmentView.appointment = appointment;
+-(void)setAssociatedAppointment:(Appointment *)appointment {
+    _associatedAppointment = appointment;
 }
 
 -(void)leo_performSegueWithIdentifier:(NSString *)segueIdentifier {

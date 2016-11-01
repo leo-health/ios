@@ -143,7 +143,7 @@ public class AppRouter: NSObject {
         guard let appointmentNavController = appointmentStoryboard.instantiateInitialViewController() as? UINavigationController else { return nil }
         guard let appointmentVC = appointmentNavController.viewControllers.first as? LEOAppointmentViewController else { return nil }
 
-        appointmentVC.appointment = appointment
+        appointmentVC.associatedAppointment = appointment
         appointmentVC.tintColor = .leo_green()
 
         return appointmentNavController
