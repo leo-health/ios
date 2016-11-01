@@ -30,6 +30,7 @@
 @property (strong, nonatomic, nullable) Coupon *coupon;
 @property (strong, nonatomic, nullable) Conversation *conversation;
 @property (strong, nonatomic, nullable) NSMutableDictionary<NSString *, Appointment *> *appointmnents;
+@property (strong, nonatomic, nullable) NSMutableDictionary<NSString *, Survey *> *surveys;
 @property (strong, nonatomic) NSMutableDictionary *rawResources;
 
 @property (strong, nonatomic) NSArray<Card *> *cards;
@@ -78,6 +79,13 @@
         _appointmnents = [NSMutableDictionary new];
     }
     return _appointmnents;
+}
+
+- (NSMutableDictionary<NSString *,Survey *> *)surveys {
+    if (!_surveys) {
+        _surveys = [NSMutableDictionary new];
+    }
+    return _surveys;
 }
 
 - (void)setUser:(Guardian *)user {
@@ -271,6 +279,17 @@
         return response;
     }
 
+    else if ([endpoint isEqualToString:APIEndpointSurveys]) {
+
+        NSString *surveyID = params[APIParamID];
+
+        NSDictionary *result = surveyID
+        ? [self.surveys[surveyID] json]
+        : @{@"surveys" : [Survey jsonWithObjects:[self.surveys allValues]]};
+
+        return result;
+    }
+
     else if ([endpoint isEqualToString:APIEndpointAppointments]) {
 
         NSString *objectID = params[@"appointment_id"];
@@ -331,8 +350,13 @@
         if ([cardType isEqualToString:@"conversation"]) { // ????: should this be the same endpoint? how important is it that these are consistent naming? whats the pattern?
             [self put:APIEndpointConversations params:cardJSON[@"associated_data"]];
         }
+
         else if ([cardType isEqualToString:@"appointment"]) {
             [self put:APIEndpointAppointments params:cardJSON[@"associated_data"]];
+        }
+
+        else if ([cardType isEqualToString:@"survey"]) {
+            [self put:APIEndpointSurveys params:cardJSON[@"associated_data"]];
         }
     }
 }
@@ -508,6 +532,26 @@
         NSArray<NSDictionary *> *response = [Appointment serializeManyToJSON:appointmnents];
 
         return @{endpoint: response};
+    }
+
+    else if ([endpoint isEqualToString:APIEndpointSurveys]) {
+
+        NSArray<NSDictionary *> *surveysJSON = params[@"surveys"];
+        NSString *surveyID = params[APIParamID];
+        if (!surveysJSON && surveyID) {
+            surveysJSON = @[params];
+        }
+
+        NSArray<Survey *> *surveys = [Survey initManyWithJson:surveysJSON];
+        for (Survey *survey in surveys) {
+            self.surveys[survey.objectID] = survey;
+        }
+
+        NSDictionary *result = surveys.count == 1
+        ? [surveys.firstObject json]
+        : @{@"surveys" : [Survey jsonWithObjects:surveys]};
+
+        return result;
     }
 
     else if ([endpoint isEqualToString:APIEndpointRouteCards]) {

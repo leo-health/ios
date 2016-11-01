@@ -218,10 +218,9 @@ extern NSString *const APIEndpointPusherAuth; // @"pusher/auth";
 extern NSString *const APIEndpointConfiguration; // @"ios_configuration";
 extern NSString *const APIEndpointPHR; // @"phr";
 extern NSString *const APIEndpointConversationNotices; // @"conversation_notices";
-
-
 extern NSString *const APIEndpointSubscriptions; // @"subscriptions";
 extern NSString *const APIEndpointValidatePromoCode; // @"validate_coupon";
+extern NSString *const APIEndpointSurveys; // @"surveys";
 
 #pragma mark - Common
 extern NSString *const APIParamID; // @"id";

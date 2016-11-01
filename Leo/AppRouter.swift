@@ -92,6 +92,7 @@ public class AppRouter: NSObject {
 
         guard index < survey.questions.count else { return nil }
 
+        surveyVC.showsBackButton = index > 0
         surveyVC.question = survey.questions[index]
 
         surveyVC.routeNext = {
@@ -106,7 +107,10 @@ public class AppRouter: NSObject {
         }
 
         surveyVC.routeDismissExpandedCard = {
-            self.feedTVC?.dismiss(animated: true, completion: nil)
+            self.feedTVC?.dismiss(
+                animated: true,
+                completion: nil
+            )
         }
         return surveyVC
     }

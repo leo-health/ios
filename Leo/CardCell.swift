@@ -126,6 +126,7 @@ class CardCell : UITableViewCell {
 
             let view = buttonStack.arrangedSubviews[index]
             buttonStack.removeArrangedSubview(view)
+            view.removeFromSuperview()
             index += 1
         }
     }

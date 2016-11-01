@@ -15,15 +15,10 @@ public class ActionHandler: NSObject {
         switch action.actionType {
 
         case ActionTypes.BeginSurvey:
-            AppRouter.router.presentExpandedCardSurvey(
-                survey: Survey(
-                    questions: [
-                        Question(question: "one"),
-                        Question(question: "two"),
-                        Question(question: "three")
-                    ]
-                )
-            )
+
+            guard let id = (action.payload["user_survey_id"] as? Int).map({String($0)}) else { return }
+            guard let survey = SurveyService.cacheOnly().getSurvey(id: id) else { return }
+            AppRouter.router.presentExpandedCardSurvey(survey: survey)
 
         case ActionTypes.ScheduleNewAppointment:
 

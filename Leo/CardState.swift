@@ -9,9 +9,6 @@
 import Foundation
 
 class CardState : NSObject, JSONSerializable {
-    static let changeNotificationName = "CardState-changed"
-
-    // TODO: Boilerplate reduction, code generation?
 
     let cardStateType: String
     let color: UIColor
@@ -49,7 +46,6 @@ class CardState : NSObject, JSONSerializable {
         guard let cardStateType = json["card_state_type"] as? String else { return nil }
         guard let colorHex = json["color"] as? String else { return nil }
         guard let title = json["title"] as? String else { return nil }
-        guard let iconJSON = json["icon"] as? JSON else { return nil }
         guard let tintedHeader = json["tinted_header"] as? String else { return nil }
         guard let body = json["body"] as? String else { return nil }
         guard let footer = json["footer"] as? String else { return nil }
@@ -57,8 +53,12 @@ class CardState : NSObject, JSONSerializable {
 
         guard let color = UIColor(hex: colorHex) else { return nil }
 
-        guard let icon = LEOS3Image(jsonDictionary: iconJSON) else { return nil }
-        icon.refreshWithCachedImage() // TODO: does this belong in the initWithJSON method? developers shouldnt have to remember to call this
+        var icon: LEOS3Image? = nil
+        if let iconJSON = json["icon"] as? JSON {
+            guard let unwrappedIcon = LEOS3Image(jsonDictionary: iconJSON) else { return nil }
+            unwrappedIcon.refreshWithCachedImage() // TODO: does this belong in the initWithJSON method? developers shouldnt have to remember to call this
+            icon = unwrappedIcon
+        }
 
         let buttonActions = Action.initMany(jsonArray: buttonActionsJSON)
 

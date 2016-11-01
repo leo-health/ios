@@ -937,9 +937,7 @@ static CGFloat const kFeedInsetTop = 20.0;
 
     CardCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifierRouteCard forIndexPath:indexPath];
 
-    NSInteger cardID = indexPath.row;
-
-    cell.cardState = [[CardService cacheOnly] getCurrentStateWithCardID:cardID];
+    cell.cardState = [[[CardService cacheOnly] getFeedState] cardStates][indexPath.row];
 
     return cell;
 }

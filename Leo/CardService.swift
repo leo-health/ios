@@ -47,16 +47,13 @@ class CardService : LEOModelService {
     }
 
     public func getFeedState() -> FeedState?  {
-        // probably should use a different endpoint here
+        // TODO: probably should use a different endpoint here
         guard let json = cachedService.get(CardService.endpointName, params: [:]) as? [String : Any] else { return nil }
         guard let cardsJSON = json["cards"] as? [JSON] else { return nil }
         let currentStatesJSON = cardsJSON.map({ return $0["current_state"] })
 
-        return FeedState(json: ["card_states" : currentStatesJSON])
-    }
-
-    public func getCardState(cardID: Int, stateID: String) -> CardState?  {
-        return cardsEndpoint(cardID: cardID, stateID: stateID)
+        let result = FeedState(json: ["card_states" : currentStatesJSON])
+        return result
     }
 
     public func getCurrentState(cardID: Int) -> CardState?  {

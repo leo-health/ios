@@ -8,29 +8,6 @@
 
 import Foundation
 
-struct Survey {
-    let questions: [Question]
-//
-//    var currentQuestionIndex: Int
-//
-//    var currentQuestion: Question {
-//        get {
-//            return questions[currentQuestionIndex]
-//        }
-//    }
-//
-//    mutating func nextQuestion() -> Question? {
-//        let nextIndex = currentQuestionIndex + 1
-//        guard nextIndex < questions.count else { return nil }
-//        currentQuestionIndex = nextIndex
-//        return currentQuestion
-//    }
-}
-
-struct Question {
-    let question: String
-}
-
 protocol ExpandedCardDelegate {
     func renderNavigationBar()
     func dismiss()
@@ -38,6 +15,7 @@ protocol ExpandedCardDelegate {
 
 class SurveyViewController : UIViewController, ExpandedCardDelegate {
 
+    var showsBackButton: Bool = false
     var question: Question! {
         didSet {
             render()
@@ -59,11 +37,17 @@ class SurveyViewController : UIViewController, ExpandedCardDelegate {
     private func render() {
         renderNavigationBar()
 
-        questionLabel?.text = question.question
+        questionLabel?.text = question.body
+
+        [submitYesButton, submitNoButton].flatMap{$0}.forEach { button in
+            button.backgroundColor = .leo_orangeRed()
+            button.setTitleColor(.white, for: .normal)
+            button.titleLabel?.font = .leo_medium12()
+        }
     }
 
     func renderNavigationBar() {
-        LEOStyleHelper.styleNavigationBar(for: self, for: .PHR, withTitleText: "MCHAT", dismissal: true, backButton: true)
+        LEOStyleHelper.styleNavigationBar(for: self, for: .PHR, withTitleText: "MCHAT", dismissal: true, backButton: showsBackButton)
     }
 
     @IBAction private func didTapSubmit(sender: UIButton) {
