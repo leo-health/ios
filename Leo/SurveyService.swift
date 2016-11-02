@@ -12,12 +12,6 @@ class SurveyService : LEOModelService {
 
     let endpointName = APIEndpointSurveys
 
-    //    MARK: Factories
-    class func cacheOnly() -> SurveyService {
-        let policy = LEOCachePolicy.cacheOnly()
-        return service(policy: policy)
-    }
-
     class func service(policy: LEOCachePolicy = LEOCachePolicy()) -> SurveyService {
         return SurveyService(cachePolicy: policy)
     }

@@ -12,12 +12,6 @@ class ConversationService : LEOModelService {
 
     static let endpointName = APIEndpointConversations
 
-//    MARK: Factories
-    public class func cacheOnly() -> ConversationService {
-        let policy = LEOCachePolicy.cacheOnly()
-        return service(policy: policy)
-    }
-
     public class func service(policy: LEOCachePolicy = LEOCachePolicy()) -> ConversationService {
         return ConversationService(cachePolicy: policy)
     }

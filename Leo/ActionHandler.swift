@@ -21,7 +21,7 @@ public class ActionHandler: NSObject {
         case ActionTypes.BeginSurvey:
 
             guard let id = (action.payload["user_survey_id"] as? Int).map({String($0)}) else { return }
-            guard let survey = SurveyService.cacheOnly().getSurvey(id: id) else { return }
+            guard let survey = SurveyService().getSurvey(id: id) else { return }
             AppRouter.router.presentExpandedCardSurvey(survey: survey)
 
         case ActionTypes.ScheduleNewAppointment:
@@ -35,7 +35,7 @@ public class ActionHandler: NSObject {
                 else { return }
 
             guard let appointment =
-                AppointmentService.cacheOnly().getAppointment(appointmentID: String(appointmentID))
+                AppointmentService().getAppointment(appointmentID: String(appointmentID))
                 else { return }
 
             AppRouter.router.presentExpandedCardScheduling(appointment: appointment)
@@ -44,7 +44,7 @@ public class ActionHandler: NSObject {
 
             // TODO: LATER: handle conversation by id in cache
             guard let conversation =
-                ConversationService.cacheOnly().getConversation()
+                ConversationService().getConversation()
                 else { return }
 
             AppRouter.router.presentExpandedCardConversation(conversation: conversation)
@@ -59,7 +59,7 @@ public class ActionHandler: NSObject {
 
             if (nextStateID == nil && isLoading == nil) { return }
 
-            CardService.cacheOnly().updateCard(
+            CardService().updateCard(
                 cardID: cardID,
                 stateID: nextStateID,
                 isLoading: isLoading
@@ -69,7 +69,7 @@ public class ActionHandler: NSObject {
 
             guard let cardID = action.payload["card_id"] as? Int else { return }
 
-            CardService.cacheOnly().deleteCard(
+            CardService().deleteCard(
                 cardID: cardID
             )
 
@@ -95,24 +95,10 @@ public class ActionHandler: NSObject {
                 action.payload["card_id"] as? Int
                 else { return }
 
-            ActionHandler.handle(action: Action(
-                actionType: ActionTypes.ChangeCardState,
-                payload: [
-                    "card_id": cardID,
-                    "is_loading": true
-                ]
-            ))
+            ActionHandler.handle(action: ActionCreators.changeCardState(cardID: cardID, isLoading: true))
 
             let _ = AppointmentService().cancel(appointmentID: appointmentID) { _ in
-
-                ActionHandler.handle(action: Action(
-                    actionType: ActionTypes.ChangeCardState,
-                    payload: [
-                        "card_id": cardID,
-                        "next_state_id": nextStateID,
-                        "is_loading": false
-                    ]
-                ))
+                ActionHandler.handle(action: ActionCreators.changeCardState(cardID: cardID, nextStateID: nextStateID, isLoading: false))
             }
 
         default:

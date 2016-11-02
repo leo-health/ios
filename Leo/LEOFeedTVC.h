@@ -31,9 +31,4 @@ EKEventEditViewDelegate>
 
 @property (nonatomic) LEOVoidBlock scheduleNewAppointment;
 
-- (void)fetchData;
-
-// TODO: move this logic into the router
-- (void)beginSchedulingNewAppointment;
-
 @end

@@ -51,10 +51,7 @@ class Action : NSObject, JSONSerializable {
     }
 
     static func initMany(jsonArray: [JSON]) -> [Action] {
-        return jsonArray
-            .map({ Action(json: $0) })
-            .filter({ $0 != nil })
-            .map({ $0! })
+        return jsonArray.flatMap({ Action(json: $0) })
     }
 
     required convenience init?(json: JSON) {
@@ -79,11 +76,35 @@ class Action : NSObject, JSONSerializable {
 }
 
 class ActionCreators {
-    class func action(json: [String : Any]) -> Action {
+
+    class func changeCardState(cardID: Int, nextStateID: String, isLoading: Bool) -> Action {
         return Action(
-            actionType: json["action_type"] as! String,
-            payload: json["payload"] as! [String : Any],
-            displayName: json["display_name"] as! String?
+            actionType: ActionTypes.ChangeCardState,
+            payload: [
+                "card_id": cardID,
+                "next_state_id": nextStateID,
+                "is_loading": isLoading
+            ]
+        )
+    }
+
+    class func changeCardState(cardID: Int, nextStateID: String) -> Action {
+        return Action(
+            actionType: ActionTypes.ChangeCardState,
+            payload: [
+                "card_id": cardID,
+                "next_state_id": nextStateID
+            ]
+        )
+    }
+
+    class func changeCardState(cardID: Int, isLoading: Bool) -> Action {
+        return Action(
+            actionType: ActionTypes.ChangeCardState,
+            payload: [
+                "card_id": cardID,
+                "is_loading": isLoading
+            ]
         )
     }
 

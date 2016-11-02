@@ -12,12 +12,6 @@ class CardService : LEOModelService {
 
     static let endpointName = APIEndpointRouteCards
 
-//    MARK: Factories
-    public class func cacheOnly() -> CardService {
-        let policy = LEOCachePolicy.cacheOnly()
-        return service(policy: policy)
-    }
-
     public class func service(policy: LEOCachePolicy = LEOCachePolicy()) -> CardService {
         return CardService(cachePolicy: policy)
     }

@@ -32,22 +32,12 @@
     if (self) {
         _objectID = objectID;
         _messages = messages;
-//        _participants = participants;
     }
     
     return self;
 }
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
-
-    /*
-
-     objectID:
-     messages:
-     staff:
-     users: guardians:
-
-    */
 
     NSString  *objectID = [jsonResponse[APIParamID] stringValue];
     
@@ -80,9 +70,8 @@
         [participants addObject:guardian];
     }
 
-    ConversationStatusCode statusCode = ConversationStatusCodeReadMessages; //[jsonResponse[APIParamState] integerValue];
+    ConversationStatusCode statusCode = ConversationStatusCodeReadMessages;
 
-    //TODO: May need to protect against nil values...
     return [self initWithObjectID:objectID messages:sortedMessages participants:participants statusCode:statusCode];
 }
 
@@ -96,7 +85,6 @@
     NSMutableDictionary *json = [NSMutableDictionary new];
     json[APIParamID] = object.objectID;
     json[APIParamMessages] = [Message serializeManyToJSON:object.messages];
-//    json[APIParamUserStaff] = [User serializeManyToJSON:object.staff];
 
     return [json copy];
 }
@@ -176,14 +164,6 @@
 
 - (void)returnToPriorState {
     self.statusCode = self.priorStatusCode;
-}
-
-- (void)setStatusCode:(ConversationStatusCode)statusCode {
-
-    _statusCode = statusCode;
-
-    //FIXME: Consider whether this will work given we replace the Appointment object regularly...
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"Status-Changed" object:self];
 }
 
 

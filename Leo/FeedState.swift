@@ -8,8 +8,6 @@
 
 import Foundation
 
-// ????: Do we need a model class Feed?
-
 extension FeedState : JSONSerializable {
     func json() -> JSON {
         return [
@@ -23,7 +21,7 @@ class FeedState : NSObject {
 
     convenience init(cardStates: [CardState]) {
         self.init()
-        self.cardStates = cardStates // ????: How to avoid didSet for initial setting
+        self.cardStates = cardStates
     }
 
     required convenience init?(json: JSON) {

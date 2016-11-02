@@ -829,8 +829,6 @@ static CGFloat const kFeedInsetTop = 20.0;
 
     LEOAppointmentViewController *appointmentBookingVC = appointmentNavController.viewControllers.firstObject;
 
-//    appointmentBookingVC.appointment = (Appointment *)card.associatedCardObject;
-
     [self presentViewController:appointmentNavController animated:YES completion:nil];
 }
 
@@ -867,7 +865,7 @@ static CGFloat const kFeedInsetTop = 20.0;
             return 1;
 
         case TableViewSectionBody: {
-            return [[CardService cacheOnly] getFeedState].cardStates.count;
+            return [[CardService new] getFeedState].cardStates.count;
         }
 
         default:
@@ -907,7 +905,7 @@ static CGFloat const kFeedInsetTop = 20.0;
 
     CardCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifierRouteCard forIndexPath:indexPath];
 
-    cell.cardState = [[[CardService cacheOnly] getFeedState] cardStates][indexPath.row];
+    cell.cardState = [[[CardService new] getFeedState] cardStates][indexPath.row];
 
     return cell;
 }
