@@ -61,14 +61,20 @@ class CardService : LEOModelService {
     }
 
     public func updateCard(cardID: Int, stateID: String) {
+        updateCard(cardID: cardID, stateID: stateID, isLoading: nil)
+    }
+
+    public func updateCard(cardID: Int, stateID: String?, isLoading: Bool?) {
         guard let cardStates = getFeedState()?.cardStates else { return }
         if cardID >= cardStates.count { return }
 
-        cachedService.put(CardService.endpointName, params: [
-            "card_id": cardID,
-            "state_id": stateID
-            ]
-        )
+        var params = [
+            "card_id": cardID
+        ] as [String : Any]
+        if let isLoading = isLoading { params["is_loading"] = isLoading }
+        if let stateID = stateID { params["state_id"] = stateID }
+
+        cachedService.put(CardService.endpointName, params: params)
     }
 
     public func deleteCard(cardID: Int) {

@@ -69,12 +69,21 @@ class CardCell : UITableViewCell {
 
         contentView.backgroundColor = .leo_gray227()
 
+        renderActivityIndicatorView()
         renderIconImageView()
         renderTitleLabel()
         renderTintedHeaderLabel()
         renderBodyLabel()
         renderFooterLabel()
         renderButtonView()
+    }
+
+    private func renderActivityIndicatorView() {
+        guard let shouldBeLoading = cardState?.isLoading else { return }
+        guard let isLoading = activityIndicatorView?.isAnimating else { return }
+        if !isLoading && shouldBeLoading {
+            activityIndicatorView?.startAnimating()
+        }
     }
 
     private func renderIconImageView() {

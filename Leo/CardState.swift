@@ -18,6 +18,7 @@ class CardState : NSObject, JSONSerializable {
     let body: String
     let footer: String
     let buttonActions: [Action]
+    var isLoading: Bool
 
     init(
         cardStateType: String,
@@ -27,7 +28,8 @@ class CardState : NSObject, JSONSerializable {
         tintedHeader: String,
         body: String,
         footer: String,
-        buttonActions: [Action]
+        buttonActions: [Action],
+        isLoading: Bool
         ) {
         self.cardStateType = cardStateType
         self.title = title
@@ -37,6 +39,7 @@ class CardState : NSObject, JSONSerializable {
         self.body = body
         self.footer = footer
         self.buttonActions = buttonActions
+        self.isLoading = isLoading
 
         super.init()
     }
@@ -50,6 +53,7 @@ class CardState : NSObject, JSONSerializable {
         guard let body = json["body"] as? String else { return nil }
         guard let footer = json["footer"] as? String else { return nil }
         guard let buttonActionsJSON = json["button_actions"] as? [JSON] else { return nil }
+        let isLoading = json["is_loading"] as? Bool ?? false
 
         guard let color = UIColor(hex: colorHex) else { return nil }
 
@@ -62,14 +66,17 @@ class CardState : NSObject, JSONSerializable {
 
         let buttonActions = Action.initMany(jsonArray: buttonActionsJSON)
 
-        self.init(cardStateType: cardStateType,
-                  title: title,
-                  icon: icon,
-                  color: color,
-                  tintedHeader: tintedHeader,
-                  body: body,
-                  footer: footer,
-                  buttonActions: buttonActions)
+        self.init(
+            cardStateType: cardStateType,
+            title: title,
+            icon: icon,
+            color: color,
+            tintedHeader: tintedHeader,
+            body: body,
+            footer: footer,
+            buttonActions: buttonActions,
+            isLoading: isLoading
+        )
     }
 
     public func json() -> [String : Any] {
@@ -81,7 +88,8 @@ class CardState : NSObject, JSONSerializable {
             "tinted_header": tintedHeader,
             "body": body,
             "footer": footer,
-            "button_actions": Action.json(buttonActions)
+            "button_actions": Action.json(buttonActions),
+            "is_loading": isLoading
         ]
 
         if let icon = icon {

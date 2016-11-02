@@ -559,6 +559,7 @@
         NSArray *cards = params[@"cards"];
         NSNumber *cardID = params[@"card_id"];
         NSString *stateID = params[@"state_id"];
+        NSNumber *isLoading = params[@"is_loading"];
 
         if (cards) {
 
@@ -568,12 +569,23 @@
             return [self allCardsJSON];
         }
 
-        BOOL singleCard = cardID && stateID && [cardID integerValue] < self.cards.count;
+        BOOL singleCard = cardID && [cardID integerValue] < self.cards.count;
 
         if (singleCard) {
-            [self.cards[[cardID integerValue]] setCurrentStateWithStateType:stateID];
+
+            Card *card = self.cards[[cardID integerValue]];
+
+            if (stateID) {
+                [card setCurrentStateWithStateType:stateID];
+            }
+
+            if (isLoading) {
+
+                card.currentState.isLoading = [isLoading boolValue];
+                [self notifyObservers:endpoint];
+            }
+
             [self notifyObservers:endpoint];
-            // should we return something here?
         }
     }
 
