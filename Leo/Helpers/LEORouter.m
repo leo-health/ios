@@ -183,12 +183,6 @@
         appDelegate.window.rootViewController = initialVC;
         [appDelegate.window makeKeyAndVisible];
     }
-
-
-    if ([storyboardName isEqualToString:kStoryboardFeed]) {
-        LEOFeedTVC *feed = [(AppDelegate *)appDelegate feedTVC];
-        [AppRouter.router setRootVCWithFeedTVC:feed];
-    }
 }
 
 + (void)appDelegate:(id<UIApplicationDelegate>)appDelegate setRootViewControllerWithStoryboardName:(NSString *)storyboardName withAnimationCompletion:(void (^)(void))animationCompletion {

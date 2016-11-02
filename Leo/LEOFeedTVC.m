@@ -402,7 +402,7 @@ static CGFloat const kFeedInsetTop = 20.0;
 
 - (void)notificationReceived:(NSNotification *)notification {
 
-    if ([notification.name isEqualToString:APIEndpointRouteCards]) {
+    if ([notification.name isEqualToString:APIEndpointRouteCards] || [notification.name isEqualToString:kNotificationDownloadedImageUpdated]) {
         [self.tableView reloadData];
     }
 
@@ -990,8 +990,7 @@ static CGFloat const kFeedInsetTop = 20.0;
     [LEOAnalytic tagType:LEOAnalyticTypeEvent
                     name:kAnalyticEventScheduleVisit];
 
-    // ????: We can decide to pull this out into a function parameter on the VC
-    self.scheduleNewAppointment();
+    [ActionHandler handleWithAction:[[Action alloc] initWithActionType:[ActionTypes ScheduleNewAppointment] payload:@{}]];
 }
 
 - (void)messageUsTouchedUpInside {

@@ -12,41 +12,40 @@ public class AppRouter: NSObject {
 
     static let router = AppRouter()
 
-    var feedTVC: LEOFeedTVC?
-    var currentNav: UINavigationController?
+    var window: UIWindow?
+
+    var presentingVC: UIViewController?
+    private var _presentingVC: UIViewController? {
+        get {
+            return presentingVC ?? window?.rootViewController
+        }
+    }
+
+    var navigationVC: UINavigationController?
 
     private var transitioningDelegate: LEOTransitioningDelegate?
 
-    func setRootVC(feedTVC: LEOFeedTVC) {
+    func setRoot(window: UIWindow) {
 
-        feedTVC.scheduleNewAppointment = {
-            ActionHandler.handle(action: Action(
-                actionType: ActionTypes.ScheduleNewAppointment,
-                payload: [:],
-                displayName: nil
-            ))
-        }
-
-        self.feedTVC = feedTVC
-        self.currentNav = feedTVC.navigationController
+        self.window = window
+        navigationVC = _presentingVC as? UINavigationController
     }
 
-//    MARK: FeedTVC
     private func presentExpandedCard(viewController: UINavigationController) {
 
         // TODO: Add a method to ensure the feed is available to present the expanded card
 
-        currentNav = viewController
+        navigationVC = viewController
 
         transitioningDelegate = LEOTransitioningDelegate(transitionAnimatorType: .cardModal)
         viewController.transitioningDelegate = transitioningDelegate
         viewController.modalPresentationStyle = .fullScreen
-        feedTVC?.present(viewController, animated: true, completion: nil)
+        _presentingVC?.present(viewController, animated: true, completion: nil)
     }
 
 //    MARK: Navigation Controller
     private func pushOntoCurrentNavStack(viewController: UIViewController) {
-        currentNav?.pushViewController(viewController, animated: true)
+        navigationVC?.pushViewController(viewController, animated: true)
     }
 
     private func resetNavStateThenPush(viewController: UIViewController) {
@@ -109,7 +108,7 @@ public class AppRouter: NSObject {
         }
 
         surveyVC.routeDismissExpandedCard = {
-            self.feedTVC?.dismiss(
+            self._presentingVC?.dismiss(
                 animated: true,
                 completion: nil
             )
