@@ -40,40 +40,8 @@ static NSString *kActionSelectorCallUs = @"call";
         conversation = associatedCardObject;
     }
 
-    self = [super initWithObjectID:objectID priority:priority type:CardTypeConversation associatedCardObject:conversation];
-
-    if (self) {
-
-        [self commonInit];
-    }
-
-    return self;
+    return [super initWithObjectID:objectID priority:priority type:CardTypeConversation associatedCardObject:conversation];
 }
-
-- (void)commonInit {
-
-    [self setupNotifications];
-}
-
-- (void)setupNotifications {
-
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusChanged) name:kNotificationStatusChanged object:self.associatedCardObject];
-}
-
-- (void)removeObservers {
-
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotificationStatusChanged object:self.associatedCardObject];
-}
-
-- (void)dealloc {
-
-    [self removeObservers];
-}
-
--(void)statusChanged {
-    [self.activityDelegate didUpdateObjectStateForCard:self];
-}
-
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)jsonResponse {
     

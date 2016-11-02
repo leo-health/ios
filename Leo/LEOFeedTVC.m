@@ -91,26 +91,14 @@ typedef NS_ENUM(NSUInteger, TableViewSection) {
 @property (strong, nonatomic) LEOChangeEventObserver *practiceObserver;
 @property (strong, nonatomic) LEOPracticeService *practiceService;
 
-@property (nonatomic, strong) ArrayDataSource *cardsArrayDataSource;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (strong, nonatomic) LEOTransitioningDelegate *transitionDelegate;
-
-@property (copy, nonatomic) NSArray *cards;
-@property (copy, nonatomic) NSArray *appointmentTypes;
-
 @property (weak, nonatomic) IBOutlet UINavigationBar *navigationBar;
+@property (weak, nonatomic) IBOutlet UIView *grayView;
 
-@property (strong, nonatomic) NSIndexPath *cardInFocusIndexPath;
-@property (nonatomic) BOOL hasShownNewUserMessage;
 @property (strong, nonatomic) LEOFeedNavigationHeaderView *feedNavigatorHeaderView;
 @property (strong, nonatomic) NSString *headerMessage;
 
-@property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
-@property (weak, nonatomic) IBOutlet UIView *grayView;
-
 @property (nonatomic) BOOL enableButtonsInFeed;
-
-@property (strong, nonatomic) id<LEOFeedCellDelegate>feedCellDelegate;
 
 @end
 
@@ -121,7 +109,58 @@ static NSString *const kCellIdentifierLEOHeaderCell = @"LEOFeedHeaderCell";
 static NSString *const kCellIdentifierLEOFeed = @"LEOFeedCell";
 static NSString *const kCellIdentifierRouteCard = @"kCellIdentifierRouteCard";
 
-static CGFloat const kFeedInsetTop = 20.0;
+
+
+// TODO: MOVE TO ROUTER
+- (void)confirmCallUs {
+
+    NSString *practiceName = @"Flatiron Pediatrics";
+    NSString *alertTitle = [NSString stringWithFormat:@"You are about to call \n%@\n%@", practiceName,
+                            [LEOValidationsHelper formattedPhoneNumberFromPhoneNumber:kFlatironPediatricsPhoneNumber]];
+
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:alertTitle message:nil preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"Call" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+
+        [LEOAnalytic tagType:LEOAnalyticTypeIntent
+                        name:kAnalyticEventCallUs];
+
+        NSString *phoneCallNum = [NSString stringWithFormat:@"tel://%@",kFlatironPediatricsPhoneNumber];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneCallNum]];
+    }]];
+    [alert addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
+
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
+- (void)loadSettings {
+
+    UIStoryboard *settingsStoryboard = [UIStoryboard storyboardWithName:kStoryboardSettings
+                                                                 bundle:nil];
+
+    LEOSettingsViewController *settingsVC = [settingsStoryboard instantiateInitialViewController];
+
+    LEOCachePolicy *policy = [LEOCachePolicy new];
+    policy.get = LEOCachePolicyGETCacheOnly;
+    settingsVC.familyService = [LEOFamilyService serviceWithCachePolicy:policy];
+    settingsVC.userService = [LEOUserService serviceWithCachePolicy:policy];
+
+    [self.navigationController pushViewController:settingsVC animated:YES];
+}
+
+// TODO:
+- (EKEvent *)createEventWithEventStore:eventStore startDate:startDate {
+
+    EKEvent *event = [EKEvent eventWithEventStore:eventStore];
+    EKCalendar *calendar = [eventStore defaultCalendarForNewEvents];
+
+    event.startDate = startDate;
+    event.endDate = [startDate dateByAddingMinutes:30];
+    event.title = @"Appointment with pediatrician";
+    event.calendar = calendar;
+    event.location = [[LEOPracticeService new] getCurrentPractice].name;
+
+    return event;
+}
 
 
 #pragma mark - View Controller Lifecycle
@@ -163,6 +202,68 @@ static CGFloat const kFeedInsetTop = 20.0;
     [self prepareForReachability];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+
+    [super viewWillDisappear:animated];
+    NSString *channelString = [NSString stringWithFormat:@"%@",[[LEOUserService new] getCurrentUser].objectID];
+    [[LEOPusherHelper sharedPusher] removeBinding:self.pusherBinding fromPrivateChannelWithName:channelString];
+}
+
+- (void)setupNotifications {
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(notificationReceived:)
+                                                 name:APIEndpointRouteCards
+                                               object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(notificationReceived:)
+                                                 name:kNotificationConversationAddedMessage
+                                               object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(notificationReceived:)
+                                                 name:UIApplicationDidBecomeActiveNotification
+                                               object:nil];
+
+    self.practiceObserver =
+    [LEOChangeEventObserver subscribeToChannel:APIEndpointPractice
+                                     withEvent:APIChangeEventPracticeMessagingAvailable
+                                       handler:self.practiceService
+                                      delegate:nil];
+
+}
+
+- (void)notificationReceived:(NSNotification *)notification {
+
+    if ([notification.name isEqualToString:APIEndpointRouteCards] || [notification.name isEqualToString:kNotificationDownloadedImageUpdated]) {
+        [self.tableView reloadData];
+    }
+
+    if ([notification.name isEqualToString:kNotificationConversationAddedMessage]) {
+        [self fetchDataForCard:notification.object completion:nil];
+    }
+
+    if ([notification.name isEqualToString:UIApplicationDidBecomeActiveNotification]) {
+
+        //FIXME: This is a bit misleading because given our card architecture, this is going to happen even when becoming active within a card (e.g. messaging). This is misleading because a) it happens anyway, but b) even if we wanted it to happen, it is happening asynchronously with other operations, so it's not guaranteed to finish before we complete say, a `getMessages` request. I don't believe the specific example I am bringing up poses an issue, but if we rely on this data being up-to-date for another request, it certainly would be an issue. Let's revisit -- adding as an issue to Github as well.
+        [self fetchData];
+    }
+}
+
+- (void)removeObservers {
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotificationConversationAddedMessage object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
+
+    [self.practiceObserver unsubscribe];
+}
+
+- (void)dealloc {
+    // ????: Do we need this anymore, since we don't support iOS 8?
+    [self removeObservers];
+}
+
 - (void)prepareForReachability {
 
     [LEOApiReachability startMonitoringForController:self withOfflineBlock:^{
@@ -193,24 +294,7 @@ static CGFloat const kFeedInsetTop = 20.0;
     }];
 }
 
-#pragma mark - Accessors
-
-- (UIActivityIndicatorView *)activityIndicator {
-
-    if (!_activityIndicator) {
-
-        _activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        _activityIndicator.hidesWhenStopped = YES;
-    }
-
-    return _activityIndicator;
-}
-
--(void)setGrayView:(UIView *)grayView {
-
-    _grayView = grayView;
-    _grayView.backgroundColor = [UIColor leo_gray227];
-}
+#pragma mark - Navigation Bar
 
 - (void)setupNavigationBar {
 
@@ -259,7 +343,8 @@ static CGFloat const kFeedInsetTop = 20.0;
     left.enabled = enable;
 }
 
-#pragma mark - Actions
+
+#pragma mark - Button Actions
 
 - (void)phrTouchedUpInside {
 
@@ -269,6 +354,31 @@ static CGFloat const kFeedInsetTop = 20.0;
     // Without this line, the view ends up getting resized to 0 height, and does not appear (for searching: black screen push animated)
     phrViewController.view.backgroundColor = [UIColor whiteColor];
     [self.navigationController pushViewController:phrViewController animated:YES];
+}
+
+- (void)bookAppointmentTouchedUpInside {
+
+    [LEOAnalytic tagType:LEOAnalyticTypeEvent
+                    name:kAnalyticEventScheduleVisit];
+
+    [ActionHandler handleWithAction:[ActionCreators scheduleNewAppointment]];
+}
+
+- (void)messageUsTouchedUpInside {
+
+    [LEOAnalytic tagType:LEOAnalyticTypeEvent
+                    name:kAnalyticEventMessageUsFromTopOfPage];
+    [ActionHandler handleWithAction:[ActionCreators openPracticeConversation]];
+}
+
+
+#pragma mark - Data Fetching
+
+- (LEOPracticeService *)practiceService {
+    if (!_practiceService) {
+        _practiceService = [LEOPracticeService new];
+    }
+    return _practiceService;
 }
 
 - (void)fetchFeedHeader {
@@ -286,60 +396,6 @@ static CGFloat const kFeedInsetTop = 20.0;
     }];
 }
 
-
-- (void)setupNotifications {
-
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(notificationReceived:)
-                                                 name:APIEndpointRouteCards
-                                               object:nil];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(notificationReceived:)
-                                                 name:kNotificationCardUpdated
-                                               object:nil];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(notificationReceived:)
-                                                 name:kNotificationConversationAddedMessage
-                                               object:nil];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(notificationReceived:)
-                                                 name:UIApplicationDidBecomeActiveNotification
-                                               object:nil];
-
-    self.practiceObserver =
-    [LEOChangeEventObserver subscribeToChannel:APIEndpointPractice
-                                     withEvent:APIChangeEventPracticeMessagingAvailable
-                                       handler:self.practiceService
-                                      delegate:nil];
-
-}
-
-- (LEOPracticeService *)practiceService {
-
-    if (!_practiceService) {
-        _practiceService = [LEOPracticeService new];
-    }
-    return _practiceService;
-}
-
-- (void)removeObservers {
-
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotificationCardUpdated object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotificationConversationAddedMessage object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
-
-    [self.practiceObserver unsubscribe];
-}
-
-- (void)dealloc {
-
-    [self removeObservers];
-}
-
-//MARK: Most likely doesn't belong in this class; no longer tied to it except for completion block which can be passed in.
 - (void)pushNewMessageToConversation {
 
     NSString *channelString = [NSString stringWithFormat:@"%@", [[LEOUserService new] getCurrentUser].objectID];
@@ -381,13 +437,6 @@ static CGFloat const kFeedInsetTop = 20.0;
     }];
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
-
-    [super viewWillDisappear:animated];
-    NSString *channelString = [NSString stringWithFormat:@"%@",[[LEOUserService new] getCurrentUser].objectID];
-    [[LEOPusherHelper sharedPusher] removeBinding:self.pusherBinding fromPrivateChannelWithName:channelString];
-}
-
 - (void)fetchFamilyWithCompletion:(LEOErrorBlock)completionBlock {
 
     [[LEOFamilyService new] getFamilyWithCompletion:^(Family *family, NSError *error) {
@@ -398,34 +447,6 @@ static CGFloat const kFeedInsetTop = 20.0;
 
         completionBlock(error);
     }];
-}
-
-- (void)notificationReceived:(NSNotification *)notification {
-
-    if ([notification.name isEqualToString:APIEndpointRouteCards] || [notification.name isEqualToString:kNotificationDownloadedImageUpdated]) {
-        [self.tableView reloadData];
-    }
-
-    if ([notification.name isEqualToString:kNotificationConversationAddedMessage] || [notification.name isEqualToString:kNotificationCardUpdated]) {
-        [self fetchDataForCard:notification.object completion:nil];
-    }
-
-    if ([notification.name isEqualToString:UIApplicationDidBecomeActiveNotification]) {
-
-        //FIXME: This is a bit misleading because given our card architecture, this is going to happen even when becoming active within a card (e.g. messaging). This is misleading because a) it happens anyway, but b) even if we wanted it to happen, it is happening asynchronously with other operations, so it's not guaranteed to finish before we complete say, a `getMessages` request. I don't believe the specific example I am bringing up poses an issue, but if we rely on this data being up-to-date for another request, it certainly would be an issue. Let's revisit -- adding as an issue to Github as well.
-        [self fetchData];
-    }
-}
-
-- (LEOCardConversation *)conversation {
-
-    for (id<LEOCardProtocol>card in self.cards) {
-
-        if ([card isKindOfClass:[LEOCardConversation class]]) {
-            return (LEOCardConversation *)card;
-        }
-    }
-    return nil; //MARK: Not loving this implementation since it technically *could* break...
 }
 
 - (void)fetchData {
@@ -487,69 +508,47 @@ static CGFloat const kFeedInsetTop = 20.0;
     }
 }
 
+- (void)showSomethingWentWrong {
+
+    UIAlertController *alertController =
+    [UIAlertController alertControllerWithTitle:@"Oops! Looks like we had a boo boo."
+                                        message:@"We're working on a fix. Check back later!"
+                                 preferredStyle:UIAlertControllerStyleAlert];
+
+    UIAlertAction *action =
+    [UIAlertAction actionWithTitle:@"OK"
+                             style:UIAlertActionStyleDefault
+                           handler:^(UIAlertAction * _Nonnull action) {
+                               [self dismissViewControllerAnimated:YES
+                                                        completion:nil];
+                           }];
+
+    [alertController addAction:action];
+
+    [self presentViewController:alertController
+                       animated:YES
+                     completion:nil];
+}
+
 - (void)fetchDataForCard:(id<LEOCardProtocol>)card completion:(void (^)(NSArray *, NSError *))completionBlock {
 
     __weak typeof(self) weakSelf = self;
     CardService *cardService = [CardService new];
     [cardService getCardsWithCompletion:^(NSArray *cards, NSError *error) {
         __strong typeof(self) strongSelf = weakSelf;
-
-        if (!error) {
-            strongSelf.cards = cards;
-        }
-
         [strongSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:TableViewSectionBody] withRowAnimation:UITableViewRowAnimationNone];
-
-        [strongSelf activateCardInFocus];
-
         completionBlock ? completionBlock(cards, error) : nil;
 
     }];
 }
 
-- (NSIndexPath *)cardInFocusIndexPath {
 
-    if (!_cardInFocusIndexPath) {
-        _cardInFocusIndexPath = [self indexPathForCardWithCardType:self.cardInFocusType underlyingObjectID:self.cardInFocusObjectID];
-    }
-    return _cardInFocusIndexPath;
-}
+#pragma mark - Table View
 
-- (NSIndexPath*)indexPathForCardWithCardType:(CardType)cardType underlyingObjectID:(NSString*)objectID {
+-(void)setGrayView:(UIView *)grayView {
 
-    if (!objectID || cardType == CardTypeUndefined) {
-        return nil;
-    }
-
-    int i = 0;
-    NSIndexPath *indexPath;
-    for (LEOCard *card in self.cards) {
-        if (card.type == cardType) {
-            //             ????: TODO: create a protocol for associatedCardObjects
-            if ([card.associatedCardObject respondsToSelector:@selector(objectID)]) {
-                NSString *objectIDString = (NSString *)[card.associatedCardObject objectID];
-                if ([objectIDString isEqual:objectID]) {
-                    indexPath = [NSIndexPath indexPathForItem:i inSection:TableViewSectionBody];
-                }
-            }
-        }
-        i++;
-    }
-    return indexPath;
-}
-
-- (void)activateCardInFocus {
-
-    [self.tableView scrollToRowAtIndexPath:self.cardInFocusIndexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
-
-    [self animateCellHighlight];
-
-}
-
-- (void)animateCellHighlight {
-
-    LEOFeedCell *cell = [self.tableView cellForRowAtIndexPath:self.cardInFocusIndexPath];
-    [cell setUnreadState:YES animated:YES];
+    _grayView = grayView;
+    _grayView.backgroundColor = [UIColor leo_gray227];
 }
 
 -(void)setTableView:(UITableView *)tableView {
@@ -570,289 +569,9 @@ static CGFloat const kFeedInsetTop = 20.0;
          forCellReuseIdentifier:kCellIdentifierRouteCard];
 }
 
-
-
-#pragma mark - <UITableViewDelegate>
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
-
--(void)takeResponsibilityForCard:(id<LEOCardProtocol>)card {
-
-    card.activityDelegate = self;
-    [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationCardUpdated object:nil]; //TODO: This method does not reflect the fact that an update has taken place. Consider naming differently, or moving this to a method that fits the bill?
-}
-
-- (void)didUpdateObjectStateForCard:(id<LEOCardProtocol>)card {
-
-        if ([card isKindOfClass:[LEOCardAppointment class]]) {
-
-            Appointment *appointment = card.associatedCardObject; //FIXME: Make this a loop to account for multiple appointments.
-
-            switch (appointment.status.statusCode) {
-                case AppointmentStatusCodeNew:
-                case AppointmentStatusCodeBooking:
-                case AppointmentStatusCodeFuture: {
-
-                    [LEOBreadcrumb crumbWithObject:[NSString stringWithFormat:@"%s appointment future", __PRETTY_FUNCTION__]];
-
-                    [self loadBookingViewWithCard:card];
-                    break;
-                }
-
-                case AppointmentStatusCodeCancelled: {
-
-                    [LEOBreadcrumb crumbWithObject:[NSString stringWithFormat:@"%s appointment cancelled", __PRETTY_FUNCTION__]];
-
-                    [self removeCardFromFeed:card];
-                    break;
-                }
-
-                case AppointmentStatusCodeCancelling: {
-
-                    [LEOBreadcrumb crumbWithObject:[NSString stringWithFormat:@"%s appointment cancelling", __PRETTY_FUNCTION__]];
-
-                    [self.tableView reloadData];
-                    break;
-                }
-
-                case AppointmentStatusCodeConfirmingCancelling: {
-
-                    [LEOBreadcrumb crumbWithObject:[NSString stringWithFormat:@"%s appointment confirm cancelling", __PRETTY_FUNCTION__]];
-
-                    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[((LEOCard *)card).priority integerValue] inSection:TableViewSectionBody];
-                    LEOFeedCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [cell.activityIndicatorView startAnimating];
-                    });
-
-                    [self removeCard:card fromDatabaseWithCompletion:^(NSDictionary *response, NSError *error) {
-
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            [cell.activityIndicatorView stopAnimating];
-                        });
-
-                        if (!error) {
-                            [self.tableView reloadData];
-                        } else {
-
-                            [card.associatedCardObject undoIfAvailable];
-
-                            //MARK: This is a temp fix given that we haven't described error messages for failed requests in the feed. Return to this at a later time with a thought through design. Also, this probably belongs in the card instead of the view controller so that it may be used by multiple cards if we're going to implement a generic solution, but again, for a later time.
-
-                            LEOStatusBarNotification *failedStatus = [LEOStatusBarNotification new];
-                            [failedStatus displayNotificationWithMessage:@"Appointment cancellation failed. Contact practice or try again." forDuration:4.0];
-                        }
-                    }];
-
-                    break;
-                }
-
-                case AppointmentStatusCodeReminding: {
-
-                    [LEOBreadcrumb crumbWithObject:[NSString stringWithFormat:@"%s appointment reminding", __PRETTY_FUNCTION__]];
-
-                    [self.tableView reloadData];
-                    break;
-                }
-
-                case AppointmentStatusCodeChargeEntered:
-                case AppointmentStatusCodeCheckedIn:
-                case AppointmentStatusCodeCheckedOut:
-                case AppointmentStatusCodeOpen:
-                case AppointmentStatusCodeRecommending:
-                case AppointmentStatusCodeUndefined: {
-
-                    [LEOBreadcrumb crumbWithObject:[NSString stringWithFormat:@"%s appointment status undefined", __PRETTY_FUNCTION__]];
-
-                    [self.tableView reloadData]; //TODO: This is not right, but for now it is a placeholder.
-                    break;
-                }
-            }
-        }
-        if ([card isKindOfClass:[LEOCardConversation class]]) {
-
-            Conversation *conversation = card.associatedCardObject; //FIXME: Make this a loop to account for multiple appointments.
-
-            switch (conversation.statusCode) {
-
-                case ConversationStatusCodeClosed: {
-
-                    [LEOBreadcrumb crumbWithObject:[NSString stringWithFormat:@"%s conversation closed", __PRETTY_FUNCTION__]];
-                    [self.tableView reloadData];
-                    break;
-                }
-                case ConversationStatusCodeOpen: {
-
-                    [LEOAnalytic tagType:LEOAnalyticTypeEvent
-                                    name:kAnalyticEventMessageUsFromChatNotification];
-                    [LEOBreadcrumb crumbWithObject:[NSString stringWithFormat:@"%s conversation open", __PRETTY_FUNCTION__]];
-                    [self loadChattingViewWithCard:card];
-                    break;
-                }
-
-                case ConversationStatusCodeNewMessages:
-                case ConversationStatusCodeReadMessages:
-                case ConversationStatusCodeCallUs:
-                    [LEOBreadcrumb crumbWithObject:[NSString stringWithFormat:@"%s conversation call us", __PRETTY_FUNCTION__]];
-                    [self confirmCallUs];
-                case ConversationStatusCodeUndefined:
-                    [LEOBreadcrumb crumbWithObject:[NSString stringWithFormat:@"%s conversation undefined", __PRETTY_FUNCTION__]];
-                    break;
-            }
-        }
-
-        if ([card isKindOfClass:[LEOCardDeepLink class]]) {
-
-            LEOCardDeepLink *deepLinkCard = (LEOCardDeepLink *)card;
-            NSInteger index = [deepLinkCard.priority integerValue];
-            NSIndexPath *indexPath =
-            [NSIndexPath indexPathForRow:index inSection:TableViewSectionBody];
-
-            if (deepLinkCard.wasDismissed) {
-
-                [LEOAnalytic tagType:LEOAnalyticTypeEvent
-                                name:kAnalyticEventDismissLink
-                          attributes:deepLinkCard.analyticAttributes];
-
-                [self removeCardFromFeed:card];
-            } else {
-
-                [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-            }
-        }
-}
-
-- (void)confirmCallUs {
-
-    NSString *practiceName = @"Flatiron Pediatrics"; // FIXME: where is the practice object stored?
-    NSString *alertTitle = [NSString stringWithFormat:@"You are about to call \n%@\n%@", practiceName,
-                            [LEOValidationsHelper formattedPhoneNumberFromPhoneNumber:kFlatironPediatricsPhoneNumber]];
-
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:alertTitle message:nil preferredStyle:UIAlertControllerStyleAlert];
-    [alert addAction:[UIAlertAction actionWithTitle:@"Call" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-
-        [LEOAnalytic tagType:LEOAnalyticTypeIntent
-                        name:kAnalyticEventCallUs];
-
-        NSString *phoneCallNum = [NSString stringWithFormat:@"tel://%@",kFlatironPediatricsPhoneNumber];
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneCallNum]];
-    }]];
-    [alert addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
-
-    [self presentViewController:alert animated:YES completion:nil];
-}
-
-- (void)loadSettings {
-
-    UIStoryboard *settingsStoryboard = [UIStoryboard storyboardWithName:kStoryboardSettings
-                                                                 bundle:nil];
-
-    LEOSettingsViewController *settingsVC = [settingsStoryboard instantiateInitialViewController];
-
-    LEOCachePolicy *policy = [LEOCachePolicy new];
-    policy.get = LEOCachePolicyGETCacheOnly;
-    settingsVC.familyService = [LEOFamilyService serviceWithCachePolicy:policy];
-    settingsVC.userService = [LEOUserService serviceWithCachePolicy:policy];
-
-    [self.navigationController pushViewController:settingsVC animated:YES];
-}
-
-
-//FIXME: This method should be rethought out with architectural updates to app but works for the short-term.
-- (void)removeCard:(LEOCard *)card fromDatabaseWithCompletion:(void (^)(NSDictionary *response, NSError *error))completionBlock {
-
-    //TODO: Include the progress hud while waiting for deletion.
-
-    [[LEOAppointmentService new] cancelAppointment:card.associatedCardObject
-                                    withCompletion:^(NSDictionary * response, NSError * error) {
-
-                                        if (!error) {
-                                            [LEOAnalytic tagType:LEOAnalyticTypeEvent
-                                                            name:kAnalyticEventCancelVisit
-                                                     appointment:card.associatedCardObject];
-                                        }
-
-                                        if (completionBlock) {
-                                            completionBlock(response, error);
-                                        }
-                                    }];
-}
-
-- (void)removeCardFromFeed:(LEOCard *)card {
-
-    [self.tableView beginUpdates];
-    NSUInteger cardRow = [self.cards indexOfObject:card];
-    [self removeCard:card];
-
-    for (LEOCard *remainingCard in self.cards) {
-        if (remainingCard.priority > card.priority) {
-            remainingCard.priority = @([remainingCard.priority integerValue] - 1);
-        }
-    }
-
-    NSArray *indexPaths = @[[NSIndexPath indexPathForRow:cardRow
-                                               inSection:TableViewSectionBody]];
-
-    [self.tableView deleteRowsAtIndexPaths:indexPaths
-                          withRowAnimation:UITableViewRowAnimationFade];
-
-    [self.tableView endUpdates];
-}
-
-- (void)addCard:(LEOCard *)card {
-
-    NSMutableArray *mutableCards = [self.cards mutableCopy];
-    [mutableCards addObject:card];
-    self.cards = [mutableCards copy];
-}
-
-- (void)removeCard:(LEOCard *)card {
-
-    NSMutableArray *mutableCards = [self.cards mutableCopy];
-    [mutableCards removeObject:card];
-    self.cards = [mutableCards copy];
-}
-
-
-- (void)loadBookingViewWithCard:(LEOCardAppointment *)card {
-
-    UIStoryboard *appointmentStoryboard = [UIStoryboard storyboardWithName:@"Appointment"
-                                                                    bundle:nil];
-
-    UINavigationController *appointmentNavController = [appointmentStoryboard instantiateInitialViewController];
-    self.transitionDelegate = [[LEOTransitioningDelegate alloc] initWithTransitionAnimatorType:TransitionAnimatorTypeCardModal];
-    appointmentNavController.transitioningDelegate = self.transitionDelegate;
-
-    appointmentNavController.modalPresentationStyle = UIModalPresentationFullScreen;
-
-    LEOAppointmentViewController *appointmentBookingVC = appointmentNavController.viewControllers.firstObject;
-
-    [self presentViewController:appointmentNavController animated:YES completion:nil];
-}
-
-
-- (void)loadChattingViewWithCard:(LEOCard *)card {
-
-    Conversation *conversation = (Conversation *)card.associatedCardObject;
-
-
-
-
-//    UIStoryboard *conversationStoryboard = [UIStoryboard storyboardWithName:@"Conversation" bundle:nil];
-//    UINavigationController *conversationNavController = [conversationStoryboard instantiateInitialViewController];
-//
-//    LEOConversationViewController *messagesVC = conversationNavController.viewControllers.firstObject;
-//    messagesVC.conversation = conversation;
-//
-//    self.transitionDelegate = [[LEOTransitioningDelegate alloc] initWithTransitionAnimatorType:TransitionAnimatorTypeCardModal];
-//    conversationNavController.transitioningDelegate = self.transitionDelegate;
-//    conversationNavController.modalPresentationStyle = UIModalPresentationFullScreen;
-//    [self presentViewController:conversationNavController animated:YES completion:nil];
-}
-
-#pragma mark - <UITableViewDataSource>
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return TableViewSectionCount;
@@ -884,7 +603,7 @@ static CGFloat const kFeedInsetTop = 20.0;
             return [self tableView:tableView cellForHeaderRowAtIndexPath:indexPath];
 
         case TableViewSectionBody: {
-            return [self tableView:tableView routeCellForIndexPath:indexPath];
+            return [self tableView:tableView cellForBodyRowAtIndexPath:indexPath];
         }
 
         default:
@@ -901,57 +620,28 @@ static CGFloat const kFeedInsetTop = 20.0;
     return cell;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView routeCellForIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForBodyRowAtIndexPath:(NSIndexPath *)indexPath {
 
     CardCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifierRouteCard forIndexPath:indexPath];
+
+    cell.userInteractionEnabled = self.enableButtonsInFeed;
 
     cell.cardState = [[[CardService new] getFeedState] cardStates][indexPath.row];
 
     return cell;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForBodyRowAtIndexPath:(NSIndexPath *)indexPath {
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
 
-    id<LEOCardProtocol>card = self.cards[indexPath.row];
-    card.activityDelegate = self;
+    switch (section) {
 
-    LEOFeedCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifierLEOFeed
-                                                        forIndexPath:indexPath];
+        case TableViewSectionBody:
+            return 45;
 
-    cell.userInteractionEnabled = self.enableButtonsInFeed;
-
-    [cell configureForCard:card];
-
-    cell.unreadState = [indexPath isEqual:self.cardInFocusIndexPath];
-
-    cell.bodyLabel.enabledTextCheckingTypes = NSTextCheckingTypeLink | NSTextCheckingTypeDate | NSTextCheckingTypePhoneNumber;
-
-
-    __weak typeof(self) weakSelf = self;
-    LEOAttributedLabelDelegate *attributedLabelDelegate = [[LEOAttributedLabelDelegate alloc] initWithViewController:self setupEventBlock:^EKEvent *(EKEventStore *eventStore, NSDate *startDate) {
-        __strong typeof(self) strongSelf = weakSelf;
-
-        //TODO: ZSD - Eventually send additional information to this private method to support more custom implementation (e.g. length of appt)
-        return [strongSelf createEventWithEventStore:eventStore startDate:startDate];
-    }];
-
-    cell.delegate = attributedLabelDelegate;
-
-    return cell;
-}
-
-- (EKEvent *)createEventWithEventStore:eventStore startDate:startDate {
-
-    EKEvent *event = [EKEvent eventWithEventStore:eventStore];
-    EKCalendar *calendar = [eventStore defaultCalendarForNewEvents];
-
-    event.startDate = startDate;
-    event.endDate = [startDate dateByAddingMinutes:30];
-    event.title = @"Appointment with pediatrician";
-    event.calendar = calendar;
-    event.location = [[LEOPracticeService new] getCurrentPractice].name;
-
-    return event;
+        case TableViewSectionHeader:
+        default:
+            return CGFLOAT_MIN;
+    }
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
@@ -970,81 +660,13 @@ static CGFloat const kFeedInsetTop = 20.0;
 }
 
 - (LEOFeedNavigationHeaderView *)feedNavigatorHeaderView {
-
     if (!_feedNavigatorHeaderView) {
 
         _feedNavigatorHeaderView = [LEOFeedNavigationHeaderView new];
-
         _feedNavigatorHeaderView.backgroundColor = [UIColor leo_white];
-
         _feedNavigatorHeaderView.delegate = self;
     }
-
     return _feedNavigatorHeaderView;
 }
-
-- (void)bookAppointmentTouchedUpInside {
-
-    [LEOAnalytic tagType:LEOAnalyticTypeEvent
-                    name:kAnalyticEventScheduleVisit];
-
-    [ActionHandler handleWithAction:[[Action alloc] initWithActionType:[ActionTypes ScheduleNewAppointment] payload:@{}]];
-}
-
-- (void)messageUsTouchedUpInside {
-
-    [LEOAnalytic tagType:LEOAnalyticTypeEvent
-                    name:kAnalyticEventMessageUsFromTopOfPage];
-    LEOCardConversation *conversationCard = [self findConversationCard];
-    [self loadChattingViewWithCard:conversationCard];
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-
-    switch (section) {
-
-        case TableViewSectionBody:
-            return 45;
-
-        case TableViewSectionHeader:
-        default:
-            return CGFLOAT_MIN;
-    }
-}
-
-- (LEOCardConversation *)findConversationCard {
-
-    for (LEOCard *card in self.cards) {
-
-        if ([card isKindOfClass:[LEOCardConversation class]]) {
-            return (LEOCardConversation *)card;
-        }
-    }
-
-    return nil;
-}
-
-- (void)showSomethingWentWrong {
-
-    UIAlertController *alertController =
-    [UIAlertController alertControllerWithTitle:@"Oops! Looks like we had a boo boo."
-                                        message:@"We're working on a fix. Check back later!"
-                                 preferredStyle:UIAlertControllerStyleAlert];
-
-    UIAlertAction *action =
-    [UIAlertAction actionWithTitle:@"OK"
-                             style:UIAlertActionStyleDefault
-                           handler:^(UIAlertAction * _Nonnull action) {
-                               [self dismissViewControllerAnimated:YES
-                                                        completion:nil];
-                           }];
-
-    [alertController addAction:action];
-
-    [self presentViewController:alertController
-                       animated:YES
-                     completion:nil];
-}
-
 
 @end

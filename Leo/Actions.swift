@@ -75,7 +75,7 @@ class Action : NSObject, JSONSerializable {
     }
 }
 
-class ActionCreators {
+class ActionCreators : NSObject {
 
     class func changeCardState(cardID: Int, nextStateID: String, isLoading: Bool) -> Action {
         return Action(
@@ -111,6 +111,13 @@ class ActionCreators {
     class func scheduleNewAppointment() -> Action {
         return Action(
             actionType: ActionTypes.ScheduleNewAppointment,
+            payload: [:]
+        )
+    }
+
+    class func openPracticeConversation() -> Action {
+        return Action(
+            actionType: ActionTypes.OpenPracticeConversation,
             payload: [:]
         )
     }

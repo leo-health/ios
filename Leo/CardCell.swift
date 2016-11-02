@@ -106,7 +106,23 @@ class CardCell : UITableViewCell {
 
     private func renderBodyLabel() {
 
+
+
         // TODO: TTAttributedLabel
+//        cell.bodyLabel.enabledTextCheckingTypes = NSTextCheckingTypeLink | NSTextCheckingTypeDate | NSTextCheckingTypePhoneNumber;
+//
+//
+//        __weak typeof(self) weakSelf = self;
+//        LEOAttributedLabelDelegate *attributedLabelDelegate = [[LEOAttributedLabelDelegate alloc] initWithViewController:self setupEventBlock:^EKEvent *(EKEventStore *eventStore, NSDate *startDate) {
+//            __strong typeof(self) strongSelf = weakSelf;
+//
+//            //TODO: ZSD - Eventually send additional information to this private method to support more custom implementation (e.g. length of appt)
+//            return [strongSelf createEventWithEventStore:eventStore startDate:startDate];
+//            }];
+//        
+//        cell.delegate = attributedLabelDelegate;
+
+
 
         bodyLabel?.text = cardState?.body
     }

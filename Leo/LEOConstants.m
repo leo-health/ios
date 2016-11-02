@@ -424,8 +424,6 @@ NSString *const kNotificationStatusChanged = @"Status-Changed";
 NSString *const kNotificationMembershipChanged = @"membership-changed";
 NSString *const kNotificationTokenInvalidated = @"token-invalidated";
 NSString *const kNotificationConversationAddedMessage = @"Conversation-AddedMessage";
-NSString *const kNotificationCardUpdated = @"Card-Updated";
-
 
 #pragma mark - Pusher Events
 NSString *const APIChangeEventPracticeMessagingAvailable = @"availability_changed";

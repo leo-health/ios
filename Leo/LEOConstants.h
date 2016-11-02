@@ -584,7 +584,6 @@ extern NSString *const kNotificationStatusChanged; // @"Status-Changed";
 extern NSString *const kNotificationMembershipChanged; // @"membership-changed";
 extern NSString *const kNotificationTokenInvalidated; // @"token-invalidated";
 extern NSString *const kNotificationConversationAddedMessage; // @"Conversation-AddedMessage";
-extern NSString *const kNotificationCardUpdated; // @"Card-Updated";
 
 
 #pragma mark - Pusher Events
