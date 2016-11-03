@@ -609,14 +609,11 @@
     else if ([endpoint isEqualToString:APIEndpointRouteCards]) {
 
         NSNumber *cardID = params[@"card_id"];
-        if (!cardID || [cardID integerValue] >= self.cards.count) {
+        if (!cardID) {
             return nil;
         }
 
-        NSMutableArray *m_cards = [self.cards mutableCopy];
-        [m_cards removeObjectAtIndex:[cardID integerValue]];
-        self.cards = [m_cards copy];
-
+        self.cards = [self.cards filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"cardID != %@", cardID]];
         [self notifyObservers:endpoint];
         return [self allCardsJSON];
     }

@@ -10,16 +10,16 @@ import Foundation
 
 class ConversationService : LEOModelService {
 
-    static let endpointName = APIEndpointConversations
+    let endpointName = APIEndpointConversations
 
-    public class func service(policy: LEOCachePolicy = LEOCachePolicy()) -> ConversationService {
+    class func service(policy: LEOCachePolicy = LEOCachePolicy()) -> ConversationService {
         return ConversationService(cachePolicy: policy)
     }
 
 //    MARK: service methods
 
-    public func getConversation(completion: ((Conversation?, NSError?)->Void)?) -> LEOPromise {
-        return cachedService.get(ConversationService.endpointName, params: [:]) {
+    func getConversation(completion: ((Conversation?, NSError?)->Void)?) -> LEOPromise {
+        return cachedService.get(endpointName, params: [:]) {
             jsonResponse, error in
 
             guard let completion = completion else { return }
@@ -35,9 +35,9 @@ class ConversationService : LEOModelService {
         }
     }
 
-    public func getConversation() -> Conversation? {
+    func getConversation() -> Conversation? {
         guard let json = cachedService.get(
-            ConversationService.endpointName,
+            endpointName,
             params: [:]
             ) as? [String : Any] else { return nil }
         return Conversation(jsonDictionary: json)

@@ -68,11 +68,23 @@ public class ActionHandler: NSObject {
         case ActionTypes.DismissCard:
 
             guard let cardID = action.payload["card_id"] as? Int else { return }
+            CardService().deleteCard(cardID: cardID)
 
-            CardService().deleteCard(
-                cardID: cardID
+        case ActionTypes.DismissContentCard:
+
+            guard let contentID = action.payload["user_link_preview_id"] as? Int else { return }
+            guard let cardID = action.payload["card_id"] as? Int else { return }
+            CardService().deleteCard(cardID: cardID)
+
+            let _ = CardService().deleteContentCard(
+                contentID: contentID,
+                completion: nil
             )
 
+        case ActionTypes.OpenUrl:
+            guard let url = (action.payload["url"] as? String).flatMap({URL(string: $0)}) else { return }
+            guard UIApplication.shared.canOpenURL(url) else { return }
+            UIApplication.shared.openURL(url)
         default:
             break
         }

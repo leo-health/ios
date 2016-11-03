@@ -15,6 +15,8 @@ class ActionTypes : NSObject {
     static let CancelAppointmentCard = "CANCEL_APPOINTMENT_CARD"
     static let ChangeCardState = "CHANGE_CARD_STATE"
     static let DismissCard = "DISMISS_CARD"
+    static let DismissContentCard = "DISMISS_CONTENT_CARD"
+    static let OpenUrl = "OPEN_URL"
     static let OpenPracticeConversation = "OPEN_PRACTICE_CONVERSATION"
 }
 

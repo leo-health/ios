@@ -10,16 +10,16 @@ import Foundation
 
 class CardService : LEOModelService {
 
-    static let endpointName = APIEndpointRouteCards
+    let endpointName = APIEndpointRouteCards
 
-    public class func service(policy: LEOCachePolicy = LEOCachePolicy()) -> CardService {
+    class func service(policy: LEOCachePolicy = LEOCachePolicy()) -> CardService {
         return CardService(cachePolicy: policy)
     }
 
 //    MARK: service methods
 
-    public func getCards(completion: (([Card]?, NSError?)->Void)?) -> LEOPromise {
-        return cachedService.get(CardService.endpointName, params: [:]) {
+    func getCards(completion: (([Card]?, NSError?)->())?) -> LEOPromise {
+        return cachedService.get(endpointName, params: [:]) {
             jsonResponse, error in
 
             guard let completion = completion else { return }
@@ -40,9 +40,9 @@ class CardService : LEOModelService {
         }
     }
 
-    public func getFeedState() -> FeedState?  {
+    func getFeedState() -> FeedState?  {
         // TODO: probably should use a different endpoint here
-        guard let json = cachedService.get(CardService.endpointName, params: [:]) as? [String : Any] else { return nil }
+        guard let json = cachedService.get(endpointName, params: [:]) as? [String : Any] else { return nil }
         guard let cardsJSON = json["cards"] as? [JSON] else { return nil }
         let currentStatesJSON = cardsJSON.map({ return $0["current_state"] })
 
@@ -50,15 +50,15 @@ class CardService : LEOModelService {
         return result
     }
 
-    public func getCurrentState(cardID: Int) -> CardState?  {
+    func getCurrentState(cardID: Int) -> CardState?  {
         return cardsEndpoint(cardID: cardID, stateID: nil)
     }
 
-    public func updateCard(cardID: Int, stateID: String) {
+    func updateCard(cardID: Int, stateID: String) {
         updateCard(cardID: cardID, stateID: stateID, isLoading: nil)
     }
 
-    public func updateCard(cardID: Int, stateID: String?, isLoading: Bool?) {
+    func updateCard(cardID: Int, stateID: String?, isLoading: Bool?) {
         guard let cardStates = getFeedState()?.cardStates else { return }
         if cardID >= cardStates.count { return }
 
@@ -68,17 +68,24 @@ class CardService : LEOModelService {
         if let isLoading = isLoading { params["is_loading"] = isLoading }
         if let stateID = stateID { params["state_id"] = stateID }
 
-        cachedService.put(CardService.endpointName, params: params)
+        cachedService.put(endpointName, params: params)
     }
 
-    public func deleteCard(cardID: Int) {
+    func deleteCard(cardID: Int) {
         guard let cardStates = getFeedState()?.cardStates else { return }
         if cardID >= cardStates.count { return }
 
-        cachedService.destroy(CardService.endpointName, params: ["card_id": cardID])
+        cachedService.destroy(endpointName, params: ["card_id": cardID])
     }
 
-    public func cardsEndpoint(cardID: Int?, stateID: String?) -> CardState? {
+    func deleteContentCard(contentID: Int, completion:LEODictionaryErrorBlock?) -> LEOPromise {
+
+        // TODO: generalize content cards on backend to use the same endpoint/structure
+
+        return cachedService.destroy(APIEndpointCards, params: ["id": contentID], completion: completion)
+    }
+
+    func cardsEndpoint(cardID: Int?, stateID: String?) -> CardState? {
 
         // NOTE: wish there was a better way for this
 
@@ -93,7 +100,7 @@ class CardService : LEOModelService {
         }
 
         guard let json = cachedService.get(
-            CardService.endpointName,
+            endpointName,
             params: params
             ) as? [String : Any] else { return nil }
         return CardState(json: json)
