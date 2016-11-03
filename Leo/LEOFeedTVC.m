@@ -624,9 +624,17 @@ static NSString *const kCellIdentifierRouteCard = @"kCellIdentifierRouteCard";
 
     CardCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifierRouteCard forIndexPath:indexPath];
 
-    cell.userInteractionEnabled = self.enableButtonsInFeed;
+    __weak typeof(self) weakSelf = self;
+    LEOAttributedLabelDelegate *attributedLabelDelegate = [[LEOAttributedLabelDelegate alloc] initWithViewController:self setupEventBlock:^EKEvent *(EKEventStore *eventStore, NSDate *startDate) {
+        __strong typeof(self) strongSelf = weakSelf;
+        return [strongSelf createEventWithEventStore:eventStore startDate:startDate];
+    }];
+    CardState *cardState = [[[CardService new] getFeedState] cardStates][indexPath.row];
 
-    cell.cardState = [[[CardService new] getFeedState] cardStates][indexPath.row];
+    cell.bodyLabel.enabledTextCheckingTypes = NSTextCheckingTypeLink | NSTextCheckingTypeDate | NSTextCheckingTypePhoneNumber;
+    cell.attributedLabelDelegate = attributedLabelDelegate;
+    [cell requiredConfigureWithCardState:cardState attributedLabelDelegate:attributedLabelDelegate];
+    cell.userInteractionEnabled = self.enableButtonsInFeed;
 
     return cell;
 }

@@ -19,15 +19,17 @@ class CardCell : UITableViewCell {
     @IBOutlet private weak var topBorderLine: UIView?
     @IBOutlet private weak var titleLabel: UILabel?
     @IBOutlet private weak var tintedHeaderLabel: UILabel?
-    @IBOutlet private weak var bodyLabel: UILabel?
+    @IBOutlet var bodyLabel: TTTAttributedLabel?
     @IBOutlet private weak var footerLabel: UILabel?
     @IBOutlet private weak var buttonContainerView: UIView?
     @IBOutlet private weak var buttonStack: UIStackView?
 
-    public var cardState: CardState? {
-        didSet {
-            render()
-        }
+    var attributedLabelDelegate: LEOFeedCellDelegate!
+    var cardState: CardState!
+
+    @objc func requiredConfigure(cardState: CardState, attributedLabelDelegate: TTTAttributedLabelDelegate) {
+        self.cardState = cardState
+        render()
     }
 
     class func nib() -> UINib {
@@ -56,16 +58,7 @@ class CardCell : UITableViewCell {
         buttonContainerView?.backgroundColor = .clear
     }
 
-    public func buttonTapped(sender: UIButton) {
-        let index = sender.tag
-        guard let cardState = cardState else { return }
-        if index >= cardState.buttonActions.count { return }
-
-        let action = cardState.buttonActions[index]
-        ActionHandler.handle(action: action)
-    }
-
-    public func render() {
+    private func render() {
 
         contentView.backgroundColor = .leo_gray227()
 
@@ -106,24 +99,10 @@ class CardCell : UITableViewCell {
 
     private func renderBodyLabel() {
 
-
-
-        // TODO: TTAttributedLabel
-//        cell.bodyLabel.enabledTextCheckingTypes = NSTextCheckingTypeLink | NSTextCheckingTypeDate | NSTextCheckingTypePhoneNumber;
-//
-//
-//        __weak typeof(self) weakSelf = self;
-//        LEOAttributedLabelDelegate *attributedLabelDelegate = [[LEOAttributedLabelDelegate alloc] initWithViewController:self setupEventBlock:^EKEvent *(EKEventStore *eventStore, NSDate *startDate) {
-//            __strong typeof(self) strongSelf = weakSelf;
-//
-//            //TODO: ZSD - Eventually send additional information to this private method to support more custom implementation (e.g. length of appt)
-//            return [strongSelf createEventWithEventStore:eventStore startDate:startDate];
-//            }];
-//        
-//        cell.delegate = attributedLabelDelegate;
-
-
-
+//        bodyLabel?.enabledTextCheckingTypes = NSTextCheckingResult.CheckingType.link.rawValue | NSTextCheckingResult.CheckingType.date.rawValue | NSTextCheckingResult.CheckingType.phoneNumber.rawValue
+//            ([.link, .date, .phoneNumber] as [NSTextCheckingResult.CheckingType])
+//                .map{$0.rawValue}
+//                .reduce(0, |)
         bodyLabel?.text = cardState?.body
     }
 
@@ -175,5 +154,14 @@ class CardCell : UITableViewCell {
         button.tag = index
         button.removeTarget(nil, action: nil, for: .touchUpInside)
         button.addTarget(self, action: #selector(self.buttonTapped(sender:)), for: .touchUpInside)
+    }
+
+    @objc private func buttonTapped(sender: UIButton) {
+        let index = sender.tag
+        guard let cardState = cardState else { return }
+        if index >= cardState.buttonActions.count { return }
+
+        let action = cardState.buttonActions[index]
+        ActionHandler.handle(action: action)
     }
 }
