@@ -99,6 +99,7 @@ typedef NS_ENUM(NSUInteger, TableViewSection) {
 @property (strong, nonatomic) NSString *headerMessage;
 
 @property (nonatomic) BOOL enableButtonsInFeed;
+@property (strong, nonatomic) LEOAttributedLabelDelegate *attributedLabelDelegate;
 
 @end
 
@@ -624,19 +625,23 @@ static NSString *const kCellIdentifierRouteCard = @"kCellIdentifierRouteCard";
 
     CardCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifierRouteCard forIndexPath:indexPath];
 
-    __weak typeof(self) weakSelf = self;
-    LEOAttributedLabelDelegate *attributedLabelDelegate = [[LEOAttributedLabelDelegate alloc] initWithViewController:self setupEventBlock:^EKEvent *(EKEventStore *eventStore, NSDate *startDate) {
-        __strong typeof(self) strongSelf = weakSelf;
-        return [strongSelf createEventWithEventStore:eventStore startDate:startDate];
-    }];
     CardState *cardState = [[[CardService new] getFeedState] cardStates][indexPath.row];
+    [cell requiredConfigureWithCardState:cardState attributedLabelDelegate:self.attributedLabelDelegate];
 
-    cell.bodyLabel.enabledTextCheckingTypes = NSTextCheckingTypeLink | NSTextCheckingTypeDate | NSTextCheckingTypePhoneNumber;
-    cell.attributedLabelDelegate = attributedLabelDelegate;
-    [cell requiredConfigureWithCardState:cardState attributedLabelDelegate:attributedLabelDelegate];
     cell.userInteractionEnabled = self.enableButtonsInFeed;
-
     return cell;
+}
+
+- (LEOAttributedLabelDelegate *)attributedLabelDelegate {
+
+    if (!_attributedLabelDelegate) {
+        __weak typeof(self) weakSelf = self;
+        _attributedLabelDelegate = [[LEOAttributedLabelDelegate alloc] initWithViewController:self setupEventBlock:^EKEvent *(EKEventStore *eventStore, NSDate *startDate) {
+            __strong typeof(self) strongSelf = weakSelf;
+            return [strongSelf createEventWithEventStore:eventStore startDate:startDate];
+        }];
+    }
+    return _attributedLabelDelegate;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {

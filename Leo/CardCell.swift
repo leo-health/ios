@@ -19,7 +19,7 @@ class CardCell : UITableViewCell {
     @IBOutlet private weak var topBorderLine: UIView?
     @IBOutlet private weak var titleLabel: UILabel?
     @IBOutlet private weak var tintedHeaderLabel: UILabel?
-    @IBOutlet var bodyLabel: TTTAttributedLabel?
+    @IBOutlet private weak var bodyLabel: TTTAttributedLabel?
     @IBOutlet private weak var footerLabel: UILabel?
     @IBOutlet private weak var buttonContainerView: UIView?
     @IBOutlet private weak var buttonStack: UIStackView?
@@ -27,8 +27,9 @@ class CardCell : UITableViewCell {
     var attributedLabelDelegate: LEOFeedCellDelegate!
     var cardState: CardState!
 
-    @objc func requiredConfigure(cardState: CardState, attributedLabelDelegate: TTTAttributedLabelDelegate) {
+    func requiredConfigure(cardState: CardState, attributedLabelDelegate: TTTAttributedLabelDelegate) {
         self.cardState = cardState
+        bodyLabel?.delegate = attributedLabelDelegate
         render()
     }
 
@@ -98,11 +99,9 @@ class CardCell : UITableViewCell {
     }
 
     private func renderBodyLabel() {
-
-//        bodyLabel?.enabledTextCheckingTypes = NSTextCheckingResult.CheckingType.link.rawValue | NSTextCheckingResult.CheckingType.date.rawValue | NSTextCheckingResult.CheckingType.phoneNumber.rawValue
-//            ([.link, .date, .phoneNumber] as [NSTextCheckingResult.CheckingType])
-//                .map{$0.rawValue}
-//                .reduce(0, |)
+        bodyLabel?.enabledTextCheckingTypes =
+            ([.link, .date, .phoneNumber] as [NSTextCheckingResult.CheckingType])
+                .map{$0.rawValue}.reduce(0, |)
         bodyLabel?.text = cardState?.body
     }
 
