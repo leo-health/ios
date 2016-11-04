@@ -18,9 +18,19 @@ class SurveyService : LEOModelService {
 
     //    MARK: service methods
     func getSurvey(id: String) -> Survey? {
+
         guard let surveyJSON = cachedService.get(endpointName, params: ["id" : id]) as? JSON else { return nil }
         let response = Survey(json: surveyJSON)
 
         return response
+    }
+
+    func post(survey_id: String, question_id: String, answer: String, completion: ((Error?) -> (Void))?) {
+
+        let answerParams = ["user_survey_id" : survey_id, "question_id" : question_id, "text" : answer]
+
+        cachedService.post("answers", params: answerParams) { _, error in
+             completion?(error)
+        }
     }
 }

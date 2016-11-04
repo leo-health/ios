@@ -131,4 +131,12 @@ class ActionCreators : NSObject {
             payload: ["url":url]
         )
     }
+
+    class func beginSurvey() -> Action {
+        return Action(
+            actionType: ActionTypes.BeginSurvey,
+            payload: [:],
+            displayName: nil
+        )
+    }
 }

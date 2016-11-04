@@ -23,6 +23,11 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Additional Instructions" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HpA-ZP-FAX" userLabel="Additional Instructions Label">
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="puX-gu-Iml">
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pcP-le-kLA">
@@ -31,6 +36,12 @@
                                             <action selector="didTapSubmitWithSender:" destination="c6a-9v-oFb" eventType="touchUpInside" id="r1e-HZ-qQA"/>
                                         </connections>
                                     </button>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VXC-rK-3Xa">
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="1" id="l5e-pa-gf9"/>
+                                            <constraint firstAttribute="height" constant="25" id="shZ-wP-UHP"/>
+                                        </constraints>
+                                    </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HY3-lV-mS8">
                                         <state key="normal" title="NO"/>
                                         <connections>
@@ -38,7 +49,7 @@
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.98431372549999996" green="0.2784313725" blue="0.1960784314" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="3Jg-Me-3Ij"/>
                                     <constraint firstAttribute="trailing" secondItem="HY3-lV-mS8" secondAttribute="trailing" id="8zd-Tu-CHm"/>
@@ -48,23 +59,43 @@
                                     <constraint firstAttribute="bottom" secondItem="HY3-lV-mS8" secondAttribute="bottom" id="USw-Hy-ypn"/>
                                     <constraint firstItem="HY3-lV-mS8" firstAttribute="leading" secondItem="pcP-le-kLA" secondAttribute="trailing" id="YFP-Jv-xyu"/>
                                     <constraint firstItem="HY3-lV-mS8" firstAttribute="leading" secondItem="pcP-le-kLA" secondAttribute="trailing" id="jOv-in-h45"/>
+                                    <constraint firstItem="VXC-rK-3Xa" firstAttribute="centerY" secondItem="pcP-le-kLA" secondAttribute="centerY" id="m9F-xM-yre"/>
                                     <constraint firstItem="HY3-lV-mS8" firstAttribute="width" secondItem="pcP-le-kLA" secondAttribute="width" id="pvj-pQ-GcF"/>
+                                    <constraint firstItem="VXC-rK-3Xa" firstAttribute="centerX" secondItem="puX-gu-Iml" secondAttribute="centerX" id="qhA-iU-Arz"/>
                                     <constraint firstItem="pcP-le-kLA" firstAttribute="top" secondItem="puX-gu-Iml" secondAttribute="top" id="yzi-9Y-nJn"/>
                                 </constraints>
                             </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="yf3-ZN-GDX" userLabel="IconImageView"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Question 1 of 1" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s0W-zO-hUr" userLabel="Survey Progress Label">
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="yf3-ZN-GDX" firstAttribute="top" secondItem="s0W-zO-hUr" secondAttribute="bottom" constant="58" id="4iH-rQ-Hnn"/>
                             <constraint firstAttribute="trailing" secondItem="puX-gu-Iml" secondAttribute="trailing" id="4xX-ec-wXK"/>
+                            <constraint firstItem="5K9-Js-qof" firstAttribute="top" secondItem="yf3-ZN-GDX" secondAttribute="bottom" constant="36" id="Byk-46-hpL"/>
                             <constraint firstItem="puX-gu-Iml" firstAttribute="leading" secondItem="dgE-HS-u51" secondAttribute="leading" id="I8H-ha-LyJ"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="HpA-ZP-FAX" secondAttribute="trailing" constant="45" id="LPZ-uX-FoI"/>
                             <constraint firstItem="zG5-EU-iRO" firstAttribute="top" secondItem="puX-gu-Iml" secondAttribute="bottom" id="NPa-zJ-624"/>
-                            <constraint firstItem="5K9-Js-qof" firstAttribute="leading" secondItem="dgE-HS-u51" secondAttribute="leadingMargin" id="g7K-Yo-BsZ"/>
+                            <constraint firstItem="yf3-ZN-GDX" firstAttribute="leading" secondItem="dgE-HS-u51" secondAttribute="leadingMargin" constant="52" id="RGL-du-Oho"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="HpA-ZP-FAX" secondAttribute="leading" constant="-45" id="UDC-Lx-pRS"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="yf3-ZN-GDX" secondAttribute="trailing" constant="52" id="VdE-no-KZc"/>
+                            <constraint firstItem="HpA-ZP-FAX" firstAttribute="top" secondItem="5K9-Js-qof" secondAttribute="bottom" constant="22" id="djw-VE-RU8"/>
+                            <constraint firstItem="s0W-zO-hUr" firstAttribute="top" secondItem="lGR-qg-SuT" secondAttribute="bottom" constant="21" id="fG5-Zf-368"/>
+                            <constraint firstItem="5K9-Js-qof" firstAttribute="leading" secondItem="dgE-HS-u51" secondAttribute="leadingMargin" constant="45" id="g7K-Yo-BsZ"/>
+                            <constraint firstItem="s0W-zO-hUr" firstAttribute="centerX" secondItem="dgE-HS-u51" secondAttribute="centerX" id="jHp-Z4-f0B"/>
                             <constraint firstItem="5K9-Js-qof" firstAttribute="centerY" secondItem="dgE-HS-u51" secondAttribute="centerY" id="k84-15-1o7"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="5K9-Js-qof" secondAttribute="trailing" id="rlq-8A-gqe"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="5K9-Js-qof" secondAttribute="trailing" constant="45" id="rlq-8A-gqe"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="4jl-HD-sNk"/>
                     <connections>
+                        <outlet property="additionalInstructionsLabel" destination="HpA-ZP-FAX" id="MmF-YG-R70"/>
+                        <outlet property="iconView" destination="yf3-ZN-GDX" id="x1N-Vk-34q"/>
+                        <outlet property="progressLabel" destination="s0W-zO-hUr" id="h9x-kL-jmc"/>
                         <outlet property="questionLabel" destination="5K9-Js-qof" id="OyK-vM-6ce"/>
                         <outlet property="submitNoButton" destination="HY3-lV-mS8" id="wGT-lt-AON"/>
                         <outlet property="submitYesButton" destination="pcP-le-kLA" id="Bn1-Xy-EG0"/>

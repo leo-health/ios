@@ -15,7 +15,8 @@ class Question : NSObject, JSONSerializable {
     let order: Int
     let question_type: String
     let body: String
-    let secondary: String
+    let secondary: String?
+    let icon: UIImage?
 
     init(
         objectID: String,
@@ -23,7 +24,8 @@ class Question : NSObject, JSONSerializable {
         order: Int,
         question_type: String,
         body: String,
-        secondary: String
+        secondary: String?,
+        icon: UIImage?
         ) {
         self.objectID = objectID
         self.survey_id = survey_id
@@ -31,6 +33,7 @@ class Question : NSObject, JSONSerializable {
         self.question_type = question_type
         self.body = body
         self.secondary = secondary
+        self.icon = icon
         super.init()
     }
 
@@ -41,7 +44,11 @@ class Question : NSObject, JSONSerializable {
         guard let order = json["order"] as? Int else { return nil }
         guard let question_type = json["question_type"] as? String else { return nil }
         guard let body = json["body"] as? String else { return nil }
-        guard let secondary = json["secondary"] as? String else { return nil }
+
+        let secondary = json["secondary"] as? String
+        let imageData = json["image"] as? Data
+        let image = imageData.flatMap {(UIImage(data:$0))}
+
 
         self.init(
             objectID: objectID,
@@ -49,7 +56,8 @@ class Question : NSObject, JSONSerializable {
             order: order,
             question_type: question_type,
             body: body,
-            secondary: secondary
+            secondary: secondary,
+            icon: image
         )
     }
 
@@ -60,7 +68,8 @@ class Question : NSObject, JSONSerializable {
             "order": order,
             "question_type": question_type,
             "body": body,
-            "secondary": secondary
+            "secondary": secondary,
+            "icon" : icon
         ]
     }
 

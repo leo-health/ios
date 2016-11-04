@@ -7,38 +7,56 @@
 //
 
 import Foundation
+import MBProgressHUD
 
-protocol ExpandedCardDelegate {
-    func renderNavigationBar()
+public protocol ExpandedCardDelegate {
     func dismiss()
 }
 
 class SurveyViewController : UIViewController, ExpandedCardDelegate {
 
-    var showsBackButton: Bool = false
-    var question: Question! {
-        didSet {
-            render()
-        }
-    }
+    var showsBackButton = false
+    var questionNumber = 1
+    var questionCount = 1
+    var surveyID : String?
+    var surveyName: String?
+    var question: Question?
 
     var routeNext: (()->())?
     var routeDismissExpandedCard: (()->())?
 
-    @IBOutlet private weak var questionLabel: UILabel?
-    @IBOutlet private weak var submitYesButton: UIButton?
-    @IBOutlet private weak var submitNoButton: UIButton?
+    @IBOutlet private weak var questionLabel: UILabel!
+    @IBOutlet private weak var progressLabel: UILabel!
+    @IBOutlet private weak var submitYesButton: UIButton!
+    @IBOutlet private weak var submitNoButton: UIButton!
+    @IBOutlet private weak var iconView: UIImageView!
+    @IBOutlet private weak var additionalInstructionsLabel: UILabel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        render()
+
+        questionLabel.font = UIFont.leo_medium19()
+        questionLabel.textColor = UIColor.leo_gray87()
+        additionalInstructionsLabel.font = UIFont.leo_medium15()
+        additionalInstructionsLabel.textColor = UIColor.leo_gray176()
+
+        progressLabel.font = UIFont.leo_bold12()
+        progressLabel.textColor = UIColor.leo_orangeRed()
+        submitYesButton.titleLabel?.font = UIFont.leo_demiBold12()
+        submitNoButton.titleLabel?.font = UIFont.leo_demiBold12()
+
+        configure()
     }
 
-    private func render() {
-        renderNavigationBar()
 
-        questionLabel?.text = question.body
 
+    private func configure() {
+        configureNavigationBar()
+
+        questionLabel.text = question?.body
+        additionalInstructionsLabel.text = question?.secondary
+        progressLabel.text = "Question \(questionNumber) of \(questionCount)"
+        iconView.image = question?.icon
         [submitYesButton, submitNoButton].flatMap{$0}.forEach { button in
             button.backgroundColor = .leo_orangeRed()
             button.setTitleColor(.white, for: .normal)
@@ -46,22 +64,32 @@ class SurveyViewController : UIViewController, ExpandedCardDelegate {
         }
     }
 
-    func renderNavigationBar() {
-        LEOStyleHelper.styleNavigationBar(for: self, for: .PHR, withTitleText: "MCHAT", dismissal: true, backButton: showsBackButton)
+    fileprivate func configureNavigationBar() {
+        LEOStyleHelper.styleNavigationBar(for: self, for: .PHR, withTitleText: surveyName, dismissal: true, backButton: showsBackButton)
     }
 
     @IBAction private func didTapSubmit(sender: UIButton) {
 
-        submitQuestion()
+        guard let buttonText = sender.titleLabel?.text else { return }
+        submitQuestion(text: buttonText)
     }
 
-    func dismiss() {
+    public func dismiss() {
         routeDismissExpandedCard?()
     }
 
-    private func submitQuestion() {
-        // post request
-        // completion
-        routeNext?()
+    private func submitQuestion(text: String) {
+
+        guard let surveyID = surveyID else { return }
+        guard let objectID = question?.objectID else { return }
+
+        MBProgressHUD.showAdded(to: view, animated: true)
+
+        SurveyService().post(survey_id: surveyID, question_id: objectID, answer: text) { error in
+
+            MBProgressHUD.hide(for: self.view, animated: true)
+            guard error == nil else { return }
+            self.routeNext?()
+        }
     }
 }

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="sH6-zY-3eL">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Completed Survey View Controller-->
+        <scene sceneID="iw2-Lp-urT">
+            <objects>
+                <viewController storyboardIdentifier="SurveyViewController" id="sH6-zY-3eL" customClass="CompletedSurveyViewController" customModule="Leo" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="GbT-pw-tvH"/>
+                        <viewControllerLayoutGuide type="bottom" id="Zcc-Tt-W9q"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="LLM-Fx-tKE">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Thanks for completing this survey." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GNJ-wn-y8Y">
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your results will be shared with your pediatrician." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="roa-MH-NWS" userLabel="Additional Instructions Label">
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Li2-lN-7EF">
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pNJ-Oz-sbl" userLabel="Submit Button">
+                                        <state key="normal" title="FINISH"/>
+                                        <connections>
+                                            <action selector="didTapSubmitWithSender:" destination="sH6-zY-3eL" eventType="touchUpInside" id="G10-GX-Wyn"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.98431372549999996" green="0.2784313725" blue="0.1960784314" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="5vo-PO-Zt4"/>
+                                    <constraint firstAttribute="trailing" secondItem="pNJ-Oz-sbl" secondAttribute="trailing" id="6kM-7D-zpd"/>
+                                    <constraint firstAttribute="bottom" secondItem="pNJ-Oz-sbl" secondAttribute="bottom" id="VGF-zQ-YvV"/>
+                                    <constraint firstItem="pNJ-Oz-sbl" firstAttribute="top" secondItem="Li2-lN-7EF" secondAttribute="top" id="gLM-Pp-Nn9"/>
+                                    <constraint firstItem="pNJ-Oz-sbl" firstAttribute="leading" secondItem="Li2-lN-7EF" secondAttribute="leading" id="s0g-bC-nS5"/>
+                                </constraints>
+                            </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="S1k-of-Xgh" userLabel="IconImageView"/>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="roa-MH-NWS" firstAttribute="top" secondItem="GNJ-wn-y8Y" secondAttribute="bottom" constant="22" id="1Mg-bN-1vE"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="S1k-of-Xgh" secondAttribute="trailing" constant="52" id="3J3-fN-aP6"/>
+                            <constraint firstItem="S1k-of-Xgh" firstAttribute="top" secondItem="GbT-pw-tvH" secondAttribute="bottom" constant="100" id="Gg3-GD-Frq"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="roa-MH-NWS" secondAttribute="leading" constant="-45" id="Mra-8R-b3s"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="GNJ-wn-y8Y" secondAttribute="trailing" constant="45" id="ZwU-3l-osZ"/>
+                            <constraint firstAttribute="trailing" secondItem="Li2-lN-7EF" secondAttribute="trailing" id="bbF-yZ-vgs"/>
+                            <constraint firstItem="GNJ-wn-y8Y" firstAttribute="centerY" secondItem="LLM-Fx-tKE" secondAttribute="centerY" id="gTi-26-duR"/>
+                            <constraint firstItem="Zcc-Tt-W9q" firstAttribute="top" secondItem="Li2-lN-7EF" secondAttribute="bottom" id="h3M-n4-h1C"/>
+                            <constraint firstItem="GNJ-wn-y8Y" firstAttribute="top" secondItem="S1k-of-Xgh" secondAttribute="bottom" constant="36" id="ha6-aG-sgv"/>
+                            <constraint firstItem="Li2-lN-7EF" firstAttribute="leading" secondItem="LLM-Fx-tKE" secondAttribute="leading" id="hyf-sW-d0W"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="roa-MH-NWS" secondAttribute="trailing" constant="45" id="k3Z-Bn-den"/>
+                            <constraint firstItem="GNJ-wn-y8Y" firstAttribute="leading" secondItem="LLM-Fx-tKE" secondAttribute="leadingMargin" constant="45" id="ryq-ob-TlH"/>
+                            <constraint firstItem="S1k-of-Xgh" firstAttribute="leading" secondItem="LLM-Fx-tKE" secondAttribute="leadingMargin" constant="51" id="xkf-aG-Ukh"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="RK8-cB-JzB"/>
+                    <connections>
+                        <outlet property="iconView" destination="S1k-of-Xgh" id="YZW-gf-oEo"/>
+                        <outlet property="submitButton" destination="pNJ-Oz-sbl" id="Xyn-MD-Mfm"/>
+                        <outlet property="subtitleLabel" destination="roa-MH-NWS" id="hyp-IA-uL4"/>
+                        <outlet property="titleLabel" destination="GNJ-wn-y8Y" id="Ke2-QJ-ZwN"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7hV-zA-kJf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-49" y="207"/>
+        </scene>
+    </scenes>
+</document>

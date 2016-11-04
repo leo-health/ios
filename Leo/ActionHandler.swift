@@ -137,6 +137,8 @@ public class ActionHandler: NSObject {
         switch endpoint {
         case "schedule":
             handle(action: ActionCreators.scheduleNewAppointment())
+        case "complete_survey":
+            handle(action: ActionCreators.beginSurvey())
         default:
             break
         }

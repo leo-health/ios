@@ -19,7 +19,7 @@ class Survey : NSObject, JSONSerializable {
     let required: Bool
     let reason: String
     let questions: [Question]
-
+    var currentQuestionIndex: Int
     init(
         objectID: String,
         name: String,
@@ -30,7 +30,8 @@ class Survey : NSObject, JSONSerializable {
         media: LEOS3Image?,
         required: Bool,
         reason: String,
-        questions: [Question]
+        questions: [Question],
+        currentQuestionIndex: Int
         ) {
         self.objectID = objectID
         self.name = name
@@ -42,7 +43,7 @@ class Survey : NSObject, JSONSerializable {
         self.required = required
         self.reason = reason
         self.questions = questions
-
+        self.currentQuestionIndex = currentQuestionIndex
         super.init()
 
     }
@@ -60,6 +61,7 @@ class Survey : NSObject, JSONSerializable {
         guard let reason = json["reason"] as? String else { return nil }
         guard let questionsJSON = json["questions"] as? [JSON] else { return nil }
         let questions = questionsJSON.flatMap{Question(json: $0)}
+        let currentQuestionIndex = json["currentQuestionIndex"] as? Int ?? 0
 
         self.init(
             objectID: objectID,
@@ -71,7 +73,8 @@ class Survey : NSObject, JSONSerializable {
             media: media,
             required: required,
             reason: reason,
-            questions: questions
+            questions: questions,
+            currentQuestionIndex: currentQuestionIndex
         )
     }
 
@@ -94,7 +97,8 @@ class Survey : NSObject, JSONSerializable {
             "instructions": instructions,
             "required": required,
             "reason": reason,
-            "questions": Question.json(objects: questions)
+            "questions": Question.json(objects: questions),
+            "currentQuestionIndex" : currentQuestionIndex
         ]
         
         if let media = media {

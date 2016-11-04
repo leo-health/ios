@@ -39,7 +39,24 @@ public class AppRouter: NSObject {
         presentingVC?.present(viewController, animated: true, completion: nil)
     }
 
+
 //    MARK: Push Presentation
+
+    private func presentExpandedCard(viewController: UINavigationController, animated: Bool) {
+
+        // TODO: Add a method to ensure the feed is available to present the expanded card
+
+        navigationVC = viewController
+
+        transitioningDelegate = LEOTransitioningDelegate(transitionAnimatorType: .cardModal)
+        viewController.transitioningDelegate = transitioningDelegate
+        viewController.modalPresentationStyle = .fullScreen
+        _presentingVC?.present(viewController, animated: animated, completion: nil)
+    }
+
+
+//    MARK: Navigation Controller
+
     private func pushOntoCurrentNavStack(viewController: UIViewController) {
         navigationVC?.pushViewController(viewController, animated: true)
     }
@@ -97,17 +114,26 @@ public class AppRouter: NSObject {
         guard index < survey.questions.count else { return nil }
 
         surveyVC.showsBackButton = index > 0
+        surveyVC.surveyID = survey.objectID
+        surveyVC.surveyName = survey.name
         surveyVC.question = survey.questions[index]
-
+        surveyVC.questionNumber = index + 1
+        surveyVC.questionCount = survey.questions.count
         surveyVC.routeNext = {
 
-            guard let nextQuestionVC =
-                self.configureSurveyViewController(
-                    survey: survey,
-                    index: index + 1
-                ) else { return }
+            if(surveyVC.questionNumber == surveyVC.questionCount) {
 
-            self.pushOntoCurrentNavStack(viewController: nextQuestionVC)
+                guard let finishedSurveyVC = self.configureFinishedSurveyVC(survey: survey)
+                    else {return}
+                self.pushOntoCurrentNavStack(viewController:finishedSurveyVC)
+            } else {
+
+                guard let nextQuestionVC =
+                    self.configureSurveyViewController(survey: survey,
+                                                       index: index + 1)
+                    else { return }
+                self.pushOntoCurrentNavStack(viewController: nextQuestionVC)
+            }
         }
 
         surveyVC.routeDismissExpandedCard = {
@@ -116,14 +142,39 @@ public class AppRouter: NSObject {
                 completion: nil
             )
         }
+
+        if (survey.currentQuestionIndex == index && survey.currentQuestionIndex != 0) {
+            survey.currentQuestionIndex = 0;
+        }
+
         return surveyVC
+    }
+    
+    private func configureFinishedSurveyVC(survey: Survey) -> UIViewController? {
+
+        let surveyStoryboard = UIStoryboard(name: String(describing: CompletedSurveyViewController.self), bundle: nil)
+        guard let completedSurveyVC = surveyStoryboard.instantiateInitialViewController() as? CompletedSurveyViewController
+            else { return nil }
+
+        completedSurveyVC.surveyName = survey.name
+        completedSurveyVC.routeDismissExpandedCard = {
+            self._presentingVC?.dismiss(animated: true,
+                                        completion: nil)
+        }
+
+        return completedSurveyVC
     }
 
     private func configureSurveyNavigationController(survey: Survey) -> UINavigationController? {
 
-        guard let surveyVC = configureSurveyViewController(survey: survey, index: 0) else { return nil }
+        let surveyVCs = Array(0...survey.currentQuestionIndex).flatMap {
+            configureSurveyViewController(survey: survey, index: $0)
+        }
 
-        let surveyNavController = UINavigationController(rootViewController: surveyVC)
+        let surveyNavController = UINavigationController()
+
+        surveyNavController.setViewControllers(surveyVCs, animated: false)
+
         return surveyNavController
     }
 
