@@ -99,10 +99,22 @@ class CardCell : UITableViewCell {
     }
 
     private func renderBodyLabel() {
+        let color: UIColor = cardState?.color ?? .leo_gray124()
+        let text = cardState?.body
+
+        let linkAttributes = [
+            NSForegroundColorAttributeName: color,
+            NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue,
+            NSUnderlineColorAttributeName: color
+        ] as [String : Any]
+
+        bodyLabel?.linkAttributes = linkAttributes;
+        bodyLabel?.inactiveLinkAttributes = linkAttributes;
+        bodyLabel?.activeLinkAttributes = linkAttributes;
         bodyLabel?.enabledTextCheckingTypes =
             ([.link, .date, .phoneNumber] as [NSTextCheckingResult.CheckingType])
                 .map{$0.rawValue}.reduce(0, |)
-        bodyLabel?.text = cardState?.body
+        bodyLabel?.text = text
     }
 
     private func renderFooterLabel() {
