@@ -16,6 +16,7 @@
 //  Released under an MIT license: http://opensource.org/licenses/MIT
 //
 
+#import "Leo-Swift.h"
 #import "LEOApiReachability.h"
 #import "LEOCardConversation.h"
 #import "LEOCardPushTransitionAnimator.h"
@@ -57,7 +58,6 @@
 #import "LEOConversationFullScreenNoticeView.h"
 #import "Notice.h"
 #import "LEOValidationsHelper.h"
-#import "LEOCallManager.h"
 #import "LEOCachedDataStore.h"
 #import "Practice.h"
 #import "LEOPracticeService.h"
@@ -353,8 +353,8 @@ didReceiveResponseFromRemote:(NSDictionary *)remoteResponse
 
                           __strong typeof(self) strongSelf = weakSelf;
 
-                          [LEOCallManager alertToCallPractice:strongSelf.practice
-                                           fromViewController:strongSelf];
+                          [[AppRouter router] presentCallUsConfirmationAlertWithName:strongSelf.practice.name
+                                                                         phoneNumber:strongSelf.practice.phone];
                       }];
 
     [self.view addSubview:strongView];
@@ -398,9 +398,8 @@ didReceiveResponseFromRemote:(NSDictionary *)remoteResponse
                                           } buttonTwoTouchedUpInsideBlock:^{
 
                                               __strong typeof(self) strongSelf = weakSelf;
-
-                                              [LEOCallManager alertToCallPractice:strongSelf.practice
-                                                               fromViewController:strongSelf];
+                                              [[AppRouter router] presentCallUsConfirmationAlertWithName:strongSelf.practice.name
+                                                                                             phoneNumber:strongSelf.practice.phone];
 
                                           } dismissButtonTouchedUpInsideBlock:^{
 

@@ -18,6 +18,7 @@ class ActionTypes : NSObject {
     static let DismissContentCard = "DISMISS_CONTENT_CARD"
     static let OpenUrl = "OPEN_URL"
     static let OpenPracticeConversation = "OPEN_PRACTICE_CONVERSATION"
+    static let CallPhone = "CALL_PHONE"
 }
 
 class Action : NSObject, JSONSerializable {
@@ -121,6 +122,13 @@ class ActionCreators : NSObject {
         return Action(
             actionType: ActionTypes.OpenPracticeConversation,
             payload: [:]
+        )
+    }
+
+    class func openURL(_ url: String) -> Action {
+        return Action(
+            actionType: ActionTypes.OpenUrl,
+            payload: ["url":url]
         )
     }
 }

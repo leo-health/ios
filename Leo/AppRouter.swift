@@ -14,42 +14,34 @@ public class AppRouter: NSObject {
 
     var window: UIWindow?
 
-    var presentingVC: UIViewController?
-    private var _presentingVC: UIViewController? {
-        get {
-            return presentingVC ?? window?.rootViewController
+    private var presentingVC: UIViewController? {
+        if var topController = self.window?.rootViewController {
+            while let presentedViewController = topController.presentedViewController {
+                topController = presentedViewController
+            }
+            return topController
         }
+        return nil
     }
 
-    var navigationVC: UINavigationController?
+    private var navigationVC: UINavigationController? {
+        return presentingVC as? UINavigationController
+    }
 
     private var transitioningDelegate: LEOTransitioningDelegate?
 
-    func setRoot(window: UIWindow) {
-
-        self.window = window
-        navigationVC = _presentingVC as? UINavigationController
-    }
-
+//    MARK: Expanded Card Presentation
     private func presentExpandedCard(viewController: UINavigationController) {
-
-        // TODO: Add a method to ensure the feed is available to present the expanded card
-
-        navigationVC = viewController
 
         transitioningDelegate = LEOTransitioningDelegate(transitionAnimatorType: .cardModal)
         viewController.transitioningDelegate = transitioningDelegate
         viewController.modalPresentationStyle = .fullScreen
-        _presentingVC?.present(viewController, animated: true, completion: nil)
+        presentingVC?.present(viewController, animated: true, completion: nil)
     }
 
-//    MARK: Navigation Controller
+//    MARK: Push Presentation
     private func pushOntoCurrentNavStack(viewController: UIViewController) {
         navigationVC?.pushViewController(viewController, animated: true)
-    }
-
-    private func resetNavStateThenPush(viewController: UIViewController) {
-
     }
 
     func presentCallUsConfirmationAlert(name: String, phoneNumber: String) {
@@ -60,8 +52,11 @@ public class AppRouter: NSObject {
             preferredStyle: .alert
         )
         alert.addAction(UIAlertAction(title: "Call", style: .default) { _ in
-            ActionHandler.handle(action: ActionCreators.callPhone(phoneNumber: phoneNumber))
-        }
+            ActionHandler.handle(action: ActionCreators.openURL("tel://\(phoneNumber)"))
+        })
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+
+        presentingVC?.present(alert, animated: true, completion: nil)
     }
 
 //    MARK: present specific expanded cards
@@ -116,7 +111,7 @@ public class AppRouter: NSObject {
         }
 
         surveyVC.routeDismissExpandedCard = {
-            self._presentingVC?.dismiss(
+            self.presentingVC?.dismiss(
                 animated: true,
                 completion: nil
             )
@@ -155,5 +150,4 @@ public class AppRouter: NSObject {
 
         return appointmentNavController
     }
-
 }

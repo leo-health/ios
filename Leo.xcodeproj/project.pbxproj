@@ -97,7 +97,6 @@
 		314BC36F1B94C817000A50D8 /* LEOCredentialStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 314BC36E1B94C817000A50D8 /* LEOCredentialStore.m */; };
 		3153C5EC1B94A0B3000A22B4 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3153C5EB1B94A0B3000A22B4 /* Login.storyboard */; };
 		3155888E1BBC314D0038E381 /* LEOManagePatientsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3155888C1BBC314D0038E381 /* LEOManagePatientsViewController.m */; };
-		31567CDC1CCECF1700715222 /* LEOCallManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 31567CDB1CCECF1700715222 /* LEOCallManager.m */; };
 		31567CDF1CCFCCCB00715222 /* DailyPracticeSchedule.m in Sources */ = {isa = PBXBuildFile; fileRef = 31567CDE1CCFCCCB00715222 /* DailyPracticeSchedule.m */; };
 		31567CE21CCFEF2700715222 /* PracticeScheduleException.m in Sources */ = {isa = PBXBuildFile; fileRef = 31567CE11CCFEF2700715222 /* PracticeScheduleException.m */; };
 		315839881C2074790093FE2E /* UIView+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 315839871C2074790093FE2E /* UIView+Extensions.m */; };
@@ -525,8 +524,6 @@
 		3153C5EB1B94A0B3000A22B4 /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Login.storyboard; path = Storyboards/Login.storyboard; sourceTree = "<group>"; };
 		3155888B1BBC314D0038E381 /* LEOManagePatientsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOManagePatientsViewController.h; path = "Onboarding+Signup/LEOManagePatientsViewController.h"; sourceTree = "<group>"; };
 		3155888C1BBC314D0038E381 /* LEOManagePatientsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOManagePatientsViewController.m; path = "Onboarding+Signup/LEOManagePatientsViewController.m"; sourceTree = "<group>"; };
-		31567CDA1CCECF1700715222 /* LEOCallManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEOCallManager.h; path = Helpers/LEOCallManager.h; sourceTree = "<group>"; };
-		31567CDB1CCECF1700715222 /* LEOCallManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEOCallManager.m; path = Helpers/LEOCallManager.m; sourceTree = "<group>"; };
 		31567CDD1CCFCCCB00715222 /* DailyPracticeSchedule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DailyPracticeSchedule.h; path = "Leo/Data Model/DailyPracticeSchedule.h"; sourceTree = SOURCE_ROOT; };
 		31567CDE1CCFCCCB00715222 /* DailyPracticeSchedule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DailyPracticeSchedule.m; path = "Leo/Data Model/DailyPracticeSchedule.m"; sourceTree = SOURCE_ROOT; };
 		31567CE01CCFEF2700715222 /* PracticeScheduleException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PracticeScheduleException.h; path = "Leo/Data Model/PracticeScheduleException.h"; sourceTree = SOURCE_ROOT; };
@@ -1254,8 +1251,6 @@
 			children = (
 				312FACE61CFF28740038A257 /* LEORouter.h */,
 				312FACE71CFF28740038A257 /* LEORouter.m */,
-				31567CDA1CCECF1700715222 /* LEOCallManager.h */,
-				31567CDB1CCECF1700715222 /* LEOCallManager.m */,
 				31D2753A1C3DB355005F8964 /* NSObject+XibAdditions.h */,
 				31D2753B1C3DB355005F8964 /* NSObject+XibAdditions.m */,
 				312946071C0E0B8200AE5BB1 /* LEOAlertHelper.h */,
@@ -2329,7 +2324,6 @@
 				31FDDE6F1B29EDF70009BBC2 /* ArrayDataSource.m in Sources */,
 				662371E51C568A26001AB3E7 /* LEOLoggedOutOnboardingCell.m in Sources */,
 				6647A1B91D4FC53F00599D41 /* LEOChangeEventObserver.m in Sources */,
-				31567CDC1CCECF1700715222 /* LEOCallManager.m in Sources */,
 				31CC12E51BB062C40099AB60 /* Family.m in Sources */,
 				31DD3C121CEBB40D002C4330 /* LEOProductOverviewPriceView.m in Sources */,
 				3177B9E11B1A8CF3006AE360 /* LEOCard.m in Sources */,

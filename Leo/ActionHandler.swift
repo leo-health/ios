@@ -85,6 +85,12 @@ public class ActionHandler: NSObject {
             guard let url = (action.payload["url"] as? String).flatMap({URL(string: $0)}) else { return }
             guard UIApplication.shared.canOpenURL(url) else { return }
             UIApplication.shared.openURL(url)
+
+        case ActionTypes.CallPhone:
+            guard let phoneNumber = action.payload["phone_number"] as? String else { return }
+            guard let contactName = action.payload["contact_name"] as? String else { return }
+            AppRouter.router.presentCallUsConfirmationAlert(name: contactName, phoneNumber: phoneNumber)
+
         default:
             break
         }

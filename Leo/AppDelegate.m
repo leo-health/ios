@@ -43,7 +43,7 @@
     [Configuration resetStripeKey];
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    [[AppRouter router] setRootWithWindow:self.window];
+    [AppRouter router].window = self.window;
 
     if (launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]) {
         [self application:application didReceiveRemoteNotification:launchOptions];
