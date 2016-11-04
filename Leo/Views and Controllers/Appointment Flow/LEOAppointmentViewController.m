@@ -35,7 +35,7 @@
 #import "Practice.h"
 #import "AppointmentStatus.h"
 
-#import <MBProgressHUD.h>
+#import <MBProgressHUD/MBProgressHUD.h>
 
 #import "LEOGradientView.h"
 #import "LEOAppointmentService.h"

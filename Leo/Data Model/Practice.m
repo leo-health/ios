@@ -12,7 +12,7 @@
 #import "UserFactory.h"
 #import "NSDictionary+Extensions.h"
 #import "NSDate+Extensions.h"
-#import <NSDate+DateTools.h>
+#import <DateTools/DateTools.h>
 #import "DailyPracticeSchedule.h"
 #import "PracticeScheduleException.h"
 

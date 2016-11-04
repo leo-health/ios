@@ -6,7 +6,7 @@
 //  Copyright © 2015 Leo Health. All rights reserved.
 //
 
-#import "RSKImageCropViewController.h"
+#import <RSKImageCropper/RSKImageCropViewController.h>
 
 @interface LEOImageCropViewController : RSKImageCropViewController
 

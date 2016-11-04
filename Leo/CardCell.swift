@@ -60,7 +60,6 @@ class CardCell : UITableViewCell {
     }
 
     private func render() {
-
         contentView.backgroundColor = .leo_gray227()
 
         renderActivityIndicatorView()

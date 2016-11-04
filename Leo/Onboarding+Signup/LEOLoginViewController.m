@@ -24,7 +24,7 @@
 #import "NSObject+XibAdditions.h"
 #import "UIView+Extensions.h"
 #import <MBProgressHUD/MBProgressHUD.h>
-#import <Crashlytics/Crashlytics.h>
+@import Crashlytics;
 #import <Crittercism/Crittercism.h>
 #import "Configuration.h"
 #import "LEOAlertHelper.h"

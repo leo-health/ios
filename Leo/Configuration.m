@@ -15,8 +15,8 @@
 #import "LEOPusherHelper.h"
 #import "LEOUserService.h"
 #import "LEOSession.h"
-#import <Fabric/Fabric.h>
-#import <Crashlytics/Crashlytics.h>
+@import Fabric;
+@import Crashlytics;
 #import <Localytics/Localytics.h>
 #import <Stripe/Stripe.h>
 #import "AppDelegate.h"

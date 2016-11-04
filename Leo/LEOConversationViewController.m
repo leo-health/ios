@@ -45,7 +45,7 @@
 #import "UIColor+LeoColors.h"
 #import "UIFont+LeoFonts.h"
 #import "UIImage+Extensions.h"
-#import <UIImageView+AFNetworking.h>
+#import <AFNetworking/UIImageView+AFNetworking.h>
 #import <JSQMessagesViewController/JSQMessagesBubbleImageFactory.h>
 #import <Photos/Photos.h>
 #import "UIButton+Extensions.h"

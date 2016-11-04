@@ -10,7 +10,7 @@
 #import "UIColor+LeoColors.h"
 #import "UIFont+LeoFonts.h"
 #import "LEOVitalGraphDataSource.h"
-#import <NSDate+DateTools.h>
+#import <DateTools/DateTools.h>
 #import "PatientVitalMeasurement.h"
 #import "NSDate+Extensions.h"
 #import "NSString+Extensions.h"

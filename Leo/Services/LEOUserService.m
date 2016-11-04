@@ -14,7 +14,6 @@
 #import "LEOSession.h"
 #import "NSUserDefaults+Extensions.h"
 #import "Configuration.h"
-#import <Crashlytics/Crashlytics.h>
 #import <Crittercism/Crittercism.h>
 #import "LEOCachedService.h"
 #import "LEOAnalytic.h"

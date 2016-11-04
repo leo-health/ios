@@ -10,7 +10,7 @@
 #import "LEOCalendarDataSource.h"
 #import "DateCollectionController.h"
 #import "TimeCollectionController.h"
-#import <NSDate+DateTools.h>
+#import <DateTools/DateTools.h>
 #import "NSDate+Extensions.h"
 #import "Slot.h"
 #import "LEOConstants.h"

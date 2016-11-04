@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <NSDate+DateTools.h>
+#import <DateTools/DateTools.h>
 
 @interface NSDate (Extensions)
 NS_ASSUME_NONNULL_BEGIN

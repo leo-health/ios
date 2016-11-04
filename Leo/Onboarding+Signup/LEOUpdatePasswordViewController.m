@@ -11,7 +11,7 @@
 #import "LEOUpdatePasswordView.h"
 #import "LEOUserService.h"
 #import "LEOAlertHelper.h"
-#import <MBProgressHUD.h>
+#import <MBProgressHUD/MBProgressHUD.h>
 #import "LEOStatusBarNotification.h"
 #import "LEOAnalytic+Extensions.h"
 

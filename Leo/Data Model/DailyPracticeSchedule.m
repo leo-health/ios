@@ -9,7 +9,7 @@
 #import "DailyPracticeSchedule.h"
 #import "NSDictionary+Extensions.h"
 #import "NSDate+Extensions.h"
-#import <NSDate+DateTools.h>
+#import <DateTools/DateTools.h>
 
 @implementation DailyPracticeSchedule
 

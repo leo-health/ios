@@ -7,7 +7,7 @@
 //
 
 #import "LEOConstants.h"
-#import <NSDate+DateTools.h>
+#import <DateTools/DateTools.h>
 
 @implementation LEOConstants
 

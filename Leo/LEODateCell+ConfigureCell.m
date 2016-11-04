@@ -7,7 +7,7 @@
 //
 
 #import "LEODateCell+ConfigureCell.h"
-#import <NSDate+DateTools.h>
+#import <DateTools/DateTools.h>
 
 @implementation LEODateCell (ConfigureCell)
 

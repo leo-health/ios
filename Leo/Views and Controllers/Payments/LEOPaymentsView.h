@@ -6,7 +6,7 @@
 //  Copyright © 2016 Leo Health. All rights reserved.
 //
 
-#import <Stripe.h>
+#import <Stripe/Stripe.h>
 #import <UIKit/UIKit.h>
 #import "LEOValidatedFloatLabeledTextView.h"
 #import "LEOPromptView.h"

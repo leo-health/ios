@@ -12,7 +12,7 @@
 #import "NSDictionary+Extensions.h"
 #import "LEOS3Image.h"
 #import "LEOValidationsHelper.h"
-#import <NSDate+DateTools.h>
+#import <DateTools/DateTools.h>
 
 @implementation User
 

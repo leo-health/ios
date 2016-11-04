@@ -14,8 +14,8 @@
 #import "UIColor+LeoColors.h"
 #import "LEOValidationsHelper.h"
 #import "LEOMessagesAvatarImageFactory.h"
-#import <ActionSheetDatePicker.h>
-#import <ActionSheetStringPicker.h>
+#import <ActionSheetPicker_3_0/ActionSheetDatePicker.h>
+#import <ActionSheetPicker_3_0/ActionSheetStringPicker.h>
 #import "LEOStyleHelper.h"
 #import "UIView+XibAdditions.h"
 #import "LEOSession.h"

@@ -13,7 +13,7 @@
 #import "UIFont+LeoFonts.h"
 #import "UIImage+Extensions.h"
 #import "LEOHealthRecordService.h"
-#import <MBProgressHUD.h>
+#import <MBProgressHUD/MBProgressHUD.h>
 #import "UIButton+Extensions.h"
 #import "LEOAlertHelper.h"
 #import "LEOApiReachability.h"

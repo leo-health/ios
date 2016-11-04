@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "LEOPromptField.h"
-#import <RSKImageCropViewController.h>
+#import <RSKImageCropper/RSKImageCropViewController.h>
 #import "TPKeyboardAvoidingScrollView.h"
 @class Patient;
 

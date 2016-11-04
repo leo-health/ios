@@ -13,7 +13,7 @@
 #import "MessageText.h"
 #import "MessageImage.h"
 #import "Conversation.h"
-#import <JSQPhotoMediaItem.h>
+#import <JSQMessagesViewController/JSQPhotoMediaItem.h>
 #import "NSDate+Extensions.h"
 #import "Notice.h"
 #import "NSDictionary+Extensions.h"

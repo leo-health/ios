@@ -20,7 +20,7 @@
 #import <Localytics/Localytics.h>
 
 #define LOG_LEVEL_DEF ddLogLevel
-#import <CocoaLumberjack/CocoaLumberjack.h>
+@import CocoaLumberjack;
 
 #ifdef RELEASE
 static const DDLogLevel ddLogLevel = DDLogLevelWarning;

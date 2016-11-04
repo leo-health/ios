@@ -21,7 +21,7 @@
 #import "NSDate+Extensions.h"
 #import "NSDictionary+Extensions.h"
 #import <AFNetworking/UIImage+AFNetworking.h>
-#import <JSQPhotoMediaItem.h>
+#import <JSQMessagesViewController/JSQPhotoMediaItem.h>
 #import "LEOMessageService.h"
 
 @interface Message()

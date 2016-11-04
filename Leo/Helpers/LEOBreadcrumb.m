@@ -7,7 +7,7 @@
 //
 
 #import "LEOBreadcrumb.h"
-#import <Crashlytics/Crashlytics.h>
+@import Crashlytics;
 #import <Crittercism/Crittercism.h>
 
 @implementation LEOBreadcrumb

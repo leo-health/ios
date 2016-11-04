@@ -15,7 +15,7 @@
 #import "LEOFeedCellButtonView.h"
 #import "UIView+Extensions.h"
 #import "LEOPracticeDetailView.h"
-#import <NSDate+DateTools.h>
+#import <DateTools/DateTools.h>
 #import "LEOFeedCell+ConfigureForConversationCard.h"
 #import "LEOFeedCell+ConfigureForAppointmentCard.h"
 #import "LEOFeedCell+ConfigureForDeepLinkCard.h"

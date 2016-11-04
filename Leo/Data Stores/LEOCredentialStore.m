@@ -7,7 +7,7 @@
 //  Adopted from Ben Scheirman (Fickle Bits, LLC) and NSScreencast (http://www.nsscreencast.com/episodes/41-authentication-with-afnetworking)
 
 #import "LEOCredentialStore.h"
-#import "SAMKeychain.h"
+@import SAMKeychain;
 #import "LEOConstants.h"
 
 #define SERVICE_NAME @"LEO-AuthClient"

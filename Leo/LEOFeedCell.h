@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "LEOCardProtocol.h"
-#import <TTTAttributedLabel.h>
+#import <TTTAttributedLabel/TTTAttributedLabel.h>
 
 @protocol LEOFeedCellDelegate <NSObject, TTTAttributedLabelDelegate>
 

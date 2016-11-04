@@ -10,7 +10,7 @@
 #import "Leo-Swift.h"
 #import "LEOFeedTVC.h"
 #import "LEOConstants.h"
-#import <NSDate+DateTools.h>
+#import <DateTools/DateTools.h>
 #import "LEOUserService.h"
 #import "ArrayDataSource.h"
 #import "LEOCard.h"
@@ -59,7 +59,7 @@
 #import "LEOChangeEventObserver.h"
 #import "LEOPusherHelper.h"
 
-#import <UIImage+Resize.h>
+#import <UIImage_Resize/UIImage+Resize.h>
 #import "UIImageEffects.h"
 
 #import "LEOStyleHelper.h"
@@ -73,7 +73,7 @@
 #import "LEOStatusBarNotification.h"
 #import "LEOAnalytic+Extensions.h"
 
-#import <TTTAttributedLabel.h>
+#import <TTTAttributedLabel/TTTAttributedLabel.h>
 #import "LEOFormatting.h"
 #import "LEOAttributedLabelDelegate.h"
 

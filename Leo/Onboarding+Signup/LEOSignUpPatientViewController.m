@@ -15,8 +15,8 @@
 
 #import "LEOValidationsHelper.h"
 #import "LEOSignUpPatientView.h"
-#import <ActionSheetPicker-3.0/ActionSheetPicker.h>
-#import <NSDate+DateTools.h>
+@import ActionSheetPicker_3_0;
+#import <DateTools/DateTools.h>
 #import "NSDate+Extensions.h"
 #import "LEOValidationsHelper.h"
 #import "LEOMessagesAvatarImageFactory.h"

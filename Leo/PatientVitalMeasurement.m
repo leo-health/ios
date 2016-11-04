@@ -9,7 +9,7 @@
 #import "PatientVitalMeasurement.h"
 #import "NSDictionary+Extensions.h"
 #import "LEOConstants.h"
-#import <NSDate+DateTools.h>
+#import <DateTools/DateTools.h>
 #import "Patient.h"
 #import "NSString+Extensions.h"
 

@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "RSKImageCropViewController.h"
+#import <RSKImageCropper/RSKImageCropViewController.h>
 
 @class LEOImagePreviewViewController, LEOImageCropViewController;
 

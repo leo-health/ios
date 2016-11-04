@@ -18,10 +18,10 @@
 #import "LEOUserService.h"
 #import "Guardian.h"
 #import "LEORouter.h"
-#import <NSDate+DateTools.h>
+#import <DateTools/DateTools.h>
 #import "Leo-Swift.h"
 #import "LEOCredentialStore.h"
-#import "SAMKeychain.h"
+@import SAMKeychain;
 
 @interface AppDelegate ()
 

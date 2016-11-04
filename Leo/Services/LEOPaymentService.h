@@ -8,7 +8,7 @@
 
 @class User;
 
-#import <Stripe.h>
+#import <Stripe/Stripe.h>
 #import <Foundation/Foundation.h>
 #import "LEOModelService.h"
 #import "Coupon.h"

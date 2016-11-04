@@ -14,7 +14,7 @@
 #import "LEOUserService.h"
 #import "LEOStyleHelper.h"
 #import "LEOPromptField.h"
-#import <MBProgressHUD.h>
+#import <MBProgressHUD/MBProgressHUD.h>
 #import "LEOHeaderView.h"
 #import "NSObject+XibAdditions.h"
 #import "UIView+Extensions.h"

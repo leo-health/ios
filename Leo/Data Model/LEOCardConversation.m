@@ -9,7 +9,7 @@
 #import "LEOCardConversation.h"
 
 #import "LEOCardAppointment.h"
-#import <NSDate+DateTools.h>
+#import <DateTools/DateTools.h>
 #import "UIColor+LeoColors.h"
 #import "Patient.h"
 #import "Conversation.h"

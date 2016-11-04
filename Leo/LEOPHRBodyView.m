@@ -14,14 +14,14 @@
 #import "UIColor+LeoColors.h"
 #import "LEOStyleHelper.h"
 #import "LEOAlertHelper.h"
-#import <NSDate+DateTools.h>
+#import <DateTools/DateTools.h>
 
 // views
 #import "LEOPHRTableViewCell.h"
 #import "LEOPHRVitalChartCell+ConfigureForCell.h"
 
 #import "LEOIntrinsicSizeTableView.h"
-#import <MBProgressHUD.h>
+#import <MBProgressHUD/MBProgressHUD.h>
 #import "NSObject+TableViewAccurateEstimatedCellHeight.h"
 #import "NSString+Extensions.h"
 

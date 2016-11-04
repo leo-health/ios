@@ -8,7 +8,7 @@
 
 #import "LEOS3Image.h"
 #import "LEOMediaService.h"
-#import <UIImage-Resize/UIImage+Resize.h>
+@import UIImage_Resize;
 #import "NSDictionary+Extensions.h"
 
 @implementation LEOS3Image

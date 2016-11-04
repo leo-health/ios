@@ -10,7 +10,7 @@
 
 #import "LEODateCell+ConfigureCell.h"
 #import "CollectionViewDataSource.h"
-#import <NSDate+DateTools.h>
+#import <DateTools/DateTools.h>
 #import "NSDate+Extensions.h"
 #import "UIColor+LeoColors.h"
 

@@ -10,7 +10,7 @@
 #import "LEOCardConversation.h"
 #import "LEOFeedCellButtonView.h"
 #import "LEOCardUserView.h"
-#import "NSDate+DateTools.h"
+#import <DateTools/DateTools.h>
 #import "NSDate+Extensions.h"
 #import "UIView+Extensions.h"
 #import "UIColor+LeoColors.h"

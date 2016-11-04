@@ -12,7 +12,7 @@
 #import "PrepAppointment.h"
 #import "Appointment.h"
 
-#import <DateTools.h>
+#import <DateTools/DateTools.h>
 @interface LEOAPISlotsOperation()
 
 @property (strong, nonatomic) PrepAppointment *prepAppointment;
