@@ -18,6 +18,22 @@ static NSString *const kCallText = @"You are about to call";
 static NSString *const kActionButtonCall = @"Call";
 static NSString *const kActionButtonCancel = @"Cancel";
 
++ (UIAlertController *)alertToCallContactWithName:(NSString *)name phoneNumber:(NSString *)phoneNumber {
+
+    if (!name || !phoneNumber) { return nil; }
+
+    NSString *title = [NSString stringWithFormat:@"You are about to call\n%@\n%@", name, phoneNumber];
+
+    UIAlertController *alert =
+    [UIAlertController alertControllerWithTitle:title
+                                        message:nil
+                                 preferredStyle:UIAlertControllerStyleAlert];
+
+    [alert addAction:[self alertActionCallPhoneNumber:]];
+    [alert addAction:[self alertActionCancel]];
+
+}
+
 + (void)alertToCallPractice:(Practice *)practice
          fromViewController:(UIViewController *)viewController {
 
@@ -28,25 +44,20 @@ static NSString *const kActionButtonCancel = @"Cancel";
                                         message:nil
                                  preferredStyle:UIAlertControllerStyleAlert];
 
-    [alert addAction:[self alertActionCallPractice:practice]];
-
-    [alert addAction:[self alertActionCancel]];
 
     [viewController presentViewController:alert
                                  animated:YES
                                completion:nil];
 }
 
-+ (UIAlertAction *)alertActionCallPractice:(Practice *)practice {
++ (UIAlertAction *)alertActionCallPhoneNumber:(NSString *)phoneNumber {
 
     __weak typeof(self) weakSelf = self;
-
     return [UIAlertAction actionWithTitle:kActionButtonCall
                                     style:UIAlertActionStyleDefault
                                   handler:^(UIAlertAction * _Nonnull action) {
-
                                       __strong typeof(self) strongSelf = weakSelf;
-                                      [strongSelf callPractice:practice];
+                                      [strongSelf callPhone:];
                                   }];
 }
 

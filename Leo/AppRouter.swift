@@ -52,6 +52,18 @@ public class AppRouter: NSObject {
 
     }
 
+    func presentCallUsConfirmationAlert(name: String, phoneNumber: String) {
+
+        let alert = UIAlertController(
+            title: "You are about to call\n\(name)\n\(phoneNumber)",
+            message: nil,
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: "Call", style: .default) { _ in
+            ActionHandler.handle(action: ActionCreators.callPhone(phoneNumber: phoneNumber))
+        }
+    }
+
 //    MARK: present specific expanded cards
     func presentExpandedCardScheduling(appointment: Appointment?) {
 
@@ -71,16 +83,12 @@ public class AppRouter: NSObject {
     }
 
     func presentExpandedCardConversation(conversation: Conversation) {
-
         guard let viewController = configureConversationViewController(conversation: conversation) else { return }
-
         presentExpandedCard(viewController: viewController)
     }
 
     func presentExpandedCardSurvey(survey: Survey) {
-
         guard let viewController = configureSurveyNavigationController(survey: survey) else { return }
-        
         presentExpandedCard(viewController: viewController)
     }
 
