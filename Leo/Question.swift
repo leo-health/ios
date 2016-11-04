@@ -46,9 +46,8 @@ class Question : NSObject, JSONSerializable {
         guard let body = json["body"] as? String else { return nil }
 
         let secondary = json["secondary"] as? String
-        let imageData = json["image"] as? Data
-        let image = imageData.flatMap {(UIImage(data:$0))}
-
+        let imageName = "question/(order)"
+        let image = UIImage(named: imageName)
 
         self.init(
             objectID: objectID,
