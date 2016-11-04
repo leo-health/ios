@@ -23,7 +23,7 @@ PODS:
     - CocoaLumberjack/Core
   - CocoaLumberjack/Extensions (3.0.0):
     - CocoaLumberjack/Default
-  - Crashlytics (3.8.2):
+  - Crashlytics (3.8.3):
     - Fabric (~> 1.6.3)
   - CrittercismSDK (5.5.0)
   - CWStatusBarNotification (2.3.5)
@@ -96,7 +96,7 @@ SPEC CHECKSUMS:
   ActionSheetPicker-3.0: 8312778b6815578e6a86d630fbcf31dc94c534e7
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   CocoaLumberjack: c823149bccc5519a9447aeb433be7b1212a7d6a5
-  Crashlytics: 27acca95a01b042a8294291dd6dff27f8f6af6d7
+  Crashlytics: 2b6dbe138a42395577cfa73dfa1aa7248cadf39e
   CrittercismSDK: 74d8e8ce05b79a89dd6d35110b57960490182862
   CWStatusBarNotification: 3d2738b25c3207f60cc50201388d3c96182545ff
   DateTools: 53288ee8b905fdc75897a1e6b5cc0144b14cba60
@@ -116,6 +116,6 @@ SPEC CHECKSUMS:
   TTTAttributedLabel: 8cffe8e127e4e82ff3af1e5386d4cd0ad000b656
   UIImage-Resize: fa776860f10e6900bbaf53a73e494bdceaaccc77
 
-PODFILE CHECKSUM: efeb65423ae28b41e7828bfa6bdb56f5cd7309af
+PODFILE CHECKSUM: ced3e6818a42a08574c4bab41970b002d98af739
 
 COCOAPODS: 1.1.1

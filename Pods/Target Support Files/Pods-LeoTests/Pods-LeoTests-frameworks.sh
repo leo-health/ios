@@ -82,3 +82,34 @@ strip_invalid_archs() {
   fi
 }
 
+
+if [[ "$CONFIGURATION" == "Development" ]]; then
+  install_framework "$BUILT_PRODUCTS_DIR/Expecta/Expecta.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/OHHTTPStubs/OHHTTPStubs.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/Specta/Specta.framework"
+fi
+if [[ "$CONFIGURATION" == "QA" ]]; then
+  install_framework "$BUILT_PRODUCTS_DIR/Expecta/Expecta.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/OHHTTPStubs/OHHTTPStubs.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/Specta/Specta.framework"
+fi
+if [[ "$CONFIGURATION" == "Staging" ]]; then
+  install_framework "$BUILT_PRODUCTS_DIR/Expecta/Expecta.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/OHHTTPStubs/OHHTTPStubs.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/Specta/Specta.framework"
+fi
+if [[ "$CONFIGURATION" == "Local" ]]; then
+  install_framework "$BUILT_PRODUCTS_DIR/Expecta/Expecta.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/OHHTTPStubs/OHHTTPStubs.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/Specta/Specta.framework"
+fi
+if [[ "$CONFIGURATION" == "Testflight" ]]; then
+  install_framework "$BUILT_PRODUCTS_DIR/Expecta/Expecta.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/OHHTTPStubs/OHHTTPStubs.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/Specta/Specta.framework"
+fi
+if [[ "$CONFIGURATION" == "AppStore" ]]; then
+  install_framework "$BUILT_PRODUCTS_DIR/Expecta/Expecta.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/OHHTTPStubs/OHHTTPStubs.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/Specta/Specta.framework"
+fi

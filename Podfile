@@ -4,6 +4,7 @@ platform :ios, '8.3'
 
 # ignore all warnings from all pods (we may choose to periodically re-evaluate this!)
 inhibit_all_warnings!
+use_frameworks!
 
 #All pods are followed by their license type
 target 'Leo' do
