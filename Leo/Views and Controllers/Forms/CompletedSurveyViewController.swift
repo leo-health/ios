@@ -27,13 +27,13 @@ class CompletedSurveyViewController : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        titleLabel.font = UIFont.leo_medium19()
-        titleLabel.textColor = UIColor.leo_gray87()
-        subtitleLabel.font = UIFont.leo_medium15()
-        subtitleLabel.textColor = UIColor.leo_gray176()
+        titleLabel.font = .leo_medium19()
+        titleLabel.textColor = .leo_gray87()
+        subtitleLabel.font = .leo_medium15()
+        subtitleLabel.textColor = .leo_gray176()
 
-        submitButton.titleLabel?.font = UIFont.leo_demiBold12()
-        submitButton.titleLabel?.font = UIFont.leo_demiBold12()
+        submitButton.titleLabel?.font = .leo_demiBold12()
+        submitButton.titleLabel?.font = .leo_demiBold12()
 
         configure()
     }
@@ -48,7 +48,6 @@ class CompletedSurveyViewController : UIViewController {
         submitButton.backgroundColor = .leo_orangeRed()
         submitButton.setTitleColor(.white, for: .normal)
         submitButton.titleLabel?.font = .leo_medium12()
-
     }
 
     fileprivate func configureNavigationBar() {

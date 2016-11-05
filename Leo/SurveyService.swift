@@ -25,7 +25,7 @@ class SurveyService : LEOModelService {
         return response
     }
 
-    func post(survey_id: String, question_id: String, answer: String, completion: ((Error?) -> (Void))?) {
+    func post(survey_id: String, question_id: String, answer: String, completion: ((Error?) -> ())?) {
 
         let answerParams = ["user_survey_id" : survey_id, "question_id" : question_id, "text" : answer]
 

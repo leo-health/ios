@@ -9,7 +9,7 @@
 import Foundation
 import MBProgressHUD
 
-public protocol ExpandedCardDelegate {
+protocol ExpandedCardDelegate {
     func dismiss()
 }
 
@@ -35,15 +35,15 @@ class SurveyViewController : UIViewController, ExpandedCardDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        questionLabel.font = UIFont.leo_medium19()
-        questionLabel.textColor = UIColor.leo_gray87()
-        additionalInstructionsLabel.font = UIFont.leo_medium15()
-        additionalInstructionsLabel.textColor = UIColor.leo_gray176()
+        questionLabel.font = .leo_medium19()
+        questionLabel.textColor = .leo_gray87()
+        additionalInstructionsLabel.font = .leo_medium15()
+        additionalInstructionsLabel.textColor = .leo_gray176()
 
-        progressLabel.font = UIFont.leo_bold12()
-        progressLabel.textColor = UIColor.leo_orangeRed()
-        submitYesButton.titleLabel?.font = UIFont.leo_demiBold12()
-        submitNoButton.titleLabel?.font = UIFont.leo_demiBold12()
+        progressLabel.font = .leo_bold12()
+        progressLabel.textColor = .leo_orangeRed()
+        submitYesButton.titleLabel?.font = .leo_demiBold12()
+        submitNoButton.titleLabel?.font = .leo_demiBold12()
 
         configure()
     }
@@ -64,8 +64,12 @@ class SurveyViewController : UIViewController, ExpandedCardDelegate {
         }
     }
 
-    fileprivate func configureNavigationBar() {
-        LEOStyleHelper.styleNavigationBar(for: self, for: .PHR, withTitleText: surveyName, dismissal: true, backButton: showsBackButton)
+    private func configureNavigationBar() {
+        LEOStyleHelper.styleNavigationBar(for: self,
+                                          for: .PHR,
+                                          withTitleText: surveyName,
+                                          dismissal: true,
+                                          backButton: showsBackButton)
     }
 
     @IBAction private func didTapSubmit(sender: UIButton) {
@@ -74,7 +78,7 @@ class SurveyViewController : UIViewController, ExpandedCardDelegate {
         submitQuestion(text: buttonText)
     }
 
-    public func dismiss() {
+    func dismiss() {
         routeDismissExpandedCard?()
     }
 

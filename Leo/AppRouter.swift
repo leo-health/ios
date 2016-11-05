@@ -123,7 +123,7 @@ public class AppRouter: NSObject {
 
             if(surveyVC.questionNumber == surveyVC.questionCount) {
 
-                guard let finishedSurveyVC = self.configureFinishedSurveyVC(survey: survey)
+                guard let finishedSurveyVC = self.configureCompletedSurveyVC(survey: survey)
                     else {return}
                 self.pushOntoCurrentNavStack(viewController:finishedSurveyVC)
             } else {
@@ -143,14 +143,10 @@ public class AppRouter: NSObject {
             )
         }
 
-        if (survey.currentQuestionIndex == index && survey.currentQuestionIndex != 0) {
-            survey.currentQuestionIndex = 0;
-        }
-
         return surveyVC
     }
     
-    private func configureFinishedSurveyVC(survey: Survey) -> UIViewController? {
+    private func configureCompletedSurveyVC(survey: Survey) -> UIViewController? {
 
         let surveyStoryboard = UIStoryboard(name: String(describing: CompletedSurveyViewController.self), bundle: nil)
         guard let completedSurveyVC = surveyStoryboard.instantiateInitialViewController() as? CompletedSurveyViewController
