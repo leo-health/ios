@@ -45,13 +45,10 @@ public class AppRouter: NSObject {
     private func presentExpandedCard(viewController: UINavigationController, animated: Bool) {
 
         // TODO: Add a method to ensure the feed is available to present the expanded card
-
-        navigationVC = viewController
-
         transitioningDelegate = LEOTransitioningDelegate(transitionAnimatorType: .cardModal)
         viewController.transitioningDelegate = transitioningDelegate
         viewController.modalPresentationStyle = .fullScreen
-        _presentingVC?.present(viewController, animated: animated, completion: nil)
+        presentingVC?.present(viewController, animated: animated, completion: nil)
     }
 
 
@@ -154,7 +151,7 @@ public class AppRouter: NSObject {
 
         completedSurveyVC.surveyName = survey.name
         completedSurveyVC.routeDismissExpandedCard = {
-            self._presentingVC?.dismiss(animated: true,
+            self.presentingVC?.dismiss(animated: true,
                                         completion: nil)
         }
 

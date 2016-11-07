@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import TTTAttributedLabel
 
 // TODO: unwrap this into a UIView, then simply render it in a tableViewCell. Goal: so we can use cards in messaging bubbles
 
@@ -14,6 +15,7 @@ import Foundation
 
 class CardCell : UITableViewCell {
 
+    @IBOutlet private weak var roundedCellMarginContainerView: UIView?
     @IBOutlet private weak var activityIndicatorView: UIActivityIndicatorView?
     @IBOutlet private weak var iconImageView: UIImageView?
     @IBOutlet private weak var topBorderLine: UIView?
@@ -22,6 +24,7 @@ class CardCell : UITableViewCell {
     @IBOutlet private weak var bodyLabel: TTTAttributedLabel?
     @IBOutlet private weak var footerLabel: UILabel?
     @IBOutlet private weak var buttonContainerView: UIView?
+    @IBOutlet private weak var grayContainerView: UIView?
     @IBOutlet private weak var buttonStack: UIStackView?
 
     var attributedLabelDelegate: LEOFeedCellDelegate!
@@ -41,6 +44,8 @@ class CardCell : UITableViewCell {
         super.awakeFromNib()
 
         // Constant styling goes here, state dependencies go in render methods below
+        LEOStyleHelper.roundCorners(for: roundedCellMarginContainerView, withCornerRadius: kCornerRadius)
+
         activityIndicatorView?.hidesWhenStopped = true
 
         titleLabel?.font = .leo_medium19()
@@ -56,7 +61,8 @@ class CardCell : UITableViewCell {
         footerLabel?.textColor = .leo_gray185()
         footerLabel?.font = .leo_bold12()
 
-        buttonContainerView?.backgroundColor = .clear
+        grayContainerView?.backgroundColor = .leo_gray227()
+        buttonContainerView?.backgroundColor = .leo_gray227()
     }
 
     private func render() {
@@ -122,8 +128,9 @@ class CardCell : UITableViewCell {
 
     private func renderButtonView() {
 
-        guard let buttonStack = buttonStack else { return }
-        guard let cardState = cardState else { return }
+        guard let buttonStack = buttonStack,
+            let cardState = cardState
+            else { return }
 
         // add if needed, configure buttons
         var index = 0
@@ -158,6 +165,7 @@ class CardCell : UITableViewCell {
 
     private func configure(button: UIButton, index: Int, action: Action) {
 
+        button.backgroundColor = .white
         button.setTitleColor(cardState?.color, for: .normal)
         button.titleLabel?.font = .leo_medium12()
         button.setTitle(action.displayName, for: .normal)

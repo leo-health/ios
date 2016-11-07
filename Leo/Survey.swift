@@ -74,7 +74,7 @@ class Survey : NSObject, JSONSerializable {
             required: required,
             reason: reason,
             questions: questions,
-            currentQuestionIndex: 5 //currentQuestionIndex
+            currentQuestionIndex: currentQuestionIndex
         )
     }
 
