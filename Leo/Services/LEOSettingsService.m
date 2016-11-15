@@ -34,6 +34,11 @@
                 [[LEOPusherHelper sharedPusher] updateClientForNewKeys];
             }
 
+            if ([Configuration localyticsKey] == nil || ![[Configuration localyticsKey] isEqualToString:[keyData leo_itemForKey:kConfigurationLocalyticsKey]]) {
+
+                [NSUserDefaults leo_setString:[keyData leo_itemForKey:kConfigurationLocalyticsKey] forKey:kConfigurationLocalyticsKey];
+            }
+
             if ([Configuration vendorID] == nil || [LEOCredentialStore authToken] == nil) {
 
                 [NSUserDefaults leo_setString:[keyData leo_itemForKey:kConfigurationVendorID] forKey:kConfigurationVendorID];

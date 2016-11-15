@@ -631,5 +631,6 @@ extern NSString *const kConfigurationStripePublishableKey; // @"STRIPE_PUBLISHAB
 extern NSString *const kConfigurationMinimumVersion; // @"MINIMUM_VERSION_REQUIREMENT"; #major.minor.patch (no 'v' in front of the version number)
 extern NSString *const kConfigurationCurrentVersion; // @"version";
 extern NSString *const kConfigurationHasReviewedVendorID; // @"hasReviewedVendorID";
+extern NSString *const kConfigurationLocalyticsKey; // @"LOCALYTICS_APP_ID";
 
 @end

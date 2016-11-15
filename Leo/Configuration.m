@@ -187,6 +187,10 @@ static NSString *const ConfigurationAPIProtocol = @"ApiProtocol";
     return [NSUserDefaults leo_stringForKey:kConfigurationVendorID];
 }
 
++ (NSString *)localyticsKey {
+    return [NSUserDefaults leo_stringForKey:kConfigurationLocalyticsKey];
+}
+
 + (NSString *)stripeKey {
     return [NSUserDefaults leo_stringForKey:kConfigurationStripePublishableKey];
 }
@@ -206,10 +210,12 @@ static NSString *const ConfigurationAPIProtocol = @"ApiProtocol";
     [NSUserDefaults leo_removeObjectForKey:kConfigurationVendorID];
     [NSUserDefaults leo_removeObjectForKey:kConfigurationStripePublishableKey];
     [NSUserDefaults leo_removeObjectForKey:kConfigurationMinimumVersion];
+    [NSUserDefaults leo_removeObjectForKey:kConfigurationLocalyticsKey];
+
 }
 
 + (BOOL)isMissingKeys {
-    return (![Configuration pusherKey] || ![Configuration crittercismAppID] || ![Configuration vendorID] || ![Configuration stripeKey] || [Configuration minimumVersion]);
+    return (![Configuration pusherKey] || ![Configuration crittercismAppID] || ![Configuration vendorID] || ![Configuration stripeKey] || [Configuration minimumVersion] || [Configuration localyticsKey]);
 }
 
 + (void)downloadRemoteEnvironmentVariablesIfNeededWithCompletion:(void (^) (BOOL success, NSError *error))completionBlock {
