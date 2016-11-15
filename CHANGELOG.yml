@@ -1,11 +1,13 @@
     upcoming:
+    - Bug fixes.
+
     releases:
     - version: 1.4.4
       build: 2016.10.26.11.24
       date: October 26 2016
       notes:
       - Updates SSL certificate
-    
+
     - version: 1.4.3
       build: 2016.10.24.10.38
       date: October 24 2016
