@@ -40,6 +40,6 @@
 + (NSString *)crittercismAppID;
 + (NSString *)vendorID;
 + (NSString *)stripeKey;
-
++ (NSString *)localyticsKey;
 
 @end

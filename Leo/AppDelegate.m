@@ -52,7 +52,7 @@
     [Configuration downloadRemoteEnvironmentVariablesIfNeededWithCompletion:^(BOOL success, NSError *error) {
 
         if (success) {
-            [Localytics autoIntegrate:[Configuration vendorID] launchOptions:launchOptions];
+            [Localytics autoIntegrate:[Configuration localyticsKey] launchOptions:launchOptions];
 
             #if defined(INTERNAL) || defined(RUNNABLE)
                 [Localytics setLoggingEnabled:YES];
